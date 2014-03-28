@@ -748,54 +748,98 @@
 			completionHandler(documentController.documentListWindowController.window, nil);
 		}
 	} else {
+		SEEDocumentCreationFlags *creationFlags = [[SEEDocumentCreationFlags alloc] init];
+		creationFlags.openInTab = NO;
+		documentController.documentCreationFlagsLookupDict[@"MakeUntitledDocument"] = creationFlags;
+
 		[super restoreWindowWithIdentifier:identifier state:state completionHandler:^(NSWindow *window, NSError *inError) {
 //			NSLog(@"%s - %d", __FUNCTION__, __LINE__);
 
 			// we also may have to restore tabs in this window
 			NSArray *tabs = [state decodeObjectForKey:@"PlainTextWindowOpenTabNames"];
-			for (NSString *tabName in tabs) {
-				NSData *tabData = [state decodeObjectForKey:tabName];
-				NSKeyedUnarchiver *tabState = [[NSKeyedUnarchiver alloc] initForReadingWithData:tabData];
+			__block NSUInteger restoredTabsCount = 0;
 
-				if (tabState) {
-					NSData *documentURLBookmark = [tabState decodeObjectForKey:@"SEETabContextDocumentURLBookmark"];
-					NSURL *documentURL = [NSURL URLByResolvingBookmarkData:documentURLBookmark
-																   options:NSURLBookmarkResolutionWithSecurityScope
-															 relativeToURL:nil
-													   bookmarkDataIsStale:NULL
-																	 error:NULL];
-					[documentURL startAccessingSecurityScopedResource];
+			if (tabs.count > 1) {
+				for (NSString *tabName in tabs) {
+					NSData *tabData = [state decodeObjectForKey:tabName];
+					NSKeyedUnarchiver *tabState = [[NSKeyedUnarchiver alloc] initForReadingWithData:tabData];
 
-					NSData *documentAutosaveURLBookmark = [tabState decodeObjectForKey:@"SEETabContextDocumentAutosaveURLBookmark"];
-					NSURL *documentAutosaveURL = [NSURL URLByResolvingBookmarkData:documentAutosaveURLBookmark
-																		   options:NSURLBookmarkResolutionWithSecurityScope
-																	 relativeToURL:nil
-															   bookmarkDataIsStale:NULL
-																			 error:NULL];
+					if (tabState) {
+						NSData *documentURLBookmark = [tabState decodeObjectForKey:@"SEETabContextDocumentURLBookmark"];
+						NSURL *documentURL = [NSURL URLByResolvingBookmarkData:documentURLBookmark
+																	   options:NSURLBookmarkResolutionWithSecurityScope
+																 relativeToURL:nil
+														   bookmarkDataIsStale:NULL
+																		 error:NULL];
+						[documentURL startAccessingSecurityScopedResource];
 
-					if (! documentAutosaveURL) { // if there is no autosave file make sure to read from original URL
-						documentAutosaveURL = documentURL;
+						NSData *documentAutosaveURLBookmark = [tabState decodeObjectForKey:@"SEETabContextDocumentAutosaveURLBookmark"];
+						NSURL *documentAutosaveURL = [NSURL URLByResolvingBookmarkData:documentAutosaveURLBookmark
+																			   options:NSURLBookmarkResolutionWithSecurityScope
+																		 relativeToURL:nil
+																   bookmarkDataIsStale:NULL
+																				 error:NULL];
+
+						if (! documentAutosaveURL) { // if there is no autosave file make sure to read from original URL
+							documentAutosaveURL = documentURL;
+						} else {
+							[documentAutosaveURL startAccessingSecurityScopedResource];
+						}
+
+						if (documentAutosaveURL) {
+							if (! (documentURL == [[[window windowController] document ] fileURL] || (documentAutosaveURL == [[[window windowController] document ] autosavedContentsFileURL]))) {
+
+								[NSApp extendStateRestoration];
+								[documentController reopenDocumentForURL:documentURL withContentsOfURL:documentAutosaveURL inWindow:window display:YES completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
+									if ([document isKindOfClass:[PlainTextDocument class]]) {
+										PlainTextWindowController *windowController = [[document windowControllers] firstObject];
+										NSTabViewItem *tabViewItem = [windowController tabViewItemForDocument:(PlainTextDocument *)document];
+										PlainTextWindowControllerTabContext *tabContext = tabViewItem.identifier;
+										[tabContext restoreStateWithCoder:tabState];
+									}
+									[NSApp completeStateRestoration];
+
+									@synchronized (window) {
+										restoredTabsCount++;
+										if (restoredTabsCount == tabs.count) {
+											if (completionHandler) {
+												completionHandler(window, inError);
+											}
+										}
+									}
+								}];
+							} else {
+								// this was the selected tab of the window so it's aready restored...
+								// need to select it again after all tabs are restored
+								restoredTabsCount++;
+							}
+						} else {
+							// untitled document tab
+							SEEDocumentCreationFlags *creationFlags = [[SEEDocumentCreationFlags alloc] init];
+							creationFlags.openInTab = YES;
+							creationFlags.tabWindow = window;
+							documentController.documentCreationFlagsLookupDict[@"MakeUntitledDocument"] = creationFlags;
+
+							[documentController openUntitledDocumentAndDisplay:YES error:nil];
+
+							restoredTabsCount++;
+						}
 					} else {
-						[documentAutosaveURL startAccessingSecurityScopedResource];
+						// there is no valid data for a tab that is stored in the tab order array.
+						// maybe this shoul be an error? Currently I think its better to fail gracefully.
+						restoredTabsCount++;
 					}
 
-					if (documentAutosaveURL) {
-						[NSApp extendStateRestoration];
-						[documentController reopenDocumentForURL:documentURL withContentsOfURL:documentAutosaveURL inWindow:window display:YES completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
-							if ([document isKindOfClass:[PlainTextDocument class]]) {
-								PlainTextWindowController *windowController = [[document windowControllers] firstObject];
-								NSTabViewItem *tabViewItem = [windowController tabViewItemForDocument:(PlainTextDocument *)document];
-								PlainTextWindowControllerTabContext *tabContext = tabViewItem.identifier;
-								[tabContext restoreStateWithCoder:tabState];
-							}
-							[NSApp completeStateRestoration];
-						}];
+					if (restoredTabsCount == tabs.count) {
+						if (completionHandler) {
+							completionHandler(window, inError);
+						}
 					}
 				}
-			}
-
-			if (completionHandler) {
-				completionHandler(window, inError);
+			} else {
+				if (completionHandler) {
+					completionHandler(window, inError);
+				}
 			}
 		}];
 	}
