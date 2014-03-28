@@ -1282,6 +1282,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     }
 }
 
+
 #pragma mark - NSWindowDelegate - Fullscreen
 
 - (NSArray *)allMyFindAllWindowControllers {

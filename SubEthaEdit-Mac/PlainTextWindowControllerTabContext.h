@@ -20,6 +20,7 @@ extern NSString * const SEEPlainTextWindowControllerTabContextActiveEditorDidCha
 @class PlainTextWindowController, WebPreviewViewController, PlainTextDocument, PlainTextLoadProgress;
 
 @interface PlainTextWindowControllerTabContext : NSResponder
+@property (nonatomic, weak) NSTabViewItem *tab;
 @property (nonatomic, strong) PlainTextDocument *document;
 
 @property (nonatomic, strong) NSSplitView *editorSplitView;

@@ -40,6 +40,7 @@
 
 }
 
+- (void)setInitialRadarStatusForPlainTextEditor:(PlainTextEditor *)editor;
 - (IBAction)changePendingUsersAccess:(id)aSender;
 - (NSArray *)plainTextEditors;
 
