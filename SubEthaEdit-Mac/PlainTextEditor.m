@@ -1821,6 +1821,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 		result += NSHeight(self.O_topStatusBarView.frame);
 	}
 	if (self.topOverlayViewController.view) {
+		[self.topOverlayViewController.view.window layoutIfNeeded];
 		result += NSHeight(self.topOverlayViewController.view.frame);
 	}
 	O_scrollView.topOverlayHeight = result;
