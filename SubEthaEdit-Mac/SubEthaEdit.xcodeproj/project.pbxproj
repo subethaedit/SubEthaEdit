@@ -397,6 +397,9 @@
 		F291D1B10FCECF33008BC286 /* FoldingBubbleBig.png in Resources */ = {isa = PBXBuildFile; fileRef = F291D1B00FCECF33008BC286 /* FoldingBubbleBig.png */; };
 		F29940600C0C7F3400A53189 /* NSScreenTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F299405E0C0C7F3400A53189 /* NSScreenTCMAdditions.m */; };
 		F29AD8670CA3391B0097D04E /* Bonjour13.png in Resources */ = {isa = PBXBuildFile; fileRef = F29AD8660CA3391B0097D04E /* Bonjour13.png */; };
+		F29E6DD518E5C90200F84231 /* TCMDragImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F29E6DD418E5C90200F84231 /* TCMDragImageView.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		F29E6DD818E5CACE00F84231 /* TCMCGGeometryAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F29E6DD718E5CACE00F84231 /* TCMCGGeometryAdditions.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		F29E6DDB18E5CAFA00F84231 /* TCMCALayerAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F29E6DDA18E5CAFA00F84231 /* TCMCALayerAdditions.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		F2ABC4D60C799775007437A2 /* TCMMMLoggingState.m in Sources */ = {isa = PBXBuildFile; fileRef = F2ABC4D40C799775007437A2 /* TCMMMLoggingState.m */; };
 		F2ABC4E30C799CCD007437A2 /* TCMMMLoggedOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = F2ABC4E10C799CCD007437A2 /* TCMMMLoggedOperation.m */; };
 		F2ABC5400C79D9AB007437A2 /* DebugHistoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2ABC5300C79D898007437A2 /* DebugHistoryController.m */; };
@@ -1226,6 +1229,12 @@
 		F299405F0C0C7F3400A53189 /* NSScreenTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NSScreenTCMAdditions.h; sourceTree = "<group>"; };
 		F29940780C0C806600A53189 /* See_Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; name = See_Info.plist; path = see/See_Info.plist; sourceTree = "<group>"; };
 		F29AD8660CA3391B0097D04E /* Bonjour13.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Bonjour13.png; path = artwork/Bonjour13.png; sourceTree = "<group>"; };
+		F29E6DD318E5C90200F84231 /* TCMDragImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCMDragImageView.h; sourceTree = "<group>"; };
+		F29E6DD418E5C90200F84231 /* TCMDragImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMDragImageView.m; sourceTree = "<group>"; };
+		F29E6DD618E5CACE00F84231 /* TCMCGGeometryAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCMCGGeometryAdditions.h; sourceTree = "<group>"; };
+		F29E6DD718E5CACE00F84231 /* TCMCGGeometryAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMCGGeometryAdditions.m; sourceTree = "<group>"; };
+		F29E6DD918E5CAFA00F84231 /* TCMCALayerAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCMCALayerAdditions.h; sourceTree = "<group>"; };
+		F29E6DDA18E5CAFA00F84231 /* TCMCALayerAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMCALayerAdditions.m; sourceTree = "<group>"; };
 		F2ABC4D30C799775007437A2 /* TCMMMLoggingState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = TCMMMLoggingState.h; path = TCMMillionMonkeys/TCMMMLoggingState.h; sourceTree = "<group>"; };
 		F2ABC4D40C799775007437A2 /* TCMMMLoggingState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMMMLoggingState.m; path = TCMMillionMonkeys/TCMMMLoggingState.m; sourceTree = "<group>"; };
 		F2ABC4E10C799CCD007437A2 /* TCMMMLoggedOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = TCMMMLoggedOperation.m; path = TCMMillionMonkeys/TCMMMLoggedOperation.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -1702,6 +1711,10 @@
 		142891780957483200D14688 /* Additions */ = {
 			isa = PBXGroup;
 			children = (
+				F29E6DD918E5CAFA00F84231 /* TCMCALayerAdditions.h */,
+				F29E6DDA18E5CAFA00F84231 /* TCMCALayerAdditions.m */,
+				F29E6DD618E5CACE00F84231 /* TCMCGGeometryAdditions.h */,
+				F29E6DD718E5CACE00F84231 /* TCMCGGeometryAdditions.m */,
 				5EF31B210A7E2E2100D777F5 /* NSCursorSEEAdditions.h */,
 				5EF31B200A7E2E2100D777F5 /* NSCursorSEEAdditions.m */,
 				14289206095751CB00D14688 /* NSColorTCMAdditions.h */,
@@ -2426,6 +2439,8 @@
 				F2CA91ED18C08FF7006B098A /* SEEFindAndReplaceState.m */,
 				F2308E6518E06FA00096E0C1 /* SEEFindAndReplaceContext.h */,
 				F2308E6618E06FA00096E0C1 /* SEEFindAndReplaceContext.m */,
+				F29E6DD318E5C90200F84231 /* TCMDragImageView.h */,
+				F29E6DD418E5C90200F84231 /* TCMDragImageView.m */,
 			);
 			name = "Find and Replace";
 			sourceTree = "<group>";
@@ -3314,6 +3329,7 @@
 				F2CA79A50CA04BAC008BEA38 /* HUDStatisticGraphView.m in Sources */,
 				F2CA7D2F0CA142B1008BEA38 /* HUDStatisticPersonCell.m in Sources */,
 				F26B7D880CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m in Sources */,
+				F29E6DD818E5CACE00F84231 /* TCMCGGeometryAdditions.m in Sources */,
 				31D2C7000CA7C9C8003CC5C9 /* PrecedenceRuleCell.m in Sources */,
 				4C71D0C318BF7C2900EA66FA /* SEEConnectDocumentListItem.m in Sources */,
 				4C77B24218BB83620066BDB2 /* SEEDocumentListGroupTableRowView.m in Sources */,
@@ -3327,6 +3343,7 @@
 				F2DCD8F20EE432F900F2854F /* FontForwardingTextField.m in Sources */,
 				F281D34E0F38756100AD7DE1 /* FoldableTextStorage.m in Sources */,
 				F281D3600F38758600AD7DE1 /* AbstractFoldingTextStorage.m in Sources */,
+				F29E6DDB18E5CAFA00F84231 /* TCMCALayerAdditions.m in Sources */,
 				F281D3910F3877A900AD7DE1 /* FoldedTextAttachment.m in Sources */,
 				F281D4370F388A0B00AD7DE1 /* FoldingTextAttachmentCell.m in Sources */,
 				F20396F60F8A707700BEB377 /* FullTextStorage.m in Sources */,
@@ -3340,6 +3357,7 @@
 				F280ABC4131E6ED50091D145 /* SEEStyleSheetEditorWindowController.m in Sources */,
 				F214C1DB18BE180300908826 /* NSObject+TCMArcLifecycleAdditions.m in Sources */,
 				F2D56993133B880900CEC841 /* SEEStyleSheetSettings.m in Sources */,
+				F29E6DD518E5C90200F84231 /* TCMDragImageView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
