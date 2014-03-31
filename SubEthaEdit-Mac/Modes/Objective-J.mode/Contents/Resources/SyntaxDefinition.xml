@@ -12,9 +12,9 @@
 
     <states>
     
-        <default id="Base" font-weight="normal" font-style="normal" scope="meta.default">
+        <default id="Base" scope="meta.default">
             
-			<state id="Objective-J Imports" background-color="none" scope="meta.default">
+			<state id="Objective-J Imports" scope="meta.default">
 				<begin><regex>^[ \t]*@?import</regex></begin>
 				<end><regex>((?&lt;=[^\\])[\n\r])|(^[\n\r])</regex></end>
 				<import/>
@@ -24,30 +24,30 @@
 				</state>
 			</state>
 	
-			<state id="Characters" background-color="none" scope="language.constant.numeric.character">
+			<state id="Characters" scope="language.constant.numeric.character">
 				<begin><regex>'(?=\\?.')</regex></begin>
 				<end><regex>(\\'')|(.')</regex></end>
 			</state>
 	
-			<state id="Autodoc Comment" type="comment" background-color="none" font-style="italic" scope="comment.block.documentation"> <!-- STUDIO added types below -->
+			<state id="Autodoc Comment" type="comment" scope="comment.block.documentation"> <!-- STUDIO added types below -->
 				<begin><regex>/\*"</regex></begin>
 				<end><regex>"\*/</regex></end>
 				<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 			</state>
 	
-			<state id="Comment" type="comment" background-color="none" font-weight="normal" font-style="italic" scope="comment.block">
+			<state id="Comment" type="comment" scope="comment.block">
 				<begin><regex>/\*</regex></begin>
 				<end><regex>\*/</regex></end>
 				<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 			</state>
 			
-			<state id="Single Line Comment" type="comment" background-color="none" font-weight="normal" font-style="italic" scope="comment.line">
+			<state id="Single Line Comment" type="comment" scope="comment.line">
 				<begin><regex>//</regex></begin>
 				<end><regex>[\n\r]</regex></end>
 				<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 			</state>
 			
-			<state id="String" type="string" background-color="none" font-weight="normal" font-style="normal" usespellchecking="yes" scope="string.double.nsstring.objj">
+			<state id="String" type="string" usespellchecking="yes" scope="string.double.nsstring.objj">
 				<begin><string>@?"</string></begin>
 				<end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
 			</state>
