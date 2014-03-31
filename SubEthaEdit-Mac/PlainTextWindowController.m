@@ -67,7 +67,6 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
     I_plainTextEditors = nil;
-    I_editorSplitView = nil;
     I_dialogSplitView = nil;
     I_documentDialog = nil;
     
@@ -888,6 +887,8 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 	} else {
 		tabContext.hasEditorSplit = YES;
 	}
+
+	I_plainTextEditors = tabContext.plainTextEditors;
 }
 
 #pragma mark Editors
@@ -1651,7 +1652,6 @@ static NSPoint S_cascadePoint = {0.0,0.0};
         [[tabContext plainTextEditors] addObject:plainTextEditor];
         I_plainTextEditors = [tabContext plainTextEditors];
 
-        I_editorSplitView = nil;
         I_dialogSplitView = nil;
 
         NSTabViewItem *tab = [[NSTabViewItem alloc] initWithIdentifier:tabContext];
@@ -1677,7 +1677,6 @@ static NSPoint S_cascadePoint = {0.0,0.0};
         if (tabViewItem) {
             PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
             I_plainTextEditors = [tabContext plainTextEditors];
-            I_editorSplitView = [tabContext editorSplitView];
             I_dialogSplitView = [tabContext dialogSplitView];
         } 
         return;
@@ -1704,7 +1703,6 @@ static NSPoint S_cascadePoint = {0.0,0.0};
             if (tabViewItem) {
                 PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
                 I_plainTextEditors = [tabContext plainTextEditors];
-                I_editorSplitView = [tabContext editorSplitView];
                 I_dialogSplitView = [tabContext dialogSplitView];
                 if ([I_plainTextEditors count] > 0) {
                     [[self window] setInitialFirstResponder:[[I_plainTextEditors objectAtIndex:0] textView]];
@@ -1712,13 +1710,11 @@ static NSPoint S_cascadePoint = {0.0,0.0};
                 [I_tabView selectTabViewItem:tabViewItem];
             } else {
                 I_plainTextEditors = nil;
-                I_editorSplitView = nil;
                 I_dialogSplitView = nil;
             }
         }
     } else {
         I_plainTextEditors = nil;
-        I_editorSplitView = nil;
         I_dialogSplitView = nil;
     }
 
