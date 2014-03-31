@@ -148,11 +148,11 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 		// change the top status bar to use constraints
 		{
 			NSView *statusBarView = self.O_topStatusBarView;
-		NSView *containerView = statusBarView.superview;
-		[statusBarView removeFromSuperview];
-		
-		[statusBarView setTranslatesAutoresizingMaskIntoConstraints:NO];
-		[containerView addSubview:statusBarView];
+			NSView *containerView = statusBarView.superview;
+			[statusBarView removeFromSuperview];
+			
+			[statusBarView setTranslatesAutoresizingMaskIntoConstraints:NO];
+			[containerView addSubview:statusBarView];
 			[containerView addConstraints:@[
 											[NSLayoutConstraint constraintWithItem:statusBarView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:containerView attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0],
 											[NSLayoutConstraint constraintWithItem:statusBarView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeWidth multiplier:1.0 constant:CGRectGetHeight(statusBarView.bounds)],
@@ -2131,6 +2131,17 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	BOOL result = NO;
 	FullTextStorage *ts = [(FoldableTextStorage *)I_textView.textStorage fullTextStorage];
 	result = [self hasSearchScopeInFullRange:[ts TCM_fullLengthRange]];
+	return result;
+}
+
+- (NSString *)searchScopeRangeString {
+	NSMutableArray *rangesArray = [NSMutableArray array];
+	FullTextStorage *fullTextStorage = [(FoldableTextStorage *)I_textView.textStorage fullTextStorage];
+	for (NSValue *value in I_textView.searchScopeRanges) {
+		NSRange range = value.rangeValue;
+		[rangesArray addObject:[fullTextStorage rangeStringForRange:range]];
+	}
+	NSString *result = [rangesArray componentsJoinedByString:@", "];
 	return result;
 }
 
