@@ -45,4 +45,6 @@ extern NSString * const SEEPlainTextWindowControllerTabContextActiveEditorDidCha
 @property (nonatomic, strong) NSImage *icon;
 @property (nonatomic, strong) NSString *iconName;
 
+- (IBAction)toggleSplitView:(id)aSender;
+
 @end

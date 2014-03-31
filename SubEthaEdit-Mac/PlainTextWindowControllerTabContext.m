@@ -92,7 +92,8 @@ NSString * const SEEPlainTextWindowControllerTabContextActiveEditorDidChangeNoti
 
         SplitView *editorSplitView = [[SplitView alloc] initWithFrame:[[[plainTextEditors objectAtIndex:0] editorView] frame]];
 		editorSplitView.identifier = @"EditorSplit";
-        editorSplitView.delegate = [[SEEEditorSplitViewDelegate alloc] initWithTabContext:self];
+		SEEEditorSplitViewDelegate *splitDelegate = [[SEEEditorSplitViewDelegate alloc] initWithTabContext:self];
+        editorSplitView.delegate = splitDelegate;
 
         if (dialogSplitView) {
             [dialogSplitView addSubview:editorSplitView positioned:NSWindowBelow relativeTo:[[dialogSplitView subviews] objectAtIndex:1]];
@@ -111,7 +112,7 @@ NSString * const SEEPlainTextWindowControllerTabContextActiveEditorDidChangeNoti
         [editorSplitView addSubview:[[plainTextEditors objectAtIndex:1] editorView]];
 
         self.editorSplitView = editorSplitView;
-		self.editorSplitViewDelegate = editorSplitView.delegate;
+		self.editorSplitViewDelegate = splitDelegate;
 
 		[[plainTextEditors objectAtIndex:1] setShowsBottomStatusBar: [[plainTextEditors objectAtIndex:0] showsBottomStatusBar]];
         [[plainTextEditors objectAtIndex:0] setShowsBottomStatusBar:NO];
