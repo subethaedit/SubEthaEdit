@@ -43,7 +43,7 @@
 			<import state="CFML Code"/>
 			</state>
 			
-			<state id="CFML Comment" background-color="none" type="comment" scope="markup.comment">
+			<state id="CFML Comment" type="comment" scope="markup.comment">
 			<begin><regex>&lt;!---</regex></begin>
 			<end><regex>---&gt;</regex></end>
 			</state>

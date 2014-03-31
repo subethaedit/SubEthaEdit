@@ -11,22 +11,22 @@
     <states>
     
     	<!-- STUDIO - rewritten for 1.6, do not replace. -->
-        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal" usesymbolsfrommode="HTML" useautocompletefrommode="HTML" usespellchecking="yes" scope="meta.default">
+        <default id="Base" usesymbolsfrommode="HTML" useautocompletefrommode="HTML" usespellchecking="yes" scope="meta.default">
 			<import mode="XML" keywords-only="yes"/>
 			
-			<state id="Inline VBScript" color="#000" background-color="#fff" usesymbolsfrommode="ASP-HTML" useautocompletefrommode="ASP-HTML" scope="meta.default">
+			<state id="Inline VBScript" usesymbolsfrommode="ASP-HTML" useautocompletefrommode="ASP-HTML" scope="meta.default">
 				<begin><regex>&lt;(?=(?i:script[^&gt;]+?vbscript[^&gt;]*[&gt;]))</regex><autoend>&lt;/script&gt;</autoend></begin>
 				<end><regex>(?i)/script&gt;</regex></end>
 	
 				<import state="ASP-VBScript"/>
 								
 				
-				<keywords id="Script Tags" color="#881280" font-style="normal" scope="markup.tag">
+				<keywords id="Script Tags" scope="markup.tag">
 					<regex>(\A&lt;\Z)</regex>
 					<regex>(&lt;(?i)/script[^&gt;]*&gt;)</regex>
 				</keywords>
 	
-				<state id="Opening Script Tag" color="#881280" font-style="normal" usesymbolsfrommode="HTML" useautocompletefrommode="HTML" scope="markup.tag">
+				<state id="Opening Script Tag" usesymbolsfrommode="HTML" useautocompletefrommode="HTML" scope="markup.tag">
 					<begin><regex>\A(?i)script</regex></begin>
 					<end><regex>&gt;</regex></end>
 					<import mode="XML" keywords-only="yes"/>
@@ -35,19 +35,19 @@
 				
 			</state>
 			
-			<state id="ASP-VBScript" color="#000" background-color="#fff" font-weight="normal" font-style="normal" usesymbolsfrommode="ASP-HTML" useautocompletefrommode="ASP-HTML" scope="meta.default" foldable="yes">
+			<state id="ASP-VBScript" usesymbolsfrommode="ASP-HTML" useautocompletefrommode="ASP-HTML" scope="meta.default" foldable="yes">
 
 				<begin><regex>&lt;%(?:(?:[\t ]*@(?:\s*\w++(?!=))?)|=?)</regex><autoend>%&gt;</autoend></begin>
 				<end><regex>(?:%&gt;)</regex></end>
 	
-				<keywords id="ASP Delimiter" color="#D00" font-weight="normal" useforautocomplete="no" scope="markup.processing.languageswitch.asp">
+				<keywords id="ASP Delimiter" useforautocomplete="no" scope="markup.processing.languageswitch.asp">
 					<regex>(&lt;%(?:(?:[\t ]*@(?:\s*\w++(?!=))?)|=?))</regex>
 					<regex>(&lt;%)(?![\S])</regex>
 					<regex>(%&gt;)</regex>
 					<regex>(&lt;%%&gt;)</regex>
 				</keywords>
 
-				<keywords id="ASP-VBScript Functions" color="#661AA9" background-color="#fff" font-style="normal" casesensitive="no" useforautocomplete="yes" scope="keyword.vb">
+				<keywords id="ASP-VBScript Functions" casesensitive="no" useforautocomplete="yes" scope="keyword.vb">
 					<string>_</string>
 					<string>Abs</string>
 					<string>Array</string>
@@ -209,7 +209,7 @@
 					<string>Session_OnStart</string>
 				</keywords>
 				
-				<keywords id="Keywords" color="#881350" font-weight="normal" casesensitive="no" useforautocomplete="yes" scope="keyword.control.vb">
+				<keywords id="Keywords" casesensitive="no" useforautocomplete="yes" scope="keyword.control.vb">
 					<string>And</string>
 					<string>As</string>
 					<string>ByRef</string>
@@ -317,24 +317,24 @@
 					<string>true</string>
 				</keywords>
 	
-				<keywords id="ASP Numbers" color="#00f" useforautocomplete="no" scope="language.constant.numeric">
+				<keywords id="ASP Numbers" useforautocomplete="no" scope="language.constant.numeric">
 						  <regex>(?&lt;=[^\w\d]|^)(((([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(([uU][lL]?)|([lL][uU]?))?))(?=[^\w\d]|$)</regex>
 				</keywords>
-				<keywords id="FunctionRegex" color="#003369" useforautocomplete="no" scope="language.subroutine.function">
+				<keywords id="FunctionRegex" useforautocomplete="no" scope="language.subroutine.function">
 						  <regex>([A-Za-z0-9_]+ *)\(</regex>
 				</keywords>
 		 
-				<state id="ASP Comment" type="comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic" scope="comment.block.vb">
+				<state id="ASP Comment" type="comment" scope="comment.block.vb">
 					<begin><regex>/\*</regex></begin>
 					<end><regex>\*/</regex></end>
 				</state>
 				
-				<state id="ASP SingleComment" type="comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic" scope="comment.line.vb">
+				<state id="ASP SingleComment" type="comment" scope="comment.line.vb">
 					<begin><regex>\'|#|//</regex></begin>
 					<end><regex>[\n\r]|.(?=\%&gt;)</regex></end>
 				</state>
 				  				
-				<state id="ASP String" type="string" color="#EB7300" background-color="none" font-weight="normal" font-style="normal" usespellchecking="yes" scope="string.double.vb">
+				<state id="ASP String" type="string" usespellchecking="yes" scope="string.double.vb">
 					<begin><regex>"</regex></begin>
 					<end><regex>((?!=")")</regex></end>
 				</state>
@@ -415,17 +415,17 @@
                 <end>
                     <regex>&gt;</regex>
                 </end>
-				<state id="String" type="string" color="#760f15" font-weight="normal" font-style="normal" scope="markup.declaration.string.double">
+				<state id="String" type="string" scope="markup.declaration.string.double">
 					<begin><regex>"</regex></begin>
 					<end><regex>"</regex></end>
 					<state-link state="ASP-VBScript"/>
 				</state>
-				<state id="SingleString" type="string" color="#760f15" font-weight="normal" font-style="normal" scope="markup.declaration.string.single">
+				<state id="SingleString" type="string" scope="markup.declaration.string.single">
 					<begin><regex>'</regex></begin>
 					<end><regex>'</regex></end>
 					<state-link state="ASP-VBScript"/>
 				</state>
-				<state id="Block" type="block" foldable="yes" indent="yes" color="#000" background-color="#fff" scope="meta.block.square">
+				<state id="Block" type="block" foldable="yes" indent="yes" scope="meta.block.square">
 					<begin><regex>\[</regex><autoend>\]</autoend></begin>
 					<end><regex>]</regex></end>
 					<import/>
@@ -439,19 +439,19 @@
                 <end>
                     <regex>\?&gt;</regex>
                 </end>
-				<state id="ProcessingString" type="string" color="#760f15" font-weight="normal" font-style="normal" scope="markup.processing.attribute.value.string">
+				<state id="ProcessingString" type="string" scope="markup.processing.attribute.value.string">
 					<begin><regex>"</regex></begin>
 					<end><regex>"</regex></end>
                    <state-link state="ASP-VBScript"/>
 				</state>
-				<state id="ProcessingSingleString" type="string" color="#760f15" font-weight="normal" font-style="normal" scope="markup.processing.attribute.value.string">
+				<state id="ProcessingSingleString" type="string" scope="markup.processing.attribute.value.string">
 					<begin><regex>'</regex></begin>
 					<end><regex>'</regex></end>
                    <state-link state="ASP-VBScript"/>
 				</state>
                    <state-link state="ASP-VBScript"/>
             </state>
-            <state id="Inline CSS" color="#000" font-style="italic" usesymbolsfrommode="CSS" useautocompletefrommode="CSS" foldable="yes" indent="yes" scope="meta.block.css">
+            <state id="Inline CSS" usesymbolsfrommode="CSS" useautocompletefrommode="CSS" foldable="yes" indent="yes" scope="meta.block.css">
                 <begin>
                     <regex>&lt;[ \t]*(?i)style[^&gt;]*&gt;</regex>
                     <autoend>&lt;/style&gt;</autoend>
@@ -462,7 +462,7 @@
                 <state-link state="ASP-VBScript"/>
 				<import mode="XML" keywords-only="yes"/>
                 <import mode="CSS"/>
-				<state id="CSSInside curly brackets" color="#000" background-color="#fff" font-weight="normal" font-style="normal" foldable="yes" indent="yes" scope="meta.block.curly">
+				<state id="CSSInside curly brackets" foldable="yes" indent="yes" scope="meta.block.curly">
 					<begin>
 						<string>{</string>
 						<autoend>}</autoend>
@@ -471,7 +471,7 @@
 						<regex>}</regex>
 					</end>
 						<import mode="CSS" state="Inside curly brackets" keywords-only="yes"/>
-					<state id="CSS Attribute state" color="#000" background-color="#fff" font-weight="normal" font-style="normal" scope="meta.block.attribute">
+					<state id="CSS Attribute state" scope="meta.block.attribute">
 						<begin>
 							<string>:</string>
 						</begin>
@@ -494,7 +494,7 @@
 
                 <import keywords-only="yes"/>
 
-				<state id="CSSRules" color="#683821" font-weight="bold" font-style="italic" scope="style.at-rule">
+				<state id="CSSRules" scope="style.at-rule">
 					<begin>
 						<regex>^@[-\w_]+</regex>
 					</begin>
@@ -503,7 +503,7 @@
 					</end>
 				</state>
 				
-				<state id="CSSAutodocComment" type="comment" color="#236E25" font-weight="bold" font-style="italic" scope="style.comment.block.documentation">
+				<state id="CSSAutodocComment" type="comment" scope="style.comment.block.documentation">
 					<begin>
 						<string>/\*"</string>
 						<autoend>"\*/</autoend>
@@ -514,7 +514,7 @@
 					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 					<state-link state="ASP-VBScript"/>
 				</state>
-				<state id="CSSComment" type="comment" color="#236E25" font-weight="normal" font-style="italic" scope="style.comment.block">
+				<state id="CSSComment" type="comment" scope="style.comment.block">
 					<begin>
 						<string>/\*</string>
 						<autoend>\*/</autoend>
@@ -525,7 +525,7 @@
 					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 					<state-link state="ASP-VBScript"/>
 				</state>
-				<state id="CSSString" type="string" color="#760f15" font-weight="normal" font-style="normal" scope="style.value.string.double">
+				<state id="CSSString" type="string" scope="style.value.string.double">
 					<begin>
 						<string>"</string>
 					</begin>
@@ -534,7 +534,7 @@
 					</end>
 					<state-link state="ASP-VBScript"/>
 				</state>
-				<state id="CSSSingleString" type="string" color="#760f15" font-weight="normal" font-style="normal" scope="style.value.string.single">
+				<state id="CSSSingleString" type="string" scope="style.value.string.single">
 					<begin>
 						<string>'</string>
 					</begin>
@@ -547,7 +547,7 @@
             </state>
 
 
-            <state id="Inline Javascript" color="#000" usesymbolsfrommode="Javascript" useautocompletefrommode="Javascript" foldable="yes" scope="meta.block.js">
+            <state id="Inline Javascript" usesymbolsfrommode="Javascript" useautocompletefrommode="Javascript" foldable="yes" scope="meta.block.js">
                 <begin>
                     <regex>&lt;(?i)script[^&gt;]*&gt;</regex><autoend>&lt;/script&gt;</autoend>
                 </begin>
@@ -558,45 +558,45 @@
                 <import mode="XML" keywords-only="yes"/>
                 <state-link state="ASP-VBScript"/>
 
-				<state id="JSAutodocComment" type="comment" color="#236E25" font-weight="bold" font-style="italic" scope="comment.block.documentation.js">
+				<state id="JSAutodocComment" type="comment" scope="comment.block.documentation.js">
 					<begin><regex>/\*"</regex></begin>
 					<end><regex>"\*/</regex></end>
                     <state-link state="ASP-VBScript"/>
 				</state>
 		
-				<state id="JSComment" type="comment" color="#236E25" font-weight="normal" font-style="italic" scope="comment.block.js">
+				<state id="JSComment" type="comment" scope="comment.block.js">
 					<begin><regex>/\*</regex><autoend>\*/</autoend></begin>
 					<end><regex>\*/</regex></end>
 					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
                     <state-link state="ASP-VBScript"/>
 				</state>
 				
-				<state id="JSSingleComment" type="comment" color="#236E25" font-weight="normal" font-style="italic" scope="comment.line.double-slash.js">
+				<state id="JSSingleComment" type="comment" scope="comment.line.double-slash.js">
 					<begin><regex>//</regex></begin>
 					<end><regex>[\n\r]|.(?=&lt;(?i)/script\s*&gt;)</regex></end>
 					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
                     <state-link state="ASP-VBScript"/>
 				</state>
 				
-				<state id="JSRegular Expressions" type="string" color="#760f15" scope="string.regex.js">
+				<state id="JSRegular Expressions" type="string" scope="string.regex.js">
 					<begin><regex>(?&lt;![&lt;/])/.*?[^\\](?=/[^\n\r]*(?:;|\)|,|[\n\r]))</regex></begin>
 					<end><regex>/[cgimosx]*</regex></end>
                     <state-link state="ASP-VBScript"/>
 				</state>
 		
-				<state id="JSString" type="string" color="#760f15" font-weight="normal" font-style="normal" scope="string.double.js">
+				<state id="JSString" type="string" scope="string.double.js">
 					<begin><regex>"</regex></begin>
 					<end><regex>(?&lt;!\\)(\\\\)*"</regex></end>
                     <state-link state="ASP-VBScript"/>
 				</state>
 		
-				<state id="JSSingleString" type="string" color="#760f15" font-weight="normal" font-style="normal" scope="string.single.js">
+				<state id="JSSingleString" type="string" scope="string.single.js">
 					<begin><regex>'</regex></begin>
 					<end><regex>(?&lt;!\\)(\\\\)*'</regex></end>
                     <state-link state="ASP-VBScript"/>
 				</state>
 	
-				<state id="JSBlock" type="block" foldable="yes" indent="yes" color="#000" background-color="#fff" scope="meta.block.curly.js">
+				<state id="JSBlock" type="block" foldable="yes" indent="yes" scope="meta.block.curly.js">
 					<begin><regex>{</regex><autoend>}</autoend></begin>
 					<end><regex>}</regex></end>
                     <import mode="Javascript" keywords-only="yes"/>
@@ -612,14 +612,14 @@
                     <regex>/[ \t]*&gt;</regex>
                 </end>
                 <import/>
-                <keywords id="Single Tags with ASP" color="#881280" font-style="italic" useforautocomplete="no" scope="markup.tag">
+                <keywords id="Single Tags with ASP" useforautocomplete="no" scope="markup.tag">
                     <regex>(&lt;[^&gt;]*)</regex>
                     <regex>(\A[^&lt;&gt;]*&gt;)</regex>
                 </keywords>
-                <keywords id="Attributes in Single Tags with ASP" color="#994500" useforautocomplete="no" scope="markup.tag.attribute.name">
+                <keywords id="Attributes in Single Tags with ASP" useforautocomplete="no" scope="markup.tag.attribute.name">
                     <regex>([\w-]*)(?=[ \t]*=[^&lt;]+)</regex>
                 </keywords>
-                <keywords id="Strings in Single Tags with ASP" type="string" color="#1A1AA6" useforautocomplete="no" scope="markup.tag.attribute.value.string">
+                <keywords id="Strings in Single Tags with ASP" type="string" useforautocomplete="no" scope="markup.tag.attribute.value.string">
                     <regex>=[ \t]*("[^"]*"|'[^']*')(?=[^&lt;]*)</regex>
                     <regex>([^"]*")(?=[ \t]*&gt;)</regex>
                 </keywords>
@@ -635,21 +635,21 @@
                     <regex>&lt;\s*/\s*(?#see-insert-start-group:asptagstatename)\s*&gt;</regex>
                 </end>
                 <import/>
-                <keywords id="Tags with ASP" color="#881280" font-style="italic" useforautocomplete="no" scope="markup.tag">
+                <keywords id="Tags with ASP" useforautocomplete="no" scope="markup.tag">
                     <regex>(&lt;[^&gt;]*&gt;?)</regex>
                     <regex>(\A[^&lt;&gt;]*&gt;)</regex>
                 </keywords>
-                <keywords id="Attributes in Tags with ASP-VBScript" color="#994500" useforautocomplete="no" scope="markup.tag.attribute.name">
+                <keywords id="Attributes in Tags with ASP-VBScript" useforautocomplete="no" scope="markup.tag.attribute.name">
                     <regex>([\w-]*)(?=[ \t]*=[^&lt;]+)</regex>
                 </keywords>
-                <keywords id="Strings in Tags with ASP" type="string" color="#1A1AA6" useforautocomplete="no" scope="markup.tag.attribute.value.string">
+                <keywords id="Strings in Tags with ASP" type="string" useforautocomplete="no" scope="markup.tag.attribute.value.string">
                     <regex>=[ \t]*("[^"]*"|'[^']*')(?=[^&lt;]*)</regex>
                     <regex>([^"]*")(?=[ \t]*&gt;)</regex>
                 </keywords>
                 <import state="ASP Tag Container State" keywords-only="yes"/>
             </state>
 
-            <state id="Tag State ASP" font-style="normal" foldable="yes" indent="yes" scope="meta.default">
+            <state id="Tag State ASP" foldable="yes" indent="yes" scope="meta.default">
                 <begin>
                     <regex>&lt;\s*(?'xmltagstatename'[^/?!][-:_\w]*)\s*(?:[-:_\w]+=(?:"[^"]*"|'[^']*'|\w+)\s*)*\s*&gt;</regex>
 					<autoend>&lt;/\g&lt;xmltagstatename&gt;&gt;</autoend>

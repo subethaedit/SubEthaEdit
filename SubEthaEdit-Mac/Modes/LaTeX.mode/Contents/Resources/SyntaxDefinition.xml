@@ -9,14 +9,14 @@
 
     <states>
     
-        <default id="Base" color="#000" scope="meta.default">
-            <keywords id="Keywords" color="#881350" useforautocomplete="no" scope="keyword">
+        <default id="Base" scope="meta.default">
+            <keywords id="Keywords" useforautocomplete="no" scope="keyword">
                 <regex>(\\\w+[\t ]*{[^}]*})</regex>
                 <regex>((?:(?:(?&lt;!\\)(?:\\\\)*)|^)\\[\w\d]+)</regex>
                 <regex>(\\\\)</regex>
             </keywords>
             
-            <keywords id="Structuring Keywords" color="#881350" font-weight="bold" scope="structured.section"> 
+            <keywords id="Structuring Keywords" scope="structured.section"> 
                 <regex>(\\part[\t ]*{[^}]*})</regex>
                 <regex>(\\chapter[\t ]*{[^}]*})</regex>
                 <regex>(\\section[\t ]*{[^}]*})</regex>
@@ -26,17 +26,17 @@
                 <regex>(\\subparagraph[\t ]*{[^}]*})</regex>
             </keywords>
 
-            <keywords id="Functions" color="#408" useforautocomplete="no" scope="language.subroutine.function">
+            <keywords id="Functions" useforautocomplete="no" scope="language.subroutine.function">
                 <regex>((?:\[[\w\d,\. ]*\])?(?:{[^}]*(?=})[^{]*})+)</regex>
             </keywords>
         
-			<state id="Singleline Comment" color="#236E25" font-style="italic" scope="structured.comment">
+			<state id="Singleline Comment" scope="structured.comment">
 				<begin><regex>(?&lt;!\\)%</regex></begin>
 				<end><regex>[\n\r]</regex></end>
                 <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 			</state>
 
-			<state id="Inline Math" color="#a00" font-style="italic" scope="structured.math">
+			<state id="Inline Math" scope="structured.math">
 				<begin><regex>(?&lt;!\\)\$</regex></begin>
 				<end><regex>(?&lt;!\\)\$</regex></end>
 			</state>

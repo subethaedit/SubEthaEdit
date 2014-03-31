@@ -11,7 +11,7 @@
         <default id="Base" usesymbolsfrommode="HTML" useautocompletefrommode="HTML" usespellchecking="yes" scope="meta.default">
             <import mode="XML" keywords-only="yes"/>
         
-		<state id="JSP Comment" type="comment" background-color="none" scope="comment.block.jsp">
+		<state id="JSP Comment" type="comment" scope="comment.block.jsp">
 			<begin><regex>&lt;\%--</regex><autoend>--\%&gt;</autoend></begin>
 			<end><regex>--\%&gt;</regex></end>
 		</state>
