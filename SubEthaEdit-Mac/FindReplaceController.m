@@ -24,7 +24,8 @@
 #import <objc/objc-runtime.h>
 #import "SEEFindAndReplaceContext.h"
 
-NSString * const kSEEGlobalFindAndReplaceStateDefaultsKey = @"GlobalFindAndReplaceState";
+NSString * const kSEEGlobalFindAndReplaceStateDefaultsKey = @"FindAndReplace_GlobalState";
+NSString * const kSEEFindAndReplaceHistoryDefaultsKey     = @"FindAndReplace_History";
 
 static FindReplaceController *sharedInstance=nil;
 
@@ -35,6 +36,7 @@ static FindReplaceController *sharedInstance=nil;
 @property (nonatomic, strong) NSMutableArray *replaceHistory;
 
 @property (nonatomic, strong) SEEFindAndReplaceState *globalFindAndReplaceState;
+@property (nonatomic, strong) NSMutableArray *internalfindReplaceHistory;
 @end
 
 @implementation FindReplaceController
@@ -57,6 +59,8 @@ static FindReplaceController *sharedInstance=nil;
 		self.globalFindAndReplaceState = [SEEFindAndReplaceState new];
 		[self readGlobalFindAndReplaceStateFromPreferences];
 		self.globalFindAndReplaceStateController = [[NSObjectController alloc] initWithContent:self.globalFindAndReplaceState];
+		self.internalfindReplaceHistory = [NSMutableArray new];
+		[self readFindAndReplaceHistoryFromPreferences];
     }
     return self;
 }
@@ -165,6 +169,8 @@ static FindReplaceController *sharedInstance=nil;
 	return result;
 }
 
+#pragma mark - User Defaults Management
+
 - (void)saveGlobalFindAndReplaceStateToPreferences {
     [[NSUserDefaults standardUserDefaults] setObject:self.globalFindAndReplaceState.dictionaryRepresentation forKey:kSEEGlobalFindAndReplaceStateDefaultsKey];
 }
@@ -177,6 +183,55 @@ static FindReplaceController *sharedInstance=nil;
 	}
 }
 
+- (void)readFindAndReplaceHistoryFromPreferences {
+	NSArray *history= [[NSUserDefaults standardUserDefaults] arrayForKey:kSEEFindAndReplaceHistoryDefaultsKey];
+	for (NSDictionary *dictionary in history) {
+		SEEFindAndReplaceState *state = [SEEFindAndReplaceState new];
+		[state takeValuesFromDictionaryRepresentation:dictionary];
+		[self.internalfindReplaceHistory addObject:state];
+	}
+}
+
+- (void)saveFindAndReplaceHistoryToPreferences {
+	NSArray *arrayToStore = [self.internalfindReplaceHistory valueForKeyPath:@"dictionaryRepresentation"];
+	[[NSUserDefaults standardUserDefaults] setObject:arrayToStore forKey:kSEEFindAndReplaceHistoryDefaultsKey];
+}
+
+#pragma mark - History Management
+
+- (NSArray *)findReplaceHistory {
+	NSArray *result = [self.internalfindReplaceHistory copy];
+	return result;
+}
+
+- (void)storeFindeReplaceStateInHistory:(SEEFindAndReplaceState *)aFindReplaceState {
+	NSDictionary *thisDictionary = [aFindReplaceState dictionaryRepresentation];
+	NSArray *representationArray = [self.internalfindReplaceHistory valueForKeyPath:@"dictionaryRepresentation"];
+	NSUInteger index = [representationArray indexOfObject:thisDictionary];
+	BOOL needsStoring = NO;
+	if (index == NSNotFound) {
+		[self.internalfindReplaceHistory insertObject:[aFindReplaceState copy] atIndex:0];
+		needsStoring = YES;
+	} else if (index != 0) {
+		SEEFindAndReplaceState *state = self.internalfindReplaceHistory[index];
+		[self.internalfindReplaceHistory removeObjectAtIndex:index];
+		[self.internalfindReplaceHistory insertObject:state atIndex:0];
+		needsStoring = YES;
+	}
+	if (self.internalfindReplaceHistory.count > 30) {
+		[self.internalfindReplaceHistory removeLastObject];
+	}
+	if (needsStoring) {
+		[self saveFindAndReplaceHistoryToPreferences];
+	}
+}
+
+- (void)takeGlobalFindAndReplaceStateValuesFromState:(SEEFindAndReplaceState *)aFindAndReplaceState {
+	self.globalFindAndReplaceState = [aFindAndReplaceState copy];
+	[self.globalFindAndReplaceStateController setContent:self.globalFindAndReplaceState];
+}
+
+#pragma mark -
 - (void)alertForReadonlyDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
     if (returnCode == NSAlertFirstButtonReturn) {
         NSDictionary *alertContext = (__bridge NSDictionary *)contextInfo;

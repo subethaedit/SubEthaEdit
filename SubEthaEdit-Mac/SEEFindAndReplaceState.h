@@ -10,7 +10,7 @@
 #import "OgreKit/OgreKit.h"
 /*! Model object to hold all the necessary information regarding the search and replace state */
 
-@interface SEEFindAndReplaceState : NSObject
+@interface SEEFindAndReplaceState : NSObject <NSCopying>
 
 @property (nonatomic, strong) NSString *findString;
 @property (nonatomic, strong) NSString *replaceString;
@@ -44,5 +44,8 @@
 /* serialization */
 @property (nonatomic, readonly) NSDictionary *dictionaryRepresentation;
 - (void)takeValuesFromDictionaryRepresentation:(NSDictionary *)aDictionaryRepresentation;
+
+/* user representation */
+- (NSString *)menuTitleDescription;
 
 @end

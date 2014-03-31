@@ -167,6 +167,9 @@ typedef NS_ENUM(uint8_t, SEESearchRangeDirection) {
 		self.replaceExpression = replaceExpression;
 	}
 	
+	// current meaningful funnel point for adding to history
+	[[FindReplaceController sharedInstance] storeFindeReplaceStateInHistory:self.findAndReplaceState];
+	
 	return YES;
 }
 
