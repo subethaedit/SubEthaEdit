@@ -33,5 +33,10 @@ $(result_mode_directory)%$(mode_syntax_def_suffix): $(xslt) force
 		echo "No Mode:\t\t$*"; \
 	fi
 
+
+#  adding the following line above the echo in the above if case moves the results to the folder containing the originals
+# 		mv $(result_mode_directory)$*$(mode_syntax_def_suffix) $(mode_directory)$*$(mode_syntax_def_suffix); \
+
+
 # This recipe forces the other recipe to happen every time
 force:
