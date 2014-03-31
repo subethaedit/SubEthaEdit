@@ -20,7 +20,6 @@
     // Pointers to the current instances
     NSSplitView *I_dialogSplitView;
     id I_documentDialog;
-    NSMutableArray *I_plainTextEditors;
     
     struct {
         BOOL zoomFix_defaultFrameHadEqualWidth;

@@ -66,7 +66,6 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
-    I_plainTextEditors = nil;
     I_dialogSplitView = nil;
     I_documentDialog = nil;
     
@@ -293,7 +292,8 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 }
 
 - (void)setSizeByColumns:(NSInteger)aColumns rows:(NSInteger)aRows {
-    NSSize contentSize=[[I_plainTextEditors objectAtIndex:0] desiredSizeForColumns:aColumns rows:aRows];
+	PlainTextWindowControllerTabContext *tabContext = self.selectedTabContext;
+    NSSize contentSize=[[tabContext.plainTextEditors objectAtIndex:0] desiredSizeForColumns:aColumns rows:aRows];
     contentSize.width  = (NSInteger)(contentSize.width + 0.5);
     contentSize.height = (NSInteger)(contentSize.height + 0.5);
     NSWindow *window=[self window];
@@ -319,7 +319,8 @@ static NSPoint S_cascadePoint = {0.0,0.0};
             NSLocalizedString(@"Show Participants", nil)];
         return YES;
     } else if (selector == @selector(toggleBottomStatusBar:)) {
-        [menuItem setState:[[I_plainTextEditors lastObject] showsBottomStatusBar]?NSOnState:NSOffState];
+		PlainTextWindowControllerTabContext *tabContext = self.selectedTabContext;
+        [menuItem setState:[[tabContext.plainTextEditors lastObject] showsBottomStatusBar]?NSOnState:NSOffState];
         return YES;
     } else if (selector == @selector(toggleLineNumbers:)) {
         [menuItem setState:[self showsGutter]?NSOnState:NSOffState];
@@ -327,7 +328,8 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     } else if (selector == @selector(copyDocumentURL:)) {
         return [(PlainTextDocument *)[self document] isAnnounced];
     } else if (selector == @selector(toggleSplitView:)) {
-        [menuItem setTitle:[I_plainTextEditors count]==1?
+		PlainTextWindowControllerTabContext *tabContext = self.selectedTabContext;
+        [menuItem setTitle:[tabContext.plainTextEditors count]==1?
                            NSLocalizedString(@"Split View",@"Split View Menu Entry"):
                            NSLocalizedString(@"Collapse Split View",@"Collapse Split View Menu Entry")];
         
@@ -454,24 +456,28 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 }
 
 - (BOOL)showsBottomStatusBar {
-    return [[I_plainTextEditors lastObject] showsBottomStatusBar];
+	PlainTextWindowControllerTabContext *tabContext = self.selectedTabContext;
+    return [[tabContext.plainTextEditors lastObject] showsBottomStatusBar];
 }
 
 - (void)setShowsBottomStatusBar:(BOOL)aFlag {
     BOOL showsBottomStatusBar=[self showsBottomStatusBar];
     if (showsBottomStatusBar!=aFlag) {
-        [[I_plainTextEditors lastObject] setShowsBottomStatusBar:aFlag];
+		PlainTextWindowControllerTabContext *tabContext = self.selectedTabContext;
+		[[tabContext.plainTextEditors lastObject] setShowsBottomStatusBar:aFlag];
         [[self document] setShowsBottomStatusBar:aFlag];
 		[self invalidateRestorableState];
     }
 }
 
 - (BOOL)showsGutter {
-    return [[I_plainTextEditors objectAtIndex:0] showsGutter];
+	PlainTextWindowControllerTabContext *tabContext = self.selectedTabContext;
+    return [[tabContext.plainTextEditors objectAtIndex:0] showsGutter];
 }
 
 - (void)setShowsGutter:(BOOL)aFlag {
-    for (id loopItem in I_plainTextEditors) {
+	PlainTextWindowControllerTabContext *tabContext = self.selectedTabContext;
+    for (id loopItem in tabContext.plainTextEditors) {
         [loopItem setShowsGutter:aFlag];
     }
     [[self document] setShowsGutter:aFlag];
@@ -887,14 +893,13 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 	} else {
 		tabContext.hasEditorSplit = YES;
 	}
-
-	I_plainTextEditors = tabContext.plainTextEditors;
 }
 
 #pragma mark Editors
 
 - (NSArray *)plainTextEditors {
-    return I_plainTextEditors;
+	PlainTextWindowControllerTabContext *tabContext = self.selectedTabContext;
+    return tabContext.plainTextEditors;
 }
 
 - (PlainTextEditor *)activePlainTextEditor {
@@ -1650,7 +1655,6 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 		plainTextEditor.editorView.identifier = @"FirstEditor";
                     
         [[tabContext plainTextEditors] addObject:plainTextEditor];
-        I_plainTextEditors = [tabContext plainTextEditors];
 
         I_dialogSplitView = nil;
 
@@ -1676,7 +1680,6 @@ static NSPoint S_cascadePoint = {0.0,0.0};
         NSTabViewItem *tabViewItem = [self tabViewItemForDocument:(PlainTextDocument *)document];
         if (tabViewItem) {
             PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
-            I_plainTextEditors = [tabContext plainTextEditors];
             I_dialogSplitView = [tabContext dialogSplitView];
         } 
         return;
@@ -1702,19 +1705,16 @@ static NSPoint S_cascadePoint = {0.0,0.0};
             NSTabViewItem *tabViewItem = [self tabViewItemForDocument:(PlainTextDocument *)document];
             if (tabViewItem) {
                 PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
-                I_plainTextEditors = [tabContext plainTextEditors];
                 I_dialogSplitView = [tabContext dialogSplitView];
-                if ([I_plainTextEditors count] > 0) {
-                    [[self window] setInitialFirstResponder:[[I_plainTextEditors objectAtIndex:0] textView]];
+                if ([tabContext.plainTextEditors count] > 0) {
+                    [[self window] setInitialFirstResponder:[[tabContext.plainTextEditors objectAtIndex:0] textView]];
                 }
                 [I_tabView selectTabViewItem:tabViewItem];
             } else {
-                I_plainTextEditors = nil;
                 I_dialogSplitView = nil;
             }
         }
     } else {
-        I_plainTextEditors = nil;
         I_dialogSplitView = nil;
     }
 
