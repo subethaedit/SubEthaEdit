@@ -10,4 +10,5 @@ Changes with Version 4.0 (SEE 4.0)
 	*) SYNTAX: markup cleanup
 	*) removed StyleIDTransition.plist
 	*) SYNTAX: removed style information
+	*) added ExampleSyntax.txt
 
