@@ -1397,7 +1397,6 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	if (displayedViewController != aViewController) {
 		if (displayedViewController) {
 			NSView *overlayView = displayedViewController.view;
-			NSRect overlayFrame = overlayView.frame;
 			[overlayView removeFromSuperview];
 			self.topOverlayViewController = nil;
 		}
