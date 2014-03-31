@@ -821,7 +821,8 @@
 								creationFlags.tabWindow = window;
 								documentController.documentCreationFlagsLookupDict[@"MakeUntitledDocument"] = creationFlags;
 
-								[documentController openUntitledDocumentAndDisplay:YES error:nil];
+								NSDocument *document = [documentController openUntitledDocumentAndDisplay:YES error:nil];
+								document.displayName = tabName;
 							}
 							restoredTabsCount++;
 						}
