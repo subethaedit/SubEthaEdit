@@ -20,6 +20,13 @@
 
 NSString * const SEEPlainTextWindowControllerTabContextActiveEditorDidChangeNotification = @"SEEPlainTextWindowControllerTabContextActiveEditorDidChangeNotification";
 
+void * const SEEPlainTextWindowControllerTabContextHasEditorSplitObservanceContext = (void *)&SEEPlainTextWindowControllerTabContextHasEditorSplitObservanceContext;
+
+@interface PlainTextWindowControllerTabContext ()
+- (void)registerKVO;
+- (void)unregisterKVO;
+- (void)updateEditorSplitView;
+@end
 
 @implementation PlainTextWindowControllerTabContext
 
@@ -29,12 +36,36 @@ NSString * const SEEPlainTextWindowControllerTabContextActiveEditorDidChangeNoti
     self = [super init];
     if (self) {
         _plainTextEditors = [[NSMutableArray alloc] init];
+
+		[self registerKVO];
     }
     return self;
 }
 
 - (void)dealloc {
+	[self unregisterKVO];
     [_plainTextEditors makeObjectsPerformSelector:@selector(setWindowControllerTabContext:) withObject:nil];
+}
+
+
+#pragma mark - KVO
+
+- (void)registerKVO {
+	[self addObserver:self forKeyPath:@"hasEditorSplit" options:0 context:SEEPlainTextWindowControllerTabContextHasEditorSplitObservanceContext];
+}
+
+- (void)unregisterKVO {
+	[self removeObserver:self forKeyPath:@"hasEditorSplit" context:SEEPlainTextWindowControllerTabContextHasEditorSplitObservanceContext];
+}
+
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if (context == SEEPlainTextWindowControllerTabContextHasEditorSplitObservanceContext) {
+		[self updateEditorSplitView];
+    } else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
 }
 
 
@@ -79,118 +110,125 @@ NSString * const SEEPlainTextWindowControllerTabContextActiveEditorDidChangeNoti
 
 #pragma mark - Editor Split
 
-- (IBAction)toggleSplitView:(id)aSender {
+-(void)updateEditorSplitView {
 	NSMutableArray *plainTextEditors = self.plainTextEditors;
 	PlainTextWindowController *windowController = (PlainTextWindowController *)[self.tab.tabView.window windowController];
 	NSSplitView *dialogSplitView = self.dialogSplitView;
 	NSSplitView *webPreviewSplitView = self.webPreviewSplitView;
+	BOOL hasEditorSplit = self.hasEditorSplit;
 
-    if ([plainTextEditors count] == 1) {
-        PlainTextEditor *plainTextEditor = [[PlainTextEditor alloc] initWithWindowControllerTabContext:self splitButton:NO];
-		plainTextEditor.editorView.identifier = @"SecondEditor";
-        [plainTextEditors addObject:plainTextEditor];
+	if ([plainTextEditors count] > 0) {
+		if (hasEditorSplit && [plainTextEditors count] == 1) {
+			PlainTextEditor *plainTextEditor = [[PlainTextEditor alloc] initWithWindowControllerTabContext:self splitButton:NO];
+			plainTextEditor.editorView.identifier = @"SecondEditor";
+			[plainTextEditors addObject:plainTextEditor];
 
-        SplitView *editorSplitView = [[SplitView alloc] initWithFrame:[[[plainTextEditors objectAtIndex:0] editorView] frame]];
-		editorSplitView.identifier = @"EditorSplit";
-		SEEEditorSplitViewDelegate *splitDelegate = [[SEEEditorSplitViewDelegate alloc] initWithTabContext:self];
-        editorSplitView.delegate = splitDelegate;
+			SplitView *editorSplitView = [[SplitView alloc] initWithFrame:[[[plainTextEditors objectAtIndex:0] editorView] frame]];
+			editorSplitView.identifier = @"EditorSplit";
+			SEEEditorSplitViewDelegate *splitDelegate = [[SEEEditorSplitViewDelegate alloc] initWithTabContext:self];
+			editorSplitView.delegate = splitDelegate;
 
-        if (dialogSplitView) {
-            [dialogSplitView addSubview:editorSplitView positioned:NSWindowBelow relativeTo:[[dialogSplitView subviews] objectAtIndex:1]];
-        } else if (webPreviewSplitView) {
-            [webPreviewSplitView addSubview:editorSplitView positioned:NSWindowAbove relativeTo:[[webPreviewSplitView subviews] objectAtIndex:0]];
-        } else {
-            [self.tab setView:editorSplitView];
-        }
-        NSSize splitSize = [editorSplitView frame].size;
-        splitSize.height = splitSize.height / 2.;
+			if (dialogSplitView) {
+				[dialogSplitView addSubview:editorSplitView positioned:NSWindowBelow relativeTo:[[dialogSplitView subviews] objectAtIndex:1]];
+			} else if (webPreviewSplitView) {
+				[webPreviewSplitView addSubview:editorSplitView positioned:NSWindowAbove relativeTo:[[webPreviewSplitView subviews] objectAtIndex:0]];
+			} else {
+				[self.tab setView:editorSplitView];
+			}
+			NSSize splitSize = [editorSplitView frame].size;
+			splitSize.height = splitSize.height / 2.;
 
-        [[[plainTextEditors objectAtIndex:0] editorView] setFrameSize:splitSize];
-        [[[plainTextEditors objectAtIndex:1] editorView] setFrameSize:splitSize];
+			[[[plainTextEditors objectAtIndex:0] editorView] setFrameSize:splitSize];
+			[[[plainTextEditors objectAtIndex:1] editorView] setFrameSize:splitSize];
 
-        [editorSplitView addSubview:[[plainTextEditors objectAtIndex:0] editorView]];
-        [editorSplitView addSubview:[[plainTextEditors objectAtIndex:1] editorView]];
+			[editorSplitView addSubview:[[plainTextEditors objectAtIndex:0] editorView]];
+			[editorSplitView addSubview:[[plainTextEditors objectAtIndex:1] editorView]];
 
-        self.editorSplitView = editorSplitView;
-		self.editorSplitViewDelegate = splitDelegate;
+			self.editorSplitView = editorSplitView;
+			self.editorSplitViewDelegate = splitDelegate;
 
-		[[plainTextEditors objectAtIndex:1] setShowsBottomStatusBar: [[plainTextEditors objectAtIndex:0] showsBottomStatusBar]];
-        [[plainTextEditors objectAtIndex:0] setShowsBottomStatusBar:NO];
-		[[plainTextEditors objectAtIndex:1] setShowsGutter:[[plainTextEditors objectAtIndex:0] showsGutter]];
+			[[plainTextEditors objectAtIndex:1] setShowsBottomStatusBar: [[plainTextEditors objectAtIndex:0] showsBottomStatusBar]];
+			[[plainTextEditors objectAtIndex:0] setShowsBottomStatusBar:NO];
+			[[plainTextEditors objectAtIndex:1] setShowsGutter:[[plainTextEditors objectAtIndex:0] showsGutter]];
 
-		[windowController setInitialRadarStatusForPlainTextEditor:[plainTextEditors objectAtIndex:1]];
+			[windowController setInitialRadarStatusForPlainTextEditor:[plainTextEditors objectAtIndex:1]];
 
-		// show participant overlay if split gets toggled
-		if ([[plainTextEditors objectAtIndex:0] hasBottomOverlayView]) {
-			[[plainTextEditors objectAtIndex:0] displayViewControllerInBottomArea:nil];
-			SEEParticipantsOverlayViewController *participantsOverlay = [[SEEParticipantsOverlayViewController alloc] initWithTabContext:self];
-			[[plainTextEditors objectAtIndex:1] displayViewControllerInBottomArea:participantsOverlay];
+			// show participant overlay if split gets toggled
+			if ([[plainTextEditors objectAtIndex:0] hasBottomOverlayView]) {
+				[[plainTextEditors objectAtIndex:0] displayViewControllerInBottomArea:nil];
+				SEEParticipantsOverlayViewController *participantsOverlay = [[SEEParticipantsOverlayViewController alloc] initWithTabContext:self];
+				[[plainTextEditors objectAtIndex:1] displayViewControllerInBottomArea:participantsOverlay];
+			}
+
+		} else if (!hasEditorSplit && [plainTextEditors count] == 2) {
+			NSSplitView *editorSplitView = self.editorSplitView;
+
+			//Preserve scroll position of second editor, if it is currently the selected one.
+			id fr = [[self.tab.tabView window] firstResponder];
+			NSRect visibleRect = NSZeroRect;
+			if (fr == [[plainTextEditors objectAtIndex:1] textView]) {
+				visibleRect = [[[plainTextEditors objectAtIndex:1] textView] visibleRect];
+				[[[plainTextEditors objectAtIndex:0] textView] setSelectedRange:[[[plainTextEditors objectAtIndex:1] textView] selectedRange]];
+			}
+
+			if (dialogSplitView) {
+				NSView *editorView = [[plainTextEditors objectAtIndex:0] editorView];
+				[editorView setFrame:[editorSplitView frame]];
+				[dialogSplitView addSubview:editorView positioned:NSWindowBelow relativeTo:editorSplitView];
+				[editorSplitView removeFromSuperview];
+			} else if (webPreviewSplitView) {
+				NSView *editorView = [[plainTextEditors objectAtIndex:0] editorView];
+				[editorView setFrame:[editorSplitView frame]];
+				[webPreviewSplitView addSubview:editorView positioned:NSWindowBelow relativeTo:editorSplitView];
+				[editorSplitView removeFromSuperview];
+			} else {
+				[self.tab setView:[[plainTextEditors objectAtIndex:0] editorView]];
+				[self.tab setInitialFirstResponder:[[plainTextEditors objectAtIndex:0] editorView]];
+			}
+
+			self.editorSplitView = nil;
+			PlainTextEditor *editorToClose = [plainTextEditors objectAtIndex:1];
+
+			// show participant overlay if split gets toggled
+			if ([editorToClose hasBottomOverlayView]) {
+				[editorToClose displayViewControllerInBottomArea:nil];
+				SEEParticipantsOverlayViewController *participantsOverlay = [[SEEParticipantsOverlayViewController alloc] initWithTabContext:self];
+				[[plainTextEditors objectAtIndex:0] displayViewControllerInBottomArea:participantsOverlay];
+			}
+
+			[[plainTextEditors objectAtIndex:0] setShowsBottomStatusBar:[editorToClose showsBottomStatusBar]];
+			[editorToClose prepareForDealloc];
+			[plainTextEditors removeObjectAtIndex:1];
+			self.editorSplitView = nil;
+
+			// restore scroll position of second editor if it was the selected one
+			if (!NSEqualRects(NSZeroRect,visibleRect)) {
+				[[[plainTextEditors objectAtIndex:0] textView] scrollRectToVisible:visibleRect];
+			}
 		}
 
-    } else if ([plainTextEditors count] == 2) {
-		NSSplitView *editorSplitView = self.editorSplitView;
+		[[plainTextEditors objectAtIndex:0] setIsSplit:[plainTextEditors count] != 1];
 
-		//Preserve scroll position of second editor, if it is currently the selected one.
-        id fr = [[self.tab.tabView window] firstResponder];
-        NSRect visibleRect = NSZeroRect;
-        if (fr == [[plainTextEditors objectAtIndex:1] textView]) {
-            visibleRect = [[[plainTextEditors objectAtIndex:1] textView] visibleRect];
-            [[[plainTextEditors objectAtIndex:0] textView] setSelectedRange:[[[plainTextEditors objectAtIndex:1] textView] selectedRange]];
-        }
+		NSTextView *textView = [[plainTextEditors objectAtIndex:0] textView];
+		NSRange selectedRange = [textView selectedRange];
+		[textView scrollRangeToVisible:selectedRange];
 
-        if (dialogSplitView) {
-            NSView *editorView = [[plainTextEditors objectAtIndex:0] editorView];
-            [editorView setFrame:[editorSplitView frame]];
-            [dialogSplitView addSubview:editorView positioned:NSWindowBelow relativeTo:editorSplitView];
-            [editorSplitView removeFromSuperview];
-		} else if (webPreviewSplitView) {
-			NSView *editorView = [[plainTextEditors objectAtIndex:0] editorView];
-            [editorView setFrame:[editorSplitView frame]];
-            [webPreviewSplitView addSubview:editorView positioned:NSWindowBelow relativeTo:editorSplitView];
-            [editorSplitView removeFromSuperview];
-        } else {
-            [self.tab setView:[[plainTextEditors objectAtIndex:0] editorView]];
-            [self.tab setInitialFirstResponder:[[plainTextEditors objectAtIndex:0] editorView]];
-        }
-
-		self.editorSplitView = nil;
-		PlainTextEditor *editorToClose = [plainTextEditors objectAtIndex:1];
-
-		// show participant overlay if split gets toggled
- 		if ([editorToClose hasBottomOverlayView]) {
-			[editorToClose displayViewControllerInBottomArea:nil];
-			SEEParticipantsOverlayViewController *participantsOverlay = [[SEEParticipantsOverlayViewController alloc] initWithTabContext:self];
-			[[plainTextEditors objectAtIndex:0] displayViewControllerInBottomArea:participantsOverlay];
+		if ([plainTextEditors count] == 2) {
+			[[[plainTextEditors objectAtIndex:1] textView] scrollRangeToVisible:selectedRange];
 		}
 
-		[[plainTextEditors objectAtIndex:0] setShowsBottomStatusBar:[editorToClose showsBottomStatusBar]];
-		[editorToClose prepareForDealloc];
-        [plainTextEditors removeObjectAtIndex:1];
-        self.editorSplitView = nil;
-
-		// restore scroll position of second editor if it was the selected one
-        if (!NSEqualRects(NSZeroRect,visibleRect)) {
-            [[[plainTextEditors objectAtIndex:0] textView] scrollRectToVisible:visibleRect];
-        }
-    }
-
-    [[plainTextEditors objectAtIndex:0] setIsSplit:[plainTextEditors count] != 1];
-
-    NSTextView *textView = [[plainTextEditors objectAtIndex:0] textView];
-    NSRange selectedRange = [textView selectedRange];
-    [textView scrollRangeToVisible:selectedRange];
-
-    if ([plainTextEditors count] == 2) {
-        [[[plainTextEditors objectAtIndex:1] textView] scrollRangeToVisible:selectedRange];
-    }
-
-	[windowController updateWindowMinSize];
-    [[windowController window] makeFirstResponder:textView];
-	[self invalidateRestorableState];
+		[windowController updateWindowMinSize];
+		[[windowController window] makeFirstResponder:textView];
+	}
 }
 
 
 #pragma mark - Restorable State
+
++ (NSArray *)restorableStateKeyPaths {
+	NSArray *restorableStateKeyPaths = [super restorableStateKeyPaths];
+	return [restorableStateKeyPaths arrayByAddingObjectsFromArray:@[@"hasEditorSplit"]];
+}
 
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
 //	NSLog(@"%s - %d : %@", __FUNCTION__, __LINE__, self.document.displayName);
@@ -212,17 +250,15 @@ NSString * const SEEPlainTextWindowControllerTabContextActiveEditorDidChangeNoti
 
 	[coder encodeObject:documentURLBookmark forKey:@"SEETabContextDocumentURLBookmark"];
 	[coder encodeObject:documentAutosaveURLBookmark forKey:@"SEETabContextDocumentAutosaveURLBookmark"];
-
-	if (self.plainTextEditors.count > 1) {
-		[coder encodeBool:YES forKey:@"SEETabContextShowsEditorSplit"];
-	} else {
-		[coder encodeBool:NO forKey:@"SEETabContextShowsEditorSplit"];
-	}
+	[coder encodeBool:self.hasEditorSplit forKey:@"SEETabContextHasEditorSplit"];
 }
 
 - (void)restoreStateWithCoder:(NSCoder *)coder {
 	NSLog(@"%s - %d : %@", __FUNCTION__, __LINE__, self.document.displayName);
 	[super restoreStateWithCoder:coder];
+
+	BOOL hasEditorSplit = [coder decodeBoolForKey:@"SEETabContextHasEditorSplit"];
+	self.hasEditorSplit = hasEditorSplit;
 }
 
 @end

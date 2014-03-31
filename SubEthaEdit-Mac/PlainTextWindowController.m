@@ -882,7 +882,12 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 - (IBAction)toggleSplitView:(id)aSender {
 	NSTabViewItem *tab = [I_tabView selectedTabViewItem];
 	PlainTextWindowControllerTabContext *tabContext = (PlainTextWindowControllerTabContext *)[tab identifier];
-	[tabContext toggleSplitView:aSender];
+
+	if (tabContext.hasEditorSplit) {
+		tabContext.hasEditorSplit = NO;
+	} else {
+		tabContext.hasEditorSplit = YES;
+	}
 }
 
 #pragma mark Editors
