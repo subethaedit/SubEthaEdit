@@ -9,3 +9,5 @@ Changes with Version 4.0 (SEE 4.0)
 	*) SYNTAX: updated for syntax scopes
 	*) SYNTAX: markup cleanup
 	*) removed StyleIDTransition.plist
+	*) SYNTAX: removed style information
+

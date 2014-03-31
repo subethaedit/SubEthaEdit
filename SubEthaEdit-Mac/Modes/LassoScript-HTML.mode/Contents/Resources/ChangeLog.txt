@@ -7,6 +7,7 @@ for LassoScript-HTML Mode 3.5 from 2007!
 Changes with Version 4.0 (SEE 4.0)
 	*) SYNTAX: updated for syntax scopes
 	*) SYNTAX: markup cleanup
+	*) SYNTAX: removed style information
 
 Changes with Version 3.5  (SEE 3.5)
 	 *) added code folding
