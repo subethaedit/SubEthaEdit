@@ -264,6 +264,22 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 }
 
 
+- (NSString *)rangeStringForRange:(NSRange)aRange {
+	NSString *(^positionString)(NSUInteger) = ^(NSUInteger location) {
+		NSInteger lineNumber = [self lineNumberForLocation:location];
+		// NSUInteger lineStartLocation = [self.lineStarts[lineNumber-1] unsignedIntegerValue];
+		//		int positionInline = location - lineStartLocation;
+		NSString *result = @(lineNumber).stringValue;
+		//		if (positionInline > 0) {
+		//	result = [NSString stringWithFormat:@"%ld:%ld",lineNumber,lineStartLocation];
+		//}
+		return result;
+	};
+	
+	NSString *result = [@[positionString(aRange.location),positionString(NSMaxRange(aRange)-1)] componentsJoinedByString:@"-"];
+	return result;
+}
+
 - (unsigned)numberOfLines {
     return [self lineNumberForLocation:[self length]];
 }

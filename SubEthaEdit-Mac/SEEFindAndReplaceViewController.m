@@ -291,9 +291,16 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 	BOOL validationResultForRegexOptions = useRegex;
 	
 	if (menuItem.action == @selector(clearSearchScope:)) {
-		if (![self hasSearchScope]) {
-			return NO;
+		NSString *titleFormat = NSLocalizedString(@"FIND_REPLACE_PANEL_MENU_CLEAR_SCOPE","");
+		BOOL hasScope = [self hasSearchScope];
+		NSString *rangeString = NSLocalizedString(@"FIND_REPLACE_PANEL_SCOPE_DOCUMENT","");
+		if (hasScope) {
+			PlainTextEditor *targetEditor = self.targetPlainTextEditor;
+			rangeString = [targetEditor searchScopeRangeString];
 		}
+		rangeString = [NSString stringWithFormat:@"(%@)",rangeString];
+		menuItem.title = [NSString stringWithFormat:titleFormat,rangeString];
+		return hasScope;
 	} else if (menuItem.action == @selector(addCurrentSelectionToSearchScope:)) {
 		if ([self.targetTextView selectedRange].length == 0) {
 			return NO;
@@ -364,17 +371,17 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 			menu.delegate = self;
 						
 			
-			[self addItemToMenu:menu title:@"Clear Scope" action:@selector(clearSearchScope:) tag:kOptionMenuClearScopeTag];
-			[self addItemToMenu:menu title:@"Add current selection to Scope" action:@selector(addCurrentSelectionToSearchScope:) tag:kOptionMenuAddSelectionToSearchScopeTag];
+			[self addItemToMenu:menu title:NSLocalizedString(@"FIND_REPLACE_PANEL_MENU_CLEAR_SCOPE",@"") action:@selector(clearSearchScope:) tag:kOptionMenuClearScopeTag];
+			[self addItemToMenu:menu title:NSLocalizedString(@"FIND_REPLACE_PANEL_MENU_ADD_TO_SCOPE",@"") action:@selector(addCurrentSelectionToSearchScope:) tag:kOptionMenuAddSelectionToSearchScopeTag];
 			[menu addItem:[NSMenuItem separatorItem]];
-			[self addItemToMenu:menu title:@"Ignore case" action:@selector(toggleIgnoreCase:) tag:kOptionMenuIgnoreCaseTag];
-			[self addItemToMenu:menu title:@"Wrap around" action:@selector(toggleWrapAround:) tag:kOptionMenuWrapAroundTag];
+			[self addItemToMenu:menu title:NSLocalizedString(@"FIND_REPLACE_PANEL_MENU_IGNORE_CASE",@"") action:@selector(toggleIgnoreCase:) tag:kOptionMenuIgnoreCaseTag];
+			[self addItemToMenu:menu title:NSLocalizedString(@"FIND_REPLACE_PANEL_MENU_WRAP",@"") action:@selector(toggleWrapAround:) tag:kOptionMenuWrapAroundTag];
 
 			[menu addItem:[NSMenuItem separatorItem]];
-			[self addItemToMenu:menu title:@"Use Regular Expressions" action:@selector(toggleUseRegex:) tag:kOptionMenuUseRegularExpressionsTag];
+			[self addItemToMenu:menu title:NSLocalizedString(@"FIND_REPLACE_PANEL_MENU_USE_REGEX",@"") action:@selector(toggleUseRegex:) tag:kOptionMenuUseRegularExpressionsTag];
 
 			[menu addItem:[NSMenuItem separatorItem]];
-			[self addItemToMenu:menu title:@"Regular Expression Dialect" action:NULL tag:0];
+			[self addItemToMenu:menu title:NSLocalizedString(@"FIND_REPLACE_PANEL_MENU_REGEX_DIALECT",@"") action:NULL tag:0];
 			NSMenuItem *switchDialectMenuItem = [self addItemToMenu:menu title:@"<current selected dialect>" action:@selector(dummyAction:)	 tag:kOptionMenuSelectedLanguageDialectTag];
 			[switchDialectMenuItem setSubmenu:({
 				NSMenu *submenu = [NSMenu new];
@@ -383,10 +390,10 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 					[self addItemToMenu:submenu title:[SEEFindAndReplaceState regularExpressionSyntaxStringForSyntax:syntax] action:@selector(switchRegexSyntaxDialect:) tag:syntax];
 				}
 				[submenu addItem:[NSMenuItem separatorItem]];
-				[self addItemToMenu:submenu title:@"Extended" action:@selector(toggleRegexOption:) tag:kOptionMenuExtendedTag];
+				[self addItemToMenu:submenu title:NSLocalizedString(@"FIND_REPLACE_PANEL_MENU_EXTENDED",@"") action:@selector(toggleRegexOption:) tag:kOptionMenuExtendedTag];
 				[submenu addItem:[NSMenuItem separatorItem]];
-				[self addItemToMenu:submenu title:@"Escape Character: \\" action:@selector(switchEscapeCharacter:) tag:kOptionMenuEscapeCharacterSlashTag];
-				[self addItemToMenu:submenu title:@"Escape Character: ¥" action:@selector(switchEscapeCharacter:) tag:kOptionMenuEscapeCharacterYenTag];
+				[self addItemToMenu:submenu title:NSLocalizedString(@"FIND_REPLACE_PANEL_MENU_ESCAPE_SLASH",@"") action:@selector(switchEscapeCharacter:) tag:kOptionMenuEscapeCharacterSlashTag];
+				[self addItemToMenu:submenu title:NSLocalizedString(@"FIND_REPLACE_PANEL_MENU_ESCAPE_YEN",@"") action:@selector(switchEscapeCharacter:) tag:kOptionMenuEscapeCharacterYenTag];
 
 				
 				submenu;
@@ -395,18 +402,18 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 			// todo: addSubmenu
 
 			[menu addItem:[NSMenuItem separatorItem]];
-			[self addItemToMenu:menu title:@"Capture unnamed groups" action:@selector(toggleRegexOption:) tag:kOptionMenuCaptureGroupsTag];
-			[self addItemToMenu:menu title:@"Line context" action:@selector(toggleRegexOption:) tag:kOptionMenuLineContextTag];
-			[self addItemToMenu:menu title:@"Multiline" action:@selector(toggleRegexOption:) tag:kOptionMenuMultilineTag];
+			[self addItemToMenu:menu title:NSLocalizedString(@"FIND_REPLACE_PANEL_MENU_CAPTURE_GROUPS",@"") action:@selector(toggleRegexOption:) tag:kOptionMenuCaptureGroupsTag];
+			[self addItemToMenu:menu title:NSLocalizedString(@"FIND_REPLACE_PANEL_MENU_LINE_CONTEXT",@"") action:@selector(toggleRegexOption:) tag:kOptionMenuLineContextTag];
+			[self addItemToMenu:menu title:NSLocalizedString(@"FIND_REPLACE_PANEL_MENU_MULTILINE",@"") action:@selector(toggleRegexOption:) tag:kOptionMenuMultilineTag];
 			
 
 			[menu addItem:[NSMenuItem separatorItem]];
-			[self addItemToMenu:menu title:@"Find only longest match" action:@selector(toggleRegexOption:) tag:kOptionMenuOnlyLongestMatchTag];
-			[self addItemToMenu:menu title:@"Ignore empty matches" action:@selector(toggleRegexOption:) tag:kOptionMenuIgnoreEmptyMatchesTag];
+			[self addItemToMenu:menu title:NSLocalizedString(@"FIND_REPLACE_PANEL_MENU_ONLY_LONGEST",@"") action:@selector(toggleRegexOption:) tag:kOptionMenuOnlyLongestMatchTag];
+			[self addItemToMenu:menu title:NSLocalizedString(@"FIND_REPLACE_PANEL_MENU_IGNORE_EMPTY",@"") action:@selector(toggleRegexOption:) tag:kOptionMenuIgnoreEmptyMatchesTag];
 
 
 			[menu addItem:[NSMenuItem separatorItem]];
-			[self addItemToMenu:menu title:@"Open Regular Expression Help" action:@selector(openRegExHelp:) tag:0];
+			[self addItemToMenu:menu title:NSLocalizedString(@"FIND_REPLACE_PANEL_MENU_OPEN_HELP",@"") action:@selector(openRegExHelp:) tag:0];
 			menu;
 		});
 	}

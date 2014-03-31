@@ -39,6 +39,7 @@ extern NSString * const SEESearchScopeAttributeName;
 
 #pragma mark -
 - (NSString *)positionStringForRange:(NSRange)aRange;
+- (NSString *)rangeStringForRange:(NSRange)aRange;
 - (int)lineNumberForLocation:(unsigned)location;
 - (NSMutableArray *)lineStarts;
 - (void)setLineStartsOnlyValidUpTo:(unsigned int)aLocation;
