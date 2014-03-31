@@ -150,6 +150,7 @@ extern NSString * const PlainTextEditorDidChangeSearchScopeNotification;
 @property (nonatomic, readonly) NSValue *searchScopeValue;
 - (BOOL)hasSearchScopeInFullRange:(NSRange)aRange;
 - (BOOL)hasSearchScope;
+- (NSString *)searchScopeRangeString;
 - (IBAction)addCurrentSelectionToSearchScope:(id)aSender;
 - (IBAction)clearSearchScope:(id)aSender;
 
