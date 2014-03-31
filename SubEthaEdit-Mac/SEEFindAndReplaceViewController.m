@@ -58,11 +58,13 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 
 @interface SEEFindAndReplaceViewController () <NSMenuDelegate, TCMDragImageDelegate>
 @property (nonatomic, strong) NSMenu *optionsPopupMenu;
+@property (nonatomic, strong) NSMenu *recentsMenu;
 @property (nonatomic, strong) NSMutableSet *registeredNotifications;
 @property (nonatomic, readonly) SEETextView *targetTextView;
 @property (nonatomic, readonly) PlainTextEditor *targetPlainTextEditor;
 
 @property (nonatomic) NSInteger startHeightBeforeDrag;
+
 @end
 
 @implementation SEEFindAndReplaceViewController
@@ -378,6 +380,12 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 			[self addItemToMenu:menu title:NSLocalizedString(@"FIND_REPLACE_PANEL_MENU_WRAP",@"") action:@selector(toggleWrapAround:) tag:kOptionMenuWrapAroundTag];
 
 			[menu addItem:[NSMenuItem separatorItem]];
+			NSMenuItem *item = [menu addItemWithTitle:NSLocalizedString(@"FIND_REPLACE_PANEL_MENU_HISTORY_SUBMENU_TITLE", @"") action:NULL keyEquivalent:@""];
+			item.submenu = [NSMenu new];
+			item.submenu.delegate = self;
+			self.recentsMenu = item.submenu;
+			
+			[menu addItem:[NSMenuItem separatorItem]];
 			[self addItemToMenu:menu title:NSLocalizedString(@"FIND_REPLACE_PANEL_MENU_USE_REGEX",@"") action:@selector(toggleUseRegex:) tag:kOptionMenuUseRegularExpressionsTag];
 
 			[menu addItem:[NSMenuItem separatorItem]];
@@ -422,6 +430,32 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 
 - (BOOL)menu:(NSMenu *)menu updateItem:(NSMenuItem *)item atIndex:(NSInteger)index shouldCancel:(BOOL)shouldCancel {
 	return YES;
+}
+
+#pragma mark - NSMenu delegate
+
+- (NSInteger)numberOfItemsInMenu:(NSMenu *)menu {
+	NSInteger result = menu.itemArray.count;
+	if ([menu isEqual:self.recentsMenu]) {
+		result = [[FindReplaceController sharedInstance] findReplaceHistory].count;
+	}
+	return result;
+}
+
+- (void)menuWillOpen:(NSMenu *)menu {
+	if ([menu isEqual:self.recentsMenu]) {
+		[menu removeAllItems];
+		[[[FindReplaceController sharedInstance] findReplaceHistory] enumerateObjectsUsingBlock:^(SEEFindAndReplaceState *state, NSUInteger idx, BOOL *stop) {
+			NSMenuItem *item = [self addItemToMenu:menu title:state.menuTitleDescription action:@selector(takeFindAndReplaceStateFromMenuItem:) tag:0];
+			item.representedObject = state;
+		}];
+	}
+	//	NSLog(@"%s menu: %@",__FUNCTION__,menu);
+}
+
+- (void)takeFindAndReplaceStateFromMenuItem:(NSMenuItem *)anItem {
+	SEEFindAndReplaceState *state = anItem.representedObject;
+	[[FindReplaceController sharedInstance] takeGlobalFindAndReplaceStateValuesFromState:state];
 }
 
 #pragma mark - resize dragging

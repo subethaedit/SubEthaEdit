@@ -68,6 +68,12 @@ if (VALUE) { \
 } \
 self.regexOptions = options
 
+- (instancetype)copyWithZone:(NSZone *)zone {
+	SEEFindAndReplaceState *result = [SEEFindAndReplaceState new];
+	[result takeValuesFromDictionaryRepresentation:self.dictionaryRepresentation];
+	return result;
+}
+
 - (unsigned int)regexOptionsForExpressionBuilding {
 	unsigned int result = 0;
 	if (self.useRegex) {
@@ -276,6 +282,14 @@ self.regexOptions = options
 	   }];
 }
 
-
+- (NSString *)menuTitleDescription {
+	NSMutableArray *components = [NSMutableArray new];
+	[components addObject:[NSString stringWithFormat:@"›%@‹", self.findString]];
+	if (self.replaceString.length) {
+		[components addObject:[NSString stringWithFormat:@"›%@‹", self.replaceString]];
+	}
+	NSString *result = [components componentsJoinedByString:@" ➞ "];
+	return result;
+}
 
 @end

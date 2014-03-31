@@ -60,6 +60,10 @@ typedef enum {
 - (void)loadFindStringFromPasteboard;
 - (void)saveFindStringToPasteboard;
 
+/*! array of most recent SEEFindAndReplaceState */
+@property (nonatomic, readonly, strong) NSArray *findReplaceHistory;
+- (void)storeFindeReplaceStateInHistory:(SEEFindAndReplaceState *)aFindReplaceState;
+- (void)takeGlobalFindAndReplaceStateValuesFromState:(SEEFindAndReplaceState *)aFindAndReplaceState;
 
 - (void)signalErrorWithDescription:(NSString *)aDescription;
 
