@@ -54,33 +54,18 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 	}
 }
 
-- (id)init {
-    if ((self = [super initWithWindowNibName:@"PlainTextWindow"])) {
+- (instancetype)init {
+	self = [super initWithWindowNibName:@"PlainTextWindow"];
+    if (self) {
 		[self setShouldCascadeWindows:NO];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateForPortMapStatus) name:TCMPortMapperDidFinishWorkNotification object:[TCMPortMapper sharedInstance]];
     }
     return self;
 }
 
-- (void)updateForPortMapStatus {
-    BOOL isAnnounced = [(PlainTextDocument *)[self document] isAnnounced];
-    BOOL isServer = [[(PlainTextDocument *)[self document] session] isServer];
-    if (isAnnounced) {
-//        BOOL portMapped = ([[[[TCMPortMapper sharedInstance] portMappings] anyObject] mappingStatus] == TCMPortMappingStatusMapped);
-//        NSString *URLString = [[[[[self document] documentURL] absoluteString] componentsSeparatedByString:@"?"] objectAtIndex:0];
-//        [O_URLTextField setObjectValue:URLString];
-    } else if (isServer) {
-//        [O_URLTextField setObjectValue:NSLocalizedString(@"Document not announced.\nNo Document URL.",@"Text for document URL field when not announced")];
-    } else {
-//        [O_URLTextField setObjectValue:NSLocalizedString(@"Not your Document.\nNo Document URL.",@"Text for document URL field when not your document")];
-    }
-}
-
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
-    I_plainTextEditors = nil;
-    I_editorSplitView = nil;
     I_dialogSplitView = nil;
     I_documentDialog = nil;
     
@@ -104,17 +89,6 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     }
 }
 
-- (void)setInitialRadarStatusForPlainTextEditor:(PlainTextEditor *)editor {
-    PlainTextDocument *document=(PlainTextDocument *)[self document];
-    NSEnumerator *users=[[[[document session] participants] objectForKey:TCMMMSessionReadWriteGroupName] objectEnumerator];
-    TCMMMUser *user=nil;
-    while ((user=[users nextObject])) {
-        if (user != [TCMMMUserManager me]) {
-            [editor setRadarMarkForUser:user];
-        }
-    }
-}
-
 - (void)windowDidLoad {
 	NSWindow *window = self.window;
     [[window contentView] setAutoresizesSubviews:YES];
@@ -126,9 +100,9 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 //	[I_tabBar setTearOffStyle:PSMTabBarTearOffMiniwindow];
     [I_tabBar setStyleNamed:@"SubEthaEdit"];
 	[I_tabBar setAlwaysShowActiveTab:YES];
-	[I_tabBar setShowAddTabButton:YES];
 
 	// hook up add tab button
+	[I_tabBar setShowAddTabButton:YES];
 	[[I_tabBar addTabButton] setTarget:nil];
 	[[I_tabBar addTabButton] setAction:@selector(newDocumentInTab:)];
 
@@ -154,6 +128,34 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 	[self updateWindowMinSize];
 }
 
+
+#pragma mark -
+
+- (void)setInitialRadarStatusForPlainTextEditor:(PlainTextEditor *)editor {
+    PlainTextDocument *document=(PlainTextDocument *)[self document];
+    NSEnumerator *users=[[[[document session] participants] objectForKey:TCMMMSessionReadWriteGroupName] objectEnumerator];
+    TCMMMUser *user=nil;
+    while ((user=[users nextObject])) {
+        if (user != [TCMMMUserManager me]) {
+            [editor setRadarMarkForUser:user];
+        }
+    }
+}
+
+- (void)updateForPortMapStatus {
+//    BOOL isAnnounced = [(PlainTextDocument *)[self document] isAnnounced];
+//    BOOL isServer = [[(PlainTextDocument *)[self document] session] isServer];
+//    if (isAnnounced) {
+//        BOOL portMapped = ([[[[TCMPortMapper sharedInstance] portMappings] anyObject] mappingStatus] == TCMPortMappingStatusMapped);
+//        NSString *URLString = [[[[[self document] documentURL] absoluteString] componentsSeparatedByString:@"?"] objectAtIndex:0];
+//        [O_URLTextField setObjectValue:URLString];
+//    } else if (isServer) {
+//        [O_URLTextField setObjectValue:NSLocalizedString(@"Document not announced.\nNo Document URL.",@"Text for document URL field when not announced")];
+//    } else {
+//        [O_URLTextField setObjectValue:NSLocalizedString(@"Not your Document.\nNo Document URL.",@"Text for document URL field when not your document")];
+//    }
+}
+
 - (BOOL)isShowingFindAndReplaceInterface {
 	BOOL result = [self.plainTextEditors.firstObject isShowingFindAndReplaceInterface];
 	return result;
@@ -162,7 +164,6 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 - (IBAction)showFindAndReplaceInterface:(id)aSender {
 	[self.plainTextEditors.firstObject showFindAndReplace:aSender];
 }
-
 
 - (void)takeSettingsFromDocument {
     [self setShowsBottomStatusBar:[(PlainTextDocument *)[self document] showsBottomStatusBar]];
@@ -192,7 +193,6 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 	NSTabViewItem *result = self.tabView.selectedTabViewItem;
 	return result;
 }
-
 
 - (void)document:(PlainTextDocument *)document isReceivingContent:(BOOL)flag;
 {
@@ -292,7 +292,8 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 }
 
 - (void)setSizeByColumns:(NSInteger)aColumns rows:(NSInteger)aRows {
-    NSSize contentSize=[[I_plainTextEditors objectAtIndex:0] desiredSizeForColumns:aColumns rows:aRows];
+	PlainTextWindowControllerTabContext *tabContext = self.selectedTabContext;
+    NSSize contentSize=[[tabContext.plainTextEditors objectAtIndex:0] desiredSizeForColumns:aColumns rows:aRows];
     contentSize.width  = (NSInteger)(contentSize.width + 0.5);
     contentSize.height = (NSInteger)(contentSize.height + 0.5);
     NSWindow *window=[self window];
@@ -318,7 +319,8 @@ static NSPoint S_cascadePoint = {0.0,0.0};
             NSLocalizedString(@"Show Participants", nil)];
         return YES;
     } else if (selector == @selector(toggleBottomStatusBar:)) {
-        [menuItem setState:[[I_plainTextEditors lastObject] showsBottomStatusBar]?NSOnState:NSOffState];
+		PlainTextWindowControllerTabContext *tabContext = self.selectedTabContext;
+        [menuItem setState:[[tabContext.plainTextEditors lastObject] showsBottomStatusBar]?NSOnState:NSOffState];
         return YES;
     } else if (selector == @selector(toggleLineNumbers:)) {
         [menuItem setState:[self showsGutter]?NSOnState:NSOffState];
@@ -326,7 +328,8 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     } else if (selector == @selector(copyDocumentURL:)) {
         return [(PlainTextDocument *)[self document] isAnnounced];
     } else if (selector == @selector(toggleSplitView:)) {
-        [menuItem setTitle:[I_plainTextEditors count]==1?
+		PlainTextWindowControllerTabContext *tabContext = self.selectedTabContext;
+        [menuItem setTitle:[tabContext.plainTextEditors count]==1?
                            NSLocalizedString(@"Split View",@"Split View Menu Entry"):
                            NSLocalizedString(@"Collapse Split View",@"Collapse Split View Menu Entry")];
         
@@ -377,25 +380,6 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     }
     
     return YES;
-}
-
-- (NSArray *)plainTextEditors {
-    return I_plainTextEditors;
-}
-
-- (PlainTextEditor *)activePlainTextEditor {
-	PlainTextEditor *result = self.selectedTabContext.activePlainTextEditor;
-	return result;
-}
-
-- (PlainTextEditor *)activePlainTextEditorForDocument:(PlainTextDocument *)aDocument {
-	PlainTextEditor *result = nil;
-	NSTabViewItem *tabViewItem = [self tabViewItemForDocument:aDocument];
-    if (tabViewItem) {
-        PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
-		result = tabContext.activePlainTextEditor;
-    }
-	return result;
 }
 
 
@@ -472,74 +456,38 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 }
 
 - (BOOL)showsBottomStatusBar {
-    return [[I_plainTextEditors lastObject] showsBottomStatusBar];
+	PlainTextWindowControllerTabContext *tabContext = self.selectedTabContext;
+    return [[tabContext.plainTextEditors lastObject] showsBottomStatusBar];
 }
 
 - (void)setShowsBottomStatusBar:(BOOL)aFlag {
     BOOL showsBottomStatusBar=[self showsBottomStatusBar];
     if (showsBottomStatusBar!=aFlag) {
-        [[I_plainTextEditors lastObject] setShowsBottomStatusBar:aFlag];
+		PlainTextWindowControllerTabContext *tabContext = self.selectedTabContext;
+		[[tabContext.plainTextEditors lastObject] setShowsBottomStatusBar:aFlag];
         [[self document] setShowsBottomStatusBar:aFlag];
+		[self invalidateRestorableState];
     }
-}
-
-- (IBAction)openParticipantsOverlay:(id)aSender {
-
-	PlainTextEditor *editor = [[self plainTextEditors] lastObject];
-	if (editor) {
-		NSTabViewItem *tab = [I_tabView selectedTabViewItem];
-        PlainTextWindowControllerTabContext *context = (PlainTextWindowControllerTabContext *)[tab identifier];
-		SEEParticipantsOverlayViewController *participantsOverlay = [[[SEEParticipantsOverlayViewController alloc] initWithTabContext:context] autorelease];
-		[editor displayViewControllerInBottomArea:participantsOverlay];
-	}
-	
-}
-
-- (IBAction)closeParticipantsOverlay:(id)aSender {
-	PlainTextEditor *editor = [[self plainTextEditors] lastObject];
-	if (editor) {
-		[editor displayViewControllerInBottomArea:nil];
-	}
-}
-
-- (IBAction)toggleParticipantsOverlay:(id)sender {
-	PlainTextEditor *editor = [[self plainTextEditors] lastObject];
-	if (editor) {
-		if (editor.hasBottomOverlayView) {
-			[editor displayViewControllerInBottomArea:nil];
-		} else {
-			NSTabViewItem *tab = [I_tabView selectedTabViewItem];
-			PlainTextWindowControllerTabContext *context = (PlainTextWindowControllerTabContext *)[tab identifier];
-			SEEParticipantsOverlayViewController *participantsOverlay = [[[SEEParticipantsOverlayViewController alloc] initWithTabContext:context] autorelease];
-			[editor displayViewControllerInBottomArea:participantsOverlay];
-		}
-	}
-}
-
-- (IBAction)changePendingUsersAccess:(id)aSender {
-    [(PlainTextDocument *)[self document] changePendingUsersAccess:aSender];
-}
-
-- (IBAction)toggleBottomStatusBar:(id)aSender {
-    [self setShowsBottomStatusBar:![self showsBottomStatusBar]];
-    [(PlainTextDocument *)[self document] setShowsBottomStatusBar:[self showsBottomStatusBar]];
 }
 
 - (BOOL)showsGutter {
-    return [[I_plainTextEditors objectAtIndex:0] showsGutter];
+	PlainTextWindowControllerTabContext *tabContext = self.selectedTabContext;
+    return [[tabContext.plainTextEditors objectAtIndex:0] showsGutter];
 }
 
 - (void)setShowsGutter:(BOOL)aFlag {
-    for (id loopItem in I_plainTextEditors) {
+	PlainTextWindowControllerTabContext *tabContext = self.selectedTabContext;
+    for (id loopItem in tabContext.plainTextEditors) {
         [loopItem setShowsGutter:aFlag];
     }
     [[self document] setShowsGutter:aFlag];
+	[self invalidateRestorableState];
 }
 
 - (IBAction)toggleLineNumbers:(id)aSender {
     [self setShowsGutter:![self showsGutter]];
+	[self invalidateRestorableState];
 }
-
 
 - (IBAction)jumpToNextSymbol:(id)aSender {
     [[self activePlainTextEditor] jumpToNextSymbol:aSender];
@@ -558,7 +506,6 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     [[self activePlainTextEditor] jumpToPreviousChange:aSender];
 }
 
-
 - (IBAction)copyDocumentURL:(id)aSender {
 
     NSURL *documentURL = [[self document] documentURL];    
@@ -574,8 +521,8 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     [documentURL writeToPasteboard:pboard];
 }
 
-#pragma mark -
 
+#pragma mark -
 
 - (IBAction)toggleShowInvisibleCharacters:(id)aSender {
     [[self activePlainTextEditor] setShowsInvisibleCharacters:![[self activePlainTextEditor] showsInvisibleCharacters]];
@@ -584,6 +531,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 - (IBAction)toggleShowsChangeMarks:(id)aSender {
     [[self activePlainTextEditor] toggleShowsChangeMarks:aSender];
 }
+
 
 #pragma mark -
 
@@ -620,7 +568,6 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     [self synchronizeWindowTitleWithDocumentName];
 }
 
-
 - (void)participantsDataDidChange:(NSNotification *)aNotifcation {
 }
 
@@ -644,6 +591,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
         [[editor textView] setNeedsDisplay:YES];
     }
 }
+
 
 #pragma mark -
 
@@ -727,6 +675,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     return [self windowTitleForDocumentDisplayName:displayName document:(PlainTextDocument *)[self document]];
 }
 
+
 #pragma mark -
 
 - (void)updateWindowMinSize {
@@ -786,10 +735,8 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 	}
 }
 
-- (void)setActivePlainTextEditor:(PlainTextEditor *)activePlainTextEditor {
-	[self.selectedTabContext setActivePlainTextEditor:activePlainTextEditor];
-}
 
+#pragma mark - Dialog Split
 
 - (id)documentDialog {
     return I_documentDialog;
@@ -864,6 +811,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
             NSView *dialogView = [aDocumentDialog mainView];
 
             I_dialogSplitView = [[[SplitView alloc] initWithFrame:[tabItemView frame]] autorelease];
+			I_dialogSplitView.identifier = @"DialogSplit";
             I_dialogSplitView.delegate = [[[SEEDialogSplitViewDelegate alloc] initWithTabContext:tab.identifier] autorelease];
 
             [tabContext setDialogSplitView:I_dialogSplitView];
@@ -933,120 +881,96 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     [self setDocumentDialog:[[[EncodingDoctorDialog alloc] initWithEncoding:NSASCIIStringEncoding] autorelease]];
 }
 
+
+#pragma mark - Editor Split
+
 - (IBAction)toggleSplitView:(id)aSender {
 	NSTabViewItem *tab = [I_tabView selectedTabViewItem];
 	PlainTextWindowControllerTabContext *tabContext = (PlainTextWindowControllerTabContext *)[tab identifier];
-	NSMutableArray *plainTextEditors = tabContext.plainTextEditors;
 
-    if ([plainTextEditors count] == 1) {
-        PlainTextEditor *plainTextEditor = [[PlainTextEditor alloc] initWithWindowControllerTabContext:tabContext splitButton:NO];
-        [plainTextEditors addObject:plainTextEditor];
-        [plainTextEditor release];
+	if (tabContext.hasEditorSplit) {
+		tabContext.hasEditorSplit = NO;
+	} else {
+		tabContext.hasEditorSplit = YES;
+	}
+}
 
-        I_editorSplitView = [[[SplitView alloc] initWithFrame:[[[I_plainTextEditors objectAtIndex:0] editorView] frame]] autorelease];
-        I_editorSplitView.delegate = [[[SEEEditorSplitViewDelegate alloc] initWithTabContext:tabContext] autorelease];
-        tabContext.editorSplitView = I_editorSplitView;
-		tabContext.editorSplitViewDelegate = I_editorSplitView.delegate;
+#pragma mark Editors
 
-		NSSplitView *dialogSplitView = tabContext.dialogSplitView;
-		NSSplitView *webPreviewSplitView = tabContext.webPreviewSplitView;
-        if (dialogSplitView) {
-            [dialogSplitView addSubview:I_editorSplitView positioned:NSWindowBelow relativeTo:[[dialogSplitView subviews] objectAtIndex:1]];
-        } else if (webPreviewSplitView) {
-            [webPreviewSplitView addSubview:I_editorSplitView positioned:NSWindowAbove relativeTo:[[webPreviewSplitView subviews] objectAtIndex:0]];
-        } else {
-            [tab setView:I_editorSplitView];
-        }
+- (NSArray *)plainTextEditors {
+	PlainTextWindowControllerTabContext *tabContext = self.selectedTabContext;
+    return tabContext.plainTextEditors;
+}
 
-        NSSize splitSize = [I_editorSplitView frame].size;
-        splitSize.height = splitSize.height / 2.;
+- (PlainTextEditor *)activePlainTextEditor {
+	PlainTextEditor *result = self.selectedTabContext.activePlainTextEditor;
+	return result;
+}
 
-        [[[plainTextEditors objectAtIndex:0] editorView] setFrameSize:splitSize];
-        [[[plainTextEditors objectAtIndex:1] editorView] setFrameSize:splitSize];
+- (void)setActivePlainTextEditor:(PlainTextEditor *)activePlainTextEditor {
+	[self.selectedTabContext setActivePlainTextEditor:activePlainTextEditor];
+	[self invalidateRestorableState];
+}
 
-        [I_editorSplitView addSubview:[[plainTextEditors objectAtIndex:0] editorView]];
-        [I_editorSplitView addSubview:[[plainTextEditors objectAtIndex:1] editorView]];
-
-		[[plainTextEditors objectAtIndex:1] setShowsBottomStatusBar: [[I_plainTextEditors objectAtIndex:0] showsBottomStatusBar]];
-        [[plainTextEditors objectAtIndex:0] setShowsBottomStatusBar:NO];
-		[[plainTextEditors objectAtIndex:1] setShowsGutter:[[I_plainTextEditors objectAtIndex:0] showsGutter]];
-
-		[self setInitialRadarStatusForPlainTextEditor:[I_plainTextEditors objectAtIndex:1]];
-
-		// show participant overlay if split gets toggled
-		if ([[plainTextEditors objectAtIndex:0] hasBottomOverlayView]) {
-			[[plainTextEditors objectAtIndex:0] displayViewControllerInBottomArea:nil];
-			SEEParticipantsOverlayViewController *participantsOverlay = [[[SEEParticipantsOverlayViewController alloc] initWithTabContext:tabContext] autorelease];
-			[[plainTextEditors objectAtIndex:1] displayViewControllerInBottomArea:participantsOverlay];
-		}
-
-    } else if ([plainTextEditors count] == 2) {
-		//Preserve scroll position of second editor, if it is currently the selected one.
-        id fr = [[self window] firstResponder];
-        NSRect visibleRect = NSZeroRect;
-        if (fr == [[I_plainTextEditors objectAtIndex:1] textView]) {
-            visibleRect = [[[I_plainTextEditors objectAtIndex:1] textView] visibleRect];
-            [[[I_plainTextEditors objectAtIndex:0] textView] setSelectedRange:[[[I_plainTextEditors objectAtIndex:1] textView] selectedRange]];
-        }
-
-		NSSplitView *dialogSplitView = tabContext.dialogSplitView;
-		NSSplitView *webPreviewSplitView = tabContext.webPreviewSplitView;
-        if (dialogSplitView) {
-            NSView *editorView = [[I_plainTextEditors objectAtIndex:0] editorView];
-            [editorView setFrame:[I_editorSplitView frame]];
-            [dialogSplitView addSubview:editorView positioned:NSWindowBelow relativeTo:I_editorSplitView];
-            [I_editorSplitView removeFromSuperview];
-		} else if (webPreviewSplitView) {
-			NSView *editorView = [[I_plainTextEditors objectAtIndex:0] editorView];
-            [editorView setFrame:[I_editorSplitView frame]];
-            [webPreviewSplitView addSubview:editorView positioned:NSWindowBelow relativeTo:I_editorSplitView];
-            [I_editorSplitView removeFromSuperview];
-        } else {
-            [tab setView:[[I_plainTextEditors objectAtIndex:0] editorView]];
-            [tab setInitialFirstResponder:[[I_plainTextEditors objectAtIndex:0] editorView]];
-        }
-
-        NSTabViewItem *tabViewItem = [self tabViewItemForDocument:[self document]];
-        if (tabViewItem) {
-			[[tabViewItem identifier] setEditorSplitView:nil];
-		}
-
-		PlainTextEditor *editorToClose = [plainTextEditors objectAtIndex:1];
-		
-		// show participant overlay if split gets toggled
- 		if ([editorToClose hasBottomOverlayView]) {
-			[editorToClose displayViewControllerInBottomArea:nil];
-			SEEParticipantsOverlayViewController *participantsOverlay = [[[SEEParticipantsOverlayViewController alloc] initWithTabContext:[tabViewItem identifier]] autorelease];
-			[[plainTextEditors objectAtIndex:0] displayViewControllerInBottomArea:participantsOverlay];
-		}
-
-		[[plainTextEditors objectAtIndex:0] setShowsBottomStatusBar:[editorToClose showsBottomStatusBar]];
-		[editorToClose prepareForDealloc];
-        [plainTextEditors removeObjectAtIndex:1];
-        I_editorSplitView = nil;
-
-		// restore scroll position of second editor if it was the selected one
-        if (!NSEqualRects(NSZeroRect,visibleRect)) {
-            [[[plainTextEditors objectAtIndex:0] textView] scrollRectToVisible:visibleRect];
-        }
+- (PlainTextEditor *)activePlainTextEditorForDocument:(PlainTextDocument *)aDocument {
+	PlainTextEditor *result = nil;
+	NSTabViewItem *tabViewItem = [self tabViewItemForDocument:aDocument];
+    if (tabViewItem) {
+        PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
+		result = tabContext.activePlainTextEditor;
     }
-
-    [[plainTextEditors objectAtIndex:0] setIsSplit:[I_plainTextEditors count] != 1];
-
-    NSTextView *textView = [[plainTextEditors objectAtIndex:0] textView];
-    NSRange selectedRange = [textView selectedRange];
-    [textView scrollRangeToVisible:selectedRange];
-
-    if ([plainTextEditors count] == 2) {
-        [[[plainTextEditors objectAtIndex:1] textView] scrollRangeToVisible:selectedRange];
-    }
-	
-	[self updateWindowMinSize];
-    [[self window] makeFirstResponder:textView];
+	return result;
 }
 
 
-#pragma mark - web preview
+#pragma mark - Participants Overlay
+
+- (IBAction)openParticipantsOverlay:(id)aSender {
+
+	PlainTextEditor *editor = [[self plainTextEditors] lastObject];
+	if (editor) {
+		NSTabViewItem *tab = [I_tabView selectedTabViewItem];
+        PlainTextWindowControllerTabContext *context = (PlainTextWindowControllerTabContext *)[tab identifier];
+		SEEParticipantsOverlayViewController *participantsOverlay = [[[SEEParticipantsOverlayViewController alloc] initWithTabContext:context] autorelease];
+		[editor displayViewControllerInBottomArea:participantsOverlay];
+	}
+
+}
+
+- (IBAction)closeParticipantsOverlay:(id)aSender {
+	PlainTextEditor *editor = [[self plainTextEditors] lastObject];
+	if (editor) {
+		[editor displayViewControllerInBottomArea:nil];
+	}
+}
+
+- (IBAction)toggleParticipantsOverlay:(id)sender {
+	PlainTextEditor *editor = [[self plainTextEditors] lastObject];
+	if (editor) {
+		if (editor.hasBottomOverlayView) {
+			[editor displayViewControllerInBottomArea:nil];
+		} else {
+			NSTabViewItem *tab = [I_tabView selectedTabViewItem];
+			PlainTextWindowControllerTabContext *context = (PlainTextWindowControllerTabContext *)[tab identifier];
+			SEEParticipantsOverlayViewController *participantsOverlay = [[[SEEParticipantsOverlayViewController alloc] initWithTabContext:context] autorelease];
+			[editor displayViewControllerInBottomArea:participantsOverlay];
+		}
+		[self invalidateRestorableState];
+	}
+}
+
+- (IBAction)changePendingUsersAccess:(id)aSender {
+    [(PlainTextDocument *)[self document] changePendingUsersAccess:aSender];
+}
+
+- (IBAction)toggleBottomStatusBar:(id)aSender {
+    [self setShowsBottomStatusBar:![self showsBottomStatusBar]];
+    [(PlainTextDocument *)[self document] setShowsBottomStatusBar:[self showsBottomStatusBar]];
+	[self invalidateRestorableState];
+}
+
+
+#pragma mark - WebPreview Split
 
 - (IBAction)toggleWebPreview:(id)sender {
 	NSResponder *oldFirstResponder = self.window.firstResponder;
@@ -1079,6 +1003,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 		[viewRepresentedByTab removeFromSuperview];
 
 		NSSplitView *webPreviewSplitView = [[[NSSplitView alloc] initWithFrame:viewRepresentedByTab.frame] autorelease];
+		webPreviewSplitView.identifier = @"WebPreviewSplit";
 		webPreviewSplitView.delegate = [[[SEEWebPreviewSplitViewDelegate alloc] initWithTabContext:tabContext] autorelease];
 		webPreviewSplitView.vertical = YES;
 		webPreviewSplitView.dividerStyle = NSSplitViewDividerStyleThin;
@@ -1100,8 +1025,8 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 	}
 
 	[self updateWindowMinSize];
-
     [[self window] makeFirstResponder:oldFirstResponder];
+	[self invalidateRestorableState];
 }
 
 - (IBAction)refreshWebPreview:(id)aSender {
@@ -1117,8 +1042,10 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 #pragma mark - Window restoration
 
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
-//	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
+//	NSLog(@"%s - %d : %@", __FUNCTION__, __LINE__, [self.document displayName]);
 	[super encodeRestorableStateWithCoder:coder];
+
+	PlainTextDocument *selectedDocument = self.document;
 
 	NSMutableArray *tabNames = [NSMutableArray array];
 	for (PlainTextDocument *tabDocument in self.orderedDocuments) {
@@ -1135,7 +1062,10 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 		NSKeyedArchiver *tabCoder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:tabData];
 		[tabCoder setOutputFormat:NSPropertyListXMLFormat_v1_0];
 		[tabContext encodeRestorableStateWithCoder:tabCoder];
-		[tabDocument encodeRestorableStateWithCoder:tabCoder];
+		if (tabDocument != selectedDocument) {
+			[tabItem.view encodeRestorableStateWithCoder:tabCoder];
+			[tabDocument encodeRestorableStateWithCoder:tabCoder];
+		}
 		[tabCoder finishEncoding];
 		[coder encodeObject:tabData forKey:tabName];
 
@@ -1148,7 +1078,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 }
 
 - (void)restoreStateWithCoder:(NSCoder *)coder {
-//	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
+	NSLog(@"%s - %d : %@", __FUNCTION__, __LINE__, [self.document displayName]);
 	[super restoreStateWithCoder:coder];
 
 	PlainTextDocument *selectedDocument = self.document;
@@ -1166,8 +1096,9 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 		if (tabCoder) {
 			[tabContext restoreStateWithCoder:tabCoder];
 
-			// -restoreStateWithCoder on the selected document will be called by the window default implementation afterwards
+			// -restoreStateWithCoder on the selected document and view will be called by the window default implementation afterwards
 			if (tabDocument != selectedDocument) {
+				[tabItem.view restoreStateWithCoder:tabCoder];
 				[tabDocument restoreStateWithCoder:tabCoder];
 			}
 		}
@@ -1176,8 +1107,8 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 	}
 }
 
-#pragma mark -
-#pragma mark ### window delegation  ###
+
+#pragma mark - NSWindowDelegate
 
 - (NSRect)windowWillUseStandardFrame:(NSWindow *)sender defaultFrame:(NSRect)defaultFrame {
     if (!([[NSApp currentEvent] modifierFlags] & NSShiftKeyMask)) {
@@ -1253,8 +1184,8 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     }
 }
 
-#pragma mark - NSWindow Delegate
-#pragma mark Fullscreen
+
+#pragma mark - NSWindowDelegate - Fullscreen
 
 - (NSArray *)allMyFindAllWindowControllers {
 	NSMutableArray *result = [NSMutableArray new];
@@ -1509,13 +1440,9 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     }
 }
 
-- (NSArray *)plainTextEditorsForDocument:(id)aDocument
-{
+- (NSArray *)plainTextEditorsForDocument:(id)aDocument {
     NSMutableArray *editors = [NSMutableArray array];
-    unsigned count = [[self documents] count];
-    unsigned i;
-    for (i = 0; i < count; i++) {
-        PlainTextDocument *document = [[self documents] objectAtIndex:i];
+    for (PlainTextDocument *document in self.documents) {
         if ([document isEqual:aDocument]) {
             NSTabViewItem *tabViewItem = [self tabViewItemForDocument:document];
             if (tabViewItem) {
@@ -1538,13 +1465,11 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     }
 }
 
-- (IBAction)closeTab:(id)sender
-{
+- (IBAction)closeTab:(id)sender {
     [[self document] canCloseDocumentWithDelegate:self shouldCloseSelector:@selector(document:shouldClose:contextInfo:) contextInfo:nil];
 }
 
-- (void)closeAllTabsAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
-{
+- (void)closeAllTabsAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
     [[alert window] orderOut:self];
 
     if (returnCode == NSAlertFirstButtonReturn) {
@@ -1560,8 +1485,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     }
 }
 
-- (void)closeAllTabs
-{
+- (void)closeAllTabs {
     NSArray *documents = [self documents];
     unsigned count = [documents count];
     unsigned needsSaving = 0;
@@ -1571,9 +1495,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
     while (count--) {
         PlainTextDocument *document = [documents objectAtIndex:count];
-        if (document &&
-            [document isDocumentEdited])
-        {
+        if (document && [document isDocumentEdited]) {
             needsSaving++;
 
             if ([[document windowControllers] count] > 1)
@@ -1633,15 +1555,13 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     
 }
 
-- (void)reviewChangesAndQuitEnumeration:(BOOL)cont
-{
+- (void)reviewChangesAndQuitEnumeration:(BOOL)cont{
     if (cont) {
         NSArray *documents = [self documents];
         unsigned count = [documents count];
         while (count--) {
             PlainTextDocument *document = [documents objectAtIndex:count];
-            if ([document isDocumentEdited] && [self selectTabForDocument:document])
-			{
+            if ([document isDocumentEdited] && [self selectTabForDocument:document]) {
                 [document canCloseDocumentWithDelegate:self
                                    shouldCloseSelector:@selector(reviewedDocument:shouldClose:contextInfo:)
                                            contextInfo:@selector(reviewChangesAndQuitEnumeration:)];
@@ -1661,20 +1581,18 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     // if we get to here, either cont was YES and we reviewed all documents, or cont was NO and we don't want to quit
 }
 
-#pragma mark -
-#pragma mark  A Method That PlainTextDocument Invokes 
 
+#pragma mark - A Method That PlainTextDocument Invokes
 
-- (void)documentWillClose:(NSDocument *)document 
-{
+- (void)documentWillClose:(NSDocument *)document {
     // Record the document that's closing. We'll just remove it from our list when this object receives a -close message.
     I_documentBeingClosed = document;
 }
 
-#pragma mark  Private KVC-Compliance for Public Properties 
 
-- (void)insertObject:(NSDocument *)document inDocumentsAtIndex:(NSUInteger)index
-{
+#pragma mark - Private KVC-Compliance for Public Properties
+
+- (void)insertObject:(NSDocument *)document inDocumentsAtIndex:(NSUInteger)index {
     // Instantiate the documents array lazily.
     if (!I_documents) {
         I_documents = [[NSMutableArray alloc] init];
@@ -1682,9 +1600,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     [I_documents insertObject:document atIndex:index];
 }
 
-
-- (void)removeObjectFromDocumentsAtIndex:(NSUInteger)index
-{
+- (void)removeObjectFromDocumentsAtIndex:(NSUInteger)index {
     // Instantiate the documents array lazily, if only to get a useful exception thrown.
     if (!I_documents) {
         I_documents = [[NSMutableArray alloc] init];
@@ -1736,14 +1652,14 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
         PlainTextEditor *plainTextEditor = [[PlainTextEditor alloc] initWithWindowControllerTabContext:tabContext splitButton:YES];
         [[self window] setInitialFirstResponder:[plainTextEditor textView]];
+		plainTextEditor.editorView.identifier = @"FirstEditor";
                     
         [[tabContext plainTextEditors] addObject:plainTextEditor];
-        I_plainTextEditors = [tabContext plainTextEditors];
 
-        I_editorSplitView = nil;
         I_dialogSplitView = nil;
 
         NSTabViewItem *tab = [[NSTabViewItem alloc] initWithIdentifier:tabContext];
+		tabContext.tab = tab;
         [tab setLabel:[document displayName]];
         [tab setView:[plainTextEditor editorView]];
         [tab setInitialFirstResponder:[plainTextEditor textView]];
@@ -1758,15 +1674,12 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     return nil;
 }
 
-- (void)setDocument:(NSDocument *)document 
-{
+- (void)setDocument:(NSDocument *)document {
     if (document == [self document]) {
         [super setDocument:document];
         NSTabViewItem *tabViewItem = [self tabViewItemForDocument:(PlainTextDocument *)document];
         if (tabViewItem) {
             PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
-            I_plainTextEditors = [tabContext plainTextEditors];
-            I_editorSplitView = [tabContext editorSplitView];
             I_dialogSplitView = [tabContext dialogSplitView];
         } 
         return;
@@ -1792,24 +1705,17 @@ static NSPoint S_cascadePoint = {0.0,0.0};
             NSTabViewItem *tabViewItem = [self tabViewItemForDocument:(PlainTextDocument *)document];
             if (tabViewItem) {
                 PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
-                I_plainTextEditors = [tabContext plainTextEditors];
-                I_editorSplitView = [tabContext editorSplitView];
                 I_dialogSplitView = [tabContext dialogSplitView];
-                if ([I_plainTextEditors count] > 0) {
-                    [[self window] setInitialFirstResponder:[[I_plainTextEditors objectAtIndex:0] textView]];
+                if ([tabContext.plainTextEditors count] > 0) {
+                    [[self window] setInitialFirstResponder:[[tabContext.plainTextEditors objectAtIndex:0] textView]];
                 }
                 [I_tabView selectTabViewItem:tabViewItem];
             } else {
-                I_plainTextEditors = nil;
-                I_editorSplitView = nil;
                 I_dialogSplitView = nil;
             }
         }
     } else {
-        I_plainTextEditors = nil;
-        I_editorSplitView = nil;
         I_dialogSplitView = nil;
-        //[I_tabView selectTabViewItemAtIndex:0];
     }
 
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
@@ -1860,46 +1766,46 @@ static NSPoint S_cascadePoint = {0.0,0.0};
         while ((editor = [editors nextObject])) {
             [editor updateViews];
         }
-    
-        if (isNew) {            
+
+        if (isNew) {
             DocumentMode *mode = [(PlainTextDocument *)document documentMode];
-            [self setSizeByColumns:[[mode defaultForKey:DocumentModeColumnsPreferenceKey] intValue] 
+            [self setSizeByColumns:[[mode defaultForKey:DocumentModeColumnsPreferenceKey] intValue]
                               rows:[[mode defaultForKey:DocumentModeRowsPreferenceKey] intValue]];
         }
-        
-        [center addObserver:self 
-                                                 selector:@selector(sessionWillChange:)
-                                                     name:PlainTextDocumentSessionWillChangeNotification 
-                                                   object:[self document]];
-        [center addObserver:self 
-                                                 selector:@selector(sessionDidChange:)
-                                                     name:PlainTextDocumentSessionDidChangeNotification 
-                                                   object:[self document]];
 
-        [center addObserver:self 
-                                                 selector:@selector(participantsDataDidChange:)
-                                                     name:PlainTextDocumentParticipantsDataDidChangeNotification 
-                                                   object:[self document]];
+        [center addObserver:self
+				   selector:@selector(sessionWillChange:)
+					   name:PlainTextDocumentSessionWillChangeNotification
+					 object:[self document]];
+        [center addObserver:self
+				   selector:@selector(sessionDidChange:)
+					   name:PlainTextDocumentSessionDidChangeNotification
+					 object:[self document]];
 
-        [center addObserver:self 
-                                                 selector:@selector(participantsDidChange:)
-                                                     name:TCMMMSessionParticipantsDidChangeNotification 
-                                                   object:[(PlainTextDocument *)[self document] session]];
+        [center addObserver:self
+				   selector:@selector(participantsDataDidChange:)
+					   name:PlainTextDocumentParticipantsDataDidChangeNotification
+					 object:[self document]];
 
-        [center addObserver:self 
-                                                 selector:@selector(pendingUsersDidChange:)
-                                                     name:TCMMMSessionPendingUsersDidChangeNotification 
-                                                   object:[(PlainTextDocument *)[self document] session]];
+        [center addObserver:self
+				   selector:@selector(participantsDidChange:)
+					   name:TCMMMSessionParticipantsDidChangeNotification
+					 object:[(PlainTextDocument *)[self document] session]];
 
-        [center addObserver:self 
-                                                 selector:@selector(MMSessionDidChange:)
-                                                     name:TCMMMSessionDidChangeNotification 
-                                                   object:[(PlainTextDocument *)[self document] session]];
-                                                   
-        [center addObserver:self 
-                                                 selector:@selector(displayNameDidChange:)
-                                                     name:PlainTextDocumentDidChangeDisplayNameNotification 
-                                                   object:[self document]];
+        [center addObserver:self
+				   selector:@selector(pendingUsersDidChange:)
+					   name:TCMMMSessionPendingUsersDidChangeNotification
+					 object:[(PlainTextDocument *)[self document] session]];
+
+        [center addObserver:self
+				   selector:@selector(MMSessionDidChange:)
+					   name:TCMMMSessionDidChangeNotification
+					 object:[(PlainTextDocument *)[self document] session]];
+
+        [center addObserver:self
+				   selector:@selector(displayNameDidChange:)
+					   name:PlainTextDocumentDidChangeDisplayNameNotification
+					 object:[self document]];
 
         [center postNotificationName:@"PlainTextWindowControllerDocumentDidChangeNotification" object:self];
     }
@@ -1907,15 +1813,14 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 }
 
 
-- (void)close
-{
+- (void)close {
     //NSLog(@"%s",__FUNCTION__);
     // A document is being closed, and trying to close this window controller. Is it the last document for this window controller?
     NSArray *documents = [self documents];
     NSUInteger oldDocumentCount = [documents count];
-	
+
 	PlainTextWindowControllerTabContext *contextToClose = nil;
-	
+
     if (I_documentBeingClosed && oldDocumentCount > 1) {
         NSTabViewItem *tabViewItem = [self tabViewItemForDocument:(PlainTextDocument *)I_documentBeingClosed];
         if (tabViewItem) {
@@ -1926,7 +1831,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
         id document = nil;
         BOOL keepCurrentDocument = ![[self document] isEqual:I_documentBeingClosed];
         if (keepCurrentDocument) document = [self document];
-        
+
         [I_documentBeingClosed removeWindowController:self];
 
         // There are other documents open. Just remove the document being closed from our list.
@@ -1966,10 +1871,10 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 	[contextToClose release];
 }
 
-#pragma mark PSMTabBarControlDelegate
 
-- (void)tabView:(NSTabView *)tabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem
-{
+#pragma mark - PSMTabBarControlDelegate
+
+- (void)tabView:(NSTabView *)tabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem {
     PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
     id document = [tabContext document];
     if ([[self documents] containsObject:document]) {
@@ -1983,8 +1888,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     }
 }
 
-- (void)document:(NSDocument *)doc shouldClose:(BOOL)shouldClose contextInfo:(void *)contextInfo
-{
+- (void)document:(NSDocument *)doc shouldClose:(BOOL)shouldClose contextInfo:(void *)contextInfo {
     if (shouldClose) {
         NSArray *windowControllers = [doc windowControllers];
         NSUInteger windowControllerCount = [windowControllers count];
@@ -1999,21 +1903,18 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     }
 }
 
-- (BOOL)tabView:(NSTabView *)tabView shouldCloseTabViewItem:(NSTabViewItem *)tabViewItem
-{
+- (BOOL)tabView:(NSTabView *)tabView shouldCloseTabViewItem:(NSTabViewItem *)tabViewItem {
     id document = [[tabViewItem identifier] document];
     [document canCloseDocumentWithDelegate:self shouldCloseSelector:@selector(document:shouldClose:contextInfo:) contextInfo:nil];
 
     return NO;
 }
 
-- (BOOL)tabView:(NSTabView*)aTabView shouldDragTabViewItem:(NSTabViewItem *)tabViewItem fromTabBar:(PSMTabBarControl *)tabBarControl
-{
+- (BOOL)tabView:(NSTabView*)aTabView shouldDragTabViewItem:(NSTabViewItem *)tabViewItem fromTabBar:(PSMTabBarControl *)tabBarControl {
 	return YES;
 }
 
-- (BOOL)tabView:(NSTabView*)aTabView shouldDropTabViewItem:(NSTabViewItem *)tabViewItem inTabBar:(PSMTabBarControl *)tabBarControl
-{
+- (BOOL)tabView:(NSTabView*)aTabView shouldDropTabViewItem:(NSTabViewItem *)tabViewItem inTabBar:(PSMTabBarControl *)tabBarControl {
     if ([[tabBarControl window] attachedSheet]) {
         return NO;
     }
@@ -2028,8 +1929,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 	return YES;
 }
 
-- (NSImage *)tabView:(NSTabView *)aTabView imageForTabViewItem:(NSTabViewItem *)tabViewItem offset:(NSSize *)offset styleMask:(NSUInteger *)styleMask
-{
+- (NSImage *)tabView:(NSTabView *)aTabView imageForTabViewItem:(NSTabViewItem *)tabViewItem offset:(NSSize *)offset styleMask:(NSUInteger *)styleMask {
 	[[self window] disableFlushWindow];
     NSTabViewItem *oldItem = [aTabView selectedTabViewItem];
     [aTabView selectTabViewItem:tabViewItem];
@@ -2082,8 +1982,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 	return viewImage;
 }
 
-- (PSMTabBarControl *)tabView:(NSTabView *)aTabView newTabBarForDraggedTabViewItem:(NSTabViewItem *)tabViewItem atPoint:(NSPoint)point
-{
+- (PSMTabBarControl *)tabView:(NSTabView *)aTabView newTabBarForDraggedTabViewItem:(NSTabViewItem *)tabViewItem atPoint:(NSPoint)point {
 	BOOL shouldCreateFullscreenWindow = NO;
 
 	if ([aTabView isEqual:I_tabView] && (aTabView.window.styleMask & NSFullScreenWindowMask) == NSFullScreenWindowMask) {
@@ -2129,8 +2028,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 	return [controller tabBar];
 }
 
-- (void)tabView:(NSTabView *)aTabView didDropTabViewItem:(NSTabViewItem *)tabViewItem inTabBar:(PSMTabBarControl *)tabBarControl
-{
+- (void)tabView:(NSTabView *)aTabView didDropTabViewItem:(NSTabViewItem *)tabViewItem inTabBar:(PSMTabBarControl *)tabBarControl {
     if ([[self window] isMainWindow]) {
         // update window menu
         [[SEEDocumentController sharedInstance] updateTabMenu];
@@ -2171,32 +2069,15 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     }
 }
 
-
-- (void)tabView:(NSTabView *)aTabView closeWindowForLastTabViewItem:(NSTabViewItem *)tabViewItem
-{
+- (void)tabView:(NSTabView *)aTabView closeWindowForLastTabViewItem:(NSTabViewItem *)tabViewItem {
 	[[self window] close];
 }
 
-- (BOOL)tabView:(NSTabView *)aTabView validateOverflowMenuItem:(NSMenuItem *)menuItem forTabViewItem:(NSTabViewItem *)tabViewItem
-{
-/* TODO: compatiblity fix
-    int offset = floor(NSAppKitVersionNumber)>NSAppKitVersionNumber10_4 ? 1 : 0 ;//NSAppKitVersionNumber10_4 - need an offset for leopard
-    PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
-    PlainTextDocument *document = [tabContext document];
-    if ([document isDocumentEdited]) {
-        SetItemMark(_NSGetCarbonMenu([menuItem menu]), [[menuItem menu] indexOfItem:menuItem]+offset, kBulletCharCode);
-    } else {
-        SetItemMark(_NSGetCarbonMenu([menuItem menu]), [[menuItem menu] indexOfItem:menuItem]+offset, noMark);
-    }
-
-    if ([I_tabView selectedTabViewItem] == tabViewItem)
-        SetItemMark(_NSGetCarbonMenu([menuItem menu]), [[menuItem menu] indexOfItem:menuItem]+offset, checkMark);
-*/
+- (BOOL)tabView:(NSTabView *)aTabView validateOverflowMenuItem:(NSMenuItem *)menuItem forTabViewItem:(NSTabViewItem *)tabViewItem {
     return YES;
 }
 
-- (NSString *)tabView:(NSTabView *)aTabView toolTipForTabViewItem:(NSTabViewItem *)tabViewItem
-{
+- (NSString *)tabView:(NSTabView *)aTabView toolTipForTabViewItem:(NSTabViewItem *)tabViewItem {
     PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
     PlainTextDocument *document = [tabContext document];
     return [self windowTitleForDocumentDisplayName:[document displayName] document:document];
