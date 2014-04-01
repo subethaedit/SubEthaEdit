@@ -50,6 +50,8 @@
 
 @implementation SEETextView
 
+#define VERTICAL_INSET 2.0
+
 - (id)delegate {
 	return (id)super.delegate;
 }
@@ -71,6 +73,7 @@
 	if ([enclosingScrollView isKindOfClass:[SEEPlainTextEditorScrollView class]]) {
 		NSSize currentInset = [self textContainerInset];
 		CGFloat height = (enclosingScrollView.topOverlayHeight + enclosingScrollView.bottomOverlayHeight) / 2.0;
+		height = height + VERTICAL_INSET;
 		if (height != currentInset.height) {
 			currentInset.height = height;
 			[self setTextContainerInset:currentInset];
@@ -92,7 +95,7 @@
 	}
     NSPoint origin = self.cachedTextContainerOrigin;
 	if ([enclosingScrollView isKindOfClass:[SEEPlainTextEditorScrollView class]]) {
-		origin = NSMakePoint(origin.x, enclosingScrollView.topOverlayHeight);
+		origin = NSMakePoint(origin.x, enclosingScrollView.topOverlayHeight + VERTICAL_INSET);
 	}
 	return origin;
 }
