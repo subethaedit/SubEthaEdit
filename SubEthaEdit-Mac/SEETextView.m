@@ -41,7 +41,6 @@
 
 @interface SEETextView () 
 @property (nonatomic, readonly) PlainTextDocument *document;
-@property (nonatomic, assign) CGFloat additionalFrameHeight;
 @property (nonatomic) NSPoint cachedTextContainerOrigin;
 @end
 
@@ -50,6 +49,8 @@
 @end
 
 @implementation SEETextView
+
+#define VERTICAL_INSET 2.0
 
 - (id)delegate {
 	return (id)super.delegate;
@@ -72,39 +73,35 @@
 	if ([enclosingScrollView isKindOfClass:[SEEPlainTextEditorScrollView class]]) {
 		NSSize currentInset = [self textContainerInset];
 		CGFloat height = (enclosingScrollView.topOverlayHeight + enclosingScrollView.bottomOverlayHeight) / 2.0;
+		height = height + VERTICAL_INSET;
 		if (height != currentInset.height) {
 			currentInset.height = height;
 			[self setTextContainerInset:currentInset];
-			[self setFrameSize:self.frame.size];
+			LayoutManager *layoutManager = (LayoutManager *)[self layoutManager];
+			[layoutManager forceTextViewGeometryUpdate];
 		}
 	}
+}
+
+- (void)setFrameSize:(NSSize)newSize {
+	[super setFrameSize:newSize];
 }
 
 - (NSPoint)textContainerOrigin {
 	SEEPlainTextEditorScrollView *enclosingScrollView = (SEEPlainTextEditorScrollView *)self.enclosingScrollView;
 	// doing this to not cause havoc if the textstorage is being edited during the resize
-	if (self.textStorage.editedMask != 0) {
+	if (self.textStorage.editedMask == 0) {
 		self.cachedTextContainerOrigin = [super textContainerOrigin];
 	}
     NSPoint origin = self.cachedTextContainerOrigin;
 	if ([enclosingScrollView isKindOfClass:[SEEPlainTextEditorScrollView class]]) {
-		origin = NSMakePoint(origin.x, enclosingScrollView.topOverlayHeight);
+		origin = NSMakePoint(origin.x, enclosingScrollView.topOverlayHeight + VERTICAL_INSET);
 	}
 	return origin;
 }
 
-- (void)setFrameSize:(NSSize)newSize {
-	SEEPlainTextEditorScrollView *enclosingScrollView = (SEEPlainTextEditorScrollView *)self.enclosingScrollView;
-	if ([enclosingScrollView isKindOfClass:[SEEPlainTextEditorScrollView class]]) {
-		CGFloat additionalFrameHeight = enclosingScrollView.topOverlayHeight + enclosingScrollView.bottomOverlayHeight;
-		newSize = NSMakeSize(newSize.width, newSize.height + additionalFrameHeight - self.additionalFrameHeight);
-		self.additionalFrameHeight = additionalFrameHeight;
-	}
-	[super setFrameSize:newSize];
-}
 
 static NSMenu *S_defaultMenu=nil;
-
 
 + (NSMenu *)defaultMenu {
     return S_defaultMenu;
