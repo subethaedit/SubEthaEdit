@@ -40,10 +40,10 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
 @property (nonatomic, readonly) NSString *localizedBaseURLLabelText;
 @property (nonatomic, readonly) NSString *localizedRefreshModePopupToolTip;
 @property (nonatomic, readonly) NSString *localizedManualRefreshButtonToolTip;
-@property (nonatomic, readonly) NSString *localizedManualRefreshPopupItemAutomatic;
-@property (nonatomic, readonly) NSString *localizedManualRefreshPopupItemDelayed;
-@property (nonatomic, readonly) NSString *localizedManualRefreshPopupItemOnSave;
-@property (nonatomic, readonly) NSString *localizedManualRefreshPopupItemManual;
+@property (nonatomic, readonly) NSString *localizedRefreshModePopupItemAutomatic;
+@property (nonatomic, readonly) NSString *localizedRefreshModePopupItemDelayed;
+@property (nonatomic, readonly) NSString *localizedRefreshModePopupItemOnSave;
+@property (nonatomic, readonly) NSString *localizedRefreshModePopupItemManual;
 
 @property (nonatomic, weak) id documentDidChangeObserver;
 @property (nonatomic, weak) id documentDidSaveObserver;
@@ -249,22 +249,22 @@ NSScrollView * firstScrollView(NSView *aView) {
 
 // PopUp Refresh Menu Items
 
-- (NSString *)localizedManualRefreshPopupItemAutomatic {
+- (NSString *)localizedRefreshModePopupItemAutomatic {
 	NSString *string = NSLocalizedStringWithDefaultValue(@"WEB_PREVIEW_REFRESH_POPUP_AUTOMATIC", nil, [NSBundle mainBundle], @"automatic", @"Web Preview - Refresh Popup Item - Automatic");
 	return string;
 }
 
-- (NSString *)localizedManualRefreshPopupItemDelayed {
+- (NSString *)localizedRefreshModePopupItemDelayed {
 	NSString *string = NSLocalizedStringWithDefaultValue(@"WEB_PREVIEW_REFRESH_POPUP_DELAYED", nil, [NSBundle mainBundle], @"delayed", @"Web Preview - Refresh Popup Item - Delayed");
 	return string;
 }
 
-- (NSString *)localizedManualRefreshPopupItemOnSave {
+- (NSString *)localizedRefreshModePopupItemOnSave {
 	NSString *string = NSLocalizedStringWithDefaultValue(@"WEB_PREVIEW_REFRESH_POPUP_ON_SAVE", nil, [NSBundle mainBundle], @"on save", @"Web Preview - Refresh Popup Item - On Save");
 	return string;
 }
 
-- (NSString *)localizedManualRefreshPopupItemManual {
+- (NSString *)localizedRefreshModePopupItemManual {
 	NSString *string = NSLocalizedStringWithDefaultValue(@"WEB_PREVIEW_REFRESH_POPUP_MANUAL", nil, [NSBundle mainBundle], @"manually", @"Web Preview - Refresh Popup Item - Manual");
 	return string;
 }
