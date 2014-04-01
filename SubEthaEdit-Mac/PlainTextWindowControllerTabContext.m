@@ -266,8 +266,9 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 		[viewRepresentedByTab removeFromSuperview];
 
 		NSSplitView *webPreviewSplitView = [[NSSplitView alloc] initWithFrame:viewRepresentedByTab.frame];
+		SEEWebPreviewSplitViewDelegate* webPreviewSplitDelegate = [[SEEWebPreviewSplitViewDelegate alloc] initWithTabContext:self];
 		webPreviewSplitView.identifier = @"WebPreviewSplit";
-		webPreviewSplitView.delegate = [[SEEWebPreviewSplitViewDelegate alloc] initWithTabContext:self];
+		webPreviewSplitView.delegate = webPreviewSplitDelegate;
 		webPreviewSplitView.vertical = YES;
 		webPreviewSplitView.dividerStyle = NSSplitViewDividerStyleThin;
 		webPreviewSplitView.autoresizesSubviews = YES;
@@ -283,7 +284,7 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 		[webPreviewViewController refreshAndEmptyCache:self];
 
 		self.webPreviewViewController = webPreviewViewController;
-		self.webPreviewSplitViewDelegate = webPreviewSplitView.delegate;
+		self.webPreviewSplitViewDelegate = webPreviewSplitDelegate;
 		self.webPreviewSplitView = webPreviewSplitView;
 	}
 
