@@ -9,6 +9,10 @@
 #import "PlainTextWindowControllerTabContext.h"
 #import "PlainTextDocument.h"
 #import "PlainTextWindowController.h"
+
+#import "PlainTextEditor.h"
+#import "WebPreviewViewController.h"
+
 #import "SEEParticipantsOverlayViewController.h"
 #import "PlainTextLoadProgress.h"
 #import "SplitView.h"
@@ -21,11 +25,14 @@
 NSString * const SEEPlainTextWindowControllerTabContextActiveEditorDidChangeNotification = @"SEEPlainTextWindowControllerTabContextActiveEditorDidChangeNotification";
 
 void * const SEEPlainTextWindowControllerTabContextHasEditorSplitObservanceContext = (void *)&SEEPlainTextWindowControllerTabContextHasEditorSplitObservanceContext;
+void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceContext = (void *)&SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceContext;
 
 @interface PlainTextWindowControllerTabContext ()
 - (void)registerKVO;
 - (void)unregisterKVO;
+
 - (void)updateEditorSplitView;
+- (void)updateWebPreviewSplitView;
 @end
 
 @implementation PlainTextWindowControllerTabContext
@@ -52,10 +59,12 @@ void * const SEEPlainTextWindowControllerTabContextHasEditorSplitObservanceConte
 
 - (void)registerKVO {
 	[self addObserver:self forKeyPath:@"hasEditorSplit" options:0 context:SEEPlainTextWindowControllerTabContextHasEditorSplitObservanceContext];
+	[self addObserver:self forKeyPath:@"hasWebPreviewSplit" options:0 context:SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceContext];
 }
 
 - (void)unregisterKVO {
 	[self removeObserver:self forKeyPath:@"hasEditorSplit" context:SEEPlainTextWindowControllerTabContextHasEditorSplitObservanceContext];
+	[self removeObserver:self forKeyPath:@"hasWebPreviewSplit" context:SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceContext];
 }
 
 
@@ -63,6 +72,8 @@ void * const SEEPlainTextWindowControllerTabContextHasEditorSplitObservanceConte
 {
     if (context == SEEPlainTextWindowControllerTabContextHasEditorSplitObservanceContext) {
 		[self updateEditorSplitView];
+    } else if (context == SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceContext) {
+		[self updateWebPreviewSplitView];
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
@@ -223,11 +234,69 @@ void * const SEEPlainTextWindowControllerTabContextHasEditorSplitObservanceConte
 }
 
 
+#pragma mark - Preview Split
+
+- (void)updateWebPreviewSplitView {
+	NSView *viewRepresentedByTab = self.tab.view;
+	NSResponder *oldFirstResponder = self.tab.tabView.window.firstResponder;
+
+	if (!self.hasWebPreviewSplit && viewRepresentedByTab == self.webPreviewSplitView) {
+		NSView *webView = viewRepresentedByTab.subviews.firstObject;
+		if ([oldFirstResponder isKindOfClass:[NSView class]] && [((NSView *)oldFirstResponder) isDescendantOf:webView]) {
+			oldFirstResponder = self.activePlainTextEditor.textView;
+		}
+
+		NSView *editorView = viewRepresentedByTab.subviews.lastObject;
+		[editorView removeFromSuperview];
+		editorView.frame = viewRepresentedByTab.frame;
+		[viewRepresentedByTab removeFromSuperview];
+
+		self.webPreviewSplitView.delegate = nil;
+		self.webPreviewSplitViewDelegate = nil;
+		self.webPreviewSplitView = nil;
+
+		self.webPreviewViewController = nil;
+
+		editorView.autoresizesSubviews = YES;
+		editorView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+		[self.tab setView:editorView];
+	} else if (self.hasWebPreviewSplit && self.webPreviewSplitView == nil) {
+		[viewRepresentedByTab removeFromSuperview];
+
+		NSSplitView *webPreviewSplitView = [[NSSplitView alloc] initWithFrame:viewRepresentedByTab.frame];
+		webPreviewSplitView.identifier = @"WebPreviewSplit";
+		webPreviewSplitView.delegate = [[SEEWebPreviewSplitViewDelegate alloc] initWithTabContext:self];
+		webPreviewSplitView.vertical = YES;
+		webPreviewSplitView.dividerStyle = NSSplitViewDividerStyleThin;
+		webPreviewSplitView.autoresizesSubviews = YES;
+		webPreviewSplitView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+		[self.tab setView:webPreviewSplitView];
+
+		WebPreviewViewController *webPreviewViewController = [[WebPreviewViewController alloc] initWithPlainTextDocument:self.document];
+
+		[webPreviewSplitView addSubview:webPreviewViewController.view];
+		[webPreviewSplitView addSubview:viewRepresentedByTab];
+		[webPreviewSplitView adjustSubviews];
+
+		[webPreviewViewController refreshAndEmptyCache:self];
+
+		self.webPreviewViewController = webPreviewViewController;
+		self.webPreviewSplitViewDelegate = webPreviewSplitView.delegate;
+		self.webPreviewSplitView = webPreviewSplitView;
+	}
+
+	PlainTextWindowController *windowController = (PlainTextWindowController *)[self.tab.tabView.window windowController];
+	[windowController updateWindowMinSize];
+    [windowController.window makeFirstResponder:oldFirstResponder];
+}
+
+
+
 #pragma mark - Restorable State
 
 + (NSArray *)restorableStateKeyPaths {
 	NSArray *restorableStateKeyPaths = [super restorableStateKeyPaths];
-	return [restorableStateKeyPaths arrayByAddingObjectsFromArray:@[@"hasEditorSplit"]];
+	return [restorableStateKeyPaths arrayByAddingObjectsFromArray:@[@"hasEditorSplit", @"hasWebPreviewSplit"]];
 }
 
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
@@ -251,6 +320,7 @@ void * const SEEPlainTextWindowControllerTabContextHasEditorSplitObservanceConte
 	[coder encodeObject:documentURLBookmark forKey:@"SEETabContextDocumentURLBookmark"];
 	[coder encodeObject:documentAutosaveURLBookmark forKey:@"SEETabContextDocumentAutosaveURLBookmark"];
 	[coder encodeBool:self.hasEditorSplit forKey:@"SEETabContextHasEditorSplit"];
+	[coder encodeBool:self.hasWebPreviewSplit forKey:@"SEETabContextHasWebPreviewSplit"];
 }
 
 - (void)restoreStateWithCoder:(NSCoder *)coder {
@@ -259,6 +329,9 @@ void * const SEEPlainTextWindowControllerTabContextHasEditorSplitObservanceConte
 
 	BOOL hasEditorSplit = [coder decodeBoolForKey:@"SEETabContextHasEditorSplit"];
 	self.hasEditorSplit = hasEditorSplit;
+
+	BOOL hasWebPreviewSplit = [coder decodeBoolForKey:@"SEETabContextHasWebPreviewSplit"];
+	self.hasWebPreviewSplit = hasWebPreviewSplit;
 }
 
 @end
