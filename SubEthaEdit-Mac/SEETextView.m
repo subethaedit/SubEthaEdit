@@ -75,15 +75,17 @@
 		if (height != currentInset.height) {
 			currentInset.height = height;
 			[self setTextContainerInset:currentInset];
-			[self setFrameSize:self.frame.size];
+			[[self layoutManager] textContainerChangedGeometry:[self textContainer]];
+			//			[self setFrameSize:self.frame.size];
 		}
 	}
 }
 
+
 - (NSPoint)textContainerOrigin {
 	SEEPlainTextEditorScrollView *enclosingScrollView = (SEEPlainTextEditorScrollView *)self.enclosingScrollView;
 	// doing this to not cause havoc if the textstorage is being edited during the resize
-	if (self.textStorage.editedMask != 0) {
+	if (self.textStorage.editedMask == 0) {
 		self.cachedTextContainerOrigin = [super textContainerOrigin];
 	}
     NSPoint origin = self.cachedTextContainerOrigin;
@@ -93,6 +95,8 @@
 	return origin;
 }
 
+
+/*
 - (void)setFrameSize:(NSSize)newSize {
 	SEEPlainTextEditorScrollView *enclosingScrollView = (SEEPlainTextEditorScrollView *)self.enclosingScrollView;
 	if ([enclosingScrollView isKindOfClass:[SEEPlainTextEditorScrollView class]]) {
@@ -101,7 +105,7 @@
 		self.additionalFrameHeight = additionalFrameHeight;
 	}
 	[super setFrameSize:newSize];
-}
+}*/
 
 static NSMenu *S_defaultMenu=nil;
 

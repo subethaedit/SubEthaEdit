@@ -505,6 +505,9 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     // trigger the notfications for the first time
     [self sessionDidChange:nil];
     [self participantsDidChange:nil];
+
+	// make sure we start out right
+	[I_textView adjustContainerInsetToScrollView];
 }
 
 
