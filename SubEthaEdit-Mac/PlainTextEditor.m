@@ -100,6 +100,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 @property (nonatomic, strong) SEEFindAndReplaceViewController *findAndReplaceController;
 
 @property (nonatomic, strong) NSLayoutConstraint *topStatusBarPinConstraint;
+@property (nonatomic, strong) NSLayoutConstraint *bottomOverlayViewPinConstraint;
 
 - (void)	TCM_updateStatusBar;
 - (void)	TCM_updateBottomStatusBar;
@@ -158,6 +159,21 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 											[NSLayoutConstraint constraintWithItem:statusBarView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeWidth multiplier:1.0 constant:CGRectGetHeight(statusBarView.bounds)],
 											]];
 			[self updateTopPinConstraints];
+		}
+		
+		// change the bottom status bar to use constraints
+		{
+			NSView *statusBarView = self.O_bottomStatusBarView;
+			NSView *containerView = statusBarView.superview;
+			[statusBarView removeFromSuperview];
+			
+			[statusBarView setTranslatesAutoresizingMaskIntoConstraints:NO];
+			[containerView addSubview:statusBarView];
+			[containerView addConstraints:@[
+											[NSLayoutConstraint constraintWithItem:statusBarView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:containerView attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0],
+											[NSLayoutConstraint constraintWithItem:statusBarView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeWidth multiplier:1.0 constant:CGRectGetHeight(statusBarView.bounds)],
+											[NSLayoutConstraint constraintWithItem:statusBarView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:containerView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0]
+											]];
 		}
 		
     }
@@ -1348,27 +1364,22 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	if (displayedViewController != viewController) {
 		if (displayedViewController) {
 			NSView *bottomOverlayView = displayedViewController.view;
-			NSRect bottomOverlayFrame = bottomOverlayView.frame;
 			[bottomOverlayView removeFromSuperview];
 			self.bottomOverlayViewController = nil;
-
-			O_scrollView.bottomOverlayHeight -= NSHeight(bottomOverlayFrame);
 		}
 
 		if (viewController) {
 			NSView *bottomOverlayView = viewController.view;
-
-			NSRect bottomOverlayFrame = bottomOverlayView.frame;
-			bottomOverlayFrame.origin.y = O_scrollView.bottomOverlayHeight;
-			bottomOverlayFrame.size.width = [self.O_editorView frame].size.width;
-			bottomOverlayView.frame = bottomOverlayFrame;
-
-			[self.O_editorView addSubview:bottomOverlayView];
-			O_scrollView.bottomOverlayHeight += NSHeight(bottomOverlayFrame);
+			NSView *superview = self.O_editorView;
+			[superview addSubview:bottomOverlayView];
+			// width
+			[superview addConstraint:[NSLayoutConstraint constraintWithItem:bottomOverlayView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeWidth multiplier:1 constant:0]];
 
 			self.bottomOverlayViewController = viewController;
 		}
 	}
+	[self updateBottomScrollViewInset];
+	[self updateBottomPinConstraints];
 	[self TCM_updateLocalizedToolTips];
 	[self adjustToScrollViewInsets];
 }
@@ -1386,6 +1397,19 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	}
 	self.topStatusBarPinConstraint = [NSLayoutConstraint constraintWithItem:topStatusBarView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:(topOverlayView ?: containerView) attribute:topOverlayView ? NSLayoutAttributeBottom : NSLayoutAttributeTop multiplier:1.0 constant:0.0];
 	[containerView addConstraint:self.topStatusBarPinConstraint];
+}
+
+- (void)updateBottomPinConstraints {
+	NSView *bottomStatusBarView = self.O_bottomStatusBarView;
+	NSView *containerView = bottomStatusBarView.superview.superview;
+	NSView *bottomOverlayView = self.bottomOverlayViewController.view;
+	if (self.bottomOverlayViewPinConstraint) {
+		[containerView removeConstraint:self.bottomOverlayViewPinConstraint];
+	}
+	if (bottomOverlayView) {
+		self.bottomOverlayViewPinConstraint = [NSLayoutConstraint constraintWithItem:bottomOverlayView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:(bottomStatusBarView.isHidden ? containerView : bottomStatusBarView) attribute:bottomStatusBarView.isHidden ? NSLayoutAttributeBottom : NSLayoutAttributeTop multiplier:1.0 constant:0.0];
+		[containerView addConstraint:self.bottomOverlayViewPinConstraint];
+	}
 }
 
 - (void)displayViewControllerInTopArea:(NSViewController *)aViewController {
@@ -1822,6 +1846,18 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	O_scrollView.topOverlayHeight = result;
 }
 
+- (void)updateBottomScrollViewInset {
+	CGFloat result = 0.0;
+	if (self.showsBottomStatusBar) {
+		result += NSHeight(self.O_bottomStatusBarView.frame);
+	}
+	if (self.bottomOverlayViewController.view) {
+		[self.bottomOverlayViewController.view.window layoutIfNeeded];
+		result += NSHeight(self.bottomOverlayViewController.view.frame);
+	}
+	O_scrollView.bottomOverlayHeight = result;
+}
+
 - (BOOL)showsTopStatusBar
 {
     return I_flags.showTopStatusBar;
@@ -1852,38 +1888,29 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 
-- (BOOL)showsBottomStatusBar
-{
+- (BOOL)showsBottomStatusBar {
     return I_flags.showBottomStatusBar;
 }
 
-
-- (void)setShowsBottomStatusBar:(BOOL)aFlag
-{
-    if (I_flags.showBottomStatusBar != aFlag)
-    {
-		NSViewController *bottomOverlayViewController = [self.bottomOverlayViewController retain];
-		[self displayViewControllerInBottomArea:nil];
-		
+- (void)setShowsBottomStatusBar:(BOOL)aFlag {
+	
+    if (I_flags.showBottomStatusBar != aFlag) {
         I_flags.showBottomStatusBar = !I_flags.showBottomStatusBar;
 
 		if (! I_flags.showBottomStatusBar) {
 			self.bottomStatusBarViewBackgroundFilters = self.O_bottomStatusBarView.layer.backgroundFilters;
 			self.O_bottomStatusBarView.layer.backgroundFilters = nil;
-			O_scrollView.bottomOverlayHeight -= NSHeight(self.O_bottomStatusBarView.frame);
 		} else {
 			self.O_bottomStatusBarView.layer.backgroundFilters = self.bottomStatusBarViewBackgroundFilters;
 			self.bottomStatusBarViewBackgroundFilters = nil;
-			O_scrollView.bottomOverlayHeight += NSHeight(self.O_bottomStatusBarView.frame);
 		}
 
-		[self TCM_updateBottomStatusBar];
+		[self updateBottomScrollViewInset];
 
         [self.O_bottomStatusBarView setHidden:!I_flags.showBottomStatusBar];
         [self.O_bottomStatusBarView setNeedsDisplay:YES];
-
-		[self displayViewControllerInBottomArea:bottomOverlayViewController];
-		[bottomOverlayViewController release];
+		[self updateBottomPinConstraints];
+		[self TCM_updateBottomStatusBar];
     }
 }
 
