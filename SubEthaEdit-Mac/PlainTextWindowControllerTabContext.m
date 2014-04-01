@@ -259,6 +259,7 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 
 		self.webPreviewViewController = nil;
 
+		editorView.translatesAutoresizingMaskIntoConstraints = YES;
 		editorView.autoresizesSubviews = YES;
 		editorView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
 		[self.tab setView:editorView];
