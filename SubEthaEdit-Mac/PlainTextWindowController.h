@@ -18,10 +18,8 @@
 @interface PlainTextWindowController : NSWindowController <NSMenuDelegate,PSMTabBarControlDelegate>
  {
     // Pointers to the current instances
-    NSSplitView *I_editorSplitView;
     NSSplitView *I_dialogSplitView;
     id I_documentDialog;
-    NSMutableArray *I_plainTextEditors;
     
     struct {
         BOOL zoomFix_defaultFrameHadEqualWidth;
@@ -40,6 +38,7 @@
 
 }
 
+- (void)setInitialRadarStatusForPlainTextEditor:(PlainTextEditor *)editor;
 - (IBAction)changePendingUsersAccess:(id)aSender;
 - (NSArray *)plainTextEditors;
 

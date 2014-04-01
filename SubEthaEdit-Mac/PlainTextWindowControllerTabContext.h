@@ -20,6 +20,8 @@ extern NSString * const SEEPlainTextWindowControllerTabContextActiveEditorDidCha
 @class PlainTextWindowController, WebPreviewViewController, PlainTextDocument, PlainTextLoadProgress;
 
 @interface PlainTextWindowControllerTabContext : NSResponder
+
+@property (nonatomic, weak) NSTabViewItem *tab;
 @property (nonatomic, strong) PlainTextDocument *document;
 
 @property (nonatomic, strong) NSSplitView *editorSplitView;
@@ -43,5 +45,7 @@ extern NSString * const SEEPlainTextWindowControllerTabContextActiveEditorDidCha
 @property (nonatomic, assign) BOOL isEdited;
 @property (nonatomic, strong) NSImage *icon;
 @property (nonatomic, strong) NSString *iconName;
+
+@property (nonatomic, assign) BOOL hasEditorSplit;
 
 @end

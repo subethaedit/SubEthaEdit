@@ -8,9 +8,9 @@
     </head>
 
     <states>
-        <default id="Base" color="#408000" font-weight="normal" font-style="normal" scope="meta.default">
+        <default id="Base" scope="meta.default">
 
-            <keywords id="Commands" color="#0b0bff" inverted-color="#4939ff" useforautocomplete="yes" scope="keyword.subroutine">
+            <keywords id="Commands" useforautocomplete="yes" scope="keyword.subroutine">
                 <string>close</string>
                 <string>copy</string>
                 <string>count</string>
@@ -30,7 +30,7 @@
                 <string>save</string>
             </keywords>
             
-            <keywords id="Variable Assigments" color="#0b0bff" inverted-color="#4939ff" font-weight="bold" useforautocomplete="yes" scope="keyword">
+            <keywords id="Variable Assigments" useforautocomplete="yes" scope="keyword">
                 <string>set</string>
                 <string>copy</string>
                 <string>global</string>
@@ -39,7 +39,7 @@
                 <string>prop</string>
             </keywords>
             
-            <keywords id="Operators" color="#0b0bff" inverted-color="#4939ff" font-weight="bold" useforautocomplete="yes" scope="language.operator">
+            <keywords id="Operators" useforautocomplete="yes" scope="language.operator">
                 <string>my</string>
                 <string>on</string>
                 <string>of</string>
@@ -85,7 +85,7 @@
                 <regex>(a reference to)</regex>
             </keywords>
             
-            <keywords id="Control Statements" color="#0b0bff" inverted-color="#4939ff" font-weight="bold" useforautocomplete="yes" scope="keyword.control">
+            <keywords id="Control Statements" useforautocomplete="yes" scope="keyword.control">
                 <string>tell</string>
                 <string>if</string>
                 <string>else</string>
@@ -103,7 +103,7 @@
                 <string>then</string>
             </keywords>
             
-            <keywords id="References" color="#0b0bff" inverted-color="#4939ff" font-weight="bold" useforautocomplete="yes" scope="keyword">
+            <keywords id="References" useforautocomplete="yes" scope="keyword">
                 <string>some</string>
                 <string>every</string>
                 <string>whose</string>
@@ -127,7 +127,7 @@
                 <string>named</string>
             </keywords>
             
-            <keywords id="Constants" casesensitive="no" color="#0b0bff" inverted-color="#4939ff" useforautocomplete="yes" scope="keyword">
+            <keywords id="Constants" casesensitive="no" useforautocomplete="yes" scope="keyword">
                 <regex>(application responses)</regex>
                 <string>id</string>
                 <string>case</string>
@@ -203,7 +203,7 @@
                 <string>weeks</string>
             </keywords>
             
-            <keywords id="Predefined Variables" casesensitive="no" color="#0b0bff" inverted-color="#4939ff" useforautocomplete="yes" scope="keyword">
+            <keywords id="Predefined Variables" casesensitive="no" useforautocomplete="yes" scope="keyword">
                 <string>it</string>
                 <string>me</string>
                 <string>version</string>
@@ -216,7 +216,7 @@
                 <regex>(missing value)</regex>
             </keywords>
             
-            <keywords id="Numbers" color="#000" useforautocomplete="no" scope="language.constant.numeric">
+            <keywords id="Numbers" useforautocomplete="no" scope="language.constant.numeric">
                 <regex>([-&amp;+\*\\\(\)])</regex>
 				<regex>[^[A-Za-z]]([0-9]*\.*[0-9]+)[^[A-Za-z]]</regex>
 				<regex>(^[0-9]*\.*[0-9]+)[^[A-Za-z]]</regex>
@@ -224,21 +224,21 @@
 				<regex>(0x[0-9a-fA-F]+)</regex>
             </keywords>
             
-            <keywords id="Characters" color="#00f" inverted-color="#4939ff" useforautocomplete="no" scope="language.constant.numeric.character">
+            <keywords id="Characters" useforautocomplete="no" scope="language.constant.numeric.character">
 				<regex>'.'</regex>
             </keywords>
             
-            <state id="Comment" type="comment" color="#8d8d8d" font-style="italic" scope="comment.block">
+            <state id="Comment" type="comment" scope="comment.block">
                 <begin><string>\(\*</string></begin>
                 <end><regex>\*\)</regex></end>
             </state>
             
-            <state id="SingleComment" type="comment" color="#8d8d8d" font-style="italic" scope="comment.line">
+            <state id="SingleComment" type="comment" scope="comment.line">
                 <begin><string>--</string></begin>
                 <end><regex>[\n\r]</regex></end>
             </state>
             
-            <state id="String" type="string" color="#000" scope="string.double">
+            <state id="String" type="string" scope="string.double">
                 <begin><string>@?"</string></begin>
                 <end><regex>((?&lt;!\\)(\\\\)*)"</regex></end>
             </state>
