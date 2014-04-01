@@ -32,7 +32,7 @@
 #import "URLBubbleWindow.h"
 #import "SEEParticipantsOverlayViewController.h"
 #import "SEETabStyle.h"
-#import "WebPreviewViewController.h"
+#import "SEEWebPreviewViewController.h"
 #import "FindAllController.h"
 #import <objc/objc-runtime.h>			// for objc_msgSend
 

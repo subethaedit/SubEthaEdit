@@ -22,7 +22,7 @@ enum {
 
 
 @class FoldableTextStorage, TCMMMSession, TCMMMOperation, DocumentMode, EncodingPopUpButton, 
-       PlainTextWindowController, WebPreviewViewController,
+       PlainTextWindowController, SEEWebPreviewViewController,
        DocumentProxyWindowController, FindAllController, UndoManager, TextOperation, TCMMMLoggingState, FontForwardingTextField, PlainTextEditor;
 
 extern NSString * const PlainTextDocumentSessionWillChangeNotification;

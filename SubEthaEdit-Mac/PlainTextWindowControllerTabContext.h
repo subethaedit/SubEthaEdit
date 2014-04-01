@@ -17,7 +17,7 @@
 
 extern NSString * const SEEPlainTextWindowControllerTabContextActiveEditorDidChangeNotification;
 
-@class PlainTextWindowController, WebPreviewViewController, PlainTextDocument, PlainTextLoadProgress;
+@class PlainTextWindowController, SEEWebPreviewViewController, PlainTextDocument, PlainTextLoadProgress;
 
 @interface PlainTextWindowControllerTabContext : NSResponder
 
@@ -35,7 +35,7 @@ extern NSString * const SEEPlainTextWindowControllerTabContextActiveEditorDidCha
 
 @property (nonatomic, strong) NSSplitView *webPreviewSplitView;
 @property (nonatomic, strong) SEEWebPreviewSplitViewDelegate *webPreviewSplitViewDelegate;
-@property (nonatomic, strong) WebPreviewViewController *webPreviewViewController;
+@property (nonatomic, strong) SEEWebPreviewViewController *webPreviewViewController;
 
 @property (nonatomic, assign) BOOL isReceivingContent;
 @property (nonatomic, assign) BOOL isAlertScheduled;

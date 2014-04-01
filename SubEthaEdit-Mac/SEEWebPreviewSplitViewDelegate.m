@@ -12,7 +12,7 @@
 
 #import "SEEWebPreviewSplitViewDelegate.h"
 #import "PlainTextWindowControllerTabContext.h"
-#import "WebPreviewViewController.h"
+#import "SEEWebPreviewViewController.h"
 
 @interface SEEWebPreviewSplitViewDelegate ()
 @property (nonatomic, weak) PlainTextWindowControllerTabContext *tabContext;

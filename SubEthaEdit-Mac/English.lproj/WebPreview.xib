@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5053" systemVersion="13D28" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5053"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="WebPreviewViewController">
+        <customObject id="-2" userLabel="File's Owner" customClass="SEEWebPreviewViewController">
             <connections>
                 <outlet property="oBaseUrlTextField" destination="25" id="27"/>
                 <outlet property="oRefreshButton" destination="16" id="28"/>
@@ -36,12 +36,12 @@
                             <font key="font" metaFont="smallSystem"/>
                             <menu key="menu" title="OtherViews" id="20">
                                 <items>
-                                    <menuItem title="automatic" state="on" tag="1" id="17">
+                                    <menuItem title="automatic" tag="1" id="17">
                                         <connections>
                                             <binding destination="-2" name="title" keyPath="self.localizedManualRefreshPopupItemAutomatic" id="wCz-g9-LVh"/>
                                         </connections>
                                     </menuItem>
-                                    <menuItem title="delayed" tag="4" id="43">
+                                    <menuItem title="delayed" state="on" tag="4" id="43">
                                         <connections>
                                             <binding destination="-2" name="title" keyPath="self.localizedManualRefreshPopupItemDelayed" id="pnZ-JZ-HJp"/>
                                         </connections>

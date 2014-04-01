@@ -161,7 +161,7 @@
 		1428946909575B9700D14688 /* SplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428945909575B9700D14688 /* SplitView.m */; };
 		1428946B09575B9700D14688 /* SEETextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428945D09575B9700D14688 /* SEETextView.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		1428946C09575B9700D14688 /* URLDataProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428945F09575B9700D14688 /* URLDataProtocol.m */; };
-		1428946D09575B9700D14688 /* WebPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428946109575B9700D14688 /* WebPreviewViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		1428946D09575B9700D14688 /* SEEWebPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428946109575B9700D14688 /* SEEWebPreviewViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		142894A409575FF200D14688 /* TextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 142894A309575FF200D14688 /* TextFieldCell.m */; };
 		142894AF0957609300D14688 /* MoreCFQ.c in Sources */ = {isa = PBXBuildFile; fileRef = 14289109095744C100D14688 /* MoreCFQ.c */; };
 		142894B00957609300D14688 /* MoreSecurity.c in Sources */ = {isa = PBXBuildFile; fileRef = 1428910B095744C100D14688 /* MoreSecurity.c */; };
@@ -895,8 +895,8 @@
 		1428945D09575B9700D14688 /* SEETextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEETextView.m; sourceTree = "<group>"; };
 		1428945E09575B9700D14688 /* URLDataProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = URLDataProtocol.h; sourceTree = "<group>"; };
 		1428945F09575B9700D14688 /* URLDataProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLDataProtocol.m; sourceTree = "<group>"; };
-		1428946009575B9700D14688 /* WebPreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = WebPreviewViewController.h; sourceTree = "<group>"; };
-		1428946109575B9700D14688 /* WebPreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebPreviewViewController.m; sourceTree = "<group>"; };
+		1428946009575B9700D14688 /* SEEWebPreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SEEWebPreviewViewController.h; sourceTree = "<group>"; };
+		1428946109575B9700D14688 /* SEEWebPreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEWebPreviewViewController.m; sourceTree = "<group>"; };
 		1428947E09575E0500D14688 /* SubEthaEditSuite.scriptSuite */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = SubEthaEditSuite.scriptSuite; sourceTree = "<group>"; };
 		1428947F09575E0500D14688 /* SubEthaEditSuite.scriptTerminology */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = SubEthaEditSuite.scriptTerminology; sourceTree = "<group>"; };
 		142894A209575FF200D14688 /* TextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = TextFieldCell.h; sourceTree = "<group>"; };
@@ -1860,8 +1860,8 @@
 				5E57298D09F514FB00D3746B /* Toolbar.m */,
 				1428945E09575B9700D14688 /* URLDataProtocol.h */,
 				1428945F09575B9700D14688 /* URLDataProtocol.m */,
-				1428946009575B9700D14688 /* WebPreviewViewController.h */,
-				1428946109575B9700D14688 /* WebPreviewViewController.m */,
+				1428946009575B9700D14688 /* SEEWebPreviewViewController.h */,
+				1428946109575B9700D14688 /* SEEWebPreviewViewController.m */,
 				F20948EA0C7B4C7100E78EBA /* UserStatisticsController.h */,
 				F20948EB0C7B4C7100E78EBA /* UserStatisticsController.m */,
 				F2CA79A20CA04BAC008BEA38 /* HUDStatisticGraphView.h */,
@@ -3273,7 +3273,7 @@
 				F2308E6718E06FA00096E0C1 /* SEEFindAndReplaceContext.m in Sources */,
 				1428946C09575B9700D14688 /* URLDataProtocol.m in Sources */,
 				4CE6C99D18AA905500AB45D1 /* SEEOverlayView.m in Sources */,
-				1428946D09575B9700D14688 /* WebPreviewViewController.m in Sources */,
+				1428946D09575B9700D14688 /* SEEWebPreviewViewController.m in Sources */,
 				142894A409575FF200D14688 /* TextFieldCell.m in Sources */,
 				5E28E2900972FB8E00099B13 /* InsetTextFieldCell.m in Sources */,
 				5E685D5309D82BBB00E41973 /* NSAppleScriptTCMAdditions.m in Sources */,

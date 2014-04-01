@@ -1,5 +1,5 @@
 //
-//  WebPreviewViewController.m
+//  SEEWebPreviewViewController.m
 //  was : WebPreviewWindowController.m
 //  SubEthaEdit
 //
@@ -8,7 +8,7 @@
 //  refactored to be a ViewController by liz
 
 #import "TCMMMSession.h"
-#import "WebPreviewViewController.h"
+#import "SEEWebPreviewViewController.h"
 #import "PlainTextDocument.h"
 #import "FoldableTextStorage.h"
 #import "DocumentMode.h"
@@ -22,7 +22,7 @@
 static NSString *WebPreviewWindowSizePreferenceKey =@"WebPreviewWindowSize";
 static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
 
-@interface WebPreviewViewController ()
+@interface SEEWebPreviewViewController ()
 @property (nonatomic, strong) IBOutlet WebView *oWebView;
 @property (nonatomic, strong) IBOutlet NSTextField *oBaseUrlTextField;
 @property (nonatomic, strong) IBOutlet NSPopUpButton *oRefreshButton;
@@ -50,7 +50,7 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
 
 @end
 
-@implementation WebPreviewViewController
+@implementation SEEWebPreviewViewController
 
 @synthesize plainTextDocument=_plainTextDocument;
 @synthesize refreshType=_refreshType;

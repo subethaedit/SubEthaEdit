@@ -11,7 +11,7 @@
 #import "PlainTextWindowController.h"
 
 #import "PlainTextEditor.h"
-#import "WebPreviewViewController.h"
+#import "SEEWebPreviewViewController.h"
 
 #import "SEEParticipantsOverlayViewController.h"
 #import "PlainTextLoadProgress.h"
@@ -276,7 +276,7 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 		webPreviewSplitView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
 		[self.tab setView:webPreviewSplitView];
 
-		WebPreviewViewController *webPreviewViewController = [[WebPreviewViewController alloc] initWithPlainTextDocument:self.document];
+		SEEWebPreviewViewController *webPreviewViewController = [[SEEWebPreviewViewController alloc] initWithPlainTextDocument:self.document];
 
 		[webPreviewSplitView addSubview:webPreviewViewController.view];
 		[webPreviewSplitView addSubview:viewRepresentedByTab];
