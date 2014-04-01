@@ -222,6 +222,8 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 		result = YES;
 	} else if ([self.bottomOverlayViewController.view hitTest:eventLocationInWindow] != nil) {
 		result = YES;
+	} else if ([self.topOverlayViewController.view hitTest:eventLocationInWindow] != nil) {
+		result = YES;
 	}
 	return result;
 }
