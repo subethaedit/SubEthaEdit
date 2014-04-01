@@ -17,6 +17,8 @@
 #import "DocumentModeManager.h"
 
 void * const SEENetworkDocumentRepresentationSessionObservingContext = (void *)&SEENetworkDocumentRepresentationSessionObservingContext;
+void * const SEENetworkDocumentRepresentationSessionAccessStateObservingContext = (void *)&SEENetworkDocumentRepresentationSessionAccessStateObservingContext;
+
 
 extern int const FileMenuTag;
 extern int const FileNewMenuItemTag;
@@ -47,10 +49,12 @@ extern int const FileNewMenuItemTag;
 
 - (void)installKVO {
 	[self addObserver:self forKeyPath:@"documentSession" options:0 context:SEENetworkDocumentRepresentationSessionObservingContext];
+	[self addObserver:self forKeyPath:@"documentSession.accessState" options:0 context:SEENetworkDocumentRepresentationSessionAccessStateObservingContext];
 }
 
 - (void)removeKVO {
 	[self removeObserver:self forKeyPath:@"documentSession" context:SEENetworkDocumentRepresentationSessionObservingContext];
+	[self removeObserver:self forKeyPath:@"documentSession.accessState" context:SEENetworkDocumentRepresentationSessionAccessStateObservingContext];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -60,6 +64,10 @@ extern int const FileNewMenuItemTag;
 
 		[self updateAccessStateImage];
 		[self updateImage];
+
+	} else if (context == SEENetworkDocumentRepresentationSessionAccessStateObservingContext) {
+		[self updateAccessStateImage];
+		
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
