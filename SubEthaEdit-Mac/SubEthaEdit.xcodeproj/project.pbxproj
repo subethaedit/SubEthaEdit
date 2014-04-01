@@ -259,6 +259,7 @@
 		4C7F5E0B18D9D4C500F33CCD /* SEEScopedBookmarkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C7F5E0A18D9D4C500F33CCD /* SEEScopedBookmarkManager.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4C97D504188D42FA000B4999 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C97D503188D42FA000B4999 /* QuartzCore.framework */; };
 		4C9CCDC918BE413E00959EF2 /* SEENetworkConnectionDocumentListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C9CCDC818BE413E00959EF2 /* SEENetworkConnectionDocumentListItem.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		4CA098DE18EAF54E0026B3E3 /* SEEWebPreviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CA098DD18EAF54E0026B3E3 /* SEEWebPreviewViewController.xib */; };
 		4CB36C3218D84BF4000219DA /* SEEEditorSplitViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CB36C3118D84BF4000219DA /* SEEEditorSplitViewDelegate.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4CB8EE4D180FD8FE0051AB6B /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CB8EE4C180FD8FE0051AB6B /* XCTest.framework */; };
 		4CB8EE4F180FD9A40051AB6B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CB8EE4E180FD9A40051AB6B /* libz.dylib */; };
@@ -1029,6 +1030,7 @@
 		4C97D503188D42FA000B4999 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		4C9CCDC718BE413E00959EF2 /* SEENetworkConnectionDocumentListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEENetworkConnectionDocumentListItem.h; sourceTree = "<group>"; };
 		4C9CCDC818BE413E00959EF2 /* SEENetworkConnectionDocumentListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEENetworkConnectionDocumentListItem.m; sourceTree = "<group>"; };
+		4CA098DD18EAF54E0026B3E3 /* SEEWebPreviewViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEEWebPreviewViewController.xib; sourceTree = "<group>"; };
 		4CAA423718157B1000457B2A /* TCMReleaseInfo.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = TCMReleaseInfo.xcconfig; sourceTree = "<group>"; };
 		4CAA423818157EAB00457B2A /* TCMAppConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = TCMAppConfig.xcconfig; sourceTree = "<group>"; };
 		4CB36C3018D84BF4000219DA /* SEEEditorSplitViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEEditorSplitViewDelegate.h; sourceTree = "<group>"; };
@@ -2212,6 +2214,7 @@
 				4CD5F83717FB0ECB00F49E31 /* UserStatistics.xib */,
 				4CD5F83B17FB0EE000F49E31 /* WebPreview.xib */,
 				F21DAFE718BB77AA002B3C41 /* SEEFindAndReplaceView.xib */,
+				4CA098DD18EAF54E0026B3E3 /* SEEWebPreviewViewController.xib */,
 			);
 			name = XIBs;
 			sourceTree = "<group>";
@@ -2914,6 +2917,7 @@
 				144483970A15F68F00F36B34 /* SubEthaEditSuite.scriptSuite in Resources */,
 				4C6BDC5F1889858A0088CBFC /* folded.png in Resources */,
 				F2D3E562189941F50096425B /* IW InactiveTabClosePressed@2x.png in Resources */,
+				4CA098DE18EAF54E0026B3E3 /* SEEWebPreviewViewController.xib in Resources */,
 				144483980A15F68F00F36B34 /* SubEthaEditSuite.scriptTerminology in Resources */,
 				144483A20A16026200F36B34 /* TCMTextSuite.scriptSuite in Resources */,
 				144483A30A16026200F36B34 /* TCMTextSuite.scriptTerminology in Resources */,

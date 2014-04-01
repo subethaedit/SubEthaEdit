@@ -25,7 +25,7 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
 @interface SEEWebPreviewViewController ()
 @property (nonatomic, strong) IBOutlet WebView *oWebView;
 @property (nonatomic, strong) IBOutlet NSTextField *oBaseUrlTextField;
-@property (nonatomic, strong) IBOutlet NSPopUpButton *oRefreshButton;
+@property (nonatomic, strong) IBOutlet NSPopUpButton *oRefreshPopupButton;
 @property (nonatomic, strong) IBOutlet NSTextField *oStatusTextField;
 
 @property (nonatomic, strong) PlainTextDocument *plainTextDocument;
@@ -56,7 +56,7 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
 @synthesize refreshType=_refreshType;
 
 - (id)initWithPlainTextDocument:(PlainTextDocument *)aDocument {
-    self=[super initWithNibName:@"WebPreview" bundle:nil];
+    self=[super initWithNibName:@"SEEWebPreviewViewController" bundle:nil];
     _plainTextDocument=aDocument;
     _hasSavedVisibleRect=NO;
     _shallCache=YES;
@@ -216,10 +216,10 @@ NSScrollView * firstScrollView(NSView *aView) {
 - (void)setRefreshType:(SEEWebPreviewRefreshType)aRefreshType {
     [[[[self plainTextDocument] documentMode] defaults] setObject:[NSNumber numberWithInt:aRefreshType] forKey:WebPreviewRefreshModePreferenceKey];
     if ([self view]) {
-        int index=[self.oRefreshButton indexOfItemWithTag:aRefreshType];
+        int index=[self.oRefreshPopupButton indexOfItemWithTag:aRefreshType];
         if (index!=-1) {
             _refreshType=aRefreshType;
-            [self.oRefreshButton selectItemAtIndex:index];
+            [self.oRefreshPopupButton selectItemAtIndex:index];
         }
     } else {
         _refreshType=aRefreshType;
