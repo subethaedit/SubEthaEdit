@@ -38,7 +38,7 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
 
 // Localized XIB
 @property (nonatomic, readonly) NSString *localizedBaseURLLabelText;
-@property (nonatomic, readonly) NSString *localizedRefreshLabelText;
+@property (nonatomic, readonly) NSString *localizedRefreshModePopupToolTip;
 @property (nonatomic, readonly) NSString *localizedManualRefreshButtonToolTip;
 @property (nonatomic, readonly) NSString *localizedManualRefreshPopupItemAutomatic;
 @property (nonatomic, readonly) NSString *localizedManualRefreshPopupItemDelayed;
@@ -237,8 +237,8 @@ NSScrollView * firstScrollView(NSView *aView) {
 }
 
 
-- (NSString *)localizedRefreshLabelText {
-	NSString *string = NSLocalizedStringWithDefaultValue(@"WEB_PREVIEW_REFRESH_LABEL", nil, [NSBundle mainBundle], @"Refresh:", @"Web Preview - Label for the Refresh Popup");
+- (NSString *)localizedRefreshModePopupToolTip {
+	NSString *string = NSLocalizedStringWithDefaultValue(@"WEB_PREVIEW_REFRESH_MODE_TOOL_TIP", nil, [NSBundle mainBundle], @"Refresh Mode", @"Web Preview - Tool Tip for the Refresh Popup");
 	return string;
 }
 

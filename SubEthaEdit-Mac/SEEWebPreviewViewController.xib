@@ -130,7 +130,7 @@
                                 </menu>
                             </popUpButtonCell>
                             <connections>
-                                <binding destination="-2" name="toolTip" keyPath="self.localizedRefreshLabelText" id="1xK-xb-vNq"/>
+                                <binding destination="-2" name="toolTip" keyPath="self.localizedRefreshModePopupToolTip" id="B0W-8g-AyB"/>
                             </connections>
                         </popUpButton>
                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="uDK-9y-IDj" userLabel="Status Label">
