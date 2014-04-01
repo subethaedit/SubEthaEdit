@@ -885,14 +885,8 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 #pragma mark - Editor Split
 
 - (IBAction)toggleSplitView:(id)aSender {
-	NSTabViewItem *tab = [I_tabView selectedTabViewItem];
-	PlainTextWindowControllerTabContext *tabContext = (PlainTextWindowControllerTabContext *)[tab identifier];
-
-	if (tabContext.hasEditorSplit) {
-		tabContext.hasEditorSplit = NO;
-	} else {
-		tabContext.hasEditorSplit = YES;
-	}
+	PlainTextWindowControllerTabContext *tabContext = [self selectedTabContext];
+	tabContext.hasEditorSplit = ! tabContext.hasEditorSplit;
 }
 
 #pragma mark Editors
@@ -974,60 +968,12 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
 - (IBAction)toggleWebPreview:(id)sender {
 	NSResponder *oldFirstResponder = self.window.firstResponder;
-
-	NSTabViewItem *tabViewItem = self.selectedTabViewItem;
-	NSView *viewRepresentedByTab = [[[tabViewItem view] retain] autorelease];
 	PlainTextWindowControllerTabContext *tabContext = [self selectedTabContext];
 
-	if (viewRepresentedByTab == tabContext.webPreviewSplitView) {
-		NSView *webView = [[viewRepresentedByTab.subviews.firstObject retain] autorelease];
-		if ([oldFirstResponder isKindOfClass:[NSView class]] && [((NSView *)oldFirstResponder) isDescendantOf:webView]) {
-			oldFirstResponder = tabContext.activePlainTextEditor.textView;
-		}
-
-		NSView *editorView = [[viewRepresentedByTab.subviews.lastObject retain] autorelease];
-		[editorView removeFromSuperview];
-		editorView.frame = viewRepresentedByTab.frame;
-		[viewRepresentedByTab removeFromSuperview];
-
-		tabContext.webPreviewSplitView.delegate = nil;
-		tabContext.webPreviewSplitViewDelegate = nil;
-		tabContext.webPreviewSplitView = nil;
-
-		tabContext.webPreviewViewController = nil;
-
-		editorView.translatesAutoresizingMaskIntoConstraints = YES;
-		editorView.autoresizesSubviews = YES;
-		editorView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
-		[tabViewItem setView:editorView];
-	} else {
-		[viewRepresentedByTab removeFromSuperview];
-
-		NSSplitView *webPreviewSplitView = [[[NSSplitView alloc] initWithFrame:viewRepresentedByTab.frame] autorelease];
-		webPreviewSplitView.identifier = @"WebPreviewSplit";
-		webPreviewSplitView.delegate = [[[SEEWebPreviewSplitViewDelegate alloc] initWithTabContext:tabContext] autorelease];
-		webPreviewSplitView.vertical = YES;
-		webPreviewSplitView.dividerStyle = NSSplitViewDividerStyleThin;
-		webPreviewSplitView.autoresizesSubviews = YES;
-		webPreviewSplitView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
-		[tabViewItem setView:webPreviewSplitView];
-
-		WebPreviewViewController *webPreviewViewController = [[[WebPreviewViewController alloc] initWithPlainTextDocument:tabContext.document] autorelease];
-
-		[webPreviewSplitView addSubview:webPreviewViewController.view];
-		[webPreviewSplitView addSubview:viewRepresentedByTab];
-		[webPreviewSplitView adjustSubviews];
-
-		[webPreviewViewController refreshAndEmptyCache:sender];
-
-		tabContext.webPreviewViewController = webPreviewViewController;
-		tabContext.webPreviewSplitViewDelegate = webPreviewSplitView.delegate;
-		tabContext.webPreviewSplitView = webPreviewSplitView;
-	}
+	tabContext.hasWebPreviewSplit = ! tabContext.webPreviewSplitView;
 
 	[self updateWindowMinSize];
     [[self window] makeFirstResponder:oldFirstResponder];
-	[self invalidateRestorableState];
 }
 
 - (IBAction)refreshWebPreview:(id)aSender {
