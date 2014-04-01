@@ -291,7 +291,6 @@
 		4CD5F83117FB0E8D00F49E31 /* StylePrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F82F17FB0E8D00F49E31 /* StylePrefs.xib */; };
 		4CD5F83517FB0EB500F49E31 /* URLBubbleWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F83317FB0EB500F49E31 /* URLBubbleWindow.xib */; };
 		4CD5F83917FB0ECB00F49E31 /* UserStatistics.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F83717FB0ECB00F49E31 /* UserStatistics.xib */; };
-		4CD5F83D17FB0EE000F49E31 /* WebPreview.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F83B17FB0EE000F49E31 /* WebPreview.xib */; };
 		4CDC272018967D990060B044 /* SEEParticipantView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CDC271F18967D990060B044 /* SEEParticipantView.xib */; };
 		4CDC272318969A600060B044 /* SEEParticipantViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CDC272218969A600060B044 /* SEEParticipantViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4CDF05A518C0A3D4004A49E5 /* SEEConnectionAddingWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CDF05A318C0A3D4004A49E5 /* SEEConnectionAddingWindowController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
@@ -1087,7 +1086,6 @@
 		4CD5F83617FB0EBA00F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/URLBubbleWindow.xib; sourceTree = "<group>"; };
 		4CD5F83817FB0ECB00F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/UserStatistics.xib; sourceTree = "<group>"; };
 		4CD5F83A17FB0ECF00F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/UserStatistics.xib; sourceTree = "<group>"; };
-		4CD5F83C17FB0EE000F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/WebPreview.xib; sourceTree = "<group>"; };
 		4CDC271F18967D990060B044 /* SEEParticipantView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEEParticipantView.xib; sourceTree = "<group>"; };
 		4CDC272118969A600060B044 /* SEEParticipantViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEParticipantViewController.h; sourceTree = "<group>"; };
 		4CDC272218969A600060B044 /* SEEParticipantViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEParticipantViewController.m; sourceTree = "<group>"; };
@@ -2212,7 +2210,6 @@
 				4CD5F82B17FB0E6000F49E31 /* SelectEncodingsPanel.xib */,
 				4CD5F83317FB0EB500F49E31 /* URLBubbleWindow.xib */,
 				4CD5F83717FB0ECB00F49E31 /* UserStatistics.xib */,
-				4CD5F83B17FB0EE000F49E31 /* WebPreview.xib */,
 				F21DAFE718BB77AA002B3C41 /* SEEFindAndReplaceView.xib */,
 				4CA098DD18EAF54E0026B3E3 /* SEEWebPreviewViewController.xib */,
 			);
@@ -2923,7 +2920,6 @@
 				144483A30A16026200F36B34 /* TCMTextSuite.scriptTerminology in Resources */,
 				F2D3E540189941F50096425B /* AW InactiveTabLeftCap@2x.png in Resources */,
 				F2D3E557189941F50096425B /* IW ActiveTabLeftCap.png in Resources */,
-				4CD5F83D17FB0EE000F49E31 /* WebPreview.xib in Resources */,
 				5EB51AF80A177CF500AE2E17 /* InvisibleCharactersShow.png in Resources */,
 				4C1D39DC17FB085800B1CF5C /* AboutPanel.xib in Resources */,
 				F2D3E551189941F50096425B /* IW ActiveTabClosePressed.png in Resources */,
@@ -3646,14 +3642,6 @@
 				4CD5F83A17FB0ECF00F49E31 /* German */,
 			);
 			name = UserStatistics.xib;
-			sourceTree = "<group>";
-		};
-		4CD5F83B17FB0EE000F49E31 /* WebPreview.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				4CD5F83C17FB0EE000F49E31 /* English */,
-			);
-			name = WebPreview.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
