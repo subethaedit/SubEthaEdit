@@ -108,22 +108,22 @@
                                     <items>
                                         <menuItem title="automatic" state="on" tag="1" id="Oba-0S-UlW">
                                             <connections>
-                                                <binding destination="-2" name="value" keyPath="self.localizedRefreshModePopupItemAutomatic" id="1xg-bS-cZL"/>
+                                                <binding destination="-2" name="title" keyPath="self.localizedRefreshModePopupItemAutomatic" id="fwt-Wu-kqq"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="delayed" tag="4" id="Wul-N0-kiX">
                                             <connections>
-                                                <binding destination="-2" name="value" keyPath="self.localizedRefreshModePopupItemDelayed" id="6Qx-Wx-Gdh"/>
+                                                <binding destination="-2" name="title" keyPath="self.localizedRefreshModePopupItemDelayed" id="Jtm-Hx-RpY"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="on save" tag="2" id="nHf-F9-gtF">
                                             <connections>
-                                                <binding destination="-2" name="value" keyPath="self.localizedRefreshModePopupItemOnSave" id="8LI-lX-6Yr"/>
+                                                <binding destination="-2" name="title" keyPath="self.localizedRefreshModePopupItemOnSave" id="Rl8-bf-pxl"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="manually" tag="3" id="P1Q-nP-WFj">
                                             <connections>
-                                                <binding destination="-2" name="value" keyPath="self.localizedRefreshModePopupItemManual" id="WLK-9K-qtp"/>
+                                                <binding destination="-2" name="title" keyPath="self.localizedRefreshModePopupItemManual" id="gtR-dQ-9Vo"/>
                                             </connections>
                                         </menuItem>
                                     </items>
