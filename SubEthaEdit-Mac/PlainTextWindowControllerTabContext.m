@@ -131,7 +131,7 @@ void * const SEEPlainTextWindowControllerTabContextHasEditorSplitObservanceConte
 			if (dialogSplitView) {
 				[dialogSplitView addSubview:editorSplitView positioned:NSWindowBelow relativeTo:[[dialogSplitView subviews] objectAtIndex:1]];
 			} else if (webPreviewSplitView) {
-				[webPreviewSplitView addSubview:editorSplitView positioned:NSWindowAbove relativeTo:[[webPreviewSplitView subviews] objectAtIndex:0]];
+				[webPreviewSplitView replaceSubview:webPreviewSplitView.subviews[1] with:editorSplitView];
 			} else {
 				[self.tab setView:editorSplitView];
 			}
@@ -141,6 +141,7 @@ void * const SEEPlainTextWindowControllerTabContextHasEditorSplitObservanceConte
 			[[plainTextEditors[0] editorView] setFrameSize:splitSize];
 			[[plainTextEditors[1] editorView] setFrameSize:splitSize];
 
+			[[plainTextEditors[0] editorView] setTranslatesAutoresizingMaskIntoConstraints:YES];
 			
 			[editorSplitView addSubview:[plainTextEditors[0] editorView]];
 			[editorSplitView addSubview:[plainTextEditors[1] editorView]];
