@@ -247,7 +247,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 				self.toggleRecentItem = toggleRecentDocumentsItem;
 				[self.availableItems addObject:toggleRecentDocumentsItem];
 			}
-			if (cachedItem.showRecentDocuments) {
+			if (self.toggleRecentItem.showRecentDocuments) {
 				NSArray *recentDocumentURLs = [[NSDocumentController sharedDocumentController] recentDocumentURLs];
 				for (NSURL *url in recentDocumentURLs) {
 					SEERecentDocumentListItem *recentDocumentItem = [[SEERecentDocumentListItem alloc] init];
