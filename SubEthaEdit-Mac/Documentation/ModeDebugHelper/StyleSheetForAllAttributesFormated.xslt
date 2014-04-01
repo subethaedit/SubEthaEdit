@@ -13,15 +13,15 @@
 			<xsl:text> {</xsl:text>
 			<xsl:text>&#xa;</xsl:text>
 			<xsl:apply-templates select="@color"/>
-<!--
 			<xsl:apply-templates select="@inverted-color"/>
 			<xsl:apply-templates select="@background-color"/>
 			<xsl:apply-templates select="@inverted-background-color"/>
--->
 			<xsl:apply-templates select="@font-trait"/>
 			<xsl:apply-templates select="@font-weight"/>
 			<xsl:apply-templates select="@font-style"/>
 			<xsl:text>}</xsl:text>
+			
+<!-- Adds a comment about what the style was used for -->
 <!--
 			<xsl:text>/* </xsl:text>
 			<xsl:value-of select="@id"/>

@@ -94,11 +94,11 @@
 							<regex>([\+\-\*\/\=\!\&lt;\&gt;\%])</regex>
             </keywords>
 
-            <keywords id="Numbers" inverted-color="#5d56ff" useforautocomplete="no" scope="language.constant.numeric.js">
+            <keywords id="Numbers" useforautocomplete="no" scope="language.constant.numeric.js">
 				<regex>(?&lt;![\w\d\._])((?:(?:(?:[0-9]+\.[0-9]*)|(\.[0-9]+))(?:[eE][+\-]?[0-9]+)?[fFlL]?)|(?:(?:(?:[1-9][0-9]*)|0(?:[1-7][0-7]*)?|(?:0[xX][0-9a-fA-F]+))(?:(?:[uU][lL]?)|(?:[lL][uU]?))?))(?![\w\d\._])</regex>
             </keywords>
 
-            <keywords id="Number Literals" inverted-color="#5d56ff" useforautocomplete="YES" scope="keyword.constant.js">
+            <keywords id="Number Literals" useforautocomplete="YES" scope="keyword.constant.js">
                 <string>true</string>
                 <string>false</string>
                 <string>null</string>

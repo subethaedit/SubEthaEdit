@@ -996,6 +996,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
 		tabContext.webPreviewViewController = nil;
 
+		editorView.translatesAutoresizingMaskIntoConstraints = YES;
 		editorView.autoresizesSubviews = YES;
 		editorView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
 		[tabViewItem setView:editorView];

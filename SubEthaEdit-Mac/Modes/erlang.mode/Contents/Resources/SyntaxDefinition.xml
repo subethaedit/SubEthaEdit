@@ -7,21 +7,21 @@
         <folding toplevel="1"/>
 	</head>
 	<states>
-		<default id="Base" color="#000" inverted-color="#fff" scope="meta.default">
-			<keywords id="Atoms" color="#974319" scope="string.symbol">
+		<default id="Base" scope="meta.default">
+			<keywords id="Atoms" scope="string.symbol">
 				<regex>\b([a-z][a-zA-Z0-9@_]*)\b</regex>
 			</keywords>
-			<keywords id="Records" font-weight="bold" color="#974319" scope="language.record">
+			<keywords id="Records" scope="language.record">
 				<regex>(#[a-z][a-zA-Z0-9@_]*)\b</regex>
 				<regex>-record\s*\(([a-zA-Z0-9@_]*)\b</regex>
 			</keywords>
-			<keywords id="Variables" color="#3d1f0f" font-weight="bold" scope="language.variable">
+			<keywords id="Variables" scope="language.variable">
 				<regex>\b([A-Z][a-zA-Z0-9@_]*)\b</regex>
 			</keywords>
-			<keywords id="Numbers" color="#00f" inverted-color="#5d56ff" useforautocomplete="no" scope="language.constant.numeric">
+			<keywords id="Numbers" useforautocomplete="no" scope="language.constant.numeric">
 				<regex>(?&lt;![\w\d_])((?:0*(?:(?:[0-9]#[0-9]+)|(?:[1-3][0-9]#[0-9a-zA-Z]+)))|(?:(?:(?:[0-9]+\.[0-9]+))(?:[eE][+\-]?[0-9]+)?)|[0-9]+)(?![\w\d_])</regex>
 			</keywords>
-			<keywords id="Keywords" color="#6C0540" casesensitive="yes" useforautocomplete="yes" scope="keyword.control">
+			<keywords id="Keywords" casesensitive="yes" useforautocomplete="yes" scope="keyword.control">
 				<string>after</string>
 				<string>begin</string>
 				<string>after</string>
@@ -40,14 +40,14 @@
 				<string>receive</string>
 				<string>when</string>
 			</keywords>
-			<keywords id="Separators" color="#FF0000" font-weight="bold" casesensitive="no" useforautocomplete="no" scope="language.operator">
+			<keywords id="Separators" casesensitive="no" useforautocomplete="no" scope="language.operator">
 				<regex>(-&gt;)</regex>
 			</keywords>
-			<keywords id="List Comprehensions" color="#400080" font-weight="bold" casesensitive="no" useforautocomplete="no" scope="language.operator">
+			<keywords id="List Comprehensions" casesensitive="no" useforautocomplete="no" scope="language.operator">
 				<regex>(&lt;\-)</regex>
 				<regex>(\|\|)</regex>
 			</keywords>
-			<keywords id="Built-in Functions" color="#400080" font-weight="bold" font-style="italic" scope="keyword.subroutine">
+			<keywords id="Built-in Functions" scope="keyword.subroutine">
 				<string>abs</string>
 				<string>alive</string>
 				<string>apply</string>
@@ -133,7 +133,7 @@
 				<string>set_cookie</string>
 				<string>set_node</string>
 			</keywords>
-			<keywords id="Functions" color="#400080" font-weight="bold" font-style="italic" scope="keyword.subroutine">
+			<keywords id="Functions" scope="keyword.subroutine">
 				<string>acos</string>
 				<string>asin</string>
 				<string>atan</string>
@@ -156,11 +156,11 @@
 				<string>parse_transform</string>
 				<string>undefined_function</string>
 			</keywords>
-			<keywords id="Function Calls" color="#400080" font-weight="bold" font-style="italic" scope="language.subroutine.function">
+			<keywords id="Function Calls" scope="language.subroutine.function">
 				<regex>([0-9a-zA-Z_-]+:[0-9a-zA-Z_-]+)\(</regex>
 				<regex>([0-9a-zA-Z_-]+)\(</regex>
 			</keywords>
-			<keywords id="Directives" color="#400080" font-weight="bold" font-style="italic" scope="language.preprocessor">
+			<keywords id="Directives" scope="language.preprocessor">
 				<regex>(-compile)\(</regex>
 				<regex>(-define)\(</regex>
 				<regex>(-else)\(</regex>
@@ -179,7 +179,7 @@
 				<regex>(-copyright)\(</regex>
 				<regex>(-doc)\(</regex>
 			</keywords>
-			<keywords id="Processes" color="#400080" font-weight="bold" font-style="italic" scope="keyword">
+			<keywords id="Processes" scope="keyword">
 				<string>creation</string>
 				<string>current_function</string>
 				<string>dictionary</string>
@@ -205,7 +205,7 @@
 				<string>trap_exit</string>
 				<string>waiting</string>
 			</keywords>
-			<keywords id="Ports" color="#400080" font-weight="bold" font-style="italic" scope="keyword">
+			<keywords id="Ports" scope="keyword">
 				<string>command</string>
 				<string>count_in</string>
 				<string>count_out</string>
@@ -218,7 +218,7 @@
 				<string>owner</string>
 				<string>packeting</string>
 			</keywords>
-			<keywords id="Nodes" color="#400080" font-weight="bold" font-style="italic" scope="keyword">
+			<keywords id="Nodes" scope="keyword">
 				<string>atom_table</string>
 				<string>communicating</string>
 				<string>creation</string>
@@ -246,7 +246,7 @@
 				<string>runtime</string>
 				<string>wall_clock</string>
 			</keywords>
-			<keywords id="Reserved" color="#400080" font-weight="bold" font-style="italic" scope="keyword">
+			<keywords id="Reserved" scope="keyword">
 				<string>apply_lambda</string>
 				<string>module_info</string>
 				<string>module_lambdas</string>
@@ -254,14 +254,14 @@
 				<string>record_index</string>
 				<string>record_info</string>
 			</keywords>
-			<keywords id="Extras" color="#400080" font-weight="bold" font-style="italic" scope="keyword">
+			<keywords id="Extras" scope="keyword">
 				<string>badarg</string>
 				<string>nocookie</string>
 				<string>false</string>
 				<string>fun</string>
 				<string>true</string>
 			</keywords>
-			<keywords id="Signals" color="#400080" font-weight="bold" font-style="italic" scope="keyword">
+			<keywords id="Signals" scope="keyword">
 				<string>badsig</string>
 				<string>kill</string>
 				<string>killed</string>
@@ -269,7 +269,7 @@
 				<string>normal</string>
 			</keywords>
 		</default>
-		<state id="SingleComment" color="#236E25" font-style="italic" scope="comment.line">
+		<state id="SingleComment" scope="comment.line">
 			<begin>
 				<regex>%</regex>
 			</begin>
@@ -277,7 +277,7 @@
 				<regex>[\n\r]</regex>
 			</end>
 		</state>
-		<state id="Character Literal" color="#650c41" scope="language.constant.numeric.character">
+		<state id="Character Literal" scope="language.constant.numeric.character">
 			<begin>
 				<regex>\$</regex>
 			</begin>
@@ -285,7 +285,7 @@
 				<regex>\\?.</regex>
 			</end>
 		</state>
-		<state id="String" color="#760f15" scope="string.double">
+		<state id="String" scope="string.double">
 			<begin>
 				<regex>"</regex>
 			</begin>
@@ -293,7 +293,7 @@
 				<regex>(?&lt;!\\)(\\\\)*"</regex>
 			</end>
 		</state>
-		<state id="Quoted Atoms" color="#974319" scope="string.symbol">
+		<state id="Quoted Atoms" scope="string.symbol">
 			<begin>
 				<regex>'</regex>
 			</begin>
