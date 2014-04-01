@@ -161,7 +161,7 @@ void * const SEEPlainTextWindowControllerTabContextHasEditorSplitObservanceConte
 				SEEParticipantsOverlayViewController *participantsOverlay = [[SEEParticipantsOverlayViewController alloc] initWithTabContext:self];
 				[plainTextEditors[1] displayViewControllerInBottomArea:participantsOverlay];
 			}
-
+			
 		} else if (!hasEditorSplit && [plainTextEditors count] == 2) {
 			NSSplitView *editorSplitView = self.editorSplitView;
 
@@ -209,7 +209,7 @@ void * const SEEPlainTextWindowControllerTabContextHasEditorSplitObservanceConte
 			}
 		}
 
-		[plainTextEditors[0] setIsSplit:[plainTextEditors count] != 1];
+		[plainTextEditors[0] updateSplitButtonForIsSplit:[plainTextEditors count] != 1];
 
 		NSTextView *textView = [plainTextEditors[0] textView];
 		NSRange selectedRange = [textView selectedRange];

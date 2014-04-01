@@ -69,7 +69,7 @@ extern NSString * const PlainTextEditorDidChangeSearchScopeNotification;
 - (NSView *)editorView;
 - (NSTextView *)textView;
 - (PlainTextDocument *)document;
-- (void)setIsSplit:(BOOL)aFlag;
+- (void)updateSplitButtonForIsSplit:(BOOL)aFlag;
 
 - (NSSize)desiredSizeForColumns:(int)aColumns rows:(int)aRows;
 - (int)displayedColumns;

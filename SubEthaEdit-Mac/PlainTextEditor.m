@@ -987,11 +987,10 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 
-- (void)setIsSplit:(BOOL)aFlag
+- (void)updateSplitButtonForIsSplit:(BOOL)aFlag
 {
-    if (I_flags.hasSplitButton)
-    {
-        [O_splitButton setState:aFlag?NSOffState:NSOnState];
+    if (I_flags.hasSplitButton) {
+		[O_splitButton setImage:[NSImage imageNamed:aFlag?@"EditorRemoveSplit":@"EditorAddSplit"]];
     }
 }
 
