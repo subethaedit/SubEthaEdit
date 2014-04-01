@@ -89,14 +89,6 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
 	}];
 	
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(synchronizeWindowTitleWithDocumentName)
-                                                 name:TCMMMSessionDidChangeNotification 
-                                               object:[_plainTextDocument session]];
-    [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(synchronizeWindowTitleWithDocumentName)
-                                                 name:PlainTextDocumentDidChangeDisplayNameNotification 
-                                               object:_plainTextDocument];
-    [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(somePlainTextDocumentDidSave:)
                                                  name:PlainTextDocumentDidSaveNotification 
                                                object:nil];
@@ -207,11 +199,6 @@ NSScrollView * firstScrollView(NSView *aView) {
     [[self.oWebView mainFrame] loadData:[string dataUsingEncoding:encoding] MIMEType:@"text/html" textEncodingName:IANACharSetName baseURL:baseURL];
 }
 
-//- (void)windowWillClose:(NSNotification *)aNotification {
-//	// when we see our window closing, we empty the contents so no javascript will run in background
-//    [[self.oWebView mainFrame] loadHTMLString:@"" baseURL:nil];
-//}
-
 #pragma mark
 -(IBAction)refreshAndEmptyCache:(id)aSender {
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
@@ -282,7 +269,7 @@ NSScrollView * firstScrollView(NSView *aView) {
 	return string;
 }
 
-#pragma mark
+#pragma mark - NSViewController overrides
 -(void)loadView {
     [super loadView];
 	
@@ -298,29 +285,9 @@ NSScrollView * firstScrollView(NSView *aView) {
     [prefs setJavaScriptEnabled:YES];
     [prefs setPlugInsEnabled:YES];
     [self.oStatusTextField setStringValue:@""];
-//    NSString *frameString=[[NSUserDefaults standardUserDefaults] 
-//                            stringForKey:WebPreviewWindowSizePreferenceKey];
-//    if (frameString) {
-//        [[self window] setFrameFromString:frameString];
-//    }
-	
+
 	[self updateBaseURL];
     [self setRefreshType:_refreshType];
-}
-
-- (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName {
-    NSString *title=[[[self.oWebView mainFrame] dataSource] pageTitle];
-    
-    title=title?[title stringByAppendingFormat:@" [%@]",displayName]:
-                [NSString stringWithFormat:@"[%@]",displayName];
-    
-    return title; 
-}
-
-- (void)synchronizeWindowTitleWithDocumentName {
-    NSString *displayName=[[self plainTextDocument] displayName];
-    if (!displayName) displayName=@"";
-    [self setTitle:[self windowTitleForDocumentDisplayName:displayName]];
 }
 
 #pragma mark -
@@ -335,28 +302,6 @@ NSScrollView * firstScrollView(NSView *aView) {
     }
 }
 
-#pragma mark -
-#pragma mark ### Actions ###
-
-//- (IBAction)showWindow:(id)aSender {
-//    [super showWindow:aSender];
-//    [self updateBaseURL];
-//    [self refresh:aSender];
-//    [self synchronizeWindowTitleWithDocumentName];
-//}
-
-#pragma mark -
-#pragma mark ### First Responder Actions ###
-
-//- (IBAction)saveWindowSize:(id)aSender {
-//    [[NSUserDefaults standardUserDefaults] 
-//        setObject:[[self window] stringWithSavedFrame] 
-//           forKey:WebPreviewWindowSizePreferenceKey];
-//}
-//
-//- (void)windowDidResize:(NSNotification *)aNotification {
-//    [self saveWindowSize:self];
-//}
 
 #pragma mark -
 #pragma mark ### WebResourceLoadDelegate ###
@@ -394,14 +339,6 @@ NSScrollView * firstScrollView(NSView *aView) {
 
 #pragma mark -
 #pragma mark ### WebFrameLoadDelegate ###
-
-- (void) webView:(WebView *)aSender
-        didReceiveTitle:(NSString *)title 
-               forFrame:(WebFrame *)frame {
-    if ([[aSender mainFrame] isEqualTo:frame]) {
-        [self synchronizeWindowTitleWithDocumentName];
-    }
-}
 
 - (void)webView:(WebView *)aSender didFinishLoadForFrame:(WebFrame *)aFrame {
     if ([aFrame isEqualTo:[self.oWebView mainFrame]]) {
