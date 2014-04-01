@@ -26,6 +26,8 @@
 
 - (void)removeTemporaryAttributes:(id)anObjectEnumerable forCharacterRange:(NSRange)aRange;
 
+- (void)forceTextViewGeometryUpdate;
+
 - (void)setInvisibleCharacterColor:(NSColor*)aColor;
 - (NSColor*)invisibleCharacterColor;
 @end

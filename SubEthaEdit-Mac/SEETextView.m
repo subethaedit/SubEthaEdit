@@ -41,7 +41,6 @@
 
 @interface SEETextView () 
 @property (nonatomic, readonly) PlainTextDocument *document;
-@property (nonatomic, assign) CGFloat additionalFrameHeight;
 @property (nonatomic) NSPoint cachedTextContainerOrigin;
 @end
 
@@ -75,12 +74,15 @@
 		if (height != currentInset.height) {
 			currentInset.height = height;
 			[self setTextContainerInset:currentInset];
-			[[self layoutManager] textContainerChangedGeometry:[self textContainer]];
-			//			[self setFrameSize:self.frame.size];
+			LayoutManager *layoutManager = (LayoutManager *)[self layoutManager];
+			[layoutManager forceTextViewGeometryUpdate];
 		}
 	}
 }
 
+- (void)setFrameSize:(NSSize)newSize {
+	[super setFrameSize:newSize];
+}
 
 - (NSPoint)textContainerOrigin {
 	SEEPlainTextEditorScrollView *enclosingScrollView = (SEEPlainTextEditorScrollView *)self.enclosingScrollView;
@@ -96,19 +98,7 @@
 }
 
 
-/*
-- (void)setFrameSize:(NSSize)newSize {
-	SEEPlainTextEditorScrollView *enclosingScrollView = (SEEPlainTextEditorScrollView *)self.enclosingScrollView;
-	if ([enclosingScrollView isKindOfClass:[SEEPlainTextEditorScrollView class]]) {
-		CGFloat additionalFrameHeight = enclosingScrollView.topOverlayHeight + enclosingScrollView.bottomOverlayHeight;
-		newSize = NSMakeSize(newSize.width, newSize.height + additionalFrameHeight - self.additionalFrameHeight);
-		self.additionalFrameHeight = additionalFrameHeight;
-	}
-	[super setFrameSize:newSize];
-}*/
-
 static NSMenu *S_defaultMenu=nil;
-
 
 + (NSMenu *)defaultMenu {
     return S_defaultMenu;
