@@ -29,6 +29,7 @@ extern NSString * const kSyntaxHighlightingAutocompleteEndName;
 extern NSString * const kSyntaxHighlightingIndentLevelName;
 
 extern NSString * const kSyntaxHighlightingTypeComment;
+extern NSString * const kSyntaxHighlightingTypeString;
 
 @interface SyntaxHighlighter : NSObject {
     SyntaxDefinition *I_syntaxDefinition;

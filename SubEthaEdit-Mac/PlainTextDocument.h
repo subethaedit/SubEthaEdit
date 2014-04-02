@@ -88,6 +88,8 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
     DocumentMode  *I_documentMode;
     FoldableTextStorage *I_textStorage;
     
+	NSUInteger _currentBracketMatchingBracketPosition;
+	
     NSFont *I_plainFont;
     NSFont *I_boldFont;
     NSFont *I_italicFont;
@@ -123,14 +125,7 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
     
     int I_lineEnding;
     NSString *I_lineEndingString;
-    
-    struct {
-        int numberOfBrackets;
-        unichar *closingBracketsArray;
-        unichar *openingBracketsArray;
-        NSUInteger matchingBracketPosition;
-    } I_bracketMatching;
-        
+            
     NSDictionary *I_blockeditAttributes;
     NSTextView   *I_blockeditTextView;
 
@@ -201,7 +196,7 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
 - (void)setSession:(TCMMMSession *)aSession;
 - (TCMMMSession *)session;
 
-- (NSTextStorage *)textStorage;
+- (FoldableTextStorage *)textStorage;
 
 - (void)fillScriptsIntoContextMenu:(NSMenu *)aMenu;
 - (void)adjustModeMenu;

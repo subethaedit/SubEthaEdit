@@ -87,7 +87,7 @@
 		142891DE09574E5B00D14688 /* TCMHost.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891D809574E5B00D14688 /* TCMHost.m */; };
 		1428920E095751CB00D14688 /* NSColorTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289207095751CB00D14688 /* NSColorTCMAdditions.m */; };
 		1428920F095751CB00D14688 /* NSImageTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289209095751CB00D14688 /* NSImageTCMAdditions.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
-		14289210095751CB00D14688 /* NSStringSEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428920B095751CB00D14688 /* NSStringSEEAdditions.m */; };
+		14289210095751CB00D14688 /* NSStringSEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428920B095751CB00D14688 /* NSStringSEEAdditions.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		14289211095751CB00D14688 /* TCMMMUserSEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428920D095751CB00D14688 /* TCMMMUserSEEAdditions.m */; };
 		142892280957523300D14688 /* DebugBEEPController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428921B0957523300D14688 /* DebugBEEPController.m */; };
 		142892290957523300D14688 /* DebugController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428921D0957523300D14688 /* DebugController.m */; };
@@ -130,7 +130,7 @@
 		142893C70957594500D14688 /* RegexSymbolDefinition.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893BA0957594500D14688 /* RegexSymbolDefinition.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		142893C80957594500D14688 /* RegexSymbolParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893BC0957594500D14688 /* RegexSymbolParser.m */; };
 		142893C90957594500D14688 /* SymbolTableEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893BE0957594500D14688 /* SymbolTableEntry.m */; };
-		142893CA0957594500D14688 /* SyntaxDefinition.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893C00957594500D14688 /* SyntaxDefinition.m */; };
+		142893CA0957594500D14688 /* SyntaxDefinition.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893C00957594500D14688 /* SyntaxDefinition.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		142893CB0957594500D14688 /* SyntaxHighlighter.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893C20957594500D14688 /* SyntaxHighlighter.m */; };
 		142893CC0957594500D14688 /* SyntaxStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893C40957594500D14688 /* SyntaxStyle.m */; };
 		142893F809575A3000D14688 /* AboutPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893DD09575A3000D14688 /* AboutPanelController.m */; };
