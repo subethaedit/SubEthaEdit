@@ -23,10 +23,13 @@
 
 - (id)initWithFrame:(NSRect)frameRect pullsDown:(BOOL)flag {   
     self=[super initWithFrame:frameRect pullsDown:flag];
-    [[self cell] setArrowPosition:NSPopUpNoArrow];
-    [[self cell] setControlSize:NSSmallControlSize];
-    [self setBordered:NO];
-    [self setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
+	if (self) {
+		[[self cell] setArrowPosition:NSPopUpNoArrow];
+		[[self cell] setControlSize:NSSmallControlSize];
+		[self setBordered:NO];
+		[self setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
+		self.lineDrawingEdge = CGRectMaxXEdge;
+	}
     return self;
 }
 
@@ -56,8 +59,17 @@
     NSRect bounds=NSIntegralRect([self bounds]);
     [[NSColor grayColor] set];
     [NSBezierPath setDefaultLineWidth:1.];
-    [NSBezierPath strokeLineFromPoint:NSMakePoint(NSMaxX(bounds),NSMinY(bounds))
-                              toPoint:NSMakePoint(NSMaxX(bounds),NSMaxY(bounds))];
+
+	if (self.lineDrawingEdge == CGRectMaxXEdge) {
+		[NSBezierPath strokeLineFromPoint:NSMakePoint(NSMaxX(bounds),NSMinY(bounds))
+								  toPoint:NSMakePoint(NSMaxX(bounds),NSMaxY(bounds))];
+	} else if (self.lineDrawingEdge == CGRectMinXEdge) {
+		[NSBezierPath strokeLineFromPoint:NSMakePoint(NSMinX(bounds),NSMinY(bounds))
+								  toPoint:NSMakePoint(NSMinX(bounds),NSMaxY(bounds))];
+	} else {
+		NSLog(@"%s - Unknown line drawing option: %u", __FUNCTION__, self.lineDrawingEdge);
+	}
+
     CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
     CGContextSetRGBFillColor (ctx, 0.0, 0.0, 0.0, 1);
     CGContextBeginPath(ctx);

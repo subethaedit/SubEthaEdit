@@ -1,5 +1,5 @@
 //
-//  WebPreviewViewController.h
+//  SEEWebPreviewViewController.h
 //  was : WebPreviewWindowController.h
 //  SubEthaEdit
 //
@@ -19,7 +19,7 @@ typedef NS_ENUM(int8_t, SEEWebPreviewRefreshType) {
 	kWebPreviewRefreshDelayed   = 4
 };
 
-@interface WebPreviewViewController : NSViewController
+@interface SEEWebPreviewViewController : NSViewController
 
 - (id)initWithPlainTextDocument:(PlainTextDocument *)aDocument;
 

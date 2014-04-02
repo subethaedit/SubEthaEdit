@@ -11,11 +11,10 @@
 #import "PlainTextWindowController.h"
 
 #import "PlainTextEditor.h"
-#import "WebPreviewViewController.h"
+#import "SEEWebPreviewViewController.h"
 
 #import "SEEParticipantsOverlayViewController.h"
 #import "PlainTextLoadProgress.h"
-#import "SplitView.h"
 
 // this file needs arc - add -fobjc-arc in the compile build phase
 #if !__has_feature(objc_arc)
@@ -134,8 +133,9 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 			plainTextEditor.editorView.identifier = @"SecondEditor";
 			[plainTextEditors addObject:plainTextEditor];
 
-			SplitView *editorSplitView = [[SplitView alloc] initWithFrame:[[plainTextEditors[0] editorView] frame]];
+			NSSplitView *editorSplitView = [[NSSplitView alloc] initWithFrame:[[plainTextEditors[0] editorView] frame]];
 			editorSplitView.identifier = @"EditorSplit";
+			editorSplitView.dividerStyle = NSSplitViewDividerStyleThin;
 			SEEEditorSplitViewDelegate *splitDelegate = [[SEEEditorSplitViewDelegate alloc] initWithTabContext:self];
 			editorSplitView.delegate = splitDelegate;
 
@@ -262,14 +262,14 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 		NSSplitView *webPreviewSplitView = [[NSSplitView alloc] initWithFrame:viewRepresentedByTab.frame];
 		SEEWebPreviewSplitViewDelegate* webPreviewSplitDelegate = [[SEEWebPreviewSplitViewDelegate alloc] initWithTabContext:self];
 		webPreviewSplitView.identifier = @"WebPreviewSplit";
+		webPreviewSplitView.dividerStyle = NSSplitViewDividerStyleThin;
 		webPreviewSplitView.delegate = webPreviewSplitDelegate;
 		webPreviewSplitView.vertical = YES;
-		webPreviewSplitView.dividerStyle = NSSplitViewDividerStyleThin;
 		webPreviewSplitView.autoresizesSubviews = YES;
 		webPreviewSplitView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
 		[self.tab setView:webPreviewSplitView];
 
-		WebPreviewViewController *webPreviewViewController = [[WebPreviewViewController alloc] initWithPlainTextDocument:self.document];
+		SEEWebPreviewViewController *webPreviewViewController = [[SEEWebPreviewViewController alloc] initWithPlainTextDocument:self.document];
 
 		[webPreviewSplitView addSubview:webPreviewViewController.view];
 		[webPreviewSplitView addSubview:viewRepresentedByTab];

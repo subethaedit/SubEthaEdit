@@ -17,7 +17,6 @@
 #import "ImagePopUpButtonCell.h"
 #import "LayoutManager.h"
 #import "SEETextView.h"
-#import "SplitView.h"
 #import "GeneralPreferences.h"
 #import "TCMMMSession.h"
 #import "AppController.h"
@@ -32,7 +31,7 @@
 #import "URLBubbleWindow.h"
 #import "SEEParticipantsOverlayViewController.h"
 #import "SEETabStyle.h"
-#import "WebPreviewViewController.h"
+#import "SEEWebPreviewViewController.h"
 #import "FindAllController.h"
 #import <objc/objc-runtime.h>			// for objc_msgSend
 
@@ -810,14 +809,14 @@ static NSPoint S_cascadePoint = {0.0,0.0};
             NSView *tabItemView = [[tab view] retain];
             NSView *dialogView = [aDocumentDialog mainView];
 
-            I_dialogSplitView = [[[SplitView alloc] initWithFrame:[tabItemView frame]] autorelease];
+            I_dialogSplitView = [[[NSSplitView alloc] initWithFrame:[tabItemView frame]] autorelease];
 			I_dialogSplitView.identifier = @"DialogSplit";
             I_dialogSplitView.delegate = [[[SEEDialogSplitViewDelegate alloc] initWithTabContext:tab.identifier] autorelease];
+			I_dialogSplitView.dividerStyle = NSSplitViewDividerStyleThin;
 
             [tabContext setDialogSplitView:I_dialogSplitView];
 			tabContext.dialogSplitViewDelegate = I_dialogSplitView.delegate;
 
-            [(SplitView *)I_dialogSplitView setDividerThickness:3.];
             NSRect mainFrame = [dialogView frame];
             [I_dialogSplitView addSubview:dialogView];
             mainFrame.size.width = [I_dialogSplitView frame].size.width;

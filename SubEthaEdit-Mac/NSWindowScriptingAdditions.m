@@ -11,7 +11,7 @@
 #import "PlainTextEditor.h"
 #import "PlainTextDocument.h"
 #import "PlainTextWindowControllerTabContext.h"
-#import "WebPreviewViewController.h"
+#import "SEEWebPreviewViewController.h"
 
 @implementation NSWindow (NSWindowScriptingAdditions)
 - (id)scriptSelection {
