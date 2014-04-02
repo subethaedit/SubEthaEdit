@@ -67,16 +67,29 @@
                                 <binding destination="-2" name="toolTip" keyPath="self.localizedManualRefreshButtonToolTip" id="BPy-bD-CWZ"/>
                             </connections>
                         </button>
+                        <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="3h8-s6-6Cu">
+                            <rect key="frame" x="0.0" y="-2" width="480" height="5"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="1" id="a5i-1n-5Gf"/>
+                            </constraints>
+                            <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
+                            <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <font key="titleFont" metaFont="system"/>
+                        </box>
                     </subviews>
                     <constraints>
                         <constraint firstItem="heL-g6-SVy" firstAttribute="leading" secondItem="qK4-aB-5lu" secondAttribute="trailing" constant="12" id="145-Xs-Iod"/>
                         <constraint firstItem="heL-g6-SVy" firstAttribute="top" secondItem="ntc-8y-SiH" secondAttribute="top" constant="7" id="LBF-Q5-kfm"/>
+                        <constraint firstAttribute="trailing" secondItem="3h8-s6-6Cu" secondAttribute="trailing" id="Mio-rd-XfJ"/>
                         <constraint firstItem="heL-g6-SVy" firstAttribute="centerY" secondItem="qK4-aB-5lu" secondAttribute="centerY" id="O4X-7f-RxF"/>
                         <constraint firstItem="Mtf-dY-7pH" firstAttribute="leading" secondItem="heL-g6-SVy" secondAttribute="trailing" id="PYI-gY-GbW"/>
+                        <constraint firstItem="3h8-s6-6Cu" firstAttribute="leading" secondItem="ntc-8y-SiH" secondAttribute="leading" id="Uhz-O1-erN"/>
                         <constraint firstAttribute="trailing" secondItem="Mtf-dY-7pH" secondAttribute="trailing" constant="8" id="d4H-fW-pRY"/>
                         <constraint firstItem="Mtf-dY-7pH" firstAttribute="centerY" secondItem="ntc-8y-SiH" secondAttribute="centerY" id="eio-rW-WCH"/>
                         <constraint firstItem="qK4-aB-5lu" firstAttribute="leading" secondItem="ntc-8y-SiH" secondAttribute="leading" constant="12" id="h87-HO-ONj"/>
                         <constraint firstItem="Mtf-dY-7pH" firstAttribute="bottom" secondItem="heL-g6-SVy" secondAttribute="bottom" id="s15-Ji-zLc"/>
+                        <constraint firstItem="3h8-s6-6Cu" firstAttribute="top" secondItem="ntc-8y-SiH" secondAttribute="top" constant="35" id="uMD-0T-wM0"/>
                         <constraint firstItem="heL-g6-SVy" firstAttribute="top" secondItem="Mtf-dY-7pH" secondAttribute="top" id="z8h-VI-euY"/>
                     </constraints>
                 </customView>
