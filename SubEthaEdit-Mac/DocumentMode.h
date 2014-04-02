@@ -144,6 +144,7 @@ extern NSString * const DocumentModeStyleSheetsDefaultLanguageContextKey;
 - (SyntaxStyle *)syntaxStyle;
 - (void)setSyntaxStyle:(SyntaxStyle *)aStyle;
 - (SEEStyleSheetSettings *)styleSheetSettings;
+- (SEEStyleSheetSettings *)styleSheetSettingsOfThisMode;
 - (SyntaxStyle *)defaultSyntaxStyle;
 - (SEEStyleSheet *)styleSheetForLanguageContext:(NSString *)aLanguageContext;
 

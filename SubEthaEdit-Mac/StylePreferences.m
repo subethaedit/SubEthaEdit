@@ -6,6 +6,12 @@
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
+
+#import "PlainTextDocument.h"
 #import "StylePreferences.h"
 #import "SyntaxStyle.h"
 #import "DocumentModeManager.h"
@@ -32,11 +38,6 @@
         I_undoManager=[NSUndoManager new];
     }
     return self;
-}
-
-- (void)dealloc {
-    [I_undoManager release];
-    [super dealloc];
 }
 
 - (NSImage *)icon {
@@ -125,6 +126,8 @@
 //    [O_darkBackgroundButton        setEnabled:!useDefault];
 //    [O_backgroundColorWell         setEnabled:!useDefault];
 //    [O_invertedBackgroundColorWell setEnabled:!useDefault];
+	
+	[self highlightSyntax];
 }
 
 - (IBAction)changeDefaultState:(id)aSender {
@@ -153,7 +156,7 @@
 	[O_styleSheetCustomPopUpButton selectItemWithTitle:customStyleSheetName];
 	[O_customStylesForLanguageContextsTableView reloadData];
 	[O_styleSheetDefaultRadioButton setHidden:[aDocumentMode isBaseMode]];
-	// TODO: resze the style settings box
+	// TODO: resize the style settings box
 	CGFloat heightChange = 0;
 	BOOL shouldShow = ([[[aDocumentMode syntaxDefinition] allLanguageContexts] count] > 1);
 	if (shouldShow && [O_customStyleSheetsContainerView isHidden]) {
@@ -192,7 +195,7 @@
 		[[currentMode defaults] setObject:[NSNumber numberWithBool:YES] forKey:DocumentModeUseDefaultStyleSheetPreferenceKey];
 	} else {
 		[[currentMode defaults] setObject:[NSNumber numberWithBool:NO] forKey:DocumentModeUseDefaultStyleSheetPreferenceKey];
-		SEEStyleSheetSettings *styleSheetSettings = [currentMode styleSheetSettings];
+		SEEStyleSheetSettings *styleSheetSettings = [currentMode styleSheetSettingsOfThisMode];
 		if (aSender == O_styleSheetCustomRadioButton) {
 			styleSheetSettings.usesMultipleStyleSheets = NO;
 		} else {
@@ -208,7 +211,7 @@
 	DocumentMode *currentMode = [O_modeController content];
 	NSString *styleSheetName = [[O_styleSheetCustomPopUpButton selectedItem] title];
 	[[currentMode defaults] setObject:[NSNumber numberWithBool:NO] forKey:DocumentModeUseDefaultStyleSheetPreferenceKey];
-	SEEStyleSheetSettings *styleSheetSettings = [currentMode styleSheetSettings];	
+	SEEStyleSheetSettings *styleSheetSettings = [currentMode styleSheetSettingsOfThisMode];
 	styleSheetSettings.singleStyleSheetName = styleSheetName;
 	styleSheetSettings.usesMultipleStyleSheets = NO;
     [self validateDefaultsState:aSender];
@@ -252,8 +255,7 @@
 }
 
 - (void)setBaseFont:(NSFont *)aFont {
-    [I_baseFont autorelease];
-     I_baseFont = [aFont retain];
+     I_baseFont = aFont;
 }
 
 - (NSFont *)baseFont {
@@ -304,7 +306,7 @@
 	if ([[aTableColumn identifier] isEqualToString:@"languageContext"]) {
 		return languageContext;
 	} else {
-		SEEStyleSheetSettings *styleSheetSettings = [[O_modeController content] styleSheetSettings];
+		SEEStyleSheetSettings *styleSheetSettings = [[O_modeController content] styleSheetSettingsOfThisMode];
 		NSString *styleSheetName = [styleSheetSettings styleSheetNameForLanguageContext:[languageContexts objectAtIndex:aRow]];
 		if (!styleSheetName) {
 			styleSheetName = [styleSheetSettings singleStyleSheetName];
