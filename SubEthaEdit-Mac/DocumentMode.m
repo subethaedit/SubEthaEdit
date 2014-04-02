@@ -609,7 +609,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 - (SEEStyleSheetSettings *)styleSheetSettings {
 	SEEStyleSheetSettings *result = nil;
 	if ([[[self defaults] objectForKey:DocumentModeUseDefaultStyleSheetPreferenceKey] boolValue]) {
-		result = [[[DocumentModeManager sharedInstance] baseMode] styleSheetSettings];
+		result = [[[DocumentModeManager sharedInstance] baseMode] styleSheetSettingsOfThisMode];
 	} else {
 		result = [self styleSheetSettingsOfThisMode];
 	}
