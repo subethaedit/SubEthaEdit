@@ -9,12 +9,6 @@
 #import "SplitView.h"
 
 
-@interface NSColor (AppleInternalAdditions)
-
-+ (NSColor *) _toolbarBackgroundColor;
-
-@end
-
 @implementation SplitView
 
 - (id)initWithFrame:(NSRect)frameRect {
@@ -35,11 +29,7 @@
 - (void)drawDividerInRect:(NSRect)aRect {
     static NSColor *color;
     if (!color) {
-        if ([NSColor respondsToSelector:@selector(_toolbarBackgroundColor)]) {
-            color = [[NSColor _toolbarBackgroundColor] retain];
-        } else {
-            color = [[[NSColor whiteColor] colorWithAlphaComponent:0.4] retain];
-        }
+		color = [[[NSColor whiteColor] colorWithAlphaComponent:0.4] retain];
     }
     [color set];
     [[NSBezierPath bezierPathWithRect:aRect] fill];
