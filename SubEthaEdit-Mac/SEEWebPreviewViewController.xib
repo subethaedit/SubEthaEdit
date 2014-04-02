@@ -23,9 +23,11 @@
                 <webView translatesAutoresizingMaskIntoConstraints="NO" id="qvu-pH-jmf">
                     <rect key="frame" x="0.0" y="18" width="480" height="218"/>
                     <autoresizingMask key="autoresizingMask"/>
-                    <webPreferences key="preferences" defaultFontSize="12" defaultFixedFontSize="12"/>
+                    <webPreferences key="preferences" defaultFontSize="12" defaultFixedFontSize="12">
+                        <nil key="identifier"/>
+                    </webPreferences>
                 </webView>
-                <customView translatesAutoresizingMaskIntoConstraints="NO" id="ntc-8y-SiH" customClass="SEEOverlayView">
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="ntc-8y-SiH">
                     <rect key="frame" x="0.0" y="236" width="480" height="36"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
@@ -77,36 +79,20 @@
                         <constraint firstItem="Mtf-dY-7pH" firstAttribute="bottom" secondItem="heL-g6-SVy" secondAttribute="bottom" id="s15-Ji-zLc"/>
                         <constraint firstItem="heL-g6-SVy" firstAttribute="top" secondItem="Mtf-dY-7pH" secondAttribute="top" id="z8h-VI-euY"/>
                     </constraints>
-                    <backgroundFilters>
-                        <ciFilter name="CIGaussianBlur">
-                            <configuration>
-                                <null key="inputImage"/>
-                                <real key="inputRadius" value="10"/>
-                            </configuration>
-                        </ciFilter>
-                        <ciFilter name="CIColorControls">
-                            <configuration>
-                                <real key="inputBrightness" value="0.0"/>
-                                <real key="inputContrast" value="1"/>
-                                <null key="inputImage"/>
-                                <real key="inputSaturation" value="4"/>
-                            </configuration>
-                        </ciFilter>
-                    </backgroundFilters>
                 </customView>
-                <customView horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="e8j-Q2-5uj" customClass="SEEOverlayView">
+                <customView horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="e8j-Q2-5uj">
                     <rect key="frame" x="0.0" y="0.0" width="480" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
                         <popUpButton translatesAutoresizingMaskIntoConstraints="NO" id="heP-ap-i0y" customClass="PopUpButton">
                             <rect key="frame" x="404" y="0.0" width="76" height="18"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                            <popUpButtonCell key="cell" type="bevel" title="automatic" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="clipping" state="on" tag="1" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" id="8ya-Gk-nW2">
+                            <popUpButtonCell key="cell" type="bevel" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="clipping" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" id="8ya-Gk-nW2">
                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="smallSystem"/>
                                 <menu key="menu" title="OtherViews" id="Ucg-2U-92r">
                                     <items>
-                                        <menuItem title="automatic" state="on" tag="1" id="Oba-0S-UlW">
+                                        <menuItem title="automatic" tag="1" id="Oba-0S-UlW">
                                             <connections>
                                                 <binding destination="-2" name="title" keyPath="self.localizedRefreshModePopupItemAutomatic" id="fwt-Wu-kqq"/>
                                             </connections>
@@ -152,22 +138,6 @@
                         <constraint firstItem="heP-ap-i0y" firstAttribute="top" secondItem="e8j-Q2-5uj" secondAttribute="top" id="oLq-S8-E01"/>
                         <constraint firstAttribute="trailing" secondItem="heP-ap-i0y" secondAttribute="trailing" id="pQw-0Q-CZl"/>
                     </constraints>
-                    <backgroundFilters>
-                        <ciFilter name="CIGaussianBlur">
-                            <configuration>
-                                <null key="inputImage"/>
-                                <real key="inputRadius" value="10"/>
-                            </configuration>
-                        </ciFilter>
-                        <ciFilter name="CIColorControls">
-                            <configuration>
-                                <real key="inputBrightness" value="0.0"/>
-                                <real key="inputContrast" value="1"/>
-                                <null key="inputImage"/>
-                                <real key="inputSaturation" value="4"/>
-                            </configuration>
-                        </ciFilter>
-                    </backgroundFilters>
                 </customView>
             </subviews>
             <constraints>
