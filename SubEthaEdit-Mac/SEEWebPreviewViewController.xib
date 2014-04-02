@@ -128,15 +128,28 @@
                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                             </textFieldCell>
                         </textField>
+                        <box autoresizesSubviews="NO" verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="pl4-Q4-jxt">
+                            <rect key="frame" x="0.0" y="15" width="480" height="5"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="1" id="YKT-tj-3sG"/>
+                            </constraints>
+                            <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
+                            <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <font key="titleFont" metaFont="system"/>
+                        </box>
                     </subviews>
                     <constraints>
                         <constraint firstItem="uDK-9y-IDj" firstAttribute="leading" secondItem="e8j-Q2-5uj" secondAttribute="leading" constant="4" id="2YW-Mv-wSA"/>
+                        <constraint firstAttribute="bottom" secondItem="pl4-Q4-jxt" secondAttribute="bottom" constant="17" id="IOx-id-fjH"/>
                         <constraint firstAttribute="trailing" secondItem="heP-ap-i0y" secondAttribute="trailing" id="MQo-hA-Fpx"/>
+                        <constraint firstAttribute="trailing" secondItem="pl4-Q4-jxt" secondAttribute="trailing" id="XZK-YT-isf"/>
                         <constraint firstItem="heP-ap-i0y" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="uDK-9y-IDj" secondAttribute="trailing" constant="4" id="Xuw-pb-4OG"/>
                         <constraint firstItem="heP-ap-i0y" firstAttribute="baseline" secondItem="uDK-9y-IDj" secondAttribute="baseline" id="dbm-q8-f7A"/>
                         <constraint firstAttribute="bottom" secondItem="heP-ap-i0y" secondAttribute="bottom" id="g94-aS-xRC"/>
                         <constraint firstItem="heP-ap-i0y" firstAttribute="top" secondItem="e8j-Q2-5uj" secondAttribute="top" id="oLq-S8-E01"/>
                         <constraint firstAttribute="trailing" secondItem="heP-ap-i0y" secondAttribute="trailing" id="pQw-0Q-CZl"/>
+                        <constraint firstItem="pl4-Q4-jxt" firstAttribute="leading" secondItem="e8j-Q2-5uj" secondAttribute="leading" id="q9R-GJ-gA4"/>
                     </constraints>
                 </customView>
             </subviews>
