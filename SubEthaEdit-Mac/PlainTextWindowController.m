@@ -1007,7 +1007,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
 		NSMutableData *tabData = [NSMutableData data];
 		NSKeyedArchiver *tabCoder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:tabData];
-		[tabCoder setOutputFormat:NSPropertyListXMLFormat_v1_0];
+		[tabCoder setOutputFormat:NSPropertyListBinaryFormat_v1_0];
 		[tabContext encodeRestorableStateWithCoder:tabCoder];
 		if (tabDocument != selectedDocument) {
 			[tabItem.view encodeRestorableStateWithCoder:tabCoder];
