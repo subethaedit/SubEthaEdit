@@ -42,6 +42,11 @@
 @interface SEETextView () 
 @property (nonatomic, readonly) PlainTextDocument *document;
 @property (nonatomic) NSPoint cachedTextContainerOrigin;
+@property (nonatomic) BOOL TCM_adjustsVisibleRectWithInsets;
+
+/* used to temporarily adjust the visible rect methods to substract the overlay insets - used to make sure scrollToSelected also respects that - needs to be temporary because the scrollview itself gets irritated by a visible-rect that does not correspond to the total visible rect */
+- (void)performBlockWithAdjustedVisibleRect:(dispatch_block_t)aBlock;
+
 @end
 
 @interface NSTextView (NSTextViewTCMPrivateAdditions) 
@@ -815,6 +820,50 @@ static NSMenu *S_defaultMenu=nil;
 	[self scrollRangeToVisible:[(FoldableTextStorage *)[self textStorage] foldedRangeForFullRange:aRange]];
 }
 
+
+- (void)scrollRangeToVisible:(NSRange)aRange {
+	[self performBlockWithAdjustedVisibleRect:^{
+		[super scrollRangeToVisible:aRange];
+	}];
+}
+
+- (BOOL)scrollRectToVisible:(NSRect)aRect {
+	if (self.TCM_adjustsVisibleRectWithInsets) {
+		SEEPlainTextEditorScrollView *enclosingScrollView = (SEEPlainTextEditorScrollView *)[self enclosingScrollView];
+		if ([enclosingScrollView isKindOfClass:[SEEPlainTextEditorScrollView class]]) {
+			aRect.size.height += enclosingScrollView.topOverlayHeight + enclosingScrollView.bottomOverlayHeight;
+			aRect.origin.y -= enclosingScrollView.topOverlayHeight;
+		}
+	}
+	BOOL result = [super scrollRectToVisible:aRect];
+	return result;
+}
+
+- (NSRect)visibleRect {
+	NSRect result = [super visibleRect];
+
+	if (self.TCM_adjustsVisibleRectWithInsets) {
+		SEEPlainTextEditorScrollView *enclosingScrollView = (SEEPlainTextEditorScrollView *)[self enclosingScrollView];
+		if ([enclosingScrollView isKindOfClass:[SEEPlainTextEditorScrollView class]]) {
+			
+			result.size.height -= enclosingScrollView.topOverlayHeight + enclosingScrollView.bottomOverlayHeight;
+			result.origin.y += enclosingScrollView.topOverlayHeight;
+		}
+	}
+	return result;
+}
+
+- (void)performBlockWithAdjustedVisibleRect:(dispatch_block_t)aBlock {
+	BOOL oldValue = self.TCM_adjustsVisibleRectWithInsets;
+	self.TCM_adjustsVisibleRectWithInsets = YES;
+	aBlock();
+	self.TCM_adjustsVisibleRectWithInsets = oldValue;
+}
+
+- (void)scrollPoint:(NSPoint)aPoint {
+	NSLog(@"%s %@",__FUNCTION__, NSStringFromPoint(aPoint));
+	[super scrollPoint:aPoint];
+}
 
 #pragma mark -
 #pragma mark ### dragging ###
