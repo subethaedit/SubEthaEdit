@@ -599,13 +599,22 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     return [defaultDefaults objectForKey:aKey];
 }
 
-- (SEEStyleSheetSettings *)styleSheetSettings {
+- (SEEStyleSheetSettings *)styleSheetSettingsOfThisMode {
 	if (!I_styleSheetSettings) {
 		I_styleSheetSettings = [[SEEStyleSheetSettings alloc] initWithDocumentMode:self];
 	}
 	return I_styleSheetSettings;
 }
 
+- (SEEStyleSheetSettings *)styleSheetSettings {
+	SEEStyleSheetSettings *result = nil;
+	if ([[[self defaults] objectForKey:DocumentModeUseDefaultStyleSheetPreferenceKey] boolValue]) {
+		result = [[[DocumentModeManager sharedInstance] baseMode] styleSheetSettings];
+	} else {
+		result = [self styleSheetSettingsOfThisMode];
+	}
+	return result;
+}
 
 - (SEEStyleSheet *)styleSheetForLanguageContext:(NSString *)aLanguageContext {
 	SEEStyleSheetSettings *styleSheetSettings = [self styleSheetSettings];
