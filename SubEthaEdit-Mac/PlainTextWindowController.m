@@ -887,6 +887,9 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 - (IBAction)toggleSplitView:(id)aSender {
 	PlainTextWindowControllerTabContext *tabContext = [self selectedTabContext];
 	tabContext.hasEditorSplit = ! tabContext.hasEditorSplit;
+
+	NSTextView *textView = [tabContext.plainTextEditors[0] textView];
+	[self.window makeFirstResponder:textView];
 }
 
 #pragma mark Editors
@@ -970,7 +973,15 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 	NSResponder *oldFirstResponder = self.window.firstResponder;
 	PlainTextWindowControllerTabContext *tabContext = [self selectedTabContext];
 
-	tabContext.hasWebPreviewSplit = ! tabContext.webPreviewSplitView;
+	// when split is closing and the webView is first responder make te editor the first responder
+	if (tabContext.hasWebPreviewSplit) {
+		NSView *webView = tabContext.webPreviewSplitView.subviews.firstObject;
+		if (webView && [oldFirstResponder isKindOfClass:[NSView class]] && [((NSView *)oldFirstResponder) isDescendantOf:webView]) {
+			oldFirstResponder = tabContext.activePlainTextEditor.textView;
+		}
+	}
+
+	tabContext.hasWebPreviewSplit = ! tabContext.hasWebPreviewSplit;
 
 	[self updateWindowMinSize];
     [[self window] makeFirstResponder:oldFirstResponder];
