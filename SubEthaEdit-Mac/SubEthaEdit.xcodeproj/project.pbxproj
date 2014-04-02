@@ -158,7 +158,6 @@
 		1428946609575B9700D14688 /* PopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428945309575B9700D14688 /* PopUpButton.m */; };
 		1428946709575B9700D14688 /* PopUpButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428945509575B9700D14688 /* PopUpButtonCell.m */; };
 		1428946809575B9700D14688 /* RadarScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428945709575B9700D14688 /* RadarScroller.m */; };
-		1428946909575B9700D14688 /* SplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428945909575B9700D14688 /* SplitView.m */; };
 		1428946B09575B9700D14688 /* SEETextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428945D09575B9700D14688 /* SEETextView.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		1428946C09575B9700D14688 /* URLDataProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428945F09575B9700D14688 /* URLDataProtocol.m */; };
 		1428946D09575B9700D14688 /* SEEWebPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428946109575B9700D14688 /* SEEWebPreviewViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
@@ -889,8 +888,6 @@
 		1428945509575B9700D14688 /* PopUpButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopUpButtonCell.m; sourceTree = "<group>"; };
 		1428945609575B9700D14688 /* RadarScroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = RadarScroller.h; sourceTree = "<group>"; };
 		1428945709575B9700D14688 /* RadarScroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RadarScroller.m; sourceTree = "<group>"; };
-		1428945809575B9700D14688 /* SplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SplitView.h; sourceTree = "<group>"; };
-		1428945909575B9700D14688 /* SplitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SplitView.m; sourceTree = "<group>"; };
 		1428945C09575B9700D14688 /* SEETextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SEETextView.h; sourceTree = "<group>"; };
 		1428945D09575B9700D14688 /* SEETextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEETextView.m; sourceTree = "<group>"; };
 		1428945E09575B9700D14688 /* URLDataProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = URLDataProtocol.h; sourceTree = "<group>"; };
@@ -1854,8 +1851,6 @@
 				1428945509575B9700D14688 /* PopUpButtonCell.m */,
 				1428945609575B9700D14688 /* RadarScroller.h */,
 				1428945709575B9700D14688 /* RadarScroller.m */,
-				1428945809575B9700D14688 /* SplitView.h */,
-				1428945909575B9700D14688 /* SplitView.m */,
 				5E57298C09F514FB00D3746B /* Toolbar.h */,
 				5E57298D09F514FB00D3746B /* Toolbar.m */,
 				1428945E09575B9700D14688 /* URLDataProtocol.h */,
@@ -3268,7 +3263,6 @@
 				1428946709575B9700D14688 /* PopUpButtonCell.m in Sources */,
 				1428946809575B9700D14688 /* RadarScroller.m in Sources */,
 				4C0B4C6118C8B3E300048335 /* SEEToggleRecentDocumentListItem.m in Sources */,
-				1428946909575B9700D14688 /* SplitView.m in Sources */,
 				1428946B09575B9700D14688 /* SEETextView.m in Sources */,
 				F2308E6718E06FA00096E0C1 /* SEEFindAndReplaceContext.m in Sources */,
 				1428946C09575B9700D14688 /* URLDataProtocol.m in Sources */,
