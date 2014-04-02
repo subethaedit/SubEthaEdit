@@ -79,8 +79,8 @@
 - (void)takeFontFromMode:(DocumentMode *)aMode {
     NSDictionary *fontAttributes = [aMode defaultForKey:DocumentModeFontAttributesPreferenceKey];
 //    NSLog(@"%s %@",__FUNCTION__, fontAttributes);
-    NSFont *font=[NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:11.];
-    if (!font) font=[NSFont userFixedPitchFontOfSize:11.];
+    NSFont *font = [NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
+    if (!font) font = [NSFont userFixedPitchFontOfSize:11.];
     [self setBaseFont:font];
 }
 
@@ -290,7 +290,6 @@
 		SEEStyleSheet *styleSheet = [currentMode styleSheetForLanguageContext:currentMode.scriptedName];
 		NSDictionary *attributes = [SEEStyleSheet textAttributesForStyleAttributes:[styleSheet styleAttributesForScope:SEEStyleSheetMetaDefaultScopeName] font:I_baseFont];
 		[textStorage setAttributes:attributes range:NSMakeRange(0,textStorage.length)];
-		NSLog(@"%s no highlighter",__FUNCTION__);
 	}
 }
 
