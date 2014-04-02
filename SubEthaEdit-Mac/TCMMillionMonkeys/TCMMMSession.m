@@ -21,6 +21,7 @@
 #import "UserChangeOperation.h"
 #import "time.h"
 #import "PlainTextDocument.h"
+#import "FoldableTextStorage.h"
 
 
 #define kProcessingTime 0.5
