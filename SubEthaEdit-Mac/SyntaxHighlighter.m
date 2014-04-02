@@ -38,8 +38,8 @@ NSString * const kSyntaxHighlightingAutocompleteEndName = @"AutocompleteEnd";
 NSString * const kSyntaxHighlightingIndentLevelName = @"IndentLevel";
 
 
-
 NSString * const kSyntaxHighlightingTypeComment = @"comment";
+NSString * const kSyntaxHighlightingTypeString = @"string";
 
 static NSArray *S_attributesToCleanup = nil;
 

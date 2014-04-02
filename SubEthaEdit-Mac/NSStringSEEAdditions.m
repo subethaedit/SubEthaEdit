@@ -15,6 +15,95 @@
 #error ARC must be enabled!
 #endif
 
+@interface TCMBracketSettings ()
+@property (nonatomic, readwrite) unichar *openingBrackets;
+@property (nonatomic, readwrite) unichar *closingBrackets;
+@property (nonatomic, readwrite) NSInteger bracketCount;
+@end
+
+@implementation TCMBracketSettings
+- (instancetype)initWithBracketString:(NSString *)aBracketString {
+	self = [super init];
+	if (self) {
+		_bracketCount = [aBracketString length] / 2;
+		_closingBrackets = malloc(sizeof(unichar)*_bracketCount);
+		_openingBrackets = malloc(sizeof(unichar)*_bracketCount);
+		for (int i=0;i<_bracketCount;i++) {
+			_openingBrackets[i]=[aBracketString characterAtIndex:i];
+			_closingBrackets[i]=[aBracketString characterAtIndex:(_bracketCount*2-1)-i];
+		}
+	}
+	return self;
+}
+
+- (BOOL)charIsClosingBracket:(unichar)aPossibleBracket {
+    for (int i=0;i<_bracketCount;i++) {
+        if (aPossibleBracket==_closingBrackets[i]) {
+            return YES;
+		}
+    }
+    return NO;
+}
+
+- (BOOL)charIsOpeningBracket:(unichar)aPossibleBracket {
+    for (int i=0;i<_bracketCount;i++) {
+        if (aPossibleBracket==_openingBrackets[i]) {
+            return YES;
+		}
+    }
+    return NO;
+}
+
+- (BOOL)charIsBracket:(unichar)aPossibleBracket {
+	BOOL result = ([self matchingBracketForChar:aPossibleBracket] != (unichar)0);
+    return result;
+}
+
+- (unichar)matchingBracketForChar:(unichar)aBracketCharacter; {
+	for (int i=0;i<_bracketCount;i++) {
+        if (aBracketCharacter==_openingBrackets[i]) {
+			return _closingBrackets[i];
+		} else if (aBracketCharacter==_closingBrackets[i]) {
+            return _openingBrackets[i];
+		}
+    }
+    return (unichar)0;
+}
+
+- (BOOL)shouldIgnoreBracketAtIndex:(NSUInteger)anIndex attributedString:(NSAttributedString *)anAttributedString {
+	BOOL result = NO;
+	if (self.attributeNameToDisregard) {
+		id value = [anAttributedString attribute:self.attributeNameToDisregard atIndex:anIndex effectiveRange:NULL];
+		for (id checkValue in self.attributeValuesToDisregard) {
+			if ([value isEqual:checkValue]) {
+				result = YES;
+				break;
+			}
+		}
+	}
+	return result;
+}
+
+- (BOOL)shouldIgnoreBracketAtRangeBoundaries:(NSRange)aRange attributedString:(NSAttributedString *)anAttributedString {
+	BOOL beforeValue = YES;
+	BOOL afterValue = YES;
+	if (aRange.location > 0) {
+		beforeValue = [self shouldIgnoreBracketAtIndex:aRange.location-1 attributedString:anAttributedString];
+	}
+	if (NSMaxRange(aRange) < anAttributedString.length) {
+		afterValue = [self shouldIgnoreBracketAtIndex:NSMaxRange(aRange) attributedString:anAttributedString];
+	}
+	BOOL result = beforeValue && afterValue;
+	return result;
+}
+
+
+- (void)dealloc {
+	free(_openingBrackets);
+	free(_closingBrackets);
+}
+
+@end
 
 static void convertLineEndingsInString(NSMutableString *string, NSString *newLineEnding)
 {
@@ -791,5 +880,106 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
 	NSRange result = NSMakeRange(0, self.length);
 	return result;
 }
+
+#define STACKLIMIT 100
+#define BUFFERSIZE 500
+
+- (NSUInteger)TCM_positionOfMatchingBracketToPosition:(NSUInteger)position bracketSettings:(TCMBracketSettings *)aBracketSettings {
+    NSString *aString = [self string];
+    NSUInteger result=NSNotFound;
+    unichar possibleBracket=[aString characterAtIndex:position];
+    BOOL forward=YES;
+    if ([aBracketSettings charIsOpeningBracket:possibleBracket]) {
+        forward=YES;
+    } else if ([aBracketSettings charIsClosingBracket:possibleBracket]) {
+        forward=NO;
+    } else {
+        return result;
+    }
+    // extra block to only be initialized when thing was a bracket
+    {
+        unichar stack[STACKLIMIT];
+        int stackPosition=0;
+        NSRange searchRange,bufferRange;
+        unichar buffer[BUFFERSIZE];
+        int i;
+        BOOL stop=NO;
+		
+        stack[stackPosition]=[aBracketSettings matchingBracketForChar:possibleBracket];
+		
+        if (forward) {
+            searchRange=NSMakeRange(position+1,[aString length]-(position+1));
+        } else {
+            searchRange=NSMakeRange(0,position);
+        }
+        while (searchRange.length>0 && !stop) {
+            if (searchRange.length<=BUFFERSIZE) {
+                bufferRange=searchRange;
+            } else {
+                if (forward) {
+                    bufferRange=NSMakeRange(searchRange.location,BUFFERSIZE);
+                } else {
+                    bufferRange=NSMakeRange(NSMaxRange(searchRange)-BUFFERSIZE,BUFFERSIZE);
+                }
+            }
+            [aString getCharacters:buffer range:bufferRange];
+            // go through the buffer
+            if (forward) {
+                for (i=0;i<(int)bufferRange.length && !stop;i++) {
+					NSUInteger locationToCheck = bufferRange.location+i;
+					unichar character = buffer[i];
+                    if ([aBracketSettings charIsOpeningBracket:character] &&
+						![aBracketSettings shouldIgnoreBracketAtIndex:locationToCheck attributedString:self]) {
+                        if (++stackPosition>=STACKLIMIT) {
+                            stop=YES;
+                        } else {
+                            stack[stackPosition]=[aBracketSettings  matchingBracketForChar:character];
+                        }
+                    } else if ([aBracketSettings charIsClosingBracket:character] &&
+							   ![aBracketSettings shouldIgnoreBracketAtIndex:locationToCheck attributedString:self]) {
+                        if (character != stack[stackPosition]) {
+                            stop=YES;
+                        } else {
+                            if (--stackPosition<0) {
+                                result = locationToCheck;
+                                stop = YES;
+                            }
+                        }
+                    }
+                }
+            } else { // backward
+                for (i=bufferRange.length-1;i>=0 && !stop;i--) {
+ 					NSUInteger locationToCheck = bufferRange.location+i;
+					unichar character = buffer[i];
+					if ([aBracketSettings charIsClosingBracket:character] &&
+						![aBracketSettings shouldIgnoreBracketAtIndex:locationToCheck attributedString:self]) {
+						if (++stackPosition>=STACKLIMIT) {
+                            stop=YES;
+                        } else {
+                            stack[stackPosition]=[aBracketSettings matchingBracketForChar:buffer[i]];
+                        }
+                    } else if ([aBracketSettings charIsOpeningBracket:character] &&
+							   ![aBracketSettings shouldIgnoreBracketAtIndex:locationToCheck attributedString:self]) {
+                        if (character != stack[stackPosition]) {
+                            NSBeep(); // do it like project builder :-
+                            stop = YES;
+                        } else {
+                            if (--stackPosition<0) {
+                                result = locationToCheck;
+                                stop = YES;
+                            }
+                        }
+                    }
+                }
+            }
+            if (forward) {
+                searchRange.location+=bufferRange.length;
+            }
+            searchRange.length-=bufferRange.length;
+        }
+    }
+    return result;
+}
+
 
 @end
