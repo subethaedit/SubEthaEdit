@@ -2129,9 +2129,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
 - (void)selectRangeInBackground:(NSRange)aRange {
     [self selectRangeInBackgroundWithoutIndication:aRange expandIfFolded:YES];
-    if ([I_textView respondsToSelector:@selector(showFindIndicatorForRange:)]) {
-        [I_textView showFindIndicatorForRange:[I_textView selectedRange]];
-    }
+	[I_textView showFindIndicatorForRange:[I_textView selectedRange]];
 }
 
 
