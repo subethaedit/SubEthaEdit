@@ -48,6 +48,7 @@
 
 @property (nonatomic, retain) NSMutableDictionary * scopeStyleDictionary;
 @property (nonatomic, retain) NSMutableArray * linkedStyleSheets;
+@property (nonatomic, copy) NSString *bracketMatchingBracketString;
 
 /*"Initizialisation"*/
 - (id)initWithFile:(NSString *)aPath forMode:(DocumentMode *)aMode;

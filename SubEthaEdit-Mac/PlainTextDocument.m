@@ -1035,6 +1035,8 @@ static NSString *tempFileName(NSString *origPath) {
     aFlag=[[documentMode defaults] objectForKey:DocumentModeShowTopStatusBarPreferenceKey];
     [self setShowsTopStatusBar:!aFlag || [aFlag boolValue]];
 
+	[self.bracketSettings setBracketString:documentMode.bracketMatchingBracketString];
+	
     [[self windowControllers] makeObjectsPerformSelector:@selector(takeSettingsFromDocument)];
     [[self plainTextEditors] makeObjectsPerformSelector:@selector(takeStyleSettingsFromDocument)];
 }

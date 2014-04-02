@@ -125,6 +125,7 @@ extern NSString * const DocumentModeStyleSheetsDefaultLanguageContextKey;
 - (ModeSettings *)modeSettings;
 - (SyntaxHighlighter *)syntaxHighlighter;
 - (SyntaxDefinition *)syntaxDefinition;
+@property (readonly) NSString *bracketMatchingBracketString;
 - (RegexSymbolParser *)symbolParser;
 - (NSString *)templateFileContent;
 - (NSMutableArray *)autocompleteDictionary;

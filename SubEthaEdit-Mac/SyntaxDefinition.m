@@ -30,9 +30,7 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 @implementation SyntaxDefinition
 /*"A Syntax Definition"*/
 
-#pragma mark - 
 #pragma mark - Initizialisation
-#pragma mark - 
 
 @synthesize scopeStyleDictionary = I_scopeStyleDictionary;
 @synthesize linkedStyleSheets = I_linkedStyleSheets;
@@ -83,9 +81,7 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 	return self;
 }
 
-#pragma mark - 
 #pragma mark - XML parsing
-#pragma mark - 
 
 -(void) showWarning:(NSString *)title withDescription:(NSString *)description {
 	NSLog(@"ERROR: %@: %@",title, description);
@@ -116,6 +112,11 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
     NSString *charsDelimitingToken = [[[syntaxDefinitionXML nodesForXPath:@"/syntax/head/charsdelimitingtokens" error:&err] lastObject] stringValue];
     NSCharacterSet *tokenSet = nil; // TODO: what should be the value if neither charsInToken nor charsDelimitingToken?
     
+	NSXMLNode *bracketMatchingBracketNode = [[syntaxDefinitionXML nodesForXPath:@"/syntax/head/bracketmatching/@brackets" error:&err] lastObject];
+	if (bracketMatchingBracketNode) {
+		self.bracketMatchingBracketString = [bracketMatchingBracketNode stringValue];
+	}
+	
     NSXMLNode *foldingTopLevel = [[syntaxDefinitionXML nodesForXPath:@"/syntax/head/folding/@toplevel" error:&err] lastObject];
     if (foldingTopLevel) {
     	I_foldingTopLevel = [[foldingTopLevel stringValue] intValue];
@@ -463,9 +464,7 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 
 }
 
-#pragma mark - 
 #pragma mark - Caching and precalculating
-#pragma mark - 
 
 - (void)registerScope:(NSString *)aScope {
 	if (aScope && ![I_allScopesArray containsObject:aScope]) {
@@ -533,9 +532,7 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
     I_combinedStateRegexReady = YES;
 }
 
-#pragma mark - 
 #pragma mark - Accessors
-#pragma mark - 
 
 - (NSDictionary *)importedModes {
     return I_importedModes;

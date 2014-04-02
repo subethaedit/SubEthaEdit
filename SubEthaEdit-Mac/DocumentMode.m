@@ -517,6 +517,14 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     return I_syntaxDefinition;
 }
 
+- (NSString *)bracketMatchingBracketString {
+	NSString *result = I_syntaxDefinition.bracketMatchingBracketString;
+	if (!result) {
+		result = @"{[()]}"; // default value
+	}
+	return result;
+}
+
 - (SyntaxHighlighter *)syntaxHighlighter {
     return I_syntaxHighlighter;
 }
