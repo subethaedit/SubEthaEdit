@@ -6,6 +6,13 @@
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
+// this file needs arc - either project wide,
+// or add -fobjc-arc on a per file basis in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
+
 #import "DocumentModeManager.h"
 #import "SyntaxDefinition.h"
 #import "NSColorTCMAdditions.h"
@@ -35,7 +42,6 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
     self=[super init];
     if (self) {
         if (!aPath) {
-            [self release]; self = nil;
             return nil;
         }
         // Alloc & Init
@@ -69,34 +75,12 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 		I_keyForInheritedSymbols = nil;
 		I_keyForInheritedAutocomplete = nil;
 
-	    if (! everythingOkay) {
+	    if (!everythingOkay) {
 			NSLog(@"Critical errors while loading syntax definition. Not loading syntax highlighter.");
-            [self release]; self = nil;
 			return nil;
 		}
 	}
 	return self;
-}
-
-- (void)dealloc {
-	[I_allScopesArray release];
-	[I_allLanguageContextsArray release];
-	self.scopeStyleDictionary = nil;
-    self.linkedStyleSheets = nil;
-	[I_name release];
-    [I_allStates release];
-    [I_defaultState release];
-    [I_importedModes release];
-    [I_stylesForToken release];
-    [I_stylesForRegex release];
-	[I_defaultSyntaxStyle release];
-    [I_autocompleteTokenString release];
-    [I_levelsForStyleIDs release];
-    [I_charsInToken release];
-    [I_charsDelimitingToken release];
-    [self setTokenSet:nil];
-    [self setAutoCompleteTokenSet:nil];
-    [super dealloc];
 }
 
 #pragma mark - 
@@ -105,7 +89,7 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 
 -(void) showWarning:(NSString *)title withDescription:(NSString *)description {
 	NSLog(@"ERROR: %@: %@",title, description);
-	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+	NSAlert *alert = [[NSAlert alloc] init];
 	[alert setAlertStyle:NSWarningAlertStyle];
 	[alert setMessageText:title];
 	[alert setInformativeText:description];
@@ -118,7 +102,7 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 -(void)parseXMLFile:(NSString *)aPath {
 
     NSError *err=nil;
-    NSXMLDocument *syntaxDefinitionXML = [[[NSXMLDocument alloc] initWithData:[NSData dataWithContentsOfFile:aPath] options:0 error:&err] autorelease];
+    NSXMLDocument *syntaxDefinitionXML = [[NSXMLDocument alloc] initWithData:[NSData dataWithContentsOfFile:aPath] options:0 error:&err];
 
     if (err) {
 		[self showWarning:NSLocalizedString(@"XML Structure Error",@"XML Structure Error Title")  withDescription:[NSString stringWithFormat:NSLocalizedString(@"Error while loading '%@': %@",@"Syntax XML Loading Error Informative Text"),aPath, [err localizedDescription]]];
@@ -302,7 +286,7 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
         if (regexEnd) {
             OGRegularExpression *endRegex;
             if ([OGRegularExpression isValidExpressionString:regexEnd]) {
-                if ((endRegex = [[[OGRegularExpression alloc] initWithString:regexEnd options:OgreFindNotEmptyOption] autorelease]))
+                if ((endRegex = [[OGRegularExpression alloc] initWithString:regexEnd options:OgreFindNotEmptyOption]))
                     [stateDictionary setObject:endRegex forKey:@"EndsWithRegex"];
                 [stateDictionary setObject:regexEnd forKey:@"EndsWithRegexString"];
             } else {
@@ -367,7 +351,7 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 			}
 			if ([regexNodes count]>0) {
 				[combinedRegexRegexString replaceCharactersInRange:NSMakeRange([combinedRegexRegexString length]-1, 1) withString:@")"];
-				[keywordGroupDictionary setObject:[[[OGRegularExpression alloc] initWithString:combinedRegexRegexString options:OgreFindNotEmptyOption|OgreCaptureGroupOption] autorelease] forKey:@"CompiledRegEx"];            
+				[keywordGroupDictionary setObject:[[OGRegularExpression alloc] initWithString:combinedRegexRegexString options:OgreFindNotEmptyOption|OgreCaptureGroupOption] forKey:@"CompiledRegEx"];
 			}
 			
 			
@@ -404,7 +388,7 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 				unsigned keywordGroupSettings = OgreFindNotEmptyOption|OgreCaptureGroupOption;
 				if (caseInsensitiveKeywordGroup) keywordGroupSettings |= OgreIgnoreCaseOption;
 				
-				[keywordGroupDictionary setObject:[[[OGRegularExpression alloc] initWithString:combinedKeywordRegexString options:keywordGroupSettings] autorelease] forKey:@"CompiledKeywords"];
+				[keywordGroupDictionary setObject:[[OGRegularExpression alloc] initWithString:combinedKeywordRegexString options:keywordGroupSettings] forKey:@"CompiledKeywords"];
 			}
 		}
 	}
@@ -533,7 +517,6 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
             }
         }
     }
-	[keywordGroups release];
     
     DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Finished caching plainstrings:%@",[I_stylesForToken description]);
     DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Finished caching regular expressions:%@",[I_stylesForRegex description]);
@@ -577,8 +560,8 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 		}
 		for (id substate in [state objectForKey:@"states"]) {
 			if ([substate isKindOfClass:[NSDictionary class]]) {
-				substate = [substate objectForKey:@"id"];
-				[self addState:substate toString:aString indentLevel:anIndentLevel visitedStates:aStateSet];
+				id substateID = [substate objectForKey:@"id"];
+				[self addState:substateID toString:aString indentLevel:anIndentLevel visitedStates:aStateSet];
 			} else {
 				NSLog(@"substate was string: %@", substate);
 			}
@@ -618,10 +601,9 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 
 - (void)setName:(NSString *)aString
 {
-    [I_name autorelease];
     NSRange aRange = [aString rangeOfString:@"SEEMode." options:NSLiteralSearch range:NSMakeRange(0, [aString length] - 1)];
 	NSString *modeName = [aString substringWithRange:NSMakeRange(aRange.length, [aString length] - aRange.length)];
-     I_name = [modeName copy];
+	I_name = [modeName copy];
 }
 
 - (NSMutableDictionary *)defaultState
@@ -654,15 +636,12 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 
 - (void)setAutoCompleteTokenSet:(NSCharacterSet *)aCharacterSet
 {
-    [I_autoCompleteTokenSet autorelease];
      I_autoCompleteTokenSet = [aCharacterSet copy];
 }
 
 - (void)setTokenSet:(NSCharacterSet *)aCharacterSet
 {
-    [I_tokenSet autorelease];
      I_tokenSet = [aCharacterSet copy];
-    [I_invertedTokenSet autorelease];
      I_invertedTokenSet = [[aCharacterSet invertedSet] copy];
 }
 
@@ -703,10 +682,16 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 	NSString *autocomplete = nil;
 	
 	counter ++;
-	if ([state objectForKey:@"switchtosymbolsfrommode"]) symbols = [[[state objectForKey:@"switchtosymbolsfrommode"] copy] autorelease];
-    else symbols = [[oldSymbols copy] autorelease];
-	if ([state objectForKey:StateDictionarySwitchToAutocompleteFromModeKey]) autocomplete = [[[state objectForKey:StateDictionarySwitchToAutocompleteFromModeKey] copy] autorelease];
-    else autocomplete = [[oldAutocomplete copy] autorelease];
+	if ([state objectForKey:@"switchtosymbolsfrommode"]) {
+		symbols = [[state objectForKey:@"switchtosymbolsfrommode"] copy];
+	} else {
+		symbols = [oldSymbols copy];
+	}
+	if ([state objectForKey:StateDictionarySwitchToAutocompleteFromModeKey]) {
+		autocomplete = [[state objectForKey:StateDictionarySwitchToAutocompleteFromModeKey] copy];
+	} else {
+		autocomplete = [oldAutocomplete copy];
+	}
     
 
     BOOL isLinked = ([state objectForKey:@"hardlink"]!=nil);
@@ -929,7 +914,9 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 		if ([keywordGroup objectForKey:@"scope"]) {
 			stateStyles = [NSMutableDictionary dictionary];
 			for (NSString *styleKey in styleKeyArray) {
-				if ([keywordGroup objectForKey:styleKey]) [stateStyles setObject:[keywordGroup objectForKey:styleKey] forKey:styleKey];
+				if ([keywordGroup objectForKey:styleKey]) {
+					[stateStyles setObject:[keywordGroup objectForKey:styleKey] forKey:styleKey];
+				}
 			}
 			[self.scopeStyleDictionary setObject:stateStyles forKey:[keywordGroup objectForKey:@"scope"]];
 		} else {
@@ -938,12 +925,15 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 		
         [I_defaultSyntaxStyle takeValuesFromDictionary:keywordGroup];
     }
-	[keywordGroups release];
     
     NSEnumerator *subStates = [[aState objectForKey:@"states"] objectEnumerator];
     id subState;
     while ((subState = [subStates nextObject])) {
-        if (([aState objectForKey:@"color"]&&![I_defaultSyntaxStyle styleForKey:[subState objectForKey:kSyntaxHighlightingStyleIDAttributeName]])&&(![[aState objectForKey:@"id"] isEqualToString:[subState objectForKey:@"id"]])) [self addStyleIDsFromState:[self stateForID:[subState objectForKey:@"id"]]];
+        if (([aState objectForKey:@"color"] &&
+			 ![I_defaultSyntaxStyle styleForKey:[subState objectForKey:kSyntaxHighlightingStyleIDAttributeName]]) &&
+			(![[aState objectForKey:@"id"] isEqualToString:[subState objectForKey:@"id"]])) {
+			[self addStyleIDsFromState:[self stateForID:[subState objectForKey:@"id"]]];
+		}
     }
     
 }
@@ -1020,7 +1010,6 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
                 [self showWarning:NSLocalizedString(@"XML Group Error",@"XML Group Error Title") withDescription:[NSString stringWithFormat:NSLocalizedString(@"The <begin> tag of <state> \"%@\" contains a regex that has captured groups. This is currently not allowed. Please escape all groups to be not-captured with (?:).",@"Syntax XML Group Error Informative Text"),[aDictionary objectForKey:@"id"]]];
             }
           
-            [testForGroups release];
         } else if ((beginString = [aDictionary objectForKey:@"BeginsWithPlainString"])) {
             DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found plain string state start:%@",beginString);
         } else if ([aDictionary objectForKey:@"containerState"]) {
@@ -1047,7 +1036,7 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 				[aState setObject:combinedString forKey:@"Combined Delimiter String"];
 					
 				NSMutableArray *captureGroups = [NSMutableArray array];
-				OGRegularExpression *filterGroupsRegex = [[[OGRegularExpression alloc] initWithString:@"(?<=\\(\\?#see-insert-start-group:)[^\\)]+" options:OgreFindNotEmptyOption|OgreCaptureGroupOption] autorelease];
+				OGRegularExpression *filterGroupsRegex = [[OGRegularExpression alloc] initWithString:@"(?<=\\(\\?#see-insert-start-group:)[^\\)]+" options:OgreFindNotEmptyOption|OgreCaptureGroupOption];
 				NSEnumerator *matchEnumerator = [[filterGroupsRegex allMatchesInString:endString] objectEnumerator];
 				OGRegularExpressionMatch *aMatch;
 				while ((aMatch = [matchEnumerator nextObject])) {
@@ -1056,7 +1045,7 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 				
 				[aState setObject:captureGroups forKey:@"Combined Delimiter String End Capture Groups"];
 			} else {
-				OGRegularExpression *combindedRegex = [[[OGRegularExpression alloc] initWithString:combinedString options:OgreFindNotEmptyOption|OgreCaptureGroupOption] autorelease];
+				OGRegularExpression *combindedRegex = [[OGRegularExpression alloc] initWithString:combinedString options:OgreFindNotEmptyOption|OgreCaptureGroupOption];
 				[aState setObject:combindedRegex forKey:@"Combined Delimiter Regex"];
 			}
 		} else {
