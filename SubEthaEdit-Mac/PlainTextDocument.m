@@ -1634,7 +1634,7 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 - (void)restoreStateWithCoder:(NSCoder *)coder {
-	NSLog(@"%s - %d : %@", __FUNCTION__, __LINE__, [self displayName]);
+//	NSLog(@"%s - %d : %@", __FUNCTION__, __LINE__, [self displayName]);
 	[super restoreStateWithCoder:coder];
 }
 

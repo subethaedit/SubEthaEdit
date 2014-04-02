@@ -102,7 +102,7 @@ void * const SEEScrollViewOverlayObservingContext = (void *)&SEEScrollViewOverla
 }
 
 - (void)restoreStateWithCoder:(NSCoder *)coder {
-	NSLog(@"%s - %d : %@", __FUNCTION__, __LINE__, self);
+//	NSLog(@"%s - %d : %@", __FUNCTION__, __LINE__, self);
 	[super restoreStateWithCoder:coder];
 }
 

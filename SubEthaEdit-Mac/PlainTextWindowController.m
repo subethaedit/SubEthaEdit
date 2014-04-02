@@ -1025,7 +1025,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 }
 
 - (void)restoreStateWithCoder:(NSCoder *)coder {
-	NSLog(@"%s - %d : %@", __FUNCTION__, __LINE__, [self.document displayName]);
+//	NSLog(@"%s - %d : %@", __FUNCTION__, __LINE__, [self.document displayName]);
 	[super restoreStateWithCoder:coder];
 
 	PlainTextDocument *selectedDocument = self.document;
