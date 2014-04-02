@@ -1836,7 +1836,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 
-#define STATUSBARSIZE 17.
+#define STATUSBARSIZE 18.
 
 - (void)updateTopScrollViewInset {
 	CGFloat result = 0.0;
