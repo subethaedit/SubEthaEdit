@@ -6275,7 +6275,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 				FullTextStorage *fullTextStorage = self.textStorage.fullTextStorage;
 				NSUInteger fullIndex = [self.textStorage fullRangeForFoldedRange:NSMakeRange(charIndex, 1)].location;
 				if (![self.bracketSettings shouldIgnoreBracketAtIndex:fullIndex attributedString:fullTextStorage]) {
-					NSUInteger matchingPosition = [fullTextStorage TCM_positionOfMatchingBracketToPosition:charIndex bracketSettings:self.bracketSettings];
+					NSUInteger matchingPosition = [fullTextStorage TCM_positionOfMatchingBracketToPosition:fullIndex bracketSettings:self.bracketSettings];
 					if (matchingPosition!=NSNotFound) {
 						aNewSelectedCharRange = NSUnionRange(NSMakeRange(fullIndex,1),
 															 NSMakeRange(matchingPosition,1));
