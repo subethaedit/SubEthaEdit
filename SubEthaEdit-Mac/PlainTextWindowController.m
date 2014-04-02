@@ -887,6 +887,9 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 - (IBAction)toggleSplitView:(id)aSender {
 	PlainTextWindowControllerTabContext *tabContext = [self selectedTabContext];
 	tabContext.hasEditorSplit = ! tabContext.hasEditorSplit;
+
+	NSTextView *textView = [tabContext.plainTextEditors[0] textView];
+	[self.window makeFirstResponder:textView];
 }
 
 #pragma mark Editors
@@ -970,7 +973,15 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 	NSResponder *oldFirstResponder = self.window.firstResponder;
 	PlainTextWindowControllerTabContext *tabContext = [self selectedTabContext];
 
-	tabContext.hasWebPreviewSplit = ! tabContext.webPreviewSplitView;
+	// when split is closing and the webView is first responder make te editor the first responder
+	if (tabContext.hasWebPreviewSplit) {
+		NSView *webView = tabContext.webPreviewSplitView.subviews.firstObject;
+		if (webView && [oldFirstResponder isKindOfClass:[NSView class]] && [((NSView *)oldFirstResponder) isDescendantOf:webView]) {
+			oldFirstResponder = tabContext.activePlainTextEditor.textView;
+		}
+	}
+
+	tabContext.hasWebPreviewSplit = ! tabContext.hasWebPreviewSplit;
 
 	[self updateWindowMinSize];
     [[self window] makeFirstResponder:oldFirstResponder];
@@ -1007,7 +1018,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
 		NSMutableData *tabData = [NSMutableData data];
 		NSKeyedArchiver *tabCoder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:tabData];
-		[tabCoder setOutputFormat:NSPropertyListXMLFormat_v1_0];
+		[tabCoder setOutputFormat:NSPropertyListBinaryFormat_v1_0];
 		[tabContext encodeRestorableStateWithCoder:tabCoder];
 		if (tabDocument != selectedDocument) {
 			[tabItem.view encodeRestorableStateWithCoder:tabCoder];
@@ -1025,7 +1036,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 }
 
 - (void)restoreStateWithCoder:(NSCoder *)coder {
-	NSLog(@"%s - %d : %@", __FUNCTION__, __LINE__, [self.document displayName]);
+//	NSLog(@"%s - %d : %@", __FUNCTION__, __LINE__, [self.document displayName]);
 	[super restoreStateWithCoder:coder];
 
 	PlainTextDocument *selectedDocument = self.document;

@@ -41,8 +41,12 @@
 
 @interface SEETextView () 
 @property (nonatomic, readonly) PlainTextDocument *document;
-@property (nonatomic, assign) CGFloat additionalFrameHeight;
 @property (nonatomic) NSPoint cachedTextContainerOrigin;
+@property (nonatomic) BOOL TCM_adjustsVisibleRectWithInsets;
+
+/* used to temporarily adjust the visible rect methods to substract the overlay insets - used to make sure scrollToSelected also respects that - needs to be temporary because the scrollview itself gets irritated by a visible-rect that does not correspond to the total visible rect */
+- (void)performBlockWithAdjustedVisibleRect:(dispatch_block_t)aBlock;
+
 @end
 
 @interface NSTextView (NSTextViewTCMPrivateAdditions) 
@@ -50,6 +54,8 @@
 @end
 
 @implementation SEETextView
+
+#define VERTICAL_INSET 2.0
 
 - (id)delegate {
 	return (id)super.delegate;
@@ -72,39 +78,35 @@
 	if ([enclosingScrollView isKindOfClass:[SEEPlainTextEditorScrollView class]]) {
 		NSSize currentInset = [self textContainerInset];
 		CGFloat height = (enclosingScrollView.topOverlayHeight + enclosingScrollView.bottomOverlayHeight) / 2.0;
+		height = height + VERTICAL_INSET;
 		if (height != currentInset.height) {
 			currentInset.height = height;
 			[self setTextContainerInset:currentInset];
-			[self setFrameSize:self.frame.size];
+			LayoutManager *layoutManager = (LayoutManager *)[self layoutManager];
+			[layoutManager forceTextViewGeometryUpdate];
 		}
 	}
+}
+
+- (void)setFrameSize:(NSSize)newSize {
+	[super setFrameSize:newSize];
 }
 
 - (NSPoint)textContainerOrigin {
 	SEEPlainTextEditorScrollView *enclosingScrollView = (SEEPlainTextEditorScrollView *)self.enclosingScrollView;
 	// doing this to not cause havoc if the textstorage is being edited during the resize
-	if (self.textStorage.editedMask != 0) {
+	if (self.textStorage.editedMask == 0) {
 		self.cachedTextContainerOrigin = [super textContainerOrigin];
 	}
     NSPoint origin = self.cachedTextContainerOrigin;
 	if ([enclosingScrollView isKindOfClass:[SEEPlainTextEditorScrollView class]]) {
-		origin = NSMakePoint(origin.x, enclosingScrollView.topOverlayHeight);
+		origin = NSMakePoint(origin.x, enclosingScrollView.topOverlayHeight + VERTICAL_INSET);
 	}
 	return origin;
 }
 
-- (void)setFrameSize:(NSSize)newSize {
-	SEEPlainTextEditorScrollView *enclosingScrollView = (SEEPlainTextEditorScrollView *)self.enclosingScrollView;
-	if ([enclosingScrollView isKindOfClass:[SEEPlainTextEditorScrollView class]]) {
-		CGFloat additionalFrameHeight = enclosingScrollView.topOverlayHeight + enclosingScrollView.bottomOverlayHeight;
-		newSize = NSMakeSize(newSize.width, newSize.height + additionalFrameHeight - self.additionalFrameHeight);
-		self.additionalFrameHeight = additionalFrameHeight;
-	}
-	[super setFrameSize:newSize];
-}
 
 static NSMenu *S_defaultMenu=nil;
-
 
 + (NSMenu *)defaultMenu {
     return S_defaultMenu;
@@ -818,6 +820,44 @@ static NSMenu *S_defaultMenu=nil;
 	[self scrollRangeToVisible:[(FoldableTextStorage *)[self textStorage] foldedRangeForFullRange:aRange]];
 }
 
+- (void)scrollRangeToVisible:(NSRange)aRange {
+	[self performBlockWithAdjustedVisibleRect:^{
+		[super scrollRangeToVisible:aRange];
+	}];
+}
+
+- (BOOL)scrollRectToVisible:(NSRect)aRect {
+	if (self.TCM_adjustsVisibleRectWithInsets) {
+		SEEPlainTextEditorScrollView *enclosingScrollView = (SEEPlainTextEditorScrollView *)[self enclosingScrollView];
+		if ([enclosingScrollView isKindOfClass:[SEEPlainTextEditorScrollView class]]) {
+			aRect.size.height += enclosingScrollView.topOverlayHeight + enclosingScrollView.bottomOverlayHeight;
+			aRect.origin.y -= enclosingScrollView.topOverlayHeight;
+		}
+	}
+	BOOL result = [super scrollRectToVisible:aRect];
+	return result;
+}
+
+- (NSRect)visibleRect {
+	NSRect result = [super visibleRect];
+
+	if (self.TCM_adjustsVisibleRectWithInsets) {
+		SEEPlainTextEditorScrollView *enclosingScrollView = (SEEPlainTextEditorScrollView *)[self enclosingScrollView];
+		if ([enclosingScrollView isKindOfClass:[SEEPlainTextEditorScrollView class]]) {
+			
+			result.size.height -= enclosingScrollView.topOverlayHeight + enclosingScrollView.bottomOverlayHeight;
+			result.origin.y += enclosingScrollView.topOverlayHeight;
+		}
+	}
+	return result;
+}
+
+- (void)performBlockWithAdjustedVisibleRect:(dispatch_block_t)aBlock {
+	BOOL oldValue = self.TCM_adjustsVisibleRectWithInsets;
+	self.TCM_adjustsVisibleRectWithInsets = YES;
+	aBlock();
+	self.TCM_adjustsVisibleRectWithInsets = oldValue;
+}
 
 #pragma mark -
 #pragma mark ### dragging ###
@@ -1039,7 +1079,7 @@ static NSMenu *S_defaultMenu=nil;
         }
     }
     
-    NSLog(@"rangeForUserCompletion: %@ - %@ - %@",NSStringFromRange(result), [theMode documentModeIdentifier], tokenSet);
+	//    NSLog(@"rangeForUserCompletion: %@ - %@ - %@",NSStringFromRange(result), [theMode documentModeIdentifier], tokenSet);
     return result;
 }
 

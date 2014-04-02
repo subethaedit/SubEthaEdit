@@ -439,6 +439,13 @@ static NSString *S_specialGlyphs[17];
     }
 }
 
+- (void)forceTextViewGeometryUpdate {
+	if (self.textStorage.length > 0) {
+		NSRange lastCharRange = NSMakeRange(self.textStorage.length-1, 1);
+		[self.textStorage edited:NSTextStorageEditedAttributes range:lastCharRange changeInLength:0];
+	}
+}
+
 - (void)setInvisibleCharacterColor:(NSColor*)aColor
 {
 	// forcing a redraw is the responsibility of the caller

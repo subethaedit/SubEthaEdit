@@ -222,6 +222,8 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 		result = YES;
 	} else if ([self.bottomOverlayViewController.view hitTest:eventLocationInWindow] != nil) {
 		result = YES;
+	} else if ([self.topOverlayViewController.view hitTest:eventLocationInWindow] != nil) {
+		result = YES;
 	}
 	return result;
 }
@@ -503,6 +505,9 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     // trigger the notfications for the first time
     [self sessionDidChange:nil];
     [self participantsDidChange:nil];
+
+	// make sure we start out right
+	[I_textView adjustContainerInsetToScrollView];
 }
 
 
@@ -987,11 +992,10 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 
-- (void)setIsSplit:(BOOL)aFlag
+- (void)updateSplitButtonForIsSplit:(BOOL)aFlag
 {
-    if (I_flags.hasSplitButton)
-    {
-        [O_splitButton setState:aFlag?NSOffState:NSOnState];
+    if (I_flags.hasSplitButton) {
+		[O_splitButton setImage:[NSImage imageNamed:aFlag?@"EditorRemoveSplit":@"EditorAddSplit"]];
     }
 }
 
@@ -1844,6 +1848,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 		result += NSHeight(self.topOverlayViewController.view.frame);
 	}
 	O_scrollView.topOverlayHeight = result;
+	[self adjustToScrollViewInsets];
 }
 
 - (void)updateBottomScrollViewInset {
@@ -1856,6 +1861,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 		result += NSHeight(self.bottomOverlayViewController.view.frame);
 	}
 	O_scrollView.bottomOverlayHeight = result;
+	[self adjustToScrollViewInsets];
 }
 
 - (BOOL)showsTopStatusBar
@@ -1877,13 +1883,13 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 			self.O_topStatusBarView.layer.backgroundFilters = self.topStatusBarViewBackgroundFilters;
 			self.topStatusBarViewBackgroundFilters = nil;
 		}
-		[self updateTopScrollViewInset];
-		[self TCM_updateStatusBar];
 
+		[self TCM_updateStatusBar];
 		[self.O_topStatusBarView setHidden:!I_flags.showTopStatusBar];
         [self.O_topStatusBarView setNeedsDisplay:YES];
 		[[O_scrollView verticalRulerView] setNeedsDisplay:YES];
         [[self document] setShowsTopStatusBar:aFlag];
+		[self updateTopScrollViewInset];
     }
 }
 
@@ -1905,12 +1911,12 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 			self.bottomStatusBarViewBackgroundFilters = nil;
 		}
 
-		[self updateBottomScrollViewInset];
-
         [self.O_bottomStatusBarView setHidden:!I_flags.showBottomStatusBar];
         [self.O_bottomStatusBarView setNeedsDisplay:YES];
+
 		[self updateBottomPinConstraints];
 		[self TCM_updateBottomStatusBar];
+		[self updateBottomScrollViewInset];
     }
 }
 
@@ -2958,7 +2964,7 @@ willChangeSelectionFromCharacterRange	:aOldSelectedCharRange
 }
 
 - (void)restoreStateWithCoder:(NSCoder *)coder {
-	NSLog(@"%s - %d : %@", __FUNCTION__, __LINE__, self.document.displayName);
+//	NSLog(@"%s - %d : %@", __FUNCTION__, __LINE__, self.document.displayName);
 	[super restoreStateWithCoder:coder];
 }
 
