@@ -19,6 +19,7 @@ typedef enum _LineEnding {
 @interface TCMBracketSettings : NSObject
 /* for example @"{([])}" */
 - (instancetype)initWithBracketString:(NSString *)aBracketString;
+- (void)setBracketString:(NSString *)aBracketString;
 @property (nonatomic, readonly) unichar *openingBrackets;
 @property (nonatomic, readonly) unichar *closingBrackets;
 @property (nonatomic, readonly) NSInteger bracketCount;

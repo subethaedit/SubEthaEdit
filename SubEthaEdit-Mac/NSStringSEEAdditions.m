@@ -25,15 +25,21 @@
 - (instancetype)initWithBracketString:(NSString *)aBracketString {
 	self = [super init];
 	if (self) {
-		_bracketCount = [aBracketString length] / 2;
-		_closingBrackets = malloc(sizeof(unichar)*_bracketCount);
-		_openingBrackets = malloc(sizeof(unichar)*_bracketCount);
-		for (int i=0;i<_bracketCount;i++) {
-			_openingBrackets[i]=[aBracketString characterAtIndex:i];
-			_closingBrackets[i]=[aBracketString characterAtIndex:(_bracketCount*2-1)-i];
-		}
+		[self setBracketString:aBracketString];
 	}
 	return self;
+}
+
+- (void)setBracketString:(NSString *)aBracketString {
+	if (_openingBrackets != NULL) free(_openingBrackets);
+	if (_closingBrackets != NULL) free(_closingBrackets);
+	_bracketCount = [aBracketString length] / 2;
+	_closingBrackets = malloc(sizeof(unichar)*_bracketCount);
+	_openingBrackets = malloc(sizeof(unichar)*_bracketCount);
+	for (int i=0;i<_bracketCount;i++) {
+		_openingBrackets[i]=[aBracketString characterAtIndex:i];
+		_closingBrackets[i]=[aBracketString characterAtIndex:(_bracketCount*2-1)-i];
+	}
 }
 
 - (BOOL)charIsClosingBracket:(unichar)aPossibleBracket {
