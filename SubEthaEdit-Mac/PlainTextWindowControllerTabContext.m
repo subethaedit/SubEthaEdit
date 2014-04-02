@@ -196,7 +196,6 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 				[editorSplitView removeFromSuperview];
 			} else {
 				[self.tab setView:[plainTextEditors[0] editorView]];
-				[self.tab setInitialFirstResponder:[plainTextEditors[0] editorView]];
 			}
 
 			self.editorSplitView = nil;
@@ -220,6 +219,7 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 			}
 		}
 
+		[self.tab setInitialFirstResponder:[plainTextEditors[0] editorView]];
 		[plainTextEditors[0] updateSplitButtonForIsSplit:[plainTextEditors count] != 1];
 
 		NSTextView *textView = [plainTextEditors[0] textView];
@@ -231,7 +231,6 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 		}
 
 		[windowController updateWindowMinSize];
-		[[windowController window] makeFirstResponder:textView];
 	}
 }
 
@@ -240,14 +239,8 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 
 - (void)updateWebPreviewSplitView {
 	NSView *viewRepresentedByTab = self.tab.view;
-	NSResponder *oldFirstResponder = self.tab.tabView.window.firstResponder;
 
 	if (!self.hasWebPreviewSplit && viewRepresentedByTab == self.webPreviewSplitView) {
-		NSView *webView = viewRepresentedByTab.subviews.firstObject;
-		if ([oldFirstResponder isKindOfClass:[NSView class]] && [((NSView *)oldFirstResponder) isDescendantOf:webView]) {
-			oldFirstResponder = self.activePlainTextEditor.textView;
-		}
-
 		NSView *editorView = viewRepresentedByTab.subviews.lastObject;
 		[editorView removeFromSuperview];
 		editorView.frame = viewRepresentedByTab.frame;
@@ -291,7 +284,6 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 
 	PlainTextWindowController *windowController = (PlainTextWindowController *)[self.tab.tabView.window windowController];
 	[windowController updateWindowMinSize];
-    [windowController.window makeFirstResponder:oldFirstResponder];
 }
 
 
@@ -328,7 +320,7 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 }
 
 - (void)restoreStateWithCoder:(NSCoder *)coder {
-	NSLog(@"%s - %d : %@", __FUNCTION__, __LINE__, self.document.displayName);
+//	NSLog(@"%s - %d : %@", __FUNCTION__, __LINE__, self.document.displayName);
 	[super restoreStateWithCoder:coder];
 
 	BOOL hasEditorSplit = [coder decodeBoolForKey:@"SEETabContextHasEditorSplit"];
