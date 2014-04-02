@@ -13,6 +13,9 @@
 #import "FoldableTextStorage.h"
 #import "DocumentMode.h"
 #import "SEEScopedBookmarkManager.h"
+#import "PopUpButton.h"
+
+@class PopUpButton;
 
 // this file needs arc - add -fobjc-arc in the compile build phase
 #if !__has_feature(objc_arc)
@@ -25,7 +28,7 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
 @interface SEEWebPreviewViewController ()
 @property (nonatomic, strong) IBOutlet WebView *oWebView;
 @property (nonatomic, strong) IBOutlet NSTextField *oBaseUrlTextField;
-@property (nonatomic, strong) IBOutlet NSPopUpButton *oRefreshPopupButton;
+@property (nonatomic, strong) IBOutlet PopUpButton *oRefreshPopupButton;
 @property (nonatomic, strong) IBOutlet NSTextField *oStatusTextField;
 
 @property (nonatomic, strong) PlainTextDocument *plainTextDocument;
@@ -272,6 +275,8 @@ NSScrollView * firstScrollView(NSView *aView) {
 #pragma mark - NSViewController overrides
 -(void)loadView {
     [super loadView];
+
+	self.oRefreshPopupButton.lineDrawingEdge = CGRectMinXEdge;
 	
     [self.oWebView setFrameLoadDelegate:self];
     [self.oWebView setUIDelegate:self];

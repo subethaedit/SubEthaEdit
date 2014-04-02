@@ -17,6 +17,9 @@
 @interface PopUpButton : NSPopUpButton {
     id I_delegate;
 }
+
+@property (nonatomic, assign) CGRectEdge lineDrawingEdge; // defaults to CGRectMaxXEdge; possible values: CGRectMaxXEdge, CGRectMinXEdge
+
 - (void)setDelegate:(id <PopUpButtonDelegate>)aDelegate;
 - (id)delegate;
 @end
