@@ -820,18 +820,7 @@ static NSString *tempFileName(NSString *origPath) {
                                                     forKey:NSBackgroundColorAttributeName] retain];
     NSUInteger matchingBracketPosition=[self TCM_positionOfMatchingBracketToPosition:aPosition];
     if (matchingBracketPosition!=NSNotFound) {
-        NSLayoutManager *layoutManager=[aTextView layoutManager];
-        [layoutManager addTemporaryAttributes:mBracketAttributes
-                            forCharacterRange:NSMakeRange(matchingBracketPosition,1)];
-        // Force layout
-        (void)[layoutManager textContainerForGlyphAtIndex:
-                [layoutManager glyphRangeForCharacterRange:NSMakeRange(matchingBracketPosition,1)
-                                      actualCharacterRange:NULL].location effectiveRange:NULL];
-        [aTextView displayIfNeeded];
-        [[aTextView window] flushWindow];
-        [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.08]];
-        [layoutManager removeTemporaryAttribute:NSBackgroundColorAttributeName
-                              forCharacterRange:NSMakeRange(matchingBracketPosition,1)];
+		[aTextView showFindIndicatorForRange:NSMakeRange(matchingBracketPosition, 1)];
     }
 
 }
