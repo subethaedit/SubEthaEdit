@@ -9,6 +9,13 @@
 #import "NSStringSEEAdditions.h"
 #import <OgreKit/OgreKit.h>
 
+// this file needs arc - either project wide,
+// or add -fobjc-arc on a per file basis in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
+
 static void convertLineEndingsInString(NSMutableString *string, NSString *newLineEnding)
 {
     unsigned newEOLLen;
@@ -62,8 +69,6 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
         // TODO: put this change also into the undomanager
     }
 
-    [changes release];
-
     if (freeNewEOLBuf) {
         NSZoneFree(NSZoneFromPointer(newEOLBuf), newEOLBuf);
     }
@@ -102,8 +107,8 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
         unichar seps[2];
         seps[0]=0x2028;
         seps[1]=0x2029;
-        sUnicodeLSEP=[[NSString stringWithCharacters:seps length:1] retain];
-        sUnicodePSEP=[[NSString stringWithCharacters:seps+1 length:1] retain];
+        sUnicodeLSEP=[NSString stringWithCharacters:seps length:1];
+        sUnicodePSEP=[NSString stringWithCharacters:seps+1 length:1];
     }
     switch(aLineEnding) {
     case LineEndingLF:
@@ -324,7 +329,7 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
 - (NSMutableString *)stringByReplacingEntitiesForUTF8:(BOOL)forUTF8  {
     static NSDictionary *sEntities=nil;
     if (!sEntities) {
-        sEntities=[[NSDictionary dictionaryWithObjectsAndKeys:
+        sEntities=[NSDictionary dictionaryWithObjectsAndKeys:
           @"&iexcl;",@"&#161;",
           @"&cent;",@"&#162;",
           @"&pound;",@"&#163;",
@@ -576,46 +581,48 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
           @"&thinsp;",@"&#8201;",
           @"&zwj;",@"&#8205;",
           @"&zwnj;",@"&#8204;",
-          @"&diams;",@"&#9830;", nil] retain];
+          @"&diams;",@"&#9830;", nil];
     }
 
     NSMutableString *string;
-    string = [[self mutableCopy] autorelease];
+    string = [self mutableCopy];
     int index = 0;
-    NSAutoreleasePool *pool=[[NSAutoreleasePool alloc] init];
-    while (index < [string length]) {
-        unichar c=[string characterAtIndex:index];                         
-        if ((c > 128 && !forUTF8) || c=='&' || c=='<' || c=='>' || c=='"') {                           
-            NSString *encodedString = [NSString stringWithFormat: @"&#%d;", c];
-            if ([sEntities objectForKey:encodedString]) {
-                encodedString = [sEntities objectForKey:encodedString];
-            }        
-            [string replaceCharactersInRange:NSMakeRange(index, 1) withString:encodedString];
-            index+=[encodedString length]-1;
-        } else if (forUTF8) {
-            if (c==0x00A0) {
-                [string replaceCharactersInRange:NSMakeRange(index, 1) withString:@"&nbsp;"];
-                index+=6-1;
-            }
-        }
-//        else if (c=='\n' || c=='\r') {
-//            [string replaceCharactersInRange:NSMakeRange(index,1) withString:@"<br/>\n"];
-//            index+=5;
-//        } else if (c=='\t') {
-//            [string replaceCharactersInRange:NSMakeRange(index,1) withString:@"&nbsp;&nbsp;&nbsp;"];
-//            index+=17;
-//        } else if (c==' ') {
-//            [string replaceCharactersInRange:NSMakeRange(index,1) withString:@"&nbsp;"];
-//            index+=5;
-//        }
-        index ++; 
-        if (index%50==0) {
-            [pool release];
-            pool=[[NSAutoreleasePool alloc] init];
-        }                        
-    }
-    [pool release];
-    
+	@autoreleasepool {
+		while (index < [string length]) {
+			@autoreleasepool {
+				while (index < [string length]) {
+					unichar c=[string characterAtIndex:index];
+					if ((c > 128 && !forUTF8) || c=='&' || c=='<' || c=='>' || c=='"') {
+						NSString *encodedString = [NSString stringWithFormat: @"&#%d;", c];
+						if ([sEntities objectForKey:encodedString]) {
+							encodedString = [sEntities objectForKey:encodedString];
+						}
+						[string replaceCharactersInRange:NSMakeRange(index, 1) withString:encodedString];
+						index+=[encodedString length]-1;
+					} else if (forUTF8) {
+						if (c==0x00A0) {
+							[string replaceCharactersInRange:NSMakeRange(index, 1) withString:@"&nbsp;"];
+							index+=6-1;
+						}
+					}
+					//        else if (c=='\n' || c=='\r') {
+					//            [string replaceCharactersInRange:NSMakeRange(index,1) withString:@"<br/>\n"];
+					//            index+=5;
+					//        } else if (c=='\t') {
+					//            [string replaceCharactersInRange:NSMakeRange(index,1) withString:@"&nbsp;&nbsp;&nbsp;"];
+					//            index+=17;
+					//        } else if (c==' ') {
+					//            [string replaceCharactersInRange:NSMakeRange(index,1) withString:@"&nbsp;"];
+					//            index+=5;
+					//        }
+					index ++;
+					if (index % 50 == 0) {
+						break;
+					}
+				}
+			} // inner pool
+		}
+	}
     return string;
 }
 
@@ -702,7 +709,7 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
 "*/
 
 - (NSMutableString *)XHTMLStringWithAttributeMapping:(NSDictionary *)anAttributeMapping forUTF8:(BOOL)forUTF8 {
-    NSMutableString *result=[[[NSMutableString alloc] initWithCapacity:[self length]*2] autorelease];
+    NSMutableString *result=[[NSMutableString alloc] initWithCapacity:[self length]*2];
     NSMutableDictionary *state=[NSMutableDictionary new];
     NSMutableDictionary *toOpen=[NSMutableDictionary new];
     NSMutableDictionary *toClose=[NSMutableDictionary new];
@@ -714,58 +721,58 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
     NSDictionary *attributes;
     NSUInteger index=0;
     do {
-        NSAutoreleasePool *pool=[[NSAutoreleasePool alloc] init];
-        attributes=[self attributesAtIndex:index
-                    longestEffectiveRange:&foundRange inRange:maxRange];
-        
-        NSEnumerator *relevantAttributes=[anAttributeMapping keyEnumerator];
-        NSString *key;
-        while ((key=[relevantAttributes nextObject])) {
-            id currentValue=[state      objectForKey:key];
-            id nextValue   =[attributes objectForKey:key];
-            if (currentValue == nil && nextValue == nil) {
-                // nothing
-            } else if (currentValue == nil) {
-                [toOpen setObject:nextValue forKey:key];
-            } else if (nextValue == nil) {
-                [toClose setObject:currentValue forKey:key];
-            } else if (![currentValue isEqual:nextValue]) {
-                [toClose setObject:currentValue forKey:key];
-                [toOpen setObject:nextValue forKey:key];
-            }
-        }
-        int stackPosition=[stateStack count];
-        while ([toClose count] && stackPosition>0) {
-            stackPosition--;
-            NSDictionary *pair=[stateStack objectAtIndex:stackPosition];
-            NSString *attributeName=[pair objectForKey:@"AttributeName"];
-            [result appendFormat:[[anAttributeMapping objectForKey:attributeName] objectForKey:@"closeTag"],[pair objectForKey:@"AttributeValue"]];
-            if ([toClose objectForKey:attributeName]) {
-                [toClose removeObjectForKey:attributeName];
-                [stateStack removeObjectAtIndex:stackPosition];
-                [state removeObjectForKey:attributeName];
-            }
-        }
-        while (stackPosition<[stateStack count]) {
-            NSDictionary *pair=[stateStack objectAtIndex:stackPosition];
-            NSString *attributeName=[pair objectForKey:@"AttributeName"];
-            [result appendFormat:[[anAttributeMapping objectForKey:attributeName] objectForKey:@"openTag"],[pair objectForKey:@"AttributeValue"]];
-            stackPosition++;
-        }
-        NSEnumerator *openAttributes=[toOpen keyEnumerator];
-        NSString *attributeName;
-        while ((attributeName=[openAttributes nextObject])) {
-            [result appendFormat:[[anAttributeMapping objectForKey:attributeName] objectForKey:@"openTag"],[toOpen objectForKey:attributeName]];
-            [state setObject:[toOpen objectForKey:attributeName] forKey:attributeName];
-            [stateStack addObject:[NSDictionary dictionaryWithObjectsAndKeys:attributeName,@"AttributeName",[toOpen objectForKey:attributeName],@"AttributeValue",nil]];
-        }
-        [toOpen removeAllObjects];
-        
-        NSString *contentString=[[[self string] substringWithRange:foundRange] stringByReplacingEntitiesForUTF8:forUTF8];
-        [result appendString:contentString];
-        
-        index=NSMaxRange(foundRange);
-        [pool release];
+		@autoreleasepool {
+			attributes=[self attributesAtIndex:index
+						 longestEffectiveRange:&foundRange inRange:maxRange];
+			
+			NSEnumerator *relevantAttributes=[anAttributeMapping keyEnumerator];
+			NSString *key;
+			while ((key=[relevantAttributes nextObject])) {
+				id currentValue=[state      objectForKey:key];
+				id nextValue   =[attributes objectForKey:key];
+				if (currentValue == nil && nextValue == nil) {
+					// nothing
+				} else if (currentValue == nil) {
+					[toOpen setObject:nextValue forKey:key];
+				} else if (nextValue == nil) {
+					[toClose setObject:currentValue forKey:key];
+				} else if (![currentValue isEqual:nextValue]) {
+					[toClose setObject:currentValue forKey:key];
+					[toOpen setObject:nextValue forKey:key];
+				}
+			}
+			int stackPosition=[stateStack count];
+			while ([toClose count] && stackPosition>0) {
+				stackPosition--;
+				NSDictionary *pair=[stateStack objectAtIndex:stackPosition];
+				NSString *attributeName=[pair objectForKey:@"AttributeName"];
+				[result appendFormat:[[anAttributeMapping objectForKey:attributeName] objectForKey:@"closeTag"],[pair objectForKey:@"AttributeValue"]];
+				if ([toClose objectForKey:attributeName]) {
+					[toClose removeObjectForKey:attributeName];
+					[stateStack removeObjectAtIndex:stackPosition];
+					[state removeObjectForKey:attributeName];
+				}
+			}
+			while (stackPosition<[stateStack count]) {
+				NSDictionary *pair=[stateStack objectAtIndex:stackPosition];
+				NSString *attributeName=[pair objectForKey:@"AttributeName"];
+				[result appendFormat:[[anAttributeMapping objectForKey:attributeName] objectForKey:@"openTag"],[pair objectForKey:@"AttributeValue"]];
+				stackPosition++;
+			}
+			NSEnumerator *openAttributes=[toOpen keyEnumerator];
+			NSString *attributeName;
+			while ((attributeName=[openAttributes nextObject])) {
+				[result appendFormat:[[anAttributeMapping objectForKey:attributeName] objectForKey:@"openTag"],[toOpen objectForKey:attributeName]];
+				[state setObject:[toOpen objectForKey:attributeName] forKey:attributeName];
+				[stateStack addObject:[NSDictionary dictionaryWithObjectsAndKeys:attributeName,@"AttributeName",[toOpen objectForKey:attributeName],@"AttributeValue",nil]];
+			}
+			[toOpen removeAllObjects];
+			
+			NSString *contentString=[[[self string] substringWithRange:foundRange] stringByReplacingEntitiesForUTF8:forUTF8];
+			[result appendString:contentString];
+			
+			index=NSMaxRange(foundRange);
+		}
     } while (index<NSMaxRange(maxRange));
     // close all remaining open tags
     int stackPosition=[stateStack count];
@@ -776,10 +783,6 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
         [result appendFormat:[[anAttributeMapping objectForKey:attributeName] objectForKey:@"closeTag"],[pair objectForKey:@"AttributeValue"]];
     }
     
-    [toOpen release];
-    [toClose release];
-    [stateStack release];
-    [state release];
     return result;
 }
 
