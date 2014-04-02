@@ -820,7 +820,6 @@ static NSMenu *S_defaultMenu=nil;
 	[self scrollRangeToVisible:[(FoldableTextStorage *)[self textStorage] foldedRangeForFullRange:aRange]];
 }
 
-
 - (void)scrollRangeToVisible:(NSRange)aRange {
 	[self performBlockWithAdjustedVisibleRect:^{
 		[super scrollRangeToVisible:aRange];
@@ -858,11 +857,6 @@ static NSMenu *S_defaultMenu=nil;
 	self.TCM_adjustsVisibleRectWithInsets = YES;
 	aBlock();
 	self.TCM_adjustsVisibleRectWithInsets = oldValue;
-}
-
-- (void)scrollPoint:(NSPoint)aPoint {
-	NSLog(@"%s %@",__FUNCTION__, NSStringFromPoint(aPoint));
-	[super scrollPoint:aPoint];
 }
 
 #pragma mark -
@@ -1085,7 +1079,7 @@ static NSMenu *S_defaultMenu=nil;
         }
     }
     
-    NSLog(@"rangeForUserCompletion: %@ - %@ - %@",NSStringFromRange(result), [theMode documentModeIdentifier], tokenSet);
+	//    NSLog(@"rangeForUserCompletion: %@ - %@ - %@",NSStringFromRange(result), [theMode documentModeIdentifier], tokenSet);
     return result;
 }
 
