@@ -168,7 +168,7 @@ NSString * const SEEStyleSheetFileExtension = @"sss";
 	NSArray *result = nil;
 
 	NSArray *usedScopeNames = [self.scopeStyleDictionary allKeys]; // scopes used in the current sheet
-	NSMutableDictionary *neededChangesDictionary = [[NSMutableDictionary alloc] init];
+	NSMutableDictionary *neededChangesDictionary = [[[NSMutableDictionary alloc] init] autorelease];
 	
 	for (NSString *key in aChangesDictionary) {
 		if ([usedScopeNames containsObject:key]) {
@@ -184,7 +184,7 @@ NSString * const SEEStyleSheetFileExtension = @"sss";
 	
 	if ([neededChangesDictionary count] > 0) {
 		[self addUpdatedScopesToStyleSheet:neededChangesDictionary];
-		result = [neededChangesDictionary allValues];
+		result = [[[neededChangesDictionary allValues] copy] autorelease];
 	}
 	return result;
 }

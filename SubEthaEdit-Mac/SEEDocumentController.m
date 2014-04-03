@@ -1460,7 +1460,7 @@ struct ModificationInfo
         if (numberOfArguments > 3) { BOOL flag = YES; [invocation setArgument:&flag atIndex:3]; }
         if (numberOfArguments > 4) [invocation setArgument:&contextInfo atIndex:4];
     }
-    [self closeDocumentsStartingWith:nil shouldClose:YES closeAllContext:(void *)CFBridgingRetain(invocation)];
+    [self closeDocumentsStartingWith:nil shouldClose:YES closeAllContext:(void *)invocation];
 }
 
 - (void)removeDocument:(NSDocument *)document {

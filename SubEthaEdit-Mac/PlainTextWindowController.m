@@ -806,7 +806,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
             NSTabViewItem *tab = [self tabViewItemForDocument:[self document]];
 			PlainTextWindowControllerTabContext *tabContext = [self selectedTabContext];
 
-            NSView *tabItemView = [[tab view] retain];
+            NSView *tabItemView = [[[tab view] retain] autorelease];
             NSView *dialogView = [aDocumentDialog mainView];
 
             I_dialogSplitView = [[[NSSplitView alloc] initWithFrame:[tabItemView frame]] autorelease];
@@ -834,7 +834,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 				[I_dialogSplitView addSubview:editorView];
 			} else {
 				[tab setView:I_dialogSplitView];
-				[I_dialogSplitView addSubview:[tabItemView autorelease]];
+				[I_dialogSplitView addSubview:tabItemView];
 			}
 
 			[self updateWindowMinSize];
@@ -1025,6 +1025,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 		}
 		[tabCoder finishEncoding];
 		[coder encodeObject:tabData forKey:tabName];
+		[tabCoder release];
 
 		if (tabDocument == self.document) {
 			[coder encodeObject:tabName forKey:@"PlainTextWindowSelectedTabName"];
@@ -1145,7 +1146,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 #pragma mark - NSWindowDelegate - Fullscreen
 
 - (NSArray *)allMyFindAllWindowControllers {
-	NSMutableArray *result = [NSMutableArray new];
+	NSMutableArray *result = [NSMutableArray array];
 	for (PlainTextDocument *document in self.documents) {
 		for (FindAllController *findAllController in document.findAllControllers) {
 			if ([self isEqual:findAllController.findAndReplaceContext.targetTextView.window.windowController]) {
