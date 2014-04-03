@@ -62,13 +62,15 @@
 	if (newSplitViewSize.width >= (SEEMinWebPreviewWidth + dividerThickness + SEEMinEditorWidth)) {
 		if (NSWidth(secondSubViewFrame) < SEEMinEditorWidth) {
 			secondSubViewFrame.size.width = SEEMinEditorWidth;
-			firstSubViewFrame.size.width = newSplitViewSize.width - SEEMinEditorWidth;
+			firstSubViewFrame.size.width = newSplitViewSize.width - SEEMinEditorWidth - dividerThickness;
+			secondSubViewFrame.origin.x = firstSubViewFrame.size.width + dividerThickness;
 
 			firstSubview.frame = firstSubViewFrame;
 			secondSubview.frame = secondSubViewFrame;
 		} else if (NSWidth(firstSubViewFrame) < SEEMinWebPreviewWidth) {
 			firstSubViewFrame.size.width = SEEMinWebPreviewWidth;
 			secondSubViewFrame.size.width = newSplitViewSize.width - SEEMinWebPreviewWidth - dividerThickness;
+			secondSubViewFrame.origin.x = firstSubViewFrame.size.width + dividerThickness;
 
 			firstSubview.frame = firstSubViewFrame;
 			secondSubview.frame = secondSubViewFrame;
