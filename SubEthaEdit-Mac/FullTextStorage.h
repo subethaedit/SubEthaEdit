@@ -12,7 +12,6 @@ extern NSString * const SEESearchScopeAttributeName;
 
 @interface FullTextStorage : AbstractFoldingTextStorage {
 	NSMutableAttributedString *I_internalAttributedString;
-	FoldableTextStorage *I_foldableTextStorage;
 	int I_shouldNotSynchronize;
 	int I_linearAttributeChangeState;
 	NSRange I_unionRangeOfLinearAttributeChanges;
@@ -31,11 +30,12 @@ extern NSString * const SEESearchScopeAttributeName;
 
 }
 
+
 + (OGRegularExpression *)wrongLineEndingRegex:(LineEnding)aLineEnding;
 
 - (id)initWithFoldableTextStorage:(FoldableTextStorage *)inTextStorage;
 
-- (FoldableTextStorage *)foldableTextStorage;
+@property (nonatomic, readonly, weak) FoldableTextStorage *foldableTextStorage;
 
 #pragma mark -
 - (NSString *)positionStringForRange:(NSRange)aRange;

@@ -48,6 +48,11 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 @end
 
 
+@interface FullTextStorage ()
+@property (nonatomic, weak) FoldableTextStorage *foldableTextStorage;
+@end
+
+
 @implementation FullTextStorage
 
 + (void)initialize {
@@ -114,7 +119,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 - (id)initWithFoldableTextStorage:(FoldableTextStorage *)inTextStorage {
     if ((self = [super init])) {
         I_internalAttributedString = [NSMutableAttributedString new];
-        I_foldableTextStorage = inTextStorage; // no retain here - the foldableTextstorage owns us
+        self.foldableTextStorage = inTextStorage;
         I_shouldNotSynchronize = 0;
 
 		I_lineStarts=[NSMutableArray new];
@@ -129,11 +134,6 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     }
     return self;
 }
-
-- (FoldableTextStorage *)foldableTextStorage {
-	return I_foldableTextStorage;
-}
-
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -160,17 +160,18 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 - (void)replaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString synchronize:(BOOL)inSynchronizeFlag {
 //	[self beginEditing];
 
-//	NSString *foldingBefore = [I_foldableTextStorage foldedStringRepresentation];
+//	NSString *foldingBefore = [self.foldableTextStorage foldedStringRepresentation];
 //	NSLog(@"%s before: %@",__FUNCTION__,foldingBefore);
 //	NSLog(@"%s %@ %@ %@",__FUNCTION__, NSStringFromRange(aRange), aString, inSynchronizeFlag ? @"YES" : @"NO");
 
+	FoldableTextStorage *foldableTextStorage = self.foldableTextStorage;
 
 		BOOL needsCompleteValidation = NO;
     if (I_flags.shouldWatchLineEndings && I_flags.hasMixedLineEndings && aRange.length && [self hasMixedLineEndingsInRange:aRange]) {
         needsCompleteValidation = YES;
     }
 
-	id delegate = [I_foldableTextStorage delegate];
+	id delegate = [foldableTextStorage delegate];
 	if ([delegate respondsToSelector:@selector(textStorage:willReplaceCharactersInRange:withString:)]) {
 		[delegate textStorage:self willReplaceCharactersInRange:aRange withString:aString];
 	}
@@ -192,7 +193,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
         [self validateHasMixedLineEndings];
     }
 
-    if (inSynchronizeFlag && !I_shouldNotSynchronize) [I_foldableTextStorage fullTextDidReplaceCharactersInRange:aRange withString:aString];
+    if (inSynchronizeFlag && !I_shouldNotSynchronize) [foldableTextStorage fullTextDidReplaceCharactersInRange:aRange withString:aString];
 
 	if ([delegate respondsToSelector:@selector(textStorage:didReplaceCharactersInRange:withString:)]) {
 		[delegate textStorage:self didReplaceCharactersInRange:aRange withString:aString];
@@ -216,7 +217,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 //    [self edited:NSTextStorageEditedAttributes range:aRange 
 //          changeInLength:0];
     if (inSynchronizeFlag && !I_shouldNotSynchronize && !I_fixingCounter) {
-    	[I_foldableTextStorage fullTextDidSetAttributes:attributes range:aRange];
+    	[self.foldableTextStorage fullTextDidSetAttributes:attributes range:aRange];
     } else if (I_linearAttributeChangeState) {
     	if (I_unionRangeOfLinearAttributeChanges.length == NSNotFound) {
     		I_unionRangeOfLinearAttributeChanges = aRange;
@@ -550,11 +551,11 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 // performance optimization
 - (void)beginEditing {
 	[super beginEditing];
-	[I_foldableTextStorage beginEditing];
+	[self.foldableTextStorage beginEditing];
 }
 
 - (void)endEditing {
-	[I_foldableTextStorage endEditing];
+	[self.foldableTextStorage endEditing];
 	[super endEditing];
 }
 
@@ -750,7 +751,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 		NSRange attributeRange = NSMakeRange(I_unionRangeOfLinearAttributeChanges.location,0);
 		do {
 			NSDictionary *attributes = [I_internalAttributedString attributesAtIndex:NSMaxRange(attributeRange) longestEffectiveRange:&attributeRange inRange:I_unionRangeOfLinearAttributeChanges];
-			[I_foldableTextStorage fullTextDidSetAttributes:attributes range:attributeRange];
+			[self.foldableTextStorage fullTextDidSetAttributes:attributes range:attributeRange];
 			aggregatedChangesCount++;
 		} while (NSMaxRange(attributeRange) < NSMaxRange(I_unionRangeOfLinearAttributeChanges));
 //		NSLog(@"%s aggregated %d changes into %d changes (%2.1f%% reduction) in resulting range: %@",__FUNCTION__,I_linearAttributeChangesCount,aggregatedChangesCount,100.0 - ((((double)aggregatedChangesCount) / I_linearAttributeChangesCount)*100.0),NSStringFromRange(I_unionRangeOfLinearAttributeChanges));
@@ -794,7 +795,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 }
 
 - (id)objectSpecifier {
-	return [I_foldableTextStorage objectSpecifier];
+	return [self.foldableTextStorage objectSpecifier];
 }
 
 // returns NSNotFound,0 if not found
