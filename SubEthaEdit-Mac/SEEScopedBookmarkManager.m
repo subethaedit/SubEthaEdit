@@ -289,10 +289,13 @@ static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.s
 		NSMutableArray *bookmarks = [NSMutableArray array];
 		for (NSURL *bookmarkURL in bookmarkURLs) {
 			NSError *bookmarkGenerationError = nil;
+			
+			[bookmarkURL startAccessingSecurityScopedResource];
 			NSData *persistentBookmarkData = [bookmarkURL bookmarkDataWithOptions:NSURLBookmarkCreationWithSecurityScope
-												   includingResourceValuesForKeys:@[NSURLLocalizedNameKey]
+												   includingResourceValuesForKeys:nil
 																	relativeToURL:nil
 																			error:&bookmarkGenerationError];
+			[bookmarkURL stopAccessingSecurityScopedResource];
 
 			if (persistentBookmarkData) {
 				[bookmarks addObject:persistentBookmarkData];
@@ -303,8 +306,10 @@ static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.s
 			}
 		}
 		[userDefaults setObject:bookmarks forKey:SEEScopedBookmarksKey];
+		[userDefaults synchronize];
 	} else {
 		[userDefaults removeObjectForKey:SEEScopedBookmarksKey];
+		[userDefaults synchronize];
 	}
 
 }
