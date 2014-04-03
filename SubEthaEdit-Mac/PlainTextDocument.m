@@ -839,6 +839,9 @@ static NSString *tempFileName(NSString *origPath) {
     [I_lastTextShouldChangeReplacementString release];
      I_lastTextShouldChangeReplacementString = nil;
 //    NSLog(@"%s",__FUNCTION__);
+	
+	self.bracketSettings = nil;
+	
     [super dealloc];
 }
 
