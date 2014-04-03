@@ -1052,7 +1052,6 @@
 		4CD5F7E517FB0C7B00F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/EditPrefs.xib; sourceTree = "<group>"; };
 		4CD5F7E717FB0C7E00F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/EditPrefs.xib; sourceTree = "<group>"; };
 		4CD5F7E917FB0C8E00F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/EncodingDoctor.xib; sourceTree = "<group>"; };
-		4CD5F7EB17FB0C9300F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/EncodingDoctor.xib; sourceTree = "<group>"; };
 		4CD5F7ED17FB0CA300F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/Export.xib; sourceTree = "<group>"; };
 		4CD5F7EF17FB0CA600F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/Export.xib; sourceTree = "<group>"; };
 		4CD5F7F117FB0CBF00F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/FindAll.xib; sourceTree = "<group>"; };
@@ -3498,7 +3497,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				4CD5F7E917FB0C8E00F49E31 /* English */,
-				4CD5F7EB17FB0C9300F49E31 /* German */,
 			);
 			name = EncodingDoctor.xib;
 			sourceTree = "<group>";

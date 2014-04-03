@@ -29,7 +29,14 @@
     [O_tableView setTarget: self];
     [O_tableView setAction:@selector(jumpToSelection:)];
     [O_tableView setDoubleAction:@selector(jumpToSelectionAndBecomeKey:)];
-    [O_descriptionTextField setStringValue:[NSString stringWithFormat:[O_descriptionTextField stringValue],[NSString localizedNameOfStringEncoding:I_encoding]]];
+    [O_descriptionTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"ENCODING_DOCTOR_HEADLINE", @""),[NSString localizedNameOfStringEncoding:I_encoding]]];
+	[O_cancelButton setTitle:NSLocalizedString(@"ENCODING_DOCTOR_CANCEL", @"")];
+	[O_convertLossyButton setTitle:NSLocalizedString(@"ENCODING_DOCTOR_CONVERT_LOSSY", @"")];
+	[O_convertButton setTitle:NSLocalizedString(@"ENCODING_DOCTOR_CONVERT", @"")];
+	
+	[[[O_tableView tableColumns][0] headerCell] setStringValue:NSLocalizedString(@"ENCODING_DOCTOR_TABLEHEADING_LINE", @"")];
+	[[[O_tableView tableColumns][1] headerCell] setStringValue:NSLocalizedString(@"ENCODING_DOCTOR_TABLEHEADING_ERROR", @"")];
+	
     [self rerunCheckAndConvert:self];
 }
 
