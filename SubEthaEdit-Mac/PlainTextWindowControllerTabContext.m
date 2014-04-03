@@ -21,6 +21,10 @@
 #error ARC must be enabled!
 #endif
 
+CGFloat const SEEMinWebPreviewWidth = 320.0;
+CGFloat const SEEMinEditorWidth = 480.0;
+
+
 NSString * const SEEPlainTextWindowControllerTabContextActiveEditorDidChangeNotification = @"SEEPlainTextWindowControllerTabContextActiveEditorDidChangeNotification";
 
 void * const SEEPlainTextWindowControllerTabContextHasEditorSplitObservanceContext = (void *)&SEEPlainTextWindowControllerTabContextHasEditorSplitObservanceContext;

@@ -688,8 +688,8 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
 	if (webPreviewSplitView) {
 		minWidth += webPreviewSplitView.dividerThickness;
-		minWidth += 480.0; // editor width
-		minWidth += 200.0; // preview
+		minWidth += SEEMinEditorWidth; // editor width
+		minWidth += SEEMinWebPreviewWidth; // preview
 	}
 
 	if (dialogSplitView) {
@@ -704,7 +704,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 		minHeight += [editorSplitView dividerThickness];
 	}
 	
-	NSSize minSize = NSMakeSize(MAX(480., minWidth), MAX(minHeight, 230.));
+	NSSize minSize = NSMakeSize(MAX(SEEMinEditorWidth, minWidth), MAX(minHeight, 230.));
 	[self.window setContentMinSize:minSize];
 	
 	BOOL needsResizing = NO;

@@ -15,6 +15,9 @@
 #import "SEEWebPreviewSplitViewDelegate.h"
 #import "PlainTextEditor.h"
 
+extern CGFloat const SEEMinWebPreviewWidth;
+extern CGFloat const SEEMinEditorWidth;
+
 extern NSString * const SEEPlainTextWindowControllerTabContextActiveEditorDidChangeNotification;
 
 @class PlainTextWindowController, SEEWebPreviewViewController, PlainTextDocument, PlainTextLoadProgress;
@@ -27,7 +30,7 @@ extern NSString * const SEEPlainTextWindowControllerTabContextActiveEditorDidCha
 @property (nonatomic, strong) NSSplitView *editorSplitView;
 @property (nonatomic, strong) SEEEditorSplitViewDelegate *editorSplitViewDelegate;
 @property (nonatomic, strong) NSMutableArray *plainTextEditors;
-@property (nonatomic,   weak) PlainTextEditor *activePlainTextEditor;
+@property (nonatomic, weak) PlainTextEditor *activePlainTextEditor;
 
 @property (nonatomic, strong) NSSplitView *dialogSplitView;
 @property (nonatomic, strong) SEEDialogSplitViewDelegate *dialogSplitViewDelegate;
