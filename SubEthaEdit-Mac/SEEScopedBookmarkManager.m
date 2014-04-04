@@ -361,7 +361,7 @@ static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.s
 					openPanel.canChooseDirectories = YES;
 					openPanel.canChooseFiles = YES;
 					openPanel.directoryURL = [aURL URLByDeletingLastPathComponent];
-					// TODO: localize and write proper text
+
 					openPanel.prompt = NSLocalizedStringWithDefaultValue(@"ScopedBookmarkAllowFilePrompt", nil, [NSBundle mainBundle], @"Allow", @"Default button title of the allow open panel");
 					openPanel.title = NSLocalizedStringWithDefaultValue(@"ScopedBookmarkAllowFileTitle", nil, [NSBundle mainBundle], @"Allow File Access", @"Window title of the allow open panel");
 

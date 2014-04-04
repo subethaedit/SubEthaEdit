@@ -943,6 +943,12 @@
 "FIND_REPLACE_REPLACE_ALL_IN_PROGRESS" = "Alle ersetzen…";
 "FIND_REPLACE_REPLACE_ALL_IN_PROGRESS_COUNT" = "Alle ersetzen… (%@ bereits ersetzt)";
 
+/* Default button title of the allow open panel */
+"ScopedBookmarkAllowFilePrompt" = "Erlauben";
+
+/* Window title of the allow open panel */
+"ScopedBookmarkAllowFileTitle" = "Dateizugriff erlauben";
+
 /* Message that gets displayed when SEE needs the user to grant access to an unopend file. */
 "ScopedBookmarkAllowFileMessageFormatString" = "Es werden Zugriffsrechte auf %@ benötigt. Die Auswahl eines Ordners, der alle referenzieren Dateien beinhaltet, ermöglicht es die Webseite korrekt anzuzeigen.";
 
