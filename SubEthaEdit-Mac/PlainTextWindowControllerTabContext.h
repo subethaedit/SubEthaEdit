@@ -14,6 +14,7 @@
 #import "SEEDialogSplitViewDelegate.h"
 #import "SEEWebPreviewSplitViewDelegate.h"
 #import "PlainTextEditor.h"
+#import "SEEEncodingDoctorDialogViewController.h" // contains the protocol for now
 
 extern NSString * const SEEPlainTextWindowControllerTabContextActiveEditorDidChangeNotification;
 
@@ -23,6 +24,7 @@ extern NSString * const SEEPlainTextWindowControllerTabContextActiveEditorDidCha
 
 @property (nonatomic, weak) NSTabViewItem *tab;
 @property (nonatomic, strong) PlainTextDocument *document;
+@property (nonatomic, readonly) PlainTextWindowController *windowController;
 
 @property (nonatomic, strong) NSSplitView *editorSplitView;
 @property (nonatomic, strong) SEEEditorSplitViewDelegate *editorSplitViewDelegate;
@@ -31,7 +33,7 @@ extern NSString * const SEEPlainTextWindowControllerTabContextActiveEditorDidCha
 
 @property (nonatomic, strong) NSSplitView *dialogSplitView;
 @property (nonatomic, strong) SEEDialogSplitViewDelegate *dialogSplitViewDelegate;
-@property (nonatomic, strong) id documentDialog;
+@property (nonatomic, strong) NSViewController<SEEDocumentDialogViewController> *documentDialog;
 
 @property (nonatomic, strong) NSSplitView *webPreviewSplitView;
 @property (nonatomic, strong) SEEWebPreviewSplitViewDelegate *webPreviewSplitViewDelegate;

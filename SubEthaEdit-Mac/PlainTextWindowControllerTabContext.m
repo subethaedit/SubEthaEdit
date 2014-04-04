@@ -16,6 +16,8 @@
 #import "SEEParticipantsOverlayViewController.h"
 #import "PlainTextLoadProgress.h"
 
+#import "SEEEncodingDoctorDialogViewController.h"
+
 // this file needs arc - add -fobjc-arc in the compile build phase
 #if !__has_feature(objc_arc)
 #error ARC must be enabled!
@@ -53,6 +55,10 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
     [_plainTextEditors makeObjectsPerformSelector:@selector(setWindowControllerTabContext:) withObject:nil];
 }
 
+- (PlainTextWindowController *)windowController {
+	PlainTextWindowController *result = [self.tab.tabView.window windowController];
+	return result;
+}
 
 #pragma mark - KVO
 
@@ -120,9 +126,9 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 
 #pragma mark - Editor Split
 
--(void)updateEditorSplitView {
+- (void)updateEditorSplitView {
 	NSMutableArray *plainTextEditors = self.plainTextEditors;
-	PlainTextWindowController *windowController = (PlainTextWindowController *)[self.tab.tabView.window windowController];
+	PlainTextWindowController *windowController = self.windowController;
 	NSSplitView *dialogSplitView = self.dialogSplitView;
 	NSSplitView *webPreviewSplitView = self.webPreviewSplitView;
 	BOOL hasEditorSplit = self.hasEditorSplit;
@@ -282,11 +288,65 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 		self.webPreviewSplitView = webPreviewSplitView;
 	}
 
-	PlainTextWindowController *windowController = (PlainTextWindowController *)[self.tab.tabView.window windowController];
-	[windowController updateWindowMinSize];
+	[self.windowController updateWindowMinSize];
 }
 
+#pragma mark - Document Dialog
 
+- (void)setDocumentDialog:(NSViewController<SEEDocumentDialogViewController> *)aDocumentDialog {
+	[aDocumentDialog setTabContext:self];
+	_documentDialog = aDocumentDialog;
+	NSSplitView *dialogSplitView = self.dialogSplitView;
+	if (aDocumentDialog) {
+		NSTabViewItem *tab = self.tab;
+		if (!dialogSplitView) {
+			PlainTextWindowControllerTabContext *tabContext = self;
+			
+			NSView *tabItemView = [tab view];
+			NSView *dialogView = [aDocumentDialog view];
+			
+			
+			NSSplitView *dialogSplitView = [[NSSplitView alloc] initWithFrame:[tabItemView frame]];
+			dialogSplitView.identifier = @"DialogSplit";
+			tabContext.dialogSplitViewDelegate = [[SEEDialogSplitViewDelegate alloc] initWithTabContext:tab.identifier];
+			dialogSplitView.delegate = tabContext.dialogSplitViewDelegate;
+			dialogSplitView.dividerStyle = NSSplitViewDividerStyleThin;
+			self.dialogSplitView = dialogSplitView;
+			
+			
+			NSRect mainFrame = [dialogView frame];
+			[dialogSplitView addSubview:dialogView];
+			mainFrame.size.width = [dialogSplitView frame].size.width;
+			[dialogView setFrame:mainFrame];
+			CGFloat targetHeight = mainFrame.size.height;
+			[dialogView resizeSubviewsWithOldSize:mainFrame.size];
+			mainFrame.size.height = 0;
+			[dialogView setAutoresizesSubviews:NO];
+			[dialogView setFrame:mainFrame];
+			
+			NSSplitView *webPreviewSplitView = tabContext.webPreviewSplitView;
+			if (webPreviewSplitView) {
+				NSView *editorView = [webPreviewSplitView.subviews objectAtIndex:1];
+				[webPreviewSplitView addSubview:dialogSplitView positioned:NSWindowAbove relativeTo:[[webPreviewSplitView subviews] objectAtIndex:0]];
+				[dialogSplitView addSubview:editorView];
+			} else {
+				[tab setView:dialogSplitView];
+				[dialogSplitView addSubview:tabItemView];
+			}
+			
+		} else {
+			NSRect frame = [[[dialogSplitView subviews] objectAtIndex:0] frame];
+			[[[dialogSplitView subviews] objectAtIndex:0] removeFromSuperviewWithoutNeedingDisplay];
+			[dialogSplitView addSubview:[aDocumentDialog view] positioned:NSWindowBelow relativeTo:[[dialogSplitView subviews] objectAtIndex:0]];
+			[[aDocumentDialog view] setFrame:frame];
+			[dialogSplitView setNeedsDisplay:YES];
+		}
+		[self.windowController updateWindowMinSize];
+		
+	} else if (!aDocumentDialog && dialogSplitView) {
+		[[[dialogSplitView subviews] objectAtIndex:0] setAutoresizesSubviews:NO];
+	}
+}
 
 #pragma mark - Restorable State
 

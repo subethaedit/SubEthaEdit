@@ -20,8 +20,7 @@
 #import "GeneralPreferences.h"
 #import "TCMMMSession.h"
 #import "AppController.h"
-#import "SEEDocumentDialog.h"
-#import "EncodingDoctorDialog.h"
+#import "SEEEncodingDoctorDialogViewController.h"
 #import "SEEDocumentController.h"
 #import "PlainTextWindowControllerTabContext.h"
 #import "NSMenuTCMAdditions.h"
@@ -737,149 +736,15 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
 #pragma mark - Dialog Split
 
-- (id)documentDialog {
-    return I_documentDialog;
-}
-
-- (void)documentDialogFadeInTimer:(NSTimer *)aTimer {
-    NSMutableDictionary *info = [aTimer userInfo];
-    NSTimeInterval timeInterval     = [[[aTimer userInfo] objectForKey:@"stop"] 
-                                        timeIntervalSinceDate:[[aTimer userInfo] objectForKey:@"start"]];
-    NSTimeInterval timeSinceStart   = [[[aTimer userInfo] objectForKey:@"start"] timeIntervalSinceNow] * -1.;
-//    NSLog(@"sinceStart: %f, timeInterval: %f, %@ %@",timeSinceStart,timeInterval,[[aTimer userInfo] objectForKey:@"stop"],[[aTimer userInfo] objectForKey:@"start"]);
-    CGFloat factor = timeSinceStart / timeInterval;
-    if (factor > 1.) factor = 1.;
-    if (![[info objectForKey:@"type"] isEqualToString:@"BlindDown"]) {
-        factor = 1.-factor;
-    }
-    // make transition sinoidal
-    factor = (-cos(factor*M_PI)/2.)+0.5;
-    
-    
-    NSView *dialogView = [[I_dialogSplitView subviews] objectAtIndex:0];
-    NSRect targetFrame = [dialogView frame];
-    CGFloat newHeight = (int)(factor * [[info objectForKey:@"targetHeight"] floatValue]);
-    CGFloat difference = newHeight - targetFrame.size.height;
-    targetFrame.size.height = newHeight;
-    [dialogView setFrame:targetFrame];
-    NSView *contentView = [[I_dialogSplitView subviews] objectAtIndex:1];
-    NSRect contentFrame = [contentView frame];
-    contentFrame.size.height -= difference;
-    [contentView setFrame:contentFrame];
-    [I_dialogSplitView setNeedsDisplay:YES];
-    
-    if (timeSinceStart >= timeInterval) {
-        NSTabViewItem *tabViewItem = [self tabViewItemForDocument:[self document]];
-		PlainTextWindowControllerTabContext *tabContext = tabViewItem.identifier;
-
-        if (![[info objectForKey:@"type"] isEqualToString:@"BlindDown"]) {
-
-			NSSplitView *webPreviewSplitView = tabContext.webPreviewSplitView;
-			if (webPreviewSplitView) {
-				[webPreviewSplitView addSubview:[[I_dialogSplitView subviews] objectAtIndex:1] positioned:NSWindowAbove relativeTo:[[webPreviewSplitView subviews] objectAtIndex:0]];
-			} else {
-				[tabViewItem setView:[[I_dialogSplitView subviews] objectAtIndex:1]];
-			}
-
-			[I_dialogSplitView removeFromSuperview];
-            [tabContext setDialogSplitView:nil];
-            [tabContext setDocumentDialog:nil];
-            I_dialogSplitView = nil;
-            I_documentDialog = nil;
-
-            [[self window] makeFirstResponder:[[self activePlainTextEditor] textView]];
-        } else {
-            if (tabViewItem) [[self window] makeFirstResponder:[[self documentDialog] initialFirstResponder]];
-        }
-        [dialogView setAutoresizesSubviews:YES];
-        [I_dialogAnimationTimer invalidate];
-        [I_dialogAnimationTimer autorelease];
-        I_dialogAnimationTimer = nil;
-		[self updateWindowMinSize];
-    }
-}
-
 - (void)setDocumentDialog:(id)aDocumentDialog {
-    [aDocumentDialog setDocument:[self document]];
-    if (aDocumentDialog) {
-        if (!I_dialogSplitView) {
-            NSTabViewItem *tab = [self tabViewItemForDocument:[self document]];
-			PlainTextWindowControllerTabContext *tabContext = [self selectedTabContext];
-
-            NSView *tabItemView = [[[tab view] retain] autorelease];
-            NSView *dialogView = [aDocumentDialog mainView];
-
-            I_dialogSplitView = [[[NSSplitView alloc] initWithFrame:[tabItemView frame]] autorelease];
-			I_dialogSplitView.identifier = @"DialogSplit";
-            I_dialogSplitView.delegate = [[[SEEDialogSplitViewDelegate alloc] initWithTabContext:tab.identifier] autorelease];
-			I_dialogSplitView.dividerStyle = NSSplitViewDividerStyleThin;
-
-            [tabContext setDialogSplitView:I_dialogSplitView];
-			tabContext.dialogSplitViewDelegate = I_dialogSplitView.delegate;
-
-            NSRect mainFrame = [dialogView frame];
-            [I_dialogSplitView addSubview:dialogView];
-            mainFrame.size.width = [I_dialogSplitView frame].size.width;
-            [dialogView setFrame:mainFrame];
-            CGFloat targetHeight = mainFrame.size.height;
-            [dialogView resizeSubviewsWithOldSize:mainFrame.size];
-            mainFrame.size.height = 0;
-            [dialogView setAutoresizesSubviews:NO];
-            [dialogView setFrame:mainFrame];
-
-			NSSplitView *webPreviewSplitView = tabContext.webPreviewSplitView;
-			if (webPreviewSplitView) {
-				NSView *editorView = [webPreviewSplitView.subviews objectAtIndex:1];
-				[webPreviewSplitView addSubview:I_dialogSplitView positioned:NSWindowAbove relativeTo:[[webPreviewSplitView subviews] objectAtIndex:0]];
-				[I_dialogSplitView addSubview:editorView];
-			} else {
-				[tab setView:I_dialogSplitView];
-				[I_dialogSplitView addSubview:tabItemView];
-			}
-
-			[self updateWindowMinSize];
-            
-			I_dialogAnimationTimer = [[NSTimer scheduledTimerWithTimeInterval:0.01
-                target:self 
-                selector:@selector(documentDialogFadeInTimer:) 
-                userInfo:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                            [NSDate dateWithTimeIntervalSinceNow:0.20], @"stop", 
-                            [NSDate date], @"start",
-                            [NSNumber numberWithFloat:targetHeight],@"targetHeight",
-                            @"BlindDown",@"type",nil] 
-                repeats:YES] retain];
-        } else {
-            NSRect frame = [[[I_dialogSplitView subviews] objectAtIndex:0] frame];
-            [[[I_dialogSplitView subviews] objectAtIndex:0] removeFromSuperviewWithoutNeedingDisplay];
-            [I_dialogSplitView addSubview:[aDocumentDialog mainView] positioned:NSWindowBelow relativeTo:[[I_dialogSplitView subviews] objectAtIndex:0]];
-            [[aDocumentDialog mainView] setFrame:frame];
-            [I_dialogSplitView setNeedsDisplay:YES];
-			[self updateWindowMinSize];
-        }
-
-        NSTabViewItem *tabViewItem = [self tabViewItemForDocument:[self document]];
-         if (tabViewItem) {
-            [[tabViewItem identifier] setDocumentDialog:aDocumentDialog];
-            I_documentDialog = aDocumentDialog;
-        }
-    } else if (!aDocumentDialog && I_dialogSplitView) {
-        [[[I_dialogSplitView subviews] objectAtIndex:0] setAutoresizesSubviews:NO];
-        I_dialogAnimationTimer = [[NSTimer scheduledTimerWithTimeInterval:0.01 
-            target:self 
-            selector:@selector(documentDialogFadeInTimer:) 
-            userInfo:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                        [NSDate dateWithTimeIntervalSinceNow:0.20], @"stop", 
-                        [NSDate date], @"start",
-                        [NSNumber numberWithFloat:[[[I_dialogSplitView subviews] objectAtIndex:0] frame].size.height],@"targetHeight",
-                        @"BlindUp",@"type",nil] 
-            repeats:YES] retain];
-    }
+	PlainTextWindowControllerTabContext *tabContext = self.selectedTabContext;
+	tabContext.documentDialog = aDocumentDialog;
 }
 
-- (IBAction)toggleDialogView:(id)aSender {
-    [self setDocumentDialog:[[[EncodingDoctorDialog alloc] initWithEncoding:NSASCIIStringEncoding] autorelease]];
+- (id)documentDialog {
+	id result = self.selectedTabContext.documentDialog;
+	return result;
 }
-
 
 #pragma mark - Editor Split
 
