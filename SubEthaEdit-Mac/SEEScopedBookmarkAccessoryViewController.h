@@ -10,4 +10,6 @@
 
 @interface SEEScopedBookmarkAccessoryViewController : NSViewController
 
+@property (nonatomic, copy) NSString *accessedFileName;
+
 @end

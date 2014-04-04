@@ -365,7 +365,8 @@ static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.s
 
 					{
 						SEEScopedBookmarkAccessoryViewController *viewController = [[SEEScopedBookmarkAccessoryViewController alloc] initWithNibName:@"SEEScopedBookmarkAccessoryViewController" bundle:nil];
-
+						viewController.accessedFileName = [aURL lastPathComponent];
+						
 						NSView *view = viewController.view;
 						view.layer.backgroundColor = [[NSColor redColor] CGColor];
 						view.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
