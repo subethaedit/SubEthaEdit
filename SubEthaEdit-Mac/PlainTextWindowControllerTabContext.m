@@ -293,59 +293,64 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 
 #pragma mark - Document Dialog
 
+- (void)updateDocumentDialogSplit {
+	NSSplitView *dialogSplitView = self.dialogSplitView;
+	NSViewController<SEEDocumentDialogViewController> *documentDialog = self.documentDialog;
+	NSTabViewItem *tab = self.tab;
+	if (documentDialog && !dialogSplitView) {
+		PlainTextWindowControllerTabContext *tabContext = self;
+		
+		NSView *viewToReplace = self.tab.view;
+		if (self.webPreviewSplitView) {
+			viewToReplace = self.webPreviewSplitView.subviews.lastObject;
+		} else if (self.editorSplitView) {
+			viewToReplace = self.editorSplitView;
+		}
+		
+		NSView *dialogView = [documentDialog view];
+		
+		NSSplitView *dialogSplitView = [[NSSplitView alloc] initWithFrame:[viewToReplace frame]];
+		dialogSplitView.identifier = @"DialogSplit";
+		tabContext.dialogSplitViewDelegate = [[SEEDialogSplitViewDelegate alloc] initWithTabContext:tab.identifier];
+		dialogSplitView.delegate = tabContext.dialogSplitViewDelegate;
+		dialogSplitView.dividerStyle = NSSplitViewDividerStyleThin;
+		self.dialogSplitView = dialogSplitView;
+		
+		if ([viewToReplace isEqual:self.tab.view]) {
+			[self.tab setView:dialogSplitView];
+		} else {
+			[viewToReplace.superview replaceSubview:viewToReplace with:dialogSplitView];
+		}
+		
+		[dialogSplitView addSubview:dialogView];
+		[dialogSplitView addSubview:viewToReplace];
+		
+	} else if (!documentDialog && dialogSplitView) {
+
+		// remove document dialog splitview
+		NSView *viewToMoveUp = self.dialogSplitView.subviews.lastObject;
+		
+		if (self.webPreviewSplitView) {
+			[viewToMoveUp setTranslatesAutoresizingMaskIntoConstraints:YES];
+			[self.webPreviewSplitView replaceSubview:self.dialogSplitView with:viewToMoveUp];
+		} else {
+			[self.tab setView:viewToMoveUp];
+		}
+		
+		self.dialogSplitView.delegate = nil;
+		self.dialogSplitViewDelegate = nil;
+		self.dialogSplitView = nil;
+		
+	}
+
+	[self.windowController updateWindowMinSize];
+	
+}
+
 - (void)setDocumentDialog:(NSViewController<SEEDocumentDialogViewController> *)aDocumentDialog {
 	[aDocumentDialog setTabContext:self];
 	_documentDialog = aDocumentDialog;
-	NSSplitView *dialogSplitView = self.dialogSplitView;
-	if (aDocumentDialog) {
-		NSTabViewItem *tab = self.tab;
-		if (!dialogSplitView) {
-			PlainTextWindowControllerTabContext *tabContext = self;
-			
-			NSView *tabItemView = [tab view];
-			NSView *dialogView = [aDocumentDialog view];
-			
-			
-			NSSplitView *dialogSplitView = [[NSSplitView alloc] initWithFrame:[tabItemView frame]];
-			dialogSplitView.identifier = @"DialogSplit";
-			tabContext.dialogSplitViewDelegate = [[SEEDialogSplitViewDelegate alloc] initWithTabContext:tab.identifier];
-			dialogSplitView.delegate = tabContext.dialogSplitViewDelegate;
-			dialogSplitView.dividerStyle = NSSplitViewDividerStyleThin;
-			self.dialogSplitView = dialogSplitView;
-			
-			
-			NSRect mainFrame = [dialogView frame];
-			[dialogSplitView addSubview:dialogView];
-			mainFrame.size.width = [dialogSplitView frame].size.width;
-			[dialogView setFrame:mainFrame];
-			CGFloat targetHeight = mainFrame.size.height;
-			[dialogView resizeSubviewsWithOldSize:mainFrame.size];
-			mainFrame.size.height = 0;
-			[dialogView setAutoresizesSubviews:NO];
-			[dialogView setFrame:mainFrame];
-			
-			NSSplitView *webPreviewSplitView = tabContext.webPreviewSplitView;
-			if (webPreviewSplitView) {
-				NSView *editorView = [webPreviewSplitView.subviews objectAtIndex:1];
-				[webPreviewSplitView addSubview:dialogSplitView positioned:NSWindowAbove relativeTo:[[webPreviewSplitView subviews] objectAtIndex:0]];
-				[dialogSplitView addSubview:editorView];
-			} else {
-				[tab setView:dialogSplitView];
-				[dialogSplitView addSubview:tabItemView];
-			}
-			
-		} else {
-			NSRect frame = [[[dialogSplitView subviews] objectAtIndex:0] frame];
-			[[[dialogSplitView subviews] objectAtIndex:0] removeFromSuperviewWithoutNeedingDisplay];
-			[dialogSplitView addSubview:[aDocumentDialog view] positioned:NSWindowBelow relativeTo:[[dialogSplitView subviews] objectAtIndex:0]];
-			[[aDocumentDialog view] setFrame:frame];
-			[dialogSplitView setNeedsDisplay:YES];
-		}
-		[self.windowController updateWindowMinSize];
-		
-	} else if (!aDocumentDialog && dialogSplitView) {
-		[[[dialogSplitView subviews] objectAtIndex:0] setAutoresizesSubviews:NO];
-	}
+	[self updateDocumentDialogSplit];
 }
 
 #pragma mark - Restorable State

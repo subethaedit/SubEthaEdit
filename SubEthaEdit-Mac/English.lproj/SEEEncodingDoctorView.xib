@@ -12,6 +12,7 @@
                 <outlet property="convertLossyButton" destination="NVj-4J-wcl" id="6Qn-TD-ydB"/>
                 <outlet property="descriptionTextField" destination="EdO-jx-wvN" id="MjZ-Oh-9Hp"/>
                 <outlet property="foundErrorsArrayController" destination="19" id="BiK-Kb-ifT"/>
+                <outlet property="tableView" destination="Rpe-0g-5AO" id="OfR-5c-kkp"/>
                 <outlet property="view" destination="ej0-Lz-HJl" id="LNt-5N-Bd0"/>
             </connections>
         </customObject>
@@ -35,7 +36,7 @@
                         <rect key="frame" x="1" y="17" width="539" height="79"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="14" headerView="B8U-ld-Yyv" id="Rpe-0g-5AO" customClass="FindAllTableView">
+                            <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="14" headerView="B8U-ld-Yyv" id="Rpe-0g-5AO" userLabel="Table View" customClass="FindAllTableView">
                                 <rect key="frame" x="0.0" y="0.0" width="539" height="79"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <size key="intercellSpacing" width="3" height="2"/>
