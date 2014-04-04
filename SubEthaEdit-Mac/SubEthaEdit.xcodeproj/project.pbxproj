@@ -355,11 +355,9 @@
 		F2308E6718E06FA00096E0C1 /* SEEFindAndReplaceContext.m in Sources */ = {isa = PBXBuildFile; fileRef = F2308E6618E06FA00096E0C1 /* SEEFindAndReplaceContext.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		F234E4590BE2592300504A7C /* NSWorkspaceTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F234E4570BE2592300504A7C /* NSWorkspaceTCMAdditions.m */; };
 		F23966D618E2FE6800CEC9AD /* NSOperationQueue+TCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F23966D518E2FE6800CEC9AD /* NSOperationQueue+TCMAdditions.m */; };
-		F2406F0C0C8EE481000DC9FF /* LockTitlebar.png in Resources */ = {isa = PBXBuildFile; fileRef = F2406F0B0C8EE481000DC9FF /* LockTitlebar.png */; };
 		F24280C60D16CFCC0083AE21 /* GenericSASLProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = F24280C50D16CFCC0083AE21 /* GenericSASLProfile.m */; };
 		F247D74A0CB140AD00908450 /* ParticipantFollowEmpty.png in Resources */ = {isa = PBXBuildFile; fileRef = F247D7490CB140AD00908450 /* ParticipantFollowEmpty.png */; };
 		F247D74F0CB147F100908450 /* ParticipantFollowActive.png in Resources */ = {isa = PBXBuildFile; fileRef = F247D74E0CB147F100908450 /* ParticipantFollowActive.png */; };
-		F25A19B60C8C79CA00147E4C /* ssllock.png in Resources */ = {isa = PBXBuildFile; fileRef = F25A19B50C8C79CA00147E4C /* ssllock.png */; };
 		F265602218C4BA7300C73737 /* SearchLoupeNormal.pdf in Resources */ = {isa = PBXBuildFile; fileRef = F265602018C4BA7300C73737 /* SearchLoupeNormal.pdf */; };
 		F265602318C4BA7300C73737 /* SearchLoupeRE.pdf in Resources */ = {isa = PBXBuildFile; fileRef = F265602118C4BA7300C73737 /* SearchLoupeRE.pdf */; };
 		F26B7D880CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F26B7D850CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m */; };
@@ -661,7 +659,6 @@
 		1428908C095743F200D14688 /* StatusButtonKick.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = StatusButtonKick.tiff; path = artwork/StatusButtonKick.tiff; sourceTree = "<group>"; };
 		1428908D095743F200D14688 /* StatusButtonReadOnly.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = StatusButtonReadOnly.tiff; path = artwork/StatusButtonReadOnly.tiff; sourceTree = "<group>"; };
 		1428908E095743F200D14688 /* StatusButtonReadWrite.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = StatusButtonReadWrite.tiff; path = artwork/StatusButtonReadWrite.tiff; sourceTree = "<group>"; };
-		1428908F095743F200D14688 /* StatusLock.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = StatusLock.tiff; path = artwork/StatusLock.tiff; sourceTree = "<group>"; };
 		14289090095743F200D14688 /* StatusPending.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = StatusPending.tiff; path = artwork/StatusPending.tiff; sourceTree = "<group>"; };
 		14289091095743F200D14688 /* StatusReadOnly.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = StatusReadOnly.tiff; path = artwork/StatusReadOnly.tiff; sourceTree = "<group>"; };
 		14289092095743F200D14688 /* StatusReadWrite.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = StatusReadWrite.tiff; path = artwork/StatusReadWrite.tiff; sourceTree = "<group>"; };
@@ -1162,12 +1159,10 @@
 		F234E4570BE2592300504A7C /* NSWorkspaceTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSWorkspaceTCMAdditions.m; sourceTree = "<group>"; };
 		F23966D418E2FE6800CEC9AD /* NSOperationQueue+TCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSOperationQueue+TCMAdditions.h"; sourceTree = "<group>"; };
 		F23966D518E2FE6800CEC9AD /* NSOperationQueue+TCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSOperationQueue+TCMAdditions.m"; sourceTree = "<group>"; };
-		F2406F0B0C8EE481000DC9FF /* LockTitlebar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LockTitlebar.png; path = artwork/LockTitlebar.png; sourceTree = "<group>"; };
 		F24280C40D16CFCC0083AE21 /* GenericSASLProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = GenericSASLProfile.h; sourceTree = "<group>"; };
 		F24280C50D16CFCC0083AE21 /* GenericSASLProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenericSASLProfile.m; sourceTree = "<group>"; };
 		F247D7490CB140AD00908450 /* ParticipantFollowEmpty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ParticipantFollowEmpty.png; path = artwork/ParticipantFollowEmpty.png; sourceTree = "<group>"; };
 		F247D74E0CB147F100908450 /* ParticipantFollowActive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ParticipantFollowActive.png; path = artwork/ParticipantFollowActive.png; sourceTree = "<group>"; };
-		F25A19B50C8C79CA00147E4C /* ssllock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ssllock.png; path = artwork/ssllock.png; sourceTree = "<group>"; };
 		F265602018C4BA7300C73737 /* SearchLoupeNormal.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = SearchLoupeNormal.pdf; path = artwork/SearchLoupeNormal.pdf; sourceTree = "<group>"; };
 		F265602118C4BA7300C73737 /* SearchLoupeRE.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = SearchLoupeRE.pdf; path = artwork/SearchLoupeRE.pdf; sourceTree = "<group>"; };
 		F26B7D840CA3F7680039C8A1 /* NSBezierPathTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NSBezierPathTCMAdditions.h; sourceTree = "<group>"; };
@@ -1518,7 +1513,6 @@
 				5EB51AF60A177CF500AE2E17 /* InvisibleCharactersShow.png */,
 				5EB51AF70A177CF500AE2E17 /* InvisibleCharactersHide.png */,
 				5EF31E420A7E437C00D777F5 /* InvertedIBeam.tiff */,
-				F2406F0B0C8EE481000DC9FF /* LockTitlebar.png */,
 				14289072095743F200D14688 /* LibraryFolderIcon.tiff */,
 				14289075095743F200D14688 /* NamedLogo2.tiff */,
 				14289076095743F200D14688 /* NextChange.png */,
@@ -1541,11 +1535,9 @@
 				14289084095743F200D14688 /* ShiftLeft.png */,
 				14289086095743F200D14688 /* ShiftRight.png */,
 				14289088095743F200D14688 /* ShowChangeMarks.png */,
-				F25A19B50C8C79CA00147E4C /* ssllock.png */,
 				1428908C095743F200D14688 /* StatusButtonKick.tiff */,
 				1428908D095743F200D14688 /* StatusButtonReadOnly.tiff */,
 				1428908E095743F200D14688 /* StatusButtonReadWrite.tiff */,
-				1428908F095743F200D14688 /* StatusLock.tiff */,
 				F2CA7CE50CA11FC9008BEA38 /* StatusLock.png */,
 				14289090095743F200D14688 /* StatusPending.tiff */,
 				14289091095743F200D14688 /* StatusReadOnly.tiff */,
@@ -2901,12 +2893,10 @@
 				F27B2EE80B52957800679CF2 /* hud_buttonLeft-P.tiff in Resources */,
 				F2D3E52B189941F50096425B /* AW ActiveTabClosePressed.png in Resources */,
 				F2D3E55E189941F50096425B /* IW InactiveTabBG@2x.png in Resources */,
-				F25A19B60C8C79CA00147E4C /* ssllock.png in Resources */,
 				4C0D3D7617FB168200AAFB38 /* DebugUsers.xib in Resources */,
 				F2D3E546189941F50096425B /* AW Pulled ActiveTabLeftCap@2x.png in Resources */,
 				4C5EC97F1897F6FC0094D850 /* SEEParticipantsOverlay.xib in Resources */,
 				F2D3E538189941F50096425B /* AW InactiveTabBG@2x.png in Resources */,
-				F2406F0C0C8EE481000DC9FF /* LockTitlebar.png in Resources */,
 				F2B136EC189BF27000430639 /* AW AddTabButtonPushed.tiff in Resources */,
 				F2CA7CE60CA11FC9008BEA38 /* StatusLock.png in Resources */,
 				4CD5F81117FB0DC100F49E31 /* PlainTextLoadProgress.xib in Resources */,
