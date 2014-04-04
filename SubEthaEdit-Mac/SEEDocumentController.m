@@ -833,6 +833,7 @@
 								restoredTabsCount++;
 							}
 						} else {
+							// TODO: find corect document by storing all tab IDs into document state data.
 							if (! (tabDisplayName && [[selectedDocument displayName] isEqualToString:[tabDisplayName stringByDeletingPathExtension]])) {
 								// untitled document tab
 								SEEDocumentCreationFlags *creationFlags = [[SEEDocumentCreationFlags alloc] init];
