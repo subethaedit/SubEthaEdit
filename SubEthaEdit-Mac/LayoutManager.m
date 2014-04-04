@@ -87,6 +87,7 @@ static NSString *S_specialGlyphs[17];
     [I_invisiblesLayoutManager release];
     [I_invisiblesTextStorage release];
 	[I_invisibleCharacterColor release];
+	[I_inactiveSelectionColor release];
     [super dealloc];
 }
 
@@ -317,6 +318,23 @@ static NSString *S_specialGlyphs[17];
     [super drawBackgroundForGlyphRange:aGlyphRange atPoint:anOrigin];
 }
 
+- (void)fillBackgroundRectArray:(NSRectArray)rectArray count:(NSUInteger)rectCount forCharacterRange:(NSRange)charRange color:(NSColor *)color {
+	NSColor *fillColor = color;
+	BOOL wasModified = NO;
+	if ([color.colorSpaceName isEqualToString:NSNamedColorSpace]) {
+		if ([color.colorNameComponent isEqual:@"secondarySelectedControlColor"]) { // inactive selection color
+			fillColor = I_inactiveSelectionColor;
+			[fillColor setFill];
+			wasModified = YES;
+		}
+	}
+	[super fillBackgroundRectArray:rectArray count:rectCount forCharacterRange:charRange color:fillColor];
+	if (wasModified) {
+		[color set];
+		// steht alles in den headern - frag nicht
+	}
+}
+
 #define CHARBUFFERSIZE 200
 
 - (void)drawGlyphsForGlyphRange:(NSRange)glyphRange atPoint:(NSPoint)containerOrigin
@@ -454,6 +472,14 @@ static NSString *S_specialGlyphs[17];
 	I_invisibleCharacterColor = [aColor retain];
 }
 
+- (void)setInactiveSelectionColor:(NSColor *)aColor {
+	[I_inactiveSelectionColor autorelease];
+	I_inactiveSelectionColor = [aColor retain];
+}
+
+- (NSColor *)inactiveSelectionColor {
+	return I_inactiveSelectionColor;
+}
 
 - (NSColor*)invisibleCharacterColor
 {

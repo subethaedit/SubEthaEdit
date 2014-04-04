@@ -7,19 +7,23 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "SEEDocumentDialog.h"
+@class SEEEncodingDoctorDialogViewController, PlainTextWindowControllerTabContext, PlainTextDocument;
+
+@protocol SEEDocumentDialogViewController
+@property (nonatomic, weak) PlainTextWindowControllerTabContext *tabContext;
+@property (nonatomic, readonly) id initialFirstResponder;
+- (void)orderOut:(id)aSender;
+@end
+
 #import "TCMMMOperation.h"
 #import "TCMMMTransformator.h"
+#import "PlainTextDocument.h"
+#import "PlainTextWindowControllerTabContext.h"
 
-@interface EncodingDoctorDialog : SEEDocumentDialog {
-    IBOutlet NSButton *O_cancelButton;
-    IBOutlet NSButton *O_convertButton;
-    IBOutlet NSButton *O_convertLossyButton;
-    IBOutlet NSArrayController *O_foundErrors;
-    IBOutlet NSTextField *O_descriptionTextField;
-    IBOutlet NSTableView *O_tableView;
-    NSStringEncoding I_encoding;
+@interface SEEEncodingDoctorDialogViewController : NSViewController <SEEDocumentDialogViewController> {
 }
+
+@property (nonatomic) NSStringEncoding encoding;
 
 - (id)initWithEncoding:(NSStringEncoding)anEncoding;
 - (IBAction)cancel:(id)aSender;

@@ -17,6 +17,7 @@
     NSLayoutManager *I_invisiblesLayoutManager;
     NSTextStorage *I_invisiblesTextStorage;
 	NSColor *I_invisibleCharacterColor;
+	NSColor *I_inactiveSelectionColor;
 }
 
 - (BOOL)showsChangeMarks;
@@ -29,5 +30,10 @@
 - (void)forceTextViewGeometryUpdate;
 
 - (void)setInvisibleCharacterColor:(NSColor*)aColor;
-- (NSColor*)invisibleCharacterColor;
+- (NSColor *)invisibleCharacterColor;
+
+- (void)setInactiveSelectionColor:(NSColor *)aColor;
+- (NSColor *)inactiveSelectionColor;
+
+
 @end

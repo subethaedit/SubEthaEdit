@@ -23,7 +23,7 @@
 #import "TCMMMUserSEEAdditions.h"
 #import "AppController.h"
 #import "SEESavePanelAccessoryViewController.h"
-#import "EncodingDoctorDialog.h"
+#import "SEEEncodingDoctorDialogViewController.h"
 #import "NSMutableAttributedStringSEEAdditions.h"
 #import "NSErrorTCMAdditions.h"
 #import "FontForwardingTextField.h"
@@ -1408,7 +1408,7 @@ static NSString *tempFileName(NSString *origPath) {
             DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Trying to convert file encoding");
             [[alert window] orderOut:self];
             if (![[[I_textStorage fullTextStorage] string] canBeConvertedToEncoding:encoding]) {
-                [[self topmostWindowController] setDocumentDialog:[[[EncodingDoctorDialog alloc] initWithEncoding:encoding] autorelease]];
+                [[self topmostWindowController] setDocumentDialog:[[[SEEEncodingDoctorDialogViewController alloc] initWithEncoding:encoding] autorelease]];
             
                 // didn't work so update bottom status bar to previous state
                 [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];

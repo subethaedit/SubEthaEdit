@@ -13,7 +13,7 @@
 #import "PlainTextWindowControllerTabContext.h"
 
 @class PlainTextEditor, PSMTabBarControl, PlainTextDocument;
-
+#import "SEEEncodingDoctorDialogViewController.h"
 
 @interface PlainTextWindowController : NSWindowController <NSMenuDelegate,PSMTabBarControlDelegate>
  {
@@ -74,8 +74,8 @@
 - (void)setShowsGutter:(BOOL)aFlag;
 - (IBAction)toggleLineNumbers:(id)aSender;
 
-- (void)setDocumentDialog:(id)aDocumentDialog;
-- (id)documentDialog;
+- (void)setDocumentDialog:(NSViewController<SEEDocumentDialogViewController>*)aDocumentDialog;
+- (NSViewController<SEEDocumentDialogViewController>*)documentDialog;
 
 - (void)documentWillClose:(NSDocument *)document;
 

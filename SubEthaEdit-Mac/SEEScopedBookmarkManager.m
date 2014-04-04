@@ -273,7 +273,7 @@ static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.s
 			[bookmarkURLs addObject:url];
 
 			if (bookmarkIsStale) {
-				DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Bookmark was stale for URL: %@", url);
+				DEBUGLOG(@"FileIOLogDomain", AlwaysLogLevel, @"Bookmark was stale for URL: %@", url);
 			}
 		}
 	}
@@ -289,13 +289,15 @@ static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.s
 		NSMutableArray *bookmarks = [NSMutableArray array];
 		for (NSURL *bookmarkURL in bookmarkURLs) {
 			NSError *bookmarkGenerationError = nil;
-			
-			[bookmarkURL startAccessingSecurityScopedResource];
-			NSData *persistentBookmarkData = [bookmarkURL bookmarkDataWithOptions:NSURLBookmarkCreationWithSecurityScope
-												   includingResourceValuesForKeys:nil
-																	relativeToURL:nil
-																			error:&bookmarkGenerationError];
-			[bookmarkURL stopAccessingSecurityScopedResource];
+
+			NSData *persistentBookmarkData = nil;
+			if ([bookmarkURL startAccessingSecurityScopedResource]) {
+				persistentBookmarkData = [bookmarkURL bookmarkDataWithOptions:NSURLBookmarkCreationWithSecurityScope
+											   includingResourceValuesForKeys:nil
+																relativeToURL:nil
+																		error:&bookmarkGenerationError];
+				[bookmarkURL stopAccessingSecurityScopedResource];
+			}
 
 			if (persistentBookmarkData) {
 				[bookmarks addObject:persistentBookmarkData];
@@ -358,14 +360,15 @@ static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.s
 					NSOpenPanel *openPanel = [NSOpenPanel openPanel];
 					openPanel.canChooseDirectories = YES;
 					openPanel.canChooseFiles = YES;
-					openPanel.directoryURL = aURL;
-					// TODO: localize and write proper text
+					openPanel.directoryURL = [aURL URLByDeletingLastPathComponent];
+
 					openPanel.prompt = NSLocalizedStringWithDefaultValue(@"ScopedBookmarkAllowFilePrompt", nil, [NSBundle mainBundle], @"Allow", @"Default button title of the allow open panel");
 					openPanel.title = NSLocalizedStringWithDefaultValue(@"ScopedBookmarkAllowFileTitle", nil, [NSBundle mainBundle], @"Allow File Access", @"Window title of the allow open panel");
 
 					{
 						SEEScopedBookmarkAccessoryViewController *viewController = [[SEEScopedBookmarkAccessoryViewController alloc] initWithNibName:@"SEEScopedBookmarkAccessoryViewController" bundle:nil];
-
+						viewController.accessedFileName = [aURL lastPathComponent];
+						
 						NSView *view = viewController.view;
 						view.layer.backgroundColor = [[NSColor redColor] CGColor];
 						view.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
