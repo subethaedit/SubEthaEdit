@@ -45,6 +45,8 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 - (id)init {
     self = [super init];
     if (self) {
+		self.uuid = [NSString UUIDString];
+
         _plainTextEditors = [[NSMutableArray alloc] init];
 
 		[self registerKVO];
@@ -301,6 +303,8 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
 //	NSLog(@"%s - %d : %@", __FUNCTION__, __LINE__, self.document.displayName);
+	[coder encodeObject:self.uuid forKey:@"SEETabContextUUID"];
+
 	[super encodeRestorableStateWithCoder:coder];
 
 	// The bookmarks are used by SEEDocumentController to restore the tab documents.
@@ -319,12 +323,18 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 
 	[coder encodeObject:documentURLBookmark forKey:@"SEETabContextDocumentURLBookmark"];
 	[coder encodeObject:documentAutosaveURLBookmark forKey:@"SEETabContextDocumentAutosaveURLBookmark"];
+	[coder encodeObject:self.document.displayName forKey:@"SEETabContextDocumentDisplayName"];
 	[coder encodeBool:self.hasEditorSplit forKey:@"SEETabContextHasEditorSplit"];
 	[coder encodeBool:self.hasWebPreviewSplit forKey:@"SEETabContextHasWebPreviewSplit"];
 }
 
 - (void)restoreStateWithCoder:(NSCoder *)coder {
 //	NSLog(@"%s - %d : %@", __FUNCTION__, __LINE__, self.document.displayName);
+	NSString *uuidString = [coder decodeObjectForKey:@"SEETabContextUUID"];
+	if (uuidString) {
+		self.uuid = uuidString;
+	}
+
 	[super restoreStateWithCoder:coder];
 
 	BOOL hasEditorSplit = [coder decodeBoolForKey:@"SEETabContextHasEditorSplit"];

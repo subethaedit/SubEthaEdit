@@ -1004,16 +1004,13 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
 	PlainTextDocument *selectedDocument = self.document;
 
-	NSMutableArray *tabNames = [NSMutableArray array];
+	NSMutableArray *tabLookupKeys = [NSMutableArray array];
 	for (PlainTextDocument *tabDocument in self.orderedDocuments) {
 		NSTabViewItem *tabItem = [self tabViewItemForDocument:tabDocument];
 		PlainTextWindowControllerTabContext *tabContext = tabItem.identifier;
 
-		NSString *tabName = [[tabContext.document fileURL] lastPathComponent];
-		if (! tabName) {
-			tabName = tabContext.document.displayName;
-		}
-		[tabNames addObject:tabName];
+		NSString *tabLookupKey = tabContext.uuid;
+		[tabLookupKeys addObject:tabLookupKey];
 
 		NSMutableData *tabData = [NSMutableData data];
 		NSKeyedArchiver *tabCoder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:tabData];
@@ -1024,15 +1021,11 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 			[tabDocument encodeRestorableStateWithCoder:tabCoder];
 		}
 		[tabCoder finishEncoding];
-		[coder encodeObject:tabData forKey:tabName];
+		[coder encodeObject:tabData forKey:tabLookupKey];
 		[tabCoder release];
-
-		if (tabDocument == self.document) {
-			[coder encodeObject:tabName forKey:@"PlainTextWindowSelectedTabName"];
-		}
 	}
 
-	[coder encodeObject:tabNames forKey:@"PlainTextWindowOpenTabNames"];
+	[coder encodeObject:tabLookupKeys forKey:@"PlainTextWindowOpenTabLookupKeys"];
 }
 
 - (void)restoreStateWithCoder:(NSCoder *)coder {
@@ -1044,12 +1037,10 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 	for (PlainTextDocument *tabDocument in self.orderedDocuments) {
 		NSTabViewItem *tabItem = [self tabViewItemForDocument:tabDocument];
 		PlainTextWindowControllerTabContext *tabContext = tabItem.identifier;
-		NSString *tabName = [[tabContext.document fileURL] lastPathComponent];
-		if (! tabName) {
-			tabName = tabContext.document.displayName;
-		}
 
-		NSData *tabData = [coder decodeObjectForKey:tabName];
+		NSString *tabLookupKey = tabContext.uuid;
+
+		NSData *tabData = [coder decodeObjectForKey:tabLookupKey];
 		NSKeyedUnarchiver *tabCoder = [[NSKeyedUnarchiver alloc] initForReadingWithData:tabData];
 		if (tabCoder) {
 			[tabContext restoreStateWithCoder:tabCoder];
