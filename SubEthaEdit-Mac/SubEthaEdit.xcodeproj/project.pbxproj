@@ -274,7 +274,7 @@
 		4CD5F7DA17FB0BF200F49E31 /* AdvancedPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F7D817FB0BF200F49E31 /* AdvancedPrefs.xib */; };
 		4CD5F7E217FB0C4D00F49E31 /* DocumentProxy.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F7E017FB0C4D00F49E31 /* DocumentProxy.xib */; };
 		4CD5F7E617FB0C7B00F49E31 /* EditPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F7E417FB0C7B00F49E31 /* EditPrefs.xib */; };
-		4CD5F7EA17FB0C8E00F49E31 /* EncodingDoctor.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F7E817FB0C8E00F49E31 /* EncodingDoctor.xib */; };
+		4CD5F7EA17FB0C8E00F49E31 /* SEEEncodingDoctorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F7E817FB0C8E00F49E31 /* SEEEncodingDoctorView.xib */; };
 		4CD5F7EE17FB0CA300F49E31 /* Export.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F7EC17FB0CA300F49E31 /* Export.xib */; };
 		4CD5F7F217FB0CBF00F49E31 /* FindAll.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F7F017FB0CBF00F49E31 /* FindAll.xib */; };
 		4CD5F7F617FB0CD200F49E31 /* FindReplace.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F7F417FB0CD200F49E31 /* FindReplace.xib */; };
@@ -313,22 +313,9 @@
 		5E4DA73D09E15C6800D91CFC /* Scripts in Resources */ = {isa = PBXBuildFile; fileRef = 5E4DA73A09E15C6800D91CFC /* Scripts */; };
 		5E57298F09F514FB00D3746B /* Toolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E57298D09F514FB00D3746B /* Toolbar.m */; };
 		5E67DB1A0ABF0DEA0013562D /* NSDataTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891220957457500D14688 /* NSDataTCMAdditions.m */; };
-		5E67DB8D0ABF21270013562D /* glass-normal-cap-left.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E67DB870ABF21270013562D /* glass-normal-cap-left.tiff */; };
-		5E67DB8E0ABF21270013562D /* glass-normal-pressed-cap-right.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E67DB880ABF21270013562D /* glass-normal-pressed-cap-right.tiff */; };
-		5E67DB8F0ABF21270013562D /* glass-normal-fill.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E67DB890ABF21270013562D /* glass-normal-fill.tiff */; };
-		5E67DB900ABF21270013562D /* glass-normal-cap-right.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E67DB8A0ABF21270013562D /* glass-normal-cap-right.tiff */; };
-		5E67DB910ABF21270013562D /* glass-normal-pressed-cap-left.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E67DB8B0ABF21270013562D /* glass-normal-pressed-cap-left.tiff */; };
-		5E67DB920ABF21270013562D /* glass-normal-pressed-fill.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E67DB8C0ABF21270013562D /* glass-normal-pressed-fill.tiff */; };
-		5E67DB930ABF212A0013562D /* glass-normal-cap-left.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E67DB870ABF21270013562D /* glass-normal-cap-left.tiff */; };
-		5E67DB940ABF212A0013562D /* glass-normal-pressed-cap-right.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E67DB880ABF21270013562D /* glass-normal-pressed-cap-right.tiff */; };
-		5E67DB950ABF212B0013562D /* glass-normal-cap-right.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E67DB8A0ABF21270013562D /* glass-normal-cap-right.tiff */; };
-		5E67DB960ABF212B0013562D /* glass-normal-fill.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E67DB890ABF21270013562D /* glass-normal-fill.tiff */; };
-		5E67DB970ABF212D0013562D /* glass-normal-pressed-cap-left.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E67DB8B0ABF21270013562D /* glass-normal-pressed-cap-left.tiff */; };
-		5E67DB980ABF212D0013562D /* glass-normal-pressed-fill.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E67DB8C0ABF21270013562D /* glass-normal-pressed-fill.tiff */; };
 		5E685D5309D82BBB00E41973 /* NSAppleScriptTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E685D5109D82BBB00E41973 /* NSAppleScriptTCMAdditions.m */; };
 		5E685DB409D8438800E41973 /* NSMenuTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E685DB209D8438800E41973 /* NSMenuTCMAdditions.m */; };
-		5E754EA40AB5648F00C5119E /* EncodingDoctorDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E754EA20AB5648F00C5119E /* EncodingDoctorDialog.m */; };
-		5E754EAC0AB564BD00C5119E /* SEEDocumentDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E754EAA0AB564BD00C5119E /* SEEDocumentDialog.m */; };
+		5E754EA40AB5648F00C5119E /* SEEEncodingDoctorDialogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E754EA20AB5648F00C5119E /* SEEEncodingDoctorDialogViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		5E7E7FE80A1B71EE00B8F2A5 /* ToolbarIconOpenURL.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E7E7FE70A1B71EE00B8F2A5 /* ToolbarIconOpenURL.png */; };
 		5EA1258A09E2B4190055965D /* ScriptWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EA1258809E2B4190055965D /* ScriptWrapper.m */; };
 		5EB51AF80A177CF500AE2E17 /* InvisibleCharactersShow.png in Resources */ = {isa = PBXBuildFile; fileRef = 5EB51AF60A177CF500AE2E17 /* InvisibleCharactersShow.png */; };
@@ -410,8 +397,6 @@
 		F2B136EB189BF27000430639 /* AW AddTabButton.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2B136E3189BF27000430639 /* AW AddTabButton.tiff */; };
 		F2B136EC189BF27000430639 /* AW AddTabButtonPushed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2B136E4189BF27000430639 /* AW AddTabButtonPushed.tiff */; };
 		F2B136ED189BF27000430639 /* AW AddTabButtonRollover_Pressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2B136E5189BF27000430639 /* AW AddTabButtonRollover_Pressed.tiff */; };
-		F2B18CEB0C4BB550000BB062 /* GlassButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F2B18CE70C4BB550000BB062 /* GlassButtonCell.m */; };
-		F2B18CEE0C4BB550000BB062 /* GlassButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F2B18CEA0C4BB550000BB062 /* GlassButton.m */; };
 		F2B91DA00D7EEE3400626BBC /* FriendCast13None.png in Resources */ = {isa = PBXBuildFile; fileRef = F2B91D9F0D7EEE3400626BBC /* FriendCast13None.png */; };
 		F2BB09EB0CA0186400258EC7 /* NSBezierPath-Arrow.m in Sources */ = {isa = PBXBuildFile; fileRef = F2BB09E80CA0186400258EC7 /* NSBezierPath-Arrow.m */; };
 		F2BB09F90CA018B600258EC7 /* NSImage-States.m in Sources */ = {isa = PBXBuildFile; fileRef = F2BB09F40CA018B100258EC7 /* NSImage-States.m */; };
@@ -1051,8 +1036,7 @@
 		4CD5F7E317FB0C5200F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/DocumentProxy.xib; sourceTree = "<group>"; };
 		4CD5F7E517FB0C7B00F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/EditPrefs.xib; sourceTree = "<group>"; };
 		4CD5F7E717FB0C7E00F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/EditPrefs.xib; sourceTree = "<group>"; };
-		4CD5F7E917FB0C8E00F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/EncodingDoctor.xib; sourceTree = "<group>"; };
-		4CD5F7EB17FB0C9300F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/EncodingDoctor.xib; sourceTree = "<group>"; };
+		4CD5F7E917FB0C8E00F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SEEEncodingDoctorView.xib; sourceTree = "<group>"; };
 		4CD5F7ED17FB0CA300F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/Export.xib; sourceTree = "<group>"; };
 		4CD5F7EF17FB0CA600F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/Export.xib; sourceTree = "<group>"; };
 		4CD5F7F117FB0CBF00F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/FindAll.xib; sourceTree = "<group>"; };
@@ -1113,21 +1097,13 @@
 		5E4DA73A09E15C6800D91CFC /* Scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Scripts; sourceTree = "<group>"; };
 		5E57298C09F514FB00D3746B /* Toolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Toolbar.h; sourceTree = "<group>"; };
 		5E57298D09F514FB00D3746B /* Toolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Toolbar.m; sourceTree = "<group>"; };
-		5E67DB870ABF21270013562D /* glass-normal-cap-left.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "glass-normal-cap-left.tiff"; path = "artwork/glass-normal-cap-left.tiff"; sourceTree = "<group>"; };
-		5E67DB880ABF21270013562D /* glass-normal-pressed-cap-right.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "glass-normal-pressed-cap-right.tiff"; path = "artwork/glass-normal-pressed-cap-right.tiff"; sourceTree = "<group>"; };
-		5E67DB890ABF21270013562D /* glass-normal-fill.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "glass-normal-fill.tiff"; path = "artwork/glass-normal-fill.tiff"; sourceTree = "<group>"; };
-		5E67DB8A0ABF21270013562D /* glass-normal-cap-right.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "glass-normal-cap-right.tiff"; path = "artwork/glass-normal-cap-right.tiff"; sourceTree = "<group>"; };
-		5E67DB8B0ABF21270013562D /* glass-normal-pressed-cap-left.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "glass-normal-pressed-cap-left.tiff"; path = "artwork/glass-normal-pressed-cap-left.tiff"; sourceTree = "<group>"; };
-		5E67DB8C0ABF21270013562D /* glass-normal-pressed-fill.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "glass-normal-pressed-fill.tiff"; path = "artwork/glass-normal-pressed-fill.tiff"; sourceTree = "<group>"; };
 		5E685D5009D82BBB00E41973 /* NSAppleScriptTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NSAppleScriptTCMAdditions.h; sourceTree = "<group>"; };
 		5E685D5109D82BBB00E41973 /* NSAppleScriptTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSAppleScriptTCMAdditions.m; sourceTree = "<group>"; };
 		5E685DB109D8438800E41973 /* NSMenuTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NSMenuTCMAdditions.h; sourceTree = "<group>"; };
 		5E685DB209D8438800E41973 /* NSMenuTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSMenuTCMAdditions.m; sourceTree = "<group>"; };
 		5E6AEEE209FE7C5700276D7C /* ToolbarIconColorChooser.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ToolbarIconColorChooser.tiff; path = artwork/ToolbarIconColorChooser.tiff; sourceTree = "<group>"; };
-		5E754EA10AB5648F00C5119E /* EncodingDoctorDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = EncodingDoctorDialog.h; sourceTree = "<group>"; };
-		5E754EA20AB5648F00C5119E /* EncodingDoctorDialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EncodingDoctorDialog.m; sourceTree = "<group>"; };
-		5E754EA90AB564BD00C5119E /* SEEDocumentDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SEEDocumentDialog.h; sourceTree = "<group>"; };
-		5E754EAA0AB564BD00C5119E /* SEEDocumentDialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEDocumentDialog.m; sourceTree = "<group>"; };
+		5E754EA10AB5648F00C5119E /* SEEEncodingDoctorDialogViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SEEEncodingDoctorDialogViewController.h; sourceTree = "<group>"; };
+		5E754EA20AB5648F00C5119E /* SEEEncodingDoctorDialogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEEncodingDoctorDialogViewController.m; sourceTree = "<group>"; };
 		5E7E7FE70A1B71EE00B8F2A5 /* ToolbarIconOpenURL.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ToolbarIconOpenURL.png; path = artwork/ToolbarIconOpenURL.png; sourceTree = "<group>"; };
 		5EA1258709E2B4190055965D /* ScriptWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ScriptWrapper.h; sourceTree = "<group>"; };
 		5EA1258809E2B4190055965D /* ScriptWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScriptWrapper.m; sourceTree = "<group>"; };
@@ -1246,10 +1222,6 @@
 		F2B136E3189BF27000430639 /* AW AddTabButton.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "AW AddTabButton.tiff"; sourceTree = "<group>"; };
 		F2B136E4189BF27000430639 /* AW AddTabButtonPushed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "AW AddTabButtonPushed.tiff"; sourceTree = "<group>"; };
 		F2B136E5189BF27000430639 /* AW AddTabButtonRollover_Pressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "AW AddTabButtonRollover_Pressed.tiff"; sourceTree = "<group>"; };
-		F2B18CE70C4BB550000BB062 /* GlassButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlassButtonCell.m; sourceTree = "<group>"; };
-		F2B18CE80C4BB550000BB062 /* GlassButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = GlassButtonCell.h; sourceTree = "<group>"; };
-		F2B18CE90C4BB550000BB062 /* GlassButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = GlassButton.h; sourceTree = "<group>"; };
-		F2B18CEA0C4BB550000BB062 /* GlassButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlassButton.m; sourceTree = "<group>"; };
 		F2B6CCC20EE9C6390077417E /* SeeTextImporter.mdimporter */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SeeTextImporter.mdimporter; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2B91D9F0D7EEE3400626BBC /* FriendCast13None.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FriendCast13None.png; path = artwork/FriendCast13None.png; sourceTree = "<group>"; };
 		F2BB09E80CA0186400258EC7 /* NSBezierPath-Arrow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSBezierPath-Arrow.m"; path = "Panic/NSBezierPath-Arrow.m"; sourceTree = "<group>"; };
@@ -1526,12 +1498,6 @@
 				F2D2CDAF0D73043D000E3812 /* FriendCast16.png */,
 				F2D2CDB00D73043D000E3812 /* FriendCastBlue.tiff */,
 				F2D2CDB10D73043D000E3812 /* FriendCastBlack.tiff */,
-				5E67DB870ABF21270013562D /* glass-normal-cap-left.tiff */,
-				5E67DB880ABF21270013562D /* glass-normal-pressed-cap-right.tiff */,
-				5E67DB890ABF21270013562D /* glass-normal-fill.tiff */,
-				5E67DB8A0ABF21270013562D /* glass-normal-cap-right.tiff */,
-				5E67DB8B0ABF21270013562D /* glass-normal-pressed-cap-left.tiff */,
-				5E67DB8C0ABF21270013562D /* glass-normal-pressed-fill.tiff */,
 				1428906C095743F200D14688 /* HideChangeMarks.png */,
 				1428906E095743F200D14688 /* HomeFolderIcon.tiff */,
 				F27B2EDD0B52957800679CF2 /* hud_buttonLeft-N.tiff */,
@@ -2188,7 +2154,7 @@
 				4CE8E4E818DC84B10029BF95 /* Prefs */,
 				4C1D39DA17FB085800B1CF5C /* AboutPanel.xib */,
 				4CD5F7E017FB0C4D00F49E31 /* DocumentProxy.xib */,
-				4CD5F7E817FB0C8E00F49E31 /* EncodingDoctor.xib */,
+				4CD5F7E817FB0C8E00F49E31 /* SEEEncodingDoctorView.xib */,
 				4CD5F7EC17FB0CA300F49E31 /* Export.xib */,
 				4CD5F7F017FB0CBF00F49E31 /* FindAll.xib */,
 				4CD5F7F417FB0CD200F49E31 /* FindReplace.xib */,
@@ -2364,16 +2330,10 @@
 			children = (
 				F2CEAAA5100B3A320036B3F7 /* MAAttachedWindow.h */,
 				F2CEAAA6100B3A350036B3F7 /* MAAttachedWindow.m */,
-				5E754EA90AB564BD00C5119E /* SEEDocumentDialog.h */,
-				5E754EAA0AB564BD00C5119E /* SEEDocumentDialog.m */,
-				5E754EA10AB5648F00C5119E /* EncodingDoctorDialog.h */,
-				5E754EA20AB5648F00C5119E /* EncodingDoctorDialog.m */,
+				5E754EA10AB5648F00C5119E /* SEEEncodingDoctorDialogViewController.h */,
+				5E754EA20AB5648F00C5119E /* SEEEncodingDoctorDialogViewController.m */,
 				5E0F01C20AB573A100A5DE33 /* DialogBackgroundView.h */,
 				5E0F01C10AB573A100A5DE33 /* DialogBackgroundView.m */,
-				F2B18CE90C4BB550000BB062 /* GlassButton.h */,
-				F2B18CEA0C4BB550000BB062 /* GlassButton.m */,
-				F2B18CE80C4BB550000BB062 /* GlassButtonCell.h */,
-				F2B18CE70C4BB550000BB062 /* GlassButtonCell.m */,
 				F2CEAAEF100B46150036B3F7 /* URLBubbleWindow.h */,
 				F2CEAAF0100B46150036B3F7 /* URLBubbleWindow.m */,
 			);
@@ -2752,12 +2712,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5E67DB8D0ABF21270013562D /* glass-normal-cap-left.tiff in Resources */,
-				5E67DB8E0ABF21270013562D /* glass-normal-pressed-cap-right.tiff in Resources */,
-				5E67DB8F0ABF21270013562D /* glass-normal-fill.tiff in Resources */,
-				5E67DB900ABF21270013562D /* glass-normal-cap-right.tiff in Resources */,
-				5E67DB910ABF21270013562D /* glass-normal-pressed-cap-left.tiff in Resources */,
-				5E67DB920ABF21270013562D /* glass-normal-pressed-fill.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2899,7 +2853,7 @@
 				F2257D00189673AA005EF9B1 /* BottomBarSharingIconGroup@2x.png in Resources */,
 				142895040957692100D14688 /* SymbolWarn.tiff in Resources */,
 				5E18F62B09A8A43A00A96A6C /* InvitationBadge3.tiff in Resources */,
-				4CD5F7EA17FB0C8E00F49E31 /* EncodingDoctor.xib in Resources */,
+				4CD5F7EA17FB0C8E00F49E31 /* SEEEncodingDoctorView.xib in Resources */,
 				5E18F62C09A8A43A00A96A6C /* InvitationBadge1-2.tiff in Resources */,
 				5E294A4B09DAD29D0010A5B2 /* ToolbarIconBuild.tiff in Resources */,
 				F2D3E556189941F50096425B /* IW ActiveTabFill@2x.png in Resources */,
@@ -2931,13 +2885,7 @@
 				14EC6E280A63F2E800B44481 /* ServicesMenu.strings in Resources */,
 				4C6BDC6618898E1E0088CBFC /* ScriptMenu.pdf in Resources */,
 				5EF31E430A7E437C00D777F5 /* InvertedIBeam.tiff in Resources */,
-				5E67DB930ABF212A0013562D /* glass-normal-cap-left.tiff in Resources */,
 				4C6BDC5618896DCC0088CBFC /* SubEthaEditText.iconset in Resources */,
-				5E67DB940ABF212A0013562D /* glass-normal-pressed-cap-right.tiff in Resources */,
-				5E67DB950ABF212B0013562D /* glass-normal-cap-right.tiff in Resources */,
-				5E67DB960ABF212B0013562D /* glass-normal-fill.tiff in Resources */,
-				5E67DB970ABF212D0013562D /* glass-normal-pressed-cap-left.tiff in Resources */,
-				5E67DB980ABF212D0013562D /* glass-normal-pressed-fill.tiff in Resources */,
 				F2D3E531189941F50096425B /* AW ActiveTabLeftCap.png in Resources */,
 				F2061D590B4C13AF00E6631F /* SmallGrowBoxRight3.tiff in Resources */,
 				F27B2E800B5271AE00679CF2 /* hud_titlebar-close.tiff in Resources */,
@@ -3288,9 +3236,8 @@
 				14E294510A0CBFB0007C0065 /* SelectCommand.m in Sources */,
 				311717F40A0E8C3600A9DA18 /* ModeSettings.m in Sources */,
 				5EF31B220A7E2E2100D777F5 /* NSCursorSEEAdditions.m in Sources */,
-				5E754EA40AB5648F00C5119E /* EncodingDoctorDialog.m in Sources */,
+				5E754EA40AB5648F00C5119E /* SEEEncodingDoctorDialogViewController.m in Sources */,
 				F21DAFE618BB75E1002B3C41 /* SEEFindAndReplaceViewController.m in Sources */,
-				5E754EAC0AB564BD00C5119E /* SEEDocumentDialog.m in Sources */,
 				5E0F01C30AB573A100A5DE33 /* DialogBackgroundView.m in Sources */,
 				141F50ED0AE51B66001B73D2 /* PlainTextWindowControllerTabContext.m in Sources */,
 				148167AE0B15B002008894C9 /* PlainTextWindow.m in Sources */,
@@ -3308,8 +3255,6 @@
 				F2D129FC0BF0B64A00A776CC /* SEEConnectionManager.m in Sources */,
 				F2D12A1D0BF0B8DF00A776CC /* SEEConnection.m in Sources */,
 				F29940600C0C7F3400A53189 /* NSScreenTCMAdditions.m in Sources */,
-				F2B18CEB0C4BB550000BB062 /* GlassButtonCell.m in Sources */,
-				F2B18CEE0C4BB550000BB062 /* GlassButton.m in Sources */,
 				316A0D2A0C68A47100720268 /* DebugAttributeInspectorController.m in Sources */,
 				F2ABC4D60C799775007437A2 /* TCMMMLoggingState.m in Sources */,
 				F2ABC4E30C799CCD007437A2 /* TCMMMLoggedOperation.m in Sources */,
@@ -3494,13 +3439,12 @@
 			name = EditPrefs.xib;
 			sourceTree = "<group>";
 		};
-		4CD5F7E817FB0C8E00F49E31 /* EncodingDoctor.xib */ = {
+		4CD5F7E817FB0C8E00F49E31 /* SEEEncodingDoctorView.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				4CD5F7E917FB0C8E00F49E31 /* English */,
-				4CD5F7EB17FB0C9300F49E31 /* German */,
 			);
-			name = EncodingDoctor.xib;
+			name = SEEEncodingDoctorView.xib;
 			sourceTree = "<group>";
 		};
 		4CD5F7EC17FB0CA300F49E31 /* Export.xib */ = {

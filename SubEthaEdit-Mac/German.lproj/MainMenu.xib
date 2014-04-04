@@ -806,7 +806,7 @@
                             </menuItem>
                             <menuItem title="Web Vorschau einblenden" keyEquivalent="r" id="459">
                                 <connections>
-                                    <action selector="showWebPreview:" target="-1" id="462"/>
+                                    <action selector="toggleWebPreview:" target="-1" id="QHS-Qg-d6B"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Web Vorschau aktualisieren" keyEquivalent="R" id="460">

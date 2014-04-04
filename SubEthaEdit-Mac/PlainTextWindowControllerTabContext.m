@@ -16,6 +16,8 @@
 #import "SEEParticipantsOverlayViewController.h"
 #import "PlainTextLoadProgress.h"
 
+#import "SEEEncodingDoctorDialogViewController.h"
+
 // this file needs arc - add -fobjc-arc in the compile build phase
 #if !__has_feature(objc_arc)
 #error ARC must be enabled!
@@ -57,6 +59,10 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
     [_plainTextEditors makeObjectsPerformSelector:@selector(setWindowControllerTabContext:) withObject:nil];
 }
 
+- (PlainTextWindowController *)windowController {
+	PlainTextWindowController *result = [self.tab.tabView.window windowController];
+	return result;
+}
 
 #pragma mark - KVO
 
@@ -124,9 +130,9 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 
 #pragma mark - Editor Split
 
--(void)updateEditorSplitView {
+- (void)updateEditorSplitView {
 	NSMutableArray *plainTextEditors = self.plainTextEditors;
-	PlainTextWindowController *windowController = (PlainTextWindowController *)[self.tab.tabView.window windowController];
+	PlainTextWindowController *windowController = self.windowController;
 	NSSplitView *dialogSplitView = self.dialogSplitView;
 	NSSplitView *webPreviewSplitView = self.webPreviewSplitView;
 	BOOL hasEditorSplit = self.hasEditorSplit;
@@ -286,11 +292,70 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 		self.webPreviewSplitView = webPreviewSplitView;
 	}
 
-	PlainTextWindowController *windowController = (PlainTextWindowController *)[self.tab.tabView.window windowController];
-	[windowController updateWindowMinSize];
+	[self.windowController updateWindowMinSize];
 }
 
+#pragma mark - Document Dialog
 
+- (void)updateDocumentDialogSplit {
+	NSSplitView *dialogSplitView = self.dialogSplitView;
+	NSViewController<SEEDocumentDialogViewController> *documentDialog = self.documentDialog;
+	NSTabViewItem *tab = self.tab;
+	if (documentDialog && !dialogSplitView) {
+		PlainTextWindowControllerTabContext *tabContext = self;
+		
+		NSView *viewToReplace = self.tab.view;
+		if (self.webPreviewSplitView) {
+			viewToReplace = self.webPreviewSplitView.subviews.lastObject;
+		} else if (self.editorSplitView) {
+			viewToReplace = self.editorSplitView;
+		}
+		
+		NSView *dialogView = [documentDialog view];
+		
+		NSSplitView *dialogSplitView = [[NSSplitView alloc] initWithFrame:[viewToReplace frame]];
+		dialogSplitView.identifier = @"DialogSplit";
+		tabContext.dialogSplitViewDelegate = [[SEEDialogSplitViewDelegate alloc] initWithTabContext:tab.identifier];
+		dialogSplitView.delegate = tabContext.dialogSplitViewDelegate;
+		dialogSplitView.dividerStyle = NSSplitViewDividerStyleThin;
+		self.dialogSplitView = dialogSplitView;
+		
+		if ([viewToReplace isEqual:self.tab.view]) {
+			[self.tab setView:dialogSplitView];
+		} else {
+			[viewToReplace.superview replaceSubview:viewToReplace with:dialogSplitView];
+		}
+		
+		[dialogSplitView addSubview:dialogView];
+		[dialogSplitView addSubview:viewToReplace];
+		
+	} else if (!documentDialog && dialogSplitView) {
+
+		// remove document dialog splitview
+		NSView *viewToMoveUp = self.dialogSplitView.subviews.lastObject;
+		
+		if (self.webPreviewSplitView) {
+			[viewToMoveUp setTranslatesAutoresizingMaskIntoConstraints:YES];
+			[self.webPreviewSplitView replaceSubview:self.dialogSplitView with:viewToMoveUp];
+		} else {
+			[self.tab setView:viewToMoveUp];
+		}
+		
+		self.dialogSplitView.delegate = nil;
+		self.dialogSplitViewDelegate = nil;
+		self.dialogSplitView = nil;
+		
+	}
+
+	[self.windowController updateWindowMinSize];
+	
+}
+
+- (void)setDocumentDialog:(NSViewController<SEEDocumentDialogViewController> *)aDocumentDialog {
+	[aDocumentDialog setTabContext:self];
+	_documentDialog = aDocumentDialog;
+	[self updateDocumentDialogSplit];
+}
 
 #pragma mark - Restorable State
 

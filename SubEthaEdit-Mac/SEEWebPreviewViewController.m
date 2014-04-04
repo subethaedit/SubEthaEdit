@@ -140,7 +140,7 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
 }
 
 #pragma mark
-void logSubViews(NSArray *aSubviewsArray) {
+static void logSubViews(NSArray *aSubviewsArray) {
     if (aSubviewsArray) NSLog(@"---");
     for (NSView *subview in aSubviewsArray) {
         NSLog(@"%@",[subview description]);
@@ -148,7 +148,7 @@ void logSubViews(NSArray *aSubviewsArray) {
     }
 }
 
-NSScrollView * firstScrollView(NSView *aView) {
+static NSScrollView * firstScrollView(NSView *aView) {
     NSArray *aSubviewsArray=[aView subviews];
     unsigned i;
     for (i=0;i<[aSubviewsArray count];i++) {
