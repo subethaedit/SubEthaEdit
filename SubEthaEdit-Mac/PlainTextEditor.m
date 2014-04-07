@@ -41,7 +41,7 @@
 #import "URLBubbleWindow.h"
 #import "SEEFindAndReplaceViewController.h"
 #import <objc/objc-runtime.h>
-
+#import "SEEPlainTextEditorTopBarViewController.h"
 
 NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDidFollowUserNotification";
 NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEditorDidChangeSearchScopeNotification";
@@ -98,7 +98,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 @property (nonatomic, strong) NSViewController *bottomOverlayViewController;
 @property (nonatomic, strong) NSViewController *topOverlayViewController;
 @property (nonatomic, strong) SEEFindAndReplaceViewController *findAndReplaceController;
-
+@property (nonatomic, strong) SEEPlainTextEditorTopBarViewController *topBarViewController;
 @property (nonatomic, strong) NSLayoutConstraint *topStatusBarPinConstraint;
 @property (nonatomic, strong) NSLayoutConstraint *bottomOverlayViewPinConstraint;
 
@@ -178,6 +178,17 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 		
     }
 
+	// make sure we start out right
+	[I_textView adjustContainerInsetToScrollView];
+	
+	// temporary
+	self.topBarViewController = [[SEEPlainTextEditorTopBarViewController alloc] initWithPlainTextEditor:self];
+	NSView *barView = self.topBarViewController.view;
+	NSRect barRect = barView.frame;
+	barRect.size.width = NSWidth(self.O_editorView.bounds);
+	barRect.origin.x = NSMinX(self.O_editorView.bounds);
+	barRect.origin.y = NSMaxY(self.O_editorView.bounds) - 100.0;
+	[self.O_editorView addSubview:barView];
     return self;
 }
 
@@ -506,8 +517,6 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     [self sessionDidChange:nil];
     [self participantsDidChange:nil];
 
-	// make sure we start out right
-	[I_textView adjustContainerInsetToScrollView];
 }
 
 
@@ -682,6 +691,8 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 		[O_writtenByTextField setFrame:writtenByTextFrame];
 
 		[self.O_topStatusBarView setNeedsDisplay:YES];
+		
+		[self.topBarViewController adjustLayout];
     }
 	
 }
@@ -2365,31 +2376,34 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 #pragma mark ### PopUpButton delegate methods ###
 - (void)updateSelectedSymbol
 {
-    PlainTextDocument *document = [self document];
+	[self updateSelectedSymbolInPopUp:O_symbolPopUpButton];
+	[self updateSelectedSymbolInPopUp:self.topBarViewController.symbolPopUpButton];
+}
 
+- (void)updateSelectedSymbolInPopUp:(PopUpButton *)aPopUp {
+    PlainTextDocument *document = [self document];
+	
     if ([[document documentMode] hasSymbols])
     {
-        int symbolTag = [document selectedSymbolForRange:[(FoldableTextStorage *)[[self document] textStorage] fullRangeForFoldedRange :[I_textView selectedRange]]];
-
+        int symbolTag = [document selectedSymbolForRange:[self.document.textStorage fullRangeForFoldedRange:[I_textView selectedRange]]];
+		
         if (symbolTag == -1)
         {
-            [O_symbolPopUpButton selectItemAtIndex:0];
+            [aPopUp selectItemAtIndex:0];
         }
         else
         {
-            [O_symbolPopUpButton selectItem:[[O_symbolPopUpButton menu] itemWithTag:symbolTag]];
+            [aPopUp selectItem:[aPopUp.menu itemWithTag:symbolTag]];
         }
     }
 }
 
-
-- (void)updateSymbolPopUpSorted:(BOOL)aSorted
-{
-    NSMenu *popUpMenu = [[self document] symbolPopUpMenuForView:I_textView sorted:aSorted];
-    NSPopUpButtonCell *cell = [O_symbolPopUpButton cell];
-
+- (void)updateSymbolPopUp:(PopUpButton *)aPopUp sorted:(BOOL)isSorted {
+    NSMenu *popUpMenu = [[self document] symbolPopUpMenuForView:I_textView sorted:isSorted];
+    NSPopUpButtonCell *cell = [aPopUp cell];
+	
     [[[cell menu] retain] autorelease];
-
+	
     if ([[popUpMenu itemArray] count])
     {
         NSMenu *copiedMenu = [popUpMenu copyWithZone:[NSMenu menuZone]];
@@ -2397,7 +2411,14 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
         [copiedMenu release];
         [self updateSelectedSymbol];
     }
+	
+}
 
+- (void)updateSymbolPopUpSorted:(BOOL)aSorted
+{
+	[self updateSymbolPopUp:O_symbolPopUpButton sorted:aSorted];
+	[self updateSymbolPopUp:self.topBarViewController.symbolPopUpButton sorted:aSorted];
+	
     [self TCM_adjustTopStatusBarFrames];
 }
 
@@ -2790,6 +2811,8 @@ willChangeSelectionFromCharacterRange	:aOldSelectedCharRange
     }
 
     [self updateSelectedSymbol];
+
+	[self.topBarViewController updateForSelectionDidChange];
     [self TCM_updateStatusBar];
 }
 

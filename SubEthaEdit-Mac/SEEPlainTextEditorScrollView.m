@@ -64,7 +64,8 @@ void * const SEEScrollViewOverlayObservingContext = (void *)&SEEScrollViewOverla
 - (void)tile {
     // Let the superclass do most of the work.
     [super tile];
-
+	//	return;
+	
     if ([self hasVerticalScroller]) {
         NSScroller *verticalScroller = self.verticalScroller;
         NSRect verticalScrollerFrame = verticalScroller.frame;

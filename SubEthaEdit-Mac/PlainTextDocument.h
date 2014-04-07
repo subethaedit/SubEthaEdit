@@ -9,10 +9,14 @@
 
 #import <Cocoa/Cocoa.h>
 #import <Security/Security.h>
+@class PlainTextDocument;
+
 #import "EncodingManager.h"
 #import "TCMMMSession.h"
 #import "SEEDocumentCreationFlags.h"
 #import "UndoManager.h"
+#import "FoldableTextStorage.h"
+#import "FullTextStorage.h"
 
 enum {
     UnknownStringEncoding = NoStringEncoding,

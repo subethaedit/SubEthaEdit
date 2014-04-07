@@ -518,6 +518,8 @@
 		F2D86E5B0F8EB44100B912A2 /* Modes in Resources */ = {isa = PBXBuildFile; fileRef = 1428904A0957427100D14688 /* Modes */; };
 		F2D86E7B0F8EB57000B912A2 /* TestFiles in Resources */ = {isa = PBXBuildFile; fileRef = F2D86E780F8EB57000B912A2 /* TestFiles */; };
 		F2D86E840F8EB76C00B912A2 /* SEPDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D86E830F8EB76C00B912A2 /* SEPDocument.m */; };
+		F2DC3DD218F2F12300B543E9 /* SEEPlainTextEditorTopBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2DC3DD018F2F12300B543E9 /* SEEPlainTextEditorTopBarViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		F2DC3DD318F2F12300B543E9 /* SEEPlainTextEditorTopBarViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2DC3DD118F2F12300B543E9 /* SEEPlainTextEditorTopBarViewController.xib */; };
 		F2DCD8F20EE432F900F2854F /* FontForwardingTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = F2DCD8F10EE432F900F2854F /* FontForwardingTextField.m */; };
 		F2DEC3130F8FA17A00ADEE48 /* FullTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D34B0F38756100AD7DE1 /* FullTextStorage.m */; };
 		F2DEC3140F8FA17D00ADEE48 /* FoldableTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D34C0F38756100AD7DE1 /* FoldableTextStorage.m */; };
@@ -1344,6 +1346,9 @@
 		F2D86E780F8EB57000B912A2 /* TestFiles */ = {isa = PBXFileReference; lastKnownFileType = folder; name = TestFiles; path = SubEthaPerf/Resources/TestFiles; sourceTree = "<group>"; };
 		F2D86E820F8EB76C00B912A2 /* SEPDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEPDocument.h; sourceTree = "<group>"; };
 		F2D86E830F8EB76C00B912A2 /* SEPDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEPDocument.m; sourceTree = "<group>"; };
+		F2DC3DCF18F2F12300B543E9 /* SEEPlainTextEditorTopBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEPlainTextEditorTopBarViewController.h; sourceTree = "<group>"; };
+		F2DC3DD018F2F12300B543E9 /* SEEPlainTextEditorTopBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEPlainTextEditorTopBarViewController.m; sourceTree = "<group>"; };
+		F2DC3DD118F2F12300B543E9 /* SEEPlainTextEditorTopBarViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEEPlainTextEditorTopBarViewController.xib; sourceTree = "<group>"; };
 		F2DCD8F00EE432F900F2854F /* FontForwardingTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = FontForwardingTextField.h; sourceTree = "<group>"; };
 		F2DCD8F10EE432F900F2854F /* FontForwardingTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontForwardingTextField.m; sourceTree = "<group>"; };
 		F2F2B60C0CA811240045C189 /* TCMMMLogStatisticsDataPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = TCMMMLogStatisticsDataPoint.h; sourceTree = "<group>"; };
@@ -1792,6 +1797,9 @@
 				1428944D09575B9700D14688 /* PlainTextDocument.m */,
 				1428944E09575B9700D14688 /* PlainTextEditor.h */,
 				1428944F09575B9700D14688 /* PlainTextEditor.m */,
+				F2DC3DCF18F2F12300B543E9 /* SEEPlainTextEditorTopBarViewController.h */,
+				F2DC3DD018F2F12300B543E9 /* SEEPlainTextEditorTopBarViewController.m */,
+				F2DC3DD118F2F12300B543E9 /* SEEPlainTextEditorTopBarViewController.xib */,
 				149774150B5E159F004A546C /* PlainTextLoadProgress.h */,
 				149774160B5E159F004A546C /* PlainTextLoadProgress.m */,
 				148167AB0B15B002008894C9 /* PlainTextWindow.h */,
@@ -2898,6 +2906,7 @@
 				4C5EC97F1897F6FC0094D850 /* SEEParticipantsOverlay.xib in Resources */,
 				F2D3E538189941F50096425B /* AW InactiveTabBG@2x.png in Resources */,
 				F2B136EC189BF27000430639 /* AW AddTabButtonPushed.tiff in Resources */,
+				F2DC3DD318F2F12300B543E9 /* SEEPlainTextEditorTopBarViewController.xib in Resources */,
 				F2CA7CE60CA11FC9008BEA38 /* StatusLock.png in Resources */,
 				4CD5F81117FB0DC100F49E31 /* PlainTextLoadProgress.xib in Resources */,
 				4CD5F82917FB0E4F00F49E31 /* SavePanelAccessory.xib in Resources */,
@@ -3093,6 +3102,7 @@
 			files = (
 				8D15AC320486D014006FF6A4 /* main.m in Sources */,
 				4C0C4A1C18B3768500E6049E /* SEEDocumentListWindowController.m in Sources */,
+				F2DC3DD218F2F12300B543E9 /* SEEPlainTextEditorTopBarViewController.m in Sources */,
 				14289110095744C100D14688 /* MoreCFQ.c in Sources */,
 				14289111095744C100D14688 /* MoreSecurity.c in Sources */,
 				F2CA91EE18C08FF7006B098A /* SEEFindAndReplaceState.m in Sources */,
