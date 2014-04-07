@@ -1446,7 +1446,7 @@ struct ModificationInfo
 
     // Invoke invocation after reviewing all documents
     if (closeAllContext) {
-        NSInvocation *invocation = (__bridge NSInvocation *)closeAllContext;
+        NSInvocation *invocation = (__bridge_transfer NSInvocation *)closeAllContext;
         [invocation invoke];
     }
 }
@@ -1475,6 +1475,7 @@ struct ModificationInfo
 - (void)closeAllDocumentsWithDelegate:(id)delegate didCloseAllSelector:(SEL)didCloseAllSelector contextInfo:(void *)contextInfo
 {
     NSInvocation *invocation = nil;
+
     if (delegate != nil && didCloseAllSelector != NULL) {
         NSMethodSignature *methodSignature = [delegate methodSignatureForSelector:didCloseAllSelector];
         unsigned numberOfArguments = [methodSignature numberOfArguments];
@@ -1487,7 +1488,7 @@ struct ModificationInfo
         if (numberOfArguments > 3) { BOOL flag = YES; [invocation setArgument:&flag atIndex:3]; }
         if (numberOfArguments > 4) [invocation setArgument:&contextInfo atIndex:4];
     }
-    [self closeDocumentsStartingWith:nil shouldClose:YES closeAllContext:(void *)invocation];
+    [self closeDocumentsStartingWith:nil shouldClose:YES closeAllContext:(__bridge_retained void *)invocation];
 }
 
 - (void)removeDocument:(NSDocument *)document {
