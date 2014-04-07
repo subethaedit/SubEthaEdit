@@ -1187,6 +1187,7 @@ static NSString *tempFileName(NSString *origPath) {
         [session setFilename:[self preparedDisplayName]];
     }
     [[self windowControllers] makeObjectsPerformSelector:@selector(synchronizeWindowTitleWithDocumentName)];
+	[self invalidateRestorableState];
 }
 
 - (BOOL)isAnnounced {
@@ -1488,13 +1489,27 @@ static NSString *tempFileName(NSString *origPath) {
 #pragma mark - Restorable State
 
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
-//	NSLog(@"%s - %d : %@", __FUNCTION__, __LINE__, [self displayName]);
 	[super encodeRestorableStateWithCoder:coder];
+
+	// saving doument display name if document is not saved yet
+	if (self.fileURL == nil) {
+		[coder encodeObject:super.displayName forKey:@"SEEPlainTextDocumentDisplayName"]; // need to encode super.display name because self.displayname has sideeffects
+		[coder encodeObject:self.temporaryDisplayName forKey:@"SEEPlainTextDocumentTemporaryDisplayName"];
+		[coder encodeBool:I_flags.shouldChangeExtensionOnModeChange forKey:@"SEEPlainTextDocumentShouldUpdateExtensionOnModeChange"];
+	}
+
 }
 
 - (void)restoreStateWithCoder:(NSCoder *)coder {
-//	NSLog(@"%s - %d : %@", __FUNCTION__, __LINE__, [self displayName]);
 	[super restoreStateWithCoder:coder];
+
+	// restoring untitled document name
+	if (self.fileURL == nil) {
+		super.displayName = [coder decodeObjectForKey:@"SEEPlainTextDocumentDisplayName"]; // need to decode super.display name because self.displayname has sideeffects
+		self.temporaryDisplayName = [coder decodeObjectForKey:@"SEEPlainTextDocumentTemporaryDisplayName"];
+		I_flags.shouldChangeExtensionOnModeChange = [coder decodeBoolForKey:@"SEEPlainTextDocumentShouldUpdateExtensionOnModeChange"];
+	}
+
 }
 
 
@@ -4789,6 +4804,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 //        NSLog(@"%s oh look, super supports us!",__FUNCTION__);
         [super setDisplayName:aDisplayName];
     }
+	[self invalidateRestorableState];
 }
 
 #pragma mark -
