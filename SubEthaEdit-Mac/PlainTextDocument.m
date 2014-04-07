@@ -1498,6 +1498,12 @@ static NSString *tempFileName(NSString *origPath) {
 		[coder encodeBool:I_flags.shouldChangeExtensionOnModeChange forKey:@"SEEPlainTextDocumentShouldUpdateExtensionOnModeChange"];
 	}
 
+	// store document mode.
+	DocumentMode *documentMode = self.documentMode;
+	if (documentMode) {
+		NSString *documentModeIdentifier = documentMode.documentModeIdentifier;
+		[coder encodeObject:documentModeIdentifier forKey:@"SEEPlainTextDocumentSelectedModeIdentifier"];
+	}
 }
 
 - (void)restoreStateWithCoder:(NSCoder *)coder {
@@ -1510,6 +1516,12 @@ static NSString *tempFileName(NSString *origPath) {
 		I_flags.shouldChangeExtensionOnModeChange = [coder decodeBoolForKey:@"SEEPlainTextDocumentShouldUpdateExtensionOnModeChange"];
 	}
 
+	// restoring document mode
+	NSString *documentModeIdentifier = [coder decodeObjectForKey:@"SEEPlainTextDocumentSelectedModeIdentifier"];
+	if (documentModeIdentifier) {
+		DocumentMode *documentMode = [[DocumentModeManager sharedInstance] documentModeForIdentifier:documentModeIdentifier];
+		self.documentMode = documentMode;
+	}
 }
 
 
