@@ -25,6 +25,8 @@ extern NSString * const SEEPlainTextWindowControllerTabContextActiveEditorDidCha
 
 @interface PlainTextWindowControllerTabContext : NSResponder
 
+@property (nonatomic, strong) NSString *uuid;
+
 @property (nonatomic, weak) NSTabViewItem *tab;
 @property (nonatomic, strong) PlainTextDocument *document;
 @property (nonatomic, readonly) PlainTextWindowController *windowController;

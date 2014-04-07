@@ -759,14 +759,23 @@
 //			NSLog(@"%s - %d", __FUNCTION__, __LINE__);
 
 			NSDocument *selectedDocument = [[window windowController] document];
+			NSString *selectedDocumentTabLookupKey = [state decodeObjectForKey:@"PlainTextWindowSelectedTabLookupKey"];
+			if (selectedDocumentTabLookupKey && [selectedDocument isKindOfClass:[PlainTextDocument class]]) {
+				PlainTextDocument *plainTextDocument = (PlainTextDocument *)selectedDocument;
+				PlainTextWindowController *windowController = window.windowController;
+				NSTabViewItem *tabItem = [windowController tabViewItemForDocument:plainTextDocument];
+				PlainTextWindowControllerTabContext *tabContext = tabItem.identifier;
+				tabContext.uuid = selectedDocumentTabLookupKey;
+			}
+
 
 			// we also may have to restore tabs in this window
-			NSArray *tabs = [state decodeObjectForKey:@"PlainTextWindowOpenTabNames"];
+			NSArray *tabs = [state decodeObjectForKey:@"PlainTextWindowOpenTabLookupKeys"];
 			__block NSUInteger restoredTabsCount = 0;
 
 			if (tabs.count > 1) {
-				for (NSString *tabName in tabs) {
-					NSData *tabData = [state decodeObjectForKey:tabName];
+				for (NSString *tabLookupKey in tabs) {
+					NSData *tabData = [state decodeObjectForKey:tabLookupKey];
 					NSKeyedUnarchiver *tabState = [[NSKeyedUnarchiver alloc] initForReadingWithData:tabData];
 
 					if (tabState) {
@@ -785,6 +794,9 @@
 																   bookmarkDataIsStale:NULL
 																				 error:NULL];
 
+						// TODO: We should restore the original display name for untitled documents
+//						NSString *tabDisplayName = [tabState decodeObjectForKey:@"SEETabContextDocumentDisplayName"];
+
 						if (! documentAutosaveURL) { // if there is no autosave file make sure to read from original URL
 							documentAutosaveURL = documentURL;
 						} else {
@@ -793,10 +805,18 @@
 						[tabState finishDecoding];
 
 						if (documentAutosaveURL) {
-							if (! ((documentURL && [[selectedDocument fileURL] isEqual:documentURL]) || [[selectedDocument autosavedContentsFileURL] isEqual:documentAutosaveURL])) {
-
+							if (! [tabLookupKey isEqualToString:selectedDocumentTabLookupKey]) {
 								[NSApp extendStateRestoration];
 								[documentController reopenDocumentForURL:documentURL withContentsOfURL:documentAutosaveURL inWindow:window display:YES completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
+
+									if ([document isKindOfClass:[PlainTextDocument class]]) {
+										PlainTextDocument *plainTextDocument = (PlainTextDocument *)document;
+										PlainTextWindowController *windowController = window.windowController;
+										NSTabViewItem *tabItem = [windowController tabViewItemForDocument:plainTextDocument];
+										PlainTextWindowControllerTabContext *tabContext = tabItem.identifier;
+										tabContext.uuid = tabLookupKey;
+									}
+
 									restoredTabsCount++;
 									if (restoredTabsCount == tabs.count) {
 										[self finishRestoreWindowWithIdentifier:identifier
@@ -809,26 +829,33 @@
 									[NSApp completeStateRestoration];
 								}];
 							} else {
-								// this was the selected tab of the window so it's aready restored...
+								// this was the selected tab of the window so it's already restored...
 								// need to select it again after all tabs are restored
 								restoredTabsCount++;
 							}
 						} else {
-							if (! (tabName && [[selectedDocument displayName] isEqualToString:tabName])) {
-								// untitled document tab
+							if (! [tabLookupKey isEqualToString:selectedDocumentTabLookupKey]) {
+								// untitled document tab ifnore the selected tab
 								SEEDocumentCreationFlags *creationFlags = [[SEEDocumentCreationFlags alloc] init];
 								creationFlags.openInTab = YES;
 								creationFlags.tabWindow = window;
 								documentController.documentCreationFlagsLookupDict[@"MakeUntitledDocument"] = creationFlags;
 
 								NSDocument *document = [documentController openUntitledDocumentAndDisplay:YES error:nil];
-								document.displayName = tabName;
+
+								if ([document isKindOfClass:[PlainTextDocument class]]) {
+									PlainTextDocument *plainTextDocument = (PlainTextDocument *)document;
+									PlainTextWindowController *windowController = window.windowController;
+									NSTabViewItem *tabItem = [windowController tabViewItemForDocument:plainTextDocument];
+									PlainTextWindowControllerTabContext *tabContext = tabItem.identifier;
+									tabContext.uuid = tabLookupKey;
+								}
 							}
 							restoredTabsCount++;
 						}
 					} else {
 						// there is no valid data for a tab that is stored in the tab order array.
-						// maybe this shoul be an error? Currently I think its better to fail gracefully.
+						// maybe this should be an error? Currently I think its better to fail gracefully.
 						restoredTabsCount++;
 					}
 
@@ -895,7 +922,7 @@
 }
 
 
-- (void)reopenDocumentForURL:(NSURL *)urlOrNil withContentsOfURL:(NSURL *)contentsURL inWindow:(NSWindow *)parentWindow display:(BOOL)displayDocument  completionHandler:(void (^)(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error))completionHandler
+- (void)reopenDocumentForURL:(NSURL *)urlOrNil withContentsOfURL:(NSURL *)contentsURL inWindow:(NSWindow *)parentWindow display:(BOOL)displayDocument completionHandler:(void (^)(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error))completionHandler
 {
 //	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
 	[self.filenamesFromLastRunOpenPanel removeAllObjects];
