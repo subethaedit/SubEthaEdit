@@ -759,6 +759,15 @@
 //			NSLog(@"%s - %d", __FUNCTION__, __LINE__);
 
 			NSDocument *selectedDocument = [[window windowController] document];
+			NSString *selectedDocumentTabLookupKey = [state decodeObjectForKey:@"PlainTextWindowSelectedTabLookupKey"];
+			if (selectedDocumentTabLookupKey && [selectedDocument isKindOfClass:[PlainTextDocument class]]) {
+				PlainTextDocument *plainTextDocument = (PlainTextDocument *)selectedDocument;
+				PlainTextWindowController *windowController = window.windowController;
+				NSTabViewItem *tabItem = [windowController tabViewItemForDocument:plainTextDocument];
+				PlainTextWindowControllerTabContext *tabContext = tabItem.identifier;
+				tabContext.uuid = selectedDocumentTabLookupKey;
+			}
+
 
 			// we also may have to restore tabs in this window
 			NSArray *tabs = [state decodeObjectForKey:@"PlainTextWindowOpenTabLookupKeys"];
@@ -785,7 +794,8 @@
 																   bookmarkDataIsStale:NULL
 																				 error:NULL];
 
-						NSString *tabDisplayName = [tabState decodeObjectForKey:@"SEETabContextDocumentDisplayName"];
+						// TODO: We should restore the original display name for untitled documents
+//						NSString *tabDisplayName = [tabState decodeObjectForKey:@"SEETabContextDocumentDisplayName"];
 
 						if (! documentAutosaveURL) { // if there is no autosave file make sure to read from original URL
 							documentAutosaveURL = documentURL;
@@ -795,8 +805,7 @@
 						[tabState finishDecoding];
 
 						if (documentAutosaveURL) {
-							if (! ((documentURL && [[selectedDocument fileURL] isEqual:documentURL]) || [[selectedDocument autosavedContentsFileURL] isEqual:documentAutosaveURL])) {
-
+							if (! [tabLookupKey isEqualToString:selectedDocumentTabLookupKey]) {
 								[NSApp extendStateRestoration];
 								[documentController reopenDocumentForURL:documentURL withContentsOfURL:documentAutosaveURL inWindow:window display:YES completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
 
@@ -822,20 +831,11 @@
 							} else {
 								// this was the selected tab of the window so it's already restored...
 								// need to select it again after all tabs are restored
-								if ([selectedDocument isKindOfClass:[PlainTextDocument class]]) {
-									PlainTextDocument *plainTextDocument = (PlainTextDocument *)selectedDocument;
-									PlainTextWindowController *windowController = window.windowController;
-									NSTabViewItem *tabItem = [windowController tabViewItemForDocument:plainTextDocument];
-									PlainTextWindowControllerTabContext *tabContext = tabItem.identifier;
-									tabContext.uuid = tabLookupKey;
-								}
-
 								restoredTabsCount++;
 							}
 						} else {
-							// TODO: find corect document by storing all tab IDs into document state data.
-							if (! (tabDisplayName && [[selectedDocument displayName] isEqualToString:[tabDisplayName stringByDeletingPathExtension]])) {
-								// untitled document tab
+							if (! [tabLookupKey isEqualToString:selectedDocumentTabLookupKey]) {
+								// untitled document tab ifnore the selected tab
 								SEEDocumentCreationFlags *creationFlags = [[SEEDocumentCreationFlags alloc] init];
 								creationFlags.openInTab = YES;
 								creationFlags.tabWindow = window;
@@ -845,14 +845,6 @@
 
 								if ([document isKindOfClass:[PlainTextDocument class]]) {
 									PlainTextDocument *plainTextDocument = (PlainTextDocument *)document;
-									PlainTextWindowController *windowController = window.windowController;
-									NSTabViewItem *tabItem = [windowController tabViewItemForDocument:plainTextDocument];
-									PlainTextWindowControllerTabContext *tabContext = tabItem.identifier;
-									tabContext.uuid = tabLookupKey;
-								}
-							} else {
-								if ([selectedDocument isKindOfClass:[PlainTextDocument class]]) {
-									PlainTextDocument *plainTextDocument = (PlainTextDocument *)selectedDocument;
 									PlainTextWindowController *windowController = window.windowController;
 									NSTabViewItem *tabItem = [windowController tabViewItemForDocument:plainTextDocument];
 									PlainTextWindowControllerTabContext *tabContext = tabItem.identifier;

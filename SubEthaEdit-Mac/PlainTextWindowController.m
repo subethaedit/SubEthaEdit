@@ -884,6 +884,8 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 		if (tabDocument != selectedDocument) {
 			[tabItem.view encodeRestorableStateWithCoder:tabCoder];
 			[tabDocument encodeRestorableStateWithCoder:tabCoder];
+		} else {
+			[coder encodeObject:tabLookupKey forKey:@"PlainTextWindowSelectedTabLookupKey"];
 		}
 		[tabCoder finishEncoding];
 		[coder encodeObject:tabData forKey:tabLookupKey];
