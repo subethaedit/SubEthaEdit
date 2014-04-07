@@ -16,6 +16,25 @@ typedef enum _LineEnding {
     LineEndingUnicodeParagraphSeparator = 5  // U+2029
 } LineEnding;
 
+@interface TCMBracketSettings : NSObject
+/* for example @"{([])}" */
+- (instancetype)initWithBracketString:(NSString *)aBracketString;
+- (void)setBracketString:(NSString *)aBracketString;
+@property (nonatomic, readonly) unichar *openingBrackets;
+@property (nonatomic, readonly) unichar *closingBrackets;
+@property (nonatomic, readonly) NSInteger bracketCount;
+@property (nonatomic, strong) NSString *attributeNameToDisregard;
+@property (nonatomic, strong) NSArray *attributeValuesToDisregard;
+
+- (BOOL)charIsClosingBracket:(unichar)aPossibleBracket;
+- (BOOL)charIsOpeningBracket:(unichar)aPossibleBracket;
+- (BOOL)charIsBracket:(unichar)aPossibleBracket;
+/*! @return matching bracket or (unichar)0 if wasn't a bracket*/
+- (unichar)matchingBracketForChar:(unichar)aBracketCharacter;
+- (BOOL)shouldIgnoreBracketAtIndex:(NSUInteger)aPosition attributedString:(NSAttributedString *)anAttributedString;
+- (BOOL)shouldIgnoreBracketAtRangeBoundaries:(NSRange)aRange attributedString:(NSAttributedString *)anAttributedString;
+@end
+
 @interface NSMutableString (NSStringSEEAdditions)
 
 - (void)convertLineEndingsToLineEndingString:(NSString *)aNewLineEndingString;
@@ -26,11 +45,8 @@ typedef enum _LineEnding {
 @interface NSString (NSStringSEEAdditions)
 
 + (NSString *)lineEndingStringForLineEnding:(LineEnding)aLineEnding;
-#if !defined(CODA)
 - (BOOL)isValidSerial;
 - (long)base36Value;
-#endif //!defined(CODA)
-
 - (BOOL)isWhiteSpace;
 - (unsigned)detabbedLengthForRange:(NSRange)aRange tabWidth:(int)aTabWidth;
 - (NSRange)rangeOfLeadingWhitespaceStartingAt:(unsigned)location;
@@ -40,10 +56,13 @@ typedef enum _LineEnding {
 - (NSMutableString *)stringByReplacingEntitiesForUTF8:(BOOL)forUTF8;
 - (BOOL)findIANAEncodingUsingExpression:(NSString*)regEx encoding:(NSStringEncoding*)outEncoding;
 - (NSString *) stringByReplacingRegularExpressionOperators;
-
+- (NSRange)TCM_fullLengthRange;
 @end
 
 @interface NSAttributedString (NSAttributedStringSEEAdditions)
 
 - (NSMutableString *)XHTMLStringWithAttributeMapping:(NSDictionary *)anAttributeMapping forUTF8:(BOOL)forUTF8;
+- (NSRange)TCM_fullLengthRange;
+- (NSUInteger)TCM_positionOfMatchingBracketToPosition:(NSUInteger)position bracketSettings:(TCMBracketSettings *)aBracketSettings;
+
 @end

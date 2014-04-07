@@ -36,7 +36,9 @@
 				controller = isFoldableTextStorage ? O_foldingTextStorageAttributesContentController : O_attributesContentController;
 				[controller setContent:[NSMutableArray array]];
 				NSRange selectedRange = [textView selectedRange];
-				if (!isFoldableTextStorage) selectedRange = [(id)firstTextStorage fullRangeForFoldedRange:selectedRange];
+				if (!isFoldableTextStorage && [firstTextStorage respondsToSelector:@selector(fullRangeForFoldedRange:)]) {
+					selectedRange = [(id)firstTextStorage fullRangeForFoldedRange:selectedRange];
+				}
 				NSRange wholeRange = NSMakeRange(0,[textStorage length]);
 				if (selectedRange.location < NSMaxRange(wholeRange)) {
 					NSDictionary *attributes = [textStorage attributesAtIndex:selectedRange.location effectiveRange:NULL];
@@ -46,9 +48,16 @@
 						NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithObject:key forKey:@"attributeName"];
 						NSString *value = [[attributes objectForKey:key] description];
 						if (value) {
+							value = [[value stringByReplacingOccurrencesOfString:@"\n" withString:@""] stringByReplacingOccurrencesOfString:@"  " withString:@""];
 							[dictionary setObject:value forKey:@"contentValue"];
 						}
 						[controller addObject:dictionary];
+						if ([key isEqualToString:@"HighlightingStack"]) {
+							NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+							[dict setObject:@"StateStack" forKey:@"attributeName"];
+							[dict setObject:[[[attributes objectForKey:key] valueForKeyPath:@"state"] componentsJoinedByString:@" | "] forKey:@"contentValue"];
+							[controller addObject:dict];
+						}
 					}
 					if (isFoldableTextStorage) {
 						NSMutableDictionary *bonusDictionary = [NSMutableDictionary dictionaryWithObject:@"Foldable Range" forKey:@"attributeName"];

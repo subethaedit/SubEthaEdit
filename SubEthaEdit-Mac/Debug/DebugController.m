@@ -16,15 +16,12 @@
 #import "DebugSendOperationController.h"
 #import "DebugHistoryController.h"
 #import "TCMMMBEEPSessionManager.h"
-#if !defined(CODA)
-#import <HDCrashReporter/crashReporter.h>
-#endif //!defined(CODA)
 #import "DocumentProxyWindowController.h"
 #import "TCMMillionMonkeys.h"
 #import "TCMMMUserSEEAdditions.h"
-#import "DocumentController.h"
+#import "SEEDocumentController.h"
 #import "DebugAttributeInspectorController.h"
-
+#import "AppController.h"
 
 static DebugController * sharedInstance = nil;
 
@@ -39,6 +36,7 @@ static DebugController * sharedInstance = nil;
 - (id)init {
     if (sharedInstance) {
         [self release];
+		self = nil;
     } else if ((self = [super init])) {
         sharedInstance = self;
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"DebugSaveUsersInCache"]) {
@@ -51,18 +49,32 @@ static DebugController * sharedInstance = nil;
     return sharedInstance;
 }
 
-- (void)userDidChange:(NSNotification *)notification
-{
-    TCMMMUser *user = [[notification userInfo] objectForKey:@"User"];
+- (void)userDidChange:(NSNotification *)aNotification { // save user to : .*/Caches/de.codingmonkeys.SubEthaEdit.Mac/%@.vcf and %@.png
+    TCMMMUser *user = [[aNotification userInfo] objectForKey:@"User"];
     if (![user isEqual:[TCMMMUserManager me]]) {
-        NSString *saveName = [NSString stringWithFormat:@"%@ - %@", [user name], [user userID]];
-        NSData *vcard = [[user vcfRepresentation] dataUsingEncoding:NSUnicodeStringEncoding];
-        [vcard writeToFile:[[NSString stringWithFormat:@"~/Library/Caches/SubEthaEdit/%@.vcf", saveName] stringByExpandingTildeInPath] atomically:YES];
-        NSData *image = [[user properties] objectForKey:@"ImageAsPNG"];
-        if (image) {
-            [image writeToFile:[[NSString stringWithFormat:@"~/Library/Caches/SubEthaEdit/%@.png", saveName] stringByExpandingTildeInPath] atomically:YES];
-        }
-    }
+		NSFileManager *fileManager = [NSFileManager defaultManager];
+		NSArray *possibleURLs = [fileManager URLsForDirectory:NSCachesDirectory inDomains:NSUserDomainMask];
+		NSURL *cachesDirectory = nil;
+
+		if ([possibleURLs count] >= 1) { // Use the first directory (if multiple are returned)
+			cachesDirectory = [possibleURLs objectAtIndex:0];
+		}
+		if (cachesDirectory) {
+			NSString *appBundleID = [[NSBundle mainBundle] bundleIdentifier];
+			cachesDirectory = [cachesDirectory URLByAppendingPathComponent:appBundleID];
+
+			NSString *saveName = [NSString stringWithFormat:@"%@ - %@", [user name], [user userID]];
+			NSURL *vCardURL = [cachesDirectory URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.vcf", saveName]];
+			NSData *vcard = [[user vcfRepresentation] dataUsingEncoding:NSUnicodeStringEncoding];
+			[vcard writeToURL:vCardURL atomically:YES];
+
+			NSData *image = [[user properties] objectForKey:@"ImageAsPNG"];
+			if (image) {
+				NSURL *imageURL = [cachesDirectory URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", saveName]];
+				[image writeToURL:imageURL atomically:YES];
+			}
+		}
+	}
 }
 
 - (void)enableDebugMenu:(BOOL)flag
@@ -88,6 +100,13 @@ static DebugController * sharedInstance = nil;
         [menu addItem:BEEPItem];
         [BEEPItem release];
         
+        [menu addItem:[NSMenuItem separatorItem]];
+
+		NSMenuItem *styleEditorItem = [[NSMenuItem alloc] initWithTitle:@"Style Sheet Editor" action:@selector(showStyleSheetEditorWindow:) keyEquivalent:@""];
+        [styleEditorItem setTarget:[AppController sharedInstance]];
+        [menu addItem:styleEditorItem];
+        [styleEditorItem release];
+
         [menu addItem:[NSMenuItem separatorItem]];
 
         NSMenuItem *sendOperationItem = [[NSMenuItem alloc] initWithTitle:@"Show Send Operation..." action:@selector(showSendOperation:) keyEquivalent:@""];
@@ -154,9 +173,9 @@ static DebugController * sharedInstance = nil;
         [blahItem setTarget:self];
         [menu addItem:blahItem];
         [blahItem release];
-
-
-        blahItem = [[NSMenuItem alloc] initWithTitle:@"Show Attribute Inspector..." action:@selector(showAttributeInspector:) keyEquivalent:@""];
+	
+        blahItem = [[NSMenuItem alloc] initWithTitle:@"Show Attribute Inspector..." action:@selector(showAttributeInspector:) keyEquivalent:@"a"];
+		[blahItem setKeyEquivalentModifierMask:NSAlternateKeyMask | NSControlKeyMask];
         [blahItem setTarget:self];
         [menu addItem:blahItem];
         [blahItem release];
@@ -177,7 +196,7 @@ static DebugController * sharedInstance = nil;
                 nil]
             ];
     [testSession setClientState:TCMMMSessionClientInvitedState];
-    [[DocumentController sharedDocumentController] addProxyDocumentWithSession:testSession];
+    [[SEEDocumentController sharedDocumentController] addProxyDocumentWithSession:testSession];
 }
 
 - (IBAction)showPresence:(id)aSender {
@@ -222,13 +241,12 @@ static DebugController * sharedInstance = nil;
 }
 
 - (IBAction)crash:(id)sender {
-    NSLog((NSString *)"crash here"); // This is supposed to crash, don't fix.
+    NSLog(@"%@",(NSString *)"crash here"); // This is supposed to crash, don't fix.
 }
 
+
 - (IBAction)sendCrashReport:(id)sender {
-#if !defined(CODA)
-    [HDCrashReporter doCrashSubmitting];
-#endif //!defined(CODA)
+	// do crash reports here?
 }
 
 - (IBAction)printModePrecedences:(id)aSender {

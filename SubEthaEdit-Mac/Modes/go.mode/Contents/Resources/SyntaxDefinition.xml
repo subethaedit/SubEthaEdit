@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!DOCTYPE syntax SYSTEM "syntax.dtd">
-
 <syntax>
   <head>
     <name>go</name>
@@ -10,8 +9,8 @@
     <!-- <charsdelimitingtokens></charsdelimitingtokens> -->
   </head>
   <states>
-    <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal">
-      <keywords id="go Keywords" color="#881350" font-weight="bold" useforautocomplete="yes">
+    <default id="Base" scope="meta.default">
+      <keywords id="go Keywords" useforautocomplete="yes" scope="keyword">
         <string>break</string>
         <string>case</string>
         <string>chan</string>
@@ -42,7 +41,7 @@
         <string>var</string>
         <string>iota</string>
       </keywords>
-      <keywords id="go types" color="#881350" font-weight="normal" useforautocomplete="yes">
+      <keywords id="go types" useforautocomplete="yes" scope="keyword.type">
         <string>uint8</string>
         <string>uint16</string>
         <string>uint32</string>
@@ -61,7 +60,7 @@
         <string>string</string>
         <string>bool</string>
       </keywords>
-      <keywords id="builtin functions" color="#881350" font-weight="normal" font-style="normal" casesensitive="yes" useforautocomplete="yes">
+      <keywords id="builtin functions" casesensitive="yes" useforautocomplete="yes" scope="keyword.subroutine">
         <string>len</string>
         <string>cap</string>
         <string>new</string>
@@ -79,7 +78,7 @@
         <string>Typeof</string>
         <string>Unreflect</string>
       </keywords>
-      <keywords id="standard packages" color="#400080" font-weight="normal" font-style="normal" casesensitive="yes" useforautocomplete="yes">
+      <keywords id="standard packages" casesensitive="yes" useforautocomplete="yes" scope="keyword">
         <string>adler32</string>
         <string>aes</string>
         <string>ascii85</string>
@@ -168,13 +167,13 @@
         <string>xml</string>
         <string>zlib</string>
       </keywords>
-      <keywords id="Numbers" color="#00f" inverted-color="#5d56ff" useforautocomplete="no">
+      <keywords id="Numbers" useforautocomplete="no" scope="language.constant.numeric">
         <regex>(?&lt;![\w\d_])((?:[+-]?(?:(?:[0-9]+\.[0-9]*)|(?:\.[0-9]+))(?:[eE][+\-]?[0-9]+)?[fFlL]?)|(?:(?:(?:[1-9][0-9]*)|0[0-7]*|(?:0[xX][0-9a-fA-F]+))(?:(?:[uU][lL]?)|(?:[lL][uU]?))?))(?![\w\d_])</regex>
       </keywords>
-      <keywords id="FunctionRegex" color="#003369" useforautocomplete="no">
+      <keywords id="FunctionRegex" useforautocomplete="no" scope="language.subroutine.function">
         <regex>([A-Za-z0-9_]+ *)\(</regex>
       </keywords>
-      <state id="Characters" color="#00f" font-weight="normal" font-style="normal">
+      <state id="Characters" scope="language.constant.numeric.character">
         <begin>
           <regex>'</regex>
         </begin>
@@ -182,7 +181,7 @@
           <regex>((?&lt;!\\)(\\\\)*)(?:'|.(?=[\n\r]))</regex>
         </end>
       </state>
-      <state id="Comment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
+      <state id="Comment" type="comment" scope="comment.block">
         <begin>
           <regex>/\*</regex>
         </begin>
@@ -191,7 +190,7 @@
         </end>
         <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
       </state>
-      <state id="SingleComment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
+      <state id="SingleComment" type="comment" scope="comment.line">
         <begin>
           <regex>//</regex>
         </begin>
@@ -200,7 +199,7 @@
         </end>
         <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
       </state>
-      <state id="String" type="string" color="#760f15" font-weight="normal" font-style="normal" foldable="no">
+      <state id="String" type="string" foldable="no" scope="string.double">
         <begin>
           <regex>"</regex>
         </begin>
@@ -208,7 +207,7 @@
           <regex>((?&lt;!\\)(\\\\)*)"</regex>
         </end>
       </state>
-      <state id="Raw String" type="string" color="#760f15" font-weight="normal" font-style="normal" foldable="no">
+      <state id="Raw String" type="string" foldable="no" scope="string.single">
         <begin>
           <regex>`</regex>
         </begin>
@@ -216,7 +215,7 @@
           <regex>`</regex>
         </end>
       </state>
-      <state id="Block" type="block" foldable="yes">
+      <state id="Block" type="block" foldable="yes" scope="meta.block">
         <begin>
           <regex>{</regex>
         </begin>

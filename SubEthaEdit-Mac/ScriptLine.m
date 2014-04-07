@@ -71,7 +71,7 @@
 
 - (void)setScriptedInnerContents:(id)value {
     // NSLog(@"%s: %@", __FUNCTION__, value);
-    [[I_textStorage delegate] replaceTextInRange:[self innerRangeRepresentation] withString:value];
+    [(id)[I_textStorage delegate] replaceTextInRange:[self innerRangeRepresentation] withString:value];
 }
 
 

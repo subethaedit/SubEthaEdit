@@ -15,22 +15,24 @@
 #import "UserChangeOperation.h"
 
 @interface TCMMMLogStatisticsEntry (TCMMMLogStatisticsEntryPrivateAdditions)
-- (void)setDateOfLastActivity:(NSCalendarDate *)aDate;
+- (void)setDateOfLastActivity:(NSDate *)aDate;
 @end
 
 @implementation TCMMMLogStatisticsEntry
-+ (void)initialize {
-	if (self == [TCMMMLogStatisticsEntry class]) {
-		[self setKeys:[NSArray arrayWithObject:@"dateOfLastActivity"] triggerChangeNotificationsForDependentKey:@"operationCount"];
-		[self setKeys:[NSArray arrayWithObject:@"dateOfLastActivity"] triggerChangeNotificationsForDependentKey:@"deletedCharacters"];
-		[self setKeys:[NSArray arrayWithObject:@"dateOfLastActivity"] triggerChangeNotificationsForDependentKey:@"insertedCharacters"];
-		[self setKeys:[NSArray arrayWithObject:@"dateOfLastActivity"] triggerChangeNotificationsForDependentKey:@"selectedCharacters"];
+
++ (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)aKey {
+	NSSet *result = [super keyPathsForValuesAffectingValueForKey:aKey];
+	static NSSet *S_dateAffectingSet = nil;
+	if (!S_dateAffectingSet) S_dateAffectingSet = [[NSSet alloc] initWithObjects:@"operationCount",@"deletedCharacters",@"insertedCharacters",@"selectedCharacters",nil];
+	if ([S_dateAffectingSet containsObject:aKey]) {
+		result = [result setByAddingObject:@"dateOfLastActivity"];
 	}
+	return result;
 }
 
 - (id)initWithMMUser:(TCMMMUser *)aUser {
     if ((self=[super init])) {
-        [self setDateOfLastActivity:[NSCalendarDate distantPast]];
+        [self setDateOfLastActivity:[NSDate distantPast]];
         user = [aUser retain];
     }
     return self;
@@ -94,7 +96,7 @@
 - (unsigned long)selectedCharacters {
     return selectedCharacters;
 }
-- (void)setDateOfLastActivity:(NSCalendarDate *)aDate {
+- (void)setDateOfLastActivity:(NSDate *)aDate {
     [self willChangeValueForKey:@"dateOfLastActivity"];
     [lastActivity autorelease];
      lastActivity = [aDate retain];
@@ -103,10 +105,10 @@
 - (TCMMMUser *)user {
     return user;
 }
-- (NSCalendarDate *)dateOfLastActivity {
+- (NSDate *)dateOfLastActivity {
     return lastActivity;
 }
 - (NSString *)description {
-    return [NSString stringWithFormat:@"%@ user:%@ lastActivity:%@ opCount:%u delChar:%u insChar:%u selChar:%u",[self class],[self user],lastActivity,operationCount,deletedCharacters,insertedCharacters,selectedCharacters];
+    return [NSString stringWithFormat:@"%@ user:%@ lastActivity:%@ opCount:%lu delChar:%lu insChar:%lu selChar:%lu",[self class],[self user],lastActivity,operationCount,deletedCharacters,insertedCharacters,selectedCharacters];
 }
 @end

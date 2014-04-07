@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>LSMinimumSystemVersion</key>
+	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleDocumentTypes</key>
@@ -22,11 +24,11 @@
 	<key>CFBundleIconFile</key>
 	<string></string>
 	<key>CFBundleIdentifier</key>
-	<string>de.codingmonkeys.SeeTextImporter</string>
+	<string>de.codingmonkeys.SeeTextImporter${TCM_APP_STYLE}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>2.0</string>
 	<key>CFPlugInDynamicRegisterFunction</key>
 	<string></string>
 	<key>CFPlugInDynamicRegistration</key>
@@ -56,7 +58,7 @@
 			<key>UTTypeDescription</key>
 			<string>SubEthaEdit Text</string>
 			<key>UTTypeIconFile</key>
-			<string>seetext.icns</string>
+			<string>SubEthaEditText</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.seetext</string>
 			<key>UTTypeTagSpecification</key>
@@ -65,6 +67,6 @@
 				<string>seetext</string>
 			</dict>
 		</dict>
-  </array>
+	</array>
 </dict>
 </plist>

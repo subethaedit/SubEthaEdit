@@ -2,5 +2,6 @@
 <settings>
     <recognition>
         <extension>java</extension>
+        <extension>jav</extension>
     </recognition>
 </settings>

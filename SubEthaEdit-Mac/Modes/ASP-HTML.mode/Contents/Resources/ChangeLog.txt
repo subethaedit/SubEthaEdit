@@ -1,0 +1,14 @@
+################################# NB
+Hat tip to Panic Inc. 
+http://panic.com
+for ASP-HTML Mode 3.6 from 2008!
+#################################
+
+Changes with Version 4.0 (SEE 4.0)
+	*) added ChangeLog
+	*) SYNTAX: updated for syntax scopes
+	*) SYNTAX: markup cleanup
+	*) removed StyleIDTransition.plist
+	*) SYNTAX: removed style information
+	*) added ExampleSyntax.txt
+

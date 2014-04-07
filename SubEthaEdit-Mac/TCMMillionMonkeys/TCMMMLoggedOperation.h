@@ -12,7 +12,7 @@
 
 @interface TCMMMLoggedOperation : NSObject {
     TCMMMOperation *I_op;
-    NSCalendarDate *I_date;
+    NSDate *I_date;
     long long I_index;
 	NSDictionary *I_replacedAttributedStringDictionaryRepresentation;
 }
@@ -25,8 +25,8 @@
 - (NSDictionary *)replacedAttributedStringDictionaryRepresentation;
 
 - (NSDictionary *)dictionaryRepresentation;
-- (void)setDate:(NSCalendarDate *)aDate;
-- (NSCalendarDate *)date;
+- (void)setDate:(NSDate *)aDate;
+- (NSDate *)date;
 - (TCMMMOperation *)operation;
 - (long long)index;
 @end

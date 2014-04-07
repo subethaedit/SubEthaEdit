@@ -12,11 +12,11 @@ static CGFunctionRef sLinearFunctionRef = nil;
 static CGColorSpaceRef sColorSpace;
 
 typedef struct {
-  float red1, green1, blue1, alpha1;
-  float red2, green2, blue2, alpha2;
+  CGFloat red1, green1, blue1, alpha1;
+  CGFloat red2, green2, blue2, alpha2;
 } _twoColorsType;
 
-static void _linearColorBlendFunction(void *info, const float *in, float *out)
+static void _linearColorBlendFunction(void *info, const CGFloat *in, CGFloat *out)
 {
   _twoColorsType *twoColors = info;
   
@@ -26,10 +26,10 @@ static void _linearColorBlendFunction(void *info, const float *in, float *out)
   out[3] = (1.0 - *in) * twoColors->alpha1 + *in * twoColors->alpha2;
 }
 
-static void _linearBounceColorBlendFunction(void *info, const float *in, float *out)
+static void _linearBounceColorBlendFunction(void *info, const CGFloat *in, CGFloat *out)
 {
   _twoColorsType *twoColors = info;
-  float realIn;
+  CGFloat realIn;
 //  realIn=1.-sin(*in*M_PI); // sin doesn't look the way i wanted it
   realIn=ABS(*in*2.-1.);
   realIn=sqrt(realIn);
@@ -67,7 +67,7 @@ static const CGFunctionCallbacks linearFunctionCallbacks = {0,
         twoColors->red1 = twoColors->green1 = twoColors->blue1 = 0.83;
         twoColors->alpha1 = twoColors->alpha2 = 1.0;
         twoColors->red2 = twoColors->green2 = twoColors->blue2 = 0.91;
-        static const float domainAndRange[8] = {0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0};
+        static const CGFloat domainAndRange[8] = {0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0};
         sLinearFunctionRef=CGFunctionCreate(twoColors, 1,
         domainAndRange, 4, domainAndRange, &linearFunctionCallbacks);
         sColorSpace = CGColorSpaceCreateDeviceRGB();

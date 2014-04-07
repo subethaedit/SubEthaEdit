@@ -1,0 +1,13 @@
+# Apply these settings to ALL search engine spiders/crawlers
+User-agent: *
+
+# Disallow these pages
+Disallow: /admin
+Disallow: /images
+Disallow: /index_images
+Disallow: /logs
+Disallow: /site
+Disallow: /files
+Disallow: /files_processed
+Disallow: /maintenance
+Disallow: /DEVEL

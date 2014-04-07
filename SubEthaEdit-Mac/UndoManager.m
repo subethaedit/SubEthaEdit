@@ -22,25 +22,6 @@ NSString * const UndoManagerWillCloseUndoGroupNotification = @"UndoManagerWillCl
 NSString * const UndoManagerWillRedoChangeNotification = @"UndoManagerWillRedoChangeNotification";
 NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoChangeNotification";
 
-#if !defined(CODA) // moved interface to header
-@interface UndoGroup : NSObject 
-{
-    UndoGroup *_parent;
-    NSMutableArray *_actions;
-    NSString *_actionName;
-}
-
-- (NSMutableArray *)actions;
-- (NSString *)actionName;
-- (void)addAction:(id)action;
-- (id)lastAction;
-- (id)initWithParent:(UndoGroup *)parent;
-- (UndoGroup *)parent;
-- (void)setActionName:(NSString *)newName;
-
-@end
-#endif //!defined(CODA)
-
 #pragma mark -
 
 @implementation UndoGroup
@@ -197,9 +178,8 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
             } else {
                 UndoGroup *parent = [[(UndoGroup *)_redoGroup parent] retain];
                 NSArray *actions = [_redoGroup actions];
-                unsigned i;
-                for (i = 0; i < [actions count]; i++) {
-                    [parent addAction:[actions objectAtIndex:i]];
+                for (id loopItem1 in actions) {
+                    [parent addAction:loopItem1];
                 }
                 [_redoGroup release];
                 _redoGroup = parent;
@@ -219,9 +199,8 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
             } else {
                 UndoGroup *parent = [[(UndoGroup *)_undoGroup parent] retain];
                 NSArray *actions = [_undoGroup actions];
-                unsigned i;
-                for (i = 0; i < [actions count]; i++) {
-                    [parent addAction:[actions objectAtIndex:i]];
+                for (id loopItem in actions) {
+                    [parent addAction:loopItem];
                 }
                 [_undoGroup release];
                 _undoGroup = parent;

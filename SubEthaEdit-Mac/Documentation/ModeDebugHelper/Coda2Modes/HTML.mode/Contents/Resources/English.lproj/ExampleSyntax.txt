@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+		<title>Panic - Shockingly Good Mac Softwaree</title>
+    <style type="text/css">
+@media screen,projection {
+  body {
+    background: #999;
+    font: 300 100.01% "Helvetica Neue",Helvetica,"Arial Unicode MS",Arial,sans-serif;
+    color: #000;
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+    text-align: center;
+    text-rendering: optimizeLegibility
+  }
+  #column-1 div.sample {
+    background: #2c53b0 url(blueprint-min.png) no-repeat;
+    float: right!important;
+    height: 99px;
+    margin: -5em 1em 1em;
+    padding: 10px;
+    width: 99px
+  } /* comments! */
+}
+@media print {
+  body {
+    background: #fff;
+    color: #000;
+    font: 300 100.01% "Helvetica Neue",Helvetica,"Arial Unicode MS",Arial,sans-serif;
+    margin: 3em 2em 6em 4em;
+    text-rendering: optimizeLegibility
+  }
+}
+    </style>
+    <script type="text/javascript">
+    /*" Important Commentary "*/
+    (function() {
+      R = { somekey: 'value',
+            anotherkey: 0.1 }
+      ISURL = /^url\(['"]?([^\)]+?)['"]?\)$/i
+      function createUUID() {
+          // look at: http://www.ietf.org/rfc/rfc4122.txt
+          var s = [],
+              i = 0;
+          for (; i &lt; 32; i++) {
+              s[i] = (~~(math.random() * 16))[toString](16);
+          }
+          s[12] = 4;  // bits 12-15 of the time_hi_and_version field to 0010
+          s[16] = ((s[16] &amp; 3) | 8)[toString](16);  // bits 6-7 of the clock_seq_hi_and_reserved to 01
+          return "r-" + s[join]("");
+      }
+      var strange = null
+      myArray = new Array()
+    })();
+    </script>
+    <title></title>
+  </head>
+  <body>
+		<div id="IconDrag">
+			<img src="images/drag-transmit.png" name="DragImage" id="DragImage" width="128" height="128" />
+		</div>
+		
+		<div id="centerer1">		
+			<div id="centerer2">
+					<!-- Tout -->
+					<div id="tout" class="shelf pageWide">
+						<p>&gt;what's the latest?</p>
+						<a href="blog/2011/04/introducing-prompt-ssh-for-ios/"><img src="images/tout-prompt.jpg" alt="Prompt - Quite nice SSH for iOS" width="560" height="91" /></a>
+					</div>
+			</div><!-- centerer -->
+		</div><!-- centerer -->
+  </body>
+</html>

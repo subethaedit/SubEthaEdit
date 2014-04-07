@@ -8,56 +8,29 @@
 
 #import <AppKit/AppKit.h>
 #import <TCMPortMapper/TCMPortMapper.h>
+#import <PSMTabBarControl/PSMTabBarControl.h>
+@class PlainTextWindowController;
+#import "PlainTextWindowControllerTabContext.h"
 
-#if defined(CODA)
-@class ParticipantsView, PlainTextEditor, PlainTextDocument,URLImageView;
-#else
-@class ParticipantsView, PlainTextEditor, PSMTabBarControl, PlainTextDocument,URLImageView;
-#endif //defined(CODA)
+@class PlainTextEditor, PSMTabBarControl, PlainTextDocument;
+#import "SEEEncodingDoctorDialogViewController.h"
 
-extern NSString * const PlainTextWindowToolbarIdentifier;
-extern NSString * const ParticipantsToolbarItemIdentifier;
-extern NSString * const ShiftLeftToolbarItemIdentifier;
-extern NSString * const ShiftRightToolbarItemIdentifier;
-extern NSString * const RendezvousToolbarItemIdentifier;
-extern NSString * const InternetToolbarItemIdentifier;
-extern NSString * const ToggleChangeMarksToolbarItemIdentifier;
-extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
-
-@interface PlainTextWindowController : NSWindowController {
-
-    // Participants drawer views
-    IBOutlet NSDrawer            *O_participantsDrawer;
-    IBOutlet NSScrollView        *O_participantsScrollView;
-    IBOutlet ParticipantsView    *O_participantsView;
-    IBOutlet NSPopUpButton       *O_actionPullDown;
-    IBOutlet NSPopUpButton       *O_pendingUsersAccessPopUpButton;
-    IBOutlet NSButton            *O_kickButton;
-    IBOutlet NSButton            *O_readOnlyButton;
-    IBOutlet NSButton            *O_readWriteButton;
-    IBOutlet NSButton            *O_followButton;
-    
-    IBOutlet URLImageView         *O_URLImageView;
-    IBOutlet NSTextField          *O_URLTextField;
-    
+@interface PlainTextWindowController : NSWindowController <NSMenuDelegate,PSMTabBarControlDelegate>
+ {
     // Pointers to the current instances
-    NSSplitView *I_editorSplitView;
     NSSplitView *I_dialogSplitView;
     id I_documentDialog;
-    NSMutableArray *I_plainTextEditors;
     
-    NSMenu *I_contextMenu;
     struct {
         BOOL zoomFix_defaultFrameHadEqualWidth;
     } I_flags;
     NSTimer *I_dialogAnimationTimer;
     BOOL I_doNotCascade;
-    @private
-#if !defined(CODA)	
+
+ @private
     NSTabView *I_tabView;
     PSMTabBarControl *I_tabBar;
-#endif //!defined(CODA)	
-    
+
     NSMutableArray *I_documents;
     NSDocument *I_documentBeingClosed;
 
@@ -65,29 +38,27 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 
 }
 
+- (void)setInitialRadarStatusForPlainTextEditor:(PlainTextEditor *)editor;
 - (IBAction)changePendingUsersAccess:(id)aSender;
 - (NSArray *)plainTextEditors;
-- (PlainTextEditor *)activePlainTextEditor;
+
+@property (nonatomic, weak) PlainTextEditor *activePlainTextEditor;
+
 - (PlainTextEditor *)activePlainTextEditorForDocument:(PlainTextDocument *)aDocument;
 
 - (void)refreshDisplay;
 
-- (IBAction)openParticipantsDrawer:(id)aSender;
-- (IBAction)closeParticipantsDrawer:(id)aSender;
+- (IBAction)openParticipantsOverlay:(id)aSender;
+- (IBAction)closeParticipantsOverlay:(id)aSender;
 
-- (void)validateButtons;
-
-- (IBAction)kickButtonAction:(id)aSender;
-- (IBAction)readOnlyButtonAction:(id)aSender;
-- (IBAction)readWriteButtonAction:(id)aSender;
-- (IBAction)followUser:(id)aSender;
-- (IBAction)toggleFollowUser:(id)aSender;
- 
 - (IBAction)openInSeparateWindow:(id)sender;
 
 - (void)gotoLine:(unsigned)aLine;
 - (void)selectRange:(NSRange)aRange;
 - (void)selectRangeInBackground:(NSRange)aRange;
+
+@property (readonly) BOOL isShowingFindAndReplaceInterface;
+- (IBAction)showFindAndReplaceInterface:(id)aSender;
 
 - (IBAction)jumpToNextSymbol:(id)aSender;
 - (IBAction)jumpToPreviousSymbol:(id)aSender;
@@ -96,19 +67,18 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 - (void)documentDidLoseConnection:(PlainTextDocument *)document;
 
 - (void)setWindowFrame:(NSRect)aFrame constrainedToScreen:(NSScreen *)aScreen display:(BOOL)aFlag;
-- (void)setSizeByColumns:(int)aColumns rows:(int)aRows;
+- (void)setSizeByColumns:(NSInteger)aColumns rows:(NSInteger)aRows;
 - (void)setShowsBottomStatusBar:(BOOL)aFlag;
 
 - (BOOL)showsGutter;
 - (void)setShowsGutter:(BOOL)aFlag;
 - (IBAction)toggleLineNumbers:(id)aSender;
 
-- (void)setDocumentDialog:(id)aDocumentDialog;
-- (id)documentDialog;
+- (void)setDocumentDialog:(NSViewController<SEEDocumentDialogViewController>*)aDocumentDialog;
+- (NSViewController<SEEDocumentDialogViewController>*)documentDialog;
 
 - (void)documentWillClose:(NSDocument *)document;
 
-#if !defined(CODA)
 - (void)documentUpdatedChangeCount:(PlainTextDocument *)document;
 - (NSTabViewItem *)addDocument:(NSDocument *)document;
 - (void)moveAllTabsToWindowController:(PlainTextWindowController *)windowController;
@@ -121,23 +91,21 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 - (IBAction)selectPreviousTab:(id)sender;
 - (IBAction)showDocumentAtIndex:(id)aMenuEntry;
 - (void)closeAllTabs;
-#endif //!defined(CODA)
 - (void)reviewChangesAndQuitEnumeration:(BOOL)cont;
 
-#if !defined(CODA)
 - (NSArray *)orderedDocuments;
-#endif //!defined(CODA)
 - (NSArray *)documents;
 
 - (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName document:(PlainTextDocument *)document;
 
-#if !defined(CODA)
+- (void)updateWindowMinSize;
+- (IBAction)toggleWebPreview:(id)sender;
+
 - (PSMTabBarControl *)tabBar;
 - (NSTabView *)tabView;
-#endif //!defined(CODA)
+@property (nonatomic, readonly) PlainTextWindowControllerTabContext *selectedTabContext;
+@property (nonatomic, readonly) NSTabViewItem *selectedTabViewItem;
 
 - (NSRect)dissolveToFrame;
-#if !defined(CODA)
 - (void)cascadeWindow;
-#endif //!defined(CODA)
 @end

@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SessionProfile.h"
 
 
 extern NSString * const TCMMMSessionClientStateDidChangeNotification;
@@ -18,7 +19,11 @@ extern NSString * const TCMMMSessionDidReceiveContentNotification;
 
 extern NSString * const TCMMMSessionReadWriteGroupName;
 extern NSString * const TCMMMSessionReadOnlyGroupName ;
+extern NSString * const TCMMMSessionPoofGroupName;
+// CloseGroup seems to be private to the session right now
 
+extern NSString * const TCMMMSessionInvitedUserStateAwaitingResponse;
+extern NSString * const TCMMMSessionInvitedUserStateInvitationDeclined;
 
 @class SessionProfile, TCMMMOperation, TCMBEEPSession, TCMMMUser, TCMMMLoggingState;
 
@@ -61,9 +66,6 @@ typedef enum TCMMMSessionClientState {
 - (BOOL)isReceivingContent;
 - (void)validateEditability;
 - (BOOL)handleOperation:(TCMMMOperation *)aOperation;
-#if defined(CODA)
-- (NSString*)displayName; 
-#endif //defined(CODA)
 @end
 
 
@@ -75,7 +77,7 @@ typedef enum TCMMMSessionClientState {
 
 @class TCMMMState;
 
-@interface TCMMMSession : NSObject
+@interface TCMMMSession : NSObject <TCMBEEPProfileDelegate, SessionProfileDelegate>
 {
     id <SEEDocument> I_document;
     NSString *I_sessionID;
@@ -147,8 +149,8 @@ typedef enum TCMMMSessionClientState {
 - (NSDictionary *)invitedUsers;
 - (NSString *)stateOfInvitedUserById:(NSString *)aUserID;
 - (TCMBEEPSession *)BEEPSessionForUserID:(NSString *)aUserID;
-- (unsigned int)participantCount;
-- (unsigned int)openInvitationCount;
+- (NSUInteger)participantCount;
+- (NSUInteger)openInvitationCount;
 - (NSDictionary *)participants;
 - (NSArray *)pendingUsers;
 
@@ -159,9 +161,13 @@ typedef enum TCMMMSessionClientState {
 - (NSArray *)contributors;
 
 - (BOOL)isEditable;
+- (BOOL)isEditableByUser:(TCMMMUser *)aUser;
 
 - (NSString *)invitationTokenForGroup:(NSString *)aGroup;
 - (void)setGroup:(NSString *)aGroup forParticipantsWithUserIDs:(NSArray *)aUserIDs;
+
+- (void)addPendingUser:(TCMMMUser *)aUser toGroup:(NSString *)aGroup;
+- (void)denyPendingUser:(TCMMMUser *)aUser;
 - (void)setGroup:(NSString *)aGroup forPendingUsersWithIndexes:(NSIndexSet *)aSet;
 
 - (void)joinUsingBEEPSession:(TCMBEEPSession *)aBEEPSession;

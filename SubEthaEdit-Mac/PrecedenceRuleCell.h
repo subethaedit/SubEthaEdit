@@ -17,15 +17,17 @@
 @end
 
 @interface RuleViewController : NSObject {
-	IBOutlet NSView *view;
-	IBOutlet NSButton *enabledCheckbox;
-	IBOutlet NSButton *removeButton;
-	IBOutlet NSPopUpButton *typePopup;
-	IBOutlet NSTextField *stringTextfield;
-	IBOutlet NSImageView *warningImageView;
 	PrecedencePreferences* preferenceController;
 	NSMutableDictionary* rule;
 }
+
+@property (readwrite, strong) IBOutlet NSView *view;
+@property (readwrite, assign) IBOutlet NSButton *enabledCheckbox;
+@property (readwrite, assign) IBOutlet NSButton *removeButton;
+@property (readwrite, assign) IBOutlet NSPopUpButton *typePopup;
+@property (readwrite, assign) IBOutlet NSTextField *stringTextfield;
+@property (readwrite, assign) IBOutlet NSImageView *warningImageView;
+
 - (NSView *) view;
 - (NSButton *) enabledCheckbox;
 - (NSPopUpButton *) typePopup;

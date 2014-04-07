@@ -1,0 +1,5 @@
+// C++ Example Syntax File
+
+int main() {
+	std::cout<<"Hello World!";
+}

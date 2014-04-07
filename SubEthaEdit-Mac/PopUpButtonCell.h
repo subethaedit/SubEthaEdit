@@ -13,6 +13,6 @@
 
 }
 
-- (float)desiredWidth;
+- (CGFloat)desiredWidth;
 
 @end

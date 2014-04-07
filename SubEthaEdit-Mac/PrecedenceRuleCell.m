@@ -40,11 +40,15 @@
 
 @end
 
+
+
 @implementation RuleViewController
+
 - (id)init {
     self = [super init];
     if (self) {
-		[NSBundle loadNibNamed: @"PrecedenceRules" owner: self];
+		// there are strong outlets to every top level nib object, so no additional array is needed to hold them.
+		[[NSBundle mainBundle] loadNibNamed:@"PrecedenceRules" owner:self topLevelObjects:nil];
 		preferenceController = nil;
     }
     return self;
@@ -52,10 +56,12 @@
 
 - (void) dealloc
 {
-    [view setHidden:YES];    
-    [view release];
+	[self.view removeFromSuperview];
+	self.view = nil;
+
 	[preferenceController release];
 	[rule release];
+
     [super dealloc];
 }
 
@@ -78,26 +84,6 @@
 
 -(IBAction)removeRule:(id)sender {
 	[preferenceController removeUserRule:self];
-}
-
-- (NSView *) view {
-	return view;
-}
-- (NSButton *) enabledCheckbox {
-	return enabledCheckbox;
-}
-- (NSPopUpButton *) typePopup {
-	return typePopup;
-}
-- (NSTextField *) stringTextfield {
-	return stringTextfield;
-}
-- (NSImageView *) warningImageView {
-	return warningImageView;
-}
-
-- (NSButton *) removeButton {
-	return removeButton;
 }
 
 @end

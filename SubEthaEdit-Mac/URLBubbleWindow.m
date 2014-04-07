@@ -22,15 +22,23 @@ static URLBubbleWindow *S_sharedInstance;
 
 - (id)initAsBubble {
 	// load nib
-	[NSBundle loadNibNamed:@"URLBubbleWindow" owner:self];
+	[[NSBundle mainBundle] loadNibNamed:@"URLBubbleWindow" owner:self topLevelObjects:nil];
 	
-	if ((self = [self initWithView:O_openURLView 
+	if ((self = [self initWithView:self.openURLViewOutlet
 					attachedToPoint:NSMakePoint(0,0)])) {
 		[self setBorderWidth:1.0];
 		[self setBorderColor:[NSColor colorWithCalibratedWhite:1.0 alpha:0.60]];
 		[self setViewMargin:0];
 	}
 	return self;
+}
+
+- (void)dealloc
+{
+	self.openURLViewOutlet = nil;
+	[I_URLToOpen release];
+
+    [super dealloc];
 }
 
 - (BOOL)canBecomeMainWindow {

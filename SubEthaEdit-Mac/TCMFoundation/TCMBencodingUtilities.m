@@ -106,14 +106,14 @@ void TCM_AppendBencodedObjectToData(id inObject, NSMutableData *inData) {
         [result appendData:[(TCMMutableBencodedData *)inObject data]];
     } else if ([inObject isKindOfClass:[NSString class]]) {
         CFIndex stringByteLength = TCM_AppendStringToMutableData((NSString *)inObject,result);
-		NSString *prefixString = [[NSString alloc] initWithFormat:@"%d:",stringByteLength];
+		NSString *prefixString = [[NSString alloc] initWithFormat:@"%ld:",stringByteLength];
         NSMutableData *prefixData = [[NSMutableData alloc] init];
         TCM_AppendStringToMutableData(prefixString,prefixData);
         [result replaceBytesInRange:NSMakeRange([result length] - stringByteLength,0) withBytes:[prefixData bytes] length:[prefixData length]];
         [prefixData release];
         [prefixString release];
     } else if ([inObject isKindOfClass:[NSData class]]) {
-		NSString *prefixString = [[NSString alloc] initWithFormat:@"%d.",[inObject length]];
+		NSString *prefixString = [[NSString alloc] initWithFormat:@"%lu.",(unsigned long)[(NSData *)inObject length]];
         TCM_AppendStringToMutableData(prefixString,result);
         [prefixString release];
         [result appendData:inObject];
@@ -158,11 +158,11 @@ id TCM_BdecodedObjectWithData(NSData *data) {
 // returns a retained object
 id TCM_CopyBdecodedObject(uint8_t *aBytes, unsigned *aPosition, unsigned aLength) {
     if (aLength==0) return nil;
-    id result=nil;
+    id result = nil;
     if (aBytes[*aPosition]=='d') {
 		static NSMutableDictionary *S_bencodingDictionaryKeysDictionary = nil; // this is for not creating strings multiple times on load and decode
 		if (!S_bencodingDictionaryKeysDictionary) { S_bencodingDictionaryKeysDictionary = [NSMutableDictionary new]; }
-                
+
         result=[NSMutableDictionary new];
         (*aPosition)++;
         while (YES) {
@@ -170,18 +170,23 @@ id TCM_CopyBdecodedObject(uint8_t *aBytes, unsigned *aPosition, unsigned aLength
                 (*aPosition)++;
                 break;
             } else {
-                id key=TCM_CopyBdecodedObject(aBytes,aPosition,aLength);
-                id value=TCM_CopyBdecodedObject(aBytes,aPosition,aLength);
-                if (key && value) {
-                	NSString *decodedKey = [S_bencodingDictionaryKeysDictionary objectForKey:key];
-                	if (!decodedKey) {
-                		decodedKey = key;
-                		[S_bencodingDictionaryKeysDictionary setObject:key forKey:key];
-                	} else if (decodedKey != key) {
-                		[key release];
-                	}
-                    [result setObject:value forKey:decodedKey];
-                } else { 
+				id key=TCM_CopyBdecodedObject(aBytes,aPosition,aLength);
+				if (key) {
+					id value=TCM_CopyBdecodedObject(aBytes,aPosition,aLength);
+					if (value) {
+						NSString *decodedKey = [S_bencodingDictionaryKeysDictionary objectForKey:key];
+						if (! decodedKey) {
+							decodedKey = [[key retain] autorelease];
+							[S_bencodingDictionaryKeysDictionary setObject:decodedKey forKey:key];
+						}
+						[result setObject:value forKey:decodedKey];
+						[value release];
+						value = nil;
+					}
+					[key release];
+					key = nil;
+                } else {
+					[result release];
                     return nil;
                 }
             }
@@ -197,7 +202,9 @@ id TCM_CopyBdecodedObject(uint8_t *aBytes, unsigned *aPosition, unsigned aLength
                 id value=TCM_CopyBdecodedObject(aBytes,aPosition,aLength);
                 if (value) {
                     [result addObject:value];
+					[value release];
                 } else {
+					[result release];
                     return nil;
                 }
             }
@@ -229,8 +236,6 @@ id TCM_CopyBdecodedObject(uint8_t *aBytes, unsigned *aPosition, unsigned aLength
         if (aBytes[*aPosition]=='e') {
             result=[[NSNumber alloc] initWithLongLong:number*signum];
             (*aPosition)++;
-        } else {
-            result=nil;
         }
     }
     return result;

@@ -9,7 +9,7 @@
 
 #define MAATTACHEDWINDOW_DEFAULT_BACKGROUND_COLOR [NSColor colorWithCalibratedWhite:0.1 alpha:0.75]
 #define MAATTACHEDWINDOW_DEFAULT_BORDER_COLOR [NSColor whiteColor]
-#define MAATTACHEDWINDOW_SCALE_FACTOR [[NSScreen mainScreen] userSpaceScaleFactor]
+#define MAATTACHEDWINDOW_SCALE_FACTOR 1.0
 
 @interface MAAttachedWindow (MAPrivateMethods)
 
@@ -436,31 +436,25 @@
 
 - (NSColor *)_backgroundColorPatternImage
 {
-    NSImage *bg = [[NSImage alloc] initWithSize:[self frame].size];
-    NSRect bgRect = NSZeroRect;
-    bgRect.size = [bg size];
-    
-    [bg lockFocus];
-    NSBezierPath *bgPath = [self _backgroundPath];
-    [NSGraphicsContext saveGraphicsState];
-    [bgPath addClip];
-    
-    // Draw background.
-    [_MABackgroundColor set];
-    [bgPath fill];
-    
-    // Draw border if appropriate.
-    if (borderWidth > 0) {
-        // Double the borderWidth since we're drawing inside the path.
-        [bgPath setLineWidth:(borderWidth * 2.0) * MAATTACHEDWINDOW_SCALE_FACTOR];
-        [borderColor set];
-        [bgPath stroke];
-    }
-    
-    [NSGraphicsContext restoreGraphicsState];
-    [bg unlockFocus];
-    
-    return [NSColor colorWithPatternImage:[bg autorelease]];
+	NSImage *patternImage = [NSImage imageWithSize:self.frame.size flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
+		NSBezierPath *bgPath = [self _backgroundPath];
+		[bgPath addClip];
+
+		// Draw background.
+		[_MABackgroundColor set];
+		[bgPath fill];
+
+		// Draw border if appropriate.
+		if (borderWidth > 0) {
+			// Double the borderWidth since we're drawing inside the path.
+			[bgPath setLineWidth:(borderWidth * 2.0) * MAATTACHEDWINDOW_SCALE_FACTOR];
+			[borderColor set];
+			[bgPath stroke];
+		}
+
+		return YES;
+	}];
+    return [NSColor colorWithPatternImage:patternImage];
 }
 
 

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5053" systemVersion="13D21" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5053"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="SEEConnectionAddingWindowController">
+            <connections>
+                <outlet property="window" destination="1" id="3"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application"/>
+        <window title="Add Connection" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" oneShot="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="1" userLabel="0">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" topStrut="YES"/>
+            <rect key="contentRect" x="184" y="846" width="325" height="89"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1178"/>
+            <value key="minSize" type="size" width="200" height="89"/>
+            <value key="maxSize" type="size" width="1000" height="89"/>
+            <view key="contentView" id="2">
+                <rect key="frame" x="0.0" y="0.0" width="325" height="89"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Dug-5q-Xxt">
+                        <rect key="frame" x="18" y="52" width="59" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Address:" id="AQ3-8V-ER4">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uGS-c0-4cH">
+                        <rect key="frame" x="83" y="50" width="222" height="22"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="a7m-8A-gHd">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                        <connections>
+                            <binding destination="-2" name="value" keyPath="self.addressString" id="dZL-Dh-2CP">
+                                <dictionary key="options">
+                                    <bool key="NSContinuouslyUpdatesValue" value="YES"/>
+                                </dictionary>
+                            </binding>
+                        </connections>
+                    </textField>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QGc-og-ABo">
+                        <rect key="frame" x="245" y="18" width="60" height="25"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="squareTextured" title="Connect" bezelStyle="texturedSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Txf-qo-a16">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                            <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                        </buttonCell>
+                        <connections>
+                            <action selector="connect:" target="-2" id="sm3-a0-Xba"/>
+                            <binding destination="-2" name="enabled" keyPath="self.addressString" id="rfI-zj-Ufm">
+                                <dictionary key="options">
+                                    <string key="NSValueTransformerName">NSIsNotNil</string>
+                                </dictionary>
+                            </binding>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lTQ-jL-U6G">
+                        <rect key="frame" x="177" y="18" width="60" height="25"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="squareTextured" title="Cancel" bezelStyle="texturedSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="3z3-Th-rav">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="cancel:" target="-2" id="XlM-PL-Ol9"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="QGc-og-ABo" firstAttribute="baseline" secondItem="lTQ-jL-U6G" secondAttribute="baseline" id="3eT-ZD-Mww"/>
+                    <constraint firstItem="QGc-og-ABo" firstAttribute="leading" secondItem="lTQ-jL-U6G" secondAttribute="trailing" constant="8" symbolic="YES" id="4jG-jQ-EzU"/>
+                    <constraint firstItem="uGS-c0-4cH" firstAttribute="leading" secondItem="Dug-5q-Xxt" secondAttribute="trailing" constant="8" symbolic="YES" id="F2r-4n-qlC"/>
+                    <constraint firstItem="uGS-c0-4cH" firstAttribute="baseline" secondItem="Dug-5q-Xxt" secondAttribute="baseline" id="FJS-5x-os9"/>
+                    <constraint firstItem="lTQ-jL-U6G" firstAttribute="top" secondItem="uGS-c0-4cH" secondAttribute="bottom" constant="8" symbolic="YES" id="Jt9-wN-fzu"/>
+                    <constraint firstItem="Dug-5q-Xxt" firstAttribute="top" secondItem="2" secondAttribute="top" constant="20" symbolic="YES" id="gI4-hp-tMN"/>
+                    <constraint firstItem="lTQ-jL-U6G" firstAttribute="width" secondItem="QGc-og-ABo" secondAttribute="width" id="ggr-gj-iyJ"/>
+                    <constraint firstAttribute="trailing" secondItem="uGS-c0-4cH" secondAttribute="trailing" constant="20" symbolic="YES" id="l9z-py-ICY"/>
+                    <constraint firstItem="Dug-5q-Xxt" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="20" symbolic="YES" id="nHh-2T-D0W"/>
+                    <constraint firstItem="QGc-og-ABo" firstAttribute="trailing" secondItem="uGS-c0-4cH" secondAttribute="trailing" id="qvF-0j-ToP"/>
+                </constraints>
+            </view>
+            <connections>
+                <outlet property="delegate" destination="-2" id="4"/>
+            </connections>
+        </window>
+    </objects>
+</document>

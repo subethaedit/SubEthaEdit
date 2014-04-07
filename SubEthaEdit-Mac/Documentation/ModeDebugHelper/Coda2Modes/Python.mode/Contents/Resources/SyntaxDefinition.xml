@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "syntax.dtd">
+<syntax>
+
+	<head>
+		<name>Python</name> <!-- The definitions title -->
+		<charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@]]></charsintokens> <!-- Valid Characters for Variables -->
+	</head>
+
+	<states>
+
+		<default id="Base" scope="meta.default">
+		
+			<state id="Container" containerState="yes" scope="meta.default">
+			
+				<keywords id="Special Attributes" useforautocomplete="yes" scope="support.constant">
+					<string>__dict__</string>
+					<string>__class__</string>
+					<string>__bases__</string>
+				</keywords>
+				<keywords id="Built-in Constants" useforautocomplete="yes" scope="support.constant">
+					<string>Ellipsis</string>
+					<string>None</string>
+					<string>True</string>
+					<string>False</string>
+					<string>NotImplemented</string>
+				</keywords>
+				<keywords id="Types" useforautocomplete="yes" scope="keyword.type">
+					<string>NoneType</string>
+					<string>TypeType</string>
+					<string>BooleanType</string>
+					<string>IntType</string>
+					<string>LongType</string>
+					<string>FloatType</string>
+					<string>ComplexType</string>
+					<string>StringType</string>
+					<string>UnicodeType</string>
+					<string>TupleType</string>
+					<string>ListType</string>
+					<string>DictType</string>
+					<string>DictionaryType</string>
+					<string>FunctionType</string>
+					<string>LambdaType</string>
+					<string>GeneratorType</string>
+					<string>CodeType</string>
+					<string>ClassType</string>
+					<string>InstanceType</string>
+					<string>MethodType</string>
+					<string>UnboundMethodType</string>
+					<string>BuiltinFunctionType</string>
+					<string>BuiltinMethodType</string>
+					<string>ModuleType</string>
+					<string>FileType</string>
+					<string>XRangeType</string>
+					<string>SliceType</string>
+					<string>EllipsisType</string>
+					<string>TracebackType</string>
+					<string>FrameType</string>
+					<string>BufferType</string>
+					<string>StringTypes</string>
+				</keywords>
+				<keywords id="Exceptions" useforautocomplete="yes" scope="support.constant">
+					<string>Exception</string>
+					<string>SystemExit</string>
+					<string>StopIteration</string>
+					<string>StandardError</string>
+					<string>KeyboardInterrupt</string>
+					<string>ImportError</string>
+					<string>EnvironmentError</string>
+					<string>IOError</string>
+					<string>OSError</string>
+					<string>WindowsError</string>
+					<string>EOFError</string>
+					<string>RuntimeError</string>
+					<string>NotImplementedError</string>
+					<string>NameError</string>
+					<string>UnboundLocalError</string>
+					<string>AttributeError</string>
+					<string>SyntaxError</string>
+					<string>IndentationError</string>
+					<string>TabError</string>
+					<string>TypeError</string>
+					<string>AssertionError</string>
+					<string>LookupError</string>
+					<string>IndexError</string>
+					<string>KeyError</string>
+					<string>ArithmeticError</string>
+					<string>OverflowError</string>
+					<string>ZeroDivisionError</string>
+					<string>FloatingPointError</string>
+					<string>ValueError</string>
+					<string>UnicodeError</string>
+					<string>UnicodeEncodeError</string>
+					<string>UnicodeDecodeError</string>
+					<string>UnicodeTranslateError</string>
+					<string>ReferenceError</string>
+					<string>SystemError</string>
+					<string>MemoryError</string>
+					<string>Warning</string>
+					<string>UserWarning</string>
+					<string>DeprecationWarning</string>
+					<string>PendingDeprecationWarning</string>
+					<string>SyntaxWarning</string>
+					<string>OverflowWarning</string>
+					<string>RuntimeWarning</string>
+					<string>FutureWarning</string>
+				</keywords>
+				<keywords id="Special Methods" useforautocomplete="yes" scope="support.method">
+					<string>__cmp__</string>
+					<string>__rcmp__</string>
+					<string>__hash__</string>
+					<string>__nonzero__</string>
+					<string>__unicode__</string>
+					<string>__getattr__</string>
+					<string>__setattr__</string>
+					<string>__delattr__</string>
+					<string>__getattribute__</string>
+					<string>__get__</string>
+					<string>__set__</string>
+					<string>__delete__</string>
+					<string>__slots__</string>
+					<string>__metaclass__</string>
+					<string>__class__</string>
+					<string>__len__</string>
+					<string>__getitem__</string>
+					<string>__setitem__</string>
+					<string>__delitem__</string>
+					<string>__iter__</string>
+					<string>__contains__</string>
+					<string>__getslice__</string>
+					<string>__setslice__</string>
+					<string>__delslice__</string>
+					<string>__add__</string>
+					<string>__sub__</string>
+					<string>__mul__</string>
+					<string>__floordiv__</string>
+					<string>__mod__</string>
+					<string>__divmod__</string>
+					<string>__pow__</string>
+					<string>__lshift__</string>
+					<string>__rshift__</string>
+					<string>__and__</string>
+					<string>__xor__</string>
+					<string>__or__</string>
+					<string>__div__</string>
+					<string>__truediv__</string>
+					<string>__radd__</string>
+					<string>__rsub__</string>
+					<string>__rmul__</string>
+					<string>__rdiv__</string>
+					<string>__rtruediv__</string>
+					<string>__ffloordiv__</string>
+					<string>__rmod__</string>
+					<string>__rdivmod__</string>
+					<string>__rpow__</string>
+					<string>__rlshift__</string>
+					<string>__rrshift__</string>
+					<string>__rand__</string>
+					<string>__rxor__</string>
+					<string>__ror__</string>
+					<string>__iadd__</string>
+					<string>__isub__</string>
+					<string>__imul__</string>
+					<string>__idiv__</string>
+					<string>__itruediv__</string>
+					<string>__ifloordiv__</string>
+					<string>__imod__</string>
+					<string>__ipow__</string>
+					<string>__ilshift__</string>
+					<string>__irshift__</string>
+					<string>__iand__</string>
+					<string>__ixor__</string>
+					<string>__ior__</string>
+					<string>__neg__</string>
+					<string>__pos__</string>
+					<string>__abs__</string>
+					<string>__invert__</string>
+					<string>__complex__</string>
+					<string>__int__</string>
+					<string>__long__</string>
+					<string>__float__</string>
+					<string>__oct__</string>
+					<string>__hex__</string>
+					<string>__coerce__</string>
+					<string>__lt__</string>
+					<string>__le__</string>
+					<string>__eq__</string>
+					<string>__ne__</string>
+					<string>__gt__</string>
+					<string>__ge__</string>
+					<string>__str__</string>
+					<string>__del__</string>
+					<string>__init__</string>
+					<string>__repr__</string>
+				</keywords>
+				<keywords id="Built-In Functions" useforautocomplete="yes" scope="support.function">
+					<string>__import__</string>
+					<string>abs</string>
+					<string>all</string>
+					<string>any</string>
+					<string>apply</string>
+					<string>bin</string>
+					<string>bool</string>
+					<string>bytearray</string>
+					<string>basestring</string>
+					<string>buffer</string>
+					<string>callable</string>
+					<string>chr</string>
+					<string>classmethod</string>
+					<string>cmp</string>
+					<string>coerce</string>
+					<string>compile</string>
+					<string>complex</string>
+					<string>delattr</string>
+					<string>dict</string>
+					<string>dir</string>
+					<string>divmod</string>
+					<string>enumerate</string>
+					<string>eval</string>
+					<string>execfile</string>
+					<string>file</string>
+					<string>filter</string>
+					<string>float</string>
+					<string>format</string>
+					<string>frozenset</string>
+					<string>getattr</string>
+					<string>globals</string>
+					<string>hasattr</string>
+					<string>hash</string>
+					<string>help</string>
+					<string>hex</string>
+					<string>id</string>
+					<string>input</string>
+					<string>int</string>
+					<string>intern</string>
+					<string>isinstance</string>
+					<string>issubclass</string>
+					<string>iter</string>
+					<string>len</string>
+					<string>list</string>
+					<string>locals</string>
+					<string>long</string>
+					<string>map</string>
+					<string>max</string>
+					<string>memoryview</string>
+					<string>min</string>
+					<string>object</string>
+					<string>oct</string>
+					<string>open</string>
+					<string>ord</string>
+					<string>pow</string>
+					<string>property</string>
+					<string>range</string>
+					<string>raw_input</string>
+					<string>reduce</string>
+					<string>reload</string>
+					<string>repr</string>
+					<string>reversed</string>
+					<string>round</string>
+					<string>set</string>
+					<string>setattr</string>
+					<string>slice</string>
+					<string>sorted</string>
+					<string>staticmethod</string>
+					<string>str</string>
+					<string>sum</string>
+					<string>super</string>
+					<string>tuple</string>
+					<string>type</string>
+					<string>unichr</string>
+					<string>unicode</string>
+					<string>vars</string>
+					<string>xrange</string>
+					<string>zip</string>
+				</keywords>
+	
+				<keywords id="Keywords" useforautocomplete="yes" scope="keyword">
+					<string>assert</string>
+					<string>class</string>
+					<string>exec</string>
+					<string>global</string>
+					<string>import</string>
+					<string>lambda</string>
+					<string>print</string>
+					<string>return</string>
+					<string>self</string>
+				</keywords>
+				
+				<keywords id="Keywords" useforautocomplete="yes" scope="keyword.control">
+					<string>and</string>
+					<string>break</string>
+					<string>continue</string>
+					<string>def</string>
+					<string>del</string>
+					<string>elif</string>
+					<string>else</string>
+					<string>except</string>
+					<string>finally</string>
+					<string>for</string>
+					<string>from</string>
+					<string>if</string>
+					<string>in</string>
+					<string>is</string>
+					<string>not</string>
+					<string>or</string>
+					<string>pass</string>
+					<string>raise</string>
+					<string>try</string>
+					<string>while</string>
+					<string>yield</string>
+					<string>as</string>
+				</keywords>
+				<!-- see http://docs.python.org/3.1/reference/lexical_analysis.html - numeric literals -->
+				<keywords id="Numbers" useforautocomplete="no" scope="constant.numeric">
+					<!-- floats -->
+					<regex>(?&lt;![\w\d_\.])((?:(?:(?:(?:\d+\.\d*|\.\d+)(?:[eE][+-]?\d+)?)|(?:[\d+][eE][+-]?\d+))[jJ]?)|\d+[jJ])(?![\w\d_\.])</regex>
+					<!-- integers -->
+					<regex>(?&lt;![\w\d_\.])((?:(?:(?:[1-9]\d*)|(?:0(?:(?:[oO][0-7]+)|(?:[xX]\h+)|(?:[bB][01]+))?))[lL]?))(?![\w\d_\.])</regex>
+				</keywords>
+	
+				<state id="Singleline Comment" type="comment" scope="comment.line">
+					<begin><regex>#</regex></begin>
+					<end><regex>[\n\r]</regex></end>
+					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+				</state>
+	
+				<!-- CODA <state id="String with triple double quotes" type="string"> -->
+				<state id="String with triple double quotes" type="string" usespellchecking="yes" scope="string.double">
+					<begin><regex>"""</regex></begin>
+					<end><regex>(((?&lt;!\\)(\\\\)*)|^)"""</regex></end>
+				</state>
+	
+				<!-- CODA <state id="String with triple single quotes" type="string"> -->
+				<state id="String with triple single quotes" type="string" usespellchecking="yes" scope="string.single">
+					<begin><regex>'''</regex></begin>
+					<end><regex>(((?&lt;!\\)(\\\\)*)|^)'''</regex></end>
+				</state>
+	
+				<!-- CODA <state id="String with double quotes" type="string"> -->
+				<state id="String with double quotes" type="string" usespellchecking="yes" scope="string.double">
+					<begin><regex>"</regex></begin>
+					<end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
+				</state>
+	
+				<!-- CODA <state id="String with single quotes" type="string"> -->
+				<state id="String with single quotes" type="string" usespellchecking="yes" scope="string.single">
+					<begin><regex>'</regex></begin>
+					<end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
+				</state>
+	
+				<state id="Backticks" scope="meta.default">
+					<begin><regex>`</regex></begin>
+					<end><regex>(((?&lt;!\\)(\\\\)*)|^)`</regex></end>
+				</state>
+
+			</state>
+
+			<import mode="Python" state="Container" keywords-only="yes"/>
+			<import mode="Python" state="Container" />
+
+			<state id="Class Blocks" foldable="yes" delimiterState="Container" scope="meta.block">
+				<begin><regex>^class[^:]+\:</regex></begin>
+				<end><regex>(?:\r?\n|\r)(?=(?:\r?\n|\r)(?:\r?\n|\r)\S|(?:\r?\n|\r)\S|\S)</regex></end>
+				<import mode="Python" state="Container" keywords-only="yes"/>
+				<import />
+			</state>
+
+			<state id="Def Blocks" foldable="yes" delimiterState="Container" scope="meta.block" >
+				<begin><regex>(?'defstartingwhitespace'[ \t]*)def\s[^)]+\)[ \t]*\:</regex></begin>				<end><regex>(?:\r?\n|\r)(?=(?:\r?\n|\r)(?:\r?\n|\r)(?#see-insert-start-group:defstartingwhitespace)\S|(?:\r?\n|\r)(?#see-insert-start-group:defstartingwhitespace)\S|(?#see-insert-start-group:defstartingwhitespace)\S|(?:\r?\n|\r)(?:\r?\n|\r)\S|(?:\r?\n|\r)\S|\S)</regex></end>
+				<import mode="Python" state="Container" keywords-only="yes"/>
+				<import />
+			</state>
+
+		</default>
+
+	</states>
+
+</syntax>

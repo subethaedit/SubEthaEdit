@@ -7,13 +7,12 @@
 //
 
 
-#if defined(CODA)
-#import "../document/TSNodeWrapper.h"
-#endif //defined(CODA)
 #import <Cocoa/Cocoa.h>
 #import <Security/Security.h>
 #import "EncodingManager.h"
 #import "TCMMMSession.h"
+#import "SEEDocumentCreationFlags.h"
+#import "UndoManager.h"
 
 enum {
     UnknownStringEncoding = NoStringEncoding,
@@ -23,7 +22,7 @@ enum {
 
 
 @class FoldableTextStorage, TCMMMSession, TCMMMOperation, DocumentMode, EncodingPopUpButton, 
-       PlainTextWindowController, WebPreviewWindowController,
+       PlainTextWindowController, SEEWebPreviewViewController,
        DocumentProxyWindowController, FindAllController, UndoManager, TextOperation, TCMMMLoggingState, FontForwardingTextField, PlainTextEditor;
 
 extern NSString * const PlainTextDocumentSessionWillChangeNotification;
@@ -40,13 +39,13 @@ extern NSString * const PlainTextDocumentDidChangeDocumentModeNotification;
 
 extern NSString * const WrittenByUserIDAttributeName;
 extern NSString * const ChangedByUserIDAttributeName;
-extern NSString * const PlainTextDocumentDidSaveNotification;
 
-#if defined(CODA)
-@interface PlainTextDocument : TSNodeWrapper <SEEDocument>
-#else
-@interface PlainTextDocument : NSDocument <SEEDocument>
-#endif //defined(CODA)
+extern NSString * const PlainTextDocumentDidSaveNotification;
+extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotification;
+
+
+
+@interface PlainTextDocument : NSDocument <SEEDocument, NSTextViewDelegate, NSTextStorageDelegate, NSOpenSavePanelDelegate, NSSharingServicePickerDelegate, NSSharingServiceDelegate>
 {
     TCMMMSession *I_session;
     struct {
@@ -88,12 +87,14 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 //    int I_changeCount;
     DocumentMode  *I_documentMode;
     FoldableTextStorage *I_textStorage;
-    struct {
-        NSFont *plainFont;
-        NSFont *boldFont;
-        NSFont *italicFont;
-        NSFont *boldItalicFont;
-    } I_fonts;
+    
+	NSUInteger _currentBracketMatchingBracketPosition;
+	
+    NSFont *I_plainFont;
+    NSFont *I_boldFont;
+    NSFont *I_italicFont;
+    NSFont *I_boldItalicFont;
+    
     NSMutableDictionary *I_styleCacheDictionary;
     NSDictionary *I_plainTextAttributes;
     NSDictionary *I_typingAttributes;
@@ -124,14 +125,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
     
     int I_lineEnding;
     NSString *I_lineEndingString;
-    
-    struct {
-        int numberOfBrackets;
-        unichar *closingBracketsArray;
-        unichar *openingBracketsArray;
-        NSUInteger matchingBracketPosition;
-    } I_bracketMatching;
-        
+            
     NSDictionary *I_blockeditAttributes;
     NSTextView   *I_blockeditTextView;
 
@@ -147,7 +141,6 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
     
     DocumentProxyWindowController *I_documentProxyWindowController;
     
-    WebPreviewWindowController *I_webPreviewWindowController;
     NSMutableArray *I_rangesToInvalidate;
     NSMutableArray *I_findAllControllers;
     
@@ -155,16 +148,6 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
     TextOperation *I_lastRegisteredUndoOperation;
     
     NSMutableDictionary *I_printOptions;
-    // Print nib
-	IBOutlet FontForwardingTextField *O_printOptionTextField;
-    IBOutlet NSView *O_printOptionView;
-    IBOutlet NSObjectController *O_printOptionController;
-    BOOL I_printOperationIsRunning;
-
-    // export nib
-    IBOutlet NSWindow *O_exportSheet;
-    IBOutlet NSObjectController *O_exportSheetController;
-    
     NSArray *I_preservedDataFromSEETextFile;
     
     AuthorizationRef I_authRef;
@@ -178,18 +161,20 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
     #endif
 }
 
-+ (PlainTextDocument *)transientDocument;
+@property (readwrite, strong) IBOutlet NSWindow *O_exportSheet;
+@property (readwrite, strong) IBOutlet NSObjectController *O_exportSheetController;
+@property (nonatomic, strong) NSMutableArray *persistentDocumentScopedBookmarkURLs;
 
-- (void)setTemporarySavePanel:(NSSavePanel *)aPanel;
+@property (nonatomic, strong) SEEDocumentCreationFlags *attachedCreationFlags;
+
+//+ (PlainTextDocument *)transientDocument;
+
+//- (void)setTemporarySavePanel:(NSSavePanel *)aPanel;
 
 - (NSImage *)documentIcon;
 
 - (void)setPreservedDataFromSEETextFile:(NSArray *)aPreservedData;
 - (NSArray *)preservedDataFromSEETextFile;
-
-#if defined(CODA)
-- (void)changeFontInteral:(id)aSender;
-#endif //defined(CODA)
 
 - (id)initWithSession:(TCMMMSession *)aSession;
 
@@ -197,10 +182,9 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 - (void)presentScheduledAlertForWindow:(NSWindow *)window;
 
 - (IBAction)newView:(id)aSender;
-- (IBAction)goIntoBundles:(id)sender;
-- (IBAction)showHiddenFiles:(id)sender;
-- (IBAction)selectFileFormat:(id)aSender;
-- (IBAction)showWebPreview:(id)aSender;
+//- (IBAction)goIntoBundles:(id)sender;
+//- (IBAction)showHiddenFiles:(id)sender;
+//- (IBAction)selectFileFormat:(id)aSender;
 - (BOOL)isProxyDocument;
 - (BOOL)isPendingInvitation;
 - (void)makeProxyWindowController;
@@ -212,7 +196,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 - (void)setSession:(TCMMMSession *)aSession;
 - (TCMMMSession *)session;
 
-- (NSTextStorage *)textStorage;
+- (FoldableTextStorage *)textStorage;
 
 - (void)fillScriptsIntoContextMenu:(NSMenu *)aMenu;
 - (void)adjustModeMenu;
@@ -226,6 +210,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 - (void)setIsAnnounced:(BOOL)aFlag;
 - (IBAction)toggleIsAnnounced:(id)aSender;
 - (IBAction)toggleIsAnnouncedOnAllDocuments:(id)aSender;
+- (IBAction)inviteUsersToDocumentViaSharingService:(id)aSender;
 - (IBAction)changePendingUsersAccess:(id)aSender;
 - (IBAction)changePendingUsersAccessOnAllDocuments:(id)aSender;
 
@@ -233,7 +218,8 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 - (void)validateEditability;
 
 - (PlainTextEditor *)activePlainTextEditor;
-- (NSArray *)plainTextEditors;
+@property (nonatomic, readonly) NSArray *plainTextEditors;
+@property (nonatomic, readonly) NSArray *findAllControllers;
 
 - (NSString *)lineEndingString;
 - (LineEnding)lineEnding;
@@ -250,6 +236,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 - (NSColor *)documentForegroundColor;
 - (void)setDocumentForegroundColor:(NSColor *)aColor;
 
+- (BOOL)canBeConvertedToEncoding:(NSStringEncoding)encoding;
 - (NSUInteger)fileEncoding;
 - (void)setFileEncoding:(NSUInteger)anEncoding;
 - (void)setFileEncodingUndoable:(NSUInteger)anEncoding;
@@ -279,11 +266,12 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 //- (void)gotoLine:(unsigned)aLine orderFront:(BOOL)aFlag;
 - (void)selectRange:(NSRange)aRange;
 - (void)selectRangeInBackground:(NSRange)aRange;
-- (void)handleOpenDocumentEvent;
+- (void)handleOpenDocumentEvent:(NSAppleEventDescriptor *)eventDesc;
 
 - (void)convertLineEndingsToLineEnding:(LineEnding)lineEnding;
 - (IBAction)convertLineEndings:(id)aSender;
 - (IBAction)chooseLineEndings:(id)aSender;
+- (IBAction)reindentSelection:(id)aSender;
 
 - (NSRange)rangeOfPrevious:(BOOL)aPrevious symbolForRange:(NSRange)aRange;
 - (NSRange)rangeOfPrevious:(BOOL)aPrevious changeForRange:(NSRange)aRange;
@@ -372,9 +360,11 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 - (IBAction)continueExport:(id)aSender;
 
 #pragma mark ### Printing ###
-- (IBAction)changeFontViaPanel:(id)sender;
 - (NSMutableDictionary *)printOptions;
-- (void)setPrintOptions:(NSDictionary *)aPrintOptions;
+- (void)setPrintOptions:(NSMutableDictionary *)aPrintOptions;
+
+#pragma mark - Font handling
+- (IBAction)changeFont:(id)aSender;
 
 #pragma mark -
 #pragma mark ### Session Interaction ###
@@ -429,16 +419,8 @@ typedef enum {
 - (NSString *)mode;
 - (void)setMode:(NSString *)identifier;
 
+//- (NSRange)textView:(NSTextView *)aTextView
+//           willChangeSelectionFromCharacterRange:(NSRange)aOldSelectedCharRange
+//                                toCharacterRange:(NSRange)aNewSelectedCharRange;
+
 @end
-
-@interface NSTextView (NSTextViewLeopardInterfaceAdditions)
-- (void)showFindIndicatorForRange:(NSRange)aRange;
-@end
-
-@interface NSDocument (NSDocumentPrivateAdditions) 
-- (void) _savePanelWasPresented:(id)aPanel withResult:(int)aResult inContext:(void*)aContext;
-@end
-
-#import "DocumentSharedMethods.h"
-
-

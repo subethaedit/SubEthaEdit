@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!DOCTYPE syntax SYSTEM "syntax.dtd">
 <syntax>
 
@@ -10,8 +10,8 @@
 
     <states>
     
-        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal">
-            <keywords id="Types" color="#881350" casesensitive="no" useforautocomplete="yes">
+        <default id="Base" scope="meta.default">
+            <keywords id="Types" casesensitive="no" useforautocomplete="yes" scope="keyword.type">
                 <string>ANYDATA</string>
                 <string>ANYDATASET</string>
                 <string>ANYTYPE</string>
@@ -64,7 +64,7 @@
                 <string>VARRAY</string>
                 <string>XMLTYPE</string>
             </keywords>
-            <keywords id="Functions" color="#408" casesensitive="no" useforautocomplete="yes">
+            <keywords id="Functions" casesensitive="no" useforautocomplete="yes" scope="support.subroutine.function">
                 <string>ABS</string>
                 <string>ACOS</string>
                 <string>ADD_MONTHS</string>
@@ -233,7 +233,12 @@
                 <string>VSIZE</string>
                 <string>WIDTH_BUCKET</string>
             </keywords>
-            <keywords id="Keywords" color="#673820" casesensitive="no" useforautocomplete="yes">
+            <keywords id="Numeric Keywords" casesensitive="no" useforautocomplete="yes" scope="keyword.constant">
+              <string>FALSE</string>
+              <string>NULL</string>
+              <string>TRUE</string>
+						</keywords>
+            <keywords id="Keywords" casesensitive="no" useforautocomplete="yes" scope="keyword">
                 <string>ACCESS</string>
                 <string>ACCOUNT</string>
                 <string>ADD</string>
@@ -399,7 +404,6 @@
                 <string>EXTERNALLY</string>
                 <string>EXIT</string>
                 <string>FAILED_LOGIN_ATTEMPTS</string>
-                <string>FALSE</string>
                 <string>FAST</string>
                 <string>FETCH</string>
                 <string>FILE</string>
@@ -575,7 +579,6 @@
                 <string>NOTHING</string>
                 <string>NOVALIDATE</string>
                 <string>NOWAIT</string>
-                <string>NULL</string>
                 <string>NULLS</string>
                 <string>OBJNO</string>
                 <string>OBJNO_REUSE</string>
@@ -778,7 +781,6 @@
                 <string>TRANSITIONAL</string>
                 <string>TRIGGER</string>
                 <string>TRIGGERS</string>
-                <string>TRUE</string>
                 <string>TRUNCATE</string>
                 <string>TYPE</string>
                 <string>TYPES</string>
@@ -818,57 +820,57 @@
                 <string>YEAR</string>
                 <string>ZONE</string>
             </keywords>
-            <keywords id="Numbers" color="#00f" useforautocomplete="no">
+            <keywords id="Numbers" useforautocomplete="no" scope="language.constant.numeric">
 				<regex>(?&lt;![\w\d_])((?:(?:(?:[0-9]+\.[0-9]*)|(\.[0-9]+))(?:[eE][+\-]?[0-9]+)?[fFlL]?)|(?:(?:(?:[1-9][0-9]*)|0[0-7]*|(?:0[xX][0-9a-fA-F]+))(?:(?:[uU][lL]?)|(?:[lL][uU]?))?))(?![!\w\d_])</regex>
             </keywords>
-            <keywords id="FunctionRegex" color="#003369" useforautocomplete="no">
+            <keywords id="FunctionRegex" useforautocomplete="no" scope="language.subroutine.function">
 				<regex>([A-Za-z0-9_]+ *)\(</regex>
             </keywords>
         
-            <state id="Comment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
+            <state id="Comment" type="comment" scope="comment.block">
                 <begin><regex>/\*</regex></begin>
                 <end><regex>\*/</regex></end>
                 <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
             
-            <state id="Single Comment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
+            <state id="Single Comment" type="comment" scope="comment.line.double-dash">
                 <begin><regex>--</regex></begin>
                 <end><regex>[\n\r]</regex></end>
                 <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
             
-            <state id="Singleline Comment (mysql)" type="comment" color="#236E25" font-style="italic">
+            <state id="Singleline Comment (mysql)" type="comment" scope="comment.line.number-sign">
                 <begin><regex>#</regex></begin>
                 <end><regex>[\n\r]</regex></end>
                 <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
     
             
-            <state id="String Singlequoted" type="string" color="#760f15" font-weight="normal" font-style="normal">
+            <state id="String Singlequoted" type="string" usespellchecking="yes" scope="string.single">
                 <begin><regex>'</regex></begin>
                 <end><regex>(?&lt;!\\)(\\\\)*'</regex></end>
             </state>
             
-            <state id="String with Backticks" type="string" color="#760f15" font-weight="normal" font-style="normal">
+            <state id="String with Backticks" type="string" usespellchecking="yes" scope="string.single.backtick">
                 <begin><regex>`</regex></begin>
                 <end><regex>(?&lt;!\\)(\\\\)*`</regex></end>
             </state>
             
-            <state id="String Doublequoted" type="string" color="#608" font-weight="normal" font-style="normal">
+            <state id="String Doublequoted" type="string" usespellchecking="yes" scope="string.double">
                 <begin><regex>"</regex></begin>
                 <end><regex>(?&lt;!\\)(\\\\)*"</regex></end>
             </state>
 
-            <state id="Anti Block" foldable="no">
+            <state id="Anti Block" foldable="no" scope="meta.block">
                 <begin><regex>\(</regex></begin>
                 <end><regex>\)</regex></end>
-                <import />
+                <import/>
             </state>
 
-            <state id="Block" type="block" foldable="yes">
+            <state id="Block" type="block" foldable="yes" scope="meta.block.create-table">
                 <begin><regex>(?i)CREATE[ \t]+TABLE[ \t]*[`\w\d_]+[ \t]*\(</regex></begin>
                 <end><regex>\)</regex></end>
-                <import />
+                <import/>
             </state>
 
         </default>

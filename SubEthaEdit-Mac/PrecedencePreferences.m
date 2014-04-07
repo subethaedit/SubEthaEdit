@@ -7,7 +7,7 @@
 //
 
 #import "PrecedencePreferences.h"
-#import "DocumentController.h"
+#import "SEEDocumentController.h"
 #import "GeneralPreferences.h"
 #import "PrecedenceRuleCell.h"
 #import "DocumentModeManager.h"
@@ -15,7 +15,7 @@
 @implementation PrecedencePreferences
 
 - (NSImage *)icon {
-    return [NSImage imageNamed:@"Mode.icns"];
+    return [NSImage imageNamed:@"SubEthaEditMode"];
 }
 
 - (NSString *)iconLabel {
@@ -77,7 +77,7 @@
 			break;
 		}
 	}
-	NSString *key = [NSString stringWithFormat:@"%d", (intptr_t)[sender rule]];
+	NSString *key = [NSString stringWithFormat:@"%li", (intptr_t)[sender rule]];
 	[ruleViews removeObjectForKey:key];
 	[[DocumentModeManager sharedInstance] revalidatePrecedences];
 //	[o_rulesTableView setNeedsDisplay:YES];
@@ -92,7 +92,7 @@
 	NSMutableDictionary *rule = [[o_rulesController arrangedObjects] objectAtIndex:row];
 	//NSLog(@"%s %@ %d",__FUNCTION__, rule, (int)rule);
 	
-	NSString *key = [NSString stringWithFormat:@"%d", (intptr_t)rule];
+	NSString *key = [NSString stringWithFormat:@"%li", (intptr_t)rule];
 	//NSLog(@"rule requested: %@", rule);
 	RuleViewController *ruleViewController = [ruleViews objectForKey:key];
 	if (!ruleViewController) {

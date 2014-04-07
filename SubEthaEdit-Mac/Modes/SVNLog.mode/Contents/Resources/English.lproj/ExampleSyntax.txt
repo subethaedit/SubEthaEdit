@@ -1,0 +1,18 @@
+# SVNLog Example Syntax File
+
+$ svn log -v http://svn.red-bean.com/repos/test/ foo.c bar.c
+------------------------------------------------------------------------
+r32 | sally | 2003-01-13 00:43:13 -0600 (Mon, 13 Jan 2003) | 1 line
+Changed paths:
+   M /foo.c
+
+Added defines.
+------------------------------------------------------------------------
+r31 | harry | 2003-01-10 12:25:08 -0600 (Fri, 10 Jan 2003) | 1 line
+Changed paths:
+   A /bar.c
+   D /barb.c
+
+Added new file bar.c
+------------------------------------------------------------------------
+r28 | sally | 2003-01-07 21:48:33 -0600 (Tue, 07 Jan 2003) | 3 lines

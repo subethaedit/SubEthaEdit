@@ -1,3 +1,8 @@
+Changes with Version 4.0 (SEE 4.0)
+	*) SYNTAX: updated for syntax scopes
+	*) SYNTAX: markup cleanup
+	*) SYNTAX: removed style information
+
 Changes with Version 3.5.3  (SEE 3.5.3)
 	 *) fixed highlighting issues
 
@@ -10,29 +15,23 @@ Changes with Version 3.5  (SEE 3.5)
 	 *) added code folding
 
 Changes with Version 1.6 (SEE 3.0.2)
-
     *) Added recognition of inline RegExes
 
 Changes with Version 1.5 (SEE 2.6)
-
     *) Fixes a false positive in Javascript.mode where RegEx state responded to divisions
     *) Added jsx extension for Adobe Photoshop script files 
 
 Changes with Version 1.4 (SEE 2.5.1)
-
     *) Fixing SEE-1116 (Support alternate syntax for javascript functions)
     *) Adding new Regular Expression state from Perl.mode to JavaScript.mode to fix SEE-1117. (prototype.js coloring fails due to direct regexes) 
 
 Changes with Version 1.3 (SEE 2.5)
-
     *) added script: Insert/Edit HTML Color.
 
 Changes with Version 1.2 (SEE 2.3)
-
     *) Symbol recognition for lambda functions as used by e.g. prototype.js
     *) Single Quote String is treated correctly now
     *) SYMBOLS: Fixed SEE-490.
 
 Changes with Version 1.1
-    
     *) EXTENSIONS: Added uppercase variants where appropriate.

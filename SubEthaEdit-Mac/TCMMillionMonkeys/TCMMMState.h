@@ -12,10 +12,8 @@
 @class TCMMMState, TCMMMMessage, TCMMMOperation;
 
 
-@protocol TCMMMStateClientProtocol
-
+@protocol TCMMMStateClientProtocol <NSObject>
 - (void)state:(TCMMMState *)aState handleMessage:(TCMMMMessage *)aMessage;
-
 @end
 
 

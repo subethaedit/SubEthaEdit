@@ -39,8 +39,9 @@
 	[_nameForGroupIndexArray release];
 	
 	// 鬼車正規表現オブジェクト
+@synchronized ([OGRegularExpression class]) {
 	if (_regexBuffer != NULL) onig_free(_regexBuffer);
-	
+}	
 	// 正規表現を表す文字列
     NSZoneFree([self zone], _UTF16ExpressionString);
 	[_expressionString release];

@@ -23,8 +23,7 @@ static NSArray *S_possibleStyleColors;
 
 + (BOOL)style:(NSDictionary *)aStyle isEqualToStyle:(NSDictionary *)anotherStyle {
     NSString *colorKey=nil;
-    NSEnumerator *colorKeys=[S_possibleStyleColors objectEnumerator];
-    while ((colorKey=[colorKeys nextObject])) {
+    for (colorKey in S_possibleStyleColors) {
         NSColor *color=[aStyle objectForKey:colorKey];
         if (color) {
             if (![[color HTMLString] isEqualToString:[[anotherStyle objectForKey:colorKey] HTMLString]]) {
@@ -64,140 +63,158 @@ static NSArray *S_possibleStyleColors;
     [possibleKeys addObjectsFromArray:S_possibleStyleColors];
     [possibleKeys addObjectsFromArray:[NSArray arrayWithObjects:@"font-trait",@"type",kSyntaxHighlightingStyleIDAttributeName,nil]];
     
-    NSEnumerator *enumerator = [possibleKeys objectEnumerator];
     id key;
-    while ((key = [enumerator nextObject])) {
+    for (key in possibleKeys) {
         id object = [aDictionary objectForKey:key];
         if (object) [styleDictionary setObject:object forKey:key];
     }
 
+	if ([aDictionary objectForKey:@"text-decoration"]) {
+		if ([[aDictionary objectForKey:@"text-decoration"] isEqualToString:@"line-through"]) {
+			[styleDictionary setObject:[NSNumber numberWithInteger:(NSUnderlineStyleSingle|NSUnderlinePatternSolid)] forKey:NSStrikethroughStyleAttributeName];
+		}
+		if ([[aDictionary objectForKey:@"text-decoration"] isEqualToString:@"underline"]) {
+			[styleDictionary setObject:[NSNumber numberWithInteger:(NSUnderlineStyleSingle|NSUnderlinePatternSolid)] forKey:NSUnderlineStyleAttributeName];
+		}
+		if ([[aDictionary objectForKey:@"text-decoration"] isEqualToString:@"dotted"]) {
+			[styleDictionary setObject:[NSNumber numberWithInteger:(NSUnderlineStyleSingle|NSUnderlinePatternDot)] forKey:NSUnderlineStyleAttributeName];
+		}
+	}
+
+	if ([aDictionary objectForKey:@"scope"]) {
+		[styleDictionary setObject:[aDictionary objectForKey:@"scope"] forKey:@"scope"];
+	}
+	
+	
+	
     if ([styleDictionary objectForKey:@"color"]) {
         [self addKey:styleID];
         [self setStyle:styleDictionary forKey:styleID];            
     }
+
+	
+
 }
 
-- (void)takeValuesFromModeSubtree:(CFXMLTreeRef)aModeTree {
-	NSDictionary *styleIDTransitionDictionary = [I_documentMode styleIDTransitionDictionary];
-    int childCount;
-    int index;
-    childCount = CFTreeGetChildCount(aModeTree);
-    for (index = 0; index < childCount; index++) {
-        CFXMLTreeRef xmlTree = CFTreeGetChildAtIndex(aModeTree, index);
-        CFXMLNodeRef xmlNode = CFXMLTreeGetNode(xmlTree);
-        NSDictionary *attributes = (NSDictionary *)((CFXMLElementInfo *)CFXMLNodeGetInfoPtr(xmlNode))->attributes;
-        NSString *tag = (NSString *)CFXMLNodeGetString(xmlNode);
-        if ([@"style" isEqualToString:tag]) {
-            NSString *styleID=[attributes objectForKey:@"id"];
-            
-            NSMutableArray *styleIDs = [NSMutableArray arrayWithObject:styleID];
-            NSEnumerator *enumerator = [styleIDTransitionDictionary keyEnumerator];
-            NSString *key = nil;
-            while ((key = [enumerator nextObject])) {
-            	if ([styleID isEqualToString:[styleIDTransitionDictionary objectForKey:key]]) {
-            		[styleIDs addObject:key];
-            	}
-            }
-            
-            enumerator = [styleIDs objectEnumerator];
-            while ((styleID = [enumerator nextObject])) {
-				NSMutableDictionary *style=[self styleForKey:styleID];
-				if (style) {
-					NSFontTraitMask mask = 0;
-					if ([[attributes objectForKey:@"font-weight"] isEqualTo:@"bold"]) mask = mask | NSBoldFontMask;
-					if ([[attributes objectForKey:@"font-style"] isEqualTo:@"italic"]) mask = mask | NSItalicFontMask;
-					[style setObject:[NSNumber numberWithUnsignedInt:mask] forKey:@"font-trait"];
-					NSEnumerator *colorKeys=[S_possibleStyleColors objectEnumerator];
-					NSString *colorKey=nil;
-					while ((colorKey=[colorKeys nextObject])) {
-						NSString *htmlColor=[attributes objectForKey:colorKey];
-						if (htmlColor) {
-							[style setObject:[NSColor colorForHTMLString:htmlColor] forKey:colorKey];
-						}
-					}
-				}
-            }
-        }
-    }
-}
-
-+ (SyntaxStyle *)syntaxStyleWithModeSubtree:(CFXMLTreeRef)aModeTree {
-    SyntaxStyle *result=nil;
-    CFXMLNodeRef node;
-    CFXMLElementInfo *elementInfo;
-    node = CFXMLTreeGetNode(aModeTree);
-    elementInfo = (CFXMLElementInfo *)CFXMLNodeGetInfoPtr(node);
-    NSString *modeIdentifier=[(NSDictionary *)elementInfo->attributes objectForKey:@"id"];
-    if (modeIdentifier) {
-        DocumentMode *mode=[[DocumentModeManager sharedInstance] documentModeForIdentifier:modeIdentifier];
-        if (mode) {
-            result = [[[mode defaultSyntaxStyle] copy] autorelease];
-            [result takeValuesFromModeSubtree:aModeTree];
-        }
-    }
-    return result;
-}
-
-+ (NSArray *)syntaxStylesWithXMLFile:(NSString *)aPath {
-    NSMutableArray *result=[NSMutableArray array];
-    CFXMLTreeRef cfXMLTree;
-    CFDataRef xmlData;
-    if (!(aPath)) {
-        NSLog(@"ERROR: Can't parse nil syntax style.");
-        return result;
-    }
-    CFURLRef sourceURL = (CFURLRef)[NSURL fileURLWithPath:aPath];
-    NSDictionary *errorDict;
-
-    CFURLCreateDataAndPropertiesFromResource(kCFAllocatorDefault, sourceURL, &xmlData, NULL, NULL, NULL);
-
-    cfXMLTree = CFXMLTreeCreateFromDataWithError(kCFAllocatorDefault,xmlData,sourceURL,kCFXMLParserSkipWhitespace|kCFXMLParserSkipMetaData,kCFXMLNodeCurrentVersion,(CFDictionaryRef *)&errorDict);
-
-    if (!cfXMLTree) {
-        return result;
-    }
-    
-    CFXMLTreeRef    xmlTree = NULL;
-    CFXMLNodeRef    xmlNode = NULL;
-    int             childCount;
-    int             index;
-
-    // Get a count of the top level node’s children.
-    childCount = CFTreeGetChildCount(cfXMLTree);
-
-    // Print the data string for each top-level node.
-    for (index = 0; index < childCount; index++) {
-        xmlTree = CFTreeGetChildAtIndex(cfXMLTree, index);
-        xmlNode = CFXMLTreeGetNode(xmlTree);
-        if ((CFXMLNodeGetTypeCode(xmlNode) == kCFXMLNodeTypeElement) &&
-            [@"seestyle" isEqualToString:(NSString *)CFXMLNodeGetString(xmlNode)]) {
-            DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Top level node: %@", (NSString *)CFXMLNodeGetString(xmlNode));
-            DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Childs: %d", CFTreeGetChildCount(xmlTree));
-            break;
-        }
-    }
-
-    if (xmlTree && xmlNode) {
-        childCount = CFTreeGetChildCount(xmlTree);
-        
-        for (index = 0; index < childCount; index++) {
-            CFXMLTreeRef xmlSubtree = CFTreeGetChildAtIndex(xmlTree, index);
-            CFXMLNodeRef xmlSubNode = CFXMLTreeGetNode(xmlSubtree);
-            DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found: %@", (NSString *)CFXMLNodeGetString(xmlSubNode));
-
-            if ([@"mode" isEqualToString:(NSString *)CFXMLNodeGetString(xmlSubNode)]) {
-                SyntaxStyle *style=[SyntaxStyle syntaxStyleWithModeSubtree:xmlSubtree];
-                if (style) {
-                    [result addObject:style];
-                }
-            }
-            
-        }
-    }
-    CFRelease(cfXMLTree);
-    CFRelease(xmlData);
-    return result;
-}
+//- (void)takeValuesFromModeSubtree:(CFXMLTreeRef)aModeTree {
+//	NSDictionary *styleIDTransitionDictionary = [I_documentMode styleIDTransitionDictionary];
+//    int childCount;
+//    int index;
+//    childCount = CFTreeGetChildCount(aModeTree);
+//    for (index = 0; index < childCount; index++) {
+//        CFXMLTreeRef xmlTree = CFTreeGetChildAtIndex(aModeTree, index);
+//        CFXMLNodeRef xmlNode = CFXMLTreeGetNode(xmlTree);
+//        NSDictionary *attributes = (NSDictionary *)((CFXMLElementInfo *)CFXMLNodeGetInfoPtr(xmlNode))->attributes;
+//        NSString *tag = (NSString *)CFXMLNodeGetString(xmlNode);
+//        if ([@"style" isEqualToString:tag]) {
+//            NSString *styleID=[attributes objectForKey:@"id"];
+//            
+//            NSMutableArray *styleIDs = [NSMutableArray arrayWithObject:styleID];
+//            NSEnumerator *enumerator = [styleIDTransitionDictionary keyEnumerator];
+//            NSString *key = nil;
+//            while ((key = [enumerator nextObject])) {
+//            	if ([styleID isEqualToString:[styleIDTransitionDictionary objectForKey:key]]) {
+//            		[styleIDs addObject:key];
+//            	}
+//            }
+//            
+//            enumerator = [styleIDs objectEnumerator];
+//            while ((styleID = [enumerator nextObject])) {
+//				NSMutableDictionary *style=[self styleForKey:styleID];
+//				if (style) {
+//					NSFontTraitMask mask = 0;
+//					if ([[attributes objectForKey:@"font-weight"] isEqualTo:@"bold"]) mask = mask | NSBoldFontMask;
+//					if ([[attributes objectForKey:@"font-style"] isEqualTo:@"italic"]) mask = mask | NSItalicFontMask;
+//					[style setObject:[NSNumber numberWithUnsignedInt:mask] forKey:@"font-trait"];
+//					NSEnumerator *colorKeys=[S_possibleStyleColors objectEnumerator];
+//					NSString *colorKey=nil;
+//					while ((colorKey=[colorKeys nextObject])) {
+//						NSString *htmlColor=[attributes objectForKey:colorKey];
+//						if (htmlColor) {
+//							[style setObject:[NSColor colorForHTMLString:htmlColor] forKey:colorKey];
+//						}
+//					}
+//				}
+//            }
+//        }
+//    }
+//}
+//
+//+ (SyntaxStyle *)syntaxStyleWithModeSubtree:(CFXMLTreeRef)aModeTree {
+//    SyntaxStyle *result=nil;
+//    CFXMLNodeRef node;
+//    CFXMLElementInfo *elementInfo;
+//    node = CFXMLTreeGetNode(aModeTree);
+//    elementInfo = (CFXMLElementInfo *)CFXMLNodeGetInfoPtr(node);
+//    NSString *modeIdentifier=[(NSDictionary *)elementInfo->attributes objectForKey:@"id"];
+//    if (modeIdentifier) {
+//        DocumentMode *mode=[[DocumentModeManager sharedInstance] documentModeForIdentifier:modeIdentifier];
+//        if (mode) {
+//            result = [[[mode defaultSyntaxStyle] copy] autorelease];
+//            [result takeValuesFromModeSubtree:aModeTree];
+//        }
+//    }
+//    return result;
+//}
+//
+//// SEEStyle import helper method
+//+ (NSArray *)syntaxStylesWithXMLFile:(NSString *)aPath {
+//    NSMutableArray *result=[NSMutableArray array];
+//    CFXMLTreeRef cfXMLTree;
+//    if (!(aPath)) {
+//        NSLog(@"ERROR: Can't parse nil syntax style.");
+//        return result;
+//    }
+//    NSURL *sourceURL = [NSURL fileURLWithPath:aPath];
+//	NSData *xmlData = [[[NSData alloc] initWithContentsOfURL:sourceURL options:0 error:nil] autorelease];
+//    NSDictionary *errorDict;
+//
+//    cfXMLTree = CFXMLTreeCreateFromDataWithError(kCFAllocatorDefault,(CFDataRef)xmlData,(CFURLRef)sourceURL,kCFXMLParserSkipWhitespace|kCFXMLParserSkipMetaData,kCFXMLNodeCurrentVersion,(CFDictionaryRef *)&errorDict);
+//
+//    if (!cfXMLTree) {
+//        return result;
+//    }
+//    
+//    CFXMLTreeRef    xmlTree = NULL;
+//    CFXMLNodeRef    xmlNode = NULL;
+//    int             childCount;
+//    int             index;
+//
+//    // Get a count of the top level node's children.
+//    childCount = CFTreeGetChildCount(cfXMLTree);
+//
+//    // Print the data string for each top-level node.
+//    for (index = 0; index < childCount; index++) {
+//        xmlTree = CFTreeGetChildAtIndex(cfXMLTree, index);
+//        xmlNode = CFXMLTreeGetNode(xmlTree);
+//        if ((CFXMLNodeGetTypeCode(xmlNode) == kCFXMLNodeTypeElement) &&
+//            [@"seestyle" isEqualToString:(NSString *)CFXMLNodeGetString(xmlNode)]) {
+//            DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Top level node: %@", (NSString *)CFXMLNodeGetString(xmlNode));
+//            DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Childs: %ld", CFTreeGetChildCount(xmlTree));
+//            break;
+//        }
+//    }
+//
+//    if (xmlTree && xmlNode) {
+//        childCount = CFTreeGetChildCount(xmlTree);
+//        
+//        for (index = 0; index < childCount; index++) {
+//            CFXMLTreeRef xmlSubtree = CFTreeGetChildAtIndex(xmlTree, index);
+//            CFXMLNodeRef xmlSubNode = CFXMLTreeGetNode(xmlSubtree);
+//            DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found: %@", (NSString *)CFXMLNodeGetString(xmlSubNode));
+//
+//            if ([@"mode" isEqualToString:(NSString *)CFXMLNodeGetString(xmlSubNode)]) {
+//                SyntaxStyle *style=[SyntaxStyle syntaxStyleWithModeSubtree:xmlSubtree];
+//                if (style) {
+//                    [result addObject:style];
+//                }
+//            }
+//            
+//        }
+//    }
+//    CFRelease(cfXMLTree);
+//    return result;
+//}
 
 - (id)init {
     self=[super init];
@@ -308,6 +325,15 @@ static NSArray *S_possibleStyleColors;
     }
 }
 
+- (NSMutableDictionary *)styleForScope:(NSString *)aScope {
+    return [NSMutableDictionary dictionaryWithObjectsAndKeys:
+            [NSColor redColor],@"color",[NSColor redColor],@"inverted-color",
+            [NSColor whiteColor],@"background-color",[NSColor blackColor],@"inverted-background-color",
+            [NSNumber numberWithUnsignedInt:0],@"font-trait",
+            aScope,@"scope",
+            aScope,kSyntaxHighlightingStyleIDAttributeName,nil];
+// FIXME currently scope style is hardcoded, until there's UI
+}
 
 - (NSMutableDictionary *)styleForKey:(NSString *)aKey {
     return [I_styleDictionary objectForKey:aKey];
@@ -364,9 +390,8 @@ static NSArray *S_possibleStyleColors;
 - (NSString *)xmlRepresentation {
     NSMutableString *result=[NSMutableString string];
     NSString *key=nil;
-    NSEnumerator *keys=[I_keyArray objectEnumerator];
     int later=0;
-    while ((key=[keys nextObject])) {
+    for (key in I_keyArray) {
         NSDictionary *style=[I_styleDictionary objectForKey:key];
         NSFontTraitMask traits=[[style objectForKey:@"font-trait"] unsignedIntValue];
         if (later++) {
@@ -395,8 +420,7 @@ static NSArray *S_possibleStyleColors;
 - (NSString *)description {
     NSMutableString *result=[NSMutableString string];
     NSString *key=nil;
-    NSEnumerator *keys=[I_keyArray objectEnumerator];
-    while ((key=[keys nextObject])) {
+    for (key in I_keyArray) {
         [result appendFormat:@"%@ (%@): %@\n",[self localizedStringForKey:key],key,[[I_styleDictionary objectForKey:key] description]];
     }
     return [NSString stringWithFormat:@"SyntaxStyle: \n%@",[self xmlFileRepresentation]];

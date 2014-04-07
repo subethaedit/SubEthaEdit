@@ -114,7 +114,7 @@
 - (void)setScriptedContents:(id)value {
 //	NSLog(@"%s: %@, %@ %@", __FUNCTION__, value, [[I_textStorage foldableTextStorage] delegate], [I_textStorage class]);
     NSRange range=[self rangeRepresentation];
-    [[[I_textStorage foldableTextStorage] delegate] replaceTextInRange:range withString:value];
+    [(id)[[I_textStorage foldableTextStorage] delegate] replaceTextInRange:range withString:value];
     if (I_editor) {
         [[I_editor textView] setSelectedRange:NSMakeRange(range.location,[(NSString*)value length])];
     }

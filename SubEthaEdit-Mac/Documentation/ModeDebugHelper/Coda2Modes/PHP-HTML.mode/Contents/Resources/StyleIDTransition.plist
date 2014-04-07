@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>/CSS/CSS Attributes</key>
+	<string>_Default.Keywords</string>
+	<key>/CSS/CSS Colors</key>
+	<string>_Default.Keywords</string>
+	<key>/CSS/CSS Digits</key>
+	<string>_Default.Numbers</string>
+	<key>/CSS/CSS Keywords</key>
+	<string>_Default.Keywords</string>
+	<key>/JavaScript/Characters</key>
+	<string>_Default.Numbers</string>
+	<key>/JavaScript/FunctionRegex</key>
+	<string>_Default.FunctionRegex</string>
+	<key>/JavaScript/Keywords</key>
+	<string>_Default.Keywords</string>
+	<key>/JavaScript/Numbers</key>
+	<string>_Default.Numbers</string>
+	<key>/PHP-HTML/Attributes in Tags</key>
+	<string>HTML.Attributes in Tags</string>
+	<key>/PHP-HTML/CDATA</key>
+	<string>HTML.PHP Delimiter</string>
+	<key>/PHP-HTML/CSSComment</key>
+	<string>Comment</string>
+	<key>/PHP-HTML/CSSRound bracket</key>
+	<string>/PHP-HTML/CSSRound bracket</string>
+	<key>/PHP-HTML/CSSSingleString</key>
+	<string>String</string>
+	<key>/PHP-HTML/CSSString</key>
+	<string>String2</string>
+	<key>/PHP-HTML/Comment</key>
+	<string>Comment</string>
+	<key>/PHP-HTML/Doctype</key>
+	<string>Comment</string>
+	<key>/PHP-HTML/Entities</key>
+	<string>HTML.Entities</string>
+	<key>/PHP-HTML/Escape</key>
+	<string>/PHP-HTML/Escape</string>
+	<key>/PHP-HTML/FunctionRegex</key>
+	<string>_Default.FunctionRegex</string>
+	<key>/PHP-HTML/Inline CSS</key>
+	<string>/PHP-HTML/Inline CSS</string>
+	<key>/PHP-HTML/Inline JavaScript</key>
+	<string>/PHP-HTML/Inline JavaScript</string>
+	<key>/PHP-HTML/Inside curly brackets</key>
+	<string>/PHP-HTML/Inside curly brackets</string>
+	<key>/PHP-HTML/JSAutodocComment</key>
+	<string>Comment</string>
+	<key>/PHP-HTML/JSComment</key>
+	<string>Comment</string>
+	<key>/PHP-HTML/JSRegEx</key>
+	<string>String</string>
+	<key>/PHP-HTML/JSSingleComment</key>
+	<string>SingleComment</string>
+	<key>/PHP-HTML/JSSingleString</key>
+	<string>String</string>
+	<key>/PHP-HTML/JSString</key>
+	<string>String</string>
+	<key>/PHP-HTML/Opening Script Tag</key>
+	<string>HTML.Tags</string>
+	<key>/PHP-HTML/Opening Style Tag</key>
+	<string>HTML.Tags</string>
+	<key>/PHP-HTML/PHP</key>
+	<string>/PHP-HTML/PHP</string>
+	<key>/PHP-HTML/PHP Comment</key>
+	<string>Comment</string>
+	<key>/PHP-HTML/PHP Delimiter</key>
+	<string>HTML.PHP Delimiter</string>
+	<key>/PHP-HTML/PHP Heredoc</key>
+	<string>String2</string>
+	<key>/PHP-HTML/PHP Keywords</key>
+	<string>_Default.Keywords</string>
+	<key>/PHP-HTML/PHP Magic Methods</key>
+	<string>_Default.Magic Methods</string>
+	<key>/PHP-HTML/PHP Numbers</key>
+	<string>_Default.Numbers</string>
+	<key>/PHP-HTML/PHP SingleComment</key>
+	<string>SingleComment</string>
+	<key>/PHP-HTML/PHP String</key>
+	<string>String</string>
+	<key>/PHP-HTML/PHP String2</key>
+	<string>String2</string>
+	<key>/PHP-HTML/PHP Variables</key>
+	<string>_Default.Variables</string>
+	<key>/PHP-HTML/PHP4 Functions</key>
+	<string>_Default.PHP4 Functions</string>
+	<key>/PHP-HTML/SGML Double Dash</key>
+	<string>Comment</string>
+	<key>/PHP-HTML/Script Tags</key>
+	<string>HTML.Tags</string>
+	<key>/PHP-HTML/Strings in Tags</key>
+	<string>HTML.Strings</string>
+	<key>/PHP-HTML/Style Tags</key>
+	<string>HTML.Tags</string>
+	<key>/PHP-HTML/Tags</key>
+	<string>HTML.Tags</string>
+	<key>/PHP-HTML/Variables</key>
+	<string>_Default.Variables</string>
+	<key>_Default</key>
+	<string>_Default</string>
+</dict>
+</plist>

@@ -10,6 +10,7 @@
 #import "TCMBEEPChannel.h"
 #import "TCMBEEPFrame.h"
 #import "TCMBEEPManagementProfile.h"
+#import "TCMBEEPSessionXMLParser.h"
 #import "GenericSASLProfile.h"
 #import <Security/Security.h>
 #import "PreferenceKeys.h"
@@ -44,7 +45,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 
 #pragma mark -
 
-@interface TCMBEEPSession (TCMBEEPSessionPrivateAdditions)
+@interface TCMBEEPSession ()
 - (void)TCM_initHelper;
 - (void)TCM_handleStreamOpenEvent;
 - (void)TCM_handleStreamHasBytesAvailableEvent;
@@ -54,15 +55,13 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 - (void)TCM_fillBufferInRoundRobinFashion;
 - (void)TCM_readBytes;
 - (void)TCM_writeBytes;
-- (void)TCM_cleanup;
-- (void)TCM_triggerTerminator;
 - (void)TCM_closeChannelsImplicitly;
 - (void)TCM_createManagementChannelAndSendGreeting;
 - (void)TCM_startTLSHandshake;
 - (void)TCM_listenForTLSHandshake;
 - (void)TCM_checkForCompletedTLSHandshakeAndRestartManagementChannel;
 - (CFArrayRef)TCM_sslCertificatesFromKeychain:(const char *)kcName encryptOnly:(CSSM_BOOL)encryptOnly usedKeychain:(SecKeychainRef*)pKcRef;
-- (BOOL)TCM_parseData:(NSData *)data forElement:(NSString **)element attributes:(NSDictionary **)attributes content:(NSString **)content;
+//- (BOOL)TCM_parseData:(NSData *)data forElement:(NSString **)element attributes:(NSDictionary **)attributes content:(NSString **)content;
 @end
 
 #pragma mark -
@@ -74,18 +73,11 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
     static NSString *logDirectory = nil;
 #endif
 
-static NSString *certKeychainPath = nil;
 static CFArrayRef certArrayRef = NULL;
 static SecKeychainRef kcRef;
-static NSString *pathToTempKeyAndCert = nil;
 static NSString *dhparamKeyPath = nil;
-static NSDate *launchDate;
 static NSString *keychainPassword = nil;
 static NSData *dhparamData = nil;
-
-+ (void)removeTemporaryKeychain {
-    [[NSFileManager defaultManager] removeFileAtPath:certKeychainPath handler:nil];
-}
 
 + (void)prepareDiffiHellmannParameters {
     NSString *path = nil;
@@ -94,7 +86,7 @@ static NSData *dhparamData = nil;
     if ((path = [enumerator nextObject])) {
         NSString *fullPath = [path stringByAppendingPathComponent:[[[[NSBundle mainBundle] bundlePath] lastPathComponent] stringByDeletingPathExtension]];
         if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:nil]) {
-             [[NSFileManager defaultManager] createDirectoryAtPath:fullPath attributes:nil];
+             [[NSFileManager defaultManager] createDirectoryAtPath:fullPath withIntermediateDirectories:YES attributes:nil error:nil];
         }
         dhparamKeyPath = [[fullPath stringByAppendingPathComponent:[NSString stringWithFormat:@"dhparams-%@.des",[NSString UUIDString]]] retain];
 
@@ -114,130 +106,6 @@ static NSData *dhparamData = nil;
         [opensslTask launch];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dhparamsTaskDidFinish:) name:NSTaskDidTerminateNotification object:opensslTask];
 	}
-}
-
-+ (void)prepareTemporaryCertificate {
-    NSString *path;
-    
-    //create Directories
-    NSArray *userDomainPaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-    NSEnumerator *enumerator = [userDomainPaths objectEnumerator];
-    if ((path = [enumerator nextObject])) {
-        NSString *fullPath = [path stringByAppendingPathComponent:[[[[NSBundle mainBundle] bundlePath] lastPathComponent] stringByDeletingPathExtension]];
-        if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:nil]) {
-             [[NSFileManager defaultManager] createDirectoryAtPath:fullPath attributes:nil];
-        }
-        certKeychainPath = [[fullPath stringByAppendingPathComponent:[NSString stringWithFormat:@"seetempcerts-%@.keychain",[NSString UUIDString]]] retain];
-        
-        // we don't want to add this keychain in the default searchlist so we get the list
-        CFArrayRef searchList;
-        SecKeychainCopySearchList(&searchList);
-        
-        keychainPassword = [[NSString UUIDString] retain];
-        // generate the temporary keychain
-        OSStatus status = SecKeychainCreate (
-           [certKeychainPath UTF8String],
-           [keychainPassword length],
-           [keychainPassword UTF8String],
-           FALSE,
-           NULL,
-           &kcRef
-        );
-        SecKeychainSettings newKeychainSettings =
-                      { SEC_KEYCHAIN_SETTINGS_VERS1, FALSE, FALSE, INT_MAX };
-        SecKeychainSetSettings(kcRef, &newKeychainSettings);
-//        NSLog(@"%s status:%d keychain:%@",__FUNCTION__,status,kcRef);
-        
-        // remove from Search list
-        status=SecKeychainSetSearchList (searchList);
-//        NSLog(@"%s status:%d, list:%@",__FUNCTION__,status,searchList);
-        CFRelease(searchList);
-        searchList = NULL;
-
-        // generate identity
-
-        pathToTempKeyAndCert = [[certKeychainPath stringByAppendingPathExtension:@"cert"] retain];
-        NSTask *opensslTask = [[[NSTask alloc] init] autorelease];
-        [opensslTask setStandardError:[NSPipe pipe]];
-        [opensslTask setStandardOutput:[NSPipe pipe]];
-        [opensslTask setLaunchPath:@"/usr/bin/openssl"]; 
-        [opensslTask setArguments:[NSArray arrayWithObjects:
-            @"req",
-            @"-new",
-            @"-x509",
-            @"-newkey",
-            @"rsa:2048",
-            @"-keyout",
-            pathToTempKeyAndCert,
-            @"-out",
-            pathToTempKeyAndCert,
-            @"-text",
-            @"-days",
-            @"365",
-            @"-nodes",
-            @"-batch",
-            nil]];
-        [opensslTask launch];
-        launchDate = [NSDate new];    
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openSSLTaskDidTerminate:) name:NSTaskDidTerminateNotification object:opensslTask];
-    }
-}
-
-+ (CFArrayRef)certArrayRef {
-    return certArrayRef;
-}
-
-+ (void)openSSLTaskDidTerminate:(NSNotification *)aNotification {
-//    NSTask *task=[aNotification object];
-//    NSLog(@"%s %@ %@",__FUNCTION__, [[[NSString alloc] initWithData:[[[task standardOutput] fileHandleForReading] readDataToEndOfFile] encoding:NSUTF8StringEncoding] autorelease], [[[NSString alloc] initWithData:[[[task standardError] fileHandleForReading] readDataToEndOfFile] encoding:NSUTF8StringEncoding] autorelease]);
-//    NSLog(@"%s generation of certificate took: %f seconds",__FUNCTION__,[launchDate timeIntervalSinceNow]*-1.);
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSTaskDidTerminateNotification object:[aNotification object]];
-    [[NSNotificationQueue defaultQueue] enqueueNotification:[NSNotification notificationWithName:@"TCMBEEPTempCertificateCreationForSSLDidFinish" object:self] postingStyle:NSPostASAP coalesceMask:NSNotificationNoCoalescing forModes:nil];
-    
-    SecKeychainItemImport (
-        (CFDataRef)[NSData dataWithContentsOfFile:pathToTempKeyAndCert],
-        NULL,
-        kSecFormatUnknown,
-        kSecItemTypeUnknown,
-        0,
-        NULL,
-        kcRef,
-        NULL
-    );
-
-    // delete temp key and cert
-    NSFileManager *fm = [NSFileManager defaultManager];
-    [fm removeFileAtPath:pathToTempKeyAndCert handler:nil];
-    [pathToTempKeyAndCert release];
-    pathToTempKeyAndCert = nil;
-    
-    OSStatus ortn;
-    SecIdentitySearchRef srchRef = nil;
-    ortn = SecIdentitySearchCreate(kcRef,CSSM_KEYUSE_SIGN,&srchRef);
-    if (ortn) {
-        printf("SecIdentitySearchCreate returned %d.\n", (int)ortn);
-        printf("Cannot find signing key in temporary keychain. Aborting.\n");
-        return;
-    }
-    SecIdentityRef identity = nil;
-    ortn = SecIdentitySearchCopyNext(srchRef, &identity);
-    if(ortn) {
-        printf("SecIdentitySearchCopyNext returned %d.\n", (int)ortn);
-        printf("Cannot find signing key in temporary keychain. Aborting.\n");
-        return;
-    }
-    if(CFGetTypeID(identity) != SecIdentityGetTypeID()) {
-        printf("SecIdentitySearchCopyNext CFTypeID failure!\n");
-        return;
-    }
-
-    certArrayRef = CFArrayCreate(NULL,(const void **)&identity,1,NULL);
-        
-    if(certArrayRef == nil) {
-        printf("CFArrayCreate error\n");
-    }
-    CFRelease(srchRef);
 }
 
 + (void)dhparamsTaskDidFinish:(NSNotification *)aNotification {
@@ -262,10 +130,12 @@ static NSData *dhparamData = nil;
 
 	// 	TLS_ECDH_anon_WITH_AES_256_CBC_SHA     =	0xC019, available in snow leopard, but already active here
 
-	OSStatus err = SSLSetEnabledCiphers(sslContext,ciphers,2);
+//	OSStatus err =
+	SSLSetEnabledCiphers(sslContext,ciphers,2);
 //	printf("set ciphers with error: %d\n",(int)err);
     if (aFlag) {
-		err = SSLSetDiffieHellmanParams(sslContext,[dhparamData bytes],[dhparamData length]);
+//		err =
+		SSLSetDiffieHellmanParams(sslContext,[dhparamData bytes],[dhparamData length]);
 //		printf("SSLSetDiffieHellmanParams with error: %d\n",(int)err);
 	}
 }
@@ -338,30 +208,40 @@ static NSData *dhparamData = nil;
 	if (!isLogging) {
 		return;
 	}
-    	
-    if (!logDirectory) {
-        NSString *appName = [[[[NSBundle mainBundle] bundlePath] lastPathComponent] stringByDeletingPathExtension];
-        NSString *appDir = [[@"~/Library/Logs/" stringByExpandingTildeInPath] stringByAppendingPathComponent:appName];
-        [[NSFileManager defaultManager] createDirectoryAtPath:appDir attributes:nil];
-        NSString *beepDir = [appDir stringByAppendingPathComponent:@"TCMBEEP"];
-        [[NSFileManager defaultManager] createDirectoryAtPath:beepDir attributes:nil];
-        NSString *origPath = [beepDir stringByAppendingPathComponent:@"Session"];
-        
-        static int sequenceNumber = 0;
-        NSString *name;
-        do {
-            sequenceNumber++;
-            name = [NSString stringWithFormat:@"%@-p%d-s%d", [[NSCalendarDate date] descriptionWithCalendarFormat:@"%Y-%m-%d--%H-%M-%S.%F-"], [[NSProcessInfo processInfo] processIdentifier], sequenceNumber];
-            name = [[origPath stringByDeletingLastPathComponent] stringByAppendingPathComponent:name];
-        } while ([[NSFileManager defaultManager] fileExistsAtPath:name]);
 
-        logDirectory = [name retain];
-        [[NSFileManager defaultManager] createDirectoryAtPath:logDirectory attributes:nil];    
+	if (!logDirectory) {
+		NSFileManager *fileManager = [NSFileManager defaultManager];
+		NSArray *possibleURLs = [fileManager URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask];
+		NSURL *beepDirectoryURL = nil;
+		
+		if ([possibleURLs count] >= 1) { // Use the first directory (if multiple are returned)
+			beepDirectoryURL = [possibleURLs objectAtIndex:0]; // .*/Library
+		}
+		if (beepDirectoryURL) {
+			beepDirectoryURL = [beepDirectoryURL URLByAppendingPathComponent:@"Logs"];     // .*/Library/Logs
+			NSString *appBundleID = [[NSBundle mainBundle] bundleIdentifier];
+			beepDirectoryURL = [beepDirectoryURL URLByAppendingPathComponent:appBundleID]; // .*/Library/Logs/de.codingmonkeys.SubEthaEdit.Mac
+			beepDirectoryURL = [beepDirectoryURL URLByAppendingPathComponent:@"TCMBEEP"];  // .*/Library/Logs/de.codingmonkeys.SubEthaEdit.Mac/TCMBEEP
+			[fileManager createDirectoryAtURL:beepDirectoryURL withIntermediateDirectories:YES attributes:nil error:nil];
+			
+			NSString *origPath = [beepDirectoryURL path]; // .*/Library/Logs/de.codingmonkeys.SubEthaEdit.Mac/TCMBEEP
+		
+			static int sequenceNumber = 0;
+			NSString *name;
+			do {
+				sequenceNumber++;
+				name = [NSString stringWithFormat:@"%@-p%d-s%d", [NSDate date], [[NSProcessInfo processInfo] processIdentifier], sequenceNumber];
+				name = [origPath stringByAppendingPathComponent:name];
+			} while ([fileManager fileExistsAtPath:name]);
+		
+			logDirectory = [name retain];
+			[fileManager createDirectoryAtPath:logDirectory withIntermediateDirectories:YES attributes:nil error:nil];
+		}
     }
-    
-    int fileNumber = numberOfLogs++;
 
-    NSString *headerString = [NSString stringWithFormat:@"[%@] %@\n\n", [[NSCalendarDate calendarDate] description], [NSString stringWithAddressData:[self peerAddressData]]];
+	int fileNumber = numberOfLogs++;
+
+    NSString *headerString = [NSString stringWithFormat:@"[%@] %@\n\n", [[NSDate date] description], [NSString stringWithAddressData:[self peerAddressData]]];
     NSData *headerData = [headerString dataUsingEncoding:NSASCIIStringEncoding];
     
     NSString *logBase = [logDirectory stringByAppendingFormat:@"/%02d", fileNumber];
@@ -399,11 +279,6 @@ static NSData *dhparamData = nil;
 					[self addProfileURIs:[NSArray arrayWithObject:TCMBEEPTLSAnonProfileURI]];
 				}
 			}
-        	if ([TCMBEEPSession certArrayRef] && 
-            	[(NSArray *)[TCMBEEPSession certArrayRef] count]>0) {
-//        		NSLog(@"%s added %@",__FUNCTION__,TCMBEEPTLSProfileURI);
-            	[self addProfileURIs:[NSArray arrayWithObject:TCMBEEPTLSProfileURI]];
-           	}
         }
     }
     
@@ -458,7 +333,7 @@ static NSData *dhparamData = nil;
     
 #ifndef TCM_NO_DEBUG
 	if (isLogging) {
-		NSString *trailerString = [NSString stringWithFormat:@"\n\n[%@] dealloc\n\n", [[NSCalendarDate calendarDate] description]];
+		NSString *trailerString = [NSString stringWithFormat:@"\n\n[%@] dealloc\n\n", [[NSDate date] description]];
 		NSData *trailerData = [trailerString dataUsingEncoding:NSASCIIStringEncoding];
 		[I_rawLogInHandle writeData:trailerData];
 		[I_rawLogInHandle closeFile];
@@ -683,7 +558,7 @@ static NSData *dhparamData = nil;
         if (result == 0) {
             addressData = [NSData dataWithBytes:&name length:namelen];
         } else if (result == -1) {
-            DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"getsockname failed: %@ / %s", errno, strerror(errno));
+            DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"getsockname failed: %d / %s", errno, strerror(errno));
         }
     }
     
@@ -764,7 +639,7 @@ static NSData *dhparamData = nil;
         int result = setsockopt(socketHandle, IPPROTO_TCP, 
                                 TCP_NODELAY, &yes, sizeof(int));
         if (result == -1) {
-            DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Could not setsockopt to TCP_NODELAY: %@ / %s", errno, strerror(errno));
+            DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Could not setsockopt to TCP_NODELAY: %d / %s", errno, strerror(errno));
         }
     }
     
@@ -798,6 +673,17 @@ static NSData *dhparamData = nil;
     I_managementChannel = nil;
 }
 
+- (NSString *)sessionID {
+	NSString *result = nil;
+	NSDictionary *userInfo = self.userInfo;
+	if ([userInfo objectForKey:@"isRendezvous"]) {
+		result = [userInfo objectForKey:@"peerUserID"];
+	} else {
+		result = [userInfo objectForKey:@"URLString"];
+	}
+	return result;
+}
+
 - (void)terminate
 {
     [self invalidateTerminator];
@@ -829,7 +715,7 @@ static NSData *dhparamData = nil;
         // send greeting
         DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Life after TLS handshake...");
 
-        DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"writeBuffer length: %d, readBuffer length: %d", [I_writeBuffer length], [I_readBuffer length]);
+        DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"writeBuffer length: %lu, readBuffer length: %lu", (unsigned long)[I_writeBuffer length], (unsigned long)[I_readBuffer length]);
 
         I_flags.isTLSEnabled = YES;
         [self setProfileURIs:I_TLSProfileURIs];
@@ -1024,139 +910,153 @@ static NSData *dhparamData = nil;
 
 #define KC_DB_PATH		"Library/Keychains"	
 - (CFArrayRef)TCM_sslCertificatesFromKeychain:(const char *)kcName	// may be NULL, i.e., use default
-	encryptOnly:(CSSM_BOOL)encryptOnly
-	usedKeychain:(SecKeychainRef*)pKcRef // RETURNED
+								  encryptOnly:(CSSM_BOOL)encryptOnly
+								 usedKeychain:(SecKeychainRef *)pKcRef // RETURNED
 {
-    SecKeychainStatus keychainStatus;
+    SecKeychainStatus keychainStatus = 0;
     OSStatus result = SecKeychainGetStatus(kcRef,&keychainStatus);
-//    NSLog(@"%s result was %d, status was %d",__FUNCTION__,result, keychainStatus);
     if (result == noErr && !(keychainStatus && kSecUnlockStateStatus)) {
-//        NSLog(@"%s keychain was locked!",__FUNCTION__);
         SecKeychainUnlock(kcRef,[keychainPassword length],[keychainPassword UTF8String],TRUE);
     } else if (result != noErr) {
         return nil;
     }
     return certArrayRef; // shortcut for now
-	char 				kcPath[MAXPATHLEN + 1];
-	UInt32 				kcPathLen = MAXPATHLEN + 1;
-	SecKeychainRef 		kcRef = nil;
-	OSStatus			ortn;
-	
-	/* pick a keychain */
-	if(kcName) {
-		char *userHome = getenv("HOME");
-	
-		if(userHome == NULL) {
-			/* well, this is probably not going to work */
-			userHome = "";
-		}
-		sprintf(kcPath, "%s/%s/%s", userHome, KC_DB_PATH, kcName);
-	}
-	else {
-		/* use default keychain */
-		ortn = SecKeychainCopyDefault(&kcRef);
-		if(ortn) {
-			printf("SecKeychainCopyDefault returned %d; aborting.\n", 
-				(int)ortn);
-			return nil;
-		}
-		ortn = SecKeychainGetPath(kcRef, &kcPathLen, kcPath);
-		if(ortn) {
-			printf("SecKeychainGetPath returned %d; aborting.\n", 
-				(int)ortn);
-			return nil;
-		}
-		
-		/* 
-		 * OK, we have a path, we have to release the first KC ref, 
-		 * then get another one by opening it 
-		 */
-		CFRelease(kcRef);
-	}
-	ortn = SecKeychainOpen(kcPath, &kcRef);
-	if(ortn) {
-		printf("SecKeychainOpen returned %d.\n", 
-			(int)ortn);
-		printf("Cannot open keychain at %s. Aborting.\n", kcPath);
-		return nil;
-	}
-	*pKcRef = kcRef;
-	
-	/* search for "any" identity matching specified key use; 
-	 * in this app, we expect there to be exactly one. */
-	 
-	SecIdentitySearchRef srchRef = nil;
-	ortn = SecIdentitySearchCreate(kcRef, 
-		encryptOnly ? CSSM_KEYUSE_DECRYPT : CSSM_KEYUSE_SIGN,
-		&srchRef);
-	if(ortn) {
-		printf("SecIdentitySearchCreate returned %d.\n", (int)ortn);
-		printf("Cannot find signing key in keychain at %s. Aborting.\n", 
-			kcPath);
-		return nil;
-	}
-	SecIdentityRef identity = nil;
-	ortn = SecIdentitySearchCopyNext(srchRef, &identity);
-	if(ortn) {
-		printf("SecIdentitySearchCopyNext returned %d.\n", (int)ortn);
-		printf("Cannot find signing key in keychain at %s. Aborting.\n", 
-			kcPath);
-		return nil;
-	}
-	if(CFGetTypeID(identity) != SecIdentityGetTypeID()) {
-		printf("SecIdentitySearchCopyNext CFTypeID failure!\n");
-		return nil;
-	}
 
-	/* 
-	 * Found one. Place it in a CFArray. 
-	 * TBD: snag other (non-identity) certs from keychain and add them
-	 * to array as well.
-	 */
-	CFArrayRef ca = CFArrayCreate(NULL,
-		(const void **)&identity,
-		1,
-		NULL);
-	if(ca == nil) {
-		printf("CFArrayCreate error\n");
-	}
-	return ca;
+	// this part of code was never executed, so commenting it for now - MEH
+//	{
+//		char 				kcPath[MAXPATHLEN + 1];
+//		UInt32 				kcPathLen = MAXPATHLEN + 1;
+//		SecKeychainRef 		kcRef = nil;
+//		OSStatus			ortn;
+//
+//		/* pick a keychain */
+//		if(kcName) {
+//			char *userHome = getenv("HOME");
+//
+//			if(userHome == NULL) {
+//				/* well, this is probably not going to work */
+//				userHome = "";
+//			}
+//			sprintf(kcPath, "%s/%s/%s", userHome, KC_DB_PATH, kcName);
+//		}
+//		else {
+//			/* use default keychain */
+//			ortn = SecKeychainCopyDefault(&kcRef);
+//			if(ortn) {
+//				printf("SecKeychainCopyDefault returned %d; aborting.\n",
+//					   (int)ortn);
+//				return NULL;
+//			}
+//			ortn = SecKeychainGetPath(kcRef, &kcPathLen, kcPath);
+//			if(ortn) {
+//				printf("SecKeychainGetPath returned %d; aborting.\n",
+//					   (int)ortn);
+//
+//				CFRelease(kcRef);
+//
+//				return NULL;
+//			}
+//
+//			/*
+//			 * OK, we have a path, we have to release the first KC ref,
+//			 * then get another one by opening it
+//			 */
+//			CFRelease(kcRef);
+//		}
+//
+//		ortn = SecKeychainOpen(kcPath, &kcRef);
+//		if(ortn) {
+//			printf("SecKeychainOpen returned %d.\n",
+//				   (int)ortn);
+//			printf("Cannot open keychain at %s. Aborting.\n", kcPath);
+//			return NULL;
+//		}
+//		if (pKcRef != NULL)
+//		{
+//			*pKcRef = kcRef;
+//		}
+//
+//		/* search for "any" identity matching specified key use;
+//		 * in this app, we expect there to be exactly one. */
+//
+//		CFMutableDictionaryRef settings = CFDictionaryCreateMutable(NULL, 0, &kCFCopyStringDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+//		CFDictionaryAddValue(settings, kSecClass, kSecClassIdentity);
+//		CFDictionaryAddValue(settings, kSecAttrCanSign, encryptOnly ? kCFBooleanFalse : kCFBooleanTrue);
+//		CFDictionaryAddValue(settings, kSecAttrCanDecrypt, encryptOnly ? kCFBooleanTrue : kCFBooleanFalse);
+//		CFDictionaryAddValue(settings, kSecMatchItemList, kcRef);
+//		CFDictionaryAddValue(settings, kSecMatchLimit, kSecMatchLimitAll);
+//		CFDictionaryAddValue(settings, kSecReturnRef, kCFBooleanTrue);
+//
+//		SecIdentityRef identity = NULL;
+//		CFTypeRef foundSecItems = NULL;
+//		ortn = SecItemCopyMatching(settings, &foundSecItems);
+//		CFRelease(settings);
+//
+//		if (ortn) {
+//			printf("SecItemCopyMatching returned %d.\n", ortn);
+//			printf("Cannot find valid identiy at in %s. Aborting.\n", kcPath);
+//			return nil;
+//		}
+//
+//		CFArrayRef identities = (CFArrayRef)foundSecItems;
+//		if (CFArrayGetCount(identities) > 0) {
+//			identity = (SecIdentityRef)CFArrayGetValueAtIndex(identities, 0);
+//			if(CFGetTypeID(identity) != SecIdentityGetTypeID()) {
+//				printf("SecIdentitySearchCopyNext CFTypeID failure!\n");
+//
+//				if (foundSecItems) {
+//					CFRelease(foundSecItems);
+//					foundSecItems = NULL;
+//				}
+//				return NULL;
+//			}
+//		} else {
+//			if (foundSecItems) {
+//				CFRelease(foundSecItems);
+//				foundSecItems = NULL;
+//			}
+//			return NULL;
+//		}
+//
+//		/*
+//		 * TBD: snag other (non-identity) certs from keychain and add them
+//		 * to array as well.
+//		 */
+//		
+//		if (pKcRef == NULL && kcRef != NULL)
+//		{
+//			CFRelease(kcRef);
+//		}
+//		return identities;
+//	}
 }
 
 - (void)TCM_listenForTLSHandshake
 {
     DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"%s", __FUNCTION__);
     
-    DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"writeBuffer length: %d, readBuffer length: %d", [I_writeBuffer length], [I_readBuffer length]);
+    DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"writeBuffer length: %lu, readBuffer length: %lu", (unsigned long)[I_writeBuffer length], (unsigned long)[I_readBuffer length]);
     
     
     Boolean resultReadStream, resultWriteStream;
-    
-    CFArrayRef certificates = NULL;
-
-    if (!I_flags.isTLSAnon) {
-		SecKeychainRef serverKc = nil;
-		certificates = [self TCM_sslCertificatesFromKeychain:"certkc.keychain" encryptOnly:CSSM_FALSE usedKeychain:&serverKc];
-		if (certificates == NULL) DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Didn't find necessary certificates!");
-	}
-
-    
+        
     CFMutableDictionaryRef settings = CFDictionaryCreateMutable(NULL, 0, &kCFCopyStringDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
     CFDictionaryAddValue(settings, kCFStreamSSLLevel, kCFStreamSocketSecurityLevelTLSv1);
     CFDictionaryAddValue(settings, kCFStreamSSLAllowsExpiredRoots, kCFBooleanTrue);
     CFDictionaryAddValue(settings, kCFStreamSSLAllowsAnyRoot, kCFBooleanTrue);
     CFDictionaryAddValue(settings, kCFStreamSSLIsServer, kCFBooleanTrue);
-    if (!I_flags.isTLSAnon) {
-	    CFDictionaryAddValue(settings, kCFStreamSSLCertificates, certificates);
-	}
 
     resultReadStream = CFReadStreamSetProperty(I_readStream, kCFStreamPropertySSLSettings, settings);
     resultWriteStream = CFWriteStreamSetProperty(I_writeStream, kCFStreamPropertySSLSettings, settings);
     CFRelease(settings);
 
     if (I_flags.isTLSAnon) {
-		[TCMBEEPSession setAnonCiphersOnStreamData: CFReadStreamCopyProperty(I_readStream,  kCFStreamPropertySocketSSLContext) dhParams:YES];
-		[TCMBEEPSession setAnonCiphersOnStreamData:CFWriteStreamCopyProperty(I_writeStream, kCFStreamPropertySocketSSLContext) dhParams:YES];
+        CFDataRef readStreamData = CFReadStreamCopyProperty(I_readStream,  kCFStreamPropertySocketSSLContext);
+        CFDataRef writeStreamData = CFWriteStreamCopyProperty(I_writeStream, kCFStreamPropertySocketSSLContext);
+		[TCMBEEPSession setAnonCiphersOnStreamData: readStreamData dhParams:YES];
+		[TCMBEEPSession setAnonCiphersOnStreamData: writeStreamData dhParams:YES];
+        CFRelease(readStreamData);
+        CFRelease(writeStreamData);
 	}
 
     if (resultReadStream && resultWriteStream) {
@@ -1182,7 +1082,7 @@ static NSData *dhparamData = nil;
 #endif
 
     if (bytesWritten > 0) {
-        DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"bytesWritten: %d", bytesWritten);
+        DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"bytesWritten: %ld", bytesWritten);
         [I_writeBuffer replaceBytesInRange:NSMakeRange(0, bytesWritten) withBytes:NULL length:0];
         
         if (!([I_writeBuffer length] > 0)) {
@@ -1264,164 +1164,201 @@ static NSData *dhparamData = nil;
 
 - (void)didReceiveGreetingWithProfileURIs:(NSArray *)profileURIs featuresAttribute:(NSString *)aFeaturesAttribute localizeAttribute:(NSString *)aLocalizeAttribute
 {
-//    NSLog(@"%s", __FUNCTION__);
     [self setPeerLocalizeAttribute:aLocalizeAttribute];
     [self setPeerFeaturesAttribute:aFeaturesAttribute];
     [self setPeerProfileURIs:profileURIs];
-    
+
     [[NSNotificationCenter defaultCenter] postNotificationName:TCMBEEPSessionDidReceiveGreetingNotification object:self];
-    
+
     // check for tuning profiles and initiate tuning
-    if ([self isInitiator] && ( [profileURIs containsObject:TCMBEEPTLSProfileURI] || 
-    						   ([profileURIs containsObject:TCMBEEPTLSAnonProfileURI] && 
-    						    [[NSUserDefaults standardUserDefaults] boolForKey:EnableAnonTLSKey]))) {
-    	NSString *profileURI = TCMBEEPTLSProfileURI;
-    	if ([profileURIs containsObject:TCMBEEPTLSAnonProfileURI] && 
-    						    [[NSUserDefaults standardUserDefaults] boolForKey:EnableAnonTLSKey]) {
-    		I_flags.isTLSAnon = YES; // set to anon
-    		profileURI = TCMBEEPTLSAnonProfileURI;
-    	}
-        NSData *data = [@"<ready />" dataUsingEncoding:NSUTF8StringEncoding];
+    if ([self isInitiator] && (([profileURIs containsObject:TCMBEEPTLSProfileURI] && [[NSUserDefaults standardUserDefaults] boolForKey:EnableTLSKey]) ||
+							   ([profileURIs containsObject:TCMBEEPTLSAnonProfileURI] &&
+								[[NSUserDefaults standardUserDefaults] boolForKey:EnableAnonTLSKey])))
+    {
+        NSString *profileURI = TCMBEEPTLSProfileURI;
+
+        if ([profileURIs containsObject:TCMBEEPTLSAnonProfileURI] &&
+            [[NSUserDefaults standardUserDefaults] boolForKey:EnableAnonTLSKey])
+        {
+            I_flags.isTLSAnon = YES; // set to anon
+            profileURI = TCMBEEPTLSAnonProfileURI;
+        }
+
+        NSData *data = [@"<ready />" dataUsingEncoding : NSUTF8StringEncoding];
         [self startChannelWithProfileURIs:[NSArray arrayWithObject:profileURI]
-                                  andData:[NSArray arrayWithObject:data]
-                                   sender:self];
+								  andData:[NSArray arrayWithObject:data]
+								   sender:self];
         I_flags.isWaitingForTLSProceed = YES;
-    } else { // nothing to tune so let us rock
-        if ([[self delegate] respondsToSelector:@selector(BEEPSession:didReceiveGreetingWithProfileURIs:)]) {
+    }
+    else // nothing to tune so let us rock
+    {
+        if ([[self delegate] respondsToSelector:@selector(BEEPSession:didReceiveGreetingWithProfileURIs:)])
+        {
             [[self delegate] BEEPSession:self didReceiveGreetingWithProfileURIs:profileURIs];
         }
     }
 }
 
-- (BOOL)TCM_parseData:(NSData *)data forElement:(NSString **)element attributes:(NSDictionary **)attributes content:(NSString **)content
-{
-    BOOL result = YES;
-    // Parse XML
-    CFXMLTreeRef contentTree = NULL;
-    NSDictionary *errorDict;
-    
-    // create XML tree from payload
-    contentTree = CFXMLTreeCreateFromDataWithError(kCFAllocatorDefault,
-                                (CFDataRef)data,
-                                NULL, //sourceURL
-                                kCFXMLParserSkipWhitespace | kCFXMLParserSkipMetaData,
-                                kCFXMLNodeCurrentVersion,
-                                (CFDictionaryRef *)&errorDict);
-    if (!contentTree) {
-        DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"nixe baum: %@", [errorDict description]);
-        result = NO;
-    }
-    
-    CFXMLNodeRef node = NULL;
-    CFXMLTreeRef xmlTree = NULL;
-    if (result) {
-        // extract top level element from tree
-        int childCount = CFTreeGetChildCount(contentTree);
-        int index;
-        for (index = 0; index < childCount; index++) {
-            xmlTree = CFTreeGetChildAtIndex(contentTree, index);
-            node = CFXMLTreeGetNode(xmlTree);
-            if (CFXMLNodeGetTypeCode(node) == kCFXMLNodeTypeElement) {
-                break;
-            }
-        }
-        if (!xmlTree || !node || CFXMLNodeGetTypeCode(node) != kCFXMLNodeTypeElement) {
-            result = NO;
-        }
-    }
-    
-    if (result) {
-        *element = [[(NSString *)CFXMLNodeGetString(node) retain] autorelease];
-        CFXMLElementInfo *info = (CFXMLElementInfo *)CFXMLNodeGetInfoPtr(node);
-        *attributes = [[(NSDictionary *)info->attributes retain] autorelease];
-        NSMutableString *contentString = [NSMutableString string];
-        int childCount = CFTreeGetChildCount(xmlTree);
-        int index;
-        for (index = 0; index < childCount; index++) {
-            CFXMLTreeRef subTree = CFTreeGetChildAtIndex(xmlTree, index);
-            CFXMLNodeRef textNode = CFXMLTreeGetNode(subTree);
-            if (CFXMLNodeGetTypeCode(textNode) == kCFXMLNodeTypeText) {
-                [contentString appendString:(NSString *)CFXMLNodeGetString(textNode)];
-            }
-        }
-        if ([contentString length] > 0)
-            *content = contentString;
-        else
-            *content = nil;
-    } else {
-        *element = nil;
-        *attributes = nil;
-        *content = nil;
-    }
-    
-    if (contentTree) CFRelease(contentTree);
-    return result;
-}
+//- (BOOL)TCM_parseData:(NSData *)data forElement:(NSString **)element attributes:(NSDictionary **)attributes content:(NSString **)content
+//{
+//    BOOL result = YES;
+//    // Parse XML
+//    CFXMLTreeRef contentTree = NULL;
+//    NSDictionary *errorDict;
+//    
+//    // create XML tree from payload
+//    contentTree = CFXMLTreeCreateFromDataWithError(kCFAllocatorDefault,
+//                                (CFDataRef)data,
+//                                NULL, //sourceURL
+//                                kCFXMLParserSkipWhitespace | kCFXMLParserSkipMetaData,
+//                                kCFXMLNodeCurrentVersion,
+//                                (CFDictionaryRef *)&errorDict);
+//    if (!contentTree) {
+//        DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"nixe baum: %@", [errorDict description]);
+//        result = NO;
+//    }
+//    
+//    CFXMLNodeRef node = NULL;
+//    CFXMLTreeRef xmlTree = NULL;
+//    if (result) {
+//        // extract top level element from tree
+//        int childCount = CFTreeGetChildCount(contentTree);
+//        int index;
+//        for (index = 0; index < childCount; index++) {
+//            xmlTree = CFTreeGetChildAtIndex(contentTree, index);
+//            node = CFXMLTreeGetNode(xmlTree);
+//            if (CFXMLNodeGetTypeCode(node) == kCFXMLNodeTypeElement) {
+//                break;
+//            }
+//        }
+//        if (!xmlTree || !node || CFXMLNodeGetTypeCode(node) != kCFXMLNodeTypeElement) {
+//            result = NO;
+//        }
+//    }
+//    
+//    if (result) {
+//        *element = [[(NSString *)CFXMLNodeGetString(node) retain] autorelease];
+//        CFXMLElementInfo *info = (CFXMLElementInfo *)CFXMLNodeGetInfoPtr(node);
+//        *attributes = [[(NSDictionary *)info->attributes retain] autorelease];
+//        NSMutableString *contentString = [NSMutableString string];
+//        int childCount = CFTreeGetChildCount(xmlTree);
+//        int index;
+//        for (index = 0; index < childCount; index++) {
+//            CFXMLTreeRef subTree = CFTreeGetChildAtIndex(xmlTree, index);
+//            CFXMLNodeRef textNode = CFXMLTreeGetNode(subTree);
+//            if (CFXMLNodeGetTypeCode(textNode) == kCFXMLNodeTypeText) {
+//                [contentString appendString:(NSString *)CFXMLNodeGetString(textNode)];
+//            }
+//        }
+//        if ([contentString length] > 0)
+//            *content = contentString;
+//        else
+//            *content = nil;
+//    } else {
+//        *element = nil;
+//        *attributes = nil;
+//        *content = nil;
+//    }
+//    
+//    if (contentTree) CFRelease(contentTree);
+//    return result;
+//}
 
 - (NSMutableDictionary *)preferedAnswerToAcceptRequestForChannel:(int32_t)channelNumber withProfileURIs:(NSArray *)aProfileURIArray andData:(NSArray *)aDataArray
 {
-    // Profile URIs ausduennen 
-    NSMutableArray *requestArray = [NSMutableArray array];
-    NSMutableDictionary *preferedAnswer = nil;
-//    NSLog(@"profileURIs: %@ selfProfileURIs:%@ peerProfileURIs:%@\n\nSession:%@", aProfileURIArray, [self profileURIs], [self peerProfileURIs], self);
-    int i;
-    for (i = 0; i < [aProfileURIArray count]; i++) {
-        NSString *profileURI = [aProfileURIArray objectAtIndex:i];
-        if ([[self profileURIs] containsObject:profileURI]) {
-            NSData *requestData = [aDataArray objectAtIndex:i];
+    // Profile URIs ausduennen
+    __block NSMutableArray *requestArray = [NSMutableArray array];
+    __block NSMutableDictionary *preferedAnswer = nil;
+
+	//	NSLog(@"profileURIs: %@ selfProfileURIs:%@ peerProfileURIs:%@\n\nSession:%@", aProfileURIArray, [self profileURIs], [self peerProfileURIs], self);
+
+	[aProfileURIArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        NSString *profileURI = (NSString *)obj;
+        if ([[self profileURIs] containsObject:profileURI])
+        {
+            NSData *requestData = [aDataArray objectAtIndex:idx];
             [requestArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:profileURI, @"ProfileURI", requestData, @"Data", nil]];
-            if (!preferedAnswer)  {
+            if (!preferedAnswer)
+            {
                 NSData *answerData = [NSData data];
-                if ([profileURI isEqualToString:TCMBEEPTLSProfileURI] || 
-                	([profileURI isEqualToString:TCMBEEPTLSAnonProfileURI] && 
-                	[[NSUserDefaults standardUserDefaults] boolForKey:EnableAnonTLSKey])) {
+                if ([profileURI isEqualToString:TCMBEEPTLSProfileURI] ||
+                    ([profileURI isEqualToString:TCMBEEPTLSAnonProfileURI] &&
+                     [[NSUserDefaults standardUserDefaults] boolForKey:EnableAnonTLSKey]))
+                {
                     // parse data for 'ready' element, may have attribute
-                    NSString *element, *content;
-                    NSDictionary *attributes;
-                    BOOL result = [self TCM_parseData:[aDataArray objectAtIndex:i] forElement:&element attributes:&attributes content:&content];
-                    if (result) DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"element: %@, attributes: %@, content: %@", element, attributes, content);
-                    if (result && [element isEqualToString:@"ready"]) {
-                        BOOL shouldProceed = YES;
-                        NSString *version = [attributes objectForKey:@"version"];
-                        if (version && ![version isEqualToString:@"1"]) {
-                            shouldProceed = NO;
-                            answerData = [@"<error code='501'>version attribute poorly formed in &lt;ready&gt; element</error>" dataUsingEncoding:NSUTF8StringEncoding];
-//                            #warning Opened TLS channel but there is no TLS
-                        }
-                        
-                        if (shouldProceed) {
-                            answerData = [@"<proceed />" dataUsingEncoding:NSUTF8StringEncoding];
-                            // implicitly close all channels including channel zero, but proceed frame needs to go through
-                            I_flags.hasSentTLSProceed = YES;
-                            if ([profileURI isEqualToString:TCMBEEPTLSAnonProfileURI] && 
-                                [[NSUserDefaults standardUserDefaults] boolForKey:EnableAnonTLSKey]) {
-                            	I_flags.isTLSAnon = YES;
-                            }
-                        }
-                                           
-                    } else {
-                        // Terminate session?
+
+                    TCMBEEPSessionXMLParser *dataParser = [[[TCMBEEPSessionXMLParser alloc] initWithXMLData:requestData] autorelease];
+                    if (dataParser)
+                    {
+						NSString *element = dataParser.elementName;
+						NSDictionary *attributes = dataParser.attributeDict;
+
+#ifndef TCM_BLOCK_DEBUGLOGS
+						NSString *content = dataParser.content;
+						DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"element: %@, attributes: %@, content: %@", element, attributes, content);
+#endif
+
+						if ([element isEqualToString:TCMBEEPSessionXMLElementReady])
+						{
+							BOOL shouldProceed = YES;
+							NSString *version = [attributes objectForKey:TCMBEEPSessionXMLAttributeVersion];
+							if (version && ![version isEqualToString:@"1"])
+							{
+								shouldProceed = NO;
+								answerData = [[NSString stringWithFormat:@"<%@ %@='501'>version attribute poorly formed in &lt;%@&gt; element</%@>", TCMBEEPSessionXMLElementError, TCMBEEPSessionXMLAttributeCode, TCMBEEPSessionXMLElementReady, TCMBEEPSessionXMLElementError] dataUsingEncoding : NSUTF8StringEncoding];
+								// FIXME Opened TLS channel but there is no TLS
+							}
+
+							if (shouldProceed)
+							{
+								answerData = [[NSString stringWithFormat:@"<%@ />", TCMBEEPSessionXMLElementProceed] dataUsingEncoding : NSUTF8StringEncoding];
+								// implicitly close all channels including channel zero, but proceed frame needs to go through
+								I_flags.hasSentTLSProceed = YES;
+
+								if ([profileURI isEqualToString:TCMBEEPTLSAnonProfileURI] &&
+									[[NSUserDefaults standardUserDefaults] boolForKey:EnableAnonTLSKey])
+								{
+									I_flags.isTLSAnon = YES;
+								}
+							}
+						}
+						else
+						{
+							// Terminate session?
+						}
                     }
-                } else if ([profileURI hasPrefix:TCMBEEPSASLProfileURIPrefix]) {
+				}
+                else if ([profileURI hasPrefix:TCMBEEPSASLProfileURIPrefix])
+                {
                     preferedAnswer = (NSMutableDictionary *)[GenericSASLProfile replyForChannelRequestWithProfileURI:profileURI andData:requestData inSession:self];
-                    break;
+                    *stop = YES;
                 }
-                
-                preferedAnswer = [NSMutableDictionary dictionaryWithObjectsAndKeys:profileURI, @"ProfileURI", 
-                                                                                   answerData, @"Data",
-                                                                                   nil];
-                break;
+
+                preferedAnswer = [NSMutableDictionary dictionaryWithObjectsAndKeys:profileURI, @"ProfileURI",
+                                  answerData, @"Data",
+                                  nil];
+				*stop = YES;
+				if (preferedAnswer) [preferedAnswer retain];
             }
         }
-    }
+    }];
+
     // prefered Profile URIs raussuchen
-    if (!preferedAnswer) return nil;
-    // if channel exists 
+    if (!preferedAnswer) {
+		return nil;
+	} else {
+		[preferedAnswer autorelease];
+	}
+
+    // if channel exists
     if ([I_activeChannels objectForLong:channelNumber]) return nil;
+
     // delegate fragen, falls er gefragt werden will
-    if ([[self delegate] respondsToSelector:@selector(BEEPSession:willSendReply:forChannelRequests:)]) {
+    if ([[self delegate] respondsToSelector:@selector(BEEPSession:willSendReply:forChannelRequests:)])
+    {
         preferedAnswer = [[self delegate] BEEPSession:self willSendReply:preferedAnswer forChannelRequests:requestArray];
     }
+	
     return preferedAnswer;
 }
 
@@ -1432,7 +1369,7 @@ static NSData *dhparamData = nil;
     // implicitly close all channels including channel zero and begin underlying negotiation process
     [self TCM_closeChannelsImplicitly];
     
-    DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"writeBuffer length: %d, readBuffer length: %d", [I_writeBuffer length], [I_readBuffer length]);
+    DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"writeBuffer length: %lu, readBuffer length: %lu", (unsigned long)[I_writeBuffer length], (unsigned long)[I_readBuffer length]);
 
     I_flags.isWaitingForTLSProceed = NO;
     I_flags.isTLSHandshaking = YES;
@@ -1460,8 +1397,12 @@ static NSData *dhparamData = nil;
     CFRelease(settings);
     
     if (I_flags.isTLSAnon) {
-		[TCMBEEPSession setAnonCiphersOnStreamData: CFReadStreamCopyProperty(I_readStream,  kCFStreamPropertySocketSSLContext) dhParams:NO];
-		[TCMBEEPSession setAnonCiphersOnStreamData:CFWriteStreamCopyProperty(I_writeStream, kCFStreamPropertySocketSSLContext) dhParams:NO];
+        CFDataRef readStreamData = CFReadStreamCopyProperty(I_readStream,  kCFStreamPropertySocketSSLContext);
+        CFDataRef writeStreamData = CFWriteStreamCopyProperty(I_writeStream, kCFStreamPropertySocketSSLContext);
+		[TCMBEEPSession setAnonCiphersOnStreamData: readStreamData dhParams:NO];
+		[TCMBEEPSession setAnonCiphersOnStreamData: writeStreamData dhParams:NO];
+        CFRelease(readStreamData);
+        CFRelease(writeStreamData);
 	}
     
     if (resultReadStream && resultWriteStream) {
@@ -1477,44 +1418,65 @@ static NSData *dhparamData = nil;
     [[channel profile] handleInitializationData:inData];
     [self insertObject:channel inChannelsAtIndex:[self countOfChannels]];
     [channel release];
-    
+
     [self activateChannel:channel];
-    if (!isInitiator) {
+
+    if (!isInitiator)
+    {
         id delegate = [self delegate];
-        if ([delegate respondsToSelector:@selector(BEEPSession:didOpenChannelWithProfile:data:)])
-            [delegate BEEPSession:self didOpenChannelWithProfile:[channel profile] data:inData];
-    } else {
-        if ([aProfileURI isEqualToString:TCMBEEPTLSProfileURI] || [aProfileURI isEqualToString:TCMBEEPTLSAnonProfileURI]) {
+
+        if ([delegate respondsToSelector:@selector(BEEPSession:didOpenChannelWithProfile:data:)]) [delegate BEEPSession:self didOpenChannelWithProfile:[channel profile] data:inData];
+    }
+    else
+    {
+        if ([aProfileURI isEqualToString:TCMBEEPTLSProfileURI] || [aProfileURI isEqualToString:TCMBEEPTLSAnonProfileURI])
+        {
             // parse associated data for 'error' or 'proceed' elements, 'error' may contain attributes?
-            NSString *element, *content;
-            NSDictionary *attributes;
-            BOOL result = [self TCM_parseData:inData forElement:&element attributes:&attributes content:&content];
-            if (result) {
+            TCMBEEPSessionXMLParser *dataParser = [[[TCMBEEPSessionXMLParser alloc] initWithXMLData:inData] autorelease];
+            if (dataParser)
+            {
+                NSString *element = dataParser.elementName;
+                NSString *content = dataParser.content;
+                NSDictionary *attributes = dataParser.attributeDict;
+
                 DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"element: %@, attributes: %@, content: %@", element, attributes, content);
-                if ([element isEqualToString:@"proceed"] && attributes == nil && content == nil) {
+
+                if ([element isEqualToString:TCMBEEPSessionXMLElementProceed] && attributes == nil && content == nil)
+                {
                     [self TCM_startTLSHandshake];
-                } else if ([element isEqualToString:@"error"]) {
-                    DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Received error: %@ (%@)", [attributes objectForKey:@"code"], content);
-//                    #warning Opened TLS channel but there is no TLS
                 }
-            } else {
+                else if ([element isEqualToString:TCMBEEPSessionXMLElementError])
+                {
+                    DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Received error: %@ (%@)", [attributes objectForKey:TCMBEEPSessionXMLAttributeCode], content);
+                    // FIXME Opened TLS channel but there is no TLS
+                }
+            }
+            else
+            {
                 // Terminate session?
             }
-        } else if ([aProfileURI isEqualToString:TCMBEEPSASLPLAINProfileURI]) {
-            NSLog(@"%s",__FUNCTION__);
+        }
+        else if ([aProfileURI isEqualToString:TCMBEEPSASLPLAINProfileURI])
+        {
+            NSLog(@"%s", __FUNCTION__);
             // need to close it directly because this one doesn't do anything else
             [GenericSASLProfile processPLAINAnswer:inData inSession:self];
             [[channel profile] close];
         }
+
         // sender rausfinden
         NSNumber *channelNumber = [NSNumber numberWithInt:aChannelNumber];
         id aSender = [I_channelRequests objectForKey:channelNumber];
-        [I_channelRequests removeObjectForKey:channelNumber]; 
+        [I_channelRequests removeObjectForKey:channelNumber];
+
         // sender profile geben
-        if ([aSender respondsToSelector:@selector(BEEPSession:didOpenChannelWithProfile:data:)]) {
+        if ([aSender respondsToSelector:@selector(BEEPSession:didOpenChannelWithProfile:data:)])
+        {
             [aSender BEEPSession:self didOpenChannelWithProfile:[channel profile] data:inData];
-        } else if (![aProfileURI isEqualToString:TCMBEEPTLSProfileURI] && ![aProfileURI isEqualToString:TCMBEEPTLSAnonProfileURI]) {
-            NSLog(@"WARNING: The Object (%@) that requested the channel with ProfileURI:%@ doesn't respond to BEEPSession:didOpenChannelWithProfile:data:",aSender,aProfileURI);
+        }
+        else if (![aProfileURI isEqualToString:TCMBEEPTLSProfileURI] && ![aProfileURI isEqualToString:TCMBEEPTLSAnonProfileURI])
+        {
+            NSLog(@"WARNING: The Object (%@) that requested the channel with ProfileURI:%@ doesn't respond to BEEPSession:didOpenChannelWithProfile:data:", aSender, aProfileURI);
         }
     }
 }
@@ -1551,7 +1513,7 @@ static NSData *dhparamData = nil;
     [channel closed];
     [channel cleanup];
     
-    int indexOfChannel = [I_channels indexOfObject:channel];
+    NSUInteger indexOfChannel = [I_channels indexOfObject:channel];
     if (indexOfChannel!=NSNotFound) {
         [self removeObjectFromChannelsAtIndex:indexOfChannel];
     
@@ -1598,7 +1560,7 @@ static NSData *dhparamData = nil;
 void callBackReadStream(CFReadStreamRef stream, CFStreamEventType type, void *clientCallBackInfo)
 {
     NSAutoreleasePool *pool=nil;
-    if (floor(NSFoundationVersionNumber)>NSFoundationVersionNumber10_3) pool=[NSAutoreleasePool new];
+    pool=[NSAutoreleasePool new];
     TCMBEEPSession *session = (TCMBEEPSession *)clientCallBackInfo;
 
     switch(type)
@@ -1616,7 +1578,7 @@ void callBackReadStream(CFReadStreamRef stream, CFStreamEventType type, void *cl
         case kCFStreamEventErrorOccurred:
             DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"CFReadStream kCFStreamEventErrorOccurred");
             CFStreamError myErr = CFReadStreamGetError(stream);
-            NSError *error = [NSError errorWithDomain:[NSString stringWithFormat:@"%d", myErr.domain] code:myErr.error userInfo:nil];
+            NSError *error = [NSError errorWithDomain:[NSString stringWithFormat:@"%ld", myErr.domain] code:myErr.error userInfo:nil];
             [session TCM_handleStreamErrorOccurredEvent:error];
             break;
 
@@ -1629,7 +1591,7 @@ void callBackReadStream(CFReadStreamRef stream, CFStreamEventType type, void *cl
             DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"CFReadStream ??");
             break;
     }
-    if (floor(NSFoundationVersionNumber)>NSFoundationVersionNumber10_3) [pool release];
+    [pool release];
 }
 
 void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type, void *clientCallBackInfo)
@@ -1653,7 +1615,7 @@ void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type, void *
         case kCFStreamEventErrorOccurred:
             DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"CFWriteStream kCFStreamEventErrorOccurred");
             CFStreamError myErr = CFWriteStreamGetError(stream);
-            NSError *error = [NSError errorWithDomain:[NSString stringWithFormat:@"%d", myErr.domain] code:myErr.error userInfo:nil];
+            NSError *error = [NSError errorWithDomain:[NSString stringWithFormat:@"%ld", myErr.domain] code:myErr.error userInfo:nil];
             [session TCM_handleStreamErrorOccurredEvent:error];
             break;
 

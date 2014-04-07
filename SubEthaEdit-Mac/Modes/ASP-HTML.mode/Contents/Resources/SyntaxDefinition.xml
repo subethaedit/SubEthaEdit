@@ -1,0 +1,674 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE syntax SYSTEM "syntax.dtd">
+<syntax>
+
+    <head>
+        <name>ASP-HTML</name> <!-- The definitions title -->
+        <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ<>]]></charsintokens> <!-- Valid Characters for Variables -->
+        <!-- <charsdelimitingtokens></charsdelimitingtokens> -->
+    </head>
+
+    <states>
+    
+    	<!-- STUDIO - rewritten for 1.6, do not replace. -->
+        <default id="Base" usesymbolsfrommode="HTML" useautocompletefrommode="HTML" usespellchecking="yes" scope="meta.default">
+			<import mode="XML" keywords-only="yes"/>
+			
+			<state id="Inline VBScript" usesymbolsfrommode="ASP-HTML" useautocompletefrommode="ASP-HTML" scope="meta.default">
+				<begin><regex>&lt;(?=(?i:script[^&gt;]+?vbscript[^&gt;]*[&gt;]))</regex><autoend>&lt;/script&gt;</autoend></begin>
+				<end><regex>(?i)/script&gt;</regex></end>
+	
+				<import state="ASP-VBScript"/>
+								
+				
+				<keywords id="Script Tags" scope="markup.tag">
+					<regex>(\A&lt;\Z)</regex>
+					<regex>(&lt;(?i)/script[^&gt;]*&gt;)</regex>
+				</keywords>
+	
+				<state id="Opening Script Tag" usesymbolsfrommode="HTML" useautocompletefrommode="HTML" scope="markup.tag">
+					<begin><regex>\A(?i)script</regex></begin>
+					<end><regex>&gt;</regex></end>
+					<import mode="XML" keywords-only="yes"/>
+					<import/>
+				</state>
+				
+			</state>
+			
+			<state id="ASP-VBScript" usesymbolsfrommode="ASP-HTML" useautocompletefrommode="ASP-HTML" scope="meta.default" foldable="yes">
+
+				<begin><regex>&lt;%(?:(?:[\t ]*@(?:\s*\w++(?!=))?)|=?)</regex><autoend>%&gt;</autoend></begin>
+				<end><regex>(?:%&gt;)</regex></end>
+	
+				<keywords id="ASP Delimiter" useforautocomplete="no" scope="markup.processing.languageswitch.asp">
+					<regex>(&lt;%(?:(?:[\t ]*@(?:\s*\w++(?!=))?)|=?))</regex>
+					<regex>(&lt;%)(?![\S])</regex>
+					<regex>(%&gt;)</regex>
+					<regex>(&lt;%%&gt;)</regex>
+				</keywords>
+
+				<keywords id="ASP-VBScript Functions" casesensitive="no" useforautocomplete="yes" scope="keyword.vb">
+					<string>_</string>
+					<string>Abs</string>
+					<string>Array</string>
+					<string>Asc</string>
+					<string>Atn</string>
+					<string>CBool</string>
+					<string>CByte</string>
+					<string>CCur</string>
+					<string>CDate</string>
+					<string>CDbl</string>
+					<string>Chr</string>
+					<string>CInt</string>
+					<string>CLng</string>
+					<string>Cos</string>
+					<string>CreateObject</string>
+					<string>Csng</string>
+					<string>CStr</string>
+					<string>Date</string>
+					<string>DateAdd</string>
+					<string>DateDiff</string>
+					<string>DatePart</string>
+					<string>DateSerial</string>
+					<string>DateValue</string>
+					<string>Day</string>
+					<string>Exp</string>
+					<string>Filter</string>
+					<string>Fix</string>
+					<string>FormatCurrency</string>
+					<string>FormatDateTime</string>
+					<string>FormatNumber</string>
+					<string>FormatPercent</string>
+					<string>GetObject</string>
+					<string>Hex</string>
+					<string>Hour</string>
+					<string>InStr</string>
+					<string>InStrRev</string>
+					<string>Int</string>
+					<string>IsArray</string>
+					<string>IsDate</string>
+					<string>IsEmpty</string>
+					<string>IsNull</string>
+					<string>IsNumeric</string>
+					<string>IsObject</string>
+					<string>Join</string>
+					<string>LCase</string>
+					<string>Left</string>
+					<string>Len</string>
+					<string>Log</string>
+					<string>Mod</string>
+					<string>LTrim</string>
+					<string>Mid</string>
+					<string>Minute</string>
+					<string>Month</string>
+					<string>MonthName</string>
+					<string>Now</string>
+					<string>Oct</string>
+					<string>Replace</string>
+					<string>Right</string>
+					<string>Rnd</string>
+					<string>Round</string>
+					<string>RTrim</string>
+					<string>ScriptEngine</string>
+					<string>ScriptEngineBuildVersion</string>
+					<string>ScriptEngineMajorVersion</string>
+					<string>ScriptEngineMinorVersion</string>                
+					<string>Second</string>
+					<string>Sgn</string>
+					<string>Sin</string>
+					<string>Space</string>
+					<string>Split</string>
+					<string>Sqr</string>
+					<string>StrComp</string>
+					<string>String</string>
+					<string>StrReverse</string>
+					<string>Tan</string>
+					<string>Time</string>
+					<string>Timer</string>
+					<string>TimeSerial</string>
+					<string>TimeValue</string>
+					<string>Trim</string>
+					<string>TypeName</string>
+					<string>UBound</string>
+					<string>UCase</string>
+					<string>VarType</string>
+					<string>Weekday</string>
+					<string>WeekdayName</string>
+					<string>Year</string>
+					<string>response</string>
+					<string>cookies</string>
+					<string>buffer</string>
+					<string>cachecontrol</string>
+					<string>charset</string>
+					<string>contenttype</string>
+					<string>expires</string>
+					<string>expiresabsolute</string>
+					<string>isclientconnected</string>
+					<string>pics</string>
+					<string>status</string>
+					<string>addheader</string>
+					<string>appendtolog</string>
+					<string>binarywrite</string>
+					<string>clear</string>
+					<string>end</string>
+					<string>GetLocale</string>
+					<string>SetLocale</string>
+					<string>LoadPicture</string>
+					<string>RGB</string>
+					<string>flush</string>
+					<string>redirect</string>
+					<string>write</string>
+					<string>request</string>
+					<string>clientcertificate</string>
+					<string>cookies</string>
+					<string>form</string>
+					<string>querystring</string>
+					<string>servervaribles</string>
+					<string>totalbytes</string>
+					<string>binaryread</string>
+					<string>application</string>
+					<string>application_onend</string>
+					<string>application_onstart</string>
+					<string>contents</string>
+					<string>staticobjects</string>
+					<string>remove</string> 
+					<string>removeall</string> 
+					<string>lock</string>
+					<string>unlock</string>
+					<string>session</string>
+					<string>codepage</string>
+					<string>lcid</string>
+					<string>sessionid</string>
+					<string>timeout</string>
+					<string>abandon</string>
+					<string>server</string>
+					<string>scripttimeout</string>
+					<string>createobject</string>
+					<string>eval</string>
+					<string>execute</string>
+					<string>executeglobal</string>
+					<string>MsgBox</string>
+					<string>InputBox</string>
+					<string>getlasterror</string>
+					<string>htmlencode</string>
+					<string>mappath</string>
+					<string>transfer</string>
+					<string>urlencode</string>
+					<string>ASPError</string>
+					<string>ASPCode</string>
+					<string>ASPDescription</string>
+					<string>category</string>
+					<string>column</string>
+					<string>description</string>
+					<string>file</string>
+					<string>line</string>
+					<string>number</string>
+					<string>SetAbort</string>
+					<string>SetComplete</string>
+					<string>Session_OnEnd</string>
+					<string>Session_OnStart</string>
+				</keywords>
+				
+				<keywords id="Keywords" casesensitive="no" useforautocomplete="yes" scope="keyword.control.vb">
+					<string>And</string>
+					<string>As</string>
+					<string>ByRef</string>
+					<string>ByVal</string>
+					<string>Call</string>
+					<string>Const</string>
+					<string>Dim</string>
+					<string>ReDim</string>
+					<string>Preserve</string>
+					<string>Open</string>
+					<string>Close</string>
+					<string>MoveNext</string>
+					<string>MoveFirst</string>
+					<string>EOF</string>
+					<string>BOF</string>
+					<string>empty</string>
+					<string>nothing</string>
+					<string>not</string>
+					<string>xor</string>
+					<string>or</string>
+					<string>echo</string>
+					<string>new</string>
+					<string>clone</string>
+					<string>static</string>
+					<string>var</string>
+					<string>int</string>
+					<string>float</string>
+					<string>real</string>
+					<string>double</string>
+					<string>bool</string>
+					<string>boolean</string>
+					<string>integer</string>
+					<string>resource</string>
+					<string>NULL</string>
+					<string>string</string>
+					<string>array</string>
+					<string>list</string>
+					<string>object</string>
+					<string>if</string>
+					<string>Imp</string>
+					<string>else</string>
+					<string>elseif</string>
+					<string>empty</string>
+					<string>End</string>
+					<string>end if</string>
+					<string>while</string>
+					<string>wend</string>
+					<string>with</string>
+					<string>do</string>
+					<string>for</string>
+					<string>each</string>
+					<string>to</string>
+					<string>in</string>
+					<string>break</string>
+					<string>continue</string>
+					<string>select case</string>
+					<string>case</string>
+					<string>end select</string>
+					<string>declare</string>
+					<string>return</string>
+					<string>require</string>
+					<string>require_once</string>
+					<string>include</string>
+					<string>include_once</string>
+					<string>function</string>
+					<string>final</string>
+					<string>class</string>
+					<string>public</string>
+                    <string>property</string>
+					<string>private</string>
+					<string>protected</string>
+					<string>extends</string>
+					<string>parent</string>
+					<string>true</string>
+					<string>die</string>
+					<string>exit</string>
+					<string>explicit</string>
+					<string>Get</string>
+					<string>Goto</string>
+					<string>Is</string>
+					<string>Let</string>
+					<string>Loop</string>
+					<string>next</string>
+					<string>on</string>
+					<string>option</string>
+					<string>Randomize</string>
+					<string>Rem</string>
+					<string>Resume</string>
+					<string>Select</string>
+					<string>set</string>
+					<string>stop</string>
+					<string>then</string>
+					<string>until</string>
+					<string>sub</string>
+					<string>enablesessionstate</string>
+					<string>language</string>
+					<string>transaction</string>
+					<string>ObjectContext</string>
+					<string>OnEndPage</string>
+					<string>OnStartPage</string>
+					<string>OnTransactionAbort</string>
+					<string>OnTransactionCommit</string>
+					<string>source</string>
+					<string>false</string>
+					<string>true</string>
+				</keywords>
+	
+				<keywords id="ASP Numbers" useforautocomplete="no" scope="language.constant.numeric">
+						  <regex>(?&lt;=[^\w\d]|^)(((([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(([uU][lL]?)|([lL][uU]?))?))(?=[^\w\d]|$)</regex>
+				</keywords>
+				<keywords id="FunctionRegex" useforautocomplete="no" scope="language.subroutine.function">
+						  <regex>([A-Za-z0-9_]+ *)\(</regex>
+				</keywords>
+		 
+				<state id="ASP Comment" type="comment" scope="comment.block.vb">
+					<begin><regex>/\*</regex></begin>
+					<end><regex>\*/</regex></end>
+				</state>
+				
+				<state id="ASP SingleComment" type="comment" scope="comment.line.vb">
+					<begin><regex>\'|#|//</regex></begin>
+					<end><regex>[\n\r]|.(?=\%&gt;)</regex></end>
+				</state>
+				  				
+				<state id="ASP String" type="string" usespellchecking="yes" scope="string.double.vb">
+					<begin><regex>"</regex></begin>
+					<end><regex>((?!=")")</regex></end>
+				</state>
+				
+				<state id="VBBlocksFunction" foldable="yes" scope="meta.block">
+					<begin><regex>(?&lt;!exit )\b(?i:(?'vbfunctionkeyword'(?:function|sub)))\b[^\n\r]*</regex><autoend>End \g&lt;vbfunctionkeyword&gt;</autoend></begin>
+					<end><regex>(?i)(End (?#see-insert-start-group:vbfunctionkeyword))|(?:.(?=\s*(%&gt;|-%&gt;)))</regex></end>
+					<import state="ASP-VBScript"/>
+				</state>
+
+				<state id="VBBlocksIf" foldable="yes" scope="meta.block">
+					<begin><regex>\b(?i)if[^\n\r]+?then(?=\s*?[\n\r#%'])</regex><autoend>End If&gt;</autoend></begin>
+					<end><regex>(?i)([.\s](?=else)|(?:end if))|(?:[.\s](?=\s*(%&gt;|-%&gt;)))</regex></end>
+					<import state="ASP-VBScript"/>
+				</state>
+
+				<state id="VBBlocksElse" foldable="yes" scope="meta.block">
+					<begin><regex>(?i:(?&lt;!case )\belse\b)</regex><autoend>End If</autoend></begin>
+					<end><regex>(?i)(End If)|(?:[.\s](?=\s*(%&gt;|-%&gt;)))</regex></end>
+					<import state="ASP-VBScript"/>
+				</state>
+
+				<state id="VBBlocksFor" foldable="yes" scope="meta.block">
+					<begin><regex>\b(?i:for\b[^\n\r]+?\b(?:in|to)\b[^\n\r#']+?)(?=\s*?[\n\r#%'])</regex><autoend>Next</autoend></begin>
+					<end><regex>(?i)(?:next)|(?:[.\s](?=\s*(%&gt;|-%&gt;)))</regex></end>
+					<import state="ASP-VBScript"/>
+				</state>
+
+				<state id="VBBlocksSelect" foldable="yes" scope="meta.block">
+					<begin><regex>\b(?i:select case\b[^\n\r#']+?)(?=\s*?[\n\r#%'])</regex><autoend>End Select</autoend></begin>
+					<end><regex>(?i)(?:end select)|(?:[.\s](?=\s*(%&gt;|-%&gt;)))</regex></end>
+					<import state="ASP-VBScript"/>
+				</state>
+				<state id="VBBlocksWith" foldable="yes" scope="meta.block">
+					<begin><regex>\b(?i:with\b[^\n\r#']+?)(?=\s*?[\n\r#'])</regex><autoend>End With</autoend></begin>
+					<end><regex>(?i)(?:end with)|(?:[.\s](?=\s*(%&gt;|-%&gt;)))</regex></end>
+					<import state="ASP-VBScript"/>
+				</state>
+
+				
+			</state>
+
+			<state id="CommentWithPreprocessor" type="comment" scope="language.preprocessor">
+				<begin><regex>&lt;!--\s*#</regex><autoend>--&gt;</autoend></begin>
+				<end><regex>--&gt;</regex></end>
+				<keywords id="SGML Double Dash" useforautocomplete="no" scope="meta.invalid.sgmlcomment">
+					<regex>(?&lt;!\!)(--)(?!&gt;)</regex>
+				</keywords>
+				<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+            </state>
+
+            <!--  This is the "we do a complete HTML mode and import ASP-VBScript everywhere" section -->
+			<state id="Comment" type="comment" scope="markup.comment">
+				<begin><regex>&lt;!--</regex><autoend>--&gt;</autoend></begin>
+				<end><regex>--&gt;</regex></end>
+				<keywords id="SGML Double Dash" useforautocomplete="no" scope="meta.invalid.sgmlcomment">
+					<regex>(?&lt;!\!)(--)(?!&gt;)</regex>
+				</keywords>
+				<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+				<state-link state="ASP-VBScript"/>
+            </state>
+
+
+			<state id="CDATA" foldable="yes" scope="markup.inline.cdata">
+				<begin>
+					<regex>&lt;!\s*\[CDATA\s*\[</regex>
+					<autoend>\]\]&gt;</autoend>
+				</begin>
+				<end>
+					<regex>\]\s*\]\s*&gt;</regex>
+				</end>
+                <state-link state="ASP-VBScript"/>
+            </state>
+			 <state id="Doctype" foldable="no" scope="markup.declaration">
+                <begin>
+                    <regex>&lt;!</regex><autoend>&gt;</autoend>
+                </begin>
+                <end>
+                    <regex>&gt;</regex>
+                </end>
+				<state id="String" type="string" scope="markup.declaration.string.double">
+					<begin><regex>"</regex></begin>
+					<end><regex>"</regex></end>
+					<state-link state="ASP-VBScript"/>
+				</state>
+				<state id="SingleString" type="string" scope="markup.declaration.string.single">
+					<begin><regex>'</regex></begin>
+					<end><regex>'</regex></end>
+					<state-link state="ASP-VBScript"/>
+				</state>
+				<state id="Block" type="block" foldable="yes" indent="yes" scope="meta.block.square">
+					<begin><regex>\[</regex><autoend>\]</autoend></begin>
+					<end><regex>]</regex></end>
+					<import/>
+				</state>
+			   <state-link state="ASP-VBScript"/>
+            </state>
+         <state id="Escape" foldable="no" scope="markup.processing">
+                <begin>
+                    <regex>&lt;\?</regex><autoend>\?&gt;</autoend>
+                </begin>
+                <end>
+                    <regex>\?&gt;</regex>
+                </end>
+				<state id="ProcessingString" type="string" scope="markup.processing.attribute.value.string">
+					<begin><regex>"</regex></begin>
+					<end><regex>"</regex></end>
+                   <state-link state="ASP-VBScript"/>
+				</state>
+				<state id="ProcessingSingleString" type="string" scope="markup.processing.attribute.value.string">
+					<begin><regex>'</regex></begin>
+					<end><regex>'</regex></end>
+                   <state-link state="ASP-VBScript"/>
+				</state>
+                   <state-link state="ASP-VBScript"/>
+            </state>
+            <state id="Inline CSS" usesymbolsfrommode="CSS" useautocompletefrommode="CSS" foldable="yes" indent="yes" scope="meta.block.css">
+                <begin>
+                    <regex>&lt;[ \t]*(?i)style[^&gt;]*&gt;</regex>
+                    <autoend>&lt;/style&gt;</autoend>
+                </begin>
+                <end>
+                    <regex>(?i)&lt;[ \t]*/[ \t]*style[ \t]*&gt;</regex>
+                </end>
+                <state-link state="ASP-VBScript"/>
+				<import mode="XML" keywords-only="yes"/>
+                <import mode="CSS"/>
+				<state id="CSSInside curly brackets" foldable="yes" indent="yes" scope="meta.block.curly">
+					<begin>
+						<string>{</string>
+						<autoend>}</autoend>
+					</begin>
+					<end>
+						<regex>}</regex>
+					</end>
+						<import mode="CSS" state="Inside curly brackets" keywords-only="yes"/>
+					<state id="CSS Attribute state" scope="meta.block.attribute">
+						<begin>
+							<string>:</string>
+						</begin>
+						<end>
+							<regex>(;|.(?=})|[\n\r])</regex>
+						</end>
+					   <import mode="CSS" state="Attribute state" keywords-only="yes"/>
+						<state-link state="ASP-VBScript"/>
+						<state-link state="CSSAutodocComment"/>
+						<state-link state="CSSComment"/>
+						<state-link state="CSSString"/>
+						<state-link state="CSSSingleString"/>
+					</state>
+					<state-link state="CSSAutodocComment"/>
+					<state-link state="CSSComment"/>
+					<state-link state="CSSString"/>
+					<state-link state="CSSSingleString"/>
+					<state-link state="ASP-VBScript"/>
+				</state>
+
+                <import keywords-only="yes"/>
+
+				<state id="CSSRules" scope="style.at-rule">
+					<begin>
+						<regex>^@[-\w_]+</regex>
+					</begin>
+					<end>
+						<regex>.(?=[{\n\r])</regex>
+					</end>
+				</state>
+				
+				<state id="CSSAutodocComment" type="comment" scope="style.comment.block.documentation">
+					<begin>
+						<string>/\*"</string>
+						<autoend>"\*/</autoend>
+					</begin>
+					<end>
+						<regex>"\*/</regex>
+					</end>
+					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+					<state-link state="ASP-VBScript"/>
+				</state>
+				<state id="CSSComment" type="comment" scope="style.comment.block">
+					<begin>
+						<string>/\*</string>
+						<autoend>\*/</autoend>
+					</begin>
+					<end>
+						<regex>\*/</regex>
+					</end>
+					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+					<state-link state="ASP-VBScript"/>
+				</state>
+				<state id="CSSString" type="string" scope="style.value.string.double">
+					<begin>
+						<string>"</string>
+					</begin>
+					<end>
+						<regex>(?&lt;!\\)(\\\\)*"</regex>
+					</end>
+					<state-link state="ASP-VBScript"/>
+				</state>
+				<state id="CSSSingleString" type="string" scope="style.value.string.single">
+					<begin>
+						<string>'</string>
+					</begin>
+					<end>
+						<regex>(?&lt;!\\)(\\\\)*'</regex>
+					</end>
+					<state-link state="ASP-VBScript"/>
+				</state>
+
+            </state>
+
+
+            <state id="Inline Javascript" usesymbolsfrommode="Javascript" useautocompletefrommode="Javascript" foldable="yes" scope="meta.block.js">
+                <begin>
+                    <regex>&lt;(?i)script[^&gt;]*&gt;</regex><autoend>&lt;/script&gt;</autoend>
+                </begin>
+                <end>
+                    <regex>&lt;(?i)/script[^&gt;]*&gt;</regex>
+                </end>
+                <import mode="Javascript" keywords-only="yes"/>
+                <import mode="XML" keywords-only="yes"/>
+                <state-link state="ASP-VBScript"/>
+
+				<state id="JSAutodocComment" type="comment" scope="comment.block.documentation.js">
+					<begin><regex>/\*"</regex></begin>
+					<end><regex>"\*/</regex></end>
+                    <state-link state="ASP-VBScript"/>
+				</state>
+		
+				<state id="JSComment" type="comment" scope="comment.block.js">
+					<begin><regex>/\*</regex><autoend>\*/</autoend></begin>
+					<end><regex>\*/</regex></end>
+					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+                    <state-link state="ASP-VBScript"/>
+				</state>
+				
+				<state id="JSSingleComment" type="comment" scope="comment.line.double-slash.js">
+					<begin><regex>//</regex></begin>
+					<end><regex>[\n\r]|.(?=&lt;(?i)/script\s*&gt;)</regex></end>
+					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+                    <state-link state="ASP-VBScript"/>
+				</state>
+				
+				<state id="JSRegular Expressions" type="string" scope="string.regex.js">
+					<begin><regex>(?&lt;![&lt;/])/.*?[^\\](?=/[^\n\r]*(?:;|\)|,|[\n\r]))</regex></begin>
+					<end><regex>/[cgimosx]*</regex></end>
+                    <state-link state="ASP-VBScript"/>
+				</state>
+		
+				<state id="JSString" type="string" scope="string.double.js">
+					<begin><regex>"</regex></begin>
+					<end><regex>(?&lt;!\\)(\\\\)*"</regex></end>
+                    <state-link state="ASP-VBScript"/>
+				</state>
+		
+				<state id="JSSingleString" type="string" scope="string.single.js">
+					<begin><regex>'</regex></begin>
+					<end><regex>(?&lt;!\\)(\\\\)*'</regex></end>
+                    <state-link state="ASP-VBScript"/>
+				</state>
+	
+				<state id="JSBlock" type="block" foldable="yes" indent="yes" scope="meta.block.curly.js">
+					<begin><regex>{</regex><autoend>}</autoend></begin>
+					<end><regex>}</regex></end>
+                    <import mode="Javascript" keywords-only="yes"/>
+                    <import mode="ASP-HTML" state="Inline Javascript"/>
+				</state>
+			</state>            
+
+            <state id="Single Tag with ASP State" foldable="no" scope="meta.state">
+                <begin>
+                    <regex>&lt;\s*[^/?!][-:_\w]*(?=[^&lt;&gt;]*&lt;%.+%&gt;[^&gt;]*[^&gt;]*/&gt;)</regex>
+                </begin>
+                <end>
+                    <regex>/[ \t]*&gt;</regex>
+                </end>
+                <import/>
+                <keywords id="Single Tags with ASP" useforautocomplete="no" scope="markup.tag">
+                    <regex>(&lt;[^&gt;]*)</regex>
+                    <regex>(\A[^&lt;&gt;]*&gt;)</regex>
+                </keywords>
+                <keywords id="Attributes in Single Tags with ASP" useforautocomplete="no" scope="markup.tag.attribute.name">
+                    <regex>([\w-]*)(?=[ \t]*=[^&lt;]+)</regex>
+                </keywords>
+                <keywords id="Strings in Single Tags with ASP" type="string" useforautocomplete="no" scope="markup.tag.attribute.value.string">
+                    <regex>=[ \t]*("[^"]*"|'[^']*')(?=[^&lt;]*)</regex>
+                    <regex>([^"]*")(?=[ \t]*&gt;)</regex>
+                </keywords>
+                <import state="ASP Tag Container State" keywords-only="yes"/>
+            </state>
+
+            <state id="Tag with ASP State" foldable="yes" scope="meta.block.tag.asp.no-content">
+                <begin>
+                    <regex>&lt;\s*(?'asptagstatename'[^/?!][-:_\w]*)(?'trimmedstart'[^&lt;&gt;]*&lt;%.+%&gt;[^&gt;]*&gt;)</regex> <!--  Used "trimmedstart regex group, to start searching earlier" -->
+					<autoend>&lt;/\g&lt;asptagstatename&gt;&gt;</autoend>
+                </begin>
+                <end>
+                    <regex>&lt;\s*/\s*(?#see-insert-start-group:asptagstatename)\s*&gt;</regex>
+                </end>
+                <import/>
+                <keywords id="Tags with ASP" useforautocomplete="no" scope="markup.tag">
+                    <regex>(&lt;[^&gt;]*&gt;?)</regex>
+                    <regex>(\A[^&lt;&gt;]*&gt;)</regex>
+                </keywords>
+                <keywords id="Attributes in Tags with ASP-VBScript" useforautocomplete="no" scope="markup.tag.attribute.name">
+                    <regex>([\w-]*)(?=[ \t]*=[^&lt;]+)</regex>
+                </keywords>
+                <keywords id="Strings in Tags with ASP" type="string" useforautocomplete="no" scope="markup.tag.attribute.value.string">
+                    <regex>=[ \t]*("[^"]*"|'[^']*')(?=[^&lt;]*)</regex>
+                    <regex>([^"]*")(?=[ \t]*&gt;)</regex>
+                </keywords>
+                <import state="ASP Tag Container State" keywords-only="yes"/>
+            </state>
+
+            <state id="Tag State ASP" foldable="yes" indent="yes" scope="meta.default">
+                <begin>
+                    <regex>&lt;\s*(?'xmltagstatename'[^/?!][-:_\w]*)\s*(?:[-:_\w]+=(?:"[^"]*"|'[^']*'|\w+)\s*)*\s*&gt;</regex>
+					<autoend>&lt;/\g&lt;xmltagstatename&gt;&gt;</autoend>
+                </begin>
+                <end>
+                    <regex>&lt;\s*/\s*(?#see-insert-start-group:xmltagstatename)\s*&gt;</regex>
+                </end>
+	            <import mode="XML" keywords-only="yes"/>
+                <import/>
+                <import state="ASP Tag Container State" keywords-only="yes"/>
+            </state>
+            
+            <state id="ASP Tag Container State" containerState="yes" scope="meta.state">
+                <keywords id="ASP Tags" scope="keyword.control.asp">
+                	<regex>&lt;/?((?i)asp:\w+)</regex>
+                </keywords>
+            </state>
+				
+		</default>
+		
+    </states>
+</syntax>

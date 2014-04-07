@@ -21,7 +21,7 @@ software.
 In consideration of your agreement to abide by 
 the following terms, and subject to these terms, 
 Apple grants you a personal, non-exclusive 
-license, under Apple's copyrights in this 
+license, under Apple’s copyrights in this 
 original Apple software (the "Apple Software"), 
 to use, reproduce, modify and redistribute the 
 Apple Software, with or without modifications, in 
@@ -66,6 +66,7 @@ SUCH DAMAGE.
 */
 
 #import "SESendProc.h"
+#import <Carbon/Carbon.h>
 
 static AEIdleUPP _SEIdleProc = NULL;
 static AEFilterUPP _SEFilterProc = NULL;

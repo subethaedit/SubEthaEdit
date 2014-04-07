@@ -50,7 +50,7 @@ NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 
 - (NSDragOperation)tableView:(NSTableView*)tv
 				validateDrop:(id <NSDraggingInfo>)info
-				 proposedRow:(int)row
+				 proposedRow:(NSInteger)row
 	   proposedDropOperation:(NSTableViewDropOperation)op
 {
     
@@ -71,7 +71,7 @@ NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 
 - (BOOL)tableView:(NSTableView*)tv
 	   acceptDrop:(id <NSDraggingInfo>)info
-			  row:(int)row
+			  row:(NSInteger)row
 	dropOperation:(NSTableViewDropOperation)op
 {
     if (row < 0)
@@ -107,15 +107,15 @@ NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 
 
 -(void) moveObjectsInArrangedObjectsFromIndexes:(NSIndexSet*)indexSet
-										toIndex:(unsigned int)insertIndex
+										toIndex:(NSUInteger)insertIndex
 {
 	
     NSArray		*objects = [self arrangedObjects];
-	int			index = [indexSet lastIndex];
+	NSInteger			index = [indexSet lastIndex];
 	
-    int			aboveInsertIndexCount = 0;
+    NSInteger			aboveInsertIndexCount = 0;
     id			object;
-    int			removeIndex;
+    NSInteger			removeIndex;
 	
     while (NSNotFound != index)
 	{
@@ -140,9 +140,8 @@ NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 - (NSIndexSet *)indexSetFromRows:(NSArray *)rows
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
-    NSEnumerator *rowEnumerator = [rows objectEnumerator];
     NSNumber *idx;
-    while (idx = [rowEnumerator nextObject])
+    for (idx in rows)
     {
 		[indexSet addIndex:[idx intValue]];
     }
@@ -150,10 +149,10 @@ NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 }
 
 
-- (int)rowsAboveRow:(int)row inIndexSet:(NSIndexSet *)indexSet
+- (NSInteger)rowsAboveRow:(NSInteger)row inIndexSet:(NSIndexSet *)indexSet
 {
-    unsigned currentIndex = [indexSet firstIndex];
-    int i = 0;
+    NSUInteger currentIndex = [indexSet firstIndex];
+    NSInteger i = 0;
     while (currentIndex != NSNotFound)
     {
 		if (currentIndex < row) { i++; }
@@ -162,11 +161,11 @@ NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
     return i;
 }
 
-- (int)numberOfRowsInTableView:(NSTableView *)tableView {
+- (NSUInteger)numberOfRowsInTableView:(NSTableView *)tableView {
 	return 0;
 }
 
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row {
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
 	return nil;
 }
 

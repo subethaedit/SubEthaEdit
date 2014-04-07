@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+    <recognition>
+        <extension>txt</extension>
+        <extension>text</extension>
+    </recognition>
+</settings>

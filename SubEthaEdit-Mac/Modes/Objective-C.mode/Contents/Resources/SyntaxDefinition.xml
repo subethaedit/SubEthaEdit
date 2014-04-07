@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!DOCTYPE syntax SYSTEM "syntax.dtd">
-
 <syntax>
     <head>
         <name>Objective-C</name>
@@ -12,7 +11,7 @@
         <folding toplevel="2"/>
     </head>
     <states>
-        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal" usesymbolsfrommode="Objective-C" useautocompletefrommode="Objective-C">
+        <default id="Base" usesymbolsfrommode="Objective-C" useautocompletefrommode="Objective-C" scope="meta.default">
             <import mode="C" keywords-only="yes"/>
             <state-link mode="C" state="Characters"/>
             <state-link mode="C" state="Preprocessor"/>
@@ -21,7 +20,7 @@
             <state-link mode="C" state="Comment"/>
             <state-link mode="C" state="SingleComment"/>
             <state-link mode="C" state="String"/>
-            <state id="NSString" type="string" color="#760f15" font-weight="normal" font-style="normal" foldable="no">
+            <state id="NSString" type="string" foldable="no" scope="string.double.openstep">
                 <begin>
                     <string>@"</string>
                 </begin>
@@ -29,9 +28,10 @@
                     <regex>(((?&lt;!\\)(\\\\)*)|^)"</regex>
                 </end>
             </state>
-            <state id="Block" type="block" foldable="yes">
+            <state id="Block" type="block" foldable="yes" indent="yes" scope="meta.block">
                 <begin>
                     <regex>(?:^[ \t]*[-+][^(-;]*\([A-Za-z0-9 *_]*\)[A-Za-z0-9_ \t\n\r]+)?{</regex>
+                    <autoend>}</autoend>
                 </begin>
                 <end>
                     <regex>}</regex>
@@ -39,9 +39,10 @@
                 <import mode="C" keywords-only="yes"/>
                 <import/>
             </state>
-            <state id="Objective-C @clauses" type="block" foldable="yes">
+            <state id="Objective-C @clauses" type="block" foldable="yes" scope="meta.block.directives">
                 <begin>
                     <regex>(?:@implementation|@interface|@protocol)\s+[\w_]+(?:\s*(?:(?:\(\s*[\w_]+\s*\))|:\s*[\w_]+\s*))?</regex>
+					<autoend>@end</autoend>
                 </begin>
                 <end>
                     <regex>@end</regex>
@@ -49,13 +50,13 @@
                 <import mode="C" keywords-only="yes"/>
                 <import/>
             </state>
-            <keywords id="Methods" color="#6C0540" casesensitive="yes">
+            <keywords id="Methods" casesensitive="yes" scope="language.subroutine.method">
                 <regex>[^:]\([^)]*\)\s*([A-Za-z_][A-Za-z0-9_]*)\s*[{;]</regex>
                 <regex>\)\s*([A-Za-z_][A-Za-z0-9_]*:)</regex>
                 <regex>\s([A-Za-z_][A-Za-z0-9_]+*:)</regex>
                 <regex>(?&lt;![:\s])\s+([A-Za-z_][A-Za-z0-9_]*)]</regex>
             </keywords>
-            <keywords id="Cocoa Classes" color="#400080" background-color="#fff" font-weight="normal" font-style="normal" casesensitive="yes" useforautocomplete="yes">
+            <keywords id="Cocoa Classes" background-casesensitive="yes" useforautocomplete="yes" scope="support.class.standard.cocoa">
                 <string>ABActionDelegate</string>
                 <string>ABAddressBook</string>
                 <string>ABGroup</string>
@@ -1034,7 +1035,7 @@
                 <string>XGResource</string>
                 <string>XGTwoWayRandomAuthenticator</string>
             </keywords>
-            <keywords id="Objective-C Keywords" color="#881350" useforautocomplete="yes" font-weight="bold">
+            <keywords id="Objective-C Keywords" useforautocomplete="yes" scope="keyword.objective-c">
                 <string>@catch</string>
                 <string>@class</string>
                 <string>@defs</string>
@@ -1079,10 +1080,10 @@
                 <string>setter</string>
                 <string>super</string>
             </keywords>
-            <keywords id="Memory Management" color="#f00" font-weight="bold" font-style="normal" useforautocomplete="yes">
+            <keywords id="Memory Management" useforautocomplete="yes" scope="meta.important.memorymanagement">
                 <regex>(?&lt;![\w:_])(new|allocWithZone:|alloc|autorelease|copyWithZone:|copy|mutableCopyWithZone:|mutableCopy|retain|release)(?![\w:_])</regex>
             </keywords>
-            <keywords id="Cocoa Functions" color="#400080" font-weight="normal" font-style="italic" useforautocomplete="yes">
+            <keywords id="Cocoa Functions" useforautocomplete="yes" scope="support.subroutine.standard.cocoa">
                 <string>ABAddPropertiesAndTypes</string>
                 <string>ABAddRecord</string>
                 <string>ABAddressBookAddRecord</string>
@@ -1999,7 +2000,7 @@
                 <string>glVertexAttrib4fv</string>
                 <string>glVertexAttribPointer</string>
             </keywords>
-            <keywords id="Cocoa Types" color="#400080" font-weight="normal" font-style="italic" useforautocomplete="yes">
+            <keywords id="Cocoa Types" useforautocomplete="yes" scope="support.type.cocoa">
                 <string>CAAction</string>
                 <string>CFAllocatorRef</string>
                 <string>CFArrayRef</string>
@@ -2432,7 +2433,7 @@
                 <string>NSZeroSize</string>
                 <string>NSZone</string>
             </keywords>
-            <keywords id="Cocoa Constants" color="#400080" font-weight="normal" font-style="italic" useforautocomplete="yes">
+            <keywords id="Cocoa Constants" useforautocomplete="yes" scope="support.constant.cocoa">
                 <string>AUHostVersionIdentifier</string>
                 <string>AUNumVersion</string>
                 <string>AVAudioQuality</string>
@@ -4223,6 +4224,9 @@
                 <string>NSIntMapKeyCallBacks</string>
                 <string>NSIntMapValueCallBacks</string>
                 <string>NSIntType</string>
+                <string>NSUIntegerMax</string>
+                <string>NSIntegerMin</string>
+                <string>NSIntegerMax</string>
                 <string>NSInteger16AttributeType</string>
                 <string>NSInteger32AttributeType</string>
                 <string>NSInteger64AttributeType</string>

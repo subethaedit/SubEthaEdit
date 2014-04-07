@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "symbol.dtd">
+<symbols>
+    <blocks>
+        <beginregex>{</beginregex>
+        <endregex>}</endregex>
+    </blocks>
+
+    <symbol id="Lasso Custom Tags" font-weight="normal" font-style="normal" image="SymbolF()" indentation="0" ignoreblocks="yes">
+        <regex>(?:^|(?&lt;=\r))\ *\[?[Dd]efine_[Tt]ag\s*[(:]\s*['"](.*?)['"]</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+        </postprocess>
+    </symbol>
+
+    <symbol id="Lasso Custom Tags" font-weight="normal" font-style="normal" image="SymbolF()" indentation="1" ignoreblocks="yes">
+        <regex>(?:^|(?&lt;=\r))\t\[?[Dd]efine_[Tt]ag\s*[(:]\s*['"](.*?)['"]</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+        </postprocess>
+    </symbol>
+
+    <symbol id="Lasso Custom Tags" font-weight="normal" font-style="normal" image="SymbolF()" indentation="2" ignoreblocks="yes">
+        <regex>(?:^|(?&lt;=\r))\t{2}\[?[Dd]efine_[Tt]ag\s*[(:]\s*['"](.*?)['"]</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+        </postprocess>
+    </symbol>
+
+    <symbol id="Lasso Custom Tags" font-weight="normal" font-style="normal" image="SymbolF()" indentation="3" ignoreblocks="yes">
+        <regex>(?:^|(?&lt;=\r))\t{3,}\[?[Dd]efine_[Tt]ag\s*[(:]\s*['"](.*?)['"]</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+        </postprocess>
+    </symbol>
+
+    <symbol id="Lasso Custom Types" font-weight="normal" font-style="normal" image="SymbolC" indentation="0" ignoreblocks="yes">
+        <regex>(?:^|(?&lt;=\r))\ *\[?[Dd]efine_[Tt]ype\s*[(:]\s*['"](.*?)['"]</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+        </postprocess>
+    </symbol>
+
+    <symbol id="Lasso Custom Types" font-weight="normal" font-style="normal" image="SymbolC" indentation="1" ignoreblocks="yes">
+        <regex>(?:^|(?&lt;=\r))\t\[?[Dd]efine_[Tt]ype\s*[(:]\s*['"](.*?)['"]</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+        </postprocess>
+    </symbol>
+
+    <symbol id="Lasso Custom Types" font-weight="normal" font-style="normal" image="SymbolC" indentation="2" ignoreblocks="yes">
+        <regex>(?:^|(?&lt;=\r))\t{2}\[?[Dd]efine_[Tt]ype\s*[(:]\s*['"](.*?)['"]</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+        </postprocess>
+    </symbol>
+
+    <symbol id="Lasso Custom Types" font-weight="normal" font-style="normal" image="SymbolC" indentation="3" ignoreblocks="yes">
+        <regex>(?:^|(?&lt;=\r))\t{3,}\[?[Dd]efine_[Tt]ype\s*[(:]\s*['"](.*?)['"]</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+        </postprocess>
+    </symbol>
+
+	<symbol id="Define Functions Lasso 9" font-weight="normal" font-style="normal" image="SymbolF()" indentation="0" ignoreblocks="no">
+		<regex>(?:define|public|protected|private)\s+((?:(?:[A-Za-z_][A-Za-z_0-9]+-&gt;(?:[A-Za-z_][A-Za-z_0-9]+|[\&lt;\&gt;\=\+\-\*\/]+))|(?:[A-Za-z_][A-Za-z_0-9]+|[\&lt;\&gt;\=\+\-\*\/]+))\s*\([^)]*\)(?:\s*::[A-Za-z][A-Za-z_0-9]+)?)\s*=&gt;</regex>
+		<postprocess>
+			<find>[\s]+</find>
+			<replace> </replace>
+			<find>\(\s</find>
+			<replace>(</replace>
+		</postprocess>
+	</symbol>
+
+	<symbol id="Define Other lasso 9" font-weight="normal" font-style="normal" image="SymbolT" indentation="0" ignoreblocks="no">
+		<regex>(?:define|public|protected|private)\s+([A-Za-z_][A-Za-z_0-9]+)\s*=&gt;</regex>
+		<postprocess>
+			<find>[\s]+</find>
+			<replace> </replace>
+		</postprocess>
+	</symbol>
+
+	<!-- STUDIO replaced "Symbol!" with SymbolMark -->
+    <symbol id="Comment Marks" font-weight="normal" indentation="0" ignoreblocks="yes" image="SymbolMark" show-in-comments="yes">
+        <regex>//- mark[\t ]*(?:-(?=[\n\r]))?([^\n\r]*)</regex>
+    </symbol>
+
+	<!-- STUDIO -->
+	<symbol id="Comment Marks" font-weight="normal" indentation="0" ignoreblocks="yes" image="SymbolMark" show-in-comments="yes">
+        <regex>//\s*![\t ]*(?:-(?=[\n\r]))?([^\n\r]*)</regex>
+    </symbol>
+
+</symbols>

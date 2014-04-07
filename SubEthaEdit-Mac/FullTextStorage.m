@@ -1,10 +1,13 @@
-//
+
 //  FullTextStorage.m
-//  TextEdit
-//
 //  Created by Dominik Wagner on 04.01.09.
 //  Copyright 2009 TheCodingMonkeys. All rights reserved.
-//
+
+
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
 
 
 #import "FoldableTextStorage.h"
@@ -13,6 +16,8 @@
 #import "SyntaxHighlighter.h"
 #import "SelectionOperation.h"
 #import "TCMMMUserManager.h"
+
+NSString * const SEESearchScopeAttributeName = @"SEESearchScope";
 
 NSString * const TextStorageLineEndingDidChange =
                @"TextStorageLineEndingDidChange";
@@ -33,13 +38,18 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 
 @implementation NSArray (NSArrayTextStorageAdditions) 
 - (NSArray *)arrayByRemovingObject:(id)anObject {
-    NSMutableArray *result=[[self mutableCopy] autorelease];
+    NSMutableArray *result=[self mutableCopy];
     [result removeObject:anObject];
     return (NSArray *)result;
 }
 - (OGRegularExpression *)combinedRegex {
     return [OGRegularExpression regularExpressionWithString:[self componentsJoinedByString:@"|"]];
 }
+@end
+
+
+@interface FullTextStorage ()
+@property (nonatomic, weak) FoldableTextStorage *foldableTextStorage;
 @end
 
 
@@ -53,8 +63,8 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 			unichar seps[2];
 			seps[0]=0x2028;
 			seps[1]=0x2029;
-			sUnicodeLSEP=[[NSString stringWithCharacters:seps   length:1] retain];
-			sUnicodePSEP=[[NSString stringWithCharacters:seps+1 length:1] retain];
+			sUnicodeLSEP=[NSString stringWithCharacters:seps   length:1];
+			sUnicodePSEP=[NSString stringWithCharacters:seps+1 length:1];
 		}
 		S_LineEndingLFRegExPart = @"(?:(?<!\r)\n)";
 		S_LineEndingCRRegExPart = @"(?:\r(?!\n))";
@@ -71,28 +81,28 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
             static OGRegularExpression *sWrong;
             if (!sWrong)
                 sWrong=
-                    [[[S_AllLineEndingRegexPartsArray arrayByRemovingObject:S_LineEndingCRRegExPart] combinedRegex] retain];
+                    [[S_AllLineEndingRegexPartsArray arrayByRemovingObject:S_LineEndingCRRegExPart] combinedRegex];
             return sWrong;
         }
         case LineEndingCRLF: {
             static OGRegularExpression *sWrong;
             if (!sWrong)
                 sWrong=
-                    [[[S_AllLineEndingRegexPartsArray arrayByRemovingObject:S_LineEndingCRLFRegExPart] combinedRegex] retain];
+                    [[S_AllLineEndingRegexPartsArray arrayByRemovingObject:S_LineEndingCRLFRegExPart] combinedRegex];
             return sWrong;
         }
         case LineEndingUnicodeLineSeparator: {
             static OGRegularExpression *sWrong;
             if (!sWrong)
                 sWrong=
-                    [[[S_AllLineEndingRegexPartsArray arrayByRemovingObject:S_LineEndingUnicodeLineSeparatorRegExPart] combinedRegex] retain];
+                    [[S_AllLineEndingRegexPartsArray arrayByRemovingObject:S_LineEndingUnicodeLineSeparatorRegExPart] combinedRegex];
             return sWrong;
         }
         case LineEndingUnicodeParagraphSeparator:{
             static OGRegularExpression *sWrong;
             if (!sWrong)
                 sWrong=
-                    [[[S_AllLineEndingRegexPartsArray arrayByRemovingObject:S_LineEndingUnicodeParagraphSeparatorRegExPart] combinedRegex] retain];
+                    [[S_AllLineEndingRegexPartsArray arrayByRemovingObject:S_LineEndingUnicodeParagraphSeparatorRegExPart] combinedRegex];
             return sWrong;
         }
         case LineEndingLF: 
@@ -100,7 +110,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
             static OGRegularExpression *sWrong;
             if (!sWrong)
                 sWrong=
-                    [[[S_AllLineEndingRegexPartsArray arrayByRemovingObject:S_LineEndingLFRegExPart] combinedRegex] retain];
+                    [[S_AllLineEndingRegexPartsArray arrayByRemovingObject:S_LineEndingLFRegExPart] combinedRegex];
             return sWrong;
         }
     }
@@ -109,7 +119,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 - (id)initWithFoldableTextStorage:(FoldableTextStorage *)inTextStorage {
     if ((self = [super init])) {
         I_internalAttributedString = [NSMutableAttributedString new];
-        I_foldableTextStorage = inTextStorage; // no retain here - the foldableTextstorage owns us
+        self.foldableTextStorage = inTextStorage;
         I_shouldNotSynchronize = 0;
 
 		I_lineStarts=[NSMutableArray new];
@@ -125,18 +135,9 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     return self;
 }
 
-- (FoldableTextStorage *)foldableTextStorage {
-	return I_foldableTextStorage;
-}
-
-
 - (void)dealloc {
-
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[EncodingManager sharedInstance] unregisterEncoding:I_encoding];
-	[I_lineStarts  release];
-	[I_internalAttributedString release];
-	[super dealloc];
 }
 
 - (NSMutableAttributedString *)internalMutableAttributedString {
@@ -150,7 +151,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     return [I_internalAttributedString string];
 }
 
-- (NSDictionary *)attributesAtIndex:(unsigned)aIndex 
+- (NSDictionary *)attributesAtIndex:(NSUInteger)aIndex 
                      effectiveRange:(NSRangePointer)aRange {
 	if ([self length]==0) return nil;
     return [I_internalAttributedString attributesAtIndex:aIndex effectiveRange:aRange];
@@ -159,17 +160,18 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 - (void)replaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString synchronize:(BOOL)inSynchronizeFlag {
 //	[self beginEditing];
 
-//	NSString *foldingBefore = [I_foldableTextStorage foldedStringRepresentation];
+//	NSString *foldingBefore = [self.foldableTextStorage foldedStringRepresentation];
 //	NSLog(@"%s before: %@",__FUNCTION__,foldingBefore);
 //	NSLog(@"%s %@ %@ %@",__FUNCTION__, NSStringFromRange(aRange), aString, inSynchronizeFlag ? @"YES" : @"NO");
 
+	FoldableTextStorage *foldableTextStorage = self.foldableTextStorage;
 
 		BOOL needsCompleteValidation = NO;
     if (I_flags.shouldWatchLineEndings && I_flags.hasMixedLineEndings && aRange.length && [self hasMixedLineEndingsInRange:aRange]) {
         needsCompleteValidation = YES;
     }
 
-	id delegate = [I_foldableTextStorage delegate];
+	id delegate = [foldableTextStorage delegate];
 	if ([delegate respondsToSelector:@selector(textStorage:willReplaceCharactersInRange:withString:)]) {
 		[delegate textStorage:self willReplaceCharactersInRange:aRange withString:aString];
 	}
@@ -191,7 +193,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
         [self validateHasMixedLineEndings];
     }
 
-    if (inSynchronizeFlag && !I_shouldNotSynchronize) [I_foldableTextStorage fullTextDidReplaceCharactersInRange:aRange withString:aString];
+    if (inSynchronizeFlag && !I_shouldNotSynchronize) [foldableTextStorage fullTextDidReplaceCharactersInRange:aRange withString:aString];
 
 	if ([delegate respondsToSelector:@selector(textStorage:didReplaceCharactersInRange:withString:)]) {
 		[delegate textStorage:self didReplaceCharactersInRange:aRange withString:aString];
@@ -215,7 +217,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 //    [self edited:NSTextStorageEditedAttributes range:aRange 
 //          changeInLength:0];
     if (inSynchronizeFlag && !I_shouldNotSynchronize && !I_fixingCounter) {
-    	[I_foldableTextStorage fullTextDidSetAttributes:attributes range:aRange];
+    	[self.foldableTextStorage fullTextDidSetAttributes:attributes range:aRange];
     } else if (I_linearAttributeChangeState) {
     	if (I_unionRangeOfLinearAttributeChanges.length == NSNotFound) {
     		I_unionRangeOfLinearAttributeChanges = aRange;
@@ -258,10 +260,26 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     unsigned lineStartLocation=[[[self lineStarts] objectAtIndex:lineNumber-1] intValue];
     int positionInLine = aRange.location-lineStartLocation;
     NSString *string=[NSString stringWithFormat:@"%d:%d",lineNumber, positionInLine];
-    if (aRange.length>0) string=[string stringByAppendingFormat:@" (%d)",aRange.length];
+    if (aRange.length>0) string=[string stringByAppendingFormat:@" (%lu)",(unsigned long)aRange.length];
     return string;
 }
 
+
+- (NSString *)rangeStringForRange:(NSRange)aRange {
+	NSString *(^positionString)(NSUInteger) = ^(NSUInteger location) {
+		NSInteger lineNumber = [self lineNumberForLocation:location];
+		// NSUInteger lineStartLocation = [self.lineStarts[lineNumber-1] unsignedIntegerValue];
+		//		int positionInline = location - lineStartLocation;
+		NSString *result = @(lineNumber).stringValue;
+		//		if (positionInline > 0) {
+		//	result = [NSString stringWithFormat:@"%ld:%ld",lineNumber,lineStartLocation];
+		//}
+		return result;
+	};
+	
+	NSString *result = [@[positionString(aRange.location),positionString(NSMaxRange(aRange)-1)] componentsJoinedByString:@"-"];
+	return result;
+}
 
 - (unsigned)numberOfLines {
     return [self lineNumberForLocation:[self length]];
@@ -276,7 +294,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     if (I_numberOfWords == 0 && limit>[self length]) {
         static OGRegularExpression *s_wordCountRegex = nil;
         if (!s_wordCountRegex) {
-            s_wordCountRegex = [[OGRegularExpression regularExpressionWithString:@"[\\w']+"] retain];
+            s_wordCountRegex = [OGRegularExpression regularExpressionWithString:@"[\\w']+"];
         }
         I_numberOfWords  = [[s_wordCountRegex allMatchesInString:[self string]] count];
     }
@@ -443,6 +461,62 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     [[EncodingManager sharedInstance] registerEncoding:anEncoding];
 }
 
+#pragma mark - SearchScopes
+- (void)TCM_changeSearchScopeAttributeValue:(id)aValue inRange:(NSRange)aRange shouldRemove:(BOOL)shouldRemove {
+	NSRange rangeToTraverse = aRange;
+	NSRange foundRange;
+	[self beginEditing];
+	[self beginLinearAttributeChanges];
+	while (rangeToTraverse.length > 0) {
+		NSSet *set = [self attribute:SEESearchScopeAttributeName atIndex:rangeToTraverse.location
+			   longestEffectiveRange:&foundRange
+							 inRange:rangeToTraverse];
+		if (!shouldRemove) {
+			if (!set) {
+				set = [NSSet setWithObject:aValue];
+			} else {
+				set = [set setByAddingObject:aValue];
+			}
+			[self addAttribute:SEESearchScopeAttributeName value:set range:foundRange];
+		} else {
+			if (set) {
+				if ([set containsObject:aValue]) {
+					if (set.count > 1) {
+						NSMutableSet *newSet = [set mutableCopy];
+						[newSet removeObject:aValue];
+						[self addAttribute:SEESearchScopeAttributeName value:[newSet copy] range:foundRange];
+					} else {
+						[self removeAttribute:SEESearchScopeAttributeName range:foundRange];
+					}
+				}
+			}
+		}
+		
+		NSUInteger newStartIndex = NSMaxRange(foundRange);
+		rangeToTraverse = NSMakeRange(newStartIndex, NSMaxRange(rangeToTraverse)-newStartIndex);
+	}
+	[self endLinearAttributeChanges];
+	[self endEditing];
+}
+
+- (void)addSearchScopeAttributeValue:(id)aValue inRange:(NSRange)aRange {
+	[self TCM_changeSearchScopeAttributeValue:aValue inRange:aRange shouldRemove:NO];
+}
+- (void)removeSearchScopeAttributeValue:(id)aValue fromRange:(NSRange)aRange {
+	[self TCM_changeSearchScopeAttributeValue:aValue inRange:aRange shouldRemove:YES];
+}
+
+- (NSArray *)searchScopeRangesForAttributeValue:(id)aValue {
+	NSMutableArray *result = [NSMutableArray new];
+	[self enumerateAttribute:SEESearchScopeAttributeName inRange:[self TCM_fullLengthRange] options:0 usingBlock:^(NSSet *valueSet, NSRange range, BOOL *stop) {
+		if (valueSet && [valueSet containsObject:aValue]) {
+			[result addObject:[NSValue valueWithRange:range]];
+		}
+	}];
+	return result;
+}
+
+
 
 #pragma mark -
 #pragma mark ### Dictionary Representation ###
@@ -476,12 +550,12 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 #pragma mark -
 // performance optimization
 - (void)beginEditing {
-	[I_foldableTextStorage beginEditing];
 	[super beginEditing];
+	[self.foldableTextStorage beginEditing];
 }
 
 - (void)endEditing {
-	[I_foldableTextStorage endEditing];
+	[self.foldableTextStorage endEditing];
 	[super endEditing];
 }
 
@@ -504,7 +578,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     NSRange returnRange = NSMakeRange(NSNotFound, 0);
     int depth = [[textStorage attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:index effectiveRange:NULL] intValue];
     
-    if (depth == 0) return NSMakeRange(NSNotFound, 0); // Not foldable
+    if (depth == 0) return returnRange; // Not foldable
 
 	// new approach: find folding start for this level as range. then find folding end for this level as range. then return the intersection.
 
@@ -677,7 +751,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 		NSRange attributeRange = NSMakeRange(I_unionRangeOfLinearAttributeChanges.location,0);
 		do {
 			NSDictionary *attributes = [I_internalAttributedString attributesAtIndex:NSMaxRange(attributeRange) longestEffectiveRange:&attributeRange inRange:I_unionRangeOfLinearAttributeChanges];
-			[I_foldableTextStorage fullTextDidSetAttributes:attributes range:attributeRange];
+			[self.foldableTextStorage fullTextDidSetAttributes:attributes range:attributeRange];
 			aggregatedChangesCount++;
 		} while (NSMaxRange(attributeRange) < NSMaxRange(I_unionRangeOfLinearAttributeChanges));
 //		NSLog(@"%s aggregated %d changes into %d changes (%2.1f%% reduction) in resulting range: %@",__FUNCTION__,I_linearAttributeChangesCount,aggregatedChangesCount,100.0 - ((((double)aggregatedChangesCount) / I_linearAttributeChangesCount)*100.0),NSStringFromRange(I_unionRangeOfLinearAttributeChanges));
@@ -703,7 +777,6 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
         if (![charString canBeConvertedToEncoding:encoding]) {
             [array addObject:[SelectionOperation selectionOperationWithRange:NSMakeRange(i, 1) userID:myUserID]];
         }
-        [charString release];
     }
     
     // combine adjacent selection operations
@@ -722,8 +795,118 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 }
 
 - (id)objectSpecifier {
-	return [I_foldableTextStorage objectSpecifier];
+	return [self.foldableTextStorage objectSpecifier];
 }
 
+// returns NSNotFound,0 if not found
+- (NSRange)startRangeForStateAndIndex:(NSUInteger)aLocation {
+	NSRange result = NSMakeRange(NSNotFound,0);
+
+	if (aLocation != 0) {
+		NSUInteger location = aLocation - 1;
+		NSArray *referenceStack = [self attribute:kSyntaxHighlightingStackName atIndex:location effectiveRange:nil];
+		if (!referenceStack) return result; // no syntax highlighting information - abort
+		
+		if ([[self attribute:kSyntaxHighlightingStateDelimiterName atIndex:location  effectiveRange:nil] isEqual:kSyntaxHighlightingStateDelimiterEndValue]) {
+			if ([referenceStack count] == 1) return result; // outside of scope
+			referenceStack = [referenceStack objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,[referenceStack count]-1)]];
+		}
+		
+		// search for starts left of us, check their stack, if it matches extract the autoend if there
+		NSRange effectiveRange = NSMakeRange(aLocation,0);
+		NSRange maxRange = NSMakeRange(0, aLocation);
+		while (effectiveRange.location > 0) {
+			NSString *stateDelimiter = [self attribute:kSyntaxHighlightingStateDelimiterName atIndex:effectiveRange.location-1  longestEffectiveRange:&effectiveRange inRange:maxRange];
+			if ([stateDelimiter isEqualToString:kSyntaxHighlightingStateDelimiterStartValue]) {
+				NSArray *stack = [self attribute:kSyntaxHighlightingStackName atIndex:effectiveRange.location effectiveRange:nil];
+				if ([stack isEqual:referenceStack]) {
+					return effectiveRange;
+				}
+			}
+		}
+	}
+	return result;
+}
+
+
+- (NSString *)autoendForIndex:(NSUInteger)aLocation {
+	NSRange startRange = [self startRangeForStateAndIndex:aLocation];
+	if (startRange.location != NSNotFound) {
+		return [self attribute:kSyntaxHighlightingAutocompleteEndName atIndex:startRange.location effectiveRange:nil];
+	}
+	return nil;
+}
+
+
+- (BOOL)nextLineNeedsIndentation:(NSRange)aLineRange {
+	// check from the end to the range to the beginning if we find a folding start. if so return yes. otherwise return no;
+	BOOL result = NO;
+	NSRange effectiveRange = NSMakeRange(NSMaxRange(aLineRange) > 0 ? NSMaxRange(aLineRange) - 1 : 0,0);
+	NSString *foldingDelimiter = nil;
+	while (effectiveRange.location > aLineRange.location) {
+		foldingDelimiter = [self attribute:kSyntaxHighlightingFoldDelimiterName atIndex:effectiveRange.location longestEffectiveRange:&effectiveRange inRange:aLineRange];
+		if (foldingDelimiter) {
+			if ([foldingDelimiter isEqualToString:kSyntaxHighlightingStateDelimiterStartValue]) result = YES;
+			break;
+		}
+		if (effectiveRange.location > 0) effectiveRange.location -= 1; // iterate backwards
+	}
+	return result;
+}
+
+- (NSUInteger)minIndentLevelInRange:(NSRange)aRange {
+	NSUInteger maxIndentLevel = NSUIntegerMax;
+	NSRange effectiveRange = NSMakeRange(aRange.location,0);
+	while (effectiveRange.location < NSMaxRange(aRange)) {
+		NSString *foldingDelimiter = [self attribute:kSyntaxHighlightingFoldDelimiterName atIndex:effectiveRange.location  longestEffectiveRange:&effectiveRange inRange:aRange];
+		
+		// extract folding depth
+		NSNumber *thisIndentLevel = [self attribute:kSyntaxHighlightingIndentLevelName atIndex:effectiveRange.location effectiveRange:NULL];
+		if (thisIndentLevel) {			
+			maxIndentLevel = MIN(maxIndentLevel, [thisIndentLevel unsignedIntegerValue] - (foldingDelimiter != nil ? 1 : 0));
+		}
+		effectiveRange.location = NSMaxRange(effectiveRange);
+	}
+	return maxIndentLevel == NSUIntegerMax ? 0 : maxIndentLevel;
+	
+}
+
+// currently unused
+- (NSUInteger)minFoldingDepthInRange:(NSRange)aRange {
+	NSUInteger foldingDepth = NSUIntegerMax;
+	NSRange effectiveRange = NSMakeRange(aRange.location,0);
+	while (effectiveRange.location < NSMaxRange(aRange)) {
+		NSString *foldingDelimiter = [self attribute:kSyntaxHighlightingFoldDelimiterName atIndex:effectiveRange.location  longestEffectiveRange:&effectiveRange inRange:aRange];
+		
+		// extract folding depth
+		NSNumber *thisFoldingDepth = [self attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:effectiveRange.location effectiveRange:NULL];
+		if (thisFoldingDepth) {			
+			foldingDepth = MIN(foldingDepth, [thisFoldingDepth unsignedIntegerValue] - (foldingDelimiter != nil ? 1 : 0));
+		}
+		effectiveRange.location = NSMaxRange(effectiveRange);
+	}
+	return foldingDepth == NSUIntegerMax ? 0 : foldingDepth;
+}
+
+- (void)reindentLine:(NSRange)aLineRange usingTabStringPerLevel:(NSString *)aTabString {
+	NSUInteger minFoldingDepth = [self minIndentLevelInRange:aLineRange];
+	NSRange whitespaceRange = [[self string] rangeOfLeadingWhitespaceStartingAt:aLineRange.location];
+	NSString *replacementString = [@"" stringByPaddingToLength:[aTabString length] * minFoldingDepth withString:aTabString startingAtIndex:0];
+	[self replaceCharactersInRange:whitespaceRange withString:replacementString];
+}
+
+- (void)reindentRange:(NSRange)aRange usingTabStringPerLevel:(NSString *)aTabString {
+	NSRange completeRange = [[self string] lineRangeForRange:aRange];
+	
+	[self beginEditing];
+
+	NSRange lineRange = NSMakeRange(NSMaxRange(completeRange),0);
+	while (lineRange.location > completeRange.location) {
+		lineRange = [[self string] lineRangeForRange:NSMakeRange(lineRange.location - 1,0)];
+		[self reindentLine:lineRange usingTabStringPerLevel:aTabString];
+	}
+	
+	[self endEditing];
+}
 
 @end

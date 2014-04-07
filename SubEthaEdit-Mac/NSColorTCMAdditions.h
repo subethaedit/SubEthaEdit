@@ -11,6 +11,7 @@
 
 @interface NSColor (NSColorTCMAdditions)
 
++ (NSColor *)searchScopeBaseColor;
 + (NSColor *)insertionsStatisticsColor;
 + (NSColor *)deletionsStatisticsColor;
 + (NSColor *)selectionsStatisticsColor;

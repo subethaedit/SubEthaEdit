@@ -1,0 +1,15 @@
+Changes with Version 3.5  (SEE 3.5)
+	 *) added code folding
+
+Changes with Version 1.3 (SEE 2.6)
+
+    *) Adding inline functions
+
+Changes with Version 1.2 (SEE 2.3)
+
+    *) Fixed SEE-490
+    *) Added fixes by Christian Rocha
+
+Changes with Version 1.1
+    
+    *) EXTENSIONS: Added uppercase variants where appropriate.

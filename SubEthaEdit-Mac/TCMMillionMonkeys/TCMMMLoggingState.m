@@ -72,12 +72,9 @@
         	[initialText setContentByDictionaryRepresentation:[aDictionary objectForKey:@"initialtext"]];
         }
 
-        int i=0;
-        int count = [loggedOperations count];
-        for (i=0;i<count;i++) {
-            TCMMMLoggedOperation *operation = [loggedOperations objectAtIndex:i];
+        for (TCMMMLoggedOperation *operation in loggedOperations) {
             if (timeDifference < 0) {
-                [operation setDate:[[operation date] addTimeInterval:timeDifference]];
+                [operation setDate:[[operation date] dateByAddingTimeInterval:timeDifference]];
             }
             id innerOperation = [operation operation];
             if (initialText && [innerOperation isKindOfClass:[TextOperation class]]) {
@@ -98,8 +95,8 @@
         if (initialText) {
         	[initialText release];
         }
+		DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel,@"imported %ld operations, the last one being:%@ statistics are:%@",(unsigned long)[I_loggedOperations count],[I_loggedOperations lastObject],I_statisticsArray);
     }
-    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel,@"imported %d operations, the last one being:%@ statistics are:%@",[I_loggedOperations count],[I_loggedOperations lastObject],I_statisticsArray);
     return self;
 }
 
@@ -108,7 +105,7 @@
     TCMMMLogStatisticsEntry *entry = nil;
     while ((entry = [statisticsEntries nextObject])) {
         if ([entry isInside]) {
-            TCMMMOperation *op = [UserChangeOperation userChangeOperationWithType:UserChangeTypeLeave userID:[[entry user] userID] newGroup:@"PoofGroup"];
+            TCMMMOperation *op = [UserChangeOperation userChangeOperationWithType:UserChangeTypeLeave userID:[[entry user] userID] newGroup:TCMMMSessionPoofGroupName];
             [self handleOperation:op];
         }
     }
@@ -122,7 +119,7 @@
     long long index = [(TCMMMLoggedOperation *)[I_loggedOperations lastObject] index];
     while ((entry = [statisticsEntries nextObject])) {
         if ([entry isInside]) {
-            TCMMMLoggedOperation *op = [TCMMMLoggedOperation loggedOperationWithOperation:[UserChangeOperation userChangeOperationWithType:UserChangeTypeLeave userID:[[entry user] userID] newGroup:@"PoofGroup"] index:++index];
+            TCMMMLoggedOperation *op = [TCMMMLoggedOperation loggedOperationWithOperation:[UserChangeOperation userChangeOperationWithType:UserChangeTypeLeave userID:[[entry user] userID] newGroup:TCMMMSessionPoofGroupName] index:++index];
             [leaveOperations addObject:[op dictionaryRepresentation]];
         }
     }

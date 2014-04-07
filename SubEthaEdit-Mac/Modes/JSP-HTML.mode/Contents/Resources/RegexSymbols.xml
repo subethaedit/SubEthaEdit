@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "symbol.dtd">
+<symbols>
+    <blocks>
+        <beginregex>{</beginregex>
+        <endregex>}</endregex>
+    </blocks>
+
+    <symbol id="JSP functions" font-weight="normal" font-style="normal" image="SymbolF()" indentation="0" ignoreblocks="no">
+        <regex>^[ ]{0,3}function[ \t]+&amp;?([a-zA-Z0-9_]+[ \t]*\([^)]*\))[^{}]*{</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+        </postprocess>
+    </symbol>
+
+    <symbol id="JSP functions indented" font-weight="normal" font-style="normal" image="SymbolF()" indentation="1" ignoreblocks="no">
+        <regex>^(?:[ ]{3,}|\t)[ \t]*function[ \t]+&amp;?([a-zA-Z0-9_]+[ \t]*\([^)]*\))[^{}]*{</regex>
+       <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+        </postprocess>
+    </symbol>
+
+    <symbol id="JSP classes" font-weight="normal" font-style="normal" image="SymbolC" indentation="0" ignoreblocks="yes">
+        <regex>^[ \t]*class[ \t]+([a-zA-Z0-9_]+)[ \t]*[^{}]*{</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+        </postprocess>
+    </symbol>
+
+    <symbol id="Comment Marks" font-weight="normal" indentation="0" ignoreblocks="yes" show-in-comments="yes">
+        <regex>//- mark[\t ]*(?:-(?=[\n\r]))?([^\n\r]*)</regex>
+    </symbol>
+
+	<!-- STUDIO -->
+	<symbol id="Pragma marks" font-weight="normal" font-style="normal" image="SymbolMark" indentation="0" ignoreblocks="no" show-in-comments="yes">
+        <regex>&lt;%-- !([^-]*) --%&gt;</regex>
+    </symbol>
+    
+	 <symbol id="Pragma marks" font-weight="normal" font-style="normal" image="SymbolMark" indentation="0" ignoreblocks="no" show-in-comments="yes">
+        <regex>&lt;!-- !([^-]*) --&gt;</regex>
+    </symbol>
+    <!-- END -->
+
+</symbols>

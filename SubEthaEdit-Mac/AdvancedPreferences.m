@@ -7,7 +7,7 @@
 //
 
 #import "AdvancedPreferences.h"
-#import "DocumentController.h"
+#import "SEEDocumentController.h"
 #import "GeneralPreferences.h"
 #import "TCMMMBEEPSessionManager.h"
 
@@ -22,7 +22,7 @@
 @implementation AdvancedPreferences
 
 - (NSImage *)icon {
-    return [NSImage imageNamed:@"AdvancedPrefs"];
+    return [NSImage imageNamed:NSImageNameAdvanced];
 }
 
 - (NSString *)iconLabel {
@@ -48,10 +48,10 @@
     // since we only have one mapping this is fine
     TCMPortMapping *mapping = [[[TCMPortMapper sharedInstance] portMappings] anyObject];
     if ([mapping mappingStatus]==TCMPortMappingStatusMapped) {
-        [O_mappingStatusImageView setImage:[NSImage imageNamed:@"DotGreen"]];
+        [O_mappingStatusImageView setImage:[NSImage imageNamed:NSImageNameStatusAvailable]];
         [O_mappingStatusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Port mapped (%d)",@"Status of Port mapping when successful"), [mapping externalPort]]];
     } else {
-        [O_mappingStatusImageView setImage:[NSImage imageNamed:@"DotRed"]];
+        [O_mappingStatusImageView setImage:[NSImage imageNamed:NSImageNameStatusUnavailable]];
         [O_mappingStatusTextField setStringValue:NSLocalizedString(@"Port not mapped",@"Status of Port mapping when unsuccessful or intentionally unmapped")];
     }
     [O_mappingStatusImageView setHidden:NO];
@@ -87,19 +87,16 @@
 
 
 - (void)didSelect {
-#if !defined(CODA)
     BOOL isDir;
     if ([[NSFileManager defaultManager] fileExistsAtPath:SEE_TOOL_PATH isDirectory:&isDir] && !isDir) {
         [O_commandLineToolRemoveButton setEnabled:YES];
     } else {
         [O_commandLineToolRemoveButton setEnabled:NO];
     }
-#endif //!defined(CODA)
 }
 
 #pragma mark -
 
-#if !defined(CODA)
 - (BOOL)installCommandLineTool {
     OSStatus err;
     CFURLRef tool = NULL;
@@ -366,7 +363,6 @@
 		[alert release];
     }
 }
-#endif //!defined(CODA)
 
 - (IBAction)changeDisableScreenFonts:(id)aSender {
     if ([aSender state]==NSOnState) {
@@ -379,7 +375,8 @@
 - (IBAction)changeSynthesiseFonts:(id)aSender {
     [[NSUserDefaults standardUserDefaults] setBool:[aSender state]==NSOnState forKey:SynthesiseFontsPreferenceKey];
     // trigger update
-    [[[DocumentController sharedInstance] documents] makeObjectsPerformSelector:@selector(applyStylePreferences)];
+    [[[SEEDocumentController sharedInstance] documents] makeObjectsPerformSelector:@selector(applyStylePreferences)];
 }
+
 
 @end

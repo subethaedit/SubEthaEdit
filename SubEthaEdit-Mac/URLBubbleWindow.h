@@ -11,9 +11,10 @@
 
 
 @interface URLBubbleWindow : MAAttachedWindow {
-    IBOutlet NSView *O_openURLView;
     NSURL *I_URLToOpen;
 }
+
+@property (readwrite, strong) IBOutlet NSView *openURLViewOutlet;
 
 + (URLBubbleWindow *)sharedURLBubbleWindow;
 

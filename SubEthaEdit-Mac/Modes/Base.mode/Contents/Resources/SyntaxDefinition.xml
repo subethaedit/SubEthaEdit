@@ -1,36 +1,34 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE syntax SYSTEM "syntax.dtd">
 <syntax>
 
     <head>
         <name>Default</name> <!-- The definitions title -->
-        <autocompleteoptions use-spelling-dictionary="yes" />
+        <autocompleteoptions use-spelling-dictionary="yes"/>
         <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@]]></charsintokens> <!-- Valid Characters for Variables -->
     </head>
 
     <states>
     
-        <default id="Base" color="#000">
+        <default id="Base" scope="meta.default">
         
-          <state id="EmailAndURLContainerState" containerState="yes">
-            <keywords id="PrefixlessURLs" color="#0000ff" inverted-color="#4939ff" casesensitive="no" type="url" uri-prefix="http://">
+          <state id="EmailAndURLContainerState" containerState="yes" scope="meta.link">
+            <keywords id="PrefixlessURLs" casesensitive="no" type="url" uri-prefix="http://" scope="meta.link">
                 <regex>(?i)\b(www\.[A-Z0-9._%-]+\.[A-Z]{2,4})\b</regex>
                 <regex>(?i)\b([A-Z0-9._%-]+\.net)\b</regex>
                 <regex>(?i)\b([A-Z0-9._%-]+\.com)\b</regex>
             </keywords>
 
-            <keywords id="Emails" color="#0000ff" inverted-color="#4939ff" casesensitive="no" type="url" uri-prefix="mailto:">
+            <keywords id="Emails" casesensitive="no" type="url" uri-prefix="mailto:" scope="meta.link.email">
                 <regex>(?i)\b([A-Z0-9._%-]+@[A-Z0-9._%-]+\.[A-Z]{2,4})\b</regex>
             </keywords>            
 
-            <keywords id="URLs" color="#0000ff" inverted-color="#4939ff" casesensitive="no" type="url">
+            <keywords id="URLs" casesensitive="no" type="url" scope="meta.link">
                 <regex>\b([a-zA-Z0-9]+://(?:\p{Alnum}|\p{Punct}|[-\+&amp;@#/%=~_|$!:,.;])*(?:\?\S+)?[^})\]\s\.,])</regex>
                 <regex>(?i)\b(mailto:(?:\p{Alnum}|\p{Punct}|[._%-])+@(?:\p{Alnum}|\p{Punct}|[._%-])+\.[A-Z]{2,4})\b</regex>
             </keywords>            
-
           </state>
 
         </default>
-        
     </states>
-
 </syntax>

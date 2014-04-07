@@ -9,6 +9,108 @@
 #import "NSStringSEEAdditions.h"
 #import <OgreKit/OgreKit.h>
 
+// this file needs arc - either project wide,
+// or add -fobjc-arc on a per file basis in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
+@interface TCMBracketSettings ()
+@property (nonatomic, readwrite) unichar *openingBrackets;
+@property (nonatomic, readwrite) unichar *closingBrackets;
+@property (nonatomic, readwrite) NSInteger bracketCount;
+@end
+
+@implementation TCMBracketSettings
+- (instancetype)initWithBracketString:(NSString *)aBracketString {
+	self = [super init];
+	if (self) {
+		[self setBracketString:aBracketString];
+	}
+	return self;
+}
+
+- (void)setBracketString:(NSString *)aBracketString {
+	if (_openingBrackets != NULL) free(_openingBrackets);
+	if (_closingBrackets != NULL) free(_closingBrackets);
+	_bracketCount = [aBracketString length] / 2;
+	_closingBrackets = malloc(sizeof(unichar)*_bracketCount);
+	_openingBrackets = malloc(sizeof(unichar)*_bracketCount);
+	for (int i=0;i<_bracketCount;i++) {
+		_openingBrackets[i]=[aBracketString characterAtIndex:i];
+		_closingBrackets[i]=[aBracketString characterAtIndex:(_bracketCount*2-1)-i];
+	}
+}
+
+- (BOOL)charIsClosingBracket:(unichar)aPossibleBracket {
+    for (int i=0;i<_bracketCount;i++) {
+        if (aPossibleBracket==_closingBrackets[i]) {
+            return YES;
+		}
+    }
+    return NO;
+}
+
+- (BOOL)charIsOpeningBracket:(unichar)aPossibleBracket {
+    for (int i=0;i<_bracketCount;i++) {
+        if (aPossibleBracket==_openingBrackets[i]) {
+            return YES;
+		}
+    }
+    return NO;
+}
+
+- (BOOL)charIsBracket:(unichar)aPossibleBracket {
+	BOOL result = ([self matchingBracketForChar:aPossibleBracket] != (unichar)0);
+    return result;
+}
+
+- (unichar)matchingBracketForChar:(unichar)aBracketCharacter; {
+	for (int i=0;i<_bracketCount;i++) {
+        if (aBracketCharacter==_openingBrackets[i]) {
+			return _closingBrackets[i];
+		} else if (aBracketCharacter==_closingBrackets[i]) {
+            return _openingBrackets[i];
+		}
+    }
+    return (unichar)0;
+}
+
+- (BOOL)shouldIgnoreBracketAtIndex:(NSUInteger)anIndex attributedString:(NSAttributedString *)anAttributedString {
+	BOOL result = NO;
+	if (self.attributeNameToDisregard) {
+		id value = [anAttributedString attribute:self.attributeNameToDisregard atIndex:anIndex effectiveRange:NULL];
+		for (id checkValue in self.attributeValuesToDisregard) {
+			if ([value isEqual:checkValue]) {
+				result = YES;
+				break;
+			}
+		}
+	}
+	return result;
+}
+
+- (BOOL)shouldIgnoreBracketAtRangeBoundaries:(NSRange)aRange attributedString:(NSAttributedString *)anAttributedString {
+	BOOL beforeValue = YES;
+	BOOL afterValue = YES;
+	if (aRange.location > 0) {
+		beforeValue = [self shouldIgnoreBracketAtIndex:aRange.location-1 attributedString:anAttributedString];
+	}
+	if (NSMaxRange(aRange) < anAttributedString.length) {
+		afterValue = [self shouldIgnoreBracketAtIndex:NSMaxRange(aRange) attributedString:anAttributedString];
+	}
+	BOOL result = beforeValue && afterValue;
+	return result;
+}
+
+
+- (void)dealloc {
+	free(_openingBrackets);
+	free(_closingBrackets);
+}
+
+@end
+
 static void convertLineEndingsInString(NSMutableString *string, NSString *newLineEnding)
 {
     unsigned newEOLLen;
@@ -62,8 +164,6 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
         // TODO: put this change also into the undomanager
     }
 
-    [changes release];
-
     if (freeNewEOLBuf) {
         NSZoneFree(NSZoneFromPointer(newEOLBuf), newEOLBuf);
     }
@@ -102,8 +202,8 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
         unichar seps[2];
         seps[0]=0x2028;
         seps[1]=0x2029;
-        sUnicodeLSEP=[[NSString stringWithCharacters:seps length:1] retain];
-        sUnicodePSEP=[[NSString stringWithCharacters:seps+1 length:1] retain];
+        sUnicodeLSEP=[NSString stringWithCharacters:seps length:1];
+        sUnicodePSEP=[NSString stringWithCharacters:seps+1 length:1];
     }
     switch(aLineEnding) {
     case LineEndingLF:
@@ -116,12 +216,14 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
         return sUnicodeLSEP;
     case LineEndingUnicodeParagraphSeparator:
         return sUnicodePSEP;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunreachable-code"
     default:
         return @"\n";
+#pragma clang diagnostic pop
     }
 }
 
-#if !defined(CODA)
 - (BOOL)isValidSerial
 {
     // Pirated number (2.1.1): 2QF-PABI-OCM6-KRHH (Blocked by enforcing SEE prefix) (SB)
@@ -215,7 +317,6 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
     
     return result;
 }
-#endif //!defined(CODA)
 
 - (BOOL)isWhiteSpace {
     static unichar s_space=0,s_tab,s_cr,s_nl;
@@ -323,7 +424,7 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
 - (NSMutableString *)stringByReplacingEntitiesForUTF8:(BOOL)forUTF8  {
     static NSDictionary *sEntities=nil;
     if (!sEntities) {
-        sEntities=[[NSDictionary dictionaryWithObjectsAndKeys:
+        sEntities=[NSDictionary dictionaryWithObjectsAndKeys:
           @"&iexcl;",@"&#161;",
           @"&cent;",@"&#162;",
           @"&pound;",@"&#163;",
@@ -575,46 +676,48 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
           @"&thinsp;",@"&#8201;",
           @"&zwj;",@"&#8205;",
           @"&zwnj;",@"&#8204;",
-          @"&diams;",@"&#9830;", nil] retain];
+          @"&diams;",@"&#9830;", nil];
     }
 
     NSMutableString *string;
-    string = [[self mutableCopy] autorelease];
+    string = [self mutableCopy];
     int index = 0;
-    NSAutoreleasePool *pool=[[NSAutoreleasePool alloc] init];
-    while (index < [string length]) {
-        unichar c=[string characterAtIndex:index];                         
-        if ((c > 128 && !forUTF8) || c=='&' || c=='<' || c=='>' || c=='"') {                           
-            NSString *encodedString = [NSString stringWithFormat: @"&#%d;", c];
-            if ([sEntities objectForKey:encodedString]) {
-                encodedString = [sEntities objectForKey:encodedString];
-            }        
-            [string replaceCharactersInRange:NSMakeRange(index, 1) withString:encodedString];
-            index+=[encodedString length]-1;
-        } else if (forUTF8) {
-            if (c==0x00A0) {
-                [string replaceCharactersInRange:NSMakeRange(index, 1) withString:@"&nbsp;"];
-                index+=6-1;
-            }
-        }
-//        else if (c=='\n' || c=='\r') {
-//            [string replaceCharactersInRange:NSMakeRange(index,1) withString:@"<br/>\n"];
-//            index+=5;
-//        } else if (c=='\t') {
-//            [string replaceCharactersInRange:NSMakeRange(index,1) withString:@"&nbsp;&nbsp;&nbsp;"];
-//            index+=17;
-//        } else if (c==' ') {
-//            [string replaceCharactersInRange:NSMakeRange(index,1) withString:@"&nbsp;"];
-//            index+=5;
-//        }
-        index ++; 
-        if (index%50==0) {
-            [pool release];
-            pool=[[NSAutoreleasePool alloc] init];
-        }                        
-    }
-    [pool release];
-    
+	@autoreleasepool {
+		while (index < [string length]) {
+			@autoreleasepool {
+				while (index < [string length]) {
+					unichar c=[string characterAtIndex:index];
+					if ((c > 128 && !forUTF8) || c=='&' || c=='<' || c=='>' || c=='"') {
+						NSString *encodedString = [NSString stringWithFormat: @"&#%d;", c];
+						if ([sEntities objectForKey:encodedString]) {
+							encodedString = [sEntities objectForKey:encodedString];
+						}
+						[string replaceCharactersInRange:NSMakeRange(index, 1) withString:encodedString];
+						index+=[encodedString length]-1;
+					} else if (forUTF8) {
+						if (c==0x00A0) {
+							[string replaceCharactersInRange:NSMakeRange(index, 1) withString:@"&nbsp;"];
+							index+=6-1;
+						}
+					}
+					//        else if (c=='\n' || c=='\r') {
+					//            [string replaceCharactersInRange:NSMakeRange(index,1) withString:@"<br/>\n"];
+					//            index+=5;
+					//        } else if (c=='\t') {
+					//            [string replaceCharactersInRange:NSMakeRange(index,1) withString:@"&nbsp;&nbsp;&nbsp;"];
+					//            index+=17;
+					//        } else if (c==' ') {
+					//            [string replaceCharactersInRange:NSMakeRange(index,1) withString:@"&nbsp;"];
+					//            index+=5;
+					//        }
+					index ++;
+					if (index % 50 == 0) {
+						break;
+					}
+				}
+			} // inner pool
+		}
+	}
     return string;
 }
 
@@ -623,53 +726,51 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
 	OGRegularExpression			*regex = nil;
 	OGRegularExpressionMatch	*match = nil;
 	BOOL						success = NO;
-	
-	//@"<meta.*?charset=(.*?)\""
-	
-	NS_DURING
-		regex = [OGRegularExpression regularExpressionWithString:regEx options:OgreCaptureGroupOption | OgreIgnoreCaseOption];
-		match = [regex matchInString:self];
 
-		if ( [match count] >= 2 )
+	//@"<meta.*?charset=(.*?)\""
+	NS_DURING
+	regex = [OGRegularExpression regularExpressionWithString:regEx options:OgreCaptureGroupOption | OgreIgnoreCaseOption];
+	match = [regex matchInString:self];
+
+	if ( [match count] >= 2 )
+	{
+		NSString *matchString = [self substringWithRange:[match rangeOfSubstringAtIndex:1]];
+
+		if ( matchString )
 		{
-			NSString *matchString = [self substringWithRange:[match rangeOfSubstringAtIndex:1]];
-			
-			if ( matchString )
+			CFStringEncoding cfEncoding = CFStringConvertIANACharSetNameToEncoding((CFStringRef)matchString);
+
+			if ( cfEncoding == kCFStringEncodingInvalidId )
 			{
-				CFStringEncoding cfEncoding = CFStringConvertIANACharSetNameToEncoding((CFStringRef)matchString);
-			
-				if ( cfEncoding == kCFStringEncodingInvalidId )
+				NSLog(@"findIANAEncodingUsingExpression:encoding: invalid encoding");
+			}
+			else
+			{
+				if ( outEncoding )
 				{
-					NSLog(@"findIANAEncodingUsingExpression:encoding: invalid encoding");
+					NSStringEncoding foundEncoding = CFStringConvertEncodingToNSStringEncoding(cfEncoding);
+					// if we find a utf16 variant then this makes no sense as we found it in a text that was 8bit interpreted so we return no
+					if (foundEncoding != NSUnicodeStringEncoding &&
+						foundEncoding != 0x94000100 && // NSUTF16LittleEndianStringEncoding ||
+						foundEncoding != 0x90000100 && // NSUTF16BigEndianStringEncoding ||
+						foundEncoding != 0x98000100 && // NSUTF32BigEndianStringEncoding ||
+						foundEncoding != 0x9c000100 && // NSUTF32LittleEndianStringEncoding ||
+						foundEncoding != 0x8c000100 ) { //NSUTF32StringEncoding) {
+						*outEncoding = foundEncoding;
+						success = YES;
+					}
 				}
 				else
 				{
-					if ( outEncoding )
-					{
-						NSStringEncoding foundEncoding = CFStringConvertEncodingToNSStringEncoding(cfEncoding);
-						// if we find a utf16 variant then this makes no sense as we found it in a text that was 8bit interpreted so we return no
-						if (foundEncoding != NSUnicodeStringEncoding && 
-							foundEncoding != 0x94000100 && // NSUTF16LittleEndianStringEncoding || 
-							foundEncoding != 0x90000100 && // NSUTF16BigEndianStringEncoding || 
-							foundEncoding != 0x98000100 && // NSUTF32BigEndianStringEncoding || 
-							foundEncoding != 0x9c000100 && // NSUTF32LittleEndianStringEncoding || 
-							foundEncoding != 0x8c000100 ) { //NSUTF32StringEncoding) {
-							*outEncoding = foundEncoding;
-							success = YES;
-						}
-					}
-					else
-					{
-						success = NO;
-					}
+					success = NO;
 				}
 			}
 		}
-		
-	NS_HANDLER
-		NSLog(@"%@", [localException description]);
-	NS_ENDHANDLER
+	}
 
+	NS_HANDLER
+	NSLog(@"%@", [localException description]);
+	NS_ENDHANDLER
 	return success;
 }
 
@@ -681,13 +782,18 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
 	return [escapingExpression replaceAllMatchesInString:self withString:@"\\\\\\0" options:OgreNoneOption];
 }
 
+- (NSRange)TCM_fullLengthRange {
+	NSRange result = NSMakeRange(0, self.length);
+	return result;
+}
+
 @end
 
 @implementation NSAttributedString (NSAttributedStringSEEAdditions)
 
 /*"AttributeMapping:
 
-        "WrittenBy" => { "openTag" => "<span class="@%">",
+        "WrittenBy" => { "openTag" => "<span class="@%">",
                              "closeTag" => "</span>"},
         "ForegroundColor" => {"openTag"=>"<span style="color: %@;">",
                               "closeTag"=>"</span>" }
@@ -698,7 +804,7 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
 "*/
 
 - (NSMutableString *)XHTMLStringWithAttributeMapping:(NSDictionary *)anAttributeMapping forUTF8:(BOOL)forUTF8 {
-    NSMutableString *result=[[[NSMutableString alloc] initWithCapacity:[self length]*2] autorelease];
+    NSMutableString *result=[[NSMutableString alloc] initWithCapacity:[self length]*2];
     NSMutableDictionary *state=[NSMutableDictionary new];
     NSMutableDictionary *toOpen=[NSMutableDictionary new];
     NSMutableDictionary *toClose=[NSMutableDictionary new];
@@ -710,58 +816,58 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
     NSDictionary *attributes;
     NSUInteger index=0;
     do {
-        NSAutoreleasePool *pool=[[NSAutoreleasePool alloc] init];
-        attributes=[self attributesAtIndex:index
-                    longestEffectiveRange:&foundRange inRange:maxRange];
-        
-        NSEnumerator *relevantAttributes=[anAttributeMapping keyEnumerator];
-        NSString *key;
-        while ((key=[relevantAttributes nextObject])) {
-            id currentValue=[state      objectForKey:key];
-            id nextValue   =[attributes objectForKey:key];
-            if (currentValue == nil && nextValue == nil) {
-                // nothing
-            } else if (currentValue == nil) {
-                [toOpen setObject:nextValue forKey:key];
-            } else if (nextValue == nil) {
-                [toClose setObject:currentValue forKey:key];
-            } else if (![currentValue isEqual:nextValue]) {
-                [toClose setObject:currentValue forKey:key];
-                [toOpen setObject:nextValue forKey:key];
-            }
-        }
-        int stackPosition=[stateStack count];
-        while ([toClose count] && stackPosition>0) {
-            stackPosition--;
-            NSDictionary *pair=[stateStack objectAtIndex:stackPosition];
-            NSString *attributeName=[pair objectForKey:@"AttributeName"];
-            [result appendFormat:[[anAttributeMapping objectForKey:attributeName] objectForKey:@"closeTag"],[pair objectForKey:@"AttributeValue"]];
-            if ([toClose objectForKey:attributeName]) {
-                [toClose removeObjectForKey:attributeName];
-                [stateStack removeObjectAtIndex:stackPosition];
-                [state removeObjectForKey:attributeName];
-            }
-        }
-        while (stackPosition<[stateStack count]) {
-            NSDictionary *pair=[stateStack objectAtIndex:stackPosition];
-            NSString *attributeName=[pair objectForKey:@"AttributeName"];
-            [result appendFormat:[[anAttributeMapping objectForKey:attributeName] objectForKey:@"openTag"],[pair objectForKey:@"AttributeValue"]];
-            stackPosition++;
-        }
-        NSEnumerator *openAttributes=[toOpen keyEnumerator];
-        NSString *attributeName;
-        while ((attributeName=[openAttributes nextObject])) {
-            [result appendFormat:[[anAttributeMapping objectForKey:attributeName] objectForKey:@"openTag"],[toOpen objectForKey:attributeName]];
-            [state setObject:[toOpen objectForKey:attributeName] forKey:attributeName];
-            [stateStack addObject:[NSDictionary dictionaryWithObjectsAndKeys:attributeName,@"AttributeName",[toOpen objectForKey:attributeName],@"AttributeValue",nil]];
-        }
-        [toOpen removeAllObjects];
-        
-        NSString *contentString=[[[self string] substringWithRange:foundRange] stringByReplacingEntitiesForUTF8:forUTF8];
-        [result appendString:contentString];
-        
-        index=NSMaxRange(foundRange);
-        [pool release];
+		@autoreleasepool {
+			attributes=[self attributesAtIndex:index
+						 longestEffectiveRange:&foundRange inRange:maxRange];
+			
+			NSEnumerator *relevantAttributes=[anAttributeMapping keyEnumerator];
+			NSString *key;
+			while ((key=[relevantAttributes nextObject])) {
+				id currentValue=[state      objectForKey:key];
+				id nextValue   =[attributes objectForKey:key];
+				if (currentValue == nil && nextValue == nil) {
+					// nothing
+				} else if (currentValue == nil) {
+					[toOpen setObject:nextValue forKey:key];
+				} else if (nextValue == nil) {
+					[toClose setObject:currentValue forKey:key];
+				} else if (![currentValue isEqual:nextValue]) {
+					[toClose setObject:currentValue forKey:key];
+					[toOpen setObject:nextValue forKey:key];
+				}
+			}
+			int stackPosition=[stateStack count];
+			while ([toClose count] && stackPosition>0) {
+				stackPosition--;
+				NSDictionary *pair=[stateStack objectAtIndex:stackPosition];
+				NSString *attributeName=[pair objectForKey:@"AttributeName"];
+				[result appendFormat:[[anAttributeMapping objectForKey:attributeName] objectForKey:@"closeTag"],[pair objectForKey:@"AttributeValue"]];
+				if ([toClose objectForKey:attributeName]) {
+					[toClose removeObjectForKey:attributeName];
+					[stateStack removeObjectAtIndex:stackPosition];
+					[state removeObjectForKey:attributeName];
+				}
+			}
+			while (stackPosition<[stateStack count]) {
+				NSDictionary *pair=[stateStack objectAtIndex:stackPosition];
+				NSString *attributeName=[pair objectForKey:@"AttributeName"];
+				[result appendFormat:[[anAttributeMapping objectForKey:attributeName] objectForKey:@"openTag"],[pair objectForKey:@"AttributeValue"]];
+				stackPosition++;
+			}
+			NSEnumerator *openAttributes=[toOpen keyEnumerator];
+			NSString *attributeName;
+			while ((attributeName=[openAttributes nextObject])) {
+				[result appendFormat:[[anAttributeMapping objectForKey:attributeName] objectForKey:@"openTag"],[toOpen objectForKey:attributeName]];
+				[state setObject:[toOpen objectForKey:attributeName] forKey:attributeName];
+				[stateStack addObject:[NSDictionary dictionaryWithObjectsAndKeys:attributeName,@"AttributeName",[toOpen objectForKey:attributeName],@"AttributeValue",nil]];
+			}
+			[toOpen removeAllObjects];
+			
+			NSString *contentString=[[[self string] substringWithRange:foundRange] stringByReplacingEntitiesForUTF8:forUTF8];
+			[result appendString:contentString];
+			
+			index=NSMaxRange(foundRange);
+		}
     } while (index<NSMaxRange(maxRange));
     // close all remaining open tags
     int stackPosition=[stateStack count];
@@ -772,11 +878,114 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
         [result appendFormat:[[anAttributeMapping objectForKey:attributeName] objectForKey:@"closeTag"],[pair objectForKey:@"AttributeValue"]];
     }
     
-    [toOpen release];
-    [toClose release];
-    [stateStack release];
-    [state release];
     return result;
 }
+
+
+- (NSRange)TCM_fullLengthRange {
+	NSRange result = NSMakeRange(0, self.length);
+	return result;
+}
+
+#define STACKLIMIT 100
+#define BUFFERSIZE 500
+
+- (NSUInteger)TCM_positionOfMatchingBracketToPosition:(NSUInteger)position bracketSettings:(TCMBracketSettings *)aBracketSettings {
+    NSString *aString = [self string];
+    NSUInteger result=NSNotFound;
+    unichar possibleBracket=[aString characterAtIndex:position];
+    BOOL forward=YES;
+    if ([aBracketSettings charIsOpeningBracket:possibleBracket]) {
+        forward=YES;
+    } else if ([aBracketSettings charIsClosingBracket:possibleBracket]) {
+        forward=NO;
+    } else {
+        return result;
+    }
+    // extra block to only be initialized when thing was a bracket
+    {
+        unichar stack[STACKLIMIT];
+        int stackPosition=0;
+        NSRange searchRange,bufferRange;
+        unichar buffer[BUFFERSIZE];
+        int i;
+        BOOL stop=NO;
+		
+        stack[stackPosition]=[aBracketSettings matchingBracketForChar:possibleBracket];
+		
+        if (forward) {
+            searchRange=NSMakeRange(position+1,[aString length]-(position+1));
+        } else {
+            searchRange=NSMakeRange(0,position);
+        }
+        while (searchRange.length>0 && !stop) {
+            if (searchRange.length<=BUFFERSIZE) {
+                bufferRange=searchRange;
+            } else {
+                if (forward) {
+                    bufferRange=NSMakeRange(searchRange.location,BUFFERSIZE);
+                } else {
+                    bufferRange=NSMakeRange(NSMaxRange(searchRange)-BUFFERSIZE,BUFFERSIZE);
+                }
+            }
+            [aString getCharacters:buffer range:bufferRange];
+            // go through the buffer
+            if (forward) {
+                for (i=0;i<(int)bufferRange.length && !stop;i++) {
+					NSUInteger locationToCheck = bufferRange.location+i;
+					unichar character = buffer[i];
+                    if ([aBracketSettings charIsOpeningBracket:character] &&
+						![aBracketSettings shouldIgnoreBracketAtIndex:locationToCheck attributedString:self]) {
+                        if (++stackPosition>=STACKLIMIT) {
+                            stop=YES;
+                        } else {
+                            stack[stackPosition]=[aBracketSettings  matchingBracketForChar:character];
+                        }
+                    } else if ([aBracketSettings charIsClosingBracket:character] &&
+							   ![aBracketSettings shouldIgnoreBracketAtIndex:locationToCheck attributedString:self]) {
+                        if (character != stack[stackPosition]) {
+                            stop=YES;
+                        } else {
+                            if (--stackPosition<0) {
+                                result = locationToCheck;
+                                stop = YES;
+                            }
+                        }
+                    }
+                }
+            } else { // backward
+                for (i=bufferRange.length-1;i>=0 && !stop;i--) {
+ 					NSUInteger locationToCheck = bufferRange.location+i;
+					unichar character = buffer[i];
+					if ([aBracketSettings charIsClosingBracket:character] &&
+						![aBracketSettings shouldIgnoreBracketAtIndex:locationToCheck attributedString:self]) {
+						if (++stackPosition>=STACKLIMIT) {
+                            stop=YES;
+                        } else {
+                            stack[stackPosition]=[aBracketSettings matchingBracketForChar:buffer[i]];
+                        }
+                    } else if ([aBracketSettings charIsOpeningBracket:character] &&
+							   ![aBracketSettings shouldIgnoreBracketAtIndex:locationToCheck attributedString:self]) {
+                        if (character != stack[stackPosition]) {
+                            NSBeep(); // do it like project builder :-
+                            stop = YES;
+                        } else {
+                            if (--stackPosition<0) {
+                                result = locationToCheck;
+                                stop = YES;
+                            }
+                        }
+                    }
+                }
+            }
+            if (forward) {
+                searchRange.location+=bufferRange.length;
+            }
+            searchRange.length-=bufferRange.length;
+        }
+    }
+    return result;
+}
+
 
 @end

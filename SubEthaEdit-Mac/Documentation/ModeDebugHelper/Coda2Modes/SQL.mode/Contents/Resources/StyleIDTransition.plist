@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>/SQL/Comment</key>
+	<string>Comment</string>
+	<key>/SQL/FunctionRegex</key>
+	<string>_Default.FunctionRegex</string>
+	<key>/SQL/Functions</key>
+	<string>_Default.Functions</string>
+	<key>/SQL/Keywords</key>
+	<string>_Default.Keywords</string>
+	<key>/SQL/Numbers</key>
+	<string>_Default.Numbers</string>
+	<key>/SQL/Single Comment</key>
+	<string>Single Comment</string>
+	<key>/SQL/Singleline Comment (mysql)</key>
+	<string>Singleline Comment (mysql)</string>
+	<key>/SQL/String Doublequoted</key>
+	<string>String Doublequoted</string>
+	<key>/SQL/String Singlequoted</key>
+	<string>String Singlequoted</string>
+	<key>/SQL/String with Backticks</key>
+	<string>String with Backticks</string>
+	<key>/SQL/Types</key>
+	<string>_Default.Types</string>
+	<key>_Default</key>
+	<string>_Default</string>
+</dict>
+</plist>

@@ -1,0 +1,530 @@
+/* Last modified 11/26/10 by ECL, Landmann InterActive */
+/* NOTES */
+/* This style sheet is called by selected admin pages, and NOT public-facing pages */
+/* Uses Nifty round-cornered boxes */
+/* Using a class=roundcorner and no id= will NOT produce corners */
+
+/* CHANGE NOTES */
+/* 4/25/08 Brought more into line with LI CMS v3 */
+/* 5/6/08 Added a few table-based classes */
+/* 5/7/08 Added login ID styles */
+/* 5/8/08 Added new class tablehead_10_white_right */
+/* 5/20/08 cleaned up styles, made LBT stylesheet match with LI CMS v3.
+/* 7/13/09 Fixed capitalization on FooterLink */
+/* 7/17/09 Added margin-left to body */
+/* 7/20/09 A couple of spacing tweaks around h2 and ErrorBoxMessageNeg */
+/* 11/3/09 Added h2 panelhead for sys form and padding on tablehead_10_white */
+/* 11/26/10 Add lots of id-specific styles to tune various forms */
+
+/* -------------------------------------- */
+/* Containers --------------------------- */
+/* -------------------------------------- */
+/* For leftnavbar */
+.leftnavcontainer {
+	width: 170px;
+	padding: 0 0 5px 0; }
+/* For main content panel */
+.contentcontainerwhite {
+	background: #FFF;
+	padding: 7px 0 5px 5px;
+	margin: 0 0 10px 0;
+	width: 588px; }
+/* For main content panel */
+.contentcontainerwhite600 {
+	background: #FFF;
+	padding: 7px 0 5px 5px;
+	margin: 0 0 10px 0;
+	width: 600px }
+/* For main content panel */
+.contentcontainerwhite400 {
+	background: #FFF;
+	padding: 7px 0 5px 5px;
+	margin: 0 0 10px 0;
+	width: 400px; }
+
+/* -------------------------------------- */
+/* Standard ----------------------------- */
+/* -------------------------------------- */
+body {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	margin-top: 0;
+	margin-left: 10px; }
+h1 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	font-weight: bold;
+	color: #003399; }
+h2 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: bold;
+	padding: 0 0 10px 0; }
+h3 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	margin: 0;
+	padding: 5px 10px 3px;
+	background: #F0F0F0;
+	text-align: left; }
+h5 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	color: #000; }
+h6 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	color: #000; }
+p {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px; }
+.text_10_black	{
+	color: #000;
+	line-height: 12pt;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-style: normal; }
+.text_10_white	{
+	color: #FFF;
+	line-height: 12pt;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-style: normal; }
+.text_12_white	{
+	color: #FFF;
+	line-height: 14pt;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal; }
+ul	{font-size: 11px;
+	line-height: 170%;
+	text-align: left; 
+	margin: 10px 0 10px 30px; }
+/* -------------------------------------- */
+/* Forms ------------------------------- */
+/* -------------------------------------- */
+CHECKBOX, INPUT, RADIO, SELECT {
+	font-family: Verdana, Arial, sans-serif;
+	font-size: 11px;
+	vertical-align: middle;
+	height: 20px;
+	margin-left: 5px;
+	border: 1px solid #CCC; }
+SELECT#multiselect {
+	font-family: Verdana, Arial, sans-serif;
+	font-size: 11px;
+	height: 120px;
+	border: 1px solid #CCC; }
+RADIO {
+	font-family: Verdana, Arial, sans-serif;
+	font-size: 11px;
+	vertical-align: bottom; }
+TEXTAREA {
+	font-family: Verdana, Arial, sans-serif;
+	font-size: 11px;
+	height: 20px;
+	vertical-align: bottom;
+	border: 1px solid #CCC; }
+TEXTAREA#Sys_Keywords, TEXTAREA#Sys_Description,
+TEXTAREA#PageKeywords, TEXTAREA#PageDescription {
+	height: 60px;
+	width: 500px; }
+TEXTAREA#Sys_Title, TEXTAREA#PageTitle {
+	height: 20px;
+	width: 500px; }
+.button {
+	vertical-align: bottom; }
+.quicksearch {
+	padding: 5px 0 5px 5px; }
+/* -------------------------------------- */
+/* Login Form --------------------------- */
+/* -------------------------------------- */
+input#User_LoginID {
+	background:#FFF url(/site/images/icons/key.png) no-repeat left center;
+	border: 1px solid #CCC;
+/*	padding-left:20px; */
+	padding: 3px 3px 3px 20px;
+	width: 160px;
+	height: 16px;
+	margin: 0 0 0 3px; }
+input#User_LoginPW {
+	background:#FFF url(/site/images/icons/lock.png) no-repeat left center;
+	border: 1px solid #CCC;
+	padding-left:20px;
+	width: 120px;
+	height: 16px;
+	margin: 0 0 0 3px; }
+
+/* -------------------------------------- */
+/* Tables ------------------------------- */
+/* -------------------------------------- */
+table {
+	width: 100%;
+	margin: 0;
+	border-style: none; }
+tr { vertical-align: top; }
+tr.nifty {
+	vertical-align: top;
+	background: #F0F0F0; }
+td {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	margin: 0;
+	padding: 3px; }
+td.nifty {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	margin: 0;
+	padding: 3px;
+	background: #F0F0F0; }
+.tablehead_10_white	{
+	color: #FFF;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-style: normal;
+	font-weight: bold;
+	padding-left: 10px; }
+.tablehead_10_white_left	{
+	color: #FFF;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-style: normal;
+	font-weight: bold;
+	text-align: left;
+	background: #666; }
+.tablehead_10_white_right	{
+	color: #FFF;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-style: normal;
+	font-weight: bold;
+	text-align: right;
+	background: #666; }
+.tablehead_11_white	{
+	color: #FFF;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-style: normal;
+	font-weight: bold; }
+.tabletext_10_black	{
+	color: #000;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	line-height: 12pt;
+	font-style: normal; }
+.tabletext_11_black	{
+	color: #000;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	line-height: 13pt;
+	font-style: normal; }
+.nopadding { padding: 0; }
+.dim { color: #666; }
+.ltblue { color: #39F; }
+.alert { color: #F00; }
+/* Use for logout alert boxes */
+.containeralert {
+	background-color: #FF9;
+	padding: 10px;
+	border: 2px solid #f00; }
+
+/* -------------------------------------- */
+/* Nifty Corners ------------------------ */
+/* -------------------------------------- */
+/* This one works for rounded corners on regular text boxes */
+p.nifty {
+	background: #F0F0F0;
+	margin: 0;
+	padding: 5px 10px 5px;
+	line-height: 1.3;
+	text-align: left; }
+/* Same as p.nifty but centered */
+p.niftycenter {
+	background: #F0F0F0;
+	margin: 0;
+	padding: 5px 10px 5px;
+	line-height: 1.3;
+	text-align: center; }
+/* Used for tables where there is no padding */
+p.nifty_nopadding {
+	background: #F0F0F0;
+	margin: 0;
+	padding: 0 10px 0;
+	line-height: 1.3;
+	text-align: left; }
+/* Used for main content panels */
+div.roundcorner {
+	width: 590px;
+	text-align:left; }
+div.roundcorner500 {
+	width: 500px;
+	text-align:left; }
+/* Used for image and file display panels */
+div.imagepanel {
+	text-align:left; }
+
+/* -------------------------------------- */
+/* Sidebar ------------------------------ */
+/* -------------------------------------- */
+div.niftysidebar {
+	width: 155px; 
+	padding: 3px; 
+	margin: 0; }
+/* H2 head used in a sidebar */
+div.niftysidebar h2 {
+	font-size: 10px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-weight: bold; 
+	background: #353535; 
+	color: #FFF; 
+	padding: 3px; 
+	margin: 0; }
+div.niftysidebar div {
+	padding: 0 3px;
+	padding-bottom: 3px;
+	background: #F0F0F0; }
+div.niftysidebar p {
+	margin: 0;
+	padding: 0;
+	margin-bottom: 6px; }
+
+/* -------------------------------------- */
+/* Footers ------------------------------ */
+/* -------------------------------------- */
+/* Used in Admin area */
+.footer {
+	font-family: Verdana, Arial, sans-serif; 
+	color: #999; 
+	margin: 6px 6px 6px 0;
+	font-size: 10px;
+	padding: 4px;
+	text-align: center;
+	background: #F0F0F0;
+	vertical-align: baseline; }
+a.FooterLink:link, a.FooterLink:visited, a.FooterLink:active {
+	font: normal 12px Georgia, "Times New Roman", Times, serif;
+	font-size: 12px;
+	color: #999;
+	font-weight: normal;
+	text-decoration: none; }
+a.FooterLink:hover {
+	font: normal 12px Georgia, "Times New Roman", Times, serif;
+	font-size: 12px;
+	color: #999;
+	font-weight: normal;
+	text-decoration: underline; }
+
+/* -------------------------------------- */
+/* Links -------------------------------- */
+/* -------------------------------------- */
+/* Sidebar Links ------------------------------ */
+a.menuBoxContentLink:link,
+a.menuBoxContentLink:visited,
+a.menuBoxContentLink:active
+{ font-family: Verdana, Arial, sans-serif; font-size: 10px; color: #616060; font-weight: normal; text-decoration: none; }
+a.menuBoxContentLink:hover
+{ font-family: Verdana, Arial, sans-serif; font-size: 10px; color: #616060; font-weight: normal; text-decoration: underline; }
+
+a:link,
+a:visited,
+a:active
+{ font-family: Verdana, Arial, sans-serif; font-size: 10px; color: #616060; font-weight: bold; text-decoration: none; }
+a:hover
+{ font-family: Verdana, Arial, sans-serif; font-size: 10px; color: #616060; font-weight: bold; text-decoration: underline; }
+
+/* -------------------------------------- */
+/* ErrorBox Messages */
+/* -------------------------------------- */
+/* Used for Positive Messages */
+#ErrorBoxHeadPos div.ErrorHeadPos  {
+	width: 500px;
+	background-color: #0C0;
+	margin: 10px 0 0 0;
+	padding: 5px 5px 5px 10px;
+	font-size: 12px;
+	font-weight: bold;
+	color: #FFF;
+	line-height: 130%;
+	border-bottom: 1px dotted black;}
+#ErrorBoxMessagePos div.ErrorMessagePos  {
+	width: 500px;
+	background-color: #ffc;
+	margin: 0 0 10px 0;
+	padding: 5px 5px 10px 10px;
+	font-size: 11px;
+	font-weight: normal;
+	color: #000;
+	line-height: 130%; }
+/* Used for Negative Messages */
+#ErrorBoxHeadNeg div.ErrorHeadNeg  {
+	width: 500px;
+	background-color: red;
+	margin: 10px 0 0 0;
+	padding: 5px 5px 5px 10px;
+	font-size: 12px;
+	font-weight: bold;
+	color: #FFF;
+	line-height: 130%;
+	border-bottom: 1px dotted black; }
+#ErrorBoxMessageNeg div.ErrorMessageNeg  {
+	width: 500px;
+	background-color: #ffc;
+	margin: 0 0 10px 0;
+	padding: 5px 5px 10px 10px;
+	font-size: 11px;
+	font-weight: normal;
+	color: #000;
+	line-height: 130%; }
+/* Used for Tooltips */
+#ErrorBoxMessagePosFullWidth {
+	margin: 0;
+	padding: 5px 5px 10px 10px;
+	text-align: left;
+	background-color: #ffc; }
+
+/* -------------------------------------- */
+/* Miscellaneous ------------------------ */
+/* -------------------------------------- */
+/* Used in the navpanel or throughout to have a very light character */
+/* Display On/Off - Used for ToggleDisplay */
+.DisplayOn { display:block; }
+.DisplayOff { display:none; }
+.ghost {
+	color: #BBB; 
+	margin: 0;
+	padding: 0;
+	margin-bottom: 6px; }
+/* 11-px ghosted */
+.ghost10 {
+	font-size: 10px;
+	color: #BBB;
+	margin: 0;
+	padding: 0; }
+/* page */
+.page {	background-color: transparent; }
+.columnLeft { background-color: #FFF; border-color: #999; border-width: 1px; border-style: solid; padding: 2px; }
+
+/* button */
+.btn		{ font-family: Verdana, Arial, sans-serif; font-size: 10px; line-height: 16px; text-align:center; text-decoration: none; }
+/* images */
+img { border-style: none; }
+
+/* For Debugging */
+.debug {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #000; 
+	margin: 12px;
+	text-align: left;
+	background-color: #f6ffca; }
+.debugCT {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #000; 
+	margin: 12px;
+	text-align: left;
+	background-color: #ccff99; }
+.TagContainer {
+	background: #FFF;
+	padding: 7px 5px 5px 5px;
+	width: 600px; }
+h2.TagFilename {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	width: 600px;
+	background: #808080;
+	color: white;
+	font-size: 13px;
+	font-weight: bold;
+	padding: 5px 22px 5px 5px;
+	margin: 0;
+}
+.TagName {
+	font: bold 11px Verdana, Arial, Helvetica, sans-serif;
+	width: 600px;
+	position: relative;
+	color: #000; 
+	margin: 0 2px 2px 2px;
+	text-align: left;
+	background-color: #ccff99;
+	padding: 2px 20px 2px 5px; 
+}
+.TagValue {
+	font: 11px Verdana, Arial, Helvetica, sans-serif;
+	width: 570px;
+	position: relative;
+	left: 10px;
+	color: #000; 
+	text-align: left;
+/*	background-color: #fefee4; */
+	background-color: transparent;
+	padding: 2px 2px 3px 7px;
+	margin: 2px 2px 3px 7px; }
+div.panelhead {
+	background-color: #333;
+	color: #fff;
+	font-size: 11px;
+	height: 28px; }
+/* H2 head that is clickable */
+h2.panelhead {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	line-height: 100%;
+	font-weight: bold;
+	padding: 0 0 0 8px;
+	background-color: #333;
+	margin: 4px 0 2px 2px;
+	color: #fff;
+	height: 35px; }
+div.panelhead img, h2.panelhead img {
+	position: relative;
+	top: 3px; }
+/* Used for Tooltips - d'oh! */
+.tooltip {
+	color: #000;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	line-height: 13pt;
+	font-style: normal;
+	padding-top: 3px; }
+
+/* -------------------------------------- */
+/* Heirarchy ---------------------------- */
+/* -------------------------------------- */
+/* Used the admin to display the heirachy tree */
+/* Defining up to 10 levels of indent. Indent0 is for the root nodes */
+.indent0 {
+	font-weight: bold;
+	font-size: 10px; }
+.indent1 {
+	margin-left: 15px;
+	font-size: 10px; }
+.indent2 {
+	margin-left: 30px;
+	font-size: 10px; }
+.indent3 {
+	margin-left: 45px;
+	font-size: 10px; }
+.indent4 {
+	margin-left: 60px;
+	font-size: 10px; }
+.indent5 {
+	margin-left: 90px;
+	font-size: 10px; }
+.indent6 {
+	margin-left: 105px;
+	font-size: 10px; }
+.indent7 {
+	margin-left: 120px;
+	font-size: 10px; }
+.indent8 {
+	margin-left: 135px;
+	font-size: 10px; }
+.indent9 {
+	margin-left: 150px;
+	font-size: 10px; }
+.indent10 {
+	margin-left: 165px;
+	font-size: 10px; }

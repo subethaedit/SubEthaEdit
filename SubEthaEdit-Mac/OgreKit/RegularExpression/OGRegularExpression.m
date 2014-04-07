@@ -283,19 +283,21 @@ static int namedGroupCallback(const unsigned char *name, const unsigned char *na
     ci.option         = compileTimeOptions;
     ci.case_fold_flag = ONIGENC_CASE_FOLD_DEFAULT;
     
-	r = onig_new_deluxe(
-        &_regexBuffer, 
-        (unsigned char*)_UTF16ExpressionString, 
-        (unsigned char*)(_UTF16ExpressionString + lengthOfCompileTimeString),
-		&ci, 
-        &einfo);
-	if (r != ONIG_NORMAL) {
-		// エラー。例外を発生させる。
-		unsigned char s[ONIG_MAX_ERROR_MESSAGE_LEN];
-		onig_error_code_to_str(s, r, &einfo);
-		[self release];
-		[NSException raise:OgreException format:@"%s", s];
-	}
+@synchronized ([OGRegularExpression class]) {
+		r = onig_new_deluxe(
+			&_regexBuffer, 
+			(unsigned char*)_UTF16ExpressionString, 
+			(unsigned char*)(_UTF16ExpressionString + lengthOfCompileTimeString),
+			&ci, 
+			&einfo);
+		if (r != ONIG_NORMAL) {
+			// エラー。例外を発生させる。
+			unsigned char s[ONIG_MAX_ERROR_MESSAGE_LEN];
+			onig_error_code_to_str(s, r, &einfo);
+			[self release];
+			[NSException raise:OgreException format:@"%s", s];
+		}
+}
 	
 	// nameでgroup numberを引く辞書、(group number-1)でnameを引く逆引き辞書(配列)の作成
 	if ([self numberOfNames] > 0) {
@@ -467,6 +469,7 @@ static int namedGroupCallback(const unsigned char *name, const unsigned char *na
 	// 正規表現オブジェクトの作成・解放
 
 	// Next 11 lines by MATSUMOTO Satoshi, Sep 31 2005
+@synchronized ([OGRegularExpression class]) {
 #if defined( __BIG_ENDIAN__ )
  	r = onig_new(&regexBuffer, (unsigned char*)UTF16Str, (unsigned char*)(UTF16Str + length),
 		compileTimeOptions, ONIG_ENCODING_UTF16_BE, 
@@ -481,7 +484,7 @@ static int namedGroupCallback(const unsigned char *name, const unsigned char *na
 
 	onig_free(regexBuffer);
     NSZoneFree([self zone], UTF16Str);
-    
+}  
 	if (r == ONIG_NORMAL) {
 		// 正しい正規表現
 		return YES;
@@ -515,7 +518,7 @@ static int namedGroupCallback(const unsigned char *name, const unsigned char *na
 		range:NSMakeRange(0, [string length])];
 }
 
-#define TCM_OGPLAINSTRINGCACHE
+// #define TCM_OGPLAINSTRINGCACHE
 
 - (OGRegularExpressionMatch*)matchInString:(NSString*)string 
 	options:(unsigned)options 
@@ -1489,7 +1492,7 @@ static int namedGroupCallback(const unsigned char *name, const unsigned char *na
 // onigurumaのバージョン文字列を返す
 + (NSString*)onigurumaVersion
 {
-	return [NSString stringWithCString:onig_version()];
+	return [NSString stringWithUTF8String:onig_version()];
 }
 
 

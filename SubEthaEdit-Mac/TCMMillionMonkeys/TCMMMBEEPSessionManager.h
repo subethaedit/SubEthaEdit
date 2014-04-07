@@ -26,7 +26,7 @@ extern NSString * const kTCMMMBEEPSessionManagerTLSMode;
 
 @class TCMBEEPListener, TCMHost, TCMBEEPSession;
 
-@interface TCMMMBEEPSessionManager : NSObject
+@interface TCMMMBEEPSessionManager : NSObject <TCMBEEPSessionDelegate, TCMBEEPProfileDelegate>
 {
     TCMBEEPListener *I_listener;
     int I_listeningPort;
@@ -67,6 +67,8 @@ extern NSString * const kTCMMMBEEPSessionManagerTLSMode;
 - (void)cancelConnectToHost:(TCMHost *)aHost;
 
 - (void)removeSessionFromSessionsArray:(TCMBEEPSession *)aBEEPSession;
+
+- (NSArray *)connectedUsers;
 
 - (TCMBEEPSession *)sessionForUserID:(NSString *)aUserID;
 - (TCMBEEPSession *)sessionForUserID:(NSString *)aUserID URLString:(NSString *)aURLString;

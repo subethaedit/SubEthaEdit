@@ -7,11 +7,35 @@
 //
 
 #import <Foundation/Foundation.h>
+
+@class SessionProfile,UserChangeOperation, TCMMMSession;
+
+@protocol SessionProfileDelegate <NSObject>
+- (void)profileDidReceiveSessionChange:(NSDictionary *)sessionRepresentation;
+- (void)profile:(SessionProfile *)aProfile didReceiveSessionContent:(id)content;
+- (void)profileDidAckSessionContent:(SessionProfile *)aProfile;
+- (void)profile:(SessionProfile *)aProfile didReceiveSessionContentFrame:(TCMBEEPFrame *)aFrame;
+- (void)profileDidCancelJoinRequest:(SessionProfile *)aProfile;
+- (void)profileDidDenyJoinRequest:(SessionProfile *)aProfile;
+- (void)profileDidAcceptJoinRequest:(SessionProfile *)aProfile;
+- (void)profileDidCancelInvitation:(SessionProfile *)aProfile;
+- (void)profileDidAcceptInvitation:(SessionProfile *)aProfile;
+- (void)profileDidDeclineInvitation:(SessionProfile *)aProfile;
+- (NSArray *)profile:(SessionProfile *)aProfile userRequestsForSessionInformation:(NSDictionary *)sessionInfo;
+- (void)profile:(SessionProfile *)aProfile didReceiveUserRequests:(NSArray *)aUserRequestArray;
+- (void)profile:(SessionProfile *)aProfile didReceiveUserChangeToReadOnly:(UserChangeOperation *)anOperation;
+@optional
+- (void)profile:(SessionProfile *)aProfile didReceiveJoinRequestForSessionID:(NSString *)aSessionID;
+- (void)profile:(SessionProfile *)aProfile didReceiveInvitationForSession:(TCMMMSession *)aSession;
+@end
+
 #import "TCMBEEP/TCMBEEP.h"
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 
 
-@class TCMMMUser, TCMMMState, UserChangeOperation;
+@class TCMMMUser, TCMMMState, UserChangeOperation, SessionProfile;
+
+
 
 
 @interface SessionProfile : TCMBEEPProfile <TCMMMStateClientProtocol>
@@ -53,27 +77,7 @@
 - (void)setContentHasBeenExchanged:(BOOL)aFlag;
 - (BOOL)contentHasBeenExchanged;
 
-@end
-
-
-@interface NSObject (SessionProfileDelegateAdditions)
-
-- (void)profileDidReceiveSessionChange:(NSDictionary *)sessionRepresentation;
-- (void)profile:(SessionProfile *)aProfile didReceiveSessionContent:(id)content;
-- (void)profileDidAckSessionContent:(SessionProfile *)aProfile;
-- (void)profile:(SessionProfile *)aProfile didReceiveJoinRequestForSessionID:(NSString *)aSessionID;
-- (void)profile:(SessionProfile *)aProfile didReceiveInvitationForSession:(TCMMMSession *)aSession;
-- (void)profile:(SessionProfile *)aProfile didReceiveSessionContentFrame:(TCMBEEPFrame *)aFrame;
-- (void)profileDidCancelJoinRequest:(SessionProfile *)aProfile;
-- (void)profileDidDenyJoinRequest:(SessionProfile *)aProfile;
-- (void)profileDidAcceptJoinRequest:(SessionProfile *)aProfile;
-- (void)profileDidCancelInvitation:(SessionProfile *)aProfile;
-- (void)profileDidAcceptInvitation:(SessionProfile *)aProfile;
-- (void)profileDidDeclineInvitation:(SessionProfile *)aProfile;
-- (NSArray *)profile:(SessionProfile *)aProfile userRequestsForSessionInformation:(NSDictionary *)sessionInfo;
-- (void)profile:(SessionProfile *)aProfile didReceiveUserRequests:(NSArray *)aUserRequestArray;
-- (void)profile:(SessionProfile *)aProfile didReceiveUserChangeToReadOnly:(UserChangeOperation *)anOperation;
-
-- (void)state:(TCMMMState *)aState handleMessage:(TCMMMMessage *)aMessage;
+- (void)setDelegate:(id <TCMBEEPProfileDelegate, SessionProfileDelegate>)aDelegate;
+- (id <TCMBEEPProfileDelegate, SessionProfileDelegate>)delegate;
 
 @end

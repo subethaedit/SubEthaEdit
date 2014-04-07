@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!DOCTYPE syntax SYSTEM "syntax.dtd">
 <syntax>
     <head>
@@ -8,23 +8,23 @@
 
     <states>
     
-        <default id="Base" color="#000" inverted-color="#fff">
+        <default id="Base" scope="meta.default">
 
 			<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 
-			<state id="Bold" color="#000" font-weight="bold">
+			<state id="Bold" scope="structured.bold">
 				<begin><regex>\*\*</regex></begin>
 				<end><regex>\*\*</regex></end>
-				<state id="Bold Italic" color="#000" font-weight="bold" font-style="italic" >
+				<state id="Bold Italic" scope="structured.italicbold">
 					<begin><regex>\/\/</regex></begin>
 					<end><regex>\/\/</regex></end>
 			   </state>
 			</state>
 	
-			<state id="Italic" color="#000" font-style="italic" >
+			<state id="Italic" scope="structured.italic">
 				<begin><regex>\/\/</regex></begin>
 				<end><regex>(?&lt;!p:|s:)\/\/|[\r\n]</regex></end>
-				<state id="Italic Bold" color="#000" font-weight="bold" font-style="italic" >
+				<state id="Italic Bold" scope="structured.italicbold">
 					<begin><regex>\*\*</regex></begin>
 					<end><regex>\*\*</regex></end>
 				</state>
@@ -33,117 +33,112 @@
 
       <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 
-			<keywords id="Horizontal Line" color="#000" font-weight="bold">
+			<keywords id="Horizontal Line" scope="structured.separator.horizontal">
 				<regex>^(----[-]*)</regex>
 			</keywords>
 
 	
-			<state id="External Link" color="#00a" font-weight="normal">
+			<state id="External Link" scope="meta.link">
 				<begin><regex>\[(?=\[)</regex></begin>
 				<end><regex>\]\]|[\r\n]</regex></end>
-					<state id="URL Portion">
+					<state id="URL Portion" scope="meta.link.portion">
 						<begin><regex>\[</regex></begin>
 						<end><regex>(?:.(?=\]\]|\|)|[\r\n])</regex></end>
 						<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 					</state>
 			</state>
 
-			<state id="Unordered List" color="#683821">
+			<state id="Unordered List" scope="structured.list.unnumbered">
 				<begin><regex>^  +\*</regex></begin>
 				<end><regex>[\r\n]</regex></end>
 				
 				<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 				
-				<state-link state="External Link" />
-				<state-link state="Bold" />
-				<state-link state="Italic" />
+				<state-link state="External Link"/>
+				<state-link state="Bold"/>
+				<state-link state="Italic"/>
 			</state>
 
-			<state id="Ordered List" color="#7a4022">
+			<state id="Ordered List" scope="structured.list.numbered">
 				<begin><regex>^  +\-</regex></begin>
 				<end><regex>[\r\n]</regex></end>
 				
 				<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 				
-				<state-link state="External Link" />
-				<state-link state="Bold" />
-				<state-link state="Italic" />
-	
+				<state-link state="External Link"/>
+				<state-link state="Bold"/>
+				<state-link state="Italic"/>
 			</state>
 
-			<state id="Quoted Odd Levels" color="#7b1e20">
-				<begin><regex>^>(?:>>)*?(?!>)</regex></begin>
+			<state id="Quoted Odd Levels" scope="structured.quote.odd">
+				<begin><regex>^&gt;(?:&gt;&gt;)*?(?!&gt;)</regex></begin>
 				<end><regex>[\r\n]</regex></end>
-				<import />
+				<import/>
 			</state>
 
-			<state id="Quoted Even Levels" color="#1b5414">
-				<begin><regex>^(?:>>)+(?!>)</regex></begin>
+			<state id="Quoted Even Levels" scope="structured.quote.even">
+				<begin><regex>^(?:&gt;&gt;)+(?!&gt;)</regex></begin>
 				<end><regex>[\r\n]</regex></end>
-				<import />
+				<import/>
 			</state>
 
 	
-			<state id="Footnotes" color="#236e25">
+			<state id="Footnotes" scope="structured.footnote">
 				<begin><regex>\((?=\()</regex></begin>
 				<end><regex>(?&lt;=\))\)</regex></end>
 			</state>
 	
 	
-	
-			<state id="Headline Level 1" color="#881350" font-weight="bold">
+			<state id="Headline Level 1" scope="structured.heading.1">
 				<begin><regex>^======</regex></begin>
 				<end><regex>======</regex></end>
 			</state>
 	
-			<state id="Headline Level 2" color="#970058" font-weight="bold">
+			<state id="Headline Level 2" scope="structured.heading.2">
 				<begin><regex>^=====</regex></begin>
 				<end><regex>=====</regex></end>
 			</state>
 	
-			<state id="Headline Level 3" color="#a70062" font-weight="bold">
+			<state id="Headline Level 3" scope="structured.heading.3">
 				<begin><regex>^====</regex></begin>
 				<end><regex>====</regex></end>
 			</state>
 	
-			<state id="Headline Level 4" color="#b20068" font-weight="bold">
+			<state id="Headline Level 4" scope="structured.heading.4">
 				<begin><regex>^===</regex></begin>
 				<end><regex>===</regex></end>
 			</state>
 	
-			<state id="Headline Level 5" color="#be006f" font-weight="bold">
+			<state id="Headline Level 5" scope="structured.heading.5">
 				<begin><regex>^==</regex></begin>
 				<end><regex>==</regex></end>
 			</state>
 
-			<state id="Indented Verbatim" color="#4b4b4b">
+			<state id="Indented Verbatim" scope="structured.raw.indented">
 				<begin><regex>^  (?![\*\-])</regex></begin>
 				<end><regex>(?:\r?(?:\n|\r))</regex></end>
 			</state>
 
-			<state id="Code Verbatim" color="#4b4b4b" foldable="yes">
-				<begin><regex>&lt;code[^>]*></regex></begin>
-				<end><regex>&lt;/code></regex></end>
+			<state id="Code Verbatim" foldable="yes" scope="structured.raw.code">
+				<begin><regex>&lt;code[^&gt;]*&gt;</regex></begin>
+				<end><regex>&lt;/code&gt;</regex></end>
 			</state>
 
-			<state id="File Verbatim" color="#4b4b4b" font-weight="bold" foldable="yes">
-				<begin><regex>&lt;file[^>]*></regex></begin>
-				<end><regex>&lt;/file></regex></end>
+			<state id="File Verbatim" foldable="yes" scope="structured.reference">
+				<begin><regex>&lt;file[^&gt;]*&gt;</regex></begin>
+				<end><regex>&lt;/file&gt;</regex></end>
 			</state>
 
-			<state id="nowiki" color="#4b4b4b" font-weight="bold" foldable="yes">
-				<begin><regex>&lt;nowiki[^>]*></regex></begin>
-				<end><regex>&lt;/nowiki></regex></end>
+			<state id="nowiki" foldable="yes" scope="meta.preprocessor.nowiki">
+				<begin><regex>&lt;nowiki[^&gt;]*&gt;</regex></begin>
+				<end><regex>&lt;/nowiki&gt;</regex></end>
 			</state>
 
-			<state id="nowiki %%" color="#4b4b4b" font-weight="bold" foldable="yes">
+			<state id="nowiki %%" foldable="yes" scope="meta.preprocessor.nowiki">
 				<begin><regex>%%</regex></begin>
 				<end><regex>%%</regex></end>
 			</state>
-
-	
 	
         </default>
     </states>
-
 </syntax>

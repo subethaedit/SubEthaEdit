@@ -7,15 +7,22 @@
 //
 
 #import <AppKit/AppKit.h>
+@class PlainTextEditor;
 #import "TCMMMOperation.h"
 #import "SelectionOperation.h"
 #import "PlainTextWindowControllerTabContext.h"
+#import "PlainTextWindowController.h"
+#import "PopUpButton.h"
+#import "SEEFindAndReplaceViewController.h"
 
-@class PlainTextWindowControllerTabContext,PlainTextDocument,PopUpButton,RadarScroller,TCMMMUser, TextView;
+extern NSString * const PlainTextEditorDidFollowUserNotification;
+extern NSString * const PlainTextEditorDidChangeSearchScopeNotification;
 
-@interface PlainTextEditor : NSResponder {
+@class PlainTextWindowControllerTabContext,PlainTextDocument,SEEPlainTextEditorScrollView,PopUpButton,RadarScroller,TCMMMUser, SEETextView, BorderedTextField;
+
+@interface PlainTextEditor : NSResponder <NSTextViewDelegate, PopUpButtonDelegate> {
     IBOutlet NSImageView *O_waitPipeStatusImageView;
-    IBOutlet NSTextField *O_positionTextField;
+    IBOutlet BorderedTextField *O_positionTextField;
     IBOutlet PopUpButton *O_tabStatusPopUpButton;
     IBOutlet NSTextField *O_windowWidthTextField;
     IBOutlet NSTextField *O_writtenByTextField;
@@ -23,12 +30,10 @@
     IBOutlet PopUpButton *O_encodingPopUpButton;
     IBOutlet PopUpButton *O_lineEndingPopUpButton;
     IBOutlet PopUpButton *O_symbolPopUpButton;
-    IBOutlet NSScrollView *O_scrollView;
-    IBOutlet NSView       *O_editorView;
-    IBOutlet NSView       *O_topStatusBarView;
-    IBOutlet NSView       *O_bottomStatusBarView;
+    IBOutlet NSButton	 *O_splitButton;
+    IBOutlet SEEPlainTextEditorScrollView *O_scrollView;
     RadarScroller   *I_radarScroller;
-    TextView        *I_textView;
+    SEETextView        *I_textView;
     NSTextContainer *I_textContainer;
     NSMutableArray *I_storedSelectedRanges;
     PlainTextWindowControllerTabContext *I_windowControllerTabContext;
@@ -43,11 +48,28 @@
     SelectionOperation *I_storedPosition;
 }
 
+@property (nonatomic, readonly) BOOL hasBottomOverlayView;
+@property (nonatomic, readonly) BOOL hasTopOverlayView;
+// bottom status bar binding values
+@property (nonatomic, assign) BOOL showsNumberOfActiveParticipants;
+@property (nonatomic, strong) NSNumber *numberOfActiveParticipants;
+
+@property (nonatomic, strong) NSImage *alternateAnnounceImage;
+@property (nonatomic) BOOL canAnnounceAndShare;
+
+@property (nonatomic, copy) NSString *localizedToolTipAnnounceButton;
+@property (nonatomic, copy) NSString *localizedToolTipShareInviteButton;
+@property (nonatomic, copy) NSString *localizedToolTipToggleParticipantsButton;
+
+@property (nonatomic, readonly) CGFloat desiredMinHeight;
+
+- (void)prepareForDealloc; // because of programatic bindings to the top level object
+
 - (id)initWithWindowControllerTabContext:(PlainTextWindowControllerTabContext *)aWindowControllerTabContext splitButton:(BOOL)aFlag;
 - (NSView *)editorView;
 - (NSTextView *)textView;
 - (PlainTextDocument *)document;
-- (void)setIsSplit:(BOOL)aFlag;
+- (void)updateSplitButtonForIsSplit:(BOOL)aFlag;
 
 - (NSSize)desiredSizeForColumns:(int)aColumns rows:(int)aRows;
 - (int)displayedColumns;
@@ -88,14 +110,23 @@
 - (void)storePosition;
 - (void)restorePositionAfterOperation:(TCMMMOperation *)aOperation;
 
+- (void)displayViewControllerInBottomArea:(NSViewController *)viewController;
+
 #pragma mark -
 #pragma mark ### Actions ###
 - (IBAction)toggleWrap:(id)aSender;
 - (IBAction)toggleShowsChangeMarks:(id)aSender;
 
+- (IBAction)toggleFindAndReplace:(id)aSender;
+- (IBAction)showFindAndReplace:(id)aSender;
+- (IBAction)hideFindAndReplace:(id)aSender;
+
 - (IBAction)shiftRight:(id)aSender;
 - (IBAction)shiftLeft:(id)aSender;
 - (IBAction)detab:(id)aSender;
+
+- (IBAction)insertStateClose:(id)aSender;
+- (IBAction)entab:(id)aSender;
 
 - (IBAction)jumpToNextSymbol:(id)aSender;
 - (IBAction)jumpToPreviousSymbol:(id)aSender;
@@ -109,10 +140,27 @@
 - (void)gotoLine:(unsigned)aLine;
 - (void)gotoLineInBackground:(unsigned)aLine;
 
+- (void)lock;
+- (void)unlock;
+
+- (void)updateTopScrollViewInset;
+- (void)adjustToScrollViewInsets;
+
+@property (nonatomic, readonly) PlainTextWindowController *plainTextWindowController;
+@property (nonatomic, readonly) NSValue *searchScopeValue;
+- (BOOL)hasSearchScopeInFullRange:(NSRange)aRange;
+- (BOOL)hasSearchScope;
+- (NSString *)searchScopeRangeString;
+- (IBAction)addCurrentSelectionToSearchScope:(id)aSender;
+- (IBAction)clearSearchScope:(id)aSender;
+
+@property (nonatomic, readonly) BOOL isShowingFindAndReplaceInterface;
+- (void)findAndReplaceViewControllerDidPressDismiss:(SEEFindAndReplaceViewController *)aViewController;
 
 // funnel point for all our internal pointers for additional text checking
 - (void)scheduleTextCheckingForRange:(NSRange)aRange;
 
+- (BOOL)hitTestOverlayViewsWithEvent:(NSEvent *)aEvent;
 
 @end
 

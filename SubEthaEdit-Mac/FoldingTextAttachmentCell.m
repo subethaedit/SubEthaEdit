@@ -29,18 +29,20 @@ static NSImage *s_foldingImage = nil;
 }
 
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView  
-characterIndex:(unsigned)charIndex layoutManager:(NSLayoutManager *) 
+characterIndex:(NSUInteger)charIndex layoutManager:(NSLayoutManager *) 
 layoutManager {
 //    [[NSColor redColor] set];
 //    NSLog(@"cell frame %@", NSStringFromRect(cellFrame));
 //    NSFrameRect(cellFrame);
-	[s_foldingImage 
-	  compositeToPoint:NSMakePoint(cellFrame.origin.x + IMAGE_INSET,NSMaxY(cellFrame) - IMAGE_INSET)
-	         operation:NSCompositeSourceOver];
+	NSRect targetRect = NSZeroRect;
+	targetRect.size = s_foldingImage.size;
+	targetRect.origin = NSMakePoint(cellFrame.origin.x + IMAGE_INSET,NSMaxY(cellFrame) - IMAGE_INSET - s_foldingImage.size.height);
+	[s_foldingImage drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+	
 }
 
 
-- (BOOL)wantsToTrackMouseForEvent:(NSEvent *)theEvent inRect:(NSRect)cellFrame ofView:(NSView *)controlView atCharacterIndex:(unsigned)charIndex {
+- (BOOL)wantsToTrackMouseForEvent:(NSEvent *)theEvent inRect:(NSRect)cellFrame ofView:(NSView *)controlView atCharacterIndex:(NSUInteger)charIndex {
 //	NSLog(@"%s %@ %@ %@ %d",__FUNCTION__,theEvent, NSStringFromRect(cellFrame), controlView, charIndex);
 	return YES;
 }

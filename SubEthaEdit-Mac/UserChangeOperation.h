@@ -19,7 +19,7 @@ enum {
 };
 
 @interface UserChangeOperation : TCMMMOperation {
-    NSString *I_newGroup;
+    NSString *I_theNewGroup;
     int I_type;
     TCMMMUser *I_user;
 }
@@ -29,8 +29,8 @@ enum {
 + (UserChangeOperation *)userChangeOperationWithType:(int)aType user:(TCMMMUser *)aUser newGroup:(NSString *)aGroup;
 
 
-- (NSString *)newGroup;
-- (void)setNewGroup:(NSString *)aGroup;
+- (NSString *)theNewGroup;
+- (void)setTheNewGroup:(NSString *)aGroup;
 
 - (int)type;
 - (void)setType:(int)aType;

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!DOCTYPE syntax SYSTEM "syntax.dtd">
 <syntax>
 
@@ -10,8 +10,8 @@
 
     <states>
     
-        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal">
-            <keywords id="Keywords" color="#881350" casesensitive="no" useforautocomplete="yes">
+        <default id="Base" scope="meta.default">
+            <keywords id="Keywords" casesensitive="no" useforautocomplete="yes" scope="keyword">
                 <string>and</string>
                 <string>array</string>
                 <string>asm</string>
@@ -92,7 +92,7 @@
                 <string>new</string>
                 <string>true</string>
             </keywords>
-            <keywords id="Types" color="#408" casesensitive="no" useforautocomplete="yes">
+            <keywords id="Types" casesensitive="no" useforautocomplete="yes" scope="keyword.type">
                 <string>Integer</string>
                 <string>Cardinal</string>
                 <string>ShortInt</string>
@@ -125,47 +125,46 @@
                 <string>File</string>
                 <string>Text</string>
             </keywords>
-            <keywords id="Numbers" color="#00f" useforautocomplete="no">
+            <keywords id="Numbers" useforautocomplete="no" scope="language.constant.numeric">
 				<regex>(?&lt;=[^\w\d]|^)(((([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(([uU][lL]?)|([lL][uU]?))?))(?=[^\w\d]|$)</regex>
             </keywords>
-            <keywords id="Characters" color="#00f" useforautocomplete="no">
+            <keywords id="Characters" useforautocomplete="no" scope="language.constant.numeric.character">
 				<regex>('.')</regex>
             </keywords>
-            <keywords id="FunctionRegex" color="#003369" useforautocomplete="no">
+            <keywords id="FunctionRegex" useforautocomplete="no" scope="language.subroutine.function">
 				<regex>([A-Za-z0-9_]+ *)\(</regex>
             </keywords>
-            <keywords id="Preprocessor" color="#683821" useforautocomplete="no">
+            <keywords id="Preprocessor" useforautocomplete="no" scope="language.preprocessor">
 				<regex>(^[ 	]*#([^\n\r])*)</regex>
             </keywords>
 
         
-            <state id="Comment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
+            <state id="Comment" type="comment" scope="comment.block">
                 <begin><regex>\(\*</regex></begin>
                 <end><regex>\*\)</regex></end>
             </state>
             
-            <state id="Comment Curly" type="comment" color="#236E25" font-weight="normal" font-style="italic">
+            <state id="Comment Curly" type="comment" scope="comment.block">
                 <begin><regex>\{</regex></begin>
                 <end><regex>\}</regex></end>
             </state>
             
-            <state id="SingleComment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
+            <state id="SingleComment" type="comment" scope="comment.line">
                 <begin><regex>//</regex></begin>
                 <end><regex>[\n\r]</regex></end>
             </state>
             
-            <state id="String" type="string" color="#760f15" font-weight="normal" font-style="normal">
+            <state id="String" type="string" scope="string.single">
                 <begin><regex>'</regex></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
             </state>
 
-            <state id="begin end Block" type="block" foldable="yes">
+            <state id="begin end Block" type="block" foldable="yes" scope="meta.block">
                 <begin><regex>(?&lt;=\s)(?:begin|case|record)(?=\s)</regex></begin>
                 <end><regex>(?&lt;=\s)end(?=[\s;])</regex></end>
-                <import />
+                <import/>
             </state>
 
         </default>
     </states>
-
 </syntax>

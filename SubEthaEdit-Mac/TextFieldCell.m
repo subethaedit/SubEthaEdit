@@ -28,6 +28,14 @@
 }
 
 - (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
+	NSAttributedString *styledText = [self attributedStringValue];
+	if (styledText.length > 0) {
+	    NSColor *backgroundColor = [[self attributedStringValue] attribute:NSBackgroundColorAttributeName atIndex:0 effectiveRange:NULL];
+	    if (backgroundColor) {
+		    [backgroundColor set];
+		    [NSBezierPath fillRect:cellFrame];
+	    }
+	}
     if (floor(NSAppKitVersionNumber) > 824.) {
         [[self attributedStringValue] drawInRect:NSInsetRect(cellFrame,5.,0)];
     } else {

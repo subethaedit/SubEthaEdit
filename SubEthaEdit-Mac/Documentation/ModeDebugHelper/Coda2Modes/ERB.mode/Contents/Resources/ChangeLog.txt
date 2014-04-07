@@ -1,0 +1,7 @@
+Changes with Version 3.5  (SEE 3.5)
+	 *) added code folding
+
+Changes with Version 1.0 (SEE 2.7)
+
+    *) took ERB mode out of Ruby Mode to include imports
+

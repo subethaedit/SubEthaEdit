@@ -1,0 +1,1 @@
+Contact FormA request from the contact form was made:FROM[Var:'vName']E-mail: [Var:'vMail']Phone: [Var:'vPhone']COMMENTS[Var:'vComments']Submit from [Client_IP] at [Server_Time: -Extended]

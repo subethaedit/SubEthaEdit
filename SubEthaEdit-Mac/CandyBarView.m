@@ -16,7 +16,6 @@ typedef struct {
   float red2, green2, blue2, alpha2;
 } _twoColorsType;
 
-#if !defined(CODA)
 static void _linearColorBlendFunction(void *info, const float *in, float *out)
 {
   _twoColorsType *twoColors = info;
@@ -26,7 +25,6 @@ static void _linearColorBlendFunction(void *info, const float *in, float *out)
   out[2] = (1.0 - *in) * twoColors->blue1 + *in * twoColors->blue2;
   out[3] = (1.0 - *in) * twoColors->alpha1 + *in * twoColors->alpha2;
 }
-#endif //!defined(CODA)
 
 static void _linearBounceColorBlendFunction(void *info, const CGFloat *in, CGFloat *out)
 {
@@ -77,12 +75,6 @@ static const CGFunctionCallbacks linearBounceFunctionCallbacks = {0,
 }
 
 - (void)drawRect:(NSRect)rect {
-    /* with pixelated image
-    NSImage *fillImage=[NSImage imageNamed:@"CandyBar"];
-    [fillImage setFlipped:YES];
-    [fillImage drawInRect:[self bounds] fromRect:NSMakeRect(0,0,[fillImage size].width,[fillImage size].height) operation:NSCompositeCopy fraction:1.0];
-    */
-    // with fancy CGShading
     NSRect bounds=[self bounds];
     CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
     CGContextSaveGState(context); {

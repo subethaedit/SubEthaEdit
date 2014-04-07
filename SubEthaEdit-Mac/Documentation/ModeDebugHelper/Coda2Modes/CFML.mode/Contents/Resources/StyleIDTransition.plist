@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>/CFML/Inline CSS</key>
+	<string>Inline CSS</string>
+	<key>/CFML/Inline JavaScript</key>
+	<string>Inline JavaScript</string>
+	<key>/CFML/Opening Script Tag</key>
+	<string>/CFML/Opening Script Tag</string>
+	<key>/CFML/Opening Style Tag</key>
+	<string>/CFML/Opening Style Tag</string>
+	<key>/CFML/CFML Tags</key>
+	<string>/CFML/Inline CFML Script/Script Tags</string>
+	<key>/CSS/Attribute state</key>
+	<string>/CSS/Attribute state</string>
+	<key>/CSS/AutodocComment</key>
+	<string>/CSS/AutodocComment</string>
+	<key>/CSS/CSS Attributes</key>
+	<string>Inline CSS.CSS Attributes</string>
+	<key>/CSS/CSS Colors</key>
+	<string>Inline CSS.CSS Colors</string>
+	<key>/CSS/CSS Digits</key>
+	<string>Inline CSS.CSS Digits</string>
+	<key>/CSS/CSS Keywords</key>
+	<string>Inline CSS.CSS Keywords</string>
+	<key>/CSS/Comment</key>
+	<string>/CSS/Comment</string>
+	<key>/CSS/Inside curly brackets</key>
+	<string>/CSS/Inside curly brackets</string>
+	<key>/CSS/Round bracket</key>
+	<string>/CSS/Round bracket</string>
+	<key>/CSS/SingleString</key>
+	<string>Inline CSS.CSS Strings in Tags</string>
+	<key>/CSS/String</key>
+	<string>Inline CSS.CSS Strings in Tags</string>
+	<key>/JavaScript/AutodocComment</key>
+	<string>/JavaScript/AutodocComment</string>
+	<key>/JavaScript/Characters</key>
+	<string>/JavaScript/Characters</string>
+	<key>/JavaScript/Comment</key>
+	<string>Inline JavaScript.JavaScript Single Comments</string>
+	<key>/JavaScript/FunctionRegex</key>
+	<string>Inline JavaScript.JavaScript FunctionRegex</string>
+	<key>/JavaScript/Keywords</key>
+	<string>Inline JavaScript.JavaScript Keywords</string>
+	<key>/JavaScript/Numbers</key>
+	<string>Inline JavaScript.JavaScript Numbers</string>
+	<key>/JavaScript/Regular Expressions</key>
+	<string>Inline JavaScript.JavaScript FunctionRegex</string>
+	<key>/JavaScript/SingleComment</key>
+	<string>Inline JavaScript.JavaScript Single Comments</string>
+	<key>/JavaScript/SingleString</key>
+	<string>Inline JavaScript.JavaScript String</string>
+	<key>/JavaScript/String</key>
+	<string>Inline JavaScript.JavaScript String</string>
+	<key>/HTML Tags/Attributes in HTML Tags</key>
+	<string>/XML/Attributes in Tags</string>
+	<key>/XML/CDATA</key>
+	<string>/XML/CDATA</string>
+	<key>/XML/Comment</key>
+	<string>/XML/Comment</string>
+	<key>/XML/Doctype</key>
+	<string>/XML/Doctype</string>
+	<key>/XML/Entities</key>
+	<string>/XML/Entities</string>
+	<key>/XML/Escape</key>
+	<string>/XML/Escape</string>
+	<key>/CFML/HTML Tags/Strings in HTML Tags</key>
+	<string>/XML/Strings in Tags</string>
+	<key>/CFML/HTML Tags</key>
+	<string>/XML/Tags</string>
+	<key>_Default</key>
+	<string>_Default</string>
+</dict>
+</plist>

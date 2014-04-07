@@ -6,7 +6,7 @@
 //  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <HockeySDK/HockeySDK.h>
 
 #define kKAHL 'KAHL'
 #define kMOD 'MOD '
@@ -37,14 +37,10 @@ extern int const SwitchModeMenuTag;
 extern int const HighlightSyntaxMenuTag;
 extern int const ScriptMenuTag;
 
-#if defined(CODA)
-@class AboutController;
-#endif //defined(CODA)
 
 extern NSString * const GlobalScriptsDidReloadNotification;
 
-@interface AppController : NSObject {
-    BOOL I_lastShouldOpenUntitledFile;
+@interface AppController : NSObject <NSApplicationDelegate, NSMenuDelegate, BITHockeyManagerDelegate > {
     NSMutableDictionary *I_scriptsByFilename;
     NSMutableDictionary *I_scriptSettingsByFilename;
     NSMutableArray      *I_scriptOrderArray;
@@ -52,24 +48,18 @@ extern NSString * const GlobalScriptsDidReloadNotification;
     NSMutableArray      *I_toolbarItemIdentifiers;
     NSMutableArray      *I_defaultToolbarItemIdentifiers;
     NSMutableArray      *I_contextMenuItemArray;
-#if defined(CODA)
-    AboutController		*aboutController; 
-#endif //defined(CODA)
     IBOutlet NSTextView *O_licenseTextView;
     IBOutlet NSWindow *O_licenseWindow;
 }
 
-+ (AppController *)sharedInstance;
+@property (nonatomic, assign) IBOutlet NSMenuItem *accessControlMenuItem;
 
-- (BOOL)lastShouldOpenUntitledFile;
++ (AppController *)sharedInstance;
 
 - (void)reportAppleScriptError:(NSDictionary *)anErrorDictionary;
 
 - (IBAction)undo:(id)aSender;
 - (IBAction)redo:(id)aSender;
-
-- (IBAction)purchaseSubEthaEdit:(id)sender;
-- (IBAction)enterSerialNumber:(id)sender;
 
 - (IBAction)reloadDocumentModes:(id)aSender;
 
@@ -78,12 +68,10 @@ extern NSString * const GlobalScriptsDidReloadNotification;
 - (IBAction)showReleaseNotes:(id)sender;
 - (IBAction)visitWebsite:(id)sender;
 - (IBAction)additionalModes:(id)sender;
-- (IBAction)gotoDocumentation:(id)sender;
 - (IBAction)reportBug:(id)sender;
 - (IBAction)provideFeedback:(id)sender;
-#if !defined(CODA)
 - (IBAction)showUserStatisticsWindow:(id)aSender;
-#endif //!defined(CODA)
+- (IBAction)showStyleSheetEditorWindow:(id)aSender;
 
 - (NSArray *)contextMenuItemArray;
 

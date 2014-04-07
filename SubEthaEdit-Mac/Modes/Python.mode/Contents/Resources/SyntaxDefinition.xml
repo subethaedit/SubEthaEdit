@@ -1,28 +1,28 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!DOCTYPE syntax SYSTEM "syntax.dtd">
 <syntax>
 
-    <head>
-        <name>Python</name> <!-- The definitions title -->
-        <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@]]></charsintokens> <!-- Valid Characters for Variables -->
-    </head>
+	<head>
+		<name>Python</name> <!-- The definitions title -->
+		<charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@]]></charsintokens> <!-- Valid Characters for Variables -->
+	</head>
 
-    <states>
-    
-        <default id="Base" color="#000">
-            <keywords id="Special Attributes" color="#f00" useforautocomplete="yes">
+	<states>
+
+		<default id="Base" scope="meta.default">
+			<keywords id="Special Attributes" useforautocomplete="yes" scope="support.constant">
 				<string>__dict__</string>
 				<string>__class__</string>
 				<string>__bases__</string>
-            </keywords>
-            <keywords id="Built-in Constants" color="#881350" useforautocomplete="yes">
+			</keywords>
+			<keywords id="Built-in Constants" useforautocomplete="yes" scope="support.constant">
 				<string>Ellipsis</string>
 				<string>None</string>
 				<string>True</string>
 				<string>False</string>
 				<string>NotImplemented</string>
-            </keywords>
-            <keywords id="Types" color="#00b301" useforautocomplete="yes">
+			</keywords>
+			<keywords id="Types" useforautocomplete="yes" scope="keyword.type">
 				<string>NoneType</string>
 				<string>TypeType</string>
 				<string>BooleanType</string>
@@ -55,8 +55,8 @@
 				<string>FrameType</string>
 				<string>BufferType</string>
 				<string>StringTypes</string>
-            </keywords>
-            <keywords id="Exceptions" color="#F79600" useforautocomplete="yes">
+			</keywords>
+			<keywords id="Exceptions" useforautocomplete="yes" scope="support.constant">
 				<string>Exception</string>
 				<string>SystemExit</string>
 				<string>StopIteration</string>
@@ -101,8 +101,8 @@
 				<string>OverflowWarning</string>
 				<string>RuntimeWarning</string>
 				<string>FutureWarning</string>
-            </keywords>
-            <keywords id="Special Methods" color="#f00" useforautocomplete="yes">
+			</keywords>
+			<keywords id="Special Methods" useforautocomplete="yes" scope="support.subroutine.method">
 				<string>__cmp__</string>
 				<string>__rcmp__</string>
 				<string>__hash__</string>
@@ -189,8 +189,8 @@
 				<string>__del__</string>
 				<string>__init__</string>
 				<string>__repr__</string>
-            </keywords>
-            <keywords id="Built-In Functions" color="#408" useforautocomplete="yes">
+			</keywords>
+			<keywords id="Built-In Functions" useforautocomplete="yes" scope="support.subroutine.function">
 				<string>__import__</string>
 				<string>abs</string>
 				<string>apply</string>
@@ -258,93 +258,99 @@
 				<string>vars</string>
 				<string>xrange</string>
 				<string>zip</string>
-            </keywords>
-            <keywords id="Keywords" color="#881350" useforautocomplete="yes">
-				<string>and</string>
+			</keywords>
+
+			<keywords id="Keywords" useforautocomplete="yes" scope="keyword">
 				<string>assert</string>
-				<string>break</string>
 				<string>class</string>
+				<string>exec</string>
+				<string>global</string>
+				<string>import</string>
+				<string>lambda</string>
+				<string>print</string>
+				<string>return</string>
+				<string>self</string>
+			</keywords>
+			
+			<keywords id="Keywords" useforautocomplete="yes" scope="keyword.control">
+				<string>and</string>
+				<string>break</string>
 				<string>continue</string>
 				<string>def</string>
 				<string>del</string>
 				<string>elif</string>
 				<string>else</string>
 				<string>except</string>
-				<string>exec</string>
 				<string>finally</string>
 				<string>for</string>
 				<string>from</string>
-				<string>global</string>
 				<string>if</string>
-				<string>import</string>
 				<string>in</string>
 				<string>is</string>
-				<string>lambda</string>
 				<string>not</string>
 				<string>or</string>
 				<string>pass</string>
-				<string>print</string>
 				<string>raise</string>
-				<string>return</string>
 				<string>try</string>
 				<string>while</string>
 				<string>yield</string>
-				<string>self</string>
 				<string>as</string>
-            </keywords>
-            <!-- see http://docs.python.org/3.1/reference/lexical_analysis.html - numeric literals -->
-            <keywords id="Numbers" color="#00f" inverted-color="#5d56ff" useforautocomplete="no">
-            		<!-- floats -->
-                    <regex>(?&lt;![\w\d_\.])((?:(?:(?:(?:\d+\.\d*|\.\d+)(?:[eE][+-]?\d+)?)|(?:[\d+][eE][+-]?\d+))[jJ]?)|\d+[jJ])(?![\w\d_\.])</regex>
-            		<!-- integers -->
-                    <regex>(?&lt;![\w\d_\.])((?:(?:(?:[1-9]\d*)|(?:0(?:(?:[oO][0-7]+)|(?:[xX]\h+)|(?:[bB][01]+))?))[lL]?))(?![\w\d_\.])</regex>
-            </keywords>
-        
-            <state id="Singleline Comment" type="comment" color="#236E25" font-style="italic">
-                <begin><regex>#</regex></begin>
-                <end><regex>[\n\r]</regex></end>
-                <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
-            </state>
-            
-            <state id="String with triple double quotes" type="string" color="#760f15" foldable="yes">
-                <begin><regex>"""</regex></begin>
-                <end><regex>(((?&lt;!\\)(\\\\)*)|^)"""</regex></end>
-            </state>
-    
-            <state id="String with triple single quotes" type="string" color="#760f15">
-                <begin><regex>'''</regex></begin>
-                <end><regex>(((?&lt;!\\)(\\\\)*)|^)'''</regex></end>
-            </state>
-    
-            <state id="String with double quotes" type="string" color="#760f15">
-                <begin><regex>"</regex></begin>
-                <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
-            </state>
-    
-            <state id="String with single quotes" type="string" color="#760f15">
-                <begin><regex>'</regex></begin>
-                <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
-            </state>
-    
-            <state id="Backticks" color="#760f15">
-                <begin><regex>`</regex></begin>
-                <end><regex>(((?&lt;!\\)(\\\\)*)|^)`</regex></end>
-            </state>
+			</keywords>
+			<!-- see http://docs.python.org/3.1/reference/lexical_analysis.html - numeric literals -->
+			<keywords id="Numbers" useforautocomplete="no" scope="language.constant.numeric">
+				<!-- floats -->
+				<regex>(?&lt;![\w\d_\.])((?:(?:(?:(?:\d+\.\d*|\.\d+)(?:[eE][+-]?\d+)?)|(?:[\d+][eE][+-]?\d+))[jJ]?)|\d+[jJ])(?![\w\d_\.])</regex>
+				<!-- integers -->
+				<regex>(?&lt;![\w\d_\.])((?:(?:(?:[1-9]\d*)|(?:0(?:(?:[oO][0-7]+)|(?:[xX]\h+)|(?:[bB][01]+))?))[lL]?))(?![\w\d_\.])</regex>
+			</keywords>
 
-			<state id="Class Blocks" foldable="yes">
+			<state id="Singleline Comment" type="comment" scope="comment.line">
+				<begin><regex>#</regex></begin>
+				<end><regex>[\n\r]</regex></end>
+				<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+			</state>
+
+			<!-- CODA <state id="String with triple double quotes" type="string"> -->
+			<state id="String with triple double quotes" type="string" usespellchecking="yes" scope="string.double">
+				<begin><regex>"""</regex></begin>
+				<end><regex>(((?&lt;!\\)(\\\\)*)|^)"""</regex></end>
+			</state>
+
+			<!-- CODA <state id="String with triple single quotes" type="string"> -->
+			<state id="String with triple single quotes" type="string" usespellchecking="yes" scope="string.single">
+				<begin><regex>'''</regex></begin>
+				<end><regex>(((?&lt;!\\)(\\\\)*)|^)'''</regex></end>
+			</state>
+
+			<!-- CODA <state id="String with double quotes" type="string"> -->
+			<state id="String with double quotes" type="string" usespellchecking="yes" scope="string.double">
+				<begin><regex>"</regex></begin>
+				<end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
+			</state>
+
+			<!-- CODA <state id="String with single quotes" type="string"> -->
+			<state id="String with single quotes" type="string" usespellchecking="yes" scope="string.single">
+				<begin><regex>'</regex></begin>
+				<end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
+			</state>
+
+			<state id="Backticks" scope="meta.default">
+				<begin><regex>`</regex></begin>
+				<end><regex>(((?&lt;!\\)(\\\\)*)|^)`</regex></end>
+			</state>
+
+			<state id="Class Blocks" foldable="yes" scope="meta.block">
 				<begin><regex>^class[^:]+\:</regex></begin>
 				<end><regex>(?:\r?\n|\r)(?=(?:\r?\n|\r)(?:\r?\n|\r)\S|(?:\r?\n|\r)\S|\S)</regex></end>
-				<import />
+				<import/>
 			</state>
 
-			<state id="Def Blocks" foldable="yes">
+			<state id="Def Blocks" foldable="yes" scope="meta.block">
 				<begin><regex>^(?'defstartingwhitespace'[ \t]*)def[^:]+\:</regex></begin>
 				<end><regex>(?:\r?\n|\r)(?=(?:\r?\n|\r)(?:\r?\n|\r)(?#see-insert-start-group:defstartingwhitespace)\S|(?:\r?\n|\r)(?#see-insert-start-group:defstartingwhitespace)\S|(?#see-insert-start-group:defstartingwhitespace)\S|(?:\r?\n|\r)(?:\r?\n|\r)\S|(?:\r?\n|\r)\S|\S)</regex></end>
-				<import />
+				<import/>
 			</state>
 
-        </default>
-
-    </states>
-
+		</default>
+	</states>
 </syntax>

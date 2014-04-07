@@ -1,0 +1,1 @@
+A new support request was made:From: [$vUserName]Question:[$vQuestion]

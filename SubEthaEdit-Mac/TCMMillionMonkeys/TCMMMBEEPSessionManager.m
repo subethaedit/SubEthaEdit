@@ -21,10 +21,7 @@
 #import "NSWorkspaceTCMAdditions.h"
 #import "PreferenceKeys.h"
 #import <netdb.h>       // getaddrinfo, struct addrinfo, AI_NUMERICHOST
-
-#ifdef TCM_ISSEED
-    #import "SDAppController.h"
-#endif
+#import "TCMMMPresenceManager.h"
 
 #define PORTRANGELENGTH 10
 NSString * const DefaultPortNumber = @"port";
@@ -126,7 +123,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
         const char *ipAddress = [hostAddress UTF8String];
         struct addrinfo hints;
         struct addrinfo *result = NULL;
-        BOOL isIPv6Address = NO;
+//        BOOL isIPv6Address = NO;
 
         memset(&hints, 0, sizeof(hints));
         hints.ai_flags    = AI_NUMERICHOST;
@@ -141,7 +138,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
         err = getaddrinfo(ipAddress, portString, &hints, &result);
         if (err == 0) {
             addressData = [NSData dataWithBytes:(UInt8 *)result->ai_addr length:result->ai_addrlen];
-            isIPv6Address = result->ai_family == PF_INET6;
+//            isIPv6Address = result->ai_family == PF_INET6;
             DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"getaddrinfo succeeded with addr: %@", [NSString stringWithAddressData:addressData]);
             if (anAddressData) *anAddressData = addressData;
             freeaddrinfo(result);
@@ -171,10 +168,9 @@ static TCMMMBEEPSessionManager *sharedInstance;
 
 - (void)logRetainCounts
 {
-    NSEnumerator *sessions = [I_sessions objectEnumerator];
     TCMBEEPSession *session = nil;
-    while ((session = [sessions nextObject])) {
-        NSLog(@"Session: %@, %@, retainCount: %d", [session description], NSStringFromClass([session class]), [session retainCount]);
+    for (session in I_sessions) {
+        NSLog(@"Session: %@, %@, retainCount: %lu", [session description], NSStringFromClass([session class]), (unsigned long)[session retainCount]);
     }
 }
 
@@ -194,17 +190,11 @@ static TCMMMBEEPSessionManager *sharedInstance;
     	[AppController sharedInstance]; // making sure the defaults are registered - seem ugly need better way soon
     	I_SSLGenerationCount = 0;
     	I_SSLGenerationDesiredCount = 1;
-    	BOOL useTemporaryKeychain = [[NSUserDefaults standardUserDefaults] boolForKey:UseTemporaryKeychainForTLSKey];
 //    	NSLog(@"%s %@? %d",__FUNCTION__,EnableTLSKey,[[NSUserDefaults standardUserDefaults] boolForKey:EnableTLSKey]);
 		if ([[NSUserDefaults standardUserDefaults] boolForKey:EnableTLSKey]) {
 			I_SSLGenerationDesiredCount++;
 			[TCMBEEPSession prepareDiffiHellmannParameters];
 			[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sslGenerationDidFinish:) name:@"TCMBEEPTempCertificateCreationForSSLDidFinish" object:nil];
-
-			if (useTemporaryKeychain) {
-				I_SSLGenerationDesiredCount++;
-				[TCMBEEPSession prepareTemporaryCertificate];
-			}
 		}
         I_greetingProfiles = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
         	[NSMutableArray array],kTCMMMBEEPSessionManagerDefaultMode,
@@ -337,7 +327,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
         [[sessionInformation objectForKey:@"InboundSessions"] makeObjectsPerformSelector:@selector(terminate)];
         [[sessionInformation objectForKey:@"OutboundSessions"] makeObjectsPerformSelector:@selector(terminate)]; 
         [[sessionInformation objectForKey:@"OutgoingRendezvousSessions"] makeObjectsPerformSelector:@selector(terminate)];
-        [[sessionInformation objectForKey:@"RendezvousSession"] terminate];
+        [(TCMBEEPSession *)[sessionInformation objectForKey:@"RendezvousSession"] terminate];
     }
     [I_pendingSessions makeObjectsPerformSelector:@selector(terminate)];
     [I_pendingSessions removeAllObjects];
@@ -355,9 +345,8 @@ static TCMMMBEEPSessionManager *sharedInstance;
     [[NSUserDefaults standardUserDefaults] synchronize];
     [self validateListener];
 
-    NSEnumerator *sessions = [I_sessions objectEnumerator];
     TCMBEEPSession *session = nil;
-    while ((session = [sessions nextObject])) {
+    for (session in I_sessions) {
         [session setIsProhibitingInboundInternetSessions:flag];
     }
 }
@@ -400,7 +389,9 @@ static TCMMMBEEPSessionManager *sharedInstance;
         [[session userInfo] setObject:[aInformation objectForKey:@"peerUserID"] forKey:@"peerUserID"];
         [[session userInfo] setObject:[NSNumber numberWithBool:YES] forKey:@"isRendezvous"];
         [session addProfileURIs:   [I_greetingProfiles objectForKey:kTCMMMBEEPSessionManagerDefaultMode]];
-        [session addTLSProfileURIs:[I_greetingProfiles objectForKey:kTCMMMBEEPSessionManagerTLSMode]];
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:EnableTLSKey]) {
+			[session addTLSProfileURIs:[I_greetingProfiles objectForKey:kTCMMMBEEPSessionManagerTLSMode]];
+		}
         [session setDelegate:self];
         [session open];
     }
@@ -408,8 +399,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
 }
 
 - (void)connectToNetService:(NSNetService *)aNetService {
-
-    NSString *userID = [[aNetService TXTRecordDictionary] objectForKey:@"userid"];
+    NSString *userID = [[aNetService TXTRecordDictionary] objectForKey:TCMMMPresenceTXTRecordUserIDKey];
     if (userID) {
         NSMutableDictionary *sessionInformation = [self sessionInformationForUserID:userID];
         NSString *status = [sessionInformation objectForKey:@"RendezvousStatus"];
@@ -458,7 +448,9 @@ static TCMMMBEEPSessionManager *sharedInstance;
         [sessions addObject:session];
         [session release];
         [session addProfileURIs:[I_greetingProfiles objectForKey:kTCMMMBEEPSessionManagerDefaultMode]];
-        [session addTLSProfileURIs:[I_greetingProfiles objectForKey:kTCMMMBEEPSessionManagerTLSMode]];
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:EnableTLSKey]) {
+			[session addTLSProfileURIs:[I_greetingProfiles objectForKey:kTCMMMBEEPSessionManagerTLSMode]];
+		}
         [session setDelegate:self];
         [session open];
     }
@@ -474,6 +466,22 @@ static TCMMMBEEPSessionManager *sharedInstance;
     }
 }
 
+
+- (NSArray *)connectedUsers {
+	NSMutableArray *availableUsers = [NSMutableArray array];
+	TCMMMUserManager *userManager = [TCMMMUserManager sharedInstance];
+
+	for (NSString *sessionUserID in [I_sessionInformationByUserID allKeys]) {
+		NSDictionary *sessionInformation = [I_sessionInformationByUserID objectForKey:sessionUserID];
+		TCMMMUser *user = [userManager userForUserID:[sessionInformation objectForKey:@"peerUserID"]];
+		if (user && user != userManager.me) {
+			[availableUsers addObject:user];
+		}
+	}
+	return availableUsers;
+}
+
+
 - (TCMBEEPSession *)sessionForUserID:(NSString *)aUserID
 {
     DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"sessionInfo: %@", [I_sessionInformationByUserID objectForKey:aUserID]);
@@ -486,9 +494,8 @@ static TCMMMBEEPSessionManager *sharedInstance;
     
     NSDictionary *info = [self sessionInformationForUserID:aUserID];
     NSArray *outboundSessions = [info objectForKey:@"OutboundSessions"];
-    NSEnumerator *outboundSessionEnumerator = [outboundSessions objectEnumerator];
     TCMBEEPSession *session = nil;
-    while ((session = [outboundSessionEnumerator nextObject])) {
+    for (session in outboundSessions) {
         if ([session sessionStatus] == TCMBEEPSessionStatusOpen) {
             if (aURLString && [[[session userInfo] objectForKey:@"URLString"] isEqualToString:aURLString]) {
                 return session;
@@ -499,8 +506,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
     }
 
     NSArray *inboundSessions = [info objectForKey:@"InboundSessions"];
-    NSEnumerator *inboundSessionEnumerator = [inboundSessions objectEnumerator];
-    while ((session = [inboundSessionEnumerator nextObject])) {
+    for (session in inboundSessions) {
         if ([session sessionStatus] == TCMBEEPSessionStatusOpen) {
             if (aURLString && [[[session userInfo] objectForKey:@"URLString"] isEqualToString:aURLString]) {
                 return session;
@@ -525,9 +531,8 @@ static TCMMMBEEPSessionManager *sharedInstance;
     
     NSDictionary *info = [self sessionInformationForUserID:aUserID];
     NSArray *outboundSessions = [info objectForKey:@"OutboundSessions"];
-    NSEnumerator *outboundSessionEnumerator = [outboundSessions objectEnumerator];
     TCMBEEPSession *session = nil;
-    while ((session = [outboundSessionEnumerator nextObject])) {
+    for (session in outboundSessions) {
         if ([session sessionStatus] == TCMBEEPSessionStatusOpen) {
             if ([[session peerAddressData] isEqualTo:anAddressData]) {
                 return session;
@@ -538,8 +543,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
     }
 
     NSArray *inboundSessions = [info objectForKey:@"InboundSessions"];
-    NSEnumerator *inboundSessionEnumerator = [inboundSessions objectEnumerator];
-    while ((session = [inboundSessionEnumerator nextObject])) {
+    for (session in inboundSessions) {
         if ([session sessionStatus] == TCMBEEPSessionStatusOpen) {
             if ([[session peerAddressData] isEqualTo:anAddressData]) {
                 return session;
@@ -978,11 +982,10 @@ static TCMMMBEEPSessionManager *sharedInstance;
 - (void)BEEPListener:(TCMBEEPListener *)aBEEPListener didAcceptBEEPSession:(TCMBEEPSession *)aBEEPSession {
     DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"BEEPListener:didAcceptBEEPSession: %@", aBEEPSession);
     [aBEEPSession addProfileURIs:[I_greetingProfiles objectForKey:kTCMMMBEEPSessionManagerDefaultMode]];
-    [aBEEPSession addTLSProfileURIs:[I_greetingProfiles objectForKey:kTCMMMBEEPSessionManagerTLSMode]];
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:EnableTLSKey]) {
+		[aBEEPSession addTLSProfileURIs:[I_greetingProfiles objectForKey:kTCMMMBEEPSessionManagerTLSMode]];
+	}
     [aBEEPSession setDelegate:self];
-#ifdef TCM_ISSEED
-    [aBEEPSession setAuthenticationDelegate:[SDAppController sharedInstance]];
-#endif
     [aBEEPSession open];
 
     [I_pendingSessions addObject:aBEEPSession];

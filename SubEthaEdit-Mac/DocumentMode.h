@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "SEEStyleSheetSettings.h"
 
 enum {
     DocumentModeWrapModeWords = 0,
@@ -21,6 +22,7 @@ extern NSString * const DocumentModeFontAttributesPreferenceKey         ;
 extern NSString * const DocumentModeHighlightSyntaxPreferenceKey        ;
 extern NSString * const DocumentModeIndentNewLinesPreferenceKey         ;
 extern NSString * const DocumentModeTabKeyReplacesSelectionPreferenceKey;
+extern NSString * const DocumentModeTabKeyMovesToIndentPreferenceKey    ;
 extern NSString * const DocumentModeLineEndingPreferenceKey             ;
 extern NSString * const DocumentModeShowLineNumbersPreferenceKey        ;
 extern NSString * const DocumentModeShowMatchingBracketsPreferenceKey   ;
@@ -66,7 +68,6 @@ extern NSString * const DocumentModeHTMLExportShowParticipantsPreferenceKey;
 extern NSString * const DocumentModeHTMLExportShowUserImagesPreferenceKey  ;
 extern NSString * const DocumentModeHTMLExportShowVisitorsPreferenceKey    ;
 extern NSString * const DocumentModeHTMLExportWrittenByHoversPreferenceKey ;
-extern NSString * const DocumentModeUseDefaultPrintPreferenceKey;
 extern NSString * const DocumentModeUseDefaultStylePreferenceKey;
 extern NSString * const DocumentModeUseDefaultFontPreferenceKey;
 extern NSString * const DocumentModeUseDefaultViewPreferenceKey;
@@ -76,14 +77,20 @@ extern NSString * const DocumentModeUseDefaultFilePreferenceKey;
 extern NSString * const DocumentModeApplyEditPreferencesNotification;
 extern NSString * const DocumentModeApplyStylePreferencesNotification;
 
+extern NSString * const DocumentModeUseDefaultStyleSheetPreferenceKey;
+extern NSString * const DocumentModeStyleSheetsPreferenceKey         ;
+extern NSString * const DocumentModeStyleSheetsDefaultLanguageContextKey;
+
 
 @class ModeSettings;
 @class SyntaxHighlighter;
 @class SyntaxDefinition;
 @class RegexSymbolParser;
 @class SyntaxStyle;
+@class SEEStyleSheet;
+@class SEEStyleSheetSettings;
 
-@interface DocumentMode : NSObject {
+@interface DocumentMode : NSObject <NSToolbarDelegate> {
     NSBundle *I_bundle;
     ModeSettings *I_modeSettings;
     SyntaxDefinition *I_syntaxDefinition;
@@ -92,6 +99,7 @@ extern NSString * const DocumentModeApplyStylePreferencesNotification;
     NSMutableArray *I_autocompleteDictionary;
     NSMutableDictionary *I_defaults;
     SyntaxStyle *I_syntaxStyle,*I_defaultSyntaxStyle;
+	SEEStyleSheet *I_styleSheet;
     NSMutableDictionary *I_scriptsByFilename;
     NSMutableArray *I_menuItemArray;
     NSMutableArray *I_contextMenuItemArray;
@@ -100,18 +108,26 @@ extern NSString * const DocumentModeApplyStylePreferencesNotification;
     NSMutableArray *I_toolbarItemIdentifiers;
     NSMutableArray *I_defaultToolbarItemIdentifiers;
     NSMutableDictionary *I_styleIDTransitionDictionary;
+    NSDictionary *I_scopeExamples;
+    NSArray *I_availableScopes;
+    NSString *I_syntaxExampleString;
+    SEEStyleSheetSettings *I_styleSheetSettings;
 }
 
 + (BOOL)canParseModeVersionOfBundle:(NSBundle *)aBundle;
 
 - (id)initWithBundle:(NSBundle *)aBundle;
 
+- (NSDictionary *)scopeExamples;
+- (NSArray *)availableScopes;
+
 - (NSDictionary *)styleIDTransitionDictionary;
 - (ModeSettings *)modeSettings;
 - (SyntaxHighlighter *)syntaxHighlighter;
 - (SyntaxDefinition *)syntaxDefinition;
+@property (readonly) NSString *bracketMatchingBracketString;
 - (RegexSymbolParser *)symbolParser;
-- (NSString *)newFileContent;
+- (NSString *)templateFileContent;
 - (NSMutableArray *)autocompleteDictionary;
 
 - (BOOL)hasSymbols;
@@ -127,10 +143,17 @@ extern NSString * const DocumentModeApplyStylePreferencesNotification;
 - (id)defaultForKey:(NSString *)aKey;
 - (SyntaxStyle *)syntaxStyle;
 - (void)setSyntaxStyle:(SyntaxStyle *)aStyle;
+- (SEEStyleSheetSettings *)styleSheetSettings;
+- (SEEStyleSheetSettings *)styleSheetSettingsOfThisMode;
 - (SyntaxStyle *)defaultSyntaxStyle;
+- (SEEStyleSheet *)styleSheetForLanguageContext:(NSString *)aLanguageContext;
 
 - (NSArray *)scriptMenuItemArray;
 - (NSArray *)contextMenuItemArray;
+
+- (NSString *)scriptedName;
+
+- (NSString *)syntaxExampleString;
 
 - (BOOL)isBaseMode;
 @end

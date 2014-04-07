@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "DocumentMode.h"
+#import "SEEStyleSheet.h"
 
 #define BASEMODEIDENTIFIER @"SEEMode.Base"
 #define AUTOMATICMODEIDENTIFIER @"SEEMode.Automatic"
@@ -32,24 +33,26 @@
 - (void)configureWithAction:(SEL)aSelector alternateDisplay:(BOOL)aFlag;
 @end
 
-@interface DocumentModeManager : NSObject {
+@interface DocumentModeManager : NSObject <NSAlertDelegate> {
     NSMutableDictionary *I_modeBundles;
     NSMutableDictionary *I_documentModesByIdentifier;
     NSMutableDictionary *I_documentModesByName;
 
-#if defined(CODA)
 	NSRecursiveLock *I_documentModesByIdentifierLock; // (ifc - experimental locking for thread safety... TCM are putting in a real fix)
-	NSMutableDictionary *I_modeIdentifiersByExtension;
-#endif //defined(CODA)
 
 	NSMutableArray *I_modePrecedenceArray;
 	NSMutableArray      *I_modeIdentifiersTagArray;
 	NSMutableDictionary *I_dependencyQueue;
+	
+	// style sheet management
+	NSMutableDictionary *I_styleSheetPathsByName;
+	NSMutableDictionary *I_styleSheetsByName;
 }
 
 + (DocumentModeManager *)sharedInstance;
 + (DocumentMode *)baseMode;
 + (NSString *)xmlFileRepresentationOfAllStyles;
++ (NSString *)defaultStyleSheetName;
 
 - (DocumentMode *)baseMode;
 - (DocumentMode *)modeForNewDocuments;
@@ -57,13 +60,23 @@
 - (DocumentMode *)documentModeForPath:(NSString *)path withContentData:(NSData *)content;
 - (DocumentMode *)documentModeForPath:(NSString *)path withContentString:(NSString *)contentString;
 - (DocumentMode *)documentModeForName:(NSString *)aName;
+- (NSArray *)allLoadedDocumentModes;
 - (NSString *)documentModeIdentifierForTag:(int)aTag;
 - (BOOL)documentModeAvailableModeIdentifier:(NSString *)anIdentifier;
 - (int)tagForDocumentModeIdentifier:(NSString *)anIdentifier;
 - (NSDictionary *)availableModes;
+
 - (NSMutableArray *)reloadPrecedences;
 - (void)revalidatePrecedences;
 
+@property (readonly) NSDictionary *changedScopeNameDict;
+- (SEEStyleSheet *)styleSheetForName:(NSString *)aStyleSheetName;
+- (NSArray *)allStyleSheetNames;
+- (void)saveStyleSheet:(SEEStyleSheet *)aStyleSheet;
+- (SEEStyleSheet *)duplicateStyleSheet:(SEEStyleSheet *)aStyleSheet;
+- (void)revealStyleSheetInFinder:(SEEStyleSheet *)aStyleSheet;
+
 - (IBAction)reloadDocumentModes:(id)aSender;
+- (void)revealModeInFinder:(DocumentMode *)aMode;
 
 @end

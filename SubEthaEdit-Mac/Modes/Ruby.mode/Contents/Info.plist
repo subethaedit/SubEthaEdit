@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<dict>
-	<key>CFBundleIdentifier</key>
-	<string>SEEMode.Ruby</string>
-	<key>CFBundleName</key>
-	<string>Ruby</string>
+  <dict>
+    <key>CFBundleIdentifier</key>
+    <string>SEEMode.Ruby</string>
+    <key>CFBundleName</key>
+    <string>Ruby</string>
     <key>NSHumanReadableCopyright</key>
-	<string>TheCodingMonkeys - based on Jeff Reinecke's improvements over the original Mode</string>
-    <key>CFBundleShortVersionString</key>
-	<string>3.5.1</string>
-	<key>CFBundleVersion</key>
-	<string>3.5.1</string>
+    <string>© 2014 TheCodingMonkeys
+http://www.codingmonkeys.de</string>
     <key>CFBundleGetInfoString</key>
-	<string>3.5.1</string>
-	<key>CFBundlePackageType</key>
-	<string>BNDL</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>SEEMinimumEngineVersion</key>
-	<string>3.5</string>
-</dict>
+    <string>4.0, Copyright TheCodingMonkeys 2014</string>
+    <key>CFBundleShortVersionString</key>
+    <string>4.0</string>
+    <key>CFBundleVersion</key>
+    <string>4.0</string>
+    <key>SEEMinimumEngineVersion</key>
+    <string>3.5</string>
+    <key>CFBundlePackageType</key>
+    <string>BNDL</string>
+    <key>CFBundleInfoDictionaryVersion</key>
+    <string>6.0</string>
+  </dict>
 </plist>

@@ -17,19 +17,30 @@
 @synthesize testNSTextStorage,testFoldableTextStorage, testFoldableTextStorageOneFolding, testFoldableTextStorageEveryOtherLineFolding, numberOfRepeats;
 
 - (void)setupLogFile {
-	NSString *appName = [[[[NSBundle mainBundle] bundlePath] lastPathComponent] stringByDeletingPathExtension];
-	NSString *appDir = [[@"~/Library/Logs/" stringByExpandingTildeInPath] stringByAppendingPathComponent:appName];
-	[[NSFileManager defaultManager] createDirectoryAtPath:appDir attributes:nil];
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	NSArray *possibleURLs = [fileManager URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask];
+	NSURL *logsDirectory = nil;
 	
+	if ([possibleURLs count] >= 1) { // Use the first directory (if multiple are returned)
+		logsDirectory = [possibleURLs objectAtIndex:0]; // .*/Library
+	}
+	if (logsDirectory) {
+		logsDirectory = [logsDirectory URLByAppendingPathComponent:@"Logs"]; // .*/Library/Logs
+		NSString *appBundleID = [[NSBundle mainBundle] bundleIdentifier];
+		logsDirectory = [logsDirectory URLByAppendingPathComponent:appBundleID]; // .*/Library/Logs/de.codingmonkeys.SubEthaEdit.Mac
+		[fileManager createDirectoryAtURL:logsDirectory withIntermediateDirectories:YES attributes:nil error:nil];
+	}
+	
+	NSString *logsPath = [logsDirectory path];
     int sequenceNumber = 0;
 	NSString *name;
 	do {
 		sequenceNumber++;
-		name = [NSString stringWithFormat:@"Perflog-%@-%@-%d.log", [[NSCalendarDate date] descriptionWithCalendarFormat:@"%Y-%m-%d--%H-%M"], [[NSProcessInfo processInfo] hostName], sequenceNumber];
-		name = [appDir stringByAppendingPathComponent:name];
-	} while ([[NSFileManager defaultManager] fileExistsAtPath:name]);
+		name = [NSString stringWithFormat:@"Perflog-%@-%@-%d.log", [NSDate date], [[NSProcessInfo processInfo] hostName], sequenceNumber];
+		name = [logsPath stringByAppendingPathComponent:name];
+	} while ([fileManager fileExistsAtPath:name]);
 
-    [[NSFileManager defaultManager] createFileAtPath:name contents:[NSData data] attributes:nil];
+    [fileManager createFileAtPath:name contents:[NSData data] attributes:nil];
     logFileHandle = [[NSFileHandle fileHandleForWritingAtPath:name] retain];
 }
 

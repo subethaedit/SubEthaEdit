@@ -16,42 +16,39 @@
 #import "TCMMMLoggingState.h"
 #import "TCMMMOperation.h"
 #import "SessionProfile.h"
-#import "DocumentController.h"
+#import "SEEDocumentController.h"
 #import "SelectionOperation.h"
 #import "UserChangeOperation.h"
 #import "time.h"
 #import "PlainTextDocument.h"
+#import "FoldableTextStorage.h"
 
 
 #define kProcessingTime 0.5
 #define kWaitingTime 0.1
 
 
-NSString * const TCMMMSessionParticipantsDidChangeNotification = 
-               @"TCMMMSessionParticipantsDidChangeNotification";
-NSString * const TCMMMSessionPendingUsersDidChangeNotification = 
-               @"TCMMMSessionPendingUsersDidChangeNotification";
-NSString * const TCMMMSessionPendingInvitationsDidChange =
-               @"TCMMMSessionPendingInvitationsDidChange";
-NSString * const TCMMMSessionDidChangeNotification = 
-               @"TCMMMSessionDidChangeNotification";
-NSString * const TCMMMSessionClientStateDidChangeNotification = 
-               @"TCMMMSessionClientStateDidChangeNotification";
-NSString * const TCMMMSessionDidReceiveContentNotification = 
-               @"TCMMMSessionDidReceiveContentNotification";
+NSString * const TCMMMSessionParticipantsDidChangeNotification = @"TCMMMSessionParticipantsDidChangeNotification";
+NSString * const TCMMMSessionPendingUsersDidChangeNotification = @"TCMMMSessionPendingUsersDidChangeNotification";
+NSString * const TCMMMSessionPendingInvitationsDidChange = @"TCMMMSessionPendingInvitationsDidChange";
+NSString * const TCMMMSessionDidChangeNotification = @"TCMMMSessionDidChangeNotification";
+NSString * const TCMMMSessionClientStateDidChangeNotification = @"TCMMMSessionClientStateDidChangeNotification";
+NSString * const TCMMMSessionDidReceiveContentNotification = @"TCMMMSessionDidReceiveContentNotification";
 
 NSString * const TCMMMSessionReadWriteGroupName = @"ReadWrite";
 NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
+NSString * const TCMMMSessionPoofGroupName  = @"PoofGroup";
+NSString * const TCMMMSessionCloseGroupName  = @"CloseGroup";
+
+NSString * const TCMMMSessionInvitedUserStateAwaitingResponse = @"AwaitingResponse";
+NSString * const TCMMMSessionInvitedUserStateInvitationDeclined = @"DeclinedInvitation";
 
 
-@interface TCMMMSession (TCMMMSessionPrivateAdditions)
-
+@interface TCMMMSession ()
 - (NSDictionary *)TCM_sessionInformationForUserID:(NSString *)aUserID;
 - (NSArray *)TCM_setSessionParticipants:(NSDictionary *)aParticipants  forProfile:(SessionProfile *)profile;
 - (void)triggerPerformRoundRobin;
-- (void)processRoundRobinMessageProcessing;
 - (void)validateSecurity;
-
 @end
 
 #pragma mark -
@@ -135,8 +132,8 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
         [self setHostID:[TCMMMUserManager myUserID]];
         TCMMMUser *me=[TCMMMUserManager me];
         [I_contributors addObject:me];
-        [I_participants setObject:[NSMutableArray arrayWithObject:me] forKey:@"ReadWrite"];
-        [I_groupByUserID setObject:@"ReadWrite" forKey:[me userID]];
+        [I_participants setObject:[NSMutableArray arrayWithObject:me] forKey:TCMMMSessionReadWriteGroupName];
+        [I_groupByUserID setObject:TCMMMSessionReadWriteGroupName forKey:[me userID]];
         [self setIsServer:YES];
         [self setClientState:TCMMMSessionClientNoState];
     }
@@ -335,11 +332,11 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
     return I_flags.wasInvited;
 }
 
-- (unsigned int)participantCount {
+- (NSUInteger)participantCount {
     return [I_groupByUserID count];
 }
 
-- (unsigned int)openInvitationCount {
+- (NSUInteger)openInvitationCount {
     return [[[I_stateOfInvitedUsers allValues] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF = 'AwaitingResponse'"]] count];
 }
 
@@ -368,7 +365,7 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
     I_accessState=aState;
     if (aState != TCMMMSessionAccessLockedState) {
         if ([I_pendingUsers count]) {
-            [self setGroup:aState==TCMMMSessionAccessReadWriteState?@"ReadWrite":@"ReadOnly"
+            [self setGroup:aState==TCMMMSessionAccessReadWriteState?TCMMMSessionReadWriteGroupName:TCMMMSessionReadOnlyGroupName
                   forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,[I_pendingUsers count])]];
         }
     }
@@ -403,8 +400,7 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
     while ((state = [states nextObject])) {
         [state handleOperation:anOperation];
     }
-    states=[I_statesWithRemainingMessages objectEnumerator];
-    while ((state=[states nextObject])) {
+    for (state in I_statesWithRemainingMessages) {
         [state handleOperation:anOperation];
     }
     [I_loggingState handleOperation:anOperation];
@@ -421,7 +417,11 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
 }
 
 - (BOOL)isEditable {
-    return [[I_groupByUserID objectForKey:[TCMMMUserManager myUserID]] isEqualToString:@"ReadWrite"];
+    return [[I_groupByUserID objectForKey:[TCMMMUserManager myUserID]] isEqualToString:TCMMMSessionReadWriteGroupName];
+}
+
+- (BOOL)isEditableByUser:(TCMMMUser *)aUser {
+    return [[I_groupByUserID objectForKey:[aUser userID]] isEqualToString:TCMMMSessionReadWriteGroupName];
 }
 
 - (void)presenceManagerDidReceiveToken:(NSNotification *)aNotification {
@@ -429,7 +429,7 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
     NSString *token = [userInfo objectForKey:@"token"];
     NSString *group = [I_groupByToken objectForKey:token];
     if (group) {
-        NSString *userID = [userInfo objectForKey:@"userID"];
+        NSString *userID = [userInfo objectForKey:TCMMMPresenceUserIDKey];
         TCMMMUser *user = [[TCMMMUserManager sharedInstance] userForUserID:userID];
         if (user) {
             [self inviteUser:user intoGroup:group usingBEEPSession:nil];
@@ -445,13 +445,12 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
 }
 
 - (void)setGroup:(NSString *)aGroup forParticipantsWithUserIDs:(NSArray *)aUserIDs {
-    if ([aGroup isEqualToString:@"PoofGroup"] || [aGroup isEqualToString:@"CloseGroup"]) {
-        NSEnumerator *userIDs=[aUserIDs objectEnumerator];
+    if ([aGroup isEqualToString:TCMMMSessionPoofGroupName] || [aGroup isEqualToString:TCMMMSessionCloseGroupName]) {
         NSString *userID;
         TCMMMUser *user;
         TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
         NSString *sessionID=[self sessionID];
-        while ((userID=[userIDs nextObject])) {
+        for (userID in aUserIDs) {
             user = [userManager userForUserID:userID];
             NSString *group=[I_groupByUserID objectForKey:userID];
             if (group) {
@@ -481,12 +480,11 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
         if (![I_participants objectForKey:aGroup]) {
             [I_participants setObject:[NSMutableArray array] forKey:aGroup];
         }
-        NSEnumerator *userIDs=[aUserIDs objectEnumerator];
         NSString *userID;
         TCMMMUser *user;
         TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
         NSString *sessionID=[self sessionID];
-        while ((userID=[userIDs nextObject])) {
+        for (userID in aUserIDs) {
             NSString *oldGroup=[[[I_groupByUserID objectForKey:userID] retain] autorelease];
             if (![oldGroup isEqualToString:aGroup]) {
                 user=[userManager userForUserID:userID];
@@ -500,7 +498,7 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
                 if ([self isServer]) {
                     [self documentDidApplyOperation:[UserChangeOperation userChangeOperationWithType:UserChangeTypeGroupChange userID:userID newGroup:aGroup]];
                 }
-                if ([oldGroup isEqualToString:@"ReadWrite"]) {
+                if ([oldGroup isEqualToString:TCMMMSessionReadWriteGroupName]) {
                     SessionProfile *profile=[I_profilesByUserID objectForKey:userID];
                     TCMMMState *state=[I_statesByClientID objectForKey:userID];
                     [state setClient:nil];
@@ -521,19 +519,71 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
     [self validateSecurity];
 }
 
+
+- (void)addPendingUser:(TCMMMUser *)aUser toGroup:(NSString *)aGroup {
+	if (aUser != nil && aGroup != nil) {
+		[I_groupByUserID setObject:aGroup forKey:[aUser userID]];
+
+		if (![I_participants objectForKey:aGroup]) {
+			[I_participants setObject:[NSMutableArray array] forKey:aGroup];
+		}
+		[[I_participants objectForKey:aGroup] addObject:aUser];
+
+		[I_contributors addObject:aUser];
+
+		[self documentDidApplyOperation:[UserChangeOperation userChangeOperationWithType:UserChangeTypeJoin user:aUser newGroup:aGroup]];
+
+		SessionProfile *profile = [I_profilesByUserID objectForKey:[aUser userID]];
+		TCMMMState *state = [[TCMMMState alloc] initAsServer:YES];
+		[state setDelegate:self];
+		[state setClient:profile];
+		[I_statesByClientID setObject:state forKey:[aUser userID]];
+		[profile acceptJoin];
+		[profile sendSessionInformation:[self TCM_sessionInformationForUserID:[aUser userID]]];
+		id <SEEDocument> document = [self document];
+		[document sendInitialUserStateViaMMState:state];
+		[state release];
+
+		[aUser joinSessionID:[self sessionID]];
+
+		NSMutableDictionary *properties=[aUser propertiesForSessionID:[self sessionID]];
+		[properties setObject:[SelectionOperation selectionOperationWithRange:NSMakeRange(0,0) userID:[aUser userID]] forKey:@"SelectionOperation"];
+
+		[I_profilesByUserID removeObjectForKey:[aUser userID]];
+		[I_pendingUsers removeObject:aUser];
+		[self validateSecurity];
+		[[NSNotificationCenter defaultCenter] postNotificationName:TCMMMSessionPendingUsersDidChangeNotification object:self];
+	}
+}
+
+- (void)denyPendingUser:(TCMMMUser *)aUser {
+	if (aUser != nil) {
+		SessionProfile *profile=[I_profilesByUserID objectForKey:[aUser userID]];
+		if (profile) {
+			[profile denyJoin];
+			[profile close];
+			[profile setDelegate:nil];
+		}
+		[I_profilesByUserID removeObjectForKey:[aUser userID]];
+		[I_pendingUsers removeObject:aUser];
+		[self validateSecurity];
+		[[NSNotificationCenter defaultCenter] postNotificationName:TCMMMSessionPendingUsersDidChangeNotification object:self];
+	}
+}
+
 - (void)setGroup:(NSString *)aGroup forPendingUsersWithIndexes:(NSIndexSet *)aSet {
-    if ([aGroup isEqualToString:@"PoofGroup"]) {
+    if ([aGroup isEqualToString:TCMMMSessionPoofGroupName]) {
         NSMutableIndexSet *set = [aSet mutableCopy];
         NSUInteger index;
         while ((index = [set firstIndex]) != NSNotFound) {
             TCMMMUser *user = [I_pendingUsers objectAtIndex:index];
-            SessionProfile *profile=[I_profilesByUserID objectForKey:[user userID]];
-            if (profile) {
-                [profile denyJoin];
-                [profile close];
-                [profile setDelegate:nil];
-            }
-            [I_profilesByUserID removeObjectForKey:[user userID]];
+			SessionProfile *profile=[I_profilesByUserID objectForKey:[user userID]];
+			if (profile) {
+				[profile denyJoin];
+				[profile close];
+				[profile setDelegate:nil];
+			}
+			[I_profilesByUserID removeObjectForKey:[user userID]];
             [set removeIndex:index];
         }
         [set release];
@@ -627,9 +677,9 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
     
     if ([self isServer] && ![I_profilesByUserID objectForKey:userID]) {
         [I_groupOfInvitedUsers setObject:aGroup forKey:userID];
-        [I_stateOfInvitedUsers setObject:@"AwaitingResponse" forKey:userID];
-        [[I_invitedUsers objectForKey:@"ReadWrite"] removeObject:aUser];
-        [[I_invitedUsers objectForKey:@"ReadOnly"] removeObject:aUser];
+        [I_stateOfInvitedUsers setObject:TCMMMSessionInvitedUserStateAwaitingResponse forKey:userID];
+        [[I_invitedUsers objectForKey:TCMMMSessionReadWriteGroupName] removeObject:aUser];
+        [[I_invitedUsers objectForKey:TCMMMSessionReadOnlyGroupName] removeObject:aUser];
         [[I_invitedUsers objectForKey:aGroup] addObject:aUser];
     //    NSLog(@"BeepSession: %@ forUser:%@",aBEEPSession, aUser);
         [aBEEPSession startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"] andData:[NSArray arrayWithObject:[SessionProfile defaultInitializationData]] sender:self];
@@ -723,8 +773,8 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
 - (void)abandon {
     NSMutableSet *userIDs=[NSMutableSet setWithArray:[I_groupByUserID allKeys]];
     [userIDs removeObject:[TCMMMUserManager myUserID]];
-    [self setGroup:@"CloseGroup" forParticipantsWithUserIDs:[userIDs allObjects]];
-    [self setGroup:@"PoofGroup" forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,[I_pendingUsers count])]];
+    [self setGroup:TCMMMSessionCloseGroupName forParticipantsWithUserIDs:[userIDs allObjects]];
+    [self setGroup:TCMMMSessionPoofGroupName forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,[I_pendingUsers count])]];
     NSEnumerator *invitedUserIDs=[[I_groupOfInvitedUsers allKeys] objectEnumerator];
     NSString *userID=nil;
     while ((userID=[invitedUserIDs nextObject])) {
@@ -757,9 +807,8 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
         query = (NSString *)CFURLCreateStringByReplacingPercentEscapes(kCFAllocatorDefault, (CFStringRef)urlQuery, CFSTR(""));
         [query autorelease];
         NSArray *components = [query componentsSeparatedByString:@"&"];
-        NSEnumerator *enumerator = [components objectEnumerator];
         NSString *item;
-        while ((item = [enumerator nextObject])) {
+        for (item in components) {
             NSArray *keyValue = [item componentsSeparatedByString:@"="];
             if ([keyValue count] == 2) {
                 if ([[keyValue objectAtIndex:0] isEqualToString:@"sessionID"]) {
@@ -808,9 +857,8 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
 
 - (NSDictionary *)contributersAsDictionaryRepresentation {
     NSMutableDictionary *contributorsByID=[NSMutableDictionary dictionary];
-    NSEnumerator *contributors = [I_contributors objectEnumerator];
     TCMMMUser *contributor=nil;
-    while ((contributor=[contributors nextObject])) {
+    for (contributor in I_contributors) {
         NSString *contributorID=[contributor userID];
         [contributorsByID setObject:[contributor dictionaryRepresentation] forKey:contributorID];
     }
@@ -831,10 +879,9 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
 {
     NSMutableDictionary *sessionInformation=[NSMutableDictionary dictionary];
     NSMutableArray *contributorNotifications=[NSMutableArray array];
-    NSEnumerator *contributors = [I_contributors objectEnumerator];
     NSSet *userIDsOfContributors = [[self document] allUserIDs];
     TCMMMUser *contributor=nil;
-    while ((contributor=[contributors nextObject])) {
+    for (contributor in I_contributors) {
         NSString *contributorID=[contributor userID];
         if (![contributorID isEqualToString:userID] &&
             [userIDsOfContributors containsObject:contributorID]) {
@@ -977,16 +1024,16 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
     
     TCMMMState *state=[I_statesByClientID objectForKey:peerUserID];
     if (state) {
-        [self setGroup:@"PoofGroup" forParticipantsWithUserIDs:[NSArray arrayWithObject:peerUserID]];
+        [self setGroup:TCMMMSessionPoofGroupName forParticipantsWithUserIDs:[NSArray arrayWithObject:peerUserID]];
     }
     TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:peerUserID];
     
     if ([I_pendingUsers containsObject:user]) {
-        [self setGroup:@"PoofGroup" forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndex:[I_pendingUsers indexOfObject:user]]];
+        [self setGroup:TCMMMSessionPoofGroupName forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndex:[I_pendingUsers indexOfObject:user]]];
     }
 
     NSString *userState=[I_stateOfInvitedUsers objectForKey:peerUserID];
-    if (userState && [userState isEqualToString:@"AwaitingResponse"]) {
+    if (userState && [userState isEqualToString:TCMMMSessionInvitedUserStateAwaitingResponse]) {
         [profile denyJoin];
     } else {
         if (userState) {
@@ -998,14 +1045,12 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
         [profile setDelegate:self];
         // decide if autojoin depending on setting
         if ([self accessState]!=TCMMMSessionAccessLockedState) {
-            [self setGroup:[self accessState]==TCMMMSessionAccessReadWriteState?@"ReadWrite":@"ReadOnly"
+            [self setGroup:[self accessState]==TCMMMSessionAccessReadWriteState?TCMMMSessionReadWriteGroupName:TCMMMSessionReadOnlyGroupName
                   forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndex:[I_pendingUsers count]-1]];
         } else {
             // if no autojoin add user to pending users and notify 
             [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMSessionPendingUsersDidChangeNotification object:self];
-#if !defined(CODA)
             [I_helper playSoundNamed:@"Knock"];
-#endif //!defined(CODA)
         }
     }
 }
@@ -1035,9 +1080,7 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
             [self acceptInvitation];
         } else {
             [self setClientState:TCMMMSessionClientInvitedState];
-#if !defined(CODA)
             [I_helper playSoundNamed:@"Invitation"];
-#endif //!defined(CODA)
         }
         if (!document) {
             [self setWasInvited:YES];
@@ -1136,7 +1179,7 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
 
 - (void)profileDidDeclineInvitation:(SessionProfile *)aProfile {
     NSString *peerUserID = [[[aProfile session] userInfo] objectForKey:@"peerUserID"];
-    [I_stateOfInvitedUsers setObject:@"DeclinedInvitation" forKey:peerUserID];
+    [I_stateOfInvitedUsers setObject:TCMMMSessionInvitedUserStateInvitationDeclined forKey:peerUserID];
     [aProfile setDelegate:nil];
     if ([I_profilesByUserID objectForKey:peerUserID]==aProfile) {
         [I_profilesByUserID removeObjectForKey:peerUserID];
@@ -1187,11 +1230,10 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
     
     NSArray *contributors=[sessionInfo objectForKey:@"Contributors"];
     NSMutableArray *result=[NSMutableArray array];
-    NSEnumerator *users=[contributors objectEnumerator];
     NSDictionary *userNotification;
     TCMMMUser *user=nil;
     TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
-    while ((userNotification=[users nextObject])) {
+    for (userNotification in contributors) {
         user=[TCMMMUser userWithNotification:userNotification];
         if (user) {
             if ([userManager sender:profile shouldRequestUser:user]) {
@@ -1216,10 +1258,9 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
 - (void)profile:(SessionProfile *)aProfile didReceiveUserRequests:(NSArray *)aUserRequestArray
 {
     DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"profile:didReceiveUserRequests:");
-    NSEnumerator *userRequests=[aUserRequestArray objectEnumerator]; 
     TCMMMUser *user=nil;
     TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
-    while ((user=[userRequests nextObject])) {
+    for (user in aUserRequestArray) {
         [aProfile sendUser:[userManager userForUserID:[user userID]]];
     }
     NSString *peerUserID = [[[aProfile session] userInfo] objectForKey:@"peerUserID"];
@@ -1289,7 +1330,7 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
             [I_statesByClientID removeObjectForKey:peerUserID];
         } else {
             NSString *userState=[I_stateOfInvitedUsers objectForKey:peerUserID];
-            if (userState && [userState isEqualToString:@"AwaitingResponse"]) {
+            if (userState && [userState isEqualToString:TCMMMSessionInvitedUserStateAwaitingResponse]) {
                 [self profileDidDeclineInvitation:(SessionProfile *)aProfile];
             }
         }
@@ -1336,7 +1377,7 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
     //NSLog(@"pre-emtive-didRecieveUserChangeToReadOnly");
     TCMMMState *state=[I_statesByClientID objectForKey:[self hostID]];
     [state processAllUserChangeMessages];
-    [self setGroup:@"ReadOnly" forParticipantsWithUserIDs:[NSArray arrayWithObject:[TCMMMUserManager myUserID]]];
+    [self setGroup:TCMMMSessionReadOnlyGroupName forParticipantsWithUserIDs:[NSArray arrayWithObject:[TCMMMUserManager myUserID]]];
     SessionProfile *profile=[I_profilesByUserID objectForKey:[self hostID]];
     [profile setMMState:nil];
     [state setDelegate:nil];
@@ -1347,7 +1388,7 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
 
 - (void)handleUserChangeOperation:(UserChangeOperation *)anOperation fromState:(TCMMMState *)aState {
     if ([anOperation type]==UserChangeTypeJoin) {
-        NSString *group=[anOperation newGroup];
+        NSString *group=[anOperation theNewGroup];
         NSString *userID=[anOperation userID];
         TCMMMUser *userNotification=[anOperation user];
         TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
@@ -1374,7 +1415,7 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
                 // remove all Users
                 [self cleanupParticipants];
                 // detach document
-                if ([[anOperation newGroup] isEqualTo:@"PoofGroup"]) {
+                if ([[anOperation theNewGroup] isEqualTo:TCMMMSessionPoofGroupName]) {
                     [[self document] sessionDidReceiveKick:self];
                 } else {
                     [[self document] sessionDidReceiveClose:self];
@@ -1382,7 +1423,7 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
                 [self setClientState:TCMMMSessionClientNoState];
             }
         } else if ([userID isEqualToString:[self hostID]] && ![self isServer]) {
-            if ([[anOperation newGroup] isEqualTo:@"PoofGroup"]) {
+            if ([[anOperation theNewGroup] isEqualTo:TCMMMSessionPoofGroupName]) {
                 [[self document] sessionDidLoseConnection:self];
             } else {
                 [[self document] sessionDidReceiveClose:self];
@@ -1403,14 +1444,14 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
         [self TCM_sendParticipantsDidChangeNotification];
     } else if ([anOperation type]==UserChangeTypeGroupChange) {
         NSString *userID=[anOperation userID];
-        [self setGroup:[anOperation newGroup] forParticipantsWithUserIDs:[NSArray arrayWithObject:userID]];
+        [self setGroup:[anOperation theNewGroup] forParticipantsWithUserIDs:[NSArray arrayWithObject:userID]];
         TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
         if ([userID isEqualToString:[userManager myUserID]]) {
             if ([self isServer]) {
                 DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Can't change my group in my document, pah!");
             } else {
                 //NSLog(@"normal self change:%@",[anOperation description]);
-                if ([[anOperation newGroup] isEqualTo:@"ReadOnly"]) {
+                if ([[anOperation theNewGroup] isEqualTo:TCMMMSessionReadOnlyGroupName]) {
                     //NSLog(@"normal self change to read only");
 
                     [[aState retain] autorelease];
@@ -1509,7 +1550,7 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
         
         if (clientID) { // bad client sent a message that could not be processed 
             if ([self isServer]) {
-                [self setGroup:@"PoofGroup" forParticipantsWithUserIDs:[NSArray arrayWithObject:clientID]];
+                [self setGroup:TCMMMSessionPoofGroupName forParticipantsWithUserIDs:[NSArray arrayWithObject:clientID]];
             } else {
                 [self leave];
                 break;

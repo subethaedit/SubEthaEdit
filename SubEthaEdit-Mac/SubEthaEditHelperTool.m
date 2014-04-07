@@ -29,7 +29,7 @@ static OSStatus CopyFiles(CFStringRef sourceFile, CFStringRef targetFile, CFDict
     err = MoreSecSetPrivilegedEUID();
     if (err == noErr) {
         if ([fileManager fileExistsAtPath:(NSString *)targetFile]) {
-            (void)[fileManager removeFileAtPath:(NSString *)targetFile handler:nil];
+            [fileManager removeItemAtPath:(NSString *)targetFile error:nil];
         }
         
         NSArray *pathComponents = [(NSString *)targetFile pathComponents];
@@ -45,18 +45,18 @@ static OSStatus CopyFiles(CFStringRef sourceFile, CFStringRef targetFile, CFDict
         for (index = 1; index < count; index++) {
             path = [path stringByAppendingPathComponent:[pathComponents objectAtIndex:index]];
             if (!([fileManager fileExistsAtPath:path isDirectory:&isDir] && isDir)) {
-                (void)[fileManager createDirectoryAtPath:path attributes:attributes];
+                [fileManager createDirectoryAtPath:path withIntermediateDirectories:YES attributes:attributes error:nil];
             }
         }
         
-        BOOL result = [fileManager copyPath:(NSString *)sourceFile toPath:(NSString *)targetFile handler:nil];
+        BOOL result = [fileManager copyItemAtPath:(NSString *)sourceFile toPath:(NSString *)targetFile error:nil];
         if (result && targetAttrs != NULL) {
-            result = [fileManager changeFileAttributes:(NSDictionary *)targetAttrs atPath:(NSString *)targetFile];
+            result = [fileManager setAttributes:(NSDictionary *)targetAttrs ofItemAtPath:(NSString *)targetFile error:nil];
             if ([fileManager fileExistsAtPath:(NSString *)targetFile isDirectory:&isDir] && isDir) {
                 NSDirectoryEnumerator *direnum = [fileManager enumeratorAtPath:(NSString *)targetFile];
                 NSString *pname;
                 while ((pname = [direnum nextObject])) {
-                    (void)[fileManager changeFileAttributes:(NSDictionary *)targetAttrs atPath:[(NSString *)targetFile stringByAppendingPathComponent:pname]];
+                    (void)[fileManager setAttributes:(NSDictionary *)targetAttrs ofItemAtPath:[(NSString *)targetFile stringByAppendingPathComponent:pname] error:nil];
                 }
             }
         }
@@ -78,7 +78,7 @@ static OSStatus RemoveFiles(CFArrayRef files, CFDictionaryRef *result)
     if (err == noErr) {
         BOOL result = YES;
         for (i = 0; i < count; i++) {
-            result = [fileManager removeFileAtPath:[(NSArray *)files objectAtIndex:i] handler:nil];
+            result = [fileManager removeItemAtPath:[(NSArray *)files objectAtIndex:i] error:nil];
             if (!result) {
                 break;
             }
@@ -157,33 +157,33 @@ static OSStatus ExchangeFileContents(CFStringRef path1, CFStringRef path2, CFDic
 
         if (err == EACCES || err == EPERM) {	// Seems to be a write-protected or locked file; try temporarily changing
             //NSLog(@"Seems to be a write-protected or locked file; try temporarily changing");
-            NSDictionary *attrs = (NSDictionary *)path2Attrs ? (NSDictionary *)path2Attrs : [fileManager fileAttributesAtPath:(NSString *)path2 traverseLink:YES];
+            NSDictionary *attrs = (NSDictionary *)path2Attrs ? (NSDictionary *)path2Attrs : [fileManager attributesOfItemAtPath:(NSString *)path2 error:nil];
             NSNumber *curPerms = [attrs objectForKey:NSFilePosixPermissions];
             BOOL curImmutable = [attrs fileIsImmutable];
-            if (curPerms) [fileManager changeFileAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithUnsignedLong:[curPerms unsignedLongValue] | 0200], NSFilePosixPermissions, nil] atPath:(NSString *)path2];
-            if (curImmutable) [fileManager changeFileAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:NO], NSFileImmutable, nil] atPath:(NSString *)path2];
+            if (curPerms) [fileManager setAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithUnsignedLong:[curPerms unsignedLongValue] | 0200], NSFilePosixPermissions, nil] ofItemAtPath:(NSString *)path2 error:nil];
+            if (curImmutable) [fileManager setAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:NO], NSFileImmutable, nil] ofItemAtPath:(NSString *)path2 error:nil];
             err = exchangedata(cPath1, cPath2, 0) ? errno : 0;
             // Restore original values
-            if (curPerms) [fileManager changeFileAttributes:[NSDictionary dictionaryWithObjectsAndKeys:curPerms, NSFilePosixPermissions, nil] atPath:(NSString *)path2];
-            if (curImmutable) [fileManager changeFileAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES], NSFileImmutable, nil] atPath:(NSString *)path2];
+            if (curPerms) [fileManager setAttributes:[NSDictionary dictionaryWithObjectsAndKeys:curPerms, NSFilePosixPermissions, nil] ofItemAtPath:(NSString *)path2 error:nil];
+            if (curImmutable) [fileManager setAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES], NSFileImmutable, nil] ofItemAtPath:(NSString *)path2 error:nil];
         }
         if (err == 0) {
             //NSLog(@"first or second call to exchangedata succeeded");
-            [fileManager removeFileAtPath:(NSString *)path1 handler:nil];
+            [fileManager removeItemAtPath:(NSString *)path1 error:nil];
         } else {
             //NSLog(@"exchangedata failed, try to move file");
-            NSDictionary *curAttrs = [fileManager fileAttributesAtPath:(NSString *)path2 traverseLink:YES];
-            BOOL success = [fileManager movePath:(NSString *)path1 toPath:(NSString *)path2 handler:nil];
+            NSDictionary *curAttrs = [fileManager attributesOfItemAtPath:(NSString *)path2 error:nil];
+            BOOL success = [fileManager moveItemAtPath:(NSString *)path1 toPath:(NSString *)path2 error:nil];
             if (!success) {
                 //NSLog(@"move failed");
-                (void)[fileManager removeFileAtPath:(NSString *)path1 handler:nil];
+                (void)[fileManager removeItemAtPath:(NSString *)path1 error:nil];
                 status = paramErr;
             } else {
                 NSDictionary *attrs = (NSDictionary *)path2Attrs;
                 if (curAttrs) {
                     attrs = curAttrs;
                 }
-                (void)[fileManager changeFileAttributes:attrs atPath:(NSString *)path2];
+                (void)[fileManager setAttributes:attrs ofItemAtPath:(NSString *)path2 error:nil];
             }
         }
         
@@ -228,7 +228,7 @@ static OSStatus AquireRight(AuthorizationRef auth, CFStringRef path)
     err = AuthorizationCopyRights(auth, &rights, kAuthorizationEmptyEnvironment, kAuthFlags, NULL);
 
     #if MORE_DEBUG
-        fprintf(stderr, "MoreSecurityTest: HelperTool: ACR returned %ld\n", err);
+        fprintf(stderr, "MoreSecurityTest: HelperTool: ACR returned %d\n", err);
     #endif
     
     return err;

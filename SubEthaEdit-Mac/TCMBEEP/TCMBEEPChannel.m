@@ -34,8 +34,8 @@ static NSMutableDictionary *profileURIToClassMapping;
     if (!profileURIToClassMapping) {
         profileURIToClassMapping = [NSMutableDictionary new];
         [self setClass:[TCMBEEPManagementProfile class] forProfileURI:kTCMBEEPManagementProfile];
-        [self setClass:[TCMBEEPProfile class] forProfileURI:TCMBEEPTLSProfileURI];
-        [self setClass:[TCMBEEPProfile class] forProfileURI:TCMBEEPTLSAnonProfileURI];
+		//    [self setClass:[TCMBEEPProfile class] forProfileURI:TCMBEEPTLSProfileURI];
+		//    [self setClass:[TCMBEEPProfile class] forProfileURI:TCMBEEPTLSAnonProfileURI];
     //    [self setClass:[TCMBEEPSASLProfile class] forProfileURI:TCMBEEPSASLANONYMOUSProfileURI];
     //    [self setClass:[TCMBEEPSASLProfile class] forProfileURI:TCMBEEPSASLPLAINProfileURI];
     //    [self setClass:[TCMBEEPSASLProfile class] forProfileURI:TCMBEEPSASLCRAMMD5ProfileURI];
@@ -87,8 +87,8 @@ static NSMutableDictionary *profileURIToClassMapping;
             I_channelStatus = TCMBEEPChannelStatusOpen;
             I_preemptedMessageNumbers = [NSMutableIndexSet new];
         } else {
-            [super dealloc];
-            return nil;
+            [self release];
+            self = nil;
         }
     }
     
@@ -203,9 +203,8 @@ static NSMutableDictionary *profileURIToClassMapping;
     
     // comply with requirements before sending close frame
     BOOL isMSGInQueue = NO;
-    NSEnumerator *messages = [I_messageWriteQueue objectEnumerator];
     TCMBEEPMessage *message = nil;
-    while ((message = [messages nextObject])) {
+    for (message in I_messageWriteQueue) {
         if ([message isMSG]) {
             isMSGInQueue = YES;
             break;

@@ -8,14 +8,18 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class PopUpButton;
+
+@protocol PopUpButtonDelegate <NSObject>
+- (void)popUpWillShowMenu:(PopUpButton *)aButton;
+@end
 
 @interface PopUpButton : NSPopUpButton {
     id I_delegate;
 }
-- (void)setDelegate:(id)aDelegate;
-- (id)delegate;
-@end
 
-@interface NSObject(PopUpButtonDelegateAdditions) 
-- (void)popUpWillShowMenu:(PopUpButton *)aButton;
+@property (nonatomic, assign) CGRectEdge lineDrawingEdge; // defaults to CGRectMaxXEdge; possible values: CGRectMaxXEdge, CGRectMinXEdge
+
+- (void)setDelegate:(id <PopUpButtonDelegate>)aDelegate;
+- (id)delegate;
 @end

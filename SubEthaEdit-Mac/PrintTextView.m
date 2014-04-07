@@ -22,7 +22,6 @@
 }
 
 - (void)drawViewBackgroundInRect:(NSRect)rect {    
-
     NSLayoutManager *layoutManager = [self layoutManager];
     NSTextStorage *textStorage=[self textStorage];
     NSString *textStorageString=[textStorage string];
@@ -100,7 +99,7 @@
                                 [monochromePath setLineWidth:0.2];
                                 [monochromePath stroke];
                             } else {
-                                [value set]; // NSColor
+                                [(NSColor *)value set]; // NSColor
                                 NSRectFill(drawRect);
                             }
                             

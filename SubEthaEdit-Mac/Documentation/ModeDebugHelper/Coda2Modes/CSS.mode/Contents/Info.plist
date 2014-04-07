@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleIdentifier</key>
+	<string>SEEMode.CSS</string>
+	<key>CFBundleName</key>
+	<string>CSS</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>© 2009 TheCodingMonkeys
+http://www.codingmonkeys.de</string>
+	<key>CFBundleShortVersionString</key>
+	<string>3.5</string>
+	<key>CFBundleVersion</key>
+	<string>3.5</string>
+	<key>CFBundleGetInfoString</key>
+	<string>3.5, Copyright TheCodingMonkeys 2009</string>
+	<key>CFBundlePackageType</key>
+	<string>BNDL</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>SEEMinimumEngineVersion</key>
+	<string>3.5</string>
+</dict>
+</plist>

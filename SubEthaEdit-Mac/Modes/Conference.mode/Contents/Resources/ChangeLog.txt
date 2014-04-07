@@ -1,12 +1,15 @@
-Changes with Version 1.3 (SEE 3.0)
+Changes with Version 4.0 (SEE 4.0)
+	*) SYNTAX: updated for syntax scopes
+	*) SYNTAX: markup cleanup
+	*) SYNTAX: removed style information
+	*) added ExampleSyntax.txt
 
+Changes with Version 1.3 (SEE 3.0)
     *) .?! are now allowed in HEADINGS and SECTIONS
 
 
 Changes with Version 1.2 (SEE 2.3)
-
     *) SYMBOLS: Fixed SEE-490.
 
 Changes with Version 1.1
-    
     *) EXTENSIONS: Added uppercase variants where appropriate.

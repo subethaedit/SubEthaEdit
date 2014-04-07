@@ -13,7 +13,6 @@
 #import <OgreKit/OgreKit.h>
 
 
-
 @implementation RegexSymbolParser
 
 - (id)initWithSymbolDefinition:(RegexSymbolDefinition *)aSymbolDefinition 
@@ -42,7 +41,7 @@
 - (void)setSyntaxDefinition:(RegexSymbolDefinition *)aSymbolDefinition
 {
     [I_symbolDefinition autorelease];
-     I_symbolDefinition = [aSymbolDefinition retain];
+	I_symbolDefinition = [aSymbolDefinition retain];
 }
 
 - (NSArray *)symbolsForTextStorage:(NSTextStorage *)aTextStorage {
@@ -50,7 +49,7 @@
 	NSRange currentRange = NSMakeRange(0,0);
 	NSRange fullRange = NSMakeRange(0, [aTextStorage length]);
 	if (NSMaxRange(fullRange)>[[NSUserDefaults standardUserDefaults] integerForKey:@"StringLengthToStopSymbolRecognition"]) {
-	   return nil;
+		return nil;
 	}
 	// Iterate through blocks of stuff, using the different Parsers
 	while (NSMaxRange(currentRange)<NSMaxRange(fullRange)) {
@@ -60,7 +59,7 @@
 		RegexSymbolParser *symbolParser;
 		if (modeForSymbols) symbolParser = [[[DocumentModeManager sharedInstance] documentModeForName:modeForSymbols] symbolParser];
 		else symbolParser = self;
-			
+		
 		//NSLog(@"Found %@ within %@. Using parser %@.", modeForSymbols, NSStringFromRange(effectiveRange), symbolParser);
 		
 		[returnArray addObjectsFromArray:[symbolParser symbolsForTextStorage:aTextStorage inRange:effectiveRange]];
@@ -75,16 +74,12 @@
 {
     RegexSymbolDefinition *definition = [self symbolDefinition];
     NSMutableArray *returnArray =[NSMutableArray array];
-
+	
     //clock_t start_time = clock();
-
+	
     NSArray *symbols = [definition symbols];
     
-    int i,j;
-    int count = [symbols count];
-    
-    for (i=0;i<count;i++) {
-        NSDictionary *symbol = [symbols objectAtIndex:i];
+	for (NSDictionary *symbol in symbols) {
         OGRegularExpression *regex = [symbol objectForKey:@"regex"];
         NSString *type = [symbol objectForKey:@"id"];
         int mask = [[symbol objectForKey:@"font-trait"] unsignedIntValue];
@@ -96,32 +91,21 @@
         NSEnumerator *matchEnumerator = [[regex allMatchesInString:[aTextStorage string] range:aRange] objectEnumerator];
         OGRegularExpressionMatch *aMatch;
         while ((aMatch = [matchEnumerator nextObject])) {
-#if defined(CODA)
-			// If no substrings are matched, indexOfFirstMatchedSubstring returns 0 which is the entire match range
-			unsigned indexOfFirstSubstring = [aMatch indexOfFirstMatchedSubstring];
-			NSRange jumprange = [aMatch rangeOfSubstringAtIndex:indexOfFirstSubstring];
-#else
             NSRange jumprange = [aMatch rangeOfSubstringAtIndex:1];
             if (![aMatch substringAtIndex:1]) jumprange = [aMatch rangeOfMatchedString];
-#endif // defined(CODA)
 			if ( jumprange.location < [aTextStorage length] )
 			{
-				BOOL isComment = [[aTextStorage attribute:kSyntaxHighlightingTypeAttributeName atIndex:jumprange.location effectiveRange:nil] isEqualToString:kSyntaxHighlightingTypeComment];
+				BOOL isComment = [[aTextStorage attribute:kSyntaxHighlightingScopenameAttributeName atIndex:jumprange.location effectiveRange:nil] hasPrefix:@"comment"];
+				if (!isComment) isComment = [[aTextStorage attribute:kSyntaxHighlightingTypeAttributeName atIndex:jumprange.location effectiveRange:nil] isEqualToString:kSyntaxHighlightingTypeComment];
 				BOOL showInComments = [[symbol objectForKey:@"show-in-comments"] isEqualToString:@"yes"];
 				if (!isComment||showInComments) {
 					
 					NSRange fullrange = [aMatch rangeOfMatchedString];
-#if defined(CODA)
-					NSString* name = [aMatch substringAtIndex:indexOfFirstSubstring];
-#else
 					NSString *name = [aMatch substringAtIndex:1];
 					if (!name) name = [aMatch matchedString];
-#endif // defined(CODA)
 					NSArray *postprocess = [symbol objectForKey:@"postprocess"];
 					if (postprocess) {
-						int postprocesscount = [postprocess count];
-						for (j=0;j<postprocesscount;j++) {
-							NSArray *findreplace = [postprocess objectAtIndex:j];
+						for (NSArray *findreplace in postprocess) {
 							OGRegularExpression *find = [findreplace objectAtIndex:0];
 							NSString *replace = [findreplace objectAtIndex:1];
 							name = [find replaceAllMatchesInString:name withString:replace options:OgreNoneOption];
@@ -129,12 +113,7 @@
 					}
 					
 					SymbolTableEntry *aSymbolTableEntry = [SymbolTableEntry symbolTableEntryWithName:name fontTraitMask:mask image:image type:type indentationLevel:indent jumpRange:jumprange range:fullrange];
-					
-#if defined(CODA)
-					[aSymbolTableEntry setDocumentModeIdentifier:[[I_symbolDefinition mode] documentModeIdentifier]];
-#endif //defined(CODA)
 
-					
 					if ([name isEqualToString:@""]) {
 						[aSymbolTableEntry setIsSeparator:YES];
 					}
@@ -146,7 +125,7 @@
     }
     //NSLog(@"time for symbols: %f",(((double)(clock()-start_time))/CLOCKS_PER_SEC));
     return returnArray;
-//    return [returnArray sortedArrayUsingSelector:@selector(sortByRange:)];
+	//    return [returnArray sortedArrayUsingSelector:@selector(sortByRange:)];
 }
 
 @end

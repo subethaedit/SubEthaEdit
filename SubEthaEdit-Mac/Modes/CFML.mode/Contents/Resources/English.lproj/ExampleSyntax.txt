@@ -1,0 +1,4 @@
+<!--- CFML Example Syntax File --->
+
+<cfset message = "Hello World">
+<cfoutput> #message#</cfoutput>

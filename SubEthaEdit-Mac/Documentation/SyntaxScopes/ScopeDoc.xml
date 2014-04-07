@@ -1,0 +1,586 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml-stylesheet href="ScopeDoc.xslt" type="text/xml"?>
+<document>
+	<scope_area>
+		<title>General</title>
+		<description>Meta Scopes</description>
+		<scope_group>
+			<description>Scopes used for special highlights, default values, code-folding and states - Scopes that may affect all sorts of texts</description>
+			<sub_group>
+				<description>
+					Default scope scopes fallback on the defaults of this scope.
+					The meta.default scope of the top-level Language Context also defines the base background and foreground color of the document.
+				</description>
+				<scope name="meta.default">
+					<example lang="js css html xml">Default Text</example>
+				</scope>
+			</sub_group>
+			<sub_group>
+				<scope name="meta.highlight.currentline">
+					<example lang="js css html xml">-</example>
+				</scope>
+				<description>Style information that can be used to highlight the current line (CODA ONLY)</description>
+			</sub_group>
+			<sub_group>
+				<scope name="meta.invisible.character">
+					<example lang="js css html xml">¶</example>
+					<example lang="js css html xml">.</example>
+				</scope>
+				<description>Style for inivisble characters if shown (currently only the foreground color is used)</description>
+			</sub_group>
+			<sub_group>
+				<description>Code block</description>
+				<scope name="meta.block"/>
+				<scope name="meta.block.attribute"/>
+				<scope name="meta.block.begin"/>
+				<scope name="meta.block.create-table"/>
+				<scope name="meta.block.css"/>
+				<scope name="meta.block.curly"/>
+				<scope name="meta.block.directives"/>
+				<scope name="meta.block.interpolation">
+					<example lang="ruby">#{some code or variable}</example>
+				</scope>
+				<scope name="meta.block.percentagestring.unescapedbracketrecursive.angle"/>
+				<scope name="meta.block.percentagestring.unescapedbracketrecursive.bracket"/>
+				<scope name="meta.block.percentagestring.unescapedbracketrecursive.curly"/>
+				<scope name="meta.block.percentagestring.unescapedbracketrecursive.parentheses"/>
+				<scope name="meta.block.square"/>
+				<scope name="meta.block.tag.php"/>
+				<scope name="meta.block.tag.php.no-content"/>
+			</sub_group>
+			<sub_group>
+				<description>Important</description>
+				<scope name="meta.important">
+					<example lang="coda">!important</example>
+					<example lang="css">!important</example>
+				</scope>
+				<scope name="meta.important.memorymanagement"/>
+			</sub_group>
+			<sub_group>
+				<description>Invalid</description>
+				<scope name="meta.invalid">
+					<example lang="coda">HTML invalid</example>
+				</scope>
+				<scope name="meta.invalid.ampersand">
+					<example lang="xml html">&amp;</example>
+				</scope>
+				<scope name="meta.invalid.sgmlcomment">
+					<example lang="xml html">--</example>
+				</scope>
+			</sub_group>
+			<sub_group>
+				<description>URL and Email</description>
+				<scope name="meta.link">
+					<example lang="js css html xml">http://apple.com</example>
+					<example lang="js css html xml">www.panic.com</example>
+				</scope>
+				<scope name="meta.link.email">
+					<example lang="js css html xml">steve@apple.com</example>
+				</scope>
+				<scope name="meta.link.portion"/>
+			</sub_group>
+			<sub_group>
+				<description>Meta other</description>
+				<scope name="meta.preprocessor.nowiki"/>
+				<scope name="meta.state"/>
+				<scope name="meta.tag.erbstart"/>
+				<scope name="meta.tag.preprocessor"/>
+			</sub_group>
+		</scope_group>
+	</scope_area>
+	<scope_area>
+		<title>Programming Languages (c, js, php, ruby)</title>
+		<description>Scopes present in programming languages.</description>
+		<scope_group>
+			<description>Comments - All sorts of them</description>
+			<scope name="comment">
+				<example lang="coda">// code comment</example>
+			</scope>
+			<sub_group>
+				<description>Multi line comment</description>
+				<scope name="comment.block">
+					<example lang="coda">/* code block comment */</example>
+					<example lang="js">/* Comment */</example>
+				</scope>
+				<scope name="comment.block.documentation">
+					<example lang="ruby">=begin =end</example>
+					<example lang="js">/*" Autodoc Comment "*/</example>
+					<example lang="c java">/** Doxygen Comment **/</example>
+				</scope>
+				<scope name="comment.block.documentation.tag">
+					<example lang="java">/** @return **/</example>
+				</scope>
+			</sub_group>
+			<sub_group>
+				<description>Single line comment</description>
+				<scope name="comment.line">
+					<example lang="js c java">// comment</example>
+					<example lang="sh ruby"># comment</example>
+				</scope>
+				<scope name="comment.line.double-dash"/>
+				<scope name="comment.line.double-slash"/>
+				<scope name="comment.line.number-sign"/>
+			</sub_group>
+		</scope_group>
+		<scope_group>
+			<description>Language specific keywords - also classes and functions if they have a builtin character</description>
+			<scope name="keyword">
+				<example lang="coda">code keywords</example>
+			</scope>
+			<scope name="keyword.class">
+				<example lang="ruby">Array</example>
+				<example lang="ruby">DateTime</example>
+				<example lang="ruby">Hash</example>
+			</scope>
+			<scope name="keyword.constant">
+				<example lang="js">NaN</example>
+				<example lang="js">Infinity</example>
+				<example lang="js ruby">true</example>
+				<example lang="js ruby">false</example>
+				<example lang="ruby">nil</example>
+			</scope>
+			<scope name="keyword.control">
+				<example lang="js ruby">if</example>
+				<example lang="js">else</example>
+				<example lang="js ruby">class</example>
+				<example lang="js">new</example>
+				<example lang="js ruby">do</example>
+				<example lang="js ruby">while</example>
+				<example lang="ruby">begin</example>
+			</scope>
+			<scope name="keyword.control.definition"/>
+			<scope name="keyword.directive">
+				<example lang="obj-c obj-j">@implementation</example>
+			</scope>
+			<scope name="keyword.subroutine">
+				<example lang="ruby">puts</example>
+				<example lang="ruby">scan</example>
+				<example lang="ruby">defined?</example>
+			</scope>
+			<scope name="keyword.type">
+				<example lang="coda">code type keywords</example>
+				<example lang="js">byte</example>
+				<example lang="js">float</example>
+				<example lang="ruby">public</example>
+				<example lang="js">char</example>
+				<example lang="js">void</example>
+				<example lang="js">double</example>
+			</scope>
+			<scope name="keyword.variable.global"/>
+		</scope_group>
+		<scope_group>
+			<description>Programming language specific things - subroutine, variable highlight - language constructs like function calls, method calls, etc - variables if recognizable as such</description>
+			<sub_group>
+				<description>Numeric Constants</description>
+				<scope name="language.constant">
+					<example lang="coda">code constants</example>
+				</scope>
+				<scope name="language.constant.numeric">
+					<example lang="js java c ruby">0</example>
+					<example lang="js java c">15</example>
+					<example lang="js java c ruby">0x4a</example>
+					<example lang="js ruby">0713</example>
+					<example lang="js java c">3.14</example>
+					<example lang="ruby">1.2e-3</example>
+					<example lang="ruby">0b01011</example>
+				</scope>
+				<scope name="language.constant.numeric.character">
+					<example lang="java c obj-c">'c'</example>
+					<example lang="ruby">?\n</example>
+					<example lang="ruby">?d</example>
+					<example lang="ruby">\x4a</example>
+				</scope>
+				<scope name="language.constant.numeric.preprocessor"/>
+			</sub_group>
+			<sub_group>
+				<description>Operators</description>
+				<scope name="language.operator"/>
+				<scope name="language.operator.special"/>
+			</sub_group>
+			<sub_group>
+				<description>Language - Other</description>
+				<scope name="language.preprocessor">
+					<example lang="c">#include</example>
+				</scope>
+				<scope name="language.property"/>
+				<scope name="language.record"/>
+			</sub_group>
+			<sub_group>
+				<description>Subroutines</description>
+				<scope name="language.subroutine.function">
+					<example lang="coda">code_functions()</example>
+					<example lang="js">my_function_call()</example>
+				</scope>
+				<scope name="language.subroutine.function.call"/>
+				<scope name="language.subroutine.function.definition"/>
+				<scope name="language.subroutine.method"/>
+				<scope name="language.subroutine.method.call">
+					<example lang="obj-c obj-j">[Some selector:with:you:know:]</example>
+				</scope>
+				<scope name="language.subroutine.method.definition"/>
+				<scope name="language.subroutine.method.special.php">
+					<example lang="php">__construct</example>
+					<example lang="php">__clone</example>
+				</scope>
+			</sub_group>
+			<sub_group>
+				<description>Variables</description>
+				<scope name="language.variable">
+					<example lang="php">$my_var</example>
+				</scope>
+				<scope name="language.variable.class">
+					<example lang="ruby">@@my_var</example>
+				</scope>
+				<scope name="language.variable.global">
+					<example lang="ruby">$stdin</example>
+					<example lang="ruby">$@</example>
+					<example lang="ruby">STDERR</example>
+				</scope>
+				<scope name="language.variable.instance">
+					<example lang="ruby">@my_var</example>
+				</scope>
+				<scope name="language.variable.string"/>
+			</sub_group>
+		</scope_group>
+		<scope_group>
+			<description>Strings</description>
+			<scope name="string">
+				<example lang="coda">"code strings"</example>
+			</scope>
+			<sub_group>
+				<description>String - Other</description>
+				<scope name="string.angle"/>
+			</sub_group>
+			<sub_group>
+				<description>String array</description>
+				<scope name="string.array.percent"/>
+				<scope name="string.array.percent.angle"/>
+				<scope name="string.array.percent.bracket"/>
+				<scope name="string.array.percent.curly"/>
+				<scope name="string.array.percent.parentheses"/>
+			</sub_group>
+			<sub_group>
+				<description>Double quoted string</description>
+				<scope name="string.double">
+					<example lang="js">"lorem ipsum"</example>
+				</scope>
+				<scope name="string.double.openstep">
+					<example lang="objective-c">@"NSIpsum"</example>
+				</scope>
+			</sub_group>
+			<sub_group>
+				<description>Executable string</description>
+				<scope name="string.exec">
+					<example lang="ruby">`ls -l`</example>
+					<example lang="js ruby">%x{ls -l}</example>
+				</scope>
+				<scope name="string.exec.backtick"/>
+				<scope name="string.exec.percentx"/>
+				<scope name="string.exec.percentx.angle"/>
+				<scope name="string.exec.percentx.bracket"/>
+				<scope name="string.exec.percentx.curly"/>
+				<scope name="string.exec.percentx.parentheses"/>
+			</sub_group>
+			<sub_group>
+				<description>Here document</description>
+				<scope name="string.here-doc">
+					<example lang="php">&lt;&lt;&lt;EOT  something direct EOT;</example>
+					<example lang="ruby">&gt;&gt;"html_end"</example>
+				</scope>
+				<scope name="string.here-doc.intended">
+					<example lang="ruby">&gt;&gt;-HEREDOC</example>
+				</scope>
+			</sub_group>
+			<sub_group>
+				<description>Percent string</description>
+				<scope name="string.percentage"/>
+				<scope name="string.percentage.angle"/>
+				<scope name="string.percentage.bracket"/>
+				<scope name="string.percentage.curly"/>
+				<scope name="string.percentage.parentheses"/>
+			</sub_group>
+			<sub_group>
+				<description>Regular Expressions</description>
+				<scope name="string.regex">
+					<example lang="coda">/code regex/</example>
+					<example lang="ruby">%r([^ a-zA-Z0-9_.-]+)</example>
+					<example lang="js ruby">/([^ a-zA-Z0-9_.-]+)/n</example>
+				</scope>
+				<scope name="string.regex.percentage"/>
+				<scope name="string.regex.percentage.angle"/>
+				<scope name="string.regex.percentage.bracket"/>
+				<scope name="string.regex.percentage.curly"/>
+				<scope name="string.regex.percentage.parentheses"/>
+			</sub_group>
+			<sub_group>
+				<description>Single quoted string</description>
+				<scope name="string.single">
+					<example lang="js ruby">'lorem ipsum'</example>
+				</scope>
+				<scope name="string.single.backtick"/>
+			</sub_group>
+			<sub_group>
+				<description>Symbols</description>
+				<scope name="string.symbol">
+					<example lang="ruby">:my_symbol!</example>
+					<example lang="ruby">:my_symbol!</example>
+					<example lang="ruby">%s|my_symbol!|</example>
+					<example lang="ruby">:&lt;:my_symbol&gt;</example>
+				</scope>
+				<scope name="string.symbol.percent"/>
+				<scope name="string.symbol.percent.angle"/>
+				<scope name="string.symbol.percent.bracket"/>
+				<scope name="string.symbol.percent.curly"/>
+				<scope name="string.symbol.percent.parentheses"/>
+			</sub_group>
+		</scope_group>
+		<scope_group>
+			<description>Language Support - Standard Framework keywords/classnames/constants</description>
+			<scope name="support">
+				<example lang="coda">code libraries</example>
+			</scope>
+			<sub_group>
+				<description>Support - Other</description>
+				<scope name="support.accessor">
+					<example lang="ruby">attr_reader</example>
+				</scope>
+			</sub_group>
+			<sub_group>
+				<description>Framework classes</description>
+				<scope name="support.class"/>
+				<scope name="support.class.standard">
+					<example lang="js">Object</example>
+					<example lang="js">String</example>
+					<example lang="js">Array</example>
+					<example lang="js">Math</example>
+				</scope>
+				<scope name="support.class.standard.cocoa"/>
+			</sub_group>
+			<sub_group>
+				<description>Framework Constants</description>
+				<scope name="support.constant"/>
+				<scope name="support.constant.cocoa"/>
+			</sub_group>
+			<sub_group>
+				<description>Framework subroutines (methods, functions)</description>
+				<scope name="support.subroutine.standard.cocoa"/>
+				<scope name="support.subroutine.common.third-party"/>
+				<scope name="support.subroutine.common.rails"/>
+				<scope name="support.subroutine.function">
+					<example lang="php">htmlentities</example>
+					<example lang="php">array_splice</example>
+				</scope>
+				<scope name="support.subroutine.method"/>
+			</sub_group>
+			<sub_group>
+				<description>Framework types</description>
+				<scope name="support.type"/>
+				<scope name="support.type.cocoa"/>
+			</sub_group>
+		</scope_group>
+	</scope_area>
+	<scope_area>
+		<title>Document Description Languages</title>
+		<description>Scopes that represent HTML, css, and other non-programming language</description>
+		<scope_group>
+			<description>Markup</description>
+			<scope name="markup.comment">
+				<example lang="xml html coda">&lt;!-- SGML Comment --&gt;</example>
+			</scope>
+			<scope name="markup.constant.entity">
+				<example lang="coda">HTML &amp;entities; &amp;lt;</example>
+				<example lang="xml html">&amp;lt;</example>
+				<example lang="xml html">&amp;#160;</example>
+				<example lang="xml html">&amp;#x2014;</example>
+			</scope>
+			<sub_group>
+				<description>Declaration</description>
+				<scope name="markup.declaration">
+					<example lang="coda">&lt;!DOCTYPE &gt;</example>
+					<example lang="xml html">&lt;!DOCTYPE &gt;</example>
+					<example lang="xml html">&lt;!ENTITY &gt;</example>
+				</scope>
+				<scope name="markup.declaration.string.double">
+					<example lang="xml html">"spec.dtd"</example>
+				</scope>
+				<scope name="markup.declaration.string.single">
+					<example lang="xml html">'&lt;'</example>
+				</scope>
+			</sub_group>
+			<sub_group>
+				<description>CDATA</description>
+				<scope name="markup.inline.cdata">
+					<example lang="xml html coda">&lt;![CDATA[&lt;inline&gt;Data&lt;/inline&gt;]]&gt;</example>
+				</scope>
+			</sub_group>
+			<sub_group>
+				<description>Processing</description>
+				<scope name="markup.processing">
+					<example lang="coda">&lt;?xml html version='1.0' processing instructions ?&gt;</example>
+					<example lang="xml html">&lt;?xml html version='1.0' encoding='utf-8'?&gt;</example>
+				</scope>
+				<scope name="markup.processing.attribute.value.string">
+					<example lang="xml html">"utf-8"</example>
+					<example lang="xml html">'no'</example>
+				</scope>
+				<scope name="markup.processing.languageswitch">
+					<example lang="php">&lt;?php</example>
+					<example lang="php">?&gt;</example>
+				</scope>
+			</sub_group>
+			<sub_group>
+				<description>Tags and Attributes</description>
+				<scope name="markup.tag">
+					<example lang="xml html">&lt;document&gt;</example>
+					<example lang="xml html">&lt;br/&gt;</example>
+				</scope>
+				<scope name="markup.tag.attribute.name">
+					<example lang="xml html">href</example>
+					<example lang="xml html">id</example>
+					<example lang="xml html">class</example>
+				</scope>
+				<scope name="markup.tag.attribute.value">
+					<example lang="coda">"HTML Attribute Values"</example>
+				</scope>
+				<scope name="markup.tag.attribute.value.string">
+					<example lang="xml html">"left"</example>
+					<example lang="xml html">"utf-8"</example>
+				</scope>
+			</sub_group>
+		</scope_group>
+		<scope_group>
+			<description>Structured</description>
+			<sub_group>
+				<description>Changes highlight</description>
+				<scope name="structured.changes.added"/>
+				<scope name="structured.changes.deleted"/>
+				<scope name="structured.changes.modified"/>
+				<scope name="structured.changes.replaced"/>
+				<scope name="structured.changes.revision"/>
+				<scope name="structured.changes.user"/>
+			</sub_group>
+			<sub_group>
+				<description>Comment</description>
+				<scope name="structured.comment"/>
+			</sub_group>
+			<sub_group>
+				<description>Headings</description>
+				<scope name="structured.heading"/>
+				<scope name="structured.heading.1"/>
+				<scope name="structured.heading.2"/>
+				<scope name="structured.heading.3"/>
+				<scope name="structured.heading.4"/>
+				<scope name="structured.heading.5"/>
+			</sub_group>
+			<sub_group>
+				<description>Text emphasis</description>
+				<scope name="structured.emphasis"/>
+				<scope name="structured.bold"/>
+				<scope name="structured.italic"/>
+				<scope name="structured.italicbold"/>
+			</sub_group>
+			<sub_group>
+				<description>Lists</description>
+				<scope name="structured.list.numbered"/>
+				<scope name="structured.list.unnumbered"/>
+			</sub_group>
+			<sub_group>
+				<description>Quotes</description>
+				<scope name="structured.quote"/>
+				<scope name="structured.quote.even"/>
+				<scope name="structured.quote.odd"/>
+			</sub_group>
+			<sub_group>
+				<description>Raw Input</description>
+				<scope name="structured.raw.code"/>
+				<scope name="structured.raw.indented"/>
+			</sub_group>
+			<sub_group>
+				<description>Reference and Anchor</description>
+				<scope name="structured.anchor"/>
+				<scope name="structured.reference"/>
+			</sub_group>
+			<sub_group>
+				<description>Sections</description>
+				<scope name="structured.section"/>
+			</sub_group>
+			<sub_group>
+				<description>Separators</description>
+				<scope name="structured.separator.horizontal"/>
+				<scope name="structured.separator.vertical"/>
+			</sub_group>
+			<sub_group>
+				<description>Special marked text</description>
+				<scope name="structured.event"/>
+				<scope name="structured.footnote"/>
+				<scope name="structured.math"/>
+				<scope name="structured.tool-tip"/>
+				<scope name="structured.variable"/>
+			</sub_group>
+		</scope_group>
+		<scope_group>
+			<description>Styles</description>
+			<scope name="style.at-rule">
+				<example lang="coda">CSS @import @media</example>
+				<example lang="css">@import</example>
+				<example lang="css">@media</example>
+			</scope>
+			<scope name="style.comment">
+				<example lang="coda">/* CSS comment */</example>
+			</scope>
+			<scope name="style.comment.block">
+				<example lang="css">/* Comment */</example>
+			</scope>
+			<scope name="style.comment.block.documentation">
+				<example lang="css">/** Documentation Comment **/</example>
+			</scope>
+			<scope name="style.property.name">
+				<example lang="coda">CSS properties</example>
+				<example lang="css">padding</example>
+				<example lang="css">margin</example>
+				<example lang="css">font</example>
+				<example lang="css">display</example>
+				<example lang="css">width</example>
+				<example lang="css">height</example>
+				<example lang="css">border</example>
+			</scope>
+			<sub_group>
+				<description>Values</description>
+				<scope name="style.value">
+					<example lang="coda">CSS Values</example>
+				</scope>
+				<scope name="style.value.color.rgb-value">
+					<example lang="coda">CSS colors #fff</example>
+					<example lang="css">#fff</example>
+					<example lang="css">#0000a1</example>
+					<example lang="css">#cbafde</example>
+				</scope>
+				<scope name="style.value.keyword">
+					<example lang="css">bold</example>
+					<example lang="css">linear</example>
+					<example lang="css">block</example>
+					<example lang="css">none</example>
+					<example lang="css">no-repeat</example>
+					<example lang="css">monospace</example>
+					<example lang="css">pointer</example>
+				</scope>
+				<scope name="style.value.numeric">
+					<example lang="css">1.4em</example>
+					<example lang="css">5px</example>
+					<example lang="css">17pt</example>
+					<example lang="css">100%</example>
+					<example lang="css">30deg</example>
+				</scope>
+				<scope name="style.value.string">
+					<example lang="coda">"CSS strings"</example>
+				</scope>
+				<scope name="style.value.string.double">
+					<example lang="css">"lorem ipsum"</example>
+				</scope>
+				<scope name="style.value.string.single">
+					<example lang="css">'lorem ipsum'</example>
+				</scope>
+			</sub_group>
+		</scope_group>
+	</scope_area>
+</document>

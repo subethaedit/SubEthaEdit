@@ -1,12 +1,16 @@
+Changes with Version 4.0 (SEE 4.0)
+	*) SYNTAX: updated for syntax scopes
+	*) SYNTAX: markup cleanup
+	*) SYNTAX: removed style information
+	*) added ExampleSyntax.txt
+
 Changes with Version 3.5  (SEE 3.5)
 	 *) added code folding
      *) Various improvements
 
 Changes with Version 1.1 (SEE 2.5)
-
     *) Fixing standard location for bash and being more liberal about shebangs for bash.mode.
 
 Changes with Version 1.1 (SEE 2.5)
-
     *) added Scripts (Insert Shebang, chmod ug+x, Run in Terminal)
 

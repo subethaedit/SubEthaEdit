@@ -58,9 +58,8 @@
 
 - (void)setContentHasBeenExchanged:(BOOL)aFlag {
     if (aFlag==YES) {
-        NSEnumerator *datas=[I_outgoingMMMessageQueue objectEnumerator];
         NSData *data=nil;
-        while ((data=[datas nextObject])) {
+        for (data in I_outgoingMMMessageQueue) {
             [[self channel] sendMSGMessageWithPayload:data];
         }
         [I_outgoingMMMessageQueue removeAllObjects];
@@ -337,7 +336,7 @@
             if ([operation isKindOfClass:[UserChangeOperation class]] &&
                 [(UserChangeOperation *)operation type]==UserChangeTypeGroupChange &&                                 
                 [[operation userID] isEqualToString:[TCMMMUserManager myUserID]] &&
-                [[(UserChangeOperation *)operation newGroup] isEqualToString:@"ReadOnly"]) {
+                [[(UserChangeOperation *)operation theNewGroup] isEqualToString:TCMMMSessionReadOnlyGroupName]) {
                 id delegate=[self delegate];
                 if ([delegate respondsToSelector:@selector(profile:didReceiveUserChangeToReadOnly:)]) {
                     [delegate profile:self didReceiveUserChangeToReadOnly:(UserChangeOperation *)operation];
@@ -389,9 +388,8 @@
 
             NSArray *neededUserNotifications=TCM_BdecodedObjectWithData([[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)]);
             NSMutableArray *neededUsers=[NSMutableArray array];
-            NSEnumerator *notifications=[neededUserNotifications objectEnumerator];
             NSDictionary *notificationDict=nil;
-            while ((notificationDict = [notifications nextObject])) {
+            for (notificationDict in neededUserNotifications) {
                 // backwards compatibility
                 if ([notificationDict objectForKey:@"uID"]) {
                     TCMMMUser *user=[TCMMMUser userWithNotification:notificationDict];
@@ -449,6 +447,17 @@
         }
     }
     [super channelDidReceiveFrame:aFrame startingMessage:aFlag];
+}
+
+
+- (void)setDelegate:(id <TCMBEEPProfileDelegate, SessionProfileDelegate>)aDelegate
+{
+	[super setDelegate:aDelegate];
+}
+
+- (id <TCMBEEPProfileDelegate, SessionProfileDelegate>)delegate
+{
+	return (id <TCMBEEPProfileDelegate, SessionProfileDelegate>)[super delegate];
 }
 
 @end

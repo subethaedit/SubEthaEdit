@@ -27,5 +27,5 @@ NSData *TCM_BencodedObject(id aObject);
 // returns the count of appended bytes
 CFIndex TCM_AppendStringToMutableData(NSString *inString, NSMutableData *inData);
 id TCM_BdecodedObjectWithData(NSData *data);
-id TCM_CopyBdecodedObject(uint8_t *aBytes, unsigned *aPosition, unsigned aLength);
+id TCM_CopyBdecodedObject(uint8_t *aBytes, unsigned *aPosition, unsigned aLength) NS_RETURNS_RETAINED;
 

@@ -20,17 +20,21 @@ extern NSString * const kSyntaxHighlightingStateDelimiterStartValue;
 extern NSString * const kSyntaxHighlightingStateDelimiterEndValue;
 extern NSString * const kSyntaxHighlightingFoldDelimiterName;
 extern NSString * const kSyntaxHighlightingTypeAttributeName;
+extern NSString * const kSyntaxHighlightingScopenameAttributeName;
 extern NSString * const kSyntaxHighlightingParentModeForSymbolsAttributeName;
 extern NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName;
 extern NSString * const kSyntaxHighlightingFoldDelimiterName;
 extern NSString * const kSyntaxHighlightingFoldingDepthAttributeName;
+extern NSString * const kSyntaxHighlightingAutocompleteEndName;
+extern NSString * const kSyntaxHighlightingIndentLevelName;
 
 extern NSString * const kSyntaxHighlightingTypeComment;
+extern NSString * const kSyntaxHighlightingTypeString;
 
 @interface SyntaxHighlighter : NSObject {
     SyntaxDefinition *I_syntaxDefinition;
     NSMutableArray *I_parseStack;
-    id theDocument;
+	NSLock *I_stringLock;
 }
 
 /*"Initizialisation"*/
@@ -42,9 +46,9 @@ extern NSString * const kSyntaxHighlightingTypeComment;
 - (SyntaxStyle *)defaultSyntaxStyle;
 
 /*"Highlighting"*/
--(void)highlightAttributedString:(NSMutableAttributedString*)aString inRange:(NSRange)aRange;
--(void)highlightPlainStringsOfAttributedString:(NSMutableAttributedString*)aString inRange:(NSRange)aRange forState:(NSString *)aState;
--(void)highlightRegularExpressionsOfAttributedString:(NSMutableAttributedString*)aString inRange:(NSRange)aRange forState:(NSString *)aState;
+-(void)highlightAttributedString:(NSMutableAttributedString*)aString inRange:(NSRange)aRange ofDocument:(id)aDocument;
+//-(void)highlightPlainStringsOfAttributedString:(NSMutableAttributedString*)aString inRange:(NSRange)aRange forState:(NSString *)aState;
+//-(void)highlightRegularExpressionsOfAttributedString:(NSMutableAttributedString*)aString inRange:(NSRange)aRange forState:(NSString *)aState;
 
 /*"Document Interaction"*/
 - (void)updateStylesInTextStorage:(NSTextStorage *)aTextStorage ofDocument:(id)aSender;
@@ -55,5 +59,6 @@ extern NSString * const kSyntaxHighlightingTypeComment;
 @end
 
 @interface NSObject (SyntaxHighlighterDocument) 
-- (NSDictionary *)styleAttributesForStyleID:(NSString *)aStyleID;
+- (NSDictionary *)styleAttributesForStyleID:(NSString *)aStyleID; // Old School
+- (NSDictionary *)styleAttributesForScope:(NSString *)aScope languageContext:(NSString *)aLanguageContext; // Scope based
 @end

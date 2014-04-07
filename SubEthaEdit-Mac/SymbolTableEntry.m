@@ -11,10 +11,6 @@
 
 @implementation SymbolTableEntry
 
-#if defined(CODA)
-@synthesize documentModeIdentifier = I_documentModeIdentifier;
-#endif //defined(CODA)
-
 - (void)setIsSeparator:(BOOL)aFlag {
     I_isSeparator=aFlag;  
 }
@@ -53,9 +49,6 @@
     [I_name release];
     [I_image release];
     [I_type release];
-#if defined(CODA)
-	[I_documentModeIdentifier release];  
-#endif //defined(CODA)
     [super dealloc];
 }
 

@@ -105,7 +105,7 @@
 			error = YES;
 		}
         if (error) {
-            [super dealloc];
+            [self release];
             self = nil;
         }
     }
@@ -123,7 +123,7 @@
     if ([self isSEQ]) {
         return [NSString stringWithFormat:@"%3s %d %u %d", I_messageType, I_channelNumber, I_sequenceNumber, I_length];
     } else {
-        return [NSString stringWithFormat:@"TCMBEEPFrame: %3s %d %d %1s %u %d - Payload: %@... (%d)", I_messageType, I_channelNumber, I_messageNumber, I_continuationIndicator, I_sequenceNumber, I_length,([I_payload length]>=6?[NSString stringWithCString:[I_payload bytes] length:6]:@""),[I_payload length]];
+        return [NSString stringWithFormat:@"TCMBEEPFrame: %3s %d %d %1s %u %d - Payload: %@... (%lu)", I_messageType, I_channelNumber, I_messageNumber, I_continuationIndicator, I_sequenceNumber, I_length,([I_payload length]>=6?[[[NSString alloc] initWithBytes:[I_payload bytes] length:6 encoding:NSASCIIStringEncoding] autorelease]:@""),(unsigned long)[I_payload length]];
     }
 }
 
@@ -141,10 +141,9 @@
     [data appendData:[header dataUsingEncoding:NSASCIIStringEncoding]];
     NSString *payloadString = [[[NSString alloc] initWithData:I_payload encoding:NSMacOSRomanStringEncoding] autorelease];
     NSArray *components = [payloadString componentsSeparatedByString:@"\r\n"];
-    int i;
-    for (i = 0; i < [components count]; i++) {
+    for (id loopItem in components) {
         [data appendData:[prefix dataUsingEncoding:NSASCIIStringEncoding]];
-        [data appendData:[[components objectAtIndex:i] dataUsingEncoding:NSMacOSRomanStringEncoding]];
+        [data appendData:[loopItem dataUsingEncoding:NSMacOSRomanStringEncoding]];
         [data appendData:[@"\r\n" dataUsingEncoding:NSASCIIStringEncoding]];
     }
     [data appendData:[[NSString stringWithFormat:@"%@END\r\n", prefix] dataUsingEncoding:NSASCIIStringEncoding]];

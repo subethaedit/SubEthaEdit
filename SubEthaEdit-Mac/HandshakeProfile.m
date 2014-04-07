@@ -29,7 +29,7 @@
     if (userAgent) {
         [[[self session] userInfo] setObject:userAgent forKey:@"userAgent"];
     }
-    I_remoteInfos = [aDictionary retain];
+    I_remoteInfos = [aDictionary mutableCopy];
 }
 
 - (NSDictionary *)remoteInfos {
@@ -151,5 +151,17 @@
         }
     }
 }
+
+
+- (void)setDelegate:(id <TCMBEEPProfileDelegate, HandshakeProfileDelegate>)aDelegate
+{
+	[super setDelegate:aDelegate];
+}
+
+- (id <TCMBEEPProfileDelegate, HandshakeProfileDelegate>)delegate
+{
+	return (id <TCMBEEPProfileDelegate, HandshakeProfileDelegate>)[super delegate];
+}
+
 
 @end

@@ -1,0 +1,54 @@
+
+SEE 3.5.X
+=======
+
+- All Style information is defined in the SyntaxDefinition.xml
+- States and Keywords have style attributes (color, inverted-color, font-weight, font-style)
+- Background color is document wide and either dark or bright
+- Styles have implicit hierarchical inheritance, e.g. a computed style of a keyword takes the style attributes of this keyword group, all not defined attributes are taken from the state it lives in. The same is true for states, not defined style-attributes in a state take the setting from the state they are contained in
+- due to the hierarchical structure of States and Keywords, each style can be computed in advance and be cached
+
+SEE WITH STYLES
+=============
+
+- Style Information is defined in SEEStyleSheets
+- States and Keywords in the SyntaxDefinition have a scope using dns-like syntax (e.g. entity.name.function, comment.line.double-slash.preprocessor)
+- Style Sheets define a Style of a scope selector. E.g. 
+meta.default {
+  background-color:#000000;
+  color:#ffffff;
+}
+comment.block.documentation {
+  font-weight:bold;
+}
+comment {
+  color:#91dc93;
+  font-style:italic;
+}
+- The scope matching is based on prefix matching. E.g. the Real Scope comment.line.double-slash gets its style attributes by the most specific prefix match existing in all the scope selectors of a stylesheet
+- Style information in the SEEStyleSheets inherits from prefix matches as well as the "meta.default" scope. E.g. in the example above the computed attributes for comment.block.documentation are:
+{
+  background-color:#000000;
+  color:#91dc93;
+  font-style:italic;
+  font-weight:bold;
+}
+- styles have no notion of dark or bright background, but only define one colorset
+
+
+PROBLEMS
+========
+
+- The implicit inheritance based on states and keywords seems to be gone. Is that Okay? If not, what can be done about it?
+- How can multi-language modes have different stylesheets for different languages? currently there is a mechanism for symbol and autocomplete detection (the attributes usesymbolsfrommode="HTML" useautocompletefrommode="HTML" of a state) which enable to specify the language context for symbols and autocomplete. 
+- can and should we allow the use of multiple stylesheets via the UI? (e.g. separate the stylesheets in common and less common styles and inherit?)
+- how does backwards compatilibity work? currently it seems to work by making each keyword/state into it's own scope. should these modes have special stylesheets? how would the user edit these modes? how to we transplant the bright/dark duality present in these modes?
+
+
+
+- due to the addition of background color we need a different style for marking changes by an user. my current idea is to use the lion-find result highlighting (e.g. background color half-height with an additional slightly darker colored bar in height of an underline)
+
+
+
+
+

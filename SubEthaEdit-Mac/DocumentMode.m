@@ -11,6 +11,7 @@
 #import "ModeSettings.h"
 #import "SyntaxHighlighter.h"
 #import "SyntaxDefinition.h"
+#import "SEEStyleSheet.h"
 #import "SyntaxStyle.h"
 #import "EncodingManager.h"
 #import "SymbolTableEntry.h"
@@ -32,6 +33,7 @@ NSString * const DocumentModeFontAttributesPreferenceKey       = @"FontAttribute
 NSString * const DocumentModeHighlightSyntaxPreferenceKey      = @"HighlightSyntax";
 NSString * const DocumentModeIndentNewLinesPreferenceKey       = @"IndentNewLines";
 NSString * const DocumentModeTabKeyReplacesSelectionPreferenceKey  = @"TabKeyReplacesSelection";
+NSString * const DocumentModeTabKeyMovesToIndentPreferenceKey  = @"TabKeyMovesToIndent";
 NSString * const DocumentModeLineEndingPreferenceKey           = @"LineEnding";
 NSString * const DocumentModeShowLineNumbersPreferenceKey      = @"ShowLineNumbers";
 NSString * const DocumentModeShowMatchingBracketsPreferenceKey = @"ShowMatchingBrackets";
@@ -63,11 +65,14 @@ NSString * const DocumentModeUseDefaultFilePreferenceKey       = @"UseDefaultFil
 NSString * const DocumentModeUseDefaultFontPreferenceKey       = @"UseDefaultFont";
 NSString * const DocumentModePrintInfoPreferenceKey            = @"PrintInfo"  ;
 NSString * const DocumentModePrintOptionsPreferenceKey         = @"PrintOptions"  ;
-NSString * const DocumentModeUseDefaultPrintPreferenceKey      = @"UseDefaultPrint";
 NSString * const DocumentModeUseDefaultStylePreferenceKey      = @"UseDefaultStyle";
 NSString * const DocumentModeSyntaxStylePreferenceKey          = @"SyntaxStyle";
+NSString * const DocumentModeUseDefaultStyleSheetPreferenceKey = @"UseDefaultStyleSheet";
+NSString * const DocumentModeStyleSheetsPreferenceKey          = @"StyleSheets";
+NSString * const DocumentModeStyleSheetsDefaultLanguageContextKey = @"DocumentModeStyleSheetDefaultLanguageContext";
 
 NSString * const DocumentModeBackgroundColorIsDarkPreferenceKey= @"BackgroundColorIsDark"  ;
+NSString * const DocumentModeCurrentLineHighlightColorPreferenceKey = @"CurrentLineHighlightColor"  ;
 // depricated
 NSString * const DocumentModeForegroundColorPreferenceKey      = @"ForegroundColor"  ;
 NSString * const DocumentModeBackgroundColorPreferenceKey      = @"BackgroundColor"  ;
@@ -131,6 +136,10 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 									  forKey:DocumentModeIndentNewLinesPreferenceKey];
 		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultEditPreferenceKey
 									  forKey:DocumentModeTabWidthPreferenceKey];
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultEditPreferenceKey
+									  forKey:DocumentModeTabKeyMovesToIndentPreferenceKey];
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultEditPreferenceKey
+									  forKey:DocumentModeTabKeyReplacesSelectionPreferenceKey];
 	
 		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultFilePreferenceKey
 									  forKey:DocumentModeEncodingPreferenceKey];
@@ -142,11 +151,14 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultFontPreferenceKey
 									  forKey:DocumentModeFontAttributesPreferenceKey];
 	
-		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultPrintPreferenceKey
-									  forKey:DocumentModePrintOptionsPreferenceKey];
-	
 		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultStylePreferenceKey
 									  forKey:DocumentModeBackgroundColorIsDarkPreferenceKey];
+
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultStylePreferenceKey
+									  forKey:DocumentModeCurrentLineHighlightColorPreferenceKey];
+
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultStyleSheetPreferenceKey
+									  forKey:DocumentModeStyleSheetsPreferenceKey];		
 	}
 }
 
@@ -177,7 +189,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         I_autocompleteDictionary = [NSMutableArray new];
         I_bundle = [aBundle retain];
 
-		I_styleIDTransitionDictionary = [[NSDictionary alloc] initWithContentsOfFile:[aBundle pathForResource:@"StyleIDTransition" ofType:@"plist"]];
+		I_styleIDTransitionDictionary = [[NSMutableDictionary alloc] initWithContentsOfFile:[aBundle pathForResource:@"StyleIDTransition" ofType:@"plist"]];
 
         I_modeSettings = [[ModeSettings alloc] initWithFile:[aBundle pathForResource:@"ModeSettings" ofType:@"xml"]];
 		if (!I_modeSettings) { // Fall back to info.plist
@@ -196,24 +208,29 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         // Add autocomplete additions
         NSString *autocompleteAdditionsPath = [aBundle pathForResource:@"AutocompleteAdditions" ofType:@"txt"];
         if (autocompleteAdditionsPath) {
-            NSString *autocompleteAdditions = [NSString stringWithContentsOfFile:autocompleteAdditionsPath];
+            NSString *autocompleteAdditions = [NSString stringWithContentsOfFile:autocompleteAdditionsPath encoding:NSUTF8StringEncoding error:nil];
             [[self autocompleteDictionary] addObjectsFromArray:[autocompleteAdditions componentsSeparatedByString:@"\n"]];
         }
         
         // Sort the autocomplete dictionary
         [[self autocompleteDictionary] sortUsingSelector:@selector(caseInsensitiveCompare:)];
 
+
+		NSURL *scopeExamplesURL = [I_bundle URLForResource:@"ScopeExamples" withExtension:@"plist"];
+		if (scopeExamplesURL) {
+			I_scopeExamples = [[NSDictionary alloc] initWithContentsOfURL:scopeExamplesURL];
+			I_availableScopes = [[[I_scopeExamples allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] retain];
+		}
+
+
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         
 #ifdef SUBETHAEDIT
-
-#if !defined(CODA)
-
         // Load scripts
         I_scriptsByFilename = [NSMutableDictionary new];
         NSString *scriptFolder = [[aBundle resourcePath] stringByAppendingPathComponent:@"Scripts"];
         NSFileManager *fm = [NSFileManager defaultManager];
-        NSEnumerator *filenames = [[fm directoryContentsAtPath:scriptFolder] objectEnumerator];
+        NSEnumerator *filenames = [[fm contentsOfDirectoryAtPath:scriptFolder error:nil] objectEnumerator];
         NSString     *filename  = nil;
         while ((filename=[filenames nextObject])) {
             // skip hidden files and directory entries
@@ -227,8 +244,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         }
         
         [I_scriptOrderArray release];
-         I_scriptOrderArray = [[[I_scriptsByFilename allKeys] sortedArrayUsingSelector:@selector(compare:)] retain];
-#endif //!defined(CODA)        
+         I_scriptOrderArray = [[[I_scriptsByFilename allKeys] sortedArrayUsingSelector:@selector(compare:)] mutableCopy];
 
         NSArray *searchLocations = [NSArray arrayWithObjects:I_bundle,[NSBundle mainBundle],nil];
         I_menuItemArray = [NSMutableArray new];
@@ -266,35 +282,6 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
                 }
             }
         }
-
-        // ToolbarHandling
-        NSString *toolbarDefaultKey=[NSString stringWithFormat:@"NSToolbar Configuration %@",[self documentModeIdentifier]];
-        if (![defaults objectForKey:toolbarDefaultKey]) {
-            NSDictionary *oldDefaultToolbar=[defaults objectForKey:@"NSToolbar Configuration " BASEMODEIDENTIFIER];
-            if (!oldDefaultToolbar) {
-                oldDefaultToolbar = [defaults objectForKey:@"NSToolbar Configuration PlainTextWindowToolbarIdentifier"];
-            }
-            if (oldDefaultToolbar) {
-                NSMutableDictionary *newModeToolbar=[NSMutableDictionary dictionaryWithDictionary:oldDefaultToolbar];
-                NSMutableArray *shownItemIdentifiers=[NSMutableArray arrayWithArray:[newModeToolbar objectForKey:@"TB Item Identifiers"]];
-                NSEnumerator *itemIdentifiers=[[[AppController sharedInstance] toolbarDefaultItemIdentifiers:nil] objectEnumerator];
-                NSString     *itemIdentifier = nil;
-                while ((itemIdentifier=[itemIdentifiers nextObject])) {
-                    if (![shownItemIdentifiers containsObject:itemIdentifier]) {
-                        [shownItemIdentifiers addObject:itemIdentifier];
-                    }
-                }
-                itemIdentifiers=[I_defaultToolbarItemIdentifiers objectEnumerator];
-                itemIdentifier = nil;
-                while ((itemIdentifier=[itemIdentifiers nextObject])) {
-                    if (![shownItemIdentifiers containsObject:itemIdentifier]) {
-                        [shownItemIdentifiers addObject:itemIdentifier];
-                    }
-                }
-                [newModeToolbar setObject:shownItemIdentifiers forKey:@"TB Item Identifiers"];
-                [defaults setObject:newModeToolbar forKey:toolbarDefaultKey];
-            }
-        }
 #endif
         
         // Preference Handling
@@ -314,18 +301,9 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
             [I_defaults setObject:[NSNumber numberWithInt:4] forKey:DocumentModeTabWidthPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithInt:80] forKey:DocumentModeColumnsPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithInt:80] forKey:DocumentModePageGuideWidthPreferenceKey];
-#if defined(CODA)
-			[I_defaults setObject:[NSNumber numberWithInt:4] forKey:DocumentModeIndentWrappedLinesCharacterAmountPreferenceKey];
-#else
             [I_defaults setObject:[NSNumber numberWithInt:0] forKey:DocumentModeIndentWrappedLinesCharacterAmountPreferenceKey];
-#endif //defined(CODA)
             [I_defaults setObject:[NSNumber numberWithInt:40] forKey:DocumentModeRowsPreferenceKey];
-#if defined(CODA)
-			NSFont* font = [NSFont fontWithName:@"Panic Sans" size:11.0f];
-			if ( font == nil ) { font = [NSFont userFixedPitchFontOfSize:0.0]; }
-#else
             NSFont *font=[NSFont userFixedPitchFontOfSize:0.0];
-#endif //defined(CODA)
             NSMutableDictionary *dict=[NSMutableDictionary dictionary];
             [dict setObject:[font fontName] 
                      forKey:NSFontNameAttribute];
@@ -339,11 +317,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
             [I_defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentModeShowMatchingBracketsPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentModeWrapLinesPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentModeIndentNewLinesPreferenceKey];
-#if defined(CODA)
-			[I_defaults setObject:[NSNumber numberWithBool:YES]  forKey:DocumentModeUseTabsPreferenceKey];
-#else
             [I_defaults setObject:[NSNumber numberWithBool:NO]  forKey:DocumentModeUseTabsPreferenceKey];
-#endif //defined(CODA)
             [I_defaults setObject:[NSNumber numberWithUnsignedInt:DocumentModeWrapModeWords] forKey:DocumentModeWrapModePreferenceKey];
             [I_defaults setObject:[NSNumber numberWithInt:LineEndingLF] forKey:DocumentModeLineEndingPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithBool:NO] forKey:DocumentModeUTF8BOMPreferenceKey];
@@ -363,10 +337,10 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
                                forKey:DocumentModeUseDefaultFilePreferenceKey];
                 [I_defaults setObject:[NSNumber numberWithBool:YES] 
                                forKey:DocumentModeUseDefaultFontPreferenceKey];
-                [I_defaults setObject:[NSNumber numberWithBool:YES] 
-                               forKey:DocumentModeUseDefaultPrintPreferenceKey];
-                [I_defaults setObject:[NSNumber numberWithBool:YES] 
+                [I_defaults setObject:[NSNumber numberWithBool:YES]
                                forKey:DocumentModeUseDefaultStylePreferenceKey];
+                [I_defaults setObject:[NSNumber numberWithBool:YES] 
+                               forKey:DocumentModeUseDefaultStyleSheetPreferenceKey];
             }
         }
 
@@ -427,13 +401,6 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
                 [I_defaults setObject:printDictionary
                                forKey:DocumentModePrintOptionsPreferenceKey];
             }
-        } else {
-            if (![I_defaults objectForKey:DocumentModeUseDefaultPrintPreferenceKey]) {
-                [I_defaults setObject:[NSNumber numberWithBool:YES] 
-                               forKey:DocumentModeUseDefaultPrintPreferenceKey];
-                [I_defaults setObject:[NSNumber numberWithBool:YES] 
-                               forKey:DocumentModeUseDefaultStylePreferenceKey];
-            }
         }
 
         // new settings in 2.5.1 that need a default value
@@ -441,12 +408,24 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
             [I_defaults setObject:[NSNumber numberWithInt:80] forKey:DocumentModePageGuideWidthPreferenceKey];
         }
         if (![I_defaults objectForKey:DocumentModeIndentWrappedLinesCharacterAmountPreferenceKey]) {
-#if defined(CODA)
-			[I_defaults setObject:[NSNumber numberWithInt:4] forKey:DocumentModeIndentWrappedLinesCharacterAmountPreferenceKey];
-#else
             [I_defaults setObject:[NSNumber numberWithInt:0] forKey:DocumentModeIndentWrappedLinesCharacterAmountPreferenceKey];
-#endif //defined(CODA)
         }
+
+		if (![I_defaults objectForKey:DocumentModeTabKeyMovesToIndentPreferenceKey]) {
+			[I_defaults setObject:[NSNumber numberWithBool:YES]
+						   forKey:DocumentModeTabKeyMovesToIndentPreferenceKey];
+		}
+
+		// populate stylesheet prefs if not there already
+		if (![I_defaults objectForKey:DocumentModeUseDefaultStyleSheetPreferenceKey]) {
+			[I_defaults setObject:[NSNumber numberWithBool:YES] 
+                           forKey:DocumentModeUseDefaultStyleSheetPreferenceKey];
+        }
+        if (![I_defaults objectForKey:DocumentModeStyleSheetsPreferenceKey]) {
+	    	[I_defaults setObject:[NSDictionary dictionaryWithObjectsAndKeys:[DocumentModeManager defaultStyleSheetName],DocumentModeStyleSheetsDefaultLanguageContextKey,nil]
+	    				   forKey:DocumentModeStyleSheetsPreferenceKey];
+	    }
+
 
                 NSMutableDictionary *printDictionary=[I_defaults objectForKey:DocumentModePrintOptionsPreferenceKey];
         if (printDictionary) [I_defaults setObject:[[printDictionary mutableCopy] autorelease] forKey:DocumentModePrintOptionsPreferenceKey];
@@ -502,6 +481,10 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     [I_syntaxStyle release];
     [I_defaultSyntaxStyle release];
     [I_modeSettings release];
+    [I_scopeExamples release];
+    [I_availableScopes release];
+    [I_syntaxExampleString autorelease];
+    [I_styleSheetSettings release];
     [super dealloc];
 }
 
@@ -534,6 +517,14 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     return I_syntaxDefinition;
 }
 
+- (NSString *)bracketMatchingBracketString {
+	NSString *result = I_syntaxDefinition.bracketMatchingBracketString;
+	if (!result) {
+		result = @"{[()]}"; // default value
+	}
+	return result;
+}
+
 - (SyntaxHighlighter *)syntaxHighlighter {
     return I_syntaxHighlighter;
 }
@@ -546,7 +537,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     return I_autocompleteDictionary;
 }
 
-- (NSString *)newFileContent {
+- (NSString *)templateFileContent {
     NSString *templateFilename;
     if (I_modeSettings) {
         templateFilename=[I_modeSettings templateFile];
@@ -576,6 +567,13 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     return returnArray;
 }
 
+- (NSDictionary *)scopeExamples {
+	return I_scopeExamples;
+}
+
+- (NSArray *)availableScopes {
+	return I_availableScopes;
+}
 
 - (NSMutableDictionary *)defaults {
     return I_defaults;
@@ -591,12 +589,9 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         NSString *defaultKey=[defaultablePreferenceKeys objectForKey:aKey];
         if (!defaultKey || ![[I_defaults objectForKey:defaultKey] boolValue]) {
             id result=[I_defaults objectForKey:aKey];
-            if (result) {
-            	return result;
-            } else {
+            if (! result) {
             	result = [defaultDefaults objectForKey:aKey];
             	if (result) [I_defaults setObject:result forKey:aKey];
-            	return result;
             }
             return result?result:[defaultDefaults objectForKey:aKey];
         }
@@ -604,6 +599,30 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     return [defaultDefaults objectForKey:aKey];
 }
 
+- (SEEStyleSheetSettings *)styleSheetSettingsOfThisMode {
+	if (!I_styleSheetSettings) {
+		I_styleSheetSettings = [[SEEStyleSheetSettings alloc] initWithDocumentMode:self];
+	}
+	return I_styleSheetSettings;
+}
+
+- (SEEStyleSheetSettings *)styleSheetSettings {
+	SEEStyleSheetSettings *result = nil;
+	if ([[[self defaults] objectForKey:DocumentModeUseDefaultStyleSheetPreferenceKey] boolValue]) {
+		result = [[[DocumentModeManager sharedInstance] baseMode] styleSheetSettingsOfThisMode];
+	} else {
+		result = [self styleSheetSettingsOfThisMode];
+	}
+	return result;
+}
+
+- (SEEStyleSheet *)styleSheetForLanguageContext:(NSString *)aLanguageContext {
+	SEEStyleSheetSettings *styleSheetSettings = [self styleSheetSettings];
+	return [styleSheetSettings styleSheetForLanguageContext:aLanguageContext];
+}
+
+
+// Depricated - only for backwars compatibilty
 - (SyntaxStyle *)syntaxStyle {
     if (!I_syntaxStyle) {
         [self defaultSyntaxStyle];
@@ -611,11 +630,14 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     return I_syntaxStyle;
 }
 
+
+// Depricated - only for backwars compatibilty
 - (void)setSyntaxStyle:(SyntaxStyle *)aStyle {
     [I_syntaxStyle autorelease];
     I_syntaxStyle=[aStyle retain];
 }
 
+// Depricated - only for backwars compatibilty
 - (SyntaxStyle *)defaultSyntaxStyle {
     if (!I_defaultSyntaxStyle) {
         I_defaultSyntaxStyle = [self syntaxHighlighter]?[[[self syntaxHighlighter] defaultSyntaxStyle] copy]:[SyntaxStyle new];
@@ -627,6 +649,10 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
             [style takeStylesFromDefaultsDictionary:syntaxStyleDictionary];
         }        
 
+		SEEStyleSheet *styleSheet = [self styleSheetForLanguageContext:nil];
+		NSColor *highlightColor = styleSheet?[[styleSheet styleAttributesForScope:@"meta.highlight.currentline"] objectForKey:@"color"]:[NSColor yellowColor];
+		[I_defaults setObject:[[NSValueTransformer valueTransformerForName:NSUnarchiveFromDataTransformerName] reverseTransformedValue:highlightColor] forKey:DocumentModeCurrentLineHighlightColorPreferenceKey];
+		
         if (![I_defaults objectForKey:DocumentModeBackgroundColorIsDarkPreferenceKey]) {
             [I_defaults setObject:[NSNumber numberWithBool:NO] forKey:DocumentModeBackgroundColorIsDarkPreferenceKey];
             if ([self isBaseMode] && [I_defaults objectForKey:DocumentModeBackgroundColorPreferenceKey]) {
@@ -645,13 +671,6 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
                 [[style styleForKey:SyntaxStyleBaseIdentifier] setObject:color forKey:isDark?@"inverted-color":@"color"];
             }
         }
-
-#if defined(CODA)
-		NSString *useSpellChecking = [[I_defaultSyntaxStyle styleForKey:SyntaxStyleBaseIdentifier] objectForKey:@"usespellchecking"];
-		if ( useSpellChecking )
-			[[style styleForKey:SyntaxStyleBaseIdentifier] setObject:useSpellChecking forKey:@"usespellchecking"];
-#endif //defined(CODA)
-
         [self setSyntaxStyle:style];
         [style release];
     }
@@ -663,15 +682,9 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 }
 
 - (void)writeDefaults {
+    [[self styleSheetSettings] pushSettingsToModeDefaults];
     NSMutableDictionary *defaults=[[self defaults] mutableCopy];
-//    NSValueTransformer *transformer=[NSValueTransformer valueTransformerForName:NSUnarchiveFromDataTransformerName];
-//    NSData *data=[transformer reverseTransformedValue:[defaults objectForKey:DocumentModeForegroundColorPreferenceKey]];
-//    if (!data) data=[transformer reverseTransformedValue:[NSColor blackColor]];
-//    [defaults setObject:data forKey:DocumentModeForegroundColorPreferenceKey];
-//    data=[transformer reverseTransformedValue:[defaults objectForKey:DocumentModeBackgroundColorPreferenceKey]];
-//    if (!data) data=[transformer reverseTransformedValue:[NSColor whiteColor]];
-//    [defaults setObject:data forKey:DocumentModeBackgroundColorPreferenceKey];
-    [defaults setObject:[[self syntaxStyle] defaultsDictionary] forKey:DocumentModeSyntaxStylePreferenceKey];
+//    [defaults setObject:[[self syntaxStyle] defaultsDictionary] forKey:DocumentModeSyntaxStylePreferenceKey]; no more syntaxStyle writing
     [[NSUserDefaults standardUserDefaults] setObject:defaults forKey:[[self bundle] bundleIdentifier]];
     [defaults release];
 }
@@ -756,6 +769,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     return [[self bundle] resourcePath];
 }
 
+// document mode identifier without the leading SEEMode.
 - (NSString *)scriptedName {
     NSString *identifier = [self documentModeIdentifier];
     if ([identifier hasPrefix:@"SEEMode."] && [identifier length] > 8) {
@@ -763,5 +777,20 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     }
     return identifier;
 }
+
+
+- (NSString *)syntaxExampleString {
+	if (!I_syntaxExampleString) {
+		NSURL *exampleURL = [I_bundle URLForResource:@"ExampleSyntax" withExtension:@"txt"];
+		if (exampleURL) {
+			I_syntaxExampleString = [[NSString alloc] initWithContentsOfURL:exampleURL encoding:NSUTF8StringEncoding error:NULL];
+		}
+		if (!I_syntaxExampleString && ![self isBaseMode]) {
+			I_syntaxExampleString = [[[DocumentModeManager baseMode] syntaxExampleString] copy];
+		}
+	}
+	return I_syntaxExampleString;
+}
+
 
 @end

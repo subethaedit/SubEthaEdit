@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!DOCTYPE syntax SYSTEM "syntax.dtd">
 <syntax>
 
@@ -6,14 +6,13 @@
         <name>Java</name> <!-- The definitions title -->
         <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@.]]></charsintokens> <!-- Valid Characters for Variables -->
         <!-- <charsdelimitingtokens></charsdelimitingtokens> -->
-        <folding toplevel="2" />
+        <folding toplevel="2"/>
     </head>
 
     <states>
     
-        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal" usesymbolsfrommode="Java" useautocompletefrommode="Java">
-            <keywords id="Keywords" color="#881350" useforautocomplete="yes">
-                <string>abstract</string>
+        <default id="Base" usesymbolsfrommode="Java" useautocompletefrommode="Java" scope="meta.default">
+            <keywords id="Keywords" useforautocomplete="yes" scope="keyword.control">
                 <string>break</string>
                 <string>case</string>
                 <string>catch</string>
@@ -50,8 +49,11 @@
                 <string>transient</string>
                 <string>true</string>
                 <string>try</string>
-                <string>volatile</string>
                 <string>while</string>
+                <string>volatile</string>
+			</keywords>
+            <keywords id="TypeKeywords" useforautocomplete="yes" scope="keyword.type">
+                <string>abstract</string>
                 <string>boolean</string>
                 <string>byte</string>
                 <string>char</string>
@@ -65,7 +67,7 @@
                 <string>static</string>
                 <string>void</string>
             </keywords>
-            <keywords id="Classes" color="#408" useforautocomplete="yes">
+            <keywords id="Classes" useforautocomplete="yes" scope="support.class">
                 <string>AbstractAction</string>
                 <string>AbstractBorder</string>
                 <string>AbstractButton</string>
@@ -1890,57 +1892,55 @@
                 <string>_PolicyStub</string>
                 <string>_Remote_Stub</string>
             </keywords>
-            <keywords id="Numbers" color="#00f" inverted-color="#5d56ff" useforautocomplete="no">
+            <keywords id="Numbers" useforautocomplete="no" scope="language.constant.numeric">
 				<regex>(?&lt;![\w\d_])((?:[+-]?(?:(?:[0-9]+\.[0-9]*)|(?:\.[0-9]+))(?:[eE][+\-]?[0-9]+)?[fFlL]?)|(?:(?:(?:[1-9][0-9]*)|0[0-7]*|(?:0[xX][0-9a-fA-F]+))(?:(?:[uU][lL]?)|(?:[lL][uU]?))?))(?![\w\d_])</regex>
             </keywords>
-            <keywords id="FunctionRegex" color="#003369" useforautocomplete="no">
+            <keywords id="FunctionRegex" useforautocomplete="no" scope="language.subroutine.function">
 				<regex>([A-Za-z0-9_]+ *)\(</regex>
             </keywords>
-            <keywords id="Preprocessor" color="#683821" useforautocomplete="no">
+            <keywords id="Preprocessor" useforautocomplete="no" scope="language.preprocessor">
 				<regex>(^[ 	]*import([^\n\r])*)</regex>
 				<regex>(^[ 	]*package([^\n\r])*)</regex>
             </keywords>
 
-            <state id="Characters" color="#00f" font-weight="normal" font-style="normal">
+            <state id="Characters" scope="language.constant.numeric.character">
                 <begin><regex>'(?=(?:\\u[A-Fa-f0-9]{4}'|\\?.'))</regex></begin>
                 <end><regex>(\\u[A-Fa-f0-9]{4}')|(\\'')|(.')</regex></end>
             </state>
     
-            <state id="JavadocComment" type="comment" color="#236E25"  font-style="italic">
+            <state id="JavadocComment" type="comment" scope="comment.block.documentation">
                 <begin><regex>/\*\*</regex></begin>
                 <end><regex>\*/</regex></end>
-                <keywords id="JavadocTags" color="#236E25" font-weight="bold" useforautocomplete="no">
+                <keywords id="JavadocTags" useforautocomplete="no" scope="comment.block.documentation.tag">
                     <regex>(?&lt;=[^\w\d]|^)(@\w+)</regex>
                 </keywords>
 				<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
     
             
-            <state id="Comment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
+            <state id="Comment" type="comment" scope="comment.block">
                 <begin><regex>/\*</regex></begin>
                 <end><regex>\*/</regex></end>
 				<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
             
-            <state id="SingleComment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
+            <state id="SingleComment" type="comment" scope="comment.line">
                 <begin><regex>//</regex></begin>
                 <end><regex>[\n\r]</regex></end>
 				<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
             
-            <state id="Strings" type="string" color="#760f15" font-weight="normal" font-style="normal">
+            <state id="Strings" type="string" scope="string.double">
                 <begin><regex>"</regex></begin>
                 <end><regex>(?&lt;!\\)(\\\\)*"</regex></end>
             </state>
 
-            <state id="Block" foldable="yes">
+            <state id="Block" foldable="yes" scope="meta.block">
                 <begin><regex>(?:(?&lt;=\s)(?:if|else|else\s+if|for|while|do|switch|case)\s*(?:\([^#{\n\r]*?\))?)?\s*{</regex></begin>
                 <end><regex>}</regex></end>
-                <import />
+                <import/>
             </state>
 
         </default>
-
     </states>
-
 </syntax>

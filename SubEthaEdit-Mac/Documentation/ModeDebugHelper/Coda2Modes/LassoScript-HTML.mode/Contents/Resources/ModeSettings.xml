@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "settings.dtd">
+<settings>
+    <recognition>
+        <extension>lasso</extension>
+        <extension>lhtml</extension>
+        <extension>las</extension>
+        <regex>\A&lt;\?[Ll]assoScript</regex>
+        <regex>\A\[[^\[]</regex>
+    </recognition>
+</settings>

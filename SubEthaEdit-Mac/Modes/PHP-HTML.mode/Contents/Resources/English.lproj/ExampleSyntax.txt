@@ -1,0 +1,23 @@
+<!-- PHP-HTML Example Syntax File -->
+<html>
+	<head>
+		<style type="text/css">
+			mybold {
+				font-weight:bold;
+				font-family:serif;
+				color:#aaa;
+			}
+		</style>
+		<script type="text/javascript">
+			
+		</script>
+	</head>
+	<body>
+	<?php 
+		// for example: thispage.php?word=abracadabra 
+		$val = $_GET['word']; 
+		echo "the word is: $val"; 
+	?>
+	<a href="http://www.codingmonkeys.de">codingmonkeys</a>
+	</body>
+</html>

@@ -68,6 +68,10 @@ NSString * const BlockeditAttributeValue=@"YES";
 }
 
 
+- (id <TextStorageBlockeditDelegate,FoldableTextStorageDelegate>)delegate {
+	return (id <TextStorageBlockeditDelegate,FoldableTextStorageDelegate>)super.delegate;
+}
+
 - (FullTextStorage *)fullTextStorage {
 	return I_fullTextStorage;
 }
@@ -172,7 +176,7 @@ typedef union {
 
 - (NSString *)foldedStringRepresentation {
 
-	return [[self foldedStringRepresentationOfRange:NSMakeRange(0,[I_fullTextStorage length]) foldings:I_sortedFoldedTextAttachments level:0] stringByAppendingFormat:@"\n->%d Foldings",[I_sortedFoldedTextAttachments count]];
+	return [[self foldedStringRepresentationOfRange:NSMakeRange(0,[I_fullTextStorage length]) foldings:I_sortedFoldedTextAttachments level:0] stringByAppendingFormat:@"\n->%lu Foldings",(unsigned long)[I_sortedFoldedTextAttachments count]];
 }
 
 
@@ -188,8 +192,8 @@ typedef union {
 	*outShouldInsertString = YES; // initialize value
 	FoldedTextAttachment *attachment = nil;
 	FoldedTextAttachment *attachmentReplacementStartetIn = nil;
-	NSRange attachmentRange = NSMakeRange(0,0);
-	NSRange resultRange = NSMakeRange(0,0);
+	NSRange attachmentRange; // = {NSNotFound, 0};
+	NSRange resultRange = {NSNotFound, 0};
 	
 	// safeguard against misuse when there are no foldings
 	if (attachmentCount == 0) {
@@ -329,7 +333,7 @@ typedef union {
 		} else { // advance
 			attachment = [inFoldingAttachments objectAtIndex:attachmentIndex];
 			attachmentRange = [attachment foldedTextRange];
-			indexInFullText = attachmentRange.location;
+//			indexInFullText = attachmentRange.location;
 			indexAfterFolding += attachmentRange.location - previousAttachmentMaxRange + 1;
 			previousAttachmentMaxRange = NSMaxRange(attachmentRange);
 			attachmentIndex++;
@@ -560,7 +564,7 @@ typedef union {
     return [attributedString string];
 }
 
-- (NSDictionary *)attributesAtIndex:(unsigned)aIndex 
+- (NSDictionary *)attributesAtIndex:(NSUInteger)aIndex 
                      effectiveRange:(NSRangePointer)aRange {
 	if ([self length]==0) return nil;
 	NSAttributedString *attributedString = I_internalAttributedString ? I_internalAttributedString : I_fullTextStorage;
@@ -1015,7 +1019,7 @@ typedef union {
 	// check range to Fold for newlines if so fold beginning with the first newline to the end
 	NSRange rangeToFold = inCommentRange;
 	NSString *string = [self string];
-	unsigned start, end, contentsEnd;
+	NSUInteger start, end, contentsEnd;
 	[string getLineStart:&start end:&end contentsEnd:&contentsEnd forRange:NSMakeRange(rangeToFold.location,0)];
 	if (NSMaxRange(rangeToFold) > end && NSMaxRange(rangeToFold) > contentsEnd) {
 		rangeToFold = NSMakeRange(contentsEnd,NSMaxRange(rangeToFold) - contentsEnd);
@@ -1047,7 +1051,7 @@ typedef union {
 					[self foldRange:continousCommentRange];
 				}
 				// move ahead
-				type = [I_fullTextStorage attribute:kSyntaxHighlightingTypeAttributeName atIndex:NSMaxRange(attributeRange) longestEffectiveRange:&attributeRange inRange:wholeRange];
+				[I_fullTextStorage attribute:kSyntaxHighlightingTypeAttributeName atIndex:NSMaxRange(attributeRange) longestEffectiveRange:&attributeRange inRange:wholeRange];
 			}
 		} while (NSMaxRange(attributeRange) < NSMaxRange(wholeRange));
 	}
@@ -1170,9 +1174,8 @@ typedef union {
         id value=[self attribute:BlockeditAttributeName atIndex:position 
                        longestEffectiveRange:&range inRange:wholeRange];
         if (value) {
-            int i=0;
-            for (i=0;i<[attributeNameArray count];i++) {
-                [self removeAttribute:[attributeNameArray objectAtIndex:i]
+            for (id loopItem in attributeNameArray) {
+                [self removeAttribute:loopItem
                                 range:range];
             }
         }
@@ -1207,11 +1210,12 @@ typedef union {
         position=NSMaxRange(blockeditRange);
     }
     
-    if ([[[[self delegate] documentMode] defaultForKey:DocumentModeIndentWrappedLinesPreferenceKey] boolValue]) {
-        NSFont *font=[[self delegate] fontWithTrait:0];
-        int tabWidth=[[self delegate] tabWidth];
-        float characterWidth=[font widthOfString:@" "];
-        int indentWrappedCharacterAmount = [[[[self delegate] documentMode] defaultForKey:DocumentModeIndentWrappedLinesCharacterAmountPreferenceKey] intValue];
+	id myDelegate = (id)self.delegate;
+    if ([[[myDelegate documentMode] defaultForKey:DocumentModeIndentWrappedLinesPreferenceKey] boolValue]) {
+        NSFont *font=[myDelegate fontWithTrait:0];
+        int tabWidth=[myDelegate tabWidth];
+        float characterWidth=[@" " sizeWithAttributes:[NSDictionary dictionaryWithObject:font forKey:NSFontAttributeName]].width;
+        int indentWrappedCharacterAmount = [[[myDelegate documentMode] defaultForKey:DocumentModeIndentWrappedLinesCharacterAmountPreferenceKey] intValue];
         // look at all the lines and fixe the indention
         NSRange myRange = NSMakeRange(aRange.location,0);
         do {
@@ -1234,7 +1238,7 @@ typedef union {
 }
 
 
-- (NSRange)doubleClickAtIndex:(unsigned)index {
+- (NSRange)doubleClickAtIndex:(NSUInteger)index {
 //	NSLog(@"atindex:%d",index);
     NSRange result=[super doubleClickAtIndex:index];
     NSRange colonRange;
@@ -1344,7 +1348,7 @@ typedef union {
 
 - (void)setScriptedContents:(id)value {
     // NSLog(@"%s: %d", __FUNCTION__, value);
-    [[self delegate] replaceTextInRange:NSMakeRange(0,[self length]) withString:value];
+    [(id)[self delegate] replaceTextInRange:NSMakeRange(0,[self length]) withString:value];
 }
 
 //- (id)insertionPoints
@@ -1405,7 +1409,7 @@ typedef union {
     NSScriptClassDescription *containerClassDesc = 
         (NSScriptClassDescription *)[NSScriptClassDescription classDescriptionForClass:[PlainTextDocument class]];
     
-    NSScriptObjectSpecifier *containerSpecifier = [[self delegate] objectSpecifier];
+    NSScriptObjectSpecifier *containerSpecifier = [(id)[self delegate] objectSpecifier];
     NSPropertySpecifier *propertySpecifier = 
         [[[NSPropertySpecifier alloc] initWithContainerClassDescription:containerClassDesc
                                                      containerSpecifier:containerSpecifier

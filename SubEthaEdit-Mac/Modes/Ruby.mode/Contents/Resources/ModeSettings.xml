@@ -2,6 +2,7 @@
 <settings>
     <recognition>
         <extension>rb</extension>
+        <extension>rbw</extension>
         <extension>ruby</extension>
         <extension>rbx</extension>
         <extension>rxml</extension>

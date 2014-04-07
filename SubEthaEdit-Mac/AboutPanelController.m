@@ -7,7 +7,6 @@
 //
 
 #import "AboutPanelController.h"
-#import "LicenseController.h"
 #import <OgreKit/OgreKit.h>
 
 
@@ -16,27 +15,6 @@
 - (id)init {
     self = [super initWithWindowNibName:@"AboutPanel"];
     return self;
-}
-
-- (void)fillLicenseInfoField {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *serial = [defaults stringForKey:SerialNumberPrefKey];
-    NSString *name = [defaults stringForKey:LicenseeNamePrefKey];
-    NSString *organization = [defaults stringForKey:LicenseeOrganizationPrefKey];
-    if (name && [serial isValidSerial]) {
-        [O_licenseeLabel setHidden:NO];
-        [O_licenseeNameField setObjectValue:name];
-        [O_licenseeOrganizationField setObjectValue:organization];
-    } else {
-        [O_licenseeLabel setHidden:YES];
-        int daysLeft = [LicenseController daysLeft];
-        if (daysLeft < 1) {
-            [O_licenseeNameField setObjectValue:NSLocalizedString(@"30-day trial has expired.", nil)];
-        } else {
-            [O_licenseeNameField setObjectValue:[NSString stringWithFormat:NSLocalizedString(@"Trial expires in %d days.", nil), daysLeft]];
-        }
-        [O_licenseeOrganizationField setObjectValue:@""];
-    }
 }
 
 - (void)windowDidLoad {
@@ -50,12 +28,10 @@
     [O_ogreVersionField setObjectValue:ogreVersion];
     [O_legalTextField setObjectValue:[mainBundle objectForInfoDictionaryKey:@"NSHumanReadableCopyright"]];
 
-    [self fillLicenseInfoField];
     [[self window] center];
 }
 
 - (IBAction)showWindow:(id)sender {
-    [self fillLicenseInfoField];
     [[self window] center];
     [super showWindow:self];
 }

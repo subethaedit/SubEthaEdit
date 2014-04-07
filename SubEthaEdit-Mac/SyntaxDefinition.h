@@ -24,6 +24,8 @@
     NSMutableDictionary *I_stylesForToken;   /*"Chached plainstrings"*/
     NSMutableDictionary *I_stylesForRegex;   /*"Chached regexs"*/
     NSMutableDictionary *I_importedModes;   /*"Chached regexs"*/
+    NSMutableDictionary *I_scopeStyleDictionary;
+	NSMutableArray *I_linkedStyleSheets;
     BOOL everythingOkay;
     BOOL I_useSpellingDictionary;
     BOOL I_combinedStateRegexReady;
@@ -35,9 +37,18 @@
     SyntaxStyle *I_defaultSyntaxStyle;
     NSString *I_charsInToken;
     NSString *I_charsDelimitingToken;
+	NSString *I_keyForInheritedSymbols;
+	NSString *I_keyForInheritedAutocomplete;
     OGRegularExpression *I_tokenRegex;
     int I_foldingTopLevel;
+    
+    NSMutableArray *I_allScopesArray;
+    NSMutableArray *I_allLanguageContextsArray;
 }
+
+@property (nonatomic, retain) NSMutableDictionary * scopeStyleDictionary;
+@property (nonatomic, retain) NSMutableArray * linkedStyleSheets;
+@property (nonatomic, copy) NSString *bracketMatchingBracketString;
 
 /*"Initizialisation"*/
 - (id)initWithFile:(NSString *)aPath forMode:(DocumentMode *)aMode;
@@ -47,11 +58,14 @@
 - (void)parseState:(NSXMLElement *)stateNode addToState:(NSMutableDictionary *)aState;
 
 /*"Caching and Precalculation"*/
--(void)cacheStyles;
--(void) getReady;
+- (void)cacheStyles;
+- (void)getReady;
 - (void)addStyleIDsFromState:(NSDictionary *)aState;
 
 /*"Accessors"*/
+- (NSArray *)allScopes;
+- (NSArray *)allLanguageContexts;
+- (NSString *)mainLanguageContext;
 - (NSString *) keyForInheritedSymbols;
 - (NSString *) keyForInheritedAutocomplete;	
 - (OGRegularExpression *)tokenRegex;

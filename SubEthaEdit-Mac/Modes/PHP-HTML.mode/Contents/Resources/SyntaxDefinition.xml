@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!DOCTYPE syntax SYSTEM "syntax.dtd">
-
 <syntax>
     <head>
         <name>PHP-HTML</name>
@@ -9,22 +8,23 @@
         <charsincompletion><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@$&lt;/=>!]]></charsincompletion>
     </head>
     <states>
-        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal" usesymbolsfrommode="HTML" useautocompletefrommode="HTML">
+        <default id="Base" usesymbolsfrommode="HTML" useautocompletefrommode="HTML" scope="meta.default">
             <import mode="XML" keywords-only="yes"/>
-            <state id="PHP" color="#000" background-color="#fff" font-weight="normal" font-style="normal" usesymbolsfrommode="PHP-HTML" useautocompletefrommode="PHP-HTML" foldable="yes">
+            <state id="PHP" usesymbolsfrommode="PHP-HTML" useautocompletefrommode="PHP-HTML" foldable="yes" scope="meta.block">
                 <begin>
                     <regex>(?:&lt;\?(?i)php)|(?:&lt;\?(?=[\s=]))</regex>
+                    <autoend>\?&gt;</autoend>
                 </begin>
                 <end>
-                    <regex>\?></regex>
+                    <regex>\?&gt;</regex>
                 </end>
-                <keywords id="PHP Delimiter" color="#D00" font-weight="bold" useforautocomplete="no">
+                <keywords id="PHP Delimiter" useforautocomplete="no" scope="markup.processing.languageswitch.php">
                     <regex>(&lt;\?(?i)php\d?)</regex>
                     <regex>(&lt;\?)(?![\S])</regex>
                     <regex>(&lt;\?=)</regex>
-                    <regex>(\?>)</regex>
+                    <regex>(\?&gt;)</regex>
                 </keywords>
-                <keywords id="PHP4 Functions" color="#661AA9" background-color="#fff" font-style="normal" casesensitive="no" useforautocomplete="yes">
+                <keywords id="PHP4 Functions" casesensitive="no" useforautocomplete="yes" scope="support.subroutine.function.php">
                     <string>_</string>
                     <string>abs</string>
                     <string>accept_connect</string>
@@ -3511,77 +3511,81 @@
                     <string>zzip_read</string>
                     <string>zzip_readdir</string>
                 </keywords>
-                <keywords id="PHP Keywords" color="#881350" font-weight="bold" useforautocomplete="yes">
-                    <string>global</string>
-                    <string>print</string>
-                    <string>and</string>
-                    <string>xor</string>
-                    <string>or</string>
-                    <string>echo</string>
-                    <string>new</string>
+                <keywords id="PHP Keywords" useforautocomplete="yes" scope="keyword">
                     <string>clone</string>
-                    <string>static</string>
-                    <string>const</string>
-                    <string>var</string>
-                    <string>int</string>
-                    <string>float</string>
-                    <string>real</string>
-                    <string>double</string>
-                    <string>bool</string>
-                    <string>boolean</string>
-                    <string>integer</string>
-                    <string>resource</string>
-                    <string>NULL</string>
-                    <string>null</string>
-                    <string>string</string>
-                    <string>array</string>
-                    <string>list</string>
-                    <string>object</string>
-                    <string>if</string>
-                    <string>else</string>
-                    <string>elseif</string>
-                    <string>endif</string>
-                    <string>while</string>
-                    <string>endwhile</string>
-                    <string>do</string>
-                    <string>for</string>
-                    <string>endfor</string>
-                    <string>foreach</string>
-                    <string>endforeach</string>
-                    <string>as</string>
-                    <string>break</string>
-                    <string>continue</string>
-                    <string>switch</string>
-                    <string>case</string>
-                    <string>endswitch</string>
-                    <string>declare</string>
-                    <string>enddeclare</string>
-                    <string>return</string>
-                    <string>require</string>
-                    <string>require_once</string>
-                    <string>include</string>
-                    <string>include_once</string>
-                    <string>function</string>
-                    <string>abstract</string>
-                    <string>final</string>
-                    <string>class</string>
-                    <string>public</string>
-                    <string>private</string>
-                    <string>protected</string>
-                    <string>implements</string>
-                    <string>interface</string>
-                    <string>extends</string>
-                    <string>try</string>
-                    <string>catch</string>
-                    <string>this</string>
-                    <string>exception</string>
-                    <string>parent</string>
-                    <string>true</string>
-                    <string>false</string>
                     <string>die</string>
+                    <string>echo</string>
                     <string>exit</string>
+                    <string>function</string>
+                    <string>list</string>
+                    <string>new</string>
+                    <string>parent</string>
+                    <string>print</string>
+                    <string>real</string>
+                    <string>resource</string>
+                    <string>this</string>
                 </keywords>
-                <keywords id="PHP Magic Methods" color="#661AA9" font-weight="bold" useforautocomplete="yes">
+                <keywords id="PHP Control Keywords" useforautocomplete="yes" scope="keyword.control">
+				  <string>class</string>
+                  <string>and</string>
+                  <string>as</string>
+                  <string>break</string>
+                  <string>case</string>
+                  <string>catch</string>
+                  <string>continue</string>
+                  <string>declare</string>
+                  <string>do</string>
+                  <string>else</string>
+                  <string>elseif</string>
+                  <string>enddeclare</string>
+                  <string>endfor</string>
+                  <string>endforeach</string>
+                  <string>endif</string>
+                  <string>endswitch</string>
+                  <string>endwhile</string>
+                  <string>for</string>
+                  <string>foreach</string>
+                  <string>goto</string>
+                  <string>if</string>
+                  <string>include</string>
+                  <string>include_once</string>
+                  <string>or</string>
+                  <string>require</string>
+                  <string>require_once</string>
+                  <string>return</string>
+                  <string>switch</string>
+                  <string>try</string>
+                  <string>while</string>
+                  <string>xor</string>
+                </keywords>
+                <keywords id="PHP Types" useforautocomplete="yes" scope="keyword.type">
+									<string>abstract</string>
+									<string>array</string>
+									<string>bool</string>
+									<string>boolean</string>
+									<string>const</string>
+									<string>double</string>
+									<string>extends</string>
+									<string>final</string>
+									<string>float</string>
+									<string>global</string>
+									<string>implements</string>
+									<string>instanceof</string>
+									<string>int</string>
+									<string>integer</string>
+									<string>interface</string>
+									<string>namespace</string>
+									<string>object</string>
+									<string>private</string>
+									<string>protected</string>
+									<string>public</string>
+									<string>static</string>
+									<string>string</string>
+									<string>unset</string>
+									<string>var</string>
+									<string>void</string>
+                </keywords>
+                <keywords id="PHP Magic Methods" useforautocomplete="yes" scope="language.subroutine.method.special.php">
                     <string>__construct</string>
                     <string>__destruct</string>
                     <string>__call</string>
@@ -3593,318 +3597,351 @@
                     <string>__clone</string>
                     <string>__autoload</string>
                 </keywords>
-                <keywords id="PHP Numbers" color="#00f" inverted-color="#5d56ff" useforautocomplete="no">
+                <keywords id="Number Literals" useforautocomplete="YES" scope="keyword.constant">
+                    <string>true</string>
+                    <string>false</string>
+                    <string>null</string>
+                    <string>NULL</string>
+                    <string>undefined</string>
+                </keywords>
+		            <keywords id="Operators" useforautocomplete="no" scope="language.operator">
+									<regex>([\+\-\*\\\=\|\!])</regex>
+									<regex>(\&lt;)(?![\?])</regex>
+									<regex>(?&lt;!\?)(\&gt;)</regex>
+									<regex>([\/\%&amp;\^\~\@\.])</regex>
+		            </keywords>
+                <keywords id="PHP Numbers" useforautocomplete="no" scope="language.constant.numeric">
                     <regex>(?&lt;=[^\w\d]|^)(((([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(([uU][lL]?)|([lL][uU]?))?))(?=[^\w\d]|$)</regex>
                 </keywords>
-                <keywords id="FunctionRegex" color="#003369" useforautocomplete="no">
+                <keywords id="FunctionRegex" useforautocomplete="no" scope="language.subroutine.function.php">
                     <regex>([A-Za-z0-9_]+ *)\(</regex>
                 </keywords>
-                <keywords id="PHP Variables" color="#825900" useforautocomplete="no">
+                <keywords id="PHP Variables" useforautocomplete="no" scope="language.variable.php">
                     <regex>(\$(?:[\w\d])+)</regex>
                 </keywords>
-                <state id="PHP Comment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
+                <state id="PHP Comment" type="comment" scope="comment.block.php">
                     <begin>
-                        <regex>/\*</regex>
+                        <regex>/\*</regex><autoend>\*/</autoend>
                     </begin>
                     <end>
                         <regex>\*/</regex>
                     </end>
                 </state>
-                <state id="PHP SingleComment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
+                <state id="PHP SingleComment" type="comment" scope="comment.line.php">
                     <begin>
                         <regex>(?://)|#</regex>
                     </begin>
                     <end>
-                        <regex>(?:[\n\r])|.?(?=\?>)</regex>
+                        <regex>(?:[\n\r])|.?(?=\?&gt;)</regex>
                     </end>
                 </state>
-                <state id="PHP String" type="string" color="#EB7300" font-weight="normal" font-style="normal">
+                <state id="PHP String" type="string" scope="string.double.php">
                     <begin>
                         <regex>"</regex>
                     </begin>
                     <end>
                         <regex>(((?&lt;!\\)(\\\\)*)|^)"</regex>
                     </end>
-                    <keywords id="Variables" color="#825900" useforautocomplete="no">
+                    <keywords id="Variables" useforautocomplete="no" scope="language.variable.string.php">
                         <regex>(\$(?:[\w\d])+)</regex>
                     </keywords>
                 </state>
-                <state id="PHP String2" type="string" color="#EB7300" font-weight="normal" font-style="normal">
+                <state id="PHP String2" type="string" scope="string.single.php">
                     <begin>
-                        <regex>'</regex>
+                        <regex>'</regex><autoend>'</autoend>
                     </begin>
                     <end>
                         <regex>(((?&lt;!\\)(\\\\)*)|^)'</regex>
                     </end>
                 </state>
-                <state id="PHP Heredoc" type="string" color="#EB7300" font-weight="normal" font-style="normal">
+                <state id="PHP Heredoc" type="string" scope="string.here-doc.php">
                     <begin>
-                        <string>&lt;&lt;&lt;(?&lt;heredoc>[A-Za-z][A-Za-z0-9_]*)</string>
+                        <regex>&lt;&lt;&lt;(?'phpheredoc'[A-Za-z][A-Za-z0-9_]*)</regex>
+                        <autoend>\g&lt;phpheredoc&gt;</autoend>
                     </begin>
                     <end>
-                        <regex>(?#see-insert-start-group:heredoc)</regex>
+                        <regex>(?#see-insert-start-group:phpheredoc)</regex>
                     </end>
                 </state>
-                <state id="PHP Block" type="block" foldable="yes">
+                <state id="PHP Block" type="block" foldable="yes" scope="meta.block.curly">
                     <begin>
-                        <regex>{</regex>
+                        <regex>{</regex><autoend>}</autoend>
                     </begin>
                     <end>
-                        <regex>(?:}|[^\n\r](?=[\n\r]?\?>))</regex>
+                        <regex>(?:}|[^\n\r](?=[\n\r]?\?&gt;))</regex>
                     </end>
                     <import state="PHP"/>
                 </state>
             </state>
-            <state id="Comment" type="comment" color="#236E25" font-style="italic">
-                <begin>
-                    <regex>&lt;!--</regex>
-                </begin>
-                <end>
-                    <regex>--></regex>
-                </end>
-                <keywords id="SGML Double Dash" color="#f00" font-weight="bold" useforautocomplete="no">
-                    <regex>(?&lt;!\!)(--)(?!>)</regex>
-                </keywords>
+            
+            <!--  This is the "we do a complete HTML mode and import php everywhere" section -->
+			<state id="Comment" type="comment" scope="markup.comment">
+				<begin><regex>&lt;!--</regex><autoend>--&gt;</autoend></begin>
+				<end><regex>--&gt;</regex></end>
+				<keywords id="SGML Double Dash" useforautocomplete="no" scope="meta.invalid.sgmlcomment">
+					<regex>(?&lt;!\!)(--)(?!&gt;)</regex>
+				</keywords>
+				<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+				<state-link state="PHP"/>
+            </state>
+			<state id="CDATA" foldable="yes" scope="markup.inline.cdata">
+				<begin>
+					<regex>&lt;!\s*\[CDATA\s*\[</regex>
+					<autoend>\]\]&gt;</autoend>
+				</begin>
+				<end>
+					<regex>\]\s*\]\s*&gt;</regex>
+				</end>
                 <state-link state="PHP"/>
             </state>
-            <state id="CDATA" color="#f00" font-style="italic" foldable="yes">
+			 <state id="Doctype" foldable="no" scope="markup.declaration">
                 <begin>
-                    <regex>&lt;!\s*\[CDATA\s*\[</regex>
+                    <regex>&lt;!</regex><autoend>&gt;</autoend>
                 </begin>
                 <end>
-                    <regex>\]\s*\]\s*></regex>
+                    <regex>&gt;</regex>
+                </end>
+				<state id="String" type="string" scope="markup.declaration.string.double">
+					<begin><regex>"</regex></begin>
+					<end><regex>"</regex></end>
+					<state-link state="PHP"/>
+				</state>
+				<state id="SingleString" type="string" scope="markup.declaration.string.single">
+					<begin><regex>'</regex></begin>
+					<end><regex>'</regex></end>
+					<state-link state="PHP"/>
+				</state>
+				<state id="Block" type="block" foldable="yes" indent="yes" scope="meta.block.square">
+					<begin><regex>\[</regex><autoend>\]</autoend></begin>
+					<end><regex>]</regex></end>
+					<import/>
+				</state>
+			   <state-link state="PHP"/>
+            </state>
+         <state id="Escape" foldable="no" scope="markup.processing">
+                <begin>
+                    <regex>&lt;\?</regex><autoend>\?&gt;</autoend>
+                </begin>
+                <end>
+                    <regex>\?&gt;</regex>
+                </end>
+				<state id="ProcessingString" type="string" scope="markup.processing.attribute.value.string">
+					<begin><regex>"</regex></begin>
+					<end><regex>"</regex></end>
+                   <state-link state="PHP"/>
+				</state>
+				<state id="ProcessingSingleString" type="string" scope="markup.processing.attribute.value.string">
+					<begin><regex>'</regex></begin>
+					<end><regex>'</regex></end>
+                   <state-link state="PHP"/>
+				</state>
+                   <state-link state="PHP"/>
+            </state>
+            <state id="Inline CSS" usesymbolsfrommode="CSS" useautocompletefrommode="CSS" foldable="yes" indent="yes" scope="meta.block.css">
+                <begin>
+                    <regex>&lt;[ \t]*(?i)style[^&gt;]*&gt;</regex>
+                    <autoend>&lt;/style&gt;</autoend>
+                </begin>
+                <end>
+                    <regex>(?i)&lt;[ \t]*/[ \t]*style[ \t]*&gt;</regex>
                 </end>
                 <state-link state="PHP"/>
+
+                <import mode="CSS"/>
+				<state id="CSSInside curly brackets" foldable="yes" indent="yes" scope="meta.block.curly">
+					<begin>
+						<string>{</string>
+						<autoend>}</autoend>
+					</begin>
+					<end>
+						<regex>}</regex>
+					</end>
+						<import mode="CSS" state="Inside curly brackets" keywords-only="yes"/>
+					<state id="CSS Attribute state" scope="meta.block.attribute">
+						<begin>
+							<string>:</string>
+						</begin>
+						<end>
+							<regex>(;|.(?=})|[\n\r])</regex>
+						</end>
+					   <import mode="CSS" state="Attribute state" keywords-only="yes"/>
+						<state-link state="PHP"/>
+						<state-link state="CSSAutodocComment"/>
+						<state-link state="CSSComment"/>
+						<state-link state="CSSString"/>
+						<state-link state="CSSSingleString"/>
+					</state>
+					<state-link state="CSSAutodocComment"/>
+					<state-link state="CSSComment"/>
+					<state-link state="CSSString"/>
+					<state-link state="CSSSingleString"/>
+					<state-link state="PHP"/>
+				</state>
+
+                <import keywords-only="yes"/>
+
+				<state id="CSSRules" scope="style.at-rule">
+					<begin>
+						<regex>^@[-\w_]+</regex>
+					</begin>
+					<end>
+						<regex>.(?=[{\n\r])</regex>
+					</end>
+				</state>
+				
+				<state id="CSSAutodocComment" type="comment" scope="style.comment.block.documentation">
+					<begin>
+						<string>/\*"</string>
+						<autoend>"\*/</autoend>
+					</begin>
+					<end>
+						<regex>"\*/</regex>
+					</end>
+					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+					<state-link state="PHP"/>
+				</state>
+				<state id="CSSComment" type="comment" scope="style.comment.block">
+					<begin>
+						<string>/\*</string>
+						<autoend>\*/</autoend>
+					</begin>
+					<end>
+						<regex>\*/</regex>
+					</end>
+					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+					<state-link state="PHP"/>
+				</state>
+				<state id="CSSString" type="string" scope="style.value.string.double">
+					<begin>
+						<string>"</string>
+					</begin>
+					<end>
+						<regex>(?&lt;!\\)(\\\\)*"</regex>
+					</end>
+					<state-link state="PHP"/>
+				</state>
+				<state id="CSSSingleString" type="string" scope="style.value.string.single">
+					<begin>
+						<string>'</string>
+					</begin>
+					<end>
+						<regex>(?&lt;!\\)(\\\\)*'</regex>
+					</end>
+					<state-link state="PHP"/>
+				</state>
+
             </state>
-            <state id="Doctype" color="#236E25" font-style="italic">
+
+
+            <state id="Inline Javascript" usesymbolsfrommode="Javascript" useautocompletefrommode="Javascript" foldable="yes" scope="meta.block.js">
                 <begin>
-                    <regex>&lt;!</regex>
+                    <regex>&lt;(?i)script[^&gt;]*&gt;</regex><autoend>&lt;/script&gt;</autoend>
                 </begin>
                 <end>
-                    <regex>></regex>
-                </end>
-                <state-link state="PHP"/>
-            </state>
-            <state id="Escape" color="#236E25" font-style="italic">
-                <begin>
-                    <regex>&lt;\?</regex>
-                </begin>
-                <end>
-                    <regex>\?></regex>
-                </end>
-                <state-link state="PHP"/>
-            </state>
-            <state id="Single Tag" foldable="no">
-                <begin>
-                    <regex>&lt;[^/](?=[^>]*/>)</regex>
-                </begin>
-                <end>
-                    <regex>/[ \t]*></regex>
-                </end>
-                <import mode="XML" keywords-only="yes"/>
-                <import/>
-            </state>
-            <state id="Inline CSS" color="#000" font-style="italic" usesymbolsfrommode="CSS" useautocompletefrommode="CSS" foldable="yes">
-                <begin>
-                    <regex>&lt;(?i)style[^>]*></regex>
-                </begin>
-                <end>
-                    <regex>&lt;(?i)/style[^>]*></regex>
-                </end>
-                <import mode="XML" keywords-only="yes"/>
-                <state-link state="PHP"/>
-                <state id="Inside curly brackets" color="#000" background-color="#fff" font-weight="normal" font-style="normal" foldable="yes">
-                    <begin>
-                        <string>{</string>
-                    </begin>
-                    <end>
-                        <regex>}</regex>
-                    </end>
-                    <import mode="CSS" state="Inside curly brackets" keywords-only="yes"/>
-                    <state-link state="PHP"/>
-                    <state id="Attribute state" color="#000" background-color="#fff" font-weight="normal" font-style="normal">
-                        <begin>
-                            <string>:</string>
-                        </begin>
-                        <end>
-                            <regex>(;|.(?=}))</regex>
-                        </end>
-                        <import mode="CSS" state="Attribute state" keywords-only="yes"/>
-                        <state-link state="PHP"/>
-                        <state-link state="CSSComment"/>
-                        <state-link state="CSSRound bracket"/>
-                        <state-link state="CSSString"/>
-                        <state-link state="CSSSingleString"/>
-                    </state>
-                    <state-link state="CSSComment"/>
-                    <state-link state="CSSRound bracket"/>
-                    <state-link state="CSSString"/>
-                    <state-link state="CSSSingleString"/>
-                </state>
-                <state id="CSSComment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
-                    <begin>
-                        <string>/\*</string>
-                    </begin>
-                    <end>
-                        <regex>\*/</regex>
-                    </end>
-                    <state-link state="PHP"/>
-                </state>
-                <state id="CSSRound bracket" type="string" color="#760f15" font-weight="normal" font-style="normal">
-                    <begin>
-                        <string>\(</string>
-                    </begin>
-                    <end>
-                        <regex>\)</regex>
-                    </end>
-                    <state-link state="PHP"/>
-                </state>
-                <state id="CSSString" type="string" color="#760f15" font-weight="normal" font-style="normal">
-                    <begin>
-                        <string>"</string>
-                    </begin>
-                    <end>
-                        <regex>(((?&lt;!\\)(\\\\)*)|^)"</regex>
-                    </end>
-                    <state-link state="PHP"/>
-                </state>
-                <state id="CSSSingleString" type="string" color="#760f15" font-weight="normal" font-style="normal">
-                    <begin>
-                        <string>'</string>
-                    </begin>
-                    <end>
-                        <regex>(((?&lt;!\\)(\\\\)*)|^)'</regex>
-                    </end>
-                    <state-link state="PHP"/>
-                </state>
-            </state>
-            <state id="Inline Javascript" color="#000" usesymbolsfrommode="Javascript" useautocompletefrommode="Javascript" foldable="yes">
-                <begin>
-                    <regex>&lt;(?i)script[^>]*></regex>
-                </begin>
-                <end>
-                    <regex>&lt;(?i)/script[^>]*></regex>
+                    <regex>&lt;(?i)/script[^&gt;]*&gt;</regex>
                 </end>
                 <import mode="Javascript" keywords-only="yes"/>
                 <import mode="XML" keywords-only="yes"/>
                 <state-link state="PHP"/>
-                <state id="JSAutodocComment" type="comment" color="#236E25" font-weight="bold" font-style="italic">
-                    <begin>
-                        <regex>/\*"</regex>
-                    </begin>
-                    <end>
-                        <regex>"\*/</regex>
-                    </end>
+
+				<state id="JSAutodocComment" type="comment" scope="comment.block.documentation.js">
+					<begin><regex>/\*"</regex></begin>
+					<end><regex>"\*/</regex></end>
                     <state-link state="PHP"/>
-                </state>
-                <state id="JSComment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
-                    <begin>
-                        <regex>/\*</regex>
-                    </begin>
-                    <end>
-                        <regex>\*/</regex>
-                    </end>
+				</state>
+		
+				<state id="JSComment" type="comment" scope="comment.block.js">
+					<begin><regex>/\*</regex><autoend>\*/</autoend></begin>
+					<end><regex>\*/</regex></end>
+					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
                     <state-link state="PHP"/>
-                </state>
-                <state id="JSSingleComment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
-                    <begin>
-                        <regex>//</regex>
-                    </begin>
-                    <end>
-                        <regex>.(?=[\n\r])</regex>
-                    </end>
+				</state>
+				
+				<state id="JSSingleComment" type="comment" scope="comment.line.double-slash.js">
+					<begin><regex>//</regex></begin>
+					<end><regex>[\n\r]|&lt;(?i)/script\s*&gt;</regex></end>
+					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
                     <state-link state="PHP"/>
-                </state>
-                <state id="JSRegEx" color="#760f15">
-                    <begin>
-                        <regex>(?&lt;!&lt;)/.*?[^\\](?=/[^\n\r]*(?:;|\)))</regex>
-                    </begin>
-                    <end>
-                        <regex>/[cgimosx]*</regex>
-                    </end>
+				</state>
+				
+				<state id="JSRegular Expressions" type="string" scope="string.regex.js">
+					<begin><regex>(?&lt;![&lt;/])/.*?[^\\](?=/[^\n\r]*(?:;|\)|,|[\n\r]))</regex></begin>
+					<end><regex>/[cgimosx]*</regex></end>
                     <state-link state="PHP"/>
-                </state>
-                <state id="JSString" type="string" color="#760f15" font-weight="normal" font-style="normal">
-                    <begin>
-                        <regex>"</regex>
-                    </begin>
-                    <end>
-                        <regex>(((?&lt;!\\)(\\\\)*)|^)"</regex>
-                    </end>
+				</state>
+		
+				<state id="JSString" type="string" scope="string.double.js">
+					<begin><regex>"</regex></begin>
+					<end><regex>(?&lt;!\\)(\\\\)*"</regex></end>
                     <state-link state="PHP"/>
-                </state>
-                <state id="JSSingleString" type="string" color="#760f15" font-weight="normal" font-style="normal">
-                    <begin>
-                        <regex>'</regex>
-                    </begin>
-                    <end>
-                        <regex>(((?&lt;!\\)(\\\\)*)|^)'</regex>
-                    </end>
+				</state>
+		
+				<state id="JSSingleString" type="string" scope="string.single.js">
+					<begin><regex>'</regex></begin>
+					<end><regex>(?&lt;!\\)(\\\\)*'</regex></end>
                     <state-link state="PHP"/>
-                </state>
-                <state id="Javascript Block" color="#000" background-color="#fff" font-weight="normal" font-style="normal" type="block" foldable="yes">
-                    <begin>
-                        <regex>(?:\s(?:if|else|else\s+if|for|in|while|do|with|try|catch|switch|case|return|function(?:\s+\w+)?)\s*(?:\([^)]*\)\s*)?)?{</regex>
-                    </begin>
-                    <end>
-                        <regex>}</regex>
-                    </end>
+				</state>
+	
+				<state id="JSBlock" type="block" foldable="yes" indent="yes" scope="meta.block.curly.js">
+					<begin><regex>{</regex><autoend>}</autoend></begin>
+					<end><regex>}</regex></end>
                     <import mode="Javascript" keywords-only="yes"/>
                     <import mode="PHP-HTML" state="Inline Javascript"/>
-                </state>
-            </state>
-            
-            <state id="Single Tag with PHP State" foldable="no">
+				</state>
+			</state>            
+
+            <state id="Single Tag with PHP State" foldable="no" scope="meta.block.tag.php.no-content">
                 <begin>
-                    <regex>&lt;\s*[^/?!][-:_\w]*(?=[^&lt;>]*&lt;\?.+?\?>[^>]*[^>]*/>)</regex>
+                    <regex>&lt;\s*[^/?!][-:_\w]*(?=[^&lt;&gt;]*&lt;\?.+?\?&gt;[^&gt;]*[^&gt;]*/&gt;)</regex>
                 </begin>
                 <end>
-                    <regex>/[ \t]*></regex>
+                    <regex>/[ \t]*&gt;</regex>
                 </end>
                 <import/>
-                <keywords id="Single Tags with PHP" color="#881280" font-style="italic" useforautocomplete="no">
-                    <regex>(&lt;[^>]*)</regex>
-                    <regex>(\A[^&lt;>]*>)</regex>
+                <keywords id="Single Tags with PHP" useforautocomplete="no" scope="markup.tag">
+                    <regex>(&lt;[^&gt;]*)</regex>
+                    <regex>(\A[^&lt;&gt;]*&gt;)</regex>
                 </keywords>
-                <keywords id="Attributes in Single Tags with PHP" color="#994500" useforautocomplete="no">
+                <keywords id="Attributes in Single Tags with PHP" useforautocomplete="no" scope="markup.tag.attribute.name">
                     <regex>([\w-]*)(?=[ \t]*=[^&lt;]+)</regex>
                 </keywords>
-                <keywords id="Strings in Single Tags with PHP" type="string" color="#1A1AA6" useforautocomplete="no">
+                <keywords id="Strings in Single Tags with PHP" type="string" useforautocomplete="no" scope="markup.tag.attribute.value.string">
                     <regex>=[ \t]*("[^"]*"|'[^']*')(?=[^&lt;]*)</regex>
-                    <regex>([^"]*")(?=[ \t]*>)</regex>
+                    <regex>([^"]*")(?=[ \t]*&gt;)</regex>
                 </keywords>
             </state>
 
-            <state id="Tag with PHP State" foldable="yes">
+            <state id="Tag with PHP State" foldable="yes" scope="meta.block.tag.php">
                 <begin>
-                    <regex>&lt;\s*(?'phptagstatename'[^/?!][-:_\w]*)(?'trimmedstart'[^&lt;>]*&lt;\?.+?\?>[^>]*>)</regex> <!--  Used "trimmedstart regex group, to start searching earlier" -->
+                    <regex>&lt;\s*(?'phptagstatename'[^/?!][-:_\w]*)(?'trimmedstart'[^&lt;&gt;]*&lt;\?.+?\?&gt;[^&gt;]*&gt;)</regex> <!--  Used "trimmedstart regex group, to start searching earlier" -->
                 </begin>
                 <end>
-                    <regex>&lt;\s*/\s*(?#see-insert-start-group:phptagstatename)\s*></regex>
+                    <regex>&lt;\s*/\s*(?#see-insert-start-group:phptagstatename)\s*&gt;</regex>
                 </end>
                 <import/>
-                <keywords id="Tags with PHP" color="#881280" font-style="italic" useforautocomplete="no">
-                    <regex>(&lt;[^>]*>?)</regex>
-                    <regex>(\A[^&lt;>]*>)</regex>
+                <keywords id="Tags with PHP" useforautocomplete="no" scope="markup.tag">
+                    <regex>(&lt;[^&gt;]*&gt;?)</regex>
+                    <regex>(\A[^&lt;&gt;]*&gt;)</regex>
                 </keywords>
-                <keywords id="Attributes in Tags with PHP" color="#994500" useforautocomplete="no">
+                <keywords id="Attributes in Tags with PHP" useforautocomplete="no" scope="markup.tag.attribute.name">
                     <regex>([\w-]*)(?=[ \t]*=[^&lt;]+)</regex>
                 </keywords>
-                <keywords id="Strings in Tags with PHP" type="string" color="#1A1AA6" useforautocomplete="no">
+                <keywords id="Strings in Tags with PHP" type="string" useforautocomplete="no" scope="markup.tag.attribute.value.string">
                     <regex>=[ \t]*("[^"]*"|'[^']*')(?=[^&lt;]*)</regex>
-                    <regex>([^"]*")(?=[ \t]*>)</regex>
+                    <regex>([^"]*")(?=[ \t]*&gt;)</regex>
                 </keywords>
             </state>
 
-            <state id="Tag State" font-style="normal" foldable="yes">
+            <state id="Tag State" foldable="yes" indent="yes" scope="meta.default">
                 <begin>
-                    <regex>&lt;\s*(?'xmltagstatename'[^/?!][-:_\w]*)\s*(?:[-:_\w]+=(?:"[^"]*"|'[^']*'|\w+)\s*)*\s*></regex>
+                    <regex>&lt;\s*(?'xmltagstatename'[^/?!][-:_\w]*)\s*(?:[-:_\w]+=(?:"[^"]*"|'[^']*'|\w+)\s*)*\s*&gt;</regex>
+					<autoend>&lt;/\g&lt;xmltagstatename&gt;&gt;</autoend>
                 </begin>
                 <end>
-                    <regex>&lt;\s*/\s*(?#see-insert-start-group:xmltagstatename)\s*></regex>
+                    <regex>&lt;\s*/\s*(?#see-insert-start-group:xmltagstatename)\s*&gt;</regex>
                 </end>
-                <import mode="XML" keywords-only="yes"/>
-                <import />
+	            <import mode="XML" keywords-only="yes"/>
+                <import/>
             </state>
             
         </default>

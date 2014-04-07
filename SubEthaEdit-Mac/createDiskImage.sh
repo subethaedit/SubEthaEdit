@@ -60,7 +60,6 @@ echo
 echo "Copying..."
 cp -Rpv "${TARGET_BUILD_DIR}/${DiskImageProduct}" "${mountedDmgPath}"
 cp -Rpv "${TARGET_BUILD_DIR}/SubEthaEdit.zip" "${mountedDmgPath}"
-cp -Rpv "${TARGET_BUILD_DIR}/HDCrashReporter.framework.dSYM" "${mountedDmgPath}"
 cp -Rpv "${TARGET_BUILD_DIR}/OgreKit.framework.dSYM" "${mountedDmgPath}"
 cp -Rpv "${TARGET_BUILD_DIR}/see.dSYM" "${mountedDmgPath}"
 cp -Rpv "${TARGET_BUILD_DIR}/SubEthaEditHelperToolTemplate.dSYM" "${mountedDmgPath}"

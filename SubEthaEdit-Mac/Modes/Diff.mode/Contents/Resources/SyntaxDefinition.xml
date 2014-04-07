@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!DOCTYPE syntax SYSTEM "syntax.dtd">
 <syntax>
 
@@ -9,32 +9,32 @@
 
     <states>
     
-        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal">
+        <default id="Base" scope="meta.default">
         
-            <keywords id="Index" color="#8f6d00" inverted-color="#c09100" font-weight="bold" useforautocomplete="no">
-                <regex>^(Index: )</regex>
+            <keywords id="Index" useforautocomplete="no" scope="markup.processing">
+                <regex>^(Index: .*)</regex>
             </keywords>
 
-            <keywords id="+++" color="#2b9d00" font-weight="bold" useforautocomplete="no">
+            <keywords id="+++" useforautocomplete="no" scope="string.double">
                 <regex>^([+](?:[+]{2})?[^\n\r]*)</regex>
             </keywords>
             
-            <keywords id="---" color="#a61a1a" font-weight="bold" useforautocomplete="no">
+            <keywords id="---" useforautocomplete="no" scope="meta.invalid">
                 <regex>^([-](?:[-]{2})?[^\n\r]*)</regex>
             </keywords>
 
-            <keywords id="==================" color="#666" useforautocomplete="no">
+            <keywords id="==================" useforautocomplete="no" scope="comment.line">
                 <regex>^([=]{3,})</regex>
             </keywords>
 
-            <keywords id="@@" color="#8f6d00" inverted-color="#c09100" font-weight="bold" useforautocomplete="no">
+            <keywords id="@@" useforautocomplete="no" scope="language.constant.numeric">
                 <regex>^([@]{2}[^@\n\r]+[@]{2})</regex>
             </keywords>
 
-            <state id="Block" type="block" foldable="yes">
+            <state id="Block" type="block" foldable="yes" scope="meta.block">
                 <begin><regex>^(?:[@]{2}[^@\n\r]+[@]{2})</regex></begin>
                 <end><regex>[\r\n](?=(?:[@][@]|Index|$|--- ))</regex></end>
-                <import />
+                <import/>
             </state>
 
         </default>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!DOCTYPE syntax SYSTEM "syntax.dtd">
 <syntax>
 
@@ -9,14 +9,14 @@
 
     <states>
     
-        <default id="Base" color="#000">
-            <keywords id="Keywords" color="#881350" useforautocomplete="no">
+        <default id="Base" scope="meta.default">
+            <keywords id="Keywords" useforautocomplete="no" scope="keyword">
                 <regex>(\\\w+[\t ]*{[^}]*})</regex>
                 <regex>((?:(?:(?&lt;!\\)(?:\\\\)*)|^)\\[\w\d]+)</regex>
                 <regex>(\\\\)</regex>
             </keywords>
             
-            <keywords id="Structuring Keywords" color="#881350" font-weight="bold"> 
+            <keywords id="Structuring Keywords" scope="structured.section"> 
                 <regex>(\\part[\t ]*{[^}]*})</regex>
                 <regex>(\\chapter[\t ]*{[^}]*})</regex>
                 <regex>(\\section[\t ]*{[^}]*})</regex>
@@ -26,33 +26,31 @@
                 <regex>(\\subparagraph[\t ]*{[^}]*})</regex>
             </keywords>
 
-            <keywords id="Functions" color="#408" useforautocomplete="no">
+            <keywords id="Functions" useforautocomplete="no" scope="language.subroutine.function">
                 <regex>((?:\[[\w\d,\. ]*\])?(?:{[^}]*(?=})[^{]*})+)</regex>
             </keywords>
         
-			<state id="Singleline Comment" color="#236E25" font-style="italic">
+			<state id="Singleline Comment" scope="structured.comment">
 				<begin><regex>(?&lt;!\\)%</regex></begin>
 				<end><regex>[\n\r]</regex></end>
                 <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 			</state>
 
-			<state id="Inline Math" color="#a00" font-style="italic">
+			<state id="Inline Math" scope="structured.math">
 				<begin><regex>(?&lt;!\\)\$</regex></begin>
 				<end><regex>(?&lt;!\\)\$</regex></end>
 			</state>
 
-            <state id="Block" foldable="yes">
+            <state id="Block" foldable="yes" scope="meta.block">
                 <begin>
                     <regex>\\begin\s*{\s*(?'latexblock'[-:_\w]*)\s*}</regex>
                 </begin>
                 <end>
                     <regex>\\end\s*{\s*(?#see-insert-start-group:latexblock)\s*}</regex>
                 </end>
-                <import />
+                <import/>
             </state>
         
 		</default>
-
     </states>
-
 </syntax>

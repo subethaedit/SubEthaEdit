@@ -37,7 +37,7 @@
     self = [super init];
     if (self) {
         if ([aQueue count] == 0) {
-            [super dealloc];
+            [self release];
             self = nil;
         } else {
             TCMBEEPFrame *frame = [aQueue objectAtIndex:0];
@@ -45,8 +45,7 @@
             [self setMessageNumber:[frame messageNumber]];
             [self setAnswerNumber:[frame answerNumber]];
             I_payload = [NSMutableData new];
-            NSEnumerator *frames = [aQueue objectEnumerator];
-            while ((frame = [frames nextObject])) {
+            for (frame in aQueue) {
                 [I_payload appendData:[frame payload]];
             }
         }
@@ -105,7 +104,7 @@
 - (void)setPayload:(NSData *)aData
 {
     [I_payload autorelease];
-    I_payload = [aData retain];
+    I_payload = [aData mutableCopy];
 }
 
 - (NSData *)payload

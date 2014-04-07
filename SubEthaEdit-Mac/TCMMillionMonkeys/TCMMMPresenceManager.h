@@ -20,7 +20,20 @@ extern NSString * const TCMMMPresenceManagerAnnouncedSessionsDidChangeNotificati
 extern NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification;
 extern NSString * const TCMMMPresenceManagerDidReceiveTokenNotification;
 
-@interface TCMMMPresenceManager : NSObject
+extern NSString * const TCMMMPresenceStatusKey;
+extern NSString * const TCMMMPresenceUnknownStatusValue;
+extern NSString * const TCMMMPresenceKnownStatusValue;
+extern NSString * const TCMMMPresenceUserIDKey;
+extern NSString * const TCMMMPresenceSessionsKey;
+extern NSString * const TCMMMPresenceOrderedSessionsKey;
+extern NSString * const TCMMMPresenceNetServicesKey;
+extern NSString * const TCMMMPresenceStatusProfileKey;
+
+extern NSString * const TCMMMPresenceTXTRecordUserIDKey;
+extern NSString * const TCMMMPresenceTXTRecordNameKey;
+
+
+@interface TCMMMPresenceManager : NSObject <NSNetServiceDelegate, TCMBEEPProfileDelegate>
 {
     NSNetService *I_netService;
     NSMutableDictionary *I_statusOfUserIDs;
@@ -52,7 +65,7 @@ extern NSString * const TCMMMPresenceManagerDidReceiveTokenNotification;
 - (void)setVisible:(BOOL)aFlag;
 - (void)setShouldAutoconnect:(BOOL)aFlag forUserID:(NSString *)aUserID;
 
-- (NSDictionary *)announcedSessions;
+- (NSArray *)announcedSessions;
 - (void)announceSession:(TCMMMSession *)aSession;
 - (void)concealSession:(TCMMMSession *)aSession;
 - (NSString *)reachabilityURLStringOfUserID:(NSString *)aUserID;

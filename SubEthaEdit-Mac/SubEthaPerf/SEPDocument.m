@@ -32,8 +32,8 @@
 		} else {
 			[SEPLogger logWithFormat:@"%s loading failed with error:%@", __FUNCTION__, error];
 			self.textStorage = nil;
-			[super dealloc];
-			return nil;
+			[self release];
+			self = nil;
 		}
 	}
 	
@@ -96,13 +96,13 @@
 }
 
 - (void)TCM_styleFonts {
-    [I_fonts.boldFont autorelease];
-    [I_fonts.italicFont autorelease];
-    [I_fonts.boldItalicFont autorelease];
+    [I_boldFont autorelease];
+    [I_italicFont autorelease];
+    [I_boldItalicFont autorelease];
     NSFontManager *manager=[NSFontManager sharedFontManager];
-    I_fonts.boldFont       = [[manager convertFont:I_fonts.plainFont toHaveTrait:NSBoldFontMask] retain];
-    I_fonts.italicFont     = [[manager convertFont:I_fonts.plainFont toHaveTrait:NSItalicFontMask] retain];
-    I_fonts.boldItalicFont = [[manager convertFont:I_fonts.boldFont  toHaveTrait:NSItalicFontMask] retain];
+    I_boldFont       = [[manager convertFont:I_plainFont toHaveTrait:NSBoldFontMask] retain];
+    I_italicFont     = [[manager convertFont:I_plainFont toHaveTrait:NSItalicFontMask] retain];
+    I_boldItalicFont = [[manager convertFont:I_boldFont  toHaveTrait:NSItalicFontMask] retain];
 }
 
 - (void)setPlainFont:(NSFont *)aFont {
@@ -113,8 +113,8 @@
     NSDictionary *syntaxStyle=[useDefaultStyle?[[DocumentModeManager baseMode] syntaxStyle]:[[self documentMode] syntaxStyle] styleForKey:SyntaxStyleBaseIdentifier];
 //    [self setDocumentBackgroundColor:[syntaxStyle objectForKey:darkBackground?@"inverted-background-color":@"background-color"]];
 //    [self setDocumentForegroundColor:[syntaxStyle objectForKey:darkBackground?@"inverted-color":@"color"]];
-    [I_fonts.plainFont autorelease];
-    I_fonts.plainFont = [aFont copy];
+    [I_plainFont autorelease];
+    I_plainFont = [aFont copy];
     [self TCM_styleFonts];
 }
 
@@ -122,13 +122,13 @@
 /*"A font trait mask of 0 returns the plain font, otherwise use NSBoldFontMask, NSItalicFontMask"*/
 - (NSFont *)fontWithTrait:(NSFontTraitMask)aFontTrait {
     if ((aFontTrait & NSBoldFontMask) && (aFontTrait & NSItalicFontMask)) {
-        return I_fonts.boldItalicFont;
+        return I_boldItalicFont;
     } else if (aFontTrait & NSItalicFontMask) {
-        return I_fonts.italicFont;
+        return I_italicFont;
     } else if (aFontTrait & NSBoldFontMask) {
-        return I_fonts.boldFont;
+        return I_boldFont;
     } else {
-        return I_fonts.plainFont;
+        return I_plainFont;
     }
 }
 

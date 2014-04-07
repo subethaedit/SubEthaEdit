@@ -1,14 +1,17 @@
+Changes with Version 4.0 (SEE 4.0)
+	*) SYNTAX: updated for syntax scopes
+	*) SYNTAX: markup cleanup
+	*) added ExampleSyntax.txt
+
 Changes with Version 3.5  (SEE 3.5)
 	 *) added code folding
 
 Changes with Version 1.3 (SEE 2.5.1)
-
     *) added un/comment lines 
     *) Fixing SEE-1097 (Java function-parsing doesn't work with fully qualified classes in the return type)
     *) fixed issue SEE-1040: "Check Syntax" script has same key shortcut as block edit by changing it to ctrl-command-b
 
-Changes with Version 1.2
-    
+Changes with Version 1.2    
     *) Added Scripts: Compile, Compile and Run in Terminal.
     *) Fixed SEE-239, SEE-354, SEE-373, SEE-966 by completely overhauling Java Symbol recognition.
     *) Adding DoxyGen Support to C,C++,Obj-C
@@ -16,5 +19,4 @@ Changes with Version 1.2
     *) Fixed SEE-912: Character Constants that aren't one digit wide aren't recognized propery.
     
 Changes with Version 1.1
-    
     *) EXTENSIONS: Added uppercase variants where appropriate.

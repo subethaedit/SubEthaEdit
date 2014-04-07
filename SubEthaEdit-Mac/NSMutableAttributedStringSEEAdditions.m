@@ -7,23 +7,20 @@
 //
 
 #import "NSMutableAttributedStringSEEAdditions.h"
-#ifndef TCM_ISSEED
-    #import <OgreKit/OgreKit.h>
-	#import "GeneralPreferences.h"
-	#import "SyntaxHighlighter.h"
-#endif
+#import <OgreKit/OgreKit.h>
+#import "GeneralPreferences.h"
+#import "SyntaxHighlighter.h"
 
 #ifdef SUBETHAEDIT
 	#import "TCMMMUserManager.h"
 	#import "TCMMMUser.h"
 	#import "TCMMMUserSEEAdditions.h"
-extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeName;
+extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeName, *SEESearchScopeAttributeName;
 #endif
 
 
 @implementation NSMutableAttributedString (NSMutableAttributedStringSEEAdditions) 
 
-#ifndef TCM_ISSEED
 - (NSRange)detab:(BOOL)shouldDetab inRange:(NSRange)aRange tabWidth:(int)aTabWidth askingTextView:(NSTextView *)aTextView {
     [self beginEditing];
 
@@ -37,10 +34,7 @@ extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeN
     
     if (shouldDetab) {
         NSArray *matches=[tabExpression allMatchesInString:[self string] range:aRange];
-        int i=0;
-        int count=[matches count];
-        for (i=0;i<count;i++) {
-            OGRegularExpressionMatch *match=[matches objectAtIndex:i];
+        for (OGRegularExpressionMatch *match in matches) {
             NSRange matchRange=[match rangeOfMatchedString];
             matchRange.location+=changeInLength;
             NSRange lineRange=[[self string] lineRangeForRange:matchRange];
@@ -90,9 +84,7 @@ extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeN
     [aTextView didChangeText];
     return aRange;
 }
-#endif
 
-#ifndef TCM_ISSEED
 - (void)makeLeadingWhitespaceNonBreaking {
     [self beginEditing];
     static NSString *hardspaceString=nil;
@@ -128,16 +120,13 @@ extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeN
     }
     [self endEditing];
 }
-#endif
 
 - (void)removeAttributes:(id)anObjectEnumerable range:(NSRange)aRange {
 	[self beginEditing];
-    NSEnumerator *attributeNames=[anObjectEnumerable objectEnumerator];
     id attributeName=nil;
-    while ((attributeName=[attributeNames nextObject])) {
-        [self removeAttribute:attributeName
-                        range:aRange];
-    }
+	for (attributeName in anObjectEnumerable) {
+        [self removeAttribute:attributeName range:aRange];
+	}
 	[self endEditing];
 }
 
@@ -182,15 +171,15 @@ extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeN
 
 - (int)blockChangeTextInRange:(NSRange)aRange replacementString:(NSString *)aReplacementString
            lineRange:(NSRange)aLineRange inTextView:(NSTextView *)aTextView tabWidth:(unsigned)aTabWidth useTabs:(BOOL)aUseTabs{
-    int lengthChange=0;
-    int tabWidth=aTabWidth;
+    NSInteger lengthChange=0;
+    NSInteger tabWidth=aTabWidth;
     NSMutableAttributedString *textStorage=self;
     NSRange aReplacementRange=aRange;
     NSString *string=[textStorage string];
     aReplacementRange.location+=aLineRange.location;
     // don't touch newlines
     {
-        unsigned lineEnd,contentsEnd;
+        NSUInteger lineEnd,contentsEnd;
         [[textStorage string]  getLineStart:nil 
                                         end:&lineEnd 
                                 contentsEnd:&contentsEnd 
@@ -409,6 +398,10 @@ extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeN
 
 - (NSDictionary *)attributeDictionaryByAddingStyleAttributesForInsertLocation:(unsigned int)inLocation toDictionary:(NSDictionary *)inBaseStyle
 {
+	static NSArray *attributeNamesToCopy = nil;
+	if (!attributeNamesToCopy) {
+		attributeNamesToCopy = [@[NSForegroundColorAttributeName,kSyntaxHighlightingFoldingDepthAttributeName,SEESearchScopeAttributeName] copy];
+	}
 	unsigned int length = [self length];
 	if (inLocation > length || inLocation < 1) return inBaseStyle; // do nothing if document is empty, or the proposed insertion point is beyond the current size
 	
@@ -419,18 +412,23 @@ extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeN
 	
 	// currently visual style means font and color so copy these
 	NSFont *font = [attributes objectForKey:NSFontAttributeName];
-	if (font && [[[resultDictionary objectForKey:NSFontAttributeName] familyName] isEqualToString:[font familyName]]) [resultDictionary setObject:font forKey:NSFontAttributeName];
-	NSColor *foregroundColor = [attributes objectForKey:NSForegroundColorAttributeName];
-	if (foregroundColor) [resultDictionary setObject:foregroundColor forKey:NSForegroundColorAttributeName];
-	NSNumber *foldingDepth = [attributes objectForKey:kSyntaxHighlightingFoldingDepthAttributeName];
-	if (foldingDepth) [resultDictionary setObject:foldingDepth forKey:kSyntaxHighlightingFoldingDepthAttributeName];
+	if (font && [[[resultDictionary objectForKey:NSFontAttributeName] familyName] isEqualToString:[font familyName]]) {
+		[resultDictionary setObject:font forKey:NSFontAttributeName];
+	}
 	
+	for (NSString *attributeName in attributeNamesToCopy) {
+		id value = attributes[attributeName];
+		if (value) {
+			resultDictionary[attributeName] = value;
+		}
+	}
+		
 	return resultDictionary;
 }
 
 
 - (BOOL)lastLineIsEmpty {
-    unsigned lineStartIndex, lineEndIndex;
+    NSUInteger lineStartIndex, lineEndIndex;
     [[self string] getLineStart:&lineStartIndex end:&lineEndIndex contentsEnd:NULL forRange:NSMakeRange([self length],0)];
     return lineStartIndex == lineEndIndex;
 }

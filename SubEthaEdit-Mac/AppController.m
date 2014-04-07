@@ -9,47 +9,38 @@
 #import <AddressBook/AddressBook.h>
 #import <Security/Security.h>
 #import <Carbon/Carbon.h>
-#if !defined(CODA)
-#import <HDCrashReporter/crashReporter.h>
-#endif //!defined(CODA)
 #import <TCMPortMapper/TCMPortMapper.h>
 
-#if defined(CODA)
-#import "AboutController.h"
-#endif //defined(CODA)
-
+#import "TCMFoundation.h"
 #import "TCMBEEP.h"
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "TCMMMUserSEEAdditions.h"
 #import "TCMMMSession.h"
 #import "AppController.h"
 #import "TCMPreferenceController.h"
-#import "ConnectionBrowserController.h"
 #import "PlainTextDocument.h"
 #import "UndoManager.h"
-#if !defined(CODA)
-#import "LicenseController.h"
-#endif //!defined(CODA)
 #import "GenericSASLProfile.h"
+
+#import "SEEConnectionManager.h"
+#import "SEEDocumentListWindowController.h"
 
 #import "AdvancedPreferences.h"
 #import "EditPreferences.h"
 #import "GeneralPreferences.h"
 #import "StylePreferences.h"
-#import "PrintPreferences.h"
 #import "PrecedencePreferences.h"
 
 #import "HandshakeProfile.h"
 #import "SessionProfile.h"
-#import "ServerManagementProfile.h"
 #import "DocumentModeManager.h"
-#import "DocumentController.h"
+#import "SEEDocumentController.h"
 #import "PlainTextEditor.h"
 #import "TextOperation.h"
 #import "SelectionOperation.h"
 #import "UserChangeOperation.h"
 #import "EncodingManager.h"
-#import "TextView.h"
+#import "SEETextView.h"
 
 #import "URLDataProtocol.h"
 
@@ -64,11 +55,8 @@
 #import "SESendProc.h"
 #import "SEActiveProc.h"
 
-#import "BacktracingException.h"
-
-#if !defined(CODA)
 #import "UserStatisticsController.h"
-#endif //!defined(CODA)
+#import "SEEStyleSheetEditorWindowController.h"
 
 #ifndef TCM_NO_DEBUG
 #import "Debug/DebugPreferences.h"
@@ -121,7 +109,7 @@ NSString * const GlobalScriptsDidReloadNotification = @"GlobalScriptsDidReloadNo
 
 
     
-@interface AppController (AppControllerPrivateAdditions)
+@interface AppController ()
 
 - (void)setupFileEncodingsSubmenu;
 - (void)setupScriptMenu;
@@ -142,7 +130,7 @@ static AppController *sharedInstance = nil;
 		[NSURLProtocol registerClass:[URLDataProtocol class]];
 		NSMutableDictionary *defaults = [NSMutableDictionary dictionary];
 		[defaults setObject:[NSNumber numberWithInt:SUBETHAEDIT_DEFAULT_PORT] forKey:DefaultPortNumber];
-		[defaults setObject:[NSNumber numberWithInt:10] forKey:@"NSRecentDocumentsLimit"];
+		[defaults setObject:[NSNumber numberWithInt:[[SEEDocumentController sharedDocumentController] maximumRecentDocumentCount]] forKey:@"NSRecentDocumentsLimit"];
 		[defaults setObject:[NSMutableArray array] forKey:AddressHistory];
 		[defaults setObject:[NSNumber numberWithBool:NO] forKey:ProhibitInboundInternetSessions];
 		[defaults setObject:[NSNumber numberWithDouble:60.] forKey:NetworkTimeoutPreferenceKey];
@@ -162,7 +150,6 @@ static AppController *sharedInstance = nil;
 		}
 		
 		//
-		[defaults setObject:[NSNumber numberWithBool:YES] forKey:@"DontSubmitAndRequestHistory"];
 		[defaults setObject:[NSNumber numberWithBool:YES] forKey:VisibilityPrefKey];
 		[defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentStateSaveAndLoadWindowPositionKey];
 		[defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentStateSaveAndLoadTabSettingKey 	  ];
@@ -174,27 +161,44 @@ static AppController *sharedInstance = nil;
 		[defaults setObject:[NSNumber numberWithBool:floor(NSAppKitVersionNumber) > 824.] forKey:@"SaveSeeTextPreview"];
 		[defaults setObject:[NSNumber numberWithBool:YES] forKey:ShouldAutomaticallyMapPort];
 
-		[defaults setObject:[NSNumber numberWithBool:YES] forKey:EnableTLSKey];
-		[defaults setObject:[NSNumber numberWithBool:YES] forKey:@"WebKitDeveloperExtras"];
-		[defaults setObject:[NSNumber numberWithBool:YES] forKey:UseTemporaryKeychainForTLSKey]; // if keychain bug arrives again, switch this to NO
+		[defaults setObject:[NSNumber numberWithBool:NO] forKey:EnableTLSKey];
+		[defaults setObject:[NSNumber numberWithBool:NO] forKey:UseTemporaryKeychainForTLSKey]; // no more temporary keychain in 10.6 and up builds
 		
-		[defaults setObject:[NSNumber numberWithBool:(floor(NSAppKitVersionNumber) > 824 /*NSAppKitVersionNumber10_4*/)] forKey:EnableAnonTLSKey];
+		[defaults setObject:[NSNumber numberWithBool:NO] forKey:EnableAnonTLSKey];
+		
+		NSDictionary* sequelProDefaults = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"PreferenceDefaults" ofType:@"plist"]];
+		
+		[defaults addEntriesFromDictionary:sequelProDefaults];
+		
 		[[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
 		
 		[[TCMMMTransformator sharedInstance] registerTransformationTarget:[TextOperation class] selector:@selector(transformTextOperation:serverTextOperation:) forOperationId:[TextOperation operationID] andOperationID:[TextOperation operationID]];
 		[[TCMMMTransformator sharedInstance] registerTransformationTarget:[SelectionOperation class] selector:@selector(transformOperation:serverOperation:) forOperationId:[SelectionOperation operationID] andOperationID:[TextOperation operationID]];
 		[UserChangeOperation class];
 		[TCMMMNoOperation class];
+        
 	}
 }
 
 + (AppController *)sharedInstance {
     return sharedInstance;
 }
+    
+- (id)init
+    {
+        self = [super init];
+        if (self) {
+#if BETA
+            [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"f6d8d69c0803df397e1a47872ffc2348" delegate:self];
+#else
+            [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"893da3588e5f78e26b48286f3b15e8d7" delegate:self];
+#endif
+        }
+        return self;
+    }
 
 - (void)awakeFromNib {
     sharedInstance = self;
-    I_lastShouldOpenUntitledFile = NO;
 }
 
 - (void)registerTransformers {
@@ -258,19 +262,49 @@ static AppController *sharedInstance = nil;
                 myName=NSFullUserName();
             }
             
-            ABMultiValue *emails=[meCard valueForProperty:kABEmailProperty];
+            ABMultiValue *emails = [meCard valueForProperty:kABEmailProperty];
             NSString *primaryIdentifier=[emails primaryIdentifier];
             if (primaryIdentifier) {
                 [defaults setObject:primaryIdentifier forKey:MyEmailIdentifierPreferenceKey];
                 myEmail=[emails valueAtIndex:[emails indexForIdentifier:primaryIdentifier]];
             }
 
-            ABMultiValue *aims=[meCard valueForProperty:kABAIMInstantProperty];
-            primaryIdentifier=[aims primaryIdentifier];
-            if (primaryIdentifier) {
-                [defaults setObject:primaryIdentifier forKey:MyAIMIdentifierPreferenceKey];
-                myAIM=[aims valueAtIndex:[aims indexForIdentifier:primaryIdentifier]];
-            }
+			// Find best matching default from Adressbook
+            ABMultiValue *instantMessageServices = [meCard valueForProperty:kABInstantMessageProperty];
+            primaryIdentifier = [instantMessageServices primaryIdentifier];
+            if (primaryIdentifier)
+            {
+                NSDictionary *primaryInstantMessageServiceDict = [instantMessageServices valueForIdentifier:primaryIdentifier];
+                if ([[primaryInstantMessageServiceDict objectForKey:kABInstantMessageServiceKey] isEqualToString:kABInstantMessageServiceAIM]) // Make sure primary service is AIM service
+                {
+                    [defaults setObject:primaryIdentifier forKey:MyAIMIdentifierPreferenceKey];
+					myAIM = [primaryInstantMessageServiceDict objectForKey:kABInstantMessageUsernameKey];
+				}
+                else
+                {
+                    for (NSString *instantMessageIdentifier in instantMessageServices) // if primary service was not AIM service
+                    {
+                        NSDictionary *instantMessageServiceDict = [instantMessageServices valueForIdentifier:instantMessageIdentifier];
+                        if ([[instantMessageServiceDict objectForKey:kABInstantMessageServiceKey] isEqualToString:kABInstantMessageServiceAIM])
+                        {
+                            [defaults setObject:instantMessageIdentifier forKey:MyAIMIdentifierPreferenceKey];
+                            myAIM = [instantMessageServiceDict objectForKey:kABInstantMessageUsernameKey];
+                        }
+                    }
+                }
+			}
+			else
+			{
+				for (NSString *instantMessageIdentifier in instantMessageServices)
+				{
+					NSDictionary *instantMessageServiceDict = [instantMessageServices valueForIdentifier:instantMessageIdentifier];
+					if ([[instantMessageServiceDict objectForKey:kABInstantMessageServiceKey] isEqualToString:kABInstantMessageServiceAIM])
+					{
+						[defaults setObject:instantMessageIdentifier forKey:MyAIMIdentifierPreferenceKey];
+						myAIM = [instantMessageServiceDict objectForKey:kABInstantMessageUsernameKey];
+					}
+				}
+			}
         } else {
             myName=NSFullUserName();
             myEmail=@"";
@@ -296,11 +330,11 @@ static AppController *sharedInstance = nil;
 
         NSString *identifier=[defaults stringForKey:MyAIMIdentifierPreferenceKey];
         if (identifier) {
-            ABMultiValue *aims=[meCard valueForProperty:kABAIMInstantProperty];
-            int index=[aims indexForIdentifier:identifier];
+            ABMultiValue *aims=[meCard valueForProperty:kABInstantMessageProperty];
+            NSUInteger index=[aims indexForIdentifier:identifier];
             if (index!=NSNotFound) {
                 if (![myAIM isEqualToString:[aims valueAtIndex:index]]) {
-                    myAIM=[aims valueAtIndex:index];
+                    myAIM=[[aims valueAtIndex:index] objectForKey:kABInstantMessageUsernameKey];
                     [defaults setObject:myAIM forKey:MyAIMPreferenceKey];
                 }
             }
@@ -309,7 +343,7 @@ static AppController *sharedInstance = nil;
         identifier=[defaults stringForKey:MyEmailIdentifierPreferenceKey];
         if (identifier) {
             ABMultiValue *emails=[meCard valueForProperty:kABEmailProperty];
-            int index=[emails indexForIdentifier:identifier];
+            NSUInteger index=[emails indexForIdentifier:identifier];
             if (index!=NSNotFound) {
                 if (![myEmail isEqualToString:[emails valueAtIndex:index]]) {
                     myEmail=[emails valueAtIndex:index];
@@ -335,13 +369,9 @@ static AppController *sharedInstance = nil;
         }
     }
 
-#if defined(CODA)
-	myImage=[[NSImage imageNamed:@"genericPerson"] copy];
-#else
     if (!myImage) {
         myImage=[[NSImage imageNamed:@"DefaultPerson"] retain];
     }
-#endif //defined(CODA)
 
     if (!myEmail) myEmail=@"";
     if (!myAIM)   myAIM  =@"";
@@ -382,29 +412,26 @@ static AppController *sharedInstance = nil;
     // prepare images
     NSImage *image = [[[NSImage imageNamed:@"UnknownPerson"] resizedImageWithSize:NSMakeSize(32.0, 32.0)] retain];
     [image setName:@"UnknownPerson32"];
+	[image release];
 
     image = [[[NSImage imageNamed:@"DefaultPerson"] resizedImageWithSize:NSMakeSize(32.0, 32.0)] retain];
     [image setName:@"DefaultPerson32"];
+	[image release];
     
     image = [[[NSImage imageNamed:@"Rendezvous"] resizedImageWithSize:NSMakeSize(13.0, 13.0)] retain];
     [image setName:@"Rendezvous13"];
+	[image release];
 
-//    image = [[[NSImage imageNamed:@"Internet"] resizedImageWithSize:NSMakeSize(13.0, 13.0)] retain];
-//    [image setName:@"Internet13"];
-
-//    image = [[[NSImage imageNamed:@"ssllock"] resizedImageWithSize:NSMakeSize(16.0, 16.0)] retain];
-    image = [NSImage imageNamed:@"ssllock"];
+    image = [[NSImage imageNamed:@"ssllock"] retain];
     [image setName:@"ssllock18"];
-    
-    
-    //#warning "Termination has to be removed before release!"
+	[image release];
+
+    // FIXME "Termination has to be removed before release!"
     //if ([[NSDate dateWithString:@"2007-02-21 12:00:00 +0000"] timeIntervalSinceNow] < 0) {
     //    [NSApp terminate:self];
     //    return;
     //}
     
-    
-
     [NSScriptSuiteRegistry sharedScriptSuiteRegistry];
     
     [[NSScriptCoercionHandler sharedCoercionHandler] registerCoercer:[DocumentMode class]
@@ -416,7 +443,6 @@ static AppController *sharedInstance = nil;
     [self addMe];
     [[TCMPortMapper sharedInstance] hashUserID:[TCMMMUserManager myUserID]];
 
-    [BacktracingException install];
     [self setupFileEncodingsSubmenu];
     [self setupDocumentModeSubmenu];
     [self setupScriptMenu];
@@ -429,7 +455,6 @@ static AppController *sharedInstance = nil;
     [TCMPreferenceController registerPrefModule:editPrefs];
     [TCMPreferenceController registerPrefModule:[[StylePreferences new] autorelease]];
     [TCMPreferenceController registerPrefModule:[[PrecedencePreferences new] autorelease]];
-    [TCMPreferenceController registerPrefModule:[[PrintPreferences new] autorelease]];
     [TCMPreferenceController registerPrefModule:[[AdvancedPreferences new] autorelease]];
     
 #ifndef TCM_NO_DEBUG
@@ -444,10 +469,11 @@ static AppController *sharedInstance = nil;
                                                         andEventID:kMOD];
                                                                                                                 
     [self setupTextViewContextMenu];
-    [NSApp setServicesProvider:[DocumentController sharedDocumentController]];
-    [[DocumentController sharedDocumentController] setAutosavingDelay:[[NSUserDefaults standardUserDefaults] floatForKey:@"AutoSavingDelay"]];
+    [NSApp setServicesProvider:[SEEDocumentController sharedDocumentController]];
+    [[SEEDocumentController sharedDocumentController] setAutosavingDelay:[[NSUserDefaults standardUserDefaults] floatForKey:@"AutoSavingDelay"]];
 }
-
+    
+#ifndef __clang_analyzer__
 static OSStatus AuthorizationRightSetWithWorkaround(
     AuthorizationRef    authRef,
     const char *        rightName,
@@ -515,6 +541,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 
     return err;
 }
+#endif
 
 - (void)setupAuthorization {
     OSStatus err = noErr;
@@ -545,8 +572,10 @@ static OSStatus AuthorizationRightSetWithWorkaround(
             );
                     
             if (err != noErr) {
-                DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Could not create default right (%ld)", err);
+                DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Could not create default right (%d)", (SInt32)err);
+#if SPF_DEAD_CODE
                 err = noErr;
+#endif
             }
         }
     }
@@ -556,53 +585,13 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     }
 }
 
-#if !defined(CODA)
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // this is actually after the opening of the first untitled document window!
-
-    if ([LicenseController shouldRun]) {
-        int daysLeft = [LicenseController daysLeft];
-        BOOL isExpired = daysLeft < 1;
-
-        NSAlert *alert = [[NSAlert alloc] init];
-        [alert setAlertStyle:NSInformationalAlertStyle];
-        if (isExpired) {
-            [alert setMessageText:NSLocalizedString(@"Please purchase SubEthaEdit today!", nil)];
-            [alert setInformativeText:NSLocalizedString(@"Your 30-day SubEthaEdit trial has expired. If you want to continue to use SubEthaEdit please purchase it and enter your serial number.", nil)];
-        } else {
-            [alert setMessageText:NSLocalizedString(@"Try SubEthaEdit!", nil)];
-            [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"Your SubEthaEdit trial expires in %d days. If you like SubEthaEdit please purchase it.", nil), daysLeft]];        
-        }
-        [alert addButtonWithTitle:NSLocalizedString(@"Purchase", nil)];
-        if (isExpired) {
-            [alert addButtonWithTitle:NSLocalizedString(@"Quit", nil)];
-        } else {
-            [alert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
-        }
-        [alert addButtonWithTitle:NSLocalizedString(@"Enter Serial Number", nil)];
-
-        int result = [alert runModal];
-        [alert release];
-        if (result == NSAlertFirstButtonReturn) {
-            [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedString(@"http://www.subethaedit.net/purchase.html",@"Purchase Link")]];
-            if (isExpired) {
-                [NSApp terminate:self];
-            }
-        } else if (result == NSAlertSecondButtonReturn) {
-            if (isExpired) {
-                [NSApp terminate:self];
-            }
-        } else if (result == NSAlertThirdButtonReturn) {
-            LicenseController *licenseController = [LicenseController sharedInstance];
-            (int)[NSApp runModalForWindow:[licenseController window]];
-        }
-    }
     
     // set up beep profiles
     [TCMBEEPChannel setClass:[HandshakeProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake"];    
     [TCMBEEPChannel setClass:[TCMMMStatusProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"];
     [TCMBEEPChannel setClass:[SessionProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"];
-    [TCMBEEPChannel setClass:[ServerManagementProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SeedManagement"];
     [TCMBEEPChannel setClass:[GenericSASLProfile class] forProfileURI:TCMBEEPSASLPLAINProfileURI];
     // set up listening for is ready notificaiton
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sessionManagerIsReady:) name:TCMMMBEEPSessionManagerIsReadyNotification object:nil];
@@ -617,21 +606,18 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"          forGreetingInMode:kTCMMMBEEPSessionManagerTLSMode];
     [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"   forGreetingInMode:kTCMMMBEEPSessionManagerTLSMode];
 
+	[SEEConnectionManager sharedInstance];
     [[TCMMMPresenceManager sharedInstance] startRendezvousBrowsing];
-
-    [ConnectionBrowserController sharedInstance];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateApplicationIcon) name:TCMMMSessionPendingInvitationsDidChange object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateApplicationIcon) name:TCMMMSessionPendingUsersDidChangeNotification object:nil];
 
     [self setupAuthorization];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(documentModeListDidChange:) name:@"DocumentModeListChanged" object:nil];
-    
-    if ([HDCrashReporter newCrashLogExists]) {
-        [HDCrashReporter doCrashSubmitting];
-    }
+
+	// start crash reporting
+    [[BITHockeyManager sharedHockeyManager] startManager];
 }
-#endif //!defined(CODA)
 
 - (void)sessionManagerIsReady:(NSNotification *)aNotification {
     [[TCMMMBEEPSessionManager sharedInstance] listen];
@@ -646,11 +632,6 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     [[TCMMMPresenceManager sharedInstance] setVisible:NO]; // will validate so listening so has to be before stopping listening
     [[TCMMMBEEPSessionManager sharedInstance] stopListening];    
     [[TCMMMPresenceManager sharedInstance] stopRendezvousBrowsing];
-
-	BOOL useTemporaryKeychain = [[NSUserDefaults standardUserDefaults] boolForKey:UseTemporaryKeychainForTLSKey];
-	if (useTemporaryKeychain) {
-	    [TCMBEEPSession removeTemporaryKeychain];
-	}
 }
 
 - (void)updateApplicationIcon {
@@ -683,41 +664,32 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     NSEnumerator      *documents=[[[NSDocumentController sharedDocumentController] documents] objectEnumerator];
     PlainTextDocument *document = nil;
     while ((document=[documents nextObject])) {
-        badgeCount += [[[document session] pendingUsers] count];
-        if ([document isPendingInvitation]) {
-            badgeCount++;
-        }
+		if ([document isKindOfClass:[PlainTextDocument class]]) {
+			badgeCount += [[[document session] pendingUsers] count];
+			if ([document isPendingInvitation]) {
+				badgeCount++;
+			}
+		}
     }
 
     if (badgeCount == 0) {
         newAppImage = appImage;
     } else {
-        
-        newAppImage      = [[[NSImage alloc] initWithSize:[appImage size]] autorelease];
-        
-        NSImage *badgeImage = [NSImage imageNamed:(badgeCount >= 100)?@"InvitationBadge3":@"InvitationBadge1-2"];
-        
-        NSRect badgeRect = NSZeroRect;
-        badgeRect.size = [badgeImage size];
-//        badgeRect.origin.x = [newAppImage size].width / 16.;
-        badgeRect.origin.y = [newAppImage size].height - badgeRect.size.height - badgeRect.origin.x;
-        
-        // Draw into the new image (the badged image)
-        [newAppImage lockFocus];
+		newAppImage = [NSImage imageWithSize:[appImage size] flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
+			NSImage *badgeImage = [NSImage imageNamed:(badgeCount >= 100)?@"InvitationBadge3":@"InvitationBadge1-2"];
+			NSRect badgeRect = NSZeroRect;
+			badgeRect.size = [badgeImage size];
+			badgeRect.origin.y = dstRect.size.height - badgeRect.size.height;
 
-        // First draw the unmodified app image.
-        [appImage drawInRect:NSMakeRect(0, 0, [newAppImage size].width, [newAppImage size].height)
-                           fromRect:NSMakeRect(0, 0, [appImage size].width, [appImage size].height)
-                          operation:NSCompositeCopy
-                           fraction:1.0];
+			[appImage drawInRect:dstRect fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
+			[badgeImage drawInRect:badgeRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
 
-        [badgeImage drawInRect:badgeRect fromRect:NSMakeRect(0.,0.,badgeRect.size.width,badgeRect.size.height) operation:NSCompositeSourceOver fraction:1.0];
-        
-        NSString *badgeString = [NSString stringWithFormat:@"%d", badgeCount];
-        NSSize stringSize = [badgeString sizeWithAttributes:s_attributes];
-        [badgeString drawAtPoint:NSMakePoint(NSMidX(badgeRect)-stringSize.width/2., NSMidY(badgeRect)-stringSize.height/2.+1.) withAttributes:s_attributes];
-    
-        [newAppImage unlockFocus];
+			NSString *badgeString = [NSString stringWithFormat:@"%d", badgeCount];
+			NSSize stringSize = [badgeString sizeWithAttributes:s_attributes];
+			[badgeString drawAtPoint:NSMakePoint(NSMidX(badgeRect)-stringSize.width/2., NSMidY(badgeRect)-stringSize.height/2.+1.) withAttributes:s_attributes];
+
+			return YES;
+		}];
     }
 
     [NSApp setApplicationIconImage:newAppImage];
@@ -725,30 +697,32 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)theApplication {
     BOOL result = [[[NSUserDefaults standardUserDefaults] objectForKey:OpenDocumentOnStartPreferenceKey] boolValue];
-    I_lastShouldOpenUntitledFile = result;
     return result;
 }
 
-- (BOOL)lastShouldOpenUntitledFile {
-    return I_lastShouldOpenUntitledFile;
+- (BOOL)applicationOpenUntitledFile:(NSApplication *)sender {
+	[[SEEDocumentController sharedDocumentController] showDocumentListWindow:sender];
+	return YES; // Avoids Untitled Document path of DocumentController
 }
 
 - (NSMenu *)applicationDockMenu:(NSApplication *)sender {
     static NSMenu *dockMenu=nil;
     if (!dockMenu) {
         dockMenu=[NSMenu new];
+		
         NSMenuItem *item=[[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"New File",@"New File Dock Menu Item") action:@selector(newDocument:) keyEquivalent:@""] autorelease];
         DocumentModeMenu *menu=[[DocumentModeMenu new] autorelease];
         [dockMenu addItem:item];
         [item setSubmenu:menu];
-        [item setTarget:[DocumentController sharedDocumentController]];
+        [item setTarget:[SEEDocumentController sharedDocumentController]];
         [item setAction:@selector(newDocumentFromDock:)];
         [menu configureWithAction:@selector(newDocumentWithModeMenuItemFromDock:) alternateDisplay:NO];
-        item=[[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Open File...",@"Open File Dock Menu Item") action:@selector(openDocument:) keyEquivalent:@""] autorelease];
+
+        item=[[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Open File...",@"Open File Dock Menu Item") action:@selector(openNormalDocument:) keyEquivalent:@""] autorelease];
         [dockMenu addItem:item];
         item = [[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"All Tabs",@"all tabs Dock Menu Item") action:NULL keyEquivalent:@""] autorelease];
         [item setSubmenu:[[NSMenu new] autorelease]];
-        [item setTarget:[DocumentController sharedDocumentController]];
+        [item setTarget:[SEEDocumentController sharedDocumentController]];
         [item setAction:@selector(menuValidationNoneAction:)];
         [item setTag:GotoTabMenuItemTag];
         [dockMenu addItem:item];
@@ -756,13 +730,12 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     return dockMenu;
 }
 
-
 - (IBAction)showModeBundleContents:(id)aSender {
-    DocumentModeManager *modeManager=[DocumentModeManager sharedInstance];
-    NSString *identifier=[modeManager documentModeIdentifierForTag:[aSender tag]];
-    if (identifier) {
-        DocumentMode *newMode=[modeManager documentModeForIdentifier:identifier];
-        [[NSWorkspace sharedWorkspace] selectFile:[[newMode bundle] resourcePath] inFileViewerRootedAtPath:nil];
+    DocumentModeManager *modeManager = [DocumentModeManager sharedInstance];
+    NSString *modeIdentifier = [modeManager documentModeIdentifierForTag:[aSender tag]];
+    if (modeIdentifier) {
+		DocumentMode *mode = [modeManager documentModeForIdentifier:modeIdentifier];
+		[modeManager revealModeInFinder:mode];
     }
 }
 
@@ -808,40 +781,52 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     DEBUGLOG(@"SyntaxHighlighterDomain", SimpleLogLevel, @"%@",[[DocumentModeManager sharedInstance] description]);
     DEBUGLOG(@"SyntaxHighlighterDomain", SimpleLogLevel, @"Found modes: %@",[[[DocumentModeManager sharedInstance] availableModes] description]);
 
-    NSMenu *modeMenu=[[[NSApp mainMenu] itemWithTag:ModeMenuTag] submenu];
-    NSMenuItem *switchModesMenuItem=[modeMenu itemWithTag:SwitchModeMenuTag];
+    NSMenu *modeMenu = [[[NSApp mainMenu] itemWithTag:ModeMenuTag] submenu];
 
-    DocumentModeMenu *menu=[[DocumentModeMenu new] autorelease];
-    [switchModesMenuItem setSubmenu:menu];
-    [menu configureWithAction:@selector(chooseMode:) alternateDisplay:NO];
+	NSMenuItem *switchModesMenuItem = ({ // Mode -> Switch Mode
+		NSMenuItem *menuItem = [modeMenu itemWithTag:SwitchModeMenuTag]; // from the xib
 
-    NSMenuItem *menuItem =[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Reveal in Finder",@"Reveal in Finder - menu entry")
-                                                     action:nil
-                                              keyEquivalent:@""];
-    [menuItem setAlternate:YES];
-    [menuItem setKeyEquivalentModifierMask:NSAlternateKeyMask];
-    menu=[[DocumentModeMenu new] autorelease];
-    [menuItem setSubmenu:menu];
-    [menu configureWithAction:@selector(showModeBundleContents:) alternateDisplay:YES];
-    [modeMenu insertItem:menuItem atIndex:[modeMenu indexOfItem:switchModesMenuItem]+1];
-    [menuItem release];
+		DocumentModeMenu *documentModeMenu = [[DocumentModeMenu new] autorelease];
+		[documentModeMenu configureWithAction:@selector(chooseMode:) alternateDisplay:NO];
+		[menuItem setSubmenu:documentModeMenu];
+		menuItem;
+	});
 
-    // Setup File -> New submenu
-    menu=[[DocumentModeMenu new] autorelease];
-    NSMenu *fileMenu=[[[NSApp mainMenu] itemWithTag:FileMenuTag] submenu];
-    NSMenuItem *fileNewMenuItem=[fileMenu itemWithTag:FileNewMenuItemTag];
-    [fileNewMenuItem setSubmenu:menu];
-    [fileNewMenuItem setKeyEquivalent:@""];
-    [menu configureWithAction:@selector(newDocumentWithModeMenuItem:) alternateDisplay:NO];
-    [self addShortcutToModeForNewDocumentsEntry];
+	NSMenuItem *revealModesMenuItem = ({ // Mode -> Show In Finder (ALT)
+		NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Reveal in Finder",@"Reveal in Finder - menu entry") action:nil keyEquivalent:@""];
+		[menuItem setAlternate:YES];
+		[menuItem setKeyEquivalentModifierMask:NSAlternateKeyMask];
+		
+		DocumentModeMenu *documentModeMenu = [[DocumentModeMenu new] autorelease];
+		[documentModeMenu configureWithAction:@selector(showModeBundleContents:) alternateDisplay:YES];
+		[menuItem setSubmenu:documentModeMenu];
+		menuItem;
+	});
+    [modeMenu insertItem:revealModesMenuItem atIndex:[modeMenu indexOfItem:switchModesMenuItem]+1];
+    [revealModesMenuItem release];
+
+	NSMenu *fileMenu = [[[NSApp mainMenu] itemWithTag:FileMenuTag] submenu]; // from the xib
+	{ // File -> New
+		NSMenuItem *menuItem = [fileMenu itemWithTag:FileNewMenuItemTag]; // from the xib
+		[menuItem setKeyEquivalent:@""];
+
+		DocumentModeMenu *documentModeMenu = [[DocumentModeMenu new] autorelease];
+		[documentModeMenu configureWithAction:@selector(newDocumentWithModeMenuItem:) alternateDisplay:NO];
+		[menuItem setSubmenu:documentModeMenu];
+		
+		[self addShortcutToModeForNewDocumentsEntry];
+	}
     
-    // Setup File -> New (alternate) submenu
-    menu = [[[DocumentModeMenu alloc] init] autorelease];
-    NSMenuItem *fileNewAlternateMenuItem = [fileMenu itemWithTag:FileNewAlternateMenuItemTag];
-    [fileNewAlternateMenuItem setSubmenu:menu];
-    [fileNewAlternateMenuItem setKeyEquivalent:@""];
-    [menu configureWithAction:@selector(newAlternateDocumentWithModeMenuItem:) alternateDisplay:NO];
-    [self addShortcutToModeForNewAlternateDocumentsEntry];
+	{ // File -> New in tab
+		NSMenuItem *menuItem = [fileMenu itemWithTag:FileNewAlternateMenuItemTag]; // from the xib
+		[menuItem setKeyEquivalent:@""];
+		
+		DocumentModeMenu *documentModeMenu = [[DocumentModeMenu new] autorelease];
+		[documentModeMenu configureWithAction:@selector(newAlternateDocumentWithModeMenuItem:) alternateDisplay:NO];
+		[menuItem setSubmenu:documentModeMenu];
+
+		[self addShortcutToModeForNewAlternateDocumentsEntry];
+	}
 }
 
 - (void)setupFileEncodingsSubmenu {
@@ -854,9 +839,6 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     [fileEncodingsSubmenu configureWithAction:@selector(selectEncoding:)];
 }
 
-#define SCRIPTPATHCOMPONENT @"Application Support/SubEthaEdit/Scripts"
-#define SCRIPTMENUTAGBASE   7000
-
 - (void)reloadScriptMenu {
     NSMenu *scriptMenu=[[[NSApp mainMenu] itemWithTag:ScriptMenuTag] submenu];
     while ([scriptMenu numberOfItems]) {
@@ -867,74 +849,57 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     
     // load scripts and do stuff
     [I_scriptsByFilename release];
-     I_scriptsByFilename = [NSMutableDictionary new];
-
+    I_scriptsByFilename = [NSMutableDictionary new];
+    
     [I_contextMenuItemArray release];
-     I_contextMenuItemArray = [NSMutableArray new];
-
+    I_contextMenuItemArray = [NSMutableArray new];
+    
     [I_toolbarItemIdentifiers release];
-     I_toolbarItemIdentifiers = [NSMutableArray new];
+    I_toolbarItemIdentifiers = [NSMutableArray new];
+    
     [I_defaultToolbarItemIdentifiers release];
-     I_defaultToolbarItemIdentifiers = [NSMutableArray new];
+    I_defaultToolbarItemIdentifiers = [NSMutableArray new];
+    
     [I_toolbarItemsByIdentifier release];
-     I_toolbarItemsByIdentifier = [NSMutableDictionary new];
-
-    NSString *file;
-    NSString *path;
+    I_toolbarItemsByIdentifier = [NSMutableDictionary new];
     
     // make sure Basic directories have been created
     [DocumentModeManager sharedInstance];
-
-    //create Directories
-    NSArray *userDomainPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-    NSEnumerator *enumerator = [userDomainPaths objectEnumerator];
-    while ((path = [enumerator nextObject])) {
-        NSString *fullPath = [path stringByAppendingPathComponent:SCRIPTPATHCOMPONENT];
-        if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:nil]) {
-            [[NSFileManager defaultManager] createDirectoryAtPath:fullPath attributes:nil];
-        }
+    
+	NSArray *scriptURLs = nil;
+    NSURL *userScriptsDirectory = [[NSFileManager defaultManager] URLForDirectory:NSApplicationScriptsDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:YES error:nil];
+	if (userScriptsDirectory) {
+		scriptURLs = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:userScriptsDirectory includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles error:nil];
+		for (NSURL *scriptURL in scriptURLs)
+		{
+			ScriptWrapper *script = [ScriptWrapper scriptWrapperWithContentsOfURL:scriptURL];
+			if (script) {
+				[I_scriptsByFilename setObject:script forKey:[[[scriptURL path] stringByStandardizingPath] stringByDeletingPathExtension]];
+			}
+		}
     }
-
-    // collect all directories
-    NSMutableArray *allPaths = [NSMutableArray array];
-    NSArray *allDomainsPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, YES);
-    enumerator = [allDomainsPaths objectEnumerator];
-    while ((path = [enumerator nextObject])) {
-        [allPaths addObject:[path stringByAppendingPathComponent:SCRIPTPATHCOMPONENT]];
+    NSURL *applicationScriptsDirectory = [[[NSBundle mainBundle] resourceURL] URLByAppendingPathComponent:@"Scripts"];
+    scriptURLs = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:applicationScriptsDirectory includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles error:nil];
+    for (NSURL *scriptURL in scriptURLs)
+    {
+        ScriptWrapper *script = [ScriptWrapper scriptWrapperWithContentsOfURL:scriptURL];
+        if (script) {
+            [I_scriptsByFilename setObject:script forKey:[[[scriptURL path] stringByStandardizingPath] stringByDeletingPathExtension]];
+        }
     }
     
-    [allPaths addObject:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Scripts/"]];
-
-    // iterate over all directories
-
-    enumerator = [allPaths reverseObjectEnumerator];
-    while ((path = [enumerator nextObject])) {
-        NSEnumerator *dirEnumerator = [[[NSFileManager defaultManager] directoryContentsAtPath:path] objectEnumerator];
-        while ((file = [dirEnumerator nextObject])) {
-            // skip hidden files and directory entries
-            if (![file hasPrefix:@"."]) {
-                ScriptWrapper *script = [ScriptWrapper scriptWrapperWithContentsOfURL:[NSURL fileURLWithPath:[path stringByAppendingPathComponent:file]]];
-                if (script) {
-                    [I_scriptsByFilename setObject:script forKey:[file stringByDeletingPathExtension]];
-                }
-            }
-        }
-    }
-
     [I_scriptOrderArray release];
-     I_scriptOrderArray = [[[I_scriptsByFilename allKeys] sortedArrayUsingSelector:@selector(compare:)] retain];
-        
-    int i=0;
-    for (i=0;i<[I_scriptOrderArray count];i++) {
-        NSString *filename = [I_scriptOrderArray objectAtIndex:i];
-        ScriptWrapper *script=[I_scriptsByFilename objectForKey:[I_scriptOrderArray objectAtIndex:i]];
+    I_scriptOrderArray = [[[I_scriptsByFilename allKeys] sortedArrayUsingSelector:@selector(compare:)] mutableCopy];
+    
+    for (NSString *filename in I_scriptOrderArray) {
+        ScriptWrapper *script=[I_scriptsByFilename objectForKey:filename];
         NSDictionary *settingsDictionary = [script settingsDictionary];
         NSString *displayName = filename;
         if (settingsDictionary && [settingsDictionary objectForKey:ScriptWrapperDisplayNameSettingsKey]) {
             displayName = [settingsDictionary objectForKey:ScriptWrapperDisplayNameSettingsKey];
         }
         NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:displayName
-                                                      action:@selector(performScriptAction:) 
+                                                      action:@selector(performScriptAction:)
                                                keyEquivalent:@""];
         [item setTarget:script];
         if (settingsDictionary) {
@@ -944,7 +909,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
             }
         }
         [scriptMenu addItem:[item autorelease]];
-
+        
         NSToolbarItem *toolbarItem = [script toolbarItemWithImageSearchLocations:[NSArray arrayWithObjects:[[[script URL] path] stringByDeletingLastPathComponent],[NSBundle mainBundle],nil] identifierAddition:@"Application"];
         
         if (toolbarItem) {
@@ -958,11 +923,11 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     // add final entries
     [scriptMenu addItem:[NSMenuItem separatorItem]];
     item=[[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Reload Scripts", @"Reload Scripts MenuItem in Script Menu")
-                              action:@selector(reloadScriptMenu) keyEquivalent:@""] autorelease];
+                                     action:@selector(reloadScriptMenu) keyEquivalent:@""] autorelease];
     [item setTarget:self];
     [scriptMenu addItem:item];
     item=[[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Open Script Folder", @"Open Script Folder MenuItem in Script Menu")
-                              action:@selector(showScriptFolder:) keyEquivalent:@""] autorelease];
+                                     action:@selector(showScriptFolder:) keyEquivalent:@""] autorelease];
     [item setTarget:self];
     [scriptMenu addItem:item];
     
@@ -972,7 +937,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 - (void)reportAppleScriptError:(NSDictionary *)anErrorDictionary {
     NSAlert *newAlert = [[[NSAlert alloc] init] autorelease];
     [newAlert setAlertStyle:NSCriticalAlertStyle];
-    [newAlert setMessageText:[anErrorDictionary objectForKey:@"NSAppleScriptErrorBriefMessage"]];
+    [newAlert setMessageText:[anErrorDictionary objectForKey:@"NSAppleScriptErrorBriefMessage"] ? [anErrorDictionary objectForKey:@"NSAppleScriptErrorBriefMessage"] : @"Unknown AppleScript Error"];
     [newAlert setInformativeText:[NSString stringWithFormat:@"%@ (%d)", [anErrorDictionary objectForKey:@"NSAppleScriptErrorMessage"], [[anErrorDictionary objectForKey:@"NSAppleScriptErrorNumber"] intValue]]];
     [newAlert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
     NSWindow *alertWindow=nil;
@@ -986,14 +951,8 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 
 - (IBAction)showScriptFolder:(id)aSender {
     //create Directories
-    NSArray *userDomainPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-    NSEnumerator *enumerator = [userDomainPaths objectEnumerator];
-    NSString *path = nil;
-    while ((path = [enumerator nextObject])) {
-        NSString *fullPath = [path stringByAppendingPathComponent:SCRIPTPATHCOMPONENT];
-        [[NSWorkspace sharedWorkspace] openURL:[NSURL fileURLWithPath:fullPath]];
-        return;
-    }
+    NSURL *userScriptsDirectory = [[NSFileManager defaultManager] URLForDirectory:NSApplicationScriptsDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:YES error:nil];
+    [[NSWorkspace sharedWorkspace] openURL:userScriptsDirectory];
 }
 
 - (void)setupScriptMenu {
@@ -1043,7 +1002,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     [defaultMenu addItem:[[(NSMenuItem *)[EditMenu itemWithTag:TransformationsMenuItemTag] copy] autorelease]];
     [defaultMenu addItem:[[(NSMenuItem *)[EditMenu itemWithTag:SpeechMenuItemTag] copy] autorelease]];
 //    NSLog(@"%s default menu:%@",__FUNCTION__,defaultMenu);
-    [TextView setDefaultMenu:defaultMenu];
+    [SEETextView setDefaultMenu:defaultMenu];
 }
 
 - (NSArray *)contextMenuItemArray {
@@ -1055,57 +1014,41 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     [menu update];
     return NO;
 }
+    
+#pragma mark - BITHockeyManagerDelegate
 
-#if defined(CODA)
-- (void)showAboutBox:(id)sender
+// needs to be implemente because its required by the protocol
+- (void) showMainApplicationWindowForCrashManager:(BITCrashManager *)crashManager
 {
-	// Create the AboutController if it doesn't already exist
-
-	if ( !aboutController )
-		aboutController = [[AboutController alloc] init];
-
-	// Show window if it is hidden, or vice-versa
-
-	if ( ![[aboutController window] isVisible] )
-		[aboutController showWindow:self];
-	else
-		[[aboutController window] makeKeyAndOrderFront:self];
 }
-#endif //defined(CODA)
 
-#pragma mark ### IBActions ###
+
+#pragma mark - IBActions
 
 - (IBAction)undo:(id)aSender {
     id document=[[NSDocumentController sharedDocumentController] currentDocument];
-    if (document) {
+    if (document && [document isKindOfClass:[PlainTextDocument class]]) {
         [document undo:aSender];
     } else {
-        NSUndoManager *undoManager=[[[NSApp mainWindow] delegate] undoManager];
+        NSUndoManager *undoManager=[(id)[[NSApp mainWindow] delegate] undoManager];
         [undoManager undo];
     }
 }
 
 - (IBAction)redo:(id)aSender {
     id document=[[NSDocumentController sharedDocumentController] currentDocument];
-    if (document) {
+    if (document && [document isKindOfClass:[PlainTextDocument class]]) {
         [document redo:aSender];
     } else {
-        NSUndoManager *undoManager=[[[NSApp mainWindow] delegate] undoManager];
+        NSUndoManager *undoManager=[(id)[[NSApp mainWindow] delegate] undoManager];
         [undoManager redo];
     }
-}
-
-- (IBAction)enterSerialNumber:(id)sender {
-#if !defined(CODA)
-    [[LicenseController sharedInstance] showWindow:self];
-#endif //!defined(CODA)
 }
 
 - (IBAction)reloadDocumentModes:(id)aSender {
     [[DocumentModeManager sharedInstance] reloadDocumentModes:aSender];
 }
 
-#if !defined(CODA)
 - (IBAction)showUserStatisticsWindow:(id)aSender {
     static UserStatisticsController *uc = nil;
     if (!uc) uc = [UserStatisticsController new];
@@ -1115,36 +1058,30 @@ static OSStatus AuthorizationRightSetWithWorkaround(
         [[uc window] performClose:self];
     }
 }
-#endif //!defined(CODA)
 
-
-#pragma mark -
-#pragma mark ### Toolbar ###
-
-- (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdentifier willBeInsertedIntoToolbar:(BOOL)willBeInserted {
-    return [[[I_toolbarItemsByIdentifier objectForKey:itemIdentifier] copy] autorelease];
+- (IBAction)showStyleSheetEditorWindow:(id)aSender {
+    static SEEStyleSheetEditorWindowController *editorWindowController = nil;
+    if (!editorWindowController) {
+		editorWindowController = [SEEStyleSheetEditorWindowController new];
+	}
+    if (![[editorWindowController window] isVisible]) {
+		[editorWindowController showWindow:aSender];
+    } else {
+		[[editorWindowController window] performClose:self];
+    }
 }
 
-- (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar {
-    return I_toolbarItemIdentifiers;
-}
-
-- (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar {
-    return I_defaultToolbarItemIdentifiers;
-}
-
-#pragma mark -
-#pragma mark ### Menu validation ###
+#pragma mark - Menu validation
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
     SEL selector = [menuItem action];
     
     id undoManager = nil;
     PlainTextDocument *currentDocument = [[NSDocumentController sharedDocumentController] currentDocument];
-    if (currentDocument) {
+    if (currentDocument && [currentDocument isKindOfClass:[PlainTextDocument class]]) {
         undoManager = [currentDocument documentUndoManager];
     } else {
-        undoManager = [[[NSApp mainWindow] delegate] undoManager];
+        undoManager = [(id)[[NSApp mainWindow] delegate] undoManager];
     }
     
     if (selector == @selector(undo:)) {
@@ -1157,12 +1094,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
         if (title == nil) title = NSLocalizedString(@"&Redo", nil);
         [menuItem setTitle:title];
         return [undoManager canRedo];
-    } 
-#if !defined(CODA)
-	else if (selector == @selector(enterSerialNumber:) || selector == @selector(purchaseSubEthaEdit:)) {
-        return [LicenseController shouldRun];
     }
-#endif //!defined(CODA)	
     return YES;
 }
 
@@ -1220,21 +1152,12 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedString(@"http://www.subethaedit.net/modes.html",@"WebSite Mode Link")]];
 }
 
-- (IBAction)gotoDocumentation:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedString(@"http://www.codingmonkeys.de/subethaedit/documentation",@"Documentation Web Link")]];
-}
-
-
 - (IBAction)reportBug:(id)sender {
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:NSLocalizedString(@"http://www.subethaedit.net/bugs/?version=%@",@"BugTracker Deep Link"),[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]]]];
 }
 
 - (IBAction)provideFeedback:(id)sender {
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedString(@"http://www.subethaedit.net/feedback.html",@"Feedback Link")]];
-}
-
-- (IBAction)purchaseSubEthaEdit:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedString(@"http://www.subethaedit.net/purchase.html",@"Purchase Link")]];
 }
 
 - (void)changeFont:(id)aSender {

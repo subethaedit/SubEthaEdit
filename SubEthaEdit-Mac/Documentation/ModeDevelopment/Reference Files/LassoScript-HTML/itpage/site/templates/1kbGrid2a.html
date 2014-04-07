@@ -1,0 +1,42 @@
+<!-- Template 1kbGrid2a.html -->
+<body>
+[If: (Var:'ThisFile') != '']	<script type="text/javascript" src="/site/js/flashembed.min.js"></script>
+	<script>
+		flashembed("VideoPlaceholder", 
+		{
+			src:'[$svLibsPath]FlowPlayerLight.swf',
+			width: [$VideoWidth],
+			height: [$VideoHeight]
+		},
+		{config: {   
+			autoPlay: false,
+			autoBuffering: true,
+			controlBarBackgroundColor:'#999999',
+			controlBarGloss:'high',
+			showFullScreenButton: false,
+			initialScale: 'scale',
+			loop: false,
+[NoProcess]
+			menuItems: [true, true, true, true, false, false, false],
+[/NoProcess]
+			videoFile: 'http://[$svDomain][$svMediaPath][$ThisFile]'
+		}} 
+	);
+	</script>
+[Else]	<!-- No Flash Media Called -->[/If]
+<div class="row">
+	<div class="column grid_12"><p>12</p></div>
+</div>
+
+<div class="row">
+	<div class="column grid_2"><p>2</p></div>
+	<div class="column grid_10"><p>10</p></div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="column grid_12"><p>12</p></div>
+</div>
+
+</body>
+</html>

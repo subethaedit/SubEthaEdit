@@ -7,7 +7,6 @@
 //
 
 #import "PlainTextWindowController.h"
-#import "ParticipantsView.h"
 #import "PlainTextDocument.h"
 #import "DocumentMode.h"
 #import "PlainTextEditor.h"
@@ -17,84 +16,28 @@
 #import "SelectionOperation.h"
 #import "ImagePopUpButtonCell.h"
 #import "LayoutManager.h"
-#import "TextView.h"
-#import "SplitView.h"
-#import "ConnectionBrowserController.h"
+#import "SEETextView.h"
 #import "GeneralPreferences.h"
 #import "TCMMMSession.h"
 #import "AppController.h"
-#import "Toolbar.h"
-#import "SEEDocumentDialog.h"
-#import "EncodingDoctorDialog.h"
-#import "DocumentController.h"
-#if !defined(CODA)
+#import "SEEEncodingDoctorDialogViewController.h"
+#import "SEEDocumentController.h"
 #import "PlainTextWindowControllerTabContext.h"
-#endif //!defined(CODA)
 #import "NSMenuTCMAdditions.h"
 #import "PlainTextLoadProgress.h"
-#if !defined(CODA)
 #import <PSMTabBarControl/PSMTabBarControl.h>
 #import <PSMTabBarControl/PSMTabStyle.h>
 #import "URLBubbleWindow.h"
-#endif //!defined(CODA)
+#import "SEEParticipantsOverlayViewController.h"
+#import "SEETabStyle.h"
+#import "SEEWebPreviewViewController.h"
+#import "FindAllController.h"
 #import <objc/objc-runtime.h>			// for objc_msgSend
 
 
-NSString * const PlainTextWindowToolbarIdentifier = 
-               @"PlainTextWindowToolbarIdentifier";
-NSString * const ParticipantsToolbarItemIdentifier = 
-               @"ParticipantsToolbarItemIdentifier";
-NSString * const ShiftLeftToolbarItemIdentifier = 
-               @"ShiftLeftToolbarItemIdentifier";
-NSString * const ShiftRightToolbarItemIdentifier = 
-               @"ShiftRightToolbarItemIdentifier";
-NSString * const NextSymbolToolbarItemIdentifier = 
-               @"NextSymbolToolbarItemIdentifier";
-NSString * const PreviousSymbolToolbarItemIdentifier = 
-               @"PreviousSymbolToolbarItemIdentifier";
-NSString * const NextChangeToolbarItemIdentifier = 
-               @"NextChangeToolbarItemIdentifier";
-NSString * const PreviousChangeToolbarItemIdentifier = 
-               @"PreviousChangeToolbarItemIdentifier";
-NSString * const InternetToolbarItemIdentifier = 
-               @"InternetToolbarItemIdentifier";
-NSString * const ToggleChangeMarksToolbarItemIdentifier = 
-               @"ToggleChangeMarksToolbarItemIdentifier";
-NSString * const ToggleAnnouncementToolbarItemIdentifier = 
-               @"ToggleAnnouncementToolbarItemIdentifier";
-NSString * const ToggleShowInvisibleCharactersToolbarItemIdentifier = 
-               @"ToggleShowInvisibleCharactersToolbarItemIdentifier";
-
-#if !defined(CODA)
 static NSPoint S_cascadePoint = {0.0,0.0};
-#endif //!defined(CODA)
 
-static int KickButtonStateMask=1;
-static int ReadOnlyButtonStateMask=2;
-static int ReadWriteButtonStateMask=4;
-static int DenyStateMask=8;
-static int KickStateMask=16;
-static int ReadWriteButtonForcedOffMask=32;
-static int ReadOnlyButtonForcedOffMask=64;
-static int FollowUserStateMask=128;
-static int FollowUserValueStateMask=256;
-
-enum {
-    ParticipantContextMenuTagFollow = 1,
-    ParticipantContextMenuTagAIM,
-    ParticipantContextMenuTagEmail,
-    ParticipantContextMenuTagAddToAddressBook,
-    ParticipantContextMenuTagReadWrite,
-    ParticipantContextMenuTagReadOnly,
-    ParticipantContextMenuTagKickDeny
-};
-
-static NSAttributedString *S_dragString = nil;
-
-@interface PlainTextWindowController (PlainTextWindowControllerPrivateAdditions)
-
-- (void)validateUpperDrawer;
-
+@interface PlainTextWindowController ()
 - (void)insertObject:(NSDocument *)document inDocumentsAtIndex:(NSUInteger)index;
 - (void)removeObjectFromDocumentsAtIndex:(NSUInteger)index;
 @end
@@ -103,84 +46,37 @@ static NSAttributedString *S_dragString = nil;
 
 @implementation PlainTextWindowController
 
-- (id)init {
-    if ((self = [super initWithWindowNibName:@"PlainTextWindow"])) {
-        I_contextMenu = [NSMenu new];
-        NSMenuItem *item=nil;
-        item=(NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"ParticipantContextMenuFollow",@"Follow user entry for Participant context menu") action:@selector(followUser:) keyEquivalent:@""];
-        [item setTarget:self];
-        [item setTag:ParticipantContextMenuTagFollow];
++ (void)initialize {
+	if (self == [PlainTextWindowController class]) {
+		[PSMTabBarControl registerTabStyleClass:[SEETabStyle class]];
+	}
+}
 
-        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuAIM", @"AIM user entry for Browser context menu") action:@selector(initiateAIMChat:) keyEquivalent:@""];
-        [item setTarget:[TCMMMUserManager sharedInstance]];
-        [item setTag:ParticipantContextMenuTagAIM];
-                
-        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuEmail", @"Email user entry for Browser context menu") action:@selector(sendEmail:) keyEquivalent:@""];
-        [item setTarget:[TCMMMUserManager sharedInstance]];
-        [item setTag:ParticipantContextMenuTagEmail];
-
-        [I_contextMenu addItem:[NSMenuItem separatorItem]];
-
-        item=(NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"ParticipantContextMenuReadWrite",@"ReadWrite user entry for Participant context menu") action:@selector(readWriteButtonAction:) keyEquivalent:@""];
-        [item setTarget:self];
-        [item setTag:ParticipantContextMenuTagReadWrite];
-
-        item=(NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"ParticipantContextMenuReadOnly",@"ReadWrite user entry for Participant context menu") action:@selector(readOnlyButtonAction:) keyEquivalent:@""];
-        [item setTarget:self];
-        [item setTag:ParticipantContextMenuTagReadOnly];
-
-        item=(NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"ParticipantContextMenuKickDeny",@"KickDeny user entry for Participant context menu") action:@selector(kickButtonAction:) keyEquivalent:@""];
-        [item setTarget:self];
-        [item setTag:ParticipantContextMenuTagKickDeny];
-        [I_contextMenu setDelegate:self];
-    
-#if !defined(CODA)
+- (instancetype)init {
+	self = [super initWithWindowNibName:@"PlainTextWindow"];
+    if (self) {
 		[self setShouldCascadeWindows:NO];
-#endif //!defined(CODA)
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateForPortMapStatus) name:TCMPortMapperDidFinishWorkNotification object:[TCMPortMapper sharedInstance]];
     }
     return self;
 }
 
-- (void)updateForPortMapStatus {
-    BOOL isAnnounced = [(PlainTextDocument *)[self document] isAnnounced];
-    BOOL isServer = [[(PlainTextDocument *)[self document] session] isServer];
-    if (isAnnounced) {
-        BOOL portMapped = ([[[[TCMPortMapper sharedInstance] portMappings] anyObject] mappingStatus] == TCMPortMappingStatusMapped);
-        [O_URLImageView setImage:[NSImage imageNamed:(portMapped?@"URLIconOK":@"URLIconNotOK")]];
-        NSString *URLString = [[[[[self document] documentURL] absoluteString] componentsSeparatedByString:@"?"] objectAtIndex:0];
-        [O_URLTextField setObjectValue:URLString];
-    } else if (isServer) {
-        [O_URLImageView setImage:[NSImage imageNamed:@"Conceal"]];
-        [O_URLTextField setObjectValue:NSLocalizedString(@"Document not announced.\nNo Document URL.",@"Text for document URL field when not announced")];
-    } else {
-        [O_URLImageView setImage:[NSImage imageNamed:@"URLIconNotOK"]];
-        [O_URLTextField setObjectValue:NSLocalizedString(@"Not your Document.\nNo Document URL.",@"Text for document URL field when not your document")];
-    }
-}
-
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [[[self window] toolbar] setDelegate:nil];
-    [O_participantsView setWindowController:nil];
-    [O_participantsView release];
-    I_plainTextEditors = nil;
-    I_editorSplitView = nil;
+
     I_dialogSplitView = nil;
     I_documentDialog = nil;
     
     [I_documents release];
     I_documents = nil;
 
-#if !defined(CODA)
 	[I_tabBar setDelegate:nil];
 	[I_tabBar setTabView:nil];
 	[I_tabView setDelegate:nil];
 	[I_tabBar release];
 	[I_tabView release];
-#endif //!defined(CODA)	
 	 
-    [[DocumentController sharedInstance] updateTabMenu];
+    [[SEEDocumentController sharedInstance] updateTabMenu];
             
     [super dealloc];
 }
@@ -191,9 +87,51 @@ static NSAttributedString *S_dragString = nil;
     }
 }
 
+- (void)windowDidLoad {
+	NSWindow *window = self.window;
+    [[window contentView] setAutoresizesSubviews:YES];
+
+	NSRect contentFrame = [[window contentView] frame];
+	 
+	I_tabBar = [[PSMTabBarControl alloc] initWithFrame:NSMakeRect(0.0, NSHeight(contentFrame) - [SEETabStyle desiredTabBarControlHeight], NSWidth(contentFrame), [SEETabStyle desiredTabBarControlHeight])];
+    [I_tabBar setAutoresizingMask:NSViewWidthSizable | NSViewMinYMargin];
+//	[I_tabBar setTearOffStyle:PSMTabBarTearOffMiniwindow];
+    [I_tabBar setStyleNamed:@"SubEthaEdit"];
+	[I_tabBar setAlwaysShowActiveTab:YES];
+
+	// hook up add tab button
+	[I_tabBar setShowAddTabButton:YES];
+	[[I_tabBar addTabButton] setTarget:nil];
+	[[I_tabBar addTabButton] setAction:@selector(newDocumentInTab:)];
+
+    [[window contentView] addSubview:I_tabBar];
+
+    I_tabView = [[NSTabView alloc] initWithFrame:NSMakeRect(0.0, 0.0, NSWidth(contentFrame), NSHeight(contentFrame) - [SEETabStyle desiredTabBarControlHeight])];
+    [I_tabView setAutoresizingMask:NSViewHeightSizable | NSViewWidthSizable];
+    [I_tabView setTabViewType:NSNoTabsNoBorder];
+
+    [[window contentView] addSubview:I_tabView];
+    [I_tabBar setTabView:I_tabView];
+    [I_tabView setDelegate:I_tabBar];
+    [I_tabBar setDelegate:self];
+    [I_tabBar setPartnerView:I_tabView];
+
+    BOOL shouldHideTabBar = [[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey];
+    [I_tabBar setHideForSingleTab:!shouldHideTabBar];
+    [I_tabBar hideTabBar:!shouldHideTabBar animate:NO];
+    [I_tabBar setCellOptimumWidth:300];
+    [I_tabBar setCellMinWidth:140];
+
+    [self updateForPortMapStatus];
+	[self updateWindowMinSize];
+}
+
+
+#pragma mark -
+
 - (void)setInitialRadarStatusForPlainTextEditor:(PlainTextEditor *)editor {
     PlainTextDocument *document=(PlainTextDocument *)[self document];
-    NSEnumerator *users=[[[[document session] participants] objectForKey:@"ReadWrite"] objectEnumerator];
+    NSEnumerator *users=[[[[document session] participants] objectForKey:TCMMMSessionReadWriteGroupName] objectEnumerator];
     TCMMMUser *user=nil;
     while ((user=[users nextObject])) {
         if (user != [TCMMMUserManager me]) {
@@ -202,121 +140,34 @@ static NSAttributedString *S_dragString = nil;
     }
 }
 
-- (void)adjustToolbarToDocumentMode {
-    NSToolbar *toolbar = [[[Toolbar alloc] initWithIdentifier:
-        [[(PlainTextDocument *)[self document] documentMode] documentModeIdentifier]] autorelease];
-    [toolbar setAllowsUserCustomization:YES];
-    [toolbar setAutosavesConfiguration:YES];
-    [toolbar setDelegate:self];
-    [[self window] setToolbar:toolbar];
+- (void)updateForPortMapStatus {
+//    BOOL isAnnounced = [(PlainTextDocument *)[self document] isAnnounced];
+//    BOOL isServer = [[(PlainTextDocument *)[self document] session] isServer];
+//    if (isAnnounced) {
+//        BOOL portMapped = ([[[[TCMPortMapper sharedInstance] portMappings] anyObject] mappingStatus] == TCMPortMappingStatusMapped);
+//        NSString *URLString = [[[[[self document] documentURL] absoluteString] componentsSeparatedByString:@"?"] objectAtIndex:0];
+//        [O_URLTextField setObjectValue:URLString];
+//    } else if (isServer) {
+//        [O_URLTextField setObjectValue:NSLocalizedString(@"Document not announced.\nNo Document URL.",@"Text for document URL field when not announced")];
+//    } else {
+//        [O_URLTextField setObjectValue:NSLocalizedString(@"Not your Document.\nNo Document URL.",@"Text for document URL field when not your document")];
+//    }
 }
 
-- (void)windowDidLoad {
-    NSSize drawerSize = [O_participantsDrawer contentSize];
-    drawerSize.width = 170;
-    [O_participantsDrawer setContentSize:drawerSize];
-    
-    NSRect frame = [[O_participantsScrollView contentView] frame];
-    O_participantsView = [[ParticipantsView alloc] initWithFrame:frame];
-    [O_participantsScrollView setBorderType:NSBezelBorder];
-    [O_participantsView setDelegate:self];
-    [O_participantsView setDataSource:self];
-    [O_participantsScrollView setHasVerticalScroller:YES];
-    [[O_participantsScrollView verticalScroller] setControlSize:NSSmallControlSize];
-    [O_participantsScrollView setDocumentView:O_participantsView];
-    [O_participantsView noteEnclosingScrollView];
-    [O_participantsView setDoubleAction:@selector(participantDoubleAction:)];
-    [O_participantsView setTarget:self];
-    [O_participantsView setWindowController:self];
-    [O_actionPullDown setCell:[[ImagePopUpButtonCell new] autorelease]];
-    [[O_actionPullDown cell] setPullsDown:YES];
-    [[O_actionPullDown cell] setImage:[NSImage imageNamed:@"Action"]];
-    [[O_actionPullDown cell] setAlternateImage:[NSImage imageNamed:@"ActionPressed"]];
-    [[O_actionPullDown cell] setUsesItemFromMenu:NO];
-    [O_actionPullDown addItemWithTitle:@"<do not modify>"];
-    NSMenu *menu=[O_actionPullDown menu];
-    NSEnumerator *menuItems=[[I_contextMenu itemArray] objectEnumerator];
-    id menuItem = nil;
-    while ((menuItem = [menuItems nextObject])) {
-        [menu addItem:[[menuItem copy] autorelease]];
-    }
-    [menu setDelegate:self];
-    
-
-    [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(validateUpperDrawer)
-                                                 name:TCMMMPresenceManagerAnnouncedSessionsDidChangeNotification 
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(adjustToolbarToDocumentMode)
-                                                 name:GlobalScriptsDidReloadNotification 
-                                               object:nil];
-
-    [[[self window] contentView] setAutoresizesSubviews:YES];
-
-#if !defined(CODA)
-	NSRect contentFrame = [[[self window] contentView] frame];
-	 
-	I_tabBar = [[PSMTabBarControl alloc] initWithFrame:NSMakeRect(0.0, NSHeight(contentFrame) - 22.0, NSWidth(contentFrame), 22.0)];
-    [I_tabBar setAutoresizingMask:NSViewWidthSizable | NSViewMinYMargin];
-    [I_tabBar setStyleNamed:@"PF"];
-    [[[self window] contentView] addSubview:I_tabBar];
-    I_tabView = [[NSTabView alloc] initWithFrame:NSMakeRect(0.0, 0.0, NSWidth(contentFrame), NSHeight(contentFrame) - 22.0)];
-    [I_tabView setAutoresizingMask:NSViewHeightSizable | NSViewWidthSizable];
-    [I_tabView setTabViewType:NSNoTabsNoBorder];
-    [[[self window] contentView] addSubview:I_tabView];
-    [I_tabBar setTabView:I_tabView];
-    [I_tabView setDelegate:I_tabBar];
-    [I_tabBar setDelegate:self];
-    [I_tabBar setPartnerView:I_tabView];
-    BOOL shouldHideTabBar = [[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey];
-    [I_tabBar setHideForSingleTab:!shouldHideTabBar];
-    [I_tabBar hideTabBar:!shouldHideTabBar animate:NO];
-//    [I_tabBar setCellOptimumWidth:160];
-//    [I_tabBar setCellMinWidth:120];
-#endif //!defined(CODA)
-	
-	NSMutableParagraphStyle *paragraphStyle = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
-    [paragraphStyle setAlignment:NSCenterTextAlignment];
-    [paragraphStyle setFirstLineHeadIndent:30.];
-    [paragraphStyle setHeadIndent:30.];
-    [paragraphStyle setTailIndent:-30.];
-    
-    if (floor(NSAppKitVersionNumber) > 824.) {
-		if (!S_dragString) {
-			S_dragString = 
-			[[NSAttributedString alloc] initWithString:NSLocalizedString(@"Drag your\nFriends\nfrom the\niChat Buddy List\nor\nConnection Browser\nto a category\nor the text\nto invite them.",@"Drag target string in Participants Drawer") 
-				attributes:[NSDictionary dictionaryWithObjectsAndKeys:
-							   paragraphStyle,NSParagraphStyleAttributeName,
-							   [NSFont systemFontOfSize:12.],NSFontAttributeName,
-							   [NSColor colorWithCalibratedWhite:0.7 alpha:1.0],NSForegroundColorAttributeName,
-							nil]];
-		}
-	}
-	[O_participantsView setEmptySpaceString:S_dragString];
-
-
-    [O_URLImageView setDelegate:self];
-    [self updateForPortMapStatus];
+- (BOOL)isShowingFindAndReplaceInterface {
+	BOOL result = [self.plainTextEditors.firstObject isShowingFindAndReplaceInterface];
+	return result;
 }
 
-- (NSURL*)URLForURLImageView:(URLImageView *)anImageView {
-    BOOL isAnnounced = [(PlainTextDocument *)[self document] isAnnounced];
-    BOOL isServer = [[(PlainTextDocument *)[self document] session] isServer];
-    if (!isAnnounced && isServer) {
-        return nil;
-    }
-    return [[self document] documentURL];
+- (IBAction)showFindAndReplaceInterface:(id)aSender {
+	[self.plainTextEditors.firstObject showFindAndReplace:aSender];
 }
-
 
 - (void)takeSettingsFromDocument {
     [self setShowsBottomStatusBar:[(PlainTextDocument *)[self document] showsBottomStatusBar]];
     [[self plainTextEditors] makeObjectsPerformSelector:@selector(takeSettingsFromDocument)];
 }
 
-#if !defined(CODA)
 - (NSTabViewItem *)tabViewItemForDocument:(PlainTextDocument *)document
 {
     unsigned count = [I_tabView numberOfTabViewItems];
@@ -330,14 +181,22 @@ static NSAttributedString *S_dragString = nil;
     }
     return nil;
 }
-#endif //!defined(CODA)
+
+- (PlainTextWindowControllerTabContext *)selectedTabContext {
+	PlainTextWindowControllerTabContext *result = self.selectedTabViewItem.identifier;
+	return result;
+}
+
+- (NSTabViewItem *)selectedTabViewItem {
+	NSTabViewItem *result = self.tabView.selectedTabViewItem;
+	return result;
+}
 
 - (void)document:(PlainTextDocument *)document isReceivingContent:(BOOL)flag;
 {
     if (![[self documents] containsObject:document])
         return;
         
-#if !defined(CODA)
     NSTabViewItem *tabViewItem = [self tabViewItemForDocument:document];
     if (tabViewItem) {
         PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
@@ -373,11 +232,9 @@ static NSAttributedString *S_dragString = nil;
             }
         }
     }
-#endif //!defined(CODA)
 }
 
 - (void)documentDidLoseConnection:(PlainTextDocument *)document {
-#if !defined(CODA)
     NSTabViewItem *tabViewItem = [self tabViewItemForDocument:document];
     if (tabViewItem) {
         PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
@@ -387,7 +244,6 @@ static NSAttributedString *S_dragString = nil;
         [loadProgress stopAnimation];
         [loadProgress setStatusText:NSLocalizedString(@"Did lose Connection!", @"Text in Proxy window")];
     }
-#endif //!defined(CODA)
 }
 
 - (void)setWindowFrame:(NSRect)aFrame constrainedToScreen:(NSScreen *)aScreen display:(BOOL)aFlag {
@@ -421,22 +277,23 @@ static NSAttributedString *S_dragString = nil;
     if (aScreen) {
         NSRect visibleFrame=[aScreen visibleFrame];
         if (NSHeight(aFrame)>NSHeight(visibleFrame)) {
-            float heightDiff=aFrame.size.height-visibleFrame.size.height;
+            CGFloat heightDiff=aFrame.size.height-visibleFrame.size.height;
             aFrame.origin.y+=heightDiff;
             aFrame.size.height-=heightDiff;
         }
         if (NSMinY(aFrame)<NSMinY(visibleFrame)) {
-            float positionDiff=NSMinY(visibleFrame)-NSMinY(aFrame);
+            CGFloat positionDiff=NSMinY(visibleFrame)-NSMinY(aFrame);
             aFrame.origin.y+=positionDiff;
         }
     }
     [[self window] setFrame:aFrame display:YES];
 }
 
-- (void)setSizeByColumns:(int)aColumns rows:(int)aRows {
-    NSSize contentSize=[[I_plainTextEditors objectAtIndex:0] desiredSizeForColumns:aColumns rows:aRows];
-    contentSize.width  = (int)(contentSize.width + 0.5);
-    contentSize.height = (int)(contentSize.height + 0.5);
+- (void)setSizeByColumns:(NSInteger)aColumns rows:(NSInteger)aRows {
+	PlainTextWindowControllerTabContext *tabContext = self.selectedTabContext;
+    NSSize contentSize=[[tabContext.plainTextEditors objectAtIndex:0] desiredSizeForColumns:aColumns rows:aRows];
+    contentSize.width  = (NSInteger)(contentSize.width + 0.5);
+    contentSize.height = (NSInteger)(contentSize.height + 0.5);
     NSWindow *window=[self window];
     NSSize minSize=[window contentMinSize];
     NSRect contentRect=[window contentRectForFrameRect:[window frame]];
@@ -453,14 +310,15 @@ static NSAttributedString *S_dragString = nil;
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
     SEL selector = [menuItem action];
     
-    if (selector == @selector(toggleParticipantsDrawer:)) {
+    if (selector == @selector(toggleParticipantsOverlay:)) {
         [menuItem setTitle:
-            [(NSDrawer *)[[[self window] drawers] objectAtIndex:0] state] == NSDrawerOpenState ?
+            [[[self plainTextEditors] lastObject] hasBottomOverlayView] ?
             NSLocalizedString(@"Hide Participants", nil) :
             NSLocalizedString(@"Show Participants", nil)];
         return YES;
     } else if (selector == @selector(toggleBottomStatusBar:)) {
-        [menuItem setState:[[I_plainTextEditors lastObject] showsBottomStatusBar]?NSOnState:NSOffState];
+		PlainTextWindowControllerTabContext *tabContext = self.selectedTabContext;
+        [menuItem setState:[[tabContext.plainTextEditors lastObject] showsBottomStatusBar]?NSOnState:NSOffState];
         return YES;
     } else if (selector == @selector(toggleLineNumbers:)) {
         [menuItem setState:[self showsGutter]?NSOnState:NSOffState];
@@ -468,15 +326,14 @@ static NSAttributedString *S_dragString = nil;
     } else if (selector == @selector(copyDocumentURL:)) {
         return [(PlainTextDocument *)[self document] isAnnounced];
     } else if (selector == @selector(toggleSplitView:)) {
-        [menuItem setTitle:[I_plainTextEditors count]==1?
+		PlainTextWindowControllerTabContext *tabContext = self.selectedTabContext;
+        [menuItem setTitle:[tabContext.plainTextEditors count]==1?
                            NSLocalizedString(@"Split View",@"Split View Menu Entry"):
                            NSLocalizedString(@"Collapse Split View",@"Collapse Split View Menu Entry")];
         
         BOOL isReceivingContent = NO;
-#if !defined(CODA)		
         NSTabViewItem *tabViewItem = [self tabViewItemForDocument:[self document]];
         if (tabViewItem) isReceivingContent = [[tabViewItem identifier] isReceivingContent];
-#endif //!defined(CODA)		
         return !isReceivingContent;
     } else if (selector == @selector(changePendingUsersAccess:)) {
         TCMMMSession *session=[(PlainTextDocument *)[self document] session];
@@ -490,27 +347,19 @@ static NSAttributedString *S_dragString = nil;
     } else if (selector == @selector(openInSeparateWindow:)) {
         return ([[self documents] count] > 1);
     } else if (selector == @selector(selectNextTab:)) {
-#if !defined(CODA)
-        if ([self hasManyDocuments]) 
+        if ([self hasManyDocuments])
             return YES;
         else
-#endif //!defined(CODA)
             return NO;
     } else if (selector == @selector(selectPreviousTab:)) {
-#if !defined(CODA)
-        if ([self hasManyDocuments]) 
+        if ([self hasManyDocuments])
             return YES;
         else
-#endif //!defined(CODA)
-            return NO;    
+            return NO;
     } else if (selector == @selector(showDocumentAtIndex:)) {
         int documentNumberToShow = [[menuItem representedObject] intValue];
         id document = nil;
-#if defined(CODA)
-		NSArray *documents = [self documents];
-#else
         NSArray *documents = [self orderedDocuments];
-#endif //defined(CODA)
         if ([documents count] > documentNumberToShow) {
             document = [documents objectAtIndex:documentNumberToShow];
             if ([document isDocumentEdited]) {
@@ -529,48 +378,6 @@ static NSAttributedString *S_dragString = nil;
     }
     
     return YES;
-}
-
-- (NSArray *)plainTextEditors {
-    return I_plainTextEditors;
-}
-
-- (PlainTextEditor *)activePlainTextEditor {
-    if ([I_plainTextEditors count]!=1) {
-        id responder=[[self window] firstResponder];
-        if ([responder isKindOfClass:[NSTextView class]]) {
-            if ([[I_plainTextEditors objectAtIndex:1] textView] == responder) {
-                return [I_plainTextEditors objectAtIndex:1];
-            }
-        }
-    } 
-    if ([I_plainTextEditors count]>0) {
-        return [I_plainTextEditors objectAtIndex:0];
-    }
-    return nil;
-}
-
-- (PlainTextEditor *)activePlainTextEditorForDocument:(PlainTextDocument *)aDocument {
-#if !defined(CODA)
-	NSTabViewItem *tabViewItem = [self tabViewItemForDocument:aDocument];
-    if (tabViewItem) {
-        PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
-        NSArray *plainTextEditors = [tabContext plainTextEditors];
-//        if ([plainTextEditors count] != 1) {
-//            id responder = [tabViewItem initialFirstResponder];
-//            NSLog(@"%s %@ responder:%@",__FUNCTION__,aDocument,responder);
-//            if ([responder isKindOfClass:[NSTextView class]]) {
-//                if ([[plainTextEditors objectAtIndex:1] textView] == responder) {
-//                    return [plainTextEditors objectAtIndex:1];
-//                }
-//            }
-//        }
-        if ([plainTextEditors count] > 0) {
-            return [plainTextEditors objectAtIndex:0];
-        }
-    }
-#endif //!defined(CODA)
-	return nil;
 }
 
 
@@ -594,9 +401,7 @@ static NSAttributedString *S_dragString = nil;
 
 #pragma mark -
 
-- (IBAction)openInSeparateWindow:(id)sender
-{
-#if !defined(CODA)
+- (IBAction)openInSeparateWindow:(id)sender {
     PlainTextDocument *document = [self document];
     NSUInteger documentIndex = [[self documents] indexOfObject:document];
     NSTabViewItem *tabViewItem = [self tabViewItemForDocument:document];
@@ -619,18 +424,18 @@ static NSAttributedString *S_dragString = nil;
     if (screen) {
         NSRect visibleFrame = [screen visibleFrame];
         if (NSHeight(frame) > NSHeight(visibleFrame)) {
-            float heightDiff = frame.size.height - visibleFrame.size.height;
+            CGFloat heightDiff = frame.size.height - visibleFrame.size.height;
             frame.origin.y += heightDiff;
             frame.size.height -= heightDiff;
         }
         if (NSMinY(frame) < NSMinY(visibleFrame)) {
-            float positionDiff = NSMinY(visibleFrame) - NSMinY(frame);
+            CGFloat positionDiff = NSMinY(visibleFrame) - NSMinY(frame);
             frame.origin.y += positionDiff;
         }
     }
     [[windowController window] setFrame:frame display:YES];
 
-    [[DocumentController sharedInstance] addWindowController:windowController];
+    [[SEEDocumentController sharedInstance] addWindowController:windowController];
     [windowController insertObject:document inDocumentsAtIndex:[[windowController documents] count]];
     [document addWindowController:windowController];
     [document setKeepUndoManagerOnZeroWindowControllers:NO];
@@ -639,350 +444,48 @@ static NSAttributedString *S_dragString = nil;
 
     [tabViewItem release];
     [document release];
-    [[[tabViewItem identifier] dialogSplitView] setDelegate:windowController];
-    [[[tabViewItem identifier] editorSplitView] setDelegate:windowController];
     [windowController setDocument:document];
     [windowController showWindow:self];
-    if ([O_participantsDrawer state] == NSDrawerOpenState) {
-        [windowController openParticipantsDrawer:self];
+
+	PlainTextEditor *editor = [[self plainTextEditors] lastObject];
+    if (editor.hasBottomOverlayView) {
+        [windowController openParticipantsOverlay:self];
     }
-#endif //!defined(CODA)
 }
 
 - (BOOL)showsBottomStatusBar {
-    return [[I_plainTextEditors lastObject] showsBottomStatusBar];
+	PlainTextWindowControllerTabContext *tabContext = self.selectedTabContext;
+    return [[tabContext.plainTextEditors lastObject] showsBottomStatusBar];
 }
 
 - (void)setShowsBottomStatusBar:(BOOL)aFlag {
     BOOL showsBottomStatusBar=[self showsBottomStatusBar];
     if (showsBottomStatusBar!=aFlag) {
-        [[I_plainTextEditors lastObject] setShowsBottomStatusBar:aFlag];
+		PlainTextWindowControllerTabContext *tabContext = self.selectedTabContext;
+		[[tabContext.plainTextEditors lastObject] setShowsBottomStatusBar:aFlag];
         [[self document] setShowsBottomStatusBar:aFlag];
+		[self invalidateRestorableState];
     }
-}
-
-- (IBAction)openParticipantsDrawer:(id)aSender {
-    [O_participantsDrawer open:aSender];
-}
-
-- (IBAction)closeParticipantsDrawer:(id)aSender {
-    BOOL shouldClose = YES;
-    PlainTextDocument *document;
-    NSEnumerator *enumerator = [[self documents] objectEnumerator];
-    while ((document = [enumerator nextObject])) {
-        if ([document isAnnounced] || [[document session] clientState] != TCMMMSessionClientNoState) {
-            shouldClose = NO;
-            break;
-        }
-    }
-    if (shouldClose) {
-        [O_participantsDrawer close:aSender];
-    }
-}
-
-- (IBAction)toggleParticipantsDrawer:(id)sender {
-    [O_participantsDrawer toggle:sender];
-}
-
-- (int)buttonStateForSelectedRows:(NSIndexSet *)selectedRows {
-    int buttonState=0;
-    TCMMMSession *session=[(PlainTextDocument *)[self document] session];
-    if ([session isServer] && [selectedRows count]>0) {
-        buttonState = KickButtonStateMask;
-        if ([selectedRows count]==1) {
-            buttonState |= FollowUserStateMask;
-        }
-        NSMutableIndexSet *rows=[[selectedRows mutableCopy] autorelease];
-        NSUInteger row=NSNotFound;
-        NSDictionary *participants=[session participants];
-        for (row=[rows firstIndex];row!=NSNotFound;row=[rows firstIndex]) {
-            ItemChildPair pair=[O_participantsView itemChildPairAtRow:row];
-            if (pair.childIndex!=-1) {
-                if (pair.itemIndex==0) {
-                    if (pair.childIndex<[(NSArray*)[participants objectForKey:@"ReadWrite"] count]) {
-                        if ([[[[participants objectForKey:@"ReadWrite"] objectAtIndex:pair.childIndex] userID] isEqualToString:[TCMMMUserManager myUserID]]) {
-                            return 0;
-                        } else {
-                            buttonState = buttonState | ReadOnlyButtonStateMask;
-                        }
-                    } else {
-                        buttonState &= ~FollowUserStateMask;
-                        buttonState = ( buttonState & (~ReadOnlyButtonStateMask) ) | ReadOnlyButtonForcedOffMask;
-                    }
-                    buttonState |= KickStateMask;
-                } else if (pair.itemIndex==1) {
-                    if (pair.childIndex<[(NSArray*)[participants objectForKey:@"ReadOnly"] count]) {
-                        buttonState = buttonState | ReadWriteButtonStateMask;
-                    } else {
-                        buttonState &= ~FollowUserStateMask;
-                        buttonState = (buttonState & (~ReadWriteButtonStateMask)) | ReadWriteButtonForcedOffMask;
-                    }
-                    buttonState |= KickStateMask;
-                } else if (pair.itemIndex==2) {
-                    if (!(buttonState & ReadWriteButtonForcedOffMask)) {
-                        buttonState |= ReadWriteButtonStateMask;
-                    }
-                    if (!(buttonState & ReadOnlyButtonForcedOffMask)) {
-                        buttonState |= ReadOnlyButtonStateMask;
-                    }
-                    buttonState |= DenyStateMask;
-                    buttonState &= ~FollowUserStateMask;
-                }
-            }
-            [rows removeIndex:row];
-        }
-    } else  if (![session isServer] && [selectedRows count]==1) {
-        ItemChildPair pair = [O_participantsView itemChildPairAtRow:[selectedRows firstIndex]];
-        if (pair.childIndex != -1 && pair.itemIndex == 0) {
-            NSDictionary *participants=[session participants];
-            NSArray *dataSource = [participants objectForKey:@"ReadWrite"];
-            if (pair.childIndex<[dataSource count]) {
-                if (![[[dataSource objectAtIndex:pair.childIndex] userID] isEqualToString:[TCMMMUserManager myUserID]]) {
-                    buttonState |= FollowUserStateMask;
-                }
-            }
-        }
-    }
-    
-    if (buttonState & FollowUserStateMask) {
-        int selectedRow=[O_participantsView selectedRow];
-        ItemChildPair pair=[O_participantsView itemChildPairAtRow:selectedRow];
-        if (pair.childIndex!=-1) {
-            if (pair.itemIndex!=2) {
-                NSArray *participantArray=[[[(PlainTextDocument *)[self document] session] participants] objectForKey:(pair.itemIndex==0?@"ReadWrite":@"ReadOnly")];
-                if ([participantArray count]>pair.childIndex) {
-                    NSString *userID=[[participantArray objectAtIndex:pair.childIndex] userID];
-                
-                    if ([[[self activePlainTextEditor] followUserID] isEqualToString:userID]) {
-                        buttonState |= FollowUserValueStateMask;
-                    }
-                }
-            }
-        }
-    }
-    
-    return buttonState;
-}
-
-- (void)validateUpperDrawer {
-    TCMMMSession *session = [(PlainTextDocument *)[self document] session];
-    BOOL isServer=[session isServer];
-    [O_pendingUsersAccessPopUpButton setEnabled:isServer];
-    TCMMMSessionAccessState state = [session accessState];
-    int index = [O_pendingUsersAccessPopUpButton indexOfItemWithTag:state];
-    [O_pendingUsersAccessPopUpButton selectItemAtIndex:index];
-    [self updateForPortMapStatus];
-	[O_participantsView setEmptySpaceString:[session isServer]?S_dragString:nil];
-}
-
-- (void)validateButtons {
-    int state=[self buttonStateForSelectedRows:[O_participantsView selectedRowIndexes]];
-    [O_kickButton setEnabled:(state & KickButtonStateMask)];
-    [O_readOnlyButton setEnabled:(state & ReadOnlyButtonStateMask)];
-    [O_readWriteButton setEnabled:(state & ReadWriteButtonStateMask)];
-    [O_followButton setEnabled:(state & FollowUserStateMask)];
-    [O_followButton setState:(state & FollowUserValueStateMask)?NSOnState:NSOffState];
-}
-
-- (IBAction)kickButtonAction:(id)aSender {
-    TCMMMSession *session=[(PlainTextDocument *)[self document] session];
-    if ([session isServer]) {
-        NSMutableIndexSet *pendingUsersIndexSet=[NSMutableIndexSet indexSet];
-        NSMutableArray *userIDsToKick=[NSMutableArray array];
-        NSMutableArray *userIDsToCancelInvitation=[NSMutableArray array];
-        NSMutableIndexSet *rows=[[[O_participantsView selectedRowIndexes] mutableCopy] autorelease];
-        NSUInteger row=NSNotFound;
-        NSDictionary *participants=[session participants];
-        NSDictionary *invitedUsers=[session invitedUsers];
-        for (row=[rows firstIndex];row!=NSNotFound;row=[rows firstIndex]) {
-            ItemChildPair pair=[O_participantsView itemChildPairAtRow:row];
-            if (pair.childIndex!=-1) {
-                if (pair.itemIndex!=2) {
-                    NSString *group=(pair.itemIndex==0)?@"ReadWrite":@"ReadOnly";
-                    if ([(NSArray*)[participants objectForKey:group] count]>pair.childIndex) {
-                        NSString *userID=[[[participants objectForKey:group] objectAtIndex:pair.childIndex] userID];
-                        if (![userID isEqualToString:[TCMMMUserManager myUserID]]) {
-                            [userIDsToKick addObject:userID];
-                        }
-                    } else {
-                        [userIDsToCancelInvitation addObject:[[[invitedUsers objectForKey:group] objectAtIndex:pair.childIndex-[(NSArray*)[participants objectForKey:group] count]] userID]];
-                    }
-                } else {
-                    [pendingUsersIndexSet addIndex:pair.childIndex];
-                }
-            }
-            [rows removeIndex:row];
-        }
-        if ([pendingUsersIndexSet count]>0) {
-            [session setGroup:@"PoofGroup" forPendingUsersWithIndexes:pendingUsersIndexSet];
-        }
-        if ([userIDsToKick count]>0) {
-            [session setGroup:@"PoofGroup" forParticipantsWithUserIDs:userIDsToKick];
-        }
-        if ([userIDsToCancelInvitation count]>0) {
-            NSEnumerator *userIDs=[userIDsToCancelInvitation objectEnumerator];
-            NSString *userID=nil;
-            while ((userID=[userIDs nextObject])) {
-                [session cancelInvitationForUserWithID:userID];
-            }
-        }
-    
-        [O_participantsView reloadData];
-        [self validateButtons];
-    }
-}
-
-- (IBAction)readOnlyButtonAction:(id)aSender {
-    TCMMMSession *session=[(PlainTextDocument *)[self document] session];
-    if ([session isServer]) {
-        NSMutableIndexSet *pendingUsersIndexSet=[NSMutableIndexSet indexSet];
-        NSMutableArray *userIDsToChangeGroup=[NSMutableArray array];
-        NSMutableIndexSet *rows=[[[O_participantsView selectedRowIndexes] mutableCopy] autorelease];
-        NSUInteger row=NSNotFound;
-        NSDictionary *participants=[session participants];
-        NSArray *readWriteArray=[participants objectForKey:@"ReadWrite"];
-        for (row=[rows firstIndex];row!=NSNotFound;row=[rows firstIndex]) {
-            ItemChildPair pair=[O_participantsView itemChildPairAtRow:row];
-            if (pair.childIndex!=-1) {
-                if (pair.itemIndex==0) {
-                    if ([readWriteArray count]>pair.childIndex) {
-                        NSString *userID=[[readWriteArray objectAtIndex:pair.childIndex] userID];
-                        if (![userID isEqualToString:[TCMMMUserManager myUserID]]) {
-                            [userIDsToChangeGroup addObject:userID];
-                        }
-                    } 
-                } else if (pair.itemIndex==2) {
-                    [pendingUsersIndexSet addIndex:pair.childIndex];
-                }
-            }
-            [rows removeIndex:row];
-        }
-        if ([pendingUsersIndexSet count]>0) {
-            [session setGroup:@"ReadOnly" forPendingUsersWithIndexes:pendingUsersIndexSet];
-        }
-        if ([userIDsToChangeGroup count]>0) {
-            [session setGroup:@"ReadOnly" forParticipantsWithUserIDs:userIDsToChangeGroup];
-        }
-    
-        [O_participantsView reloadData];
-        [self validateButtons];
-    }
-}
-
-- (IBAction)readWriteButtonAction:(id)aSender {
-    TCMMMSession *session=[(PlainTextDocument *)[self document] session];
-    if ([session isServer]) {
-        NSMutableIndexSet *pendingUsersIndexSet=[NSMutableIndexSet indexSet];
-        NSMutableArray *userIDsToChangeGroup=[NSMutableArray array];
-        NSMutableIndexSet *rows=[[[O_participantsView selectedRowIndexes] mutableCopy] autorelease];
-        NSUInteger row=NSNotFound;
-        NSDictionary *participants=[session participants];
-        NSArray *readOnlyArray=[participants objectForKey:@"ReadOnly"];
-        for (row=[rows firstIndex];row!=NSNotFound;row=[rows firstIndex]) {
-            ItemChildPair pair=[O_participantsView itemChildPairAtRow:row];
-            if (pair.childIndex!=-1) {
-                if (pair.itemIndex==1) {
-                    if ([readOnlyArray count]>pair.childIndex) {
-                        [userIDsToChangeGroup addObject:[[readOnlyArray objectAtIndex:pair.childIndex] userID]];
-                    } 
-                } else if (pair.itemIndex==2) {
-                    [pendingUsersIndexSet addIndex:pair.childIndex];
-                }
-            }
-            [rows removeIndex:row];
-        }
-        if ([pendingUsersIndexSet count]>0) {
-            [session setGroup:@"ReadWrite" forPendingUsersWithIndexes:pendingUsersIndexSet];
-        }
-        if ([userIDsToChangeGroup count]>0) {
-            [session setGroup:@"ReadWrite" forParticipantsWithUserIDs:userIDsToChangeGroup];
-        }
-    
-        [O_participantsView reloadData];
-        [self validateButtons];
-    }
-}
-
-- (IBAction)toggleFollowUser:(id)aSender {
-    int state=[self buttonStateForSelectedRows:[O_participantsView selectedRowIndexes]];
-    if ((state & FollowUserValueStateMask)) {
-        [[self activePlainTextEditor] setFollowUserID:nil];
-    } else {
-        [self followUser:aSender];
-    }
-}
-
-- (IBAction)followUser:(id)aSender {
-    if ([O_participantsView numberOfSelectedRows] == 1) {
-        int selectedRow=[O_participantsView selectedRow];
-        ItemChildPair pair=[O_participantsView itemChildPairAtRow:selectedRow];
-        if (pair.childIndex!=-1) {
-            if (pair.itemIndex!=2) {
-                NSArray *participantArray=[[[(PlainTextDocument *)[self document] session] participants] objectForKey:(pair.itemIndex==0?@"ReadWrite":@"ReadOnly")];
-                if ([participantArray count]>pair.childIndex) {
-                    NSString *userID=[[participantArray objectAtIndex:pair.childIndex] userID];
-                    if (![userID isEqualToString:[TCMMMUserManager myUserID]]) {
-                        PlainTextEditor *plainTextEditor=[self activePlainTextEditor];
-                        if ([aSender isKindOfClass:[TextView class]]) {
-                            NSEnumerator    *editors=[[self plainTextEditors] objectEnumerator];
-                            PlainTextEditor *editor=nil;
-                            while ((editor=[editors nextObject])) {
-                                if ([editor textView]==aSender) {
-                                    plainTextEditor=editor;
-                                    break;
-                                }
-                            }
-                        } 
-                        [plainTextEditor setFollowUserID:userID];
-                        return;
-                    }
-                }
-            }
-        }
-    }
-    NSBeep();
-}
-
-- (IBAction)participantDoubleAction:(id)aSender {
-    if ([O_participantsView numberOfSelectedRows] == 1) {
-        int selectedRow=[O_participantsView selectedRow];
-        ItemChildPair pair=[O_participantsView itemChildPairAtRow:selectedRow];
-        if (pair.childIndex!=-1) {
-            TCMMMSession *session=[(PlainTextDocument *)[self document] session];
-            if (pair.itemIndex==2) {
-                [session setGroup:@"ReadWrite" forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndex:pair.childIndex]];
-            } else {
-                [self followUser:aSender];
-            }
-        }
-    }
-}
-
-- (IBAction)changePendingUsersAccess:(id)aSender {
-    [(PlainTextDocument *)[self document] changePendingUsersAccess:aSender];
-}
-
-- (IBAction)toggleBottomStatusBar:(id)aSender {
-    [self setShowsBottomStatusBar:![self showsBottomStatusBar]];
-    [(PlainTextDocument *)[self document] setShowsBottomStatusBar:[self showsBottomStatusBar]];
 }
 
 - (BOOL)showsGutter {
-    return [[I_plainTextEditors objectAtIndex:0] showsGutter];
+	PlainTextWindowControllerTabContext *tabContext = self.selectedTabContext;
+    return [[tabContext.plainTextEditors objectAtIndex:0] showsGutter];
 }
 
 - (void)setShowsGutter:(BOOL)aFlag {
-    int i;
-    for (i=0;i<[I_plainTextEditors count];i++) {
-        [[I_plainTextEditors objectAtIndex:i] setShowsGutter:aFlag];
+	PlainTextWindowControllerTabContext *tabContext = self.selectedTabContext;
+    for (id loopItem in tabContext.plainTextEditors) {
+        [loopItem setShowsGutter:aFlag];
     }
     [[self document] setShowsGutter:aFlag];
+	[self invalidateRestorableState];
 }
 
 - (IBAction)toggleLineNumbers:(id)aSender {
     [self setShowsGutter:![self showsGutter]];
+	[self invalidateRestorableState];
 }
-
 
 - (IBAction)jumpToNextSymbol:(id)aSender {
     [[self activePlainTextEditor] jumpToNextSymbol:aSender];
@@ -1001,7 +504,6 @@ static NSAttributedString *S_dragString = nil;
     [[self activePlainTextEditor] jumpToPreviousChange:aSender];
 }
 
-
 - (IBAction)copyDocumentURL:(id)aSender {
 
     NSURL *documentURL = [[self document] documentURL];    
@@ -1017,206 +519,8 @@ static NSAttributedString *S_dragString = nil;
     [documentURL writeToPasteboard:pboard];
 }
 
+
 #pragma mark -
-#pragma mark ### Toolbar ###
-
-- (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdent willBeInsertedIntoToolbar:(BOOL)willBeInserted {
-
-    NSToolbarItem *toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:itemIdent] autorelease];
-    
-    if ([itemIdent isEqualToString:ParticipantsToolbarItemIdentifier]) {
-        [toolbarItem setLabel:NSLocalizedString(@"Participants", @"Participants toolbar label")];
-        [toolbarItem setPaletteLabel:NSLocalizedString(@"Participants", @"Participants toolbar label")];
-        [toolbarItem setToolTip:NSLocalizedString(@"ParticipantsToolTip", @"Participants tool tip")];
-        [toolbarItem setImage:[NSImage imageNamed:@"Participants"]];
-        [toolbarItem setTarget:self];
-        [toolbarItem setAction:@selector(toggleParticipantsDrawer:)];
-    } else if ([itemIdent isEqual:InternetToolbarItemIdentifier]) { 
-        [toolbarItem setPaletteLabel:NSLocalizedString(@"Connections", nil)];
-        [toolbarItem setLabel:NSLocalizedString(@"Connections", nil)];
-        [toolbarItem setToolTip:NSLocalizedString(@"Open Connections Browser", nil)];
-        [toolbarItem setImage:[NSImage imageNamed: @"ToolbarIconConnectionBrowser"]];
-        [toolbarItem setTarget:[ConnectionBrowserController sharedInstance]];
-        [toolbarItem setAction:@selector(showWindow:)];
-    } else if ([itemIdent isEqual:ShiftRightToolbarItemIdentifier]) {
-        [toolbarItem setToolTip:NSLocalizedString(@"Shift Selection Right", nil)];
-        [toolbarItem setLabel:NSLocalizedString(@"Shift Right", nil)];
-        [toolbarItem setPaletteLabel:NSLocalizedString(@"Shift Right", nil)];
-        [toolbarItem setImage:([NSImage imageNamed: @"ShiftRight"])];
-        [toolbarItem setTarget:nil];
-        [toolbarItem setAction:@selector(shiftRight:)];    
-    } else if ([itemIdent isEqual:ShiftLeftToolbarItemIdentifier]) {
-        [toolbarItem setToolTip:NSLocalizedString(@"Shift Selection Left", nil)];
-        [toolbarItem setLabel:NSLocalizedString(@"Shift Left", nil)];
-        [toolbarItem setPaletteLabel:NSLocalizedString(@"Shift Left", nil)];
-        [toolbarItem setImage:([NSImage imageNamed: @"ShiftLeft"])];
-        [toolbarItem setTarget:nil];
-        [toolbarItem setAction:@selector(shiftLeft:)];    
-    } else if ([itemIdent isEqual:ToggleChangeMarksToolbarItemIdentifier]) {
-        [toolbarItem setToolTip:NSLocalizedString(@"Toggle Change Marks", nil)];
-        [toolbarItem setLabel:NSLocalizedString(@"Toggle Changes", nil)];
-        [toolbarItem setPaletteLabel:NSLocalizedString(@"Toggle Changes", nil)];
-        [toolbarItem setImage:([NSImage imageNamed: @"ShowChangeMarks"])];
-        [toolbarItem setTarget:self];
-        [toolbarItem setAction:@selector(toggleShowsChangeMarks:)];    
-    } else if ([itemIdent isEqual:ToggleShowInvisibleCharactersToolbarItemIdentifier]) {
-        [toolbarItem setToolTip:NSLocalizedString(@"Toggle Invisible Characters", nil)];
-        [toolbarItem setLabel:NSLocalizedString(@"Show Invisibles", nil)];
-        [toolbarItem setPaletteLabel:NSLocalizedString(@"Toggle Invisibles", nil)];
-        [toolbarItem setImage:([NSImage imageNamed: @"InvisibleCharactersShow"])];
-        [toolbarItem setTarget:self];
-        [toolbarItem setAction:@selector(toggleShowInvisibleCharacters:)];    
-    } else if ([itemIdent isEqual:PreviousSymbolToolbarItemIdentifier]) {
-        [toolbarItem setToolTip:NSLocalizedString(@"Goto Previous Symbol", nil)];
-        [toolbarItem setLabel:NSLocalizedString(@"Previous Symbol", nil)];
-        [toolbarItem setPaletteLabel:NSLocalizedString(@"Previous Symbol", nil)];
-        [toolbarItem setImage:[NSImage imageNamed: @"PreviousSymbol"]];
-        [toolbarItem setTarget:self];
-        [toolbarItem setAction:@selector(jumpToPreviousSymbol:)];    
-    } else if ([itemIdent isEqual:NextSymbolToolbarItemIdentifier]) {
-        [toolbarItem setToolTip:NSLocalizedString(@"Goto Next Symbol", nil)];
-        [toolbarItem setLabel:NSLocalizedString(@"Next Symbol", nil)];
-        [toolbarItem setPaletteLabel:NSLocalizedString(@"Next Symbol", nil)];
-        [toolbarItem setImage:[NSImage imageNamed:@"NextSymbol"]];
-        [toolbarItem setTarget:self];
-        [toolbarItem setAction:@selector(jumpToNextSymbol:)];    
-    } else if ([itemIdent isEqual:PreviousChangeToolbarItemIdentifier]) {
-        [toolbarItem setToolTip:NSLocalizedString(@"Goto Previous Change", nil)];
-        [toolbarItem setLabel:NSLocalizedString(@"Previous Change", nil)];
-        [toolbarItem setPaletteLabel:NSLocalizedString(@"Previous Change", nil)];
-        [toolbarItem setImage:[NSImage imageNamed: @"PreviousChange"]];
-        [toolbarItem setTarget:self];
-        [toolbarItem setAction:@selector(jumpToPreviousChange:)];    
-    } else if ([itemIdent isEqual:NextChangeToolbarItemIdentifier]) {
-        [toolbarItem setToolTip:NSLocalizedString(@"Goto Next Change", nil)];
-        [toolbarItem setLabel:NSLocalizedString(@"Next Change", nil)];
-        [toolbarItem setPaletteLabel:NSLocalizedString(@"Next Change", nil)];
-        [toolbarItem setImage:[NSImage imageNamed:@"NextChange"]];
-        [toolbarItem setTarget:self];
-        [toolbarItem setAction:@selector(jumpToNextChange:)];    
-    } else if ([itemIdent isEqual:ToggleAnnouncementToolbarItemIdentifier]) {
-        [toolbarItem setToolTip:NSLocalizedString(@"Announce/Conceal Document", nil)];
-        [toolbarItem setLabel:NSLocalizedString(@"Announce/Conceal", nil)];
-        [toolbarItem setPaletteLabel:NSLocalizedString(@"Announce/Conceal", nil)];
-        [toolbarItem setImage:([NSImage imageNamed: @"Announce"])];
-        [toolbarItem setTarget:[self document]];
-        [toolbarItem setAction:@selector(toggleIsAnnounced:)];    
-    } else {
-        toolbarItem=[[(PlainTextDocument *)[self document] documentMode] 
-                                        toolbar:toolbar 
-                          itemForItemIdentifier:itemIdent 
-                      willBeInsertedIntoToolbar:willBeInserted];
-    }
-    if (!toolbarItem) {
-        toolbarItem=[[AppController sharedInstance] 
-                                        toolbar:toolbar 
-                          itemForItemIdentifier:itemIdent 
-                      willBeInsertedIntoToolbar:willBeInserted];
-    }
-    return toolbarItem;
-}
-
-- (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar {
-    NSMutableArray *result=
-        [NSMutableArray arrayWithObjects:
-                ParticipantsToolbarItemIdentifier,
-                ToggleAnnouncementToolbarItemIdentifier,
-                NSToolbarSeparatorItemIdentifier,
-                PreviousSymbolToolbarItemIdentifier,
-                NextSymbolToolbarItemIdentifier,
-                PreviousChangeToolbarItemIdentifier,
-                NextChangeToolbarItemIdentifier,
-                ToggleChangeMarksToolbarItemIdentifier,
-                NSToolbarFlexibleSpaceItemIdentifier,
-                InternetToolbarItemIdentifier,
-                nil];
-    [result addObjectsFromArray:
-        [[AppController sharedInstance] 
-            toolbarDefaultItemIdentifiers:toolbar]];
-    [result addObjectsFromArray:
-        [[(PlainTextDocument *)[self document] documentMode] 
-            toolbarDefaultItemIdentifiers:toolbar]];
-    
-    return result;
-}
-
-- (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar {
-    return [[[NSArray arrayWithObjects:
-                InternetToolbarItemIdentifier,
-                ShiftLeftToolbarItemIdentifier,
-                ShiftRightToolbarItemIdentifier,
-                PreviousSymbolToolbarItemIdentifier,
-                NextSymbolToolbarItemIdentifier,
-                ParticipantsToolbarItemIdentifier,
-                PreviousChangeToolbarItemIdentifier,
-                NextChangeToolbarItemIdentifier,
-                ToggleChangeMarksToolbarItemIdentifier,
-                ToggleAnnouncementToolbarItemIdentifier,
-                ToggleShowInvisibleCharactersToolbarItemIdentifier,
-                NSToolbarPrintItemIdentifier,
-                NSToolbarCustomizeToolbarItemIdentifier,
-                NSToolbarSeparatorItemIdentifier,
-                NSToolbarSpaceItemIdentifier,
-                NSToolbarFlexibleSpaceItemIdentifier,
-                nil] 
-                arrayByAddingObjectsFromArray:
-                    [[(PlainTextDocument *)[self document] documentMode] 
-                        toolbarAllowedItemIdentifiers:toolbar]]
-                arrayByAddingObjectsFromArray:[[AppController sharedInstance] 
-                                        toolbarAllowedItemIdentifiers:toolbar]];
-}
-
-- (void)checkToolbarForUnallowedItems {
-    NSToolbar *toolbar=[[self window] toolbar];
-    NSArray *itemArray=[toolbar items];
-    NSArray *allowedIdentifiers=[self toolbarAllowedItemIdentifiers:toolbar];
-    int i = [itemArray count];
-    for (--i;i>=0;i--) {
-        if (![allowedIdentifiers containsObject:[[itemArray objectAtIndex:i] itemIdentifier]]) {
-            [toolbar removeItemAtIndex:i];
-        }
-    }
-}
-
-
-
-- (void)toolbarWillAddItem:(NSNotification *)aNotification {
-    // to show all items correctly validated
-    NSToolbarItem *item=[[aNotification userInfo] objectForKey:@"item"];
-    id target=[item target];
-    if ([target respondsToSelector:@selector(validateToolbarItem:)]) {
-        [item setEnabled:[target validateToolbarItem:item]];
-    }
-}
-
-- (BOOL)validateToolbarItem:(NSToolbarItem *)toolbarItem {
-    NSString *itemIdentifier = [toolbarItem itemIdentifier];
-    if ([itemIdentifier isEqualToString:ParticipantsToolbarItemIdentifier]) {
-        return YES;
-    } else if ([itemIdentifier isEqualToString:ToggleChangeMarksToolbarItemIdentifier]) {
-        PlainTextEditor *editor=[self activePlainTextEditor];
-        BOOL showsChangeMarks=[(LayoutManager *)[[editor textView] layoutManager] showsChangeMarks];
-        if (!editor) showsChangeMarks=[[self document] showsChangeMarks];
-        [toolbarItem setImage:showsChangeMarks
-                              ?[NSImage imageNamed: @"HideChangeMarks"]
-                              :[NSImage imageNamed: @"ShowChangeMarks"]  ];
-        [toolbarItem setLabel:showsChangeMarks
-                              ?NSLocalizedString(@"Hide Changes", nil)
-                              :NSLocalizedString(@"Show Changes", nil)];
-        return YES;
-    } else if ([itemIdentifier isEqualToString:ToggleShowInvisibleCharactersToolbarItemIdentifier]) {
-        BOOL showsInvisibleCharacters = [[self activePlainTextEditor] showsInvisibleCharacters];
-        [toolbarItem setImage:showsInvisibleCharacters
-                              ?[NSImage imageNamed: @"InvisibleCharactersHide"]
-                              :[NSImage imageNamed: @"InvisibleCharactersShow"]];
-        [toolbarItem setLabel:showsInvisibleCharacters
-                              ?NSLocalizedString(@"Hide Invisibles", nil)
-                              :NSLocalizedString(@"Show Invisibles", nil)];
-        return YES;
-    }
-    
-    return YES;
-}
 
 - (IBAction)toggleShowInvisibleCharacters:(id)aSender {
     [[self activePlainTextEditor] setShowsInvisibleCharacters:![[self activePlainTextEditor] showsInvisibleCharacters]];
@@ -1225,6 +529,7 @@ static NSAttributedString *S_dragString = nil;
 - (IBAction)toggleShowsChangeMarks:(id)aSender {
     [[self activePlainTextEditor] toggleShowsChangeMarks:aSender];
 }
+
 
 #pragma mark -
 
@@ -1235,8 +540,7 @@ static NSAttributedString *S_dragString = nil;
 }
 
 - (void)sessionDidChange:(NSNotification *)aNotification {
-    [O_participantsView reloadData];
-    [[NSNotificationCenter defaultCenter] addObserver:self 
+    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(participantsDidChange:)
                                                  name:TCMMMSessionParticipantsDidChangeNotification 
                                                object:[(PlainTextDocument *)[self document] session]];
@@ -1259,23 +563,18 @@ static NSAttributedString *S_dragString = nil;
 }
 
 - (void)MMSessionDidChange:(NSNotification *)aNotifcation {
-    [self validateUpperDrawer];
     [self synchronizeWindowTitleWithDocumentName];
 }
 
-
 - (void)participantsDataDidChange:(NSNotification *)aNotifcation {
-    [O_participantsView setNeedsDisplay:YES];
 }
 
 - (void)participantsDidChange:(NSNotification *)aNotifcation {
-    [O_participantsView reloadData];
     [self synchronizeWindowTitleWithDocumentName]; // update the lock
     [self refreshDisplay];
 }
 
 - (void)pendingUsersDidChange:(NSNotification *)aNotifcation {
-    [O_participantsView reloadData];
     [self synchronizeWindowTitleWithDocumentName];
 }
 
@@ -1289,8 +588,8 @@ static NSAttributedString *S_dragString = nil;
     while ((editor=[plainTextEditors nextObject])) {
         [[editor textView] setNeedsDisplay:YES];
     }
-    [O_participantsView setNeedsDisplay:YES];
 }
+
 
 #pragma mark -
 
@@ -1311,15 +610,13 @@ static NSAttributedString *S_dragString = nil;
 - (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName document:(PlainTextDocument *)document {
     TCMMMSession *session = [document session];
     
-#if !defined(CODA)	
 	NSTabViewItem *tabViewItem = [self tabViewItemForDocument:document];
     if (tabViewItem) [tabViewItem setLabel:displayName];
-#endif //defined(CODA)	
- 
+
     if ([[document ODBParameters] objectForKey:@"keyFileCustomPath"]) {
         displayName = [[document ODBParameters] objectForKey:@"keyFileCustomPath"];
     } else {
-        NSArray *pathComponents = [[document fileName] pathComponents];
+        NSArray *pathComponents = [[document fileURL] pathComponents];
         int count = [pathComponents count];
         if (count != 0) {
             NSMutableString *result = [NSMutableString string];
@@ -1344,15 +641,15 @@ static NSAttributedString *S_dragString = nil;
 
     if (session && ![session isServer]) {
         displayName = [displayName stringByAppendingFormat:@" - %@", [[[TCMMMUserManager sharedInstance] userForUserID:[session hostID]] name]];
-        if ([document fileName]) {
-            if (![[[session filename] lastPathComponent] isEqualToString:[[document fileName] lastPathComponent]]) {
+        if ([document fileURL]) {
+            if (![[[session filename] lastPathComponent] isEqualToString:[[document fileURL] lastPathComponent]]) {
                 displayName = [displayName stringByAppendingFormat:@" (%@)", [session filename]];
             }
             displayName = [displayName stringByAppendingString:@" *"];
         }
     }
     
-    int requests;
+    NSUInteger requests;
     if ((requests=[[[(PlainTextDocument *)[self document] session] pendingUsers] count])>0) {
         displayName=[displayName stringByAppendingFormat:@" (%@)", [NSString stringWithFormat:NSLocalizedString(@"%d pending", @"Pending Users Display in Menu Title Bar"), requests]];
     }
@@ -1364,9 +661,9 @@ static NSAttributedString *S_dragString = nil;
     
     NSArray *windowControllers=[document windowControllers];
     if ([windowControllers count]>1) {
-        displayName = [displayName stringByAppendingFormat:@" - %d/%d",
+        displayName = [displayName stringByAppendingFormat:@" - %lu/%lu",
                         [windowControllers indexOfObject:self]+1,
-                        [windowControllers count]];
+                        (unsigned long)[windowControllers count]];
     }
     
     return displayName;
@@ -1376,584 +673,258 @@ static NSAttributedString *S_dragString = nil;
     return [self windowTitleForDocumentDisplayName:displayName document:(PlainTextDocument *)[self document]];
 }
 
+
 #pragma mark -
 
-#define SPLITMINHEIGHTTEXT   46.
-#define SPLITMINHEIGHTDIALOG 95.
+- (void)updateWindowMinSize {
+	CGFloat minHeight = 0.0;
+	CGFloat minWidth = 0.0;
 
--(void)splitView:(NSSplitView *)aSplitView resizeSubviewsWithOldSize:(NSSize)oldSize {
-    float splitminheight = (aSplitView==I_dialogSplitView) ? SPLITMINHEIGHTDIALOG : SPLITMINHEIGHTTEXT;
-    if (aSplitView != I_dialogSplitView) {
-        NSRect frame=[aSplitView bounds];
-        NSArray *subviews=[aSplitView subviews];
-        NSRect frametop=[[subviews objectAtIndex:0] frame];
-        NSRect framebottom=[[subviews objectAtIndex:1] frame];
-        float newHeight1=frame.size.height-[aSplitView dividerThickness];
-        float topratio=frametop.size.height/(oldSize.height-[aSplitView dividerThickness]);
-        frametop.size.height=(float)((int)(newHeight1*topratio));
-        if (frametop.size.height<splitminheight) {
-            frametop.size.height=splitminheight;
-        } else if (newHeight1-frametop.size.height<splitminheight) {
-            frametop.size.height=newHeight1-splitminheight;
-        }
-    
-        framebottom.size.height=newHeight1-frametop.size.height;
-        framebottom.size.width=frametop.size.width=frame.size.width;
-        
-        frametop.origin.x=framebottom.origin.x=frame.origin.x;
-        frametop.origin.y=frame.origin.y;
-        framebottom.origin.y=frame.origin.y+[aSplitView dividerThickness]+frametop.size.height;
-        
-        [[subviews objectAtIndex:0] setFrame:frametop];
-        [[subviews objectAtIndex:1] setFrame:framebottom];
-    } else {
-        // just keep the height of the first view (dialog)
-        NSView *view2 = [[aSplitView subviews] objectAtIndex:1];
-        NSSize newSize = [aSplitView bounds].size;
-        NSSize frameSize = [view2 frame].size;
-        frameSize.height += newSize.height - oldSize.height;
-        if (frameSize.height <= splitminheight) {
-            frameSize.height = splitminheight;
-        }
-        [view2 setFrameSize:frameSize];
-        [aSplitView adjustSubviews];
-    }
+	PlainTextWindowControllerTabContext *tabContext = self.selectedTabContext;
+	NSSplitView *editorSplitView = tabContext.editorSplitView;
+	NSSplitView *dialogSplitView = tabContext.dialogSplitView;
+	NSSplitView *webPreviewSplitView = tabContext.webPreviewSplitView;
+
+	if (webPreviewSplitView) {
+		minWidth += webPreviewSplitView.dividerThickness;
+		minWidth += SEEMinEditorWidth; // editor width
+		minWidth += SEEMinWebPreviewWidth; // preview
+	}
+
+	if (dialogSplitView) {
+		minHeight += SPLITMINHEIGHTDIALOG;
+		minHeight += [dialogSplitView dividerThickness];
+	}
+	
+	for (PlainTextEditor *editor in tabContext.plainTextEditors) {
+		minHeight += editor.desiredMinHeight;
+	}
+	if (tabContext.plainTextEditors.count > 1) {
+		minHeight += [editorSplitView dividerThickness];
+	}
+	
+	NSSize minSize = NSMakeSize(MAX(SEEMinEditorWidth, minWidth), MAX(minHeight, 230.));
+	[self.window setContentMinSize:minSize];
+	
+	BOOL needsResizing = NO;
+	NSRect contentRect = [self.window contentRectForFrameRect:self.window.frame];
+	if (NSHeight(contentRect) < minSize.height) {
+		contentRect.size.height = minSize.height;
+		needsResizing = YES;
+	}
+	if (NSWidth(contentRect) < minSize.width) {
+		contentRect.size.width = minSize.width;
+		needsResizing = YES;
+	}
+	
+	if (needsResizing) {
+		NSRect newFrame = [self.window frameRectForContentRect:contentRect];
+		
+		newFrame.origin.y = NSMaxY(self.window.frame) - NSHeight(newFrame);
+		
+		newFrame = [self.window constrainFrameRect:newFrame toScreen:self.window.screen];
+		[self.window setFrame:newFrame display:YES];
+		if (editorSplitView) {
+			[editorSplitView setPosition:NSHeight([editorSplitView.subviews.firstObject frame]) ofDividerAtIndex:0];
+		}
+		if (dialogSplitView) {
+			[dialogSplitView setPosition:NSHeight([dialogSplitView.subviews.firstObject frame]) ofDividerAtIndex:0];
+		}
+	}
 }
 
-- (BOOL)splitView:(NSSplitView *)aSplitView canCollapseSubview:(NSView *)aView {
-    return NO;
-}
 
-- (CGFloat)splitView:(NSSplitView *)aSplitView constrainSplitPosition:(CGFloat)proposedPosition 
-       ofSubviewAt:(NSInteger)offset {
+#pragma mark - Dialog Split
 
-    float height=[aSplitView frame].size.height;
-    float minHeight=(aSplitView==I_dialogSplitView) ? SPLITMINHEIGHTDIALOG : SPLITMINHEIGHTTEXT;;
-    if (proposedPosition<minHeight) {
-        return minHeight;
-    } else if (proposedPosition+minHeight+[aSplitView dividerThickness]>height) {
-        return height-minHeight-[aSplitView dividerThickness];
-    } else {
-        return proposedPosition;
-    }
+- (void)setDocumentDialog:(id)aDocumentDialog {
+	PlainTextWindowControllerTabContext *tabContext = self.selectedTabContext;
+	tabContext.documentDialog = aDocumentDialog;
 }
 
 - (id)documentDialog {
-    return I_documentDialog;
+	id result = self.selectedTabContext.documentDialog;
+	return result;
 }
 
-- (void)documentDialogFadeInTimer:(NSTimer *)aTimer {
-    NSMutableDictionary *info = [aTimer userInfo];
-    NSTimeInterval timeInterval     = [[[aTimer userInfo] objectForKey:@"stop"] 
-                                        timeIntervalSinceDate:[[aTimer userInfo] objectForKey:@"start"]];
-    NSTimeInterval timeSinceStart   = [[[aTimer userInfo] objectForKey:@"start"] timeIntervalSinceNow] * -1.;
-//    NSLog(@"sinceStart: %f, timeInterval: %f, %@ %@",timeSinceStart,timeInterval,[[aTimer userInfo] objectForKey:@"stop"],[[aTimer userInfo] objectForKey:@"start"]);
-    float factor = timeSinceStart / timeInterval;
-    if (factor > 1.) factor = 1.;
-    if (![[info objectForKey:@"type"] isEqualToString:@"BlindDown"]) {
-        factor = 1.-factor;
-    }
-    // make transition sinoidal
-    factor = (-cos(factor*M_PI)/2.)+0.5;
-    
-    
-    NSView *dialogView = [[I_dialogSplitView subviews] objectAtIndex:0];
-    NSRect targetFrame = [dialogView frame];
-    float newHeight = (int)(factor * [[info objectForKey:@"targetHeight"] floatValue]);
-    float difference = newHeight - targetFrame.size.height;
-    targetFrame.size.height = newHeight;
-    [dialogView setFrame:targetFrame];
-    NSView *contentView = [[I_dialogSplitView subviews] objectAtIndex:1];
-    NSRect contentFrame = [contentView frame];
-    contentFrame.size.height -= difference;
-    [contentView setFrame:contentFrame];
-    [I_dialogSplitView setNeedsDisplay:YES];
-    
-    if (timeSinceStart >= timeInterval) {
-#if !defined(CODA)		
-        NSTabViewItem *tabViewItem = [self tabViewItemForDocument:[self document]];
-#endif //!defined(CODA)		
-        if (![[info objectForKey:@"type"] isEqualToString:@"BlindDown"]) {
-#if !defined(CODA)			
-            NSTabViewItem *tab = [I_tabView selectedTabViewItem];
-            [tab setView:[[I_dialogSplitView subviews] objectAtIndex:1]];
-#endif //!defined(CODA)			
-            I_dialogSplitView = nil;
-            
-#if !defined(CODA)			
-            if (tabViewItem) [[tabViewItem identifier] setDialogSplitView:nil];
-#endif //!defined(CODA)			
-                         
-            NSSize minSize = [[self window] contentMinSize];
-            minSize.height -= 100;
-            minSize.width -= 63;
-            [[self window] setContentMinSize:minSize];
-#if !defined(CODA)			
-            if (tabViewItem) [[tabViewItem identifier] setDocumentDialog:nil];
-#endif //!defined(CODA)			
-            I_documentDialog = nil;
-            [[self window] makeFirstResponder:[[self activePlainTextEditor] textView]];
-        } else {
-#if !defined(CODA)			
-            if (tabViewItem) [[self window] makeFirstResponder:[[self documentDialog] initialFirstResponder]];
-#endif //!defined(CODA)			
-        }
-        [dialogView setAutoresizesSubviews:YES];
-        [I_dialogAnimationTimer invalidate];
-        [I_dialogAnimationTimer autorelease];
-        I_dialogAnimationTimer = nil;
-    }
-}
+#pragma mark - Editor Split
 
-- (void)setDocumentDialog:(id)aDocumentDialog {
-    [aDocumentDialog setDocument:[self document]];
-    if (aDocumentDialog) {
-        if (!I_dialogSplitView) {
-#if !defined(CODA)			
-            NSTabViewItem *tab = [self tabViewItemForDocument:[self document]];
-#endif //!defined(CODA)			
-            
-            //NSView *contentView = [[[self window] contentView] retain];
-#if !defined(CODA)			
-            NSView *tabItemView = [[tab view] retain];
-#endif //!defined(CODA)			
-            NSView *dialogView = [aDocumentDialog mainView];
-            //I_dialogSplitView = [[SplitView alloc] initWithFrame:[contentView frame]];
-#if !defined(CODA)			
-            I_dialogSplitView = [[[SplitView alloc] initWithFrame:[tabItemView frame]] autorelease];
-            
-            [[tab identifier] setDialogSplitView:I_dialogSplitView];
-#endif //!defined(CODA)
-			
-            [(SplitView *)I_dialogSplitView setDividerThickness:3.];
-            NSRect mainFrame = [dialogView frame];
-            //[[self window] setContentView:I_dialogSplitView];
-#if !defined(CODA)			
-            [tab setView:I_dialogSplitView];
-#endif //!defined(CODA)          
-			
-            [I_dialogSplitView setIsPaneSplitter:YES];
-            [I_dialogSplitView setDelegate:self];
-            [I_dialogSplitView addSubview:dialogView];
-            mainFrame.size.width = [I_dialogSplitView frame].size.width;
-            [dialogView setFrame:mainFrame];
-            float targetHeight = mainFrame.size.height;
-            [dialogView resizeSubviewsWithOldSize:mainFrame.size];
-            mainFrame.size.height = 0;
-            [dialogView setAutoresizesSubviews:NO];
-            [dialogView setFrame:mainFrame];
-            //[I_dialogSplitView addSubview:[contentView autorelease]];
-#if !defined(CODA)			
-            [I_dialogSplitView addSubview:[tabItemView autorelease]];
-#endif //!defined(CODA)			
-            NSSize minSize = [[self window] contentMinSize];
-            minSize.height+=100;
-            minSize.width+=63;
-            [[self window] setContentMinSize:minSize];
-            I_dialogAnimationTimer = [[NSTimer scheduledTimerWithTimeInterval:0.01 
-                target:self 
-                selector:@selector(documentDialogFadeInTimer:) 
-                userInfo:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                            [NSDate dateWithTimeIntervalSinceNow:0.20], @"stop", 
-                            [NSDate date], @"start",
-                            [NSNumber numberWithFloat:targetHeight],@"targetHeight",
-                            @"BlindDown",@"type",nil] 
-                repeats:YES] retain];
-        } else {
-            NSRect frame = [[[I_dialogSplitView subviews] objectAtIndex:0] frame];
-            [[[I_dialogSplitView subviews] objectAtIndex:0] removeFromSuperviewWithoutNeedingDisplay];
-            [I_dialogSplitView addSubview:[aDocumentDialog mainView] positioned:NSWindowBelow relativeTo:[[I_dialogSplitView subviews] objectAtIndex:0]];
-            [[aDocumentDialog mainView] setFrame:frame];
-            [I_dialogSplitView setNeedsDisplay:YES];
-        }
-        //[I_documentDialog autorelease];
-        //I_documentDialog = [aDocumentDialog retain];
-    
-#if !defined(CODA)		
-        NSTabViewItem *tabViewItem = [self tabViewItemForDocument:[self document]];
-         if (tabViewItem) {
-            [[tabViewItem identifier] setDocumentDialog:aDocumentDialog];
-            I_documentDialog = aDocumentDialog;
-        }
-#endif //!defined(CODA)
-    } else if (!aDocumentDialog && I_dialogSplitView) {
-        [[[I_dialogSplitView subviews] objectAtIndex:0] setAutoresizesSubviews:NO];
-        I_dialogAnimationTimer = [[NSTimer scheduledTimerWithTimeInterval:0.01 
-            target:self 
-            selector:@selector(documentDialogFadeInTimer:) 
-            userInfo:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                        [NSDate dateWithTimeIntervalSinceNow:0.20], @"stop", 
-                        [NSDate date], @"start",
-                        [NSNumber numberWithFloat:[[[I_dialogSplitView subviews] objectAtIndex:0] frame].size.height],@"targetHeight",
-                        @"BlindUp",@"type",nil] 
-            repeats:YES] retain];
-    }
-}
-
-- (IBAction)toggleDialogView:(id)aSender {
-    [self setDocumentDialog:[[[EncodingDoctorDialog alloc] initWithEncoding:NSASCIIStringEncoding] autorelease]];
-}
-
-#if !defined(CODA)
 - (IBAction)toggleSplitView:(id)aSender {
-    if ([I_plainTextEditors count]==1) {
-        NSTabViewItem *tab = [I_tabView selectedTabViewItem];
+	PlainTextWindowControllerTabContext *tabContext = [self selectedTabContext];
+	tabContext.hasEditorSplit = ! tabContext.hasEditorSplit;
+
+	NSTextView *textView = [tabContext.plainTextEditors[0] textView];
+	[self.window makeFirstResponder:textView];
+}
+
+#pragma mark Editors
+
+- (NSArray *)plainTextEditors {
+	PlainTextWindowControllerTabContext *tabContext = self.selectedTabContext;
+    return tabContext.plainTextEditors;
+}
+
+- (PlainTextEditor *)activePlainTextEditor {
+	PlainTextEditor *result = self.selectedTabContext.activePlainTextEditor;
+	return result;
+}
+
+- (void)setActivePlainTextEditor:(PlainTextEditor *)activePlainTextEditor {
+	[self.selectedTabContext setActivePlainTextEditor:activePlainTextEditor];
+	[self invalidateRestorableState];
+}
+
+- (PlainTextEditor *)activePlainTextEditorForDocument:(PlainTextDocument *)aDocument {
+	PlainTextEditor *result = nil;
+	NSTabViewItem *tabViewItem = [self tabViewItemForDocument:aDocument];
+    if (tabViewItem) {
+        PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
+		result = tabContext.activePlainTextEditor;
+    }
+	return result;
+}
+
+
+#pragma mark - Participants Overlay
+
+- (IBAction)openParticipantsOverlay:(id)aSender {
+
+	PlainTextEditor *editor = [[self plainTextEditors] lastObject];
+	if (editor) {
+		NSTabViewItem *tab = [I_tabView selectedTabViewItem];
         PlainTextWindowControllerTabContext *context = (PlainTextWindowControllerTabContext *)[tab identifier];
-        PlainTextEditor *plainTextEditor = [[PlainTextEditor alloc] initWithWindowControllerTabContext:context splitButton:NO];
-        [I_plainTextEditors addObject:plainTextEditor];
-        [plainTextEditor release];
-        I_editorSplitView = [[[SplitView alloc] initWithFrame:[[[I_plainTextEditors objectAtIndex:0] editorView] frame]] autorelease];
+		SEEParticipantsOverlayViewController *participantsOverlay = [[[SEEParticipantsOverlayViewController alloc] initWithTabContext:context] autorelease];
+		[editor displayViewControllerInBottomArea:participantsOverlay];
+	}
 
-        [context setEditorSplitView:I_editorSplitView];
-
-        if (!I_dialogSplitView) {
-            //[[self window] setContentView:I_editorSplitView];
-            [tab setView:I_editorSplitView];
-        } else {
-            [I_dialogSplitView addSubview:I_editorSplitView positioned:NSWindowBelow relativeTo:[[I_dialogSplitView subviews] objectAtIndex:1]];
-        }
-        NSSize splitSize=[I_editorSplitView frame].size;
-        splitSize.height=splitSize.height/2.;
-        [[[I_plainTextEditors objectAtIndex:0] editorView] setFrameSize:splitSize];
-        [[[I_plainTextEditors objectAtIndex:1] editorView] setFrameSize:splitSize];
-        [I_editorSplitView addSubview:[[I_plainTextEditors objectAtIndex:0] editorView]];
-        [I_editorSplitView addSubview:[[I_plainTextEditors objectAtIndex:1] editorView]];
-        [I_editorSplitView setIsPaneSplitter:YES];
-        [I_editorSplitView setDelegate:self];
-        [[I_plainTextEditors objectAtIndex:1] setShowsBottomStatusBar:
-            [[I_plainTextEditors objectAtIndex:0] showsBottomStatusBar]];
-        [[I_plainTextEditors objectAtIndex:0] setShowsBottomStatusBar:NO];
-        [[I_plainTextEditors objectAtIndex:1] setShowsGutter:
-            [[I_plainTextEditors objectAtIndex:0] showsGutter]];
-        [self setInitialRadarStatusForPlainTextEditor:[I_plainTextEditors objectAtIndex:1]];
-    } else if ([I_plainTextEditors count]==2) {
-        id fr = [[self window] firstResponder];
-        NSRect visibleRect = NSZeroRect;
-        if (fr == [[I_plainTextEditors objectAtIndex:1] textView]) {
-            visibleRect = [[[I_plainTextEditors objectAtIndex:1] textView] visibleRect];
-            [[[I_plainTextEditors objectAtIndex:0] textView] setSelectedRange:[[[I_plainTextEditors objectAtIndex:1] textView] selectedRange]];
-        }
-        if (!I_dialogSplitView) {
-            //[[self window] setContentView:[[I_plainTextEditors objectAtIndex:0] editorView]];
-            NSTabViewItem *tab = [I_tabView selectedTabViewItem];
-            [tab setView:[[I_plainTextEditors objectAtIndex:0] editorView]];
-            [tab setInitialFirstResponder:[[I_plainTextEditors objectAtIndex:0] editorView]];
-        } else {
-            NSView *editorView = [[I_plainTextEditors objectAtIndex:0] editorView];
-            [editorView setFrame:[I_editorSplitView frame]];
-            [I_dialogSplitView addSubview:[[I_plainTextEditors objectAtIndex:0] editorView] positioned:NSWindowBelow relativeTo:I_editorSplitView];
-            [I_editorSplitView removeFromSuperview];
-        }
-        
-        NSTabViewItem *tabViewItem = [self tabViewItemForDocument:[self document]];
-        if (tabViewItem) [[tabViewItem identifier] setEditorSplitView:nil];
-        [[I_plainTextEditors objectAtIndex:0] setShowsBottomStatusBar:
-            [[I_plainTextEditors objectAtIndex:1] showsBottomStatusBar]];
-        [I_plainTextEditors removeObjectAtIndex:1];
-        I_editorSplitView = nil;
-        
-        if (!NSEqualRects(NSZeroRect,visibleRect)) {
-            [[[I_plainTextEditors objectAtIndex:0] textView] scrollRectToVisible:visibleRect];
-        }
-    }
-    [[I_plainTextEditors objectAtIndex:0] setIsSplit:[I_plainTextEditors count]!=1];
-    NSTextView *textView=[[I_plainTextEditors objectAtIndex:0] textView];
-    NSRange selectedRange=[textView selectedRange];
-    [textView scrollRangeToVisible:selectedRange];
-    if ([I_plainTextEditors count]==2) {
-        [[[I_plainTextEditors objectAtIndex:1] textView] scrollRangeToVisible:selectedRange];
-    }
-    [[self window] makeFirstResponder:textView];
 }
-#endif //!defined(CODA)
 
-#pragma mark -
-#pragma mark ### ParticipantsView data source methods ###
+- (IBAction)closeParticipantsOverlay:(id)aSender {
+	PlainTextEditor *editor = [[self plainTextEditors] lastObject];
+	if (editor) {
+		[editor displayViewControllerInBottomArea:nil];
+	}
+}
 
-- (int)listView:(TCMListView *)aListView numberOfEntriesOfItemAtIndex:(int)anItemIndex {
-    if (anItemIndex==-1) {
-        if ([[[(PlainTextDocument *)[self document] session] pendingUsers] count] >0) {
-            return 3;
-        } else {
-            return 2;
-        }
+- (IBAction)toggleParticipantsOverlay:(id)sender {
+	PlainTextEditor *editor = [[self plainTextEditors] lastObject];
+	if (editor) {
+		if (editor.hasBottomOverlayView) {
+			[editor displayViewControllerInBottomArea:nil];
+		} else {
+			NSTabViewItem *tab = [I_tabView selectedTabViewItem];
+			PlainTextWindowControllerTabContext *context = (PlainTextWindowControllerTabContext *)[tab identifier];
+			SEEParticipantsOverlayViewController *participantsOverlay = [[[SEEParticipantsOverlayViewController alloc] initWithTabContext:context] autorelease];
+			[editor displayViewControllerInBottomArea:participantsOverlay];
+		}
+		[self invalidateRestorableState];
+	}
+}
+
+- (IBAction)changePendingUsersAccess:(id)aSender {
+    [(PlainTextDocument *)[self document] changePendingUsersAccess:aSender];
+}
+
+- (IBAction)toggleBottomStatusBar:(id)aSender {
+    [self setShowsBottomStatusBar:![self showsBottomStatusBar]];
+    [(PlainTextDocument *)[self document] setShowsBottomStatusBar:[self showsBottomStatusBar]];
+	[self invalidateRestorableState];
+}
+
+
+#pragma mark - WebPreview Split
+
+- (IBAction)toggleWebPreview:(id)sender {
+	NSResponder *oldFirstResponder = self.window.firstResponder;
+	PlainTextWindowControllerTabContext *tabContext = [self selectedTabContext];
+
+	// when split is closing and the webView is first responder make te editor the first responder
+	if (tabContext.hasWebPreviewSplit) {
+		NSView *webView = tabContext.webPreviewSplitView.subviews.firstObject;
+		if (webView && [oldFirstResponder isKindOfClass:[NSView class]] && [((NSView *)oldFirstResponder) isDescendantOf:webView]) {
+			oldFirstResponder = tabContext.activePlainTextEditor.textView;
+		}
+	}
+
+	tabContext.hasWebPreviewSplit = ! tabContext.hasWebPreviewSplit;
+
+	[self updateWindowMinSize];
+    [[self window] makeFirstResponder:oldFirstResponder];
+}
+
+- (IBAction)refreshWebPreview:(id)aSender {
+	PlainTextWindowControllerTabContext *tabContext = [self selectedTabContext];
+    if (!tabContext.webPreviewViewController) {
+        [self toggleWebPreview:self];
     } else {
-        TCMMMSession *session=[(PlainTextDocument *)[self document] session];
-        NSDictionary *participants=[session participants];
-        NSDictionary *invitedUsers=[session invitedUsers];
-        if (anItemIndex==0) {
-            return [(NSArray*)[participants objectForKey:@"ReadWrite"] count] + 
-                   [(NSArray*)[invitedUsers objectForKey:@"ReadWrite"] count];
-        } else if (anItemIndex==1) {
-            return [(NSArray*)[participants objectForKey:@"ReadOnly"] count] + 
-                   [(NSArray*)[invitedUsers objectForKey:@"ReadOnly"] count];
-        } else if (anItemIndex==2) {
-            return [[session pendingUsers] count];
-        }
-        return 0;
+        [tabContext.webPreviewViewController refresh:self];
     }
 }
 
-- (id)listView:(TCMListView *)aListView objectValueForTag:(int)aTag atChildIndex:(int)aChildIndex ofItemAtIndex:(int)anItemIndex {
-    if (aChildIndex == -1) {
-        static NSImage *statusReadWrite=nil;
-        static NSImage *statusReadOnly=nil;
-        static NSImage *statusPending=nil;
-    
-        if (!statusReadWrite) statusReadWrite=[[NSImage imageNamed:@"StatusReadWrite"] retain];
-        if (!statusReadOnly)  statusReadOnly=[[NSImage imageNamed:@"StatusReadOnly"] retain];
-        if (!statusPending)   statusPending=[[NSImage imageNamed:@"StatusPending"] retain];
-        if (anItemIndex==0) {
-            if (aTag==ParticipantsItemStatusImageTag) {
-                return statusReadWrite;
-            } else if (aTag==ParticipantsItemNameTag) {
-                return NSLocalizedString(@"read/write",@"Description in Participants view for Read Write access");
-            } 
-        } else if (anItemIndex==1) {
-            if (aTag==ParticipantsItemStatusImageTag) {
-                return statusReadOnly;
-            } else if (aTag==ParticipantsItemNameTag) {
-                return NSLocalizedString(@"read only",@"Description in Participants view for Read Only access");
-            } 
-        } else if (anItemIndex==2) {
-            if (aTag==ParticipantsItemStatusImageTag) {
-                return statusPending;
-            } else if (aTag==ParticipantsItemNameTag) {
-                return NSLocalizedString(@"pending users",@"Description in Participants view for pending users");
-            } 
-        }
-        return nil;
-    } else {
-        PlainTextDocument *document=(PlainTextDocument *)[self document];
-        TCMMMSession *session=[document session];
-        NSDictionary *participants=[session participants];
-        NSDictionary *invitedUsers=[session invitedUsers];
-        NSString *status=nil;
-        TCMMMUser *user=nil;
-        int participantCount=0;
-        if (anItemIndex==0 || anItemIndex==1) {
-            NSString *group=(anItemIndex==0)?@"ReadWrite":@"ReadOnly";
-            participantCount=[(NSArray*)[participants objectForKey:group] count];
-            if (aChildIndex < participantCount) {
-                user=[[participants objectForKey:group] objectAtIndex:aChildIndex];
-            } else {
-                user=[[invitedUsers objectForKey:group] objectAtIndex:aChildIndex-participantCount];
-                status=[session stateOfInvitedUserById:[user userID]];
-            }
-        } else if (anItemIndex==2) {
-            user=[[session pendingUsers] objectAtIndex:aChildIndex];
-        }
-        if (anItemIndex>=0 && anItemIndex<3) {
-            if (aTag==ParticipantsChildNameTag) {
-                return [user name];
-            } else if (aTag==ParticipantsChildStatusTag) {
-                NSMutableDictionary *properties=[user propertiesForSessionID:[session sessionID]];
-                SelectionOperation *selectionOperation=[properties objectForKey:@"SelectionOperation"];
-                NSColor *userColor=[[document documentBackgroundColor] blendedColorWithFraction:
-                                        [[NSUserDefaults standardUserDefaults] floatForKey:ChangesSaturationPreferenceKey]/100.
-                                     ofColor:[user changeColor]];
-                NSDictionary *attributes=[NSDictionary dictionaryWithObjectsAndKeys:
-                   [NSFont systemFontOfSize:[NSFont smallSystemFontSize]],NSFontAttributeName, 
-                   [document documentForegroundColor],NSForegroundColorAttributeName,
-                   userColor,NSBackgroundColorAttributeName, nil];
-                NSString *result=@" ";
-                if (status) {
-                    // (void)NSLocalizedString(@"AwaitingResponse", @"Awaiting Response");
-                    // (void)NSLocalizedString(@"DeclinedInvitation", @"Declined Invitation");
-                    result=NSLocalizedString(status,@"<do not localize>");
-                } else if ([[user userID] isEqualToString:[TCMMMUserManager myUserID]]) {
-                    result =[(FoldableTextStorage *)[document textStorage] 
-                            positionStringForRange:[[[self activePlainTextEditor] textView] selectedRange]];
-                } else if (selectionOperation) {
-                    result =[[(FoldableTextStorage *)[document textStorage] fullTextStorage] positionStringForRange:[selectionOperation selectedRange]];
-                }
-                return [[[NSAttributedString alloc] initWithString:result attributes:attributes] autorelease];
-            } else if (aTag==ParticipantsChildImageTag) {
-                return ((status || anItemIndex==2) ? [user image32Dimmed] : [user image32]);
-            } else if (aTag==ParticipantsChildImageNextToNameTag) {
-                return [user colorImage];
-            }
-        }
-        return nil;
-    }
+
+#pragma mark - Window restoration
+
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
+//	NSLog(@"%s - %d : %@", __FUNCTION__, __LINE__, [self.document displayName]);
+	[super encodeRestorableStateWithCoder:coder];
+
+	PlainTextDocument *selectedDocument = self.document;
+
+	NSMutableArray *tabLookupKeys = [NSMutableArray array];
+	for (PlainTextDocument *tabDocument in self.orderedDocuments) {
+		NSTabViewItem *tabItem = [self tabViewItemForDocument:tabDocument];
+		PlainTextWindowControllerTabContext *tabContext = tabItem.identifier;
+
+		NSString *tabLookupKey = tabContext.uuid;
+		[tabLookupKeys addObject:tabLookupKey];
+
+		NSMutableData *tabData = [NSMutableData data];
+		NSKeyedArchiver *tabCoder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:tabData];
+		[tabCoder setOutputFormat:NSPropertyListBinaryFormat_v1_0];
+		[tabContext encodeRestorableStateWithCoder:tabCoder];
+		if (tabDocument != selectedDocument) {
+			[tabItem.view encodeRestorableStateWithCoder:tabCoder];
+			[tabDocument encodeRestorableStateWithCoder:tabCoder];
+		} else {
+			[coder encodeObject:tabLookupKey forKey:@"PlainTextWindowSelectedTabLookupKey"];
+		}
+		[tabCoder finishEncoding];
+		[coder encodeObject:tabData forKey:tabLookupKey];
+		[tabCoder release];
+	}
+
+	[coder encodeObject:tabLookupKeys forKey:@"PlainTextWindowOpenTabLookupKeys"];
 }
 
--(void)listViewDidChangeSelection:(TCMListView *)aListView {
-    [self validateButtons];
+- (void)restoreStateWithCoder:(NSCoder *)coder {
+//	NSLog(@"%s - %d : %@", __FUNCTION__, __LINE__, [self.document displayName]);
+	[super restoreStateWithCoder:coder];
+
+	PlainTextDocument *selectedDocument = self.document;
+
+	for (PlainTextDocument *tabDocument in self.orderedDocuments) {
+		NSTabViewItem *tabItem = [self tabViewItemForDocument:tabDocument];
+		PlainTextWindowControllerTabContext *tabContext = tabItem.identifier;
+
+		NSString *tabLookupKey = tabContext.uuid;
+
+		NSData *tabData = [coder decodeObjectForKey:tabLookupKey];
+		NSKeyedUnarchiver *tabCoder = [[NSKeyedUnarchiver alloc] initForReadingWithData:tabData];
+		if (tabCoder) {
+			[tabContext restoreStateWithCoder:tabCoder];
+
+			// -restoreStateWithCoder on the selected document and view will be called by the window default implementation afterwards
+			if (tabDocument != selectedDocument) {
+				[tabItem.view restoreStateWithCoder:tabCoder];
+				[tabDocument restoreStateWithCoder:tabCoder];
+			}
+		}
+		[tabCoder finishDecoding];
+		[tabCoder release];
+	}
 }
 
--(NSMenu *)contextMenuForListView:(TCMListView *)aListView clickedAtRow:(int)aRow {
-    ItemChildPair pair=[O_participantsView itemChildPairAtRow:aRow];
-    if (pair.childIndex!=-1) {
-        return I_contextMenu;
-    }
-    return nil;
-}
 
-- (NSString *)listView:(TCMListView *)aListView toolTipStringAtChildIndex:(int)aChildIndex ofItemAtIndex:(int)anItemIndex {
-    if (aChildIndex!=-1) {
-        PlainTextDocument *document=(PlainTextDocument *)[self document];
-        TCMMMSession *session=[document session];
-        NSDictionary *participants=[session participants];
-        TCMMMUser *user=nil;
-        if (anItemIndex<2) {
-            NSString *group = anItemIndex==0?@"ReadWrite":@"ReadOnly";
-            if ([(NSArray*)[participants objectForKey:group] count]>aChildIndex) {
-                user=[[participants objectForKey:group] objectAtIndex:aChildIndex];
-            } else {
-                user=[[[session invitedUsers] objectForKey:group] objectAtIndex:aChildIndex-[(NSArray*)[participants objectForKey:group] count]];
-            }
-        } else if (anItemIndex==2) {
-            user=[[session pendingUsers] objectAtIndex:aChildIndex];
-        }
-
-        if (user) {
-        
-            NSMutableArray *toolTipArray = [NSMutableArray array];
-            
-            NSString *addressDataString = nil, *userAgent=nil;
-            BOOL isInbound = NO;
-            TCMBEEPSession *beepSession = [session BEEPSessionForUserID:[user userID]];
-            if (beepSession) {
-                addressDataString = [NSString stringWithAddressData:[beepSession peerAddressData]];
-                userAgent = [[beepSession userInfo] objectForKey:@"userAgent"];
-                if (!userAgent) userAgent = @"SubEthaEdit/2.x";
-                isInbound = ![beepSession isInitiator];
-            }
-            
-            if (user) {
-                [toolTipArray addObject:[user name]];
-                if ([(NSString*)[[user properties] objectForKey:@"AIM"] length] > 0)
-                    [toolTipArray addObject:[NSString stringWithFormat:@"AIM: %@",[[user properties] objectForKey:@"AIM"]]];
-                if ([(NSString*)[[user properties] objectForKey:@"Email"] length] > 0)
-                    [toolTipArray addObject:[NSString stringWithFormat:@"Email: %@",[[user properties] objectForKey:@"Email"]]];
-            }
-            
-            if (userAgent) {
-                [toolTipArray addObject:userAgent];
-            }
-            
-            if (addressDataString) {
-                [toolTipArray addObject:addressDataString];
-            }
-            
-            if (isInbound) {
-                [toolTipArray addObject:NSLocalizedString(@"Inbound Connection", @"Inbound Connection ToolTip")];
-            }
-            
-            return [toolTipArray count] > 0 ? [toolTipArray componentsJoinedByString:@"\n"] : nil;
-        }
-    }
-    return nil;
-}
-
-- (BOOL)listView:(TCMListView *)aListView writeRows:(NSIndexSet *)selectedRows toPasteboard:(NSPasteboard *)aPasteBoard {
-    TCMMMSession *session=[(PlainTextDocument *)[self document] session];
-    [aListView reduceSelectionToChildren];
-    selectedRows = [aListView selectedRowIndexes];
-    if ([selectedRows count]>0) {
-        int state = [self buttonStateForSelectedRows:selectedRows];
-        NSDictionary *plist=[NSDictionary dictionaryWithObjectsAndKeys:
-            [NSNumber numberWithBool:(state & KickButtonStateMask)],@"Kick",
-            [NSNumber numberWithBool:(state & ReadOnlyButtonStateMask)],@"ReadOnly",
-            [NSNumber numberWithBool:(state & ReadWriteButtonStateMask)],@"ReadWrite",nil];
-        [aPasteBoard declareTypes:[NSArray arrayWithObjects:@"ParticipantDrag",NSVCardPboardType,nil] owner:nil];
-        [aPasteBoard setPropertyList:plist forType:@"ParticipantDrag"];
-        NSMutableString *vcfString=[NSMutableString string];
-        NSMutableIndexSet *selection=[selectedRows mutableCopy];
-        while ([selection count]>0) {
-            int row=[selection firstIndex];
-            ItemChildPair pair=[O_participantsView itemChildPairAtRow:row];
-            TCMMMUser *user=nil;
-            if (pair.childIndex!=-1) {
-                if (pair.itemIndex==2) {
-                    user=[[session pendingUsers] objectAtIndex:pair.childIndex];
-                } else {
-                    NSString *group=(pair.itemIndex==0)?@"ReadWrite":@"ReadOnly";
-                    NSArray *array=[[session participants] objectForKey:group];
-                    if ([array count]>pair.childIndex) {
-                        user=[array objectAtIndex:pair.childIndex];
-                    } else {
-                        user=[[[session invitedUsers] objectForKey:group] objectAtIndex:pair.childIndex-[array count]];
-                    }
-                }
-            }
-            if (user) {
-                NSString *vcf=[user vcfRepresentation];
-                if (vcf) {
-                    [vcfString appendString:vcf];
-                }
-            }
-            [selection removeIndex:row];
-        }
-        [selection release];
-        [aPasteBoard setData:[vcfString dataUsingEncoding:NSUnicodeStringEncoding] forType:NSVCardPboardType];
-        return YES;
-    } else {
-        return NO;
-    }
-}
-
-#pragma mark -
-#pragma mark ### menu validation ###
-
--(void)menuNeedsUpdate:(NSMenu *)menu {
-    int state = [self buttonStateForSelectedRows:[O_participantsView selectedRowIndexes]];
-    NSMutableSet *userset=[NSMutableSet set];
-    NSMutableIndexSet *selectedRows=[[[O_participantsView selectedRowIndexes] mutableCopy] autorelease];
-    int row;
-    TCMMMSession *session=[(PlainTextDocument *)[self document] session];
-    for (row=[selectedRows firstIndex];[selectedRows count]>0;[selectedRows removeIndex:row],row=[selectedRows firstIndex]) {
-        ItemChildPair pair=[O_participantsView itemChildPairAtRow:row];
-        TCMMMUser *user=nil;
-        if (pair.childIndex!=-1) {
-            if (pair.itemIndex==2) {
-                user=[[session pendingUsers] objectAtIndex:pair.childIndex];
-            } else {
-                NSArray *participantArray=[[session participants] objectForKey:(pair.itemIndex==0?@"ReadWrite":@"ReadOnly")];
-                if ([participantArray count]>pair.childIndex) {
-                    user=[participantArray objectAtIndex:pair.childIndex];
-                } else {
-                    user=[[[session invitedUsers] objectForKey:(pair.itemIndex==0?@"ReadWrite":@"ReadOnly")] objectAtIndex:pair.childIndex-[participantArray count]];
-                }
-            }
-        }
-        if (user && ![[user userID] isEqualToString:[TCMMMUserManager myUserID]]) {
-            [userset addObject:[user userID]];
-        }
-    }
-    id item;
-    item = [menu itemWithTag:ParticipantContextMenuTagAIM];
-    [item setRepresentedObject:userset];
-    item = [menu itemWithTag:ParticipantContextMenuTagEmail];
-    [item setRepresentedObject:userset];
-    
-    item = [menu itemWithTag:ParticipantContextMenuTagFollow];
-    [item setEnabled:[userset count]==1 && (state & FollowUserStateMask)!=0];
-    
-    item = [menu itemWithTag:ParticipantContextMenuTagReadWrite];
-    [item setEnabled:(state & ReadWriteButtonStateMask)];
-    item = [menu itemWithTag:ParticipantContextMenuTagReadOnly];
-    [item setEnabled:(state & ReadOnlyButtonStateMask)];
-    item = [menu itemWithTag:ParticipantContextMenuTagKickDeny];
-    [item setEnabled:(state & KickButtonStateMask)];
-    NSString *string=NSLocalizedString(@"ParticipantContextMenuKick",@"KickDeny user entry for Participant context menu");
-    if ((state & KickStateMask) && (state & DenyStateMask)) {
-        string=NSLocalizedString(@"ParticipantContextMenuKickDeny",@"KickDeny user entry for Participant context menu");
-    } else if (state & DenyStateMask) {
-        string=NSLocalizedString(@"ParticipantContextMenuDeny",@"KickDeny user entry for Participant context menu");
-    }
-    [item setTitle:string];
-
-    item = [menu itemWithTag:ParticipantContextMenuTagAIM];
-    [item setEnabled:[[item target] validateMenuItem:item]];
-    item = [menu itemWithTag:ParticipantContextMenuTagEmail];
-    [item setEnabled:[[item target] validateMenuItem:item]];
-
-}
-
-#pragma mark -
-#pragma mark ### window delegation  ###
+#pragma mark - NSWindowDelegate
 
 - (NSRect)windowWillUseStandardFrame:(NSWindow *)sender defaultFrame:(NSRect)defaultFrame {
     if (!([[NSApp currentEvent] modifierFlags] & NSShiftKeyMask)) {
@@ -1974,9 +945,8 @@ static NSAttributedString *S_dragString = nil;
     // switch mode menu on becoming main
     [(PlainTextDocument *)[self document] adjustModeMenu];
     // also make sure the tab menu is updated correctly
-    [[DocumentController sharedInstance] updateTabMenu];
+    [[SEEDocumentController sharedInstance] updateTabMenu];
     
-#if !defined(CODA)
     NSTabViewItem *tabViewItem = [I_tabView selectedTabViewItem];
     if (tabViewItem) {
         PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
@@ -1985,13 +955,12 @@ static NSAttributedString *S_dragString = nil;
             [tabContext setIsAlertScheduled:NO];
         }
     }
-#endif //!defined(CODA)
 }
 
 - (void)windowDidBecomeKey:(NSNotification *)aNotification
 {
     NSMenu *fileMenu = [[[NSApp mainMenu] itemWithTag:FileMenuTag] submenu];
-    int index = [fileMenu indexOfItemWithTarget:nil andAction:@selector(closeTab:)];
+    NSInteger index = [fileMenu indexOfItemWithTarget:nil andAction:@selector(closeTab:)];
     if (index) {
         NSMenuItem *item = [fileMenu itemAtIndex:index];
         [item setKeyEquivalent:@"w"];
@@ -2013,7 +982,7 @@ static NSAttributedString *S_dragString = nil;
 - (void)windowDidResignKey:(NSNotification *)aNotification
 {
     NSMenu *fileMenu = [[[NSApp mainMenu] itemWithTag:FileMenuTag] submenu];
-    int index = [fileMenu indexOfItemWithTarget:nil andAction:@selector(closeTab:)];
+    NSInteger index = [fileMenu indexOfItemWithTarget:nil andAction:@selector(closeTab:)];
     if (index) {
         NSMenuItem *item = [fileMenu itemAtIndex:index];
         [item setKeyEquivalent:@""];
@@ -2031,58 +1000,133 @@ static NSAttributedString *S_dragString = nil;
     }
 }
 
+
+#pragma mark - NSWindowDelegate - Fullscreen
+
+- (NSArray *)allMyFindAllWindowControllers {
+	NSMutableArray *result = [NSMutableArray array];
+	for (PlainTextDocument *document in self.documents) {
+		for (FindAllController *findAllController in document.findAllControllers) {
+			if ([self isEqual:findAllController.findAndReplaceContext.targetTextView.window.windowController]) {
+				[result addObject:findAllController];
+			}
+		}
+	}
+	return result;
+}
+
+- (void)windowWillEnterFullScreen:(NSNotification *)aNotification {
+	for (FindAllController *findAllController in [self allMyFindAllWindowControllers]) {
+		[(NSPanel *)findAllController.window setFloatingPanel:YES];
+	}
+}
+
+- (void)windowDidEnterFullScreen:(NSNotification *)aNotification {
+	for (FindAllController *findAllController in [self allMyFindAllWindowControllers]) {
+		[(NSPanel *)findAllController.window setFloatingPanel:NO];
+		[findAllController.window setLevel:NSFloatingWindowLevel];
+	}
+}
+
+- (void)windowDidExitFullScreen:(NSNotification *)aNotification {
+	for (FindAllController *findAllController in [self allMyFindAllWindowControllers]) {
+		[findAllController.window setLevel:NSNormalWindowLevel];
+	}
+}
+
+
+/* not used for now - maybe delete once fullscreen is given ok (SEE 4.0)
+- (NSArray *)customWindowsToEnterFullScreenForWindow:(NSWindow *)aWindow {}
+// An array of windows to use for the animation to full-screen mode for window; otherwise nil.
+// This method lets a window delegate customize the animation when the window is about to enter full-screen mode by providing a custom window or windows containing layers or other effects. If you don’t want to perform custom animation, you can omit the implementation of this method, or it can return nil.
+ 
+ - (NSArray *)customWindowsToEnterFullScreenForWindow:(NSWindow *)aWindow onScreen:(NSScreen *)aScreen {}
+//  An array of windows to use for the animation to full-screen mode for window; otherwise nil.
+// This method lets a window delegate customize the animation when the window is about to enter full-screen mode by providing a custom window or windows containing layers or other effects. If you don’t want to perform custom animation, you can omit the implementation of this method, or it can return nil.
+// If this method and customWindowsToEnterFullScreenForWindow: are both implemented, this method is called.
+ 
+ - (NSArray *)customWindowsToExitFullScreenForWindow:(NSWindow *)aWindow {}
+// An array of windows involved in the animation out of full-screen mode for window; otherwise nil.
+// This method lets the window delegate customize the animation when the window is about to exit full-screen mode by providing a custom window or windows containing layers or other effects. If an you do not want to perform custom animation, you can omit the implementation of this method, or it can return nil.
+ 
+// This method is called to start the window animation into full-screen mode, including transitioning to a new space.
+ - (void)window:(NSWindow *)aWindow startCustomAnimationToEnterFullScreenOnScreen:(NSScreen *)aScreen withDuration:(NSTimeInterval)aDuration {}
+// You can implement this method to perform custom animation with the given duration to be in sync with the system animation.
+//  This method is called only if customWindowsToEnterFullScreenForWindow: returns non-nil. If window:startCustomAnimationToEnterFullScreenWithDuration: and this method are both implemented, this method is called.
+ 
+// This method is called to start the window animation into full-screen mode, including transitioning to a new space.
+ - (void)window:(NSWindow *)aWindow startCustomAnimationToEnterFullScreenWithDuration:(NSTimeInterval)aDuration {}
+// You can implement this method to perform custom animation with the given duration to be in sync with the system animation.
+// This method is called only if customWindowsToEnterFullScreenForWindow: returns non-nil.
+ 
+// This method is called to start the window animation out of full-screen mode, including transitioning back to the desktop space.
+ - (void)window:(NSWindow *)aWindow startCustomAnimationToExitFullScreenWithDuration:(NSTimeInterval)aDuration {}
+//  You can implement this method to perform custom animation with the given duration to be in sync with the system animation.
+// This method is called only if customWindowsToExitFullScreenForWindow: returns non-nil.
+*/
+
+// Called to allow the delegate to modify the full-screen content size.
+// The window size to use when displaying content size.
+- (NSSize)window:(NSWindow *)aWindow willUseFullScreenContentSize:(NSSize)aProposedSize {
+//	if (!([[NSApp currentEvent] modifierFlags] & NSShiftKeyMask)) { // this code resizes the window in the current width - old behaviour
+//		NSRect windowFrame = [[self window] frame];
+//		aProposedSize.width = windowFrame.size.width;
+//	}
+	return aProposedSize;
+}
+
+// Returns the presentation options the window uses when transitioning to full-screen mode.
+// - (NSApplicationPresentationOptions)window:(NSWindow *)aWindow willUseFullScreenPresentationOptions:(NSApplicationPresentationOptions)aProposedOptions {
+//	 return aProposedOptions;
+// }
+// The proposed options. See NSApplicationPresentationOptions for the possible values.
+// The options the window should use when transitioning to full-screen mode. These may be the same as the proposedOptions or may be modified.
+
+/* fullscreen notifications - not used for now - maybe delete once fullscreen is given ok (SEE 4.0)
+ // The window just entered full-screen mode.
+ - (void)windowDidEnterFullScreen:(NSNotification *)aNotification {}
+// A notification named NSWindowDidEnterFullScreenNotification.
+
+// The window is about to enter full-screen mode.
+ - (void)windowDidExitFullScreen:(NSNotification *)aNotification {}
+//  A notification named NSWindowDidExitFullScreenNotification.
+
+// Called if the window failed to enter full-screen mode.
+ - (void)windowDidFailToEnterFullScreen:(NSWindow *)aWindow {}
+//  In some cases, the transition to enter full-screen mode can fail, due to being in the midst of handling some other animation or user gesture. This method indicates that there was an error, and you should clean up any work you may have done to prepare to enter full-screen mode.
+ // This message is sent whether or not the delegate indicated a custom animation by returning non-nil from customWindowsToEnterFullScreenForWindow:.
+ 
+// Called if the window failed to exit full-screen mode.
+ - (void)windowDidFailToExitFullScreen:(NSWindow *)aWindow {}
+// In some cases, the transition to exit full-screen mode can fail, due to being in the midst of handling some other animation or user gesture. This method indicates that there was an error, and you should clean up any work you may have done to prepare to exit full-screen mode.
+ // This message is sent whether or not the delegate indicated a custom animation by returning non-nil from customWindowsToExitFullScreenForWindow:.
+ 
+// The window is about to enter full-screen mode.
+ - (void)windowWillEnterFullScreen:(NSNotification *)aNotification {}
+// A notification named NSWindowWillEnterFullScreenNotification.
+
+// The window is about to exit full-screen mode.
+ - (void)windowWillExitFullScreen:(NSNotification *)aNotification {}
+// A notification named NSWindowWillExitFullScreenNotification.
+// */
+
 #pragma mark -
 
-#if !defined(CODA)
 - (void)cascadeWindow {
     NSWindow *window = [self window];
     S_cascadePoint = [window cascadeTopLeftFromPoint:S_cascadePoint];
     [window setFrameTopLeftPoint:S_cascadePoint];
 }
-#endif //!defined(CODA)
 
 - (IBAction)showWindow:(id)aSender {
     if (![[self window] isVisible] && !I_doNotCascade) {
-#if !defined(CODA)		
     	[self cascadeWindow];
-#endif //!defined(CODA)
     }
     [super showWindow:aSender];
-    
-    if (!I_lockImageView) {
-        id superview = [[[self window] standardWindowButton:NSWindowToolbarButton] superview];
-        NSRect toolbarButtonFrame = [[[self window] standardWindowButton:NSWindowToolbarButton] frame];
-        NSImage *lockImage = [NSImage imageNamed:@"LockTitlebar"];
-        NSRect iconFrame = toolbarButtonFrame;
-    
-        iconFrame.size = [lockImage size];
-        iconFrame.origin.x =NSMinX(toolbarButtonFrame) - iconFrame.size.width - 3.;
-        iconFrame.origin.y =NSMaxY(toolbarButtonFrame) - iconFrame.size.height + 1.;
-
-        if (superview) {
-            
-            I_lockImageView = [[NSImageView alloc] initWithFrame:iconFrame];
-            [I_lockImageView setEditable:NO];
-            [I_lockImageView setImageFrameStyle:NSImageFrameNone];
-            [I_lockImageView setImageScaling:NSScaleNone];
-            [I_lockImageView setImageAlignment:NSImageAlignCenter];
-            [I_lockImageView setAutoresizingMask:NSViewMinXMargin | NSViewMinYMargin];
-            [superview addSubview:I_lockImageView];
-            [I_lockImageView release];
-            [I_lockImageView setImage:lockImage];
-            [I_lockImageView setToolTip:NSLocalizedString(@"All participants of this document are connected using secure connections",@"Tooltip for ssl lock at top of the window")];
-        }
-        }
-    [self updateLock];
-
 }
 
 - (NSRect)dissolveToFrame {
-#if defined(CODA)
-	return [[self window] frame];
-#else
-	if ([self hasManyDocuments] ||
-	 ([PlainTextDocument transientDocument] && [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey])) {
+	if ([self hasManyDocuments]) {
 	 	NSWindow *window = [self window];
 		 NSRect bounds = [[I_tabBar performSelector:@selector(lastVisibleTab)] frame];
 		 bounds = [[window contentView] convertRect:bounds fromView:I_tabBar];
@@ -2099,10 +1143,8 @@ static NSAttributedString *S_dragString = nil;
 	 } else {
 	 	return NSOffsetRect(NSInsetRect([[self window] frame],-9.,-9.),0.,-4.);
 	 }
-#endif //defined(CODA)	
 }
 
-#if !defined(CODA)
 - (void)documentUpdatedChangeCount:(PlainTextDocument *)document
 {
     NSTabViewItem *tabViewItem = [self tabViewItemForDocument:document];
@@ -2113,12 +1155,9 @@ static NSAttributedString *S_dragString = nil;
     }
 }
 
-- (void)moveAllTabsToWindowController:(PlainTextWindowController *)windowController
-{
-    NSEnumerator *enumerator = [I_documents objectEnumerator];
-    PlainTextDocument *document;
-    while ((document = [enumerator nextObject]))
-    {
+- (void)moveAllTabsToWindowController:(PlainTextWindowController *)windowController {
+
+    for (PlainTextDocument *document in I_documents) {
         NSUInteger documentIndex = [[self documents] indexOfObject:document];
         NSTabViewItem *tabViewItem = [self tabViewItemForDocument:document];
         
@@ -2133,17 +1172,17 @@ static NSAttributedString *S_dragString = nil;
             [windowController insertObject:document inDocumentsAtIndex:[[windowController documents] count]];
             [document addWindowController:windowController];
             [[windowController tabView] addTabViewItem:tabViewItem];
-            [[[tabViewItem identifier] dialogSplitView] setDelegate:windowController];
-            [[[tabViewItem identifier] editorSplitView] setDelegate:windowController];
         }
 
         [tabViewItem release];
 	    [document setKeepUndoManagerOnZeroWindowControllers:NO];
         [document release];
-        if ([O_participantsDrawer state] == NSDrawerOpenState) {
-            [windowController openParticipantsDrawer:self];
-        }
-        
+
+		PlainTextEditor *editor = [[self plainTextEditors] lastObject];
+		if (editor.hasBottomOverlayView) {
+			[windowController openParticipantsOverlay:self];
+		}
+
         [[windowController tabBar] hideTabBar:NO animate:YES];
     }
 }
@@ -2153,13 +1192,11 @@ static NSAttributedString *S_dragString = nil;
     return [[self documents] count] > 1;
 }
 
-- (PSMTabBarControl *)tabBar
-{
+- (PSMTabBarControl *)tabBar {
 	return I_tabBar;
 }
 
-- (NSTabView *)tabView
-{
+- (NSTabView *)tabView {
     return I_tabView;
 }
 
@@ -2192,13 +1229,9 @@ static NSAttributedString *S_dragString = nil;
     }
 }
 
-- (NSArray *)plainTextEditorsForDocument:(id)aDocument
-{
+- (NSArray *)plainTextEditorsForDocument:(id)aDocument {
     NSMutableArray *editors = [NSMutableArray array];
-    unsigned count = [[self documents] count];
-    unsigned i;
-    for (i = 0; i < count; i++) {
-        PlainTextDocument *document = [[self documents] objectAtIndex:i];
+    for (PlainTextDocument *document in self.documents) {
         if ([document isEqual:aDocument]) {
             NSTabViewItem *tabViewItem = [self tabViewItemForDocument:document];
             if (tabViewItem) {
@@ -2221,13 +1254,11 @@ static NSAttributedString *S_dragString = nil;
     }
 }
 
-- (IBAction)closeTab:(id)sender
-{
+- (IBAction)closeTab:(id)sender {
     [[self document] canCloseDocumentWithDelegate:self shouldCloseSelector:@selector(document:shouldClose:contextInfo:) contextInfo:nil];
 }
 
-- (void)closeAllTabsAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
-{
+- (void)closeAllTabsAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
     [[alert window] orderOut:self];
 
     if (returnCode == NSAlertFirstButtonReturn) {
@@ -2243,8 +1274,7 @@ static NSAttributedString *S_dragString = nil;
     }
 }
 
-- (void)closeAllTabs
-{
+- (void)closeAllTabs {
     NSArray *documents = [self documents];
     unsigned count = [documents count];
     unsigned needsSaving = 0;
@@ -2254,9 +1284,7 @@ static NSAttributedString *S_dragString = nil;
 
     while (count--) {
         PlainTextDocument *document = [documents objectAtIndex:count];
-        if (document &&
-            [document isDocumentEdited])
-        {
+        if (document && [document isDocumentEdited]) {
             needsSaving++;
 
             if ([[document windowControllers] count] > 1)
@@ -2293,7 +1321,6 @@ static NSAttributedString *S_dragString = nil;
         }
     }
 }
-#endif //!defined(CODA)
 
 - (void)reviewedDocument:(NSDocument *)doc shouldClose:(BOOL)shouldClose contextInfo:(void *)contextInfo
 {      
@@ -2317,22 +1344,16 @@ static NSAttributedString *S_dragString = nil;
     
 }
 
-- (void)reviewChangesAndQuitEnumeration:(BOOL)cont
-{
+- (void)reviewChangesAndQuitEnumeration:(BOOL)cont{
     if (cont) {
         NSArray *documents = [self documents];
         unsigned count = [documents count];
         while (count--) {
             PlainTextDocument *document = [documents objectAtIndex:count];
-#if defined(CODA)
-			if ([document isDocumentEdited]) 
-#else
-            if ([document isDocumentEdited] && [self selectTabForDocument:document]) 
-#endif //defined(CODA)
-			{
+            if ([document isDocumentEdited] && [self selectTabForDocument:document]) {
                 [document canCloseDocumentWithDelegate:self
                                    shouldCloseSelector:@selector(reviewedDocument:shouldClose:contextInfo:)
-                                           contextInfo:(void *)(@selector(reviewChangesAndQuitEnumeration:))];
+                                           contextInfo:@selector(reviewChangesAndQuitEnumeration:)];
                 return;
             }
         }
@@ -2350,20 +1371,17 @@ static NSAttributedString *S_dragString = nil;
 }
 
 
-#pragma mark -
-#pragma mark  A Method That PlainTextDocument Invokes 
+#pragma mark - A Method That PlainTextDocument Invokes
 
-
-- (void)documentWillClose:(NSDocument *)document 
-{
+- (void)documentWillClose:(NSDocument *)document {
     // Record the document that's closing. We'll just remove it from our list when this object receives a -close message.
     I_documentBeingClosed = document;
 }
 
-#pragma mark  Private KVC-Compliance for Public Properties 
 
-- (void)insertObject:(NSDocument *)document inDocumentsAtIndex:(NSUInteger)index
-{
+#pragma mark - Private KVC-Compliance for Public Properties
+
+- (void)insertObject:(NSDocument *)document inDocumentsAtIndex:(NSUInteger)index {
     // Instantiate the documents array lazily.
     if (!I_documents) {
         I_documents = [[NSMutableArray alloc] init];
@@ -2371,9 +1389,7 @@ static NSAttributedString *S_dragString = nil;
     [I_documents insertObject:document atIndex:index];
 }
 
-
-- (void)removeObjectFromDocumentsAtIndex:(NSUInteger)index
-{
+- (void)removeObjectFromDocumentsAtIndex:(NSUInteger)index {
     // Instantiate the documents array lazily, if only to get a useful exception thrown.
     if (!I_documents) {
         I_documents = [[NSMutableArray alloc] init];
@@ -2385,7 +1401,6 @@ static NSAttributedString *S_dragString = nil;
 
 #pragma mark Simple Property Getting 
 
-#if !defined(CODA)
 - (NSArray *)orderedDocuments {
     NSMutableArray *result = [NSMutableArray array];
     NSEnumerator *tabViewItems = [[[self tabBar] representedTabViewItems] objectEnumerator];
@@ -2398,7 +1413,6 @@ static NSAttributedString *S_dragString = nil;
     }
     return result;
 }
-#endif //!defined(CODA)
 
 - (NSArray *)documents 
 {
@@ -2427,15 +1441,14 @@ static NSAttributedString *S_dragString = nil;
 
         PlainTextEditor *plainTextEditor = [[PlainTextEditor alloc] initWithWindowControllerTabContext:tabContext splitButton:YES];
         [[self window] setInitialFirstResponder:[plainTextEditor textView]];
+		plainTextEditor.editorView.identifier = @"FirstEditor";
                     
         [[tabContext plainTextEditors] addObject:plainTextEditor];
-        I_plainTextEditors = [tabContext plainTextEditors];
 
-        I_editorSplitView = nil;
         I_dialogSplitView = nil;
 
-#if !defined(CODA)        
         NSTabViewItem *tab = [[NSTabViewItem alloc] initWithIdentifier:tabContext];
+		tabContext.tab = tab;
         [tab setLabel:[document displayName]];
         [tab setView:[plainTextEditor editorView]];
         [tab setInitialFirstResponder:[plainTextEditor textView]];
@@ -2443,37 +1456,24 @@ static NSAttributedString *S_dragString = nil;
         [I_tabView addTabViewItem:tab];
         [tab release];
         if ([documents count] > 1) {
-            if (!([documents count] == 2 && 
-                [PlainTextDocument transientDocument] &&
-                [documents containsObject:[PlainTextDocument transientDocument]]))
-            {
-                [I_tabBar hideTabBar:NO animate:YES];
-            }
+			[I_tabBar hideTabBar:NO animate:YES];
         }
-        
         return tab;
-#endif //!defined(CODA)
     }
     return nil;
 }
 
-- (void)setDocument:(NSDocument *)document 
-{
+- (void)setDocument:(NSDocument *)document {
     if (document == [self document]) {
         [super setDocument:document];
-#if !defined(CODA)
         NSTabViewItem *tabViewItem = [self tabViewItemForDocument:(PlainTextDocument *)document];
         if (tabViewItem) {
             PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
-            I_plainTextEditors = [tabContext plainTextEditors];
-            I_editorSplitView = [tabContext editorSplitView];
             I_dialogSplitView = [tabContext dialogSplitView];
         } 
-#endif //!defined(CODA)
         return;
     }
 	[[URLBubbleWindow sharedURLBubbleWindow] hideIfNecessary];
-
     
     BOOL isNew = NO;
     [super setDocument:document];
@@ -2484,40 +1484,27 @@ static NSAttributedString *S_dragString = nil;
         // Have we already recorded this document in our list?
         NSArray *documents = [self documents];
         if (![documents containsObject:document]) {
-#if !defined(CODA)
             // No. Record it, in a KVO-compliant way.
             NSTabViewItem *tab = [self addDocument:document];
             [I_tabView selectTabViewItem:tab];
             
             isNew = [I_tabView numberOfTabViewItems] == 1 ? YES : NO;
-#endif //!defined(CODA)
         } else {
-#if !defined(CODA)
 			// document is already there
             NSTabViewItem *tabViewItem = [self tabViewItemForDocument:(PlainTextDocument *)document];
             if (tabViewItem) {
                 PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
-                I_plainTextEditors = [tabContext plainTextEditors];
-                I_editorSplitView = [tabContext editorSplitView];
                 I_dialogSplitView = [tabContext dialogSplitView];
-                if ([I_plainTextEditors count] > 0) {
-                    [[self window] setInitialFirstResponder:[[I_plainTextEditors objectAtIndex:0] textView]];
+                if ([tabContext.plainTextEditors count] > 0) {
+                    [[self window] setInitialFirstResponder:[[tabContext.plainTextEditors objectAtIndex:0] textView]];
                 }
                 [I_tabView selectTabViewItem:tabViewItem];
             } else {
-#endif //!defined(CODA)				
-                I_plainTextEditors = nil;
-                I_editorSplitView = nil;
                 I_dialogSplitView = nil;
-#if !defined(CODA)				
             }
-#endif //!defined(CODA)			
         }
     } else {
-        I_plainTextEditors = nil;
-        I_editorSplitView = nil;
         I_dialogSplitView = nil;
-        //[I_tabView selectTabViewItemAtIndex:0];
     }
 
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
@@ -2559,85 +1546,81 @@ static NSAttributedString *S_dragString = nil;
     if (document) {
         if ([[self window] isKeyWindow]) {
             [(PlainTextDocument *)document adjustModeMenu];
-            [[DocumentController sharedInstance] updateTabMenu];
+            [[SEEDocumentController sharedInstance] updateTabMenu];
         }
-        [self adjustToolbarToDocumentMode];
         [self refreshDisplay];
-        [self validateUpperDrawer];
-        [O_participantsView reloadData];
-        [self validateButtons];
-        
+
         NSEnumerator *editors = [[self plainTextEditors] objectEnumerator];
         PlainTextEditor *editor = nil;
         while ((editor = [editors nextObject])) {
             [editor updateViews];
         }
-    
-        if (isNew) {            
+
+        if (isNew) {
             DocumentMode *mode = [(PlainTextDocument *)document documentMode];
-            [self setSizeByColumns:[[mode defaultForKey:DocumentModeColumnsPreferenceKey] intValue] 
+            [self setSizeByColumns:[[mode defaultForKey:DocumentModeColumnsPreferenceKey] intValue]
                               rows:[[mode defaultForKey:DocumentModeRowsPreferenceKey] intValue]];
         }
-        
-        [center addObserver:self 
-                                                 selector:@selector(sessionWillChange:)
-                                                     name:PlainTextDocumentSessionWillChangeNotification 
-                                                   object:[self document]];
-        [center addObserver:self 
-                                                 selector:@selector(sessionDidChange:)
-                                                     name:PlainTextDocumentSessionDidChangeNotification 
-                                                   object:[self document]];
 
-        [center addObserver:self 
-                                                 selector:@selector(participantsDataDidChange:)
-                                                     name:PlainTextDocumentParticipantsDataDidChangeNotification 
-                                                   object:[self document]];
+        [center addObserver:self
+				   selector:@selector(sessionWillChange:)
+					   name:PlainTextDocumentSessionWillChangeNotification
+					 object:[self document]];
+        [center addObserver:self
+				   selector:@selector(sessionDidChange:)
+					   name:PlainTextDocumentSessionDidChangeNotification
+					 object:[self document]];
 
-        [center addObserver:self 
-                                                 selector:@selector(participantsDidChange:)
-                                                     name:TCMMMSessionParticipantsDidChangeNotification 
-                                                   object:[(PlainTextDocument *)[self document] session]];
+        [center addObserver:self
+				   selector:@selector(participantsDataDidChange:)
+					   name:PlainTextDocumentParticipantsDataDidChangeNotification
+					 object:[self document]];
 
-        [center addObserver:self 
-                                                 selector:@selector(pendingUsersDidChange:)
-                                                     name:TCMMMSessionPendingUsersDidChangeNotification 
-                                                   object:[(PlainTextDocument *)[self document] session]];
+        [center addObserver:self
+				   selector:@selector(participantsDidChange:)
+					   name:TCMMMSessionParticipantsDidChangeNotification
+					 object:[(PlainTextDocument *)[self document] session]];
 
-        [center addObserver:self 
-                                                 selector:@selector(MMSessionDidChange:)
-                                                     name:TCMMMSessionDidChangeNotification 
-                                                   object:[(PlainTextDocument *)[self document] session]];
-                                                   
-        [center addObserver:self 
-                                                 selector:@selector(displayNameDidChange:)
-                                                     name:PlainTextDocumentDidChangeDisplayNameNotification 
-                                                   object:[self document]];
+        [center addObserver:self
+				   selector:@selector(pendingUsersDidChange:)
+					   name:TCMMMSessionPendingUsersDidChangeNotification
+					 object:[(PlainTextDocument *)[self document] session]];
 
-        [center addObserver:self 
-                                                 selector:@selector(adjustToolbarToDocumentMode)
-                                                     name:PlainTextDocumentDidChangeDocumentModeNotification 
-                                                   object:[self document]];
+        [center addObserver:self
+				   selector:@selector(MMSessionDidChange:)
+					   name:TCMMMSessionDidChangeNotification
+					 object:[(PlainTextDocument *)[self document] session]];
+
+        [center addObserver:self
+				   selector:@selector(displayNameDidChange:)
+					   name:PlainTextDocumentDidChangeDisplayNameNotification
+					 object:[self document]];
+
         [center postNotificationName:@"PlainTextWindowControllerDocumentDidChangeNotification" object:self];
     }
+	[self updateWindowMinSize];
 }
 
 
-- (void)close
-{
+- (void)close {
     //NSLog(@"%s",__FUNCTION__);
     // A document is being closed, and trying to close this window controller. Is it the last document for this window controller?
     NSArray *documents = [self documents];
     NSUInteger oldDocumentCount = [documents count];
+
+	PlainTextWindowControllerTabContext *contextToClose = nil;
+
     if (I_documentBeingClosed && oldDocumentCount > 1) {
-#if !defined(CODA)		
         NSTabViewItem *tabViewItem = [self tabViewItemForDocument:(PlainTextDocument *)I_documentBeingClosed];
-        if (tabViewItem) [I_tabView removeTabViewItem:tabViewItem];
-#endif //!defined(CODA)		
-    
+        if (tabViewItem) {
+			contextToClose = [(PlainTextWindowControllerTabContext *)tabViewItem.identifier retain];
+			[I_tabView removeTabViewItem:tabViewItem];
+		}
+
         id document = nil;
         BOOL keepCurrentDocument = ![[self document] isEqual:I_documentBeingClosed];
         if (keepCurrentDocument) document = [self document];
-        
+
         [I_documentBeingClosed removeWindowController:self];
 
         // There are other documents open. Just remove the document being closed from our list.
@@ -2663,20 +1646,24 @@ static NSAttributedString *S_dragString = nil;
             [[I_documents objectAtIndex:0] removeWindowController:self];
             [self removeObjectFromDocumentsAtIndex:0];
         }
-#if !defined(CODA)		
-        if ([I_tabView numberOfTabViewItems] > 0) [I_tabView removeTabViewItem:[I_tabView tabViewItemAtIndex:0]];
-#endif //!defined(CODA)
+        if ([I_tabView numberOfTabViewItems] > 0) {
+			NSTabViewItem *tabViewItem = [I_tabView tabViewItemAtIndex:0];
+			contextToClose = [(PlainTextWindowControllerTabContext *)tabViewItem.identifier retain];
+			[I_tabView removeTabViewItem:tabViewItem];
+		}
         [self setDocument:nil];
-        
-        [[DocumentController sharedDocumentController] removeWindowController:self];
+		
+        [[SEEDocumentController sharedDocumentController] removeWindowController:self];
         [super close];
     }
+	[contextToClose.plainTextEditors makeObjectsPerformSelector:@selector(prepareForDealloc)];
+	[contextToClose release];
 }
 
-#pragma mark PSMTabBarControl Delegate
 
-- (void)tabView:(NSTabView *)tabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem
-{
+#pragma mark - PSMTabBarControlDelegate
+
+- (void)tabView:(NSTabView *)tabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem {
     PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
     id document = [tabContext document];
     if ([[self documents] containsObject:document]) {
@@ -2685,11 +1672,12 @@ static NSAttributedString *S_dragString = nil;
             [document presentScheduledAlertForWindow:[self window]];
             [tabContext setIsAlertScheduled:NO];
         }
+
+		[self invalidateRestorableState];
     }
 }
 
-- (void)document:(NSDocument *)doc shouldClose:(BOOL)shouldClose contextInfo:(void *)contextInfo
-{
+- (void)document:(NSDocument *)doc shouldClose:(BOOL)shouldClose contextInfo:(void *)contextInfo {
     if (shouldClose) {
         NSArray *windowControllers = [doc windowControllers];
         NSUInteger windowControllerCount = [windowControllers count];
@@ -2700,31 +1688,22 @@ static NSAttributedString *S_dragString = nil;
             [doc close];
         }
         // updateTabMenu
-        [[DocumentController sharedInstance] updateTabMenu];
+        [[SEEDocumentController sharedInstance] updateTabMenu];
     }
 }
 
-#if !defined(CODA)
-- (BOOL)tabView:(NSTabView *)tabView shouldCloseTabViewItem:(NSTabViewItem *)tabViewItem
-{
+- (BOOL)tabView:(NSTabView *)tabView shouldCloseTabViewItem:(NSTabViewItem *)tabViewItem {
     id document = [[tabViewItem identifier] document];
     [document canCloseDocumentWithDelegate:self shouldCloseSelector:@selector(document:shouldClose:contextInfo:) contextInfo:nil];
 
     return NO;
 }
 
-- (BOOL)tabView:(NSTabView*)aTabView shouldDragTabViewItem:(NSTabViewItem *)tabViewItem fromTabBar:(PSMTabBarControl *)tabBarControl
-{
-    if ([[self documents] count] == 1) {
-        if ([O_participantsDrawer respondsToSelector:@selector(_hide)]) {
-            [O_participantsDrawer performSelector:@selector(_hide)];
-        }
-    }
+- (BOOL)tabView:(NSTabView*)aTabView shouldDragTabViewItem:(NSTabViewItem *)tabViewItem fromTabBar:(PSMTabBarControl *)tabBarControl {
 	return YES;
 }
 
-- (BOOL)tabView:(NSTabView*)aTabView shouldDropTabViewItem:(NSTabViewItem *)tabViewItem inTabBar:(PSMTabBarControl *)tabBarControl
-{
+- (BOOL)tabView:(NSTabView*)aTabView shouldDropTabViewItem:(NSTabViewItem *)tabViewItem inTabBar:(PSMTabBarControl *)tabBarControl {
     if ([[tabBarControl window] attachedSheet]) {
         return NO;
     }
@@ -2736,105 +1715,112 @@ static NSAttributedString *S_dragString = nil;
             return NO;
         }
     }
-        
 	return YES;
 }
 
-- (NSImage *)tabView:(NSTabView *)aTabView imageForTabViewItem:(NSTabViewItem *)tabViewItem offset:(NSSize *)offset styleMask:(NSUInteger *)styleMask
-{    
-	// grabs whole window image of the right tab
+- (NSImage *)tabView:(NSTabView *)aTabView imageForTabViewItem:(NSTabViewItem *)tabViewItem offset:(NSSize *)offset styleMask:(NSUInteger *)styleMask {
 	[[self window] disableFlushWindow];
     NSTabViewItem *oldItem = [aTabView selectedTabViewItem];
     [aTabView selectTabViewItem:tabViewItem];
     [aTabView display];
-	NSImage *viewImage = [[[NSImage alloc] init] autorelease];
-	NSRect contentFrame = [[[self window] contentView] frame];
-	[[[self window] contentView] lockFocus];
-	NSBitmapImageRep *viewRep = [[[NSBitmapImageRep alloc] initWithFocusedViewRect:contentFrame] autorelease];
-	[viewImage addRepresentation:viewRep];
-	[[[self window] contentView] unlockFocus];
+
+	// get the view chache
+	NSView *contentView = [[self window] contentView];
+	NSBitmapImageRep *viewCache = [contentView bitmapImageRepForCachingDisplayInRect:contentView.frame];
+	[contentView cacheDisplayInRect:contentView.frame toBitmapImageRep:viewCache];
+
     [aTabView selectTabViewItem:oldItem];
     [aTabView display];
 	[[self window] enableFlushWindow];
-		
-	//draw over where the tab bar would usually be
-	NSRect tabFrame = [I_tabBar frame];
-	[viewImage lockFocus];
-	[[NSColor clearColor] set];
-	NSRectFill(tabFrame);
-	//draw the background flipped, which is actually the right way up
-	NSAffineTransform *transform = [NSAffineTransform transform];
-	[transform scaleXBy:1.0 yBy:-1.0];
-	[transform concat];
-	tabFrame.origin.y = -tabFrame.origin.y - tabFrame.size.height;
-	//[(id <PSMTabStyle>)[[aTabView delegate] style] drawBackgroundInRect:tabFrame];
-	[transform invert];
-	[transform concat];
-	
-	[viewImage unlockFocus];
-	
-	if ([[aTabView delegate] orientation] == PSMTabBarHorizontalOrientation) {
-		offset->width = [(id <PSMTabStyle>)[[aTabView delegate] style] leftMarginForTabBarControl];
-		offset->height = 22;
-	} else {
-		offset->width = 0;
-		offset->height = 22 + [(id <PSMTabStyle>)[[aTabView delegate] style] leftMarginForTabBarControl];
+
+	NSImage *viewImage = [NSImage imageWithSize:viewCache.size flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
+		[viewCache drawInRect:dstRect fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 respectFlipped:NO hints:nil];
+
+		//draw over where the tab bar would usually be
+		NSRect tabFrame = [I_tabBar frame];
+		[[NSColor clearColor] set];
+		NSRectFill(tabFrame);
+
+		//draw the background flipped, which is actually the right way up
+		NSAffineTransform *transform = [NSAffineTransform transform];
+		[transform scaleXBy:1.0 yBy:-1.0];
+		[transform concat];
+		tabFrame.origin.y = -tabFrame.origin.y - tabFrame.size.height;
+		[[((PSMTabBarControl *)[aTabView delegate]) style] drawBezelOfTabBarControl:I_tabBar inRect:tabFrame];
+		[transform invert];
+		[transform concat];
+
+		return YES;
+	}];
+
+	if (offset != NULL) {
+		PSMTabBarControl *tabItem = (PSMTabBarControl *)[aTabView delegate];
+		if ([tabItem orientation] == PSMTabBarHorizontalOrientation) {
+			offset->width = [(id <PSMTabStyle>)[tabItem style] leftMarginForTabBarControl:tabItem];
+			offset->height = 24;
+		} else {
+			offset->width = 0;
+			offset->height = 24 + [(id <PSMTabStyle>)[tabItem style] leftMarginForTabBarControl:tabItem];
+		}
 	}
-	*styleMask = NSBorderlessWindowMask; //NSTitledWindowMask;
-	
+
+	if (styleMask != NULL) {
+		*styleMask = NSBorderlessWindowMask; //NSTitledWindowMask;
+	}
+
 	return viewImage;
 }
-#endif //!defined(CODA)
 
-float ToolbarHeightForWindow(NSWindow *window)
-{
-    NSToolbar *toolbar;
-    float toolbarHeight = 0.0;
-    NSRect windowFrame;
- 
-    toolbar = [window toolbar];
- 
-    if(toolbar && [toolbar isVisible])
-    {
-        windowFrame = [NSWindow contentRectForFrameRect:[window frame]
-                                styleMask:[window styleMask]];
-        toolbarHeight = NSHeight(windowFrame)
-                        - NSHeight([[window contentView] frame]);
-    }
- 
-    return toolbarHeight;
-}
+- (PSMTabBarControl *)tabView:(NSTabView *)aTabView newTabBarForDraggedTabViewItem:(NSTabViewItem *)tabViewItem atPoint:(NSPoint)point {
+	BOOL shouldCreateFullscreenWindow = NO;
 
-#if !defined(CODA)
-- (PSMTabBarControl *)tabView:(NSTabView *)aTabView newTabBarForDraggedTabViewItem:(NSTabViewItem *)tabViewItem atPoint:(NSPoint)point
-{
+	if ([aTabView isEqual:I_tabView] && (aTabView.window.styleMask & NSFullScreenWindowMask) == NSFullScreenWindowMask) {
+		NSWindow *window = aTabView.window;
+		NSPoint windowMousePoint = [window convertScreenToBase:point];
+		NSView *hitView = [window.contentView hitTest:windowMousePoint];
+		if (hitView != nil) {
+			if (aTabView.tabViewItems.count > 1) {
+				shouldCreateFullscreenWindow = YES;
+			} else {
+				[window setAlphaValue:1.0];
+				return nil;
+			}
+		}
+	}
+
 	//create a new window controller with no tab items
 	PlainTextWindowController *controller = [[[PlainTextWindowController alloc] init] autorelease];
-    id <PSMTabStyle> style = (id <PSMTabStyle>)[[aTabView delegate] style];
-    BOOL hideForSingleTab = [[aTabView delegate] hideForSingleTab];
-	
-	NSRect windowFrame = [[controller window] frame];
-	point.y += windowFrame.size.height - [[[controller window] contentView] frame].size.height + ToolbarHeightForWindow([self window]);
-	point.x -= [style leftMarginForTabBarControl];
-	
-    NSRect contentRect = [[self window] contentRectForFrameRect:[[self window] frame]];
-    NSRect frame = [[controller window] frameRectForContentRect:contentRect];
-    [[controller window] setFrame:frame display:NO];
-            
-    [[controller window] setFrameTopLeftPoint:point];
+	PSMTabBarControl *tabBarControl = (PSMTabBarControl *)[aTabView delegate];
+    id <PSMTabStyle> style = [tabBarControl style];
+
+	NSWindow *newWindow = [controller window];
+	if (shouldCreateFullscreenWindow) {
+		newWindow.styleMask = self.window.styleMask;
+		[newWindow setFrame:self.window.frame display:NO];
+	} else {
+		NSRect windowFrame = [newWindow frame];
+		point.y += windowFrame.size.height - [[newWindow contentView] frame].size.height;
+		point.x -= [style leftMarginForTabBarControl:tabBarControl];
+
+		NSRect contentRect = [[self window] contentRectForFrameRect:[[self window] frame]];
+		NSRect frame = [newWindow frameRectForContentRect:contentRect];
+		[newWindow setFrame:frame display:NO];
+		[newWindow setFrameTopLeftPoint:point];
+	}
 	[[controller tabBar] setStyle:style];
-    [[controller tabBar] setHideForSingleTab:hideForSingleTab];
+
+	BOOL hideForSingleTab = [(PSMTabBarControl *)[aTabView delegate] hideForSingleTab];
+	[[controller tabBar] setHideForSingleTab:hideForSingleTab];
 	
-    [[DocumentController sharedInstance] addWindowController:controller];
+    [[SEEDocumentController sharedInstance] addWindowController:controller];
 
 	return [controller tabBar];
 }
 
-- (void)tabView:(NSTabView *)aTabView didDropTabViewItem:(NSTabViewItem *)tabViewItem inTabBar:(PSMTabBarControl *)tabBarControl
-{
+- (void)tabView:(NSTabView *)aTabView didDropTabViewItem:(NSTabViewItem *)tabViewItem inTabBar:(PSMTabBarControl *)tabBarControl {
     if ([[self window] isMainWindow]) {
         // update window menu
-        [[DocumentController sharedInstance] updateTabMenu];
+        [[SEEDocumentController sharedInstance] updateTabMenu];
     }
     if (![tabBarControl isEqual:I_tabBar]) {
         
@@ -2848,7 +1834,7 @@ float ToolbarHeightForWindow(NSWindow *window)
         
         if ([[self documents] count] == 0) {
             [[self retain] autorelease];
-            [[DocumentController sharedInstance] removeWindowController:self];
+            [[SEEDocumentController sharedInstance] removeWindowController:[[self retain] autorelease]];
         } else {
             [self setDocument:[[[[self tabView] selectedTabViewItem] identifier] document]];
         } 
@@ -2858,14 +1844,13 @@ float ToolbarHeightForWindow(NSWindow *window)
 	    [document setKeepUndoManagerOnZeroWindowControllers:NO];
 
         [document release];
-        [[[tabViewItem identifier] dialogSplitView] setDelegate:windowController];
-        [[[tabViewItem identifier] editorSplitView] setDelegate:windowController];
         [windowController setDocument:document];
         
-        if ([O_participantsDrawer state] == NSDrawerOpenState) {
-            [windowController openParticipantsDrawer:self];
-        }
-                  
+		PlainTextEditor *editor = [[self plainTextEditors] lastObject];
+		if (editor.hasBottomOverlayView) {
+			[windowController openParticipantsOverlay:self];
+		}
+
         if (![windowController hasManyDocuments]) {
             [tabBarControl setHideForSingleTab:![[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey]];
             [tabBarControl hideTabBar:![[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey] animate:NO];
@@ -2873,35 +1858,18 @@ float ToolbarHeightForWindow(NSWindow *window)
     }
 }
 
-
-- (void)tabView:(NSTabView *)aTabView closeWindowForLastTabViewItem:(NSTabViewItem *)tabViewItem
-{
+- (void)tabView:(NSTabView *)aTabView closeWindowForLastTabViewItem:(NSTabViewItem *)tabViewItem {
 	[[self window] close];
 }
 
-- (BOOL)tabView:(NSTabView *)aTabView validateOverflowMenuItem:(NSMenuItem *)menuItem forTabViewItem:(NSTabViewItem *)tabViewItem
-{
-    int offset = floor(NSAppKitVersionNumber)>824 ? 1 : 0 ;//NSAppKitVersionNumber10_4 - need an offset for leopard
-    PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
-    PlainTextDocument *document = [tabContext document];
-    if ([document isDocumentEdited]) {
-        SetItemMark(_NSGetCarbonMenu([menuItem menu]), [[menuItem menu] indexOfItem:menuItem]+offset, kBulletCharCode);
-    } else {
-        SetItemMark(_NSGetCarbonMenu([menuItem menu]), [[menuItem menu] indexOfItem:menuItem]+offset, noMark);
-    }
-
-    if ([I_tabView selectedTabViewItem] == tabViewItem)
-        SetItemMark(_NSGetCarbonMenu([menuItem menu]), [[menuItem menu] indexOfItem:menuItem]+offset, checkMark);
-        
+- (BOOL)tabView:(NSTabView *)aTabView validateOverflowMenuItem:(NSMenuItem *)menuItem forTabViewItem:(NSTabViewItem *)tabViewItem {
     return YES;
 }
 
-- (NSString *)tabView:(NSTabView *)aTabView toolTipForTabViewItem:(NSTabViewItem *)tabViewItem
-{
+- (NSString *)tabView:(NSTabView *)aTabView toolTipForTabViewItem:(NSTabViewItem *)tabViewItem {
     PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
     PlainTextDocument *document = [tabContext document];
     return [self windowTitleForDocumentDisplayName:[document displayName] document:document];
 }
-#endif //!defined(CODA)
 
 @end

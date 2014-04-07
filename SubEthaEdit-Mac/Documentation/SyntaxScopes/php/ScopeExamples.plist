@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>language.subroutine.method.special.php</key>
+    <string>__construct __clone</string>
+    <key>language.variable</key>
+    <string>$my_var</string>
+    <key>string.here-doc</key>
+    <string>&lt;&lt;&lt;EOT  something direct EOT;</string>
+    <key>support.subroutine.function</key>
+    <string>htmlentities array_splice</string>
+    <key>markup.processing.languageswitch</key>
+    <string>&lt;?php ?&gt;</string>
+  </dict>
+</plist>

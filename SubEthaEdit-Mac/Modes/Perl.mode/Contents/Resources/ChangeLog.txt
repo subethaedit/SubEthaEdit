@@ -1,3 +1,8 @@
+Changes with Version 4.0  (SEE 4.0)
+	*) SYNTAX: updated for syntax scopes
+	*) SYNTAX: markup cleanup
+	*) added ExampleSyntax.txt
+
 Changes with Version 3.5.1  (SEE 3.5.1)
     *) fixed spacing issue with heredocs SEE-3907
 
@@ -13,26 +18,21 @@ Changes with Version 1.6 (SEE 2.6)
     *) Fixes various problems with states for regex and quotes. Corrected token dictionary to include $.
 
 Changes with Version 1.5 (SEE 2.5.1)
-
     *) Fixing SEE-1039 (Incorrect coloring after perl regex variable $`)
     *) Perl.mode now confirms to "perldoc perlop", complete with arbitary delimiters
     *) fixed issue SEE-1040: "Check Syntax" script has same key shortcut as block edit by changing it to ctrl-command-b
 
 Changes with Version 1.4 (SEE 2.5)
-
     *) Added Scripts: Insert Shebang, chmod ug+x, Check Syntax, Run in Terminal, Lookup in Perldoc.
     *) Fixed SEE-084: Perl code coloring fails when using " on m and s
     *) Fixed SEE-1008. qq() support for Perl.
 
 Changes with Version 1.3 (SEE 2.3)
-
     *) SYMBOLS: Fixed SEE-490.
     *) SYNTAX: Fixed SEE-470 ($"/$' operator confused for string)
 
-Changes with Version 1.2
-    
+Changes with Version 1.2    
     *) SYNTAX: Fixed a problem with POD comments (= after a state).
 
 Changes with Version 1.1
-    
     *) EXTENSIONS: Added uppercase variants where appropriate.

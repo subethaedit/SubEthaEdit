@@ -20,13 +20,14 @@ extern NSString * const SyntaxStyleBaseIdentifier;
 
 + (NSIndexSet *)indexesWhereStyle:(SyntaxStyle *)aStyle isNotEqualToStyle:(SyntaxStyle *)aStyle;
 + (BOOL)style:(NSDictionary *)aStyle isEqualToStyle:(NSDictionary *)anotherStyle;
-+ (NSArray *)syntaxStylesWithXMLFile:(NSString *)aPath;
+//+ (NSArray *)syntaxStylesWithXMLFile:(NSString *)aPath;
 
 - (id)initWithSyntaxStyle:(SyntaxStyle *)aStyle;
 
 - (NSArray *)allKeys;
 - (void)addKey:(NSString *)aKey;
 - (NSMutableDictionary *)styleForKey:(NSString *)aKey;
+- (NSMutableDictionary *)styleForScope:(NSString *)aScope;
 - (void)setStyle:(NSDictionary *)aDictionary forKey:(NSString *)aKey;
 - (void)takeStylesFromDefaultsDictionary:(NSDictionary *)aDictionary;
 - (void)takeValuesFromDictionary:(NSDictionary *)aDictionary;

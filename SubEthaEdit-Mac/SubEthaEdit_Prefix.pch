@@ -10,19 +10,11 @@
     #import "NSImageTCMAdditions.h"
     #import "NSStringSEEAdditions.h"
     #import "NSScreenTCMAdditions.h"
-        
-    extern NSString * const AddressHistory;
+	#import "NSRangeTCMAdditions.h"
+	#import "NSObject+TCMArcLifecycleAdditions.h"
+	#import "NSOperationQueue+TCMAdditions.h"
+	#import "TCMCGGeometryAdditions.h"
 
-	// compatibility typedefs for 10.4
-	#if !defined(NSINTEGER_DEFINED)
-	typedef int NSInteger;
-	typedef unsigned int NSUInteger;
-	#define NSINTEGER_DEFINED 1
-	#endif // !defined(NSINTEGER_DEFINED)
+	extern NSString * const AddressHistory;
 
 #endif //__OBJC__
-
-#if !defined(CGFLOAT_DEFINED)
-typedef float CGFloat;
-#define CGFLOAT_DEFINED 1
-#endif // !defined(CGFLOAT_DEFINED)

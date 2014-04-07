@@ -1,1267 +1,893 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!DOCTYPE syntax SYSTEM "syntax.dtd">
 <syntax>
-
+	<!-- STUDIO - Completely rewritten for Coda, do not replace with SEE version -->
 	<head>
-		<name>LassoScript-HTML</name> <!-- The definitions title -->
-		<charsintokens><![CDATA[#$_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ<>]]></charsintokens> <!-- Valid Characters for Variables -->
-		<!-- <charsdelimitingtokens></charsdelimitingtokens> -->
+		<name>CFML</name> <!-- The definitions title -->
+		<charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@"]]></charsintokens> 
+		<charsincompletion><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@</=!>]]></charsincompletion> 
+		<folding toplevel="3"/>
 	</head>
 
 	<states>
 
-		<default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal" usesymbolsfrommode="HTML" useautocompletefrommode="HTML" usespellchecking="yes">
-		                 
-			<!-- STUDIO - Rewritten, do not replace mode -->
-			<import mode="XML" keywords-only="yes" />
-			
-			<state id="LassoScript 1" color="#000" background-color="#fff" font-weight="normal" font-style="normal" usesymbolsfrommode="LassoScript-HTML" useautocompletefrommode="LassoScript-HTML"  foldable="yes">
-				<begin><regex>\[</regex></begin>
-				<end><regex>\]</regex></end>
-					<import state="LassoScript Code" />
-					
-			</state>
-		
-			<state id="LassoScript 2" color="#000" background-color="#fff" font-weight="normal" font-style="normal" usesymbolsfrommode="LassoScript-HTML" useautocompletefrommode="LassoScript-HTML"  foldable="yes">
-				<begin><regex>(?:&lt;\?(?i)lassoscript)</regex></begin>
-				<end><regex>\?&gt;</regex></end>
-					<import state="LassoScript Code" />			
-			</state>
-			 
-			<state id="Inline CSS" color="#000" font-style="normal" usesymbolsfrommode="CSS" useautocompletefrommode="CSS">
-				<begin><regex>&lt;(?=(?i)style)</regex></begin>
-				<end><regex>/(?i)style&gt;</regex></end>
-				
-				<import mode="CSS"/>
+		<default id="Base" usesymbolsfrommode="CFML" useautocompletefrommode="CFML" usespellchecking="yes" scope="meta.default">
 
-				<keywords id="HTML Comment Tag" color="#236E25" font-style="italic">
-					<regex>(&lt;!--)</regex>
-					<regex>(--&gt;)</regex>
-				</keywords>
-	
-				<keywords id="Style Tags"  color="#881280" font-style="normal">
+			<import mode="XML" keywords-only="yes"/>
+
+			<state id="Inline CFML Script" useforautocomplete="no" usesymbolsfrommode="CFML" useautocompletefrommode="CFML" foldable="yes" scope="meta.default">
+				<begin><regex>&lt;(?i)cfscript&gt;</regex></begin>
+				<end><regex>&lt;/(?i)cfscript&gt;</regex></end>
+
+				<keywords id="CFML Script Tags" scope="markup.tag">
 					<regex>(\A&lt;\Z)</regex>
-					<regex>(&lt;/(?i)style[^&gt;]*&gt;)</regex>
+					<regex>(&lt;/?(?i)cfscript[^&gt;]*&gt;)</regex>
 				</keywords>
 
-				<state id="Opening Style Tag" color="#881280" font-style="normal" usesymbolsfrommode="HTML" useautocompletefrommode="HTML">
-					<begin><regex>\A(?i)style</regex></begin>
+				<state id="Opening CFML Script Tag" scope="markup.tag">
+					<begin><regex>\A(?i)cfscript</regex></begin>
 					<end><regex>&gt;</regex></end>
-		
-					<import mode="XML" state="Tags" />
-				</state>			
-			</state>
 
-			<state id="Inline Javascript" color="#000" usesymbolsfrommode="Javascript" useautocompletefrommode="Javascript">
-				<begin><regex>&lt;(?=(?i)script.*?javascript.*&gt;)</regex></begin>
-				<end><regex>/(?i)script&gt;</regex></end>
-	
-				<import mode="Javascript" />
-
-				<keywords id="HTML Comment Tag2" color="#236E25" font-style="italic">
-					<regex>(&lt;!--)</regex>
-					<regex>(--&gt;)</regex>
-				</keywords>
-	
-				<keywords id="Script Tags"  color="#881280" font-style="normal">
-					<regex>(\A&lt;\Z)</regex>
-					<regex>(&lt;/(?i)script[^&gt;]*&gt;)</regex>
-				</keywords>
-
-				<state id="Opening Script Tag" color="#881280" font-style="normal" usesymbolsfrommode="HTML" useautocompletefrommode="HTML">
-					<begin><regex>\A(?i)script</regex></begin>
-					<end><regex>&gt;</regex></end>
-		
-					<import mode="XML" state="Tags" />
-				</state>	
-			</state>
-			
-			<state-link state="Comment" mode="XML" />				
-			<state-link state="CDATA" mode="XML" />
-			<state-link state="Doctype" mode="XML" />
-			<state-link state="Escape" mode="XML" />
-			
-			<state id="Tags" color="#881280" font-style="normal">
-				<begin><regex>&lt;</regex></begin>
-				<end><regex>&gt;</regex></end>
-			
-				<state id="Strings in Tags" type="string" color="#1A1AA6" useforautocomplete="no">
-					<begin><regex>"</regex></begin>
-					<end><regex>"</regex></end>
-					
-					<keywords id="LassoScript Block in Strings" color="#2C66FF">
-						<regex>(&lt;\?(?i)lassoscript)</regex>
-						<regex>(\?&gt;)</regex>
-						<regex>(\[)</regex>
-						<regex>(\])</regex>
-					</keywords>	
-					
-					<keywords id="LassoScript Variables in Strings" color="#2C66FF" useforautocomplete="no">
-						<regex>([$#]([\w\d])+)</regex>
-					</keywords>
-													
-				</state>
-				
-				<state id="Strings in Tags 2" type="string" color="#1A1AA6" useforautocomplete="no">
-					<begin><regex>'</regex></begin>
-					<end><regex>'</regex></end>
-					
-					<import state="Strings in Tags" />
-					
+					<import mode="XML" state="Tags"/>
 				</state>
 
-				<keywords id="Tag Attributes" color="#994500" useforautocomplete="no">
-					<regex>([\w-]*)(?=[ \t]*=)</regex>
-				</keywords>
-				
-				<state id="LassoScript in Tags" color="#000" background-color="#fff"  foldable="yes">
-					<begin><regex>\[</regex></begin>
-					<end><regex>\]</regex></end>
-						<import state="LassoScript Code" />
-				</state>
-				
-			</state>
-		
-			<state id="LassoScript Code" color="#000" background-color="#fff" font-weight="normal" font-style="normal" containerState="yes" usesymbolsfrommode="LassoScript-HTML" useautocompletefrommode="LassoScript-HTML">
-				
-				<keywords id="LassoScript Block" color="#D00" font-weight="normal" useforautocomplete="no">
-			   		<regex>(&lt;\?(?i)lassoscript)</regex>
-			   		<regex>(\?&gt;)</regex>
-			   		<regex>(\[)</regex>
-			   		<regex>(\])</regex>
-			   	</keywords>
-
-<!--             
-                This does not work for pure Lasso files. FIXME
-                <state id="Foldable Block" type="block" foldable="yes">
-                    <begin><string>(?i)(?&lt;!\S)(?'blockstart'if|iterate|loop|while|define_tag|select)[: \t(][^;]+;</string></begin>
-                    <end><regex>(?i)/(?#see-insert-start-group:blockstart);</regex></end>
-                    <import mode="XML" keywords-only="yes" />
-                    <import state="LassoScript Code" />
-                </state>
- -->			
-				<keywords id="Default Lasso Tags" color="#661AA9" background-color="#fff" font-style="normal" casesensitive="no" useforautocomplete="yes">
-					<string>__char</string>
-					<string>__sync_timestamp__</string>
-					<string>_admin_addgroup</string>
-					<string>_admin_adduser</string>
-					<string>_admin_defaultconnector</string>
-					<string>_admin_defaultconnectornames</string>
-					<string>_admin_defaultdatabase</string>
-					<string>_admin_defaultfield</string>
-					<string>_admin_defaultgroup</string>
-					<string>_admin_defaulthost</string>
-					<string>_admin_defaulttable</string>
-					<string>_admin_defaultuser</string>
-					<string>_admin_deleteconnector</string>
-					<string>_admin_deletedatabase</string>
-					<string>_admin_deletefield</string>
-					<string>_admin_deletegroup</string>
-					<string>_admin_deletehost</string>
-					<string>_admin_deletetable</string>
-					<string>_admin_deleteuser</string>
-					<string>_admin_duplicategroup</string>
-					<string>_admin_internaldatabase</string>
-					<string>_admin_listconnectors</string>
-					<string>_admin_listdatabases</string>
-					<string>_admin_listfields</string>
-					<string>_admin_listgroups</string>
-					<string>_admin_listhosts</string>
-					<string>_admin_listtables</string>
-					<string>_admin_listusers</string>
-					<string>_admin_refreshconnector</string>
-					<string>_admin_refreshsecurity</string>
-					<string>_admin_servicepath</string>
-					<string>_admin_updateconnector</string>
-					<string>_admin_updatedatabase</string>
-					<string>_admin_updatefield</string>
-					<string>_admin_updategroup</string>
-					<string>_admin_updatehost</string>
-					<string>_admin_updatetable</string>
-					<string>_admin_updateuser</string>
-					<string>_chartfx_activation_string</string>
-					<string>_chartfx_getchallengestring</string>
-					<string>_chop_args</string>
-					<string>_chop_mimes</string>
-					<string>_client_addr_old</string>
-					<string>_client_address_old</string>
-					<string>_client_ip_old</string>
-					<string>_database_names</string>
-					<string>_datasource_reload</string>
-					<string>_date_current</string>
-					<string>_date_format</string>
-					<string>_date_msec</string>
-					<string>_date_parse</string>
-					<string>_execution_timelimit</string>
-					<string>_file_chmod</string>
-					<string>_jdbc_acceptsurl</string>
-					<string>_jdbc_debug</string>
-					<string>_jdbc_deletehost</string>
-					<string>_jdbc_driverclasses</string>
-					<string>_jdbc_driverinfo</string>
-					<string>_jdbc_metainfo</string>
-					<string>_jdbc_propertyinfo</string>
-					<string>_jdbc_setdriver</string>
-					<string>_lasso_param</string>
-					<string>_log_helper</string>
-					<string>_proc_withparam</string>
-					<string>_recursion_limit</string>
-					<string>_request_param</string>
-					<string>_security_binaryexpiration</string>
-					<string>_security_flushcaches</string>
-					<string>_security_isserialized</string>
-					<string>_security_serialexpiration</string>
-					<string>_srand</string>
-					<string>_strict_literals</string>
-					<string>_substring</string>
-					<string>_xmlrpc_exconverter</string>
-					<string>_xmlrpc_inconverter</string>
-					<string>_xmlrpc_xmlinconverter</string>
-					<string>action_addinfo</string>
-					<string>action_addrecord</string>
-					<string>action_param</string>
-					<string>action_params</string>
-					<string>action_setfoundcount</string>
-					<string>action_setrecordid</string>
-					<string>action_settotalcount</string>
-					<string>action_statement</string>
-					<string>admin_allowedfileroots</string>
-					<string>admin_changeuser</string>
-					<string>admin_createuser</string>
-					<string>admin_currentgroups</string>
-					<string>admin_currentuserid</string>
-					<string>admin_currentusername</string>
-					<string>admin_getpref</string>
-					<string>admin_groupassignuser</string>
-					<string>admin_grouplistusers</string>
-					<string>admin_groupremoveuser</string>
-					<string>admin_lassoservicepath</string>
-					<string>admin_listgroups</string>
-					<string>admin_refreshsecurity</string>
-					<string>admin_reloaddatasource</string>
-					<string>admin_removepref</string>
-					<string>admin_setpref</string>
-					<string>admin_userexists</string>
-					<string>admin_userlistgroups</string>
-					<string>all</string>
-					<string>and</string>
-					<string>array_iterator</string>
-					<string>auth</string>
-					<string>auth_admin</string>
-					<string>auth_auth</string>
-					<string>auth_custom</string>
-					<string>auth_group</string>
-					<string>auth_prompt</string>
-					<string>auth_user</string>
-					<string>base64</string>
-					<string>bean</string>
-					<string>bigint</string>
-					<string>bom_utf16be</string>
-					<string>bom_utf16le</string>
-					<string>bom_utf32be</string>
-					<string>bom_utf32le</string>
-					<string>bom_utf8</string>
-					<string>boolean</string>
-					<string>bw</string>
-					<string>cache</string>
-					<string>cache_delete</string>
-					<string>cache_empty</string>
-					<string>cache_exists</string>
-					<string>cache_fetch</string>
-					<string>cache_object</string>
-					<string>cache_preferences</string>
-					<string>cache_store</string>
-					<string>chart</string>
-					<string>chart_chart</string>
-					<string>chart_test</string>
-					<string>chartfx</string>
-					<string>checked</string>
-					<string>choice_list</string>
-					<string>choice_listitem</string>
-					<string>choicelistitem</string>
-					<string>cipher_decrypt</string>
-					<string>cipher_digest</string>
-					<string>cipher_encrypt</string>
-					<string>cipher_hmac</string>
-					<string>cipher_keylength</string>
-					<string>cipher_list</string>
-					<string>client_addr</string>
-					<string>client_address</string>
-					<string>client_authorization</string>
-					<string>client_browser</string>
-					<string>client_contentlength</string>
-					<string>client_contenttype</string>
-					<string>client_cookielist</string>
-					<string>client_cookies</string>
-					<string>client_encoding</string>
-					<string>client_formmethod</string>
-					<string>client_getargs</string>
-					<string>client_getparams</string>
-					<string>client_headers</string>
-					<string>client_ip</string>
-					<string>client_ipfrominteger</string>
-					<string>client_iptointeger</string>
-					<string>client_password</string>
-					<string>client_postargs</string>
-					<string>client_postparams</string>
-					<string>client_type</string>
-					<string>client_url</string>
-					<string>client_username</string>
-					<string>cn</string>
-					<string>column</string>
-					<string>column_name</string>
-					<string>column_names</string>
-					<string>compare_beginswith</string>
-					<string>compare_contains</string>
-					<string>compare_endswith</string>
-					<string>compare_equalto</string>
-					<string>compare_greaterthan</string>
-					<string>compare_lessthan</string>
-					<string>compare_notcontains</string>
-					<string>compare_notequalto</string>
-					<string>compare_strictequalto</string>
-					<string>compare_strictnotequalto</string>
-					<string>compiler_removecacheddoc</string>
-					<string>compiler_setdefaultparserflags</string>
-					<string>compress</string>
-					<string>content_body</string>
-					<string>content_encoding</string>
-					<string>content_header</string>
-					<string>content_type</string>
-					<string>cookie</string>
-					<string>cookie_set</string>
-					<string>curl_ftp_getfile</string>
-					<string>curl_ftp_getlisting</string>
-					<string>curl_ftp_putfile</string>
-					<string>curl_include_url</string>
-					<string>currency</string>
-					<string>database_changecolumn</string>
-					<string>database_changefield</string>
-					<string>database_createcolumn</string>
-					<string>database_createfield</string>
-					<string>database_createtable</string>
-					<string>database_fmcontainer</string>
-					<string>database_hostinfo</string>
-					<string>database_inline</string>
-					<string>database_name</string>
-					<string>database_nameitem</string>
-					<string>database_names</string>
-					<string>database_realname</string>
-					<string>database_removecolumn</string>
-					<string>database_removefield</string>
-					<string>database_removetable</string>
-					<string>database_repeating</string>
-					<string>database_repeating_valueitem</string>
-					<string>database_repeatingvalueitem</string>
-					<string>database_schemanameitem</string>
-					<string>database_schemanames</string>
-					<string>database_tablecolumn</string>
-					<string>database_tablenameitem</string>
-					<string>database_tablenames</string>
-					<string>datasource_name</string>
-					<string>datasource_register</string>
-					<string>date__date_current</string>
-					<string>date__date_format</string>
-					<string>date__date_msec</string>
-					<string>date__date_parse</string>
-					<string>date_add</string>
-					<string>date_date</string>
-					<string>date_difference</string>
-					<string>date_duration</string>
-					<string>date_format</string>
-					<string>date_getcurrentdate</string>
-					<string>date_getday</string>
-					<string>date_getdayofweek</string>
-					<string>date_gethour</string>
-					<string>date_getlocaltimezone</string>
-					<string>date_getminute</string>
-					<string>date_getmonth</string>
-					<string>date_getsecond</string>
-					<string>date_gettime</string>
-					<string>date_getyear</string>
-					<string>date_gmttolocal</string>
-					<string>date_localtogmt</string>
-					<string>date_maximum</string>
-					<string>date_minimum</string>
-					<string>date_msec</string>
-					<string>date_setformat</string>
-					<string>date_subtract</string>
-					<string>db_layoutnameitem</string>
-					<string>db_layoutnames</string>
-					<string>db_nameitem</string>
-					<string>db_names</string>
-					<string>db_tablenameitem</string>
-					<string>db_tablenames</string>
-					<string>dbi_column_names</string>
-					<string>dbi_field_names</string>
-					<string>decode_base64</string>
-					<string>decode_bheader</string>
-					<string>decode_hex</string>
-					<string>decode_html</string>
-					<string>decode_qheader</string>
-					<string>decode_quotedprintable</string>
-					<string>decode_quotedprintablebytes</string>
-					<string>decode_url</string>
-					<string>decode_xml</string>
-					<string>decompress</string>
-					<string>decrypt_blowfish</string>
-					<string>decrypt_blowfish2</string>
-					<string>default</string>
-					<string>define_atbegin</string>
-					<string>define_atend</string>
-					<string>define_constant</string>
-					<string>define_prototype</string>
-					<string>define_tagp</string>
-					<string>define_typep</string>
-					<string>deserialize</string>
-					<string>directory_directorynameitem</string>
-					<string>directory_lister</string>
-					<string>directory_nameitem</string>
-					<string>directorynameitem</string>
-					<string>dns_default</string>
-					<string>dns_lookup</string>
-					<string>dns_response</string>
-					<string>email_batch</string>
-					<string>email_compose</string>
-					<string>email_digestchallenge</string>
-					<string>email_digestresponse</string>
-					<string>email_extract</string>
-					<string>email_findemails</string>
-					<string>email_immediate</string>
-					<string>email_merge</string>
-					<string>email_mxerror</string>
-					<string>email_mxlookup</string>
-					<string>email_parse</string>
-					<string>email_pop</string>
-					<string>email_queue</string>
-					<string>email_result</string>
-					<string>email_safeemail</string>
-					<string>email_send</string>
-					<string>email_smtp</string>
-					<string>email_status</string>
-					<string>email_token</string>
-					<string>email_translatebreakstocrlf</string>
-					<string>encode_base64</string>
-					<string>encode_bheader</string>
-					<string>encode_break</string>
-					<string>encode_breaks</string>
-					<string>encode_crc32</string>
-					<string>encode_hex</string>
-					<string>encode_html</string>
-					<string>encode_htmltoxml</string>
-					<string>encode_qheader</string>
-					<string>encode_quotedprintable</string>
-					<string>encode_quotedprintablebytes</string>
-					<string>encode_smart</string>
-					<string>encode_sql</string>
-					<string>encode_sql92</string>
-					<string>encode_stricturl</string>
-					<string>encode_url</string>
-					<string>encode_xml</string>
-					<string>encrypt_blowfish</string>
-					<string>encrypt_blowfish2</string>
-					<string>encrypt_crammd5</string>
-					<string>encrypt_hmac</string>
-					<string>encrypt_md5</string>
-					<string>eq</string>
-					<string>error_adderror</string>
-					<string>error_code</string>
-					<string>error_code_aborted</string>
-					<string>error_code_assert</string>
-					<string>error_code_bof</string>
-					<string>error_code_connectioninvalid</string>
-					<string>error_code_couldnotclosefile</string>
-					<string>error_code_couldnotcreateoropenfile</string>
-					<string>error_code_couldnotdeletefile</string>
-					<string>error_code_couldnotdisposememory</string>
-					<string>error_code_couldnotlockmemory</string>
-					<string>error_code_couldnotreadfromfile</string>
-					<string>error_code_couldnotunlockmemory</string>
-					<string>error_code_couldnotwritetofile</string>
-					<string>error_code_criterianotmet</string>
-					<string>error_code_datasourceerror</string>
-					<string>error_code_directoryfull</string>
-					<string>error_code_diskfull</string>
-					<string>error_code_dividebyzero</string>
-					<string>error_code_eof</string>
-					<string>error_code_failure</string>
-					<string>error_code_fieldrestriction</string>
-					<string>error_code_file</string>
-					<string>error_code_filealreadyexists</string>
-					<string>error_code_filecorrupt</string>
-					<string>error_code_fileinvalid</string>
-					<string>error_code_fileinvalidaccessmode</string>
-					<string>error_code_fileisclosed</string>
-					<string>error_code_fileisopen</string>
-					<string>error_code_filelocked</string>
-					<string>error_code_filenotfound</string>
-					<string>error_code_fileunlocked</string>
-					<string>error_code_httpfilenotfound</string>
-					<string>error_code_illegalinstruction</string>
-					<string>error_code_illegaluseoffrozeninstance</string>
-					<string>error_code_invaliddatabase</string>
-					<string>error_code_invalidfilename</string>
-					<string>error_code_invalidmemoryobject</string>
-					<string>error_code_invalidparameter</string>
-					<string>error_code_invalidpassword</string>
-					<string>error_code_invalidpathname</string>
-					<string>error_code_invalidusername</string>
-					<string>error_code_ioerror</string>
-					<string>error_code_loopaborted</string>
-					<string>error_code_memory</string>
-					<string>error_code_network</string>
-					<string>error_code_nilpointer</string>
-					<string>error_code_noerr</string>
-					<string>error_code_nopermission</string>
-					<string>error_code_outofmemory</string>
-					<string>error_code_outofstackspace</string>
-					<string>error_code_overflow</string>
-					<string>error_code_postconditionfailed</string>
-					<string>error_code_preconditionfailed</string>
-					<string>error_code_resnotfound</string>
-					<string>error_code_resource</string>
-					<string>error_code_streamreaderror</string>
-					<string>error_code_streamwriteerror</string>
-					<string>error_code_syntaxerror</string>
-					<string>error_code_tagnotfound</string>
-					<string>error_code_unknownerror</string>
-					<string>error_code_varnotfound</string>
-					<string>error_code_volumedoesnotexist</string>
-					<string>error_code_webactionnotsupported</string>
-					<string>error_code_webadderror</string>
-					<string>error_code_webdeleteerror</string>
-					<string>error_code_webmodulenotfound</string>
-					<string>error_code_webnosuchobject</string>
-					<string>error_code_webrepeatingrelatedfield</string>
-					<string>error_code_webrequiredfieldmissing</string>
-					<string>error_code_webtimeout</string>
-					<string>error_code_webupdateerror</string>
-					<string>error_columnrestriction</string>
-					<string>error_currenterror</string>
-					<string>error_databaseconnectionunavailable</string>
-					<string>error_databasetimeout</string>
-					<string>error_deleteerror</string>
-					<string>error_fieldrestriction</string>
-					<string>error_filenotfound</string>
-					<string>error_invaliddatabase</string>
-					<string>error_invalidpassword</string>
-					<string>error_invalidusername</string>
-					<string>error_modulenotfound</string>
-					<string>error_msg</string>
-					<string>error_msg_aborted</string>
-					<string>error_msg_assert</string>
-					<string>error_msg_bof</string>
-					<string>error_msg_connectioninvalid</string>
-					<string>error_msg_couldnotclosefile</string>
-					<string>error_msg_couldnotcreateoropenfile</string>
-					<string>error_msg_couldnotdeletefile</string>
-					<string>error_msg_couldnotdisposememory</string>
-					<string>error_msg_couldnotlockmemory</string>
-					<string>error_msg_couldnotreadfromfile</string>
-					<string>error_msg_couldnotunlockmemory</string>
-					<string>error_msg_couldnotwritetofile</string>
-					<string>error_msg_criterianotmet</string>
-					<string>error_msg_datasourceerror</string>
-					<string>error_msg_directoryfull</string>
-					<string>error_msg_diskfull</string>
-					<string>error_msg_dividebyzero</string>
-					<string>error_msg_eof</string>
-					<string>error_msg_failure</string>
-					<string>error_msg_fieldrestriction</string>
-					<string>error_msg_file</string>
-					<string>error_msg_filealreadyexists</string>
-					<string>error_msg_filecorrupt</string>
-					<string>error_msg_fileinvalid</string>
-					<string>error_msg_fileinvalidaccessmode</string>
-					<string>error_msg_fileisclosed</string>
-					<string>error_msg_fileisopen</string>
-					<string>error_msg_filelocked</string>
-					<string>error_msg_filenotfound</string>
-					<string>error_msg_fileunlocked</string>
-					<string>error_msg_httpfilenotfound</string>
-					<string>error_msg_illegalinstruction</string>
-					<string>error_msg_illegaluseoffrozeninstance</string>
-					<string>error_msg_invaliddatabase</string>
-					<string>error_msg_invalidfilename</string>
-					<string>error_msg_invalidmemoryobject</string>
-					<string>error_msg_invalidparameter</string>
-					<string>error_msg_invalidpassword</string>
-					<string>error_msg_invalidpathname</string>
-					<string>error_msg_invalidusername</string>
-					<string>error_msg_ioerror</string>
-					<string>error_msg_loopaborted</string>
-					<string>error_msg_memory</string>
-					<string>error_msg_network</string>
-					<string>error_msg_nilpointer</string>
-					<string>error_msg_noerr</string>
-					<string>error_msg_nopermission</string>
-					<string>error_msg_outofmemory</string>
-					<string>error_msg_outofstackspace</string>
-					<string>error_msg_overflow</string>
-					<string>error_msg_postconditionfailed</string>
-					<string>error_msg_preconditionfailed</string>
-					<string>error_msg_resnotfound</string>
-					<string>error_msg_resource</string>
-					<string>error_msg_streamreaderror</string>
-					<string>error_msg_streamwriteerror</string>
-					<string>error_msg_syntaxerror</string>
-					<string>error_msg_tagnotfound</string>
-					<string>error_msg_unknownerror</string>
-					<string>error_msg_varnotfound</string>
-					<string>error_msg_volumedoesnotexist</string>
-					<string>error_msg_webactionnotsupported</string>
-					<string>error_msg_webadderror</string>
-					<string>error_msg_webdeleteerror</string>
-					<string>error_msg_webmodulenotfound</string>
-					<string>error_msg_webnosuchobject</string>
-					<string>error_msg_webrepeatingrelatedfield</string>
-					<string>error_msg_webrequiredfieldmissing</string>
-					<string>error_msg_webtimeout</string>
-					<string>error_msg_webupdateerror</string>
-					<string>error_noerror</string>
-					<string>error_nopermission</string>
-					<string>error_norecordsfound</string>
-					<string>error_outofmemory</string>
-					<string>error_pop</string>
-					<string>error_push</string>
-					<string>error_reqcolumnmissing</string>
-					<string>error_reqfieldmissing</string>
-					<string>error_requiredcolumnmissing</string>
-					<string>error_requiredfieldmissing</string>
-					<string>error_reset</string>
-					<string>error_seterrorcode</string>
-					<string>error_seterrormessage</string>
-					<string>error_updateerror</string>
-					<string>euro</string>
-					<string>event_schedule</string>
-					<string>ew</string>
-					<string>field</string>
-					<string>field_name</string>
-					<string>field_names</string>
-					<string>file</string>
-					<string>file_autoresolvefullpaths</string>
-					<string>file_chmod</string>
-					<string>file_control</string>
-					<string>file_copy</string>
-					<string>file_create</string>
-					<string>file_creationdate</string>
-					<string>file_currenterror</string>
-					<string>file_delete</string>
-					<string>file_exists</string>
-					<string>file_getlinecount</string>
-					<string>file_getsize</string>
-					<string>file_isdirectory</string>
-					<string>file_listdirectory</string>
-					<string>file_moddate</string>
-					<string>file_modechar</string>
-					<string>file_modeline</string>
-					<string>file_move</string>
-					<string>file_openread</string>
-					<string>file_openreadwrite</string>
-					<string>file_openwrite</string>
-					<string>file_openwriteappend</string>
-					<string>file_openwritetruncate</string>
-					<string>file_probeeol</string>
-					<string>file_processuploads</string>
-					<string>file_read</string>
-					<string>file_readline</string>
-					<string>file_rename</string>
-					<string>file_serve</string>
-					<string>file_setsize</string>
-					<string>file_stream</string>
-					<string>file_streamcopy</string>
-					<string>file_uploads</string>
-					<string>file_waitread</string>
-					<string>file_waittimeout</string>
-					<string>file_waitwrite</string>
-					<string>file_write</string>
-					<string>find_soap_ops</string>
-					<string>form_param</string>
-					<string>found_count</string>
-					<string>ft</string>
-					<string>ftp_getfile</string>
-					<string>ftp_getlisting</string>
-					<string>ftp_putfile</string>
-					<string>full</string>
-					<string>generate</string>
-					<string>generate_serialnumber</string>
-					<string>global</string>
-					<string>global_defined</string>
-					<string>global_remove</string>
-					<string>global_reset</string>
-					<string>globals</string>
-					<string>gt</string>
-					<string>gte</string>
-					<string>header</string>
-					<string>html_comment</string>
-					<string>if_empty</string>
-					<string>if_false</string>
-					<string>if_null</string>
-					<string>if_true</string>
-					<string>image</string>
-					<string>image_url</string>
-					<string>img</string>
-					<string>include</string>
-					<string>include_cgi</string>
-					<string>include_currentpath</string>
-					<string>include_once</string>
-					<string>include_raw</string>
-					<string>include_url</string>
-					<string>inline</string>
-					<string>java</string>
-					<string>java_bean</string>
-					<string>keycolumn_name</string>
-					<string>keycolumn_value</string>
-					<string>keyfield_name</string>
-					<string>keyfield_value</string>
-					<string>lasso_comment</string>
-					<string>lasso_currentaction</string>
-					<string>lasso_datasourceis</string>
-					<string>lasso_datasourceis4d</string>
-					<string>lasso_datasourceisfilemaker</string>
-					<string>lasso_datasourceisfilemaker7</string>
-					<string>lasso_datasourceisfilemakersa</string>
-					<string>lasso_datasourceisjdbc</string>
-					<string>lasso_datasourceislassomysql</string>
-					<string>lasso_datasourceismysql</string>
-					<string>lasso_datasourceisodbc</string>
-					<string>lasso_datasourceisopenbase</string>
-					<string>lasso_datasourceisoracle</string>
-					<string>lasso_datasourceispostgresql</string>
-					<string>lasso_datasourceisspotlight</string>
-					<string>lasso_datasourceissqlite</string>
-					<string>lasso_datasourceissqlserver</string>
-					<string>lasso_datasourcemodulename</string>
-					<string>lasso_datatype</string>
-					<string>lasso_disableondemand</string>
-					<string>lasso_errorreporting</string>
-					<string>lasso_executiontimelimit</string>
-					<string>lasso_parser</string>
-					<string>lasso_process</string>
-					<string>lasso_sessionid</string>
-					<string>lasso_siteid</string>
-					<string>lasso_siteisrunning</string>
-					<string>lasso_sitename</string>
-					<string>lasso_siterestart</string>
-					<string>lasso_sitestart</string>
-					<string>lasso_sitestop</string>
-					<string>lasso_tagexists</string>
-					<string>lasso_tagmodulename</string>
-					<string>lasso_uniqueid</string>
-					<string>lasso_updatecheck</string>
-					<string>lasso_version</string>
-					<string>lassoapp_create</string>
-					<string>lassoapp_dump</string>
-					<string>lassoapp_flattendir</string>
-					<string>lassoapp_getappdata</string>
-					<string>lassoapp_link</string>
-					<string>lassoapp_list</string>
-					<string>lassoapp_process</string>
-					<string>lassoapp_unitize</string>
-					<string>layout_name</string>
-					<string>ldap</string>
-					<string>ldap_scope_base</string>
-					<string>ldap_scope_onelevel</string>
-					<string>ldap_scope_subtree</string>
-					<string>ldml</string>
-					<string>ldml_ldml</string>
-					<string>library</string>
-					<string>library_once</string>
-					<string>link</string>
-					<string>list</string>
-					<string>list_iterator</string>
-					<string>list_reverseiterator</string>
-					<string>ljax_end</string>
-					<string>ljax_hastarget</string>
-					<string>ljax_include</string>
-					<string>ljax_start</string>
-					<string>ljax_target</string>
-					<string>local</string>
-					<string>local_defined</string>
-					<string>local_remove</string>
-					<string>local_reset</string>
-					<string>locale_format</string>
-					<string>locals</string>
-					<string>log</string>
-					<string>log_always</string>
-					<string>log_critical</string>
-					<string>log_deprecated</string>
-					<string>log_destination_console</string>
-					<string>log_destination_database</string>
-					<string>log_destination_file</string>
-					<string>log_detail</string>
-					<string>log_level_critical</string>
-					<string>log_level_deprecated</string>
-					<string>log_level_detail</string>
-					<string>log_level_sql</string>
-					<string>log_level_warning</string>
-					<string>log_setdestination</string>
-					<string>log_sql</string>
-					<string>log_warning</string>
-					<string>logicalop_value</string>
-					<string>logicaloperator_value</string>
-					<string>lt</string>
-					<string>lte</string>
-					<string>magick_image</string>
-					<string>map_iterator</string>
-					<string>match_comparator</string>
-					<string>match_notrange</string>
-					<string>match_notregexp</string>
-					<string>match_range</string>
-					<string>match_regexp</string>
-					<string>math_abs</string>
-					<string>math_acos</string>
-					<string>math_add</string>
-					<string>math_asin</string>
-					<string>math_atan</string>
-					<string>math_atan2</string>
-					<string>math_ceil</string>
-					<string>math_converteuro</string>
-					<string>math_cos</string>
-					<string>math_div</string>
-					<string>math_exp</string>
-					<string>math_floor</string>
-					<string>math_internal_rand</string>
-					<string>math_internal_randmax</string>
-					<string>math_internal_srand</string>
-					<string>math_ln</string>
-					<string>math_log</string>
-					<string>math_log10</string>
-					<string>math_max</string>
-					<string>math_min</string>
-					<string>math_mod</string>
-					<string>math_mult</string>
-					<string>math_pow</string>
-					<string>math_random</string>
-					<string>math_range</string>
-					<string>math_rint</string>
-					<string>math_roman</string>
-					<string>math_round</string>
-					<string>math_sin</string>
-					<string>math_sqrt</string>
-					<string>math_sub</string>
-					<string>math_tan</string>
-					<string>maxrecords_value</string>
-					<string>memory_session_driver</string>
-					<string>minimal</string>
-					<string>misc__srand</string>
-					<string>misc_randomnumber</string>
-					<string>misc_roman</string>
-					<string>misc_valid_creditcard</string>
-					<string>mysql_session_driver</string>
-					<string>named_param</string>
-					<string>namespace_current</string>
-					<string>namespace_delimiter</string>
-					<string>namespace_exists</string>
-					<string>namespace_file_fullpathexists</string>
-					<string>namespace_global</string>
-					<string>namespace_import</string>
-					<string>namespace_load</string>
-					<string>namespace_page</string>
-					<string>namespace_unload</string>
-					<string>namespace_using</string>
-					<string>neq</string>
-					<string>net</string>
-					<string>net_connectinprogress</string>
-					<string>net_connectok</string>
-					<string>net_typessl</string>
-					<string>net_typessltcp</string>
-					<string>net_typessludp</string>
-					<string>net_typetcp</string>
-					<string>net_typeudp</string>
-					<string>net_waitread</string>
-					<string>net_waittimeout</string>
-					<string>net_waitwrite</string>
-					<string>no_default_output</string>
-					<string>none</string>
-					<string>noprocess</string>
-					<string>not</string>
-					<string>nrx</string>
-					<string>nslookup</string>
-					<string>once</string>
-					<string>oneoff</string>
-					<string>op_logicalvalue</string>
-					<string>operator_logicalvalue</string>
-					<string>option</string>
-					<string>or</string>
-					<string>os_process</string>
-					<string>output</string>
-					<string>output_none</string>
-					<string>params_up</string>
-					<string>passthru</string>
-					<string>pdf_barcode</string>
-					<string>pdf_doc</string>
-					<string>pdf_font</string>
-					<string>pdf_image</string>
-					<string>pdf_list</string>
-					<string>pdf_read</string>
-					<string>pdf_table</string>
-					<string>pdf_text</string>
-					<string>percent</string>
-					<string>portal</string>
-					<string>postcondition</string>
-					<string>precondition</string>
-					<string>prettyprintingnsmap</string>
-					<string>prettyprintingtypemap</string>
-					<string>priorityqueue</string>
-					<string>private</string>
-					<string>proc_convert</string>
-					<string>proc_convertbody</string>
-					<string>proc_convertone</string>
-					<string>proc_extract</string>
-					<string>proc_extractone</string>
-					<string>proc_find</string>
-					<string>proc_first</string>
-					<string>proc_foreach</string>
-					<string>proc_get</string>
-					<string>proc_join</string>
-					<string>proc_lasso</string>
-					<string>proc_last</string>
-					<string>proc_map_entry</string>
-					<string>proc_null</string>
-					<string>proc_regexp</string>
-					<string>proc_xml</string>
-					<string>proc_xslt</string>
-					<string>process</string>
-					<string>queue</string>
-					<string>rand</string>
-					<string>randomnumber</string>
-					<string>raw</string>
-					<string>recid_value</string>
-					<string>record_count</string>
-					<string>recordcount</string>
-					<string>recordid_value</string>
-					<string>records</string>
-					<string>records_array</string>
-					<string>records_map</string>
-					<string>redirect_url</string>
-					<string>reference</string>
-					<string>referer</string>
-					<string>referer_url</string>
-					<string>referrer</string>
-					<string>referrer_url</string>
-					<string>regexp</string>
-					<string>repeating</string>
-					<string>repeating_valueitem</string>
-					<string>repeatingvalueitem</string>
-					<string>repetition</string>
-					<string>req_column</string>
-					<string>req_field</string>
-					<string>required_column</string>
-					<string>required_field</string>
-					<string>response_filepath</string>
-					<string>response_localpath</string>
-					<string>resultset</string>
-					<string>resultset_count</string>
-					<string>return_value</string>
-					<string>reverseiterator</string>
-					<string>roman</string>
-					<string>row_count</string>
-					<string>rows</string>
-					<string>rows_array</string>
-					<string>rx</string>
-					<string>schema_name</string>
-					<string>scientific</string>
-					<string>search_args</string>
-					<string>search_arguments</string>
-					<string>search_columnitem</string>
-					<string>search_fielditem</string>
-					<string>search_operatoritem</string>
-					<string>search_opitem</string>
-					<string>search_valueitem</string>
-					<string>searchfielditem</string>
-					<string>searchoperatoritem</string>
-					<string>searchopitem</string>
-					<string>searchvalueitem</string>
-					<string>selected</string>
-					<string>serialize</string>
-					<string>serialnumber_generate</string>
-					<string>series</string>
-					<string>server_date</string>
-					<string>server_day</string>
-					<string>server_ip</string>
-					<string>server_name</string>
-					<string>server_port</string>
-					<string>server_push</string>
-					<string>server_siteisrunning</string>
-					<string>server_sitestart</string>
-					<string>server_sitestop</string>
-					<string>server_time</string>
-					<string>session_abort</string>
-					<string>session_addoutputfilter</string>
-					<string>session_addvar</string>
-					<string>session_addvariable</string>
-					<string>session_deleteexpired</string>
-					<string>session_driver</string>
-					<string>session_end</string>
-					<string>session_id</string>
-					<string>session_removevar</string>
-					<string>session_removevariable</string>
-					<string>session_result</string>
-					<string>session_setdriver</string>
-					<string>session_start</string>
-					<string>set_iterator</string>
-					<string>set_reverseiterator</string>
-					<string>shown_count</string>
-					<string>shown_first</string>
-					<string>shown_last</string>
-					<string>site_atbegin</string>
-					<string>site_id</string>
-					<string>site_name</string>
-					<string>site_restart</string>
-					<string>skiprecords_value</string>
-					<string>sleep</string>
-					<string>soap_convertpartstopairs</string>
-					<string>soap_definetag</string>
-					<string>soap_info</string>
-					<string>soap_lastrequest</string>
-					<string>soap_lastresponse</string>
-					<string>soap_stub</string>
-					<string>sort_args</string>
-					<string>sort_arguments</string>
-					<string>sort_columnitem</string>
-					<string>sort_fielditem</string>
-					<string>sort_orderitem</string>
-					<string>sortcolumnitem</string>
-					<string>sortfielditem</string>
-					<string>sortorderitem</string>
-					<string>sqlite_createdb</string>
-					<string>sqlite_session_driver</string>
-					<string>sqlite_setsleepmillis</string>
-					<string>sqlite_setsleeptries</string>
-					<string>srand</string>
-					<string>stack</string>
-					<string>string_charfromname</string>
-					<string>string_concatenate</string>
-					<string>string_countfields</string>
-					<string>string_endswith</string>
-					<string>string_extract</string>
-					<string>string_findposition</string>
-					<string>string_findregexp</string>
-					<string>string_fordigit</string>
-					<string>string_getfield</string>
-					<string>string_getunicodeversion</string>
-					<string>string_insert</string>
-					<string>string_isalpha</string>
-					<string>string_isalphanumeric</string>
-					<string>string_isdigit</string>
-					<string>string_ishexdigit</string>
-					<string>string_islower</string>
-					<string>string_isnumeric</string>
-					<string>string_ispunctuation</string>
-					<string>string_isspace</string>
-					<string>string_isupper</string>
-					<string>string_length</string>
-					<string>string_lowercase</string>
-					<string>string_remove</string>
-					<string>string_removeleading</string>
-					<string>string_removetrailing</string>
-					<string>string_replace</string>
-					<string>string_replaceregexp</string>
-					<string>string_todecimal</string>
-					<string>string_tointeger</string>
-					<string>string_uppercase</string>
-					<string>string_validcharset</string>
-					<string>table_name</string>
-					<string>table_realname</string>
-					<string>tag_name</string>
-					<string>tags</string>
-					<string>tags_find</string>
-					<string>tags_list</string>
-					<string>tcp_close</string>
-					<string>tcp_open</string>
-					<string>tcp_send</string>
-					<string>tcp_tcp_close</string>
-					<string>tcp_tcp_open</string>
-					<string>tcp_tcp_send</string>
-					<string>technical_passthru</string>
-					<string>test</string>
-					<string>thread_abort</string>
-					<string>thread_event</string>
-					<string>thread_exists</string>
-					<string>thread_getcurrentid</string>
-					<string>thread_getpriority</string>
-					<string>thread_info</string>
-					<string>thread_list</string>
-					<string>thread_lock</string>
-					<string>thread_priority_default</string>
-					<string>thread_priority_high</string>
-					<string>thread_priority_low</string>
-					<string>thread_setpriority</string>
-					<string>token_value</string>
-					<string>total_records</string>
-					<string>treemap</string>
-					<string>treemap_iterator</string>
-					<string>url_rewrite</string>
-					<string>valid_creditcard</string>
-					<string>value_list</string>
-					<string>value_listitem</string>
-					<string>valuelistitem</string>
-					<string>var</string>
-					<string>var_defined</string>
-					<string>var_remove</string>
-					<string>var_reset</string>
-					<string>var_set</string>
-					<string>variable</string>
-					<string>variable_defined</string>
-					<string>variable_set</string>
-					<string>variables</string>
-					<string>variant_count</string>
-					<string>vars</string>
-					<string>verisign_payflowpro</string>
-					<string>wsdl_extract</string>
-					<string>wsdl_getbinding</string>
-					<string>wsdl_getbindingforoperation</string>
-					<string>wsdl_getbindingoperations</string>
-					<string>wsdl_getmessagenamed</string>
-					<string>wsdl_getmessageparts</string>
-					<string>wsdl_getmessagetriofromporttype</string>
-					<string>wsdl_getopbodystyle</string>
-					<string>wsdl_getopbodyuse</string>
-					<string>wsdl_getoperation</string>
-					<string>wsdl_getoplocation</string>
-					<string>wsdl_getopmessagetypes</string>
-					<string>wsdl_getopsoapaction</string>
-					<string>wsdl_getportaddress</string>
-					<string>wsdl_getportsforservice</string>
-					<string>wsdl_getporttype</string>
-					<string>wsdl_getporttypeoperation</string>
-					<string>wsdl_getservicedocumentation</string>
-					<string>wsdl_getservices</string>
-					<string>wsdl_gettargetnamespace</string>
-					<string>wsdl_issoapoperation</string>
-					<string>wsdl_listoperations</string>
-					<string>wsdl_maketest</string>
-					<string>xml_rpc</string>
-					<string>xml_rpccall</string>
-					<string>xml_xml</string>
-					<string>xml_xmlstream</string>
-					<string>xmlstream</string>
-					<string>xsd_attribute</string>
-					<string>xsd_blankarraybase</string>
-					<string>xsd_blankbase</string>
-					<string>xsd_buildtype</string>
-					<string>xsd_cache</string>
-					<string>xsd_checkcardinality</string>
-					<string>xsd_continueall</string>
-					<string>xsd_continueannotation</string>
-					<string>xsd_continueany</string>
-					<string>xsd_continueanyattribute</string>
-					<string>xsd_continueattribute</string>
-					<string>xsd_continueattributegroup</string>
-					<string>xsd_continuechoice</string>
-					<string>xsd_continuecomplexcontent</string>
-					<string>xsd_continuecomplextype</string>
-					<string>xsd_continuedocumentation</string>
-					<string>xsd_continueextension</string>
-					<string>xsd_continuegroup</string>
-					<string>xsd_continuekey</string>
-					<string>xsd_continuelist</string>
-					<string>xsd_continuerestriction</string>
-					<string>xsd_continuesequence</string>
-					<string>xsd_continuesimplecontent</string>
-					<string>xsd_continuesimpletype</string>
-					<string>xsd_continueunion</string>
-					<string>xsd_deserialize</string>
-					<string>xsd_fullyqualifyname</string>
-					<string>xsd_generate</string>
-					<string>xsd_generateblankfromtype</string>
-					<string>xsd_generateblanksimpletype</string>
-					<string>xsd_generatetype</string>
-					<string>xsd_getschematype</string>
-					<string>xsd_issimpletype</string>
-					<string>xsd_loadschema</string>
-					<string>xsd_lookupnamespaceuri</string>
-					<string>xsd_lookuptype</string>
-					<string>xsd_processany</string>
-					<string>xsd_processattribute</string>
-					<string>xsd_processattributegroup</string>
-					<string>xsd_processcomplextype</string>
-					<string>xsd_processelement</string>
-					<string>xsd_processgroup</string>
-					<string>xsd_processimport</string>
-					<string>xsd_processinclude</string>
-					<string>xsd_processschema</string>
-					<string>xsd_processsimpletype</string>
-					<string>xsd_ref</string>
-					<string>xsd_type</string>
-					<string>asasync</string>
-					<string>define_tag</string>
-					<string>define_type</string>
-					<string>else</string>
-					<string>encode_set</string>
-					<string>false</string>
-					<string>handle_error</string>
-					<string>handle</string>
-					<string>if</string>
-					<string>iterate</string>
-					<string>loop_count</string>
-					<string>loop</string>
-					<string>params</string>
-					<string>protect</string>
-					<string>true</string>
-					<string>while</string>
-					<string>fail</string>
-					<string>fail_if</string>
-				</keywords>
-				<keywords id="Default Lasso Types" color="#661AA9" background-color="#fff" font-style="normal" casesensitive="no" useforautocomplete="yes">
-					<string>array</string>
-					<string>bytes</string>
-					<string>date</string>
-					<string>decimal</string>
-					<string>duration</string>
-					<string>integer</string>
-					<string>iterator</string>
-					<string>map</string>
-					<string>null</string>
-					<string>pair</string>
-					<string>set</string>
-					<string>string</string>
-					<string>tag</string>
-					<string>xml</string>
-				</keywords>
-				<keywords id="Dynamic Lasso Member Tags" color="#003369" background-color="#fff" font-style="normal" casesensitive="no" useforautocomplete="yes">
-					<regex>-&gt;([a-zA-Z0-9_]+)</regex>
-				</keywords>
-				<keywords id="Dynamic Lasso Tags/Types" color="#003369" useforautocomplete="yes">
-					<regex>(?&lt;!-&gt;|\$|#|\w)([A-Za-z0-9_]+)\s*(?=[\(:\]\);\+,|\-]|-&gt;)</regex>
-				</keywords>
-				<keywords id="Lasso Tag/Type Parameters" color="#881350" font-weight="normal" useforautocomplete="yes">
-					<regex>(-([a-zA-Z0-9_]+))(?= *=| *,| *\)| *\]| *;)</regex>
-				</keywords>
-				<keywords id="Numbers" color="#00f" useforautocomplete="no">
-					<regex>(?&lt;![\w\d_])((?:[+-]?(?:(?:[0-9]+\.[0-9]*)|(?:\.[0-9]+))(?:[eE][+\-]?[0-9]+)?[fFlL]?)|(?:(?:(?:[1-9][0-9]*)|0[0-7]*|(?:0[xX][0-9a-fA-F]+))(?:(?:[uU][lL]?)|(?:[lL][uU]?))?))(?![\w\d_])</regex>
-				</keywords>
-				<keywords id="Variables" color="#825900" useforautocomplete="no">
-					<regex>([$#][\w\d]+)</regex>
-				</keywords>
-				
-				<state id="SingleComment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
-					<begin><regex>(?://)</regex></begin>
+				<state id="Single Line Comment" type="comment" scope="comment.line">
+					<begin><regex>//</regex></begin>
 					<end><regex>[\n\r]</regex></end>
-	                <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 				</state>
-				
-				<state id="MultiComment" type="comment"  color="#236E25" font-weight="normal" font-style="italic">
+
+				<state id="Multi Line Comment" type="comment" scope="comment.block">
 					<begin><regex>/\*</regex></begin>
 					<end><regex>\*/</regex></end>
-	                <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 				</state>
-		
-				<state id="StringDouble" type="string" color="#EB7300" font-weight="normal" font-style="normal" usespellchecking="yes">
+
+				<import state="CFML Code"/>
+
+			</state>
+
+			<state id="CFML Comment" type="comment" scope="markup.comment">
+				<begin><regex>&lt;!---</regex></begin>
+				<end><regex>[^&gt;]*---&gt;</regex></end>			
+			</state>
+
+			<state id="CFML Query" usesymbolsfrommode="SQL" useautocompletefrommode="SQL" foldable="yes" scope="markup.tag">
+				<begin><regex>&lt;(?i)cfquery\s.*&gt;</regex></begin>
+				<end><regex>&lt;/(?i)cfquery&gt;</regex></end>
+
+				<import mode="SQL" keywords-only="yes"/>
+				<import state="CFML Code"/>
+				<state-link state="CFML Comment"/>
+				<state-link state="Comment" mode="XML"/>
+				<state-link state="CDATA" mode="XML"/>
+				<state-link state="Doctype" mode="XML"/>
+				<state-link state="Escape" mode="XML"/>
+
+				<!-- CODA -->
+				<state id="Query Comment" type="comment" scope="comment.block">
+					<begin><regex>/\*</regex></begin>
+					<end><regex>\*/</regex></end>
+				</state>
+
+				<keywords id="Query Tags" scope="markup.tag">
+					<regex>(\A&lt;\Z)</regex>
+					<regex>(&lt;/(?i)cfquery[^&gt;]*&gt;)</regex>
+				</keywords>
+
+				<state id="Opening Query Tag" usesymbolsfrommode="CFML" useautocompletefrommode="CFML" scope="markup.tag">
+					<begin><regex>\A(?i)cfquery</regex></begin>
+					<end><regex>&gt;</regex></end>
+
+					<import state="CFML Tags"/>
+				</state>
+
+				<keywords id="CFML Attributes in Tags" useforautocomplete="no" scope="markup.tag.attribute.name">
+					<regex>([\w-]*)(?=[ \t]*=)</regex>
+				</keywords>
+
+				<!-- CODA -->
+				<state id="CFML self-closing Tags in Query" usesymbolsfrommode="CFML" useautocompletefrommode="CFML" scope="markup.tag">
+					<begin><regex>&lt;(?=(?i)\s*cf(?!query\s))</regex></begin>
+					<end><regex>&gt;</regex></end>
+
+					<import state="CFML Code"/>
+					<import state="CFML Tags"/>
+				</state>
+				<!-- CODA
+				<state id="Query Parameter" usesymbolsfrommode="CFML" useautocompletefrommode="CFML">
+					<begin><regex>&lt;(?=(?i)cfqueryparam)</regex></begin>
+					<end><regex>&gt;</regex></end>
+					<import state="CFML Tags" />
+				</state>
+				-->
+
+			</state>
+
+
+
+<state id="CFML Code" useforautocomplete="no" containerState="yes" usesymbolsfrommode="CFML" useautocompletefrommode="CFML" scope="meta.default">
+
+	<keywords id="Generic Functions" useforautocomplete="no" scope="language.subroutine.function">
+		<!--<regex>([\w]+[\(]{1}[\w\s\.\[\]\)\(\"/;,|#&amp;]+[\)]{1})(?=[^&lt;]*&gt;)</regex>-->
+		<regex>([A-Za-z0-9_]+ *)\(</regex>
+	</keywords>
+
+	<state id="CFML Double Strings" type="string" useforautocomplete="no" scope="string.double">
+		<begin><regex>"</regex></begin>
+		<end><regex>"</regex></end>
+        <import state="CFML Output Variables State" keywords-only="yes"/>
+	</state>
+
+	<state id="CFML Single Strings" type="string" useforautocomplete="no" usespellchecking="yes" scope="string.single">
+		<begin><regex>'</regex></begin>
+		<end><regex>'</regex></end>
+        <import state="CFML Output Variables State" keywords-only="yes"/>
+	</state>
+
+	<state id="Block" type="block" foldable="yes" scope="meta.block.curly">
+		<begin><regex>(?:(?&lt;=\s)(?:if|else|else\s+if|for|while|do|switch|case)\s*(?:\([^#{\n\r]*?\))?)?\s*{</regex></begin>
+		<end><regex>}</regex></end>
+		<import state="CFML Code"/>
+        <import state="CFML Output Variables State" keywords-only="yes"/>
+	</state>
+
+	<keywords id="Control Keywords" useforautocomplete="yes" scope="keyword.control">
+		<string>assignment</string>
+		<string>break</string>
+		<string>case</string>
+		<string>catch</string>
+		<string>continue</string>
+		<string>default</string>
+		<string>do</string>
+		<string>else</string>
+		<string>elseif</string>
+		<string>for</string>
+		<string>if</string>
+		<string>in</string>
+		<string>switch</string>
+		<string>try</string>
+		<string>while</string>
+		<string>function</string>
+	</keywords>
+
+<import state="CFML Output Variables State" keywords-only="yes"/>
+
+	<keywords id="Scope and Tag Variables" useforautocomplete="no" scope="keyword">
+		<regex>((?i)(?:session\.|application\.|request\.|request\.session\.|client\.|server\.|server\.coldfusion\.|form\.|cfcatch\.|cfdirectory\.|cferror\.|cffile\.|cfftp\.|cfhtp\.|cfindex\.|cfldap\.|cfpop\.|cfquery\.|cfregistry\.|cfsearch\.|cfstoredproc\.|cgi\.|url\.|cookie\.|arguments\.|cfevent\.)(?:[\w\d])+(?:\[([\w\d"'])+\])?)</regex>
+	</keywords>
+
+	<keywords id="Numbers" useforautocomplete="no" scope="language.constant.numeric">
+		<regex>(?&lt;=[^\w\d]|^)((?:(?:(?:[0-9]+\.[0-9]*)|(?:\.[0-9]+))(?:[eE][+\-]?[0-9]+)?[fFlL]?)|(?:(?:(?:[1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(?:(?:[uU][lL]?)|(?:[lL][uU]?))?))(?=[^\w\d]|$)</regex>
+	</keywords>
+
+	<keywords id="Keywords" casesensitive="no" useforautocomplete="yes" scope="keyword">
+		<string>and</string>
+		<string>or</string>
+		<string>mod</string>
+		<string>is</string>
+		<string>equal</string>
+		<string>eq</string>
+		<string>lt</string>
+		<string>less than</string>
+		<string>lte</string>
+		<string>le</string>
+		<string>less than or equal to</string>
+		<string>gt</string>
+		<string>greater than</string>
+		<string>gte</string>
+		<string>greater than or equal to</string>
+		<string>is not</string>
+		<string>neq</string>
+		<string>not equal</string>
+		<string>contains</string>
+		<string>does not contain</string>
+		<string>not</string>
+		<string>true</string>
+		<string>false</string>
+		<string>&amp;</string>
+		<string>break</string>
+		<string>case</string>
+		<string>catch</string>
+		<string>continue</string>
+		<string>do</string>
+		<string>else</string>
+		<string>for</string>
+		<string>if</string>
+		<string>in</string>
+		<string>return</string>
+		<string>try</string>
+		<string>var</string>
+		<string>while</string>
+	</keywords>
+
+	<keywords id="Functions" casesensitive="no" useforautocomplete="yes" scope="support.subroutine.function">
+		<regex>((?i)Abs)(?=\s*\()</regex>
+		<regex>((?i)ACos)(?=\s*\()</regex>
+		<regex>((?i)AddSOAPRequestHeader)(?=\s*\()</regex>
+		<regex>((?i)AddSOAPResponseHeader)(?=\s*\()</regex>
+		<regex>((?i)ArrayAppend)(?=\s*\()</regex>
+		<regex>((?i)ArrayAvg)(?=\s*\()</regex>
+		<regex>((?i)ArrayClear)(?=\s*\()</regex>
+		<regex>((?i)ArrayDeleteAt)(?=\s*\()</regex>
+		<regex>((?i)ArrayInsertAt)(?=\s*\()</regex>
+		<regex>((?i)ArrayIsEmpty)(?=\s*\()</regex>
+		<regex>((?i)ArrayLen)(?=\s*\()</regex>
+		<regex>((?i)ArrayMax)(?=\s*\()</regex>
+		<regex>((?i)ArrayMin)(?=\s*\()</regex>
+		<regex>((?i)ArrayNew)(?=\s*\()</regex>
+		<regex>((?i)ArrayPrepend)(?=\s*\()</regex>
+		<regex>((?i)ArrayResize)(?=\s*\()</regex>
+		<regex>((?i)ArraySet)(?=\s*\()</regex>
+		<regex>((?i)ArraySort)(?=\s*\()</regex>
+		<regex>((?i)ArraySum)(?=\s*\()</regex>
+		<regex>((?i)ArraySwap)(?=\s*\()</regex>
+		<regex>((?i)ArrayToList)(?=\s*\()</regex>
+		<regex>((?i)Asc)(?=\s*\()</regex>
+		<regex>((?i)ASin)(?=\s*\()</regex>
+		<regex>((?i)Atn)(?=\s*\()</regex>
+		<regex>((?i)BinaryDecode)(?=\s*\()</regex>
+		<regex>((?i)BinaryEncode)(?=\s*\()</regex>
+		<regex>((?i)BitAnd)(?=\s*\()</regex>
+		<regex>((?i)BitMaskClear)(?=\s*\()</regex>
+		<regex>((?i)BitMaskRead)(?=\s*\()</regex>
+		<regex>((?i)BitMaskSet)(?=\s*\()</regex>
+		<regex>((?i)BitNot)(?=\s*\()</regex>
+		<regex>((?i)BitOr)(?=\s*\()</regex>
+		<regex>((?i)BitSHLN)(?=\s*\()</regex>
+		<regex>((?i)BitSHRN)(?=\s*\()</regex>
+		<regex>((?i)BitXor)(?=\s*\()</regex>
+		<regex>((?i)Ceiling)(?=\s*\()</regex>
+		<regex>((?i)CharsetDecode)(?=\s*\()</regex>
+		<regex>((?i)CharsetEncode)(?=\s*\()</regex>
+		<regex>((?i)Chr)(?=\s*\()</regex>
+		<regex>((?i)CJustify)(?=\s*\()</regex>
+		<regex>((?i)Compare)(?=\s*\()</regex>
+		<regex>((?i)CompareNoCase)(?=\s*\()</regex>
+		<regex>((?i)Cos)(?=\s*\()</regex>
+		<regex>((?i)CreateDate)(?=\s*\()</regex>
+		<regex>((?i)CreateDateTime)(?=\s*\()</regex>
+		<regex>((?i)CreateObject)(?=\s*\()</regex>
+		<regex>((?i)CreateODBCDate)(?=\s*\()</regex>
+		<regex>((?i)CreateODBCDateTime)(?=\s*\()</regex>
+		<regex>((?i)CreateODBCTime)(?=\s*\()</regex>
+		<regex>((?i)CreateTime)(?=\s*\()</regex>
+		<regex>((?i)CreateTimeSpan)(?=\s*\()</regex>
+		<regex>((?i)CreateUUID)(?=\s*\()</regex>
+		<regex>((?i)DateAdd)(?=\s*\()</regex>
+		<regex>((?i)DateCompare)(?=\s*\()</regex>
+		<regex>((?i)DateConvert)(?=\s*\()</regex>
+		<regex>((?i)DateDiff)(?=\s*\()</regex>
+		<regex>((?i)DateFormat)(?=\s*\()</regex>
+		<regex>((?i)DatePart)(?=\s*\()</regex>
+		<regex>((?i)Day)(?=\s*\()</regex>
+		<regex>((?i)DayOfWeek)(?=\s*\()</regex>
+		<regex>((?i)DayOfWeekAsString)(?=\s*\()</regex>
+		<regex>((?i)DayOfYear)(?=\s*\()</regex>
+		<regex>((?i)DaysInMonth)(?=\s*\()</regex>
+		<regex>((?i)DaysInYear)(?=\s*\()</regex>
+		<regex>((?i)DE)(?=\s*\()</regex>
+		<regex>((?i)DecimalFormat)(?=\s*\()</regex>
+		<regex>((?i)DecrementValue)(?=\s*\()</regex>
+		<regex>((?i)Decrypt)(?=\s*\()</regex>
+		<regex>((?i)DecryptBinary)(?=\s*\()</regex>
+		<regex>((?i)DeleteClientVariable)(?=\s*\()</regex>
+		<regex>((?i)DirectoryExists)(?=\s*\()</regex>
+		<regex>((?i)DollarFormat)(?=\s*\()</regex>
+		<regex>((?i)Duplicate)(?=\s*\()</regex>
+		<regex>((?i)Encrypt)(?=\s*\()</regex>
+		<regex>((?i)EncryptBinary)(?=\s*\()</regex>
+		<regex>((?i)Evaluate)(?=\s*\()</regex>
+		<regex>((?i)Exp)(?=\s*\()</regex>
+		<regex>((?i)ExpandPath)(?=\s*\()</regex>
+		<regex>((?i)FileExists)(?=\s*\()</regex>
+		<regex>((?i)Find)(?=\s*\()</regex>
+		<regex>((?i)FindNoCase)(?=\s*\()</regex>
+		<regex>((?i)FindOneOf)(?=\s*\()</regex>
+		<regex>((?i)FirstDayOfMonth)(?=\s*\()</regex>
+		<regex>((?i)Fix)(?=\s*\()</regex>
+		<regex>((?i)FormatBaseN)(?=\s*\()</regex>
+		<regex>((?i)GetAuthUser)(?=\s*\()</regex>
+		<regex>((?i)GetBaseTagData)(?=\s*\()</regex>
+		<regex>((?i)GetBaseTagList)(?=\s*\()</regex>
+		<regex>((?i)GetBaseTemplatePath)(?=\s*\()</regex>
+		<regex>((?i)GetClientVariablesList)(?=\s*\()</regex>
+		<regex>((?i)GetCurrentTemplatePath)(?=\s*\()</regex>
+		<regex>((?i)GetDirectoryFromPath)(?=\s*\()</regex>
+		<regex>((?i)GetEncoding)(?=\s*\()</regex>
+		<regex>((?i)GetException)(?=\s*\()</regex>
+		<regex>((?i)GetFileFromPath)(?=\s*\()</regex>
+		<regex>((?i)GetFunctionList)(?=\s*\()</regex>
+		<regex>((?i)GetGatewayHelper)(?=\s*\()</regex>
+		<regex>((?i)GetHttpRequestData)(?=\s*\()</regex>
+		<regex>((?i)GetHttpTimeString)(?=\s*\()</regex>
+		<regex>((?i)GetLocale)(?=\s*\()</regex>
+		<regex>((?i)GetLocaleDisplayName)(?=\s*\()</regex>
+		<regex>((?i)GetLocalHostIP)(?=\s*\()</regex>
+		<regex>((?i)GetMetaData)(?=\s*\()</regex>
+		<regex>((?i)GetMetricData)(?=\s*\()</regex>
+		<regex>((?i)GetPageContext)(?=\s*\()</regex>
+		<regex>((?i)GetProfileSections)(?=\s*\()</regex>
+		<regex>((?i)GetProfileString)(?=\s*\()</regex>
+		<regex>((?i)GetSOAPRequest)(?=\s*\()</regex>
+		<regex>((?i)GetSOAPRequestHeader)(?=\s*\()</regex>
+		<regex>((?i)GetSOAPResponse)(?=\s*\()</regex>
+		<regex>((?i)GetSOAPResponseHeader)(?=\s*\()</regex>
+		<regex>((?i)GetTempDirectory)(?=\s*\()</regex>
+		<regex>((?i)GetTempFile)(?=\s*\()</regex>
+		<regex>((?i)GetTickCount)(?=\s*\()</regex>
+		<regex>((?i)GetTimeZoneInfo)(?=\s*\()</regex>
+		<regex>((?i)GetToken)(?=\s*\()</regex>
+		<regex>((?i)Hash)(?=\s*\()</regex>
+		<regex>((?i)Hour)(?=\s*\()</regex>
+		<regex>((?i)HTMLCodeFormat)(?=\s*\()</regex>
+		<regex>((?i)HTMLEditFormat)(?=\s*\()</regex>
+		<regex>((?i)IIf)(?=\s*\()</regex>
+		<regex>((?i)IncrementValue)(?=\s*\()</regex>
+		<regex>((?i)InputBaseN)(?=\s*\()</regex>
+		<regex>((?i)Insert)(?=\s*\()</regex>
+		<regex>((?i)Int)(?=\s*\()</regex>
+		<regex>((?i)IsArray)(?=\s*\()</regex>
+		<regex>((?i)IsBinary)(?=\s*\()</regex>
+		<regex>((?i)IsBoolean)(?=\s*\()</regex>
+		<regex>((?i)IsCustomFunction)(?=\s*\()</regex>
+		<regex>((?i)IsDate)(?=\s*\()</regex>
+		<regex>((?i)IsDebugMode)(?=\s*\()</regex>
+		<regex>((?i)IsDefined)(?=\s*\()</regex>
+		<regex>((?i)IsLeapYear)(?=\s*\()</regex>
+		<regex>((?i)IsLocalHost)(?=\s*\()</regex>
+		<regex>((?i)IsNumeric)(?=\s*\()</regex>
+		<regex>((?i)IsNumericDate)(?=\s*\()</regex>
+		<regex>((?i)IsObject)(?=\s*\()</regex>
+		<regex>((?i)IsQuery)(?=\s*\()</regex>
+		<regex>((?i)IsSimpleValue)(?=\s*\()</regex>
+		<regex>((?i)IsSOAPRequest)(?=\s*\()</regex>
+		<regex>((?i)IsStruct)(?=\s*\()</regex>
+		<regex>((?i)IsUserInRole)(?=\s*\()</regex>
+		<regex>((?i)IsValid)(?=\s*\()</regex>
+		<regex>((?i)IsWDDX)(?=\s*\()</regex>
+		<regex>((?i)IsXML)(?=\s*\()</regex>
+		<regex>((?i)IsXmlAttribute)(?=\s*\()</regex>
+		<regex>((?i)IsXmlDoc)(?=\s*\()</regex>
+		<regex>((?i)IsXmlElem)(?=\s*\()</regex>
+		<regex>((?i)IsXmlNode)(?=\s*\()</regex>
+		<regex>((?i)IsXmlRoot)(?=\s*\()</regex>
+		<regex>((?i)JavaCast)(?=\s*\()</regex>
+		<regex>((?i)JSStringFormat)(?=\s*\()</regex>
+		<regex>((?i)LCase)(?=\s*\()</regex>
+		<regex>((?i)Left)(?=\s*\()</regex>
+		<regex>((?i)Len)(?=\s*\()</regex>
+		<regex>((?i)ListAppend)(?=\s*\()</regex>
+		<regex>((?i)ListChangeDelims)(?=\s*\()</regex>
+		<regex>((?i)ListContains)(?=\s*\()</regex>
+		<regex>((?i)ListContainsNoCase)(?=\s*\()</regex>
+		<regex>((?i)ListDeleteAt)(?=\s*\()</regex>
+		<regex>((?i)ListFind)(?=\s*\()</regex>
+		<regex>((?i)ListFindNoCase)(?=\s*\()</regex>
+		<regex>((?i)ListFirst)(?=\s*\()</regex>
+		<regex>((?i)ListGetAt)(?=\s*\()</regex>
+		<regex>((?i)ListInsertAt)(?=\s*\()</regex>
+		<regex>((?i)ListLast)(?=\s*\()</regex>
+		<regex>((?i)ListLen)(?=\s*\()</regex>
+		<regex>((?i)ListPrepend)(?=\s*\()</regex>
+		<regex>((?i)ListQualify)(?=\s*\()</regex>
+		<regex>((?i)ListRest)(?=\s*\()</regex>
+		<regex>((?i)ListSetAt)(?=\s*\()</regex>
+		<regex>((?i)ListSort)(?=\s*\()</regex>
+		<regex>((?i)ListToArray)(?=\s*\()</regex>
+		<regex>((?i)ListValueCount)(?=\s*\()</regex>
+		<regex>((?i)ListValueCountNoCase)(?=\s*\()</regex>
+		<regex>((?i)LJustify)(?=\s*\()</regex>
+		<regex>((?i)Log)(?=\s*\()</regex>
+		<regex>((?i)Log10)(?=\s*\()</regex>
+		<regex>((?i)LSCurrencyFormat)(?=\s*\()</regex>
+		<regex>((?i)LSDateFormat)(?=\s*\()</regex>
+		<regex>((?i)LSEuroCurrencyFormat)(?=\s*\()</regex>
+		<regex>((?i)LSIsCurrency)(?=\s*\()</regex>
+		<regex>((?i)LSIsDate)(?=\s*\()</regex>
+		<regex>((?i)LSIsNumeric)(?=\s*\()</regex>
+		<regex>((?i)LSNumberFormat)(?=\s*\()</regex>
+		<regex>((?i)LSParseCurrency)(?=\s*\()</regex>
+		<regex>((?i)LSParseDateTime)(?=\s*\()</regex>
+		<regex>((?i)LSParseEuroCurrency)(?=\s*\()</regex>
+		<regex>((?i)LSParseNumber)(?=\s*\()</regex>
+		<regex>((?i)LSTimeFormat)(?=\s*\()</regex>
+		<regex>((?i)LTrim)(?=\s*\()</regex>
+		<regex>((?i)Max)(?=\s*\()</regex>
+		<regex>((?i)Mid)(?=\s*\()</regex>
+		<regex>((?i)Min)(?=\s*\()</regex>
+		<regex>((?i)Minute)(?=\s*\()</regex>
+		<regex>((?i)Month)(?=\s*\()</regex>
+		<regex>((?i)MonthAsString)(?=\s*\()</regex>
+		<regex>((?i)Now)(?=\s*\()</regex>
+		<regex>((?i)NumberFormat)(?=\s*\()</regex>
+		<regex>((?i)ParagraphFormat)(?=\s*\()</regex>
+		<regex>((?i)ParseDateTime)(?=\s*\()</regex>
+		<regex>((?i)Pi)(?=\s*\()</regex>
+		<regex>((?i)PreserveSingleQuotes)(?=\s*\()</regex>
+		<regex>((?i)Quarter)(?=\s*\()</regex>
+		<regex>((?i)QueryAddColumn)(?=\s*\()</regex>
+		<regex>((?i)QueryAddRow)(?=\s*\()</regex>
+		<regex>((?i)QueryNew)(?=\s*\()</regex>
+		<regex>((?i)QuerySetCell)(?=\s*\()</regex>
+		<regex>((?i)QuotedValueList)(?=\s*\()</regex>
+		<regex>((?i)Rand)(?=\s*\()</regex>
+		<regex>((?i)Randomize)(?=\s*\()</regex>
+		<regex>((?i)RandRange)(?=\s*\()</regex>
+		<regex>((?i)REFind)(?=\s*\()</regex>
+		<regex>((?i)REFindNoCase)(?=\s*\()</regex>
+		<regex>((?i)ReleaseComObject)(?=\s*\()</regex>
+		<regex>((?i)RemoveChars)(?=\s*\()</regex>
+		<regex>((?i)RepeatString)(?=\s*\()</regex>
+		<regex>((?i)Replace)(?=\s*\()</regex>
+		<regex>((?i)ReplaceList)(?=\s*\()</regex>
+		<regex>((?i)ReplaceNoCase)(?=\s*\()</regex>
+		<regex>((?i)REReplace)(?=\s*\()</regex>
+		<regex>((?i)REReplaceNoCase)(?=\s*\()</regex>
+		<regex>((?i)Reverse)(?=\s*\()</regex>
+		<regex>((?i)Right)(?=\s*\()</regex>
+		<regex>((?i)RJustify)(?=\s*\()</regex>
+		<regex>((?i)Round)(?=\s*\()</regex>
+		<regex>((?i)RTrim)(?=\s*\()</regex>
+		<regex>((?i)Second)(?=\s*\()</regex>
+		<regex>((?i)SendGatewayMessage)(?=\s*\()</regex>
+		<regex>((?i)SetEncoding)(?=\s*\()</regex>
+		<regex>((?i)SetLocale)(?=\s*\()</regex>
+		<regex>((?i)SetProfileString)(?=\s*\()</regex>
+		<regex>((?i)SetVariable)(?=\s*\()</regex>
+		<regex>((?i)Sgn)(?=\s*\()</regex>
+		<regex>((?i)Sin)(?=\s*\()</regex>
+		<regex>((?i)SpanExcluding)(?=\s*\()</regex>
+		<regex>((?i)SpanIncluding)(?=\s*\()</regex>
+		<regex>((?i)Sqr)(?=\s*\()</regex>
+		<regex>((?i)StripCR)(?=\s*\()</regex>
+		<regex>((?i)StructAppend)(?=\s*\()</regex>
+		<regex>((?i)StructClear)(?=\s*\()</regex>
+		<regex>((?i)StructCopy)(?=\s*\()</regex>
+		<regex>((?i)StructCount)(?=\s*\()</regex>
+		<regex>((?i)StructDelete)(?=\s*\()</regex>
+		<regex>((?i)StructFind)(?=\s*\()</regex>
+		<regex>((?i)StructFindKey)(?=\s*\()</regex>
+		<regex>((?i)StructFindValue)(?=\s*\()</regex>
+		<regex>((?i)StructGet)(?=\s*\()</regex>
+		<regex>((?i)StructInsert)(?=\s*\()</regex>
+		<regex>((?i)StructIsEmpty)(?=\s*\()</regex>
+		<regex>((?i)StructKeyArray)(?=\s*\()</regex>
+		<regex>((?i)StructKeyExists)(?=\s*\()</regex>
+		<regex>((?i)StructKeyList)(?=\s*\()</regex>
+		<regex>((?i)StructNew)(?=\s*\()</regex>
+		<regex>((?i)StructSort)(?=\s*\()</regex>
+		<regex>((?i)StructUpdate)(?=\s*\()</regex>
+		<regex>((?i)Tan)(?=\s*\()</regex>
+		<regex>((?i)TimeFormat)(?=\s*\()</regex>
+		<regex>((?i)ToBase64)(?=\s*\()</regex>
+		<regex>((?i)ToBinary)(?=\s*\()</regex>
+		<regex>((?i)ToScript)(?=\s*\()</regex>
+		<regex>((?i)ToString)(?=\s*\()</regex>
+		<regex>((?i)Trim)(?=\s*\()</regex>
+		<regex>((?i)UCase)(?=\s*\()</regex>
+		<regex>((?i)URLDecode)(?=\s*\()</regex>
+		<regex>((?i)URLEncodedFormat)(?=\s*\()</regex>
+		<regex>((?i)URLSessionFormat)(?=\s*\()</regex>
+		<regex>((?i)Val)(?=\s*\()</regex>
+		<regex>((?i)ValueList)(?=\s*\()</regex>
+		<regex>((?i)Week)(?=\s*\()</regex>
+		<regex>((?i)Wrap)(?=\s*\()</regex>
+		<regex>((?i)WriteOutput)(?=\s*\()</regex>
+		<regex>((?i)XmlChildPos)(?=\s*\()</regex>
+		<regex>((?i)XmlElemNew)(?=\s*\()</regex>
+		<regex>((?i)XmlFormat)(?=\s*\()</regex>
+		<regex>((?i)XmlGetNodeType)(?=\s*\()</regex>
+		<regex>((?i)XmlNew)(?=\s*\()</regex>
+		<regex>((?i)XmlParse)(?=\s*\()</regex>
+		<regex>((?i)XmlSearch)(?=\s*\()</regex>
+		<regex>((?i)XmlTransform)(?=\s*\()</regex>
+		<regex>((?i)XmlValidate)(?=\s*\()</regex>
+		<regex>((?i)Year)(?=\s*\()</regex>
+		<regex>((?i)YesNoFormat)(?=\s*\()</regex>
+		<!-- CODA -->
+		<regex>((?i)ApplicationStop)(?=\s*\()</regex>
+		<regex>((?i)ArrayContains)(?=\s*\()</regex>
+		<regex>((?i)ArrayDelete)(?=\s*\()</regex>
+		<regex>((?i)ArrayFind)(?=\s*\()</regex>
+		<regex>((?i)ArrayFindNoCase)(?=\s*\()</regex>
+		<regex>((?i)CacheGet)(?=\s*\()</regex>
+		<regex>((?i)CacheGetAllIds)(?=\s*\()</regex>
+		<regex>((?i)CacheGetMetadata)(?=\s*\()</regex>
+		<regex>((?i)CacheGetProperties)(?=\s*\()</regex>
+		<regex>((?i)CachePut)(?=\s*\()</regex>
+		<regex>((?i)CacheRemove)(?=\s*\()</regex>
+		<regex>((?i)CacheSetProperties)(?=\s*\()</regex>
+		<regex>((?i)DirectoryCreate)(?=\s*\()</regex>
+		<regex>((?i)DirectoryDelete)(?=\s*\()</regex>
+		<regex>((?i)DirectoryList)(?=\s*\()</regex>
+		<regex>((?i)DirectoryRename)(?=\s*\()</regex>
+		<regex>((?i)EntityDelete)(?=\s*\()</regex>
+		<regex>((?i)EntityLoad)(?=\s*\()</regex>
+		<regex>((?i)EntityLoadByExample)(?=\s*\()</regex>
+		<regex>((?i)EntityLoadByPK)(?=\s*\()</regex>
+		<regex>((?i)EntityMerge)(?=\s*\()</regex>
+		<regex>((?i)EntityNew)(?=\s*\()</regex>
+		<regex>((?i)EntityReload)(?=\s*\()</regex>
+		<regex>((?i)EntitySave)(?=\s*\()</regex>
+		<regex>((?i)FileDelete)(?=\s*\()</regex>
+		<regex>((?i)FileSeek)(?=\s*\()</regex>
+		<regex>((?i)FileSkipBytes)(?=\s*\()</regex>
+		<regex>((?i)FileWriteLine)(?=\s*\()</regex>
+		<regex>((?i)GetFunctionCalledName)(?=\s*\()</regex>
+		<regex>((?i)GetVFSMetaData)(?=\s*\()</regex>
+		<regex>((?i)IsIPv6)(?=\s*\()</regex>
+		<regex>((?i)IsNull)(?=\s*\()</regex>
+		<regex>((?i)IsSpreadsheetFile)(?=\s*\()</regex>
+		<regex>((?i)IsSpreadsheetObject)(?=\s*\()</regex>
+		<regex>((?i)Location)(?=\s*\()</regex>
+		<regex>((?i)ObjectEquals)(?=\s*\()</regex>
+		<regex>((?i)ObjectLoad)(?=\s*\()</regex>
+		<regex>((?i)ObjectSave)(?=\s*\()</regex>
+		<regex>((?i)ORMClearSession)(?=\s*\()</regex>
+		<regex>((?i)ORMCloseSession)(?=\s*\()</regex>
+		<regex>((?i)ORMEvictCollection)(?=\s*\()</regex>
+		<regex>((?i)ORMEvictEntity)(?=\s*\()</regex>
+		<regex>((?i)ORMEvictQueries)(?=\s*\()</regex>
+		<regex>((?i)ORMExecuteQuery)(?=\s*\()</regex>
+		<regex>((?i)ORMFlush)(?=\s*\()</regex>
+		<regex>((?i)ORMGetSession)(?=\s*\()</regex>
+		<regex>((?i)ORMGetSessionFactory)(?=\s*\()</regex>
+		<regex>((?i)ORMReload)(?=\s*\()</regex>
+		<regex>((?i)SpreadsheetAddColumn)(?=\s*\()</regex>
+		<regex>((?i)SpreadsheetAddFreezePane)(?=\s*\()</regex>
+		<regex>((?i)SpreadsheetAddImage)(?=\s*\()</regex>
+		<regex>((?i)SpreadsheetAddInfo)(?=\s*\()</regex>
+		<regex>((?i)SpreadsheetAddRow)(?=\s*\()</regex>
+		<regex>((?i)SpreadsheetAddRows)(?=\s*\()</regex>
+		<regex>((?i)SpreadsheetAddSplitPane)(?=\s*\()</regex>
+		<regex>((?i)SpreadsheetCreateSheet)(?=\s*\()</regex>
+		<regex>((?i)SpreadsheetDeleteColumn)(?=\s*\()</regex>
+		<regex>((?i)SpreadsheetDeleteColumns)(?=\s*\()</regex>
+		<regex>((?i)SpreadsheetDeleteRow)(?=\s*\()</regex>
+		<regex>((?i)SpreadsheetDeleteRows)(?=\s*\()</regex>
+		<regex>((?i)SpreadsheetFormatCell)(?=\s*\()</regex>
+		<regex>((?i)SpreadsheetFormatColumn)(?=\s*\()</regex>
+		<regex>((?i)SpreadsheetFormatColumns)(?=\s*\()</regex>
+		<regex>((?i)SpreadsheetFormatRow)(?=\s*\()</regex>
+		<regex>((?i)SpreadsheetFormatRows)(?=\s*\()</regex>
+		<regex>((?i)SpreadsheetGetCellComment)(?=\s*\()</regex>
+		<regex>((?i)SpreadsheetGetCellFormula)(?=\s*\()</regex>
+		<regex>((?i)SpreadsheetGetCellValue)(?=\s*\()</regex>
+		<regex>((?i)SpreadsheetInfo)(?=\s*\()</regex>
+		<regex>((?i)SpreadsheetMergeCells)(?=\s*\()</regex>
+		<regex>((?i)SpreadsheetNew)(?=\s*\()</regex>
+		<regex>((?i)SpreadsheetRead)(?=\s*\()</regex>
+		<regex>((?i)SpreadsheetReadBinary)(?=\s*\()</regex>
+		<regex>((?i)SpreadsheetSetActiveSheet)(?=\s*\()</regex>
+		<regex>((?i)SpreadsheetSetActiveSheetNumber)(?=\s*\()</regex>
+		<regex>((?i)SpreadsheetSetCellComment)(?=\s*\()</regex>
+		<regex>((?i)SpreadsheetSetCellFormula)(?=\s*\()</regex>
+		<regex>((?i)SpreadsheetSetCellValue)(?=\s*\()</regex>
+		<regex>((?i)SpreadsheetSetColumnWidth)(?=\s*\()</regex>
+		<regex>((?i)SpreadsheetSetFooter)(?=\s*\()</regex>
+		<regex>((?i)SpreadsheetSetHeader)(?=\s*\()</regex>
+		<regex>((?i)SpreadsheetSetRowHeight)(?=\s*\()</regex>
+		<regex>((?i)SpreadsheetShiftColumns)(?=\s*\()</regex>
+		<regex>((?i)SpreadsheetShiftRows)(?=\s*\()</regex>
+		<regex>((?i)SpreadsheetWrite)(?=\s*\()</regex>
+		<regex>((?i)ThreadJoin)(?=\s*\()</regex>
+		<regex>((?i)ThreadTerminate)(?=\s*\()</regex>
+		<regex>((?i)Throw)(?=\s*\()</regex>
+		<regex>((?i)Trace)(?=\s*\()</regex>
+		<regex>((?i)TransactionCommit)(?=\s*\()</regex>
+		<regex>((?i)TransactionRollback)(?=\s*\()</regex>
+		<regex>((?i)TransactionSetSavePoint)(?=\s*\()</regex>				
+		<regex>((?i)Writedump)(?=\s*\()</regex>
+		<regex>((?i)Writelog)(?=\s*\()</regex>
+		<!-- END CODA -->
+	</keywords>
+
+	<keywords id="Operators" useforautocomplete="no" scope="language.operator">
+		<regex>([\+\-\*\\\=])</regex>
+	</keywords>
+
+</state>
+
+<import state="CFML Output Variables State" keywords-only="yes"/>
+<state id="CFML Output Variables State" containerState="yes" scope="meta.state">
+<keywords id="Output Variables" useforautocomplete="no" scope="language.variable">
+	<!-- CODA <regex>(#[^&lt;&gt;#]+#)</regex> -->
+	<regex>(?&lt;!#)(#[^&lt;&gt;{#]+#)(?!#)</regex>
+</keywords>
+</state>
+			<!--  This is the "we do a complete HTML mode" section -->
+			<state id="Comment" type="comment" scope="markup.comment">
+				<begin><regex>&lt;!--</regex><autoend>--&gt;</autoend></begin>
+				<end><regex>--&gt;</regex></end>
+				<keywords id="SGML Double Dash" useforautocomplete="no" scope="meta.invalid.sgmlcomment">
+					<regex>(?&lt;!\!)(--)(?!&gt;)</regex>
+				</keywords>
+				<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+			</state>
+			<state id="CDATA" foldable="yes" scope="markup.inline.cdata">
+				<begin>
+					<regex>&lt;!\s*\[CDATA\s*\[</regex>
+					<autoend>\]\]&gt;</autoend>
+				</begin>
+				<end>
+					<regex>\]\s*\]\s*&gt;</regex>
+				</end>
+			</state>
+			<state id="Doctype" foldable="no" scope="markup.declaration">
+				<begin>
+					<regex>&lt;!</regex><autoend>&gt;</autoend>
+				</begin>
+				<end>
+					<regex>&gt;</regex>
+				</end>
+				<state id="String" type="string" scope="markup.declaration.string.double">
+					<begin><regex>"</regex></begin>
+					<end><regex>"</regex></end>
+				</state>
+				<state id="SingleString" type="string" scope="markup.declaration.string.single">
+					<begin><regex>'</regex></begin>
+					<end><regex>'</regex></end>
+				</state>
+				<state id="Doctype Block" type="block" foldable="yes" indent="yes" scope="meta.block.square">
+					<begin><regex>\[</regex><autoend>\]</autoend></begin>
+					<end><regex>]</regex></end>
+					<import/>
+				</state>
+			</state>
+			<state id="Escape" foldable="no" scope="markup.processing">
+				<begin>
+					<regex>&lt;\?</regex><autoend>\?&gt;</autoend>
+				</begin>
+				<end>
+					<regex>\?&gt;</regex>
+				</end>
+				<state id="ProcessingString" type="string" scope="markup.processing.attribute.value.string">
+					<begin><regex>"</regex></begin>
+					<end><regex>"</regex></end>
+				</state>
+				<state id="ProcessingSingleString" type="string" scope="markup.processing.attribute.value.string">
+					<begin><regex>'</regex></begin>
+					<end><regex>'</regex></end>
+				</state>
+			</state>
+			<state id="Inline CSS" usesymbolsfrommode="CSS" useautocompletefrommode="CSS" foldable="yes" indent="yes" scope="meta.block.css">
+				<begin>
+					<regex>&lt;[ \t]*(?i)style[^&gt;]*&gt;</regex>
+					<autoend>&lt;/style&gt;</autoend>
+				</begin>
+				<end>
+					<regex>(?i)&lt;[ \t]*/[ \t]*style[ \t]*&gt;</regex>
+				</end>
+
+				<import mode="CSS"/>
+                <import mode="XML" keywords-only="yes"/>
+				<state id="CSSInside curly brackets" foldable="yes" indent="yes" scope="meta.block.curly">
+					<begin>
+						<string>{</string>
+						<autoend>}</autoend>
+					</begin>
+					<end>
+						<regex>}</regex>
+					</end>
+					<import mode="CSS" state="Inside curly brackets" keywords-only="yes"/>
+					<state id="CSS Attribute state" scope="meta.block.attribute">
+						<begin>
+							<string>:</string>
+						</begin>
+						<end>
+							<regex>(;|.(?=})|[\n\r])</regex>
+						</end>
+						<import mode="CSS" state="Attribute state" keywords-only="yes"/>
+						<state-link state="CSSAutodocComment"/>
+						<state-link state="CSSComment"/>
+						<state-link state="CSSString"/>
+						<state-link state="CSSSingleString"/>
+					</state>
+					<state-link state="CSSAutodocComment"/>
+					<state-link state="CSSComment"/>
+					<state-link state="CSSString"/>
+					<state-link state="CSSSingleString"/>
+				</state>
+
+				<import keywords-only="yes"/>
+
+				<state id="CSSRules" scope="style.at-rule">
+					<begin>
+						<regex>^@[-\w_]+</regex>
+					</begin>
+					<end>
+						<regex>.(?=[{\n\r])</regex>
+					</end>
+				</state>
+
+				<state id="CSSAutodocComment" type="comment" scope="style.comment.block.documentation">
+					<begin>
+						<string>/\*"</string>
+						<autoend>"\*/</autoend>
+					</begin>
+					<end>
+						<regex>"\*/</regex>
+					</end>
+					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+				</state>
+				<state id="CSSComment" type="comment" scope="style.comment.block">
+					<begin>
+						<string>/\*</string>
+						<autoend>\*/</autoend>
+					</begin>
+					<end>
+						<regex>\*/</regex>
+					</end>
+					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+				</state>
+				<state id="CSSString" type="string" scope="style.value.string.double">
+					<begin>
+						<string>"</string>
+					</begin>
+					<end>
+						<regex>(?&lt;!\\)(\\\\)*"</regex>
+					</end>
+				</state>
+				<state id="CSSSingleString" type="string" scope="style.value.string.single">
+					<begin>
+						<string>'</string>
+					</begin>
+					<end>
+						<regex>(?&lt;!\\)(\\\\)*'</regex>
+					</end>
+				</state>
+
+			</state>
+
+
+			<state id="Inline Javascript" usesymbolsfrommode="Javascript" useautocompletefrommode="Javascript" foldable="yes" scope="meta.block.js">
+				<begin>
+					<regex>&lt;(?i)script[^&gt;]*&gt;</regex><autoend>&lt;/script&gt;</autoend>
+				</begin>
+				<end>
+					<regex>&lt;(?i)/script[^&gt;]*&gt;</regex>
+				</end>
+				<import mode="Javascript" keywords-only="yes"/>
+				<import mode="XML" keywords-only="yes"/>
+
+				<state id="JSAutodocComment" type="comment" scope="comment.block.documentation.js">
+					<begin><regex>/\*"</regex></begin>
+					<end><regex>"\*/</regex></end>
+				</state>
+
+				<state id="JSComment" type="comment" scope="comment.block.js">
+					<begin><regex>/\*</regex><autoend>\*/</autoend></begin>
+					<end><regex>\*/</regex></end>
+					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+				</state>
+
+				<state id="JSSingleComment" type="comment" scope="comment.line.double-slash.js">
+					<begin><regex>//</regex></begin>
+					<end><regex>[\n\r]|.(?=&lt;(?i)/script\s*&gt;)</regex></end>
+					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+				</state>
+
+				<state id="JSRegular Expressions" type="string" scope="string.regex.js">
+					<begin><regex>(?&lt;![&lt;/])/.*?[^\\](?=/[^\n\r]*(?:;|\)|,|[\n\r]))</regex></begin>
+					<end><regex>/[cgimosx]*</regex></end>
+				</state>
+
+				<state id="JSString" type="string" scope="string.double.js">
 					<begin><regex>"</regex></begin>
 					<end><regex>(?&lt;!\\)(\\\\)*"</regex></end>
 				</state>
-		
-				<state id="String" type="comment" color="#EB7300" font-weight="normal" font-style="normal" usespellchecking="yes">
+
+				<state id="JSSingleString" type="string" scope="string.single.js">
 					<begin><regex>'</regex></begin>
 					<end><regex>(?&lt;!\\)(\\\\)*'</regex></end>
 				</state>
-			
+
+				<state id="JSBlock" type="block" foldable="yes" indent="yes" scope="meta.block.curly.js">
+					<begin><regex>{</regex><autoend>}</autoend></begin>
+					<end><regex>}</regex></end>
+					<import mode="Javascript" keywords-only="yes"/>
+					<import mode="ERB" state="Inline Javascript"/>
+				</state>
 			</state>
-			             
-		</default>
 
-	</states>
+			<state id="CFML Tags With Content" foldable="yes" scope="meta.default">
+				<begin>
+					<regex>&lt;\s*(?'cfmlcontenttag'(?i)cf(?:function|invoke|loop|component|http|try|output|catch|)\b[-:_\w]*)\s*(?:[-:_\w]+=(?:"[^"]*"|'[^']*'|\w+)\s*)*\s*&gt;</regex>
+					<autoend>&lt;/\g&lt;cfmlcontenttag&gt;&gt;</autoend>
+				</begin>
+				<end>
+					<regex>&lt;\s*/\s*(?#see-insert-start-group:cfmlcontenttag)\s*&gt;</regex>
+				</end>
+				<import mode="XML" keywords-only="yes"/>
+				<import/>
+				<import state="CFML Output Variables State" keywords-only="yes"/>
+			</state>
 
+			<state id="CFML If Tags" foldable="yes" scope="meta.default">
+				<begin>
+					<regex>&lt;(?=\s*(?'cfmliftag'(?i)cf(?:if)[-:_\w]*)\s*(?:.*)*\s*&gt;)</regex>
+					<autoend>&lt;/\g&lt;cfmliftag&gt;&gt;</autoend>
+				</begin>
+				<end>
+					<regex>&lt;\s*/\s*(?#see-insert-start-group:cfmliftag)\s*&gt;</regex>
+				</end>
+				<state id="CFML Code in Tags" scope="meta.default">
+					<begin><regex>cfif</regex></begin>
+					<end><regex>&gt;</regex></end>
+					<keywords id="tag coloring in if tags" scope="markup.tag">
+						<regex>(&gt;)</regex>
+						<regex>(cfif)</regex>
+						<regex>(&lt;)(?=cfif)</regex>
+					</keywords>
+					<import state="CFML Code"/>
+				</state>
+					<keywords id="opening tag coloring" scope="markup.tag">
+						<regex>(&gt;)</regex>
+						<regex>(cfif)</regex>
+						<regex>(&lt;)</regex>
+					</keywords>
+				<import mode="XML" keywords-only="yes"/>
+				<import/>
+				<import state="CFML Output Variables State" keywords-only="yes"/>
+			</state>
+
+
+			<state id="CFML Tags" scope="meta.default">
+				<begin><regex>&lt;(?=(?i)cf)</regex></begin>
+				<end><regex>&gt;</regex></end>
+
+				<import state="CFML Code"/>
+		        <import state="CFML Output Variables State" keywords-only="yes"/>
+				
+				<keywords id="CFML Tag start and end parts" scope="markup.tag">
+					<regex>(&lt;(?=(?i)cf)\w+\b)</regex>
+					<regex>(&gt;)</regex>
+				</keywords>
+				
+				<keywords id="Attributes in CFML Tags" useforautocomplete="no" scope="markup.tag.attribute.name">
+					<regex>(?&lt;![\.&lt;])\b([\w-]*)(?=[ \t]*[=&gt;](?!&lt;))</regex>
+				</keywords>
+				<keywords id="Strings in CFML Tags" type="string" useforautocomplete="no" scope="markup.tag.attribute.value.string">
+					<regex>=[ \t]*("[^"]*"|'[^']*')(?=[^&lt;]*)</regex>
+					<regex>([^"]*")(?=[ \t]*&gt;)</regex>
+				</keywords>
+			</state>
+
+			<state id="Single Tag with CFML State" foldable="no" scope="meta.default">
+				<begin>
+					<regex>&lt;\s*[^/?!][-:_\w]*(?=[^&lt;&gt;]*&lt;cfif.+&lt;/cfif&gt;[^&gt;]*[^&gt;]*/&gt;)</regex>
+				</begin>
+				<end>
+					<regex>/[ \t]*&gt;</regex>
+				</end>
+				<import/>
+				<import state="CFML Output Variables State" keywords-only="yes"/>
+				<keywords id="Single Tags with CFML" useforautocomplete="no" scope="markup.tag">
+					<regex>(&lt;[^&gt;]*)</regex>
+					<regex>(\A[^&lt;&gt;]*&gt;)</regex>
+				</keywords>
+				<keywords id="Attributes in Single Tags with CFML" useforautocomplete="no" scope="markup.tag.attribute.name">
+					<regex>([\w-]*)(?=[ \t]*=[^&lt;]+)</regex>
+				</keywords>
+				<keywords id="Strings in Single Tags with CFML" type="string" useforautocomplete="no" scope="markup.tag.attribute.value.string">
+					<regex>=[ \t]*("[^"]*"|'[^']*')(?=[^&lt;]*)</regex>
+					<regex>([^"]*")(?=[ \t]*&gt;)</regex>
+				</keywords>
+			</state>
+
+			<state id="Tag State CFML" foldable="yes" indent="yes" scope="meta.default">
+				<begin>
+					<regex>&lt;\s*(?'xmltagstatename'[^/?!][-:_\w]*)\s*(?:[-:_\w]+=(?:"[^"]*"|'[^']*'|\w+)\s*)*\s*&gt;</regex>
+					<autoend>&lt;/\g&lt;xmltagstatename&gt;&gt;</autoend>
+				</begin>
+				<end>
+					<regex>&lt;\s*/\s*(?#see-insert-start-group:xmltagstatename)\s*&gt;</regex>
+				</end>
+				<import mode="XML" keywords-only="yes"/>
+				<import/>
+				<import state="CFML Output Variables State" keywords-only="yes"/>
+
+			</state>
+
+</default>
+</states>
 </syntax>

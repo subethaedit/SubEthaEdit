@@ -46,7 +46,7 @@
     return width;
 }
 
-- (float)desiredWidth {
+- (CGFloat)desiredWidth {
     return [self imageWidth]+[self titleWidth]+30.;
 }
 

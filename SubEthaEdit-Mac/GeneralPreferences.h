@@ -8,9 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "TCMPreferenceModule.h"
-#if defined(CODA)
-#import "TSPrefKeys.h"
-#endif //defined(CODA)
 #import "PCRolloverImageView.h"
 #import "PreferenceKeys.h"
 

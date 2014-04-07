@@ -13,7 +13,7 @@
 @end
 
 
-@interface TCMRendezvousBrowser : NSObject {
+@interface TCMRendezvousBrowser : NSObject <NSNetServiceBrowserDelegate, NSNetServiceDelegate> {
     id I_delegate;
     struct {
         BOOL resolvesServices;

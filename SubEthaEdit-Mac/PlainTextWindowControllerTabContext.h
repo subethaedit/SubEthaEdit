@@ -8,59 +8,52 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class PlainTextWindowController, PlainTextDocument, PlainTextLoadProgress;
+@class PlaintextWindowControllerTabContext;
 
+#import "SEEEditorSplitViewDelegate.h"
+#import "SEEDialogSplitViewDelegate.h"
+#import "SEEWebPreviewSplitViewDelegate.h"
+#import "PlainTextEditor.h"
+#import "SEEEncodingDoctorDialogViewController.h" // contains the protocol for now
 
-@interface PlainTextWindowControllerTabContext : NSObject {
-    @private
-    NSMutableArray *_plainTextEditors;
-    NSSplitView *_editorSplitView;
-    NSSplitView *_dialogSplitView;
-    id _documentDialog;
-    BOOL _isReceivingContent;
-    PlainTextDocument *_document;
-    BOOL _isAlertScheduled;
-    PlainTextLoadProgress *_loadProgress;
-    
-    BOOL _isProcessing;
-    NSImage *_icon;
-    NSString *_iconName;
-    int _objectCount;
-    BOOL _isEdited;
-}
+extern CGFloat const SEEMinWebPreviewWidth;
+extern CGFloat const SEEMinEditorWidth;
 
-- (NSMutableArray *)plainTextEditors;
+extern NSString * const SEEPlainTextWindowControllerTabContextActiveEditorDidChangeNotification;
 
-- (void)setEditorSplitView:(NSSplitView *)splitView;
-- (NSSplitView *)editorSplitView;
+@class PlainTextWindowController, SEEWebPreviewViewController, PlainTextDocument, PlainTextLoadProgress;
 
-- (void)setDialogSplitView:(NSSplitView *)splitView;
-- (NSSplitView *)dialogSplitView;
+@interface PlainTextWindowControllerTabContext : NSResponder
 
-- (void)setDocumentDialog:(id)dialog;
-- (id)documentDialog;
+@property (nonatomic, strong) NSString *uuid;
 
-- (void)setDocument:(PlainTextDocument *)document;
-- (PlainTextDocument *)document;
+@property (nonatomic, weak) NSTabViewItem *tab;
+@property (nonatomic, strong) PlainTextDocument *document;
+@property (nonatomic, readonly) PlainTextWindowController *windowController;
 
-- (void)setIsReceivingContent:(BOOL)flag;
-- (BOOL)isReceivingContent;
+@property (nonatomic, strong) NSSplitView *editorSplitView;
+@property (nonatomic, strong) SEEEditorSplitViewDelegate *editorSplitViewDelegate;
+@property (nonatomic, strong) NSMutableArray *plainTextEditors;
+@property (nonatomic, weak) PlainTextEditor *activePlainTextEditor;
 
-- (void)setIsAlertScheduled:(BOOL)flag;
-- (BOOL)isAlertScheduled;
+@property (nonatomic, strong) NSSplitView *dialogSplitView;
+@property (nonatomic, strong) SEEDialogSplitViewDelegate *dialogSplitViewDelegate;
+@property (nonatomic, strong) NSViewController<SEEDocumentDialogViewController> *documentDialog;
 
-- (void)setLoadProgress:(PlainTextLoadProgress *)loadProgress;
-- (PlainTextLoadProgress *)loadProgress;
+@property (nonatomic, strong) NSSplitView *webPreviewSplitView;
+@property (nonatomic, strong) SEEWebPreviewSplitViewDelegate *webPreviewSplitViewDelegate;
+@property (nonatomic, strong) SEEWebPreviewViewController *webPreviewViewController;
 
-- (BOOL)isProcessing;
-- (void)setIsProcessing:(BOOL)value;
-- (NSImage *)icon;
-- (void)setIcon:(NSImage *)icon;
-- (NSString *)iconName;
-- (void)setIconName:(NSString *)iconName;
-- (int)objectCount;
-- (void)setObjectCount:(int)value;
-- (BOOL)isEdited;
-- (void)setIsEdited:(BOOL)value;
+@property (nonatomic, assign) BOOL isReceivingContent;
+@property (nonatomic, assign) BOOL isAlertScheduled;
+@property (nonatomic, strong) PlainTextLoadProgress *loadProgress;
+
+@property (nonatomic, assign) BOOL isProcessing;
+@property (nonatomic, assign) BOOL isEdited;
+@property (nonatomic, strong) NSImage *icon;
+@property (nonatomic, strong) NSString *iconName;
+
+@property (nonatomic, assign) BOOL hasEditorSplit;
+@property (nonatomic, assign) BOOL hasWebPreviewSplit;
 
 @end
