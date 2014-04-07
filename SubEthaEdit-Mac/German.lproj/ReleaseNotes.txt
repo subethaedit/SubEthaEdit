@@ -1,12 +1,3 @@
-SubEthaEdit 3.5.4
-=================
-
-Changes:
-- Enabled the Web Inspector in the live Web Preview.
-
-Fixes:
-- Fixed issues with Mac OS X Lion.
-
 
 SubEthaEdit 3.5.3
 =================
