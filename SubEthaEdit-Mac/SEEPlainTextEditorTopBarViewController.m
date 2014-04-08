@@ -19,7 +19,7 @@
 #endif
 
 
-@interface SEEPlainTextEditorTopBarViewController ()
+@interface SEEPlainTextEditorTopBarViewController () <PopUpButtonDelegate>
 @property (nonatomic, strong) IBOutlet BorderedTextField *writtenByTextField;
 @property (nonatomic, strong) IBOutlet BorderedTextField *positionTextField;
 @property (nonatomic, strong) IBOutlet NSButton *splitButton;
@@ -36,7 +36,6 @@
 	self = [self initWithNibName:nil bundle:nil];
 	if (self) {
 		self.editor = anEditor;
-		self.visible = YES;
 		
 		self.registeredNotifications = ({
 			NSMutableSet *set = [NSMutableSet new];
@@ -102,18 +101,35 @@
 }
 
 - (void)setVisible:(BOOL)visible {
-	_visible = visible;
+	self.view.hidden = !(visible);
 	[self adjustLayout];
+}
+
+- (BOOL)isVisible {
+	BOOL result = !(self.view.isHidden);
+	return result;
 }
 
 - (void)setSplitButtonVisible:(BOOL)splitButtonVisible {
 	[self view];
 	self.splitButton.hidden = !splitButtonVisible;
+	[self adjustLayout];
 }
 
 - (BOOL)isSplitButtonVisible {
 	[self view];
 	BOOL result = !(self.splitButton.isHidden);
+	return result;
+}
+
+- (void)setWaitPipeImageVisible:(BOOL)pipeWaitImageVisible {
+	[self view];
+	self.waitPipeIconImageView.hidden = !pipeWaitImageVisible;
+	[self adjustLayout];
+}
+
+- (BOOL)isWaitPipeImageVisible {
+	BOOL result = !(self.waitPipeIconImageView.isHidden);
 	return result;
 }
 
@@ -210,6 +226,9 @@
 	[self.editor.windowControllerTabContext toggleEditorSplit];
 }
 
+- (IBAction)keyboardActivateSymbolPopUp {
+	[self.symbolPopUpButton performClick:self.editor];
+}
 #pragma mark - Symbol Popup
 
 - (void)updateSymbolPopUpContent {

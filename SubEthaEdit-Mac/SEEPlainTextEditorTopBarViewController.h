@@ -19,6 +19,7 @@
 
 @property (nonatomic, getter=isSplitButtonVisible) BOOL splitButtonVisible;
 @property (nonatomic) BOOL splitButtonShowsClose;
+@property (nonatomic, getter=isWaitPipeImageVisible) BOOL waitPipeImageVisible;
 
 - (void)adjustLayout; // temporary
 
@@ -29,4 +30,5 @@
 - (instancetype)initWithPlainTextEditor:(PlainTextEditor *)anEditor;
 - (IBAction)positionButtonAction:(id)sender;
 - (IBAction)splitToggleButtonAction:(id)sender;
+- (IBAction)keyboardActivateSymbolPopUp;
 @end
