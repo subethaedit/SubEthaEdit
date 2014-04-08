@@ -1069,6 +1069,10 @@ static NSString *tempFileName(NSString *origPath) {
         if (I_flags.shouldChangeExtensionOnModeChange) {
             NSArray *recognizedExtensions = [I_documentMode recognizedExtensions];
             if ([recognizedExtensions count]) {
+				NSString *fileExtension = recognizedExtensions.firstObject;
+				NSString *fileType = (NSString *)UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (CFStringRef)fileExtension, nil);
+				self.fileType = fileType;
+
                 if ([I_session isServer]) {
                     [I_session setFilename:[self preparedDisplayName]];
                 }
