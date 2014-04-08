@@ -132,6 +132,19 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 
 #pragma mark - Editor Split
 
+- (void)toggleEditorSplit {
+	
+	id firstResponder = [self.plainTextEditors[0] textView].window.firstResponder;
+	BOOL wasFirstResponder = [[self.plainTextEditors valueForKeyPath:@"textView"] containsObject:firstResponder];
+	
+	self.hasEditorSplit = ! self.hasEditorSplit;
+
+	if (wasFirstResponder) {
+		NSTextView *textView = [self.plainTextEditors[0] textView];
+		[textView.window makeFirstResponder:textView];
+	}
+}
+
 - (void)updateEditorSplitView {
 	NSMutableArray *plainTextEditors = self.plainTextEditors;
 	PlainTextWindowController *windowController = self.windowController;

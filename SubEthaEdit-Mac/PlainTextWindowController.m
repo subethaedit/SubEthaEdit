@@ -750,10 +750,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
 - (IBAction)toggleSplitView:(id)aSender {
 	PlainTextWindowControllerTabContext *tabContext = [self selectedTabContext];
-	tabContext.hasEditorSplit = ! tabContext.hasEditorSplit;
-
-	NSTextView *textView = [tabContext.plainTextEditors[0] textView];
-	[self.window makeFirstResponder:textView];
+	[tabContext toggleEditorSplit];
 }
 
 #pragma mark Editors

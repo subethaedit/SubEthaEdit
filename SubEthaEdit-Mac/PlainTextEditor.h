@@ -21,16 +21,11 @@ extern NSString * const PlainTextEditorDidChangeSearchScopeNotification;
 @class PlainTextWindowControllerTabContext,PlainTextDocument,SEEPlainTextEditorScrollView,PopUpButton,RadarScroller,TCMMMUser, SEETextView, BorderedTextField;
 
 @interface PlainTextEditor : NSResponder <NSTextViewDelegate, PopUpButtonDelegate> {
-    IBOutlet NSImageView *O_waitPipeStatusImageView;
-    IBOutlet BorderedTextField *O_positionTextField;
     IBOutlet PopUpButton *O_tabStatusPopUpButton;
     IBOutlet NSTextField *O_windowWidthTextField;
-    IBOutlet NSTextField *O_writtenByTextField;
     IBOutlet PopUpButton *O_modePopUpButton;
     IBOutlet PopUpButton *O_encodingPopUpButton;
     IBOutlet PopUpButton *O_lineEndingPopUpButton;
-    IBOutlet PopUpButton *O_symbolPopUpButton;
-    IBOutlet NSButton	 *O_splitButton;
     IBOutlet SEEPlainTextEditorScrollView *O_scrollView;
     RadarScroller   *I_radarScroller;
     SEETextView        *I_textView;
@@ -93,6 +88,7 @@ extern NSString * const PlainTextEditorDidChangeSearchScopeNotification;
 - (void)setFollowUserID:(NSString *)userID;
 - (NSString *)followUserID;
 - (void)setWindowControllerTabContext:(PlainTextWindowControllerTabContext *)aContext;
+- (PlainTextWindowControllerTabContext *)windowControllerTabContext;
 - (void)takeStyleSettingsFromDocument;
 - (void)takeSettingsFromDocument;
 
@@ -134,6 +130,9 @@ extern NSString * const PlainTextEditorDidChangeSearchScopeNotification;
 - (IBAction)jumpToNextChange:(id)aSender;
 - (IBAction)jumpToPreviousChange:(id)aSender;
 
+- (IBAction)positionButtonAction:(id)aSender;
+
+
 - (void)selectRange:(NSRange)aRange;
 - (void)selectRangeInBackground:(NSRange)aRange;
 - (void)selectRangeInBackgroundWithoutIndication:(NSRange)aRange expandIfFolded:(BOOL)aFlag;
@@ -145,6 +144,7 @@ extern NSString * const PlainTextEditorDidChangeSearchScopeNotification;
 
 - (void)updateTopScrollViewInset;
 - (void)adjustToScrollViewInsets;
+
 
 @property (nonatomic, readonly) PlainTextWindowController *plainTextWindowController;
 @property (nonatomic, readonly) NSValue *searchScopeValue;
