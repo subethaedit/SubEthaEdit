@@ -1498,8 +1498,9 @@ static NSString *tempFileName(NSString *origPath) {
 	if (self.fileURL == nil) {
 		[coder encodeObject:super.displayName forKey:@"SEEPlainTextDocumentDisplayName"]; // need to encode super.display name because self.displayname has sideeffects
 		[coder encodeObject:self.temporaryDisplayName forKey:@"SEEPlainTextDocumentTemporaryDisplayName"];
-		[coder encodeBool:I_flags.shouldChangeExtensionOnModeChange forKey:@"SEEPlainTextDocumentShouldUpdateExtensionOnModeChange"];
 	}
+
+	[coder encodeBool:I_flags.shouldChangeExtensionOnModeChange forKey:@"SEEPlainTextDocumentShouldUpdateExtensionOnModeChange"];
 
 	// store document mode.
 	DocumentMode *documentMode = self.documentMode;
@@ -1519,8 +1520,9 @@ static NSString *tempFileName(NSString *origPath) {
 	if (self.fileURL == nil) {
 		super.displayName = [coder decodeObjectForKey:@"SEEPlainTextDocumentDisplayName"]; // need to decode super.display name because self.displayname has sideeffects
 		self.temporaryDisplayName = [coder decodeObjectForKey:@"SEEPlainTextDocumentTemporaryDisplayName"];
-		I_flags.shouldChangeExtensionOnModeChange = [coder decodeBoolForKey:@"SEEPlainTextDocumentShouldUpdateExtensionOnModeChange"];
 	}
+
+	I_flags.shouldChangeExtensionOnModeChange = [coder decodeBoolForKey:@"SEEPlainTextDocumentShouldUpdateExtensionOnModeChange"];
 
 	// restoring document mode
 	NSString *documentModeIdentifier = [coder decodeObjectForKey:@"SEEPlainTextDocumentSelectedModeIdentifier"];
