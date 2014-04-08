@@ -10,6 +10,7 @@
 #import "PopUpButton.h"
 #import "PlainTextDocument.h"
 #import "DocumentMode.h"
+#import "BorderedTextField.h"
 
 // this file needs arc - either project wide,
 // or add -fobjc-arc on a per file basis in the compile build phase
@@ -20,9 +21,9 @@
 
 @interface SEEPlainTextEditorTopBarViewController ()
 @property (nonatomic, strong) IBOutlet NSTextField *writtenByTextField;
-@property (nonatomic, strong) IBOutlet NSTextField *positionTextField;
+@property (nonatomic, strong) IBOutlet BorderedTextField *positionTextField;
 @property (nonatomic, strong) IBOutlet NSButton *splitButton;
-@property (nonatomic, strong) IBOutlet NSImageView *terminalIconImageView;
+@property (nonatomic, strong) IBOutlet NSImageView *waitPipeIconImageView;
 @end
 
 @implementation SEEPlainTextEditorTopBarViewController
@@ -31,6 +32,7 @@
 	self = [self initWithNibName:nil bundle:nil];
 	if (self) {
 		self.editor = anEditor;
+		self.visible = YES;
 	}
 	return self;
 }
@@ -55,8 +57,89 @@
 	[self.symbolPopUpButton setDelegate:self.editor];
 }
 
+#define SPACING 5.0
+
 - (void)adjustLayout {
+    static CGFloat s_initialXPosition = NAN;
+    if (isnan(s_initialXPosition)) {
+        s_initialXPosition = NSMinX(self.positionTextField.frame);
+    }
 	
+	PlainTextDocument *document = self.editor.document;
+	if (self.visible) {
+		NSRect bounds = self.view.bounds;
+		CGFloat xPosition = NSMinX(bounds);
+		BOOL isWaiting = [document isWaiting];
+		BOOL hasSymbols = [[document documentMode] hasSymbols];
+		
+		BorderedTextField *positionTextField = self.positionTextField;
+		PopUpButton *symbolPopUpButton = self.symbolPopUpButton;
+		// document is waiting for some input from a pipe so show an indicator for that
+		self.waitPipeIconImageView.hidden = !isWaiting;
+        [positionTextField setHasLeftBorder:isWaiting];
+		if (isWaiting) {
+			xPosition += 19.;
+		}
+		
+		// if there are no symbols hide the symbols popup
+		[symbolPopUpButton setHidden:!hasSymbols];
+		
+		// calculate optimal size for position text field
+		NSSize positionTextSize = positionTextField.intrinsicContentSize;
+        NSRect positionTextFrame = [positionTextField frame];
+		positionTextFrame.origin.x = xPosition;
+        positionTextFrame.size.width = positionTextSize.width;
+		
+		xPosition += NSWidth(positionTextFrame);
+		
+		// calculate optimal width for symbol popup
+        NSRect symbolPopUpFrame = [symbolPopUpButton frame];
+        symbolPopUpFrame.origin.x = xPosition;
+		symbolPopUpFrame.size.width = symbolPopUpButton.intrinsicContentSize.width;
+		
+		xPosition += NSWidth(symbolPopUpFrame);
+		
+		// calculate optimal size of writtenBy text field
+		NSTextField *writtenByTextField = self.writtenByTextField;
+        NSRect writtenByTextFrame = writtenByTextField.frame;
+        writtenByTextFrame.size.width = writtenByTextField.intrinsicContentSize.width + SPACING;
+		
+		// split view button, just needed for size here
+		NSRect splitToggleButtonFrame = [self.splitButton frame];
+		CGFloat splitButtonWidth = NSWidth(splitToggleButtonFrame);
+		
+		// the writtenBy text field has priorty over the symbol popup so give it all space it wants if possible
+        CGFloat remainingWidth = bounds.size.width - symbolPopUpFrame.origin.x - SPACING - SPACING - splitButtonWidth;
+		if (writtenByTextFrame.size.width + symbolPopUpFrame.size.width > remainingWidth) {
+			// make sure symbol popup does not get smaller than 20 px.
+            if (remainingWidth - writtenByTextFrame.size.width > 20.) {
+                symbolPopUpFrame.size.width = remainingWidth - writtenByTextFrame.size.width;
+            } else {
+                // To small for both views, split space equaly and give the popup 20px more space
+                CGFloat remainingSpace = (remainingWidth - 20.) / 2.;
+                symbolPopUpFrame.size.width = remainingSpace + 20.;
+                writtenByTextFrame.size.width = remainingSpace;
+            }
+        }
+		
+		// finally we can calulate the origin of the writtenBy text field
+        writtenByTextFrame.origin.x = bounds.origin.x + bounds.size.width - writtenByTextFrame.size.width - SPACING - splitButtonWidth;
+		
+		// adjust all frames to backing grid
+		/* not doing that for now as we made sure we use integral point values all over the place
+		positionTextFrame = [positionTextField centerScanRect:positionTextFrame];
+		symbolPopUpFrame = [symbolPopUpButton centerScanRect:symbolPopUpFrame];
+		writtenByTextFrame = [writtenByTextField centerScanRect:writtenByTextFrame];
+		 */
+		
+		// set frames
+		[positionTextField setFrame:positionTextFrame];
+        [symbolPopUpButton setFrame:symbolPopUpFrame];
+		[writtenByTextField setFrame:writtenByTextFrame];
+		
+		[self.view setNeedsDisplay:YES];
+
+	}
 }
 
 - (IBAction)positionButtonAction:(id)sender {

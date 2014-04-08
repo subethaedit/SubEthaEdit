@@ -9,8 +9,8 @@
                 <outlet property="positionTextField" destination="Ugd-wu-f2r" id="v7J-Vc-8Ry"/>
                 <outlet property="splitButton" destination="ILs-CV-5zV" id="Pdp-2X-l36"/>
                 <outlet property="symbolPopUpButton" destination="57S-Gg-lfW" id="Edc-kB-OMb"/>
-                <outlet property="terminalIconImageView" destination="YRN-nX-AOm" id="JKg-dr-z8q"/>
                 <outlet property="view" destination="ROy-l3-d1g" id="hu4-z4-zY2"/>
+                <outlet property="waitPipeIconImageView" destination="YRN-nX-AOm" id="f39-fg-mTK"/>
                 <outlet property="writtenByTextField" destination="W31-AX-oex" id="X2i-0o-Wk0"/>
             </connections>
         </customObject>
@@ -25,7 +25,7 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                 </customView>
                 <textField verticalHuggingPriority="750" id="W31-AX-oex">
-                    <rect key="frame" x="401" y="0.0" width="181" height="18"/>
+                    <rect key="frame" x="401" y="-1" width="181" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="&lt;written by ....>" id="oRf-lT-deq" customClass="InsetTextFieldCell">
                         <font key="font" metaFont="smallSystem"/>
@@ -34,7 +34,7 @@
                     </textFieldCell>
                 </textField>
                 <textField toolTip="Cursor position" verticalHuggingPriority="750" id="Ugd-wu-f2r" customClass="BorderedTextField">
-                    <rect key="frame" x="0.0" y="0.0" width="93" height="18"/>
+                    <rect key="frame" x="0.0" y="-2" width="93" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="&lt;Position>" id="Xxd-jN-fK9">
                         <font key="font" metaFont="smallSystem"/>

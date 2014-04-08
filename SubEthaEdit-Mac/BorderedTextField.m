@@ -57,6 +57,13 @@
     }
 }
 
+- (NSSize)intrinsicContentSize {
+	NSSize positionTextSize = [self.stringValue sizeWithAttributes:@{NSFontAttributeName:self.font}];
+	positionTextSize.width  = round(positionTextSize.width + 9.);
+	positionTextSize.height = round(positionTextSize.height + 2.);
+	return positionTextSize;
+}
+
 - (void)drawRect:(NSRect)aRect {
     [super drawRect:aRect];
     [I_borderColor set];

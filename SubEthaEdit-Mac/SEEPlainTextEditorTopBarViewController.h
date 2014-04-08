@@ -15,7 +15,10 @@
 @property (nonatomic, weak) PlainTextEditor *editor;
 
 @property (nonatomic, strong) IBOutlet PopUpButton *symbolPopUpButton;
+@property (nonatomic, getter=isVisible) BOOL visible;
 
+@property (nonatomic, getter=isSplitButtonVisible) BOOL splitButtonVisible;
+@property (nonatomic) BOOL splitButtonShowsClose;
 
 - (void)adjustLayout; // temporary
 

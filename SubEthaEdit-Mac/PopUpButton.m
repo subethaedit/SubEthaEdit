@@ -54,6 +54,13 @@
     return I_delegate;
 }
 
+- (NSSize)intrinsicContentSize {
+	NSSize result = [super intrinsicContentSize];
+	CGFloat symbolPopupWidth = [(PopUpButtonCell *)[self cell] desiredWidth];
+	result.width = round(symbolPopupWidth + 3.);
+	return result;
+}
+
 - (void)drawRect:(NSRect)aRect {
     [super drawRect:aRect];
     NSRect bounds=NSIntegralRect([self bounds]);
