@@ -110,8 +110,8 @@ extern NSString * const BlockeditAttributeValue;
 - (void)setShouldWatchLineEndings:(BOOL)aFlag;
 - (BOOL)hasMixedLineEndings;
 - (void)setHasMixedLineEndings:(BOOL)aFlag;
-- (unsigned int)encoding;
-- (void)setEncoding:(unsigned int)anEncoding;
+- (NSStringEncoding)encoding;
+- (void)setEncoding:(NSStringEncoding)anEncoding;
 - (NSArray *)selectionOperationsForRangesUnconvertableToEncoding:(NSStringEncoding)encoding;
 
 

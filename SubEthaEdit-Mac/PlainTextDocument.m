@@ -1069,6 +1069,10 @@ static NSString *tempFileName(NSString *origPath) {
         if (I_flags.shouldChangeExtensionOnModeChange) {
             NSArray *recognizedExtensions = [I_documentMode recognizedExtensions];
             if ([recognizedExtensions count]) {
+				NSString *fileExtension = recognizedExtensions.firstObject;
+				NSString *fileType = (NSString *)UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (CFStringRef)fileExtension, nil);
+				self.fileType = fileType;
+
                 if ([I_session isServer]) {
                     [I_session setFilename:[self preparedDisplayName]];
                 }
@@ -1080,6 +1084,7 @@ static NSString *tempFileName(NSString *origPath) {
             [self adjustModeMenu];
         }
         [[NSNotificationCenter defaultCenter] postNotificationName:PlainTextDocumentDidChangeDocumentModeNotification object:self];
+		[self invalidateRestorableState];
     }
 }
 
@@ -1113,19 +1118,21 @@ static NSString *tempFileName(NSString *origPath) {
 }
     
     
-- (NSUInteger)fileEncoding {
+- (NSStringEncoding)fileEncoding {
     return [(FoldableTextStorage *)[self textStorage] encoding];
 }
 
-- (void)setFileEncoding:(NSUInteger)anEncoding {
+- (void)setFileEncoding:(NSStringEncoding)anEncoding {
     [(FoldableTextStorage *)[self textStorage] setEncoding:anEncoding];
     [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
+	[self invalidateRestorableState];
 }
 
 - (void)setFileEncodingUndoable:(NSUInteger)anEncoding {
     [[[self documentUndoManager] prepareWithInvocationTarget:self] 
         setFileEncodingUndoable:[self fileEncoding]];
     [self setFileEncoding:anEncoding];
+	[self invalidateRestorableState];
 }
 
 - (NSDictionary *)fileAttributes {
@@ -1393,7 +1400,7 @@ static NSString *tempFileName(NSString *origPath) {
             didEndSelector:@selector(selectEncodingAlertDidEnd:returnCode:contextInfo:)
                contextInfo:[[NSDictionary dictionaryWithObjectsAndKeys:
                                                 @"SelectEncodingAlert", @"Alert",
-                                                [NSNumber numberWithUnsignedInt:encoding], @"Encoding",
+                                                [NSNumber numberWithUnsignedInteger:encoding], @"Encoding",
                                                 nil] retain]];
     }
 }
@@ -1404,7 +1411,7 @@ static NSString *tempFileName(NSString *origPath) {
 
     TCMMMSession *session=[self session];
     if (!I_flags.isReceivingContent && [session isServer] && [session participantCount]<=1) {
-        NSStringEncoding encoding = [[alertContext objectForKey:@"Encoding"] unsignedIntValue];
+        NSStringEncoding encoding = [[alertContext objectForKey:@"Encoding"] unsignedIntegerValue];
         if (returnCode == NSAlertFirstButtonReturn) { // convert
             DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Trying to convert file encoding");
             [[alert window] orderOut:self];
@@ -1495,8 +1502,9 @@ static NSString *tempFileName(NSString *origPath) {
 	if (self.fileURL == nil) {
 		[coder encodeObject:super.displayName forKey:@"SEEPlainTextDocumentDisplayName"]; // need to encode super.display name because self.displayname has sideeffects
 		[coder encodeObject:self.temporaryDisplayName forKey:@"SEEPlainTextDocumentTemporaryDisplayName"];
-		[coder encodeBool:I_flags.shouldChangeExtensionOnModeChange forKey:@"SEEPlainTextDocumentShouldUpdateExtensionOnModeChange"];
 	}
+
+	[coder encodeBool:I_flags.shouldChangeExtensionOnModeChange forKey:@"SEEPlainTextDocumentShouldUpdateExtensionOnModeChange"];
 
 	// store document mode.
 	DocumentMode *documentMode = self.documentMode;
@@ -1504,23 +1512,32 @@ static NSString *tempFileName(NSString *origPath) {
 		NSString *documentModeIdentifier = documentMode.documentModeIdentifier;
 		[coder encodeObject:documentModeIdentifier forKey:@"SEEPlainTextDocumentSelectedModeIdentifier"];
 	}
+
+	NSStringEncoding documentEncoding = self.fileEncoding;
+	[coder encodeObject:@(documentEncoding) forKey:@"SEEPlainTextDocumentFileEncoding"];
 }
 
 - (void)restoreStateWithCoder:(NSCoder *)coder {
 	[super restoreStateWithCoder:coder];
 
-	// restoring untitled document name
-	if (self.fileURL == nil) {
-		super.displayName = [coder decodeObjectForKey:@"SEEPlainTextDocumentDisplayName"]; // need to decode super.display name because self.displayname has sideeffects
-		self.temporaryDisplayName = [coder decodeObjectForKey:@"SEEPlainTextDocumentTemporaryDisplayName"];
-		I_flags.shouldChangeExtensionOnModeChange = [coder decodeBoolForKey:@"SEEPlainTextDocumentShouldUpdateExtensionOnModeChange"];
-	}
+	// needs to be restored first, because setting the mode will update filetype if this is true.
+	I_flags.shouldChangeExtensionOnModeChange = [coder decodeBoolForKey:@"SEEPlainTextDocumentShouldUpdateExtensionOnModeChange"];
 
 	// restoring document mode
 	NSString *documentModeIdentifier = [coder decodeObjectForKey:@"SEEPlainTextDocumentSelectedModeIdentifier"];
 	if (documentModeIdentifier) {
 		DocumentMode *documentMode = [[DocumentModeManager sharedInstance] documentModeForIdentifier:documentModeIdentifier];
 		self.documentMode = documentMode;
+	}
+	
+	// restore document string encoding
+	NSStringEncoding documentEncoding = [[coder decodeObjectForKey:@"SEEPlainTextDocumentFileEncoding"] unsignedIntegerValue];
+	self.fileEncoding = documentEncoding;
+
+	// restoring untitled document name
+	if (self.fileURL == nil) {
+		super.displayName = [coder decodeObjectForKey:@"SEEPlainTextDocumentDisplayName"]; // need to decode super.display name because self.displayname has sideeffects
+		self.temporaryDisplayName = [coder decodeObjectForKey:@"SEEPlainTextDocumentTemporaryDisplayName"];
 	}
 }
 
@@ -4770,11 +4787,12 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     } 
     
     if (pathComponents) {
-        int count = [pathComponents count];
+        NSUInteger count = [pathComponents count];
         if (count==1) return [pathComponents lastObject];
+
         NSMutableString *result = [NSMutableString string];
-        int i;
-        int pathComponentsToShow = [[NSUserDefaults standardUserDefaults] integerForKey:AdditionalShownPathComponentsPreferenceKey] + 1;
+		NSInteger i = 0;
+        NSInteger pathComponentsToShow = [[NSUserDefaults standardUserDefaults] integerForKey:AdditionalShownPathComponentsPreferenceKey] + 1;
         for (i = count-1; i >= 1 && i > count-pathComponentsToShow-1; i--) {
             if (i != count-1) {
                 [result insertString:@"/" atIndex:0];
@@ -4800,7 +4818,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         if ([recognizedExtensions count]) {
             return [[super displayName] stringByAppendingPathExtension:[recognizedExtensions objectAtIndex:0]];
         }
-    } 
+    }
     return [super displayName];
 }
 
