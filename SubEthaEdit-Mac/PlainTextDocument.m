@@ -1113,11 +1113,11 @@ static NSString *tempFileName(NSString *origPath) {
 }
     
     
-- (NSUInteger)fileEncoding {
+- (NSStringEncoding)fileEncoding {
     return [(FoldableTextStorage *)[self textStorage] encoding];
 }
 
-- (void)setFileEncoding:(NSUInteger)anEncoding {
+- (void)setFileEncoding:(NSStringEncoding)anEncoding {
     [(FoldableTextStorage *)[self textStorage] setEncoding:anEncoding];
     [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
 }

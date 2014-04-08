@@ -451,11 +451,11 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     return I_flags.hasMixedLineEndings;
 }
 
-- (unsigned int)encoding {
+- (NSStringEncoding)encoding {
     return I_encoding;
 }
 
-- (void)setEncoding:(unsigned int)anEncoding {
+- (void)setEncoding:(NSStringEncoding)anEncoding {
     [[EncodingManager sharedInstance] unregisterEncoding:I_encoding];
     I_encoding = anEncoding;
     [[EncodingManager sharedInstance] registerEncoding:anEncoding];
