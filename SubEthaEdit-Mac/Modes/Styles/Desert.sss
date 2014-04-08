@@ -1,3 +1,25 @@
+/*
+
+Based on:
+
+Desert for Coda
+===============
+
+This is a port of Hans Fugal's Desert color scheme for Vim:
+
+    http://fugal.net/vim/colors/
+
+By Justin Hileman - http://justinhileman.com
+
+ * Sometimes Coda doesn't get the text and background colors right on import.
+   If that happens, use #333333 as your background and #ffffff for text.
+
+http://justinhileman.info/coda-colors/
+
+Adjusted for SubEthaEdit 4.0
+
+*/
+
 comment {
   color:#87CEEB;
   font-style:italic;
@@ -142,5 +164,21 @@ style.value.string {
 
 support {
   color:#fd971f;
+}
+
+
+/* The following Scopes were added to accommodate scope-name changes for SEE 4.0 */
+
+language.subroutine.function {
+  color:#98fb98;
+}
+
+keyword.constant {
+  color:#ffa0a0;
+}
+
+language.constant.numeric {
+  color:#ffa0a0;
+  font-weight:normal;
 }
 
