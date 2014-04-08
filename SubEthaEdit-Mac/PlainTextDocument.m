@@ -1520,12 +1520,7 @@ static NSString *tempFileName(NSString *origPath) {
 - (void)restoreStateWithCoder:(NSCoder *)coder {
 	[super restoreStateWithCoder:coder];
 
-	// restoring untitled document name
-	if (self.fileURL == nil) {
-		super.displayName = [coder decodeObjectForKey:@"SEEPlainTextDocumentDisplayName"]; // need to decode super.display name because self.displayname has sideeffects
-		self.temporaryDisplayName = [coder decodeObjectForKey:@"SEEPlainTextDocumentTemporaryDisplayName"];
-	}
-
+	// needs to be restored first, because setting the mode will update filetype if this is true.
 	I_flags.shouldChangeExtensionOnModeChange = [coder decodeBoolForKey:@"SEEPlainTextDocumentShouldUpdateExtensionOnModeChange"];
 
 	// restoring document mode
@@ -1534,10 +1529,16 @@ static NSString *tempFileName(NSString *origPath) {
 		DocumentMode *documentMode = [[DocumentModeManager sharedInstance] documentModeForIdentifier:documentModeIdentifier];
 		self.documentMode = documentMode;
 	}
-
+	
 	// restore document string encoding
 	NSStringEncoding documentEncoding = [[coder decodeObjectForKey:@"SEEPlainTextDocumentFileEncoding"] unsignedIntegerValue];
 	self.fileEncoding = documentEncoding;
+
+	// restoring untitled document name
+	if (self.fileURL == nil) {
+		super.displayName = [coder decodeObjectForKey:@"SEEPlainTextDocumentDisplayName"]; // need to decode super.display name because self.displayname has sideeffects
+		self.temporaryDisplayName = [coder decodeObjectForKey:@"SEEPlainTextDocumentTemporaryDisplayName"];
+	}
 }
 
 
@@ -4786,11 +4787,12 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     } 
     
     if (pathComponents) {
-        int count = [pathComponents count];
+        NSUInteger count = [pathComponents count];
         if (count==1) return [pathComponents lastObject];
+
         NSMutableString *result = [NSMutableString string];
-        int i;
-        int pathComponentsToShow = [[NSUserDefaults standardUserDefaults] integerForKey:AdditionalShownPathComponentsPreferenceKey] + 1;
+		NSInteger i = 0;
+        NSInteger pathComponentsToShow = [[NSUserDefaults standardUserDefaults] integerForKey:AdditionalShownPathComponentsPreferenceKey] + 1;
         for (i = count-1; i >= 1 && i > count-pathComponentsToShow-1; i--) {
             if (i != count-1) {
                 [result insertString:@"/" atIndex:0];
@@ -4816,7 +4818,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         if ([recognizedExtensions count]) {
             return [[super displayName] stringByAppendingPathExtension:[recognizedExtensions objectAtIndex:0]];
         }
-    } 
+    }
     return [super displayName];
 }
 
