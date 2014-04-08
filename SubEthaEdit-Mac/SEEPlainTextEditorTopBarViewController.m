@@ -25,6 +25,9 @@
 @property (nonatomic, strong) IBOutlet NSButton *splitButton;
 @property (nonatomic, strong) IBOutlet NSImageView *waitPipeIconImageView;
 @property (nonatomic, strong) IBOutlet NSView *bottomBarLayerBackedView;
+@property (nonatomic, strong) NSMutableSet *registeredNotifications;
+
+@property (nonatomic) BOOL symbolPopUpIsSorted;
 @end
 
 @implementation SEEPlainTextEditorTopBarViewController
@@ -34,6 +37,32 @@
 	if (self) {
 		self.editor = anEditor;
 		self.visible = YES;
+		
+		self.registeredNotifications = ({
+			NSMutableSet *set = [NSMutableSet new];
+		
+			PlainTextDocument *document = anEditor.document;
+			NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+			__weak __typeof__(self) weakSelf = self;
+			NSOperationQueue *mainQueue = [NSOperationQueue mainQueue];
+			
+			// register for all interesting notifications
+			[set addObject:[center addObserverForName:PlainTextDocumentUserDidChangeSelectionNotification
+											   object:document queue:mainQueue
+										   usingBlock:^(NSNotification *aNotification) {
+											   [weakSelf updateForSelectionDidChange];
+			}]];
+
+			[set addObject:[center addObserverForName:PlainTextDocumentDidChangeSymbolsNotification
+											   object:document queue:mainQueue
+										   usingBlock:^(NSNotification *aNotification) {
+											   [weakSelf updateSymbolPopUpContent];
+											   [weakSelf adjustLayout];
+										   }]];
+
+			set;
+		});
+		
 	}
 	return self;
 }
@@ -49,6 +78,10 @@
 
 - (void)dealloc {
 	self.symbolPopUpButton.delegate = nil;
+	for (id notificationReference in self.registeredNotifications) {
+		[[NSNotificationCenter defaultCenter] removeObserver:notificationReference];
+	}
+	
 }
 
 - (void)updateColorsForIsDarkBackground:(BOOL)isDark {
@@ -61,9 +94,11 @@
 - (void)loadView {
 	[super loadView];
 
-	[self.symbolPopUpButton setDelegate:self.editor];
+	[self.symbolPopUpButton setDelegate:self];
 	[self.writtenByTextField setHasRightBorder:NO];
 	[self updateColorsForIsDarkBackground:NO];
+	
+	[self updateSymbolPopUpContent];
 }
 
 - (void)setVisible:(BOOL)visible {
@@ -91,11 +126,6 @@
 #define SPACING 5.0
 
 - (void)adjustLayout {
-    static CGFloat s_initialXPosition = NAN;
-    if (isnan(s_initialXPosition)) {
-        s_initialXPosition = NSMinX(self.positionTextField.frame);
-    }
-	
 	PlainTextDocument *document = self.editor.document;
 	if (self.visible) {
 		NSRect bounds = self.view.bounds;
@@ -180,6 +210,12 @@
 	[self.editor.windowControllerTabContext toggleEditorSplit];
 }
 
+#pragma mark - Symbol Popup
+
+- (void)updateSymbolPopUpContent {
+	[self updateSymbolPopUpSorted:self.symbolPopUpIsSorted];
+}
+
 - (void)updateSelectedSymbolInPopUp:(PopUpButton *)aPopUp {
     PlainTextDocument *document = self.editor.document;
 	
@@ -193,6 +229,34 @@
         }
     }
 }
+
+- (void)updateSymbolPopUp:(PopUpButton *)aPopUp sorted:(BOOL)isSorted {
+    NSMenu *popUpMenu = [self.editor.document symbolPopUpMenuForView:self.editor.textView sorted:isSorted];
+    NSPopUpButtonCell *cell = [aPopUp cell];
+		
+    if ([[popUpMenu itemArray] count]) {
+        NSMenu *copiedMenu = [popUpMenu copyWithZone:[NSMenu menuZone]];
+        [cell setMenu:copiedMenu];
+        [self updateSelectedSymbolInPopUp:aPopUp];
+    }
+}
+
+- (void)updateSymbolPopUpSorted:(BOOL)aSorted {
+	[self updateSymbolPopUp:self.symbolPopUpButton sorted:aSorted];
+	self.symbolPopUpIsSorted = aSorted;
+}
+
+- (void)popUpWillShowMenu:(PopUpButton *)aButton {
+    NSEvent *currentEvent = [NSApp currentEvent];
+    BOOL sorted = ([currentEvent type] == NSLeftMouseDown && ([currentEvent modifierFlags] & NSAlternateKeyMask));
+	
+    if (sorted != self.symbolPopUpIsSorted) {
+        [self updateSymbolPopUpSorted:sorted];
+    }
+}
+
+
+#pragma mark -
 
 - (void)updateForSelectionDidChange {
 	NSRange selection = [self.editor.textView selectedRange];

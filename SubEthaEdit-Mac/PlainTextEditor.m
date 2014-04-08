@@ -194,6 +194,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	barView.frame = barRect;
 	self.topBarViewController.splitButtonVisible = aFlag;
 	[self.O_editorView addSubview:barView];
+	[self.topBarViewController updateForSelectionDidChange];
     return self;
 }
 
@@ -2393,7 +2394,6 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 - (void)updateSelectedSymbol
 {
 	[self updateSelectedSymbolInPopUp:O_symbolPopUpButton];
-	[self updateSelectedSymbolInPopUp:self.topBarViewController.symbolPopUpButton];
 }
 
 - (void)updateSelectedSymbolInPopUp:(PopUpButton *)aPopUp {
@@ -2433,8 +2433,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 - (void)updateSymbolPopUpSorted:(BOOL)aSorted
 {
 	[self updateSymbolPopUp:O_symbolPopUpButton sorted:aSorted];
-	[self updateSymbolPopUp:self.topBarViewController.symbolPopUpButton sorted:aSorted];
-	
+
     [self TCM_adjustTopStatusBarFrames];
 }
 

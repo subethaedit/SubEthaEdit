@@ -24,6 +24,7 @@
 
 - (void)updateColorsForIsDarkBackground:(BOOL)isDark;
 - (void)updateForSelectionDidChange;
+- (void)updateSymbolPopUpContent;
 
 - (instancetype)initWithPlainTextEditor:(PlainTextEditor *)anEditor;
 - (IBAction)positionButtonAction:(id)sender;
