@@ -1393,7 +1393,7 @@ static NSString *tempFileName(NSString *origPath) {
             didEndSelector:@selector(selectEncodingAlertDidEnd:returnCode:contextInfo:)
                contextInfo:[[NSDictionary dictionaryWithObjectsAndKeys:
                                                 @"SelectEncodingAlert", @"Alert",
-                                                [NSNumber numberWithUnsignedInt:encoding], @"Encoding",
+                                                [NSNumber numberWithUnsignedInteger:encoding], @"Encoding",
                                                 nil] retain]];
     }
 }
@@ -1404,7 +1404,7 @@ static NSString *tempFileName(NSString *origPath) {
 
     TCMMMSession *session=[self session];
     if (!I_flags.isReceivingContent && [session isServer] && [session participantCount]<=1) {
-        NSStringEncoding encoding = [[alertContext objectForKey:@"Encoding"] unsignedIntValue];
+        NSStringEncoding encoding = [[alertContext objectForKey:@"Encoding"] unsignedIntegerValue];
         if (returnCode == NSAlertFirstButtonReturn) { // convert
             DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Trying to convert file encoding");
             [[alert window] orderOut:self];
