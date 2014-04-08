@@ -183,6 +183,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	
 	// temporary
 	self.topBarViewController = [[SEEPlainTextEditorTopBarViewController alloc] initWithPlainTextEditor:self];
+	[self.topBarViewController updateColorsForIsDarkBackground:[self hasDarkBackground]];
 	NSView *barView = self.topBarViewController.view;
 	NSRect barRect = barView.frame;
 	barRect.size.width = NSWidth(self.O_editorView.bounds);
@@ -395,15 +396,14 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     self.O_editorView = view;
 
 	NSView *topStatusBarView = self.O_topStatusBarView;
-	topStatusBarView.layer.borderColor = [[NSColor lightGrayColor] CGColor];
+	topStatusBarView.layer.borderColor = [[NSColor darkOverlaySeparatorColorBackgroundIsDark:NO] CGColor];
 	topStatusBarView.layer.borderWidth = 0.5;
-	topStatusBarView.layer.backgroundColor = [[NSColor colorWithCalibratedWhite:0.65
-																		  alpha:0.75] CGColor];
+	topStatusBarView.layer.backgroundColor = [[NSColor darkOverlayBackgroundColorBackgroundIsDark:NO] CGColor];
 
 	NSView *bottomStatusBarView = self.O_bottomStatusBarView;
-	bottomStatusBarView.layer.borderColor = [[NSColor lightGrayColor] CGColor];
+	bottomStatusBarView.layer.borderColor = [[NSColor darkOverlaySeparatorColorBackgroundIsDark:NO] CGColor];
 	bottomStatusBarView.layer.borderWidth = 0.5;
-	bottomStatusBarView.layer.backgroundColor = [[NSColor colorWithCalibratedWhite:0.65 alpha:0.75] CGColor];
+	bottomStatusBarView.layer.backgroundColor = [[NSColor darkOverlayBackgroundColorBackgroundIsDark:NO] CGColor];
 
 	[I_textView setPostsFrameChangedNotifications:YES];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textViewFrameDidChange:) name:NSViewFrameDidChangeNotification object:I_textView];
@@ -562,13 +562,20 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     }
 }
 
+- (BOOL)hasDarkBackground {
+	BOOL result = self.document.documentBackgroundColor.isDark;
+	return result;
+}
+
 
 - (void)takeStyleSettingsFromDocument
 {
     PlainTextDocument *document = [self document];
     if (document)
     {
+		BOOL isDark = [self hasDarkBackground];
         [[self textView] setBackgroundColor:[document documentBackgroundColor]];
+		[self.topBarViewController updateColorsForIsDarkBackground:isDark];
         NSColor *invisibleCharacterColor = [[document styleAttributesForScope:@"meta.invisible.character" languageContext:nil] objectForKey:NSForegroundColorAttributeName];
         [(LayoutManager *)[[self textView] layoutManager] setInvisibleCharacterColor : invisibleCharacterColor ? invisibleCharacterColor :[NSColor grayColor]];
     }

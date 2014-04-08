@@ -64,10 +64,18 @@
 	return positionTextSize;
 }
 
+
 - (void)drawRect:(NSRect)aRect {
-    [super drawRect:aRect];
+	[[NSColor clearColor] set];
+	NSRectFill(self.bounds);
+	
+	// to make things line up with our popover
+	NSRect adjustedBounds = NSOffsetRect(NSInsetRect(self.bounds, 0, 1),0,0);
+	[[self cell] drawInteriorWithFrame:adjustedBounds inView:self];
+	
     [I_borderColor set];
     NSRect bounds=NSIntegralRect([self bounds]);
+	bounds = NSInsetRect(bounds, 0.5, 0);
     if (I_flags.hasRightBorder) {
         [NSBezierPath setDefaultLineWidth:1.];
         [NSBezierPath strokeLineFromPoint:NSMakePoint(NSMaxX(bounds),NSMinY(bounds))

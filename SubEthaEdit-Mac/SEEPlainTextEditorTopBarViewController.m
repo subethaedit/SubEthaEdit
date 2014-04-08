@@ -20,10 +20,11 @@
 
 
 @interface SEEPlainTextEditorTopBarViewController ()
-@property (nonatomic, strong) IBOutlet NSTextField *writtenByTextField;
+@property (nonatomic, strong) IBOutlet BorderedTextField *writtenByTextField;
 @property (nonatomic, strong) IBOutlet BorderedTextField *positionTextField;
 @property (nonatomic, strong) IBOutlet NSButton *splitButton;
 @property (nonatomic, strong) IBOutlet NSImageView *waitPipeIconImageView;
+@property (nonatomic, strong) IBOutlet NSView *bottomBarLayerBackedView;
 @end
 
 @implementation SEEPlainTextEditorTopBarViewController
@@ -50,11 +51,20 @@
 	self.symbolPopUpButton.delegate = nil;
 }
 
+- (void)updateColorsForIsDarkBackground:(BOOL)isDark {
+	self.view.layer.backgroundColor = [[NSColor darkOverlayBackgroundColorBackgroundIsDark:NO] CGColor];
+	self.bottomBarLayerBackedView.layer.backgroundColor = [[NSColor darkOverlaySeparatorColorBackgroundIsDark:NO] CGColor];
+	[self.symbolPopUpButton setLineColor:[NSColor darkOverlaySeparatorColorBackgroundIsDark:NO]];
+	[self.positionTextField setBorderColor:[NSColor darkOverlaySeparatorColorBackgroundIsDark:NO]];
+}
+
 - (void)loadView {
 	[super loadView];
-	self.view.layer.backgroundColor = [[NSColor colorWithCalibratedWhite:0.5 alpha:0.5] CGColor];
-	
 	[self.symbolPopUpButton setDelegate:self.editor];
+	
+	[self.writtenByTextField setHasRightBorder:NO];
+	
+	[self updateColorsForIsDarkBackground:NO];
 }
 
 #define SPACING 5.0
@@ -151,16 +161,12 @@
 - (void)updateSelectedSymbolInPopUp:(PopUpButton *)aPopUp {
     PlainTextDocument *document = self.editor.document;
 	
-    if ([[document documentMode] hasSymbols])
-    {
+    if ([[document documentMode] hasSymbols]) {
         int symbolTag = [document selectedSymbolForRange:[document.textStorage fullRangeForFoldedRange:[self.editor.textView selectedRange]]];
 		
-        if (symbolTag == -1)
-        {
+        if (symbolTag == -1) {
             [aPopUp selectItemAtIndex:0];
-        }
-        else
-        {
+        } else {
             [aPopUp selectItem:[aPopUp.menu itemWithTag:symbolTag]];
         }
     }

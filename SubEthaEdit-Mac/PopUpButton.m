@@ -6,6 +6,11 @@
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
+
 #import "PopUpButton.h"
 #import "PopUpButtonCell.h"
 
@@ -29,13 +34,13 @@
 		[self setBordered:NO];
 		[self setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
 		self.lineDrawingEdge = CGRectMaxXEdge;
+		self.lineColor = [NSColor grayColor]; // just a default
 	}
     return self;
 }
 
 - (void)dealloc {
     [self setDelegate:nil];
-    [super dealloc];
 }
 
 - (void)mouseDown:(NSEvent *)theEvent {
@@ -46,25 +51,18 @@
     [super mouseDown:theEvent];
 }
 
-- (void)setDelegate:(id)aDelegate {
-    I_delegate=aDelegate;
-}
-
-- (id)delegate {
-    return I_delegate;
-}
-
 - (NSSize)intrinsicContentSize {
 	NSSize result = [super intrinsicContentSize];
 	CGFloat symbolPopupWidth = [(PopUpButtonCell *)[self cell] desiredWidth];
-	result.width = round(symbolPopupWidth + 3.);
+	result.width = round(symbolPopupWidth);
 	return result;
 }
 
 - (void)drawRect:(NSRect)aRect {
     [super drawRect:aRect];
     NSRect bounds=NSIntegralRect([self bounds]);
-    [[NSColor grayColor] set];
+	bounds = NSInsetRect(bounds, 0.5, 0);
+    [self.lineColor set];
     [NSBezierPath setDefaultLineWidth:1.];
 
 	if (self.lineDrawingEdge == CGRectMaxXEdge) {

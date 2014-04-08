@@ -22,6 +22,7 @@
 
 - (void)adjustLayout; // temporary
 
+- (void)updateColorsForIsDarkBackground:(BOOL)isDark;
 - (void)updateForSelectionDidChange;
 
 - (instancetype)initWithPlainTextEditor:(PlainTextEditor *)anEditor;
