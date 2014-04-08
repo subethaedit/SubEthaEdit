@@ -1080,6 +1080,7 @@ static NSString *tempFileName(NSString *origPath) {
             [self adjustModeMenu];
         }
         [[NSNotificationCenter defaultCenter] postNotificationName:PlainTextDocumentDidChangeDocumentModeNotification object:self];
+		[self invalidateRestorableState];
     }
 }
 
@@ -1120,12 +1121,14 @@ static NSString *tempFileName(NSString *origPath) {
 - (void)setFileEncoding:(NSStringEncoding)anEncoding {
     [(FoldableTextStorage *)[self textStorage] setEncoding:anEncoding];
     [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
+	[self invalidateRestorableState];
 }
 
 - (void)setFileEncodingUndoable:(NSUInteger)anEncoding {
     [[[self documentUndoManager] prepareWithInvocationTarget:self] 
         setFileEncodingUndoable:[self fileEncoding]];
     [self setFileEncoding:anEncoding];
+	[self invalidateRestorableState];
 }
 
 - (NSDictionary *)fileAttributes {
