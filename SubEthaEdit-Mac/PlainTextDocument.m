@@ -1504,6 +1504,9 @@ static NSString *tempFileName(NSString *origPath) {
 		NSString *documentModeIdentifier = documentMode.documentModeIdentifier;
 		[coder encodeObject:documentModeIdentifier forKey:@"SEEPlainTextDocumentSelectedModeIdentifier"];
 	}
+
+	NSStringEncoding documentEncoding = self.fileEncoding;
+	[coder encodeObject:@(documentEncoding) forKey:@"SEEPlainTextDocumentFileEncoding"];
 }
 
 - (void)restoreStateWithCoder:(NSCoder *)coder {
@@ -1522,6 +1525,10 @@ static NSString *tempFileName(NSString *origPath) {
 		DocumentMode *documentMode = [[DocumentModeManager sharedInstance] documentModeForIdentifier:documentModeIdentifier];
 		self.documentMode = documentMode;
 	}
+
+	// restore document string encoding
+	NSStringEncoding documentEncoding = [[coder decodeObjectForKey:@"SEEPlainTextDocumentFileEncoding"] unsignedIntegerValue];
+	self.fileEncoding = documentEncoding;
 }
 
 
