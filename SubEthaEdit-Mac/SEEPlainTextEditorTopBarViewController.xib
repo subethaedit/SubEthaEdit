@@ -26,7 +26,7 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                 </customView>
                 <textField verticalHuggingPriority="750" id="W31-AX-oex" customClass="BorderedTextField">
-                    <rect key="frame" x="401" y="0.0" width="181" height="18"/>
+                    <rect key="frame" x="401" y="1" width="181" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="&lt;written by ....>" id="oRf-lT-deq" customClass="InsetTextFieldCell">
                         <font key="font" metaFont="smallSystem"/>
@@ -39,7 +39,7 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                 </customView>
                 <textField toolTip="Cursor position" verticalHuggingPriority="750" id="Ugd-wu-f2r" customClass="BorderedTextField">
-                    <rect key="frame" x="0.0" y="-1" width="93" height="18"/>
+                    <rect key="frame" x="0.0" y="0.0" width="93" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="&lt;Position>" id="Xxd-jN-fK9">
                         <font key="font" metaFont="smallSystem"/>

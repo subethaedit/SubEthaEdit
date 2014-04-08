@@ -60,11 +60,32 @@
 
 - (void)loadView {
 	[super loadView];
+
 	[self.symbolPopUpButton setDelegate:self.editor];
-	
 	[self.writtenByTextField setHasRightBorder:NO];
-	
 	[self updateColorsForIsDarkBackground:NO];
+}
+
+- (void)setVisible:(BOOL)visible {
+	_visible = visible;
+	[self adjustLayout];
+}
+
+- (void)setSplitButtonVisible:(BOOL)splitButtonVisible {
+	[self view];
+	self.splitButton.hidden = !splitButtonVisible;
+}
+
+- (BOOL)isSplitButtonVisible {
+	[self view];
+	BOOL result = !(self.splitButton.isHidden);
+	return result;
+}
+
+- (void)setSplitButtonShowsClose:(BOOL)splitButtonShowsClose {
+	_splitButtonShowsClose = splitButtonShowsClose;
+	[self view];
+	[self.splitButton setImage:[NSImage imageNamed:splitButtonShowsClose?@"EditorRemoveSplit":@"EditorAddSplit"]];
 }
 
 #define SPACING 5.0
@@ -116,7 +137,7 @@
 		
 		// split view button, just needed for size here
 		NSRect splitToggleButtonFrame = [self.splitButton frame];
-		CGFloat splitButtonWidth = NSWidth(splitToggleButtonFrame);
+		CGFloat splitButtonWidth = self.splitButtonVisible ? NSWidth(splitToggleButtonFrame) : 0;
 		
 		// the writtenBy text field has priorty over the symbol popup so give it all space it wants if possible
         CGFloat remainingWidth = bounds.size.width - symbolPopUpFrame.origin.x - SPACING - SPACING - splitButtonWidth;
@@ -148,14 +169,15 @@
 		[writtenByTextField setFrame:writtenByTextFrame];
 		
 		[self.view setNeedsDisplay:YES];
-
 	}
 }
 
 - (IBAction)positionButtonAction:(id)sender {
+	[self.editor positionButtonAction:(id)sender];
 }
 
 - (IBAction)splitToggleButtonAction:(id)sender {
+	[self.editor.windowControllerTabContext toggleEditorSplit];
 }
 
 - (void)updateSelectedSymbolInPopUp:(PopUpButton *)aPopUp {

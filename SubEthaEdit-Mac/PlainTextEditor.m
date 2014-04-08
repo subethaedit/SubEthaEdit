@@ -184,11 +184,15 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	// temporary
 	self.topBarViewController = [[SEEPlainTextEditorTopBarViewController alloc] initWithPlainTextEditor:self];
 	[self.topBarViewController updateColorsForIsDarkBackground:[self hasDarkBackground]];
+	[self.topBarViewController setSplitButtonVisible:NO];
+	
 	NSView *barView = self.topBarViewController.view;
 	NSRect barRect = barView.frame;
 	barRect.size.width = NSWidth(self.O_editorView.bounds);
 	barRect.origin.x = NSMinX(self.O_editorView.bounds);
-	barRect.origin.y = NSMaxY(self.O_editorView.bounds) - 100.0;
+	barRect.origin.y = NSMaxY(self.O_editorView.bounds) - 50.0;
+	barView.frame = barRect;
+	self.topBarViewController.splitButtonVisible = aFlag;
 	[self.O_editorView addSubview:barView];
     return self;
 }
@@ -1004,16 +1008,18 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 
-- (void)setWindowControllerTabContext:(PlainTextWindowControllerTabContext *)aContext
-{
+- (void)setWindowControllerTabContext:(PlainTextWindowControllerTabContext *)aContext {
     I_windowControllerTabContext = aContext;
 }
 
+- (PlainTextWindowControllerTabContext *)windowControllerTabContext {
+	return I_windowControllerTabContext;
+}
 
 - (void)updateSplitButtonForIsSplit:(BOOL)aFlag
 {
     if (I_flags.hasSplitButton) {
-		[O_splitButton setImage:[NSImage imageNamed:aFlag?@"EditorRemoveSplit":@"EditorAddSplit"]];
+		self.topBarViewController.splitButtonShowsClose = aFlag;
     }
 }
 
@@ -1823,6 +1829,9 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     [self TCM_updateBottomStatusBar];
 }
 
+- (IBAction)positionButtonAction:(id)aSender {
+	[self positionClick:aSender];
+}
 
 - (IBAction)positionClick:(id)aSender
 {

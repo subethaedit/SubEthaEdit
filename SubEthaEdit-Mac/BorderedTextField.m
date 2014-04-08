@@ -70,7 +70,7 @@
 	NSRectFill(self.bounds);
 	
 	// to make things line up with our popover
-	NSRect adjustedBounds = NSOffsetRect(NSInsetRect(self.bounds, 0, 1),0,0);
+	NSRect adjustedBounds = NSOffsetRect(NSInsetRect(self.bounds, 0, 1),0,1);
 	[[self cell] drawInteriorWithFrame:adjustedBounds inView:self];
 	
     [I_borderColor set];

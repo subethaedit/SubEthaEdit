@@ -93,6 +93,7 @@ extern NSString * const PlainTextEditorDidChangeSearchScopeNotification;
 - (void)setFollowUserID:(NSString *)userID;
 - (NSString *)followUserID;
 - (void)setWindowControllerTabContext:(PlainTextWindowControllerTabContext *)aContext;
+- (PlainTextWindowControllerTabContext *)windowControllerTabContext;
 - (void)takeStyleSettingsFromDocument;
 - (void)takeSettingsFromDocument;
 
@@ -134,6 +135,9 @@ extern NSString * const PlainTextEditorDidChangeSearchScopeNotification;
 - (IBAction)jumpToNextChange:(id)aSender;
 - (IBAction)jumpToPreviousChange:(id)aSender;
 
+- (IBAction)positionButtonAction:(id)aSender;
+
+
 - (void)selectRange:(NSRange)aRange;
 - (void)selectRangeInBackground:(NSRange)aRange;
 - (void)selectRangeInBackgroundWithoutIndication:(NSRange)aRange expandIfFolded:(BOOL)aFlag;
@@ -145,6 +149,7 @@ extern NSString * const PlainTextEditorDidChangeSearchScopeNotification;
 
 - (void)updateTopScrollViewInset;
 - (void)adjustToScrollViewInsets;
+
 
 @property (nonatomic, readonly) PlainTextWindowController *plainTextWindowController;
 @property (nonatomic, readonly) NSValue *searchScopeValue;

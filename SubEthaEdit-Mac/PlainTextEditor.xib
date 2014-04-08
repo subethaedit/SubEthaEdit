@@ -193,7 +193,7 @@
                             </connections>
                         </button>
                         <textField toolTip="Window width and wrap settings" verticalHuggingPriority="750" id="15" customClass="BorderedTextField">
-                            <rect key="frame" x="550" y="0.0" width="40" height="16"/>
+                            <rect key="frame" x="550" y="0.0" width="40" height="18"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                             <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" alignment="right" title="999w" id="93">
                                 <font key="font" metaFont="smallSystem"/>
