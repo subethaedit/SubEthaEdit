@@ -70,8 +70,7 @@
 }
 
 - (void)setBackgroundBlurActive:(BOOL)backgroundBlurActive {
-	[self setLayerUsesCoreImageFilters:backgroundBlurActive]; // needed although docu states it isn't
-	self.layer.backgroundFilters = backgroundBlurActive ? [SEEOverlayView TCM_backgroundBlurFilters] : nil;
+	self.backgroundFilters = backgroundBlurActive ? [SEEOverlayView TCM_backgroundBlurFilters] : nil;
 	[self.layer setNeedsDisplay];
 }
 
