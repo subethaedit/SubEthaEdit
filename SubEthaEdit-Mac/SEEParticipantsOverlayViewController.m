@@ -18,6 +18,7 @@
 #import "SEEParticipantViewController.h"
 #import "PlainTextWindowControllerTabContext.h"
 #import "PlainTextDocument.h"
+#import "SEEOverlayView.h"
 
 @interface SEEParticipantsOverlayViewController ()
 @property (nonatomic, weak) PlainTextWindowControllerTabContext *tabContext;
@@ -61,7 +62,7 @@
 	view.layer.borderWidth = 0.5;
 
 	view.layer.backgroundColor = [[NSColor brightOverlayBackgroundColorBackgroundIsDark:NO] CGColor];
-
+	[(SEEOverlayView *)view setBackgroundBlurActive:YES];
 	[self update];
 }
 

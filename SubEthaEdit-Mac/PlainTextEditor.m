@@ -42,6 +42,8 @@
 #import "SEEFindAndReplaceViewController.h"
 #import <objc/objc-runtime.h>
 #import "SEEPlainTextEditorTopBarViewController.h"
+#import "SEEOverlayView.h"
+#import "NSLayoutConstraint+TCMAdditions.h"
 
 NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDidFollowUserNotification";
 NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEditorDidChangeSearchScopeNotification";
@@ -87,9 +89,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 @interface PlainTextEditor ()
 
 @property (nonatomic, strong) IBOutlet NSView *O_editorView;
-@property (nonatomic, strong) NSArray *topStatusBarViewBackgroundFilters;
-@property (nonatomic, assign) IBOutlet NSView *O_bottomStatusBarView;
-@property (nonatomic, strong) NSArray *bottomStatusBarViewBackgroundFilters;
+@property (nonatomic, assign) IBOutlet SEEOverlayView *O_bottomStatusBarView;
 @property (nonatomic, assign) IBOutlet NSButton *shareInviteUsersButtonOutlet;
 @property (nonatomic, assign) IBOutlet NSButton *shareAnnounceButtonOutlet;
 @property (nonatomic, assign) IBOutlet NSObjectController *ownerController;
@@ -98,9 +98,9 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 @property (nonatomic, strong) NSViewController *topOverlayViewController;
 @property (nonatomic, strong) SEEFindAndReplaceViewController *findAndReplaceController;
 @property (nonatomic, strong) SEEPlainTextEditorTopBarViewController *topBarViewController;
-@property (nonatomic, strong) NSLayoutConstraint *topStatusBarPinConstraint;
 @property (nonatomic, strong) NSLayoutConstraint *bottomOverlayViewPinConstraint;
-
+@property (nonatomic, strong) NSArray *topBlurBackgroundConstraints;
+@property (nonatomic, strong) NSView *topBlurLayerView;
 - (void)	TCM_updateBottomStatusBar;
 - (float)pageGuidePositionForColumns:(int)aColumns;
 @end
@@ -146,16 +146,40 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 		self.topBarViewController.splitButtonVisible = aFlag;
 		[self.O_editorView addSubview:self.topBarViewController.view];
 		
+		// generate top blur layer
+		self.topBlurLayerView = ({
+			SEEOverlayView *view = [[SEEOverlayView alloc] initWithFrame:NSZeroRect];
+			NSView *containerView = self.O_editorView;
+			view.translatesAutoresizingMaskIntoConstraints = NO;
+			[containerView addSubview:view];
+			[containerView addConstraints:@[
+											[NSLayoutConstraint TCM_constraintWithItem:view secondItem:containerView
+																		equalAttribute:NSLayoutAttributeWidth],
+											[NSLayoutConstraint TCM_constraintWithItem:view secondItem:containerView
+																		equalAttribute:NSLayoutAttributeTop],
+											]];
+			self.topBlurBackgroundConstraints = @[
+												  [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:18.0]
+												  ];
+			[containerView addConstraints:self.topBlurBackgroundConstraints];
+			//		view.layer.backgroundColor = [[[NSColor redColor] colorWithAlphaComponent:0.8] CGColor];
+			view.backgroundBlurActive = YES;
+			view;
+		});
+
+		
 		// change the top status bar to use constraints
 		{
 			NSView *statusBarView = self.topBarViewController.view;
-			NSView *containerView = statusBarView.superview;
+			NSView *containerView = self.topBlurLayerView;
 			[statusBarView removeFromSuperview];
 			
 			[statusBarView setTranslatesAutoresizingMaskIntoConstraints:NO];
 			[containerView addSubview:statusBarView];
 			[containerView addConstraints:@[
-											[NSLayoutConstraint constraintWithItem:statusBarView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:containerView attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0],
+											[NSLayoutConstraint TCM_constraintWithItem:statusBarView secondItem:containerView
+																		equalAttribute:NSLayoutAttributeWidth],
+											[NSLayoutConstraint TCM_constraintWithItem:statusBarView secondItem:containerView equalAttribute:NSLayoutAttributeBottom],
 											[NSLayoutConstraint constraintWithItem:statusBarView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeWidth multiplier:1.0 constant:CGRectGetHeight(statusBarView.bounds)],
 											]];
 			[self updateTopPinConstraints];
@@ -176,12 +200,12 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 											]];
 		}
 		
+		// make sure we start out right
+		[I_textView adjustContainerInsetToScrollView];
+		
+		[self.topBarViewController updateForSelectionDidChange];
     }
 
-	// make sure we start out right
-	[I_textView adjustContainerInsetToScrollView];
-	
-	[self.topBarViewController updateForSelectionDidChange];
     return self;
 }
 
@@ -472,7 +496,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     }
     [[O_tabStatusPopUpButton cell] setMenu:tabMenu];
 
-
+	[self.O_bottomStatusBarView setBackgroundBlurActive:YES];
     [self TCM_updateBottomStatusBar];
 	
     // trigger the notfications for the first time
@@ -1213,14 +1237,22 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 - (void)updateTopPinConstraints {
-	NSView *topStatusBarView = self.topBarViewController.view;
-	NSView *containerView = topStatusBarView.superview;
-	NSView *topOverlayView = self.topOverlayViewController.view;
-	if (self.topStatusBarPinConstraint) {
-		[containerView removeConstraint:self.topStatusBarPinConstraint];
-	}
-	self.topStatusBarPinConstraint = [NSLayoutConstraint constraintWithItem:topStatusBarView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:(topOverlayView ?: containerView) attribute:topOverlayView ? NSLayoutAttributeBottom : NSLayoutAttributeTop multiplier:1.0 constant:0.0];
-	[containerView addConstraint:self.topStatusBarPinConstraint];
+	NSView *containerView = self.topBlurLayerView.superview;
+	SEEOverlayView *blurView = (SEEOverlayView *)self.topBlurLayerView;
+	[containerView removeConstraints:self.topBlurBackgroundConstraints];
+	self.topBlurBackgroundConstraints = ({
+		NSArray *constraints = nil;
+		NSView *topOverlayView = self.topOverlayViewController.view;
+		NSView *topBarView = self.topBarViewController.view;
+		CGFloat offset = self.showsTopStatusBar ? NSHeight(topBarView.frame) : 0.0;
+		if (!topOverlayView.superview) {
+			constraints = @[[NSLayoutConstraint constraintWithItem:blurView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:offset]];
+		} else { // -> (topOverlayView.superview) is true
+			constraints = @[[NSLayoutConstraint constraintWithItem:blurView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:topOverlayView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:offset]];
+		}
+		[containerView addConstraints:constraints];
+		constraints;
+	});
 }
 
 - (void)updateBottomPinConstraints {
@@ -1704,6 +1736,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 		[[O_scrollView verticalRulerView] setNeedsDisplay:YES];
         [[self document] setShowsTopStatusBar:aFlag];
 		[self updateTopScrollViewInset];
+		[self updateTopPinConstraints];
     }
 }
 
@@ -1716,14 +1749,8 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	
     if (I_flags.showBottomStatusBar != aFlag) {
         I_flags.showBottomStatusBar = !I_flags.showBottomStatusBar;
-
-		if (! I_flags.showBottomStatusBar) {
-			self.bottomStatusBarViewBackgroundFilters = self.O_bottomStatusBarView.layer.backgroundFilters;
-			self.O_bottomStatusBarView.layer.backgroundFilters = nil;
-		} else {
-			self.O_bottomStatusBarView.layer.backgroundFilters = self.bottomStatusBarViewBackgroundFilters;
-			self.bottomStatusBarViewBackgroundFilters = nil;
-		}
+		
+		[self.O_bottomStatusBarView setBackgroundBlurActive:I_flags.showBottomStatusBar];
 
         [self.O_bottomStatusBarView setHidden:!I_flags.showBottomStatusBar];
         [self.O_bottomStatusBarView setNeedsDisplay:YES];

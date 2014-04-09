@@ -409,6 +409,7 @@
 		F2CA91EE18C08FF7006B098A /* SEEFindAndReplaceState.m in Sources */ = {isa = PBXBuildFile; fileRef = F2CA91ED18C08FF7006B098A /* SEEFindAndReplaceState.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		F2CEAAA7100B3A350036B3F7 /* MAAttachedWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = F2CEAAA6100B3A350036B3F7 /* MAAttachedWindow.m */; };
 		F2CEAAF1100B46150036B3F7 /* URLBubbleWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = F2CEAAF0100B46150036B3F7 /* URLBubbleWindow.m */; };
+		F2CFF21718F53AFD004A745A /* NSLayoutConstraint+TCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F2CFF21618F53AFD004A745A /* NSLayoutConstraint+TCMAdditions.m */; };
 		F2D129FC0BF0B64A00A776CC /* SEEConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D129F80BF0B64700A776CC /* SEEConnectionManager.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		F2D12A1D0BF0B8DF00A776CC /* SEEConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D12A1B0BF0B8DF00A776CC /* SEEConnection.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		F2D22CB40EE9C5E3004B8E33 /* SeeTextImporter.mdimporter in Copy Importers */ = {isa = PBXBuildFile; fileRef = F2D22CB30EE9C5DE004B8E33 /* SeeTextImporter.mdimporter */; };
@@ -1243,6 +1244,8 @@
 		F2CEAAA6100B3A350036B3F7 /* MAAttachedWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAAttachedWindow.m; sourceTree = "<group>"; };
 		F2CEAAEF100B46150036B3F7 /* URLBubbleWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = URLBubbleWindow.h; sourceTree = "<group>"; };
 		F2CEAAF0100B46150036B3F7 /* URLBubbleWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLBubbleWindow.m; sourceTree = "<group>"; };
+		F2CFF21518F53AFD004A745A /* NSLayoutConstraint+TCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSLayoutConstraint+TCMAdditions.h"; sourceTree = "<group>"; };
+		F2CFF21618F53AFD004A745A /* NSLayoutConstraint+TCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSLayoutConstraint+TCMAdditions.m"; sourceTree = "<group>"; };
 		F2D129F80BF0B64700A776CC /* SEEConnectionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEConnectionManager.m; sourceTree = "<group>"; };
 		F2D129F90BF0B64700A776CC /* SEEConnectionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SEEConnectionManager.h; sourceTree = "<group>"; };
 		F2D12A1A0BF0B8DF00A776CC /* SEEConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SEEConnection.h; sourceTree = "<group>"; };
@@ -1710,6 +1713,8 @@
 				F23966D518E2FE6800CEC9AD /* NSOperationQueue+TCMAdditions.m */,
 				F214C1D918BE180300908826 /* NSObject+TCMArcLifecycleAdditions.h */,
 				F214C1DA18BE180300908826 /* NSObject+TCMArcLifecycleAdditions.m */,
+				F2CFF21518F53AFD004A745A /* NSLayoutConstraint+TCMAdditions.h */,
+				F2CFF21618F53AFD004A745A /* NSLayoutConstraint+TCMAdditions.m */,
 			);
 			name = Additions;
 			sourceTree = "<group>";
@@ -3248,6 +3253,7 @@
 				141F50ED0AE51B66001B73D2 /* PlainTextWindowControllerTabContext.m in Sources */,
 				148167AE0B15B002008894C9 /* PlainTextWindow.m in Sources */,
 				F2061D690B4C152600E6631F /* FirstClickCustomView.m in Sources */,
+				F2CFF21718F53AFD004A745A /* NSLayoutConstraint+TCMAdditions.m in Sources */,
 				F27B2EF10B52968E00679CF2 /* HUDButtonCell.m in Sources */,
 				F27B2EF20B52968E00679CF2 /* HUDButton.m in Sources */,
 				149774180B5E159F004A546C /* PlainTextLoadProgress.m in Sources */,

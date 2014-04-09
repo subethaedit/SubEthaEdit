@@ -15,8 +15,8 @@ VARNAME
 @implementation NSColor (SEEAdditions)
 
 + (NSColor *)brightOverlayBackgroundColorBackgroundIsDark:(BOOL)isDark {
-	STATICVAR(NSColor, colorForDarkBackground)   = [NSColor colorWithCalibratedWhite:0.65 alpha:0.9];
-	STATICVAR(NSColor, colorForBrightBackground) = [NSColor colorWithCalibratedWhite:0.95 alpha:0.75];
+	STATICVAR(NSColor, colorForDarkBackground)   = [NSColor colorWithCalibratedWhite:0.65 alpha:0.7];
+	STATICVAR(NSColor, colorForBrightBackground) = [NSColor colorWithCalibratedWhite:0.95 alpha:0.55];
 	NSColor *result = isDark ? colorForDarkBackground : colorForBrightBackground;
 	return result;
 }
@@ -29,8 +29,8 @@ VARNAME
 }
 
 + (NSColor *)darkOverlayBackgroundColorBackgroundIsDark:(BOOL)isDark {
-	STATICVAR(NSColor, colorForDarkBackground)   = [NSColor colorWithCalibratedWhite:0.55 alpha:0.9];
-	STATICVAR(NSColor, colorForBrightBackground) = [NSColor colorWithCalibratedWhite:0.65 alpha:0.75];
+	STATICVAR(NSColor, colorForDarkBackground)   = [NSColor colorWithCalibratedWhite:0.55 alpha:0.7];
+	STATICVAR(NSColor, colorForBrightBackground) = [NSColor colorWithCalibratedWhite:0.65 alpha:0.55];
 	NSColor *result = isDark ? colorForDarkBackground : colorForBrightBackground;
 	return result;
 }

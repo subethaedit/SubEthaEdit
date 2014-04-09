@@ -18,22 +18,6 @@
             <constraints>
                 <constraint firstAttribute="height" constant="96" id="VPV-xs-D7N"/>
             </constraints>
-            <backgroundFilters>
-                <ciFilter name="CIGaussianBlur">
-                    <configuration>
-                        <null key="inputImage"/>
-                        <real key="inputRadius" value="4"/>
-                    </configuration>
-                </ciFilter>
-                <ciFilter name="CIColorControls">
-                    <configuration>
-                        <real key="inputBrightness" value="0.0"/>
-                        <real key="inputContrast" value="1"/>
-                        <null key="inputImage"/>
-                        <real key="inputSaturation" value="10"/>
-                    </configuration>
-                </ciFilter>
-            </backgroundFilters>
             <animations>
                 <caTransition key="subviews">
                     <mutableData key="keyedArchiveRepresentation">

@@ -11,5 +11,6 @@
 #import <Cocoa/Cocoa.h>
 
 @interface SEEOverlayView : NSView
-
++ (NSArray *)TCM_backgroundBlurFilters;
+@property (nonatomic, getter=isBackgroundBlurActive) BOOL backgroundBlurActive;
 @end
