@@ -98,9 +98,10 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 @property (nonatomic, strong) NSViewController *topOverlayViewController;
 @property (nonatomic, strong) SEEFindAndReplaceViewController *findAndReplaceController;
 @property (nonatomic, strong) SEEPlainTextEditorTopBarViewController *topBarViewController;
-@property (nonatomic, strong) NSLayoutConstraint *bottomOverlayViewPinConstraint;
 @property (nonatomic, strong) NSArray *topBlurBackgroundConstraints;
-@property (nonatomic, strong) NSView *topBlurLayerView;
+@property (nonatomic, strong) SEEOverlayView *topBlurLayerView;
+@property (nonatomic, strong) NSArray *bottomBlurBackgroundConstraints;
+@property (nonatomic, strong) SEEOverlayView *bottomBlurLayerView;
 - (void)	TCM_updateBottomStatusBar;
 - (float)pageGuidePositionForColumns:(int)aColumns;
 @end
@@ -185,18 +186,41 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 			[self updateTopPinConstraints];
 		}
 		
+		// generate bottom blur layer
+		self.bottomBlurLayerView = ({
+			SEEOverlayView *view = [[SEEOverlayView alloc] initWithFrame:NSZeroRect];
+			NSView *containerView = self.O_editorView;
+			view.translatesAutoresizingMaskIntoConstraints = NO;
+			[containerView addSubview:view];
+			[containerView addConstraints:@[
+											[NSLayoutConstraint TCM_constraintWithItem:view secondItem:containerView
+																		equalAttribute:NSLayoutAttributeWidth],
+											[NSLayoutConstraint TCM_constraintWithItem:view secondItem:containerView
+																		equalAttribute:NSLayoutAttributeBottom],
+											]];
+			self.bottomBlurBackgroundConstraints = @[
+												  [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:18.0]
+												  ];
+			[containerView addConstraints:self.bottomBlurBackgroundConstraints];
+			//		view.layer.backgroundColor = [[[NSColor redColor] colorWithAlphaComponent:0.8] CGColor];
+			view.backgroundBlurActive = YES;
+			view;
+		});
+
 		// change the bottom status bar to use constraints
 		{
 			NSView *statusBarView = self.O_bottomStatusBarView;
-			NSView *containerView = statusBarView.superview;
+			NSView *containerView = self.bottomBlurLayerView;
 			[statusBarView removeFromSuperview];
 			
 			[statusBarView setTranslatesAutoresizingMaskIntoConstraints:NO];
 			[containerView addSubview:statusBarView];
 			[containerView addConstraints:@[
-											[NSLayoutConstraint constraintWithItem:statusBarView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:containerView attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0],
+											[NSLayoutConstraint TCM_constraintWithItem:statusBarView secondItem:containerView
+																		equalAttribute:NSLayoutAttributeWidth],
+											[NSLayoutConstraint TCM_constraintWithItem:statusBarView secondItem:containerView
+																		equalAttribute:NSLayoutAttributeBottom],
 											[NSLayoutConstraint constraintWithItem:statusBarView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeWidth multiplier:1.0 constant:CGRectGetHeight(statusBarView.bounds)],
-											[NSLayoutConstraint constraintWithItem:statusBarView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:containerView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0]
 											]];
 		}
 		
@@ -244,13 +268,9 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 - (BOOL)hitTestOverlayViewsWithEvent:(NSEvent *)aEvent {
 	BOOL result = NO;
 	NSPoint eventLocationInWindow = aEvent.locationInWindow;
-	if ([self.topBarViewController.view hitTest:eventLocationInWindow] != nil) {
+	if ([self.topBlurLayerView hitTest:eventLocationInWindow] != nil) {
 		result = YES;
-	} else if ([self.O_bottomStatusBarView hitTest:eventLocationInWindow] != nil) {
-		result = YES;
-	} else if ([self.bottomOverlayViewController.view hitTest:eventLocationInWindow] != nil) {
-		result = YES;
-	} else if ([self.topOverlayViewController.view hitTest:eventLocationInWindow] != nil) {
+	} else if ([self.bottomBlurLayerView hitTest:eventLocationInWindow] != nil) {
 		result = YES;
 	}
 	return result;
@@ -496,7 +516,6 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     }
     [[O_tabStatusPopUpButton cell] setMenu:tabMenu];
 
-	[self.O_bottomStatusBarView setBackgroundBlurActive:YES];
     [self TCM_updateBottomStatusBar];
 	
     // trigger the notfications for the first time
@@ -1218,10 +1237,13 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
 		if (viewController) {
 			NSView *bottomOverlayView = viewController.view;
-			NSView *superview = self.O_editorView;
-			[superview addSubview:bottomOverlayView];
+			NSView *containerview = self.bottomBlurLayerView;
+			[containerview addSubview:bottomOverlayView];
 			// width
-			[superview addConstraint:[NSLayoutConstraint constraintWithItem:bottomOverlayView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeWidth multiplier:1 constant:0]];
+			[containerview addConstraints:@[
+											[NSLayoutConstraint TCM_constraintWithItem:bottomOverlayView secondItem:containerview equalAttribute:NSLayoutAttributeWidth],
+											[NSLayoutConstraint TCM_constraintWithItem:bottomOverlayView secondItem:containerview equalAttribute:NSLayoutAttributeTop],
+			 ]];
 
 			self.bottomOverlayViewController = viewController;
 		}
@@ -1237,8 +1259,8 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 - (void)updateTopPinConstraints {
-	NSView *containerView = self.topBlurLayerView.superview;
-	SEEOverlayView *blurView = (SEEOverlayView *)self.topBlurLayerView;
+	SEEOverlayView *blurView = self.topBlurLayerView;
+	NSView *containerView = blurView.superview;
 	[containerView removeConstraints:self.topBlurBackgroundConstraints];
 	self.topBlurBackgroundConstraints = ({
 		NSArray *constraints = nil;
@@ -1256,16 +1278,22 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 - (void)updateBottomPinConstraints {
-	NSView *bottomStatusBarView = self.O_bottomStatusBarView;
-	NSView *containerView = bottomStatusBarView.superview.superview;
-	NSView *bottomOverlayView = self.bottomOverlayViewController.view;
-	if (self.bottomOverlayViewPinConstraint) {
-		[containerView removeConstraint:self.bottomOverlayViewPinConstraint];
-	}
-	if (bottomOverlayView) {
-		self.bottomOverlayViewPinConstraint = [NSLayoutConstraint constraintWithItem:bottomOverlayView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:(bottomStatusBarView.isHidden ? containerView : bottomStatusBarView) attribute:bottomStatusBarView.isHidden ? NSLayoutAttributeBottom : NSLayoutAttributeTop multiplier:1.0 constant:0.0];
-		[containerView addConstraint:self.bottomOverlayViewPinConstraint];
-	}
+	SEEOverlayView *blurView = self.bottomBlurLayerView;
+	NSView *containerView = blurView.superview;
+	[containerView removeConstraints:self.bottomBlurBackgroundConstraints];
+	self.bottomBlurBackgroundConstraints = ({
+		NSArray *constraints = nil;
+		NSView *bottomOverlayView = self.bottomOverlayViewController.view;
+		NSView *bottomBarView = self.O_bottomStatusBarView;
+		CGFloat offset = self.showsBottomStatusBar ? NSHeight(bottomBarView.frame) : 0.0;
+		if (!bottomOverlayView.superview) {
+			constraints = @[[NSLayoutConstraint constraintWithItem:blurView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:offset]];
+		} else { // -> (topOverlayView.superview) is true
+			constraints = @[[NSLayoutConstraint constraintWithItem:blurView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:bottomOverlayView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:offset]];
+		}
+		[containerView addConstraints:constraints];
+		constraints;
+	});
 }
 
 - (void)displayViewControllerInTopArea:(NSViewController *)aViewController {
@@ -1750,8 +1778,6 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     if (I_flags.showBottomStatusBar != aFlag) {
         I_flags.showBottomStatusBar = !I_flags.showBottomStatusBar;
 		
-		[self.O_bottomStatusBarView setBackgroundBlurActive:I_flags.showBottomStatusBar];
-
         [self.O_bottomStatusBarView setHidden:!I_flags.showBottomStatusBar];
         [self.O_bottomStatusBarView setNeedsDisplay:YES];
 

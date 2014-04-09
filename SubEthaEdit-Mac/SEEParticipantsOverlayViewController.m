@@ -62,7 +62,6 @@
 	view.layer.borderWidth = 0.5;
 
 	view.layer.backgroundColor = [[NSColor brightOverlayBackgroundColorBackgroundIsDark:NO] CGColor];
-	[(SEEOverlayView *)view setBackgroundBlurActive:YES];
 	[self update];
 }
 
