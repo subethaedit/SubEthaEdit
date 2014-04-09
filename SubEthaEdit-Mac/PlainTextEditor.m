@@ -42,6 +42,8 @@
 #import "SEEFindAndReplaceViewController.h"
 #import <objc/objc-runtime.h>
 #import "SEEPlainTextEditorTopBarViewController.h"
+#import "SEEOverlayView.h"
+#import "NSLayoutConstraint+TCMAdditions.h"
 
 NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDidFollowUserNotification";
 NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEditorDidChangeSearchScopeNotification";
@@ -100,7 +102,8 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 @property (nonatomic, strong) SEEPlainTextEditorTopBarViewController *topBarViewController;
 @property (nonatomic, strong) NSLayoutConstraint *topStatusBarPinConstraint;
 @property (nonatomic, strong) NSLayoutConstraint *bottomOverlayViewPinConstraint;
-
+@property (nonatomic, strong) NSArray *topBlurBackgroundConstraints;
+@property (nonatomic, strong) NSView *topBlurLayerView;
 - (void)	TCM_updateBottomStatusBar;
 - (float)pageGuidePositionForColumns:(int)aColumns;
 @end
@@ -178,6 +181,28 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 		
     }
 
+	
+	// generate top blur layer
+	self.topBlurLayerView = ({
+		SEEOverlayView *view = [[SEEOverlayView alloc] initWithFrame:NSZeroRect];
+		NSView *containerView = self.O_editorView;
+		view.translatesAutoresizingMaskIntoConstraints = NO;
+		[containerView addSubview:view];
+		[containerView addConstraints:@[
+										[NSLayoutConstraint TCM_constraintWithItem:view secondItem:containerView
+																	equalAttribute:NSLayoutAttributeWidth],
+										[NSLayoutConstraint TCM_constraintWithItem:view secondItem:containerView
+																	equalAttribute:NSLayoutAttributeTop],
+										]];
+		self.topBlurBackgroundConstraints = @[
+											  [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:150.]
+											  ];
+		[containerView addConstraints:self.topBlurBackgroundConstraints];
+		//		view.layer.backgroundColor = [[[NSColor redColor] colorWithAlphaComponent:0.8] CGColor];
+		view.backgroundBlurActive = YES;
+		view;
+	});
+	
 	// make sure we start out right
 	[I_textView adjustContainerInsetToScrollView];
 	
