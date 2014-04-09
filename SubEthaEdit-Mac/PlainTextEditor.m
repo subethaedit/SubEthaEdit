@@ -89,9 +89,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 @interface PlainTextEditor ()
 
 @property (nonatomic, strong) IBOutlet NSView *O_editorView;
-@property (nonatomic, strong) NSArray *topStatusBarViewBackgroundFilters;
-@property (nonatomic, assign) IBOutlet NSView *O_bottomStatusBarView;
-@property (nonatomic, strong) NSArray *bottomStatusBarViewBackgroundFilters;
+@property (nonatomic, assign) IBOutlet SEEOverlayView *O_bottomStatusBarView;
 @property (nonatomic, assign) IBOutlet NSButton *shareInviteUsersButtonOutlet;
 @property (nonatomic, assign) IBOutlet NSButton *shareAnnounceButtonOutlet;
 @property (nonatomic, assign) IBOutlet NSObjectController *ownerController;
@@ -497,7 +495,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     }
     [[O_tabStatusPopUpButton cell] setMenu:tabMenu];
 
-
+	[self.O_bottomStatusBarView setBackgroundBlurActive:YES];
     [self TCM_updateBottomStatusBar];
 	
     // trigger the notfications for the first time
@@ -1741,14 +1739,8 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	
     if (I_flags.showBottomStatusBar != aFlag) {
         I_flags.showBottomStatusBar = !I_flags.showBottomStatusBar;
-
-		if (! I_flags.showBottomStatusBar) {
-			self.bottomStatusBarViewBackgroundFilters = self.O_bottomStatusBarView.layer.backgroundFilters;
-			self.O_bottomStatusBarView.layer.backgroundFilters = nil;
-		} else {
-			self.O_bottomStatusBarView.layer.backgroundFilters = self.bottomStatusBarViewBackgroundFilters;
-			self.bottomStatusBarViewBackgroundFilters = nil;
-		}
+		
+		[self.O_bottomStatusBarView setBackgroundBlurActive:I_flags.showBottomStatusBar];
 
         [self.O_bottomStatusBarView setHidden:!I_flags.showBottomStatusBar];
         [self.O_bottomStatusBarView setNeedsDisplay:YES];
