@@ -20,7 +20,7 @@ extern NSString * const PlainTextEditorDidChangeSearchScopeNotification;
 
 @class PlainTextWindowControllerTabContext,PlainTextDocument,SEEPlainTextEditorScrollView,PopUpButton,RadarScroller,TCMMMUser, SEETextView, BorderedTextField;
 
-@interface PlainTextEditor : NSResponder <NSTextViewDelegate, PopUpButtonDelegate> {
+@interface PlainTextEditor : NSResponder <NSTextViewDelegate> {
     IBOutlet PopUpButton *O_tabStatusPopUpButton;
     IBOutlet NSTextField *O_windowWidthTextField;
     IBOutlet PopUpButton *O_modePopUpButton;
@@ -91,9 +91,6 @@ extern NSString * const PlainTextEditorDidChangeSearchScopeNotification;
 - (PlainTextWindowControllerTabContext *)windowControllerTabContext;
 - (void)takeStyleSettingsFromDocument;
 - (void)takeSettingsFromDocument;
-
-- (void)updateSelectedSymbol;
-- (void)updateSymbolPopUpSorted:(BOOL)aSorted;
 
 - (void)setRadarMarkForUser:(TCMMMUser *)aUser;
 
