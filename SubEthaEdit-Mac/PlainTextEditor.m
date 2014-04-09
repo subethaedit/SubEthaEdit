@@ -268,9 +268,10 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 - (BOOL)hitTestOverlayViewsWithEvent:(NSEvent *)aEvent {
 	BOOL result = NO;
 	NSPoint eventLocationInWindow = aEvent.locationInWindow;
-	if ([self.topBlurLayerView hitTest:eventLocationInWindow] != nil) {
+	
+	if ([self.topBlurLayerView hitTest:[self.topBlurLayerView.superview convertPoint:eventLocationInWindow fromView:nil]] != nil) {
 		result = YES;
-	} else if ([self.bottomBlurLayerView hitTest:eventLocationInWindow] != nil) {
+	} else if ([self.bottomBlurLayerView hitTest:[self.bottomBlurLayerView.superview convertPoint:eventLocationInWindow fromView:nil]] != nil) {
 		result = YES;
 	}
 	return result;
