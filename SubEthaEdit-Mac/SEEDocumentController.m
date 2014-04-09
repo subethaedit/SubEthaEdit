@@ -1040,10 +1040,10 @@
 //                }
 //            }
         } else {
-            NSError *error = nil;
             [I_propertiesForOpenedFiles setObject:properties forKey:filename];
-            (void)[self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:filename] display:YES error:&error];
-            if (error) NSLog(@"%@",error);
+			[self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:filename] display:YES completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
+				if (error) NSLog(@"%@",error);
+			}];
         }
     }
             
@@ -1102,13 +1102,19 @@
     for (filename in files) {
         [I_propertiesForOpenedFiles setObject:properties forKey:filename];
         BOOL shouldClose = ([self documentForURL:[NSURL fileURLWithPath:filename]] == nil);
-        NSError *error=nil;
-        PlainTextDocument *document = [self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:filename] display:YES error:&error];
-        NSLog(@"%@",error);
-//        [document printShowingPrintPanel:NO];
-        if (shouldClose) {
-            [document close];
-        }
+
+		[self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:filename] display:YES completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
+
+			if (error) {
+				NSLog(@"%@",error);
+			} else {
+				[document printDocumentWithSettings:nil showPrintPanel:NO delegate:nil didPrintSelector:NULL contextInfo:NULL];
+				if (shouldClose) {
+					[document close];
+				}
+			}
+		}];
+
     }
 
     return nil;
