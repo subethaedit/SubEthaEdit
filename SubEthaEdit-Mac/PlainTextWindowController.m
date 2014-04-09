@@ -1884,6 +1884,8 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     if (![tabBarControl isEqual:I_tabBar]) {
         
         PlainTextWindowController *windowController = (PlainTextWindowController *)[[tabBarControl window] windowController];
+		windowController.frameForNonFullScreenMode = self.frameForNonFullScreenMode;
+
         id document = [[tabViewItem identifier] document];
         NSUInteger documentIndex = [[self documents] indexOfObject:document];
         [document retain];
