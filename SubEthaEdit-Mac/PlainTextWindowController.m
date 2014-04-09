@@ -1854,8 +1854,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
 	NSWindow *newWindow = [controller window];
 	if (shouldCreateFullscreenWindow) {
-		newWindow.styleMask = self.window.styleMask;
-		[newWindow setFrame:self.window.frame display:NO];
+		[newWindow toggleFullScreen:self];
 	} else {
 		NSRect windowFrame = [newWindow frame];
 		point.y += windowFrame.size.height - [[newWindow contentView] frame].size.height;
