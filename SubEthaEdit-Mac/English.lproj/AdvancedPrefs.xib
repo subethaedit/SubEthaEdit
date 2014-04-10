@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5053" systemVersion="13D21" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1090" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5053"/>
@@ -113,22 +113,6 @@
                             <rect key="frame" x="2" y="2" width="294" height="130"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <button id="63">
-                                    <rect key="frame" x="14" y="17" width="267" height="18"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                                    <string key="toolTip">SubEthaEdit transmits the document history on connect to a document. If you don't need the history or you don't want to send it due to privacy issues you can disable that feature here.</string>
-                                    <buttonCell key="cell" type="check" title="Send and request document history" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="179">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="smallSystem"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <binding destination="59" name="value" keyPath="values.DontSubmitAndRequestHistory" id="169">
-                                            <dictionary key="options">
-                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
-                                </button>
                                 <button id="74">
                                     <rect key="frame" x="14" y="79" width="267" height="18"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
