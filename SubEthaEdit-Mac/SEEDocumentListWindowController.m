@@ -268,31 +268,33 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 			NSArray *allConnections = [[SEEConnectionManager sharedInstance] entries];
 			for (SEEConnection *connection in allConnections) {
 				{
-					SEENetworkConnectionDocumentListItem *connectionRepresentation = [[SEENetworkConnectionDocumentListItem alloc] init];
-					connectionRepresentation.connection = connection;
-					NSString *cachedItemID = connectionRepresentation.uid;
-					SEENetworkConnectionDocumentListItem *cachedItem = [lookupDictionary objectForKey:cachedItemID];
-					if (cachedItem) {
-						cachedItem.connection = connection;
-						[self.availableItems addObject:cachedItem];
-					} else {
-						[self.availableItems addObject:connectionRepresentation];
+					if (connection.isVisible) {
+						SEENetworkConnectionDocumentListItem *connectionRepresentation = [[SEENetworkConnectionDocumentListItem alloc] init];
+						connectionRepresentation.connection = connection;
+						NSString *cachedItemID = connectionRepresentation.uid;
+						SEENetworkConnectionDocumentListItem *cachedItem = [lookupDictionary objectForKey:cachedItemID];
+						if (cachedItem) {
+							cachedItem.connection = connection;
+							[self.availableItems addObject:cachedItem];
+						} else {
+							[self.availableItems addObject:connectionRepresentation];
+						}
 					}
-				}
 
-				NSArray *sessions = connection.announcedSessions;
-				for (TCMMMSession *session in sessions) {
-					SEENetworkDocumentListItem *documentRepresentation = [[SEENetworkDocumentListItem alloc] init];
-					documentRepresentation.documentSession = session;
-					documentRepresentation.beepSession = connection.BEEPSession;
-					NSString *cachedItemID = documentRepresentation.uid;
-					SEENetworkDocumentListItem *cachedItem = [lookupDictionary objectForKey:cachedItemID];
-					if (cachedItem) {
-						cachedItem.documentSession = session;
-						cachedItem.beepSession = connection.BEEPSession;
-						[self.availableItems addObject:cachedItem];
-					} else {
-						[self.availableItems addObject:documentRepresentation];
+					NSArray *sessions = connection.announcedSessions;
+					for (TCMMMSession *session in sessions) {
+						SEENetworkDocumentListItem *documentRepresentation = [[SEENetworkDocumentListItem alloc] init];
+						documentRepresentation.documentSession = session;
+						documentRepresentation.beepSession = connection.BEEPSession;
+						NSString *cachedItemID = documentRepresentation.uid;
+						SEENetworkDocumentListItem *cachedItem = [lookupDictionary objectForKey:cachedItemID];
+						if (cachedItem) {
+							cachedItem.documentSession = session;
+							cachedItem.beepSession = connection.BEEPSession;
+							[self.availableItems addObject:cachedItem];
+						} else {
+							[self.availableItems addObject:documentRepresentation];
+						}
 					}
 				}
 			}

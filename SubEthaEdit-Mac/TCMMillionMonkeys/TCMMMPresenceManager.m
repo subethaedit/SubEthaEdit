@@ -356,7 +356,7 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
     BOOL newVisibility=(([status objectForKey:@"InternalIsVisible"]!=nil) || ([[status objectForKey:TCMMMPresenceSessionsKey] count] > 0));
     if (newVisibility!=currentVisibility) {
         if (newVisibility) {
-            [status setObject:[NSNumber numberWithBool:YES] forKey:@"isVisible"];
+            [status setObject:@(YES) forKey:@"isVisible"];
         } else {
             [status removeObjectForKey:@"isVisible"];
         }
@@ -431,7 +431,7 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
     NSString *userID=[[[aProfile session] userInfo] objectForKey:@"peerUserID"];
     NSMutableDictionary *status=[self statusOfUserID:userID];
     if (isVisible) {
-        [status setObject:[NSNumber numberWithBool:YES] forKey:@"InternalIsVisible"];
+        [status setObject:@(YES) forKey:@"InternalIsVisible"];
     } else {
         [status removeObjectForKey:@"InternalIsVisible"];
     }
@@ -442,7 +442,7 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
     NSString *userID=[[[aProfile session] userInfo] objectForKey:@"peerUserID"];
     NSMutableDictionary *status=[self statusOfUserID:userID];
     if (hasFriendCast) {
-        [status setObject:[NSNumber numberWithBool:YES] forKey:@"hasFriendCast"];
+        [status setObject:@(YES) forKey:@"hasFriendCast"];
     } else {
         [status removeObjectForKey:@"hasFriendCast"];
         NSMutableDictionary *sessionUserInfo = [[aProfile session] userInfo];
