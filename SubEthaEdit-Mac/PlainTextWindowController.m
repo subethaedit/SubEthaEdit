@@ -320,6 +320,8 @@ static NSPoint S_cascadePoint = {0.0,0.0};
             NSLocalizedString(@"Hide Participants", nil) :
             NSLocalizedString(@"Show Participants", nil)];
         return YES;
+	} else if (selector == @selector(toggleTopStatusBar:)) {
+		return [self.activePlainTextEditor validateMenuItem:menuItem];
     } else if (selector == @selector(toggleBottomStatusBar:)) {
 		PlainTextWindowControllerTabContext *tabContext = self.selectedTabContext;
         [menuItem setState:[[tabContext.plainTextEditors lastObject] showsBottomStatusBar]?NSOnState:NSOffState];
@@ -823,6 +825,11 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
 - (IBAction)changePendingUsersAccess:(id)aSender {
     [(PlainTextDocument *)[self document] changePendingUsersAccess:aSender];
+}
+
+- (IBAction)toggleTopStatusBar:(id)aSender
+{
+    [self.activePlainTextEditor toggleTopStatusBar:aSender];
 }
 
 - (IBAction)toggleBottomStatusBar:(id)aSender {
