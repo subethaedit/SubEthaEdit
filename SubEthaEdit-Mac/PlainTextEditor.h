@@ -22,10 +22,11 @@ extern NSString * const PlainTextEditorDidChangeSearchScopeNotification;
 
 @interface PlainTextEditor : NSResponder <NSTextViewDelegate> {
     IBOutlet PopUpButton *O_tabStatusPopUpButton;
-    IBOutlet NSTextField *O_windowWidthTextField;
     IBOutlet PopUpButton *O_modePopUpButton;
     IBOutlet PopUpButton *O_encodingPopUpButton;
     IBOutlet PopUpButton *O_lineEndingPopUpButton;
+    IBOutlet BorderedTextField *O_windowWidthTextField;
+	IBOutlet NSView *O_bottomBarSeparatorLineView;
     IBOutlet SEEPlainTextEditorScrollView *O_scrollView;
     RadarScroller   *I_radarScroller;
     SEETextView        *I_textView;

@@ -372,24 +372,28 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
     I_textContainer =  [[NSTextContainer alloc] initWithContainerSize:NSMakeSize(frame.size.width, FLT_MAX)];
 
-    I_textView = [[SEETextView alloc] initWithFrame:frame textContainer:I_textContainer];
-    [(SEETextView *)I_textView setEditor : self];
-    [I_textView setHorizontallyResizable:NO];
-    [I_textView setVerticallyResizable:YES];
-    [I_textView setAutoresizingMask:NSViewWidthSizable];
-    [I_textView setMaxSize:NSMakeSize(FLT_MAX, FLT_MAX)];
-    [I_textView setSelectable:YES];
-    [I_textView setEditable:YES];
-    [I_textView setRichText:NO];
-    [I_textView setImportsGraphics:NO];
-    [I_textView setUsesFontPanel:NO];
-    [I_textView setUsesRuler:YES];
-    [I_textView setUsesFindPanel:YES];
-    [I_textView setAllowsUndo:NO];
-    [I_textView setSmartInsertDeleteEnabled:NO];
-    [I_textView turnOffLigatures:self];
-    [I_textView setLinkTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSCursor pointingHandCursor], NSCursorAttributeName, nil]];
-    [I_textView setDelegate:self];
+    I_textView = ({
+		SEETextView *textView = [[SEETextView alloc] initWithFrame:frame textContainer:I_textContainer];
+		[textView setEditor:self];
+		[textView setHorizontallyResizable:NO];
+		[textView setVerticallyResizable:YES];
+		[textView setAutoresizingMask:NSViewWidthSizable];
+		[textView setMaxSize:NSMakeSize(FLT_MAX, FLT_MAX)];
+		[textView setSelectable:YES];
+		[textView setEditable:YES];
+		[textView setRichText:NO];
+		[textView setImportsGraphics:NO];
+		[textView setUsesFontPanel:NO];
+		[textView setUsesRuler:YES];
+		[textView setUsesFindPanel:YES];
+		[textView setAllowsUndo:NO];
+		[textView setSmartInsertDeleteEnabled:NO];
+		[textView turnOffLigatures:self];
+		[textView setLinkTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSCursor pointingHandCursor], NSCursorAttributeName, nil]];
+		[textView setDelegate:self];
+		textView;
+	});
+	
     [I_textContainer setHeightTracksTextView:NO];
     [I_textContainer setWidthTracksTextView:YES];
     [layoutManager addTextContainer:I_textContainer];
@@ -404,7 +408,6 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     [[O_scrollView contentView] setPostsBoundsChangedNotifications:YES];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(contentViewBoundsDidChange:) name:NSViewBoundsDidChangeNotification object:[O_scrollView contentView]];
 
-
     [layoutManager release];
 
     [I_textView setDefaultParagraphStyle:[document defaultParagraphStyle]];
@@ -413,7 +416,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     [[NSNotificationCenter defaultCenter] addObserver:document selector:@selector(textDidChange:) name:NSTextDidChangeNotification object:I_textView];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textDidChange:) name:PlainTextDocumentDidChangeTextStorageNotification object:document];
 
-	// Adding a second view hirachy to include this controller into the responder chain
+	// Adding a second view hierachy to include this controller into the responder chain
     NSView *view = [[[NSView alloc] initWithFrame:[self.O_editorView frame]] autorelease];
     [view setAutoresizesSubviews:YES];
     [view setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
@@ -427,8 +430,6 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     self.O_editorView = view;
 
 	NSView *bottomStatusBarView = self.O_bottomStatusBarView;
-	bottomStatusBarView.layer.borderColor = [[NSColor darkOverlaySeparatorColorBackgroundIsDark:NO] CGColor];
-	bottomStatusBarView.layer.borderWidth = 0.5;
 	bottomStatusBarView.layer.backgroundColor = [[NSColor darkOverlayBackgroundColorBackgroundIsDark:NO] CGColor];
 
 	[I_textView setPostsFrameChangedNotifications:YES];
@@ -439,7 +440,8 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     [self setShowsChangeMarks:[document showsChangeMarks]];
     [self setShowsTopStatusBar:[document showsTopStatusBar]];
     [self setShowsBottomStatusBar:[document showsBottomStatusBar]];
-    [(BorderedTextField *)O_windowWidthTextField setHasRightBorder : NO];
+    [O_windowWidthTextField setHasRightBorder:NO];
+    [O_windowWidthTextField setHasLeftBorder:YES];
 
     DocumentModeMenu *menu = [[DocumentModeMenu new] autorelease];
     [menu configureWithAction:@selector(chooseMode:) alternateDisplay:NO];
@@ -573,6 +575,21 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	return result;
 }
 
+- (void)updateColorsForIsDarkBackground:(BOOL)isDark {
+	[self.topBarViewController updateColorsForIsDarkBackground:isDark];
+	// bottom bar
+	NSColor *darkColor = [NSColor darkOverlayBackgroundColorBackgroundIsDark:isDark];
+	NSColor *darkSeparatorColor = [NSColor darkOverlaySeparatorColorBackgroundIsDark:isDark];
+	[O_windowWidthTextField setBorderColor:darkSeparatorColor];
+	[self.O_bottomStatusBarView.layer setBackgroundColor:[darkColor CGColor]];
+	
+	[O_bottomBarSeparatorLineView.layer setBackgroundColor:[darkSeparatorColor CGColor]];
+	for (PopUpButton *button in @[O_modePopUpButton,O_tabStatusPopUpButton, O_encodingPopUpButton, O_lineEndingPopUpButton]) {
+		[button setLineColor:darkSeparatorColor];
+	}
+	
+	// overlays?
+}
 
 - (void)takeStyleSettingsFromDocument
 {
@@ -581,7 +598,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     {
 		BOOL isDark = [self hasDarkBackground];
         [[self textView] setBackgroundColor:[document documentBackgroundColor]];
-		[self.topBarViewController updateColorsForIsDarkBackground:isDark];
+		[self updateColorsForIsDarkBackground:isDark];
         NSColor *invisibleCharacterColor = [[document styleAttributesForScope:@"meta.invisible.character" languageContext:nil] objectForKey:NSForegroundColorAttributeName];
         [(LayoutManager *)[[self textView] layoutManager] setInvisibleCharacterColor : invisibleCharacterColor ? invisibleCharacterColor :[NSColor grayColor]];
     }
