@@ -969,3 +969,16 @@
 "ScopedBookmarkAllowFileMessageUnknownFileName" = "Daten";
 
 
+/* Collaboration Preference Pane */
+/* Collaboration Preferences - Label for the network box */
+"COLLAB_NETWORK_LABEL" = "Netzwerk";
+/* Collaboration Preferences - Label for the local port */
+"COLLAB_LOCAL_PORT_LABEL" = "Lokaler Port:";
+/* Collaboration Preferences - Label for the automatically map port toggle */
+"COLLAB_AUTOMATICALLY_MAP_PORT_LABEL" = "Port automatisch weiterleiten";
+/* Collaboration Preferences - Label with additional description for the automatically map port toggle */
+"COLLAB_AUTOMATICALLY_MAP_PORT_DESCRIPTION" = "Die Port Weiterleitung bentutzt NAT-PMP oder UPnP";
+/* Collaboration Preferences - tool tip for the automatically map port toggle */
+"COLLAB_AUTOMATICALLY_MAP_PORT_TOOL_TIP" = "SubEthaEdit versucht automatisch den lokalen Port weiterzuleiten falls Sie sich hinter einem NAT befinden. Damit das funktioniert müssen Sie UPnP oder NAT-PMP auf Ihrem Router aktivieren.";
+
+
