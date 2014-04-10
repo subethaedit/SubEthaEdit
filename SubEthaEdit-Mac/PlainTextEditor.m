@@ -165,6 +165,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 			[containerView addConstraints:self.topBlurBackgroundConstraints];
 			//		view.layer.backgroundColor = [[[NSColor redColor] colorWithAlphaComponent:0.8] CGColor];
 			view.backgroundBlurActive = YES;
+			view.brightnessAdjustForInactiveWindowState = 0.7;
 			view;
 		});
 
@@ -204,6 +205,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 			[containerView addConstraints:self.bottomBlurBackgroundConstraints];
 			//		view.layer.backgroundColor = [[[NSColor redColor] colorWithAlphaComponent:0.8] CGColor];
 			view.backgroundBlurActive = YES;
+			view.brightnessAdjustForInactiveWindowState = 0.7;
 			view;
 		});
 
