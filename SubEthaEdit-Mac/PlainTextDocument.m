@@ -5916,7 +5916,14 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 	// remove Safari Reading List entry if available...
 	[sharingServices removeObject:[NSSharingService sharingServiceNamed:NSSharingServiceNameAddToSafariReadingList]];
-	
+
+	// remove social media entries, because they need persistant URLS and change the see:// scheme.
+	[sharingServices removeObject:[NSSharingService sharingServiceNamed:NSSharingServiceNamePostOnFacebook]];
+	[sharingServices removeObject:[NSSharingService sharingServiceNamed:NSSharingServiceNamePostOnTwitter]];
+	[sharingServices removeObject:[NSSharingService sharingServiceNamed:NSSharingServiceNamePostOnSinaWeibo]];
+	[sharingServices removeObject:[NSSharingService sharingServiceNamed:NSSharingServiceNamePostOnTencentWeibo]];
+	[sharingServices removeObject:[NSSharingService sharingServiceNamed:NSSharingServiceNamePostOnLinkedIn]];
+
 	return sharingServices;
 }
 
