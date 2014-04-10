@@ -11,7 +11,7 @@
 
 @implementation PopUpButtonCell
 
-+(NSString *)description {
++ (NSString *)description {
     return @"PopUpButtonCell";
 }
 
@@ -26,7 +26,7 @@
 */
 - (NSRect)titleRectForBounds:(NSRect)cellFrame {
     NSRect blah=[super titleRectForBounds:cellFrame];
-    blah.size.width=cellFrame.size.width-blah.origin.x-6.;
+    blah.size.width=cellFrame.size.width-blah.origin.x-13.;
     blah.origin.y=cellFrame.origin.y+2;
     blah.size.height=cellFrame.size.height-1;
     return blah;

@@ -30,11 +30,11 @@
 }
 
 /*! nice background blur background filter chain to be used anywhere*/
-+ (NSArray *)TCM_backgroundBlurFilters {
++ (NSArray *)TCM_backgroundBlurFiltersForAdjustedBrightness:(CGFloat)anAdjustmentFactor {
 	NSArray *result = @[
 						[self TCM_filterWithName:@"CIColorControls" settings:@{
-																			   kCIInputSaturationKey:@0.9,
-																			   kCIInputBrightnessKey:@0.1,
+																			   kCIInputSaturationKey:@(0.9 - anAdjustmentFactor),
+																			   kCIInputBrightnessKey:@(0.1 + anAdjustmentFactor),
 																			   kCIInputContrastKey:@0.7,
 																			   }],
 						[self TCM_filterWithName:@"CIUnsharpMask" settings:@{
@@ -62,6 +62,7 @@
 }
 
 - (void)dealloc {
+	[self setBrightnessAdjustForInactiveWindowState:0.0]; // deregister from notification
     [self removeTrackingArea:self.cursorTrackingArea];
 }
 
@@ -69,8 +70,26 @@
 	[[NSCursor arrowCursor] set];
 }
 
+- (void)setBrightnessAdjustForInactiveWindowState:(CGFloat)brightnessAdjustForInactiveWindowState {
+	NSArray *notificationNames = @[NSApplicationDidBecomeActiveNotification, NSApplicationDidResignActiveNotification, NSWindowDidBecomeMainNotification];
+	for (NSString *name in notificationNames) {
+		[[NSNotificationCenter defaultCenter] removeObserver:self name:name object:nil];
+	}
+	_brightnessAdjustForInactiveWindowState = brightnessAdjustForInactiveWindowState;
+	if (_brightnessAdjustForInactiveWindowState != 0.0) {
+		for (NSString *name in notificationNames) {
+			[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeActivenessNotification:) name:name object:nil];
+		}
+	}
+}
+
+- (void)changeActivenessNotification:(NSNotification *)aNotification {
+	[self setBackgroundBlurActive:self.isBackgroundBlurActive]; // update the filter chain
+}
+
 - (void)setBackgroundBlurActive:(BOOL)backgroundBlurActive {
-	self.backgroundFilters = backgroundBlurActive ? [SEEOverlayView TCM_backgroundBlurFilters] : nil;
+	BOOL windowIsActive = self.window.isMainWindow && [NSApp isActive];
+	self.backgroundFilters = backgroundBlurActive ? [SEEOverlayView TCM_backgroundBlurFiltersForAdjustedBrightness:windowIsActive ? 0.0 : self.brightnessAdjustForInactiveWindowState] : nil;
 	[self.layer setNeedsDisplay];
 }
 
