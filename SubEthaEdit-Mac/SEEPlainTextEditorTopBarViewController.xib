@@ -36,7 +36,7 @@
                 </textField>
                 <customView id="57S-Gg-lfW" customClass="PopUpButton">
                     <rect key="frame" x="71" y="0.0" width="178" height="18"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                 </customView>
                 <textField toolTip="Cursor position" verticalHuggingPriority="750" id="Ugd-wu-f2r" customClass="BorderedTextField">
                     <rect key="frame" x="0.0" y="0.0" width="93" height="18"/>
