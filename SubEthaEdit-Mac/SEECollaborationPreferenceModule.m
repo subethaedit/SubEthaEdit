@@ -14,8 +14,16 @@
 
 #import "SEECollaborationPreferenceModule.h"
 
+#import "PreferenceKeys.h"
+
+#import <AddressBook/AddressBook.h>
+#import "TCMMMUserManager.h"
 #import "TCMMMBEEPSessionManager.h"
+#import "TCMMMUser.h"
+#import "TCMMMUserSEEAdditions.h"
+
 #import <TCMPortMapper/TCMPortMapper.h>
+#import "TCMMMBEEPSessionManager.h"
 
 @implementation SEECollaborationPreferenceModule
 
@@ -39,7 +47,16 @@
 - (void)mainViewDidLoad {
     // Initialize user interface elements to reflect current preference settings
 
+	[self TCM_setupComboBoxes];
+
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+    
+    TCMMMUser *me=[TCMMMUserManager me];
+    NSImage *myImage = [me image];
+    [myImage setFlipped:NO];
+    [self.O_pictureImageView setImage:myImage];
+    [self.O_nameTextField setStringValue:[me name]];
+    [self.O_emailComboBox setStringValue:[[me properties] objectForKey:@"Email"]];
 
     [self.O_automaticallyMapPortButton setState:[defaults boolForKey:ShouldAutomaticallyMapPort]?NSOnState:NSOffState];
     [self.O_localPortTextField setStringValue:[NSString stringWithFormat:@"%d",[[TCMMMBEEPSessionManager sharedInstance] listeningPort]]];
@@ -79,7 +96,140 @@
     [self.O_mappingStatusImageView setHidden:NO];
 }
 
-#pragma mark - IBAction
+#pragma mark - Me Card
+- (void)TCM_setupComboBoxes {
+    ABPerson *meCard = [[ABAddressBook sharedAddressBook] me];
+	
+	// populate email combobox
+    ABMultiValue *emailAccounts = [meCard valueForProperty:kABEmailProperty];
+	if ([emailAccounts propertyType] == kABMultiStringProperty)
+	{
+		for (NSString *emailAccountsIdentifier in emailAccounts)
+		{
+			NSString *email = [emailAccounts valueForIdentifier:emailAccountsIdentifier];
+			[self.O_emailComboBox addItemWithObjectValue:email];
+		}
+	}
+}
+
+#pragma mark - IBActions - Me Card - Image
+- (IBAction)useAddressBookImage:(id)aSender {
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:MyImagePreferenceKey];
+    ABPerson *meCard=[[ABAddressBook sharedAddressBook] me];
+    NSImage *myImage=nil;
+    if (meCard) {
+        @try {
+            NSData  *imageData;
+            if ((imageData=[meCard imageData])) {
+                myImage=[[NSImage alloc] initWithData:imageData];
+                [myImage setCacheMode:NSImageCacheNever];
+            }
+        } @catch (id exception) {
+			
+        }
+    }
+    
+    if (!myImage) {
+        myImage=[NSImage imageNamed:@"DefaultPerson"];
+    }
+    NSData *pngData=[[myImage resizedImageWithSize:NSMakeSize(64.,64.)] TIFFRepresentation];
+    pngData=[[NSBitmapImageRep imageRepWithData:pngData] representationUsingType:NSPNGFileType properties:[NSDictionary dictionary]];
+	
+    TCMMMUser *me = [TCMMMUserManager me];
+    [[me properties] setObject:pngData forKey:@"ImageAsPNG"];
+    [me recacheImages];
+	myImage = [me image];
+    [myImage setFlipped:NO];
+    [self.O_pictureImageView setImage:myImage];
+    [TCMMMUserManager didChangeMe];
+}
+
+- (IBAction)chooseImage:(id)aSender {
+    NSOpenPanel *panel = [NSOpenPanel openPanel];
+	
+	[panel beginSheetModalForWindow:[self.O_pictureImageView window] completionHandler:^(NSInteger result) {
+		if (result == NSFileHandlingPanelOKButton) {
+			NSImage *image = [[NSImage alloc] initWithContentsOfURL:[panel URL]];
+			if (image) {
+				[self.O_pictureImageView setImage:image];
+				[self takeImageFromImageView:self.O_pictureImageView];
+			} else {
+				NSBeep();
+			}
+		}
+	}];
+}
+
+- (IBAction)takeImageFromImageView:(id)aSender {
+    NSData *pngData=[[[self.O_pictureImageView realImage] resizedImageWithSize:NSMakeSize(64.,64.)] TIFFRepresentation];
+    pngData=[[NSBitmapImageRep imageRepWithData:pngData] representationUsingType:NSPNGFileType properties:[NSDictionary dictionary]];
+	
+    TCMMMUser *me = [TCMMMUserManager me];
+    [[me properties] setObject:pngData forKey:@"ImageAsPNG"];
+    [me recacheImages];
+    [[NSUserDefaults standardUserDefaults] setObject:pngData forKey:MyImagePreferenceKey];
+	NSImage *myImage = [me image];
+    [myImage setFlipped:NO];
+    [self.O_pictureImageView setImage:myImage];
+    [TCMMMUserManager didChangeMe];
+}
+
+- (IBAction)clearImage:(id)aSender {
+    NSData *pngData=[[NSImage imageNamed:@"DefaultPerson"] TIFFRepresentation];
+    pngData=[[NSBitmapImageRep imageRepWithData:pngData] representationUsingType:NSPNGFileType properties:[NSDictionary dictionary]];
+    TCMMMUser *me = [TCMMMUserManager me];
+    [[me properties] setObject:pngData forKey:@"ImageAsPNG"];
+    [me recacheImages];
+    [[NSUserDefaults standardUserDefaults] setObject:pngData forKey:MyImagePreferenceKey];
+    [self.O_pictureImageView setImage:[me image]];
+    [TCMMMUserManager didChangeMe];
+}
+
+
+#pragma mark - IBActions - Me Card
+
+- (IBAction)changeName:(id)aSender {
+    TCMMMUser *me=[TCMMMUserManager me];
+    NSString *newValue=[self.O_nameTextField stringValue];
+    if (![[me name] isEqualTo:newValue]) {
+		
+        CFStringRef appID = (__bridge CFStringRef)[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"];
+        // Set up the preference.
+        CFPreferencesSetValue((__bridge CFStringRef)MyNamePreferenceKey, (__bridge CFStringRef)newValue, appID, kCFPreferencesCurrentUser, kCFPreferencesCurrentHost);
+        // Write out the preference data.
+        CFPreferencesSynchronize(appID, kCFPreferencesCurrentUser, kCFPreferencesCurrentHost);
+		
+        [me setName:newValue];
+        [TCMMMUserManager didChangeMe];
+    }
+}
+
+- (IBAction)changeEmail:(id)aSender {
+    TCMMMUser *me=[TCMMMUserManager me];
+    NSString *newValue=[self.O_emailComboBox stringValue];
+    if (![[[me properties] objectForKey:@"Email"] isEqualTo:newValue]) {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setObject:newValue forKey:MyEmailPreferenceKey];
+        ABPerson *meCard=[[ABAddressBook sharedAddressBook] me];
+        ABMultiValue *emails=[meCard valueForProperty:kABEmailProperty];
+        int index=0;
+        int count=[emails count];
+        for (index=0;index<count;index++) {
+            if ([newValue isEqualToString:[emails valueAtIndex:index]]) {
+                NSString *identifier=[emails identifierAtIndex:index];
+                [defaults setObject:identifier forKey:MyEmailIdentifierPreferenceKey];
+                break;
+            }
+        }
+        if (count==index) {
+            [defaults removeObjectForKey:MyEmailIdentifierPreferenceKey];
+        }
+        [[me properties] setObject:newValue forKey:@"Email"];
+        [TCMMMUserManager didChangeMe];
+    }
+}
+
+#pragma mark - Actions - Port Mapping
 - (IBAction)changeAutomaticallyMapPorts:(id)aSender {
     BOOL shouldStart = ([self.O_automaticallyMapPortButton state]==NSOnState);
     [[NSUserDefaults standardUserDefaults] setBool:shouldStart forKey:ShouldAutomaticallyMapPort];
