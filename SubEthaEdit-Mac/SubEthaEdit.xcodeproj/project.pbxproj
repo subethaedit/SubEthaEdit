@@ -337,6 +337,7 @@
 		F212908B0F8EC56F0076B6B1 /* NSDictionaryTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891240957457500D14688 /* NSDictionaryTCMAdditions.m */; };
 		F21290980F8EC5870076B6B1 /* NSMutableAttributedStringSEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142D18B30BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.m */; };
 		F214C1DB18BE180300908826 /* NSObject+TCMArcLifecycleAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F214C1DA18BE180300908826 /* NSObject+TCMArcLifecycleAdditions.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		F2164BE818F6CD19002414FB /* SEESplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2164BE718F6CD19002414FB /* SEESplitView.m */; };
 		F21DAFE618BB75E1002B3C41 /* SEEFindAndReplaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F21DAFE518BB75E1002B3C41 /* SEEFindAndReplaceViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		F21DAFE818BB77AA002B3C41 /* SEEFindAndReplaceView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F21DAFE718BB77AA002B3C41 /* SEEFindAndReplaceView.xib */; };
 		F2257CF9189673AA005EF9B1 /* BottomBarSharingIconAnnounce_Inactive.png in Resources */ = {isa = PBXBuildFile; fileRef = F2257CF1189673AA005EF9B1 /* BottomBarSharingIconAnnounce_Inactive.png */; };
@@ -1129,6 +1130,8 @@
 		F20E1FAC0CACFC75005DEAF5 /* ThousandSeparatorValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThousandSeparatorValueTransformer.m; sourceTree = "<group>"; };
 		F214C1D918BE180300908826 /* NSObject+TCMArcLifecycleAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+TCMArcLifecycleAdditions.h"; sourceTree = "<group>"; };
 		F214C1DA18BE180300908826 /* NSObject+TCMArcLifecycleAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+TCMArcLifecycleAdditions.m"; sourceTree = "<group>"; };
+		F2164BE618F6CD19002414FB /* SEESplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEESplitView.h; sourceTree = "<group>"; };
+		F2164BE718F6CD19002414FB /* SEESplitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEESplitView.m; sourceTree = "<group>"; };
 		F21DAFE418BB75E1002B3C41 /* SEEFindAndReplaceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEFindAndReplaceViewController.h; sourceTree = "<group>"; };
 		F21DAFE518BB75E1002B3C41 /* SEEFindAndReplaceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEFindAndReplaceViewController.m; sourceTree = "<group>"; };
 		F21DAFE718BB77AA002B3C41 /* SEEFindAndReplaceView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEEFindAndReplaceView.xib; sourceTree = "<group>"; };
@@ -1790,6 +1793,8 @@
 				1428944D09575B9700D14688 /* PlainTextDocument.m */,
 				1428944E09575B9700D14688 /* PlainTextEditor.h */,
 				1428944F09575B9700D14688 /* PlainTextEditor.m */,
+				F2164BE618F6CD19002414FB /* SEESplitView.h */,
+				F2164BE718F6CD19002414FB /* SEESplitView.m */,
 				F2DC3DCF18F2F12300B543E9 /* SEEPlainTextEditorTopBarViewController.h */,
 				F2DC3DD018F2F12300B543E9 /* SEEPlainTextEditorTopBarViewController.m */,
 				F2DC3DD118F2F12300B543E9 /* SEEPlainTextEditorTopBarViewController.xib */,
@@ -3223,6 +3228,7 @@
 				F234E4590BE2592300504A7C /* NSWorkspaceTCMAdditions.m in Sources */,
 				F2D129FC0BF0B64A00A776CC /* SEEConnectionManager.m in Sources */,
 				F2D12A1D0BF0B8DF00A776CC /* SEEConnection.m in Sources */,
+				F2164BE818F6CD19002414FB /* SEESplitView.m in Sources */,
 				F29940600C0C7F3400A53189 /* NSScreenTCMAdditions.m in Sources */,
 				316A0D2A0C68A47100720268 /* DebugAttributeInspectorController.m in Sources */,
 				F2ABC4D60C799775007437A2 /* TCMMMLoggingState.m in Sources */,

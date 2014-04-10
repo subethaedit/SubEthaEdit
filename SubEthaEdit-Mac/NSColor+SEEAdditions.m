@@ -23,7 +23,7 @@ VARNAME
 
 + (NSColor *)brightOverlaySeparatorColorBackgroundIsDark:(BOOL)isDark {
 	STATICVAR(NSColor, colorForDarkBackground)   = [NSColor colorWithCalibratedWhite:0.35 alpha:1.0];
-	STATICVAR(NSColor, colorForBrightBackground) = [NSColor colorWithCalibratedWhite:0.4 alpha:1.0];
+	STATICVAR(NSColor, colorForBrightBackground) = [NSColor colorWithCalibratedWhite:0.6 alpha:1.0];
 	NSColor *result = isDark ? colorForDarkBackground : colorForBrightBackground;
 	return result;
 }

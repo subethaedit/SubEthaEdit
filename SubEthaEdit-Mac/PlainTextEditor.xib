@@ -7,6 +7,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PlainTextEditor">
             <connections>
+                <outlet property="O_bottomBarSeparatorLineView" destination="X6B-cI-pvN" id="R42-zq-hz3"/>
                 <outlet property="O_bottomStatusBarView" destination="28" id="29"/>
                 <outlet property="O_editorView" destination="5" id="12"/>
                 <outlet property="O_encodingPopUpButton" destination="77" id="78"/>
@@ -42,23 +43,27 @@
                     <rect key="frame" x="0.0" y="0.0" width="600" height="18"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <customView toolTip="Document mode" id="75" customClass="PopUpButton">
+                        <customView wantsLayer="YES" id="X6B-cI-pvN" userLabel="Bottom Bar Top Separator Line View">
+                            <rect key="frame" x="0.0" y="17" width="600" height="1"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        </customView>
+                        <customView toolTip="Document mode" id="75" userLabel="Mode Pop Up" customClass="PopUpButton">
                             <rect key="frame" x="0.0" y="0.0" width="90" height="18"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </customView>
-                        <customView toolTip="Tab settings" id="84" customClass="PopUpButton">
+                        <customView toolTip="Tab settings" id="84" userLabel="Tab Status Pop Up" customClass="PopUpButton">
                             <rect key="frame" x="87" y="0.0" width="85" height="18"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </customView>
-                        <customView toolTip="Line endings" id="81" customClass="PopUpButton">
+                        <customView toolTip="Line endings" id="81" userLabel="Line Ending Pop Up" customClass="PopUpButton">
                             <rect key="frame" x="170" y="0.0" width="49" height="18"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </customView>
-                        <customView toolTip="File encoding" id="77" customClass="PopUpButton">
+                        <customView toolTip="File encoding" id="77" userLabel="Encoding Pop Up" customClass="PopUpButton">
                             <rect key="frame" x="217" y="0.0" width="243" height="18"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                         </customView>
-                        <button wantsLayer="YES" id="7Mi-Cu-bLB">
+                        <button wantsLayer="YES" id="7Mi-Cu-bLB" userLabel="Announce Button">
                             <rect key="frame" x="459" y="0.0" width="21" height="18"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                             <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="BottomBarSharingIconAnnounce_Inactive" imagePosition="only" alignment="center" alternateImage="BottomBarSharingIconAnnounce" controlSize="mini" imageScaling="proportionallyDown" inset="2" id="4l5-Nu-6M1">
@@ -91,7 +96,7 @@
                                 </binding>
                             </connections>
                         </textField>
-                        <button id="OwG-YH-zbO">
+                        <button id="OwG-YH-zbO" userLabel="Participants Button">
                             <rect key="frame" x="493" y="0.0" width="27" height="18"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                             <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="BottomBarSharingIconGroup" imagePosition="only" alignment="center" controlSize="mini" imageScaling="proportionallyDown" inset="2" id="tKL-KY-Fjg">
@@ -103,7 +108,7 @@
                                 <binding destination="UOY-gY-y9M" name="toolTip" keyPath="selection.localizedToolTipToggleParticipantsButton" id="n70-vI-Phh"/>
                             </connections>
                         </button>
-                        <button id="bv6-mv-CIq">
+                        <button id="bv6-mv-CIq" userLabel="Invite Button">
                             <rect key="frame" x="523" y="0.0" width="26" height="18"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                             <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="BottomBarSharingIconAdd" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="HOp-Np-jFU">
@@ -128,13 +133,6 @@
                                 <action selector="toggleWrapMode:" target="-1" id="87"/>
                             </connections>
                         </textField>
-                        <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="Om0-hK-qCA">
-                            <rect key="frame" x="0.0" y="15" width="600" height="5"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                            <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <font key="titleFont" metaFont="system"/>
-                        </box>
                     </subviews>
                 </customView>
             </subviews>
