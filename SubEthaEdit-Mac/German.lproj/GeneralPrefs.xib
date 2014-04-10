@@ -1,24 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5053" systemVersion="13D21" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5053"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="GeneralPreferences">
             <connections>
-                <outlet property="O_aimComboBox" destination="124" id="127"/>
                 <outlet property="O_alsoInLocalDocumentsButton" destination="19" id="81"/>
                 <outlet property="O_changeSaturationSlider" destination="18" id="83"/>
                 <outlet property="O_changesDarkColorWell" destination="29" id="84"/>
                 <outlet property="O_changesLightColorWell" destination="16" id="85"/>
                 <outlet property="O_colorsPopUpButton" destination="24" id="78"/>
                 <outlet property="O_defaultModePopUpButton" destination="55" id="79"/>
-                <outlet property="O_emailComboBox" destination="125" id="128"/>
                 <outlet property="O_higlightChangesButton" destination="25" id="82"/>
                 <outlet property="O_modeForNewDocumentsPopUpButton" destination="55" id="140"/>
-                <outlet property="O_nameTextField" destination="132" id="133"/>
                 <outlet property="O_openNewDocumentAtStartupButton" destination="31" id="80"/>
-                <outlet property="O_pictureImageView" destination="64" id="74"/>
                 <outlet property="O_selectionDarkColorWell" destination="28" id="87"/>
                 <outlet property="O_selectionLightColorWell" destination="17" id="88"/>
                 <outlet property="O_selectionSaturationSlider" destination="20" id="86"/>
@@ -30,99 +26,12 @@
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="5" userLabel="Window">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="522" y="333" width="365" height="499"/>
+            <rect key="contentRect" x="522" y="333" width="365" height="383"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
             <view key="contentView" autoresizesSubviews="NO" id="6">
-                <rect key="frame" x="0.0" y="0.0" width="365" height="499"/>
+                <rect key="frame" x="0.0" y="0.0" width="365" height="383"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <box autoresizesSubviews="NO" title="Ich" id="58">
-                        <rect key="frame" x="16" y="374" width="332" height="119"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <view key="contentView">
-                            <rect key="frame" x="2" y="2" width="328" height="102"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <subviews>
-                                <imageView toolTip="Das Bild kann im eigenen Adressbuch-Eintrag verändert werden." id="64" customClass="PCRolloverImageView">
-                                    <rect key="frame" x="17" y="16" width="70" height="70"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <imageCell key="cell" selectable="YES" editable="YES" alignment="left" imageScaling="proportionallyDown" imageFrameStyle="grayBezel" id="207"/>
-                                    <connections>
-                                        <action selector="takeImageFromImageView:" target="-2" id="205"/>
-                                        <outlet property="menu" destination="196" id="201"/>
-                                    </connections>
-                                </imageView>
-                                <textField verticalHuggingPriority="750" id="69">
-                                    <rect key="frame" x="84" y="66" width="46" height="13"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Name:" id="208">
-                                        <font key="font" metaFont="label"/>
-                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                </textField>
-                                <textField verticalHuggingPriority="750" id="70">
-                                    <rect key="frame" x="84" y="43" width="46" height="13"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="AIM:" id="209">
-                                        <font key="font" metaFont="label"/>
-                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                </textField>
-                                <textField verticalHuggingPriority="750" id="71">
-                                    <rect key="frame" x="84" y="18" width="46" height="13"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="E-Mail:" id="210">
-                                        <font key="font" metaFont="label"/>
-                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                </textField>
-                                <comboBox verticalHuggingPriority="750" id="124">
-                                    <rect key="frame" x="135" y="38" width="176" height="22"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <comboBoxCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" alignment="left" drawsBackground="YES" numberOfVisibleItems="5" id="211">
-                                        <font key="font" metaFont="smallSystem"/>
-                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                    </comboBoxCell>
-                                    <connections>
-                                        <action selector="changeAIM:" target="-2" id="143"/>
-                                        <outlet property="nextKeyView" destination="125" id="130"/>
-                                    </connections>
-                                </comboBox>
-                                <comboBox verticalHuggingPriority="750" id="125">
-                                    <rect key="frame" x="135" y="14" width="176" height="22"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <comboBoxCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" alignment="left" drawsBackground="YES" numberOfVisibleItems="5" id="212">
-                                        <font key="font" metaFont="smallSystem"/>
-                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                    </comboBoxCell>
-                                    <connections>
-                                        <action selector="changeEmail:" target="-2" id="144"/>
-                                        <outlet property="nextKeyView" destination="132" id="137"/>
-                                    </connections>
-                                </comboBox>
-                                <textField verticalHuggingPriority="750" id="132">
-                                    <rect key="frame" x="135" y="65" width="173" height="19"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="213">
-                                        <font key="font" metaFont="smallSystem"/>
-                                        <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                    <connections>
-                                        <action selector="changeName:" target="-2" id="142"/>
-                                        <outlet property="nextKeyView" destination="124" id="138"/>
-                                    </connections>
-                                </textField>
-                            </subviews>
-                        </view>
-                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    </box>
                     <box autoresizesSubviews="NO" title="Farbe" id="60">
                         <rect key="frame" x="16" y="194" width="333" height="169"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -449,27 +358,5 @@
             </view>
         </window>
         <userDefaultsController id="92" userLabel="Shared Defaults"/>
-        <menu title="Menü" id="196" userLabel="Sharing Image">
-            <items>
-                <menuItem title="Mein Bild aus dem Adressbuch" id="200">
-                    <connections>
-                        <action selector="useAddressBookImage:" target="-2" id="202"/>
-                    </connections>
-                </menuItem>
-                <menuItem title="Bild auswählen…" id="197">
-                    <connections>
-                        <action selector="chooseImage:" target="-2" id="203"/>
-                    </connections>
-                </menuItem>
-                <menuItem isSeparatorItem="YES" id="198">
-                    <modifierMask key="keyEquivalentModifierMask" command="YES"/>
-                </menuItem>
-                <menuItem title="Bild entfernen" id="199">
-                    <connections>
-                        <action selector="clearImage:" target="-2" id="204"/>
-                    </connections>
-                </menuItem>
-            </items>
-        </menu>
     </objects>
 </document>
