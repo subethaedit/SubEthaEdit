@@ -21,6 +21,7 @@
 #import "SEEOverlayView.h"
 
 @interface SEEParticipantsOverlayViewController ()
+@property (nonatomic, strong) IBOutlet NSView *topLineView;
 @property (nonatomic, weak) PlainTextWindowControllerTabContext *tabContext;
 @property (nonatomic, strong) NSMutableArray *participantSubviewControllers;
 @property (nonatomic, strong) NSMutableArray *inviteeSubviewControllers;
@@ -58,10 +59,8 @@
 	[super loadView];
 
 	NSView *view = self.view;
-	view.layer.borderColor = [[NSColor lightGrayColor] CGColor];
-	view.layer.borderWidth = 0.5;
-
 	view.layer.backgroundColor = [[NSColor brightOverlayBackgroundColorBackgroundIsDark:NO] CGColor];
+	self.topLineView.layer.backgroundColor = [[NSColor brightOverlaySeparatorColorBackgroundIsDark:NO] CGColor];
 	[self update];
 }
 
@@ -99,7 +98,12 @@
 - (void)update {
 	// cleanup old view hierachy
 	NSArray *subviews = [self.view.subviews copy];
-	[subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+	NSView *topLineView = self.topLineView;
+	for (NSView *subview in subviews) {
+		if (subview != topLineView) {
+			[subview removeFromSuperview];
+		}
+	}
 	[self.participantSubviewControllers removeAllObjects];
 	[self.inviteeSubviewControllers removeAllObjects];
 	[self.pendingSubviewControllers removeAllObjects];

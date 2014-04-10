@@ -65,6 +65,7 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 
 @property (nonatomic) NSInteger startHeightBeforeDrag;
 
+@property (nonatomic, strong) IBOutlet NSView *bottomLineView;
 @end
 
 @implementation SEEFindAndReplaceViewController
@@ -129,9 +130,7 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 - (void)loadView {
 	[super loadView];
 	NSView *view = self.view;
-	view.layer.borderColor = [[NSColor brightOverlaySeparatorColorBackgroundIsDark:NO] CGColor];
-	view.layer.borderWidth = 0.5;
-	
+	self.bottomLineView.layer.backgroundColor = [[NSColor darkOverlaySeparatorColorBackgroundIsDark:NO] CGColor];
 	view.layer.backgroundColor = [[NSColor brightOverlayBackgroundColorBackgroundIsDark:NO] CGColor];
 
 	[self updateSearchOptionsButton];
