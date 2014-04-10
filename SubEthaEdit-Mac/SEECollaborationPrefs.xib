@@ -7,13 +7,21 @@
         <customObject id="-2" userLabel="File's Owner" customClass="SEECollaborationPreferenceModule">
             <connections>
                 <outlet property="O_automaticallyMapPortButton" destination="m4c-SU-LMl" id="vMs-rk-7Wg"/>
+                <outlet property="O_changeSaturationSlider" destination="6wL-b7-p3Z" id="hdg-mU-8YO"/>
+                <outlet property="O_changesDarkColorWell" destination="ck3-8E-UMv" id="eoW-Nt-T9q"/>
+                <outlet property="O_changesLightColorWell" destination="L8U-3j-uBc" id="70b-08-fnh"/>
+                <outlet property="O_colorsPopUpButton" destination="Jcx-pL-Jd8" id="nlQ-0Q-Zc6"/>
                 <outlet property="O_emailComboBox" destination="6OE-fu-gsc" id="vAU-US-Z0p"/>
+                <outlet property="O_higlightChangesButton" destination="nOb-90-Fka" id="IMF-U7-17H"/>
                 <outlet property="O_localPortTextField" destination="wdw-7c-J1b" id="tri-J4-7Po"/>
                 <outlet property="O_mappingStatusImageView" destination="rZx-RU-Vll" id="hY7-im-XmL"/>
                 <outlet property="O_mappingStatusProgressIndicator" destination="nnU-Es-Xyy" id="YRA-dh-jRj"/>
                 <outlet property="O_mappingStatusTextField" destination="x0F-16-awU" id="Cdw-CZ-r92"/>
                 <outlet property="O_nameTextField" destination="GvU-me-qXy" id="d0T-ic-2Fb"/>
                 <outlet property="O_pictureImageView" destination="SxQ-dS-7cp" id="PFY-4F-Cal"/>
+                <outlet property="O_selectionDarkColorWell" destination="P70-NP-39d" id="ePY-y6-bcM"/>
+                <outlet property="O_selectionLightColorWell" destination="1og-fq-kEO" id="xex-ip-zBR"/>
+                <outlet property="O_selectionSaturationSlider" destination="ZP4-Xe-JPF" id="iRQ-bZ-xH6"/>
                 <outlet property="O_window" destination="QvC-M9-y7g" id="Dgz-nd-xe2"/>
             </connections>
         </customObject>
@@ -22,10 +30,10 @@
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="196" y="240" width="366" height="356"/>
+            <rect key="contentRect" x="196" y="240" width="366" height="421"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1418"/>
             <view key="contentView" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="366" height="356"/>
+                <rect key="frame" x="0.0" y="0.0" width="366" height="421"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <box fixedFrame="YES" title="&lt;Network>" translatesAutoresizingMaskIntoConstraints="NO" id="89L-Pf-aYg">
@@ -36,7 +44,7 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="m4c-SU-LMl">
-                                    <rect key="frame" x="13" y="26" width="300" height="18"/>
+                                    <rect key="frame" x="14" y="26" width="300" height="18"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                     <string key="toolTip">SubEthaEdit will try to automatically map the local port to an external port if it is behind a NAT. For this to work you have to enable UPnP or NAT-PMP on your router.</string>
                                     <buttonCell key="cell" type="check" title="&lt;Automatically map port>" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="XPh-zo-Ojp">
@@ -50,7 +58,7 @@
                                     </connections>
                                 </button>
                                 <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fah-zz-MNr">
-                                    <rect key="frame" x="32" y="13" width="281" height="11"/>
+                                    <rect key="frame" x="33" y="13" width="281" height="11"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <textFieldCell key="cell" controlSize="mini" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="&lt;NAT traversal uses either NAT-PMP or UPnP>" id="UvY-lr-BBb">
                                         <font key="font" metaFont="miniSystem"/>
@@ -62,16 +70,16 @@
                                     </connections>
                                 </textField>
                                 <imageView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rZx-RU-Vll">
-                                    <rect key="frame" x="112" y="51" width="14" height="13"/>
+                                    <rect key="frame" x="113" y="51" width="14" height="13"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" image="DotYellow" id="YnV-3W-7rz"/>
                                 </imageView>
                                 <progressIndicator horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" minValue="16" maxValue="100" doubleValue="16" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="nnU-Es-Xyy">
-                                    <rect key="frame" x="111" y="49" width="16" height="16"/>
+                                    <rect key="frame" x="112" y="49" width="16" height="16"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 </progressIndicator>
                                 <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="x0F-16-awU">
-                                    <rect key="frame" x="128" y="50" width="185" height="14"/>
+                                    <rect key="frame" x="129" y="50" width="185" height="14"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="&lt;do not localize>" id="Sx6-7c-ebG">
                                         <font key="font" metaFont="smallSystem"/>
@@ -80,7 +88,7 @@
                                     </textFieldCell>
                                 </textField>
                                 <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1ph-DU-Ir4">
-                                    <rect key="frame" x="14" y="50" width="60" height="14"/>
+                                    <rect key="frame" x="15" y="50" width="60" height="14"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Local Port:" id="ryi-CV-Ml8">
                                         <font key="font" metaFont="smallSystem"/>
@@ -92,7 +100,7 @@
                                     </connections>
                                 </textField>
                                 <textField horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wdw-7c-J1b">
-                                    <rect key="frame" x="78" y="50" width="35" height="14"/>
+                                    <rect key="frame" x="79" y="50" width="35" height="14"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="6942" id="z8r-Pu-RDT">
                                         <font key="font" metaFont="smallSystem"/>
@@ -109,14 +117,14 @@
                         </connections>
                     </box>
                     <box autoresizesSubviews="NO" fixedFrame="YES" title="Me" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="Kyz-WE-BxL">
-                        <rect key="frame" x="17" y="234" width="332" height="104"/>
+                        <rect key="frame" x="17" y="239" width="332" height="164"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <view key="contentView">
-                            <rect key="frame" x="2" y="2" width="328" height="100"/>
+                            <rect key="frame" x="2" y="2" width="328" height="160"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <imageView toolTip="You can change this picture in Addressbook's &quot;me&quot; card." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SxQ-dS-7cp" customClass="PCRolloverImageView">
-                                    <rect key="frame" x="17" y="16" width="70" height="70"/>
+                                    <rect key="frame" x="17" y="82" width="70" height="70"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <imageCell key="cell" selectable="YES" editable="YES" alignment="left" imageScaling="proportionallyDown" imageFrameStyle="grayBezel" id="X5o-SB-RSu"/>
                                     <connections>
@@ -125,7 +133,7 @@
                                     </connections>
                                 </imageView>
                                 <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TdZ-Bk-aby">
-                                    <rect key="frame" x="84" y="56" width="46" height="13"/>
+                                    <rect key="frame" x="84" y="122" width="46" height="13"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="&lt;Name:" id="4cf-DK-JsN">
                                         <font key="font" metaFont="label"/>
@@ -137,7 +145,7 @@
                                     </connections>
                                 </textField>
                                 <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XAP-bo-7fM">
-                                    <rect key="frame" x="84" y="30" width="46" height="13"/>
+                                    <rect key="frame" x="84" y="96" width="46" height="13"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="&lt;Email:" id="AHf-a7-KTR">
                                         <font key="font" metaFont="label"/>
@@ -149,7 +157,7 @@
                                     </connections>
                                 </textField>
                                 <comboBox verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6OE-fu-gsc">
-                                    <rect key="frame" x="135" y="26" width="176" height="22"/>
+                                    <rect key="frame" x="135" y="92" width="176" height="22"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <comboBoxCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" alignment="left" drawsBackground="YES" numberOfVisibleItems="5" id="wK3-BC-V7C">
                                         <font key="font" metaFont="smallSystem"/>
@@ -162,7 +170,7 @@
                                     </connections>
                                 </comboBox>
                                 <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GvU-me-qXy">
-                                    <rect key="frame" x="135" y="55" width="173" height="19"/>
+                                    <rect key="frame" x="135" y="121" width="173" height="19"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="yrB-Pr-Mfe">
                                         <font key="font" metaFont="smallSystem"/>
@@ -174,6 +182,159 @@
                                         <outlet property="nextKeyView" destination="6OE-fu-gsc" id="3C5-zA-hwq"/>
                                     </connections>
                                 </textField>
+                            </subviews>
+                        </view>
+                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
+                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </box>
+                    <box autoresizesSubviews="NO" fixedFrame="YES" title="Color" translatesAutoresizingMaskIntoConstraints="NO" id="lxs-V1-ooQ">
+                        <rect key="frame" x="17" y="112" width="333" height="123"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <view key="contentView">
+                            <rect key="frame" x="2" y="2" width="329" height="106"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6wL-b7-p3Z">
+                                    <rect key="frame" x="192" y="16" width="104" height="20"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" minValue="5" maxValue="100" doubleValue="50" tickMarkPosition="above" numberOfTickMarks="2" sliderType="linear" id="DSe-Bo-O6J">
+                                        <font key="font" size="12" name="Helvetica-Oblique"/>
+                                    </sliderCell>
+                                    <connections>
+                                        <action selector="postGeneralViewPreferencesDidChangeNotificiation:" target="-2" id="qFZ-eg-7Eq"/>
+                                        <binding destination="gZV-Yj-UC8" name="value" keyPath="values.MyChangesSaturation" id="xh3-F7-ZwP"/>
+                                    </connections>
+                                </slider>
+                                <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3q2-C9-g6T">
+                                    <rect key="frame" x="14" y="41" width="99" height="15"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" id="wSe-Vf-7DM">
+                                        <font key="font" metaFont="smallSystem"/>
+                                        <string key="title">Selection/Cursor
+</string>
+                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                    </textFieldCell>
+                                </textField>
+                                <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZP4-Xe-JPF">
+                                    <rect key="frame" x="192" y="40" width="104" height="20"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" minValue="5" maxValue="100" doubleValue="5" tickMarkPosition="above" numberOfTickMarks="2" sliderType="linear" id="0q9-HD-I85">
+                                        <font key="font" size="12" name="Helvetica-Oblique"/>
+                                    </sliderCell>
+                                    <connections>
+                                        <action selector="postGeneralViewPreferencesDidChangeNotificiation:" target="-2" id="9eE-oQ-J4P"/>
+                                        <binding destination="gZV-Yj-UC8" name="value" keyPath="values.MySelectionSaturation" id="zkG-0R-4Fb"/>
+                                    </connections>
+                                </slider>
+                                <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="r9J-1d-VnU">
+                                    <rect key="frame" x="14" y="80" width="96" height="14"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" id="dsA-hy-O0G">
+                                        <font key="font" metaFont="smallSystem"/>
+                                        <string key="title">Own color:
+</string>
+                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                    </textFieldCell>
+                                </textField>
+                                <colorWell toolTip="Selection color for bright background" fixedFrame="YES" enabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1og-fq-kEO">
+                                    <rect key="frame" x="123" y="37" width="29" height="22"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <connections>
+                                        <binding destination="gZV-Yj-UC8" name="value" keyPath="values.MySelectionSaturation" id="8N4-vn-KqU">
+                                            <dictionary key="options">
+                                                <bool key="NSConditionallySetsEnabled" value="NO"/>
+                                                <string key="NSValueTransformerName">SaturationToWhiteColor</string>
+                                            </dictionary>
+                                        </binding>
+                                    </connections>
+                                </colorWell>
+                                <colorWell toolTip="Change color for bright background" fixedFrame="YES" enabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L8U-3j-uBc">
+                                    <rect key="frame" x="123" y="13" width="29" height="22"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <connections>
+                                        <binding destination="gZV-Yj-UC8" name="value" keyPath="values.MyChangesSaturation" id="kdY-9t-lcr">
+                                            <dictionary key="options">
+                                                <string key="NSValueTransformerName">SaturationToWhiteColor</string>
+                                            </dictionary>
+                                        </binding>
+                                    </connections>
+                                </colorWell>
+                                <button toolTip="Color the background of your changes." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nOb-90-Fka">
+                                    <rect key="frame" x="13" y="14" width="100" height="18"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <buttonCell key="cell" type="check" title="Changes" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="otP-Tp-bRo">
+                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                        <font key="font" metaFont="smallSystem"/>
+                                    </buttonCell>
+                                    <connections>
+                                        <binding destination="gZV-Yj-UC8" name="value" keyPath="values.HighlightChanges" id="C94-1n-XqD"/>
+                                    </connections>
+                                </button>
+                                <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BrE-fZ-JIg">
+                                    <rect key="frame" x="186" y="59" width="25" height="14"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" id="zWR-aY-cSf">
+                                        <font key="font" metaFont="label"/>
+                                        <string key="title">pale
+</string>
+                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                    </textFieldCell>
+                                </textField>
+                                <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IMR-XA-6ig">
+                                    <rect key="frame" x="272" y="59" width="43" height="14"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="strong" id="gSw-cV-Vz6">
+                                        <font key="font" metaFont="label"/>
+                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                    </textFieldCell>
+                                </textField>
+                                <popUpButton toolTip="Color to mark your changes." verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jcx-pL-Jd8">
+                                    <rect key="frame" x="78" y="75" width="124" height="22"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <popUpButtonCell key="cell" type="push" title="Item1" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="TlG-Md-mhQ" id="aID-Ry-pj8">
+                                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                        <font key="font" metaFont="smallSystem"/>
+                                        <menu key="menu" title="OtherViews" id="uzk-6I-xcO">
+                                            <items>
+                                                <menuItem title="Item1" state="on" id="TlG-Md-mhQ"/>
+                                            </items>
+                                        </menu>
+                                    </popUpButtonCell>
+                                    <connections>
+                                        <action selector="changeMyColor:" target="-2" id="6VR-jP-0zY"/>
+                                    </connections>
+                                </popUpButton>
+                                <colorWell toolTip="Selection color for dark background" fixedFrame="YES" enabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P70-NP-39d">
+                                    <rect key="frame" x="150" y="37" width="29" height="22"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <connections>
+                                        <binding destination="gZV-Yj-UC8" name="value" keyPath="values.MySelectionSaturation" id="KRU-KK-SVs">
+                                            <dictionary key="options">
+                                                <bool key="NSConditionallySetsEnabled" value="NO"/>
+                                                <string key="NSValueTransformerName">SaturationToBlackColor</string>
+                                            </dictionary>
+                                        </binding>
+                                    </connections>
+                                </colorWell>
+                                <colorWell toolTip="Change color for dark backgrounds" fixedFrame="YES" enabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ck3-8E-UMv">
+                                    <rect key="frame" x="150" y="13" width="29" height="22"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <connections>
+                                        <binding destination="gZV-Yj-UC8" name="value" keyPath="values.MyChangesSaturation" id="wf3-GP-3ti">
+                                            <dictionary key="options">
+                                                <string key="NSValueTransformerName">SaturationToBlackColor</string>
+                                            </dictionary>
+                                        </binding>
+                                    </connections>
+                                </colorWell>
                             </subviews>
                         </view>
                         <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
@@ -207,6 +368,7 @@
                 </menuItem>
             </items>
         </menu>
+        <userDefaultsController representsSharedInstance="YES" id="gZV-Yj-UC8"/>
     </objects>
     <resources>
         <image name="DotYellow" width="128" height="128"/>

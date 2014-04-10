@@ -20,11 +20,21 @@
 @property (nonatomic, strong) IBOutlet NSProgressIndicator *O_mappingStatusProgressIndicator;
 
 // me-card
-@property (nonatomic, strong) IBOutlet NSButton *O_useAddressbookButton;
 @property (nonatomic, strong) IBOutlet PCRolloverImageView *O_pictureImageView;
 @property (nonatomic, strong) IBOutlet NSTextField *O_nameTextField;
 @property (nonatomic, strong) IBOutlet NSComboBox  *O_emailComboBox;
 
+// colors
+@property (nonatomic, strong) IBOutlet NSPopUpButton *O_colorsPopUpButton;
+
+@property (nonatomic, strong) IBOutlet NSSlider *O_selectionSaturationSlider;
+@property (nonatomic, strong) IBOutlet NSSlider *O_changeSaturationSlider;
+@property (nonatomic, strong) IBOutlet NSColorWell *O_selectionLightColorWell;
+@property (nonatomic, strong) IBOutlet NSColorWell *O_selectionDarkColorWell;
+@property (nonatomic, strong) IBOutlet NSColorWell *O_changesLightColorWell;
+@property (nonatomic, strong) IBOutlet NSColorWell *O_changesDarkColorWell;
+
+@property (nonatomic, strong) IBOutlet NSButton *O_higlightChangesButton;
 
 // localization
 @property (nonatomic, readonly) NSString *localizedNetworkBoxLabelText;
@@ -51,5 +61,8 @@
 
 - (IBAction)changeName:(id)aSender;
 - (IBAction)changeEmail:(id)aSender;
+
+- (IBAction)postGeneralViewPreferencesDidChangeNotificiation:(id)aSender;
+- (IBAction)changeMyColor:(id)aSender;
 
 @end
