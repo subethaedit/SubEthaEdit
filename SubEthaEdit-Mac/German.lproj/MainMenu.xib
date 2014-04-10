@@ -660,7 +660,7 @@
                             <menuItem isSeparatorItem="YES" id="395">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Syntax einfärben" tag="20" id="403">
+                            <menuItem title="Syntax einfärben" id="403">
                                 <connections>
                                     <action selector="toggleSyntaxHighlighting:" target="-1" id="404"/>
                                 </connections>
@@ -954,7 +954,7 @@
                             <menuItem title="Modus umstellen" tag="10" id="250">
                                 <menu key="submenu" title="Modus umstellen" id="249"/>
                             </menuItem>
-                            <menuItem title="Modi neu laden" id="550">
+                            <menuItem title="Modi neu laden" tag="20" id="550">
                                 <connections>
                                     <action selector="reloadDocumentModes:" target="210" id="551"/>
                                 </connections>

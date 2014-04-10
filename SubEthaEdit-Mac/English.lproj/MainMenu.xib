@@ -672,7 +672,7 @@
                             <menuItem isSeparatorItem="YES" id="395">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Highlight Syntax" tag="20" id="403">
+                            <menuItem title="Highlight Syntax" id="403">
                                 <connections>
                                     <action selector="toggleSyntaxHighlighting:" target="-1" id="404"/>
                                 </connections>
@@ -966,7 +966,7 @@
                             <menuItem title="Switch Mode" tag="10" id="250">
                                 <menu key="submenu" title="Switch Mode" id="249"/>
                             </menuItem>
-                            <menuItem title="Reload Modes" id="550">
+                            <menuItem title="Reload Modes" tag="20" id="550">
                                 <connections>
                                     <action selector="reloadDocumentModes:" target="210" id="551"/>
                                 </connections>

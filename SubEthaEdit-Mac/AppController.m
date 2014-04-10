@@ -93,7 +93,7 @@ int const FoldingFoldAllCurrentBlockMenuTag = 4443;
 int const GotoTabMenuItemTag = 3042;
 int const ModeMenuTag = 50;
 int const SwitchModeMenuTag = 10;
-int const HighlightSyntaxMenuTag = 20;
+int const ReloadModesMenuItemTag = 20;
 int const ScriptMenuTag = 4000;
 
 
