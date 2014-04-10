@@ -108,11 +108,11 @@
                             <binding destination="-2" name="title" keyPath="self.localizedNetworkBoxLabelText" id="gBs-Tt-011"/>
                         </connections>
                     </box>
-                    <box autoresizesSubviews="NO" fixedFrame="YES" title="Me" translatesAutoresizingMaskIntoConstraints="NO" id="Kyz-WE-BxL">
-                        <rect key="frame" x="17" y="217" width="332" height="119"/>
+                    <box autoresizesSubviews="NO" fixedFrame="YES" title="Me" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="Kyz-WE-BxL">
+                        <rect key="frame" x="17" y="234" width="332" height="104"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <view key="contentView">
-                            <rect key="frame" x="2" y="2" width="328" height="102"/>
+                            <rect key="frame" x="2" y="2" width="328" height="100"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <imageView toolTip="You can change this picture in Addressbook's &quot;me&quot; card." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SxQ-dS-7cp" customClass="PCRolloverImageView">
@@ -127,20 +127,26 @@
                                 <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TdZ-Bk-aby">
                                     <rect key="frame" x="84" y="56" width="46" height="13"/>
                                     <autoresizingMask key="autoresizingMask"/>
-                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Name:" id="4cf-DK-JsN">
+                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="&lt;Name:" id="4cf-DK-JsN">
                                         <font key="font" metaFont="label"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
+                                    <connections>
+                                        <binding destination="-2" name="value" keyPath="self.localizedUserNameLabel" id="Ug5-ld-bAu"/>
+                                    </connections>
                                 </textField>
                                 <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XAP-bo-7fM">
                                     <rect key="frame" x="84" y="30" width="46" height="13"/>
                                     <autoresizingMask key="autoresizingMask"/>
-                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Email:" id="AHf-a7-KTR">
+                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="&lt;Email:" id="AHf-a7-KTR">
                                         <font key="font" metaFont="label"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
+                                    <connections>
+                                        <binding destination="-2" name="value" keyPath="self.localizedUserEmailLabel" id="8d3-GU-gXC"/>
+                                    </connections>
                                 </textField>
                                 <comboBox verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6OE-fu-gsc">
                                     <rect key="frame" x="135" y="26" width="176" height="22"/>
@@ -178,22 +184,25 @@
         </window>
         <menu title="Menu" id="rrR-Qf-AVA" userLabel="Sharing Image">
             <items>
-                <menuItem title="Use Address Book" id="8SQ-1c-p3e">
+                <menuItem title="&lt;Use Address Book>" id="8SQ-1c-p3e">
                     <connections>
                         <action selector="useAddressBookImage:" target="-2" id="715-tT-nT1"/>
+                        <binding destination="-2" name="title" keyPath="self.localizedImageMenuAddressBook" id="KH9-if-F4t"/>
                     </connections>
                 </menuItem>
-                <menuItem title="Choose Image..." id="f5n-la-UDX">
+                <menuItem title="&lt;Choose Image...>" id="f5n-la-UDX">
                     <connections>
                         <action selector="chooseImage:" target="-2" id="UNV-3L-WK2"/>
+                        <binding destination="-2" name="title" keyPath="self.localizedImageMenuChoose" id="dqr-vV-Obt"/>
                     </connections>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="XLD-oC-oi3">
                     <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                 </menuItem>
-                <menuItem title="Clear Image" id="qUy-4K-JbN">
+                <menuItem title="&lt;Clear Image>" id="qUy-4K-JbN">
                     <connections>
                         <action selector="clearImage:" target="-2" id="nbZ-W3-qMO"/>
+                        <binding destination="-2" name="title" keyPath="self.localizedImageMenuClear" id="mA9-xI-Ftm"/>
                     </connections>
                 </menuItem>
             </items>

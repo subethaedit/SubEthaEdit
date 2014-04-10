@@ -277,4 +277,42 @@
 	return string;
 }
 
+
+// me card related
+- (NSString *)localizedUserNameLabel {
+	NSString *string = NSLocalizedStringWithDefaultValue(@"COLLAB_USER_NAME_LABEL", nil, [NSBundle mainBundle],
+														 @"Name:",
+														 @"Collaboration Preferences - Label for the user name text field");
+	return string;
+}
+
+- (NSString *)localizedUserEmailLabel {
+	NSString *string = NSLocalizedStringWithDefaultValue(@"COLLAB_USER_EMAIL_LABEL", nil, [NSBundle mainBundle],
+														 @"Email:",
+														 @"Collaboration Preferences - Label for the user email text field");
+	return string;
+}
+
+
+- (NSString *)localizedImageMenuAddressBook {
+	NSString *string = NSLocalizedStringWithDefaultValue(@"COLLAB_USER_IMAGE_AB", nil, [NSBundle mainBundle],
+														 @"Use Address Book",
+														 @"Collaboration Preferences - Image Menu - Use Image from Address Book option");
+	return string;
+}
+
+- (NSString *)localizedImageMenuChoose {
+	NSString *string = NSLocalizedStringWithDefaultValue(@"COLLAB_USER_IMAGE_CHOOSE", nil, [NSBundle mainBundle],
+														 @"Choose Image...",
+														 @"Collaboration Preferences - Image Menu - Choose Image option");
+	return string;
+}
+
+- (NSString *)localizedImageMenuClear {
+	NSString *string = NSLocalizedStringWithDefaultValue(@"COLLAB_USER_IMAGE_CLEAR", nil, [NSBundle mainBundle],
+														 @"Clear Image",
+														 @"Collaboration Preferences - Image Menu - Clear Image option");
+	return string;
+}
+
 @end

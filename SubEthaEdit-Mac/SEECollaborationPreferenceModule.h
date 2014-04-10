@@ -33,6 +33,13 @@
 @property (nonatomic, readonly) NSString *localizedAutomaticallyMapPortsExplanationText;
 @property (nonatomic, readonly) NSString *localizedAutomaticallyMapPortsToolTipText;
 
+@property (nonatomic, readonly) NSString *localizedUserNameLabel;
+@property (nonatomic, readonly) NSString *localizedUserEmailLabel;
+
+@property (nonatomic, readonly) NSString *localizedImageMenuAddressBook;
+@property (nonatomic, readonly) NSString *localizedImageMenuChoose;
+@property (nonatomic, readonly) NSString *localizedImageMenuClear;
+
 // actions - network
 - (IBAction)changeAutomaticallyMapPorts:(id)aSender;
 
