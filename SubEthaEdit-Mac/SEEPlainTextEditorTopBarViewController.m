@@ -96,7 +96,6 @@
 	[self.symbolPopUpButton setDelegate:self];
 	[self.writtenByTextField setHasRightBorder:NO];
 	[self updateColorsForIsDarkBackground:NO];
-	
 	[self updateSymbolPopUpContent];
 }
 

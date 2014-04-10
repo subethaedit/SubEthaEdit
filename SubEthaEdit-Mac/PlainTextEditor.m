@@ -165,6 +165,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 			[containerView addConstraints:self.topBlurBackgroundConstraints];
 			//		view.layer.backgroundColor = [[[NSColor redColor] colorWithAlphaComponent:0.8] CGColor];
 			view.backgroundBlurActive = YES;
+			view.brightnessAdjustForInactiveWindowState = 0.7;
 			view;
 		});
 
@@ -204,6 +205,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 			[containerView addConstraints:self.bottomBlurBackgroundConstraints];
 			//		view.layer.backgroundColor = [[[NSColor redColor] colorWithAlphaComponent:0.8] CGColor];
 			view.backgroundBlurActive = YES;
+			view.brightnessAdjustForInactiveWindowState = 0.7;
 			view;
 		});
 
@@ -212,6 +214,28 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 			NSView *statusBarView = self.O_bottomStatusBarView;
 			NSView *containerView = self.bottomBlurLayerView;
 			[statusBarView removeFromSuperview];
+			
+			// configure truncade mode
+			[O_tabStatusPopUpButton.cell setLineBreakMode:NSLineBreakByTruncatingMiddle];
+			[O_encodingPopUpButton.cell setLineBreakMode:NSLineBreakByTruncatingMiddle];
+
+			// adjust sizes for german if necessary
+			if ([[[NSBundle mainBundle] preferredLocalizations].firstObject isEqual:@"German"]) {
+				// adjust frames
+				CGFloat points = 20.0;
+				O_tabStatusPopUpButton.frame = ({
+					NSRect frame = O_tabStatusPopUpButton.frame;
+					frame.size.width += points;
+					frame;
+				});
+				O_lineEndingPopUpButton.frame = NSOffsetRect(O_lineEndingPopUpButton.frame, points, 0);
+				O_encodingPopUpButton.frame = ({
+					NSRect frame = O_encodingPopUpButton.frame;
+					frame.size.width -= points;
+					frame.origin.x += points;
+					frame;
+				});
+			}
 			
 			[statusBarView setTranslatesAutoresizingMaskIntoConstraints:NO];
 			[containerView addSubview:statusBarView];
