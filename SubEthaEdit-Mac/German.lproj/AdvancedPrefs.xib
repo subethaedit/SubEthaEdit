@@ -74,22 +74,6 @@
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
-                                <button id="114">
-                                    <rect key="frame" x="14" y="43" width="353" height="18"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                                    <string key="toolTip">SubEthaEdit versucht sich automatisch mit denen, die mit Ihren Freunden verbunden sind, zu verbinden. Falls Sie das nicht wünschen können Sie es hiermit verhindern.</string>
-                                    <buttonCell key="cell" type="check" title="Friendcasting deaktivieren" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="177">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="smallSystem"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <binding destination="59" name="value" keyPath="values.shouldAutoConnect" id="119">
-                                            <dictionary key="options">
-                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
-                                </button>
                                 <textField verticalHuggingPriority="750" id="81">
                                     <rect key="frame" x="141" y="107" width="233" height="14"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>

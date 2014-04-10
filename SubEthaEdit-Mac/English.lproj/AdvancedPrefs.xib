@@ -170,22 +170,6 @@
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
-                                <button id="114">
-                                    <rect key="frame" x="14" y="41" width="267" height="18"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                                    <string key="toolTip">SubEthaEdit trys automatically to connect to the Peers of the Users you connect using an see:// URL. If you don't want that you can turn it off here.</string>
-                                    <buttonCell key="cell" type="check" title="Disable Friendcasting" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="186">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="smallSystem"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <binding destination="59" name="value" keyPath="values.shouldAutoConnect" id="119">
-                                            <dictionary key="options">
-                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
-                                </button>
                             </subviews>
                         </view>
                         <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
