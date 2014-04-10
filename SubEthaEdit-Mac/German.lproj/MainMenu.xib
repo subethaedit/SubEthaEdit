@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5053" systemVersion="13D38" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1090" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5053"/>
@@ -80,7 +80,7 @@
                                     <action selector="newDocument:" target="-1" id="194"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="New Tab" tag="102" keyEquivalent="n" id="618">
+                            <menuItem title="Neuer Tab" tag="102" alternate="YES" keyEquivalent="n" id="618">
                                 <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                 <connections>
                                     <action selector="newAlternateDocument:" target="-1" id="619"/>
@@ -91,7 +91,7 @@
                                     <action selector="openDocument:" target="-1" id="195"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="In neuem Fenster öffnen" keyEquivalent="o" id="653">
+                            <menuItem title="In neuem Fenster öffnen…" alternate="YES" keyEquivalent="o" id="653">
                                 <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                 <connections>
                                     <action selector="openAlternateDocument:" target="252" id="654"/>
@@ -616,21 +616,21 @@
                             <menuItem isSeparatorItem="YES" id="226">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
+                            <menuItem title="Änderungen hervorheben" id="398">
+                                <connections>
+                                    <action selector="toggleShowsChangeMarks:" target="-1" id="399"/>
+                                </connections>
+                            </menuItem>
                             <menuItem title="Änderungsmarkierungen löschen" keyEquivalent="m" id="397">
                                 <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                 <connections>
                                     <action selector="clearChangeMarks:" target="-1" id="400"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Änderungsmarkierungen wiederherstellen" keyEquivalent="M" id="655">
+                            <menuItem title="Änderungsmarkierungen wiederherstellen" alternate="YES" keyEquivalent="M" id="655">
                                 <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                 <connections>
                                     <action selector="restoreChangeMarks:" target="-1" id="657"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Änderungen hervorheben" id="398">
-                                <connections>
-                                    <action selector="toggleShowsChangeMarks:" target="-1" id="399"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="396">
@@ -659,6 +659,11 @@
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="395">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Syntax einfärben" tag="20" id="403">
+                                <connections>
+                                    <action selector="toggleSyntaxHighlighting:" target="-1" id="404"/>
+                                </connections>
                             </menuItem>
                             <menuItem title="Code Folding" tag="4400" id="671">
                                 <modifierMask key="keyEquivalentModifierMask"/>
@@ -954,14 +959,6 @@
                                     <action selector="reloadDocumentModes:" target="210" id="551"/>
                                 </connections>
                             </menuItem>
-                            <menuItem isSeparatorItem="YES" id="246">
-                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
-                            </menuItem>
-                            <menuItem title="Syntax einfärben" tag="20" id="403">
-                                <connections>
-                                    <action selector="toggleSyntaxHighlighting:" target="-1" id="404"/>
-                                </connections>
-                            </menuItem>
                         </items>
                     </menu>
                 </menuItem>
@@ -1218,15 +1215,15 @@ DQ
                         <rect key="frame" x="0.0" y="0.0" width="387" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" id="FRN-eC-kYD">
-                            <rect key="frame" x="0.0" y="0.0" width="372" height="480"/>
+                            <rect key="frame" x="0.0" y="0.0" width="387" height="480"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <textView editable="NO" selectable="NO" importsGraphics="NO" richText="NO" baseWritingDirection="leftToRight" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" quoteSubstitution="YES" dashSubstitution="YES" textReplacement="YES" spellingCorrection="YES" smartInsertDelete="YES" id="590">
-                                    <rect key="frame" x="0.0" y="0.0" width="372" height="1159"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="387" height="1159"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <size key="minSize" width="372" height="480"/>
+                                    <size key="minSize" width="387" height="480"/>
                                     <size key="maxSize" width="417" height="10000000"/>
                                     <attributedString key="textStorage">
                                         <fragment>
@@ -2049,7 +2046,7 @@ Cg
                                         </fragment>
                                     </attributedString>
                                     <color key="insertionPointColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                    <size key="minSize" width="372" height="480"/>
+                                    <size key="minSize" width="387" height="480"/>
                                     <size key="maxSize" width="417" height="10000000"/>
                                 </textView>
                             </subviews>
