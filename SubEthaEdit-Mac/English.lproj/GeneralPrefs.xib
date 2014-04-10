@@ -8,17 +8,10 @@
         <customObject id="-2" userLabel="File's Owner" customClass="GeneralPreferences">
             <connections>
                 <outlet property="O_alsoInLocalDocumentsButton" destination="19" id="81"/>
-                <outlet property="O_changeSaturationSlider" destination="18" id="83"/>
-                <outlet property="O_changesDarkColorWell" destination="29" id="84"/>
-                <outlet property="O_changesLightColorWell" destination="16" id="85"/>
-                <outlet property="O_colorsPopUpButton" destination="24" id="78"/>
                 <outlet property="O_defaultModePopUpButton" destination="55" id="79"/>
                 <outlet property="O_higlightChangesButton" destination="25" id="82"/>
                 <outlet property="O_modeForNewDocumentsPopUpButton" destination="55" id="140"/>
                 <outlet property="O_openNewDocumentAtStartupButton" destination="31" id="80"/>
-                <outlet property="O_selectionDarkColorWell" destination="28" id="87"/>
-                <outlet property="O_selectionLightColorWell" destination="17" id="88"/>
-                <outlet property="O_selectionSaturationSlider" destination="20" id="86"/>
                 <outlet property="O_window" destination="5" id="7"/>
             </connections>
         </customObject>
@@ -27,100 +20,21 @@
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="5" userLabel="Window">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="415" y="311" width="365" height="383"/>
+            <rect key="contentRect" x="415" y="311" width="365" height="279"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
             <view key="contentView" autoresizesSubviews="NO" id="6">
-                <rect key="frame" x="0.0" y="0.0" width="365" height="383"/>
+                <rect key="frame" x="0.0" y="0.0" width="365" height="279"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <box autoresizesSubviews="NO" title="Color" id="60">
-                        <rect key="frame" x="16" y="194" width="333" height="169"/>
+                    <box autoresizesSubviews="NO" title="Highlight Changes" id="60">
+                        <rect key="frame" x="15" y="185" width="333" height="74"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <view key="contentView">
-                            <rect key="frame" x="2" y="2" width="329" height="152"/>
+                            <rect key="frame" x="2" y="2" width="329" height="57"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <slider verticalHuggingPriority="750" id="18">
-                                    <rect key="frame" x="189" y="59" width="104" height="18"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" minValue="5" maxValue="100" doubleValue="50" tickMarkPosition="above" numberOfTickMarks="2" sliderType="linear" id="218">
-                                        <font key="font" size="12" name="Helvetica-Oblique"/>
-                                    </sliderCell>
-                                    <connections>
-                                        <action selector="postGeneralViewPreferencesDidChangeNotificiation:" target="-2" id="181"/>
-                                        <binding destination="92" name="value" keyPath="values.MyChangesSaturation" id="175"/>
-                                    </connections>
-                                </slider>
-                                <textField verticalHuggingPriority="750" id="27">
-                                    <rect key="frame" x="11" y="57" width="99" height="18"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Changes" id="223">
-                                        <font key="font" metaFont="smallSystem"/>
-                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                </textField>
-                                <textField verticalHuggingPriority="750" id="13">
-                                    <rect key="frame" x="11" y="83" width="99" height="15"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" id="215">
-                                        <font key="font" metaFont="smallSystem"/>
-                                        <string key="title">Selection/Cursor
-</string>
-                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                </textField>
-                                <slider verticalHuggingPriority="750" id="20">
-                                    <rect key="frame" x="189" y="83" width="104" height="18"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" minValue="5" maxValue="100" doubleValue="5" tickMarkPosition="above" numberOfTickMarks="2" sliderType="linear" id="220">
-                                        <font key="font" size="12" name="Helvetica-Oblique"/>
-                                    </sliderCell>
-                                    <connections>
-                                        <action selector="postGeneralViewPreferencesDidChangeNotificiation:" target="-2" id="180"/>
-                                        <binding destination="92" name="value" keyPath="values.MySelectionSaturation" id="174"/>
-                                    </connections>
-                                </slider>
-                                <textField verticalHuggingPriority="750" id="14">
-                                    <rect key="frame" x="11" y="123" width="96" height="14"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" id="216">
-                                        <font key="font" metaFont="smallSystem"/>
-                                        <string key="title">Own color:
-</string>
-                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                </textField>
-                                <colorWell toolTip="Selection color for bright background" enabled="NO" id="17">
-                                    <rect key="frame" x="120" y="80" width="29" height="22"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    <connections>
-                                        <binding destination="92" name="value" keyPath="values.MySelectionSaturation" id="178">
-                                            <dictionary key="options">
-                                                <bool key="NSConditionallySetsEnabled" value="NO"/>
-                                                <string key="NSValueTransformerName">SaturationToWhiteColor</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
-                                </colorWell>
-                                <colorWell toolTip="Change color for bright background" enabled="NO" id="16">
-                                    <rect key="frame" x="120" y="56" width="29" height="22"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    <connections>
-                                        <binding destination="92" name="value" keyPath="values.MyChangesSaturation" id="179">
-                                            <dictionary key="options">
-                                                <bool key="NSConditionallySetsEnabled" value="NO"/>
-                                                <string key="NSValueTransformerName">SaturationToWhiteColor</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
-                                </colorWell>
                                 <button toolTip="Color the background of your changes." id="25">
-                                    <rect key="frame" x="13" y="34" width="301" height="18"/>
+                                    <rect key="frame" x="13" y="32" width="301" height="18"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <buttonCell key="cell" type="check" title="Highlight changes" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="222">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -131,7 +45,7 @@
                                     </connections>
                                 </button>
                                 <button toolTip="Also colorize changes if not in collaborative mode." id="19">
-                                    <rect key="frame" x="30" y="12" width="284" height="18"/>
+                                    <rect key="frame" x="30" y="10" width="284" height="18"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <buttonCell key="cell" type="check" title="…also when alone" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="219">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -142,68 +56,6 @@
                                         <binding destination="92" name="value" keyPath="values.HighlightChangesAlone" id="96"/>
                                     </connections>
                                 </button>
-                                <textField verticalHuggingPriority="750" id="15">
-                                    <rect key="frame" x="183" y="102" width="25" height="14"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" id="217">
-                                        <font key="font" metaFont="label"/>
-                                        <string key="title">pale
-</string>
-                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                </textField>
-                                <textField verticalHuggingPriority="750" id="9">
-                                    <rect key="frame" x="269" y="102" width="43" height="14"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="strong" id="214">
-                                        <font key="font" metaFont="label"/>
-                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                </textField>
-                                <popUpButton toolTip="Color to mark your changes." verticalHuggingPriority="750" id="24">
-                                    <rect key="frame" x="75" y="118" width="124" height="22"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <popUpButtonCell key="cell" type="push" title="Item1" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="23" id="221">
-                                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                        <font key="font" metaFont="smallSystem"/>
-                                        <menu key="menu" title="OtherViews" id="12">
-                                            <items>
-                                                <menuItem title="Item1" state="on" id="23"/>
-                                            </items>
-                                        </menu>
-                                    </popUpButtonCell>
-                                    <connections>
-                                        <action selector="changeMyColor:" target="-2" id="145"/>
-                                    </connections>
-                                </popUpButton>
-                                <colorWell toolTip="Selection color for dark background" enabled="NO" id="28">
-                                    <rect key="frame" x="147" y="80" width="29" height="22"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    <connections>
-                                        <binding destination="92" name="value" keyPath="values.MySelectionSaturation" id="176">
-                                            <dictionary key="options">
-                                                <bool key="NSConditionallySetsEnabled" value="NO"/>
-                                                <string key="NSValueTransformerName">SaturationToBlackColor</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
-                                </colorWell>
-                                <colorWell toolTip="Change color for dark backgrounds" enabled="NO" id="29">
-                                    <rect key="frame" x="147" y="56" width="29" height="22"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    <connections>
-                                        <binding destination="92" name="value" keyPath="values.MyChangesSaturation" id="177">
-                                            <dictionary key="options">
-                                                <bool key="NSConditionallySetsEnabled" value="NO"/>
-                                                <string key="NSValueTransformerName">SaturationToBlackColor</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
-                                </colorWell>
                             </subviews>
                         </view>
                         <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>

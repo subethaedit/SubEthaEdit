@@ -13,15 +13,6 @@
 @class DocumentModePopUpButton;
 
 @interface GeneralPreferences : TCMPreferenceModule {
-    IBOutlet NSPopUpButton *O_colorsPopUpButton;
-    
-    IBOutlet NSSlider    *O_selectionSaturationSlider;
-    IBOutlet NSSlider    *O_changeSaturationSlider;
-    IBOutlet NSColorWell *O_selectionLightColorWell;
-    IBOutlet NSColorWell *O_selectionDarkColorWell;
-    IBOutlet NSColorWell *O_changesLightColorWell;
-    IBOutlet NSColorWell *O_changesDarkColorWell;
-    
     IBOutlet NSButton *O_higlightChangesButton;
     IBOutlet NSButton *O_alsoInLocalDocumentsButton;
     
@@ -32,6 +23,5 @@
 }
 
 - (IBAction)postGeneralViewPreferencesDidChangeNotificiation:(id)aSender;
-- (IBAction)changeMyColor:(id)aSender;
 - (IBAction)changeModeForNewDocuments:(id)aSender;
 @end
