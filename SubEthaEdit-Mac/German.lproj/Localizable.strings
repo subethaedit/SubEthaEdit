@@ -250,6 +250,9 @@
 /* Label displayed below edit icon and used as window title. */
 "EditPrefsIconLabel" = "Editor";
 
+/* Label displayed below collaboration icon and used as window title. */
+"CollaborationPrefsIconLabel" = "Kollaboration";
+
 /* No comment provided by engineer. */
 "Encoding %@ not reinterpretable" = "Diese Datei kann nicht mit der Kodierung %@ neu interpretiert werden.";
 
