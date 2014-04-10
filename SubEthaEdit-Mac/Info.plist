@@ -4642,5 +4642,7 @@
 			</dict>
 		</dict>
 	</array>
+	<key>OSAScriptingDefinition</key>
+	<string>SubEthaEdit</string>
 </dict>
 </plist>
