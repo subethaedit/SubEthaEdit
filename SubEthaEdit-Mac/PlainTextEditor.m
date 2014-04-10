@@ -155,7 +155,9 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 			[containerView addSubview:view];
 			[containerView addConstraints:@[
 											[NSLayoutConstraint TCM_constraintWithItem:view secondItem:containerView
-																		equalAttribute:NSLayoutAttributeWidth],
+																		equalAttribute:NSLayoutAttributeLeft],
+											[NSLayoutConstraint TCM_constraintWithItem:view secondItem:containerView
+																		equalAttribute:NSLayoutAttributeRight],
 											[NSLayoutConstraint TCM_constraintWithItem:view secondItem:containerView
 																		equalAttribute:NSLayoutAttributeTop],
 											]];
@@ -179,8 +181,9 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 			[statusBarView setTranslatesAutoresizingMaskIntoConstraints:NO];
 			[containerView addSubview:statusBarView];
 			[containerView addConstraints:@[
+											[NSLayoutConstraint TCM_constraintWithItem:statusBarView secondItem:containerView equalAttribute:NSLayoutAttributeLeft],
 											[NSLayoutConstraint TCM_constraintWithItem:statusBarView secondItem:containerView
-																		equalAttribute:NSLayoutAttributeWidth],
+																		equalAttribute:NSLayoutAttributeRight],
 											[NSLayoutConstraint TCM_constraintWithItem:statusBarView secondItem:containerView equalAttribute:NSLayoutAttributeBottom],
 											[NSLayoutConstraint constraintWithItem:statusBarView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeWidth multiplier:1.0 constant:CGRectGetHeight(statusBarView.bounds)],
 											]];
@@ -195,7 +198,9 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 			[containerView addSubview:view];
 			[containerView addConstraints:@[
 											[NSLayoutConstraint TCM_constraintWithItem:view secondItem:containerView
-																		equalAttribute:NSLayoutAttributeWidth],
+																		equalAttribute:NSLayoutAttributeLeft],
+											[NSLayoutConstraint TCM_constraintWithItem:view secondItem:containerView
+																		equalAttribute:NSLayoutAttributeRight],
 											[NSLayoutConstraint TCM_constraintWithItem:view secondItem:containerView
 																		equalAttribute:NSLayoutAttributeBottom],
 											]];
@@ -238,10 +243,12 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 			}
 			
 			[statusBarView setTranslatesAutoresizingMaskIntoConstraints:NO];
+			[statusBarView setAutoresizesSubviews:YES];
 			[containerView addSubview:statusBarView];
 			[containerView addConstraints:@[
 											[NSLayoutConstraint TCM_constraintWithItem:statusBarView secondItem:containerView
-																		equalAttribute:NSLayoutAttributeWidth],
+																		equalAttribute:NSLayoutAttributeRight],
+											[NSLayoutConstraint TCM_constraintWithItem:statusBarView secondItem:containerView equalAttribute:NSLayoutAttributeLeft],
 											[NSLayoutConstraint TCM_constraintWithItem:statusBarView secondItem:containerView
 																		equalAttribute:NSLayoutAttributeBottom],
 											[NSLayoutConstraint constraintWithItem:statusBarView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeWidth multiplier:1.0 constant:CGRectGetHeight(statusBarView.bounds)],
