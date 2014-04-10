@@ -12,6 +12,7 @@
 
 #import "SEEEditorSplitViewDelegate.h"
 #import "PlainTextWindowControllerTabContext.h"
+#import "SEESplitView.h"
 
 @interface SEEEditorSplitViewDelegate ()
 @property (nonatomic, weak) PlainTextWindowControllerTabContext *tabContext;
@@ -27,6 +28,11 @@
 	return self;
 }
 
+
+- (NSColor *)dividerColorForSplitView:(SEESplitView *)aSplitView {
+	NSColor *result = [[NSColor darkOverlaySeparatorColorBackgroundIsDark:self.tabContext.document.documentBackgroundColor.isDark] colorWithAlphaComponent:1.0];
+	return result;
+}
 
 - (BOOL)splitView:(NSSplitView *)splitView canCollapseSubview:(NSView *)subview {
 	return NO;

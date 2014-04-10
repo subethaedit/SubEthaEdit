@@ -17,6 +17,7 @@
 #import "PlainTextLoadProgress.h"
 
 #import "SEEEncodingDoctorDialogViewController.h"
+#import "SEESplitView.h"
 
 // this file needs arc - add -fobjc-arc in the compile build phase
 #if !__has_feature(objc_arc)
@@ -158,9 +159,10 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 			plainTextEditor.editorView.identifier = @"SecondEditor";
 			[plainTextEditors addObject:plainTextEditor];
 
-			NSSplitView *editorSplitView = [[NSSplitView alloc] initWithFrame:[[plainTextEditors[0] editorView] frame]];
+			NSSplitView *editorSplitView = [[SEESplitView alloc] initWithFrame:[[plainTextEditors[0] editorView] frame]];
 			editorSplitView.identifier = @"EditorSplit";
 			editorSplitView.dividerStyle = NSSplitViewDividerStyleThin;
+			editorSplitView.layer.backgroundColor = [[NSColor darkOverlaySeparatorColorBackgroundIsDark:YES] CGColor];
 			SEEEditorSplitViewDelegate *splitDelegate = [[SEEEditorSplitViewDelegate alloc] initWithTabContext:self];
 			editorSplitView.delegate = splitDelegate;
 
