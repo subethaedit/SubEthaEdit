@@ -47,7 +47,7 @@
                                     </connections>
                                 </button>
                                 <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fah-zz-MNr">
-                                    <rect key="frame" x="32" y="13" width="206" height="11"/>
+                                    <rect key="frame" x="32" y="13" width="260" height="11"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <textFieldCell key="cell" controlSize="mini" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="&lt;NAT traversal uses either NAT-PMP or UPnP>" id="UvY-lr-BBb">
                                         <font key="font" metaFont="miniSystem"/>
@@ -59,16 +59,16 @@
                                     </connections>
                                 </textField>
                                 <imageView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rZx-RU-Vll">
-                                    <rect key="frame" x="107" y="51" width="14" height="13"/>
+                                    <rect key="frame" x="112" y="51" width="14" height="13"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" image="DotYellow" id="YnV-3W-7rz"/>
                                 </imageView>
                                 <progressIndicator horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" minValue="16" maxValue="100" doubleValue="16" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="nnU-Es-Xyy">
-                                    <rect key="frame" x="106" y="49" width="16" height="16"/>
+                                    <rect key="frame" x="111" y="49" width="16" height="16"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 </progressIndicator>
                                 <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="x0F-16-awU">
-                                    <rect key="frame" x="123" y="50" width="169" height="14"/>
+                                    <rect key="frame" x="128" y="50" width="164" height="14"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="&lt;do not localize>" id="Sx6-7c-ebG">
                                         <font key="font" metaFont="smallSystem"/>
@@ -84,9 +84,12 @@
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
+                                    <connections>
+                                        <binding destination="-2" name="value" keyPath="self.localizedLocalPortLabelText" id="bL9-RH-ScJ"/>
+                                    </connections>
                                 </textField>
-                                <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wdw-7c-J1b">
-                                    <rect key="frame" x="73" y="50" width="35" height="14"/>
+                                <textField horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wdw-7c-J1b">
+                                    <rect key="frame" x="78" y="50" width="35" height="14"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="6942" id="z8r-Pu-RDT">
                                         <font key="font" metaFont="smallSystem"/>
