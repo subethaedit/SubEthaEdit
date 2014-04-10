@@ -660,6 +660,11 @@
                             <menuItem isSeparatorItem="YES" id="395">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
+                            <menuItem title="Syntax einfärben" tag="20" id="403">
+                                <connections>
+                                    <action selector="toggleSyntaxHighlighting:" target="-1" id="404"/>
+                                </connections>
+                            </menuItem>
                             <menuItem title="Code Folding" tag="4400" id="671">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Code Folding" id="672">
@@ -952,14 +957,6 @@
                             <menuItem title="Modi neu laden" id="550">
                                 <connections>
                                     <action selector="reloadDocumentModes:" target="210" id="551"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem isSeparatorItem="YES" id="246">
-                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
-                            </menuItem>
-                            <menuItem title="Syntax einfärben" tag="20" id="403">
-                                <connections>
-                                    <action selector="toggleSyntaxHighlighting:" target="-1" id="404"/>
                                 </connections>
                             </menuItem>
                         </items>
