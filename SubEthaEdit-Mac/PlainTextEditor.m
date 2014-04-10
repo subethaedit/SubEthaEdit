@@ -213,6 +213,10 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 			NSView *containerView = self.bottomBlurLayerView;
 			[statusBarView removeFromSuperview];
 			
+			// configure truncade mode
+			[O_tabStatusPopUpButton.cell setLineBreakMode:NSLineBreakByTruncatingMiddle];
+			[O_encodingPopUpButton.cell setLineBreakMode:NSLineBreakByTruncatingMiddle];
+
 			[statusBarView setTranslatesAutoresizingMaskIntoConstraints:NO];
 			[containerView addSubview:statusBarView];
 			[containerView addConstraints:@[
