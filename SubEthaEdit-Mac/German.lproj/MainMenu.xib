@@ -80,7 +80,7 @@
                                     <action selector="newDocument:" target="-1" id="194"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="New Tab" tag="102" keyEquivalent="n" id="618">
+                            <menuItem title="Neuer Tab" tag="102" alternate="YES" keyEquivalent="n" id="618">
                                 <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                 <connections>
                                     <action selector="newAlternateDocument:" target="-1" id="619"/>
@@ -91,7 +91,7 @@
                                     <action selector="openDocument:" target="-1" id="195"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="In neuem Fenster öffnen" keyEquivalent="o" id="653">
+                            <menuItem title="In neuem Fenster öffnen…" alternate="YES" keyEquivalent="o" id="653">
                                 <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                 <connections>
                                     <action selector="openAlternateDocument:" target="252" id="654"/>
