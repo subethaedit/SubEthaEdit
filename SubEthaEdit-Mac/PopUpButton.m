@@ -87,20 +87,21 @@
     float triangleSpacing = triangleRect.size.height*.15;
 
     if ([self pullsDown]) {
-      CGContextMoveToPoint(ctx,NSMinX(triangleRect)-triangleSpacing/2.,NSMidY(triangleRect)-2*triangleSpacing);
-      CGContextAddLineToPoint(ctx,NSMaxX(triangleRect)+triangleSpacing/2.,NSMidY(triangleRect)-2*triangleSpacing);
-      CGContextAddLineToPoint(ctx,NSMidX(triangleRect),NSMaxY(triangleRect)-2*triangleSpacing);
-      CGContextClosePath(ctx);
+		triangleRect = NSOffsetRect(triangleRect, 0, 0.5);
+		CGContextMoveToPoint(ctx,NSMinX(triangleRect)-triangleSpacing/2.,NSMidY(triangleRect)-2*triangleSpacing);
+		CGContextAddLineToPoint(ctx,NSMaxX(triangleRect)+triangleSpacing/2.,NSMidY(triangleRect)-2*triangleSpacing);
+		CGContextAddLineToPoint(ctx,NSMidX(triangleRect),NSMaxY(triangleRect)-2*triangleSpacing);
+		CGContextClosePath(ctx);
     } else {
-      CGContextMoveToPoint(ctx,NSMinX(triangleRect),NSMidY(triangleRect)-triangleSpacing);
-      CGContextAddLineToPoint(ctx,NSMaxX(triangleRect),NSMidY(triangleRect)-triangleSpacing);
-      CGContextAddLineToPoint(ctx,NSMidX(triangleRect),NSMinY(triangleRect));
-      CGContextClosePath(ctx);
-  
-      CGContextMoveToPoint(ctx,NSMinX(triangleRect),NSMidY(triangleRect)+triangleSpacing);
-      CGContextAddLineToPoint(ctx,NSMaxX(triangleRect),NSMidY(triangleRect)+triangleSpacing);
-      CGContextAddLineToPoint(ctx,NSMidX(triangleRect),NSMaxY(triangleRect));
-      CGContextClosePath(ctx);
+		CGContextMoveToPoint(ctx,NSMinX(triangleRect),NSMidY(triangleRect)-triangleSpacing);
+		CGContextAddLineToPoint(ctx,NSMaxX(triangleRect),NSMidY(triangleRect)-triangleSpacing);
+		CGContextAddLineToPoint(ctx,NSMidX(triangleRect),NSMinY(triangleRect));
+		CGContextClosePath(ctx);
+		
+		CGContextMoveToPoint(ctx,NSMinX(triangleRect),NSMidY(triangleRect)+triangleSpacing);
+		CGContextAddLineToPoint(ctx,NSMaxX(triangleRect),NSMidY(triangleRect)+triangleSpacing);
+		CGContextAddLineToPoint(ctx,NSMidX(triangleRect),NSMaxY(triangleRect));
+		CGContextClosePath(ctx);
     }
     
     CGContextFillPath(ctx);
