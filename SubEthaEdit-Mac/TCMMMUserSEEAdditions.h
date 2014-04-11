@@ -17,6 +17,8 @@
 
 - (NSString *)vcfRepresentation;
 
+- (NSString *)initials;
+
 #pragma mark -
 - (void)recacheImages;
 
