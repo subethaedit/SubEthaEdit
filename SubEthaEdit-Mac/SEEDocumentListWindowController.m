@@ -21,6 +21,8 @@
 #import "SEEOpenOtherDocumentListItem.h"
 #import "SEEConnectDocumentListItem.h"
 
+#import "SEEAvatarImageView.h"
+
 #import "SEEDocumentController.h"
 #import "DocumentModeManager.h"
 
@@ -432,14 +434,22 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 		SEENetworkConnectionDocumentListItem *connectionRepresentation = (SEENetworkConnectionDocumentListItem *)documentRepresentation;
 		NSTableCellView *tableCellView = [rowView.subviews objectAtIndex:0];
 
-		NSImageView *userImageView = [[tableCellView subviews] objectAtIndex:1];
+		SEEAvatarImageView *avatarView = nil;
+		for (NSView *view in tableCellView.subviews) {
+			if ([view isKindOfClass:[SEEAvatarImageView class]] &&
+				[view.identifier isEqualToString:@"AvatarView"]) {
+				avatarView = (SEEAvatarImageView *)view;
+				break;
+			}
+		}
 
-		userImageView.wantsLayer = YES;
-		CALayer *userViewLayer = userImageView.layer;
-		NSColor *changeColor = connectionRepresentation.connection.user.changeColor;
-		userViewLayer.borderColor = [[NSColor colorWithCalibratedHue:changeColor.hueComponent saturation:0.85 brightness:1.0 alpha:1.0] CGColor];
-		userViewLayer.borderWidth = NSHeight(userImageView.frame) / 16.0;
-		userViewLayer.cornerRadius = NSHeight(userImageView.frame) / 2.0;
+		TCMMMUser *user = connectionRepresentation.user;
+		NSColor *changeColor = user.changeColor;
+
+//		avatarView.image = user.image;
+		avatarView.initials = user.initials;
+		avatarView.borderColor = [NSColor colorWithCalibratedHue:changeColor.hueComponent saturation:0.85 brightness:1.0 alpha:1.0];
+		avatarView.backgroundColor = [user changeHighlightColorForBackgroundColor:[NSColor whiteColor]];
 	}
 }
 
