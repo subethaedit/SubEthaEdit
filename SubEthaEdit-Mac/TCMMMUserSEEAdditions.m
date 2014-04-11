@@ -9,7 +9,9 @@
 #import "TCMMMUserSEEAdditions.h"
 #import "TCMMMUser.h"
 #import "TCMBencodingUtilities.h"
+
 #import "NSImageTCMAdditions.h"
+#import "PreferenceKeys.h"
 
 @implementation TCMMMUser (TCMMMUserSEEAdditions) 
 
@@ -25,6 +27,19 @@
         }
     }
     return changeColor;
+}
+
+- (NSColor *)changeHighlightColorForBackgroundColor:(NSColor *)backgroundColor
+{
+	NSColor *changeColor = self.changeColor;
+	NSColor *highlightColor = changeColor;
+	if (backgroundColor) {
+		CGFloat saturation = [[NSUserDefaults standardUserDefaults] doubleForKey:ChangesSaturationPreferenceKey] / 100.0;
+		NSColor *changeColor = self.changeColor;
+
+		highlightColor = [backgroundColor blendedColorWithFraction:saturation ofColor:changeColor];
+	}
+	return highlightColor;
 }
 
 - (NSString *)vcfRepresentation {
@@ -57,11 +72,25 @@
     return result;
 }
 
+- (NSString *)initials
+{
+	NSString *name = self.name;
+	NSMutableString * initials = [NSMutableString string];
+	NSArray * nameComponents = [name componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+	for (NSString * word in nameComponents) {
+		if ([word length] > 0) {
+			NSString * firstLetter = [word substringWithRange:[word rangeOfComposedCharacterSequenceAtIndex:0]];
+			[initials appendString:[firstLetter uppercaseString]];
+		}
+	}
+	return [[initials copy] autorelease];
+}
+
 #pragma mark -
 
 - (void)recacheImages {
     NSMutableDictionary *properties = [self properties];
-    [properties removeObjectsForKeys:[NSArray arrayWithObjects:@"Image",@"Image32",@"Image48",@"Image16",@"Image32Dimmed",@"ColorImage",nil]];
+    [properties removeObjectsForKeys:@[@"Image", @"Image32", @"Image48", @"Image16", @"Image32Dimmed", @"ColorImage", @"ColorImageBrightLine"]];
 }
 
 - (NSColor *)color {
@@ -119,14 +148,63 @@
     if (!image) {
         NSData *pngData = [[self properties] objectForKey:@"ImageAsPNG"];
         image = [[[NSImage alloc] initWithData:pngData] autorelease];
+
         if (!image) {
-            image = [[NSImage imageNamed:@"UnknownPerson"] resizedImageWithSize:NSMakeSize(64., 64.)];
+			image = [NSImage imageWithSize:NSMakeSize(64.0, 64.0) flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
+
+				NSRect drawingRect = dstRect;
+				// draw placeholder image
+				NSImage *unknownUserImage = [NSImage imageNamed:NSImageNameUser];
+
+				NSRect imageBounds = NSZeroRect;
+				imageBounds.size = unknownUserImage.size;
+				NSRect imageSourceRect = NSInsetRect(imageBounds, 2.0, 2.0);
+
+				[unknownUserImage drawInRect:drawingRect
+									fromRect:imageSourceRect
+								   operation:NSCompositeSourceOver
+									fraction:0.8
+							  respectFlipped:YES
+									   hints:nil];
+
+				// draw initials string
+				NSString *initials = self.initials;
+
+				CGFloat fontSize = NSWidth(drawingRect) / 5.0;
+
+				NSShadow *textShadow = [[NSShadow alloc] init];
+				textShadow.shadowBlurRadius = 0.0;
+				textShadow.shadowColor = [NSColor blackColor];
+				textShadow.shadowOffset = NSMakeSize(0.0, -1.0);
+
+				NSDictionary *stringAttributes = @{NSFontAttributeName: [NSFont fontWithName:@"HelveticaNeue-Light" size:fontSize],
+												   NSForegroundColorAttributeName: [[NSColor whiteColor] colorWithAlphaComponent:0.8],
+												   NSShadowAttributeName: textShadow};
+
+				NSSize textSize = [initials sizeWithAttributes:stringAttributes];
+				NSRect textBounds = [initials boundingRectWithSize:textSize options:0 attributes:stringAttributes];
+
+				NSRect textDrawingRect = NSMakeRect(NSMidX(drawingRect) - NSWidth(textBounds) / 2.0,
+													NSMidY(drawingRect) - NSHeight(textBounds),
+													NSWidth(textBounds),
+													NSHeight(textBounds));
+
+				[initials drawWithRect:textDrawingRect
+							   options:0
+							attributes:stringAttributes];
+
+				return YES;
+			}];
+
             pngData = [image TIFFRepresentation];
             pngData = [[NSBitmapImageRep imageRepWithData:pngData] representationUsingType:NSPNGFileType properties:[NSDictionary dictionary]];
             [[self properties] setObject:pngData forKey:@"ImageAsPNG"];
-        }   
-        [[self properties] setObject:image forKey:@"Image"];
-        [image setCacheMode:NSImageCacheNever];
+		}
+
+		if (image) {
+			[[self properties] setObject:image forKey:@"Image"];
+			[image setCacheMode:NSImageCacheNever];
+		}
     }
     return image;
 }
