@@ -286,7 +286,7 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 	} else if (self.hasWebPreviewSplit && self.webPreviewSplitView == nil) {
 		[viewRepresentedByTab removeFromSuperview];
 
-		NSSplitView *webPreviewSplitView = [[NSSplitView alloc] initWithFrame:viewRepresentedByTab.frame];
+		NSSplitView *webPreviewSplitView = [[SEESplitView alloc] initWithFrame:viewRepresentedByTab.frame];
 		SEEWebPreviewSplitViewDelegate* webPreviewSplitDelegate = [[SEEWebPreviewSplitViewDelegate alloc] initWithTabContext:self];
 		webPreviewSplitView.identifier = @"WebPreviewSplit";
 		webPreviewSplitView.dividerStyle = NSSplitViewDividerStyleThin;
@@ -298,15 +298,17 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 
 		SEEWebPreviewViewController *webPreviewViewController = [[SEEWebPreviewViewController alloc] initWithPlainTextDocument:self.document];
 
+		self.webPreviewViewController = webPreviewViewController;
+		self.webPreviewSplitViewDelegate = webPreviewSplitDelegate;
+		self.webPreviewSplitView = webPreviewSplitView;
+		
 		[webPreviewSplitView addSubview:webPreviewViewController.view];
 		[webPreviewSplitView addSubview:viewRepresentedByTab];
+		[self.windowController updateWindowMinSize];
 		[webPreviewSplitView adjustSubviews];
 
 		[webPreviewViewController refreshAndEmptyCache:self];
 
-		self.webPreviewViewController = webPreviewViewController;
-		self.webPreviewSplitViewDelegate = webPreviewSplitDelegate;
-		self.webPreviewSplitView = webPreviewSplitView;
 	}
 
 	[self.windowController updateWindowMinSize];

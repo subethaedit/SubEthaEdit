@@ -295,7 +295,9 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
 - (void)setSizeByColumns:(NSInteger)aColumns rows:(NSInteger)aRows {
 	PlainTextWindowControllerTabContext *tabContext = self.selectedTabContext;
-    NSSize contentSize=[[tabContext.plainTextEditors objectAtIndex:0] desiredSizeForColumns:aColumns rows:aRows];
+	PlainTextEditor *editor = tabContext.plainTextEditors.firstObject;
+	[editor storePosition];
+    NSSize contentSize=[editor desiredSizeForColumns:aColumns rows:aRows];
     contentSize.width  = (NSInteger)(contentSize.width + 0.5);
     contentSize.height = (NSInteger)(contentSize.height + 0.5);
     NSWindow *window=[self window];
@@ -308,6 +310,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     NSRect frameRect=[window frameRectForContentRect:contentRect];
     NSScreen *screen=[[self window] screen];
     [self setWindowFrame:frameRect constrainedToScreen:screen display:YES];
+	[editor restorePositionAfterOperation:nil];
     
 }
 

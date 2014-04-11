@@ -115,8 +115,8 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     if (self) {
         I_windowControllerTabContext = aWindowControllerTabContext;
         I_flags.hasSplitButton = aFlag;
-        I_flags.showTopStatusBar = YES;
-        I_flags.showBottomStatusBar = YES;
+        I_flags.showTopStatusBar = NO;
+        I_flags.showBottomStatusBar = NO;
         I_flags.pausedProcessing = NO;
 		I_storedSelectedRanges = [NSMutableArray new];
 
@@ -126,139 +126,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
         [[NSBundle mainBundle] loadNibNamed:@"PlainTextEditor" owner:self topLevelObjects:&topLevelNibObjects];
 		self.topLevelNibObjects = topLevelNibObjects;
 
-		// localize the announce status menu - take from main menu
-		NSMenuItem *accessMenuItem = [[AppController sharedInstance] accessControlMenuItem];
-		NSMenu *accessPopUpMenu = self.shareAnnounceButtonOutlet.menu;
-		NSInteger menuItemIndex = 0;
-		for (NSMenuItem *item in [accessMenuItem.submenu itemArray]) {
-			if (!item.isAlternate) {
-				NSMenuItem *targetMenuItem = accessPopUpMenu.itemArray[menuItemIndex++];
-				targetMenuItem.title = item.title;
-				targetMenuItem.keyEquivalent = item.keyEquivalent;
-				targetMenuItem.keyEquivalentModifierMask = item.keyEquivalentModifierMask;
-			}
-			if (menuItemIndex >= accessPopUpMenu.itemArray.count) break;
-		}
-		
-		// temporary
-		self.topBarViewController = [[SEEPlainTextEditorTopBarViewController alloc] initWithPlainTextEditor:self];
-		[self.topBarViewController updateColorsForIsDarkBackground:[self hasDarkBackground]];
-		[self.topBarViewController setSplitButtonVisible:NO];
-		self.topBarViewController.splitButtonVisible = aFlag;
-		[self.O_editorView addSubview:self.topBarViewController.view];
-		
-		// generate top blur layer
-		self.topBlurLayerView = ({
-			SEEOverlayView *view = [[SEEOverlayView alloc] initWithFrame:NSZeroRect];
-			NSView *containerView = self.O_editorView;
-			view.translatesAutoresizingMaskIntoConstraints = NO;
-			[containerView addSubview:view];
-			[containerView addConstraints:@[
-											[NSLayoutConstraint TCM_constraintWithItem:view secondItem:containerView
-																		equalAttribute:NSLayoutAttributeLeft],
-											[NSLayoutConstraint TCM_constraintWithItem:view secondItem:containerView
-																		equalAttribute:NSLayoutAttributeRight],
-											[NSLayoutConstraint TCM_constraintWithItem:view secondItem:containerView
-																		equalAttribute:NSLayoutAttributeTop],
-											]];
-			self.topBlurBackgroundConstraints = @[
-												  [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:18.0]
-												  ];
-			[containerView addConstraints:self.topBlurBackgroundConstraints];
-			//		view.layer.backgroundColor = [[[NSColor redColor] colorWithAlphaComponent:0.8] CGColor];
-			view.backgroundBlurActive = YES;
-			view.brightnessAdjustForInactiveWindowState = 0.7;
-			view;
-		});
-
-		
-		// change the top status bar to use constraints
-		{
-			NSView *statusBarView = self.topBarViewController.view;
-			NSView *containerView = self.topBlurLayerView;
-			[statusBarView removeFromSuperview];
-			
-			[statusBarView setTranslatesAutoresizingMaskIntoConstraints:NO];
-			[containerView addSubview:statusBarView];
-			[containerView addConstraints:@[
-											[NSLayoutConstraint TCM_constraintWithItem:statusBarView secondItem:containerView equalAttribute:NSLayoutAttributeLeft],
-											[NSLayoutConstraint TCM_constraintWithItem:statusBarView secondItem:containerView
-																		equalAttribute:NSLayoutAttributeRight],
-											[NSLayoutConstraint TCM_constraintWithItem:statusBarView secondItem:containerView equalAttribute:NSLayoutAttributeBottom],
-											[NSLayoutConstraint constraintWithItem:statusBarView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeWidth multiplier:1.0 constant:CGRectGetHeight(statusBarView.bounds)],
-											]];
-			[self updateTopPinConstraints];
-		}
-		
-		// generate bottom blur layer
-		self.bottomBlurLayerView = ({
-			SEEOverlayView *view = [[SEEOverlayView alloc] initWithFrame:NSZeroRect];
-			NSView *containerView = self.O_editorView;
-			view.translatesAutoresizingMaskIntoConstraints = NO;
-			[containerView addSubview:view];
-			[containerView addConstraints:@[
-											[NSLayoutConstraint TCM_constraintWithItem:view secondItem:containerView
-																		equalAttribute:NSLayoutAttributeLeft],
-											[NSLayoutConstraint TCM_constraintWithItem:view secondItem:containerView
-																		equalAttribute:NSLayoutAttributeRight],
-											[NSLayoutConstraint TCM_constraintWithItem:view secondItem:containerView
-																		equalAttribute:NSLayoutAttributeBottom],
-											]];
-			self.bottomBlurBackgroundConstraints = @[
-												  [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:18.0]
-												  ];
-			[containerView addConstraints:self.bottomBlurBackgroundConstraints];
-			//		view.layer.backgroundColor = [[[NSColor redColor] colorWithAlphaComponent:0.8] CGColor];
-			view.backgroundBlurActive = YES;
-			view.brightnessAdjustForInactiveWindowState = 0.7;
-			view;
-		});
-
-		// change the bottom status bar to use constraints
-		{
-			NSView *statusBarView = self.O_bottomStatusBarView;
-			NSView *containerView = self.bottomBlurLayerView;
-			[statusBarView removeFromSuperview];
-			
-			// configure truncade mode
-			[O_tabStatusPopUpButton.cell setLineBreakMode:NSLineBreakByTruncatingMiddle];
-			[O_encodingPopUpButton.cell setLineBreakMode:NSLineBreakByTruncatingMiddle];
-
-			// adjust sizes for german if necessary
-			if ([[[NSBundle mainBundle] preferredLocalizations].firstObject isEqual:@"German"]) {
-				// adjust frames
-				CGFloat points = 20.0;
-				O_tabStatusPopUpButton.frame = ({
-					NSRect frame = O_tabStatusPopUpButton.frame;
-					frame.size.width += points;
-					frame;
-				});
-				O_lineEndingPopUpButton.frame = NSOffsetRect(O_lineEndingPopUpButton.frame, points, 0);
-				O_encodingPopUpButton.frame = ({
-					NSRect frame = O_encodingPopUpButton.frame;
-					frame.size.width -= points;
-					frame.origin.x += points;
-					frame;
-				});
-			}
-			
-			[statusBarView setTranslatesAutoresizingMaskIntoConstraints:NO];
-			[statusBarView setAutoresizesSubviews:YES];
-			[containerView addSubview:statusBarView];
-			[containerView addConstraints:@[
-											[NSLayoutConstraint TCM_constraintWithItem:statusBarView secondItem:containerView
-																		equalAttribute:NSLayoutAttributeRight],
-											[NSLayoutConstraint TCM_constraintWithItem:statusBarView secondItem:containerView equalAttribute:NSLayoutAttributeLeft],
-											[NSLayoutConstraint TCM_constraintWithItem:statusBarView secondItem:containerView
-																		equalAttribute:NSLayoutAttributeBottom],
-											[NSLayoutConstraint constraintWithItem:statusBarView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeWidth multiplier:1.0 constant:CGRectGetHeight(statusBarView.bounds)],
-											]];
-		}
-		
-		// make sure we start out right
-		[I_textView adjustContainerInsetToScrollView];
-		
-		[self.topBarViewController updateForSelectionDidChange];
+		[self loadViewPostprocessing];
     }
 
     return self;
@@ -267,6 +135,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 - (void)prepareForDealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:[I_windowControllerTabContext document] name:NSTextViewDidChangeSelectionNotification object:I_textView];
     [[NSNotificationCenter defaultCenter] removeObserver:[I_windowControllerTabContext document] name:NSTextDidChangeNotification object:I_textView];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 	// release the objects that are bound so we get dealloced later
 	self.ownerController.content = nil;
 	self.topLevelNibObjects = nil;
@@ -348,43 +217,243 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	[self updateAnnounceButton];
 }
 
-
-- (void)awakeFromNib
-{
-    PlainTextDocument *document = [self document];
-
-    if (document)
+- (void)loadViewSetupBarsAndOverlays {
+	// topbarviewcontroller
+	self.topBarViewController = [[SEEPlainTextEditorTopBarViewController alloc] initWithPlainTextEditor:self];
+	[self.topBarViewController updateColorsForIsDarkBackground:[self hasDarkBackground]];
+	[self.topBarViewController setSplitButtonVisible:NO];
+	self.topBarViewController.splitButtonVisible = I_flags.hasSplitButton;
+	[self.topBarViewController setVisible:I_flags.showTopStatusBar];
+	[self.O_editorView addSubview:self.topBarViewController.view];
+	
+	// generate top blur layer
+	self.topBlurLayerView = ({
+		SEEOverlayView *view = [[SEEOverlayView alloc] initWithFrame:NSZeroRect];
+		NSView *containerView = self.O_editorView;
+		view.translatesAutoresizingMaskIntoConstraints = NO;
+		[containerView addSubview:view];
+		[containerView addConstraints:@[
+										[NSLayoutConstraint TCM_constraintWithItem:view secondItem:containerView
+																	equalAttribute:NSLayoutAttributeLeft],
+										[NSLayoutConstraint TCM_constraintWithItem:view secondItem:containerView
+																	equalAttribute:NSLayoutAttributeRight],
+										[NSLayoutConstraint TCM_constraintWithItem:view secondItem:containerView
+																	equalAttribute:NSLayoutAttributeTop],
+										]];
+		self.topBlurBackgroundConstraints = @[
+											  [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:0]
+											  ];
+		[containerView addConstraints:self.topBlurBackgroundConstraints];
+		//		view.layer.backgroundColor = [[[NSColor redColor] colorWithAlphaComponent:0.8] CGColor];
+		view.backgroundBlurActive = YES;
+		view.brightnessAdjustForInactiveWindowState = 0.7;
+		view;
+	});
+	
+	
+	// change the top status bar to use constraints
+	{
+		NSView *statusBarView = self.topBarViewController.view;
+		NSView *containerView = self.topBlurLayerView;
+		[statusBarView removeFromSuperview];
+		
+		[statusBarView setTranslatesAutoresizingMaskIntoConstraints:NO];
+		[containerView addSubview:statusBarView];
+		[containerView addConstraints:@[
+										[NSLayoutConstraint TCM_constraintWithItem:statusBarView secondItem:containerView equalAttribute:NSLayoutAttributeLeft],
+										[NSLayoutConstraint TCM_constraintWithItem:statusBarView secondItem:containerView
+																	equalAttribute:NSLayoutAttributeRight],
+										[NSLayoutConstraint TCM_constraintWithItem:statusBarView secondItem:containerView equalAttribute:NSLayoutAttributeBottom],
+										[NSLayoutConstraint constraintWithItem:statusBarView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeWidth multiplier:1.0 constant:CGRectGetHeight(statusBarView.bounds)],
+										]];
+		[self updateTopPinConstraints];
+	}
+	
+	// generate bottom blur layer
+	self.bottomBlurLayerView = ({
+		SEEOverlayView *view = [[SEEOverlayView alloc] initWithFrame:NSZeroRect];
+		NSView *containerView = self.O_editorView;
+		view.translatesAutoresizingMaskIntoConstraints = NO;
+		[containerView addSubview:view];
+		[containerView addConstraints:@[
+										[NSLayoutConstraint TCM_constraintWithItem:view secondItem:containerView
+																	equalAttribute:NSLayoutAttributeLeft],
+										[NSLayoutConstraint TCM_constraintWithItem:view secondItem:containerView
+																	equalAttribute:NSLayoutAttributeRight],
+										[NSLayoutConstraint TCM_constraintWithItem:view secondItem:containerView
+																	equalAttribute:NSLayoutAttributeBottom],
+										]];
+		self.bottomBlurBackgroundConstraints = @[
+												 [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:0]
+												 ];
+		[containerView addConstraints:self.bottomBlurBackgroundConstraints];
+		//		view.layer.backgroundColor = [[[NSColor redColor] colorWithAlphaComponent:0.8] CGColor];
+		view.backgroundBlurActive = YES;
+		view.brightnessAdjustForInactiveWindowState = 0.7;
+		view;
+	});
+	
+	// change the bottom status bar to use constraints
+	{
+		NSView *statusBarView = self.O_bottomStatusBarView;
+		NSView *containerView = self.bottomBlurLayerView;
+		[statusBarView removeFromSuperview];
+		
+		// configure truncade mode
+		[O_tabStatusPopUpButton.cell setLineBreakMode:NSLineBreakByTruncatingMiddle];
+		[O_encodingPopUpButton.cell setLineBreakMode:NSLineBreakByTruncatingMiddle];
+		
+		// adjust sizes for german if necessary
+		if ([[[NSBundle mainBundle] preferredLocalizations].firstObject isEqual:@"German"]) {
+			// adjust frames
+			CGFloat points = 20.0;
+			O_tabStatusPopUpButton.frame = ({
+				NSRect frame = O_tabStatusPopUpButton.frame;
+				frame.size.width += points;
+				frame;
+			});
+			O_lineEndingPopUpButton.frame = NSOffsetRect(O_lineEndingPopUpButton.frame, points, 0);
+			O_encodingPopUpButton.frame = ({
+				NSRect frame = O_encodingPopUpButton.frame;
+				frame.size.width -= points;
+				frame.origin.x += points;
+				frame;
+			});
+		}
+		
+		[statusBarView setTranslatesAutoresizingMaskIntoConstraints:NO];
+		[statusBarView setAutoresizesSubviews:YES];
+		[containerView addSubview:statusBarView];
+		[containerView addConstraints:@[
+										[NSLayoutConstraint TCM_constraintWithItem:statusBarView secondItem:containerView
+																	equalAttribute:NSLayoutAttributeRight],
+										[NSLayoutConstraint TCM_constraintWithItem:statusBarView secondItem:containerView equalAttribute:NSLayoutAttributeLeft],
+										[NSLayoutConstraint TCM_constraintWithItem:statusBarView secondItem:containerView
+																	equalAttribute:NSLayoutAttributeBottom],
+										[NSLayoutConstraint constraintWithItem:statusBarView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeWidth multiplier:1.0 constant:CGRectGetHeight(statusBarView.bounds)],
+										]];
+		[statusBarView setHidden:!I_flags.showBottomStatusBar];
+	}
+	
+	// setup all the UI for the bottom bar
+	NSView *bottomStatusBarView = self.O_bottomStatusBarView;
+	bottomStatusBarView.layer.backgroundColor = [[NSColor darkOverlayBackgroundColorBackgroundIsDark:NO] CGColor];
+	
+	[I_textView setPostsFrameChangedNotifications:YES];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textViewFrameDidChange:) name:NSViewFrameDidChangeNotification object:I_textView];
+	
+    [O_windowWidthTextField setHasRightBorder:NO];
+    [O_windowWidthTextField setHasLeftBorder:YES];
+	
+    DocumentModeMenu *menu = [[DocumentModeMenu new] autorelease];
+    [menu configureWithAction:@selector(chooseMode:) alternateDisplay:NO];
+    [[O_modePopUpButton cell] setMenu:menu];
+	
+    EncodingMenu *fileEncodingsSubmenu = [[EncodingMenu new] autorelease];
+    [fileEncodingsSubmenu configureWithAction:@selector(selectEncoding:)];
+    [[[fileEncodingsSubmenu itemArray] lastObject] setTarget:self];
+    [[[fileEncodingsSubmenu itemArray] lastObject] setAction:@selector(showCustomizeEncodingPanel:)];
+    [[O_encodingPopUpButton cell] setMenu:fileEncodingsSubmenu];
+	
+    NSMenu *lineEndingMenu = [[NSMenu new] autorelease];
+    [O_lineEndingPopUpButton setPullsDown:YES];
+    // insert title item of pulldown popupbutton
+    [lineEndingMenu addItem:[[[NSMenuItem alloc] initWithTitle:@"" action:NULL keyEquivalent:@""] autorelease]];
+    NSMenuItem *item = nil;
+    SEL chooseLineEndings = @selector(chooseLineEndings:);
+    NSEnumerator *formatSubmenuItems = [[[[[NSApp mainMenu] itemWithTag:FormatMenuTag] submenu] itemArray] objectEnumerator];
+	
+    while ((item = [formatSubmenuItems nextObject]))
     {
-        [[NSNotificationCenter defaultCenter]
-		 addObserver:self
-		 selector:@selector(defaultParagraphStyleDidChange:)
-		 name	:PlainTextDocumentDefaultParagraphStyleDidChangeNotification
-		 object	:document];
-        [[NSNotificationCenter defaultCenter]
-		 addObserver:self
-		 selector:@selector(userDidChangeSelection:)
-		 name	:PlainTextDocumentUserDidChangeSelectionNotification
-		 object	:document];
-        [[NSNotificationCenter defaultCenter]
-		 addObserver:self
-		 selector:@selector(plainTextDocumentDidChangeEditStatus:)
-		 name	:PlainTextDocumentDidChangeEditStatusNotification
-		 object	:document];
-        [[NSNotificationCenter defaultCenter]
-		 addObserver:self
-		 selector:@selector(plainTextDocumentUserDidChangeSelection:)
-		 name	:PlainTextDocumentUserDidChangeSelectionNotification
-		 object	:document];
-        [[NSNotificationCenter defaultCenter]
-		 addObserver:self
-		 selector:@selector(sessionWillChange:)
-		 name	:PlainTextDocumentSessionWillChangeNotification
-		 object	:document];
-        [[NSNotificationCenter defaultCenter]
-		 addObserver:self
-		 selector:@selector(sessionDidChange:)
-		 name	:PlainTextDocumentSessionDidChangeNotification
-		 object	:document];
+        if ([item hasSubmenu] && [[[[item submenu] itemArray] objectAtIndex:0] action] == chooseLineEndings)
+        {
+            NSEnumerator *interestingItems = [[[item submenu] itemArray] objectEnumerator];
+            NSMenuItem *innerItem = nil;
+			
+            while ((innerItem = [interestingItems nextObject]))
+            {
+                if ([innerItem isSeparatorItem])
+                {
+                    [lineEndingMenu addItem:[NSMenuItem separatorItem]];
+                }
+                else
+                {
+                    item = [[[NSMenuItem alloc] initWithTitle:[innerItem title] action:[innerItem action] keyEquivalent:@""] autorelease];
+                    [item setTarget:[innerItem target]];
+                    [item setTag:[innerItem tag]];
+                    [lineEndingMenu addItem:item];
+                }
+            }
+            break;
+        }
+    }
+    [[O_lineEndingPopUpButton cell] setMenu:lineEndingMenu];
+	
+    [O_tabStatusPopUpButton setPullsDown:YES];
+    NSMenu *tabMenu = [[NSMenu new] autorelease];
+    // insert title item of pulldown popupbutton
+    [tabMenu addItem:[[[NSMenuItem alloc] initWithTitle:@"" action:NULL keyEquivalent:@""] autorelease]];
+    formatSubmenuItems = [[[[[NSApp mainMenu] itemWithTag:FormatMenuTag] submenu] itemArray] objectEnumerator];
+    BOOL copyItems = NO;
+	
+    while ((item = [formatSubmenuItems nextObject]))
+    {
+        if ([item action] == @selector(toggleUsesTabs:)) copyItems = YES;
+		
+        if (copyItems)
+        {
+            if ([item isSeparatorItem])
+            {
+                [tabMenu addItem:[NSMenuItem separatorItem]];
+            }
+            else
+            {
+                NSMenuItem *newItem = [tabMenu addItemWithTitle:[item title] action:[item action] keyEquivalent:@""];
+                [newItem setTarget:[item target]];
+                [newItem setTag:[item tag]];
+				
+                if ([item hasSubmenu])
+                {
+                    [newItem setSubmenu:[[[item submenu] copy] autorelease]];
+                }
+            }
+        }
+    }
+    [[O_tabStatusPopUpButton cell] setMenu:tabMenu];
+	
+	[self updateTopScrollViewInset];
+	[self updateBottomScrollViewInset];
+}
+
+- (void)loadViewPostprocessing {
+    [self loadViewSetupBarsAndOverlays];
+	
+	[self TCM_updateBottomStatusBar];
+	
+
+	PlainTextDocument *document = [self document];
+
+	NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+	
+    if (document) {
+        [notificationCenter addObserver:self selector:@selector(defaultParagraphStyleDidChange:)
+								   name:PlainTextDocumentDefaultParagraphStyleDidChangeNotification
+								 object:document];
+        [notificationCenter addObserver:self selector:@selector(userDidChangeSelection:)
+								   name:PlainTextDocumentUserDidChangeSelectionNotification
+								 object:document];
+        [notificationCenter addObserver:self selector:@selector(plainTextDocumentDidChangeEditStatus:)
+								   name:PlainTextDocumentDidChangeEditStatusNotification
+								 object:document];
+        [notificationCenter addObserver:self selector:@selector(plainTextDocumentUserDidChangeSelection:)
+								   name:PlainTextDocumentUserDidChangeSelectionNotification
+								 object:document];
+        [notificationCenter addObserver:self selector:@selector(sessionWillChange:)
+								   name:PlainTextDocumentSessionWillChangeNotification
+								 object:document];
+        [notificationCenter addObserver:self selector:@selector(sessionDidChange:)
+								   name:PlainTextDocumentSessionDidChangeNotification
+								 object:document];
     }
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TCM_updateBottomStatusBar) name:@"AfterEncodingsListChanged" object:nil];
@@ -437,6 +506,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     [O_scrollView setDocumentView:I_textView];
     [[O_scrollView verticalRulerView] setClientView:I_textView];
     [[O_scrollView contentView] setPostsBoundsChangedNotifications:YES];
+	[I_textView setFrameOrigin:CGPointZero];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(contentViewBoundsDidChange:) name:NSViewBoundsDidChangeNotification object:[O_scrollView contentView]];
 
     [layoutManager release];
@@ -459,103 +529,37 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     [self setNextResponder:view];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewFrameDidChange:) name:NSViewFrameDidChangeNotification object:view];
     self.O_editorView = view;
-
-	NSView *bottomStatusBarView = self.O_bottomStatusBarView;
-	bottomStatusBarView.layer.backgroundColor = [[NSColor darkOverlayBackgroundColorBackgroundIsDark:NO] CGColor];
-
-	[I_textView setPostsFrameChangedNotifications:YES];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textViewFrameDidChange:) name:NSViewFrameDidChangeNotification object:I_textView];
-
-    [self takeSettingsFromDocument];
-    [self takeStyleSettingsFromDocument];
-    [self setShowsChangeMarks:[document showsChangeMarks]];
-    [self setShowsTopStatusBar:[document showsTopStatusBar]];
-    [self setShowsBottomStatusBar:[document showsBottomStatusBar]];
-    [O_windowWidthTextField setHasRightBorder:NO];
-    [O_windowWidthTextField setHasLeftBorder:YES];
-
-    DocumentModeMenu *menu = [[DocumentModeMenu new] autorelease];
-    [menu configureWithAction:@selector(chooseMode:) alternateDisplay:NO];
-    [[O_modePopUpButton cell] setMenu:menu];
-
-    EncodingMenu *fileEncodingsSubmenu = [[EncodingMenu new] autorelease];
-    [fileEncodingsSubmenu configureWithAction:@selector(selectEncoding:)];
-    [[[fileEncodingsSubmenu itemArray] lastObject] setTarget:self];
-    [[[fileEncodingsSubmenu itemArray] lastObject] setAction:@selector(showCustomizeEncodingPanel:)];
-    [[O_encodingPopUpButton cell] setMenu:fileEncodingsSubmenu];
-
-    NSMenu *lineEndingMenu = [[NSMenu new] autorelease];
-    [O_lineEndingPopUpButton setPullsDown:YES];
-    // insert title item of pulldown popupbutton
-    [lineEndingMenu addItem:[[[NSMenuItem alloc] initWithTitle:@"" action:NULL keyEquivalent:@""] autorelease]];
-    NSMenuItem *item = nil;
-    SEL chooseLineEndings = @selector(chooseLineEndings:);
-    NSEnumerator *formatSubmenuItems = [[[[[NSApp mainMenu] itemWithTag:FormatMenuTag] submenu] itemArray] objectEnumerator];
-
-    while ((item = [formatSubmenuItems nextObject]))
-    {
-        if ([item hasSubmenu] && [[[[item submenu] itemArray] objectAtIndex:0] action] == chooseLineEndings)
-        {
-            NSEnumerator *interestingItems = [[[item submenu] itemArray] objectEnumerator];
-            NSMenuItem *innerItem = nil;
-
-            while ((innerItem = [interestingItems nextObject]))
-            {
-                if ([innerItem isSeparatorItem])
-                {
-                    [lineEndingMenu addItem:[NSMenuItem separatorItem]];
-                }
-                else
-                {
-                    item = [[[NSMenuItem alloc] initWithTitle:[innerItem title] action:[innerItem action] keyEquivalent:@""] autorelease];
-                    [item setTarget:[innerItem target]];
-                    [item setTag:[innerItem tag]];
-                    [lineEndingMenu addItem:item];
-                }
-            }
-            break;
-        }
-    }
-    [[O_lineEndingPopUpButton cell] setMenu:lineEndingMenu];
-
-    [O_tabStatusPopUpButton setPullsDown:YES];
-    NSMenu *tabMenu = [[NSMenu new] autorelease];
-    // insert title item of pulldown popupbutton
-    [tabMenu addItem:[[[NSMenuItem alloc] initWithTitle:@"" action:NULL keyEquivalent:@""] autorelease]];
-    formatSubmenuItems = [[[[[NSApp mainMenu] itemWithTag:FormatMenuTag] submenu] itemArray] objectEnumerator];
-    BOOL copyItems = NO;
-
-    while ((item = [formatSubmenuItems nextObject]))
-    {
-        if ([item action] == @selector(toggleUsesTabs:)) copyItems = YES;
-
-        if (copyItems)
-        {
-            if ([item isSeparatorItem])
-            {
-                [tabMenu addItem:[NSMenuItem separatorItem]];
-            }
-            else
-            {
-                NSMenuItem *newItem = [tabMenu addItemWithTitle:[item title] action:[item action] keyEquivalent:@""];
-                [newItem setTarget:[item target]];
-                [newItem setTag:[item tag]];
-
-                if ([item hasSubmenu])
-                {
-                    [newItem setSubmenu:[[[item submenu] copy] autorelease]];
-                }
-            }
-        }
-    }
-    [[O_tabStatusPopUpButton cell] setMenu:tabMenu];
-
-    [self TCM_updateBottomStatusBar];
 	
+	// localize the announce status menu - take from main menu
+	NSMenuItem *accessMenuItem = [[AppController sharedInstance] accessControlMenuItem];
+	NSMenu *accessPopUpMenu = self.shareAnnounceButtonOutlet.menu;
+	NSInteger menuItemIndex = 0;
+	for (NSMenuItem *item in [accessMenuItem.submenu itemArray]) {
+		if (!item.isAlternate) {
+			NSMenuItem *targetMenuItem = accessPopUpMenu.itemArray[menuItemIndex++];
+			targetMenuItem.title = item.title;
+			targetMenuItem.keyEquivalent = item.keyEquivalent;
+			targetMenuItem.keyEquivalentModifierMask = item.keyEquivalentModifierMask;
+		}
+		if (menuItemIndex >= accessPopUpMenu.itemArray.count) break;
+	}
+
+	[self takeStyleSettingsFromDocument];
+    [self takeSettingsFromDocument];
+    [self setShowsChangeMarks:[document showsChangeMarks]];
+
+	// set the right values for the status bars
+	[self TCM_updateBottomStatusBar];
+	[self.topBarViewController updateForSelectionDidChange];
+
+	// make sure we start out right
+	[self updateTopScrollViewInset];
+	[self updateBottomScrollViewInset];
+
     // trigger the notfications for the first time
     [self sessionDidChange:nil];
     [self participantsDidChange:nil];
-
+	
 }
 
 
@@ -646,6 +650,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
         [self setWrapsLines:[document wrapLines]];
         [self setShowsGutter:[document showsGutter]];
         [self setShowsTopStatusBar:[document showsTopStatusBar]];
+        [self setShowsBottomStatusBar:[document showsBottomStatusBar]];
         [I_textView setEditable:[document isEditable]];
         [I_textView setContinuousSpellCheckingEnabled:[document isContinuousSpellCheckingEnabled]];
 
@@ -702,8 +707,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 
-- (NSSize)desiredSizeForColumns:(int)aColumns rows:(int)aRows
-{
+- (NSSize)desiredSizeForColumns:(int)aColumns rows:(int)aRows {
     NSSize result;
     NSFont *font = [[self document] fontWithTrait:0];
     CGFloat characterWidth = [@"n" sizeWithAttributes :[NSDictionary dictionaryWithObject:font forKey:NSFontAttributeName]].width;
@@ -794,15 +798,11 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
 - (void)TCM_updateNumberOfActiveParticipants {
     NSLayoutManager *layoutManager = [I_textView layoutManager];
-    if ([layoutManager respondsToSelector:@selector(setAllowsNonContiguousLayout:)])
-    {
-		NSUInteger participantCount = [[[self document] session] participantCount];
-		self.numberOfActiveParticipants = @(participantCount);
-		self.showsNumberOfActiveParticipants = participantCount > 1;
-		
-        ((void (
-		  *)(id, SEL, BOOL))objc_msgSend)(layoutManager, @selector(setAllowsNonContiguousLayout:), (participantCount == 1));
-    }
+	NSUInteger participantCount = [[[self document] session] participantCount];
+	self.numberOfActiveParticipants = @(participantCount);
+	self.showsNumberOfActiveParticipants = participantCount > 1;
+	
+	[layoutManager setAllowsNonContiguousLayout:(participantCount == 1)];
 }
 
 - (void)TCM_updateBottomStatusBar {
@@ -1369,7 +1369,6 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 		[self updateTopPinConstraints];
 		[self updateTopScrollViewInset];
 	}
-	[self adjustToScrollViewInsets];
 }
 
 - (IBAction)toggleFindAndReplace:(id)aSender {
@@ -1795,14 +1794,12 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	[self adjustToScrollViewInsets];
 }
 
-- (BOOL)showsTopStatusBar
-{
+- (BOOL)showsTopStatusBar {
     return I_flags.showTopStatusBar;
 }
 
 
-- (void)setShowsTopStatusBar:(BOOL)aFlag
-{
+- (void)setShowsTopStatusBar:(BOOL)aFlag {
     if (I_flags.showTopStatusBar != aFlag)
     {
         I_flags.showTopStatusBar = !I_flags.showTopStatusBar;

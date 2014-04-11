@@ -128,7 +128,7 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 	CGFloat textContainerInsetTopY = [textView textContainerOrigin].y;
 
     NSPoint point=visibleRect.origin;
-    point.y+=aRect.origin.y+1.;
+    point.y+=aRect.origin.y+1. - 150.;
     unsigned glyphIndex,characterIndex;
     NSString *lineNumberString;
     NSRect bounds = [self bounds];
@@ -163,8 +163,6 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 	
 	
     if ([textStorage length]) {
-    
-
         boundingRect=NSMakeRect(0,0,0,0);
         previousBoundingRect=boundingRect;
         glyphIndex=[layoutManager glyphIndexForPoint:point 
