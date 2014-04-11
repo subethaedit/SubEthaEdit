@@ -649,6 +649,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
         [self setWrapsLines:[document wrapLines]];
         [self setShowsGutter:[document showsGutter]];
         [self setShowsTopStatusBar:[document showsTopStatusBar]];
+        [self setShowsBottomStatusBar:[document showsBottomStatusBar]];
         [I_textView setEditable:[document isEditable]];
         [I_textView setContinuousSpellCheckingEnabled:[document isContinuousSpellCheckingEnabled]];
 
