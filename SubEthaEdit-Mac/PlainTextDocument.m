@@ -1721,7 +1721,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
         [(PlainTextWindowController *)windowController documentWillClose:self];
     }
 	
-	for (FindAllController *findAllController in I_findAllControllers) {
+	for (FindAllController *findAllController in [[I_findAllControllers copy] autorelease]) {
 		[findAllController close];
 	}
     [I_findAllControllers removeAllObjects];
