@@ -286,7 +286,19 @@
 }
 
 #pragma mark - IBActions - Colors
-- (IBAction)changeMyColor:(id)aSender {
+- (IBAction)updateChangesColor:(id)sender {
+    NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+
+    NSNumber *userHue = [defaults objectForKey:MyColorHuePreferenceKey];
+    [[TCMMMUserManager me] setUserHue:userHue];
+    [TCMMMUserManager didChangeMe];
+	
+    [self TCM_updateWells];
+	[self postGeneralViewPreferencesDidChangeNotificiation:self];
+}
+
+
+ - (IBAction)changeMyColor:(id)aSender {
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
     int tag=[[self.O_colorsPopUpButton selectedItem] tag];
     NSValueTransformer *hueTrans=[NSValueTransformer valueTransformerForName:@"HueToColor"];

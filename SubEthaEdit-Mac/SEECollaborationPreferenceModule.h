@@ -60,5 +60,6 @@
 
 - (IBAction)postGeneralViewPreferencesDidChangeNotificiation:(id)aSender;
 - (IBAction)changeMyColor:(id)aSender;
+- (IBAction)updateChangesColor:(id)sender;
 
 @end
