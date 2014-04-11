@@ -49,10 +49,6 @@
 
 @end
 
-@interface NSTextView (NSTextViewTCMPrivateAdditions) 
-- (void)_adjustedCenteredScrollRectToVisible:(NSRect)aRect forceCenter:(BOOL)force;
-@end
-
 @implementation SEETextView
 
 #define VERTICAL_INSET 2.0
@@ -66,19 +62,12 @@
 // 	[super setNeedsDisplayInRect:aRect avoidAdditionalLayout:NO];
 // }
 
-- (void)_adjustedCenteredScrollRectToVisible:(NSRect)aRect forceCenter:(BOOL)force {
-    if (aRect.origin.x == [[self textContainer] lineFragmentPadding]) {
-        aRect.origin.x = 0; // fixes the left hand edge moving
-    }
-    [super _adjustedCenteredScrollRectToVisible:aRect forceCenter:force];
-}
-
 - (void)adjustContainerInsetToScrollView {
 	SEEPlainTextEditorScrollView *enclosingScrollView = (SEEPlainTextEditorScrollView *)self.enclosingScrollView;
 	if ([enclosingScrollView isKindOfClass:[SEEPlainTextEditorScrollView class]]) {
 		NSSize currentInset = [self textContainerInset];
 		CGFloat height = (enclosingScrollView.topOverlayHeight + enclosingScrollView.bottomOverlayHeight) / 2.0;
-		height = height + VERTICAL_INSET;
+		height = height + VERTICAL_INSET / 2.0;
 		if (height != currentInset.height) {
 			currentInset.height = height;
 			[self setTextContainerInset:currentInset];
@@ -885,6 +874,12 @@ static NSMenu *S_defaultMenu=nil;
 			aRect.origin.y -= enclosingScrollView.topOverlayHeight;
 		}
 	}
+
+	if (aRect.origin.x == [[self textContainer] lineFragmentPadding]) {
+        aRect.origin.x = 0; // fixes the left hand edge moving when scrolled totally to the left
+    }
+
+	
 	BOOL result = [super scrollRectToVisible:aRect];
 	return result;
 }
