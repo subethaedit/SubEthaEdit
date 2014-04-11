@@ -298,15 +298,17 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 
 		SEEWebPreviewViewController *webPreviewViewController = [[SEEWebPreviewViewController alloc] initWithPlainTextDocument:self.document];
 
+		self.webPreviewViewController = webPreviewViewController;
+		self.webPreviewSplitViewDelegate = webPreviewSplitDelegate;
+		self.webPreviewSplitView = webPreviewSplitView;
+		
 		[webPreviewSplitView addSubview:webPreviewViewController.view];
 		[webPreviewSplitView addSubview:viewRepresentedByTab];
+		[self.windowController updateWindowMinSize];
 		[webPreviewSplitView adjustSubviews];
 
 		[webPreviewViewController refreshAndEmptyCache:self];
 
-		self.webPreviewViewController = webPreviewViewController;
-		self.webPreviewSplitViewDelegate = webPreviewSplitDelegate;
-		self.webPreviewSplitView = webPreviewSplitView;
 	}
 
 	[self.windowController updateWindowMinSize];
