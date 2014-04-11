@@ -13,6 +13,7 @@
 #endif
 
 #import "SEEParticipantViewController.h"
+#import "SEEAvatarImageView.h"
 
 #import "PlainTextEditor.h"
 #import "PlainTextWindowControllerTabContext.h"
@@ -79,19 +80,27 @@
 	[super loadView];
 
 	NSButton *userViewButton = self.userViewButtonOutlet;
-	NSRect userViewButtonFrame = userViewButton.frame;
-	NSImage *userImage = self.participant.image;
-	if (userImage) {
-		userViewButton.image = self.participant.image;
+
+	TCMMMUser *user = self.participant;
+	NSImage *userImage = user.image;
+	NSString *initials = user.initials;
+	NSColor *changeColor = [user changeColor];
+	NSColor *changeHighlightColor = [user changeHighlightColorForBackgroundColor:[NSColor whiteColor]];
+
+	NSImage *avatarImage = [NSImage imageWithSize:userViewButton.frame.size flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
+		SEEAvatarImageView *avatarView = [[SEEAvatarImageView alloc] initWithFrame:dstRect];
+		avatarView.image = userImage;
+		avatarView.initials = initials;
+		avatarView.borderColor = [NSColor colorWithCalibratedHue:changeColor.hueComponent saturation:0.85 brightness:1.0 alpha:1.0];
+		avatarView.backgroundColor = changeHighlightColor;
+		[avatarView drawRect:dstRect];
+		return YES;
+	}];
+
+	if (avatarImage) {
+		userViewButton.image = avatarImage;
 	}
-	userViewButton.layer.cornerRadius = NSHeight(userViewButtonFrame) / 2.0;
-	userViewButton.layer.borderWidth = 3.0;
-
 	
-	NSColor *changeColor = [self.participant changeColor];
-	userViewButton.layer.borderColor = // [[changeColor colorWithAlphaComponent:0.8] CGColor];
-									   [[NSColor colorWithCalibratedHue:changeColor.hueComponent saturation:0.85 brightness:1.0 alpha:1.0] CGColor];
-
 	NSTextField *nameLabel = self.nameLabelOutlet;
 	nameLabel.stringValue = self.participant.name;
 
