@@ -446,7 +446,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 		TCMMMUser *user = connectionRepresentation.user;
 		NSColor *changeColor = user.changeColor;
 
-//		avatarView.image = user.image;
+		avatarView.image = user.image;
 		avatarView.initials = user.initials;
 		avatarView.borderColor = [NSColor colorWithCalibratedHue:changeColor.hueComponent saturation:0.85 brightness:1.0 alpha:1.0];
 		avatarView.backgroundColor = [user changeHighlightColorForBackgroundColor:[NSColor whiteColor]];
