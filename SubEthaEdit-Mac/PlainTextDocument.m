@@ -5828,15 +5828,13 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         I_flags.isRemotelyEditingTextStorage=NO;
     } else if ([[aOperation operationID] isEqualToString:[SelectionOperation operationID]]){
         NSArray *editors=[self plainTextEditors];
-        BOOL isNonConti = [[[[editors lastObject] textView] layoutManager] respondsToSelector:@selector(setAllowsNonContiguousLayout:)];
-        if (isNonConti) {
-            [editors makeObjectsPerformSelector:@selector(storePosition) withObject:nil];
-        }
+
+		[editors makeObjectsPerformSelector:@selector(storePosition) withObject:nil];
+
         [self changeSelectionOfUserWithID:[aOperation userID]
               toRange:[(SelectionOperation *)aOperation selectedRange]];
-        if (isNonConti) {
-            [editors makeObjectsPerformSelector:@selector(restorePositionAfterOperation:) withObject:aOperation];
-        }
+
+		[editors makeObjectsPerformSelector:@selector(restorePositionAfterOperation:) withObject:aOperation];
     }
     return YES;
 }

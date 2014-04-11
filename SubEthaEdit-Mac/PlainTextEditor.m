@@ -796,15 +796,11 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
 - (void)TCM_updateNumberOfActiveParticipants {
     NSLayoutManager *layoutManager = [I_textView layoutManager];
-    if ([layoutManager respondsToSelector:@selector(setAllowsNonContiguousLayout:)])
-    {
-		NSUInteger participantCount = [[[self document] session] participantCount];
-		self.numberOfActiveParticipants = @(participantCount);
-		self.showsNumberOfActiveParticipants = participantCount > 1;
-		
-        ((void (
-		  *)(id, SEL, BOOL))objc_msgSend)(layoutManager, @selector(setAllowsNonContiguousLayout:), (participantCount == 1));
-    }
+	NSUInteger participantCount = [[[self document] session] participantCount];
+	self.numberOfActiveParticipants = @(participantCount);
+	self.showsNumberOfActiveParticipants = participantCount > 1;
+	
+	[layoutManager setAllowsNonContiguousLayout:(participantCount == 1)];
 }
 
 - (void)TCM_updateBottomStatusBar {
