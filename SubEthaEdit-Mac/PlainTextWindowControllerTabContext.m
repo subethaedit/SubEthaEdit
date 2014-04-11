@@ -286,7 +286,7 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 	} else if (self.hasWebPreviewSplit && self.webPreviewSplitView == nil) {
 		[viewRepresentedByTab removeFromSuperview];
 
-		NSSplitView *webPreviewSplitView = [[NSSplitView alloc] initWithFrame:viewRepresentedByTab.frame];
+		NSSplitView *webPreviewSplitView = [[SEESplitView alloc] initWithFrame:viewRepresentedByTab.frame];
 		SEEWebPreviewSplitViewDelegate* webPreviewSplitDelegate = [[SEEWebPreviewSplitViewDelegate alloc] initWithTabContext:self];
 		webPreviewSplitView.identifier = @"WebPreviewSplit";
 		webPreviewSplitView.dividerStyle = NSSplitViewDividerStyleThin;
