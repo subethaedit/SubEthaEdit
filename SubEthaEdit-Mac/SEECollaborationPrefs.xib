@@ -180,7 +180,7 @@
                                 <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2x1-fu-rEk">
                                     <rect key="frame" x="100" y="35" width="210" height="20"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="1" tickMarkPosition="above" numberOfTickMarks="8" sliderType="linear" id="fke-Uy-1L0"/>
+                                    <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="1" tickMarkPosition="above" numberOfTickMarks="9" sliderType="linear" id="fke-Uy-1L0"/>
                                     <connections>
                                         <action selector="updateChangesColor:" target="-2" id="Uaa-a9-ka5"/>
                                         <binding destination="gZV-Yj-UC8" name="value" keyPath="values.MyColorHue" id="ngK-Hg-Kag"/>
