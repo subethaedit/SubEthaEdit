@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5053"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="SEECollaborationPreferenceModule">
@@ -19,9 +19,6 @@
                 <outlet property="O_mappingStatusTextField" destination="x0F-16-awU" id="Cdw-CZ-r92"/>
                 <outlet property="O_nameTextField" destination="GvU-me-qXy" id="d0T-ic-2Fb"/>
                 <outlet property="O_pictureImageView" destination="SxQ-dS-7cp" id="PFY-4F-Cal"/>
-                <outlet property="O_selectionDarkColorWell" destination="P70-NP-39d" id="ePY-y6-bcM"/>
-                <outlet property="O_selectionLightColorWell" destination="1og-fq-kEO" id="xex-ip-zBR"/>
-                <outlet property="O_selectionSaturationSlider" destination="ZP4-Xe-JPF" id="iRQ-bZ-xH6"/>
                 <outlet property="O_window" destination="QvC-M9-y7g" id="Dgz-nd-xe2"/>
             </connections>
         </customObject>
@@ -205,28 +202,6 @@
                                         <binding destination="gZV-Yj-UC8" name="value" keyPath="values.MyChangesSaturation" id="xh3-F7-ZwP"/>
                                     </connections>
                                 </slider>
-                                <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3q2-C9-g6T">
-                                    <rect key="frame" x="14" y="41" width="99" height="15"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" id="wSe-Vf-7DM">
-                                        <font key="font" metaFont="smallSystem"/>
-                                        <string key="title">Selection/Cursor
-</string>
-                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                </textField>
-                                <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZP4-Xe-JPF">
-                                    <rect key="frame" x="192" y="40" width="104" height="20"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" minValue="5" maxValue="100" doubleValue="5" tickMarkPosition="above" numberOfTickMarks="2" sliderType="linear" id="0q9-HD-I85">
-                                        <font key="font" size="12" name="Helvetica-Oblique"/>
-                                    </sliderCell>
-                                    <connections>
-                                        <action selector="postGeneralViewPreferencesDidChangeNotificiation:" target="-2" id="9eE-oQ-J4P"/>
-                                        <binding destination="gZV-Yj-UC8" name="value" keyPath="values.MySelectionSaturation" id="zkG-0R-4Fb"/>
-                                    </connections>
-                                </slider>
                                 <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="r9J-1d-VnU">
                                     <rect key="frame" x="14" y="80" width="96" height="14"/>
                                     <autoresizingMask key="autoresizingMask"/>
@@ -238,19 +213,6 @@
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
-                                <colorWell toolTip="Selection color for bright background" fixedFrame="YES" enabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1og-fq-kEO">
-                                    <rect key="frame" x="123" y="37" width="29" height="22"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    <connections>
-                                        <binding destination="gZV-Yj-UC8" name="value" keyPath="values.MySelectionSaturation" id="8N4-vn-KqU">
-                                            <dictionary key="options">
-                                                <bool key="NSConditionallySetsEnabled" value="NO"/>
-                                                <string key="NSValueTransformerName">SaturationToWhiteColor</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
-                                </colorWell>
                                 <colorWell toolTip="Change color for bright background" fixedFrame="YES" enabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L8U-3j-uBc">
                                     <rect key="frame" x="123" y="13" width="29" height="22"/>
                                     <autoresizingMask key="autoresizingMask"/>
@@ -310,19 +272,6 @@
                                         <action selector="changeMyColor:" target="-2" id="6VR-jP-0zY"/>
                                     </connections>
                                 </popUpButton>
-                                <colorWell toolTip="Selection color for dark background" fixedFrame="YES" enabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P70-NP-39d">
-                                    <rect key="frame" x="150" y="37" width="29" height="22"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    <connections>
-                                        <binding destination="gZV-Yj-UC8" name="value" keyPath="values.MySelectionSaturation" id="KRU-KK-SVs">
-                                            <dictionary key="options">
-                                                <bool key="NSConditionallySetsEnabled" value="NO"/>
-                                                <string key="NSValueTransformerName">SaturationToBlackColor</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
-                                </colorWell>
                                 <colorWell toolTip="Change color for dark backgrounds" fixedFrame="YES" enabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ck3-8E-UMv">
                                     <rect key="frame" x="150" y="13" width="29" height="22"/>
                                     <autoresizingMask key="autoresizingMask"/>

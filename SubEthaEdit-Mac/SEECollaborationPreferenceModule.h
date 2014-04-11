@@ -27,10 +27,7 @@
 // colors
 @property (nonatomic, strong) IBOutlet NSPopUpButton *O_colorsPopUpButton;
 
-@property (nonatomic, strong) IBOutlet NSSlider *O_selectionSaturationSlider;
 @property (nonatomic, strong) IBOutlet NSSlider *O_changeSaturationSlider;
-@property (nonatomic, strong) IBOutlet NSColorWell *O_selectionLightColorWell;
-@property (nonatomic, strong) IBOutlet NSColorWell *O_selectionDarkColorWell;
 @property (nonatomic, strong) IBOutlet NSColorWell *O_changesLightColorWell;
 @property (nonatomic, strong) IBOutlet NSColorWell *O_changesDarkColorWell;
 
