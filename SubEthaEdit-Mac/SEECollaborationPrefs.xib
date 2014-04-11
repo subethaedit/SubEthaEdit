@@ -9,7 +9,6 @@
                 <outlet property="O_automaticallyMapPortButton" destination="m4c-SU-LMl" id="vMs-rk-7Wg"/>
                 <outlet property="O_changesDarkColorWell" destination="QI8-gO-VaQ" id="cCj-3j-8ad"/>
                 <outlet property="O_changesLightColorWell" destination="090-YE-BE6" id="vS6-BT-ksI"/>
-                <outlet property="O_colorsPopUpButton" destination="3Ob-Xd-MSc" id="dKz-km-kZZ"/>
                 <outlet property="O_emailComboBox" destination="6OE-fu-gsc" id="vAU-US-Z0p"/>
                 <outlet property="O_higlightChangesButton" destination="rdZ-is-71R" id="N4H-w5-bXl"/>
                 <outlet property="O_localPortTextField" destination="wdw-7c-J1b" id="tri-J4-7Po"/>
@@ -257,22 +256,6 @@
                                         </binding>
                                     </connections>
                                 </colorWell>
-                                <popUpButton toolTip="Color to mark your changes." verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3Ob-Xd-MSc">
-                                    <rect key="frame" x="127" y="58" width="179" height="22"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <popUpButtonCell key="cell" type="push" title="Item1" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="2lW-mY-uOO" id="ymL-eV-hsC">
-                                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                        <font key="font" metaFont="smallSystem"/>
-                                        <menu key="menu" title="OtherViews" id="nax-AJ-LjZ">
-                                            <items>
-                                                <menuItem title="Item1" state="on" id="2lW-mY-uOO"/>
-                                            </items>
-                                        </menu>
-                                    </popUpButtonCell>
-                                    <connections>
-                                        <action selector="changeMyColor:" target="-2" id="Ey1-IM-Qco"/>
-                                    </connections>
-                                </popUpButton>
                             </subviews>
                         </view>
                         <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>

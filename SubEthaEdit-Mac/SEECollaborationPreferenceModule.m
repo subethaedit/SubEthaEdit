@@ -48,7 +48,6 @@
     // Initialize user interface elements to reflect current preference settings
 
 	[self TCM_setupComboBoxes];
-    [self TCM_setupColorPopUp];
 	
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
     
@@ -108,41 +107,6 @@
 			[self.O_emailComboBox addItemWithObjectValue:email];
 		}
 	}
-}
-
-- (void)TCM_setupColorPopUp {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	
-    NSArray *colorNames=[NSArray arrayWithObjects:@"ColorRed",@"ColorOrange",@"ColorYellow",@"ColorGreen",@"ColorTeal",@"ColorBlue",@"ColorPurple",@"ColorPink",nil];
-    int colorHues[]={0,3300/360,6600/360,10900/360,18000/360,22800/360,26400/360,31700/360};
-    
-    [self.O_colorsPopUpButton removeAllItems];
-    
-    int i;
-    for (i=0;i<(int)[colorNames count];i++) {
-        // (void)NSLocalizedString(@"ColorRed", @"Red");
-        // (void)NSLocalizedString(@"ColorOrange", @"Orange");
-        // (void)NSLocalizedString(@"ColorYellow", @"Yellow");
-        // (void)NSLocalizedString(@"ColorGreen", @"Green");
-        // (void)NSLocalizedString(@"ColorTeal", @"Teal");
-        // (void)NSLocalizedString(@"ColorBlue", @"Blue");
-        // (void)NSLocalizedString(@"ColorPurple", @"Purple");
-        // (void)NSLocalizedString(@"ColorPink", @"Pink");
-        // (void)NSLocalizedString(@"ColorCustom", @"Custom Color Name");
-        [self.O_colorsPopUpButton addItemWithTitle:NSLocalizedString([colorNames objectAtIndex:i],@"<do not localize>")];
-        NSMenuItem *item=[self.O_colorsPopUpButton lastItem];
-        [item setImage:[self TCM_menuImageWithColor:[NSColor colorWithCalibratedHue:colorHues[i]/100.
-																		 saturation:1. brightness:1. alpha:1.]]];
-        [item setTag:colorHues[i]];
-    }
-    [[self.O_colorsPopUpButton menu] addItem:[NSMenuItem separatorItem]];
-    [self.O_colorsPopUpButton addItemWithTitle:NSLocalizedString(@"ColorCustom",@"Custom Color Name")];
-	
-    NSValueTransformer *hueTrans=[NSValueTransformer valueTransformerForName:@"HueToColor"];
-    [[self.O_colorsPopUpButton lastItem]
-	 setImage: [self TCM_menuImageWithColor:[hueTrans transformedValue:[defaults objectForKey:CustomMyColorHuePreferenceKey]]]];
-    [[self.O_colorsPopUpButton lastItem] setTag:-1];
-    [self.O_colorsPopUpButton selectItemAtIndex:[defaults integerForKey:SelectedMyColorPreferenceKey]];
 }
 
 - (void)TCM_updateWells {
@@ -295,56 +259,6 @@
 	
     [self TCM_updateWells];
 	[self postGeneralViewPreferencesDidChangeNotificiation:self];
-}
-
-
- - (IBAction)changeMyColor:(id)aSender {
-    NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
-    int tag=[[self.O_colorsPopUpButton selectedItem] tag];
-    NSValueTransformer *hueTrans=[NSValueTransformer valueTransformerForName:@"HueToColor"];
-    
-    [defaults setObject:[NSNumber numberWithInt:[self.O_colorsPopUpButton indexOfSelectedItem]]
-                 forKey:SelectedMyColorPreferenceKey];
-	
-    if (tag==-1) {
-        [NSColorPanel setPickerMode:NSHSBModeColorPanel];
-        NSColorPanel *panel=[NSColorPanel sharedColorPanel];
-        [panel setAction:@selector(changeMyCustomColor:)];
-        [panel setTarget:self];
-        [panel setShowsAlpha:NO];
-        [panel orderFront:self];
-        [panel setColor:[hueTrans transformedValue:[defaults objectForKey:CustomMyColorHuePreferenceKey]]];
-        tag=(int)([[defaults objectForKey:CustomMyColorHuePreferenceKey] floatValue]);
-    } else {
-        [[NSColorPanel sharedColorPanel] orderOut:self];
-    }
-	
-    NSNumber *value=[NSNumber numberWithFloat:(float)tag];
-    [defaults setObject:value
-                 forKey:MyColorHuePreferenceKey];
-	
-    [[TCMMMUserManager me] setUserHue:value];
-    [TCMMMUserManager didChangeMe];
-	
-    [self TCM_updateWells];
-}
-
-// called via selector
-- (IBAction)changeMyCustomColor:(id)aSender {
-    NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
-    NSValueTransformer *hueTrans=[NSValueTransformer valueTransformerForName:@"HueToColor"];
-    NSNumber *hue = (NSNumber *)[hueTrans reverseTransformedValue:[aSender color]];
-    [[self.O_colorsPopUpButton lastItem]
-	 setImage: [self TCM_menuImageWithColor:[hueTrans transformedValue:hue]]];
-	
-    [defaults setObject:hue
-                 forKey:MyColorHuePreferenceKey];
-    [defaults setObject:hue
-                 forKey:CustomMyColorHuePreferenceKey];
-    [[TCMMMUserManager me] setUserHue:hue];
-    [TCMMMUserManager didChangeMe];
-	
-    [self TCM_updateWells];
 }
 
 #pragma mark - View Update Notification

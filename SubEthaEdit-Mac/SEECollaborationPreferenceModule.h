@@ -25,8 +25,6 @@
 @property (nonatomic, strong) IBOutlet NSComboBox  *O_emailComboBox;
 
 // colors
-@property (nonatomic, strong) IBOutlet NSPopUpButton *O_colorsPopUpButton;
-
 @property (nonatomic, strong) IBOutlet NSColorWell *O_changesLightColorWell;
 @property (nonatomic, strong) IBOutlet NSColorWell *O_changesDarkColorWell;
 
@@ -59,7 +57,6 @@
 - (IBAction)changeEmail:(id)aSender;
 
 - (IBAction)postGeneralViewPreferencesDidChangeNotificiation:(id)aSender;
-- (IBAction)changeMyColor:(id)aSender;
 - (IBAction)updateChangesColor:(id)sender;
 
 @end
