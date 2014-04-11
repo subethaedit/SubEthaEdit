@@ -506,6 +506,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     [O_scrollView setDocumentView:I_textView];
     [[O_scrollView verticalRulerView] setClientView:I_textView];
     [[O_scrollView contentView] setPostsBoundsChangedNotifications:YES];
+	[I_textView setFrameOrigin:CGPointZero];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(contentViewBoundsDidChange:) name:NSViewBoundsDidChangeNotification object:[O_scrollView contentView]];
 
     [layoutManager release];
