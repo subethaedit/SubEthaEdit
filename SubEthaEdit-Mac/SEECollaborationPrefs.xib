@@ -7,12 +7,11 @@
         <customObject id="-2" userLabel="File's Owner" customClass="SEECollaborationPreferenceModule">
             <connections>
                 <outlet property="O_automaticallyMapPortButton" destination="m4c-SU-LMl" id="vMs-rk-7Wg"/>
-                <outlet property="O_changeSaturationSlider" destination="6wL-b7-p3Z" id="hdg-mU-8YO"/>
-                <outlet property="O_changesDarkColorWell" destination="ck3-8E-UMv" id="eoW-Nt-T9q"/>
-                <outlet property="O_changesLightColorWell" destination="L8U-3j-uBc" id="70b-08-fnh"/>
-                <outlet property="O_colorsPopUpButton" destination="Jcx-pL-Jd8" id="nlQ-0Q-Zc6"/>
+                <outlet property="O_changesDarkColorWell" destination="QI8-gO-VaQ" id="cCj-3j-8ad"/>
+                <outlet property="O_changesLightColorWell" destination="090-YE-BE6" id="vS6-BT-ksI"/>
+                <outlet property="O_colorsPopUpButton" destination="3Ob-Xd-MSc" id="dKz-km-kZZ"/>
                 <outlet property="O_emailComboBox" destination="6OE-fu-gsc" id="vAU-US-Z0p"/>
-                <outlet property="O_higlightChangesButton" destination="nOb-90-Fka" id="IMF-U7-17H"/>
+                <outlet property="O_higlightChangesButton" destination="rdZ-is-71R" id="N4H-w5-bXl"/>
                 <outlet property="O_localPortTextField" destination="wdw-7c-J1b" id="tri-J4-7Po"/>
                 <outlet property="O_mappingStatusImageView" destination="rZx-RU-Vll" id="hY7-im-XmL"/>
                 <outlet property="O_mappingStatusProgressIndicator" destination="nnU-Es-Xyy" id="YRA-dh-jRj"/>
@@ -27,10 +26,10 @@
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="196" y="240" width="366" height="421"/>
+            <rect key="contentRect" x="196" y="240" width="366" height="279"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1418"/>
             <view key="contentView" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="366" height="421"/>
+                <rect key="frame" x="0.0" y="0.0" width="366" height="279"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <box fixedFrame="YES" title="&lt;Network>" translatesAutoresizingMaskIntoConstraints="NO" id="89L-Pf-aYg">
@@ -114,14 +113,14 @@
                         </connections>
                     </box>
                     <box autoresizesSubviews="NO" fixedFrame="YES" title="Me" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="Kyz-WE-BxL">
-                        <rect key="frame" x="17" y="239" width="332" height="164"/>
+                        <rect key="frame" x="17" y="112" width="332" height="149"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <view key="contentView">
-                            <rect key="frame" x="2" y="2" width="328" height="160"/>
+                            <rect key="frame" x="2" y="2" width="328" height="145"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <imageView toolTip="You can change this picture in Addressbook's &quot;me&quot; card." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SxQ-dS-7cp" customClass="PCRolloverImageView">
-                                    <rect key="frame" x="17" y="82" width="70" height="70"/>
+                                    <rect key="frame" x="17" y="67" width="70" height="70"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <imageCell key="cell" selectable="YES" editable="YES" alignment="left" imageScaling="proportionallyDown" imageFrameStyle="grayBezel" id="X5o-SB-RSu"/>
                                     <connections>
@@ -130,7 +129,7 @@
                                     </connections>
                                 </imageView>
                                 <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TdZ-Bk-aby">
-                                    <rect key="frame" x="84" y="122" width="46" height="13"/>
+                                    <rect key="frame" x="84" y="107" width="46" height="13"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="&lt;Name:" id="4cf-DK-JsN">
                                         <font key="font" metaFont="label"/>
@@ -142,7 +141,7 @@
                                     </connections>
                                 </textField>
                                 <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XAP-bo-7fM">
-                                    <rect key="frame" x="84" y="96" width="46" height="13"/>
+                                    <rect key="frame" x="84" y="81" width="46" height="13"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="&lt;Email:" id="AHf-a7-KTR">
                                         <font key="font" metaFont="label"/>
@@ -154,7 +153,7 @@
                                     </connections>
                                 </textField>
                                 <comboBox verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6OE-fu-gsc">
-                                    <rect key="frame" x="135" y="92" width="176" height="22"/>
+                                    <rect key="frame" x="135" y="77" width="176" height="22"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <comboBoxCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" alignment="left" drawsBackground="YES" numberOfVisibleItems="5" id="wK3-BC-V7C">
                                         <font key="font" metaFont="smallSystem"/>
@@ -167,7 +166,7 @@
                                     </connections>
                                 </comboBox>
                                 <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GvU-me-qXy">
-                                    <rect key="frame" x="135" y="121" width="173" height="19"/>
+                                    <rect key="frame" x="135" y="106" width="173" height="19"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="yrB-Pr-Mfe">
                                         <font key="font" metaFont="smallSystem"/>
@@ -179,87 +178,88 @@
                                         <outlet property="nextKeyView" destination="6OE-fu-gsc" id="3C5-zA-hwq"/>
                                     </connections>
                                 </textField>
-                            </subviews>
-                        </view>
-                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    </box>
-                    <box autoresizesSubviews="NO" fixedFrame="YES" title="Color" translatesAutoresizingMaskIntoConstraints="NO" id="lxs-V1-ooQ">
-                        <rect key="frame" x="17" y="112" width="333" height="123"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <view key="contentView">
-                            <rect key="frame" x="2" y="2" width="329" height="106"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <subviews>
-                                <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6wL-b7-p3Z">
-                                    <rect key="frame" x="192" y="16" width="104" height="20"/>
+                                <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="n2A-ha-JDK">
+                                    <rect key="frame" x="166" y="14" width="142" height="20"/>
                                     <autoresizingMask key="autoresizingMask"/>
-                                    <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" minValue="5" maxValue="100" doubleValue="50" tickMarkPosition="above" numberOfTickMarks="2" sliderType="linear" id="DSe-Bo-O6J">
+                                    <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" minValue="5" maxValue="100" doubleValue="50" tickMarkPosition="above" numberOfTickMarks="2" sliderType="linear" id="Mxp-NB-onf">
                                         <font key="font" size="12" name="Helvetica-Oblique"/>
                                     </sliderCell>
                                     <connections>
-                                        <action selector="postGeneralViewPreferencesDidChangeNotificiation:" target="-2" id="qFZ-eg-7Eq"/>
-                                        <binding destination="gZV-Yj-UC8" name="value" keyPath="values.MyChangesSaturation" id="xh3-F7-ZwP"/>
+                                        <action selector="postGeneralViewPreferencesDidChangeNotificiation:" target="-2" id="As3-bG-cjM"/>
+                                        <binding destination="gZV-Yj-UC8" name="value" keyPath="values.MyChangesSaturation" id="pB2-fz-N0L"/>
                                     </connections>
                                 </slider>
-                                <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="r9J-1d-VnU">
-                                    <rect key="frame" x="14" y="80" width="96" height="14"/>
+                                <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8Yk-3A-fWE">
+                                    <rect key="frame" x="84" y="47" width="46" height="14"/>
                                     <autoresizingMask key="autoresizingMask"/>
-                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" id="dsA-hy-O0G">
-                                        <font key="font" metaFont="smallSystem"/>
-                                        <string key="title">Own color:
-</string>
+                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="&lt;Color: " id="YaT-gk-22T">
+                                        <font key="font" metaFont="label"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
-                                <colorWell toolTip="Change color for bright background" fixedFrame="YES" enabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L8U-3j-uBc">
-                                    <rect key="frame" x="123" y="13" width="29" height="22"/>
+                                <colorWell toolTip="Change color for bright background" fixedFrame="YES" enabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="090-YE-BE6">
+                                    <rect key="frame" x="28" y="12" width="29" height="22"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <connections>
-                                        <binding destination="gZV-Yj-UC8" name="value" keyPath="values.MyChangesSaturation" id="kdY-9t-lcr">
+                                        <binding destination="gZV-Yj-UC8" name="value" keyPath="values.MyChangesSaturation" id="cE1-Yd-4Ug">
                                             <dictionary key="options">
+                                                <bool key="NSConditionallySetsEnabled" value="NO"/>
                                                 <string key="NSValueTransformerName">SaturationToWhiteColor</string>
                                             </dictionary>
                                         </binding>
                                     </connections>
                                 </colorWell>
-                                <button toolTip="Color the background of your changes." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nOb-90-Fka">
-                                    <rect key="frame" x="13" y="14" width="100" height="18"/>
+                                <button toolTip="Color the background of your changes." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rdZ-is-71R">
+                                    <rect key="frame" x="83" y="15" width="77" height="18"/>
                                     <autoresizingMask key="autoresizingMask"/>
-                                    <buttonCell key="cell" type="check" title="Changes" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="otP-Tp-bRo">
+                                    <buttonCell key="cell" type="check" title="&lt;Changes" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="y8N-Pw-iAx">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                         <font key="font" metaFont="smallSystem"/>
                                     </buttonCell>
                                     <connections>
-                                        <binding destination="gZV-Yj-UC8" name="value" keyPath="values.HighlightChanges" id="C94-1n-XqD"/>
+                                        <binding destination="gZV-Yj-UC8" name="value" keyPath="values.HighlightChanges" id="YRg-DW-mFe"/>
                                     </connections>
                                 </button>
-                                <popUpButton toolTip="Color to mark your changes." verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jcx-pL-Jd8">
-                                    <rect key="frame" x="78" y="75" width="124" height="22"/>
+                                <popUpButton toolTip="Color to mark your changes." verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3Ob-Xd-MSc">
+                                    <rect key="frame" x="132" y="42" width="179" height="22"/>
                                     <autoresizingMask key="autoresizingMask"/>
-                                    <popUpButtonCell key="cell" type="push" title="Item1" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="TlG-Md-mhQ" id="aID-Ry-pj8">
+                                    <popUpButtonCell key="cell" type="push" title="Item1" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="2lW-mY-uOO" id="ymL-eV-hsC">
                                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                         <font key="font" metaFont="smallSystem"/>
-                                        <menu key="menu" title="OtherViews" id="uzk-6I-xcO">
+                                        <menu key="menu" title="OtherViews" id="nax-AJ-LjZ">
                                             <items>
-                                                <menuItem title="Item1" state="on" id="TlG-Md-mhQ"/>
+                                                <menuItem title="Item1" state="on" id="2lW-mY-uOO"/>
                                             </items>
                                         </menu>
                                     </popUpButtonCell>
                                     <connections>
-                                        <action selector="changeMyColor:" target="-2" id="6VR-jP-0zY"/>
+                                        <action selector="changeMyColor:" target="-2" id="Ey1-IM-Qco"/>
                                     </connections>
                                 </popUpButton>
-                                <colorWell toolTip="Change color for dark backgrounds" fixedFrame="YES" enabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ck3-8E-UMv">
-                                    <rect key="frame" x="150" y="13" width="29" height="22"/>
+                                <colorWell toolTip="Change color for dark backgrounds" fixedFrame="YES" enabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QI8-gO-VaQ">
+                                    <rect key="frame" x="55" y="12" width="29" height="22"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <connections>
-                                        <binding destination="gZV-Yj-UC8" name="value" keyPath="values.MyChangesSaturation" id="wf3-GP-3ti">
+                                        <binding destination="gZV-Yj-UC8" name="value" keyPath="values.MyChangesSaturation" id="yqT-ko-9h5">
                                             <dictionary key="options">
+                                                <bool key="NSConditionallySetsEnabled" value="NO"/>
                                                 <string key="NSValueTransformerName">SaturationToBlackColor</string>
+                                            </dictionary>
+                                        </binding>
+                                    </connections>
+                                </colorWell>
+                                <colorWell toolTip="Change color for dark backgrounds" fixedFrame="YES" enabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NdT-Rs-Z5x">
+                                    <rect key="frame" x="55" y="43" width="29" height="22"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <connections>
+                                        <binding destination="gZV-Yj-UC8" name="value" keyPath="values.MyColorHue" id="r1M-0d-5Wd">
+                                            <dictionary key="options">
+                                                <bool key="NSConditionallySetsEnabled" value="NO"/>
+                                                <string key="NSValueTransformerName">HueToColorValueTransformer</string>
                                             </dictionary>
                                         </binding>
                                     </connections>

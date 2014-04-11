@@ -317,6 +317,24 @@
     [self TCM_updateWells];
 }
 
+// called via selector
+- (IBAction)changeMyCustomColor:(id)aSender {
+    NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+    NSValueTransformer *hueTrans=[NSValueTransformer valueTransformerForName:@"HueToColor"];
+    NSNumber *hue = (NSNumber *)[hueTrans reverseTransformedValue:[aSender color]];
+    [[self.O_colorsPopUpButton lastItem]
+	 setImage: [self TCM_menuImageWithColor:[hueTrans transformedValue:hue]]];
+	
+    [defaults setObject:hue
+                 forKey:MyColorHuePreferenceKey];
+    [defaults setObject:hue
+                 forKey:CustomMyColorHuePreferenceKey];
+    [[TCMMMUserManager me] setUserHue:hue];
+    [TCMMMUserManager didChangeMe];
+	
+    [self TCM_updateWells];
+}
+
 #pragma mark - View Update Notification
 - (void)TCM_sendGeneralViewPreferencesDidChangeNotificiation {
     [[NSNotificationQueue defaultQueue]
