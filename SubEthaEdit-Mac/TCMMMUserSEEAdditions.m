@@ -9,7 +9,9 @@
 #import "TCMMMUserSEEAdditions.h"
 #import "TCMMMUser.h"
 #import "TCMBencodingUtilities.h"
+
 #import "NSImageTCMAdditions.h"
+#import "PreferenceKeys.h"
 
 @implementation TCMMMUser (TCMMMUserSEEAdditions) 
 
@@ -25,6 +27,19 @@
         }
     }
     return changeColor;
+}
+
+- (NSColor *)changeHighlightColorForBackgroundColor:(NSColor *)backgroundColor
+{
+	NSColor *changeColor = self.changeColor;
+	NSColor *highlightColor = changeColor;
+	if (backgroundColor) {
+		CGFloat saturation = [[NSUserDefaults standardUserDefaults] doubleForKey:ChangesSaturationPreferenceKey] / 100.0;
+		NSColor *changeColor = self.changeColor;
+
+		highlightColor = [backgroundColor blendedColorWithFraction:saturation ofColor:changeColor];
+	}
+	return highlightColor;
 }
 
 - (NSString *)vcfRepresentation {

@@ -13,6 +13,8 @@
 @interface TCMMMUser (TCMMMUserSEEAdditions) 
 
 - (NSColor *)changeColor;
+- (NSColor *)changeHighlightColorForBackgroundColor:(NSColor *)backgroundColor;
+
 - (NSString *)vcfRepresentation;
 
 #pragma mark -
