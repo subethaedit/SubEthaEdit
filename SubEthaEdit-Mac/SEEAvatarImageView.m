@@ -69,10 +69,10 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
 {
     [super drawRect:dirtyRect];
 
-	CGFloat borderWidth = 5.0;
 	NSRect bounds = self.bounds;
+	CGFloat borderWidth = NSWidth(bounds) / 20.0;
 	NSRect drawingRect = NSInsetRect(bounds, borderWidth/2.0, borderWidth/2.0);
-    
+
 	NSBezierPath *borderPath = [NSBezierPath bezierPathWithOvalInRect:drawingRect];
 	[borderPath setLineWidth:borderWidth];
 
@@ -121,16 +121,19 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
 										   NSForegroundColorAttributeName: [[NSColor whiteColor] colorWithAlphaComponent:0.8],
 										   NSShadowAttributeName: textShadow};
 
-//		NSSize textSize = [initials sizeWithAttributes:stringAttributes];
-		NSRect textBounds = [initials boundingRectWithSize:NSMakeSize(60.0, 20.0) options:0 attributes:stringAttributes];
+		NSSize textSize = [initials sizeWithAttributes:stringAttributes];
+		NSRect textBounds = [initials boundingRectWithSize:textSize options:0 attributes:stringAttributes];
+
 		NSRect textDrawingRect = NSMakeRect(NSMidX(drawingRect) - NSWidth(textBounds) / 2.0,
-											NSMidY(drawingRect) / 2.0 - NSHeight(textBounds) / 2.0,
+											NSMidY(drawingRect) - NSHeight(textBounds),
 											NSWidth(textBounds),
 											NSHeight(textBounds));
 
 		[initials drawWithRect:textDrawingRect
 					   options:0
 					attributes:stringAttributes];
+
+//		NSFrameRect(textDrawingRect);
 	}
 
 	[[NSGraphicsContext currentContext] restoreGraphicsState];
@@ -138,6 +141,7 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
 	// draw the border
 	[self.borderColor set];
 	[borderPath stroke];
+	
 }
 
 
