@@ -705,8 +705,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 
-- (NSSize)desiredSizeForColumns:(int)aColumns rows:(int)aRows
-{
+- (NSSize)desiredSizeForColumns:(int)aColumns rows:(int)aRows {
     NSSize result;
     NSFont *font = [[self document] fontWithTrait:0];
     CGFloat characterWidth = [@"n" sizeWithAttributes :[NSDictionary dictionaryWithObject:font forKey:NSFontAttributeName]].width;

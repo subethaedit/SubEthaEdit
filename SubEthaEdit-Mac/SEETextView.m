@@ -831,6 +831,52 @@ static NSMenu *S_defaultMenu=nil;
 	}];
 }
 
+- (NSRange)topLeftCharacterRange {
+    // idea: get the character index of the character in the upper left of the window, store that, and for restore apply the operation and scroll that character back to the upper left line
+    NSRect visibleRect = [self.enclosingScrollView documentVisibleRect];
+    NSPoint point = visibleRect.origin;
+	
+    point.y += 1.;
+    NSLayoutManager *layoutManager = [self layoutManager];
+    NSTextStorage *textStorage = [self textStorage];
+	
+    if ([textStorage length]) {
+        unsigned glyphIndex = [layoutManager glyphIndexForPoint:point
+												inTextContainer:[self textContainer]];
+        unsigned characterIndex = [layoutManager characterIndexForGlyphAtIndex:glyphIndex];
+		return NSMakeRange(characterIndex, 0);
+    }
+	return NSMakeRange(NSNotFound,0);
+}
+
+
+- (void)scrollCharacterRangeToTopLeft:(NSRange)aCharacterRange {
+    if (aCharacterRange.location != NSNotFound &&
+		[[self textStorage] length]) {
+        NSLayoutManager *layoutManager = [self layoutManager];
+        unsigned glyphIndex = [layoutManager glyphRangeForCharacterRange:aCharacterRange actualCharacterRange:NULL].location;
+        NSRect boundingRect  = [layoutManager lineFragmentRectForGlyphAtIndex:glyphIndex
+															   effectiveRange:nil];
+        NSRect visibleRect = [self.enclosingScrollView documentVisibleRect];
+		
+        if (visibleRect.origin.y != boundingRect.origin.y) {
+            visibleRect.origin.y = boundingRect.origin.y;
+            [self scrollRectToVisible:visibleRect];
+        }
+    }
+}
+
+
+- (void)viewDidEndLiveResize {
+	// fix top left position
+	NSRange topLeftCharacterRange = [self topLeftCharacterRange];
+	
+	[super viewDidEndLiveResize];
+	
+	// scroll back
+	[self scrollCharacterRangeToTopLeft:topLeftCharacterRange];
+}
+
 - (BOOL)scrollRectToVisible:(NSRect)aRect {
 	if (self.TCM_adjustsVisibleRectWithInsets) {
 		SEEPlainTextEditorScrollView *enclosingScrollView = (SEEPlainTextEditorScrollView *)[self enclosingScrollView];
