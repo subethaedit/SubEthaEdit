@@ -187,7 +187,7 @@
                                     </connections>
                                 </slider>
                                 <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="n2A-ha-JDK">
-                                    <rect key="frame" x="100" y="12" width="210" height="20"/>
+                                    <rect key="frame" x="148" y="12" width="162" height="20"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" minValue="5" maxValue="100" doubleValue="50" tickMarkPosition="above" numberOfTickMarks="2" sliderType="linear" id="Mxp-NB-onf">
                                         <font key="font" size="12" name="Helvetica-Oblique"/>
@@ -220,9 +220,9 @@
                                     </connections>
                                 </colorWell>
                                 <button toolTip="Color the background of your changes." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rdZ-is-71R">
-                                    <rect key="frame" x="19" y="13" width="77" height="18"/>
+                                    <rect key="frame" x="19" y="13" width="123" height="18"/>
                                     <autoresizingMask key="autoresizingMask"/>
-                                    <buttonCell key="cell" type="check" title="&lt;Changes" bezelStyle="regularSquare" imagePosition="left" alignment="right" controlSize="small" inset="2" id="y8N-Pw-iAx">
+                                    <buttonCell key="cell" type="check" title="&lt;Changes Highlight:" bezelStyle="regularSquare" imagePosition="left" alignment="right" controlSize="small" inset="2" id="y8N-Pw-iAx">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                         <font key="font" metaFont="label"/>
                                     </buttonCell>
