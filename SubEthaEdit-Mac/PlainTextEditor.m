@@ -89,7 +89,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 @interface PlainTextEditor ()
 
 @property (nonatomic, strong) IBOutlet NSView *O_editorView;
-@property (nonatomic, assign) IBOutlet SEEOverlayView *O_bottomStatusBarView;
+@property (nonatomic, strong) IBOutlet SEEOverlayView *O_bottomStatusBarView;
 @property (nonatomic, assign) IBOutlet NSButton *shareInviteUsersButtonOutlet;
 @property (nonatomic, assign) IBOutlet NSButton *shareAnnounceButtonOutlet;
 @property (nonatomic, assign) IBOutlet NSObjectController *ownerController;
@@ -219,7 +219,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
 - (void)loadViewSetupBarsAndOverlays {
 	// topbarviewcontroller
-	self.topBarViewController = [[SEEPlainTextEditorTopBarViewController alloc] initWithPlainTextEditor:self];
+	self.topBarViewController = [[[SEEPlainTextEditorTopBarViewController alloc] initWithPlainTextEditor:self] autorelease];
 	[self.topBarViewController updateColorsForIsDarkBackground:[self hasDarkBackground]];
 	[self.topBarViewController setSplitButtonVisible:NO];
 	self.topBarViewController.splitButtonVisible = I_flags.hasSplitButton;
@@ -228,7 +228,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	
 	// generate top blur layer
 	self.topBlurLayerView = ({
-		SEEOverlayView *view = [[SEEOverlayView alloc] initWithFrame:NSZeroRect];
+		SEEOverlayView *view = [[[SEEOverlayView alloc] initWithFrame:NSZeroRect] autorelease];
 		NSView *containerView = self.O_editorView;
 		view.translatesAutoresizingMaskIntoConstraints = NO;
 		[containerView addSubview:view];
@@ -271,7 +271,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	
 	// generate bottom blur layer
 	self.bottomBlurLayerView = ({
-		SEEOverlayView *view = [[SEEOverlayView alloc] initWithFrame:NSZeroRect];
+		SEEOverlayView *view = [[[SEEOverlayView alloc] initWithFrame:NSZeroRect] autorelease];
 		NSView *containerView = self.O_editorView;
 		view.translatesAutoresizingMaskIntoConstraints = NO;
 		[containerView addSubview:view];
