@@ -1061,6 +1061,9 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     [self invalidateRestorableState];
 
     NSScreen *screen = [[NSScreen screens] objectAtIndex:0];
+	if ([NSScreen screensHaveSeparateSpaces]) {
+		screen = [NSScreen mainScreen];
+	}
     NSRect screenFrame = [screen frame];
 
     NSRect proposedFrame = screenFrame;
@@ -1072,8 +1075,8 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     // The center frame for each window is used during the 1st half of the fullscreen animation and is
     // the window at its original size but moved to the center of its eventual full screen frame.
     NSRect centerWindowFrame = [window frame];
-    centerWindowFrame.origin.x = NSWidth(proposedFrame)/2 - NSWidth(centerWindowFrame)/2;
-    centerWindowFrame.origin.y = NSHeight(proposedFrame)/2 - NSHeight(centerWindowFrame)/2;
+    centerWindowFrame.origin.x = NSWidth(proposedFrame)/2 - NSWidth(centerWindowFrame)/2 + NSMinX(proposedFrame);
+    centerWindowFrame.origin.y = NSHeight(proposedFrame)/2 - NSHeight(centerWindowFrame)/2 + NSMinY(proposedFrame);
 
     // Our animation will be broken into two stages.
     // First, we'll move the window to the center of the primary screen and then we'll enlarge
@@ -1134,8 +1137,8 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     // The center frame for each window is used during the 1st half of the fullscreen animation and is
     // the window at its original size but moved to the center of its eventual full screen frame.
     NSRect centerWindowFrame = self.frameForNonFullScreenMode;
-    centerWindowFrame.origin.x = window.frame.size.width/2 - self.frameForNonFullScreenMode.size.width/2;
-    centerWindowFrame.origin.y = window.frame.size.height/2 - self.frameForNonFullScreenMode.size.height/2;
+    centerWindowFrame.origin.x = NSWidth(window.frame)/2.0 - NSWidth(self.frameForNonFullScreenMode)/2.0 + NSMinX(window.frame);
+    centerWindowFrame.origin.y = NSHeight(window.frame)/2.0 - NSHeight(self.frameForNonFullScreenMode)/2.0 + NSMinY(window.frame);
 
     // Our animation will be broken into two stages.  First, we'll restore the window
     // to its original size while centering it and then we'll move it back to its initial
