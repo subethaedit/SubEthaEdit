@@ -180,7 +180,7 @@
 				NSDictionary *stringAttributes = @{NSFontAttributeName: [NSFont fontWithName:@"HelveticaNeue-Light" size:fontSize],
 												   NSForegroundColorAttributeName: [[NSColor whiteColor] colorWithAlphaComponent:0.8],
 												   NSShadowAttributeName: textShadow};
-
+				[textShadow release];
 				NSSize textSize = [initials sizeWithAttributes:stringAttributes];
 				NSRect textBounds = [initials boundingRectWithSize:textSize options:0 attributes:stringAttributes];
 

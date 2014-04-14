@@ -1072,7 +1072,7 @@ static NSString *tempFileName(NSString *origPath) {
             if ([recognizedExtensions count]) {
 				NSString *fileExtension = recognizedExtensions.firstObject;
 				NSString *fileType = (NSString *)UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (CFStringRef)fileExtension, nil);
-				self.fileType = fileType;
+				self.fileType = [fileType autorelease];
 
                 if ([I_session isServer]) {
                     [I_session setFilename:[self preparedDisplayName]];
