@@ -172,9 +172,7 @@
 		142894D4095765CF00D14688 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 142894D3095765CF00D14688 /* SystemConfiguration.framework */; };
 		142894E10957670900D14688 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */; };
 		142894EB095767CD00D14688 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 142894E8095767CD00D14688 /* main.m */; };
-		142894FF0957686C00D14688 /* see in Copy Files (Auxiliary Binaries) */ = {isa = PBXBuildFile; fileRef = 142894DE095766EE00D14688 /* see */; };
 		142895040957692100D14688 /* SymbolWarn.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 142895030957692100D14688 /* SymbolWarn.tiff */; };
-		1428955C095770FB00D14688 /* SubEthaEditHelperToolTemplate in Copy Files (Auxiliary Binaries) */ = {isa = PBXBuildFile; fileRef = 142894AA0957606F00D14688 /* SubEthaEditHelperToolTemplate */; };
 		14289572095776DE00D14688 /* see.1 in Resources */ = {isa = PBXBuildFile; fileRef = 142894E9095767CD00D14688 /* see.1 */; };
 		1428F4B40BDE3B8A00411CA6 /* DebugSendOperationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428F4B20BDE3B8A00411CA6 /* DebugSendOperationController.m */; };
 		142D18B50BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142D18B30BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.m */; };
@@ -555,18 +553,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		142894C30957614300D14688 /* Copy Files (Auxiliary Binaries) */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 6;
-			files = (
-				1428955C095770FB00D14688 /* SubEthaEditHelperToolTemplate in Copy Files (Auxiliary Binaries) */,
-				142894FF0957686C00D14688 /* see in Copy Files (Auxiliary Binaries) */,
-			);
-			name = "Copy Files (Auxiliary Binaries)";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		149EC6970958726E002BDC41 /* Copy Files (Frameworks) */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2616,7 +2602,6 @@
 				8D15AC330486D014006FF6A4 /* Frameworks */,
 				149EC6970958726E002BDC41 /* Copy Files (Frameworks) */,
 				F298A0040CCB9EFC00C4DB8B /* Copy Importers */,
-				142894C30957614300D14688 /* Copy Files (Auxiliary Binaries) */,
 				142898130958165400D14688 /* Run Script (Deployment) */,
 				4CF06A311816B1FB00B35DF8 /* Codesign ThirdParty */,
 			);
