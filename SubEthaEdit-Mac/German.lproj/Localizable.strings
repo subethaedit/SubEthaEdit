@@ -250,6 +250,9 @@
 /* Label displayed below edit icon and used as window title. */
 "EditPrefsIconLabel" = "Editor";
 
+/* Label displayed below collaboration icon and used as window title. */
+"CollaborationPrefsIconLabel" = "Kollaboration";
+
 /* No comment provided by engineer. */
 "Encoding %@ not reinterpretable" = "Diese Datei kann nicht mit der Kodierung %@ neu interpretiert werden.";
 
@@ -966,3 +969,25 @@
 "ScopedBookmarkAllowFileMessageUnknownFileName" = "Daten";
 
 
+/* Collaboration Preference Pane */
+/* Collaboration Preferences - Label for the network box */
+"COLLAB_NETWORK_LABEL" = "Netzwerk";
+/* Collaboration Preferences - Label for the local port */
+"COLLAB_LOCAL_PORT_LABEL" = "Lokaler Port:";
+/* Collaboration Preferences - Label for the automatically map port toggle */
+"COLLAB_AUTOMATICALLY_MAP_PORT_LABEL" = "Port automatisch weiterleiten";
+/* Collaboration Preferences - Label with additional description for the automatically map port toggle */
+"COLLAB_AUTOMATICALLY_MAP_PORT_DESCRIPTION" = "Die Port Weiterleitung bentutzt NAT-PMP oder UPnP";
+/* Collaboration Preferences - tool tip for the automatically map port toggle */
+"COLLAB_AUTOMATICALLY_MAP_PORT_TOOL_TIP" = "SubEthaEdit versucht automatisch den lokalen Port weiterzuleiten falls Sie sich hinter einem NAT befinden. Damit das funktioniert müssen Sie UPnP oder NAT-PMP auf Ihrem Router aktivieren.";
+
+/* Collaboration Preferences - Label for the user name text field */
+"COLLAB_USER_NAME_LABEL" = "Name:";
+/* Collaboration Preferences - Label for the user email text field */
+"COLLAB_USER_EMAIL_LABEL" = "E-Mail:";
+/* Collaboration Preferences - Image Menu - Use Image from Address Book option */
+"COLLAB_USER_IMAGE_AB" = "Mein Bild aus dem Adressbuch";
+/* Collaboration Preferences - Image Menu - Choose Image option */
+"COLLAB_USER_IMAGE_CHOOSE" = "Bild auswählen…";
+/* Collaboration Preferences - Image Menu - Clear Image option */
+"COLLAB_USER_IMAGE_CLEAR" = "Bild entfernen";

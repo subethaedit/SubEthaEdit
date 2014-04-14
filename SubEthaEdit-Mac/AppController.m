@@ -30,6 +30,7 @@
 #import "GeneralPreferences.h"
 #import "StylePreferences.h"
 #import "PrecedencePreferences.h"
+#import "SEECollaborationPreferenceModule.h"
 
 #import "HandshakeProfile.h"
 #import "SessionProfile.h"
@@ -453,6 +454,10 @@ static AppController *sharedInstance = nil;
     [TCMPreferenceController registerPrefModule:generalPrefs];
     EditPreferences *editPrefs = [[EditPreferences new] autorelease];
     [TCMPreferenceController registerPrefModule:editPrefs];
+
+	 SEECollaborationPreferenceModule *collabPrefs = [[SEECollaborationPreferenceModule new] autorelease];
+	 [TCMPreferenceController registerPrefModule:collabPrefs];
+	
     [TCMPreferenceController registerPrefModule:[[StylePreferences new] autorelease]];
     [TCMPreferenceController registerPrefModule:[[PrecedencePreferences new] autorelease]];
     [TCMPreferenceController registerPrefModule:[[AdvancedPreferences new] autorelease]];

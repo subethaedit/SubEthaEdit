@@ -202,6 +202,9 @@
 		319AAE3E0CB0165A00ACDAB4 /* Precedence_RemovePressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 319AAE1C0CB015B300ACDAB4 /* Precedence_RemovePressed.png */; };
 		31D2C7000CA7C9C8003CC5C9 /* PrecedenceRuleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D2C6E50CA7C7A7003CC5C9 /* PrecedenceRuleCell.m */; };
 		31FFC93D104E97A000E08256 /* NSErrorTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FFC93C104E97A000E08256 /* NSErrorTCMAdditions.m */; };
+		423B23D018F63DDE001E2DCC /* SEECollaborationPreferenceModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 423B23CF18F63DDE001E2DCC /* SEECollaborationPreferenceModule.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		423B23D318F63FB2001E2DCC /* PrefIconCollaboration.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 423B23D218F63FB2001E2DCC /* PrefIconCollaboration.tiff */; };
+		423B23D518F64065001E2DCC /* SEECollaborationPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 423B23D418F64065001E2DCC /* SEECollaborationPrefs.xib */; };
 		424CA988189058C000B2D333 /* SymbolMark.png in Resources */ = {isa = PBXBuildFile; fileRef = 424CA987189058C000B2D333 /* SymbolMark.png */; };
 		4C0B4C6118C8B3E300048335 /* SEEToggleRecentDocumentListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0B4C6018C8B3E300048335 /* SEEToggleRecentDocumentListItem.m */; };
 		4C0C4A0118B366EC00E6049E /* PlainTextWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0C4A0018B366EC00E6049E /* PlainTextWindow.xib */; };
@@ -926,6 +929,10 @@
 		31FFC93B104E97A000E08256 /* NSErrorTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NSErrorTCMAdditions.h; sourceTree = "<group>"; };
 		31FFC93C104E97A000E08256 /* NSErrorTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSErrorTCMAdditions.m; sourceTree = "<group>"; };
 		32DBCF750370BD2300C91783 /* SubEthaEdit_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubEthaEdit_Prefix.pch; sourceTree = "<group>"; };
+		423B23CE18F63DDE001E2DCC /* SEECollaborationPreferenceModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEECollaborationPreferenceModule.h; sourceTree = "<group>"; };
+		423B23CF18F63DDE001E2DCC /* SEECollaborationPreferenceModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEECollaborationPreferenceModule.m; sourceTree = "<group>"; };
+		423B23D218F63FB2001E2DCC /* PrefIconCollaboration.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = PrefIconCollaboration.tiff; path = artwork/PrefIconCollaboration.tiff; sourceTree = "<group>"; };
+		423B23D418F64065001E2DCC /* SEECollaborationPrefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEECollaborationPrefs.xib; sourceTree = "<group>"; };
 		424CA987189058C000B2D333 /* SymbolMark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SymbolMark.png; path = artwork/SymbolMark.png; sourceTree = "<group>"; };
 		4C0B4C5F18C8B3E300048335 /* SEEToggleRecentDocumentListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEToggleRecentDocumentListItem.h; sourceTree = "<group>"; };
 		4C0B4C6018C8B3E300048335 /* SEEToggleRecentDocumentListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEToggleRecentDocumentListItem.m; sourceTree = "<group>"; };
@@ -1531,6 +1538,7 @@
 				F2061D570B4C13AF00E6631F /* SmallGrowBoxRight3.tiff */,
 				F2D5FF3F0CB2667A00407399 /* StylePrefs.icns */,
 				14289094095743F200D14688 /* StylePrefs.tiff */,
+				423B23D218F63FB2001E2DCC /* PrefIconCollaboration.tiff */,
 				14289098095743F200D14688 /* Symbol#.tiff */,
 				14289099095743F200D14688 /* SymbolC.tiff */,
 				1428909A095743F200D14688 /* SymbolE.png */,
@@ -1899,6 +1907,8 @@
 				1428939E095758C100D14688 /* TCMPreferenceController.m */,
 				1428939F095758C100D14688 /* TCMPreferenceModule.h */,
 				142893A0095758C200D14688 /* TCMPreferenceModule.m */,
+				423B23CE18F63DDE001E2DCC /* SEECollaborationPreferenceModule.h */,
+				423B23CF18F63DDE001E2DCC /* SEECollaborationPreferenceModule.m */,
 			);
 			name = Preferences;
 			sourceTree = "<group>";
@@ -2310,6 +2320,7 @@
 				4CD5F81717FB0DF900F49E31 /* PrecedencePrefs.xib */,
 				4CD5F81B17FB0E1800F49E31 /* PrecedenceRules.xib */,
 				4CD5F7D817FB0BF200F49E31 /* AdvancedPrefs.xib */,
+				423B23D418F64065001E2DCC /* SEECollaborationPrefs.xib */,
 			);
 			name = Prefs;
 			sourceTree = "<group>";
@@ -2756,6 +2767,7 @@
 				F2D3E543189941F50096425B /* AW Pulled ActiveTabCenterFill.png in Resources */,
 				142890C0095743F200D14688 /* Internet.tiff in Resources */,
 				142890C1095743F200D14688 /* InternetResume.tiff in Resources */,
+				423B23D518F64065001E2DCC /* SEECollaborationPrefs.xib in Resources */,
 				142890C2095743F200D14688 /* InternetStop.tiff in Resources */,
 				F2B136ED189BF27000430639 /* AW AddTabButtonRollover_Pressed.tiff in Resources */,
 				F2D3E536189941F50096425B /* AW InactiveTabAlert@2x.png in Resources */,
@@ -2898,6 +2910,7 @@
 				4CD5F82D17FB0E6000F49E31 /* SelectEncodingsPanel.xib in Resources */,
 				F2D3E55F189941F50096425B /* IW InactiveTabClose.png in Resources */,
 				F2D3E566189941F50096425B /* IW InactiveTabLeftCap@2x.png in Resources */,
+				423B23D318F63FB2001E2DCC /* PrefIconCollaboration.tiff in Resources */,
 				F2D3E529189941F50096425B /* AW ActiveTabClose.png in Resources */,
 				F2D3E53B189941F50096425B /* AW InactiveTabClosePressed.png in Resources */,
 				F29AD8670CA3391B0097D04E /* Bonjour13.png in Resources */,
@@ -3127,6 +3140,7 @@
 				1428938D0957585600D14688 /* SaturationToColorValueTransformer.m in Sources */,
 				142893A1095758C200D14688 /* AdvancedPreferences.m in Sources */,
 				142893A2095758C200D14688 /* EditPreferences.m in Sources */,
+				423B23D018F63DDE001E2DCC /* SEECollaborationPreferenceModule.m in Sources */,
 				142893A3095758C200D14688 /* GeneralPreferences.m in Sources */,
 				142893A4095758C200D14688 /* OverlayView.m in Sources */,
 				142893A6095758C200D14688 /* StylePreferences.m in Sources */,
