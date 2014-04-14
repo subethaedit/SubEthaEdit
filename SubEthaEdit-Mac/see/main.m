@@ -60,7 +60,8 @@ static void printHelp() {
 
 void parseShortVersionString(int *major, int *minor)
 {
-    NSString *shortVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+	NSBundle *bundle = [NSBundle mainBundle];
+    NSString *shortVersion = [bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
     NSScanner *scanner = [NSScanner scannerWithString:shortVersion];
     (void)[scanner scanInt:major];
     (void)[scanner scanString:@"." intoString:nil];
@@ -109,7 +110,7 @@ CFURLRef CopyURLRefForSubEthaEdit()
 		{
 			NSURL *runningApplicationBundleURL = [runningApplication bundleURL];
 			NSBundle *appBundle = [NSBundle bundleWithURL:runningApplicationBundleURL];
-			NSUInteger version = [[[appBundle infoDictionary] objectForKey:(id)kCFBundleVersionKey] unsignedIntegerValue];
+			NSInteger version = [[[appBundle infoDictionary] objectForKey:(id)kCFBundleVersionKey] integerValue];
 			NSString *minimumSeeToolVersionString = [[appBundle infoDictionary] objectForKey:@"TCMMinimumSeeToolVersion"];
 
 			if (version > bundleVersion && meetsRequiredVersion(minimumSeeToolVersionString))
