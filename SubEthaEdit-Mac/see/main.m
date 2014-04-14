@@ -99,6 +99,31 @@ CFURLRef CopyURLRefForSubEthaEdit()
 	NSURL *applicationURL = nil;
     NSUInteger bundleVersion = 0;
 
+	NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
+	[runLoop runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
+
+	NSMutableArray *runningSubEthaEdits = [NSMutableArray array];
+	[runningSubEthaEdits addObjectsFromArray:[NSRunningApplication runningApplicationsWithBundleIdentifier:@"de.codingmonkeys.SubEthaEdit.Mac"]];
+	[runningSubEthaEdits addObjectsFromArray:[NSRunningApplication runningApplicationsWithBundleIdentifier:@"de.codingmonkeys.SubEthaEdit.MacBETA"]];
+	[runningSubEthaEdits addObjectsFromArray:[NSRunningApplication runningApplicationsWithBundleIdentifier:@"de.codingmonkeys.SubEthaEdit"]];
+
+	for (NSRunningApplication *subEthaEditInstance in runningSubEthaEdits) {
+		NSURL *runningApplicationBundleURL = [subEthaEditInstance bundleURL];
+		NSBundle *appBundle = [NSBundle bundleWithURL:runningApplicationBundleURL];
+		NSInteger version = [[[appBundle infoDictionary] objectForKey:(id)kCFBundleVersionKey] integerValue];
+		NSString *minimumSeeToolVersionString = [[appBundle infoDictionary] objectForKey:@"TCMMinimumSeeToolVersion"];
+
+		if (version > bundleVersion && meetsRequiredVersion(minimumSeeToolVersionString))
+		{
+			bundleVersion = version;
+			applicationURL = [[runningApplicationBundleURL copy] autorelease];
+		}
+	}
+	if (applicationURL)
+	{
+		return (CFURLRef)[applicationURL retain];
+	}
+
 	// Look if some version of SubEthaEdit is currently running.
 	NSArray *runningApplications = [[NSWorkspace sharedWorkspace] runningApplications];
 	for (NSRunningApplication *runningApplication in runningApplications)
@@ -273,7 +298,9 @@ static NSArray *see(NSArray *fileNames, NSArray *newFileNames, NSString *stdinFi
 	for (NSRunningApplication *runningApplication in runningApplications)
 	{
 		NSString *bundleIdentifier = [runningApplication bundleIdentifier];
-		if ([bundleIdentifier isEqualToString:@"de.codingmonkeys.SubEthaEdit.Mac"])
+		if ([bundleIdentifier isEqualToString:@"de.codingmonkeys.SubEthaEdit"] || // old version bevore 4.0
+			[bundleIdentifier isEqualToString:@"de.codingmonkeys.SubEthaEdit.Mac"] || // 4.0 or newer
+			[bundleIdentifier isEqualToString:@"de.codingmonkeys.SubEthaEdit.MacBETA"]) // 4.0 or newer BETA version
 		{
 			if ([runningApplication.bundleURL isEqualTo:(NSURL *)appURL] == YES)
 			{
@@ -288,7 +315,7 @@ static NSArray *see(NSArray *fileNames, NSArray *newFileNames, NSString *stdinFi
 	}
 
     NSMutableArray *resultFileNames = [NSMutableArray array];
-    AESendMode sendMode = kAENoReply;
+    AESendMode sendMode = kAEWaitReply | kAEWantReceipt; //kAENoReply;
     long timeOut = kAEDefaultTimeout;
 
 
