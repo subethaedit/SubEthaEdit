@@ -202,8 +202,6 @@ static void printVersion() {
                 fprintf(stdout, "\nA newer version of the see command line tool is available.\nThe found SubEthaEdit bundles version %s of the see command.\n\n", [bundledSeeToolVersionString UTF8String]);
             }
         }
-        CFRelease(appURL);
-		appURL = NULL;
     }
     fflush(stdout);
     
@@ -211,6 +209,9 @@ static void printVersion() {
         fprintf(stderr, "see: Couldn't find compatible SubEthaEdit.\n     Please install a current version of SubEthaEdit.\n");
         fflush(stderr);
     }
+	
+	CFRelease(appURL);
+	appURL = NULL;
 }
 
 
