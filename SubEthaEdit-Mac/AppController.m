@@ -1137,6 +1137,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 - (IBAction)showRegExHelp:(id)sender {
     NSString *path = [[NSBundle mainBundle] pathForResource:@"RE" ofType:@"txt"];
     [self TCM_showPlainTextFile:path];
+	CFRelease(NULL);
 }
 
 - (IBAction)showReleaseNotes:(id)sender {
