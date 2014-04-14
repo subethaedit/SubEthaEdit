@@ -16,6 +16,16 @@
 
 static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarwObservationContext;
 
++ (void)initialize
+{
+	if (self == [SEEAvatarImageView class]) {
+		[self exposeBinding:@"borderColor"];
+		[self exposeBinding:@"backgroundColor"];
+		[self exposeBinding:@"image"];
+		[self exposeBinding:@"initials"];
+	}
+}
+
 - (id)initWithFrame:(NSRect)frame
 {
     self = [super initWithFrame:frame];
