@@ -21,16 +21,17 @@
 
 - (id)transformedValue:(id)aValue {
     if (aValue == nil) return nil;
-    float hue = [aValue floatValue]/100.;
-    
-    return [NSColor colorWithCalibratedHue:hue saturation:1.0 brightness:1.0 alpha:1.];
+    CGFloat hue = [aValue doubleValue] / 100.0;
+    return [NSColor colorWithCalibratedHue:hue saturation:1.0 brightness:1.0 alpha:1.0];
 }
 
 - (id)reverseTransformedValue:(id)value {
     if (![value isKindOfClass:[NSColor class]]) return nil;
-    CGFloat ignore,hue;
-    [[(NSColor *)value colorUsingColorSpaceName:NSCalibratedRGBColorSpace] getHue:&hue saturation:&ignore brightness:&ignore alpha:&ignore];
+
+	NSColor *color = [(NSColor *)value colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
+    CGFloat hue = 0.0;
+    [color getHue:&hue saturation:NULL brightness:NULL alpha:NULL];
     
-    return [NSNumber numberWithFloat:hue*100];
+    return [NSNumber numberWithDouble:hue * 100.0];
 }
 @end

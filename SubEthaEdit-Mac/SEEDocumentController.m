@@ -1040,10 +1040,10 @@
 //                }
 //            }
         } else {
-            NSError *error = nil;
             [I_propertiesForOpenedFiles setObject:properties forKey:filename];
-            (void)[self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:filename] display:YES error:&error];
-            if (error) NSLog(@"%@",error);
+			[self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:filename] display:YES completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
+				if (error) NSLog(@"%@",error);
+			}];
         }
     }
             
@@ -1102,13 +1102,19 @@
     for (filename in files) {
         [I_propertiesForOpenedFiles setObject:properties forKey:filename];
         BOOL shouldClose = ([self documentForURL:[NSURL fileURLWithPath:filename]] == nil);
-        NSError *error=nil;
-        PlainTextDocument *document = [self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:filename] display:YES error:&error];
-        NSLog(@"%@",error);
-//        [document printShowingPrintPanel:NO];
-        if (shouldClose) {
-            [document close];
-        }
+
+		[self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:filename] display:YES completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
+
+			if (error) {
+				NSLog(@"%@",error);
+			} else {
+				[document printDocumentWithSettings:nil showPrintPanel:NO delegate:nil didPrintSelector:NULL contextInfo:NULL];
+				if (shouldClose) {
+					[document close];
+				}
+			}
+		}];
+
     }
 
     return nil;
@@ -1446,7 +1452,7 @@ struct ModificationInfo
 
     // Invoke invocation after reviewing all documents
     if (closeAllContext) {
-        NSInvocation *invocation = (__bridge NSInvocation *)closeAllContext;
+        NSInvocation *invocation = (__bridge_transfer NSInvocation *)closeAllContext;
         [invocation invoke];
     }
 }
@@ -1475,6 +1481,7 @@ struct ModificationInfo
 - (void)closeAllDocumentsWithDelegate:(id)delegate didCloseAllSelector:(SEL)didCloseAllSelector contextInfo:(void *)contextInfo
 {
     NSInvocation *invocation = nil;
+
     if (delegate != nil && didCloseAllSelector != NULL) {
         NSMethodSignature *methodSignature = [delegate methodSignatureForSelector:didCloseAllSelector];
         unsigned numberOfArguments = [methodSignature numberOfArguments];
@@ -1487,7 +1494,7 @@ struct ModificationInfo
         if (numberOfArguments > 3) { BOOL flag = YES; [invocation setArgument:&flag atIndex:3]; }
         if (numberOfArguments > 4) [invocation setArgument:&contextInfo atIndex:4];
     }
-    [self closeDocumentsStartingWith:nil shouldClose:YES closeAllContext:(void *)invocation];
+    [self closeDocumentsStartingWith:nil shouldClose:YES closeAllContext:(__bridge_retained void *)invocation];
 }
 
 - (void)removeDocument:(NSDocument *)document {
@@ -1533,7 +1540,7 @@ struct ModificationInfo
     if ([[self documents] count]==0) {
         NSMenu *modeMenu=[[[NSApp mainMenu] itemWithTag:ModeMenuTag] submenu];
         // remove all items that don't belong here anymore
-        int index = [modeMenu indexOfItemWithTag:HighlightSyntaxMenuTag];
+        int index = [modeMenu indexOfItemWithTag:ReloadModesMenuItemTag];
         index+=1;
         while (index < [modeMenu numberOfItems]) {
             [modeMenu removeItemAtIndex:index];

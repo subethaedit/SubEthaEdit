@@ -13,7 +13,11 @@
 @interface TCMMMUser (TCMMMUserSEEAdditions) 
 
 - (NSColor *)changeColor;
+- (NSColor *)changeHighlightColorForBackgroundColor:(NSColor *)backgroundColor;
+
 - (NSString *)vcfRepresentation;
+
+- (NSString *)initials;
 
 #pragma mark -
 - (void)recacheImages;

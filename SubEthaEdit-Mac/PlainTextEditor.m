@@ -41,7 +41,9 @@
 #import "URLBubbleWindow.h"
 #import "SEEFindAndReplaceViewController.h"
 #import <objc/objc-runtime.h>
-
+#import "SEEPlainTextEditorTopBarViewController.h"
+#import "SEEOverlayView.h"
+#import "NSLayoutConstraint+TCMAdditions.h"
 
 NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDidFollowUserNotification";
 NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEditorDidChangeSearchScopeNotification";
@@ -87,10 +89,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 @interface PlainTextEditor ()
 
 @property (nonatomic, strong) IBOutlet NSView *O_editorView;
-@property (nonatomic, assign) IBOutlet NSView *O_topStatusBarView;
-@property (nonatomic, strong) NSArray *topStatusBarViewBackgroundFilters;
-@property (nonatomic, assign) IBOutlet NSView *O_bottomStatusBarView;
-@property (nonatomic, strong) NSArray *bottomStatusBarViewBackgroundFilters;
+@property (nonatomic, strong) IBOutlet SEEOverlayView *O_bottomStatusBarView;
 @property (nonatomic, assign) IBOutlet NSButton *shareInviteUsersButtonOutlet;
 @property (nonatomic, assign) IBOutlet NSButton *shareAnnounceButtonOutlet;
 @property (nonatomic, assign) IBOutlet NSObjectController *ownerController;
@@ -98,11 +97,11 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 @property (nonatomic, strong) NSViewController *bottomOverlayViewController;
 @property (nonatomic, strong) NSViewController *topOverlayViewController;
 @property (nonatomic, strong) SEEFindAndReplaceViewController *findAndReplaceController;
-
-@property (nonatomic, strong) NSLayoutConstraint *topStatusBarPinConstraint;
-@property (nonatomic, strong) NSLayoutConstraint *bottomOverlayViewPinConstraint;
-
-- (void)	TCM_updateStatusBar;
+@property (nonatomic, strong) SEEPlainTextEditorTopBarViewController *topBarViewController;
+@property (nonatomic, strong) NSArray *topBlurBackgroundConstraints;
+@property (nonatomic, strong) SEEOverlayView *topBlurLayerView;
+@property (nonatomic, strong) NSArray *bottomBlurBackgroundConstraints;
+@property (nonatomic, strong) SEEOverlayView *bottomBlurLayerView;
 - (void)	TCM_updateBottomStatusBar;
 - (float)pageGuidePositionForColumns:(int)aColumns;
 @end
@@ -116,8 +115,8 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     if (self) {
         I_windowControllerTabContext = aWindowControllerTabContext;
         I_flags.hasSplitButton = aFlag;
-        I_flags.showTopStatusBar = YES;
-        I_flags.showBottomStatusBar = YES;
+        I_flags.showTopStatusBar = NO;
+        I_flags.showBottomStatusBar = NO;
         I_flags.pausedProcessing = NO;
 		I_storedSelectedRanges = [NSMutableArray new];
 
@@ -127,55 +126,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
         [[NSBundle mainBundle] loadNibNamed:@"PlainTextEditor" owner:self topLevelObjects:&topLevelNibObjects];
 		self.topLevelNibObjects = topLevelNibObjects;
 
-		if (! I_flags.hasSplitButton) {
-			[O_splitButton removeFromSuperview];
-			O_splitButton = nil;
-		}
-		
-		// localize the announce status menu - take from main menu
-		NSMenuItem *accessMenuItem = [[AppController sharedInstance] accessControlMenuItem];
-		NSMenu *accessPopUpMenu = self.shareAnnounceButtonOutlet.menu;
-		NSInteger menuItemIndex = 0;
-		for (NSMenuItem *item in [accessMenuItem.submenu itemArray]) {
-			if (!item.isAlternate) {
-				NSMenuItem *targetMenuItem = accessPopUpMenu.itemArray[menuItemIndex++];
-				targetMenuItem.title = item.title;
-				targetMenuItem.keyEquivalent = item.keyEquivalent;
-				targetMenuItem.keyEquivalentModifierMask = item.keyEquivalentModifierMask;
-			}
-			if (menuItemIndex >= accessPopUpMenu.itemArray.count) break;
-		}
-		
-		// change the top status bar to use constraints
-		{
-			NSView *statusBarView = self.O_topStatusBarView;
-			NSView *containerView = statusBarView.superview;
-			[statusBarView removeFromSuperview];
-			
-			[statusBarView setTranslatesAutoresizingMaskIntoConstraints:NO];
-			[containerView addSubview:statusBarView];
-			[containerView addConstraints:@[
-											[NSLayoutConstraint constraintWithItem:statusBarView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:containerView attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0],
-											[NSLayoutConstraint constraintWithItem:statusBarView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeWidth multiplier:1.0 constant:CGRectGetHeight(statusBarView.bounds)],
-											]];
-			[self updateTopPinConstraints];
-		}
-		
-		// change the bottom status bar to use constraints
-		{
-			NSView *statusBarView = self.O_bottomStatusBarView;
-			NSView *containerView = statusBarView.superview;
-			[statusBarView removeFromSuperview];
-			
-			[statusBarView setTranslatesAutoresizingMaskIntoConstraints:NO];
-			[containerView addSubview:statusBarView];
-			[containerView addConstraints:@[
-											[NSLayoutConstraint constraintWithItem:statusBarView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:containerView attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0],
-											[NSLayoutConstraint constraintWithItem:statusBarView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeWidth multiplier:1.0 constant:CGRectGetHeight(statusBarView.bounds)],
-											[NSLayoutConstraint constraintWithItem:statusBarView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:containerView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0]
-											]];
-		}
-		
+		[self loadViewPostprocessing];
     }
 
     return self;
@@ -184,6 +135,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 - (void)prepareForDealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:[I_windowControllerTabContext document] name:NSTextViewDidChangeSelectionNotification object:I_textView];
     [[NSNotificationCenter defaultCenter] removeObserver:[I_windowControllerTabContext document] name:NSTextDidChangeNotification object:I_textView];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 	// release the objects that are bound so we get dealloced later
 	self.ownerController.content = nil;
 	self.topLevelNibObjects = nil;
@@ -195,7 +147,6 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     [[NSNotificationCenter defaultCenter] removeObserver:[I_windowControllerTabContext document] name:NSTextDidChangeNotification object:I_textView];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
-	[O_symbolPopUpButton setDelegate:nil];
 
     [I_textView setDelegate:nil];
     [I_textView setEditor:nil];     // in case our editor outlives us
@@ -217,13 +168,10 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 - (BOOL)hitTestOverlayViewsWithEvent:(NSEvent *)aEvent {
 	BOOL result = NO;
 	NSPoint eventLocationInWindow = aEvent.locationInWindow;
-	if ([self.O_topStatusBarView hitTest:eventLocationInWindow] != nil) {
+	
+	if ([self.topBlurLayerView hitTest:[self.topBlurLayerView.superview convertPoint:eventLocationInWindow fromView:nil]] != nil) {
 		result = YES;
-	} else if ([self.O_bottomStatusBarView hitTest:eventLocationInWindow] != nil) {
-		result = YES;
-	} else if ([self.bottomOverlayViewController.view hitTest:eventLocationInWindow] != nil) {
-		result = YES;
-	} else if ([self.topOverlayViewController.view hitTest:eventLocationInWindow] != nil) {
+	} else if ([self.bottomBlurLayerView hitTest:[self.bottomBlurLayerView.superview convertPoint:eventLocationInWindow fromView:nil]] != nil) {
 		result = YES;
 	}
 	return result;
@@ -269,153 +217,144 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	[self updateAnnounceButton];
 }
 
-
-- (void)awakeFromNib
-{
-    PlainTextDocument *document = [self document];
-
-    if (document)
-    {
-        [[NSNotificationCenter defaultCenter]
-		 addObserver:self
-		 selector:@selector(defaultParagraphStyleDidChange:)
-		 name	:PlainTextDocumentDefaultParagraphStyleDidChangeNotification
-		 object	:document];
-        [[NSNotificationCenter defaultCenter]
-		 addObserver:self
-		 selector:@selector(userDidChangeSelection:)
-		 name	:PlainTextDocumentUserDidChangeSelectionNotification
-		 object	:document];
-        [[NSNotificationCenter defaultCenter]
-		 addObserver:self
-		 selector:@selector(plainTextDocumentDidChangeEditStatus:)
-		 name	:PlainTextDocumentDidChangeEditStatusNotification
-		 object	:document];
-        [[NSNotificationCenter defaultCenter]
-		 addObserver:self
-		 selector:@selector(plainTextDocumentDidChangeSymbols:)
-		 name	:PlainTextDocumentDidChangeSymbolsNotification
-		 object	:document];
-        [[NSNotificationCenter defaultCenter]
-		 addObserver:self
-		 selector:@selector(plainTextDocumentUserDidChangeSelection:)
-		 name	:PlainTextDocumentUserDidChangeSelectionNotification
-		 object	:document];
-        [[NSNotificationCenter defaultCenter]
-		 addObserver:self
-		 selector:@selector(sessionWillChange:)
-		 name	:PlainTextDocumentSessionWillChangeNotification
-		 object	:document];
-        [[NSNotificationCenter defaultCenter]
-		 addObserver:self
-		 selector:@selector(sessionDidChange:)
-		 name	:PlainTextDocumentSessionDidChangeNotification
-		 object	:document];
-    }
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TCM_updateBottomStatusBar) name:@"AfterEncodingsListChanged" object:nil];
-
-    I_radarScroller = [RadarScroller new];
-    [O_scrollView setHasVerticalScroller:YES];
-    [O_scrollView setVerticalScroller:I_radarScroller];
-
-    NSRect frame = NSZeroRect;
-    frame.size  = [O_scrollView contentSize];
-
-	[self.shareInviteUsersButtonOutlet sendActionOn:NSLeftMouseDownMask];
-
-    LayoutManager *layoutManager = [LayoutManager new];
-    [[document textStorage] addLayoutManager:layoutManager];
-
-    I_textContainer =  [[NSTextContainer alloc] initWithContainerSize:NSMakeSize(frame.size.width, FLT_MAX)];
-
-    I_textView = [[SEETextView alloc] initWithFrame:frame textContainer:I_textContainer];
-    [(SEETextView *)I_textView setEditor : self];
-    [I_textView setHorizontallyResizable:NO];
-    [I_textView setVerticallyResizable:YES];
-    [I_textView setAutoresizingMask:NSViewWidthSizable];
-    [I_textView setMaxSize:NSMakeSize(FLT_MAX, FLT_MAX)];
-    [I_textView setSelectable:YES];
-    [I_textView setEditable:YES];
-    [I_textView setRichText:NO];
-    [I_textView setImportsGraphics:NO];
-    [I_textView setUsesFontPanel:NO];
-    [I_textView setUsesRuler:YES];
-    [I_textView setUsesFindPanel:YES];
-    [I_textView setAllowsUndo:NO];
-    [I_textView setSmartInsertDeleteEnabled:NO];
-    [I_textView turnOffLigatures:self];
-    [I_textView setLinkTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSCursor pointingHandCursor], NSCursorAttributeName, nil]];
-    [I_textView setDelegate:self];
-    [I_textContainer setHeightTracksTextView:NO];
-    [I_textContainer setWidthTracksTextView:YES];
-    [layoutManager addTextContainer:I_textContainer];
-
-    [O_scrollView setVerticalRulerView:[[[GutterRulerView alloc] initWithScrollView:O_scrollView orientation:NSVerticalRuler] autorelease]];
-    [O_scrollView setHasVerticalRuler:YES];
-
-    [[O_scrollView verticalRulerView] setRuleThickness:42.];
-
-    [O_scrollView setDocumentView:I_textView];
-    [[O_scrollView verticalRulerView] setClientView:I_textView];
-    [[O_scrollView contentView] setPostsBoundsChangedNotifications:YES];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(contentViewBoundsDidChange:) name:NSViewBoundsDidChangeNotification object:[O_scrollView contentView]];
-
-
-    [layoutManager release];
-
-    [I_textView setDefaultParagraphStyle:[document defaultParagraphStyle]];
-
-    [[NSNotificationCenter defaultCenter] addObserver:document selector:@selector(textViewDidChangeSelection:) name:NSTextViewDidChangeSelectionNotification object:I_textView];
-    [[NSNotificationCenter defaultCenter] addObserver:document selector:@selector(textDidChange:) name:NSTextDidChangeNotification object:I_textView];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textDidChange:) name:PlainTextDocumentDidChangeTextStorageNotification object:document];
-
-	// Adding a second view hirachy to include this controller into the responder chain
-    NSView *view = [[[NSView alloc] initWithFrame:[self.O_editorView frame]] autorelease];
-    [view setAutoresizesSubviews:YES];
-    [view setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
-    [view addSubview:self.O_editorView];
-    [view setPostsFrameChangedNotifications:YES];
-	[view setWantsLayer:self.O_editorView.wantsLayer];
-    [self.O_editorView setNextResponder:self];
+- (void)loadViewSetupBarsAndOverlays {
+	// topbarviewcontroller
+	self.topBarViewController = [[[SEEPlainTextEditorTopBarViewController alloc] initWithPlainTextEditor:self] autorelease];
+	[self.topBarViewController updateColorsForIsDarkBackground:[self hasDarkBackground]];
+	[self.topBarViewController setSplitButtonVisible:NO];
+	self.topBarViewController.splitButtonVisible = I_flags.hasSplitButton;
+	[self.topBarViewController setVisible:I_flags.showTopStatusBar];
+	[self.O_editorView addSubview:self.topBarViewController.view];
 	
-    [self setNextResponder:view];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewFrameDidChange:) name:NSViewFrameDidChangeNotification object:view];
-    self.O_editorView = view;
-
-	NSView *topStatusBarView = self.O_topStatusBarView;
-	topStatusBarView.layer.borderColor = [[NSColor lightGrayColor] CGColor];
-	topStatusBarView.layer.borderWidth = 0.5;
-	topStatusBarView.layer.backgroundColor = [[NSColor colorWithCalibratedWhite:0.65
-																		  alpha:0.75] CGColor];
-
+	// generate top blur layer
+	self.topBlurLayerView = ({
+		SEEOverlayView *view = [[[SEEOverlayView alloc] initWithFrame:NSZeroRect] autorelease];
+		NSView *containerView = self.O_editorView;
+		view.translatesAutoresizingMaskIntoConstraints = NO;
+		[containerView addSubview:view];
+		[containerView addConstraints:@[
+										[NSLayoutConstraint TCM_constraintWithItem:view secondItem:containerView
+																	equalAttribute:NSLayoutAttributeLeft],
+										[NSLayoutConstraint TCM_constraintWithItem:view secondItem:containerView
+																	equalAttribute:NSLayoutAttributeRight],
+										[NSLayoutConstraint TCM_constraintWithItem:view secondItem:containerView
+																	equalAttribute:NSLayoutAttributeTop],
+										]];
+		self.topBlurBackgroundConstraints = @[
+											  [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:0]
+											  ];
+		[containerView addConstraints:self.topBlurBackgroundConstraints];
+		//		view.layer.backgroundColor = [[[NSColor redColor] colorWithAlphaComponent:0.8] CGColor];
+		view.backgroundBlurActive = YES;
+		view.brightnessAdjustForInactiveWindowState = 0.7;
+		view;
+	});
+	
+	
+	// change the top status bar to use constraints
+	{
+		NSView *statusBarView = self.topBarViewController.view;
+		NSView *containerView = self.topBlurLayerView;
+		[statusBarView removeFromSuperview];
+		
+		[statusBarView setTranslatesAutoresizingMaskIntoConstraints:NO];
+		[containerView addSubview:statusBarView];
+		[containerView addConstraints:@[
+										[NSLayoutConstraint TCM_constraintWithItem:statusBarView secondItem:containerView equalAttribute:NSLayoutAttributeLeft],
+										[NSLayoutConstraint TCM_constraintWithItem:statusBarView secondItem:containerView
+																	equalAttribute:NSLayoutAttributeRight],
+										[NSLayoutConstraint TCM_constraintWithItem:statusBarView secondItem:containerView equalAttribute:NSLayoutAttributeBottom],
+										[NSLayoutConstraint constraintWithItem:statusBarView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeWidth multiplier:1.0 constant:CGRectGetHeight(statusBarView.bounds)],
+										]];
+		[self updateTopPinConstraints];
+	}
+	
+	// generate bottom blur layer
+	self.bottomBlurLayerView = ({
+		SEEOverlayView *view = [[[SEEOverlayView alloc] initWithFrame:NSZeroRect] autorelease];
+		NSView *containerView = self.O_editorView;
+		view.translatesAutoresizingMaskIntoConstraints = NO;
+		[containerView addSubview:view];
+		[containerView addConstraints:@[
+										[NSLayoutConstraint TCM_constraintWithItem:view secondItem:containerView
+																	equalAttribute:NSLayoutAttributeLeft],
+										[NSLayoutConstraint TCM_constraintWithItem:view secondItem:containerView
+																	equalAttribute:NSLayoutAttributeRight],
+										[NSLayoutConstraint TCM_constraintWithItem:view secondItem:containerView
+																	equalAttribute:NSLayoutAttributeBottom],
+										]];
+		self.bottomBlurBackgroundConstraints = @[
+												 [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:0]
+												 ];
+		[containerView addConstraints:self.bottomBlurBackgroundConstraints];
+		//		view.layer.backgroundColor = [[[NSColor redColor] colorWithAlphaComponent:0.8] CGColor];
+		view.backgroundBlurActive = YES;
+		view.brightnessAdjustForInactiveWindowState = 0.7;
+		view;
+	});
+	
+	// change the bottom status bar to use constraints
+	{
+		NSView *statusBarView = self.O_bottomStatusBarView;
+		NSView *containerView = self.bottomBlurLayerView;
+		[statusBarView removeFromSuperview];
+		
+		// configure truncade mode
+		[O_tabStatusPopUpButton.cell setLineBreakMode:NSLineBreakByTruncatingMiddle];
+		[O_encodingPopUpButton.cell setLineBreakMode:NSLineBreakByTruncatingMiddle];
+		
+		// adjust sizes for german if necessary
+		if ([[[NSBundle mainBundle] preferredLocalizations].firstObject isEqual:@"German"]) {
+			// adjust frames
+			CGFloat points = 20.0;
+			O_tabStatusPopUpButton.frame = ({
+				NSRect frame = O_tabStatusPopUpButton.frame;
+				frame.size.width += points;
+				frame;
+			});
+			O_lineEndingPopUpButton.frame = NSOffsetRect(O_lineEndingPopUpButton.frame, points, 0);
+			O_encodingPopUpButton.frame = ({
+				NSRect frame = O_encodingPopUpButton.frame;
+				frame.size.width -= points;
+				frame.origin.x += points;
+				frame;
+			});
+		}
+		
+		[statusBarView setTranslatesAutoresizingMaskIntoConstraints:NO];
+		[statusBarView setAutoresizesSubviews:YES];
+		[containerView addSubview:statusBarView];
+		[containerView addConstraints:@[
+										[NSLayoutConstraint TCM_constraintWithItem:statusBarView secondItem:containerView
+																	equalAttribute:NSLayoutAttributeRight],
+										[NSLayoutConstraint TCM_constraintWithItem:statusBarView secondItem:containerView equalAttribute:NSLayoutAttributeLeft],
+										[NSLayoutConstraint TCM_constraintWithItem:statusBarView secondItem:containerView
+																	equalAttribute:NSLayoutAttributeBottom],
+										[NSLayoutConstraint constraintWithItem:statusBarView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeWidth multiplier:1.0 constant:CGRectGetHeight(statusBarView.bounds)],
+										]];
+		[statusBarView setHidden:!I_flags.showBottomStatusBar];
+	}
+	
+	// setup all the UI for the bottom bar
 	NSView *bottomStatusBarView = self.O_bottomStatusBarView;
-	bottomStatusBarView.layer.borderColor = [[NSColor lightGrayColor] CGColor];
-	bottomStatusBarView.layer.borderWidth = 0.5;
-	bottomStatusBarView.layer.backgroundColor = [[NSColor colorWithCalibratedWhite:0.65 alpha:0.75] CGColor];
-
+	bottomStatusBarView.layer.backgroundColor = [[NSColor darkOverlayBackgroundColorBackgroundIsDark:NO] CGColor];
+	
 	[I_textView setPostsFrameChangedNotifications:YES];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textViewFrameDidChange:) name:NSViewFrameDidChangeNotification object:I_textView];
-
-	[O_symbolPopUpButton setDelegate:self];
-
-    [self takeSettingsFromDocument];
-    [self takeStyleSettingsFromDocument];
-    [self setShowsChangeMarks:[document showsChangeMarks]];
-    [self setShowsTopStatusBar:[document showsTopStatusBar]];
-    [self setShowsBottomStatusBar:[document showsBottomStatusBar]];
-    [(BorderedTextField *)O_windowWidthTextField setHasRightBorder : NO];
-
+	
+    [O_windowWidthTextField setHasRightBorder:NO];
+    [O_windowWidthTextField setHasLeftBorder:YES];
+	
     DocumentModeMenu *menu = [[DocumentModeMenu new] autorelease];
     [menu configureWithAction:@selector(chooseMode:) alternateDisplay:NO];
     [[O_modePopUpButton cell] setMenu:menu];
-
+	
     EncodingMenu *fileEncodingsSubmenu = [[EncodingMenu new] autorelease];
     [fileEncodingsSubmenu configureWithAction:@selector(selectEncoding:)];
     [[[fileEncodingsSubmenu itemArray] lastObject] setTarget:self];
     [[[fileEncodingsSubmenu itemArray] lastObject] setAction:@selector(showCustomizeEncodingPanel:)];
     [[O_encodingPopUpButton cell] setMenu:fileEncodingsSubmenu];
-
+	
     NSMenu *lineEndingMenu = [[NSMenu new] autorelease];
     [O_lineEndingPopUpButton setPullsDown:YES];
     // insert title item of pulldown popupbutton
@@ -423,14 +362,14 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     NSMenuItem *item = nil;
     SEL chooseLineEndings = @selector(chooseLineEndings:);
     NSEnumerator *formatSubmenuItems = [[[[[NSApp mainMenu] itemWithTag:FormatMenuTag] submenu] itemArray] objectEnumerator];
-
+	
     while ((item = [formatSubmenuItems nextObject]))
     {
         if ([item hasSubmenu] && [[[[item submenu] itemArray] objectAtIndex:0] action] == chooseLineEndings)
         {
             NSEnumerator *interestingItems = [[[item submenu] itemArray] objectEnumerator];
             NSMenuItem *innerItem = nil;
-
+			
             while ((innerItem = [interestingItems nextObject]))
             {
                 if ([innerItem isSeparatorItem])
@@ -449,18 +388,18 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
         }
     }
     [[O_lineEndingPopUpButton cell] setMenu:lineEndingMenu];
-
+	
     [O_tabStatusPopUpButton setPullsDown:YES];
     NSMenu *tabMenu = [[NSMenu new] autorelease];
     // insert title item of pulldown popupbutton
     [tabMenu addItem:[[[NSMenuItem alloc] initWithTitle:@"" action:NULL keyEquivalent:@""] autorelease]];
     formatSubmenuItems = [[[[[NSApp mainMenu] itemWithTag:FormatMenuTag] submenu] itemArray] objectEnumerator];
     BOOL copyItems = NO;
-
+	
     while ((item = [formatSubmenuItems nextObject]))
     {
         if ([item action] == @selector(toggleUsesTabs:)) copyItems = YES;
-
+		
         if (copyItems)
         {
             if ([item isSeparatorItem])
@@ -472,7 +411,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
                 NSMenuItem *newItem = [tabMenu addItemWithTitle:[item title] action:[item action] keyEquivalent:@""];
                 [newItem setTarget:[item target]];
                 [newItem setTag:[item tag]];
-
+				
                 if ([item hasSubmenu])
                 {
                     [newItem setSubmenu:[[[item submenu] copy] autorelease]];
@@ -481,33 +420,146 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
         }
     }
     [[O_tabStatusPopUpButton cell] setMenu:tabMenu];
-
-
-    // replace the textfield cell
-    NSMutableData *data = [NSMutableData data];
-    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
-    [archiver setClassName:@"InsetTextFieldCell"
-				  forClass:[NSTextFieldCell class]];
-    [archiver encodeObject:[O_positionTextField cell] forKey:@"MyCell"];
-    [archiver finishEncoding];
-    [archiver release];
-
-    NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-    [unarchiver setClass:[InsetTextFieldCell class]
-			forClassName:@"NSTextFieldCell"];
-    [O_positionTextField setCell:[unarchiver decodeObjectForKey:@"MyCell"]];
-    [unarchiver finishDecoding];
-    [unarchiver release];
-
-    [self TCM_updateStatusBar];
-    [self TCM_updateBottomStatusBar];
 	
+	[self updateTopScrollViewInset];
+	[self updateBottomScrollViewInset];
+}
+
+- (void)loadViewPostprocessing {
+    [self loadViewSetupBarsAndOverlays];
+	
+	[self TCM_updateBottomStatusBar];
+	
+
+	PlainTextDocument *document = [self document];
+
+	NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+	
+    if (document) {
+        [notificationCenter addObserver:self selector:@selector(defaultParagraphStyleDidChange:)
+								   name:PlainTextDocumentDefaultParagraphStyleDidChangeNotification
+								 object:document];
+        [notificationCenter addObserver:self selector:@selector(userDidChangeSelection:)
+								   name:PlainTextDocumentUserDidChangeSelectionNotification
+								 object:document];
+        [notificationCenter addObserver:self selector:@selector(plainTextDocumentDidChangeEditStatus:)
+								   name:PlainTextDocumentDidChangeEditStatusNotification
+								 object:document];
+        [notificationCenter addObserver:self selector:@selector(plainTextDocumentUserDidChangeSelection:)
+								   name:PlainTextDocumentUserDidChangeSelectionNotification
+								 object:document];
+        [notificationCenter addObserver:self selector:@selector(sessionWillChange:)
+								   name:PlainTextDocumentSessionWillChangeNotification
+								 object:document];
+        [notificationCenter addObserver:self selector:@selector(sessionDidChange:)
+								   name:PlainTextDocumentSessionDidChangeNotification
+								 object:document];
+    }
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TCM_updateBottomStatusBar) name:@"AfterEncodingsListChanged" object:nil];
+
+    I_radarScroller = [RadarScroller new];
+    [O_scrollView setHasVerticalScroller:YES];
+    [O_scrollView setVerticalScroller:I_radarScroller];
+
+    NSRect frame = NSZeroRect;
+    frame.size  = [O_scrollView contentSize];
+
+	[self.shareInviteUsersButtonOutlet sendActionOn:NSLeftMouseDownMask];
+
+    LayoutManager *layoutManager = [LayoutManager new];
+    [[document textStorage] addLayoutManager:layoutManager];
+
+    I_textContainer =  [[NSTextContainer alloc] initWithContainerSize:NSMakeSize(frame.size.width, FLT_MAX)];
+
+    I_textView = ({
+		SEETextView *textView = [[SEETextView alloc] initWithFrame:frame textContainer:I_textContainer];
+		[textView setEditor:self];
+		[textView setHorizontallyResizable:NO];
+		[textView setVerticallyResizable:YES];
+		[textView setAutoresizingMask:NSViewWidthSizable];
+		[textView setMaxSize:NSMakeSize(FLT_MAX, FLT_MAX)];
+		[textView setSelectable:YES];
+		[textView setEditable:YES];
+		[textView setRichText:NO];
+		[textView setImportsGraphics:NO];
+		[textView setUsesFontPanel:NO];
+		[textView setUsesRuler:YES];
+		[textView setUsesFindPanel:YES];
+		[textView setAllowsUndo:NO];
+		[textView setSmartInsertDeleteEnabled:NO];
+		[textView turnOffLigatures:self];
+		[textView setLinkTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSCursor pointingHandCursor], NSCursorAttributeName, nil]];
+		[textView setDelegate:self];
+		textView;
+	});
+	
+    [I_textContainer setHeightTracksTextView:NO];
+    [I_textContainer setWidthTracksTextView:YES];
+    [layoutManager addTextContainer:I_textContainer];
+
+    [O_scrollView setVerticalRulerView:[[[GutterRulerView alloc] initWithScrollView:O_scrollView orientation:NSVerticalRuler] autorelease]];
+    [O_scrollView setHasVerticalRuler:YES];
+
+    [[O_scrollView verticalRulerView] setRuleThickness:42.];
+
+    [O_scrollView setDocumentView:I_textView];
+    [[O_scrollView verticalRulerView] setClientView:I_textView];
+    [[O_scrollView contentView] setPostsBoundsChangedNotifications:YES];
+	[I_textView setFrameOrigin:CGPointZero];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(contentViewBoundsDidChange:) name:NSViewBoundsDidChangeNotification object:[O_scrollView contentView]];
+
+    [layoutManager release];
+
+    [I_textView setDefaultParagraphStyle:[document defaultParagraphStyle]];
+
+    [[NSNotificationCenter defaultCenter] addObserver:document selector:@selector(textViewDidChangeSelection:) name:NSTextViewDidChangeSelectionNotification object:I_textView];
+    [[NSNotificationCenter defaultCenter] addObserver:document selector:@selector(textDidChange:) name:NSTextDidChangeNotification object:I_textView];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textDidChange:) name:PlainTextDocumentDidChangeTextStorageNotification object:document];
+
+	// Adding a second view hierachy to include this controller into the responder chain
+    NSView *view = [[[NSView alloc] initWithFrame:[self.O_editorView frame]] autorelease];
+    [view setAutoresizesSubviews:YES];
+    [view setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+    [view addSubview:self.O_editorView];
+    [view setPostsFrameChangedNotifications:YES];
+	[view setWantsLayer:self.O_editorView.wantsLayer];
+    [self.O_editorView setNextResponder:self];
+	
+    [self setNextResponder:view];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewFrameDidChange:) name:NSViewFrameDidChangeNotification object:view];
+    self.O_editorView = view;
+	
+	// localize the announce status menu - take from main menu
+	NSMenuItem *accessMenuItem = [[AppController sharedInstance] accessControlMenuItem];
+	NSMenu *accessPopUpMenu = self.shareAnnounceButtonOutlet.menu;
+	NSInteger menuItemIndex = 0;
+	for (NSMenuItem *item in [accessMenuItem.submenu itemArray]) {
+		if (!item.isAlternate) {
+			NSMenuItem *targetMenuItem = accessPopUpMenu.itemArray[menuItemIndex++];
+			targetMenuItem.title = item.title;
+			targetMenuItem.keyEquivalent = item.keyEquivalent;
+			targetMenuItem.keyEquivalentModifierMask = item.keyEquivalentModifierMask;
+		}
+		if (menuItemIndex >= accessPopUpMenu.itemArray.count) break;
+	}
+
+	[self takeStyleSettingsFromDocument];
+    [self takeSettingsFromDocument];
+    [self setShowsChangeMarks:[document showsChangeMarks]];
+
+	// set the right values for the status bars
+	[self TCM_updateBottomStatusBar];
+	[self.topBarViewController updateForSelectionDidChange];
+
+	// make sure we start out right
+	[self updateTopScrollViewInset];
+	[self updateBottomScrollViewInset];
+
     // trigger the notfications for the first time
     [self sessionDidChange:nil];
     [self participantsDidChange:nil];
-
-	// make sure we start out right
-	[I_textView adjustContainerInsetToScrollView];
+	
 }
 
 
@@ -553,13 +605,35 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     }
 }
 
+- (BOOL)hasDarkBackground {
+	BOOL result = self.document.documentBackgroundColor.isDark;
+	return result;
+}
+
+- (void)updateColorsForIsDarkBackground:(BOOL)isDark {
+	[self.topBarViewController updateColorsForIsDarkBackground:isDark];
+	// bottom bar
+	NSColor *darkColor = [NSColor darkOverlayBackgroundColorBackgroundIsDark:isDark];
+	NSColor *darkSeparatorColor = [NSColor darkOverlaySeparatorColorBackgroundIsDark:isDark];
+	[O_windowWidthTextField setBorderColor:darkSeparatorColor];
+	[self.O_bottomStatusBarView.layer setBackgroundColor:[darkColor CGColor]];
+	
+	[O_bottomBarSeparatorLineView.layer setBackgroundColor:[darkSeparatorColor CGColor]];
+	for (PopUpButton *button in @[O_modePopUpButton,O_tabStatusPopUpButton, O_encodingPopUpButton, O_lineEndingPopUpButton]) {
+		[button setLineColor:darkSeparatorColor];
+	}
+	
+	// overlays?
+}
 
 - (void)takeStyleSettingsFromDocument
 {
     PlainTextDocument *document = [self document];
     if (document)
     {
+		BOOL isDark = [self hasDarkBackground];
         [[self textView] setBackgroundColor:[document documentBackgroundColor]];
+		[self updateColorsForIsDarkBackground:isDark];
         NSColor *invisibleCharacterColor = [[document styleAttributesForScope:@"meta.invisible.character" languageContext:nil] objectForKey:NSForegroundColorAttributeName];
         [(LayoutManager *)[[self textView] layoutManager] setInvisibleCharacterColor : invisibleCharacterColor ? invisibleCharacterColor :[NSColor grayColor]];
     }
@@ -576,6 +650,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
         [self setWrapsLines:[document wrapLines]];
         [self setShowsGutter:[document showsGutter]];
         [self setShowsTopStatusBar:[document showsTopStatusBar]];
+        [self setShowsBottomStatusBar:[document showsBottomStatusBar]];
         [I_textView setEditable:[document isEditable]];
         [I_textView setContinuousSpellCheckingEnabled:[document isContinuousSpellCheckingEnabled]];
 
@@ -604,177 +679,17 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
         }
     }
 
-    [self updateSymbolPopUpSorted:NO];
-    [self TCM_updateStatusBar];
+	[self.topBarViewController updateSymbolPopUpContent];
+	[self.topBarViewController updateForSelectionDidChange];
+	
     [self TCM_updateBottomStatusBar];
     [self adjustDisplayOfPageGuide];
 }
 
 
-#define SPACING 5.
-
-- (void)TCM_adjustTopStatusBarFrames {
-    static CGFloat s_initialXPosition = NAN;
-    if (isnan(s_initialXPosition)) {
-        s_initialXPosition = [O_positionTextField frame].origin.x;
-    }
-		
-    if (I_flags.showTopStatusBar) {
-        NSRect bounds = [self.O_topStatusBarView bounds];
-
-		PlainTextDocument *document = [self document];
-		BOOL isWaiting = [document isWaiting];
-		BOOL hasSymbols = [[document documentMode] hasSymbols];
-
-		// document is waiting for some input from a pipe so show an indicator for that
-        [O_waitPipeStatusImageView setHidden:!isWaiting];
-        [O_positionTextField setHasLeftBorder:isWaiting];
-
-		// if there are no symbols hide the symbols popup
-		[O_symbolPopUpButton setHidden:!hasSymbols];
-
-		// calculate optimal size for position text field
-		NSSize positionTextSize = [[O_positionTextField stringValue] sizeWithAttributes:@{NSFontAttributeName: [O_positionTextField font]}];
-        NSRect positionTextFrame = [O_positionTextField frame];
-		positionTextFrame.origin.x = isWaiting ? s_initialXPosition + 19. : s_initialXPosition;
-        positionTextFrame.size.width = positionTextSize.width + 9.;
-
-		// calculate optimal width for symbol popup
-		CGFloat symbolPopupWidth = [(PopUpButtonCell *)[O_symbolPopUpButton cell] desiredWidth];
-        NSRect symbolPopupFrame = [O_symbolPopUpButton frame];
-        symbolPopupFrame.origin.x = NSMaxX(positionTextFrame);
-		symbolPopupFrame.size.width = symbolPopupWidth;
-
-		// calculate optimal size of writtenBy text field
-		NSSize writtenByTextSize = [[O_writtenByTextField stringValue] sizeWithAttributes:@{NSFontAttributeName: [O_positionTextField font]}];
-        NSRect writtenByTextFrame = [O_writtenByTextField frame];
-        writtenByTextFrame.size.width = writtenByTextSize.width + SPACING;
-
-		// toggle split view button, just needed for size here
-		NSRect splitToggleButtonFrame = [O_splitButton frame];
-		CGFloat splitButtonWidth = NSWidth(splitToggleButtonFrame);
-
-		// the writtenBy text field has priorty over the symbol popup so give it all space it wants if possible
-        CGFloat remainingWidth = bounds.size.width - symbolPopupFrame.origin.x - SPACING - SPACING - splitButtonWidth;
-		if (writtenByTextFrame.size.width + symbolPopupFrame.size.width > remainingWidth) {
-			// make sure symbol popup does not get smaller than 20 px.
-            if (remainingWidth - writtenByTextFrame.size.width > 20.) {
-                symbolPopupFrame.size.width = remainingWidth - writtenByTextFrame.size.width;
-            } else {
-                // To small for both views, split space equaly and give the popup 20px more space
-                CGFloat remainingSpace = (remainingWidth - 20.) / 2.;
-                symbolPopupFrame.size.width = remainingSpace + 20.;
-                writtenByTextFrame.size.width = remainingSpace;
-            }
-        }
-
-		// finally we can calulate the origin of the writtenBy text field
-        writtenByTextFrame.origin.x = bounds.origin.x + bounds.size.width - writtenByTextFrame.size.width - SPACING - splitButtonWidth;
-
-		// adjust all frames to backing grid
-		positionTextFrame = [O_positionTextField centerScanRect:positionTextFrame];
-		symbolPopupFrame = [O_symbolPopUpButton centerScanRect:symbolPopupFrame];
-		writtenByTextFrame = [O_writtenByTextField centerScanRect:writtenByTextFrame];
-
-		// set frames
-		[O_positionTextField setFrame:positionTextFrame];
-        [O_symbolPopUpButton setFrame:symbolPopupFrame];
-		[O_writtenByTextField setFrame:writtenByTextFrame];
-
-		[self.O_topStatusBarView setNeedsDisplay:YES];
-    }
-	
-}
-
 - (BOOL)isShowingFindAndReplaceInterface {
 	BOOL result = self.findAndReplaceController && [self.topOverlayViewController isEqual:self.findAndReplaceController];
 	return result;
-}
-
-- (void)TCM_updateStatusBar {
-    if (I_flags.showTopStatusBar)
-    {
-        NSRange selection = [I_textView selectedRange];
-
-        // findLine
-        FoldableTextStorage *textStorage = (FoldableTextStorage *)[I_textView textStorage];
-        NSString *string = [textStorage positionStringForRange:selection];
-
-        if (selection.location < [textStorage length])
-        {
-            id blockAttribute = [textStorage
-                                 attribute:BlockeditAttributeName
-								 atIndex			:selection.location
-								 effectiveRange	:nil];
-
-            if (blockAttribute) string = [string stringByAppendingFormat:@" %@", NSLocalizedString(@"[Blockediting]", nil)];
-        }
-
-        [O_positionTextField setStringValue:string];
-
-        [O_writtenByTextField setStringValue:@""];
-
-        NSString *followUserID = [self followUserID];
-
-        if (followUserID)
-        {
-            NSString *userName = [[[TCMMMUserManager sharedInstance] userForUserID:followUserID] name];
-
-            if (userName)
-            {
-                [O_writtenByTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Following %@", "Status bar text when following"), userName]];
-            }
-        }
-        else
-        {
-            if (selection.location < [textStorage length])
-            {
-                NSRange range;
-                NSString *userId = [textStorage attribute:WrittenByUserIDAttributeName
-											 atIndex					:selection.location
-								   longestEffectiveRange	:&range
-											 inRange					:selection];
-
-                if (!userId && selection.length > range.length)
-                {
-                    userId = [[[self document] textStorage] attribute:WrittenByUserIDAttributeName
-														 atIndex					:NSMaxRange(range)
-											   longestEffectiveRange	:&range
-														 inRange					:selection];
-                }
-
-                if (userId)
-                {
-                    NSMutableString *string = nil;
-                    NSString *userName = nil;
-
-                    if ([userId isEqualToString:[TCMMMUserManager myUserID]])
-                    {
-                        userName = NSLocalizedString(@"me", nil);
-                    }
-                    else
-                    {
-                        userName = [[[TCMMMUserManager sharedInstance] userForUserID:userId] name];
-
-                        if (!userName) userName = @"";
-                    }
-
-                    if (selection.length > range.length)
-                    {
-                        string = [NSMutableString stringWithFormat:NSLocalizedString(@"Written by %@ et al", nil), userName];
-                    }
-                    else
-                    {
-                        string = [NSMutableString stringWithFormat:NSLocalizedString(@"Written by %@", nil), userName];
-                    }
-
-                    [O_writtenByTextField setStringValue:string];
-                }
-            }
-        }
-
-        [self TCM_adjustTopStatusBarFrames];
-    }
 }
 
 - (void)adjustToScrollViewInsets {
@@ -792,8 +707,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 
-- (NSSize)desiredSizeForColumns:(int)aColumns rows:(int)aRows
-{
+- (NSSize)desiredSizeForColumns:(int)aColumns rows:(int)aRows {
     NSSize result;
     NSFont *font = [[self document] fontWithTrait:0];
     CGFloat characterWidth = [@"n" sizeWithAttributes :[NSDictionary dictionaryWithObject:font forKey:NSFontAttributeName]].width;
@@ -884,15 +798,11 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
 - (void)TCM_updateNumberOfActiveParticipants {
     NSLayoutManager *layoutManager = [I_textView layoutManager];
-    if ([layoutManager respondsToSelector:@selector(setAllowsNonContiguousLayout:)])
-    {
-		NSUInteger participantCount = [[[self document] session] participantCount];
-		self.numberOfActiveParticipants = @(participantCount);
-		self.showsNumberOfActiveParticipants = participantCount > 1;
-		
-        ((void (
-		  *)(id, SEL, BOOL))objc_msgSend)(layoutManager, @selector(setAllowsNonContiguousLayout:), (participantCount == 1));
-    }
+	NSUInteger participantCount = [[[self document] session] participantCount];
+	self.numberOfActiveParticipants = @(participantCount);
+	self.showsNumberOfActiveParticipants = participantCount > 1;
+	
+	[layoutManager setAllowsNonContiguousLayout:(participantCount == 1)];
 }
 
 - (void)TCM_updateBottomStatusBar {
@@ -986,16 +896,18 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 
-- (void)setWindowControllerTabContext:(PlainTextWindowControllerTabContext *)aContext
-{
+- (void)setWindowControllerTabContext:(PlainTextWindowControllerTabContext *)aContext {
     I_windowControllerTabContext = aContext;
 }
 
+- (PlainTextWindowControllerTabContext *)windowControllerTabContext {
+	return I_windowControllerTabContext;
+}
 
 - (void)updateSplitButtonForIsSplit:(BOOL)aFlag
 {
     if (I_flags.hasSplitButton) {
-		[O_splitButton setImage:[NSImage imageNamed:aFlag?@"EditorRemoveSplit":@"EditorAddSplit"]];
+		self.topBarViewController.splitButtonShowsClose = aFlag;
     }
 }
 
@@ -1333,7 +1245,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
 - (void)updateViews
 {
-    [self TCM_adjustTopStatusBarFrames];
+    [self.topBarViewController updateForSelectionDidChange];
     [self TCM_updateBottomStatusBar];
 	[self TCM_updateLocalizedToolTips];
 	[self updateAnnounceButton];
@@ -1374,10 +1286,13 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
 		if (viewController) {
 			NSView *bottomOverlayView = viewController.view;
-			NSView *superview = self.O_editorView;
-			[superview addSubview:bottomOverlayView];
+			NSView *containerview = self.bottomBlurLayerView;
+			[containerview addSubview:bottomOverlayView];
 			// width
-			[superview addConstraint:[NSLayoutConstraint constraintWithItem:bottomOverlayView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeWidth multiplier:1 constant:0]];
+			[containerview addConstraints:@[
+											[NSLayoutConstraint TCM_constraintWithItem:bottomOverlayView secondItem:containerview equalAttribute:NSLayoutAttributeWidth],
+											[NSLayoutConstraint TCM_constraintWithItem:bottomOverlayView secondItem:containerview equalAttribute:NSLayoutAttributeTop],
+			 ]];
 
 			self.bottomOverlayViewController = viewController;
 		}
@@ -1393,27 +1308,41 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 - (void)updateTopPinConstraints {
-	NSView *topStatusBarView = self.O_topStatusBarView;
-	NSView *containerView = topStatusBarView.superview;
-	NSView *topOverlayView = self.topOverlayViewController.view;
-	if (self.topStatusBarPinConstraint) {
-		[containerView removeConstraint:self.topStatusBarPinConstraint];
-	}
-	self.topStatusBarPinConstraint = [NSLayoutConstraint constraintWithItem:topStatusBarView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:(topOverlayView ?: containerView) attribute:topOverlayView ? NSLayoutAttributeBottom : NSLayoutAttributeTop multiplier:1.0 constant:0.0];
-	[containerView addConstraint:self.topStatusBarPinConstraint];
+	SEEOverlayView *blurView = self.topBlurLayerView;
+	NSView *containerView = blurView.superview;
+	[containerView removeConstraints:self.topBlurBackgroundConstraints];
+	self.topBlurBackgroundConstraints = ({
+		NSArray *constraints = nil;
+		NSView *topOverlayView = self.topOverlayViewController.view;
+		NSView *topBarView = self.topBarViewController.view;
+		CGFloat offset = self.showsTopStatusBar ? NSHeight(topBarView.frame) : 0.0;
+		if (!topOverlayView.superview) {
+			constraints = @[[NSLayoutConstraint constraintWithItem:blurView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:offset]];
+		} else { // -> (topOverlayView.superview) is true
+			constraints = @[[NSLayoutConstraint constraintWithItem:blurView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:topOverlayView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:offset]];
+		}
+		[containerView addConstraints:constraints];
+		constraints;
+	});
 }
 
 - (void)updateBottomPinConstraints {
-	NSView *bottomStatusBarView = self.O_bottomStatusBarView;
-	NSView *containerView = bottomStatusBarView.superview.superview;
-	NSView *bottomOverlayView = self.bottomOverlayViewController.view;
-	if (self.bottomOverlayViewPinConstraint) {
-		[containerView removeConstraint:self.bottomOverlayViewPinConstraint];
-	}
-	if (bottomOverlayView) {
-		self.bottomOverlayViewPinConstraint = [NSLayoutConstraint constraintWithItem:bottomOverlayView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:(bottomStatusBarView.isHidden ? containerView : bottomStatusBarView) attribute:bottomStatusBarView.isHidden ? NSLayoutAttributeBottom : NSLayoutAttributeTop multiplier:1.0 constant:0.0];
-		[containerView addConstraint:self.bottomOverlayViewPinConstraint];
-	}
+	SEEOverlayView *blurView = self.bottomBlurLayerView;
+	NSView *containerView = blurView.superview;
+	[containerView removeConstraints:self.bottomBlurBackgroundConstraints];
+	self.bottomBlurBackgroundConstraints = ({
+		NSArray *constraints = nil;
+		NSView *bottomOverlayView = self.bottomOverlayViewController.view;
+		NSView *bottomBarView = self.O_bottomStatusBarView;
+		CGFloat offset = self.showsBottomStatusBar ? NSHeight(bottomBarView.frame) : 0.0;
+		if (!bottomOverlayView.superview) {
+			constraints = @[[NSLayoutConstraint constraintWithItem:blurView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:offset]];
+		} else { // -> (topOverlayView.superview) is true
+			constraints = @[[NSLayoutConstraint constraintWithItem:blurView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:bottomOverlayView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:offset]];
+		}
+		[containerView addConstraints:constraints];
+		constraints;
+	});
 }
 
 - (void)displayViewControllerInTopArea:(NSViewController *)aViewController {
@@ -1427,7 +1356,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 		
 		if (aViewController) {
 			NSView *overlayView = aViewController.view;
-			NSView *superview = self.O_topStatusBarView.superview;
+			NSView *superview = self.topBarViewController.view.superview;
 			[superview addSubview:overlayView];
 
 			// width
@@ -1439,9 +1368,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 		}
 		[self updateTopPinConstraints];
 		[self updateTopScrollViewInset];
-		[self TCM_adjustTopStatusBarFrames];
 	}
-	[self adjustToScrollViewInsets];
 }
 
 - (IBAction)toggleFindAndReplace:(id)aSender {
@@ -1805,6 +1732,9 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     [self TCM_updateBottomStatusBar];
 }
 
+- (IBAction)positionButtonAction:(id)aSender {
+	[self positionClick:aSender];
+}
 
 - (IBAction)positionClick:(id)aSender
 {
@@ -1841,7 +1771,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 - (void)updateTopScrollViewInset {
 	CGFloat result = 0.0;
 	if (self.showsTopStatusBar) {
-		result += NSHeight(self.O_topStatusBarView.frame);
+		result += NSHeight(self.topBarViewController.view.frame);
 	}
 	if (self.topOverlayViewController.view) {
 		[self.topOverlayViewController.view.window layoutIfNeeded];
@@ -1864,32 +1794,23 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	[self adjustToScrollViewInsets];
 }
 
-- (BOOL)showsTopStatusBar
-{
+- (BOOL)showsTopStatusBar {
     return I_flags.showTopStatusBar;
 }
 
 
-- (void)setShowsTopStatusBar:(BOOL)aFlag
-{
+- (void)setShowsTopStatusBar:(BOOL)aFlag {
     if (I_flags.showTopStatusBar != aFlag)
     {
         I_flags.showTopStatusBar = !I_flags.showTopStatusBar;
 
-		if (!I_flags.showTopStatusBar) {
-			self.topStatusBarViewBackgroundFilters = self.O_topStatusBarView.layer.backgroundFilters;
-			self.O_topStatusBarView.layer.backgroundFilters = nil;
-		} else {
-			self.O_topStatusBarView.layer.backgroundFilters = self.topStatusBarViewBackgroundFilters;
-			self.topStatusBarViewBackgroundFilters = nil;
-		}
-
-		[self TCM_updateStatusBar];
-		[self.O_topStatusBarView setHidden:!I_flags.showTopStatusBar];
-        [self.O_topStatusBarView setNeedsDisplay:YES];
+		[self.topBarViewController setVisible:I_flags.showTopStatusBar];
+		[self.topBarViewController.view setNeedsDisplay:YES];
+		
 		[[O_scrollView verticalRulerView] setNeedsDisplay:YES];
         [[self document] setShowsTopStatusBar:aFlag];
 		[self updateTopScrollViewInset];
+		[self updateTopPinConstraints];
     }
 }
 
@@ -1902,15 +1823,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	
     if (I_flags.showBottomStatusBar != aFlag) {
         I_flags.showBottomStatusBar = !I_flags.showBottomStatusBar;
-
-		if (! I_flags.showBottomStatusBar) {
-			self.bottomStatusBarViewBackgroundFilters = self.O_bottomStatusBarView.layer.backgroundFilters;
-			self.O_bottomStatusBarView.layer.backgroundFilters = nil;
-		} else {
-			self.O_bottomStatusBarView.layer.backgroundFilters = self.bottomStatusBarViewBackgroundFilters;
-			self.bottomStatusBarViewBackgroundFilters = nil;
-		}
-
+		
         [self.O_bottomStatusBarView setHidden:!I_flags.showBottomStatusBar];
         [self.O_bottomStatusBarView setNeedsDisplay:YES];
 
@@ -1928,7 +1841,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
         [I_followUserID autorelease];
         I_followUserID = [userID copy];
         [self scrollToUserWithID:userID];
-        [self TCM_updateStatusBar];
+        [self.topBarViewController updateForSelectionDidChange];
 
 		[[NSNotificationCenter defaultCenter] postNotificationName:PlainTextEditorDidFollowUserNotification object:self];
     }
@@ -2224,10 +2137,9 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
         NSString *characters = [aEvent characters];
 
         if ([characters isEqualToString:@"2"] &&
-            [self showsTopStatusBar] &&
-            ![O_symbolPopUpButton isHidden])
+            self.topBarViewController.isVisible)
         {
-            [O_symbolPopUpButton performClick:self];
+            [self.topBarViewController keyboardActivateSymbolPopUp];
             return;
         }
         else if ([characters isEqualToString:@"1"])
@@ -2357,60 +2269,6 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
             [I_textView scrollRectToVisible:visibleRect];
             [[O_scrollView verticalRulerView] setNeedsDisplay:YES];
         }
-    }
-}
-
-
-#pragma mark -
-#pragma mark ### PopUpButton delegate methods ###
-- (void)updateSelectedSymbol
-{
-    PlainTextDocument *document = [self document];
-
-    if ([[document documentMode] hasSymbols])
-    {
-        int symbolTag = [document selectedSymbolForRange:[(FoldableTextStorage *)[[self document] textStorage] fullRangeForFoldedRange :[I_textView selectedRange]]];
-
-        if (symbolTag == -1)
-        {
-            [O_symbolPopUpButton selectItemAtIndex:0];
-        }
-        else
-        {
-            [O_symbolPopUpButton selectItem:[[O_symbolPopUpButton menu] itemWithTag:symbolTag]];
-        }
-    }
-}
-
-
-- (void)updateSymbolPopUpSorted:(BOOL)aSorted
-{
-    NSMenu *popUpMenu = [[self document] symbolPopUpMenuForView:I_textView sorted:aSorted];
-    NSPopUpButtonCell *cell = [O_symbolPopUpButton cell];
-
-    [[[cell menu] retain] autorelease];
-
-    if ([[popUpMenu itemArray] count])
-    {
-        NSMenu *copiedMenu = [popUpMenu copyWithZone:[NSMenu menuZone]];
-        [cell setMenu:copiedMenu];
-        [copiedMenu release];
-        [self updateSelectedSymbol];
-    }
-
-    [self TCM_adjustTopStatusBarFrames];
-}
-
-
-- (void)popUpWillShowMenu:(PopUpButton *)aButton
-{
-    NSEvent *currentEvent = [NSApp currentEvent];
-    BOOL sorted = ([currentEvent type] == NSLeftMouseDown && ([currentEvent modifierFlags] & NSAlternateKeyMask));
-
-    if (sorted != I_flags.symbolPopUpIsSorted)
-    {
-        [self updateSymbolPopUpSorted:sorted];
-        I_flags.symbolPopUpIsSorted = sorted;
     }
 }
 
@@ -2789,8 +2647,7 @@ willChangeSelectionFromCharacterRange	:aOldSelectedCharRange
         [[[self document] session] startProcessing];
     }
 
-    [self updateSelectedSymbol];
-    [self TCM_updateStatusBar];
+	[self.topBarViewController updateForSelectionDidChange];
 }
 
 
@@ -2858,12 +2715,6 @@ willChangeSelectionFromCharacterRange	:aOldSelectedCharRange
 }
 
 
-- (void)plainTextDocumentDidChangeSymbols:(NSNotification *)aNotification
-{
-    [self updateSymbolPopUpSorted:NO];
-}
-
-
 - (void)plainTextDocumentUserDidChangeSelection:(NSNotification *)aNotification
 {
     NSString *followUserID = [self followUserID];
@@ -2889,7 +2740,7 @@ willChangeSelectionFromCharacterRange	:aOldSelectedCharRange
 
 - (void)viewFrameDidChange:(NSNotification *)aNotification
 {
-    [self TCM_adjustTopStatusBarFrames];
+    [self.topBarViewController adjustLayout];
     [self TCM_updateBottomStatusBar];
 }
 

@@ -20,17 +20,13 @@ extern NSString * const PlainTextEditorDidChangeSearchScopeNotification;
 
 @class PlainTextWindowControllerTabContext,PlainTextDocument,SEEPlainTextEditorScrollView,PopUpButton,RadarScroller,TCMMMUser, SEETextView, BorderedTextField;
 
-@interface PlainTextEditor : NSResponder <NSTextViewDelegate, PopUpButtonDelegate> {
-    IBOutlet NSImageView *O_waitPipeStatusImageView;
-    IBOutlet BorderedTextField *O_positionTextField;
+@interface PlainTextEditor : NSResponder <NSTextViewDelegate> {
     IBOutlet PopUpButton *O_tabStatusPopUpButton;
-    IBOutlet NSTextField *O_windowWidthTextField;
-    IBOutlet NSTextField *O_writtenByTextField;
     IBOutlet PopUpButton *O_modePopUpButton;
     IBOutlet PopUpButton *O_encodingPopUpButton;
     IBOutlet PopUpButton *O_lineEndingPopUpButton;
-    IBOutlet PopUpButton *O_symbolPopUpButton;
-    IBOutlet NSButton	 *O_splitButton;
+    IBOutlet BorderedTextField *O_windowWidthTextField;
+	IBOutlet NSView *O_bottomBarSeparatorLineView;
     IBOutlet SEEPlainTextEditorScrollView *O_scrollView;
     RadarScroller   *I_radarScroller;
     SEETextView        *I_textView;
@@ -93,11 +89,9 @@ extern NSString * const PlainTextEditorDidChangeSearchScopeNotification;
 - (void)setFollowUserID:(NSString *)userID;
 - (NSString *)followUserID;
 - (void)setWindowControllerTabContext:(PlainTextWindowControllerTabContext *)aContext;
+- (PlainTextWindowControllerTabContext *)windowControllerTabContext;
 - (void)takeStyleSettingsFromDocument;
 - (void)takeSettingsFromDocument;
-
-- (void)updateSelectedSymbol;
-- (void)updateSymbolPopUpSorted:(BOOL)aSorted;
 
 - (void)setRadarMarkForUser:(TCMMMUser *)aUser;
 
@@ -117,6 +111,7 @@ extern NSString * const PlainTextEditorDidChangeSearchScopeNotification;
 - (IBAction)toggleWrap:(id)aSender;
 - (IBAction)toggleShowsChangeMarks:(id)aSender;
 
+- (IBAction)toggleTopStatusBar:(id)aSender;
 - (IBAction)toggleFindAndReplace:(id)aSender;
 - (IBAction)showFindAndReplace:(id)aSender;
 - (IBAction)hideFindAndReplace:(id)aSender;
@@ -134,6 +129,9 @@ extern NSString * const PlainTextEditorDidChangeSearchScopeNotification;
 - (IBAction)jumpToNextChange:(id)aSender;
 - (IBAction)jumpToPreviousChange:(id)aSender;
 
+- (IBAction)positionButtonAction:(id)aSender;
+
+
 - (void)selectRange:(NSRange)aRange;
 - (void)selectRangeInBackground:(NSRange)aRange;
 - (void)selectRangeInBackgroundWithoutIndication:(NSRange)aRange expandIfFolded:(BOOL)aFlag;
@@ -145,6 +143,7 @@ extern NSString * const PlainTextEditorDidChangeSearchScopeNotification;
 
 - (void)updateTopScrollViewInset;
 - (void)adjustToScrollViewInsets;
+
 
 @property (nonatomic, readonly) PlainTextWindowController *plainTextWindowController;
 @property (nonatomic, readonly) NSValue *searchScopeValue;

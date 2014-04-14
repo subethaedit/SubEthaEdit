@@ -132,7 +132,7 @@ static DocumentModeManager *S_sharedInstance=nil;
 }
 
 + (NSString *)defaultStyleSheetName {
-	return @"Bright Lisa";
+	return @"SubEthaEdit Bright";
 }
 
 + (NSString *)xmlFileRepresentationOfAllStyles {

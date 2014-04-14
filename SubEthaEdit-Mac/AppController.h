@@ -34,7 +34,7 @@ extern int const WindowMenuTag;
 extern int const GotoTabMenuItemTag;
 extern int const ModeMenuTag;
 extern int const SwitchModeMenuTag;
-extern int const HighlightSyntaxMenuTag;
+extern int const ReloadModesMenuItemTag;
 extern int const ScriptMenuTag;
 
 

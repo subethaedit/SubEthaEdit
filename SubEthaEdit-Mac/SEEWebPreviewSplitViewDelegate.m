@@ -14,6 +14,7 @@
 #import "PlainTextWindowControllerTabContext.h"
 #import "SEEWebPreviewViewController.h"
 #import "PlainTextWindowControllerTabContext.h"
+#import "SEESplitView.h"
 
 @interface SEEWebPreviewSplitViewDelegate ()
 @property (nonatomic, weak) PlainTextWindowControllerTabContext *tabContext;
@@ -82,5 +83,11 @@
 		[splitView adjustSubviews];
 	}
 }
+
+- (NSColor *)dividerColorForSplitView:(SEESplitView *)aSplitView {
+	NSColor *result = [[NSColor darkOverlaySeparatorColorBackgroundIsDark:self.tabContext.document.documentBackgroundColor.isDark] colorWithAlphaComponent:1.0];
+	return result;
+}
+
 
 @end

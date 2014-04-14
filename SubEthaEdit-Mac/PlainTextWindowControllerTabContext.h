@@ -53,7 +53,9 @@ extern NSString * const SEEPlainTextWindowControllerTabContextActiveEditorDidCha
 @property (nonatomic, strong) NSImage *icon;
 @property (nonatomic, strong) NSString *iconName;
 
+- (void)toggleEditorSplit;
 @property (nonatomic, assign) BOOL hasEditorSplit;
 @property (nonatomic, assign) BOOL hasWebPreviewSplit;
+
 
 @end

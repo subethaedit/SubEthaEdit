@@ -11,5 +11,7 @@
 #import <Cocoa/Cocoa.h>
 
 @interface SEEOverlayView : NSView
-
++ (NSArray *)TCM_backgroundBlurFiltersForAdjustedBrightness:(CGFloat)anAdjustmentFactor;
+@property (nonatomic, getter=isBackgroundBlurActive) BOOL backgroundBlurActive;
+@property (nonatomic) CGFloat brightnessAdjustForInactiveWindowState;
 @end

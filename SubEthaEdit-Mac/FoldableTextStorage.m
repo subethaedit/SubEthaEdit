@@ -782,11 +782,11 @@ typedef union {
 }
 
 
-- (unsigned int)encoding {
+- (NSStringEncoding)encoding {
 	return [I_fullTextStorage encoding];
 }
 
-- (void)setEncoding:(unsigned int)anEncoding {
+- (void)setEncoding:(NSStringEncoding)anEncoding {
 	[I_fullTextStorage setEncoding:anEncoding];
 }
 

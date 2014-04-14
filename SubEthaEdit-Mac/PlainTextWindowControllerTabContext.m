@@ -17,6 +17,7 @@
 #import "PlainTextLoadProgress.h"
 
 #import "SEEEncodingDoctorDialogViewController.h"
+#import "SEESplitView.h"
 
 // this file needs arc - add -fobjc-arc in the compile build phase
 #if !__has_feature(objc_arc)
@@ -132,6 +133,19 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 
 #pragma mark - Editor Split
 
+- (void)toggleEditorSplit {
+	
+	id firstResponder = [self.plainTextEditors[0] textView].window.firstResponder;
+	BOOL wasFirstResponder = [[self.plainTextEditors valueForKeyPath:@"textView"] containsObject:firstResponder];
+	
+	self.hasEditorSplit = ! self.hasEditorSplit;
+
+	if (wasFirstResponder) {
+		NSTextView *textView = [self.plainTextEditors[0] textView];
+		[textView.window makeFirstResponder:textView];
+	}
+}
+
 - (void)updateEditorSplitView {
 	NSMutableArray *plainTextEditors = self.plainTextEditors;
 	PlainTextWindowController *windowController = self.windowController;
@@ -145,9 +159,10 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 			plainTextEditor.editorView.identifier = @"SecondEditor";
 			[plainTextEditors addObject:plainTextEditor];
 
-			NSSplitView *editorSplitView = [[NSSplitView alloc] initWithFrame:[[plainTextEditors[0] editorView] frame]];
+			NSSplitView *editorSplitView = [[SEESplitView alloc] initWithFrame:[[plainTextEditors[0] editorView] frame]];
 			editorSplitView.identifier = @"EditorSplit";
 			editorSplitView.dividerStyle = NSSplitViewDividerStyleThin;
+			editorSplitView.layer.backgroundColor = [[NSColor darkOverlaySeparatorColorBackgroundIsDark:YES] CGColor];
 			SEEEditorSplitViewDelegate *splitDelegate = [[SEEEditorSplitViewDelegate alloc] initWithTabContext:self];
 			editorSplitView.delegate = splitDelegate;
 
@@ -271,7 +286,7 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 	} else if (self.hasWebPreviewSplit && self.webPreviewSplitView == nil) {
 		[viewRepresentedByTab removeFromSuperview];
 
-		NSSplitView *webPreviewSplitView = [[NSSplitView alloc] initWithFrame:viewRepresentedByTab.frame];
+		NSSplitView *webPreviewSplitView = [[SEESplitView alloc] initWithFrame:viewRepresentedByTab.frame];
 		SEEWebPreviewSplitViewDelegate* webPreviewSplitDelegate = [[SEEWebPreviewSplitViewDelegate alloc] initWithTabContext:self];
 		webPreviewSplitView.identifier = @"WebPreviewSplit";
 		webPreviewSplitView.dividerStyle = NSSplitViewDividerStyleThin;
@@ -283,15 +298,17 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 
 		SEEWebPreviewViewController *webPreviewViewController = [[SEEWebPreviewViewController alloc] initWithPlainTextDocument:self.document];
 
+		self.webPreviewViewController = webPreviewViewController;
+		self.webPreviewSplitViewDelegate = webPreviewSplitDelegate;
+		self.webPreviewSplitView = webPreviewSplitView;
+		
 		[webPreviewSplitView addSubview:webPreviewViewController.view];
 		[webPreviewSplitView addSubview:viewRepresentedByTab];
+		[self.windowController updateWindowMinSize];
 		[webPreviewSplitView adjustSubviews];
 
 		[webPreviewViewController refreshAndEmptyCache:self];
 
-		self.webPreviewViewController = webPreviewViewController;
-		self.webPreviewSplitViewDelegate = webPreviewSplitDelegate;
-		self.webPreviewSplitView = webPreviewSplitView;
 	}
 
 	[self.windowController updateWindowMinSize];

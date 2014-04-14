@@ -11,10 +11,6 @@
 
 @interface NSColor (NSColorTCMAdditions)
 
-+ (NSColor *)searchScopeBaseColor;
-+ (NSColor *)insertionsStatisticsColor;
-+ (NSColor *)deletionsStatisticsColor;
-+ (NSColor *)selectionsStatisticsColor;
 + (NSColor *)colorForHTMLString:(NSString *)htmlString;
 - (NSString *)shortHTMLString;
 - (NSString *)HTMLString;

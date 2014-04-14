@@ -21,7 +21,7 @@ extern NSString * const SEESearchScopeAttributeName;
     unsigned int I_lineStartsValidUpTo;
     unsigned I_numberOfWords;
     
-    unsigned int I_encoding;
+    NSStringEncoding I_encoding;
     LineEnding I_lineEnding;
 	struct {
         BOOL hasMixedLineEndings;
@@ -51,8 +51,8 @@ extern NSString * const SEESearchScopeAttributeName;
 - (void)setShouldWatchLineEndings:(BOOL)aFlag;
 - (BOOL)hasMixedLineEndings;
 - (void)setHasMixedLineEndings:(BOOL)aFlag;
-- (unsigned int)encoding;
-- (void)setEncoding:(unsigned int)anEncoding;
+- (NSStringEncoding)encoding;
+- (void)setEncoding:(NSStringEncoding)anEncoding;
 - (NSArray *)selectionOperationsForRangesUnconvertableToEncoding:(NSStringEncoding)encoding;
 
 - (BOOL)nextLineNeedsIndentation:(NSRange)aLineRange;

@@ -9,8 +9,6 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface PlainTextWindow : NSWindow {
-
-}
-
+@interface PlainTextWindow : NSWindow
+@property BOOL constrainingToScreenSuspended;
 @end

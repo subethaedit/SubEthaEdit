@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5053" systemVersion="13D21" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5053" systemVersion="13D38" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1090" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5053"/>
@@ -80,7 +80,7 @@
                                     <action selector="newDocument:" target="-1" id="194"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="New Tab" tag="102" keyEquivalent="n" id="618">
+                            <menuItem title="New Tab" tag="102" alternate="YES" keyEquivalent="n" id="618">
                                 <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                 <connections>
                                     <action selector="newAlternateDocument:" target="-1" id="619"/>
@@ -91,7 +91,7 @@
                                     <action selector="openNormalDocument:" target="252" id="654"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Open in New Window…" keyEquivalent="o" id="651">
+                            <menuItem title="Open in New Window…" alternate="YES" keyEquivalent="o" id="651">
                                 <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                 <connections>
                                     <action selector="openAlternateDocument:" target="252" id="653"/>
@@ -628,21 +628,21 @@
                             <menuItem isSeparatorItem="YES" id="226">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Clear Change Marks" keyEquivalent="m" id="397">
+                            <menuItem title="Highlight Changes" id="398">
+                                <connections>
+                                    <action selector="toggleShowsChangeMarks:" target="-1" id="399"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Clear Change Highlighting" keyEquivalent="m" id="397">
                                 <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                 <connections>
                                     <action selector="clearChangeMarks:" target="-1" id="400"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Restore Change Marks" keyEquivalent="M" id="657">
+                            <menuItem title="Restore Change Hightlighting" alternate="YES" keyEquivalent="M" id="657">
                                 <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                 <connections>
                                     <action selector="restoreChangeMarks:" target="-1" id="659"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Show Change Marks" id="398">
-                                <connections>
-                                    <action selector="toggleShowsChangeMarks:" target="-1" id="399"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="396">
@@ -671,6 +671,11 @@
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="395">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Highlight Syntax" id="403">
+                                <connections>
+                                    <action selector="toggleSyntaxHighlighting:" target="-1" id="404"/>
+                                </connections>
                             </menuItem>
                             <menuItem title="Code Folding" tag="4400" id="710">
                                 <modifierMask key="keyEquivalentModifierMask"/>
@@ -961,17 +966,9 @@
                             <menuItem title="Switch Mode" tag="10" id="250">
                                 <menu key="submenu" title="Switch Mode" id="249"/>
                             </menuItem>
-                            <menuItem title="Reload Modes" id="550">
+                            <menuItem title="Reload Modes" tag="20" id="550">
                                 <connections>
                                     <action selector="reloadDocumentModes:" target="210" id="551"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem isSeparatorItem="YES" id="246">
-                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
-                            </menuItem>
-                            <menuItem title="Highlight Syntax" tag="20" id="403">
-                                <connections>
-                                    <action selector="toggleSyntaxHighlighting:" target="-1" id="404"/>
                                 </connections>
                             </menuItem>
                         </items>

@@ -49,10 +49,6 @@
 
 @end
 
-@interface NSTextView (NSTextViewTCMPrivateAdditions) 
-- (void)_adjustedCenteredScrollRectToVisible:(NSRect)aRect forceCenter:(BOOL)force;
-@end
-
 @implementation SEETextView
 
 #define VERTICAL_INSET 2.0
@@ -66,19 +62,12 @@
 // 	[super setNeedsDisplayInRect:aRect avoidAdditionalLayout:NO];
 // }
 
-- (void)_adjustedCenteredScrollRectToVisible:(NSRect)aRect forceCenter:(BOOL)force {
-    if (aRect.origin.x == [[self textContainer] lineFragmentPadding]) {
-        aRect.origin.x = 0; // fixes the left hand edge moving
-    }
-    [super _adjustedCenteredScrollRectToVisible:aRect forceCenter:force];
-}
-
 - (void)adjustContainerInsetToScrollView {
 	SEEPlainTextEditorScrollView *enclosingScrollView = (SEEPlainTextEditorScrollView *)self.enclosingScrollView;
 	if ([enclosingScrollView isKindOfClass:[SEEPlainTextEditorScrollView class]]) {
 		NSSize currentInset = [self textContainerInset];
 		CGFloat height = (enclosingScrollView.topOverlayHeight + enclosingScrollView.bottomOverlayHeight) / 2.0;
-		height = height + VERTICAL_INSET;
+		height = height + VERTICAL_INSET / 2.0;
 		if (height != currentInset.height) {
 			currentInset.height = height;
 			[self setTextContainerInset:currentInset];
@@ -618,6 +607,7 @@ static NSMenu *S_defaultMenu=nil;
     [[self enclosingScrollView] setDocumentCursor:isDark?[NSCursor invertedIBeamCursor]:[NSCursor IBeamCursor]];
     if (( wasDark && !isDark) || 
         (!wasDark &&  isDark)) {
+		BOOL wasFirstResponder = [[self.window firstResponder] isEqual:self];
         // remove and add from Superview to activiate my cursor rect and deactivate the ones of the TextView
         NSScrollView *sv = [self enclosingScrollView];
         NSView *superview = [sv superview];
@@ -629,6 +619,9 @@ static NSMenu *S_defaultMenu=nil;
 		}
         [sv removeFromSuperview];
         [superview addSubview:sv positioned:NSWindowBelow relativeTo:viewAbove];
+		if (wasFirstResponder) {
+			[self.window makeFirstResponder:self];
+		}
     }
     [[self window] invalidateCursorRectsForView:self];
 }
@@ -827,6 +820,52 @@ static NSMenu *S_defaultMenu=nil;
 	}];
 }
 
+- (NSRange)topLeftCharacterRange {
+    // idea: get the character index of the character in the upper left of the window, store that, and for restore apply the operation and scroll that character back to the upper left line
+    NSRect visibleRect = [self.enclosingScrollView documentVisibleRect];
+    NSPoint point = visibleRect.origin;
+	
+    point.y += 1.;
+    NSLayoutManager *layoutManager = [self layoutManager];
+    NSTextStorage *textStorage = [self textStorage];
+	
+    if ([textStorage length]) {
+        unsigned glyphIndex = [layoutManager glyphIndexForPoint:point
+												inTextContainer:[self textContainer]];
+        unsigned characterIndex = [layoutManager characterIndexForGlyphAtIndex:glyphIndex];
+		return NSMakeRange(characterIndex, 0);
+    }
+	return NSMakeRange(NSNotFound,0);
+}
+
+
+- (void)scrollCharacterRangeToTopLeft:(NSRange)aCharacterRange {
+    if (aCharacterRange.location != NSNotFound &&
+		[[self textStorage] length]) {
+        NSLayoutManager *layoutManager = [self layoutManager];
+        unsigned glyphIndex = [layoutManager glyphRangeForCharacterRange:aCharacterRange actualCharacterRange:NULL].location;
+        NSRect boundingRect  = [layoutManager lineFragmentRectForGlyphAtIndex:glyphIndex
+															   effectiveRange:nil];
+        NSRect visibleRect = [self.enclosingScrollView documentVisibleRect];
+		
+        if (visibleRect.origin.y != boundingRect.origin.y) {
+            visibleRect.origin.y = boundingRect.origin.y;
+            [self scrollRectToVisible:visibleRect];
+        }
+    }
+}
+
+
+- (void)viewDidEndLiveResize {
+	// fix top left position
+	NSRange topLeftCharacterRange = [self topLeftCharacterRange];
+	
+	[super viewDidEndLiveResize];
+	
+	// scroll back
+	[self scrollCharacterRangeToTopLeft:topLeftCharacterRange];
+}
+
 - (BOOL)scrollRectToVisible:(NSRect)aRect {
 	if (self.TCM_adjustsVisibleRectWithInsets) {
 		SEEPlainTextEditorScrollView *enclosingScrollView = (SEEPlainTextEditorScrollView *)[self enclosingScrollView];
@@ -835,6 +874,12 @@ static NSMenu *S_defaultMenu=nil;
 			aRect.origin.y -= enclosingScrollView.topOverlayHeight;
 		}
 	}
+
+	if (aRect.origin.x == [[self textContainer] lineFragmentPadding]) {
+        aRect.origin.x = 0; // fixes the left hand edge moving when scrolled totally to the left
+    }
+
+	
 	BOOL result = [super scrollRectToVisible:aRect];
 	return result;
 }

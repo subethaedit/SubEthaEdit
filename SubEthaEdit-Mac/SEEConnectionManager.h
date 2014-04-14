@@ -8,10 +8,11 @@
 //           
 
 #import <Foundation/Foundation.h>
+#import "SEEConnection.h"
 
 @interface SEEConnectionManager : NSObject
 
-@property (nonatomic, strong) NSMutableArray *entries;
+@property (nonatomic, strong) NSMutableArray *entries; // array of SEEConnections; KVO compliant.
 
 + (SEEConnectionManager *)sharedInstance;
 

@@ -30,6 +30,7 @@
 #import "GeneralPreferences.h"
 #import "StylePreferences.h"
 #import "PrecedencePreferences.h"
+#import "SEECollaborationPreferenceModule.h"
 
 #import "HandshakeProfile.h"
 #import "SessionProfile.h"
@@ -93,7 +94,7 @@ int const FoldingFoldAllCurrentBlockMenuTag = 4443;
 int const GotoTabMenuItemTag = 3042;
 int const ModeMenuTag = 50;
 int const SwitchModeMenuTag = 10;
-int const HighlightSyntaxMenuTag = 20;
+int const ReloadModesMenuItemTag = 20;
 int const ScriptMenuTag = 4000;
 
 
@@ -453,6 +454,10 @@ static AppController *sharedInstance = nil;
     [TCMPreferenceController registerPrefModule:generalPrefs];
     EditPreferences *editPrefs = [[EditPreferences new] autorelease];
     [TCMPreferenceController registerPrefModule:editPrefs];
+
+	 SEECollaborationPreferenceModule *collabPrefs = [[SEECollaborationPreferenceModule new] autorelease];
+	 [TCMPreferenceController registerPrefModule:collabPrefs];
+	
     [TCMPreferenceController registerPrefModule:[[StylePreferences new] autorelease]];
     [TCMPreferenceController registerPrefModule:[[PrecedencePreferences new] autorelease]];
     [TCMPreferenceController registerPrefModule:[[AdvancedPreferences new] autorelease]];

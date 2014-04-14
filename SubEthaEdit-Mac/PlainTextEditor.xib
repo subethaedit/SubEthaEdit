@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5053" systemVersion="13D28" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1090" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5053"/>
@@ -7,20 +7,15 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PlainTextEditor">
             <connections>
+                <outlet property="O_bottomBarSeparatorLineView" destination="X6B-cI-pvN" id="R42-zq-hz3"/>
                 <outlet property="O_bottomStatusBarView" destination="28" id="29"/>
                 <outlet property="O_editorView" destination="5" id="12"/>
                 <outlet property="O_encodingPopUpButton" destination="77" id="78"/>
                 <outlet property="O_lineEndingPopUpButton" destination="81" id="83"/>
                 <outlet property="O_modePopUpButton" destination="75" id="76"/>
-                <outlet property="O_positionTextField" destination="13" id="14"/>
                 <outlet property="O_scrollView" destination="6" id="11"/>
-                <outlet property="O_splitButton" destination="cPs-Ka-upO" id="WZ3-I4-keW"/>
-                <outlet property="O_symbolPopUpButton" destination="61" id="62"/>
                 <outlet property="O_tabStatusPopUpButton" destination="84" id="86"/>
-                <outlet property="O_topStatusBarView" destination="27" id="30"/>
-                <outlet property="O_waitPipeStatusImageView" destination="68" id="69"/>
                 <outlet property="O_windowWidthTextField" destination="15" id="21"/>
-                <outlet property="O_writtenByTextField" destination="25" id="31"/>
                 <outlet property="ownerController" destination="UOY-gY-y9M" id="sBN-7j-yXB"/>
                 <outlet property="shareAnnounceButtonOutlet" destination="7Mi-Cu-bLB" id="XN5-mI-pJm"/>
                 <outlet property="shareInviteUsersButtonOutlet" destination="bv6-mv-CIq" id="hQV-kB-VvW"/>
@@ -35,12 +30,6 @@
                 <customView id="6" customClass="SEEPlainTextEditorScrollView">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="400"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                    <subviews>
-                        <customView id="y0Q-OD-MNN">
-                            <rect key="frame" x="0.0" y="284" width="163" height="96"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        </customView>
-                    </subviews>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="number" keyPath="topOverlayHeightNumber">
                             <integer key="value" value="17"/>
@@ -50,97 +39,31 @@
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                 </customView>
-                <customView id="27" userLabel="Top Blurred View" customClass="SEEOverlayView">
-                    <rect key="frame" x="0.0" y="382" width="600" height="18"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                    <subviews>
-                        <customView id="61" customClass="PopUpButton">
-                            <rect key="frame" x="71" y="0.0" width="178" height="18"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        </customView>
-                        <textField verticalHuggingPriority="750" id="25">
-                            <rect key="frame" x="401" y="0.0" width="181" height="18"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="&lt;written by ....>" id="91">
-                                <font key="font" metaFont="smallSystem"/>
-                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                            </textFieldCell>
-                        </textField>
-                        <textField toolTip="Cursor position" verticalHuggingPriority="750" id="13" customClass="BorderedTextField">
-                            <rect key="frame" x="0.0" y="0.0" width="179" height="18"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="&lt;Position>" id="90">
-                                <font key="font" metaFont="smallSystem"/>
-                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                            </textFieldCell>
-                            <connections>
-                                <action selector="positionClick:" target="-2" id="88"/>
-                            </connections>
-                        </textField>
-                        <imageView hidden="YES" toolTip="see command is waiting for the document to be closed" id="68">
-                            <rect key="frame" x="1" y="1" width="16" height="16"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="WaitPipe" id="92"/>
-                        </imageView>
-                        <button id="cPs-Ka-upO">
-                            <rect key="frame" x="583" y="0.0" width="18" height="18"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="EditorAddSplit" imagePosition="only" alignment="center" transparent="YES" imageScaling="proportionallyDown" inset="2" id="wd5-GI-xyx">
-                                <behavior key="behavior" lightByContents="YES"/>
-                                <font key="font" metaFont="system"/>
-                            </buttonCell>
-                            <connections>
-                                <action selector="toggleSplitView:" target="-1" id="7FJ-Xy-kDn"/>
-                            </connections>
-                        </button>
-                        <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="73">
-                            <rect key="frame" x="0.0" y="-2" width="600" height="5"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                            <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <font key="titleFont" metaFont="system"/>
-                        </box>
-                    </subviews>
-                    <backgroundFilters>
-                        <ciFilter name="CIColorControls">
-                            <configuration>
-                                <real key="inputBrightness" value="0.0"/>
-                                <real key="inputContrast" value="1"/>
-                                <null key="inputImage"/>
-                                <real key="inputSaturation" value="15"/>
-                            </configuration>
-                        </ciFilter>
-                        <ciFilter name="CIGaussianBlur">
-                            <configuration>
-                                <null key="inputImage"/>
-                                <real key="inputRadius" value="5"/>
-                            </configuration>
-                        </ciFilter>
-                    </backgroundFilters>
-                </customView>
-                <customView wantsLayer="YES" id="28" userLabel="Bottom Blurred View" customClass="SEEOverlayView">
+                <customView wantsLayer="YES" id="28" userLabel="Bottom Bar Main View">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="18"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <customView toolTip="Document mode" id="75" customClass="PopUpButton">
+                        <customView wantsLayer="YES" id="X6B-cI-pvN" userLabel="Bottom Bar Top Separator Line View">
+                            <rect key="frame" x="0.0" y="17" width="600" height="1"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        </customView>
+                        <customView toolTip="Document mode" id="75" userLabel="Mode Pop Up" customClass="PopUpButton">
                             <rect key="frame" x="0.0" y="0.0" width="90" height="18"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </customView>
-                        <customView toolTip="Tab settings" id="84" customClass="PopUpButton">
+                        <customView toolTip="Tab settings" id="84" userLabel="Tab Status Pop Up" customClass="PopUpButton">
                             <rect key="frame" x="87" y="0.0" width="85" height="18"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </customView>
-                        <customView toolTip="Line endings" id="81" customClass="PopUpButton">
+                        <customView toolTip="Line endings" id="81" userLabel="Line Ending Pop Up" customClass="PopUpButton">
                             <rect key="frame" x="170" y="0.0" width="49" height="18"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </customView>
-                        <customView toolTip="File encoding" id="77" customClass="PopUpButton">
+                        <customView toolTip="File encoding" id="77" userLabel="Encoding Pop Up" customClass="PopUpButton">
                             <rect key="frame" x="217" y="0.0" width="243" height="18"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                         </customView>
-                        <button wantsLayer="YES" id="7Mi-Cu-bLB">
+                        <button wantsLayer="YES" id="7Mi-Cu-bLB" userLabel="Announce Button">
                             <rect key="frame" x="459" y="0.0" width="21" height="18"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                             <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="BottomBarSharingIconAnnounce_Inactive" imagePosition="only" alignment="center" alternateImage="BottomBarSharingIconAnnounce" controlSize="mini" imageScaling="proportionallyDown" inset="2" id="4l5-Nu-6M1">
@@ -173,7 +96,7 @@
                                 </binding>
                             </connections>
                         </textField>
-                        <button id="OwG-YH-zbO">
+                        <button id="OwG-YH-zbO" userLabel="Participants Button">
                             <rect key="frame" x="493" y="0.0" width="27" height="18"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                             <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="BottomBarSharingIconGroup" imagePosition="only" alignment="center" controlSize="mini" imageScaling="proportionallyDown" inset="2" id="tKL-KY-Fjg">
@@ -185,7 +108,7 @@
                                 <binding destination="UOY-gY-y9M" name="toolTip" keyPath="selection.localizedToolTipToggleParticipantsButton" id="n70-vI-Phh"/>
                             </connections>
                         </button>
-                        <button id="bv6-mv-CIq">
+                        <button id="bv6-mv-CIq" userLabel="Invite Button">
                             <rect key="frame" x="523" y="0.0" width="26" height="18"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                             <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="BottomBarSharingIconAdd" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="HOp-Np-jFU">
@@ -199,7 +122,7 @@
                             </connections>
                         </button>
                         <textField toolTip="Window width and wrap settings" verticalHuggingPriority="750" id="15" customClass="BorderedTextField">
-                            <rect key="frame" x="550" y="0.0" width="40" height="16"/>
+                            <rect key="frame" x="550" y="0.0" width="40" height="18"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                             <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" alignment="right" title="999w" id="93">
                                 <font key="font" metaFont="smallSystem"/>
@@ -210,30 +133,7 @@
                                 <action selector="toggleWrapMode:" target="-1" id="87"/>
                             </connections>
                         </textField>
-                        <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="Om0-hK-qCA">
-                            <rect key="frame" x="0.0" y="15" width="600" height="5"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                            <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <font key="titleFont" metaFont="system"/>
-                        </box>
                     </subviews>
-                    <backgroundFilters>
-                        <ciFilter name="CIColorControls">
-                            <configuration>
-                                <real key="inputBrightness" value="0.0"/>
-                                <real key="inputContrast" value="1"/>
-                                <null key="inputImage"/>
-                                <real key="inputSaturation" value="15"/>
-                            </configuration>
-                        </ciFilter>
-                        <ciFilter name="CIGaussianBlur">
-                            <configuration>
-                                <null key="inputImage"/>
-                                <real key="inputRadius" value="5"/>
-                            </configuration>
-                        </ciFilter>
-                    </backgroundFilters>
                 </customView>
             </subviews>
         </customView>
@@ -275,7 +175,5 @@
         <image name="BottomBarSharingIconAnnounce" width="15" height="11"/>
         <image name="BottomBarSharingIconAnnounce_Inactive" width="15" height="11"/>
         <image name="BottomBarSharingIconGroup" width="16" height="11"/>
-        <image name="EditorAddSplit" width="10" height="12"/>
-        <image name="WaitPipe" width="13" height="12"/>
     </resources>
 </document>

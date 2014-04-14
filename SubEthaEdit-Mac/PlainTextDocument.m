@@ -13,6 +13,7 @@
 #import <PSMTabBarControl/PSMTabBarControl.h>
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "PlainTextEditor.h"
+#import "SEEConnectionManager.h"
 #import "SEEDocumentController.h"
 #import "PlainTextDocument.h"
 #import "PlainTextWindowController.h"
@@ -977,7 +978,7 @@ static NSString *tempFileName(NSString *origPath) {
 	} else {
 		NSMenu *modeMenu=[[[NSApp mainMenu] itemWithTag:ModeMenuTag] submenu];
 		// remove all items that don't belong here anymore
-		int index = [modeMenu indexOfItemWithTag:HighlightSyntaxMenuTag];
+		int index = [modeMenu indexOfItemWithTag:ReloadModesMenuItemTag];
 		index+=1; 
 		while (index < [modeMenu numberOfItems]) {
 			[modeMenu removeItemAtIndex:index];
@@ -1069,6 +1070,10 @@ static NSString *tempFileName(NSString *origPath) {
         if (I_flags.shouldChangeExtensionOnModeChange) {
             NSArray *recognizedExtensions = [I_documentMode recognizedExtensions];
             if ([recognizedExtensions count]) {
+				NSString *fileExtension = recognizedExtensions.firstObject;
+				NSString *fileType = (NSString *)UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (CFStringRef)fileExtension, nil);
+				self.fileType = [fileType autorelease];
+
                 if ([I_session isServer]) {
                     [I_session setFilename:[self preparedDisplayName]];
                 }
@@ -1080,6 +1085,7 @@ static NSString *tempFileName(NSString *origPath) {
             [self adjustModeMenu];
         }
         [[NSNotificationCenter defaultCenter] postNotificationName:PlainTextDocumentDidChangeDocumentModeNotification object:self];
+		[self invalidateRestorableState];
     }
 }
 
@@ -1113,19 +1119,21 @@ static NSString *tempFileName(NSString *origPath) {
 }
     
     
-- (NSUInteger)fileEncoding {
+- (NSStringEncoding)fileEncoding {
     return [(FoldableTextStorage *)[self textStorage] encoding];
 }
 
-- (void)setFileEncoding:(NSUInteger)anEncoding {
+- (void)setFileEncoding:(NSStringEncoding)anEncoding {
     [(FoldableTextStorage *)[self textStorage] setEncoding:anEncoding];
     [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
+	[self invalidateRestorableState];
 }
 
 - (void)setFileEncodingUndoable:(NSUInteger)anEncoding {
     [[[self documentUndoManager] prepareWithInvocationTarget:self] 
         setFileEncodingUndoable:[self fileEncoding]];
     [self setFileEncoding:anEncoding];
+	[self invalidateRestorableState];
 }
 
 - (NSDictionary *)fileAttributes {
@@ -1187,6 +1195,7 @@ static NSString *tempFileName(NSString *origPath) {
         [session setFilename:[self preparedDisplayName]];
     }
     [[self windowControllers] makeObjectsPerformSelector:@selector(synchronizeWindowTitleWithDocumentName)];
+	[self invalidateRestorableState];
 }
 
 - (BOOL)isAnnounced {
@@ -1392,7 +1401,7 @@ static NSString *tempFileName(NSString *origPath) {
             didEndSelector:@selector(selectEncodingAlertDidEnd:returnCode:contextInfo:)
                contextInfo:[[NSDictionary dictionaryWithObjectsAndKeys:
                                                 @"SelectEncodingAlert", @"Alert",
-                                                [NSNumber numberWithUnsignedInt:encoding], @"Encoding",
+                                                [NSNumber numberWithUnsignedInteger:encoding], @"Encoding",
                                                 nil] retain]];
     }
 }
@@ -1403,7 +1412,7 @@ static NSString *tempFileName(NSString *origPath) {
 
     TCMMMSession *session=[self session];
     if (!I_flags.isReceivingContent && [session isServer] && [session participantCount]<=1) {
-        NSStringEncoding encoding = [[alertContext objectForKey:@"Encoding"] unsignedIntValue];
+        NSStringEncoding encoding = [[alertContext objectForKey:@"Encoding"] unsignedIntegerValue];
         if (returnCode == NSAlertFirstButtonReturn) { // convert
             DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Trying to convert file encoding");
             [[alert window] orderOut:self];
@@ -1488,13 +1497,49 @@ static NSString *tempFileName(NSString *origPath) {
 #pragma mark - Restorable State
 
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
-//	NSLog(@"%s - %d : %@", __FUNCTION__, __LINE__, [self displayName]);
 	[super encodeRestorableStateWithCoder:coder];
+
+	// saving doument display name if document is not saved yet
+	if (self.fileURL == nil) {
+		[coder encodeObject:super.displayName forKey:@"SEEPlainTextDocumentDisplayName"]; // need to encode super.display name because self.displayname has sideeffects
+		[coder encodeObject:self.temporaryDisplayName forKey:@"SEEPlainTextDocumentTemporaryDisplayName"];
+	}
+
+	[coder encodeBool:I_flags.shouldChangeExtensionOnModeChange forKey:@"SEEPlainTextDocumentShouldUpdateExtensionOnModeChange"];
+
+	// store document mode.
+	DocumentMode *documentMode = self.documentMode;
+	if (documentMode) {
+		NSString *documentModeIdentifier = documentMode.documentModeIdentifier;
+		[coder encodeObject:documentModeIdentifier forKey:@"SEEPlainTextDocumentSelectedModeIdentifier"];
+	}
+
+	NSStringEncoding documentEncoding = self.fileEncoding;
+	[coder encodeObject:@(documentEncoding) forKey:@"SEEPlainTextDocumentFileEncoding"];
 }
 
 - (void)restoreStateWithCoder:(NSCoder *)coder {
-//	NSLog(@"%s - %d : %@", __FUNCTION__, __LINE__, [self displayName]);
 	[super restoreStateWithCoder:coder];
+
+	// needs to be restored first, because setting the mode will update filetype if this is true.
+	I_flags.shouldChangeExtensionOnModeChange = [coder decodeBoolForKey:@"SEEPlainTextDocumentShouldUpdateExtensionOnModeChange"];
+
+	// restoring document mode
+	NSString *documentModeIdentifier = [coder decodeObjectForKey:@"SEEPlainTextDocumentSelectedModeIdentifier"];
+	if (documentModeIdentifier) {
+		DocumentMode *documentMode = [[DocumentModeManager sharedInstance] documentModeForIdentifier:documentModeIdentifier];
+		self.documentMode = documentMode;
+	}
+	
+	// restore document string encoding
+	NSStringEncoding documentEncoding = [[coder decodeObjectForKey:@"SEEPlainTextDocumentFileEncoding"] unsignedIntegerValue];
+	self.fileEncoding = documentEncoding;
+
+	// restoring untitled document name
+	if (self.fileURL == nil) {
+		super.displayName = [coder decodeObjectForKey:@"SEEPlainTextDocumentDisplayName"]; // need to decode super.display name because self.displayname has sideeffects
+		self.temporaryDisplayName = [coder decodeObjectForKey:@"SEEPlainTextDocumentTemporaryDisplayName"];
+	}
 }
 
 
@@ -1676,7 +1721,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
         [(PlainTextWindowController *)windowController documentWillClose:self];
     }
 	
-	for (FindAllController *findAllController in I_findAllControllers) {
+	for (FindAllController *findAllController in [[I_findAllControllers copy] autorelease]) {
 		[findAllController close];
 	}
     [I_findAllControllers removeAllObjects];
@@ -4743,11 +4788,12 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     } 
     
     if (pathComponents) {
-        int count = [pathComponents count];
+        NSUInteger count = [pathComponents count];
         if (count==1) return [pathComponents lastObject];
+
         NSMutableString *result = [NSMutableString string];
-        int i;
-        int pathComponentsToShow = [[NSUserDefaults standardUserDefaults] integerForKey:AdditionalShownPathComponentsPreferenceKey] + 1;
+		NSInteger i = 0;
+        NSInteger pathComponentsToShow = [[NSUserDefaults standardUserDefaults] integerForKey:AdditionalShownPathComponentsPreferenceKey] + 1;
         for (i = count-1; i >= 1 && i > count-pathComponentsToShow-1; i--) {
             if (i != count-1) {
                 [result insertString:@"/" atIndex:0];
@@ -4773,7 +4819,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         if ([recognizedExtensions count]) {
             return [[super displayName] stringByAppendingPathExtension:[recognizedExtensions objectAtIndex:0]];
         }
-    } 
+    }
     return [super displayName];
 }
 
@@ -4789,6 +4835,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 //        NSLog(@"%s oh look, super supports us!",__FUNCTION__);
         [super setDisplayName:aDisplayName];
     }
+	[self invalidateRestorableState];
 }
 
 #pragma mark -
@@ -5781,15 +5828,13 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         I_flags.isRemotelyEditingTextStorage=NO;
     } else if ([[aOperation operationID] isEqualToString:[SelectionOperation operationID]]){
         NSArray *editors=[self plainTextEditors];
-        BOOL isNonConti = [[[[editors lastObject] textView] layoutManager] respondsToSelector:@selector(setAllowsNonContiguousLayout:)];
-        if (isNonConti) {
-            [editors makeObjectsPerformSelector:@selector(storePosition) withObject:nil];
-        }
+
+		[editors makeObjectsPerformSelector:@selector(storePosition) withObject:nil];
+
         [self changeSelectionOfUserWithID:[aOperation userID]
               toRange:[(SelectionOperation *)aOperation selectedRange]];
-        if (isNonConti) {
-            [editors makeObjectsPerformSelector:@selector(restorePositionAfterOperation:) withObject:aOperation];
-        }
+
+		[editors makeObjectsPerformSelector:@selector(restorePositionAfterOperation:) withObject:aOperation];
     }
     return YES;
 }
@@ -5847,32 +5892,36 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 	NSMutableArray *sharingServices = [[proposedServices mutableCopy] autorelease];
 
 	if (self.session.isServer) {
-		TCMMMBEEPSessionManager *sessionManager = [TCMMMBEEPSessionManager sharedInstance];
-		NSArray *connectedUsers = [sessionManager connectedUsers];
+		NSArray *allConnections = [[SEEConnectionManager sharedInstance] entries];
+		for (SEEConnection *connection in allConnections) {
+			{
+				if (connection.isVisible) {
+					TCMMMUser *user = connection.user;
 
-		// can't get seperators to work...
-		//	// add seperator
-		//	if (connectedUsers.count > 0 && proposedServices.count > 0 ) {
-		//		[sharingServices insertObject:[[NSSharingService alloc] initWithTitle:@" " image:nil alternateImage:nil handler:^{}] atIndex:0];
-		//	}
+					NSString *sharingServiceTitle = [NSString stringWithFormat:NSLocalizedString(@"Invite %@", @"Invitation format string used in sharing service picker. %@ will be replaced with the user name."), [user name]];
+					NSImage *userImage = [user image];
+					NSSharingService *customSharingService = [[[NSSharingService alloc] initWithTitle:sharingServiceTitle image:userImage alternateImage:nil handler:^{
+						TCMBEEPSession *BEEPSession = [[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:[user userID]];// peerAddressData:[userDescription objectForKey:@"PeerAddressData"]];
+						[self setPlainTextEditorsShowChangeMarksOnInvitation];
+						[self.session inviteUser:user intoGroup:TCMMMSessionReadWriteGroupName usingBEEPSession:BEEPSession];
+					}] autorelease];
 
-		// for each connected user crate a sharing service for read/write invitations
-		for (TCMMMUser *user in connectedUsers) {
-			NSString *sharingServiceTitle = [NSString stringWithFormat:NSLocalizedString(@"Invite %@", @"Invitation format string used in sharing service picker. %@ will be replaced with the user name."), [user name]];
-			NSImage *userImage = [user image];
-			NSSharingService *customSharingService = [[[NSSharingService alloc] initWithTitle:sharingServiceTitle image:userImage alternateImage:nil handler:^{
-				TCMBEEPSession *BEEPSession = [[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:[user userID]];// peerAddressData:[userDescription objectForKey:@"PeerAddressData"]];
-				[self setPlainTextEditorsShowChangeMarksOnInvitation];
-				[self.session inviteUser:user intoGroup:TCMMMSessionReadWriteGroupName usingBEEPSession:BEEPSession];
-			}] autorelease];
-
-			[sharingServices insertObject:customSharingService atIndex:0];
+					[sharingServices insertObject:customSharingService atIndex:0];
+				}
+			}
 		}
 	}
 
 	// remove Safari Reading List entry if available...
 	[sharingServices removeObject:[NSSharingService sharingServiceNamed:NSSharingServiceNameAddToSafariReadingList]];
-	
+
+	// remove social media entries, because they need persistant URLS and change the see:// scheme.
+	[sharingServices removeObject:[NSSharingService sharingServiceNamed:NSSharingServiceNamePostOnFacebook]];
+	[sharingServices removeObject:[NSSharingService sharingServiceNamed:NSSharingServiceNamePostOnTwitter]];
+	[sharingServices removeObject:[NSSharingService sharingServiceNamed:NSSharingServiceNamePostOnSinaWeibo]];
+	[sharingServices removeObject:[NSSharingService sharingServiceNamed:NSSharingServiceNamePostOnTencentWeibo]];
+	[sharingServices removeObject:[NSSharingService sharingServiceNamed:NSSharingServiceNamePostOnLinkedIn]];
+
 	return sharingServices;
 }
 

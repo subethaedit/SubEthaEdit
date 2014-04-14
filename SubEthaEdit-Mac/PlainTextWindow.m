@@ -81,5 +81,21 @@
     return result;
 }
 
+// This window has its usual -constrainFrameRect:toScreen: behavior temporarily suppressed.
+// This enables our window's custom Full Screen Exit animations to avoid being constrained by the
+// top edge of the screen and the menu bar.
+//
+- (NSRect)constrainFrameRect:(NSRect)frameRect toScreen:(NSScreen *)screen
+{
+    if (self.constrainingToScreenSuspended)
+    {
+        return frameRect;
+    }
+    else
+    {
+        return [super constrainFrameRect:frameRect toScreen:screen];
+    }
+}
+
 
 @end

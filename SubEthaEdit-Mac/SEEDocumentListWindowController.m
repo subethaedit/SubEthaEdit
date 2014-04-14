@@ -21,6 +21,8 @@
 #import "SEEOpenOtherDocumentListItem.h"
 #import "SEEConnectDocumentListItem.h"
 
+#import "SEEAvatarImageView.h"
+
 #import "SEEDocumentController.h"
 #import "DocumentModeManager.h"
 
@@ -268,31 +270,33 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 			NSArray *allConnections = [[SEEConnectionManager sharedInstance] entries];
 			for (SEEConnection *connection in allConnections) {
 				{
-					SEENetworkConnectionDocumentListItem *connectionRepresentation = [[SEENetworkConnectionDocumentListItem alloc] init];
-					connectionRepresentation.connection = connection;
-					NSString *cachedItemID = connectionRepresentation.uid;
-					SEENetworkConnectionDocumentListItem *cachedItem = [lookupDictionary objectForKey:cachedItemID];
-					if (cachedItem) {
-						cachedItem.connection = connection;
-						[self.availableItems addObject:cachedItem];
-					} else {
-						[self.availableItems addObject:connectionRepresentation];
+					if (connection.isVisible) {
+						SEENetworkConnectionDocumentListItem *connectionRepresentation = [[SEENetworkConnectionDocumentListItem alloc] init];
+						connectionRepresentation.connection = connection;
+						NSString *cachedItemID = connectionRepresentation.uid;
+						SEENetworkConnectionDocumentListItem *cachedItem = [lookupDictionary objectForKey:cachedItemID];
+						if (cachedItem) {
+							cachedItem.connection = connection;
+							[self.availableItems addObject:cachedItem];
+						} else {
+							[self.availableItems addObject:connectionRepresentation];
+						}
 					}
-				}
 
-				NSArray *sessions = connection.announcedSessions;
-				for (TCMMMSession *session in sessions) {
-					SEENetworkDocumentListItem *documentRepresentation = [[SEENetworkDocumentListItem alloc] init];
-					documentRepresentation.documentSession = session;
-					documentRepresentation.beepSession = connection.BEEPSession;
-					NSString *cachedItemID = documentRepresentation.uid;
-					SEENetworkDocumentListItem *cachedItem = [lookupDictionary objectForKey:cachedItemID];
-					if (cachedItem) {
-						cachedItem.documentSession = session;
-						cachedItem.beepSession = connection.BEEPSession;
-						[self.availableItems addObject:cachedItem];
-					} else {
-						[self.availableItems addObject:documentRepresentation];
+					NSArray *sessions = connection.announcedSessions;
+					for (TCMMMSession *session in sessions) {
+						SEENetworkDocumentListItem *documentRepresentation = [[SEENetworkDocumentListItem alloc] init];
+						documentRepresentation.documentSession = session;
+						documentRepresentation.beepSession = connection.BEEPSession;
+						NSString *cachedItemID = documentRepresentation.uid;
+						SEENetworkDocumentListItem *cachedItem = [lookupDictionary objectForKey:cachedItemID];
+						if (cachedItem) {
+							cachedItem.documentSession = session;
+							cachedItem.beepSession = connection.BEEPSession;
+							[self.availableItems addObject:cachedItem];
+						} else {
+							[self.availableItems addObject:documentRepresentation];
+						}
 					}
 				}
 			}
@@ -430,14 +434,22 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 		SEENetworkConnectionDocumentListItem *connectionRepresentation = (SEENetworkConnectionDocumentListItem *)documentRepresentation;
 		NSTableCellView *tableCellView = [rowView.subviews objectAtIndex:0];
 
-		NSImageView *userImageView = [[tableCellView subviews] objectAtIndex:1];
+		SEEAvatarImageView *avatarView = nil;
+		for (NSView *view in tableCellView.subviews) {
+			if ([view isKindOfClass:[SEEAvatarImageView class]] &&
+				[view.identifier isEqualToString:@"AvatarView"]) {
+				avatarView = (SEEAvatarImageView *)view;
+				break;
+			}
+		}
 
-		userImageView.wantsLayer = YES;
-		CALayer *userViewLayer = userImageView.layer;
-		NSColor *changeColor = connectionRepresentation.connection.user.changeColor;
-		userViewLayer.borderColor = [[NSColor colorWithCalibratedHue:changeColor.hueComponent saturation:0.85 brightness:1.0 alpha:1.0] CGColor];
-		userViewLayer.borderWidth = NSHeight(userImageView.frame) / 16.0;
-		userViewLayer.cornerRadius = NSHeight(userImageView.frame) / 2.0;
+		TCMMMUser *user = connectionRepresentation.user;
+		NSColor *changeColor = user.changeColor;
+
+		avatarView.image = user.image;
+		avatarView.initials = user.initials;
+		avatarView.borderColor = [NSColor colorWithCalibratedHue:changeColor.hueComponent saturation:0.85 brightness:1.0 alpha:1.0];
+		avatarView.backgroundColor = [user changeHighlightColorForBackgroundColor:[NSColor whiteColor]];
 	}
 }
 
