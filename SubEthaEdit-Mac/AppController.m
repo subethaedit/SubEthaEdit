@@ -625,8 +625,8 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 }
 
 - (void)sessionManagerIsReady:(NSNotification *)aNotification {
-    [[TCMMMBEEPSessionManager sharedInstance] listen];
     [[TCMMMPresenceManager sharedInstance] setVisible:[[NSUserDefaults standardUserDefaults] boolForKey:VisibilityPrefKey]];
+    [[TCMMMBEEPSessionManager sharedInstance] validateListener];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {

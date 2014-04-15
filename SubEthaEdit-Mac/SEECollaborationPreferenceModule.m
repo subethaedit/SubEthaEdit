@@ -69,6 +69,8 @@
     } else {
         [self portMapperDidFinishWork:nil];
     }
+	
+	[self.O_disableNetworkingButton setState:[TCMMMBEEPSessionManager sharedInstance].isNetworkingDisabled ? NSOnState : NSOffState];
 }
 
 #pragma mark - Port Mapper
@@ -283,6 +285,15 @@
     } else {
         [[TCMPortMapper sharedInstance] stop];
     }
+}
+
+- (IBAction)changeDisableNetworking:(id)aSender {
+	NSLog(@"%s %@",__FUNCTION__,aSender);
+	[TCMMMBEEPSessionManager sharedInstance].networkingDisabled = [self.O_disableNetworkingButton state] == NSOnState ? YES : NO;
+}
+
+- (IBAction)changeVisiblityOnNetwork:(id)aSender {
+	NSLog(@"%s %@",__FUNCTION__,aSender);
 }
 
 

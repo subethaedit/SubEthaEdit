@@ -581,7 +581,7 @@
 "Port not mapped" = "Port nicht weitergeleitet";
 
 /* Label displayed below advanced icon and used as window title. */
-"PrecedencePrefsIconLabel" = "Modi";
+"PrecedencePrefsIconLabel" = "Erkennung";
 
 /* Mode rules cannot be edited or removed. But you can disable them. */
 "PrecedencePrefsModeRuleTooltip" = "Erkennungsregeln die von einem Modus vordefiniert wurden, können nicht gelöscht werden. Aber sie können deaktiviert werden.";

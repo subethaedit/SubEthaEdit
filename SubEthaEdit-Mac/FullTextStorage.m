@@ -260,7 +260,9 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     unsigned lineStartLocation=[[[self lineStarts] objectAtIndex:lineNumber-1] intValue];
     int positionInLine = aRange.location-lineStartLocation;
     NSString *string=[NSString stringWithFormat:@"%d:%d",lineNumber, positionInLine];
-    if (aRange.length>0) string=[string stringByAppendingFormat:@" (%lu)",(unsigned long)aRange.length];
+    if (aRange.length>0) {
+		string=[string stringByAppendingFormat:@" (%lu)",(unsigned long)aRange.length];
+	}
     return string;
 }
 

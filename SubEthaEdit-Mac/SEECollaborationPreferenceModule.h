@@ -18,6 +18,11 @@
 @property (nonatomic, strong) IBOutlet NSTextField *O_mappingStatusTextField;
 @property (nonatomic, strong) IBOutlet NSImageView *O_mappingStatusImageView;
 @property (nonatomic, strong) IBOutlet NSProgressIndicator *O_mappingStatusProgressIndicator;
+@property (nonatomic, strong) IBOutlet NSButton *O_disableNetworkingButton;
+@property (nonatomic, strong) IBOutlet NSButton *O_invisibleOnNetowrkButton;
+@property (nonatomic, strong) IBOutlet NSTextField *O_invisibleOnNetworkExplanationTextField;
+
+
 
 // me-card
 @property (nonatomic, strong) IBOutlet PCRolloverImageView *O_pictureImageView;
@@ -46,6 +51,8 @@
 
 // actions - network
 - (IBAction)changeAutomaticallyMapPorts:(id)aSender;
+- (IBAction)changeDisableNetworking:(id)aSender;
+- (IBAction)changeVisiblityOnNetwork:(id)aSender;
 
 // actions - me-card
 - (IBAction)useAddressBookImage:(id)aSender;
