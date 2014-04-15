@@ -369,6 +369,12 @@ static TCMMMBEEPSessionManager *sharedInstance;
 	}
     [[NSUserDefaults standardUserDefaults] setBool:_networkingDisabled forKey:kNetworkingDisabledPreferenceKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
+	
+	if (_networkingDisabled) {
+		[[TCMMMPresenceManager sharedInstance] stopRendezvousBrowsing];
+	} else {
+		[[TCMMMPresenceManager sharedInstance] startRendezvousBrowsing];
+	}
 }
 
 - (NSMutableDictionary *)sessionInformationForUserID:(NSString *)aUserID {
