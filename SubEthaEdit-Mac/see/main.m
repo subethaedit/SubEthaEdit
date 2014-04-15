@@ -306,7 +306,7 @@ static NSArray *see(NSArray *fileNames, NSArray *newFileNames, NSString *stdinFi
 	}
 
     NSMutableArray *resultFileNames = [NSMutableArray array];
-    AESendMode sendMode = kAEWaitReply | kAEWantReceipt; //kAENoReply;
+    AESendMode sendMode = kAEQueueReply | kAEWantReceipt;
     long timeOut = kAEDefaultTimeout;
 
 
