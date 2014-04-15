@@ -306,6 +306,20 @@ static NSArray *see(NSArray *fileNames, NSArray *newFileNames, NSString *stdinFi
 		return nil;
 	}
 
+	NSMutableArray *urls = [NSMutableArray array];
+	for (NSString *fileName in fileNames) {
+		NSURL *fileURL = [NSURL fileURLWithPath:fileName];
+		[urls addObject:fileURL];
+	}
+
+	if (urls.count > 0) {
+		NSWorkspaceLaunchOptions launchOptions = 0;
+		if ([[options objectForKey:@"print"] boolValue]) {
+			launchOptions = launchOptions | NSWorkspaceLaunchAndPrint;
+		}
+		[[NSWorkspace sharedWorkspace] openURLs:urls withAppBundleIdentifier:runningSubEthaEdit.bundleIdentifier options:launchOptions additionalEventParamDescriptor:nil launchIdentifiers:nil];
+	}
+
     NSMutableArray *resultFileNames = [NSMutableArray array];
     AESendMode sendMode = kAEQueueReply | kAEWantReceipt;
     long timeOut = kAEDefaultTimeout;
@@ -376,24 +390,24 @@ static NSArray *see(NSArray *fileNames, NSArray *newFileNames, NSString *stdinFi
 
             }
             
-            if ([options objectForKey:@"print"]) {
+            if ([[options objectForKey:@"print"] boolValue]) {
                 [appleEvent setParamDescriptor:[NSAppleEventDescriptor descriptorWithBoolean:true]
                                     forKeyword:'Prnt'];
             }            
-            
-            if ([options objectForKey:@"wait"]) {
+
+            if ([[options objectForKey:@"wait"] boolValue]) {
                 sendMode = kAEWaitReply;
                 timeOut = kNoTimeOut;
                 [appleEvent setParamDescriptor:[NSAppleEventDescriptor descriptorWithBoolean:true]
                                     forKeyword:'Wait'];
             }
             
-            if ([options objectForKey:@"pipe-out"]) {
+            if ([[options objectForKey:@"pipe-out"] boolValue]) {
                 [appleEvent setParamDescriptor:[NSAppleEventDescriptor descriptorWithBoolean:true]
                                     forKeyword:'PipO'];
             }
 
-            if ([options objectForKey:@"pipe-dirty"]) {
+            if ([[options objectForKey:@"pipe-dirty"] boolValue]) {
                 [appleEvent setParamDescriptor:[NSAppleEventDescriptor descriptorWithBoolean:true]
                                     forKeyword:'Pdty'];
             }

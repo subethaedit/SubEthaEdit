@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE dictionary SYSTEM "file://localhost/System/Library/DTDs/sdef.dtd">
-
+<!--
+<dictionary xmlns:xi="http://www.w3.org/2003/XInclude">
+    <xi:include href="file:///System/Library/ScriptingDefinitions/CocoaStandard.sdef" xpointer="xpointer(/dictionary/suite)"/>
+-->
 <dictionary title="SubEthaEdit Terminology">
 
     <!--
@@ -20,8 +23,11 @@
             <!--
                 According to TN2106, 'open' should return the resulting document
                 object.  However, the Cocoa implementation does not do this yet.
-            <result type="specifier"/>
             -->
+			<result description="The opened document(s).">
+				<type type="document"/>
+				<type type="document" list="yes"/>
+			</result>
             <parameter name="with properties" code="prdt" type="open settings" optional="yes" description="the initial values for the properties, to be applied to the document when opening">
                 <cocoa key="WithProperties"/>
             </parameter>	

@@ -1109,7 +1109,7 @@
 				NSLog(@"%@",error);
 			} else {
 				[document printDocumentWithSettings:nil showPrintPanel:NO delegate:nil didPrintSelector:NULL contextInfo:NULL];
-				if (shouldClose) {
+				if (shouldClose && !documentWasAlreadyOpen) {
 					[document close];
 				}
 			}
@@ -1201,35 +1201,43 @@
 
     NSString *fileName;
     for (fileName in files) {
-        [I_propertiesForOpenedFiles setObject:properties forKey:fileName];
-		[self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:fileName] display:YES completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
-			if (document) {
-				if (shouldSwitchOpening) {
-					shouldSwitchOpening = NO;
-					[[NSUserDefaults standardUserDefaults] setBool:YES forKey:OpenNewDocumentInTabKey];
-				}
-				[(PlainTextDocument *)document setIsWaiting:(shouldWait || isPipingOut)];
-				if (jobDescription) {
-					[(PlainTextDocument *)document setJobDescription:jobDescription];
-				}
-				if (shouldPrint) {
-//					[document printShowingPrintPanel:NO];
-					[document close];
-				} else {
-					if (shouldJumpToLine) {
-						if (columnToGoTo!=-1) {
-							NSRange lineRange = [(FoldableTextStorage *)[(PlainTextDocument *)document textStorage] findLine:lineToGoTo];
-							[(PlainTextDocument *)document selectRange:NSMakeRange(lineRange.location+columnToGoTo,selectionLength)];
-						} else {
-							[(PlainTextDocument *)document gotoLine:lineToGoTo];
-						}
+		// print handeld by workspace print command for now, don't open file if just printing
+		if (! shouldPrint) {
+			[I_propertiesForOpenedFiles setObject:properties forKey:fileName];
+			[self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:fileName] display:YES completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
+				if (document) {
+					if (shouldSwitchOpening) {
+						shouldSwitchOpening = NO;
+						[[NSUserDefaults standardUserDefaults] setBool:YES forKey:OpenNewDocumentInTabKey];
 					}
-					[documents addObject:document];
+					[(PlainTextDocument *)document setIsWaiting:(shouldWait || isPipingOut)];
+					if (jobDescription) {
+						[(PlainTextDocument *)document setJobDescription:jobDescription];
+					}
+					if (shouldPrint) {
+						// handeld by workspace print command for now
+//						BOOL shouldClose = ([self documentForURL:[NSURL fileURLWithPath:fileName]] == nil);
+//
+//						[document printDocumentWithSettings:nil showPrintPanel:NO delegate:nil didPrintSelector:NULL contextInfo:NULL];
+//						if (shouldClose && !documentWasAlreadyOpen) {
+//							[document close];
+//						}
+					} else {
+						if (shouldJumpToLine) {
+							if (columnToGoTo!=-1) {
+								NSRange lineRange = [(FoldableTextStorage *)[(PlainTextDocument *)document textStorage] findLine:lineToGoTo];
+								[(PlainTextDocument *)document selectRange:NSMakeRange(lineRange.location+columnToGoTo,selectionLength)];
+							} else {
+								[(PlainTextDocument *)document gotoLine:lineToGoTo];
+							}
+						}
+						[documents addObject:document];
+					}
+				} else {
+					NSLog(@"%@",error);
 				}
-			} else {
-				NSLog(@"%@",error);
-			}
-		}];
+			}];
+		}
     }
 
 
