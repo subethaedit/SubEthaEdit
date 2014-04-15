@@ -709,6 +709,10 @@ static NSMenu *S_defaultMenu=nil;
 }
 
 - (NSArray *)completionsForPartialWordRange:(NSRange)charRange indexOfSelectedItem:(NSInteger *)index {
+	if (charRange.length == 0) {
+		// no partial range, no completion!
+		return nil;
+	}
     NSArray *result=[super completionsForPartialWordRange:charRange indexOfSelectedItem:index];
     if (I_flags.shouldCheckCompleteStart) {
         if ([result count]) {
