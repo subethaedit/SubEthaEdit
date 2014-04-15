@@ -10,7 +10,6 @@
 #import <AppKit/AppKit.h>
 #import <getopt.h>
 
-
 /*
 
 see -h
@@ -94,6 +93,14 @@ BOOL meetsRequiredVersion(NSString *string) {
     return NO;
 }
 
+static NSArray *subEthaEditBundleIdentifiers()
+{
+	NSArray *result = @[@"de.codingmonkeys.SubEthaEdit.Mac",
+						@"de.codingmonkeys.SubEthaEdit.MacBETA",
+						@"de.codingmonkeys.SubEthaEdit"];
+	return result;
+}
+
 CFURLRef CopyURLRefForSubEthaEdit()
 {
 	NSURL *applicationURL = nil;
@@ -102,10 +109,13 @@ CFURLRef CopyURLRefForSubEthaEdit()
 	NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
 	[runLoop runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
 
+	NSArray *appIdentifiers = subEthaEditBundleIdentifiers();
+
+	// Look if some version of SubEthaEdit is currently running.
 	NSMutableArray *runningSubEthaEdits = [NSMutableArray array];
-	[runningSubEthaEdits addObjectsFromArray:[NSRunningApplication runningApplicationsWithBundleIdentifier:@"de.codingmonkeys.SubEthaEdit.Mac"]];
-	[runningSubEthaEdits addObjectsFromArray:[NSRunningApplication runningApplicationsWithBundleIdentifier:@"de.codingmonkeys.SubEthaEdit.MacBETA"]];
-	[runningSubEthaEdits addObjectsFromArray:[NSRunningApplication runningApplicationsWithBundleIdentifier:@"de.codingmonkeys.SubEthaEdit"]];
+	for (NSString *identifier in appIdentifiers) {
+		[runningSubEthaEdits addObjectsFromArray:[NSRunningApplication runningApplicationsWithBundleIdentifier:identifier]];
+	}
 
 	for (NSRunningApplication *subEthaEditInstance in runningSubEthaEdits) {
 		NSURL *runningApplicationBundleURL = [subEthaEditInstance bundleURL];
@@ -116,49 +126,37 @@ CFURLRef CopyURLRefForSubEthaEdit()
 		if (version > bundleVersion && meetsRequiredVersion(minimumSeeToolVersionString))
 		{
 			bundleVersion = version;
-			applicationURL = [[runningApplicationBundleURL copy] autorelease];
+			applicationURL = [[runningApplicationBundleURL retain] autorelease];
 		}
 	}
 	if (applicationURL)
 	{
-		return (CFURLRef)[applicationURL retain];
-	}
-
-	// Look if some version of SubEthaEdit is currently running.
-	NSArray *runningApplications = [[NSWorkspace sharedWorkspace] runningApplications];
-	for (NSRunningApplication *runningApplication in runningApplications)
-	{
-		NSString *bundleIdentifier = [runningApplication bundleIdentifier];
-		if ([bundleIdentifier isEqualToString:@"de.codingmonkeys.SubEthaEdit"] || // old version bevore 4.0
-			[bundleIdentifier isEqualToString:@"de.codingmonkeys.SubEthaEdit.Mac"] || // 4.0 or newer
-			[bundleIdentifier isEqualToString:@"de.codingmonkeys.SubEthaEdit.MacBETA"]) // 4.0 or newer BETA version
-		{
-			NSURL *runningApplicationBundleURL = [runningApplication bundleURL];
-			NSBundle *appBundle = [NSBundle bundleWithURL:runningApplicationBundleURL];
-			NSInteger version = [[[appBundle infoDictionary] objectForKey:(id)kCFBundleVersionKey] integerValue];
-			NSString *minimumSeeToolVersionString = [[appBundle infoDictionary] objectForKey:@"TCMMinimumSeeToolVersion"];
-
-			if (version > bundleVersion && meetsRequiredVersion(minimumSeeToolVersionString))
-			{
-				bundleVersion = version;
-				applicationURL = [[runningApplicationBundleURL copy] autorelease];
-			}
-		}
-	}
-	if (applicationURL)
-	{
-		return (CFURLRef)[applicationURL retain];
+		return (CFURLRef)[applicationURL copy];
 	}
 
 	// Look for the default version of SubEthaEdit
-	applicationURL = [[NSWorkspace sharedWorkspace] URLForApplicationWithBundleIdentifier:@"de.codingmonkeys.SubEthaEdit.Mac"];
+	NSMutableArray *workspaceAppURLs = [NSMutableArray array];
+	for (NSString *identifier in appIdentifiers) {
+		NSURL *url = [[NSWorkspace sharedWorkspace] URLForApplicationWithBundleIdentifier:identifier];
+		if (url) {
+			[workspaceAppURLs addObject:url];
+		}
+	}
+
+	for (NSURL *bundleURL in workspaceAppURLs) {
+		NSBundle *appBundle = [NSBundle bundleWithURL:bundleURL];
+		NSInteger version = [[[appBundle infoDictionary] objectForKey:(id)kCFBundleVersionKey] integerValue];
+		NSString *minimumSeeToolVersionString = [[appBundle infoDictionary] objectForKey:@"TCMMinimumSeeToolVersion"];
+
+		if (version > bundleVersion && meetsRequiredVersion(minimumSeeToolVersionString))
+		{
+			bundleVersion = version;
+			applicationURL = [[bundleURL retain] autorelease];
+		}
+	}
 	if (applicationURL)
 	{
-        NSBundle *appBundle = [NSBundle bundleWithURL:applicationURL];
-        NSString *minimumSeeToolVersionString = [[appBundle infoDictionary] objectForKey:@"TCMMinimumSeeToolVersion"];
-        if (meetsRequiredVersion(minimumSeeToolVersionString)) {
-			return (CFURLRef)[applicationURL copy];
-        }
+		return (CFURLRef)[applicationURL copy];
 	}
 
 	// Look for any app that understands the see:// URL protocol
@@ -292,25 +290,18 @@ static NSArray *see(NSArray *fileNames, NSArray *newFileNames, NSString *stdinFi
         return nil;
     }
 
-	BOOL foundRunningInstance = NO;
-	NSRunningApplication *runningSubEthaEdit = nil;
-	NSArray *runningApplications = [[NSWorkspace sharedWorkspace] runningApplications];
-	for (NSRunningApplication *runningApplication in runningApplications)
-	{
-		NSString *bundleIdentifier = [runningApplication bundleIdentifier];
-		if ([bundleIdentifier isEqualToString:@"de.codingmonkeys.SubEthaEdit"] || // old version bevore 4.0
-			[bundleIdentifier isEqualToString:@"de.codingmonkeys.SubEthaEdit.Mac"] || // 4.0 or newer
-			[bundleIdentifier isEqualToString:@"de.codingmonkeys.SubEthaEdit.MacBETA"]) // 4.0 or newer BETA version
-		{
-			if ([runningApplication.bundleURL isEqualTo:(NSURL *)appURL] == YES)
-			{
-				foundRunningInstance = YES;
-				runningSubEthaEdit = runningApplication;
-			}
-		}
+	NSArray *appIdentifiers = subEthaEditBundleIdentifiers();
+	NSMutableArray *runningSubEthaEdits = [NSMutableArray array];
+	for (NSString *identifier in appIdentifiers) {
+		[runningSubEthaEdits addObjectsFromArray:[NSRunningApplication runningApplicationsWithBundleIdentifier:identifier]];
 	}
 
-	if (! foundRunningInstance) {
+	BOOL foundRunningInstance = NO;
+	NSRunningApplication *runningSubEthaEdit = nil;
+	if (runningSubEthaEdits.count > 0) {
+		foundRunningInstance = YES;
+		runningSubEthaEdit = runningSubEthaEdits.firstObject;
+	} else {
 		return nil;
 	}
 
