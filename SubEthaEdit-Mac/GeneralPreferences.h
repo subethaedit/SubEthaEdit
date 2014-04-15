@@ -12,13 +12,12 @@
 
 @class DocumentModePopUpButton;
 
-@interface GeneralPreferences : TCMPreferenceModule {
-    IBOutlet DocumentModePopUpButton *O_modeForNewDocumentsPopUpButton;
-}
+@interface GeneralPreferences : TCMPreferenceModule
 
 @property (nonatomic, strong) IBOutlet NSButton *O_highlightLocalChangesButton;
 - (IBAction)toggleLocalHighlightDefault:(id)aSender;
 
+@property (nonatomic, strong) IBOutlet DocumentModePopUpButton *O_modeForNewDocumentsPopUpButton;
 - (IBAction)postGeneralViewPreferencesDidChangeNotificiation:(id)aSender;
 - (IBAction)changeModeForNewDocuments:(id)aSender;
 @end

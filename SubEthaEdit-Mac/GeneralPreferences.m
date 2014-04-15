@@ -98,8 +98,8 @@
     // Initialize user interface elements to reflect current preference settings
     [self setLocalChangesHighlightButtonStateFromDefaults];
 
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	[O_modeForNewDocumentsPopUpButton setSelectedModeIdentifier:[defaults objectForKey:ModeForNewDocumentsPreferenceKey]];
+    NSString *modeIdentifier = [[NSUserDefaults standardUserDefaults] objectForKey:ModeForNewDocumentsPreferenceKey];
+	[self.O_modeForNewDocumentsPopUpButton setSelectedModeIdentifier:modeIdentifier];
 }
 
 - (void)willSelect {;
