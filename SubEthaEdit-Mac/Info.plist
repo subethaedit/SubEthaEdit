@@ -2150,7 +2150,7 @@
 	<key>CFBundleIconFile</key>
 	<string>SubEthaEdit</string>
 	<key>CFBundleIdentifier</key>
-	<string>de.codingmonkeys.${PRODUCT_NAME:rfc1034identifier}.Mac${TCM_APP_STYLE}</string>
+	<string>de.codingmonkeys.${PRODUCT_NAME:rfc1034identifier}.Mac${TCM_APP_STYLE}${TCM_APP_IDENTIFER_SUFFIX}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -2209,6 +2209,8 @@
 			</array>
 		</dict>
 	</array>
+	<key>OSAScriptingDefinition</key>
+	<string>SubEthaEdit</string>
 	<key>TCMBundledSeeToolVersion</key>
 	<string>1.2.1</string>
 	<key>TCMMinimumSeeToolVersion</key>
@@ -4642,7 +4644,5 @@
 			</dict>
 		</dict>
 	</array>
-	<key>OSAScriptingDefinition</key>
-	<string>SubEthaEdit</string>
 </dict>
 </plist>

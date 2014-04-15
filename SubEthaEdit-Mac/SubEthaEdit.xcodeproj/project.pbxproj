@@ -335,6 +335,8 @@
 		F20948BC0C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = F20948B90C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m */; };
 		F20948EE0C7B4C7100E78EBA /* UserStatisticsController.m in Sources */ = {isa = PBXBuildFile; fileRef = F20948EB0C7B4C7100E78EBA /* UserStatisticsController.m */; };
 		F20D8F0C18FC28CB0091EB13 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F20D8F0B18FC28CB0091EB13 /* Media.xcassets */; };
+		F20D8F1118FD37E30091EB13 /* BottomBarSharingIconAnnounceDarkBackground_Inactive.png in Resources */ = {isa = PBXBuildFile; fileRef = F20D8F0F18FD37E30091EB13 /* BottomBarSharingIconAnnounceDarkBackground_Inactive.png */; };
+		F20D8F1218FD37E30091EB13 /* BottomBarSharingIconAnnounceDarkBackground_Inactive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F20D8F1018FD37E30091EB13 /* BottomBarSharingIconAnnounceDarkBackground_Inactive@2x.png */; };
 		F20E1FAE0CACFC75005DEAF5 /* ThousandSeparatorValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = F20E1FAC0CACFC75005DEAF5 /* ThousandSeparatorValueTransformer.m */; };
 		F212908B0F8EC56F0076B6B1 /* NSDictionaryTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891240957457500D14688 /* NSDictionaryTCMAdditions.m */; };
 		F21290980F8EC5870076B6B1 /* NSMutableAttributedStringSEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142D18B30BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.m */; };
@@ -484,7 +486,6 @@
 		F2D3E56A189941F50096425B /* IW SingleTabAddButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E527189941F50096425B /* IW SingleTabAddButton@2x.png */; };
 		F2D3E56E189942870096425B /* SEETabStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D3E56D189942870096425B /* SEETabStyle.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		F2D56993133B880900CEC841 /* SEEStyleSheetSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D56992133B880900CEC841 /* SEEStyleSheetSettings.m */; };
-		F2D5FF380CB2660100407399 /* Announce.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF370CB2660100407399 /* Announce.icns */; };
 		F2D5FF3A0CB2661000407399 /* DefaultPerson.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF390CB2661000407399 /* DefaultPerson.icns */; };
 		F2D5FF3E0CB2666000407399 /* Rendezvous.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF3D0CB2666000407399 /* Rendezvous.icns */; };
 		F2D5FF400CB2667A00407399 /* StylePrefs.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF3F0CB2667A00407399 /* StylePrefs.icns */; };
@@ -624,7 +625,6 @@
 		1428905E095743B300D14688 /* debug.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = debug.tiff; path = artwork/debug.tiff; sourceTree = "<group>"; };
 		14289060095743F200D14688 /* Action.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Action.tiff; path = artwork/Action.tiff; sourceTree = "<group>"; };
 		14289061095743F200D14688 /* ActionPressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ActionPressed.tiff; path = artwork/ActionPressed.tiff; sourceTree = "<group>"; };
-		14289063095743F200D14688 /* Announce.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Announce.tiff; path = artwork/Announce.tiff; sourceTree = "<group>"; };
 		14289066095743F200D14688 /* Conceal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Conceal.png; path = artwork/Conceal.png; sourceTree = "<group>"; };
 		14289069095743F200D14688 /* EditPrefs.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = EditPrefs.tiff; path = artwork/EditPrefs.tiff; sourceTree = "<group>"; };
 		1428906A095743F200D14688 /* EmptyButton.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = EmptyButton.tiff; path = artwork/EmptyButton.tiff; sourceTree = "<group>"; };
@@ -1122,6 +1122,8 @@
 		F20948EA0C7B4C7100E78EBA /* UserStatisticsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = UserStatisticsController.h; sourceTree = "<group>"; };
 		F20948EB0C7B4C7100E78EBA /* UserStatisticsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserStatisticsController.m; sourceTree = "<group>"; };
 		F20D8F0B18FC28CB0091EB13 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Media.xcassets; path = artwork/Media.xcassets; sourceTree = "<group>"; };
+		F20D8F0F18FD37E30091EB13 /* BottomBarSharingIconAnnounceDarkBackground_Inactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BottomBarSharingIconAnnounceDarkBackground_Inactive.png; path = artwork/BottomBarSharingIconAnnounceDarkBackground_Inactive.png; sourceTree = "<group>"; };
+		F20D8F1018FD37E30091EB13 /* BottomBarSharingIconAnnounceDarkBackground_Inactive@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "BottomBarSharingIconAnnounceDarkBackground_Inactive@2x.png"; path = "artwork/BottomBarSharingIconAnnounceDarkBackground_Inactive@2x.png"; sourceTree = "<group>"; };
 		F20E1FAB0CACFC75005DEAF5 /* ThousandSeparatorValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ThousandSeparatorValueTransformer.h; sourceTree = "<group>"; };
 		F20E1FAC0CACFC75005DEAF5 /* ThousandSeparatorValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThousandSeparatorValueTransformer.m; sourceTree = "<group>"; };
 		F214C1D918BE180300908826 /* NSObject+TCMArcLifecycleAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+TCMArcLifecycleAdditions.h"; sourceTree = "<group>"; };
@@ -1316,7 +1318,6 @@
 		F2D3E56D189942870096425B /* SEETabStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEETabStyle.m; sourceTree = "<group>"; };
 		F2D56991133B880900CEC841 /* SEEStyleSheetSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SEEStyleSheetSettings.h; sourceTree = "<group>"; };
 		F2D56992133B880900CEC841 /* SEEStyleSheetSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEStyleSheetSettings.m; sourceTree = "<group>"; };
-		F2D5FF370CB2660100407399 /* Announce.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Announce.icns; path = artwork/Announce.icns; sourceTree = "<group>"; };
 		F2D5FF390CB2661000407399 /* DefaultPerson.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = DefaultPerson.icns; path = artwork/DefaultPerson.icns; sourceTree = "<group>"; };
 		F2D5FF3D0CB2666000407399 /* Rendezvous.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Rendezvous.icns; path = artwork/Rendezvous.icns; sourceTree = "<group>"; };
 		F2D5FF3F0CB2667A00407399 /* StylePrefs.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = StylePrefs.icns; path = artwork/StylePrefs.icns; sourceTree = "<group>"; };
@@ -1470,8 +1471,6 @@
 				F2C6D3740D6DB131002B401D /* URLIconOK.tiff */,
 				14289060095743F200D14688 /* Action.tiff */,
 				14289061095743F200D14688 /* ActionPressed.tiff */,
-				F2D5FF370CB2660100407399 /* Announce.icns */,
-				14289063095743F200D14688 /* Announce.tiff */,
 				F29AD8660CA3391B0097D04E /* Bonjour13.png */,
 				14289066095743F200D14688 /* Conceal.png */,
 				1428905E095743B300D14688 /* debug.tiff */,
@@ -2188,6 +2187,8 @@
 		4C6BDC61188985EF0088CBFC /* Retina */ = {
 			isa = PBXGroup;
 			children = (
+				F20D8F0F18FD37E30091EB13 /* BottomBarSharingIconAnnounceDarkBackground_Inactive.png */,
+				F20D8F1018FD37E30091EB13 /* BottomBarSharingIconAnnounceDarkBackground_Inactive@2x.png */,
 				F2257CF1189673AA005EF9B1 /* BottomBarSharingIconAnnounce_Inactive.png */,
 				F2257CF2189673AA005EF9B1 /* BottomBarSharingIconAnnounce_Inactive@2x.png */,
 				F2257CF3189673AA005EF9B1 /* BottomBarSharingIconAnnounce.png */,
@@ -2842,6 +2843,7 @@
 				14289100095743F200D14688 /* WaitPipe.png in Resources */,
 				F2D3E545189941F50096425B /* AW Pulled ActiveTabLeftCap.png in Resources */,
 				F2B136E8189BF27000430639 /* AW AddTabButtonRolloverBG.tiff in Resources */,
+				F20D8F1118FD37E30091EB13 /* BottomBarSharingIconAnnounceDarkBackground_Inactive.png in Resources */,
 				F2257CFC189673AA005EF9B1 /* BottomBarSharingIconAnnounce@2x.png in Resources */,
 				F2D3E552189941F50096425B /* IW ActiveTabClosePressed@2x.png in Resources */,
 				14289101095743F200D14688 /* WebReload.tiff in Resources */,
@@ -2909,6 +2911,7 @@
 				F2CA7CE80CA11FDA008BEA38 /* Internet13.png in Resources */,
 				F2257CFA189673AA005EF9B1 /* BottomBarSharingIconAnnounce_Inactive@2x.png in Resources */,
 				4CD5F82D17FB0E6000F49E31 /* SelectEncodingsPanel.xib in Resources */,
+				F20D8F1218FD37E30091EB13 /* BottomBarSharingIconAnnounceDarkBackground_Inactive@2x.png in Resources */,
 				F2D3E55F189941F50096425B /* IW InactiveTabClose.png in Resources */,
 				F2D3E566189941F50096425B /* IW InactiveTabLeftCap@2x.png in Resources */,
 				F2D3E529189941F50096425B /* AW ActiveTabClose.png in Resources */,
@@ -2925,7 +2928,6 @@
 				3134F7DE0CB13A2E00F8C116 /* Precedence_RemoveRollover.tiff in Resources */,
 				F247D74A0CB140AD00908450 /* ParticipantFollowEmpty.png in Resources */,
 				F247D74F0CB147F100908450 /* ParticipantFollowActive.png in Resources */,
-				F2D5FF380CB2660100407399 /* Announce.icns in Resources */,
 				F2D5FF3A0CB2661000407399 /* DefaultPerson.icns in Resources */,
 				4C6BDC5518896DCC0088CBFC /* SubEthaEditStyle.iconset in Resources */,
 				F2D5FF3E0CB2666000407399 /* Rendezvous.icns in Resources */,

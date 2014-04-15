@@ -198,6 +198,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	self.canAnnounceAndShare = isServer;
 	
 	[self TCM_updateLocalizedToolTips];
+	[self updateAnnounceButton];
 	[self TCM_updateNumberOfActiveParticipants];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -622,6 +623,8 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	for (PopUpButton *button in @[O_modePopUpButton,O_tabStatusPopUpButton, O_encodingPopUpButton, O_lineEndingPopUpButton]) {
 		[button setLineColor:darkSeparatorColor];
 	}
+	
+	[self.shareAnnounceButtonOutlet setImage:[NSImage imageNamed:isDark ? @"BottomBarSharingIconAnnounceDarkBackground_Inactive" : @"BottomBarSharingIconAnnounce_Inactive"]];
 	
 	// overlays?
 }
@@ -2975,8 +2978,8 @@ willChangeSelectionFromCharacterRange	:aOldSelectedCharRange
     UndoManager *undoManager = [document documentUndoManager];
 
     [undoManager registerUndoChangeTextInRange:NSMakeRange(aCharRange.location, [aWord length])
-						 replacementString				:[[[aTextView textStorage] string] substringWithRange:aCharRange]
-				shouldGroupWithPriorOperation	:NO];
+							 replacementString:[[[aTextView textStorage] string] substringWithRange:aCharRange]
+				 shouldGroupWithPriorOperation:NO];
 
     [document setIsHandlingUndoManually:NO];
     [document setShouldChangeChangeCount:YES];

@@ -56,25 +56,33 @@
 	NSView *firstSubview = splitView.subviews[0];
 	NSView *secondSubview = splitView.subviews[1];
 
-	NSRect firstSubViewFrame = firstSubview.frame;
-	NSRect secondSubViewFrame = secondSubview.frame;
+	NSRect firstSubviewFrame = firstSubview.frame;
+	NSRect secondSubviewFrame = secondSubview.frame;
 
+	// pre-resize the frames (sometimes they come in old sizes)
+	firstSubviewFrame.size.height = newSplitViewSize.height;
+	secondSubviewFrame.size.height = newSplitViewSize.height;
+	
+	CGFloat ratio = firstSubviewFrame.size.width / (firstSubviewFrame.size.width + secondSubviewFrame.size.width + dividerThickness);
+	firstSubviewFrame.size.width = ratio * newSplitViewSize.width;
+	secondSubviewFrame.size.width = newSplitViewSize.width - dividerThickness - firstSubviewFrame.size.width;
+	
 	// calculate adjusted subview frames
 	if (newSplitViewSize.width >= (SEEMinWebPreviewWidth + dividerThickness + SEEMinEditorWidth)) {
-		if (NSWidth(secondSubViewFrame) < SEEMinEditorWidth) {
-			secondSubViewFrame.size.width = SEEMinEditorWidth;
-			firstSubViewFrame.size.width = newSplitViewSize.width - SEEMinEditorWidth - dividerThickness;
-			secondSubViewFrame.origin.x = firstSubViewFrame.size.width + dividerThickness;
+		if (NSWidth(secondSubviewFrame) < SEEMinEditorWidth) {
+			secondSubviewFrame.size.width = SEEMinEditorWidth;
+			firstSubviewFrame.size.width = newSplitViewSize.width - SEEMinEditorWidth - dividerThickness;
+			secondSubviewFrame.origin.x = firstSubviewFrame.size.width + dividerThickness;
 
-			firstSubview.frame = firstSubViewFrame;
-			secondSubview.frame = secondSubViewFrame;
-		} else if (NSWidth(firstSubViewFrame) < SEEMinWebPreviewWidth) {
-			firstSubViewFrame.size.width = SEEMinWebPreviewWidth;
-			secondSubViewFrame.size.width = newSplitViewSize.width - SEEMinWebPreviewWidth - dividerThickness;
-			secondSubViewFrame.origin.x = firstSubViewFrame.size.width + dividerThickness;
+			firstSubview.frame = firstSubviewFrame;
+			secondSubview.frame = secondSubviewFrame;
+		} else if (NSWidth(firstSubviewFrame) < SEEMinWebPreviewWidth) {
+			firstSubviewFrame.size.width = SEEMinWebPreviewWidth;
+			secondSubviewFrame.size.width = newSplitViewSize.width - SEEMinWebPreviewWidth - dividerThickness;
+			secondSubviewFrame.origin.x = firstSubviewFrame.size.width + dividerThickness;
 
-			firstSubview.frame = firstSubViewFrame;
-			secondSubview.frame = secondSubViewFrame;
+			firstSubview.frame = firstSubviewFrame;
+			secondSubview.frame = secondSubviewFrame;
 		} else {
 			[splitView adjustSubviews];
 		}

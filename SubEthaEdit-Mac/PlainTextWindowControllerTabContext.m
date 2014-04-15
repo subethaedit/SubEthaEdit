@@ -25,7 +25,7 @@
 #endif
 
 CGFloat const SEEMinWebPreviewWidth = 320.0;
-CGFloat const SEEMinEditorWidth = 480.0;
+CGFloat const SEEMinEditorWidth = 385.0;
 
 
 NSString * const SEEPlainTextWindowControllerTabContextActiveEditorDidChangeNotification = @"SEEPlainTextWindowControllerTabContextActiveEditorDidChangeNotification";
