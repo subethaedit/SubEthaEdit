@@ -285,6 +285,14 @@
     }
 }
 
+- (IBAction)changeDisableNetworking:(id)aSender {
+	NSLog(@"%s %@",__FUNCTION__,aSender);
+}
+
+- (IBAction)changeVisiblityOnNetwork:(id)aSender {
+	NSLog(@"%s %@",__FUNCTION__,aSender);
+}
+
 
 #pragma mark - Localization
 - (NSString *)localizedNetworkBoxLabelText {
