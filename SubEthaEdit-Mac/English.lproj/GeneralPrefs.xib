@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1090" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5053"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="GeneralPreferences">
             <connections>
-                <outlet property="O_alsoInLocalDocumentsButton" destination="19" id="81"/>
-                <outlet property="O_defaultModePopUpButton" destination="55" id="79"/>
-                <outlet property="O_higlightChangesButton" destination="25" id="82"/>
+                <outlet property="O_highlightLocalChangesButton" destination="KjR-2C-eEw" id="AWb-c4-2PU"/>
                 <outlet property="O_modeForNewDocumentsPopUpButton" destination="55" id="140"/>
-                <outlet property="O_openNewDocumentAtStartupButton" destination="31" id="80"/>
                 <outlet property="O_window" destination="5" id="7"/>
             </connections>
         </customObject>
@@ -20,52 +17,17 @@
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="5" userLabel="Window">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="415" y="311" width="365" height="279"/>
+            <rect key="contentRect" x="415" y="311" width="365" height="222"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
             <view key="contentView" autoresizesSubviews="NO" id="6">
-                <rect key="frame" x="0.0" y="0.0" width="365" height="279"/>
+                <rect key="frame" x="0.0" y="0.0" width="365" height="222"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <box autoresizesSubviews="NO" title="Highlight Changes" id="60">
-                        <rect key="frame" x="15" y="185" width="333" height="74"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <view key="contentView">
-                            <rect key="frame" x="2" y="2" width="329" height="57"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <subviews>
-                                <button toolTip="Color the background of your changes." id="25">
-                                    <rect key="frame" x="13" y="32" width="301" height="18"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <buttonCell key="cell" type="check" title="Highlight changes" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="222">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="smallSystem"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <binding destination="92" name="value" keyPath="values.HighlightChanges" id="95"/>
-                                    </connections>
-                                </button>
-                                <button toolTip="Also colorize changes if not in collaborative mode." id="19">
-                                    <rect key="frame" x="30" y="10" width="284" height="18"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <buttonCell key="cell" type="check" title="…also when alone" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="219">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="smallSystem"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <binding destination="92" name="enabled" keyPath="values.HighlightChanges" id="97"/>
-                                        <binding destination="92" name="value" keyPath="values.HighlightChangesAlone" id="96"/>
-                                    </connections>
-                                </button>
-                            </subviews>
-                        </view>
-                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    </box>
                     <box autoresizesSubviews="NO" title="Documents" id="62">
-                        <rect key="frame" x="16" y="16" width="333" height="165"/>
+                        <rect key="frame" x="16" y="16" width="333" height="186"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <view key="contentView">
-                            <rect key="frame" x="2" y="2" width="329" height="148"/>
+                            <rect key="frame" x="2" y="2" width="329" height="169"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <button toolTip="Open a blank document at startup." id="31">
@@ -198,6 +160,17 @@
                                     </buttonCell>
                                     <connections>
                                         <binding destination="92" name="value" keyPath="values.OpenNewDocumentInTab" id="195"/>
+                                    </connections>
+                                </button>
+                                <button toolTip="Also colorize changes if not in collaborative mode." id="KjR-2C-eEw">
+                                    <rect key="frame" x="14" y="144" width="300" height="18"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <buttonCell key="cell" type="check" title="Highlight Changes when not collaborating" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="X2p-xv-B6d">
+                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                        <font key="font" metaFont="smallSystem"/>
+                                    </buttonCell>
+                                    <connections>
+                                        <action selector="toggleLocalHighlightDefault:" target="-2" id="e1D-pc-wHF"/>
                                     </connections>
                                 </button>
                             </subviews>

@@ -22,6 +22,9 @@
     IBOutlet DocumentModePopUpButton *O_modeForNewDocumentsPopUpButton;
 }
 
+@property (nonatomic, strong) IBOutlet NSButton *O_highlightLocalChangesButton;
+- (IBAction)toggleLocalHighlightDefault:(id)aSender;
+
 - (IBAction)postGeneralViewPreferencesDidChangeNotificiation:(id)aSender;
 - (IBAction)changeModeForNewDocuments:(id)aSender;
 @end
