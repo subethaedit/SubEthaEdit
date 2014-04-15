@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5053" systemVersion="13D21" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5053"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="AdvancedPreferences">
             <connections>
-                <outlet property="O_automaticallyMapPortButton" destination="74" id="91"/>
                 <outlet property="O_commandLineToolRemoveButton" destination="41" id="42"/>
                 <outlet property="O_disableScreenFontsButton" destination="45" id="53"/>
-                <outlet property="O_localPortTextField" destination="85" id="89"/>
-                <outlet property="O_mappingStatusImageView" destination="78" id="87"/>
-                <outlet property="O_mappingStatusProgressIndicator" destination="80" id="90"/>
-                <outlet property="O_mappingStatusTextField" destination="81" id="88"/>
                 <outlet property="O_synthesiseFontsButton" destination="48" id="52"/>
                 <outlet property="O_window" destination="6" id="7"/>
             </connections>
@@ -22,113 +17,12 @@
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="6" userLabel="Window">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="88" y="296" width="400" height="453"/>
+            <rect key="contentRect" x="88" y="296" width="400" height="296"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1178"/>
             <view key="contentView" id="5">
-                <rect key="frame" x="0.0" y="0.0" width="400" height="453"/>
+                <rect key="frame" x="0.0" y="0.0" width="400" height="296"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <box title="Kollaboration" id="61">
-                        <rect key="frame" x="17" y="208" width="366" height="152"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                        <view key="contentView">
-                            <rect key="frame" x="2" y="2" width="362" height="135"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <subviews>
-                                <button id="74">
-                                    <rect key="frame" x="14" y="81" width="353" height="18"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                                    <string key="toolTip">SubEthaEdit versucht automatisch den lokalen Port weiterzuleiten falls Sie sich hinter einem NAT befinden. Damit das Funktioniert müssen Sie UPnP oder NAT-PMP auf Ihrem router aktivieren.</string>
-                                    <buttonCell key="cell" type="check" title="Port automatisch weiterleiten" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="171">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="smallSystem"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <action selector="changeAutomaticallyMapPorts:" target="-2" id="92"/>
-                                    </connections>
-                                </button>
-                                <imageView id="78">
-                                    <rect key="frame" x="122" y="108" width="14" height="13"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" image="DotYellow" id="173"/>
-                                </imageView>
-                                <progressIndicator horizontalHuggingPriority="750" verticalHuggingPriority="750" minValue="16" maxValue="100" doubleValue="16" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" id="80">
-                                    <rect key="frame" x="121" y="106" width="16" height="16"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                </progressIndicator>
-                                <textField verticalHuggingPriority="750" id="83">
-                                    <rect key="frame" x="14" y="107" width="72" height="14"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Lokaler Port:" id="175">
-                                        <font key="font" metaFont="smallSystem"/>
-                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                </textField>
-                                <textField verticalHuggingPriority="750" id="85">
-                                    <rect key="frame" x="88" y="107" width="35" height="14"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="6942" id="176">
-                                        <font key="font" metaFont="smallSystem"/>
-                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                </textField>
-                                <button id="114">
-                                    <rect key="frame" x="14" y="43" width="353" height="18"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                                    <string key="toolTip">SubEthaEdit versucht sich automatisch mit denen, die mit Ihren Freunden verbunden sind, zu verbinden. Falls Sie das nicht wünschen können Sie es hiermit verhindern.</string>
-                                    <buttonCell key="cell" type="check" title="Friendcasting deaktivieren" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="177">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="smallSystem"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <binding destination="59" name="value" keyPath="values.shouldAutoConnect" id="119">
-                                            <dictionary key="options">
-                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
-                                </button>
-                                <button id="63">
-                                    <rect key="frame" x="14" y="17" width="353" height="18"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                                    <string key="toolTip">Seit Version wird standardmäßig der Veränderungsverlauf bei einer Verbindung zu einem Dokument mit übertragen. Falls Sie die Verlaufsdaten nicht benötigen erhöht das Ausschalten die Verbindungsgeschwindigkeit.</string>
-                                    <buttonCell key="cell" type="check" title="Veränderungsverlauf übertragen und anfordern" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="170">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="smallSystem"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <binding destination="59" name="value" keyPath="values.DontSubmitAndRequestHistory" id="148">
-                                            <dictionary key="options">
-                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
-                                </button>
-                                <textField verticalHuggingPriority="750" id="81">
-                                    <rect key="frame" x="141" y="107" width="233" height="14"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="&lt;do not localize>" id="174">
-                                        <font key="font" metaFont="smallSystem"/>
-                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                </textField>
-                                <textField verticalHuggingPriority="750" id="76">
-                                    <rect key="frame" x="31" y="70" width="337" height="11"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" controlSize="mini" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Die Port Weiterleitung bentutzt NAT-PMP oder UPnP" id="172">
-                                        <font key="font" metaFont="miniSystem"/>
-                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                </textField>
-                            </subviews>
-                        </view>
-                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    </box>
                     <box title="Schriftendarstellung" id="46">
                         <rect key="frame" x="17" y="16" width="366" height="99"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
@@ -173,7 +67,7 @@
                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </box>
                     <box title="Kommandozeilen-Tool" id="11">
-                        <rect key="frame" x="17" y="364" width="366" height="69"/>
+                        <rect key="frame" x="17" y="207" width="366" height="69"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                         <view key="contentView">
                             <rect key="frame" x="2" y="2" width="362" height="52"/>
@@ -248,7 +142,4 @@
         </window>
         <userDefaultsController id="59" userLabel="Shared Defaults"/>
     </objects>
-    <resources>
-        <image name="DotYellow" width="16" height="16"/>
-    </resources>
 </document>
