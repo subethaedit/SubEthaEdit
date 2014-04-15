@@ -116,7 +116,7 @@
 		1428938D0957585600D14688 /* SaturationToColorValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893890957585600D14688 /* SaturationToColorValueTransformer.m */; };
 		142893A1095758C200D14688 /* AdvancedPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289390095758C100D14688 /* AdvancedPreferences.m */; };
 		142893A2095758C200D14688 /* EditPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289392095758C100D14688 /* EditPreferences.m */; };
-		142893A3095758C200D14688 /* GeneralPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289394095758C100D14688 /* GeneralPreferences.m */; };
+		142893A3095758C200D14688 /* GeneralPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289394095758C100D14688 /* GeneralPreferences.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		142893A4095758C200D14688 /* OverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289396095758C100D14688 /* OverlayView.m */; };
 		142893A6095758C200D14688 /* StylePreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428939A095758C100D14688 /* StylePreferences.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		142893A7095758C200D14688 /* TableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428939C095758C100D14688 /* TableView.m */; };

@@ -12,6 +12,12 @@
 #import "AppController.h"
 #import "TCMMMUserManager.h"
 
+// this file needs arc - either project wide,
+// or add -fobjc-arc on a per file basis in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
 @implementation GeneralPreferences
 
 + (void)initialize {
@@ -49,8 +55,29 @@
 	}    
 }
 
+#pragma mark - IBActions
+
+- (IBAction)toggleLocalHighlightDefault:(id)aSender {
+	BOOL isEnabled;
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+
+	if ([aSender isKindOfClass:[NSButton class]]) {
+		NSButton *button = (NSButton *)aSender;
+		isEnabled = (button.state == NSOnState);
+	} else {
+		isEnabled = ![defaults boolForKey:HighlightChangesAlonePreferenceKey];
+	}
+
+	if (isEnabled) { // enable changes highlight for collaboration when enabling the local changes highlight
+		[defaults setBool:YES forKey:HighlightChangesPreferenceKey];
+	}
+	[defaults setBool:isEnabled forKey:HighlightChangesAlonePreferenceKey];
+
+	[self setLocalChangesHighlightButtonState:isEnabled];
+}
+
 - (IBAction)changeModeForNewDocuments:(id)aSender {
-    NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:[aSender selectedModeIdentifier] forKey:ModeForNewDocumentsPreferenceKey];
     [[AppController sharedInstance] performSelector:@selector(addShortcutToModeForNewDocumentsEntry)          withObject:nil afterDelay:0.0];
     [[AppController sharedInstance] performSelector:@selector(addShortcutToModeForNewAlternateDocumentsEntry) withObject:nil afterDelay:0.0];
@@ -75,14 +102,36 @@
 
 - (void)mainViewDidLoad {
     // Initialize user interface elements to reflect current preference settings
-    NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
-    
-    [O_modeForNewDocumentsPopUpButton setSelectedModeIdentifier:
-        [defaults objectForKey:ModeForNewDocumentsPreferenceKey]];
+    [self setLocalChangesHighlightButtonStateFromDefaults];
+
+    NSString *modeIdentifier = [[NSUserDefaults standardUserDefaults] objectForKey:ModeForNewDocumentsPreferenceKey];
+	[self.O_modeForNewDocumentsPopUpButton setSelectedModeIdentifier:modeIdentifier];
+}
+
+- (void)willSelect {;
+    [self setLocalChangesHighlightButtonStateFromDefaults];
 }
 
 - (void)didUnselect {
     // Save preferences
+}
+
+#pragma mark - Local Changes Highlight Button Update
+
+- (void)setLocalChangesHighlightButtonStateFromDefaults {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	
+	BOOL localChangesHighlightEnabled = [defaults objectForKey:HighlightChangesAlonePreferenceKey];
+	BOOL changesHighlightEnabled = [defaults objectForKey:HighlightChangesPreferenceKey];
+	[self setLocalChangesHighlightButtonState:(changesHighlightEnabled && localChangesHighlightEnabled)];
+}
+
+- (void)setLocalChangesHighlightButtonState:(BOOL)isEnabled {
+	if (isEnabled) {
+		[self.O_highlightLocalChangesButton setState:NSOnState];
+	} else {
+		[self.O_highlightLocalChangesButton setState:NSOffState];
+	}
 }
 
 #pragma mark - View Update Notification
