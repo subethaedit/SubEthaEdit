@@ -1175,7 +1175,7 @@
         }
     }
     BOOL previousOpenSetting = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
-    BOOL shouldSwitchOpening = NO;
+    __block BOOL shouldSwitchOpening = NO;
     if (openIn) {
         if ([openIn isEqualToString:@"tabs"]) {
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:OpenNewDocumentInTabKey];
@@ -1202,37 +1202,37 @@
     NSString *fileName;
     for (fileName in files) {
         [I_propertiesForOpenedFiles setObject:properties forKey:fileName];
-        NSError *error=nil;
-        NSDocument *document = [self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:fileName] display:YES error:&error];
-        if (document) {
-            if (shouldSwitchOpening) {
-                shouldSwitchOpening = NO;
-                [[NSUserDefaults standardUserDefaults] setBool:YES forKey:OpenNewDocumentInTabKey];
-            }
-            [(PlainTextDocument *)document setIsWaiting:(shouldWait || isPipingOut)];
-            if (jobDescription) {
-                [(PlainTextDocument *)document setJobDescription:jobDescription];
-            }
-            if (shouldPrint) {
-//                [document printShowingPrintPanel:NO];
-                [document close];
-            } else {
-                if (shouldJumpToLine) {
-                    if (columnToGoTo!=-1) {
-                        NSRange lineRange = [(FoldableTextStorage *)[(PlainTextDocument *)document textStorage] findLine:lineToGoTo];
-                        [(PlainTextDocument *)document selectRange:NSMakeRange(lineRange.location+columnToGoTo,selectionLength)];
-                    } else {
-                        [(PlainTextDocument *)document gotoLine:lineToGoTo];
-                    }
-                }
-                [documents addObject:document];
-            }
-        } else {
-            NSLog(@"%@",error);
-        }
+		[self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:fileName] display:YES completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
+			if (document) {
+				if (shouldSwitchOpening) {
+					shouldSwitchOpening = NO;
+					[[NSUserDefaults standardUserDefaults] setBool:YES forKey:OpenNewDocumentInTabKey];
+				}
+				[(PlainTextDocument *)document setIsWaiting:(shouldWait || isPipingOut)];
+				if (jobDescription) {
+					[(PlainTextDocument *)document setJobDescription:jobDescription];
+				}
+				if (shouldPrint) {
+//					[document printShowingPrintPanel:NO];
+					[document close];
+				} else {
+					if (shouldJumpToLine) {
+						if (columnToGoTo!=-1) {
+							NSRange lineRange = [(FoldableTextStorage *)[(PlainTextDocument *)document textStorage] findLine:lineToGoTo];
+							[(PlainTextDocument *)document selectRange:NSMakeRange(lineRange.location+columnToGoTo,selectionLength)];
+						} else {
+							[(PlainTextDocument *)document gotoLine:lineToGoTo];
+						}
+					}
+					[documents addObject:document];
+				}
+			} else {
+				NSLog(@"%@",error);
+			}
+		}];
     }
 
-    
+
     NSMutableArray *newFiles = [NSMutableArray array];
     argument = [[command evaluatedArguments] objectForKey:@"NewFiles"];
     if ([argument isKindOfClass:[NSArray class]]) {
