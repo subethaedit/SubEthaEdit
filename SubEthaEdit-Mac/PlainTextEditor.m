@@ -623,6 +623,8 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 		[button setLineColor:darkSeparatorColor];
 	}
 	
+	[self.shareAnnounceButtonOutlet setImage:[NSImage imageNamed:isDark ? @"BottomBarSharingIconAnnounceDarkBackground_Inactive" : @"BottomBarSharingIconAnnounce_Inactive"]];
+	
 	// overlays?
 }
 
