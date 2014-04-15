@@ -567,6 +567,15 @@
             <parameter name="pipetitle" code="Pipe" type="text" optional="yes" hidden="yes" description="">
                 <cocoa key="PipeTitle"/>                    
             </parameter>
+            <parameter name="gotoString" code="GoTo" type="text" optional="yes" hidden="yes" description="">
+                <cocoa key="GotoString"/>                    
+            </parameter>
+            <parameter name="open-in" code="OpIn" type="text" optional="yes" hidden="yes" description="">
+                <cocoa key="OpenIn"/>                    
+            </parameter>
+            <parameter name="pipe-dirty" code="Pdty" type="boolean" optional="yes" hidden="yes" description="">
+                <cocoa key="ShouldMakePipeDirty"/>                    
+            </parameter>
             <parameter name="print" code="Prnt" type="boolean" optional="yes" hidden="yes" description="">
                 <cocoa key="ShouldPrint"/>                    
             </parameter>
@@ -598,6 +607,26 @@
 
         <class name="application" code="capp" inherits="application" description="The application's top-level scripting object.">
             <cocoa class="NSApplication"/>
+			<element type="document" access="r">
+				<cocoa key="orderedDocuments"/>
+			</element>
+			<element type="window" access="r">
+				<cocoa key="orderedWindows"/>
+			</element>
+			<property name="name" code="pnam" type="text" access="r" description="The name of the application."/>
+			<property name="frontmost" code="pisf" type="boolean" access="r" description="Is this the frontmost (active) application?">
+				<cocoa key="isActive"/>
+			</property>
+			<property name="version" code="vers" type="text" access="r" description="The version of the application."/>
+			<responds-to name="open">
+				<cocoa method="handleOpenScriptCommand:"/>
+			</responds-to>
+			<responds-to name="print">
+				<cocoa method="handlePrintScriptCommand:"/>
+			</responds-to>
+			<responds-to name="quit">
+				<cocoa method="handleQuitScriptCommand:"/>
+			</responds-to>
             <property name="selection" code="pSel" description="The current selection or insertion point of the frontmost window.">
                 <cocoa key="scriptSelection"/>
                 <type type="selection-object"/>
@@ -610,6 +639,12 @@
             <element type="mode" access="r">
                 <cocoa key="scriptedModes"/>
             </element>
+            <responds-to name="open">
+                <cocoa method="TCM_handleOpenScriptCommand:"/>
+            </responds-to>
+            <responds-to name="print">
+                <cocoa method="TCM_handlePrintScriptCommand:"/>
+            </responds-to>
             <responds-to name="see">
                 <cocoa method="TCM_handleSeeScriptCommand:"/>
             </responds-to>
@@ -617,9 +652,34 @@
 
         <class name="document" code="docu" inherits="document" description="A document.">
             <cocoa class="PlainTextDocument"/>
+			<property name="path" code="ppth" type="text" description="The document's path.">
+				<cocoa key="fileName"/>
+			</property>
+			<property name="modified" code="imod" type="boolean" access="r" description="Has the document been modified since the last save?">
+				<cocoa key="isDocumentEdited"/>
+			</property>
+			<property name="name" code="pnam" type="text" description="The document's name.">
+				<cocoa key="lastComponentOfFileName"/>
+			</property>
+			<responds-to name="close">
+				<cocoa method="handleCloseScriptCommand:"/>
+			</responds-to>
+			<responds-to name="print">
+				<cocoa method="handlePrintScriptCommand:"/>
+			</responds-to>
+			<responds-to name="save">
+				<cocoa method="handleSaveScriptCommand:"/>
+			</responds-to>
             <contents name="plain text" code="cTXT" type="plain text" description="The plain text object containing all the document's text." hidden="yes">
                 <cocoa key="scriptedPlainContents"/>
             </contents>
+            <property name="name" code="pnam" type="text" access="r"
+                description="The document's name.">
+                <cocoa key="displayName"/>
+            </property>
+            <property name="id" code="ID  " type="integer" access="r" description="The unique identifier of the document.">
+                <cocoa key="uniqueID"/>
+            </property>
             <property name="plain text" code="cTXT" type="plain text" description="The plain text object containing all the document's text.">
                 <cocoa key="scriptedPlainContents"/>
             </property>
@@ -628,7 +688,7 @@
                 <cocoa key="scriptedContents"/>
             </property>
             <property name="mode" code="Mode" description="The document's mode.">
-                <cocoa key="documentMode"/>
+                <cocoa key="scriptDocumentMode"/>
                 <type type="mode"/>
                 <type type="text"/>
             </property>

@@ -97,6 +97,7 @@ static NSArray *subEthaEditBundleIdentifiers()
 {
 	NSArray *result = @[@"de.codingmonkeys.SubEthaEdit.Mac",
 						@"de.codingmonkeys.SubEthaEdit.MacBETA",
+						@"de.codingmonkeys.SubEthaEdit.MacBETADev",
 						@"de.codingmonkeys.SubEthaEdit"];
 	return result;
 }
