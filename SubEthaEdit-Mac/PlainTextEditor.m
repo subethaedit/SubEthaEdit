@@ -198,6 +198,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	self.canAnnounceAndShare = isServer;
 	
 	[self TCM_updateLocalizedToolTips];
+	[self updateAnnounceButton];
 	[self TCM_updateNumberOfActiveParticipants];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
