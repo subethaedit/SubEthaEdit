@@ -2975,8 +2975,8 @@ willChangeSelectionFromCharacterRange	:aOldSelectedCharRange
     UndoManager *undoManager = [document documentUndoManager];
 
     [undoManager registerUndoChangeTextInRange:NSMakeRange(aCharRange.location, [aWord length])
-						 replacementString				:[[[aTextView textStorage] string] substringWithRange:aCharRange]
-				shouldGroupWithPriorOperation	:NO];
+							 replacementString:[[[aTextView textStorage] string] substringWithRange:aCharRange]
+				 shouldGroupWithPriorOperation:NO];
 
     [document setIsHandlingUndoManually:NO];
     [document setShouldChangeChangeCount:YES];
