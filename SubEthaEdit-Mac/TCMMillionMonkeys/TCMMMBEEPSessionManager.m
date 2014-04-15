@@ -35,6 +35,7 @@ NSString * const ShouldAutomaticallyMapPort = @"ShouldAutomaticallyMapPort";
 
 
 NSString * const ProhibitInboundInternetSessions = @"ProhibitInboundInternetSessions";
+NSString * const kNetworkingDisabledPreferenceKey = @"NetworkingDisabled";
 
 
 static NSString *kBEEPSessionStatusNoSession  = @"NoSession";
@@ -197,8 +198,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
 	}
 }
 
-- (id)init
-{
+- (id)init {
     self = [super init];
     if (self) {
     	[AppController sharedInstance]; // making sure the defaults are registered - seem ugly need better way soon
@@ -221,6 +221,8 @@ static TCMMMBEEPSessionManager *sharedInstance;
         I_sessions = [NSMutableArray new];
         BOOL flag = [[NSUserDefaults standardUserDefaults] boolForKey:ProhibitInboundInternetSessions];
         I_isProhibitingInboundInternetSessions = flag;
+		flag = [[NSUserDefaults standardUserDefaults] boolForKey:kNetworkingDisabledPreferenceKey];
+		_networkingDisabled = flag;
         sharedInstance = self;
         [self registerHandler:[TCMMMPresenceManager sharedInstance] forIncomingProfilesWithProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"];
 
@@ -273,7 +275,8 @@ static TCMMMBEEPSessionManager *sharedInstance;
 
 - (void)validateListener {
     BOOL isVisible = [[TCMMMPresenceManager sharedInstance] isVisible];
-    if (!isVisible && [self isProhibitingInboundInternetSessions]) {
+    if ((!isVisible && [self isProhibitingInboundInternetSessions]) ||
+		self.isNetworkingDisabled) {
         // stop listening
         [self stopListening];
     } else if (!I_listener) {
@@ -358,6 +361,16 @@ static TCMMMBEEPSessionManager *sharedInstance;
     return I_isProhibitingInboundInternetSessions;
 }
 
+- (void)setNetworkingDisabled:(BOOL)networkingDisabled {
+	_networkingDisabled = networkingDisabled;
+	[self validateListener];
+	if (_networkingDisabled) {
+		[self terminateAllBEEPSessions];
+	}
+    [[NSUserDefaults standardUserDefaults] setBool:_networkingDisabled forKey:kNetworkingDisabledPreferenceKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 - (NSMutableDictionary *)sessionInformationForUserID:(NSString *)aUserID {
     NSMutableDictionary *sessionInformation = [I_sessionInformationByUserID objectForKey:aUserID];
     if (!sessionInformation) {
@@ -372,49 +385,53 @@ static TCMMMBEEPSessionManager *sharedInstance;
 }
 
 - (void)TCM_connectToNetServiceWithInformation:(NSMutableDictionary *)aInformation {
-    NSNetService *service = [aInformation objectForKey:kSessionInformationKeyNetService];
-    NSArray *addresses = [service addresses]; 
-    NSMutableArray *outgoingSessions = [aInformation objectForKey:kSessionInformationKeyOutgoingRendezvousSessions];
-    if (!outgoingSessions) {
-        outgoingSessions = [NSMutableArray array];
-        [aInformation setObject:outgoingSessions forKey:kSessionInformationKeyOutgoingRendezvousSessions];
-    }
-    int i=0;
-    for (i = [[aInformation objectForKey:kSessionInformationKeyTriedNetServiceAddresses] intValue]; i < [addresses count]; i++) {
-        NSData *addressData = [addresses objectAtIndex:i];
-        TCMBEEPSession *session = [[TCMBEEPSession alloc] initWithAddressData:addressData];
-        DEBUGLOG(@"RendezvousLogDomain", DetailedLogLevel,@"Trying to connect to %d: %@ - %@",i,[service description],[NSString stringWithAddressData:addressData]);
-        [self insertObject:session inSessionsAtIndex:[self countOfSessions]];
-        [session setIsProhibitingInboundInternetSessions:[self isProhibitingInboundInternetSessions]];
-        
-        [outgoingSessions addObject:session];
-
-        [[session userInfo] setObject:[aInformation objectForKey:@"peerUserID"] forKey:@"peerUserID"];
-        [[session userInfo] setObject:[NSNumber numberWithBool:YES] forKey:@"isRendezvous"];
-        [session addProfileURIs:   [I_greetingProfiles objectForKey:kTCMMMBEEPSessionManagerDefaultMode]];
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:EnableTLSKey]) {
-			[session addTLSProfileURIs:[I_greetingProfiles objectForKey:kTCMMMBEEPSessionManagerTLSMode]];
+	if (!self.isNetworkingDisabled) {
+		NSNetService *service = [aInformation objectForKey:kSessionInformationKeyNetService];
+		NSArray *addresses = [service addresses]; 
+		NSMutableArray *outgoingSessions = [aInformation objectForKey:kSessionInformationKeyOutgoingRendezvousSessions];
+		if (!outgoingSessions) {
+			outgoingSessions = [NSMutableArray array];
+			[aInformation setObject:outgoingSessions forKey:kSessionInformationKeyOutgoingRendezvousSessions];
 		}
-        [session setDelegate:self];
-        [session open];
-    }
-    [aInformation setObject:[NSNumber numberWithInt:i] forKey:kSessionInformationKeyTriedNetServiceAddresses];
+		int i=0;
+		for (i = [[aInformation objectForKey:kSessionInformationKeyTriedNetServiceAddresses] intValue]; i < [addresses count]; i++) {
+			NSData *addressData = [addresses objectAtIndex:i];
+			TCMBEEPSession *session = [[TCMBEEPSession alloc] initWithAddressData:addressData];
+			DEBUGLOG(@"RendezvousLogDomain", DetailedLogLevel,@"Trying to connect to %d: %@ - %@",i,[service description],[NSString stringWithAddressData:addressData]);
+			[self insertObject:session inSessionsAtIndex:[self countOfSessions]];
+			[session setIsProhibitingInboundInternetSessions:[self isProhibitingInboundInternetSessions]];
+			
+			[outgoingSessions addObject:session];
+
+			[[session userInfo] setObject:[aInformation objectForKey:@"peerUserID"] forKey:@"peerUserID"];
+			[[session userInfo] setObject:[NSNumber numberWithBool:YES] forKey:@"isRendezvous"];
+			[session addProfileURIs:   [I_greetingProfiles objectForKey:kTCMMMBEEPSessionManagerDefaultMode]];
+			if ([[NSUserDefaults standardUserDefaults] boolForKey:EnableTLSKey]) {
+				[session addTLSProfileURIs:[I_greetingProfiles objectForKey:kTCMMMBEEPSessionManagerTLSMode]];
+			}
+			[session setDelegate:self];
+			[session open];
+		}
+		[aInformation setObject:[NSNumber numberWithInt:i] forKey:kSessionInformationKeyTriedNetServiceAddresses];
+	}
 }
 
 - (void)connectToNetService:(NSNetService *)aNetService {
-    NSString *userID = [[aNetService TXTRecordDictionary] objectForKey:TCMMMPresenceTXTRecordUserIDKey];
-    if (userID) {
-        NSMutableDictionary *sessionInformation = [self sessionInformationForUserID:userID];
-        NSString *status = [sessionInformation objectForKey:kSessionInformationKeyRendezvousStatus];
-        if (![status isEqualToString:kBEEPSessionStatusGotSession]) {
-            [sessionInformation setObject:aNetService forKey:kSessionInformationKeyNetService];
-            [sessionInformation setObject:kBEEPSessionStatusConnecting forKey:kSessionInformationKeyRendezvousStatus];
-            [sessionInformation setObject:[NSNumber numberWithInt:0] forKey:kSessionInformationKeyTriedNetServiceAddresses];
-            [self TCM_connectToNetServiceWithInformation:sessionInformation];
-        } else {
-    //        TCMBEEPSession *session = [sessionInformation objectForKey:kSessionInformationKeyRendezvousSession];
-        }
-    }
+	if (!self.isNetworkingDisabled) {
+		NSString *userID = [[aNetService TXTRecordDictionary] objectForKey:TCMMMPresenceTXTRecordUserIDKey];
+		if (userID) {
+			NSMutableDictionary *sessionInformation = [self sessionInformationForUserID:userID];
+			NSString *status = [sessionInformation objectForKey:kSessionInformationKeyRendezvousStatus];
+			if (![status isEqualToString:kBEEPSessionStatusGotSession]) {
+				[sessionInformation setObject:aNetService forKey:kSessionInformationKeyNetService];
+				[sessionInformation setObject:kBEEPSessionStatusConnecting forKey:kSessionInformationKeyRendezvousStatus];
+				[sessionInformation setObject:[NSNumber numberWithInt:0] forKey:kSessionInformationKeyTriedNetServiceAddresses];
+				[self TCM_connectToNetServiceWithInformation:sessionInformation];
+			} else {
+		//        TCMBEEPSession *session = [sessionInformation objectForKey:kSessionInformationKeyRendezvousSession];
+			}
+		}
+	}
 }
 
 - (void)connectToHost:(TCMHost *)aHost
