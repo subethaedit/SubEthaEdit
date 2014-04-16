@@ -52,7 +52,8 @@ extern NSString * const TCMMMPresenceTXTRecordNameKey;
     NSTimer *I_resolveUnconnectedFoundNetServicesTimer;
 }
 
-+ (TCMMMPresenceManager *)sharedInstance;
+/* depends on TCMMMBeepSessionManager already being initialized - if it isn't it will initialize it*/
++ (instancetype)sharedInstance;
 
 - (void)setShouldAutoAcceptInviteToSessionID:(NSString *)SessionID;
 // this call also removes the autoacceptflag

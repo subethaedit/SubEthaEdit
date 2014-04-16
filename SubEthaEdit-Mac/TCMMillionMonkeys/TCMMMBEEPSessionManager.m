@@ -201,7 +201,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
 - (id)init {
     self = [super init];
     if (self) {
-    	[AppController sharedInstance]; // making sure the defaults are registered - seem ugly need better way soon
+
     	I_SSLGenerationCount = 0;
     	I_SSLGenerationDesiredCount = 1;
 //    	NSLog(@"%s %@? %d",__FUNCTION__,EnableTLSKey,[[NSUserDefaults standardUserDefaults] boolForKey:EnableTLSKey]);
@@ -223,8 +223,6 @@ static TCMMMBEEPSessionManager *sharedInstance;
         I_isProhibitingInboundInternetSessions = flag;
 		flag = [[NSUserDefaults standardUserDefaults] boolForKey:kNetworkingDisabledPreferenceKey];
 		_networkingDisabled = flag;
-        sharedInstance = self;
-        [self registerHandler:[TCMMMPresenceManager sharedInstance] forIncomingProfilesWithProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"];
 
 		[self performSelector:@selector(sslGenerationDidFinish:) withObject:nil afterDelay:0];
     }
