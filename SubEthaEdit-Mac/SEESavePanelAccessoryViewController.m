@@ -58,6 +58,7 @@
 	[savePanel setExtensionHidden:NO];
     [savePanel setCanSelectHiddenExtension:NO];
 
+//	[savePanel setAllowedFileTypes:@[@"public.text"]]; // this enables empty extension, but no default extension and extension gets removed when opening panel
 	[savePanel setAllowedFileTypes:self.writablePlainTextDocumentTypes];
 	[savePanel setAllowsOtherFileTypes:YES];
 
