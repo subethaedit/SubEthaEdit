@@ -143,12 +143,12 @@
 }
 
 - (IBAction)changeFontViaPanel:(id)sender {
-    NSDictionary *fontAttributes=[[self.O_modePopUpButton selectedMode] defaultForKey:DocumentModeFontAttributesPreferenceKey];
-    NSFont *newFont=[NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
-    if (!newFont) newFont=[NSFont userFixedPitchFontOfSize:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
-    [[NSFontManager sharedFontManager] 
-        setSelectedFont:newFont 
-             isMultiple:NO];
+    NSDictionary *fontAttributes = [[self.O_modePopUpButton selectedMode] defaultForKey:DocumentModeFontAttributesPreferenceKey];
+    NSFont *newFont = [NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
+    if (!newFont) {
+		newFont = [NSFont userFixedPitchFontOfSize:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
+	}
+    [[NSFontManager sharedFontManager] setSelectedFont:newFont isMultiple:NO];
     [[NSFontManager sharedFontManager] orderFrontFontPanel:self];
 }
 
@@ -212,10 +212,8 @@
     if ([self.O_fontDefaultButton state] != NSOnState) {
         NSFont *newFont = [fontManager convertFont:[NSFont userFixedPitchFontOfSize:0.0]]; // could be any font here
         NSMutableDictionary *dict=[NSMutableDictionary dictionary];
-        [dict setObject:[newFont fontName] 
-                 forKey:NSFontNameAttribute];
-        [dict setObject:[NSNumber numberWithFloat:[newFont pointSize]] 
-                 forKey:NSFontSizeAttribute];
+        [dict setObject:[newFont fontName] forKey:NSFontNameAttribute];
+        [dict setObject:[NSNumber numberWithFloat:[newFont pointSize]] forKey:NSFontSizeAttribute];
         [[self.O_modePopUpButton selectedMode] setValue:dict forKeyPath:@"defaults.FontAttributes"];
         [self changeMode:self.O_modePopUpButton];
     }
@@ -225,8 +223,7 @@
 	return [[[self.O_modeController content] syntaxDefinition] allLanguageContexts];
 }
 
-#pragma mark -
-#pragma mark syntax highlighting callbacks
+#pragma mark - Syntax highlighting callbacks
 
 - (NSDictionary *)styleAttributesForScope:(NSString *)aScope languageContext:(NSString *)aLanguageContext {
 	DocumentMode *currentMode = [self.O_modeController content];
@@ -252,8 +249,7 @@
 	}
 }
 
-#pragma mark -
-#pragma mark TableView DataSource
+#pragma mark - TableView DataSource
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView {
     return [[[[self.O_modeController content] syntaxDefinition] allLanguageContexts] count];
 }
@@ -273,10 +269,6 @@
 	}
 }
 
-- (void)takeStyleSheetChoice:(id)aSender {
-	NSLog(@"%s %@ %ld:%ld",__FUNCTION__, aSender, (long)[aSender clickedRow], (long)[aSender clickedColumn]);
-}
-
 - (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
 	NSArray *languageContexts = [self languageContexts];
 	NSString *languageContext = [languageContexts objectAtIndex:rowIndex];
@@ -287,12 +279,6 @@
 	[[currentMode defaults] setObject:[NSNumber numberWithBool:NO] forKey:DocumentModeUseDefaultStyleSheetPreferenceKey];
 	styleSheetSettings.usesMultipleStyleSheets = YES;
 	[self highlightSyntax];
-}
-
-#pragma mark TableView Delegate
-
-- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(NSInteger)rowIndex {
-	return YES;
 }
 
 @end
