@@ -46,14 +46,6 @@
     return @"StylePrefs";
 }
 
-- (void)updateStyleSheetLists {
-	[self.O_styleSheetCustomPopUpButton removeAllItems];
-	[self.O_styleSheetCustomPopUpButton addItemsWithTitles:[[DocumentModeManager sharedInstance] allStyleSheetNames]];
-	NSPopUpButtonCell *styleSheetButtonCell = [[self.O_customStylesForLanguageContextsTableView tableColumnWithIdentifier:@"styleSheet"] dataCell];
-	[styleSheetButtonCell removeAllItems];
-	[styleSheetButtonCell addItemsWithTitles:[[DocumentModeManager sharedInstance] allStyleSheetNames]];
-}
-
 - (void)mainViewDidLoad {
     // Initialize user interface elements to reflect current preference settings
 	
@@ -63,18 +55,22 @@
     
 }
 
-- (void)documentModeListChanged:(NSNotification *)aNotification {
-    [self performSelector:@selector(changeMode:) withObject:self.O_modePopUpButton afterDelay:.2];
+- (void)didSelect {
+	PlainTextDocument *frontmostDocument = [[SEEDocumentController sharedInstance] frontmostPlainTextDocument];
+	if (frontmostDocument) {
+		[self selectMode:[frontmostDocument documentMode]];
+	} else {
+		[self highlightSyntax];
+	}
+	[super didSelect];
 }
 
-- (void)takeFontFromMode:(DocumentMode *)aMode {
-    NSDictionary *fontAttributes = [aMode defaultForKey:DocumentModeFontAttributesPreferenceKey];
-//    NSLog(@"%s %@",__FUNCTION__, fontAttributes);
-    NSFont *font = [NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
-    if (!font) font = [NSFont userFixedPitchFontOfSize:11.];
-    [self setBaseFont:font];
+- (void)didUnselect {
+    // Save preferences
+    [[[NSFontManager sharedFontManager] fontPanel:NO] orderOut:self];
 }
 
+#pragma mark - IBActions
 - (IBAction)validateDefaultsState:(id)aSender {
 	[self.O_styleSheetDefaultRadioButton setState:NSOffState];
 	[self.O_styleSheetCustomRadioButton setState:NSOffState];
@@ -103,42 +99,6 @@
     BOOL useDefault = ([aSender state]==NSOnState);
     [[[self.O_modePopUpButton selectedMode] defaults] setObject:[NSNumber numberWithBool:useDefault] forKey:DocumentModeUseDefaultStylePreferenceKey];
     [self validateDefaultsState:aSender];
-}
-
-#pragma mark - IBActions
-
-- (void)selectMode:(DocumentMode *)aDocumentMode {
-	[self.O_modeController setContent:aDocumentMode];
-	[self.O_modePopUpButton setSelectedMode:aDocumentMode];
-	[self updateStyleSheetLists];
-	NSString *customStyleSheetName = [[aDocumentMode styleSheetSettings] singleStyleSheetName];
-	[self.O_styleSheetCustomPopUpButton selectItemWithTitle:customStyleSheetName];
-	[self.O_customStylesForLanguageContextsTableView reloadData];
-	[self.O_styleSheetDefaultRadioButton setHidden:[aDocumentMode isBaseMode]];
-	// TODO: resize the style settings box
-	CGFloat heightChange = 0;
-	BOOL shouldShow = ([[[aDocumentMode syntaxDefinition] allLanguageContexts] count] > 1);
-	if (shouldShow && [self.O_customStyleSheetsContainerView isHidden]) {
-		[self.O_customStyleSheetsContainerView setHidden:NO ];
-		heightChange =  [self.O_customStyleSheetsContainerView frame].size.height;
-	} else if (!shouldShow && ![self.O_customStyleSheetsContainerView isHidden]) {
-		[self.O_customStyleSheetsContainerView setHidden:YES];
-		heightChange = -[self.O_customStyleSheetsContainerView frame].size.height;
-	}
-	if (heightChange != 0) {
-		NSBox *styleBox   = self.O_styleContainerBox;
-		NSBox *previewBox = self.O_previewContainerBox;
-		NSRect boxFrame = [styleBox frame];
-		NSRect previewBoxFrame = [previewBox frame];
-		boxFrame.size.height += heightChange;
-		boxFrame.origin.y -= heightChange;
-		previewBoxFrame.size.height -= heightChange;
-		[styleBox setFrame:boxFrame];
-		[previewBox setFrame:previewBoxFrame];
-	}
-	[self validateDefaultsState:nil];
-	[[[self.O_syntaxSampleTextView textStorage] mutableString] setString:[aDocumentMode syntaxExampleString]];
-	[self highlightSyntax];
 }
 
 - (IBAction)changeMode:(id)aSender {
@@ -182,11 +142,6 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:DocumentModeApplyStylePreferencesNotification object:[self.O_modeController content]];
 }
 
-- (void)didUnselect {
-    // Save preferences
-    [[[NSFontManager sharedFontManager] fontPanel:NO] orderOut:self];
-}
-
 - (IBAction)changeFontViaPanel:(id)sender {
     NSDictionary *fontAttributes=[[self.O_modePopUpButton selectedMode] defaultForKey:DocumentModeFontAttributesPreferenceKey];
     NSFont *newFont=[NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
@@ -195,6 +150,61 @@
         setSelectedFont:newFont 
              isMultiple:NO];
     [[NSFontManager sharedFontManager] orderFrontFontPanel:self];
+}
+
+#pragma mark
+- (void)updateStyleSheetLists {
+	[self.O_styleSheetCustomPopUpButton removeAllItems];
+	[self.O_styleSheetCustomPopUpButton addItemsWithTitles:[[DocumentModeManager sharedInstance] allStyleSheetNames]];
+	NSPopUpButtonCell *styleSheetButtonCell = [[self.O_customStylesForLanguageContextsTableView tableColumnWithIdentifier:@"styleSheet"] dataCell];
+	[styleSheetButtonCell removeAllItems];
+	[styleSheetButtonCell addItemsWithTitles:[[DocumentModeManager sharedInstance] allStyleSheetNames]];
+}
+
+- (void)documentModeListChanged:(NSNotification *)aNotification {
+    [self performSelector:@selector(changeMode:) withObject:self.O_modePopUpButton afterDelay:.2];
+}
+
+- (void)takeFontFromMode:(DocumentMode *)aMode {
+    NSDictionary *fontAttributes = [aMode defaultForKey:DocumentModeFontAttributesPreferenceKey];
+	//    NSLog(@"%s %@",__FUNCTION__, fontAttributes);
+    NSFont *font = [NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
+    if (!font) font = [NSFont userFixedPitchFontOfSize:11.];
+    [self setBaseFont:font];
+}
+
+- (void)selectMode:(DocumentMode *)aDocumentMode {
+	[self.O_modeController setContent:aDocumentMode];
+	[self.O_modePopUpButton setSelectedMode:aDocumentMode];
+	[self updateStyleSheetLists];
+	NSString *customStyleSheetName = [[aDocumentMode styleSheetSettings] singleStyleSheetName];
+	[self.O_styleSheetCustomPopUpButton selectItemWithTitle:customStyleSheetName];
+	[self.O_customStylesForLanguageContextsTableView reloadData];
+	[self.O_styleSheetDefaultRadioButton setHidden:[aDocumentMode isBaseMode]];
+	// TODO: resize the style settings box
+	CGFloat heightChange = 0;
+	BOOL shouldShow = ([[[aDocumentMode syntaxDefinition] allLanguageContexts] count] > 1);
+	if (shouldShow && [self.O_customStyleSheetsContainerView isHidden]) {
+		[self.O_customStyleSheetsContainerView setHidden:NO ];
+		heightChange =  [self.O_customStyleSheetsContainerView frame].size.height;
+	} else if (!shouldShow && ![self.O_customStyleSheetsContainerView isHidden]) {
+		[self.O_customStyleSheetsContainerView setHidden:YES];
+		heightChange = -[self.O_customStyleSheetsContainerView frame].size.height;
+	}
+	if (heightChange != 0) {
+		NSBox *styleBox   = self.O_styleContainerBox;
+		NSBox *previewBox = self.O_previewContainerBox;
+		NSRect boxFrame = [styleBox frame];
+		NSRect previewBoxFrame = [previewBox frame];
+		boxFrame.size.height += heightChange;
+		boxFrame.origin.y -= heightChange;
+		previewBoxFrame.size.height -= heightChange;
+		[styleBox setFrame:boxFrame];
+		[previewBox setFrame:previewBoxFrame];
+	}
+	[self validateDefaultsState:nil];
+	[[[self.O_syntaxSampleTextView textStorage] mutableString] setString:[aDocumentMode syntaxExampleString]];
+	[self highlightSyntax];
 }
 
 - (void)changeFont:(id)fontManager {
@@ -277,18 +287,6 @@
 	[[currentMode defaults] setObject:[NSNumber numberWithBool:NO] forKey:DocumentModeUseDefaultStyleSheetPreferenceKey];
 	styleSheetSettings.usesMultipleStyleSheets = YES;
 	[self highlightSyntax];
-}
-
-#pragma mark Pref Module methods
-
-- (void)didSelect {
-	PlainTextDocument *frontmostDocument = [[SEEDocumentController sharedInstance] frontmostPlainTextDocument];
-	if (frontmostDocument) {
-		[self selectMode:[frontmostDocument documentMode]];
-	} else {
-		[self highlightSyntax];
-	}
-	[super didSelect];
 }
 
 #pragma mark TableView Delegate
