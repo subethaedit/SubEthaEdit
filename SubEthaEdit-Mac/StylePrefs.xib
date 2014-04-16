@@ -74,7 +74,7 @@
                                                     </binding>
                                                 </connections>
                                             </textField>
-                                            <button toolTip="Change the document's default font" verticalHuggingPriority="750" id="390">
+                                            <button toolTip="&lt;Change the document's default font>" verticalHuggingPriority="750" id="390">
                                                 <rect key="frame" x="9" y="7" width="70" height="28"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <buttonCell key="cell" type="push" title="&lt;Set...>" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" inset="2" id="449">

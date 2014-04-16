@@ -53,6 +53,7 @@
 		self.O_fontDefaultButton.title = NSLocalizedStringWithDefaultValue(@"STYLE_PREF_DEFAULT_FONT_CHECKBOX_LABEL", nil, [NSBundle mainBundle], @"use Default", @"");
 		self.O_fontContainerBox.title = NSLocalizedStringWithDefaultValue(@"STYLE_PREF_FONT_BOX_LABEL", nil, [NSBundle mainBundle], @"Font", @"");
 		self.O_changeFontButton.title = NSLocalizedStringWithDefaultValue(@"STYLE_PREF_CUSTOM_FONT_BUTTON", nil, [NSBundle mainBundle], @"Set...", @"");
+		self.O_changeFontButton.toolTip = NSLocalizedStringWithDefaultValue(@"STYLE_PREF_CUSTOM_FONT_BUTTON_TOOL_TIP", nil, [NSBundle mainBundle], @"Change the document's default font", @"");
 		self.O_styleContainerBox.title = NSLocalizedStringWithDefaultValue(@"STYLE_PREF_SETTING_BOX_LABEL", nil, [NSBundle mainBundle], @"Style Settings", @"");
 		self.O_styleSheetDefaultRadioButton.title = NSLocalizedStringWithDefaultValue(@"STYLE_PREF_SHEET_BUTTON_DEFAULT_LABEL", nil, [NSBundle mainBundle], @"Style sheet from Default Mode", @"");
 		self.O_styleSheetCustomRadioButton.title = NSLocalizedStringWithDefaultValue(@"STYLE_PREF_SHEET_BUTTON_CUSTOM_LABEL", nil, [NSBundle mainBundle], @"Custom style sheet", @"");
