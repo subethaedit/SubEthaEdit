@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5053" systemVersion="13D21" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1090" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5053"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="StylePreferences">
             <connections>
+                <outlet property="O_applyToOpenDocumentsButton" destination="394" id="DHk-sE-vxA"/>
+                <outlet property="O_changeFontButton" destination="390" id="zTI-a8-Z2O"/>
                 <outlet property="O_customStyleSheetsContainerView" destination="525" id="531"/>
                 <outlet property="O_customStylesForLanguageContextsTableView" destination="505" id="520"/>
+                <outlet property="O_fontContainerBox" destination="388" id="ERR-Mb-bfK"/>
                 <outlet property="O_fontController" destination="395" id="411"/>
                 <outlet property="O_fontDefaultButton" destination="387" id="523"/>
                 <outlet property="O_modeController" destination="73" id="273"/>

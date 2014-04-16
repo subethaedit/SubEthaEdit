@@ -32,6 +32,10 @@
 
 @property (nonatomic, strong) IBOutlet NSTextView *O_syntaxSampleTextView;
 
+// properties for localization
+@property (nonatomic, strong) IBOutlet NSBox *O_fontContainerBox;
+@property (nonatomic, strong) IBOutlet NSButton *O_changeFontButton;
+@property (nonatomic, strong) IBOutlet NSButton *O_applyToOpenDocumentsButton;
 
 - (IBAction)changeMode:(id)aSender;
 
