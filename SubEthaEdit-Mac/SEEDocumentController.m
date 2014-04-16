@@ -1103,8 +1103,7 @@
         [I_propertiesForOpenedFiles setObject:properties forKey:filename];
         BOOL shouldClose = ([self documentForURL:[NSURL fileURLWithPath:filename]] == nil);
 
-		[self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:filename] display:YES completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
-
+		[self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:filename] display:NO completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
 			if (error) {
 				NSLog(@"%@",error);
 			} else {
@@ -1114,9 +1113,7 @@
 				}
 			}
 		}];
-
     }
-
     return nil;
 }
 
