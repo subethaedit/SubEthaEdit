@@ -424,7 +424,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 		// highlight regexes
 		// and keywords
 		
-		^{
+		{ // was inline block - temporarily removed again
 			NSString *theString = [aString string];
 			NSArray *regexArray = [definition regularExpressionsInState:currentStateID];    
 			
@@ -469,7 +469,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 				}
 				styleCount++;
 			}
-		}();
+		}
 		
 		// highlight plain strings
 		// TODO: Migrate keywords to one precompiled regex and put into block above.
