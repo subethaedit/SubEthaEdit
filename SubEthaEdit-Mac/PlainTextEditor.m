@@ -162,6 +162,8 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	self.topLevelNibObjects = nil;
 	self.O_editorView = nil;
 
+	self.topBarViewController = nil;
+	
     [super dealloc];
 }
 
