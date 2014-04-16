@@ -45,7 +45,7 @@
                             <rect key="frame" x="2" y="2" width="513" height="490"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <box title="Font" id="388">
+                                <box title="&lt;Font>" id="388">
                                     <rect key="frame" x="16" y="420" width="481" height="58"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                     <view key="contentView">
@@ -77,7 +77,7 @@
                                             <button toolTip="Change the document's default font" verticalHuggingPriority="750" id="390">
                                                 <rect key="frame" x="9" y="7" width="70" height="28"/>
                                                 <autoresizingMask key="autoresizingMask"/>
-                                                <buttonCell key="cell" type="push" title="Set..." bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" inset="2" id="449">
+                                                <buttonCell key="cell" type="push" title="&lt;Set...>" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" inset="2" id="449">
                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                     <font key="font" metaFont="smallSystem"/>
                                                 </buttonCell>
@@ -95,7 +95,7 @@
                                     <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                                     <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </box>
-                                <box title="Style Settings" id="385">
+                                <box title="&lt;Style Settings>" id="385">
                                     <rect key="frame" x="16" y="165" width="481" height="254"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                     <view key="contentView">
@@ -105,7 +105,7 @@
                                             <button tag="1" id="457">
                                                 <rect key="frame" x="15" y="205" width="447" height="18"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                <buttonCell key="cell" type="radio" title="Style sheet from Default Mode" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="458">
+                                                <buttonCell key="cell" type="radio" title="&lt;Style sheet from Default Mode>" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="458">
                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                     <font key="font" metaFont="system"/>
                                                 </buttonCell>
@@ -116,7 +116,7 @@
                                             <button tag="2" id="459">
                                                 <rect key="frame" x="15" y="177" width="219" height="18"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                <buttonCell key="cell" type="radio" title="Custom style sheet" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="460">
+                                                <buttonCell key="cell" type="radio" title="&lt;Custom style sheet>" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="460">
                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                     <font key="font" metaFont="system"/>
                                                 </buttonCell>
@@ -212,7 +212,7 @@
                                                     <button tag="3" id="467">
                                                         <rect key="frame" x="6" y="141" width="447" height="18"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <buttonCell key="cell" type="radio" title="Custom style sheets for Language Contexts" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="474">
+                                                        <buttonCell key="cell" type="radio" title="&lt;Custom style sheets for Language Contexts>" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="474">
                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                             <font key="font" metaFont="system"/>
                                                         </buttonCell>
@@ -230,7 +230,7 @@
                                 <button toolTip="Use the settings specified in &quot;Default Mode&quot;" id="387">
                                     <rect key="frame" x="55" y="463" width="77" height="18"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <buttonCell key="cell" type="check" title="use Default" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="mini" state="on" inset="2" id="448">
+                                    <buttonCell key="cell" type="check" title="&lt;use Default>" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="mini" state="on" inset="2" id="448">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                         <font key="font" metaFont="miniSystem"/>
                                     </buttonCell>
@@ -251,7 +251,7 @@
                                         <action selector="applyToOpenDocuments:" target="-2" id="435"/>
                                     </connections>
                                 </button>
-                                <box title="Preview" id="477">
+                                <box title="&lt;Preview>" id="477">
                                     <rect key="frame" x="16" y="53" width="481" height="108"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <view key="contentView">
