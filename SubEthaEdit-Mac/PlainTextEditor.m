@@ -133,8 +133,12 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 - (void)prepareForDealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:[I_windowControllerTabContext document] name:NSTextViewDidChangeSelectionNotification object:I_textView];
-    [[NSNotificationCenter defaultCenter] removeObserver:[I_windowControllerTabContext document] name:NSTextDidChangeNotification object:I_textView];
+	// remove our layoutmanager from the textstorage
+	PlainTextDocument *document = I_windowControllerTabContext.document;
+	[[document textStorage] removeLayoutManager:self.textView.layoutManager];
+	
+    [[NSNotificationCenter defaultCenter] removeObserver:document name:NSTextViewDidChangeSelectionNotification object:I_textView];
+    [[NSNotificationCenter defaultCenter] removeObserver:document name:NSTextDidChangeNotification object:I_textView];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 	// release the objects that are bound so we get dealloced later
 	self.ownerController.content = nil;
@@ -162,6 +166,15 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	self.topLevelNibObjects = nil;
 	self.O_editorView = nil;
 
+	self.topBarViewController = nil;
+	self.topBlurLayerView = nil;
+	self.bottomBlurLayerView = nil;
+	self.alternateAnnounceImage = nil;
+	self.numberOfActiveParticipants = nil;
+	self.localizedToolTipAnnounceButton = nil;
+	self.localizedToolTipShareInviteButton = nil;
+	self.localizedToolTipToggleParticipantsButton = nil;
+	
     [super dealloc];
 }
 
