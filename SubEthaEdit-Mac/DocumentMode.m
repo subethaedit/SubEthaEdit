@@ -212,6 +212,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 		NSURL *autocompleteAdditionsURL = [aBundle URLForResource:@"AutocompleteAdditions" withExtension:@"txt"];
 		if (autocompleteAdditionsURL) {
 			dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+				// TODO: do a more performant read of this instead of reading it completely and then chopping it up again
 				NSString *autocompleteAdditions = [NSString stringWithContentsOfFile:autocompleteAdditionsURL.path encoding:NSUTF8StringEncoding error:nil];
 				if (autocompleteAdditions) {
 					NSArray *additions = [autocompleteAdditions componentsSeparatedByString:@"\n"];
