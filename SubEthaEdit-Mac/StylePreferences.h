@@ -11,29 +11,31 @@
 
 @class DocumentModePopUpButton;
 
-@interface StylePreferences : TCMPreferenceModule {
-    IBOutlet DocumentModePopUpButton *O_modePopUpButton;
-    IBOutlet NSObjectController *O_modeController;
-    IBOutlet NSObjectController *O_fontController;
+@interface StylePreferences : TCMPreferenceModule
 
-    IBOutlet NSButton *O_fontDefaultButton;
+@property (nonatomic, strong) IBOutlet DocumentModePopUpButton *O_modePopUpButton;
+@property (nonatomic, strong) IBOutlet NSObjectController *O_modeController;
+@property (nonatomic, strong) IBOutlet NSObjectController *O_fontController;
 
-    IBOutlet NSButton *O_styleSheetDefaultRadioButton;
-    IBOutlet NSButton *O_styleSheetCustomRadioButton;
-    IBOutlet NSButton *O_styleSheetCustomForLanguageContextsRadioButton;
-    IBOutlet NSPopUpButton *O_styleSheetCustomPopUpButton;
-    IBOutlet NSView *O_customStyleSheetsContainerView;
-    
-    IBOutlet NSBox *O_styleContainerBox;
-    IBOutlet NSBox *O_previewContainerBox;
-    
-    IBOutlet NSTableView *O_customStylesForLanguageContextsTableView;
+@property (nonatomic, strong) IBOutlet NSButton *O_fontDefaultButton;
 
-    NSFont *I_baseFont;
+@property (nonatomic, strong) IBOutlet NSButton *O_styleSheetDefaultRadioButton;
+@property (nonatomic, strong) IBOutlet NSButton *O_styleSheetCustomRadioButton;
+@property (nonatomic, strong) IBOutlet NSButton *O_styleSheetCustomForLanguageContextsRadioButton;
+@property (nonatomic, strong) IBOutlet NSPopUpButton *O_styleSheetCustomPopUpButton;
+@property (nonatomic, strong) IBOutlet NSView *O_customStyleSheetsContainerView;
 
-    NSUndoManager *I_undoManager;
-    IBOutlet NSTextView *O_syntaxSampleTextView;
-}
+@property (nonatomic, strong) IBOutlet NSBox *O_styleContainerBox;
+@property (nonatomic, strong) IBOutlet NSBox *O_previewContainerBox;
+
+@property (nonatomic, strong) IBOutlet NSTableView *O_customStylesForLanguageContextsTableView;
+
+@property (nonatomic, strong) IBOutlet NSTextView *O_syntaxSampleTextView;
+
+// properties for localization
+@property (nonatomic, strong) IBOutlet NSBox *O_fontContainerBox;
+@property (nonatomic, strong) IBOutlet NSButton *O_changeFontButton;
+@property (nonatomic, strong) IBOutlet NSButton *O_applyToOpenDocumentsButton;
 
 - (IBAction)changeMode:(id)aSender;
 
@@ -46,9 +48,5 @@
 - (IBAction)changeFontViaPanel:(id)sender;
 
 - (IBAction)applyToOpenDocuments:(id)aSender;
-
-- (void)setBaseFont:(NSFont *)aFont;
-- (NSFont *)baseFont;
-
 
 @end

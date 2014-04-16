@@ -116,7 +116,7 @@
 		1428938D0957585600D14688 /* SaturationToColorValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893890957585600D14688 /* SaturationToColorValueTransformer.m */; };
 		142893A1095758C200D14688 /* AdvancedPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289390095758C100D14688 /* AdvancedPreferences.m */; };
 		142893A2095758C200D14688 /* EditPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289392095758C100D14688 /* EditPreferences.m */; };
-		142893A3095758C200D14688 /* GeneralPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289394095758C100D14688 /* GeneralPreferences.m */; };
+		142893A3095758C200D14688 /* GeneralPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289394095758C100D14688 /* GeneralPreferences.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		142893A4095758C200D14688 /* OverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289396095758C100D14688 /* OverlayView.m */; };
 		142893A6095758C200D14688 /* StylePreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428939A095758C100D14688 /* StylePreferences.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		142893A7095758C200D14688 /* TableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428939C095758C100D14688 /* TableView.m */; };
@@ -202,6 +202,7 @@
 		319AAE3E0CB0165A00ACDAB4 /* Precedence_RemovePressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 319AAE1C0CB015B300ACDAB4 /* Precedence_RemovePressed.png */; };
 		31D2C7000CA7C9C8003CC5C9 /* PrecedenceRuleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D2C6E50CA7C7A7003CC5C9 /* PrecedenceRuleCell.m */; };
 		31FFC93D104E97A000E08256 /* NSErrorTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FFC93C104E97A000E08256 /* NSErrorTCMAdditions.m */; };
+		420AAF7F18FE0FFC00297DB1 /* StylePrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 420AAF7E18FE0FFC00297DB1 /* StylePrefs.xib */; };
 		423B23D018F63DDE001E2DCC /* SEECollaborationPreferenceModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 423B23CF18F63DDE001E2DCC /* SEECollaborationPreferenceModule.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		423B23D518F64065001E2DCC /* SEECollaborationPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 423B23D418F64065001E2DCC /* SEECollaborationPrefs.xib */; };
 		424CA988189058C000B2D333 /* SymbolMark.png in Resources */ = {isa = PBXBuildFile; fileRef = 424CA987189058C000B2D333 /* SymbolMark.png */; };
@@ -283,7 +284,6 @@
 		4CD5F82117FB0E2B00F49E31 /* PrintOptions.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F81F17FB0E2B00F49E31 /* PrintOptions.xib */; };
 		4CD5F82917FB0E4F00F49E31 /* SavePanelAccessory.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F82717FB0E4F00F49E31 /* SavePanelAccessory.xib */; };
 		4CD5F82D17FB0E6000F49E31 /* SelectEncodingsPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F82B17FB0E6000F49E31 /* SelectEncodingsPanel.xib */; };
-		4CD5F83117FB0E8D00F49E31 /* StylePrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F82F17FB0E8D00F49E31 /* StylePrefs.xib */; };
 		4CD5F83517FB0EB500F49E31 /* URLBubbleWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F83317FB0EB500F49E31 /* URLBubbleWindow.xib */; };
 		4CD5F83917FB0ECB00F49E31 /* UserStatistics.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F83717FB0ECB00F49E31 /* UserStatistics.xib */; };
 		4CDC272018967D990060B044 /* SEEParticipantView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CDC271F18967D990060B044 /* SEEParticipantView.xib */; };
@@ -929,6 +929,7 @@
 		31FFC93B104E97A000E08256 /* NSErrorTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NSErrorTCMAdditions.h; sourceTree = "<group>"; };
 		31FFC93C104E97A000E08256 /* NSErrorTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSErrorTCMAdditions.m; sourceTree = "<group>"; };
 		32DBCF750370BD2300C91783 /* SubEthaEdit_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubEthaEdit_Prefix.pch; sourceTree = "<group>"; };
+		420AAF7E18FE0FFC00297DB1 /* StylePrefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StylePrefs.xib; sourceTree = "<group>"; };
 		423B23CE18F63DDE001E2DCC /* SEECollaborationPreferenceModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEECollaborationPreferenceModule.h; sourceTree = "<group>"; };
 		423B23CF18F63DDE001E2DCC /* SEECollaborationPreferenceModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEECollaborationPreferenceModule.m; sourceTree = "<group>"; };
 		423B23D418F64065001E2DCC /* SEECollaborationPrefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEECollaborationPrefs.xib; sourceTree = "<group>"; };
@@ -1047,8 +1048,6 @@
 		4CD5F82A17FB0E5400F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/SavePanelAccessory.xib; sourceTree = "<group>"; };
 		4CD5F82C17FB0E6000F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SelectEncodingsPanel.xib; sourceTree = "<group>"; };
 		4CD5F82E17FB0E6700F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/SelectEncodingsPanel.xib; sourceTree = "<group>"; };
-		4CD5F83017FB0E8D00F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/StylePrefs.xib; sourceTree = "<group>"; };
-		4CD5F83217FB0E9400F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/StylePrefs.xib; sourceTree = "<group>"; };
 		4CD5F83417FB0EB500F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/URLBubbleWindow.xib; sourceTree = "<group>"; };
 		4CD5F83617FB0EBA00F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/URLBubbleWindow.xib; sourceTree = "<group>"; };
 		4CD5F83817FB0ECB00F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/UserStatistics.xib; sourceTree = "<group>"; };
@@ -2314,10 +2313,10 @@
 		4CE8E4E818DC84B10029BF95 /* Prefs */ = {
 			isa = PBXGroup;
 			children = (
+				420AAF7E18FE0FFC00297DB1 /* StylePrefs.xib */,
 				4C0D3D6717FB145600AAFB38 /* Preferences.xib */,
 				4CD5F7F817FB0D0C00F49E31 /* GeneralPrefs.xib */,
 				4CD5F7E417FB0C7B00F49E31 /* EditPrefs.xib */,
-				4CD5F82F17FB0E8D00F49E31 /* StylePrefs.xib */,
 				4CD5F81717FB0DF900F49E31 /* PrecedencePrefs.xib */,
 				4CD5F81B17FB0E1800F49E31 /* PrecedenceRules.xib */,
 				4CD5F7D817FB0BF200F49E31 /* AdvancedPrefs.xib */,
@@ -2799,7 +2798,6 @@
 				F2D3E54B189941F50096425B /* AW SingleTabAddButtonPressed.png in Resources */,
 				4CD5F7F617FB0CD200F49E31 /* FindReplace.xib in Resources */,
 				F2257CFE189673AA005EF9B1 /* BottomBarSharingIconAdd@2x.png in Resources */,
-				4CD5F83117FB0E8D00F49E31 /* StylePrefs.xib in Resources */,
 				4CCD790118DB3F9E00A8B457 /* SEEScopedBookmarkAccessoryViewController.xib in Resources */,
 				142890D7095743F200D14688 /* ShiftRight.png in Resources */,
 				142890D9095743F200D14688 /* ShowChangeMarks.png in Resources */,
@@ -2863,6 +2861,7 @@
 				F2D3E569189941F50096425B /* IW SingleTabAddButton.png in Resources */,
 				1493A8590A10DABB004ECE6A /* SystemVersionCheck.strings in Resources */,
 				4C6BDC5F1889858A0088CBFC /* folded.png in Resources */,
+				420AAF7F18FE0FFC00297DB1 /* StylePrefs.xib in Resources */,
 				F2D3E562189941F50096425B /* IW InactiveTabClosePressed@2x.png in Resources */,
 				4CA098DE18EAF54E0026B3E3 /* SEEWebPreviewViewController.xib in Resources */,
 				F2D3E540189941F50096425B /* AW InactiveTabLeftCap@2x.png in Resources */,
@@ -3535,15 +3534,6 @@
 				4CD5F82E17FB0E6700F49E31 /* German */,
 			);
 			name = SelectEncodingsPanel.xib;
-			sourceTree = "<group>";
-		};
-		4CD5F82F17FB0E8D00F49E31 /* StylePrefs.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				4CD5F83017FB0E8D00F49E31 /* English */,
-				4CD5F83217FB0E9400F49E31 /* German */,
-			);
-			name = StylePrefs.xib;
 			sourceTree = "<group>";
 		};
 		4CD5F83317FB0EB500F49E31 /* URLBubbleWindow.xib */ = {
