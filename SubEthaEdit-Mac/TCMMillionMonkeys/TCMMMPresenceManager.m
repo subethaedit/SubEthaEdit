@@ -6,6 +6,13 @@
 //  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
 //
 
+// this file needs arc - either project wide,
+// or add -fobjc-arc on a per file basis in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
+
 #import "TCMMMPresenceManager.h"
 #import "TCMMMBEEPSessionManager.h"
 #import "TCMMMStatusProfile.h"
@@ -125,23 +132,15 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
     }
 }
 
-- (void)dealloc 
-{
+- (void)dealloc  {
     [I_resolveUnconnectedFoundNetServicesTimer invalidate];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [I_foundUserIDs release];
-    [I_announcedSessions release];
-    [I_registeredSessions release];
-    [I_statusOfUserIDs release];
-    [I_netService release];
-    [I_browser release];
-    [super dealloc];
 }
 
 - (void)stopRendezvousBrowsing {
     [I_browser setDelegate:nil];
     [I_browser stopSearch];
-    [I_browser release];
+
     NSString *userID=nil;
     for (userID in I_foundUserIDs) {
         NSMutableDictionary *status=[self statusOfUserID:userID];
@@ -159,8 +158,9 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
 }
 
 - (NSString *)serviceName {
-    NSString *computerName = (NSString *)SCDynamicStoreCopyComputerName(NULL,NULL);
-    return [NSString stringWithFormat:@"%@@%@",NSUserName(),[computerName autorelease]];
+    NSString *computerName = CFBridgingRelease(SCDynamicStoreCopyComputerName(NULL,NULL));
+	NSString *result = [NSString stringWithFormat:@"%@@%@",NSUserName(),computerName];
+    return result;
 }
 
 - (void)TCM_validateServiceAnnouncement {
@@ -171,28 +171,37 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
         [I_netService setDelegate:self];
     }
     
-    TCMMMUser *me=[[TCMMMUserManager sharedInstance] me];
-    if ((I_flags.isVisible || [I_announcedSessions count]>0) && !I_flags.serviceIsPublished) {
-        [I_netService setTXTRecordByArray:
-            [NSArray arrayWithObjects:
-                @"txtvers=1",
-                [NSString stringWithFormat:@"%@=%@",TCMMMPresenceTXTRecordUserIDKey,[me userID]],
-                [NSString stringWithFormat:@"%@=%@",TCMMMPresenceTXTRecordNameKey,[me name]],
-                @"version=2",
-                nil]];
-//        [I_netService setProtocolSpecificInformation:[NSString stringWithFormat:@"txtvers=1\001name=%@\001userid=%@\001version=2",[me name],[me userID]]];
+    TCMMMUser *me = [[TCMMMUserManager sharedInstance] me];
+	NSArray *txtRecordArray = [NSArray arrayWithObjects:
+							   @"txtvers=1",
+							   [NSString stringWithFormat:@"%@=%@",TCMMMPresenceTXTRecordUserIDKey,[me userID]],
+							   [NSString stringWithFormat:@"%@=%@",TCMMMPresenceTXTRecordNameKey,[me name]],
+							   @"version=2",
+							   nil];
+	
+    if (!self.isCurrentlyReallyInvisible &&
+		!I_flags.serviceIsPublished) {
+        [I_netService setTXTRecordByArray:txtRecordArray];
         [I_netService publish];
         I_flags.serviceIsPublished = YES;
         [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMPresenceManagerServiceAnnouncementDidChangeNotification object:self];
-    } else if (!(I_flags.isVisible || [I_announcedSessions count]>0) && I_flags.serviceIsPublished){
+    } else if (self.isCurrentlyReallyInvisible && I_flags.serviceIsPublished){
         [I_netService stop];
         [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMPresenceManagerServiceAnnouncementDidChangeNotification object:self];
     } else if (I_flags.serviceIsPublished) {
-//      causes severe mDNSResponderCrash!
-//        NSString *txtRecord=[NSString stringWithFormat:@"txtvers=1\001name=%@\001userid=%@\001docs=%d\001version=2",[me name],[me ID],[I_announcedSessions count]];
-//        NSLog(@"Updating record with:%@",txtRecord);
-//        [I_netService setProtocolSpecificInformation:txtRecord];
+		[I_netService setTXTRecordByArray:txtRecordArray];
     }
+}
+
+- (BOOL)isCurrentlyReallyInvisible {
+	BOOL result = NO;
+	if (!(I_flags.isVisible) && [self announcedSessions].count == 0) {
+		result = YES;
+	}
+	if ([[TCMMMBEEPSessionManager sharedInstance] isNetworkingDisabled]) {
+		result = YES;
+	}
+	return result;
 }
 
 - (BOOL)isVisible {
@@ -492,11 +501,11 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
                     [TCMMMBEEPSessionManager reducedURL:URL addressData:&addressData documentRequest:nil];
                     TCMHost *host = nil;
                     if (addressData) {
-                        host = [[[TCMHost alloc] initWithAddressData:addressData port:[[URL port] intValue] userInfo:userInfo] autorelease];
+                        host = [[TCMHost alloc] initWithAddressData:addressData port:[[URL port] intValue] userInfo:userInfo];
                         //NSLog(@"%s connecting to host: %@",__FUNCTION__,host);
                         [[TCMMMBEEPSessionManager sharedInstance] connectToHost:host];
                     } else {
-                        host = [[[TCMHost alloc] initWithName:[URL host] port:[[URL port] intValue] userInfo:userInfo] autorelease];
+                        host = [[TCMHost alloc] initWithName:[URL host] port:[[URL port] intValue] userInfo:userInfo];
                         [host resolve];
                         // give him some time to resolve
                         [[TCMMMBEEPSessionManager sharedInstance] performSelector:@selector(connectToHost:) withObject:host afterDelay:4.0];
@@ -546,9 +555,8 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
             [self registerSession:session];
             [sessions setObject:session forKey:[session sessionID]];
 			NSArray *sessionValues = [sessions allValues];
-			if (sessionValues)
-			{
-				NSSortDescriptor *filenameSortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"filename" ascending:YES] autorelease];
+			if (sessionValues) {
+				NSSortDescriptor *filenameSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"filename" ascending:YES];
 				NSArray * orderedSessions = [sessionValues sortedArrayUsingDescriptors:@[filenameSortDescriptor]];
 				[status setObject:orderedSessions forKey:TCMMMPresenceOrderedSessionsKey];
 			}
@@ -570,7 +578,7 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
     TCMMMSession *session=[sessions objectForKey:anID];
     if (session) {
         [sessions removeObjectForKey:anID];
-        [status setObject:[[sessions allValues] sortedArrayUsingDescriptors:[NSArray arrayWithObject:[[[NSSortDescriptor alloc] initWithKey:@"filename" ascending:YES] autorelease]]] forKey:TCMMMPresenceOrderedSessionsKey];
+        [status setObject:[[sessions allValues] sortedArrayUsingDescriptors:[NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"filename" ascending:YES]]] forKey:TCMMMPresenceOrderedSessionsKey];
         [self unregisterSession:session];
     }
     NSMutableDictionary *userInfo=[NSMutableDictionary dictionaryWithObjectsAndKeys:userID,TCMMMPresenceUserIDKey,sessions,TCMMMPresenceSessionsKey,nil];
@@ -761,7 +769,6 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
     static int count=1;
     // Handle error here
     if ([error intValue]==NSNetServicesCollisionError) {
-        [I_netService autorelease];
         I_netService=[[NSNetService alloc] initWithDomain:@"" type:@"_see._tcp." name:[NSString stringWithFormat:@"%@ (%d)",[self serviceName],count++] port:[[TCMMMBEEPSessionManager sharedInstance] listeningPort]];
         [I_netService setDelegate:self];
         [self TCM_validateServiceAnnouncement];
@@ -787,6 +794,9 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
     [self handleError:[errorDict objectForKey:NSNetServicesErrorCode] withService:netService];
 }
 
+- (void)netServiceDidPublish:(NSNetService *)netService {
+    DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"netServiceDidPublish: %@",netService);
+}
 
 // Sent when the service stops
 - (void)netServiceDidStop:(NSNetService *)netService
