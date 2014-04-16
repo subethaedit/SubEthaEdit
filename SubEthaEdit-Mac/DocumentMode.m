@@ -196,24 +196,34 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 			I_modeSettings = [[ModeSettings alloc] initWithPlist:[aBundle bundlePath]];
 		}
 		
+		// already puts some autocomplete in the autocomplete dict
         I_syntaxDefinition = [[SyntaxDefinition alloc] initWithFile:[aBundle pathForResource:@"SyntaxDefinition" ofType:@"xml"] forMode:self];
         
         RegexSymbolDefinition *symDef = [[[RegexSymbolDefinition alloc] initWithFile:[aBundle pathForResource:@"RegexSymbols" ofType:@"xml"] forMode:self] autorelease];
         
-        if (I_syntaxDefinition && ![self isBaseMode])
+        if (I_syntaxDefinition && ![self isBaseMode]) {
             I_syntaxHighlighter = [[SyntaxHighlighter alloc] initWithSyntaxDefinition:I_syntaxDefinition];
-        if (symDef)
+		}
+        if (symDef) {
             I_symbolParser = [[RegexSymbolParser alloc] initWithSymbolDefinition:symDef];
+		}
         
         // Add autocomplete additions
-        NSString *autocompleteAdditionsPath = [aBundle pathForResource:@"AutocompleteAdditions" ofType:@"txt"];
-        if (autocompleteAdditionsPath) {
-            NSString *autocompleteAdditions = [NSString stringWithContentsOfFile:autocompleteAdditionsPath encoding:NSUTF8StringEncoding error:nil];
-            [[self autocompleteDictionary] addObjectsFromArray:[autocompleteAdditions componentsSeparatedByString:@"\n"]];
-        }
+		NSURL *autocompleteAdditionsURL = [aBundle URLForResource:@"AutocompleteAdditions" withExtension:@"txt"];
+		if (autocompleteAdditionsURL) {
+			dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+				NSString *autocompleteAdditions = [NSString stringWithContentsOfFile:autocompleteAdditionsURL.path encoding:NSUTF8StringEncoding error:nil];
+				if (autocompleteAdditions) {
+					NSArray *additions = [autocompleteAdditions componentsSeparatedByString:@"\n"];
+					[NSOperationQueue TCM_performBlockOnMainThreadIsAsynchronous:^{
+						[self addAutocompleteEntrysFromArray:additions];
+					}];
+				}
+			});
+		}
         
         // Sort the autocomplete dictionary
-        [[self autocompleteDictionary] sortUsingSelector:@selector(caseInsensitiveCompare:)];
+        [I_autocompleteDictionary sortUsingSelector:@selector(caseInsensitiveCompare:)];
 
 
 		NSURL *scopeExamplesURL = [I_bundle URLForResource:@"ScopeExamples" withExtension:@"plist"];
@@ -533,8 +543,13 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     return I_symbolParser;
 }
 
-- (NSMutableArray *) autocompleteDictionary {
+- (NSMutableArray *)autocompleteDictionary {
     return I_autocompleteDictionary;
+}
+
+- (void)addAutocompleteEntrysFromArray:(NSArray *)aAutocompleteArray {
+	[I_autocompleteDictionary addObjectsFromArray:aAutocompleteArray];
+	[I_autocompleteDictionary sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
 }
 
 - (NSString *)templateFileContent {
