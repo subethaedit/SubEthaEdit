@@ -52,10 +52,15 @@
     NSSavePanel *savePanel = self.savePanel;
     BOOL isGoingIntoBundles = [[NSUserDefaults standardUserDefaults] boolForKey:@"GoIntoBundlesPrefKey"];
     BOOL showsHiddenFiles = [[NSUserDefaults standardUserDefaults] boolForKey:@"ShowsHiddenFiles"];
+
     [savePanel setTreatsFilePackagesAsDirectories:isGoingIntoBundles];
 	[savePanel setShowsHiddenFiles:showsHiddenFiles];
-    [savePanel setCanSelectHiddenExtension:YES];
-    
+	[savePanel setExtensionHidden:NO];
+    [savePanel setCanSelectHiddenExtension:NO];
+
+	[savePanel setAllowedFileTypes:self.writablePlainTextDocumentTypes];
+	[savePanel setAllowsOtherFileTypes:YES];
+
 	self.savePanelProxy.content = savePanel;
 
 	if (self.saveOperation == NSSaveToOperation) {
@@ -81,16 +86,24 @@
     NSSavePanel *panel = (NSSavePanel *)self.savePanel;
     if ([[aSender selectedCell] tag]==1) {
         [panel setAllowedFileTypes:@[@"de.codingmonkeys.subethaedit.seetext"]];
+		[panel setAllowsOtherFileTypes:NO];
     } else {
-        [panel setAllowedFileTypes:@[self.document.fileType]];
+        [panel setAllowedFileTypes:self.writablePlainTextDocumentTypes];
+		[panel setAllowsOtherFileTypes:YES];
     }
     [panel setExtensionHidden:NO];
 }
 
 
-- (NSArray *)writableDocumentTypes
+- (NSArray *)writablePlainTextDocumentTypes
 {
-    return [self.document writableTypesForSaveOperation:self.saveOperation];
+	NSMutableArray *writableDocumentTypes = [[self.document writableTypesForSaveOperation:self.saveOperation] mutableCopy];
+	[writableDocumentTypes addObject:@"public.text"];
+	[writableDocumentTypes removeObject:@"de.codingmonkeys.subethaedit.seetext"];
+	[writableDocumentTypes removeObject:self.document.fileType];
+	[writableDocumentTypes insertObject:self.document.fileType atIndex:0]; // ensure mode filextesion is the default fallback
+
+    return writableDocumentTypes;
 }
 
 @end
