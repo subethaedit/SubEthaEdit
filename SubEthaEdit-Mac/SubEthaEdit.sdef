@@ -9,10 +9,10 @@
 	<suite name="Standard Suite" code="????" description="Common classes and commands for all applications.">
 
 		<enumeration name="saveable file format" code="savf">
-			<enumerator name="Text" code="text" description="Any text file-format">
+			<enumerator name="TextFile" code="stxt" description="Any text file-format">
 				<cocoa string-value="public.text"/>
 			</enumerator>
-			<enumerator name="SEEText" code="SeeT" description="SubEthaEdit text file bundle">
+			<enumerator name="SEETextFile" code="SeeT" description="SubEthaEdit text file bundle">
 				<cocoa string-value="de.codingmonkeys.subethaedit.seetext"/>
 			</enumerator>
 		</enumeration>
