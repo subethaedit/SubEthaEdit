@@ -201,7 +201,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
 - (id)init {
     self = [super init];
     if (self) {
-    	[AppController sharedInstance]; // making sure the defaults are registered - seem ugly need better way soon
+
     	I_SSLGenerationCount = 0;
     	I_SSLGenerationDesiredCount = 1;
 //    	NSLog(@"%s %@? %d",__FUNCTION__,EnableTLSKey,[[NSUserDefaults standardUserDefaults] boolForKey:EnableTLSKey]);
