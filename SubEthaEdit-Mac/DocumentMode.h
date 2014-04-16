@@ -114,6 +114,8 @@ extern NSString * const DocumentModeStyleSheetsDefaultLanguageContextKey;
     SEEStyleSheetSettings *I_styleSheetSettings;
 }
 
+- (void)addAutocompleteEntrysFromArray:(NSArray *)aAutocompleteArray;
+
 + (BOOL)canParseModeVersionOfBundle:(NSBundle *)aBundle;
 
 - (id)initWithBundle:(NSBundle *)aBundle;
