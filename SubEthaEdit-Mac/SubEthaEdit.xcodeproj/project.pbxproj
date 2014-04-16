@@ -3592,6 +3592,7 @@
 		142894E40957671300D14688 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COPY_PHASE_STRIP = NO;
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -3603,6 +3604,7 @@
 				INSTALL_PATH = "$(HOME)/bin";
 				PREBINDING = NO;
 				PRODUCT_NAME = see;
+				SKIP_INSTALL = NO;
 				ZERO_LINK = NO;
 			};
 			name = Debug;
@@ -3610,6 +3612,7 @@
 		142894E50957671300D14688 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_MODEL_TUNING = G5;
@@ -3617,6 +3620,7 @@
 				INSTALL_PATH = "$(HOME)/bin";
 				PREBINDING = NO;
 				PRODUCT_NAME = see;
+				SKIP_INSTALL = NO;
 				ZERO_LINK = NO;
 			};
 			name = Release;
