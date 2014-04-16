@@ -1103,20 +1103,17 @@
         [I_propertiesForOpenedFiles setObject:properties forKey:filename];
         BOOL shouldClose = ([self documentForURL:[NSURL fileURLWithPath:filename]] == nil);
 
-		[self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:filename] display:YES completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
-
+		[self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:filename] display:NO completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
 			if (error) {
 				NSLog(@"%@",error);
 			} else {
 				[document printDocumentWithSettings:nil showPrintPanel:NO delegate:nil didPrintSelector:NULL contextInfo:NULL];
-				if (shouldClose) {
+				if (shouldClose && !documentWasAlreadyOpen) {
 					[document close];
 				}
 			}
 		}];
-
     }
-
     return nil;
 }
 
@@ -1175,7 +1172,7 @@
         }
     }
     BOOL previousOpenSetting = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
-    BOOL shouldSwitchOpening = NO;
+    __block BOOL shouldSwitchOpening = NO;
     if (openIn) {
         if ([openIn isEqualToString:@"tabs"]) {
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:OpenNewDocumentInTabKey];
@@ -1201,38 +1198,46 @@
 
     NSString *fileName;
     for (fileName in files) {
-        [I_propertiesForOpenedFiles setObject:properties forKey:fileName];
-        NSError *error=nil;
-        NSDocument *document = [self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:fileName] display:YES error:&error];
-        if (document) {
-            if (shouldSwitchOpening) {
-                shouldSwitchOpening = NO;
-                [[NSUserDefaults standardUserDefaults] setBool:YES forKey:OpenNewDocumentInTabKey];
-            }
-            [(PlainTextDocument *)document setIsWaiting:(shouldWait || isPipingOut)];
-            if (jobDescription) {
-                [(PlainTextDocument *)document setJobDescription:jobDescription];
-            }
-            if (shouldPrint) {
-//                [document printShowingPrintPanel:NO];
-                [document close];
-            } else {
-                if (shouldJumpToLine) {
-                    if (columnToGoTo!=-1) {
-                        NSRange lineRange = [(FoldableTextStorage *)[(PlainTextDocument *)document textStorage] findLine:lineToGoTo];
-                        [(PlainTextDocument *)document selectRange:NSMakeRange(lineRange.location+columnToGoTo,selectionLength)];
-                    } else {
-                        [(PlainTextDocument *)document gotoLine:lineToGoTo];
-                    }
-                }
-                [documents addObject:document];
-            }
-        } else {
-            NSLog(@"%@",error);
-        }
+		// print handeld by workspace print command for now, don't open file if just printing
+		if (! shouldPrint) {
+			[I_propertiesForOpenedFiles setObject:properties forKey:fileName];
+			[self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:fileName] display:YES completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
+				if (document) {
+					if (shouldSwitchOpening) {
+						shouldSwitchOpening = NO;
+						[[NSUserDefaults standardUserDefaults] setBool:YES forKey:OpenNewDocumentInTabKey];
+					}
+					[(PlainTextDocument *)document setIsWaiting:(shouldWait || isPipingOut)];
+					if (jobDescription) {
+						[(PlainTextDocument *)document setJobDescription:jobDescription];
+					}
+					if (shouldPrint) {
+						// handeld by workspace print command for now
+//						BOOL shouldClose = ([self documentForURL:[NSURL fileURLWithPath:fileName]] == nil);
+//
+//						[document printDocumentWithSettings:nil showPrintPanel:NO delegate:nil didPrintSelector:NULL contextInfo:NULL];
+//						if (shouldClose && !documentWasAlreadyOpen) {
+//							[document close];
+//						}
+					} else {
+						if (shouldJumpToLine) {
+							if (columnToGoTo!=-1) {
+								NSRange lineRange = [(FoldableTextStorage *)[(PlainTextDocument *)document textStorage] findLine:lineToGoTo];
+								[(PlainTextDocument *)document selectRange:NSMakeRange(lineRange.location+columnToGoTo,selectionLength)];
+							} else {
+								[(PlainTextDocument *)document gotoLine:lineToGoTo];
+							}
+						}
+						[documents addObject:document];
+					}
+				} else {
+					NSLog(@"%@",error);
+				}
+			}];
+		}
     }
 
-    
+
     NSMutableArray *newFiles = [NSMutableArray array];
     argument = [[command evaluatedArguments] objectForKey:@"NewFiles"];
     if ([argument isKindOfClass:[NSArray class]]) {
