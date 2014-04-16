@@ -173,7 +173,7 @@
         symbolPopUpFrame.origin.x = xPosition;
 		symbolPopUpFrame.size.width = symbolPopUpButton.intrinsicContentSize.width;
 		
-		xPosition += NSWidth(symbolPopUpFrame);
+		// xPosition += NSWidth(symbolPopUpFrame);
 		
 		// calculate optimal size of writtenBy text field
 		NSTextField *writtenByTextField = self.writtenByTextField;
