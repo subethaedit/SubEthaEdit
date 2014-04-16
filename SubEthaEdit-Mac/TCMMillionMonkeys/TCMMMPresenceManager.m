@@ -76,10 +76,11 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
 
 @implementation TCMMMPresenceManager
 
-+ (TCMMMPresenceManager *)sharedInstance {
-    if (!sharedInstance) {
++ (instancetype)sharedInstance {
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
         sharedInstance = [self new];
-    }
+	});
     return sharedInstance;
 }
 
@@ -95,10 +96,15 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
         I_flags.serviceIsPublished=NO;
         I_foundUserIDs=[NSMutableSet new];
         sharedInstance = self;
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TCM_didAcceptSession:) name:TCMMMBEEPSessionManagerDidAcceptSessionNotification object:[TCMMMBEEPSessionManager sharedInstance]]; 
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TCM_didEndSession:) name:TCMMMBEEPSessionManagerSessionDidEndNotification object:[TCMMMBEEPSessionManager sharedInstance]];
+		
+		TCMMMBEEPSessionManager *sessionManager = [TCMMMBEEPSessionManager sharedInstance];
+		[sessionManager registerHandler:self forIncomingProfilesWithProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"];
+
+		NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+        [defaultCenter addObserver:self selector:@selector(TCM_didAcceptSession:) name:TCMMMBEEPSessionManagerDidAcceptSessionNotification object:[TCMMMBEEPSessionManager sharedInstance]];
+        [defaultCenter addObserver:self selector:@selector(TCM_didEndSession:) name:TCMMMBEEPSessionManagerSessionDidEndNotification object:[TCMMMBEEPSessionManager sharedInstance]];
         I_resolveUnconnectedFoundNetServicesTimer = [NSTimer scheduledTimerWithTimeInterval:90. target:self selector:@selector(resolveUnconnectedFoundNetServices:) userInfo:nil repeats:YES];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(broadcastMyReachability) name:TCMPortMapperDidFinishWorkNotification object:[TCMPortMapper sharedInstance]];
+        [defaultCenter addObserver:self selector:@selector(broadcastMyReachability) name:TCMPortMapperDidFinishWorkNotification object:[TCMPortMapper sharedInstance]];
         // bind to user defaults
         [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self forKeyPath:[@"values." stringByAppendingString:AutoconnectPrefKey] options:0 context:nil];
         

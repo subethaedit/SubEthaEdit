@@ -223,8 +223,6 @@ static TCMMMBEEPSessionManager *sharedInstance;
         I_isProhibitingInboundInternetSessions = flag;
 		flag = [[NSUserDefaults standardUserDefaults] boolForKey:kNetworkingDisabledPreferenceKey];
 		_networkingDisabled = flag;
-        sharedInstance = self;
-        [self registerHandler:[TCMMMPresenceManager sharedInstance] forIncomingProfilesWithProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"];
 
 		[self performSelector:@selector(sslGenerationDidFinish:) withObject:nil afterDelay:0];
     }
