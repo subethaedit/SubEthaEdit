@@ -790,12 +790,13 @@ static DocumentModeManager *S_sharedInstance=nil;
 - (DocumentMode *)documentModeForPath:(NSString *)path withContentData:(NSData *)content {
     // Convert data to ASCII, we don't know encoding yet at this point
     // FIXME Don't forget to handle UTF16/32
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    unsigned maxLength = [[NSUserDefaults standardUserDefaults] integerForKey:@"ByteLengthToUseForModeRecognitionAndEncodingGuessing"];
-    NSString *contentString = [[NSString alloc] initWithBytesNoCopy:(void *)[content bytes] length:MIN([content length],maxLength) encoding:NSMacOSRomanStringEncoding freeWhenDone:NO];
-    DocumentMode *mode = [self documentModeForPath:path withContentString:contentString];
-    [contentString release];
-    [pool release]; // this is save because mode is stored in something persistant and we know it
+	DocumentMode *mode = nil;
+	@autoreleasepool {
+		unsigned maxLength = [[NSUserDefaults standardUserDefaults] integerForKey:@"ByteLengthToUseForModeRecognitionAndEncodingGuessing"];
+		NSString *contentString = [[NSString alloc] initWithBytesNoCopy:(void *)[content bytes] length:MIN([content length],maxLength) encoding:NSMacOSRomanStringEncoding freeWhenDone:NO];
+		mode = [self documentModeForPath:path withContentString:contentString];
+		[contentString release];
+	}
     return mode;
 }
 
@@ -805,41 +806,41 @@ static DocumentModeManager *S_sharedInstance=nil;
     NSEnumerator *modeEnumerator = [[self modePrecedenceArray] objectEnumerator];
     NSMutableDictionary *mode;
     while ((mode = [modeEnumerator nextObject])) {
-
-        NSEnumerator *ruleEnumerator = [[mode objectForKey:@"Rules"] objectEnumerator];
-        NSMutableDictionary *rule;
-        while ((rule = [ruleEnumerator nextObject])) {
-            int ruleType = [[rule objectForKey:@"TypeIdentifier"] intValue];
-            NSString *ruleString = [rule objectForKey:@"String"];
-            
-            if (ruleType == 0) { // Case insensitive extension
-                if ([[ruleString uppercaseString] isEqualToString:[extension uppercaseString]]) return [self documentModeForIdentifier:[mode objectForKey:@"Identifier"]];
-            } 
-            if (ruleType == 3) { // Case sensitive extension
-                if ([ruleString isEqualToString:extension]) return [self documentModeForIdentifier:[mode objectForKey:@"Identifier"]];
-            } 
-            if (ruleType == 1) {
-                if ([ruleString isEqualToString:filename]) return [self documentModeForIdentifier:[mode objectForKey:@"Identifier"]];
-            }  
-            if (ruleType == 2 && contentString) {
-                if ([OGRegularExpression isValidExpressionString:ruleString]) {
-                    BOOL didMatch = NO;
-                    OGRegularExpressionMatch *match;
-                    OGRegularExpression *regex = [[[OGRegularExpression alloc] initWithString:ruleString options:OgreFindNotEmptyOption|OgreMultilineOption] autorelease];
-                    match = [regex matchInString:contentString];
-                    didMatch = [match count]>0;
-                    if (didMatch) return [self documentModeForIdentifier:[mode objectForKey:@"Identifier"]];
-                } else {
-                    NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-                    [alert setAlertStyle:NSWarningAlertStyle];
-                    [alert setMessageText:NSLocalizedString(@"Trigger not a regular expression",@"Trigger not a regular expression Title")];
-                    [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"The trigger '%@' of the mode '%@' is not a valid regular expression and was ignored.", @"Trigger not a regular expression Informative Text"), ruleString, [mode objectForKey:@"Identifier"]]];
-                    [alert addButtonWithTitle:@"OK"];
-                    [alert runModal];
-                }
-            }
-        }
-        
+		@autoreleasepool {
+			NSEnumerator *ruleEnumerator = [[mode objectForKey:@"Rules"] objectEnumerator];
+			NSMutableDictionary *rule;
+			while ((rule = [ruleEnumerator nextObject])) {
+				int ruleType = [[rule objectForKey:@"TypeIdentifier"] intValue];
+				NSString *ruleString = [rule objectForKey:@"String"];
+				
+				if (ruleType == 0) { // Case insensitive extension
+					if ([[ruleString uppercaseString] isEqualToString:[extension uppercaseString]]) return [self documentModeForIdentifier:[mode objectForKey:@"Identifier"]];
+				}
+				if (ruleType == 3) { // Case sensitive extension
+					if ([ruleString isEqualToString:extension]) return [self documentModeForIdentifier:[mode objectForKey:@"Identifier"]];
+				}
+				if (ruleType == 1) {
+					if ([ruleString isEqualToString:filename]) return [self documentModeForIdentifier:[mode objectForKey:@"Identifier"]];
+				}
+				if (ruleType == 2 && contentString) {
+					if ([OGRegularExpression isValidExpressionString:ruleString]) {
+						BOOL didMatch = NO;
+						OGRegularExpressionMatch *match;
+						OGRegularExpression *regex = [[[OGRegularExpression alloc] initWithString:ruleString options:OgreFindNotEmptyOption|OgreMultilineOption] autorelease];
+						match = [regex matchInString:contentString];
+						didMatch = [match count]>0;
+						if (didMatch) return [self documentModeForIdentifier:[mode objectForKey:@"Identifier"]];
+					} else {
+						NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+						[alert setAlertStyle:NSWarningAlertStyle];
+						[alert setMessageText:NSLocalizedString(@"Trigger not a regular expression",@"Trigger not a regular expression Title")];
+						[alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"The trigger '%@' of the mode '%@' is not a valid regular expression and was ignored.", @"Trigger not a regular expression Informative Text"), ruleString, [mode objectForKey:@"Identifier"]]];
+						[alert addButtonWithTitle:@"OK"];
+						[alert runModal];
+					}
+				}
+			}
+		}
     }
 
     return [self baseMode];
