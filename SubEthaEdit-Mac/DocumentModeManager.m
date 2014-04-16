@@ -17,7 +17,7 @@
 @property (nonatomic, readwrite, retain) NSDictionary *changedScopeNameDict;
 @end
 
-	@interface DocumentModeManager (DocumentModeManagerPrivateAdditions)
+@interface DocumentModeManager (DocumentModeManagerPrivateAdditions)
 - (void)TCM_findModes;
 - (void)TCM_findStyles;
 - (NSMutableArray *)reloadPrecedences;
