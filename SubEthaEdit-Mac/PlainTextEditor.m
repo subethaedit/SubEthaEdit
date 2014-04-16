@@ -165,7 +165,11 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	self.topBarViewController = nil;
 	self.topBlurLayerView = nil;
 	self.bottomBlurLayerView = nil;
-	
+	self.alternateAnnounceImage = nil;
+	self.numberOfActiveParticipants = nil;
+	self.localizedToolTipAnnounceButton = nil;
+	self.localizedToolTipShareInviteButton = nil;
+	self.localizedToolTipToggleParticipantsButton = nil;
 	
     [super dealloc];
 }
