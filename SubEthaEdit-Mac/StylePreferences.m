@@ -24,24 +24,12 @@
 #import "SyntaxHighlighter.h"
 
 @interface StylePreferences ()
-
-- (void)highlightSyntax;
-- (void)selectMode:(DocumentMode *)aDocumentMode;
-
 @property (nonatomic, strong) NSFont *baseFont;
-@property (nonatomic, strong) NSUndoManager *undoManager;
 @end
 
 @implementation StylePreferences
 
-- (id) init {
-    self = [super init];
-    if (self) {
-        self.undoManager = [NSUndoManager new];
-    }
-    return self;
-}
-
+#pragma mark - Preference Module - Basics
 - (NSImage *)icon {
     return [NSImage imageNamed:@"StylePrefs"];
 }
@@ -104,32 +92,10 @@
 		}
 	}
 
-
-//    BOOL useDefault=[[[self.O_modePopUpButton selectedMode] defaultForKey:DocumentModeUseDefaultStylePreferenceKey] boolValue];
     DocumentMode *baseMode = [[DocumentModeManager sharedInstance] baseMode];
     DocumentMode *selectedMode = [self.O_modePopUpButton selectedMode];
     [self.O_fontController setContent:([self.O_fontDefaultButton state]==NSOnState)?baseMode:selectedMode];
-//    [O_styleController setContent:useDefault?baseMode:selectedMode];
-//    [O_defaultStyleButton setHidden:[[I_currentSyntaxStyle documentMode] isBaseMode]];
-//    if (O_defaultStyleButton !=aSender) {
-//        [O_defaultStyleButton setState:useDefault?NSOnState:NSOffState];
-//    }
-//
-//    [O_stylesTableView setDisableFirstRow:useDefault];
-//    
-//    if (useDefault) {
-//        [O_stylesTableView deselectRow:0];
-//    }
-//    NSDictionary *baseStyle=[[[O_styleController content] syntaxStyle] styleForKey:SyntaxStyleBaseIdentifier];
-//    [O_backgroundColorWell         setColor:[baseStyle objectForKey:@"background-color"]         ];
-//    [O_invertedBackgroundColorWell setColor:[baseStyle objectForKey:@"inverted-background-color"]]; 
     [self takeFontFromMode:selectedMode];
-//    [self updateBackgroundColor];
-//    [O_lightBackgroundButton       setEnabled:!useDefault];
-//    [O_darkBackgroundButton        setEnabled:!useDefault];
-//    [O_backgroundColorWell         setEnabled:!useDefault];
-//    [O_invertedBackgroundColorWell setEnabled:!useDefault];
-	
 	[self highlightSyntax];
 }
 
@@ -139,12 +105,7 @@
     [self validateDefaultsState:aSender];
 }
 
-//- (void)storeCurrentStyleForUndo {
-//    [I_undoManager registerUndoWithTarget:self selector:@selector(setStyle:) object:[[I_currentSyntaxStyle copy] autorelease]];
-//}
-
-#pragma mark -
-#pragma mark IBActions
+#pragma mark - IBActions
 
 - (void)selectMode:(DocumentMode *)aDocumentMode {
 	[self.O_modeController setContent:aDocumentMode];
@@ -204,7 +165,6 @@
 	[self highlightSyntax];
 }
 
-
 - (IBAction)changeCustomStyleSheet:(id)aSender {
 	DocumentMode *currentMode = [self.O_modeController content];
 	NSString *styleSheetName = [[self.O_styleSheetCustomPopUpButton selectedItem] title];
@@ -221,7 +181,6 @@
 	[self highlightSyntax];
     [[NSNotificationCenter defaultCenter] postNotificationName:DocumentModeApplyStylePreferencesNotification object:[self.O_modeController content]];
 }
-
 
 - (void)didUnselect {
     // Save preferences
