@@ -9,6 +9,7 @@
 #import "TCMPreferenceModule.h"
 @class SEECollaborationPreferenceModule;
 #import "PCRolloverImageView.h"
+#import "SEEUserColorsPreviewView.h"
 
 @interface SEECollaborationPreferenceModule : TCMPreferenceModule
 
@@ -22,17 +23,13 @@
 @property (nonatomic, strong) IBOutlet NSButton *O_invisibleOnNetowrkButton;
 @property (nonatomic, strong) IBOutlet NSTextField *O_invisibleOnNetworkExplanationTextField;
 
-
-
 // me-card
 @property (nonatomic, strong) IBOutlet PCRolloverImageView *O_pictureImageView;
 @property (nonatomic, strong) IBOutlet NSTextField *O_nameTextField;
 @property (nonatomic, strong) IBOutlet NSComboBox  *O_emailComboBox;
 
 // colors
-@property (nonatomic, strong) IBOutlet NSColorWell *O_changesLightColorWell;
-@property (nonatomic, strong) IBOutlet NSColorWell *O_changesDarkColorWell;
-
+@property (nonatomic, strong) IBOutlet SEEUserColorsPreviewView *O_userColorsPreview;
 @property (nonatomic, strong) IBOutlet NSButton *O_higlightChangesButton;
 
 // localization
