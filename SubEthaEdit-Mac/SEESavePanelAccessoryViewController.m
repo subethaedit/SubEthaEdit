@@ -48,7 +48,8 @@
 - (void)loadView
 {
 	[super loadView];
-    
+
+    NSString *documentFileType = self.document.fileType;
     NSSavePanel *savePanel = self.savePanel;
     BOOL isGoingIntoBundles = [[NSUserDefaults standardUserDefaults] boolForKey:@"GoIntoBundlesPrefKey"];
     BOOL showsHiddenFiles = [[NSUserDefaults standardUserDefaults] boolForKey:@"ShowsHiddenFiles"];
@@ -58,9 +59,12 @@
 	[savePanel setExtensionHidden:NO];
     [savePanel setCanSelectHiddenExtension:NO];
 
-//	[savePanel setAllowedFileTypes:@[@"public.text"]]; // this enables empty extension, but no default extension and extension gets removed when opening panel
-	[savePanel setAllowedFileTypes:self.writablePlainTextDocumentTypes];
-	[savePanel setAllowsOtherFileTypes:YES];
+	if (UTTypeConformsTo((__bridge CFStringRef)documentFileType, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext")) {
+		[self.savePanelAccessoryFileFormatMatrixOutlet selectCellWithTag:1];
+	} else {
+		[self.savePanelAccessoryFileFormatMatrixOutlet selectCellWithTag:0];
+	}
+	[self selectFileFormat:self.savePanelAccessoryFileFormatMatrixOutlet];
 
 	self.savePanelProxy.content = savePanel;
 
@@ -89,10 +93,12 @@
         [panel setAllowedFileTypes:@[@"de.codingmonkeys.subethaedit.seetext"]];
 		[panel setAllowsOtherFileTypes:NO];
     } else {
-        [panel setAllowedFileTypes:self.writablePlainTextDocumentTypes];
+		[panel setAllowedFileTypes:@[@"public.text"]]; // this enables empty extension, but no default extension and extension gets removed when opening panel
+//        [panel setAllowedFileTypes:self.writablePlainTextDocumentTypes];
 		[panel setAllowsOtherFileTypes:YES];
     }
     [panel setExtensionHidden:NO];
+	[panel setCanSelectHiddenExtension:YES];
 }
 
 
