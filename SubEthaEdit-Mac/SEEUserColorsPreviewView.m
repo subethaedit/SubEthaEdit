@@ -103,12 +103,14 @@ void * const SEEUserColorsPreviewUpdateObservingContext = (void *)&SEEUserColors
 	[self addObserver:self forKeyPath:@"userColorHue" options:0 context:SEEUserColorsPreviewUpdateObservingContext];
 	[self addObserver:self forKeyPath:@"changesSaturation" options:0 context:SEEUserColorsPreviewUpdateObservingContext];
 	[self addObserver:self forKeyPath:@"selectionSaturation" options:0 context:SEEUserColorsPreviewUpdateObservingContext];
+	[self addObserver:self forKeyPath:@"showsChangesHighlight" options:0 context:SEEUserColorsPreviewUpdateObservingContext];
 }
 
 - (void)removeKVO {
 	[self removeObserver:self forKeyPath:@"userColorHue" context:SEEUserColorsPreviewUpdateObservingContext];
 	[self removeObserver:self forKeyPath:@"changesSaturation" context:SEEUserColorsPreviewUpdateObservingContext];
 	[self removeObserver:self forKeyPath:@"selectionSaturation" context:SEEUserColorsPreviewUpdateObservingContext];
+	[self removeObserver:self forKeyPath:@"showsChangesHighlight" context:SEEUserColorsPreviewUpdateObservingContext];
 }
 
 - (void)observeValueForKeyPath:(NSString *)aKeyPath ofObject:(id)anObject change:(NSDictionary *)aChangeDict context:(void *)aContext {
