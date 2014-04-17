@@ -2417,6 +2417,13 @@ struct SelectionRange
 
 - (void)runModalSavePanelForSaveOperation:(NSSaveOperationType)saveOperation delegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)contextInfo {
     I_lastSaveOperation = saveOperation;
+	if (I_flags.shouldSelectModeOnSave && (saveOperation != NSAutosaveOperation)) {
+		DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForPath:nil withContentString:[[self textStorage] string]];
+
+		if (![mode isBaseMode]) {
+			[self setDocumentMode:mode];
+		}
+	}
     [super runModalSavePanelForSaveOperation:saveOperation delegate:delegate didSaveSelector:didSaveSelector contextInfo:contextInfo];
 }
 
