@@ -24,32 +24,24 @@
 	if (self == [GeneralPreferences class]) {
 		NSMutableDictionary *defaultDict = [NSMutableDictionary dictionary];
 		
-		[defaultDict setObject:[NSNumber numberWithFloat:25.0]
-						forKey:ChangesSaturationPreferenceKey];
-		[defaultDict setObject:[NSNumber numberWithFloat:45.0]
-						forKey:SelectionSaturationPreferenceKey];
-		[defaultDict setObject:[NSNumber numberWithFloat:0.0]
-						forKey:CustomMyColorHuePreferenceKey];
-		[defaultDict setObject:[NSNumber numberWithFloat:50.0]
-						forKey:MyColorHuePreferenceKey];
-		[defaultDict setObject:[NSArray array]
-						forKey:MyAIMsPreferenceKey];
-		[defaultDict setObject:[NSArray array]
-						forKey:MyEmailsPreferenceKey];
-		[defaultDict setObject:[NSNumber numberWithBool:YES]
-						forKey:OpenDocumentOnStartPreferenceKey];
-		[defaultDict setObject:[NSNumber numberWithInt:0]
-						forKey:AdditionalShownPathComponentsPreferenceKey];
-		[defaultDict setObject:[NSNumber numberWithBool:YES]
-						forKey:HighlightChangesPreferenceKey];
-		[defaultDict setObject:[NSNumber numberWithBool:NO]
-						forKey:HighlightChangesAlonePreferenceKey];
-		[defaultDict setObject:[NSNumber numberWithBool:YES]
-						forKey:OpenNewDocumentInTabKey];
-		[defaultDict setObject:[NSNumber numberWithBool:YES]
-						forKey:AlwaysShowTabBarKey];
-		[defaultDict setObject:BASEMODEIDENTIFIER
-						forKey:ModeForNewDocumentsPreferenceKey];
+		[defaultDict setObject:[NSNumber numberWithFloat:25.0] forKey:ChangesSaturationPreferenceKey];
+		[defaultDict setObject:[NSNumber numberWithFloat:45.0] forKey:SelectionSaturationPreferenceKey];
+		[defaultDict setObject:[NSNumber numberWithFloat: 0.0] forKey:CustomMyColorHuePreferenceKey];
+		[defaultDict setObject:[NSNumber numberWithFloat:50.0] forKey:MyColorHuePreferenceKey];
+		
+		[defaultDict setObject:[NSArray array] forKey:MyAIMsPreferenceKey];
+		[defaultDict setObject:[NSArray array] forKey:MyEmailsPreferenceKey];
+		
+		[defaultDict setObject:[NSNumber numberWithBool:YES] forKey:OpenDocumentOnStartPreferenceKey];
+		[defaultDict setObject:[NSNumber numberWithInt:0]    forKey:AdditionalShownPathComponentsPreferenceKey];
+
+		[defaultDict setObject:[NSNumber numberWithBool:YES] forKey:HighlightChangesPreferenceKey];
+		[defaultDict setObject:[NSNumber numberWithBool:NO]  forKey:HighlightChangesAlonePreferenceKey];
+		
+		[defaultDict setObject:[NSNumber numberWithBool:YES] forKey:OpenNewDocumentInTabKey];
+		[defaultDict setObject:[NSNumber numberWithBool:YES] forKey:AlwaysShowTabBarKey];
+		
+		[defaultDict setObject:BASEMODEIDENTIFIER forKey:ModeForNewDocumentsPreferenceKey];
 		
 		[[NSUserDefaults standardUserDefaults] registerDefaults:defaultDict];
 	}    
