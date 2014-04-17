@@ -10,6 +10,7 @@
 
 @interface SEEUserColorsPreviewView : NSView
 
+@property (nonatomic, strong) NSNumber *userColorHue;
 @property (nonatomic, strong) NSNumber *changesSaturation;
 @property (nonatomic, strong) NSNumber *selectionSaturation;
 

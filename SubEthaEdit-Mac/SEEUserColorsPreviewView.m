@@ -160,6 +160,7 @@
 	self.font = [self fontFromDefaultMode];
 	
 	NSNumber *userColorHue = [defaults objectForKey:MyColorHuePreferenceKey];
+	self.userColorHue = userColorHue;
     NSValueTransformer *hueTransformer = [NSValueTransformer valueTransformerForName:@"HueToColor"];
 	NSColor *userColor = (NSColor *)[hueTransformer transformedValue:userColorHue];
 	self.userColor = userColor;
