@@ -198,6 +198,7 @@
                                     </sliderCell>
                                     <connections>
                                         <action selector="postGeneralViewPreferencesDidChangeNotificiation:" target="-2" id="As3-bG-cjM"/>
+                                        <binding destination="gZV-Yj-UC8" name="enabled" keyPath="values.HighlightChanges" id="JwG-po-9kG"/>
                                         <binding destination="gZV-Yj-UC8" name="value" keyPath="values.MyChangesSaturation" id="pB2-fz-N0L"/>
                                     </connections>
                                 </slider>
