@@ -47,12 +47,16 @@ void * const SEEUserColorsPreviewUpdateObservingContext = (void *)&SEEUserColors
 	}
 }
 
+- (BOOL)isFlipped {
+	return YES;
+}
+
 - (instancetype)initWithFrame:(NSRect)aFrame {
 	aFrame.size = CGSizeMake(122, 40);
     self = [super initWithFrame:aFrame];
     if (self) {
-		self.changesLabel = ({
-			NSTextField *label = [[NSTextField alloc] initWithFrame:CGRectMake(2, 8, 40, 32)];
+		self.selectionLabel = ({
+			NSTextField *label = [[NSTextField alloc] initWithFrame:CGRectMake(5, 8, 40, 32)];
 			[label setBackgroundColor:[NSColor clearColor]];
 			[label setBezeled:NO];
 			[label setEditable:NO];
@@ -61,8 +65,8 @@ void * const SEEUserColorsPreviewUpdateObservingContext = (void *)&SEEUserColors
 			label;
 		});
 		
-		self.selectionLabel = ({
-			NSTextField *label = [[NSTextField alloc] initWithFrame:CGRectMake(42, 8, 40, 32)];
+		self.changesLabel = ({
+			NSTextField *label = [[NSTextField alloc] initWithFrame:CGRectZero];
 			[label setBackgroundColor:[NSColor clearColor]];
 			[label setBezeled:NO];
 			[label setEditable:NO];
@@ -72,7 +76,7 @@ void * const SEEUserColorsPreviewUpdateObservingContext = (void *)&SEEUserColors
 		});
 		
 		self.normalLabel = ({
-			NSTextField *label = [[NSTextField alloc] initWithFrame:CGRectMake(82, 8, 40, 32)];
+			NSTextField *label = [[NSTextField alloc] initWithFrame:CGRectZero];
 			[label setBackgroundColor:[NSColor clearColor]];
 			[label setBezeled:NO];
 			[label setEditable:NO];
@@ -117,70 +121,74 @@ void * const SEEUserColorsPreviewUpdateObservingContext = (void *)&SEEUserColors
 
 #pragma mark - Drawing
 - (void)drawRect:(NSRect)aDirtyRect {
-	NSBezierPath *backgroundPath = [NSBezierPath bezierPathWithRect:self.bounds];
+	// background
 	[self.backgroundColor set];
-	[backgroundPath fill];
-
-	[self.textColor set];
-	[backgroundPath stroke];
-
+	NSRectFill(self.bounds);
+	
 	// selection
 	CGRect selectionRect = CGRectZero;
 	selectionRect.size = [self.selectionLabel.stringValue sizeWithAttributes:@{ NSFontAttributeName : self.font }];
 	selectionRect = [self convertRect:selectionRect fromView:self.selectionLabel];
-	selectionRect = NSInsetRect(selectionRect, 1.0, 1.0);
-	selectionRect.origin.x += 1.0; // how to do this nicely?
-	selectionRect.origin.y -= 1.0; // how to do this nicely?
-	selectionRect.size.width += 3.0; // how to do this nicely?
 
-	NSBezierPath *selectionPath = [NSBezierPath bezierPathWithRect:selectionRect];
+	selectionRect = self.selectionLabel.frame;
+	selectionRect = [self centerScanRect:selectionRect];
+	
 	[self.selectionColor set];
-	[selectionPath fill];
+	NSRectFill(selectionRect);
 	
 	[self.selectionBorderColor set];
-	[selectionPath stroke];
+	NSFrameRectWithWidth(selectionRect,1.0);
 	
 	// changes
 	CGRect changesRect = CGRectZero;
 	changesRect.size = [self.changesLabel.stringValue sizeWithAttributes:@{ NSFontAttributeName : self.font }];
 	changesRect = [self convertRect:changesRect fromView:self.changesLabel];
-	changesRect.origin.x += 2.0; // how to do this nicely?
-	changesRect.origin.y -= 1.0; // how to do this nicely?
-	changesRect.size.width += 1.0; // how to do this nicely?
+	changesRect = self.changesLabel.frame;
+
+	changesRect = [self centerScanRect:changesRect];
 	[self.changesColor set];
 	NSRectFill(changesRect);
 	
 	// draw the labels
     [super drawRect:aDirtyRect];
+	
+	// border
+	[[NSColor colorWithCalibratedWhite:0.6 alpha:1.0] set];
+	NSFrameRectWithWidth(self.bounds, 1.0);
 }
 
 #pragma mark - Label resize
 - (void)updateLabels {
-	{
-		NSTextField *label = self.changesLabel;
-		[label setFont:self.font];
-		[label setTextColor:self.textColor];
-//		[label setBackgroundColor:self.changesColor];
-		[label sizeToFit];
-	}
+	NSTextField *previousLabel = nil;
 	
-	{
+	CGFloat advancementOfSpace = [@" " sizeWithAttributes:@{NSFontAttributeName:self.font}].width;
+	
+	previousLabel = ({
 		NSTextField *label = self.selectionLabel;
 		[label setFont:self.font];
 		[label setTextColor:self.textColor];
-//		[label setBackgroundColor:self.selectionColor];
-		[label setBackgroundColor:[NSColor clearColor]];
 		[label sizeToFit];
-	}
+		label;
+	});
 	
+	previousLabel = ({
+		NSTextField *label = self.changesLabel;
+		[label setFont:self.font];
+		[label setTextColor:self.textColor];
+		[label sizeToFit];
+		[label setFrameOrigin:NSMakePoint(NSMaxX(previousLabel.frame) + round(advancementOfSpace), NSMinY(previousLabel.frame))];
+		label;
+	});
+
 	{
 		NSTextField *label = self.normalLabel;
 		[label setFont:self.font];
 		[label setTextColor:self.textColor];
-//		[label setBackgroundColor:self.backgroundColor];
 		[label sizeToFit];
+		[label setFrameOrigin:NSMakePoint(NSMaxX(previousLabel.frame) + round(advancementOfSpace * 0.6), NSMinY(previousLabel.frame))];
 	}
 }
+
 #pragma mark - Update View
 - (void)updateView {
 	[self updateDependentPropertiesFromBaseProperties];
@@ -231,7 +239,7 @@ void * const SEEUserColorsPreviewUpdateObservingContext = (void *)&SEEUserColors
 	self.backgroundColor = backgroundColor;
 	
 	self.selectionSaturation = [defaults objectForKey:SelectionSaturationPreferenceKey];
-	self.changesSaturation = [defaults objectForKey:ChangesSaturationPreferenceKey]; // changable
+	self.changesSaturation = [defaults objectForKey:ChangesSaturationPreferenceKey];
 		
 	float changesSaturationFloat = [self.changesSaturation floatValue]/100.;
 	self.changesColor = [backgroundColor blendedColorWithFraction:changesSaturationFloat ofColor:userColor];
