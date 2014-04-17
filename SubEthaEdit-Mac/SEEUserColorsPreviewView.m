@@ -89,6 +89,7 @@
     return self;
 }
 
+#pragma mark - Drawing
 - (void)drawRect:(NSRect)aDirtyRect {
 	NSBezierPath *backgroundPath = [NSBezierPath bezierPathWithRect:self.bounds];
 	[self.backgroundColor set];
@@ -154,14 +155,19 @@
 		[label sizeToFit];
 	}
 }
+#pragma mark - Update View
+- (void)updateView {
+	[self updateLabels];
+	[self setNeedsDisplay:YES];
+}
 
-#pragma mark - User Defaults and Base Mode
 - (void)updateWithUserDefaultsValues {
 	[self setPropertiesWithUserDefaultsValues];
 	[self updateLabels];
 	[self setNeedsDisplay:YES];
 }
 
+#pragma mark - User Defaults and Base Mode
 - (void)setPropertiesWithUserDefaultsValues {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	

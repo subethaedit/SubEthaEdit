@@ -15,5 +15,5 @@
 @property (nonatomic, strong) NSNumber *selectionSaturation;
 
 - (void)updateWithUserDefaultsValues;
-
+- (void)updateView;
 @end
