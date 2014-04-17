@@ -13,8 +13,6 @@
 
 #import "SEEUserColorsPreviewView.h"
 
-#import "SaturationToColorValueTransformer.h"
-
 #import "PreferenceKeys.h"
 #import "DocumentModeManager.h"
 #import "SEEStyleSheet.h"
@@ -86,7 +84,6 @@ void * const SEEUserColorsPreviewUpdateObservingContext = (void *)&SEEUserColors
 		[self setPropertiesWithUserDefaultsValues];
 		[self updateLabels];
 		
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateWithUserDefaultsValues) name:GeneralViewPreferencesDidChangeNotificiation object:nil];
 		[self installKVO];
 	}
     return self;
@@ -186,14 +183,34 @@ void * const SEEUserColorsPreviewUpdateObservingContext = (void *)&SEEUserColors
 }
 #pragma mark - Update View
 - (void)updateView {
+	[self updateDependentPropertiesFromBaseProperties];
 	[self updateLabels];
 	[self setNeedsDisplay:YES];
 }
 
-- (void)updateWithUserDefaultsValues {
+- (void)updateViewWithUserDefaultsValues {
 	[self setPropertiesWithUserDefaultsValues];
 	[self updateLabels];
 	[self setNeedsDisplay:YES];
+}
+
+#pragma mark - Changed Origin Properties 
+- (void)updateDependentPropertiesFromBaseProperties {
+	self.font = [self fontFromDefaultMode];
+	
+	NSNumber *userColorHue = self.userColorHue;
+    NSValueTransformer *hueTransformer = [NSValueTransformer valueTransformerForName:@"HueToColor"];
+	NSColor *userColor = (NSColor *)[hueTransformer transformedValue:userColorHue];
+	self.userColor = userColor;
+	
+	NSColor *backgroundColor = self.backgroundColor;
+		
+	float changesSaturationFloat = [self.changesSaturation floatValue]/100.;
+	self.changesColor = [backgroundColor blendedColorWithFraction:changesSaturationFloat ofColor:userColor];
+	
+	float selectionSaturationFloat = [self.selectionSaturation floatValue]/100.;
+	self.selectionColor = [backgroundColor blendedColorWithFraction:selectionSaturationFloat ofColor:userColor];
+	self.selectionBorderColor = [self.selectionColor shadowWithLevel:0.3];
 }
 
 #pragma mark - User Defaults and Base Mode
