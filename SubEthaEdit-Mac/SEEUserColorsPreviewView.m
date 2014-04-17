@@ -44,6 +44,7 @@ void * const SEEUserColorsPreviewUpdateObservingContext = (void *)&SEEUserColors
 		[self exposeBinding:@"userColorHue"];
 		[self exposeBinding:@"changesSaturation"];
 		[self exposeBinding:@"selectionSaturation"];
+		[self exposeBinding:@"showsChangesHighlight"];
 	}
 }
 
@@ -140,14 +141,16 @@ void * const SEEUserColorsPreviewUpdateObservingContext = (void *)&SEEUserColors
 	NSFrameRectWithWidth(selectionRect,1.0);
 	
 	// changes
-	CGRect changesRect = CGRectZero;
-	changesRect.size = [self.changesLabel.stringValue sizeWithAttributes:@{ NSFontAttributeName : self.font }];
-	changesRect = [self convertRect:changesRect fromView:self.changesLabel];
-	changesRect = self.changesLabel.frame;
-
-	changesRect = [self centerScanRect:changesRect];
-	[self.changesColor set];
-	NSRectFill(changesRect);
+	if (self.showsChangesHighlight) {
+		CGRect changesRect = CGRectZero;
+		changesRect.size = [self.changesLabel.stringValue sizeWithAttributes:@{ NSFontAttributeName : self.font }];
+		changesRect = [self convertRect:changesRect fromView:self.changesLabel];
+		changesRect = self.changesLabel.frame;
+		
+		changesRect = [self centerScanRect:changesRect];
+		[self.changesColor set];
+		NSRectFill(changesRect);
+	}
 	
 	// draw the labels
     [super drawRect:aDirtyRect];
@@ -226,6 +229,8 @@ void * const SEEUserColorsPreviewUpdateObservingContext = (void *)&SEEUserColors
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	
 	self.font = [self fontFromDefaultMode];
+	
+	self.showsChangesHighlight = [defaults boolForKey:HighlightChangesPreferenceKey];
 	
 	NSNumber *userColorHue = [defaults objectForKey:MyColorHuePreferenceKey];
 	self.userColorHue = userColorHue;
