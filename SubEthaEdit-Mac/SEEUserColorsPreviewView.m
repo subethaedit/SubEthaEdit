@@ -53,7 +53,7 @@ void * const SEEUserColorsPreviewUpdateObservingContext = (void *)&SEEUserColors
 }
 
 - (instancetype)initWithFrame:(NSRect)aFrame {
-	aFrame.size = CGSizeMake(122, 40);
+	aFrame.size.height = 36;
     self = [super initWithFrame:aFrame];
     if (self) {
 		self.selectionLabel = ({
@@ -61,7 +61,7 @@ void * const SEEUserColorsPreviewUpdateObservingContext = (void *)&SEEUserColors
 			[label setBackgroundColor:[NSColor clearColor]];
 			[label setBezeled:NO];
 			[label setEditable:NO];
-			[label setStringValue:@"Lorem"];
+			[label setStringValue:@"Lorem ipsum"];
 			[self addSubview:label];
 			label;
 		});
@@ -71,7 +71,7 @@ void * const SEEUserColorsPreviewUpdateObservingContext = (void *)&SEEUserColors
 			[label setBackgroundColor:[NSColor clearColor]];
 			[label setBezeled:NO];
 			[label setEditable:NO];
-			[label setStringValue:@"ipsum"];
+			[label setStringValue:@"dolor sit"];
 			[self addSubview:label];
 			label;
 		});
@@ -81,7 +81,8 @@ void * const SEEUserColorsPreviewUpdateObservingContext = (void *)&SEEUserColors
 			[label setBackgroundColor:[NSColor clearColor]];
 			[label setBezeled:NO];
 			[label setEditable:NO];
-			[label setStringValue:@"dolor"];
+			[label setStringValue:@"amet, consectetur adipiscing elit."];
+			[[label cell] setLineBreakMode:NSLineBreakByTruncatingTail];
 			[self addSubview:label];
 			label;
 		});
