@@ -301,6 +301,7 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
     for (profile in I_statusProfilesInServerRole) {
         [profile sendUserDidChangeNotification:[TCMMMUserManager me]];
     }
+	[self TCM_validateServiceAnnouncement]; // update announcement txt record
 }
 
 - (NSArray *)allUsers {
