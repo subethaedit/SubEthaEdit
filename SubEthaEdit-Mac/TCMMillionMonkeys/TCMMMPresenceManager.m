@@ -148,6 +148,7 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMPresenceManagerUserRendezvousStatusDidChangeNotification object:self userInfo:[NSDictionary dictionaryWithObject:[I_foundUserIDs allObjects] forKey:@"UserIDs"]];
     I_browser=nil;
+	[self TCM_validateServiceAnnouncement];
 }
 
 - (void)startRendezvousBrowsing {
@@ -155,6 +156,7 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
     I_browser=[[TCMRendezvousBrowser alloc] initWithServiceType:@"_see._tcp." domain:@""];
     [I_browser setDelegate:self];
     [I_browser startSearch];
+	[self TCM_validateServiceAnnouncement];
 }
 
 - (NSString *)serviceName {
@@ -166,10 +168,6 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
 - (void)TCM_validateServiceAnnouncement {
     // Announce ourselves via rendezvous
     
-    if (!I_netService) {
-        I_netService=[[NSNetService alloc] initWithDomain:@"" type:@"_see._tcp." name:[self serviceName] port:[[TCMMMBEEPSessionManager sharedInstance] listeningPort]];
-        [I_netService setDelegate:self];
-    }
     
     TCMMMUser *me = [[TCMMMUserManager sharedInstance] me];
 	NSArray *txtRecordArray = [NSArray arrayWithObjects:
@@ -181,6 +179,8 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
 	
     if (!self.isCurrentlyReallyInvisible &&
 		!I_flags.serviceIsPublished) {
+		I_netService=[[NSNetService alloc] initWithDomain:@"" type:@"_see._tcp." name:[self serviceName] port:[[TCMMMBEEPSessionManager sharedInstance] listeningPort]];
+		[I_netService setDelegate:self];
         [I_netService setTXTRecordByArray:txtRecordArray];
         [I_netService publish];
         I_flags.serviceIsPublished = YES;
