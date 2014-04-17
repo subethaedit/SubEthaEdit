@@ -37,6 +37,8 @@
 
 @end
 
+void * const SEEUserColorsPreviewUpdateObservingContext = (void *)&SEEUserColorsPreviewUpdateObservingContext;
+
 @implementation SEEUserColorsPreviewView
 
 + (void)initialize {
@@ -85,8 +87,35 @@
 		[self updateLabels];
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateWithUserDefaultsValues) name:GeneralViewPreferencesDidChangeNotificiation object:nil];
+		[self installKVO];
 	}
     return self;
+}
+
+- (void)dealloc {
+	[self removeKVO];
+}
+
+#pragma mark - KVO
+- (void)installKVO {
+	[self addObserver:self forKeyPath:@"userColorHue" options:0 context:SEEUserColorsPreviewUpdateObservingContext];
+	[self addObserver:self forKeyPath:@"changesSaturation" options:0 context:SEEUserColorsPreviewUpdateObservingContext];
+	[self addObserver:self forKeyPath:@"selectionSaturation" options:0 context:SEEUserColorsPreviewUpdateObservingContext];
+}
+
+- (void)removeKVO {
+	[self removeObserver:self forKeyPath:@"userColorHue" context:SEEUserColorsPreviewUpdateObservingContext];
+	[self removeObserver:self forKeyPath:@"changesSaturation" context:SEEUserColorsPreviewUpdateObservingContext];
+	[self removeObserver:self forKeyPath:@"selectionSaturation" context:SEEUserColorsPreviewUpdateObservingContext];
+}
+
+- (void)observeValueForKeyPath:(NSString *)aKeyPath ofObject:(id)anObject change:(NSDictionary *)aChangeDict context:(void *)aContext {
+    if (aContext == SEEUserColorsPreviewUpdateObservingContext) {
+		[self updateView];
+		
+    } else {
+        [super observeValueForKeyPath:aKeyPath ofObject:anObject change:aChangeDict context:aContext];
+    }
 }
 
 #pragma mark - Drawing
