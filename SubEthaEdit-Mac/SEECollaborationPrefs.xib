@@ -212,7 +212,7 @@
                                     </textFieldCell>
                                 </textField>
                                 <colorWell toolTip="Change color for bright background" enabled="NO" id="090-YE-BE6">
-                                    <rect key="frame" x="19" y="86" width="29" height="22"/>
+                                    <rect key="frame" x="262" y="93" width="29" height="22"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <connections>
@@ -236,7 +236,7 @@
                                     </connections>
                                 </button>
                                 <colorWell toolTip="Change color for dark backgrounds" enabled="NO" id="QI8-gO-VaQ">
-                                    <rect key="frame" x="56" y="86" width="29" height="22"/>
+                                    <rect key="frame" x="290" y="93" width="29" height="22"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <connections>
@@ -249,7 +249,7 @@
                                     </connections>
                                 </colorWell>
                                 <colorWell toolTip="Change color for dark backgrounds" enabled="NO" id="NdT-Rs-Z5x">
-                                    <rect key="frame" x="19" y="111" width="29" height="22"/>
+                                    <rect key="frame" x="147" y="99" width="29" height="22"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <connections>
@@ -300,6 +300,10 @@
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
+                                <customView id="7qA-ls-mYl" customClass="SEEUserColorsPreviewView">
+                                    <rect key="frame" x="17" y="76" width="118" height="39"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                </customView>
                             </subviews>
                         </view>
                         <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
