@@ -73,6 +73,16 @@
 	
 	[self.O_disableNetworkingButton setState:[TCMMMBEEPSessionManager sharedInstance].isNetworkingDisabled ? NSOnState : NSOffState];
 	[self.O_invisibleOnNetowrkButton setState:[[TCMMMPresenceManager sharedInstance] isVisible] ? NSOffState : NSOnState];
+	
+	SEEUserColorsPreviewView *preview = self.O_userColorsPreview;
+	NSUserDefaultsController *defaultsController = [NSUserDefaultsController sharedUserDefaultsController];
+	[preview bind:@"userColorHue" toObject:defaultsController withKeyPath:@"values.MyColorHue" options:nil];
+	[preview bind:@"changesSaturation" toObject:defaultsController withKeyPath:@"values.MyChangesSaturation" options:nil];
+}
+
+- (void)didSelect {
+	[super didSelect];
+	[self.O_userColorsPreview updateViewWithUserDefaultsValues];
 }
 
 #pragma mark - Port Mapper

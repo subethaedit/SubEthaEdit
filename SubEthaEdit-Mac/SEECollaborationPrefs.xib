@@ -20,6 +20,7 @@
                 <outlet property="O_mappingStatusTextField" destination="x0F-16-awU" id="Cdw-CZ-r92"/>
                 <outlet property="O_nameTextField" destination="GvU-me-qXy" id="d0T-ic-2Fb"/>
                 <outlet property="O_pictureImageView" destination="SxQ-dS-7cp" id="PFY-4F-Cal"/>
+                <outlet property="O_userColorsPreview" destination="7qA-ls-mYl" id="9no-zF-3Tg"/>
                 <outlet property="O_window" destination="QvC-M9-y7g" id="Dgz-nd-xe2"/>
             </connections>
         </customObject>
