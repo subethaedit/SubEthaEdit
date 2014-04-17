@@ -7,8 +7,6 @@
         <customObject id="-2" userLabel="File's Owner" customClass="SEECollaborationPreferenceModule">
             <connections>
                 <outlet property="O_automaticallyMapPortButton" destination="m4c-SU-LMl" id="vMs-rk-7Wg"/>
-                <outlet property="O_changesDarkColorWell" destination="QI8-gO-VaQ" id="cCj-3j-8ad"/>
-                <outlet property="O_changesLightColorWell" destination="090-YE-BE6" id="vS6-BT-ksI"/>
                 <outlet property="O_disableNetworkingButton" destination="yO2-eJ-6Ez" id="cCr-be-P1B"/>
                 <outlet property="O_emailComboBox" destination="6OE-fu-gsc" id="vAU-US-Z0p"/>
                 <outlet property="O_higlightChangesButton" destination="rdZ-is-71R" id="N4H-w5-bXl"/>
@@ -212,19 +210,6 @@
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
-                                <colorWell toolTip="Change color for bright background" enabled="NO" id="090-YE-BE6">
-                                    <rect key="frame" x="262" y="93" width="29" height="22"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    <connections>
-                                        <binding destination="gZV-Yj-UC8" name="value" keyPath="values.MyChangesSaturation" id="cE1-Yd-4Ug">
-                                            <dictionary key="options">
-                                                <bool key="NSConditionallySetsEnabled" value="NO"/>
-                                                <string key="NSValueTransformerName">SaturationToWhiteColor</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
-                                </colorWell>
                                 <button toolTip="Color the background of your changes." id="rdZ-is-71R">
                                     <rect key="frame" x="14" y="53" width="128" height="18"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -236,32 +221,6 @@
                                         <binding destination="gZV-Yj-UC8" name="value" keyPath="values.HighlightChanges" id="YRg-DW-mFe"/>
                                     </connections>
                                 </button>
-                                <colorWell toolTip="Change color for dark backgrounds" enabled="NO" id="QI8-gO-VaQ">
-                                    <rect key="frame" x="290" y="93" width="29" height="22"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    <connections>
-                                        <binding destination="gZV-Yj-UC8" name="value" keyPath="values.MyChangesSaturation" id="yqT-ko-9h5">
-                                            <dictionary key="options">
-                                                <bool key="NSConditionallySetsEnabled" value="NO"/>
-                                                <string key="NSValueTransformerName">SaturationToBlackColor</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
-                                </colorWell>
-                                <colorWell toolTip="Change color for dark backgrounds" enabled="NO" id="NdT-Rs-Z5x">
-                                    <rect key="frame" x="147" y="99" width="29" height="22"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    <connections>
-                                        <binding destination="gZV-Yj-UC8" name="value" keyPath="values.MyColorHue" id="r1M-0d-5Wd">
-                                            <dictionary key="options">
-                                                <bool key="NSConditionallySetsEnabled" value="NO"/>
-                                                <string key="NSValueTransformerName">HueToColorValueTransformer</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
-                                </colorWell>
                                 <button id="ph8-yK-JgO">
                                     <rect key="frame" x="14" y="26" width="307" height="18"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>

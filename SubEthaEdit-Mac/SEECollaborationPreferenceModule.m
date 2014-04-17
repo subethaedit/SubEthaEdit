@@ -123,13 +123,6 @@
 	}
 }
 
-- (void)TCM_updateWells {
-    NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
-    [defaults setObject:[defaults objectForKey:ChangesSaturationPreferenceKey] forKey:ChangesSaturationPreferenceKey];
-    [defaults setObject:[defaults objectForKey:SelectionSaturationPreferenceKey] forKey:SelectionSaturationPreferenceKey];
-    [self TCM_sendGeneralViewPreferencesDidChangeNotificiation];
-}
-
 #pragma mark - Colors
 
 #define COLORMENUIMAGEWIDTH 20.
@@ -271,7 +264,10 @@
     [[TCMMMUserManager me] setUserHue:userHue];
     [TCMMMUserManager didChangeMe];
 	
-    [self TCM_updateWells];
+	// check if needed?
+    [defaults setObject:[defaults objectForKey:ChangesSaturationPreferenceKey] forKey:ChangesSaturationPreferenceKey];
+    [defaults setObject:[defaults objectForKey:SelectionSaturationPreferenceKey] forKey:SelectionSaturationPreferenceKey];
+	
 	[self postGeneralViewPreferencesDidChangeNotificiation:self];
 }
 

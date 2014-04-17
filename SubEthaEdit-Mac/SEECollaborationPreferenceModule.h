@@ -30,9 +30,6 @@
 
 // colors
 @property (nonatomic, strong) IBOutlet SEEUserColorsPreviewView *O_userColorsPreview;
-@property (nonatomic, strong) IBOutlet NSColorWell *O_changesLightColorWell;
-@property (nonatomic, strong) IBOutlet NSColorWell *O_changesDarkColorWell;
-
 @property (nonatomic, strong) IBOutlet NSButton *O_higlightChangesButton;
 
 // localization
