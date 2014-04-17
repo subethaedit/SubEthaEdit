@@ -39,6 +39,14 @@
 
 @implementation SEEUserColorsPreviewView
 
++ (void)initialize {
+	if (self == [SEEUserColorsPreviewView class]) {
+		[self exposeBinding:@"userColorHue"];
+		[self exposeBinding:@"changesSaturation"];
+		[self exposeBinding:@"selectionSaturation"];
+	}
+}
+
 - (instancetype)initWithFrame:(NSRect)aFrame {
 	aFrame.size = CGSizeMake(122, 40);
     self = [super initWithFrame:aFrame];
