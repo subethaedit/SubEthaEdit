@@ -21,6 +21,7 @@
 #import "TCMMMBEEPSessionManager.h"
 #import "TCMMMUser.h"
 #import "TCMMMUserSEEAdditions.h"
+#import "TCMMMPresenceManager.h"
 
 #import <TCMPortMapper/TCMPortMapper.h>
 #import "TCMMMBEEPSessionManager.h"
@@ -71,6 +72,7 @@
     }
 	
 	[self.O_disableNetworkingButton setState:[TCMMMBEEPSessionManager sharedInstance].isNetworkingDisabled ? NSOnState : NSOffState];
+	[self.O_invisibleOnNetowrkButton setState:[[TCMMMPresenceManager sharedInstance] isVisible] ? NSOffState : NSOnState];
 }
 
 #pragma mark - Port Mapper
@@ -288,12 +290,11 @@
 }
 
 - (IBAction)changeDisableNetworking:(id)aSender {
-	NSLog(@"%s %@",__FUNCTION__,aSender);
 	[TCMMMBEEPSessionManager sharedInstance].networkingDisabled = [self.O_disableNetworkingButton state] == NSOnState ? YES : NO;
 }
 
 - (IBAction)changeVisiblityOnNetwork:(id)aSender {
-	NSLog(@"%s %@",__FUNCTION__,aSender);
+	[[TCMMMPresenceManager sharedInstance] setVisible:[self.O_invisibleOnNetowrkButton state] == NSOffState ? YES : NO];
 }
 
 
