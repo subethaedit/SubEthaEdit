@@ -111,16 +111,6 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
     NSString *I_directoryForSavePanel;
     NSDictionary *I_scheduledAlertDictionary;
     
-    IBOutlet NSView *O_savePanelAccessoryView;
-    IBOutlet NSView *O_savePanelAccessoryView2;
-    IBOutlet NSButton *O_goIntoBundlesCheckbox;
-    IBOutlet NSButton *O_goIntoBundlesCheckbox2;
-    IBOutlet NSButton *O_showHiddenFilesCheckbox;
-    IBOutlet NSButton *O_showHiddenFilesCheckbox2;
-    IBOutlet EncodingPopUpButton *O_encodingPopUpButton;
-    IBOutlet NSMatrix *O_savePanelAccessoryFileFormatMatrix;
-    IBOutlet NSMatrix *O_savePanelAccessoryFileFormatMatrix2;
-    NSSavePanel *I_savePanel;
     NSSaveOperationType I_lastSaveOperation;
     NSStringEncoding I_encodingFromLastRunSaveToOperation;
     
@@ -152,8 +142,7 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
     TextOperation *I_lastRegisteredUndoOperation;
     
     NSMutableDictionary *I_printOptions;
-    NSArray *I_preservedDataFromSEETextFile;
-    
+
     AuthorizationRef I_authRef;
     
     TextOperation *I_currentTextOperation;
@@ -173,12 +162,7 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
 
 //+ (PlainTextDocument *)transientDocument;
 
-//- (void)setTemporarySavePanel:(NSSavePanel *)aPanel;
-
 - (NSImage *)documentIcon;
-
-- (void)setPreservedDataFromSEETextFile:(NSArray *)aPreservedData;
-- (NSArray *)preservedDataFromSEETextFile;
 
 - (id)initWithSession:(TCMMMSession *)aSession;
 

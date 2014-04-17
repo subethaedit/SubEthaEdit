@@ -130,6 +130,8 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 - (void)TCM_validateLineEndings;
 
 @property (nonatomic, strong) TCMBracketSettings *bracketSettings;
+@property (nonatomic, strong) NSSavePanel *currentSavePanel;
+@property (nonatomic, strong) NSArray *preservedDataFromSEETextFile;
 
 @end
 
@@ -790,7 +792,8 @@ static NSString *tempFileName(NSString *origPath) {
     }
     
     //[I_identifier release];
-    [self setPreservedDataFromSEETextFile:nil];
+    self.preservedDataFromSEETextFile = nil;
+
     [I_symbolUpdateTimer release];
     [I_webPreviewDelayedRefreshTimer release];
 
@@ -829,9 +832,9 @@ static NSString *tempFileName(NSString *origPath) {
     [I_documentForegroundColor release];
     [I_printOptions autorelease];
     [I_scheduledAlertDictionary release];
-	
-//	[self setTemporarySavePanel:nil];
-    
+
+	self.currentSavePanel = nil;
+
     [I_currentTextOperation release];
     
     [I_stateDictionaryFromLoading release];
@@ -2406,14 +2409,20 @@ struct SelectionRange
 #pragma mark -
 #pragma mark ### Save/Open Panel loading ###
 
+- (void)saveDocumentWithDelegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)contextInfo {
+    if ([self TCM_validateDocument]) {
+        [super saveDocumentWithDelegate:delegate didSaveSelector:didSaveSelector contextInfo:contextInfo];
+    }
+}
+
 - (void)runModalSavePanelForSaveOperation:(NSSaveOperationType)saveOperation delegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)contextInfo {
     I_lastSaveOperation = saveOperation;
     [super runModalSavePanelForSaveOperation:saveOperation delegate:delegate didSaveSelector:didSaveSelector contextInfo:contextInfo];
 }
 
 - (BOOL)shouldRunSavePanelWithAccessoryView {
-	
-    return YES;
+	// we want to add our own accessory view in prepare save panel
+    return NO;
 }
 
 const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
@@ -2426,22 +2435,8 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 	SEESavePanelAccessoryViewController *viewController = [SEESavePanelAccessoryViewController prepareSavePanel:savePanel withSaveOperation:I_lastSaveOperation forDocument:self];
 	objc_setAssociatedObject(savePanel, SEESavePanelAssociationKey, viewController, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 
+	self.currentSavePanel = savePanel;
     return (viewController != nil);
-}
-
-- (void)saveDocumentWithDelegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)contextInfo {
-    if ([self TCM_validateDocument]) {
-        [super saveDocumentWithDelegate:delegate didSaveSelector:didSaveSelector contextInfo:contextInfo];
-    }
-}
-
-- (void)setPreservedDataFromSEETextFile:(NSArray *)aPreservedData {
-    [I_preservedDataFromSEETextFile autorelease];
-     I_preservedDataFromSEETextFile=[aPreservedData retain];
-}
-
-- (NSArray *)preservedDataFromSEETextFile {
-    return I_preservedDataFromSEETextFile;
 }
 
 - (IBAction)playbackLoggingState:(id)aSender {
@@ -2558,10 +2553,9 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 }
 
 - (void)saveToURL:(NSURL *)anAbsoluteURL ofType:(NSString *)aType forSaveOperation:(NSSaveOperationType)saveOperation delegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)aContextInfo {
-    BOOL didShowPanel=NO;
+    BOOL didShowPanel = NO;
     if (saveOperation != NSAutosaveOperation) {
-        didShowPanel = (I_savePanel)?YES:NO;
-//		[self setTemporarySavePanel:nil];
+        didShowPanel = (self.currentSavePanel)?YES:NO;
     }
     
     if (anAbsoluteURL) {
@@ -2578,15 +2572,17 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
             I_flags.shouldChangeExtensionOnModeChange=NO;
         }
 
+		SEESavePanelAccessoryViewController *accessoryViewController = objc_getAssociatedObject(self.currentSavePanel, SEESavePanelAssociationKey);
+
         if (saveOperation == NSSaveToOperation) {
-            I_encodingFromLastRunSaveToOperation = [[O_encodingPopUpButton selectedItem] tag];
-            if ([[O_savePanelAccessoryFileFormatMatrix selectedCell] tag] == 1) {
+            I_encodingFromLastRunSaveToOperation = [[accessoryViewController.encodingPopUpButtonOutlet selectedItem] tag];
+            if ([[accessoryViewController.savePanelAccessoryFileFormatMatrixOutlet selectedCell] tag] == 1) {
                 aType = @"de.codingmonkeys.subethaedit.seetext";
              } else {
                 aType = @"public.text";
             }
          } else if (didShowPanel) {
-            if ([[O_savePanelAccessoryFileFormatMatrix2 selectedCell] tag] == 1) {
+            if ([[accessoryViewController.savePanelAccessoryFileFormatMatrixOutlet selectedCell] tag] == 1) {
                 aType = @"de.codingmonkeys.subethaedit.seetext";
                 I_flags.isSEEText = YES;
             } else {
@@ -2603,6 +2599,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     }
 
     [super saveToURL:anAbsoluteURL ofType:aType forSaveOperation:saveOperation delegate:delegate didSaveSelector:didSaveSelector contextInfo:aContextInfo];
+	self.currentSavePanel = nil;
 }
 
 - (NSData *)dataOfType:(NSString *)aType error:(NSError **)outError{
@@ -2828,7 +2825,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
             [preservedData addObject:element];
         }
     }
-    [self setPreservedDataFromSEETextFile:preservedData];
+    self.preservedDataFromSEETextFile = preservedData;
     I_flags.isSEEText = YES;
     // load users
     TCMMMUserManager *um = [TCMMMUserManager sharedInstance];
@@ -3512,8 +3509,8 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
             }
 //-timelog            NSLog(@"compressing the array took %fs",[tempDate timeIntervalSinceNow]*-1.);
             [dataArray addObject:compressedArray];
-            if ([self preservedDataFromSEETextFile]) {
-                [dataArray addObjectsFromArray:[self preservedDataFromSEETextFile]];
+            if (self.preservedDataFromSEETextFile) {
+                [dataArray addObjectsFromArray:self.preservedDataFromSEETextFile];
             }
 //-timelog            tempDate = [NSDate date];
             [data appendData:TCM_BencodedObject(dataArray)];
