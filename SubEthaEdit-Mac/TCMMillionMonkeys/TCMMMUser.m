@@ -11,18 +11,24 @@
 #import "TCMMMUserManager.h"
 #import "TCMMMUser.h"
 
+// this file needs arc - either project wide,
+// or add -fobjc-arc on a per file basis in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
+
 NSString * const TCMMMUserWillLeaveSessionNotification =
                @"TCMMMUserWillLeaveSessionNotification";
 
-@interface TCMMMUser (TCMMMUserPrivateAdditions) 
-
+@interface TCMMMUser ()
+@property (nonatomic, copy) NSString *userIDIncludingChangeCount;
 - (void)setProperties:(NSMutableDictionary *)aDictionary;
-
 @end
 
 @implementation TCMMMUser
 
-+ (id)userWithNotification:(NSDictionary *)aNotificationDict {
++ (instancetype)userWithNotification:(NSDictionary *)aNotificationDict {
 	if (![[aNotificationDict objectForKey:@"name"] isKindOfClass:[NSString class]] ||
 		![[aNotificationDict objectForKey:@"cnt"]  isKindOfClass:[NSNumber class]] ||
 		![[aNotificationDict objectForKey:@"uID"]  isKindOfClass:[NSData   class]]
@@ -31,7 +37,7 @@ NSString * const TCMMMUserWillLeaveSessionNotification =
 	}
 	NSString *userID=[NSString stringWithUUIDData:[aNotificationDict objectForKey:@"uID"]];
 	if (!userID) return nil;
-    TCMMMUser *user=[[TCMMMUser new] autorelease];
+    TCMMMUser *user=[TCMMMUser new];
     [user setName:[aNotificationDict objectForKey:@"name"]];
     [user setUserID:userID];
     [user setChangeCount:[[aNotificationDict objectForKey:@"cnt"] longLongValue]];
@@ -64,44 +70,12 @@ NSString * const TCMMMUserWillLeaveSessionNotification =
     return self;
 }
 
-- (void)dealloc {
-    [I_propertiesBySessionID release];
-    [I_properties release];
-    [I_userID release];
-    [I_serviceName release];
-    [I_name release];
-    [super dealloc];
-}
-
 - (NSString *)description {
-    return [NSString stringWithFormat:@"TCMMMUser <ID:%@,Name:%@,properties:%lu>",[self userID],[self name],(unsigned long)[[self properties] count]];
+    return [NSString stringWithFormat:@"TCMMMUser <ID:%@,Name:%@,properties:%lu,cc:%llu>",[self userID],[self name],(unsigned long)[[self properties] count], self.changeCount];
 }
 
 - (BOOL)isMe {
     return [[self userID] isEqualToString:[TCMMMUserManager myUserID]];
-}
-
-- (void)setUserID:(NSString *)aID {
-    [I_userID autorelease];
-     I_userID=[aID copy];
-}
-- (NSString *)userID {
-    return I_userID;
-}
-
-- (void)setServiceName:(NSString *)aServiceName {
-    [I_serviceName autorelease];
-     I_serviceName=[aServiceName copy];
-}
-- (NSString *)serviceName {
-    return I_serviceName;
-}
-- (void)setName:(NSString *)aName {
-    [I_name autorelease];
-     I_name=[aName copy];
-}
-- (NSString *)name {
-    return I_name;
 }
 
 - (NSMutableDictionary *)properties {
@@ -109,22 +83,20 @@ NSString * const TCMMMUserWillLeaveSessionNotification =
 }
 
 - (void)setProperties:(NSMutableDictionary *)aDictionary {
-    [I_properties autorelease];
-    I_properties = [aDictionary mutableCopy];
-}
-
-- (void)setChangeCount:(long long)aChangeCount {
-    I_changeCount = aChangeCount;
-}
-
-- (long long)changeCount {
-    return I_changeCount;
+     I_properties = [aDictionary mutableCopy];
 }
 
 - (void)updateChangeCount {
-    [self setChangeCount: (long long)[NSDate timeIntervalSinceReferenceDate]];
+    [self setChangeCount:(long long)[NSDate timeIntervalSinceReferenceDate]];
+	self.userIDIncludingChangeCount = nil;
 }
 
+- (NSString *)userIDIncludingChangeCount {
+	if (!_userIDIncludingChangeCount) {
+		_userIDIncludingChangeCount = [NSString stringWithFormat:@"%@+%lld",self.userID,self.changeCount];
+	}
+	return _userIDIncludingChangeCount;
+}
 
 - (void)joinSessionID:(NSString *)aSessionID {
     if (!([I_propertiesBySessionID objectForKey:aSessionID]==nil)) DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"User already joined");
@@ -159,12 +131,12 @@ NSString * const TCMMMUserWillLeaveSessionNotification =
 
 #pragma mark -
 
-+ (TCMMMUser *)userWithBencodedUser:(NSData *)aData {
++ (instancetype)userWithBencodedUser:(NSData *)aData {
     NSDictionary *userDict = TCM_BdecodedObjectWithData(aData);
     return [self userWithDictionaryRepresentation:userDict];
 }
 
-+ (TCMMMUser *)userWithDictionaryRepresentation:(NSDictionary *)aRepresentation {
++ (instancetype)userWithDictionaryRepresentation:(NSDictionary *)aRepresentation {
     // bail out for malformed data
     if (![[aRepresentation objectForKey:@"name"] isKindOfClass:[NSString class]] ||
         ![[aRepresentation objectForKey:@"uID"] isKindOfClass:[NSData class]] ||
@@ -175,7 +147,7 @@ NSString * const TCMMMUserWillLeaveSessionNotification =
         return nil;
     }
     
-    TCMMMUser *user = [[[TCMMMUser alloc] init] autorelease];
+    TCMMMUser *user = [[TCMMMUser alloc] init];
     [user setName:[aRepresentation objectForKey:@"name"]];
 	NSString *userID = [NSString stringWithUUIDData:[aRepresentation objectForKey:@"uID"]];
 	if (!userID) return nil;
@@ -223,6 +195,7 @@ NSString * const TCMMMUserWillLeaveSessionNotification =
         [[self properties] setObject:aHue forKey:@"Hue"];
         [[self properties] removeObjectForKey:@"ColorImage"];
         [[self properties] removeObjectForKey:@"ChangeColor"];
+		[self updateChangeCount];
     }
 }
 

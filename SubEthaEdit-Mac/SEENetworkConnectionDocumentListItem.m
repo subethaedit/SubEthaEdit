@@ -20,6 +20,10 @@ void * const SEENetworkConnectionRepresentationConnectionObservingContext = (voi
 void * const SEENetworkConnectionRepresentationUserObservingContext = (void *)&SEENetworkConnectionRepresentationUserObservingContext;
 void * const SEEConnectionClearableObservingContext = (void *)&SEEConnectionClearableObservingContext;
 
+@interface SEENetworkConnectionDocumentListItem ()
+@property (nonatomic, copy) NSString *cachedUID;
+@end
+
 @implementation SEENetworkConnectionDocumentListItem
 
 @dynamic uid;
@@ -61,6 +65,7 @@ void * const SEEConnectionClearableObservingContext = (void *)&SEEConnectionClea
 		if (user) {
 			self.name = user.name;
 			self.image = user.image;
+			self.cachedUID = user.userIDIncludingChangeCount;
 		} else if (connection) {
 			self.name = connection.URL.description;
 			self.image = [NSImage imageNamed:NSImageNameNetwork];
@@ -121,7 +126,7 @@ void * const SEEConnectionClearableObservingContext = (void *)&SEEConnectionClea
 	if (self.connection) {
 		return self.connection.BEEPSession.sessionID;
 	}
-	return self.user.userID;
+	return self.cachedUID;
 }
 
 - (IBAction)itemAction:(id)sender {
