@@ -9,7 +9,7 @@
 		<key>words</key>
 		<dict>
 			<key>other</key>
-			<string>%d Worte</string>
+			<string>%d Wörter</string>
 			<key>one</key>
 			<string>1 Wort</string>
 			<key>zero</key>
