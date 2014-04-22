@@ -15,4 +15,6 @@
 
 - (NSInteger)runModal;
 
+- (void)reloadAllDocumentDocumentListItems;
+
 @end

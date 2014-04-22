@@ -68,7 +68,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
     self = [super initWithWindow:window];
     if (self) {
 		self.availableItems = [NSMutableArray array];
-		[self reloadAllDocumentSessions];
+		[self reloadAllDocumentDocumentListItems];
 		[self installKVO];
 
 		__weak __typeof__(self) weakSelf = self;
@@ -165,7 +165,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if (context == SEENetworkDocumentBrowserEntriesObservingContext) {
-		[self reloadAllDocumentSessions];
+		[self reloadAllDocumentDocumentListItems];
 
 		if (self.toggleRecentItem) {
 			[[NSUserDefaults standardUserDefaults] setBool:@(self.toggleRecentItem.showRecentDocuments) forKey:@"DocumentListShowRecent"];
@@ -177,7 +177,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 
 #pragma mark - Content management
 
-- (void)reloadAllDocumentSessions
+- (void)reloadAllDocumentDocumentListItems
 {
 	[self willChangeValueForKey:@"availableItems"];
 	{
