@@ -1213,7 +1213,7 @@ static NSString *tempFileName(NSString *origPath) {
                 DEBUGLOG(@"Document", AllLogLevel, @"announce");
                 [[TCMMMPresenceManager sharedInstance] announceSession:[self session]];
                 [[self session] setFilename:[self preparedDisplayName]];
-                [[self topmostWindowController] openParticipantsOverlay:self];
+                [[self topmostWindowController] openParticipantsOverlayForDocument:self];
                 if ([[NSUserDefaults standardUserDefaults] boolForKey:HighlightChangesPreferenceKey]) {
                     NSEnumerator *plainTextEditors=[[self plainTextEditors] objectEnumerator];
                     PlainTextEditor *editor=nil;
@@ -1225,7 +1225,7 @@ static NSString *tempFileName(NSString *origPath) {
                 DEBUGLOG(@"Document", AllLogLevel, @"conceal");
                 TCMMMSession *session=[self session];
                 [[TCMMMPresenceManager sharedInstance] concealSession:session];
-                if ([session participantCount]<=1 && [[session pendingUsers] count] == 0) {
+                if ([session participantCount] <= 1 && [[session pendingUsers] count] == 0 && [self.session openInvitationCount] == 0) {
                     [[self windowControllers] makeObjectsPerformSelector:@selector(closeParticipantsOverlay:) withObject:self];
                 }
             }
@@ -5879,6 +5879,18 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 
 #pragma mark - NSSharingServiceDelegate
+
+- (void)sharingService:(NSSharingService *)sharingService didShareItems:(NSArray *)items
+{
+	[[self topmostWindowController] openParticipantsOverlayForDocument:self];
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:HighlightChangesPreferenceKey]) {
+		NSEnumerator *plainTextEditors=[[self plainTextEditors] objectEnumerator];
+		PlainTextEditor *editor=nil;
+		while ((editor=[plainTextEditors nextObject])) {
+			[editor setShowsChangeMarks:YES];
+		}
+	}
+}
 
 - (NSRect)sharingService:(NSSharingService *)sharingService sourceFrameOnScreenForShareItem:(id <NSPasteboardWriting>)item {
 	NSArray *windowControllers = [self windowControllers];

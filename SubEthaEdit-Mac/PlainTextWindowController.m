@@ -793,42 +793,36 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 #pragma mark - Participants Overlay
 
 - (IBAction)openParticipantsOverlay:(id)aSender {
-
-	PlainTextEditor *editor = [[self plainTextEditors] lastObject];
-	if (editor) {
-		NSTabViewItem *tab = [I_tabView selectedTabViewItem];
-        PlainTextWindowControllerTabContext *context = (PlainTextWindowControllerTabContext *)[tab identifier];
-		SEEParticipantsOverlayViewController *participantsOverlay = [[[SEEParticipantsOverlayViewController alloc] initWithTabContext:context] autorelease];
-		[editor displayViewControllerInBottomArea:participantsOverlay];
-	}
-
+	PlainTextWindowControllerTabContext *context = self.selectedTabContext;
+	[context openParticipantsOverlay:aSender];
 }
 
 - (IBAction)closeParticipantsOverlay:(id)aSender {
-	PlainTextEditor *editor = [[self plainTextEditors] lastObject];
-	if (editor) {
-		[editor displayViewControllerInBottomArea:nil];
-	}
+	PlainTextWindowControllerTabContext *context = self.selectedTabContext;
+	[context closeParticipantsOverlay:aSender];
 }
 
-- (IBAction)toggleParticipantsOverlay:(id)sender {
-	PlainTextEditor *editor = [[self plainTextEditors] lastObject];
-	if (editor) {
-		if (editor.hasBottomOverlayView) {
-			[editor displayViewControllerInBottomArea:nil];
-		} else {
-			NSTabViewItem *tab = [I_tabView selectedTabViewItem];
-			PlainTextWindowControllerTabContext *context = (PlainTextWindowControllerTabContext *)[tab identifier];
-			SEEParticipantsOverlayViewController *participantsOverlay = [[[SEEParticipantsOverlayViewController alloc] initWithTabContext:context] autorelease];
-			[editor displayViewControllerInBottomArea:participantsOverlay];
-		}
-		[self invalidateRestorableState];
-	}
+- (IBAction)toggleParticipantsOverlay:(id)aSender {
+	PlainTextWindowControllerTabContext *context = self.selectedTabContext;
+	[context toggleParticipantsOverlay:aSender];
+}
+
+- (void)openParticipantsOverlayForDocument:(PlainTextDocument *)aDocument {
+	PlainTextWindowControllerTabContext *context = [self tabViewItemForDocument:aDocument].identifier;
+	[context openParticipantsOverlay:aDocument];
+}
+
+- (void)closeParticipantsOverlayForDocument:(PlainTextDocument *)aDocument {
+	PlainTextWindowControllerTabContext *context = [self tabViewItemForDocument:aDocument].identifier;
+	[context closeParticipantsOverlay:aDocument];
 }
 
 - (IBAction)changePendingUsersAccess:(id)aSender {
     [(PlainTextDocument *)[self document] changePendingUsersAccess:aSender];
 }
+
+
+#pragma mark - PlainTextEditor Bars
 
 - (IBAction)toggleTopStatusBar:(id)aSender
 {
@@ -1245,13 +1239,13 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
         [tabViewItem release];
 	    [document setKeepUndoManagerOnZeroWindowControllers:NO];
-        [document release];
 
 		PlainTextEditor *editor = [[self plainTextEditors] lastObject];
 		if (editor.hasBottomOverlayView) {
-			[windowController openParticipantsOverlay:self];
+			[windowController openParticipantsOverlayForDocument:document];
 		}
 
+        [document release];
         [[windowController tabBar] hideTabBar:NO animate:YES];
     }
 }
@@ -1914,13 +1908,13 @@ static NSPoint S_cascadePoint = {0.0,0.0};
         [document addWindowController:windowController];
 	    [document setKeepUndoManagerOnZeroWindowControllers:NO];
 
-        [document release];
         [windowController setDocument:document];
         
 		PlainTextEditor *editor = [[self plainTextEditors] lastObject];
 		if (editor.hasBottomOverlayView) {
-			[windowController openParticipantsOverlay:self];
+			[windowController openParticipantsOverlayForDocument:document];
 		}
+        [document release];
 
         if (![windowController hasManyDocuments]) {
             [tabBarControl setHideForSingleTab:![[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey]];

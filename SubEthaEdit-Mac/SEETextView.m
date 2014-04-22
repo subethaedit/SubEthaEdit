@@ -921,7 +921,7 @@ static NSMenu *S_defaultMenu=nil;
         PlainTextDocument *document = self.document;
         TCMMMSession *session=[document session];
         if ([session isServer]) {
-			[[[self window] windowController] performSelector:@selector(openParticipantsOverlay:) withObject:sender];
+			[[[self window] windowController] performSelector:@selector(openParticipantsOverlayForDocument:) withObject:document];
             [self setIsDragTarget:YES];
             return NSDragOperationGeneric;
         }

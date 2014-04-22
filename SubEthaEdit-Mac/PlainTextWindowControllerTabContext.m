@@ -376,6 +376,36 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 	[self updateDocumentDialogSplit];
 }
 
+#pragma mark - Participants Overlay
+
+- (IBAction)openParticipantsOverlay:(id)aSender {
+
+	PlainTextEditor *editor = [[self plainTextEditors] lastObject];
+	if (editor) {
+		SEEParticipantsOverlayViewController *participantsOverlay = [[SEEParticipantsOverlayViewController alloc] initWithTabContext:self];
+		[editor displayViewControllerInBottomArea:participantsOverlay];
+	}
+}
+
+- (IBAction)closeParticipantsOverlay:(id)aSender {
+	PlainTextEditor *editor = [[self plainTextEditors] lastObject];
+	if (editor) {
+		[editor displayViewControllerInBottomArea:nil];
+	}
+}
+
+- (IBAction)toggleParticipantsOverlay:(id)aSender {
+	PlainTextEditor *editor = [[self plainTextEditors] lastObject];
+	if (editor) {
+		if (editor.hasBottomOverlayView) {
+			[editor displayViewControllerInBottomArea:nil];
+		} else {
+			SEEParticipantsOverlayViewController *participantsOverlay = [[SEEParticipantsOverlayViewController alloc] initWithTabContext:self];
+			[editor displayViewControllerInBottomArea:participantsOverlay];
+		}
+	}
+}
+
 #pragma mark - Restorable State
 
 + (NSArray *)restorableStateKeyPaths {
