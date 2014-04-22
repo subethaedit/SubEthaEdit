@@ -713,27 +713,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 		}
     }
 
-    if (badgeCount == 0) {
-        newAppImage = appImage;
-    } else {
-		newAppImage = [NSImage imageWithSize:[appImage size] flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
-			NSImage *badgeImage = [NSImage imageNamed:(badgeCount >= 100)?@"InvitationBadge3":@"InvitationBadge1-2"];
-			NSRect badgeRect = NSZeroRect;
-			badgeRect.size = [badgeImage size];
-			badgeRect.origin.y = dstRect.size.height - badgeRect.size.height;
-
-			[appImage drawInRect:dstRect fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
-			[badgeImage drawInRect:badgeRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
-
-			NSString *badgeString = [NSString stringWithFormat:@"%d", badgeCount];
-			NSSize stringSize = [badgeString sizeWithAttributes:s_attributes];
-			[badgeString drawAtPoint:NSMakePoint(NSMidX(badgeRect)-stringSize.width/2., NSMidY(badgeRect)-stringSize.height/2.+1.) withAttributes:s_attributes];
-
-			return YES;
-		}];
-    }
-
-    [NSApp setApplicationIconImage:newAppImage];
+	[[NSApp dockTile] setBadgeLabel:badgeCount > 0 ? @(badgeCount).stringValue : @""];
 }
 
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)theApplication {

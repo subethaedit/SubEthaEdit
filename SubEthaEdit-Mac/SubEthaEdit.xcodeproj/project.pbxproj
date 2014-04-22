@@ -303,8 +303,6 @@
 		4CFAABB218A3ECE4009DB5C3 /* EditorRemoveSplit.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 4CFAABAE18A3ECE4009DB5C3 /* EditorRemoveSplit.pdf */; };
 		5E0F01C30AB573A100A5DE33 /* DialogBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0F01C10AB573A100A5DE33 /* DialogBackgroundView.m */; };
 		5E0F6AE80A039283003D2813 /* SEActiveProc.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0F6AE40A039283003D2813 /* SEActiveProc.m */; };
-		5E18F62B09A8A43A00A96A6C /* InvitationBadge3.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E18F62909A8A43A00A96A6C /* InvitationBadge3.tiff */; };
-		5E18F62C09A8A43A00A96A6C /* InvitationBadge1-2.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E18F62A09A8A43A00A96A6C /* InvitationBadge1-2.tiff */; };
 		5E28E2900972FB8E00099B13 /* InsetTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E28E28E0972FB8E00099B13 /* InsetTextFieldCell.m */; };
 		5E294A4B09DAD29D0010A5B2 /* ToolbarIconBuild.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E294A4A09DAD29D0010A5B2 /* ToolbarIconBuild.tiff */; };
 		5E4DA73D09E15C6800D91CFC /* Scripts in Resources */ = {isa = PBXBuildFile; fileRef = 5E4DA73A09E15C6800D91CFC /* Scripts */; };
@@ -1076,8 +1074,6 @@
 		5E0F6AE40A039283003D2813 /* SEActiveProc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEActiveProc.m; sourceTree = "<group>"; };
 		5E0F6AE50A039283003D2813 /* SEActiveProc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SEActiveProc.h; sourceTree = "<group>"; };
 		5E0F6AE60A039283003D2813 /* SESendProc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SESendProc.h; sourceTree = "<group>"; };
-		5E18F62909A8A43A00A96A6C /* InvitationBadge3.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = InvitationBadge3.tiff; path = artwork/InvitationBadge3.tiff; sourceTree = "<group>"; };
-		5E18F62A09A8A43A00A96A6C /* InvitationBadge1-2.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "InvitationBadge1-2.tiff"; path = "artwork/InvitationBadge1-2.tiff"; sourceTree = "<group>"; };
 		5E28E28D0972FB8E00099B13 /* InsetTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = InsetTextFieldCell.h; sourceTree = "<group>"; };
 		5E28E28E0972FB8E00099B13 /* InsetTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsetTextFieldCell.m; sourceTree = "<group>"; };
 		5E294A4A09DAD29D0010A5B2 /* ToolbarIconBuild.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ToolbarIconBuild.tiff; path = artwork/ToolbarIconBuild.tiff; sourceTree = "<group>"; };
@@ -1502,8 +1498,6 @@
 				F2CA7CE70CA11FDA008BEA38 /* Internet13.png */,
 				14289070095743F200D14688 /* InternetResume.tiff */,
 				14289071095743F200D14688 /* InternetStop.tiff */,
-				5E18F62909A8A43A00A96A6C /* InvitationBadge3.tiff */,
-				5E18F62A09A8A43A00A96A6C /* InvitationBadge1-2.tiff */,
 				5EB51AF60A177CF500AE2E17 /* InvisibleCharactersShow.png */,
 				5EB51AF70A177CF500AE2E17 /* InvisibleCharactersHide.png */,
 				5EF31E420A7E437C00D777F5 /* InvertedIBeam.tiff */,
@@ -2856,9 +2850,7 @@
 				14289572095776DE00D14688 /* see.1 in Resources */,
 				F2257D00189673AA005EF9B1 /* BottomBarSharingIconGroup@2x.png in Resources */,
 				142895040957692100D14688 /* SymbolWarn.tiff in Resources */,
-				5E18F62B09A8A43A00A96A6C /* InvitationBadge3.tiff in Resources */,
 				4CD5F7EA17FB0C8E00F49E31 /* SEEEncodingDoctorView.xib in Resources */,
-				5E18F62C09A8A43A00A96A6C /* InvitationBadge1-2.tiff in Resources */,
 				5E294A4B09DAD29D0010A5B2 /* ToolbarIconBuild.tiff in Resources */,
 				F20D8F0C18FC28CB0091EB13 /* Media.xcassets in Resources */,
 				F2D3E556189941F50096425B /* IW ActiveTabFill@2x.png in Resources */,
