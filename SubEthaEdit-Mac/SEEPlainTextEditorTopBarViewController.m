@@ -135,7 +135,7 @@
 - (void)setSplitButtonShowsClose:(BOOL)splitButtonShowsClose {
 	_splitButtonShowsClose = splitButtonShowsClose;
 	[self view];
-	[self.splitButton setImage:[NSImage imageNamed:splitButtonShowsClose?@"EditorRemoveSplit":@"EditorAddSplit"]];
+	[self.splitButton setImage:[NSImage imageNamed:splitButtonShowsClose?@"ToolbarSplitOnePane":@"ToolbarSplitTwoPanes"]];
 }
 
 #define SPACING 5.0
