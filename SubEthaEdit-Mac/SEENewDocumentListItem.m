@@ -27,7 +27,7 @@ extern int const FileNewMenuItemTag;
 - (id)init {
     self = [super init];
     if (self) {
-        self.name = NSLocalizedString(@"New Document", @"");
+        self.name = NSLocalizedString(@"DOCUMENT_LIST_NEW", @"");
 		self.image = [NSImage imageNamed:@"EditorAddSplit"];
     }
     return self;

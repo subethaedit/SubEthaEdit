@@ -1010,3 +1010,8 @@
 "ANNOUNCE_WILL_MAKE_VISIBLE_INFORMATIVE_TEXT" = "Sie sind derzeit unsichtbar für andere SubEthaEdit Nutzer. Durch die Ankündigung dieses Dokumentes werden Sie für die anderen SubEthaEdit Nutzer sichtbar.";
 "ANNOUNCE_WILL_MAKE_VISIBLE_ACTION_TITLE" = "Ankündigen";
 
+/* document list */
+"DOCUMENT_LIST_OPEN" = "Öffnen…";
+"DOCUMENT_LIST_NEW" = "Neu";
+"DOCUMENT_LIST_CONNECT" = "Mit URL verbinden…";
+
