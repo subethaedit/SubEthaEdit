@@ -30,5 +30,6 @@
 - (instancetype)initWithPlainTextEditor:(PlainTextEditor *)anEditor;
 - (IBAction)positionButtonAction:(id)sender;
 - (IBAction)splitToggleButtonAction:(id)sender;
+- (IBAction)toggleDocumentInfoLabel:(id)sender;
 - (IBAction)keyboardActivateSymbolPopUp;
 @end

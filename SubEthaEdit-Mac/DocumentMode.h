@@ -11,9 +11,17 @@
 
 enum {
     DocumentModeWrapModeWords = 0,
-    DocumentModeWrapModeCharacters
+    DocumentModeWrapModeCharacters,
 };
 
+enum {
+	DocumentModeDocumentInfoWords = 0,
+	DocumentModeDocumentInfoLines = 1,
+	DocumentModeDocumentInfoCharacters = 2,
+	DocumentModeDocumentInfoModulo,
+};
+
+extern NSString * const DocumentModeDocumentInfoTypePreferenceKey       ;
 extern NSString * const DocumentModeShowTopStatusBarPreferenceKey       ;
 extern NSString * const DocumentModeShowBottomStatusBarPreferenceKey    ;
 extern NSString * const DocumentModeEncodingPreferenceKey               ;
