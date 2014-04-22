@@ -96,6 +96,10 @@ NSString * const DocumentModeApplyStylePreferencesNotification =
 
 static NSMutableDictionary *defaultablePreferenceKeys = nil;
 
+@interface DocumentMode ()
+@property (nonatomic, readwrite) BOOL isBaseMode;
+@end
+
 @implementation DocumentMode
 
 + (void)initialize {
@@ -189,6 +193,8 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         I_autocompleteDictionary = [NSMutableArray new];
         I_bundle = [aBundle retain];
 
+		self.isBaseMode = [BASEMODEIDENTIFIER isEqualToString:[[self bundle] bundleIdentifier]];
+		
 		I_styleIDTransitionDictionary = [[NSMutableDictionary alloc] initWithContentsOfFile:[aBundle pathForResource:@"StyleIDTransition" ofType:@"plist"]];
 
         I_modeSettings = [[ModeSettings alloc] initWithFile:[aBundle pathForResource:@"ModeSettings" ofType:@"xml"]];
@@ -691,10 +697,6 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         [style release];
     }
     return I_defaultSyntaxStyle;
-}
-
-- (BOOL)isBaseMode {
-    return [BASEMODEIDENTIFIER isEqualToString:[[self bundle] bundleIdentifier]];
 }
 
 - (void)writeDefaults {
