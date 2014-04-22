@@ -1353,7 +1353,8 @@
 		F2E6CBAC19068D4700D431F9 /* ToolbarSplitOnePane@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ToolbarSplitOnePane@2x.png"; path = "artwork/ToolbarSplitOnePane@2x.png"; sourceTree = "<group>"; };
 		F2E6CBAD19068D4700D431F9 /* ToolbarSplitTwoPanes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ToolbarSplitTwoPanes.png; path = artwork/ToolbarSplitTwoPanes.png; sourceTree = "<group>"; };
 		F2E6CBAE19068D4700D431F9 /* ToolbarSplitTwoPanes@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ToolbarSplitTwoPanes@2x.png"; path = "artwork/ToolbarSplitTwoPanes@2x.png"; sourceTree = "<group>"; };
-		F2EF08D019069E33004D5080 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = English; path = English.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
+		F2EF08D019069E33004D5080 /* English */ = {isa = PBXFileReference; explicitFileType = text.plist.xml; name = English; path = English.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
+		F2EF08D51906B232004D5080 /* German */ = {isa = PBXFileReference; explicitFileType = text.plist.xml; name = German; path = German.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		F2F2B60C0CA811240045C189 /* TCMMMLogStatisticsDataPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = TCMMMLogStatisticsDataPoint.h; sourceTree = "<group>"; };
 		F2F2B60D0CA811240045C189 /* TCMMMLogStatisticsDataPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMMMLogStatisticsDataPoint.m; sourceTree = "<group>"; };
 		F2F2B6CB0CA842040045C189 /* HUDRelative-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "HUDRelative-2.png"; path = "artwork/HUDRelative-2.png"; sourceTree = "<group>"; };
@@ -2689,6 +2690,7 @@
 				French,
 				German,
 				ger,
+				de,
 			);
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* SubEthaEdit */;
 			projectDirPath = "";
@@ -3576,6 +3578,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				F2EF08D019069E33004D5080 /* English */,
+				F2EF08D51906B232004D5080 /* German */,
 			);
 			name = Localizable.stringsdict;
 			sourceTree = "<group>";

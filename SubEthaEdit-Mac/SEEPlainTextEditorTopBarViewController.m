@@ -306,11 +306,6 @@
 	if (editor) {
 		FoldableTextStorage *textStorage = editor.document.textStorage;
 		FullTextStorage *fullTextStorage = textStorage.fullTextStorage;
-		NSLog(@"%s %@ - %@ - %@",__FUNCTION__,
-			  [NSString localizedStringWithFormat:NSLocalizedString(@"INFO_NUMBER_OF_LINES",@""),fullTextStorage.numberOfLines],
-			  [NSString localizedStringWithFormat:NSLocalizedString(@"INFO_NUMBER_OF_WORDS",@""),fullTextStorage.numberOfWords],
-			  [NSString localizedStringWithFormat:NSLocalizedString(@"INFO_NUMBER_OF_CHARACTERS",@""),fullTextStorage.numberOfCharacters]
-			  );
 		
 		DocumentMode *mode = self.editor.document.documentMode;
 		NSString *currentValue = self.docinfoTextField.stringValue;
