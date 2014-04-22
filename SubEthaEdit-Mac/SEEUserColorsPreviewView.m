@@ -132,7 +132,7 @@ void * const SEEUserColorsPreviewUpdateObservingContext = (void *)&SEEUserColors
 	// selection
 	CGRect selectionRect = CGRectZero;
 	selectionRect.size = [self.selectionLabel.stringValue sizeWithAttributes:@{ NSFontAttributeName : self.font }];
-	selectionRect = [self convertRect:selectionRect fromView:self.selectionLabel];
+//	selectionRect = [self convertRect:selectionRect fromView:self.selectionLabel];
 
 	selectionRect = self.selectionLabel.frame;
 	selectionRect = [self centerScanRect:selectionRect];
@@ -147,7 +147,7 @@ void * const SEEUserColorsPreviewUpdateObservingContext = (void *)&SEEUserColors
 	if (self.showsChangesHighlight) {
 		CGRect changesRect = CGRectZero;
 		changesRect.size = [self.changesLabel.stringValue sizeWithAttributes:@{ NSFontAttributeName : self.font }];
-		changesRect = [self convertRect:changesRect fromView:self.changesLabel];
+//		changesRect = [self convertRect:changesRect fromView:self.changesLabel];
 		changesRect = self.changesLabel.frame;
 		
 		changesRect = [self centerScanRect:changesRect];
