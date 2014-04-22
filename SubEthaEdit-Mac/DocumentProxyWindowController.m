@@ -255,7 +255,7 @@
 
 - (void)removeSelfAndWindow {
     [[self window] orderOut:self];
-	[[I_targetWindow windowController] performSelector:@selector(openParticipantsOverlay:) withObject:self];
+	[[I_targetWindow windowController] performSelector:@selector(openParticipantsOverlayForDocument:) withObject:self];
     [(PlainTextDocument *)[self document] killProxyWindowController];
 }
 
@@ -277,7 +277,7 @@
             return;
         }
         [[self window] orderOut:self];
-		[[I_targetWindow windowController] performSelector:@selector(openParticipantsOverlay:) withObject:self];
+		[[I_targetWindow windowController] performSelector:@selector(openParticipantsOverlayForDocument:) withObject:self];
         [(PlainTextDocument *)[self document] killProxyWindowController];
     }
 }

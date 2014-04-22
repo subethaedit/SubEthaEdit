@@ -1213,7 +1213,7 @@ static NSString *tempFileName(NSString *origPath) {
                 DEBUGLOG(@"Document", AllLogLevel, @"announce");
                 [[TCMMMPresenceManager sharedInstance] announceSession:[self session]];
                 [[self session] setFilename:[self preparedDisplayName]];
-                [[self topmostWindowController] openParticipantsOverlay:self];
+                [[self topmostWindowController] openParticipantsOverlayForDocument:self];
                 if ([[NSUserDefaults standardUserDefaults] boolForKey:HighlightChangesPreferenceKey]) {
                     NSEnumerator *plainTextEditors=[[self plainTextEditors] objectEnumerator];
                     PlainTextEditor *editor=nil;
@@ -5882,7 +5882,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 - (void)sharingService:(NSSharingService *)sharingService didShareItems:(NSArray *)items
 {
-	[[self topmostWindowController] openParticipantsOverlay:self];
+	[[self topmostWindowController] openParticipantsOverlayForDocument:self];
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:HighlightChangesPreferenceKey]) {
 		NSEnumerator *plainTextEditors=[[self plainTextEditors] objectEnumerator];
 		PlainTextEditor *editor=nil;
