@@ -548,7 +548,7 @@
 "Please join me in SubEthaEdit:\n%@\n\n(You can download SubEthaEdit from http://www.codingmonkeys.de/subethaedit )" = "Please join me in SubEthaEdit:\n%@\n\n(You can download SubEthaEdit from http://www.codingmonkeys.de/subethaedit )";
 
 /* Label displayed below advanced icon and used as window title. */
-"PrecedencePrefsIconLabel" = "Modes";
+"PrecedencePrefsIconLabel" = "Triggers";
 
 /* Mode rules cannot be edited or removed. But you can disable them. */
 "PrecedencePrefsModeRuleTooltip" = "Mode supplied triggers cannot be edited or removed. But you can disable them.";
@@ -911,4 +911,16 @@
 "ENCODING_DOCTOR_CANCEL" = "Cancel";
 "ENCODING_DOCTOR_CONVERT_LOSSY" = "Convert lossy";
 "ENCODING_DOCTOR_CONVERT" = "Convert";
+
+
+/* will cease invisibilty alert */
+"ANNOUNCE_WILL_MAKE_VISIBLE_MESSAGE" = "Announcing will make you visible";
+"ANNOUNCE_WILL_MAKE_VISIBLE_INFORMATIVE_TEXT" = "You are currently invisible to other SubEthaEdit users. If you announce this document you will become visible to them.";
+"ANNOUNCE_WILL_MAKE_VISIBLE_ACTION_TITLE" = "Announce";
+
+
+/* document list */
+"DOCUMENT_LIST_OPEN" = "Open…";
+"DOCUMENT_LIST_NEW" = "New";
+"DOCUMENT_LIST_CONNECT" = "Connect to specific host…";
 

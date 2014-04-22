@@ -57,6 +57,8 @@ extern NSString * const kTCMMMBEEPSessionManagerTLSMode;
 - (NSArray *)allBEEPSessions;
 - (void)terminateAllBEEPSessions;
 
+@property (nonatomic, getter=isNetworkingDisabled) BOOL networkingDisabled;
+
 - (void)setIsProhibitingInboundInternetSessions:(BOOL)flag;
 - (BOOL)isProhibitingInboundInternetSessions;
 - (void)registerHandler:(id)aHandler forIncomingProfilesWithProfileURI:(NSString *)aProfileURI;

@@ -10,7 +10,6 @@
 #import <AppKit/AppKit.h>
 #import <getopt.h>
 
-
 /*
 
 see -h
@@ -60,7 +59,8 @@ static void printHelp() {
 
 void parseShortVersionString(int *major, int *minor)
 {
-    NSString *shortVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+	NSBundle *bundle = [NSBundle mainBundle];
+    NSString *shortVersion = [bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
     NSScanner *scanner = [NSScanner scannerWithString:shortVersion];
     (void)[scanner scanInt:major];
     (void)[scanner scanString:@"." intoString:nil];
@@ -93,46 +93,71 @@ BOOL meetsRequiredVersion(NSString *string) {
     return NO;
 }
 
+static NSArray *subEthaEditBundleIdentifiers()
+{
+	NSArray *result = @[@"de.codingmonkeys.SubEthaEdit.Mac",
+						@"de.codingmonkeys.SubEthaEdit.MacBETA",
+						@"de.codingmonkeys.SubEthaEdit.MacBETADev",
+						@"de.codingmonkeys.SubEthaEdit"];
+	return result;
+}
+
 CFURLRef CopyURLRefForSubEthaEdit()
 {
 	NSURL *applicationURL = nil;
     NSUInteger bundleVersion = 0;
 
-	// Look if some version of SubEthaEdit is currently running.
-	NSArray *runningApplications = [[NSWorkspace sharedWorkspace] runningApplications];
-	for (NSRunningApplication *runningApplication in runningApplications)
-	{
-		NSString *bundleIdentifier = [runningApplication bundleIdentifier];
-		if ([bundleIdentifier isEqualToString:@"de.codingmonkeys.SubEthaEdit"] || // old version bevore 4.0
-			[bundleIdentifier isEqualToString:@"de.codingmonkeys.SubEthaEdit.Mac"] || // 4.0 or newer
-			[bundleIdentifier isEqualToString:@"de.codingmonkeys.SubEthaEdit.MacBETA"]) // 4.0 or newer BETA version
-		{
-			NSURL *runningApplicationBundleURL = [runningApplication bundleURL];
-			NSBundle *appBundle = [NSBundle bundleWithURL:runningApplicationBundleURL];
-			NSUInteger version = [[[appBundle infoDictionary] objectForKey:(id)kCFBundleVersionKey] unsignedIntegerValue];
-			NSString *minimumSeeToolVersionString = [[appBundle infoDictionary] objectForKey:@"TCMMinimumSeeToolVersion"];
+	NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
+	[runLoop runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
 
-			if (version > bundleVersion && meetsRequiredVersion(minimumSeeToolVersionString))
-			{
-				bundleVersion = version;
-				applicationURL = [[runningApplicationBundleURL copy] autorelease];
-			}
+	NSArray *appIdentifiers = subEthaEditBundleIdentifiers();
+
+	// Look if some version of SubEthaEdit is currently running.
+	NSMutableArray *runningSubEthaEdits = [NSMutableArray array];
+	for (NSString *identifier in appIdentifiers) {
+		[runningSubEthaEdits addObjectsFromArray:[NSRunningApplication runningApplicationsWithBundleIdentifier:identifier]];
+	}
+
+	for (NSRunningApplication *subEthaEditInstance in runningSubEthaEdits) {
+		NSURL *runningApplicationBundleURL = [subEthaEditInstance bundleURL];
+		NSBundle *appBundle = [NSBundle bundleWithURL:runningApplicationBundleURL];
+		NSInteger version = [[[appBundle infoDictionary] objectForKey:(id)kCFBundleVersionKey] integerValue];
+		NSString *minimumSeeToolVersionString = [[appBundle infoDictionary] objectForKey:@"TCMMinimumSeeToolVersion"];
+
+		if (version > bundleVersion && meetsRequiredVersion(minimumSeeToolVersionString))
+		{
+			bundleVersion = version;
+			applicationURL = [[runningApplicationBundleURL retain] autorelease];
 		}
 	}
 	if (applicationURL)
 	{
-		return (CFURLRef)[applicationURL retain];
+		return (CFURLRef)[applicationURL copy];
 	}
 
 	// Look for the default version of SubEthaEdit
-	applicationURL = [[NSWorkspace sharedWorkspace] URLForApplicationWithBundleIdentifier:@"de.codingmonkeys.SubEthaEdit.Mac"];
+	NSMutableArray *workspaceAppURLs = [NSMutableArray array];
+	for (NSString *identifier in appIdentifiers) {
+		NSURL *url = [[NSWorkspace sharedWorkspace] URLForApplicationWithBundleIdentifier:identifier];
+		if (url) {
+			[workspaceAppURLs addObject:url];
+		}
+	}
+
+	for (NSURL *bundleURL in workspaceAppURLs) {
+		NSBundle *appBundle = [NSBundle bundleWithURL:bundleURL];
+		NSInteger version = [[[appBundle infoDictionary] objectForKey:(id)kCFBundleVersionKey] integerValue];
+		NSString *minimumSeeToolVersionString = [[appBundle infoDictionary] objectForKey:@"TCMMinimumSeeToolVersion"];
+
+		if (version > bundleVersion && meetsRequiredVersion(minimumSeeToolVersionString))
+		{
+			bundleVersion = version;
+			applicationURL = [[bundleURL retain] autorelease];
+		}
+	}
 	if (applicationURL)
 	{
-        NSBundle *appBundle = [NSBundle bundleWithURL:applicationURL];
-        NSString *minimumSeeToolVersionString = [[appBundle infoDictionary] objectForKey:@"TCMMinimumSeeToolVersion"];
-        if (meetsRequiredVersion(minimumSeeToolVersionString)) {
-			return (CFURLRef)[applicationURL copy];
-        }
+		return (CFURLRef)[applicationURL copy];
 	}
 
 	// Look for any app that understands the see:// URL protocol
@@ -201,8 +226,6 @@ static void printVersion() {
                 fprintf(stdout, "\nA newer version of the see command line tool is available.\nThe found SubEthaEdit bundles version %s of the see command.\n\n", [bundledSeeToolVersionString UTF8String]);
             }
         }
-        CFRelease(appURL);
-		appURL = NULL;
     }
     fflush(stdout);
     
@@ -210,6 +233,9 @@ static void printVersion() {
         fprintf(stderr, "see: Couldn't find compatible SubEthaEdit.\n     Please install a current version of SubEthaEdit.\n");
         fflush(stderr);
     }
+	
+	CFRelease(appURL);
+	appURL = NULL;
 }
 
 
@@ -265,28 +291,37 @@ static NSArray *see(NSArray *fileNames, NSArray *newFileNames, NSString *stdinFi
         return nil;
     }
 
-	BOOL foundRunningInstance = NO;
-	NSRunningApplication *runningSubEthaEdit = nil;
-	NSArray *runningApplications = [[NSWorkspace sharedWorkspace] runningApplications];
-	for (NSRunningApplication *runningApplication in runningApplications)
-	{
-		NSString *bundleIdentifier = [runningApplication bundleIdentifier];
-		if ([bundleIdentifier isEqualToString:@"de.codingmonkeys.SubEthaEdit.Mac"])
-		{
-			if ([runningApplication.bundleURL isEqualTo:(NSURL *)appURL] == YES)
-			{
-				foundRunningInstance = YES;
-				runningSubEthaEdit = runningApplication;
-			}
-		}
+	NSArray *appIdentifiers = subEthaEditBundleIdentifiers();
+	NSMutableArray *runningSubEthaEdits = [NSMutableArray array];
+	for (NSString *identifier in appIdentifiers) {
+		[runningSubEthaEdits addObjectsFromArray:[NSRunningApplication runningApplicationsWithBundleIdentifier:identifier]];
 	}
 
-	if (! foundRunningInstance) {
+	BOOL foundRunningInstance = NO;
+	NSRunningApplication *runningSubEthaEdit = nil;
+	if (runningSubEthaEdits.count > 0) {
+		foundRunningInstance = YES;
+		runningSubEthaEdit = runningSubEthaEdits.firstObject;
+	} else {
 		return nil;
 	}
 
+	NSMutableArray *urls = [NSMutableArray array];
+	for (NSString *fileName in fileNames) {
+		NSURL *fileURL = [NSURL fileURLWithPath:fileName];
+		[urls addObject:fileURL];
+	}
+
+	if (urls.count > 0) {
+		NSWorkspaceLaunchOptions launchOptions = 0;
+		if ([[options objectForKey:@"print"] boolValue]) {
+			launchOptions = launchOptions | NSWorkspaceLaunchAndPrint;
+		}
+		[[NSWorkspace sharedWorkspace] openURLs:urls withAppBundleIdentifier:runningSubEthaEdit.bundleIdentifier options:launchOptions additionalEventParamDescriptor:nil launchIdentifiers:nil];
+	}
+
     NSMutableArray *resultFileNames = [NSMutableArray array];
-    AESendMode sendMode = kAENoReply;
+    AESendMode sendMode = kAEQueueReply | kAEWantReceipt;
     long timeOut = kAEDefaultTimeout;
 
 
@@ -355,24 +390,24 @@ static NSArray *see(NSArray *fileNames, NSArray *newFileNames, NSString *stdinFi
 
             }
             
-            if ([options objectForKey:@"print"]) {
+            if ([[options objectForKey:@"print"] boolValue]) {
                 [appleEvent setParamDescriptor:[NSAppleEventDescriptor descriptorWithBoolean:true]
                                     forKeyword:'Prnt'];
             }            
-            
-            if ([options objectForKey:@"wait"]) {
+
+            if ([[options objectForKey:@"wait"] boolValue]) {
                 sendMode = kAEWaitReply;
                 timeOut = kNoTimeOut;
                 [appleEvent setParamDescriptor:[NSAppleEventDescriptor descriptorWithBoolean:true]
                                     forKeyword:'Wait'];
             }
             
-            if ([options objectForKey:@"pipe-out"]) {
+            if ([[options objectForKey:@"pipe-out"] boolValue]) {
                 [appleEvent setParamDescriptor:[NSAppleEventDescriptor descriptorWithBoolean:true]
                                     forKeyword:'PipO'];
             }
 
-            if ([options objectForKey:@"pipe-dirty"]) {
+            if ([[options objectForKey:@"pipe-dirty"] boolValue]) {
                 [appleEvent setParamDescriptor:[NSAppleEventDescriptor descriptorWithBoolean:true]
                                     forKeyword:'Pdty'];
             }

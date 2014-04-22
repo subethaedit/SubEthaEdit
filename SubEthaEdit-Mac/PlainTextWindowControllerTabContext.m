@@ -25,7 +25,7 @@
 #endif
 
 CGFloat const SEEMinWebPreviewWidth = 320.0;
-CGFloat const SEEMinEditorWidth = 480.0;
+CGFloat const SEEMinEditorWidth = 385.0;
 
 
 NSString * const SEEPlainTextWindowControllerTabContextActiveEditorDidChangeNotification = @"SEEPlainTextWindowControllerTabContextActiveEditorDidChangeNotification";
@@ -374,6 +374,36 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 	[aDocumentDialog setTabContext:self];
 	_documentDialog = aDocumentDialog;
 	[self updateDocumentDialogSplit];
+}
+
+#pragma mark - Participants Overlay
+
+- (IBAction)openParticipantsOverlay:(id)aSender {
+
+	PlainTextEditor *editor = [[self plainTextEditors] lastObject];
+	if (editor) {
+		SEEParticipantsOverlayViewController *participantsOverlay = [[SEEParticipantsOverlayViewController alloc] initWithTabContext:self];
+		[editor displayViewControllerInBottomArea:participantsOverlay];
+	}
+}
+
+- (IBAction)closeParticipantsOverlay:(id)aSender {
+	PlainTextEditor *editor = [[self plainTextEditors] lastObject];
+	if (editor) {
+		[editor displayViewControllerInBottomArea:nil];
+	}
+}
+
+- (IBAction)toggleParticipantsOverlay:(id)aSender {
+	PlainTextEditor *editor = [[self plainTextEditors] lastObject];
+	if (editor) {
+		if (editor.hasBottomOverlayView) {
+			[editor displayViewControllerInBottomArea:nil];
+		} else {
+			SEEParticipantsOverlayViewController *participantsOverlay = [[SEEParticipantsOverlayViewController alloc] initWithTabContext:self];
+			[editor displayViewControllerInBottomArea:participantsOverlay];
+		}
+	}
 }
 
 #pragma mark - Restorable State

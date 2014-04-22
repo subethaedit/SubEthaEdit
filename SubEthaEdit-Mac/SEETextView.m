@@ -681,7 +681,8 @@ static NSMenu *S_defaultMenu=nil;
     if ([textStorage hasBlockeditRanges]) {
         NSEvent *event=[NSApp currentEvent];
         // 53 is the escape key
-        if ( ([event type]==NSKeyDown || [event type]==NSKeyUp) && [event keyCode]==53 && 
+        if ( ([event type]==NSKeyDown || [event type]==NSKeyUp) &&
+			  [event keyCode]==53 &&
              !([event modifierFlags] & (NSControlKeyMask | NSAlternateKeyMask | NSCommandKeyMask | NSShiftKeyMask)) ) {
 //            NSLog(@"keyCode: %d, characters: %@, modifierFlags:%d, %@",
 //                    [event keyCode], [event characters], [event modifierFlags],
@@ -708,6 +709,10 @@ static NSMenu *S_defaultMenu=nil;
 }
 
 - (NSArray *)completionsForPartialWordRange:(NSRange)charRange indexOfSelectedItem:(NSInteger *)index {
+	if (charRange.length == 0) {
+		// no partial range, no completion!
+		return nil;
+	}
     NSArray *result=[super completionsForPartialWordRange:charRange indexOfSelectedItem:index];
     if (I_flags.shouldCheckCompleteStart) {
         if ([result count]) {
@@ -728,24 +733,18 @@ static NSMenu *S_defaultMenu=nil;
     return result;
 }
 
-#define APPKIT10_3 743
-
 - (void)insertCompletion:(NSString *)word forPartialWordRange:(NSRange)charRange movement:(NSInteger)movement isFinal:(BOOL)flag {
     [super insertCompletion:word forPartialWordRange:charRange movement:movement isFinal:flag];
     if (flag) {
-        //NSLog(@"%f",NSAppKitVersionNumber);
-        if (floor(NSAppKitVersionNumber) <= APPKIT10_3 && charRange.length==1) {
-            // Documented bug in 10.3.x so work around it
-            [self setSelectedRange:charRange];
-            [self insertText:word];
-            [self setSelectedRange:NSMakeRange(charRange.location,[word length])];
-        }
         if ([[self delegate] respondsToSelector:@selector(textView:didFinishAutocompleteByInsertingCompletion:forPartialWordRange:movement:)]) {
             [[self delegate] textView:self didFinishAutocompleteByInsertingCompletion:word forPartialWordRange:charRange movement:movement];
         }
 
         NSEvent *event=[NSApp currentEvent];
-        if ((([event type]==NSKeyDown || [event type]==NSKeyUp))&&(([event keyCode]==36) || ([event keyCode]==76) || ([event keyCode]==53) || ([event keyCode]==49) || ([event keyCode]==48))) {I_flags.autoCompleteInProgress=NO;}
+        if ( (([event type]==NSKeyDown || [event type]==NSKeyUp)) &&
+			 (([event keyCode]==36) || ([event keyCode]==76) || ([event keyCode]==53) || ([event keyCode]==49) || ([event keyCode]==48))) {
+			I_flags.autoCompleteInProgress=NO;
+		}
 
     }
 
@@ -922,7 +921,7 @@ static NSMenu *S_defaultMenu=nil;
         PlainTextDocument *document = self.document;
         TCMMMSession *session=[document session];
         if ([session isServer]) {
-			[[[self window] windowController] performSelector:@selector(openParticipantsOverlay:) withObject:sender];
+			[[[self window] windowController] performSelector:@selector(openParticipantsOverlayForDocument:) withObject:document];
             [self setIsDragTarget:YES];
             return NSDragOperationGeneric;
         }

@@ -417,91 +417,91 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
         
         //NSLog(@"Highlighting stuff");
 		if ( theDocument != nil && colorRange.length > 0 ) {
-        NSString *currentStateID = [currentState objectForKey:@"id"];
-        //[self highlightRegularExpressionsOfAttributedString:aString inRange:colorRange forState:[currentState objectForKey:@"id"]];
-        //[self highlightPlainStringsOfAttributedString:aString inRange:colorRange forState:[currentState objectForKey:@"id"]];
-
-		// highlight regexes
-		// and keywords
-		
-		^{
-			NSString *theString = [aString string];
-			NSArray *regexArray = [definition regularExpressionsInState:currentStateID];    
+			NSString *currentStateID = [currentState objectForKey:@"id"];
+			//[self highlightRegularExpressionsOfAttributedString:aString inRange:colorRange forState:[currentState objectForKey:@"id"]];
+			//[self highlightPlainStringsOfAttributedString:aString inRange:colorRange forState:[currentState objectForKey:@"id"]];
 			
-			OGRegularExpression *aRegex;
-			OGRegularExpressionMatch *aMatch;
+			// highlight regexes
+			// and keywords
 			
-			int styleCount = 0;
-			for (NSArray *currentRegexStyle in regexArray) {
-				aRegex = [currentRegexStyle objectAtIndex:0];
-				//NSString *styleID = [currentRegexStyle objectAtIndex:1];
-				NSDictionary *keywordGroup = [currentRegexStyle objectAtIndex:2]; // should probably be passed in a more verbose and quicker way via an object instead of dictionaries
-				NSString *scope = [keywordGroup objectForKey:kSyntaxHighlightingScopenameAttributeName];
-				NSDictionary *attributes=[theDocument styleAttributesForScope:scope languageContext:[currentState objectForKey:[definition keyForInheritedAutocomplete]]];                
-				//NSDictionary *attributes=[theDocument styleAttributesForStyleID:styleID];  
-				//NSLog(@"scan %@",[keywordGroup objectForKey:@"id"]);
-				NSEnumerator *matchEnumerator = [[aRegex allMatchesInString:theString range:colorRange] objectEnumerator];
-				while ((aMatch = [matchEnumerator nextObject])) {
-					NSRange matchedRange = [aMatch rangeOfLastMatchSubstring];
-					if (matchedRange.location != NSNotFound) {
-//						[I_stringLock lock];
-						[aString addAttributes:attributes range:matchedRange]; // only color last matched subgroup - it is important that all regex keywords have exactly and only one matching group for this to work
-						[aString addAttribute:kSyntaxHighlightingScopenameAttributeName value:scope range:matchedRange];
-						//[aString addAttribute:[NSString stringWithFormat:@"%02d-%@-%@",styleCount,currentStateID,[keywordGroup objectForKey:@"id"]] value:scope range:matchedRange]; // For Debugging only
-//						[I_stringLock unlock];
-
-						if ([[keywordGroup objectForKey:@"type"] isEqualToString:@"url"]) {
-							NSString *matchedString = [aMatch lastMatchSubstring];
-							NSString *linkPrefix = [keywordGroup objectForKey:@"uri-prefix"];
-							if (linkPrefix) matchedString = [linkPrefix stringByAppendingString:matchedString];
+			{ // was inline block - temporarily removed again
+				NSString *theString = [aString string];
+				NSArray *regexArray = [definition regularExpressionsInState:currentStateID];
+				
+				OGRegularExpression *aRegex;
+				OGRegularExpressionMatch *aMatch;
+				
+				int styleCount = 0;
+				for (NSArray *currentRegexStyle in regexArray) {
+					aRegex = [currentRegexStyle objectAtIndex:0];
+					//NSString *styleID = [currentRegexStyle objectAtIndex:1];
+					NSDictionary *keywordGroup = [currentRegexStyle objectAtIndex:2]; // should probably be passed in a more verbose and quicker way via an object instead of dictionaries
+					NSString *scope = [keywordGroup objectForKey:kSyntaxHighlightingScopenameAttributeName];
+					NSDictionary *attributes=[theDocument styleAttributesForScope:scope languageContext:[currentState objectForKey:[definition keyForInheritedAutocomplete]]];
+					//NSDictionary *attributes=[theDocument styleAttributesForStyleID:styleID];
+					//NSLog(@"scan %@",[keywordGroup objectForKey:@"id"]);
+					NSEnumerator *matchEnumerator = [[aRegex allMatchesInString:theString range:colorRange] objectEnumerator];
+					while ((aMatch = [matchEnumerator nextObject])) {
+						NSRange matchedRange = [aMatch rangeOfLastMatchSubstring];
+						if (matchedRange.location != NSNotFound) {
+							//						[I_stringLock lock];
+							[aString addAttributes:attributes range:matchedRange]; // only color last matched subgroup - it is important that all regex keywords have exactly and only one matching group for this to work
+							[aString addAttribute:kSyntaxHighlightingScopenameAttributeName value:scope range:matchedRange];
+							//[aString addAttribute:[NSString stringWithFormat:@"%02d-%@-%@",styleCount,currentStateID,[keywordGroup objectForKey:@"id"]] value:scope range:matchedRange]; // For Debugging only
+							//						[I_stringLock unlock];
 							
-							// escape non-ASCII characters that are not yet escaped
-							matchedString = [(NSString *)CFURLCreateStringByAddingPercentEscapes(NULL,(CFStringRef)matchedString, (CFStringRef) @"%&?=#", NULL, kCFStringEncodingUTF8) autorelease];
-							
-							NSURL *theURL = [NSURL URLWithString:matchedString];
-//							[I_stringLock lock];
-							if (theURL && ([theURL host] || ([[theURL scheme] length] > 0 && ![[theURL scheme] hasPrefix:@"http"]))) [aString addAttribute:NSLinkAttributeName value:theURL range:matchedRange];
-							else [aString removeAttribute:NSLinkAttributeName range:matchedRange];
-//							[I_stringLock unlock];
-
+							if ([[keywordGroup objectForKey:@"type"] isEqualToString:@"url"]) {
+								NSString *matchedString = [aMatch lastMatchSubstring];
+								NSString *linkPrefix = [keywordGroup objectForKey:@"uri-prefix"];
+								if (linkPrefix) matchedString = [linkPrefix stringByAppendingString:matchedString];
+								
+								// escape non-ASCII characters that are not yet escaped
+								matchedString = [(NSString *)CFURLCreateStringByAddingPercentEscapes(NULL,(CFStringRef)matchedString, (CFStringRef) @"%&?=#", NULL, kCFStringEncodingUTF8) autorelease];
+								
+								NSURL *theURL = [NSURL URLWithString:matchedString];
+								//							[I_stringLock lock];
+								if (theURL && ([theURL host] || ([[theURL scheme] length] > 0 && ![[theURL scheme] hasPrefix:@"http"]))) [aString addAttribute:NSLinkAttributeName value:theURL range:matchedRange];
+								else [aString removeAttribute:NSLinkAttributeName range:matchedRange];
+								//							[I_stringLock unlock];
+								
+							}
 						}
 					}
+					styleCount++;
 				}
-				styleCount++;
 			}
-		}();
-		
-		// highlight plain strings
-		// TODO: Migrate keywords to one precompiled regex and put into block above.
-
-//			dispatch_queue_t syntaxQueue;
-//			syntaxQueue = dispatch_queue_create("de.codingmonkeys.SubEthaEdit.SyntaxQueue", NULL);
-//			dispatch_queue_t mainQueue;
-//			mainQueue = dispatch_get_main_queue();
-//
-//			
-//        dispatch_async(mainQueue, 
-//		^ {
-//			NSLog(@"tokens for %@: %@", currentStateID, [definition hasTokensForState:currentStateID]?@"YES":@"NO");
-//			if (![definition hasTokensForState:currentStateID]) return;
-//			
-//			NSEnumerator *matchEnumerator = [[[definition tokenRegex] allMatchesInString:theString range:colorRange] objectEnumerator];
-//			
-//			OGRegularExpressionMatch *aMatch;
-//		    NSString *styleID;
-//			while ((aMatch = [matchEnumerator nextObject])) {
-//				NSLog(@"foo %@", aMatch);
-//				if ((styleID = [definition styleForToken:[aMatch matchedString] inState:currentStateID])) {
-////					dispatch_async(mainQueue, ^{
-//						[I_stringLock lock];
-//						[aString addAttributes:[theDocument styleAttributesForStyleID:styleID] range:[aMatch rangeOfMatchedString]];
-//						[I_stringLock unlock];
-////					});
-//				}
-//			}				
-//		}();
-
-
+			
+			// highlight plain strings
+			// TODO: Migrate keywords to one precompiled regex and put into block above.
+			
+			//			dispatch_queue_t syntaxQueue;
+			//			syntaxQueue = dispatch_queue_create("de.codingmonkeys.SubEthaEdit.SyntaxQueue", NULL);
+			//			dispatch_queue_t mainQueue;
+			//			mainQueue = dispatch_get_main_queue();
+			//
+			//
+			//        dispatch_async(mainQueue,
+			//		^ {
+			//			NSLog(@"tokens for %@: %@", currentStateID, [definition hasTokensForState:currentStateID]?@"YES":@"NO");
+			//			if (![definition hasTokensForState:currentStateID]) return;
+			//
+			//			NSEnumerator *matchEnumerator = [[[definition tokenRegex] allMatchesInString:theString range:colorRange] objectEnumerator];
+			//
+			//			OGRegularExpressionMatch *aMatch;
+			//		    NSString *styleID;
+			//			while ((aMatch = [matchEnumerator nextObject])) {
+			//				NSLog(@"foo %@", aMatch);
+			//				if ((styleID = [definition styleForToken:[aMatch matchedString] inState:currentStateID])) {
+			////					dispatch_async(mainQueue, ^{
+			//						[I_stringLock lock];
+			//						[aString addAttributes:[theDocument styleAttributesForStyleID:styleID] range:[aMatch rangeOfMatchedString]];
+			//						[I_stringLock unlock];
+			////					});
+			//				}
+			//			}				
+			//		}();
+			
+			
 		}
         //NSLog(@"Finished highlighting for this state %@ '%@'", [currentState objectForKey:@"id"], [[aString string] substringWithRange:colorRange]);
 

@@ -123,17 +123,19 @@ static DebugController * sharedInstance = nil;
         [CrashReportItem setTarget:self];
         [menu addItem:CrashReportItem];
 		[CrashReportItem release];
-
-        NSMenuItem *blahItem = [[NSMenuItem alloc] initWithTitle:@"Log All BEEP Session Retain Counts" action:@selector(logRetainCounts) keyEquivalent:@""];
-        [blahItem setTarget:[TCMMMBEEPSessionManager sharedInstance]];
-        [menu addItem:blahItem];
-        [blahItem release];
-                
+		
+		[NSOperationQueue TCM_performBlockOnMainQueue:^{
+			NSMenuItem *blahItem = [[NSMenuItem alloc] initWithTitle:@"Log All BEEP Session Retain Counts" action:@selector(logRetainCounts) keyEquivalent:@""];
+			[blahItem setTarget:[TCMMMBEEPSessionManager sharedInstance]];
+			[menu addItem:blahItem];
+			[blahItem release];
+		} afterDelay:0.0];
+        
         [debugItem setSubmenu:menu];
         [[NSApp mainMenu] addItem:debugItem];
         [debugItem release];
 
-        blahItem = [[NSMenuItem alloc] initWithTitle:@"Copy Document Thumbnail to Pasteboard" action:@selector(createThumbnail:) keyEquivalent:@""];
+        NSMenuItem *blahItem = [[NSMenuItem alloc] initWithTitle:@"Copy Document Thumbnail to Pasteboard" action:@selector(createThumbnail:) keyEquivalent:@""];
         [blahItem setTarget:nil];
         [menu addItem:blahItem];
         [blahItem release];

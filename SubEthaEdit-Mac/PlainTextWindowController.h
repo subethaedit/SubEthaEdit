@@ -48,8 +48,8 @@
 
 - (void)refreshDisplay;
 
-- (IBAction)openParticipantsOverlay:(id)aSender;
-- (IBAction)closeParticipantsOverlay:(id)aSender;
+- (void)openParticipantsOverlayForDocument:(PlainTextDocument *)aDocument;
+- (void)closeParticipantsOverlayForDocument:(PlainTextDocument *)aDocument;
 
 - (IBAction)openInSeparateWindow:(id)sender;
 

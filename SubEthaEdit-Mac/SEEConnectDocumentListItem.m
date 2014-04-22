@@ -25,7 +25,7 @@
 - (id)init {
     self = [super init];
     if (self) {
-        self.name = NSLocalizedString(@"Connect…", @"");
+        self.name = NSLocalizedString(@"DOCUMENT_LIST_CONNECT", @"");
 		self.image = [NSImage imageNamed:NSImageNameAddTemplate];
     }
     return self;

@@ -581,7 +581,7 @@
 "Port not mapped" = "Port nicht weitergeleitet";
 
 /* Label displayed below advanced icon and used as window title. */
-"PrecedencePrefsIconLabel" = "Modi";
+"PrecedencePrefsIconLabel" = "Erkennung";
 
 /* Mode rules cannot be edited or removed. But you can disable them. */
 "PrecedencePrefsModeRuleTooltip" = "Erkennungsregeln die von einem Modus vordefiniert wurden, können nicht gelöscht werden. Aber sie können deaktiviert werden.";
@@ -991,3 +991,27 @@
 "COLLAB_USER_IMAGE_CHOOSE" = "Bild auswählen…";
 /* Collaboration Preferences - Image Menu - Clear Image option */
 "COLLAB_USER_IMAGE_CLEAR" = "Bild entfernen";
+
+/* Style Preference Pane */
+
+"STYLE_PREF_DEFAULT_FONT_CHECKBOX_LABEL" = "Standard-Einstellungen verwenden";
+"STYLE_PREF_FONT_BOX_LABEL" = "Schrift";
+"STYLE_PREF_CUSTOM_FONT_BUTTON" = "Auswählen...";
+"STYLE_PREF_CUSTOM_FONT_BUTTON_TOOL_TIP" = "Ändere die vorgegebene Schrift für Dokumente";
+"STYLE_PREF_SETTING_BOX_LABEL" = "Stil-Einstellungen";
+"STYLE_PREF_SHEET_BUTTON_DEFAULT_LABEL" = "Stil des Standard-Modus";
+"STYLE_PREF_SHEET_BUTTON_CUSTOM_LABEL" = "Eigener Stil";
+"STYLE_PREF_SHEET_BUTTON_CUSTOM_FOR_CONTEXT_LABEL" = "Eigener Stil pro Sprachkontext";
+"STYLE_PREF_PREVIEW_BOX_LABEL"= "Vorschau";
+"STYLE_PREF_APPLY_STYLE_BUTTON" = "Auf offene Dokumente anwenden";
+
+/* will cease invisibilty alert */
+"ANNOUNCE_WILL_MAKE_VISIBLE_MESSAGE" = "Sie werden sichtbar";
+"ANNOUNCE_WILL_MAKE_VISIBLE_INFORMATIVE_TEXT" = "Sie sind derzeit unsichtbar für andere SubEthaEdit Nutzer. Durch die Ankündigung dieses Dokumentes werden Sie für die anderen SubEthaEdit Nutzer sichtbar.";
+"ANNOUNCE_WILL_MAKE_VISIBLE_ACTION_TITLE" = "Ankündigen";
+
+/* document list */
+"DOCUMENT_LIST_OPEN" = "Öffnen…";
+"DOCUMENT_LIST_NEW" = "Neu";
+"DOCUMENT_LIST_CONNECT" = "Mit URL verbinden…";
+

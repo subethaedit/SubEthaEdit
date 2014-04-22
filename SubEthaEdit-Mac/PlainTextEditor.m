@@ -133,8 +133,12 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 - (void)prepareForDealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:[I_windowControllerTabContext document] name:NSTextViewDidChangeSelectionNotification object:I_textView];
-    [[NSNotificationCenter defaultCenter] removeObserver:[I_windowControllerTabContext document] name:NSTextDidChangeNotification object:I_textView];
+	// remove our layoutmanager from the textstorage
+	PlainTextDocument *document = I_windowControllerTabContext.document;
+	[[document textStorage] removeLayoutManager:self.textView.layoutManager];
+	
+    [[NSNotificationCenter defaultCenter] removeObserver:document name:NSTextViewDidChangeSelectionNotification object:I_textView];
+    [[NSNotificationCenter defaultCenter] removeObserver:document name:NSTextDidChangeNotification object:I_textView];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 	// release the objects that are bound so we get dealloced later
 	self.ownerController.content = nil;
@@ -162,6 +166,15 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	self.topLevelNibObjects = nil;
 	self.O_editorView = nil;
 
+	self.topBarViewController = nil;
+	self.topBlurLayerView = nil;
+	self.bottomBlurLayerView = nil;
+	self.alternateAnnounceImage = nil;
+	self.numberOfActiveParticipants = nil;
+	self.localizedToolTipAnnounceButton = nil;
+	self.localizedToolTipShareInviteButton = nil;
+	self.localizedToolTipToggleParticipantsButton = nil;
+	
     [super dealloc];
 }
 
@@ -198,6 +211,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	self.canAnnounceAndShare = isServer;
 	
 	[self TCM_updateLocalizedToolTips];
+	[self updateAnnounceButton];
 	[self TCM_updateNumberOfActiveParticipants];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -622,6 +636,8 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	for (PopUpButton *button in @[O_modePopUpButton,O_tabStatusPopUpButton, O_encodingPopUpButton, O_lineEndingPopUpButton]) {
 		[button setLineColor:darkSeparatorColor];
 	}
+	
+	[self.shareAnnounceButtonOutlet setImage:[NSImage imageNamed:isDark ? @"BottomBarSharingIconAnnounceDarkBackground_Inactive" : @"BottomBarSharingIconAnnounce_Inactive"]];
 	
 	// overlays?
 }
@@ -2975,8 +2991,8 @@ willChangeSelectionFromCharacterRange	:aOldSelectedCharRange
     UndoManager *undoManager = [document documentUndoManager];
 
     [undoManager registerUndoChangeTextInRange:NSMakeRange(aCharRange.location, [aWord length])
-						 replacementString				:[[[aTextView textStorage] string] substringWithRange:aCharRange]
-				shouldGroupWithPriorOperation	:NO];
+							 replacementString:[[[aTextView textStorage] string] substringWithRange:aCharRange]
+				 shouldGroupWithPriorOperation:NO];
 
     [document setIsHandlingUndoManually:NO];
     [document setShouldChangeChangeCount:YES];

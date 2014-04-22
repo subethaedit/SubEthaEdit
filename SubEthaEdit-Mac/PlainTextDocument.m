@@ -130,6 +130,8 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 - (void)TCM_validateLineEndings;
 
 @property (nonatomic, strong) TCMBracketSettings *bracketSettings;
+@property (nonatomic, strong) NSSavePanel *currentSavePanel;
+@property (nonatomic, strong) NSArray *preservedDataFromSEETextFile;
 
 @end
 
@@ -790,7 +792,8 @@ static NSString *tempFileName(NSString *origPath) {
     }
     
     //[I_identifier release];
-    [self setPreservedDataFromSEETextFile:nil];
+    self.preservedDataFromSEETextFile = nil;
+
     [I_symbolUpdateTimer release];
     [I_webPreviewDelayedRefreshTimer release];
 
@@ -829,9 +832,9 @@ static NSString *tempFileName(NSString *origPath) {
     [I_documentForegroundColor release];
     [I_printOptions autorelease];
     [I_scheduledAlertDictionary release];
-	
-//	[self setTemporarySavePanel:nil];
-    
+
+	self.currentSavePanel = nil;
+
     [I_currentTextOperation release];
     
     [I_stateDictionaryFromLoading release];
@@ -1210,7 +1213,7 @@ static NSString *tempFileName(NSString *origPath) {
                 DEBUGLOG(@"Document", AllLogLevel, @"announce");
                 [[TCMMMPresenceManager sharedInstance] announceSession:[self session]];
                 [[self session] setFilename:[self preparedDisplayName]];
-                [[self topmostWindowController] openParticipantsOverlay:self];
+                [[self topmostWindowController] openParticipantsOverlayForDocument:self];
                 if ([[NSUserDefaults standardUserDefaults] boolForKey:HighlightChangesPreferenceKey]) {
                     NSEnumerator *plainTextEditors=[[self plainTextEditors] objectEnumerator];
                     PlainTextEditor *editor=nil;
@@ -1222,7 +1225,7 @@ static NSString *tempFileName(NSString *origPath) {
                 DEBUGLOG(@"Document", AllLogLevel, @"conceal");
                 TCMMMSession *session=[self session];
                 [[TCMMMPresenceManager sharedInstance] concealSession:session];
-                if ([session participantCount]<=1 && [[session pendingUsers] count] == 0) {
+                if ([session participantCount] <= 1 && [[session pendingUsers] count] == 0 && [self.session openInvitationCount] == 0) {
                     [[self windowControllers] makeObjectsPerformSelector:@selector(closeParticipantsOverlay:) withObject:self];
                 }
             }
@@ -1235,9 +1238,31 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 - (IBAction)toggleIsAnnounced:(id)aSender {
-    [self setIsAnnounced:![self isAnnounced]];
+	if (!self.isAnnounced &&
+		[TCMMMPresenceManager sharedInstance].isCurrentlyReallyInvisible) {
+        NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+        [alert setAlertStyle:NSWarningAlertStyle];
+        [alert setMessageText:NSLocalizedString(@"ANNOUNCE_WILL_MAKE_VISIBLE_MESSAGE", nil)];
+        [alert setInformativeText:NSLocalizedString(@"ANNOUNCE_WILL_MAKE_VISIBLE_INFORMATIVE_TEXT", nil)];
+        [alert addButtonWithTitle:NSLocalizedString(@"ANNOUNCE_WILL_MAKE_VISIBLE_ACTION_TITLE", nil)];
+        [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
+        [self presentAlert:alert
+             modalDelegate:self
+            didEndSelector:@selector(announceAndBecomeVisibleAlertDidEnd:returnCode:contextInfo:)
+               contextInfo:nil];
+		if ([aSender isKindOfClass:[NSButton class]]) { // toggle back the state of the button if it was a button
+			[aSender setState:[aSender state] == NSOnState ? NSOffState : NSOnState];
+		}
+	} else {
+		[self setIsAnnounced:![self isAnnounced]];
+	}
 }
 
+- (void)announceAndBecomeVisibleAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+	if (returnCode == NSAlertFirstButtonReturn) {
+		[self setIsAnnounced:YES];
+	}
+}
 - (IBAction)inviteUsersToDocumentViaSharingService:(id)sender {
 	NSURL *documentSharingURL = [self documentURL];
 	NSArray *sharingServiceItems = @[];
@@ -2406,14 +2431,27 @@ struct SelectionRange
 #pragma mark -
 #pragma mark ### Save/Open Panel loading ###
 
+- (void)saveDocumentWithDelegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)contextInfo {
+    if ([self TCM_validateDocument]) {
+        [super saveDocumentWithDelegate:delegate didSaveSelector:didSaveSelector contextInfo:contextInfo];
+    }
+}
+
 - (void)runModalSavePanelForSaveOperation:(NSSaveOperationType)saveOperation delegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)contextInfo {
     I_lastSaveOperation = saveOperation;
+	if (I_flags.shouldSelectModeOnSave && (saveOperation != NSAutosaveOperation)) {
+		DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForPath:nil withContentString:[[self textStorage] string]];
+
+		if (![mode isBaseMode]) {
+			[self setDocumentMode:mode];
+		}
+	}
     [super runModalSavePanelForSaveOperation:saveOperation delegate:delegate didSaveSelector:didSaveSelector contextInfo:contextInfo];
 }
 
 - (BOOL)shouldRunSavePanelWithAccessoryView {
-	
-    return YES;
+	// we want to add our own accessory view in prepare save panel
+    return NO;
 }
 
 const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
@@ -2426,22 +2464,8 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 	SEESavePanelAccessoryViewController *viewController = [SEESavePanelAccessoryViewController prepareSavePanel:savePanel withSaveOperation:I_lastSaveOperation forDocument:self];
 	objc_setAssociatedObject(savePanel, SEESavePanelAssociationKey, viewController, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 
+	self.currentSavePanel = savePanel;
     return (viewController != nil);
-}
-
-- (void)saveDocumentWithDelegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)contextInfo {
-    if ([self TCM_validateDocument]) {
-        [super saveDocumentWithDelegate:delegate didSaveSelector:didSaveSelector contextInfo:contextInfo];
-    }
-}
-
-- (void)setPreservedDataFromSEETextFile:(NSArray *)aPreservedData {
-    [I_preservedDataFromSEETextFile autorelease];
-     I_preservedDataFromSEETextFile=[aPreservedData retain];
-}
-
-- (NSArray *)preservedDataFromSEETextFile {
-    return I_preservedDataFromSEETextFile;
 }
 
 - (IBAction)playbackLoggingState:(id)aSender {
@@ -2558,10 +2582,9 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 }
 
 - (void)saveToURL:(NSURL *)anAbsoluteURL ofType:(NSString *)aType forSaveOperation:(NSSaveOperationType)saveOperation delegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)aContextInfo {
-    BOOL didShowPanel=NO;
+    BOOL didShowPanel = NO;
     if (saveOperation != NSAutosaveOperation) {
-        didShowPanel = (I_savePanel)?YES:NO;
-//		[self setTemporarySavePanel:nil];
+        didShowPanel = (self.currentSavePanel)?YES:NO;
     }
     
     if (anAbsoluteURL) {
@@ -2578,15 +2601,17 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
             I_flags.shouldChangeExtensionOnModeChange=NO;
         }
 
+		SEESavePanelAccessoryViewController *accessoryViewController = objc_getAssociatedObject(self.currentSavePanel, SEESavePanelAssociationKey);
+
         if (saveOperation == NSSaveToOperation) {
-            I_encodingFromLastRunSaveToOperation = [[O_encodingPopUpButton selectedItem] tag];
-            if ([[O_savePanelAccessoryFileFormatMatrix selectedCell] tag] == 1) {
+            I_encodingFromLastRunSaveToOperation = [[accessoryViewController.encodingPopUpButtonOutlet selectedItem] tag];
+            if ([[accessoryViewController.savePanelAccessoryFileFormatMatrixOutlet selectedCell] tag] == 1) {
                 aType = @"de.codingmonkeys.subethaedit.seetext";
              } else {
                 aType = @"public.text";
             }
          } else if (didShowPanel) {
-            if ([[O_savePanelAccessoryFileFormatMatrix2 selectedCell] tag] == 1) {
+            if ([[accessoryViewController.savePanelAccessoryFileFormatMatrixOutlet selectedCell] tag] == 1) {
                 aType = @"de.codingmonkeys.subethaedit.seetext";
                 I_flags.isSEEText = YES;
             } else {
@@ -2603,6 +2628,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     }
 
     [super saveToURL:anAbsoluteURL ofType:aType forSaveOperation:saveOperation delegate:delegate didSaveSelector:didSaveSelector contextInfo:aContextInfo];
+	self.currentSavePanel = nil;
 }
 
 - (NSData *)dataOfType:(NSString *)aType error:(NSError **)outError{
@@ -2671,106 +2697,106 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     return parameters;
 }
 
-- (NSData *)TCM_dataWithContentsOfFileReadUsingAuthorizedHelper:(NSString *)fileName {
-    OSStatus err = noErr;
-    CFURLRef tool = NULL;
-    NSDictionary *request = nil;
-    NSDictionary *response = nil;
-    NSData *fileData = nil;
-
-
-    const char *kRightName = "de.codingmonkeys.SubEthaEdit.file.readwritecreate";
-    static const AuthorizationFlags kAuthFlags = kAuthorizationFlagDefaults 
-                                               | kAuthorizationFlagInteractionAllowed
-                                               | kAuthorizationFlagExtendRights
-                                               | kAuthorizationFlagPreAuthorize;
-    AuthorizationItem   right  = { kRightName, 0, NULL, 0 };
-    AuthorizationRights rights = { 1, &right };
-
-    err = AuthorizationCopyRights(I_authRef, &rights, kAuthorizationEmptyEnvironment, kAuthFlags, NULL);
-    
-    if (err == noErr) {
-        err = MoreSecCopyHelperToolURLAndCheckBundled(
-            CFBundleGetMainBundle(), 
-            CFSTR("SubEthaEditHelperToolTemplate"), 
-            kApplicationSupportFolderType, 
-            CFSTR("SubEthaEdit"), 
-            CFSTR("SubEthaEditHelperTool"), 
-            &tool);
-
-        // If the home directory is on an volume that doesn't support 
-        // setuid root helper tools, ask the user whether they want to use 
-        // a temporary tool.
-        
-        if (err == kMoreSecFolderInappropriateErr) {
-            err = MoreSecCopyHelperToolURLAndCheckBundled(
-                CFBundleGetMainBundle(), 
-                CFSTR("SubEthaEditHelperToolTemplate"), 
-                kTemporaryFolderType, 
-                CFSTR("SubEthaEdit"), 
-                CFSTR("SubEthaEditHelperTool"), 
-                &tool);
-        }
-    }
-    
-    // Create the request dictionary for a file descriptor
-
-    if (err == noErr) {
-        request = [NSDictionary dictionaryWithObjectsAndKeys:
-                            @"GetReadOnlyFileDescriptor", @"CommandName",
-                            fileName, @"FileName",
-                            nil];
-    }
-
-    // Go go gadget helper tool!
-
-    if (err == noErr) {
-        err = MoreSecExecuteRequestInHelperTool(tool, I_authRef, (CFDictionaryRef)request, (CFDictionaryRef *)(&response));
-    }
-    
-    // Extract information from the response.
-
-    if (err == noErr) {
-        DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"response: %@", response);
-
-        err = MoreSecGetErrorFromResponse((CFDictionaryRef)response);
-        if (err == noErr) {
-            NSArray *descArray;
-            int descIndex;
-            int descCount;
-            
-            descArray = [response objectForKey:(NSString *)kMoreSecFileDescriptorsKey];
-            descCount = [descArray count];
-            for (descIndex = 0; descIndex < descCount; descIndex++) {
-                NSNumber *thisDescNum;
-                int thisDesc;
-                
-                thisDescNum = [descArray objectAtIndex:descIndex];
-                thisDesc = [thisDescNum intValue];
-                fcntl(thisDesc, F_GETFD, 0);
-                
-                NSFileHandle *fileHandle = [[NSFileHandle alloc] initWithFileDescriptor:thisDesc closeOnDealloc:YES];
-                fileData = [fileHandle readDataToEndOfFile];
-                [fileHandle release];
-            }
-        }
-    }
-    
-    // Clean up after call of helper tool
-        
-    if (response) {
-        [response release];
-        response = nil;
-    }
-    
-    CFQRelease(tool);
-    
-    if (err == noErr) {
-        return fileData;
-    } else {
-        return nil;
-    }
-}
+//- (NSData *)TCM_dataWithContentsOfFileReadUsingAuthorizedHelper:(NSString *)fileName {
+//    OSStatus err = noErr;
+//    CFURLRef tool = NULL;
+//    NSDictionary *request = nil;
+//    NSDictionary *response = nil;
+//    NSData *fileData = nil;
+//
+//
+//    const char *kRightName = "de.codingmonkeys.SubEthaEdit.file.readwritecreate";
+//    static const AuthorizationFlags kAuthFlags = kAuthorizationFlagDefaults 
+//                                               | kAuthorizationFlagInteractionAllowed
+//                                               | kAuthorizationFlagExtendRights
+//                                               | kAuthorizationFlagPreAuthorize;
+//    AuthorizationItem   right  = { kRightName, 0, NULL, 0 };
+//    AuthorizationRights rights = { 1, &right };
+//
+//    err = AuthorizationCopyRights(I_authRef, &rights, kAuthorizationEmptyEnvironment, kAuthFlags, NULL);
+//    
+//    if (err == noErr) {
+//        err = MoreSecCopyHelperToolURLAndCheckBundled(
+//            CFBundleGetMainBundle(), 
+//            CFSTR("SubEthaEditHelperToolTemplate"), 
+//            kApplicationSupportFolderType, 
+//            CFSTR("SubEthaEdit"), 
+//            CFSTR("SubEthaEditHelperTool"), 
+//            &tool);
+//
+//        // If the home directory is on an volume that doesn't support 
+//        // setuid root helper tools, ask the user whether they want to use 
+//        // a temporary tool.
+//        
+//        if (err == kMoreSecFolderInappropriateErr) {
+//            err = MoreSecCopyHelperToolURLAndCheckBundled(
+//                CFBundleGetMainBundle(), 
+//                CFSTR("SubEthaEditHelperToolTemplate"), 
+//                kTemporaryFolderType, 
+//                CFSTR("SubEthaEdit"), 
+//                CFSTR("SubEthaEditHelperTool"), 
+//                &tool);
+//        }
+//    }
+//    
+//    // Create the request dictionary for a file descriptor
+//
+//    if (err == noErr) {
+//        request = [NSDictionary dictionaryWithObjectsAndKeys:
+//                            @"GetReadOnlyFileDescriptor", @"CommandName",
+//                            fileName, @"FileName",
+//                            nil];
+//    }
+//
+//    // Go go gadget helper tool!
+//
+//    if (err == noErr) {
+//        err = MoreSecExecuteRequestInHelperTool(tool, I_authRef, (CFDictionaryRef)request, (CFDictionaryRef *)(&response));
+//    }
+//    
+//    // Extract information from the response.
+//
+//    if (err == noErr) {
+//        DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"response: %@", response);
+//
+//        err = MoreSecGetErrorFromResponse((CFDictionaryRef)response);
+//        if (err == noErr) {
+//            NSArray *descArray;
+//            int descIndex;
+//            int descCount;
+//            
+//            descArray = [response objectForKey:(NSString *)kMoreSecFileDescriptorsKey];
+//            descCount = [descArray count];
+//            for (descIndex = 0; descIndex < descCount; descIndex++) {
+//                NSNumber *thisDescNum;
+//                int thisDesc;
+//                
+//                thisDescNum = [descArray objectAtIndex:descIndex];
+//                thisDesc = [thisDescNum intValue];
+//                fcntl(thisDesc, F_GETFD, 0);
+//                
+//                NSFileHandle *fileHandle = [[NSFileHandle alloc] initWithFileDescriptor:thisDesc closeOnDealloc:YES];
+//                fileData = [fileHandle readDataToEndOfFile];
+//                [fileHandle release];
+//            }
+//        }
+//    }
+//    
+//    // Clean up after call of helper tool
+//        
+//    if (response) {
+//        [response release];
+//        response = nil;
+//    }
+//    
+//    CFQRelease(tool);
+//    
+//    if (err == noErr) {
+//        return fileData;
+//    } else {
+//        return nil;
+//    }
+//}
 
 
 /*
@@ -2828,7 +2854,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
             [preservedData addObject:element];
         }
     }
-    [self setPreservedDataFromSEETextFile:preservedData];
+    self.preservedDataFromSEETextFile = preservedData;
     I_flags.isSEEText = YES;
     // load users
     TCMMMUserManager *um = [TCMMMUserManager sharedInstance];
@@ -2969,15 +2995,15 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         
         NSData *fileData = nil;
         if (!isReadable) {
-            DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"We need root power!");
-            fileData = [self TCM_dataWithContentsOfFileReadUsingAuthorizedHelper:fileName];
-            if (fileData == nil) {
-                // generate the correct error
+//            DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"We need root power!");
+//            fileData = [self TCM_dataWithContentsOfFileReadUsingAuthorizedHelper:fileName];
+//            if (fileData == nil) {
+//                // generate the correct error
                 [NSData dataWithContentsOfURL:anURL options:0 error:outError];
                 DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"file is not readable %@",*outError);
                 I_flags.isReadingFile = NO;
                 return NO;
-            }
+//            }
         } else {
             fileData = [NSData dataWithContentsOfURL:anURL options:NSMappedRead error:outError];
 			I_flags.hasUTF8BOM = [fileData startsWithUTF8BOM]; // set the flag here
@@ -3512,8 +3538,8 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
             }
 //-timelog            NSLog(@"compressing the array took %fs",[tempDate timeIntervalSinceNow]*-1.);
             [dataArray addObject:compressedArray];
-            if ([self preservedDataFromSEETextFile]) {
-                [dataArray addObjectsFromArray:[self preservedDataFromSEETextFile]];
+            if (self.preservedDataFromSEETextFile) {
+                [dataArray addObjectsFromArray:self.preservedDataFromSEETextFile];
             }
 //-timelog            tempDate = [NSDate date];
             [data appendData:TCM_BencodedObject(dataArray)];
@@ -5853,6 +5879,18 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 
 #pragma mark - NSSharingServiceDelegate
+
+- (void)sharingService:(NSSharingService *)sharingService didShareItems:(NSArray *)items
+{
+	[[self topmostWindowController] openParticipantsOverlayForDocument:self];
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:HighlightChangesPreferenceKey]) {
+		NSEnumerator *plainTextEditors=[[self plainTextEditors] objectEnumerator];
+		PlainTextEditor *editor=nil;
+		while ((editor=[plainTextEditors nextObject])) {
+			[editor setShowsChangeMarks:YES];
+		}
+	}
+}
 
 - (NSRect)sharingService:(NSSharingService *)sharingService sourceFrameOnScreenForShareItem:(id <NSPasteboardWriting>)item {
 	NSArray *windowControllers = [self windowControllers];

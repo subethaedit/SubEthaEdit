@@ -21,6 +21,7 @@
 #import "TCMMMBEEPSessionManager.h"
 #import "TCMMMUser.h"
 #import "TCMMMUserSEEAdditions.h"
+#import "TCMMMPresenceManager.h"
 
 #import <TCMPortMapper/TCMPortMapper.h>
 #import "TCMMMBEEPSessionManager.h"
@@ -69,6 +70,21 @@
     } else {
         [self portMapperDidFinishWork:nil];
     }
+	
+	[self.O_disableNetworkingButton setState:[TCMMMBEEPSessionManager sharedInstance].isNetworkingDisabled ? NSOnState : NSOffState];
+	[self.O_invisibleOnNetowrkButton setState:[[TCMMMPresenceManager sharedInstance] isVisible] ? NSOffState : NSOnState];
+	
+	SEEUserColorsPreviewView *preview = self.O_userColorsPreview;
+	NSUserDefaultsController *defaultsController = [NSUserDefaultsController sharedUserDefaultsController];
+	[preview bind:@"userColorHue" toObject:defaultsController withKeyPath:@"values.MyColorHue" options:nil];
+	[preview bind:@"changesSaturation" toObject:defaultsController withKeyPath:@"values.MyChangesSaturation" options:nil];
+	[preview bind:@"showsChangesHighlight" toObject:defaultsController withKeyPath:@"values.HighlightChanges" options:nil];
+
+}
+
+- (void)didSelect {
+	[super didSelect];
+	[self.O_userColorsPreview updateViewWithUserDefaultsValues];
 }
 
 #pragma mark - Port Mapper
@@ -107,13 +123,6 @@
 			[self.O_emailComboBox addItemWithObjectValue:email];
 		}
 	}
-}
-
-- (void)TCM_updateWells {
-    NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
-    [defaults setObject:[defaults objectForKey:ChangesSaturationPreferenceKey] forKey:ChangesSaturationPreferenceKey];
-    [defaults setObject:[defaults objectForKey:SelectionSaturationPreferenceKey] forKey:SelectionSaturationPreferenceKey];
-    [self TCM_sendGeneralViewPreferencesDidChangeNotificiation];
 }
 
 #pragma mark - Colors
@@ -257,7 +266,10 @@
     [[TCMMMUserManager me] setUserHue:userHue];
     [TCMMMUserManager didChangeMe];
 	
-    [self TCM_updateWells];
+	// check if needed?
+    [defaults setObject:[defaults objectForKey:ChangesSaturationPreferenceKey] forKey:ChangesSaturationPreferenceKey];
+    [defaults setObject:[defaults objectForKey:SelectionSaturationPreferenceKey] forKey:SelectionSaturationPreferenceKey];
+	
 	[self postGeneralViewPreferencesDidChangeNotificiation:self];
 }
 
@@ -283,6 +295,14 @@
     } else {
         [[TCMPortMapper sharedInstance] stop];
     }
+}
+
+- (IBAction)changeDisableNetworking:(id)aSender {
+	[TCMMMBEEPSessionManager sharedInstance].networkingDisabled = [self.O_disableNetworkingButton state] == NSOnState ? YES : NO;
+}
+
+- (IBAction)changeVisiblityOnNetwork:(id)aSender {
+	[[TCMMMPresenceManager sharedInstance] setVisible:[self.O_invisibleOnNetowrkButton state] == NSOffState ? YES : NO];
 }
 
 

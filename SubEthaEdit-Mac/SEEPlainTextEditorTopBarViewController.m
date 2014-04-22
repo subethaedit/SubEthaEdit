@@ -135,7 +135,7 @@
 - (void)setSplitButtonShowsClose:(BOOL)splitButtonShowsClose {
 	_splitButtonShowsClose = splitButtonShowsClose;
 	[self view];
-	[self.splitButton setImage:[NSImage imageNamed:splitButtonShowsClose?@"EditorRemoveSplit":@"EditorAddSplit"]];
+	[self.splitButton setImage:[NSImage imageNamed:splitButtonShowsClose?@"ToolbarSplitOnePane":@"ToolbarSplitTwoPanes"]];
 }
 
 #define SPACING 5.0
@@ -173,7 +173,7 @@
         symbolPopUpFrame.origin.x = xPosition;
 		symbolPopUpFrame.size.width = symbolPopUpButton.intrinsicContentSize.width;
 		
-		xPosition += NSWidth(symbolPopUpFrame);
+		// xPosition += NSWidth(symbolPopUpFrame);
 		
 		// calculate optimal size of writtenBy text field
 		NSTextField *writtenByTextField = self.writtenByTextField;
@@ -277,72 +277,75 @@
 #pragma mark -
 
 - (void)updateForSelectionDidChange {
-	NSRange selection = [self.editor.textView selectedRange];
-	FoldableTextStorage *textStorage = (FoldableTextStorage *)self.editor.textView.textStorage;
-	NSString *positionString = [textStorage positionStringForRange:selection];
-
-	if (selection.location < [textStorage length]) {
-		id blockAttribute = [textStorage attribute:BlockeditAttributeName
-										   atIndex:selection.location
-									effectiveRange:nil];
+	PlainTextEditor *editor = self.editor;
+	if (editor) {		
+		NSRange selection = [editor.textView selectedRange];
+		FoldableTextStorage *textStorage = (FoldableTextStorage *)editor.textView.textStorage;
+		NSString *positionString = [textStorage positionStringForRange:selection];
 		
-		if (blockAttribute) positionString = [positionString stringByAppendingFormat:@" %@", NSLocalizedString(@"[Blockediting]", nil)];
-	}
-
-	[self.positionTextField setStringValue:positionString];
-	
-	
-	NSString *writtenByValue = @"";
-	
-	NSString *followUserID = [self.editor followUserID];
-	
-	if (followUserID) {
-		NSString *userName = [[[TCMMMUserManager sharedInstance] userForUserID:followUserID] name];
-		
-		if (userName) {
-			writtenByValue = [NSString stringWithFormat:NSLocalizedString(@"Following %@", "Status bar text when following"), userName];
+		if (selection.location < [textStorage length]) {
+			id blockAttribute = [textStorage attribute:BlockeditAttributeName
+											   atIndex:selection.location
+										effectiveRange:nil];
+			
+			if (blockAttribute) positionString = [positionString stringByAppendingFormat:@" %@", NSLocalizedString(@"[Blockediting]", nil)];
 		}
-	} else {
-		if (selection.location < textStorage.length) {
-			NSRange range;
-			NSString *userId = [textStorage attribute:WrittenByUserIDAttributeName
-											  atIndex:selection.location
-								longestEffectiveRange:&range
-											  inRange:selection];
+		
+		[self.positionTextField setStringValue:positionString];
+		
+		
+		NSString *writtenByValue = @"";
+		
+		NSString *followUserID = [editor followUserID];
+		
+		if (followUserID) {
+			NSString *userName = [[[TCMMMUserManager sharedInstance] userForUserID:followUserID] name];
 			
-			if (!userId &&
-				selection.length > range.length) {
-				
-				userId = [textStorage attribute:WrittenByUserIDAttributeName
-										atIndex:NSMaxRange(range)
-						  longestEffectiveRange:&range
-										inRange:selection];
+			if (userName) {
+				writtenByValue = [NSString stringWithFormat:NSLocalizedString(@"Following %@", "Status bar text when following"), userName];
 			}
-			
-			if (userId) {
-				NSString *userName = nil;
+		} else {
+			if (selection.location < textStorage.length) {
+				NSRange range;
+				NSString *userId = [textStorage attribute:WrittenByUserIDAttributeName
+												  atIndex:selection.location
+									longestEffectiveRange:&range
+												  inRange:selection];
 				
-				if ([userId isEqualToString:[TCMMMUserManager myUserID]]) {
-					userName = NSLocalizedString(@"me", nil);
-				} else {
-					userName = [[[TCMMMUserManager sharedInstance] userForUserID:userId] name];
-					if (!userName) userName = @"";
+				if (!userId &&
+					selection.length > range.length) {
+					
+					userId = [textStorage attribute:WrittenByUserIDAttributeName
+											atIndex:NSMaxRange(range)
+							  longestEffectiveRange:&range
+											inRange:selection];
 				}
 				
-				if (selection.length > range.length) {
-					writtenByValue = [NSMutableString stringWithFormat:NSLocalizedString(@"Written by %@ et al", nil), userName];
-				} else {
-					writtenByValue = [NSMutableString stringWithFormat:NSLocalizedString(@"Written by %@", nil), userName];
+				if (userId) {
+					NSString *userName = nil;
+					
+					if ([userId isEqualToString:[TCMMMUserManager myUserID]]) {
+						userName = NSLocalizedString(@"me", nil);
+					} else {
+						userName = [[[TCMMMUserManager sharedInstance] userForUserID:userId] name];
+						if (!userName) userName = @"";
+					}
+					
+					if (selection.length > range.length) {
+						writtenByValue = [NSMutableString stringWithFormat:NSLocalizedString(@"Written by %@ et al", nil), userName];
+					} else {
+						writtenByValue = [NSMutableString stringWithFormat:NSLocalizedString(@"Written by %@", nil), userName];
+					}
 				}
 			}
 		}
+		
+		[self.writtenByTextField setStringValue:writtenByValue];
+		
+		[self updateSelectedSymbolInPopUp:self.symbolPopUpButton];
+		
+		[self adjustLayout];
 	}
-	
-	[self.writtenByTextField setStringValue:writtenByValue];
-
-	[self updateSelectedSymbolInPopUp:self.symbolPopUpButton];
-	
-	[self adjustLayout];
 }
 
 

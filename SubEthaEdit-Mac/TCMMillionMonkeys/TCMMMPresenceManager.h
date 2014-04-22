@@ -52,7 +52,8 @@ extern NSString * const TCMMMPresenceTXTRecordNameKey;
     NSTimer *I_resolveUnconnectedFoundNetServicesTimer;
 }
 
-+ (TCMMMPresenceManager *)sharedInstance;
+/* depends on TCMMMBeepSessionManager already being initialized - if it isn't it will initialize it*/
++ (instancetype)sharedInstance;
 
 - (void)setShouldAutoAcceptInviteToSessionID:(NSString *)SessionID;
 // this call also removes the autoacceptflag
@@ -61,6 +62,8 @@ extern NSString * const TCMMMPresenceTXTRecordNameKey;
 - (TCMMMStatusProfile *)statusProfileForUserID:(NSString *)aUserID;
 - (void)stopRendezvousBrowsing;
 - (void)startRendezvousBrowsing;
+
+@property (nonatomic, readonly) BOOL isCurrentlyReallyInvisible;
 - (BOOL)isVisible;
 - (void)setVisible:(BOOL)aFlag;
 - (void)setShouldAutoconnect:(BOOL)aFlag forUserID:(NSString *)aUserID;

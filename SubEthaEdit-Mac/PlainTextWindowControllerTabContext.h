@@ -57,5 +57,8 @@ extern NSString * const SEEPlainTextWindowControllerTabContextActiveEditorDidCha
 @property (nonatomic, assign) BOOL hasEditorSplit;
 @property (nonatomic, assign) BOOL hasWebPreviewSplit;
 
+- (IBAction)openParticipantsOverlay:(id)aSender;
+- (IBAction)closeParticipantsOverlay:(id)aSender;
+- (IBAction)toggleParticipantsOverlay:(id)aSender;
 
 @end

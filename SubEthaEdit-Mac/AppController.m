@@ -476,6 +476,34 @@ static AppController *sharedInstance = nil;
     [self setupTextViewContextMenu];
     [NSApp setServicesProvider:[SEEDocumentController sharedDocumentController]];
     [[SEEDocumentController sharedDocumentController] setAutosavingDelay:[[NSUserDefaults standardUserDefaults] floatForKey:@"AutoSavingDelay"]];
+
+
+    // set up beep profiles
+    [TCMBEEPChannel setClass:[HandshakeProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake"];
+    [TCMBEEPChannel setClass:[TCMMMStatusProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"];
+    [TCMBEEPChannel setClass:[SessionProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"];
+    [TCMBEEPChannel setClass:[GenericSASLProfile class] forProfileURI:TCMBEEPSASLPLAINProfileURI];
+	
+	
+	NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+	
+    // set up listening for is ready notificaiton
+    [defaultCenter addObserver:self selector:@selector(sessionManagerIsReady:) name:TCMMMBEEPSessionManagerIsReadyNotification object:nil];
+	
+	// bring up singletons - order is important
+    TCMMMBEEPSessionManager *sm = [TCMMMBEEPSessionManager sharedInstance];
+	[TCMMMPresenceManager sharedInstance]; // initialize it
+	
+    // set up default greetings
+    [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake" forGreetingInMode:kTCMMMBEEPSessionManagerDefaultMode];
+    [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"          forGreetingInMode:kTCMMMBEEPSessionManagerDefaultMode];
+    [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"   forGreetingInMode:kTCMMMBEEPSessionManagerDefaultMode];
+	
+	// also for TLS although TLS is temporarily disabled
+    [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake" forGreetingInMode:kTCMMMBEEPSessionManagerTLSMode];
+    [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"          forGreetingInMode:kTCMMMBEEPSessionManagerTLSMode];
+    [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"   forGreetingInMode:kTCMMMBEEPSessionManagerTLSMode];
+
 }
     
 #ifndef __clang_analyzer__
@@ -598,34 +626,42 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     [TCMBEEPChannel setClass:[TCMMMStatusProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"];
     [TCMBEEPChannel setClass:[SessionProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"];
     [TCMBEEPChannel setClass:[GenericSASLProfile class] forProfileURI:TCMBEEPSASLPLAINProfileURI];
+	
+	
+	NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+	
     // set up listening for is ready notificaiton
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sessionManagerIsReady:) name:TCMMMBEEPSessionManagerIsReadyNotification object:nil];
+    [defaultCenter addObserver:self selector:@selector(sessionManagerIsReady:) name:TCMMMBEEPSessionManagerIsReadyNotification object:nil];
 
-    // set up default greetings
+	// bring up singletons - order is important
     TCMMMBEEPSessionManager *sm = [TCMMMBEEPSessionManager sharedInstance];
+	TCMMMPresenceManager *presenceManager = [TCMMMPresenceManager sharedInstance];
+	
+    // set up default greetings
     [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake" forGreetingInMode:kTCMMMBEEPSessionManagerDefaultMode];
     [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"          forGreetingInMode:kTCMMMBEEPSessionManagerDefaultMode];
     [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"   forGreetingInMode:kTCMMMBEEPSessionManagerDefaultMode];
 
+	// also for TLS although TLS is temporarily disabled
     [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake" forGreetingInMode:kTCMMMBEEPSessionManagerTLSMode];
     [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"          forGreetingInMode:kTCMMMBEEPSessionManagerTLSMode];
     [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"   forGreetingInMode:kTCMMMBEEPSessionManagerTLSMode];
 
 	[SEEConnectionManager sharedInstance];
-    [[TCMMMPresenceManager sharedInstance] startRendezvousBrowsing];
+    [presenceManager startRendezvousBrowsing];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateApplicationIcon) name:TCMMMSessionPendingInvitationsDidChange object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateApplicationIcon) name:TCMMMSessionPendingUsersDidChangeNotification object:nil];
+    [defaultCenter addObserver:self selector:@selector(updateApplicationIcon) name:TCMMMSessionPendingInvitationsDidChange object:nil];
+    [defaultCenter addObserver:self selector:@selector(updateApplicationIcon) name:TCMMMSessionPendingUsersDidChangeNotification object:nil];
 
     [self setupAuthorization];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(documentModeListDidChange:) name:@"DocumentModeListChanged" object:nil];
+    [defaultCenter addObserver:self selector:@selector(documentModeListDidChange:) name:@"DocumentModeListChanged" object:nil];
 
 	// start crash reporting
     [[BITHockeyManager sharedHockeyManager] startManager];
 }
 
 - (void)sessionManagerIsReady:(NSNotification *)aNotification {
-    [[TCMMMBEEPSessionManager sharedInstance] listen];
+    [[TCMMMBEEPSessionManager sharedInstance] validateListener];
     [[TCMMMPresenceManager sharedInstance] setVisible:[[NSUserDefaults standardUserDefaults] boolForKey:VisibilityPrefKey]];
 }
 
@@ -640,8 +676,6 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 }
 
 - (void)updateApplicationIcon {
-    NSImage  *appImage, *newAppImage;
-
     static NSDictionary *s_attributes=nil;
     if (!s_attributes) {
         float fontsize = 26.;
@@ -660,10 +694,6 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     }
 
 
-    // Grab the unmodified application image.
-    appImage = [NSImage imageNamed:@"NSApplicationIcon"];
-    // [[NSWorkspace sharedWorkspace] iconForFile:[[NSBundle mainBundle] bundlePath]];
-
     // get the badge count
     int badgeCount = 0;
     NSEnumerator      *documents=[[[NSDocumentController sharedDocumentController] documents] objectEnumerator];
@@ -677,27 +707,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 		}
     }
 
-    if (badgeCount == 0) {
-        newAppImage = appImage;
-    } else {
-		newAppImage = [NSImage imageWithSize:[appImage size] flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
-			NSImage *badgeImage = [NSImage imageNamed:(badgeCount >= 100)?@"InvitationBadge3":@"InvitationBadge1-2"];
-			NSRect badgeRect = NSZeroRect;
-			badgeRect.size = [badgeImage size];
-			badgeRect.origin.y = dstRect.size.height - badgeRect.size.height;
-
-			[appImage drawInRect:dstRect fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
-			[badgeImage drawInRect:badgeRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
-
-			NSString *badgeString = [NSString stringWithFormat:@"%d", badgeCount];
-			NSSize stringSize = [badgeString sizeWithAttributes:s_attributes];
-			[badgeString drawAtPoint:NSMakePoint(NSMidX(badgeRect)-stringSize.width/2., NSMidY(badgeRect)-stringSize.height/2.+1.) withAttributes:s_attributes];
-
-			return YES;
-		}];
-    }
-
-    [NSApp setApplicationIconImage:newAppImage];
+	[[NSApp dockTile] setBadgeLabel:badgeCount > 0 ? @(badgeCount).stringValue : @""];
 }
 
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)theApplication {

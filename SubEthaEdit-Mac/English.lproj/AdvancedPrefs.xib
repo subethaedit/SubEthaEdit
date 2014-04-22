@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1090" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5053"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="AdvancedPreferences">
             <connections>
-                <outlet property="O_commandLineToolRemoveButton" destination="41" id="42"/>
                 <outlet property="O_disableScreenFontsButton" destination="45" id="53"/>
                 <outlet property="O_synthesiseFontsButton" destination="48" id="52"/>
                 <outlet property="O_window" destination="6" id="7"/>
@@ -18,55 +17,42 @@
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="6" userLabel="Window">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="88" y="301" width="332" height="286"/>
+            <rect key="contentRect" x="88" y="301" width="365" height="286"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1178"/>
             <view key="contentView" id="5">
-                <rect key="frame" x="0.0" y="0.0" width="332" height="286"/>
+                <rect key="frame" x="0.0" y="0.0" width="365" height="286"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <box title="Command Line Tool" id="11">
-                        <rect key="frame" x="17" y="197" width="298" height="69"/>
+                        <rect key="frame" x="17" y="197" width="331" height="69"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                         <view key="contentView">
-                            <rect key="frame" x="2" y="2" width="294" height="52"/>
+                            <rect key="frame" x="2" y="2" width="327" height="52"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <button verticalHuggingPriority="750" id="40">
-                                    <rect key="frame" x="11" y="10" width="129" height="32"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                                    <buttonCell key="cell" type="push" title="Install" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="173">
-                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                        <font key="font" metaFont="system"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <action selector="commandLineToolInstall:" target="-2" id="43"/>
-                                    </connections>
-                                </button>
-                                <button verticalHuggingPriority="750" id="41">
-                                    <rect key="frame" x="154" y="10" width="129" height="32"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                                    <buttonCell key="cell" type="push" title="Remove" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="174">
-                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                        <font key="font" metaFont="system"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <action selector="commandLineToolRemove:" target="-2" id="44"/>
-                                    </connections>
-                                </button>
+                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" setsMaxLayoutWidthAtFirstLayout="YES" id="j2R-MH-9y7">
+                                    <rect key="frame" x="12" y="13" width="311" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="The 'see' Command line Tool is available for download at http://subethaedit.net/" id="miq-Cf-tda">
+                                        <font key="font" metaFont="smallSystem"/>
+                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                    </textFieldCell>
+                                </textField>
                             </subviews>
                         </view>
                         <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </box>
                     <box title="Font Rendering" id="46">
-                        <rect key="frame" x="17" y="16" width="298" height="104"/>
+                        <rect key="frame" x="17" y="16" width="331" height="104"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                         <view key="contentView">
-                            <rect key="frame" x="2" y="2" width="294" height="87"/>
+                            <rect key="frame" x="2" y="2" width="327" height="87"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <button id="45">
-                                    <rect key="frame" x="13" y="57" width="267" height="18"/>
+                                    <rect key="frame" x="13" y="57" width="300" height="18"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                     <buttonCell key="cell" type="check" title="Disable screen fonts" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="175">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -77,7 +63,7 @@
                                     </connections>
                                 </button>
                                 <button id="48">
-                                    <rect key="frame" x="13" y="16" width="267" height="18"/>
+                                    <rect key="frame" x="13" y="16" width="300" height="18"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                     <buttonCell key="cell" type="check" title="Add synthesised bold and italic to fonts" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="176">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -88,7 +74,7 @@
                                     </connections>
                                 </button>
                                 <textField verticalHuggingPriority="750" id="49">
-                                    <rect key="frame" x="33" y="45" width="248" height="11"/>
+                                    <rect key="frame" x="33" y="45" width="281" height="11"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Takes effect after relaunch" id="177">
                                         <font key="font" metaFont="miniSystem"/>
@@ -102,14 +88,14 @@
                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </box>
                     <box title="Saving and Loading" id="166">
-                        <rect key="frame" x="17" y="124" width="298" height="69"/>
+                        <rect key="frame" x="17" y="124" width="331" height="69"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                         <view key="contentView">
-                            <rect key="frame" x="2" y="2" width="294" height="52"/>
+                            <rect key="frame" x="2" y="2" width="327" height="52"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <button id="143">
-                                    <rect key="frame" x="14" y="24" width="265" height="18"/>
+                                    <rect key="frame" x="14" y="24" width="298" height="18"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                     <string key="toolTip">SubEthaEdit transmits the document history on connect to a document. If you don't need the history or you don't want to send it due to privacy issues you can disable that feature here.</string>
                                     <buttonCell key="cell" type="check" title="Save document state per file" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="187">

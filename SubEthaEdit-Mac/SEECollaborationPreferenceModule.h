@@ -9,6 +9,7 @@
 #import "TCMPreferenceModule.h"
 @class SEECollaborationPreferenceModule;
 #import "PCRolloverImageView.h"
+#import "SEEUserColorsPreviewView.h"
 
 @interface SEECollaborationPreferenceModule : TCMPreferenceModule
 
@@ -18,6 +19,9 @@
 @property (nonatomic, strong) IBOutlet NSTextField *O_mappingStatusTextField;
 @property (nonatomic, strong) IBOutlet NSImageView *O_mappingStatusImageView;
 @property (nonatomic, strong) IBOutlet NSProgressIndicator *O_mappingStatusProgressIndicator;
+@property (nonatomic, strong) IBOutlet NSButton *O_disableNetworkingButton;
+@property (nonatomic, strong) IBOutlet NSButton *O_invisibleOnNetowrkButton;
+@property (nonatomic, strong) IBOutlet NSTextField *O_invisibleOnNetworkExplanationTextField;
 
 // me-card
 @property (nonatomic, strong) IBOutlet PCRolloverImageView *O_pictureImageView;
@@ -25,9 +29,7 @@
 @property (nonatomic, strong) IBOutlet NSComboBox  *O_emailComboBox;
 
 // colors
-@property (nonatomic, strong) IBOutlet NSColorWell *O_changesLightColorWell;
-@property (nonatomic, strong) IBOutlet NSColorWell *O_changesDarkColorWell;
-
+@property (nonatomic, strong) IBOutlet SEEUserColorsPreviewView *O_userColorsPreview;
 @property (nonatomic, strong) IBOutlet NSButton *O_higlightChangesButton;
 
 // localization
@@ -46,6 +48,8 @@
 
 // actions - network
 - (IBAction)changeAutomaticallyMapPorts:(id)aSender;
+- (IBAction)changeDisableNetworking:(id)aSender;
+- (IBAction)changeVisiblityOnNetwork:(id)aSender;
 
 // actions - me-card
 - (IBAction)useAddressBookImage:(id)aSender;

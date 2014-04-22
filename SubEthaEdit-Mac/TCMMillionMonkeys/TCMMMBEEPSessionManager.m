@@ -23,12 +23,19 @@
 #import <netdb.h>       // getaddrinfo, struct addrinfo, AI_NUMERICHOST
 #import "TCMMMPresenceManager.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
+
 #define PORTRANGELENGTH 10
 NSString * const DefaultPortNumber = @"port";
 NSString * const ShouldAutomaticallyMapPort = @"ShouldAutomaticallyMapPort";
 
 
 NSString * const ProhibitInboundInternetSessions = @"ProhibitInboundInternetSessions";
+NSString * const kNetworkingDisabledPreferenceKey = @"NetworkingDisabled";
 
 
 static NSString *kBEEPSessionStatusNoSession  = @"NoSession";
@@ -59,6 +66,15 @@ NSString * const kTCMMMBEEPSessionManagerTLSMode    =@"kTCMMMBEEPSessionManagerT
         @"InboundSessions"  => Active Inbound Internet Sessions
 "*/
 
+static NSString * const kSessionInformationKeyInboundSessions = @"InboundSessions";
+static NSString * const kSessionInformationKeyOutboundSessions = @"OutboundSessions";
+static NSString * const kSessionInformationKeyNetService = @"NetService";
+static NSString * const kSessionInformationKeyInboundRendezvousSession = @"InboundRendezvousSession";
+static NSString * const kSessionInformationKeyTriedNetServiceAddresses = @"TriedNetServiceAddresses";
+static NSString * const kSessionInformationKeyRendezvousSession = @"RendezvousSession";
+static NSString * const kSessionInformationKeyOutgoingRendezvousSessions = @"OutgoingRendezvousSessions";
+static NSString * const kSessionInformationKeyRendezvousStatus = @"RendezvousStatus";
+
 
 static TCMMMBEEPSessionManager *sharedInstance;
 
@@ -73,11 +89,11 @@ static TCMMMBEEPSessionManager *sharedInstance;
 
 @implementation TCMMMBEEPSessionManager
 
-+ (TCMMMBEEPSessionManager *)sharedInstance
-{
-    if (!sharedInstance) {
-        sharedInstance = [self new];
-    }
++ (TCMMMBEEPSessionManager *)sharedInstance {
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		sharedInstance = [self new];
+	});
     return sharedInstance;
 }
 
@@ -143,7 +159,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
             if (anAddressData) *anAddressData = addressData;
             freeaddrinfo(result);
             NSString *URLString = nil;
-            NSMutableString *percentEscapedString = [[[NSString stringWithAddressData:addressData] mutableCopy] autorelease];
+            NSMutableString *percentEscapedString = [[NSString stringWithAddressData:addressData] mutableCopy];
             [percentEscapedString replaceOccurrencesOfString:@"%" withString:@"%25" options:0 range:NSMakeRange(0,[percentEscapedString length])];
             URLString = [NSString stringWithFormat:@"%@://%@", [anURL scheme], percentEscapedString];
             resultURL = [NSURL URLWithString:URLString];
@@ -166,11 +182,10 @@ static TCMMMBEEPSessionManager *sharedInstance;
 }
 
 
-- (void)logRetainCounts
-{
+- (void)logRetainCounts {
     TCMBEEPSession *session = nil;
     for (session in I_sessions) {
-        NSLog(@"Session: %@, %@, retainCount: %lu", [session description], NSStringFromClass([session class]), (unsigned long)[session retainCount]);
+        NSLog(@"Session: %@, %@", [session description], NSStringFromClass([session class]));
     }
 }
 
@@ -183,11 +198,10 @@ static TCMMMBEEPSessionManager *sharedInstance;
 	}
 }
 
-- (id)init
-{
+- (id)init {
     self = [super init];
     if (self) {
-    	[AppController sharedInstance]; // making sure the defaults are registered - seem ugly need better way soon
+
     	I_SSLGenerationCount = 0;
     	I_SSLGenerationDesiredCount = 1;
 //    	NSLog(@"%s %@? %d",__FUNCTION__,EnableTLSKey,[[NSUserDefaults standardUserDefaults] boolForKey:EnableTLSKey]);
@@ -207,26 +221,17 @@ static TCMMMBEEPSessionManager *sharedInstance;
         I_sessions = [NSMutableArray new];
         BOOL flag = [[NSUserDefaults standardUserDefaults] boolForKey:ProhibitInboundInternetSessions];
         I_isProhibitingInboundInternetSessions = flag;
-        sharedInstance = self;
-        [self registerHandler:[TCMMMPresenceManager sharedInstance] forIncomingProfilesWithProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"];
+		flag = [[NSUserDefaults standardUserDefaults] boolForKey:kNetworkingDisabledPreferenceKey];
+		_networkingDisabled = flag;
 
 		[self performSelector:@selector(sslGenerationDidFinish:) withObject:nil afterDelay:0];
     }
     return self;
 }
 
-- (void)dealloc
-{
-    [I_greetingProfiles release];
+- (void)dealloc {
     [I_listener close];
     [I_listener setDelegate:nil];
-    [I_listener release];
-    [I_sessionInformationByUserID release];
-    [I_pendingSessionProfiles release];
-    [I_pendingSessions release];
-    [I_outboundInternetSessions release];
-    [I_sessions release];
-    [super dealloc];
 }
 
 - (unsigned int)countOfSessions {
@@ -254,12 +259,12 @@ static TCMMMBEEPSessionManager *sharedInstance;
     NSString *userID=nil;
     while ((userID = [userIDs nextObject])) {
         TCMMMUser *user = [um userForUserID:userID];
-        NSMutableDictionary *valueDict = [[[I_sessionInformationByUserID objectForKey:userID] mutableCopy] autorelease];
-        if ([[valueDict objectForKey:@"InboundSessions"] count] >0 ||
-            [[valueDict objectForKey:@"OutgoingRendezvousSessions"] count] >0 ||
-            [[valueDict objectForKey:@"OutboundSessions"] count] >0 ||
-             [valueDict objectForKey:@"RendezvousSession"]) {
-            [valueDict removeObjectForKey:@"RendezvousSession"];
+        NSMutableDictionary *valueDict = [[I_sessionInformationByUserID objectForKey:userID] mutableCopy];
+        if ([[valueDict objectForKey:kSessionInformationKeyInboundSessions] count] >0 ||
+            [[valueDict objectForKey:kSessionInformationKeyOutgoingRendezvousSessions] count] >0 ||
+            [[valueDict objectForKey:kSessionInformationKeyOutboundSessions] count] >0 ||
+             [valueDict objectForKey:kSessionInformationKeyRendezvousSession]) {
+            [valueDict removeObjectForKey:kSessionInformationKeyRendezvousSession];
             [dictionary setObject:valueDict forKey:user?[user shortDescription]:userID];
         }
     }
@@ -268,7 +273,8 @@ static TCMMMBEEPSessionManager *sharedInstance;
 
 - (void)validateListener {
     BOOL isVisible = [[TCMMMPresenceManager sharedInstance] isVisible];
-    if (!isVisible && [self isProhibitingInboundInternetSessions]) {
+    if ((!isVisible && [self isProhibitingInboundInternetSessions]) ||
+		self.isNetworkingDisabled) {
         // stop listening
         [self stopListening];
     } else if (!I_listener) {
@@ -290,7 +296,6 @@ static TCMMMBEEPSessionManager *sharedInstance;
             break;
         } else {
             [I_listener close];
-            [I_listener release];
             I_listener = nil;
         }
     }
@@ -308,7 +313,6 @@ static TCMMMBEEPSessionManager *sharedInstance;
     [[TCMPortMapper sharedInstance] stop];
     [I_listener close];
     [I_listener setDelegate:nil];
-    [I_listener release];
     I_listener = nil;
 }
 
@@ -324,10 +328,10 @@ static TCMMMBEEPSessionManager *sharedInstance;
     NSEnumerator *sessionInformationDicts=[[I_sessionInformationByUserID allValues] objectEnumerator];
     NSDictionary *sessionInformation=nil;
     while ((sessionInformation=[sessionInformationDicts nextObject])) {
-        [[sessionInformation objectForKey:@"InboundSessions"] makeObjectsPerformSelector:@selector(terminate)];
-        [[sessionInformation objectForKey:@"OutboundSessions"] makeObjectsPerformSelector:@selector(terminate)]; 
-        [[sessionInformation objectForKey:@"OutgoingRendezvousSessions"] makeObjectsPerformSelector:@selector(terminate)];
-        [(TCMBEEPSession *)[sessionInformation objectForKey:@"RendezvousSession"] terminate];
+        [[sessionInformation objectForKey:kSessionInformationKeyInboundSessions] makeObjectsPerformSelector:@selector(terminate)];
+        [[sessionInformation objectForKey:kSessionInformationKeyOutboundSessions] makeObjectsPerformSelector:@selector(terminate)];
+        [[sessionInformation objectForKey:kSessionInformationKeyOutgoingRendezvousSessions] makeObjectsPerformSelector:@selector(terminate)];
+        [(TCMBEEPSession *)[sessionInformation objectForKey:kSessionInformationKeyRendezvousSession] terminate];
     }
     [I_pendingSessions makeObjectsPerformSelector:@selector(terminate)];
     [I_pendingSessions removeAllObjects];
@@ -355,63 +359,83 @@ static TCMMMBEEPSessionManager *sharedInstance;
     return I_isProhibitingInboundInternetSessions;
 }
 
+- (void)setNetworkingDisabled:(BOOL)networkingDisabled {
+	_networkingDisabled = networkingDisabled;
+	[self validateListener];
+	if (_networkingDisabled) {
+		[self terminateAllBEEPSessions];
+	}
+    [[NSUserDefaults standardUserDefaults] setBool:_networkingDisabled forKey:kNetworkingDisabledPreferenceKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+	
+	if (_networkingDisabled) {
+		[[TCMMMPresenceManager sharedInstance] stopRendezvousBrowsing];
+	} else {
+		[[TCMMMPresenceManager sharedInstance] startRendezvousBrowsing];
+	}
+}
+
 - (NSMutableDictionary *)sessionInformationForUserID:(NSString *)aUserID {
     NSMutableDictionary *sessionInformation = [I_sessionInformationByUserID objectForKey:aUserID];
     if (!sessionInformation) {
         sessionInformation = [NSMutableDictionary dictionary];
         [I_sessionInformationByUserID setObject:sessionInformation forKey:aUserID];
-        [sessionInformation setObject:kBEEPSessionStatusNoSession forKey:@"RendezvousStatus"];
+        [sessionInformation setObject:kBEEPSessionStatusNoSession forKey:kSessionInformationKeyRendezvousStatus];
         [sessionInformation setObject:aUserID forKey:@"peerUserID"];
-        [sessionInformation setObject:[NSMutableArray array] forKey:@"InboundSessions"];
-        [sessionInformation setObject:[NSMutableArray array] forKey:@"OutboundSessions"];
+        [sessionInformation setObject:[NSMutableArray array] forKey:kSessionInformationKeyInboundSessions];
+        [sessionInformation setObject:[NSMutableArray array] forKey:kSessionInformationKeyOutboundSessions];
     }
     return sessionInformation;
 }
 
 - (void)TCM_connectToNetServiceWithInformation:(NSMutableDictionary *)aInformation {
-    NSNetService *service = [aInformation objectForKey:@"NetService"];
-    NSArray *addresses = [service addresses]; 
-    NSMutableArray *outgoingSessions = [aInformation objectForKey:@"OutgoingRendezvousSessions"];
-    if (!outgoingSessions) {
-        outgoingSessions = [NSMutableArray array];
-        [aInformation setObject:outgoingSessions forKey:@"OutgoingRendezvousSessions"];
-    }
-    int i=0;
-    for (i = [[aInformation objectForKey:@"TriedNetServiceAddresses"] intValue]; i < [addresses count]; i++) {
-        NSData *addressData = [addresses objectAtIndex:i];
-        TCMBEEPSession *session = [[TCMBEEPSession alloc] initWithAddressData:addressData];
-        DEBUGLOG(@"RendezvousLogDomain", DetailedLogLevel,@"Trying to connect to %d: %@ - %@",i,[service description],[NSString stringWithAddressData:addressData]);
-        [self insertObject:session inSessionsAtIndex:[self countOfSessions]];
-        [session setIsProhibitingInboundInternetSessions:[self isProhibitingInboundInternetSessions]];
-        
-        [outgoingSessions addObject:session];
-        [session release];
-        [[session userInfo] setObject:[aInformation objectForKey:@"peerUserID"] forKey:@"peerUserID"];
-        [[session userInfo] setObject:[NSNumber numberWithBool:YES] forKey:@"isRendezvous"];
-        [session addProfileURIs:   [I_greetingProfiles objectForKey:kTCMMMBEEPSessionManagerDefaultMode]];
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:EnableTLSKey]) {
-			[session addTLSProfileURIs:[I_greetingProfiles objectForKey:kTCMMMBEEPSessionManagerTLSMode]];
+	if (!self.isNetworkingDisabled) {
+		NSNetService *service = [aInformation objectForKey:kSessionInformationKeyNetService];
+		NSArray *addresses = [service addresses]; 
+		NSMutableArray *outgoingSessions = [aInformation objectForKey:kSessionInformationKeyOutgoingRendezvousSessions];
+		if (!outgoingSessions) {
+			outgoingSessions = [NSMutableArray array];
+			[aInformation setObject:outgoingSessions forKey:kSessionInformationKeyOutgoingRendezvousSessions];
 		}
-        [session setDelegate:self];
-        [session open];
-    }
-    [aInformation setObject:[NSNumber numberWithInt:i] forKey:@"TriedNetServiceAddresses"];
+		int i=0;
+		for (i = [[aInformation objectForKey:kSessionInformationKeyTriedNetServiceAddresses] intValue]; i < [addresses count]; i++) {
+			NSData *addressData = [addresses objectAtIndex:i];
+			TCMBEEPSession *session = [[TCMBEEPSession alloc] initWithAddressData:addressData];
+			DEBUGLOG(@"RendezvousLogDomain", DetailedLogLevel,@"Trying to connect to %d: %@ - %@",i,[service description],[NSString stringWithAddressData:addressData]);
+			[self insertObject:session inSessionsAtIndex:[self countOfSessions]];
+			[session setIsProhibitingInboundInternetSessions:[self isProhibitingInboundInternetSessions]];
+			
+			[outgoingSessions addObject:session];
+
+			[[session userInfo] setObject:[aInformation objectForKey:@"peerUserID"] forKey:@"peerUserID"];
+			[[session userInfo] setObject:[NSNumber numberWithBool:YES] forKey:@"isRendezvous"];
+			[session addProfileURIs:   [I_greetingProfiles objectForKey:kTCMMMBEEPSessionManagerDefaultMode]];
+			if ([[NSUserDefaults standardUserDefaults] boolForKey:EnableTLSKey]) {
+				[session addTLSProfileURIs:[I_greetingProfiles objectForKey:kTCMMMBEEPSessionManagerTLSMode]];
+			}
+			[session setDelegate:self];
+			[session open];
+		}
+		[aInformation setObject:[NSNumber numberWithInt:i] forKey:kSessionInformationKeyTriedNetServiceAddresses];
+	}
 }
 
 - (void)connectToNetService:(NSNetService *)aNetService {
-    NSString *userID = [[aNetService TXTRecordDictionary] objectForKey:TCMMMPresenceTXTRecordUserIDKey];
-    if (userID) {
-        NSMutableDictionary *sessionInformation = [self sessionInformationForUserID:userID];
-        NSString *status = [sessionInformation objectForKey:@"RendezvousStatus"];
-        if (![status isEqualToString:kBEEPSessionStatusGotSession]) {
-            [sessionInformation setObject:aNetService forKey:@"NetService"];
-            [sessionInformation setObject:kBEEPSessionStatusConnecting forKey:@"RendezvousStatus"];
-            [sessionInformation setObject:[NSNumber numberWithInt:0] forKey:@"TriedNetServiceAddresses"];
-            [self TCM_connectToNetServiceWithInformation:sessionInformation];
-        } else {
-    //        TCMBEEPSession *session = [sessionInformation objectForKey:@"RendezvousSession"];
-        }
-    }
+	if (!self.isNetworkingDisabled) {
+		NSString *userID = [[aNetService TXTRecordDictionary] objectForKey:TCMMMPresenceTXTRecordUserIDKey];
+		if (userID) {
+			NSMutableDictionary *sessionInformation = [self sessionInformationForUserID:userID];
+			NSString *status = [sessionInformation objectForKey:kSessionInformationKeyRendezvousStatus];
+			if (![status isEqualToString:kBEEPSessionStatusGotSession]) {
+				[sessionInformation setObject:aNetService forKey:kSessionInformationKeyNetService];
+				[sessionInformation setObject:kBEEPSessionStatusConnecting forKey:kSessionInformationKeyRendezvousStatus];
+				[sessionInformation setObject:[NSNumber numberWithInt:0] forKey:kSessionInformationKeyTriedNetServiceAddresses];
+				[self TCM_connectToNetServiceWithInformation:sessionInformation];
+			} else {
+		//        TCMBEEPSession *session = [sessionInformation objectForKey:kSessionInformationKeyRendezvousSession];
+			}
+		}
+	}
 }
 
 - (void)connectToHost:(TCMHost *)aHost
@@ -446,7 +470,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
         [session setIsProhibitingInboundInternetSessions:[self isProhibitingInboundInternetSessions]];
 
         [sessions addObject:session];
-        [session release];
+
         [session addProfileURIs:[I_greetingProfiles objectForKey:kTCMMMBEEPSessionManagerDefaultMode]];
 		if ([[NSUserDefaults standardUserDefaults] boolForKey:EnableTLSKey]) {
 			[session addTLSProfileURIs:[I_greetingProfiles objectForKey:kTCMMMBEEPSessionManagerTLSMode]];
@@ -493,7 +517,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
     TCMBEEPSession *fallbackSession = nil;
     
     NSDictionary *info = [self sessionInformationForUserID:aUserID];
-    NSArray *outboundSessions = [info objectForKey:@"OutboundSessions"];
+    NSArray *outboundSessions = [info objectForKey:kSessionInformationKeyOutboundSessions];
     TCMBEEPSession *session = nil;
     for (session in outboundSessions) {
         if ([session sessionStatus] == TCMBEEPSessionStatusOpen) {
@@ -505,7 +529,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
         }
     }
 
-    NSArray *inboundSessions = [info objectForKey:@"InboundSessions"];
+    NSArray *inboundSessions = [info objectForKey:kSessionInformationKeyInboundSessions];
     for (session in inboundSessions) {
         if ([session sessionStatus] == TCMBEEPSessionStatusOpen) {
             if (aURLString && [[[session userInfo] objectForKey:@"URLString"] isEqualToString:aURLString]) {
@@ -516,8 +540,8 @@ static TCMMMBEEPSessionManager *sharedInstance;
         }
     }
 
-    if ([[info objectForKey:@"RendezvousStatus"] isEqualToString:kBEEPSessionStatusGotSession]) {
-        session=[info objectForKey:@"RendezvousSession"];
+    if ([[info objectForKey:kSessionInformationKeyRendezvousStatus] isEqualToString:kBEEPSessionStatusGotSession]) {
+        session=[info objectForKey:kSessionInformationKeyRendezvousSession];
         if ([session sessionStatus] == TCMBEEPSessionStatusOpen) {
             return session;
         }
@@ -530,7 +554,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
     TCMBEEPSession *fallbackSession = nil;
     
     NSDictionary *info = [self sessionInformationForUserID:aUserID];
-    NSArray *outboundSessions = [info objectForKey:@"OutboundSessions"];
+    NSArray *outboundSessions = [info objectForKey:kSessionInformationKeyOutboundSessions];
     TCMBEEPSession *session = nil;
     for (session in outboundSessions) {
         if ([session sessionStatus] == TCMBEEPSessionStatusOpen) {
@@ -542,7 +566,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
         }
     }
 
-    NSArray *inboundSessions = [info objectForKey:@"InboundSessions"];
+    NSArray *inboundSessions = [info objectForKey:kSessionInformationKeyInboundSessions];
     for (session in inboundSessions) {
         if ([session sessionStatus] == TCMBEEPSessionStatusOpen) {
             if ([[session peerAddressData] isEqualTo:anAddressData]) {
@@ -553,8 +577,8 @@ static TCMMMBEEPSessionManager *sharedInstance;
         }
     }
 
-    if ([[info objectForKey:@"RendezvousStatus"] isEqualToString:kBEEPSessionStatusGotSession]) {
-        session=[info objectForKey:@"RendezvousSession"];
+    if ([[info objectForKey:kSessionInformationKeyRendezvousStatus] isEqualToString:kBEEPSessionStatusGotSession]) {
+        session=[info objectForKey:kSessionInformationKeyRendezvousSession];
         if ([session sessionStatus] == TCMBEEPSessionStatusOpen) {
             return session;
         }
@@ -582,15 +606,14 @@ static TCMMMBEEPSessionManager *sharedInstance;
             if ([[aBEEPSession userInfo] objectForKey:@"isRendezvous"]) {
                 NSString *aUserID = [[aBEEPSession userInfo] objectForKey:@"peerUserID"];
                 NSMutableDictionary *sessionInformation = [self sessionInformationForUserID:aUserID];
-                if ([sessionInformation objectForKey:@"NetService"]) {
+                if ([sessionInformation objectForKey:kSessionInformationKeyNetService]) {
                     // rendezvous: close all other sessions
-                    NSMutableArray *outgoingSessions = [sessionInformation objectForKey:@"OutgoingRendezvousSessions"];
-                    TCMBEEPSession *session;
+                    NSMutableArray *outgoingSessions = [sessionInformation objectForKey:kSessionInformationKeyOutgoingRendezvousSessions];
+                    __autoreleasing TCMBEEPSession *session;
                     while ((session = [outgoingSessions lastObject])) {
-                        [[session retain] autorelease];
                         [outgoingSessions removeObjectAtIndex:[outgoingSessions count]-1];
                         if (session == aBEEPSession) {
-                            [sessionInformation setObject:session forKey:@"RendezvousSession"];
+                            [sessionInformation setObject:session forKey:kSessionInformationKeyRendezvousSession];
                         } else {
                             [self removeSessionFromSessionsArray:session];
                             [session setDelegate:nil];
@@ -602,9 +625,9 @@ static TCMMMBEEPSessionManager *sharedInstance;
                 NSString *URLString = [[aBEEPSession userInfo] objectForKey:@"URLString"];
                 NSDictionary *info = [I_outboundInternetSessions objectForKey:URLString];
                 NSMutableArray *sessions = [info objectForKey:@"sessions"];
-                TCMBEEPSession *session;
+                __autoreleasing TCMBEEPSession *session;
                 while ((session = [sessions lastObject])) {
-                    [[session retain] autorelease];
+
                     [sessions removeObjectAtIndex:[sessions count]-1];
                     if (session != aBEEPSession) {
                         [self removeSessionFromSessionsArray:session];
@@ -618,25 +641,26 @@ static TCMMMBEEPSessionManager *sharedInstance;
             [aBEEPSession startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake"] andData:nil sender:self];
         }
     } else {
-        [self removeSessionFromSessionsArray:[[aBEEPSession retain] autorelease]];
-        [aBEEPSession setDelegate:nil];
-        [aBEEPSession terminate];
+		__autoreleasing TCMBEEPSession *beepSession = aBEEPSession;
+        [self removeSessionFromSessionsArray:beepSession];
+        [beepSession setDelegate:nil];
+        [beepSession terminate];
         
-        if ([[aBEEPSession userInfo] objectForKey:@"isRendezvous"]) {
-            NSString *aUserID = [[aBEEPSession userInfo] objectForKey:@"peerUserID"];
-            if ([aBEEPSession isInitiator] && aUserID) {
+        if ([[beepSession userInfo] objectForKey:@"isRendezvous"]) {
+            NSString *aUserID = [[beepSession userInfo] objectForKey:@"peerUserID"];
+            if ([beepSession isInitiator] && aUserID) {
                 NSMutableDictionary *information = [self sessionInformationForUserID:aUserID];
-                [[information objectForKey:@"OutgoingRendezvousSessions"] removeObject:aBEEPSession];
+                [[information objectForKey:kSessionInformationKeyOutgoingRendezvousSessions] removeObject:beepSession];
             }
         } else {
-            if ([aBEEPSession isInitiator]) {
-                NSString *URLString = [[aBEEPSession userInfo] objectForKey:@"URLString"];
+            if ([beepSession isInitiator]) {
+                NSString *URLString = [[beepSession userInfo] objectForKey:@"URLString"];
                 NSDictionary *info = [I_outboundInternetSessions objectForKey:URLString];
-                [[info objectForKey:@"sessions"] removeObject:aBEEPSession];
-                [self TCM_sendDidEndNotificationForSession:aBEEPSession error:nil];
+                [[info objectForKey:@"sessions"] removeObject:beepSession];
+                [self TCM_sendDidEndNotificationForSession:beepSession error:nil];
             }
         }
-        [I_pendingSessions removeObject:aBEEPSession];
+        [I_pendingSessions removeObject:beepSession];
     }
 }
 
@@ -659,7 +683,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
             if ([[aBEEPSession userInfo] objectForKey:@"isRendezvous"]) {
                 NSString *aUserID = [[aBEEPSession userInfo] objectForKey:@"peerUserID"];
                 NSMutableDictionary *information = [self sessionInformationForUserID:aUserID];
-                if ([[information objectForKey:@"OutgoingRendezvousSessions"] count]) {
+                if ([[information objectForKey:kSessionInformationKeyOutgoingRendezvousSessions] count]) {
                     //NSLog(@"Can't happen");
                 }
             } else {
@@ -683,8 +707,8 @@ static TCMMMBEEPSessionManager *sharedInstance;
 - (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didFailWithError:(NSError *)anError
 {
     DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"BEEPSession:didFailWithError: %@", anError);
-    [aBEEPSession setDelegate:nil];
-    [[aBEEPSession retain] autorelease];
+	__autoreleasing TCMBEEPSession *beepSession = aBEEPSession;
+    [beepSession setDelegate:nil];
     
     [self TCM_sendDidEndNotificationForSession:aBEEPSession error:anError];
 
@@ -698,44 +722,44 @@ static TCMMMBEEPSessionManager *sharedInstance;
         NSMutableDictionary *sessionInformation = [self sessionInformationForUserID:aUserID];
         if (isRendezvous) {
         
-            if ([sessionInformation objectForKey:@"InboundRendezvousSession"] == aBEEPSession) {
-                [sessionInformation removeObjectForKey:@"InboundRendezvousSession"];
+            if ([sessionInformation objectForKey:kSessionInformationKeyInboundRendezvousSession] == aBEEPSession) {
+                [sessionInformation removeObjectForKey:kSessionInformationKeyInboundRendezvousSession];
             }
         
-            NSString *status = [sessionInformation objectForKey:@"RendezvousStatus"];
+            NSString *status = [sessionInformation objectForKey:kSessionInformationKeyRendezvousStatus];
             if ([status isEqualToString:kBEEPSessionStatusGotSession]) {
                 DEBUGLOG(@"RendezvousLogDomain", DetailedLogLevel,@"beepsession didFail while connected: %@",[aBEEPSession description]);
-                if ([sessionInformation objectForKey:@"RendezvousSession"] == aBEEPSession) {
-                    [sessionInformation removeObjectForKey:@"RendezvousSession"];
-                    [sessionInformation setObject:kBEEPSessionStatusNoSession forKey:@"RendezvousStatus"];
+                if ([sessionInformation objectForKey:kSessionInformationKeyRendezvousSession] == aBEEPSession) {
+                    [sessionInformation removeObjectForKey:kSessionInformationKeyRendezvousSession];
+                    [sessionInformation setObject:kBEEPSessionStatusNoSession forKey:kSessionInformationKeyRendezvousStatus];
                 } else {
-                    if ([[sessionInformation objectForKey:@"OutgoingRendezvousSessions"] containsObject:aBEEPSession]) {
-                        [[sessionInformation objectForKey:@"OutgoingRendezvousSessions"] removeObject:aBEEPSession];
+                    if ([[sessionInformation objectForKey:kSessionInformationKeyOutgoingRendezvousSessions] containsObject:aBEEPSession]) {
+                        [[sessionInformation objectForKey:kSessionInformationKeyOutgoingRendezvousSessions] removeObject:aBEEPSession];
                     }
                 }
             } else if ([status isEqualToString:kBEEPSessionStatusConnecting]) {
                 DEBUGLOG(@"RendezvousLogDomain", DetailedLogLevel,@"beepsession didFail while connecting: %@",[aBEEPSession description]);
-                if ([[sessionInformation objectForKey:@"OutgoingRendezvousSessions"] containsObject:aBEEPSession]) {
-                    [[sessionInformation objectForKey:@"OutgoingRendezvousSessions"] removeObject:aBEEPSession];
-                    if ([[sessionInformation objectForKey:@"OutgoingRendezvousSessions"] count] == 0 && 
-                        ![sessionInformation objectForKey:@"InboundRendezvousSession"]) {
+                if ([[sessionInformation objectForKey:kSessionInformationKeyOutgoingRendezvousSessions] containsObject:aBEEPSession]) {
+                    [[sessionInformation objectForKey:kSessionInformationKeyOutgoingRendezvousSessions] removeObject:aBEEPSession];
+                    if ([[sessionInformation objectForKey:kSessionInformationKeyOutgoingRendezvousSessions] count] == 0 &&
+                        ![sessionInformation objectForKey:kSessionInformationKeyInboundRendezvousSession]) {
                         DEBUGLOG(@"RendezvousLogDomain", DetailedLogLevel,@"sessions information look this way: %@",[sessionInformation description]);
-                        if ([[sessionInformation objectForKey:@"TriedNetServiceAddresses"] intValue]<[[[sessionInformation objectForKey:@"NetService"] addresses] count]) {
+                        if ([[sessionInformation objectForKey:kSessionInformationKeyTriedNetServiceAddresses] intValue]<[[[sessionInformation objectForKey:kSessionInformationKeyNetService] addresses] count]) {
                             [self TCM_connectToNetServiceWithInformation:sessionInformation];
                         } else {
-                            [sessionInformation setObject:kBEEPSessionStatusNoSession forKey:@"RendezvousStatus"];
+                            [sessionInformation setObject:kBEEPSessionStatusNoSession forKey:kSessionInformationKeyRendezvousStatus];
                         }
                     }
-                } else if ([sessionInformation objectForKey:@"RendezvousSession"] == aBEEPSession) {
-                    [sessionInformation removeObjectForKey:@"RendezvousSession"];
-                    [sessionInformation setObject:kBEEPSessionStatusNoSession forKey:@"RendezvousStatus"];
+                } else if ([sessionInformation objectForKey:kSessionInformationKeyRendezvousSession] == aBEEPSession) {
+                    [sessionInformation removeObjectForKey:kSessionInformationKeyRendezvousSession];
+                    [sessionInformation setObject:kBEEPSessionStatusNoSession forKey:kSessionInformationKeyRendezvousStatus];
                 }
             } else {
                 DEBUGLOG(@"RendezvousLogDomain", DetailedLogLevel,@"beepsession didFail while whatever: %@",[aBEEPSession description]);
             }
         } else {
-            [[sessionInformation objectForKey:@"OutboundSessions"] removeObject:aBEEPSession];
-            [[sessionInformation objectForKey:@"InboundSessions"] removeObject:aBEEPSession];
+            [[sessionInformation objectForKey:kSessionInformationKeyOutboundSessions] removeObject:aBEEPSession];
+            [[sessionInformation objectForKey:kSessionInformationKeyInboundSessions] removeObject:aBEEPSession];
             NSString *URLString = [[aBEEPSession userInfo] objectForKey:@"URLString"];
             NSMutableDictionary *infoDict = [I_outboundInternetSessions objectForKey:URLString];
             if (infoDict && [infoDict objectForKey:@"pending"]) {
@@ -835,30 +859,30 @@ static TCMMMBEEPSessionManager *sharedInstance;
     [[[aProfile session] userInfo] setObject:aUserID forKey:@"peerUserID"];
     if ([[[aProfile session] userInfo] objectForKey:@"isRendezvous"]) {
         
-        if ([[information objectForKey:@"RendezvousStatus"] isEqualTo:kBEEPSessionStatusGotSession]) {
+        if ([[information objectForKey:kSessionInformationKeyRendezvousStatus] isEqualTo:kBEEPSessionStatusGotSession]) {
             return nil;
-        } else if ([[information objectForKey:@"RendezvousStatus"] isEqualTo:kBEEPSessionStatusNoSession]) {
+        } else if ([[information objectForKey:kSessionInformationKeyRendezvousStatus] isEqualTo:kBEEPSessionStatusNoSession]) {
             if ([[aProfile session] isInitiator]) {
                 DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"As initiator you should not get this callback by: %@", aProfile);
                 return nil;
             } else {
-                [information setObject:[aProfile session] forKey:@"InboundRendezvousSession"];
-                [information setObject:kBEEPSessionStatusConnecting forKey:@"RendezvousStatus"];
+                [information setObject:[aProfile session] forKey:kSessionInformationKeyInboundRendezvousSession];
+                [information setObject:kBEEPSessionStatusConnecting forKey:kSessionInformationKeyRendezvousStatus];
                 return [TCMMMUserManager myUserID];
             }
-        } else if ([[information objectForKey:@"RendezvousStatus"] isEqualTo:kBEEPSessionStatusConnecting]) {
-            if ([information objectForKey:@"NetService"]) {
+        } else if ([[information objectForKey:kSessionInformationKeyRendezvousStatus] isEqualTo:kBEEPSessionStatusConnecting]) {
+            if ([information objectForKey:kSessionInformationKeyNetService]) {
                 DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received connection for %@ while I already tried connecting", aUserID);
                 BOOL iWin = ([[TCMMMUserManager myUserID] compare:aUserID] == NSOrderedDescending);
                 DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"%@ %@ %@", [TCMMMUserManager myUserID], iWin ? @">" : @"<=", aUserID);
                 if (iWin) {
                     return nil;
                 } else {
-                    [information setObject:[aProfile session] forKey:@"InboundRendezvousSession"];
+                    [information setObject:[aProfile session] forKey:kSessionInformationKeyInboundRendezvousSession];
                     return [TCMMMUserManager myUserID]; 
                 }
             } else {
-                DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"WTF? %@ tries to handshake twice, bad guy: %@", aUserID, [information objectForKey:@"InboundRendezvousSession"]);
+                DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"WTF? %@ tries to handshake twice, bad guy: %@", aUserID, [information objectForKey:kSessionInformationKeyInboundRendezvousSession]);
                 return nil;
             }
         }
@@ -887,21 +911,21 @@ static TCMMMBEEPSessionManager *sharedInstance;
     }
 
     if ([[session userInfo] objectForKey:@"isRendezvous"]) {
-        TCMBEEPSession *inboundSession = [information objectForKey:@"InboundRendezvousSession"];
+        TCMBEEPSession *inboundSession = [information objectForKey:kSessionInformationKeyInboundRendezvousSession];
         if (inboundSession) {
             BOOL iWin = ([[TCMMMUserManager myUserID] compare:aUserID] == NSOrderedDescending);
             if (iWin) {
                 [inboundSession setDelegate:nil];
                 [inboundSession terminate];
                 [I_pendingSessions removeObject:inboundSession];
-                [information removeObjectForKey:@"InboundRendezvousSession"];
-                [information setObject:kBEEPSessionStatusGotSession forKey:@"RendezvousStatus"];
+                [information removeObjectForKey:kSessionInformationKeyInboundRendezvousSession];
+                [information setObject:kBEEPSessionStatusGotSession forKey:kSessionInformationKeyRendezvousStatus];
                 return YES;
             } else {
                 return NO;
             }
         } else {
-            [information setObject:kBEEPSessionStatusGotSession forKey:@"RendezvousStatus"];
+            [information setObject:kBEEPSessionStatusGotSession forKey:kSessionInformationKeyRendezvousStatus];
             return YES;
         }
 
@@ -911,7 +935,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
             if ([self sessionForUserID:aUserID]) return NO;
         }        
         [[[aProfile session] userInfo] setObject:aUserID forKey:@"peerUserID"];
-        [[information objectForKey:@"OutboundSessions"] addObject:session];
+        [[information objectForKey:kSessionInformationKeyOutboundSessions] addObject:session];
         NSDictionary *infoDict = [I_outboundInternetSessions objectForKey:[[session userInfo] objectForKey:@"URLString"]];
         [[session userInfo] setObject:[infoDict objectForKey:@"host"] forKey:@"host"];
         //[I_outboundInternetSessions removeObjectForKey:[[session userInfo] objectForKey:@"URLString"]];
@@ -929,13 +953,13 @@ static TCMMMBEEPSessionManager *sharedInstance;
     NSMutableDictionary *information = [self sessionInformationForUserID:aUserID];
     TCMBEEPSession *session = [aProfile session];
     if ([[session userInfo] objectForKey:@"isRendezvous"]) {
-        [information setObject:session forKey:@"RendezvousSession"];
-        [information setObject:kBEEPSessionStatusGotSession forKey:@"RendezvousStatus"];
+        [information setObject:session forKey:kSessionInformationKeyRendezvousSession];
+        [information setObject:kBEEPSessionStatusGotSession forKey:kSessionInformationKeyRendezvousStatus];
         [I_pendingSessions removeObject:session];
         DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"received ACK");
         [self TCM_sendDidAcceptNotificationForSession:session];
     } else {
-        NSMutableArray *inboundSessions = [information objectForKey:@"InboundSessions"];
+        NSMutableArray *inboundSessions = [information objectForKey:kSessionInformationKeyInboundSessions];
         [inboundSessions addObject:session];
         [I_pendingSessions removeObject:session];
         DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"received ACK");

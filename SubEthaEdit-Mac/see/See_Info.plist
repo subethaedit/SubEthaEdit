@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-	<dict>
-		<key>CFBundleDevelopmentRegion</key>
-		<string>English</string>
-		<key>CFBundleIdentifier</key>
-		<string>de.codingmonkeys.see${TCM_APP_STYLE}</string>
-		<key>CFBundleInfoDictionaryVersion</key>
-		<string>6.0</string>
-		<key>CFBundleName</key>
-		<string>see</string>
-		<key>CFBundleVersion</key>
-		<string>${TCM_APP_REVISION}</string>
-		<key>NSHumanReadableCopyright</key>
-		<string>${TCM_APP_COPYRIGHT}</string>
-		<key>CFBundleGetInfoString</key>
-		<string>${TCM_CLT_GET_INFO}</string>
-		<key>LSMinimumSystemVersion</key>
-		<string>${MACOSX_DEPLOYMENT_TARGET}</string>
-	</dict>
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleIdentifier</key>
+	<string>de.codingmonkeys.see${TCM_APP_STYLE}</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>see</string>
+	<key>CFBundleVersion</key>
+	<string>${TCM_APP_REVISION}</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>${TCM_APP_COPYRIGHT}</string>
+	<key>CFBundleGetInfoString</key>
+	<string>${TCM_CLT_GET_INFO}</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
+	<key>CFBundleShortVersionString</key>
+	<string>${TCM_CLT_VERSION}</string>
+</dict>
 </plist>
