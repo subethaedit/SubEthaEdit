@@ -999,7 +999,7 @@
 "STYLE_PREF_CUSTOM_FONT_BUTTON" = "Auswählen...";
 "STYLE_PREF_CUSTOM_FONT_BUTTON_TOOL_TIP" = "Ändere die vorgegebene Schrift für Dokumente";
 "STYLE_PREF_SETTING_BOX_LABEL" = "Stil-Einstellungen";
-"STYLE_PREF_SHEET_BUTTON_DEFAULT_LABEL" = "Stil des Default-Modus";
+"STYLE_PREF_SHEET_BUTTON_DEFAULT_LABEL" = "Stil des Standard-Modus";
 "STYLE_PREF_SHEET_BUTTON_CUSTOM_LABEL" = "Eigener Stil";
 "STYLE_PREF_SHEET_BUTTON_CUSTOM_FOR_CONTEXT_LABEL" = "Eigener Stil pro Sprachkontext";
 "STYLE_PREF_PREVIEW_BOX_LABEL"= "Vorschau";
