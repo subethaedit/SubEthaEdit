@@ -5880,6 +5880,16 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 #pragma mark - NSSharingServiceDelegate
 
+- (void)sharingService:(NSSharingService *)sharingService didShareItems:(NSArray *)items
+{
+	for (NSWindowController *controller in self.windowControllers) {
+		if ([controller isKindOfClass:[PlainTextWindowController class]]) {
+			PlainTextWindowController *windowController = (PlainTextWindowController *)controller;
+			[windowController openParticipantsOverlay:sharingService];
+		}
+	}
+}
+
 - (NSRect)sharingService:(NSSharingService *)sharingService sourceFrameOnScreenForShareItem:(id <NSPasteboardWriting>)item {
 	NSArray *windowControllers = [self windowControllers];
 	if (windowControllers.count > 0) {
