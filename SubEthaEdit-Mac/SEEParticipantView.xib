@@ -68,7 +68,7 @@
                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="SharingIconReadOnly" id="uJJ-2w-3c8"/>
                 </imageView>
                 <progressIndicator horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="k1p-6D-syT">
-                    <rect key="frame" x="22" y="22" width="32" height="32"/>
+                    <rect key="frame" x="22" y="21" width="32" height="32"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                 </progressIndicator>
                 <textField hidden="YES" wantsLayer="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="i14-Tb-TdJ">
@@ -91,9 +91,10 @@
                 <constraint firstItem="hE6-nB-RDu" firstAttribute="centerY" secondItem="i14-Tb-TdJ" secondAttribute="centerY" id="BeS-c5-vn6"/>
                 <constraint firstAttribute="height" constant="76" id="CTe-CY-L0P"/>
                 <constraint firstItem="hE6-nB-RDu" firstAttribute="centerX" secondItem="k1p-6D-syT" secondAttribute="centerX" id="DMG-H5-rAW"/>
+                <constraint firstAttribute="width" secondItem="hE6-nB-RDu" secondAttribute="width" priority="549" constant="20" id="KND-Ve-MSI"/>
                 <constraint firstAttribute="width" constant="76" id="LnQ-VY-TNr"/>
                 <constraint firstItem="Ean-kT-01Z" firstAttribute="trailing" secondItem="hE6-nB-RDu" secondAttribute="trailing" constant="2" id="QY7-Bl-g4Q"/>
-                <constraint firstItem="hE6-nB-RDu" firstAttribute="centerY" secondItem="k1p-6D-syT" secondAttribute="centerY" id="XBu-jo-auU"/>
+                <constraint firstItem="hE6-nB-RDu" firstAttribute="centerY" secondItem="k1p-6D-syT" secondAttribute="centerY" constant="-1" id="XBu-jo-auU"/>
                 <constraint firstItem="hE6-nB-RDu" firstAttribute="centerX" secondItem="i14-Tb-TdJ" secondAttribute="centerX" id="cZw-Ty-KOG"/>
                 <constraint firstItem="hE6-nB-RDu" firstAttribute="bottom" secondItem="vtW-pW-OTD" secondAttribute="bottom" constant="-2" id="f4Z-WG-cca"/>
                 <constraint firstItem="hE6-nB-RDu" firstAttribute="leading" secondItem="vtW-pW-OTD" secondAttribute="leading" constant="2" id="iTu-lA-Mcf"/>
@@ -113,11 +114,11 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
             </animations>
         </customView>
         <customView hidden="YES" autoresizesSubviews="NO" wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lTM-E1-CsT" userLabel="Participants Action Overlay">
-            <rect key="frame" x="0.0" y="0.0" width="16" height="96"/>
+            <rect key="frame" x="0.0" y="0.0" width="16" height="76"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="Uv8-hZ-TnG" userLabel="CloseConnection Button">
-                    <rect key="frame" x="0.0" y="68" width="16" height="16"/>
+                    <rect key="frame" x="0.0" y="48" width="16" height="16"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="16" id="Bn0-XN-5hb"/>
@@ -132,7 +133,7 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="cLZ-EU-8Vm" userLabel="Toggle ReadWrite State Button">
-                    <rect key="frame" x="0.0" y="46" width="16" height="16"/>
+                    <rect key="frame" x="0.0" y="26" width="16" height="16"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="16" id="Bsd-oy-YyC"/>
@@ -147,7 +148,7 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="Eo9-iL-hjL" userLabel="Toggle Follow Button">
-                    <rect key="frame" x="0.0" y="30" width="16" height="16"/>
+                    <rect key="frame" x="0.0" y="10" width="16" height="16"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="16" id="RMO-MH-RYw"/>
@@ -166,11 +167,11 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
                 <constraint firstItem="cLZ-EU-8Vm" firstAttribute="trailing" secondItem="Eo9-iL-hjL" secondAttribute="trailing" id="9fE-4Z-bzG"/>
                 <constraint firstAttribute="width" constant="16" id="Awa-dS-szM"/>
                 <constraint firstAttribute="trailing" secondItem="Uv8-hZ-TnG" secondAttribute="trailing" id="F5W-ZE-okx"/>
-                <constraint firstAttribute="bottom" secondItem="Eo9-iL-hjL" secondAttribute="bottom" constant="30" id="GBw-Ld-lv8"/>
+                <constraint firstAttribute="bottom" secondItem="Eo9-iL-hjL" secondAttribute="bottom" constant="10" id="GBw-Ld-lv8"/>
                 <constraint firstItem="Uv8-hZ-TnG" firstAttribute="leading" secondItem="lTM-E1-CsT" secondAttribute="leading" id="IlW-AH-xRM"/>
                 <constraint firstItem="cLZ-EU-8Vm" firstAttribute="leading" secondItem="Eo9-iL-hjL" secondAttribute="leading" id="M9o-mZ-X1v"/>
                 <constraint firstItem="cLZ-EU-8Vm" firstAttribute="leading" secondItem="Uv8-hZ-TnG" secondAttribute="leading" id="MfQ-HI-1OF"/>
-                <constraint firstAttribute="height" constant="96" id="Mm5-9B-roJ"/>
+                <constraint firstAttribute="height" constant="76" id="Mm5-9B-roJ"/>
                 <constraint firstItem="cLZ-EU-8Vm" firstAttribute="trailing" secondItem="Uv8-hZ-TnG" secondAttribute="trailing" id="P8C-YX-H0R"/>
                 <constraint firstItem="cLZ-EU-8Vm" firstAttribute="top" secondItem="Uv8-hZ-TnG" secondAttribute="bottom" constant="6" id="RJk-wr-Mim"/>
                 <constraint firstItem="Uv8-hZ-TnG" firstAttribute="top" secondItem="lTM-E1-CsT" secondAttribute="top" constant="12" id="Tw7-6s-t8d"/>
@@ -180,11 +181,11 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
             <animations/>
         </customView>
         <customView hidden="YES" autoresizesSubviews="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y0C-Vm-vVD" userLabel="Pending Users Action Overlay">
-            <rect key="frame" x="0.0" y="0.0" width="16" height="96"/>
+            <rect key="frame" x="0.0" y="0.0" width="16" height="76"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="ioi-KN-wP0" userLabel="CloseConnection Button">
-                    <rect key="frame" x="0.0" y="68" width="16" height="16"/>
+                    <rect key="frame" x="0.0" y="48" width="16" height="16"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="16" id="734-Cm-gac"/>
@@ -199,7 +200,7 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="7Kl-QN-egj" userLabel="Accept ReadOnly Button">
-                    <rect key="frame" x="0.0" y="46" width="16" height="16"/>
+                    <rect key="frame" x="0.0" y="26" width="16" height="16"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="16" id="SAC-27-DUn"/>
@@ -214,7 +215,7 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="1iS-eR-ahe" userLabel="Accept Write Button">
-                    <rect key="frame" x="0.0" y="30" width="16" height="16"/>
+                    <rect key="frame" x="0.0" y="10" width="16" height="16"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="16" id="F0m-ea-eR3"/>
@@ -232,13 +233,13 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
             <constraints>
                 <constraint firstItem="ioi-KN-wP0" firstAttribute="trailing" secondItem="7Kl-QN-egj" secondAttribute="trailing" id="08L-D4-7Xs"/>
                 <constraint firstItem="7Kl-QN-egj" firstAttribute="trailing" secondItem="1iS-eR-ahe" secondAttribute="trailing" id="2gG-QI-uCO"/>
-                <constraint firstAttribute="bottom" secondItem="1iS-eR-ahe" secondAttribute="bottom" constant="30" id="4ZN-d4-mAE"/>
+                <constraint firstAttribute="bottom" secondItem="1iS-eR-ahe" secondAttribute="bottom" constant="10" id="4ZN-d4-mAE"/>
                 <constraint firstAttribute="width" constant="16" id="V5Z-k4-dCc"/>
                 <constraint firstItem="ioi-KN-wP0" firstAttribute="leading" secondItem="7Kl-QN-egj" secondAttribute="leading" id="fKt-4j-Ek9"/>
                 <constraint firstItem="ioi-KN-wP0" firstAttribute="top" secondItem="Y0C-Vm-vVD" secondAttribute="top" constant="12" id="i1s-ad-o3b"/>
                 <constraint firstAttribute="trailing" secondItem="ioi-KN-wP0" secondAttribute="trailing" id="lLy-ee-3bq"/>
                 <constraint firstItem="7Kl-QN-egj" firstAttribute="top" secondItem="ioi-KN-wP0" secondAttribute="bottom" constant="6" id="lha-49-wZf"/>
-                <constraint firstAttribute="height" constant="96" id="nvm-Sq-XOs"/>
+                <constraint firstAttribute="height" constant="76" id="nvm-Sq-XOs"/>
                 <constraint firstItem="7Kl-QN-egj" firstAttribute="leading" secondItem="Y0C-Vm-vVD" secondAttribute="leading" id="qWW-DN-hHL"/>
                 <constraint firstItem="7Kl-QN-egj" firstAttribute="leading" secondItem="1iS-eR-ahe" secondAttribute="leading" id="rLE-kr-KU9"/>
                 <constraint firstItem="ioi-KN-wP0" firstAttribute="leading" secondItem="Y0C-Vm-vVD" secondAttribute="leading" id="sV2-RL-SiO"/>
