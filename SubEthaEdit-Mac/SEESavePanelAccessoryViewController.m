@@ -15,6 +15,7 @@
 #import "SEESavePanelAccessoryViewController.h"
 #import "PlainTextDocument.h"
 #import "EncodingManager.h"
+#import "DocumentModeManager.h"
 
 @interface SEESavePanelAccessoryViewController ()
 
@@ -93,8 +94,14 @@
         [panel setAllowedFileTypes:@[@"de.codingmonkeys.subethaedit.seetext"]];
 		[panel setAllowsOtherFileTypes:NO];
     } else {
-		[panel setAllowedFileTypes:@[@"public.text"]]; // this enables empty extension, but no default extension and extension gets removed when opening panel
-//        [panel setAllowedFileTypes:self.writablePlainTextDocumentTypes];
+		DocumentMode *documentMode = self.document.documentMode;
+		NSArray *recognizedExtensions = [documentMode recognizedExtensions];
+		if ([recognizedExtensions count]) {
+			NSString *fileExtension = recognizedExtensions.firstObject;
+			panel.nameFieldStringValue = [panel.nameFieldStringValue stringByAppendingPathExtension:fileExtension];
+		}
+
+		[panel setAllowedFileTypes:self.writablePlainTextDocumentTypes];
 		[panel setAllowsOtherFileTypes:YES];
     }
     [panel setExtensionHidden:NO];
@@ -105,10 +112,10 @@
 - (NSArray *)writablePlainTextDocumentTypes
 {
 	NSMutableArray *writableDocumentTypes = [[self.document writableTypesForSaveOperation:self.saveOperation] mutableCopy];
-	[writableDocumentTypes addObject:@"public.text"];
 	[writableDocumentTypes removeObject:@"de.codingmonkeys.subethaedit.seetext"];
 	[writableDocumentTypes removeObject:self.document.fileType];
 	[writableDocumentTypes insertObject:self.document.fileType atIndex:0]; // ensure mode filextesion is the default fallback
+	[writableDocumentTypes insertObject:@"public.text" atIndex:0]; // this enables empty extensions
 
     return writableDocumentTypes;
 }
