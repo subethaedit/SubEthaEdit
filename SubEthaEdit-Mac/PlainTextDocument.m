@@ -5882,10 +5882,12 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 - (void)sharingService:(NSSharingService *)sharingService didShareItems:(NSArray *)items
 {
-	for (NSWindowController *controller in self.windowControllers) {
-		if ([controller isKindOfClass:[PlainTextWindowController class]]) {
-			PlainTextWindowController *windowController = (PlainTextWindowController *)controller;
-			[windowController openParticipantsOverlay:sharingService];
+	[[self topmostWindowController] openParticipantsOverlay:self];
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:HighlightChangesPreferenceKey]) {
+		NSEnumerator *plainTextEditors=[[self plainTextEditors] objectEnumerator];
+		PlainTextEditor *editor=nil;
+		while ((editor=[plainTextEditors nextObject])) {
+			[editor setShowsChangeMarks:YES];
 		}
 	}
 }
