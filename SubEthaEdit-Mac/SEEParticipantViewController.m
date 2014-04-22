@@ -341,7 +341,7 @@
 																	 multiplier:1
 																	   constant:0];
 		[userView addConstraints:@[constraint, verticalConstraint]];
-		self.userViewButtonLeftConstraintOutlet.constant = 16;
+		self.userViewButtonLeftConstraintOutlet.constant = 10;
 	}
 
 	self.pendingUserQuestionMarkOutlet.hidden = NO;
