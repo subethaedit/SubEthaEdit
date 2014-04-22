@@ -56,7 +56,6 @@
 #import "SESendProc.h"
 #import "SEActiveProc.h"
 
-#import "UserStatisticsController.h"
 #import "SEEStyleSheetEditorWindowController.h"
 
 #ifndef TCM_NO_DEBUG
@@ -1062,16 +1061,6 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 
 - (IBAction)reloadDocumentModes:(id)aSender {
     [[DocumentModeManager sharedInstance] reloadDocumentModes:aSender];
-}
-
-- (IBAction)showUserStatisticsWindow:(id)aSender {
-    static UserStatisticsController *uc = nil;
-    if (!uc) uc = [UserStatisticsController new];
-    if (![[uc window] isVisible]) {
-        [uc showWindow:aSender];
-    } else {
-        [[uc window] performClose:self];
-    }
 }
 
 - (IBAction)showStyleSheetEditorWindow:(id)aSender {

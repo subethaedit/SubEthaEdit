@@ -25,6 +25,7 @@
 	#import "AppController.h"
 #endif
 
+NSString * const DocumentModeDocumentInfoTypePreferenceKey     = @"DocumentInfoType";
 NSString * const DocumentModeShowTopStatusBarPreferenceKey     = @"ShowBottomStatusBar";
 NSString * const DocumentModeShowBottomStatusBarPreferenceKey  = @"ShowTopStatusBar";
 NSString * const DocumentModeEncodingPreferenceKey             = @"Encoding";

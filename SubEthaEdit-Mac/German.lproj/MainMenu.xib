@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5053" systemVersion="13D38" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1090" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5053"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -602,6 +602,12 @@
                                     <action selector="detab:" target="-1" id="532"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="Nach Syntax-Erkennung einrücken" id="BeQ-57-ys7">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="reindentSelection:" target="-1" id="TPr-QS-GH1"/>
+                                </connections>
+                            </menuItem>
                         </items>
                     </menu>
                 </menuItem>
@@ -1015,11 +1021,6 @@
                             <menuItem title="Dokumentenliste" alternate="YES" keyEquivalent="K" id="640">
                                 <connections>
                                     <action selector="showDocumentListWindow:" target="-1" id="xCk-SD-luM"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Statistik" keyEquivalent="i" id="635">
-                                <connections>
-                                    <action selector="showUserStatisticsWindow:" target="210" id="636"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="233">
