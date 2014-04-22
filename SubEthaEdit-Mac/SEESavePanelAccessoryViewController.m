@@ -15,6 +15,7 @@
 #import "SEESavePanelAccessoryViewController.h"
 #import "PlainTextDocument.h"
 #import "EncodingManager.h"
+#import "DocumentModeManager.h"
 
 @interface SEESavePanelAccessoryViewController ()
 
@@ -48,14 +49,24 @@
 - (void)loadView
 {
 	[super loadView];
-    
+
+    NSString *documentFileType = self.document.fileType;
     NSSavePanel *savePanel = self.savePanel;
     BOOL isGoingIntoBundles = [[NSUserDefaults standardUserDefaults] boolForKey:@"GoIntoBundlesPrefKey"];
     BOOL showsHiddenFiles = [[NSUserDefaults standardUserDefaults] boolForKey:@"ShowsHiddenFiles"];
+
     [savePanel setTreatsFilePackagesAsDirectories:isGoingIntoBundles];
 	[savePanel setShowsHiddenFiles:showsHiddenFiles];
-    [savePanel setCanSelectHiddenExtension:YES];
-    
+	[savePanel setExtensionHidden:NO];
+    [savePanel setCanSelectHiddenExtension:NO];
+
+	if (UTTypeConformsTo((__bridge CFStringRef)documentFileType, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext")) {
+		[self.savePanelAccessoryFileFormatMatrixOutlet selectCellWithTag:1];
+	} else {
+		[self.savePanelAccessoryFileFormatMatrixOutlet selectCellWithTag:0];
+	}
+	[self selectFileFormat:self.savePanelAccessoryFileFormatMatrixOutlet];
+
 	self.savePanelProxy.content = savePanel;
 
 	if (self.saveOperation == NSSaveToOperation) {
@@ -81,16 +92,32 @@
     NSSavePanel *panel = (NSSavePanel *)self.savePanel;
     if ([[aSender selectedCell] tag]==1) {
         [panel setAllowedFileTypes:@[@"de.codingmonkeys.subethaedit.seetext"]];
+		[panel setAllowsOtherFileTypes:NO];
     } else {
-        [panel setAllowedFileTypes:@[self.document.fileType]];
+		DocumentMode *documentMode = self.document.documentMode;
+		NSArray *recognizedExtensions = [documentMode recognizedExtensions];
+		if ([recognizedExtensions count]) {
+			NSString *fileExtension = recognizedExtensions.firstObject;
+			panel.nameFieldStringValue = [panel.nameFieldStringValue stringByAppendingPathExtension:fileExtension];
+		}
+
+		[panel setAllowedFileTypes:self.writablePlainTextDocumentTypes];
+		[panel setAllowsOtherFileTypes:YES];
     }
     [panel setExtensionHidden:NO];
+	[panel setCanSelectHiddenExtension:YES];
 }
 
 
-- (NSArray *)writableDocumentTypes
+- (NSArray *)writablePlainTextDocumentTypes
 {
-    return [self.document writableTypesForSaveOperation:self.saveOperation];
+	NSMutableArray *writableDocumentTypes = [[self.document writableTypesForSaveOperation:self.saveOperation] mutableCopy];
+	[writableDocumentTypes removeObject:@"de.codingmonkeys.subethaedit.seetext"];
+	[writableDocumentTypes removeObject:self.document.fileType];
+	[writableDocumentTypes insertObject:self.document.fileType atIndex:0]; // ensure mode filextesion is the default fallback
+	[writableDocumentTypes insertObject:@"public.text" atIndex:0]; // this enables empty extensions
+
+    return writableDocumentTypes;
 }
 
 @end
