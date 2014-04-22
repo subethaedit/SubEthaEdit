@@ -676,8 +676,6 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 }
 
 - (void)updateApplicationIcon {
-    NSImage  *appImage, *newAppImage;
-
     static NSDictionary *s_attributes=nil;
     if (!s_attributes) {
         float fontsize = 26.;
@@ -695,10 +693,6 @@ static OSStatus AuthorizationRightSetWithWorkaround(
                        nil] retain];
     }
 
-
-    // Grab the unmodified application image.
-    appImage = [NSImage imageNamed:@"NSApplicationIcon"];
-    // [[NSWorkspace sharedWorkspace] iconForFile:[[NSBundle mainBundle] bundlePath]];
 
     // get the badge count
     int badgeCount = 0;
