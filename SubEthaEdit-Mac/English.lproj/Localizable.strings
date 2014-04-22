@@ -912,3 +912,8 @@
 "ENCODING_DOCTOR_CONVERT_LOSSY" = "Convert lossy";
 "ENCODING_DOCTOR_CONVERT" = "Convert";
 
+
+/* will cease invisibilty alert */
+"ANNOUNCE_WILL_MAKE_VISIBLE_MESSAGE" = "Announcing will make you visible";
+"ANNOUNCE_WILL_MAKE_VISIBLE_INFORMATIVE_TEXT" = "You are currently invisible to other SubEthaEdit users. If you announce this document you will become visible to them.";
+"ANNOUNCE_WILL_MAKE_VISIBLE_ACTION_TITLE" = "Announce";

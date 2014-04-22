@@ -1235,9 +1235,31 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 - (IBAction)toggleIsAnnounced:(id)aSender {
-    [self setIsAnnounced:![self isAnnounced]];
+	if (!self.isAnnounced &&
+		[TCMMMPresenceManager sharedInstance].isCurrentlyReallyInvisible) {
+        NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+        [alert setAlertStyle:NSWarningAlertStyle];
+        [alert setMessageText:NSLocalizedString(@"ANNOUNCE_WILL_MAKE_VISIBLE_MESSAGE", nil)];
+        [alert setInformativeText:NSLocalizedString(@"ANNOUNCE_WILL_MAKE_VISIBLE_INFORMATIVE_TEXT", nil)];
+        [alert addButtonWithTitle:NSLocalizedString(@"ANNOUNCE_WILL_MAKE_VISIBLE_ACTION_TITLE", nil)];
+        [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
+        [self presentAlert:alert
+             modalDelegate:self
+            didEndSelector:@selector(announceAndBecomeVisibleAlertDidEnd:returnCode:contextInfo:)
+               contextInfo:nil];
+		if ([aSender isKindOfClass:[NSButton class]]) { // toggle back the state of the button if it was a button
+			[aSender setState:[aSender state] == NSOnState ? NSOffState : NSOnState];
+		}
+	} else {
+		[self setIsAnnounced:![self isAnnounced]];
+	}
 }
 
+- (void)announceAndBecomeVisibleAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+	if (returnCode == NSAlertFirstButtonReturn) {
+		[self setIsAnnounced:YES];
+	}
+}
 - (IBAction)inviteUsersToDocumentViaSharingService:(id)sender {
 	NSURL *documentSharingURL = [self documentURL];
 	NSArray *sharingServiceItems = @[];

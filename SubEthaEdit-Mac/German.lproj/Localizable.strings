@@ -1005,3 +1005,8 @@
 "STYLE_PREF_PREVIEW_BOX_LABEL"= "Vorschau";
 "STYLE_PREF_APPLY_STYLE_BUTTON" = "Auf offene Dokumente anwenden";
 
+/* will cease invisibilty alert */
+"ANNOUNCE_WILL_MAKE_VISIBLE_MESSAGE" = "Sie werden sichtbar";
+"ANNOUNCE_WILL_MAKE_VISIBLE_INFORMATIVE_TEXT" = "Sie sind derzeit unsichtbar für andere SubEthaEdit Nutzer. Durch die Ankündigung dieses Dokumentes werden Sie für die anderen SubEthaEdit Nutzer sichtbar.";
+"ANNOUNCE_WILL_MAKE_VISIBLE_ACTION_TITLE" = "Ankündigen";
+
