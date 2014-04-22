@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5053"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="AdvancedPreferences">
             <connections>
-                <outlet property="O_commandLineToolRemoveButton" destination="41" id="42"/>
                 <outlet property="O_disableScreenFontsButton" destination="45" id="53"/>
                 <outlet property="O_synthesiseFontsButton" destination="48" id="52"/>
                 <outlet property="O_window" destination="6" id="7"/>
@@ -73,28 +72,17 @@
                             <rect key="frame" x="2" y="2" width="362" height="52"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <button verticalHuggingPriority="750" id="41">
-                                    <rect key="frame" x="190" y="10" width="129" height="32"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                                    <buttonCell key="cell" type="push" title="Entfernen" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="165">
-                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                        <font key="font" metaFont="system"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <action selector="commandLineToolRemove:" target="-2" id="44"/>
-                                    </connections>
-                                </button>
-                                <button verticalHuggingPriority="750" id="40">
-                                    <rect key="frame" x="43" y="10" width="129" height="32"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                                    <buttonCell key="cell" type="push" title="Installieren" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="164">
-                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                        <font key="font" metaFont="system"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <action selector="commandLineToolInstall:" target="-2" id="43"/>
-                                    </connections>
-                                </button>
+                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" setsMaxLayoutWidthAtFirstLayout="YES" id="LKT-Fs-oEF">
+                                    <rect key="frame" x="15" y="12" width="332" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" allowsEditingTextAttributes="YES" id="XjX-MN-RaW">
+                                        <font key="font" metaFont="smallSystem"/>
+                                        <string key="title">Das 'see' Kommandozeilen-Tool kann auf der Webseite
+http://subethaedit.net/ geladen werden</string>
+                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                    </textFieldCell>
+                                </textField>
                             </subviews>
                         </view>
                         <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>

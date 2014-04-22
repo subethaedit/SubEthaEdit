@@ -13,14 +13,15 @@ extern NSString * const TCMMMUserWillLeaveSessionNotification;
 @interface TCMMMUser : NSObject {
     NSMutableDictionary *I_properties;
     NSMutableDictionary *I_propertiesBySessionID;
-    NSString *I_userID;
-    NSString *I_serviceName;
-    NSString *I_name;
-    long long I_changeCount;
 }
 
-+ (id)userWithNotification:(NSDictionary *)aNotificationDict;
-+ (id)userWithBencodedNotification:(NSData *)aData;
+@property (nonatomic, copy) NSString *userID;
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, readonly, copy) NSString *userIDIncludingChangeCount;
+@property (nonatomic) long long changeCount;
+
++ (instancetype)userWithNotification:(NSDictionary *)aNotificationDict;
++ (instancetype)userWithBencodedNotification:(NSData *)aData;
 - (NSData *)notificationBencoded;
 - (NSDictionary *)notification;
 
@@ -29,8 +30,6 @@ extern NSString * const TCMMMUserWillLeaveSessionNotification;
 - (BOOL)isMe;
 - (void)setUserID:(NSString *)aID;
 - (NSString *)userID;
-- (void)setServiceName:(NSString *)aServiceName;
-- (NSString *)serviceName;
 - (void)setName:(NSString *)aName;
 - (NSString *)name;
 - (void)setChangeCount:(long long)aChangeCount;

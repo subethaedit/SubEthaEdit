@@ -98,12 +98,12 @@
 		1428932B095756D800D14688 /* TCMMMMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289316095756D800D14688 /* TCMMMMessage.m */; };
 		1428932C095756D800D14688 /* TCMMMNoOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289318095756D800D14688 /* TCMMMNoOperation.m */; };
 		1428932D095756D800D14688 /* TCMMMOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428931A095756D800D14688 /* TCMMMOperation.m */; };
-		1428932E095756D800D14688 /* TCMMMPresenceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428931C095756D800D14688 /* TCMMMPresenceManager.m */; };
+		1428932E095756D800D14688 /* TCMMMPresenceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428931C095756D800D14688 /* TCMMMPresenceManager.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		1428932F095756D800D14688 /* TCMMMSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428931E095756D800D14688 /* TCMMMSession.m */; };
 		14289330095756D800D14688 /* TCMMMState.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289320095756D800D14688 /* TCMMMState.m */; };
 		14289331095756D800D14688 /* TCMMMStatusProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289322095756D800D14688 /* TCMMMStatusProfile.m */; };
 		14289332095756D800D14688 /* TCMMMTransformator.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289324095756D800D14688 /* TCMMMTransformator.m */; };
-		14289333095756D800D14688 /* TCMMMUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289326095756D800D14688 /* TCMMMUser.m */; };
+		14289333095756D800D14688 /* TCMMMUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289326095756D800D14688 /* TCMMMUser.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		14289334095756D800D14688 /* TCMMMUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289328095756D800D14688 /* TCMMMUserManager.m */; };
 		14289366095757AB00D14688 /* HandshakeProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289363095757AA00D14688 /* HandshakeProfile.m */; };
 		14289367095757AB00D14688 /* SessionProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289365095757AA00D14688 /* SessionProfile.m */; };
@@ -205,6 +205,7 @@
 		420AAF7F18FE0FFC00297DB1 /* StylePrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 420AAF7E18FE0FFC00297DB1 /* StylePrefs.xib */; };
 		423B23D018F63DDE001E2DCC /* SEECollaborationPreferenceModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 423B23CF18F63DDE001E2DCC /* SEECollaborationPreferenceModule.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		423B23D518F64065001E2DCC /* SEECollaborationPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 423B23D418F64065001E2DCC /* SEECollaborationPrefs.xib */; };
+		4246436518FEDF4300E5D830 /* SEEUserColorsPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4246436418FEDF4300E5D830 /* SEEUserColorsPreviewView.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		424CA988189058C000B2D333 /* SymbolMark.png in Resources */ = {isa = PBXBuildFile; fileRef = 424CA987189058C000B2D333 /* SymbolMark.png */; };
 		4C0B4C6118C8B3E300048335 /* SEEToggleRecentDocumentListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0B4C6018C8B3E300048335 /* SEEToggleRecentDocumentListItem.m */; };
 		4C0C4A0118B366EC00E6049E /* PlainTextWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0C4A0018B366EC00E6049E /* PlainTextWindow.xib */; };
@@ -933,6 +934,8 @@
 		423B23CE18F63DDE001E2DCC /* SEECollaborationPreferenceModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEECollaborationPreferenceModule.h; sourceTree = "<group>"; };
 		423B23CF18F63DDE001E2DCC /* SEECollaborationPreferenceModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEECollaborationPreferenceModule.m; sourceTree = "<group>"; };
 		423B23D418F64065001E2DCC /* SEECollaborationPrefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEECollaborationPrefs.xib; sourceTree = "<group>"; };
+		4246436318FEDF4300E5D830 /* SEEUserColorsPreviewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEUserColorsPreviewView.h; sourceTree = "<group>"; };
+		4246436418FEDF4300E5D830 /* SEEUserColorsPreviewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEUserColorsPreviewView.m; sourceTree = "<group>"; };
 		424CA987189058C000B2D333 /* SymbolMark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SymbolMark.png; path = artwork/SymbolMark.png; sourceTree = "<group>"; };
 		4C0B4C5F18C8B3E300048335 /* SEEToggleRecentDocumentListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEToggleRecentDocumentListItem.h; sourceTree = "<group>"; };
 		4C0B4C6018C8B3E300048335 /* SEEToggleRecentDocumentListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEToggleRecentDocumentListItem.m; sourceTree = "<group>"; };
@@ -1906,6 +1909,8 @@
 				142893A0095758C200D14688 /* TCMPreferenceModule.m */,
 				423B23CE18F63DDE001E2DCC /* SEECollaborationPreferenceModule.h */,
 				423B23CF18F63DDE001E2DCC /* SEECollaborationPreferenceModule.m */,
+				4246436318FEDF4300E5D830 /* SEEUserColorsPreviewView.h */,
+				4246436418FEDF4300E5D830 /* SEEUserColorsPreviewView.m */,
 			);
 			name = Preferences;
 			sourceTree = "<group>";
@@ -3227,6 +3232,7 @@
 				149774180B5E159F004A546C /* PlainTextLoadProgress.m in Sources */,
 				142D18B50BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.m in Sources */,
 				142D1B9C0BAEE04900B9EF1C /* TCMMMUserManagerKitAdditions.m in Sources */,
+				4246436518FEDF4300E5D830 /* SEEUserColorsPreviewView.m in Sources */,
 				141958B10BB951C400CB4AA4 /* TCMMMSessionAppKitHelper.m in Sources */,
 				1428F4B40BDE3B8A00411CA6 /* DebugSendOperationController.m in Sources */,
 				14584B2F0BE0C6E000EB6D15 /* TCMBEEPBencodedMessage.m in Sources */,

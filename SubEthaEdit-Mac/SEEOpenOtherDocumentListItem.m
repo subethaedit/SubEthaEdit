@@ -21,7 +21,7 @@
 - (id)init {
     self = [super init];
     if (self) {
-        self.name = NSLocalizedString(@"Open Other…", @"");
+        self.name = NSLocalizedString(@"DOCUMENT_LIST_OPEN", @"");
 		self.image = [NSImage imageNamed:NSImageNamePathTemplate];
     }
     return self;

@@ -62,6 +62,8 @@ extern NSString * const TCMMMPresenceTXTRecordNameKey;
 - (TCMMMStatusProfile *)statusProfileForUserID:(NSString *)aUserID;
 - (void)stopRendezvousBrowsing;
 - (void)startRendezvousBrowsing;
+
+@property (nonatomic, readonly) BOOL isCurrentlyReallyInvisible;
 - (BOOL)isVisible;
 - (void)setVisible:(BOOL)aFlag;
 - (void)setShouldAutoconnect:(BOOL)aFlag forUserID:(NSString *)aUserID;
