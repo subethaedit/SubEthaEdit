@@ -9,6 +9,7 @@
 #import "SEEDebugImageGenerationWindowController.h"
 
 @interface SEEDebugImageGenerationWindowController ()
+@property (assign) IBOutlet NSTextField *valueTextField;
 
 @end
 
@@ -32,6 +33,25 @@
 
 - (NSString *)windowNibName {
 	return @"SEEDebugImageGenerationWindowController";
+}
+- (IBAction)pdfBasedAction:(id)sender {
+	NSImage *image = [NSImage pdfBasedImageNamed:self.valueTextField.stringValue];
+	[self showImage:image];
+}
+- (IBAction)symbolBasedAction:(id)sender {
+}
+
+- (IBAction)namedAction:(id)sender {
+	NSImage *image = [NSImage imageNamed:self.valueTextField.stringValue];
+	[self showImage:image];
+}
+
+- (void)showImage:(NSImage *)anImage {
+	for (NSView *view in [self.window.contentView subviews]) {
+		if ([view isKindOfClass:[NSImageView class]]) {
+			[(NSImageView *)view setImage:anImage];
+		}
+	}
 }
 
 @end
