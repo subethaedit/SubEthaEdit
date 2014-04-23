@@ -170,6 +170,8 @@
 		default:
 			break;
 	}
+
+	[self updateColorsForIsDarkBackground:self.tabContext.document.documentBackgroundColor.isDark];
 }
 
 - (void)mouseEntered:(NSEvent *)theEvent {
