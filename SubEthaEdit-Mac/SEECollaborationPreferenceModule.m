@@ -30,7 +30,6 @@
 
 @interface SEECollaborationPreferenceModule ()
 @property (nonatomic, strong) IKPictureTaker *imagePicker;
-@property (nonatomic, strong) NSPopover *imagePopover;
 @end
 
 @implementation SEECollaborationPreferenceModule
@@ -116,16 +115,6 @@
 		 */
 		imagePicker;
 	});
-
-	self.imagePopover = ({
-		NSViewController *vc = [[NSViewController alloc] init];
-		vc.view = self.imagePicker.contentView; // this is evil
-		
-		NSPopover *popover = [[NSPopover alloc] init];
-		popover.contentViewController = vc;
-		popover.behavior = NSPopoverBehaviorSemitransient;
-		popover;
-	});
 }
 
 - (void)didSelect {
@@ -198,15 +187,12 @@
 }
 
 - (IBAction)chooseImage:(id)aSender {
-	[self.imagePicker beginPictureTakerWithDelegate:self didEndSelector:@selector(pictureTakerDidEnd:returnCode:contextInfo:) contextInfo:nil];
-	[self.imagePicker orderOut:nil];
-	[self.imagePopover showRelativeToRect:NSZeroRect ofView:self.O_avatarImageView preferredEdge:NSMinXEdge];
+	[self.imagePicker popUpRecentsMenuForView:self.O_avatarImageView withDelegate:self didEndSelector:@selector(pictureTakerDidEnd:returnCode:contextInfo:) contextInfo:nil];
 }
 
 #pragma mark - IKPictureTaker
 
 - (void)pictureTakerDidEnd:(IKPictureTaker *)aPictureTaker returnCode:(NSInteger)aReturnCode contextInfo:(void *)aContextInfo {
-	[self.imagePopover close];
 
 	NSImage *image = aPictureTaker.outputImage;
 	[self updateUserWithImage:image];
