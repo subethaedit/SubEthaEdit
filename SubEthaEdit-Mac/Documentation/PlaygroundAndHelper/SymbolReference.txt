@@ -1,0 +1,13 @@
+Symbol standard reference:
+
+- no color equals blue color (used for methods, properties, typedefs)
+
+Class
+C_#6D5E85
+
+Function
+f()_#6AB18D
+
+Preprocessor
+#_#774940
+
