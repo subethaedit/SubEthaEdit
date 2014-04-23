@@ -39,6 +39,8 @@
 	[self showImage:image];
 }
 - (IBAction)symbolBasedAction:(id)sender {
+	NSImage *image = [NSImage symbolImageNamed:self.valueTextField.stringValue];
+	[self showImage:image];
 }
 
 - (IBAction)namedAction:(id)sender {
