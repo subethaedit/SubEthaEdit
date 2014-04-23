@@ -105,7 +105,6 @@
 		
 		[imagePicker setInputImage:myImage];
 
-		[imagePicker setValue:@(NO) forKey:IKPictureTakerAllowsVideoCaptureKey];
 		[imagePicker setValue:[NSValue valueWithSize:NSMakeSize(256., 256.)] forKey:IKPictureTakerOutputImageMaxSizeKey];
 		[imagePicker setValue:@(YES) forKey:IKPictureTakerShowAddressBookPictureKey];
 		[imagePicker setValue:[NSImage imageNamed:NSImageNameUser] forKey:IKPictureTakerShowEmptyPictureKey];
