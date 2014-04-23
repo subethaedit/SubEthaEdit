@@ -12,7 +12,7 @@
 #import <Foundation/Foundation.h>
 
 @class DebugUserController;
-@class DebugBEEPController,DebugPresenceController,DebugSendOperationController,DebugAttributeInspectorController;
+@class DebugBEEPController,DebugPresenceController,DebugSendOperationController,DebugAttributeInspectorController, SEEDebugImageGenerationWindowController;
 
 @interface DebugController : NSObject
 {
@@ -21,6 +21,7 @@
     DebugBEEPController *I_debugBEEPController;
     DebugSendOperationController *I_debugSendOperationController;
     DebugAttributeInspectorController *I_debugAttributeInspectorController;
+	SEEDebugImageGenerationWindowController *I_debugImageGenerationWindowController;
 }
 
 + (DebugController *)sharedInstance;
@@ -33,6 +34,7 @@
 - (IBAction)crash:(id)sender;
 - (IBAction)createProxyWindow:(id)aSender;
 - (IBAction)showAttributeInspector:(id)sender;
+- (IBAction)showDebugImageGenerationWindowController:(id)aSender;
 @end
 
 
