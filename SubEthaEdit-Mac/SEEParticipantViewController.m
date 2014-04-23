@@ -162,6 +162,8 @@
 		} completionHandler:^{
 			[self.nameLabelPopoverOutlet showRelativeToRect:NSZeroRect ofView:self.userViewButtonOutlet preferredEdge:NSMinYEdge];
 		}];
+	} else {
+		[self.nameLabelPopoverOutlet showRelativeToRect:NSZeroRect ofView:self.userViewButtonOutlet preferredEdge:NSMinYEdge];
 	}
 }
 
@@ -175,6 +177,8 @@
 		} completionHandler:^{
 			[self.nameLabelPopoverOutlet close];
 		}];
+	} else {
+		[self.nameLabelPopoverOutlet close];
 	}
 }
 
