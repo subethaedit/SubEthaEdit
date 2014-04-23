@@ -1015,3 +1015,10 @@
 "DOCUMENT_LIST_NEW" = "Neu";
 "DOCUMENT_LIST_CONNECT" = "Mit URL verbinden…";
 
+/* participant overlay */
+"KICK_PENDING_USER_BUTTON_TITLE" = "Ablehnen";
+"READ_ONLY_PENDING_USER_BUTTON_TITLE" = "Lesen erlauben";
+"READ_WRITE_PENDING_USER_BUTTON_TITLE" = "Schreiben erlauben";
+"PENDING_USER_ALERT_POPUP_TITLE" = "Neuer Teilnehmer";
+"PENDING_USER_ALERT_POPUP_DESCRIPTION" = "%@ möchte an diesem Dokument teilnehmen.";
+

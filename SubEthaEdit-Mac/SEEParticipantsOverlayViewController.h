@@ -12,4 +12,5 @@
 
 @interface SEEParticipantsOverlayViewController : NSViewController
 - (id)initWithTabContext:(PlainTextWindowControllerTabContext *)aTabContext;
+- (void)updateColorsForIsDarkBackground:(BOOL)isDark;
 @end
