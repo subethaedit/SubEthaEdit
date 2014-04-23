@@ -9,6 +9,7 @@
 #import "FindReplaceController.h"
 #import "SEEDocumentController.h"
 #import "PlainTextEditor.h"
+#import "SEEParticipantsOverlayViewController.h"
 #import "PlainTextDocument.h"
 #import "PlainTextWindowController.h"
 #import "LayoutManager.h"
@@ -640,6 +641,13 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	[self.shareAnnounceButtonOutlet setImage:[NSImage imageNamed:isDark ? @"BottomBarSharingIconAnnounceDarkBackground_Inactive" : @"BottomBarSharingIconAnnounce_Inactive"]];
 	
 	// overlays?
+	NSViewController *bottomOverlayViewController = self.bottomOverlayViewController;
+	if (bottomOverlayViewController) {
+		if ([bottomOverlayViewController isKindOfClass:[SEEParticipantsOverlayViewController class]]) {
+			SEEParticipantsOverlayViewController *viewController  = (SEEParticipantsOverlayViewController *)bottomOverlayViewController;
+			[viewController updateColorsForIsDarkBackground:isDark];
+		}
+	}
 }
 
 - (void)takeStyleSettingsFromDocument

@@ -267,6 +267,13 @@
 	}
 }
 
+#pragma mark Color Scheme Appearence
+
+- (void)updateColorsForIsDarkBackground:(BOOL)isDark {
+	self.nameLabelPopoverOutlet.appearance = isDark ? NSPopoverAppearanceMinimal:NSPopoverAppearanceHUD;
+	self.pendingUserPopoverOutlet.appearance = isDark ? NSPopoverAppearanceMinimal:NSPopoverAppearanceHUD;
+}
+
 
 #pragma mark - Preparing Views
 

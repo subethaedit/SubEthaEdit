@@ -337,7 +337,21 @@
 																		   multiplier:1
 																			 constant:-6];
 	[view addConstraint:pinToRightConstraint];
+}
 
+
+- (void)updateColorsForIsDarkBackground:(BOOL)isDark {
+	for (SEEParticipantViewController *controller in self.participantSubviewControllers) {
+		[controller updateColorsForIsDarkBackground:isDark];
+	}
+
+	for (SEEParticipantViewController *controller in self.inviteeSubviewControllers) {
+		[controller updateColorsForIsDarkBackground:isDark];
+	}
+
+	for (SEEParticipantViewController *controller in self.pendingSubviewControllers) {
+		[controller updateColorsForIsDarkBackground:isDark];
+	}
 }
 
 @end

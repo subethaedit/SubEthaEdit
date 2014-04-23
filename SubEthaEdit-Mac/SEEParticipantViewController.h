@@ -17,6 +17,8 @@
 
 - (id)initWithParticipant:(TCMMMUser *)aParticipant tabContext:(PlainTextWindowControllerTabContext *)aTabContext;
 
+- (void)updateColorsForIsDarkBackground:(BOOL)isDark;
+
 - (void)updateForParticipantUserState;
 - (void)updateForPendingUserState;
 - (void)updateForInvitationState;
