@@ -6,8 +6,8 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="SEEParticipantViewController">
             <connections>
-                <outlet property="chooseEditModeButtonOutlet" destination="1iS-eR-ahe" id="gaV-mn-Kac"/>
-                <outlet property="chooseReadOnlyModeButtonOutlet" destination="7Kl-QN-egj" id="Dl1-HW-hvb"/>
+                <outlet property="chooseEditModeButtonOutlet" destination="yfb-64-HLz" id="ICw-EH-Vil"/>
+                <outlet property="chooseReadOnlyModeButtonOutlet" destination="Tyb-vE-h04" id="egt-SB-7iv"/>
                 <outlet property="closeConnectionButtonOutlet" destination="Uv8-hZ-TnG" id="RDO-0v-jmD"/>
                 <outlet property="connectingProgressIndicatorOutlet" destination="k1p-6D-syT" id="wZs-np-mwT"/>
                 <outlet property="hasFollowerOverlayImageOutlet" destination="Ean-kT-01Z" id="3LV-kx-M3a"/>
@@ -15,8 +15,7 @@
                 <outlet property="nameLabelPopoverOutlet" destination="5sY-nJ-VOY" id="M82-Ua-Eok"/>
                 <outlet property="participantActionOverlayOutlet" destination="lTM-E1-CsT" id="BMS-gs-uzp"/>
                 <outlet property="participantViewOutlet" destination="1" id="xn7-5f-3EV"/>
-                <outlet property="pendingUserActionOverlayOutlet" destination="Y0C-Vm-vVD" id="YO2-LH-dqF"/>
-                <outlet property="pendingUserKickButtonOutlet" destination="ioi-KN-wP0" id="a5d-nh-9GH"/>
+                <outlet property="pendingUserKickButtonOutlet" destination="nO5-17-Z6x" id="mO4-jY-2gq"/>
                 <outlet property="pendingUserPopoverOutlet" destination="FLM-sN-hEx" id="dvf-gP-phI"/>
                 <outlet property="pendingUserQuestionMarkOutlet" destination="i14-Tb-TdJ" id="kOH-bI-HoT"/>
                 <outlet property="readOnlyOverlayImageOutlet" destination="vtW-pW-OTD" id="U6e-5m-nDu"/>
@@ -183,72 +182,6 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
             </constraints>
             <animations/>
         </customView>
-        <customView hidden="YES" autoresizesSubviews="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y0C-Vm-vVD" userLabel="Pending Users Action Overlay">
-            <rect key="frame" x="0.0" y="0.0" width="16" height="76"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-            <subviews>
-                <button translatesAutoresizingMaskIntoConstraints="NO" id="ioi-KN-wP0" userLabel="CloseConnection Button">
-                    <rect key="frame" x="0.0" y="48" width="16" height="16"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="16" id="734-Cm-gac"/>
-                        <constraint firstAttribute="height" constant="16" id="CEy-tl-nud"/>
-                    </constraints>
-                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="SharingIconCloseCross" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="rLm-jq-SK0">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <connections>
-                        <action selector="closeConnection:" target="-2" id="atV-lx-aYA"/>
-                    </connections>
-                </button>
-                <button translatesAutoresizingMaskIntoConstraints="NO" id="7Kl-QN-egj" userLabel="Accept ReadOnly Button">
-                    <rect key="frame" x="0.0" y="26" width="16" height="16"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="16" id="SAC-27-DUn"/>
-                        <constraint firstAttribute="width" constant="16" id="Vw2-A8-DA9"/>
-                    </constraints>
-                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="SharingIconReadOnly" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="E6r-hA-4ou">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <connections>
-                        <action selector="chooseReadOnlyMode:" target="-2" id="Xpa-b9-tfy"/>
-                    </connections>
-                </button>
-                <button translatesAutoresizingMaskIntoConstraints="NO" id="1iS-eR-ahe" userLabel="Accept Write Button">
-                    <rect key="frame" x="0.0" y="10" width="16" height="16"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="16" id="F0m-ea-eR3"/>
-                        <constraint firstAttribute="height" constant="16" id="Qtk-xf-DcC"/>
-                    </constraints>
-                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="SharingIconWrite" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="ZSM-Py-ctA">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <connections>
-                        <action selector="chooseReadWriteMode:" target="-2" id="Zbk-e4-Dbe"/>
-                    </connections>
-                </button>
-            </subviews>
-            <constraints>
-                <constraint firstItem="ioi-KN-wP0" firstAttribute="trailing" secondItem="7Kl-QN-egj" secondAttribute="trailing" id="08L-D4-7Xs"/>
-                <constraint firstItem="7Kl-QN-egj" firstAttribute="trailing" secondItem="1iS-eR-ahe" secondAttribute="trailing" id="2gG-QI-uCO"/>
-                <constraint firstAttribute="bottom" secondItem="1iS-eR-ahe" secondAttribute="bottom" constant="10" id="4ZN-d4-mAE"/>
-                <constraint firstAttribute="width" constant="16" id="V5Z-k4-dCc"/>
-                <constraint firstItem="ioi-KN-wP0" firstAttribute="leading" secondItem="7Kl-QN-egj" secondAttribute="leading" id="fKt-4j-Ek9"/>
-                <constraint firstItem="ioi-KN-wP0" firstAttribute="top" secondItem="Y0C-Vm-vVD" secondAttribute="top" constant="12" id="i1s-ad-o3b"/>
-                <constraint firstAttribute="trailing" secondItem="ioi-KN-wP0" secondAttribute="trailing" id="lLy-ee-3bq"/>
-                <constraint firstItem="7Kl-QN-egj" firstAttribute="top" secondItem="ioi-KN-wP0" secondAttribute="bottom" constant="6" id="lha-49-wZf"/>
-                <constraint firstAttribute="height" constant="76" id="nvm-Sq-XOs"/>
-                <constraint firstItem="7Kl-QN-egj" firstAttribute="leading" secondItem="Y0C-Vm-vVD" secondAttribute="leading" id="qWW-DN-hHL"/>
-                <constraint firstItem="7Kl-QN-egj" firstAttribute="leading" secondItem="1iS-eR-ahe" secondAttribute="leading" id="rLE-kr-KU9"/>
-                <constraint firstItem="ioi-KN-wP0" firstAttribute="leading" secondItem="Y0C-Vm-vVD" secondAttribute="leading" id="sV2-RL-SiO"/>
-                <constraint firstItem="1iS-eR-ahe" firstAttribute="top" secondItem="7Kl-QN-egj" secondAttribute="bottom" id="w1s-na-i4B"/>
-            </constraints>
-        </customView>
         <viewController id="MKs-1R-EOT" userLabel="User Name Popover View Controller">
             <connections>
                 <outlet property="view" destination="5Xr-GH-ZCF" id="iJb-FV-8WE"/>
@@ -271,6 +204,9 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
                         <color key="textColor" name="alternateSelectedControlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
+                    <connections>
+                        <binding destination="-2" name="textColor" keyPath="self.popoverTextColor" id="pgy-2d-lZv"/>
+                    </connections>
                 </textField>
             </subviews>
             <constraints>
@@ -281,33 +217,94 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
             </constraints>
         </customView>
         <customView id="OAw-J0-YxO">
-            <rect key="frame" x="0.0" y="0.0" width="358" height="96"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="105"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vNb-Sn-aD7">
-                    <rect key="frame" x="291" y="9" width="47" height="17"/>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nO5-17-Z6x">
+                    <rect key="frame" x="20" y="7" width="88" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="inline" title="Reject" bezelStyle="inline" imagePosition="overlaps" alignment="center" borderStyle="border" inset="2" id="hfQ-tL-22J">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="smallSystemBold"/>
-                    </buttonCell>
-                </button>
-                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Bm-eB-Ytc">
-                    <rect key="frame" x="210" y="7" width="73" height="19"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="recessed" title="Close" bezelStyle="recessed" image="SharingIconCloseCross" imagePosition="left" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ZN0-Hl-hJ9">
+                    <buttonCell key="cell" type="recessed" title="Reject" bezelStyle="recessed" imagePosition="left" alignment="center" controlSize="small" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="iPx-zQ-by6">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
                         <font key="font" metaFont="systemBold" size="12"/>
                     </buttonCell>
+                    <connections>
+                        <action selector="closeConnection:" target="-2" id="MDQ-Vo-dnl"/>
+                    </connections>
                 </button>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Tyb-vE-h04">
+                    <rect key="frame" x="116" y="7" width="88" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="recessed" title="Read Only" bezelStyle="recessed" imagePosition="left" alignment="center" controlSize="small" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="BzY-O1-9WR">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                        <font key="font" metaFont="systemBold" size="12"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="chooseReadOnlyMode:" target="-2" id="JMB-6A-FBZ"/>
+                    </connections>
+                </button>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yfb-64-HLz">
+                    <rect key="frame" x="212" y="7" width="88" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="recessed" title="Read/Write" bezelStyle="recessed" imagePosition="left" alignment="center" controlSize="small" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hsf-WF-CX4">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                        <font key="font" metaFont="systemBold" size="12"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="chooseReadWriteMode:" target="-2" id="rk5-0r-M9R"/>
+                    </connections>
+                </button>
+                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ddb-hR-rzi">
+                    <rect key="frame" x="18" y="44" width="284" height="28"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" title="Choose, how the user can participate in this document." id="irA-ag-jIE">
+                        <font key="font" metaFont="smallSystem"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                    <connections>
+                        <binding destination="-2" name="textColor" keyPath="self.popoverTextColor" id="8N9-nh-4Mr"/>
+                    </connections>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="D0U-TB-bum">
+                    <rect key="frame" x="18" y="80" width="284" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="A User wants to join this document" id="nhM-qG-v7W">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                    <connections>
+                        <binding destination="-2" name="textColor" keyPath="self.popoverTextColor" id="toy-L1-OKT"/>
+                    </connections>
+                </textField>
             </subviews>
+            <constraints>
+                <constraint firstItem="Tyb-vE-h04" firstAttribute="leading" secondItem="nO5-17-Z6x" secondAttribute="trailing" constant="8" symbolic="YES" id="0oO-S8-4PW"/>
+                <constraint firstAttribute="trailing" secondItem="D0U-TB-bum" secondAttribute="trailing" constant="20" id="5B9-u5-nxe"/>
+                <constraint firstItem="Tyb-vE-h04" firstAttribute="baseline" secondItem="yfb-64-HLz" secondAttribute="baseline" id="5cn-ks-iyN"/>
+                <constraint firstItem="Tyb-vE-h04" firstAttribute="leading" secondItem="nO5-17-Z6x" secondAttribute="trailing" constant="8" id="8DA-FK-Y68"/>
+                <constraint firstItem="yfb-64-HLz" firstAttribute="leading" secondItem="Tyb-vE-h04" secondAttribute="trailing" constant="8" symbolic="YES" id="8Fj-Ip-UVM"/>
+                <constraint firstItem="D0U-TB-bum" firstAttribute="top" secondItem="OAw-J0-YxO" secondAttribute="top" constant="8" id="BbZ-tp-pTP"/>
+                <constraint firstItem="Tyb-vE-h04" firstAttribute="width" secondItem="yfb-64-HLz" secondAttribute="width" id="DcS-eu-Jf1"/>
+                <constraint firstItem="D0U-TB-bum" firstAttribute="leading" secondItem="OAw-J0-YxO" secondAttribute="leading" constant="20" symbolic="YES" id="FMl-5L-jcc"/>
+                <constraint firstItem="nO5-17-Z6x" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="OAw-J0-YxO" secondAttribute="leading" constant="20" id="G4r-Mr-cvz"/>
+                <constraint firstItem="Ddb-hR-rzi" firstAttribute="top" secondItem="D0U-TB-bum" secondAttribute="bottom" constant="8" symbolic="YES" id="JLy-hZ-vUq"/>
+                <constraint firstItem="Tyb-vE-h04" firstAttribute="baseline" secondItem="nO5-17-Z6x" secondAttribute="baseline" id="NYR-Qd-Wmn"/>
+                <constraint firstAttribute="trailing" secondItem="yfb-64-HLz" secondAttribute="trailing" constant="20" id="Vi5-BS-N4S"/>
+                <constraint firstItem="yfb-64-HLz" firstAttribute="leading" secondItem="Tyb-vE-h04" secondAttribute="trailing" constant="8" id="Yxr-fE-3z1"/>
+                <constraint firstItem="Ddb-hR-rzi" firstAttribute="leading" secondItem="D0U-TB-bum" secondAttribute="leading" id="ZBB-Xf-6tK"/>
+                <constraint firstAttribute="trailing" secondItem="Ddb-hR-rzi" secondAttribute="trailing" constant="20" symbolic="YES" id="ZWM-Bg-94j"/>
+                <constraint firstAttribute="bottom" secondItem="nO5-17-Z6x" secondAttribute="bottom" constant="8" id="c4f-4G-uFR"/>
+                <constraint firstItem="nO5-17-Z6x" firstAttribute="top" secondItem="Ddb-hR-rzi" secondAttribute="bottom" constant="20" id="ldC-W9-7za"/>
+                <constraint firstItem="nO5-17-Z6x" firstAttribute="width" secondItem="yfb-64-HLz" secondAttribute="width" id="pEV-LL-Jru"/>
+            </constraints>
         </customView>
         <viewController id="dbi-sL-jyG" userLabel="Pending User Popover View Controller">
             <connections>
                 <outlet property="view" destination="OAw-J0-YxO" id="N91-9c-493"/>
             </connections>
         </viewController>
-        <popover appearance="HUD" id="FLM-sN-hEx" userLabel="Pending User Popover">
+        <popover appearance="HUD" behavior="semitransient" id="FLM-sN-hEx" userLabel="Pending User Popover">
             <connections>
                 <outlet property="contentViewController" destination="dbi-sL-jyG" id="ob1-Ym-uYH"/>
             </connections>

@@ -26,6 +26,7 @@
 @interface SEEParticipantViewController ()
 
 @property (nonatomic, readwrite, assign) SEEParticipantViewMode viewMode;
+@property (nonatomic, readwrite, strong) NSColor *popoverTextColor;
 
 @property (nonatomic, readwrite, strong) TCMMMUser *participant;
 @property (nonatomic, readwrite, weak) PlainTextWindowControllerTabContext *tabContext;
@@ -43,7 +44,6 @@
 @property (nonatomic, weak) IBOutlet NSButton *toggleFollowButtonOutlet;
 
 @property (nonatomic, strong) IBOutlet NSPopover *pendingUserPopoverOutlet;
-@property (nonatomic, strong) IBOutlet NSView *pendingUserActionOverlayOutlet;
 @property (nonatomic, weak) IBOutlet NSButton *pendingUserKickButtonOutlet;
 @property (nonatomic, weak) IBOutlet NSButton *chooseEditModeButtonOutlet;
 @property (nonatomic, weak) IBOutlet NSButton *chooseReadOnlyModeButtonOutlet;
@@ -342,14 +342,9 @@
 #pragma mark Color Scheme Appearence
 
 - (void)updateColorsForIsDarkBackground:(BOOL)isDark {
-	{
-		self.nameLabelPopoverOutlet.appearance = isDark ? NSPopoverAppearanceMinimal : NSPopoverAppearanceHUD;
-		self.nameLabelOutlet.textColor = isDark ? [NSColor controlTextColor] : [NSColor alternateSelectedControlTextColor];
-	}
-
-	{
-		self.pendingUserPopoverOutlet.appearance = isDark ? NSPopoverAppearanceMinimal:NSPopoverAppearanceHUD;
-	}
+	self.nameLabelPopoverOutlet.appearance = isDark ? NSPopoverAppearanceMinimal : NSPopoverAppearanceHUD;
+	self.pendingUserPopoverOutlet.appearance = isDark ? NSPopoverAppearanceMinimal:NSPopoverAppearanceHUD;
+	self.popoverTextColor = isDark ? [NSColor controlTextColor] : [NSColor alternateSelectedControlTextColor];
 }
 
 
@@ -424,31 +419,6 @@
 
 
 - (void)updateForPendingUserState {
-	if (self.tabContext.document.session.isServer) {
-		NSView *userView = self.participantViewOutlet;
-		NSView *overlayView = self.pendingUserActionOverlayOutlet;
-		overlayView.hidden = NO;
-		[userView addSubview:overlayView];
-
-		NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:overlayView
-																	  attribute:NSLayoutAttributeRight
-																	  relatedBy:NSLayoutRelationEqual
-																		 toItem:userView
-																	  attribute:NSLayoutAttributeRight
-																	 multiplier:1
-																	   constant:-5];
-
-		NSLayoutConstraint *verticalConstraint = [NSLayoutConstraint constraintWithItem:overlayView
-																	  attribute:NSLayoutAttributeTop
-																	  relatedBy:NSLayoutRelationEqual
-																		 toItem:userView
-																	  attribute:NSLayoutAttributeTop
-																	 multiplier:1
-																	   constant:0];
-		[userView addConstraints:@[constraint, verticalConstraint]];
-		self.userViewButtonLeftConstraintOutlet.constant = 10;
-	}
-
 	self.pendingUserQuestionMarkOutlet.hidden = NO;
 	self.userViewButtonOutlet.enabled = NO;
 }
