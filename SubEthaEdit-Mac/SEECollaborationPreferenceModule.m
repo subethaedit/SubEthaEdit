@@ -123,7 +123,7 @@
 		
 		NSPopover *popover = [[NSPopover alloc] init];
 		popover.contentViewController = vc;
-		popover.behavior = NSPopoverBehaviorTransient;
+		popover.behavior = NSPopoverBehaviorSemitransient;
 		popover;
 	});
 }
