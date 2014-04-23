@@ -7,11 +7,11 @@
         <endregex>--&gt;</endregex>
     </blocks>
 
-    <symbol id="Tags with IDs" font-weight="normal" font-style="normal" image="SymbolID.png" indentation="0" ignoreblocks="yes">
+    <symbol id="Tags with IDs" font-weight="normal" font-style="normal" symbol="ID" indentation="0" ignoreblocks="yes">
         <regex>&lt;\w+\s+[^&gt;]*id *= *"([^"]*)"[^&gt;]*&gt;</regex>
     </symbol>
         
-    <symbol id="Pragma marks" font-weight="normal" font-style="normal" image="Symbol!.png" indentation="0" ignoreblocks="no" show-in-comments="yes">
+    <symbol id="Pragma marks" font-weight="normal" font-style="normal" symbol="!--_#2E7D35_14.0_LiGothicMed" indentation="0" ignoreblocks="no" show-in-comments="yes">
         <regex>&lt;!-- !([^-]*) --&gt;</regex>
     </symbol>
 

@@ -3,11 +3,17 @@ Symbol standard reference:
 - no color equals blue color (used for methods, properties, typedefs)
 
 Class
-C_#6D5E85
+symbol="C_#6D5E85"
 
 Function
-f()_#6AB18D
+symbol="f()_#6AB18D"
 
 Preprocessor
-#_#774940
+symbol="#_#774940"
 
+
+
+html & co
+
+symbol="ID"
+symbol="!--"
