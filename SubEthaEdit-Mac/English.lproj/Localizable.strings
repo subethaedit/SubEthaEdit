@@ -924,3 +924,11 @@
 "DOCUMENT_LIST_NEW" = "New";
 "DOCUMENT_LIST_CONNECT" = "Connect to specific host…";
 
+
+/* participant overlay */
+"KICK_PENDING_USER_BUTTON_TITLE" = "Reject";
+"READ_ONLY_PENDING_USER_BUTTON_TITLE" = "Read Only";
+"READ_WRITE_PENDING_USER_BUTTON_TITLE" = "Read/Write";
+"PENDING_USER_ALERT_POPUP_TITLE" = "%@ wants to join this document.";
+"PENDING_USER_ALERT_POPUP_DESCRIPTION" = "Please choose how, this user can participate in %@.";
+
