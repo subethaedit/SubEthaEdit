@@ -24,6 +24,9 @@
 #import "TCMMMUserSEEAdditions.h"
 
 @interface SEEParticipantViewController ()
+
+@property (nonatomic, readwrite, assign) SEEParticipantViewMode viewMode;
+
 @property (nonatomic, readwrite, strong) TCMMMUser *participant;
 @property (nonatomic, readwrite, weak) PlainTextWindowControllerTabContext *tabContext;
 
@@ -55,10 +58,11 @@
 
 @implementation SEEParticipantViewController
 
-- (id)initWithParticipant:(TCMMMUser *)aParticipant tabContext:(PlainTextWindowControllerTabContext *)aTabContext
+- (id)initWithParticipant:(TCMMMUser *)aParticipant tabContext:(PlainTextWindowControllerTabContext *)aTabContext inMode:(SEEParticipantViewMode)aMode
 {
     self = [super initWithNibName:@"SEEParticipantView" bundle:nil];
     if (self) {
+		self.viewMode = aMode;
 		self.participant = aParticipant;
 		self.tabContext = aTabContext;
 
@@ -149,36 +153,98 @@
 
 	// add tracking for action buttons overlay and name overlay
 	[self.participantViewOutlet addTrackingArea:[[NSTrackingArea alloc] initWithRect:NSZeroRect options:NSTrackingMouseEnteredAndExited|NSTrackingActiveInActiveApp|NSTrackingInVisibleRect owner:self userInfo:nil]];
+
+	switch (self.viewMode) {
+		case SEEParticipantViewModeParticipant:
+			[self updateForParticipantUserState];
+			break;
+
+		case SEEParticipantViewModeInvited:
+			[self updateForInvitationState];
+			break;
+
+		case SEEParticipantViewModePending:
+			[self updateForPendingUserState];
+			break;
+
+		default:
+			break;
+	}
 }
 
 - (void)mouseEntered:(NSEvent *)theEvent {
-	if (! self.participant.isMe) {
-		[self updateParticipantFollowed];
-		self.participantActionOverlayOutlet.hidden = NO;
+	switch (self.viewMode) {
+		case SEEParticipantViewModeParticipant:
+		{
+			if (! self.participant.isMe) {
+				[self updateParticipantFollowed];
+				self.participantActionOverlayOutlet.hidden = NO;
 
-		[NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
-			context.duration = 0.1;
-			self.userViewButtonLeftConstraintOutlet.animator.constant = 10.0;
-		} completionHandler:^{
-			[self.nameLabelPopoverOutlet showRelativeToRect:NSZeroRect ofView:self.userViewButtonOutlet preferredEdge:NSMinYEdge];
-		}];
-	} else {
-		[self.nameLabelPopoverOutlet showRelativeToRect:NSZeroRect ofView:self.userViewButtonOutlet preferredEdge:NSMinYEdge];
+				[NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+					context.duration = 0.1;
+					self.userViewButtonLeftConstraintOutlet.animator.constant = 10.0;
+				} completionHandler:^{
+					[self.nameLabelPopoverOutlet showRelativeToRect:NSZeroRect ofView:self.userViewButtonOutlet preferredEdge:NSMinYEdge];
+				}];
+			} else {
+				[self.nameLabelPopoverOutlet showRelativeToRect:NSZeroRect ofView:self.userViewButtonOutlet preferredEdge:NSMinYEdge];
+			}
+			break;
+		}
+		case SEEParticipantViewModeInvited:
+		{
+			self.participantActionOverlayOutlet.hidden = NO;
+
+			[NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+				context.duration = 0.1;
+				self.userViewButtonLeftConstraintOutlet.animator.constant = 10.0;
+			} completionHandler:^{
+				[self.nameLabelPopoverOutlet showRelativeToRect:NSZeroRect ofView:self.userViewButtonOutlet preferredEdge:NSMinYEdge];
+			}];
+			break;
+		}
+		case SEEParticipantViewModePending:
+		{
+			[self.pendingUserPopoverOutlet showRelativeToRect:NSZeroRect ofView:self.userViewButtonOutlet preferredEdge:NSMinYEdge];
+			break;
+		}
+		default:
+			break;
 	}
 }
 
 - (void)mouseExited:(NSEvent *)theEvent {
-	if (! self.participant.isMe) {
-		self.participantActionOverlayOutlet.hidden = YES;
+	switch (self.viewMode) {
+		case SEEParticipantViewModeParticipant:
+		{
+			if (! self.participant.isMe) {
+				self.participantActionOverlayOutlet.hidden = YES;
 
-		[NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
-			context.duration = 0.1;
-			self.userViewButtonLeftConstraintOutlet.animator.constant = 0.0;
-		} completionHandler:^{
-			[self.nameLabelPopoverOutlet close];
-		}];
-	} else {
-		[self.nameLabelPopoverOutlet close];
+				[NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+					context.duration = 0.1;
+					self.userViewButtonLeftConstraintOutlet.animator.constant = 0.0;
+				} completionHandler:^{
+					[self.nameLabelPopoverOutlet close];
+				}];
+			} else {
+				[self.nameLabelPopoverOutlet close];
+			}
+			break;
+		}
+		case SEEParticipantViewModeInvited:
+		{
+			self.participantActionOverlayOutlet.hidden = YES;
+
+			[NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+				context.duration = 0.1;
+				self.userViewButtonLeftConstraintOutlet.animator.constant = 0.0;
+			} completionHandler:^{
+				[self.nameLabelPopoverOutlet close];
+			}];
+			break;
+		}
+		default:
+			break;
 	}
 }
 
@@ -274,8 +340,14 @@
 #pragma mark Color Scheme Appearence
 
 - (void)updateColorsForIsDarkBackground:(BOOL)isDark {
-	self.nameLabelPopoverOutlet.appearance = isDark ? NSPopoverAppearanceMinimal:NSPopoverAppearanceHUD;
-	self.pendingUserPopoverOutlet.appearance = isDark ? NSPopoverAppearanceMinimal:NSPopoverAppearanceHUD;
+	{
+		self.nameLabelPopoverOutlet.appearance = isDark ? NSPopoverAppearanceMinimal : NSPopoverAppearanceHUD;
+		self.nameLabelOutlet.textColor = isDark ? [NSColor controlTextColor] : [NSColor alternateSelectedControlTextColor];
+	}
+
+	{
+		self.pendingUserPopoverOutlet.appearance = isDark ? NSPopoverAppearanceMinimal:NSPopoverAppearanceHUD;
+	}
 }
 
 

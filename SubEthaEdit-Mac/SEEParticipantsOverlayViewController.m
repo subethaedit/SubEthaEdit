@@ -117,7 +117,7 @@
 		NSMutableArray *allParticipants = [[session.participants objectForKey:TCMMMSessionReadWriteGroupName] mutableCopy];
 		[allParticipants addObjectsFromArray:[session.participants objectForKey:TCMMMSessionReadOnlyGroupName]];
 		for (TCMMMUser *user in allParticipants) {
-			SEEParticipantViewController *participantViewController = [[SEEParticipantViewController alloc] initWithParticipant:user tabContext:self.tabContext];
+			SEEParticipantViewController *participantViewController = [[SEEParticipantViewController alloc] initWithParticipant:user tabContext:self.tabContext inMode:SEEParticipantViewModeParticipant];
 
 			NSView *lastUserView = [self.participantSubviewControllers.lastObject view];
 			NSLayoutAttribute lastUserViewLayoutAttribute = NSLayoutAttributeRight;
@@ -149,7 +149,6 @@
 																				   constant:0];
 
 			[view addConstraints:@[horizontalConstraint, verticalConstraint]];
-			[participantViewController updateForParticipantUserState];
 		}
 	}
 
@@ -202,7 +201,7 @@
 		for (TCMMMUser *user in allInvitees) {
 			NSString *stateOfInvitee = [session stateOfInvitedUserById:user.userID];
 			if ([stateOfInvitee isEqualToString:TCMMMSessionInvitedUserStateAwaitingResponse]) {
-				SEEParticipantViewController *participantViewController = [[SEEParticipantViewController alloc] initWithParticipant:user tabContext:self.tabContext];
+				SEEParticipantViewController *participantViewController = [[SEEParticipantViewController alloc] initWithParticipant:user tabContext:self.tabContext inMode:SEEParticipantViewModeInvited];
 
 				NSView *lastUserView = [self.inviteeSubviewControllers.lastObject view];
 				if (!lastUserView) {
@@ -232,7 +231,6 @@
 																					   constant:0];
 
 				[view addConstraints:@[horizontalConstraint, verticalConstraint]];
-				[participantViewController updateForInvitationState];
 			} else {
 				// Move invited user to
 				NSUserNotification *userNotification = [[NSUserNotification alloc] init];
@@ -293,7 +291,7 @@
 	{
 		NSArray *allPendingUsers = session.pendingUsers;
 		for (TCMMMUser *user in allPendingUsers) {
-			SEEParticipantViewController *participantViewController = [[SEEParticipantViewController alloc] initWithParticipant:user tabContext:self.tabContext];
+			SEEParticipantViewController *participantViewController = [[SEEParticipantViewController alloc] initWithParticipant:user tabContext:self.tabContext inMode:SEEParticipantViewModePending];
 
 			NSView *lastUserView = [self.pendingSubviewControllers.lastObject view];
 			if (!lastUserView) {
@@ -323,7 +321,6 @@
 																				   constant:0];
 
 			[view addConstraints:@[horizontalConstraint, verticalConstraint]];
-			[participantViewController updateForPendingUserState];
 		}
 	}
 
