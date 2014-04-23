@@ -269,7 +269,7 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
 
 + (BOOL(^)(NSRect))TCM_drawingHandlerWithSize:(NSSize)aSize string:(NSString *)aString color:(NSColor *)aColor fontName:(NSString *)aFontName fontSize:(CGFloat)aFontSize {
 
-	NSGradient *gradient = [[NSGradient alloc] initWithColors:@[[aColor blendedColorWithFraction:0.2 ofColor:[NSColor whiteColor]],[aColor blendedColorWithFraction:0.3 ofColor:[NSColor whiteColor]]]];
+	NSGradient *gradient = [[NSGradient alloc] initWithColors:@[[aColor blendedColorWithFraction:0.2 ofColor:[NSColor whiteColor]],[aColor blendedColorWithFraction:0.35 ofColor:[NSColor whiteColor]]]];
 	NSRect baseRect = NSZeroRect;
 	baseRect.size = aSize;
 	CGFloat strokeWidth = ceil(NSWidth(baseRect) / 14.0);
@@ -312,7 +312,7 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
 		[[NSColor whiteColor] setFill];
 		CGContextSetLineCap(context, kCGLineCapRound);
 		CGContextSetLineJoin(context, kCGLineJoinRound);
-
+		CGContextSetLineWidth(context, 2.0);
 		CGRect lineBounds = CTLineGetImageBounds(line, context);
 
 		//		NSFrameRect(lineBounds);
@@ -340,15 +340,17 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
 	if (!result) {
 		NSArray *components = [aName componentsSeparatedByString:@"_"];
 		NSString *string = components[0];
-		NSColor *color = [NSColor colorForHTMLString:@"#5F9BE0"];
+		NSColor *color = [NSColor colorForHTMLString:@"#2B50E8"];
 		if (components.count > 1) {
 			color = [NSColor colorForHTMLString:components[1]];
 		}
-		CGFloat fontSize = 10.0;
+		CGFloat fontSize = 11.0;
 		if (components.count > 2) {
 			fontSize = [components[2] doubleValue];
 		}
-		NSString *fontName = @"HelveticaNeue-Bold";
+		NSString *fontName = @"LucidaGrande";
+		//@"LiGothicMed";
+		//@"HelveticaNeue-Bold";
 		if (components.count > 3) {
 			fontName = components[3];
 		}

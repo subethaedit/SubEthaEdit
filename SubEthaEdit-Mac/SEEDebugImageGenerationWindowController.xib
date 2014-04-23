@@ -22,8 +22,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <textField verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="75k-vp-dOY">
-                        <rect key="frame" x="9" y="240" width="263" height="22"/>
+                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="75k-vp-dOY">
+                        <rect key="frame" x="9" y="240" width="250" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" title="SearchLoupeNormal_36_Normal" drawsBackground="YES" id="1YC-vS-ibM">
                             <font key="font" metaFont="system"/>
@@ -54,11 +54,11 @@
                         </connections>
                     </button>
                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Wdq-pD-2YO">
-                        <rect key="frame" x="123" y="172" width="16" height="16"/>
+                        <rect key="frame" x="125" y="172" width="14" height="14"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="Wdq-pD-2YO" secondAttribute="height" multiplier="1:1" id="8Lq-e6-ZMx"/>
-                            <constraint firstAttribute="width" constant="16" id="Vuy-fp-SJe"/>
+                            <constraint firstAttribute="width" constant="14" id="Vuy-fp-SJe"/>
                         </constraints>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" id="mKw-h3-94I"/>
                     </imageView>
@@ -103,7 +103,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" id="waH-Hh-mRZ"/>
                     </imageView>
-                    <button verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="elI-yc-Hpw">
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="elI-yc-Hpw">
                         <rect key="frame" x="413" y="241" width="55" height="19"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="roundRect" title="Named" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="U3s-N8-N8f">
@@ -123,8 +123,17 @@
                         </constraints>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="NSIconViewTemplate" id="Zyj-DK-kBk"/>
                     </imageView>
+                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="iVK-ap-yeF">
+                        <rect key="frame" x="123" y="193" width="16" height="16"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="16" id="VVZ-qS-ecr"/>
+                        </constraints>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" id="WS8-Qw-fTp"/>
+                    </imageView>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="elI-yc-Hpw" firstAttribute="top" secondItem="tHa-r4-Rxd" secondAttribute="top" id="1Z8-5w-NaB"/>
                     <constraint firstItem="fWJ-VD-5zf" firstAttribute="leading" secondItem="tAe-qu-Tkq" secondAttribute="leading" id="4OQ-Hf-KtE"/>
                     <constraint firstItem="e0o-5j-iWU" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" constant="9" id="4dq-fK-hDG"/>
                     <constraint firstItem="fWJ-VD-5zf" firstAttribute="bottom" secondItem="Wdq-pD-2YO" secondAttribute="bottom" id="4yj-Vy-GBy"/>
@@ -144,10 +153,13 @@
                     <constraint firstItem="75k-vp-dOY" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" constant="9" id="eFP-AJ-sHB"/>
                     <constraint firstItem="fq4-AP-NdJ" firstAttribute="top" secondItem="tHa-r4-Rxd" secondAttribute="top" id="gHm-nj-X4w"/>
                     <constraint firstItem="tAe-qu-Tkq" firstAttribute="leading" secondItem="e0o-5j-iWU" secondAttribute="trailing" constant="8" id="hZi-4l-iHp"/>
+                    <constraint firstItem="iVK-ap-yeF" firstAttribute="trailing" secondItem="BoV-cR-M6r" secondAttribute="trailing" id="ham-CR-X8h"/>
                     <constraint firstItem="e0o-5j-iWU" firstAttribute="top" secondItem="75k-vp-dOY" secondAttribute="bottom" constant="8" id="htM-n4-1lf"/>
                     <constraint firstItem="pJ5-Fl-Iol" firstAttribute="leading" secondItem="e0o-5j-iWU" secondAttribute="leading" id="l1Z-kf-DrQ"/>
                     <constraint firstItem="fWJ-VD-5zf" firstAttribute="bottom" secondItem="e0o-5j-iWU" secondAttribute="bottom" constant="-4" id="nOo-OO-0oK"/>
+                    <constraint firstItem="iVK-ap-yeF" firstAttribute="width" secondItem="iVK-ap-yeF" secondAttribute="height" multiplier="1:1" id="s7J-La-ODY"/>
                     <constraint firstItem="pJ5-Fl-Iol" firstAttribute="top" secondItem="e0o-5j-iWU" secondAttribute="bottom" constant="8" id="tNx-yJ-661"/>
+                    <constraint firstItem="iVK-ap-yeF" firstAttribute="top" secondItem="BoV-cR-M6r" secondAttribute="bottom" constant="3" id="uKS-fK-1zx"/>
                     <constraint firstItem="BoV-cR-M6r" firstAttribute="trailing" secondItem="Wdq-pD-2YO" secondAttribute="trailing" id="y6J-iA-CxU"/>
                 </constraints>
             </view>
