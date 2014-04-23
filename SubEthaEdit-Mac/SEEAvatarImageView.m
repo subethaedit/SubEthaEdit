@@ -12,6 +12,11 @@
 
 #import "SEEAvatarImageView.h"
 
+@interface SEEAvatarImageView ()
+@property (nonatomic, strong) NSTrackingArea *hoverTrackingArea;
+@property (nonatomic) BOOL isHovering;
+@end
+
 @implementation SEEAvatarImageView
 
 static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarwObservationContext;
@@ -33,7 +38,7 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
         self.borderColor = [NSColor redColor];
 		self.backgroundColor = [[NSColor redColor] colorWithAlphaComponent:0.4];
 		self.initials = @"M E";
-
+		
 		[self registerKVO];
     }
     return self;
@@ -67,11 +72,11 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
 {
     if (context == SEEAvatarRedarwObservationContext) {
         [self setNeedsDisplay:YES];
+
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
 }
-
 
 #pragma mark - Drawing
 
@@ -146,6 +151,21 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
 //		NSFrameRect(textDrawingRect);
 	}
 
+	if (self.isHovering) {
+		[[NSGraphicsContext currentContext] saveGraphicsState]; {
+			
+			NSShadow *shadow = [[NSShadow alloc] init];
+			[shadow setShadowColor:[NSColor colorWithWhite:0.0 alpha:0.4]];
+			[shadow setShadowOffset:NSMakeSize(0.0, -1.0)];
+			[shadow setShadowBlurRadius:2.0];
+			[shadow set];
+			
+			[[NSColor colorWithWhite:0.0 alpha:0.5] set];
+			[borderPath fill];
+		
+		} [[NSGraphicsContext currentContext] restoreGraphicsState];
+	}
+
 	[[NSGraphicsContext currentContext] restoreGraphicsState];
 
 	// draw the border
@@ -160,6 +180,36 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
 - (BOOL)isOpaque
 {
 	return NO;
+}
+
+#pragma mark - Hover Image
+- (void)enableHoverImage {
+	NSTrackingArea *trackingArea = [[NSTrackingArea alloc] initWithRect:self.bounds
+																options:NSTrackingMouseEnteredAndExited | NSTrackingActiveInKeyWindow | NSTrackingInVisibleRect
+																  owner:self
+															   userInfo:nil];
+	self.hoverTrackingArea = trackingArea;
+	[self addTrackingArea:trackingArea];
+}
+
+- (void)disableHoverImage {
+	self.isHovering = NO;
+	[self removeTrackingArea:self.hoverTrackingArea];
+	self.hoverTrackingArea = nil;
+}
+
+- (void)mouseEntered:(NSEvent *)anEvent {
+	if (!self.isHovering) {
+		[self setNeedsDisplay:YES];
+	}
+	self.isHovering = YES;
+}
+
+- (void)mouseExited:(NSEvent *)anEvent {
+	if (self.isHovering) {
+		[self setNeedsDisplay:YES];
+	}
+	self.isHovering = NO;
 }
 
 @end

@@ -92,8 +92,8 @@
 	avatarImageView.initials = me.initials; // are updated by the change name method
 	[avatarImageView bind:@"borderColor"     toObject:defaultsController withKeyPath:@"values.MyColorHue" options:@{ NSValueTransformerNameBindingOption : @"HueToColor"}];
 	[avatarImageView bind:@"backgroundColor" toObject:defaultsController withKeyPath:@"values.MyChangesSaturation" options:@{ NSValueTransformerNameBindingOption : @"SaturationToWhiteColor" }];
+	[avatarImageView enableHoverImage];
 	
-	// invisible button for now - TODO: make nice hover and things
 	NSButton *button = [[NSButton alloc] initWithFrame:avatarImageView.frame];
 	[button setAction:@selector(chooseImage:)];
 	[button setTarget:self];

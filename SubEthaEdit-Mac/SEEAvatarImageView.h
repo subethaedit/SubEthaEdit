@@ -13,4 +13,7 @@
 @property (nonatomic, strong) NSColor *borderColor;
 @property (nonatomic, strong) NSColor *backgroundColor;
 @property (nonatomic, copy) NSString *initials;
+
+- (void)enableHoverImage;
+- (void)disableHoverImage;
 @end
