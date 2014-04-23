@@ -21,7 +21,7 @@
         <regex>typedef[ \t]*NS_ENUM\(\w+[\t ,]*(\w+)</regex>
     </symbol>
 
-    <symbol id="C Funtions" symbol="f()_#6AB18D" indentation="1" ignoreblocks="yes">
+    <symbol id="C Funtions" symbol="f()_#6AB18D" indentation="0" ignoreblocks="yes">
         <regex>(?&lt;=[\n\r]|^)(?!typedef)(?:[\w0-9_*]+\s+){1,3}[\w0-9_*]+[ \t]*\([\]\[\w0-9_,\s*&amp;/]*\)(?=\s*\{)</regex>
         <postprocess>
             <find>\([^\)]*\)</find>
@@ -62,8 +62,8 @@
     </symbol>
 
 
-    <symbol id="Defines" symbol="#_#774940" indentation="0" ignoreblocks="yes">
-        <regex>#define[ \t]*([\w\d()]*)[ \t]+[^\n\r]*[\n\r]</regex>
+    <symbol id="Defines" indentation="0" symbol="#_#774940" ignoreblocks="yes">
+        <regex>#define[ \t]*([\w\d]+(?:\([\w_, \t]+\))?)[ \t]*[^\n\r]*[\n\r]</regex>
     </symbol>
 
     <symbol id="CVS/SVN conflict" font-weight="bold" image="SymbolWarn" indentation="0" ignoreblocks="no">
