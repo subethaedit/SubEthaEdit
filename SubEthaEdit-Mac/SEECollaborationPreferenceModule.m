@@ -52,10 +52,9 @@
 	
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
     
-    TCMMMUser *me=[TCMMMUserManager me];
+    TCMMMUser *me = [TCMMMUserManager me];
     NSImage *myImage = [me image];
     [myImage setFlipped:NO];
-    [self.O_pictureImageView setImage:myImage];
     [self.O_nameTextField setStringValue:[me name]];
     [self.O_emailComboBox setStringValue:[[me properties] objectForKey:@"Email"]];
 
@@ -79,7 +78,13 @@
 	[preview bind:@"userColorHue" toObject:defaultsController withKeyPath:@"values.MyColorHue" options:nil];
 	[preview bind:@"changesSaturation" toObject:defaultsController withKeyPath:@"values.MyChangesSaturation" options:nil];
 	[preview bind:@"showsChangesHighlight" toObject:defaultsController withKeyPath:@"values.HighlightChanges" options:nil];
-
+	
+	// avatar image view related things
+	SEEAvatarImageView *avatarImageView = self.O_avatarImageView;
+	avatarImageView.image = me.image; // is updated by the choose image method
+	avatarImageView.initials = me.initials; // are updated by the change name method
+	[avatarImageView bind:@"borderColor"     toObject:defaultsController withKeyPath:@"values.MyColorHue" options:@{ NSValueTransformerNameBindingOption : @"HueToColor"}];
+	[avatarImageView bind:@"backgroundColor" toObject:defaultsController withKeyPath:@"values.MyChangesSaturation" options:@{ NSValueTransformerNameBindingOption : @"SaturationToWhiteColor" }];
 }
 
 - (void)didSelect {
@@ -125,97 +130,39 @@
 	}
 }
 
-#pragma mark - Colors
+#pragma mark - Me Card - Image
 
-#define COLORMENUIMAGEWIDTH 20.
-#define COLORMENUIMAGEHEIGHT 10.
+// TODO: remove : MyImagePreferenceKey, [NSImage imageNamed:@"DefaultPerson"], maybe: PCRolloverImageView
 
-- (NSImage *)TCM_menuImageWithColor:(NSColor *)aColor {
-    NSRect rect = NSMakeRect(0.0, 0.0, COLORMENUIMAGEWIDTH, COLORMENUIMAGEHEIGHT);
-	NSImage *image = [NSImage imageWithSize:rect.size flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
-		[aColor drawSwatchInRect:dstRect];
-		[[NSColor blackColor] set];
-		[NSBezierPath strokeRect:dstRect];
-		return YES;
-	}];
-    return image;
-}
+- (void)updateUserWithImage:(NSImage *)anImage {
+	if (anImage) {
+		NSData *pngData = [[anImage resizedImageWithSize:NSMakeSize(256.,256.)] TIFFRepresentation];
+		pngData = [[NSBitmapImageRep imageRepWithData:pngData] representationUsingType:NSPNGFileType properties:[NSDictionary dictionary]];
+		
+		TCMMMUser *me = [TCMMMUserManager me];
+		[[me properties] setObject:pngData forKey:@"ImageAsPNG"];
+		[me recacheImages];
+		[[NSUserDefaults standardUserDefaults] setObject:pngData forKey:MyImagePreferenceKey];
+		anImage = [me image];
+		[anImage setFlipped:NO];
+		[TCMMMUserManager didChangeMe];
 
-#pragma mark - IBActions - Me Card - Image
-- (IBAction)useAddressBookImage:(id)aSender {
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:MyImagePreferenceKey];
-    ABPerson *meCard=[[ABAddressBook sharedAddressBook] me];
-    NSImage *myImage=nil;
-    if (meCard) {
-        @try {
-            NSData  *imageData;
-            if ((imageData=[meCard imageData])) {
-                myImage=[[NSImage alloc] initWithData:imageData];
-                [myImage setCacheMode:NSImageCacheNever];
-            }
-        } @catch (id exception) {
-			
-        }
-    }
-    
-    if (!myImage) {
-        myImage=[NSImage imageNamed:@"DefaultPerson"];
-    }
-    NSData *pngData=[[myImage resizedImageWithSize:NSMakeSize(64.,64.)] TIFFRepresentation];
-    pngData=[[NSBitmapImageRep imageRepWithData:pngData] representationUsingType:NSPNGFileType properties:[NSDictionary dictionary]];
-	
-    TCMMMUser *me = [TCMMMUserManager me];
-    [[me properties] setObject:pngData forKey:@"ImageAsPNG"];
-    [me recacheImages];
-	myImage = [me image];
-    [myImage setFlipped:NO];
-    [self.O_pictureImageView setImage:myImage];
-    [TCMMMUserManager didChangeMe];
+	} else {
+		TCMMMUser *me = [TCMMMUserManager me];
+		[[me properties] removeObjectForKey:@"ImageAsPNG"];
+		[me recacheImages];
+		[[NSUserDefaults standardUserDefaults] removeObjectForKey:MyImagePreferenceKey];
+		[TCMMMUserManager didChangeMe];
+	}
 }
 
 - (IBAction)chooseImage:(id)aSender {
-    NSOpenPanel *panel = [NSOpenPanel openPanel];
-	
-	[panel beginSheetModalForWindow:[self.O_pictureImageView window] completionHandler:^(NSInteger result) {
-		if (result == NSFileHandlingPanelOKButton) {
-			NSImage *image = [[NSImage alloc] initWithContentsOfURL:[panel URL]];
-			if (image) {
-				[self.O_pictureImageView setImage:image];
-				[self takeImageFromImageView:self.O_pictureImageView];
-			} else {
-				NSBeep();
-			}
-		}
-	}];
-}
-
-- (IBAction)takeImageFromImageView:(id)aSender {
-    NSData *pngData=[[[self.O_pictureImageView realImage] resizedImageWithSize:NSMakeSize(64.,64.)] TIFFRepresentation];
-    pngData=[[NSBitmapImageRep imageRepWithData:pngData] representationUsingType:NSPNGFileType properties:[NSDictionary dictionary]];
-	
-    TCMMMUser *me = [TCMMMUserManager me];
-    [[me properties] setObject:pngData forKey:@"ImageAsPNG"];
-    [me recacheImages];
-    [[NSUserDefaults standardUserDefaults] setObject:pngData forKey:MyImagePreferenceKey];
-	NSImage *myImage = [me image];
-    [myImage setFlipped:NO];
-    [self.O_pictureImageView setImage:myImage];
-    [TCMMMUserManager didChangeMe];
-}
-
-- (IBAction)clearImage:(id)aSender {
-    NSData *pngData=[[NSImage imageNamed:@"DefaultPerson"] TIFFRepresentation];
-    pngData=[[NSBitmapImageRep imageRepWithData:pngData] representationUsingType:NSPNGFileType properties:[NSDictionary dictionary]];
-    TCMMMUser *me = [TCMMMUserManager me];
-    [[me properties] setObject:pngData forKey:@"ImageAsPNG"];
-    [me recacheImages];
-    [[NSUserDefaults standardUserDefaults] setObject:pngData forKey:MyImagePreferenceKey];
-    [self.O_pictureImageView setImage:[me image]];
-    [TCMMMUserManager didChangeMe];
 }
 
 
-#pragma mark - IBActions - Me Card
+
+
+#pragma mark - IBActions - Me
 
 - (IBAction)changeName:(id)aSender {
     TCMMMUser *me=[TCMMMUserManager me];
@@ -230,6 +177,8 @@
 		
         [me setName:newValue];
         [TCMMMUserManager didChangeMe];
+		
+		self.O_avatarImageView.initials = me.initials;
     }
 }
 
@@ -258,7 +207,6 @@
     }
 }
 
-#pragma mark - IBActions - Colors
 - (IBAction)updateChangesColor:(id)sender {
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
 

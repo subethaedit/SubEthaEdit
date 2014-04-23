@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
     </dependencies>
@@ -7,6 +7,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="SEECollaborationPreferenceModule">
             <connections>
                 <outlet property="O_automaticallyMapPortButton" destination="m4c-SU-LMl" id="vMs-rk-7Wg"/>
+                <outlet property="O_avatarImageView" destination="LNz-tD-bOH" id="gPq-LZ-h2J"/>
                 <outlet property="O_disableNetworkingButton" destination="yO2-eJ-6Ez" id="cCr-be-P1B"/>
                 <outlet property="O_emailComboBox" destination="6OE-fu-gsc" id="vAU-US-Z0p"/>
                 <outlet property="O_higlightChangesButton" destination="rdZ-is-71R" id="N4H-w5-bXl"/>
@@ -17,7 +18,6 @@
                 <outlet property="O_mappingStatusProgressIndicator" destination="nnU-Es-Xyy" id="YRA-dh-jRj"/>
                 <outlet property="O_mappingStatusTextField" destination="x0F-16-awU" id="Cdw-CZ-r92"/>
                 <outlet property="O_nameTextField" destination="GvU-me-qXy" id="d0T-ic-2Fb"/>
-                <outlet property="O_pictureImageView" destination="SxQ-dS-7cp" id="PFY-4F-Cal"/>
                 <outlet property="O_userColorsPreview" destination="7qA-ls-mYl" id="9no-zF-3Tg"/>
                 <outlet property="O_window" destination="QvC-M9-y7g" id="Dgz-nd-xe2"/>
             </connections>
@@ -122,15 +122,6 @@
                             <rect key="frame" x="2" y="2" width="361" height="237"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <imageView toolTip="You can change this picture in Addressbook's &quot;me&quot; card." id="SxQ-dS-7cp" customClass="PCRolloverImageView">
-                                    <rect key="frame" x="22" y="158" width="64" height="64"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <imageCell key="cell" selectable="YES" editable="YES" alignment="left" imageScaling="proportionallyDown" id="X5o-SB-RSu"/>
-                                    <connections>
-                                        <action selector="takeImageFromImageView:" target="-2" id="Vka-jo-Dxr"/>
-                                        <outlet property="menu" destination="rrR-Qf-AVA" id="cg9-si-3Kf"/>
-                                    </connections>
-                                </imageView>
                                 <textField verticalHuggingPriority="750" id="TdZ-Bk-aby">
                                     <rect key="frame" x="86" y="197" width="51" height="13"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -264,6 +255,10 @@
                                     <rect key="frame" x="16" y="97" width="328" height="36"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 </customView>
+                                <customView id="LNz-tD-bOH" customClass="SEEAvatarImageView">
+                                    <rect key="frame" x="17" y="157" width="64" height="64"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                </customView>
                             </subviews>
                         </view>
                         <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
@@ -284,31 +279,6 @@
                 </subviews>
             </view>
         </window>
-        <menu title="Menu" id="rrR-Qf-AVA" userLabel="Sharing Image">
-            <items>
-                <menuItem title="&lt;Use Address Book>" id="8SQ-1c-p3e">
-                    <connections>
-                        <action selector="useAddressBookImage:" target="-2" id="715-tT-nT1"/>
-                        <binding destination="-2" name="title" keyPath="self.localizedImageMenuAddressBook" id="KH9-if-F4t"/>
-                    </connections>
-                </menuItem>
-                <menuItem title="&lt;Choose Image...>" id="f5n-la-UDX">
-                    <connections>
-                        <action selector="chooseImage:" target="-2" id="UNV-3L-WK2"/>
-                        <binding destination="-2" name="title" keyPath="self.localizedImageMenuChoose" id="dqr-vV-Obt"/>
-                    </connections>
-                </menuItem>
-                <menuItem isSeparatorItem="YES" id="XLD-oC-oi3">
-                    <modifierMask key="keyEquivalentModifierMask" command="YES"/>
-                </menuItem>
-                <menuItem title="&lt;Clear Image>" id="qUy-4K-JbN">
-                    <connections>
-                        <action selector="clearImage:" target="-2" id="nbZ-W3-qMO"/>
-                        <binding destination="-2" name="title" keyPath="self.localizedImageMenuClear" id="mA9-xI-Ftm"/>
-                    </connections>
-                </menuItem>
-            </items>
-        </menu>
         <userDefaultsController representsSharedInstance="YES" id="gZV-Yj-UC8"/>
     </objects>
     <resources>
