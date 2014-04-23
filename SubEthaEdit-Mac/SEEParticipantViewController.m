@@ -432,12 +432,11 @@
 		self.chooseEditModeButtonOutlet.title = NSLocalizedStringWithDefaultValue(@"READ_WRITE_PENDING_USER_BUTTON_TITLE", nil, [NSBundle mainBundle], @"Read/Write", @"Button Title for read-write button in pending participant action popover");
 	}
 	{ // popover alert title
-		NSString *popoverTitleFormatString = NSLocalizedStringWithDefaultValue(@"PENDING_USER_ALERT_POPUP_TITLE", nil, [NSBundle mainBundle], @"%@ wants to join this document.", @"Pending participant action popover dialog title. Argument is pending user name.");
-		self.pendingUserActionPopoverTitle.stringValue = [NSString stringWithFormat:popoverTitleFormatString, self.participant.name];
+		self.pendingUserActionPopoverTitle.stringValue = NSLocalizedStringWithDefaultValue(@"PENDING_USER_ALERT_POPUP_TITLE", nil, [NSBundle mainBundle], @"New Participant", @"Pending participant action popover dialog title.");
 	}
 	{ // popover alert description
-		NSString *popoverDescriptionFormatString = NSLocalizedStringWithDefaultValue(@"PENDING_USER_ALERT_POPUP_DESCRIPTION", nil, [NSBundle mainBundle], @"Please choose, how this user can participate in %@.", @"Pending participant action popover dialog description. First argument represents the document name as displayed in window title.");
-		self.pendingUserActionPopoverDescription.stringValue = [NSString stringWithFormat:popoverDescriptionFormatString, self.tabContext.document.displayName];
+		NSString *popoverDescriptionFormatString = NSLocalizedStringWithDefaultValue(@"PENDING_USER_ALERT_POPUP_DESCRIPTION", nil, [NSBundle mainBundle], @"%@ wants to join this document.", @"Pending participant action popover dialog description. First argument represents joining participants name.");
+		self.pendingUserActionPopoverDescription.stringValue = [NSString stringWithFormat:popoverDescriptionFormatString, self.participant.name];
 	}
 }
 

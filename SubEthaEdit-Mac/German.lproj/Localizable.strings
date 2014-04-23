@@ -1017,8 +1017,8 @@
 
 /* participant overlay */
 "KICK_PENDING_USER_BUTTON_TITLE" = "Ablehnen";
-"READ_ONLY_PENDING_USER_BUTTON_TITLE" = "Nur lesen";
-"READ_WRITE_PENDING_USER_BUTTON_TITLE" = "Lesen & schreiben";
-"PENDING_USER_ALERT_POPUP_TITLE" = "%@ möchte an diesem Dokument teilnehmen.";
-"PENDING_USER_ALERT_POPUP_DESCRIPTION" = "Bitte wählen sie, wie der Nutzer an %@ teilnehmen kann.";
+"READ_ONLY_PENDING_USER_BUTTON_TITLE" = "Lesen erlauben";
+"READ_WRITE_PENDING_USER_BUTTON_TITLE" = "Schreiben erlauben";
+"PENDING_USER_ALERT_POPUP_TITLE" = "Neuer Teilnehmer";
+"PENDING_USER_ALERT_POPUP_DESCRIPTION" = "%@ möchte an diesem Dokument teilnehmen.";
 

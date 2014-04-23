@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13D45a" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1090" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
@@ -177,8 +177,8 @@
                                     <action selector="toggleIsAnnouncedOnAllDocuments:" target="-1" id="644"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Access Control" tag="-1" id="510">
-                                <menu key="submenu" title="Access Control" id="511">
+                            <menuItem title="New Participants" tag="-1" id="510">
+                                <menu key="submenu" title="New Participants" id="511">
                                     <items>
                                         <menuItem title="Read/Write" tag="2" keyEquivalent="A" id="509">
                                             <connections>

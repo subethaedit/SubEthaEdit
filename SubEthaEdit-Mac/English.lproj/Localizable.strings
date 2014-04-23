@@ -926,9 +926,9 @@
 
 
 /* participant overlay */
-"KICK_PENDING_USER_BUTTON_TITLE" = "Reject";
+"KICK_PENDING_USER_BUTTON_TITLE" = "Deny";
 "READ_ONLY_PENDING_USER_BUTTON_TITLE" = "Read Only";
-"READ_WRITE_PENDING_USER_BUTTON_TITLE" = "Read/Write";
-"PENDING_USER_ALERT_POPUP_TITLE" = "%@ wants to join this document.";
-"PENDING_USER_ALERT_POPUP_DESCRIPTION" = "Please choose how, this user can participate in %@.";
+"READ_WRITE_PENDING_USER_BUTTON_TITLE" = "Read & Write";
+"PENDING_USER_ALERT_POPUP_TITLE" = "New Participant";
+"PENDING_USER_ALERT_POPUP_DESCRIPTION" = "%@ wants to join this document.";
 
