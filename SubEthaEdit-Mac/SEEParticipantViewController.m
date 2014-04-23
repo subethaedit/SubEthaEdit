@@ -28,6 +28,7 @@
 @property (nonatomic, readwrite, weak) PlainTextWindowControllerTabContext *tabContext;
 
 @property (nonatomic, strong) IBOutlet NSView *participantViewOutlet;
+@property (nonatomic, strong) IBOutlet NSPopover *nameLabelPopoverOutlet;
 @property (nonatomic, weak) IBOutlet NSTextField *nameLabelOutlet;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *userViewButtonLeftConstraintOutlet;
 @property (nonatomic, weak) IBOutlet NSButton *userViewButtonOutlet;
@@ -38,6 +39,7 @@
 @property (nonatomic, weak) IBOutlet NSButton *toggleEditModeButtonOutlet;
 @property (nonatomic, weak) IBOutlet NSButton *toggleFollowButtonOutlet;
 
+@property (nonatomic, strong) IBOutlet NSPopover *pendingUserPopoverOutlet;
 @property (nonatomic, strong) IBOutlet NSView *pendingUserActionOverlayOutlet;
 @property (nonatomic, weak) IBOutlet NSButton *pendingUserKickButtonOutlet;
 @property (nonatomic, weak) IBOutlet NSButton *chooseEditModeButtonOutlet;
@@ -144,15 +146,36 @@
 		NSButton *button = self.chooseReadOnlyModeButtonOutlet;
 		button.image = [NSImage pdfBasedImageNamed:@"SharingIconReadOnly"TCM_PDFIMAGE_SEP@"16"TCM_PDFIMAGE_SEP@""TCM_PDFIMAGE_NORMAL];
 	}
+
+	// add tracking for action buttons overlay and name overlay
+	[self.participantViewOutlet addTrackingArea:[[NSTrackingArea alloc] initWithRect:NSZeroRect options:NSTrackingMouseEnteredAndExited|NSTrackingActiveInActiveApp|NSTrackingInVisibleRect owner:self userInfo:nil]];
 }
 
 - (void)mouseEntered:(NSEvent *)theEvent {
-	[self updateParticipantFollowed];
-	self.participantActionOverlayOutlet.hidden = NO;
+	if (! self.participant.isMe) {
+		[self updateParticipantFollowed];
+		self.participantActionOverlayOutlet.hidden = NO;
+
+		[NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+			context.duration = 0.1;
+			self.userViewButtonLeftConstraintOutlet.animator.constant = 10.0;
+		} completionHandler:^{
+			[self.nameLabelPopoverOutlet showRelativeToRect:NSZeroRect ofView:self.userViewButtonOutlet preferredEdge:NSMinYEdge];
+		}];
+	}
 }
 
 - (void)mouseExited:(NSEvent *)theEvent {
-	self.participantActionOverlayOutlet.hidden = YES;
+	if (! self.participant.isMe) {
+		self.participantActionOverlayOutlet.hidden = YES;
+
+		[NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+			context.duration = 0.1;
+			self.userViewButtonLeftConstraintOutlet.animator.constant = 0.0;
+		} completionHandler:^{
+			[self.nameLabelPopoverOutlet close];
+		}];
+	}
 }
 
 
@@ -286,9 +309,6 @@
 		[userView addSubview:self.participantActionOverlayOutlet];
 		[userView addConstraints:@[constraint, verticalConstraint]];
 
-		// install tracking for action overlay
-		[self.participantViewOutlet addTrackingArea:[[NSTrackingArea alloc] initWithRect:NSZeroRect options:NSTrackingMouseEnteredAndExited|NSTrackingActiveInKeyWindow|NSTrackingInVisibleRect owner:self userInfo:nil]];
-
 		// add double click target for follow action
 		[self.userViewButtonOutlet setAction:@selector(userViewButtonDoubleClicked:)];
 		[self.userViewButtonOutlet setTarget:self];
@@ -382,9 +402,6 @@
 																			   constant:0];
 		[userView addSubview:self.participantActionOverlayOutlet];
 		[userView addConstraints:@[constraint, verticalConstraint]];
-
-		// install tracking for action overlay
-		[self.participantViewOutlet addTrackingArea:[[NSTrackingArea alloc] initWithRect:NSZeroRect options:NSTrackingMouseEnteredAndExited|NSTrackingActiveInKeyWindow|NSTrackingInVisibleRect owner:self userInfo:nil]];
 	}
 }
 

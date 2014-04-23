@@ -11,10 +11,13 @@
                 <outlet property="closeConnectionButtonOutlet" destination="Uv8-hZ-TnG" id="RDO-0v-jmD"/>
                 <outlet property="connectingProgressIndicatorOutlet" destination="k1p-6D-syT" id="wZs-np-mwT"/>
                 <outlet property="hasFollowerOverlayImageOutlet" destination="Ean-kT-01Z" id="3LV-kx-M3a"/>
+                <outlet property="nameLabelOutlet" destination="Fk9-Iw-pk8" id="g0F-tN-gRT"/>
+                <outlet property="nameLabelPopoverOutlet" destination="5sY-nJ-VOY" id="M82-Ua-Eok"/>
                 <outlet property="participantActionOverlayOutlet" destination="lTM-E1-CsT" id="BMS-gs-uzp"/>
                 <outlet property="participantViewOutlet" destination="1" id="xn7-5f-3EV"/>
                 <outlet property="pendingUserActionOverlayOutlet" destination="Y0C-Vm-vVD" id="YO2-LH-dqF"/>
                 <outlet property="pendingUserKickButtonOutlet" destination="ioi-KN-wP0" id="a5d-nh-9GH"/>
+                <outlet property="pendingUserPopoverOutlet" destination="FLM-sN-hEx" id="dvf-gP-phI"/>
                 <outlet property="pendingUserQuestionMarkOutlet" destination="i14-Tb-TdJ" id="kOH-bI-HoT"/>
                 <outlet property="readOnlyOverlayImageOutlet" destination="vtW-pW-OTD" id="U6e-5m-nDu"/>
                 <outlet property="toggleEditModeButtonOutlet" destination="cLZ-EU-8Vm" id="Csv-Cp-tP3"/>
@@ -140,7 +143,7 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
                         <constraint firstAttribute="height" constant="16" id="HHZ-z4-EVI"/>
                     </constraints>
                     <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="SharingIconWrite" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="Gm4-Ai-0Wn">
-                        <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
                     <connections>
@@ -148,14 +151,14 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="Eo9-iL-hjL" userLabel="Toggle Follow Button">
-                    <rect key="frame" x="0.0" y="10" width="16" height="16"/>
+                    <rect key="frame" x="0.0" y="10" width="16" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="16" id="RMO-MH-RYw"/>
+                        <constraint firstAttribute="height" constant="18" id="RMO-MH-RYw"/>
                         <constraint firstAttribute="width" constant="16" id="jbi-BJ-yCv"/>
                     </constraints>
                     <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="SharingIconEye" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="S70-Da-84S">
-                        <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
                     <connections>
@@ -176,7 +179,7 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
                 <constraint firstItem="cLZ-EU-8Vm" firstAttribute="top" secondItem="Uv8-hZ-TnG" secondAttribute="bottom" constant="6" id="RJk-wr-Mim"/>
                 <constraint firstItem="Uv8-hZ-TnG" firstAttribute="top" secondItem="lTM-E1-CsT" secondAttribute="top" constant="12" id="Tw7-6s-t8d"/>
                 <constraint firstItem="Uv8-hZ-TnG" firstAttribute="leading" secondItem="lTM-E1-CsT" secondAttribute="leading" id="dl6-4b-bVQ"/>
-                <constraint firstItem="Eo9-iL-hjL" firstAttribute="top" secondItem="cLZ-EU-8Vm" secondAttribute="bottom" id="tGt-cF-PKZ"/>
+                <constraint firstItem="Eo9-iL-hjL" firstAttribute="top" secondItem="cLZ-EU-8Vm" secondAttribute="bottom" constant="-2" id="tGt-cF-PKZ"/>
             </constraints>
             <animations/>
         </customView>
@@ -246,6 +249,69 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
                 <constraint firstItem="1iS-eR-ahe" firstAttribute="top" secondItem="7Kl-QN-egj" secondAttribute="bottom" id="w1s-na-i4B"/>
             </constraints>
         </customView>
+        <viewController id="MKs-1R-EOT" userLabel="User Name Popover View Controller">
+            <connections>
+                <outlet property="view" destination="5Xr-GH-ZCF" id="iJb-FV-8WE"/>
+            </connections>
+        </viewController>
+        <popover appearance="HUD" id="5sY-nJ-VOY" userLabel="User Name Popover">
+            <connections>
+                <outlet property="contentViewController" destination="MKs-1R-EOT" id="Sgp-rI-Ntr"/>
+            </connections>
+        </popover>
+        <customView id="5Xr-GH-ZCF" userLabel="UserName OverlayView">
+            <rect key="frame" x="0.0" y="0.0" width="99" height="42"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Fk9-Iw-pk8">
+                    <rect key="frame" x="10" y="13" width="78" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Name Label" id="x4c-Eo-uOI">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="alternateSelectedControlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+            </subviews>
+            <constraints>
+                <constraint firstItem="Fk9-Iw-pk8" firstAttribute="top" secondItem="5Xr-GH-ZCF" secondAttribute="top" constant="12" id="CLx-ak-oya"/>
+                <constraint firstAttribute="trailing" secondItem="Fk9-Iw-pk8" secondAttribute="trailing" constant="13" id="FhE-0E-DQm"/>
+                <constraint firstItem="Fk9-Iw-pk8" firstAttribute="leading" secondItem="5Xr-GH-ZCF" secondAttribute="leading" constant="12" id="Zov-Mu-gPa"/>
+                <constraint firstAttribute="bottom" secondItem="Fk9-Iw-pk8" secondAttribute="bottom" constant="13" id="b0n-wc-GIp"/>
+            </constraints>
+        </customView>
+        <customView id="OAw-J0-YxO">
+            <rect key="frame" x="0.0" y="0.0" width="358" height="96"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vNb-Sn-aD7">
+                    <rect key="frame" x="291" y="9" width="47" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="inline" title="Reject" bezelStyle="inline" imagePosition="overlaps" alignment="center" borderStyle="border" inset="2" id="hfQ-tL-22J">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="smallSystemBold"/>
+                    </buttonCell>
+                </button>
+                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Bm-eB-Ytc">
+                    <rect key="frame" x="210" y="7" width="73" height="19"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="recessed" title="Close" bezelStyle="recessed" image="SharingIconCloseCross" imagePosition="left" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ZN0-Hl-hJ9">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                        <font key="font" metaFont="systemBold" size="12"/>
+                    </buttonCell>
+                </button>
+            </subviews>
+        </customView>
+        <viewController id="dbi-sL-jyG" userLabel="Pending User Popover View Controller">
+            <connections>
+                <outlet property="view" destination="OAw-J0-YxO" id="N91-9c-493"/>
+            </connections>
+        </viewController>
+        <popover appearance="HUD" id="FLM-sN-hEx" userLabel="Pending User Popover">
+            <connections>
+                <outlet property="contentViewController" destination="dbi-sL-jyG" id="ob1-Ym-uYH"/>
+            </connections>
+        </popover>
     </objects>
     <resources>
         <image name="SharingIconCloseCross" width="84" height="84"/>
