@@ -26,6 +26,13 @@
 #import <TCMPortMapper/TCMPortMapper.h>
 #import "TCMMMBEEPSessionManager.h"
 
+#import <Quartz/Quartz.h>
+
+@interface SEECollaborationPreferenceModule ()
+@property (nonatomic, strong) IKPictureTaker *imagePicker;
+@property (nonatomic, strong) NSPopover *imagePopover;
+@end
+
 @implementation SEECollaborationPreferenceModule
 
 #pragma mark - Preference Module - Basics
@@ -85,6 +92,40 @@
 	avatarImageView.initials = me.initials; // are updated by the change name method
 	[avatarImageView bind:@"borderColor"     toObject:defaultsController withKeyPath:@"values.MyColorHue" options:@{ NSValueTransformerNameBindingOption : @"HueToColor"}];
 	[avatarImageView bind:@"backgroundColor" toObject:defaultsController withKeyPath:@"values.MyChangesSaturation" options:@{ NSValueTransformerNameBindingOption : @"SaturationToWhiteColor" }];
+	
+	// invisible button for now - TODO: make nice hover and things
+	NSButton *button = [[NSButton alloc] initWithFrame:avatarImageView.frame];
+	[button setAction:@selector(chooseImage:)];
+	[button setTarget:self];
+	[button setTransparent:YES];
+	[avatarImageView.superview addSubview:button positioned:NSWindowAbove relativeTo:avatarImageView];
+	
+	self.imagePicker = ({
+		IKPictureTaker *imagePicker = [IKPictureTaker pictureTaker];
+		
+		[imagePicker setInputImage:myImage];
+
+		[imagePicker setValue:@(NO) forKey:IKPictureTakerAllowsVideoCaptureKey];
+		[imagePicker setValue:[NSValue valueWithSize:NSMakeSize(256., 256.)] forKey:IKPictureTakerOutputImageMaxSizeKey];
+		[imagePicker setValue:@(YES) forKey:IKPictureTakerShowAddressBookPictureKey];
+		[imagePicker setValue:[NSImage imageNamed:NSImageNameUser] forKey:IKPictureTakerShowEmptyPictureKey];
+		[imagePicker setValue:@(YES) forKey:IKPictureTakerShowEffectsKey];
+
+		/*
+		 IKPictureTakerInformationalTextKey
+		 A key for informational text. The associated value is an NSString or NSAttributedString object whose default value is "Drag Image Here".
+		 */
+		imagePicker;
+	});
+
+	self.imagePopover = ({
+		NSViewController *vc = [[NSViewController alloc] init];
+		vc.view = self.imagePicker.contentView; // this is evil
+		
+		NSPopover *popover = [[NSPopover alloc] init];
+		popover.contentViewController = vc;
+		popover;
+	});
 }
 
 - (void)didSelect {
@@ -157,10 +198,20 @@
 }
 
 - (IBAction)chooseImage:(id)aSender {
+	[self.imagePicker beginPictureTakerWithDelegate:self didEndSelector:@selector(pictureTakerDidEnd:returnCode:contextInfo:) contextInfo:nil];
+	[self.imagePicker orderOut:nil];
+	[self.imagePopover showRelativeToRect:NSZeroRect ofView:self.O_avatarImageView preferredEdge:NSMinXEdge];
 }
 
+#pragma mark - IKPictureTaker
 
+- (void)pictureTakerDidEnd:(IKPictureTaker *)aPictureTaker returnCode:(NSInteger)aReturnCode contextInfo:(void *)aContextInfo {
+	[self.imagePopover close];
 
+	NSImage *image = aPictureTaker.outputImage;
+	[self updateUserWithImage:image];
+	[self.O_avatarImageView setImage:image];
+}
 
 #pragma mark - IBActions - Me
 
