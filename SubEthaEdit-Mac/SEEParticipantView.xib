@@ -260,11 +260,11 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
             </connections>
         </popover>
         <customView id="5Xr-GH-ZCF" userLabel="UserName OverlayView">
-            <rect key="frame" x="0.0" y="0.0" width="99" height="42"/>
+            <rect key="frame" x="0.0" y="0.0" width="84" height="27"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Fk9-Iw-pk8">
-                    <rect key="frame" x="10" y="13" width="78" height="17"/>
+                    <rect key="frame" x="3" y="5" width="78" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Name Label" id="x4c-Eo-uOI">
                         <font key="font" metaFont="system"/>
@@ -274,10 +274,10 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
                 </textField>
             </subviews>
             <constraints>
-                <constraint firstItem="Fk9-Iw-pk8" firstAttribute="top" secondItem="5Xr-GH-ZCF" secondAttribute="top" constant="12" id="CLx-ak-oya"/>
-                <constraint firstAttribute="trailing" secondItem="Fk9-Iw-pk8" secondAttribute="trailing" constant="13" id="FhE-0E-DQm"/>
-                <constraint firstItem="Fk9-Iw-pk8" firstAttribute="leading" secondItem="5Xr-GH-ZCF" secondAttribute="leading" constant="12" id="Zov-Mu-gPa"/>
-                <constraint firstAttribute="bottom" secondItem="Fk9-Iw-pk8" secondAttribute="bottom" constant="13" id="b0n-wc-GIp"/>
+                <constraint firstItem="Fk9-Iw-pk8" firstAttribute="top" secondItem="5Xr-GH-ZCF" secondAttribute="top" constant="5" id="CLx-ak-oya"/>
+                <constraint firstAttribute="trailing" secondItem="Fk9-Iw-pk8" secondAttribute="trailing" constant="5" id="FhE-0E-DQm"/>
+                <constraint firstItem="Fk9-Iw-pk8" firstAttribute="leading" secondItem="5Xr-GH-ZCF" secondAttribute="leading" constant="5" id="Zov-Mu-gPa"/>
+                <constraint firstAttribute="bottom" secondItem="Fk9-Iw-pk8" secondAttribute="bottom" constant="5" id="b0n-wc-GIp"/>
             </constraints>
         </customView>
         <customView id="OAw-J0-YxO">
