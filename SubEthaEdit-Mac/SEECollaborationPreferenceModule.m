@@ -193,10 +193,11 @@
 #pragma mark - IKPictureTaker
 
 - (void)pictureTakerDidEnd:(IKPictureTaker *)aPictureTaker returnCode:(NSInteger)aReturnCode contextInfo:(void *)aContextInfo {
-
-	NSImage *image = aPictureTaker.outputImage;
-	[self updateUserWithImage:image];
-	[self.O_avatarImageView setImage:image];
+	if (aReturnCode != NSCancelButton) {
+		NSImage *image = aPictureTaker.outputImage;
+		[self updateUserWithImage:image];
+		[self.O_avatarImageView setImage:image];
+	}
 }
 
 #pragma mark - IBActions - Me
