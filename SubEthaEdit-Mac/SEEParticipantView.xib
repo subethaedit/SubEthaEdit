@@ -15,6 +15,8 @@
                 <outlet property="nameLabelPopoverOutlet" destination="5sY-nJ-VOY" id="M82-Ua-Eok"/>
                 <outlet property="participantActionOverlayOutlet" destination="lTM-E1-CsT" id="BMS-gs-uzp"/>
                 <outlet property="participantViewOutlet" destination="1" id="xn7-5f-3EV"/>
+                <outlet property="pendingUserActionPopoverDescription" destination="Ddb-hR-rzi" id="dBq-9A-yxY"/>
+                <outlet property="pendingUserActionPopoverTitle" destination="D0U-TB-bum" id="U82-gA-Bi0"/>
                 <outlet property="pendingUserKickButtonOutlet" destination="nO5-17-Z6x" id="mO4-jY-2gq"/>
                 <outlet property="pendingUserPopoverOutlet" destination="FLM-sN-hEx" id="dvf-gP-phI"/>
                 <outlet property="pendingUserQuestionMarkOutlet" destination="i14-Tb-TdJ" id="kOH-bI-HoT"/>
@@ -253,10 +255,10 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
                         <action selector="chooseReadWriteMode:" target="-2" id="rk5-0r-M9R"/>
                     </connections>
                 </button>
-                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ddb-hR-rzi">
+                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" misplaced="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ddb-hR-rzi">
                     <rect key="frame" x="18" y="44" width="284" height="28"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" title="Choose, how the user can participate in this document." id="irA-ag-jIE">
+                    <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" title="&lt;&lt;Please choose how this user can participate in this document.>>" id="irA-ag-jIE">
                         <font key="font" metaFont="smallSystem"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -265,10 +267,10 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
                         <binding destination="-2" name="textColor" keyPath="self.popoverTextColor" id="8N9-nh-4Mr"/>
                     </connections>
                 </textField>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="D0U-TB-bum">
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="D0U-TB-bum">
                     <rect key="frame" x="18" y="80" width="284" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="A User wants to join this document" id="nhM-qG-v7W">
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="&lt;&lt;A user wants to join this document>>" id="nhM-qG-v7W">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>

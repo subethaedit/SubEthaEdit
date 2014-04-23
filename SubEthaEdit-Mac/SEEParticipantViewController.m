@@ -44,6 +44,8 @@
 @property (nonatomic, weak) IBOutlet NSButton *toggleFollowButtonOutlet;
 
 @property (nonatomic, strong) IBOutlet NSPopover *pendingUserPopoverOutlet;
+@property (nonatomic, weak) IBOutlet NSTextField *pendingUserActionPopoverTitle;
+@property (nonatomic, weak) IBOutlet NSTextField *pendingUserActionPopoverDescription;
 @property (nonatomic, weak) IBOutlet NSButton *pendingUserKickButtonOutlet;
 @property (nonatomic, weak) IBOutlet NSButton *chooseEditModeButtonOutlet;
 @property (nonatomic, weak) IBOutlet NSButton *chooseReadOnlyModeButtonOutlet;
@@ -421,6 +423,22 @@
 - (void)updateForPendingUserState {
 	self.pendingUserQuestionMarkOutlet.hidden = NO;
 	self.userViewButtonOutlet.enabled = NO;
+
+	{
+		self.pendingUserKickButtonOutlet.title = NSLocalizedStringWithDefaultValue(@"KICK_PENDING_USER_BUTTON_TITLE", nil, [NSBundle mainBundle], @"Reject", @"Button Title for reject button in pending participant action popover");
+
+		self.chooseReadOnlyModeButtonOutlet.title = NSLocalizedStringWithDefaultValue(@"READ_ONLY_PENDING_USER_BUTTON_TITLE", nil, [NSBundle mainBundle], @"Read Only", @"Button Title for read only button in pending participant action popover");
+
+		self.chooseEditModeButtonOutlet.title = NSLocalizedStringWithDefaultValue(@"READ_WRITE_PENDING_USER_BUTTON_TITLE", nil, [NSBundle mainBundle], @"Read/Write", @"Button Title for read-write button in pending participant action popover");
+	}
+	{
+		NSString *popoverTitleFormatString = NSLocalizedStringWithDefaultValue(@"PENDING_USER_ALERT_POPUP_TITLE", nil, [NSBundle mainBundle], @"%@ wants to join this document.", @"Pending participant action popover dialog title. Argument is pending user name.");
+		self.pendingUserActionPopoverTitle.stringValue = [NSString stringWithFormat:popoverTitleFormatString, self.participant.name];
+	}
+	{
+		NSString *popoverDescriptionFormatString = NSLocalizedStringWithDefaultValue(@"PENDING_USER_ALERT_POPUP_DESCRIPTION", nil, [NSBundle mainBundle], @"Please choose how this user can participate in %@.", @"Pending participant action popover dialog description. First argument represents the document name as displayer in window title.");
+		self.pendingUserActionPopoverDescription.stringValue = [NSString stringWithFormat:popoverDescriptionFormatString, self.tabContext.document.displayName];
+	}
 }
 
 - (void)updateForInvitationState {
