@@ -22,6 +22,7 @@
 #import "SEEDocumentController.h"
 #import "DebugAttributeInspectorController.h"
 #import "AppController.h"
+#import "SEEDebugImageGenerationWindowController.h"
 
 static DebugController * sharedInstance = nil;
 
@@ -90,6 +91,13 @@ static DebugController * sharedInstance = nil;
         [menu addItem:usersItem];
         [usersItem release];
         
+		{
+			NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:@"Image Generation Debug Window" action:@selector(showDebugImageGenerationWindowController:) keyEquivalent:@""];
+			[item setTarget:self];
+			[menu addItem:item];
+			[item release];
+		}
+		
         NSMenuItem *presenceItem = [[NSMenuItem alloc] initWithTitle:@"Presence Viewer" action:@selector(showPresence:) keyEquivalent:@""];
         [presenceItem setTarget:self];
         [menu addItem:presenceItem];
@@ -186,6 +194,14 @@ static DebugController * sharedInstance = nil;
         [[NSApp mainMenu] removeItemAtIndex:indexOfDebugMenu];
     }
 }
+
+- (IBAction)showDebugImageGenerationWindowController:(id)aSender {
+	if (!I_debugImageGenerationWindowController) {
+		I_debugImageGenerationWindowController = [SEEDebugImageGenerationWindowController new];
+	}
+	[I_debugImageGenerationWindowController showWindow:aSender];
+}
+
 
 - (IBAction)createProxyWindow:(id)aSender {
     TCMMMSession *testSession = 
