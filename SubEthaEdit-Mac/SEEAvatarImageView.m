@@ -101,7 +101,8 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
 
 	NSImage *image = self.image;
 	if (image) {
-		[image drawInRect:drawingRect
+		NSRect imageRect = [self centerScanRect:drawingRect];
+		[image drawInRect:imageRect
 				 fromRect:NSZeroRect
 				operation:NSCompositeSourceOver
 				 fraction:1.0
