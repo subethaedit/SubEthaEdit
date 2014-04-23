@@ -331,6 +331,8 @@
 		F2061D590B4C13AF00E6631F /* SmallGrowBoxRight3.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2061D570B4C13AF00E6631F /* SmallGrowBoxRight3.tiff */; };
 		F2061D690B4C152600E6631F /* FirstClickCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2061D670B4C152600E6631F /* FirstClickCustomView.m */; };
 		F20948BC0C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = F20948B90C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m */; };
+		F20AB87B1907C7C500444F4B /* SEEDebugImageGenerationWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = F20AB8791907C7C500444F4B /* SEEDebugImageGenerationWindowController.m */; };
+		F20AB87C1907C7C500444F4B /* SEEDebugImageGenerationWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F20AB87A1907C7C500444F4B /* SEEDebugImageGenerationWindowController.xib */; };
 		F20D8F0C18FC28CB0091EB13 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F20D8F0B18FC28CB0091EB13 /* Media.xcassets */; };
 		F20D8F1118FD37E30091EB13 /* BottomBarSharingIconAnnounceDarkBackground_Inactive.png in Resources */ = {isa = PBXBuildFile; fileRef = F20D8F0F18FD37E30091EB13 /* BottomBarSharingIconAnnounceDarkBackground_Inactive.png */; };
 		F20D8F1218FD37E30091EB13 /* BottomBarSharingIconAnnounceDarkBackground_Inactive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F20D8F1018FD37E30091EB13 /* BottomBarSharingIconAnnounceDarkBackground_Inactive@2x.png */; };
@@ -1116,6 +1118,9 @@
 		F2061D670B4C152600E6631F /* FirstClickCustomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstClickCustomView.m; sourceTree = "<group>"; };
 		F20948B80C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = TCMMMLogStatisticsEntry.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		F20948B90C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TCMMMLogStatisticsEntry.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		F20AB8781907C7C500444F4B /* SEEDebugImageGenerationWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEDebugImageGenerationWindowController.h; sourceTree = "<group>"; };
+		F20AB8791907C7C500444F4B /* SEEDebugImageGenerationWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEDebugImageGenerationWindowController.m; sourceTree = "<group>"; };
+		F20AB87A1907C7C500444F4B /* SEEDebugImageGenerationWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEEDebugImageGenerationWindowController.xib; sourceTree = "<group>"; };
 		F20D8F0B18FC28CB0091EB13 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Media.xcassets; path = artwork/Media.xcassets; sourceTree = "<group>"; };
 		F20D8F0F18FD37E30091EB13 /* BottomBarSharingIconAnnounceDarkBackground_Inactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BottomBarSharingIconAnnounceDarkBackground_Inactive.png; path = artwork/BottomBarSharingIconAnnounceDarkBackground_Inactive.png; sourceTree = "<group>"; };
 		F20D8F1018FD37E30091EB13 /* BottomBarSharingIconAnnounceDarkBackground_Inactive@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "BottomBarSharingIconAnnounceDarkBackground_Inactive@2x.png"; path = "artwork/BottomBarSharingIconAnnounceDarkBackground_Inactive@2x.png"; sourceTree = "<group>"; };
@@ -1721,6 +1726,9 @@
 				F2ABC52F0C79D898007437A2 /* DebugHistoryController.h */,
 				F2ABC5300C79D898007437A2 /* DebugHistoryController.m */,
 				4C0D3D6F17FB166200AAFB38 /* DebugHistory.xib */,
+				F20AB8781907C7C500444F4B /* SEEDebugImageGenerationWindowController.h */,
+				F20AB8791907C7C500444F4B /* SEEDebugImageGenerationWindowController.m */,
+				F20AB87A1907C7C500444F4B /* SEEDebugImageGenerationWindowController.xib */,
 			);
 			name = Debug;
 			sourceTree = "<group>";
@@ -2792,6 +2800,7 @@
 				142890D5095743F200D14688 /* ShiftLeft.png in Resources */,
 				F2D3E52F189941F50096425B /* AW ActiveTabFill.png in Resources */,
 				F2C7672718B3AEAC00763B40 /* PlainTextEditor.xib in Resources */,
+				F20AB87C1907C7C500444F4B /* SEEDebugImageGenerationWindowController.xib in Resources */,
 				4CD5F7EE17FB0CA300F49E31 /* Export.xib in Resources */,
 				F2D3E54B189941F50096425B /* AW SingleTabAddButtonPressed.png in Resources */,
 				4CD5F7F617FB0CD200F49E31 /* FindReplace.xib in Resources */,
@@ -3127,6 +3136,7 @@
 				14289331095756D800D14688 /* TCMMMStatusProfile.m in Sources */,
 				14289332095756D800D14688 /* TCMMMTransformator.m in Sources */,
 				14289333095756D800D14688 /* TCMMMUser.m in Sources */,
+				F20AB87B1907C7C500444F4B /* SEEDebugImageGenerationWindowController.m in Sources */,
 				14289334095756D800D14688 /* TCMMMUserManager.m in Sources */,
 				14289366095757AB00D14688 /* HandshakeProfile.m in Sources */,
 				14289367095757AB00D14688 /* SessionProfile.m in Sources */,
