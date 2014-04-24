@@ -55,6 +55,7 @@
 @property (nonatomic, weak) IBOutlet NSImageView *readOnlyOverlayImageOutlet;
 
 @property (nonatomic, weak) id plainTextEditorFollowUserNotificationHandler;
+@property (nonatomic, weak) id participantsScrollingNotificationHandler;
 
 @end
 
@@ -82,6 +83,7 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self.plainTextEditorFollowUserNotificationHandler];
+    [[NSNotificationCenter defaultCenter] removeObserver:self.participantsScrollingNotificationHandler];
 }
 
 - (void)loadView {
@@ -193,6 +195,17 @@
 			} else {
 				[self.nameLabelPopoverOutlet showRelativeToRect:NSZeroRect ofView:self.userViewButtonOutlet preferredEdge:NSMinYEdge];
 			}
+
+			__weak __typeof__(self) weakSelf = self;
+			self.participantsScrollingNotificationHandler =
+			[[NSNotificationCenter defaultCenter] addObserverForName:NSScrollViewDidLiveScrollNotification object:self.view.enclosingScrollView queue:nil usingBlock:^(NSNotification *note) {
+				__typeof__(self) strongSelf = weakSelf;
+				NSPopover *popover = strongSelf.nameLabelPopoverOutlet;
+				if (popover.isShown) {
+					[popover close];
+				}
+			}];
+
 			break;
 		}
 		case SEEParticipantViewModeInvited:
@@ -205,11 +218,33 @@
 			} completionHandler:^{
 				[self.nameLabelPopoverOutlet showRelativeToRect:NSZeroRect ofView:self.userViewButtonOutlet preferredEdge:NSMinYEdge];
 			}];
+
+			__weak __typeof__(self) weakSelf = self;
+			self.participantsScrollingNotificationHandler =
+			[[NSNotificationCenter defaultCenter] addObserverForName:NSScrollViewDidLiveScrollNotification object:self.view.enclosingScrollView queue:nil usingBlock:^(NSNotification *note) {
+				__typeof__(self) strongSelf = weakSelf;
+				NSPopover *popover = strongSelf.nameLabelPopoverOutlet;
+				if (popover.isShown) {
+					[popover close];
+				}
+			}];
+
 			break;
 		}
 		case SEEParticipantViewModePending:
 		{
 			[self.pendingUserPopoverOutlet showRelativeToRect:NSZeroRect ofView:self.userViewButtonOutlet preferredEdge:NSMinYEdge];
+			__weak __typeof__(self) weakSelf = self;
+
+			self.participantsScrollingNotificationHandler =
+			[[NSNotificationCenter defaultCenter] addObserverForName:NSScrollViewDidLiveScrollNotification object:self.view.enclosingScrollView queue:nil usingBlock:^(NSNotification *note) {
+				__typeof__(self) strongSelf = weakSelf;
+				NSPopover *popover = strongSelf.pendingUserPopoverOutlet;
+				if (popover.isShown) {
+					[popover close];
+				}
+			}];
+
 			break;
 		}
 		default:
