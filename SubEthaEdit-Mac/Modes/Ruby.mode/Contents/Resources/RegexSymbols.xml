@@ -7,10 +7,10 @@
         <endregex>}</endregex>
     </blocks>
     
-    <symbol id="Defs" image="SymbolF()" indentation="1" ignoreblocks="yes">
+    <symbol id="Function Defs" symbol="f()_#6AB18D" indentation="0" ignoreblocks="yes">
 		<!-- This expression properly gets all the args too, but I'd rather not see that -->
 		<!-- getting my first set of parens right was the key to that btw. -->
-        <regex>^[ \t]*def[ \t]+(([^(\r\n]+)[ \t]*(\([^)\r\n]*\))?)</regex>
+        <regex>^def[ \t]+(([^(\r\n]+)[ \t]*(\([^)\r\n]*\))?)</regex>
         <postprocess>
         	<find>\(.*</find>
         	<replace>()</replace>
@@ -19,11 +19,23 @@
         </postprocess>
     </symbol>
 
-    <symbol id="Classes" image="SymbolC" indentation="0" ignoreblocks="yes">
+    <symbol id="Method Defs" symbol="M" indentation="2" ignoreblocks="yes">
+		<!-- This expression properly gets all the args too, but I'd rather not see that -->
+		<!-- getting my first set of parens right was the key to that btw. -->
+        <regex>^[ \t]+def[ \t]+(([^(\r\n]+)[ \t]*(\([^)\r\n]*\))?)</regex>
+        <postprocess>
+        	<find>\(.*</find>
+        	<replace>()</replace>
+        	<find>#.*</find>
+        	<replace></replace>
+        </postprocess>
+    </symbol>
+
+    <symbol id="Classes" symbol="C_#6D5E85" indentation="1" ignoreblocks="yes">
         <regex>^[ \t]*class[ \t]+([\w\d_]+)</regex>
     </symbol>
 
-    <symbol id="Modules" image="SymbolM" indentation="0" ignoreblocks="yes">
+    <symbol id="Modules" symbol="M_#6D5E85" indentation="0" ignoreblocks="yes">
         <regex>^[ \t]*module[ \t]+([\w\d_]+)</regex>
     </symbol>
 
@@ -35,15 +47,15 @@
         </postprocess>
     </symbol>
 
-    <symbol id="Divs with IDs" font-weight="normal" font-style="normal" image="SymbolD.png" indentation="0" ignoreblocks="yes">
+    <symbol id="Divs with IDs" font-weight="normal" font-style="normal" symbol="ID" indentation="0" ignoreblocks="yes">
         <regex>&lt;div[^&gt;]*id *= *"([^"]*)"[^&gt;]*&gt;</regex>
     </symbol>
 
-    <symbol id="HTML Comment Marks" font-weight="normal" font-style="normal" image="Symbol!.png" indentation="0" ignoreblocks="no" show-in-comments="yes">
+    <symbol id="HTML Comment Marks" font-weight="normal" font-style="normal" symbol="!--_#2E7D35_14.0_LiGothicMed" indentation="0" ignoreblocks="no" show-in-comments="yes">
         <regex>&lt;!-- !([^-]*) --&gt;</regex>
     </symbol>
 
-    <symbol id="Comment Marks" font-weight="bold" image="Symbol#" indentation="0" ignoreblocks="yes" show-in-comments="yes">
+    <symbol id="Comment Marks" font-weight="bold" symbol="#_#2E7D35" indentation="0" ignoreblocks="yes" show-in-comments="yes">
         <regex>^[\t ]*#mark[\t -]*([^\n]*)\n</regex>
     </symbol>
 

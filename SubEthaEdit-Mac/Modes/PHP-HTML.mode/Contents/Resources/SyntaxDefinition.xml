@@ -3747,6 +3747,7 @@
                 </end>
                 <state-link state="PHP"/>
 
+                <import mode="XML" keywords-only="yes"/>
                 <import mode="CSS"/>
 				<state id="CSSInside curly brackets" foldable="yes" indent="yes" scope="meta.block.curly">
 					<begin>

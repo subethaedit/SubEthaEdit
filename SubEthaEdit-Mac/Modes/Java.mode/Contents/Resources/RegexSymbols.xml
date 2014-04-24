@@ -7,7 +7,11 @@
         <endregex>}</endregex>
     </blocks>
     
-    <symbol id="Classes" image="SymbolC" indentation="0" ignoreblocks="yes">
+	<symbol id="package" symbol="P_#6D5E85"> 
+		<regex>^package\s+([\w_.]+)\s?;</regex>
+	</symbol>
+
+    <symbol id="Classes" symbol="C_#6D5E85" indentation="0" ignoreblocks="yes">
         <regex>^[ \t]*((?:public|private|protected)?[ \t]*(?:(?:abstract|static|final|synchronized|native|strictfp)[ \t]+)*class[^{]+)</regex>
         <postprocess>
             <find>[\n\r]</find>
@@ -17,7 +21,7 @@
         </postprocess>
     </symbol>
 
-    <symbol id="Methods" image="SymbolM" indentation="1" ignoreblocks="no">
+    <symbol id="Methods" symbol="M" indentation="1" ignoreblocks="no">
         <regex>((?:public|private|protected)[ \t]+(?:(?:abstract|static|final|synchronized|native|strictfp)[ \t]+)*(?:[A-Za-z0-9_\-\.&lt;&gt;]+(?:\[\])?[ \t]+)?[A-Za-z0-9_\-]+[ \t]*(?:\([^\)]*\)[ \t]*)?(?:\s*(throws)[ \t]*[A-Za-z0-9_\-, \t\.]+)?)\s*\{</regex>
         <postprocess>
             <find>\(([^\) ]+(?:[ \t]+\[\])?)[^\)]*\)</find>
@@ -36,9 +40,13 @@
             <replace>Versioning conflict!</replace>
         </postprocess>
     </symbol>
+
+    <symbol id="Comment Marks" font-weight="bold" indentation="0" ignoreblocks="yes" show-in-comments="yes">
+        <regex>//-[\t ]*mark[\t ]*(?:-(?=[\n\r]))?([^\n\r]*)</regex>
+    </symbol>
     
     <!-- CODA -->
-    <symbol id="Pragma marks" font-weight="normal" font-style="normal" image="SymbolMark" indentation="0" ignoreblocks="no" show-in-comments="yes">
+    <symbol id="Pragma marks" font-weight="normal" font-style="normal" indentation="0" ignoreblocks="no" show-in-comments="yes">
         <regex>// !([^\n\r]+)</regex>
     </symbol>
 

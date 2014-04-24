@@ -7,7 +7,7 @@
         <endregex>}</endregex>
     </blocks>
     
-    <symbol id="Tags" image="SymbolT">
+    <symbol id="Tags" symbol="T">
         <regex>(?&lt;=[\n\r]|^)[\t ]*(\w[\w\d\s,\-_\*>:\(\)\+\[\]="~\$\^#\. ]*)(?=\s*\{)</regex>
         <postprocess>
             <find>[\n\r]</find>
@@ -17,7 +17,7 @@
         </postprocess>
     </symbol>
     
-    <symbol id="Classes" image="SymbolC">
+    <symbol id="Classes" symbol="C_#6D5E85">
         <regex>(?&lt;=[\n\r]|^)[\t ]*(\.[\w\d\s,\-_\*>:\(\)\+\[\]="~\$\^#\. ]*)(?=\s*\{)</regex>
         <postprocess>
             <find>[\n\r]</find>
@@ -27,7 +27,7 @@
         </postprocess>
     </symbol>
     
-    <symbol id="IDs" image="SymbolID">
+    <symbol id="IDs" symbol="ID_#2E7D35">
         <regex>(?&lt;=[\n\r]|^)[\t ]*(#[\w\d\s,\-_\*>:\(\)\+\[\]="~\$\^#\. ]*)(?=\s*\{)</regex>
         <postprocess>
             <find>[\n\r]</find>
@@ -37,8 +37,8 @@
         </postprocess>
     </symbol>
 
-    <symbol id="Pragma marks" font-weight="normal" font-style="normal" image="Symbol!.png" indentation="0" ignoreblocks="no" show-in-comments="yes">
-        <regex>/\* !(.*) \*/</regex>
+    <symbol id="Pragma marks" font-weight="normal" font-style="normal" symbol="!--_#2E7D35_14.0_LiGothicMed" indentation="0" ignoreblocks="no" show-in-comments="yes">
+        <regex>/\*[\t ]*!(.*)[\t ]*\*/</regex>
     </symbol>
     
 </symbols>

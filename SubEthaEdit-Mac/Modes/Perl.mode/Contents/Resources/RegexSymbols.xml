@@ -7,11 +7,11 @@
         <endregex>}</endregex>
     </blocks>
     
-    <symbol id="Subs" image="SymbolF()" indentation="0" ignoreblocks="yes">
+    <symbol id="Subs" symbol="sub_#6AB18D_7.0" indentation="0" ignoreblocks="yes">
         <regex>(?&lt;=[\n\r]|^)[ \t]*sub[ \t]*([\w\d_]*)[^{]*\{</regex>
     </symbol>
 
-    <symbol id="Packages" image="SymbolC" indentation="0" ignoreblocks="yes">
+    <symbol id="Packages" symbol="P_#6D5E85" indentation="0" ignoreblocks="yes">
         <regex>^[ \t]*package[\t ]+([\w\D:_]*?);</regex>
     </symbol>
 

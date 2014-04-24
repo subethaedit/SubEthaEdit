@@ -7,15 +7,15 @@
         <endregex>}</endregex>
     </blocks>
     
-    <symbol id="Defs" image="SymbolM" indentation="0" ignoreblocks="yes">
+    <symbol id="Defs" symbol="def_#6AB18D_7.0" indentation="0" ignoreblocks="yes">
         <regex>^def[ \t]+([\w\d_]+)[ \t]*\([^\)]*\)[ \t]*:</regex>
     </symbol>
     
-    <symbol id="ClassDefs" image="SymbolM" indentation="1" ignoreblocks="yes">
+    <symbol id="ClassDefs" symbol="M" indentation="1" ignoreblocks="yes">
         <regex>(?&lt;=[\n\r]|^)[ \t]+def[ \t]+([\w\d_]+)[ \t]*\([^\)]*\)[ \t]*:</regex>
     </symbol>
 
-    <symbol id="Classes" image="SymbolC" indentation="0" ignoreblocks="yes">
+    <symbol id="Classes" symbol="C_#6D5E85" indentation="0" ignoreblocks="yes">
         <regex>(?&lt;=[\n\r]|^)[ \t]*class[ \t]+([\w\d_]+)[ \t]*(?:\([^\)]*\))?[ \t]*:</regex>
     </symbol>
 

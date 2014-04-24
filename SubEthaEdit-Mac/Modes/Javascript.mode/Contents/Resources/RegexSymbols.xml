@@ -7,11 +7,11 @@
         <endregex>}</endregex>
     </blocks>
 
-    <symbol id="Methods" image="SymbolM" indentation="1">
+    <symbol id="Methods" symbol="M" indentation="1">
       <regex>(\w{1,512}\s{0,512}:\s{0,512}function\([^)]{0,512}\))\s{0,512}{</regex>
     </symbol>
 
-    <symbol id="Funtions" image="SymbolF()" indentation="0" ignoreblocks="yes">
+    <symbol id="Funtions" symbol="f()_#6AB18D" indentation="0" ignoreblocks="yes">
         <regex>(?&lt;=[\n\r]|^)\s{0,512}function\s{1,512}([^{]{0,512})(?=\s{0,512}\{)</regex>
         <postprocess>
             <find>\([^\)]*\)</find>
@@ -23,7 +23,7 @@
         </postprocess>
     </symbol>
 
-    <symbol id="Inline Funtions" image="SymbolF()" indentation="0" ignoreblocks="yes">
+    <symbol id="Inline Funtions" symbol="f()_#6AB18D" indentation="0" ignoreblocks="yes">
         <regex>(\w{1,512})\s{0,512}=\s{0,512}function\s{0,512}\([^\)]{0,512}\)(?=\s{0,512}\{)</regex>
         <postprocess>
             <find>(.*)</find>

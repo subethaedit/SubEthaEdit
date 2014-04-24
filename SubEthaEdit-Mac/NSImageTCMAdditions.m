@@ -284,6 +284,7 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
 								 //								 (id)kCTStrokeWidthAttributeName : @(strokeWidth),
 								 //(id)kCTStrokeColorAttributeName : (__bridge id)cgColor,
 								 (id)kCTForegroundColorAttributeName : (__bridge id)[[NSColor whiteColor] CGColor],
+								 //								 (id)kCTLigatureAttributeName : @0,
 								 };
 		CFRelease(cgColor);
 		CFRelease(font);

@@ -7,7 +7,7 @@
         <endregex>--&gt;</endregex>
     </blocks>
     
-    <symbol id="Headers" font-weight="normal" font-style="normal" image="SymbolH.png" indentation="0" ignoreblocks="yes">
+    <symbol id="Headings" font-weight="normal" font-style="normal" symbol="H_#4094E4" indentation="0" ignoreblocks="yes">
         <regex>&lt;[hH][1-6]&gt;([^&lt;]+)&lt;/[hH][1-6]&gt;</regex>
         <postprocess>
             <find>^[ \n\r\t]+</find>
@@ -17,12 +17,12 @@
         </postprocess>
     </symbol>
     
-    <symbol id="Divs with IDs" font-weight="normal" font-style="normal" image="SymbolD.png" indentation="0" ignoreblocks="yes">
-        <regex>&lt;div[^&gt;]*id *= *"([^"]*)"[^&gt;]*&gt;</regex>
+    <symbol id="Divs with IDs" font-weight="normal" font-style="normal" symbol="ID" indentation="0" ignoreblocks="yes">
+        <regex>(?i)&lt;div[^&gt;]*id *= *"([^"]*)"[^&gt;]*&gt;</regex>
     </symbol>
     
-    <symbol id="Named anchors" font-weight="normal" font-style="normal" image="Symbola.png" indentation="0" ignoreblocks="yes">
-        <regex>&lt;a[^&gt;]*name *= *"([^"]*)"[^&gt;]*&gt;</regex>
+    <symbol id="Named anchors" font-weight="normal" font-style="normal" symbol="a_#B00" indentation="0" ignoreblocks="yes">
+        <regex>(?i)&lt;a[^&gt;]*name *= *"([^"]*)"[^&gt;]*&gt;</regex>
         <postprocess>
             <find>(?i)%20</find>
             <replace> </replace>
@@ -47,7 +47,7 @@
         </postprocess>
     </symbol>
 
-    <symbol id="Pragma marks" font-weight="normal" font-style="normal" image="Symbol!.png" indentation="0" ignoreblocks="no" show-in-comments="yes">
+    <symbol id="Pragma marks" font-weight="normal" font-style="normal" symbol="!--_#2E7D35_14.0_LiGothicMed" indentation="0" ignoreblocks="no" show-in-comments="yes">
         <regex>&lt;!-- !([^-]*) --&gt;</regex>
     </symbol>
 

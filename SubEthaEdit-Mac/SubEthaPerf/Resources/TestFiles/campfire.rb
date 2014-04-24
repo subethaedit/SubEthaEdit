@@ -105,7 +105,8 @@ module Tinder
         @cookie = response['set-cookie'] if response['set-cookie']
       end
     end
-  
+#mark - Okay
+#mark -  
     # flatten a nested hash
     def flatten(params)
       params = params.dup
