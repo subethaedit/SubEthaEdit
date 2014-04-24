@@ -163,8 +163,6 @@
 
 #pragma mark - Me Card - Image
 
-// TODO: remove [NSImage imageNamed:@"DefaultPerson"], maybe: PCRolloverImageView
-
 - (void)updateUserWithImage:(NSImage *)anImage {
 	if (anImage) {
 		NSData *pngData = [[anImage resizedImageWithSize:NSMakeSize(256.,256.)] TIFFRepresentation];

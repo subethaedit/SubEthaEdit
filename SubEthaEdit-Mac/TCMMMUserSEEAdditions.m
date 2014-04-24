@@ -84,16 +84,7 @@
 
 - (NSString *)initials
 {
-	NSString *name = self.name;
-	NSMutableString * initials = [NSMutableString string];
-	NSArray * nameComponents = [name componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-	for (NSString * word in nameComponents) {
-		if ([word length] > 0) {
-			NSString * firstLetter = [word substringWithRange:[word rangeOfComposedCharacterSequenceAtIndex:0]];
-			[initials appendString:[firstLetter uppercaseString]];
-		}
-	}
-	return [[initials copy] autorelease];
+	return self.name.initials;
 }
 
 #pragma mark -
