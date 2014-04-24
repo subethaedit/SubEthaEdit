@@ -81,10 +81,12 @@ NSString * const SEEStyleSheetFileExtension = @"sss";
 			nil];
 	
 	// this may have inheritance issues
+
+	/* we don't do background color in the styles, we just use it document wide
 	if (backgroundColor) {
 		[result setObject:backgroundColor forKey:NSBackgroundColorAttributeName];
 	}
-
+	 */
 	NSNumber *strikeThroughStyle = [[aStyleAttributeDictionary objectForKey:SEEStyleSheetFontStrikeThroughKey] isEqualToString:SEEStyleSheetValueStrikeThrough] ? [NSNumber numberWithInteger:NSUnderlineStyleSingle] : [NSNumber numberWithInteger:0];
 	[result setObject:strikeThroughStyle forKey:NSStrikethroughStyleAttributeName];
 	
