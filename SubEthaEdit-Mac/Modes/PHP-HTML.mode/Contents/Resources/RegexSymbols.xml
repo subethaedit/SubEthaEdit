@@ -6,7 +6,7 @@
         <endregex>}</endregex>
     </blocks>
 
-    <symbol id="PHP functions" font-weight="normal" font-style="normal" image="SymbolF()" indentation="0" ignoreblocks="no">
+    <symbol id="PHP functions" font-weight="normal" font-style="normal" symbol="f()_#6AB18D" indentation="0" ignoreblocks="no">
         <regex>(?:^|(?&lt;=\r))[ ]{0,1}(?:final[ \t]+)?(?:(?:private|public|protected)[ \t]+)?(?:static[ \t]+)?function[ \t]+&amp;?([a-zA-Z0-9_]+[ \t]*\([^)]*\))[^{}]*{</regex>
         <postprocess>
             <find>[\n\r]</find><!--  -->
@@ -16,7 +16,7 @@
         </postprocess>
     </symbol>
 
-    <symbol id="PHP functions indented" font-weight="normal" font-style="normal" image="SymbolF()" indentation="1" ignoreblocks="no">
+    <symbol id="PHP functions indented" font-weight="normal" font-style="normal" symbol="f()_#6AB18D" indentation="1" ignoreblocks="no">
         <regex>(?:^|(?&lt;=\r))(?:[ ]{2,}|\t)[ \t]*(?:final[ \t]+)?(?:(?:private|public|protected)[ \t]+)?(?:static[ \t]+)?function[ \t]+&amp;?([a-zA-Z0-9_]+[ \t]*\([^)]*\))[^{}]*{</regex>
        <postprocess>
             <find>[\n\r]</find>
@@ -26,7 +26,7 @@
         </postprocess>
     </symbol>
 
-    <symbol id="PHP classes" font-weight="bold" font-style="normal" image="SymbolC" indentation="0" ignoreblocks="yes">
+    <symbol id="PHP classes" font-weight="bold" font-style="normal" symbol="C_#6D5E85" indentation="0" ignoreblocks="yes">
         <regex>(?:^|(?&lt;=\r))[ \t]*(?:final[ \t]+)?class[ \t]+([a-zA-Z0-9_]+([ \t]+extends[ \t]+[a-zA-Z0-9_]+)?)[ \t]*[^{}]*{</regex>
         <postprocess>
             <find>[\n\r]</find>
@@ -37,7 +37,7 @@
     </symbol>
 
     <symbol id="Comment Marks" font-weight="bold" indentation="0" ignoreblocks="yes" show-in-comments="yes">
-        <regex>//- mark[\t ]*(?:-(?=[\n\r]))?([^\n\r]*)</regex>
+        <regex>//-[\t ]*mark[\t ]*(?:-(?=[\n\r]))?([^\n\r]*)</regex>
     </symbol>
 
 
