@@ -409,23 +409,6 @@ static AppController *sharedInstance = nil;
 //        if (!compressedData) NSLog(@"%d compression failed with data of length: %d",i,[data length]);
 //    }
 
-    // prepare images
-    NSImage *image = [[[NSImage imageNamed:@"UnknownPerson"] resizedImageWithSize:NSMakeSize(32.0, 32.0)] retain];
-    [image setName:@"UnknownPerson32"];
-	[image release];
-
-    image = [[[NSImage imageNamed:@"DefaultPerson"] resizedImageWithSize:NSMakeSize(32.0, 32.0)] retain];
-    [image setName:@"DefaultPerson32"];
-	[image release];
-    
-    image = [[[NSImage imageNamed:@"Rendezvous"] resizedImageWithSize:NSMakeSize(13.0, 13.0)] retain];
-    [image setName:@"Rendezvous13"];
-	[image release];
-
-    image = [[NSImage imageNamed:@"ssllock"] retain];
-    [image setName:@"ssllock18"];
-	[image release];
-
     // FIXME "Termination has to be removed before release!"
     //if ([[NSDate dateWithString:@"2007-02-21 12:00:00 +0000"] timeIntervalSinceNow] < 0) {
     //    [NSApp terminate:self];

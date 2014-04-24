@@ -469,11 +469,9 @@
 		F2D3E56A189941F50096425B /* IW SingleTabAddButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E527189941F50096425B /* IW SingleTabAddButton@2x.png */; };
 		F2D3E56E189942870096425B /* SEETabStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D3E56D189942870096425B /* SEETabStyle.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		F2D56993133B880900CEC841 /* SEEStyleSheetSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D56992133B880900CEC841 /* SEEStyleSheetSettings.m */; };
-		F2D5FF3A0CB2661000407399 /* DefaultPerson.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF390CB2661000407399 /* DefaultPerson.icns */; };
 		F2D5FF3E0CB2666000407399 /* Rendezvous.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF3D0CB2666000407399 /* Rendezvous.icns */; };
 		F2D5FF400CB2667A00407399 /* StylePrefs.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF3F0CB2667A00407399 /* StylePrefs.icns */; };
 		F2D5FF480CB266C700407399 /* ToolbarIconColorChooser.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF470CB266C700407399 /* ToolbarIconColorChooser.icns */; };
-		F2D5FF4B0CB2677600407399 /* UnknownPerson.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF4A0CB2677600407399 /* UnknownPerson.icns */; };
 		F2D5FF510CB26EA800407399 /* ToolbarIconRunInTerminal.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF4F0CB26EA800407399 /* ToolbarIconRunInTerminal.icns */; };
 		F2D5FF520CB26EA800407399 /* ToolbarIconTerminal.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF500CB26EA800407399 /* ToolbarIconTerminal.icns */; };
 		F2D86C2E0F8E7EFA00B912A2 /* SEPAppController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D86C2D0F8E7EFA00B912A2 /* SEPAppController.m */; };
@@ -1109,8 +1107,6 @@
 		F2230A460BE0243100437D55 /* TCMBEEPBencodedMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMBEEPBencodedMessage.m; path = TCMBEEP/TCMBEEPBencodedMessage.m; sourceTree = "<group>"; };
 		F2230A470BE0243100437D55 /* TCMBEEPBencodingProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = TCMBEEPBencodingProfile.h; path = TCMBEEP/TCMBEEPBencodingProfile.h; sourceTree = "<group>"; };
 		F2230A480BE0243100437D55 /* TCMBEEPBencodingProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMBEEPBencodingProfile.m; path = TCMBEEP/TCMBEEPBencodingProfile.m; sourceTree = "<group>"; };
-		F223FC8C0BDF5F0A00437D55 /* UnknownPerson.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = UnknownPerson.png; path = artwork/UnknownPerson.png; sourceTree = "<group>"; };
-		F223FC8E0BDF5F1C00437D55 /* DefaultPerson.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DefaultPerson.png; path = artwork/DefaultPerson.png; sourceTree = "<group>"; };
 		F2257CF1189673AA005EF9B1 /* BottomBarSharingIconAnnounce_Inactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BottomBarSharingIconAnnounce_Inactive.png; path = artwork/BottomBarSharingIconAnnounce_Inactive.png; sourceTree = "<group>"; };
 		F2257CF2189673AA005EF9B1 /* BottomBarSharingIconAnnounce_Inactive@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "BottomBarSharingIconAnnounce_Inactive@2x.png"; path = "artwork/BottomBarSharingIconAnnounce_Inactive@2x.png"; sourceTree = "<group>"; };
 		F2257CF3189673AA005EF9B1 /* BottomBarSharingIconAnnounce.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BottomBarSharingIconAnnounce.png; path = artwork/BottomBarSharingIconAnnounce.png; sourceTree = "<group>"; };
@@ -1286,11 +1282,9 @@
 		F2D3E56D189942870096425B /* SEETabStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEETabStyle.m; sourceTree = "<group>"; };
 		F2D56991133B880900CEC841 /* SEEStyleSheetSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SEEStyleSheetSettings.h; sourceTree = "<group>"; };
 		F2D56992133B880900CEC841 /* SEEStyleSheetSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEStyleSheetSettings.m; sourceTree = "<group>"; };
-		F2D5FF390CB2661000407399 /* DefaultPerson.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = DefaultPerson.icns; path = artwork/DefaultPerson.icns; sourceTree = "<group>"; };
 		F2D5FF3D0CB2666000407399 /* Rendezvous.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Rendezvous.icns; path = artwork/Rendezvous.icns; sourceTree = "<group>"; };
 		F2D5FF3F0CB2667A00407399 /* StylePrefs.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = StylePrefs.icns; path = artwork/StylePrefs.icns; sourceTree = "<group>"; };
 		F2D5FF470CB266C700407399 /* ToolbarIconColorChooser.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = ToolbarIconColorChooser.icns; path = artwork/ToolbarIconColorChooser.icns; sourceTree = "<group>"; };
-		F2D5FF4A0CB2677600407399 /* UnknownPerson.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = UnknownPerson.icns; path = artwork/UnknownPerson.icns; sourceTree = "<group>"; };
 		F2D5FF4F0CB26EA800407399 /* ToolbarIconRunInTerminal.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = ToolbarIconRunInTerminal.icns; path = artwork/ToolbarIconRunInTerminal.icns; sourceTree = "<group>"; };
 		F2D5FF500CB26EA800407399 /* ToolbarIconTerminal.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = ToolbarIconTerminal.icns; path = artwork/ToolbarIconTerminal.icns; sourceTree = "<group>"; };
 		F2D86C1F0F8E7E2A00B912A2 /* SubEthaPerf.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SubEthaPerf.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1449,8 +1443,6 @@
 				F29AD8660CA3391B0097D04E /* Bonjour13.png */,
 				14289066095743F200D14688 /* Conceal.png */,
 				1428905E095743B300D14688 /* debug.tiff */,
-				F223FC8E0BDF5F1C00437D55 /* DefaultPerson.png */,
-				F2D5FF390CB2661000407399 /* DefaultPerson.icns */,
 				14289069095743F200D14688 /* EditPrefs.tiff */,
 				1428906A095743F200D14688 /* EmptyButton.tiff */,
 				F2D2CDC90D730C3C000E3812 /* FriendCast13.png */,
@@ -1521,8 +1513,6 @@
 				5EFF54260A21B463005DC26B /* ToolbarIconRunInTerminal.png */,
 				F2D5FF4F0CB26EA800407399 /* ToolbarIconRunInTerminal.icns */,
 				F2D5FF500CB26EA800407399 /* ToolbarIconTerminal.icns */,
-				F2D5FF4A0CB2677600407399 /* UnknownPerson.icns */,
-				F223FC8C0BDF5F0A00437D55 /* UnknownPerson.png */,
 				142890AE095743F200D14688 /* URLIcon.tiff */,
 				142890AF095743F200D14688 /* WaitPipe.png */,
 				142890B0095743F200D14688 /* WebReload.tiff */,
@@ -2878,7 +2868,6 @@
 				3134F7DE0CB13A2E00F8C116 /* Precedence_RemoveRollover.tiff in Resources */,
 				F247D74A0CB140AD00908450 /* ParticipantFollowEmpty.png in Resources */,
 				F247D74F0CB147F100908450 /* ParticipantFollowActive.png in Resources */,
-				F2D5FF3A0CB2661000407399 /* DefaultPerson.icns in Resources */,
 				4C6BDC5518896DCC0088CBFC /* SubEthaEditStyle.iconset in Resources */,
 				F2D5FF3E0CB2666000407399 /* Rendezvous.icns in Resources */,
 				F2D5FF400CB2667A00407399 /* StylePrefs.icns in Resources */,
@@ -2891,7 +2880,6 @@
 				F2D3E534189941F50096425B /* AW ActiveTabRightCap@2x.png in Resources */,
 				F2D5FF480CB266C700407399 /* ToolbarIconColorChooser.icns in Resources */,
 				F2D3E52C189941F50096425B /* AW ActiveTabClosePressed@2x.png in Resources */,
-				F2D5FF4B0CB2677600407399 /* UnknownPerson.icns in Resources */,
 				F2D3E559189941F50096425B /* IW ActiveTabRightCap.png in Resources */,
 				F2D3E52D189941F50096425B /* AW ActiveTabCloseRollover.png in Resources */,
 				F2B136EA189BF27000430639 /* IW AddTabButton.tiff in Resources */,
