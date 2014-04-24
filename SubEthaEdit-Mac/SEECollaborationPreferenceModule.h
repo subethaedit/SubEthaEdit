@@ -8,8 +8,8 @@
 
 #import "TCMPreferenceModule.h"
 @class SEECollaborationPreferenceModule;
-#import "PCRolloverImageView.h"
 #import "SEEUserColorsPreviewView.h"
+#import "SEEAvatarImageView.h"
 
 @interface SEECollaborationPreferenceModule : TCMPreferenceModule
 
@@ -24,7 +24,7 @@
 @property (nonatomic, strong) IBOutlet NSTextField *O_invisibleOnNetworkExplanationTextField;
 
 // me-card
-@property (nonatomic, strong) IBOutlet PCRolloverImageView *O_pictureImageView;
+@property (nonatomic, strong) IBOutlet SEEAvatarImageView *O_avatarImageView;
 @property (nonatomic, strong) IBOutlet NSTextField *O_nameTextField;
 @property (nonatomic, strong) IBOutlet NSComboBox  *O_emailComboBox;
 
@@ -52,10 +52,7 @@
 - (IBAction)changeVisiblityOnNetwork:(id)aSender;
 
 // actions - me-card
-- (IBAction)useAddressBookImage:(id)aSender;
 - (IBAction)chooseImage:(id)aSender;
-- (IBAction)clearImage:(id)aSender;
-- (IBAction)takeImageFromImageView:(id)aSender;
 
 - (IBAction)changeName:(id)aSender;
 - (IBAction)changeEmail:(id)aSender;

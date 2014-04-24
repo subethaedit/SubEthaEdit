@@ -12,6 +12,11 @@
 
 #import "SEEAvatarImageView.h"
 
+@interface SEEAvatarImageView ()
+@property (nonatomic, strong) NSTrackingArea *hoverTrackingArea;
+@property (nonatomic) BOOL isHovering;
+@end
+
 @implementation SEEAvatarImageView
 
 static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarwObservationContext;
@@ -33,7 +38,7 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
         self.borderColor = [NSColor redColor];
 		self.backgroundColor = [[NSColor redColor] colorWithAlphaComponent:0.4];
 		self.initials = @"M E";
-
+		
 		[self registerKVO];
     }
     return self;
@@ -67,11 +72,11 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
 {
     if (context == SEEAvatarRedarwObservationContext) {
         [self setNeedsDisplay:YES];
+
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
 }
-
 
 #pragma mark - Drawing
 
@@ -82,8 +87,9 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
 	NSRect bounds = self.bounds;
 	CGFloat borderWidth = NSWidth(bounds) / 20.0;
 	NSRect drawingRect = NSInsetRect(bounds, borderWidth/2.0, borderWidth/2.0);
+	NSRect imageRect = [self centerScanRect:drawingRect];
 
-	NSBezierPath *borderPath = [NSBezierPath bezierPathWithOvalInRect:drawingRect];
+	NSBezierPath *borderPath = [NSBezierPath bezierPathWithOvalInRect:imageRect];
 	[borderPath setLineWidth:borderWidth];
 
 	// draw the background
@@ -96,7 +102,7 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
 
 	NSImage *image = self.image;
 	if (image) {
-		[image drawInRect:drawingRect
+		[image drawInRect:imageRect
 				 fromRect:NSZeroRect
 				operation:NSCompositeSourceOver
 				 fraction:1.0
@@ -110,7 +116,7 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
 		imageBounds.size = image.size;
 		NSRect imageSourceRect = NSInsetRect(imageBounds, 2.0, 2.0);
 
-		[image drawInRect:drawingRect
+		[image drawInRect:imageRect
 				 fromRect:imageSourceRect
 				operation:NSCompositeSourceOver
 				 fraction:0.8
@@ -134,8 +140,8 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
 		NSSize textSize = [initials sizeWithAttributes:stringAttributes];
 		NSRect textBounds = [initials boundingRectWithSize:textSize options:0 attributes:stringAttributes];
 
-		NSRect textDrawingRect = NSMakeRect(NSMidX(drawingRect) - NSWidth(textBounds) / 2.0,
-											NSMidY(drawingRect) - NSHeight(textBounds),
+		NSRect textDrawingRect = NSMakeRect(NSMidX(imageRect) - NSWidth(textBounds) / 2.0,
+											NSMidY(imageRect) - NSHeight(textBounds),
 											NSWidth(textBounds),
 											NSHeight(textBounds));
 
@@ -144,6 +150,54 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
 					attributes:stringAttributes];
 
 //		NSFrameRect(textDrawingRect);
+	}
+
+	if (self.isHovering) {
+		[[NSGraphicsContext currentContext] saveGraphicsState]; {
+			// background
+			[[NSColor colorWithWhite:0.0 alpha:0.5] set];
+			[borderPath fill];
+			
+			// text
+			if (self.hoverString) {
+				NSShadow *textShadow = [[NSShadow alloc] init];
+				textShadow.shadowBlurRadius = 0.0;
+				textShadow.shadowColor = [NSColor colorWithWhite:0.7 alpha:0.8];
+				textShadow.shadowOffset = NSMakeSize(0.0, -1.0);
+				
+				NSString *hoverString = self.hoverString;
+				CGFloat inset = 10.;
+				CGFloat maxFontSize = 16;
+				
+				NSFont *font = [NSFont fontWithName:@"HelveticaNeue-Light" size:12.];
+				NSSize size = [hoverString sizeWithAttributes:@{ NSFontAttributeName : font}];
+				NSSize insetSize = CGSizeMake(NSWidth(imageRect) - 2*inset, NSHeight(imageRect) - 2*inset);
+				CGFloat scale = MIN( insetSize.width/size.width, insetSize.height/size.height );
+				CGFloat fontSize = MIN(font.pointSize * scale, maxFontSize);
+				font = [NSFont fontWithName:font.fontName size:fontSize];
+				
+				NSDictionary *stringAttributes = @{
+												   NSFontAttributeName: font,
+												   NSForegroundColorAttributeName: [NSColor colorWithWhite:1.0 alpha:0.8],
+												   NSShadowAttributeName: textShadow
+												   };
+				
+				NSSize textSize = [hoverString sizeWithAttributes:stringAttributes];
+				NSRect textBounds = [hoverString boundingRectWithSize:textSize options:0 attributes:stringAttributes];
+				
+				NSRect textRect = NSMakeRect(NSMidX(imageRect) - NSWidth(textBounds) / 2.0,
+											 NSMidY(imageRect) - NSHeight(textBounds) / 2.0 + 4.,
+											 NSWidth(textBounds),
+											 NSHeight(textBounds));
+				
+				textRect = [self centerScanRect:textRect];
+				
+				[hoverString drawWithRect:textRect
+								  options:0
+							   attributes:stringAttributes];
+				
+			}
+		}[[NSGraphicsContext currentContext] restoreGraphicsState];
 	}
 
 	[[NSGraphicsContext currentContext] restoreGraphicsState];
@@ -160,6 +214,36 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
 - (BOOL)isOpaque
 {
 	return NO;
+}
+
+#pragma mark - Hover Image
+- (void)enableHoverImage {
+	NSTrackingArea *trackingArea = [[NSTrackingArea alloc] initWithRect:self.bounds
+																options:NSTrackingMouseEnteredAndExited | NSTrackingActiveInKeyWindow | NSTrackingInVisibleRect
+																  owner:self
+															   userInfo:nil];
+	self.hoverTrackingArea = trackingArea;
+	[self addTrackingArea:trackingArea];
+}
+
+- (void)disableHoverImage {
+	self.isHovering = NO;
+	[self removeTrackingArea:self.hoverTrackingArea];
+	self.hoverTrackingArea = nil;
+}
+
+- (void)mouseEntered:(NSEvent *)anEvent {
+	if (!self.isHovering) {
+		[self setNeedsDisplay:YES];
+	}
+	self.isHovering = YES;
+}
+
+- (void)mouseExited:(NSEvent *)anEvent {
+	if (self.isHovering) {
+		[self setNeedsDisplay:YES];
+	}
+	self.isHovering = NO;
 }
 
 @end
