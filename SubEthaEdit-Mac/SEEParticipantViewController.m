@@ -36,6 +36,7 @@
 @property (nonatomic, weak) IBOutlet NSTextField *nameLabelOutlet;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *userViewButtonLeftConstraintOutlet;
 @property (nonatomic, weak) IBOutlet NSButton *userViewButtonOutlet;
+@property (nonatomic, weak) IBOutlet SEEAvatarImageView *avatarViewOutlet;
 @property (nonatomic, weak) IBOutlet NSProgressIndicator *connectingProgressIndicatorOutlet;
 
 @property (nonatomic, strong) IBOutlet NSView *participantActionOverlayOutlet;
@@ -100,20 +101,12 @@
 	NSColor *changeColor = [user changeColor];
 	NSColor *changeHighlightColor = [user changeHighlightColorForBackgroundColor:[NSColor whiteColor]];
 
-	NSImage *avatarImage = [NSImage imageWithSize:userViewButton.frame.size flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
-		SEEAvatarImageView *avatarView = [[SEEAvatarImageView alloc] initWithFrame:dstRect];
-		avatarView.image = userImage;
-		avatarView.initials = initials;
-		avatarView.borderColor = [NSColor colorWithCalibratedHue:changeColor.hueComponent saturation:0.85 brightness:1.0 alpha:1.0];
-		avatarView.backgroundColor = changeHighlightColor;
-		[avatarView drawRect:dstRect];
-		return YES;
-	}];
+	SEEAvatarImageView *avatarView = self.avatarViewOutlet;
+	avatarView.image = userImage;
+	avatarView.initials = initials;
+	avatarView.borderColor = [NSColor colorWithCalibratedHue:changeColor.hueComponent saturation:0.85 brightness:1.0 alpha:1.0];
+	avatarView.backgroundColor = changeHighlightColor;
 
-	if (avatarImage) {
-		userViewButton.image = avatarImage;
-	}
-	
 	NSTextField *nameLabel = self.nameLabelOutlet;
 	nameLabel.stringValue = self.participant.name;
 
