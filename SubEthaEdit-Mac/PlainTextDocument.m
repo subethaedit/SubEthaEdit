@@ -6119,12 +6119,16 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 - (void)textStorageDidStartBlockedit:(FoldableTextStorage *)aTextStorage {
 //	NSLog(@"%s",__FUNCTION__);
-    [[self plainTextEditors] makeObjectsPerformSelector:@selector(TCM_updateStatusBar)];
+	for (PlainTextEditor *editor in self.plainTextEditors) {
+		[editor updateViews];
+	}
 }
 
 - (void)textStorageDidStopBlockedit:(FoldableTextStorage *)aTextStorage {
 //	NSLog(@"%s",__FUNCTION__);
-    [[self plainTextEditors] makeObjectsPerformSelector:@selector(TCM_updateStatusBar)];
+	for (PlainTextEditor *editor in self.plainTextEditors) {
+		[editor updateViews];
+	}
 }
 
 #pragma mark -

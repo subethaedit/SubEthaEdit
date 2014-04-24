@@ -1267,8 +1267,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 
-- (void)updateViews
-{
+- (void)updateViews {
     [self.topBarViewController updateForSelectionDidChange];
     [self TCM_updateBottomStatusBar];
 	[self TCM_updateLocalizedToolTips];

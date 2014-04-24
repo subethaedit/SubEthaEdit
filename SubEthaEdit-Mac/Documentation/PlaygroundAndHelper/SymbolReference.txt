@@ -11,7 +11,12 @@ symbol="f()_#6AB18D"
 Preprocessor
 symbol="#_#774940"
 
+Comment
+symbol="#_#2E7D35"
 
+sub
+symbol="sub_#6AB18D_7.0"
+symbol="def_#6AB18D_7.0"
 
 html & co
 
