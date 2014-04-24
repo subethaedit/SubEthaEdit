@@ -42,6 +42,8 @@ var (
 	}
 )
 
+//- mark 
+//- mark foo
 // Gets the ANSI escape code for a color style.
 func ColorCode(style string) string {
 	if plain || style == "" {
