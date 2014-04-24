@@ -7,27 +7,27 @@
         <endregex>}</endregex>
     </blocks>
     
-    <symbol id="Chapter" image="SymbolC" indentation="0" ignoreblocks="yes">
+    <symbol id="Chapter" symbol="C_#6D5E85" indentation="0" ignoreblocks="yes">
         <regex>\\chapter[^{]*{([^}]*(?=})[^{]*)}</regex>
     </symbol>
 
-    <symbol id="Section" image="SymbolS" indentation="1" ignoreblocks="yes">
+    <symbol id="Section" symbol="S" indentation="1" ignoreblocks="yes">
         <regex>\\section[^{]*{([^}]*(?=})[^{]*)}</regex>
     </symbol>
 
-    <symbol id="SubSection" image="SymbolS" indentation="2" ignoreblocks="yes">
+    <symbol id="SubSection" symbol="s" indentation="2" ignoreblocks="yes">
         <regex>\\subsection[^{]*{([^}]*(?=})[^{]*)}</regex>
     </symbol>
 
-    <symbol id="SubSubSection" image="SymbolS" indentation="3" ignoreblocks="yes">
+    <symbol id="SubSubSection" symbol="s" indentation="3" ignoreblocks="yes">
         <regex>\\subsubsection[^{]*{([^}]*(?=})[^{]*)}</regex>
     </symbol>
 
-    <symbol id="Paragraph" image="SymbolP" indentation="4" ignoreblocks="yes">
+    <symbol id="Paragraph" symbol="P" indentation="4" ignoreblocks="yes">
         <regex>\\paragraph[^{]*{([^}]*(?=})[^{]*)}</regex>
     </symbol>
 
-    <symbol id="SubParagraph" image="SymbolP" indentation="5" ignoreblocks="yes">
+    <symbol id="SubParagraph" symbol="p" indentation="5" ignoreblocks="yes">
         <regex>\\subparagraph[^{]*{([^}]*(?=})[^{]*)}</regex>
     </symbol>
 
