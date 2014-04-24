@@ -29,9 +29,7 @@
     [super dealloc];
 }
 
-#pragma mark - 
 #pragma mark - Accessors
-#pragma mark - 
 
 - (RegexSymbolDefinition *)symbolDefinition
 {

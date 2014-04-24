@@ -54,9 +54,7 @@ static  NSMutableDictionary *S_transientRegexCache = nil;
 	}
 }
 
-#pragma mark - 
 #pragma mark - Initizialisation (fizzle televizzle)
-#pragma mark - 
 
 /*"Initiates the Highlighter with a Syntax Definition"*/
 
@@ -73,9 +71,7 @@ static  NSMutableDictionary *S_transientRegexCache = nil;
     return self;
 }
 
-#pragma mark - 
 #pragma mark - Highlighting
-#pragma mark - 
 
 /*"Highlights an NSAttributedString using the Chunky State Machine Algorithm:
 
@@ -551,9 +547,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 
 
 
-#pragma mark - 
 #pragma mark - Accessors
-#pragma mark - 
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"SyntaxHighlighter for %@", [I_syntaxDefinition name]];
@@ -576,9 +570,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
     return [I_syntaxDefinition defaultSyntaxStyle];
 }
 
-#pragma mark - 
 #pragma mark - Document Interaction
-#pragma mark - 
 
 
 // TODO: update for scopes - probably very broken now
