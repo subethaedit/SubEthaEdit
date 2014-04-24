@@ -637,6 +637,9 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	for (PopUpButton *button in @[O_modePopUpButton,O_tabStatusPopUpButton, O_encodingPopUpButton, O_lineEndingPopUpButton]) {
 		[button setLineColor:darkSeparatorColor];
 	}
+	NSScrollerKnobStyle knobStyle = isDark ? NSScrollerKnobStyleLight : NSScrollerKnobStyleDefault;
+	[[O_scrollView verticalScroller] setKnobStyle:knobStyle];
+	[[O_scrollView horizontalScroller] setKnobStyle:knobStyle];
 	
 	[self.shareAnnounceButtonOutlet setImage:[NSImage imageNamed:isDark ? @"BottomBarSharingIconAnnounceDarkBackground_Inactive" : @"BottomBarSharingIconAnnounce_Inactive"]];
 	
@@ -1731,6 +1734,8 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
         [I_textView setNeedsDisplay:YES];
         [O_scrollView setNeedsDisplay:YES];
         [O_scrollView setHasHorizontalScroller:YES];
+		NSScrollerKnobStyle knobStyle = [self hasDarkBackground] ? NSScrollerKnobStyleLight : NSScrollerKnobStyleDefault;
+		[[O_scrollView horizontalScroller] setKnobStyle:knobStyle];
     }
     else
     {
