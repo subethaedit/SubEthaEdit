@@ -159,45 +159,45 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
 			[borderPath fill];
 			
 			// text
-			NSShadow *textShadow = [[NSShadow alloc] init];
-			textShadow.shadowBlurRadius = 0.0;
-			textShadow.shadowColor = [NSColor colorWithWhite:0.7 alpha:0.8];
-			textShadow.shadowOffset = NSMakeSize(0.0, -1.0);
-			
-			NSString *editString = @"Edit"; // TODO: localize: Ändern
-//			editString = @"Ändern";
-			
-			CGFloat inset = 10.;
-			CGFloat maxFontSize = 16;
-			
-			NSFont *font = [NSFont fontWithName:@"HelveticaNeue-Light" size:12.];
-			NSSize size = [editString sizeWithAttributes:@{ NSFontAttributeName : font}];
-			NSSize insetSize = CGSizeMake(NSWidth(imageRect) - 2*inset, NSHeight(imageRect) - 2*inset);
-			CGFloat scale = MIN( insetSize.width/size.width, insetSize.height/size.height );
-			CGFloat fontSize = MIN(font.pointSize * scale, maxFontSize);
-			font = [NSFont fontWithName:font.fontName size:fontSize];
-
-			NSDictionary *stringAttributes = @{
-											   NSFontAttributeName: font,
-											   NSForegroundColorAttributeName: [NSColor colorWithWhite:1.0 alpha:0.8],
-											   NSShadowAttributeName: textShadow
-											   };
-			
-			NSSize textSize = [editString sizeWithAttributes:stringAttributes];
-			NSRect textBounds = [editString boundingRectWithSize:textSize options:0 attributes:stringAttributes];
-			
-			NSRect textRect = NSMakeRect(NSMidX(imageRect) - NSWidth(textBounds) / 2.0,
-												NSMidY(imageRect) - NSHeight(textBounds) / 2.0 + 4.,
-												NSWidth(textBounds),
-												NSHeight(textBounds));
-			
-			textRect = [self centerScanRect:textRect];
-
-			[editString drawWithRect:textRect
-						   options:0
-						attributes:stringAttributes];
-						
-		} [[NSGraphicsContext currentContext] restoreGraphicsState];
+			if (self.hoverString) {
+				NSShadow *textShadow = [[NSShadow alloc] init];
+				textShadow.shadowBlurRadius = 0.0;
+				textShadow.shadowColor = [NSColor colorWithWhite:0.7 alpha:0.8];
+				textShadow.shadowOffset = NSMakeSize(0.0, -1.0);
+				
+				NSString *hoverString = self.hoverString;
+				CGFloat inset = 10.;
+				CGFloat maxFontSize = 16;
+				
+				NSFont *font = [NSFont fontWithName:@"HelveticaNeue-Light" size:12.];
+				NSSize size = [hoverString sizeWithAttributes:@{ NSFontAttributeName : font}];
+				NSSize insetSize = CGSizeMake(NSWidth(imageRect) - 2*inset, NSHeight(imageRect) - 2*inset);
+				CGFloat scale = MIN( insetSize.width/size.width, insetSize.height/size.height );
+				CGFloat fontSize = MIN(font.pointSize * scale, maxFontSize);
+				font = [NSFont fontWithName:font.fontName size:fontSize];
+				
+				NSDictionary *stringAttributes = @{
+												   NSFontAttributeName: font,
+												   NSForegroundColorAttributeName: [NSColor colorWithWhite:1.0 alpha:0.8],
+												   NSShadowAttributeName: textShadow
+												   };
+				
+				NSSize textSize = [hoverString sizeWithAttributes:stringAttributes];
+				NSRect textBounds = [hoverString boundingRectWithSize:textSize options:0 attributes:stringAttributes];
+				
+				NSRect textRect = NSMakeRect(NSMidX(imageRect) - NSWidth(textBounds) / 2.0,
+											 NSMidY(imageRect) - NSHeight(textBounds) / 2.0 + 4.,
+											 NSWidth(textBounds),
+											 NSHeight(textBounds));
+				
+				textRect = [self centerScanRect:textRect];
+				
+				[hoverString drawWithRect:textRect
+								  options:0
+							   attributes:stringAttributes];
+				
+			}
+		}[[NSGraphicsContext currentContext] restoreGraphicsState];
 	}
 
 	[[NSGraphicsContext currentContext] restoreGraphicsState];

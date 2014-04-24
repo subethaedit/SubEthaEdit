@@ -91,6 +91,7 @@
 	avatarImageView.initials = me.initials; // are updated by the change name method
 	[avatarImageView bind:@"borderColor"     toObject:defaultsController withKeyPath:@"values.MyColorHue" options:@{ NSValueTransformerNameBindingOption : @"HueToColor"}];
 	[avatarImageView bind:@"backgroundColor" toObject:defaultsController withKeyPath:@"values.MyChangesSaturation" options:@{ NSValueTransformerNameBindingOption : @"SaturationToWhiteColor" }];
+	avatarImageView.hoverString = @"Edit"; // TODO: localize : Ändern
 	[avatarImageView enableHoverImage];
 	
 	NSButton *button = [[NSButton alloc] initWithFrame:avatarImageView.frame];
@@ -162,7 +163,7 @@
 
 #pragma mark - Me Card - Image
 
-// TODO: remove : MyImagePreferenceKey, [NSImage imageNamed:@"DefaultPerson"], maybe: PCRolloverImageView
+// TODO: remove [NSImage imageNamed:@"DefaultPerson"], maybe: PCRolloverImageView
 
 - (void)updateUserWithImage:(NSImage *)anImage {
 	if (anImage) {

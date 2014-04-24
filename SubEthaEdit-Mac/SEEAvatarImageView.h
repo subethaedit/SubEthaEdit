@@ -14,6 +14,7 @@
 @property (nonatomic, strong) NSColor *backgroundColor;
 @property (nonatomic, copy) NSString *initials;
 
+@property (nonatomic, copy) NSString *hoverString;
 - (void)enableHoverImage;
 - (void)disableHoverImage;
 @end
