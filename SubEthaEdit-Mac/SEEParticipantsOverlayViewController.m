@@ -23,10 +23,16 @@
 @interface SEEParticipantsOverlayViewController ()
 @property (nonatomic, weak) IBOutlet NSView *participantsContainerView;
 @property (nonatomic, weak) IBOutlet NSView *topLineView;
+
 @property (nonatomic, weak) PlainTextWindowControllerTabContext *tabContext;
+
 @property (nonatomic, strong) NSMutableArray *participantSubviewControllers;
 @property (nonatomic, strong) NSMutableArray *inviteeSubviewControllers;
 @property (nonatomic, strong) NSMutableArray *pendingSubviewControllers;
+
+@property (nonatomic, weak) id scrollerStyleObserver;
+@property (nonatomic, strong) NSDate *lastScrollerFlashDate;
+
 @end
 
 @implementation SEEParticipantsOverlayViewController
@@ -43,6 +49,16 @@
 		NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
 		[center addObserver:self selector:@selector(sessionWillChange:) name:PlainTextDocumentSessionWillChangeNotification object:document];
 		[center addObserver:self selector:@selector(sessionDidChange:) name:PlainTextDocumentSessionDidChangeNotification object:document];
+
+		__weak __typeof__(self) weakSelf = self;
+		self.scrollerStyleObserver = [center addObserverForName:NSPreferredScrollerStyleDidChangeNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+			__typeof__(self) strongSelf = weakSelf;
+
+			if ([NSScroller preferredScrollerStyle] == NSScrollerStyleLegacy) {
+				NSScrollView *participantScrollView = strongSelf.participantsContainerView.enclosingScrollView;
+				participantScrollView.scrollerStyle = NSScrollerStyleOverlay;
+			}
+		}];
 		
 		self.participantSubviewControllers = [NSMutableArray array];
 		self.inviteeSubviewControllers = [NSMutableArray array];
@@ -53,6 +69,7 @@
 
 
 - (void)dealloc {
+	[NSNotificationCenter.defaultCenter removeObserver:self.scrollerStyleObserver];
     [NSNotificationCenter.defaultCenter removeObserver:self];
 }
 
@@ -62,7 +79,29 @@
 	NSView *view = self.view;
 	view.layer.backgroundColor = [[NSColor brightOverlayBackgroundColorBackgroundIsDark:NO] CGColor];
 	self.topLineView.layer.backgroundColor = [[NSColor brightOverlaySeparatorColorBackgroundIsDark:NO] CGColor];
+
+	if ([NSScroller preferredScrollerStyle] == NSScrollerStyleLegacy) {
+		NSScrollView *participantScrollView = self.participantsContainerView.enclosingScrollView;
+		participantScrollView.scrollerStyle = NSScrollerStyleOverlay;
+	}
+	
+	[self.view addTrackingArea:[[NSTrackingArea alloc] initWithRect:NSZeroRect options:NSTrackingMouseEnteredAndExited|NSTrackingActiveInActiveApp|NSTrackingInVisibleRect owner:self userInfo:nil]];
+
 	[self update];
+}
+
+
+#pragma mark - Mouse Tracking
+
+- (void)mouseEntered:(NSEvent *)theEvent {
+	if ([NSScroller preferredScrollerStyle] == NSScrollerStyleLegacy) {
+		NSDate *currentDate = [NSDate date]; // avoid to many calls to flashScrollers, behaviour is confusing...
+		if (! self.lastScrollerFlashDate || [currentDate timeIntervalSinceDate:self.lastScrollerFlashDate] > 1.0) {
+			NSScrollView *participantScrollView = self.participantsContainerView.enclosingScrollView;
+			[participantScrollView flashScrollers];
+			self.lastScrollerFlashDate = currentDate;
+		}
+	}
 }
 
 #pragma mark
