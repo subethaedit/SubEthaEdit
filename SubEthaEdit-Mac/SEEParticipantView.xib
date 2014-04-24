@@ -42,7 +42,7 @@
                         <constraint firstAttribute="height" constant="56" id="oEU-T3-JCh"/>
                     </constraints>
                     <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="UnknownPerson" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="fH6-Ag-n1D">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
                 </button>
@@ -75,14 +75,14 @@
                     <rect key="frame" x="22" y="21" width="32" height="32"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                 </progressIndicator>
-                <textField hidden="YES" wantsLayer="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="i14-Tb-TdJ">
+                <textField hidden="YES" wantsLayer="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="i14-Tb-TdJ">
                     <rect key="frame" x="23" y="14" width="29" height="48"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <shadow key="shadow" blurRadius="3">
                         <size key="offset" width="1" height="1"/>
                         <color key="color" name="controlShadowColor" catalog="System" colorSpace="catalog"/>
                     </shadow>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" enabled="NO" allowsUndo="NO" sendsActionOnEndEditing="YES" alignment="center" title="?" id="Hip-GX-5Hh">
+                    <textFieldCell key="cell" enabled="NO" refusesFirstResponder="YES" allowsUndo="NO" sendsActionOnEndEditing="YES" alignment="center" title="?" usesSingleLineMode="YES" id="Hip-GX-5Hh">
                         <font key="font" metaFont="systemBold" size="40"/>
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
@@ -223,7 +223,7 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nO5-17-Z6x">
-                    <rect key="frame" x="20" y="7" width="88" height="17"/>
+                    <rect key="frame" x="32" y="7" width="84" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="recessed" title="Reject" bezelStyle="recessed" imagePosition="left" alignment="center" controlSize="small" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="iPx-zQ-by6">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
@@ -234,7 +234,7 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Tyb-vE-h04">
-                    <rect key="frame" x="116" y="7" width="88" height="17"/>
+                    <rect key="frame" x="124" y="7" width="84" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="recessed" title="Read Only" bezelStyle="recessed" imagePosition="left" alignment="center" controlSize="small" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="BzY-O1-9WR">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
@@ -245,7 +245,7 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yfb-64-HLz">
-                    <rect key="frame" x="212" y="7" width="88" height="17"/>
+                    <rect key="frame" x="216" y="7" width="84" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="recessed" title="Read/Write" bezelStyle="recessed" imagePosition="left" alignment="center" controlSize="small" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hsf-WF-CX4">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
@@ -255,7 +255,7 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
                         <action selector="chooseReadWriteMode:" target="-2" id="rk5-0r-M9R"/>
                     </connections>
                 </button>
-                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" misplaced="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ddb-hR-rzi">
+                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ddb-hR-rzi">
                     <rect key="frame" x="18" y="44" width="284" height="28"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" title="&lt;&lt;Please choose how this user can participate in this document.>>" id="irA-ag-jIE">
@@ -267,7 +267,7 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
                         <binding destination="-2" name="textColor" keyPath="self.popoverTextColor" id="8N9-nh-4Mr"/>
                     </connections>
                 </textField>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="D0U-TB-bum">
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="D0U-TB-bum">
                     <rect key="frame" x="18" y="80" width="284" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="&lt;&lt;A user wants to join this document>>" id="nhM-qG-v7W">
