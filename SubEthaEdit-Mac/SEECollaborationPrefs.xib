@@ -15,7 +15,7 @@
                 <outlet property="O_emailComboBox" destination="6OE-fu-gsc" id="vAU-US-Z0p"/>
                 <outlet property="O_highlightChangesButton" destination="rdZ-is-71R" id="z1Y-0o-zvx"/>
                 <outlet property="O_higlightChangesButton" destination="rdZ-is-71R" id="N4H-w5-bXl"/>
-                <outlet property="O_invisibleOnNetowrkButton" destination="ph8-yK-JgO" id="hwV-pu-JGi"/>
+                <outlet property="O_invisibleOnNetworkButton" destination="yO2-eJ-6Ez" id="Xh5-Wk-SUC"/>
                 <outlet property="O_invisibleOnNetworkExplanationTextField" destination="k1L-eU-kI4" id="1fn-Wf-8eG"/>
                 <outlet property="O_localPortTextField" destination="wdw-7c-J1b" id="tri-J4-7Po"/>
                 <outlet property="O_mappingStatusImageView" destination="rZx-RU-Vll" id="hY7-im-XmL"/>

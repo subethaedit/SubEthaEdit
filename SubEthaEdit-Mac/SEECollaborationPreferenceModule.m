@@ -78,7 +78,7 @@
     }
 	
 	[self.O_disableNetworkingButton setState:[TCMMMBEEPSessionManager sharedInstance].isNetworkingDisabled ? NSOnState : NSOffState];
-	[self.O_invisibleOnNetowrkButton setState:[[TCMMMPresenceManager sharedInstance] isVisible] ? NSOffState : NSOnState];
+	[self.O_invisibleOnNetworkButton setState:[[TCMMMPresenceManager sharedInstance] isVisible] ? NSOffState : NSOnState];
 	
 	SEEUserColorsPreviewView *preview = self.O_userColorsPreview;
 	NSUserDefaultsController *defaultsController = [NSUserDefaultsController sharedUserDefaultsController];
@@ -289,7 +289,7 @@
 }
 
 - (IBAction)changeVisiblityOnNetwork:(id)aSender {
-	[[TCMMMPresenceManager sharedInstance] setVisible:[self.O_invisibleOnNetowrkButton state] == NSOffState ? YES : NO];
+	[[TCMMMPresenceManager sharedInstance] setVisible:[self.O_invisibleOnNetworkButton state] == NSOffState ? YES : NO];
 }
 
 #pragma mark - Localization
@@ -351,7 +351,7 @@
 									  @"Collaboration Preferences - Label for the highlight changes saturation slider - strong end"
 									  );
 	
-	self.O_invisibleOnNetowrkButton.title =
+	self.O_invisibleOnNetworkButton.title =
 	NSLocalizedStringWithDefaultValue(@"COLLAB_NETWORK_INVISIBLE_LABEL", nil, [NSBundle mainBundle],
 									  @"Invisible to others on the Network",
 									  @"Collaboration Preferences - Label for the invisible on network toggle"
