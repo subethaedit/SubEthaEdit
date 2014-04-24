@@ -87,8 +87,9 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
 	NSRect bounds = self.bounds;
 	CGFloat borderWidth = NSWidth(bounds) / 20.0;
 	NSRect drawingRect = NSInsetRect(bounds, borderWidth/2.0, borderWidth/2.0);
+	NSRect imageRect = [self centerScanRect:drawingRect];
 
-	NSBezierPath *borderPath = [NSBezierPath bezierPathWithOvalInRect:drawingRect];
+	NSBezierPath *borderPath = [NSBezierPath bezierPathWithOvalInRect:imageRect];
 	[borderPath setLineWidth:borderWidth];
 
 	// draw the background
@@ -101,7 +102,6 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
 
 	NSImage *image = self.image;
 	if (image) {
-		NSRect imageRect = [self centerScanRect:drawingRect];
 		[image drawInRect:imageRect
 				 fromRect:NSZeroRect
 				operation:NSCompositeSourceOver
@@ -116,7 +116,7 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
 		imageBounds.size = image.size;
 		NSRect imageSourceRect = NSInsetRect(imageBounds, 2.0, 2.0);
 
-		[image drawInRect:drawingRect
+		[image drawInRect:imageRect
 				 fromRect:imageSourceRect
 				operation:NSCompositeSourceOver
 				 fraction:0.8
@@ -140,8 +140,8 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
 		NSSize textSize = [initials sizeWithAttributes:stringAttributes];
 		NSRect textBounds = [initials boundingRectWithSize:textSize options:0 attributes:stringAttributes];
 
-		NSRect textDrawingRect = NSMakeRect(NSMidX(drawingRect) - NSWidth(textBounds) / 2.0,
-											NSMidY(drawingRect) - NSHeight(textBounds),
+		NSRect textDrawingRect = NSMakeRect(NSMidX(imageRect) - NSWidth(textBounds) / 2.0,
+											NSMidY(imageRect) - NSHeight(textBounds),
 											NSWidth(textBounds),
 											NSHeight(textBounds));
 
@@ -154,16 +154,49 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
 
 	if (self.isHovering) {
 		[[NSGraphicsContext currentContext] saveGraphicsState]; {
-			
-			NSShadow *shadow = [[NSShadow alloc] init];
-			[shadow setShadowColor:[NSColor colorWithWhite:0.0 alpha:0.4]];
-			[shadow setShadowOffset:NSMakeSize(0.0, -1.0)];
-			[shadow setShadowBlurRadius:2.0];
-			[shadow set];
-			
+			// background
 			[[NSColor colorWithWhite:0.0 alpha:0.5] set];
 			[borderPath fill];
-		
+			
+			// text
+			NSShadow *textShadow = [[NSShadow alloc] init];
+			textShadow.shadowBlurRadius = 0.0;
+			textShadow.shadowColor = [NSColor colorWithWhite:0.7 alpha:0.8];
+			textShadow.shadowOffset = NSMakeSize(0.0, -1.0);
+			
+			NSString *editString = @"Edit"; // TODO: localize: Ändern
+//			editString = @"Ändern";
+			
+			CGFloat inset = 10.;
+			CGFloat maxFontSize = 16;
+			
+			NSFont *font = [NSFont fontWithName:@"HelveticaNeue-Light" size:12.];
+			NSSize size = [editString sizeWithAttributes:@{ NSFontAttributeName : font}];
+			NSSize insetSize = CGSizeMake(NSWidth(imageRect) - 2*inset, NSHeight(imageRect) - 2*inset);
+			CGFloat scale = MIN( insetSize.width/size.width, insetSize.height/size.height );
+			CGFloat fontSize = MIN(font.pointSize * scale, maxFontSize);
+			font = [NSFont fontWithName:font.fontName size:fontSize];
+
+			NSDictionary *stringAttributes = @{
+											   NSFontAttributeName: font,
+											   NSForegroundColorAttributeName: [NSColor colorWithWhite:1.0 alpha:0.8],
+											   NSShadowAttributeName: textShadow
+											   };
+			
+			NSSize textSize = [editString sizeWithAttributes:stringAttributes];
+			NSRect textBounds = [editString boundingRectWithSize:textSize options:0 attributes:stringAttributes];
+			
+			NSRect textRect = NSMakeRect(NSMidX(imageRect) - NSWidth(textBounds) / 2.0,
+												NSMidY(imageRect) - NSHeight(textBounds) / 2.0 + 4.,
+												NSWidth(textBounds),
+												NSHeight(textBounds));
+			
+			textRect = [self centerScanRect:textRect];
+
+			[editString drawWithRect:textRect
+						   options:0
+						attributes:stringAttributes];
+						
 		} [[NSGraphicsContext currentContext] restoreGraphicsState];
 	}
 
