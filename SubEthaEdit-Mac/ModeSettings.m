@@ -69,9 +69,7 @@
     [super dealloc];
 }
 
-#pragma mark - 
 #pragma mark - XML parsing
-#pragma mark - 
 
 -(void)parseXMLFile:(NSString *)aPath {
 
