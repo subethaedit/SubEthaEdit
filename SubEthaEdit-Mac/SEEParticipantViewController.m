@@ -36,6 +36,7 @@
 @property (nonatomic, weak) IBOutlet NSTextField *nameLabelOutlet;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *userViewButtonLeftConstraintOutlet;
 @property (nonatomic, weak) IBOutlet NSButton *userViewButtonOutlet;
+@property (nonatomic, weak) IBOutlet SEEAvatarImageView *avatarViewOutlet;
 @property (nonatomic, weak) IBOutlet NSProgressIndicator *connectingProgressIndicatorOutlet;
 
 @property (nonatomic, strong) IBOutlet NSView *participantActionOverlayOutlet;
@@ -85,6 +86,12 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self.plainTextEditorFollowUserNotificationHandler];
     [[NSNotificationCenter defaultCenter] removeObserver:self.participantsScrollingNotificationHandler];
 
+	SEEAvatarImageView *avatarView = self.avatarViewOutlet;
+	[avatarView unbind:@"image"];
+	[avatarView unbind:@"initials"];
+	[avatarView unbind:@"borderColor"];
+	[avatarView unbind:@"backgroundColor"];
+
 	self.nameLabelPopoverOutlet.delegate = nil;
 	self.pendingUserPopoverOutlet.delegate = nil;
 }
@@ -95,27 +102,14 @@
 	NSButton *userViewButton = self.userViewButtonOutlet;
 
 	TCMMMUser *user = self.participant;
-	NSImage *userImage = user.image;
-	NSString *initials = user.initials;
-	NSColor *changeColor = [user changeColor];
-	NSColor *changeHighlightColor = [user changeHighlightColorForBackgroundColor:[NSColor whiteColor]];
+	SEEAvatarImageView *avatarView = self.avatarViewOutlet;
+	[avatarView bind:@"image" toObject:user withKeyPath:@"image" options:nil];
+	[avatarView bind:@"initials" toObject:user withKeyPath:@"initials" options:nil];
+	[avatarView bind:@"borderColor" toObject:user withKeyPath:@"changeColorDesaturated" options:nil];
+	[avatarView bind:@"backgroundColor" toObject:user withKeyPath:@"changeHighlightColorWithWhiteBackground" options:nil];
 
-	NSImage *avatarImage = [NSImage imageWithSize:userViewButton.frame.size flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
-		SEEAvatarImageView *avatarView = [[SEEAvatarImageView alloc] initWithFrame:dstRect];
-		avatarView.image = userImage;
-		avatarView.initials = initials;
-		avatarView.borderColor = [NSColor colorWithCalibratedHue:changeColor.hueComponent saturation:0.85 brightness:1.0 alpha:1.0];
-		avatarView.backgroundColor = changeHighlightColor;
-		[avatarView drawRect:dstRect];
-		return YES;
-	}];
-
-	if (avatarImage) {
-		userViewButton.image = avatarImage;
-	}
-	
 	NSTextField *nameLabel = self.nameLabelOutlet;
-	nameLabel.stringValue = self.participant.name;
+	nameLabel.stringValue = user.name;
 
 	// participant users action overlay
 	{

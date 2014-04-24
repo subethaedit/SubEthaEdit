@@ -6,6 +6,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="SEEParticipantViewController">
             <connections>
+                <outlet property="avatarViewOutlet" destination="TNz-7E-ZCn" id="hXN-u4-Bmq"/>
                 <outlet property="chooseEditModeButtonOutlet" destination="yfb-64-HLz" id="ICw-EH-Vil"/>
                 <outlet property="chooseReadOnlyModeButtonOutlet" destination="Tyb-vE-h04" id="egt-SB-7iv"/>
                 <outlet property="closeConnectionButtonOutlet" destination="Uv8-hZ-TnG" id="RDO-0v-jmD"/>
@@ -34,18 +35,10 @@
             <rect key="frame" x="0.0" y="0.0" width="76" height="76"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <button translatesAutoresizingMaskIntoConstraints="NO" id="hE6-nB-RDu">
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="TNz-7E-ZCn" customClass="SEEAvatarImageView">
                     <rect key="frame" x="10" y="10" width="56" height="56"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="56" id="7su-4l-9Tp"/>
-                        <constraint firstAttribute="height" constant="56" id="oEU-T3-JCh"/>
-                    </constraints>
-                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="UnknownPerson" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="fH6-Ag-n1D">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                </button>
+                </customView>
                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ean-kT-01Z">
                     <rect key="frame" x="44" y="8" width="24" height="24"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -87,6 +80,18 @@
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="hE6-nB-RDu">
+                    <rect key="frame" x="10" y="10" width="56" height="56"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="56" id="7su-4l-9Tp"/>
+                        <constraint firstAttribute="height" constant="56" id="oEU-T3-JCh"/>
+                    </constraints>
+                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="fH6-Ag-n1D">
+                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                </button>
             </subviews>
             <constraints>
                 <constraint firstItem="Ean-kT-01Z" firstAttribute="bottom" secondItem="hE6-nB-RDu" secondAttribute="bottom" constant="2" id="6GB-5u-Beg"/>
@@ -96,10 +101,14 @@
                 <constraint firstAttribute="height" constant="76" id="CTe-CY-L0P"/>
                 <constraint firstItem="hE6-nB-RDu" firstAttribute="centerX" secondItem="k1p-6D-syT" secondAttribute="centerX" id="DMG-H5-rAW"/>
                 <constraint firstAttribute="width" secondItem="hE6-nB-RDu" secondAttribute="width" priority="549" constant="20" id="KND-Ve-MSI"/>
+                <constraint firstItem="TNz-7E-ZCn" firstAttribute="bottom" secondItem="hE6-nB-RDu" secondAttribute="bottom" id="LTw-bO-0wI"/>
                 <constraint firstAttribute="width" constant="76" id="LnQ-VY-TNr"/>
+                <constraint firstItem="TNz-7E-ZCn" firstAttribute="leading" secondItem="hE6-nB-RDu" secondAttribute="leading" id="NeS-1f-x3i"/>
                 <constraint firstItem="Ean-kT-01Z" firstAttribute="trailing" secondItem="hE6-nB-RDu" secondAttribute="trailing" constant="2" id="QY7-Bl-g4Q"/>
                 <constraint firstItem="hE6-nB-RDu" firstAttribute="centerY" secondItem="k1p-6D-syT" secondAttribute="centerY" constant="-1" id="XBu-jo-auU"/>
+                <constraint firstItem="TNz-7E-ZCn" firstAttribute="trailing" secondItem="hE6-nB-RDu" secondAttribute="trailing" id="bhV-ef-aSc"/>
                 <constraint firstItem="hE6-nB-RDu" firstAttribute="centerX" secondItem="i14-Tb-TdJ" secondAttribute="centerX" id="cZw-Ty-KOG"/>
+                <constraint firstItem="TNz-7E-ZCn" firstAttribute="top" secondItem="hE6-nB-RDu" secondAttribute="top" id="epf-bz-21v"/>
                 <constraint firstItem="hE6-nB-RDu" firstAttribute="bottom" secondItem="vtW-pW-OTD" secondAttribute="bottom" constant="-2" id="f4Z-WG-cca"/>
                 <constraint firstItem="hE6-nB-RDu" firstAttribute="leading" secondItem="vtW-pW-OTD" secondAttribute="leading" constant="2" id="iTu-lA-Mcf"/>
             </constraints>
@@ -194,7 +203,7 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
                 <outlet property="contentViewController" destination="MKs-1R-EOT" id="Sgp-rI-Ntr"/>
             </connections>
         </popover>
-        <customView id="5Xr-GH-ZCF" userLabel="UserName OverlayView">
+        <customView id="5Xr-GH-ZCF" userLabel="UserName Popover View">
             <rect key="frame" x="0.0" y="0.0" width="84" height="27"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
@@ -218,7 +227,7 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
                 <constraint firstAttribute="bottom" secondItem="Fk9-Iw-pk8" secondAttribute="bottom" constant="5" id="b0n-wc-GIp"/>
             </constraints>
         </customView>
-        <customView id="OAw-J0-YxO">
+        <customView id="OAw-J0-YxO" userLabel="PendingUser Popover View">
             <rect key="frame" x="0.0" y="0.0" width="320" height="105"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
@@ -317,6 +326,5 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
         <image name="SharingIconEye" width="84" height="84"/>
         <image name="SharingIconReadOnly" width="84" height="84"/>
         <image name="SharingIconWrite" width="84" height="84"/>
-        <image name="UnknownPerson" width="128" height="128"/>
     </resources>
 </document>
