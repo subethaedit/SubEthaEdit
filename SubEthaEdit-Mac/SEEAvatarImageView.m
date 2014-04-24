@@ -11,6 +11,7 @@
 #endif
 
 #import "SEEAvatarImageView.h"
+#import "NSImageTCMAdditions.h"
 
 @interface SEEAvatarImageView ()
 @property (nonatomic, strong) NSTrackingArea *hoverTrackingArea;
@@ -110,46 +111,13 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
 					hints:nil];
 	} else {
 		// draw placeholder image
-		image = [NSImage imageNamed:NSImageNameUser];
-
-		NSRect imageBounds = NSZeroRect;
-		imageBounds.size = image.size;
-		NSRect imageSourceRect = NSInsetRect(imageBounds, 2.0, 2.0);
-
+		image = [NSImage unknownUserImageWithSize:imageRect.size initials:self.initials];
 		[image drawInRect:imageRect
-				 fromRect:imageSourceRect
+				 fromRect:NSZeroRect
 				operation:NSCompositeSourceOver
-				 fraction:0.8
+				 fraction:1.0
 		   respectFlipped:YES
 					hints:nil];
-
-		// draw initials string
-		NSString *initials = self.initials;
-
-		CGFloat fontSize = NSWidth(bounds) / 5.0;
-
-		NSShadow *textShadow = [[NSShadow alloc] init];
-		textShadow.shadowBlurRadius = 0.0;
-		textShadow.shadowColor = [NSColor blackColor];
-		textShadow.shadowOffset = NSMakeSize(0.0, -1.0);
-
-		NSDictionary *stringAttributes = @{NSFontAttributeName: [NSFont fontWithName:@"HelveticaNeue-Light" size:fontSize],
-										   NSForegroundColorAttributeName: [[NSColor whiteColor] colorWithAlphaComponent:0.8],
-										   NSShadowAttributeName: textShadow};
-
-		NSSize textSize = [initials sizeWithAttributes:stringAttributes];
-		NSRect textBounds = [initials boundingRectWithSize:textSize options:0 attributes:stringAttributes];
-
-		NSRect textDrawingRect = NSMakeRect(NSMidX(imageRect) - NSWidth(textBounds) / 2.0,
-											NSMidY(imageRect) - NSHeight(textBounds),
-											NSWidth(textBounds),
-											NSHeight(textBounds));
-
-		[initials drawWithRect:textDrawingRect
-					   options:0
-					attributes:stringAttributes];
-
-//		NSFrameRect(textDrawingRect);
 	}
 
 	if (self.isHovering) {

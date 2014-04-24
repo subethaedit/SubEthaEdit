@@ -444,8 +444,6 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 		}
 
 		TCMMMUser *user = connectionRepresentation.user;
-		NSColor *changeColor = user.changeColor;
-
 		avatarView.image = user.image;
 		avatarView.initials = user.initials;
 		avatarView.borderColor = user.changeColorDesaturated;

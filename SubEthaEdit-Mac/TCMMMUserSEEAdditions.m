@@ -160,51 +160,7 @@
         image = [[[NSImage alloc] initWithData:pngData] autorelease];
 
         if (!image) {
-			image = [NSImage imageWithSize:NSMakeSize(64.0, 64.0) flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
-
-				NSRect drawingRect = dstRect;
-				// draw placeholder image
-				NSImage *unknownUserImage = [NSImage imageNamed:NSImageNameUser];
-
-				NSRect imageBounds = NSZeroRect;
-				imageBounds.size = unknownUserImage.size;
-				NSRect imageSourceRect = NSInsetRect(imageBounds, 2.0, 2.0);
-
-				[unknownUserImage drawInRect:drawingRect
-									fromRect:imageSourceRect
-								   operation:NSCompositeSourceOver
-									fraction:0.8
-							  respectFlipped:YES
-									   hints:nil];
-
-				// draw initials string
-				NSString *initials = self.initials;
-
-				CGFloat fontSize = NSWidth(drawingRect) / 5.0;
-
-				NSShadow *textShadow = [[NSShadow alloc] init];
-				textShadow.shadowBlurRadius = 0.0;
-				textShadow.shadowColor = [NSColor blackColor];
-				textShadow.shadowOffset = NSMakeSize(0.0, -1.0);
-
-				NSDictionary *stringAttributes = @{NSFontAttributeName: [NSFont fontWithName:@"HelveticaNeue-Light" size:fontSize],
-												   NSForegroundColorAttributeName: [[NSColor whiteColor] colorWithAlphaComponent:0.8],
-												   NSShadowAttributeName: textShadow};
-				[textShadow release];
-				NSSize textSize = [initials sizeWithAttributes:stringAttributes];
-				NSRect textBounds = [initials boundingRectWithSize:textSize options:0 attributes:stringAttributes];
-
-				NSRect textDrawingRect = NSMakeRect(NSMidX(drawingRect) - NSWidth(textBounds) / 2.0,
-													NSMidY(drawingRect) - NSHeight(textBounds),
-													NSWidth(textBounds),
-													NSHeight(textBounds));
-
-				[initials drawWithRect:textDrawingRect
-							   options:0
-							attributes:stringAttributes];
-
-				return YES;
-			}];
+			image = [NSImage unknownUserImageWithSize:NSMakeSize(256.0, 256.0) initials:self.initials];
 
             pngData = [image TIFFRepresentation];
             pngData = [[NSBitmapImageRep imageRepWithData:pngData] representationUsingType:NSPNGFileType properties:[NSDictionary dictionary]];
