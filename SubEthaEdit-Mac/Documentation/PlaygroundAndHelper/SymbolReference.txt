@@ -16,4 +16,6 @@ symbol="#_#774940"
 html & co
 
 symbol="ID"
-symbol="!--"
+symbol="!--_#2E7D35_14.0_LiGothicMed"
+symbol="a_#B00"
+symbol="H_#4094E4"
