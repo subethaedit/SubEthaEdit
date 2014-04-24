@@ -985,12 +985,6 @@
 "COLLAB_USER_NAME_LABEL" = "Name:";
 /* Collaboration Preferences - Label for the user email text field */
 "COLLAB_USER_EMAIL_LABEL" = "E-Mail:";
-/* Collaboration Preferences - Image Menu - Use Image from Address Book option */
-"COLLAB_USER_IMAGE_AB" = "Mein Bild aus dem Adressbuch";
-/* Collaboration Preferences - Image Menu - Choose Image option */
-"COLLAB_USER_IMAGE_CHOOSE" = "Bild auswählen…";
-/* Collaboration Preferences - Image Menu - Clear Image option */
-"COLLAB_USER_IMAGE_CLEAR" = "Bild entfernen";
 
 /* Style Preference Pane */
 
