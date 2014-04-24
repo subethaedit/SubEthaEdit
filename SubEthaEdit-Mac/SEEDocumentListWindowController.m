@@ -444,10 +444,15 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 		}
 
 		TCMMMUser *user = connectionRepresentation.user;
-		avatarView.image = user.image;
-		avatarView.initials = user.initials;
-		avatarView.borderColor = user.changeColorDesaturated;
-		avatarView.backgroundColor = user.changeHighlightColorWithWhiteBackground;
+		[avatarView bind:@"image" toObject:user withKeyPath:@"image" options:nil];
+		[avatarView bind:@"initials" toObject:user withKeyPath:@"initials" options:nil];
+		[avatarView bind:@"borderColor" toObject:user withKeyPath:@"changeColorDesaturated" options:nil];
+		[avatarView bind:@"backgroundColor" toObject:user withKeyPath:@"changeHighlightColorWithWhiteBackground" options:nil];
+
+//		avatarView.image = user.image;
+//		avatarView.initials = user.initials;
+//		avatarView.borderColor = user.changeColorDesaturated;
+//		avatarView.backgroundColor = user.changeHighlightColorWithWhiteBackground;
 	}
 }
 
