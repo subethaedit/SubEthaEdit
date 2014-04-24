@@ -193,7 +193,7 @@
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
-                                <button toolTip="Adjusts the strength of the background color indicating changes." id="rdZ-is-71R">
+                                <button toolTip="&lt;Adjusts the strength of the background color indicating changes." id="rdZ-is-71R">
                                     <rect key="frame" x="13" y="53" width="178" height="18"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <buttonCell key="cell" type="check" title="&lt;Highlight Changes" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="y8N-Pw-iAx">
@@ -258,7 +258,6 @@
                     <button id="yO2-eJ-6Ez">
                         <rect key="frame" x="20" y="113" width="361" height="18"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                        <string key="toolTip">SubEthaEdit will try to automatically map the local port to an external port if it is behind a NAT. For this to work you have to enable UPnP or NAT-PMP on your router.</string>
                         <buttonCell key="cell" type="check" title="&lt;Disable Networking" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="XOi-3L-9QN">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
