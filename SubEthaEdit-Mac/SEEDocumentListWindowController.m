@@ -448,8 +448,8 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 
 		avatarView.image = user.image;
 		avatarView.initials = user.initials;
-		avatarView.borderColor = [NSColor colorWithCalibratedHue:changeColor.hueComponent saturation:0.85 brightness:1.0 alpha:1.0];
-		avatarView.backgroundColor = [user changeHighlightColorForBackgroundColor:[NSColor whiteColor]];
+		avatarView.borderColor = user.changeColorDesaturated;
+		avatarView.backgroundColor = user.changeHighlightColorWithWhiteBackground;
 	}
 }
 
