@@ -370,7 +370,7 @@ static AppController *sharedInstance = nil;
     }
 
     if (!myImage) {
-        myImage= [[NSImage unknownUserImageWithSize:NSMakeSize(256.0, 256.0) initials:myName.initials] retain];
+        myImage= [[NSImage unknownUserImageWithSize:NSMakeSize(256.0, 256.0) initials:myName.stringWithInitials] retain];
     }
 
     if (!myEmail) myEmail=@"";

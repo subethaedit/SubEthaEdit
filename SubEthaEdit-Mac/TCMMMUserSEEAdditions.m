@@ -84,7 +84,7 @@
 
 - (NSString *)initials
 {
-	return self.name.initials;
+	return self.name.stringWithInitials;
 }
 
 #pragma mark -

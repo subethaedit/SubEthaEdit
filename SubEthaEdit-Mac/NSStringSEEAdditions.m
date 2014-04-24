@@ -787,7 +787,7 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
 	return result;
 }
 
-- (NSString *)initials
+- (NSString *)stringWithInitials
 {
 	NSString *name = self;
 	NSMutableString * initials = [NSMutableString string];
