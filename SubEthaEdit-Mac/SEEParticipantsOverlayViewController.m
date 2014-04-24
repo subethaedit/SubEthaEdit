@@ -21,7 +21,8 @@
 #import "SEEOverlayView.h"
 
 @interface SEEParticipantsOverlayViewController ()
-@property (nonatomic, strong) IBOutlet NSView *topLineView;
+@property (nonatomic, weak) IBOutlet NSView *participantsContainerView;
+@property (nonatomic, weak) IBOutlet NSView *topLineView;
 @property (nonatomic, weak) PlainTextWindowControllerTabContext *tabContext;
 @property (nonatomic, strong) NSMutableArray *participantSubviewControllers;
 @property (nonatomic, strong) NSMutableArray *inviteeSubviewControllers;
@@ -96,8 +97,10 @@
 
 
 - (void)update {
+	NSView *view = self.participantsContainerView;
+
 	// cleanup old view hierachy
-	NSArray *subviews = [self.view.subviews copy];
+	NSArray *subviews = [view.subviews copy];
 	NSView *topLineView = self.topLineView;
 	for (NSView *subview in subviews) {
 		if (subview != topLineView) {
@@ -109,13 +112,18 @@
 	[self.pendingSubviewControllers removeAllObjects];
 
 	// install new subviews for all allContributors
-	NSView *view = self.view;
 	TCMMMSession *session = self.tabContext.document.session;
 
 	// Participants working on the document
 	{
 		NSMutableArray *allParticipants = [[session.participants objectForKey:TCMMMSessionReadWriteGroupName] mutableCopy];
 		[allParticipants addObjectsFromArray:[session.participants objectForKey:TCMMMSessionReadOnlyGroupName]];
+
+//		// code to test scrollview... 
+//		for (NSInteger index = 0; index < 20; index++) {
+//			[allParticipants addObject:allParticipants.lastObject];
+//		}
+
 		for (TCMMMUser *user in allParticipants) {
 			SEEParticipantViewController *participantViewController = [[SEEParticipantViewController alloc] initWithParticipant:user tabContext:self.tabContext inMode:SEEParticipantViewModeParticipant];
 
