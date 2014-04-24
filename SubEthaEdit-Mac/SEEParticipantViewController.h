@@ -17,7 +17,7 @@ typedef NS_ENUM(NSInteger, SEEParticipantViewMode) {
 	SEEParticipantViewModePending
 };
 
-@interface SEEParticipantViewController : NSViewController
+@interface SEEParticipantViewController : NSViewController <NSPopoverDelegate>
 
 @property (nonatomic, readonly, assign) SEEParticipantViewMode viewMode;
 @property (nonatomic, readonly, strong) TCMMMUser *participant;

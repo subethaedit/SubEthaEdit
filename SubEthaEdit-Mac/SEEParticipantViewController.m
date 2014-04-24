@@ -55,6 +55,7 @@
 @property (nonatomic, weak) IBOutlet NSImageView *readOnlyOverlayImageOutlet;
 
 @property (nonatomic, weak) id plainTextEditorFollowUserNotificationHandler;
+@property (nonatomic, weak) id participantsScrollingNotificationHandler;
 
 @end
 
@@ -82,6 +83,10 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self.plainTextEditorFollowUserNotificationHandler];
+    [[NSNotificationCenter defaultCenter] removeObserver:self.participantsScrollingNotificationHandler];
+
+	self.nameLabelPopoverOutlet.delegate = nil;
+	self.pendingUserPopoverOutlet.delegate = nil;
 }
 
 - (void)loadView {
@@ -153,6 +158,13 @@
 		button.image = [NSImage pdfBasedImageNamed:@"SharingIconReadOnly"TCM_PDFIMAGE_SEP@"16"TCM_PDFIMAGE_SEP@""TCM_PDFIMAGE_NORMAL];
 	}
 
+	// add double click target for follow action
+	[userViewButton setAction:@selector(userViewButtonClicked:)];
+	[userViewButton setTarget:self];
+
+	self.nameLabelPopoverOutlet.delegate = self;
+	self.pendingUserPopoverOutlet.delegate = self;
+
 	// add tracking for action buttons overlay and name overlay
 	[self.participantViewOutlet addTrackingArea:[[NSTrackingArea alloc] initWithRect:NSZeroRect options:NSTrackingMouseEnteredAndExited|NSTrackingActiveInActiveApp|NSTrackingInVisibleRect owner:self userInfo:nil]];
 
@@ -188,10 +200,28 @@
 					context.duration = 0.1;
 					self.userViewButtonLeftConstraintOutlet.animator.constant = 10.0;
 				} completionHandler:^{
-					[self.nameLabelPopoverOutlet showRelativeToRect:NSZeroRect ofView:self.userViewButtonOutlet preferredEdge:NSMinYEdge];
+					NSPopover *popover = self.nameLabelPopoverOutlet;
+					if (! popover.isShown) {
+						[popover showRelativeToRect:NSZeroRect ofView:self.userViewButtonOutlet preferredEdge:NSMinYEdge];
+						self.participantsScrollingNotificationHandler =
+						[[NSNotificationCenter defaultCenter] addObserverForName:NSScrollViewDidLiveScrollNotification object:self.view.enclosingScrollView queue:nil usingBlock:^(NSNotification *note) {
+							if (popover.isShown) {
+								[popover close];
+							}
+						}];
+					}
 				}];
 			} else {
-				[self.nameLabelPopoverOutlet showRelativeToRect:NSZeroRect ofView:self.userViewButtonOutlet preferredEdge:NSMinYEdge];
+				NSPopover *popover = self.nameLabelPopoverOutlet;
+				if (! popover.isShown) {
+					[popover showRelativeToRect:NSZeroRect ofView:self.userViewButtonOutlet preferredEdge:NSMinYEdge];
+					self.participantsScrollingNotificationHandler =
+					[[NSNotificationCenter defaultCenter] addObserverForName:NSScrollViewDidLiveScrollNotification object:self.view.enclosingScrollView queue:nil usingBlock:^(NSNotification *note) {
+						if (popover.isShown) {
+							[popover close];
+						}
+					}];
+				}
 			}
 			break;
 		}
@@ -203,13 +233,33 @@
 				context.duration = 0.1;
 				self.userViewButtonLeftConstraintOutlet.animator.constant = 10.0;
 			} completionHandler:^{
-				[self.nameLabelPopoverOutlet showRelativeToRect:NSZeroRect ofView:self.userViewButtonOutlet preferredEdge:NSMinYEdge];
+				NSPopover *popover = self.nameLabelPopoverOutlet;
+				if (! popover.isShown) {
+					[popover showRelativeToRect:NSZeroRect ofView:self.userViewButtonOutlet preferredEdge:NSMinYEdge];
+					self.participantsScrollingNotificationHandler =
+					[[NSNotificationCenter defaultCenter] addObserverForName:NSScrollViewDidLiveScrollNotification object:self.view.enclosingScrollView queue:nil usingBlock:^(NSNotification *note) {
+						if (popover.isShown) {
+							[popover close];
+						}
+					}];
+				}
 			}];
+
 			break;
 		}
 		case SEEParticipantViewModePending:
 		{
-			[self.pendingUserPopoverOutlet showRelativeToRect:NSZeroRect ofView:self.userViewButtonOutlet preferredEdge:NSMinYEdge];
+			NSPopover *popover = self.pendingUserPopoverOutlet;
+			if (! popover.isShown) {
+				[popover showRelativeToRect:NSZeroRect ofView:self.userViewButtonOutlet preferredEdge:NSMinYEdge];
+
+				self.participantsScrollingNotificationHandler =
+				[[NSNotificationCenter defaultCenter] addObserverForName:NSScrollViewDidLiveScrollNotification object:self.view.enclosingScrollView queue:nil usingBlock:^(NSNotification *note) {
+					if (popover.isShown) {
+						[popover close];
+					}
+				}];
+			}
 			break;
 		}
 		default:
@@ -253,6 +303,16 @@
 }
 
 
+#pragma mark - NSPopoverDelegate
+
+- (void)popoverDidClose:(NSNotification *)notification {
+	if (self.participantsScrollingNotificationHandler) {
+		[[NSNotificationCenter defaultCenter] removeObserver:self.participantsScrollingNotificationHandler];
+		self.participantsScrollingNotificationHandler = nil;
+	}
+}
+
+
 #pragma mark Actions
 
 - (IBAction)closeConnection:(id)sender {
@@ -273,10 +333,33 @@
 	}
 }
 
-- (IBAction)userViewButtonDoubleClicked:(id)sender {
-	NSEvent *event = [NSApp currentEvent];
-	if (event.clickCount == 2) {
-		[self toggleFollow:sender];
+- (IBAction)userViewButtonClicked:(id)sender {
+	switch (self.viewMode) {
+		case SEEParticipantViewModeParticipant:
+		{
+			NSEvent *event = [NSApp currentEvent];
+			if (event.clickCount == 2) {
+				[self toggleFollow:sender];
+			}
+			break;
+		}
+		case SEEParticipantViewModePending:
+		{
+			NSPopover *popover = self.pendingUserPopoverOutlet;
+			if (! popover.isShown) {
+				[popover showRelativeToRect:NSZeroRect ofView:self.userViewButtonOutlet preferredEdge:NSMinYEdge];
+
+				self.participantsScrollingNotificationHandler =
+				[[NSNotificationCenter defaultCenter] addObserverForName:NSScrollViewDidLiveScrollNotification object:self.view.enclosingScrollView queue:nil usingBlock:^(NSNotification *note) {
+					if (popover.isShown) {
+						[popover close];
+					}
+				}];
+			}
+			break;
+		}
+		default:
+			break;
 	}
 }
 
@@ -390,10 +473,6 @@
 																			   constant:0];
 		[userView addSubview:self.participantActionOverlayOutlet];
 		[userView addConstraints:@[constraint, verticalConstraint]];
-
-		// add double click target for follow action
-		[self.userViewButtonOutlet setAction:@selector(userViewButtonDoubleClicked:)];
-		[self.userViewButtonOutlet setTarget:self];
 	}
 }
 
@@ -422,7 +501,7 @@
 
 - (void)updateForPendingUserState {
 	self.pendingUserQuestionMarkOutlet.hidden = NO;
-	self.userViewButtonOutlet.enabled = NO;
+	self.userViewButtonOutlet.enabled = YES;
 
 	{ // popover alert button titles
 		self.pendingUserKickButtonOutlet.title = NSLocalizedStringWithDefaultValue(@"KICK_PENDING_USER_BUTTON_TITLE", nil, [NSBundle mainBundle], @"Reject", @"Button Title for reject button in pending participant action popover");
