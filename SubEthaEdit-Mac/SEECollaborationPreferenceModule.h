@@ -36,6 +36,7 @@
 @property (nonatomic, strong) IBOutlet NSTextField *O_userNameLabel;
 @property (nonatomic, strong) IBOutlet NSTextField *O_userEmailLabel;
 @property (nonatomic, strong) IBOutlet NSBox *O_networkBox;
+@property (nonatomic, strong) IBOutlet NSTextField *O_localPortLabel;
 @property (nonatomic, strong) IBOutlet NSTextField *O_automaticallyMapPortExplanationTextField;
 
 @property (nonatomic, strong) IBOutlet NSTextField *O_userColorLabel;

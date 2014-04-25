@@ -376,7 +376,7 @@
 									  @"Collaboration Preferences - Label for the network box"
 									  );
 	
-	self.O_localPortTextField.stringValue =
+	self.O_localPortLabel.stringValue =
 	NSLocalizedStringWithDefaultValue(@"COLLAB_LOCAL_PORT_LABEL",
 									  nil, [NSBundle mainBundle],
 									  @"Local Port:",
@@ -403,6 +403,5 @@
 }
 
  
-
 
 @end

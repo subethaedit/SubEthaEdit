@@ -17,6 +17,7 @@
                 <outlet property="O_higlightChangesButton" destination="rdZ-is-71R" id="N4H-w5-bXl"/>
                 <outlet property="O_invisibleOnNetworkButton" destination="yO2-eJ-6Ez" id="Xh5-Wk-SUC"/>
                 <outlet property="O_invisibleOnNetworkExplanationTextField" destination="k1L-eU-kI4" id="1fn-Wf-8eG"/>
+                <outlet property="O_localPortLabel" destination="1ph-DU-Ir4" id="Bav-Bw-w79"/>
                 <outlet property="O_localPortTextField" destination="wdw-7c-J1b" id="tri-J4-7Po"/>
                 <outlet property="O_mappingStatusImageView" destination="rZx-RU-Vll" id="hY7-im-XmL"/>
                 <outlet property="O_mappingStatusProgressIndicator" destination="nnU-Es-Xyy" id="YRA-dh-jRj"/>
