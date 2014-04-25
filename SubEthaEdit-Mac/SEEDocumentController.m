@@ -495,6 +495,17 @@
 }
 
 
+- (IBAction)newDocumentByUserDefault:(id)sender {
+	@synchronized(self.documentCreationFlagsLookupDict) {
+		SEEDocumentCreationFlags *creationFlags = [[SEEDocumentCreationFlags alloc] init];
+		creationFlags.openInTab = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
+		self.documentCreationFlagsLookupDict[@"MakeUntitledDocument"] = creationFlags;
+	}
+
+	[self newDocumentWithModeIdentifier:[[[DocumentModeManager sharedInstance] modeForNewDocuments] documentModeIdentifier]];
+}
+
+
 - (IBAction)newDocumentWithModeMenuItem:(id)aSender {
 	@synchronized(self.documentCreationFlagsLookupDict) {
 		SEEDocumentCreationFlags *creationFlags = [[SEEDocumentCreationFlags alloc] init];
