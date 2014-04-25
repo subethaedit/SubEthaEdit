@@ -168,7 +168,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 }
 
 #define SCRIPTMODEMENUTAGBASE 4000
-#define SEEENGINEVERSION 3.5
+#define SEEENGINEVERSION 4.0
 
 + (BOOL)canParseModeVersionOfBundle:(NSBundle *)aBundle { 
     double requiredEngineVersion = 0; 
