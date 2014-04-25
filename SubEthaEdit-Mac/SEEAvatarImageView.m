@@ -11,6 +11,7 @@
 #endif
 
 #import "SEEAvatarImageView.h"
+#import "NSImageTCMAdditions.h"
 
 @interface SEEAvatarImageView ()
 @property (nonatomic, strong) NSTrackingArea *hoverTrackingArea;
@@ -25,7 +26,6 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
 {
 	if (self == [SEEAvatarImageView class]) {
 		[self exposeBinding:@"borderColor"];
-		[self exposeBinding:@"backgroundColor"];
 		[self exposeBinding:@"image"];
 		[self exposeBinding:@"initials"];
 	}
@@ -36,7 +36,6 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
     self = [super initWithFrame:frame];
     if (self) {
         self.borderColor = [NSColor redColor];
-		self.backgroundColor = [[NSColor redColor] colorWithAlphaComponent:0.4];
 		self.initials = @"M E";
 		
 		[self registerKVO];
@@ -55,7 +54,6 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
 - (void)registerKVO
 {
 	[self addObserver:self forKeyPath:@"borderColor" options:0 context:SEEAvatarRedarwObservationContext];
-	[self addObserver:self forKeyPath:@"backgroundColor" options:0 context:SEEAvatarRedarwObservationContext];
 	[self addObserver:self forKeyPath:@"image" options:0 context:SEEAvatarRedarwObservationContext];
 	[self addObserver:self forKeyPath:@"initials" options:0 context:SEEAvatarRedarwObservationContext];
 }
@@ -63,7 +61,6 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
 - (void)unregisterKVO
 {
 	[self removeObserver:self forKeyPath:@"borderColor" context:SEEAvatarRedarwObservationContext];
-	[self removeObserver:self forKeyPath:@"backgroundColor" context:SEEAvatarRedarwObservationContext];
 	[self removeObserver:self forKeyPath:@"image" context:SEEAvatarRedarwObservationContext];
 	[self removeObserver:self forKeyPath:@"initials" context:SEEAvatarRedarwObservationContext];
 }
@@ -92,8 +89,12 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
 	NSBezierPath *borderPath = [NSBezierPath bezierPathWithOvalInRect:imageRect];
 	[borderPath setLineWidth:borderWidth];
 
+	NSColor *borderColor = self.borderColor;
+	CGFloat saturation = 0.35;
+	NSColor *backgroundColor = [[NSColor whiteColor] blendedColorWithFraction:saturation ofColor:borderColor];
+	
 	// draw the background
-	[self.backgroundColor set];
+	[backgroundColor set];
 	[borderPath fill];
 
 	//draw the image clipped
@@ -110,46 +111,13 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
 					hints:nil];
 	} else {
 		// draw placeholder image
-		image = [NSImage imageNamed:NSImageNameUser];
-
-		NSRect imageBounds = NSZeroRect;
-		imageBounds.size = image.size;
-		NSRect imageSourceRect = NSInsetRect(imageBounds, 2.0, 2.0);
-
+		image = [NSImage unknownUserImageWithSize:imageRect.size initials:self.initials];
 		[image drawInRect:imageRect
-				 fromRect:imageSourceRect
+				 fromRect:NSZeroRect
 				operation:NSCompositeSourceOver
-				 fraction:0.8
+				 fraction:1.0
 		   respectFlipped:YES
 					hints:nil];
-
-		// draw initials string
-		NSString *initials = self.initials;
-
-		CGFloat fontSize = NSWidth(bounds) / 5.0;
-
-		NSShadow *textShadow = [[NSShadow alloc] init];
-		textShadow.shadowBlurRadius = 0.0;
-		textShadow.shadowColor = [NSColor blackColor];
-		textShadow.shadowOffset = NSMakeSize(0.0, -1.0);
-
-		NSDictionary *stringAttributes = @{NSFontAttributeName: [NSFont fontWithName:@"HelveticaNeue-Light" size:fontSize],
-										   NSForegroundColorAttributeName: [[NSColor whiteColor] colorWithAlphaComponent:0.8],
-										   NSShadowAttributeName: textShadow};
-
-		NSSize textSize = [initials sizeWithAttributes:stringAttributes];
-		NSRect textBounds = [initials boundingRectWithSize:textSize options:0 attributes:stringAttributes];
-
-		NSRect textDrawingRect = NSMakeRect(NSMidX(imageRect) - NSWidth(textBounds) / 2.0,
-											NSMidY(imageRect) - NSHeight(textBounds),
-											NSWidth(textBounds),
-											NSHeight(textBounds));
-
-		[initials drawWithRect:textDrawingRect
-					   options:0
-					attributes:stringAttributes];
-
-//		NSFrameRect(textDrawingRect);
 	}
 
 	if (self.isHovering) {
@@ -203,7 +171,7 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
 	[[NSGraphicsContext currentContext] restoreGraphicsState];
 
 	// draw the border
-	[self.borderColor set];
+	[borderColor set];
 	[borderPath stroke];
 	
 }

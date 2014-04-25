@@ -57,6 +57,7 @@ typedef enum _LineEnding {
 - (BOOL)findIANAEncodingUsingExpression:(NSString*)regEx encoding:(NSStringEncoding*)outEncoding;
 - (NSString *) stringByReplacingRegularExpressionOperators;
 - (NSRange)TCM_fullLengthRange;
+- (NSString *)stringWithInitials;
 @end
 
 @interface NSAttributedString (NSAttributedStringSEEAdditions)

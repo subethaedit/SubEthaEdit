@@ -90,7 +90,6 @@
 	[avatarView unbind:@"image"];
 	[avatarView unbind:@"initials"];
 	[avatarView unbind:@"borderColor"];
-	[avatarView unbind:@"backgroundColor"];
 
 	self.nameLabelPopoverOutlet.delegate = nil;
 	self.pendingUserPopoverOutlet.delegate = nil;
@@ -106,7 +105,6 @@
 	[avatarView bind:@"image" toObject:user withKeyPath:@"image" options:nil];
 	[avatarView bind:@"initials" toObject:user withKeyPath:@"initials" options:nil];
 	[avatarView bind:@"borderColor" toObject:user withKeyPath:@"changeColorDesaturated" options:nil];
-	[avatarView bind:@"backgroundColor" toObject:user withKeyPath:@"changeHighlightColorWithWhiteBackground" options:nil];
 
 	NSTextField *nameLabel = self.nameLabelOutlet;
 	nameLabel.stringValue = user.name;
