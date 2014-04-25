@@ -17,7 +17,10 @@
 - (id)init {
     self = [super init];
     if (self) {
-        self.name = NSLocalizedString(@"Recent Documents", @"");
+        self.name =
+		NSLocalizedStringWithDefaultValue(@"DOCUMENT_LIST_RECENT_TOGGLE", nil, [NSBundle mainBundle],
+										  @"Recent Documents",
+										  @"");
     }
     return self;
 }

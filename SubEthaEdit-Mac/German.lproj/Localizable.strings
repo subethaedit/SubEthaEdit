@@ -1008,6 +1008,7 @@
 "DOCUMENT_LIST_OPEN" = "Öffnen…";
 "DOCUMENT_LIST_NEW" = "Neu";
 "DOCUMENT_LIST_CONNECT" = "Mit URL verbinden…";
+"DOCUMENT_LIST_RECENT_TOGGLE" = "Benutzte Dokumente";
 
 /* participant overlay */
 "KICK_PENDING_USER_BUTTON_TITLE" = "Ablehnen";
