@@ -30,7 +30,7 @@
 
 // colors
 @property (nonatomic, strong) IBOutlet SEEUserColorsPreviewView *O_userColorsPreview;
-@property (nonatomic, strong) IBOutlet NSButton *O_higlightChangesButton;
+@property (nonatomic, strong) IBOutlet NSButton *O_highlightChangesButton;
 
 // localization outlet additions
 @property (nonatomic, strong) IBOutlet NSTextField *O_userNameLabel;
@@ -42,7 +42,6 @@
 @property (nonatomic, strong) IBOutlet NSTextField *O_userColorLabel;
 @property (nonatomic, strong) IBOutlet NSTextField *O_changesSaturationLabelPale;
 @property (nonatomic, strong) IBOutlet NSTextField *O_changesSaturationLabelStrong;
-@property (nonatomic, strong) IBOutlet NSButton *O_highlightChangesButton;
 
 // actions - network
 - (IBAction)changeAutomaticallyMapPorts:(id)aSender;
