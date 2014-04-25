@@ -369,6 +369,7 @@
 			</property>
 			<element type="mode" access="r">
 				<cocoa key="scriptedModes"/>
+				<type type="text" />
 			</element>
 			<responds-to name="see">
 				<cocoa method="TCM_handleSeeScriptCommand:"/>
@@ -380,7 +381,7 @@
 			<property name="id" code="ID  " type="integer" access="r" description="The unique identifier of the document. Not persistant over launches.">
 				<cocoa key="uniqueID"/>
 			</property>
-			<contents name="plain text" code="cTXT" type="plain text" description="The plain text object containing all the document's text." hidden="yes">
+			<contents name="plain text" code="cTXT" type="plain text" description="The plain text object containing all the document's text.">
 				<cocoa key="scriptedPlainContents"/>
 			</contents>
 			<property name="contents" code="pTxt" type="text"
