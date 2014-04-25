@@ -199,12 +199,6 @@
 /* Menu/Toolbar Title for concealing all Documents */
 "Conceal All" = "Alle Verbergen";
 
-/* SSL Encryption Connection Tooltip Text Encrypted */
-"Connection is TLS/SSL encrypted using %@" = "Verbindung ist mit %@ TLS/SSL verschlüsselt";
-
-/* SSL Encryption Connection Tooltip Text NOT Encrypted */
-"Connection is NOT encrypted" = "Verbindung is NICHT verschlüsselt";
-
 /* No comment provided by engineer. */
 "Connections" = "Verbindungen";
 

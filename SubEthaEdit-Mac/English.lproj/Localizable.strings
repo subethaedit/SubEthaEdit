@@ -814,12 +814,6 @@
 /* Status of port mapping while trying */
 "Checking port status..." = "Checking port status...";
 
-/* SSL Encryption Connection Tooltip Text Encrypted */
-"Connection is TLS/SSL encrypted using %@" = "Connection is TLS/SSL encrypted using %@";
-
-/* SSL Encryption Connection Tooltip Text NOT Encrypted */
-"Connection is NOT encrypted" = "Connection is NOT encrypted";
-
 /* Drag target string in Participants Drawer */
 "Drag your\nFriends\nfrom the\niChat Buddy List\nor\nConnection Browser\nto a category\nor the text\nto invite them." = "Drag your\nFriends\nfrom the\niChat Buddy List\nor\nConnection Browser\nto a category\nor the text\nto invite them.";
 
