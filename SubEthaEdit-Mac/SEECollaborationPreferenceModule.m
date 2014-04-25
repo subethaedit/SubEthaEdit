@@ -53,6 +53,7 @@
 
 - (void)mainViewDidLoad {
     // Initialize user interface elements to reflect current preference settings
+	[self localizeText];
 
 	[self TCM_setupComboBoxes];
 	
@@ -77,7 +78,7 @@
     }
 	
 	[self.O_disableNetworkingButton setState:[TCMMMBEEPSessionManager sharedInstance].isNetworkingDisabled ? NSOnState : NSOffState];
-	[self.O_invisibleOnNetowrkButton setState:[[TCMMMPresenceManager sharedInstance] isVisible] ? NSOffState : NSOnState];
+	[self.O_invisibleOnNetworkButton setState:[[TCMMMPresenceManager sharedInstance] isVisible] ? NSOffState : NSOnState];
 	
 	SEEUserColorsPreviewView *preview = self.O_userColorsPreview;
 	NSUserDefaultsController *defaultsController = [NSUserDefaultsController sharedUserDefaultsController];
@@ -90,7 +91,6 @@
 	avatarImageView.image = me.image; // is updated by the choose image method
 	avatarImageView.initials = me.initials; // are updated by the change name method
 	[avatarImageView bind:@"borderColor"     toObject:defaultsController withKeyPath:@"values.MyColorHue" options:@{ NSValueTransformerNameBindingOption : @"HueToColor"}];
-	avatarImageView.hoverString = @"Edit"; // TODO: localize : Ändern
 	[avatarImageView enableHoverImage];
 	
 	NSButton *button = [[NSButton alloc] initWithFrame:avatarImageView.frame];
@@ -286,82 +286,119 @@
 }
 
 - (IBAction)changeVisiblityOnNetwork:(id)aSender {
-	[[TCMMMPresenceManager sharedInstance] setVisible:[self.O_invisibleOnNetowrkButton state] == NSOffState ? YES : NO];
+	[[TCMMMPresenceManager sharedInstance] setVisible:[self.O_invisibleOnNetworkButton state] == NSOffState ? YES : NO];
 }
-
 
 #pragma mark - Localization
-- (NSString *)localizedNetworkBoxLabelText {
-	NSString *string = NSLocalizedStringWithDefaultValue(@"COLLAB_NETWORK_LABEL", nil, [NSBundle mainBundle],
-														 @"Network",
-														 @"Collaboration Preferences - Label for the network box");
-	return string;
+
+- (void)localizeText {
+	// me card related
+	self.O_avatarImageView.hoverString =
+	NSLocalizedStringWithDefaultValue(@"COLLAB_USER_IMAGE_HOVER_STRING", nil, [NSBundle mainBundle],
+									  @"Edit",
+									  @"Collaboration Preferences - Description to show when the user hovers over the avatar image"
+									  );
+
+	self.O_userNameLabel.stringValue =
+	NSLocalizedStringWithDefaultValue(@"COLLAB_USER_NAME_LABEL", nil, [NSBundle mainBundle],
+									  @"Name:",
+									  @"Collaboration Preferences - Label for the user name text field"
+									  );
+
+	self.O_userEmailLabel.stringValue =
+	NSLocalizedStringWithDefaultValue(@"COLLAB_USER_EMAIL_LABEL",
+									  nil, [NSBundle mainBundle],
+									  @"Email:",
+									  @"Collaboration Preferences - Label for the user email text field"
+									  );
+
+	
+	self.O_userColorLabel.stringValue =
+	NSLocalizedStringWithDefaultValue(@"COLLAB_USER_COLOR_LABEL",
+									  nil, [NSBundle mainBundle],
+									  @"Color:",
+									  @"Collaboration Preferences - Label for the user color slider"
+									  );
+
+	self.O_highlightChangesButton.title =
+	NSLocalizedStringWithDefaultValue(@"COLLAB_HIGHLIGHT_CHANGES_LABEL",
+									  nil, [NSBundle mainBundle],
+									  @"Highlight Changes",
+									  @"Collaboration Preferences - Label for the highlight changes toggle"
+									  );
+	
+	self.O_highlightChangesSlider.toolTip =
+	NSLocalizedStringWithDefaultValue(@"COLLAB_HIGHLIGHT_CHANGES_SLIDER_TOOL_TIP",
+									  nil, [NSBundle mainBundle],
+									  @"Adjusts the strength of the background color indicating changes.",
+									  @"Collaboration Preferences - Tooltip for the highlight changes toggle"
+									  );
+	
+	self.O_changesSaturationLabelPale.stringValue =
+	NSLocalizedStringWithDefaultValue(@"COLLAB_HIGHLIGHT_CHANGES_SLIDER_LABEL_PALE",
+									  nil, [NSBundle mainBundle],
+									  @"pale",
+									  @"Collaboration Preferences - Label for the highlight changes saturation slider - pale end"
+									  );
+	
+	self.O_changesSaturationLabelStrong.stringValue =
+	NSLocalizedStringWithDefaultValue(@"COLLAB_HIGHLIGHT_CHANGES_SLIDER_LABEL_STRONG",
+									  nil, [NSBundle mainBundle],
+									  @"strong",
+									  @"Collaboration Preferences - Label for the highlight changes saturation slider - strong end"
+									  );
+	
+	self.O_invisibleOnNetworkButton.title =
+	NSLocalizedStringWithDefaultValue(@"COLLAB_NETWORK_INVISIBLE_LABEL", nil, [NSBundle mainBundle],
+									  @"Invisible to others on the Network",
+									  @"Collaboration Preferences - Label for the invisible on network toggle"
+									  );
+	
+	self.O_invisibleOnNetworkExplanationTextField.stringValue =
+	NSLocalizedStringWithDefaultValue(@"COLLAB_NETWORK_INVISIBLE_DESCRIPTION", nil, [NSBundle mainBundle],
+									  @"You will still be visible if you announce a Document",
+									  @"Collaboration Preferences - Label with additional description for the invisible on network toggle"
+									  );
+	
+	// disable networking
+	self.O_disableNetworkingButton.title =
+	NSLocalizedStringWithDefaultValue(@"COLLAB_NETWORK_DISABLE_LABEL", nil, [NSBundle mainBundle],
+									  @"Disable Networking",
+									  @"Collaboration Preferences - Label for the disable networking toggle"
+									  );
+	// network box
+	self.O_networkBox.title =
+	NSLocalizedStringWithDefaultValue(@"COLLAB_NETWORK_LABEL", nil, [NSBundle mainBundle],
+									  @"Network",
+									  @"Collaboration Preferences - Label for the network box"
+									  );
+	
+	self.O_localPortLabel.stringValue =
+	NSLocalizedStringWithDefaultValue(@"COLLAB_LOCAL_PORT_LABEL",
+									  nil, [NSBundle mainBundle],
+									  @"Local Port:",
+									  @"Collaboration Preferences - Label for the local port"
+									  );
+	
+	self.O_automaticallyMapPortButton.title =
+	NSLocalizedStringWithDefaultValue(@"COLLAB_AUTOMATICALLY_MAP_PORT_LABEL", nil, [NSBundle mainBundle],
+									  @"Try to map port automatically",
+									  @"Collaboration Preferences - Label for the automatically map port toggle"
+									  );
+	
+	self.O_automaticallyMapPortButton.toolTip =
+	NSLocalizedStringWithDefaultValue(@"COLLAB_AUTOMATICALLY_MAP_PORT_TOOL_TIP", nil, [NSBundle mainBundle],
+									  @"SubEthaEdit will try to automatically map the local port to an external port if it is behind a NAT. For this to work you have to enable UPnP or NAT-PMP on your router.",
+									  @"Collaboration Preferences - tool tip for the automatically map port toggle"
+									  );
+	
+	self.O_automaticallyMapPortExplanationTextField.stringValue =
+	NSLocalizedStringWithDefaultValue(@"COLLAB_AUTOMATICALLY_MAP_PORT_DESCRIPTION", nil, [NSBundle mainBundle],
+									  @"NAT traversal uses either NAT-PMP or UPnP",
+									  @"Collaboration Preferences - Label with additional description for the automatically map port toggle"
+									  );
 }
 
-- (NSString *)localizedLocalPortLabelText {
-	NSString *string = NSLocalizedStringWithDefaultValue(@"COLLAB_LOCAL_PORT_LABEL", nil, [NSBundle mainBundle],
-														 @"Local Port:",
-														 @"Collaboration Preferences - Label for the local port");
-	return string;
-}
-
-- (NSString *)localizedAutomaticallyMapPortsLabelText {
-	NSString *string = NSLocalizedStringWithDefaultValue(@"COLLAB_AUTOMATICALLY_MAP_PORT_LABEL", nil, [NSBundle mainBundle],
-														 @"Automatically map port",
-														 @"Collaboration Preferences - Label for the automatically map port toggle");
-	return string;
-}
-
-- (NSString *)localizedAutomaticallyMapPortsExplanationText {
-	NSString *string = NSLocalizedStringWithDefaultValue(@"COLLAB_AUTOMATICALLY_MAP_PORT_DESCRIPTION", nil, [NSBundle mainBundle],
-														 @"NAT traversal uses either NAT-PMP or UPnP",
-														 @"Collaboration Preferences - Label with additional description for the automatically map port toggle");
-	return string;
-}
-
-- (NSString *)localizedAutomaticallyMapPortsToolTipText {
-	NSString *string = NSLocalizedStringWithDefaultValue(@"COLLAB_AUTOMATICALLY_MAP_PORT_TOOL_TIP", nil, [NSBundle mainBundle],
-														 @"SubEthaEdit will try to automatically map the local port to an external port if it is behind a NAT. For this to work you have to enable UPnP or NAT-PMP on your router.",
-														 @"Collaboration Preferences - tool tip for the automatically map port toggle");
-	return string;
-}
-
-
-// me card related
-- (NSString *)localizedUserNameLabel {
-	NSString *string = NSLocalizedStringWithDefaultValue(@"COLLAB_USER_NAME_LABEL", nil, [NSBundle mainBundle],
-														 @"Name:",
-														 @"Collaboration Preferences - Label for the user name text field");
-	return string;
-}
-
-- (NSString *)localizedUserEmailLabel {
-	NSString *string = NSLocalizedStringWithDefaultValue(@"COLLAB_USER_EMAIL_LABEL", nil, [NSBundle mainBundle],
-														 @"Email:",
-														 @"Collaboration Preferences - Label for the user email text field");
-	return string;
-}
-
-
-- (NSString *)localizedImageMenuAddressBook {
-	NSString *string = NSLocalizedStringWithDefaultValue(@"COLLAB_USER_IMAGE_AB", nil, [NSBundle mainBundle],
-														 @"Use Address Book",
-														 @"Collaboration Preferences - Image Menu - Use Image from Address Book option");
-	return string;
-}
-
-- (NSString *)localizedImageMenuChoose {
-	NSString *string = NSLocalizedStringWithDefaultValue(@"COLLAB_USER_IMAGE_CHOOSE", nil, [NSBundle mainBundle],
-														 @"Choose Image...",
-														 @"Collaboration Preferences - Image Menu - Choose Image option");
-	return string;
-}
-
-- (NSString *)localizedImageMenuClear {
-	NSString *string = NSLocalizedStringWithDefaultValue(@"COLLAB_USER_IMAGE_CLEAR", nil, [NSBundle mainBundle],
-														 @"Clear Image",
-														 @"Collaboration Preferences - Image Menu - Clear Image option");
-	return string;
-}
+ 
 
 @end

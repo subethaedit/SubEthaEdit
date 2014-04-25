@@ -9,5 +9,9 @@
 #import <Cocoa/Cocoa.h>
 
 @interface SEEConnectionAddingWindowController : NSWindowController
-@property NSString *addressString;
+@property (nonatomic) NSString *addressString;
+
+@property (nonatomic, strong) IBOutlet NSTextField *addressLabel;
+@property (nonatomic, strong) IBOutlet NSButton *cancelButton;
+@property (nonatomic, strong) IBOutlet NSButton *connectButton;
 @end

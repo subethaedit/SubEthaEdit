@@ -7,18 +7,27 @@
         <customObject id="-2" userLabel="File's Owner" customClass="SEECollaborationPreferenceModule">
             <connections>
                 <outlet property="O_automaticallyMapPortButton" destination="m4c-SU-LMl" id="vMs-rk-7Wg"/>
+                <outlet property="O_automaticallyMapPortExplanationTextField" destination="fah-zz-MNr" id="87C-Oo-NkP"/>
                 <outlet property="O_avatarImageView" destination="LNz-tD-bOH" id="gPq-LZ-h2J"/>
+                <outlet property="O_changesSaturationLabelPale" destination="X5K-rQ-FTg" id="BAk-8w-hh6"/>
+                <outlet property="O_changesSaturationLabelStrong" destination="aWn-rs-bVF" id="8bg-KC-QmK"/>
                 <outlet property="O_disableNetworkingButton" destination="yO2-eJ-6Ez" id="cCr-be-P1B"/>
                 <outlet property="O_emailComboBox" destination="6OE-fu-gsc" id="vAU-US-Z0p"/>
-                <outlet property="O_higlightChangesButton" destination="rdZ-is-71R" id="N4H-w5-bXl"/>
-                <outlet property="O_invisibleOnNetowrkButton" destination="ph8-yK-JgO" id="hwV-pu-JGi"/>
+                <outlet property="O_highlightChangesButton" destination="rdZ-is-71R" id="z1Y-0o-zvx"/>
+                <outlet property="O_highlightChangesSlider" destination="n2A-ha-JDK" id="oJq-aF-baR"/>
+                <outlet property="O_invisibleOnNetworkButton" destination="ph8-yK-JgO" id="a00-N4-AfB"/>
                 <outlet property="O_invisibleOnNetworkExplanationTextField" destination="k1L-eU-kI4" id="1fn-Wf-8eG"/>
+                <outlet property="O_localPortLabel" destination="1ph-DU-Ir4" id="Bav-Bw-w79"/>
                 <outlet property="O_localPortTextField" destination="wdw-7c-J1b" id="tri-J4-7Po"/>
                 <outlet property="O_mappingStatusImageView" destination="rZx-RU-Vll" id="hY7-im-XmL"/>
                 <outlet property="O_mappingStatusProgressIndicator" destination="nnU-Es-Xyy" id="YRA-dh-jRj"/>
                 <outlet property="O_mappingStatusTextField" destination="x0F-16-awU" id="Cdw-CZ-r92"/>
                 <outlet property="O_nameTextField" destination="GvU-me-qXy" id="d0T-ic-2Fb"/>
+                <outlet property="O_networkBox" destination="89L-Pf-aYg" id="jo9-6f-qBm"/>
+                <outlet property="O_userColorLabel" destination="8Yk-3A-fWE" id="i1I-Yx-gG4"/>
                 <outlet property="O_userColorsPreview" destination="7qA-ls-mYl" id="9no-zF-3Tg"/>
+                <outlet property="O_userEmailLabel" destination="XAP-bo-7fM" id="Qwd-Nn-x9s"/>
+                <outlet property="O_userNameLabel" destination="TdZ-Bk-aby" id="EsO-pf-tIq"/>
                 <outlet property="O_window" destination="QvC-M9-y7g" id="Dgz-nd-xe2"/>
             </connections>
         </customObject>
@@ -35,7 +44,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="399" height="398"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <box title="Network" id="89L-Pf-aYg">
+                    <box title="&lt;Network" id="89L-Pf-aYg">
                         <rect key="frame" x="17" y="16" width="365" height="92"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                         <view key="contentView">
@@ -45,28 +54,23 @@
                                 <button id="m4c-SU-LMl">
                                     <rect key="frame" x="14" y="26" width="333" height="18"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                                    <string key="toolTip">SubEthaEdit will try to automatically map the local port to an external port if it is behind a NAT. For this to work you have to enable UPnP or NAT-PMP on your router.</string>
-                                    <buttonCell key="cell" type="check" title="Try to map port automatically" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="XPh-zo-Ojp">
+                                    <string key="toolTip">&lt;SubEthaEdit will try to automatically map the local port to an external port if it is behind a NAT. For this to work you have to enable UPnP or NAT-PMP on your router.</string>
+                                    <buttonCell key="cell" type="check" title="&lt;Try to map port automatically" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="XPh-zo-Ojp">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                         <font key="font" metaFont="smallSystem"/>
                                     </buttonCell>
                                     <connections>
                                         <action selector="changeAutomaticallyMapPorts:" target="-2" id="5Qm-qs-bC8"/>
-                                        <binding destination="-2" name="title" keyPath="self.localizedAutomaticallyMapPortsLabelText" id="QFr-mA-dcS"/>
-                                        <binding destination="-2" name="toolTip" keyPath="self.localizedAutomaticallyMapPortsToolTipText" previousBinding="QFr-mA-dcS" id="7EJ-37-cX6"/>
                                     </connections>
                                 </button>
                                 <textField verticalHuggingPriority="750" id="fah-zz-MNr">
                                     <rect key="frame" x="33" y="13" width="288" height="11"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" controlSize="mini" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="NAT traversal uses NAT-PMP or UPnP if available" id="UvY-lr-BBb">
+                                    <textFieldCell key="cell" controlSize="mini" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="&lt;NAT traversal uses NAT-PMP or UPnP if available" id="UvY-lr-BBb">
                                         <font key="font" metaFont="miniSystem"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
-                                    <connections>
-                                        <binding destination="-2" name="value" keyPath="self.localizedAutomaticallyMapPortsExplanationText" id="xRb-Yw-r7l"/>
-                                    </connections>
                                 </textField>
                                 <imageView id="rZx-RU-Vll">
                                     <rect key="frame" x="113" y="51" width="14" height="13"/>
@@ -94,9 +98,6 @@
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
-                                    <connections>
-                                        <binding destination="-2" name="value" keyPath="self.localizedLocalPortLabelText" id="bL9-RH-ScJ"/>
-                                    </connections>
                                 </textField>
                                 <textField horizontalHuggingPriority="750" verticalHuggingPriority="750" id="wdw-7c-J1b">
                                     <rect key="frame" x="79" y="50" width="35" height="14"/>
@@ -111,9 +112,6 @@
                         </view>
                         <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <connections>
-                            <binding destination="-2" name="title" keyPath="self.localizedNetworkBoxLabelText" id="gBs-Tt-011"/>
-                        </connections>
                     </box>
                     <box autoresizesSubviews="NO" title="Me" titlePosition="noTitle" id="Kyz-WE-BxL">
                         <rect key="frame" x="17" y="139" width="365" height="241"/>
@@ -123,28 +121,22 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <textField verticalHuggingPriority="750" id="TdZ-Bk-aby">
-                                    <rect key="frame" x="86" y="197" width="51" height="13"/>
+                                    <rect key="frame" x="86" y="196" width="51" height="14"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Name:" id="4cf-DK-JsN">
+                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="&lt;Name:" id="4cf-DK-JsN">
                                         <font key="font" metaFont="smallSystem"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
-                                    <connections>
-                                        <binding destination="-2" name="value" keyPath="self.localizedUserNameLabel" id="Ug5-ld-bAu"/>
-                                    </connections>
                                 </textField>
                                 <textField verticalHuggingPriority="750" id="XAP-bo-7fM">
-                                    <rect key="frame" x="86" y="171" width="51" height="13"/>
+                                    <rect key="frame" x="86" y="170" width="51" height="14"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Email:" id="AHf-a7-KTR">
+                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="&lt;Email:" id="AHf-a7-KTR">
                                         <font key="font" metaFont="smallSystem"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
-                                    <connections>
-                                        <binding destination="-2" name="value" keyPath="self.localizedUserEmailLabel" id="8d3-GU-gXC"/>
-                                    </connections>
                                 </textField>
                                 <comboBox verticalHuggingPriority="750" id="6OE-fu-gsc">
                                     <rect key="frame" x="143" y="165" width="203" height="22"/>
@@ -181,7 +173,7 @@
                                         <binding destination="gZV-Yj-UC8" name="value" keyPath="values.MyColorHue" id="ngK-Hg-Kag"/>
                                     </connections>
                                 </slider>
-                                <slider verticalHuggingPriority="750" id="n2A-ha-JDK">
+                                <slider toolTip="&lt;Adjusts the strength of the background color indicating changes." verticalHuggingPriority="750" id="n2A-ha-JDK">
                                     <rect key="frame" x="197" y="54" width="147" height="20"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                     <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" minValue="5" maxValue="100" doubleValue="50" tickMarkPosition="above" numberOfTickMarks="2" sliderType="linear" id="Mxp-NB-onf">
@@ -196,16 +188,16 @@
                                 <textField verticalHuggingPriority="750" id="8Yk-3A-fWE">
                                     <rect key="frame" x="86" y="142" width="104" height="14"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Color: " id="YaT-gk-22T">
+                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="&lt;Color: " id="YaT-gk-22T">
                                         <font key="font" metaFont="smallSystem"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
-                                <button toolTip="Adjusts the strength of the background color indicating changes." id="rdZ-is-71R">
+                                <button id="rdZ-is-71R">
                                     <rect key="frame" x="13" y="53" width="178" height="18"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <buttonCell key="cell" type="check" title="Highlight Changes" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="y8N-Pw-iAx">
+                                    <buttonCell key="cell" type="check" title="&lt;Highlight Changes" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="y8N-Pw-iAx">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                         <font key="font" metaFont="smallSystem"/>
                                     </buttonCell>
@@ -216,7 +208,7 @@
                                 <button id="ph8-yK-JgO">
                                     <rect key="frame" x="13" y="26" width="333" height="18"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                    <buttonCell key="cell" type="check" title="Invisible to others on the Network" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="RKj-Nk-ayI">
+                                    <buttonCell key="cell" type="check" title="&lt;Invisible to others on the Network" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="RKj-Nk-ayI">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                         <font key="font" metaFont="smallSystem"/>
                                     </buttonCell>
@@ -227,7 +219,7 @@
                                 <textField verticalHuggingPriority="750" id="k1L-eU-kI4">
                                     <rect key="frame" x="32" y="13" width="314" height="11"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" controlSize="mini" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="You will still be visible if you announce a Document" id="NSg-Q9-VuJ">
+                                    <textFieldCell key="cell" controlSize="mini" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="&lt;You will still be visible if you announce a Document" id="NSg-Q9-VuJ">
                                         <font key="font" metaFont="miniSystem"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -243,9 +235,9 @@
                                     </textFieldCell>
                                 </textField>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="aWn-rs-bVF">
-                                    <rect key="frame" x="315" y="78" width="31" height="11"/>
+                                    <rect key="frame" x="306" y="78" width="40" height="11"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" controlSize="mini" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="strong" id="ZA9-E1-UOA">
+                                    <textFieldCell key="cell" controlSize="mini" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="&lt;strong" id="ZA9-E1-UOA">
                                         <font key="font" metaFont="miniSystem"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -265,10 +257,9 @@
                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </box>
                     <button id="yO2-eJ-6Ez">
-                        <rect key="frame" x="20" y="115" width="361" height="16"/>
+                        <rect key="frame" x="20" y="113" width="361" height="18"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                        <string key="toolTip">SubEthaEdit will try to automatically map the local port to an external port if it is behind a NAT. For this to work you have to enable UPnP or NAT-PMP on your router.</string>
-                        <buttonCell key="cell" type="check" title="Disable Networking" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="XOi-3L-9QN">
+                        <buttonCell key="cell" type="check" title="&lt;Disable Networking" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="XOi-3L-9QN">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>

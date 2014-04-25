@@ -964,27 +964,33 @@
 
 
 /* Collaboration Preference Pane */
-/* Collaboration Preferences - Label for the network box */
 "COLLAB_NETWORK_LABEL" = "Netzwerk";
-/* Collaboration Preferences - Label for the local port */
 "COLLAB_LOCAL_PORT_LABEL" = "Lokaler Port:";
-/* Collaboration Preferences - Label for the automatically map port toggle */
 "COLLAB_AUTOMATICALLY_MAP_PORT_LABEL" = "Port automatisch weiterleiten";
-/* Collaboration Preferences - Label with additional description for the automatically map port toggle */
 "COLLAB_AUTOMATICALLY_MAP_PORT_DESCRIPTION" = "Die Port Weiterleitung bentutzt NAT-PMP oder UPnP";
-/* Collaboration Preferences - tool tip for the automatically map port toggle */
 "COLLAB_AUTOMATICALLY_MAP_PORT_TOOL_TIP" = "SubEthaEdit versucht automatisch den lokalen Port weiterzuleiten falls Sie sich hinter einem NAT befinden. Damit das funktioniert müssen Sie UPnP oder NAT-PMP auf Ihrem Router aktivieren.";
 
-/* Collaboration Preferences - Label for the user name text field */
 "COLLAB_USER_NAME_LABEL" = "Name:";
-/* Collaboration Preferences - Label for the user email text field */
 "COLLAB_USER_EMAIL_LABEL" = "E-Mail:";
-/* Collaboration Preferences - Image Menu - Use Image from Address Book option */
-"COLLAB_USER_IMAGE_AB" = "Mein Bild aus dem Adressbuch";
-/* Collaboration Preferences - Image Menu - Choose Image option */
-"COLLAB_USER_IMAGE_CHOOSE" = "Bild auswählen…";
-/* Collaboration Preferences - Image Menu - Clear Image option */
-"COLLAB_USER_IMAGE_CLEAR" = "Bild entfernen";
+
+"COLLAB_USER_IMAGE_HOVER_STRING" = "Ändern";
+
+"COLLAB_USER_COLOR_LABEL" = "Farbe:";
+"COLLAB_HIGHLIGHT_CHANGES_LABEL" = "Änderungen hervorheben";
+"COLLAB_HIGHLIGHT_CHANGES_SLIDER_TOOL_TIP" = "Passt die Stärke der Farbe zur Hervorhebung von Veränderungen an.";
+"COLLAB_HIGHLIGHT_CHANGES_SLIDER_LABEL_PALE" = "schwach";
+"COLLAB_HIGHLIGHT_CHANGES_SLIDER_LABEL_STRONG" = "stark";
+
+"COLLAB_NETWORK_INVISIBLE_LABEL" = "Für Andere im Netzwerk unsichtbar";
+"COLLAB_NETWORK_INVISIBLE_DESCRIPTION" = "Wenn Sie ein Dokument ankündigen, sind Sie weiterhin sichtbar.";
+
+"COLLAB_NETWORK_DISABLE_LABEL" = "Netzwerkverbindungen verhindern";
+
+"COLLAB_NETWORK_LABEL" = "Netzwerk";
+"COLLAB_LOCAL_PORT_LABEL" = "Lokaler Port:";
+"COLLAB_AUTOMATICALLY_MAP_PORT_LABEL" = "Port automatisch weiterleiten";
+"COLLAB_AUTOMATICALLY_MAP_PORT_TOOL_TIP" = "SubEthaEdit versucht automatisch den lokalen Port weiterzuleiten, falls Sie sich hinter einem NAT befinden. Damit das funktioniert müssen Sie UPnP oder NAT-PMP auf Ihrem Router aktivieren.";
+"COLLAB_AUTOMATICALLY_MAP_PORT_DESCRIPTION" = "Die Port-Weiterleitung benutzt NAT-PMP oder UPnP";
 
 /* Style Preference Pane */
 
@@ -1008,6 +1014,12 @@
 "DOCUMENT_LIST_OPEN" = "Öffnen…";
 "DOCUMENT_LIST_NEW" = "Neu";
 "DOCUMENT_LIST_CONNECT" = "Mit URL verbinden…";
+"DOCUMENT_LIST_RECENT_TOGGLE" = "Benutzte Dokumente";
+
+/* connection add window */
+"CONNECTION_ADD_WINDOW_TITLE" = "Verbindung hinzufügen";
+"CONNECTION_ADD_ADDRESS" = "Adresse:";
+"CONNECTION_ADD_CONNECT" = "Verbinden";
 
 /* participant overlay */
 "KICK_PENDING_USER_BUTTON_TITLE" = "Ablehnen";
