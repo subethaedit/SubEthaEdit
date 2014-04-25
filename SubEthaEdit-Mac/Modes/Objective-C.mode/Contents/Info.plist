@@ -16,7 +16,7 @@ http://www.codingmonkeys.de</string>
     <key>CFBundleVersion</key>
     <string>4.0</string>
     <key>SEEMinimumEngineVersion</key>
-    <string>3.5</string>
+    <string>4.0</string>
     <key>CFBundlePackageType</key>
     <string>BNDL</string>
     <key>CFBundleInfoDictionaryVersion</key>

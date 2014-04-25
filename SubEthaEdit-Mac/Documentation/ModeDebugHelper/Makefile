@@ -49,6 +49,7 @@ languages=ActionScript AppleScript ASP-HTML \
 ## Path from which to look for mode files
 #debug mode path
 mode_directory=../../Modes/
+#mode_directory=../../Modes-Website/
 #mode_directory=Coda2Modes/
 #mode_directory=ResultModes/
 
