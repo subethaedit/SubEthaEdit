@@ -358,7 +358,7 @@
 									  );
 	
 	self.O_invisibleOnNetworkExplanationTextField.stringValue =
-	NSLocalizedStringWithDefaultValue(@"COLLAB_NETWORK_INVISIBLE_LABEL", nil, [NSBundle mainBundle],
+	NSLocalizedStringWithDefaultValue(@"COLLAB_NETWORK_INVISIBLE_DESCRIPTION", nil, [NSBundle mainBundle],
 									  @"You will still be visible if you announce a Document",
 									  @"Collaboration Preferences - Label with additional description for the invisible on network toggle"
 									  );
