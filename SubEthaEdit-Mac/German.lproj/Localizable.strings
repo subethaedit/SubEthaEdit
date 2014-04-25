@@ -1010,6 +1010,11 @@
 "DOCUMENT_LIST_CONNECT" = "Mit URL verbinden…";
 "DOCUMENT_LIST_RECENT_TOGGLE" = "Benutzte Dokumente";
 
+/* connection add window */
+"CONNECTION_ADD_WINDOW_TITLE" = "Verbindung hinzufügen";
+"CONNECTION_ADD_ADDRESS" = "Adresse:";
+"CONNECTION_ADD_CONNECT" = "Verbinden";
+
 /* participant overlay */
 "KICK_PENDING_USER_BUTTON_TITLE" = "Ablehnen";
 "READ_ONLY_PENDING_USER_BUTTON_TITLE" = "Lesen erlauben";
