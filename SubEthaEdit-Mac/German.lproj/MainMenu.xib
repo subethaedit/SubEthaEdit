@@ -80,8 +80,7 @@
                                     <action selector="newDocument:" target="-1" id="194"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Neuer Tab" tag="102" alternate="YES" keyEquivalent="n" id="618">
-                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                            <menuItem title="Neuer Tab" tag="102" alternate="YES" keyEquivalent="t" id="618">
                                 <connections>
                                     <action selector="newAlternateDocument:" target="-1" id="619"/>
                                 </connections>
@@ -418,7 +417,8 @@
                             <menuItem title="Schrift" tag="1" id="321">
                                 <menu key="submenu" title="Schrift" systemMenu="font" id="338">
                                     <items>
-                                        <menuItem title="Schriften einblenden" keyEquivalent="t" id="333">
+                                        <menuItem title="Schriften einblenden" id="333">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="orderFrontFontPanel:" target="354" id="362"/>
                                             </connections>
@@ -1216,15 +1216,15 @@ DQ
                         <rect key="frame" x="0.0" y="0.0" width="387" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" id="FRN-eC-kYD">
-                            <rect key="frame" x="0.0" y="0.0" width="387" height="480"/>
+                            <rect key="frame" x="0.0" y="0.0" width="372" height="480"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <textView editable="NO" selectable="NO" importsGraphics="NO" richText="NO" baseWritingDirection="leftToRight" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" quoteSubstitution="YES" dashSubstitution="YES" textReplacement="YES" spellingCorrection="YES" smartInsertDelete="YES" id="590">
-                                    <rect key="frame" x="0.0" y="0.0" width="387" height="1159"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="372" height="1159"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <size key="minSize" width="387" height="480"/>
+                                    <size key="minSize" width="372" height="480"/>
                                     <size key="maxSize" width="417" height="10000000"/>
                                     <attributedString key="textStorage">
                                         <fragment>
@@ -2047,7 +2047,7 @@ Cg
                                         </fragment>
                                     </attributedString>
                                     <color key="insertionPointColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                    <size key="minSize" width="387" height="480"/>
+                                    <size key="minSize" width="372" height="480"/>
                                     <size key="maxSize" width="417" height="10000000"/>
                                 </textView>
                             </subviews>
@@ -2058,7 +2058,7 @@ Cg
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <scroller key="verticalScroller" verticalHuggingPriority="750" horizontal="NO" id="762">
-                            <rect key="frame" x="371" y="0.0" width="16" height="480"/>
+                            <rect key="frame" x="372" y="0.0" width="15" height="480"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                     </scrollView>

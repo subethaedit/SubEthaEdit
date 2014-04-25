@@ -15,9 +15,6 @@
 #import "SEEDocumentController.h"
 #import "DocumentModeManager.h"
 
-extern int const FileMenuTag;
-extern int const FileNewMenuItemTag;
-
 @implementation SEENewDocumentListItem
 
 @dynamic uid;
@@ -38,12 +35,7 @@ extern int const FileNewMenuItemTag;
 }
 
 - (IBAction)itemAction:(id)sender {
-	NSMenu *menu = [[[NSApp mainMenu] itemWithTag:FileMenuTag] submenu];
-	NSMenuItem *menuItem = [menu itemWithTag:FileNewMenuItemTag];
-	menu = [menuItem submenu];
-	NSMenuItem *item = (NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] tagForDocumentModeIdentifier:[[[DocumentModeManager sharedInstance] modeForNewDocuments] documentModeIdentifier]]];
-
-	[[NSDocumentController sharedDocumentController] newDocumentWithModeMenuItem:item];
+	[[NSDocumentController sharedDocumentController] newDocumentByUserDefault:sender];
 }
 
 @end

@@ -12,7 +12,6 @@
 
 @interface TCMMMUserManager (TCMMMUserManagerKitAdditions)
 
-- (BOOL)validateMenuItem:(NSMenuItem *)anItem;
 - (IBAction)sendEmail:(id)sender;
 - (IBAction)initiateAIMChat:(id)sender;
 

@@ -73,6 +73,8 @@
 
 - (void)updateTabMenu;
 
-- (void)newDocumentInTab:(id)sender;
-- (void)newDocumentWithModeMenuItem:(id)aSender;
+- (IBAction)newDocumentInTab:(id)sender;
+- (IBAction)newDocumentByUserDefault:(id)sender;
+- (IBAction)newDocumentWithModeMenuItem:(id)aSender;
+
 @end

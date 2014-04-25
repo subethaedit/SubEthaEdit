@@ -303,13 +303,6 @@
         BOOL isChecked = [[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey];
         [menuItem setState:(isChecked ? NSOnState : NSOffState)];
         return YES;
-    } else if (selector == @selector(newAlternateDocument:)) {
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey]) {
-            [menuItem setTitle:NSLocalizedString(@"New Window", nil)];
-        } else {
-            [menuItem setTitle:NSLocalizedString(@"New Tab", nil)];
-        }
-        return YES;
     } else if (selector == @selector(openAlternateDocument:)) {
         if ([[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey]) {
             [menuItem setTitle:NSLocalizedString(@"Open in New Window...", @"Menu Entry for opening files in a new window.")];
@@ -502,10 +495,21 @@
 }
 
 
-- (IBAction)newDocumentWithModeMenuItem:(id)aSender {
+- (IBAction)newDocumentByUserDefault:(id)sender {
 	@synchronized(self.documentCreationFlagsLookupDict) {
 		SEEDocumentCreationFlags *creationFlags = [[SEEDocumentCreationFlags alloc] init];
 		creationFlags.openInTab = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
+		self.documentCreationFlagsLookupDict[@"MakeUntitledDocument"] = creationFlags;
+	}
+
+	[self newDocumentWithModeIdentifier:[[[DocumentModeManager sharedInstance] modeForNewDocuments] documentModeIdentifier]];
+}
+
+
+- (IBAction)newDocumentWithModeMenuItem:(id)aSender {
+	@synchronized(self.documentCreationFlagsLookupDict) {
+		SEEDocumentCreationFlags *creationFlags = [[SEEDocumentCreationFlags alloc] init];
+		creationFlags.openInTab = NO;
 		self.documentCreationFlagsLookupDict[@"MakeUntitledDocument"] = creationFlags;
 	}
 
@@ -518,7 +522,7 @@
 - (IBAction)newAlternateDocumentWithModeMenuItem:(id)sender {
 	@synchronized(self.documentCreationFlagsLookupDict) {
 		SEEDocumentCreationFlags *creationFlags = [[SEEDocumentCreationFlags alloc] init];
-		creationFlags.openInTab = ![[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
+		creationFlags.openInTab = YES;
 		self.documentCreationFlagsLookupDict[@"MakeUntitledDocument"] = creationFlags;
 	}
 
