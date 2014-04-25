@@ -642,13 +642,14 @@ int main (int argc, const char * argv[]) {
     argv += optind;
     
     for (i = 0; i < argc; i++) {
-        char resolved_path[PATH_MAX];
-        char *path = realpath(argv[i], resolved_path);
+		NSString *fileName = [NSString stringWithUTF8String:argv[i]];
+		if (! fileName.isAbsolutePath) {
+			fileName = [[fileManager currentDirectoryPath] stringByAppendingPathComponent:fileName];
+		}
 
-        if (path) {
-            NSString *fileName = [fileManager stringWithFileSystemRepresentation:path length:strlen(path)];
+        if (fileName) {
             //NSLog(@"fileName after realpath: %@", fileName);
-            [fileNames addObject:fileName];
+            [fileNames addObject:fileName.stringByStandardizingPath];
         } else {
             launch = YES;
             //NSLog(@"Error occurred while resolving path: %s", argv[i]);
