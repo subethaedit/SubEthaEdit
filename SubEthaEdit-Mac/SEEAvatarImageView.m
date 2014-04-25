@@ -26,7 +26,6 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
 {
 	if (self == [SEEAvatarImageView class]) {
 		[self exposeBinding:@"borderColor"];
-		[self exposeBinding:@"backgroundColor"];
 		[self exposeBinding:@"image"];
 		[self exposeBinding:@"initials"];
 	}
@@ -37,7 +36,6 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
     self = [super initWithFrame:frame];
     if (self) {
         self.borderColor = [NSColor redColor];
-		self.backgroundColor = [[NSColor redColor] colorWithAlphaComponent:0.4];
 		self.initials = @"M E";
 		
 		[self registerKVO];
@@ -56,7 +54,6 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
 - (void)registerKVO
 {
 	[self addObserver:self forKeyPath:@"borderColor" options:0 context:SEEAvatarRedarwObservationContext];
-	[self addObserver:self forKeyPath:@"backgroundColor" options:0 context:SEEAvatarRedarwObservationContext];
 	[self addObserver:self forKeyPath:@"image" options:0 context:SEEAvatarRedarwObservationContext];
 	[self addObserver:self forKeyPath:@"initials" options:0 context:SEEAvatarRedarwObservationContext];
 }
@@ -64,7 +61,6 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
 - (void)unregisterKVO
 {
 	[self removeObserver:self forKeyPath:@"borderColor" context:SEEAvatarRedarwObservationContext];
-	[self removeObserver:self forKeyPath:@"backgroundColor" context:SEEAvatarRedarwObservationContext];
 	[self removeObserver:self forKeyPath:@"image" context:SEEAvatarRedarwObservationContext];
 	[self removeObserver:self forKeyPath:@"initials" context:SEEAvatarRedarwObservationContext];
 }
@@ -93,8 +89,12 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
 	NSBezierPath *borderPath = [NSBezierPath bezierPathWithOvalInRect:imageRect];
 	[borderPath setLineWidth:borderWidth];
 
+	NSColor *borderColor = self.borderColor;
+	CGFloat saturation = 0.35;
+	NSColor *backgroundColor = [[NSColor whiteColor] blendedColorWithFraction:saturation ofColor:borderColor];
+	
 	// draw the background
-	[self.backgroundColor set];
+	[backgroundColor set];
 	[borderPath fill];
 
 	//draw the image clipped
@@ -171,7 +171,7 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
 	[[NSGraphicsContext currentContext] restoreGraphicsState];
 
 	// draw the border
-	[self.borderColor set];
+	[borderColor set];
 	[borderPath stroke];
 	
 }
