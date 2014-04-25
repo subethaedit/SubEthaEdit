@@ -14,6 +14,7 @@
                 <outlet property="O_disableNetworkingButton" destination="yO2-eJ-6Ez" id="cCr-be-P1B"/>
                 <outlet property="O_emailComboBox" destination="6OE-fu-gsc" id="vAU-US-Z0p"/>
                 <outlet property="O_highlightChangesButton" destination="rdZ-is-71R" id="z1Y-0o-zvx"/>
+                <outlet property="O_highlightChangesSlider" destination="n2A-ha-JDK" id="oJq-aF-baR"/>
                 <outlet property="O_invisibleOnNetworkButton" destination="ph8-yK-JgO" id="a00-N4-AfB"/>
                 <outlet property="O_invisibleOnNetworkExplanationTextField" destination="k1L-eU-kI4" id="1fn-Wf-8eG"/>
                 <outlet property="O_localPortLabel" destination="1ph-DU-Ir4" id="Bav-Bw-w79"/>

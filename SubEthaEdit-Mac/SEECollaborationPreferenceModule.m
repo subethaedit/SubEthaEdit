@@ -330,8 +330,8 @@
 									  @"Collaboration Preferences - Label for the highlight changes toggle"
 									  );
 	
-	self.O_highlightChangesButton.toolTip =
-	NSLocalizedStringWithDefaultValue(@"COLLAB_HIGHLIGHT_CHANGES_TOOL_TIP",
+	self.O_highlightChangesSlider.toolTip =
+	NSLocalizedStringWithDefaultValue(@"COLLAB_HIGHLIGHT_CHANGES_SLIDER_TOOL_TIP",
 									  nil, [NSBundle mainBundle],
 									  @"Adjusts the strength of the background color indicating changes.",
 									  @"Collaboration Preferences - Tooltip for the highlight changes toggle"

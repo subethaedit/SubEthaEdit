@@ -35,6 +35,7 @@
 // localization outlet additions
 @property (nonatomic, strong) IBOutlet NSTextField *O_userNameLabel;
 @property (nonatomic, strong) IBOutlet NSTextField *O_userEmailLabel;
+@property (nonatomic, strong) IBOutlet NSSlider *O_highlightChangesSlider;
 @property (nonatomic, strong) IBOutlet NSBox *O_networkBox;
 @property (nonatomic, strong) IBOutlet NSTextField *O_localPortLabel;
 @property (nonatomic, strong) IBOutlet NSTextField *O_automaticallyMapPortExplanationTextField;
