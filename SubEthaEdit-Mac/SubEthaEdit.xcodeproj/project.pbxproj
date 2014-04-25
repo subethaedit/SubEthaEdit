@@ -499,7 +499,6 @@
 		F2D86DBA0F8E9B9A00B912A2 /* PreferenceKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D86DB90F8E9B9A00B912A2 /* PreferenceKeys.m */; };
 		F2D86E1B0F8EA5DC00B912A2 /* PreferenceKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D86DB90F8E9B9A00B912A2 /* PreferenceKeys.m */; };
 		F2D86E5B0F8EB44100B912A2 /* Modes in Resources */ = {isa = PBXBuildFile; fileRef = 1428904A0957427100D14688 /* Modes */; };
-		F2D86E7B0F8EB57000B912A2 /* TestFiles in Resources */ = {isa = PBXBuildFile; fileRef = F2D86E780F8EB57000B912A2 /* TestFiles */; };
 		F2D86E840F8EB76C00B912A2 /* SEPDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D86E830F8EB76C00B912A2 /* SEPDocument.m */; };
 		F2DC3DD218F2F12300B543E9 /* SEEPlainTextEditorTopBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2DC3DD018F2F12300B543E9 /* SEEPlainTextEditorTopBarViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		F2DC3DD318F2F12300B543E9 /* SEEPlainTextEditorTopBarViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2DC3DD118F2F12300B543E9 /* SEEPlainTextEditorTopBarViewController.xib */; };
@@ -1304,7 +1303,6 @@
 		F2D86CAC0F8E896800B912A2 /* SubEthaPerf_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubEthaPerf_Prefix.pch; sourceTree = "<group>"; };
 		F2D86DB80F8E9B9A00B912A2 /* PreferenceKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = PreferenceKeys.h; sourceTree = "<group>"; };
 		F2D86DB90F8E9B9A00B912A2 /* PreferenceKeys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferenceKeys.m; sourceTree = "<group>"; };
-		F2D86E780F8EB57000B912A2 /* TestFiles */ = {isa = PBXFileReference; lastKnownFileType = folder; name = TestFiles; path = SubEthaPerf/Resources/TestFiles; sourceTree = "<group>"; };
 		F2D86E820F8EB76C00B912A2 /* SEPDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEPDocument.h; sourceTree = "<group>"; };
 		F2D86E830F8EB76C00B912A2 /* SEPDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEPDocument.m; sourceTree = "<group>"; };
 		F2DC3DCF18F2F12300B543E9 /* SEEPlainTextEditorTopBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEPlainTextEditorTopBarViewController.h; sourceTree = "<group>"; };
@@ -2493,7 +2491,6 @@
 		F2D86C5F0F8E817200B912A2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				F2D86E780F8EB57000B912A2 /* TestFiles */,
 				F2D86C2F0F8E7F6A00B912A2 /* SEPMainMenu.xib */,
 			);
 			name = Resources;
@@ -2934,7 +2931,6 @@
 			files = (
 				F2D86C300F8E7F6A00B912A2 /* SEPMainMenu.xib in Resources */,
 				F2D86E5B0F8EB44100B912A2 /* Modes in Resources */,
-				F2D86E7B0F8EB57000B912A2 /* TestFiles in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
