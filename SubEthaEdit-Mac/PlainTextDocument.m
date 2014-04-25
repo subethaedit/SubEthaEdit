@@ -1164,7 +1164,8 @@ static NSString *tempFileName(NSString *origPath) {
 
 - (void)setIsWaiting:(BOOL)aFlag {
     I_flags.isWaiting=aFlag;
-    [[self plainTextEditors] makeObjectsPerformSelector:@selector(TCM_updateStatusBar)];
+
+    [[self plainTextEditors] makeObjectsPerformSelector:@selector(updateViews)];
 }
 
 - (NSString *)jobDescription {
