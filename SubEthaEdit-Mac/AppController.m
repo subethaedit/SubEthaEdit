@@ -438,7 +438,17 @@ static AppController *sharedInstance = nil;
                                                             selector:@selector(coerceValue:toClass:)
                                                   toConvertFromClass:[DocumentMode class]
                                                              toClass:[NSString class]]; 
-    
+
+	
+	[[NSScriptCoercionHandler sharedCoercionHandler] registerCoercer:[PlainTextDocument class]
+                                                            selector:@selector(coerceValue:toClass:)
+                                                  toConvertFromClass:[PlainTextDocument class]
+                                                             toClass:[NSString class]];
+	[[NSScriptCoercionHandler sharedCoercionHandler] registerCoercer:[PlainTextDocument class]
+                                                            selector:@selector(coerceValue:toClass:)
+                                                  toConvertFromClass:[PlainTextDocument class]
+                                                             toClass:[FoldableTextStorage class]];
+
     [self registerTransformers];
     [self addMe];
     [[TCMPortMapper sharedInstance] hashUserID:[TCMMMUserManager myUserID]];
