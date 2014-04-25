@@ -196,7 +196,10 @@
 	[self.O_styleSheetDefaultRadioButton setHidden:[aDocumentMode isBaseMode]];
 	// TODO: resize the style settings box
 	CGFloat heightChange = 0;
+	
 	BOOL shouldShow = ([[[aDocumentMode syntaxDefinition] allLanguageContexts] count] > 1);
+	shouldShow = NO; // removing this line shows the option to select style sheets per language context
+	
 	if (shouldShow && [self.O_customStyleSheetsContainerView isHidden]) {
 		[self.O_customStyleSheetsContainerView setHidden:NO ];
 		heightChange =  [self.O_customStyleSheetsContainerView frame].size.height;
