@@ -970,21 +970,25 @@
 
 
 /* Collaboration Preference Pane */
-/* Collaboration Preferences - Label for the network box */
 "COLLAB_NETWORK_LABEL" = "Netzwerk";
-/* Collaboration Preferences - Label for the local port */
 "COLLAB_LOCAL_PORT_LABEL" = "Lokaler Port:";
-/* Collaboration Preferences - Label for the automatically map port toggle */
 "COLLAB_AUTOMATICALLY_MAP_PORT_LABEL" = "Port automatisch weiterleiten";
-/* Collaboration Preferences - Label with additional description for the automatically map port toggle */
 "COLLAB_AUTOMATICALLY_MAP_PORT_DESCRIPTION" = "Die Port Weiterleitung bentutzt NAT-PMP oder UPnP";
-/* Collaboration Preferences - tool tip for the automatically map port toggle */
 "COLLAB_AUTOMATICALLY_MAP_PORT_TOOL_TIP" = "SubEthaEdit versucht automatisch den lokalen Port weiterzuleiten falls Sie sich hinter einem NAT befinden. Damit das funktioniert müssen Sie UPnP oder NAT-PMP auf Ihrem Router aktivieren.";
 
-/* Collaboration Preferences - Label for the user name text field */
 "COLLAB_USER_NAME_LABEL" = "Name:";
-/* Collaboration Preferences - Label for the user email text field */
 "COLLAB_USER_EMAIL_LABEL" = "E-Mail:";
+
+"COLLAB_USER_IMAGE_HOVER_STRING" = "Ändern";
+"COLLAB_USER_COLOR_LABEL" = "Farbe:";
+
+"COLLAB_HIGHLIGHT_CHANGES_LABEL" = "Änderungen hervorheben";
+
+"COLLAB_HIGHLIGHT_CHANGES_SLIDER_LABEL_PALE" = "schwach";
+"COLLAB_HIGHLIGHT_CHANGES_SLIDER_LABEL_STRONG" = "stark";
+
+"COLLAB_NETWORK_LABEL" = "Netzwerk";
+"COLLAB_LOCAL_PORT_LABEL" = "Lokaler Port:";
 
 /* Style Preference Pane */
 
