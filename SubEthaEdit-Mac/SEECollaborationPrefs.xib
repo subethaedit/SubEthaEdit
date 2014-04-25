@@ -173,7 +173,7 @@
                                         <binding destination="gZV-Yj-UC8" name="value" keyPath="values.MyColorHue" id="ngK-Hg-Kag"/>
                                     </connections>
                                 </slider>
-                                <slider verticalHuggingPriority="750" id="n2A-ha-JDK">
+                                <slider toolTip="&lt;Adjusts the strength of the background color indicating changes." verticalHuggingPriority="750" id="n2A-ha-JDK">
                                     <rect key="frame" x="197" y="54" width="147" height="20"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                     <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" minValue="5" maxValue="100" doubleValue="50" tickMarkPosition="above" numberOfTickMarks="2" sliderType="linear" id="Mxp-NB-onf">
@@ -194,7 +194,7 @@
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
-                                <button toolTip="&lt;Adjusts the strength of the background color indicating changes." id="rdZ-is-71R">
+                                <button id="rdZ-is-71R">
                                     <rect key="frame" x="13" y="53" width="178" height="18"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <buttonCell key="cell" type="check" title="&lt;Highlight Changes" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="y8N-Pw-iAx">
