@@ -291,14 +291,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
             [item setTarget:script];
             [I_menuItemArray addObject:[item autorelease]];
 
-            NSToolbarItem *toolbarItem=[script toolbarItemWithImageSearchLocations:searchLocations identifierAddition:[self documentModeIdentifier]];
-            if (toolbarItem) {
-                [I_toolbarItemsByIdentifier setObject:toolbarItem forKey:[toolbarItem itemIdentifier]];
-                [I_toolbarItemIdentifiers  addObject:[toolbarItem itemIdentifier]];
-                if ([[[settingsDictionary objectForKey:ScriptWrapperInDefaultToolbarSettingsKey] lowercaseString] isEqualToString:@"yes"]) {
-                    [I_defaultToolbarItemIdentifiers addObject:[toolbarItem itemIdentifier]];
-                }
-            }
+			/* legacy note: the toolbar item were loaded here once in the past */
         }
 #endif
         
