@@ -303,13 +303,6 @@
         BOOL isChecked = [[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey];
         [menuItem setState:(isChecked ? NSOnState : NSOffState)];
         return YES;
-    } else if (selector == @selector(newAlternateDocument:)) {
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey]) {
-            [menuItem setTitle:NSLocalizedString(@"New Window", nil)];
-        } else {
-            [menuItem setTitle:NSLocalizedString(@"New Tab", nil)];
-        }
-        return YES;
     } else if (selector == @selector(openAlternateDocument:)) {
         if ([[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey]) {
             [menuItem setTitle:NSLocalizedString(@"Open in New Window...", @"Menu Entry for opening files in a new window.")];

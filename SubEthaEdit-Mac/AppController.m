@@ -762,8 +762,8 @@ static OSStatus AuthorizationRightSetWithWorkaround(
         [item setKeyEquivalent:@""];
     }
     item = (NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] tagForDocumentModeIdentifier:[[[DocumentModeManager sharedInstance] modeForNewDocuments] documentModeIdentifier]]];
-    [item setKeyEquivalentModifierMask:NSCommandKeyMask | NSAlternateKeyMask];
-    [item setKeyEquivalent:@"n"];
+    [item setKeyEquivalentModifierMask:NSCommandKeyMask];
+    [item setKeyEquivalent:@"t"];
     
     [menuItem setRepresentedObject:item];
 }
@@ -803,7 +803,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     [revealModesMenuItem release];
 
 	NSMenu *fileMenu = [[[NSApp mainMenu] itemWithTag:FileMenuTag] submenu]; // from the xib
-	{ // File -> New
+	{ // File -> New in window
 		NSMenuItem *menuItem = [fileMenu itemWithTag:FileNewMenuItemTag]; // from the xib
 		[menuItem setKeyEquivalent:@""];
 
