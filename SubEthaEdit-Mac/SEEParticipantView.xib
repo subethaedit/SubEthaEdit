@@ -198,19 +198,19 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
                 <outlet property="view" destination="5Xr-GH-ZCF" id="iJb-FV-8WE"/>
             </connections>
         </viewController>
-        <popover appearance="HUD" id="5sY-nJ-VOY" userLabel="User Name Popover">
+        <popover appearance="HUD" behavior="semitransient" id="5sY-nJ-VOY" userLabel="User Name Popover">
             <connections>
                 <outlet property="contentViewController" destination="MKs-1R-EOT" id="Sgp-rI-Ntr"/>
             </connections>
         </popover>
-        <customView id="5Xr-GH-ZCF" userLabel="UserName Popover View">
+        <customView translatesAutoresizingMaskIntoConstraints="NO" id="5Xr-GH-ZCF" userLabel="UserName Popover View">
             <rect key="frame" x="0.0" y="0.0" width="84" height="27"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Fk9-Iw-pk8">
                     <rect key="frame" x="3" y="5" width="78" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Name Label" id="x4c-Eo-uOI">
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" refusesFirstResponder="YES" sendsActionOnEndEditing="YES" title="Name Label" id="x4c-Eo-uOI">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="alternateSelectedControlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -227,7 +227,7 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
                 <constraint firstAttribute="bottom" secondItem="Fk9-Iw-pk8" secondAttribute="bottom" constant="5" id="b0n-wc-GIp"/>
             </constraints>
         </customView>
-        <customView id="OAw-J0-YxO" userLabel="PendingUser Popover View">
+        <customView translatesAutoresizingMaskIntoConstraints="NO" id="OAw-J0-YxO" userLabel="PendingUser Popover View">
             <rect key="frame" x="0.0" y="0.0" width="320" height="105"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>

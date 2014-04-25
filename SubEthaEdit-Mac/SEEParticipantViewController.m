@@ -57,6 +57,7 @@
 
 @property (nonatomic, weak) id plainTextEditorFollowUserNotificationHandler;
 @property (nonatomic, weak) id participantsScrollingNotificationHandler;
+@property (nonatomic, weak) id popoverShownNotificationHandler;
 
 @end
 
@@ -75,8 +76,24 @@
 		[[NSNotificationCenter defaultCenter] addObserverForName:PlainTextEditorDidFollowUserNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
 			__typeof__(self) strongSelf = weakSelf;
 			if ([strongSelf.tabContext.plainTextEditors containsObject:note.object])
-			[strongSelf updateParticipantFollowed];
+				[strongSelf updateParticipantFollowed];
 		}];
+
+		// this fixes the popover content vies become first responder on opening
+		// store the old responder and set it again after 0.0 delay.
+		self.popoverShownNotificationHandler =
+		[[NSNotificationCenter defaultCenter] addObserverForName:NSPopoverWillShowNotification
+														  object:nil queue:nil usingBlock:^(NSNotification *note) {
+															  __typeof__(self) strongSelf = weakSelf;
+
+															  if (note.object == strongSelf.nameLabelPopoverOutlet) {
+																  NSWindow *window = strongSelf.view.window;
+																  NSResponder *previousFirstResponder = window.firstResponder;
+																  [NSOperationQueue TCM_performBlockOnMainQueue:^{
+																	  [window makeFirstResponder:previousFirstResponder];
+																  } afterDelay:0.0];
+															  }
+														  }];
     }
     return self;
 }
@@ -85,6 +102,7 @@
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self.plainTextEditorFollowUserNotificationHandler];
     [[NSNotificationCenter defaultCenter] removeObserver:self.participantsScrollingNotificationHandler];
+    [[NSNotificationCenter defaultCenter] removeObserver:self.popoverShownNotificationHandler];
 
 	SEEAvatarImageView *avatarView = self.avatarViewOutlet;
 	[avatarView unbind:@"image"];
