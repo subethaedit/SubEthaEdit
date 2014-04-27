@@ -512,7 +512,6 @@
 		4DC40C3009150C9E0029A2A6 /* ReplaceWithAttributesTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReplaceWithAttributesTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DC40D4B09150CEA0029A2A6 /* ReadMe.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = ReadMe.rtf; path = RegularExpression/Documentation/ReadMe.rtf; sourceTree = SOURCE_ROOT; };
 		4DC40D4C09150CEA0029A2A6 /* License.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = License.txt; path = RegularExpression/Documentation/License.txt; sourceTree = SOURCE_ROOT; };
-		4DC40D4D09150CEA0029A2A6 /* History.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = History.txt; path = RegularExpression/Documentation/History.txt; sourceTree = SOURCE_ROOT; };
 		4DC40D5009150CEB0029A2A6 /* OGRegularExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OGRegularExpression.h; path = RegularExpression/OGRegularExpression.h; sourceTree = SOURCE_ROOT; };
 		4DC40D5109150CEB0029A2A6 /* OGRegularExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OGRegularExpression.m; path = RegularExpression/OGRegularExpression.m; sourceTree = SOURCE_ROOT; };
 		4DC40D5209150CEB0029A2A6 /* OGRegularExpressionPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OGRegularExpressionPrivate.h; path = RegularExpression/OGRegularExpressionPrivate.h; sourceTree = SOURCE_ROOT; };
@@ -940,7 +939,6 @@
 			children = (
 				4DC40D4B09150CEA0029A2A6 /* ReadMe.rtf */,
 				4DC40D4C09150CEA0029A2A6 /* License.txt */,
-				4DC40D4D09150CEA0029A2A6 /* History.txt */,
 			);
 			name = Documentation;
 			sourceTree = SOURCE_ROOT;
@@ -1767,7 +1765,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0510;
 			};
 			buildConfigurationList = 4DC40BA3091509DC0029A2A6 /* Build configuration list for PBXProject "OgreKit" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -2354,7 +2352,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = Oniguruma;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.7.sdk";
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.9.sdk";
 			};
 			name = Debug;
 		};
@@ -2366,7 +2364,7 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = Oniguruma;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.7.sdk";
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.9.sdk";
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -2377,7 +2375,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = Oniguruma;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.7.sdk";
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.9.sdk";
 			};
 			name = Default;
 		};
