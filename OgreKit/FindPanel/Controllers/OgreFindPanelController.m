@@ -21,6 +21,7 @@
 	/* 前回のFind Panelの位置を再現 */
     [[self findPanel] setFrameAutosaveName: @"Find Panel"];
     [[self findPanel] setFrameUsingName: @"Find Panel"];
+    [[self findPanel] setCollectionBehavior:NSWindowCollectionBehaviorMoveToActiveSpace]; // 現在表示中のDesktop SpaceにFind Panelを表示
 }
 
 - (OgreTextFinder*)textFinder
