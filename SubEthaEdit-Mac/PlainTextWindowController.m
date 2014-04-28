@@ -172,8 +172,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     [[self plainTextEditors] makeObjectsPerformSelector:@selector(takeSettingsFromDocument)];
 }
 
-- (NSTabViewItem *)tabViewItemForDocument:(PlainTextDocument *)document
-{
+- (NSTabViewItem *)tabViewItemForDocument:(PlainTextDocument *)document {
     unsigned count = [I_tabView numberOfTabViewItems];
     unsigned i;
     for (i = 0; i < count; i++) {
@@ -184,6 +183,12 @@ static NSPoint S_cascadePoint = {0.0,0.0};
         }
     }
     return nil;
+}
+
+- (PlainTextWindowControllerTabContext *)windowControllerTabContextForDocument:(PlainTextDocument *)aDocument {
+	NSTabViewItem *item = [self tabViewItemForDocument:aDocument];
+	PlainTextWindowControllerTabContext *result = [item identifier];
+	return result;
 }
 
 - (PlainTextWindowControllerTabContext *)selectedTabContext {

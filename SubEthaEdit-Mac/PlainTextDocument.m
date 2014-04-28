@@ -6709,12 +6709,20 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 - (void)handleShowWebPreviewCommand:(NSScriptCommand *)command {
 	PlainTextWindowController *windowController = self.topmostWindowController;
-	PlainTextWindowControllerTabContext *tabContext = [windowController selectedTabContext];
+	PlainTextWindowControllerTabContext *tabContext = [windowController windowControllerTabContextForDocument:self];
 
-	if (! tabContext.webPreviewViewController) {
-		[windowController toggleWebPreview:self];
+	if ([windowController.document isEqual:self]) {
+		if (! tabContext.webPreviewViewController) {
+			[windowController toggleWebPreview:self];
+		} else {
+			[tabContext.webPreviewViewController refresh:self];
+		}
 	} else {
-		[tabContext.webPreviewViewController refresh:self];
+		if (!tabContext.hasWebPreviewSplit) {
+			tabContext.hasWebPreviewSplit = YES;
+		} else {
+			[tabContext.webPreviewViewController refresh:self];
+		}
 	}
 }
 
