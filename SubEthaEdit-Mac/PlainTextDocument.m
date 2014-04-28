@@ -6894,6 +6894,18 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 	}
 }
 
++ (id)coerceValue:(id)value toClass:(Class)toClass {
+	if ([value isKindOfClass:[PlainTextDocument class]]) {
+		if ([toClass isSubclassOfClass:[NSString class]]) {
+			return [value scriptedContents];
+		} else if ([toClass isSubclassOfClass:[FoldableTextStorage class]]) {
+			return [value scriptedPlainContents];
+		}
+	}
+	return nil;
+}
+
+
 - (id)scriptDocumentMode {
 	return [self documentMode];
 }

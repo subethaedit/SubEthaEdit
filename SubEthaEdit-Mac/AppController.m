@@ -421,7 +421,17 @@ static AppController *sharedInstance = nil;
                                                             selector:@selector(coerceValue:toClass:)
                                                   toConvertFromClass:[DocumentMode class]
                                                              toClass:[NSString class]]; 
-    
+
+	
+	[[NSScriptCoercionHandler sharedCoercionHandler] registerCoercer:[PlainTextDocument class]
+                                                            selector:@selector(coerceValue:toClass:)
+                                                  toConvertFromClass:[PlainTextDocument class]
+                                                             toClass:[NSString class]];
+	[[NSScriptCoercionHandler sharedCoercionHandler] registerCoercer:[PlainTextDocument class]
+                                                            selector:@selector(coerceValue:toClass:)
+                                                  toConvertFromClass:[PlainTextDocument class]
+                                                             toClass:[FoldableTextStorage class]];
+
     [self registerTransformers];
     [self addMe];
     [[TCMPortMapper sharedInstance] hashUserID:[TCMMMUserManager myUserID]];
@@ -907,15 +917,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
         }
         [scriptMenu addItem:[item autorelease]];
         
-        NSToolbarItem *toolbarItem = [script toolbarItemWithImageSearchLocations:[NSArray arrayWithObjects:[[[script URL] path] stringByDeletingLastPathComponent],[NSBundle mainBundle],nil] identifierAddition:@"Application"];
-        
-        if (toolbarItem) {
-            [I_toolbarItemsByIdentifier setObject:toolbarItem forKey:[toolbarItem itemIdentifier]];
-            [I_toolbarItemIdentifiers  addObject:[toolbarItem itemIdentifier]];
-            if ([[[settingsDictionary objectForKey:ScriptWrapperInDefaultToolbarSettingsKey] lowercaseString] isEqualToString:@"yes"]) {
-                [I_defaultToolbarItemIdentifiers addObject:[toolbarItem itemIdentifier]];
-            }
-        }
+		/* legacy note: the toobar items were loaded here in the past*/
     }
     // add final entries
     [scriptMenu addItem:[NSMenuItem separatorItem]];
