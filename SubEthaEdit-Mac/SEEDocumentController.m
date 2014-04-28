@@ -417,7 +417,8 @@
 }
 
 - (void)removeWindowController:(id)aWindowController {
-    [I_windowControllers removeObject:aWindowController];
+	__autoreleasing id autoreleasedWindowController = aWindowController;
+    [I_windowControllers removeObject:autoreleasedWindowController];
 }
 
 #pragma mark - Open new document
@@ -1450,7 +1451,7 @@ struct ModificationInfo
 - (void)closeDocumentsStartingWith:(PlainTextDocument *)doc shouldClose:(BOOL)shouldClose closeAllContext:(void *)closeAllContext
 {
     // Iterate over unsaved documents, preserve closeAllContext to invoke it after the last document
-    NSArray *windows = [[NSApp orderedWindows] copy];
+    __autoreleasing NSArray *windows = [[NSApp orderedWindows] copy];
     for (NSWindow *window in windows) {
         NSWindowController *controller = [window windowController];
         if ([controller isKindOfClass:[PlainTextWindowController class]]) {
