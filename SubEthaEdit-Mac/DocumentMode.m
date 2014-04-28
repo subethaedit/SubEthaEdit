@@ -264,7 +264,6 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         [I_scriptOrderArray release];
          I_scriptOrderArray = [[[I_scriptsByFilename allKeys] sortedArrayUsingSelector:@selector(compare:)] mutableCopy];
 
-        NSArray *searchLocations = [NSArray arrayWithObjects:I_bundle,[NSBundle mainBundle],nil];
         I_menuItemArray = [NSMutableArray new];
         I_contextMenuItemArray = [NSMutableArray new];
         I_toolbarItemsByIdentifier     =[NSMutableDictionary new];
