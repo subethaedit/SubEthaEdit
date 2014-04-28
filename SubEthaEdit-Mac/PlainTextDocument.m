@@ -1751,7 +1751,11 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 		[findAllController close];
 	}
     [I_findAllControllers removeAllObjects];
-	
+
+	if (I_documentProxyWindowController) {
+		[self proxyWindowWillClose];
+	}
+
     // terminate syntax coloring
     I_flags.highlightSyntax = NO;
     [I_symbolUpdateTimer invalidate];
