@@ -175,6 +175,7 @@
 		31D2C7000CA7C9C8003CC5C9 /* PrecedenceRuleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D2C6E50CA7C7A7003CC5C9 /* PrecedenceRuleCell.m */; };
 		31FFC93D104E97A000E08256 /* NSErrorTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FFC93C104E97A000E08256 /* NSErrorTCMAdditions.m */; };
 		420AAF7F18FE0FFC00297DB1 /* StylePrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 420AAF7E18FE0FFC00297DB1 /* StylePrefs.xib */; };
+		422F9739190FD367009FD437 /* TCM_Logo_White_Background.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 422F9738190FD367009FD437 /* TCM_Logo_White_Background.pdf */; };
 		4234523A1907DFE400BE3CC1 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 423452391907DFE400BE3CC1 /* Quartz.framework */; };
 		423B23D018F63DDE001E2DCC /* SEECollaborationPreferenceModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 423B23CF18F63DDE001E2DCC /* SEECollaborationPreferenceModule.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		423B23D518F64065001E2DCC /* SEECollaborationPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 423B23D418F64065001E2DCC /* SEECollaborationPrefs.xib */; };
@@ -853,6 +854,7 @@
 		31FFC93C104E97A000E08256 /* NSErrorTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSErrorTCMAdditions.m; sourceTree = "<group>"; };
 		32DBCF750370BD2300C91783 /* SubEthaEdit_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubEthaEdit_Prefix.pch; sourceTree = "<group>"; };
 		420AAF7E18FE0FFC00297DB1 /* StylePrefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StylePrefs.xib; sourceTree = "<group>"; };
+		422F9738190FD367009FD437 /* TCM_Logo_White_Background.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = TCM_Logo_White_Background.pdf; path = artwork/TCM_Logo_White_Background.pdf; sourceTree = "<group>"; };
 		423452391907DFE400BE3CC1 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
 		423B23CE18F63DDE001E2DCC /* SEECollaborationPreferenceModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEECollaborationPreferenceModule.h; sourceTree = "<group>"; };
 		423B23CF18F63DDE001E2DCC /* SEECollaborationPreferenceModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEECollaborationPreferenceModule.m; sourceTree = "<group>"; };
@@ -1361,6 +1363,7 @@
 				4C6BDC61188985EF0088CBFC /* Retina */,
 				F2FEE70E1892A747000E6BC8 /* SharingBarIcons */,
 				F2D3E4E4189941F50096425B /* Tabs */,
+				422F9738190FD367009FD437 /* TCM_Logo_White_Background.pdf */,
 				F265602018C4BA7300C73737 /* SearchLoupeNormal.pdf */,
 				F265602118C4BA7300C73737 /* SearchLoupeRE.pdf */,
 				F2C6D3730D6DB131002B401D /* URLIconNotOK.tiff */,
@@ -2721,6 +2724,7 @@
 				F2D3E55F189941F50096425B /* IW InactiveTabClose.png in Resources */,
 				F2D3E566189941F50096425B /* IW InactiveTabLeftCap@2x.png in Resources */,
 				F2D3E529189941F50096425B /* AW ActiveTabClose.png in Resources */,
+				422F9739190FD367009FD437 /* TCM_Logo_White_Background.pdf in Resources */,
 				F2D3E53B189941F50096425B /* AW InactiveTabClosePressed.png in Resources */,
 				F2F2B6CD0CA842040045C189 /* HUDRelative-2.png in Resources */,
 				F2F2B6CE0CA842070045C189 /* HUDRelative-1.png in Resources */,
