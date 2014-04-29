@@ -132,7 +132,7 @@ Marcel-André Casasola Merkle </string>
                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" id="M1y-vQ-AfV">
                         <rect key="frame" x="120" y="213" width="53" height="56"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <imageCell key="cell" selectable="YES" editable="YES" alignment="left" imageScaling="proportionallyDown" image="TCM_Logo_White_Background" id="SOg-3j-LSY"/>
+                        <imageCell key="cell" selectable="YES" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="TCM_Logo_White_Background" id="SOg-3j-LSY"/>
                     </imageView>
                 </subviews>
             </view>
