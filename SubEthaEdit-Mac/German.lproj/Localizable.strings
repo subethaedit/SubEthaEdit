@@ -157,6 +157,8 @@
 /* Status of port mapping while trying */
 "Checking port status..." = "Überprüfe Port Status...";
 
+"PORT_NETWORKING_DISABLED" = "Keiner";
+
 /* Server Closed Document title in Sheet */
 "Closed" = "Geschlossen";
 
@@ -958,12 +960,6 @@
 
 
 /* Collaboration Preference Pane */
-"COLLAB_NETWORK_LABEL" = "Netzwerk";
-"COLLAB_LOCAL_PORT_LABEL" = "Lokaler Port:";
-"COLLAB_AUTOMATICALLY_MAP_PORT_LABEL" = "Port automatisch weiterleiten";
-"COLLAB_AUTOMATICALLY_MAP_PORT_DESCRIPTION" = "Die Port Weiterleitung bentutzt NAT-PMP oder UPnP";
-"COLLAB_AUTOMATICALLY_MAP_PORT_TOOL_TIP" = "SubEthaEdit versucht automatisch den lokalen Port weiterzuleiten falls Sie sich hinter einem NAT befinden. Damit das funktioniert müssen Sie UPnP oder NAT-PMP auf Ihrem Router aktivieren.";
-
 "COLLAB_USER_NAME_LABEL" = "Name:";
 "COLLAB_USER_EMAIL_LABEL" = "E-Mail:";
 
@@ -984,7 +980,7 @@
 "COLLAB_LOCAL_PORT_LABEL" = "Lokaler Port:";
 "COLLAB_AUTOMATICALLY_MAP_PORT_LABEL" = "Port automatisch weiterleiten";
 "COLLAB_AUTOMATICALLY_MAP_PORT_TOOL_TIP" = "SubEthaEdit versucht automatisch den lokalen Port weiterzuleiten, falls Sie sich hinter einem NAT befinden. Damit das funktioniert müssen Sie UPnP oder NAT-PMP auf Ihrem Router aktivieren.";
-"COLLAB_AUTOMATICALLY_MAP_PORT_DESCRIPTION" = "Die Port-Weiterleitung benutzt NAT-PMP oder UPnP";
+"COLLAB_AUTOMATICALLY_MAP_PORT_DESCRIPTION" = "Die Port-Weiterleitung benutzt NAT-PMP oder UPnP.";
 
 /* Style Preference Pane */
 

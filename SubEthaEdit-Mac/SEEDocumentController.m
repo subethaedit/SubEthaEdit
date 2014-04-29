@@ -30,6 +30,7 @@
 #import "PlainTextWindowController.h"
 #import "SEEOpenPanelAccessoryViewController.h"
 #import "SEEDocumentListWindowController.h"
+#import "NSApplicationTCMAdditions.h"
 
 #import <PSMTabBarControl/PSMTabBarControl.h>
 #import <objc/objc-runtime.h>			// for objc_msgSend
@@ -1039,6 +1040,8 @@
     
     NSString *filename;
     for (filename in files) {
+		BOOL isSEEStdinTempFile = [[filename pathExtension] isEqualToString:@"seetmpstdin"];
+		if (isSEEStdinTempFile) continue;
         BOOL isDir = NO;
         BOOL isFilePackage = [[NSWorkspace sharedWorkspace] isFilePackageAtPath:filename];
         NSString *extension = [filename pathExtension];
@@ -1340,7 +1343,7 @@
             [document setScriptingProperties:properties];
             [I_propertiesForOpenedFiles setObject:properties forKey:standardInputFile];
             [(PlainTextDocument *)document resizeAccordingToDocumentMode];
-            [document readFromURL:[NSURL fileURLWithPath:standardInputFile] ofType:@"PlainTextType" error:NULL];
+            [document readFromURL:[NSURL fileURLWithPath:standardInputFile] ofType:@"public.text" error:NULL];
             if (shouldMakePipeDirty) {
                 [document updateChangeCount:NSChangeDone];
             }
@@ -1539,7 +1542,7 @@ struct ModificationInfo
                     if (isPiping) {
                         NSString *fileName = tempFileName();
                         NSError *error = nil;
-                        BOOL result = [doc writeToURL:[NSURL fileURLWithPath:fileName] ofType:@"PlainTextType" error:&error];
+                        BOOL result = [doc writeToURL:[NSURL fileURLWithPath:fileName] ofType:@"public.plain-text" error:&error];
                         if (result) {
                             [fileNames addObject:fileName];
                         } else {
@@ -1765,7 +1768,7 @@ struct ModificationInfo
 
 static NSString *tempFileName() {
     static int sequenceNumber = 0;
-    NSString *origPath = [@"/tmp" stringByAppendingPathComponent:@"see"];
+    NSString *origPath = [[NSApp sandboxContainerURL].path stringByAppendingPathComponent:@"see"];
     NSString *name;
     do {
         sequenceNumber++;

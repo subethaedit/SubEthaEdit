@@ -1,3 +1,23 @@
+======
+Styles
+======
+
+Style Desert
+based on: Desert for Coda
+By Justin Hileman - http://justinhileman.com
+
+Blueby
+based on: Blueby
+By Justin Hileman - http://justinhileman.com
+
+More Styles by Justin Hileman can be found at
+http://justinhileman.info/coda-colors/
+
+
+====================
+3rd Party Frameworks
+====================
+
 SubEthaEdit uses the following 3rd party frameworks:
 - OniGuruma         http://www.geocities.jp/kosako3/oniguruma/
 - OgreKit           http://www8.ocn.ne.jp/~sonoisa/OgreKit/

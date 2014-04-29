@@ -175,6 +175,8 @@
 		31D2C7000CA7C9C8003CC5C9 /* PrecedenceRuleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D2C6E50CA7C7A7003CC5C9 /* PrecedenceRuleCell.m */; };
 		31FFC93D104E97A000E08256 /* NSErrorTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FFC93C104E97A000E08256 /* NSErrorTCMAdditions.m */; };
 		420AAF7F18FE0FFC00297DB1 /* StylePrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 420AAF7E18FE0FFC00297DB1 /* StylePrefs.xib */; };
+		42155360190FE8B9001340A7 /* AboutPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4215535F190FE8B9001340A7 /* AboutPanel.xib */; };
+		422F9739190FD367009FD437 /* TCM_Logo_White_Background.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 422F9738190FD367009FD437 /* TCM_Logo_White_Background.pdf */; };
 		4234523A1907DFE400BE3CC1 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 423452391907DFE400BE3CC1 /* Quartz.framework */; };
 		423B23D018F63DDE001E2DCC /* SEECollaborationPreferenceModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 423B23CF18F63DDE001E2DCC /* SEECollaborationPreferenceModule.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		423B23D518F64065001E2DCC /* SEECollaborationPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 423B23D418F64065001E2DCC /* SEECollaborationPrefs.xib */; };
@@ -197,7 +199,6 @@
 		4C0FDA231803125E008E24E8 /* UniversalDetector.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 4C0FDA2118031235008E24E8 /* UniversalDetector.framework */; };
 		4C123002180BE4A60069253E /* TCMBEEPSessionXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C123001180BE4A60069253E /* TCMBEEPSessionXMLParser.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4C123005180C01EF0069253E /* TCMBEEPMessageXMLPayloadParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C123004180C01EF0069253E /* TCMBEEPMessageXMLPayloadParser.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
-		4C1D39DC17FB085800B1CF5C /* AboutPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C1D39DA17FB085800B1CF5C /* AboutPanel.xib */; };
 		4C43314418E4777C00592EC2 /* SEEDocumentCreationFlags.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C43314318E4777C00592EC2 /* SEEDocumentCreationFlags.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4C4EFE45181AA3410072176F /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C4EFE44181AA3400072176F /* HockeySDK.framework */; };
 		4C4EFE47181AA3B00072176F /* HockeySDK.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 4C4EFE44181AA3400072176F /* HockeySDK.framework */; };
@@ -853,6 +854,8 @@
 		31FFC93C104E97A000E08256 /* NSErrorTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSErrorTCMAdditions.m; sourceTree = "<group>"; };
 		32DBCF750370BD2300C91783 /* SubEthaEdit_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubEthaEdit_Prefix.pch; sourceTree = "<group>"; };
 		420AAF7E18FE0FFC00297DB1 /* StylePrefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StylePrefs.xib; sourceTree = "<group>"; };
+		4215535F190FE8B9001340A7 /* AboutPanel.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutPanel.xib; sourceTree = "<group>"; };
+		422F9738190FD367009FD437 /* TCM_Logo_White_Background.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = TCM_Logo_White_Background.pdf; path = artwork/TCM_Logo_White_Background.pdf; sourceTree = "<group>"; };
 		423452391907DFE400BE3CC1 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
 		423B23CE18F63DDE001E2DCC /* SEECollaborationPreferenceModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEECollaborationPreferenceModule.h; sourceTree = "<group>"; };
 		423B23CF18F63DDE001E2DCC /* SEECollaborationPreferenceModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEECollaborationPreferenceModule.m; sourceTree = "<group>"; };
@@ -881,8 +884,6 @@
 		4C123001180BE4A60069253E /* TCMBEEPSessionXMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMBEEPSessionXMLParser.m; sourceTree = "<group>"; };
 		4C123003180C01EF0069253E /* TCMBEEPMessageXMLPayloadParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = TCMBEEPMessageXMLPayloadParser.h; sourceTree = "<group>"; };
 		4C123004180C01EF0069253E /* TCMBEEPMessageXMLPayloadParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMBEEPMessageXMLPayloadParser.m; sourceTree = "<group>"; };
-		4C1D39DB17FB085800B1CF5C /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/AboutPanel.xib; sourceTree = "<group>"; };
-		4C1D39E917FB088200B1CF5C /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/AboutPanel.xib; sourceTree = "<group>"; };
 		4C43314218E4777C00592EC2 /* SEEDocumentCreationFlags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEDocumentCreationFlags.h; sourceTree = "<group>"; };
 		4C43314318E4777C00592EC2 /* SEEDocumentCreationFlags.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEDocumentCreationFlags.m; sourceTree = "<group>"; };
 		4C4EFE44181AA3400072176F /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HockeySDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1361,6 +1362,7 @@
 				4C6BDC61188985EF0088CBFC /* Retina */,
 				F2FEE70E1892A747000E6BC8 /* SharingBarIcons */,
 				F2D3E4E4189941F50096425B /* Tabs */,
+				422F9738190FD367009FD437 /* TCM_Logo_White_Background.pdf */,
 				F265602018C4BA7300C73737 /* SearchLoupeNormal.pdf */,
 				F265602118C4BA7300C73737 /* SearchLoupeRE.pdf */,
 				F2C6D3730D6DB131002B401D /* URLIconNotOK.tiff */,
@@ -1984,7 +1986,7 @@
 			isa = PBXGroup;
 			children = (
 				4CE8E4E818DC84B10029BF95 /* Prefs */,
-				4C1D39DA17FB085800B1CF5C /* AboutPanel.xib */,
+				4215535F190FE8B9001340A7 /* AboutPanel.xib */,
 				4CD5F7E017FB0C4D00F49E31 /* DocumentProxy.xib */,
 				4CD5F7E817FB0C8E00F49E31 /* SEEEncodingDoctorView.xib */,
 				4CD5F7EC17FB0CA300F49E31 /* Export.xib */,
@@ -2577,6 +2579,7 @@
 				4C0D3D6817FB145600AAFB38 /* Preferences.xib in Resources */,
 				142890490957425900D14688 /* HTMLExport in Resources */,
 				1428904B0957427100D14688 /* Modes in Resources */,
+				42155360190FE8B9001340A7 /* AboutPanel.xib in Resources */,
 				F2D3E56A189941F50096425B /* IW SingleTabAddButton@2x.png in Resources */,
 				5E4DA73D09E15C6800D91CFC /* Scripts in Resources */,
 				F2E6CBAF19068D4700D431F9 /* ToolbarSplitOnePane.png in Resources */,
@@ -2681,7 +2684,6 @@
 				4CA098DE18EAF54E0026B3E3 /* SEEWebPreviewViewController.xib in Resources */,
 				F2D3E540189941F50096425B /* AW InactiveTabLeftCap@2x.png in Resources */,
 				F2D3E557189941F50096425B /* IW ActiveTabLeftCap.png in Resources */,
-				4C1D39DC17FB085800B1CF5C /* AboutPanel.xib in Resources */,
 				F2D3E551189941F50096425B /* IW ActiveTabClosePressed.png in Resources */,
 				F2B136E7189BF27000430639 /* AW AddTabButtonRolloverBG_Pressed.tiff in Resources */,
 				F2D3E555189941F50096425B /* IW ActiveTabFill.png in Resources */,
@@ -2721,6 +2723,7 @@
 				F2D3E55F189941F50096425B /* IW InactiveTabClose.png in Resources */,
 				F2D3E566189941F50096425B /* IW InactiveTabLeftCap@2x.png in Resources */,
 				F2D3E529189941F50096425B /* AW ActiveTabClose.png in Resources */,
+				422F9739190FD367009FD437 /* TCM_Logo_White_Background.pdf in Resources */,
 				F2D3E53B189941F50096425B /* AW InactiveTabClosePressed.png in Resources */,
 				F2F2B6CD0CA842040045C189 /* HUDRelative-2.png in Resources */,
 				F2F2B6CE0CA842070045C189 /* HUDRelative-1.png in Resources */,
@@ -3175,15 +3178,6 @@
 				14EC6E2B0A63F2F700B44481 /* German */,
 			);
 			name = ServicesMenu.strings;
-			sourceTree = "<group>";
-		};
-		4C1D39DA17FB085800B1CF5C /* AboutPanel.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				4C1D39DB17FB085800B1CF5C /* English */,
-				4C1D39E917FB088200B1CF5C /* German */,
-			);
-			name = AboutPanel.xib;
 			sourceTree = "<group>";
 		};
 		4CD5F7D817FB0BF200F49E31 /* AdvancedPrefs.xib */ = {

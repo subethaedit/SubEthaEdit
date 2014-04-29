@@ -100,9 +100,9 @@
                                     </textFieldCell>
                                 </textField>
                                 <textField horizontalHuggingPriority="750" verticalHuggingPriority="750" id="wdw-7c-J1b">
-                                    <rect key="frame" x="79" y="50" width="35" height="14"/>
+                                    <rect key="frame" x="74" y="50" width="40" height="14"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="6942" id="z8r-Pu-RDT">
+                                    <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="6942" id="z8r-Pu-RDT">
                                         <font key="font" metaFont="smallSystem"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
