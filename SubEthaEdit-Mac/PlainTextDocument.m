@@ -3769,8 +3769,15 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 				}
 
 				[authorisationScript executeWithAppleEvent:containerDescriptor completionHandler:^(NSAppleEventDescriptor *result, NSError *error) {
-					NSLog(@"%s error: %@", __FUNCTION__, error);
-					NSLog(@"%s result: %@", __FUNCTION__, result);
+
+					if (!error) {
+						[self setFileURL:anAbsoluteURL];
+						[self setFileType:docType];
+						[self setFileModificationDate:[NSDate date]];
+					} else {
+						NSLog(@"%s error: %@", __FUNCTION__, error);
+						NSLog(@"%s result: %@", __FUNCTION__, result);
+					}
 				}];
 			} else {
 				if (outError) {
