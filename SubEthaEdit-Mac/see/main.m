@@ -312,6 +312,11 @@ static NSArray *see(NSArray *fileNames, NSArray *newFileNames, NSString *stdinFi
 		[urls addObject:fileURL];
 	}
 
+	if (stdinFileName) {
+		NSURL *fileURL = [NSURL fileURLWithPath:stdinFileName];
+		[urls addObject:fileURL];
+	}
+	
 	if (urls.count > 0) {
 		NSWorkspaceLaunchOptions launchOptions = 0;
 		if ([[options objectForKey:@"print"] boolValue]) {
