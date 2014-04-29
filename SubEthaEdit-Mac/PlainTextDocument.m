@@ -3749,7 +3749,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 		NSUserAppleScriptTask *authorisationScript = [[NSUserAppleScriptTask alloc] initWithURL:authenticationScriptURL error:&authenticationScriptError];
 
 		if (! authenticationScriptError) {
-			NSURL *tempFileURL = [[NSFileManager defaultManager] URLForDirectory:NSUserDomainMask|NSSystemDomainMask|NSLocalDomainMask inDomain:NSItemReplacementDirectory appropriateForURL:anAbsoluteURL create:YES error:nil];
+			NSURL *tempFileURL = [NSURL fileURLWithPath:NSTemporaryDirectory()];
 			tempFileURL = [tempFileURL URLByAppendingPathComponent:anAbsoluteURL.lastPathComponent];
 
 			NSError *fileWritingError = nil;
