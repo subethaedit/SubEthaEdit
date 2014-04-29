@@ -420,7 +420,7 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 
 
 			[menu addItem:[NSMenuItem separatorItem]];
-			[self addItemToMenu:menu title:NSLocalizedString(@"FIND_REPLACE_PANEL_MENU_OPEN_HELP",@"") action:@selector(openRegExHelp:) tag:0];
+			[[self addItemToMenu:menu title:NSLocalizedString(@"FIND_REPLACE_PANEL_MENU_OPEN_HELP",@"") action:@selector(showRegExHelp:) tag:0] setTarget:nil];
 			menu;
 		});
 	}
