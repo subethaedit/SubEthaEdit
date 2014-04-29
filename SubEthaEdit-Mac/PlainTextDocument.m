@@ -6527,12 +6527,20 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 - (void)handleShowWebPreviewCommand:(NSScriptCommand *)command {
 	PlainTextWindowController *windowController = self.topmostWindowController;
-	PlainTextWindowControllerTabContext *tabContext = [windowController selectedTabContext];
+	PlainTextWindowControllerTabContext *tabContext = [windowController windowControllerTabContextForDocument:self];
 
-	if (! tabContext.webPreviewViewController) {
-		[windowController toggleWebPreview:self];
+	if ([windowController.document isEqual:self]) {
+		if (! tabContext.webPreviewViewController) {
+			[windowController toggleWebPreview:self];
+		} else {
+			[tabContext.webPreviewViewController refresh:self];
+		}
 	} else {
-		[tabContext.webPreviewViewController refresh:self];
+		if (!tabContext.hasWebPreviewSplit) {
+			tabContext.hasWebPreviewSplit = YES;
+		} else {
+			[tabContext.webPreviewViewController refresh:self];
+		}
 	}
 }
 
@@ -6711,6 +6719,18 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 		[self setDocumentMode:modeValue];
 	}
 }
+
++ (id)coerceValue:(id)value toClass:(Class)toClass {
+	if ([value isKindOfClass:[PlainTextDocument class]]) {
+		if ([toClass isSubclassOfClass:[NSString class]]) {
+			return [value scriptedContents];
+		} else if ([toClass isSubclassOfClass:[FoldableTextStorage class]]) {
+			return [value scriptedPlainContents];
+		}
+	}
+	return nil;
+}
+
 
 - (id)scriptDocumentMode {
 	return [self documentMode];

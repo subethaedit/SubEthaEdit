@@ -1646,6 +1646,7 @@
 				<string>on</string>
 				<string>onClipEvent</string>
 				<string>ord</string>
+				<string>package</string>
 				<string>parseFloat</string>
 				<string>parseInt</string>
 				<string>play</string>

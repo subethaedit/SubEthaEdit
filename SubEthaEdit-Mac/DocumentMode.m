@@ -264,7 +264,6 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         [I_scriptOrderArray release];
          I_scriptOrderArray = [[[I_scriptsByFilename allKeys] sortedArrayUsingSelector:@selector(compare:)] mutableCopy];
 
-        NSArray *searchLocations = [NSArray arrayWithObjects:I_bundle,[NSBundle mainBundle],nil];
         I_menuItemArray = [NSMutableArray new];
         I_contextMenuItemArray = [NSMutableArray new];
         I_toolbarItemsByIdentifier     =[NSMutableDictionary new];
@@ -291,14 +290,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
             [item setTarget:script];
             [I_menuItemArray addObject:[item autorelease]];
 
-            NSToolbarItem *toolbarItem=[script toolbarItemWithImageSearchLocations:searchLocations identifierAddition:[self documentModeIdentifier]];
-            if (toolbarItem) {
-                [I_toolbarItemsByIdentifier setObject:toolbarItem forKey:[toolbarItem itemIdentifier]];
-                [I_toolbarItemIdentifiers  addObject:[toolbarItem itemIdentifier]];
-                if ([[[settingsDictionary objectForKey:ScriptWrapperInDefaultToolbarSettingsKey] lowercaseString] isEqualToString:@"yes"]) {
-                    [I_defaultToolbarItemIdentifiers addObject:[toolbarItem itemIdentifier]];
-                }
-            }
+			/* legacy note: the toolbar item were loaded here once in the past */
         }
 #endif
         

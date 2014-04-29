@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5053"/>
-        <plugIn identifier="com.apple.WebKitIBPlugin" version="5053"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
+        <plugIn identifier="com.apple.WebKitIBPlugin" version="5056"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="SEEWebPreviewViewController">
@@ -44,7 +44,7 @@
                             </connections>
                         </textField>
                         <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="heL-g6-SVy">
-                            <rect key="frame" x="85" y="7" width="365" height="22"/>
+                            <rect key="frame" x="85" y="7" width="361" height="22"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <textFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="laj-BP-WkR">
                                 <font key="font" metaFont="system"/>
@@ -53,12 +53,13 @@
                             </textFieldCell>
                         </textField>
                         <button translatesAutoresizingMaskIntoConstraints="NO" id="Mtf-dY-7pH">
-                            <rect key="frame" x="450" y="7" width="22" height="22"/>
+                            <rect key="frame" x="446" y="7" width="34" height="22"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="22" id="VgU-OC-bac"/>
+                                <constraint firstAttribute="height" constant="22" id="PBS-bW-pld"/>
+                                <constraint firstAttribute="width" constant="34" id="sOd-ea-ebp"/>
                             </constraints>
-                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="WebReload" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Brc-r5-PJW">
+                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSRefreshFreestandingTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="Brc-r5-PJW">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
@@ -85,12 +86,11 @@
                         <constraint firstItem="heL-g6-SVy" firstAttribute="centerY" secondItem="qK4-aB-5lu" secondAttribute="centerY" id="O4X-7f-RxF"/>
                         <constraint firstItem="Mtf-dY-7pH" firstAttribute="leading" secondItem="heL-g6-SVy" secondAttribute="trailing" id="PYI-gY-GbW"/>
                         <constraint firstItem="3h8-s6-6Cu" firstAttribute="leading" secondItem="ntc-8y-SiH" secondAttribute="leading" id="Uhz-O1-erN"/>
-                        <constraint firstAttribute="trailing" secondItem="Mtf-dY-7pH" secondAttribute="trailing" constant="8" id="d4H-fW-pRY"/>
+                        <constraint firstItem="heL-g6-SVy" firstAttribute="centerY" secondItem="Mtf-dY-7pH" secondAttribute="centerY" id="YBG-NZ-Dad"/>
+                        <constraint firstAttribute="trailing" secondItem="Mtf-dY-7pH" secondAttribute="trailing" id="d4H-fW-pRY"/>
                         <constraint firstItem="Mtf-dY-7pH" firstAttribute="centerY" secondItem="ntc-8y-SiH" secondAttribute="centerY" id="eio-rW-WCH"/>
                         <constraint firstItem="qK4-aB-5lu" firstAttribute="leading" secondItem="ntc-8y-SiH" secondAttribute="leading" constant="12" id="h87-HO-ONj"/>
-                        <constraint firstItem="Mtf-dY-7pH" firstAttribute="bottom" secondItem="heL-g6-SVy" secondAttribute="bottom" id="s15-Ji-zLc"/>
                         <constraint firstItem="3h8-s6-6Cu" firstAttribute="top" secondItem="ntc-8y-SiH" secondAttribute="top" constant="35" id="uMD-0T-wM0"/>
-                        <constraint firstItem="heL-g6-SVy" firstAttribute="top" secondItem="Mtf-dY-7pH" secondAttribute="top" id="z8h-VI-euY"/>
                     </constraints>
                 </customView>
                 <customView horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="e8j-Q2-5uj">
@@ -181,6 +181,6 @@
         </customView>
     </objects>
     <resources>
-        <image name="WebReload" width="9" height="9"/>
+        <image name="NSRefreshFreestandingTemplate" width="14" height="14"/>
     </resources>
 </document>

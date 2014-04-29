@@ -7,12 +7,16 @@
         <endregex>}</endregex>
     </blocks>
     
-    <symbol id="Classes" image="SymbolC" indentation="0" ignoreblocks="yes">
-        <regex>(?&lt;=[\n\r]|^)\s*class\s+([^\s]*)</regex>
+ 	<symbol id="package" symbol="P_#6D5E85"> 
+		<regex>^\s*package\s+([\w_.]+)</regex>
+	</symbol>
+
+   <symbol id="Classes" symbol="C_#6D5E85" indentation="1" ignoreblocks="yes">
+        <regex>^[ \t]*((?:public|private|protected)?\s*class\s+[^\s]*(?:\s*extends\s*[\w\d_]+)?)</regex>
     </symbol>
 
-    <symbol id="Funtions in Classes" image="SymbolF()" indentation="0" ignoreblocks="yes">
-        <regex>(?&lt;=public|private)\s+(?:\w*\s+)*function\s+([^{]*)</regex>
+    <symbol id="Funtions in Classes" symbol="M_#6AB18D" indentation="2" ignoreblocks="yes">
+        <regex>(?:public|private|protected)\s+*function\s+([^{]*\)(?::\w+)?)</regex>
         <postprocess>
             <find>\([^\)]*\)</find>
             <replace>()</replace>
@@ -25,8 +29,8 @@
         </postprocess>
     </symbol>
 
-    <symbol id="Funtions" image="SymbolF()" indentation="0" ignoreblocks="yes">
-        <regex>(?&lt;=[\n\r]|^)\s*function\s+([^{]*)(?=\s*\{)</regex>
+    <symbol id="Functions" symbol="f()_#6AB18D" indentation="0" ignoreblocks="yes">
+        <regex>^[ \t]*function\s+([^{]*\)(?::\w+)?)</regex>
         <postprocess>
             <find>\([^\)]*\)</find>
             <replace>()</replace>
@@ -37,8 +41,8 @@
         </postprocess>
     </symbol>
 
-    <symbol id="Funtions 2" image="SymbolF()" indentation="0" ignoreblocks="yes">
-        <regex>(?&lt;=[\n\r]|^)[ \t]*=[ \t]*function[ \t]+(?=[ \t]*\()</regex>
+    <symbol id="Functions 2" symbol="f()_#6AB18D" indentation="0" ignoreblocks="yes">
+        <regex>^[ \t]*=[ \t]*function\s+([^{]*\)(?::\w+)?)</regex>
         <postprocess>
             <find>^[= \t]*</find>
             <replace></replace>
@@ -49,7 +53,7 @@
         </postprocess>
     </symbol>
 
-    <symbol id="Inline Funtions" image="SymbolF()" indentation="0" ignoreblocks="yes">
+    <symbol id="Inline Functions" symbol="f()_#6AB18D" indentation="0" ignoreblocks="yes">
         <regex>([^\s]+)\s*=\s*function\s*\([^\)]*\)(?=\s*\{)</regex>
         <postprocess>
             <find>(.*)</find>

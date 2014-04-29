@@ -15,6 +15,7 @@ Overview:
 8. [Update Plist](#updatePlist)
 9. [List Plist Values](#plistValues)
 10. [Style Extraction Makefile](#makefile)
+11. [XSLT/XML help](#xsltxmlhelp)
 
 ---
 ## [All XML-Nodes using a Scope](id:xmlForScope)
@@ -221,3 +222,14 @@ Modes - Coda2 - relative path in repository: `Coda2Modes/`
 		find  ../../Modes/ -name "InfoPlist.strings" -exec see \{\} \;
 		
 
+## [XSLT/XML help](id:xsltxmlhelp)
+
+
+##### xmllint
+* Testing xpath expressions
+
+		xmllint --xpath "//keywords[@id='Operators']" Coda2Modes/PHP-HTML.mode/Contents/Resources/SyntaxDefinition.xml 
+		
+* Since xmllint doesn't know about namespaces per default (you can set it using the setns command if you use --shell though) you can use the local-name() function to match against the element name without namespace
+
+		xmllint --xpath "//*[local-name()='element']" SortInfoPlist.xslt

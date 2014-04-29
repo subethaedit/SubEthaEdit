@@ -37,7 +37,7 @@
 		 Application class uses custom implementations for open and print commands
 		 -->
 		<xi:include href="file://localhost/System/Library/ScriptingDefinitions/CocoaStandard.sdef"
-		xpointer="xpointer(/dictionary/suite/node()[(not(self::command and (@name = 'open'))) and (not(self::class and (@name = 'application')))])"/>
+		xpointer="xpointer(/dictionary/suite/node()[(not(self::command and (@name = 'open'))) and (not(self::class and (@name = 'application')))and (not(self::class and (@name = 'document')))])"/>
 
 		<class name="application" code="capp"
 			description="The application's top-level scripting object.">
@@ -52,6 +52,8 @@
 			description="The version of the application."/>
 			<element type="document">
 				<cocoa key="orderedDocuments"/>
+				<type type="plain text" />
+				<type type="text" />
 			</element>
 			<element type="window" access="r">
 				<cocoa key="orderedWindows"/>
@@ -367,18 +369,39 @@
 			</property>
 			<element type="mode" access="r">
 				<cocoa key="scriptedModes"/>
+				<type type="text" />
 			</element>
 			<responds-to name="see">
 				<cocoa method="TCM_handleSeeScriptCommand:"/>
 			</responds-to>
 		</class-extension>
 
-		<class-extension extends="document" description="A document.">
+		<class name="document" code="docu" description="A document.">
 			<cocoa class="PlainTextDocument"/>
+			<property name="name" code="pnam" type="text" access="r" description="Its name.">
+				<cocoa key="displayName"/>
+			</property>
+			<property name="file" code="file" type="file" access="r" description="Its location on disk, if it has one.">
+				<cocoa key="fileURL"/>
+			</property>
+			<responds-to command="close">
+				<cocoa method="handleCloseScriptCommand:"/>
+			</responds-to>
+			<responds-to command="print">
+				<cocoa method="handlePrintScriptCommand:"/>
+			</responds-to>
+			<responds-to command="save">
+				<cocoa method="handleSaveScriptCommand:"/>
+			</responds-to>
+
+			<property name="modified" code="imod" type="boolean" access="rw" description="Has it been modified since the last save?">
+				<cocoa key="isDocumentEdited"/>
+			</property>
+
 			<property name="id" code="ID  " type="integer" access="r" description="The unique identifier of the document. Not persistant over launches.">
 				<cocoa key="uniqueID"/>
 			</property>
-			<contents name="plain text" code="cTXT" type="plain text" description="The plain text object containing all the document's text." hidden="yes">
+			<contents name="plain text" code="cTXT" type="plain text" description="The plain text object containing all the document's text.">
 				<cocoa key="scriptedPlainContents"/>
 			</contents>
 			<property name="contents" code="pTxt" type="text"
@@ -432,7 +455,7 @@
 			<responds-to name="show">
 				<cocoa method="handleShowScriptCommand:"/>
 			</responds-to>
-		</class-extension>
+		</class>
 
 		<class-extension extends="window" description="A window.">
 			<cocoa class="PlainTextWindow"/>
