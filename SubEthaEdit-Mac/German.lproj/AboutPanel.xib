@@ -18,15 +18,15 @@
         <window allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="48" userLabel="Panel" customClass="NSPanel">
             <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="537" y="272" width="285" height="404"/>
+            <rect key="contentRect" x="537" y="272" width="285" height="467"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1178"/>
             <value key="minSize" type="size" width="213" height="107"/>
             <view key="contentView" id="47">
-                <rect key="frame" x="0.0" y="0.0" width="285" height="404"/>
+                <rect key="frame" x="0.0" y="0.0" width="285" height="467"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField verticalHuggingPriority="750" id="56">
-                        <rect key="frame" x="8" y="276" width="269" height="13"/>
+                        <rect key="frame" x="8" y="339" width="269" height="13"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Version" id="95">
                             <font key="font" metaFont="label"/>
@@ -44,32 +44,32 @@
                         </textFieldCell>
                     </textField>
                     <imageView id="59">
-                        <rect key="frame" x="110" y="332" width="64" height="64"/>
+                        <rect key="frame" x="110" y="395" width="64" height="64"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSApplicationIcon" id="97"/>
                     </imageView>
                     <imageView id="67">
-                        <rect key="frame" x="62" y="304" width="164" height="22"/>
+                        <rect key="frame" x="62" y="367" width="164" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" image="NamedLogo2" id="98"/>
                     </imageView>
                     <scrollView horizontalLineScroll="0.0" horizontalPageScroll="0.0" verticalLineScroll="0.0" verticalPageScroll="0.0" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" id="74">
-                        <rect key="frame" x="0.0" y="45" width="285" height="197"/>
+                        <rect key="frame" x="0.0" y="45" width="285" height="260"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" id="fIQ-F1-M0v">
-                            <rect key="frame" x="1" y="1" width="283" height="195"/>
+                            <rect key="frame" x="1" y="1" width="283" height="258"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <textView editable="NO" continuousSpellChecking="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="73">
-                                    <rect key="frame" x="0.0" y="0.0" width="283" height="195"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="283" height="258"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <size key="minSize" width="283" height="195"/>
+                                    <size key="minSize" width="283" height="258"/>
                                     <size key="maxSize" width="301" height="10000000"/>
                                     <attributedString key="textStorage">
                                         <fragment>
-                                            <string key="content" base64-UTF8="YES">
-Cgo
+                                            <string key="content">    
+
 </string>
                                             <attributes>
                                                 <font key="NSFont" size="12" name="Helvetica"/>
@@ -108,7 +108,7 @@ Marcel-André Casasola Merkle </string>
                                         </fragment>
                                     </attributedString>
                                     <color key="insertionPointColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                    <size key="minSize" width="283" height="195"/>
+                                    <size key="minSize" width="283" height="258"/>
                                     <size key="maxSize" width="301" height="10000000"/>
                                 </textView>
                             </subviews>
@@ -123,8 +123,13 @@ Marcel-André Casasola Merkle </string>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                     </scrollView>
+                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" id="raT-fC-Mxa">
+                        <rect key="frame" x="116" y="236" width="53" height="56"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <imageCell key="cell" selectable="YES" editable="YES" alignment="left" imageScaling="proportionallyDown" image="TCM_Logo_White_Background" id="tfg-WE-hs3"/>
+                    </imageView>
                     <textField verticalHuggingPriority="750" id="92">
-                        <rect key="frame" x="17" y="257" width="251" height="11"/>
+                        <rect key="frame" x="17" y="320" width="251" height="11"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="OgreKit/oniguruma Version" id="102">
                             <font key="font" metaFont="miniSystem"/>
@@ -142,5 +147,6 @@ Marcel-André Casasola Merkle </string>
     <resources>
         <image name="NSApplicationIcon" width="128" height="128"/>
         <image name="NamedLogo2" width="164" height="22"/>
+        <image name="TCM_Logo_White_Background" width="169" height="183"/>
     </resources>
 </document>
