@@ -1040,6 +1040,8 @@
     
     NSString *filename;
     for (filename in files) {
+		BOOL isSEEStdinTempFile = [[filename pathExtension] isEqualToString:@"seetmpstdin"];
+		if (isSEEStdinTempFile) continue;
         BOOL isDir = NO;
         BOOL isFilePackage = [[NSWorkspace sharedWorkspace] isFilePackageAtPath:filename];
         NSString *extension = [filename pathExtension];
