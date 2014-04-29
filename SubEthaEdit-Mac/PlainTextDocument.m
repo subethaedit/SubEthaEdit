@@ -2613,14 +2613,14 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
             if ([[accessoryViewController.savePanelAccessoryFileFormatMatrixOutlet selectedCell] tag] == 1) {
                 aType = @"de.codingmonkeys.subethaedit.seetext";
              } else {
-                aType = @"public.text";
+                aType = @"public.data";
             }
          } else if (didShowPanel) {
             if ([[accessoryViewController.savePanelAccessoryFileFormatMatrixOutlet selectedCell] tag] == 1) {
                 aType = @"de.codingmonkeys.subethaedit.seetext";
                 I_flags.isSEEText = YES;
             } else {
-                aType = @"public.text";
+                aType = @"public.data";
                 I_flags.isSEEText = NO;
             }
          }
@@ -2958,7 +2958,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     BOOL isDir, fileExists;
     fileExists = [[NSFileManager defaultManager] fileExistsAtPath:fileName isDirectory:&isDir];
     if (fileExists && !isDir && UTTypeConformsTo((CFStringRef)docType, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext")) {
-        docType = @"public.text";
+        docType = @"public.data";
         [self performSelector:@selector(setFileType:) withObject:docType afterDelay:0.];
     }
     if (!fileExists || (isDir && !UTTypeConformsTo((CFStringRef)docType, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext"))) {
@@ -3764,7 +3764,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 				{
 					NSAppleEventDescriptor* argumentsDescriptor = [NSAppleEventDescriptor listDescriptor];
 					[argumentsDescriptor insertDescriptor:[NSAppleEventDescriptor descriptorWithString:tempFileURL.path] atIndex:1];
-					[argumentsDescriptor insertDescriptor:[NSAppleEventDescriptor descriptorWithString:self.fileURL.path] atIndex:2];
+					[argumentsDescriptor insertDescriptor:[NSAppleEventDescriptor descriptorWithString:anAbsoluteURL.path] atIndex:2];
 					[containerDescriptor setParamDescriptor:argumentsDescriptor forKeyword:keyDirectObject];
 				}
 
