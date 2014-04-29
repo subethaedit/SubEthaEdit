@@ -3740,232 +3740,50 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 }
 
 - (BOOL)TCM_writeUsingAuthorizedHelperToURL:(NSURL *)anAbsoluteURL ofType:(NSString *)docType saveOperation:(NSSaveOperationType)saveOperationType error:(NSError **)outError {
-    NSString *fullDocumentPath = [anAbsoluteURL path];
-    OSStatus err = noErr;
-    CFURLRef tool = NULL;
-    NSDictionary *request = nil;
-    NSDictionary *response = nil;
-    NSString *intermediateFileName = tempFileName(fullDocumentPath);
+	NSError *applicastionScriptURLError = nil;
+	NSURL *applicationScriptURL = [[NSFileManager defaultManager] URLForDirectory:NSApplicationScriptsDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:&applicastionScriptURLError];
 
+	if (! applicastionScriptURLError) {
+		NSError *authenticationScriptError = nil;
+		NSURL *authenticationScriptURL = [applicationScriptURL URLByAppendingPathComponent:@"document.documentShouldFinalizeAuthenticatedSave.scpt"];
+		NSUserAppleScriptTask *authorisationScript = [[NSUserAppleScriptTask alloc] initWithURL:authenticationScriptURL error:&authenticationScriptError];
 
-    const char *kRightName = "de.codingmonkeys.SubEthaEdit.file.readwritecreate";
-    static const AuthorizationFlags kAuthFlags = kAuthorizationFlagDefaults 
-                                               | kAuthorizationFlagInteractionAllowed
-                                               | kAuthorizationFlagExtendRights
-                                               | kAuthorizationFlagPreAuthorize;
-    AuthorizationItem   right  = { kRightName, 0, NULL, 0 };
-    AuthorizationRights rights = { 1, &right };
-        
-    err = AuthorizationCopyRights(I_authRef, &rights, kAuthorizationEmptyEnvironment, kAuthFlags, NULL);
-    
-    if (err == noErr) {
-        err = MoreSecCopyHelperToolURLAndCheckBundled(
-            CFBundleGetMainBundle(), 
-            CFSTR("SubEthaEditHelperToolTemplate"), 
-            kApplicationSupportFolderType,
-            CFSTR("SubEthaEdit"),
-            CFSTR("SubEthaEditHelperTool"),
-            &tool);
+		if (! authenticationScriptError) {
+			NSURL *tempFileURL = [[NSFileManager defaultManager] URLForDirectory:NSUserDomainMask|NSSystemDomainMask|NSLocalDomainMask inDomain:NSItemReplacementDirectory appropriateForURL:anAbsoluteURL create:NO error:nil];
+			tempFileURL = [tempFileURL URLByAppendingPathComponent:anAbsoluteURL.lastPathComponent];
+			[self writeToURL:tempFileURL ofType:docType forSaveOperation:saveOperationType originalContentsURL:anAbsoluteURL error:nil];
 
-        // If the home directory is on an volume that doesn't support 
-        // setuid root helper tools, ask the user whether they want to use 
-        // a temporary tool.
-        
-        if (err == kMoreSecFolderInappropriateErr) {
-            err = MoreSecCopyHelperToolURLAndCheckBundled(
-                CFBundleGetMainBundle(), 
-                CFSTR("SubEthaEditHelperToolTemplate"), 
-                kTemporaryFolderType, 
-                CFSTR("SubEthaEdit"),
-                CFSTR("SubEthaEditHelperTool"),
-                &tool);
-        }
-    }
-        
-    // ---
-    
-    if (err == noErr) {
-        NSFileManager *fileManager = [NSFileManager defaultManager];
-        NSDictionary *fileAttributes = [fileManager attributesOfItemAtPath:fullDocumentPath error:NO];
-        NSUInteger fileReferenceCount = [[fileAttributes objectForKey:NSFileReferenceCount] unsignedLongValue];
-        if (fileReferenceCount > 1) {
-        
-            if (err == noErr) {
-                request = [NSDictionary dictionaryWithObjectsAndKeys:
-                                    @"GetFileDescriptor", @"CommandName",
-                                    fullDocumentPath, @"FileName",
-                                    fullDocumentPath, @"ActualFileName",
-                                    nil];
-            }
+			NSAppleEventDescriptor *containerDescriptor = [NSAppleEventDescriptor appleEventWithEventClass:kCoreEventClass eventID:kAEOpenApplication targetDescriptor:nil returnID:kAutoGenerateReturnID transactionID:kAnyTransactionID];
 
-            if (err == noErr) {
-                err = MoreSecExecuteRequestInHelperTool(tool, I_authRef, (CFDictionaryRef)request, (CFDictionaryRef *)(&response));
-            }
-            
-            if (err == noErr) {
-                DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"response: %@", response);
+			{
+				NSAppleEventDescriptor *functionDescriptor = [NSAppleEventDescriptor descriptorWithString:@"run"];
+				[containerDescriptor setParamDescriptor:functionDescriptor forKeyword:keyASSubroutineName];
+			}
 
-                err = MoreSecGetErrorFromResponse((CFDictionaryRef)response);
-                if (err == noErr) {
-                    NSArray *descArray;
-                    int descIndex;
-                    int descCount;
-                    
-                    descArray = [response objectForKey:(NSString *)kMoreSecFileDescriptorsKey];
-                    descCount = [descArray count];
-                    for (descIndex = 0; descIndex < descCount; descIndex++) {
-                        NSNumber *thisDescNum;
-                        int thisDesc;
-                        
-                        thisDescNum = [descArray objectAtIndex:descIndex];
-                        thisDesc = [thisDescNum intValue];
-                        fcntl(thisDesc, F_GETFD, 0);
-                        
-                        NSFileHandle *fileHandle = [[NSFileHandle alloc] initWithFileDescriptor:thisDesc closeOnDealloc:YES];
-                        NSError *error=nil;
-                        NSData *data = [self dataOfType:docType error:&error];
-                        if (!data) {
-                            DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"dataOfType returned error: %@", error);
-                        }
-                        @try {
-                            [fileHandle writeData:data];
-                        }
-                        @catch (id exception) {
-                            DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"writeData throws exception: %@", exception);
-                            err = writErr;
-                        }
-                        [fileHandle release];
-                    }
-                }
-            }
-            
-            if (response) {
-                [response release];
-                response = nil;
-            }
+			{
+				NSAppleEventDescriptor* argumentsDescriptor = [NSAppleEventDescriptor listDescriptor];
+				[argumentsDescriptor insertDescriptor:[NSAppleEventDescriptor descriptorWithString:tempFileURL.path] atIndex:1];
+				[argumentsDescriptor insertDescriptor:[NSAppleEventDescriptor descriptorWithString:anAbsoluteURL.path] atIndex:2];
+				[containerDescriptor setParamDescriptor:argumentsDescriptor forKeyword:keyDirectObject];
+			}
 
-
-            CFQRelease(tool);
-            
-            if (err == noErr) {
-                return YES;
-            } else {
-                *outError = [NSError errorWithDomain:@"MoreSec" code:err userInfo:nil];
-                return NO;
-            }
-        }
-    }
-              
-    // ---
-        
-    // Create the request dictionary for a file descriptor
-
-    if (err == noErr) {
-        request = [NSDictionary dictionaryWithObjectsAndKeys:
-                            @"GetFileDescriptor", @"CommandName",
-                            intermediateFileName, @"FileName",
-                            fullDocumentPath, @"ActualFileName",
-                            nil];
-    }
-
-    // Go go gadget helper tool!
-
-    if (err == noErr) {
-        err = MoreSecExecuteRequestInHelperTool(tool, I_authRef, (CFDictionaryRef)request, (CFDictionaryRef *)(&response));
-    }
-    
-    // Extract information from the response.
-
-    if (err == noErr) {
-        DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"response: %@", response);
-
-        err = MoreSecGetErrorFromResponse((CFDictionaryRef)response);
-        if (err == noErr) {
-            NSArray *descArray;
-            int descIndex;
-            int descCount;
-            
-            descArray = [response objectForKey:(NSString *)kMoreSecFileDescriptorsKey];
-            descCount = [descArray count];
-            for (descIndex = 0; descIndex < descCount; descIndex++) {
-                NSNumber *thisDescNum;
-                int thisDesc;
-                
-                thisDescNum = [descArray objectAtIndex:descIndex];
-                thisDesc = [thisDescNum intValue];
-                fcntl(thisDesc, F_GETFD, 0);
-                
-                NSFileHandle *fileHandle = [[NSFileHandle alloc] initWithFileDescriptor:thisDesc closeOnDealloc:YES];
-                NSError *error=nil;
-                NSData *data = [self dataOfType:docType error:&error];
-                if (!data) {
-                    DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"dataOfType returned error: %@", error);
-                }
-                @try {
-                    [fileHandle writeData:data];
-                }
-                @catch (id exception) {
-                    DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"writeData throws exception: %@", exception);
-                    err = writErr;
-                }
-                [fileHandle release];
-            }
-        }
-    }
-    
-    // Clean up after first call of helper tool
-        
-    if (response) {
-        [response release];
-        response = nil;
-    }
-
-
-    // Create the request dictionary for exchanging file contents
-
-    if (err == noErr) {
-        NSMutableDictionary *attrs = [[[self fileAttributesToWriteToURL:[NSURL fileURLWithPath:fullDocumentPath] ofType:docType forSaveOperation:saveOperationType originalContentsURL:[self fileURL] error:nil] mutableCopy] autorelease];
-        if (![attrs objectForKey:NSFilePosixPermissions]) {
-            [attrs setObject:[NSNumber numberWithUnsignedShort:S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH] forKey:NSFilePosixPermissions];
-        }
-        request = [NSDictionary dictionaryWithObjectsAndKeys:
-                            @"ExchangeFileContents", @"CommandName",
-                            fullDocumentPath, @"ActualFileName",
-                            intermediateFileName, @"IntermediateFileName",
-                            attrs, @"Attributes",
-                            nil];
-    }
-
-    // Go go gadget helper tool!
-
-    if (err == noErr) {
-        err = MoreSecExecuteRequestInHelperTool(tool, I_authRef, (CFDictionaryRef)request, (CFDictionaryRef *)(&response));
-    }
-    
-    // Extract information from the response.
-    
-    if (err == noErr) {
-        DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"response: %@", response);
-
-        err = MoreSecGetErrorFromResponse((CFDictionaryRef)response);
-        if (err == noErr) {
-        }
-    }
-    
-    // Clean up after second call of helper tool.
-    if (response) {
-        [response release];
-    }
-
-
-    CFQRelease(tool);
-    
-    if (err == noErr) {
-        return YES;
-    } else {
-        *outError = [NSError errorWithDomain:@"MoreSec" code:err userInfo:nil];
-        return NO;
-    }
+			[authorisationScript executeWithAppleEvent:containerDescriptor completionHandler:^(NSAppleEventDescriptor *result, NSError *error) {
+				NSLog(@"%s error: %@", __FUNCTION__, error);
+				NSLog(@"%s result: %@", __FUNCTION__, result);
+			}];
+		} else {
+			if (outError) {
+				*outError = authenticationScriptError;
+			}
+			return NO;
+		}
+	} else {
+		if (outError) {
+			*outError = applicastionScriptURLError;
+		}
+		return NO;
+	}
+	return YES;
 }
 
 - (BOOL)writeSafelyToURL:(NSURL*)anAbsoluteURL ofType:(NSString *)docType forSaveOperation:(NSSaveOperationType)saveOperationType error:(NSError **)outError {
