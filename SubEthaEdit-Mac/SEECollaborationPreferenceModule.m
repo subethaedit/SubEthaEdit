@@ -53,7 +53,9 @@
 
 - (void)mainViewDidLoad {
     // Initialize user interface elements to reflect current preference settings
+	
 	[self localizeText];
+	[self localizeLayout];
 
 	[self TCM_setupComboBoxes];
 	
@@ -90,7 +92,7 @@
 	SEEAvatarImageView *avatarImageView = self.O_avatarImageView;
 	avatarImageView.image = me.image; // is updated by the choose image method
 	avatarImageView.initials = me.initials; // are updated by the change name method
-	[avatarImageView bind:@"borderColor"     toObject:defaultsController withKeyPath:@"values.MyColorHue" options:@{ NSValueTransformerNameBindingOption : @"HueToColor"}];
+	[avatarImageView bind:@"borderColor" toObject:defaultsController withKeyPath:@"values.MyColorHue" options:@{ NSValueTransformerNameBindingOption : @"HueToColor"}];
 	[avatarImageView enableHoverImage];
 	
 	NSButton *button = [[NSButton alloc] initWithFrame:avatarImageView.frame];
@@ -399,6 +401,21 @@
 									  );
 }
 
- 
+- (void)localizeLayout {
+	NSArray *array = [NSLocale preferredLanguages];
+	NSString *firstChoice = [array firstObject];
+	if ([firstChoice isEqualToString:@"de"]) {
+		// re-layout for German
+		[self.O_changesSaturationLabelPale sizeToFit];
+		
+		CGFloat preWidth = NSWidth(self.O_localPortLabel.frame);
+		[self.O_localPortLabel sizeToFit];
 
+		CGAffineTransform transform = CGAffineTransformMakeTranslation(NSWidth(self.O_localPortLabel.frame) - preWidth, 0);
+		self.O_localPortTextField.frame = NSRectFromCGRect(CGRectApplyAffineTransform(NSRectToCGRect            (self.O_localPortTextField.frame), transform));
+		self.O_mappingStatusImageView.frame = NSRectFromCGRect(CGRectApplyAffineTransform(NSRectToCGRect        (self.O_mappingStatusImageView.frame), transform));;
+		self.O_mappingStatusProgressIndicator.frame = NSRectFromCGRect(CGRectApplyAffineTransform(NSRectToCGRect(self.O_mappingStatusProgressIndicator.frame), transform));
+		self.O_mappingStatusTextField.frame = NSRectFromCGRect(CGRectApplyAffineTransform(NSRectToCGRect        (self.O_mappingStatusTextField.frame), transform));
+	}
+}
 @end
