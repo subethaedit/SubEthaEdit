@@ -2595,7 +2595,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     if (anAbsoluteURL) {
         if (I_flags.shouldSelectModeOnSave && (saveOperation != NSAutosaveOperation)) {
             DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForPath:[anAbsoluteURL path] withContentString:[[self textStorage] string]];
-			
+
             if (![mode isBaseMode]) {
                 [self setDocumentMode:mode];
             }
@@ -2612,18 +2612,18 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
             I_encodingFromLastRunSaveToOperation = [[accessoryViewController.encodingPopUpButtonOutlet selectedItem] tag];
             if ([[accessoryViewController.savePanelAccessoryFileFormatMatrixOutlet selectedCell] tag] == 1) {
                 aType = @"de.codingmonkeys.subethaedit.seetext";
-             } else {
-                aType = @"public.data";
+			} else {
+//                aType = @"public.data";
             }
-         } else if (didShowPanel) {
+		} else if (didShowPanel) {
             if ([[accessoryViewController.savePanelAccessoryFileFormatMatrixOutlet selectedCell] tag] == 1) {
                 aType = @"de.codingmonkeys.subethaedit.seetext";
                 I_flags.isSEEText = YES;
             } else {
-                aType = @"public.data";
+//                aType = @"public.data";
                 I_flags.isSEEText = NO;
             }
-         }
+		}
     }
     if (UTTypeConformsTo((CFStringRef)aType, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext")) {
         NSString *seeTextExtension = [self fileNameExtensionForType:aType saveOperation:NSSaveOperation];
@@ -2958,8 +2958,9 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     BOOL isDir, fileExists;
     fileExists = [[NSFileManager defaultManager] fileExistsAtPath:fileName isDirectory:&isDir];
     if (fileExists && !isDir && UTTypeConformsTo((CFStringRef)docType, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext")) {
-        docType = @"public.data";
-        [self performSelector:@selector(setFileType:) withObject:docType afterDelay:0.];
+		NSString *fileExtension = [fileName pathExtension];
+		NSString *fileType = (NSString *)UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (CFStringRef)fileExtension, nil);
+        [self performSelector:@selector(setFileType:) withObject:[fileType autorelease] afterDelay:0.];
     }
     if (!fileExists || (isDir && !UTTypeConformsTo((CFStringRef)docType, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext"))) {
         // generate the correct error
@@ -3443,11 +3444,11 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 - (NSString *)fileNameExtensionForType:(NSString *)typeName saveOperation:(NSSaveOperationType)saveOperation
 {
     NSString *fileNameExtension = [super fileNameExtensionForType:typeName saveOperation:saveOperation];
-    if (! fileNameExtension)
-    {
-        NSArray *modeFileNameExtensions = self.documentMode.recognizedExtensions;
-        fileNameExtension = modeFileNameExtensions.firstObject;
-    }
+//    if (! fileNameExtension)
+//    {
+//        NSArray *modeFileNameExtensions = self.documentMode.recognizedExtensions;
+//        fileNameExtension = modeFileNameExtensions.firstObject;
+//    }
     return fileNameExtension;
 }
 

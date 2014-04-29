@@ -39,24 +39,6 @@
 			<string>PlainTextDocument</string>
 		</dict>
 		<dict>
-			<key>CFBundleTypeName</key>
-			<string>Any Text File</string>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>LSHandlerRank</key>
-			<string>Alternate</string>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>public.text</string>
-			</array>
-			<key>LSTypeIsPackage</key>
-			<false/>
-			<key>NSDocumentClass</key>
-			<string>PlainTextDocument</string>
-			<key>NSIsRelatedItemType</key>
-			<true/>
-		</dict>
-		<dict>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -2320,6 +2302,24 @@
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>de.codingmonkeys.subethaedit.mtl-source</string>
+			</array>
+			<key>LSTypeIsPackage</key>
+			<false/>
+			<key>NSDocumentClass</key>
+			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>Any Text File</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSHandlerRank</key>
+			<string>Alternate</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.text</string>
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
