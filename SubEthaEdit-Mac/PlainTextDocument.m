@@ -3745,7 +3745,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 	if (! applicastionScriptURLError) {
 		NSError *authenticationScriptError = nil;
-		NSURL *authenticationScriptURL = [applicationScriptURL URLByAppendingPathComponent:@"document.documentShouldFinalizeAuthenticatedSave.scpt"];
+		NSURL *authenticationScriptURL = [applicationScriptURL URLByAppendingPathComponent:@"SubEthaEdit_AuthenticatedSave.scpt"];
 		NSUserAppleScriptTask *authorisationScript = [[NSUserAppleScriptTask alloc] initWithURL:authenticationScriptURL error:&authenticationScriptError];
 
 		if (! authenticationScriptError) {
