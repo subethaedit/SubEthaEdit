@@ -473,7 +473,7 @@ static void openFiles(NSArray *fileNames, NSDictionary *options) {
     NSMutableArray *newFileNames = [NSMutableArray array];
     
     if ([fileNames count] == 0 || !isStandardInputATTY) {
-        NSString *fileName = tempFileName();
+        NSString *fileName = [tempFileName() stringByAppendingPathExtension:@"seetmpstdin"];
         [fileManager createFileAtPath:fileName contents:[NSData data] attributes:nil];
         NSFileHandle *fdout = [NSFileHandle fileHandleForWritingAtPath:fileName];
         NSFileHandle *fdin = [NSFileHandle fileHandleWithStandardInput];
