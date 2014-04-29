@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5053" systemVersion="13D21" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5053"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="AboutPanelController">
@@ -18,15 +18,15 @@
         <window allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="48" userLabel="Panel" customClass="NSPanel">
             <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="537" y="272" width="285" height="429"/>
+            <rect key="contentRect" x="537" y="272" width="285" height="404"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1178"/>
             <value key="minSize" type="size" width="213" height="107"/>
             <view key="contentView" id="47">
-                <rect key="frame" x="0.0" y="0.0" width="285" height="429"/>
+                <rect key="frame" x="0.0" y="0.0" width="285" height="404"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField verticalHuggingPriority="750" id="56">
-                        <rect key="frame" x="8" y="301" width="269" height="13"/>
+                        <rect key="frame" x="8" y="276" width="269" height="13"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Version" id="95">
                             <font key="font" metaFont="label"/>
@@ -36,7 +36,7 @@
                     </textField>
                     <textField verticalHuggingPriority="750" id="58">
                         <rect key="frame" x="52" y="10" width="181" height="27"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                        <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Copyright" id="96">
                             <font key="font" metaFont="label"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -44,27 +44,27 @@
                         </textFieldCell>
                     </textField>
                     <imageView id="59">
-                        <rect key="frame" x="110" y="357" width="64" height="64"/>
+                        <rect key="frame" x="110" y="332" width="64" height="64"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSApplicationIcon" id="97"/>
                     </imageView>
                     <imageView id="67">
-                        <rect key="frame" x="62" y="329" width="164" height="22"/>
+                        <rect key="frame" x="62" y="304" width="164" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" image="NamedLogo2" id="98"/>
                     </imageView>
                     <scrollView horizontalLineScroll="0.0" horizontalPageScroll="0.0" verticalLineScroll="0.0" verticalPageScroll="0.0" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" id="74">
-                        <rect key="frame" x="0.0" y="45" width="285" height="222"/>
+                        <rect key="frame" x="0.0" y="45" width="285" height="197"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" id="fIQ-F1-M0v">
-                            <rect key="frame" x="1" y="1" width="283" height="220"/>
+                            <rect key="frame" x="1" y="1" width="283" height="195"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <textView continuousSpellChecking="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="73">
-                                    <rect key="frame" x="0.0" y="0.0" width="283" height="220"/>
+                                <textView editable="NO" continuousSpellChecking="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="73">
+                                    <rect key="frame" x="0.0" y="0.0" width="283" height="195"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <size key="minSize" width="283" height="220"/>
+                                    <size key="minSize" width="283" height="195"/>
                                     <size key="maxSize" width="301" height="10000000"/>
                                     <attributedString key="textStorage">
                                         <fragment>
@@ -153,104 +153,49 @@ Cg
                                             </attributes>
                                         </fragment>
                                         <fragment>
-                                            <string key="content" base64-UTF8="YES">
-Cg
-</string>
-                                            <attributes>
-                                                <font key="NSFont" size="12" name="LucidaGrande"/>
-                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" minimumLineHeight="16"/>
-                                            </attributes>
-                                        </fragment>
-                                        <fragment content="Dominik Wagner">
-                                            <attributes>
-                                                <font key="NSFont" size="12" name="LucidaGrande"/>
-                                                <url key="NSLink" string="http://codingmonkeys.de/dom/"/>
-                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" minimumLineHeight="16"/>
-                                            </attributes>
-                                        </fragment>
-                                        <fragment>
-                                            <string key="content" base64-UTF8="YES">
-Cg
-</string>
-                                            <attributes>
-                                                <font key="NSFont" size="12" name="LucidaGrande"/>
-                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" minimumLineHeight="16"/>
-                                            </attributes>
-                                        </fragment>
-                                        <fragment content="Martin Pittenauer">
-                                            <attributes>
-                                                <font key="NSFont" size="12" name="LucidaGrande"/>
-                                                <url key="NSLink" string="http://www.codingmonkeys.de/map/"/>
-                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" minimumLineHeight="16"/>
-                                            </attributes>
-                                        </fragment>
-                                        <fragment>
-                                            <string key="content" base64-UTF8="YES">
-Cg
-</string>
-                                            <attributes>
-                                                <font key="NSFont" size="12" name="LucidaGrande"/>
-                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" minimumLineHeight="16"/>
-                                            </attributes>
-                                        </fragment>
-                                        <fragment>
-                                            <string key="content" base64-UTF8="YES">
-Cg
-</string>
-                                            <attributes>
-                                                <font key="NSFont" size="9" name="LucidaGrande"/>
-                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
-                                            </attributes>
-                                        </fragment>
-                                        <fragment>
-                                            <string key="content">Zusätzliche Entwicklung
-</string>
-                                            <attributes>
-                                                <font key="NSFont" size="12" name="LucidaGrande-Bold"/>
-                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" minimumLineHeight="16"/>
-                                            </attributes>
-                                        </fragment>
-                                        <fragment content="Martin Ott">
-                                            <attributes>
-                                                <font key="NSFont" size="12" name="LucidaGrande"/>
-                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" minimumLineHeight="16"/>
-                                            </attributes>
-                                        </fragment>
-                                        <fragment>
-                                            <string key="content" base64-UTF8="YES">
-Cg
-</string>
-                                            <attributes>
-                                                <font key="NSFont" size="10" name="LucidaGrande"/>
-                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" minimumLineHeight="16"/>
-                                            </attributes>
-                                        </fragment>
-                                        <fragment>
-                                            <string key="content" base64-UTF8="YES">
-Cg
-</string>
-                                            <attributes>
-                                                <font key="NSFont" size="9" name="LucidaGrande"/>
-                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" minimumLineHeight="16"/>
-                                            </attributes>
-                                        </fragment>
-                                        <fragment content="Ursprüngliches Icon">
-                                            <attributes>
-                                                <font key="NSFont" size="12" name="LucidaGrande-Bold"/>
-                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
-                                            </attributes>
-                                        </fragment>
-                                        <fragment>
                                             <string key="content">
-Pavel Brož</string>
+Dominik Wagner Martin Pittenauer
+Michael Ehrmann Lisa Brodner </string>
                                             <attributes>
-                                                <font key="NSFont" metaFont="label" size="12"/>
-                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                                <font key="NSFont" size="12" name="LucidaGrande"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" minimumLineHeight="16"/>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                            <attributes>
+                                                <font key="NSFont" size="9" name="LucidaGrande"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" minimumLineHeight="16"/>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content">Stil-Vorlagen
+</string>
+                                            <attributes>
+                                                <font key="NSFont" size="12" name="LucidaGrande-Bold"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" minimumLineHeight="16"/>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment content="Justin Hileman">
+                                            <attributes>
+                                                <font key="NSFont" size="12" name="LucidaGrande"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" minimumLineHeight="16"/>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment>
+                                            <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                            <attributes>
+                                                <font key="NSFont" size="9" name="LucidaGrande"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" minimumLineHeight="16"/>
                                             </attributes>
                                         </fragment>
                                     </attributedString>
                                     <color key="insertionPointColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                    <size key="minSize" width="283" height="220"/>
+                                    <size key="minSize" width="283" height="195"/>
                                     <size key="maxSize" width="301" height="10000000"/>
                                 </textView>
                             </subviews>
@@ -266,7 +211,7 @@ Pavel Brož</string>
                         </scroller>
                     </scrollView>
                     <textField verticalHuggingPriority="750" id="92">
-                        <rect key="frame" x="17" y="282" width="251" height="11"/>
+                        <rect key="frame" x="17" y="257" width="251" height="11"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="OgreKit/oniguruma Version" id="102">
                             <font key="font" metaFont="miniSystem"/>
