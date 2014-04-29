@@ -30,6 +30,7 @@
 #import "PlainTextWindowController.h"
 #import "SEEOpenPanelAccessoryViewController.h"
 #import "SEEDocumentListWindowController.h"
+#import "NSApplicationTCMAdditions.h"
 
 #import <PSMTabBarControl/PSMTabBarControl.h>
 #import <objc/objc-runtime.h>			// for objc_msgSend
@@ -1539,7 +1540,7 @@ struct ModificationInfo
                     if (isPiping) {
                         NSString *fileName = tempFileName();
                         NSError *error = nil;
-                        BOOL result = [doc writeToURL:[NSURL fileURLWithPath:fileName] ofType:@"PlainTextType" error:&error];
+                        BOOL result = [doc writeToURL:[NSURL fileURLWithPath:fileName] ofType:@"public.plain-text" error:&error];
                         if (result) {
                             [fileNames addObject:fileName];
                         } else {
@@ -1765,7 +1766,7 @@ struct ModificationInfo
 
 static NSString *tempFileName() {
     static int sequenceNumber = 0;
-    NSString *origPath = [@"/tmp" stringByAppendingPathComponent:@"see"];
+    NSString *origPath = [[NSApp sandboxContainerURL].path stringByAppendingPathComponent:@"see"];
     NSString *name;
     do {
         sequenceNumber++;
