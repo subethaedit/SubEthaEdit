@@ -30,6 +30,7 @@
 
 @interface SEECollaborationPreferenceModule ()
 @property (nonatomic, strong) IKPictureTaker *imagePicker;
+@property (nonatomic) BOOL portmapperIsDoingWork;
 @end
 
 @implementation SEECollaborationPreferenceModule
@@ -68,7 +69,8 @@
     [self.O_emailComboBox setStringValue:[[me properties] objectForKey:@"Email"]];
 
     [self.O_automaticallyMapPortButton setState:[defaults boolForKey:ShouldAutomaticallyMapPort]?NSOnState:NSOffState];
-    [self.O_localPortTextField setStringValue:[NSString stringWithFormat:@"%d",[[TCMMMBEEPSessionManager sharedInstance] listeningPort]]];
+	
+	[self updateLocalPort];
 	
     TCMPortMapper *pm = [TCMPortMapper sharedInstance];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(portMapperDidStartWork:) name:TCMPortMapperDidStartWorkNotification object:pm];
@@ -126,24 +128,46 @@
 
 #pragma mark - Port Mapper
 
+- (void)updateLocalPort {
+	NSString *localPortString = [NSString stringWithFormat:@"%d",[[TCMMMBEEPSessionManager sharedInstance] listeningPort]];
+	if ([TCMMMBEEPSessionManager sharedInstance].networkingDisabled) {
+		localPortString = NSLocalizedString(@"PORT_NETWORKING_DISABLED", @"");
+		[self.O_mappingStatusProgressIndicator stopAnimation:self];
+		[self.O_mappingStatusImageView setHidden:YES];
+		[self.O_mappingStatusTextField setHidden:YES];
+	} else {
+		// update portmapperstatus as well
+		[self.O_mappingStatusTextField setHidden:NO];
+		if (self.portmapperIsDoingWork) {
+			[self.O_mappingStatusProgressIndicator startAnimation:self];
+			[self.O_mappingStatusImageView setHidden:YES];
+			[self.O_mappingStatusTextField setStringValue:NSLocalizedString(@"Checking port status...",@"Status of port mapping while trying")];
+		} else {
+			[self.O_mappingStatusProgressIndicator stopAnimation:self];
+			// since we only have one mapping this is fine
+			TCMPortMapping *mapping = [[[TCMPortMapper sharedInstance] portMappings] anyObject];
+			if ([mapping mappingStatus]==TCMPortMappingStatusMapped) {
+				[self.O_mappingStatusImageView setImage:[NSImage imageNamed:NSImageNameStatusAvailable]];
+				[self.O_mappingStatusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Port mapped (%d)",@"Status of Port mapping when successful"), [mapping externalPort]]];
+			} else {
+				[self.O_mappingStatusImageView setImage:[NSImage imageNamed:NSImageNameStatusUnavailable]];
+				[self.O_mappingStatusTextField setStringValue:NSLocalizedString(@"Port not mapped",@"Status of Port mapping when unsuccessful or intentionally unmapped")];
+			}
+			[self.O_mappingStatusImageView setHidden:NO];
+		}
+	}
+	
+    [self.O_localPortTextField setStringValue:localPortString];
+}
+
 - (void)portMapperDidStartWork:(NSNotification *)aNotification {
-    [self.O_mappingStatusProgressIndicator startAnimation:self];
-    [self.O_mappingStatusImageView setHidden:YES];
-    [self.O_mappingStatusTextField setStringValue:NSLocalizedString(@"Checking port status...",@"Status of port mapping while trying")];
+	self.portmapperIsDoingWork = YES;
+	[self updateLocalPort];
 }
 
 - (void)portMapperDidFinishWork:(NSNotification *)aNotification {
-    [self.O_mappingStatusProgressIndicator stopAnimation:self];
-    // since we only have one mapping this is fine
-    TCMPortMapping *mapping = [[[TCMPortMapper sharedInstance] portMappings] anyObject];
-    if ([mapping mappingStatus]==TCMPortMappingStatusMapped) {
-        [self.O_mappingStatusImageView setImage:[NSImage imageNamed:NSImageNameStatusAvailable]];
-        [self.O_mappingStatusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Port mapped (%d)",@"Status of Port mapping when successful"), [mapping externalPort]]];
-    } else {
-        [self.O_mappingStatusImageView setImage:[NSImage imageNamed:NSImageNameStatusUnavailable]];
-        [self.O_mappingStatusTextField setStringValue:NSLocalizedString(@"Port not mapped",@"Status of Port mapping when unsuccessful or intentionally unmapped")];
-    }
-    [self.O_mappingStatusImageView setHidden:NO];
+	self.portmapperIsDoingWork = NO;
+	[self updateLocalPort];
 }
 
 #pragma mark - Me Card
@@ -276,15 +300,13 @@
 - (IBAction)changeAutomaticallyMapPorts:(id)aSender {
     BOOL shouldStart = ([self.O_automaticallyMapPortButton state]==NSOnState);
     [[NSUserDefaults standardUserDefaults] setBool:shouldStart forKey:ShouldAutomaticallyMapPort];
-    if (shouldStart) {
-        [[TCMPortMapper sharedInstance] start];
-    } else {
-        [[TCMPortMapper sharedInstance] stop];
-    }
+	[[TCMMMBEEPSessionManager sharedInstance] validatePortMapping];
 }
 
 - (IBAction)changeDisableNetworking:(id)aSender {
-	[TCMMMBEEPSessionManager sharedInstance].networkingDisabled = [self.O_disableNetworkingButton state] == NSOnState ? YES : NO;
+	BOOL networkingDisabled = [self.O_disableNetworkingButton state] == NSOnState ? YES : NO;
+	[TCMMMBEEPSessionManager sharedInstance].networkingDisabled = networkingDisabled;
+	[self updateLocalPort];
 }
 
 - (IBAction)changeVisiblityOnNetwork:(id)aSender {

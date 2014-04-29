@@ -78,14 +78,15 @@ static NSString * const kSessionInformationKeyRendezvousStatus = @"RendezvousSta
 
 static TCMMMBEEPSessionManager *sharedInstance;
 
-@interface TCMMMBEEPSessionManager (TCMMMBEEPSessionManagerPrivateAdditions)
+@interface TCMMMBEEPSessionManager ()
 
 - (void)TCM_connectToNetServiceWithInformation:(NSMutableDictionary *)aInformation;
 - (void)TCM_sendDidAcceptNotificationForSession:(TCMBEEPSession *)aSession;
 - (void)TCM_sendDidEndNotificationForSession:(TCMBEEPSession *)aSession error:(NSError *)anError;
 
-@end
+@property (nonatomic) BOOL localPortDidChange;
 
+@end
 
 @implementation TCMMMBEEPSessionManager
 
@@ -223,7 +224,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
         I_isProhibitingInboundInternetSessions = flag;
 		flag = [[NSUserDefaults standardUserDefaults] boolForKey:kNetworkingDisabledPreferenceKey];
 		_networkingDisabled = flag;
-
+		self.localPortDidChange = YES;
 		[self performSelector:@selector(sslGenerationDidFinish:) withObject:nil afterDelay:0];
     }
     return self;
@@ -279,7 +280,6 @@ static TCMMMBEEPSessionManager *sharedInstance;
         [self stopListening];
     } else if (!I_listener) {
         // start listening
-        [self stopListening];
         (void)[self listen];
     }
 }
@@ -287,33 +287,48 @@ static TCMMMBEEPSessionManager *sharedInstance;
 - (BOOL)listen {
     // set up BEEPListener
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    int port = [defaults integerForKey:DefaultPortNumber];
-    for (I_listeningPort = port; I_listeningPort < port + PORTRANGELENGTH; I_listeningPort++) {
-        I_listener = [[TCMBEEPListener alloc] initWithPort:I_listeningPort];
+	int defaultPort = [defaults integerForKey:DefaultPortNumber];
+    for (int port = defaultPort; port < defaultPort + PORTRANGELENGTH; port++) {
+        I_listener = [[TCMBEEPListener alloc] initWithPort:port];
         [I_listener setDelegate:self];
         if ([I_listener listen]) {
-            DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Listening on Port: %d", I_listeningPort);
+            DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Listening on Port: %d", port);
+			if (I_listeningPort != port) {
+				I_listeningPort = port;
+				self.localPortDidChange = YES;
+			}
             break;
         } else {
             [I_listener close];
             I_listener = nil;
         }
     }
-    if (I_listener) {
-        TCMPortMapper *pm = [TCMPortMapper sharedInstance];
-        [pm addPortMapping:[TCMPortMapping portMappingWithLocalPort:I_listeningPort desiredExternalPort:SUBETHAEDIT_DEFAULT_PORT transportProtocol:TCMPortMappingTransportProtocolTCP userInfo:nil]];
-        if ([defaults boolForKey:ShouldAutomaticallyMapPort]) {
-            [pm start];
-        }
-    }
+	[self validatePortMapping];
+	
     return (I_listener != nil);
 }
 
+- (void)validatePortMapping {
+	TCMPortMapper *pm = [TCMPortMapper sharedInstance];
+	if (self.localPortDidChange) {
+		for (TCMPortMapping *mapping in [[pm portMappings] copy]) {
+			[pm removePortMapping:mapping];
+		}
+		[pm addPortMapping:[TCMPortMapping portMappingWithLocalPort:I_listeningPort desiredExternalPort:SUBETHAEDIT_DEFAULT_PORT transportProtocol:TCMPortMappingTransportProtocolTCP userInfo:nil]];
+		self.localPortDidChange = NO;
+	}
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:ShouldAutomaticallyMapPort] && I_listener) {
+		[pm start];
+	} else {
+		[pm stop];
+	}
+}
+
 - (void)stopListening {
-    [[TCMPortMapper sharedInstance] stop];
     [I_listener close];
     [I_listener setDelegate:nil];
     I_listener = nil;
+	[self validatePortMapping];
 }
 
 - (int)listeningPort {

@@ -814,6 +814,8 @@
 /* Status of port mapping while trying */
 "Checking port status..." = "Checking port status...";
 
+"PORT_NETWORKING_DISABLED" = "Closed";
+
 /* Drag target string in Participants Drawer */
 "Drag your\nFriends\nfrom the\niChat Buddy List\nor\nConnection Browser\nto a category\nor the text\nto invite them." = "Drag your\nFriends\nfrom the\niChat Buddy List\nor\nConnection Browser\nto a category\nor the text\nto invite them.";
 
