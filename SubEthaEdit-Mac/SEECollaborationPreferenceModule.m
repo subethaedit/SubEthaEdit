@@ -418,4 +418,5 @@
 		self.O_mappingStatusTextField.frame = NSRectFromCGRect(CGRectApplyAffineTransform(NSRectToCGRect        (self.O_mappingStatusTextField.frame), transform));
 	}
 }
+
 @end
