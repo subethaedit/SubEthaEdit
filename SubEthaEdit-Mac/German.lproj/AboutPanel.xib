@@ -69,38 +69,7 @@
                                     <attributedString key="textStorage">
                                         <fragment>
                                             <string key="content" base64-UTF8="YES">
-Cg
-</string>
-                                            <attributes>
-                                                <font key="NSFont" size="6" name="Monaco"/>
-                                                <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
-                                            </attributes>
-                                        </fragment>
-                                        <fragment content="￼">
-                                            <attributes>
-                                                <font key="NSFont" size="12" name="Helvetica"/>
-                                                <url key="NSLink" string="http://www.codingmonkeys.de/index.de.html"/>
-                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural">
-                                                    <tabStops>
-                                                        <textTab alignment="left" location="28.299999237060547"/>
-                                                        <textTab alignment="left" location="56.650001525878906"/>
-                                                        <textTab alignment="left" location="85"/>
-                                                        <textTab alignment="left" location="113.34999847412109"/>
-                                                        <textTab alignment="left" location="141.69999694824219"/>
-                                                        <textTab alignment="left" location="170.05000305175781"/>
-                                                        <textTab alignment="left" location="198.39999389648438"/>
-                                                        <textTab alignment="left" location="226.75"/>
-                                                        <textTab alignment="left" location="255.10000610351562"/>
-                                                        <textTab alignment="left" location="283.45001220703125"/>
-                                                        <textTab alignment="left" location="311.79998779296875"/>
-                                                        <textTab alignment="left" location="340.14999389648438"/>
-                                                    </tabStops>
-                                                </paragraphStyle>
-                                            </attributes>
-                                        </fragment>
-                                        <fragment>
-                                            <string key="content" base64-UTF8="YES">
-Cg
+Cgo
 </string>
                                             <attributes>
                                                 <font key="NSFont" size="12" name="Helvetica"/>
@@ -123,41 +92,17 @@ Cg
                                             </attributes>
                                         </fragment>
                                         <fragment>
-                                            <string key="content" base64-UTF8="YES">
-Cg
-</string>
+                                            <string key="content">Dominik Wagner
+Martin Pittenauer
+
+Lisa Brodner
+Michael Ehrmann
+
+
+Tobias Klüpfel
+Marcel-André Casasola Merkle </string>
                                             <attributes>
-                                                <font key="NSFont" size="10" name="Helvetica"/>
-                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural">
-                                                    <tabStops>
-                                                        <textTab alignment="left" location="28.299999237060547"/>
-                                                        <textTab alignment="left" location="56.650001525878906"/>
-                                                        <textTab alignment="left" location="85"/>
-                                                        <textTab alignment="left" location="113.34999847412109"/>
-                                                        <textTab alignment="left" location="141.69999694824219"/>
-                                                        <textTab alignment="left" location="170.05000305175781"/>
-                                                        <textTab alignment="left" location="198.39999389648438"/>
-                                                        <textTab alignment="left" location="226.75"/>
-                                                        <textTab alignment="left" location="255.10000610351562"/>
-                                                        <textTab alignment="left" location="283.45001220703125"/>
-                                                        <textTab alignment="left" location="311.79998779296875"/>
-                                                        <textTab alignment="left" location="340.14999389648438"/>
-                                                    </tabStops>
-                                                </paragraphStyle>
-                                            </attributes>
-                                        </fragment>
-                                        <fragment content="Entwicklung">
-                                            <attributes>
-                                                <font key="NSFont" size="12" name="LucidaGrande-Bold"/>
-                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" minimumLineHeight="16"/>
-                                            </attributes>
-                                        </fragment>
-                                        <fragment>
-                                            <string key="content">
-Dominik Wagner Martin Pittenauer
-Michael Ehrmann Lisa Brodner </string>
-                                            <attributes>
-                                                <font key="NSFont" size="12" name="LucidaGrande"/>
+                                                <font key="NSFont" size="12" name="Helvetica"/>
                                                 <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" minimumLineHeight="16"/>
                                             </attributes>
                                         </fragment>
