@@ -3749,28 +3749,35 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 		NSUserAppleScriptTask *authorisationScript = [[NSUserAppleScriptTask alloc] initWithURL:authenticationScriptURL error:&authenticationScriptError];
 
 		if (! authenticationScriptError) {
-			NSURL *tempFileURL = [[NSFileManager defaultManager] URLForDirectory:NSUserDomainMask|NSSystemDomainMask|NSLocalDomainMask inDomain:NSItemReplacementDirectory appropriateForURL:anAbsoluteURL create:NO error:nil];
+			NSURL *tempFileURL = [[NSFileManager defaultManager] URLForDirectory:NSUserDomainMask|NSSystemDomainMask|NSLocalDomainMask inDomain:NSItemReplacementDirectory appropriateForURL:anAbsoluteURL create:YES error:nil];
 			tempFileURL = [tempFileURL URLByAppendingPathComponent:anAbsoluteURL.lastPathComponent];
-			[self writeToURL:tempFileURL ofType:docType forSaveOperation:saveOperationType originalContentsURL:anAbsoluteURL error:nil];
 
-			NSAppleEventDescriptor *containerDescriptor = [NSAppleEventDescriptor appleEventWithEventClass:kCoreEventClass eventID:kAEOpenApplication targetDescriptor:nil returnID:kAutoGenerateReturnID transactionID:kAnyTransactionID];
+			NSError *fileWritingError = nil;
+			if ([self writeToURL:tempFileURL ofType:docType forSaveOperation:saveOperationType originalContentsURL:anAbsoluteURL error:&fileWritingError]) {
+				NSAppleEventDescriptor *containerDescriptor = [NSAppleEventDescriptor appleEventWithEventClass:kCoreEventClass eventID:kAEOpenApplication targetDescriptor:nil returnID:kAutoGenerateReturnID transactionID:kAnyTransactionID];
 
-			{
-				NSAppleEventDescriptor *functionDescriptor = [NSAppleEventDescriptor descriptorWithString:@"run"];
-				[containerDescriptor setParamDescriptor:functionDescriptor forKeyword:keyASSubroutineName];
+				{
+					NSAppleEventDescriptor *functionDescriptor = [NSAppleEventDescriptor descriptorWithString:@"run"];
+					[containerDescriptor setParamDescriptor:functionDescriptor forKeyword:keyASSubroutineName];
+				}
+
+				{
+					NSAppleEventDescriptor* argumentsDescriptor = [NSAppleEventDescriptor listDescriptor];
+					[argumentsDescriptor insertDescriptor:[NSAppleEventDescriptor descriptorWithString:tempFileURL.path] atIndex:1];
+					[argumentsDescriptor insertDescriptor:[NSAppleEventDescriptor descriptorWithString:self.fileURL.path] atIndex:2];
+					[containerDescriptor setParamDescriptor:argumentsDescriptor forKeyword:keyDirectObject];
+				}
+
+				[authorisationScript executeWithAppleEvent:containerDescriptor completionHandler:^(NSAppleEventDescriptor *result, NSError *error) {
+					NSLog(@"%s error: %@", __FUNCTION__, error);
+					NSLog(@"%s result: %@", __FUNCTION__, result);
+				}];
+			} else {
+				if (outError) {
+					*outError = fileWritingError;
+				}
+				return NO;
 			}
-
-			{
-				NSAppleEventDescriptor* argumentsDescriptor = [NSAppleEventDescriptor listDescriptor];
-				[argumentsDescriptor insertDescriptor:[NSAppleEventDescriptor descriptorWithString:tempFileURL.path] atIndex:1];
-				[argumentsDescriptor insertDescriptor:[NSAppleEventDescriptor descriptorWithString:anAbsoluteURL.path] atIndex:2];
-				[containerDescriptor setParamDescriptor:argumentsDescriptor forKeyword:keyDirectObject];
-			}
-
-			[authorisationScript executeWithAppleEvent:containerDescriptor completionHandler:^(NSAppleEventDescriptor *result, NSError *error) {
-				NSLog(@"%s error: %@", __FUNCTION__, error);
-				NSLog(@"%s result: %@", __FUNCTION__, result);
-			}];
 		} else {
 			if (outError) {
 				*outError = authenticationScriptError;
