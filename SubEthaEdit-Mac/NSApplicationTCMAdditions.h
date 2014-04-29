@@ -15,6 +15,7 @@
 - (id)TCM_handlePrintScriptCommand:(NSScriptCommand *)command;
 - (id)TCM_handleSeeScriptCommand:(NSScriptCommand *)command;
 
+- (NSURL *)sandboxContainerURL;
 - (id)scriptSelection;
 - (void)setScriptSelection:(id)selection;
 - (NSArray *)scriptedModes;
