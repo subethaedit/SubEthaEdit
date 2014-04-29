@@ -367,6 +367,9 @@
 				<type type="integer" list="no"/>
 				<type type="integer" list="yes"/>
 			</property>
+			<property name="temp" code="STmp" type="file" access="r">
+				<cocoa key="sandboxContainerURL" />
+			</property>
 			<element type="mode" access="r">
 				<cocoa key="scriptedModes"/>
 				<type type="text" />
