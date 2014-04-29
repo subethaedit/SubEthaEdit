@@ -157,6 +157,8 @@
 /* Status of port mapping while trying */
 "Checking port status..." = "Überprüfe Port Status...";
 
+"PORT_NETWORKING_DISABLED" = "Keiner";
+
 /* Server Closed Document title in Sheet */
 "Closed" = "Geschlossen";
 
