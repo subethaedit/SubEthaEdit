@@ -1074,8 +1074,12 @@ static NSString *tempFileName(NSString *origPath) {
             NSArray *recognizedExtensions = [I_documentMode recognizedExtensions];
             if ([recognizedExtensions count]) {
 				NSString *fileExtension = recognizedExtensions.firstObject;
-				NSString *fileType = (NSString *)UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (CFStringRef)fileExtension, nil);
-				self.fileType = [fileType autorelease];
+				if (fileExtension) {
+					NSString *fileType = (NSString *)UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (CFStringRef)fileExtension, nil);
+					self.fileType = [fileType autorelease];
+				} else {
+					self.fileType = @"public.text";
+				}
 
                 if ([I_session isServer]) {
                     [I_session setFilename:[self preparedDisplayName]];
@@ -2959,8 +2963,13 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     fileExists = [[NSFileManager defaultManager] fileExistsAtPath:fileName isDirectory:&isDir];
     if (fileExists && !isDir && UTTypeConformsTo((CFStringRef)docType, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext")) {
 		NSString *fileExtension = [fileName pathExtension];
+
+		if (fileExtension) {
 		NSString *fileType = (NSString *)UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (CFStringRef)fileExtension, nil);
-        [self performSelector:@selector(setFileType:) withObject:[fileType autorelease] afterDelay:0.];
+			[self performSelector:@selector(setFileType:) withObject:[fileType autorelease] afterDelay:0.];
+		} else {
+			[self performSelector:@selector(setFileType:) withObject:@"public.text" afterDelay:0.];
+		}
     }
     if (!fileExists || (isDir && !UTTypeConformsTo((CFStringRef)docType, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext"))) {
         // generate the correct error
