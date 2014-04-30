@@ -39,9 +39,6 @@
 		142890E3095743F200D14688 /* StatusReadWrite.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14289092095743F200D14688 /* StatusReadWrite.tiff */; };
 		142890FF095743F200D14688 /* URLIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 142890AE095743F200D14688 /* URLIcon.tiff */; };
 		14289100095743F200D14688 /* WaitPipe.png in Resources */ = {isa = PBXBuildFile; fileRef = 142890AF095743F200D14688 /* WaitPipe.png */; };
-		14289110095744C100D14688 /* MoreCFQ.c in Sources */ = {isa = PBXBuildFile; fileRef = 14289109095744C100D14688 /* MoreCFQ.c */; };
-		14289111095744C100D14688 /* MoreSecurity.c in Sources */ = {isa = PBXBuildFile; fileRef = 1428910B095744C100D14688 /* MoreSecurity.c */; };
-		14289112095744C100D14688 /* MoreUNIX.c in Sources */ = {isa = PBXBuildFile; fileRef = 1428910E095744C100D14688 /* MoreUNIX.c */; };
 		142891330957457500D14688 /* NSDateTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891200957457500D14688 /* NSDateTCMAdditions.m */; };
 		142891340957457500D14688 /* NSDataTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891220957457500D14688 /* NSDataTCMAdditions.m */; };
 		142891350957457500D14688 /* NSDictionaryTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891240957457500D14688 /* NSDictionaryTCMAdditions.m */; };
@@ -135,10 +132,6 @@
 		1428946C09575B9700D14688 /* URLDataProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428945F09575B9700D14688 /* URLDataProtocol.m */; };
 		1428946D09575B9700D14688 /* SEEWebPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428946109575B9700D14688 /* SEEWebPreviewViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		142894A409575FF200D14688 /* TextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 142894A309575FF200D14688 /* TextFieldCell.m */; };
-		142894AF0957609300D14688 /* MoreCFQ.c in Sources */ = {isa = PBXBuildFile; fileRef = 14289109095744C100D14688 /* MoreCFQ.c */; };
-		142894B00957609300D14688 /* MoreSecurity.c in Sources */ = {isa = PBXBuildFile; fileRef = 1428910B095744C100D14688 /* MoreSecurity.c */; };
-		142894B10957609400D14688 /* MoreUNIX.c in Sources */ = {isa = PBXBuildFile; fileRef = 1428910E095744C100D14688 /* MoreUNIX.c */; };
-		142894B6095760CE00D14688 /* SubEthaEditHelperTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 142894B5095760CE00D14688 /* SubEthaEditHelperTool.m */; };
 		142894B80957610C00D14688 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14288FEC09573F2B00D14688 /* Security.framework */; };
 		142894B90957610C00D14688 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 142890060957400800D14688 /* CoreServices.framework */; };
 		142894BA0957610C00D14688 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */; };
@@ -595,13 +588,6 @@
 		14289094095743F200D14688 /* StylePrefs.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = StylePrefs.tiff; path = artwork/StylePrefs.tiff; sourceTree = "<group>"; };
 		142890AE095743F200D14688 /* URLIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = URLIcon.tiff; path = artwork/URLIcon.tiff; sourceTree = "<group>"; };
 		142890AF095743F200D14688 /* WaitPipe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = WaitPipe.png; path = artwork/WaitPipe.png; sourceTree = "<group>"; };
-		14289109095744C100D14688 /* MoreCFQ.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; lineEnding = 0; name = MoreCFQ.c; path = MoreIsBetter/MoreCFQ.c; sourceTree = "<group>"; };
-		1428910A095744C100D14688 /* MoreCFQ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = MoreCFQ.h; path = MoreIsBetter/MoreCFQ.h; sourceTree = "<group>"; };
-		1428910B095744C100D14688 /* MoreSecurity.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = MoreSecurity.c; path = MoreIsBetter/MoreSecurity.c; sourceTree = "<group>"; };
-		1428910C095744C100D14688 /* MoreSecurity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = MoreSecurity.h; path = MoreIsBetter/MoreSecurity.h; sourceTree = "<group>"; };
-		1428910D095744C100D14688 /* MoreSetup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = MoreSetup.h; path = MoreIsBetter/MoreSetup.h; sourceTree = "<group>"; };
-		1428910E095744C100D14688 /* MoreUNIX.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = MoreUNIX.c; path = MoreIsBetter/MoreUNIX.c; sourceTree = "<group>"; };
-		1428910F095744C100D14688 /* MoreUNIX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = MoreUNIX.h; path = MoreIsBetter/MoreUNIX.h; sourceTree = "<group>"; };
 		1428911F0957457500D14688 /* NSDateTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = NSDateTCMAdditions.h; path = TCMFoundation/NSDateTCMAdditions.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		142891200957457500D14688 /* NSDateTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = NSDateTCMAdditions.m; path = TCMFoundation/NSDateTCMAdditions.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		142891210957457500D14688 /* NSDataTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = NSDataTCMAdditions.h; path = TCMFoundation/NSDataTCMAdditions.h; sourceTree = "<group>"; };
@@ -795,7 +781,6 @@
 		142894A209575FF200D14688 /* TextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = TextFieldCell.h; sourceTree = "<group>"; };
 		142894A309575FF200D14688 /* TextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextFieldCell.m; sourceTree = "<group>"; };
 		142894AA0957606F00D14688 /* SubEthaEditHelperToolTemplate */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SubEthaEditHelperToolTemplate; sourceTree = BUILT_PRODUCTS_DIR; };
-		142894B5095760CE00D14688 /* SubEthaEditHelperTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubEthaEditHelperTool.m; sourceTree = "<group>"; };
 		142894D3095765CF00D14688 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		142894DE095766EE00D14688 /* see */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = see; sourceTree = BUILT_PRODUCTS_DIR; };
 		142894E8095767CD00D14688 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = see/main.m; sourceTree = "<group>"; };
@@ -984,7 +969,6 @@
 		4CDF05A418C0A3D4004A49E5 /* SEEConnectionAddingWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEEConnectionAddingWindowController.xib; sourceTree = "<group>"; };
 		4CE6C99B18AA905500AB45D1 /* SEEOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEOverlayView.h; sourceTree = "<group>"; };
 		4CE6C99C18AA905500AB45D1 /* SEEOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEOverlayView.m; sourceTree = "<group>"; };
-		4CF06A2E1816A7D800B35DF8 /* HelperTool_Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = HelperTool_Info.plist; sourceTree = "<group>"; };
 		4CF06A621816D6D300B35DF8 /* SubEthaEdit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = SubEthaEdit.entitlements; sourceTree = "<group>"; };
 		4CF3490017FC6EAF005D0D4F /* PSMTabBarControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PSMTabBarControl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CFAABAB18A3ECE4009DB5C3 /* EditorSplitHorizontal.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = EditorSplitHorizontal.pdf; sourceTree = "<group>"; };
@@ -1419,20 +1403,6 @@
 			name = Sound;
 			sourceTree = "<group>";
 		};
-		142891080957446F00D14688 /* MoreIsBetter */ = {
-			isa = PBXGroup;
-			children = (
-				14289109095744C100D14688 /* MoreCFQ.c */,
-				1428910A095744C100D14688 /* MoreCFQ.h */,
-				1428910B095744C100D14688 /* MoreSecurity.c */,
-				1428910C095744C100D14688 /* MoreSecurity.h */,
-				1428910D095744C100D14688 /* MoreSetup.h */,
-				1428910E095744C100D14688 /* MoreUNIX.c */,
-				1428910F095744C100D14688 /* MoreUNIX.h */,
-			);
-			name = MoreIsBetter;
-			sourceTree = "<group>";
-		};
 		142891160957452000D14688 /* TCMFoundation */ = {
 			isa = PBXGroup;
 			children = (
@@ -1827,15 +1797,6 @@
 			name = Printing;
 			sourceTree = "<group>";
 		};
-		142894B4095760A200D14688 /* HelperTool */ = {
-			isa = PBXGroup;
-			children = (
-				142894B5095760CE00D14688 /* SubEthaEditHelperTool.m */,
-				4CF06A2E1816A7D800B35DF8 /* HelperTool_Info.plist */,
-			);
-			name = HelperTool;
-			sourceTree = "<group>";
-		};
 		142894DA095766D000D14688 /* see */ = {
 			isa = PBXGroup;
 			children = (
@@ -1881,9 +1842,7 @@
 				14289305095756A100D14688 /* TCMMillionMonkeys */,
 				142892460957525900D14688 /* BEEPProfiles */,
 				142891190957452F00D14688 /* TCMBEEP */,
-				142891080957446F00D14688 /* MoreIsBetter */,
 				2A37F4AFFDCFA73011CA2CEA /* Other Sources */,
-				142894B4095760A200D14688 /* HelperTool */,
 				142894DA095766D000D14688 /* see */,
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
@@ -2844,10 +2803,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				142894AF0957609300D14688 /* MoreCFQ.c in Sources */,
-				142894B00957609300D14688 /* MoreSecurity.c in Sources */,
-				142894B10957609400D14688 /* MoreUNIX.c in Sources */,
-				142894B6095760CE00D14688 /* SubEthaEditHelperTool.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2876,10 +2831,7 @@
 				8D15AC320486D014006FF6A4 /* main.m in Sources */,
 				4C0C4A1C18B3768500E6049E /* SEEDocumentListWindowController.m in Sources */,
 				F2DC3DD218F2F12300B543E9 /* SEEPlainTextEditorTopBarViewController.m in Sources */,
-				14289110095744C100D14688 /* MoreCFQ.c in Sources */,
-				14289111095744C100D14688 /* MoreSecurity.c in Sources */,
 				F2CA91EE18C08FF7006B098A /* SEEFindAndReplaceState.m in Sources */,
-				14289112095744C100D14688 /* MoreUNIX.c in Sources */,
 				142891330957457500D14688 /* NSDateTCMAdditions.m in Sources */,
 				142891340957457500D14688 /* NSDataTCMAdditions.m in Sources */,
 				142891350957457500D14688 /* NSDictionaryTCMAdditions.m in Sources */,
