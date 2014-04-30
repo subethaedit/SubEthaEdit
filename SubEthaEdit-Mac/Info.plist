@@ -2345,8 +2345,6 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
-			<key>NSIsRelatedItemType</key>
-			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -2363,8 +2361,6 @@
 			</array>
 			<key>LSTypeIsPackage</key>
 			<true/>
-			<key>NSDocumentClass</key>
-			<string></string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -2383,8 +2379,6 @@
 			<true/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
-			<key>NSIsRelatedItemType</key>
-			<true/>
 		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
