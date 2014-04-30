@@ -50,6 +50,7 @@ extern NSString * const TCMMMPresenceTXTRecordNameKey;
     TCMRendezvousBrowser *I_browser;
     NSMutableSet *I_foundUserIDs;
     NSTimer *I_resolveUnconnectedFoundNetServicesTimer;
+	NSInteger I_serviceNameAddition;
 }
 
 /* depends on TCMMMBeepSessionManager already being initialized - if it isn't it will initialize it*/

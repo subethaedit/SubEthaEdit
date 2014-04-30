@@ -172,8 +172,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     [[self plainTextEditors] makeObjectsPerformSelector:@selector(takeSettingsFromDocument)];
 }
 
-- (NSTabViewItem *)tabViewItemForDocument:(PlainTextDocument *)document
-{
+- (NSTabViewItem *)tabViewItemForDocument:(PlainTextDocument *)document {
     unsigned count = [I_tabView numberOfTabViewItems];
     unsigned i;
     for (i = 0; i < count; i++) {
@@ -184,6 +183,12 @@ static NSPoint S_cascadePoint = {0.0,0.0};
         }
     }
     return nil;
+}
+
+- (PlainTextWindowControllerTabContext *)windowControllerTabContextForDocument:(PlainTextDocument *)aDocument {
+	NSTabViewItem *item = [self tabViewItemForDocument:aDocument];
+	PlainTextWindowControllerTabContext *result = [item identifier];
+	return result;
 }
 
 - (PlainTextWindowControllerTabContext *)selectedTabContext {
@@ -355,6 +360,11 @@ static NSPoint S_cascadePoint = {0.0,0.0};
         return [menuItem isEnabled];
     } else if (selector == @selector(openInSeparateWindow:)) {
         return ([[self documents] count] > 1);
+    } else if (selector == @selector(closeTab:)) {
+        if ([self.window isKeyWindow])
+            return YES;
+		else
+			return NO;
     } else if (selector == @selector(selectNextTab:)) {
         if ([self hasManyDocuments])
             return YES;
@@ -1744,12 +1754,20 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     if (shouldClose) {
         NSArray *windowControllers = [doc windowControllers];
         NSUInteger windowControllerCount = [windowControllers count];
+
+		if (self.tabView.tabViewItems.count == 1) {
+			// [self close] doesn't trigger window delegate calls. so we need to make sure we update the menu
+			// through the window resign call when closing the last tab.
+			[self windowDidResignKey:nil];
+		}
+
         if (windowControllerCount > 1) {
             [self documentWillClose:doc];
             [self close];
         } else {
             [doc close];
         }
+
         // updateTabMenu
         [[SEEDocumentController sharedInstance] updateTabMenu];
     }

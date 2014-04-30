@@ -56,7 +56,6 @@
 #import "SESendProc.h"
 #import "SEActiveProc.h"
 
-#import "UserStatisticsController.h"
 #import "SEEStyleSheetEditorWindowController.h"
 
 #ifndef TCM_NO_DEBUG
@@ -371,7 +370,7 @@ static AppController *sharedInstance = nil;
     }
 
     if (!myImage) {
-        myImage=[[NSImage imageNamed:@"DefaultPerson"] retain];
+        myImage= [[NSImage unknownUserImageWithSize:NSMakeSize(256.0, 256.0) initials:myName.stringWithInitials] retain];
     }
 
     if (!myEmail) myEmail=@"";
@@ -410,23 +409,6 @@ static AppController *sharedInstance = nil;
 //        if (!compressedData) NSLog(@"%d compression failed with data of length: %d",i,[data length]);
 //    }
 
-    // prepare images
-    NSImage *image = [[[NSImage imageNamed:@"UnknownPerson"] resizedImageWithSize:NSMakeSize(32.0, 32.0)] retain];
-    [image setName:@"UnknownPerson32"];
-	[image release];
-
-    image = [[[NSImage imageNamed:@"DefaultPerson"] resizedImageWithSize:NSMakeSize(32.0, 32.0)] retain];
-    [image setName:@"DefaultPerson32"];
-	[image release];
-    
-    image = [[[NSImage imageNamed:@"Rendezvous"] resizedImageWithSize:NSMakeSize(13.0, 13.0)] retain];
-    [image setName:@"Rendezvous13"];
-	[image release];
-
-    image = [[NSImage imageNamed:@"ssllock"] retain];
-    [image setName:@"ssllock18"];
-	[image release];
-
     // FIXME "Termination has to be removed before release!"
     //if ([[NSDate dateWithString:@"2007-02-21 12:00:00 +0000"] timeIntervalSinceNow] < 0) {
     //    [NSApp terminate:self];
@@ -439,7 +421,17 @@ static AppController *sharedInstance = nil;
                                                             selector:@selector(coerceValue:toClass:)
                                                   toConvertFromClass:[DocumentMode class]
                                                              toClass:[NSString class]]; 
-    
+
+	
+	[[NSScriptCoercionHandler sharedCoercionHandler] registerCoercer:[PlainTextDocument class]
+                                                            selector:@selector(coerceValue:toClass:)
+                                                  toConvertFromClass:[PlainTextDocument class]
+                                                             toClass:[NSString class]];
+	[[NSScriptCoercionHandler sharedCoercionHandler] registerCoercer:[PlainTextDocument class]
+                                                            selector:@selector(coerceValue:toClass:)
+                                                  toConvertFromClass:[PlainTextDocument class]
+                                                             toClass:[FoldableTextStorage class]];
+
     [self registerTransformers];
     [self addMe];
     [[TCMPortMapper sharedInstance] hashUserID:[TCMMMUserManager myUserID]];
@@ -780,8 +772,8 @@ static OSStatus AuthorizationRightSetWithWorkaround(
         [item setKeyEquivalent:@""];
     }
     item = (NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] tagForDocumentModeIdentifier:[[[DocumentModeManager sharedInstance] modeForNewDocuments] documentModeIdentifier]]];
-    [item setKeyEquivalentModifierMask:NSCommandKeyMask | NSAlternateKeyMask];
-    [item setKeyEquivalent:@"n"];
+    [item setKeyEquivalentModifierMask:NSCommandKeyMask];
+    [item setKeyEquivalent:@"t"];
     
     [menuItem setRepresentedObject:item];
 }
@@ -821,7 +813,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     [revealModesMenuItem release];
 
 	NSMenu *fileMenu = [[[NSApp mainMenu] itemWithTag:FileMenuTag] submenu]; // from the xib
-	{ // File -> New
+	{ // File -> New in window
 		NSMenuItem *menuItem = [fileMenu itemWithTag:FileNewMenuItemTag]; // from the xib
 		[menuItem setKeyEquivalent:@""];
 
@@ -925,15 +917,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
         }
         [scriptMenu addItem:[item autorelease]];
         
-        NSToolbarItem *toolbarItem = [script toolbarItemWithImageSearchLocations:[NSArray arrayWithObjects:[[[script URL] path] stringByDeletingLastPathComponent],[NSBundle mainBundle],nil] identifierAddition:@"Application"];
-        
-        if (toolbarItem) {
-            [I_toolbarItemsByIdentifier setObject:toolbarItem forKey:[toolbarItem itemIdentifier]];
-            [I_toolbarItemIdentifiers  addObject:[toolbarItem itemIdentifier]];
-            if ([[[settingsDictionary objectForKey:ScriptWrapperInDefaultToolbarSettingsKey] lowercaseString] isEqualToString:@"yes"]) {
-                [I_defaultToolbarItemIdentifiers addObject:[toolbarItem itemIdentifier]];
-            }
-        }
+		/* legacy note: the toobar items were loaded here in the past*/
     }
     // add final entries
     [scriptMenu addItem:[NSMenuItem separatorItem]];
@@ -1062,16 +1046,6 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 
 - (IBAction)reloadDocumentModes:(id)aSender {
     [[DocumentModeManager sharedInstance] reloadDocumentModes:aSender];
-}
-
-- (IBAction)showUserStatisticsWindow:(id)aSender {
-    static UserStatisticsController *uc = nil;
-    if (!uc) uc = [UserStatisticsController new];
-    if (![[uc window] isVisible]) {
-        [uc showWindow:aSender];
-    } else {
-        [[uc window] performClose:self];
-    }
 }
 
 - (IBAction)showStyleSheetEditorWindow:(id)aSender {

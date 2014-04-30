@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>INFO_NUMBER_OF_WORDS</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@words@</string>
+		<key>words</key>
+		<dict>
+			<key>other</key>
+			<string>%d Wörter</string>
+			<key>one</key>
+			<string>1 Wort</string>
+			<key>zero</key>
+			<string>kein Wort</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+		</dict>
+	</dict>
+	<key>INFO_NUMBER_OF_CHARACTERS</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@characters@</string>
+		<key>characters</key>
+		<dict>
+			<key>other</key>
+			<string>%d Zeichen</string>
+			<key>one</key>
+			<string>1 Zeichen</string>
+			<key>zero</key>
+			<string>kein Zeichen</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+		</dict>
+	</dict>
+	<key>INFO_NUMBER_OF_LINES</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@lines@</string>
+		<key>lines</key>
+		<dict>
+			<key>other</key>
+			<string>%d Zeilen</string>
+			<key>one</key>
+			<string>1 Zeile</string>
+			<key>zero</key>
+			<string>keine Zeile</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+		</dict>
+	</dict>
+</dict>
+</plist>

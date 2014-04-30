@@ -21,11 +21,18 @@
 #import "SEEOverlayView.h"
 
 @interface SEEParticipantsOverlayViewController ()
-@property (nonatomic, strong) IBOutlet NSView *topLineView;
+@property (nonatomic, weak) IBOutlet NSView *participantsContainerView;
+@property (nonatomic, weak) IBOutlet NSView *topLineView;
+
 @property (nonatomic, weak) PlainTextWindowControllerTabContext *tabContext;
+
 @property (nonatomic, strong) NSMutableArray *participantSubviewControllers;
 @property (nonatomic, strong) NSMutableArray *inviteeSubviewControllers;
 @property (nonatomic, strong) NSMutableArray *pendingSubviewControllers;
+
+@property (nonatomic, weak) id scrollerStyleObserver;
+@property (nonatomic, strong) NSDate *lastScrollerFlashDate;
+
 @end
 
 @implementation SEEParticipantsOverlayViewController
@@ -42,6 +49,16 @@
 		NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
 		[center addObserver:self selector:@selector(sessionWillChange:) name:PlainTextDocumentSessionWillChangeNotification object:document];
 		[center addObserver:self selector:@selector(sessionDidChange:) name:PlainTextDocumentSessionDidChangeNotification object:document];
+
+		__weak __typeof__(self) weakSelf = self;
+		self.scrollerStyleObserver = [center addObserverForName:NSPreferredScrollerStyleDidChangeNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+			__typeof__(self) strongSelf = weakSelf;
+
+			if ([NSScroller preferredScrollerStyle] == NSScrollerStyleLegacy) {
+				NSScrollView *participantScrollView = strongSelf.participantsContainerView.enclosingScrollView;
+				participantScrollView.scrollerStyle = NSScrollerStyleOverlay;
+			}
+		}];
 		
 		self.participantSubviewControllers = [NSMutableArray array];
 		self.inviteeSubviewControllers = [NSMutableArray array];
@@ -52,6 +69,7 @@
 
 
 - (void)dealloc {
+	[NSNotificationCenter.defaultCenter removeObserver:self.scrollerStyleObserver];
     [NSNotificationCenter.defaultCenter removeObserver:self];
 }
 
@@ -61,7 +79,29 @@
 	NSView *view = self.view;
 	view.layer.backgroundColor = [[NSColor brightOverlayBackgroundColorBackgroundIsDark:NO] CGColor];
 	self.topLineView.layer.backgroundColor = [[NSColor brightOverlaySeparatorColorBackgroundIsDark:NO] CGColor];
+
+	if ([NSScroller preferredScrollerStyle] == NSScrollerStyleLegacy) {
+		NSScrollView *participantScrollView = self.participantsContainerView.enclosingScrollView;
+		participantScrollView.scrollerStyle = NSScrollerStyleOverlay;
+	}
+	
+	[self.view addTrackingArea:[[NSTrackingArea alloc] initWithRect:NSZeroRect options:NSTrackingMouseEnteredAndExited|NSTrackingActiveInActiveApp|NSTrackingInVisibleRect owner:self userInfo:nil]];
+
 	[self update];
+}
+
+
+#pragma mark - Mouse Tracking
+
+- (void)mouseEntered:(NSEvent *)theEvent {
+	if ([NSScroller preferredScrollerStyle] == NSScrollerStyleLegacy) {
+		NSDate *currentDate = [NSDate date]; // avoid to many calls to flashScrollers, behaviour is confusing...
+		if (! self.lastScrollerFlashDate || [currentDate timeIntervalSinceDate:self.lastScrollerFlashDate] > 1.0) {
+			NSScrollView *participantScrollView = self.participantsContainerView.enclosingScrollView;
+			[participantScrollView flashScrollers];
+			self.lastScrollerFlashDate = currentDate;
+		}
+	}
 }
 
 #pragma mark
@@ -96,8 +136,10 @@
 
 
 - (void)update {
+	NSView *view = self.participantsContainerView;
+
 	// cleanup old view hierachy
-	NSArray *subviews = [self.view.subviews copy];
+	NSArray *subviews = [view.subviews copy];
 	NSView *topLineView = self.topLineView;
 	for (NSView *subview in subviews) {
 		if (subview != topLineView) {
@@ -109,15 +151,20 @@
 	[self.pendingSubviewControllers removeAllObjects];
 
 	// install new subviews for all allContributors
-	NSView *view = self.view;
 	TCMMMSession *session = self.tabContext.document.session;
 
 	// Participants working on the document
 	{
 		NSMutableArray *allParticipants = [[session.participants objectForKey:TCMMMSessionReadWriteGroupName] mutableCopy];
 		[allParticipants addObjectsFromArray:[session.participants objectForKey:TCMMMSessionReadOnlyGroupName]];
+
+//		// code to test scrollview... 
+//		for (NSInteger index = 0; index < 20; index++) {
+//			[allParticipants addObject:allParticipants.lastObject];
+//		}
+
 		for (TCMMMUser *user in allParticipants) {
-			SEEParticipantViewController *participantViewController = [[SEEParticipantViewController alloc] initWithParticipant:user tabContext:self.tabContext];
+			SEEParticipantViewController *participantViewController = [[SEEParticipantViewController alloc] initWithParticipant:user tabContext:self.tabContext inMode:SEEParticipantViewModeParticipant];
 
 			NSView *lastUserView = [self.participantSubviewControllers.lastObject view];
 			NSLayoutAttribute lastUserViewLayoutAttribute = NSLayoutAttributeRight;
@@ -149,7 +196,6 @@
 																				   constant:0];
 
 			[view addConstraints:@[horizontalConstraint, verticalConstraint]];
-			[participantViewController updateForParticipantUserState];
 		}
 	}
 
@@ -202,7 +248,7 @@
 		for (TCMMMUser *user in allInvitees) {
 			NSString *stateOfInvitee = [session stateOfInvitedUserById:user.userID];
 			if ([stateOfInvitee isEqualToString:TCMMMSessionInvitedUserStateAwaitingResponse]) {
-				SEEParticipantViewController *participantViewController = [[SEEParticipantViewController alloc] initWithParticipant:user tabContext:self.tabContext];
+				SEEParticipantViewController *participantViewController = [[SEEParticipantViewController alloc] initWithParticipant:user tabContext:self.tabContext inMode:SEEParticipantViewModeInvited];
 
 				NSView *lastUserView = [self.inviteeSubviewControllers.lastObject view];
 				if (!lastUserView) {
@@ -232,7 +278,6 @@
 																					   constant:0];
 
 				[view addConstraints:@[horizontalConstraint, verticalConstraint]];
-				[participantViewController updateForInvitationState];
 			} else {
 				// Move invited user to
 				NSUserNotification *userNotification = [[NSUserNotification alloc] init];
@@ -293,7 +338,7 @@
 	{
 		NSArray *allPendingUsers = session.pendingUsers;
 		for (TCMMMUser *user in allPendingUsers) {
-			SEEParticipantViewController *participantViewController = [[SEEParticipantViewController alloc] initWithParticipant:user tabContext:self.tabContext];
+			SEEParticipantViewController *participantViewController = [[SEEParticipantViewController alloc] initWithParticipant:user tabContext:self.tabContext inMode:SEEParticipantViewModePending];
 
 			NSView *lastUserView = [self.pendingSubviewControllers.lastObject view];
 			if (!lastUserView) {
@@ -323,7 +368,6 @@
 																				   constant:0];
 
 			[view addConstraints:@[horizontalConstraint, verticalConstraint]];
-			[participantViewController updateForPendingUserState];
 		}
 	}
 
@@ -337,7 +381,21 @@
 																		   multiplier:1
 																			 constant:-6];
 	[view addConstraint:pinToRightConstraint];
+}
 
+
+- (void)updateColorsForIsDarkBackground:(BOOL)isDark {
+	for (SEEParticipantViewController *controller in self.participantSubviewControllers) {
+		[controller updateColorsForIsDarkBackground:isDark];
+	}
+
+	for (SEEParticipantViewController *controller in self.inviteeSubviewControllers) {
+		[controller updateColorsForIsDarkBackground:isDark];
+	}
+
+	for (SEEParticipantViewController *controller in self.pendingSubviewControllers) {
+		[controller updateColorsForIsDarkBackground:isDark];
+	}
 }
 
 @end

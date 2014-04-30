@@ -10,15 +10,23 @@
 
 @class PlainTextWindowControllerTabContext, TCMMMUser;
 
-@interface SEEParticipantViewController : NSViewController
+typedef NS_ENUM(NSInteger, SEEParticipantViewMode) {
+	SEEParticipantViewModeUnknown = -1,
+	SEEParticipantViewModeParticipant = 0,
+	SEEParticipantViewModeInvited,
+	SEEParticipantViewModePending
+};
 
+@interface SEEParticipantViewController : NSViewController <NSPopoverDelegate>
+
+@property (nonatomic, readonly, assign) SEEParticipantViewMode viewMode;
 @property (nonatomic, readonly, strong) TCMMMUser *participant;
 @property (nonatomic, assign) BOOL isParticipantFollowed;
 
-- (id)initWithParticipant:(TCMMMUser *)aParticipant tabContext:(PlainTextWindowControllerTabContext *)aTabContext;
+@property (nonatomic, readonly, strong) NSColor *popoverTextColor;
 
-- (void)updateForParticipantUserState;
-- (void)updateForPendingUserState;
-- (void)updateForInvitationState;
+- (id)initWithParticipant:(TCMMMUser *)aParticipant tabContext:(PlainTextWindowControllerTabContext *)aTabContext inMode:(SEEParticipantViewMode)aMode;
+
+- (void)updateColorsForIsDarkBackground:(BOOL)isDark;
 
 @end

@@ -8,6 +8,22 @@
 	<array>
 		<dict>
 			<key>CFBundleTypeName</key>
+			<string>Any Directory</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Alternate</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.directory</string>
+			</array>
+			<key>LSTypeIsPackage</key>
+			<false/>
+			<key>NSDocumentClass</key>
+			<string>PlainTextDocument</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeName</key>
 			<string>Any File</string>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
@@ -21,22 +37,6 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
-		</dict>
-		<dict>
-			<key>CFBundleTypeName</key>
-			<string>Any Directory</string>
-			<key>CFBundleTypeRole</key>
-			<string>Viewer</string>
-			<key>LSHandlerRank</key>
-			<string>Alternate</string>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>public.directory</string>
-			</array>
-			<key>LSTypeIsPackage</key>
-			<false/>
-			<key>NSDocumentClass</key>
-			<string>SEEFolderDocument</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -55,6 +55,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -73,6 +75,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -91,6 +95,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -109,6 +115,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -127,6 +135,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -145,6 +155,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -164,6 +176,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -182,6 +196,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -200,6 +216,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -218,6 +236,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -237,6 +257,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -255,6 +277,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -273,6 +297,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -291,6 +317,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -309,6 +337,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -327,6 +357,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -345,6 +377,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -363,6 +397,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -381,6 +417,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -399,6 +437,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -417,6 +457,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -435,6 +477,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -453,6 +497,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -471,6 +517,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -489,6 +537,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -507,6 +557,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -525,6 +577,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -544,6 +598,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -562,6 +618,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -580,6 +638,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -598,6 +658,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -616,6 +678,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -634,6 +698,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -652,6 +718,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -670,6 +738,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -688,6 +758,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -706,6 +778,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -724,6 +798,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -742,6 +818,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -760,6 +838,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -780,6 +860,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -798,6 +880,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -817,6 +901,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -835,6 +921,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -853,6 +941,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -871,6 +961,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -889,6 +981,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -907,6 +1001,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -925,6 +1021,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -943,6 +1041,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -961,6 +1061,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -979,6 +1081,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -997,6 +1101,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1015,6 +1121,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1033,6 +1141,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1051,6 +1161,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1069,6 +1181,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1087,6 +1201,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1106,6 +1222,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1125,6 +1243,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1143,6 +1263,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1161,6 +1283,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1180,6 +1304,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1198,6 +1324,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1216,6 +1344,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1234,6 +1364,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1253,6 +1385,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1271,6 +1405,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1289,6 +1425,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1307,6 +1445,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1325,6 +1465,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1343,6 +1485,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1361,6 +1505,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1379,6 +1525,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1397,6 +1545,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1415,6 +1565,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1433,6 +1585,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1451,6 +1605,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1469,6 +1625,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1487,6 +1645,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1505,6 +1665,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1523,6 +1685,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1541,6 +1705,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1559,6 +1725,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1577,6 +1745,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1595,6 +1765,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1613,6 +1785,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1631,6 +1805,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1649,6 +1825,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1667,6 +1845,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1685,6 +1865,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1703,6 +1885,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1721,6 +1905,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1739,6 +1925,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1757,6 +1945,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1775,6 +1965,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1793,6 +1985,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1811,6 +2005,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1829,6 +2025,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1847,6 +2045,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1866,6 +2066,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1884,6 +2086,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1902,6 +2106,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1920,6 +2126,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1938,6 +2146,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1957,6 +2167,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1975,6 +2187,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -1993,6 +2207,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -2011,6 +2227,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -2029,6 +2247,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -2047,6 +2267,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -2065,6 +2287,8 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -2083,6 +2307,26 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>Any Text File</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSHandlerRank</key>
+			<string>Alternate</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.text</string>
+			</array>
+			<key>LSTypeIsPackage</key>
+			<false/>
+			<key>NSDocumentClass</key>
+			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -2117,8 +2361,6 @@
 			</array>
 			<key>LSTypeIsPackage</key>
 			<true/>
-			<key>NSDocumentClass</key>
-			<string></string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>

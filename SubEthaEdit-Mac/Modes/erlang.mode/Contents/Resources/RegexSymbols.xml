@@ -2,7 +2,11 @@
 <!DOCTYPE syntax SYSTEM "symbol.dtd">
 <symbols>
 
-    <symbol id="functions" image="SymbolF()" indentation="1">
+	<symbol id="module" symbol="m_#6D5E85"> 
+		<regex>^-module\(([\w_]+)\)\.</regex>
+	</symbol>
+
+    <symbol id="functions" symbol="f()_#6AB18D" indentation="1">
         
         <regex>^(\w+\(.*?*\))\s*-></regex>
                 
@@ -62,5 +66,10 @@
             <replace>/1</replace>
         </postprocess>
     </symbol>
+    
+	<symbol id="Comment Marks" font-weight="bold" symbol="%_#2E7D35" indentation="0" ignoreblocks="yes" show-in-comments="yes">
+        <regex>^[\t ]*%[\t -]*mark[\t -]*([^\n]*)\n</regex>
+    </symbol>
+
     
 </symbols>

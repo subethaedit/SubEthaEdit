@@ -70,7 +70,6 @@ extern NSString * const GlobalScriptsDidReloadNotification;
 - (IBAction)additionalModes:(id)sender;
 - (IBAction)reportBug:(id)sender;
 - (IBAction)provideFeedback:(id)sender;
-- (IBAction)showUserStatisticsWindow:(id)aSender;
 - (IBAction)showStyleSheetEditorWindow:(id)aSender;
 
 - (NSArray *)contextMenuItemArray;

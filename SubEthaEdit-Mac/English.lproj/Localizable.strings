@@ -443,12 +443,6 @@
 "New File" = "New File";
 
 /* No comment provided by engineer. */
-"New Tab" = "New Tab";
-
-/* No comment provided by engineer. */
-"New Window" = "New Window";
-
-/* No comment provided by engineer. */
 "Next Change" = "Next Change";
 
 /* No comment provided by engineer. */
@@ -820,11 +814,7 @@
 /* Status of port mapping while trying */
 "Checking port status..." = "Checking port status...";
 
-/* SSL Encryption Connection Tooltip Text Encrypted */
-"Connection is TLS/SSL encrypted using %@" = "Connection is TLS/SSL encrypted using %@";
-
-/* SSL Encryption Connection Tooltip Text NOT Encrypted */
-"Connection is NOT encrypted" = "Connection is NOT encrypted";
+"PORT_NETWORKING_DISABLED" = "Closed";
 
 /* Drag target string in Participants Drawer */
 "Drag your\nFriends\nfrom the\niChat Buddy List\nor\nConnection Browser\nto a category\nor the text\nto invite them." = "Drag your\nFriends\nfrom the\niChat Buddy List\nor\nConnection Browser\nto a category\nor the text\nto invite them.";
@@ -923,4 +913,12 @@
 "DOCUMENT_LIST_OPEN" = "Open…";
 "DOCUMENT_LIST_NEW" = "New";
 "DOCUMENT_LIST_CONNECT" = "Connect to specific host…";
+
+
+/* participant overlay */
+"KICK_PENDING_USER_BUTTON_TITLE" = "Deny";
+"READ_ONLY_PENDING_USER_BUTTON_TITLE" = "Read Only";
+"READ_WRITE_PENDING_USER_BUTTON_TITLE" = "Read & Write";
+"PENDING_USER_ALERT_POPUP_TITLE" = "New Participant";
+"PENDING_USER_ALERT_POPUP_DESCRIPTION" = "%@ wants to join this document.";
 

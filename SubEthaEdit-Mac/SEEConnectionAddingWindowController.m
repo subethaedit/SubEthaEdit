@@ -13,28 +13,14 @@
 #import "SEEConnectionAddingWindowController.h"
 #import "SEEConnectionManager.h"
 
-@interface SEEConnectionAddingWindowController ()
-
-@end
-
 @implementation SEEConnectionAddingWindowController
 
-- (id)initWithWindow:(NSWindow *)window
-{
-    self = [super initWithWindow:window];
-    if (self) {
-
-    }
-    return self;
-}
-
-- (void)windowDidLoad
-{
+- (void)windowDidLoad {
     [super windowDidLoad];
+	[self localizeText];
 }
 
-- (void)windowWillClose:(NSNotification *)notification
-{
+- (void)windowWillClose:(NSNotification *)notification {
 	if ([NSApp modalWindow] == notification.object) {
 		[NSApp stopModalWithCode:NSModalResponseStop];
 	}
@@ -63,6 +49,29 @@
 	if (self.window.isSheet) {
 		[self.window.sheetParent endSheet:self.window returnCode:NSModalResponseCancel];
 	}
+}
+
+#pragma mark - Localization
+- (void)localizeText {
+	self.window.title =
+	NSLocalizedStringWithDefaultValue(@"CONNECTION_ADD_WINDOW_TITLE", nil, [NSBundle mainBundle],
+									  @"Add Connection",
+									  @"");
+	
+	self.addressLabel.stringValue =
+	NSLocalizedStringWithDefaultValue(@"CONNECTION_ADD_ADDRESS", nil, [NSBundle mainBundle],
+									  @"Address:",
+									  @"");
+	
+	self.cancelButton.title =
+	NSLocalizedStringWithDefaultValue(@"Cancel", nil, [NSBundle mainBundle],
+									  @"Cancel",
+									  @"");
+
+	self.connectButton.title =
+	NSLocalizedStringWithDefaultValue(@"CONNECTION_ADD_CONNECT", nil, [NSBundle mainBundle],
+									  @"Connect",
+									  @"");
 }
 
 @end

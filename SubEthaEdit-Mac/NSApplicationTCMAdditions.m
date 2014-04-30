@@ -30,6 +30,14 @@
     return [[SEEDocumentController sharedInstance] handleSeeScriptCommand:command];
 }
 
+- (NSURL *)sandboxContainerURL {
+	NSFileManager *sharedFM = [NSFileManager defaultManager];
+    NSURL *cachesRootURL = [sharedFM URLsForDirectory:NSCachesDirectory inDomains:NSUserDomainMask].firstObject;
+	NSURL *tmpURL = [cachesRootURL URLByAppendingPathComponent:@"ScriptTMP"];
+	[sharedFM createDirectoryAtURL:tmpURL withIntermediateDirectories:YES attributes:nil error:nil];
+	return tmpURL;
+}
+
 - (id)scriptSelection {
     NSArray *orderedDocuments = [NSApp orderedDocuments];
     if ([orderedDocuments count] > 0) {

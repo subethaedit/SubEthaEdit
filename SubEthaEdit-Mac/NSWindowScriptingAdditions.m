@@ -39,13 +39,7 @@
 
 - (void)handleShowWebPreviewCommand:(NSScriptCommand *)command {
 	PlainTextWindowController *windowController = self.windowController;
-	PlainTextWindowControllerTabContext *tabContext = [windowController selectedTabContext];
-
-	if (! tabContext.webPreviewViewController) {
-		[windowController toggleWebPreview:self];
-	} else {
-		[tabContext.webPreviewViewController refresh:self];
-	}
+	[windowController.document handleShowWebPreviewCommand:command];
 }
 
 - (int)scriptedColumns {

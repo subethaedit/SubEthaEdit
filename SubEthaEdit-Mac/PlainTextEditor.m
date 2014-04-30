@@ -9,6 +9,7 @@
 #import "FindReplaceController.h"
 #import "SEEDocumentController.h"
 #import "PlainTextEditor.h"
+#import "SEEParticipantsOverlayViewController.h"
 #import "PlainTextDocument.h"
 #import "PlainTextWindowController.h"
 #import "LayoutManager.h"
@@ -636,10 +637,20 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	for (PopUpButton *button in @[O_modePopUpButton,O_tabStatusPopUpButton, O_encodingPopUpButton, O_lineEndingPopUpButton]) {
 		[button setLineColor:darkSeparatorColor];
 	}
+	NSScrollerKnobStyle knobStyle = isDark ? NSScrollerKnobStyleLight : NSScrollerKnobStyleDefault;
+	[[O_scrollView verticalScroller] setKnobStyle:knobStyle];
+	[[O_scrollView horizontalScroller] setKnobStyle:knobStyle];
 	
 	[self.shareAnnounceButtonOutlet setImage:[NSImage imageNamed:isDark ? @"BottomBarSharingIconAnnounceDarkBackground_Inactive" : @"BottomBarSharingIconAnnounce_Inactive"]];
 	
 	// overlays?
+	NSViewController *bottomOverlayViewController = self.bottomOverlayViewController;
+	if (bottomOverlayViewController) {
+		if ([bottomOverlayViewController isKindOfClass:[SEEParticipantsOverlayViewController class]]) {
+			SEEParticipantsOverlayViewController *viewController  = (SEEParticipantsOverlayViewController *)bottomOverlayViewController;
+			[viewController updateColorsForIsDarkBackground:isDark];
+		}
+	}
 }
 
 - (void)takeStyleSettingsFromDocument
@@ -1259,8 +1270,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 
-- (void)updateViews
-{
+- (void)updateViews {
     [self.topBarViewController updateForSelectionDidChange];
     [self TCM_updateBottomStatusBar];
 	[self TCM_updateLocalizedToolTips];
@@ -1724,6 +1734,8 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
         [I_textView setNeedsDisplay:YES];
         [O_scrollView setNeedsDisplay:YES];
         [O_scrollView setHasHorizontalScroller:YES];
+		NSScrollerKnobStyle knobStyle = [self hasDarkBackground] ? NSScrollerKnobStyleLight : NSScrollerKnobStyleDefault;
+		[[O_scrollView horizontalScroller] setKnobStyle:knobStyle];
     }
     else
     {

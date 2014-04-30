@@ -26,10 +26,11 @@
 #import "StylePreferences.h"
 #import "GeneralPreferences.h"
 #import "FoldableTextStorage.h"
-#import "MoreSecurity.h"
+//#import "MoreSecurity.h"
 #import "PlainTextWindowController.h"
 #import "SEEOpenPanelAccessoryViewController.h"
 #import "SEEDocumentListWindowController.h"
+#import "NSApplicationTCMAdditions.h"
 
 #import <PSMTabBarControl/PSMTabBarControl.h>
 #import <objc/objc-runtime.h>			// for objc_msgSend
@@ -303,13 +304,6 @@
         BOOL isChecked = [[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey];
         [menuItem setState:(isChecked ? NSOnState : NSOffState)];
         return YES;
-    } else if (selector == @selector(newAlternateDocument:)) {
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey]) {
-            [menuItem setTitle:NSLocalizedString(@"New Window", nil)];
-        } else {
-            [menuItem setTitle:NSLocalizedString(@"New Tab", nil)];
-        }
-        return YES;
     } else if (selector == @selector(openAlternateDocument:)) {
         if ([[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey]) {
             [menuItem setTitle:NSLocalizedString(@"Open in New Window...", @"Menu Entry for opening files in a new window.")];
@@ -424,7 +418,8 @@
 }
 
 - (void)removeWindowController:(id)aWindowController {
-    [I_windowControllers removeObject:aWindowController];
+	__autoreleasing id autoreleasedWindowController = aWindowController;
+    [I_windowControllers removeObject:autoreleasedWindowController];
 }
 
 #pragma mark - Open new document
@@ -502,10 +497,21 @@
 }
 
 
-- (IBAction)newDocumentWithModeMenuItem:(id)aSender {
+- (IBAction)newDocumentByUserDefault:(id)sender {
 	@synchronized(self.documentCreationFlagsLookupDict) {
 		SEEDocumentCreationFlags *creationFlags = [[SEEDocumentCreationFlags alloc] init];
 		creationFlags.openInTab = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
+		self.documentCreationFlagsLookupDict[@"MakeUntitledDocument"] = creationFlags;
+	}
+
+	[self newDocumentWithModeIdentifier:[[[DocumentModeManager sharedInstance] modeForNewDocuments] documentModeIdentifier]];
+}
+
+
+- (IBAction)newDocumentWithModeMenuItem:(id)aSender {
+	@synchronized(self.documentCreationFlagsLookupDict) {
+		SEEDocumentCreationFlags *creationFlags = [[SEEDocumentCreationFlags alloc] init];
+		creationFlags.openInTab = NO;
 		self.documentCreationFlagsLookupDict[@"MakeUntitledDocument"] = creationFlags;
 	}
 
@@ -518,7 +524,7 @@
 - (IBAction)newAlternateDocumentWithModeMenuItem:(id)sender {
 	@synchronized(self.documentCreationFlagsLookupDict) {
 		SEEDocumentCreationFlags *creationFlags = [[SEEDocumentCreationFlags alloc] init];
-		creationFlags.openInTab = ![[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
+		creationFlags.openInTab = YES;
 		self.documentCreationFlagsLookupDict[@"MakeUntitledDocument"] = creationFlags;
 	}
 
@@ -969,6 +975,19 @@
 }
 
 
+#pragma mark - Recent Document Support
+
+- (void)noteNewRecentDocumentURL:(NSURL *)url {
+	[super noteNewRecentDocumentURL:url];
+
+	// This seems to be very hacky, but currently the only version that works.
+	// recentDocumentURLs gets updated asyncroniously and there is no hockt to update it than
+	// we don't get events of unmounting media etc right now.
+	[[NSOperationQueue mainQueue] addOperationWithBlock:^{
+		[self.documentListWindowController performSelector:@selector(reloadAllDocumentDocumentListItems) withObject:self afterDelay:0.1];
+	}];
+}
+
 #pragma mark - Apple Script support
 
 - (id)handleOpenScriptCommand:(NSScriptCommand *)command {
@@ -1021,6 +1040,8 @@
     
     NSString *filename;
     for (filename in files) {
+		BOOL isSEEStdinTempFile = [[filename pathExtension] isEqualToString:@"seetmpstdin"];
+		if (isSEEStdinTempFile) continue;
         BOOL isDir = NO;
         BOOL isFilePackage = [[NSWorkspace sharedWorkspace] isFilePackageAtPath:filename];
         NSString *extension = [filename pathExtension];
@@ -1322,7 +1343,7 @@
             [document setScriptingProperties:properties];
             [I_propertiesForOpenedFiles setObject:properties forKey:standardInputFile];
             [(PlainTextDocument *)document resizeAccordingToDocumentMode];
-            [document readFromURL:[NSURL fileURLWithPath:standardInputFile] ofType:@"PlainTextType" error:NULL];
+            [document readFromURL:[NSURL fileURLWithPath:standardInputFile] ofType:@"public.plain-text" error:NULL];
             if (shouldMakePipeDirty) {
                 [document updateChangeCount:NSChangeDone];
             }
@@ -1433,7 +1454,7 @@ struct ModificationInfo
 - (void)closeDocumentsStartingWith:(PlainTextDocument *)doc shouldClose:(BOOL)shouldClose closeAllContext:(void *)closeAllContext
 {
     // Iterate over unsaved documents, preserve closeAllContext to invoke it after the last document
-    NSArray *windows = [[NSApp orderedWindows] copy];
+    __autoreleasing NSArray *windows = [[NSApp orderedWindows] copy];
     for (NSWindow *window in windows) {
         NSWindowController *controller = [window windowController];
         if ([controller isKindOfClass:[PlainTextWindowController class]]) {
@@ -1521,7 +1542,7 @@ struct ModificationInfo
                     if (isPiping) {
                         NSString *fileName = tempFileName();
                         NSError *error = nil;
-                        BOOL result = [doc writeToURL:[NSURL fileURLWithPath:fileName] ofType:@"PlainTextType" error:&error];
+                        BOOL result = [doc writeToURL:[NSURL fileURLWithPath:fileName] ofType:@"public.plain-text" error:&error];
                         if (result) {
                             [fileNames addObject:fileName];
                         } else {
@@ -1558,6 +1579,8 @@ struct ModificationInfo
 
 - (void)openModeFile:(NSString *)fileName
 {
+	return; // remove this again to install modes
+
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Opening mode file: %@", fileName);
     NSBundle *modeBundle = [NSBundle bundleWithPath:fileName];
     NSString *versionString = [modeBundle objectForInfoDictionaryKey:@"CFBundleVersion"];
@@ -1632,95 +1655,98 @@ struct ModificationInfo
 				}
 				success = [fileManager copyItemAtPath:fileName toPath:destination error:nil];
 			} else {
-				OSStatus err;
-				CFURLRef tool = NULL;
-				AuthorizationRef auth = NULL;
-				NSDictionary *request = nil;
-				CFDictionaryRef response = nil;
 
-				err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &auth);
-				if (err == noErr) {
-					static const char *kRightName = "de.codingmonkeys.SubEthaEdit.HelperTool";
-					static const AuthorizationFlags kAuthFlags = kAuthorizationFlagDefaults
-					| kAuthorizationFlagInteractionAllowed
-					| kAuthorizationFlagExtendRights
-					| kAuthorizationFlagPreAuthorize;
-					AuthorizationItem   right  = { kRightName, 0, NULL, 0 };
-					AuthorizationRights rights = { 1, &right };
+				success = NO;
 
-					err = AuthorizationCopyRights(auth, &rights, kAuthorizationEmptyEnvironment, kAuthFlags, NULL);
-				}
-
-				if (err == noErr) {
-					err = MoreSecCopyHelperToolURLAndCheckBundled(
-																  CFBundleGetMainBundle(),
-																  CFSTR("SubEthaEditHelperToolTemplate"),
-																  kApplicationSupportFolderType,
-																  CFSTR("SubEthaEdit"),
-																  CFSTR("SubEthaEditHelperTool"),
-																  &tool);
-
-					// If the home directory is on an volume that doesn't support
-					// setuid root helper tools, ask the user whether they want to use
-					// a temporary tool.
-
-					if (err == kMoreSecFolderInappropriateErr) {
-						err = MoreSecCopyHelperToolURLAndCheckBundled(
-																	  CFBundleGetMainBundle(),
-																	  CFSTR("SubEthaEditHelperToolTemplate"),
-																	  kTemporaryFolderType,
-																	  CFSTR("SubEthaEdit"),
-																	  CFSTR("SubEthaEditHelperTool"),
-																	  &tool);
-					}
-				}
-
-				// Create the request dictionary for copying the mode
-
-				if (err == noErr) {
-
-                    NSNumber *filePermissions = [NSNumber numberWithUnsignedShort:(S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH)];
-                    NSDictionary *targetAttrs = [NSDictionary dictionaryWithObjectsAndKeys:
-												 filePermissions, NSFilePosixPermissions,
-												 @"root", NSFileOwnerAccountName,
-												 @"admin", NSFileGroupOwnerAccountName,
-												 nil];
-
-					request = [NSDictionary dictionaryWithObjectsAndKeys:
-							   @"CopyFiles", @"CommandName",
-							   fileName, @"SourceFile",
-							   destination, @"TargetFile",
-							   targetAttrs, @"TargetAttributes",
-							   nil];
-				}
-
-				// Go go gadget helper tool!
-
-				if (err == noErr) {
-					err = MoreSecExecuteRequestInHelperTool(tool, auth, (__bridge CFDictionaryRef)request, &response);
-				}
-
-				// Extract information from the response.
-
-				if (err == noErr) {
-					//NSLog(@"response: %@", response);
-
-					err = MoreSecGetErrorFromResponse((CFDictionaryRef)response);
-					if (err == noErr) {
-						success = YES;
-					}
-				}
-
-				// Clean up after second call of helper tool.
-				if (response) {
-					CFRelease(response);
-				}
-
-
-				if (tool) CFRelease(tool);
-				if (auth != NULL) {
-					(void)AuthorizationFree(auth, kAuthorizationFlagDestroyRights);
-				}
+//				OSStatus err;
+//				CFURLRef tool = NULL;
+//				AuthorizationRef auth = NULL;
+//				NSDictionary *request = nil;
+//				CFDictionaryRef response = nil;
+//
+//				err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &auth);
+//				if (err == noErr) {
+//					static const char *kRightName = "de.codingmonkeys.SubEthaEdit.HelperTool";
+//					static const AuthorizationFlags kAuthFlags = kAuthorizationFlagDefaults
+//					| kAuthorizationFlagInteractionAllowed
+//					| kAuthorizationFlagExtendRights
+//					| kAuthorizationFlagPreAuthorize;
+//					AuthorizationItem   right  = { kRightName, 0, NULL, 0 };
+//					AuthorizationRights rights = { 1, &right };
+//
+//					err = AuthorizationCopyRights(auth, &rights, kAuthorizationEmptyEnvironment, kAuthFlags, NULL);
+//				}
+//
+//				if (err == noErr) {
+//					err = MoreSecCopyHelperToolURLAndCheckBundled(
+//																  CFBundleGetMainBundle(),
+//																  CFSTR("SubEthaEditHelperToolTemplate"),
+//																  kApplicationSupportFolderType,
+//																  CFSTR("SubEthaEdit"),
+//																  CFSTR("SubEthaEditHelperTool"),
+//																  &tool);
+//
+//					// If the home directory is on an volume that doesn't support
+//					// setuid root helper tools, ask the user whether they want to use
+//					// a temporary tool.
+//
+//					if (err == kMoreSecFolderInappropriateErr) {
+//						err = MoreSecCopyHelperToolURLAndCheckBundled(
+//																	  CFBundleGetMainBundle(),
+//																	  CFSTR("SubEthaEditHelperToolTemplate"),
+//																	  kTemporaryFolderType,
+//																	  CFSTR("SubEthaEdit"),
+//																	  CFSTR("SubEthaEditHelperTool"),
+//																	  &tool);
+//					}
+//				}
+//
+//				// Create the request dictionary for copying the mode
+//
+//				if (err == noErr) {
+//
+//                    NSNumber *filePermissions = [NSNumber numberWithUnsignedShort:(S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH)];
+//                    NSDictionary *targetAttrs = [NSDictionary dictionaryWithObjectsAndKeys:
+//												 filePermissions, NSFilePosixPermissions,
+//												 @"root", NSFileOwnerAccountName,
+//												 @"admin", NSFileGroupOwnerAccountName,
+//												 nil];
+//
+//					request = [NSDictionary dictionaryWithObjectsAndKeys:
+//							   @"CopyFiles", @"CommandName",
+//							   fileName, @"SourceFile",
+//							   destination, @"TargetFile",
+//							   targetAttrs, @"TargetAttributes",
+//							   nil];
+//				}
+//
+//				// Go go gadget helper tool!
+//
+//				if (err == noErr) {
+//					err = MoreSecExecuteRequestInHelperTool(tool, auth, (__bridge CFDictionaryRef)request, &response);
+//				}
+//
+//				// Extract information from the response.
+//
+//				if (err == noErr) {
+//					//NSLog(@"response: %@", response);
+//
+//					err = MoreSecGetErrorFromResponse((CFDictionaryRef)response);
+//					if (err == noErr) {
+//						success = YES;
+//					}
+//				}
+//
+//				// Clean up after second call of helper tool.
+//				if (response) {
+//					CFRelease(response);
+//				}
+//
+//
+//				if (tool) CFRelease(tool);
+//				if (auth != NULL) {
+//					(void)AuthorizationFree(auth, kAuthorizationFlagDestroyRights);
+//				}
 			}
 		} else {
 			success = YES;
@@ -1747,7 +1773,7 @@ struct ModificationInfo
 
 static NSString *tempFileName() {
     static int sequenceNumber = 0;
-    NSString *origPath = [@"/tmp" stringByAppendingPathComponent:@"see"];
+    NSString *origPath = [[NSApp sandboxContainerURL].path stringByAppendingPathComponent:@"see"];
     NSString *name;
     do {
         sequenceNumber++;

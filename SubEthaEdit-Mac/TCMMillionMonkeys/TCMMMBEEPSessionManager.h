@@ -42,6 +42,7 @@ extern NSString * const kTCMMMBEEPSessionManagerTLSMode;
     
     int I_SSLGenerationCount;
     int I_SSLGenerationDesiredCount;
+	
 }
 
 + (TCMMMBEEPSessionManager *)sharedInstance;
@@ -58,6 +59,7 @@ extern NSString * const kTCMMMBEEPSessionManagerTLSMode;
 - (void)terminateAllBEEPSessions;
 
 @property (nonatomic, getter=isNetworkingDisabled) BOOL networkingDisabled;
+- (void)validatePortMapping;
 
 - (void)setIsProhibitingInboundInternetSessions:(BOOL)flag;
 - (BOOL)isProhibitingInboundInternetSessions;

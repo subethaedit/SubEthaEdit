@@ -6,22 +6,22 @@
         <regex>^-{5,}()</regex>
     </symbol>
 
-    <symbol id="Conference" font-weight="bold" font-style="normal" indentation="0" ignoreblocks="yes" image="SymbolC">
+    <symbol id="Conference" font-weight="bold" font-style="normal" indentation="0" ignoreblocks="yes" symbol="C_#6D5E85">
         <regex>(?&lt;=[\n\r]|^)CONFERENCE:\s*([^\n\r]+)</regex>
     </symbol>
     <symbol id="Date" font-weight="normal" font-style="italic" indentation="0" ignoreblocks="yes">
         <regex>(?&lt;=[\n\r]|^)DATE:\s*([^\n\r]+)</regex>
     </symbol>
 
-    <symbol id="SECTIONS" font-weight="bold" font-style="normal" indentation="0" ignoreblocks="yes">
+    <symbol id="SECTIONS" font-weight="bold" font-style="normal" indentation="0" ignoreblocks="yes" symbol=":_#a11_12.0_HelveticaNeue-Bold">
         <regex>-{5}[\n\r]{1,2}([^:\n\r]+):</regex>
     </symbol>
 
-    <symbol id="HEADINGS" font-weight="normal" font-style="normal" indentation="0" ignoreblocks="yes" image="SymbolH">
+    <symbol id="HEADINGS" font-weight="normal" font-style="normal" indentation="0" ignoreblocks="yes" symbol="H_#4094E4">
         <regex>^([[:upper:]0-9]+[[:upper:]0-9 &amp;_\-/'!?.]*)[\n\r]</regex>
     </symbol>
 
-    <symbol id="Events" font-weight="normal" font-style="italic" indentation="1" ignoreblocks="yes">
+    <symbol id="Events" font-weight="normal" font-style="italic" indentation="1" ignoreblocks="yes" symbol="*_#666_24.0">
         <regex>(?&lt;=[\n\r]|^)\*\*\* ([^\n\r\*]+) \*\*\*[\n\r]</regex>
     </symbol>
 

@@ -61,6 +61,30 @@
 		self.O_previewContainerBox.title = NSLocalizedStringWithDefaultValue(@"STYLE_PREF_PREVIEW_BOX_LABEL", nil, [NSBundle mainBundle], @"Preview", @"");
 		self.O_applyToOpenDocumentsButton.title = NSLocalizedStringWithDefaultValue(@"STYLE_PREF_APPLY_STYLE_BUTTON", nil, [NSBundle mainBundle], @"Apply to Open Documents", @"");
 	}
+	{ // re-layout ro adjust for localization
+		NSString *firstChoice = [[NSLocale preferredLanguages] firstObject];
+		if ([firstChoice isEqualToString:@"de"]) { // re-layout for German
+			[self.O_fontDefaultButton sizeToFit];
+			self.O_fontDefaultButton.frame = ({
+				NSRect frame = self.O_fontDefaultButton.frame;
+				frame.origin.x = NSMaxX(self.O_fontContainerBox.titleRect) + 12.;
+				frame;
+			});
+			
+			CGFloat preWidth = NSWidth(self.O_changeFontButton.frame);
+			[self.O_changeFontButton sizeToFit];
+			CGAffineTransform transform = CGAffineTransformMakeTranslation(NSWidth(self.O_changeFontButton.frame) - preWidth, 0);
+			self.O_fontLabel.frame = NSRectFromCGRect(CGRectApplyAffineTransform(NSRectToCGRect(self.O_fontLabel.frame), transform));
+			
+			CGFloat preMaxX = NSMaxX(self.O_applyToOpenDocumentsButton.frame);
+			[self.O_applyToOpenDocumentsButton sizeToFit];
+			self.O_applyToOpenDocumentsButton.frame = ({
+				NSRect frame = self.O_applyToOpenDocumentsButton.frame;
+				frame.origin.x = preMaxX - NSWidth(frame);
+				frame;
+			});
+		}
+	}
 	
     [self changeMode:self.O_modePopUpButton];
     
@@ -196,7 +220,10 @@
 	[self.O_styleSheetDefaultRadioButton setHidden:[aDocumentMode isBaseMode]];
 	// TODO: resize the style settings box
 	CGFloat heightChange = 0;
+	
 	BOOL shouldShow = ([[[aDocumentMode syntaxDefinition] allLanguageContexts] count] > 1);
+	shouldShow = NO; // removing this line shows the option to select style sheets per language context
+	
 	if (shouldShow && [self.O_customStyleSheetsContainerView isHidden]) {
 		[self.O_customStyleSheetsContainerView setHidden:NO ];
 		heightChange =  [self.O_customStyleSheetsContainerView frame].size.height;

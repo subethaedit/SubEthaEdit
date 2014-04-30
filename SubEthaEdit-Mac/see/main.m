@@ -312,6 +312,11 @@ static NSArray *see(NSArray *fileNames, NSArray *newFileNames, NSString *stdinFi
 		[urls addObject:fileURL];
 	}
 
+	if (stdinFileName) {
+		NSURL *fileURL = [NSURL fileURLWithPath:stdinFileName];
+		[urls addObject:fileURL];
+	}
+	
 	if (urls.count > 0) {
 		NSWorkspaceLaunchOptions launchOptions = 0;
 		if ([[options objectForKey:@"print"] boolValue]) {
@@ -468,7 +473,7 @@ static void openFiles(NSArray *fileNames, NSDictionary *options) {
     NSMutableArray *newFileNames = [NSMutableArray array];
     
     if ([fileNames count] == 0 || !isStandardInputATTY) {
-        NSString *fileName = tempFileName();
+        NSString *fileName = [tempFileName() stringByAppendingPathExtension:@"seetmpstdin"];
         [fileManager createFileAtPath:fileName contents:[NSData data] attributes:nil];
         NSFileHandle *fdout = [NSFileHandle fileHandleForWritingAtPath:fileName];
         NSFileHandle *fdin = [NSFileHandle fileHandleWithStandardInput];
@@ -642,13 +647,14 @@ int main (int argc, const char * argv[]) {
     argv += optind;
     
     for (i = 0; i < argc; i++) {
-        char resolved_path[PATH_MAX];
-        char *path = realpath(argv[i], resolved_path);
+		NSString *fileName = [NSString stringWithUTF8String:argv[i]];
+		if (! fileName.isAbsolutePath) {
+			fileName = [[fileManager currentDirectoryPath] stringByAppendingPathComponent:fileName];
+		}
 
-        if (path) {
-            NSString *fileName = [fileManager stringWithFileSystemRepresentation:path length:strlen(path)];
+        if (fileName) {
             //NSLog(@"fileName after realpath: %@", fileName);
-            [fileNames addObject:fileName];
+            [fileNames addObject:fileName.stringByStandardizingPath];
         } else {
             launch = YES;
             //NSLog(@"Error occurred while resolving path: %s", argv[i]);

@@ -22,6 +22,7 @@
 @interface SEEPlainTextEditorTopBarViewController () <PopUpButtonDelegate>
 @property (nonatomic, strong) IBOutlet BorderedTextField *writtenByTextField;
 @property (nonatomic, strong) IBOutlet BorderedTextField *positionTextField;
+@property (nonatomic, strong) IBOutlet BorderedTextField *docinfoTextField;
 @property (nonatomic, strong) IBOutlet NSButton *splitButton;
 @property (nonatomic, strong) IBOutlet NSImageView *waitPipeIconImageView;
 @property (nonatomic, strong) IBOutlet NSView *bottomBarLayerBackedView;
@@ -51,6 +52,12 @@
 										   usingBlock:^(NSNotification *aNotification) {
 											   [weakSelf updateForSelectionDidChange];
 			}]];
+
+			[set addObject:[center addObserverForName:PlainTextDocumentDidChangeTextStorageNotification
+											   object:document queue:mainQueue
+										   usingBlock:^(NSNotification *aNotification) {
+											   [weakSelf updateForTextDidChange];
+										   }]];
 
 			[set addObject:[center addObserverForName:PlainTextDocumentDidChangeSymbolsNotification
 											   object:document queue:mainQueue
@@ -84,10 +91,14 @@
 }
 
 - (void)updateColorsForIsDarkBackground:(BOOL)isDark {
-	self.view.layer.backgroundColor = [[NSColor darkOverlayBackgroundColorBackgroundIsDark:isDark] CGColor];
-	self.bottomBarLayerBackedView.layer.backgroundColor = [[NSColor darkOverlaySeparatorColorBackgroundIsDark:isDark] CGColor];
-	[self.symbolPopUpButton setLineColor:[NSColor darkOverlaySeparatorColorBackgroundIsDark:isDark]];
-	[self.positionTextField setBorderColor:[NSColor darkOverlaySeparatorColorBackgroundIsDark:isDark]];
+	NSColor *backgroundColor = [NSColor darkOverlayBackgroundColorBackgroundIsDark:isDark];
+	self.view.layer.backgroundColor = [backgroundColor CGColor];
+	
+	NSColor *separatorColor = [NSColor darkOverlaySeparatorColorBackgroundIsDark:isDark];
+	self.bottomBarLayerBackedView.layer.backgroundColor = [separatorColor CGColor];
+	[self.symbolPopUpButton setLineColor:separatorColor];
+	[self.positionTextField setBorderColor:separatorColor];
+	[self.docinfoTextField setBorderColor:separatorColor];
 }
 
 - (void)loadView {
@@ -97,6 +108,7 @@
 	[self.writtenByTextField setHasRightBorder:NO];
 	[self updateColorsForIsDarkBackground:NO];
 	[self updateSymbolPopUpContent];
+	[self updateForTextDidChange];
 }
 
 - (void)setVisible:(BOOL)visible {
@@ -112,6 +124,13 @@
 - (void)setSplitButtonVisible:(BOOL)splitButtonVisible {
 	[self view];
 	self.splitButton.hidden = !splitButtonVisible;
+	if (splitButtonVisible) {
+		[self.docinfoTextField setHasLeftBorder:YES];
+		[self.docinfoTextField setHasRightBorder:YES];
+	} else {
+		[self.docinfoTextField setHasLeftBorder:YES];
+		[self.docinfoTextField setHasRightBorder:NO];
+	}
 	[self adjustLayout];
 }
 
@@ -183,9 +202,15 @@
 		// split view button, just needed for size here
 		NSRect splitToggleButtonFrame = [self.splitButton frame];
 		CGFloat splitButtonWidth = self.splitButtonVisible ? NSWidth(splitToggleButtonFrame) : 0;
+
+		NSTextField *docInfoTextField = self.docinfoTextField;
+		NSRect docInfoTextFieldFrame = docInfoTextField.frame;
+		docInfoTextFieldFrame.size.width = docInfoTextField.intrinsicContentSize.width + SPACING + SPACING;
+		docInfoTextFieldFrame.origin.x = NSMaxX(self.view.bounds) - splitButtonWidth - NSWidth(docInfoTextFieldFrame);
+		self.docinfoTextField.frame = docInfoTextFieldFrame;
 		
 		// the writtenBy text field has priorty over the symbol popup so give it all space it wants if possible
-        CGFloat remainingWidth = bounds.size.width - symbolPopUpFrame.origin.x - SPACING - SPACING - splitButtonWidth;
+        CGFloat remainingWidth = bounds.size.width - symbolPopUpFrame.origin.x - SPACING - SPACING - splitButtonWidth - NSWidth(docInfoTextFieldFrame);
 		if (writtenByTextFrame.size.width + symbolPopUpFrame.size.width > remainingWidth) {
 			// make sure symbol popup does not get smaller than 20 px.
             if (remainingWidth - writtenByTextFrame.size.width > 20.) {
@@ -199,7 +224,7 @@
         }
 		
 		// finally we can calulate the origin of the writtenBy text field
-        writtenByTextFrame.origin.x = bounds.origin.x + bounds.size.width - writtenByTextFrame.size.width - SPACING - splitButtonWidth;
+        writtenByTextFrame.origin.x = NSMinX(docInfoTextFieldFrame) - writtenByTextFrame.size.width - SPACING;
 		
 		// adjust all frames to backing grid
 		/* not doing that for now as we made sure we use integral point values all over the place
@@ -276,9 +301,47 @@
 
 #pragma mark -
 
-- (void)updateForSelectionDidChange {
+- (void)updateDocumentInfoTextField {
 	PlainTextEditor *editor = self.editor;
-	if (editor) {		
+	if (editor) {
+		FoldableTextStorage *textStorage = editor.document.textStorage;
+		FullTextStorage *fullTextStorage = textStorage.fullTextStorage;
+		
+		DocumentMode *mode = self.editor.document.documentMode;
+		NSString *currentValue = self.docinfoTextField.stringValue;
+		NSInteger infoType = [[mode defaultForKey:DocumentModeDocumentInfoTypePreferenceKey] integerValue];
+		NSString *targetValue = ({
+			NSString *result = nil;
+			if (infoType == DocumentModeDocumentInfoWords) {
+				result = [NSString localizedStringWithFormat:NSLocalizedString(@"INFO_NUMBER_OF_WORDS",@""),fullTextStorage.numberOfWords];
+			} else if (infoType == DocumentModeDocumentInfoLines) {
+				result = [NSString localizedStringWithFormat:NSLocalizedString(@"INFO_NUMBER_OF_LINES",@""),fullTextStorage.numberOfLines];
+			} else {
+				result = [NSString localizedStringWithFormat:NSLocalizedString(@"INFO_NUMBER_OF_CHARACTERS",@""),fullTextStorage.numberOfCharacters];
+			}
+			result;
+		});
+		
+		if (![targetValue isEqualToString:currentValue]) {
+			self.docinfoTextField.stringValue = targetValue;
+			// todo: set needs layout
+		}
+	}
+}
+
+- (IBAction)toggleDocumentInfoLabel:(id)sender {
+	DocumentMode *mode = self.editor.document.documentMode;
+	NSInteger infoType = [[mode defaultForKey:DocumentModeDocumentInfoTypePreferenceKey] integerValue];
+	infoType = (infoType + 1) % DocumentModeDocumentInfoModulo;
+	[mode.defaults setObject:@(infoType) forKey:DocumentModeDocumentInfoTypePreferenceKey];
+	
+	[self updateDocumentInfoTextField];
+	[self adjustLayout];
+}
+
+- (void)updatePositionTextField {
+	PlainTextEditor *editor = self.editor;
+	if (editor && editor.textView) {
 		NSRange selection = [editor.textView selectedRange];
 		FoldableTextStorage *textStorage = (FoldableTextStorage *)editor.textView.textStorage;
 		NSString *positionString = [textStorage positionStringForRange:selection];
@@ -292,8 +355,24 @@
 		}
 		
 		[self.positionTextField setStringValue:positionString];
-		
-		
+	}
+}
+
+- (void)updateForTextDidChange {
+	if (self.isVisible) {
+		[self updatePositionTextField];
+		[self updateDocumentInfoTextField];
+	}
+}
+
+- (void)updateForSelectionDidChange {
+	
+	[self updatePositionTextField];
+	PlainTextEditor *editor = self.editor;
+	if (editor) {		
+		NSRange selection = [editor.textView selectedRange];
+		FoldableTextStorage *textStorage = (FoldableTextStorage *)editor.textView.textStorage;
+				
 		NSString *writtenByValue = @"";
 		
 		NSString *followUserID = [editor followUserID];

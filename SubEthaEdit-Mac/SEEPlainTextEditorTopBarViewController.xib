@@ -7,6 +7,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="SEEPlainTextEditorTopBarViewController">
             <connections>
                 <outlet property="bottomBarLayerBackedView" destination="Gvl-0m-GdF" id="I3h-jZ-X3t"/>
+                <outlet property="docinfoTextField" destination="9sl-OR-xm4" id="Fc8-g4-kLl"/>
                 <outlet property="positionTextField" destination="Ugd-wu-f2r" id="v7J-Vc-8Ry"/>
                 <outlet property="splitButton" destination="ILs-CV-5zV" id="Pdp-2X-l36"/>
                 <outlet property="symbolPopUpButton" destination="57S-Gg-lfW" id="Edc-kB-OMb"/>
@@ -26,7 +27,7 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                 </customView>
                 <textField verticalHuggingPriority="750" id="W31-AX-oex" customClass="BorderedTextField">
-                    <rect key="frame" x="401" y="1" width="181" height="18"/>
+                    <rect key="frame" x="247" y="0.0" width="181" height="19"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="&lt;written by ....>" id="oRf-lT-deq" customClass="InsetTextFieldCell">
                         <font key="font" metaFont="smallSystem"/>
@@ -66,6 +67,18 @@
                         <action selector="splitToggleButtonAction:" target="-2" id="EPI-eh-CQg"/>
                     </connections>
                 </button>
+                <textField verticalHuggingPriority="750" id="9sl-OR-xm4" customClass="BorderedTextField">
+                    <rect key="frame" x="494" y="0.0" width="88" height="19"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="&lt;x words>" id="iBG-BV-eyd" customClass="InsetTextFieldCell">
+                        <font key="font" metaFont="smallSystem"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                    <connections>
+                        <action selector="toggleDocumentInfoLabel:" target="-2" id="wmk-us-0AU"/>
+                    </connections>
+                </textField>
             </subviews>
         </customView>
     </objects>

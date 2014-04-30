@@ -31,6 +31,7 @@ static NSString * const XMLElementSymbolPostProcessReplace = @"replace";
 
 static NSString * const XMLAttributeID = @"id";
 static NSString * const XMLAttributeImage = @"image";
+static NSString * const XMLAttributeSymbol = @"symbol";
 static NSString * const XMLAttributeIndentation = @"indentation";
 static NSString * const XMLAttributeIgnoreBlocks = @"ignoreblocks";
 static NSString * const XMLAttributeShowInComments = @"show-in-comments";
@@ -196,9 +197,19 @@ static NSString * const XMLAttributeFontTrait = @"font-trait";
 	{
 		NSMutableDictionary *symbolDict = [NSMutableDictionary dictionary];
 
+		if ([attributeDict objectForKey:XMLAttributeSymbol]) {
+			NSString *symbolName = [attributeDict objectForKey:XMLAttributeSymbol];
+			NSImage *image = [NSImage symbolImageNamed:symbolName];
+			if (image) {
+				[symbolDict setObject:image forKey:XMLAttributeImage];
+			}
+		}
+		
+		
 		if ([attributeDict objectForKey:XMLAttributeImage])
 		{
 			NSString *imageName = [attributeDict objectForKey:XMLAttributeImage];
+			
 			NSImage *image = [[NSImage alloc] initWithContentsOfFile:[[[self mode] bundle] pathForImageResource:imageName]];
 			if (!image) image = [NSImage imageNamed:imageName];
 			if (image)

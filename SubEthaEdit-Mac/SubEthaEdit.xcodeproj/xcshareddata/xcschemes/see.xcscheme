@@ -76,10 +76,14 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--launch"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "${SRCROOT}/see/main.m"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "test"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

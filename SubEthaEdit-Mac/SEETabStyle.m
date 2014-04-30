@@ -25,6 +25,7 @@
 
 
 #import "SEETabStyle.h"
+#import "NSColor+SEEAdditions.h"
 
 #import <PSMTabBarControl/PSMRolloverButton.h>
 #import <PSMTabBarControl/PSMOverflowPopUpButton.h>
@@ -419,6 +420,14 @@
 	rightRect.origin.x = CGRectGetMaxX(frame) - rightRect.size.width;
 	if (isActive || isRightOfSelected || isLastVisibleCell) {
 		[rightCap drawInRect:rightRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+	}
+	
+	if (NSHeight(tabBarControl.bounds) < [self.class desiredTabBarControlHeight]) {
+		[[NSColor darkOverlaySeparatorColorBackgroundIsDark:YES] set];
+		NSRect lineRect = tabBarControl.bounds;
+		lineRect.origin.y = NSMaxY(lineRect) - 1.0;
+		lineRect.size.height = 1.0;
+		NSRectFill(lineRect);
 	}
 }
 

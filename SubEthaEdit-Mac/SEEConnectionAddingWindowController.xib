@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13D38" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="SEEConnectionAddingWindowController">
             <connections>
+                <outlet property="addressLabel" destination="Dug-5q-Xxt" id="tlx-kh-gWu"/>
+                <outlet property="cancelButton" destination="lTQ-jL-U6G" id="Fgy-1a-Raj"/>
+                <outlet property="connectButton" destination="QGc-og-ABo" id="FGz-iN-Jlx"/>
                 <outlet property="window" destination="1" id="3"/>
             </connections>
         </customObject>

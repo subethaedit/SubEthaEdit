@@ -11,7 +11,8 @@
 #import <CoreGraphics/CoreGraphics.h>
 #import "NSColorTCMAdditions.h"
 #import <objc/objc-runtime.h>
-
+#import <CoreText/CoreText.h>
+#import "NSObject+TCMArcLifecycleAdditions.h"
 
 // this file needs arc - either project wide,
 // or add -fobjc-arc on a per file basis in the compile build phase
@@ -22,6 +23,59 @@
 @implementation NSImage (NSImageTCMAdditions)
 
 const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociationKey;
+
++ (NSImage *)unknownUserImageWithSize:(NSSize)size initials:(NSString *)initials {
+	NSImage *image = [NSImage imageWithSize:size flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
+
+		NSRect drawingRect = dstRect;
+
+		[[NSColor clearColor] set];
+		NSRectFill(drawingRect);
+
+		// draw placeholder image
+		NSImage *unknownUserImage = [NSImage imageNamed:NSImageNameUser];
+
+		NSRect imageBounds = NSZeroRect;
+		imageBounds.size = unknownUserImage.size;
+		NSRect imageSourceRect = NSInsetRect(imageBounds, 2.0, 2.0);
+
+		[unknownUserImage drawInRect:drawingRect
+							fromRect:imageSourceRect
+						   operation:NSCompositeSourceOver
+							fraction:0.8
+					  respectFlipped:YES
+							   hints:nil];
+
+		// draw initials string
+		CGFloat fontSize = NSWidth(drawingRect) / 5.0;
+
+		NSShadow *textShadow = [[NSShadow alloc] init];
+		textShadow.shadowBlurRadius = 0.0;
+		textShadow.shadowColor = [NSColor blackColor];
+		textShadow.shadowOffset = NSMakeSize(0.0, -1.0);
+
+		NSDictionary *stringAttributes = @{NSFontAttributeName: [NSFont fontWithName:@"HelveticaNeue-Light" size:fontSize],
+										   NSForegroundColorAttributeName: [[NSColor whiteColor] colorWithAlphaComponent:0.8],
+										   NSShadowAttributeName: textShadow};
+
+		NSSize textSize = [initials sizeWithAttributes:stringAttributes];
+		NSRect textBounds = [initials boundingRectWithSize:textSize options:0 attributes:stringAttributes];
+
+		NSRect textDrawingRect = NSMakeRect(NSMidX(drawingRect) - NSWidth(textBounds) / 2.0,
+											NSMidY(drawingRect) - NSHeight(textBounds),
+											NSWidth(textBounds),
+											NSHeight(textBounds));
+
+		[initials drawWithRect:textDrawingRect
+					   options:0
+					attributes:stringAttributes];
+
+		return YES;
+	}];
+	
+	return image;
+}
+
 
 + (NSImage *)highResolutionImageWithSize:(NSSize)inSize usingDrawingBlock:(void (^)(void))drawingBlock
 {
@@ -266,5 +320,99 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
 	return resultImage;
 }
 
++ (BOOL(^)(NSRect))TCM_drawingHandlerWithSize:(NSSize)aSize string:(NSString *)aString color:(NSColor *)aColor fontName:(NSString *)aFontName fontSize:(CGFloat)aFontSize {
+
+	NSGradient *gradient = [[NSGradient alloc] initWithColors:@[[aColor blendedColorWithFraction:0.2 ofColor:[NSColor whiteColor]],[aColor blendedColorWithFraction:0.35 ofColor:[NSColor whiteColor]]]];
+	NSRect baseRect = NSZeroRect;
+	baseRect.size = aSize;
+	CGFloat strokeWidth = ceil(NSWidth(baseRect) / 14.0);
+	NSRect roundRect = NSInsetRect(baseRect, strokeWidth/2.0, strokeWidth/2.0);
+
+	NSMutableDictionary *textAttributes = [({
+		CTFontRef font = CTFontCreateWithName((__bridge CFStringRef)aFontName, aFontSize, NULL);
+		CFTypeRef cgColor = CFRetain([aColor CGColor]);
+		NSDictionary *result = @{
+								 (id)kCTFontAttributeName : (__bridge id)font,
+								 //								 (id)kCTForegroundColorFromContextAttributeName : @(YES),
+								 //								 (id)kCTStrokeWidthAttributeName : @(strokeWidth),
+								 //(id)kCTStrokeColorAttributeName : (__bridge id)cgColor,
+								 (id)kCTForegroundColorAttributeName : (__bridge id)[[NSColor whiteColor] CGColor],
+								 //								 (id)kCTLigatureAttributeName : @0,
+								 };
+		CFRelease(cgColor);
+		CFRelease(font);
+		result;
+	}) mutableCopy];
+	
+	CFAttributedStringRef attributedString = CFAttributedStringCreate(nil, (__bridge CFStringRef)aString, (__bridge CFDictionaryRef)textAttributes);
+	CTLineRef line = CTLineCreateWithAttributedString(attributedString);
+	CFRelease(attributedString);
+	NSArray *cfStuffToKeepAround = @[CFBridgingRelease(line)];
+	
+	BOOL(^handler)(NSRect) = ^BOOL(NSRect aRect) {
+		BOOL result = YES;
+		
+		[[NSColor clearColor] set];
+		NSRectFill(aRect);
+		
+		NSBezierPath *roundedRectanglePath = [NSBezierPath bezierPathWithRoundedRect:roundRect xRadius:strokeWidth * 1.5 yRadius:strokeWidth * 1.5];
+		[gradient drawInBezierPath:roundedRectanglePath angle:90];
+		
+		[aColor set];
+		[roundedRectanglePath stroke];
+		
+		CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
+		
+		[[NSColor whiteColor] setFill];
+		CGContextSetLineCap(context, kCGLineCapRound);
+		CGContextSetLineJoin(context, kCGLineJoinRound);
+		CGContextSetLineWidth(context, 2.0);
+		CGRect lineBounds = CTLineGetImageBounds(line, context);
+
+		//		NSFrameRect(lineBounds);
+		
+		CGPoint textPoint = CGPointMake(CGRectGetMidX(aRect) - CGRectGetWidth(lineBounds)/2.0 - lineBounds.origin.x, CGRectGetMidY(aRect) - CGRectGetHeight(lineBounds)/2.0 - lineBounds.origin.y);
+		CGContextSetTextDrawingMode(context, kCGTextStroke);
+		CGContextSetTextPosition(context, textPoint.x, textPoint.y);
+		CTLineDraw(line, context);
+		CGContextSetTextPosition(context, textPoint.x, textPoint.y);
+		CGContextSetTextDrawingMode(context, kCGTextFill);
+		CTLineDraw(line, context);
+		
+		return result;
+	};
+	
+	handler = [handler copy]; // make sure it is a non stack object
+	[(id)handler TCM_setContextObject:cfStuffToKeepAround]; // attach hour CFValuables
+	
+	return handler;
+}
+
++ (NSImage *)symbolImageNamed:(NSString *)aName {
+	NSString *name = [@"SEESymbol_" stringByAppendingString:aName];
+	NSImage *result = [NSImage imageNamed:name];
+	if (!result) {
+		NSArray *components = [aName componentsSeparatedByString:@"_"];
+		NSString *string = components[0];
+		NSColor *color = [NSColor colorForHTMLString:@"#2B50E8"];
+		if (components.count > 1) {
+			color = [NSColor colorForHTMLString:components[1]];
+		}
+		CGFloat fontSize = 11.0;
+		if (components.count > 2) {
+			fontSize = [components[2] doubleValue];
+		}
+		NSString *fontName = @"LucidaGrande";
+		//@"LiGothicMed";
+		//@"HelveticaNeue-Bold";
+		if (components.count > 3) {
+			fontName = components[3];
+		}
+		NSSize size = NSMakeSize(14, 14);
+		result = [NSImage imageWithSize:size flipped:NO drawingHandler:[self TCM_drawingHandlerWithSize:size string:string color:color fontName:fontName fontSize:fontSize]];
+		[result setName:name];
+	}
+	return result;
+}
 
 @end

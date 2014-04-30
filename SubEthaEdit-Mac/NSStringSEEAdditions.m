@@ -787,6 +787,19 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
 	return result;
 }
 
+- (NSString *)stringWithInitials
+{
+	NSString *name = self;
+	NSMutableString * initials = [NSMutableString string];
+	NSArray * nameComponents = [name componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+	for (NSString * word in nameComponents) {
+		if ([word length] > 0) {
+			NSString * firstLetter = [word substringWithRange:[word rangeOfComposedCharacterSequenceAtIndex:0]];
+			[initials appendString:[firstLetter uppercaseString]];
+		}
+	}
+	return [initials copy];
+}
 @end
 
 @implementation NSAttributedString (NSAttributedStringSEEAdditions)

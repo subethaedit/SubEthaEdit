@@ -318,15 +318,7 @@ NSString * const SEEConnectionStatusDidChangeNotification = @"SEEConnectionStatu
     } else if (addressDataString) {
         [toolTipArray addObject:addressDataString];
     }
-    
-    if (self.BEEPSession) {
-        if ([self.BEEPSession isTLSEnabled]) {
-            [toolTipArray addObject:[NSString stringWithFormat:NSLocalizedString(@"Connection is TLS/SSL encrypted using %@",@"SSL Encryption Connection Tooltip Text Encrypted"),[self.BEEPSession isTLSAnon] ? @"DH" : @"RSA"]];
-        } else {
-            [toolTipArray addObject:NSLocalizedString(@"Connection is NOT encrypted",@"SSL Encryption Connection Tooltip Text NOT Encrypted")];
-        }
-    }
-    
+        
     if ([[self.BEEPSession userInfo] objectForKey:@"isAutoConnect"]) {
         if (isInbound) {
             [toolTipArray addObject:NSLocalizedString(@"Inbound Friendcast Connection", @"Inbound Friendcast Connection ToolTip")];

@@ -7,7 +7,7 @@
         <endregex>}</endregex>
     </blocks>
     
-    <symbol id="C Funtions" image="SymbolF()" indentation="1" ignoreblocks="yes">
+    <symbol id="C Funtions" symbol="f()_#6AB18D" indentation="0" ignoreblocks="yes">
         <regex>(?&lt;=[\n\r]|^)(?:[\w0-9_*]+\s+){1,3}[\w0-9_*]+[ \t]*\([\]\[\w0-9_,\s*&amp;&lt;&gt;/]*\)(?=\s*\{)</regex>
         <postprocess>
             <find>\([^\)]*\)</find>
@@ -19,7 +19,7 @@
         </postprocess>
     </symbol>
 
-    <symbol id="C++ Methods" image="SymbolM" indentation="1" ignoreblocks="yes">
+    <symbol id="C++ Methods" symbol="M" indentation="1" ignoreblocks="yes">
         <regex>(?&lt;=[\n\r]|^)[ \t]*(?:template[\t ]*&lt;[^&gt;]*&gt;[\t\r\n ]*)?(?:[\w0-9_*]+(?:::[\w0-9_]+)?\s+){0,3}[\w0-9_]+::[\w0-9_]+[ \t]*\([^)]*\)(?:\s*const)?(?=\s*\{)</regex>
         <postprocess>
             <find>\([^\)]*\)</find>
@@ -31,7 +31,7 @@
         </postprocess>
     </symbol>
 
-    <symbol id="C++ Templates" image="SymbolM" indentation="1" ignoreblocks="yes">
+    <symbol id="C++ Templates" symbol="M" indentation="1" ignoreblocks="yes">
         <regex>(?&lt;=[\n\r]|^)[ \t]*(?:template[\t ]*&lt;[^&gt;]*&gt;[\t\r\n ]*)(?:(?:[\w&lt;&gt;0-9_*]+(?:::[\w&lt;&gt;0-9_]+)*\s?)+)[^{]*</regex>
         <postprocess>
             <find>\([^\)]*\)</find>
@@ -43,11 +43,11 @@
         </postprocess>
     </symbol>
 
-    <symbol id="C++ Classes" image="SymbolC" indentation="1" ignoreblocks="yes">
+    <symbol id="C++ Classes" symbol="C_#6D5E85" indentation="0" ignoreblocks="yes">
         <regex>(?&lt;=[\n\r]|^)[ \t]*(?:template[\t ]*&lt;[^&gt;]*&gt;[\t\r\n ]*)?class[\t ]([\w0-9_]*)(?:[\t ]*:[\t ]*[\w0-9_]+[\t ][\w0-9_&lt;&gt;]+)?(?:const)?(?=\s*\{)</regex>
     </symbol>
 
-    <symbol id="C++ Inline Member Functions" image="SymbolF" indentation="1" ignoreblocks="yes">
+    <symbol id="C++ Inline Member Functions" symbol="f()_#6AB18D" indentation="1" ignoreblocks="yes">
         <regex>(?&lt;=[\n\r]|^)[ \t]*(?:template[\t ]*&lt;[^&gt;]*&gt;[\t\r\n ]*)?inline[\t ]([\w0-9_]*[\t ][\w0-9_&gt;&lt;:]*\([^)]*\))[^{]*(?=\s*\{)</regex>
         <postprocess>
             <find>\([^\)]*\)</find>
@@ -65,8 +65,8 @@
         </postprocess>
     </symbol>
 
-    <symbol id="Defines" image="Symbol#" indentation="0" ignoreblocks="yes">
-        <regex>#define[ \t]*([\w\d()]*)[ \t]+[^\n\r]*[\n\r]</regex>
+    <symbol id="Defines" indentation="0" symbol="#_#774940" ignoreblocks="yes">
+        <regex>#define[ \t]*([\w\d]+(?:\([\w_, \t]+\))?)[ \t]*[^\n\r]*[\n\r]</regex>
     </symbol>
 
     <symbol id="CVS/SVN conflict" font-weight="bold" image="SymbolWarn" indentation="0" ignoreblocks="no">

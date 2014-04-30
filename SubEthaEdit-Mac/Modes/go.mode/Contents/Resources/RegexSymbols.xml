@@ -6,8 +6,16 @@
         <beginregex>{</beginregex>
         <endregex>}</endregex>
     </blocks>
+
+	<symbol id="package" symbol="p_#6D5E85"> 
+		<regex>^package\s+([\w_]+)</regex>
+	</symbol>
+
+    <symbol id="Comment Marks" font-weight="bold" indentation="0" ignoreblocks="yes" show-in-comments="yes">
+        <regex>//-[\t ]*mark[\t ]*(?:-(?=[\n\r]))?([^\n\r]*)</regex>
+    </symbol>
     
-    <symbol id="Functions" image="SymbolF()" indentation="1" ignoreblocks="yes">
+    <symbol id="Functions" symbol="f()_#6AB18D" indentation="1" ignoreblocks="yes">
         <regex>^\s*func([^{\n\r]*)(?=\s*[\{\n\r])</regex>
         <postprocess>
             <find>[\n\r]</find>

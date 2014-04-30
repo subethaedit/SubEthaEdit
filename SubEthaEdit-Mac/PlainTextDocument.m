@@ -49,9 +49,9 @@
 #import "MultiPagePrintView.h"
 #import "SEEPrintOptionsViewController.h"
 
-#import "MoreUNIX.h"
-#import "MoreSecurity.h"
-#import "MoreCFQ.h"
+//#import "MoreUNIX.h"
+//#import "MoreSecurity.h"
+//#import "MoreCFQ.h"
 #import <fcntl.h>
 #import <sys/param.h>
 #import <sys/stat.h>
@@ -1074,8 +1074,12 @@ static NSString *tempFileName(NSString *origPath) {
             NSArray *recognizedExtensions = [I_documentMode recognizedExtensions];
             if ([recognizedExtensions count]) {
 				NSString *fileExtension = recognizedExtensions.firstObject;
-				NSString *fileType = (NSString *)UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (CFStringRef)fileExtension, nil);
-				self.fileType = [fileType autorelease];
+				if (fileExtension) {
+					NSString *fileType = (NSString *)UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (CFStringRef)fileExtension, nil);
+					self.fileType = [fileType autorelease];
+				} else {
+					self.fileType = @"public.text";
+				}
 
                 if ([I_session isServer]) {
                     [I_session setFilename:[self preparedDisplayName]];
@@ -1164,7 +1168,8 @@ static NSString *tempFileName(NSString *origPath) {
 
 - (void)setIsWaiting:(BOOL)aFlag {
     I_flags.isWaiting=aFlag;
-    [[self plainTextEditors] makeObjectsPerformSelector:@selector(TCM_updateStatusBar)];
+
+    [[self plainTextEditors] makeObjectsPerformSelector:@selector(updateViews)];
 }
 
 - (NSString *)jobDescription {
@@ -1750,7 +1755,11 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 		[findAllController close];
 	}
     [I_findAllControllers removeAllObjects];
-	
+
+	if (I_documentProxyWindowController) {
+		[self proxyWindowWillClose];
+	}
+
     // terminate syntax coloring
     I_flags.highlightSyntax = NO;
     [I_symbolUpdateTimer invalidate];
@@ -2590,7 +2599,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     if (anAbsoluteURL) {
         if (I_flags.shouldSelectModeOnSave && (saveOperation != NSAutosaveOperation)) {
             DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForPath:[anAbsoluteURL path] withContentString:[[self textStorage] string]];
-			
+
             if (![mode isBaseMode]) {
                 [self setDocumentMode:mode];
             }
@@ -2607,18 +2616,18 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
             I_encodingFromLastRunSaveToOperation = [[accessoryViewController.encodingPopUpButtonOutlet selectedItem] tag];
             if ([[accessoryViewController.savePanelAccessoryFileFormatMatrixOutlet selectedCell] tag] == 1) {
                 aType = @"de.codingmonkeys.subethaedit.seetext";
-             } else {
-                aType = @"public.text";
+			} else {
+//                aType = @"public.data";
             }
-         } else if (didShowPanel) {
+		} else if (didShowPanel) {
             if ([[accessoryViewController.savePanelAccessoryFileFormatMatrixOutlet selectedCell] tag] == 1) {
                 aType = @"de.codingmonkeys.subethaedit.seetext";
                 I_flags.isSEEText = YES;
             } else {
-                aType = @"public.text";
+//                aType = @"public.data";
                 I_flags.isSEEText = NO;
             }
-         }
+		}
     }
     if (UTTypeConformsTo((CFStringRef)aType, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext")) {
         NSString *seeTextExtension = [self fileNameExtensionForType:aType saveOperation:NSSaveOperation];
@@ -2953,8 +2962,14 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     BOOL isDir, fileExists;
     fileExists = [[NSFileManager defaultManager] fileExistsAtPath:fileName isDirectory:&isDir];
     if (fileExists && !isDir && UTTypeConformsTo((CFStringRef)docType, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext")) {
-        docType = @"public.text";
-        [self performSelector:@selector(setFileType:) withObject:docType afterDelay:0.];
+		NSString *fileExtension = [fileName pathExtension];
+
+		if (fileExtension) {
+		NSString *fileType = (NSString *)UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (CFStringRef)fileExtension, nil);
+			[self performSelector:@selector(setFileType:) withObject:[fileType autorelease] afterDelay:0.];
+		} else {
+			[self performSelector:@selector(setFileType:) withObject:@"public.text" afterDelay:0.];
+		}
     }
     if (!fileExists || (isDir && !UTTypeConformsTo((CFStringRef)docType, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext"))) {
         // generate the correct error
@@ -3438,11 +3453,11 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 - (NSString *)fileNameExtensionForType:(NSString *)typeName saveOperation:(NSSaveOperationType)saveOperation
 {
     NSString *fileNameExtension = [super fileNameExtensionForType:typeName saveOperation:saveOperation];
-    if (! fileNameExtension)
-    {
-        NSArray *modeFileNameExtensions = self.documentMode.recognizedExtensions;
-        fileNameExtension = modeFileNameExtensions.firstObject;
-    }
+//    if (! fileNameExtension)
+//    {
+//        NSArray *modeFileNameExtensions = self.documentMode.recognizedExtensions;
+//        fileNameExtension = modeFileNameExtensions.firstObject;
+//    }
     return fileNameExtension;
 }
 
@@ -3735,232 +3750,64 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 }
 
 - (BOOL)TCM_writeUsingAuthorizedHelperToURL:(NSURL *)anAbsoluteURL ofType:(NSString *)docType saveOperation:(NSSaveOperationType)saveOperationType error:(NSError **)outError {
-    NSString *fullDocumentPath = [anAbsoluteURL path];
-    OSStatus err = noErr;
-    CFURLRef tool = NULL;
-    NSDictionary *request = nil;
-    NSDictionary *response = nil;
-    NSString *intermediateFileName = tempFileName(fullDocumentPath);
+	NSError *applicastionScriptURLError = nil;
+	NSURL *applicationScriptURL = [[NSFileManager defaultManager] URLForDirectory:NSApplicationScriptsDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:&applicastionScriptURLError];
 
+	if (! applicastionScriptURLError) {
+		NSError *authenticationScriptError = nil;
+		NSURL *authenticationScriptURL = [applicationScriptURL URLByAppendingPathComponent:@"SubEthaEdit_AuthenticatedSave.scpt"];
+		NSUserAppleScriptTask *authorisationScript = [[[NSUserAppleScriptTask alloc] initWithURL:authenticationScriptURL error:&authenticationScriptError] autorelease];
 
-    const char *kRightName = "de.codingmonkeys.SubEthaEdit.file.readwritecreate";
-    static const AuthorizationFlags kAuthFlags = kAuthorizationFlagDefaults 
-                                               | kAuthorizationFlagInteractionAllowed
-                                               | kAuthorizationFlagExtendRights
-                                               | kAuthorizationFlagPreAuthorize;
-    AuthorizationItem   right  = { kRightName, 0, NULL, 0 };
-    AuthorizationRights rights = { 1, &right };
-        
-    err = AuthorizationCopyRights(I_authRef, &rights, kAuthorizationEmptyEnvironment, kAuthFlags, NULL);
-    
-    if (err == noErr) {
-        err = MoreSecCopyHelperToolURLAndCheckBundled(
-            CFBundleGetMainBundle(), 
-            CFSTR("SubEthaEditHelperToolTemplate"), 
-            kApplicationSupportFolderType,
-            CFSTR("SubEthaEdit"),
-            CFSTR("SubEthaEditHelperTool"),
-            &tool);
+		if (! authenticationScriptError) {
+			NSURL *tempFileURL = [NSURL fileURLWithPath:NSTemporaryDirectory()];
+			tempFileURL = [tempFileURL URLByAppendingPathComponent:anAbsoluteURL.lastPathComponent];
 
-        // If the home directory is on an volume that doesn't support 
-        // setuid root helper tools, ask the user whether they want to use 
-        // a temporary tool.
-        
-        if (err == kMoreSecFolderInappropriateErr) {
-            err = MoreSecCopyHelperToolURLAndCheckBundled(
-                CFBundleGetMainBundle(), 
-                CFSTR("SubEthaEditHelperToolTemplate"), 
-                kTemporaryFolderType, 
-                CFSTR("SubEthaEdit"),
-                CFSTR("SubEthaEditHelperTool"),
-                &tool);
-        }
-    }
-        
-    // ---
-    
-    if (err == noErr) {
-        NSFileManager *fileManager = [NSFileManager defaultManager];
-        NSDictionary *fileAttributes = [fileManager attributesOfItemAtPath:fullDocumentPath error:NO];
-        NSUInteger fileReferenceCount = [[fileAttributes objectForKey:NSFileReferenceCount] unsignedLongValue];
-        if (fileReferenceCount > 1) {
-        
-            if (err == noErr) {
-                request = [NSDictionary dictionaryWithObjectsAndKeys:
-                                    @"GetFileDescriptor", @"CommandName",
-                                    fullDocumentPath, @"FileName",
-                                    fullDocumentPath, @"ActualFileName",
-                                    nil];
-            }
+			NSError *fileWritingError = nil;
+			if ([self writeToURL:tempFileURL ofType:docType forSaveOperation:saveOperationType originalContentsURL:anAbsoluteURL error:&fileWritingError]) {
+				NSAppleEventDescriptor *containerDescriptor = [NSAppleEventDescriptor appleEventWithEventClass:kCoreEventClass eventID:kAEOpenApplication targetDescriptor:nil returnID:kAutoGenerateReturnID transactionID:kAnyTransactionID];
 
-            if (err == noErr) {
-                err = MoreSecExecuteRequestInHelperTool(tool, I_authRef, (CFDictionaryRef)request, (CFDictionaryRef *)(&response));
-            }
-            
-            if (err == noErr) {
-                DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"response: %@", response);
+				{
+					NSAppleEventDescriptor *functionDescriptor = [NSAppleEventDescriptor descriptorWithString:@"run"];
+					[containerDescriptor setParamDescriptor:functionDescriptor forKeyword:keyASSubroutineName];
+				}
 
-                err = MoreSecGetErrorFromResponse((CFDictionaryRef)response);
-                if (err == noErr) {
-                    NSArray *descArray;
-                    int descIndex;
-                    int descCount;
-                    
-                    descArray = [response objectForKey:(NSString *)kMoreSecFileDescriptorsKey];
-                    descCount = [descArray count];
-                    for (descIndex = 0; descIndex < descCount; descIndex++) {
-                        NSNumber *thisDescNum;
-                        int thisDesc;
-                        
-                        thisDescNum = [descArray objectAtIndex:descIndex];
-                        thisDesc = [thisDescNum intValue];
-                        fcntl(thisDesc, F_GETFD, 0);
-                        
-                        NSFileHandle *fileHandle = [[NSFileHandle alloc] initWithFileDescriptor:thisDesc closeOnDealloc:YES];
-                        NSError *error=nil;
-                        NSData *data = [self dataOfType:docType error:&error];
-                        if (!data) {
-                            DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"dataOfType returned error: %@", error);
-                        }
-                        @try {
-                            [fileHandle writeData:data];
-                        }
-                        @catch (id exception) {
-                            DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"writeData throws exception: %@", exception);
-                            err = writErr;
-                        }
-                        [fileHandle release];
-                    }
-                }
-            }
-            
-            if (response) {
-                [response release];
-                response = nil;
-            }
+				{
+					NSAppleEventDescriptor* argumentsDescriptor = [NSAppleEventDescriptor listDescriptor];
+					[argumentsDescriptor insertDescriptor:[NSAppleEventDescriptor descriptorWithString:tempFileURL.path] atIndex:1];
+					[argumentsDescriptor insertDescriptor:[NSAppleEventDescriptor descriptorWithString:anAbsoluteURL.path] atIndex:2];
+					[containerDescriptor setParamDescriptor:argumentsDescriptor forKeyword:keyDirectObject];
+				}
 
+				[authorisationScript executeWithAppleEvent:containerDescriptor completionHandler:^(NSAppleEventDescriptor *result, NSError *error) {
 
-            CFQRelease(tool);
-            
-            if (err == noErr) {
-                return YES;
-            } else {
-                *outError = [NSError errorWithDomain:@"MoreSec" code:err userInfo:nil];
-                return NO;
-            }
-        }
-    }
-              
-    // ---
-        
-    // Create the request dictionary for a file descriptor
-
-    if (err == noErr) {
-        request = [NSDictionary dictionaryWithObjectsAndKeys:
-                            @"GetFileDescriptor", @"CommandName",
-                            intermediateFileName, @"FileName",
-                            fullDocumentPath, @"ActualFileName",
-                            nil];
-    }
-
-    // Go go gadget helper tool!
-
-    if (err == noErr) {
-        err = MoreSecExecuteRequestInHelperTool(tool, I_authRef, (CFDictionaryRef)request, (CFDictionaryRef *)(&response));
-    }
-    
-    // Extract information from the response.
-
-    if (err == noErr) {
-        DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"response: %@", response);
-
-        err = MoreSecGetErrorFromResponse((CFDictionaryRef)response);
-        if (err == noErr) {
-            NSArray *descArray;
-            int descIndex;
-            int descCount;
-            
-            descArray = [response objectForKey:(NSString *)kMoreSecFileDescriptorsKey];
-            descCount = [descArray count];
-            for (descIndex = 0; descIndex < descCount; descIndex++) {
-                NSNumber *thisDescNum;
-                int thisDesc;
-                
-                thisDescNum = [descArray objectAtIndex:descIndex];
-                thisDesc = [thisDescNum intValue];
-                fcntl(thisDesc, F_GETFD, 0);
-                
-                NSFileHandle *fileHandle = [[NSFileHandle alloc] initWithFileDescriptor:thisDesc closeOnDealloc:YES];
-                NSError *error=nil;
-                NSData *data = [self dataOfType:docType error:&error];
-                if (!data) {
-                    DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"dataOfType returned error: %@", error);
-                }
-                @try {
-                    [fileHandle writeData:data];
-                }
-                @catch (id exception) {
-                    DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"writeData throws exception: %@", exception);
-                    err = writErr;
-                }
-                [fileHandle release];
-            }
-        }
-    }
-    
-    // Clean up after first call of helper tool
-        
-    if (response) {
-        [response release];
-        response = nil;
-    }
-
-
-    // Create the request dictionary for exchanging file contents
-
-    if (err == noErr) {
-        NSMutableDictionary *attrs = [[[self fileAttributesToWriteToURL:[NSURL fileURLWithPath:fullDocumentPath] ofType:docType forSaveOperation:saveOperationType originalContentsURL:[self fileURL] error:nil] mutableCopy] autorelease];
-        if (![attrs objectForKey:NSFilePosixPermissions]) {
-            [attrs setObject:[NSNumber numberWithUnsignedShort:S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH] forKey:NSFilePosixPermissions];
-        }
-        request = [NSDictionary dictionaryWithObjectsAndKeys:
-                            @"ExchangeFileContents", @"CommandName",
-                            fullDocumentPath, @"ActualFileName",
-                            intermediateFileName, @"IntermediateFileName",
-                            attrs, @"Attributes",
-                            nil];
-    }
-
-    // Go go gadget helper tool!
-
-    if (err == noErr) {
-        err = MoreSecExecuteRequestInHelperTool(tool, I_authRef, (CFDictionaryRef)request, (CFDictionaryRef *)(&response));
-    }
-    
-    // Extract information from the response.
-    
-    if (err == noErr) {
-        DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"response: %@", response);
-
-        err = MoreSecGetErrorFromResponse((CFDictionaryRef)response);
-        if (err == noErr) {
-        }
-    }
-    
-    // Clean up after second call of helper tool.
-    if (response) {
-        [response release];
-    }
-
-
-    CFQRelease(tool);
-    
-    if (err == noErr) {
-        return YES;
-    } else {
-        *outError = [NSError errorWithDomain:@"MoreSec" code:err userInfo:nil];
-        return NO;
-    }
+					if (!error) {
+						[self setFileURL:anAbsoluteURL];
+						[self setFileType:docType];
+						[self setFileModificationDate:[NSDate date]];
+					} else {
+						NSLog(@"%s error: %@", __FUNCTION__, error);
+						NSLog(@"%s result: %@", __FUNCTION__, result);
+					}
+				}];
+			} else {
+				if (outError) {
+					*outError = fileWritingError;
+				}
+				return NO;
+			}
+		} else {
+			if (outError) {
+				*outError = authenticationScriptError;
+			}
+			return NO;
+		}
+	} else {
+		if (outError) {
+			*outError = applicastionScriptURLError;
+		}
+		return NO;
+	}
+	return YES;
 }
 
 - (BOOL)writeSafelyToURL:(NSURL*)anAbsoluteURL ofType:(NSString *)docType forSaveOperation:(NSSaveOperationType)saveOperationType error:(NSError **)outError {
@@ -6119,12 +5966,16 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 - (void)textStorageDidStartBlockedit:(FoldableTextStorage *)aTextStorage {
 //	NSLog(@"%s",__FUNCTION__);
-    [[self plainTextEditors] makeObjectsPerformSelector:@selector(TCM_updateStatusBar)];
+	for (PlainTextEditor *editor in self.plainTextEditors) {
+		[editor updateViews];
+	}
 }
 
 - (void)textStorageDidStopBlockedit:(FoldableTextStorage *)aTextStorage {
 //	NSLog(@"%s",__FUNCTION__);
-    [[self plainTextEditors] makeObjectsPerformSelector:@selector(TCM_updateStatusBar)];
+	for (PlainTextEditor *editor in self.plainTextEditors) {
+		[editor updateViews];
+	}
 }
 
 #pragma mark -
@@ -6700,12 +6551,20 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 - (void)handleShowWebPreviewCommand:(NSScriptCommand *)command {
 	PlainTextWindowController *windowController = self.topmostWindowController;
-	PlainTextWindowControllerTabContext *tabContext = [windowController selectedTabContext];
+	PlainTextWindowControllerTabContext *tabContext = [windowController windowControllerTabContextForDocument:self];
 
-	if (! tabContext.webPreviewViewController) {
-		[windowController toggleWebPreview:self];
+	if ([windowController.document isEqual:self]) {
+		if (! tabContext.webPreviewViewController) {
+			[windowController toggleWebPreview:self];
+		} else {
+			[tabContext.webPreviewViewController refresh:self];
+		}
 	} else {
-		[tabContext.webPreviewViewController refresh:self];
+		if (!tabContext.hasWebPreviewSplit) {
+			tabContext.hasWebPreviewSplit = YES;
+		} else {
+			[tabContext.webPreviewViewController refresh:self];
+		}
 	}
 }
 
@@ -6884,6 +6743,18 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 		[self setDocumentMode:modeValue];
 	}
 }
+
++ (id)coerceValue:(id)value toClass:(Class)toClass {
+	if ([value isKindOfClass:[PlainTextDocument class]]) {
+		if ([toClass isSubclassOfClass:[NSString class]]) {
+			return [value scriptedContents];
+		} else if ([toClass isSubclassOfClass:[FoldableTextStorage class]]) {
+			return [value scriptedPlainContents];
+		}
+	}
+	return nil;
+}
+
 
 - (id)scriptDocumentMode {
 	return [self documentMode];

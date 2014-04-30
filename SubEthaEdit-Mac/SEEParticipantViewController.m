@@ -24,13 +24,19 @@
 #import "TCMMMUserSEEAdditions.h"
 
 @interface SEEParticipantViewController ()
+
+@property (nonatomic, readwrite, assign) SEEParticipantViewMode viewMode;
+@property (nonatomic, readwrite, strong) NSColor *popoverTextColor;
+
 @property (nonatomic, readwrite, strong) TCMMMUser *participant;
 @property (nonatomic, readwrite, weak) PlainTextWindowControllerTabContext *tabContext;
 
 @property (nonatomic, strong) IBOutlet NSView *participantViewOutlet;
+@property (nonatomic, strong) IBOutlet NSPopover *nameLabelPopoverOutlet;
 @property (nonatomic, weak) IBOutlet NSTextField *nameLabelOutlet;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *userViewButtonLeftConstraintOutlet;
 @property (nonatomic, weak) IBOutlet NSButton *userViewButtonOutlet;
+@property (nonatomic, weak) IBOutlet SEEAvatarImageView *avatarViewOutlet;
 @property (nonatomic, weak) IBOutlet NSProgressIndicator *connectingProgressIndicatorOutlet;
 
 @property (nonatomic, strong) IBOutlet NSView *participantActionOverlayOutlet;
@@ -38,7 +44,9 @@
 @property (nonatomic, weak) IBOutlet NSButton *toggleEditModeButtonOutlet;
 @property (nonatomic, weak) IBOutlet NSButton *toggleFollowButtonOutlet;
 
-@property (nonatomic, strong) IBOutlet NSView *pendingUserActionOverlayOutlet;
+@property (nonatomic, strong) IBOutlet NSPopover *pendingUserPopoverOutlet;
+@property (nonatomic, weak) IBOutlet NSTextField *pendingUserActionPopoverTitle;
+@property (nonatomic, weak) IBOutlet NSTextField *pendingUserActionPopoverDescription;
 @property (nonatomic, weak) IBOutlet NSButton *pendingUserKickButtonOutlet;
 @property (nonatomic, weak) IBOutlet NSButton *chooseEditModeButtonOutlet;
 @property (nonatomic, weak) IBOutlet NSButton *chooseReadOnlyModeButtonOutlet;
@@ -48,15 +56,18 @@
 @property (nonatomic, weak) IBOutlet NSImageView *readOnlyOverlayImageOutlet;
 
 @property (nonatomic, weak) id plainTextEditorFollowUserNotificationHandler;
+@property (nonatomic, weak) id participantsScrollingNotificationHandler;
+@property (nonatomic, weak) id popoverShownNotificationHandler;
 
 @end
 
 @implementation SEEParticipantViewController
 
-- (id)initWithParticipant:(TCMMMUser *)aParticipant tabContext:(PlainTextWindowControllerTabContext *)aTabContext
+- (id)initWithParticipant:(TCMMMUser *)aParticipant tabContext:(PlainTextWindowControllerTabContext *)aTabContext inMode:(SEEParticipantViewMode)aMode
 {
     self = [super initWithNibName:@"SEEParticipantView" bundle:nil];
     if (self) {
+		self.viewMode = aMode;
 		self.participant = aParticipant;
 		self.tabContext = aTabContext;
 
@@ -65,8 +76,24 @@
 		[[NSNotificationCenter defaultCenter] addObserverForName:PlainTextEditorDidFollowUserNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
 			__typeof__(self) strongSelf = weakSelf;
 			if ([strongSelf.tabContext.plainTextEditors containsObject:note.object])
-			[strongSelf updateParticipantFollowed];
+				[strongSelf updateParticipantFollowed];
 		}];
+
+		// this fixes the popover content vies become first responder on opening
+		// store the old responder and set it again after 0.0 delay.
+		self.popoverShownNotificationHandler =
+		[[NSNotificationCenter defaultCenter] addObserverForName:NSPopoverWillShowNotification
+														  object:nil queue:nil usingBlock:^(NSNotification *note) {
+															  __typeof__(self) strongSelf = weakSelf;
+
+															  if (note.object == strongSelf.nameLabelPopoverOutlet) {
+																  NSWindow *window = strongSelf.view.window;
+																  NSResponder *previousFirstResponder = window.firstResponder;
+																  [NSOperationQueue TCM_performBlockOnMainQueue:^{
+																	  [window makeFirstResponder:previousFirstResponder];
+																  } afterDelay:0.0];
+															  }
+														  }];
     }
     return self;
 }
@@ -74,6 +101,16 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self.plainTextEditorFollowUserNotificationHandler];
+    [[NSNotificationCenter defaultCenter] removeObserver:self.participantsScrollingNotificationHandler];
+    [[NSNotificationCenter defaultCenter] removeObserver:self.popoverShownNotificationHandler];
+
+	SEEAvatarImageView *avatarView = self.avatarViewOutlet;
+	[avatarView unbind:@"image"];
+	[avatarView unbind:@"initials"];
+	[avatarView unbind:@"borderColor"];
+
+	self.nameLabelPopoverOutlet.delegate = nil;
+	self.pendingUserPopoverOutlet.delegate = nil;
 }
 
 - (void)loadView {
@@ -82,27 +119,13 @@
 	NSButton *userViewButton = self.userViewButtonOutlet;
 
 	TCMMMUser *user = self.participant;
-	NSImage *userImage = user.image;
-	NSString *initials = user.initials;
-	NSColor *changeColor = [user changeColor];
-	NSColor *changeHighlightColor = [user changeHighlightColorForBackgroundColor:[NSColor whiteColor]];
+	SEEAvatarImageView *avatarView = self.avatarViewOutlet;
+	[avatarView bind:@"image" toObject:user withKeyPath:@"image" options:nil];
+	[avatarView bind:@"initials" toObject:user withKeyPath:@"initials" options:nil];
+	[avatarView bind:@"borderColor" toObject:user withKeyPath:@"changeColorDesaturated" options:nil];
 
-	NSImage *avatarImage = [NSImage imageWithSize:userViewButton.frame.size flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
-		SEEAvatarImageView *avatarView = [[SEEAvatarImageView alloc] initWithFrame:dstRect];
-		avatarView.image = userImage;
-		avatarView.initials = initials;
-		avatarView.borderColor = [NSColor colorWithCalibratedHue:changeColor.hueComponent saturation:0.85 brightness:1.0 alpha:1.0];
-		avatarView.backgroundColor = changeHighlightColor;
-		[avatarView drawRect:dstRect];
-		return YES;
-	}];
-
-	if (avatarImage) {
-		userViewButton.image = avatarImage;
-	}
-	
 	NSTextField *nameLabel = self.nameLabelOutlet;
-	nameLabel.stringValue = self.participant.name;
+	nameLabel.stringValue = user.name;
 
 	// participant users action overlay
 	{
@@ -144,15 +167,159 @@
 		NSButton *button = self.chooseReadOnlyModeButtonOutlet;
 		button.image = [NSImage pdfBasedImageNamed:@"SharingIconReadOnly"TCM_PDFIMAGE_SEP@"16"TCM_PDFIMAGE_SEP@""TCM_PDFIMAGE_NORMAL];
 	}
+
+	// add double click target for follow action
+	[userViewButton setAction:@selector(userViewButtonClicked:)];
+	[userViewButton setTarget:self];
+
+	self.nameLabelPopoverOutlet.delegate = self;
+	self.pendingUserPopoverOutlet.delegate = self;
+
+	// add tracking for action buttons overlay and name overlay
+	[self.participantViewOutlet addTrackingArea:[[NSTrackingArea alloc] initWithRect:NSZeroRect options:NSTrackingMouseEnteredAndExited|NSTrackingActiveInActiveApp|NSTrackingInVisibleRect owner:self userInfo:nil]];
+
+	switch (self.viewMode) {
+		case SEEParticipantViewModeParticipant:
+			[self updateForParticipantUserState];
+			break;
+
+		case SEEParticipantViewModeInvited:
+			[self updateForInvitationState];
+			break;
+
+		case SEEParticipantViewModePending:
+			[self updateForPendingUserState];
+			break;
+
+		default:
+			break;
+	}
+
+	[self updateColorsForIsDarkBackground:self.tabContext.document.documentBackgroundColor.isDark];
 }
 
 - (void)mouseEntered:(NSEvent *)theEvent {
-	[self updateParticipantFollowed];
-	self.participantActionOverlayOutlet.hidden = NO;
+	switch (self.viewMode) {
+		case SEEParticipantViewModeParticipant:
+		{
+			if (! self.participant.isMe) {
+				[self updateParticipantFollowed];
+				self.participantActionOverlayOutlet.hidden = NO;
+
+				[NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+					context.duration = 0.1;
+					self.userViewButtonLeftConstraintOutlet.animator.constant = 10.0;
+				} completionHandler:^{
+					NSPopover *popover = self.nameLabelPopoverOutlet;
+					if (! popover.isShown) {
+						[popover showRelativeToRect:NSZeroRect ofView:self.userViewButtonOutlet preferredEdge:NSMinYEdge];
+						self.participantsScrollingNotificationHandler =
+						[[NSNotificationCenter defaultCenter] addObserverForName:NSScrollViewDidLiveScrollNotification object:self.view.enclosingScrollView queue:nil usingBlock:^(NSNotification *note) {
+							if (popover.isShown) {
+								[popover close];
+							}
+						}];
+					}
+				}];
+			} else {
+				NSPopover *popover = self.nameLabelPopoverOutlet;
+				if (! popover.isShown) {
+					[popover showRelativeToRect:NSZeroRect ofView:self.userViewButtonOutlet preferredEdge:NSMinYEdge];
+					self.participantsScrollingNotificationHandler =
+					[[NSNotificationCenter defaultCenter] addObserverForName:NSScrollViewDidLiveScrollNotification object:self.view.enclosingScrollView queue:nil usingBlock:^(NSNotification *note) {
+						if (popover.isShown) {
+							[popover close];
+						}
+					}];
+				}
+			}
+			break;
+		}
+		case SEEParticipantViewModeInvited:
+		{
+			self.participantActionOverlayOutlet.hidden = NO;
+
+			[NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+				context.duration = 0.1;
+				self.userViewButtonLeftConstraintOutlet.animator.constant = 10.0;
+			} completionHandler:^{
+				NSPopover *popover = self.nameLabelPopoverOutlet;
+				if (! popover.isShown) {
+					[popover showRelativeToRect:NSZeroRect ofView:self.userViewButtonOutlet preferredEdge:NSMinYEdge];
+					self.participantsScrollingNotificationHandler =
+					[[NSNotificationCenter defaultCenter] addObserverForName:NSScrollViewDidLiveScrollNotification object:self.view.enclosingScrollView queue:nil usingBlock:^(NSNotification *note) {
+						if (popover.isShown) {
+							[popover close];
+						}
+					}];
+				}
+			}];
+
+			break;
+		}
+		case SEEParticipantViewModePending:
+		{
+			NSPopover *popover = self.pendingUserPopoverOutlet;
+			if (! popover.isShown) {
+				[popover showRelativeToRect:NSZeroRect ofView:self.userViewButtonOutlet preferredEdge:NSMinYEdge];
+
+				self.participantsScrollingNotificationHandler =
+				[[NSNotificationCenter defaultCenter] addObserverForName:NSScrollViewDidLiveScrollNotification object:self.view.enclosingScrollView queue:nil usingBlock:^(NSNotification *note) {
+					if (popover.isShown) {
+						[popover close];
+					}
+				}];
+			}
+			break;
+		}
+		default:
+			break;
+	}
 }
 
 - (void)mouseExited:(NSEvent *)theEvent {
-	self.participantActionOverlayOutlet.hidden = YES;
+	switch (self.viewMode) {
+		case SEEParticipantViewModeParticipant:
+		{
+			if (! self.participant.isMe) {
+				self.participantActionOverlayOutlet.hidden = YES;
+
+				[NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+					context.duration = 0.1;
+					self.userViewButtonLeftConstraintOutlet.animator.constant = 0.0;
+				} completionHandler:^{
+					[self.nameLabelPopoverOutlet close];
+				}];
+			} else {
+				[self.nameLabelPopoverOutlet close];
+			}
+			break;
+		}
+		case SEEParticipantViewModeInvited:
+		{
+			self.participantActionOverlayOutlet.hidden = YES;
+
+			[NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+				context.duration = 0.1;
+				self.userViewButtonLeftConstraintOutlet.animator.constant = 0.0;
+			} completionHandler:^{
+				[self.nameLabelPopoverOutlet close];
+			}];
+			break;
+		}
+		default:
+			break;
+	}
+}
+
+
+#pragma mark - NSPopoverDelegate
+
+- (void)popoverDidClose:(NSNotification *)notification {
+	if (self.participantsScrollingNotificationHandler) {
+		[[NSNotificationCenter defaultCenter] removeObserver:self.participantsScrollingNotificationHandler];
+		self.participantsScrollingNotificationHandler = nil;
+	}
 }
 
 
@@ -176,10 +343,33 @@
 	}
 }
 
-- (IBAction)userViewButtonDoubleClicked:(id)sender {
-	NSEvent *event = [NSApp currentEvent];
-	if (event.clickCount == 2) {
-		[self toggleFollow:sender];
+- (IBAction)userViewButtonClicked:(id)sender {
+	switch (self.viewMode) {
+		case SEEParticipantViewModeParticipant:
+		{
+			NSEvent *event = [NSApp currentEvent];
+			if (event.clickCount == 2) {
+				[self toggleFollow:sender];
+			}
+			break;
+		}
+		case SEEParticipantViewModePending:
+		{
+			NSPopover *popover = self.pendingUserPopoverOutlet;
+			if (! popover.isShown) {
+				[popover showRelativeToRect:NSZeroRect ofView:self.userViewButtonOutlet preferredEdge:NSMinYEdge];
+
+				self.participantsScrollingNotificationHandler =
+				[[NSNotificationCenter defaultCenter] addObserverForName:NSScrollViewDidLiveScrollNotification object:self.view.enclosingScrollView queue:nil usingBlock:^(NSNotification *note) {
+					if (popover.isShown) {
+						[popover close];
+					}
+				}];
+			}
+			break;
+		}
+		default:
+			break;
 	}
 }
 
@@ -244,6 +434,14 @@
 	}
 }
 
+#pragma mark Color Scheme Appearence
+
+- (void)updateColorsForIsDarkBackground:(BOOL)isDark {
+	self.nameLabelPopoverOutlet.appearance = isDark ? NSPopoverAppearanceMinimal : NSPopoverAppearanceHUD;
+	self.pendingUserPopoverOutlet.appearance = isDark ? NSPopoverAppearanceMinimal:NSPopoverAppearanceHUD;
+	self.popoverTextColor = isDark ? [NSColor controlTextColor] : [NSColor alternateSelectedControlTextColor];
+}
+
 
 #pragma mark - Preparing Views
 
@@ -285,13 +483,6 @@
 																			   constant:0];
 		[userView addSubview:self.participantActionOverlayOutlet];
 		[userView addConstraints:@[constraint, verticalConstraint]];
-
-		// install tracking for action overlay
-		[self.participantViewOutlet addTrackingArea:[[NSTrackingArea alloc] initWithRect:NSZeroRect options:NSTrackingMouseEnteredAndExited|NSTrackingActiveInKeyWindow|NSTrackingInVisibleRect owner:self userInfo:nil]];
-
-		// add double click target for follow action
-		[self.userViewButtonOutlet setAction:@selector(userViewButtonDoubleClicked:)];
-		[self.userViewButtonOutlet setTarget:self];
 	}
 }
 
@@ -319,34 +510,25 @@
 
 
 - (void)updateForPendingUserState {
-	if (self.tabContext.document.session.isServer) {
-		NSView *userView = self.participantViewOutlet;
-		NSView *overlayView = self.pendingUserActionOverlayOutlet;
-		overlayView.hidden = NO;
-		[userView addSubview:overlayView];
-
-		NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:overlayView
-																	  attribute:NSLayoutAttributeRight
-																	  relatedBy:NSLayoutRelationEqual
-																		 toItem:userView
-																	  attribute:NSLayoutAttributeRight
-																	 multiplier:1
-																	   constant:-5];
-
-		NSLayoutConstraint *verticalConstraint = [NSLayoutConstraint constraintWithItem:overlayView
-																	  attribute:NSLayoutAttributeTop
-																	  relatedBy:NSLayoutRelationEqual
-																		 toItem:userView
-																	  attribute:NSLayoutAttributeTop
-																	 multiplier:1
-																	   constant:0];
-		[userView addConstraints:@[constraint, verticalConstraint]];
-		self.userViewButtonLeftConstraintOutlet.constant = 16;
-	}
-
 	self.pendingUserQuestionMarkOutlet.hidden = NO;
-	self.userViewButtonOutlet.enabled = NO;
+	self.userViewButtonOutlet.enabled = YES;
+
+	{ // popover alert button titles
+		self.pendingUserKickButtonOutlet.title = NSLocalizedStringWithDefaultValue(@"KICK_PENDING_USER_BUTTON_TITLE", nil, [NSBundle mainBundle], @"Reject", @"Button Title for reject button in pending participant action popover");
+
+		self.chooseReadOnlyModeButtonOutlet.title = NSLocalizedStringWithDefaultValue(@"READ_ONLY_PENDING_USER_BUTTON_TITLE", nil, [NSBundle mainBundle], @"Read Only", @"Button Title for read only button in pending participant action popover");
+
+		self.chooseEditModeButtonOutlet.title = NSLocalizedStringWithDefaultValue(@"READ_WRITE_PENDING_USER_BUTTON_TITLE", nil, [NSBundle mainBundle], @"Read/Write", @"Button Title for read-write button in pending participant action popover");
+	}
+	{ // popover alert title
+		self.pendingUserActionPopoverTitle.stringValue = NSLocalizedStringWithDefaultValue(@"PENDING_USER_ALERT_POPUP_TITLE", nil, [NSBundle mainBundle], @"New Participant", @"Pending participant action popover dialog title.");
+	}
+	{ // popover alert description
+		NSString *popoverDescriptionFormatString = NSLocalizedStringWithDefaultValue(@"PENDING_USER_ALERT_POPUP_DESCRIPTION", nil, [NSBundle mainBundle], @"%@ wants to join this document.", @"Pending participant action popover dialog description. First argument represents joining participants name.");
+		self.pendingUserActionPopoverDescription.stringValue = [NSString stringWithFormat:popoverDescriptionFormatString, self.participant.name];
+	}
 }
+
 
 - (void)updateForInvitationState {
 	self.connectingProgressIndicatorOutlet.usesThreadedAnimation = YES;
@@ -382,9 +564,6 @@
 																			   constant:0];
 		[userView addSubview:self.participantActionOverlayOutlet];
 		[userView addConstraints:@[constraint, verticalConstraint]];
-
-		// install tracking for action overlay
-		[self.participantViewOutlet addTrackingArea:[[NSTrackingArea alloc] initWithRect:NSZeroRect options:NSTrackingMouseEnteredAndExited|NSTrackingActiveInKeyWindow|NSTrackingInVisibleRect owner:self userInfo:nil]];
 	}
 }
 

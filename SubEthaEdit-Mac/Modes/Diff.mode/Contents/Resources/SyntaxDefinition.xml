@@ -11,19 +11,19 @@
     
         <default id="Base" scope="meta.default">
         
-            <keywords id="Index" useforautocomplete="no" scope="markup.processing">
+            <keywords id="Index" useforautocomplete="no" scope="structured.heading">
                 <regex>^(Index: .*)</regex>
             </keywords>
 
-            <keywords id="+++" useforautocomplete="no" scope="string.double">
+            <keywords id="+++" useforautocomplete="no" scope="structured.changes.added">
                 <regex>^([+](?:[+]{2})?[^\n\r]*)</regex>
             </keywords>
             
-            <keywords id="---" useforautocomplete="no" scope="meta.invalid">
+            <keywords id="---" useforautocomplete="no" scope="structured.changes.deleted">
                 <regex>^([-](?:[-]{2})?[^\n\r]*)</regex>
             </keywords>
 
-            <keywords id="==================" useforautocomplete="no" scope="comment.line">
+            <keywords id="==================" useforautocomplete="no" scope="structured.separator.horizontal">
                 <regex>^([=]{3,})</regex>
             </keywords>
 

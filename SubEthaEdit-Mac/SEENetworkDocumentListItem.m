@@ -93,8 +93,13 @@ extern int const FileNewMenuItemTag;
 
 - (void)updateImage {
 	NSString *fileExtension = self.name.pathExtension;
-	NSString *fileType = (CFBridgingRelease(UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (__bridge CFStringRef)fileExtension, nil)));
-	NSImage *image = [[NSWorkspace sharedWorkspace] iconForFileType:fileType];
+	NSImage *image = nil;
+	if (fileExtension) {
+		NSString *fileType = (CFBridgingRelease(UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (__bridge CFStringRef)fileExtension, nil)));
+		image = [[NSWorkspace sharedWorkspace] iconForFileType:fileType];
+	} else {
+		image = [[NSWorkspace sharedWorkspace] iconForFileType:@"public.text"];
+	}
 	self.image = image;
 }
 

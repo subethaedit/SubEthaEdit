@@ -7,8 +7,8 @@
         <endregex>}</endregex>
     </blocks>
     
-    <symbol id="C Funtions" image="SymbolF()" indentation="1" ignoreblocks="yes">
-        <regex>([\w\d_]+)[ \t]*\([^)]*\)[^{]*\{</regex>
+    <symbol id="Functions" symbol="f()_#6AB18D" indentation="0" ignoreblocks="yes">
+        <regex>[ \t]*function[ \t]*([\w\d_]+)[ \t]*\([^)]*\)[^{]*\{</regex>
         <postprocess>
             <find>\([^\)]*\)</find>
             <replace>()</replace>
@@ -17,6 +17,10 @@
             <find>[ \t]+</find>
             <replace> </replace>
         </postprocess>
+    </symbol>
+
+    <symbol id="aliases" symbol="a_#a11" indentation="0" ignoreblocks="yes">
+	    <regex>^[ \t]*alias[ \t]*([\w\d_]+)=</regex>
     </symbol>
 
     <symbol id="CVS/SVN conflict" font-weight="bold" image="SymbolWarn" indentation="0" ignoreblocks="no">

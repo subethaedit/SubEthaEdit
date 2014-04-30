@@ -103,7 +103,7 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
         I_flags.serviceIsPublished=NO;
         I_foundUserIDs=[NSMutableSet new];
         sharedInstance = self;
-		
+		I_serviceNameAddition = 0;
 		TCMMMBEEPSessionManager *sessionManager = [TCMMMBEEPSessionManager sharedInstance];
 		[sessionManager registerHandler:self forIncomingProfilesWithProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"];
 
@@ -162,12 +162,18 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
 - (NSString *)serviceName {
     NSString *computerName = CFBridgingRelease(SCDynamicStoreCopyComputerName(NULL,NULL));
 	NSString *result = [NSString stringWithFormat:@"%@@%@",NSUserName(),computerName];
+	int listeningPort = [[TCMMMBEEPSessionManager sharedInstance] listeningPort];
+	if (listeningPort != 6942) {
+		result = [result stringByAppendingFormat:@"_%d",listeningPort];
+	}
+	if (I_serviceNameAddition > 0) {
+		result = [result stringByAppendingFormat:@" (%ld)",(long)I_serviceNameAddition];
+	}
     return result;
 }
 
 - (void)TCM_validateServiceAnnouncement {
     // Announce ourselves via rendezvous
-    
     
     TCMMMUser *me = [[TCMMMUserManager sharedInstance] me];
 	NSArray *txtRecordArray = [NSArray arrayWithObjects:
@@ -767,11 +773,9 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
 // Error handling code
 - (void)handleError:(NSNumber *)error withService:(NSNetService *)service
 {
-    static int count=1;
     // Handle error here
     if ([error intValue]==NSNetServicesCollisionError) {
-        I_netService=[[NSNetService alloc] initWithDomain:@"" type:@"_see._tcp." name:[NSString stringWithFormat:@"%@ (%d)",[self serviceName],count++] port:[[TCMMMBEEPSessionManager sharedInstance] listeningPort]];
-        [I_netService setDelegate:self];
+		I_serviceNameAddition++;
         [self TCM_validateServiceAnnouncement];
     } else {
         DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"An error occurred with service %@.%@.%@, error code = %@",
@@ -805,6 +809,7 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
     I_flags.serviceIsPublished=NO;
     DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"netServiceDidStop: %@", netService);
     // You may want to do something here, such as updating a user interface
+	I_serviceNameAddition = 0;
 }
 
 @end

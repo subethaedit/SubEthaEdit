@@ -8,8 +8,8 @@
 
 #import "TCMPreferenceModule.h"
 @class SEECollaborationPreferenceModule;
-#import "PCRolloverImageView.h"
 #import "SEEUserColorsPreviewView.h"
+#import "SEEAvatarImageView.h"
 
 @interface SEECollaborationPreferenceModule : TCMPreferenceModule
 
@@ -20,31 +20,29 @@
 @property (nonatomic, strong) IBOutlet NSImageView *O_mappingStatusImageView;
 @property (nonatomic, strong) IBOutlet NSProgressIndicator *O_mappingStatusProgressIndicator;
 @property (nonatomic, strong) IBOutlet NSButton *O_disableNetworkingButton;
-@property (nonatomic, strong) IBOutlet NSButton *O_invisibleOnNetowrkButton;
+@property (nonatomic, strong) IBOutlet NSButton *O_invisibleOnNetworkButton;
 @property (nonatomic, strong) IBOutlet NSTextField *O_invisibleOnNetworkExplanationTextField;
 
 // me-card
-@property (nonatomic, strong) IBOutlet PCRolloverImageView *O_pictureImageView;
+@property (nonatomic, strong) IBOutlet SEEAvatarImageView *O_avatarImageView;
 @property (nonatomic, strong) IBOutlet NSTextField *O_nameTextField;
 @property (nonatomic, strong) IBOutlet NSComboBox  *O_emailComboBox;
 
 // colors
 @property (nonatomic, strong) IBOutlet SEEUserColorsPreviewView *O_userColorsPreview;
-@property (nonatomic, strong) IBOutlet NSButton *O_higlightChangesButton;
+@property (nonatomic, strong) IBOutlet NSButton *O_highlightChangesButton;
 
-// localization
-@property (nonatomic, readonly) NSString *localizedNetworkBoxLabelText;
-@property (nonatomic, readonly) NSString *localizedLocalPortLabelText;
-@property (nonatomic, readonly) NSString *localizedAutomaticallyMapPortsLabelText;
-@property (nonatomic, readonly) NSString *localizedAutomaticallyMapPortsExplanationText;
-@property (nonatomic, readonly) NSString *localizedAutomaticallyMapPortsToolTipText;
+// localization outlet additions
+@property (nonatomic, strong) IBOutlet NSTextField *O_userNameLabel;
+@property (nonatomic, strong) IBOutlet NSTextField *O_userEmailLabel;
+@property (nonatomic, strong) IBOutlet NSSlider *O_highlightChangesSlider;
+@property (nonatomic, strong) IBOutlet NSBox *O_networkBox;
+@property (nonatomic, strong) IBOutlet NSTextField *O_localPortLabel;
+@property (nonatomic, strong) IBOutlet NSTextField *O_automaticallyMapPortExplanationTextField;
 
-@property (nonatomic, readonly) NSString *localizedUserNameLabel;
-@property (nonatomic, readonly) NSString *localizedUserEmailLabel;
-
-@property (nonatomic, readonly) NSString *localizedImageMenuAddressBook;
-@property (nonatomic, readonly) NSString *localizedImageMenuChoose;
-@property (nonatomic, readonly) NSString *localizedImageMenuClear;
+@property (nonatomic, strong) IBOutlet NSTextField *O_userColorLabel;
+@property (nonatomic, strong) IBOutlet NSTextField *O_changesSaturationLabelPale;
+@property (nonatomic, strong) IBOutlet NSTextField *O_changesSaturationLabelStrong;
 
 // actions - network
 - (IBAction)changeAutomaticallyMapPorts:(id)aSender;
@@ -52,10 +50,7 @@
 - (IBAction)changeVisiblityOnNetwork:(id)aSender;
 
 // actions - me-card
-- (IBAction)useAddressBookImage:(id)aSender;
 - (IBAction)chooseImage:(id)aSender;
-- (IBAction)clearImage:(id)aSender;
-- (IBAction)takeImageFromImageView:(id)aSender;
 
 - (IBAction)changeName:(id)aSender;
 - (IBAction)changeEmail:(id)aSender;
