@@ -1343,7 +1343,7 @@
             [document setScriptingProperties:properties];
             [I_propertiesForOpenedFiles setObject:properties forKey:standardInputFile];
             [(PlainTextDocument *)document resizeAccordingToDocumentMode];
-            [document readFromURL:[NSURL fileURLWithPath:standardInputFile] ofType:@"public.text" error:NULL];
+            [document readFromURL:[NSURL fileURLWithPath:standardInputFile] ofType:@"public.plain-text" error:NULL];
             if (shouldMakePipeDirty) {
                 [document updateChangeCount:NSChangeDone];
             }
