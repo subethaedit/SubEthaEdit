@@ -49,9 +49,9 @@
 #import "MultiPagePrintView.h"
 #import "SEEPrintOptionsViewController.h"
 
-#import "MoreUNIX.h"
-#import "MoreSecurity.h"
-#import "MoreCFQ.h"
+//#import "MoreUNIX.h"
+//#import "MoreSecurity.h"
+//#import "MoreCFQ.h"
 #import <fcntl.h>
 #import <sys/param.h>
 #import <sys/stat.h>
@@ -3756,7 +3756,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 	if (! applicastionScriptURLError) {
 		NSError *authenticationScriptError = nil;
 		NSURL *authenticationScriptURL = [applicationScriptURL URLByAppendingPathComponent:@"SubEthaEdit_AuthenticatedSave.scpt"];
-		NSUserAppleScriptTask *authorisationScript = [[NSUserAppleScriptTask alloc] initWithURL:authenticationScriptURL error:&authenticationScriptError];
+		NSUserAppleScriptTask *authorisationScript = [[[NSUserAppleScriptTask alloc] initWithURL:authenticationScriptURL error:&authenticationScriptError] autorelease];
 
 		if (! authenticationScriptError) {
 			NSURL *tempFileURL = [NSURL fileURLWithPath:NSTemporaryDirectory()];
