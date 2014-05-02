@@ -40,6 +40,7 @@
 extern int const FileMenuTag;
 extern int const FileNewMenuItemTag;
 
+static BOOL SEEDocumentListOpenDocumentsWithSingleClick = YES;
 static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetworkDocumentBrowserEntriesObservingContext;
 
 @interface SEEDocumentListWindowController () <NSTableViewDelegate>
@@ -356,6 +357,8 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 		NSArray *selectedDocuments = self.documentListItemsArrayController.selectedObjects;
 		if (! [selectedDocuments containsObject:clickedItem]) {
 			[clickedItem itemAction:self.tableViewOutlet];
+		} else if (SEEDocumentListOpenDocumentsWithSingleClick) { // do this if we want documents to be opend by single click
+			[selectedDocuments makeObjectsPerformSelector:@selector(itemAction:) withObject:self.tableViewOutlet];
 		}
 	}
 }
@@ -478,8 +481,12 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	NSIndexSet *selectedIndices = self.tableViewOutlet.selectedRowIndexes;
 	[selectedIndices enumerateIndexesUsingBlock:^(NSUInteger row, BOOL *stop) {
 		id documentRepresentation = [self.availableItems objectAtIndex:row];
-		if (! ([documentRepresentation isKindOfClass:SEENetworkDocumentListItem.class] || [documentRepresentation isKindOfClass:SEERecentDocumentListItem.class])) {
+		if (SEEDocumentListOpenDocumentsWithSingleClick) {
 			[self.tableViewOutlet deselectRow:row];
+		} else {
+			if (! ([documentRepresentation isKindOfClass:SEENetworkDocumentListItem.class] || [documentRepresentation isKindOfClass:SEERecentDocumentListItem.class])) {
+				[self.tableViewOutlet deselectRow:row];
+			}
 		}
 	}];
 }
