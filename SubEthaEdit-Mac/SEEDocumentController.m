@@ -282,7 +282,7 @@
                 NSMenuItem *itemToAdd = [prototypeMenuItem copy];
                 [aMenu addItem:itemToAdd];
 //				NSLog(@"%@",itemToAdd);
-                [itemToAdd setMark:[document isDocumentEdited]?kBulletCharCode:noMark];
+                [itemToAdd setMark:[document isDocumentEdited]];
                 documentPosition++;
             }
             firstWC = NO;

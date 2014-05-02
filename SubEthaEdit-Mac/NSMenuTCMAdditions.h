@@ -16,7 +16,7 @@ extern MenuRef _NSGetCarbonMenu(NSMenu* aMenu);
 @end
 
 @interface NSMenuItem (NSMenuItemTCMAdditions)
-- (void)setMark:(int)aMark;
+- (void)setMark:(BOOL)aMark;
 - (id)autoreleasedCopy;
 - (NSComparisonResult)compareAlphabetically:(NSMenuItem *)aNotherMenuItem;
 - (void)setKeyEquivalentBySettingsString:(NSString *)aKeyEquivalentSettingsString;
