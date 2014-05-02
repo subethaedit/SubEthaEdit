@@ -9,6 +9,11 @@
 #import "AboutPanelController.h"
 #import <OgreKit/OgreKit.h>
 
+// this file needs arc - either project wide,
+// or add -fobjc-arc on a per file basis in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
 
 @implementation AboutPanelController
 
@@ -24,9 +29,9 @@
                                 [mainBundle objectForInfoDictionaryKey:@"CFBundleVersion"]];
     NSString *ogreVersion = [NSString stringWithFormat:@"OgreKit v%@, Oniguruma v%@", [OGRegularExpression version], [OGRegularExpression onigurumaVersion]];
 
-    [O_versionField setObjectValue:versionString];
-    [O_ogreVersionField setObjectValue:ogreVersion];
-    [O_legalTextField setObjectValue:[mainBundle objectForInfoDictionaryKey:@"NSHumanReadableCopyright"]];
+    [self.O_versionField setObjectValue:versionString];
+    [self.O_ogreVersionField setObjectValue:ogreVersion];
+    [self.O_legalTextField setObjectValue:[mainBundle objectForInfoDictionaryKey:@"NSHumanReadableCopyright"]];
 
     [[self window] center];
 }

@@ -9,12 +9,11 @@
 #import <AppKit/AppKit.h>
 #import <WebKit/WebKit.h>
 
+@interface AboutPanelController : NSWindowController
 
-@interface AboutPanelController : NSWindowController {
-    IBOutlet NSImageView *O_appIconView;
-    IBOutlet NSTextField *O_legalTextField;
-    IBOutlet NSTextField *O_versionField;
-    IBOutlet NSTextField *O_ogreVersionField;
-}
+@property (nonatomic, strong) IBOutlet NSImageView *O_appIconView;
+@property (nonatomic, strong) IBOutlet NSTextField *O_legalTextField;
+@property (nonatomic, strong) IBOutlet NSTextField *O_versionField;
+@property (nonatomic, strong) IBOutlet NSTextField *O_ogreVersionField;
 
 @end
