@@ -98,7 +98,7 @@ extern NSString * const DocumentModeStyleSheetsDefaultLanguageContextKey;
 @class SEEStyleSheet;
 @class SEEStyleSheetSettings;
 
-@interface DocumentMode : NSObject <NSToolbarDelegate> {
+@interface DocumentMode : NSObject {
     NSBundle *I_bundle;
     ModeSettings *I_modeSettings;
     SyntaxDefinition *I_syntaxDefinition;
@@ -112,9 +112,6 @@ extern NSString * const DocumentModeStyleSheetsDefaultLanguageContextKey;
     NSMutableArray *I_menuItemArray;
     NSMutableArray *I_contextMenuItemArray;
     NSMutableArray *I_scriptOrderArray;
-    NSMutableDictionary *I_toolbarItemsByIdentifier;
-    NSMutableArray *I_toolbarItemIdentifiers;
-    NSMutableArray *I_defaultToolbarItemIdentifiers;
     NSMutableDictionary *I_styleIDTransitionDictionary;
     NSDictionary *I_scopeExamples;
     NSArray *I_availableScopes;

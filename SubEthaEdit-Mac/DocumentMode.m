@@ -266,9 +266,6 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 
         I_menuItemArray = [NSMutableArray new];
         I_contextMenuItemArray = [NSMutableArray new];
-        I_toolbarItemsByIdentifier     =[NSMutableDictionary new];
-        I_toolbarItemIdentifiers       =[NSMutableArray new];
-        I_defaultToolbarItemIdentifiers=[NSMutableArray new];
         int i=0;
         for (i=0;i<[I_scriptOrderArray count];i++) {
             NSString *filename = [I_scriptOrderArray objectAtIndex:i];
@@ -478,9 +475,6 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     [I_contextMenuItemArray release];
     [I_scriptOrderArray release];
     [I_scriptsByFilename release];
-    [I_toolbarItemIdentifiers release];
-    [I_toolbarItemsByIdentifier release];
-    [I_defaultToolbarItemIdentifiers release];
 
     [I_defaults release];
     [I_syntaxHighlighter release];
@@ -732,21 +726,6 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
             [[EncodingManager sharedInstance] registerEncoding:[newEncodingNumber unsignedIntValue]];
         }
     }
-}
-
-#pragma mark -
-#pragma mark ### Toolbar ###
-
-- (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdentifier willBeInsertedIntoToolbar:(BOOL)willBeInserted {
-    return [[[I_toolbarItemsByIdentifier objectForKey:itemIdentifier] copy] autorelease];
-}
-
-- (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar {
-    return I_defaultToolbarItemIdentifiers;
-}
-
-- (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar {
-    return I_toolbarItemIdentifiers;
 }
 
 #pragma mark -

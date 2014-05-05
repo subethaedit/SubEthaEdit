@@ -255,7 +255,7 @@ static TCMPreferenceController *sharedInstance = nil;
     return [registeredPrefModules objectForKey:identifier];
 }
 
-#pragma mark -
+#pragma mark - NSToolbarDelegate
 
 - (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdent willBeInsertedIntoToolbar:(BOOL)willBeInserted
 {

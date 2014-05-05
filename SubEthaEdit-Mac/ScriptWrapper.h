@@ -30,7 +30,6 @@ extern NSString * const ScriptWrapperDidRunScriptNotification;
 + (id)scriptWrapperWithContentsOfURL:(NSURL *)anURL;
 
 - (id)initWithContentsOfURL:(NSURL *)anURL;
-- (NSToolbarItem *)toolbarItemWithImageSearchLocations:(NSArray *)anImageSearchLocationsArray identifierAddition:(NSString *)anAddition;
 - (void)executeAndReturnError:(NSDictionary **)errorDictionary;
 - (NSDictionary *)settingsDictionary;
 - (void)revealSource;

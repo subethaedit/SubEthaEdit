@@ -859,15 +859,6 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     [I_contextMenuItemArray release];
     I_contextMenuItemArray = [NSMutableArray new];
     
-    [I_toolbarItemIdentifiers release];
-    I_toolbarItemIdentifiers = [NSMutableArray new];
-    
-    [I_defaultToolbarItemIdentifiers release];
-    I_defaultToolbarItemIdentifiers = [NSMutableArray new];
-    
-    [I_toolbarItemsByIdentifier release];
-    I_toolbarItemsByIdentifier = [NSMutableDictionary new];
-    
     // make sure Basic directories have been created
     [DocumentModeManager sharedInstance];
     
