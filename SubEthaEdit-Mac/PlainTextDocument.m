@@ -5567,14 +5567,30 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     [textStorage addAttribute:NSParagraphStyleAttributeName value:[self defaultParagraphStyle] range:wholeRange];
     I_flags.isRemotelyEditingTextStorage=NO;
     [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
-    [self updateChangeCount:NSChangeCleared];
-    I_flags.shouldSelectModeOnSave=NO;
-    I_flags.shouldChangeExtensionOnModeChange=NO;
+	[self updateChangeCount:NSChangeCleared];
+	I_flags.shouldSelectModeOnSave = NO;
+	I_flags.shouldChangeExtensionOnModeChange = NO;
 }
 
 - (void)session:(TCMMMSession *)aSession didReceiveContent:(NSDictionary *)aContent {
     if ([[self windowControllers] count]>0) {
         [self setContentByDictionaryRepresentation:aContent];
+
+		I_flags.isAutosavingForRestart = YES;
+		[self updateChangeCount:NSChangeDone];
+		if (self.hasUnautosavedChanges) {
+			[self performActivityWithSynchronousWaiting:YES usingBlock:^(void (^activityCompletionHandler)(void)) {
+				[self autosaveWithImplicitCancellability:NO completionHandler:^(NSError *error) {
+					activityCompletionHandler();
+				}];
+
+				[self performSynchronousFileAccessUsingBlock:^{
+					[self updateChangeCount:NSChangeCleared];
+					I_flags.isAutosavingForRestart = YES;
+				}];
+			}];
+		}
+
         I_flags.isReceivingContent = NO;
         PlainTextWindowController *windowController=(PlainTextWindowController *)[[self windowControllers] objectAtIndex:0];
         [windowController document:self isReceivingContent:NO];
@@ -5870,12 +5886,12 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
     UndoManager *undoManager=[self documentUndoManager];
     if (![undoManager isUndoing]) {
-        if ([undoManager isRedoing] && 
-            floor(NSAppKitVersionNumber)>824){ //NSAppKitVersionNumber10_4
-            [self updateChangeCount:5]; //NSChangeRedone
+        if ([undoManager isRedoing]) {
+            [self updateChangeCount:NSChangeRedone];
         } else {
             [self updateChangeCount:NSChangeDone];
         }
+
         if (I_flags.showMatchingBrackets && ![undoManager isRedoing] &&
             !I_flags.isRemotelyEditingTextStorage &&
     //        !I_blockedit.isBlockediting && !I_blockedit.didBlockedit &&
