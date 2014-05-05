@@ -1018,3 +1018,9 @@
 "PENDING_USER_ALERT_POPUP_TITLE" = "Neuer Teilnehmer";
 "PENDING_USER_ALERT_POPUP_DESCRIPTION" = "%@ möchte an diesem Dokument teilnehmen.";
 
+/* User Notifications */
+/* User Notification title if a invited user declines your invitation. */
+"USER_NOTIFICATION_DECLINE_TITLE" = "Einladung wurde abgelehnt.";
+/* User Notification subtitle if a invited user declines your invitation - the first %@ is the user name, the second the document name */
+"USER_NOTIFICATION_DECLINE_SUBTITLE" = "%@ ist %@ nicht beigetreten.";
+

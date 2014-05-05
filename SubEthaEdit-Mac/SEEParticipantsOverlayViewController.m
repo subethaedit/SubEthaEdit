@@ -282,8 +282,16 @@
 				// Move invited user to
 				NSUserNotification *userNotification = [[NSUserNotification alloc] init];
 				userNotification.hasActionButton = NO;
-				userNotification.title = NSLocalizedString(@"User declined invitation.", @"User Notification title if a invited user declines your invitation.");
-				userNotification.subtitle = [NSString stringWithFormat:NSLocalizedString(@"%@ did not join %@.", @"User Notification subtitle if a invited user declines your invitation."), user.name, self.tabContext.document.displayName];
+				userNotification.title =
+				NSLocalizedStringWithDefaultValue(@"USER_NOTIFICATION_DECLINE_TITLE", nil, [NSBundle mainBundle],
+												  @"User declined invitation.",
+												  @"User Notification title if a invited user declines your invitation.");
+				NSString *subtitleFormatString =
+				NSLocalizedStringWithDefaultValue(@"USER_NOTIFICATION_DECLINE_SUBTITLE", nil, [NSBundle mainBundle],
+												  @"%@ did not join %@.",
+												  @"User Notification subtitle if a invited user declines your invitation.");
+				
+				userNotification.subtitle = [NSString stringWithFormat:subtitleFormatString, user.name, self.tabContext.document.displayName];
 				[[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:userNotification];
 
 				// Let's do it async for now, because the old drawer causes crashes if the user is removed before it updates.
