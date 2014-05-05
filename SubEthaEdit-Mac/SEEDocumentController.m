@@ -31,6 +31,7 @@
 #import "SEEOpenPanelAccessoryViewController.h"
 #import "SEEDocumentListWindowController.h"
 #import "NSApplicationTCMAdditions.h"
+#import "SEEScopedBookmarkManager.h"
 
 #import <PSMTabBarControl/PSMTabBarControl.h>
 #import <objc/objc-runtime.h>			// for objc_msgSend
@@ -1049,19 +1050,9 @@
             [self openModeFile:filename];
         } else if ([[NSFileManager defaultManager] fileExistsAtPath:filename isDirectory:&isDir] && isDir && !isFilePackage) {
             [self openDirectory:filename];
-// currently disable special seestyle open handling
-//        } else if ([[filename pathExtension] isEqualToString:@"seestyle"]) {
-//            TCMPreferenceController *prefController = [TCMPreferenceController sharedInstance];
-//            [prefController showWindow:self];
-//            BOOL result = [prefController selectPreferenceModuleWithIdentifier:@"de.codingmonkeys.subethaedit.preferences.style"];
-//            if (result) {
-//                TCMPreferenceModule *prefModule = [prefController preferenceModuleWithIdentifier:@"de.codingmonkeys.subethaedit.preferences.style"];
-//                if (prefModule) {
-//                    [(StylePreferences *)prefModule importStyleFile:filename];
-//                }
-//            }
         } else {
             [I_propertiesForOpenedFiles setObject:properties forKey:filename];
+			[[SEEScopedBookmarkManager sharedManager] startAccessingURL:[NSURL fileURLWithPath:filename]];
 			[self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:filename] display:YES completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
 				if (error) NSLog(@"%@",error);
 			}];
@@ -1124,6 +1115,7 @@
         [I_propertiesForOpenedFiles setObject:properties forKey:filename];
         BOOL shouldClose = ([self documentForURL:[NSURL fileURLWithPath:filename]] == nil);
 
+		[[SEEScopedBookmarkManager sharedManager] startAccessingURL:[NSURL fileURLWithPath:filename]];
 		[self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:filename] display:NO completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
 			if (error) {
 				NSLog(@"%@",error);
