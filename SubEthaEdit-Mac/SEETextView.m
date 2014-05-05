@@ -916,7 +916,7 @@ static NSMenu *S_defaultMenu=nil;
 
 - (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender {
     NSPasteboard *pboard = [sender draggingPasteboard];
-    if ([[pboard types] containsObject:@"PboardTypeTBD"]) {
+    if ([[pboard types] containsObject:@"SEEConnectionPbordType"]) {
         //NSLog(@"draggingEntered:");
         PlainTextDocument *document = self.document;
         TCMMMSession *session=[document session];
@@ -944,7 +944,7 @@ static NSMenu *S_defaultMenu=nil;
 
 - (NSDragOperation)draggingUpdated:(id <NSDraggingInfo>)sender {
     NSPasteboard *pboard = [sender draggingPasteboard];
-    if ([[pboard types] containsObject:@"PboardTypeTBD"]) {
+    if ([[pboard types] containsObject:@"SEEConnectionPbordType"]) {
         //NSLog(@"draggingUpdated:");
         BOOL shouldDrag=[[self.document session] isServer];
         [self setIsDragTarget:shouldDrag];
@@ -968,7 +968,7 @@ static NSMenu *S_defaultMenu=nil;
 
 - (BOOL)prepareForDragOperation:(id <NSDraggingInfo>)sender {
     NSPasteboard *pboard = [sender draggingPasteboard];
-    if ([[pboard types] containsObject:@"PboardTypeTBD"]) {
+    if ([[pboard types] containsObject:@"SEEConnectionPbordType"]) {
         //NSLog(@"prepareForDragOperation:");
         BOOL shouldDrag=[[self.document session] isServer];
         [self setIsDragTarget:shouldDrag];
@@ -990,9 +990,9 @@ static NSMenu *S_defaultMenu=nil;
 
 - (BOOL)performDragOperation:(id <NSDraggingInfo>)sender {
     NSPasteboard *pboard = [sender draggingPasteboard];
-    if ([[pboard types] containsObject:@"PboardTypeTBD"]) {
+    if ([[pboard types] containsObject:@"SEEConnectionPbordType"]) {
         //NSLog(@"performDragOperation:");
-        NSArray *userArray=[pboard propertyListForType:@"PboardTypeTBD"];
+        NSArray *userArray=[pboard propertyListForType:@"SEEConnectionPbordType"];
         PlainTextDocument *document=self.document;
         TCMMMSession *session=[document session];
         NSDictionary *userDescription=nil;
@@ -1034,7 +1034,7 @@ static NSMenu *S_defaultMenu=nil;
 
 - (NSArray *)acceptableDragTypes {
     NSMutableArray *dragTypes=[[super acceptableDragTypes] mutableCopy];
-    [dragTypes addObject:@"PboardTypeTBD"];
+    [dragTypes addObject:@"SEEConnectionPbordType"];
     [dragTypes addObject:@"ParticipantDrag"];
     [dragTypes addObject:@"PresentityNames"];
     [dragTypes addObject:@"IMHandleNames"];
@@ -1050,7 +1050,7 @@ static NSMenu *S_defaultMenu=nil;
 
 - (void)concludeDragOperation:(id <NSDraggingInfo>)sender {
     NSPasteboard *pboard = [sender draggingPasteboard];
-    if ([[pboard types] containsObject:@"PboardTypeTBD"] || [[pboard types] containsObject:@"ParticipantDrag"]) {
+    if ([[pboard types] containsObject:@"SEEConnectionPbordType"] || [[pboard types] containsObject:@"ParticipantDrag"]) {
         //NSLog(@"concludeDragOperation:");
     } else {
         [super concludeDragOperation:sender];

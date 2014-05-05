@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13D55" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
     </dependencies>
@@ -19,7 +19,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" resizable="YES"/>
             <windowCollectionBehavior key="collectionBehavior" moveToActiveSpace="YES" fullScreenAuxiliary="YES"/>
             <rect key="contentRect" x="196" y="240" width="300" height="400"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1418"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1178"/>
             <value key="minSize" type="size" width="180" height="140"/>
             <value key="maxSize" type="size" width="1000" height="3000"/>
             <view key="contentView" id="2">
@@ -354,6 +354,7 @@
                                     <connections>
                                         <binding destination="uFK-2L-HLP" name="content" keyPath="arrangedObjects" id="Avm-qz-QPh"/>
                                         <binding destination="uFK-2L-HLP" name="selectionIndexes" keyPath="selectionIndexes" previousBinding="Avm-qz-QPh" id="EGA-vt-KpN"/>
+                                        <outlet property="dataSource" destination="-2" id="gak-fe-n4p"/>
                                         <outlet property="delegate" destination="-2" id="wv4-fw-bTL"/>
                                     </connections>
                                 </tableView>
