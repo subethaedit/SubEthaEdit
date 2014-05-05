@@ -134,7 +134,7 @@ static AppController *sharedInstance = nil;
 		[defaults setObject:[NSMutableArray array] forKey:AddressHistory];
 		[defaults setObject:[NSNumber numberWithBool:NO] forKey:ProhibitInboundInternetSessions];
 		[defaults setObject:[NSNumber numberWithDouble:60.] forKey:NetworkTimeoutPreferenceKey];
-		[defaults setObject:[NSNumber numberWithDouble:60.] forKey:@"AutoSavingDelay"];
+		[defaults setObject:[NSNumber numberWithDouble:30.] forKey:@"AutoSavingDelay"]; // use same autosave delay as textedit
 		[defaults setObject:[NSNumber numberWithBool:YES] forKey:VisibilityPrefKey];
 		[defaults setObject:[NSNumber numberWithBool:YES] forKey:AutoconnectPrefKey];
 		[defaults setObject:[NSNumber numberWithBool:NO] forKey:@"GoIntoBundlesPrefKey"];
