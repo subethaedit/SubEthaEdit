@@ -953,7 +953,7 @@
 "ScopedBookmarkAllowFileTitle" = "Dateizugriff erlauben";
 
 /* Message that gets displayed when SEE needs the user to grant access to an unopend file. */
-"ScopedBookmarkAllowFileMessageFormatString" = "Es werden Zugriffsrechte auf %@ benötigt. Die Auswahl eines Ordners, der alle referenzieren Dateien beinhaltet, ermöglicht es die Webseite korrekt anzuzeigen.";
+"ScopedBookmarkAllowFileMessageFormatString" = "Es werden Zugriffsrechte auf %@ benötigt. Die Auswahl eines Ordners, der alle referenzieren Dateien beinhaltet, ermöglicht es alle Inhalte korrekt anzuzeigen.";
 
 /* FileName placeholder that gets displayed when SEE needs the user to grant access to an unopend file. */
 "ScopedBookmarkAllowFileMessageUnknownFileName" = "Daten";
