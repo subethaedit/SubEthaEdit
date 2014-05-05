@@ -3778,16 +3778,26 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 					[containerDescriptor setParamDescriptor:argumentsDescriptor forKeyword:keyDirectObject];
 				}
 
-				[authorisationScript executeWithAppleEvent:containerDescriptor completionHandler:^(NSAppleEventDescriptor *result, NSError *error) {
+				[self performActivityWithSynchronousWaiting:YES usingBlock:^(void (^activityCompletionHandler)(void)) {
+					[authorisationScript executeWithAppleEvent:containerDescriptor completionHandler:^(NSAppleEventDescriptor *result, NSError *error) {
 
-					if (!error) {
-						[self setFileURL:anAbsoluteURL];
-						[self setFileType:docType];
-						[self setFileModificationDate:[NSDate date]];
-					} else {
-						NSLog(@"%s error: %@", __FUNCTION__, error);
-						NSLog(@"%s result: %@", __FUNCTION__, result);
-					}
+						if (error) {
+							if (outError) {
+								*outError = [[error retain] autorelease];
+							}
+						}
+
+						[self performSynchronousFileAccessUsingBlock:^{
+							[self updateChangeCount:NSChangeCleared];
+							[self setFileURL:anAbsoluteURL];
+							[self setFileType:docType];
+							[self setFileModificationDate:[NSDate date]];
+						}];
+
+						if (activityCompletionHandler) {
+							activityCompletionHandler();
+						}
+					}];
 				}];
 			} else {
 				if (outError) {
@@ -3806,6 +3816,10 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 			*outError = applicastionScriptURLError;
 		}
 		return NO;
+	}
+
+	if (outError) {
+		*outError = nil;
 	}
 	return YES;
 }
