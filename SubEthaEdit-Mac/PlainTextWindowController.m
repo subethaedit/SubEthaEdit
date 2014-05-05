@@ -381,16 +381,12 @@ static NSPoint S_cascadePoint = {0.0,0.0};
         NSArray *documents = [self orderedDocuments];
         if ([documents count] > documentNumberToShow) {
             document = [documents objectAtIndex:documentNumberToShow];
-            if ([document isDocumentEdited]) {
-                [menuItem setMark:kBulletCharCode];
-            } else {
-                [menuItem setMark:noMark];
-            }
-            if (([self document] == document) && 
+			[menuItem setMark:[document isDocumentEdited]];
+			
+            if (([self document] == document) &&
                 ([[self window] isKeyWindow] || 
                  [[self window] isMainWindow])) {
                 [menuItem setState:NSOnState];
-                [menuItem setMark:kCheckCharCode];
             }
         }
         return ![[self window] attachedSheet] || ([[self window] attachedSheet] && [self document] == document);

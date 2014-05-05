@@ -164,8 +164,6 @@ static AppController *sharedInstance = nil;
 		[defaults setObject:[NSNumber numberWithBool:NO] forKey:EnableTLSKey];
 		[defaults setObject:[NSNumber numberWithBool:NO] forKey:UseTemporaryKeychainForTLSKey]; // no more temporary keychain in 10.6 and up builds
 		
-		[defaults setObject:[NSNumber numberWithBool:NO] forKey:EnableAnonTLSKey];
-		
 		NSDictionary* sequelProDefaults = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"PreferenceDefaults" ofType:@"plist"]];
 		
 		[defaults addEntriesFromDictionary:sequelProDefaults];

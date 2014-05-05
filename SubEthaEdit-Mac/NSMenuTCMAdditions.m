@@ -22,22 +22,23 @@
     return [[self title] caseInsensitiveCompare:[aMenuItem title]];
 }
 
-#define kUnresolvedSymbolAddress (void*)(~(uintptr_t)0)
-#if defined(__LP64__)
-static void (*SetItemMark)(MenuRef, MenuItemIndex, CharParameter) = kUnresolvedSymbolAddress;
-#endif
+- (void)setMark:(BOOL)aMark {
+	if (aMark)
+	{
+		// draw an image same size and dimentions like private image named "NSMenuItemBullet"
+		NSImage* image = [NSImage imageWithSize:NSMakeSize(7.0, 7.0) flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
+			[[[NSColor blackColor] colorWithAlphaComponent:0.75] set];
+			[[NSBezierPath bezierPathWithOvalInRect:dstRect] fill];
+			return YES;
+		}];
 
-- (void)setMark:(int)aMark {
-#if defined(__LP64__)
-	if (SetItemMark == kUnresolvedSymbolAddress) {
-		void* handle = dlopen("/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/HIToolbox.framework/Versions/A/HIToolbox", (RTLD_LAZY | RTLD_LOCAL | RTLD_FIRST));
-		if (handle != NULL) {
-			SetItemMark = (__typeof__(SetItemMark))dlsym(handle, "SetItemMark");
+		if (image) {
+			[self setMixedStateImage:image];
+			[self setState:NSMixedState];
 		}
-	}
-#endif
-	if (SetItemMark != NULL && _NSGetCarbonMenu != NULL) {
-		SetItemMark(_NSGetCarbonMenu([self menu]), [[self menu] indexOfItem:self] + 1, aMark);
+	} else {
+		[self setMixedStateImage:[NSImage imageNamed:NSImageNameMenuMixedStateTemplate]];
+		[self setState:NSOffState];
 	}
 }
 

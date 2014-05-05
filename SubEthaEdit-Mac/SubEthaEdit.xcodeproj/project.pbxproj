@@ -103,7 +103,7 @@
 		142893CA0957594500D14688 /* SyntaxDefinition.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893C00957594500D14688 /* SyntaxDefinition.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		142893CB0957594500D14688 /* SyntaxHighlighter.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893C20957594500D14688 /* SyntaxHighlighter.m */; };
 		142893CC0957594500D14688 /* SyntaxStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893C40957594500D14688 /* SyntaxStyle.m */; };
-		142893F809575A3000D14688 /* AboutPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893DD09575A3000D14688 /* AboutPanelController.m */; };
+		142893F809575A3000D14688 /* AboutPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893DD09575A3000D14688 /* AboutPanelController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		142893F909575A3000D14688 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893DF09575A3000D14688 /* AppController.m */; };
 		142893FA09575A3000D14688 /* EncodingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893E109575A3000D14688 /* EncodingManager.m */; };
 		142893FB09575A3000D14688 /* FindReplaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893E309575A3000D14688 /* FindReplaceController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };

@@ -39,7 +39,6 @@ NSString * const DontSaveDocumentStateInXattrsKey           = @"DontSaveDocument
 
 NSString * const UseTemporaryKeychainForTLSKey              = @"UseTemporaryKeychainForTLS";
 NSString * const EnableTLSKey                               = @"EnableTLS";
-NSString * const EnableAnonTLSKey                           = @"EnableAnonTLS";
 
 NSString * const DocumentStateSaveAndLoadWindowPositionKey = @"DocumentStateSaveAndLoadWindowPosition" ;
 NSString * const DocumentStateSaveAndLoadTabSettingKey     = @"DocumentStateSaveAndLoadTabSetting"     ;
