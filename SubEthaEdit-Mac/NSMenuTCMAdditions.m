@@ -25,17 +25,13 @@
 - (void)setMark:(BOOL)aMark {
 	if (aMark)
 	{
-//		CGFloat fontSize = 20.0;
-//		NSImage* image = [NSImage imageWithSize:NSMakeSize(fontSize, fontSize) flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
-//			NSString *bulletString = @"•";
-//
-//			NSDictionary *attributes = @{NSFontAttributeName: [NSFont menuFontOfSize:fontSize]};
-//
-//			[bulletString drawInRect:dstRect withAttributes:attributes];
-//			return YES;
-//		}];
+		// draw an image same size and dimentions like private image named "NSMenuItemBullet"
+		NSImage* image = [NSImage imageWithSize:NSMakeSize(7.0, 7.0) flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
+			[[[NSColor blackColor] colorWithAlphaComponent:0.75] set];
+			[[NSBezierPath bezierPathWithOvalInRect:dstRect] fill];
+			return YES;
+		}];
 
-		NSImage* image = [NSImage imageNamed:@"NSMenuItemBullet"];
 		if (image) {
 			[self setMixedStateImage:image];
 			[self setState:NSMixedState];
