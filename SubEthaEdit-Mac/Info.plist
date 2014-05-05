@@ -2451,6 +2451,8 @@
 			</array>
 		</dict>
 	</array>
+	<key>NSSupportsAutomaticGraphicsSwitching</key>
+	<true/>
 	<key>OSAScriptingDefinition</key>
 	<string>SubEthaEdit</string>
 	<key>TCMBundledSeeToolVersion</key>
