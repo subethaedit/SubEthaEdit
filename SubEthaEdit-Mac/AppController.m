@@ -877,9 +877,11 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 		scriptURLs = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:userScriptsDirectory includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles error:nil];
 		for (NSURL *scriptURL in scriptURLs)
 		{
-			ScriptWrapper *script = [ScriptWrapper scriptWrapperWithContentsOfURL:scriptURL];
-			if (script) {
-				[I_scriptsByFilename setObject:script forKey:[[[scriptURL path] stringByStandardizingPath] stringByDeletingPathExtension]];
+			if (! [scriptURL.lastPathComponent isEqualToString:@"SubEthaEdit_AuthenticatedSave.scpt"]) {
+				ScriptWrapper *script = [ScriptWrapper scriptWrapperWithContentsOfURL:scriptURL];
+				if (script) {
+					[I_scriptsByFilename setObject:script forKey:[[[scriptURL path] stringByStandardizingPath] stringByDeletingPathExtension]];
+				}
 			}
 		}
     }
