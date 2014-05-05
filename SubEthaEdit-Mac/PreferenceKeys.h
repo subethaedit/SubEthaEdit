@@ -38,7 +38,6 @@ extern NSString * const AlwaysShowTabBarKey;
 extern NSString * const DontSaveDocumentStateInXattrsKey;
 extern NSString * const UseTemporaryKeychainForTLSKey;
 extern NSString * const EnableTLSKey;
-extern NSString * const EnableAnonTLSKey;
 
 extern NSString * const DocumentStateSaveAndLoadWindowPositionKey;
 extern NSString * const DocumentStateSaveAndLoadTabSettingKey;

@@ -28,7 +28,7 @@ NSString * const NetworkTimeoutPreferenceKey = @"NetworkTimeout";
 NSString * const kTCMBEEPFrameTrailer = @"END\r\n";
 NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/Management.profile";
 NSString * const TCMBEEPTLSProfileURI = @"http://iana.org/beep/TLS";
-NSString * const TCMBEEPTLSAnonProfileURI = @"http://www.codingmonkeys.de/BEEP/TLS/Anon";
+//NSString * const TCMBEEPTLSAnonProfileURI = @"http://www.codingmonkeys.de/BEEP/TLS/Anon";
 NSString * const TCMBEEPSASLProfileURIPrefix = @"http://iana.org/beep/SASL/";
 NSString * const TCMBEEPSASLANONYMOUSProfileURI = @"http://iana.org/beep/SASL/ANONYMOUS";
 NSString * const TCMBEEPSASLPLAINProfileURI = @"http://iana.org/beep/SASL/PLAIN";
@@ -146,7 +146,6 @@ static NSData *dhparamData = nil;
     I_flags.isWaitingForTLSProceed = NO;
     I_flags.isTLSHandshaking = NO;
     I_flags.isTLSEnabled = NO;
-    I_flags.isTLSAnon = NO;
     CFStreamClientContext context = {0, self, NULL, NULL, NULL};
     CFOptionFlags readFlags =  kCFStreamEventOpenCompleted |
         kCFStreamEventHasBytesAvailable |
@@ -271,15 +270,6 @@ static NSData *dhparamData = nil;
         I_flags.isInitiator = NO;
         I_nextChannelNumber = 0;
         [self TCM_initHelper];
-        
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:EnableTLSKey]) {
-        	if ([[NSUserDefaults standardUserDefaults] boolForKey:EnableAnonTLSKey]) {
-				if ([dhparamData length] > 0) {
-	//        		NSLog(@"%s added %@",__FUNCTION__,TCMBEEPTLSAnonProfileURI);
-					[self addProfileURIs:[NSArray arrayWithObject:TCMBEEPTLSAnonProfileURI]];
-				}
-			}
-        }
     }
     
     return self;
@@ -573,10 +563,6 @@ static NSData *dhparamData = nil;
     return I_flags.isTLSEnabled;
 }
 
-- (BOOL)isTLSAnon {
-    return I_flags.isTLSAnon;
-}
-
 - (NSArray *)channels {
     return I_channels;
 }
@@ -721,14 +707,6 @@ static NSData *dhparamData = nil;
         [self setProfileURIs:I_TLSProfileURIs];
         [self TCM_createManagementChannelAndSendGreeting];
         I_flags.isTLSHandshaking = NO;
-        
-        
-//		// check the cipher used
-//		SSLContextRef sslContext;
-//		CFDataGetBytes(CFReadStreamCopyProperty(I_readStream,  kCFStreamPropertySocketSSLContext), CFRangeMake(0, sizeof(SSLContextRef)), (UInt8 *)&sslContext);
-//		SSLCipherSuite negotiatedCipher = 0;
-//		SSLGetNegotiatedCipher(sslContext, &negotiatedCipher);
-//		NSLog(@"%s negotiated Cipher is:%X",__FUNCTION__,negotiatedCipher);
     }
 }
 
@@ -1050,15 +1028,6 @@ static NSData *dhparamData = nil;
     resultWriteStream = CFWriteStreamSetProperty(I_writeStream, kCFStreamPropertySSLSettings, settings);
     CFRelease(settings);
 
-    if (I_flags.isTLSAnon) {
-        CFDataRef readStreamData = CFReadStreamCopyProperty(I_readStream,  kCFStreamPropertySocketSSLContext);
-        CFDataRef writeStreamData = CFWriteStreamCopyProperty(I_writeStream, kCFStreamPropertySocketSSLContext);
-		[TCMBEEPSession setAnonCiphersOnStreamData: readStreamData dhParams:YES];
-		[TCMBEEPSession setAnonCiphersOnStreamData: writeStreamData dhParams:YES];
-        CFRelease(readStreamData);
-        CFRelease(writeStreamData);
-	}
-
     if (resultReadStream && resultWriteStream) {
         DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"successfully set kCFStreamPropertySSLSettings");
     } else {
@@ -1171,18 +1140,9 @@ static NSData *dhparamData = nil;
     [[NSNotificationCenter defaultCenter] postNotificationName:TCMBEEPSessionDidReceiveGreetingNotification object:self];
 
     // check for tuning profiles and initiate tuning
-    if ([self isInitiator] && (([profileURIs containsObject:TCMBEEPTLSProfileURI] && [[NSUserDefaults standardUserDefaults] boolForKey:EnableTLSKey]) ||
-							   ([profileURIs containsObject:TCMBEEPTLSAnonProfileURI] &&
-								[[NSUserDefaults standardUserDefaults] boolForKey:EnableAnonTLSKey])))
+    if ([self isInitiator] && [profileURIs containsObject:TCMBEEPTLSProfileURI] && [[NSUserDefaults standardUserDefaults] boolForKey:EnableTLSKey])
     {
         NSString *profileURI = TCMBEEPTLSProfileURI;
-
-        if ([profileURIs containsObject:TCMBEEPTLSAnonProfileURI] &&
-            [[NSUserDefaults standardUserDefaults] boolForKey:EnableAnonTLSKey])
-        {
-            I_flags.isTLSAnon = YES; // set to anon
-            profileURI = TCMBEEPTLSAnonProfileURI;
-        }
 
         NSData *data = [@"<ready />" dataUsingEncoding : NSUTF8StringEncoding];
         [self startChannelWithProfileURIs:[NSArray arrayWithObject:profileURI]
@@ -1281,12 +1241,9 @@ static NSData *dhparamData = nil;
             if (!preferedAnswer)
             {
                 NSData *answerData = [NSData data];
-                if ([profileURI isEqualToString:TCMBEEPTLSProfileURI] ||
-                    ([profileURI isEqualToString:TCMBEEPTLSAnonProfileURI] &&
-                     [[NSUserDefaults standardUserDefaults] boolForKey:EnableAnonTLSKey]))
+                if ([profileURI isEqualToString:TCMBEEPTLSProfileURI])
                 {
                     // parse data for 'ready' element, may have attribute
-
                     TCMBEEPSessionXMLParser *dataParser = [[[TCMBEEPSessionXMLParser alloc] initWithXMLData:requestData] autorelease];
                     if (dataParser)
                     {
@@ -1314,12 +1271,6 @@ static NSData *dhparamData = nil;
 								answerData = [[NSString stringWithFormat:@"<%@ />", TCMBEEPSessionXMLElementProceed] dataUsingEncoding : NSUTF8StringEncoding];
 								// implicitly close all channels including channel zero, but proceed frame needs to go through
 								I_flags.hasSentTLSProceed = YES;
-
-								if ([profileURI isEqualToString:TCMBEEPTLSAnonProfileURI] &&
-									[[NSUserDefaults standardUserDefaults] boolForKey:EnableAnonTLSKey])
-								{
-									I_flags.isTLSAnon = YES;
-								}
 							}
 						}
 						else
@@ -1396,15 +1347,6 @@ static NSData *dhparamData = nil;
     resultWriteStream = CFWriteStreamSetProperty(I_writeStream, kCFStreamPropertySSLSettings, settings);
     CFRelease(settings);
     
-    if (I_flags.isTLSAnon) {
-        CFDataRef readStreamData = CFReadStreamCopyProperty(I_readStream,  kCFStreamPropertySocketSSLContext);
-        CFDataRef writeStreamData = CFWriteStreamCopyProperty(I_writeStream, kCFStreamPropertySocketSSLContext);
-		[TCMBEEPSession setAnonCiphersOnStreamData: readStreamData dhParams:NO];
-		[TCMBEEPSession setAnonCiphersOnStreamData: writeStreamData dhParams:NO];
-        CFRelease(readStreamData);
-        CFRelease(writeStreamData);
-	}
-    
     if (resultReadStream && resultWriteStream) {
         DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"successfully set kCFStreamPropertySSLSettings");
     } else {
@@ -1429,7 +1371,7 @@ static NSData *dhparamData = nil;
     }
     else
     {
-        if ([aProfileURI isEqualToString:TCMBEEPTLSProfileURI] || [aProfileURI isEqualToString:TCMBEEPTLSAnonProfileURI])
+        if ([aProfileURI isEqualToString:TCMBEEPTLSProfileURI])
         {
             // parse associated data for 'error' or 'proceed' elements, 'error' may contain attributes?
             TCMBEEPSessionXMLParser *dataParser = [[[TCMBEEPSessionXMLParser alloc] initWithXMLData:inData] autorelease];
@@ -1474,7 +1416,7 @@ static NSData *dhparamData = nil;
         {
             [aSender BEEPSession:self didOpenChannelWithProfile:[channel profile] data:inData];
         }
-        else if (![aProfileURI isEqualToString:TCMBEEPTLSProfileURI] && ![aProfileURI isEqualToString:TCMBEEPTLSAnonProfileURI])
+        else if (![aProfileURI isEqualToString:TCMBEEPTLSProfileURI])
         {
             NSLog(@"WARNING: The Object (%@) that requested the channel with ProfileURI:%@ doesn't respond to BEEPSession:didOpenChannelWithProfile:data:", aSender, aProfileURI);
         }
