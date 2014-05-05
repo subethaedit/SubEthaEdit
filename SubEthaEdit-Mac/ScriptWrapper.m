@@ -61,7 +61,7 @@ NSString * const ScriptWrapperDidRunScriptNotification =@"ScriptWrapperDidRunScr
 		if (errorDictionary==nil) {
             I_settingsDictionary = [[ae dictionaryValue] copy];
         } else {
-            I_settingsDictionary = [[NSDictionary alloc] init];
+            I_settingsDictionary = @{ScriptWrapperDisplayNameSettingsKey: I_URL.lastPathComponent.stringByDeletingPathExtension};
         }
     }
     return I_settingsDictionary;
