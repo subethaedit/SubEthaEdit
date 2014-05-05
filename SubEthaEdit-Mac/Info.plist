@@ -2454,7 +2454,7 @@
 	<key>OSAScriptingDefinition</key>
 	<string>SubEthaEdit</string>
 	<key>TCMBundledSeeToolVersion</key>
-	<string>1.2.1</string>
+	<string>2.0</string>
 	<key>TCMMinimumSeeToolVersion</key>
 	<string>1.0</string>
 	<key>TCMRevisionHash</key>
