@@ -3343,6 +3343,68 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     return [self TCM_readFromURL:anURL ofType:docType properties:properties error:outError];
 }
 
+#pragma mark - Saving
+
+- (void) saveToURL:(NSURL *)url ofType:(NSString *)typeName forSaveOperation:(NSSaveOperationType)saveOperation completionHandler:(void (^)(NSError *))completionHandler
+{
+	[super saveToURL:url ofType:typeName forSaveOperation:saveOperation completionHandler:^(NSError *error){
+		__block NSError *authenticationError = nil;
+		__block BOOL hasBeenWritten = (error == nil);
+
+		[self continueActivityUsingBlock:^{
+			NSError *fileSavingError = error;
+			[self performActivityWithSynchronousWaiting:YES usingBlock:^(void (^activityCompletionHandler)(void)) {
+				if ([error.domain isEqualToString:@"SEEDocumentSavingDomain"] && error.code == 0x0FF) {
+					hasBeenWritten = [self TCM_writeUsingAuthorizedHelperToURL:url ofType:typeName saveOperation:saveOperation error:&authenticationError];
+					activityCompletionHandler();
+				} else {
+					activityCompletionHandler();
+				}
+			}];
+
+			if (hasBeenWritten) {
+				fileSavingError = nil;
+				if (saveOperation == NSSaveOperation) {
+					[self TCM_sendODBModifiedEvent];
+					[self setKeepDocumentVersion:NO];
+				} else if (saveOperation == NSSaveAsOperation) {
+					if ([url isEqualTo:self.fileURL]) {
+						[self TCM_sendODBModifiedEvent];
+					} else {
+						[self setODBParameters:nil];
+					}
+					[self setShouldChangeChangeCount:YES];
+				}
+				if (saveOperation != NSAutosaveOperation) {
+					[[NSNotificationCenter defaultCenter] postNotificationName:PlainTextDocumentDidSaveShouldReloadWebPreviewNotification object:self];
+				}
+				[self setTemporaryDisplayName:nil];
+			}
+
+			if (saveOperation != NSSaveToOperation && saveOperation != NSAutosaveOperation) {
+				NSDictionary *fattrs = [[NSFileManager defaultManager] attributesOfItemAtPath:url.path error:NULL];
+				[self setFileAttributes:fattrs];
+				[self setIsFileWritable:hasBeenWritten];
+			}
+
+			if (hasBeenWritten) {
+				[[NSNotificationQueue defaultQueue]
+				 enqueueNotification:[NSNotification notificationWithName:PlainTextDocumentDidSaveNotification object:self]
+				 postingStyle:NSPostWhenIdle
+				 coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender
+				 forModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
+			}
+
+			if (completionHandler) {
+				NSLog(@"%s:%d", __func__, __LINE__);
+				completionHandler(fileSavingError);
+				NSLog(@"%s:%d", __func__, __LINE__);
+			}
+		}];
+	}];
+}
+
+
 - (BOOL)writeMetaDataToURL:(NSURL *)absoluteURL error:(NSError **)outError {
     NSXMLElement *rootElement = [NSXMLNode elementWithName:@"seemetadata"];
     [rootElement addChild:[NSXMLNode elementWithName:@"charset" stringValue:[self encoding]]];
@@ -3407,6 +3469,9 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 }
 
 - (BOOL)TCM_writeUsingAuthorizedHelperToURL:(NSURL *)anAbsoluteURL ofType:(NSString *)docType saveOperation:(NSSaveOperationType)saveOperationType error:(NSError **)outError {
+
+	__block BOOL result = NO;
+
 	NSError *applicastionScriptURLError = nil;
 	NSURL *applicationScriptURL = [[NSFileManager defaultManager] URLForDirectory:NSApplicationScriptsDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:&applicastionScriptURLError];
 
@@ -3419,8 +3484,13 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 			NSURL *tempFileURL = [NSURL fileURLWithPath:NSTemporaryDirectory()];
 			tempFileURL = [tempFileURL URLByAppendingPathComponent:anAbsoluteURL.lastPathComponent];
 
-			NSError *fileWritingError = nil;
-			if ([self writeToURL:tempFileURL ofType:docType forSaveOperation:saveOperationType originalContentsURL:anAbsoluteURL error:&fileWritingError]) {
+			__block NSError *fileWritingError = nil;
+			__block BOOL tempFileWritten = NO;
+			[self performSynchronousFileAccessUsingBlock:^{
+				tempFileWritten = [self writeToURL:tempFileURL ofType:docType forSaveOperation:saveOperationType originalContentsURL:anAbsoluteURL error:&fileWritingError];
+			}];
+
+			if (tempFileWritten) {
 				NSAppleEventDescriptor *containerDescriptor = [NSAppleEventDescriptor appleEventWithEventClass:kCoreEventClass eventID:kAEOpenApplication targetDescriptor:nil returnID:kAutoGenerateReturnID transactionID:kAnyTransactionID];
 
 				{
@@ -3435,50 +3505,41 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 					[containerDescriptor setParamDescriptor:argumentsDescriptor forKeyword:keyDirectObject];
 				}
 
-				[self performActivityWithSynchronousWaiting:YES usingBlock:^(void (^activityCompletionHandler)(void)) {
-					[authorisationScript executeWithAppleEvent:containerDescriptor completionHandler:^(NSAppleEventDescriptor *result, NSError *error) {
-
-						if (error) {
-							if (outError) {
-								*outError = [[error retain] autorelease];
-							}
+				dispatch_group_t group = dispatch_group_create();
+				dispatch_group_enter(group);
+				[authorisationScript executeWithAppleEvent:containerDescriptor completionHandler:^(NSAppleEventDescriptor *resultDescriptor, NSError *error) {
+					if (error) {
+						if (outError) {
+							*outError = [[error retain] autorelease];
 						}
-
-						[self performSynchronousFileAccessUsingBlock:^{
-							[self updateChangeCount:NSChangeCleared];
-							[self setFileURL:anAbsoluteURL];
-							[self setFileType:docType];
-							[self setFileModificationDate:[NSDate date]];
-						}];
-
-						if (activityCompletionHandler) {
-							activityCompletionHandler();
-						}
-					}];
+					} else {
+						result = YES;
+					}
+					dispatch_group_leave(group);
 				}];
+				dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
+
+//				[self updateChangeCount:NSChangeCleared];
+//				[self setFileURL:anAbsoluteURL];
+//				[self setFileType:docType];
+//				[self setFileModificationDate:[NSDate date]];
+
 			} else {
 				if (outError) {
 					*outError = fileWritingError;
 				}
-				return NO;
 			}
 		} else {
 			if (outError) {
 				*outError = authenticationScriptError;
 			}
-			return NO;
 		}
 	} else {
 		if (outError) {
 			*outError = applicastionScriptURLError;
 		}
-		return NO;
 	}
-
-	if (outError) {
-		*outError = nil;
-	}
-	return YES;
+	return result;
 }
 
 - (BOOL)writeSafelyToURL:(NSURL*)anAbsoluteURL ofType:(NSString *)docType forSaveOperation:(NSSaveOperationType)saveOperationType error:(NSError **)outError {
@@ -3487,6 +3548,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"writeSavelyToURL: %@", anAbsoluteURL);
     
     NSError *error = nil;
+	BOOL needsAuthenticatedSave = NO;
     BOOL hasBeenWritten = [super writeSafelyToURL:anAbsoluteURL ofType:docType forSaveOperation:saveOperationType error:&error];
     if (outError) {
         *outError = error;
@@ -3521,10 +3583,13 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
             }
         }
         
-        if ( !hasBeenWritten && ((error && [error TCM_relatesToErrorCode:NSFileWriteNoPermissionError inDomain:nil])||(error && [error TCM_relatesToErrorCode:13 inDomain:NSPOSIXErrorDomain])) ) {
+        if ( !hasBeenWritten && ((error && [error TCM_relatesToErrorCode:NSFileWriteNoPermissionError inDomain:nil]) ||
+								 (error && [error TCM_relatesToErrorCode:13 inDomain:NSPOSIXErrorDomain])) ) {
+
             if (outError) *outError = nil; // clear outerror because we already showed it
             BOOL isDirWritable = [fileManager isWritableFileAtPath:[fullDocumentPath stringByDeletingLastPathComponent]];
             BOOL isFileDeletable = [fileManager isDeletableFileAtPath:fullDocumentPath];
+
             if (isDirWritable && isFileDeletable) {
                 NSAlert *alert = [[[NSAlert alloc] init] autorelease];
                 [alert setAlertStyle:NSWarningAlertStyle];
@@ -3538,7 +3603,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
                 if (returnCode == NSAlertFirstButtonReturn) {
                     DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"We need root power!");
-                    hasBeenWritten = [self TCM_writeUsingAuthorizedHelperToURL:anAbsoluteURL ofType:docType saveOperation:saveOperationType error:outError];
+					needsAuthenticatedSave = YES;
                 } else if (returnCode == NSAlertSecondButtonReturn) {
                     NSFileManager *fileManager = [NSFileManager defaultManager];
                     NSString *tempFilePath = tempFileName(fullDocumentPath);
@@ -3582,42 +3647,16 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
                 }
             } else {
                 DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"We need root power!");
-                hasBeenWritten = [self TCM_writeUsingAuthorizedHelperToURL:anAbsoluteURL ofType:docType saveOperation:saveOperationType error:outError];
+				needsAuthenticatedSave = YES;
             }
         }
      }
 
-    if (hasBeenWritten) {
-        if (saveOperationType == NSSaveOperation) {
-            [self TCM_sendODBModifiedEvent];
-            [self setKeepDocumentVersion:NO];
-        } else if (saveOperationType == NSSaveAsOperation) {
-            if ([fullDocumentPath isEqualToString:self.fileURL.path]) {
-                [self TCM_sendODBModifiedEvent];
-            } else {
-                [self setODBParameters:nil];
-            }
-            [self setShouldChangeChangeCount:YES];
-        }
-        if (saveOperationType != NSAutosaveOperation) {
-			[[NSNotificationCenter defaultCenter] postNotificationName:PlainTextDocumentDidSaveShouldReloadWebPreviewNotification object:self];
-        }
-        [self setTemporaryDisplayName:nil];
-    }
-    
-    if (saveOperationType != NSSaveToOperation && saveOperationType != NSAutosaveOperation) {
-        NSDictionary *fattrs = [[NSFileManager defaultManager] attributesOfItemAtPath:fullDocumentPath error:NULL];
-        [self setFileAttributes:fattrs];
-        [self setIsFileWritable:hasBeenWritten];
-    }
-
-    if (hasBeenWritten) {
-        [[NSNotificationQueue defaultQueue]
-        enqueueNotification:[NSNotification notificationWithName:PlainTextDocumentDidSaveNotification object:self]
-               postingStyle:NSPostWhenIdle
-               coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender
-                   forModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
-    }
+	if (needsAuthenticatedSave) {
+		if (outError) {
+			*outError = [NSError errorWithDomain:@"SEEDocumentSavingDomain" code:0X0FF userInfo:nil];
+		}
+	}
 
     return hasBeenWritten;
 }
