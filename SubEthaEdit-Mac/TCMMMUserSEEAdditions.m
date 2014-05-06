@@ -64,7 +64,7 @@
     if (aim && [aim length]>0) {
         [result appendFormat:@"X-AIM;type=HOME;type=pref:%@\r\n",aim];
     }
-    NSData *pngImage=[[self properties] objectForKey:@"ImageAsPNG"];
+    NSData *pngImage=[[self properties] objectForKey:TCMMMUserPropertyKeyImageAsPNGData];
     if (pngImage && [pngImage length]>0) {        
         NSMutableString *vcfCompliantString = [NSMutableString string];
         NSString *encodedString = [pngImage base64EncodedStringWithLineLength:74];
@@ -147,7 +147,7 @@
 {
     NSImage *image = [[self properties] objectForKey:@"Image"];
     if (!image) {
-        NSData *pngData = [[self properties] objectForKey:@"ImageAsPNG"];
+        NSData *pngData = [[self properties] objectForKey:TCMMMUserPropertyKeyImageAsPNGData];
         image = [[[NSImage alloc] initWithData:pngData] autorelease];
 
         if (!image) {
@@ -155,7 +155,7 @@
 
             pngData = [image TIFFRepresentation];
             pngData = [[NSBitmapImageRep imageRepWithData:pngData] representationUsingType:NSPNGFileType properties:[NSDictionary dictionary]];
-            [[self properties] setObject:pngData forKey:@"ImageAsPNG"];
+            [[self properties] setObject:pngData forKey:TCMMMUserPropertyKeyImageAsPNGData];
 		}
 
 		if (image) {

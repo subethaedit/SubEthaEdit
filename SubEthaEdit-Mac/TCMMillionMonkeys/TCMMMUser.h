@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 extern NSString * const TCMMMUserWillLeaveSessionNotification;
+extern NSString * const TCMMMUserPropertyKeyImageAsPNGData;
 
 @interface TCMMMUser : NSObject {
     NSMutableDictionary *I_properties;
