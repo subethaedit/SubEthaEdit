@@ -144,10 +144,6 @@ static AppController *sharedInstance = nil;
 		[defaults setObject:[NSNumber numberWithInt:800*1024] forKey:@"StringLengthToStopHighlightingAndWrapping"];
 		[defaults setObject:[NSNumber numberWithInt:800*1024] forKey:@"StringLengthToStopSymbolRecognition"];
 		[defaults setObject:[NSNumber numberWithInt:4096*1024] forKey:@"ByteLengthToUseForModeRecognitionAndEncodingGuessing"];
-		// fix of SEE-883 - only an issue on tiger...
-		if (floor(NSAppKitVersionNumber) == 824.) {
-			[defaults setObject:[NSNumber numberWithBool:NO] forKey:@"NSUseInsertionPointCache"];
-		}
 		
 		//
 		[defaults setObject:[NSNumber numberWithBool:YES] forKey:VisibilityPrefKey];
@@ -161,8 +157,8 @@ static AppController *sharedInstance = nil;
 		[defaults setObject:[NSNumber numberWithBool:floor(NSAppKitVersionNumber) > 824.] forKey:@"SaveSeeTextPreview"];
 		[defaults setObject:[NSNumber numberWithBool:YES] forKey:ShouldAutomaticallyMapPort];
 
-		[defaults setObject:[NSNumber numberWithBool:NO] forKey:EnableTLSKey];
-		[defaults setObject:[NSNumber numberWithBool:NO] forKey:UseTemporaryKeychainForTLSKey]; // no more temporary keychain in 10.6 and up builds
+		[defaults setObject:[NSNumber numberWithBool:NO] forKey:kSEEDefaultsKeyEnableTLS];
+		[defaults setObject:[NSNumber numberWithBool:NO] forKey:kSEEDefaultsKeyUseTemporaryKeychainForTLS]; // no more temporary keychain in 10.6 and up builds
 		
 		NSDictionary* sequelProDefaults = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"PreferenceDefaults" ofType:@"plist"]];
 		
@@ -380,7 +376,7 @@ static AppController *sharedInstance = nil;
     NSData *pngData=[scaledMyImage TIFFRepresentation];
     pngData=[[NSBitmapImageRep imageRepWithData:pngData] representationUsingType:NSPNGFileType properties:[NSDictionary dictionary]];
     // do this because my resized Images don't behave right on setFlipped:, initWithData ones do!
-    NSData *prefData = [defaults dataForKey:MyImagePreferenceKey];
+    NSData *prefData = [defaults dataForKey:kSEEDefaultsKeyMyImagePreference];
     if (prefData) pngData=prefData;
     [me setUserID:userID];
 

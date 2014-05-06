@@ -115,7 +115,7 @@
 - (IBAction)alwaysShowTabBar:(id)sender
 {
     BOOL flag = ([sender state] == NSOnState) ? NO : YES;
-    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:AlwaysShowTabBarKey];
+    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:kSEEDefaultsKeyAlwaysShowTabBar];
 
     PlainTextWindowController *windowController;
     for (windowController in I_windowControllers) {
@@ -302,11 +302,11 @@
     if (selector == @selector(concealAllDocuments:)) {
         return [[[TCMMMPresenceManager sharedInstance] announcedSessions] count]>0;
     } else if (selector == @selector(alwaysShowTabBar:)) {
-        BOOL isChecked = [[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey];
+        BOOL isChecked = [[NSUserDefaults standardUserDefaults] boolForKey:kSEEDefaultsKeyAlwaysShowTabBar];
         [menuItem setState:(isChecked ? NSOnState : NSOffState)];
         return YES;
     } else if (selector == @selector(openAlternateDocument:)) {
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey]) {
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:kSEEDefaultsKeyOpenNewDocumentInTab]) {
             [menuItem setTitle:NSLocalizedString(@"Open in New Window...", @"Menu Entry for opening files in a new window.")];
         } else {
             [menuItem setTitle:NSLocalizedString(@"Open in Front Window...", @"Menu Entry for opening files in the front window.")];
@@ -501,7 +501,7 @@
 - (IBAction)newDocumentByUserDefault:(id)sender {
 	@synchronized(self.documentCreationFlagsLookupDict) {
 		SEEDocumentCreationFlags *creationFlags = [[SEEDocumentCreationFlags alloc] init];
-		creationFlags.openInTab = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
+		creationFlags.openInTab = [[NSUserDefaults standardUserDefaults] boolForKey:kSEEDefaultsKeyOpenNewDocumentInTab];
 		self.documentCreationFlagsLookupDict[@"MakeUntitledDocument"] = creationFlags;
 	}
 
@@ -538,7 +538,7 @@
 - (IBAction)newDocumentWithModeMenuItemFromDock:(id)aSender {
 	@synchronized(self.documentCreationFlagsLookupDict) {
 		SEEDocumentCreationFlags *creationFlags = [[SEEDocumentCreationFlags alloc] init];
-		creationFlags.openInTab = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
+		creationFlags.openInTab = [[NSUserDefaults standardUserDefaults] boolForKey:kSEEDefaultsKeyOpenNewDocumentInTab];
 		self.documentCreationFlagsLookupDict[@"MakeUntitledDocument"] = creationFlags;
 	}
 
@@ -553,7 +553,7 @@
 - (IBAction)newDocumentFromDock:(id)aSender {
 	@synchronized(self.documentCreationFlagsLookupDict) {
 		SEEDocumentCreationFlags *creationFlags = [[SEEDocumentCreationFlags alloc] init];
-		creationFlags.openInTab = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
+		creationFlags.openInTab = [[NSUserDefaults standardUserDefaults] boolForKey:kSEEDefaultsKeyOpenNewDocumentInTab];
 		self.documentCreationFlagsLookupDict[@"MakeUntitledDocument"] = creationFlags;
 	}
 
@@ -668,13 +668,13 @@
 }
 
 - (IBAction)openNormalDocument:(id)aSender {
-	self.isOpeningInTab = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
+	self.isOpeningInTab = [[NSUserDefaults standardUserDefaults] boolForKey:kSEEDefaultsKeyOpenNewDocumentInTab];
 	self.isOpeningUsingAlternateMenuItem = NO;
     [self openDocument:(id)aSender];
 }
 
 - (IBAction)openAlternateDocument:(id)aSender {
-	self.isOpeningInTab = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
+	self.isOpeningInTab = [[NSUserDefaults standardUserDefaults] boolForKey:kSEEDefaultsKeyOpenNewDocumentInTab];
 	self.isOpeningUsingAlternateMenuItem = YES;
     [self openDocument:(id)aSender];
 }
@@ -1184,15 +1184,15 @@
             }
         }
     }
-    BOOL previousOpenSetting = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
+    BOOL previousOpenSetting = [[NSUserDefaults standardUserDefaults] boolForKey:kSEEDefaultsKeyOpenNewDocumentInTab];
     __block BOOL shouldSwitchOpening = NO;
     if (openIn) {
         if ([openIn isEqualToString:@"tabs"]) {
-            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:OpenNewDocumentInTabKey];
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kSEEDefaultsKeyOpenNewDocumentInTab];
         } else if ([openIn isEqualToString:@"windows"]) {
-            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:OpenNewDocumentInTabKey];
+            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kSEEDefaultsKeyOpenNewDocumentInTab];
         } else { // new-window
-            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:OpenNewDocumentInTabKey];
+            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kSEEDefaultsKeyOpenNewDocumentInTab];
             shouldSwitchOpening = YES;
         }
     }
@@ -1218,7 +1218,7 @@
 				if (document) {
 					if (shouldSwitchOpening) {
 						shouldSwitchOpening = NO;
-						[[NSUserDefaults standardUserDefaults] setBool:YES forKey:OpenNewDocumentInTabKey];
+						[[NSUserDefaults standardUserDefaults] setBool:YES forKey:kSEEDefaultsKeyOpenNewDocumentInTab];
 					}
 					[(PlainTextDocument *)document setIsWaiting:(shouldWait || isPipingOut)];
 					if (jobDescription) {
@@ -1267,7 +1267,7 @@
         if (document) {
             if (shouldSwitchOpening) {
                 shouldSwitchOpening = NO;
-                [[NSUserDefaults standardUserDefaults] setBool:YES forKey:OpenNewDocumentInTabKey];
+                [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kSEEDefaultsKeyOpenNewDocumentInTab];
             }
             [(PlainTextDocument *)document setIsWaiting:(shouldWait || isPipingOut)];
             if (!documentModeIdentifierArgument) {
@@ -1322,7 +1322,7 @@
         if (document) {
             if (shouldSwitchOpening) {
 //                shouldSwitchOpening = NO;
-                [[NSUserDefaults standardUserDefaults] setBool:YES forKey:OpenNewDocumentInTabKey];
+                [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kSEEDefaultsKeyOpenNewDocumentInTab];
             }
             [(PlainTextDocument *)document setIsWaiting:(shouldWait || isPipingOut)];
             if (isPipingOut) {
@@ -1387,7 +1387,7 @@
         }
     }
     if (openIn) {
-        [[NSUserDefaults standardUserDefaults] setBool:previousOpenSetting forKey:OpenNewDocumentInTabKey];
+        [[NSUserDefaults standardUserDefaults] setBool:previousOpenSetting forKey:kSEEDefaultsKeyOpenNewDocumentInTab];
     }    
     return nil;
 }

@@ -1588,7 +1588,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 			shouldOpenInTab = !shouldOpenInTab;
 		}
 	} else {
-		shouldOpenInTab = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
+		shouldOpenInTab = [[NSUserDefaults standardUserDefaults] boolForKey:kSEEDefaultsKeyOpenNewDocumentInTab];
 	}
 
 	if (shouldOpenInTab) {
@@ -1602,7 +1602,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     if (shouldOpenInTab) {
         windowController = (PlainTextWindowController *)tabWindowController;
         [self addWindowController:windowController];
-        [[windowController tabBar] setHideForSingleTab:![[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey]];
+        [[windowController tabBar] setHideForSingleTab:![[NSUserDefaults standardUserDefaults] boolForKey:kSEEDefaultsKeyAlwaysShowTabBar]];
     } else {
         windowController = [[PlainTextWindowController alloc] init];
         [self addWindowController:windowController];
@@ -3484,7 +3484,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 		// state data
 		NSData *stateData = [self stateData];
-        if (stateData && ![[NSUserDefaults standardUserDefaults] boolForKey:DontSaveDocumentStateInXattrsKey]) {
+        if (stateData && ![[NSUserDefaults standardUserDefaults] boolForKey:kSEEDefaultsKeyDontSaveDocumentStateInXattrs]) {
 			[UKXattrMetadataStore setData:stateData forKey:@"de.codingmonkeys.seestate" atPath:[absoluteURL path] traverseLink:YES];
 		} else {
 			// due to the way fspathreplaceobject of carbon core works, we need to remove the xattr from the original file if it exists

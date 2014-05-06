@@ -32,13 +32,13 @@ NSString * const SynthesiseFontsPreferenceKey               = @"SynthesiseFonts"
 
 
 
-NSString * const MyImagePreferenceKey                       = @"MyImage";
-NSString * const OpenNewDocumentInTabKey                    = @"OpenNewDocumentInTab";
-NSString * const AlwaysShowTabBarKey                        = @"AlwaysShowTabBar";
-NSString * const DontSaveDocumentStateInXattrsKey           = @"DontSaveDocumentStateInXattrs";
+NSString * const kSEEDefaultsKeyMyImagePreference              = @"MyImage";
+NSString * const kSEEDefaultsKeyOpenNewDocumentInTab           = @"OpenNewDocumentInTab";
+NSString * const kSEEDefaultsKeyAlwaysShowTabBar               = @"AlwaysShowTabBar";
+NSString * const kSEEDefaultsKeyDontSaveDocumentStateInXattrs  = @"DontSaveDocumentStateInXattrs";
 
-NSString * const UseTemporaryKeychainForTLSKey              = @"UseTemporaryKeychainForTLS";
-NSString * const EnableTLSKey                               = @"EnableTLS";
+NSString * const kSEEDefaultsKeyUseTemporaryKeychainForTLS     = @"UseTemporaryKeychainForTLS";
+NSString * const kSEEDefaultsKeyEnableTLS                      = @"EnableTLS";
 
 NSString * const DocumentStateSaveAndLoadWindowPositionKey = @"DocumentStateSaveAndLoadWindowPosition" ;
 NSString * const DocumentStateSaveAndLoadTabSettingKey     = @"DocumentStateSaveAndLoadTabSetting"     ;

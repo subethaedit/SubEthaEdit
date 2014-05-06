@@ -32,12 +32,12 @@ extern NSString * const MyAIMsPreferenceKey;
 extern NSString * const MyEmailsPreferenceKey;
 extern NSString * const SynthesiseFontsPreferenceKey;
 
-extern NSString * const MyImagePreferenceKey;
-extern NSString * const OpenNewDocumentInTabKey;
-extern NSString * const AlwaysShowTabBarKey;
-extern NSString * const DontSaveDocumentStateInXattrsKey;
-extern NSString * const UseTemporaryKeychainForTLSKey;
-extern NSString * const EnableTLSKey;
+extern NSString * const kSEEDefaultsKeyMyImagePreference;
+extern NSString * const kSEEDefaultsKeyOpenNewDocumentInTab;
+extern NSString * const kSEEDefaultsKeyAlwaysShowTabBar;
+extern NSString * const kSEEDefaultsKeyDontSaveDocumentStateInXattrs;
+extern NSString * const kSEEDefaultsKeyUseTemporaryKeychainForTLS;
+extern NSString * const kSEEDefaultsKeyEnableTLS;
 
 extern NSString * const DocumentStateSaveAndLoadWindowPositionKey;
 extern NSString * const DocumentStateSaveAndLoadTabSettingKey;
