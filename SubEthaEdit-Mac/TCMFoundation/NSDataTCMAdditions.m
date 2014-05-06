@@ -7,6 +7,7 @@
 //
 
 #import "NSDataTCMAdditions.h"
+#import <CommonCrypto/CommonDigest.h>
 
 
 @implementation NSData (NSDataTCMAdditions)
@@ -289,5 +290,26 @@ static unsigned long local_preprocessForDecode( const unsigned char *inBytes, un
     return nil;
 }
 
+- (NSData *)md5Data {
+    unsigned char result[CC_MD5_DIGEST_LENGTH];
+    CC_MD5(self.bytes, self.length, result);
+    return [NSData dataWithBytes:result length:CC_MD5_DIGEST_LENGTH];
+}
+
+- (NSString *)md5String {
+	NSData *md5Data = [self md5Data];
+	unsigned char *bytes = (unsigned char *)[md5Data bytes];
+    return [NSString
+			stringWithFormat:@"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
+			bytes[0], bytes[1],
+			bytes[2], bytes[3],
+			bytes[4], bytes[5],
+			bytes[6], bytes[7],
+			bytes[8], bytes[9],
+			bytes[10], bytes[11],
+			bytes[12], bytes[13],
+			bytes[14], bytes[15]
+			];
+}
 
 @end

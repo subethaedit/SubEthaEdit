@@ -17,6 +17,8 @@
 #error ARC must be enabled!
 #endif
 
+NSString * const TCMMMUserPropertyKeyImageAsPNGData = @"ImageAsPNG";
+
 
 NSString * const TCMMMUserWillLeaveSessionNotification =
                @"TCMMMUserWillLeaveSessionNotification";
@@ -165,12 +167,31 @@ NSString * const TCMMMUserWillLeaveSessionNotification =
     else if (![string isKindOfClass:[NSString class]]) return nil;
     [[user properties] setObject:string forKey:@"Email"];
     
-    NSData *pngData = [aRepresentation objectForKey:@"PNG"];
-    if (pngData) [[user properties] setObject:pngData forKey:@"ImageAsPNG"];
-    
     [user setUserHue:[aRepresentation objectForKey:@"hue"]];
 
+    NSData *pngData = [aRepresentation objectForKey:@"PNG"];
+	[user setImageWithPNGData:pngData];
+    
+
     return user;
+}
+
+- (void)setImageWithPNGData:(NSData *)aPNGData {
+	if (aPNGData &&
+		aPNGData.length > 0) {
+		NSString *md5String = [aPNGData md5String];
+		static NSArray *emptyImageHashes = nil;
+		if (emptyImageHashes == nil) {
+			emptyImageHashes = @[
+								 @"f5053bc845cf64013f86610e5c47baaf", // SubEthaEdit old
+								 @"7d4a805849dc48827b2bc860431b734b", // Coda old
+								 ];
+		}
+		//NSLog(@"%s md5:%@ userName:%@",__FUNCTION__,md5String,self.name);
+		if (![emptyImageHashes containsObject:md5String]) {
+			[self.properties setObject:aPNGData forKey:TCMMMUserPropertyKeyImageAsPNGData];
+		}
+	}
 }
 
 - (NSDictionary *)dictionaryRepresentation {
@@ -179,7 +200,7 @@ NSString * const TCMMMUserWillLeaveSessionNotification =
     if ([self name]) [dict setObject:[self name] forKey:@"name"];
     if ([[self properties] objectForKey:@"AIM"]) [dict setObject:[[self properties] objectForKey:@"AIM"] forKey:@"AIM"];
     if ([[self properties] objectForKey:@"Email"]) [dict setObject:[[self properties] objectForKey:@"Email"] forKey:@"mail"];
-    if ([[self properties] objectForKey:@"ImageAsPNG"]) [dict setObject:[[self properties] objectForKey:@"ImageAsPNG"] forKey:@"PNG"];
+    if ([[self properties] objectForKey:TCMMMUserPropertyKeyImageAsPNGData]) [dict setObject:[[self properties] objectForKey:@"ImageAsPNG"] forKey:@"PNG"];
     if ([[self properties] objectForKey:@"Hue"]) [dict setObject:[[self properties] objectForKey:@"Hue"] forKey:@"hue"];
     [dict setObject:[NSNumber numberWithLong:[self changeCount]] forKey:@"cnt"];
     return dict;
