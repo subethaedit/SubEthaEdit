@@ -134,6 +134,10 @@ static NSString	*OgreAFPCAttributedReplaceHistoryKey = @"AFPC Attributed Replace
 	[self setCloseWhenDoneOption:YES];
 	
 	[toggleStyleOptionsButton setState:NSOffState];
+    
+    // disable Automatic Substitution Features
+    [self disableAutomaticSubstitutions:findTextView];
+    [self disableAutomaticSubstitutions:replaceTextView];
 	
 	// restore history
 	[self restoreHistory:[textFinder history]];
@@ -152,6 +156,19 @@ static NSString	*OgreAFPCAttributedReplaceHistoryKey = @"AFPC Attributed Replace
 		selector: @selector(updateMaxNumOfReplaceHistory:) 
 		name: NSControlTextDidEndEditingNotification
 		object: maxNumOfReplaceHistoryTextField];
+}
+
+
+// disable Automatic Substitution Features
+- (void)disableAutomaticSubstitutions:(NSTextView*)textView
+{
+    [textView setSmartInsertDeleteEnabled:NO];
+    [textView setAutomaticDashSubstitutionEnabled:NO];
+    [textView setAutomaticDataDetectionEnabled:NO];
+    [textView setAutomaticLinkDetectionEnabled:NO];
+    [textView setAutomaticQuoteSubstitutionEnabled:NO];
+    [textView setAutomaticSpellingCorrectionEnabled:NO];
+    [textView setAutomaticTextReplacementEnabled:NO];
 }
 
 /*- (void)notified:(NSNotification*)aNotification
