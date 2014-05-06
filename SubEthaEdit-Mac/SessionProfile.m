@@ -15,12 +15,14 @@
 
 + (NSData *)defaultInitializationData {
     // optionally send the options here
-    static NSData *data=nil,*historyData= nil;
+    static NSData *data=nil;
+	//,*historyData= nil;
     if (!data) {
-        historyData = [TCM_BencodedObject([NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES],@"SendHistory",[NSNumber numberWithBool:YES],@"SendSESCHG",nil]) retain];
+		// sending and requesting of history is deprecated this way
+        // historyData = [TCM_BencodedObject([NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES],@"SendHistory",[NSNumber numberWithBool:YES],@"SendSESCHG",nil]) retain];
         data = [TCM_BencodedObject([NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES],@"SendSESCHG",nil]) retain];
     }
-    return [[NSUserDefaults standardUserDefaults] boolForKey:@"DontSubmitAndRequestHistory"]?data:historyData;
+    return data;
 }
 
 - (NSDictionary *)optionDictionary {
