@@ -3439,211 +3439,6 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     return @"de.codingmonkeys.subethaedit.seetext";
 }
 
-- (BOOL)writeToURL:(NSURL *)absoluteURL ofType:(NSString *)inType forSaveOperation:(NSSaveOperationType)saveOperation originalContentsURL:(NSURL *)originalContentsURL error:(NSError **)outError {
-//-timelog    NSDate *startDate = [NSDate date];
-//-timelog    NSLog(@"%s %@ %@ %d %@",__FUNCTION__, absoluteURL, inTypeName, saveOperation,originalContentsURL);
-    DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"write to:%@ type:%@ saveOperation:%lu originalURL:%@", absoluteURL, inType, (unsigned long)saveOperation,originalContentsURL);
-    if (UTTypeConformsTo((CFStringRef)inType, (CFStringRef)@"public.data")) {
-        BOOL modeWantsUTF8BOM = [[[self documentMode] defaultForKey:DocumentModeUTF8BOMPreferenceKey] boolValue];
-        DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"modeWantsUTF8BOM: %d, hasUTF8BOM: %d", modeWantsUTF8BOM, I_flags.hasUTF8BOM);
-        BOOL useUTF8Encoding = ((I_lastSaveOperation == NSSaveToOperation) && (I_encodingFromLastRunSaveToOperation == NSUTF8StringEncoding)) || ((I_lastSaveOperation != NSSaveToOperation) && ([self fileEncoding] == NSUTF8StringEncoding));
-		BOOL result = NO;
-        if ((I_flags.hasUTF8BOM || modeWantsUTF8BOM) && useUTF8Encoding) {
-            NSData *data = [[[self textStorage] string] dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:NO];
-            result = [[data dataPrefixedWithUTF8BOM] writeToURL:absoluteURL options:0 error:outError];
-            if (result) {
-            	// write the xtended attribute for utf-8
-            	[UKXattrMetadataStore setString:@"UTF-8;134217984" forKey:@"com.apple.TextEncoding" atPath:[absoluteURL path] traverseLink:YES];
-            }
-        } else {
-            // let us write using NSStrings write methods so the encoding is added to the extended attributes
-            result = [[[(FoldableTextStorage *)[self textStorage] fullTextStorage] string] writeToURL:absoluteURL atomically:NO encoding:[self fileEncoding] error:outError];
-        }
-
-		// state data
-		NSData *stateData = [self stateData];
-        if (stateData && ![[NSUserDefaults standardUserDefaults] boolForKey:DontSaveDocumentStateInXattrsKey]) {
-			[UKXattrMetadataStore setData:stateData forKey:@"de.codingmonkeys.seestate" atPath:[absoluteURL path] traverseLink:YES];
-		} else {
-			// due to the way fspathreplaceobject of carbon core works, we need to remove the xattr from the original file if it exists
-			if (originalContentsURL) {
-				[UKXattrMetadataStore removeDataForKey:@"de.codingmonkeys.seestate" atPath:[originalContentsURL path] traverseLink:YES];
-			}
-		}
-//        NSArray *xattrKeys = [UKXattrMetadataStore allKeysAtPath:[absoluteURL path] traverseLink:YES];
-//        NSLog(@"%s xattrKeys:%@",__FUNCTION__,xattrKeys);
-        return result;
-    } else if (UTTypeConformsTo((CFStringRef)inType, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext")) {
-        NSString *packagePath = [absoluteURL path];
-        NSFileManager *fm =[NSFileManager defaultManager];
-        if ([fm createDirectoryAtPath:packagePath withIntermediateDirectories:YES attributes:nil error:nil]) {
-            BOOL success = YES;
-
-            // mark it as package
-            NSString *contentsPath = [packagePath stringByAppendingPathComponent:@"Contents"];
-            success = [fm createDirectoryAtPath:contentsPath withIntermediateDirectories:YES attributes:nil error:nil];
-            if (success) success = [[@"????????" dataUsingEncoding:NSUTF8StringEncoding] writeToURL:[NSURL fileURLWithPath:[contentsPath stringByAppendingPathComponent:@"PkgInfo"]] options:0 error:outError];
-            
-            NSMutableData *data=[NSMutableData dataWithData:[@"SEEText" dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:NO]];
-            NSMutableArray *dataArray = [NSMutableArray arrayWithObject:[NSNumber numberWithInt:1]]; 
-            // so this is version 1 of the file format...
-            // combine data
-            NSMutableDictionary *compressedDict = [NSMutableDictionary dictionary];
-            NSMutableDictionary *directDict = [NSMutableDictionary dictionary];
-            // collect users - uncompressed because compressing pngs again doesn't help...
-//-timelog            NSDate *intermediateDate = [NSDate date];
-            [directDict setObject:[[self session] contributersAsDictionaryRepresentation] forKey:@"Contributors"];
-//-timelog            NSLog(@"%s conributors entry creating took: %fs",__FUNCTION__,[intermediateDate timeIntervalSinceNow]*-1.);
-            // get text storage and document settings
-//-timelog            intermediateDate = [NSDate date];
-            NSMutableDictionary *textStorageRep = [[[self textStorageDictionaryRepresentation] mutableCopy] autorelease];
-            [textStorageRep removeObjectForKey:@"String"];
-            [compressedDict setObject:textStorageRep forKey:@"TextStorage"];
-//-timelog            NSLog(@"%s textstorage entry creating took: %fs",__FUNCTION__,[intermediateDate timeIntervalSinceNow]*-1.);
-//-timelog            intermediateDate = [NSDate date];
-            if ([[self session] loggingState]) {
-                [compressedDict setObject:[[[self session] loggingState] dictionaryRepresentationForSaving] forKey:@"LoggingState"];
-            }
-//-timelog            NSLog(@"%s loggingState dictionary entry creating took: %fs",__FUNCTION__,[intermediateDate timeIntervalSinceNow]*-1.);
-            [compressedDict setObject:[self documentState] forKey:@"DocumentState"];
-            if (saveOperation == NSAutosaveOperation) {
-//				NSLog(@"%s write to:%@ type:%@ saveOperation:%d originalURL:%@",__FUNCTION__, absoluteURL, inTypeName, saveOperation,originalContentsURL);
-                NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
-                    [self fileType],@"fileType",
-                    [NSNumber numberWithBool:[super isDocumentEdited]],@"hadChanges",
-                    [[self fileURL] absoluteString],@"fileURL",nil];
-                [compressedDict setObject:dictionary forKey:@"AutosaveInformation"];
-            }
-    
-            // add direct and compressed data to the top level array
-//-timelog            intermediateDate = [NSDate date];
-            [dataArray addObject:[NSArray arrayWithObject:directDict]];
-//-timelog            NSDate *tempDate = [NSDate date];
-            NSData *bencodedDataToBeCompressed = TCM_BencodedObject(compressedDict);
-//-timelog            NSLog(@"generating bencodedDataToBeCompressed took %fs",[tempDate timeIntervalSinceNow]*-1.);
-//-timelog            tempDate = [NSDate date];
-            NSArray *compressedArray = [bencodedDataToBeCompressed arrayOfCompressedDataWithLevel:Z_DEFAULT_COMPRESSION];
-            if (!compressedArray) {
-                if (outError) {
-                    *outError = [NSError errorWithDomain:@"ZLIBDomain" code:-5 userInfo:nil];
-                }
-                return NO;
-            }
-//-timelog            NSLog(@"compressing the array took %fs",[tempDate timeIntervalSinceNow]*-1.);
-            [dataArray addObject:compressedArray];
-            if (self.preservedDataFromSEETextFile) {
-                [dataArray addObjectsFromArray:self.preservedDataFromSEETextFile];
-            }
-//-timelog            tempDate = [NSDate date];
-            [data appendData:TCM_BencodedObject(dataArray)];
-//-timelog            NSLog(@"bencoding the final dictionary took %fs",[tempDate timeIntervalSinceNow]*-1.);
-//-timelog            NSLog(@"%s bencoding and compressing took: %fs",__FUNCTION__,[intermediateDate timeIntervalSinceNow]*-1.);
-            
-            if (success) success = [data writeToURL:[NSURL fileURLWithPath:[packagePath stringByAppendingPathComponent:@"collaborationdata.bencoded"]] options:0 error:outError];
-			// autosave in utf-8 always no matter what to accomodate for strange inserted characters
-            if (success) success = [[[(FoldableTextStorage *)[self textStorage] fullTextStorage] string] writeToURL:[NSURL fileURLWithPath:[packagePath stringByAppendingPathComponent:@"plain.txt"]] atomically:NO encoding:(saveOperation == NSAutosaveOperation) ? NSUTF8StringEncoding : [self fileEncoding] error:outError];
-            if (success) success = [self writeMetaDataToURL:[NSURL fileURLWithPath:[packagePath stringByAppendingPathComponent:@"metadata.xml"]] error:outError];
-            
-            if (saveOperation != NSAutosaveOperation) {
-                NSString *quicklookPath = [packagePath stringByAppendingPathComponent:@"QuickLook"];
-                if (success) success = [fm createDirectoryAtPath:quicklookPath withIntermediateDirectories:YES attributes:nil error:nil];
-                if (success) {
-                    NSURL *thumbnailURL = [NSURL fileURLWithPath:[quicklookPath stringByAppendingPathComponent:@"Thumbnail.jpg"]];
-                    NSData *jpegData = [[self thumbnailBitmapRepresentation] representationUsingType:NSJPEGFileType properties:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:0.90],NSImageCompressionFactor,nil]];
-                    success = [jpegData writeToURL:thumbnailURL options:0 error:outError];
-                    if (success && [[NSUserDefaults standardUserDefaults] boolForKey:@"SaveSeeTextPreview"]) {
-                        NSView *printView = [self printableView];
-                        NSPrintInfo *printInfo = [[[self printInfo] copy] autorelease];
-                        [printInfo setJobDisposition:NSPrintSaveJob];
-                        NSMutableDictionary *printDict = [printInfo dictionary];
-                        NSString *pdfPath = [quicklookPath stringByAppendingPathComponent:@"Preview.pdf"];
-                        [printDict setObject:pdfPath forKey:NSPrintSavePath];
-                        NSDictionary *savedPrintOptions = [[self printOptions] copy];
-                        printDict = [self printOptions];
-                        [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEParticipants"];
-                        [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEParticipantImages"];
-                        [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEParticipantsAIMAndEmail"];
-                        [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEParticipantsVisitors"];
-                        [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEColorizeChangeMarks"];
-                        [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEAnnotateChangeMarks"];
-                        [printDict setObject:[NSNumber numberWithBool:NO]   forKey:@"SEEColorizeWrittenBy"];
-                        [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEAnnotateWrittenBy"];
-                        [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEWhiteBackground"];
-                        [printDict setObject:[NSNumber numberWithBool:NO]   forKey:@"SEEUseCustomFont"];
-                        [printDict setObject:[NSNumber numberWithBool:NO]   forKey:@"SEELineNumbers"];
-                        [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEPageHeader"];
-                        [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEPageHeaderFilename"];
-                        [printDict setObject:[NSNumber numberWithBool:NO]   forKey:@"SEEPageHeaderFullPath"];
-                        [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEPageHeaderCurrentDate"];
-                        [printDict setObject:[NSNumber numberWithFloat:8.0] forKey:@"SEEResizeDocumentFontTo"];
-                        NSPrintOperation *op = [NSPrintOperation printOperationWithView:printView printInfo:printInfo];
-                        [op setShowsPrintPanel:NO];
-                        [self runModalPrintOperation:op
-                                            delegate:nil
-                                      didRunSelector:NULL
-                                         contextInfo:nil];
-                        [[self printOptions] addEntriesFromDictionary:savedPrintOptions];
-						[savedPrintOptions release];
-                    }
-                }
-            }
-
-            if (success) {
-                // save .svn and .cvs directories for versioning
-                NSString *originalPath = [originalContentsURL path];
-                if (originalPath) {
-                    BOOL isDirectory = NO;
-                    if ([fm fileExistsAtPath:originalPath isDirectory:&isDirectory] && isDirectory) {
-                        NSString *scms[] = {@".svn",@".cvs"};
-                        NSString *subpaths[] = {@"",@"Contents",@"QuickLook"};
-                        int spIndex = 0;
-                        for (spIndex = 0;spIndex<3;spIndex++) {
-                            NSString *subPath = subpaths[spIndex];
-                            int scmIndex = 0;
-                            for (scmIndex=0;scmIndex<2;scmIndex++) {
-                                subPath = [subPath stringByAppendingPathComponent:scms[scmIndex]];
-                                NSString *sourcePath = [originalPath stringByAppendingPathComponent:subPath];
-                                NSString *targetPath = [packagePath stringByAppendingPathComponent:subPath];
-                                if ([fm fileExistsAtPath:sourcePath]) {
-                                    // make sure target directory exists (important for autosave)
-                                    if (![fm fileExistsAtPath:[targetPath stringByDeletingLastPathComponent]]) {
-                                        [fm createDirectoryAtPath:[targetPath stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:nil];
-                                    }
-                                    // copy the file afterwards
-                                    [fm copyItemAtPath:sourcePath toPath:targetPath error:nil];
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-//-timelog            NSLog(@"%s Save took: %fs",__FUNCTION__, -1.*[startDate timeIntervalSinceNow]);
-
-            
-            if (success) {
-                return YES;
-            } else {
-                [fm removeItemAtPath:packagePath error:nil];
-                if (outError && !*outError) {
-                    return [[NSData data] writeToURL:[NSURL fileURLWithPath:@"/asdfaoinefqwef/asdofinasdfpoie/aspdoifnaspdfo/asdofinapsodifn"] options:0 error:outError];
-                } else {
-                    return NO;
-                }
-            }
-        } else {
-            // let us generate some generic error from nsdata
-            if (outError && !*outError) {
-                return [[NSData data] writeToURL:[NSURL fileURLWithPath:@"/asdfaoinefqwef/asdofinasdfpoie/aspdoifnaspdfo/asdofinapsodifn"] options:0 error:outError];
-            } else {
-                return NO;
-            }
-        }
-	} else {
-        return [super writeToURL:absoluteURL ofType:inType forSaveOperation:saveOperation originalContentsURL:originalContentsURL error:outError];
-    }   
-}
-
 - (BOOL)TCM_writeUsingAuthorizedHelperToURL:(NSURL *)anAbsoluteURL ofType:(NSString *)docType saveOperation:(NSSaveOperationType)saveOperationType error:(NSError **)outError {
 	NSError *applicastionScriptURLError = nil;
 	NSURL *applicationScriptURL = [[NSFileManager defaultManager] URLForDirectory:NSApplicationScriptsDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:&applicastionScriptURLError];
@@ -3858,6 +3653,211 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     }
 
     return hasBeenWritten;
+}
+
+- (BOOL)writeToURL:(NSURL *)absoluteURL ofType:(NSString *)inType forSaveOperation:(NSSaveOperationType)saveOperation originalContentsURL:(NSURL *)originalContentsURL error:(NSError **)outError {
+	//-timelog    NSDate *startDate = [NSDate date];
+	//-timelog    NSLog(@"%s %@ %@ %d %@",__FUNCTION__, absoluteURL, inTypeName, saveOperation,originalContentsURL);
+    DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"write to:%@ type:%@ saveOperation:%lu originalURL:%@", absoluteURL, inType, (unsigned long)saveOperation,originalContentsURL);
+    if (UTTypeConformsTo((CFStringRef)inType, (CFStringRef)@"public.data")) {
+        BOOL modeWantsUTF8BOM = [[[self documentMode] defaultForKey:DocumentModeUTF8BOMPreferenceKey] boolValue];
+        DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"modeWantsUTF8BOM: %d, hasUTF8BOM: %d", modeWantsUTF8BOM, I_flags.hasUTF8BOM);
+        BOOL useUTF8Encoding = ((I_lastSaveOperation == NSSaveToOperation) && (I_encodingFromLastRunSaveToOperation == NSUTF8StringEncoding)) || ((I_lastSaveOperation != NSSaveToOperation) && ([self fileEncoding] == NSUTF8StringEncoding));
+		BOOL result = NO;
+        if ((I_flags.hasUTF8BOM || modeWantsUTF8BOM) && useUTF8Encoding) {
+            NSData *data = [[[self textStorage] string] dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:NO];
+            result = [[data dataPrefixedWithUTF8BOM] writeToURL:absoluteURL options:0 error:outError];
+            if (result) {
+            	// write the xtended attribute for utf-8
+            	[UKXattrMetadataStore setString:@"UTF-8;134217984" forKey:@"com.apple.TextEncoding" atPath:[absoluteURL path] traverseLink:YES];
+            }
+        } else {
+            // let us write using NSStrings write methods so the encoding is added to the extended attributes
+            result = [[[(FoldableTextStorage *)[self textStorage] fullTextStorage] string] writeToURL:absoluteURL atomically:NO encoding:[self fileEncoding] error:outError];
+        }
+
+		// state data
+		NSData *stateData = [self stateData];
+        if (stateData && ![[NSUserDefaults standardUserDefaults] boolForKey:DontSaveDocumentStateInXattrsKey]) {
+			[UKXattrMetadataStore setData:stateData forKey:@"de.codingmonkeys.seestate" atPath:[absoluteURL path] traverseLink:YES];
+		} else {
+			// due to the way fspathreplaceobject of carbon core works, we need to remove the xattr from the original file if it exists
+			if (originalContentsURL) {
+				[UKXattrMetadataStore removeDataForKey:@"de.codingmonkeys.seestate" atPath:[originalContentsURL path] traverseLink:YES];
+			}
+		}
+		//        NSArray *xattrKeys = [UKXattrMetadataStore allKeysAtPath:[absoluteURL path] traverseLink:YES];
+		//        NSLog(@"%s xattrKeys:%@",__FUNCTION__,xattrKeys);
+        return result;
+    } else if (UTTypeConformsTo((CFStringRef)inType, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext")) {
+        NSString *packagePath = [absoluteURL path];
+        NSFileManager *fm =[NSFileManager defaultManager];
+        if ([fm createDirectoryAtPath:packagePath withIntermediateDirectories:YES attributes:nil error:nil]) {
+            BOOL success = YES;
+
+            // mark it as package
+            NSString *contentsPath = [packagePath stringByAppendingPathComponent:@"Contents"];
+            success = [fm createDirectoryAtPath:contentsPath withIntermediateDirectories:YES attributes:nil error:nil];
+            if (success) success = [[@"????????" dataUsingEncoding:NSUTF8StringEncoding] writeToURL:[NSURL fileURLWithPath:[contentsPath stringByAppendingPathComponent:@"PkgInfo"]] options:0 error:outError];
+
+            NSMutableData *data=[NSMutableData dataWithData:[@"SEEText" dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:NO]];
+            NSMutableArray *dataArray = [NSMutableArray arrayWithObject:[NSNumber numberWithInt:1]];
+            // so this is version 1 of the file format...
+            // combine data
+            NSMutableDictionary *compressedDict = [NSMutableDictionary dictionary];
+            NSMutableDictionary *directDict = [NSMutableDictionary dictionary];
+            // collect users - uncompressed because compressing pngs again doesn't help...
+			//-timelog            NSDate *intermediateDate = [NSDate date];
+            [directDict setObject:[[self session] contributersAsDictionaryRepresentation] forKey:@"Contributors"];
+			//-timelog            NSLog(@"%s conributors entry creating took: %fs",__FUNCTION__,[intermediateDate timeIntervalSinceNow]*-1.);
+            // get text storage and document settings
+			//-timelog            intermediateDate = [NSDate date];
+            NSMutableDictionary *textStorageRep = [[[self textStorageDictionaryRepresentation] mutableCopy] autorelease];
+            [textStorageRep removeObjectForKey:@"String"];
+            [compressedDict setObject:textStorageRep forKey:@"TextStorage"];
+			//-timelog            NSLog(@"%s textstorage entry creating took: %fs",__FUNCTION__,[intermediateDate timeIntervalSinceNow]*-1.);
+			//-timelog            intermediateDate = [NSDate date];
+            if ([[self session] loggingState]) {
+                [compressedDict setObject:[[[self session] loggingState] dictionaryRepresentationForSaving] forKey:@"LoggingState"];
+            }
+			//-timelog            NSLog(@"%s loggingState dictionary entry creating took: %fs",__FUNCTION__,[intermediateDate timeIntervalSinceNow]*-1.);
+            [compressedDict setObject:[self documentState] forKey:@"DocumentState"];
+            if (saveOperation == NSAutosaveOperation) {
+				//				NSLog(@"%s write to:%@ type:%@ saveOperation:%d originalURL:%@",__FUNCTION__, absoluteURL, inTypeName, saveOperation,originalContentsURL);
+                NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+											[self fileType],@"fileType",
+											[NSNumber numberWithBool:[super isDocumentEdited]],@"hadChanges",
+											[[self fileURL] absoluteString],@"fileURL",nil];
+                [compressedDict setObject:dictionary forKey:@"AutosaveInformation"];
+            }
+
+            // add direct and compressed data to the top level array
+			//-timelog            intermediateDate = [NSDate date];
+            [dataArray addObject:[NSArray arrayWithObject:directDict]];
+			//-timelog            NSDate *tempDate = [NSDate date];
+            NSData *bencodedDataToBeCompressed = TCM_BencodedObject(compressedDict);
+			//-timelog            NSLog(@"generating bencodedDataToBeCompressed took %fs",[tempDate timeIntervalSinceNow]*-1.);
+			//-timelog            tempDate = [NSDate date];
+            NSArray *compressedArray = [bencodedDataToBeCompressed arrayOfCompressedDataWithLevel:Z_DEFAULT_COMPRESSION];
+            if (!compressedArray) {
+                if (outError) {
+                    *outError = [NSError errorWithDomain:@"ZLIBDomain" code:-5 userInfo:nil];
+                }
+                return NO;
+            }
+			//-timelog            NSLog(@"compressing the array took %fs",[tempDate timeIntervalSinceNow]*-1.);
+            [dataArray addObject:compressedArray];
+            if (self.preservedDataFromSEETextFile) {
+                [dataArray addObjectsFromArray:self.preservedDataFromSEETextFile];
+            }
+			//-timelog            tempDate = [NSDate date];
+            [data appendData:TCM_BencodedObject(dataArray)];
+			//-timelog            NSLog(@"bencoding the final dictionary took %fs",[tempDate timeIntervalSinceNow]*-1.);
+			//-timelog            NSLog(@"%s bencoding and compressing took: %fs",__FUNCTION__,[intermediateDate timeIntervalSinceNow]*-1.);
+
+            if (success) success = [data writeToURL:[NSURL fileURLWithPath:[packagePath stringByAppendingPathComponent:@"collaborationdata.bencoded"]] options:0 error:outError];
+			// autosave in utf-8 always no matter what to accomodate for strange inserted characters
+            if (success) success = [[[(FoldableTextStorage *)[self textStorage] fullTextStorage] string] writeToURL:[NSURL fileURLWithPath:[packagePath stringByAppendingPathComponent:@"plain.txt"]] atomically:NO encoding:(saveOperation == NSAutosaveOperation) ? NSUTF8StringEncoding : [self fileEncoding] error:outError];
+            if (success) success = [self writeMetaDataToURL:[NSURL fileURLWithPath:[packagePath stringByAppendingPathComponent:@"metadata.xml"]] error:outError];
+
+            if (saveOperation != NSAutosaveOperation) {
+                NSString *quicklookPath = [packagePath stringByAppendingPathComponent:@"QuickLook"];
+                if (success) success = [fm createDirectoryAtPath:quicklookPath withIntermediateDirectories:YES attributes:nil error:nil];
+                if (success) {
+                    NSURL *thumbnailURL = [NSURL fileURLWithPath:[quicklookPath stringByAppendingPathComponent:@"Thumbnail.jpg"]];
+                    NSData *jpegData = [[self thumbnailBitmapRepresentation] representationUsingType:NSJPEGFileType properties:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:0.90],NSImageCompressionFactor,nil]];
+                    success = [jpegData writeToURL:thumbnailURL options:0 error:outError];
+                    if (success && [[NSUserDefaults standardUserDefaults] boolForKey:@"SaveSeeTextPreview"]) {
+                        NSView *printView = [self printableView];
+                        NSPrintInfo *printInfo = [[[self printInfo] copy] autorelease];
+                        [printInfo setJobDisposition:NSPrintSaveJob];
+                        NSMutableDictionary *printDict = [printInfo dictionary];
+                        NSString *pdfPath = [quicklookPath stringByAppendingPathComponent:@"Preview.pdf"];
+                        [printDict setObject:pdfPath forKey:NSPrintSavePath];
+                        NSDictionary *savedPrintOptions = [[self printOptions] copy];
+                        printDict = [self printOptions];
+                        [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEParticipants"];
+                        [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEParticipantImages"];
+                        [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEParticipantsAIMAndEmail"];
+                        [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEParticipantsVisitors"];
+                        [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEColorizeChangeMarks"];
+                        [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEAnnotateChangeMarks"];
+                        [printDict setObject:[NSNumber numberWithBool:NO]   forKey:@"SEEColorizeWrittenBy"];
+                        [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEAnnotateWrittenBy"];
+                        [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEWhiteBackground"];
+                        [printDict setObject:[NSNumber numberWithBool:NO]   forKey:@"SEEUseCustomFont"];
+                        [printDict setObject:[NSNumber numberWithBool:NO]   forKey:@"SEELineNumbers"];
+                        [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEPageHeader"];
+                        [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEPageHeaderFilename"];
+                        [printDict setObject:[NSNumber numberWithBool:NO]   forKey:@"SEEPageHeaderFullPath"];
+                        [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEPageHeaderCurrentDate"];
+                        [printDict setObject:[NSNumber numberWithFloat:8.0] forKey:@"SEEResizeDocumentFontTo"];
+                        NSPrintOperation *op = [NSPrintOperation printOperationWithView:printView printInfo:printInfo];
+                        [op setShowsPrintPanel:NO];
+                        [self runModalPrintOperation:op
+                                            delegate:nil
+                                      didRunSelector:NULL
+                                         contextInfo:nil];
+                        [[self printOptions] addEntriesFromDictionary:savedPrintOptions];
+						[savedPrintOptions release];
+                    }
+                }
+            }
+
+            if (success) {
+                // save .svn and .cvs directories for versioning
+                NSString *originalPath = [originalContentsURL path];
+                if (originalPath) {
+                    BOOL isDirectory = NO;
+                    if ([fm fileExistsAtPath:originalPath isDirectory:&isDirectory] && isDirectory) {
+                        NSString *scms[] = {@".svn",@".cvs"};
+                        NSString *subpaths[] = {@"",@"Contents",@"QuickLook"};
+                        int spIndex = 0;
+                        for (spIndex = 0;spIndex<3;spIndex++) {
+                            NSString *subPath = subpaths[spIndex];
+                            int scmIndex = 0;
+                            for (scmIndex=0;scmIndex<2;scmIndex++) {
+                                subPath = [subPath stringByAppendingPathComponent:scms[scmIndex]];
+                                NSString *sourcePath = [originalPath stringByAppendingPathComponent:subPath];
+                                NSString *targetPath = [packagePath stringByAppendingPathComponent:subPath];
+                                if ([fm fileExistsAtPath:sourcePath]) {
+                                    // make sure target directory exists (important for autosave)
+                                    if (![fm fileExistsAtPath:[targetPath stringByDeletingLastPathComponent]]) {
+                                        [fm createDirectoryAtPath:[targetPath stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:nil];
+                                    }
+                                    // copy the file afterwards
+                                    [fm copyItemAtPath:sourcePath toPath:targetPath error:nil];
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+			//-timelog            NSLog(@"%s Save took: %fs",__FUNCTION__, -1.*[startDate timeIntervalSinceNow]);
+
+
+            if (success) {
+                return YES;
+            } else {
+                [fm removeItemAtPath:packagePath error:nil];
+                if (outError && !*outError) {
+                    return [[NSData data] writeToURL:[NSURL fileURLWithPath:@"/asdfaoinefqwef/asdofinasdfpoie/aspdoifnaspdfo/asdofinapsodifn"] options:0 error:outError];
+                } else {
+                    return NO;
+                }
+            }
+        } else {
+            // let us generate some generic error from nsdata
+            if (outError && !*outError) {
+                return [[NSData data] writeToURL:[NSURL fileURLWithPath:@"/asdfaoinefqwef/asdofinasdfpoie/aspdoifnaspdfo/asdofinapsodifn"] options:0 error:outError];
+            } else {
+                return NO;
+            }
+        }
+	} else {
+        return [super writeToURL:absoluteURL ofType:inType forSaveOperation:saveOperation originalContentsURL:originalContentsURL error:outError];
+    }   
 }
 
 - (BOOL)TCM_validateDocument {
