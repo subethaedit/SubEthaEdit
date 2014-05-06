@@ -200,7 +200,7 @@ NSString * const TCMMMUserWillLeaveSessionNotification =
     if ([self name]) [dict setObject:[self name] forKey:@"name"];
     if ([[self properties] objectForKey:@"AIM"]) [dict setObject:[[self properties] objectForKey:@"AIM"] forKey:@"AIM"];
     if ([[self properties] objectForKey:@"Email"]) [dict setObject:[[self properties] objectForKey:@"Email"] forKey:@"mail"];
-    if ([[self properties] objectForKey:TCMMMUserPropertyKeyImageAsPNGData]) [dict setObject:[[self properties] objectForKey:@"ImageAsPNG"] forKey:@"PNG"];
+    if ([[self properties] objectForKey:TCMMMUserPropertyKeyImageAsPNGData]) [dict setObject:[[self properties] objectForKey:TCMMMUserPropertyKeyImageAsPNGData] forKey:@"PNG"];
     if ([[self properties] objectForKey:@"Hue"]) [dict setObject:[[self properties] objectForKey:@"Hue"] forKey:@"hue"];
     [dict setObject:[NSNumber numberWithLong:[self changeCount]] forKey:@"cnt"];
     return dict;

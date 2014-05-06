@@ -194,7 +194,7 @@
 		pngData = [[NSBitmapImageRep imageRepWithData:pngData] representationUsingType:NSPNGFileType properties:[NSDictionary dictionary]];
 		
 		TCMMMUser *me = [TCMMMUserManager me];
-		[[me properties] setObject:pngData forKey:@"ImageAsPNG"];
+		[[me properties] setObject:pngData forKey:TCMMMUserPropertyKeyImageAsPNGData];
 		[me recacheImages];
 		[[NSUserDefaults standardUserDefaults] setObject:pngData forKey:kSEEDefaultsKeyMyImagePreference];
 		anImage = [me image];
@@ -203,7 +203,7 @@
 
 	} else {
 		TCMMMUser *me = [TCMMMUserManager me];
-		[[me properties] removeObjectForKey:@"ImageAsPNG"];
+		[[me properties] removeObjectForKey:TCMMMUserPropertyKeyImageAsPNGData];
 		[me recacheImages];
 		[[NSUserDefaults standardUserDefaults] removeObjectForKey:kSEEDefaultsKeyMyImagePreference];
 		[TCMMMUserManager didChangeMe];
