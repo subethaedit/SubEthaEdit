@@ -120,7 +120,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     [I_tabBar setDelegate:self];
     [I_tabBar setPartnerView:I_tabView];
 
-    BOOL shouldHideTabBar = [[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey];
+    BOOL shouldHideTabBar = [[NSUserDefaults standardUserDefaults] boolForKey:kSEEDefaultsKeyAlwaysShowTabBar];
     [I_tabBar setHideForSingleTab:!shouldHideTabBar];
     [I_tabBar hideTabBar:!shouldHideTabBar animate:NO];
     [I_tabBar setCellOptimumWidth:300];
@@ -1931,8 +1931,8 @@ static NSPoint S_cascadePoint = {0.0,0.0};
         [document release];
 
         if (![windowController hasManyDocuments]) {
-            [tabBarControl setHideForSingleTab:![[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey]];
-            [tabBarControl hideTabBar:![[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey] animate:NO];
+            [tabBarControl setHideForSingleTab:![[NSUserDefaults standardUserDefaults] boolForKey:kSEEDefaultsKeyAlwaysShowTabBar]];
+            [tabBarControl hideTabBar:![[NSUserDefaults standardUserDefaults] boolForKey:kSEEDefaultsKeyAlwaysShowTabBar] animate:NO];
         }
     }
 }
