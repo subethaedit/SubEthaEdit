@@ -2640,39 +2640,6 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 	self.currentSavePanel = nil;
 }
 
-- (NSData *)dataOfType:(NSString *)aType error:(NSError **)outError{
-
-    if ([[[self class] writableTypes] containsObject:aType]) {
-        NSData *data;
-        if (I_lastSaveOperation == NSSaveToOperation) {
-            DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Save a copy using encoding: %@", [NSString localizedNameOfStringEncoding:I_encodingFromLastRunSaveToOperation]);
-            [[EncodingManager sharedInstance] unregisterEncoding:I_encodingFromLastRunSaveToOperation];
-            data = [[[I_textStorage fullTextStorage] string] dataUsingEncoding:I_encodingFromLastRunSaveToOperation allowLossyConversion:YES];
-        } else {
-            DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Save using encoding: %@", [NSString localizedNameOfStringEncoding:[self fileEncoding]]);
-            data = [[[I_textStorage fullTextStorage] string] dataUsingEncoding:[self fileEncoding] allowLossyConversion:YES];
-        }
-        
-        BOOL modeWantsUTF8BOM = [[[self documentMode] defaultForKey:DocumentModeUTF8BOMPreferenceKey] boolValue];
-        DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"modeWantsUTF8BOM: %d, hasUTF8BOM: %d", modeWantsUTF8BOM, I_flags.hasUTF8BOM);
-        BOOL useUTF8Encoding = ((I_lastSaveOperation == NSSaveToOperation) && (I_encodingFromLastRunSaveToOperation == NSUTF8StringEncoding)) || ((I_lastSaveOperation != NSSaveToOperation) && ([self fileEncoding] == NSUTF8StringEncoding));
-
-        if ((I_flags.hasUTF8BOM || modeWantsUTF8BOM) && useUTF8Encoding) {
-            return [data dataPrefixedWithUTF8BOM];
-        } else {
-            return data;
-        }
-    }
-
-    if (outError) *outError = [NSError errorWithDomain:@"SEEDomain" code:42 userInfo:
-        [NSDictionary dictionaryWithObjectsAndKeys:
-            [NSString stringWithFormat:@"Could not create data for Filetype: %@",aType],NSLocalizedDescriptionKey,
-            nil
-        ]
-    ];
-    return nil;
-}
-
 - (BOOL)revertToContentsOfURL:(NSURL *)anURL ofType:(NSString *)type error:(NSError **)outError {
     [[self plainTextEditors] makeObjectsPerformSelector:@selector(pushSelectedRanges)];
     BOOL success = [super revertToContentsOfURL:anURL ofType:type error:outError];
@@ -3858,6 +3825,39 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 	} else {
         return [super writeToURL:absoluteURL ofType:inType forSaveOperation:saveOperation originalContentsURL:originalContentsURL error:outError];
     }   
+}
+
+- (NSData *)dataOfType:(NSString *)aType error:(NSError **)outError{
+
+    if ([[[self class] writableTypes] containsObject:aType]) {
+        NSData *data;
+        if (I_lastSaveOperation == NSSaveToOperation) {
+            DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Save a copy using encoding: %@", [NSString localizedNameOfStringEncoding:I_encodingFromLastRunSaveToOperation]);
+            [[EncodingManager sharedInstance] unregisterEncoding:I_encodingFromLastRunSaveToOperation];
+            data = [[[I_textStorage fullTextStorage] string] dataUsingEncoding:I_encodingFromLastRunSaveToOperation allowLossyConversion:YES];
+        } else {
+            DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Save using encoding: %@", [NSString localizedNameOfStringEncoding:[self fileEncoding]]);
+            data = [[[I_textStorage fullTextStorage] string] dataUsingEncoding:[self fileEncoding] allowLossyConversion:YES];
+        }
+
+        BOOL modeWantsUTF8BOM = [[[self documentMode] defaultForKey:DocumentModeUTF8BOMPreferenceKey] boolValue];
+        DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"modeWantsUTF8BOM: %d, hasUTF8BOM: %d", modeWantsUTF8BOM, I_flags.hasUTF8BOM);
+        BOOL useUTF8Encoding = ((I_lastSaveOperation == NSSaveToOperation) && (I_encodingFromLastRunSaveToOperation == NSUTF8StringEncoding)) || ((I_lastSaveOperation != NSSaveToOperation) && ([self fileEncoding] == NSUTF8StringEncoding));
+
+        if ((I_flags.hasUTF8BOM || modeWantsUTF8BOM) && useUTF8Encoding) {
+            return [data dataPrefixedWithUTF8BOM];
+        } else {
+            return data;
+        }
+    }
+
+    if (outError) *outError = [NSError errorWithDomain:@"SEEDomain" code:42 userInfo:
+							   [NSDictionary dictionaryWithObjectsAndKeys:
+								[NSString stringWithFormat:@"Could not create data for Filetype: %@",aType],NSLocalizedDescriptionKey,
+								nil
+								]
+							   ];
+    return nil;
 }
 
 - (BOOL)TCM_validateDocument {
