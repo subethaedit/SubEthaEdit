@@ -3439,28 +3439,6 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     return @"de.codingmonkeys.subethaedit.seetext";
 }
 
-- (NSArray *)writableTypesForSaveOperation:(NSSaveOperationType)saveOperation
-{
-    NSArray *writableTypes = [super writableTypesForSaveOperation:saveOperation];
-    
-    
-    NSMutableArray *mutableWritableTypes = [[writableTypes mutableCopy] autorelease];
-    [mutableWritableTypes removeObject:@"de.codingmonkeys.subethaedit.syntaxstyle"];
-    writableTypes = [[mutableWritableTypes copy] autorelease];
-    return writableTypes;
-}
-
-- (NSString *)fileNameExtensionForType:(NSString *)typeName saveOperation:(NSSaveOperationType)saveOperation
-{
-    NSString *fileNameExtension = [super fileNameExtensionForType:typeName saveOperation:saveOperation];
-//    if (! fileNameExtension)
-//    {
-//        NSArray *modeFileNameExtensions = self.documentMode.recognizedExtensions;
-//        fileNameExtension = modeFileNameExtensions.firstObject;
-//    }
-    return fileNameExtension;
-}
-
 - (BOOL)writeToURL:(NSURL *)absoluteURL ofType:(NSString *)inType forSaveOperation:(NSSaveOperationType)saveOperation originalContentsURL:(NSURL *)originalContentsURL error:(NSError **)outError {
 //-timelog    NSDate *startDate = [NSDate date];
 //-timelog    NSLog(@"%s %@ %@ %d %@",__FUNCTION__, absoluteURL, inTypeName, saveOperation,originalContentsURL);
