@@ -43,6 +43,7 @@ NSString * const TCMMMSessionCloseGroupName  = @"CloseGroup";
 NSString * const TCMMMSessionInvitedUserStateAwaitingResponse = @"AwaitingResponse";
 NSString * const TCMMMSessionInvitedUserStateInvitationDeclined = @"DeclinedInvitation";
 
+NSString * const TCMMMSessionTextStorageKey = @"TextStorage";
 
 @interface TCMMMSession ()
 - (NSDictionary *)TCM_sessionInformationForUserID:(NSString *)aUserID;
@@ -505,7 +506,7 @@ NSString * const TCMMMSessionInvitedUserStateInvitationDeclined = @"DeclinedInvi
                     [state setDelegate:nil];
                     [I_statesByClientID removeObjectForKey:userID];
                     [profile setMMState:nil];
-                    [profile sendSessionContent:TCM_BencodedObject([NSDictionary dictionaryWithObject:[[self document] textStorageDictionaryRepresentation] forKey:@"TextStorage"])];
+                    [profile sendSessionContent:TCM_BencodedObject([self sessionContentDictionary])];
                     state = [[TCMMMState alloc] initAsServer:YES];
                     [state setDelegate:self];
                     [state setClient:profile];
@@ -519,6 +520,10 @@ NSString * const TCMMMSessionInvitedUserStateInvitationDeclined = @"DeclinedInvi
     [self validateSecurity];
 }
 
+- (NSDictionary *)sessionContentDictionary {
+	NSDictionary *result = @{TCMMMSessionTextStorageKey : [[self document] textStorageDictionaryRepresentation]};
+	return result;
+}
 
 - (void)addPendingUser:(TCMMMUser *)aUser toGroup:(NSString *)aGroup {
 	if (aUser != nil && aGroup != nil) {
@@ -905,9 +910,15 @@ NSString * const TCMMMSessionInvitedUserStateInvitationDeclined = @"DeclinedInvi
     id <SEEDocument> document = [self document];
     [sessionInformation setObject:[document sessionInformation] forKey:@"DocumentSessionInformation"];
 
-    id loggingState = nil;
-    if ([[[[I_profilesByUserID objectForKey:userID] optionDictionary] objectForKey:@"SendHistory"] boolValue] && ![[NSUserDefaults standardUserDefaults] boolForKey:@"DontSubmitAndRequestHistory"]) loggingState = [I_loggingState dictionaryRepresentation];
-    NSDictionary *sessionContent=[NSDictionary dictionaryWithObjectsAndKeys:[document textStorageDictionaryRepresentation],@"TextStorage",loggingState,@"LoggingState",nil];
+	// this was the old mechanism send document history which we ignore now
+//    id loggingState = nil;
+//    if ([[[[I_profilesByUserID objectForKey:userID] optionDictionary] objectForKey:@"SendHistory"] boolValue] &&
+//		![[NSUserDefaults standardUserDefaults] boolForKey:@"DontSubmitAndRequestHistory"]) {
+//		loggingState = [I_loggingState dictionaryRepresentation];
+//	}
+//    NSDictionary *sessionContent=[NSDictionary dictionaryWithObjectsAndKeys:[document textStorageDictionaryRepresentation],@"TextStorage",loggingState,@"LoggingState",nil];
+	
+	NSDictionary *sessionContent = [self sessionContentDictionary];
     [I_sessionContentForUserID setObject:TCM_BencodedObject(sessionContent) forKey:userID];
 
     [sessionInformation setObject:[NSNumber numberWithUnsignedInt:[(NSData *)[I_sessionContentForUserID objectForKey:userID] length]] forKey:@"ContentLength"];
@@ -1108,7 +1119,9 @@ NSString * const TCMMMSessionInvitedUserStateInvitationDeclined = @"DeclinedInvi
         [I_statesByClientID setObject:state forKey:[self hostID]];
         [state release];
     }
-    NSDictionary *loggingStateRep = [aContent objectForKey:@"LoggingState"];
+	
+	// ignore the logging state for now
+    NSDictionary *loggingStateRep = nil; // = [aContent objectForKey:@"LoggingState"];
     id loggingState = nil;
     if (loggingStateRep) {
         loggingState = [[TCMMMLoggingState alloc] initWithDictionaryRepresentation:loggingStateRep];

@@ -196,7 +196,7 @@
 		TCMMMUser *me = [TCMMMUserManager me];
 		[[me properties] setObject:pngData forKey:@"ImageAsPNG"];
 		[me recacheImages];
-		[[NSUserDefaults standardUserDefaults] setObject:pngData forKey:MyImagePreferenceKey];
+		[[NSUserDefaults standardUserDefaults] setObject:pngData forKey:kSEEDefaultsKeyMyImagePreference];
 		anImage = [me image];
 		[anImage setFlipped:NO];
 		[TCMMMUserManager didChangeMe];
@@ -205,7 +205,7 @@
 		TCMMMUser *me = [TCMMMUserManager me];
 		[[me properties] removeObjectForKey:@"ImageAsPNG"];
 		[me recacheImages];
-		[[NSUserDefaults standardUserDefaults] removeObjectForKey:MyImagePreferenceKey];
+		[[NSUserDefaults standardUserDefaults] removeObjectForKey:kSEEDefaultsKeyMyImagePreference];
 		[TCMMMUserManager didChangeMe];
 	}
 }
