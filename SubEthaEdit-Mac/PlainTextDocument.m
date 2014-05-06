@@ -2261,7 +2261,7 @@ struct SelectionRange
 					}
 					[shortContributorIDs addObject:IDString];
 					if (shouldSaveImages) {
-						[[[contributor properties] objectForKey:@"ImageAsPNG"] writeToFile:[imageDirectory stringByAppendingPathComponent:[IDString stringByAppendingPathExtension:@"png"]] atomically:YES];
+						[[[contributor properties] objectForKey:TCMMMUserPropertyKeyImageAsPNGData] writeToFile:[imageDirectory stringByAppendingPathComponent:[IDString stringByAppendingPathExtension:@"png"]] atomically:YES];
 					}
 					NSDictionary *dictionary=[NSDictionary dictionaryWithObjectsAndKeys:contributor,@"User",IDString,@"ShortID",nil];
 					if ([contributorIDs containsObject:[contributor userID]]) {

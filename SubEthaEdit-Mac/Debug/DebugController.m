@@ -69,7 +69,7 @@ static DebugController * sharedInstance = nil;
 			NSData *vcard = [[user vcfRepresentation] dataUsingEncoding:NSUnicodeStringEncoding];
 			[vcard writeToURL:vCardURL atomically:YES];
 
-			NSData *image = [[user properties] objectForKey:@"ImageAsPNG"];
+			NSData *image = [[user properties] objectForKey:TCMMMUserPropertyKeyImageAsPNGData];
 			if (image) {
 				NSURL *imageURL = [cachesDirectory URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", saveName]];
 				[image writeToURL:imageURL atomically:YES];
