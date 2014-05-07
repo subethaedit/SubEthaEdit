@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		141958B10BB951C400CB4AA4 /* TCMMMSessionAppKitHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 141958970BB9507700CB4AA4 /* TCMMMSessionAppKitHelper.m */; };
 		141F50ED0AE51B66001B73D2 /* PlainTextWindowControllerTabContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 141F50EB0AE51B65001B73D2 /* PlainTextWindowControllerTabContext.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
-		14288FDE09573E8900D14688 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14288FDD09573E8900D14688 /* AddressBook.framework */; };
 		14288FE009573EA300D14688 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14288FDF09573EA300D14688 /* Carbon.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		14288FED09573F2B00D14688 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14288FEC09573F2B00D14688 /* Security.framework */; };
 		14288FF509573F4900D14688 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14288FF409573F4900D14688 /* WebKit.framework */; };
@@ -1269,7 +1268,6 @@
 				4234523A1907DFE400BE3CC1 /* Quartz.framework in Frameworks */,
 				4CB8EE51180FDF790051AB6B /* libz.dylib in Frameworks */,
 				8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */,
-				14288FDE09573E8900D14688 /* AddressBook.framework in Frameworks */,
 				14288FE009573EA300D14688 /* Carbon.framework in Frameworks */,
 				14288FED09573F2B00D14688 /* Security.framework in Frameworks */,
 				142894D4095765CF00D14688 /* SystemConfiguration.framework in Frameworks */,
