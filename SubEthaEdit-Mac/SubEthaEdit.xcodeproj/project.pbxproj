@@ -315,6 +315,7 @@
 		F24280C60D16CFCC0083AE21 /* GenericSASLProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = F24280C50D16CFCC0083AE21 /* GenericSASLProfile.m */; };
 		F25A071B191A6A9100F07557 /* NamedLogo2.png in Resources */ = {isa = PBXBuildFile; fileRef = F25A0719191A6A9100F07557 /* NamedLogo2.png */; };
 		F25A071C191A6A9100F07557 /* NamedLogo2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F25A071A191A6A9100F07557 /* NamedLogo2@2x.png */; };
+		F25A071F191A6D4600F07557 /* WaitPipe@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F25A071E191A6D4600F07557 /* WaitPipe@2x.png */; };
 		F265602218C4BA7300C73737 /* SearchLoupeNormal.pdf in Resources */ = {isa = PBXBuildFile; fileRef = F265602018C4BA7300C73737 /* SearchLoupeNormal.pdf */; };
 		F265602318C4BA7300C73737 /* SearchLoupeRE.pdf in Resources */ = {isa = PBXBuildFile; fileRef = F265602118C4BA7300C73737 /* SearchLoupeRE.pdf */; };
 		F26B7D880CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F26B7D850CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m */; };
@@ -1048,6 +1049,7 @@
 		F24280C50D16CFCC0083AE21 /* GenericSASLProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenericSASLProfile.m; sourceTree = "<group>"; };
 		F25A0719191A6A9100F07557 /* NamedLogo2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = NamedLogo2.png; path = artwork/NamedLogo2.png; sourceTree = "<group>"; };
 		F25A071A191A6A9100F07557 /* NamedLogo2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "NamedLogo2@2x.png"; path = "artwork/NamedLogo2@2x.png"; sourceTree = "<group>"; };
+		F25A071E191A6D4600F07557 /* WaitPipe@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "WaitPipe@2x.png"; path = "artwork/WaitPipe@2x.png"; sourceTree = "<group>"; };
 		F265602018C4BA7300C73737 /* SearchLoupeNormal.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = SearchLoupeNormal.pdf; path = artwork/SearchLoupeNormal.pdf; sourceTree = "<group>"; };
 		F265602118C4BA7300C73737 /* SearchLoupeRE.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = SearchLoupeRE.pdf; path = artwork/SearchLoupeRE.pdf; sourceTree = "<group>"; };
 		F26B7D840CA3F7680039C8A1 /* NSBezierPathTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NSBezierPathTCMAdditions.h; sourceTree = "<group>"; };
@@ -1388,6 +1390,7 @@
 				F20AB880190932FB00444F4B /* SymbolWarn@2x.png */,
 				142890AE095743F200D14688 /* URLIcon.tiff */,
 				142890AF095743F200D14688 /* WaitPipe.png */,
+				F25A071E191A6D4600F07557 /* WaitPipe@2x.png */,
 			);
 			name = Artwork;
 			sourceTree = "<group>";
@@ -2645,6 +2648,7 @@
 				14EC6E280A63F2E800B44481 /* ServicesMenu.strings in Resources */,
 				4C6BDC6618898E1E0088CBFC /* ScriptMenu.pdf in Resources */,
 				5EF31E430A7E437C00D777F5 /* InvertedIBeam.tiff in Resources */,
+				F25A071F191A6D4600F07557 /* WaitPipe@2x.png in Resources */,
 				4C6BDC5618896DCC0088CBFC /* SubEthaEditText.iconset in Resources */,
 				F2D3E531189941F50096425B /* AW ActiveTabLeftCap.png in Resources */,
 				F2061D590B4C13AF00E6631F /* SmallGrowBoxRight3.tiff in Resources */,
