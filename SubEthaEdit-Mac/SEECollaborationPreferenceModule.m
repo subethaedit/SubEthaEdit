@@ -16,7 +16,6 @@
 
 #import "PreferenceKeys.h"
 
-#import <AddressBook/AddressBook.h>
 #import "TCMMMUserManager.h"
 #import "TCMMMBEEPSessionManager.h"
 #import "TCMMMUser.h"
@@ -60,8 +59,6 @@
 	[self localizeText];
 	[self localizeLayout];
 
-	[self TCM_setupComboBoxes];
-	
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
     
     TCMMMUser *me = [TCMMMUserManager me];
@@ -172,22 +169,6 @@
 	[self updateLocalPort];
 }
 
-#pragma mark - Me Card
-- (void)TCM_setupComboBoxes {
-    ABPerson *meCard = [[ABAddressBook sharedAddressBook] me];
-	
-	// populate email combobox
-    ABMultiValue *emailAccounts = [meCard valueForProperty:kABEmailProperty];
-	if ([emailAccounts propertyType] == kABMultiStringProperty)
-	{
-		for (NSString *emailAccountsIdentifier in emailAccounts)
-		{
-			NSString *email = [emailAccounts valueForIdentifier:emailAccountsIdentifier];
-			[self.O_emailComboBox addItemWithObjectValue:email];
-		}
-	}
-}
-
 #pragma mark - Me Card - Image
 
 - (void)updateUserWithImage:(NSImage *)anImage {
@@ -259,20 +240,9 @@
     if (![[[me properties] objectForKey:@"Email"] isEqualTo:newValue]) {
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         [defaults setObject:newValue forKey:MyEmailPreferenceKey];
-        ABPerson *meCard=[[ABAddressBook sharedAddressBook] me];
-        ABMultiValue *emails=[meCard valueForProperty:kABEmailProperty];
-        int index=0;
-        int count=[emails count];
-        for (index=0;index<count;index++) {
-            if ([newValue isEqualToString:[emails valueAtIndex:index]]) {
-                NSString *identifier=[emails identifierAtIndex:index];
-                [defaults setObject:identifier forKey:MyEmailIdentifierPreferenceKey];
-                break;
-            }
-        }
-        if (count==index) {
-            [defaults removeObjectForKey:MyEmailIdentifierPreferenceKey];
-        }
+
+// TODO: remove MyEmailIdentifierPreferenceKey
+		
         [[me properties] setObject:newValue forKey:@"Email"];
         [TCMMMUserManager didChangeMe];
     }
