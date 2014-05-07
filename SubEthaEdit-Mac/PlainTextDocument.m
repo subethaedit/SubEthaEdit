@@ -28,6 +28,7 @@
 #import "NSMutableAttributedStringSEEAdditions.h"
 #import "NSErrorTCMAdditions.h"
 #import "FontForwardingTextField.h"
+#import "SEEAuthenticatedSaveMissingScriptRecoveryAttempter.h"
 
 #import "DocumentModeManager.h"
 #import "DocumentMode.h"
@@ -2640,38 +2641,8 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 	self.currentSavePanel = nil;
 }
 
-- (NSData *)dataOfType:(NSString *)aType error:(NSError **)outError{
 
-    if ([[[self class] writableTypes] containsObject:aType]) {
-        NSData *data;
-        if (I_lastSaveOperation == NSSaveToOperation) {
-            DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Save a copy using encoding: %@", [NSString localizedNameOfStringEncoding:I_encodingFromLastRunSaveToOperation]);
-            [[EncodingManager sharedInstance] unregisterEncoding:I_encodingFromLastRunSaveToOperation];
-            data = [[[I_textStorage fullTextStorage] string] dataUsingEncoding:I_encodingFromLastRunSaveToOperation allowLossyConversion:YES];
-        } else {
-            DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Save using encoding: %@", [NSString localizedNameOfStringEncoding:[self fileEncoding]]);
-            data = [[[I_textStorage fullTextStorage] string] dataUsingEncoding:[self fileEncoding] allowLossyConversion:YES];
-        }
-        
-        BOOL modeWantsUTF8BOM = [[[self documentMode] defaultForKey:DocumentModeUTF8BOMPreferenceKey] boolValue];
-        DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"modeWantsUTF8BOM: %d, hasUTF8BOM: %d", modeWantsUTF8BOM, I_flags.hasUTF8BOM);
-        BOOL useUTF8Encoding = ((I_lastSaveOperation == NSSaveToOperation) && (I_encodingFromLastRunSaveToOperation == NSUTF8StringEncoding)) || ((I_lastSaveOperation != NSSaveToOperation) && ([self fileEncoding] == NSUTF8StringEncoding));
-
-        if ((I_flags.hasUTF8BOM || modeWantsUTF8BOM) && useUTF8Encoding) {
-            return [data dataPrefixedWithUTF8BOM];
-        } else {
-            return data;
-        }
-    }
-
-    if (outError) *outError = [NSError errorWithDomain:@"SEEDomain" code:42 userInfo:
-        [NSDictionary dictionaryWithObjectsAndKeys:
-            [NSString stringWithFormat:@"Could not create data for Filetype: %@",aType],NSLocalizedDescriptionKey,
-            nil
-        ]
-    ];
-    return nil;
-}
+#pragma mark - Reading
 
 - (BOOL)revertToContentsOfURL:(NSURL *)anURL ofType:(NSString *)type error:(NSError **)outError {
     [[self plainTextEditors] makeObjectsPerformSelector:@selector(pushSelectedRanges)];
@@ -3376,6 +3347,73 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     return [self TCM_readFromURL:anURL ofType:docType properties:properties error:outError];
 }
 
+#pragma mark - Saving
+
+- (void) saveToURL:(NSURL *)url ofType:(NSString *)typeName forSaveOperation:(NSSaveOperationType)saveOperation completionHandler:(void (^)(NSError *))completionHandler
+{
+	NSURL *originalFileURL = self.fileURL;
+
+	[super saveToURL:url ofType:typeName forSaveOperation:saveOperation completionHandler:^(NSError *error){
+		__block NSError *authenticationError = nil;
+		__block BOOL hasBeenWritten = (error == nil);
+
+		[self continueActivityUsingBlock:^{
+			NSError *fileSavingError = error;
+			[self performActivityWithSynchronousWaiting:YES usingBlock:^(void (^activityCompletionHandler)(void)) {
+				if ([error.domain isEqualToString:@"SEEDocumentSavingDomain"] && error.code == 0x0FF) {
+					hasBeenWritten = [self writeAuthorizedToURL:url ofType:typeName saveOperation:saveOperation error:&authenticationError];
+					[authenticationError retain];
+					activityCompletionHandler();
+				} else {
+					activityCompletionHandler();
+				}
+			}];
+
+			if (hasBeenWritten) {
+				fileSavingError = nil;
+				if (saveOperation == NSSaveOperation) {
+					[self TCM_sendODBModifiedEvent];
+					[self setKeepDocumentVersion:NO];
+				} else if (saveOperation == NSSaveAsOperation) {
+					if ([url isEqualTo:originalFileURL]) {
+						[self TCM_sendODBModifiedEvent];
+					} else {
+						[self setODBParameters:nil];
+					}
+					[self setShouldChangeChangeCount:YES];
+				}
+				if (saveOperation != NSAutosaveOperation) {
+					[[NSNotificationCenter defaultCenter] postNotificationName:PlainTextDocumentDidSaveShouldReloadWebPreviewNotification object:self];
+				}
+				[self setTemporaryDisplayName:nil];
+			}
+
+			if (saveOperation != NSSaveToOperation && saveOperation != NSAutosaveOperation) {
+				NSDictionary *fattrs = [[NSFileManager defaultManager] attributesOfItemAtPath:url.path error:NULL];
+				[self setFileAttributes:fattrs];
+				[self setIsFileWritable:hasBeenWritten];
+			}
+
+			if (hasBeenWritten) {
+				[[NSNotificationQueue defaultQueue]
+				 enqueueNotification:[NSNotification notificationWithName:PlainTextDocumentDidSaveNotification object:self]
+				 postingStyle:NSPostWhenIdle
+				 coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender
+				 forModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
+			} else {
+				if (authenticationError) {
+					fileSavingError = [authenticationError autorelease];
+				}
+			}
+
+			if (completionHandler) {
+				completionHandler(fileSavingError);
+			}
+		}];
+	}];
+}
+
+
 - (BOOL)writeMetaDataToURL:(NSURL *)absoluteURL error:(NSError **)outError {
     NSXMLElement *rootElement = [NSXMLNode elementWithName:@"seemetadata"];
     [rootElement addChild:[NSXMLNode elementWithName:@"charset" stringValue:[self encoding]]];
@@ -3439,31 +3477,227 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     return @"de.codingmonkeys.subethaedit.seetext";
 }
 
-- (NSArray *)writableTypesForSaveOperation:(NSSaveOperationType)saveOperation
-{
-    NSArray *writableTypes = [super writableTypesForSaveOperation:saveOperation];
+- (BOOL)writeSafelyToURL:(NSURL*)anAbsoluteURL ofType:(NSString *)docType forSaveOperation:(NSSaveOperationType)saveOperationType error:(NSError **)outError {
     
+    NSString *fullDocumentPath = [anAbsoluteURL path];
+    DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"writeSavelyToURL: %@", anAbsoluteURL);
     
-    NSMutableArray *mutableWritableTypes = [[writableTypes mutableCopy] autorelease];
-    [mutableWritableTypes removeObject:@"de.codingmonkeys.subethaedit.syntaxstyle"];
-    writableTypes = [[mutableWritableTypes copy] autorelease];
-    return writableTypes;
+    NSError *error = nil;
+	BOOL needsAuthenticatedSave = NO;
+    BOOL hasBeenWritten = [super writeSafelyToURL:anAbsoluteURL ofType:docType forSaveOperation:saveOperationType error:&error];
+    if (outError) {
+        *outError = error;
+    }
+    
+    if (!hasBeenWritten) {
+        DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"Failed to write using writeSafelyToURL: %@",*outError);
+        
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        NSDictionary *fileAttributes = [fileManager attributesOfItemAtPath:fullDocumentPath error:nil];
+        NSUInteger fileReferenceCount = [[fileAttributes objectForKey:NSFileReferenceCount] unsignedLongValue];
+        BOOL isFileWritable = [fileManager isWritableFileAtPath:fullDocumentPath];
+        if (fileReferenceCount > 1 && isFileWritable) {            
+            char cFullDocumentPath[MAXPATHLEN+1];
+            if ([(NSString *)fullDocumentPath getFileSystemRepresentation:cFullDocumentPath maxLength:MAXPATHLEN]) {
+                int fd = open(cFullDocumentPath, O_WRONLY | O_TRUNC, S_IRUSR | S_IWUSR);
+                if (fd) {
+                    NSFileHandle *fileHandle = [[NSFileHandle alloc] initWithFileDescriptor:fd closeOnDealloc:YES];
+                    NSData *data = [self dataOfType:docType error:outError];
+                    if (!data) {
+                        DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"dataOfType returned error: %@", *outError);
+                    }
+                    @try {
+                        [fileHandle writeData:data];
+                        hasBeenWritten = YES;
+                    }
+                    @catch (id exception) {
+                        DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"writeData throws exception: %@", exception);
+                    }
+                    [fileHandle release];
+                }
+            }
+        }
+        
+        if ( !hasBeenWritten && ((error && [error TCM_relatesToErrorCode:NSFileWriteNoPermissionError inDomain:nil]) ||
+								 (error && [error TCM_relatesToErrorCode:13 inDomain:NSPOSIXErrorDomain])) ) {
+
+            if (outError) *outError = nil; // clear outerror because we already showed it
+            BOOL isDirWritable = [fileManager isWritableFileAtPath:[fullDocumentPath stringByDeletingLastPathComponent]];
+            BOOL isFileDeletable = [fileManager isDeletableFileAtPath:fullDocumentPath];
+
+            if (isDirWritable && isFileDeletable) {
+                NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+                [alert setAlertStyle:NSWarningAlertStyle];
+                [alert setMessageText:NSLocalizedString(@"Save", nil)];
+                [alert setInformativeText:NSLocalizedString(@"SaveDialogInformativeText: Save or Replace", @"Informative text in a save dialog, because of permissions issues the user has the choice to save using administrator permissions or replace the file")];
+                [alert addButtonWithTitle:NSLocalizedString(@"Save", nil)];
+                [alert addButtonWithTitle:NSLocalizedString(@"Replace", nil)];
+                [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
+                int returnCode = [alert runModal];
+                [[alert window] orderOut:self];
+
+                if (returnCode == NSAlertFirstButtonReturn) {
+                    DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"We need root power!");
+					needsAuthenticatedSave = YES;
+                } else if (returnCode == NSAlertSecondButtonReturn) {
+                    NSFileManager *fileManager = [NSFileManager defaultManager];
+                    NSString *tempFilePath = tempFileName(fullDocumentPath);
+                    hasBeenWritten = [self writeToURL:[NSURL fileURLWithPath:tempFilePath] ofType:docType forSaveOperation:saveOperationType originalContentsURL:nil error:outError];
+                    if (hasBeenWritten) {
+                        BOOL result = [fileManager removeItemAtPath:fullDocumentPath error:nil];
+                        if (result) {
+                            hasBeenWritten = [fileManager moveItemAtPath:tempFilePath toPath:fullDocumentPath error:nil];
+                            if (hasBeenWritten) {
+                                NSDictionary *fattrs = [self fileAttributesToWriteToURL:[NSURL fileURLWithPath:fullDocumentPath] ofType:docType forSaveOperation:saveOperationType originalContentsURL:nil error:nil];
+                                [fileManager setAttributes:fattrs ofItemAtPath:fullDocumentPath error:nil];
+                            } else {
+                                NSAlert *newAlert = [[[NSAlert alloc] init] autorelease];
+                                [newAlert setAlertStyle:NSWarningAlertStyle];
+                                [newAlert setMessageText:NSLocalizedString(@"Save", nil)];
+                                [newAlert setInformativeText:NSLocalizedString(@"AlertInformativeText: Replace failed", @"Informative text in an alert which tells the you user that replacing the file failed")];
+                                [newAlert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
+                                [self presentAlert:newAlert
+                                     modalDelegate:nil
+                                    didEndSelector:nil
+                                       contextInfo:NULL];
+								if ( outError )
+									*outError = nil; 
+                            }
+                        } else {
+                            (void)[fileManager removeItemAtPath:tempFilePath error:nil];
+                            NSAlert *newAlert = [[[NSAlert alloc] init] autorelease];
+                            [newAlert setAlertStyle:NSWarningAlertStyle];
+                            [newAlert setMessageText:NSLocalizedString(@"Save", nil)];
+                            [newAlert setInformativeText:NSLocalizedString(@"AlertInformativeText: Error occurred during replace", @"Informative text in an alert which tells the user that an error prevented the replace")];
+                            [newAlert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
+                            [self presentAlert:newAlert
+                                 modalDelegate:nil
+                                didEndSelector:nil
+                                   contextInfo:NULL];
+							if ( outError )
+								*outError = nil; 
+
+                        }
+                    }
+                }
+            } else {
+                DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"We need root power!");
+				needsAuthenticatedSave = YES;
+            }
+        }
+     }
+
+	if (needsAuthenticatedSave) {
+		if (outError) {
+			*outError = [NSError errorWithDomain:@"SEEDocumentSavingDomain" code:0X0FF userInfo:nil];
+		}
+	}
+
+    return hasBeenWritten;
 }
 
-- (NSString *)fileNameExtensionForType:(NSString *)typeName saveOperation:(NSSaveOperationType)saveOperation
-{
-    NSString *fileNameExtension = [super fileNameExtensionForType:typeName saveOperation:saveOperation];
-//    if (! fileNameExtension)
-//    {
-//        NSArray *modeFileNameExtensions = self.documentMode.recognizedExtensions;
-//        fileNameExtension = modeFileNameExtensions.firstObject;
-//    }
-    return fileNameExtension;
+- (BOOL)writeAuthorizedToURL:(NSURL *)anAbsoluteURL ofType:(NSString *)docType saveOperation:(NSSaveOperationType)saveOperationType error:(NSError **)outError {
+
+	__block BOOL result = NO;
+
+	NSError *applicationScriptURLError = nil;
+	NSURL *applicationScriptURL = [[NSFileManager defaultManager] URLForDirectory:NSApplicationScriptsDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:&applicationScriptURLError];
+
+	if (! applicationScriptURLError) {
+		NSError *authenticationScriptError = nil;
+		NSURL *authenticationScriptURL = [applicationScriptURL URLByAppendingPathComponent:@"SubEthaEdit_AuthenticatedSave.scpt"];
+		NSUserAppleScriptTask *authorisationScript = [[[NSUserAppleScriptTask alloc] initWithURL:authenticationScriptURL error:&authenticationScriptError] autorelease];
+
+		if (! authenticationScriptError) {
+			NSURL *tempFileURL = [NSURL fileURLWithPath:NSTemporaryDirectory()];
+			tempFileURL = [tempFileURL URLByAppendingPathComponent:anAbsoluteURL.lastPathComponent];
+
+			__block BOOL tempFileWritten = NO;
+			__block NSError *fileWritingError = nil;
+			[self performSynchronousFileAccessUsingBlock:^{
+				NSError *error = nil;
+				tempFileWritten = [self writeToURL:tempFileURL ofType:docType forSaveOperation:saveOperationType originalContentsURL:anAbsoluteURL error:&error];
+				fileWritingError = [error retain];
+			}];
+
+			if (tempFileWritten) {
+				NSAppleEventDescriptor *containerDescriptor = [NSAppleEventDescriptor appleEventWithEventClass:kCoreEventClass eventID:kAEOpenApplication targetDescriptor:nil returnID:kAutoGenerateReturnID transactionID:kAnyTransactionID];
+
+				{
+					NSAppleEventDescriptor *functionDescriptor = [NSAppleEventDescriptor descriptorWithString:@"run"];
+					[containerDescriptor setParamDescriptor:functionDescriptor forKeyword:keyASSubroutineName];
+				}
+
+				{
+					NSAppleEventDescriptor* argumentsDescriptor = [NSAppleEventDescriptor listDescriptor];
+					[argumentsDescriptor insertDescriptor:[NSAppleEventDescriptor descriptorWithString:tempFileURL.path] atIndex:1];
+					[argumentsDescriptor insertDescriptor:[NSAppleEventDescriptor descriptorWithString:anAbsoluteURL.path] atIndex:2];
+					[containerDescriptor setParamDescriptor:argumentsDescriptor forKeyword:keyDirectObject];
+				}
+
+				dispatch_group_t group = dispatch_group_create();
+				dispatch_group_enter(group);
+				__block NSError *appleScriptExecutionError = nil;
+				[authorisationScript executeWithAppleEvent:containerDescriptor completionHandler:^(NSAppleEventDescriptor *resultDescriptor, NSError *error) {
+					if (error) {
+						appleScriptExecutionError = [error retain];
+					} else {
+						result = YES;
+					}
+					dispatch_group_leave(group);
+				}];
+				dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
+
+				if (result) {
+					if (saveOperationType == NSSaveOperation || saveOperationType == NSSaveAsOperation) {
+						[self updateChangeCount:NSChangeCleared];
+
+						[self setFileURL:anAbsoluteURL];
+						[self setFileType:docType];
+						[self setFileModificationDate:[NSDate date]];
+					}
+				} else {
+					if (outError) {
+						*outError = [appleScriptExecutionError autorelease];
+					}
+				}
+			} else {
+				if (outError) {
+					*outError = [fileWritingError autorelease];
+				}
+			}
+		} else {
+			if (outError) {
+
+				if ([authenticationScriptError.domain isEqualToString:NSCocoaErrorDomain] && authenticationScriptError.code == 260) {
+					// Error Domain=NSCocoaErrorDomain Code=260 "The file “SubEthaEdit_AuthenticatedSave.scpt” couldn’t be opened because there is no such file.
+					id revoveryAttempter = [[[SEEAuthenticatedSaveMissingScriptRecoveryAttempter alloc] init] autorelease];
+
+					NSDictionary *userInfo = @{NSUnderlyingErrorKey: authenticationScriptError,
+											   NSLocalizedDescriptionKey: @"Can't find authentication helper script.",
+											   NSLocalizedFailureReasonErrorKey: @"In order to save a file autheticated, you need to install a script, which enables SubEthaEdit to save authenticated.",
+											   NSLocalizedRecoverySuggestionErrorKey: @"Please visit our website to download the script and follow the instructions to install.",
+											   NSLocalizedRecoveryOptionsErrorKey: @[@"Visit Website…", @"Ignore"],
+											   NSRecoveryAttempterErrorKey: revoveryAttempter};
+					
+					NSError *error = [NSError errorWithDomain:@"SEEDocumentSavingDomain" code:0x0FE userInfo:userInfo];
+					*outError = error;
+				} else {
+					*outError = authenticationScriptError;
+				}
+			}
+		}
+	} else {
+		if (outError) {
+			*outError = applicationScriptURLError;
+		}
+	}
+	return result;
 }
 
 - (BOOL)writeToURL:(NSURL *)absoluteURL ofType:(NSString *)inType forSaveOperation:(NSSaveOperationType)saveOperation originalContentsURL:(NSURL *)originalContentsURL error:(NSError **)outError {
-//-timelog    NSDate *startDate = [NSDate date];
-//-timelog    NSLog(@"%s %@ %@ %d %@",__FUNCTION__, absoluteURL, inTypeName, saveOperation,originalContentsURL);
+	//-timelog    NSDate *startDate = [NSDate date];
+	//-timelog    NSLog(@"%s %@ %@ %d %@",__FUNCTION__, absoluteURL, inTypeName, saveOperation,originalContentsURL);
     DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"write to:%@ type:%@ saveOperation:%lu originalURL:%@", absoluteURL, inType, (unsigned long)saveOperation,originalContentsURL);
     if (UTTypeConformsTo((CFStringRef)inType, (CFStringRef)@"public.data")) {
         BOOL modeWantsUTF8BOM = [[[self documentMode] defaultForKey:DocumentModeUTF8BOMPreferenceKey] boolValue];
@@ -3492,8 +3726,8 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 				[UKXattrMetadataStore removeDataForKey:@"de.codingmonkeys.seestate" atPath:[originalContentsURL path] traverseLink:YES];
 			}
 		}
-//        NSArray *xattrKeys = [UKXattrMetadataStore allKeysAtPath:[absoluteURL path] traverseLink:YES];
-//        NSLog(@"%s xattrKeys:%@",__FUNCTION__,xattrKeys);
+		//        NSArray *xattrKeys = [UKXattrMetadataStore allKeysAtPath:[absoluteURL path] traverseLink:YES];
+		//        NSLog(@"%s xattrKeys:%@",__FUNCTION__,xattrKeys);
         return result;
     } else if (UTTypeConformsTo((CFStringRef)inType, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext")) {
         NSString *packagePath = [absoluteURL path];
@@ -3505,45 +3739,45 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
             NSString *contentsPath = [packagePath stringByAppendingPathComponent:@"Contents"];
             success = [fm createDirectoryAtPath:contentsPath withIntermediateDirectories:YES attributes:nil error:nil];
             if (success) success = [[@"????????" dataUsingEncoding:NSUTF8StringEncoding] writeToURL:[NSURL fileURLWithPath:[contentsPath stringByAppendingPathComponent:@"PkgInfo"]] options:0 error:outError];
-            
+
             NSMutableData *data=[NSMutableData dataWithData:[@"SEEText" dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:NO]];
-            NSMutableArray *dataArray = [NSMutableArray arrayWithObject:[NSNumber numberWithInt:1]]; 
+            NSMutableArray *dataArray = [NSMutableArray arrayWithObject:[NSNumber numberWithInt:1]];
             // so this is version 1 of the file format...
             // combine data
             NSMutableDictionary *compressedDict = [NSMutableDictionary dictionary];
             NSMutableDictionary *directDict = [NSMutableDictionary dictionary];
             // collect users - uncompressed because compressing pngs again doesn't help...
-//-timelog            NSDate *intermediateDate = [NSDate date];
+			//-timelog            NSDate *intermediateDate = [NSDate date];
             [directDict setObject:[[self session] contributersAsDictionaryRepresentation] forKey:@"Contributors"];
-//-timelog            NSLog(@"%s conributors entry creating took: %fs",__FUNCTION__,[intermediateDate timeIntervalSinceNow]*-1.);
+			//-timelog            NSLog(@"%s conributors entry creating took: %fs",__FUNCTION__,[intermediateDate timeIntervalSinceNow]*-1.);
             // get text storage and document settings
-//-timelog            intermediateDate = [NSDate date];
+			//-timelog            intermediateDate = [NSDate date];
             NSMutableDictionary *textStorageRep = [[[self textStorageDictionaryRepresentation] mutableCopy] autorelease];
             [textStorageRep removeObjectForKey:@"String"];
             [compressedDict setObject:textStorageRep forKey:@"TextStorage"];
-//-timelog            NSLog(@"%s textstorage entry creating took: %fs",__FUNCTION__,[intermediateDate timeIntervalSinceNow]*-1.);
-//-timelog            intermediateDate = [NSDate date];
+			//-timelog            NSLog(@"%s textstorage entry creating took: %fs",__FUNCTION__,[intermediateDate timeIntervalSinceNow]*-1.);
+			//-timelog            intermediateDate = [NSDate date];
             if ([[self session] loggingState]) {
                 [compressedDict setObject:[[[self session] loggingState] dictionaryRepresentationForSaving] forKey:@"LoggingState"];
             }
-//-timelog            NSLog(@"%s loggingState dictionary entry creating took: %fs",__FUNCTION__,[intermediateDate timeIntervalSinceNow]*-1.);
+			//-timelog            NSLog(@"%s loggingState dictionary entry creating took: %fs",__FUNCTION__,[intermediateDate timeIntervalSinceNow]*-1.);
             [compressedDict setObject:[self documentState] forKey:@"DocumentState"];
             if (saveOperation == NSAutosaveOperation) {
-//				NSLog(@"%s write to:%@ type:%@ saveOperation:%d originalURL:%@",__FUNCTION__, absoluteURL, inTypeName, saveOperation,originalContentsURL);
+				//				NSLog(@"%s write to:%@ type:%@ saveOperation:%d originalURL:%@",__FUNCTION__, absoluteURL, inTypeName, saveOperation,originalContentsURL);
                 NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
-                    [self fileType],@"fileType",
-                    [NSNumber numberWithBool:[super isDocumentEdited]],@"hadChanges",
-                    [[self fileURL] absoluteString],@"fileURL",nil];
+											[self fileType],@"fileType",
+											[NSNumber numberWithBool:[super isDocumentEdited]],@"hadChanges",
+											[[self fileURL] absoluteString],@"fileURL",nil];
                 [compressedDict setObject:dictionary forKey:@"AutosaveInformation"];
             }
-    
+
             // add direct and compressed data to the top level array
-//-timelog            intermediateDate = [NSDate date];
+			//-timelog            intermediateDate = [NSDate date];
             [dataArray addObject:[NSArray arrayWithObject:directDict]];
-//-timelog            NSDate *tempDate = [NSDate date];
+			//-timelog            NSDate *tempDate = [NSDate date];
             NSData *bencodedDataToBeCompressed = TCM_BencodedObject(compressedDict);
-//-timelog            NSLog(@"generating bencodedDataToBeCompressed took %fs",[tempDate timeIntervalSinceNow]*-1.);
-//-timelog            tempDate = [NSDate date];
+			//-timelog            NSLog(@"generating bencodedDataToBeCompressed took %fs",[tempDate timeIntervalSinceNow]*-1.);
+			//-timelog            tempDate = [NSDate date];
             NSArray *compressedArray = [bencodedDataToBeCompressed arrayOfCompressedDataWithLevel:Z_DEFAULT_COMPRESSION];
             if (!compressedArray) {
                 if (outError) {
@@ -3551,21 +3785,21 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
                 }
                 return NO;
             }
-//-timelog            NSLog(@"compressing the array took %fs",[tempDate timeIntervalSinceNow]*-1.);
+			//-timelog            NSLog(@"compressing the array took %fs",[tempDate timeIntervalSinceNow]*-1.);
             [dataArray addObject:compressedArray];
             if (self.preservedDataFromSEETextFile) {
                 [dataArray addObjectsFromArray:self.preservedDataFromSEETextFile];
             }
-//-timelog            tempDate = [NSDate date];
+			//-timelog            tempDate = [NSDate date];
             [data appendData:TCM_BencodedObject(dataArray)];
-//-timelog            NSLog(@"bencoding the final dictionary took %fs",[tempDate timeIntervalSinceNow]*-1.);
-//-timelog            NSLog(@"%s bencoding and compressing took: %fs",__FUNCTION__,[intermediateDate timeIntervalSinceNow]*-1.);
-            
+			//-timelog            NSLog(@"bencoding the final dictionary took %fs",[tempDate timeIntervalSinceNow]*-1.);
+			//-timelog            NSLog(@"%s bencoding and compressing took: %fs",__FUNCTION__,[intermediateDate timeIntervalSinceNow]*-1.);
+
             if (success) success = [data writeToURL:[NSURL fileURLWithPath:[packagePath stringByAppendingPathComponent:@"collaborationdata.bencoded"]] options:0 error:outError];
 			// autosave in utf-8 always no matter what to accomodate for strange inserted characters
             if (success) success = [[[(FoldableTextStorage *)[self textStorage] fullTextStorage] string] writeToURL:[NSURL fileURLWithPath:[packagePath stringByAppendingPathComponent:@"plain.txt"]] atomically:NO encoding:(saveOperation == NSAutosaveOperation) ? NSUTF8StringEncoding : [self fileEncoding] error:outError];
             if (success) success = [self writeMetaDataToURL:[NSURL fileURLWithPath:[packagePath stringByAppendingPathComponent:@"metadata.xml"]] error:outError];
-            
+
             if (saveOperation != NSAutosaveOperation) {
                 NSString *quicklookPath = [packagePath stringByAppendingPathComponent:@"QuickLook"];
                 if (success) success = [fm createDirectoryAtPath:quicklookPath withIntermediateDirectories:YES attributes:nil error:nil];
@@ -3640,9 +3874,9 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
                 }
             }
 
-//-timelog            NSLog(@"%s Save took: %fs",__FUNCTION__, -1.*[startDate timeIntervalSinceNow]);
+			//-timelog            NSLog(@"%s Save took: %fs",__FUNCTION__, -1.*[startDate timeIntervalSinceNow]);
 
-            
+
             if (success) {
                 return YES;
             } else {
@@ -3666,289 +3900,37 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     }   
 }
 
-- (NSDictionary *)fileAttributesToWriteToURL:(NSURL *)absoluteURL ofType:(NSString *)documentType forSaveOperation:(NSSaveOperationType)saveOperationType originalContentsURL:(NSURL *)absoluteOriginalContentsURL error:(NSError **)outError {
+- (NSData *)dataOfType:(NSString *)aType error:(NSError **)outError{
 
-    if (UTTypeConformsTo((CFStringRef)documentType, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext")) {
-        return [NSDictionary dictionary];
-    }
-
-    DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"fileAttributesToWriteToURL: %@ previousURL:%@", absoluteURL,absoluteOriginalContentsURL);
-    
-    // Preserve HFS Type and Creator code
-    if ([self fileURL] && [self fileType]) {
-        DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Preserve HFS Type and Creator Code");
-        NSMutableDictionary *newAttributes = [[[super
-        fileAttributesToWriteToURL:absoluteURL ofType:documentType forSaveOperation:saveOperationType originalContentsURL:absoluteOriginalContentsURL error:outError] mutableCopy] autorelease];
-        NSDictionary *attributes = [self fileAttributes];
-        if (attributes != nil) {
-            if ([attributes objectForKey:NSFileHFSTypeCode]) [newAttributes setObject:[attributes objectForKey:NSFileHFSTypeCode] forKey:NSFileHFSTypeCode];
-            if ([attributes objectForKey:NSFileHFSCreatorCode]) [newAttributes setObject:[attributes objectForKey:NSFileHFSCreatorCode] forKey:NSFileHFSCreatorCode];
+    if ([[[self class] writableTypes] containsObject:aType]) {
+        NSData *data;
+        if (I_lastSaveOperation == NSSaveToOperation) {
+            DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Save a copy using encoding: %@", [NSString localizedNameOfStringEncoding:I_encodingFromLastRunSaveToOperation]);
+            [[EncodingManager sharedInstance] unregisterEncoding:I_encodingFromLastRunSaveToOperation];
+            data = [[[I_textStorage fullTextStorage] string] dataUsingEncoding:I_encodingFromLastRunSaveToOperation allowLossyConversion:YES];
         } else {
-            DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"File is not new, but no fileAttributes are set.");
+            DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Save using encoding: %@", [NSString localizedNameOfStringEncoding:[self fileEncoding]]);
+            data = [[[I_textStorage fullTextStorage] string] dataUsingEncoding:[self fileEncoding] allowLossyConversion:YES];
         }
-        return newAttributes;
-    }
 
+        BOOL modeWantsUTF8BOM = [[[self documentMode] defaultForKey:DocumentModeUTF8BOMPreferenceKey] boolValue];
+        DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"modeWantsUTF8BOM: %d, hasUTF8BOM: %d", modeWantsUTF8BOM, I_flags.hasUTF8BOM);
+        BOOL useUTF8Encoding = ((I_lastSaveOperation == NSSaveToOperation) && (I_encodingFromLastRunSaveToOperation == NSUTF8StringEncoding)) || ((I_lastSaveOperation != NSSaveToOperation) && ([self fileEncoding] == NSUTF8StringEncoding));
 
-    // Otherwise set HFS Type and Creator code with values from bundle
-    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Save our HFS Type and Creator Code");
-
-    NSDictionary *infoPlist = [[NSBundle mainBundle] infoDictionary];
-    NSString *creatorCodeString;
-    NSArray *documentTypes;
-    NSNumber *typeCode, *creatorCode;
-    NSMutableDictionary *newAttributes;
-
-    typeCode = creatorCode = nil;
-
-    // First, set creatorCode to the HFS creator code for the application,
-    // if it exists.
-    creatorCodeString = [infoPlist objectForKey:@"CFBundleSignature"];
-    if (creatorCodeString) {
-        creatorCode = [NSNumber numberWithUnsignedLong:NSHFSTypeCodeFromFileType([NSString stringWithFormat:@"'%@'", creatorCodeString])];
-    }
-
-    // Then, find the matching Info.plist dictionary entry for this type.
-    // Use the first associated HFS type code, if any exist.
-    documentTypes = [infoPlist objectForKey:@"CFBundleDocumentTypes"];
-    if (documentTypes) {
-
-        for(id loopItem in documentTypes) {
-            NSString *type = [loopItem objectForKey:@"CFBundleTypeName"];
-            if (type && [type isEqualToString:documentType]) {
-                NSArray *typeCodeStrings = [loopItem objectForKey:@"CFBundleTypeOSTypes"];
-                if (typeCodeStrings) {
-                    NSString *firstTypeCodeString = [typeCodeStrings objectAtIndex:0];
-                    if (firstTypeCodeString) {
-                        typeCode = [NSNumber numberWithUnsignedLong:NSHFSTypeCodeFromFileType([NSString stringWithFormat:@"'%@'",firstTypeCodeString])];
-                    }
-                }
-                break;
-            }
+        if ((I_flags.hasUTF8BOM || modeWantsUTF8BOM) && useUTF8Encoding) {
+            return [data dataPrefixedWithUTF8BOM];
+        } else {
+            return data;
         }
     }
 
-    // Add the type and/or creator to the dictionary if they exist.
-    newAttributes = [[[super
-        fileAttributesToWriteToURL:absoluteURL ofType:documentType forSaveOperation:saveOperationType originalContentsURL:absoluteOriginalContentsURL error:outError] mutableCopy] autorelease];
-    if (typeCode)
-        [newAttributes setObject:typeCode forKey:NSFileHFSTypeCode];
-    if (creatorCode)
-        [newAttributes setObject:creatorCode forKey:NSFileHFSCreatorCode];
-
-    // Set group owner to primary gid of current user.
-    struct passwd *pwdInfo = getpwnam([NSUserName() UTF8String]);
-    if (pwdInfo) {
-    
-        [newAttributes setObject:[NSString stringWithUTF8String:group_from_gid(pwdInfo->pw_gid, 0)]
-                          forKey:NSFileGroupOwnerAccountName];
-        [newAttributes setObject:[NSNumber numberWithUnsignedLong:pwdInfo->pw_gid]
-                          forKey:NSFileGroupOwnerAccountID];
-    }
-    [self setFileAttributes:newAttributes];
-    return newAttributes;
-}
-
-- (BOOL)TCM_writeUsingAuthorizedHelperToURL:(NSURL *)anAbsoluteURL ofType:(NSString *)docType saveOperation:(NSSaveOperationType)saveOperationType error:(NSError **)outError {
-	NSError *applicastionScriptURLError = nil;
-	NSURL *applicationScriptURL = [[NSFileManager defaultManager] URLForDirectory:NSApplicationScriptsDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:&applicastionScriptURLError];
-
-	if (! applicastionScriptURLError) {
-		NSError *authenticationScriptError = nil;
-		NSURL *authenticationScriptURL = [applicationScriptURL URLByAppendingPathComponent:@"SubEthaEdit_AuthenticatedSave.scpt"];
-		NSUserAppleScriptTask *authorisationScript = [[[NSUserAppleScriptTask alloc] initWithURL:authenticationScriptURL error:&authenticationScriptError] autorelease];
-
-		if (! authenticationScriptError) {
-			NSURL *tempFileURL = [NSURL fileURLWithPath:NSTemporaryDirectory()];
-			tempFileURL = [tempFileURL URLByAppendingPathComponent:anAbsoluteURL.lastPathComponent];
-
-			NSError *fileWritingError = nil;
-			if ([self writeToURL:tempFileURL ofType:docType forSaveOperation:saveOperationType originalContentsURL:anAbsoluteURL error:&fileWritingError]) {
-				NSAppleEventDescriptor *containerDescriptor = [NSAppleEventDescriptor appleEventWithEventClass:kCoreEventClass eventID:kAEOpenApplication targetDescriptor:nil returnID:kAutoGenerateReturnID transactionID:kAnyTransactionID];
-
-				{
-					NSAppleEventDescriptor *functionDescriptor = [NSAppleEventDescriptor descriptorWithString:@"run"];
-					[containerDescriptor setParamDescriptor:functionDescriptor forKeyword:keyASSubroutineName];
-				}
-
-				{
-					NSAppleEventDescriptor* argumentsDescriptor = [NSAppleEventDescriptor listDescriptor];
-					[argumentsDescriptor insertDescriptor:[NSAppleEventDescriptor descriptorWithString:tempFileURL.path] atIndex:1];
-					[argumentsDescriptor insertDescriptor:[NSAppleEventDescriptor descriptorWithString:anAbsoluteURL.path] atIndex:2];
-					[containerDescriptor setParamDescriptor:argumentsDescriptor forKeyword:keyDirectObject];
-				}
-
-				[authorisationScript executeWithAppleEvent:containerDescriptor completionHandler:^(NSAppleEventDescriptor *result, NSError *error) {
-
-					if (!error) {
-						[self setFileURL:anAbsoluteURL];
-						[self setFileType:docType];
-						[self setFileModificationDate:[NSDate date]];
-					} else {
-						NSLog(@"%s error: %@", __FUNCTION__, error);
-						NSLog(@"%s result: %@", __FUNCTION__, result);
-					}
-				}];
-			} else {
-				if (outError) {
-					*outError = fileWritingError;
-				}
-				return NO;
-			}
-		} else {
-			if (outError) {
-				*outError = authenticationScriptError;
-			}
-			return NO;
-		}
-	} else {
-		if (outError) {
-			*outError = applicastionScriptURLError;
-		}
-		return NO;
-	}
-	return YES;
-}
-
-- (BOOL)writeSafelyToURL:(NSURL*)anAbsoluteURL ofType:(NSString *)docType forSaveOperation:(NSSaveOperationType)saveOperationType error:(NSError **)outError {
-    
-    NSString *fullDocumentPath = [anAbsoluteURL path];
-    DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"writeSavelyToURL: %@", anAbsoluteURL);
-    
-    NSError *error = nil;
-    BOOL hasBeenWritten = [super writeSafelyToURL:anAbsoluteURL ofType:docType forSaveOperation:saveOperationType error:&error];
-    if (outError) {
-        *outError = error;
-    }
-    
-    if (!hasBeenWritten) {
-        DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"Failed to write using writeSafelyToURL: %@",*outError);
-        
-        NSFileManager *fileManager = [NSFileManager defaultManager];
-        NSDictionary *fileAttributes = [fileManager attributesOfItemAtPath:fullDocumentPath error:nil];
-        NSUInteger fileReferenceCount = [[fileAttributes objectForKey:NSFileReferenceCount] unsignedLongValue];
-        BOOL isFileWritable = [fileManager isWritableFileAtPath:fullDocumentPath];
-        if (fileReferenceCount > 1 && isFileWritable) {            
-            char cFullDocumentPath[MAXPATHLEN+1];
-            if ([(NSString *)fullDocumentPath getFileSystemRepresentation:cFullDocumentPath maxLength:MAXPATHLEN]) {
-                int fd = open(cFullDocumentPath, O_WRONLY | O_TRUNC, S_IRUSR | S_IWUSR);
-                if (fd) {
-                    NSFileHandle *fileHandle = [[NSFileHandle alloc] initWithFileDescriptor:fd closeOnDealloc:YES];
-                    NSData *data = [self dataOfType:docType error:outError];
-                    if (!data) {
-                        DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"dataOfType returned error: %@", *outError);
-                    }
-                    @try {
-                        [fileHandle writeData:data];
-                        hasBeenWritten = YES;
-                    }
-                    @catch (id exception) {
-                        DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"writeData throws exception: %@", exception);
-                    }
-                    [fileHandle release];
-                }
-            }
-        }
-        
-        if ( !hasBeenWritten && ((error && [error TCM_relatesToErrorCode:NSFileWriteNoPermissionError inDomain:nil])||(error && [error TCM_relatesToErrorCode:13 inDomain:NSPOSIXErrorDomain])) ) {
-            if (outError) *outError = nil; // clear outerror because we already showed it
-            BOOL isDirWritable = [fileManager isWritableFileAtPath:[fullDocumentPath stringByDeletingLastPathComponent]];
-            BOOL isFileDeletable = [fileManager isDeletableFileAtPath:fullDocumentPath];
-            if (isDirWritable && isFileDeletable) {
-                NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-                [alert setAlertStyle:NSWarningAlertStyle];
-                [alert setMessageText:NSLocalizedString(@"Save", nil)];
-                [alert setInformativeText:NSLocalizedString(@"SaveDialogInformativeText: Save or Replace", @"Informative text in a save dialog, because of permissions issues the user has the choice to save using administrator permissions or replace the file")];
-                [alert addButtonWithTitle:NSLocalizedString(@"Save", nil)];
-                [alert addButtonWithTitle:NSLocalizedString(@"Replace", nil)];
-                [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
-                int returnCode = [alert runModal];
-                [[alert window] orderOut:self];
-
-                if (returnCode == NSAlertFirstButtonReturn) {
-                    DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"We need root power!");
-                    hasBeenWritten = [self TCM_writeUsingAuthorizedHelperToURL:anAbsoluteURL ofType:docType saveOperation:saveOperationType error:outError];
-                } else if (returnCode == NSAlertSecondButtonReturn) {
-                    NSFileManager *fileManager = [NSFileManager defaultManager];
-                    NSString *tempFilePath = tempFileName(fullDocumentPath);
-                    hasBeenWritten = [self writeToURL:[NSURL fileURLWithPath:tempFilePath] ofType:docType forSaveOperation:saveOperationType originalContentsURL:nil error:outError];
-                    if (hasBeenWritten) {
-                        BOOL result = [fileManager removeItemAtPath:fullDocumentPath error:nil];
-                        if (result) {
-                            hasBeenWritten = [fileManager moveItemAtPath:tempFilePath toPath:fullDocumentPath error:nil];
-                            if (hasBeenWritten) {
-                                NSDictionary *fattrs = [self fileAttributesToWriteToURL:[NSURL fileURLWithPath:fullDocumentPath] ofType:docType forSaveOperation:saveOperationType originalContentsURL:nil error:nil];
-                                [fileManager setAttributes:fattrs ofItemAtPath:fullDocumentPath error:nil];
-                            } else {
-                                NSAlert *newAlert = [[[NSAlert alloc] init] autorelease];
-                                [newAlert setAlertStyle:NSWarningAlertStyle];
-                                [newAlert setMessageText:NSLocalizedString(@"Save", nil)];
-                                [newAlert setInformativeText:NSLocalizedString(@"AlertInformativeText: Replace failed", @"Informative text in an alert which tells the you user that replacing the file failed")];
-                                [newAlert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
-                                [self presentAlert:newAlert
-                                     modalDelegate:nil
-                                    didEndSelector:nil
-                                       contextInfo:NULL];
-								if ( outError )
-									*outError = nil; 
-                            }
-                        } else {
-                            (void)[fileManager removeItemAtPath:tempFilePath error:nil];
-                            NSAlert *newAlert = [[[NSAlert alloc] init] autorelease];
-                            [newAlert setAlertStyle:NSWarningAlertStyle];
-                            [newAlert setMessageText:NSLocalizedString(@"Save", nil)];
-                            [newAlert setInformativeText:NSLocalizedString(@"AlertInformativeText: Error occurred during replace", @"Informative text in an alert which tells the user that an error prevented the replace")];
-                            [newAlert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
-                            [self presentAlert:newAlert
-                                 modalDelegate:nil
-                                didEndSelector:nil
-                                   contextInfo:NULL];
-							if ( outError )
-								*outError = nil; 
-
-                        }
-                    }
-                }
-            } else {
-                DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"We need root power!");
-                hasBeenWritten = [self TCM_writeUsingAuthorizedHelperToURL:anAbsoluteURL ofType:docType saveOperation:saveOperationType error:outError];
-            }
-        }
-     }
-
-    if (hasBeenWritten) {
-        if (saveOperationType == NSSaveOperation) {
-            [self TCM_sendODBModifiedEvent];
-            [self setKeepDocumentVersion:NO];
-        } else if (saveOperationType == NSSaveAsOperation) {
-            if ([fullDocumentPath isEqualToString:self.fileURL.path]) {
-                [self TCM_sendODBModifiedEvent];
-            } else {
-                [self setODBParameters:nil];
-            }
-            [self setShouldChangeChangeCount:YES];
-        }
-        if (saveOperationType != NSAutosaveOperation) {
-			[[NSNotificationCenter defaultCenter] postNotificationName:PlainTextDocumentDidSaveShouldReloadWebPreviewNotification object:self];
-        }
-        [self setTemporaryDisplayName:nil];
-    }
-    
-    if (saveOperationType != NSSaveToOperation && saveOperationType != NSAutosaveOperation) {
-        NSDictionary *fattrs = [[NSFileManager defaultManager] attributesOfItemAtPath:fullDocumentPath error:NULL];
-        [self setFileAttributes:fattrs];
-        [self setIsFileWritable:hasBeenWritten];
-    }
-
-    if (hasBeenWritten) {
-        [[NSNotificationQueue defaultQueue]
-        enqueueNotification:[NSNotification notificationWithName:PlainTextDocumentDidSaveNotification object:self]
-               postingStyle:NSPostWhenIdle
-               coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender
-                   forModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
-    }
-
-    return hasBeenWritten;
+    if (outError) *outError = [NSError errorWithDomain:@"SEEDomain" code:42 userInfo:
+							   [NSDictionary dictionaryWithObjectsAndKeys:
+								[NSString stringWithFormat:@"Could not create data for Filetype: %@",aType],NSLocalizedDescriptionKey,
+								nil
+								]
+							   ];
+    return nil;
 }
 
 - (BOOL)TCM_validateDocument {
