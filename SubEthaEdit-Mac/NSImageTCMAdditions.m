@@ -24,8 +24,8 @@
 
 const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociationKey;
 
-+ (BOOL(^)(NSRect))TCM_drawingBlockForImageWithSize:(NSSize)aSize initials:(NSString *)anInitialsString {
-	NSLog(@"%s %@",__FUNCTION__,anInitialsString);
++ (BOOL(^)(NSRect))TCM_drawingBlockForMissingUserImageWithSize:(NSSize)aSize initials:(NSString *)anInitialsString {
+	//NSLog(@"%s %@",__FUNCTION__,anInitialsString);
 	NSRect drawingRect = NSZeroRect;
 	drawingRect.size = aSize;
 	// draw placeholder image
@@ -78,7 +78,7 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
 }
 
 + (NSImage *)unknownUserImageWithSize:(NSSize)aSize initials:(NSString *)anInitialsString {
-	NSImage *image = [NSImage imageWithSize:aSize flipped:NO drawingHandler:[self TCM_drawingBlockForImageWithSize:aSize initials:anInitialsString]];
+	NSImage *image = [NSImage imageWithSize:aSize flipped:NO drawingHandler:[self TCM_drawingBlockForMissingUserImageWithSize:aSize initials:anInitialsString]];
 	
 	return image;
 }
