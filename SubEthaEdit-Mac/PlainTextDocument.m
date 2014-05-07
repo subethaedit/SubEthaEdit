@@ -2640,6 +2640,9 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 	self.currentSavePanel = nil;
 }
 
+
+#pragma mark - Reading
+
 - (BOOL)revertToContentsOfURL:(NSURL *)anURL ofType:(NSString *)type error:(NSError **)outError {
     [[self plainTextEditors] makeObjectsPerformSelector:@selector(pushSelectedRanges)];
     BOOL success = [super revertToContentsOfURL:anURL ofType:type error:outError];
@@ -3347,6 +3350,8 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 - (void) saveToURL:(NSURL *)url ofType:(NSString *)typeName forSaveOperation:(NSSaveOperationType)saveOperation completionHandler:(void (^)(NSError *))completionHandler
 {
+	NSURL *originalFileURL = self.fileURL;
+
 	[super saveToURL:url ofType:typeName forSaveOperation:saveOperation completionHandler:^(NSError *error){
 		__block NSError *authenticationError = nil;
 		__block BOOL hasBeenWritten = (error == nil);
@@ -3355,7 +3360,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 			NSError *fileSavingError = error;
 			[self performActivityWithSynchronousWaiting:YES usingBlock:^(void (^activityCompletionHandler)(void)) {
 				if ([error.domain isEqualToString:@"SEEDocumentSavingDomain"] && error.code == 0x0FF) {
-					hasBeenWritten = [self TCM_writeUsingAuthorizedHelperToURL:url ofType:typeName saveOperation:saveOperation error:&authenticationError];
+					hasBeenWritten = [self writeAuthorizedToURL:url ofType:typeName saveOperation:saveOperation error:&authenticationError];
 					activityCompletionHandler();
 				} else {
 					activityCompletionHandler();
@@ -3368,7 +3373,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 					[self TCM_sendODBModifiedEvent];
 					[self setKeepDocumentVersion:NO];
 				} else if (saveOperation == NSSaveAsOperation) {
-					if ([url isEqualTo:self.fileURL]) {
+					if ([url isEqualTo:originalFileURL]) {
 						[self TCM_sendODBModifiedEvent];
 					} else {
 						[self setODBParameters:nil];
@@ -3396,9 +3401,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 			}
 
 			if (completionHandler) {
-				NSLog(@"%s:%d", __func__, __LINE__);
 				completionHandler(fileSavingError);
-				NSLog(@"%s:%d", __func__, __LINE__);
 			}
 		}];
 	}];
@@ -3466,80 +3469,6 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 - (NSString *)autosavingFileType {
     return @"de.codingmonkeys.subethaedit.seetext";
-}
-
-- (BOOL)TCM_writeUsingAuthorizedHelperToURL:(NSURL *)anAbsoluteURL ofType:(NSString *)docType saveOperation:(NSSaveOperationType)saveOperationType error:(NSError **)outError {
-
-	__block BOOL result = NO;
-
-	NSError *applicastionScriptURLError = nil;
-	NSURL *applicationScriptURL = [[NSFileManager defaultManager] URLForDirectory:NSApplicationScriptsDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:&applicastionScriptURLError];
-
-	if (! applicastionScriptURLError) {
-		NSError *authenticationScriptError = nil;
-		NSURL *authenticationScriptURL = [applicationScriptURL URLByAppendingPathComponent:@"SubEthaEdit_AuthenticatedSave.scpt"];
-		NSUserAppleScriptTask *authorisationScript = [[[NSUserAppleScriptTask alloc] initWithURL:authenticationScriptURL error:&authenticationScriptError] autorelease];
-
-		if (! authenticationScriptError) {
-			NSURL *tempFileURL = [NSURL fileURLWithPath:NSTemporaryDirectory()];
-			tempFileURL = [tempFileURL URLByAppendingPathComponent:anAbsoluteURL.lastPathComponent];
-
-			__block NSError *fileWritingError = nil;
-			__block BOOL tempFileWritten = NO;
-			[self performSynchronousFileAccessUsingBlock:^{
-				tempFileWritten = [self writeToURL:tempFileURL ofType:docType forSaveOperation:saveOperationType originalContentsURL:anAbsoluteURL error:&fileWritingError];
-			}];
-
-			if (tempFileWritten) {
-				NSAppleEventDescriptor *containerDescriptor = [NSAppleEventDescriptor appleEventWithEventClass:kCoreEventClass eventID:kAEOpenApplication targetDescriptor:nil returnID:kAutoGenerateReturnID transactionID:kAnyTransactionID];
-
-				{
-					NSAppleEventDescriptor *functionDescriptor = [NSAppleEventDescriptor descriptorWithString:@"run"];
-					[containerDescriptor setParamDescriptor:functionDescriptor forKeyword:keyASSubroutineName];
-				}
-
-				{
-					NSAppleEventDescriptor* argumentsDescriptor = [NSAppleEventDescriptor listDescriptor];
-					[argumentsDescriptor insertDescriptor:[NSAppleEventDescriptor descriptorWithString:tempFileURL.path] atIndex:1];
-					[argumentsDescriptor insertDescriptor:[NSAppleEventDescriptor descriptorWithString:anAbsoluteURL.path] atIndex:2];
-					[containerDescriptor setParamDescriptor:argumentsDescriptor forKeyword:keyDirectObject];
-				}
-
-				dispatch_group_t group = dispatch_group_create();
-				dispatch_group_enter(group);
-				[authorisationScript executeWithAppleEvent:containerDescriptor completionHandler:^(NSAppleEventDescriptor *resultDescriptor, NSError *error) {
-					if (error) {
-						if (outError) {
-							*outError = [[error retain] autorelease];
-						}
-					} else {
-						result = YES;
-					}
-					dispatch_group_leave(group);
-				}];
-				dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
-
-//				[self updateChangeCount:NSChangeCleared];
-//				[self setFileURL:anAbsoluteURL];
-//				[self setFileType:docType];
-//				[self setFileModificationDate:[NSDate date]];
-
-			} else {
-				if (outError) {
-					*outError = fileWritingError;
-				}
-			}
-		} else {
-			if (outError) {
-				*outError = authenticationScriptError;
-			}
-		}
-	} else {
-		if (outError) {
-			*outError = applicastionScriptURLError;
-		}
-	}
-	return result;
 }
 
 - (BOOL)writeSafelyToURL:(NSURL*)anAbsoluteURL ofType:(NSString *)docType forSaveOperation:(NSSaveOperationType)saveOperationType error:(NSError **)outError {
@@ -3659,6 +3588,80 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 	}
 
     return hasBeenWritten;
+}
+
+- (BOOL)writeAuthorizedToURL:(NSURL *)anAbsoluteURL ofType:(NSString *)docType saveOperation:(NSSaveOperationType)saveOperationType error:(NSError **)outError {
+
+	__block BOOL result = NO;
+
+	NSError *applicastionScriptURLError = nil;
+	NSURL *applicationScriptURL = [[NSFileManager defaultManager] URLForDirectory:NSApplicationScriptsDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:&applicastionScriptURLError];
+
+	if (! applicastionScriptURLError) {
+		NSError *authenticationScriptError = nil;
+		NSURL *authenticationScriptURL = [applicationScriptURL URLByAppendingPathComponent:@"SubEthaEdit_AuthenticatedSave.scpt"];
+		NSUserAppleScriptTask *authorisationScript = [[[NSUserAppleScriptTask alloc] initWithURL:authenticationScriptURL error:&authenticationScriptError] autorelease];
+
+		if (! authenticationScriptError) {
+			NSURL *tempFileURL = [NSURL fileURLWithPath:NSTemporaryDirectory()];
+			tempFileURL = [tempFileURL URLByAppendingPathComponent:anAbsoluteURL.lastPathComponent];
+
+			__block NSError *fileWritingError = nil;
+			__block BOOL tempFileWritten = NO;
+			[self performSynchronousFileAccessUsingBlock:^{
+				tempFileWritten = [self writeToURL:tempFileURL ofType:docType forSaveOperation:saveOperationType originalContentsURL:anAbsoluteURL error:&fileWritingError];
+			}];
+
+			if (tempFileWritten) {
+				NSAppleEventDescriptor *containerDescriptor = [NSAppleEventDescriptor appleEventWithEventClass:kCoreEventClass eventID:kAEOpenApplication targetDescriptor:nil returnID:kAutoGenerateReturnID transactionID:kAnyTransactionID];
+
+				{
+					NSAppleEventDescriptor *functionDescriptor = [NSAppleEventDescriptor descriptorWithString:@"run"];
+					[containerDescriptor setParamDescriptor:functionDescriptor forKeyword:keyASSubroutineName];
+				}
+
+				{
+					NSAppleEventDescriptor* argumentsDescriptor = [NSAppleEventDescriptor listDescriptor];
+					[argumentsDescriptor insertDescriptor:[NSAppleEventDescriptor descriptorWithString:tempFileURL.path] atIndex:1];
+					[argumentsDescriptor insertDescriptor:[NSAppleEventDescriptor descriptorWithString:anAbsoluteURL.path] atIndex:2];
+					[containerDescriptor setParamDescriptor:argumentsDescriptor forKeyword:keyDirectObject];
+				}
+
+				dispatch_group_t group = dispatch_group_create();
+				dispatch_group_enter(group);
+				[authorisationScript executeWithAppleEvent:containerDescriptor completionHandler:^(NSAppleEventDescriptor *resultDescriptor, NSError *error) {
+					if (error) {
+						if (outError) {
+							*outError = [[error retain] autorelease];
+						}
+					} else {
+						result = YES;
+					}
+					dispatch_group_leave(group);
+				}];
+				dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
+
+				[self updateChangeCount:NSChangeCleared];
+				[self setFileURL:anAbsoluteURL];
+				[self setFileType:docType];
+				[self setFileModificationDate:[NSDate date]];
+
+			} else {
+				if (outError) {
+					*outError = fileWritingError;
+				}
+			}
+		} else {
+			if (outError) {
+				*outError = authenticationScriptError;
+			}
+		}
+	} else {
+		if (outError) {
+			*outError = applicastionScriptURLError;
+		}
+	}
+	return result;
 }
 
 - (BOOL)writeToURL:(NSURL *)absoluteURL ofType:(NSString *)inType forSaveOperation:(NSSaveOperationType)saveOperation originalContentsURL:(NSURL *)originalContentsURL error:(NSError **)outError {
