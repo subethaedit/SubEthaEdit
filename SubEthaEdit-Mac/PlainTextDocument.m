@@ -3361,6 +3361,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 			[self performActivityWithSynchronousWaiting:YES usingBlock:^(void (^activityCompletionHandler)(void)) {
 				if ([error.domain isEqualToString:@"SEEDocumentSavingDomain"] && error.code == 0x0FF) {
 					hasBeenWritten = [self writeAuthorizedToURL:url ofType:typeName saveOperation:saveOperation error:&authenticationError];
+					[authenticationError retain];
 					activityCompletionHandler();
 				} else {
 					activityCompletionHandler();
@@ -3398,6 +3399,10 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 				 postingStyle:NSPostWhenIdle
 				 coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender
 				 forModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
+			} else {
+				if (authenticationError) {
+					fileSavingError = [authenticationError autorelease];
+				}
 			}
 
 			if (completionHandler) {
@@ -3606,10 +3611,12 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 			NSURL *tempFileURL = [NSURL fileURLWithPath:NSTemporaryDirectory()];
 			tempFileURL = [tempFileURL URLByAppendingPathComponent:anAbsoluteURL.lastPathComponent];
 
-			__block NSError *fileWritingError = nil;
 			__block BOOL tempFileWritten = NO;
+			__block NSError *fileWritingError = nil;
 			[self performSynchronousFileAccessUsingBlock:^{
-				tempFileWritten = [self writeToURL:tempFileURL ofType:docType forSaveOperation:saveOperationType originalContentsURL:anAbsoluteURL error:&fileWritingError];
+				NSError *error = nil;
+				tempFileWritten = [self writeToURL:tempFileURL ofType:docType forSaveOperation:saveOperationType originalContentsURL:anAbsoluteURL error:&error];
+				fileWritingError = [error retain];
 			}];
 
 			if (tempFileWritten) {
@@ -3629,11 +3636,10 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 				dispatch_group_t group = dispatch_group_create();
 				dispatch_group_enter(group);
+				__block NSError *appleScriptExecutionError = nil;
 				[authorisationScript executeWithAppleEvent:containerDescriptor completionHandler:^(NSAppleEventDescriptor *resultDescriptor, NSError *error) {
 					if (error) {
-						if (outError) {
-							*outError = [[error retain] autorelease];
-						}
+						appleScriptExecutionError = [error retain];
 					} else {
 						result = YES;
 					}
@@ -3649,10 +3655,14 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 						[self setFileType:docType];
 						[self setFileModificationDate:[NSDate date]];
 					}
+				} else {
+					if (outError) {
+						*outError = [appleScriptExecutionError autorelease];
+					}
 				}
 			} else {
 				if (outError) {
-					*outError = fileWritingError;
+					*outError = [fileWritingError autorelease];
 				}
 			}
 		} else {
