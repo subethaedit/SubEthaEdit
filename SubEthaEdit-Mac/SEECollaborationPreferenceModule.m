@@ -30,6 +30,8 @@
 
 @interface SEECollaborationPreferenceModule ()
 @property (nonatomic, strong) IKPictureTaker *imagePicker;
+@property (nonatomic) BOOL showingImageTaker;
+
 @property (nonatomic) BOOL portmapperIsDoingWork;
 @end
 
@@ -103,9 +105,12 @@
 	[button setTransparent:YES];
 	[avatarImageView.superview addSubview:button positioned:NSWindowAbove relativeTo:avatarImageView];
 	
+	self.showingImageTaker = NO;
 	self.imagePicker = ({
 		IKPictureTaker *imagePicker = [IKPictureTaker pictureTaker];
 		
+		// TODO: make sure this input image is not the default one!
+		// TODO: make the empty image the default image
 		[imagePicker setInputImage:myImage];
 
 		[imagePicker setValue:[NSValue valueWithSize:NSMakeSize(256., 256.)] forKey:IKPictureTakerOutputImageMaxSizeKey];
@@ -113,10 +118,6 @@
 		[imagePicker setValue:[NSImage imageNamed:NSImageNameUser] forKey:IKPictureTakerShowEmptyPictureKey];
 		[imagePicker setValue:@(YES) forKey:IKPictureTakerShowEffectsKey];
 
-		/*
-		 IKPictureTakerInformationalTextKey
-		 A key for informational text. The associated value is an NSString or NSAttributedString object whose default value is "Drag Image Here".
-		 */
 		imagePicker;
 	});
 }
@@ -135,6 +136,7 @@
 		[self.O_mappingStatusProgressIndicator stopAnimation:self];
 		[self.O_mappingStatusImageView setHidden:YES];
 		[self.O_mappingStatusTextField setHidden:YES];
+		
 	} else {
 		// update portmapperstatus as well
 		[self.O_mappingStatusTextField setHidden:NO];
@@ -211,12 +213,19 @@
 }
 
 - (IBAction)chooseImage:(id)aSender {
-	[self.imagePicker popUpRecentsMenuForView:self.O_avatarImageView withDelegate:self didEndSelector:@selector(pictureTakerDidEnd:returnCode:contextInfo:) contextInfo:nil];
+	if (self.showingImageTaker) {
+		[self.imagePicker orderOut:nil];
+		self.showingImageTaker = NO;
+	} else {
+		self.showingImageTaker = YES;
+		[self.imagePicker popUpRecentsMenuForView:self.O_avatarImageView withDelegate:self didEndSelector:@selector(pictureTakerDidEnd:returnCode:contextInfo:) contextInfo:nil];
+	}
 }
 
 #pragma mark - IKPictureTaker
 
 - (void)pictureTakerDidEnd:(IKPictureTaker *)aPictureTaker returnCode:(NSInteger)aReturnCode contextInfo:(void *)aContextInfo {
+	self.showingImageTaker = NO;
 	if (aReturnCode != NSCancelButton) {
 		NSImage *image = aPictureTaker.outputImage;
 		[self updateUserWithImage:image];
