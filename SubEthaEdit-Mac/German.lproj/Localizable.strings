@@ -1024,3 +1024,9 @@
 /* User Notification subtitle if a invited user declines your invitation - the first %@ is the user name, the second the document name */
 "USER_NOTIFICATION_DECLINE_SUBTITLE" = "%@ ist %@ nicht beigetreten.";
 
+
+/* authentication script not installed error dialog */
+"AUTHENTICATION_SCRIPT_MISSING_ERROR_DESCRIPTION" = "Unterstützendes authentifizierungs Script konnte nicht gefunden werden.";
+"AUTHENTICATION_SCRIPT_MISSING_ERROR_SUGGESTION" = "Bitte laden sie sich das Script von unsere Webseite herunter und folgen die den Installationsanweisungen.";
+"AUTHENTICATION_SCRIPT_MISSING_ERROR_BUTTON_TITLE1" = "Webseite besuchen…";
+"AUTHENTICATION_SCRIPT_MISSING_ERROR_BUTTON_TITLE2" = "Ignorieren";

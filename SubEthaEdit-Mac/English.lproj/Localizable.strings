@@ -922,3 +922,8 @@
 "PENDING_USER_ALERT_POPUP_TITLE" = "New Participant";
 "PENDING_USER_ALERT_POPUP_DESCRIPTION" = "%@ wants to join this document.";
 
+/* authentication script not installed error dialog */
+"AUTHENTICATION_SCRIPT_MISSING_ERROR_DESCRIPTION" = "Can't find authentication helper script.";
+"AUTHENTICATION_SCRIPT_MISSING_ERROR_SUGGESTION" = "Please visit our website to download the script and follow the instructions to install.";
+"AUTHENTICATION_SCRIPT_MISSING_ERROR_BUTTON_TITLE1" = "Visit Website…";
+"AUTHENTICATION_SCRIPT_MISSING_ERROR_BUTTON_TITLE2" = "Ignore";

@@ -3673,13 +3673,18 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 					// Error Domain=NSCocoaErrorDomain Code=260 "The file “SubEthaEdit_AuthenticatedSave.scpt” couldn’t be opened because there is no such file.
 					id revoveryAttempter = [[[SEEAuthenticatedSaveMissingScriptRecoveryAttempter alloc] init] autorelease];
 
-					NSDictionary *userInfo = @{NSUnderlyingErrorKey: authenticationScriptError,
-											   NSLocalizedDescriptionKey: @"Can't find authentication helper script.",
-											   NSLocalizedFailureReasonErrorKey: @"In order to save a file autheticated, you need to install a script, which enables SubEthaEdit to save authenticated.",
-											   NSLocalizedRecoverySuggestionErrorKey: @"Please visit our website to download the script and follow the instructions to install.",
-											   NSLocalizedRecoveryOptionsErrorKey: @[@"Visit Website…", @"Ignore"],
-											   NSRecoveryAttempterErrorKey: revoveryAttempter};
-					
+					NSDictionary *userInfo =
+					@{NSUnderlyingErrorKey: authenticationScriptError,
+					  NSLocalizedDescriptionKey: NSLocalizedStringWithDefaultValue(@"AUTHENTICATION_SCRIPT_MISSING_ERROR_DESCRIPTION", nil, [NSBundle mainBundle], @"Can't find authentication helper script.", @""),
+
+					  NSLocalizedRecoverySuggestionErrorKey: NSLocalizedStringWithDefaultValue(@"AUTHENTICATION_SCRIPT_MISSING_ERROR_SUGGESTION", nil, [NSBundle mainBundle], @"Please visit our website to download the script and follow the instructions to install.", @""),
+
+					  NSLocalizedRecoveryOptionsErrorKey: @[NSLocalizedStringWithDefaultValue(@"AUTHENTICATION_SCRIPT_MISSING_ERROR_BUTTON_TITLE1", nil, [NSBundle mainBundle], @"Visit Website…", @""),
+															NSLocalizedStringWithDefaultValue(@"AUTHENTICATION_SCRIPT_MISSING_ERROR_BUTTON_TITLE2", nil, [NSBundle mainBundle], @"Ignore", )],
+
+					  NSRecoveryAttempterErrorKey: revoveryAttempter
+					  };
+
 					NSError *error = [NSError errorWithDomain:@"SEEDocumentSavingDomain" code:0x0FE userInfo:userInfo];
 					*outError = error;
 				} else {
