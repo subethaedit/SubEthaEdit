@@ -221,6 +221,7 @@
 		4C7F5E0B18D9D4C500F33CCD /* SEEScopedBookmarkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C7F5E0A18D9D4C500F33CCD /* SEEScopedBookmarkManager.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4C97D504188D42FA000B4999 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C97D503188D42FA000B4999 /* QuartzCore.framework */; };
 		4C9CCDC918BE413E00959EF2 /* SEENetworkConnectionDocumentListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C9CCDC818BE413E00959EF2 /* SEENetworkConnectionDocumentListItem.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		4C9F60EF191A6E8800979755 /* SEEAuthenticatedSaveMissingScriptRecoveryAttempter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C9F60EE191A6E8800979755 /* SEEAuthenticatedSaveMissingScriptRecoveryAttempter.m */; };
 		4CA098DE18EAF54E0026B3E3 /* SEEWebPreviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CA098DD18EAF54E0026B3E3 /* SEEWebPreviewViewController.xib */; };
 		4CA1441C18F7E89D0006178D /* SEEAvatarImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CA1441B18F7E89D0006178D /* SEEAvatarImageView.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4CB36C3218D84BF4000219DA /* SEEEditorSplitViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CB36C3118D84BF4000219DA /* SEEEditorSplitViewDelegate.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
@@ -905,6 +906,8 @@
 		4C97D503188D42FA000B4999 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		4C9CCDC718BE413E00959EF2 /* SEENetworkConnectionDocumentListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEENetworkConnectionDocumentListItem.h; sourceTree = "<group>"; };
 		4C9CCDC818BE413E00959EF2 /* SEENetworkConnectionDocumentListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEENetworkConnectionDocumentListItem.m; sourceTree = "<group>"; };
+		4C9F60ED191A6E8800979755 /* SEEAuthenticatedSaveMissingScriptRecoveryAttempter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEAuthenticatedSaveMissingScriptRecoveryAttempter.h; sourceTree = "<group>"; };
+		4C9F60EE191A6E8800979755 /* SEEAuthenticatedSaveMissingScriptRecoveryAttempter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEAuthenticatedSaveMissingScriptRecoveryAttempter.m; sourceTree = "<group>"; };
 		4CA098DD18EAF54E0026B3E3 /* SEEWebPreviewViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEEWebPreviewViewController.xib; sourceTree = "<group>"; };
 		4CA1441A18F7E89D0006178D /* SEEAvatarImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEAvatarImageView.h; sourceTree = "<group>"; };
 		4CA1441B18F7E89D0006178D /* SEEAvatarImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEAvatarImageView.m; sourceTree = "<group>"; };
@@ -1592,6 +1595,8 @@
 				1428944509575B3400D14688 /* LayoutManager.m */,
 				1428944C09575B9700D14688 /* PlainTextDocument.h */,
 				1428944D09575B9700D14688 /* PlainTextDocument.m */,
+				4C9F60ED191A6E8800979755 /* SEEAuthenticatedSaveMissingScriptRecoveryAttempter.h */,
+				4C9F60EE191A6E8800979755 /* SEEAuthenticatedSaveMissingScriptRecoveryAttempter.m */,
 				1428944E09575B9700D14688 /* PlainTextEditor.h */,
 				1428944F09575B9700D14688 /* PlainTextEditor.m */,
 				F2164BE618F6CD19002414FB /* SEESplitView.h */,
@@ -2887,6 +2892,7 @@
 				142893A4095758C200D14688 /* OverlayView.m in Sources */,
 				142893A6095758C200D14688 /* StylePreferences.m in Sources */,
 				142893A7095758C200D14688 /* TableView.m in Sources */,
+				4C9F60EF191A6E8800979755 /* SEEAuthenticatedSaveMissingScriptRecoveryAttempter.m in Sources */,
 				142893A8095758C200D14688 /* TCMPreferenceController.m in Sources */,
 				142893A9095758C200D14688 /* TCMPreferenceModule.m in Sources */,
 				142893B1095758FD00D14688 /* SelectionOperation.m in Sources */,

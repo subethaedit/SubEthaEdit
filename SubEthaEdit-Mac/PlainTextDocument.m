@@ -28,6 +28,7 @@
 #import "NSMutableAttributedStringSEEAdditions.h"
 #import "NSErrorTCMAdditions.h"
 #import "FontForwardingTextField.h"
+#import "SEEAuthenticatedSaveMissingScriptRecoveryAttempter.h"
 
 #import "DocumentModeManager.h"
 #import "DocumentMode.h"
@@ -3667,7 +3668,23 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 			}
 		} else {
 			if (outError) {
-				*outError = authenticationScriptError;
+
+				if ([authenticationScriptError.domain isEqualToString:NSCocoaErrorDomain] && authenticationScriptError.code == 260) {
+					// Error Domain=NSCocoaErrorDomain Code=260 "The file “SubEthaEdit_AuthenticatedSave.scpt” couldn’t be opened because there is no such file.
+					id revoveryAttempter = [[[SEEAuthenticatedSaveMissingScriptRecoveryAttempter alloc] init] autorelease];
+
+					NSDictionary *userInfo = @{NSUnderlyingErrorKey: authenticationScriptError,
+											   NSLocalizedDescriptionKey: @"Can't find authentication helper script.",
+											   NSLocalizedFailureReasonErrorKey: @"In order to save a file autheticated, you need to install a script, which enables SubEthaEdit to save authenticated.",
+											   NSLocalizedRecoverySuggestionErrorKey: @"Please visit our website to download the script and follow the instructions to install.",
+											   NSLocalizedRecoveryOptionsErrorKey: @[@"Visit Website…", @"Ignore"],
+											   NSRecoveryAttempterErrorKey: revoveryAttempter};
+					
+					NSError *error = [NSError errorWithDomain:@"SEEDocumentSavingDomain" code:0x0FE userInfo:userInfo];
+					*outError = error;
+				} else {
+					*outError = authenticationScriptError;
+				}
 			}
 		}
 	} else {
