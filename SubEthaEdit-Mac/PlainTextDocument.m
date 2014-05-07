@@ -3641,11 +3641,15 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 				}];
 				dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
 
-				[self updateChangeCount:NSChangeCleared];
-				[self setFileURL:anAbsoluteURL];
-				[self setFileType:docType];
-				[self setFileModificationDate:[NSDate date]];
+				if (result) {
+					if (saveOperationType == NSSaveOperation || saveOperationType == NSSaveAsOperation) {
+						[self updateChangeCount:NSChangeCleared];
 
+						[self setFileURL:anAbsoluteURL];
+						[self setFileType:docType];
+						[self setFileModificationDate:[NSDate date]];
+					}
+				}
 			} else {
 				if (outError) {
 					*outError = fileWritingError;
