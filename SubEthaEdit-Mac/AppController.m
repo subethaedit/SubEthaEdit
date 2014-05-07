@@ -6,7 +6,6 @@
 //  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
 //
 
-#import <AddressBook/AddressBook.h>
 #import <Security/Security.h>
 #import <Carbon/Carbon.h>
 #import <TCMPortMapper/TCMPortMapper.h>
@@ -216,8 +215,6 @@ static AppController *sharedInstance = nil;
 - (void)addMe {
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
 
-    ABPerson *meCard=[[ABAddressBook sharedAddressBook] me];
-
     // add self as user 
     TCMMMUser *me=[TCMMMUser new];
     NSString *myName =nil;
@@ -242,70 +239,11 @@ static AppController *sharedInstance = nil;
     if ([defaults stringForKey:SelectedMyColorPreferenceKey]==nil) {           
         // select random color
         // set basic user data 
-        if (meCard) {
-            NSString *firstName = [meCard valueForProperty:kABFirstNameProperty];
-            NSString *lastName  = [meCard valueForProperty:kABLastNameProperty];            
-    
-            if ((firstName!=nil) && (lastName!=nil)) {
-                myName=[NSString stringWithFormat:@"%@ %@",firstName,lastName];
-            } else if (firstName!=nil) {
-                myName=firstName;
-            } else if (lastName!=nil) {
-                myName=lastName;
-            } else {
-                myName=NSFullUserName();
-            }
-            
-            ABMultiValue *emails = [meCard valueForProperty:kABEmailProperty];
-            NSString *primaryIdentifier=[emails primaryIdentifier];
-            if (primaryIdentifier) {
-                [defaults setObject:primaryIdentifier forKey:MyEmailIdentifierPreferenceKey];
-                myEmail=[emails valueAtIndex:[emails indexForIdentifier:primaryIdentifier]];
-            }
 
-			// Find best matching default from Adressbook
-            ABMultiValue *instantMessageServices = [meCard valueForProperty:kABInstantMessageProperty];
-            primaryIdentifier = [instantMessageServices primaryIdentifier];
-            if (primaryIdentifier)
-            {
-                NSDictionary *primaryInstantMessageServiceDict = [instantMessageServices valueForIdentifier:primaryIdentifier];
-                if ([[primaryInstantMessageServiceDict objectForKey:kABInstantMessageServiceKey] isEqualToString:kABInstantMessageServiceAIM]) // Make sure primary service is AIM service
-                {
-                    [defaults setObject:primaryIdentifier forKey:MyAIMIdentifierPreferenceKey];
-					myAIM = [primaryInstantMessageServiceDict objectForKey:kABInstantMessageUsernameKey];
-				}
-                else
-                {
-                    for (NSString *instantMessageIdentifier in instantMessageServices) // if primary service was not AIM service
-                    {
-                        NSDictionary *instantMessageServiceDict = [instantMessageServices valueForIdentifier:instantMessageIdentifier];
-                        if ([[instantMessageServiceDict objectForKey:kABInstantMessageServiceKey] isEqualToString:kABInstantMessageServiceAIM])
-                        {
-                            [defaults setObject:instantMessageIdentifier forKey:MyAIMIdentifierPreferenceKey];
-                            myAIM = [instantMessageServiceDict objectForKey:kABInstantMessageUsernameKey];
-                        }
-                    }
-                }
-			}
-			else
-			{
-				for (NSString *instantMessageIdentifier in instantMessageServices)
-				{
-					NSDictionary *instantMessageServiceDict = [instantMessageServices valueForIdentifier:instantMessageIdentifier];
-					if ([[instantMessageServiceDict objectForKey:kABInstantMessageServiceKey] isEqualToString:kABInstantMessageServiceAIM])
-					{
-						[defaults setObject:instantMessageIdentifier forKey:MyAIMIdentifierPreferenceKey];
-						myAIM = [instantMessageServiceDict objectForKey:kABInstantMessageUsernameKey];
-					}
-				}
-			}
-        } else {
-            myName=NSFullUserName();
-            myEmail=@"";
-            myAIM=@"";
-        }
-        if (!myEmail) myEmail=@"";
-        if (!myAIM)   myAIM  =@"";
+		myName=NSFullUserName();
+        myEmail=@"";
+        myAIM=@"";
+        
         [defaults setObject:myEmail forKey:MyEmailPreferenceKey];
         [defaults setObject:myAIM forKey:MyAIMPreferenceKey];
         
@@ -314,64 +252,33 @@ static AppController *sharedInstance = nil;
         int selectedNumber=(int)((double)rand() / ((double)RAND_MAX + 1) * 8);
         [defaults setObject:[NSNumber numberWithInt:selectedNumber]
                      forKey:SelectedMyColorPreferenceKey];
-        [defaults setObject:[NSNumber numberWithFloat:colorHues[selectedNumber]] 
+
+        [defaults setObject:[NSNumber numberWithFloat:colorHues[selectedNumber]]
                      forKey:MyColorHuePreferenceKey];
     } else {
         // not first run so fill in the stuff
         myAIM  =[defaults stringForKey:MyAIMPreferenceKey];
         myName =[defaults stringForKey:MyNamePreferenceKey];
         myEmail=[defaults stringForKey:MyEmailPreferenceKey];
-
-        NSString *identifier=[defaults stringForKey:MyAIMIdentifierPreferenceKey];
-        if (identifier) {
-            ABMultiValue *aims=[meCard valueForProperty:kABInstantMessageProperty];
-            NSUInteger index=[aims indexForIdentifier:identifier];
-            if (index!=NSNotFound) {
-                if (![myAIM isEqualToString:[aims valueAtIndex:index]]) {
-                    myAIM=[[aims valueAtIndex:index] objectForKey:kABInstantMessageUsernameKey];
-                    [defaults setObject:myAIM forKey:MyAIMPreferenceKey];
-                }
-            }
-        }
-
-        identifier=[defaults stringForKey:MyEmailIdentifierPreferenceKey];
-        if (identifier) {
-            ABMultiValue *emails=[meCard valueForProperty:kABEmailProperty];
-            NSUInteger index=[emails indexForIdentifier:identifier];
-            if (index!=NSNotFound) {
-                if (![myEmail isEqualToString:[emails valueAtIndex:index]]) {
-                    myEmail=[emails valueAtIndex:index];
-                    [defaults setObject:myEmail forKey:MyEmailPreferenceKey];
-                }
-            }
-        }
-
     }
 
     if (!myName) {
-        myName=NSFullUserName();
-    }
-
-    if (meCard) {
-        @try {
-            NSData  *imageData;
-            if ((imageData=[meCard imageData])) {
-                myImage=[[NSImage alloc] initWithData:imageData];
-                [myImage setCacheMode:NSImageCacheNever];
-            }
-        } @catch (NSException *exception) {
-        }
+        myName = NSFullUserName();
     }
 
     if (!myImage) {
-        myImage= [[NSImage unknownUserImageWithSize:NSMakeSize(256.0, 256.0) initials:myName.stringWithInitials] retain];
+        myImage = [[NSImage unknownUserImageWithSize:NSMakeSize(256.0, 256.0) initials:myName.stringWithInitials] retain];
     }
 
-    if (!myEmail) myEmail=@"";
-    if (!myAIM)   myAIM  =@"";
+    if (!myEmail) {
+		myEmail = @"";
+	}
+    if (!myAIM) {
+		myAIM = @"";
+	}
     
     // resizing the image
-    scaledMyImage=[myImage resizedImageWithSize:NSMakeSize(64.,64.)];
+    scaledMyImage=[myImage resizedImageWithSize:NSMakeSize(64.,64.)]; // TODO:
     
     NSData *pngData=[scaledMyImage TIFFRepresentation];
     pngData=[[NSBitmapImageRep imageRepWithData:pngData] representationUsingType:NSPNGFileType properties:[NSDictionary dictionary]];
@@ -387,6 +294,7 @@ static AppController *sharedInstance = nil;
     [me setUserHue:[defaults objectForKey:MyColorHuePreferenceKey]];
 
     [myImage release];
+	
     TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
     [userManager setMe:[me autorelease]];
 }
