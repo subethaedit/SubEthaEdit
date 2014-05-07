@@ -21,7 +21,12 @@
  	if (error && [error.domain isEqualToString:@"SEEDocumentSavingDomain"] && error.code == 0x0FE) {
  		// index == 0 is "Visit Website"
 		if (recoveryOptionIndex == 0) {
-			[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.subethaedit.net/"]];
+			// show finder window with script folder
+			NSURL *userScriptsDirectory = [[NSFileManager defaultManager] URLForDirectory:NSApplicationScriptsDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:YES error:nil];
+			[[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[userScriptsDirectory]];
+
+			// open URL in browser
+			[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.subethaedit.net/authentication-helper"]];
 		}
 	}
 
