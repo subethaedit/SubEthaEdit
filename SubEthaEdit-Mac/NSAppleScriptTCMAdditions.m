@@ -7,7 +7,6 @@
 //
 
 #import "NSAppleScriptTCMAdditions.h"
-#import <Carbon/Carbon.h>
 
 
 @implementation NSAppleEventDescriptor (NSAppleEventDescriptorTCMAdditions)
@@ -19,13 +18,13 @@
                                                                    bytes:&pid
                                                                   length:sizeof(pid)];
     NSAppleEventDescriptor *result = 
-        [NSAppleEventDescriptor appleEventWithEventClass:kASAppleScriptSuite
-                                                 eventID:kASSubroutineEvent
+        [NSAppleEventDescriptor appleEventWithEventClass:'ascr' //kASAppleScriptSuite
+                                                 eventID:'psbr' //kASSubroutineEvent
                                         targetDescriptor:targetAddress 
                                                 returnID:kAutoGenerateReturnID
                                            transactionID:kAnyTransactionID];
     [result setParamDescriptor:[NSAppleEventDescriptor descriptorWithString:[aSubroutineName lowercaseString]]
-                    forKeyword:keyASSubroutineName];
+                    forKeyword:'snam']; // keyASSubroutineName
     [result setParamDescriptor:[NSAppleEventDescriptor listDescriptor]
                     forKeyword:keyDirectObject];
     return result;
@@ -43,7 +42,7 @@
     for (index=1;index<=count;index++) { // AppleScript indexes begin at 1
         AEKeyword keyword = [recordAED keywordForDescriptorAtIndex:index];
         
-        if (keyword==keyASUserRecordFields) {
+        if (keyword=='usrf') { //keyASUserRecordFields
             NSAppleEventDescriptor *listAED = [recordAED descriptorAtIndex:index];
             
             int listCount = [listAED numberOfItems];

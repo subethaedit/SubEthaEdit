@@ -18,7 +18,6 @@
 #import "RegexSymbolParser.h"
 #import "RegexSymbolDefinition.h"
 #import "NSMenuTCMAdditions.h"
-#import <Carbon/Carbon.h>
 #import "ScriptWrapper.h"
 
 #ifdef SUBETHAEDIT

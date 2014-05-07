@@ -6,7 +6,6 @@
 //  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
 // 
 
-#import <Carbon/Carbon.h>
 #import <SystemConfiguration/SystemConfiguration.h>
 #import <objc/objc-runtime.h>			// for objc_msgSend
 
@@ -3625,7 +3624,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 				{
 					NSAppleEventDescriptor *functionDescriptor = [NSAppleEventDescriptor descriptorWithString:@"run"];
-					[containerDescriptor setParamDescriptor:functionDescriptor forKeyword:keyASSubroutineName];
+					[containerDescriptor setParamDescriptor:functionDescriptor forKeyword:'snam'];
 				}
 
 				{

@@ -7,9 +7,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <Carbon/Carbon.h> 
-
-extern MenuRef _NSGetCarbonMenu(NSMenu* aMenu);
 
 @interface NSMenu (NSMenuTCMAdditions)
 - (void)removeAllItems;

@@ -8,7 +8,6 @@
 
 #import <AddressBook/AddressBook.h>
 #import <Security/Security.h>
-#import <Carbon/Carbon.h>
 #import <TCMPortMapper/TCMPortMapper.h>
 
 #import "TCMFoundation.h"
@@ -53,9 +52,6 @@
 #import "NSMenuTCMAdditions.h"
 
 #import "ScriptWrapper.h"
-#import "SESendProc.h"
-#import "SEActiveProc.h"
-
 #import "SEEStyleSheetEditorWindowController.h"
 
 #ifndef TCM_NO_DEBUG
