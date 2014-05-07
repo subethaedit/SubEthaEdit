@@ -3599,10 +3599,10 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 	__block BOOL result = NO;
 
-	NSError *applicastionScriptURLError = nil;
-	NSURL *applicationScriptURL = [[NSFileManager defaultManager] URLForDirectory:NSApplicationScriptsDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:&applicastionScriptURLError];
+	NSError *applicationScriptURLError = nil;
+	NSURL *applicationScriptURL = [[NSFileManager defaultManager] URLForDirectory:NSApplicationScriptsDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:&applicationScriptURLError];
 
-	if (! applicastionScriptURLError) {
+	if (! applicationScriptURLError) {
 		NSError *authenticationScriptError = nil;
 		NSURL *authenticationScriptURL = [applicationScriptURL URLByAppendingPathComponent:@"SubEthaEdit_AuthenticatedSave.scpt"];
 		NSUserAppleScriptTask *authorisationScript = [[[NSUserAppleScriptTask alloc] initWithURL:authenticationScriptURL error:&authenticationScriptError] autorelease];
@@ -3672,7 +3672,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 		}
 	} else {
 		if (outError) {
-			*outError = applicastionScriptURLError;
+			*outError = applicationScriptURLError;
 		}
 	}
 	return result;
