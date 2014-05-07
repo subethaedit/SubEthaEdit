@@ -243,7 +243,6 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         
-#ifdef SUBETHAEDIT
         // Load scripts
         I_scriptsByFilename = [NSMutableDictionary new];
         NSString *scriptFolder = [[aBundle resourcePath] stringByAppendingPathComponent:@"Scripts"];
@@ -289,7 +288,6 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 
 			/* legacy note: the toolbar item were loaded here once in the past */
         }
-#endif
         
         // Preference Handling
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:nil];
@@ -300,16 +298,17 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
             NSNumber *encodingNumber = [dictionary objectForKey:DocumentModeEncodingPreferenceKey];
             if (encodingNumber) {
                 NSStringEncoding encoding = [encodingNumber unsignedIntValue];
-                if ( encoding != NoStringEncoding ) 
+                if ( encoding != NoStringEncoding ) {
 					[[EncodingManager sharedInstance] registerEncoding:encoding];
+				}
             }
         } else {
             I_defaults = [NSMutableDictionary new];
             [I_defaults setObject:[NSNumber numberWithInt:4] forKey:DocumentModeTabWidthPreferenceKey];
-            [I_defaults setObject:[NSNumber numberWithInt:80] forKey:DocumentModeColumnsPreferenceKey];
+            [I_defaults setObject:[NSNumber numberWithInt:100] forKey:DocumentModeColumnsPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithInt:80] forKey:DocumentModePageGuideWidthPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithInt:0] forKey:DocumentModeIndentWrappedLinesCharacterAmountPreferenceKey];
-            [I_defaults setObject:[NSNumber numberWithInt:40] forKey:DocumentModeRowsPreferenceKey];
+            [I_defaults setObject:[NSNumber numberWithInt:50] forKey:DocumentModeRowsPreferenceKey];
             NSFont *font=[NSFont userFixedPitchFontOfSize:0.0];
             NSMutableDictionary *dict=[NSMutableDictionary dictionary];
             [dict setObject:[font fontName] 
@@ -319,7 +318,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
             [I_defaults setObject:dict forKey:DocumentModeFontAttributesPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithUnsignedInt:NSUTF8StringEncoding] forKey:DocumentModeEncodingPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentModeHighlightSyntaxPreferenceKey];
-            [I_defaults setObject:[NSNumber numberWithBool:NO]  forKey:DocumentModeShowLineNumbersPreferenceKey];
+            [I_defaults setObject:@YES  forKey:DocumentModeShowLineNumbersPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithBool:NO]  forKey:DocumentModeShowInvisibleCharactersPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentModeShowMatchingBracketsPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentModeWrapLinesPreferenceKey];
@@ -351,7 +350,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
             }
         }
 
-        // augment pre 2.1 data if needed
+        // add print settings to basemode
         if ([self isBaseMode]) {
 
             if (![I_defaults objectForKey:DocumentModePrintOptionsPreferenceKey]) {
@@ -410,33 +409,19 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
             }
         }
 
-        // new settings in 2.5.1 that need a default value
-        if (![I_defaults objectForKey:DocumentModePageGuideWidthPreferenceKey]) {
-            [I_defaults setObject:[NSNumber numberWithInt:80] forKey:DocumentModePageGuideWidthPreferenceKey];
-        }
-        if (![I_defaults objectForKey:DocumentModeIndentWrappedLinesCharacterAmountPreferenceKey]) {
-            [I_defaults setObject:[NSNumber numberWithInt:0] forKey:DocumentModeIndentWrappedLinesCharacterAmountPreferenceKey];
-        }
-
-		if (![I_defaults objectForKey:DocumentModeTabKeyMovesToIndentPreferenceKey]) {
-			[I_defaults setObject:[NSNumber numberWithBool:YES]
-						   forKey:DocumentModeTabKeyMovesToIndentPreferenceKey];
+		// populate stylesheet prefs if not there already
+		if (![self isBaseMode]) {
+			if (![I_defaults objectForKey:DocumentModeUseDefaultStyleSheetPreferenceKey]) {
+				[I_defaults setObject:[NSNumber numberWithBool:YES] 
+							   forKey:DocumentModeUseDefaultStyleSheetPreferenceKey];
+			}
 		}
 
-		// populate stylesheet prefs if not there already
-		if (![I_defaults objectForKey:DocumentModeUseDefaultStyleSheetPreferenceKey]) {
-			[I_defaults setObject:[NSNumber numberWithBool:YES] 
-                           forKey:DocumentModeUseDefaultStyleSheetPreferenceKey];
-        }
-        if (![I_defaults objectForKey:DocumentModeStyleSheetsPreferenceKey]) {
-	    	[I_defaults setObject:[NSDictionary dictionaryWithObjectsAndKeys:[DocumentModeManager defaultStyleSheetName],DocumentModeStyleSheetsDefaultLanguageContextKey,nil]
-	    				   forKey:DocumentModeStyleSheetsPreferenceKey];
-	    }
-
-
-                NSMutableDictionary *printDictionary=[I_defaults objectForKey:DocumentModePrintOptionsPreferenceKey];
+		// make the print options mutable
+		NSMutableDictionary *printDictionary=[I_defaults objectForKey:DocumentModePrintOptionsPreferenceKey];
         if (printDictionary) [I_defaults setObject:[[printDictionary mutableCopy] autorelease] forKey:DocumentModePrintOptionsPreferenceKey];
 
+		
         NSMutableDictionary *export=[I_defaults objectForKey:DocumentModeExportPreferenceKey];
         export = export?[[export mutableCopy] autorelease]:[NSMutableDictionary dictionary];
         [I_defaults setObject:export forKey:DocumentModeExportPreferenceKey];

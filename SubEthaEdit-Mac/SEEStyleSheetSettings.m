@@ -27,13 +27,18 @@ NSString * const SEEStyleSheetSettingsUsesMultipleStyleSheetsKey = @"usesMultipl
 
 - (void)takeSettingsFromModeDefaults {
 	NSDictionary *sheetPrefsDict = [self.documentMode defaultForKey:DocumentModeStyleSheetsPreferenceKey];
-	self.usesMultipleStyleSheets = [[sheetPrefsDict objectForKey:SEEStyleSheetSettingsUsesMultipleStyleSheetsKey] boolValue];
-	NSString *value = [sheetPrefsDict objectForKey:SEEStyleSheetSettingsSingleStyleSheetKey];
-	if (value) self.singleStyleSheetName = value;
-	NSDictionary *sheetMapping = [sheetPrefsDict objectForKey:SEEStyleSheetSettingsMultipleStyleSheetsKey];
-	if (sheetMapping && [sheetMapping isKindOfClass:[NSDictionary class]]) {
-		[I_styleSheetNamesByLanguageContext removeAllObjects];
-		[I_styleSheetNamesByLanguageContext addEntriesFromDictionary:sheetMapping];
+	if (!sheetPrefsDict && self.documentMode.isBaseMode) {
+		self.usesMultipleStyleSheets = NO;
+		self.singleStyleSheetName = [DocumentModeManager defaultStyleSheetName];
+	} else {
+		self.usesMultipleStyleSheets = [[sheetPrefsDict objectForKey:SEEStyleSheetSettingsUsesMultipleStyleSheetsKey] boolValue];
+		NSString *value = [sheetPrefsDict objectForKey:SEEStyleSheetSettingsSingleStyleSheetKey];
+		if (value) self.singleStyleSheetName = value;
+		NSDictionary *sheetMapping = [sheetPrefsDict objectForKey:SEEStyleSheetSettingsMultipleStyleSheetsKey];
+		if (sheetMapping && [sheetMapping isKindOfClass:[NSDictionary class]]) {
+			[I_styleSheetNamesByLanguageContext removeAllObjects];
+			[I_styleSheetNamesByLanguageContext addEntriesFromDictionary:sheetMapping];
+		}
 	}
 }
 
