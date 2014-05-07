@@ -65,7 +65,7 @@
     NSImage *myImage = [me image];
     [myImage setFlipped:NO];
     [self.O_nameTextField setStringValue:[me name]];
-    [self.O_emailComboBox setStringValue:[[me properties] objectForKey:@"Email"]];
+    [self.O_emailTextField setStringValue:[[me properties] objectForKey:@"Email"]];
 
     [self.O_automaticallyMapPortButton setState:[defaults boolForKey:ShouldAutomaticallyMapPort]?NSOnState:NSOffState];
 	
@@ -217,6 +217,9 @@
 #pragma mark - IBActions - Me
 
 - (IBAction)changeName:(id)aSender {
+	// TODO: bind to pref - send a user change notification?
+	// do not set as kCFPreferencesCurrentUser, kCFPreferencesCurrentHost?!
+
     TCMMMUser *me=[TCMMMUserManager me];
     NSString *newValue=[self.O_nameTextField stringValue];
     if (![[me name] isEqualTo:newValue]) {
@@ -236,12 +239,13 @@
 
 - (IBAction)changeEmail:(id)aSender {
     TCMMMUser *me=[TCMMMUserManager me];
-    NSString *newValue=[self.O_emailComboBox stringValue];
+    NSString *newValue = [self.O_emailTextField stringValue];
     if (![[[me properties] objectForKey:@"Email"] isEqualTo:newValue]) {
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         [defaults setObject:newValue forKey:MyEmailPreferenceKey];
 
 // TODO: remove MyEmailIdentifierPreferenceKey
+// TODO: bind to pref - send a user change notification?
 		
         [[me properties] setObject:newValue forKey:@"Email"];
         [TCMMMUserManager didChangeMe];

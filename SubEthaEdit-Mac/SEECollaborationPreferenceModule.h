@@ -26,7 +26,7 @@
 // me-card
 @property (nonatomic, strong) IBOutlet SEEAvatarImageView *O_avatarImageView;
 @property (nonatomic, strong) IBOutlet NSTextField *O_nameTextField;
-@property (nonatomic, strong) IBOutlet NSComboBox  *O_emailComboBox;
+@property (nonatomic, strong) IBOutlet NSTextField *O_emailTextField;
 
 // colors
 @property (nonatomic, strong) IBOutlet SEEUserColorsPreviewView *O_userColorsPreview;
