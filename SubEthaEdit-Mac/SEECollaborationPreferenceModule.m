@@ -106,13 +106,13 @@
 	self.imagePicker = ({
 		IKPictureTaker *imagePicker = [IKPictureTaker pictureTaker];
 		
-		// TODO: make sure this input image is not the default one!
-		// TODO: make the empty image the default image
-		[imagePicker setInputImage:myImage];
+		if (![me hasDefaultImage]) {
+			[imagePicker setInputImage:myImage]; // is also updated in the chooseImage method
+		}
 
 		[imagePicker setValue:[NSValue valueWithSize:NSMakeSize(256., 256.)] forKey:IKPictureTakerOutputImageMaxSizeKey];
 		[imagePicker setValue:@(YES) forKey:IKPictureTakerShowAddressBookPictureKey];
-		[imagePicker setValue:[NSImage imageNamed:NSImageNameUser] forKey:IKPictureTakerShowEmptyPictureKey];
+		[imagePicker setValue:[me defaultImage] forKey:IKPictureTakerShowEmptyPictureKey]; // is also updated in the change name method
 		[imagePicker setValue:@(YES) forKey:IKPictureTakerShowEffectsKey];
 
 		imagePicker;
@@ -205,6 +205,7 @@
 		NSImage *image = aPictureTaker.outputImage;
 		[self updateUserWithImage:image];
 		[self.O_avatarImageView setImage:image];
+		[self.imagePicker setInputImage:image];
 	}
 }
 
@@ -228,6 +229,7 @@
         [TCMMMUserManager didChangeMe];
 		
 		self.O_avatarImageView.initials = me.initials;
+		[self.imagePicker setValue:[me defaultImage] forKey:IKPictureTakerShowEmptyPictureKey];
     }
 }
 
