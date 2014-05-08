@@ -183,6 +183,7 @@ NSString * const TCMMMUserWillLeaveSessionNotification = @"TCMMMUserWillLeaveSes
 }
 
 #pragma mark - Image
+// TODO: check this
 - (void)setImageWithPNGData:(NSData *)aPNGData {
 	if (aPNGData &&
 		aPNGData.length > 0) {

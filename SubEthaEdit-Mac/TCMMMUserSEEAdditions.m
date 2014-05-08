@@ -149,6 +149,7 @@
 
 	NSData *pngData = [TCMMMUser imageDataFromImage:image];
 	[properties setObject:pngData forKey:TCMMMUserPropertyKeyImageAsPNGData];
+	// this property seems only to be set for non-empty images? may not be set in the future at all but beware of old versions of Coda/SEE
 
 	[properties setObject:@(hasDefaultImage) forKey:@"HasDefaultImage"];
 	[properties setObject:image forKey:@"Image"];
