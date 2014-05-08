@@ -30,8 +30,6 @@
 - (void)setPageGuidePosition:(float)aPosition;
 - (BOOL)isPasting;
 
-- (IBAction)foldTextSelection:(id)aSender;
-
 /*! @returns an Array for the search scope ranges if any are set. if none are set returns the full range for the fulltextstorage */
 @property (nonatomic, readonly) NSArray *searchScopeRanges;
 
