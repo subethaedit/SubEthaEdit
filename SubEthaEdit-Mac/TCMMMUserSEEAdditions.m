@@ -91,7 +91,7 @@
 
 - (void)recacheImages {
     NSMutableDictionary *properties = [self properties];
-    [properties removeObjectsForKeys:@[@"Image", @"ColorImage", @"ColorImageBrightLine"]];
+    [properties removeObjectsForKeys:@[@"Image"]];
 }
 
 - (NSColor *)color {
@@ -104,47 +104,7 @@
     return result;
 }
 
-- (NSImage *)colorImageWithLineOfColor:(NSColor *)aColor {
-    NSNumber *hue = [[self properties] objectForKey:@"Hue"];
-    if (hue) {
-        NSValueTransformer *hueTrans = [NSValueTransformer valueTransformerForName:@"HueToColor"];
-        NSColor *color = [hueTrans transformedValue:hue];
-        NSRect rect = NSMakeRect(0, 0, 13, 8);
-
-		NSImage *image = [NSImage imageWithSize:rect.size flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
-			[color drawSwatchInRect:dstRect];
-			[aColor set];
-			[NSBezierPath strokeRect:dstRect];
-			return YES;
-		}];
-        return image;
-    } else {
-        return nil;
-    }
-}
-
-- (NSImage *)colorImage {
-    if (![[self properties] objectForKey:@"ColorImage"]) {
-        NSImage *image = [self colorImageWithLineOfColor:[[NSColor blackColor] colorWithAlphaComponent:0.7]];
-        if (image) {
-            [[self properties] setObject:image forKey:@"ColorImage"];
-        }
-    }
-    return [[self properties] objectForKey:@"ColorImage"];
-}
-
-- (NSImage *)colorImageWithBrightLine {
-    if (![[self properties] objectForKey:@"ColorImageBrightLine"]) {
-        NSImage *image = [self colorImageWithLineOfColor:[[NSColor whiteColor] colorWithAlphaComponent:0.7]];
-        if (image) {
-            [[self properties] setObject:image forKey:@"ColorImageBrightLine"];
-        }
-    }
-    return [[self properties] objectForKey:@"ColorImageBrightLine"];
-}
-
-- (NSImage *)image
-{
+- (NSImage *)image {
     NSImage *image = [[self properties] objectForKey:@"Image"];
     if (!image) {
         NSData *pngData = [[self properties] objectForKey:TCMMMUserPropertyKeyImageAsPNGData];

@@ -223,7 +223,6 @@ NSString * const TCMMMUserWillLeaveSessionNotification = @"TCMMMUserWillLeaveSes
 - (void)setUserHue:(NSNumber *)aHue {
     if (aHue) {
         [[self properties] setObject:aHue forKey:@"Hue"];
-        [[self properties] removeObjectForKey:@"ColorImage"];
         [[self properties] removeObjectForKey:@"ChangeColor"];
 		[self updateChangeCount];
     }

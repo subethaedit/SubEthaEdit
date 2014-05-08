@@ -25,8 +25,6 @@
 - (void)recacheImages;
 
 - (NSColor *)color;
-- (NSImage *)colorImageWithBrightLine;
-- (NSImage *)colorImage;
 - (NSImage *)image;
 
 @end
