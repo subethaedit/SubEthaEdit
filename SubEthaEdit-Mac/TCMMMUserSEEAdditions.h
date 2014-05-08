@@ -21,11 +21,9 @@
 
 - (NSString *)initials;
 
-#pragma mark -
 - (NSColor *)color;
 
-- (void)recacheImages;
-
+#pragma mark - User Image
 - (NSImage *)image;
 - (NSData *)imageData;
 - (void)setImage:(NSImage *)aImage;

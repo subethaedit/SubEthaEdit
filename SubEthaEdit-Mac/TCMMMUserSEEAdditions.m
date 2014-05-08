@@ -89,11 +89,6 @@
 
 #pragma mark -
 
-- (void)recacheImages {
-    NSMutableDictionary *properties = [self properties];
-    [properties removeObjectsForKeys:@[@"Image"]];
-}
-
 - (NSColor *)color {
     NSColor *result = nil;
     NSNumber *hue = [[self properties] objectForKey:@"Hue"];
