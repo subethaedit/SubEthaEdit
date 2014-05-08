@@ -27,6 +27,7 @@
 - (void)recacheImages;
 
 - (NSImage *)image;
+- (NSData *)imageData;
 - (void)setImage:(NSImage *)aImage;
 - (void)setDefaultImage;
 - (BOOL)hasDefaultImage;

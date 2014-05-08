@@ -119,6 +119,22 @@
     return image;
 }
 
+- (NSData *)imageData {
+    NSData *data = [[self properties] objectForKey:TCMMMUserPropertyKeyImageAsPNGData];
+    if (!data) {
+        NSImage *image = [[self properties] objectForKey:@"Image"];
+		
+        if (!image) { // set default image
+			[self setDefaultImage]; // also sets the image data
+			data = [[self properties] objectForKey:TCMMMUserPropertyKeyImageAsPNGData];
+			
+		} else {
+			data = [TCMMMUser imageDataFromImage:image];
+		}
+    }
+    return data;
+}
+
 - (void)setImage:(NSImage *)aImage {
 	NSImage *image;
 	BOOL hasDefaultImage;
@@ -134,8 +150,7 @@
 
 	NSMutableDictionary *properties = [self properties];
 
-	NSData *pngData = [image TIFFRepresentation];
-	pngData = [[NSBitmapImageRep imageRepWithData:pngData] representationUsingType:NSPNGFileType properties:[NSDictionary dictionary]];
+	NSData *pngData = [TCMMMUser imageDataFromImage:image];
 	[properties setObject:pngData forKey:TCMMMUserPropertyKeyImageAsPNGData];
 
 	[properties setObject:@(hasDefaultImage) forKey:@"HasDefaultImage"];
@@ -156,6 +171,16 @@
 		hasDefaultImage = YES; // TODO: initial setup - reading the image from the disk;
 	}
 	return hasDefaultImage;
+}
+
+#pragma mark - Helper
++ (NSData *)imageDataFromImage:(NSImage *)aImage {
+	NSData *data = nil;
+	if (aImage) {
+		data = [aImage TIFFRepresentation];
+		data = [[NSBitmapImageRep imageRepWithData:data] representationUsingType:NSPNGFileType properties:@{}];
+	}
+	return data;
 }
 
 - (BOOL)writeImageToUrl:(NSURL *)aURL {
