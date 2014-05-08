@@ -2260,9 +2260,13 @@ struct SelectionRange
 						IDString = [NSString stringWithFormat:@"%@%d",IDBasis,i];
 					}
 					[shortContributorIDs addObject:IDString];
+					
 					if (shouldSaveImages) {
-						[[[contributor properties] objectForKey:TCMMMUserPropertyKeyImageAsPNGData] writeToFile:[imageDirectory stringByAppendingPathComponent:[IDString stringByAppendingPathExtension:@"png"]] atomically:YES];
+						NSString *imageSavePath = [imageDirectory stringByAppendingPathComponent:[IDString stringByAppendingPathExtension:@"png"]];
+						NSURL *imageSaveURL = [NSURL URLWithString:imageSavePath];
+						[contributor writeImageToUrl:imageSaveURL];
 					}
+											   
 					NSDictionary *dictionary=[NSDictionary dictionaryWithObjectsAndKeys:contributor,@"User",IDString,@"ShortID",nil];
 					if ([contributorIDs containsObject:[contributor userID]]) {
 						[contributorDictionary   setObject:dictionary forKey:[contributor userID]];
