@@ -152,7 +152,6 @@
 - (void)TCM_sessionDidEnd:(NSNotification *)notification {
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"TCM_sessionDidEnd: %@", notification);
 
-	[self willChangeValueForKey:@"entries"];
 	{
 		TCMBEEPSession *session = [[notification userInfo] objectForKey:@"Session"];
 		SEEConnection *concernedEntry = nil;
@@ -164,22 +163,32 @@
 		}
 		if (concernedEntry) {
 			if (![concernedEntry handleSessionDidEnd:session]) {
+				[self willChangeValueForKey:@"entries"];
 				[self.entries removeObject:concernedEntry];
+				[self didChangeValueForKey:@"entries"];
 			}
 		}
 	}
-	[self didChangeValueForKey:@"entries"];
 }
 
 
 #pragma mark -
 #pragma mark ### update notification handling ###
 
-- (void)userDidChange:(NSNotification *)aNotification {
-    DEBUGLOG(@"InternetLogDomain", AllLogLevel, @"userDidChange: %@", aNotification);
+/*! should be used for frequent changes that don't affect the number of items, but just their status (icon, name, etc) */
+- (void)delayedEnsureListUpdate {
+	[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(ensureListUpdate) object:nil];
+	[self performSelector:@selector(ensureListUpdate) withObject:nil afterDelay:0.2];
+}
 
+- (void)ensureListUpdate {
 	[self willChangeValueForKey:@"entries"];
 	[self didChangeValueForKey:@"entries"];
+}
+
+- (void)userDidChange:(NSNotification *)aNotification {
+    DEBUGLOG(@"InternetLogDomain", AllLogLevel, @"userDidChange: %@", aNotification);
+	[self delayedEnsureListUpdate];
 }
 
 - (void)announcedSessionsDidChange:(NSNotification *)aNotification {

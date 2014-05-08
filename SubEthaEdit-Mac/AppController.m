@@ -8,7 +8,6 @@
 
 #import <AddressBook/AddressBook.h>
 #import <Security/Security.h>
-#import <Carbon/Carbon.h>
 #import <TCMPortMapper/TCMPortMapper.h>
 
 #import "TCMFoundation.h"
@@ -53,9 +52,6 @@
 #import "NSMenuTCMAdditions.h"
 
 #import "ScriptWrapper.h"
-#import "SESendProc.h"
-#import "SEActiveProc.h"
-
 #import "SEEStyleSheetEditorWindowController.h"
 
 #ifndef TCM_NO_DEBUG
@@ -134,7 +130,7 @@ static AppController *sharedInstance = nil;
 		[defaults setObject:[NSMutableArray array] forKey:AddressHistory];
 		[defaults setObject:[NSNumber numberWithBool:NO] forKey:ProhibitInboundInternetSessions];
 		[defaults setObject:[NSNumber numberWithDouble:60.] forKey:NetworkTimeoutPreferenceKey];
-		[defaults setObject:[NSNumber numberWithDouble:60.] forKey:@"AutoSavingDelay"];
+		[defaults setObject:[NSNumber numberWithDouble:30.] forKey:@"AutoSavingDelay"]; // use same autosave delay as textedit
 		[defaults setObject:[NSNumber numberWithBool:YES] forKey:VisibilityPrefKey];
 		[defaults setObject:[NSNumber numberWithBool:YES] forKey:AutoconnectPrefKey];
 		[defaults setObject:[NSNumber numberWithBool:NO] forKey:@"GoIntoBundlesPrefKey"];
@@ -144,10 +140,6 @@ static AppController *sharedInstance = nil;
 		[defaults setObject:[NSNumber numberWithInt:800*1024] forKey:@"StringLengthToStopHighlightingAndWrapping"];
 		[defaults setObject:[NSNumber numberWithInt:800*1024] forKey:@"StringLengthToStopSymbolRecognition"];
 		[defaults setObject:[NSNumber numberWithInt:4096*1024] forKey:@"ByteLengthToUseForModeRecognitionAndEncodingGuessing"];
-		// fix of SEE-883 - only an issue on tiger...
-		if (floor(NSAppKitVersionNumber) == 824.) {
-			[defaults setObject:[NSNumber numberWithBool:NO] forKey:@"NSUseInsertionPointCache"];
-		}
 		
 		//
 		[defaults setObject:[NSNumber numberWithBool:YES] forKey:VisibilityPrefKey];
@@ -161,8 +153,8 @@ static AppController *sharedInstance = nil;
 		[defaults setObject:[NSNumber numberWithBool:floor(NSAppKitVersionNumber) > 824.] forKey:@"SaveSeeTextPreview"];
 		[defaults setObject:[NSNumber numberWithBool:YES] forKey:ShouldAutomaticallyMapPort];
 
-		[defaults setObject:[NSNumber numberWithBool:NO] forKey:EnableTLSKey];
-		[defaults setObject:[NSNumber numberWithBool:NO] forKey:UseTemporaryKeychainForTLSKey]; // no more temporary keychain in 10.6 and up builds
+		[defaults setObject:[NSNumber numberWithBool:NO] forKey:kSEEDefaultsKeyEnableTLS];
+		[defaults setObject:[NSNumber numberWithBool:NO] forKey:kSEEDefaultsKeyUseTemporaryKeychainForTLS]; // no more temporary keychain in 10.6 and up builds
 		
 		NSDictionary* sequelProDefaults = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"PreferenceDefaults" ofType:@"plist"]];
 		
@@ -380,7 +372,7 @@ static AppController *sharedInstance = nil;
     NSData *pngData=[scaledMyImage TIFFRepresentation];
     pngData=[[NSBitmapImageRep imageRepWithData:pngData] representationUsingType:NSPNGFileType properties:[NSDictionary dictionary]];
     // do this because my resized Images don't behave right on setFlipped:, initWithData ones do!
-    NSData *prefData = [defaults dataForKey:MyImagePreferenceKey];
+    NSData *prefData = [defaults dataForKey:kSEEDefaultsKeyMyImagePreference];
     if (prefData) pngData=prefData;
     [me setUserID:userID];
 
@@ -859,15 +851,6 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     [I_contextMenuItemArray release];
     I_contextMenuItemArray = [NSMutableArray new];
     
-    [I_toolbarItemIdentifiers release];
-    I_toolbarItemIdentifiers = [NSMutableArray new];
-    
-    [I_defaultToolbarItemIdentifiers release];
-    I_defaultToolbarItemIdentifiers = [NSMutableArray new];
-    
-    [I_toolbarItemsByIdentifier release];
-    I_toolbarItemsByIdentifier = [NSMutableDictionary new];
-    
     // make sure Basic directories have been created
     [DocumentModeManager sharedInstance];
     
@@ -877,9 +860,11 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 		scriptURLs = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:userScriptsDirectory includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles error:nil];
 		for (NSURL *scriptURL in scriptURLs)
 		{
-			ScriptWrapper *script = [ScriptWrapper scriptWrapperWithContentsOfURL:scriptURL];
-			if (script) {
-				[I_scriptsByFilename setObject:script forKey:[[[scriptURL path] stringByStandardizingPath] stringByDeletingPathExtension]];
+			if (! [scriptURL.lastPathComponent isEqualToString:@"SubEthaEdit_AuthenticatedSave.scpt"]) {
+				ScriptWrapper *script = [ScriptWrapper scriptWrapperWithContentsOfURL:scriptURL];
+				if (script) {
+					[I_scriptsByFilename setObject:script forKey:[[[scriptURL path] stringByStandardizingPath] stringByDeletingPathExtension]];
+				}
 			}
 		}
     }

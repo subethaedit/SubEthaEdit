@@ -24,54 +24,61 @@
 
 const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociationKey;
 
-+ (NSImage *)unknownUserImageWithSize:(NSSize)size initials:(NSString *)initials {
-	NSImage *image = [NSImage imageWithSize:size flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
++ (BOOL(^)(NSRect))TCM_drawingBlockForMissingUserImageWithSize:(NSSize)aSize initials:(NSString *)anInitialsString {
+	//NSLog(@"%s %@",__FUNCTION__,anInitialsString);
+	NSRect drawingRect = NSZeroRect;
+	drawingRect.size = aSize;
+	// draw placeholder image
+	NSImage *unknownUserImage = [NSImage imageNamed:NSImageNameUser];
+	NSRect imageBounds = NSZeroRect;
+	imageBounds.size = unknownUserImage.size;
+	NSRect imageSourceRect = NSInsetRect(imageBounds, 2.0, 2.0);
 
-		NSRect drawingRect = dstRect;
+	CGFloat fontSize = floor(NSWidth(drawingRect) / 5.0);
+	
+	NSShadow *textShadow = [[NSShadow alloc] init];
+	textShadow.shadowBlurRadius = 0.0;
+	textShadow.shadowColor = [NSColor blackColor];
+	textShadow.shadowOffset = NSMakeSize(0.0, -1.0);
+	
+	NSDictionary *stringAttributes = @{NSFontAttributeName: [NSFont fontWithName:@"HelveticaNeue" size:fontSize],
+									   NSForegroundColorAttributeName: [[NSColor whiteColor] colorWithAlphaComponent:0.8],
+									   NSShadowAttributeName: textShadow};
+	
+	NSSize textSize = [anInitialsString sizeWithAttributes:stringAttributes];
+	NSRect textBounds = [anInitialsString boundingRectWithSize:textSize options:0 attributes:stringAttributes];
 
+	NSPoint textDrawingCenterPoint = NSMakePoint(NSMidX(drawingRect), floor(NSHeight(drawingRect)/4.0));
+	NSRect textDrawingRect = NSMakeRect(floor(textDrawingCenterPoint.x - NSWidth(textBounds) / 2.0),
+										floor(textDrawingCenterPoint.y - NSHeight(textBounds) / 2.0),
+										NSWidth(textBounds),
+										NSHeight(textBounds));
+	
+	BOOL (^result)(NSRect) = ^(NSRect dstRect){
+		
 		[[NSColor clearColor] set];
-		NSRectFill(drawingRect);
-
-		// draw placeholder image
-		NSImage *unknownUserImage = [NSImage imageNamed:NSImageNameUser];
-
-		NSRect imageBounds = NSZeroRect;
-		imageBounds.size = unknownUserImage.size;
-		NSRect imageSourceRect = NSInsetRect(imageBounds, 2.0, 2.0);
-
+		NSRectFill(dstRect);
+		
 		[unknownUserImage drawInRect:drawingRect
 							fromRect:imageSourceRect
 						   operation:NSCompositeSourceOver
 							fraction:0.8
 					  respectFlipped:YES
 							   hints:nil];
-
+		
 		// draw initials string
-		CGFloat fontSize = NSWidth(drawingRect) / 5.0;
-
-		NSShadow *textShadow = [[NSShadow alloc] init];
-		textShadow.shadowBlurRadius = 0.0;
-		textShadow.shadowColor = [NSColor blackColor];
-		textShadow.shadowOffset = NSMakeSize(0.0, -1.0);
-
-		NSDictionary *stringAttributes = @{NSFontAttributeName: [NSFont fontWithName:@"HelveticaNeue-Light" size:fontSize],
-										   NSForegroundColorAttributeName: [[NSColor whiteColor] colorWithAlphaComponent:0.8],
-										   NSShadowAttributeName: textShadow};
-
-		NSSize textSize = [initials sizeWithAttributes:stringAttributes];
-		NSRect textBounds = [initials boundingRectWithSize:textSize options:0 attributes:stringAttributes];
-
-		NSRect textDrawingRect = NSMakeRect(NSMidX(drawingRect) - NSWidth(textBounds) / 2.0,
-											NSMidY(drawingRect) - NSHeight(textBounds),
-											NSWidth(textBounds),
-											NSHeight(textBounds));
-
-		[initials drawWithRect:textDrawingRect
+		
+		[anInitialsString drawWithRect:textDrawingRect
 					   options:0
 					attributes:stringAttributes];
-
+		
 		return YES;
-	}];
+	};
+	return result;
+}
+
++ (NSImage *)unknownUserImageWithSize:(NSSize)aSize initials:(NSString *)anInitialsString {
+	NSImage *image = [NSImage imageWithSize:aSize flipped:NO drawingHandler:[self TCM_drawingBlockForMissingUserImageWithSize:aSize initials:anInitialsString]];
 	
 	return image;
 }

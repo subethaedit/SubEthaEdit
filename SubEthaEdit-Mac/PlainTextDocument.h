@@ -359,6 +359,7 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
 
 - (NSDictionary *)documentState;
 - (NSData *)stateData;
+
 - (NSDictionary *)sessionInformation;
 - (void)takeSettingsFromSessionInformation:(NSDictionary *)aSessionInformation;
 - (void)takeSettingsFromDocumentState:(NSDictionary *)aDocumentState;
@@ -366,7 +367,6 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
 - (NSSet *)allUserIDs;
 - (NSSet *)userIDsOfContributors;
 - (void)sendInitialUserStateViaMMState:(TCMMMState *)aState;;
-- (NSDictionary *)sessionInformation;
 - (void)sessionDidAcceptJoinRequest:(TCMMMSession *)aSession;
 - (void)session:(TCMMMSession *)aSession didReceiveSessionInformation:(NSDictionary *)aSessionInformation;
 - (BOOL)handleOperation:(TCMMMOperation *)aOperation;

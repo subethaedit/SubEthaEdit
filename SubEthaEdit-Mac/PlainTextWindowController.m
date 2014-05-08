@@ -120,7 +120,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     [I_tabBar setDelegate:self];
     [I_tabBar setPartnerView:I_tabView];
 
-    BOOL shouldHideTabBar = [[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey];
+    BOOL shouldHideTabBar = [[NSUserDefaults standardUserDefaults] boolForKey:kSEEDefaultsKeyAlwaysShowTabBar];
     [I_tabBar setHideForSingleTab:!shouldHideTabBar];
     [I_tabBar hideTabBar:!shouldHideTabBar animate:NO];
     [I_tabBar setCellOptimumWidth:300];
@@ -303,8 +303,8 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 	PlainTextEditor *editor = tabContext.plainTextEditors.firstObject;
 	[editor storePosition];
     NSSize contentSize=[editor desiredSizeForColumns:aColumns rows:aRows];
-    contentSize.width  = (NSInteger)(contentSize.width + 0.5);
-    contentSize.height = (NSInteger)(contentSize.height + 0.5);
+    contentSize.width  = ceil(contentSize.width);
+    contentSize.height = ceil(contentSize.height + NSHeight(self.tabBar.frame));
     NSWindow *window=[self window];
     NSSize minSize=[window contentMinSize];
     NSRect contentRect=[window contentRectForFrameRect:[window frame]];
@@ -1931,8 +1931,8 @@ static NSPoint S_cascadePoint = {0.0,0.0};
         [document release];
 
         if (![windowController hasManyDocuments]) {
-            [tabBarControl setHideForSingleTab:![[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey]];
-            [tabBarControl hideTabBar:![[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey] animate:NO];
+            [tabBarControl setHideForSingleTab:![[NSUserDefaults standardUserDefaults] boolForKey:kSEEDefaultsKeyAlwaysShowTabBar]];
+            [tabBarControl hideTabBar:![[NSUserDefaults standardUserDefaults] boolForKey:kSEEDefaultsKeyAlwaysShowTabBar] animate:NO];
         }
     }
 }

@@ -739,11 +739,10 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     NSFont *font = [[self document] fontWithTrait:0];
     CGFloat characterWidth = [@"n" sizeWithAttributes :[NSDictionary dictionaryWithObject:font forKey:NSFontAttributeName]].width;
 
-    result.width = characterWidth * aColumns + [[I_textView textContainer] lineFragmentPadding] * 2 + [I_textView textContainerInset].width * 2 + ([self.O_editorView bounds].size.width - [[I_textView enclosingScrollView] contentSize].width);
+    result.width = characterWidth * aColumns + [[I_textView textContainer] lineFragmentPadding] * 2 + [I_textView textContainerInset].width * 2 + ([self.O_editorView bounds].size.width - [O_scrollView contentSize].width) + 2.0;
 
     result.height = [[I_textContainer layoutManager] defaultLineHeightForFont:font] * aRows +
-	[I_textView textContainerInset].height * 2 +
-	([self.O_editorView bounds].size.height - [[I_textView enclosingScrollView] contentSize].height);
+	([self.O_editorView bounds].size.height - [O_scrollView contentSize].height) + O_scrollView.topOverlayHeight + O_scrollView.bottomOverlayHeight + 2.0;
 
     return result;
 }

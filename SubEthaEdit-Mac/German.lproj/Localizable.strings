@@ -953,7 +953,7 @@
 "ScopedBookmarkAllowFileTitle" = "Dateizugriff erlauben";
 
 /* Message that gets displayed when SEE needs the user to grant access to an unopend file. */
-"ScopedBookmarkAllowFileMessageFormatString" = "Es werden Zugriffsrechte auf %@ benötigt. Die Auswahl eines Ordners, der alle referenzieren Dateien beinhaltet, ermöglicht es die Webseite korrekt anzuzeigen.";
+"ScopedBookmarkAllowFileMessageFormatString" = "Es werden Zugriffsrechte auf %@ benötigt. Die Auswahl eines Ordners, der alle referenzieren Dateien beinhaltet, ermöglicht es alle Inhalte korrekt anzuzeigen.";
 
 /* FileName placeholder that gets displayed when SEE needs the user to grant access to an unopend file. */
 "ScopedBookmarkAllowFileMessageUnknownFileName" = "Daten";
@@ -1018,3 +1018,15 @@
 "PENDING_USER_ALERT_POPUP_TITLE" = "Neuer Teilnehmer";
 "PENDING_USER_ALERT_POPUP_DESCRIPTION" = "%@ möchte an diesem Dokument teilnehmen.";
 
+/* User Notifications */
+/* User Notification title if a invited user declines your invitation. */
+"USER_NOTIFICATION_DECLINE_TITLE" = "Einladung wurde abgelehnt.";
+/* User Notification subtitle if a invited user declines your invitation - the first %@ is the user name, the second the document name */
+"USER_NOTIFICATION_DECLINE_SUBTITLE" = "%@ ist %@ nicht beigetreten.";
+
+
+/* authentication script not installed error dialog */
+"AUTHENTICATION_SCRIPT_MISSING_ERROR_DESCRIPTION" = "Unterstützendes authentifizierungs Script konnte nicht gefunden werden.";
+"AUTHENTICATION_SCRIPT_MISSING_ERROR_SUGGESTION" = "Bitte laden sie sich das Script von unsere Webseite herunter und folgen die den Installationsanweisungen.";
+"AUTHENTICATION_SCRIPT_MISSING_ERROR_BUTTON_TITLE1" = "Webseite besuchen…";
+"AUTHENTICATION_SCRIPT_MISSING_ERROR_BUTTON_TITLE2" = "Ignorieren";

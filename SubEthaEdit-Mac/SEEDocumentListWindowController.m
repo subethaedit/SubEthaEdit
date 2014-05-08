@@ -387,6 +387,36 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	}
 }
 
+#pragma mark - NSTableViewDataSoure - Connection Drag Support
+
+- (BOOL)tableView:(NSTableView *)aTableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard *)pboard
+{
+	__block NSMutableArray *userEntries = [NSMutableArray array];
+	NSArray *availableDocumentSession = self.availableItems;
+
+	[rowIndexes enumerateIndexesUsingBlock:^(NSUInteger rowIndex, BOOL *stop) {
+		id documentRepresentation = [availableDocumentSession objectAtIndex:rowIndex];
+		if ([documentRepresentation isKindOfClass:SEENetworkConnectionDocumentListItem.class]) {
+			SEENetworkConnectionDocumentListItem *connectionRepresentation = (SEENetworkConnectionDocumentListItem *)documentRepresentation;
+			if (connectionRepresentation.connection) {
+				SEEConnection *connection = connectionRepresentation.connection;
+				TCMMMUser *user = connectionRepresentation.user;
+				NSDictionary *userDescription = @{@"UserID": user.userID,
+												  @"PeerAddressData": connection.BEEPSession.peerAddressData};
+
+				[userEntries addObject:userDescription];
+			}
+		}
+	}];
+
+	[pboard declareTypes:@[@"SEEConnectionPbordType"] owner:self];
+	if (userEntries.count > 0) {
+		[pboard setPropertyList:userEntries forType:@"SEEConnectionPbordType"];
+	}
+
+	return userEntries.count > 0;
+}
+
 
 #pragma mark - NSTableViewDelegate
 
@@ -502,6 +532,9 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 		rowHeight = 28.0;
 	} else if ([documentRepresentation isKindOfClass:SEEConnectDocumentListItem.class]) {
 		rowHeight = 42.0;
+	} else if ([documentRepresentation isKindOfClass:SEENetworkDocumentListItem.class] ||
+			   [documentRepresentation isKindOfClass:SEERecentDocumentListItem.class]) {
+		rowHeight = 34.0;
 	}
 	return rowHeight;
 }

@@ -83,7 +83,6 @@ extern NSString * const BlockeditAttributeValue;
 - (int)lineNumberForLocation:(unsigned)location;
 - (NSString *)positionStringForRange:(NSRange)aRange;
 - (NSRange)findLine:(int)aLineNumber;
-- (void)setHasMixedLineEndings:(BOOL)aFlag;
 
 #pragma mark Blockedit
 - (BOOL)hasBlockeditRanges;

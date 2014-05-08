@@ -20,5 +20,6 @@
 - (NSData*)uncompressedDataOfLength:(unsigned)aLength;
 - (NSArray *)arrayOfCompressedDataWithLevel:(int)aLevel;
 + (NSData *)dataWithArrayOfCompressedData:(NSArray *)anArray;
-
+- (NSData *)md5Data;
+- (NSString *)md5String;
 @end

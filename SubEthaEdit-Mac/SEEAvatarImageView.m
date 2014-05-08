@@ -83,10 +83,11 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
 
 	NSRect bounds = self.bounds;
 	CGFloat borderWidth = NSWidth(bounds) / 20.0;
+	CGFloat borderInset = ceil(borderWidth / 2.0);
 	NSRect drawingRect = NSInsetRect(bounds, borderWidth/2.0, borderWidth/2.0);
 	NSRect imageRect = [self centerScanRect:drawingRect];
 
-	NSBezierPath *borderPath = [NSBezierPath bezierPathWithOvalInRect:imageRect];
+	NSBezierPath *borderPath = [NSBezierPath bezierPathWithOvalInRect:NSInsetRect(imageRect,borderInset,borderInset)];
 	[borderPath setLineWidth:borderWidth];
 
 	NSColor *borderColor = self.borderColor;

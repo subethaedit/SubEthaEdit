@@ -61,7 +61,7 @@ NSString * const ScriptWrapperDidRunScriptNotification =@"ScriptWrapperDidRunScr
 		if (errorDictionary==nil) {
             I_settingsDictionary = [[ae dictionaryValue] copy];
         } else {
-            I_settingsDictionary = [[NSDictionary alloc] init];
+            I_settingsDictionary = @{ScriptWrapperDisplayNameSettingsKey: I_URL.lastPathComponent.stringByDeletingPathExtension};
         }
     }
     return I_settingsDictionary;
@@ -70,51 +70,6 @@ NSString * const ScriptWrapperDidRunScriptNotification =@"ScriptWrapperDidRunScr
 - (NSURL *)URL {
     return I_URL;
 }
-
-- (NSToolbarItem *)toolbarItemWithImageSearchLocations:(NSArray *)anImageSearchLocationsArray identifierAddition:(NSString *)anAddition {
-    NSDictionary *settingsDictionary=[self settingsDictionary];
-    NSString *imageName=[settingsDictionary objectForKey:ScriptWrapperToolbarIconSettingsKey];
-    if (imageName) {
-        NSImage *toolbarImage = nil;
-        NSEnumerator *searchLocations=[anImageSearchLocationsArray objectEnumerator];
-        id searchLocation = nil;
-        while (!toolbarImage && (searchLocation=[searchLocations nextObject])) {
-            if ([searchLocation isKindOfClass:[NSBundle class]]) {
-                NSString *imagePath = [searchLocation pathForImageResource:imageName];
-                if (imagePath) toolbarImage = [[[NSImage alloc] initWithContentsOfFile:imagePath] autorelease];
-            } else if ([searchLocation isKindOfClass:[NSString class]]) {
-                NSArray *directoryContents=[[NSFileManager defaultManager] contentsOfDirectoryAtPath:searchLocation error:nil];
-                NSEnumerator *filenames=[directoryContents objectEnumerator];
-                NSString     *filename=nil;
-                while ((filename=[filenames nextObject])) {
-                    if ([[filename stringByDeletingPathExtension] isEqualToString:imageName]) {
-                        toolbarImage = [[[NSImage alloc] initWithContentsOfFile:[searchLocation stringByAppendingPathComponent:filename]] autorelease];
-                        break;
-                    }
-                }
-            }
-        }
-        if (!toolbarImage) toolbarImage = [NSImage imageNamed:imageName];
-        if (!toolbarImage) NSLog(@"Image for script: %@ was not found.", [I_URL path]);
-        if (toolbarImage) {
-            NSString *toolbarItemIdentifier = [NSString stringWithFormat:@"%@%@ToolbarItemIdentifier", [[I_URL path] lastPathComponent], anAddition];
-            NSString *displayName = [settingsDictionary objectForKey:ScriptWrapperDisplayNameSettingsKey]?[settingsDictionary objectForKey:ScriptWrapperDisplayNameSettingsKey]:[[[I_URL path] lastPathComponent] stringByDeletingPathExtension];
-
-            NSToolbarItem *item=[[[NSToolbarItem alloc] initWithItemIdentifier:toolbarItemIdentifier] autorelease];
-            [item setImage:toolbarImage];
-            [item setLabel:[settingsDictionary objectForKey:ScriptWrapperShortDisplayNameSettingsKey]?[settingsDictionary objectForKey:ScriptWrapperShortDisplayNameSettingsKey]:displayName];
-            [item setPaletteLabel:[item label]];
-            [item setTarget:self];
-            [item setAction:@selector(performScriptAction:)];
-            if ([settingsDictionary objectForKey:ScriptWrapperToolbarToolTipSettingsKey]) {
-                [item setToolTip:[settingsDictionary objectForKey:ScriptWrapperToolbarToolTipSettingsKey]];
-            }
-            return item;
-        }
-    }
-    return nil;
-}
-
 
 - (void)revealSource {
     if ([I_URL isFileURL]) {

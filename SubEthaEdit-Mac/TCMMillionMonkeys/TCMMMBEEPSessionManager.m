@@ -206,7 +206,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
     	I_SSLGenerationCount = 0;
     	I_SSLGenerationDesiredCount = 1;
 //    	NSLog(@"%s %@? %d",__FUNCTION__,EnableTLSKey,[[NSUserDefaults standardUserDefaults] boolForKey:EnableTLSKey]);
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:EnableTLSKey]) {
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:kSEEDefaultsKeyEnableTLS]) {
 			I_SSLGenerationDesiredCount++;
 			[TCMBEEPSession prepareDiffiHellmannParameters];
 			[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sslGenerationDidFinish:) name:@"TCMBEEPTempCertificateCreationForSSLDidFinish" object:nil];
@@ -425,7 +425,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
 			[[session userInfo] setObject:[aInformation objectForKey:@"peerUserID"] forKey:@"peerUserID"];
 			[[session userInfo] setObject:[NSNumber numberWithBool:YES] forKey:@"isRendezvous"];
 			[session addProfileURIs:   [I_greetingProfiles objectForKey:kTCMMMBEEPSessionManagerDefaultMode]];
-			if ([[NSUserDefaults standardUserDefaults] boolForKey:EnableTLSKey]) {
+			if ([[NSUserDefaults standardUserDefaults] boolForKey:kSEEDefaultsKeyEnableTLS]) {
 				[session addTLSProfileURIs:[I_greetingProfiles objectForKey:kTCMMMBEEPSessionManagerTLSMode]];
 			}
 			[session setDelegate:self];
@@ -487,7 +487,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
         [sessions addObject:session];
 
         [session addProfileURIs:[I_greetingProfiles objectForKey:kTCMMMBEEPSessionManagerDefaultMode]];
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:EnableTLSKey]) {
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:kSEEDefaultsKeyEnableTLS]) {
 			[session addTLSProfileURIs:[I_greetingProfiles objectForKey:kTCMMMBEEPSessionManagerTLSMode]];
 		}
         [session setDelegate:self];
@@ -1021,7 +1021,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
 - (void)BEEPListener:(TCMBEEPListener *)aBEEPListener didAcceptBEEPSession:(TCMBEEPSession *)aBEEPSession {
     DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"BEEPListener:didAcceptBEEPSession: %@", aBEEPSession);
     [aBEEPSession addProfileURIs:[I_greetingProfiles objectForKey:kTCMMMBEEPSessionManagerDefaultMode]];
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:EnableTLSKey]) {
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:kSEEDefaultsKeyEnableTLS]) {
 		[aBEEPSession addTLSProfileURIs:[I_greetingProfiles objectForKey:kTCMMMBEEPSessionManagerTLSMode]];
 	}
     [aBEEPSession setDelegate:self];
