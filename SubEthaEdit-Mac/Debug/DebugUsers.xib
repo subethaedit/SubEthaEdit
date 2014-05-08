@@ -296,8 +296,6 @@
                 <string>userID</string>
                 <string>name</string>
                 <string>changeCount</string>
-                <string>properties.Image16</string>
-                <string>properties.Image32</string>
                 <string>properties.Image</string>
                 <string>properties.ColorImage</string>
                 <string>changeColor</string>
@@ -305,8 +303,6 @@
                 <string>properties.Email</string>
                 <string>properties.description</string>
                 <string>@count</string>
-                <string>image16</string>
-                <string>image32</string>
                 <string>colorImage</string>
             </declaredKeys>
             <connections>
