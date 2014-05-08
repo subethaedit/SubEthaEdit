@@ -169,7 +169,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 		[self reloadAllDocumentDocumentListItems];
 
 		if (self.toggleRecentItem) {
-			[[NSUserDefaults standardUserDefaults] setBool:@(self.toggleRecentItem.showRecentDocuments) forKey:@"DocumentListShowRecent"];
+			[[NSUserDefaults standardUserDefaults] setBool:self.toggleRecentItem.showRecentDocuments forKey:@"DocumentListShowRecent"];
 		}
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
@@ -527,7 +527,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	NSArray *availableDocumentSession = self.availableItems;
 	id documentRepresentation = [availableDocumentSession objectAtIndex:row];
 	if ([documentRepresentation isKindOfClass:SEENetworkConnectionDocumentListItem.class]) {
-		rowHeight = 46.0;
+		rowHeight = 50.0;
 	} else if ([documentRepresentation isKindOfClass:SEEToggleRecentDocumentListItem.class]) {
 		rowHeight = 28.0;
 	} else if ([documentRepresentation isKindOfClass:SEEConnectDocumentListItem.class]) {
