@@ -677,7 +677,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
         [self setWrapsLines:[document wrapLines]];
         [self setShowsGutter:[document showsGutter]];
         [self setShowsTopStatusBar:[document showsTopStatusBar]];
-        [self setShowsBottomStatusBar:[document showsBottomStatusBar]];
+//        [self setShowsBottomStatusBar:[document showsBottomStatusBar]]; // this is done in the window controller because it should not display a status bar on the top split editor
         [I_textView setEditable:[document isEditable]];
         [I_textView setContinuousSpellCheckingEnabled:[document isContinuousSpellCheckingEnabled]];
 
