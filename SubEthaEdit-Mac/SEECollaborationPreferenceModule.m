@@ -172,25 +172,19 @@
 #pragma mark - Me Card - Image
 
 - (void)updateUserWithImage:(NSImage *)anImage {
+	TCMMMUser *me = [TCMMMUserManager me];
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+
 	if (anImage) {
-		NSData *pngData = [[anImage resizedImageWithSize:NSMakeSize(256.,256.)] TIFFRepresentation];
-		pngData = [[NSBitmapImageRep imageRepWithData:pngData] representationUsingType:NSPNGFileType properties:[NSDictionary dictionary]];
-		
-		TCMMMUser *me = [TCMMMUserManager me];
-		[[me properties] setObject:pngData forKey:TCMMMUserPropertyKeyImageAsPNGData];
-		[me recacheImages];
-		[[NSUserDefaults standardUserDefaults] setObject:pngData forKey:kSEEDefaultsKeyMyImagePreference];
-		anImage = [me image];
-		[anImage setFlipped:NO];
-		[TCMMMUserManager didChangeMe];
+		[me setImage:anImage];
+		[defaults setObject:[me imageData] forKey:kSEEDefaultsKeyMyImagePreference]; // update user defaults // TODO: remove this and write to disk
 
 	} else {
-		TCMMMUser *me = [TCMMMUserManager me];
-		[[me properties] removeObjectForKey:TCMMMUserPropertyKeyImageAsPNGData];
-		[me recacheImages];
-		[[NSUserDefaults standardUserDefaults] removeObjectForKey:kSEEDefaultsKeyMyImagePreference];
-		[TCMMMUserManager didChangeMe];
+		[me setDefaultImage];
+		[defaults removeObjectForKey:kSEEDefaultsKeyMyImagePreference]; // update user defaults // TODO: remove this and write to disk
 	}
+	
+	[TCMMMUserManager didChangeMe];
 }
 
 - (IBAction)chooseImage:(id)aSender {

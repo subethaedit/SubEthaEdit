@@ -138,10 +138,12 @@
 - (void)setImage:(NSImage *)aImage {
 	NSImage *image;
 	BOOL hasDefaultImage;
-		
+
 	if (aImage) { // set that image
 		hasDefaultImage = NO;
 		image = aImage;
+//		image = [image resizedImageWithSize:NSMakeSize(256.,256.)]; // maybe resize image?
+		[image setFlipped:NO];
 				
 	} else { // set the default image
 		hasDefaultImage = YES;
