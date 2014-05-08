@@ -13,6 +13,11 @@
 #import "NSImageTCMAdditions.h"
 #import "PreferenceKeys.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
 @implementation TCMMMUser (TCMMMUserSEEAdditions) 
 
 - (NSColor *)changeColor {
@@ -104,7 +109,7 @@
     NSImage *image = [[self properties] objectForKey:@"Image"];
     if (!image) {
         NSData *pngData = [[self properties] objectForKey:TCMMMUserPropertyKeyImageAsPNGData];
-        image = [[[NSImage alloc] initWithData:pngData] autorelease];
+        image = [[NSImage alloc] initWithData:pngData];
 
         if (!image) { // set default image
 			[self setDefaultImage];
