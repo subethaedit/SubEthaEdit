@@ -16,7 +16,6 @@
 
 #import "PreferenceKeys.h"
 
-#import <AddressBook/AddressBook.h>
 #import "TCMMMUserManager.h"
 #import "TCMMMBEEPSessionManager.h"
 #import "TCMMMUser.h"
@@ -30,6 +29,8 @@
 
 @interface SEECollaborationPreferenceModule ()
 @property (nonatomic, strong) IKPictureTaker *imagePicker;
+@property (nonatomic) BOOL showingImageTaker;
+
 @property (nonatomic) BOOL portmapperIsDoingWork;
 @end
 
@@ -58,15 +59,13 @@
 	[self localizeText];
 	[self localizeLayout];
 
-	[self TCM_setupComboBoxes];
-	
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
     
     TCMMMUser *me = [TCMMMUserManager me];
     NSImage *myImage = [me image];
     [myImage setFlipped:NO];
     [self.O_nameTextField setStringValue:[me name]];
-    [self.O_emailComboBox setStringValue:[[me properties] objectForKey:@"Email"]];
+    [self.O_emailTextField setStringValue:[[me properties] objectForKey:@"Email"]];
 
     [self.O_automaticallyMapPortButton setState:[defaults boolForKey:ShouldAutomaticallyMapPort]?NSOnState:NSOffState];
 	
@@ -103,9 +102,12 @@
 	[button setTransparent:YES];
 	[avatarImageView.superview addSubview:button positioned:NSWindowAbove relativeTo:avatarImageView];
 	
+	self.showingImageTaker = NO;
 	self.imagePicker = ({
 		IKPictureTaker *imagePicker = [IKPictureTaker pictureTaker];
 		
+		// TODO: make sure this input image is not the default one!
+		// TODO: make the empty image the default image
 		[imagePicker setInputImage:myImage];
 
 		[imagePicker setValue:[NSValue valueWithSize:NSMakeSize(256., 256.)] forKey:IKPictureTakerOutputImageMaxSizeKey];
@@ -113,10 +115,6 @@
 		[imagePicker setValue:[NSImage imageNamed:NSImageNameUser] forKey:IKPictureTakerShowEmptyPictureKey];
 		[imagePicker setValue:@(YES) forKey:IKPictureTakerShowEffectsKey];
 
-		/*
-		 IKPictureTakerInformationalTextKey
-		 A key for informational text. The associated value is an NSString or NSAttributedString object whose default value is "Drag Image Here".
-		 */
 		imagePicker;
 	});
 }
@@ -135,6 +133,7 @@
 		[self.O_mappingStatusProgressIndicator stopAnimation:self];
 		[self.O_mappingStatusImageView setHidden:YES];
 		[self.O_mappingStatusTextField setHidden:YES];
+		
 	} else {
 		// update portmapperstatus as well
 		[self.O_mappingStatusTextField setHidden:NO];
@@ -170,22 +169,6 @@
 	[self updateLocalPort];
 }
 
-#pragma mark - Me Card
-- (void)TCM_setupComboBoxes {
-    ABPerson *meCard = [[ABAddressBook sharedAddressBook] me];
-	
-	// populate email combobox
-    ABMultiValue *emailAccounts = [meCard valueForProperty:kABEmailProperty];
-	if ([emailAccounts propertyType] == kABMultiStringProperty)
-	{
-		for (NSString *emailAccountsIdentifier in emailAccounts)
-		{
-			NSString *email = [emailAccounts valueForIdentifier:emailAccountsIdentifier];
-			[self.O_emailComboBox addItemWithObjectValue:email];
-		}
-	}
-}
-
 #pragma mark - Me Card - Image
 
 - (void)updateUserWithImage:(NSImage *)anImage {
@@ -211,12 +194,19 @@
 }
 
 - (IBAction)chooseImage:(id)aSender {
-	[self.imagePicker popUpRecentsMenuForView:self.O_avatarImageView withDelegate:self didEndSelector:@selector(pictureTakerDidEnd:returnCode:contextInfo:) contextInfo:nil];
+	if (self.showingImageTaker) {
+		[self.imagePicker orderOut:nil];
+		self.showingImageTaker = NO;
+	} else {
+		self.showingImageTaker = YES;
+		[self.imagePicker popUpRecentsMenuForView:self.O_avatarImageView withDelegate:self didEndSelector:@selector(pictureTakerDidEnd:returnCode:contextInfo:) contextInfo:nil];
+	}
 }
 
 #pragma mark - IKPictureTaker
 
 - (void)pictureTakerDidEnd:(IKPictureTaker *)aPictureTaker returnCode:(NSInteger)aReturnCode contextInfo:(void *)aContextInfo {
+	self.showingImageTaker = NO;
 	if (aReturnCode != NSCancelButton) {
 		NSImage *image = aPictureTaker.outputImage;
 		[self updateUserWithImage:image];
@@ -227,6 +217,9 @@
 #pragma mark - IBActions - Me
 
 - (IBAction)changeName:(id)aSender {
+	// TODO: bind to pref - send a user change notification?
+	// do not set as kCFPreferencesCurrentUser, kCFPreferencesCurrentHost?!
+
     TCMMMUser *me=[TCMMMUserManager me];
     NSString *newValue=[self.O_nameTextField stringValue];
     if (![[me name] isEqualTo:newValue]) {
@@ -246,24 +239,14 @@
 
 - (IBAction)changeEmail:(id)aSender {
     TCMMMUser *me=[TCMMMUserManager me];
-    NSString *newValue=[self.O_emailComboBox stringValue];
+    NSString *newValue = [self.O_emailTextField stringValue];
     if (![[[me properties] objectForKey:@"Email"] isEqualTo:newValue]) {
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         [defaults setObject:newValue forKey:MyEmailPreferenceKey];
-        ABPerson *meCard=[[ABAddressBook sharedAddressBook] me];
-        ABMultiValue *emails=[meCard valueForProperty:kABEmailProperty];
-        int index=0;
-        int count=[emails count];
-        for (index=0;index<count;index++) {
-            if ([newValue isEqualToString:[emails valueAtIndex:index]]) {
-                NSString *identifier=[emails identifierAtIndex:index];
-                [defaults setObject:identifier forKey:MyEmailIdentifierPreferenceKey];
-                break;
-            }
-        }
-        if (count==index) {
-            [defaults removeObjectForKey:MyEmailIdentifierPreferenceKey];
-        }
+
+// TODO: remove MyEmailIdentifierPreferenceKey
+// TODO: bind to pref - send a user change notification?
+		
         [[me properties] setObject:newValue forKey:@"Email"];
         [TCMMMUserManager didChangeMe];
     }
