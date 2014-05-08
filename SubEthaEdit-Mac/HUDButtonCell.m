@@ -34,34 +34,17 @@ static NSImage *s_normal[]={nil,nil,nil};
         [s_normal[i]  setFlipped:isFlipped];
     }
     
-    NSImage **tiles=([self isHighlighted]?s_pressed:s_normal);
+	BOOL isHighlighted = [self isHighlighted];
+    NSImage **tiles=(isHighlighted?s_pressed:s_normal);
+	NSRect buttonBounds = cellFrame;
+	buttonBounds.size.height = tiles[0].size.height;
+	buttonBounds.origin.y += ceil((NSHeight(cellFrame) - NSHeight(buttonBounds)) / 2.0);
+	NSDrawThreePartImage(buttonBounds, tiles[0], tiles[1], tiles[2], NO, NSCompositeSourceOver, 1.0, NO);
 
-    NSSize beginSize =[tiles[0] size];
-    NSSize middleSize=[tiles[1] size];
-    NSSize endSize   =[tiles[2] size];
-    NSRect bounds=cellFrame;
-    bounds.origin.y += (int)(bounds.size.height - middleSize.height)/2;
-    NSRect middleRect=bounds;
-    middleRect.origin.x   += beginSize.width;
-    middleRect.size.width -= beginSize.width+endSize.width;
-    NSRect drawRect=NSMakeRect(bounds.origin.x,bounds.origin.y,beginSize.width,beginSize.height);
-    [tiles[0] drawInRect:drawRect 
-                fromRect:NSMakeRect(0,0,beginSize.width,beginSize.height) 
-               operation:NSCompositeSourceOver fraction:1.0];
-
-    drawRect=NSMakeRect(NSMaxX(middleRect),bounds.origin.y,endSize.width,endSize.height);
-    [tiles[2] drawInRect:drawRect 
-                fromRect:NSMakeRect(0,0,endSize.width,endSize.height) 
-               operation:NSCompositeSourceOver fraction:1.0];
-               
-    drawRect=NSMakeRect(middleRect.origin.x,middleRect.origin.y,middleRect.size.width,middleSize.height);
-    [tiles[1] drawInRect:drawRect 
-                fromRect:NSMakeRect(0,0,middleSize.width,middleSize.height) 
-               operation:NSCompositeSourceOver fraction:1.0];
-
-    NSMutableAttributedString *title=[[[self attributedTitle] mutableCopy] autorelease];
+	NSMutableAttributedString *title=[[[self attributedTitle] mutableCopy] autorelease];
     [title addAttribute:NSForegroundColorAttributeName value:[NSColor whiteColor] range:NSMakeRange(0,[title length])];
     [self setAttributedTitle:title];
+	cellFrame.origin.y += isHighlighted ? 1.0 : 0.0;
     if ([super respondsToSelector:@selector(drawTitle:withFrame:inView:)]) {
         [super drawTitle:title withFrame:[self titleRectForBounds:cellFrame] inView:controlView];
     } else {
