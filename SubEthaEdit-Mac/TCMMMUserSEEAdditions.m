@@ -147,7 +147,7 @@
 				
 	} else { // set the default image
 		hasDefaultImage = YES;
-		image = [NSImage unknownUserImageWithSize:NSMakeSize(256.0, 256.0) initials:self.initials];
+		image = [self defaultImage];
 	}
 
 	NSMutableDictionary *properties = [self properties];
@@ -174,6 +174,11 @@
 		hasDefaultImage = YES; // TODO: initial setup - reading the image from the disk;
 	}
 	return hasDefaultImage;
+}
+
+- (NSImage *)defaultImage {
+	NSImage *image = [NSImage unknownUserImageWithSize:NSMakeSize(256.0, 256.0) initials:self.initials];
+	return image;
 }
 
 #pragma mark - Helper

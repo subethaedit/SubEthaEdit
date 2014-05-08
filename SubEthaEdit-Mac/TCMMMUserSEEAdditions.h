@@ -27,8 +27,10 @@
 - (NSImage *)image;
 - (NSData *)imageData;
 - (void)setImage:(NSImage *)aImage;
+
 - (void)setDefaultImage;
 - (BOOL)hasDefaultImage;
+- (NSImage *)defaultImage;
 
 - (BOOL)writeImageToUrl:(NSURL *)aURL; // add <file name>.png
 
