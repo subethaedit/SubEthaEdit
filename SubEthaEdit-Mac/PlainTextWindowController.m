@@ -479,7 +479,6 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 		PlainTextWindowControllerTabContext *tabContext = self.selectedTabContext;
 		[[tabContext.plainTextEditors lastObject] setShowsBottomStatusBar:aFlag];
         [[self document] setShowsBottomStatusBar:aFlag];
-		[self invalidateRestorableState];
     }
 }
 
@@ -838,7 +837,6 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 - (IBAction)toggleBottomStatusBar:(id)aSender {
     [self setShowsBottomStatusBar:![self showsBottomStatusBar]];
     [(PlainTextDocument *)[self document] setShowsBottomStatusBar:[self showsBottomStatusBar]];
-	[self invalidateRestorableState];
 }
 
 
@@ -877,7 +875,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
 + (NSArray *)restorableStateKeyPaths
 {
-    return [[super restorableStateKeyPaths] arrayByAddingObject:@"frameForNonFullScreenMode"];
+    return [[super restorableStateKeyPaths] arrayByAddingObjectsFromArray:@[@"frameForNonFullScreenMode"]];
 }
 
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder {

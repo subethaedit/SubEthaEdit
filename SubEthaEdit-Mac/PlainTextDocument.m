@@ -1546,6 +1546,16 @@ static NSString *tempFileName(NSString *origPath) {
 
 	NSStringEncoding documentEncoding = self.fileEncoding;
 	[coder encodeObject:@(documentEncoding) forKey:@"SEEPlainTextDocumentFileEncoding"];
+
+	[coder encodeBool:self.usesTabs forKey:@"SEEPlainTextDocumentUsesTabs"];
+	[coder encodeBool:self.wrapMode forKey:@"SEEPlainTextDocumentWrapMode"];
+	[coder encodeBool:self.wrapLines forKey:@"SEEPlainTextDocumentWrapLines"];
+	[coder encodeBool:self.showsGutter forKey:@"SEEPlainTextDocumentShowsGutter"];
+	[coder encodeBool:self.showInvisibleCharacters forKey:@"SEEPlainTextDocumentShowInvisibleCharacters"];
+	[coder encodeBool:self.showsChangeMarks forKey:@"SEEPlainTextDocumentShowsChangeMarks"];
+	[coder encodeBool:self.isContinuousSpellCheckingEnabled forKey:@"SEEPlainTextDocumentContinuousSpellCheckingEnabled"];
+//	[coder encodeBool:self.showsTopStatusBar forKey:@"SEEPlainTextDocumentShowsTopStatusBar"];
+//	[coder encodeBool:self.showsBottomStatusBar forKey:@"SEEPlainTextDocumentShowsBottomStatusBar"];
 }
 
 - (void)restoreStateWithCoder:(NSCoder *)coder {
@@ -1570,6 +1580,27 @@ static NSString *tempFileName(NSString *origPath) {
 		super.displayName = [coder decodeObjectForKey:@"SEEPlainTextDocumentDisplayName"]; // need to decode super.display name because self.displayname has sideeffects
 		self.temporaryDisplayName = [coder decodeObjectForKey:@"SEEPlainTextDocumentTemporaryDisplayName"];
 	}
+
+	if ([coder containsValueForKey:@"SEEPlainTextDocumentUsesTabs"])
+		self.usesTabs = [coder decodeBoolForKey:@"SEEPlainTextDocumentUsesTabs"];
+	if ([coder containsValueForKey:@"SEEPlainTextDocumentWrapMode"])
+		self.wrapMode = [coder decodeBoolForKey:@"SEEPlainTextDocumentWrapMode"];
+	if ([coder containsValueForKey:@"SEEPlainTextDocumentWrapLines"])
+		self.wrapLines = [coder decodeBoolForKey:@"SEEPlainTextDocumentWrapLines"];
+	if ([coder containsValueForKey:@"SEEPlainTextDocumentShowsGutter"])
+		self.showsGutter = [coder decodeBoolForKey:@"SEEPlainTextDocumentShowsGutter"];
+	if ([coder containsValueForKey:@"SEEPlainTextDocumentShowInvisibleCharacters"])
+		self.showInvisibleCharacters = [coder decodeBoolForKey:@"SEEPlainTextDocumentShowInvisibleCharacters"];
+	if ([coder containsValueForKey:@"SEEPlainTextDocumentShowsChangeMarks"])
+		self.showsChangeMarks = [coder decodeBoolForKey:@"SEEPlainTextDocumentShowsChangeMarks"];
+	if ([coder containsValueForKey:@"SEEPlainTextDocumentContinuousSpellCheckingEnabled"])
+		self.continuousSpellCheckingEnabled = [coder decodeBoolForKey:@"SEEPlainTextDocumentContinuousSpellCheckingEnabled"];
+//	if ([coder containsValueForKey:@"SEEPlainTextDocumentShowsTopStatusBar"])
+//		self.showsTopStatusBar = [coder decodeBoolForKey:@"SEEPlainTextDocumentShowsTopStatusBar"];
+//	if ([coder containsValueForKey:@"SEEPlainTextDocumentShowsBottomStatusBar"])
+//		self.showsBottomStatusBar = [coder decodeBoolForKey:@"SEEPlainTextDocumentShowsBottomStatusBar"];
+
+	[[self windowControllers] makeObjectsPerformSelector:@selector(takeSettingsFromDocument)];
 }
 
 
@@ -4753,6 +4784,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 - (void)setShowInvisibleCharacters:(BOOL)aFlag {
     I_flags.showInvisibleCharacters=aFlag;
+	[self invalidateRestorableState];
 }
 
 
@@ -4765,6 +4797,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     if (I_flags.wrapLines!=aFlag) {
         I_flags.wrapLines=aFlag;
         [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
+		[self invalidateRestorableState];
     }
 }
 
@@ -4788,6 +4821,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         I_flags.wrapMode=newMode;
         [self TCM_invalidateDefaultParagraphStyle];
         [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
+		[self invalidateRestorableState];
     }
 }
 
@@ -4795,6 +4829,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     if (I_flags.usesTabs!=aFlag) {
         I_flags.usesTabs=aFlag;
         [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
+		[self invalidateRestorableState];
     }
 }
 
@@ -4821,6 +4856,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 - (void)setShowsGutter:(BOOL)aFlag {
     I_flags.showGutter=aFlag;
+	[self invalidateRestorableState];
 }
 
 - (BOOL)showsMatchingBrackets {
@@ -4847,6 +4883,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 - (void)setShowsChangeMarks:(BOOL)aFlag {
     I_flags.showsChangeMarks=aFlag;
+	[self invalidateRestorableState];
 }
 
 - (BOOL)indentsNewLines {
@@ -4907,6 +4944,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     if (aFlag!=I_flags.isContinuousSpellCheckingEnabled) {
         I_flags.isContinuousSpellCheckingEnabled=aFlag;
         [[[self documentMode] defaults] setObject:[NSNumber numberWithBool:aFlag] forKey:DocumentModeSpellCheckingPreferenceKey];
+		[self invalidateRestorableState];
     }
 }
 
