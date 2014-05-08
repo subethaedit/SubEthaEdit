@@ -66,7 +66,7 @@
                                                         <string key="NSValueTransformerName">HueToColorValueTransformer</string>
                                                     </dictionary>
                                                 </binding>
-                                                <binding destination="26" name="value" keyPath="arrangedObjects.name" id="yKz-dW-AzA"/>
+                                                <binding destination="26" name="value" keyPath="arrangedObjects.initials" id="ba9-YQ-veX"/>
                                             </connections>
                                         </tableColumn>
                                         <tableColumn width="93.941001892089844" minWidth="79.941001892089844" maxWidth="1000" id="15">
