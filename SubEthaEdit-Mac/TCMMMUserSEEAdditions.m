@@ -158,4 +158,13 @@
 	return hasDefaultImage;
 }
 
+- (BOOL)writeImageToUrl:(NSURL *)aURL {
+	BOOL result = NO;
+	NSData *imageData = [[self properties] objectForKey:TCMMMUserPropertyKeyImageAsPNGData];
+	if (imageData) {
+		result = [imageData writeToURL:aURL atomically:YES];
+	}
+	return result;
+}
+
 @end

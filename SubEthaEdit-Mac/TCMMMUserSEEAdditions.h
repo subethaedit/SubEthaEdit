@@ -31,4 +31,6 @@
 - (void)setDefaultImage;
 - (BOOL)hasDefaultImage;
 
+- (BOOL)writeImageToUrl:(NSURL *)aURL; // add <file name>.png
+
 @end
