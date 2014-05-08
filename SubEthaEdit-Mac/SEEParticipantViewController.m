@@ -143,6 +143,7 @@
 		button.alternateImage = [NSImage pdfBasedImageNamed:@"SharingIconEye"TCM_PDFIMAGE_SEP@"16"TCM_PDFIMAGE_SEP@""TCM_PDFIMAGE_SELECTED];
 	}
 
+	/*
 	{
 		NSImageView *imageView = self.hasFollowerOverlayImageOutlet;
 		imageView.image = [NSImage pdfBasedImageNamed:@"SharingIconEye"TCM_PDFIMAGE_SEP@"20"TCM_PDFIMAGE_SEP@""TCM_PDFIMAGE_NORMAL];
@@ -152,7 +153,7 @@
 		imageView.image = [NSImage pdfBasedImageNamed:@"SharingIconReadOnly"TCM_PDFIMAGE_SEP@"20"TCM_PDFIMAGE_SEP@""TCM_PDFIMAGE_NORMAL];
 		imageView.hidden = YES;
 	}
-
+*/
 
 	// pending users action overlay
 	{

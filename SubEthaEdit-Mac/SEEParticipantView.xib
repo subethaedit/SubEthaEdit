@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13D45a" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
     </dependencies>
@@ -39,14 +39,14 @@
                     <rect key="frame" x="10" y="10" width="56" height="56"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                 </customView>
-                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ean-kT-01Z">
-                    <rect key="frame" x="44" y="8" width="24" height="24"/>
+                <imageView hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ean-kT-01Z" userLabel="Follow Status View">
+                    <rect key="frame" x="7" y="45" width="23" height="23"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="24" id="0ro-xk-YQg"/>
-                        <constraint firstAttribute="height" constant="24" id="wJl-S8-LJ3"/>
+                        <constraint firstAttribute="width" constant="23" id="0ro-xk-YQg"/>
+                        <constraint firstAttribute="height" constant="23" id="wJl-S8-LJ3"/>
                     </constraints>
-                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="SharingIconEye" id="VX9-Yi-9ex"/>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="ParticipantStatusFollow" id="VX9-Yi-9ex"/>
                     <connections>
                         <binding destination="-2" name="hidden" keyPath="self.isParticipantFollowed" id="tPS-us-iVf">
                             <dictionary key="options">
@@ -55,14 +55,14 @@
                         </binding>
                     </connections>
                 </imageView>
-                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vtW-pW-OTD">
-                    <rect key="frame" x="8" y="8" width="24" height="24"/>
+                <imageView hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vtW-pW-OTD" userLabel="Readonly Status View">
+                    <rect key="frame" x="7" y="9" width="23" height="23"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="24" id="0pa-8A-g89"/>
-                        <constraint firstAttribute="width" constant="24" id="uyR-mt-xah"/>
+                        <constraint firstAttribute="height" constant="23" id="0pa-8A-g89"/>
+                        <constraint firstAttribute="width" constant="23" id="uyR-mt-xah"/>
                     </constraints>
-                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="SharingIconReadOnly" id="uJJ-2w-3c8"/>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="ParticipantStatusReadOnly" id="uJJ-2w-3c8"/>
                 </imageView>
                 <progressIndicator horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="k1p-6D-syT">
                     <rect key="frame" x="22" y="21" width="32" height="32"/>
@@ -94,23 +94,23 @@
                 </button>
             </subviews>
             <constraints>
-                <constraint firstItem="Ean-kT-01Z" firstAttribute="bottom" secondItem="hE6-nB-RDu" secondAttribute="bottom" constant="2" id="6GB-5u-Beg"/>
+                <constraint firstItem="TNz-7E-ZCn" firstAttribute="top" secondItem="Ean-kT-01Z" secondAttribute="top" constant="2" id="5hP-0R-cER"/>
                 <constraint firstAttribute="centerX" secondItem="hE6-nB-RDu" secondAttribute="centerX" id="6bf-Dn-WAG"/>
                 <constraint firstAttribute="centerY" secondItem="hE6-nB-RDu" secondAttribute="centerY" id="9g1-gp-gv4"/>
                 <constraint firstItem="hE6-nB-RDu" firstAttribute="centerY" secondItem="i14-Tb-TdJ" secondAttribute="centerY" id="BeS-c5-vn6"/>
                 <constraint firstAttribute="height" constant="76" id="CTe-CY-L0P"/>
                 <constraint firstItem="hE6-nB-RDu" firstAttribute="centerX" secondItem="k1p-6D-syT" secondAttribute="centerX" id="DMG-H5-rAW"/>
+                <constraint firstItem="vtW-pW-OTD" firstAttribute="bottom" secondItem="TNz-7E-ZCn" secondAttribute="bottom" constant="1" id="Jbm-Yd-cru"/>
                 <constraint firstAttribute="width" secondItem="hE6-nB-RDu" secondAttribute="width" priority="549" constant="20" id="KND-Ve-MSI"/>
                 <constraint firstItem="TNz-7E-ZCn" firstAttribute="bottom" secondItem="hE6-nB-RDu" secondAttribute="bottom" id="LTw-bO-0wI"/>
                 <constraint firstAttribute="width" constant="76" id="LnQ-VY-TNr"/>
                 <constraint firstItem="TNz-7E-ZCn" firstAttribute="leading" secondItem="hE6-nB-RDu" secondAttribute="leading" id="NeS-1f-x3i"/>
-                <constraint firstItem="Ean-kT-01Z" firstAttribute="trailing" secondItem="hE6-nB-RDu" secondAttribute="trailing" constant="2" id="QY7-Bl-g4Q"/>
+                <constraint firstItem="TNz-7E-ZCn" firstAttribute="leading" secondItem="Ean-kT-01Z" secondAttribute="leading" constant="3" id="U4Y-Xy-FU4"/>
                 <constraint firstItem="hE6-nB-RDu" firstAttribute="centerY" secondItem="k1p-6D-syT" secondAttribute="centerY" constant="-1" id="XBu-jo-auU"/>
                 <constraint firstItem="TNz-7E-ZCn" firstAttribute="trailing" secondItem="hE6-nB-RDu" secondAttribute="trailing" id="bhV-ef-aSc"/>
                 <constraint firstItem="hE6-nB-RDu" firstAttribute="centerX" secondItem="i14-Tb-TdJ" secondAttribute="centerX" id="cZw-Ty-KOG"/>
                 <constraint firstItem="TNz-7E-ZCn" firstAttribute="top" secondItem="hE6-nB-RDu" secondAttribute="top" id="epf-bz-21v"/>
-                <constraint firstItem="hE6-nB-RDu" firstAttribute="bottom" secondItem="vtW-pW-OTD" secondAttribute="bottom" constant="-2" id="f4Z-WG-cca"/>
-                <constraint firstItem="hE6-nB-RDu" firstAttribute="leading" secondItem="vtW-pW-OTD" secondAttribute="leading" constant="2" id="iTu-lA-Mcf"/>
+                <constraint firstItem="vtW-pW-OTD" firstAttribute="leading" secondItem="Ean-kT-01Z" secondAttribute="leading" id="pk3-il-FQV"/>
             </constraints>
             <animations>
                 <caTransition key="subviews">
@@ -322,9 +322,10 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
         </popover>
     </objects>
     <resources>
+        <image name="ParticipantStatusFollow" width="23" height="23"/>
+        <image name="ParticipantStatusReadOnly" width="23" height="23"/>
         <image name="SharingIconCloseCross" width="84" height="84"/>
         <image name="SharingIconEye" width="84" height="84"/>
-        <image name="SharingIconReadOnly" width="84" height="84"/>
         <image name="SharingIconWrite" width="84" height="84"/>
     </resources>
 </document>

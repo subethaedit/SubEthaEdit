@@ -309,6 +309,10 @@
 		F220248D191BC33D0098982C /* hud_buttonLeft-P@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2202487191BC33D0098982C /* hud_buttonLeft-P@2x.png */; };
 		F220248E191BC33D0098982C /* hud_buttonRight-P.png in Resources */ = {isa = PBXBuildFile; fileRef = F2202488191BC33D0098982C /* hud_buttonRight-P.png */; };
 		F220248F191BC33D0098982C /* hud_buttonRight-P@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2202489191BC33D0098982C /* hud_buttonRight-P@2x.png */; };
+		F2202494191BDA160098982C /* ParticipantStatusFollow.png in Resources */ = {isa = PBXBuildFile; fileRef = F2202490191BDA160098982C /* ParticipantStatusFollow.png */; };
+		F2202495191BDA160098982C /* ParticipantStatusFollow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2202491191BDA160098982C /* ParticipantStatusFollow@2x.png */; };
+		F2202496191BDA160098982C /* ParticipantStatusReadOnly.png in Resources */ = {isa = PBXBuildFile; fileRef = F2202492191BDA160098982C /* ParticipantStatusReadOnly.png */; };
+		F2202497191BDA160098982C /* ParticipantStatusReadOnly@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2202493191BDA160098982C /* ParticipantStatusReadOnly@2x.png */; };
 		F2257CF9189673AA005EF9B1 /* BottomBarSharingIconAnnounce_Inactive.png in Resources */ = {isa = PBXBuildFile; fileRef = F2257CF1189673AA005EF9B1 /* BottomBarSharingIconAnnounce_Inactive.png */; };
 		F2257CFA189673AA005EF9B1 /* BottomBarSharingIconAnnounce_Inactive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2257CF2189673AA005EF9B1 /* BottomBarSharingIconAnnounce_Inactive@2x.png */; };
 		F2257CFB189673AA005EF9B1 /* BottomBarSharingIconAnnounce.png in Resources */ = {isa = PBXBuildFile; fileRef = F2257CF3189673AA005EF9B1 /* BottomBarSharingIconAnnounce.png */; };
@@ -1038,6 +1042,10 @@
 		F2202487191BC33D0098982C /* hud_buttonLeft-P@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "hud_buttonLeft-P@2x.png"; path = "artwork/hud_buttonLeft-P@2x.png"; sourceTree = "<group>"; };
 		F2202488191BC33D0098982C /* hud_buttonRight-P.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "hud_buttonRight-P.png"; path = "artwork/hud_buttonRight-P.png"; sourceTree = "<group>"; };
 		F2202489191BC33D0098982C /* hud_buttonRight-P@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "hud_buttonRight-P@2x.png"; path = "artwork/hud_buttonRight-P@2x.png"; sourceTree = "<group>"; };
+		F2202490191BDA160098982C /* ParticipantStatusFollow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ParticipantStatusFollow.png; sourceTree = "<group>"; };
+		F2202491191BDA160098982C /* ParticipantStatusFollow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ParticipantStatusFollow@2x.png"; sourceTree = "<group>"; };
+		F2202492191BDA160098982C /* ParticipantStatusReadOnly.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ParticipantStatusReadOnly.png; sourceTree = "<group>"; };
+		F2202493191BDA160098982C /* ParticipantStatusReadOnly@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ParticipantStatusReadOnly@2x.png"; sourceTree = "<group>"; };
 		F2230A450BE0243100437D55 /* TCMBEEPBencodedMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = TCMBEEPBencodedMessage.h; path = TCMBEEP/TCMBEEPBencodedMessage.h; sourceTree = "<group>"; };
 		F2230A460BE0243100437D55 /* TCMBEEPBencodedMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMBEEPBencodedMessage.m; path = TCMBEEP/TCMBEEPBencodedMessage.m; sourceTree = "<group>"; };
 		F2230A470BE0243100437D55 /* TCMBEEPBencodingProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = TCMBEEPBencodingProfile.h; path = TCMBEEP/TCMBEEPBencodingProfile.h; sourceTree = "<group>"; };
@@ -2351,6 +2359,10 @@
 		F2FEE70E1892A747000E6BC8 /* SharingBarIcons */ = {
 			isa = PBXGroup;
 			children = (
+				F2202490191BDA160098982C /* ParticipantStatusFollow.png */,
+				F2202491191BDA160098982C /* ParticipantStatusFollow@2x.png */,
+				F2202492191BDA160098982C /* ParticipantStatusReadOnly.png */,
+				F2202493191BDA160098982C /* ParticipantStatusReadOnly@2x.png */,
 				F2FEE70F1892A747000E6BC8 /* SharingIconCloseCross.pdf */,
 				F2FEE7101892A747000E6BC8 /* SharingIconEye.pdf */,
 				F2FEE7111892A747000E6BC8 /* SharingIconReadOnly.pdf */,
@@ -2547,6 +2559,7 @@
 				1428900F095740F200D14688 /* RE.txt in Resources */,
 				F2D3E563189941F50096425B /* IW InactiveTabCloseRollover.png in Resources */,
 				F220247D191BBDA10098982C /* hud_buttonFill-N@2x.png in Resources */,
+				F2202495191BDA160098982C /* ParticipantStatusFollow@2x.png in Resources */,
 				145047420997750100D18142 /* ReleaseNotes.txt in Resources */,
 				4C0D3D6817FB145600AAFB38 /* Preferences.xib in Resources */,
 				142890490957425900D14688 /* HTMLExport in Resources */,
@@ -2631,6 +2644,7 @@
 				F2D3E544189941F50096425B /* AW Pulled ActiveTabCenterFill@2x.png in Resources */,
 				F2D3E55C189941F50096425B /* IW InactiveTabAlert@2x.png in Resources */,
 				F2257CFD189673AA005EF9B1 /* BottomBarSharingIconAdd.png in Resources */,
+				F2202494191BDA160098982C /* ParticipantStatusFollow.png in Resources */,
 				F2FEE7151892A747000E6BC8 /* SharingIconReadOnly.pdf in Resources */,
 				142890FF095743F200D14688 /* URLIcon.tiff in Resources */,
 				14289100095743F200D14688 /* WaitPipe.png in Resources */,
@@ -2672,6 +2686,7 @@
 				F25A071F191A6D4600F07557 /* WaitPipe@2x.png in Resources */,
 				4C6BDC5618896DCC0088CBFC /* SubEthaEditText.iconset in Resources */,
 				F2D3E531189941F50096425B /* AW ActiveTabLeftCap.png in Resources */,
+				F2202496191BDA160098982C /* ParticipantStatusReadOnly.png in Resources */,
 				F2061D590B4C13AF00E6631F /* SmallGrowBoxRight3.tiff in Resources */,
 				F25A071C191A6A9100F07557 /* NamedLogo2@2x.png in Resources */,
 				F2D3E548189941F50096425B /* AW Pulled ActiveTabRightCap@2x.png in Resources */,
@@ -2737,6 +2752,7 @@
 				4C0C4A0118B366EC00E6049E /* PlainTextWindow.xib in Resources */,
 				4CD5F7E217FB0C4D00F49E31 /* DocumentProxy.xib in Resources */,
 				F2D3E54A189941F50096425B /* AW SingleTabAddButton@2x.png in Resources */,
+				F2202497191BDA160098982C /* ParticipantStatusReadOnly@2x.png in Resources */,
 				F2FEE7141892A747000E6BC8 /* SharingIconEye.pdf in Resources */,
 				4CFAABB118A3ECE4009DB5C3 /* EditorAddSplit.pdf in Resources */,
 				4CDF05A618C0A3D4004A49E5 /* SEEConnectionAddingWindowController.xib in Resources */,
