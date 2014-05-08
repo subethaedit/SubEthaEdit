@@ -54,15 +54,19 @@
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             </tableHeaderCell>
-                                            <imageCell key="dataCell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" id="39"/>
+                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" title="Color" id="jMV-gV-H4a">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <connections>
-                                                <binding destination="26" name="value" keyPath="arrangedObjects.colorImage" id="0ZP-9T-cqZ">
+                                                <binding destination="26" name="textColor" keyPath="arrangedObjects.properties.Hue" id="AY3-PF-MZE">
                                                     <dictionary key="options">
-                                                        <bool key="NSConditionallySetsEditable" value="YES"/>
-                                                        <bool key="NSConditionallySetsEnabled" value="NO"/>
+                                                        <string key="NSValueTransformerName">HueToColorValueTransformer</string>
                                                     </dictionary>
                                                 </binding>
+                                                <binding destination="26" name="value" keyPath="arrangedObjects.name" id="yKz-dW-AzA"/>
                                             </connections>
                                         </tableColumn>
                                         <tableColumn width="93.941001892089844" minWidth="79.941001892089844" maxWidth="1000" id="15">
@@ -263,14 +267,6 @@
                             </binding>
                         </connections>
                     </textField>
-                    <imageView id="78">
-                        <rect key="frame" x="284" y="268" width="13" height="8"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="96"/>
-                        <connections>
-                            <binding destination="26" name="value" keyPath="selection.colorImage" id="85"/>
-                        </connections>
-                    </imageView>
                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" id="bHC-0L-awH">
                         <rect key="frame" x="17" y="17" width="262" height="262"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -279,6 +275,18 @@
                             <binding destination="26" name="value" keyPath="selection.image" id="3QR-nd-N8S"/>
                         </connections>
                     </imageView>
+                    <colorWell bordered="NO" continuous="NO" enabled="NO" id="OIe-Nl-JMq">
+                        <rect key="frame" x="284" y="253" width="44" height="23"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <color key="color" red="0.05813049898" green="0.055541899059999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <connections>
+                            <binding destination="26" name="value" keyPath="selection.properties.Hue" id="eQZ-qJ-BzX">
+                                <dictionary key="options">
+                                    <string key="NSValueTransformerName">HueToColorValueTransformer</string>
+                                </dictionary>
+                            </binding>
+                        </connections>
+                    </colorWell>
                 </subviews>
             </view>
             <connections>
@@ -297,13 +305,11 @@
                 <string>name</string>
                 <string>changeCount</string>
                 <string>properties.Image</string>
-                <string>properties.ColorImage</string>
                 <string>changeColor</string>
                 <string>properties.AIM</string>
                 <string>properties.Email</string>
                 <string>properties.description</string>
                 <string>@count</string>
-                <string>colorImage</string>
             </declaredKeys>
             <connections>
                 <binding destination="25" name="contentArray" keyPath="selection.allUsers" id="75"/>
