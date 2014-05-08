@@ -22,9 +22,13 @@
 - (NSString *)initials;
 
 #pragma mark -
+- (NSColor *)color;
+
 - (void)recacheImages;
 
-- (NSColor *)color;
 - (NSImage *)image;
+- (void)setImage:(NSImage *)aImage;
+- (void)setDefaultImage;
+- (BOOL)hasDefaultImage;
 
 @end

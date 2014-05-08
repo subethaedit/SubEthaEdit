@@ -104,26 +104,58 @@
     return result;
 }
 
+#pragma mark - Image
 - (NSImage *)image {
     NSImage *image = [[self properties] objectForKey:@"Image"];
     if (!image) {
         NSData *pngData = [[self properties] objectForKey:TCMMMUserPropertyKeyImageAsPNGData];
         image = [[[NSImage alloc] initWithData:pngData] autorelease];
 
-        if (!image) {
-			image = [NSImage unknownUserImageWithSize:NSMakeSize(256.0, 256.0) initials:self.initials];
-
-            pngData = [image TIFFRepresentation];
-            pngData = [[NSBitmapImageRep imageRepWithData:pngData] representationUsingType:NSPNGFileType properties:[NSDictionary dictionary]];
-            [[self properties] setObject:pngData forKey:TCMMMUserPropertyKeyImageAsPNGData];
-		}
-
-		if (image) {
-			[[self properties] setObject:image forKey:@"Image"];
-			[image setCacheMode:NSImageCacheNever];
+        if (!image) { // set default image
+			[self setDefaultImage];
+			image = [[self properties] objectForKey:@"Image"];
 		}
     }
     return image;
+}
+
+- (void)setImage:(NSImage *)aImage {
+	NSImage *image;
+	BOOL hasDefaultImage;
+		
+	if (aImage) { // set that image
+		hasDefaultImage = NO;
+		image = aImage;
+				
+	} else { // set the default image
+		hasDefaultImage = YES;
+		image = [NSImage unknownUserImageWithSize:NSMakeSize(256.0, 256.0) initials:self.initials];
+	}
+
+	NSMutableDictionary *properties = [self properties];
+
+	NSData *pngData = [image TIFFRepresentation];
+	pngData = [[NSBitmapImageRep imageRepWithData:pngData] representationUsingType:NSPNGFileType properties:[NSDictionary dictionary]];
+	[properties setObject:pngData forKey:TCMMMUserPropertyKeyImageAsPNGData];
+
+	[properties setObject:@(hasDefaultImage) forKey:@"HasDefaultImage"];
+	[properties setObject:image forKey:@"Image"];
+	[image setCacheMode:NSImageCacheNever];
+}
+
+- (void)setDefaultImage {
+	[self setImage:nil];
+}
+
+- (BOOL)hasDefaultImage {
+	BOOL hasDefaultImage;
+	NSNumber *numberHasDefault = [[self properties] objectForKey:@"HasDefaultImage"];
+	if (numberHasDefault) {
+		hasDefaultImage = [numberHasDefault boolValue];
+	} else {
+		hasDefaultImage = YES; // TODO: initial setup - reading the image from the disk;
+	}
+	return hasDefaultImage;
 }
 
 @end
