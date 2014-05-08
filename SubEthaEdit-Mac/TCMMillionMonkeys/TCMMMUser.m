@@ -25,7 +25,6 @@ NSString * const TCMMMUserWillLeaveSessionNotification =
 
 @interface TCMMMUser ()
 @property (nonatomic, copy) NSString *userIDIncludingChangeCount;
-- (void)setProperties:(NSMutableDictionary *)aDictionary;
 @end
 
 @implementation TCMMMUser
