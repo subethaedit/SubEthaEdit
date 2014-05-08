@@ -21,7 +21,7 @@
     unsigned i;
     
     // Convert the glyph range to a character range.
-    charRange = [layoutManager characterRangeForGlyphRange:glyphRange actualGlyphRange:NULL];
+    charRange = [layout characterRangeForGlyphRange:glyphRange actualGlyphRange:NULL];
     NSUInteger startIndex, lineEndIndex, contentsEndIndex;
     [[text string] getLineStart:&startIndex end:&lineEndIndex contentsEnd:&contentsEndIndex forRange:charRange];
     if (NSMaxRange(charRange)>contentsEndIndex) {
