@@ -109,7 +109,6 @@
 		1428940409575A3000D14688 /* UndoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893F509575A3000D14688 /* UndoManager.m */; };
 		1428942F09575AE600D14688 /* BorderedTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428941609575AE600D14688 /* BorderedTextField.m */; };
 		1428943009575AE600D14688 /* SEEPlainTextEditorScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428941809575AE600D14688 /* SEEPlainTextEditorScrollView.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
-		1428943109575AE600D14688 /* CandyBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428941A09575AE600D14688 /* CandyBarView.m */; };
 		1428943C09575AE600D14688 /* SEEDocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428942C09575AE600D14688 /* SEEDocumentController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		1428943D09575AE600D14688 /* DocumentProxyWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428942E09575AE600D14688 /* DocumentProxyWindowController.m */; };
 		1428944609575B3400D14688 /* FindAllController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428943F09575B3400D14688 /* FindAllController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
@@ -740,8 +739,6 @@
 		1428941609575AE600D14688 /* BorderedTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BorderedTextField.m; sourceTree = "<group>"; };
 		1428941709575AE600D14688 /* SEEPlainTextEditorScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SEEPlainTextEditorScrollView.h; sourceTree = "<group>"; };
 		1428941809575AE600D14688 /* SEEPlainTextEditorScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEPlainTextEditorScrollView.m; sourceTree = "<group>"; };
-		1428941909575AE600D14688 /* CandyBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = CandyBarView.h; sourceTree = "<group>"; };
-		1428941A09575AE600D14688 /* CandyBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CandyBarView.m; sourceTree = "<group>"; };
 		1428942B09575AE600D14688 /* SEEDocumentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SEEDocumentController.h; sourceTree = "<group>"; };
 		1428942C09575AE600D14688 /* SEEDocumentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEDocumentController.m; sourceTree = "<group>"; };
 		1428942D09575AE600D14688 /* DocumentProxyWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DocumentProxyWindowController.h; sourceTree = "<group>"; };
@@ -1577,8 +1574,6 @@
 				1428941609575AE600D14688 /* BorderedTextField.m */,
 				1428941709575AE600D14688 /* SEEPlainTextEditorScrollView.h */,
 				1428941809575AE600D14688 /* SEEPlainTextEditorScrollView.m */,
-				1428941909575AE600D14688 /* CandyBarView.h */,
-				1428941A09575AE600D14688 /* CandyBarView.m */,
 				1428942B09575AE600D14688 /* SEEDocumentController.h */,
 				1428942C09575AE600D14688 /* SEEDocumentController.m */,
 				4C43314218E4777C00592EC2 /* SEEDocumentCreationFlags.h */,
@@ -2923,7 +2918,6 @@
 				1428940409575A3000D14688 /* UndoManager.m in Sources */,
 				1428942F09575AE600D14688 /* BorderedTextField.m in Sources */,
 				1428943009575AE600D14688 /* SEEPlainTextEditorScrollView.m in Sources */,
-				1428943109575AE600D14688 /* CandyBarView.m in Sources */,
 				1428943C09575AE600D14688 /* SEEDocumentController.m in Sources */,
 				1428943D09575AE600D14688 /* DocumentProxyWindowController.m in Sources */,
 				1428944609575B3400D14688 /* FindAllController.m in Sources */,
