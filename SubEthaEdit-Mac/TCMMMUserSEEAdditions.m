@@ -91,7 +91,7 @@
 
 - (void)recacheImages {
     NSMutableDictionary *properties = [self properties];
-    [properties removeObjectsForKeys:@[@"Image", @"Image32", @"Image48", @"Image16", @"Image32Dimmed", @"ColorImage", @"ColorImageBrightLine"]];
+    [properties removeObjectsForKeys:@[@"Image", @"ColorImage", @"ColorImageBrightLine"]];
 }
 
 - (NSColor *)color {
@@ -166,57 +166,4 @@
     return image;
 }
 
-- (NSImage *)image48
-{
-    NSImage *image = [[self properties] objectForKey:@"Image48"];
-    if (!image) {
-        image = [self image];
-        if (image) {
-            image = [image resizedImageWithSize:NSMakeSize(48.0, 48.0)];
-            [[self properties] setObject:image forKey:@"Image48"];
-        }
-    }
-    return image;
-}
-
-- (NSImage *)image32
-{
-    NSImage *image = [[self properties] objectForKey:@"Image32"];
-    if (!image) {
-        image = [self image];
-        if (image) {
-            image = [image resizedImageWithSize:NSMakeSize(32.0, 32.0)];
-            [[self properties] setObject:image forKey:@"Image32"];
-        }
-    }
-    return image;
-}
-
-- (NSImage *)image16
-{
-    NSImage *image = [[self properties] objectForKey:@"Image16"];
-    if (!image) {
-        image = [self image];
-        if (image) {
-            image = [image resizedImageWithSize:NSMakeSize(16.0, 16.0)];
-            [[self properties] setObject:image forKey:@"Image16"];
-        }
-    }
-    return image;
-}
-
-- (NSImage *)image32Dimmed
-{
-    NSImage *image = [[self properties] objectForKey:@"Image32Dimmed"];
-    if (!image) {
-        image = [self image32];
-        if (image) {
-            image = [image dimmedImage];
-            [[self properties] setObject:image forKey:@"Image32Dimmed"];
-        }
-    }
-    return image;
-}
-
-    
 @end

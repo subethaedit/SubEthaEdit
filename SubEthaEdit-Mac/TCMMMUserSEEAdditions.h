@@ -28,9 +28,5 @@
 - (NSImage *)colorImageWithBrightLine;
 - (NSImage *)colorImage;
 - (NSImage *)image;
-- (NSImage *)image48;
-- (NSImage *)image32;
-- (NSImage *)image16;
-- (NSImage *)image32Dimmed;
 
 @end
