@@ -176,9 +176,13 @@ NSString * const TCMMMUserWillLeaveSessionNotification = @"TCMMMUserWillLeaveSes
     
     [user setUserHue:[aRepresentation objectForKey:@"hue"]];
 
-    NSData *pngData = [aRepresentation objectForKey:@"PNG"];
-	[user setImageWithPNGData:pngData];
-    
+	if ([aRepresentation[@"hDI"] boolValue]) {
+		user.properties[@"HasDefaultImage"] = @(YES);
+
+	} else {
+		NSData *pngData = [aRepresentation objectForKey:@"PNG"];
+		[user setImageWithPNGData:pngData];
+	}
     return user;
 }
 
@@ -216,6 +220,7 @@ NSString * const TCMMMUserWillLeaveSessionNotification = @"TCMMMUserWillLeaveSes
     if ([[self properties] objectForKey:@"Email"]) [dict setObject:[[self properties] objectForKey:@"Email"] forKey:@"mail"];
     if ([[self properties] objectForKey:TCMMMUserPropertyKeyImageAsPNGData]) [dict setObject:[[self properties] objectForKey:TCMMMUserPropertyKeyImageAsPNGData] forKey:@"PNG"];
     if ([[self properties] objectForKey:@"Hue"]) [dict setObject:[[self properties] objectForKey:@"Hue"] forKey:@"hue"];
+	[dict setObject:[[self properties] objectForKey:@"HasDefaultImage"]?:@(NO) forKey:@"hDI"];
     [dict setObject:[NSNumber numberWithLong:[self changeCount]] forKey:@"cnt"];
     return dict;
 }
