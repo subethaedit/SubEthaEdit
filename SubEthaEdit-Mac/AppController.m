@@ -217,7 +217,6 @@ static AppController *sharedInstance = nil;
     NSString *myName = nil;
     NSString *myAIM = nil;
     NSString *myEmail = nil;
-    NSData *myImageData = nil;
     
     NSString *userID = [[NSUserDefaults standardUserDefaults] stringForKey:@"UserID"];
 	
@@ -276,17 +275,9 @@ static AppController *sharedInstance = nil;
     [[me properties] setObject:myAIM forKey:@"AIM"];
     [me setUserHue:[defaults objectForKey:MyColorHuePreferenceKey]];
 
-	// image - setting that last as it uses the initials
-	myImageData = [defaults dataForKey:kSEEDefaultsKeyMyImagePreference];
-    if (!myImageData) {
-		[me setDefaultImage];
+	// image - setting that last as it uses the initials - fails silently and sets the default image if error or no picture
+	[me readImageFromUrl:[TCMMMUser applicationSupportURLForUserImage]];
 		
-    } else {
-	    [[me properties] setObject:myImageData forKey:TCMMMUserPropertyKeyImageAsPNGData];
-		[me image]; // making sure the image stuff is all set right for now
-		// TODO: make that nice
-	}
-	
     TCMMMUserManager *userManager = [TCMMMUserManager sharedInstance];
     [userManager setMe:[me autorelease]];
 }

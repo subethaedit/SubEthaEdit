@@ -173,15 +173,14 @@
 
 - (void)updateUserWithImage:(NSImage *)anImage {
 	TCMMMUser *me = [TCMMMUserManager me];
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
 	if (anImage) {
 		[me setImage:anImage];
-		[defaults setObject:[me imageData] forKey:kSEEDefaultsKeyMyImagePreference]; // update user defaults // TODO: remove this and write to disk
+		[me writeImageToUrl:[TCMMMUser applicationSupportURLForUserImage]];
 
 	} else {
 		[me setDefaultImage];
-		[defaults removeObjectForKey:kSEEDefaultsKeyMyImagePreference]; // update user defaults // TODO: remove this and write to disk
+		[me removePersistedUserImage];
 	}
 	
 	[TCMMMUserManager didChangeMe];
