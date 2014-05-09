@@ -48,6 +48,7 @@
 
 #import "MultiPagePrintView.h"
 #import "SEEPrintOptionsViewController.h"
+#import "SEEScopedBookmarkManager.h"
 
 //#import "MoreUNIX.h"
 //#import "MoreSecurity.h"
@@ -6573,6 +6574,17 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 #pragma mark -
 
 @implementation PlainTextDocument (PlainTextDocumentScriptingAdditions)
+
+- (id)handleSaveScriptCommand:(NSScriptCommand *)command {
+	NSDictionary *arguments = command.evaluatedArguments;
+	NSURL *fileURL = [arguments objectForKey:@"File"];
+	if (fileURL) { // only in save as mode
+		if ([[SEEScopedBookmarkManager sharedManager] startAccessingURL:fileURL]) {
+			NSLog(@"Access granted.");
+		}
+	}
+	return [super handleSaveScriptCommand:command];
+}
 
 - (void)handleBeginUndoGroupCommand:(NSScriptCommand *)command {
     [[self documentUndoManager] beginUndoGrouping];
