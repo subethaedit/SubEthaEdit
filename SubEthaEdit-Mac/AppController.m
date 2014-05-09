@@ -155,7 +155,10 @@ static AppController *sharedInstance = nil;
 		[defaults setObject:[NSNumber numberWithBool:NO] forKey:kSEEDefaultsKeyEnableTLS];
 		[defaults setObject:[NSNumber numberWithBool:NO] forKey:kSEEDefaultsKeyUseTemporaryKeychainForTLS]; // no more temporary keychain in 10.6 and up builds
 		
-		NSDictionary* sequelProDefaults = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"PreferenceDefaults" ofType:@"plist"]];
+		defaults[MyEmailPreferenceKey] = @"";
+		defaults[MyAIMPreferenceKey] = @"";
+
+		NSDictionary *sequelProDefaults = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"PreferenceDefaults" ofType:@"plist"]];
 		
 		[defaults addEntriesFromDictionary:sequelProDefaults];
 		
@@ -209,22 +212,21 @@ static AppController *sharedInstance = nil;
 }
 
 - (void)addMe {
-    NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+	// add self as user
+    TCMMMUser *me = [TCMMMUser new];
 
-    // add self as user 
-    TCMMMUser *me=[TCMMMUser new];
-    NSString *myName =nil;
-    NSString *myAIM  =nil;
-    NSString *myEmail=nil;
-    NSImage *myImage =nil;
-    NSImage *scaledMyImage;
-
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	
+    NSString *myName = nil;
+    NSString *myAIM = nil;
+    NSString *myEmail = nil;
     
-    NSString *userID=[[NSUserDefaults standardUserDefaults] stringForKey:@"UserID"];
+    NSString *userID = [[NSUserDefaults standardUserDefaults] stringForKey:@"UserID"];
+	
     if (!userID) {
         // first run
-        userID=[NSString UUIDString];
-        
+        userID = [NSString UUIDString];
+	
         CFStringRef appID = (CFStringRef)[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"];
         // Set up the preference.
         CFPreferencesSetValue(CFSTR("UserID"), (CFStringRef)userID, appID, kCFPreferencesCurrentUser, kCFPreferencesCurrentHost);
@@ -232,17 +234,9 @@ static AppController *sharedInstance = nil;
         CFPreferencesSynchronize(appID, kCFPreferencesCurrentUser, kCFPreferencesCurrentHost);
     }
     
-    if ([defaults stringForKey:SelectedMyColorPreferenceKey]==nil) {           
-        // select random color
-        // set basic user data 
-
-		myName=NSFullUserName();
-        myEmail=@"";
-        myAIM=@"";
-        
-        [defaults setObject:myEmail forKey:MyEmailPreferenceKey];
-        [defaults setObject:myAIM forKey:MyAIMPreferenceKey];
-        
+	// set random color
+    if (![defaults stringForKey:SelectedMyColorPreferenceKey]) {
+		// TODO: check SelectedMyColorPreferenceKey for if still needed
         int colorHues[]={0,3300/360,6600/360,10900/360,18000/360,22800/360,26400/360,31700/360};
         sranddev();
         int selectedNumber=(int)((double)rand() / ((double)RAND_MAX + 1) * 8);
@@ -251,47 +245,34 @@ static AppController *sharedInstance = nil;
 
         [defaults setObject:[NSNumber numberWithFloat:colorHues[selectedNumber]]
                      forKey:MyColorHuePreferenceKey];
-    } else {
-        // not first run so fill in the stuff
-        myAIM  =[defaults stringForKey:MyAIMPreferenceKey];
-        myName =[defaults stringForKey:MyNamePreferenceKey];
-        myEmail=[defaults stringForKey:MyEmailPreferenceKey];
     }
-
-    if (!myName) {
-        myName = NSFullUserName();
-    }
-
-    if (!myImage) {
-        myImage = [[NSImage unknownUserImageWithSize:NSMakeSize(256.0, 256.0) initials:myName.stringWithInitials] retain];
-    }
-
-    if (!myEmail) {
-		myEmail = @"";
+	
+	// get basic user data
+	// name
+	myName  = [defaults stringForKey:MyNamePreferenceKey];
+	if (!myName) {
+		myName = NSFullUserName();
+		[defaults setObject:myName forKey:MyNamePreferenceKey];
 	}
-    if (!myAIM) {
-		myAIM = @"";
-	}
+	
+	// email
+	myEmail = [defaults stringForKey:MyEmailPreferenceKey];
+	
+	// aim
+	myAIM = [defaults stringForKey:MyAIMPreferenceKey];
+	
+	// set basic user data
     
-    // resizing the image
-    scaledMyImage=[myImage resizedImageWithSize:NSMakeSize(64.,64.)]; // TODO:
-    
-    NSData *pngData=[scaledMyImage TIFFRepresentation];
-    pngData=[[NSBitmapImageRep imageRepWithData:pngData] representationUsingType:NSPNGFileType properties:[NSDictionary dictionary]];
-    // do this because my resized Images don't behave right on setFlipped:, initWithData ones do!
-    NSData *prefData = [defaults dataForKey:kSEEDefaultsKeyMyImagePreference];
-    if (prefData) pngData=prefData;
     [me setUserID:userID];
-
     [me setName:myName];
     [[me properties] setObject:myEmail forKey:@"Email"];
     [[me properties] setObject:myAIM forKey:@"AIM"];
-    [[me properties] setObject:pngData forKey:@"ImageAsPNG"];
     [me setUserHue:[defaults objectForKey:MyColorHuePreferenceKey]];
 
-    [myImage release];
-	
-    TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
+	// image - setting that last as it uses the initials - fails silently and sets the default image if error or no picture
+	[me readImageFromUrl:[TCMMMUser applicationSupportURLForUserImage]];
+		
+    TCMMMUserManager *userManager = [TCMMMUserManager sharedInstance];
     [userManager setMe:[me autorelease]];
 }
 

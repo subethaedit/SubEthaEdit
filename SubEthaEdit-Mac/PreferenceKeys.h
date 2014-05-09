@@ -32,7 +32,6 @@ extern NSString * const MyAIMsPreferenceKey;
 extern NSString * const MyEmailsPreferenceKey;
 extern NSString * const SynthesiseFontsPreferenceKey;
 
-extern NSString * const kSEEDefaultsKeyMyImagePreference;
 extern NSString * const kSEEDefaultsKeyOpenNewDocumentInTab;
 extern NSString * const kSEEDefaultsKeyAlwaysShowTabBar;
 extern NSString * const kSEEDefaultsKeyDontSaveDocumentStateInXattrs;

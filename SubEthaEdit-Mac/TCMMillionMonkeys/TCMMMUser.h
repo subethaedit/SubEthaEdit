@@ -29,12 +29,7 @@ extern NSString * const TCMMMUserPropertyKeyImageAsPNGData;
 - (NSMutableDictionary *)properties;
 
 - (BOOL)isMe;
-- (void)setUserID:(NSString *)aID;
-- (NSString *)userID;
-- (void)setName:(NSString *)aName;
-- (NSString *)name;
-- (void)setChangeCount:(long long)aChangeCount;
-- (long long)changeCount;
+
 - (void)updateChangeCount;
 
 - (void)joinSessionID:(NSString *)aSessionID;

@@ -20,16 +20,15 @@
 NSString * const TCMMMUserPropertyKeyImageAsPNGData = @"ImageAsPNG";
 
 
-NSString * const TCMMMUserWillLeaveSessionNotification =
-               @"TCMMMUserWillLeaveSessionNotification";
+NSString * const TCMMMUserWillLeaveSessionNotification = @"TCMMMUserWillLeaveSessionNotification";
 
 @interface TCMMMUser ()
 @property (nonatomic, copy) NSString *userIDIncludingChangeCount;
-- (void)setProperties:(NSMutableDictionary *)aDictionary;
 @end
 
 @implementation TCMMMUser
 
+#pragma mark - User with Notification
 + (instancetype)userWithNotification:(NSDictionary *)aNotificationDict {
 	if (![[aNotificationDict objectForKey:@"name"] isKindOfClass:[NSString class]] ||
 		![[aNotificationDict objectForKey:@"cnt"]  isKindOfClass:[NSNumber class]] ||
@@ -37,6 +36,7 @@ NSString * const TCMMMUserWillLeaveSessionNotification =
 	) {
 		return nil;
 	}
+	
 	NSString *userID=[NSString stringWithUUIDData:[aNotificationDict objectForKey:@"uID"]];
 	if (!userID) return nil;
     TCMMMUser *user=[TCMMMUser new];
@@ -63,6 +63,7 @@ NSString * const TCMMMUserWillLeaveSessionNotification =
         [NSNumber numberWithLongLong:[self changeCount]],@"cnt", nil];
 }
 
+#pragma mark
 - (id)init {
     if ((self=[super init])) {
         I_properties=[NSMutableDictionary new];
@@ -72,14 +73,17 @@ NSString * const TCMMMUserWillLeaveSessionNotification =
     return self;
 }
 
+#pragma mark
 - (NSString *)description {
     return [NSString stringWithFormat:@"TCMMMUser <ID:%@,Name:%@,properties:%lu,cc:%llu>",[self userID],[self name],(unsigned long)[[self properties] count], self.changeCount];
 }
 
+#pragma mark
 - (BOOL)isMe {
     return [[self userID] isEqualToString:[TCMMMUserManager myUserID]];
 }
 
+#pragma mark - Properties
 - (NSMutableDictionary *)properties {
     return I_properties;
 }
@@ -88,6 +92,7 @@ NSString * const TCMMMUserWillLeaveSessionNotification =
      I_properties = [aDictionary mutableCopy];
 }
 
+#pragma mark - Change Count
 - (void)updateChangeCount {
     [self setChangeCount:(long long)[NSDate timeIntervalSinceReferenceDate]];
 	self.userIDIncludingChangeCount = nil;
@@ -100,6 +105,7 @@ NSString * const TCMMMUserWillLeaveSessionNotification =
 	return _userIDIncludingChangeCount;
 }
 
+#pragma mark - Session
 - (void)joinSessionID:(NSString *)aSessionID {
     if (!([I_propertiesBySessionID objectForKey:aSessionID]==nil)) DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"User already joined");
     [I_propertiesBySessionID setObject:[NSMutableDictionary dictionary] forKey:aSessionID];
@@ -114,6 +120,7 @@ NSString * const TCMMMUserWillLeaveSessionNotification =
     return [I_propertiesBySessionID objectForKey:aSessionID];
 }
 
+#pragma mark
 - (void)updateWithUser:(TCMMMUser *)aUser {
     NSParameterAssert([[aUser userID] isEqualTo:[self userID]]);
     [self setProperties:[aUser properties]];
@@ -121,6 +128,7 @@ NSString * const TCMMMUserWillLeaveSessionNotification =
     [self setChangeCount:[aUser changeCount]];
 }
 
+#pragma mark
 - (NSString *)shortDescription {
     NSMutableArray *additionalData = [NSMutableArray arrayWithObject:[self userID]];
     if ([[self properties] objectForKey:@"AIM"] && [(NSString*)[[self properties] objectForKey:@"AIM"] length]>0) 
@@ -131,8 +139,7 @@ NSString * const TCMMMUserWillLeaveSessionNotification =
 }
 
 
-#pragma mark -
-
+#pragma mark - User Class methods
 + (instancetype)userWithBencodedUser:(NSData *)aData {
     NSDictionary *userDict = TCM_BdecodedObjectWithData(aData);
     return [self userWithDictionaryRepresentation:userDict];
@@ -169,13 +176,17 @@ NSString * const TCMMMUserWillLeaveSessionNotification =
     
     [user setUserHue:[aRepresentation objectForKey:@"hue"]];
 
-    NSData *pngData = [aRepresentation objectForKey:@"PNG"];
-	[user setImageWithPNGData:pngData];
-    
+	if ([aRepresentation[@"hDI"] boolValue]) {
+		user.properties[@"HasDefaultImage"] = @(YES);
 
+	} else {
+		NSData *pngData = [aRepresentation objectForKey:@"PNG"];
+		[user setImageWithPNGData:pngData];
+	}
     return user;
 }
 
+#pragma mark - Image
 - (void)setImageWithPNGData:(NSData *)aPNGData {
 	if (aPNGData &&
 		aPNGData.length > 0) {
@@ -190,10 +201,17 @@ NSString * const TCMMMUserWillLeaveSessionNotification =
 		//NSLog(@"%s md5:%@ userName:%@",__FUNCTION__,md5String,self.name);
 		if (![emptyImageHashes containsObject:md5String]) {
 			[self.properties setObject:aPNGData forKey:TCMMMUserPropertyKeyImageAsPNGData];
+
+		} else {
+			[self.properties setObject:@(YES) forKey:@"HasDefaultImage"];
 		}
+		// when asking for the image it will be created from the data
+		// if there is no image and no data the default image will be set automatically and the default image flag will be turned on
+
 	}
 }
 
+#pragma mark
 - (NSDictionary *)dictionaryRepresentation {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     if ([self userID]) [dict setObject:[NSData dataWithUUIDString:[self userID]] forKey:@"uID"];
@@ -202,6 +220,7 @@ NSString * const TCMMMUserWillLeaveSessionNotification =
     if ([[self properties] objectForKey:@"Email"]) [dict setObject:[[self properties] objectForKey:@"Email"] forKey:@"mail"];
     if ([[self properties] objectForKey:TCMMMUserPropertyKeyImageAsPNGData]) [dict setObject:[[self properties] objectForKey:TCMMMUserPropertyKeyImageAsPNGData] forKey:@"PNG"];
     if ([[self properties] objectForKey:@"Hue"]) [dict setObject:[[self properties] objectForKey:@"Hue"] forKey:@"hue"];
+	[dict setObject:[[self properties] objectForKey:@"HasDefaultImage"]?:@(NO) forKey:@"hDI"];
     [dict setObject:[NSNumber numberWithLong:[self changeCount]] forKey:@"cnt"];
     return dict;
 }
@@ -211,15 +230,16 @@ NSString * const TCMMMUserWillLeaveSessionNotification =
     return TCM_BencodedObject(user);
 }
 
+#pragma mark
 - (void)setUserHue:(NSNumber *)aHue {
     if (aHue) {
         [[self properties] setObject:aHue forKey:@"Hue"];
-        [[self properties] removeObjectForKey:@"ColorImage"];
         [[self properties] removeObjectForKey:@"ChangeColor"];
 		[self updateChangeCount];
     }
 }
 
+#pragma mark
 - (NSString *)aim {
     NSString *result = [[self properties] objectForKey:@"AIM"];
     if (result && [result length]>0) return result;

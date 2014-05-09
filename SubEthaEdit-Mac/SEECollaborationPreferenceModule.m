@@ -106,13 +106,13 @@
 	self.imagePicker = ({
 		IKPictureTaker *imagePicker = [IKPictureTaker pictureTaker];
 		
-		// TODO: make sure this input image is not the default one!
-		// TODO: make the empty image the default image
-		[imagePicker setInputImage:myImage];
+		if (![me hasDefaultImage]) {
+			[imagePicker setInputImage:myImage]; // is also updated in the chooseImage method
+		}
 
 		[imagePicker setValue:[NSValue valueWithSize:NSMakeSize(256., 256.)] forKey:IKPictureTakerOutputImageMaxSizeKey];
 		[imagePicker setValue:@(YES) forKey:IKPictureTakerShowAddressBookPictureKey];
-		[imagePicker setValue:[NSImage imageNamed:NSImageNameUser] forKey:IKPictureTakerShowEmptyPictureKey];
+		[imagePicker setValue:[me defaultImage] forKey:IKPictureTakerShowEmptyPictureKey]; // is also updated in the change name method
 		[imagePicker setValue:@(YES) forKey:IKPictureTakerShowEffectsKey];
 
 		imagePicker;
@@ -172,25 +172,18 @@
 #pragma mark - Me Card - Image
 
 - (void)updateUserWithImage:(NSImage *)anImage {
+	TCMMMUser *me = [TCMMMUserManager me];
+
 	if (anImage) {
-		NSData *pngData = [[anImage resizedImageWithSize:NSMakeSize(256.,256.)] TIFFRepresentation];
-		pngData = [[NSBitmapImageRep imageRepWithData:pngData] representationUsingType:NSPNGFileType properties:[NSDictionary dictionary]];
-		
-		TCMMMUser *me = [TCMMMUserManager me];
-		[[me properties] setObject:pngData forKey:TCMMMUserPropertyKeyImageAsPNGData];
-		[me recacheImages];
-		[[NSUserDefaults standardUserDefaults] setObject:pngData forKey:kSEEDefaultsKeyMyImagePreference];
-		anImage = [me image];
-		[anImage setFlipped:NO];
-		[TCMMMUserManager didChangeMe];
+		[me setImage:anImage];
+		[me writeImageToUrl:[TCMMMUser applicationSupportURLForUserImage]];
 
 	} else {
-		TCMMMUser *me = [TCMMMUserManager me];
-		[[me properties] removeObjectForKey:TCMMMUserPropertyKeyImageAsPNGData];
-		[me recacheImages];
-		[[NSUserDefaults standardUserDefaults] removeObjectForKey:kSEEDefaultsKeyMyImagePreference];
-		[TCMMMUserManager didChangeMe];
+		[me setDefaultImage];
+		[me removePersistedUserImage];
 	}
+	
+	[TCMMMUserManager didChangeMe];
 }
 
 - (IBAction)chooseImage:(id)aSender {
@@ -211,6 +204,7 @@
 		NSImage *image = aPictureTaker.outputImage;
 		[self updateUserWithImage:image];
 		[self.O_avatarImageView setImage:image];
+		[self.imagePicker setInputImage:image];
 	}
 }
 
@@ -234,6 +228,7 @@
         [TCMMMUserManager didChangeMe];
 		
 		self.O_avatarImageView.initials = me.initials;
+		[self.imagePicker setValue:[me defaultImage] forKey:IKPictureTakerShowEmptyPictureKey];
     }
 }
 
