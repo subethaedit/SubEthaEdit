@@ -46,7 +46,7 @@
                         <constraint firstAttribute="width" constant="23" id="0ro-xk-YQg"/>
                         <constraint firstAttribute="height" constant="23" id="wJl-S8-LJ3"/>
                     </constraints>
-                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="ParticipantStatusFollow" id="VX9-Yi-9ex"/>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="ParticipantFollowStatusOn" id="VX9-Yi-9ex"/>
                     <connections>
                         <binding destination="-2" name="hidden" keyPath="self.isParticipantFollowed" id="tPS-us-iVf">
                             <dictionary key="options">
@@ -62,7 +62,7 @@
                         <constraint firstAttribute="height" constant="23" id="0pa-8A-g89"/>
                         <constraint firstAttribute="width" constant="23" id="uyR-mt-xah"/>
                     </constraints>
-                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="ParticipantStatusReadOnly" id="uJJ-2w-3c8"/>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="ParticipantReadOnlyStatusOn" id="uJJ-2w-3c8"/>
                 </imageView>
                 <progressIndicator horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="k1p-6D-syT">
                     <rect key="frame" x="22" y="21" width="32" height="32"/>
@@ -322,8 +322,8 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
         </popover>
     </objects>
     <resources>
-        <image name="ParticipantStatusFollow" width="23" height="23"/>
-        <image name="ParticipantStatusReadOnly" width="23" height="23"/>
+        <image name="ParticipantFollowStatusOn" width="23" height="23"/>
+        <image name="ParticipantReadOnlyStatusOn" width="23" height="23"/>
         <image name="SharingIconCloseCross" width="84" height="84"/>
         <image name="SharingIconEye" width="84" height="84"/>
         <image name="SharingIconWrite" width="84" height="84"/>

@@ -309,10 +309,40 @@
 		F220248D191BC33D0098982C /* hud_buttonLeft-P@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2202487191BC33D0098982C /* hud_buttonLeft-P@2x.png */; };
 		F220248E191BC33D0098982C /* hud_buttonRight-P.png in Resources */ = {isa = PBXBuildFile; fileRef = F2202488191BC33D0098982C /* hud_buttonRight-P.png */; };
 		F220248F191BC33D0098982C /* hud_buttonRight-P@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2202489191BC33D0098982C /* hud_buttonRight-P@2x.png */; };
-		F2202494191BDA160098982C /* ParticipantStatusFollow.png in Resources */ = {isa = PBXBuildFile; fileRef = F2202490191BDA160098982C /* ParticipantStatusFollow.png */; };
-		F2202495191BDA160098982C /* ParticipantStatusFollow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2202491191BDA160098982C /* ParticipantStatusFollow@2x.png */; };
-		F2202496191BDA160098982C /* ParticipantStatusReadOnly.png in Resources */ = {isa = PBXBuildFile; fileRef = F2202492191BDA160098982C /* ParticipantStatusReadOnly.png */; };
-		F2202497191BDA160098982C /* ParticipantStatusReadOnly@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2202493191BDA160098982C /* ParticipantStatusReadOnly@2x.png */; };
+		F22024BF191D0BFE0098982C /* ParticipantFollowStatusOn.png in Resources */ = {isa = PBXBuildFile; fileRef = F220249D191D0BFE0098982C /* ParticipantFollowStatusOn.png */; };
+		F22024C0191D0BFE0098982C /* ParticipantFollowStatusOn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F220249E191D0BFE0098982C /* ParticipantFollowStatusOn@2x.png */; };
+		F22024C3191D0BFE0098982C /* ParticipantFollowTurnOffHover.png in Resources */ = {isa = PBXBuildFile; fileRef = F22024A1191D0BFE0098982C /* ParticipantFollowTurnOffHover.png */; };
+		F22024C4191D0BFE0098982C /* ParticipantFollowTurnOffHover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F22024A2191D0BFE0098982C /* ParticipantFollowTurnOffHover@2x.png */; };
+		F22024C5191D0BFE0098982C /* ParticipantFollowTurnOffNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = F22024A3191D0BFE0098982C /* ParticipantFollowTurnOffNormal.png */; };
+		F22024C6191D0BFE0098982C /* ParticipantFollowTurnOffNormal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F22024A4191D0BFE0098982C /* ParticipantFollowTurnOffNormal@2x.png */; };
+		F22024C7191D0BFE0098982C /* ParticipantFollowTurnOffPressed.png in Resources */ = {isa = PBXBuildFile; fileRef = F22024A5191D0BFE0098982C /* ParticipantFollowTurnOffPressed.png */; };
+		F22024C8191D0BFE0098982C /* ParticipantFollowTurnOffPressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F22024A6191D0BFE0098982C /* ParticipantFollowTurnOffPressed@2x.png */; };
+		F22024C9191D0BFE0098982C /* ParticipantFollowTurnOnHover.png in Resources */ = {isa = PBXBuildFile; fileRef = F22024A7191D0BFE0098982C /* ParticipantFollowTurnOnHover.png */; };
+		F22024CA191D0BFE0098982C /* ParticipantFollowTurnOnHover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F22024A8191D0BFE0098982C /* ParticipantFollowTurnOnHover@2x.png */; };
+		F22024CB191D0BFE0098982C /* ParticipantFollowTurnOnNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = F22024A9191D0BFE0098982C /* ParticipantFollowTurnOnNormal.png */; };
+		F22024CC191D0BFE0098982C /* ParticipantFollowTurnOnNormal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F22024AA191D0BFE0098982C /* ParticipantFollowTurnOnNormal@2x.png */; };
+		F22024CD191D0BFE0098982C /* ParticipantFollowTurnOnPressed.png in Resources */ = {isa = PBXBuildFile; fileRef = F22024AB191D0BFE0098982C /* ParticipantFollowTurnOnPressed.png */; };
+		F22024CE191D0BFE0098982C /* ParticipantFollowTurnOnPressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F22024AC191D0BFE0098982C /* ParticipantFollowTurnOnPressed@2x.png */; };
+		F22024CF191D0BFE0098982C /* ParticipantKickHover.png in Resources */ = {isa = PBXBuildFile; fileRef = F22024AD191D0BFE0098982C /* ParticipantKickHover.png */; };
+		F22024D0191D0BFE0098982C /* ParticipantKickHover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F22024AE191D0BFE0098982C /* ParticipantKickHover@2x.png */; };
+		F22024D1191D0BFE0098982C /* ParticipantKickNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = F22024AF191D0BFE0098982C /* ParticipantKickNormal.png */; };
+		F22024D2191D0BFE0098982C /* ParticipantKickNormal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F22024B0191D0BFE0098982C /* ParticipantKickNormal@2x.png */; };
+		F22024D3191D0BFE0098982C /* ParticipantKickPressed.png in Resources */ = {isa = PBXBuildFile; fileRef = F22024B1191D0BFE0098982C /* ParticipantKickPressed.png */; };
+		F22024D4191D0BFE0098982C /* ParticipantKickPressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F22024B2191D0BFE0098982C /* ParticipantKickPressed@2x.png */; };
+		F22024D5191D0BFE0098982C /* ParticipantReadOnlyTurnOffHover.png in Resources */ = {isa = PBXBuildFile; fileRef = F22024B3191D0BFE0098982C /* ParticipantReadOnlyTurnOffHover.png */; };
+		F22024D6191D0BFE0098982C /* ParticipantReadOnlyTurnOffHover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F22024B4191D0BFE0098982C /* ParticipantReadOnlyTurnOffHover@2x.png */; };
+		F22024D7191D0BFE0098982C /* ParticipantReadOnlyTurnOffNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = F22024B5191D0BFE0098982C /* ParticipantReadOnlyTurnOffNormal.png */; };
+		F22024D8191D0BFE0098982C /* ParticipantReadOnlyTurnOffNormal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F22024B6191D0BFE0098982C /* ParticipantReadOnlyTurnOffNormal@2x.png */; };
+		F22024D9191D0BFE0098982C /* ParticipantReadOnlyTurnOffPressed.png in Resources */ = {isa = PBXBuildFile; fileRef = F22024B7191D0BFE0098982C /* ParticipantReadOnlyTurnOffPressed.png */; };
+		F22024DA191D0BFE0098982C /* ParticipantReadOnlyTurnOffPressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F22024B8191D0BFE0098982C /* ParticipantReadOnlyTurnOffPressed@2x.png */; };
+		F22024DB191D0BFE0098982C /* ParticipantReadOnlyTurnOnHover.png in Resources */ = {isa = PBXBuildFile; fileRef = F22024B9191D0BFE0098982C /* ParticipantReadOnlyTurnOnHover.png */; };
+		F22024DC191D0BFE0098982C /* ParticipantReadOnlyTurnOnHover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F22024BA191D0BFE0098982C /* ParticipantReadOnlyTurnOnHover@2x.png */; };
+		F22024DD191D0BFE0098982C /* ParticipantReadOnlyTurnOnNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = F22024BB191D0BFE0098982C /* ParticipantReadOnlyTurnOnNormal.png */; };
+		F22024DE191D0BFE0098982C /* ParticipantReadOnlyTurnOnNormal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F22024BC191D0BFE0098982C /* ParticipantReadOnlyTurnOnNormal@2x.png */; };
+		F22024E3191D0D280098982C /* ParticipantReadOnlyTurnOnPressed.png in Resources */ = {isa = PBXBuildFile; fileRef = F22024DF191D0D280098982C /* ParticipantReadOnlyTurnOnPressed.png */; };
+		F22024E4191D0D280098982C /* ParticipantReadOnlyTurnOnPressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F22024E0191D0D280098982C /* ParticipantReadOnlyTurnOnPressed@2x.png */; };
+		F22024E9191D0DB30098982C /* ParticipantReadOnlyStatusOn.png in Resources */ = {isa = PBXBuildFile; fileRef = F22024E7191D0DB30098982C /* ParticipantReadOnlyStatusOn.png */; };
+		F22024EA191D0DB30098982C /* ParticipantReadOnlyStatusOn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F22024E8191D0DB30098982C /* ParticipantReadOnlyStatusOn@2x.png */; };
 		F2257CF9189673AA005EF9B1 /* BottomBarSharingIconAnnounce_Inactive.png in Resources */ = {isa = PBXBuildFile; fileRef = F2257CF1189673AA005EF9B1 /* BottomBarSharingIconAnnounce_Inactive.png */; };
 		F2257CFA189673AA005EF9B1 /* BottomBarSharingIconAnnounce_Inactive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2257CF2189673AA005EF9B1 /* BottomBarSharingIconAnnounce_Inactive@2x.png */; };
 		F2257CFB189673AA005EF9B1 /* BottomBarSharingIconAnnounce.png in Resources */ = {isa = PBXBuildFile; fileRef = F2257CF3189673AA005EF9B1 /* BottomBarSharingIconAnnounce.png */; };
@@ -1042,10 +1072,40 @@
 		F2202487191BC33D0098982C /* hud_buttonLeft-P@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "hud_buttonLeft-P@2x.png"; path = "artwork/hud_buttonLeft-P@2x.png"; sourceTree = "<group>"; };
 		F2202488191BC33D0098982C /* hud_buttonRight-P.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "hud_buttonRight-P.png"; path = "artwork/hud_buttonRight-P.png"; sourceTree = "<group>"; };
 		F2202489191BC33D0098982C /* hud_buttonRight-P@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "hud_buttonRight-P@2x.png"; path = "artwork/hud_buttonRight-P@2x.png"; sourceTree = "<group>"; };
-		F2202490191BDA160098982C /* ParticipantStatusFollow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ParticipantStatusFollow.png; sourceTree = "<group>"; };
-		F2202491191BDA160098982C /* ParticipantStatusFollow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ParticipantStatusFollow@2x.png"; sourceTree = "<group>"; };
-		F2202492191BDA160098982C /* ParticipantStatusReadOnly.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ParticipantStatusReadOnly.png; sourceTree = "<group>"; };
-		F2202493191BDA160098982C /* ParticipantStatusReadOnly@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ParticipantStatusReadOnly@2x.png"; sourceTree = "<group>"; };
+		F220249D191D0BFE0098982C /* ParticipantFollowStatusOn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ParticipantFollowStatusOn.png; sourceTree = "<group>"; };
+		F220249E191D0BFE0098982C /* ParticipantFollowStatusOn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ParticipantFollowStatusOn@2x.png"; sourceTree = "<group>"; };
+		F22024A1191D0BFE0098982C /* ParticipantFollowTurnOffHover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ParticipantFollowTurnOffHover.png; sourceTree = "<group>"; };
+		F22024A2191D0BFE0098982C /* ParticipantFollowTurnOffHover@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ParticipantFollowTurnOffHover@2x.png"; sourceTree = "<group>"; };
+		F22024A3191D0BFE0098982C /* ParticipantFollowTurnOffNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ParticipantFollowTurnOffNormal.png; sourceTree = "<group>"; };
+		F22024A4191D0BFE0098982C /* ParticipantFollowTurnOffNormal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ParticipantFollowTurnOffNormal@2x.png"; sourceTree = "<group>"; };
+		F22024A5191D0BFE0098982C /* ParticipantFollowTurnOffPressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ParticipantFollowTurnOffPressed.png; sourceTree = "<group>"; };
+		F22024A6191D0BFE0098982C /* ParticipantFollowTurnOffPressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ParticipantFollowTurnOffPressed@2x.png"; sourceTree = "<group>"; };
+		F22024A7191D0BFE0098982C /* ParticipantFollowTurnOnHover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ParticipantFollowTurnOnHover.png; sourceTree = "<group>"; };
+		F22024A8191D0BFE0098982C /* ParticipantFollowTurnOnHover@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ParticipantFollowTurnOnHover@2x.png"; sourceTree = "<group>"; };
+		F22024A9191D0BFE0098982C /* ParticipantFollowTurnOnNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ParticipantFollowTurnOnNormal.png; sourceTree = "<group>"; };
+		F22024AA191D0BFE0098982C /* ParticipantFollowTurnOnNormal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ParticipantFollowTurnOnNormal@2x.png"; sourceTree = "<group>"; };
+		F22024AB191D0BFE0098982C /* ParticipantFollowTurnOnPressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ParticipantFollowTurnOnPressed.png; sourceTree = "<group>"; };
+		F22024AC191D0BFE0098982C /* ParticipantFollowTurnOnPressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ParticipantFollowTurnOnPressed@2x.png"; sourceTree = "<group>"; };
+		F22024AD191D0BFE0098982C /* ParticipantKickHover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ParticipantKickHover.png; sourceTree = "<group>"; };
+		F22024AE191D0BFE0098982C /* ParticipantKickHover@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ParticipantKickHover@2x.png"; sourceTree = "<group>"; };
+		F22024AF191D0BFE0098982C /* ParticipantKickNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ParticipantKickNormal.png; sourceTree = "<group>"; };
+		F22024B0191D0BFE0098982C /* ParticipantKickNormal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ParticipantKickNormal@2x.png"; sourceTree = "<group>"; };
+		F22024B1191D0BFE0098982C /* ParticipantKickPressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ParticipantKickPressed.png; sourceTree = "<group>"; };
+		F22024B2191D0BFE0098982C /* ParticipantKickPressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ParticipantKickPressed@2x.png"; sourceTree = "<group>"; };
+		F22024B3191D0BFE0098982C /* ParticipantReadOnlyTurnOffHover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ParticipantReadOnlyTurnOffHover.png; sourceTree = "<group>"; };
+		F22024B4191D0BFE0098982C /* ParticipantReadOnlyTurnOffHover@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ParticipantReadOnlyTurnOffHover@2x.png"; sourceTree = "<group>"; };
+		F22024B5191D0BFE0098982C /* ParticipantReadOnlyTurnOffNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ParticipantReadOnlyTurnOffNormal.png; sourceTree = "<group>"; };
+		F22024B6191D0BFE0098982C /* ParticipantReadOnlyTurnOffNormal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ParticipantReadOnlyTurnOffNormal@2x.png"; sourceTree = "<group>"; };
+		F22024B7191D0BFE0098982C /* ParticipantReadOnlyTurnOffPressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ParticipantReadOnlyTurnOffPressed.png; sourceTree = "<group>"; };
+		F22024B8191D0BFE0098982C /* ParticipantReadOnlyTurnOffPressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ParticipantReadOnlyTurnOffPressed@2x.png"; sourceTree = "<group>"; };
+		F22024B9191D0BFE0098982C /* ParticipantReadOnlyTurnOnHover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ParticipantReadOnlyTurnOnHover.png; sourceTree = "<group>"; };
+		F22024BA191D0BFE0098982C /* ParticipantReadOnlyTurnOnHover@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ParticipantReadOnlyTurnOnHover@2x.png"; sourceTree = "<group>"; };
+		F22024BB191D0BFE0098982C /* ParticipantReadOnlyTurnOnNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ParticipantReadOnlyTurnOnNormal.png; sourceTree = "<group>"; };
+		F22024BC191D0BFE0098982C /* ParticipantReadOnlyTurnOnNormal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ParticipantReadOnlyTurnOnNormal@2x.png"; sourceTree = "<group>"; };
+		F22024DF191D0D280098982C /* ParticipantReadOnlyTurnOnPressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ParticipantReadOnlyTurnOnPressed.png; sourceTree = "<group>"; };
+		F22024E0191D0D280098982C /* ParticipantReadOnlyTurnOnPressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ParticipantReadOnlyTurnOnPressed@2x.png"; sourceTree = "<group>"; };
+		F22024E7191D0DB30098982C /* ParticipantReadOnlyStatusOn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ParticipantReadOnlyStatusOn.png; sourceTree = "<group>"; };
+		F22024E8191D0DB30098982C /* ParticipantReadOnlyStatusOn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ParticipantReadOnlyStatusOn@2x.png"; sourceTree = "<group>"; };
 		F2230A450BE0243100437D55 /* TCMBEEPBencodedMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = TCMBEEPBencodedMessage.h; path = TCMBEEP/TCMBEEPBencodedMessage.h; sourceTree = "<group>"; };
 		F2230A460BE0243100437D55 /* TCMBEEPBencodedMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMBEEPBencodedMessage.m; path = TCMBEEP/TCMBEEPBencodedMessage.m; sourceTree = "<group>"; };
 		F2230A470BE0243100437D55 /* TCMBEEPBencodingProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = TCMBEEPBencodingProfile.h; path = TCMBEEP/TCMBEEPBencodingProfile.h; sourceTree = "<group>"; };
@@ -2359,10 +2419,40 @@
 		F2FEE70E1892A747000E6BC8 /* SharingBarIcons */ = {
 			isa = PBXGroup;
 			children = (
-				F2202490191BDA160098982C /* ParticipantStatusFollow.png */,
-				F2202491191BDA160098982C /* ParticipantStatusFollow@2x.png */,
-				F2202492191BDA160098982C /* ParticipantStatusReadOnly.png */,
-				F2202493191BDA160098982C /* ParticipantStatusReadOnly@2x.png */,
+				F220249D191D0BFE0098982C /* ParticipantFollowStatusOn.png */,
+				F220249E191D0BFE0098982C /* ParticipantFollowStatusOn@2x.png */,
+				F22024A1191D0BFE0098982C /* ParticipantFollowTurnOffHover.png */,
+				F22024A2191D0BFE0098982C /* ParticipantFollowTurnOffHover@2x.png */,
+				F22024A3191D0BFE0098982C /* ParticipantFollowTurnOffNormal.png */,
+				F22024A4191D0BFE0098982C /* ParticipantFollowTurnOffNormal@2x.png */,
+				F22024A5191D0BFE0098982C /* ParticipantFollowTurnOffPressed.png */,
+				F22024A6191D0BFE0098982C /* ParticipantFollowTurnOffPressed@2x.png */,
+				F22024A7191D0BFE0098982C /* ParticipantFollowTurnOnHover.png */,
+				F22024A8191D0BFE0098982C /* ParticipantFollowTurnOnHover@2x.png */,
+				F22024A9191D0BFE0098982C /* ParticipantFollowTurnOnNormal.png */,
+				F22024AA191D0BFE0098982C /* ParticipantFollowTurnOnNormal@2x.png */,
+				F22024AB191D0BFE0098982C /* ParticipantFollowTurnOnPressed.png */,
+				F22024AC191D0BFE0098982C /* ParticipantFollowTurnOnPressed@2x.png */,
+				F22024AD191D0BFE0098982C /* ParticipantKickHover.png */,
+				F22024AE191D0BFE0098982C /* ParticipantKickHover@2x.png */,
+				F22024AF191D0BFE0098982C /* ParticipantKickNormal.png */,
+				F22024B0191D0BFE0098982C /* ParticipantKickNormal@2x.png */,
+				F22024B1191D0BFE0098982C /* ParticipantKickPressed.png */,
+				F22024B2191D0BFE0098982C /* ParticipantKickPressed@2x.png */,
+				F22024B3191D0BFE0098982C /* ParticipantReadOnlyTurnOffHover.png */,
+				F22024B4191D0BFE0098982C /* ParticipantReadOnlyTurnOffHover@2x.png */,
+				F22024B5191D0BFE0098982C /* ParticipantReadOnlyTurnOffNormal.png */,
+				F22024B6191D0BFE0098982C /* ParticipantReadOnlyTurnOffNormal@2x.png */,
+				F22024B7191D0BFE0098982C /* ParticipantReadOnlyTurnOffPressed.png */,
+				F22024B8191D0BFE0098982C /* ParticipantReadOnlyTurnOffPressed@2x.png */,
+				F22024B9191D0BFE0098982C /* ParticipantReadOnlyTurnOnHover.png */,
+				F22024BA191D0BFE0098982C /* ParticipantReadOnlyTurnOnHover@2x.png */,
+				F22024BB191D0BFE0098982C /* ParticipantReadOnlyTurnOnNormal.png */,
+				F22024BC191D0BFE0098982C /* ParticipantReadOnlyTurnOnNormal@2x.png */,
+				F22024DF191D0D280098982C /* ParticipantReadOnlyTurnOnPressed.png */,
+				F22024E0191D0D280098982C /* ParticipantReadOnlyTurnOnPressed@2x.png */,
+				F22024E7191D0DB30098982C /* ParticipantReadOnlyStatusOn.png */,
+				F22024E8191D0DB30098982C /* ParticipantReadOnlyStatusOn@2x.png */,
 				F2FEE70F1892A747000E6BC8 /* SharingIconCloseCross.pdf */,
 				F2FEE7101892A747000E6BC8 /* SharingIconEye.pdf */,
 				F2FEE7111892A747000E6BC8 /* SharingIconReadOnly.pdf */,
@@ -2543,6 +2633,7 @@
 			files = (
 				4C0D3D6E17FB165C00AAFB38 /* DebugBEEP.xib in Resources */,
 				F2D3E547189941F50096425B /* AW Pulled ActiveTabRightCap.png in Resources */,
+				F22024C3191D0BFE0098982C /* ParticipantFollowTurnOffHover.png in Resources */,
 				4C0D3D7017FB166200AAFB38 /* DebugHistory.xib in Resources */,
 				F2D3E52E189941F50096425B /* AW ActiveTabCloseRollover@2x.png in Resources */,
 				14448AA40A18964A00F36B34 /* SubEthaEdit.sdef in Resources */,
@@ -2555,11 +2646,12 @@
 				4CD5F81917FB0DF900F49E31 /* PrecedencePrefs.xib in Resources */,
 				142890140957413900D14688 /* Localizable.strings in Resources */,
 				F2D3E55D189941F50096425B /* IW InactiveTabBG.png in Resources */,
+				F22024CA191D0BFE0098982C /* ParticipantFollowTurnOnHover@2x.png in Resources */,
 				F2D3E55B189941F50096425B /* IW InactiveTabAlert.png in Resources */,
 				1428900F095740F200D14688 /* RE.txt in Resources */,
+				F22024D2191D0BFE0098982C /* ParticipantKickNormal@2x.png in Resources */,
 				F2D3E563189941F50096425B /* IW InactiveTabCloseRollover.png in Resources */,
 				F220247D191BBDA10098982C /* hud_buttonFill-N@2x.png in Resources */,
-				F2202495191BDA160098982C /* ParticipantStatusFollow@2x.png in Resources */,
 				145047420997750100D18142 /* ReleaseNotes.txt in Resources */,
 				4C0D3D6817FB145600AAFB38 /* Preferences.xib in Resources */,
 				142890490957425900D14688 /* HTMLExport in Resources */,
@@ -2572,22 +2664,29 @@
 				F2D3E539189941F50096425B /* AW InactiveTabClose.png in Resources */,
 				4CFAABAF18A3ECE4009DB5C3 /* EditorSplitHorizontal.pdf in Resources */,
 				4C6BDC6A18898F850088CBFC /* ScriptMenuItemIcon@2x.png in Resources */,
+				F22024DD191D0BFE0098982C /* ParticipantReadOnlyTurnOnNormal.png in Resources */,
 				F2D3E554189941F50096425B /* IW ActiveTabCloseRollover@2x.png in Resources */,
 				F2257CF9189673AA005EF9B1 /* BottomBarSharingIconAnnounce_Inactive.png in Resources */,
+				F22024D6191D0BFE0098982C /* ParticipantReadOnlyTurnOffHover@2x.png in Resources */,
 				4CFAABB018A3ECE4009DB5C3 /* EditorSplitVertical.pdf in Resources */,
 				4C6BDC5C188983380088CBFC /* FoldingBubbleBig@2x.png in Resources */,
 				142890470957421300D14688 /* SubEthaEditHelp in Resources */,
 				142890580957432800D14688 /* Invitation.aiff in Resources */,
 				142890590957432800D14688 /* Knock.wav in Resources */,
+				F22024C6191D0BFE0098982C /* ParticipantFollowTurnOffNormal@2x.png in Resources */,
 				F2D3E535189941F50096425B /* AW InactiveTabAlert.png in Resources */,
 				142890B1095743F200D14688 /* Action.tiff in Resources */,
+				F22024DA191D0BFE0098982C /* ParticipantReadOnlyTurnOffPressed@2x.png in Resources */,
 				142890B2095743F200D14688 /* ActionPressed.tiff in Resources */,
 				F2D3E53C189941F50096425B /* AW InactiveTabClosePressed@2x.png in Resources */,
+				F22024EA191D0DB30098982C /* ParticipantReadOnlyStatusOn@2x.png in Resources */,
 				1428905F095743B300D14688 /* debug.tiff in Resources */,
+				F22024C5191D0BFE0098982C /* ParticipantFollowTurnOffNormal.png in Resources */,
 				F2D3E54F189941F50096425B /* IW ActiveTabClose.png in Resources */,
 				142890BB095743F200D14688 /* EmptyButton.tiff in Resources */,
 				4C0D3D6C17FB165700AAFB38 /* DebugAttributesInspector.xib in Resources */,
 				F2D3E533189941F50096425B /* AW ActiveTabRightCap.png in Resources */,
+				F22024D3191D0BFE0098982C /* ParticipantKickPressed.png in Resources */,
 				142890BF095743F200D14688 /* HomeFolderIcon.tiff in Resources */,
 				4CD5F7DA17FB0BF200F49E31 /* AdvancedPrefs.xib in Resources */,
 				F2FEE7131892A747000E6BC8 /* SharingIconCloseCross.pdf in Resources */,
@@ -2607,8 +2706,10 @@
 				142890C3095743F200D14688 /* LibraryFolderIcon.tiff in Resources */,
 				F2B136EB189BF27000430639 /* AW AddTabButton.tiff in Resources */,
 				F2D3E537189941F50096425B /* AW InactiveTabBG.png in Resources */,
+				F22024D7191D0BFE0098982C /* ParticipantReadOnlyTurnOffNormal.png in Resources */,
 				F25A0724191A800E00F07557 /* EditPrefs@2x.png in Resources */,
 				142890CB095743F200D14688 /* ParticipantBar_Fill.tiff in Resources */,
+				F22024D8191D0BFE0098982C /* ParticipantReadOnlyTurnOffNormal@2x.png in Resources */,
 				F2D3E530189941F50096425B /* AW ActiveTabFill@2x.png in Resources */,
 				F20AB881190932FB00444F4B /* SymbolWarn.png in Resources */,
 				142890CC095743F200D14688 /* Participants.icns in Resources */,
@@ -2616,10 +2717,12 @@
 				F2B136E9189BF27000430639 /* AW AddTabButtonRolloverPlus.tiff in Resources */,
 				4CD5F82117FB0E2B00F49E31 /* PrintOptions.xib in Resources */,
 				142890D4095743F200D14688 /* SeeFolderIcon.tiff in Resources */,
+				F22024C9191D0BFE0098982C /* ParticipantFollowTurnOnHover.png in Resources */,
 				F2D3E54D189941F50096425B /* AW SingleTabAddButtonRollover.png in Resources */,
 				F2D3E52F189941F50096425B /* AW ActiveTabFill.png in Resources */,
 				F25A0730191A875100F07557 /* StatusReadWrite@2x.png in Resources */,
 				F2C7672718B3AEAC00763B40 /* PlainTextEditor.xib in Resources */,
+				F22024E4191D0D280098982C /* ParticipantReadOnlyTurnOnPressed@2x.png in Resources */,
 				F20AB87C1907C7C500444F4B /* SEEDebugImageGenerationWindowController.xib in Resources */,
 				4CD5F7EE17FB0CA300F49E31 /* Export.xib in Resources */,
 				F2D3E54B189941F50096425B /* AW SingleTabAddButtonPressed.png in Resources */,
@@ -2628,6 +2731,7 @@
 				4CCD790118DB3F9E00A8B457 /* SEEScopedBookmarkAccessoryViewController.xib in Resources */,
 				F2E6CBB219068D4700D431F9 /* ToolbarSplitTwoPanes@2x.png in Resources */,
 				4C0D3D7817FB16F500AAFB38 /* DebugSendOperation.xib in Resources */,
+				F22024C8191D0BFE0098982C /* ParticipantFollowTurnOffPressed@2x.png in Resources */,
 				4C0D3D7217FB166900AAFB38 /* DebugPrefs.xib in Resources */,
 				F2257CFB189673AA005EF9B1 /* BottomBarSharingIconAnnounce.png in Resources */,
 				F2D3E542189941F50096425B /* AW InactiveTabRightCap@2x.png in Resources */,
@@ -2638,18 +2742,20 @@
 				F2FEE7161892A747000E6BC8 /* SharingIconWrite.pdf in Resources */,
 				F25A072F191A875100F07557 /* StatusReadWrite.png in Resources */,
 				4CDC272018967D990060B044 /* SEEParticipantView.xib in Resources */,
+				F22024D9191D0BFE0098982C /* ParticipantReadOnlyTurnOffPressed.png in Resources */,
+				F22024DE191D0BFE0098982C /* ParticipantReadOnlyTurnOnNormal@2x.png in Resources */,
 				F2D3E54C189941F50096425B /* AW SingleTabAddButtonPressed@2x.png in Resources */,
 				F2EF08D119069E33004D5080 /* Localizable.stringsdict in Resources */,
 				4C0D3D6417FB12F700AAFB38 /* SEEStyleSheetEditorWindowController.xib in Resources */,
 				F2D3E544189941F50096425B /* AW Pulled ActiveTabCenterFill@2x.png in Resources */,
 				F2D3E55C189941F50096425B /* IW InactiveTabAlert@2x.png in Resources */,
 				F2257CFD189673AA005EF9B1 /* BottomBarSharingIconAdd.png in Resources */,
-				F2202494191BDA160098982C /* ParticipantStatusFollow.png in Resources */,
 				F2FEE7151892A747000E6BC8 /* SharingIconReadOnly.pdf in Resources */,
 				142890FF095743F200D14688 /* URLIcon.tiff in Resources */,
 				14289100095743F200D14688 /* WaitPipe.png in Resources */,
 				F2D3E545189941F50096425B /* AW Pulled ActiveTabLeftCap.png in Resources */,
 				F2B136E8189BF27000430639 /* AW AddTabButtonRolloverBG.tiff in Resources */,
+				F22024CC191D0BFE0098982C /* ParticipantFollowTurnOnNormal@2x.png in Resources */,
 				F20AB882190932FB00444F4B /* SymbolWarn@2x.png in Resources */,
 				F20D8F1118FD37E30091EB13 /* BottomBarSharingIconAnnounceDarkBackground_Inactive.png in Resources */,
 				F2257CFC189673AA005EF9B1 /* BottomBarSharingIconAnnounce@2x.png in Resources */,
@@ -2660,6 +2766,7 @@
 				14289572095776DE00D14688 /* see.1 in Resources */,
 				F2257D00189673AA005EF9B1 /* BottomBarSharingIconGroup@2x.png in Resources */,
 				4CD5F7EA17FB0C8E00F49E31 /* SEEEncodingDoctorView.xib in Resources */,
+				F22024CD191D0BFE0098982C /* ParticipantFollowTurnOnPressed.png in Resources */,
 				F20D8F0C18FC28CB0091EB13 /* Media.xcassets in Resources */,
 				F2D3E556189941F50096425B /* IW ActiveTabFill@2x.png in Resources */,
 				F265602318C4BA7300C73737 /* SearchLoupeRE.pdf in Resources */,
@@ -2669,6 +2776,7 @@
 				4C6BDC5F1889858A0088CBFC /* folded.png in Resources */,
 				F2E6CBB119068D4700D431F9 /* ToolbarSplitTwoPanes.png in Resources */,
 				F220247C191BBDA10098982C /* hud_buttonFill-N.png in Resources */,
+				F22024C0191D0BFE0098982C /* ParticipantFollowStatusOn@2x.png in Resources */,
 				420AAF7F18FE0FFC00297DB1 /* StylePrefs.xib in Resources */,
 				F2D3E562189941F50096425B /* IW InactiveTabClosePressed@2x.png in Resources */,
 				4CA098DE18EAF54E0026B3E3 /* SEEWebPreviewViewController.xib in Resources */,
@@ -2677,6 +2785,7 @@
 				F2D3E551189941F50096425B /* IW ActiveTabClosePressed.png in Resources */,
 				F2B136E7189BF27000430639 /* AW AddTabButtonRolloverBG_Pressed.tiff in Resources */,
 				F2D3E555189941F50096425B /* IW ActiveTabFill.png in Resources */,
+				F22024E3191D0D280098982C /* ParticipantReadOnlyTurnOnPressed.png in Resources */,
 				F2D3E541189941F50096425B /* AW InactiveTabRightCap.png in Resources */,
 				F2D3E564189941F50096425B /* IW InactiveTabCloseRollover@2x.png in Resources */,
 				F2B136E6189BF27000430639 /* AW AddTabButtonRollover.tiff in Resources */,
@@ -2686,11 +2795,12 @@
 				F25A071F191A6D4600F07557 /* WaitPipe@2x.png in Resources */,
 				4C6BDC5618896DCC0088CBFC /* SubEthaEditText.iconset in Resources */,
 				F2D3E531189941F50096425B /* AW ActiveTabLeftCap.png in Resources */,
-				F2202496191BDA160098982C /* ParticipantStatusReadOnly.png in Resources */,
 				F2061D590B4C13AF00E6631F /* SmallGrowBoxRight3.tiff in Resources */,
 				F25A071C191A6A9100F07557 /* NamedLogo2@2x.png in Resources */,
 				F2D3E548189941F50096425B /* AW Pulled ActiveTabRightCap@2x.png in Resources */,
+				F22024DC191D0BFE0098982C /* ParticipantReadOnlyTurnOnHover@2x.png in Resources */,
 				F2D3E528189941F50096425B /* AddTab.pdf in Resources */,
+				F22024CF191D0BFE0098982C /* ParticipantKickHover.png in Resources */,
 				F2D3E558189941F50096425B /* IW ActiveTabLeftCap@2x.png in Resources */,
 				F2D3E53F189941F50096425B /* AW InactiveTabLeftCap.png in Resources */,
 				F2D3E52B189941F50096425B /* AW ActiveTabClosePressed.png in Resources */,
@@ -2705,10 +2815,13 @@
 				4CD5F82917FB0E4F00F49E31 /* SavePanelAccessory.xib in Resources */,
 				F2257CFA189673AA005EF9B1 /* BottomBarSharingIconAnnounce_Inactive@2x.png in Resources */,
 				4CD5F82D17FB0E6000F49E31 /* SelectEncodingsPanel.xib in Resources */,
+				F22024BF191D0BFE0098982C /* ParticipantFollowStatusOn.png in Resources */,
 				F20D8F1218FD37E30091EB13 /* BottomBarSharingIconAnnounceDarkBackground_Inactive@2x.png in Resources */,
+				F22024CE191D0BFE0098982C /* ParticipantFollowTurnOnPressed@2x.png in Resources */,
 				F2D3E55F189941F50096425B /* IW InactiveTabClose.png in Resources */,
 				F2D3E566189941F50096425B /* IW InactiveTabLeftCap@2x.png in Resources */,
 				F220248E191BC33D0098982C /* hud_buttonRight-P.png in Resources */,
+				F22024D4191D0BFE0098982C /* ParticipantKickPressed@2x.png in Resources */,
 				F2D3E529189941F50096425B /* AW ActiveTabClose.png in Resources */,
 				422F9739190FD367009FD437 /* TCM_Logo_White_Background.pdf in Resources */,
 				F2D3E53B189941F50096425B /* AW InactiveTabClosePressed.png in Resources */,
@@ -2716,10 +2829,12 @@
 				F2D3E553189941F50096425B /* IW ActiveTabCloseRollover.png in Resources */,
 				F220248A191BC33D0098982C /* hud_buttonFill-P.png in Resources */,
 				F2D3E550189941F50096425B /* IW ActiveTabClose@2x.png in Resources */,
+				F22024DB191D0BFE0098982C /* ParticipantReadOnlyTurnOnHover.png in Resources */,
 				319AAE3C0CB0165800ACDAB4 /* Precedence_AddPressed.tiff in Resources */,
 				F2202480191BBDA10098982C /* hud_buttonRight-N.png in Resources */,
 				F220248B191BC33D0098982C /* hud_buttonFill-P@2x.png in Resources */,
 				F25A071B191A6A9100F07557 /* NamedLogo2.png in Resources */,
+				F22024D1191D0BFE0098982C /* ParticipantKickNormal.png in Resources */,
 				319AAE3D0CB0165900ACDAB4 /* Precedence_Remove.tiff in Resources */,
 				319AAE3E0CB0165A00ACDAB4 /* Precedence_RemovePressed.png in Resources */,
 				3134F7DE0CB13A2E00F8C116 /* Precedence_RemoveRollover.tiff in Resources */,
@@ -2727,8 +2842,11 @@
 				F2D5FF3E0CB2666000407399 /* Rendezvous.icns in Resources */,
 				F2D5FF400CB2667A00407399 /* StylePrefs.icns in Resources */,
 				4CD5F80617FB0D5B00F49E31 /* OpenPanelAccessory.xib in Resources */,
+				F22024D5191D0BFE0098982C /* ParticipantReadOnlyTurnOffHover.png in Resources */,
 				4C0C4A1D18B3768500E6049E /* SEEDocumentListWindowController.xib in Resources */,
 				F21DAFE818BB77AA002B3C41 /* SEEFindAndReplaceView.xib in Resources */,
+				F22024D0191D0BFE0098982C /* ParticipantKickHover@2x.png in Resources */,
+				F22024C7191D0BFE0098982C /* ParticipantFollowTurnOffPressed.png in Resources */,
 				F2D3E53E189941F50096425B /* AW InactiveTabCloseRollover@2x.png in Resources */,
 				4C6BDC601889858A0088CBFC /* folded@2x.png in Resources */,
 				F25A0723191A800E00F07557 /* EditPrefs.png in Resources */,
@@ -2751,8 +2869,8 @@
 				F2C6D3760D6DB131002B401D /* URLIconOK.tiff in Resources */,
 				4C0C4A0118B366EC00E6049E /* PlainTextWindow.xib in Resources */,
 				4CD5F7E217FB0C4D00F49E31 /* DocumentProxy.xib in Resources */,
+				F22024C4191D0BFE0098982C /* ParticipantFollowTurnOffHover@2x.png in Resources */,
 				F2D3E54A189941F50096425B /* AW SingleTabAddButton@2x.png in Resources */,
-				F2202497191BDA160098982C /* ParticipantStatusReadOnly@2x.png in Resources */,
 				F2FEE7141892A747000E6BC8 /* SharingIconEye.pdf in Resources */,
 				4CFAABB118A3ECE4009DB5C3 /* EditorAddSplit.pdf in Resources */,
 				4CDF05A618C0A3D4004A49E5 /* SEEConnectionAddingWindowController.xib in Resources */,
@@ -2762,10 +2880,12 @@
 				F291D1B10FCECF33008BC286 /* FoldingBubbleBig.png in Resources */,
 				F25A072C191A875100F07557 /* StatusPending@2x.png in Resources */,
 				F2E6CBB019068D4700D431F9 /* ToolbarSplitOnePane@2x.png in Resources */,
+				F22024E9191D0DB30098982C /* ParticipantReadOnlyStatusOn.png in Resources */,
 				4CD5F80217FB0D3700F49E31 /* MainMenu.xib in Resources */,
 				4C0D3D7417FB166D00AAFB38 /* DebugPresence.xib in Resources */,
 				F220248D191BC33D0098982C /* hud_buttonLeft-P@2x.png in Resources */,
 				F2D3E52A189941F50096425B /* AW ActiveTabClose@2x.png in Resources */,
+				F22024CB191D0BFE0098982C /* ParticipantFollowTurnOnNormal.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
