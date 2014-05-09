@@ -142,8 +142,6 @@
 	if (aImage) { // set that image
 		hasDefaultImage = NO;
 		image = aImage;
-//		image = [image resizedImageWithSize:NSMakeSize(256.,256.)]; // maybe resize image?
-		[image setFlipped:NO];
 				
 	} else { // set the default image
 		hasDefaultImage = YES;
@@ -171,7 +169,7 @@
 	if (numberHasDefault) {
 		hasDefaultImage = [numberHasDefault boolValue];
 	} else {
-		hasDefaultImage = YES; // TODO: initial setup - reading the image from the disk;
+		hasDefaultImage = NO;
 	}
 	return hasDefaultImage;
 }
