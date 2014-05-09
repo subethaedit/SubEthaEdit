@@ -6586,6 +6586,17 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 	return [super handleSaveScriptCommand:command];
 }
 
+- (id)handleCloseScriptCommand:(NSCloseCommand *)command {
+	NSDictionary *arguments = command.evaluatedArguments;
+	NSURL *fileURL = [arguments objectForKey:@"saving in"];
+	if (fileURL) { // only in save as mode
+		if ([[SEEScopedBookmarkManager sharedManager] startAccessingURL:fileURL]) {
+			NSLog(@"Access granted.");
+		}
+	}
+	return [super handleCloseScriptCommand:command];
+}
+
 - (void)handleBeginUndoGroupCommand:(NSScriptCommand *)command {
     [[self documentUndoManager] beginUndoGrouping];
 	[I_textStorage beginEditing];
