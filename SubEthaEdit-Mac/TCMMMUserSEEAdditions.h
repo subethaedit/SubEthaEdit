@@ -33,5 +33,9 @@
 - (NSImage *)defaultImage;
 
 - (BOOL)writeImageToUrl:(NSURL *)aURL; // add <file name>.png
+- (BOOL)readImageFromUrl:(NSURL *)aURL;
+
+- (BOOL)removePersistedUserImage;
++ (NSURL *)applicationSupportURLForUserImage;
 
 @end
