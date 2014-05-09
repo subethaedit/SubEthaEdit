@@ -22,6 +22,7 @@
 
 #import "TCMMMUser.h"
 #import "TCMMMUserSEEAdditions.h"
+#import "TCMHoverButton.h"
 
 @interface SEEParticipantViewController ()
 
@@ -43,6 +44,7 @@
 @property (nonatomic, weak) IBOutlet NSButton *closeConnectionButtonOutlet;
 @property (nonatomic, weak) IBOutlet NSButton *toggleEditModeButtonOutlet;
 @property (nonatomic, weak) IBOutlet NSButton *toggleFollowButtonOutlet;
+@property (nonatomic, strong) IBOutlet TCMHoverButton *kickUserButtonOutlet;
 
 @property (nonatomic, strong) IBOutlet NSPopover *pendingUserPopoverOutlet;
 @property (nonatomic, weak) IBOutlet NSTextField *pendingUserActionPopoverTitle;
@@ -132,6 +134,14 @@
 		NSButton *button = self.closeConnectionButtonOutlet;
 		button.image = [NSImage pdfBasedImageNamed:@"SharingIconCloseCross"TCM_PDFIMAGE_SEP@"16"TCM_PDFIMAGE_SEP@""TCM_PDFIMAGE_NORMAL];
 	}
+
+	{
+		TCMHoverButton *button = self.kickUserButtonOutlet;
+		[button setImagesByPrefix:@"ParticipantKick"];
+		button.alphaValue = 0.0;
+	}
+
+	
 	{
 		NSButton *button = self.toggleEditModeButtonOutlet;
 		button.image = [NSImage pdfBasedImageNamed:@"SharingIconReadOnly"TCM_PDFIMAGE_SEP@"16"TCM_PDFIMAGE_SEP@""TCM_PDFIMAGE_NORMAL];
@@ -203,6 +213,8 @@
 	switch (self.viewMode) {
 		case SEEParticipantViewModeParticipant:
 		{
+			self.kickUserButtonOutlet.animator.alphaValue = 1.0;
+			
 			if (! self.participant.isMe) {
 				[self updateParticipantFollowed];
 				self.participantActionOverlayOutlet.hidden = NO;
@@ -282,6 +294,8 @@
 	switch (self.viewMode) {
 		case SEEParticipantViewModeParticipant:
 		{
+			self.kickUserButtonOutlet.animator.alphaValue = 0.0;
+
 			if (! self.participant.isMe) {
 				self.participantActionOverlayOutlet.hidden = YES;
 

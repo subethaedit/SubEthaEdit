@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="SEEParticipantViewController">
@@ -12,6 +13,7 @@
                 <outlet property="closeConnectionButtonOutlet" destination="Uv8-hZ-TnG" id="RDO-0v-jmD"/>
                 <outlet property="connectingProgressIndicatorOutlet" destination="k1p-6D-syT" id="wZs-np-mwT"/>
                 <outlet property="hasFollowerOverlayImageOutlet" destination="Ean-kT-01Z" id="3LV-kx-M3a"/>
+                <outlet property="kickUserButtonOutlet" destination="EKQ-zL-Ujr" id="kMs-gK-YkW"/>
                 <outlet property="nameLabelOutlet" destination="Fk9-Iw-pk8" id="g0F-tN-gRT"/>
                 <outlet property="nameLabelPopoverOutlet" destination="5sY-nJ-VOY" id="M82-Ua-Eok"/>
                 <outlet property="participantActionOverlayOutlet" destination="lTM-E1-CsT" id="BMS-gs-uzp"/>
@@ -92,14 +94,31 @@
                         <font key="font" metaFont="system"/>
                     </buttonCell>
                 </button>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="EKQ-zL-Ujr" userLabel="Kick Button" customClass="TCMHoverButton">
+                    <rect key="frame" x="49" y="45" width="23" height="23"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="EKQ-zL-Ujr" secondAttribute="height" multiplier="1:1" id="ab1-57-9HR"/>
+                        <constraint firstAttribute="width" constant="23" id="cfF-Qc-U1h"/>
+                    </constraints>
+                    <buttonCell key="cell" type="bevel" bezelStyle="rounded" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="9s7-m7-1AV">
+                        <behavior key="behavior" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="closeConnection:" target="-2" id="Vb8-6I-16f"/>
+                    </connections>
+                </button>
             </subviews>
             <constraints>
                 <constraint firstItem="TNz-7E-ZCn" firstAttribute="top" secondItem="Ean-kT-01Z" secondAttribute="top" constant="2" id="5hP-0R-cER"/>
                 <constraint firstAttribute="centerX" secondItem="hE6-nB-RDu" secondAttribute="centerX" id="6bf-Dn-WAG"/>
                 <constraint firstAttribute="centerY" secondItem="hE6-nB-RDu" secondAttribute="centerY" id="9g1-gp-gv4"/>
                 <constraint firstItem="hE6-nB-RDu" firstAttribute="centerY" secondItem="i14-Tb-TdJ" secondAttribute="centerY" id="BeS-c5-vn6"/>
+                <constraint firstItem="TNz-7E-ZCn" firstAttribute="trailing" secondItem="EKQ-zL-Ujr" secondAttribute="trailing" constant="-6" id="Bkv-EM-nek"/>
                 <constraint firstAttribute="height" constant="76" id="CTe-CY-L0P"/>
                 <constraint firstItem="hE6-nB-RDu" firstAttribute="centerX" secondItem="k1p-6D-syT" secondAttribute="centerX" id="DMG-H5-rAW"/>
+                <constraint firstItem="TNz-7E-ZCn" firstAttribute="top" secondItem="EKQ-zL-Ujr" secondAttribute="top" constant="2" id="FPD-hf-IB3"/>
                 <constraint firstItem="vtW-pW-OTD" firstAttribute="bottom" secondItem="TNz-7E-ZCn" secondAttribute="bottom" constant="1" id="Jbm-Yd-cru"/>
                 <constraint firstAttribute="width" secondItem="hE6-nB-RDu" secondAttribute="width" priority="549" constant="20" id="KND-Ve-MSI"/>
                 <constraint firstItem="TNz-7E-ZCn" firstAttribute="bottom" secondItem="hE6-nB-RDu" secondAttribute="bottom" id="LTw-bO-0wI"/>
