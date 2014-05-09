@@ -183,7 +183,6 @@ NSString * const TCMMMUserWillLeaveSessionNotification = @"TCMMMUserWillLeaveSes
 }
 
 #pragma mark - Image
-// TODO: check this
 - (void)setImageWithPNGData:(NSData *)aPNGData {
 	if (aPNGData &&
 		aPNGData.length > 0) {
@@ -198,7 +197,13 @@ NSString * const TCMMMUserWillLeaveSessionNotification = @"TCMMMUserWillLeaveSes
 		//NSLog(@"%s md5:%@ userName:%@",__FUNCTION__,md5String,self.name);
 		if (![emptyImageHashes containsObject:md5String]) {
 			[self.properties setObject:aPNGData forKey:TCMMMUserPropertyKeyImageAsPNGData];
+
+		} else {
+			[self.properties setObject:@(YES) forKey:@"HasDefaultImage"];
 		}
+		// when asking for the image it will be created from the data
+		// if there is no image and no data the default image will be set automatically and the default image flag will be turned on
+
 	}
 }
 
