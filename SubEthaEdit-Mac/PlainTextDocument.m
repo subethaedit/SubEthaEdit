@@ -6588,7 +6588,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 - (id)handleCloseScriptCommand:(NSCloseCommand *)command {
 	NSDictionary *arguments = command.evaluatedArguments;
-	NSURL *fileURL = [arguments objectForKey:@"saving in"];
+	NSURL *fileURL = [arguments objectForKey:@"File"];
 	if (fileURL) { // only in save as mode
 		if ([[SEEScopedBookmarkManager sharedManager] startAccessingURL:fileURL]) {
 			NSLog(@"Access granted.");
