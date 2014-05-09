@@ -527,14 +527,14 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	NSArray *availableDocumentSession = self.availableItems;
 	id documentRepresentation = [availableDocumentSession objectAtIndex:row];
 	if ([documentRepresentation isKindOfClass:SEENetworkConnectionDocumentListItem.class]) {
-		rowHeight = 50.0;
+		rowHeight = 54.0;
 	} else if ([documentRepresentation isKindOfClass:SEEToggleRecentDocumentListItem.class]) {
 		rowHeight = 28.0;
 	} else if ([documentRepresentation isKindOfClass:SEEConnectDocumentListItem.class]) {
 		rowHeight = 42.0;
 	} else if ([documentRepresentation isKindOfClass:SEENetworkDocumentListItem.class] ||
 			   [documentRepresentation isKindOfClass:SEERecentDocumentListItem.class]) {
-		rowHeight = 34.0;
+		rowHeight = 36.0;
 	}
 	return rowHeight;
 }

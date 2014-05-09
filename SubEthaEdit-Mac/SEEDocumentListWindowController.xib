@@ -55,11 +55,11 @@
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES"/>
                                             <prototypeCellViews>
                                                 <tableCellView identifier="Group" id="7GF-iT-703" userLabel="User Cell View">
-                                                    <rect key="frame" x="1" y="1" width="297" height="50"/>
+                                                    <rect key="frame" x="1" y="1" width="297" height="54"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <customView identifier="AvatarView" translatesAutoresizingMaskIntoConstraints="NO" id="JPV-3V-IN6" userLabel="Avatar View" customClass="SEEAvatarImageView">
-                                                            <rect key="frame" x="5" y="-1" width="52" height="52"/>
+                                                            <rect key="frame" x="3" y="1" width="52" height="52"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="52" id="2aK-eB-YWP"/>
@@ -67,7 +67,7 @@
                                                             </constraints>
                                                         </customView>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="99d-xq-E7k">
-                                                            <rect key="frame" x="65" y="14" width="212" height="25"/>
+                                                            <rect key="frame" x="61" y="16" width="216" height="25"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="25" id="rtq-Bf-3ii"/>
@@ -83,7 +83,7 @@
                                                             </connections>
                                                         </textField>
                                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="sLz-ta-X1G">
-                                                            <rect key="frame" x="271" y="16" width="23" height="19"/>
+                                                            <rect key="frame" x="271" y="18" width="23" height="19"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="18" id="Kzm-AE-IVc"/>
@@ -114,19 +114,19 @@
                                                     </subviews>
                                                     <constraints>
                                                         <constraint firstItem="sLz-ta-X1G" firstAttribute="leading" secondItem="99d-xq-E7k" secondAttribute="trailing" constant="-4" id="9gP-xl-ifF"/>
-                                                        <constraint firstItem="JPV-3V-IN6" firstAttribute="leading" secondItem="7GF-iT-703" secondAttribute="leading" constant="5" id="Aag-bs-dMd"/>
+                                                        <constraint firstItem="JPV-3V-IN6" firstAttribute="leading" secondItem="7GF-iT-703" secondAttribute="leading" constant="3" id="Aag-bs-dMd"/>
                                                         <constraint firstAttribute="centerY" secondItem="JPV-3V-IN6" secondAttribute="centerY" id="KhV-LG-YoB"/>
                                                         <constraint firstItem="JPV-3V-IN6" firstAttribute="centerY" secondItem="99d-xq-E7k" secondAttribute="centerY" constant="1" id="TWS-ed-rS2"/>
                                                         <constraint firstAttribute="trailing" secondItem="sLz-ta-X1G" secondAttribute="trailing" constant="3" id="dAl-Z2-Uja"/>
                                                         <constraint firstItem="sLz-ta-X1G" firstAttribute="centerY" secondItem="7GF-iT-703" secondAttribute="centerY" constant="-1" id="fxJ-Ib-Nxh"/>
-                                                        <constraint firstItem="99d-xq-E7k" firstAttribute="leading" secondItem="JPV-3V-IN6" secondAttribute="trailing" constant="10" id="ya8-Ub-8e6"/>
+                                                        <constraint firstItem="99d-xq-E7k" firstAttribute="leading" secondItem="JPV-3V-IN6" secondAttribute="trailing" constant="8" id="ya8-Ub-8e6"/>
                                                     </constraints>
                                                     <connections>
                                                         <outlet property="textField" destination="99d-xq-E7k" id="QnQ-Yw-dNe"/>
                                                     </connections>
                                                 </tableCellView>
                                                 <tableCellView identifier="OtherItems" id="8bn-dY-eZx">
-                                                    <rect key="frame" x="1" y="53" width="297" height="28"/>
+                                                    <rect key="frame" x="1" y="57" width="297" height="28"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gvx-Sa-6EV">
@@ -167,7 +167,7 @@
                                                     </connections>
                                                 </tableCellView>
                                                 <tableCellView identifier="ToggleRecent" id="Tiq-Hx-BMa">
-                                                    <rect key="frame" x="1" y="83" width="297" height="28"/>
+                                                    <rect key="frame" x="1" y="87" width="297" height="28"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="UWB-RS-5uw">
@@ -206,7 +206,7 @@
                                                     </connections>
                                                 </tableCellView>
                                                 <tableCellView identifier="Document" id="l0C-OX-d9H" userLabel="Recent Cell View">
-                                                    <rect key="frame" x="1" y="113" width="297" height="34"/>
+                                                    <rect key="frame" x="1" y="117" width="297" height="34"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <imageView translatesAutoresizingMaskIntoConstraints="NO" id="Qp7-Vm-djo" userLabel="File Icon">
@@ -247,7 +247,7 @@
                                                     </connections>
                                                 </tableCellView>
                                                 <tableCellView identifier="NetworkDocument" id="tmI-B6-msd" userLabel="Network Doc Cell View">
-                                                    <rect key="frame" x="1" y="149" width="297" height="34"/>
+                                                    <rect key="frame" x="1" y="153" width="297" height="34"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UOM-2h-7Ex">
@@ -298,7 +298,7 @@
                                                     </connections>
                                                 </tableCellView>
                                                 <tableCellView identifier="Connect" id="pIc-iJ-JHp">
-                                                    <rect key="frame" x="1" y="185" width="297" height="42"/>
+                                                    <rect key="frame" x="1" y="189" width="297" height="42"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="xlp-Jr-Hfh">
