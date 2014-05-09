@@ -250,6 +250,19 @@ static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.s
 */
 
 
+- (void)resetBookmarksInUserDefaults {
+	for (NSURL *accessingURL in self.accessingURLs) {
+		NSURL *accessedBookmarkURL = self.lookupDict[accessingURL];
+		[accessedBookmarkURL stopAccessingSecurityScopedResource];
+	}
+	[self.lookupDict removeAllObjects];
+	[self.accessingURLs removeAllObjects];
+	[self.bookmarkURLs removeAllObjects];
+
+	[self writeBookmarksToUserDefaults];
+}
+
+
 - (void)readBookmarksFromUserDefaults {
 	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 	NSArray *readBookmarks = [userDefaults objectForKey:SEEScopedBookmarksKey];

@@ -12,6 +12,8 @@
 
 + (instancetype)sharedManager;
 
+- (void)resetBookmarksInUserDefaults;
+
 - (BOOL)hasBookmarkForURL:(NSURL *)aURL;
 
 - (BOOL)startAccessingURL:(NSURL *)aURL;
