@@ -155,7 +155,10 @@ static AppController *sharedInstance = nil;
 		[defaults setObject:[NSNumber numberWithBool:NO] forKey:kSEEDefaultsKeyEnableTLS];
 		[defaults setObject:[NSNumber numberWithBool:NO] forKey:kSEEDefaultsKeyUseTemporaryKeychainForTLS]; // no more temporary keychain in 10.6 and up builds
 		
-		NSDictionary* sequelProDefaults = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"PreferenceDefaults" ofType:@"plist"]];
+		defaults[MyEmailPreferenceKey] = @"";
+		defaults[MyAIMPreferenceKey] = @"";
+
+		NSDictionary *sequelProDefaults = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"PreferenceDefaults" ofType:@"plist"]];
 		
 		[defaults addEntriesFromDictionary:sequelProDefaults];
 		
@@ -224,7 +227,6 @@ static AppController *sharedInstance = nil;
         // first run
         userID = [NSString UUIDString];
 	
-		// TODO: clean up with dom?
         CFStringRef appID = (CFStringRef)[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"];
         // Set up the preference.
         CFPreferencesSetValue(CFSTR("UserID"), (CFStringRef)userID, appID, kCFPreferencesCurrentUser, kCFPreferencesCurrentHost);
@@ -255,17 +257,9 @@ static AppController *sharedInstance = nil;
 	
 	// email
 	myEmail = [defaults stringForKey:MyEmailPreferenceKey];
-	if (!myEmail) {
-		myEmail = @"";
-		[defaults setObject:myEmail forKey:MyEmailPreferenceKey];
-	}
 	
 	// aim
-	myAIM   = [defaults stringForKey:MyAIMPreferenceKey];
-	if (!myAIM) {
-		myAIM = @"";
-		[defaults setObject:myAIM forKey:MyAIMPreferenceKey];
-	}
+	myAIM = [defaults stringForKey:MyAIMPreferenceKey];
 	
 	// set basic user data
     
