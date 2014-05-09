@@ -191,11 +191,66 @@
 	return data;
 }
 
++ (NSURL *)applicationSupportURLForUserImage {
+	NSURL *result;
+	
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	NSArray *possibleURLs = [fileManager URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask];
+	NSURL *appSupportDir = nil;
+	
+	if ([possibleURLs count] >= 1) {
+		// Use the first directory (if multiple are returned)
+		appSupportDir = [possibleURLs objectAtIndex:0];
+	}
+
+	NSString *appBundleID = [[NSBundle mainBundle] bundleIdentifier];
+	result = [appSupportDir URLByAppendingPathComponent:appBundleID];
+
+	if (![fileManager fileExistsAtPath:[result path] isDirectory:NULL]) {
+		[fileManager createDirectoryAtPath:[result path] withIntermediateDirectories:YES attributes:nil error:nil];
+	}
+
+	result = [result URLByAppendingPathComponent:@"MeUserImage.png"];
+	return result;
+}
+
+
 - (BOOL)writeImageToUrl:(NSURL *)aURL {
 	BOOL result = NO;
 	NSData *imageData = [[self properties] objectForKey:TCMMMUserPropertyKeyImageAsPNGData];
 	if (imageData) {
 		result = [imageData writeToURL:aURL atomically:YES];
+	}
+	return result;
+}
+
+- (BOOL)readImageFromUrl:(NSURL *)aURL {
+	BOOL result = NO;
+	NSData *imageData = [NSData dataWithContentsOfURL:aURL];
+	NSImage *image;
+	if (imageData) {
+		image = [[NSImage alloc] initWithData:imageData];
+	}
+	
+	if (image) {
+		[self setImage:image];
+		result = YES;
+		
+	} else {
+		[self setDefaultImage];
+	}
+	
+	return result;
+}
+
+- (BOOL)removePersistedUserImage {
+	BOOL result = YES;
+	NSURL *url = [TCMMMUser applicationSupportURLForUserImage];
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	NSError *error = nil;
+	[fileManager removeItemAtURL:url error:&error];
+	if (error) {
+		result = NO;
 	}
 	return result;
 }
