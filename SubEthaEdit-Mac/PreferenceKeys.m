@@ -30,9 +30,6 @@ NSString * const MyAIMsPreferenceKey                        = @"MyAIMs";
 NSString * const MyEmailsPreferenceKey                      = @"MyEmails";
 NSString * const SynthesiseFontsPreferenceKey               = @"SynthesiseFonts";
 
-
-
-NSString * const kSEEDefaultsKeyMyImagePreference              = @"MyImage";
 NSString * const kSEEDefaultsKeyOpenNewDocumentInTab           = @"OpenNewDocumentInTab";
 NSString * const kSEEDefaultsKeyAlwaysShowTabBar               = @"AlwaysShowTabBar";
 NSString * const kSEEDefaultsKeyDontSaveDocumentStateInXattrs  = @"DontSaveDocumentStateInXattrs";
