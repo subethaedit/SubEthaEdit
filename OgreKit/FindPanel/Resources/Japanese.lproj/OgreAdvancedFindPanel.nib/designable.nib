@@ -87,9 +87,9 @@
                     <button verticalHuggingPriority="750" id="26">
                         <rect key="frame" x="369" y="29" width="120" height="28"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="push" title="置換 &amp; 検索" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" inset="2" id="718">
+                        <buttonCell key="cell" type="push" title="置換と検索" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" inset="2" id="718">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="titleBar" size="12"/>
+                            <font key="font" size="12" name="AquaKana"/>
                         </buttonCell>
                         <connections>
                             <action selector="replaceAndFind:" target="242" id="276"/>
@@ -192,9 +192,9 @@
                     <button verticalHuggingPriority="750" id="17">
                         <rect key="frame" x="133" y="29" width="120" height="28"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="push" title="一括置換" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" inset="2" id="714">
+                        <buttonCell key="cell" type="push" title="すべて置換" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" inset="2" id="714">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="titleBar" size="12"/>
+                            <font key="font" size="12" name="AquaKana"/>
                         </buttonCell>
                         <connections>
                             <action selector="replaceAll:" target="242" id="274"/>
@@ -203,9 +203,9 @@
                     <button verticalHuggingPriority="750" id="13">
                         <rect key="frame" x="133" y="4" width="120" height="28"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="push" title="一括検索" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" inset="2" id="713">
+                        <buttonCell key="cell" type="push" title="すべて検索" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" inset="2" id="713">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="titleBar" size="12"/>
+                            <font key="font" size="12" name="AquaKana"/>
                             <string key="keyEquivalent">F</string>
                         </buttonCell>
                         <connections>
@@ -908,7 +908,7 @@
                         <action selector="findSelectedText:" target="242" id="246"/>
                     </connections>
                 </menuItem>
-                <menuItem title="一括検索" tag="4" keyEquivalent="F" id="105">
+                <menuItem title="すべて検索" tag="4" keyEquivalent="F" id="105">
                     <connections>
                         <action selector="findAll:" target="242" id="247"/>
                     </connections>
@@ -945,7 +945,7 @@
                         <action selector="replaceAndFind:" target="242" id="251"/>
                     </connections>
                 </menuItem>
-                <menuItem title="一括置換" tag="9" id="104">
+                <menuItem title="すべて置換" tag="9" id="104">
                     <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                     <connections>
                         <action selector="replaceAll:" target="242" id="252"/>
