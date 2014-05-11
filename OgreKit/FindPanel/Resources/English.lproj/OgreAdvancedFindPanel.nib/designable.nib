@@ -18,7 +18,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" rightStrut="YES" topStrut="YES"/>
             <rect key="contentRect" x="520" y="426" width="504" height="298"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1050"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1028"/>
             <view key="contentView" id="743">
                 <rect key="frame" x="0.0" y="0.0" width="504" height="298"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -870,7 +870,7 @@
         </customView>
         <menu title="Menu" id="889">
             <items>
-                <menuItem title="Find..." keyEquivalent="f" id="893">
+                <menuItem title="Find…" keyEquivalent="f" id="893">
                     <connections>
                         <action selector="showFindPanel:" target="-2" id="953"/>
                     </connections>
@@ -963,7 +963,7 @@
                 <menuItem isSeparatorItem="YES" id="905">
                     <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                 </menuItem>
-                <menuItem title="Clear Find/Replace Histories..." id="906">
+                <menuItem title="Clear Find/Replace Histories…" id="906">
                     <connections>
                         <action selector="clearFindReplaceHistories:" target="911" id="962"/>
                     </connections>
