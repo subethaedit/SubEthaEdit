@@ -13,8 +13,8 @@
 
 "Find"			= "検索";	/* the title of the "Find" menu */
 "Replace"		= "置換";
-"Find All"		= "一括検索";
-"Replace All"   = "一括置換";
+"Find All"		= "すべて検索";
+"Replace All"   = "すべて置換";
 "Highlight"		= "ハイライト";
 
 /* the titles of buttons */

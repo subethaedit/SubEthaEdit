@@ -17,7 +17,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" rightStrut="YES" topStrut="YES"/>
             <rect key="contentRect" x="519" y="426" width="504" height="298"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1050"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1028"/>
             <view key="contentView" id="32">
                 <rect key="frame" x="0.0" y="0.0" width="504" height="298"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -37,12 +37,12 @@
                                         <font key="font" metaFont="smallSystem"/>
                                     </buttonCell>
                                     <connections>
+                                        <binding destination="476" name="value" keyPath="selection.mergeStylesOption" id="673"/>
                                         <binding destination="476" name="enabled" keyPath="selection.replaceWithStylesOption" id="675">
                                             <dictionary key="options">
                                                 <bool key="NSRaisesForNotApplicableKeys" value="NO"/>
                                             </dictionary>
                                         </binding>
-                                        <binding destination="476" name="value" keyPath="selection.mergeStylesOption" id="673"/>
                                     </connections>
                                 </button>
                                 <button id="668" customClass="OgreAFPCOptionButton">
@@ -53,8 +53,8 @@
                                         <font key="font" metaFont="smallSystem"/>
                                     </buttonCell>
                                     <connections>
-                                        <binding destination="476" name="enabled" keyPath="selection.replaceWithStylesOption" id="671"/>
                                         <binding destination="476" name="value" keyPath="selection.replaceFontsOption" id="669"/>
+                                        <binding destination="476" name="enabled" keyPath="selection.replaceWithStylesOption" id="671"/>
                                     </connections>
                                 </button>
                                 <button toolTip="スタイル付き文字列に置換する" id="676" customClass="OgreAFPCOptionButton">
@@ -87,9 +87,9 @@
                     <button verticalHuggingPriority="750" id="26">
                         <rect key="frame" x="369" y="29" width="120" height="28"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="push" title="置換 &amp; 検索" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" inset="2" id="718">
+                        <buttonCell key="cell" type="push" title="置換と検索" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" inset="2" id="718">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="titleBar" size="12"/>
+                            <font key="font" size="12" name="AquaKana"/>
                         </buttonCell>
                         <connections>
                             <action selector="replaceAndFind:" target="242" id="276"/>
@@ -192,9 +192,9 @@
                     <button verticalHuggingPriority="750" id="17">
                         <rect key="frame" x="133" y="29" width="120" height="28"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="push" title="一括置換" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" inset="2" id="714">
+                        <buttonCell key="cell" type="push" title="すべて置換" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" inset="2" id="714">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="titleBar" size="12"/>
+                            <font key="font" size="12" name="AquaKana"/>
                         </buttonCell>
                         <connections>
                             <action selector="replaceAll:" target="242" id="274"/>
@@ -203,9 +203,9 @@
                     <button verticalHuggingPriority="750" id="13">
                         <rect key="frame" x="133" y="4" width="120" height="28"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="push" title="一括検索" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" inset="2" id="713">
+                        <buttonCell key="cell" type="push" title="すべて検索" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" inset="2" id="713">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="titleBar" size="12"/>
+                            <font key="font" size="12" name="AquaKana"/>
                             <string key="keyEquivalent">F</string>
                         </buttonCell>
                         <connections>
@@ -302,12 +302,12 @@
                                         <font key="font" metaFont="smallSystem"/>
                                     </buttonCell>
                                     <connections>
+                                        <binding destination="476" name="value" keyPath="selection.delimitByWhitespaceOption" id="563"/>
                                         <binding destination="476" name="enabled" keyPath="selection.regularExpressionsOption" id="565">
                                             <dictionary key="options">
                                                 <string key="NSValueTransformerName">NSNegateBoolean</string>
                                             </dictionary>
                                         </binding>
-                                        <binding destination="476" name="value" keyPath="selection.delimitByWhitespaceOption" id="563"/>
                                     </connections>
                                 </button>
                                 <button toolTip="正規表現を使用する" id="561">
@@ -484,22 +484,22 @@
                                     </popUpButtonCell>
                                 </popUpButton>
                                 <textField verticalHuggingPriority="750" id="687">
-                                    <rect key="frame" x="5" y="107" width="60" height="17"/>
+                                    <rect key="frame" x="5" y="92" width="60" height="32"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" id="727">
-                                        <font key="font" metaFont="titleBar" size="12"/>
-                                        <string key="title">検索:
+                                        <font key="font" size="12" name="AquaKana"/>
+                                        <string key="title">検索：
 </string>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
                                 <textField verticalHuggingPriority="750" id="688">
-                                    <rect key="frame" x="5" y="29" width="60" height="17"/>
+                                    <rect key="frame" x="5" y="14" width="60" height="32"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" id="728">
-                                        <font key="font" metaFont="titleBar" size="12"/>
-                                        <string key="title">置換:
+                                        <font key="font" size="12" name="AquaKana"/>
+                                        <string key="title">置換：
 </string>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -699,8 +699,8 @@
                                     <font key="font" metaFont="smallSystem"/>
                                 </buttonCell>
                                 <connections>
-                                    <binding destination="476" name="enabled" keyPath="selection.openSheetOption" id="658"/>
                                     <binding destination="476" name="value" keyPath="selection.closeWhenDoneOption" id="509"/>
+                                    <binding destination="476" name="enabled" keyPath="selection.openSheetOption" id="658"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -718,7 +718,7 @@
                     <rect key="frame" x="176" y="161" width="80" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="ハイライト色:" id="743">
-                        <font key="font" metaFont="titleBar" size="12"/>
+                        <font key="font" metaFont="cellTitle"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
@@ -782,12 +782,12 @@
                                     <font key="font" metaFont="smallSystem"/>
                                 </buttonCell>
                                 <connections>
+                                    <binding destination="476" name="value" keyPath="selection.delimitByWhitespaceOption" id="655"/>
                                     <binding destination="476" name="enabled" keyPath="selection.regularExpressionsOption" id="660">
                                         <dictionary key="options">
                                             <string key="NSValueTransformerName">NSNegateBoolean</string>
                                         </dictionary>
                                     </binding>
-                                    <binding destination="476" name="value" keyPath="selection.delimitByWhitespaceOption" id="655"/>
                                 </connections>
                             </button>
                             <button toolTip="'.' を改行文字にもマッチさせる" id="624">
@@ -908,7 +908,7 @@
                         <action selector="findSelectedText:" target="242" id="246"/>
                     </connections>
                 </menuItem>
-                <menuItem title="一括検索" tag="4" keyEquivalent="F" id="105">
+                <menuItem title="すべて検索" tag="4" keyEquivalent="F" id="105">
                     <connections>
                         <action selector="findAll:" target="242" id="247"/>
                     </connections>
@@ -945,7 +945,7 @@
                         <action selector="replaceAndFind:" target="242" id="251"/>
                     </connections>
                 </menuItem>
-                <menuItem title="一括置換" tag="9" id="104">
+                <menuItem title="すべて置換" tag="9" id="104">
                     <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                     <connections>
                         <action selector="replaceAll:" target="242" id="252"/>
