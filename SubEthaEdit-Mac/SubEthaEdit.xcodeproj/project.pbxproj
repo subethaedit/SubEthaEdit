@@ -905,6 +905,7 @@
 		4C43314218E4777C00592EC2 /* SEEDocumentCreationFlags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEDocumentCreationFlags.h; sourceTree = "<group>"; };
 		4C43314318E4777C00592EC2 /* SEEDocumentCreationFlags.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEDocumentCreationFlags.m; sourceTree = "<group>"; };
 		4C4EFE44181AA3400072176F /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HockeySDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C5EA4E7191CF254005C28FD /* CocoaStandard.sdef */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = CocoaStandard.sdef; path = /System/Library/ScriptingDefinitions/CocoaStandard.sdef; sourceTree = "<absolute>"; };
 		4C5EC97B1897F6FC0094D850 /* SEEParticipantsOverlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEParticipantsOverlayViewController.h; sourceTree = "<group>"; };
 		4C5EC97C1897F6FC0094D850 /* SEEParticipantsOverlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEParticipantsOverlayViewController.m; sourceTree = "<group>"; };
 		4C5EC97D1897F6FC0094D850 /* SEEParticipantsOverlay.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEEParticipantsOverlay.xib; sourceTree = "<group>"; };
@@ -1412,6 +1413,7 @@
 		1428904E0957429A00D14688 /* AppleScript */ = {
 			isa = PBXGroup;
 			children = (
+				4C5EA4E7191CF254005C28FD /* CocoaStandard.sdef */,
 				1428905A0957434600D14688 /* SubEthaEdit.sdef */,
 			);
 			name = AppleScript;
