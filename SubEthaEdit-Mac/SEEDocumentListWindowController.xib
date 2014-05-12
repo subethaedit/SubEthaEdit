@@ -59,7 +59,7 @@
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <customView identifier="AvatarView" translatesAutoresizingMaskIntoConstraints="NO" id="JPV-3V-IN6" userLabel="Avatar View" customClass="SEEAvatarImageView">
-                                                            <rect key="frame" x="3" y="1" width="52" height="52"/>
+                                                            <rect key="frame" x="7" y="1" width="52" height="52"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="52" id="2aK-eB-YWP"/>
@@ -67,7 +67,7 @@
                                                             </constraints>
                                                         </customView>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="99d-xq-E7k">
-                                                            <rect key="frame" x="61" y="16" width="216" height="25"/>
+                                                            <rect key="frame" x="65" y="16" width="212" height="25"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="25" id="rtq-Bf-3ii"/>
@@ -114,7 +114,7 @@
                                                     </subviews>
                                                     <constraints>
                                                         <constraint firstItem="sLz-ta-X1G" firstAttribute="leading" secondItem="99d-xq-E7k" secondAttribute="trailing" constant="-4" id="9gP-xl-ifF"/>
-                                                        <constraint firstItem="JPV-3V-IN6" firstAttribute="leading" secondItem="7GF-iT-703" secondAttribute="leading" constant="3" id="Aag-bs-dMd"/>
+                                                        <constraint firstItem="JPV-3V-IN6" firstAttribute="leading" secondItem="7GF-iT-703" secondAttribute="leading" constant="7" id="Aag-bs-dMd" userLabel="Horizontal Space - (8) - Avatar View - User Cell View"/>
                                                         <constraint firstAttribute="centerY" secondItem="JPV-3V-IN6" secondAttribute="centerY" id="KhV-LG-YoB"/>
                                                         <constraint firstItem="JPV-3V-IN6" firstAttribute="centerY" secondItem="99d-xq-E7k" secondAttribute="centerY" constant="1" id="TWS-ed-rS2"/>
                                                         <constraint firstAttribute="trailing" secondItem="sLz-ta-X1G" secondAttribute="trailing" constant="3" id="dAl-Z2-Uja"/>
@@ -130,10 +130,11 @@
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gvx-Sa-6EV">
-                                                            <rect key="frame" x="4" y="3" width="17" height="19"/>
+                                                            <rect key="frame" x="8" y="4" width="14" height="21"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" constant="17" id="EjS-fo-2mU"/>
+                                                                <constraint firstAttribute="width" constant="14" id="EjS-fo-2mU" userLabel="Width - (20) - Image View"/>
+                                                                <constraint firstAttribute="height" constant="21" id="Vf3-E4-ccN"/>
                                                             </constraints>
                                                             <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSPathTemplate" id="Igp-4B-zMe"/>
                                                             <connections>
@@ -141,8 +142,11 @@
                                                             </connections>
                                                         </imageView>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="hiF-tx-CmA">
-                                                            <rect key="frame" x="25" y="5" width="271" height="17"/>
+                                                            <rect key="frame" x="28" y="2" width="268" height="22"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="22" id="4In-cw-YqF"/>
+                                                            </constraints>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Open Other…" id="7iR-t9-q7q">
                                                                 <font key="font" metaFont="system"/>
                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -154,12 +158,11 @@
                                                         </textField>
                                                     </subviews>
                                                     <constraints>
-                                                        <constraint firstItem="hiF-tx-CmA" firstAttribute="leading" secondItem="8bn-dY-eZx" secondAttribute="leading" constant="27" id="1Mn-6E-8ee"/>
-                                                        <constraint firstItem="gvx-Sa-6EV" firstAttribute="leading" secondItem="8bn-dY-eZx" secondAttribute="leading" constant="4" id="CN5-mh-PfA"/>
+                                                        <constraint firstItem="hiF-tx-CmA" firstAttribute="leading" secondItem="8bn-dY-eZx" secondAttribute="leading" constant="30" id="1Mn-6E-8ee"/>
+                                                        <constraint firstItem="gvx-Sa-6EV" firstAttribute="leading" secondItem="8bn-dY-eZx" secondAttribute="leading" constant="8" id="CN5-mh-PfA"/>
+                                                        <constraint firstItem="gvx-Sa-6EV" firstAttribute="centerY" secondItem="hiF-tx-CmA" secondAttribute="centerY" constant="-1" id="Hfb-rE-tYW"/>
                                                         <constraint firstAttribute="trailing" secondItem="hiF-tx-CmA" secondAttribute="trailing" constant="3" id="gOm-xg-uZ2"/>
-                                                        <constraint firstItem="gvx-Sa-6EV" firstAttribute="bottom" secondItem="hiF-tx-CmA" secondAttribute="bottom" constant="2" id="kTw-Do-P3B"/>
-                                                        <constraint firstItem="gvx-Sa-6EV" firstAttribute="top" secondItem="8bn-dY-eZx" secondAttribute="top" constant="6" id="o7R-oo-GAo"/>
-                                                        <constraint firstItem="gvx-Sa-6EV" firstAttribute="top" secondItem="hiF-tx-CmA" secondAttribute="top" id="uyv-Rl-nhI"/>
+                                                        <constraint firstAttribute="centerY" secondItem="gvx-Sa-6EV" secondAttribute="centerY" id="nd9-HJ-IBW"/>
                                                     </constraints>
                                                     <connections>
                                                         <outlet property="imageView" destination="gvx-Sa-6EV" id="WrQ-wh-aj2"/>
@@ -171,7 +174,7 @@
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="UWB-RS-5uw">
-                                                            <rect key="frame" x="25" y="5" width="271" height="17"/>
+                                                            <rect key="frame" x="28" y="5" width="268" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Recent Documents" id="Oo6-Ii-QIL">
                                                                 <font key="font" metaFont="system"/>
@@ -183,9 +186,13 @@
                                                             </connections>
                                                         </textField>
                                                         <button horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eSU-d2-2DX">
-                                                            <rect key="frame" x="7" y="7" width="13" height="13"/>
+                                                            <rect key="frame" x="9" y="5" width="18" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                            <buttonCell key="cell" type="disclosureTriangle" bezelStyle="disclosure" imagePosition="above" alignment="left" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="p9J-vu-dkw">
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" secondItem="eSU-d2-2DX" secondAttribute="height" id="TCN-b9-yYl"/>
+                                                                <constraint firstAttribute="width" constant="18" id="bhg-gk-RvK"/>
+                                                            </constraints>
+                                                            <buttonCell key="cell" type="disclosureTriangle" bezelStyle="disclosure" imagePosition="only" alignment="left" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="p9J-vu-dkw">
                                                                 <behavior key="behavior" pushIn="YES" changeBackground="YES" changeGray="YES" lightByContents="YES"/>
                                                                 <font key="font" metaFont="system"/>
                                                             </buttonCell>
@@ -195,8 +202,8 @@
                                                         </button>
                                                     </subviews>
                                                     <constraints>
-                                                        <constraint firstItem="UWB-RS-5uw" firstAttribute="leading" secondItem="Tiq-Hx-BMa" secondAttribute="leading" constant="27" id="B1R-mb-58C"/>
-                                                        <constraint firstItem="eSU-d2-2DX" firstAttribute="leading" secondItem="Tiq-Hx-BMa" secondAttribute="leading" constant="7" id="FN3-m3-Hyv"/>
+                                                        <constraint firstItem="UWB-RS-5uw" firstAttribute="leading" secondItem="Tiq-Hx-BMa" secondAttribute="leading" constant="30" id="B1R-mb-58C"/>
+                                                        <constraint firstItem="eSU-d2-2DX" firstAttribute="leading" secondItem="Tiq-Hx-BMa" secondAttribute="leading" constant="9" id="FN3-m3-Hyv"/>
                                                         <constraint firstItem="UWB-RS-5uw" firstAttribute="top" secondItem="Tiq-Hx-BMa" secondAttribute="top" constant="6" id="RYh-xe-j7b"/>
                                                         <constraint firstAttribute="trailing" secondItem="UWB-RS-5uw" secondAttribute="trailing" constant="3" id="SBa-kx-D7L"/>
                                                         <constraint firstItem="eSU-d2-2DX" firstAttribute="centerY" secondItem="UWB-RS-5uw" secondAttribute="centerY" id="qjy-Wr-0zO"/>
@@ -210,7 +217,7 @@
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <imageView translatesAutoresizingMaskIntoConstraints="NO" id="Qp7-Vm-djo" userLabel="File Icon">
-                                                            <rect key="frame" x="20" y="1" width="32" height="32"/>
+                                                            <rect key="frame" x="26" y="1" width="32" height="32"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="32" id="nBW-ld-g3Y"/>
@@ -221,7 +228,7 @@
                                                             </connections>
                                                         </imageView>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="3Bt-0B-b5J">
-                                                            <rect key="frame" x="53" y="9" width="243" height="17"/>
+                                                            <rect key="frame" x="59" y="9" width="237" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingHead" sendsActionOnEndEditing="YES" title="DocumentName.txt" id="4t0-UR-tOR">
                                                                 <font key="font" metaFont="system"/>
@@ -234,7 +241,7 @@
                                                         </textField>
                                                     </subviews>
                                                     <constraints>
-                                                        <constraint firstItem="Qp7-Vm-djo" firstAttribute="leading" secondItem="l0C-OX-d9H" secondAttribute="leading" constant="20" id="2CX-zg-774"/>
+                                                        <constraint firstItem="Qp7-Vm-djo" firstAttribute="leading" secondItem="l0C-OX-d9H" secondAttribute="leading" constant="26" id="2CX-zg-774"/>
                                                         <constraint firstItem="3Bt-0B-b5J" firstAttribute="leading" secondItem="Qp7-Vm-djo" secondAttribute="trailing" constant="3" id="Cbt-Ak-MUC"/>
                                                         <constraint firstAttribute="bottom" secondItem="Qp7-Vm-djo" secondAttribute="bottom" constant="1" id="OWC-ug-xcA"/>
                                                         <constraint firstItem="Qp7-Vm-djo" firstAttribute="top" secondItem="l0C-OX-d9H" secondAttribute="top" constant="1" id="RT1-wH-l8s"/>
@@ -251,7 +258,7 @@
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UOM-2h-7Ex">
-                                                            <rect key="frame" x="4" y="9" width="16" height="16"/>
+                                                            <rect key="frame" x="8" y="9" width="16" height="16"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                             <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="StatusPending" id="3kM-hC-M6b"/>
                                                             <connections>
@@ -259,7 +266,7 @@
                                                             </connections>
                                                         </imageView>
                                                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dQU-em-rBs" userLabel="File Icon">
-                                                            <rect key="frame" x="20" y="1" width="32" height="32"/>
+                                                            <rect key="frame" x="26" y="1" width="32" height="32"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="32" id="dDo-PQ-liQ"/>
@@ -270,7 +277,7 @@
                                                             </connections>
                                                         </imageView>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="C3v-6r-GXt">
-                                                            <rect key="frame" x="54" y="8" width="242" height="17"/>
+                                                            <rect key="frame" x="60" y="8" width="236" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingHead" sendsActionOnEndEditing="YES" title="NetworkDocumentName.txt" id="2vu-Ie-uRT">
                                                                 <font key="font" metaFont="system"/>
@@ -287,8 +294,8 @@
                                                         <constraint firstItem="UOM-2h-7Ex" firstAttribute="centerY" secondItem="dQU-em-rBs" secondAttribute="centerY" id="ER2-4Z-FvF"/>
                                                         <constraint firstAttribute="centerY" secondItem="C3v-6r-GXt" secondAttribute="centerY" constant="-0.5" id="PUZ-Rd-BwJ"/>
                                                         <constraint firstItem="C3v-6r-GXt" firstAttribute="leading" secondItem="dQU-em-rBs" secondAttribute="trailing" constant="4" id="Vtm-bh-V39"/>
-                                                        <constraint firstItem="UOM-2h-7Ex" firstAttribute="leading" secondItem="tmI-B6-msd" secondAttribute="leading" constant="4" id="ccU-EC-mF0"/>
-                                                        <constraint firstItem="dQU-em-rBs" firstAttribute="leading" secondItem="UOM-2h-7Ex" secondAttribute="trailing" id="oUQ-By-3st"/>
+                                                        <constraint firstItem="UOM-2h-7Ex" firstAttribute="leading" secondItem="tmI-B6-msd" secondAttribute="leading" constant="8" id="ccU-EC-mF0"/>
+                                                        <constraint firstItem="dQU-em-rBs" firstAttribute="leading" secondItem="UOM-2h-7Ex" secondAttribute="trailing" constant="2" id="oUQ-By-3st"/>
                                                         <constraint firstAttribute="bottom" secondItem="dQU-em-rBs" secondAttribute="bottom" constant="1" id="oX3-Ok-r2J"/>
                                                         <constraint firstItem="dQU-em-rBs" firstAttribute="top" secondItem="tmI-B6-msd" secondAttribute="top" constant="1" id="tLw-gk-hQs"/>
                                                     </constraints>

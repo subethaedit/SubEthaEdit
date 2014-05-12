@@ -61,12 +61,12 @@
                                             </textFieldCell>
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <connections>
+                                                <binding destination="26" name="value" keyPath="arrangedObjects.initials" id="ba9-YQ-veX"/>
                                                 <binding destination="26" name="textColor" keyPath="arrangedObjects.properties.Hue" id="AY3-PF-MZE">
                                                     <dictionary key="options">
                                                         <string key="NSValueTransformerName">HueToColorValueTransformer</string>
                                                     </dictionary>
                                                 </binding>
-                                                <binding destination="26" name="value" keyPath="arrangedObjects.initials" id="ba9-YQ-veX"/>
                                             </connections>
                                         </tableColumn>
                                         <tableColumn width="93.941001892089844" minWidth="79.941001892089844" maxWidth="1000" id="15">
@@ -130,7 +130,7 @@
                                                 <binding destination="26" name="value" keyPath="arrangedObjects.properties.AIM" id="34"/>
                                             </connections>
                                         </tableColumn>
-                                        <tableColumn width="42.665000915527344" minWidth="10" maxWidth="1000" id="13">
+                                        <tableColumn width="57.665000915527344" minWidth="10" maxWidth="1000" id="13">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Email">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -151,15 +151,15 @@
                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </clipView>
                         <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="102">
-                            <rect key="frame" x="1" y="275" width="524" height="15"/>
+                            <rect key="frame" x="1" y="274" width="539" height="16"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <scroller key="verticalScroller" verticalHuggingPriority="750" horizontal="NO" id="104">
-                            <rect key="frame" x="525" y="17" width="15" height="258"/>
+                            <rect key="frame" x="524" y="17" width="16" height="273"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <tableHeaderView key="headerView" id="103">
-                            <rect key="frame" x="0.0" y="0.0" width="524" height="17"/>
+                            <rect key="frame" x="0.0" y="0.0" width="539" height="17"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </tableHeaderView>
                     </scrollView>

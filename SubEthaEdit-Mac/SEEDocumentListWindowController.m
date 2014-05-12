@@ -527,7 +527,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	NSArray *availableDocumentSession = self.availableItems;
 	id documentRepresentation = [availableDocumentSession objectAtIndex:row];
 	if ([documentRepresentation isKindOfClass:SEENetworkConnectionDocumentListItem.class]) {
-		rowHeight = 54.0;
+		rowHeight = 56.0;
 	} else if ([documentRepresentation isKindOfClass:SEEToggleRecentDocumentListItem.class]) {
 		rowHeight = 28.0;
 	} else if ([documentRepresentation isKindOfClass:SEEConnectDocumentListItem.class]) {
