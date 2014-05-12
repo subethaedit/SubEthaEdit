@@ -19,8 +19,9 @@
 
 NSString * const TCMMMUserPropertyKeyImageAsPNGData = @"ImageAsPNG";
 
-
 NSString * const TCMMMUserWillLeaveSessionNotification = @"TCMMMUserWillLeaveSessionNotification";
+
+void * const TCMMMUserPropertyChangeObservanceContext = (void *)&TCMMMUserPropertyChangeObservanceContext;
 
 @interface TCMMMUser ()
 @property (nonatomic, copy) NSString *userIDIncludingChangeCount;
@@ -69,8 +70,36 @@ NSString * const TCMMMUserWillLeaveSessionNotification = @"TCMMMUserWillLeaveSes
         I_properties=[NSMutableDictionary new];
         I_propertiesBySessionID=[NSMutableDictionary new];
         [self updateChangeCount];
+		[self registerKVO];
     }
     return self;
+}
+
+- (void)dealloc {
+	[self unregisterKVO];
+}
+
+#pragma mark - KVO
+
+- (void)registerKVO {
+	[self addObserver:self forKeyPath:@"name" options:0 context:TCMMMUserPropertyChangeObservanceContext];
+}
+
+- (void)unregisterKVO {
+	[self removeObserver:self forKeyPath:@"name" context:TCMMMUserPropertyChangeObservanceContext];
+}
+
+
+- (void)observeValueForKeyPath:(NSString *)aKeyPath ofObject:(id)aObject change:(NSDictionary *)aChange context:(void *)aContext {
+    if (aContext == TCMMMUserPropertyChangeObservanceContext) {
+		if ([[[self properties] objectForKey:@"HasDefaultImage"] boolValue]) { // TODO: remove when merging additions into here and use the set image methods
+			[self.properties removeObjectForKey:@"Image"];
+			[self.properties removeObjectForKey:TCMMMUserPropertyKeyImageAsPNGData];
+		}
+
+    } else {
+        [super observeValueForKeyPath:aKeyPath ofObject:aObject change:aChange context:aContext];
+    }
 }
 
 #pragma mark
