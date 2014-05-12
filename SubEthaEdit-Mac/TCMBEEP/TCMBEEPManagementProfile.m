@@ -202,9 +202,10 @@
 					[[self channel] sendMessage:[message autorelease]];
 					DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"juhuhh... sent accept: %@",message);
 					// find the correct data
-					NSUInteger index = [profileURIs indexOfObject:[replyDict objectForKey:@"ProfileURI"]];
+					NSString *preferredURIString = [replyDict objectForKey:@"ProfileURI"];
+					NSUInteger index = [profileURIs indexOfObject:preferredURIString];
 					NSData *recievedData = index==NSNotFound?[NSData data]:[profileDataBlocks objectAtIndex:index];
-					[[self delegate] initiateChannelWithNumber:channelNumber profileURI:[replyDict objectForKey:@"ProfileURI"] data:recievedData asInitiator:NO];
+					[[self delegate] initiateChannelWithNumber:channelNumber profileURI:preferredURIString data:recievedData asInitiator:NO];
 
 					result = YES;
 				} else {
