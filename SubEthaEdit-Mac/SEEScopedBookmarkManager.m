@@ -346,14 +346,14 @@ static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.s
 		NSOpenPanel *openPanel = [NSOpenPanel openPanel];
 		openPanel.canChooseDirectories = YES;
 		openPanel.canChooseFiles = YES;
-		openPanel.directoryURL = [aURL URLByDeletingLastPathComponent];
+		openPanel.directoryURL = [urlToBeAccessed URLByDeletingLastPathComponent];
 
 		openPanel.prompt = NSLocalizedStringWithDefaultValue(@"ScopedBookmarkAllowFilePrompt", nil, [NSBundle mainBundle], @"Allow", @"Default button title of the allow open panel");
 		openPanel.title = NSLocalizedStringWithDefaultValue(@"ScopedBookmarkAllowFileTitle", nil, [NSBundle mainBundle], @"Allow File Access", @"Window title of the allow open panel");
 
 		{
 			SEEScopedBookmarkAccessoryViewController *viewController = [[SEEScopedBookmarkAccessoryViewController alloc] initWithNibName:@"SEEScopedBookmarkAccessoryViewController" bundle:nil];
-			viewController.accessedFileName = [aURL lastPathComponent];
+			viewController.accessedFileName = [urlToBeAccessed lastPathComponent];
 
 			NSView *view = viewController.view;
 			view.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
