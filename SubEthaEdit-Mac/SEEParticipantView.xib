@@ -66,11 +66,11 @@
                     </buttonCell>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="EKQ-zL-Ujr" userLabel="Kick Button" customClass="TCMHoverButton">
-                    <rect key="frame" x="49" y="45" width="23" height="23"/>
+                    <rect key="frame" x="51" y="43" width="25" height="25"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="EKQ-zL-Ujr" secondAttribute="height" multiplier="1:1" id="ab1-57-9HR"/>
-                        <constraint firstAttribute="width" constant="23" id="cfF-Qc-U1h"/>
+                        <constraint firstAttribute="width" constant="25" id="cfF-Qc-U1h"/>
                     </constraints>
                     <buttonCell key="cell" type="bevel" bezelStyle="rounded" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="9s7-m7-1AV">
                         <behavior key="behavior" lightByContents="YES"/>
@@ -81,10 +81,10 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="ega-B6-Bzc" userLabel="Follow Button" customClass="TCMHoverButton">
-                    <rect key="frame" x="4" y="45" width="23" height="23"/>
+                    <rect key="frame" x="2" y="43" width="25" height="25"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="23" id="dl2-hR-qiT"/>
+                        <constraint firstAttribute="width" constant="25" id="dl2-hR-qiT"/>
                         <constraint firstAttribute="width" secondItem="ega-B6-Bzc" secondAttribute="height" multiplier="1:1" id="tSO-Dd-EOi"/>
                     </constraints>
                     <buttonCell key="cell" type="bevel" bezelStyle="rounded" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="vQp-Bv-eXY">
@@ -96,11 +96,11 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="frw-IF-mIn" userLabel="EditMode Button" customClass="TCMHoverButton">
-                    <rect key="frame" x="4" y="9" width="23" height="23"/>
+                    <rect key="frame" x="2" y="5" width="25" height="25"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="frw-IF-mIn" secondAttribute="height" multiplier="1:1" id="B9p-gE-TBo"/>
-                        <constraint firstAttribute="width" constant="23" id="iAT-85-D1Y"/>
+                        <constraint firstAttribute="width" constant="25" id="iAT-85-D1Y"/>
                     </constraints>
                     <buttonCell key="cell" type="bevel" bezelStyle="rounded" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="L9n-YA-nJE">
                         <behavior key="behavior" lightByContents="YES"/>
@@ -113,10 +113,10 @@
             </subviews>
             <constraints>
                 <constraint firstAttribute="centerX" secondItem="hE6-nB-RDu" secondAttribute="centerX" id="6bf-Dn-WAG"/>
-                <constraint firstItem="frw-IF-mIn" firstAttribute="bottom" secondItem="TNz-7E-ZCn" secondAttribute="bottom" constant="1" id="7Qa-hn-e1l"/>
+                <constraint firstItem="frw-IF-mIn" firstAttribute="bottom" secondItem="TNz-7E-ZCn" secondAttribute="bottom" constant="5" id="7Qa-hn-e1l"/>
                 <constraint firstAttribute="centerY" secondItem="hE6-nB-RDu" secondAttribute="centerY" id="9g1-gp-gv4"/>
                 <constraint firstItem="hE6-nB-RDu" firstAttribute="centerY" secondItem="i14-Tb-TdJ" secondAttribute="centerY" id="BeS-c5-vn6"/>
-                <constraint firstItem="TNz-7E-ZCn" firstAttribute="trailing" secondItem="EKQ-zL-Ujr" secondAttribute="trailing" constant="-6" id="Bkv-EM-nek"/>
+                <constraint firstItem="EKQ-zL-Ujr" firstAttribute="trailing" secondItem="TNz-7E-ZCn" secondAttribute="trailing" constant="10" id="Bkv-EM-nek"/>
                 <constraint firstAttribute="height" constant="76" id="CTe-CY-L0P"/>
                 <constraint firstItem="hE6-nB-RDu" firstAttribute="centerX" secondItem="k1p-6D-syT" secondAttribute="centerX" id="DMG-H5-rAW"/>
                 <constraint firstItem="TNz-7E-ZCn" firstAttribute="top" secondItem="EKQ-zL-Ujr" secondAttribute="top" constant="2" id="FPD-hf-IB3"/>
@@ -125,8 +125,8 @@
                 <constraint firstAttribute="width" constant="76" id="LnQ-VY-TNr"/>
                 <constraint firstItem="TNz-7E-ZCn" firstAttribute="leading" secondItem="hE6-nB-RDu" secondAttribute="leading" id="NeS-1f-x3i"/>
                 <constraint firstItem="hE6-nB-RDu" firstAttribute="centerY" secondItem="k1p-6D-syT" secondAttribute="centerY" constant="-1" id="XBu-jo-auU"/>
-                <constraint firstItem="TNz-7E-ZCn" firstAttribute="leading" secondItem="ega-B6-Bzc" secondAttribute="leading" constant="6" id="XgL-zI-n8c"/>
-                <constraint firstItem="frw-IF-mIn" firstAttribute="leading" secondItem="TNz-7E-ZCn" secondAttribute="leading" constant="-6" id="b1e-BR-bT9"/>
+                <constraint firstItem="TNz-7E-ZCn" firstAttribute="leading" secondItem="ega-B6-Bzc" secondAttribute="leading" constant="8" id="XgL-zI-n8c"/>
+                <constraint firstItem="TNz-7E-ZCn" firstAttribute="leading" secondItem="frw-IF-mIn" secondAttribute="leading" constant="8" id="b1e-BR-bT9"/>
                 <constraint firstItem="TNz-7E-ZCn" firstAttribute="trailing" secondItem="hE6-nB-RDu" secondAttribute="trailing" id="bhV-ef-aSc"/>
                 <constraint firstItem="hE6-nB-RDu" firstAttribute="centerX" secondItem="i14-Tb-TdJ" secondAttribute="centerX" id="cZw-Ty-KOG"/>
                 <constraint firstItem="TNz-7E-ZCn" firstAttribute="top" secondItem="hE6-nB-RDu" secondAttribute="top" id="epf-bz-21v"/>
