@@ -6579,7 +6579,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 	NSDictionary *arguments = command.evaluatedArguments;
 	NSURL *fileURL = [arguments objectForKey:@"File"];
 	if (fileURL) { // only in save as mode
-		if ([[SEEScopedBookmarkManager sharedManager] startAccessingURL:fileURL]) {
+		if ([[SEEScopedBookmarkManager sharedManager] startAccessingScriptedFileURL:fileURL]) {
 			NSLog(@"Access granted.");
 		}
 	}
@@ -6590,7 +6590,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 	NSDictionary *arguments = command.evaluatedArguments;
 	NSURL *fileURL = [arguments objectForKey:@"File"];
 	if (fileURL) { // only in save as mode
-		if ([[SEEScopedBookmarkManager sharedManager] startAccessingURL:fileURL]) {
+		if ([[SEEScopedBookmarkManager sharedManager] startAccessingScriptedFileURL:fileURL]) {
 			NSLog(@"Access granted.");
 		}
 	}

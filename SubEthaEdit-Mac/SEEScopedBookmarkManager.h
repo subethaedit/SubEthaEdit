@@ -19,6 +19,7 @@ typedef NSURL * (^BookmarkGenerationBlock)(NSURL *);
 - (BOOL)hasBookmarkForURL:(NSURL *)aURL;
 
 - (BOOL)startAccessingURL:(NSURL *)aURL;
+- (BOOL)startAccessingScriptedFileURL:(NSURL *)aURL;
 - (void)stopAccessingURL:(NSURL *)aURL;
 
 @end

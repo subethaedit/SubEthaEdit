@@ -341,6 +341,16 @@ static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.s
 }
 
 
+- (NSString *)previewAccessMessageString {
+	NSString *localizedMessageFormat = NSLocalizedStringWithDefaultValue(@"ScopedBookmarkAllowFileMessageFormatString",
+																		 nil,
+																		 [NSBundle mainBundle],
+																		 @"To display your content it is neccessary that you provide access to %@. Please choose a folder that includes all files used by your source file.",
+																		 @"Message that gets displayed when SEE needs the user to grant access to an unopend file.");
+	return localizedMessageFormat;
+}
+
+
 - (BOOL)startAccessingURL:(NSURL *)aURL {
 	return [self startAccessingURL:aURL persist:YES bookmarkGenerationBlock:^NSURL *(NSURL *urlToBeAccessed) {
 		NSOpenPanel *openPanel = [NSOpenPanel openPanel];
@@ -354,6 +364,50 @@ static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.s
 		{
 			SEEScopedBookmarkAccessoryViewController *viewController = [[SEEScopedBookmarkAccessoryViewController alloc] initWithNibName:@"SEEScopedBookmarkAccessoryViewController" bundle:nil];
 			viewController.accessedFileName = [urlToBeAccessed lastPathComponent];
+			viewController.message = self.previewAccessMessageString;
+			NSView *view = viewController.view;
+			view.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+			openPanel.accessoryView = viewController.view;
+			[openPanel TCM_setAssociatedValue:viewController forKey:@"accessoryViewController"];
+		}
+
+		NSInteger openPanelResult = [openPanel runModal];
+		if (openPanelResult == NSFileHandlingPanelOKButton) {
+			NSURL *choosenURL = openPanel.URL;
+			// creating the security scoped bookmark url so that accessing works <3
+			NSData *bookmarkData = [choosenURL bookmarkDataWithOptions:NSURLBookmarkCreationWithSecurityScope includingResourceValuesForKeys:nil relativeToURL:nil error:nil];
+			NSURL *bookmarkURL = [NSURL URLByResolvingBookmarkData:bookmarkData options:NSURLBookmarkResolutionWithSecurityScope relativeToURL:nil bookmarkDataIsStale:nil error:nil];
+			return bookmarkURL;
+		}
+		return nil;
+	}];
+}
+
+- (NSString *)scriptedFileAccessMessageString {
+	NSString *localizedMessageFormat = NSLocalizedStringWithDefaultValue(@"ScopedBookmarkAllowScriptedFileMessageFormatString",
+																		 nil,
+																		 [NSBundle mainBundle],
+																		 @"AppleScript wants to access %@. Click allow to continue the running script.",
+																		 @"Message that gets displayed when SEE needs the user to grant access to an unopend file via applecript.");
+
+	return localizedMessageFormat;
+}
+
+
+- (BOOL)startAccessingScriptedFileURL:(NSURL *)aURL {
+	return [self startAccessingURL:aURL persist:NO bookmarkGenerationBlock:^NSURL *(NSURL *urlToBeAccessed) {
+		NSOpenPanel *openPanel = [NSOpenPanel openPanel];
+		openPanel.canChooseDirectories = YES;
+		openPanel.canChooseFiles = YES;
+		openPanel.directoryURL = [urlToBeAccessed URLByDeletingLastPathComponent];
+
+		openPanel.prompt = NSLocalizedStringWithDefaultValue(@"ScopedBookmarkAllowFilePrompt", nil, [NSBundle mainBundle], @"Allow", @"Default button title of the allow open panel");
+		openPanel.title = NSLocalizedStringWithDefaultValue(@"ScopedBookmarkAllowFileTitle", nil, [NSBundle mainBundle], @"Allow File Access", @"Window title of the allow open panel");
+
+		{
+			SEEScopedBookmarkAccessoryViewController *viewController = [[SEEScopedBookmarkAccessoryViewController alloc] initWithNibName:@"SEEScopedBookmarkAccessoryViewController" bundle:nil];
+			viewController.accessedFileName = [urlToBeAccessed lastPathComponent];
+			viewController.message = self.scriptedFileAccessMessageString;
 
 			NSView *view = viewController.view;
 			view.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
