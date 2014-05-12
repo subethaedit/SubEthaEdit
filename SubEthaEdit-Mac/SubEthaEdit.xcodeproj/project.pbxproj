@@ -343,6 +343,7 @@
 		F22024E4191D0D280098982C /* ParticipantReadOnlyTurnOnPressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F22024E0191D0D280098982C /* ParticipantReadOnlyTurnOnPressed@2x.png */; };
 		F22024E9191D0DB30098982C /* ParticipantReadOnlyStatusOn.png in Resources */ = {isa = PBXBuildFile; fileRef = F22024E7191D0DB30098982C /* ParticipantReadOnlyStatusOn.png */; };
 		F22024EA191D0DB30098982C /* ParticipantReadOnlyStatusOn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F22024E8191D0DB30098982C /* ParticipantReadOnlyStatusOn@2x.png */; };
+		F22024EE191D175C0098982C /* TCMHoverButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F22024ED191D175C0098982C /* TCMHoverButton.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		F2257CF9189673AA005EF9B1 /* BottomBarSharingIconAnnounce_Inactive.png in Resources */ = {isa = PBXBuildFile; fileRef = F2257CF1189673AA005EF9B1 /* BottomBarSharingIconAnnounce_Inactive.png */; };
 		F2257CFA189673AA005EF9B1 /* BottomBarSharingIconAnnounce_Inactive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2257CF2189673AA005EF9B1 /* BottomBarSharingIconAnnounce_Inactive@2x.png */; };
 		F2257CFB189673AA005EF9B1 /* BottomBarSharingIconAnnounce.png in Resources */ = {isa = PBXBuildFile; fileRef = F2257CF3189673AA005EF9B1 /* BottomBarSharingIconAnnounce.png */; };
@@ -404,7 +405,7 @@
 		F2CA91EE18C08FF7006B098A /* SEEFindAndReplaceState.m in Sources */ = {isa = PBXBuildFile; fileRef = F2CA91ED18C08FF7006B098A /* SEEFindAndReplaceState.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		F2CEAAA7100B3A350036B3F7 /* MAAttachedWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = F2CEAAA6100B3A350036B3F7 /* MAAttachedWindow.m */; };
 		F2CEAAF1100B46150036B3F7 /* URLBubbleWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = F2CEAAF0100B46150036B3F7 /* URLBubbleWindow.m */; };
-		F2CFF21718F53AFD004A745A /* NSLayoutConstraint+TCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F2CFF21618F53AFD004A745A /* NSLayoutConstraint+TCMAdditions.m */; };
+		F2CFF21718F53AFD004A745A /* NSLayoutConstraint+TCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F2CFF21618F53AFD004A745A /* NSLayoutConstraint+TCMAdditions.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		F2D129FC0BF0B64A00A776CC /* SEEConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D129F80BF0B64700A776CC /* SEEConnectionManager.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		F2D12A1D0BF0B8DF00A776CC /* SEEConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D12A1B0BF0B8DF00A776CC /* SEEConnection.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		F2D22CB40EE9C5E3004B8E33 /* SeeTextImporter.mdimporter in Copy Importers */ = {isa = PBXBuildFile; fileRef = F2D22CB30EE9C5DE004B8E33 /* SeeTextImporter.mdimporter */; };
@@ -1106,6 +1107,8 @@
 		F22024E0191D0D280098982C /* ParticipantReadOnlyTurnOnPressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ParticipantReadOnlyTurnOnPressed@2x.png"; sourceTree = "<group>"; };
 		F22024E7191D0DB30098982C /* ParticipantReadOnlyStatusOn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ParticipantReadOnlyStatusOn.png; sourceTree = "<group>"; };
 		F22024E8191D0DB30098982C /* ParticipantReadOnlyStatusOn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ParticipantReadOnlyStatusOn@2x.png"; sourceTree = "<group>"; };
+		F22024EC191D175C0098982C /* TCMHoverButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCMHoverButton.h; sourceTree = "<group>"; };
+		F22024ED191D175C0098982C /* TCMHoverButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMHoverButton.m; sourceTree = "<group>"; };
 		F2230A450BE0243100437D55 /* TCMBEEPBencodedMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = TCMBEEPBencodedMessage.h; path = TCMBEEP/TCMBEEPBencodedMessage.h; sourceTree = "<group>"; };
 		F2230A460BE0243100437D55 /* TCMBEEPBencodedMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMBEEPBencodedMessage.m; path = TCMBEEP/TCMBEEPBencodedMessage.m; sourceTree = "<group>"; };
 		F2230A470BE0243100437D55 /* TCMBEEPBencodingProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = TCMBEEPBencodingProfile.h; path = TCMBEEP/TCMBEEPBencodingProfile.h; sourceTree = "<group>"; };
@@ -1961,6 +1964,8 @@
 				4CCD78FD18DB3F9E00A8B457 /* SEEScopedBookmarkAccessoryViewController.h */,
 				4CCD78FE18DB3F9E00A8B457 /* SEEScopedBookmarkAccessoryViewController.m */,
 				4CCD78FF18DB3F9E00A8B457 /* SEEScopedBookmarkAccessoryViewController.xib */,
+				F22024EC191D175C0098982C /* TCMHoverButton.h */,
+				F22024ED191D175C0098982C /* TCMHoverButton.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -3179,6 +3184,7 @@
 				F280ABC4131E6ED50091D145 /* SEEStyleSheetEditorWindowController.m in Sources */,
 				F214C1DB18BE180300908826 /* NSObject+TCMArcLifecycleAdditions.m in Sources */,
 				F2D56993133B880900CEC841 /* SEEStyleSheetSettings.m in Sources */,
+				F22024EE191D175C0098982C /* TCMHoverButton.m in Sources */,
 				F29E6DD518E5C90200F84231 /* TCMDragImageView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

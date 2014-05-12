@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="SEEParticipantViewController">
@@ -9,21 +10,18 @@
                 <outlet property="avatarViewOutlet" destination="TNz-7E-ZCn" id="hXN-u4-Bmq"/>
                 <outlet property="chooseEditModeButtonOutlet" destination="yfb-64-HLz" id="ICw-EH-Vil"/>
                 <outlet property="chooseReadOnlyModeButtonOutlet" destination="Tyb-vE-h04" id="egt-SB-7iv"/>
-                <outlet property="closeConnectionButtonOutlet" destination="Uv8-hZ-TnG" id="RDO-0v-jmD"/>
                 <outlet property="connectingProgressIndicatorOutlet" destination="k1p-6D-syT" id="wZs-np-mwT"/>
-                <outlet property="hasFollowerOverlayImageOutlet" destination="Ean-kT-01Z" id="3LV-kx-M3a"/>
+                <outlet property="followUserButtonOutlet" destination="ega-B6-Bzc" id="IQV-gm-rnd"/>
+                <outlet property="kickUserButtonOutlet" destination="EKQ-zL-Ujr" id="kMs-gK-YkW"/>
                 <outlet property="nameLabelOutlet" destination="Fk9-Iw-pk8" id="g0F-tN-gRT"/>
                 <outlet property="nameLabelPopoverOutlet" destination="5sY-nJ-VOY" id="M82-Ua-Eok"/>
-                <outlet property="participantActionOverlayOutlet" destination="lTM-E1-CsT" id="BMS-gs-uzp"/>
                 <outlet property="participantViewOutlet" destination="1" id="xn7-5f-3EV"/>
                 <outlet property="pendingUserActionPopoverDescription" destination="Ddb-hR-rzi" id="dBq-9A-yxY"/>
                 <outlet property="pendingUserActionPopoverTitle" destination="D0U-TB-bum" id="U82-gA-Bi0"/>
                 <outlet property="pendingUserKickButtonOutlet" destination="nO5-17-Z6x" id="mO4-jY-2gq"/>
                 <outlet property="pendingUserPopoverOutlet" destination="FLM-sN-hEx" id="dvf-gP-phI"/>
                 <outlet property="pendingUserQuestionMarkOutlet" destination="i14-Tb-TdJ" id="kOH-bI-HoT"/>
-                <outlet property="readOnlyOverlayImageOutlet" destination="vtW-pW-OTD" id="U6e-5m-nDu"/>
-                <outlet property="toggleEditModeButtonOutlet" destination="cLZ-EU-8Vm" id="Csv-Cp-tP3"/>
-                <outlet property="toggleFollowButtonOutlet" destination="Eo9-iL-hjL" id="ezF-Du-PmF"/>
+                <outlet property="readWriteUserButtonOutlet" destination="frw-IF-mIn" id="8rf-9K-aN8"/>
                 <outlet property="userViewButtonLeftConstraintOutlet" destination="6bf-Dn-WAG" id="kBs-s3-cYk"/>
                 <outlet property="userViewButtonOutlet" destination="hE6-nB-RDu" id="dMU-J4-gUA"/>
                 <outlet property="view" destination="1" id="bcw-1Z-TB2"/>
@@ -39,31 +37,6 @@
                     <rect key="frame" x="10" y="10" width="56" height="56"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                 </customView>
-                <imageView hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ean-kT-01Z" userLabel="Follow Status View">
-                    <rect key="frame" x="7" y="45" width="23" height="23"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="23" id="0ro-xk-YQg"/>
-                        <constraint firstAttribute="height" constant="23" id="wJl-S8-LJ3"/>
-                    </constraints>
-                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="ParticipantFollowStatusOn" id="VX9-Yi-9ex"/>
-                    <connections>
-                        <binding destination="-2" name="hidden" keyPath="self.isParticipantFollowed" id="tPS-us-iVf">
-                            <dictionary key="options">
-                                <string key="NSValueTransformerName">NSNegateBoolean</string>
-                            </dictionary>
-                        </binding>
-                    </connections>
-                </imageView>
-                <imageView hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vtW-pW-OTD" userLabel="Readonly Status View">
-                    <rect key="frame" x="7" y="9" width="23" height="23"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="23" id="0pa-8A-g89"/>
-                        <constraint firstAttribute="width" constant="23" id="uyR-mt-xah"/>
-                    </constraints>
-                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="ParticipantReadOnlyStatusOn" id="uJJ-2w-3c8"/>
-                </imageView>
                 <progressIndicator horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="k1p-6D-syT">
                     <rect key="frame" x="22" y="21" width="32" height="32"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -92,25 +65,72 @@
                         <font key="font" metaFont="system"/>
                     </buttonCell>
                 </button>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="EKQ-zL-Ujr" userLabel="Kick Button" customClass="TCMHoverButton">
+                    <rect key="frame" x="51" y="43" width="25" height="25"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="EKQ-zL-Ujr" secondAttribute="height" multiplier="1:1" id="ab1-57-9HR"/>
+                        <constraint firstAttribute="width" constant="25" id="cfF-Qc-U1h"/>
+                    </constraints>
+                    <buttonCell key="cell" type="bevel" bezelStyle="rounded" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="9s7-m7-1AV">
+                        <behavior key="behavior" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="closeConnection:" target="-2" id="Vb8-6I-16f"/>
+                    </connections>
+                </button>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="ega-B6-Bzc" userLabel="Follow Button" customClass="TCMHoverButton">
+                    <rect key="frame" x="2" y="43" width="25" height="25"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="25" id="dl2-hR-qiT"/>
+                        <constraint firstAttribute="width" secondItem="ega-B6-Bzc" secondAttribute="height" multiplier="1:1" id="tSO-Dd-EOi"/>
+                    </constraints>
+                    <buttonCell key="cell" type="bevel" bezelStyle="rounded" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="vQp-Bv-eXY">
+                        <behavior key="behavior" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="toggleFollow:" target="-2" id="hvt-vo-vYQ"/>
+                    </connections>
+                </button>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="frw-IF-mIn" userLabel="EditMode Button" customClass="TCMHoverButton">
+                    <rect key="frame" x="2" y="5" width="25" height="25"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="frw-IF-mIn" secondAttribute="height" multiplier="1:1" id="B9p-gE-TBo"/>
+                        <constraint firstAttribute="width" constant="25" id="iAT-85-D1Y"/>
+                    </constraints>
+                    <buttonCell key="cell" type="bevel" bezelStyle="rounded" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="L9n-YA-nJE">
+                        <behavior key="behavior" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="toggleEditMode:" target="-2" id="cyh-uZ-yM0"/>
+                    </connections>
+                </button>
             </subviews>
             <constraints>
-                <constraint firstItem="TNz-7E-ZCn" firstAttribute="top" secondItem="Ean-kT-01Z" secondAttribute="top" constant="2" id="5hP-0R-cER"/>
                 <constraint firstAttribute="centerX" secondItem="hE6-nB-RDu" secondAttribute="centerX" id="6bf-Dn-WAG"/>
+                <constraint firstItem="frw-IF-mIn" firstAttribute="bottom" secondItem="TNz-7E-ZCn" secondAttribute="bottom" constant="5" id="7Qa-hn-e1l"/>
                 <constraint firstAttribute="centerY" secondItem="hE6-nB-RDu" secondAttribute="centerY" id="9g1-gp-gv4"/>
                 <constraint firstItem="hE6-nB-RDu" firstAttribute="centerY" secondItem="i14-Tb-TdJ" secondAttribute="centerY" id="BeS-c5-vn6"/>
+                <constraint firstItem="EKQ-zL-Ujr" firstAttribute="trailing" secondItem="TNz-7E-ZCn" secondAttribute="trailing" constant="10" id="Bkv-EM-nek"/>
                 <constraint firstAttribute="height" constant="76" id="CTe-CY-L0P"/>
                 <constraint firstItem="hE6-nB-RDu" firstAttribute="centerX" secondItem="k1p-6D-syT" secondAttribute="centerX" id="DMG-H5-rAW"/>
-                <constraint firstItem="vtW-pW-OTD" firstAttribute="bottom" secondItem="TNz-7E-ZCn" secondAttribute="bottom" constant="1" id="Jbm-Yd-cru"/>
+                <constraint firstItem="TNz-7E-ZCn" firstAttribute="top" secondItem="EKQ-zL-Ujr" secondAttribute="top" constant="2" id="FPD-hf-IB3"/>
                 <constraint firstAttribute="width" secondItem="hE6-nB-RDu" secondAttribute="width" priority="549" constant="20" id="KND-Ve-MSI"/>
                 <constraint firstItem="TNz-7E-ZCn" firstAttribute="bottom" secondItem="hE6-nB-RDu" secondAttribute="bottom" id="LTw-bO-0wI"/>
                 <constraint firstAttribute="width" constant="76" id="LnQ-VY-TNr"/>
                 <constraint firstItem="TNz-7E-ZCn" firstAttribute="leading" secondItem="hE6-nB-RDu" secondAttribute="leading" id="NeS-1f-x3i"/>
-                <constraint firstItem="TNz-7E-ZCn" firstAttribute="leading" secondItem="Ean-kT-01Z" secondAttribute="leading" constant="3" id="U4Y-Xy-FU4"/>
                 <constraint firstItem="hE6-nB-RDu" firstAttribute="centerY" secondItem="k1p-6D-syT" secondAttribute="centerY" constant="-1" id="XBu-jo-auU"/>
+                <constraint firstItem="TNz-7E-ZCn" firstAttribute="leading" secondItem="ega-B6-Bzc" secondAttribute="leading" constant="8" id="XgL-zI-n8c"/>
+                <constraint firstItem="TNz-7E-ZCn" firstAttribute="leading" secondItem="frw-IF-mIn" secondAttribute="leading" constant="8" id="b1e-BR-bT9"/>
                 <constraint firstItem="TNz-7E-ZCn" firstAttribute="trailing" secondItem="hE6-nB-RDu" secondAttribute="trailing" id="bhV-ef-aSc"/>
                 <constraint firstItem="hE6-nB-RDu" firstAttribute="centerX" secondItem="i14-Tb-TdJ" secondAttribute="centerX" id="cZw-Ty-KOG"/>
                 <constraint firstItem="TNz-7E-ZCn" firstAttribute="top" secondItem="hE6-nB-RDu" secondAttribute="top" id="epf-bz-21v"/>
-                <constraint firstItem="vtW-pW-OTD" firstAttribute="leading" secondItem="Ean-kT-01Z" secondAttribute="leading" id="pk3-il-FQV"/>
+                <constraint firstItem="TNz-7E-ZCn" firstAttribute="top" secondItem="ega-B6-Bzc" secondAttribute="top" constant="2" id="gqm-tK-U6g"/>
             </constraints>
             <animations>
                 <caTransition key="subviews">
@@ -125,73 +145,6 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
 </mutableData>
                 </caTransition>
             </animations>
-        </customView>
-        <customView hidden="YES" autoresizesSubviews="NO" wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lTM-E1-CsT" userLabel="Participants Action Overlay">
-            <rect key="frame" x="0.0" y="0.0" width="16" height="76"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-            <subviews>
-                <button translatesAutoresizingMaskIntoConstraints="NO" id="Uv8-hZ-TnG" userLabel="CloseConnection Button">
-                    <rect key="frame" x="0.0" y="48" width="16" height="16"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="16" id="Bn0-XN-5hb"/>
-                        <constraint firstAttribute="width" constant="16" id="qDA-7N-Ldm"/>
-                    </constraints>
-                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="SharingIconCloseCross" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="GZX-ee-Tzm">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <connections>
-                        <action selector="closeConnection:" target="-2" id="QxR-dc-Yfx"/>
-                    </connections>
-                </button>
-                <button translatesAutoresizingMaskIntoConstraints="NO" id="cLZ-EU-8Vm" userLabel="Toggle ReadWrite State Button">
-                    <rect key="frame" x="0.0" y="26" width="16" height="16"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="16" id="Bsd-oy-YyC"/>
-                        <constraint firstAttribute="height" constant="16" id="HHZ-z4-EVI"/>
-                    </constraints>
-                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="SharingIconWrite" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="Gm4-Ai-0Wn">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <connections>
-                        <action selector="toggleEditMode:" target="-2" id="sFw-9b-rfS"/>
-                    </connections>
-                </button>
-                <button translatesAutoresizingMaskIntoConstraints="NO" id="Eo9-iL-hjL" userLabel="Toggle Follow Button">
-                    <rect key="frame" x="0.0" y="10" width="16" height="18"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="18" id="RMO-MH-RYw"/>
-                        <constraint firstAttribute="width" constant="16" id="jbi-BJ-yCv"/>
-                    </constraints>
-                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="SharingIconEye" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="S70-Da-84S">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <connections>
-                        <action selector="toggleFollow:" target="-2" id="2mh-dZ-lUu"/>
-                    </connections>
-                </button>
-            </subviews>
-            <constraints>
-                <constraint firstItem="cLZ-EU-8Vm" firstAttribute="trailing" secondItem="Eo9-iL-hjL" secondAttribute="trailing" id="9fE-4Z-bzG"/>
-                <constraint firstAttribute="width" constant="16" id="Awa-dS-szM"/>
-                <constraint firstAttribute="trailing" secondItem="Uv8-hZ-TnG" secondAttribute="trailing" id="F5W-ZE-okx"/>
-                <constraint firstAttribute="bottom" secondItem="Eo9-iL-hjL" secondAttribute="bottom" constant="10" id="GBw-Ld-lv8"/>
-                <constraint firstItem="Uv8-hZ-TnG" firstAttribute="leading" secondItem="lTM-E1-CsT" secondAttribute="leading" id="IlW-AH-xRM"/>
-                <constraint firstItem="cLZ-EU-8Vm" firstAttribute="leading" secondItem="Eo9-iL-hjL" secondAttribute="leading" id="M9o-mZ-X1v"/>
-                <constraint firstItem="cLZ-EU-8Vm" firstAttribute="leading" secondItem="Uv8-hZ-TnG" secondAttribute="leading" id="MfQ-HI-1OF"/>
-                <constraint firstAttribute="height" constant="76" id="Mm5-9B-roJ"/>
-                <constraint firstItem="cLZ-EU-8Vm" firstAttribute="trailing" secondItem="Uv8-hZ-TnG" secondAttribute="trailing" id="P8C-YX-H0R"/>
-                <constraint firstItem="cLZ-EU-8Vm" firstAttribute="top" secondItem="Uv8-hZ-TnG" secondAttribute="bottom" constant="6" id="RJk-wr-Mim"/>
-                <constraint firstItem="Uv8-hZ-TnG" firstAttribute="top" secondItem="lTM-E1-CsT" secondAttribute="top" constant="12" id="Tw7-6s-t8d"/>
-                <constraint firstItem="Uv8-hZ-TnG" firstAttribute="leading" secondItem="lTM-E1-CsT" secondAttribute="leading" id="dl6-4b-bVQ"/>
-                <constraint firstItem="Eo9-iL-hjL" firstAttribute="top" secondItem="cLZ-EU-8Vm" secondAttribute="bottom" constant="-2" id="tGt-cF-PKZ"/>
-            </constraints>
-            <animations/>
         </customView>
         <viewController id="MKs-1R-EOT" userLabel="User Name Popover View Controller">
             <connections>
@@ -321,11 +274,4 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
             </connections>
         </popover>
     </objects>
-    <resources>
-        <image name="ParticipantFollowStatusOn" width="23" height="23"/>
-        <image name="ParticipantReadOnlyStatusOn" width="23" height="23"/>
-        <image name="SharingIconCloseCross" width="84" height="84"/>
-        <image name="SharingIconEye" width="84" height="84"/>
-        <image name="SharingIconWrite" width="84" height="84"/>
-    </resources>
 </document>
