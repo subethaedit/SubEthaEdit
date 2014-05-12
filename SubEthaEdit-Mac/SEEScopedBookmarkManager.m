@@ -342,6 +342,38 @@ static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.s
 
 
 - (BOOL)startAccessingURL:(NSURL *)aURL {
+	return [self startAccessingURL:aURL persist:YES bookmarkGenerationBlock:^NSURL *(NSURL *urlToBeAccessed) {
+		NSOpenPanel *openPanel = [NSOpenPanel openPanel];
+		openPanel.canChooseDirectories = YES;
+		openPanel.canChooseFiles = YES;
+		openPanel.directoryURL = [aURL URLByDeletingLastPathComponent];
+
+		openPanel.prompt = NSLocalizedStringWithDefaultValue(@"ScopedBookmarkAllowFilePrompt", nil, [NSBundle mainBundle], @"Allow", @"Default button title of the allow open panel");
+		openPanel.title = NSLocalizedStringWithDefaultValue(@"ScopedBookmarkAllowFileTitle", nil, [NSBundle mainBundle], @"Allow File Access", @"Window title of the allow open panel");
+
+		{
+			SEEScopedBookmarkAccessoryViewController *viewController = [[SEEScopedBookmarkAccessoryViewController alloc] initWithNibName:@"SEEScopedBookmarkAccessoryViewController" bundle:nil];
+			viewController.accessedFileName = [aURL lastPathComponent];
+
+			NSView *view = viewController.view;
+			view.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+			openPanel.accessoryView = viewController.view;
+			[openPanel TCM_setAssociatedValue:viewController forKey:@"accessoryViewController"];
+		}
+
+		NSInteger openPanelResult = [openPanel runModal];
+		if (openPanelResult == NSFileHandlingPanelOKButton) {
+			NSURL *choosenURL = openPanel.URL;
+			// creating the security scoped bookmark url so that accessing works <3
+			NSData *bookmarkData = [choosenURL bookmarkDataWithOptions:NSURLBookmarkCreationWithSecurityScope includingResourceValuesForKeys:nil relativeToURL:nil error:nil];
+			NSURL *bookmarkURL = [NSURL URLByResolvingBookmarkData:bookmarkData options:NSURLBookmarkResolutionWithSecurityScope relativeToURL:nil bookmarkDataIsStale:nil error:nil];
+			return bookmarkURL;
+		}
+		return nil;
+	}];
+}
+
+- (BOOL)startAccessingURL:(NSURL *)aURL persist:(BOOL)persistFlag bookmarkGenerationBlock:(BookmarkGenerationBlock)block {
 	BOOL result = NO;
 	if (aURL.isFileURL) {
 		NSURL *parentURL = [self.lookupDict objectForKey:aURL];
@@ -358,7 +390,10 @@ static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.s
 			[self.lookupDict setObject:parentURL forKey:aURL];
 
 		} else {
-			if ([aURL checkResourceIsReachableAndReturnError:nil]) {
+
+			NSError *resourceAvailabilityError = nil;
+			// errorcode 260 in NSCocaErrorDomain means "File not found"
+			if ([aURL checkResourceIsReachableAndReturnError:&resourceAvailabilityError] || resourceAvailabilityError.code == 260) {
 				NSError *error = nil;
 				NSData *data = [NSData dataWithContentsOfURL:aURL options:NSDataReadingMappedAlways error:&error];
 
@@ -368,57 +403,39 @@ static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.s
 					result = YES;
 
 				} else {
-					// the file is not readable and we assume that it is because of permissions,
-					// so we ask the user to allow us to use the file
-					NSOpenPanel *openPanel = [NSOpenPanel openPanel];
-					openPanel.canChooseDirectories = YES;
-					openPanel.canChooseFiles = YES;
-					openPanel.directoryURL = [aURL URLByDeletingLastPathComponent];
+					if (block) {
+						// the file is not readable and we assume that it is because of permissions,
+						// so we ask the user to allow us to use the file
+						NSURL *bookmarkURL = block(aURL);
+						if (bookmarkURL) {
+							result = [bookmarkURL startAccessingSecurityScopedResource];
 
-					openPanel.prompt = NSLocalizedStringWithDefaultValue(@"ScopedBookmarkAllowFilePrompt", nil, [NSBundle mainBundle], @"Allow", @"Default button title of the allow open panel");
-					openPanel.title = NSLocalizedStringWithDefaultValue(@"ScopedBookmarkAllowFileTitle", nil, [NSBundle mainBundle], @"Allow File Access", @"Window title of the allow open panel");
+							// checking if the selected url helps with opening permissions of our file
+							data = [NSData dataWithContentsOfURL:aURL options:NSDataReadingMappedAlways error:&error];
+							if (!data && error.code != 260) {
+								[bookmarkURL stopAccessingSecurityScopedResource];
+								result = NO;
 
-					{
-						SEEScopedBookmarkAccessoryViewController *viewController = [[SEEScopedBookmarkAccessoryViewController alloc] initWithNibName:@"SEEScopedBookmarkAccessoryViewController" bundle:nil];
-						viewController.accessedFileName = [aURL lastPathComponent];
-						
-						NSView *view = viewController.view;
-						view.layer.backgroundColor = [[NSColor redColor] CGColor];
-						view.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
-						openPanel.accessoryView = viewController.view;
-						[openPanel TCM_setAssociatedValue:viewController forKey:@"accessoryViewController"];
-					}
-					
-					NSInteger openPanelResult = [openPanel runModal];
-					if (openPanelResult == NSFileHandlingPanelOKButton) {
-						NSURL *choosenURL = openPanel.URL;
+							} else {
+								[self.accessingURLs addObject:aURL];
+								[self.lookupDict setObject:bookmarkURL forKey:aURL];
 
-						// creating the security scoped bookmark url so that accessing works <3
-						NSData *bookmarkData = [choosenURL bookmarkDataWithOptions:NSURLBookmarkCreationWithSecurityScope includingResourceValuesForKeys:nil relativeToURL:nil error:nil];
-						NSURL *bookmarkURL = [NSURL URLByResolvingBookmarkData:bookmarkData options:NSURLBookmarkResolutionWithSecurityScope relativeToURL:nil bookmarkDataIsStale:nil error:nil];
-
-						result = [bookmarkURL startAccessingSecurityScopedResource];
-
-						// checking if the selected url helps with opening permissions of our file
-						data = [NSData dataWithContentsOfURL:aURL options:NSDataReadingMappedAlways error:&error];
-						if (!data) {
-							[bookmarkURL stopAccessingSecurityScopedResource];
-							result = NO;
-
-						} else {
-							[self.accessingURLs addObject:aURL];
-							[self.lookupDict setObject:bookmarkURL forKey:aURL];
-							[self.bookmarkURLs addObject:bookmarkURL];
-
-							[self writeBookmarksToUserDefaults];
+								if (persistFlag) {
+									[self.bookmarkURLs addObject:bookmarkURL];
+									[self writeBookmarksToUserDefaults];
+								}
+							}
 						}
 					}
 				}
+			} else {
+				NSLog(@"%s - Error while accessing resource %@ : %@", __FUNCTION__, aURL, resourceAvailabilityError);
 			}
 		}
 	}
 	return result;
 }
+
 
 - (void)stopAccessingURL:(NSURL *)aURL {
 	if (aURL) {
@@ -430,6 +447,11 @@ static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.s
 			[self.accessingURLs removeObjectAtIndex:foundIndex];
 		}
 	}
+}
+
+
+- (NSString *)description {
+	return [NSString stringWithFormat:@"%@ - Available security scoped bookmarks:\n%@", [super description], self.bookmarkURLs];
 }
 
 @end

@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+typedef NSURL * (^BookmarkGenerationBlock)(NSURL *);
+
 @interface SEEScopedBookmarkManager : NSObject
 
 + (instancetype)sharedManager;
