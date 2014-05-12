@@ -20,7 +20,7 @@
     // optionally send the options here
     static NSData *data=nil;
     if (!data) {
-        data = [TCM_BencodedObject([NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES],@"SendUSRRCH",nil]) retain];
+        data = [TCM_BencodedObject([NSDictionary dictionaryWithObjectsAndKeys:@YES,@"SendUSRRCH",nil]) retain];
     }
     return data;
 }
@@ -32,7 +32,7 @@
 - (id)initWithChannel:(TCMBEEPChannel *)aChannel {
     self = [super initWithChannel:aChannel];
     if (self) {
-        I_options = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithBool:NO],@"SendUSRRCH",nil];
+        I_options = [[NSMutableDictionary alloc] initWithObjectsAndKeys:@NO,@"SendUSRRCH",nil];
     }
     return self;
 }
