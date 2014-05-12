@@ -15,7 +15,6 @@
 		1428900D095740F200D14688 /* Acknowledgements.txt in Resources */ = {isa = PBXBuildFile; fileRef = 14289008095740F200D14688 /* Acknowledgements.txt */; };
 		1428900F095740F200D14688 /* RE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1428900A095740F200D14688 /* RE.txt */; };
 		142890140957413900D14688 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 142890120957413900D14688 /* Localizable.strings */; };
-		142890470957421300D14688 /* SubEthaEditHelp in Resources */ = {isa = PBXBuildFile; fileRef = 142890450957421300D14688 /* SubEthaEditHelp */; };
 		142890490957425900D14688 /* HTMLExport in Resources */ = {isa = PBXBuildFile; fileRef = 142890480957425900D14688 /* HTMLExport */; };
 		1428904B0957427100D14688 /* Modes in Resources */ = {isa = PBXBuildFile; fileRef = 1428904A0957427100D14688 /* Modes */; };
 		142890580957432800D14688 /* Invitation.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 142890560957432800D14688 /* Invitation.aiff */; };
@@ -603,7 +602,6 @@
 		1428900A095740F200D14688 /* RE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = RE.txt; sourceTree = "<group>"; };
 		1428900B095740F200D14688 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = English; path = English.lproj/ReleaseNotes.txt; sourceTree = "<group>"; };
 		142890130957413900D14688 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
-		142890460957421300D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = folder; name = English; path = English.lproj/SubEthaEditHelp; sourceTree = "<group>"; };
 		142890480957425900D14688 /* HTMLExport */ = {isa = PBXFileReference; lastKnownFileType = folder; path = HTMLExport; sourceTree = "<group>"; };
 		1428904A0957427100D14688 /* Modes */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Modes; sourceTree = "<group>"; };
 		142890560957432800D14688 /* Invitation.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Invitation.aiff; sourceTree = "<group>"; };
@@ -831,7 +829,6 @@
 		145047510997758600D18142 /* German */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = German; path = German.lproj/ReleaseNotes.txt; sourceTree = "<group>"; };
 		1468BA8F097D91BC006F5936 /* German */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1468BA90097D91D1006F5936 /* German */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/Localizable.strings; sourceTree = "<group>"; };
-		1468BAB4097D932D006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = folder; name = German; path = German.lproj/SubEthaEditHelp; sourceTree = "<group>"; };
 		148167AB0B15B002008894C9 /* PlainTextWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = PlainTextWindow.h; sourceTree = "<group>"; };
 		148167AC0B15B002008894C9 /* PlainTextWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlainTextWindow.m; sourceTree = "<group>"; };
 		1493A8460A10D9E8004ECE6A /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/SystemVersionCheck.strings; sourceTree = "<group>"; };
@@ -2001,7 +1998,6 @@
 				142890480957425900D14688 /* HTMLExport */,
 				1428904A0957427100D14688 /* Modes */,
 				5E4DA73A09E15C6800D91CFC /* Scripts */,
-				142890450957421300D14688 /* SubEthaEditHelp */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -2677,7 +2673,6 @@
 				F22024D6191D0BFE0098982C /* ParticipantReadOnlyTurnOffHover@2x.png in Resources */,
 				4CFAABB018A3ECE4009DB5C3 /* EditorSplitVertical.pdf in Resources */,
 				4C6BDC5C188983380088CBFC /* FoldingBubbleBig@2x.png in Resources */,
-				142890470957421300D14688 /* SubEthaEditHelp in Resources */,
 				142890580957432800D14688 /* Invitation.aiff in Resources */,
 				142890590957432800D14688 /* Knock.wav in Resources */,
 				F22024C6191D0BFE0098982C /* ParticipantFollowTurnOffNormal@2x.png in Resources */,
@@ -3256,15 +3251,6 @@
 				1468BA90097D91D1006F5936 /* German */,
 			);
 			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-		142890450957421300D14688 /* SubEthaEditHelp */ = {
-			isa = PBXVariantGroup;
-			children = (
-				142890460957421300D14688 /* English */,
-				1468BAB4097D932D006F5936 /* German */,
-			);
-			name = SubEthaEditHelp;
 			sourceTree = "<group>";
 		};
 		145047410997750100D18142 /* ReleaseNotes.txt */ = {
