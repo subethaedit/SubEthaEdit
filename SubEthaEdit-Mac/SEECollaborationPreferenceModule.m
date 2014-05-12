@@ -228,7 +228,11 @@
         [TCMMMUserManager didChangeMe];
 		
 		self.O_avatarImageView.initials = me.initials;
+		if (me.hasDefaultImage) {
+			[self.O_avatarImageView setImage:me.image];
+		}
 		[self.imagePicker setValue:[me defaultImage] forKey:IKPictureTakerShowEmptyPictureKey];
+
     }
 }
 
