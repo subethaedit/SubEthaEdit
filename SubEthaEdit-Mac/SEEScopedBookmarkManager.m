@@ -340,6 +340,10 @@ static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.s
 	return NO;
 }
 
+- (BOOL)canAccessURL:(NSURL *)aURL {
+	BOOL result = [self startAccessingURL:aURL persist:NO bookmarkGenerationBlock:NULL];
+	return result;
+}
 
 - (NSString *)previewAccessMessageString {
 	NSString *localizedMessageFormat = NSLocalizedStringWithDefaultValue(@"ScopedBookmarkAllowFileMessageFormatString",

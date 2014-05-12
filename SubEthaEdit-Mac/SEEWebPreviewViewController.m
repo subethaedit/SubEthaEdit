@@ -311,10 +311,17 @@ static NSScrollView * firstScrollView(NSView *aView) {
 #pragma mark -
 #pragma mark ### WebResourceLoadDelegate ###
 - (id)webView:(WebView *)sender identifierForInitialRequest:(NSURLRequest *)request fromDataSource:(WebDataSource *)dataSource {
+	static NSInteger counter = 0;
 	NSURL *url = request.URL;
 	if (![request valueForHTTPHeaderField:@"LocalContentAndThisIsTheEncoding"]) {
-		if (url.isFileURL) {
-			[[SEEScopedBookmarkManager sharedManager] startAccessingURL:url];
+		if (url.isFileURL && ![[SEEScopedBookmarkManager sharedManager] canAccessURL:url]) {
+			counter++;
+			if (counter == 1) {
+				if ([[SEEScopedBookmarkManager sharedManager] startAccessingURL:url]) {
+					[self reloadWebViewCachingAllowed:NO];
+				}
+			}
+			counter--;
 		}
 	}
 	return url;
