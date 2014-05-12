@@ -403,13 +403,17 @@
 #pragma mark - Preparing Views
 
 - (void)updateForParticipantUserState {
+	BOOL isServer = self.tabContext.document.session.isServer;
 	if (self.participant.isMe) {
 		// remove all buttons
-		self.readWriteUserButtonOutlet.hidden = YES;
+		self.readWriteUserButtonOutlet.hidden = isServer;
 		self.kickUserButtonOutlet.hidden = YES;
 		self.followUserButtonOutlet.hidden = YES;
+		if (!isServer) {
+			[self updateParticipantReadOnly];
+		}
 	} else {
-		if (self.tabContext.document.session.isServer) {
+		if (isServer) {
 			self.kickUserButtonOutlet.hidden = NO;
 			self.readWriteUserButtonOutlet.hidden = NO;
 		} else {
