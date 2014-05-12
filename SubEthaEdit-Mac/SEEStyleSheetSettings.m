@@ -79,6 +79,9 @@ NSString * const SEEStyleSheetSettingsUsesMultipleStyleSheetsKey = @"usesMultipl
 	if (!I_usesMultipleStyleSheets || !result) {
 		result = [modeManager styleSheetForName:self.singleStyleSheetName];
 	}
+	if (!result) {
+		result = [modeManager styleSheetForName:[DocumentModeManager defaultStyleSheetName]];
+	}
 	return result;
 }
 
