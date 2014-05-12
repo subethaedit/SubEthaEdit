@@ -38,7 +38,7 @@ NSString * const TCMBEEPMessageXMLAttributeCode = @"code";
 
 @property (atomic, readwrite, strong) NSMutableArray *profileURIsInProgress;
 @property (atomic, readwrite, strong) NSData *profileDataBlockInProgress;
-@property (atomic, readwrite, strong) NSMutableArray *profileDataBlocksInProgress;
+@property (atomic, readwrite, strong) NSMutableArray *profileDataBlockArrayInProgress;
 
 @property (atomic, readwrite, strong) NSMutableString *xmlCharactersInProgress;
 
@@ -103,7 +103,7 @@ NSString * const TCMBEEPMessageXMLAttributeCode = @"code";
 	else if ([elementName isEqualToString:TCMBEEPMessageXMLElementStart])
 	{
 		self.profileURIsInProgress = [NSMutableArray array];
-		self.profileDataBlocksInProgress = [NSMutableArray array];
+		self.profileDataBlockArrayInProgress = [NSMutableArray array];
 	}
 	else if ([elementName isEqualToString:TCMBEEPMessageXMLElementProfile]) {
 		NSString *URI = [attributeDict objectForKey:TCMBEEPMessageXMLAttributeURI];
@@ -131,24 +131,24 @@ NSString * const TCMBEEPMessageXMLAttributeCode = @"code";
 	if ([elementName isEqualToString:TCMBEEPMessageXMLElementGreeting]) {
 		self.profileURIs = self.profileURIsInProgress;
 		self.profileURIsInProgress = nil;
-		self.profileDataBlocks = self.profileDataBlocksInProgress;
-		self.profileDataBlocksInProgress = nil;
+		self.profileDataBlocks = self.profileDataBlockArrayInProgress;
+		self.profileDataBlockArrayInProgress = nil;
 	}
 	else if ([elementName isEqualToString:TCMBEEPMessageXMLElementStart]) {
 		self.profileURIs = self.profileURIsInProgress;
 		self.profileURIsInProgress = nil;
-		self.profileDataBlocks = self.profileDataBlocksInProgress;
-		self.profileDataBlocksInProgress = nil;
+		self.profileDataBlocks = self.profileDataBlockArrayInProgress;
+		self.profileDataBlockArrayInProgress = nil;
 	}
 	else if ([elementName isEqualToString:TCMBEEPMessageXMLElementProfile]) {
-		if (self.profileDataBlocksInProgress) {
+		if (self.profileDataBlockArrayInProgress) {
 			// we are inside a bigger element, so we need to have the same amount of profile data as uris,
 			// so we add an empty data if we haven't received a CDATA
 			NSData *data = self.profileDataBlockInProgress;
 			if (!data) {
 				data = [NSData data];
 			}
-			[self.profileDataBlocksInProgress addObject:data];
+			[self.profileDataBlockArrayInProgress addObject:data];
 		} else {
 			self.messageData = self.profileDataBlockInProgress;
 		}
