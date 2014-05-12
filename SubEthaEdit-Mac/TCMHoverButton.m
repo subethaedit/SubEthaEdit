@@ -33,6 +33,13 @@
 	self.pressedImage = [NSImage imageNamed:[aPrefix stringByAppendingString:@"Pressed"]];
 }
 
+- (void)setAllImages:(NSImage *)anImage {
+	self.normalImage = anImage;
+	self.hoverImage = anImage;
+	self.pressedImage = anImage;
+}
+
+
 #pragma mark -
 
 - (void)mouseEntered:(NSEvent *)theEvent {

@@ -18,4 +18,5 @@
 /*! @param aPrefix the prefix of the images. the internal images will be set using imageNamed: with the suffixes @"Normal", @"Hover" and @"Pressed" */
 - (void)setImagesByPrefix:(NSString *)aPrefix;
 
+- (void)setAllImages:(NSImage *)anImage;
 @end
