@@ -16,21 +16,21 @@
         <window title="Users" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="6" userLabel="Window">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="314" y="294" width="541" height="673"/>
+            <rect key="contentRect" x="314" y="294" width="796" height="575"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
             <view key="contentView" autoresizesSubviews="NO" id="5">
-                <rect key="frame" x="0.0" y="0.0" width="541" height="673"/>
+                <rect key="frame" x="0.0" y="0.0" width="796" height="575"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <scrollView horizontalLineScroll="22" horizontalPageScroll="10" verticalLineScroll="22" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="9">
-                        <rect key="frame" x="0.0" y="382" width="541" height="291"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
+                        <rect key="frame" x="0.0" y="284" width="797" height="291"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" id="WUH-3e-pnw">
-                            <rect key="frame" x="1" y="17" width="524" height="258"/>
+                            <rect key="frame" x="1" y="17" width="780" height="258"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="20" headerView="103" id="8">
-                                    <rect key="frame" x="0.0" y="0.0" width="524" height="258"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="780" height="258"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -48,7 +48,7 @@
                                                 <binding destination="26" name="value" keyPath="arrangedObjects.image" id="cbI-fw-Gl5"/>
                                             </connections>
                                         </tableColumn>
-                                        <tableColumn width="35" minWidth="10" maxWidth="1000" id="16">
+                                        <tableColumn width="57" minWidth="10" maxWidth="1000" id="16">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -69,7 +69,7 @@
                                                 </binding>
                                             </connections>
                                         </tableColumn>
-                                        <tableColumn width="93.941001892089844" minWidth="79.941001892089844" maxWidth="1000" id="15">
+                                        <tableColumn width="104.94100189208984" minWidth="79.941001892089844" maxWidth="1000" id="15">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Change Count">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -84,7 +84,7 @@
                                                 <binding destination="26" name="value" keyPath="arrangedObjects.changeCount" id="38"/>
                                             </connections>
                                         </tableColumn>
-                                        <tableColumn width="108.40799713134766" minWidth="10" maxWidth="1000" id="14">
+                                        <tableColumn width="148.40799713134766" minWidth="10" maxWidth="1000" id="14">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="ID">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -99,7 +99,7 @@
                                                 <binding destination="26" name="value" keyPath="arrangedObjects.userID" id="37"/>
                                             </connections>
                                         </tableColumn>
-                                        <tableColumn width="116" minWidth="40" maxWidth="1000" id="10">
+                                        <tableColumn width="198" minWidth="40" maxWidth="1000" id="10">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Name">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -115,7 +115,7 @@
                                                 <binding destination="26" name="value" keyPath="arrangedObjects.name" id="33"/>
                                             </connections>
                                         </tableColumn>
-                                        <tableColumn width="67.232002258300781" minWidth="10" maxWidth="1000" id="12">
+                                        <tableColumn width="81.232002258300781" minWidth="10" maxWidth="1000" id="12">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="AIM">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -130,7 +130,7 @@
                                                 <binding destination="26" name="value" keyPath="arrangedObjects.properties.AIM" id="34"/>
                                             </connections>
                                         </tableColumn>
-                                        <tableColumn width="57.665000915527344" minWidth="10" maxWidth="1000" id="13">
+                                        <tableColumn width="129.66500091552734" minWidth="10" maxWidth="1000" id="13">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Email">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -151,25 +151,23 @@
                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </clipView>
                         <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="102">
-                            <rect key="frame" x="1" y="274" width="539" height="16"/>
+                            <rect key="frame" x="1" y="275" width="780" height="15"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <scroller key="verticalScroller" verticalHuggingPriority="750" horizontal="NO" id="104">
-                            <rect key="frame" x="524" y="17" width="16" height="273"/>
+                            <rect key="frame" x="781" y="17" width="15" height="258"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <tableHeaderView key="headerView" id="103">
-                            <rect key="frame" x="0.0" y="0.0" width="539" height="17"/>
+                            <rect key="frame" x="0.0" y="0.0" width="780" height="17"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </tableHeaderView>
                     </scrollView>
                     <textField verticalHuggingPriority="750" id="21">
-                        <rect key="frame" x="18" y="311" width="281" height="34"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <textFieldCell key="cell" selectable="YES" sendsActionOnEndEditing="YES" alignment="left" id="88">
+                        <rect key="frame" x="376" y="187" width="379" height="19"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                        <textFieldCell key="cell" selectable="YES" sendsActionOnEndEditing="YES" alignment="left" title="Name" id="88">
                             <font key="font" metaFont="systemBold"/>
-                            <string key="title">Name
-</string>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
@@ -182,46 +180,42 @@
                         </connections>
                     </textField>
                     <textField verticalHuggingPriority="750" id="22">
-                        <rect key="frame" x="17" y="284" width="223" height="19"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <textFieldCell key="cell" selectable="YES" sendsActionOnEndEditing="YES" alignment="left" id="89">
-                            <font key="font" metaFont="systemBold"/>
-                            <string key="title">AIM
-</string>
+                        <rect key="frame" x="376" y="133" width="379" height="19"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                        <textFieldCell key="cell" selectable="YES" sendsActionOnEndEditing="YES" alignment="left" title="AIM" id="89">
+                            <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
-                            <binding destination="26" name="value" keyPath="selection.properties.AIM" id="51">
+                            <binding destination="26" name="value" keyPath="selection.properties.AIM" id="fei-r7-ZbE">
                                 <dictionary key="options">
-                                    <bool key="NSConditionallySetsEditable" value="NO"/>
+                                    <string key="NSNullPlaceholder">&lt;no aim&gt;</string>
                                 </dictionary>
                             </binding>
                         </connections>
                     </textField>
                     <textField verticalHuggingPriority="750" id="23">
-                        <rect key="frame" x="244" y="284" width="274" height="19"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <textFieldCell key="cell" selectable="YES" sendsActionOnEndEditing="YES" alignment="left" id="90">
-                            <font key="font" metaFont="systemBold"/>
-                            <string key="title">Email
-</string>
+                        <rect key="frame" x="376" y="160" width="379" height="19"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                        <textFieldCell key="cell" selectable="YES" sendsActionOnEndEditing="YES" alignment="left" title="Email" id="90">
+                            <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
-                            <binding destination="26" name="value" keyPath="selection.properties.Email" id="53">
+                            <binding destination="26" name="value" keyPath="selection.properties.Email" id="mjZ-cF-kNc">
                                 <dictionary key="options">
-                                    <bool key="NSConditionallySetsEditable" value="NO"/>
+                                    <string key="NSNullPlaceholder">&lt;no email&gt;</string>
                                 </dictionary>
                             </binding>
                         </connections>
                     </textField>
                     <textField verticalHuggingPriority="750" id="24">
-                        <rect key="frame" x="17" y="353" width="393" height="21"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <rect key="frame" x="376" y="237" width="379" height="15"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                         <textFieldCell key="cell" controlSize="mini" selectable="YES" sendsActionOnEndEditing="YES" alignment="left" title="id" id="91">
-                            <font key="font" metaFont="miniSystemBold"/>
+                            <font key="font" metaFont="miniSystem"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
@@ -233,13 +227,20 @@
                             </binding>
                         </connections>
                     </textField>
-                    <textField verticalHuggingPriority="750" id="65">
-                        <rect key="frame" x="313" y="311" width="205" height="19"/>
+                    <textField verticalHuggingPriority="750" id="5d8-0M-eeC">
+                        <rect key="frame" x="282" y="237" width="90" height="15"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <textFieldCell key="cell" selectable="YES" sendsActionOnEndEditing="YES" alignment="right" id="93">
-                            <font key="font" metaFont="systemBold"/>
-                            <string key="title">ChangeCount
-</string>
+                        <textFieldCell key="cell" controlSize="mini" selectable="YES" sendsActionOnEndEditing="YES" alignment="left" title="UserID:" id="2XP-gV-gvx">
+                            <font key="font" metaFont="miniSystemBold"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField verticalHuggingPriority="750" id="65">
+                        <rect key="frame" x="376" y="214" width="379" height="15"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                        <textFieldCell key="cell" selectable="YES" sendsActionOnEndEditing="YES" alignment="left" title="ChangeCount" id="93">
+                            <font key="font" metaFont="miniSystem"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
@@ -251,10 +252,19 @@
                             </binding>
                         </connections>
                     </textField>
+                    <textField verticalHuggingPriority="750" id="9yt-di-oCY">
+                        <rect key="frame" x="282" y="214" width="90" height="15"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <textFieldCell key="cell" selectable="YES" sendsActionOnEndEditing="YES" alignment="left" title="Change Count:" id="ZW8-6j-Ylq">
+                            <font key="font" metaFont="miniSystemBold"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
                     <textField verticalHuggingPriority="750" id="68">
-                        <rect key="frame" x="414" y="363" width="104" height="11"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Number of Users" id="94">
+                        <rect key="frame" x="376" y="260" width="379" height="15"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Number of Users" id="94">
                             <font key="font" metaFont="miniSystem"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -267,17 +277,26 @@
                             </binding>
                         </connections>
                     </textField>
+                    <textField verticalHuggingPriority="750" id="fjo-W1-bn7">
+                        <rect key="frame" x="282" y="260" width="90" height="15"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Number of Users:" id="IGD-D0-7pn">
+                            <font key="font" metaFont="miniSystemBold"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" id="bHC-0L-awH">
                         <rect key="frame" x="17" y="17" width="262" height="262"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" imageFrameStyle="grayBezel" id="yg7-Vb-4pg"/>
                         <connections>
                             <binding destination="26" name="value" keyPath="selection.image" id="3QR-nd-N8S"/>
                         </connections>
                     </imageView>
                     <colorWell bordered="NO" continuous="NO" enabled="NO" id="OIe-Nl-JMq">
-                        <rect key="frame" x="284" y="253" width="44" height="23"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <rect key="frame" x="761" y="0.0" width="35" height="285"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                         <color key="color" red="0.05813049898" green="0.055541899059999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <connections>
                             <binding destination="26" name="value" keyPath="selection.properties.Hue" id="eQZ-qJ-BzX">
@@ -287,6 +306,45 @@
                             </binding>
                         </connections>
                     </colorWell>
+                    <colorWell bordered="NO" continuous="NO" enabled="NO" id="Jeo-jq-gSv">
+                        <rect key="frame" x="284" y="20" width="44" height="23"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="color" red="0.05813049898" green="0.055541899059999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <connections>
+                            <binding destination="26" name="value" keyPath="selection.properties.Hue" id="dXA-x6-19j">
+                                <dictionary key="options">
+                                    <string key="NSValueTransformerName">HueToColorValueTransformer</string>
+                                </dictionary>
+                            </binding>
+                        </connections>
+                    </colorWell>
+                    <textField verticalHuggingPriority="750" id="52x-ia-Zjb">
+                        <rect key="frame" x="282" y="187" width="90" height="19"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <textFieldCell key="cell" selectable="YES" sendsActionOnEndEditing="YES" alignment="left" title="Name:" id="6hV-PR-Kay">
+                            <font key="font" metaFont="systemBold"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField verticalHuggingPriority="750" id="vAd-gG-SZE">
+                        <rect key="frame" x="282" y="133" width="90" height="19"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <textFieldCell key="cell" selectable="YES" sendsActionOnEndEditing="YES" alignment="left" title="AIM:" id="98s-W8-FZA">
+                            <font key="font" metaFont="systemBold"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField verticalHuggingPriority="750" id="0wc-k3-2CI">
+                        <rect key="frame" x="282" y="160" width="90" height="19"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <textFieldCell key="cell" selectable="YES" sendsActionOnEndEditing="YES" alignment="left" title="E-Mail:" id="JXT-mU-tf6">
+                            <font key="font" metaFont="systemBold"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
                 </subviews>
             </view>
             <connections>
