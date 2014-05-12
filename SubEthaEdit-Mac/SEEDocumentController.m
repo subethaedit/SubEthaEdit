@@ -982,8 +982,16 @@
 	[super noteNewRecentDocumentURL:url];
 
 	// This seems to be very hacky, but currently the only version that works.
-	// recentDocumentURLs gets updated asyncroniously and there is no hockt to update it than
+	// recentDocumentURLs gets updated asyncroniously and there is no hook to update it then
 	// we don't get events of unmounting media etc right now.
+	[[NSOperationQueue mainQueue] addOperationWithBlock:^{
+		[self.documentListWindowController performSelector:@selector(reloadAllDocumentDocumentListItems) withObject:self afterDelay:0.1];
+	}];
+}
+
+- (IBAction)clearRecentDocuments:(id)sender {
+	[super clearRecentDocuments:sender];
+
 	[[NSOperationQueue mainQueue] addOperationWithBlock:^{
 		[self.documentListWindowController performSelector:@selector(reloadAllDocumentDocumentListItems) withObject:self afterDelay:0.1];
 	}];
