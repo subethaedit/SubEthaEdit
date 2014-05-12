@@ -1052,7 +1052,7 @@
             [self openDirectory:filename];
         } else {
             [I_propertiesForOpenedFiles setObject:properties forKey:filename];
-			[[SEEScopedBookmarkManager sharedManager] startAccessingURL:[NSURL fileURLWithPath:filename]];
+			[[SEEScopedBookmarkManager sharedManager] startAccessingScriptedFileURL:[NSURL fileURLWithPath:filename]];
 			[self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:filename] display:YES completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
 				if (error) NSLog(@"%@",error);
 			}];
@@ -1115,7 +1115,7 @@
         [I_propertiesForOpenedFiles setObject:properties forKey:filename];
         BOOL shouldClose = ([self documentForURL:[NSURL fileURLWithPath:filename]] == nil);
 
-		[[SEEScopedBookmarkManager sharedManager] startAccessingURL:[NSURL fileURLWithPath:filename]];
+		[[SEEScopedBookmarkManager sharedManager] startAccessingScriptedFileURL:[NSURL fileURLWithPath:filename]];
 		[self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:filename] display:NO completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
 			if (error) {
 				NSLog(@"%@",error);
