@@ -3358,7 +3358,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 			NSError *fileSavingError = error;
 			[self performActivityWithSynchronousWaiting:YES usingBlock:^(void (^activityCompletionHandler)(void)) {
 				if ([error.domain isEqualToString:@"SEEDocumentSavingDomain"] && error.code == 0x0FF) {
-					hasBeenWritten = [self writeAuthorizedToURL:url ofType:typeName saveOperation:saveOperation error:&authenticationError];
+					hasBeenWritten = [self writeUsingAuthenticationToURL:url ofType:typeName saveOperation:saveOperation error:&authenticationError];
 					[authenticationError retain];
 					activityCompletionHandler();
 				} else {
@@ -3595,7 +3595,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     return hasBeenWritten;
 }
 
-- (BOOL)writeAuthorizedToURL:(NSURL *)anAbsoluteURL ofType:(NSString *)docType saveOperation:(NSSaveOperationType)saveOperationType error:(NSError **)outError {
+- (BOOL)writeUsingAuthenticationToURL:(NSURL *)anAbsoluteURL ofType:(NSString *)docType saveOperation:(NSSaveOperationType)saveOperationType error:(NSError **)outError {
 
 	__block BOOL result = NO;
 
@@ -3653,7 +3653,15 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 						[self setFileURL:anAbsoluteURL];
 						[self setFileType:docType];
-						[self setFileModificationDate:[NSDate date]];
+
+						NSError *fileModificationDateError = nil;
+						NSDate *modificationDate = nil;
+						if ([anAbsoluteURL getResourceValue:&modificationDate forKey:NSURLContentModificationDateKey error:&fileModificationDateError]) {
+							[self setFileModificationDate:modificationDate];
+						} else {
+							NSLog(@"%s - Can't get file modification date dure to error : %@", __FUNCTION__, fileModificationDateError);
+							[self setFileModificationDate:[NSDate date]]; // fallback
+						}
 					}
 				} else {
 					if (outError) {
