@@ -916,7 +916,7 @@ static DocumentModeManager *S_sharedInstance=nil;
             } else if ([bundlePath hasPrefix:@"/Library"]) {
                 additionalText=@"/Library";
             } else if ([bundlePath hasPrefix:NSHomeDirectory()?NSHomeDirectory():@"/Users"]) {
-                additionalText=@"~/Library";
+                additionalText=@"Application Support";
             } else if ([bundlePath hasPrefix:NSHomeDirectory()?NSHomeDirectory():@"/Network"]) {
                 additionalText=@"/Network";
             }
