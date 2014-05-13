@@ -172,12 +172,6 @@ static DebugController * sharedInstance = nil;
         [menu addItem:blahItem];
         [blahItem release];
 
-
-        blahItem = [[NSMenuItem alloc] initWithTitle:@"Quit Saving State" action:@selector(terminateForRestart:) keyEquivalent:@""];
-        [blahItem setTarget:NSApp];
-        [menu addItem:blahItem];
-        [blahItem release];
-
         blahItem = [[NSMenuItem alloc] initWithTitle:@"Log Mode Precedences to console" action:@selector(printModePrecedences:) keyEquivalent:@""];
         [blahItem setTarget:self];
         [menu addItem:blahItem];
