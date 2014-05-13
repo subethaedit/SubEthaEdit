@@ -1344,6 +1344,9 @@
             [I_propertiesForOpenedFiles setObject:properties forKey:standardInputFile];
             [(PlainTextDocument *)document resizeAccordingToDocumentMode];
             [document readFromURL:[NSURL fileURLWithPath:standardInputFile] ofType:@"public.plain-text" error:NULL];
+
+			[(PlainTextDocument *)document autosaveForStateRestore];
+
             if (shouldMakePipeDirty) {
                 [document updateChangeCount:NSChangeDone];
             }

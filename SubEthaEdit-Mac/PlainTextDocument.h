@@ -273,6 +273,8 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
 - (NSURL *)documentURL;
 - (NSURL *)documentURLForGroup:(NSString *)aGroup;
 
+- (void)autosaveForStateRestore;
+
 - (UndoManager *)documentUndoManager;
 
 - (NSString *)preparedDisplayName;

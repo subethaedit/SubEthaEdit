@@ -2576,54 +2576,17 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     }
 }
 
-- (void)autosaveForRestart {
-    I_flags.isAutosavingForRestart = YES;
-    [self autosaveDocumentWithDelegate:nil didAutosaveSelector:NULL contextInfo:NULL];
-    I_flags.isAutosavingForRestart = NO;
-}
+- (void)autosaveForStateRestore {
+	I_flags.isAutosavingForRestart = YES;
+	[self performActivityWithSynchronousWaiting:YES usingBlock:^(void (^activityCompletionHandler)(void)) {
+		[self autosaveWithImplicitCancellability:NO completionHandler:^(NSError *error) {
+			activityCompletionHandler();
+		}];
 
-- (void)setAutosavedContentsFileURL:(NSURL *)anURL {
-    NSURL *URLToDelete = nil;
-    if (!anURL) {
-        URLToDelete = [self autosavedContentsFileURL];
-    }
-    [super setAutosavedContentsFileURL:anURL];
-    if (URLToDelete) {
-        NSFileManager *fm = [NSFileManager defaultManager];
-        if ([fm fileExistsAtPath:[URLToDelete path]]) {
-            [fm removeItemAtPath:[URLToDelete path] error:nil];
-        }
-    }
-}
-
-- (void)autosaveDocumentWithDelegate:(id)delegate didAutosaveSelector:(SEL)didAutosaveSelector contextInfo:(void *)aContext {
-    // autosave to .*/Autosave Information/de.codingmonkeys.SubEthaEdit.Mac/%@.seetext // UUID
-    NSURL *autosaveURL = [self autosavedContentsFileURL];
-    if ([self isDocumentEdited]) { 
-        if (!autosaveURL) {
-			NSFileManager *fileManager = [NSFileManager defaultManager];
-			NSArray *possibleURLs = [fileManager URLsForDirectory:NSAutosavedInformationDirectory inDomains:NSUserDomainMask];
-			NSURL *autosaveInfoDirectory = nil;
-			
-			if ([possibleURLs count] >= 1) {
-				// Use the first directory (if multiple are returned)
-				autosaveInfoDirectory = [possibleURLs objectAtIndex:0];
-			}
-			if (autosaveInfoDirectory) {
-				NSString* appBundleID = [[NSBundle mainBundle] bundleIdentifier];
-				autosaveInfoDirectory = [autosaveInfoDirectory URLByAppendingPathComponent:appBundleID];
-
-				NSString *documentName = [NSString stringWithFormat:@"%@.seetext", [NSString UUIDString]];
-				autosaveURL = [autosaveInfoDirectory URLByAppendingPathComponent:documentName];
-			}
-		}
-        if (autosaveURL) {
-			[self setAutosavedContentsFileURL:autosaveURL];
-		}
-        [super autosaveDocumentWithDelegate:delegate didAutosaveSelector:didAutosaveSelector contextInfo:aContext];
-    } else if (autosaveURL) {
-        [self setAutosavedContentsFileURL:nil];
-    }
+		[self performSynchronousFileAccessUsingBlock:^{
+			I_flags.isAutosavingForRestart = NO;
+		}];
+	}];
 }
 
 - (void)saveToURL:(NSURL *)anAbsoluteURL ofType:(NSString *)aType forSaveOperation:(NSSaveOperationType)saveOperation delegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)aContextInfo {
@@ -2900,7 +2863,6 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         BOOL hadChanges = [[[dictRep objectForKey:@"AutosaveInformation"] objectForKey:@"hadChanges"] boolValue];
         if (!hadChanges) {
             [self performSelector:@selector(clearChangeCount) withObject:nil afterDelay:0.0];
-            [self performSelector:@selector(setAutosavedContentsFileURL:) withObject:nil afterDelay:0.0];
         }
         I_flags.isSEEText = UTTypeConformsTo((CFStringRef)[self fileType], (CFStringRef)@"de.codingmonkeys.subethaedit.seetext");
         if (wasAutosave) *wasAutosave = YES;
@@ -5610,20 +5572,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     if ([[self windowControllers] count]>0) {
         [self setContentByDictionaryRepresentation:aContent];
 
-		I_flags.isAutosavingForRestart = YES;
-		[self updateChangeCount:NSChangeDone];
-		if (self.hasUnautosavedChanges) {
-			[self performActivityWithSynchronousWaiting:YES usingBlock:^(void (^activityCompletionHandler)(void)) {
-				[self autosaveWithImplicitCancellability:NO completionHandler:^(NSError *error) {
-					activityCompletionHandler();
-				}];
-
-				[self performSynchronousFileAccessUsingBlock:^{
-					[self updateChangeCount:NSChangeCleared];
-					I_flags.isAutosavingForRestart = NO;
-				}];
-			}];
-		}
+		[self autosaveForStateRestore];
 
         I_flags.isReceivingContent = NO;
         PlainTextWindowController *windowController=(PlainTextWindowController *)[[self windowControllers] objectAtIndex:0];
