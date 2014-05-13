@@ -208,9 +208,16 @@ static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.s
 	if (bookmarkURLs.count > 0) {
 		NSMutableArray *bookmarks = [NSMutableArray array];
 		for (NSURL *bookmarkURL in bookmarkURLs) {
+			NSNumber *isBookmarkFileWritable = nil;
+			NSURLBookmarkCreationOptions fileBookmarkOptions = NSURLBookmarkCreationWithSecurityScope;
+			[bookmarkURL getResourceValue:&isBookmarkFileWritable forKey:NSURLIsWritableKey error:nil];
+			if (! isBookmarkFileWritable.boolValue) {
+				fileBookmarkOptions = NSURLBookmarkCreationWithSecurityScope | NSURLBookmarkCreationSecurityScopeAllowOnlyReadAccess;
+			}
+
 			NSError *bookmarkGenerationError = nil;
 			NSData *persistentBookmarkData = [bookmarkURL bookmarkDataWithOptions:NSURLBookmarkCreationWithSecurityScope
-												   includingResourceValuesForKeys:@[NSURLLocalizedNameKey]
+												   includingResourceValuesForKeys:nil
 																	relativeToURL:documentURL
 																			error:&bookmarkGenerationError];
 
@@ -305,7 +312,15 @@ static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.s
 
 			NSData *persistentBookmarkData = nil;
 			if ([bookmarkURL startAccessingSecurityScopedResource]) {
-				persistentBookmarkData = [bookmarkURL bookmarkDataWithOptions:NSURLBookmarkCreationWithSecurityScope
+
+				NSNumber *isBookmarkFileWritable = nil;
+				NSURLBookmarkCreationOptions fileBookmarkOptions = NSURLBookmarkCreationWithSecurityScope;
+				[bookmarkURL getResourceValue:&isBookmarkFileWritable forKey:NSURLIsWritableKey error:nil];
+				if (! isBookmarkFileWritable.boolValue) {
+					fileBookmarkOptions = NSURLBookmarkCreationWithSecurityScope | NSURLBookmarkCreationSecurityScopeAllowOnlyReadAccess;
+				}
+
+				persistentBookmarkData = [bookmarkURL bookmarkDataWithOptions:fileBookmarkOptions
 											   includingResourceValuesForKeys:nil
 																relativeToURL:nil
 																		error:&bookmarkGenerationError];
@@ -381,7 +396,15 @@ static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.s
 		if (openPanelResult == NSFileHandlingPanelOKButton) {
 			NSURL *choosenURL = openPanel.URL;
 			// creating the security scoped bookmark url so that accessing works <3
-			NSData *bookmarkData = [choosenURL bookmarkDataWithOptions:NSURLBookmarkCreationWithSecurityScope includingResourceValuesForKeys:nil relativeToURL:nil error:nil];
+
+			NSNumber *isBookmarkFileWritable = nil;
+			NSURLBookmarkCreationOptions fileBookmarkOptions = NSURLBookmarkCreationWithSecurityScope;
+			[choosenURL getResourceValue:&isBookmarkFileWritable forKey:NSURLIsWritableKey error:nil];
+			if (! isBookmarkFileWritable.boolValue) {
+				fileBookmarkOptions = NSURLBookmarkCreationWithSecurityScope | NSURLBookmarkCreationSecurityScopeAllowOnlyReadAccess;
+			}
+
+			NSData *bookmarkData = [choosenURL bookmarkDataWithOptions:fileBookmarkOptions includingResourceValuesForKeys:nil relativeToURL:nil error:nil];
 			NSURL *bookmarkURL = [NSURL URLByResolvingBookmarkData:bookmarkData options:NSURLBookmarkResolutionWithSecurityScope relativeToURL:nil bookmarkDataIsStale:nil error:nil];
 			return bookmarkURL;
 		}
@@ -425,7 +448,14 @@ static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.s
 		if (openPanelResult == NSFileHandlingPanelOKButton) {
 			NSURL *choosenURL = openPanel.URL;
 			// creating the security scoped bookmark url so that accessing works <3
-			NSData *bookmarkData = [choosenURL bookmarkDataWithOptions:NSURLBookmarkCreationWithSecurityScope includingResourceValuesForKeys:nil relativeToURL:nil error:nil];
+			NSNumber *isBookmarkFileWritable = nil;
+			NSURLBookmarkCreationOptions fileBookmarkOptions = NSURLBookmarkCreationWithSecurityScope;
+			[choosenURL getResourceValue:&isBookmarkFileWritable forKey:NSURLIsWritableKey error:nil];
+			if (! isBookmarkFileWritable.boolValue) {
+				fileBookmarkOptions = NSURLBookmarkCreationWithSecurityScope | NSURLBookmarkCreationSecurityScopeAllowOnlyReadAccess;
+			}
+
+			NSData *bookmarkData = [choosenURL bookmarkDataWithOptions:fileBookmarkOptions includingResourceValuesForKeys:nil relativeToURL:nil error:nil];
 			NSURL *bookmarkURL = [NSURL URLByResolvingBookmarkData:bookmarkData options:NSURLBookmarkResolutionWithSecurityScope relativeToURL:nil bookmarkDataIsStale:nil error:nil];
 			return bookmarkURL;
 		}
