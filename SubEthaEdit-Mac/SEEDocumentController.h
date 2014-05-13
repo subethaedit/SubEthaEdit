@@ -16,6 +16,8 @@
 @class MAAttachedWindow;
 @class PlainTextDocument;
 
+extern NSString *const RecentDocumentsDidChangeNotification;
+
 @interface SEEDocumentController : NSDocumentController {    
     IBOutlet NSPanel *O_modeInstallerPanel;
     IBOutlet NSTextField *O_modeInstallerMessageTextField;

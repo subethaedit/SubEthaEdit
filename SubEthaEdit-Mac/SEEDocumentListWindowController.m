@@ -52,6 +52,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 @property (nonatomic, weak) IBOutlet NSArrayController *documentListItemsArrayController;
 
 @property (nonatomic, weak) id otherWindowsBecomeKeyNotifivationObserver;
+@property (nonatomic, weak) id recentDocumentsDidChangeNotifivationObserver;
 @property (nonatomic, strong) SEEToggleRecentDocumentListItem *toggleRecentItem;
 
 @end
@@ -86,6 +87,19 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 				}
 			}
 		}];
+
+		self.recentDocumentsDidChangeNotifivationObserver =
+		[[NSNotificationCenter defaultCenter] addObserverForName:RecentDocumentsDidChangeNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+			__typeof__(self) strongSelf = weakSelf;
+			if (note.object == [SEEDocumentController sharedInstance]) {
+				if (strongSelf.window.isVisible) {
+					[[NSOperationQueue mainQueue] addOperationWithBlock:^{
+						[[self class] cancelPreviousPerformRequestsWithTarget:strongSelf selector:@selector(reloadAllDocumentDocumentListItems) object:nil];
+						[strongSelf performSelector:@selector(reloadAllDocumentDocumentListItems) withObject:self afterDelay:0.1];
+					}];
+				}
+			}
+		}];
     }
     return self;
 }
@@ -93,9 +107,11 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 
 - (void)dealloc
 {
-	[self removeKVO];
-
     [[NSNotificationCenter defaultCenter] removeObserver:self.otherWindowsBecomeKeyNotifivationObserver];
+    [[NSNotificationCenter defaultCenter] removeObserver:self.recentDocumentsDidChangeNotifivationObserver];
+
+	[[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(reloadAllDocumentDocumentListItems) object:nil];
+	[self removeKVO];
 
 	[self close];
 }
@@ -176,6 +192,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if (context == SEENetworkDocumentBrowserEntriesObservingContext) {
+		[[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(reloadAllDocumentDocumentListItems) object:nil];
 		[self reloadAllDocumentDocumentListItems];
 
 		if (self.toggleRecentItem) {
@@ -262,13 +279,13 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 			if (self.toggleRecentItem.showRecentDocuments) {
 				NSArray *recentDocumentURLs = [[NSDocumentController sharedDocumentController] recentDocumentURLs];
 				for (NSURL *url in recentDocumentURLs) {
-					SEERecentDocumentListItem *recentDocumentItem = [[SEERecentDocumentListItem alloc] init];
-					recentDocumentItem.fileURL = url;
-					NSString *cachedItemID = recentDocumentItem.uid;
+					NSString *cachedItemID = url.absoluteString;
 					id <SEEDocumentListItem> cachedItem = [lookupDictionary objectForKey:cachedItemID];
 					if (cachedItem) {
 						[self.availableItems addObject:cachedItem];
 					} else {
+						SEERecentDocumentListItem *recentDocumentItem = [[SEERecentDocumentListItem alloc] init];
+						recentDocumentItem.fileURL = url;
 						[self.availableItems addObject:recentDocumentItem];
 					}
 				}

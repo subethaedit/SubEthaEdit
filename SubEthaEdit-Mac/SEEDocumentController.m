@@ -36,6 +36,7 @@
 #import <PSMTabBarControl/PSMTabBarControl.h>
 #import <objc/objc-runtime.h>			// for objc_msgSend
 
+NSString *const RecentDocumentsDidChangeNotification = @"RecentDocumentsDidChangeNotification";
 
 @interface SEEDocumentController ()
 
@@ -984,17 +985,21 @@
 	// This seems to be very hacky, but currently the only version that works.
 	// recentDocumentURLs gets updated asyncroniously and there is no hook to update it then
 	// we don't get events of unmounting media etc right now.
-	[[NSOperationQueue mainQueue] addOperationWithBlock:^{
-		[self.documentListWindowController performSelector:@selector(reloadAllDocumentDocumentListItems) withObject:self afterDelay:0.1];
-	}];
+	NSNotification *recentDocumentsDidChangeNotification = [NSNotification notificationWithName:RecentDocumentsDidChangeNotification object:self];
+	[[NSNotificationQueue defaultQueue] enqueueNotification:recentDocumentsDidChangeNotification
+											   postingStyle:NSPostASAP
+											   coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender
+												   forModes:@[NSRunLoopCommonModes]];
 }
 
 - (IBAction)clearRecentDocuments:(id)sender {
 	[super clearRecentDocuments:sender];
 
-	[[NSOperationQueue mainQueue] addOperationWithBlock:^{
-		[self.documentListWindowController performSelector:@selector(reloadAllDocumentDocumentListItems) withObject:self afterDelay:0.1];
-	}];
+	NSNotification *recentDocumentsDidChangeNotification = [NSNotification notificationWithName:RecentDocumentsDidChangeNotification object:self];
+	[[NSNotificationQueue defaultQueue] enqueueNotification:recentDocumentsDidChangeNotification
+											   postingStyle:NSPostASAP
+											   coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender
+												   forModes:@[NSRunLoopCommonModes]];
 }
 
 #pragma mark - Apple Script support
