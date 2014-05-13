@@ -505,7 +505,9 @@ static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.s
 					}
 				}
 			} else {
-				NSLog(@"%s - Error while accessing resource %@ : %@", __FUNCTION__, aURL, resourceAvailabilityError);
+				if (! ([resourceAvailabilityError.domain isEqualToString:NSCocoaErrorDomain] && resourceAvailabilityError.code == 260)) {
+					NSLog(@"%s - Error while accessing resource %@ : %@", __FUNCTION__, aURL, resourceAvailabilityError);
+				}
 			}
 		}
 	}
