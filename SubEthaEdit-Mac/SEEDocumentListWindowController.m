@@ -69,8 +69,6 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
     self = [super initWithWindow:window];
     if (self) {
 		self.availableItems = [NSMutableArray array];
-		[self reloadAllDocumentDocumentListItems];
-		[self installKVO];
 
 		__weak __typeof__(self) weakSelf = self;
 		self.otherWindowsBecomeKeyNotifivationObserver =
@@ -127,6 +125,10 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 - (IBAction)showWindow:(id)sender {
 	self.filesOwnerProxy.content = self;
 
+	if (! self.window.isVisible) {
+		[self installKVO];
+	}
+
 	// if window is in auto close mode it should not be restored on app restart.
 	self.window.restorable = !self.shouldCloseWhenOpeningDocument;
 
@@ -140,6 +142,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 		[NSApp stopModalWithCode:NSModalResponseAbort];
 	}
 
+	[self removeKVO];
 	self.filesOwnerProxy.content = nil;
 }
 
@@ -155,7 +158,11 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 #pragma mark - KVO
 
 - (void)installKVO {
-	[[SEEConnectionManager sharedInstance] addObserver:self forKeyPath:@"entries" options:0 context:SEENetworkDocumentBrowserEntriesObservingContext];
+	[[SEEConnectionManager sharedInstance] addObserver:self forKeyPath:@"entries" options:NSKeyValueObservingOptionInitial context:SEENetworkDocumentBrowserEntriesObservingContext];
+
+	if (self.toggleRecentItem) {
+		[self.toggleRecentItem addObserver:self forKeyPath:@"showRecentDocuments" options:0 context:SEENetworkDocumentBrowserEntriesObservingContext];
+	}
 }
 
 - (void)removeKVO {
@@ -249,7 +256,6 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 				[self.availableItems addObject:cachedItem];
 			} else {
 				toggleRecentDocumentsItem.showRecentDocuments = [[NSUserDefaults standardUserDefaults] boolForKey:@"DocumentListShowRecent"];
-				[toggleRecentDocumentsItem addObserver:self forKeyPath:@"showRecentDocuments" options:0 context:SEENetworkDocumentBrowserEntriesObservingContext];
 				self.toggleRecentItem = toggleRecentDocumentsItem;
 				[self.availableItems addObject:toggleRecentDocumentsItem];
 			}
