@@ -5615,7 +5615,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 				[self performSynchronousFileAccessUsingBlock:^{
 					[self updateChangeCount:NSChangeCleared];
-					I_flags.isAutosavingForRestart = YES;
+					I_flags.isAutosavingForRestart = NO;
 				}];
 			}];
 		}
