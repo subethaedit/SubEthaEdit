@@ -2837,18 +2837,6 @@ willChangeSelectionFromCharacterRange	:aOldSelectedCharRange
 }
 
 
-#pragma mark - State Restoration
-
-- (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
-//	NSLog(@"%s - %d : %@", __FUNCTION__, __LINE__, self.document.displayName);
-	[super encodeRestorableStateWithCoder:coder];
-}
-
-- (void)restoreStateWithCoder:(NSCoder *)coder {
-//	NSLog(@"%s - %d : %@", __FUNCTION__, __LINE__, self.document.displayName);
-	[super restoreStateWithCoder:coder];
-}
-
 #pragma mark -
 #pragma mark ### Auto completion ###
 
