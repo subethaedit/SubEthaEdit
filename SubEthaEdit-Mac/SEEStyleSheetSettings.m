@@ -69,19 +69,41 @@ NSString * const SEEStyleSheetSettingsUsesMultipleStyleSheetsKey = @"usesMultipl
 - (SEEStyleSheet *)styleSheetForLanguageContext:(NSString *)aLanguageContext {
 	DocumentModeManager *modeManager = [DocumentModeManager sharedInstance];
 	SEEStyleSheet *result = nil;
-	if (I_usesMultipleStyleSheets) {
+	if (self.usesMultipleStyleSheets) {
 		NSString *sheetName = [I_styleSheetNamesByLanguageContext objectForKey:aLanguageContext];
 		if (sheetName) {
 			result = [modeManager styleSheetForName:sheetName];
 		}
 	}
 	
-	if (!I_usesMultipleStyleSheets || !result) {
+	if (!self.usesMultipleStyleSheets || !result) {
 		result = [modeManager styleSheetForName:self.singleStyleSheetName];
+	}
+	if (!result) {
+		result = [modeManager styleSheetForName:[DocumentModeManager defaultStyleSheetName]];
+		[self resetStyleSheetForLanguageContext:aLanguageContext];
 	}
 	return result;
 }
 
+#pragma mark
+- (void)resetStyleSheetForLanguageContext:(NSString *)aLanguageContext {
+	// there is no style sheet for multi or single -> reset what needs resetting to default
+	
+	if (self.usesMultipleStyleSheets) {
+		// TODO: if style sheet per lang context is ever turned back on: test this again
+		[I_styleSheetNamesByLanguageContext removeObjectForKey:aLanguageContext];
+		
+	} else {
+		self.singleStyleSheetName = [DocumentModeManager defaultStyleSheetName];
+		if (![self.documentMode isBaseMode]) {
+			[[self.documentMode defaults] setObject:@(YES) forKey:DocumentModeUseDefaultStyleSheetPreferenceKey];			
+		}
+	}
+	[self pushSettingsToModeDefaults];
+}
+
+#pragma mark
 - (SEEStyleSheet *)topLevelStyleSheet {
 	return [self styleSheetForLanguageContext:self.documentMode.syntaxDefinition.mainLanguageContext];
 }
