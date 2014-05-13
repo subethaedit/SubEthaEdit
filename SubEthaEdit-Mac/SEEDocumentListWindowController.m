@@ -77,11 +77,14 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 		[[NSNotificationCenter defaultCenter] addObserverForName:NSWindowDidBecomeKeyNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
 			__typeof__(self) strongSelf = weakSelf;
 			if (note.object != strongSelf.window && strongSelf.shouldCloseWhenOpeningDocument) {
-				if (((NSWindow *)note.object).sheetParent != strongSelf.window) {
-					if ([NSApp modalWindow] == strongSelf.window) {
-						[NSApp stopModalWithCode:NSModalResponseAbort];
+				if (((NSWindow *)note.object).sheetParent != strongSelf.window) { // this avoids closing of the window when showing the connect sheet
+
+					if ([note.object isKindOfClass:NSClassFromString(@"PlainTextWindow")]) { // but for now we filter by document windows to avoid closing when help menu is opened.
+						if ([NSApp modalWindow] == strongSelf.window) {
+							[NSApp stopModalWithCode:NSModalResponseAbort];
+						}
+						[self close];
 					}
-					[self close];
 				}
 			}
 		}];
