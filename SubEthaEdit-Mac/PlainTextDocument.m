@@ -5623,6 +5623,15 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         I_flags.isReceivingContent = NO;
         PlainTextWindowController *windowController=(PlainTextWindowController *)[[self windowControllers] objectAtIndex:0];
         [windowController document:self isReceivingContent:NO];
+
+		[[self topmostWindowController] openParticipantsOverlayForDocument:self];
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:HighlightChangesPreferenceKey]) {
+			NSEnumerator *plainTextEditors=[[self plainTextEditors] objectEnumerator];
+			PlainTextEditor *editor=nil;
+			while ((editor=[plainTextEditors nextObject])) {
+				[editor setShowsChangeMarks:YES];
+			}
+		}
     }
     I_flags.isReceivingContent = NO;
 }
