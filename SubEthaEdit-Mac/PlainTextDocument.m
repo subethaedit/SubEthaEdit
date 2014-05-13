@@ -3406,6 +3406,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 			if (hasBeenWritten) {
 				fileSavingError = nil;
+
 				if (saveOperation == NSSaveOperation) {
 					[self TCM_sendODBModifiedEvent];
 					[self setKeepDocumentVersion:NO];
@@ -3417,10 +3418,11 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 					}
 					[self setShouldChangeChangeCount:YES];
 				}
-				if (saveOperation != NSAutosaveOperation) {
+
+				if (saveOperation != NSSaveToOperation && saveOperation != NSAutosaveOperation) {
+					[self setTemporaryDisplayName:nil];
 					[[NSNotificationCenter defaultCenter] postNotificationName:PlainTextDocumentDidSaveShouldReloadWebPreviewNotification object:self];
 				}
-				[self setTemporaryDisplayName:nil];
 			}
 
 			if (saveOperation != NSSaveToOperation && saveOperation != NSAutosaveOperation) {
@@ -5589,12 +5591,15 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 - (void)setContentByDictionaryRepresentation:(NSDictionary *)aRepresentation {
     I_flags.isRemotelyEditingTextStorage=YES;
-    FoldableTextStorage *textStorage=(FoldableTextStorage *)[self textStorage];
-    [textStorage setContentByDictionaryRepresentation:[aRepresentation objectForKey:@"TextStorage"]];
-    NSRange wholeRange=NSMakeRange(0,[textStorage length]);
-    [textStorage addAttributes:[self plainTextAttributes] range:wholeRange];
-    [textStorage addAttribute:NSParagraphStyleAttributeName value:[self defaultParagraphStyle] range:wholeRange];
+	{
+		FoldableTextStorage *textStorage=(FoldableTextStorage *)[self textStorage];
+		[textStorage setContentByDictionaryRepresentation:[aRepresentation objectForKey:@"TextStorage"]];
+		NSRange wholeRange=NSMakeRange(0,[textStorage length]);
+		[textStorage addAttributes:[self plainTextAttributes] range:wholeRange];
+		[textStorage addAttribute:NSParagraphStyleAttributeName value:[self defaultParagraphStyle] range:wholeRange];
+	}
     I_flags.isRemotelyEditingTextStorage=NO;
+
     [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
 	[self updateChangeCount:NSChangeCleared];
 	I_flags.shouldSelectModeOnSave = NO;
