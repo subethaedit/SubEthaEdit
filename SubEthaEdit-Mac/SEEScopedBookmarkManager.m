@@ -341,6 +341,12 @@ static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.s
 }
 
 
+- (BOOL)canAccessURL:(NSURL *)aURL {
+	BOOL result = [self startAccessingURL:aURL persist:NO creatable:NO bookmarkGenerationBlock:NULL];
+	return result;
+}
+
+
 - (NSString *)previewAccessMessageString {
 	NSString *localizedMessageFormat = NSLocalizedStringWithDefaultValue(@"ScopedBookmarkAllowFileMessageFormatString",
 																		 nil,
@@ -352,7 +358,7 @@ static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.s
 
 
 - (BOOL)startAccessingURL:(NSURL *)aURL {
-	return [self startAccessingURL:aURL persist:YES bookmarkGenerationBlock:^NSURL *(NSURL *urlToBeAccessed) {
+	return [self startAccessingURL:aURL persist:YES creatable:NO bookmarkGenerationBlock:^NSURL *(NSURL *urlToBeAccessed) {
 		NSOpenPanel *openPanel = [NSOpenPanel openPanel];
 		openPanel.canChooseDirectories = YES;
 		openPanel.canChooseFiles = YES;
@@ -383,23 +389,23 @@ static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.s
 	}];
 }
 
+
 - (NSString *)scriptedFileAccessMessageString {
 	NSString *localizedMessageFormat = NSLocalizedStringWithDefaultValue(@"ScopedBookmarkAllowScriptedFileMessageFormatString",
 																		 nil,
 																		 [NSBundle mainBundle],
 																		 @"AppleScript wants to access %@. Click allow to continue the running script.",
 																		 @"Message that gets displayed when SEE needs the user to grant access to an unopend file via applecript.");
-
 	return localizedMessageFormat;
 }
 
 
 - (BOOL)startAccessingScriptedFileURL:(NSURL *)aURL {
-	return [self startAccessingURL:aURL persist:NO bookmarkGenerationBlock:^NSURL *(NSURL *urlToBeAccessed) {
+	return [self startAccessingURL:aURL persist:NO creatable:YES bookmarkGenerationBlock:^NSURL *(NSURL *urlToBeAccessed) {
 		NSOpenPanel *openPanel = [NSOpenPanel openPanel];
 		openPanel.canChooseDirectories = YES;
 		openPanel.canChooseFiles = YES;
-		openPanel.directoryURL = [urlToBeAccessed URLByDeletingLastPathComponent];
+		openPanel.directoryURL = urlToBeAccessed;
 
 		openPanel.prompt = NSLocalizedStringWithDefaultValue(@"ScopedBookmarkAllowFilePrompt", nil, [NSBundle mainBundle], @"Allow", @"Default button title of the allow open panel");
 		openPanel.title = NSLocalizedStringWithDefaultValue(@"ScopedBookmarkAllowFileTitle", nil, [NSBundle mainBundle], @"Allow File Access", @"Window title of the allow open panel");
@@ -427,7 +433,7 @@ static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.s
 	}];
 }
 
-- (BOOL)startAccessingURL:(NSURL *)aURL persist:(BOOL)persistFlag bookmarkGenerationBlock:(BookmarkGenerationBlock)block {
+- (BOOL)startAccessingURL:(NSURL *)aURL persist:(BOOL)persistFlag creatable:(BOOL)shouldCreatable bookmarkGenerationBlock:(BookmarkGenerationBlock)block {
 	BOOL result = NO;
 	if (aURL.isFileURL) {
 		NSURL *parentURL = [self.lookupDict objectForKey:aURL];
@@ -447,7 +453,7 @@ static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.s
 
 			NSError *resourceAvailabilityError = nil;
 			// errorcode 260 in NSCocaErrorDomain means "File not found"
-			if ([aURL checkResourceIsReachableAndReturnError:&resourceAvailabilityError] || resourceAvailabilityError.code == 260) {
+			if ([aURL checkResourceIsReachableAndReturnError:&resourceAvailabilityError]) {
 				NSError *error = nil;
 				NSData *data = [NSData dataWithContentsOfURL:aURL options:NSDataReadingMappedAlways error:&error];
 
@@ -466,7 +472,7 @@ static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.s
 
 							// checking if the selected url helps with opening permissions of our file
 							data = [NSData dataWithContentsOfURL:aURL options:NSDataReadingMappedAlways error:&error];
-							if (!data && error.code != 260) {
+							if (!data) {
 								[bookmarkURL stopAccessingSecurityScopedResource];
 								result = NO;
 
@@ -482,8 +488,26 @@ static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.s
 						}
 					}
 				}
+			} else if (shouldCreatable && [resourceAvailabilityError.domain isEqualToString:NSCocoaErrorDomain] && resourceAvailabilityError.code == 260) {
+				if (block) {
+					// the file is not readable and we assume that it is because of permissions,
+					// so we ask the user to allow us to use the file
+					NSURL *bookmarkURL = block([aURL URLByDeletingLastPathComponent]);
+					if (bookmarkURL) {
+						result = [bookmarkURL startAccessingSecurityScopedResource];
+						[self.accessingURLs addObject:aURL];
+						[self.lookupDict setObject:bookmarkURL forKey:aURL];
+
+						if (persistFlag) {
+							[self.bookmarkURLs addObject:bookmarkURL];
+							[self writeBookmarksToUserDefaults];
+						}
+					}
+				}
 			} else {
-				NSLog(@"%s - Error while accessing resource %@ : %@", __FUNCTION__, aURL, resourceAvailabilityError);
+				if (! ([resourceAvailabilityError.domain isEqualToString:NSCocoaErrorDomain] && resourceAvailabilityError.code == 260)) {
+					NSLog(@"%s - Error while accessing resource %@ : %@", __FUNCTION__, aURL, resourceAvailabilityError);
+				}
 			}
 		}
 	}
