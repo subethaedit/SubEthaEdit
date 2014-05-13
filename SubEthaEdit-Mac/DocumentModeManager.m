@@ -971,7 +971,8 @@ static DocumentModeManager *S_sharedInstance=nil;
         [aMenu addItem:menuItem];
         [menuItem release];
 
-#ifdef BETA
+
+#ifndef TCM_NO_DEBUG
 		// debug only
         menuItem = [[NSMenuItem alloc] 
             initWithTitle:NSLocalizedString(@"Open SubEthaEdit Modes Folder",@"Menu item in alternate mode menu for opening the SubEthaEdit modes folder.")
