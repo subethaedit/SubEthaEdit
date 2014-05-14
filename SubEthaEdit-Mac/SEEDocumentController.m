@@ -1348,7 +1348,7 @@ NSString *const RecentDocumentsDidChangeNotification = @"RecentDocumentsDidChang
             [document setScriptingProperties:properties];
             [I_propertiesForOpenedFiles setObject:properties forKey:standardInputFile];
             [(PlainTextDocument *)document resizeAccordingToDocumentMode];
-            [document readFromURL:[NSURL fileURLWithPath:standardInputFile] ofType:@"public.plain-text" error:NULL];
+            [document readFromURL:[NSURL fileURLWithPath:standardInputFile] ofType:(NSString *)kUTTypePlainText error:NULL];
 
 			[(PlainTextDocument *)document autosaveForStateRestore];
 
@@ -1550,7 +1550,7 @@ struct ModificationInfo
                     if (isPiping) {
                         NSString *fileName = tempFileName();
                         NSError *error = nil;
-                        BOOL result = [doc writeToURL:[NSURL fileURLWithPath:fileName] ofType:@"public.plain-text" error:&error];
+                        BOOL result = [doc writeToURL:[NSURL fileURLWithPath:fileName] ofType:(NSString *)kUTTypePlainText error:&error];
                         if (result) {
                             [fileNames addObject:fileName];
                         } else {
