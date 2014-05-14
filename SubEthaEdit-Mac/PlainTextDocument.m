@@ -737,11 +737,6 @@ static NSString *tempFileName(NSString *origPath) {
         I_flags.isRemotelyEditingTextStorage=NO;
         [self setShowsChangeMarks:[[NSUserDefaults standardUserDefaults] boolForKey:HighlightChangesAlonePreferenceKey] && [[NSUserDefaults standardUserDefaults] boolForKey:HighlightChangesPreferenceKey]];
         [self TCM_initHelper];
-        
-        OSStatus err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &I_authRef);
-        if (err != noErr) {
-            NSLog(@"Failed to create authRef!");
-        }
     }
     return self;
 }
@@ -774,11 +769,6 @@ static NSString *tempFileName(NSString *origPath) {
 
 - (void)dealloc
 {
-    if (I_authRef != NULL) {
-        (void)AuthorizationFree(I_authRef, kAuthorizationFlagDestroyRights);
-        I_authRef = NULL;
-    }
-
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     if (I_flags.isAnnounced) {
         [[TCMMMPresenceManager sharedInstance] concealSession:[self session]];
@@ -1797,10 +1787,6 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     [I_symbolUpdateTimer invalidate];
     [I_webPreviewDelayedRefreshTimer invalidate];
     [self TCM_sendODBCloseEvent];
-    if (I_authRef != NULL) {
-        (void)AuthorizationFree(I_authRef, kAuthorizationFlagDestroyRights);
-        I_authRef = NULL;
-    }
 
     // Do the regular NSDocument thing.
     [super close];
@@ -2674,108 +2660,6 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     
     return parameters;
 }
-
-//- (NSData *)TCM_dataWithContentsOfFileReadUsingAuthorizedHelper:(NSString *)fileName {
-//    OSStatus err = noErr;
-//    CFURLRef tool = NULL;
-//    NSDictionary *request = nil;
-//    NSDictionary *response = nil;
-//    NSData *fileData = nil;
-//
-//
-//    const char *kRightName = "de.codingmonkeys.SubEthaEdit.file.readwritecreate";
-//    static const AuthorizationFlags kAuthFlags = kAuthorizationFlagDefaults 
-//                                               | kAuthorizationFlagInteractionAllowed
-//                                               | kAuthorizationFlagExtendRights
-//                                               | kAuthorizationFlagPreAuthorize;
-//    AuthorizationItem   right  = { kRightName, 0, NULL, 0 };
-//    AuthorizationRights rights = { 1, &right };
-//
-//    err = AuthorizationCopyRights(I_authRef, &rights, kAuthorizationEmptyEnvironment, kAuthFlags, NULL);
-//    
-//    if (err == noErr) {
-//        err = MoreSecCopyHelperToolURLAndCheckBundled(
-//            CFBundleGetMainBundle(), 
-//            CFSTR("SubEthaEditHelperToolTemplate"), 
-//            kApplicationSupportFolderType, 
-//            CFSTR("SubEthaEdit"), 
-//            CFSTR("SubEthaEditHelperTool"), 
-//            &tool);
-//
-//        // If the home directory is on an volume that doesn't support 
-//        // setuid root helper tools, ask the user whether they want to use 
-//        // a temporary tool.
-//        
-//        if (err == kMoreSecFolderInappropriateErr) {
-//            err = MoreSecCopyHelperToolURLAndCheckBundled(
-//                CFBundleGetMainBundle(), 
-//                CFSTR("SubEthaEditHelperToolTemplate"), 
-//                kTemporaryFolderType, 
-//                CFSTR("SubEthaEdit"), 
-//                CFSTR("SubEthaEditHelperTool"), 
-//                &tool);
-//        }
-//    }
-//    
-//    // Create the request dictionary for a file descriptor
-//
-//    if (err == noErr) {
-//        request = [NSDictionary dictionaryWithObjectsAndKeys:
-//                            @"GetReadOnlyFileDescriptor", @"CommandName",
-//                            fileName, @"FileName",
-//                            nil];
-//    }
-//
-//    // Go go gadget helper tool!
-//
-//    if (err == noErr) {
-//        err = MoreSecExecuteRequestInHelperTool(tool, I_authRef, (CFDictionaryRef)request, (CFDictionaryRef *)(&response));
-//    }
-//    
-//    // Extract information from the response.
-//
-//    if (err == noErr) {
-//        DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"response: %@", response);
-//
-//        err = MoreSecGetErrorFromResponse((CFDictionaryRef)response);
-//        if (err == noErr) {
-//            NSArray *descArray;
-//            int descIndex;
-//            int descCount;
-//            
-//            descArray = [response objectForKey:(NSString *)kMoreSecFileDescriptorsKey];
-//            descCount = [descArray count];
-//            for (descIndex = 0; descIndex < descCount; descIndex++) {
-//                NSNumber *thisDescNum;
-//                int thisDesc;
-//                
-//                thisDescNum = [descArray objectAtIndex:descIndex];
-//                thisDesc = [thisDescNum intValue];
-//                fcntl(thisDesc, F_GETFD, 0);
-//                
-//                NSFileHandle *fileHandle = [[NSFileHandle alloc] initWithFileDescriptor:thisDesc closeOnDealloc:YES];
-//                fileData = [fileHandle readDataToEndOfFile];
-//                [fileHandle release];
-//            }
-//        }
-//    }
-//    
-//    // Clean up after call of helper tool
-//        
-//    if (response) {
-//        [response release];
-//        response = nil;
-//    }
-//    
-//    CFQRelease(tool);
-//    
-//    if (err == noErr) {
-//        return fileData;
-//    } else {
-//        return nil;
-//    }
-//}
-
 
 /*
   So what happens when loading a File?

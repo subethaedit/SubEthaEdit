@@ -6,7 +6,6 @@
 //  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
 //
 
-#import <Security/Security.h>
 #import <TCMPortMapper/TCMPortMapper.h>
 
 #import "TCMFoundation.h"
@@ -377,118 +376,6 @@ static AppController *sharedInstance = nil;
 
 }
     
-#ifndef __clang_analyzer__
-static OSStatus AuthorizationRightSetWithWorkaround(
-    AuthorizationRef    authRef,
-    const char *        rightName,
-    CFTypeRef           rightDefinition,
-    CFStringRef         descriptionKey,
-    CFBundleRef         bundle,
-    CFStringRef         localeTableName
-)
-    // The AuthorizationRightSet routine has a bug where it 
-    // releases the bundle parameter that you pass in (or the 
-    // main bundle if you pass NULL).  If you do pass NULL and 
-    // call AuthorizationRightSet multiple times, eventually the 
-    // main bundle's reference count will hit zero and you crash. 
-    //
-    // This routine works around the bug by doing an extra retain 
-    // on the bundle.  It should also work correctly when the bug 
-    // is fixed.
-    //
-    // Note that this technique is not thread safe, so it's 
-    // probably a good idea to restrict your use of it to 
-    // application startup time, where the threading environment 
-    // is very simple.
-{
-    OSStatus        err;
-    CFBundleRef     clientBundle;
-    CFIndex         originalRetainCount;
-
-    // Get the effective bundle.
-
-    if (bundle == NULL) {
-        clientBundle = CFBundleGetMainBundle();
-    } else {
-        clientBundle = bundle;
-    }
-    assert(clientBundle != NULL);
-
-    // Remember the original retain count and retain it.  We force 
-    // a retain because if the retain count was 1 and the bug still 
-    // exists, the next call might decrement the count to 0, which 
-    // would free the object.
-
-    originalRetainCount = CFGetRetainCount(clientBundle);
-    CFRetain(clientBundle);
-
-    // Call through to Authorization Services.
-
-    err = AuthorizationRightSet(
-        authRef, 
-        rightName, 
-        rightDefinition, 
-        descriptionKey, 
-        clientBundle, 
-        localeTableName
-    );
-
-    // If the retain count is now magically back to its original value, 
-    // we've encountered the bug and we print a message.  Otherwise the 
-    // bug must've been fixed and we just balance our retain with a release.
-
-    if ( CFGetRetainCount(clientBundle) == originalRetainCount ) {
-        DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Working around <rdar://problems/3446163>");
-    } else {
-        CFRelease(clientBundle);
-    }
-
-    return err;
-}
-#endif
-
-- (void)setupAuthorization {
-    OSStatus err = noErr;
-    AuthorizationRef authRef = NULL;
-    
-    err = AuthorizationCreate(NULL, NULL, 0, &authRef);
-
-    if (err == noErr) {
-        err = AuthorizationRightGet("de.codingmonkeys.SubEthaEdit.file.readwritecreate", NULL);
-        if (err == noErr) {
-            //err =  AuthorizationRightRemove(authRef, "de.codingmonkeys.SubEthaEdit.file.readwritecreate");
-        } else if (err == errAuthorizationDenied) {
-            NSDictionary *rightDefinition = [NSDictionary dictionaryWithObjectsAndKeys:
-                @"user", @"class",
-                @"Used by SubEthaEdit to authorize access to files not owned by the user", @"comment",
-                @"admin", @"group",
-                [NSNumber numberWithBool:NO], @"shared",
-                [NSNumber numberWithInt:300], @"timeout",
-                nil];
-                
-            err = AuthorizationRightSetWithWorkaround(
-                authRef,
-                "de.codingmonkeys.SubEthaEdit.file.readwritecreate",
-                (CFDictionaryRef)rightDefinition,
-                NULL,
-                NULL,
-                NULL
-            );
-                    
-            if (err != noErr) {
-                DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Could not create default right (%d)", (SInt32)err);
-#if SPF_DEAD_CODE
-                err = noErr;
-#endif
-            }
-        }
-    }
-    
-    if (authRef != NULL) {
-        (void)AuthorizationFree(authRef, kAuthorizationFlagDefaults);
-    }
-}
-
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // this is actually after the opening of the first untitled document window!
     
@@ -524,7 +411,6 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     [defaultCenter addObserver:self selector:@selector(updateApplicationIcon) name:TCMMMSessionPendingInvitationsDidChange object:nil];
     [defaultCenter addObserver:self selector:@selector(updateApplicationIcon) name:TCMMMSessionPendingUsersDidChangeNotification object:nil];
 
-    [self setupAuthorization];
     [defaultCenter addObserver:self selector:@selector(documentModeListDidChange:) name:@"DocumentModeListChanged" object:nil];
 
 	// start crash reporting
