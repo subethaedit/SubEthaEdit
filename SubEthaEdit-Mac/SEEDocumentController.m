@@ -617,7 +617,7 @@ NSString *const RecentDocumentsDidChangeNotification = @"RecentDocumentsDidChang
 					BOOL isDir = NO;
 					BOOL isFilePackage = [[NSWorkspace sharedWorkspace] isFilePackageAtPath:fileName];
 					NSString *extension = [fileName pathExtension];
-					if (isFilePackage && [extension isEqualToString:@"mode"]) {
+					if (isFilePackage && [extension isEqualToString:MODE_EXTENSION]) {
 						// this is done in openDocumentWithContentsOfURL:display:completionHandler:
 						//[self openModeFile:fileName];
 					} else if ([[NSFileManager defaultManager] fileExistsAtPath:fileName isDirectory:&isDir] && isDir && !isFilePackage) {
@@ -692,7 +692,7 @@ NSString *const RecentDocumentsDidChangeNotification = @"RecentDocumentsDidChang
     NSString *extension = [filename pathExtension];
     BOOL isDirectory = NO;
     [[NSFileManager defaultManager] fileExistsAtPath:[url path] isDirectory:&isDirectory];
-    if (isFilePackage && [extension isEqualToString:@"mode"]) {
+    if (isFilePackage && [extension isEqualToString:MODE_EXTENSION]) {
         [self openModeFile:filename];
 
 		if (completionHandler) {
@@ -1059,7 +1059,7 @@ NSString *const RecentDocumentsDidChangeNotification = @"RecentDocumentsDidChang
         BOOL isDir = NO;
         BOOL isFilePackage = [[NSWorkspace sharedWorkspace] isFilePackageAtPath:filename];
         NSString *extension = [filename pathExtension];
-        if (isFilePackage && [extension isEqualToString:@"mode"]) {
+        if (isFilePackage && [extension isEqualToString:MODE_EXTENSION]) {
             [self openModeFile:filename];
         } else if ([[NSFileManager defaultManager] fileExistsAtPath:filename isDirectory:&isDir] && isDir && !isFilePackage) {
             [self openDirectory:filename];
