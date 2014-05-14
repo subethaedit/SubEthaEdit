@@ -6,8 +6,6 @@
 //  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
 //
 
-#import <AddressBook/AddressBook.h>
-#import <Security/Security.h>
 #import <TCMPortMapper/TCMPortMapper.h>
 
 #import "TCMFoundation.h"
@@ -156,7 +154,10 @@ static AppController *sharedInstance = nil;
 		[defaults setObject:[NSNumber numberWithBool:NO] forKey:kSEEDefaultsKeyEnableTLS];
 		[defaults setObject:[NSNumber numberWithBool:NO] forKey:kSEEDefaultsKeyUseTemporaryKeychainForTLS]; // no more temporary keychain in 10.6 and up builds
 		
-		NSDictionary* sequelProDefaults = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"PreferenceDefaults" ofType:@"plist"]];
+		defaults[MyEmailPreferenceKey] = @"";
+		defaults[MyAIMPreferenceKey] = @"";
+
+		NSDictionary *sequelProDefaults = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"PreferenceDefaults" ofType:@"plist"]];
 		
 		[defaults addEntriesFromDictionary:sequelProDefaults];
 		
@@ -210,24 +211,21 @@ static AppController *sharedInstance = nil;
 }
 
 - (void)addMe {
-    NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+	// add self as user
+    TCMMMUser *me = [TCMMMUser new];
 
-    ABPerson *meCard=[[ABAddressBook sharedAddressBook] me];
-
-    // add self as user 
-    TCMMMUser *me=[TCMMMUser new];
-    NSString *myName =nil;
-    NSString *myAIM  =nil;
-    NSString *myEmail=nil;
-    NSImage *myImage =nil;
-    NSImage *scaledMyImage;
-
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	
+    NSString *myName = nil;
+    NSString *myAIM = nil;
+    NSString *myEmail = nil;
     
-    NSString *userID=[[NSUserDefaults standardUserDefaults] stringForKey:@"UserID"];
+    NSString *userID = [[NSUserDefaults standardUserDefaults] stringForKey:@"UserID"];
+	
     if (!userID) {
         // first run
-        userID=[NSString UUIDString];
-        
+        userID = [NSString UUIDString];
+	
         CFStringRef appID = (CFStringRef)[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"];
         // Set up the preference.
         CFPreferencesSetValue(CFSTR("UserID"), (CFStringRef)userID, appID, kCFPreferencesCurrentUser, kCFPreferencesCurrentHost);
@@ -235,155 +233,45 @@ static AppController *sharedInstance = nil;
         CFPreferencesSynchronize(appID, kCFPreferencesCurrentUser, kCFPreferencesCurrentHost);
     }
     
-    if ([defaults stringForKey:SelectedMyColorPreferenceKey]==nil) {           
-        // select random color
-        // set basic user data 
-        if (meCard) {
-            NSString *firstName = [meCard valueForProperty:kABFirstNameProperty];
-            NSString *lastName  = [meCard valueForProperty:kABLastNameProperty];            
-    
-            if ((firstName!=nil) && (lastName!=nil)) {
-                myName=[NSString stringWithFormat:@"%@ %@",firstName,lastName];
-            } else if (firstName!=nil) {
-                myName=firstName;
-            } else if (lastName!=nil) {
-                myName=lastName;
-            } else {
-                myName=NSFullUserName();
-            }
-            
-            ABMultiValue *emails = [meCard valueForProperty:kABEmailProperty];
-            NSString *primaryIdentifier=[emails primaryIdentifier];
-            if (primaryIdentifier) {
-                [defaults setObject:primaryIdentifier forKey:MyEmailIdentifierPreferenceKey];
-                myEmail=[emails valueAtIndex:[emails indexForIdentifier:primaryIdentifier]];
-            }
-
-			// Find best matching default from Adressbook
-            ABMultiValue *instantMessageServices = [meCard valueForProperty:kABInstantMessageProperty];
-            primaryIdentifier = [instantMessageServices primaryIdentifier];
-            if (primaryIdentifier)
-            {
-                NSDictionary *primaryInstantMessageServiceDict = [instantMessageServices valueForIdentifier:primaryIdentifier];
-                if ([[primaryInstantMessageServiceDict objectForKey:kABInstantMessageServiceKey] isEqualToString:kABInstantMessageServiceAIM]) // Make sure primary service is AIM service
-                {
-                    [defaults setObject:primaryIdentifier forKey:MyAIMIdentifierPreferenceKey];
-					myAIM = [primaryInstantMessageServiceDict objectForKey:kABInstantMessageUsernameKey];
-				}
-                else
-                {
-                    for (NSString *instantMessageIdentifier in instantMessageServices) // if primary service was not AIM service
-                    {
-                        NSDictionary *instantMessageServiceDict = [instantMessageServices valueForIdentifier:instantMessageIdentifier];
-                        if ([[instantMessageServiceDict objectForKey:kABInstantMessageServiceKey] isEqualToString:kABInstantMessageServiceAIM])
-                        {
-                            [defaults setObject:instantMessageIdentifier forKey:MyAIMIdentifierPreferenceKey];
-                            myAIM = [instantMessageServiceDict objectForKey:kABInstantMessageUsernameKey];
-                        }
-                    }
-                }
-			}
-			else
-			{
-				for (NSString *instantMessageIdentifier in instantMessageServices)
-				{
-					NSDictionary *instantMessageServiceDict = [instantMessageServices valueForIdentifier:instantMessageIdentifier];
-					if ([[instantMessageServiceDict objectForKey:kABInstantMessageServiceKey] isEqualToString:kABInstantMessageServiceAIM])
-					{
-						[defaults setObject:instantMessageIdentifier forKey:MyAIMIdentifierPreferenceKey];
-						myAIM = [instantMessageServiceDict objectForKey:kABInstantMessageUsernameKey];
-					}
-				}
-			}
-        } else {
-            myName=NSFullUserName();
-            myEmail=@"";
-            myAIM=@"";
-        }
-        if (!myEmail) myEmail=@"";
-        if (!myAIM)   myAIM  =@"";
-        [defaults setObject:myEmail forKey:MyEmailPreferenceKey];
-        [defaults setObject:myAIM forKey:MyAIMPreferenceKey];
-        
+	// set random color
+    if (![defaults stringForKey:SelectedMyColorPreferenceKey]) {
+		// TODO: check SelectedMyColorPreferenceKey for if still needed
         int colorHues[]={0,3300/360,6600/360,10900/360,18000/360,22800/360,26400/360,31700/360};
         sranddev();
         int selectedNumber=(int)((double)rand() / ((double)RAND_MAX + 1) * 8);
         [defaults setObject:[NSNumber numberWithInt:selectedNumber]
                      forKey:SelectedMyColorPreferenceKey];
-        [defaults setObject:[NSNumber numberWithFloat:colorHues[selectedNumber]] 
+
+        [defaults setObject:[NSNumber numberWithFloat:colorHues[selectedNumber]]
                      forKey:MyColorHuePreferenceKey];
-    } else {
-        // not first run so fill in the stuff
-        myAIM  =[defaults stringForKey:MyAIMPreferenceKey];
-        myName =[defaults stringForKey:MyNamePreferenceKey];
-        myEmail=[defaults stringForKey:MyEmailPreferenceKey];
-
-        NSString *identifier=[defaults stringForKey:MyAIMIdentifierPreferenceKey];
-        if (identifier) {
-            ABMultiValue *aims=[meCard valueForProperty:kABInstantMessageProperty];
-            NSUInteger index=[aims indexForIdentifier:identifier];
-            if (index!=NSNotFound) {
-                if (![myAIM isEqualToString:[aims valueAtIndex:index]]) {
-                    myAIM=[[aims valueAtIndex:index] objectForKey:kABInstantMessageUsernameKey];
-                    [defaults setObject:myAIM forKey:MyAIMPreferenceKey];
-                }
-            }
-        }
-
-        identifier=[defaults stringForKey:MyEmailIdentifierPreferenceKey];
-        if (identifier) {
-            ABMultiValue *emails=[meCard valueForProperty:kABEmailProperty];
-            NSUInteger index=[emails indexForIdentifier:identifier];
-            if (index!=NSNotFound) {
-                if (![myEmail isEqualToString:[emails valueAtIndex:index]]) {
-                    myEmail=[emails valueAtIndex:index];
-                    [defaults setObject:myEmail forKey:MyEmailPreferenceKey];
-                }
-            }
-        }
-
     }
-
-    if (!myName) {
-        myName=NSFullUserName();
-    }
-
-    if (meCard) {
-        @try {
-            NSData  *imageData;
-            if ((imageData=[meCard imageData])) {
-                myImage=[[NSImage alloc] initWithData:imageData];
-                [myImage setCacheMode:NSImageCacheNever];
-            }
-        } @catch (NSException *exception) {
-        }
-    }
-
-    if (!myImage) {
-        myImage= [[NSImage unknownUserImageWithSize:NSMakeSize(256.0, 256.0) initials:myName.stringWithInitials] retain];
-    }
-
-    if (!myEmail) myEmail=@"";
-    if (!myAIM)   myAIM  =@"";
+	
+	// get basic user data
+	// name
+	myName  = [defaults stringForKey:MyNamePreferenceKey];
+	if (!myName) {
+		myName = NSFullUserName();
+		[defaults setObject:myName forKey:MyNamePreferenceKey];
+	}
+	
+	// email
+	myEmail = [defaults stringForKey:MyEmailPreferenceKey];
+	
+	// aim
+	myAIM = [defaults stringForKey:MyAIMPreferenceKey];
+	
+	// set basic user data
     
-    // resizing the image
-    scaledMyImage=[myImage resizedImageWithSize:NSMakeSize(64.,64.)];
-    
-    NSData *pngData=[scaledMyImage TIFFRepresentation];
-    pngData=[[NSBitmapImageRep imageRepWithData:pngData] representationUsingType:NSPNGFileType properties:[NSDictionary dictionary]];
-    // do this because my resized Images don't behave right on setFlipped:, initWithData ones do!
-    NSData *prefData = [defaults dataForKey:kSEEDefaultsKeyMyImagePreference];
-    if (prefData) pngData=prefData;
     [me setUserID:userID];
-
     [me setName:myName];
     [[me properties] setObject:myEmail forKey:@"Email"];
     [[me properties] setObject:myAIM forKey:@"AIM"];
-    [[me properties] setObject:pngData forKey:@"ImageAsPNG"];
     [me setUserHue:[defaults objectForKey:MyColorHuePreferenceKey]];
 
-    [myImage release];
-    TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
+	// image - setting that last as it uses the initials - fails silently and sets the default image if error or no picture
+	[me readImageFromUrl:[TCMMMUser applicationSupportURLForUserImage]];
+		
+    TCMMMUserManager *userManager = [TCMMMUserManager sharedInstance];
     [userManager setMe:[me autorelease]];
 }
 
@@ -488,118 +376,6 @@ static AppController *sharedInstance = nil;
 
 }
     
-#ifndef __clang_analyzer__
-static OSStatus AuthorizationRightSetWithWorkaround(
-    AuthorizationRef    authRef,
-    const char *        rightName,
-    CFTypeRef           rightDefinition,
-    CFStringRef         descriptionKey,
-    CFBundleRef         bundle,
-    CFStringRef         localeTableName
-)
-    // The AuthorizationRightSet routine has a bug where it 
-    // releases the bundle parameter that you pass in (or the 
-    // main bundle if you pass NULL).  If you do pass NULL and 
-    // call AuthorizationRightSet multiple times, eventually the 
-    // main bundle's reference count will hit zero and you crash. 
-    //
-    // This routine works around the bug by doing an extra retain 
-    // on the bundle.  It should also work correctly when the bug 
-    // is fixed.
-    //
-    // Note that this technique is not thread safe, so it's 
-    // probably a good idea to restrict your use of it to 
-    // application startup time, where the threading environment 
-    // is very simple.
-{
-    OSStatus        err;
-    CFBundleRef     clientBundle;
-    CFIndex         originalRetainCount;
-
-    // Get the effective bundle.
-
-    if (bundle == NULL) {
-        clientBundle = CFBundleGetMainBundle();
-    } else {
-        clientBundle = bundle;
-    }
-    assert(clientBundle != NULL);
-
-    // Remember the original retain count and retain it.  We force 
-    // a retain because if the retain count was 1 and the bug still 
-    // exists, the next call might decrement the count to 0, which 
-    // would free the object.
-
-    originalRetainCount = CFGetRetainCount(clientBundle);
-    CFRetain(clientBundle);
-
-    // Call through to Authorization Services.
-
-    err = AuthorizationRightSet(
-        authRef, 
-        rightName, 
-        rightDefinition, 
-        descriptionKey, 
-        clientBundle, 
-        localeTableName
-    );
-
-    // If the retain count is now magically back to its original value, 
-    // we've encountered the bug and we print a message.  Otherwise the 
-    // bug must've been fixed and we just balance our retain with a release.
-
-    if ( CFGetRetainCount(clientBundle) == originalRetainCount ) {
-        DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Working around <rdar://problems/3446163>");
-    } else {
-        CFRelease(clientBundle);
-    }
-
-    return err;
-}
-#endif
-
-- (void)setupAuthorization {
-    OSStatus err = noErr;
-    AuthorizationRef authRef = NULL;
-    
-    err = AuthorizationCreate(NULL, NULL, 0, &authRef);
-
-    if (err == noErr) {
-        err = AuthorizationRightGet("de.codingmonkeys.SubEthaEdit.file.readwritecreate", NULL);
-        if (err == noErr) {
-            //err =  AuthorizationRightRemove(authRef, "de.codingmonkeys.SubEthaEdit.file.readwritecreate");
-        } else if (err == errAuthorizationDenied) {
-            NSDictionary *rightDefinition = [NSDictionary dictionaryWithObjectsAndKeys:
-                @"user", @"class",
-                @"Used by SubEthaEdit to authorize access to files not owned by the user", @"comment",
-                @"admin", @"group",
-                [NSNumber numberWithBool:NO], @"shared",
-                [NSNumber numberWithInt:300], @"timeout",
-                nil];
-                
-            err = AuthorizationRightSetWithWorkaround(
-                authRef,
-                "de.codingmonkeys.SubEthaEdit.file.readwritecreate",
-                (CFDictionaryRef)rightDefinition,
-                NULL,
-                NULL,
-                NULL
-            );
-                    
-            if (err != noErr) {
-                DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Could not create default right (%d)", (SInt32)err);
-#if SPF_DEAD_CODE
-                err = noErr;
-#endif
-            }
-        }
-    }
-    
-    if (authRef != NULL) {
-        (void)AuthorizationFree(authRef, kAuthorizationFlagDefaults);
-    }
-}
-
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // this is actually after the opening of the first untitled document window!
     
@@ -635,7 +411,6 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     [defaultCenter addObserver:self selector:@selector(updateApplicationIcon) name:TCMMMSessionPendingInvitationsDidChange object:nil];
     [defaultCenter addObserver:self selector:@selector(updateApplicationIcon) name:TCMMMSessionPendingUsersDidChangeNotification object:nil];
 
-    [self setupAuthorization];
     [defaultCenter addObserver:self selector:@selector(documentModeListDidChange:) name:@"DocumentModeListChanged" object:nil];
 
 	// start crash reporting

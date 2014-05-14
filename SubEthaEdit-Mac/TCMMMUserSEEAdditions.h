@@ -21,16 +21,21 @@
 
 - (NSString *)initials;
 
-#pragma mark -
-- (void)recacheImages;
-
 - (NSColor *)color;
-- (NSImage *)colorImageWithBrightLine;
-- (NSImage *)colorImage;
+
+#pragma mark - User Image
 - (NSImage *)image;
-- (NSImage *)image48;
-- (NSImage *)image32;
-- (NSImage *)image16;
-- (NSImage *)image32Dimmed;
+- (NSData *)imageData;
+- (void)setImage:(NSImage *)aImage;
+
+- (void)setDefaultImage;
+- (BOOL)hasDefaultImage;
+- (NSImage *)defaultImage;
+
+- (BOOL)writeImageToUrl:(NSURL *)aURL; // add <file name>.png
+- (BOOL)readImageFromUrl:(NSURL *)aURL;
+
+- (BOOL)removePersistedUserImage;
++ (NSURL *)applicationSupportURLForUserImage;
 
 @end

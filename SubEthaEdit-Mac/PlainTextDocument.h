@@ -8,7 +8,7 @@
 
 
 #import <Cocoa/Cocoa.h>
-#import <Security/Security.h>
+
 @class PlainTextDocument;
 
 #import "EncodingManager.h"
@@ -143,8 +143,6 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
     
     NSMutableDictionary *I_printOptions;
 
-    AuthorizationRef I_authRef;
-    
     TextOperation *I_currentTextOperation;
     
     NSDictionary *I_stateDictionaryFromLoading;
@@ -272,6 +270,8 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
 
 - (NSURL *)documentURL;
 - (NSURL *)documentURLForGroup:(NSString *)aGroup;
+
+- (void)autosaveForStateRestore;
 
 - (UndoManager *)documentUndoManager;
 

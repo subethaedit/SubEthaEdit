@@ -115,7 +115,7 @@
 	[writableDocumentTypes removeObject:@"de.codingmonkeys.subethaedit.seetext"];
 	[writableDocumentTypes removeObject:self.document.fileType];
 	[writableDocumentTypes insertObject:self.document.fileType atIndex:0]; // ensure mode filextesion is the default fallback
-	[writableDocumentTypes insertObject:@"public.text" atIndex:0]; // this enables empty extensions
+	[writableDocumentTypes insertObject:(NSString *)kUTTypeText atIndex:0]; // this enables empty extensions
 
     return writableDocumentTypes;
 }

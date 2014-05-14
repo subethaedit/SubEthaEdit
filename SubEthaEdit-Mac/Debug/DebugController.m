@@ -69,10 +69,9 @@ static DebugController * sharedInstance = nil;
 			NSData *vcard = [[user vcfRepresentation] dataUsingEncoding:NSUnicodeStringEncoding];
 			[vcard writeToURL:vCardURL atomically:YES];
 
-			NSData *image = [[user properties] objectForKey:TCMMMUserPropertyKeyImageAsPNGData];
-			if (image) {
+			if (![user hasDefaultImage]) {
 				NSURL *imageURL = [cachesDirectory URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", saveName]];
-				[image writeToURL:imageURL atomically:YES];
+				[user writeImageToUrl:imageURL];
 			}
 		}
 	}
@@ -170,12 +169,6 @@ static DebugController * sharedInstance = nil;
 
         blahItem = [[NSMenuItem alloc] initWithTitle:@"Reverse Playback file" action:@selector(reversePlaybackLoggingState:) keyEquivalent:@""];
         [blahItem setTarget:nil];
-        [menu addItem:blahItem];
-        [blahItem release];
-
-
-        blahItem = [[NSMenuItem alloc] initWithTitle:@"Quit Saving State" action:@selector(terminateForRestart:) keyEquivalent:@""];
-        [blahItem setTarget:NSApp];
         [menu addItem:blahItem];
         [blahItem release];
 

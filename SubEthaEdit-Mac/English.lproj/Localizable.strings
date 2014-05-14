@@ -481,9 +481,6 @@
 /* Menu Entry for opening files in a new window. */
 "Open in New Window..." = "Open in New Window…";
 
-/* Menu item in alternate mode menu for opening the library modes folder. */
-"Open Library Modes Folder" = "Open Library Modes Folder";
-
 /* Web preview open link in browser contextual menu item */
 "Open Link in Browser" = "Open Link in Browser";
 

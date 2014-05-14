@@ -194,7 +194,6 @@ static DocumentModeManager *S_sharedInstance=nil;
 
 #pragma mark - Directories
 
-#define MODE_EXTENSION @"mode"
 #define BUNDLE_MODE_FOLDER_NAME @"Modes"
 #define LIBRARY_MODE_FOLDER_NAME @"Modes"
 
@@ -573,7 +572,7 @@ static DocumentModeManager *S_sharedInstance=nil;
 - (NSString *)pathForWritingMode:(DocumentMode *)aMode {
 	[self createUserApplicationSupportDirectory];
 	NSString *modeFolderPath = [[self URLWithAddedBundleIdentifierDirectoryForURL:[self applicationSupportDirectory] subDirectoryName:LIBRARY_MODE_FOLDER_NAME] path];
-	NSString *fullPath = [[modeFolderPath stringByAppendingPathComponent:[aMode displayName]] stringByAppendingPathExtension:@"mode"];
+	NSString *fullPath = [[modeFolderPath stringByAppendingPathComponent:[aMode displayName]] stringByAppendingPathExtension:MODE_EXTENSION];
     return fullPath;
 }
 
@@ -630,8 +629,9 @@ static DocumentModeManager *S_sharedInstance=nil;
     NSURL *fileURL = nil;
     while ((url = [enumerator nextObject])) {
         NSDirectoryEnumerator *dirEnumerator = [[NSFileManager defaultManager] enumeratorAtURL:url includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles errorHandler:NULL];
+		NSString *modeExtension = MODE_EXTENSION;
         while ((fileURL = [dirEnumerator nextObject])) {
-            if ([[fileURL pathExtension] isEqualToString:MODE_EXTENSION]) {
+            if ([[fileURL pathExtension] isEqualToString:modeExtension]) {
                 NSBundle *bundle = [NSBundle bundleWithURL:fileURL];
                 if (bundle && [bundle bundleIdentifier]) {
                     if (![DocumentMode canParseModeVersionOfBundle:bundle]) {
@@ -877,7 +877,6 @@ static DocumentModeManager *S_sharedInstance=nil;
 
 #pragma mark
 #define MENU_ITEM_TAG_BUNDLE_MODE_FOLDER 0
-#define MENU_ITEM_TAG_LIBRARY_MODE_FOLDER 1
 #define MENU_ITEM_TAG_USER_MODE_FOLDER 2
 - (void)setupMenu:(NSMenu *)aMenu action:(SEL)aSelector alternateDisplay:(BOOL)aFlag {
 
@@ -917,7 +916,7 @@ static DocumentModeManager *S_sharedInstance=nil;
             } else if ([bundlePath hasPrefix:@"/Library"]) {
                 additionalText=@"/Library";
             } else if ([bundlePath hasPrefix:NSHomeDirectory()?NSHomeDirectory():@"/Users"]) {
-                additionalText=@"~/Library";
+                additionalText=@"Application Support";
             } else if ([bundlePath hasPrefix:NSHomeDirectory()?NSHomeDirectory():@"/Network"]) {
                 additionalText=@"/Network";
             }
@@ -972,16 +971,8 @@ static DocumentModeManager *S_sharedInstance=nil;
         [aMenu addItem:menuItem];
         [menuItem release];
 
-        menuItem = [[NSMenuItem alloc] 
-            initWithTitle:NSLocalizedString(@"Open Library Modes Folder",@"Menu item in alternate mode menu for opening the library modes folder.")
-                   action:@selector(revealModesFolder:)
-            keyEquivalent:@""];
-        [menuItem setTag:MENU_ITEM_TAG_LIBRARY_MODE_FOLDER];
-        [menuItem setTarget:self];
-        [aMenu addItem:menuItem];
-        [menuItem release];
 
-#ifdef BETA
+#ifndef TCM_NO_DEBUG
 		// debug only
         menuItem = [[NSMenuItem alloc] 
             initWithTitle:NSLocalizedString(@"Open SubEthaEdit Modes Folder",@"Menu item in alternate mode menu for opening the SubEthaEdit modes folder.")
@@ -998,7 +989,7 @@ static DocumentModeManager *S_sharedInstance=nil;
 - (IBAction)revealModesFolder:(id)aSender {
 	NSURL *url = nil;
     switch ([aSender tag]) {
-		case MENU_ITEM_TAG_BUNDLE_MODE_FOLDER: { // debug
+		case MENU_ITEM_TAG_BUNDLE_MODE_FOLDER: { // debug only
 			url = [[[NSBundle mainBundle] resourceURL] URLByAppendingPathComponent:BUNDLE_MODE_FOLDER_NAME];
 		} break;
 			
@@ -1006,12 +997,7 @@ static DocumentModeManager *S_sharedInstance=nil;
             NSArray *userDomainURLs = [[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask];
 			url = [self URLWithAddedBundleIdentifierDirectoryForURL:[userDomainURLs lastObject] subDirectoryName:LIBRARY_MODE_FOLDER_NAME];
 		} break;
-			
-        case MENU_ITEM_TAG_LIBRARY_MODE_FOLDER: {
-            NSArray *systemDomainURLs = [[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory inDomains:NSLocalDomainMask];
-			url = [self URLWithAddedBundleIdentifierDirectoryForURL:[systemDomainURLs lastObject] subDirectoryName:LIBRARY_MODE_FOLDER_NAME];
-		} break;
-    }
+	}
 //	BOOL canOpenURL = [[NSWorkspace sharedWorkspace] openURL:url]; (application error alert :/
 	BOOL canOpenURL = [[NSWorkspace sharedWorkspace] openFile:[url path]];
     if (!canOpenURL) {

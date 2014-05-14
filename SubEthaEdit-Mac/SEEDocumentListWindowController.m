@@ -52,6 +52,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 @property (nonatomic, weak) IBOutlet NSArrayController *documentListItemsArrayController;
 
 @property (nonatomic, weak) id otherWindowsBecomeKeyNotifivationObserver;
+@property (nonatomic, weak) id recentDocumentsDidChangeNotifivationObserver;
 @property (nonatomic, strong) SEEToggleRecentDocumentListItem *toggleRecentItem;
 
 @end
@@ -69,19 +70,33 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
     self = [super initWithWindow:window];
     if (self) {
 		self.availableItems = [NSMutableArray array];
-		[self reloadAllDocumentDocumentListItems];
-		[self installKVO];
 
 		__weak __typeof__(self) weakSelf = self;
 		self.otherWindowsBecomeKeyNotifivationObserver =
 		[[NSNotificationCenter defaultCenter] addObserverForName:NSWindowDidBecomeKeyNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
 			__typeof__(self) strongSelf = weakSelf;
 			if (note.object != strongSelf.window && strongSelf.shouldCloseWhenOpeningDocument) {
-				if (((NSWindow *)note.object).sheetParent != strongSelf.window) {
-					if ([NSApp modalWindow] == strongSelf.window) {
-						[NSApp stopModalWithCode:NSModalResponseAbort];
+				if (((NSWindow *)note.object).sheetParent != strongSelf.window) { // this avoids closing of the window when showing the connect sheet
+
+					if ([note.object isKindOfClass:NSClassFromString(@"PlainTextWindow")]) { // but for now we filter by document windows to avoid closing when help menu is opened.
+						if ([NSApp modalWindow] == strongSelf.window) {
+							[NSApp stopModalWithCode:NSModalResponseAbort];
+						}
+						[self close];
 					}
-					[self close];
+				}
+			}
+		}];
+
+		self.recentDocumentsDidChangeNotifivationObserver =
+		[[NSNotificationCenter defaultCenter] addObserverForName:RecentDocumentsDidChangeNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+			__typeof__(self) strongSelf = weakSelf;
+			if (note.object == [SEEDocumentController sharedInstance]) {
+				if (strongSelf.window.isVisible) {
+					[[NSOperationQueue mainQueue] addOperationWithBlock:^{
+						[[self class] cancelPreviousPerformRequestsWithTarget:strongSelf selector:@selector(reloadAllDocumentDocumentListItems) object:nil];
+						[strongSelf performSelector:@selector(reloadAllDocumentDocumentListItems) withObject:self afterDelay:0.1];
+					}];
 				}
 			}
 		}];
@@ -92,9 +107,11 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 
 - (void)dealloc
 {
-	[self removeKVO];
-
     [[NSNotificationCenter defaultCenter] removeObserver:self.otherWindowsBecomeKeyNotifivationObserver];
+    [[NSNotificationCenter defaultCenter] removeObserver:self.recentDocumentsDidChangeNotifivationObserver];
+
+	[[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(reloadAllDocumentDocumentListItems) object:nil];
+	[self removeKVO];
 
 	[self close];
 }
@@ -124,6 +141,10 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 - (IBAction)showWindow:(id)sender {
 	self.filesOwnerProxy.content = self;
 
+	if (! self.window.isVisible) {
+		[self installKVO];
+	}
+
 	// if window is in auto close mode it should not be restored on app restart.
 	self.window.restorable = !self.shouldCloseWhenOpeningDocument;
 
@@ -137,6 +158,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 		[NSApp stopModalWithCode:NSModalResponseAbort];
 	}
 
+	[self removeKVO];
 	self.filesOwnerProxy.content = nil;
 }
 
@@ -152,7 +174,11 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 #pragma mark - KVO
 
 - (void)installKVO {
-	[[SEEConnectionManager sharedInstance] addObserver:self forKeyPath:@"entries" options:0 context:SEENetworkDocumentBrowserEntriesObservingContext];
+	[[SEEConnectionManager sharedInstance] addObserver:self forKeyPath:@"entries" options:NSKeyValueObservingOptionInitial context:SEENetworkDocumentBrowserEntriesObservingContext];
+
+	if (self.toggleRecentItem) {
+		[self.toggleRecentItem addObserver:self forKeyPath:@"showRecentDocuments" options:0 context:SEENetworkDocumentBrowserEntriesObservingContext];
+	}
 }
 
 - (void)removeKVO {
@@ -166,10 +192,11 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if (context == SEENetworkDocumentBrowserEntriesObservingContext) {
+		[[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(reloadAllDocumentDocumentListItems) object:nil];
 		[self reloadAllDocumentDocumentListItems];
 
 		if (self.toggleRecentItem) {
-			[[NSUserDefaults standardUserDefaults] setBool:@(self.toggleRecentItem.showRecentDocuments) forKey:@"DocumentListShowRecent"];
+			[[NSUserDefaults standardUserDefaults] setBool:self.toggleRecentItem.showRecentDocuments forKey:@"DocumentListShowRecent"];
 		}
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
@@ -246,20 +273,19 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 				[self.availableItems addObject:cachedItem];
 			} else {
 				toggleRecentDocumentsItem.showRecentDocuments = [[NSUserDefaults standardUserDefaults] boolForKey:@"DocumentListShowRecent"];
-				[toggleRecentDocumentsItem addObserver:self forKeyPath:@"showRecentDocuments" options:0 context:SEENetworkDocumentBrowserEntriesObservingContext];
 				self.toggleRecentItem = toggleRecentDocumentsItem;
 				[self.availableItems addObject:toggleRecentDocumentsItem];
 			}
 			if (self.toggleRecentItem.showRecentDocuments) {
 				NSArray *recentDocumentURLs = [[NSDocumentController sharedDocumentController] recentDocumentURLs];
 				for (NSURL *url in recentDocumentURLs) {
-					SEERecentDocumentListItem *recentDocumentItem = [[SEERecentDocumentListItem alloc] init];
-					recentDocumentItem.fileURL = url;
-					NSString *cachedItemID = recentDocumentItem.uid;
+					NSString *cachedItemID = url.absoluteString;
 					id <SEEDocumentListItem> cachedItem = [lookupDictionary objectForKey:cachedItemID];
 					if (cachedItem) {
 						[self.availableItems addObject:cachedItem];
 					} else {
+						SEERecentDocumentListItem *recentDocumentItem = [[SEERecentDocumentListItem alloc] init];
+						recentDocumentItem.fileURL = url;
 						[self.availableItems addObject:recentDocumentItem];
 					}
 				}
@@ -527,14 +553,14 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	NSArray *availableDocumentSession = self.availableItems;
 	id documentRepresentation = [availableDocumentSession objectAtIndex:row];
 	if ([documentRepresentation isKindOfClass:SEENetworkConnectionDocumentListItem.class]) {
-		rowHeight = 46.0;
+		rowHeight = 56.0;
 	} else if ([documentRepresentation isKindOfClass:SEEToggleRecentDocumentListItem.class]) {
 		rowHeight = 28.0;
 	} else if ([documentRepresentation isKindOfClass:SEEConnectDocumentListItem.class]) {
 		rowHeight = 42.0;
 	} else if ([documentRepresentation isKindOfClass:SEENetworkDocumentListItem.class] ||
 			   [documentRepresentation isKindOfClass:SEERecentDocumentListItem.class]) {
-		rowHeight = 34.0;
+		rowHeight = 36.0;
 	}
 	return rowHeight;
 }

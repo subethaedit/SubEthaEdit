@@ -36,6 +36,7 @@
 #import <PSMTabBarControl/PSMTabBarControl.h>
 #import <objc/objc-runtime.h>			// for objc_msgSend
 
+NSString *const RecentDocumentsDidChangeNotification = @"RecentDocumentsDidChangeNotification";
 
 @interface SEEDocumentController ()
 
@@ -230,7 +231,7 @@
 	Class documentClass = [super documentClassForType:typeName];
 	if ([typeName isEqualToString:@"de.codingmonkeys.subethaedit.seetext"] && [documentClass class] != [PlainTextDocument class]) {
 		documentClass = [PlainTextDocument class];
-	} else if ([typeName isEqualToString:@"de.codingmonkeys.subethaedit.mode"] && [documentClass class] != [PlainTextDocument class]) {
+	} else if ([typeName isEqualToString:@"de.codingmonkeys.subethaedit.seemode"] && [documentClass class] != [PlainTextDocument class]) {
 		documentClass = [PlainTextDocument class];
 	}
 
@@ -610,13 +611,14 @@
 		[self setEncodingFromLastRunOpenPanel:[[openPanelAccessoryViewController.encodingPopUpButtonOutlet selectedItem] tag]];
 
 		if (result == NSFileHandlingPanelOKButton) {
+			NSString *modeExtension = MODE_EXTENSION;
 			for (NSURL *URL in openPanel.URLs) {
 				if ([URL isFileURL]) {
 					NSString *fileName = [URL path];
 					BOOL isDir = NO;
 					BOOL isFilePackage = [[NSWorkspace sharedWorkspace] isFilePackageAtPath:fileName];
 					NSString *extension = [fileName pathExtension];
-					if (isFilePackage && [extension isEqualToString:@"mode"]) {
+					if (isFilePackage && [extension isEqualToString:modeExtension]) {
 						// this is done in openDocumentWithContentsOfURL:display:completionHandler:
 						//[self openModeFile:fileName];
 					} else if ([[NSFileManager defaultManager] fileExistsAtPath:fileName isDirectory:&isDir] && isDir && !isFilePackage) {
@@ -691,7 +693,7 @@
     NSString *extension = [filename pathExtension];
     BOOL isDirectory = NO;
     [[NSFileManager defaultManager] fileExistsAtPath:[url path] isDirectory:&isDirectory];
-    if (isFilePackage && [extension isEqualToString:@"mode"]) {
+    if (isFilePackage && [extension isEqualToString:MODE_EXTENSION]) {
         [self openModeFile:filename];
 
 		if (completionHandler) {
@@ -982,11 +984,23 @@
 	[super noteNewRecentDocumentURL:url];
 
 	// This seems to be very hacky, but currently the only version that works.
-	// recentDocumentURLs gets updated asyncroniously and there is no hockt to update it than
+	// recentDocumentURLs gets updated asyncroniously and there is no hook to update it then
 	// we don't get events of unmounting media etc right now.
-	[[NSOperationQueue mainQueue] addOperationWithBlock:^{
-		[self.documentListWindowController performSelector:@selector(reloadAllDocumentDocumentListItems) withObject:self afterDelay:0.1];
-	}];
+	NSNotification *recentDocumentsDidChangeNotification = [NSNotification notificationWithName:RecentDocumentsDidChangeNotification object:self];
+	[[NSNotificationQueue defaultQueue] enqueueNotification:recentDocumentsDidChangeNotification
+											   postingStyle:NSPostWhenIdle
+											   coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender
+												   forModes:@[NSRunLoopCommonModes]];
+}
+
+- (IBAction)clearRecentDocuments:(id)sender {
+	[super clearRecentDocuments:sender];
+
+	NSNotification *recentDocumentsDidChangeNotification = [NSNotification notificationWithName:RecentDocumentsDidChangeNotification object:self];
+	[[NSNotificationQueue defaultQueue] enqueueNotification:recentDocumentsDidChangeNotification
+											   postingStyle:NSPostWhenIdle
+											   coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender
+												   forModes:@[NSRunLoopCommonModes]];
 }
 
 #pragma mark - Apple Script support
@@ -1038,21 +1052,21 @@
     } else if ([directParameter isKindOfClass:[NSURL class]]) {
         [files addObject:[directParameter path]];
     }
-    
-    NSString *filename;
-    for (filename in files) {
+
+    NSString *modeExtension = MODE_EXTENSION;
+    for (NSString *filename in files) {
 		BOOL isSEEStdinTempFile = [[filename pathExtension] isEqualToString:@"seetmpstdin"];
 		if (isSEEStdinTempFile) continue;
         BOOL isDir = NO;
         BOOL isFilePackage = [[NSWorkspace sharedWorkspace] isFilePackageAtPath:filename];
         NSString *extension = [filename pathExtension];
-        if (isFilePackage && [extension isEqualToString:@"mode"]) {
+        if (isFilePackage && [extension isEqualToString:modeExtension]) {
             [self openModeFile:filename];
         } else if ([[NSFileManager defaultManager] fileExistsAtPath:filename isDirectory:&isDir] && isDir && !isFilePackage) {
             [self openDirectory:filename];
         } else {
             [I_propertiesForOpenedFiles setObject:properties forKey:filename];
-			[[SEEScopedBookmarkManager sharedManager] startAccessingURL:[NSURL fileURLWithPath:filename]];
+			[[SEEScopedBookmarkManager sharedManager] startAccessingScriptedFileURL:[NSURL fileURLWithPath:filename]];
 			[self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:filename] display:YES completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
 				if (error) NSLog(@"%@",error);
 			}];
@@ -1115,7 +1129,7 @@
         [I_propertiesForOpenedFiles setObject:properties forKey:filename];
         BOOL shouldClose = ([self documentForURL:[NSURL fileURLWithPath:filename]] == nil);
 
-		[[SEEScopedBookmarkManager sharedManager] startAccessingURL:[NSURL fileURLWithPath:filename]];
+		[[SEEScopedBookmarkManager sharedManager] startAccessingScriptedFileURL:[NSURL fileURLWithPath:filename]];
 		[self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:filename] display:NO completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
 			if (error) {
 				NSLog(@"%@",error);
@@ -1335,7 +1349,10 @@
             [document setScriptingProperties:properties];
             [I_propertiesForOpenedFiles setObject:properties forKey:standardInputFile];
             [(PlainTextDocument *)document resizeAccordingToDocumentMode];
-            [document readFromURL:[NSURL fileURLWithPath:standardInputFile] ofType:@"public.plain-text" error:NULL];
+            [document readFromURL:[NSURL fileURLWithPath:standardInputFile] ofType:(NSString *)kUTTypePlainText error:NULL];
+
+			[(PlainTextDocument *)document autosaveForStateRestore];
+
             if (shouldMakePipeDirty) {
                 [document updateChangeCount:NSChangeDone];
             }
@@ -1534,7 +1551,7 @@ struct ModificationInfo
                     if (isPiping) {
                         NSString *fileName = tempFileName();
                         NSError *error = nil;
-                        BOOL result = [doc writeToURL:[NSURL fileURLWithPath:fileName] ofType:@"public.plain-text" error:&error];
+                        BOOL result = [doc writeToURL:[NSURL fileURLWithPath:fileName] ofType:(NSString *)kUTTypePlainText error:&error];
                         if (result) {
                             [fileNames addObject:fileName];
                         } else {

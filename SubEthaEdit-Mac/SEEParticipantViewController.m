@@ -22,6 +22,7 @@
 
 #import "TCMMMUser.h"
 #import "TCMMMUserSEEAdditions.h"
+#import "TCMHoverButton.h"
 
 @interface SEEParticipantViewController ()
 
@@ -39,10 +40,9 @@
 @property (nonatomic, weak) IBOutlet SEEAvatarImageView *avatarViewOutlet;
 @property (nonatomic, weak) IBOutlet NSProgressIndicator *connectingProgressIndicatorOutlet;
 
-@property (nonatomic, strong) IBOutlet NSView *participantActionOverlayOutlet;
-@property (nonatomic, weak) IBOutlet NSButton *closeConnectionButtonOutlet;
-@property (nonatomic, weak) IBOutlet NSButton *toggleEditModeButtonOutlet;
-@property (nonatomic, weak) IBOutlet NSButton *toggleFollowButtonOutlet;
+@property (nonatomic, strong) IBOutlet TCMHoverButton *kickUserButtonOutlet;
+@property (nonatomic, strong) IBOutlet TCMHoverButton *followUserButtonOutlet;
+@property (nonatomic, strong) IBOutlet TCMHoverButton *readWriteUserButtonOutlet;
 
 @property (nonatomic, strong) IBOutlet NSPopover *pendingUserPopoverOutlet;
 @property (nonatomic, weak) IBOutlet NSTextField *pendingUserActionPopoverTitle;
@@ -52,12 +52,11 @@
 @property (nonatomic, weak) IBOutlet NSButton *chooseReadOnlyModeButtonOutlet;
 @property (nonatomic, weak) IBOutlet NSTextField *pendingUserQuestionMarkOutlet;
 
-@property (nonatomic, weak) IBOutlet NSImageView *hasFollowerOverlayImageOutlet;
-@property (nonatomic, weak) IBOutlet NSImageView *readOnlyOverlayImageOutlet;
-
 @property (nonatomic, weak) id plainTextEditorFollowUserNotificationHandler;
 @property (nonatomic, weak) id participantsScrollingNotificationHandler;
 @property (nonatomic, weak) id popoverShownNotificationHandler;
+
+@property (nonatomic) BOOL isShowingUIOverlay;
 
 @end
 
@@ -98,8 +97,7 @@
     return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self.plainTextEditorFollowUserNotificationHandler];
     [[NSNotificationCenter defaultCenter] removeObserver:self.participantsScrollingNotificationHandler];
     [[NSNotificationCenter defaultCenter] removeObserver:self.popoverShownNotificationHandler];
@@ -127,32 +125,14 @@
 	NSTextField *nameLabel = self.nameLabelOutlet;
 	nameLabel.stringValue = user.name;
 
-	// participant users action overlay
-	{
-		NSButton *button = self.closeConnectionButtonOutlet;
-		button.image = [NSImage pdfBasedImageNamed:@"SharingIconCloseCross"TCM_PDFIMAGE_SEP@"16"TCM_PDFIMAGE_SEP@""TCM_PDFIMAGE_NORMAL];
-	}
-	{
-		NSButton *button = self.toggleEditModeButtonOutlet;
-		button.image = [NSImage pdfBasedImageNamed:@"SharingIconReadOnly"TCM_PDFIMAGE_SEP@"16"TCM_PDFIMAGE_SEP@""TCM_PDFIMAGE_NORMAL];
-		button.alternateImage = [NSImage pdfBasedImageNamed:@"SharingIconWrite"TCM_PDFIMAGE_SEP@"16"TCM_PDFIMAGE_SEP@""TCM_PDFIMAGE_NORMAL];
-	}
-	{
-		NSButton *button = self.toggleFollowButtonOutlet;
-		button.image = [NSImage pdfBasedImageNamed:@"SharingIconEye"TCM_PDFIMAGE_SEP@"16"TCM_PDFIMAGE_SEP@""TCM_PDFIMAGE_NORMAL];
-		button.alternateImage = [NSImage pdfBasedImageNamed:@"SharingIconEye"TCM_PDFIMAGE_SEP@"16"TCM_PDFIMAGE_SEP@""TCM_PDFIMAGE_SELECTED];
-	}
-
-	{
-		NSImageView *imageView = self.hasFollowerOverlayImageOutlet;
-		imageView.image = [NSImage pdfBasedImageNamed:@"SharingIconEye"TCM_PDFIMAGE_SEP@"20"TCM_PDFIMAGE_SEP@""TCM_PDFIMAGE_NORMAL];
-	}
-	{
-		NSImageView *imageView = self.readOnlyOverlayImageOutlet;
-		imageView.image = [NSImage pdfBasedImageNamed:@"SharingIconReadOnly"TCM_PDFIMAGE_SEP@"20"TCM_PDFIMAGE_SEP@""TCM_PDFIMAGE_NORMAL];
-		imageView.hidden = YES;
-	}
-
+	// configure overlay buttons
+	[@{@"ParticipantKick" : self.kickUserButtonOutlet,
+	   @"ParticipantFollowTurnOn" : self.followUserButtonOutlet,
+	   @"ParticipantReadOnlyTurnOn" : self.readWriteUserButtonOutlet,} enumerateKeysAndObjectsUsingBlock:^(NSString *imagesPrefix, TCMHoverButton *button, __unused BOOL *stop) {
+		   [button setImagesByPrefix:imagesPrefix];
+		   button.alphaValue = 0.0;
+	   }];
+	
 
 	// pending users action overlay
 	{
@@ -198,63 +178,32 @@
 	[self updateColorsForIsDarkBackground:self.tabContext.document.documentBackgroundColor.isDark];
 }
 
-- (void)mouseEntered:(NSEvent *)theEvent {
+- (void)showUIOverlay {
+	self.isShowingUIOverlay = YES;
 	switch (self.viewMode) {
 		case SEEParticipantViewModeParticipant:
 		{
 			if (! self.participant.isMe) {
 				[self updateParticipantFollowed];
-				self.participantActionOverlayOutlet.hidden = NO;
-
-				[NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
-					context.duration = 0.1;
-					self.userViewButtonLeftConstraintOutlet.animator.constant = 10.0;
-				} completionHandler:^{
-					NSPopover *popover = self.nameLabelPopoverOutlet;
-					if (! popover.isShown) {
-						[popover showRelativeToRect:NSZeroRect ofView:self.userViewButtonOutlet preferredEdge:NSMinYEdge];
-						self.participantsScrollingNotificationHandler =
-						[[NSNotificationCenter defaultCenter] addObserverForName:NSScrollViewDidLiveScrollNotification object:self.view.enclosingScrollView queue:nil usingBlock:^(NSNotification *note) {
-							if (popover.isShown) {
-								[popover close];
-							}
-						}];
-					}
-				}];
-			} else {
-				NSPopover *popover = self.nameLabelPopoverOutlet;
-				if (! popover.isShown) {
-					[popover showRelativeToRect:NSZeroRect ofView:self.userViewButtonOutlet preferredEdge:NSMinYEdge];
-					self.participantsScrollingNotificationHandler =
-					[[NSNotificationCenter defaultCenter] addObserverForName:NSScrollViewDidLiveScrollNotification object:self.view.enclosingScrollView queue:nil usingBlock:^(NSNotification *note) {
-						if (popover.isShown) {
-							[popover close];
-						}
-					}];
-				}
+				[self updateParticipantReadOnly];
+				self.readWriteUserButtonOutlet.animator.alphaValue = 1.0;
+				self.followUserButtonOutlet.animator.alphaValue = 1.0;
 			}
-			break;
-		}
+		} // falling through purposefully!
 		case SEEParticipantViewModeInvited:
 		{
-			self.participantActionOverlayOutlet.hidden = NO;
-
-			[NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
-				context.duration = 0.1;
-				self.userViewButtonLeftConstraintOutlet.animator.constant = 10.0;
-			} completionHandler:^{
-				NSPopover *popover = self.nameLabelPopoverOutlet;
-				if (! popover.isShown) {
-					[popover showRelativeToRect:NSZeroRect ofView:self.userViewButtonOutlet preferredEdge:NSMinYEdge];
-					self.participantsScrollingNotificationHandler =
-					[[NSNotificationCenter defaultCenter] addObserverForName:NSScrollViewDidLiveScrollNotification object:self.view.enclosingScrollView queue:nil usingBlock:^(NSNotification *note) {
-						if (popover.isShown) {
-							[popover close];
-						}
-					}];
-				}
-			}];
-
+			self.kickUserButtonOutlet.animator.alphaValue = 1.0;
+			
+			NSPopover *popover = self.nameLabelPopoverOutlet;
+			if (! popover.isShown) {
+				[popover showRelativeToRect:NSZeroRect ofView:self.userViewButtonOutlet preferredEdge:NSMinYEdge];
+				self.participantsScrollingNotificationHandler =
+				[[NSNotificationCenter defaultCenter] addObserverForName:NSScrollViewDidLiveScrollNotification object:self.view.enclosingScrollView queue:nil usingBlock:^(NSNotification *note) {
+					if (popover.isShown) {
+						[popover close];
+					}
+				}];
+			}
 			break;
 		}
 		case SEEParticipantViewModePending:
@@ -262,7 +211,7 @@
 			NSPopover *popover = self.pendingUserPopoverOutlet;
 			if (! popover.isShown) {
 				[popover showRelativeToRect:NSZeroRect ofView:self.userViewButtonOutlet preferredEdge:NSMinYEdge];
-
+				
 				self.participantsScrollingNotificationHandler =
 				[[NSNotificationCenter defaultCenter] addObserverForName:NSScrollViewDidLiveScrollNotification object:self.view.enclosingScrollView queue:nil usingBlock:^(NSNotification *note) {
 					if (popover.isShown) {
@@ -277,36 +226,39 @@
 	}
 }
 
+
+- (void)hideUIOverlay {
+	self.isShowingUIOverlay = NO;
+	self.kickUserButtonOutlet.animator.alphaValue = 0.0;
+
+	TCMHoverButton *button;
+	button = self.readWriteUserButtonOutlet.animator;
+	if (self.isParticipantReadOnly) {
+		[button setAllImages:[NSImage imageNamed:@"ParticipantReadOnlyStatusOn"]];
+	} else {
+		button.alphaValue = 0.0;
+	}
+	
+	button = self.followUserButtonOutlet.animator;
+	if (self.isParticipantFollowed) {
+		[button setAllImages:[NSImage imageNamed:@"ParticipantFollowStatusOn"]];
+	} else {
+		button.alphaValue = 0.0;
+	}
+
+	[self.nameLabelPopoverOutlet close];
+}
+
+- (void)mouseEntered:(NSEvent *)theEvent {
+	[self showUIOverlay];
+}
+
 - (void)mouseExited:(NSEvent *)theEvent {
 	switch (self.viewMode) {
-		case SEEParticipantViewModeParticipant:
-		{
-			if (! self.participant.isMe) {
-				self.participantActionOverlayOutlet.hidden = YES;
-
-				[NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
-					context.duration = 0.1;
-					self.userViewButtonLeftConstraintOutlet.animator.constant = 0.0;
-				} completionHandler:^{
-					[self.nameLabelPopoverOutlet close];
-				}];
-			} else {
-				[self.nameLabelPopoverOutlet close];
-			}
-			break;
-		}
 		case SEEParticipantViewModeInvited:
-		{
-			self.participantActionOverlayOutlet.hidden = YES;
-
-			[NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
-				context.duration = 0.1;
-				self.userViewButtonLeftConstraintOutlet.animator.constant = 0.0;
-			} completionHandler:^{
-				[self.nameLabelPopoverOutlet close];
-			}];
+		case SEEParticipantViewModeParticipant:
+			[self hideUIOverlay];
 			break;
-		}
 		default:
 			break;
 	}
@@ -335,9 +287,11 @@
 
 		if ([pendingUsers containsObject:user]) {
 			[documentSession denyPendingUser:user];
-		} else if ([[invitedUsers objectForKey:TCMMMSessionReadWriteGroupName] containsObject:user] || [[invitedUsers objectForKey:TCMMMSessionReadOnlyGroupName] containsObject:user]) {
+		} else if ([[invitedUsers objectForKey:TCMMMSessionReadWriteGroupName] containsObject:user] ||
+				   [[invitedUsers objectForKey:TCMMMSessionReadOnlyGroupName]  containsObject:user]) {
 			[documentSession cancelInvitationForUserWithID:[user userID]];
-		} else if ([[participants objectForKey:TCMMMSessionReadWriteGroupName] containsObject:user] || [[participants objectForKey:TCMMMSessionReadOnlyGroupName] containsObject:user]) {
+		} else if ([[participants objectForKey:TCMMMSessionReadWriteGroupName] containsObject:user] ||
+				   [[participants objectForKey:TCMMMSessionReadOnlyGroupName]  containsObject:user]) {
 			[documentSession setGroup:TCMMMSessionPoofGroupName forParticipantsWithUserIDs:@[[user userID]]];
 		}
 	}
@@ -401,6 +355,9 @@
 		}
 
 		[self updateParticipantFollowed];
+		if (self.isShowingUIOverlay) {
+			[self hideUIOverlay];
+		}
 	}
 }
 
@@ -446,43 +403,27 @@
 #pragma mark - Preparing Views
 
 - (void)updateForParticipantUserState {
+	BOOL isServer = self.tabContext.document.session.isServer;
 	if (self.participant.isMe) {
-		self.participantActionOverlayOutlet = nil;
+		// remove all buttons
+		self.readWriteUserButtonOutlet.hidden = isServer;
+		self.kickUserButtonOutlet.hidden = YES;
+		self.followUserButtonOutlet.hidden = YES;
+		if (!isServer) {
+			[self updateParticipantReadOnly];
+		}
 	} else {
-		TCMMMUser *user = self.participant;
-
-		[self updateParticipantFollowed];
-
-		BOOL userCanEditDocument = [self.tabContext.document.session isEditableByUser:user];
-		self.toggleEditModeButtonOutlet.state = userCanEditDocument?NSOffState:NSOnState;
-		self.readOnlyOverlayImageOutlet.hidden = userCanEditDocument;
-
-		if (! self.tabContext.document.session.isServer) {
-			[self.closeConnectionButtonOutlet removeFromSuperview];
-			[self.toggleEditModeButtonOutlet removeFromSuperview];
+		if (isServer) {
+			self.kickUserButtonOutlet.hidden = NO;
+			self.readWriteUserButtonOutlet.hidden = NO;
+		} else {
+			self.kickUserButtonOutlet.hidden = YES;
+			self.readWriteUserButtonOutlet.hidden = YES;
 		}
 
-		// add action overlay to view hierarchy
-		NSView *userView = self.participantViewOutlet;
-		NSView *overlayView = self.participantActionOverlayOutlet;
-		overlayView.hidden = YES;
-		NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:overlayView
-																	  attribute:NSLayoutAttributeRight
-																	  relatedBy:NSLayoutRelationEqual
-																		 toItem:userView
-																	  attribute:NSLayoutAttributeRight
-																	 multiplier:1
-																	   constant:-5];
+		[self updateParticipantFollowed];
+		[self updateParticipantReadOnly];
 
-		NSLayoutConstraint *verticalConstraint = [NSLayoutConstraint constraintWithItem:overlayView
-																			  attribute:NSLayoutAttributeTop
-																			  relatedBy:NSLayoutRelationEqual
-																				 toItem:userView
-																			  attribute:NSLayoutAttributeTop
-																			 multiplier:1
-																			   constant:0];
-		[userView addSubview:self.participantActionOverlayOutlet];
-		[userView addConstraints:@[constraint, verticalConstraint]];
 	}
 }
 
@@ -498,16 +439,64 @@
 		}
 	}
 	self.isParticipantFollowed = isFollowing;
+	TCMHoverButton *followButton = self.followUserButtonOutlet.animator;
+	if (self.isShowingUIOverlay) {
+		if (self.isParticipantFollowedInActiveEditor) {
+			[followButton setImagesByPrefix:@"ParticipantFollowTurnOff"];
+		} else {
+			[followButton setImagesByPrefix:@"ParticipantFollowTurnOn"];
+		}
+	} else {
+		if (self.isParticipantFollowed) {
+			[self.followUserButtonOutlet setAllImages:[NSImage imageNamed:@"ParticipantFollowStatusOn"]];
+			followButton.alphaValue = 1.0;
+		} else {
+			followButton.alphaValue = 0.0;
+		}
+	}
+}
 
+- (void)updateParticipantReadOnly {
+	BOOL isReadOnly = [self isParticipantReadOnly];
+	TCMHoverButton *readWriteButton = self.readWriteUserButtonOutlet;
+	if (self.isShowingUIOverlay) {
+		if (isReadOnly) {
+			[readWriteButton setImagesByPrefix:@"ParticipantReadOnlyTurnOff"];
+		} else {
+			[readWriteButton setImagesByPrefix:@"ParticipantReadOnlyTurnOn"];
+		}
+	} else {
+		if (isReadOnly) {
+			[self.readWriteUserButtonOutlet setAllImages:[NSImage imageNamed:@"ParticipantReadOnlyStatusOn"]];
+			readWriteButton.alphaValue = 1.0;
+		} else {
+			readWriteButton.alphaValue = 0.0;
+		}
+	}
+	
+}
+
+- (BOOL)isParticipantFollowedInActiveEditor {
 	// update action button state
 	PlainTextWindowController *windowController = self.view.window.windowController;
 	PlainTextEditor *activeEditor = windowController.activePlainTextEditor;
 	TCMMMUser *user = self.participant;
-
+	
 	BOOL activeEditorIsFollowing = [activeEditor.followUserID isEqualToString:user.userID];
-	self.toggleFollowButtonOutlet.state = activeEditorIsFollowing?NSOnState:NSOffState;
+	return activeEditorIsFollowing;
 }
 
+- (BOOL)isParticipantReadOnly {
+	BOOL result = NO;
+	TCMMMSession *documentSession = self.tabContext.document.session;
+	NSDictionary *participants = documentSession.participants;
+	NSDictionary *invitedUsers = documentSession.invitedUsers;
+	//	NSArray *pendingUsers = documentSession.pendingUsers;
+	TCMMMUser *user = self.participant;
+	result = ([[participants objectForKey:TCMMMSessionReadOnlyGroupName] containsObject:user] ||
+			  [[invitedUsers objectForKey:TCMMMSessionReadOnlyGroupName] containsObject:user]);
+	return result;
+}
 
 - (void)updateForPendingUserState {
 	self.pendingUserQuestionMarkOutlet.hidden = NO;
@@ -536,12 +525,12 @@
 	self.nameLabelOutlet.alphaValue = 0.8;
 	self.userViewButtonOutlet.alphaValue = 0.6;
 	self.userViewButtonOutlet.enabled = NO;
-
+/*
 	if (! self.tabContext.document.session.isServer) {
 		self.participantActionOverlayOutlet = nil;
 	} else {
-		[self.toggleEditModeButtonOutlet removeFromSuperview];
-		[self.toggleFollowButtonOutlet removeFromSuperview];
+		//		[self.toggleEditModeButtonOutlet removeFromSuperview];
+		//[self.toggleFollowButtonOutlet removeFromSuperview];
 		
 		// add action overlay to view hierarchy
 		NSView *userView = self.participantViewOutlet;
@@ -565,6 +554,7 @@
 		[userView addSubview:self.participantActionOverlayOutlet];
 		[userView addConstraints:@[constraint, verticalConstraint]];
 	}
+ */
 }
 
 @end

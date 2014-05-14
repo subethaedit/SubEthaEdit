@@ -12,7 +12,7 @@
                 <outlet property="O_changesSaturationLabelPale" destination="X5K-rQ-FTg" id="BAk-8w-hh6"/>
                 <outlet property="O_changesSaturationLabelStrong" destination="aWn-rs-bVF" id="8bg-KC-QmK"/>
                 <outlet property="O_disableNetworkingButton" destination="yO2-eJ-6Ez" id="cCr-be-P1B"/>
-                <outlet property="O_emailComboBox" destination="6OE-fu-gsc" id="vAU-US-Z0p"/>
+                <outlet property="O_emailTextField" destination="Fsd-0g-mFh" id="P5w-M8-Zsv"/>
                 <outlet property="O_highlightChangesButton" destination="rdZ-is-71R" id="z1Y-0o-zvx"/>
                 <outlet property="O_highlightChangesSlider" destination="n2A-ha-JDK" id="oJq-aF-baR"/>
                 <outlet property="O_invisibleOnNetworkButton" destination="ph8-yK-JgO" id="a00-N4-AfB"/>
@@ -138,19 +138,6 @@
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
-                                <comboBox verticalHuggingPriority="750" id="6OE-fu-gsc">
-                                    <rect key="frame" x="143" y="165" width="203" height="22"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                    <comboBoxCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" alignment="left" drawsBackground="YES" numberOfVisibleItems="5" id="wK3-BC-V7C">
-                                        <font key="font" metaFont="smallSystem"/>
-                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                    </comboBoxCell>
-                                    <connections>
-                                        <action selector="changeEmail:" target="-2" id="Ko5-vv-zAI"/>
-                                        <outlet property="nextKeyView" destination="GvU-me-qXy" id="PPC-cw-ra3"/>
-                                    </connections>
-                                </comboBox>
                                 <textField verticalHuggingPriority="750" id="GvU-me-qXy">
                                     <rect key="frame" x="143" y="194" width="200" height="19"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -161,7 +148,20 @@
                                     </textFieldCell>
                                     <connections>
                                         <action selector="changeName:" target="-2" id="nG4-NW-JNA"/>
-                                        <outlet property="nextKeyView" destination="6OE-fu-gsc" id="3C5-zA-hwq"/>
+                                        <outlet property="nextKeyView" destination="Fsd-0g-mFh" id="l6R-Tr-umn"/>
+                                    </connections>
+                                </textField>
+                                <textField verticalHuggingPriority="750" id="Fsd-0g-mFh">
+                                    <rect key="frame" x="143" y="170" width="200" height="19"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                    <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="zte-b1-PAs">
+                                        <font key="font" metaFont="smallSystem"/>
+                                        <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    </textFieldCell>
+                                    <connections>
+                                        <action selector="changeEmail:" target="-2" id="hJh-Xw-Jdl"/>
+                                        <outlet property="nextKeyView" destination="GvU-me-qXy" id="gss-zb-r7K"/>
                                     </connections>
                                 </textField>
                                 <slider verticalHuggingPriority="750" id="2x1-fu-rEk">

@@ -38,7 +38,7 @@ NSString * const TCMBEEPMessageXMLAttributeCode = @"code";
 
 @property (atomic, readwrite, strong) NSMutableArray *profileURIsInProgress;
 @property (atomic, readwrite, strong) NSData *profileDataBlockInProgress;
-@property (atomic, readwrite, strong) NSMutableArray *profileDataBlocksInProgress;
+@property (atomic, readwrite, strong) NSMutableArray *profileDataBlockArrayInProgress;
 
 @property (atomic, readwrite, strong) NSMutableString *xmlCharactersInProgress;
 
@@ -103,13 +103,14 @@ NSString * const TCMBEEPMessageXMLAttributeCode = @"code";
 	else if ([elementName isEqualToString:TCMBEEPMessageXMLElementStart])
 	{
 		self.profileURIsInProgress = [NSMutableArray array];
-		self.profileDataBlocksInProgress = [NSMutableArray array];
+		self.profileDataBlockArrayInProgress = [NSMutableArray array];
 	}
 	else if ([elementName isEqualToString:TCMBEEPMessageXMLElementProfile]) {
 		NSString *URI = [attributeDict objectForKey:TCMBEEPMessageXMLAttributeURI];
 		if (URI) {
 			[self.profileURIsInProgress addObject:URI];
 		}
+		self.profileDataBlockInProgress = nil; // only an issue with more than one profile
 	} else if ([elementName isEqualToString:TCMBEEPMessageXMLElementClose]) {
 
 	}
@@ -130,21 +131,26 @@ NSString * const TCMBEEPMessageXMLAttributeCode = @"code";
 	if ([elementName isEqualToString:TCMBEEPMessageXMLElementGreeting]) {
 		self.profileURIs = self.profileURIsInProgress;
 		self.profileURIsInProgress = nil;
-		self.profileDataBlocksInProgress = nil;
+		self.profileDataBlocks = self.profileDataBlockArrayInProgress;
+		self.profileDataBlockArrayInProgress = nil;
 	}
 	else if ([elementName isEqualToString:TCMBEEPMessageXMLElementStart]) {
 		self.profileURIs = self.profileURIsInProgress;
 		self.profileURIsInProgress = nil;
-		self.profileDataBlocksInProgress = nil;
+		self.profileDataBlocks = self.profileDataBlockArrayInProgress;
+		self.profileDataBlockArrayInProgress = nil;
 	}
 	else if ([elementName isEqualToString:TCMBEEPMessageXMLElementProfile]) {
-		if (self.profileDataBlockInProgress) {
-			if (self.profileDataBlocksInProgress) {
-				[self.profileDataBlocksInProgress addObject:self.profileDataBlockInProgress];
-			} else {
-				self.messageData = self.profileDataBlockInProgress;
+		if (self.profileDataBlockArrayInProgress) {
+			// we are inside a bigger element, so we need to have the same amount of profile data as uris,
+			// so we add an empty data if we haven't received a CDATA
+			NSData *data = self.profileDataBlockInProgress;
+			if (!data) {
+				data = [NSData data];
 			}
-			self.profileDataBlockInProgress = nil;
+			[self.profileDataBlockArrayInProgress addObject:data];
+		} else {
+			self.messageData = self.profileDataBlockInProgress;
 		}
 	}
 	else if ([elementName isEqualToString:TCMBEEPMessageXMLElementClose]) {
@@ -188,7 +194,17 @@ NSString * const TCMBEEPMessageXMLAttributeCode = @"code";
 
 - (void)parser:(NSXMLParser *)parser foundCDATA:(NSData *)CDATABlock
 {
-	self.profileDataBlockInProgress = CDATABlock;
+	if (self.profileDataBlockInProgress == nil) {
+		self.profileDataBlockInProgress = CDATABlock;
+	} else {
+		// we already got a CDATABlock - so append the other cdata (needs to be done when e.g.
+		// wanting to write the CDATA end "tag" inside a CDATA
+		self.profileDataBlockInProgress = ({
+			NSMutableData *data = [[NSMutableData alloc] initWithData:self.profileDataBlockInProgress];
+			[data appendData:CDATABlock];
+			[data copy];
+		});
+	}
 }
 
 

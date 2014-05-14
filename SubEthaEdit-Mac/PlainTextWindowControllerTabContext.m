@@ -421,14 +421,27 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 
 	// The bookmarks are used by SEEDocumentController to restore the tab documents.
 	NSURL *documentURL = self.document.fileURL;
-	NSURL *documentAutosaveURL = self.document.autosavedContentsFileURL;
-
-	NSData *documentURLBookmark = [documentURL bookmarkDataWithOptions:NSURLBookmarkCreationWithSecurityScope
+	NSNumber *isFileWritable = nil;
+	NSURLBookmarkCreationOptions fileBookmarkOptions = NSURLBookmarkCreationWithSecurityScope;
+	[documentURL getResourceValue:&isFileWritable forKey:NSURLIsWritableKey error:nil];
+	if (! isFileWritable.boolValue) {
+		fileBookmarkOptions = NSURLBookmarkCreationWithSecurityScope | NSURLBookmarkCreationSecurityScopeAllowOnlyReadAccess;
+	}
+	NSData *documentURLBookmark = [documentURL bookmarkDataWithOptions:fileBookmarkOptions
 										includingResourceValuesForKeys:nil
 														 relativeToURL:nil
 																 error:nil];
-	
-	NSData *documentAutosaveURLBookmark = [documentAutosaveURL bookmarkDataWithOptions:NSURLBookmarkCreationWithSecurityScope
+
+
+	NSURL *documentAutosaveURL = self.document.autosavedContentsFileURL;
+	NSNumber *isAutosaveFileWritable = nil;
+	NSURLBookmarkCreationOptions autosaveFileBookmarkOptions = NSURLBookmarkCreationWithSecurityScope;
+	[documentAutosaveURL getResourceValue:&isAutosaveFileWritable forKey:NSURLIsWritableKey error:nil];
+	if (! isAutosaveFileWritable.boolValue) {
+		autosaveFileBookmarkOptions = NSURLBookmarkCreationWithSecurityScope | NSURLBookmarkCreationSecurityScopeAllowOnlyReadAccess;
+	}
+
+	NSData *documentAutosaveURLBookmark = [documentAutosaveURL bookmarkDataWithOptions:autosaveFileBookmarkOptions
 														includingResourceValuesForKeys:nil
 																		 relativeToURL:nil
 																				 error:nil];

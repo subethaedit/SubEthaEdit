@@ -561,7 +561,9 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
 	[self takeStyleSettingsFromDocument];
     [self takeSettingsFromDocument];
-    [self setShowsChangeMarks:[document showsChangeMarks]];
+
+	[self setShowsBottomStatusBar:[document showsBottomStatusBar]]; // needed for initial setup when plainTextEditors array has no objects
+	[self setShowsChangeMarks:[document showsChangeMarks]];
 
 	// set the right values for the status bars
 	[self TCM_updateBottomStatusBar];
@@ -677,7 +679,10 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
         [self setWrapsLines:[document wrapLines]];
         [self setShowsGutter:[document showsGutter]];
         [self setShowsTopStatusBar:[document showsTopStatusBar]];
-        [self setShowsBottomStatusBar:[document showsBottomStatusBar]];
+
+		if (self.windowControllerTabContext.plainTextEditors.lastObject == self) {
+			[self setShowsBottomStatusBar:[document showsBottomStatusBar]]; // this is done, because one editor should not display a status bar on the top split editor
+		}
         [I_textView setEditable:[document isEditable]];
         [I_textView setContinuousSpellCheckingEnabled:[document isContinuousSpellCheckingEnabled]];
 
@@ -2831,18 +2836,6 @@ willChangeSelectionFromCharacterRange	:aOldSelectedCharRange
     }
 }
 
-
-#pragma mark - State Restoration
-
-- (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
-//	NSLog(@"%s - %d : %@", __FUNCTION__, __LINE__, self.document.displayName);
-	[super encodeRestorableStateWithCoder:coder];
-}
-
-- (void)restoreStateWithCoder:(NSCoder *)coder {
-//	NSLog(@"%s - %d : %@", __FUNCTION__, __LINE__, self.document.displayName);
-	[super restoreStateWithCoder:coder];
-}
 
 #pragma mark -
 #pragma mark ### Auto completion ###

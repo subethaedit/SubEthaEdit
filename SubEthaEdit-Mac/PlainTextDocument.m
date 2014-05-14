@@ -48,6 +48,7 @@
 
 #import "MultiPagePrintView.h"
 #import "SEEPrintOptionsViewController.h"
+#import "SEEScopedBookmarkManager.h"
 
 //#import "MoreUNIX.h"
 //#import "MoreSecurity.h"
@@ -736,11 +737,6 @@ static NSString *tempFileName(NSString *origPath) {
         I_flags.isRemotelyEditingTextStorage=NO;
         [self setShowsChangeMarks:[[NSUserDefaults standardUserDefaults] boolForKey:HighlightChangesAlonePreferenceKey] && [[NSUserDefaults standardUserDefaults] boolForKey:HighlightChangesPreferenceKey]];
         [self TCM_initHelper];
-        
-        OSStatus err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &I_authRef);
-        if (err != noErr) {
-            NSLog(@"Failed to create authRef!");
-        }
     }
     return self;
 }
@@ -773,11 +769,6 @@ static NSString *tempFileName(NSString *origPath) {
 
 - (void)dealloc
 {
-    if (I_authRef != NULL) {
-        (void)AuthorizationFree(I_authRef, kAuthorizationFlagDestroyRights);
-        I_authRef = NULL;
-    }
-
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     if (I_flags.isAnnounced) {
         [[TCMMMPresenceManager sharedInstance] concealSession:[self session]];
@@ -1078,7 +1069,7 @@ static NSString *tempFileName(NSString *origPath) {
 					NSString *fileType = (NSString *)UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (CFStringRef)fileExtension, nil);
 					self.fileType = [fileType autorelease];
 				} else {
-					self.fileType = @"public.text";
+					self.fileType = (NSString *)kUTTypeText;
 				}
 
                 if ([I_session isServer]) {
@@ -1546,6 +1537,16 @@ static NSString *tempFileName(NSString *origPath) {
 
 	NSStringEncoding documentEncoding = self.fileEncoding;
 	[coder encodeObject:@(documentEncoding) forKey:@"SEEPlainTextDocumentFileEncoding"];
+
+	[coder encodeBool:self.usesTabs forKey:@"SEEPlainTextDocumentUsesTabs"];
+	[coder encodeBool:self.wrapMode forKey:@"SEEPlainTextDocumentWrapMode"];
+	[coder encodeBool:self.wrapLines forKey:@"SEEPlainTextDocumentWrapLines"];
+	[coder encodeBool:self.showsGutter forKey:@"SEEPlainTextDocumentShowsGutter"];
+	[coder encodeBool:self.showInvisibleCharacters forKey:@"SEEPlainTextDocumentShowInvisibleCharacters"];
+	[coder encodeBool:self.showsChangeMarks forKey:@"SEEPlainTextDocumentShowsChangeMarks"];
+	[coder encodeBool:self.isContinuousSpellCheckingEnabled forKey:@"SEEPlainTextDocumentContinuousSpellCheckingEnabled"];
+//	[coder encodeBool:self.showsTopStatusBar forKey:@"SEEPlainTextDocumentShowsTopStatusBar"];
+//	[coder encodeBool:self.showsBottomStatusBar forKey:@"SEEPlainTextDocumentShowsBottomStatusBar"];
 }
 
 - (void)restoreStateWithCoder:(NSCoder *)coder {
@@ -1570,6 +1571,27 @@ static NSString *tempFileName(NSString *origPath) {
 		super.displayName = [coder decodeObjectForKey:@"SEEPlainTextDocumentDisplayName"]; // need to decode super.display name because self.displayname has sideeffects
 		self.temporaryDisplayName = [coder decodeObjectForKey:@"SEEPlainTextDocumentTemporaryDisplayName"];
 	}
+
+	if ([coder containsValueForKey:@"SEEPlainTextDocumentUsesTabs"])
+		self.usesTabs = [coder decodeBoolForKey:@"SEEPlainTextDocumentUsesTabs"];
+	if ([coder containsValueForKey:@"SEEPlainTextDocumentWrapMode"])
+		self.wrapMode = [coder decodeBoolForKey:@"SEEPlainTextDocumentWrapMode"];
+	if ([coder containsValueForKey:@"SEEPlainTextDocumentWrapLines"])
+		self.wrapLines = [coder decodeBoolForKey:@"SEEPlainTextDocumentWrapLines"];
+	if ([coder containsValueForKey:@"SEEPlainTextDocumentShowsGutter"])
+		self.showsGutter = [coder decodeBoolForKey:@"SEEPlainTextDocumentShowsGutter"];
+	if ([coder containsValueForKey:@"SEEPlainTextDocumentShowInvisibleCharacters"])
+		self.showInvisibleCharacters = [coder decodeBoolForKey:@"SEEPlainTextDocumentShowInvisibleCharacters"];
+	if ([coder containsValueForKey:@"SEEPlainTextDocumentShowsChangeMarks"])
+		self.showsChangeMarks = [coder decodeBoolForKey:@"SEEPlainTextDocumentShowsChangeMarks"];
+	if ([coder containsValueForKey:@"SEEPlainTextDocumentContinuousSpellCheckingEnabled"])
+		self.continuousSpellCheckingEnabled = [coder decodeBoolForKey:@"SEEPlainTextDocumentContinuousSpellCheckingEnabled"];
+//	if ([coder containsValueForKey:@"SEEPlainTextDocumentShowsTopStatusBar"])
+//		self.showsTopStatusBar = [coder decodeBoolForKey:@"SEEPlainTextDocumentShowsTopStatusBar"];
+//	if ([coder containsValueForKey:@"SEEPlainTextDocumentShowsBottomStatusBar"])
+//		self.showsBottomStatusBar = [coder decodeBoolForKey:@"SEEPlainTextDocumentShowsBottomStatusBar"];
+
+	[[self windowControllers] makeObjectsPerformSelector:@selector(takeSettingsFromDocument)];
 }
 
 
@@ -1765,10 +1787,6 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     [I_symbolUpdateTimer invalidate];
     [I_webPreviewDelayedRefreshTimer invalidate];
     [self TCM_sendODBCloseEvent];
-    if (I_authRef != NULL) {
-        (void)AuthorizationFree(I_authRef, kAuthorizationFlagDestroyRights);
-        I_authRef = NULL;
-    }
 
     // Do the regular NSDocument thing.
     [super close];
@@ -2260,9 +2278,13 @@ struct SelectionRange
 						IDString = [NSString stringWithFormat:@"%@%d",IDBasis,i];
 					}
 					[shortContributorIDs addObject:IDString];
+					
 					if (shouldSaveImages) {
-						[[[contributor properties] objectForKey:TCMMMUserPropertyKeyImageAsPNGData] writeToFile:[imageDirectory stringByAppendingPathComponent:[IDString stringByAppendingPathExtension:@"png"]] atomically:YES];
+						NSString *imageSavePath = [imageDirectory stringByAppendingPathComponent:[IDString stringByAppendingPathExtension:@"png"]];
+						NSURL *imageSaveURL = [NSURL URLWithString:imageSavePath];
+						[contributor writeImageToUrl:imageSaveURL];
 					}
+											   
 					NSDictionary *dictionary=[NSDictionary dictionaryWithObjectsAndKeys:contributor,@"User",IDString,@"ShortID",nil];
 					if ([contributorIDs containsObject:[contributor userID]]) {
 						[contributorDictionary   setObject:dictionary forKey:[contributor userID]];
@@ -2540,54 +2562,17 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     }
 }
 
-- (void)autosaveForRestart {
-    I_flags.isAutosavingForRestart = YES;
-    [self autosaveDocumentWithDelegate:nil didAutosaveSelector:NULL contextInfo:NULL];
-    I_flags.isAutosavingForRestart = NO;
-}
+- (void)autosaveForStateRestore {
+	I_flags.isAutosavingForRestart = YES;
+	[self performActivityWithSynchronousWaiting:YES usingBlock:^(void (^activityCompletionHandler)(void)) {
+		[self autosaveWithImplicitCancellability:NO completionHandler:^(NSError *error) {
+			activityCompletionHandler();
+		}];
 
-- (void)setAutosavedContentsFileURL:(NSURL *)anURL {
-    NSURL *URLToDelete = nil;
-    if (!anURL) {
-        URLToDelete = [self autosavedContentsFileURL];
-    }
-    [super setAutosavedContentsFileURL:anURL];
-    if (URLToDelete) {
-        NSFileManager *fm = [NSFileManager defaultManager];
-        if ([fm fileExistsAtPath:[URLToDelete path]]) {
-            [fm removeItemAtPath:[URLToDelete path] error:nil];
-        }
-    }
-}
-
-- (void)autosaveDocumentWithDelegate:(id)delegate didAutosaveSelector:(SEL)didAutosaveSelector contextInfo:(void *)aContext {
-    // autosave to .*/Autosave Information/de.codingmonkeys.SubEthaEdit.Mac/%@.seetext // UUID
-    NSURL *autosaveURL = [self autosavedContentsFileURL];
-    if ([self isDocumentEdited]) { 
-        if (!autosaveURL) {
-			NSFileManager *fileManager = [NSFileManager defaultManager];
-			NSArray *possibleURLs = [fileManager URLsForDirectory:NSAutosavedInformationDirectory inDomains:NSUserDomainMask];
-			NSURL *autosaveInfoDirectory = nil;
-			
-			if ([possibleURLs count] >= 1) {
-				// Use the first directory (if multiple are returned)
-				autosaveInfoDirectory = [possibleURLs objectAtIndex:0];
-			}
-			if (autosaveInfoDirectory) {
-				NSString* appBundleID = [[NSBundle mainBundle] bundleIdentifier];
-				autosaveInfoDirectory = [autosaveInfoDirectory URLByAppendingPathComponent:appBundleID];
-
-				NSString *documentName = [NSString stringWithFormat:@"%@.seetext", [NSString UUIDString]];
-				autosaveURL = [autosaveInfoDirectory URLByAppendingPathComponent:documentName];
-			}
-		}
-        if (autosaveURL) {
-			[self setAutosavedContentsFileURL:autosaveURL];
-		}
-        [super autosaveDocumentWithDelegate:delegate didAutosaveSelector:didAutosaveSelector contextInfo:aContext];
-    } else if (autosaveURL) {
-        [self setAutosavedContentsFileURL:nil];
-    }
+		[self performSynchronousFileAccessUsingBlock:^{
+			I_flags.isAutosavingForRestart = NO;
+		}];
+	}];
 }
 
 - (void)saveToURL:(NSURL *)anAbsoluteURL ofType:(NSString *)aType forSaveOperation:(NSSaveOperationType)saveOperation delegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)aContextInfo {
@@ -2617,14 +2602,14 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
             if ([[accessoryViewController.savePanelAccessoryFileFormatMatrixOutlet selectedCell] tag] == 1) {
                 aType = @"de.codingmonkeys.subethaedit.seetext";
 			} else {
-//                aType = @"public.data";
+//                aType = (NSString *)kUTTypeData;
             }
 		} else if (didShowPanel) {
             if ([[accessoryViewController.savePanelAccessoryFileFormatMatrixOutlet selectedCell] tag] == 1) {
                 aType = @"de.codingmonkeys.subethaedit.seetext";
                 I_flags.isSEEText = YES;
             } else {
-//                aType = @"public.data";
+//                aType = (NSString *)kUTTypeData;
                 I_flags.isSEEText = NO;
             }
 		}
@@ -2675,108 +2660,6 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     
     return parameters;
 }
-
-//- (NSData *)TCM_dataWithContentsOfFileReadUsingAuthorizedHelper:(NSString *)fileName {
-//    OSStatus err = noErr;
-//    CFURLRef tool = NULL;
-//    NSDictionary *request = nil;
-//    NSDictionary *response = nil;
-//    NSData *fileData = nil;
-//
-//
-//    const char *kRightName = "de.codingmonkeys.SubEthaEdit.file.readwritecreate";
-//    static const AuthorizationFlags kAuthFlags = kAuthorizationFlagDefaults 
-//                                               | kAuthorizationFlagInteractionAllowed
-//                                               | kAuthorizationFlagExtendRights
-//                                               | kAuthorizationFlagPreAuthorize;
-//    AuthorizationItem   right  = { kRightName, 0, NULL, 0 };
-//    AuthorizationRights rights = { 1, &right };
-//
-//    err = AuthorizationCopyRights(I_authRef, &rights, kAuthorizationEmptyEnvironment, kAuthFlags, NULL);
-//    
-//    if (err == noErr) {
-//        err = MoreSecCopyHelperToolURLAndCheckBundled(
-//            CFBundleGetMainBundle(), 
-//            CFSTR("SubEthaEditHelperToolTemplate"), 
-//            kApplicationSupportFolderType, 
-//            CFSTR("SubEthaEdit"), 
-//            CFSTR("SubEthaEditHelperTool"), 
-//            &tool);
-//
-//        // If the home directory is on an volume that doesn't support 
-//        // setuid root helper tools, ask the user whether they want to use 
-//        // a temporary tool.
-//        
-//        if (err == kMoreSecFolderInappropriateErr) {
-//            err = MoreSecCopyHelperToolURLAndCheckBundled(
-//                CFBundleGetMainBundle(), 
-//                CFSTR("SubEthaEditHelperToolTemplate"), 
-//                kTemporaryFolderType, 
-//                CFSTR("SubEthaEdit"), 
-//                CFSTR("SubEthaEditHelperTool"), 
-//                &tool);
-//        }
-//    }
-//    
-//    // Create the request dictionary for a file descriptor
-//
-//    if (err == noErr) {
-//        request = [NSDictionary dictionaryWithObjectsAndKeys:
-//                            @"GetReadOnlyFileDescriptor", @"CommandName",
-//                            fileName, @"FileName",
-//                            nil];
-//    }
-//
-//    // Go go gadget helper tool!
-//
-//    if (err == noErr) {
-//        err = MoreSecExecuteRequestInHelperTool(tool, I_authRef, (CFDictionaryRef)request, (CFDictionaryRef *)(&response));
-//    }
-//    
-//    // Extract information from the response.
-//
-//    if (err == noErr) {
-//        DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"response: %@", response);
-//
-//        err = MoreSecGetErrorFromResponse((CFDictionaryRef)response);
-//        if (err == noErr) {
-//            NSArray *descArray;
-//            int descIndex;
-//            int descCount;
-//            
-//            descArray = [response objectForKey:(NSString *)kMoreSecFileDescriptorsKey];
-//            descCount = [descArray count];
-//            for (descIndex = 0; descIndex < descCount; descIndex++) {
-//                NSNumber *thisDescNum;
-//                int thisDesc;
-//                
-//                thisDescNum = [descArray objectAtIndex:descIndex];
-//                thisDesc = [thisDescNum intValue];
-//                fcntl(thisDesc, F_GETFD, 0);
-//                
-//                NSFileHandle *fileHandle = [[NSFileHandle alloc] initWithFileDescriptor:thisDesc closeOnDealloc:YES];
-//                fileData = [fileHandle readDataToEndOfFile];
-//                [fileHandle release];
-//            }
-//        }
-//    }
-//    
-//    // Clean up after call of helper tool
-//        
-//    if (response) {
-//        [response release];
-//        response = nil;
-//    }
-//    
-//    CFQRelease(tool);
-//    
-//    if (err == noErr) {
-//        return fileData;
-//    } else {
-//        return nil;
-//    }
-//}
-
 
 /*
   So what happens when loading a File?
@@ -2864,7 +2747,6 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         BOOL hadChanges = [[[dictRep objectForKey:@"AutosaveInformation"] objectForKey:@"hadChanges"] boolValue];
         if (!hadChanges) {
             [self performSelector:@selector(clearChangeCount) withObject:nil afterDelay:0.0];
-            [self performSelector:@selector(setAutosavedContentsFileURL:) withObject:nil afterDelay:0.0];
         }
         I_flags.isSEEText = UTTypeConformsTo((CFStringRef)[self fileType], (CFStringRef)@"de.codingmonkeys.subethaedit.seetext");
         if (wasAutosave) *wasAutosave = YES;
@@ -2938,7 +2820,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 		NSString *fileType = (NSString *)UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (CFStringRef)fileExtension, nil);
 			[self performSelector:@selector(setFileType:) withObject:[fileType autorelease] afterDelay:0.];
 		} else {
-			[self performSelector:@selector(setFileType:) withObject:@"public.text" afterDelay:0.];
+			[self performSelector:@selector(setFileType:) withObject:(NSString *)kUTTypeText afterDelay:0.];
 		}
     }
     if (!fileExists || (isDir && !UTTypeConformsTo((CFStringRef)docType, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext"))) {
@@ -3360,7 +3242,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 			NSError *fileSavingError = error;
 			[self performActivityWithSynchronousWaiting:YES usingBlock:^(void (^activityCompletionHandler)(void)) {
 				if ([error.domain isEqualToString:@"SEEDocumentSavingDomain"] && error.code == 0x0FF) {
-					hasBeenWritten = [self writeAuthorizedToURL:url ofType:typeName saveOperation:saveOperation error:&authenticationError];
+					hasBeenWritten = [self writeUsingAuthenticationToURL:url ofType:typeName saveOperation:saveOperation error:&authenticationError];
 					[authenticationError retain];
 					activityCompletionHandler();
 				} else {
@@ -3370,6 +3252,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 			if (hasBeenWritten) {
 				fileSavingError = nil;
+
 				if (saveOperation == NSSaveOperation) {
 					[self TCM_sendODBModifiedEvent];
 					[self setKeepDocumentVersion:NO];
@@ -3381,10 +3264,11 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 					}
 					[self setShouldChangeChangeCount:YES];
 				}
-				if (saveOperation != NSAutosaveOperation) {
+
+				if (saveOperation != NSSaveToOperation && saveOperation != NSAutosaveOperation) {
+					[self setTemporaryDisplayName:nil];
 					[[NSNotificationCenter defaultCenter] postNotificationName:PlainTextDocumentDidSaveShouldReloadWebPreviewNotification object:self];
 				}
-				[self setTemporaryDisplayName:nil];
 			}
 
 			if (saveOperation != NSSaveToOperation && saveOperation != NSAutosaveOperation) {
@@ -3595,7 +3479,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     return hasBeenWritten;
 }
 
-- (BOOL)writeAuthorizedToURL:(NSURL *)anAbsoluteURL ofType:(NSString *)docType saveOperation:(NSSaveOperationType)saveOperationType error:(NSError **)outError {
+- (BOOL)writeUsingAuthenticationToURL:(NSURL *)anAbsoluteURL ofType:(NSString *)docType saveOperation:(NSSaveOperationType)saveOperationType error:(NSError **)outError {
 
 	__block BOOL result = NO;
 
@@ -3653,7 +3537,15 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 						[self setFileURL:anAbsoluteURL];
 						[self setFileType:docType];
-						[self setFileModificationDate:[NSDate date]];
+
+						NSError *fileModificationDateError = nil;
+						NSDate *modificationDate = nil;
+						if ([anAbsoluteURL getResourceValue:&modificationDate forKey:NSURLContentModificationDateKey error:&fileModificationDateError]) {
+							[self setFileModificationDate:modificationDate];
+						} else {
+							NSLog(@"%s - Can't get file modification date dure to error : %@", __FUNCTION__, fileModificationDateError);
+							[self setFileModificationDate:[NSDate date]]; // fallback
+						}
 					}
 				} else {
 					if (outError) {
@@ -3703,7 +3595,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 	//-timelog    NSDate *startDate = [NSDate date];
 	//-timelog    NSLog(@"%s %@ %@ %d %@",__FUNCTION__, absoluteURL, inTypeName, saveOperation,originalContentsURL);
     DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"write to:%@ type:%@ saveOperation:%lu originalURL:%@", absoluteURL, inType, (unsigned long)saveOperation,originalContentsURL);
-    if (UTTypeConformsTo((CFStringRef)inType, (CFStringRef)@"public.data")) {
+    if (UTTypeConformsTo((CFStringRef)inType, kUTTypeData)) {
         BOOL modeWantsUTF8BOM = [[[self documentMode] defaultForKey:DocumentModeUTF8BOMPreferenceKey] boolValue];
         DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"modeWantsUTF8BOM: %d, hasUTF8BOM: %d", modeWantsUTF8BOM, I_flags.hasUTF8BOM);
         BOOL useUTF8Encoding = ((I_lastSaveOperation == NSSaveToOperation) && (I_encodingFromLastRunSaveToOperation == NSUTF8StringEncoding)) || ((I_lastSaveOperation != NSSaveToOperation) && ([self fileEncoding] == NSUTF8StringEncoding));
@@ -4753,6 +4645,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 - (void)setShowInvisibleCharacters:(BOOL)aFlag {
     I_flags.showInvisibleCharacters=aFlag;
+	[self invalidateRestorableState];
 }
 
 
@@ -4765,6 +4658,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     if (I_flags.wrapLines!=aFlag) {
         I_flags.wrapLines=aFlag;
         [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
+		[self invalidateRestorableState];
     }
 }
 
@@ -4788,6 +4682,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         I_flags.wrapMode=newMode;
         [self TCM_invalidateDefaultParagraphStyle];
         [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
+		[self invalidateRestorableState];
     }
 }
 
@@ -4795,6 +4690,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     if (I_flags.usesTabs!=aFlag) {
         I_flags.usesTabs=aFlag;
         [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
+		[self invalidateRestorableState];
     }
 }
 
@@ -4821,6 +4717,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 - (void)setShowsGutter:(BOOL)aFlag {
     I_flags.showGutter=aFlag;
+	[self invalidateRestorableState];
 }
 
 - (BOOL)showsMatchingBrackets {
@@ -4847,6 +4744,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 - (void)setShowsChangeMarks:(BOOL)aFlag {
     I_flags.showsChangeMarks=aFlag;
+	[self invalidateRestorableState];
 }
 
 - (BOOL)indentsNewLines {
@@ -4907,6 +4805,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     if (aFlag!=I_flags.isContinuousSpellCheckingEnabled) {
         I_flags.isContinuousSpellCheckingEnabled=aFlag;
         [[[self documentMode] defaults] setObject:[NSNumber numberWithBool:aFlag] forKey:DocumentModeSpellCheckingPreferenceKey];
+		[self invalidateRestorableState];
     }
 }
 
@@ -5546,12 +5445,15 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 - (void)setContentByDictionaryRepresentation:(NSDictionary *)aRepresentation {
     I_flags.isRemotelyEditingTextStorage=YES;
-    FoldableTextStorage *textStorage=(FoldableTextStorage *)[self textStorage];
-    [textStorage setContentByDictionaryRepresentation:[aRepresentation objectForKey:@"TextStorage"]];
-    NSRange wholeRange=NSMakeRange(0,[textStorage length]);
-    [textStorage addAttributes:[self plainTextAttributes] range:wholeRange];
-    [textStorage addAttribute:NSParagraphStyleAttributeName value:[self defaultParagraphStyle] range:wholeRange];
+	{
+		FoldableTextStorage *textStorage=(FoldableTextStorage *)[self textStorage];
+		[textStorage setContentByDictionaryRepresentation:[aRepresentation objectForKey:@"TextStorage"]];
+		NSRange wholeRange=NSMakeRange(0,[textStorage length]);
+		[textStorage addAttributes:[self plainTextAttributes] range:wholeRange];
+		[textStorage addAttribute:NSParagraphStyleAttributeName value:[self defaultParagraphStyle] range:wholeRange];
+	}
     I_flags.isRemotelyEditingTextStorage=NO;
+
     [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
 	[self updateChangeCount:NSChangeCleared];
 	I_flags.shouldSelectModeOnSave = NO;
@@ -5562,24 +5464,20 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     if ([[self windowControllers] count]>0) {
         [self setContentByDictionaryRepresentation:aContent];
 
-		I_flags.isAutosavingForRestart = YES;
-		[self updateChangeCount:NSChangeDone];
-		if (self.hasUnautosavedChanges) {
-			[self performActivityWithSynchronousWaiting:YES usingBlock:^(void (^activityCompletionHandler)(void)) {
-				[self autosaveWithImplicitCancellability:NO completionHandler:^(NSError *error) {
-					activityCompletionHandler();
-				}];
-
-				[self performSynchronousFileAccessUsingBlock:^{
-					[self updateChangeCount:NSChangeCleared];
-					I_flags.isAutosavingForRestart = YES;
-				}];
-			}];
-		}
+		[self autosaveForStateRestore];
 
         I_flags.isReceivingContent = NO;
         PlainTextWindowController *windowController=(PlainTextWindowController *)[[self windowControllers] objectAtIndex:0];
         [windowController document:self isReceivingContent:NO];
+
+		[[self topmostWindowController] openParticipantsOverlayForDocument:self];
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:HighlightChangesPreferenceKey]) {
+			NSEnumerator *plainTextEditors=[[self plainTextEditors] objectEnumerator];
+			PlainTextEditor *editor=nil;
+			while ((editor=[plainTextEditors nextObject])) {
+				[editor setShowsChangeMarks:YES];
+			}
+		}
     }
     I_flags.isReceivingContent = NO;
 }
@@ -6535,6 +6433,28 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 #pragma mark -
 
 @implementation PlainTextDocument (PlainTextDocumentScriptingAdditions)
+
+- (id)handleSaveScriptCommand:(NSScriptCommand *)command {
+	NSDictionary *arguments = command.evaluatedArguments;
+	NSURL *fileURL = [arguments objectForKey:@"File"];
+	if (fileURL) { // only in save as mode
+		if ([[SEEScopedBookmarkManager sharedManager] startAccessingScriptedFileURL:fileURL]) {
+			NSLog(@"Access granted.");
+		}
+	}
+	return [super handleSaveScriptCommand:command];
+}
+
+- (id)handleCloseScriptCommand:(NSCloseCommand *)command {
+	NSDictionary *arguments = command.evaluatedArguments;
+	NSURL *fileURL = [arguments objectForKey:@"File"];
+	if (fileURL) { // only in save as mode
+		if ([[SEEScopedBookmarkManager sharedManager] startAccessingScriptedFileURL:fileURL]) {
+			NSLog(@"Access granted.");
+		}
+	}
+	return [super handleCloseScriptCommand:command];
+}
 
 - (void)handleBeginUndoGroupCommand:(NSScriptCommand *)command {
     [[self documentUndoManager] beginUndoGrouping];

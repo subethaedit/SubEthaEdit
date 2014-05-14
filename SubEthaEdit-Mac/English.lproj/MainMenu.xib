@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13D61" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1090" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
@@ -407,212 +407,6 @@
                         </items>
                     </menu>
                 </menuItem>
-                <menuItem title="Format" tag="2000" id="253">
-                    <menu key="submenu" title="Format" id="254">
-                        <items>
-                            <menuItem title="Font" tag="1" id="321">
-                                <menu key="submenu" title="Font" systemMenu="font" id="338">
-                                    <items>
-                                        <menuItem title="Show Fonts" id="333">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <action selector="orderFrontFontPanel:" target="354" id="362"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem isSeparatorItem="YES" id="342">
-                                            <modifierMask key="keyEquivalentModifierMask" command="YES"/>
-                                        </menuItem>
-                                        <menuItem title="Bigger" tag="3" keyEquivalent="+" id="322">
-                                            <connections>
-                                                <action selector="modifyFont:" target="354" id="363"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Smaller" tag="4" keyEquivalent="-" id="344">
-                                            <connections>
-                                                <action selector="modifyFont:" target="354" id="355"/>
-                                            </connections>
-                                        </menuItem>
-                                    </items>
-                                </menu>
-                            </menuItem>
-                            <menuItem isSeparatorItem="YES" id="367">
-                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
-                            </menuItem>
-                            <menuItem title="Shift Right" keyEquivalent="]" id="392">
-                                <connections>
-                                    <action selector="shiftRight:" target="-1" id="394"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Shift Left" keyEquivalent="[" id="391">
-                                <connections>
-                                    <action selector="shiftLeft:" target="-1" id="393"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem isSeparatorItem="YES" id="368">
-                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
-                            </menuItem>
-                            <menuItem title="Pretty Print XML" id="638">
-                                <connections>
-                                    <action selector="prettyPrintXML:" target="-1" id="639"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Tidy and Pretty Print HTML" id="771">
-                                <connections>
-                                    <action selector="prettyPrintHTML:" target="-1" id="772"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Insert State Close" keyEquivalent="." id="1208">
-                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                                <connections>
-                                    <action selector="insertStateClose:" target="-1" id="1210"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem isSeparatorItem="YES" id="637">
-                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
-                            </menuItem>
-                            <menuItem title="Line Endings" id="407">
-                                <menu key="submenu" title="Line Endings" id="406">
-                                    <items>
-                                        <menuItem title="Use Unix/Mac OS X Line Endings (LF)" tag="1" id="419">
-                                            <connections>
-                                                <action selector="chooseLineEndings:" target="-1" id="446"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Use Classic Mac Line Endings (CR)" tag="2" id="418">
-                                            <connections>
-                                                <action selector="chooseLineEndings:" target="-1" id="447"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Use Windows Line Endings (CRLF)" tag="3" id="417">
-                                            <connections>
-                                                <action selector="chooseLineEndings:" target="-1" id="448"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Use Unicode Line Separator (LSEP)" tag="4" id="449">
-                                            <connections>
-                                                <action selector="chooseLineEndings:" target="-1" id="450"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Use Unicode Paragraph Separator (PSEP)" tag="5" id="451">
-                                            <connections>
-                                                <action selector="chooseLineEndings:" target="-1" id="452"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem isSeparatorItem="YES" id="432">
-                                            <modifierMask key="keyEquivalentModifierMask" command="YES"/>
-                                        </menuItem>
-                                        <menuItem title="Convert to Unix/Mac OS X Line Endings (LF)" tag="1" id="435">
-                                            <connections>
-                                                <action selector="convertLineEndings:" target="-1" id="439"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Convert to Classic Mac Line Endings (CR)" tag="2" id="440">
-                                            <connections>
-                                                <action selector="convertLineEndings:" target="-1" id="441"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Convert to Windows Line Endings (CRLF)" tag="3" id="436">
-                                            <connections>
-                                                <action selector="convertLineEndings:" target="-1" id="438"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Convert to Unicode Line Separator (LSEP)" tag="4" id="453">
-                                            <connections>
-                                                <action selector="convertLineEndings:" target="-1" id="457"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Convert to Unicode Paragraph Separator (PSEP)" tag="5" id="455">
-                                            <connections>
-                                                <action selector="convertLineEndings:" target="-1" id="458"/>
-                                            </connections>
-                                        </menuItem>
-                                    </items>
-                                </menu>
-                            </menuItem>
-                            <menuItem title="File Encodings" tag="2001" id="256">
-                                <menu key="submenu" title="File Encodings" id="258"/>
-                            </menuItem>
-                            <menuItem isSeparatorItem="YES" id="285">
-                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
-                            </menuItem>
-                            <menuItem title="Indent New Lines" id="304">
-                                <connections>
-                                    <action selector="toggleIndentNewLines:" target="-1" id="305"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Use Tabs" id="286">
-                                <connections>
-                                    <action selector="toggleUsesTabs:" target="-1" id="297"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem isSeparatorItem="YES" id="533">
-                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
-                            </menuItem>
-                            <menuItem title="Tab Width" id="289">
-                                <menu key="submenu" title="Tab Width" id="288">
-                                    <items>
-                                        <menuItem title="1" id="287">
-                                            <connections>
-                                                <action selector="changeTabWidth:" target="-1" id="298"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="2" id="291">
-                                            <connections>
-                                                <action selector="changeTabWidth:" target="-1" id="299"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="3" id="292">
-                                            <connections>
-                                                <action selector="changeTabWidth:" target="-1" id="300"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="4" id="293">
-                                            <connections>
-                                                <action selector="changeTabWidth:" target="-1" id="301"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="5" id="294">
-                                            <connections>
-                                                <action selector="changeTabWidth:" target="-1" id="302"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="6" id="295">
-                                            <connections>
-                                                <action selector="changeTabWidth:" target="-1" id="303"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="8" id="796">
-                                            <connections>
-                                                <action selector="changeTabWidth:" target="-1" id="797"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Custom..." id="296">
-                                            <connections>
-                                                <action selector="orderFrontTabWidthPanel:" target="463" id="481"/>
-                                            </connections>
-                                        </menuItem>
-                                    </items>
-                                </menu>
-                            </menuItem>
-                            <menuItem title="Entab" id="529">
-                                <connections>
-                                    <action selector="entab:" target="-1" id="531"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Detab" id="530">
-                                <connections>
-                                    <action selector="detab:" target="-1" id="532"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Reindent Selection" id="1206">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <connections>
-                                    <action selector="reindentSelection:" target="-1" id="1207"/>
-                                </connections>
-                            </menuItem>
-                        </items>
-                    </menu>
-                </menuItem>
                 <menuItem title="View" tag="5000" id="219">
                     <menu key="submenu" title="View" id="221">
                         <items>
@@ -866,6 +660,212 @@
                                 <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
                                 <connections>
                                     <action selector="toggleFullScreen:" target="-1" id="jxd-dp-KKR"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="Format" tag="2000" id="253">
+                    <menu key="submenu" title="Format" id="254">
+                        <items>
+                            <menuItem title="Font" tag="1" id="321">
+                                <menu key="submenu" title="Font" systemMenu="font" id="338">
+                                    <items>
+                                        <menuItem title="Show Fonts" id="333">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="orderFrontFontPanel:" target="354" id="362"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="342">
+                                            <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                                        </menuItem>
+                                        <menuItem title="Bigger" tag="3" keyEquivalent="+" id="322">
+                                            <connections>
+                                                <action selector="modifyFont:" target="354" id="363"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Smaller" tag="4" keyEquivalent="-" id="344">
+                                            <connections>
+                                                <action selector="modifyFont:" target="354" id="355"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="367">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Shift Right" keyEquivalent="]" id="392">
+                                <connections>
+                                    <action selector="shiftRight:" target="-1" id="394"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Shift Left" keyEquivalent="[" id="391">
+                                <connections>
+                                    <action selector="shiftLeft:" target="-1" id="393"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Re-Indent" keyEquivalent="i" id="1206">
+                                <modifierMask key="keyEquivalentModifierMask" control="YES"/>
+                                <connections>
+                                    <action selector="reindentSelection:" target="-1" id="1207"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="368">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Pretty Print XML" id="638">
+                                <connections>
+                                    <action selector="prettyPrintXML:" target="-1" id="639"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Tidy and Pretty Print HTML" id="771">
+                                <connections>
+                                    <action selector="prettyPrintHTML:" target="-1" id="772"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Insert State Close" keyEquivalent="." id="1208">
+                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                <connections>
+                                    <action selector="insertStateClose:" target="-1" id="1210"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="637">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Line Endings" id="407">
+                                <menu key="submenu" title="Line Endings" id="406">
+                                    <items>
+                                        <menuItem title="Use Unix/Mac OS X Line Endings (LF)" tag="1" id="419">
+                                            <connections>
+                                                <action selector="chooseLineEndings:" target="-1" id="446"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Use Classic Mac Line Endings (CR)" tag="2" id="418">
+                                            <connections>
+                                                <action selector="chooseLineEndings:" target="-1" id="447"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Use Windows Line Endings (CRLF)" tag="3" id="417">
+                                            <connections>
+                                                <action selector="chooseLineEndings:" target="-1" id="448"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Use Unicode Line Separator (LSEP)" tag="4" id="449">
+                                            <connections>
+                                                <action selector="chooseLineEndings:" target="-1" id="450"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Use Unicode Paragraph Separator (PSEP)" tag="5" id="451">
+                                            <connections>
+                                                <action selector="chooseLineEndings:" target="-1" id="452"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="432">
+                                            <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                                        </menuItem>
+                                        <menuItem title="Convert to Unix/Mac OS X Line Endings (LF)" tag="1" id="435">
+                                            <connections>
+                                                <action selector="convertLineEndings:" target="-1" id="439"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Convert to Classic Mac Line Endings (CR)" tag="2" id="440">
+                                            <connections>
+                                                <action selector="convertLineEndings:" target="-1" id="441"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Convert to Windows Line Endings (CRLF)" tag="3" id="436">
+                                            <connections>
+                                                <action selector="convertLineEndings:" target="-1" id="438"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Convert to Unicode Line Separator (LSEP)" tag="4" id="453">
+                                            <connections>
+                                                <action selector="convertLineEndings:" target="-1" id="457"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Convert to Unicode Paragraph Separator (PSEP)" tag="5" id="455">
+                                            <connections>
+                                                <action selector="convertLineEndings:" target="-1" id="458"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem title="File Encodings" tag="2001" id="256">
+                                <menu key="submenu" title="File Encodings" id="258"/>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="285">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Indent New Lines" id="304">
+                                <connections>
+                                    <action selector="toggleIndentNewLines:" target="-1" id="305"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Use Tabs" id="286">
+                                <connections>
+                                    <action selector="toggleUsesTabs:" target="-1" id="297"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="533">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Tab Width" id="289">
+                                <menu key="submenu" title="Tab Width" id="288">
+                                    <items>
+                                        <menuItem title="1" id="287">
+                                            <connections>
+                                                <action selector="changeTabWidth:" target="-1" id="298"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="2" id="291">
+                                            <connections>
+                                                <action selector="changeTabWidth:" target="-1" id="299"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="3" id="292">
+                                            <connections>
+                                                <action selector="changeTabWidth:" target="-1" id="300"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="4" id="293">
+                                            <connections>
+                                                <action selector="changeTabWidth:" target="-1" id="301"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="5" id="294">
+                                            <connections>
+                                                <action selector="changeTabWidth:" target="-1" id="302"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="6" id="295">
+                                            <connections>
+                                                <action selector="changeTabWidth:" target="-1" id="303"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="8" id="796">
+                                            <connections>
+                                                <action selector="changeTabWidth:" target="-1" id="797"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Custom..." id="296">
+                                            <connections>
+                                                <action selector="orderFrontTabWidthPanel:" target="463" id="481"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem title="Entab" id="529">
+                                <connections>
+                                    <action selector="entab:" target="-1" id="531"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Detab" id="530">
+                                <connections>
+                                    <action selector="detab:" target="-1" id="532"/>
                                 </connections>
                             </menuItem>
                         </items>

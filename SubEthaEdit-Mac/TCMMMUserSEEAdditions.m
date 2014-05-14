@@ -13,6 +13,11 @@
 #import "NSImageTCMAdditions.h"
 #import "PreferenceKeys.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
 @implementation TCMMMUser (TCMMMUserSEEAdditions) 
 
 - (NSColor *)changeColor {
@@ -89,11 +94,6 @@
 
 #pragma mark -
 
-- (void)recacheImages {
-    NSMutableDictionary *properties = [self properties];
-    [properties removeObjectsForKeys:@[@"Image", @"Image32", @"Image48", @"Image16", @"Image32Dimmed", @"ColorImage", @"ColorImageBrightLine"]];
-}
-
 - (NSColor *)color {
     NSColor *result = nil;
     NSNumber *hue = [[self properties] objectForKey:@"Hue"];
@@ -104,119 +104,153 @@
     return result;
 }
 
-- (NSImage *)colorImageWithLineOfColor:(NSColor *)aColor {
-    NSNumber *hue = [[self properties] objectForKey:@"Hue"];
-    if (hue) {
-        NSValueTransformer *hueTrans = [NSValueTransformer valueTransformerForName:@"HueToColor"];
-        NSColor *color = [hueTrans transformedValue:hue];
-        NSRect rect = NSMakeRect(0, 0, 13, 8);
-
-		NSImage *image = [NSImage imageWithSize:rect.size flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
-			[color drawSwatchInRect:dstRect];
-			[aColor set];
-			[NSBezierPath strokeRect:dstRect];
-			return YES;
-		}];
-        return image;
-    } else {
-        return nil;
-    }
-}
-
-- (NSImage *)colorImage {
-    if (![[self properties] objectForKey:@"ColorImage"]) {
-        NSImage *image = [self colorImageWithLineOfColor:[[NSColor blackColor] colorWithAlphaComponent:0.7]];
-        if (image) {
-            [[self properties] setObject:image forKey:@"ColorImage"];
-        }
-    }
-    return [[self properties] objectForKey:@"ColorImage"];
-}
-
-- (NSImage *)colorImageWithBrightLine {
-    if (![[self properties] objectForKey:@"ColorImageBrightLine"]) {
-        NSImage *image = [self colorImageWithLineOfColor:[[NSColor whiteColor] colorWithAlphaComponent:0.7]];
-        if (image) {
-            [[self properties] setObject:image forKey:@"ColorImageBrightLine"];
-        }
-    }
-    return [[self properties] objectForKey:@"ColorImageBrightLine"];
-}
-
-- (NSImage *)image
-{
+#pragma mark - Image
+- (NSImage *)image {
     NSImage *image = [[self properties] objectForKey:@"Image"];
     if (!image) {
         NSData *pngData = [[self properties] objectForKey:TCMMMUserPropertyKeyImageAsPNGData];
-        image = [[[NSImage alloc] initWithData:pngData] autorelease];
+        image = [[NSImage alloc] initWithData:pngData];
 
-        if (!image) {
-			image = [NSImage unknownUserImageWithSize:NSMakeSize(256.0, 256.0) initials:self.initials];
-
-            pngData = [image TIFFRepresentation];
-            pngData = [[NSBitmapImageRep imageRepWithData:pngData] representationUsingType:NSPNGFileType properties:[NSDictionary dictionary]];
-            [[self properties] setObject:pngData forKey:TCMMMUserPropertyKeyImageAsPNGData];
-		}
-
-		if (image) {
-			[[self properties] setObject:image forKey:@"Image"];
-			[image setCacheMode:NSImageCacheNever];
+        if (!image) { // set default image
+			[self setDefaultImage];
+			image = [[self properties] objectForKey:@"Image"];
 		}
     }
     return image;
 }
 
-- (NSImage *)image48
-{
-    NSImage *image = [[self properties] objectForKey:@"Image48"];
-    if (!image) {
-        image = [self image];
-        if (image) {
-            image = [image resizedImageWithSize:NSMakeSize(48.0, 48.0)];
-            [[self properties] setObject:image forKey:@"Image48"];
-        }
+- (NSData *)imageData {
+    NSData *data = [[self properties] objectForKey:TCMMMUserPropertyKeyImageAsPNGData];
+    if (!data) {
+        NSImage *image = [[self properties] objectForKey:@"Image"];
+		
+        if (!image) { // set default image
+			[self setDefaultImage]; // also sets the image data
+			data = [[self properties] objectForKey:TCMMMUserPropertyKeyImageAsPNGData];
+			
+		} else {
+			data = [TCMMMUser imageDataFromImage:image];
+		}
     }
-    return image;
+    return data;
 }
 
-- (NSImage *)image32
-{
-    NSImage *image = [[self properties] objectForKey:@"Image32"];
-    if (!image) {
-        image = [self image];
-        if (image) {
-            image = [image resizedImageWithSize:NSMakeSize(32.0, 32.0)];
-            [[self properties] setObject:image forKey:@"Image32"];
-        }
-    }
-    return image;
+- (void)setImage:(NSImage *)aImage {
+	NSImage *image;
+	BOOL hasDefaultImage;
+
+	if (aImage) { // set that image
+		hasDefaultImage = NO;
+		image = aImage;
+				
+	} else { // set the default image
+		hasDefaultImage = YES;
+		image = [self defaultImage];
+	}
+
+	NSMutableDictionary *properties = [self properties];
+
+	NSData *pngData = [TCMMMUser imageDataFromImage:image];
+	[properties setObject:pngData forKey:TCMMMUserPropertyKeyImageAsPNGData];
+	// this property seems only to be set for non-empty images? may not be set in the future at all but beware of old versions of Coda/SEE
+
+	[properties setObject:@(hasDefaultImage) forKey:@"HasDefaultImage"];
+	[properties setObject:image forKey:@"Image"];
+	[image setCacheMode:NSImageCacheNever];
 }
 
-- (NSImage *)image16
-{
-    NSImage *image = [[self properties] objectForKey:@"Image16"];
-    if (!image) {
-        image = [self image];
-        if (image) {
-            image = [image resizedImageWithSize:NSMakeSize(16.0, 16.0)];
-            [[self properties] setObject:image forKey:@"Image16"];
-        }
-    }
-    return image;
+- (void)setDefaultImage {
+	[self setImage:nil];
 }
 
-- (NSImage *)image32Dimmed
-{
-    NSImage *image = [[self properties] objectForKey:@"Image32Dimmed"];
-    if (!image) {
-        image = [self image32];
-        if (image) {
-            image = [image dimmedImage];
-            [[self properties] setObject:image forKey:@"Image32Dimmed"];
-        }
-    }
-    return image;
+- (BOOL)hasDefaultImage {
+	BOOL hasDefaultImage;
+	NSNumber *numberHasDefault = [[self properties] objectForKey:@"HasDefaultImage"];
+	if (numberHasDefault) {
+		hasDefaultImage = [numberHasDefault boolValue];
+	} else {
+		hasDefaultImage = NO;
+	}
+	return hasDefaultImage;
 }
 
-    
+- (NSImage *)defaultImage {
+	NSImage *image = [NSImage unknownUserImageWithSize:NSMakeSize(256.0, 256.0) initials:self.initials];
+	return image;
+}
+
+#pragma mark - Helper
++ (NSData *)imageDataFromImage:(NSImage *)aImage {
+	NSData *data = nil;
+	if (aImage) {
+		data = [aImage TIFFRepresentation];
+		data = [[NSBitmapImageRep imageRepWithData:data] representationUsingType:NSPNGFileType properties:@{}];
+	}
+	return data;
+}
+
++ (NSURL *)applicationSupportURLForUserImage {
+	NSURL *result;
+	
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	NSArray *possibleURLs = [fileManager URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask];
+	NSURL *appSupportDir = nil;
+	
+	if ([possibleURLs count] >= 1) {
+		// Use the first directory (if multiple are returned)
+		appSupportDir = [possibleURLs objectAtIndex:0];
+	}
+
+	NSString *appBundleID = [[NSBundle mainBundle] bundleIdentifier];
+	result = [appSupportDir URLByAppendingPathComponent:appBundleID];
+
+	if (![fileManager fileExistsAtPath:[result path] isDirectory:NULL]) {
+		[fileManager createDirectoryAtPath:[result path] withIntermediateDirectories:YES attributes:nil error:nil];
+	}
+
+	result = [result URLByAppendingPathComponent:@"MeUserImage.png"];
+	return result;
+}
+
+
+- (BOOL)writeImageToUrl:(NSURL *)aURL {
+	BOOL result = NO;
+	NSData *imageData = [[self properties] objectForKey:TCMMMUserPropertyKeyImageAsPNGData];
+	if (imageData) {
+		result = [imageData writeToURL:aURL atomically:YES];
+	}
+	return result;
+}
+
+- (BOOL)readImageFromUrl:(NSURL *)aURL {
+	BOOL result = NO;
+	NSData *imageData = [NSData dataWithContentsOfURL:aURL];
+	NSImage *image;
+	if (imageData) {
+		image = [[NSImage alloc] initWithData:imageData];
+	}
+	
+	if (image) {
+		[self setImage:image];
+		result = YES;
+		
+	} else {
+		[self setDefaultImage];
+	}
+	
+	return result;
+}
+
+- (BOOL)removePersistedUserImage {
+	BOOL result = YES;
+	NSURL *url = [TCMMMUser applicationSupportURLForUserImage];
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	NSError *error = nil;
+	[fileManager removeItemAtURL:url error:&error];
+	if (error) {
+		result = NO;
+	}
+	return result;
+}
+
 @end

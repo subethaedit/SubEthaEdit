@@ -504,9 +504,6 @@
 /* Menu Entry for opening files in a new window. */
 "Open in New Window..." = "In neuem Fenster öffnen…";
 
-/* Menu item in alternate mode menu for opening the library modes folder. */
-"Open Library Modes Folder" = "Modus-Ordner in „/Library“ öffnen";
-
 /* Web preview open link in browser contextual menu item */
 "Open Link in Browser" = "Link in Web-Browser öffnen";
 
@@ -954,6 +951,9 @@
 
 /* Message that gets displayed when SEE needs the user to grant access to an unopend file. */
 "ScopedBookmarkAllowFileMessageFormatString" = "Es werden Zugriffsrechte auf %@ benötigt. Die Auswahl eines Ordners, der alle referenzieren Dateien beinhaltet, ermöglicht es alle Inhalte korrekt anzuzeigen.";
+
+/* Message that gets displayed when SEE needs the user to grant access to an unopend file accessed by apple script*/
+"ScopedBookmarkAllowScriptedFileMessageFormatString" = "AppleScript benötig Zugriff auf % um mit dem Script fortfahren zu können.";
 
 /* FileName placeholder that gets displayed when SEE needs the user to grant access to an unopend file. */
 "ScopedBookmarkAllowFileMessageUnknownFileName" = "Daten";
