@@ -406,6 +406,11 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 	}
 }
 
+- (BOOL)showsParticipantsOverlay {
+	BOOL result = [self.plainTextEditors.lastObject hasBottomOverlayView];
+	return result;
+}
+
 #pragma mark - Restorable State
 
 + (NSArray *)restorableStateKeyPaths {

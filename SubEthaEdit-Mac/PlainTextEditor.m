@@ -45,6 +45,7 @@
 #import "SEEPlainTextEditorTopBarViewController.h"
 #import "SEEOverlayView.h"
 #import "NSLayoutConstraint+TCMAdditions.h"
+#import "TCMHoverButton.h"
 
 NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDidFollowUserNotification";
 NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEditorDidChangeSearchScopeNotification";
@@ -91,8 +92,10 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
 @property (nonatomic, strong) IBOutlet NSView *O_editorView;
 @property (nonatomic, strong) IBOutlet SEEOverlayView *O_bottomStatusBarView;
-@property (nonatomic, assign) IBOutlet NSButton *shareInviteUsersButtonOutlet;
-@property (nonatomic, assign) IBOutlet NSButton *shareAnnounceButtonOutlet;
+@property (nonatomic, assign) IBOutlet TCMHoverButton *shareInviteUsersButtonOutlet;
+@property (nonatomic, assign) IBOutlet TCMHoverButton *shareAnnounceButtonOutlet;
+@property (nonatomic, assign) IBOutlet TCMHoverButton *showParticipantsButtonOutlet;
+
 @property (nonatomic, assign) IBOutlet NSObjectController *ownerController;
 @property (nonatomic, strong) NSArray *topLevelNibObjects;
 @property (nonatomic, strong) NSViewController *bottomOverlayViewController;
@@ -482,6 +485,10 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
 	[self.shareInviteUsersButtonOutlet sendActionOn:NSLeftMouseDownMask];
 
+	[self.shareInviteUsersButtonOutlet setImagesByPrefix:@"BottomBarSharingIconAdd"];
+	[self.showParticipantsButtonOutlet setImagesByPrefix:@"BottomBarSharingIconGroupTurnOn"];
+	[self.shareAnnounceButtonOutlet setImagesByPrefix:@"BottomBarSharingIconAnnounceTurnOn"];
+	
     LayoutManager *layoutManager = [LayoutManager new];
     [[document textStorage] addLayoutManager:layoutManager];
 
@@ -642,9 +649,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	NSScrollerKnobStyle knobStyle = isDark ? NSScrollerKnobStyleLight : NSScrollerKnobStyleDefault;
 	[[O_scrollView verticalScroller] setKnobStyle:knobStyle];
 	[[O_scrollView horizontalScroller] setKnobStyle:knobStyle];
-	
-	[self.shareAnnounceButtonOutlet setImage:[NSImage imageNamed:isDark ? @"BottomBarSharingIconAnnounceDarkBackground_Inactive" : @"BottomBarSharingIconAnnounce_Inactive"]];
-	
+		
 	// overlays?
 	NSViewController *bottomOverlayViewController = self.bottomOverlayViewController;
 	if (bottomOverlayViewController) {
@@ -877,38 +882,35 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 - (void)updateAnnounceButton {
-	NSImage *announceImage = [NSImage imageNamed:@"BottomBarSharingIconAnnounce"];
+	BOOL isAnnounced = self.document.isAnnounced;
+	[self.shareAnnounceButtonOutlet setImagesByPrefix:isAnnounced ?
+	 @"BottomBarSharingIconAnnounceTurnOff" :
+	 @"BottomBarSharingIconAnnounceTurnOn"];
+	
+	if (isAnnounced) {
+		TCMMMSession *session = self.document.session;
+		switch (session.accessState) {
 
-	PlainTextDocument *document = self.document;
-	TCMMMSession *session = document.session;
-	switch (session.accessState) {
-		case TCMMMSessionAccessLockedState:
-			self.alternateAnnounceImage = announceImage;
-			break;
+			case TCMMMSessionAccessReadOnlyState:
+				self.shareAnnounceButtonOutlet.normalImage = [NSImage imageNamed:@"BottomBarSharingIconAnnounceTurnOffNormalReadOnly"];
+				break;
 
-		case TCMMMSessionAccessReadOnlyState:
-			self.alternateAnnounceImage = [announceImage imageTintedWithColor:[NSColor orangeColor] invert:YES];
-			break;
+			case TCMMMSessionAccessReadWriteState:
+				self.shareAnnounceButtonOutlet.normalImage = [NSImage imageNamed:@"BottomBarSharingIconAnnounceTurnOffNormalReadWrite"];
+				break;
 
-		case TCMMMSessionAccessReadWriteState:
-			self.alternateAnnounceImage = [announceImage imageTintedWithColor:[NSColor blueColor] invert:YES];
-			break;
+			case TCMMMSessionAccessLockedState:
+			default:
+				// intentionally nothing
+				break;
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunreachable-code"
-		default:
-			self.alternateAnnounceImage = announceImage;
-			break;
-#pragma clang diagnostic pop
-
+		}
 	}
-
-	NSInteger buttonState = document.isAnnounced?NSOnState:NSOffState;
-	[self.shareAnnounceButtonOutlet setState:NSOffState]; // This is realy dirty!
-	// need to make the state switch in order force alternate image update in a layer backed view hierarchy on 10.9.1
-	[self.shareAnnounceButtonOutlet setState:buttonState];
 }
 
+- (void)updateShowParticipantsButton {
+	
+}
 
 - (NSView *)editorView
 {
@@ -1331,6 +1333,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	[self updateBottomPinConstraints];
 	[self TCM_updateLocalizedToolTips];
 	[self adjustToScrollViewInsets];
+	[self.showParticipantsButtonOutlet setImagesByPrefix:I_windowControllerTabContext.showsParticipantsOverlay ? @"BottomBarSharingIconGroupTurnOff":@"BottomBarSharingIconGroupTurnOn"];
 }
 
 - (BOOL)hasTopOverlayView {
