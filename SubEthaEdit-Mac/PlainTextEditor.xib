@@ -79,7 +79,7 @@
                             </connections>
                         </button>
                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="Icy-2O-9Qz" userLabel="Participant Count Label">
-                            <rect key="frame" x="486" y="1" width="18" height="16"/>
+                            <rect key="frame" x="486" y="1" width="20" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                             <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" alignment="right" title="1" id="ak1-Tg-g3g">
                                 <font key="font" metaFont="cellTitle"/>
@@ -97,7 +97,7 @@
                             </connections>
                         </textField>
                         <button id="OwG-YH-zbO" userLabel="Participants Button" customClass="TCMHoverButton">
-                            <rect key="frame" x="503" y="2" width="24" height="14"/>
+                            <rect key="frame" x="505" y="2" width="24" height="14"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                             <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="BottomBarSharingIconGroupTurnOnNormal" imagePosition="only" alignment="center" controlSize="mini" imageScaling="proportionallyDown" inset="2" id="tKL-KY-Fjg">
                                 <behavior key="behavior" lightByContents="YES"/>
