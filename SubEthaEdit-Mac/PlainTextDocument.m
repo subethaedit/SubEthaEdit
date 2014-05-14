@@ -3473,7 +3473,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         }
      }
 
-	if (needsAuthenticatedSave) {
+	if (needsAuthenticatedSave && (saveOperationType != NSAutosaveOperation)) {
 		if (outError) {
 			*outError = [NSError errorWithDomain:@"SEEDocumentSavingDomain" code:0X0FF userInfo:nil];
 		}
