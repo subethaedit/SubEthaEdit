@@ -3240,15 +3240,18 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 		[self continueActivityUsingBlock:^{
 			NSError *fileSavingError = error;
-			[self performActivityWithSynchronousWaiting:YES usingBlock:^(void (^activityCompletionHandler)(void)) {
-				if ([error.domain isEqualToString:@"SEEDocumentSavingDomain"] && error.code == 0x0FF) {
-					hasBeenWritten = [self writeUsingAuthenticationToURL:url ofType:typeName saveOperation:saveOperation error:&authenticationError];
-					[authenticationError retain];
-					activityCompletionHandler();
-				} else {
-					activityCompletionHandler();
-				}
-			}];
+
+			if (saveOperation != NSAutosaveOperation) {
+				[self performActivityWithSynchronousWaiting:YES usingBlock:^(void (^activityCompletionHandler)(void)) {
+					if ([error.domain isEqualToString:@"SEEDocumentSavingDomain"] && error.code == 0x0FF) {
+						hasBeenWritten = [self writeUsingAuthenticationToURL:url ofType:typeName saveOperation:saveOperation error:&authenticationError];
+						[authenticationError retain];
+						activityCompletionHandler();
+					} else {
+						activityCompletionHandler();
+					}
+				}];
+			}
 
 			if (hasBeenWritten) {
 				fileSavingError = nil;
