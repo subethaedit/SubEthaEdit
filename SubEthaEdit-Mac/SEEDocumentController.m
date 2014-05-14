@@ -231,7 +231,7 @@ NSString *const RecentDocumentsDidChangeNotification = @"RecentDocumentsDidChang
 	Class documentClass = [super documentClassForType:typeName];
 	if ([typeName isEqualToString:@"de.codingmonkeys.subethaedit.seetext"] && [documentClass class] != [PlainTextDocument class]) {
 		documentClass = [PlainTextDocument class];
-	} else if ([typeName isEqualToString:@"de.codingmonkeys.subethaedit.mode"] && [documentClass class] != [PlainTextDocument class]) {
+	} else if ([typeName isEqualToString:@"de.codingmonkeys.subethaedit.seemode"] && [documentClass class] != [PlainTextDocument class]) {
 		documentClass = [PlainTextDocument class];
 	}
 

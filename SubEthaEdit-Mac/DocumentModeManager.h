@@ -10,6 +10,7 @@
 #import "DocumentMode.h"
 #import "SEEStyleSheet.h"
 
+// [[NSWorkspace sharedWorkspace] preferredFilenameExtensionForType:@"de.codingmonkeys.subethaedit.seemode"]
 #define MODE_EXTENSION @"seemode"
 #define BASEMODEIDENTIFIER @"SEEMode.Base"
 #define AUTOMATICMODEIDENTIFIER @"SEEMode.Automatic"
