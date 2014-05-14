@@ -194,7 +194,6 @@ static DocumentModeManager *S_sharedInstance=nil;
 
 #pragma mark - Directories
 
-#define MODE_EXTENSION @"mode"
 #define BUNDLE_MODE_FOLDER_NAME @"Modes"
 #define LIBRARY_MODE_FOLDER_NAME @"Modes"
 
@@ -573,7 +572,7 @@ static DocumentModeManager *S_sharedInstance=nil;
 - (NSString *)pathForWritingMode:(DocumentMode *)aMode {
 	[self createUserApplicationSupportDirectory];
 	NSString *modeFolderPath = [[self URLWithAddedBundleIdentifierDirectoryForURL:[self applicationSupportDirectory] subDirectoryName:LIBRARY_MODE_FOLDER_NAME] path];
-	NSString *fullPath = [[modeFolderPath stringByAppendingPathComponent:[aMode displayName]] stringByAppendingPathExtension:@"mode"];
+	NSString *fullPath = [[modeFolderPath stringByAppendingPathComponent:[aMode displayName]] stringByAppendingPathExtension:MODE_EXTENSION];
     return fullPath;
 }
 
@@ -630,8 +629,9 @@ static DocumentModeManager *S_sharedInstance=nil;
     NSURL *fileURL = nil;
     while ((url = [enumerator nextObject])) {
         NSDirectoryEnumerator *dirEnumerator = [[NSFileManager defaultManager] enumeratorAtURL:url includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles errorHandler:NULL];
+		NSString *modeExtension = MODE_EXTENSION;
         while ((fileURL = [dirEnumerator nextObject])) {
-            if ([[fileURL pathExtension] isEqualToString:MODE_EXTENSION]) {
+            if ([[fileURL pathExtension] isEqualToString:modeExtension]) {
                 NSBundle *bundle = [NSBundle bundleWithURL:fileURL];
                 if (bundle && [bundle bundleIdentifier]) {
                     if (![DocumentMode canParseModeVersionOfBundle:bundle]) {

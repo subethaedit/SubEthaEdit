@@ -62,7 +62,7 @@ void * const SEERecentDocumentURLObservingContext = (void *)&SEERecentDocumentUR
 		NSString *fileType = (CFBridgingRelease(UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (__bridge CFStringRef)fileExtension, nil)));
 		image = [[NSWorkspace sharedWorkspace] iconForFileType:fileType];
 	} else {
-		image = [[NSWorkspace sharedWorkspace] iconForFileType:@"public.text"];
+		image = [[NSWorkspace sharedWorkspace] iconForFileType:(NSString *)kUTTypePlainText];
 	}
 	self.image = image;
 	self.image = image;

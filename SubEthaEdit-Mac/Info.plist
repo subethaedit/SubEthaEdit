@@ -2357,7 +2357,7 @@
 			<string>Owner</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>de.codingmonkeys.subethaedit.mode</string>
+				<string>de.codingmonkeys.subethaedit.seemode</string>
 			</array>
 			<key>LSTypeIsPackage</key>
 			<true/>
@@ -3710,12 +3710,12 @@
 			<key>UTTypeDescription</key>
 			<string>SubEthaEditModeType</string>
 			<key>UTTypeIdentifier</key>
-			<string>de.codingmonkeys.subethaedit.mode</string>
+			<string>de.codingmonkeys.subethaedit.seemode</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>
 				<array>
-					<string>mode</string>
+					<string>seemode</string>
 				</array>
 			</dict>
 		</dict>

@@ -1079,7 +1079,7 @@ static NSString *tempFileName(NSString *origPath) {
 					NSString *fileType = (NSString *)UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (CFStringRef)fileExtension, nil);
 					self.fileType = [fileType autorelease];
 				} else {
-					self.fileType = @"public.text";
+					self.fileType = (NSString *)kUTTypeText;
 				}
 
                 if ([I_session isServer]) {
@@ -2616,14 +2616,14 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
             if ([[accessoryViewController.savePanelAccessoryFileFormatMatrixOutlet selectedCell] tag] == 1) {
                 aType = @"de.codingmonkeys.subethaedit.seetext";
 			} else {
-//                aType = @"public.data";
+//                aType = (NSString *)kUTTypeData;
             }
 		} else if (didShowPanel) {
             if ([[accessoryViewController.savePanelAccessoryFileFormatMatrixOutlet selectedCell] tag] == 1) {
                 aType = @"de.codingmonkeys.subethaedit.seetext";
                 I_flags.isSEEText = YES;
             } else {
-//                aType = @"public.data";
+//                aType = (NSString *)kUTTypeData;
                 I_flags.isSEEText = NO;
             }
 		}
@@ -2936,7 +2936,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 		NSString *fileType = (NSString *)UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (CFStringRef)fileExtension, nil);
 			[self performSelector:@selector(setFileType:) withObject:[fileType autorelease] afterDelay:0.];
 		} else {
-			[self performSelector:@selector(setFileType:) withObject:@"public.text" afterDelay:0.];
+			[self performSelector:@selector(setFileType:) withObject:(NSString *)kUTTypeText afterDelay:0.];
 		}
     }
     if (!fileExists || (isDir && !UTTypeConformsTo((CFStringRef)docType, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext"))) {
@@ -3711,7 +3711,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 	//-timelog    NSDate *startDate = [NSDate date];
 	//-timelog    NSLog(@"%s %@ %@ %d %@",__FUNCTION__, absoluteURL, inTypeName, saveOperation,originalContentsURL);
     DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"write to:%@ type:%@ saveOperation:%lu originalURL:%@", absoluteURL, inType, (unsigned long)saveOperation,originalContentsURL);
-    if (UTTypeConformsTo((CFStringRef)inType, (CFStringRef)@"public.data")) {
+    if (UTTypeConformsTo((CFStringRef)inType, kUTTypeData)) {
         BOOL modeWantsUTF8BOM = [[[self documentMode] defaultForKey:DocumentModeUTF8BOMPreferenceKey] boolValue];
         DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"modeWantsUTF8BOM: %d, hasUTF8BOM: %d", modeWantsUTF8BOM, I_flags.hasUTF8BOM);
         BOOL useUTF8Encoding = ((I_lastSaveOperation == NSSaveToOperation) && (I_encodingFromLastRunSaveToOperation == NSUTF8StringEncoding)) || ((I_lastSaveOperation != NSSaveToOperation) && ([self fileEncoding] == NSUTF8StringEncoding));

@@ -231,7 +231,7 @@ NSString *const RecentDocumentsDidChangeNotification = @"RecentDocumentsDidChang
 	Class documentClass = [super documentClassForType:typeName];
 	if ([typeName isEqualToString:@"de.codingmonkeys.subethaedit.seetext"] && [documentClass class] != [PlainTextDocument class]) {
 		documentClass = [PlainTextDocument class];
-	} else if ([typeName isEqualToString:@"de.codingmonkeys.subethaedit.mode"] && [documentClass class] != [PlainTextDocument class]) {
+	} else if ([typeName isEqualToString:@"de.codingmonkeys.subethaedit.seemode"] && [documentClass class] != [PlainTextDocument class]) {
 		documentClass = [PlainTextDocument class];
 	}
 
@@ -611,13 +611,14 @@ NSString *const RecentDocumentsDidChangeNotification = @"RecentDocumentsDidChang
 		[self setEncodingFromLastRunOpenPanel:[[openPanelAccessoryViewController.encodingPopUpButtonOutlet selectedItem] tag]];
 
 		if (result == NSFileHandlingPanelOKButton) {
+			NSString *modeExtension = MODE_EXTENSION;
 			for (NSURL *URL in openPanel.URLs) {
 				if ([URL isFileURL]) {
 					NSString *fileName = [URL path];
 					BOOL isDir = NO;
 					BOOL isFilePackage = [[NSWorkspace sharedWorkspace] isFilePackageAtPath:fileName];
 					NSString *extension = [fileName pathExtension];
-					if (isFilePackage && [extension isEqualToString:@"mode"]) {
+					if (isFilePackage && [extension isEqualToString:modeExtension]) {
 						// this is done in openDocumentWithContentsOfURL:display:completionHandler:
 						//[self openModeFile:fileName];
 					} else if ([[NSFileManager defaultManager] fileExistsAtPath:fileName isDirectory:&isDir] && isDir && !isFilePackage) {
@@ -692,7 +693,7 @@ NSString *const RecentDocumentsDidChangeNotification = @"RecentDocumentsDidChang
     NSString *extension = [filename pathExtension];
     BOOL isDirectory = NO;
     [[NSFileManager defaultManager] fileExistsAtPath:[url path] isDirectory:&isDirectory];
-    if (isFilePackage && [extension isEqualToString:@"mode"]) {
+    if (isFilePackage && [extension isEqualToString:MODE_EXTENSION]) {
         [self openModeFile:filename];
 
 		if (completionHandler) {
@@ -1051,15 +1052,15 @@ NSString *const RecentDocumentsDidChangeNotification = @"RecentDocumentsDidChang
     } else if ([directParameter isKindOfClass:[NSURL class]]) {
         [files addObject:[directParameter path]];
     }
-    
-    NSString *filename;
-    for (filename in files) {
+
+    NSString *modeExtension = MODE_EXTENSION;
+    for (NSString *filename in files) {
 		BOOL isSEEStdinTempFile = [[filename pathExtension] isEqualToString:@"seetmpstdin"];
 		if (isSEEStdinTempFile) continue;
         BOOL isDir = NO;
         BOOL isFilePackage = [[NSWorkspace sharedWorkspace] isFilePackageAtPath:filename];
         NSString *extension = [filename pathExtension];
-        if (isFilePackage && [extension isEqualToString:@"mode"]) {
+        if (isFilePackage && [extension isEqualToString:modeExtension]) {
             [self openModeFile:filename];
         } else if ([[NSFileManager defaultManager] fileExistsAtPath:filename isDirectory:&isDir] && isDir && !isFilePackage) {
             [self openDirectory:filename];
@@ -1348,7 +1349,7 @@ NSString *const RecentDocumentsDidChangeNotification = @"RecentDocumentsDidChang
             [document setScriptingProperties:properties];
             [I_propertiesForOpenedFiles setObject:properties forKey:standardInputFile];
             [(PlainTextDocument *)document resizeAccordingToDocumentMode];
-            [document readFromURL:[NSURL fileURLWithPath:standardInputFile] ofType:@"public.plain-text" error:NULL];
+            [document readFromURL:[NSURL fileURLWithPath:standardInputFile] ofType:(NSString *)kUTTypePlainText error:NULL];
 
 			[(PlainTextDocument *)document autosaveForStateRestore];
 
@@ -1550,7 +1551,7 @@ struct ModificationInfo
                     if (isPiping) {
                         NSString *fileName = tempFileName();
                         NSError *error = nil;
-                        BOOL result = [doc writeToURL:[NSURL fileURLWithPath:fileName] ofType:@"public.plain-text" error:&error];
+                        BOOL result = [doc writeToURL:[NSURL fileURLWithPath:fileName] ofType:(NSString *)kUTTypePlainText error:&error];
                         if (result) {
                             [fileNames addObject:fileName];
                         } else {
