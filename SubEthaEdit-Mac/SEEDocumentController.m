@@ -987,7 +987,7 @@ NSString *const RecentDocumentsDidChangeNotification = @"RecentDocumentsDidChang
 	// we don't get events of unmounting media etc right now.
 	NSNotification *recentDocumentsDidChangeNotification = [NSNotification notificationWithName:RecentDocumentsDidChangeNotification object:self];
 	[[NSNotificationQueue defaultQueue] enqueueNotification:recentDocumentsDidChangeNotification
-											   postingStyle:NSPostASAP
+											   postingStyle:NSPostWhenIdle
 											   coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender
 												   forModes:@[NSRunLoopCommonModes]];
 }
@@ -997,7 +997,7 @@ NSString *const RecentDocumentsDidChangeNotification = @"RecentDocumentsDidChang
 
 	NSNotification *recentDocumentsDidChangeNotification = [NSNotification notificationWithName:RecentDocumentsDidChangeNotification object:self];
 	[[NSNotificationQueue defaultQueue] enqueueNotification:recentDocumentsDidChangeNotification
-											   postingStyle:NSPostASAP
+											   postingStyle:NSPostWhenIdle
 											   coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender
 												   forModes:@[NSRunLoopCommonModes]];
 }
