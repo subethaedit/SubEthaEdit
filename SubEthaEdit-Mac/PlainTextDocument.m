@@ -4546,34 +4546,46 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 #pragma mark -
 
++ (NSString *)displayStringWithAdditionalPathComponentsForPathComponents:(NSArray *)aPathComponentsArray {
+	NSString *result = nil;
+	NSInteger count = (NSInteger)[aPathComponentsArray count];
+	if (count > 0) {
+		if (count==1) {
+			result = aPathComponentsArray.lastObject;
+		} else {
+			NSMutableString *mutableResult = [NSMutableString string];
+			NSInteger i = 0;
+			NSInteger pathComponentsToShow = [[NSUserDefaults standardUserDefaults] integerForKey:AdditionalShownPathComponentsPreferenceKey] + 1;
+			for (i = count-1; i >= 1 && i > count-pathComponentsToShow-1; i--) {
+				if (i != count-1) {
+					[mutableResult insertString:@"/" atIndex:0];
+				}
+				[mutableResult insertString:aPathComponentsArray[i] atIndex:0];
+			}
+			if (pathComponentsToShow>1 && i<1 && [aPathComponentsArray[0] isEqualToString:@"/"]) {
+				[mutableResult insertString:@"/" atIndex:0];
+			}
+			result = [[mutableResult copy] autorelease];
+		}
+	}
+	return result;
+}
+
 - (NSString *)preparedDisplayName {
     NSArray *pathComponents = nil;
+	NSString *result = nil;
     if ([self fileURL]) {
         pathComponents = [self.fileURL.path pathComponents];
     } else if ([self temporaryDisplayName]) {
         pathComponents = [[self temporaryDisplayName] pathComponents];
     } 
     
-    if (pathComponents) {
-        NSUInteger count = [pathComponents count];
-        if (count==1) return [pathComponents lastObject];
+	result = [PlainTextDocument displayStringWithAdditionalPathComponentsForPathComponents:pathComponents];
+	if (!result) {
+		result = [self displayName];
+	}
 
-        NSMutableString *result = [NSMutableString string];
-		NSInteger i = 0;
-        NSInteger pathComponentsToShow = [[NSUserDefaults standardUserDefaults] integerForKey:AdditionalShownPathComponentsPreferenceKey] + 1;
-        for (i = count-1; i >= 1 && i > count-pathComponentsToShow-1; i--) {
-            if (i != count-1) {
-                [result insertString:@"/" atIndex:0];
-            }
-            [result insertString:[pathComponents objectAtIndex:i] atIndex:0];
-        }
-        if (pathComponentsToShow>1 && i<1 && [[pathComponents objectAtIndex:0] isEqualToString:@"/"]) {
-            [result insertString:@"/" atIndex:0];
-        }
-        return result;
-    } else {
-        return [self displayName];
-    }
+	return result;
 }
 
 - (NSString *)displayName {
