@@ -86,6 +86,17 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 }
 
 - (void)setEnabled:(BOOL)isEnabled {
+	NSWindow *window = self.view.window;
+	id firstResponder = window.firstResponder;
+
+	if (firstResponder == [window fieldEditor:NO forObject:self.findTextField]) {
+		[window makeFirstResponder:self.findTextField];
+	}
+
+	if (firstResponder == [window fieldEditor:NO forObject:self.replaceTextField]) {
+		[window makeFirstResponder:self.replaceTextField];
+	}
+
 	for (id element in @[self.findTextField, self.replaceTextField,self.findPreviousNextSegmentedControl, self.replaceButton,self.replaceAllButton,self.searchOptionsButton, self.findAllButton]) {
 		[element setEnabled:isEnabled];
 	}
