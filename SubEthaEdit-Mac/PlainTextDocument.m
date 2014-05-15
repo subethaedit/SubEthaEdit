@@ -3230,15 +3230,19 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 #pragma mark - Saving
 
-
-- (void)autosaveWithImplicitCancellability:(BOOL)autosavingIsImplicitlyCancellable completionHandler:(void (^)(NSError *))completionHandler
-{
-	[super autosaveWithImplicitCancellability:autosavingIsImplicitlyCancellable completionHandler:completionHandler];
-}
-
 - (void) saveToURL:(NSURL *)url ofType:(NSString *)typeName forSaveOperation:(NSSaveOperationType)saveOperation completionHandler:(void (^)(NSError *))completionHandler
 {
 	NSURL *originalFileURL = self.fileURL;
+
+	// because cocoa stores autosave information relative to its opened file and this fails in an sandbox enviroment
+	// the saving URL is modified here. It's saving its contents to the autosave folder
+	// I think this should be standard behaviour with sandbox and window restore if autosave in place is disabled.
+	if (saveOperation == NSAutosaveElsewhereOperation && originalFileURL != nil) {
+		if (self.autosavedContentsFileURL == nil) { // not yet autosaved in this session?
+			NSURL *autosaveLocationURL = [[NSFileManager defaultManager] URLForDirectory:NSAutosavedInformationDirectory inDomain:NSUserDomainMask appropriateForURL:originalFileURL create:YES error:nil];
+			url = [autosaveLocationURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@_%@", [NSString UUIDString], url.lastPathComponent]];
+		}
+	}
 
 	[super saveToURL:url ofType:typeName forSaveOperation:saveOperation completionHandler:^(NSError *error){
 		__block NSError *authenticationError = nil;
@@ -3267,6 +3271,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 					[self setKeepDocumentVersion:NO];
 				} else if (saveOperation == NSSaveAsOperation) {
 					if ([url isEqualTo:originalFileURL]) {
+						// trigger ODB event if original file gets overwritten
 						[self TCM_sendODBModifiedEvent];
 					} else {
 						[self setODBParameters:nil];
