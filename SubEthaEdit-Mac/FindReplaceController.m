@@ -322,7 +322,7 @@ static FindReplaceController *sharedInstance=nil;
 	} else {
 		
 		NSString *replacementString = [self currentReplaceString];
-		if (![replacementString canBeConvertedToEncoding:[document fileEncoding]]) {
+		if (replacementString && ![replacementString canBeConvertedToEncoding:[document fileEncoding]]) {
 			TCMMMSession *session=[document session];
 			if ([session isServer] && [session participantCount]<=1) {
 				NSDictionary *contextInfo = [NSDictionary dictionaryWithObjectsAndKeys:

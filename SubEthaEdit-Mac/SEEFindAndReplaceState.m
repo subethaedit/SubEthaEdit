@@ -292,4 +292,8 @@ self.regexOptions = options
 	return result;
 }
 
+- (void)setReplaceString:(NSString *)replaceString {
+	_replaceString = replaceString ?: @"";
+}
+
 @end
