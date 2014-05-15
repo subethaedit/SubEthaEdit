@@ -295,6 +295,19 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 
 		{
 			NSArray *allConnections = [[SEEConnectionManager sharedInstance] entries];
+			
+			allConnections = [allConnections sortedArrayUsingComparator:^NSComparisonResult(SEEConnection *connection1, SEEConnection *connection2) {
+				NSComparisonResult result = NSOrderedSame;
+				char value1 = connection1.announcedSessions.count > 0 ? 0 : 1;
+				char value2 = connection2.announcedSessions.count > 0 ? 0 : 1;
+				result = TCM_SCALAR_COMPARE(value1, value2);
+				if (result == NSOrderedSame) {
+					result = [connection1.user.name compare:connection2.user.name options:NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSWidthInsensitiveSearch | NSForcedOrderingSearch | NSNumericSearch];
+				}
+				
+				return result;
+			}];
+			
 			for (SEEConnection *connection in allConnections) {
 				{
 					if (connection.isVisible) {

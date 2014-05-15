@@ -329,6 +329,11 @@ NSString * const SEEConnectionStatusDidChangeNotification = @"SEEConnectionStatu
         [toolTipArray addObject:NSLocalizedString(@"Inbound Connection", @"Inbound Connection ToolTip")];
     }
     
+	NSString *URLString = [[TCMMMPresenceManager sharedInstance] reachabilityURLStringOfUserID:user.userID];
+	if (URLString) {
+		[toolTipArray addObject:URLString];
+	}
+	
     return [toolTipArray count] > 0 ? [toolTipArray componentsJoinedByString:@"\n"] : nil;
 }
 
