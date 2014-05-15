@@ -2470,7 +2470,7 @@ struct SelectionRange
 
 - (void)runModalSavePanelForSaveOperation:(NSSaveOperationType)saveOperation delegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)contextInfo {
     I_lastSaveOperation = saveOperation;
-	if (I_flags.shouldSelectModeOnSave && (saveOperation != NSAutosaveOperation)) {
+	if (I_flags.shouldSelectModeOnSave && (saveOperation != NSAutosaveElsewhereOperation)) {
 		DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForPath:nil withContentString:[[self textStorage] string]];
 
 		if (![mode isBaseMode]) {
@@ -2577,12 +2577,12 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 - (void)saveToURL:(NSURL *)anAbsoluteURL ofType:(NSString *)aType forSaveOperation:(NSSaveOperationType)saveOperation delegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)aContextInfo {
     BOOL didShowPanel = NO;
-    if (saveOperation != NSAutosaveOperation) {
+    if (saveOperation != NSAutosaveElsewhereOperation) {
         didShowPanel = (self.currentSavePanel)?YES:NO;
     }
     
     if (anAbsoluteURL) {
-        if (I_flags.shouldSelectModeOnSave && (saveOperation != NSAutosaveOperation)) {
+        if (I_flags.shouldSelectModeOnSave && (saveOperation != NSAutosaveElsewhereOperation)) {
             DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForPath:[anAbsoluteURL path] withContentString:[[self textStorage] string]];
 
             if (![mode isBaseMode]) {
@@ -2591,7 +2591,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
             I_flags.shouldSelectModeOnSave=NO;
         }
         // we have saved, so no more extension changing
-        if (I_flags.shouldChangeExtensionOnModeChange && (saveOperation != NSAutosaveOperation)) {
+        if (I_flags.shouldChangeExtensionOnModeChange && (saveOperation != NSAutosaveElsewhereOperation)) {
             I_flags.shouldChangeExtensionOnModeChange=NO;
         }
 
@@ -3230,6 +3230,12 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 #pragma mark - Saving
 
+
+- (void)autosaveWithImplicitCancellability:(BOOL)autosavingIsImplicitlyCancellable completionHandler:(void (^)(NSError *))completionHandler
+{
+	[super autosaveWithImplicitCancellability:autosavingIsImplicitlyCancellable completionHandler:completionHandler];
+}
+
 - (void) saveToURL:(NSURL *)url ofType:(NSString *)typeName forSaveOperation:(NSSaveOperationType)saveOperation completionHandler:(void (^)(NSError *))completionHandler
 {
 	NSURL *originalFileURL = self.fileURL;
@@ -3241,7 +3247,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 		[self continueActivityUsingBlock:^{
 			NSError *fileSavingError = error;
 
-			if (saveOperation != NSAutosaveOperation) {
+			if (saveOperation != NSAutosaveElsewhereOperation) {
 				[self performActivityWithSynchronousWaiting:YES usingBlock:^(void (^activityCompletionHandler)(void)) {
 					if ([error.domain isEqualToString:@"SEEDocumentSavingDomain"] && error.code == 0x0FF) {
 						hasBeenWritten = [self writeUsingAuthenticationToURL:url ofType:typeName saveOperation:saveOperation error:&authenticationError];
@@ -3268,13 +3274,13 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 					[self setShouldChangeChangeCount:YES];
 				}
 
-				if (saveOperation != NSSaveToOperation && saveOperation != NSAutosaveOperation) {
+				if (saveOperation != NSSaveToOperation && saveOperation != NSAutosaveElsewhereOperation) {
 					[self setTemporaryDisplayName:nil];
 					[[NSNotificationCenter defaultCenter] postNotificationName:PlainTextDocumentDidSaveShouldReloadWebPreviewNotification object:self];
 				}
 			}
 
-			if (saveOperation != NSSaveToOperation && saveOperation != NSAutosaveOperation) {
+			if (saveOperation != NSSaveToOperation && saveOperation != NSAutosaveElsewhereOperation) {
 				NSDictionary *fattrs = [[NSFileManager defaultManager] attributesOfItemAtPath:url.path error:NULL];
 				[self setFileAttributes:fattrs];
 				[self setIsFileWritable:hasBeenWritten];
@@ -3473,7 +3479,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         }
      }
 
-	if (needsAuthenticatedSave && (saveOperationType != NSAutosaveOperation)) {
+	if (needsAuthenticatedSave && (saveOperationType != NSAutosaveElsewhereOperation)) {
 		if (outError) {
 			*outError = [NSError errorWithDomain:@"SEEDocumentSavingDomain" code:0X0FF userInfo:nil];
 		}
@@ -3661,7 +3667,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
             }
 			//-timelog            NSLog(@"%s loggingState dictionary entry creating took: %fs",__FUNCTION__,[intermediateDate timeIntervalSinceNow]*-1.);
             [compressedDict setObject:[self documentState] forKey:@"DocumentState"];
-            if (saveOperation == NSAutosaveOperation) {
+            if (saveOperation == NSAutosaveElsewhereOperation) {
 				//				NSLog(@"%s write to:%@ type:%@ saveOperation:%d originalURL:%@",__FUNCTION__, absoluteURL, inTypeName, saveOperation,originalContentsURL);
                 NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
 											[self fileType],@"fileType",
@@ -3696,10 +3702,10 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
             if (success) success = [data writeToURL:[NSURL fileURLWithPath:[packagePath stringByAppendingPathComponent:@"collaborationdata.bencoded"]] options:0 error:outError];
 			// autosave in utf-8 always no matter what to accomodate for strange inserted characters
-            if (success) success = [[[(FoldableTextStorage *)[self textStorage] fullTextStorage] string] writeToURL:[NSURL fileURLWithPath:[packagePath stringByAppendingPathComponent:@"plain.txt"]] atomically:NO encoding:(saveOperation == NSAutosaveOperation) ? NSUTF8StringEncoding : [self fileEncoding] error:outError];
+            if (success) success = [[[(FoldableTextStorage *)[self textStorage] fullTextStorage] string] writeToURL:[NSURL fileURLWithPath:[packagePath stringByAppendingPathComponent:@"plain.txt"]] atomically:NO encoding:(saveOperation == NSAutosaveElsewhereOperation) ? NSUTF8StringEncoding : [self fileEncoding] error:outError];
             if (success) success = [self writeMetaDataToURL:[NSURL fileURLWithPath:[packagePath stringByAppendingPathComponent:@"metadata.xml"]] error:outError];
 
-            if (saveOperation != NSAutosaveOperation) {
+            if (saveOperation != NSAutosaveElsewhereOperation) {
                 NSString *quicklookPath = [packagePath stringByAppendingPathComponent:@"QuickLook"];
                 if (success) success = [fm createDirectoryAtPath:quicklookPath withIntermediateDirectories:YES attributes:nil error:nil];
                 if (success) {
