@@ -227,6 +227,7 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 
 			self.editorSplitView = nil;
 			PlainTextEditor *editorToClose = plainTextEditors[1];
+			[plainTextEditors removeObjectAtIndex:1];
 
 			// show participant overlay if split gets toggled
 			if ([editorToClose hasBottomOverlayView]) {
@@ -237,7 +238,6 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 
 			[plainTextEditors[0] setShowsBottomStatusBar:[editorToClose showsBottomStatusBar]];
 			[editorToClose prepareForDealloc];
-			[plainTextEditors removeObjectAtIndex:1];
 			self.editorSplitView = nil;
 
 			// restore scroll position of second editor if it was the selected one
