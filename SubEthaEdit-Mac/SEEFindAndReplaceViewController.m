@@ -445,6 +445,17 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 	return YES;
 }
 
+#pragma mark NSTextFieldDelegate
+
+- (BOOL)control:(NSControl *)control textView:(NSTextView *)textView doCommandBySelector:(SEL)commandSelector {
+	if (commandSelector == @selector(cancelOperation:)) {
+		[self dismissAction:control];
+		return YES;
+	} else {
+		return NO;
+	}
+}
+
 #pragma mark - NSMenu delegate
 
 - (NSInteger)numberOfItemsInMenu:(NSMenu *)menu {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13D61" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5053"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="SEEFindAndReplaceViewController">
@@ -47,6 +47,7 @@
                     </textFieldCell>
                     <connections>
                         <action selector="findAndReplaceAction:" target="-2" id="W0E-C2-wWO"/>
+                        <outlet property="delegate" destination="-2" id="EP1-aS-71M"/>
                         <outlet property="nextKeyView" destination="gqM-vr-cXm" id="J4O-d8-vAs"/>
                     </connections>
                 </textField>
@@ -62,6 +63,7 @@
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                     <connections>
+                        <outlet property="delegate" destination="-2" id="TY8-fj-iMz"/>
                         <outlet property="nextKeyView" destination="b8n-nP-ifa" id="xl6-eW-1E4"/>
                     </connections>
                 </textField>
@@ -103,10 +105,10 @@
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" tag="1001" translatesAutoresizingMaskIntoConstraints="NO" id="Un5-SX-sFi" userLabel="FindAllButton">
-                    <rect key="frame" x="222" y="4" width="70" height="19"/>
+                    <rect key="frame" x="222" y="4" width="71" height="19"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="70" id="vde-Dg-aDB"/>
+                        <constraint firstAttribute="width" constant="71" id="vde-Dg-aDB"/>
                     </constraints>
                     <buttonCell key="cell" type="roundRect" title="Find All" bezelStyle="roundedRect" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="YXR-QR-Jyz">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -132,7 +134,7 @@
                     </connections>
                 </button>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uFk-KV-jTR">
-                    <rect key="frame" x="48" y="5" width="136" height="16"/>
+                    <rect key="frame" x="48" y="5" width="170" height="16"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="&lt;feedback label>" id="m8A-jd-4bL">
                         <font key="font" size="12" name="LucidaGrande"/>
@@ -202,7 +204,7 @@
                 <constraint firstAttribute="trailing" secondItem="adi-Uu-d9V" secondAttribute="trailing" constant="4" id="rnS-Xe-gcm"/>
                 <constraint firstItem="x9b-yD-DHi" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="4" id="t8p-TT-fKz"/>
                 <constraint firstItem="gqM-vr-cXm" firstAttribute="width" secondItem="b8n-nP-ifa" secondAttribute="width" id="uwX-Eg-c8V"/>
-                <constraint firstItem="uFk-KV-jTR" firstAttribute="trailing" secondItem="b8n-nP-ifa" secondAttribute="trailing" constant="-34" id="xBd-NT-EJZ"/>
+                <constraint firstItem="uFk-KV-jTR" firstAttribute="trailing" secondItem="b8n-nP-ifa" secondAttribute="trailing" id="xBd-NT-EJZ"/>
                 <constraint firstItem="uFk-KV-jTR" firstAttribute="leading" secondItem="b8n-nP-ifa" secondAttribute="leading" constant="2" id="xha-2g-kA7"/>
             </constraints>
             <backgroundFilters>
