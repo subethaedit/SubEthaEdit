@@ -631,26 +631,16 @@ static NSPoint S_cascadePoint = {0.0,0.0};
         displayName = [[document ODBParameters] objectForKey:@"keyFileCustomPath"];
     } else {
         NSArray *pathComponents = [[document fileURL] pathComponents];
-        int count = [pathComponents count];
-        if (count != 0) {
-            NSMutableString *result = [NSMutableString string];
-            int i = 0;
-            int pathComponentsToShow = [[NSUserDefaults standardUserDefaults] integerForKey:AdditionalShownPathComponentsPreferenceKey] + 1;
-            for (i = count-1; i >= 1 && i > count-pathComponentsToShow-1; i--) {
-                if (i != count-1) {
-                    [result insertString:@"/" atIndex:0];
-                }
-                [result insertString:[pathComponents objectAtIndex:i] atIndex:0];
-            }
-            if (pathComponentsToShow>1 && i<1 && [[pathComponents objectAtIndex:0] isEqualToString:@"/"]) {
-                [result insertString:@"/" atIndex:0];
-            }
-            displayName = result;
-        } else {
+		NSString *changedName = [PlainTextDocument displayStringWithAdditionalPathComponentsForPathComponents:pathComponents];
+		
+        if (!changedName) {
             if (session && ![session isServer]) {
-                displayName = [session filename];
+                changedName = [session filename];
             }
         }
+		if (changedName) {
+			displayName = changedName;
+		}
     }
 
     if (session && ![session isServer]) {

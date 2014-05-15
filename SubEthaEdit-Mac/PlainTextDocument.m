@@ -4546,6 +4546,31 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 #pragma mark -
 
++ (NSString *)displayStringWithAdditionalPathComponentsForPathComponents:(NSArray *)aPathComponentsArray {
+	NSString *result = nil;
+	NSInteger count = (NSInteger)[aPathComponentsArray count];
+	if (count > 0) {
+		if (count==1) {
+			result = aPathComponentsArray.lastObject;
+		} else {
+			NSMutableString *mutableResult = [NSMutableString string];
+			NSInteger i = 0;
+			NSInteger pathComponentsToShow = [[NSUserDefaults standardUserDefaults] integerForKey:AdditionalShownPathComponentsPreferenceKey] + 1;
+			for (i = count-1; i >= 1 && i > count-pathComponentsToShow-1; i--) {
+				if (i != count-1) {
+					[mutableResult insertString:@"/" atIndex:0];
+				}
+				[mutableResult insertString:aPathComponentsArray[i] atIndex:0];
+			}
+			if (pathComponentsToShow>1 && i<1 && [aPathComponentsArray[0] isEqualToString:@"/"]) {
+				[mutableResult insertString:@"/" atIndex:0];
+			}
+			result = [[mutableResult copy] autorelease];
+		}
+	}
+	return result;
+}
+
 - (NSString *)preparedDisplayName {
     NSArray *pathComponents = nil;
 	NSString *result = nil;
@@ -4555,29 +4580,11 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         pathComponents = [[self temporaryDisplayName] pathComponents];
     } 
     
-    if (pathComponents && pathComponents.count > 0) {
-        NSInteger count = (NSInteger)[pathComponents count];
-        if (count==1) {
-			result = [pathComponents lastObject];
-		} else {
+	result = [PlainTextDocument displayStringWithAdditionalPathComponentsForPathComponents:pathComponents];
+	if (!result) {
+		result = [self displayName];
+	}
 
-			NSMutableString *mutableResult = [NSMutableString string];
-			NSInteger i = 0;
-			NSInteger pathComponentsToShow = [[NSUserDefaults standardUserDefaults] integerForKey:AdditionalShownPathComponentsPreferenceKey] + 1;
-			for (i = count-1; i >= 1 && i > count-pathComponentsToShow-1; i--) {
-				if (i != count-1) {
-					[mutableResult insertString:@"/" atIndex:0];
-				}
-				[mutableResult insertString:[pathComponents objectAtIndex:i] atIndex:0];
-			}
-			if (pathComponentsToShow>1 && i<1 && [[pathComponents objectAtIndex:0] isEqualToString:@"/"]) {
-				[mutableResult insertString:@"/" atIndex:0];
-			}
-			result = [[mutableResult copy] autorelease];
-		}
-    } else {
-        result = [self displayName];
-    }
 	return result;
 }
 
