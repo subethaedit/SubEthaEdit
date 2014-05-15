@@ -1234,23 +1234,25 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 - (IBAction)toggleIsAnnounced:(id)aSender {
-	if (!self.isAnnounced &&
-		[TCMMMPresenceManager sharedInstance].isCurrentlyReallyInvisible) {
-        NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-        [alert setAlertStyle:NSWarningAlertStyle];
-        [alert setMessageText:NSLocalizedString(@"ANNOUNCE_WILL_MAKE_VISIBLE_MESSAGE", nil)];
-        [alert setInformativeText:NSLocalizedString(@"ANNOUNCE_WILL_MAKE_VISIBLE_INFORMATIVE_TEXT", nil)];
-        [alert addButtonWithTitle:NSLocalizedString(@"ANNOUNCE_WILL_MAKE_VISIBLE_ACTION_TITLE", nil)];
-        [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
-        [self presentAlert:alert
-             modalDelegate:self
-            didEndSelector:@selector(announceAndBecomeVisibleAlertDidEnd:returnCode:contextInfo:)
-               contextInfo:nil];
-		if ([aSender isKindOfClass:[NSButton class]]) { // toggle back the state of the button if it was a button
-			[aSender setState:[aSender state] == NSOnState ? NSOffState : NSOnState];
+	if (self.session.isServer) {
+		if (!self.isAnnounced &&
+			[TCMMMPresenceManager sharedInstance].isCurrentlyReallyInvisible) {
+			NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+			[alert setAlertStyle:NSWarningAlertStyle];
+			[alert setMessageText:NSLocalizedString(@"ANNOUNCE_WILL_MAKE_VISIBLE_MESSAGE", nil)];
+			[alert setInformativeText:NSLocalizedString(@"ANNOUNCE_WILL_MAKE_VISIBLE_INFORMATIVE_TEXT", nil)];
+			[alert addButtonWithTitle:NSLocalizedString(@"ANNOUNCE_WILL_MAKE_VISIBLE_ACTION_TITLE", nil)];
+			[alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
+			[self presentAlert:alert
+				 modalDelegate:self
+				didEndSelector:@selector(announceAndBecomeVisibleAlertDidEnd:returnCode:contextInfo:)
+				   contextInfo:nil];
+			if ([aSender isKindOfClass:[NSButton class]]) { // toggle back the state of the button if it was a button
+				[aSender setState:[aSender state] == NSOnState ? NSOffState : NSOnState];
+			}
+		} else {
+			[self setIsAnnounced:![self isAnnounced]];
 		}
-	} else {
-		[self setIsAnnounced:![self isAnnounced]];
 	}
 }
 

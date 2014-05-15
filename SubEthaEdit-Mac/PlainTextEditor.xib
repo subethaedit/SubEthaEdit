@@ -152,19 +152,19 @@
                 <menuItem title="&lt;r/w>" tag="2" id="KIH-pg-Ei8">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
-                        <action selector="changePendingUsersAccess:" target="-1" id="Axd-3F-CbN"/>
+                        <action selector="changePendingUsersAccessAndAnnounce:" target="-2" id="gCu-0W-yId"/>
                     </connections>
                 </menuItem>
                 <menuItem title="&lt;r/o>" tag="1" id="83X-QV-Pku">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
-                        <action selector="changePendingUsersAccess:" target="-1" id="Inv-Si-3OU"/>
+                        <action selector="changePendingUsersAccessAndAnnounce:" target="-2" id="PT2-hu-8Tj"/>
                     </connections>
                 </menuItem>
                 <menuItem title="&lt;locked>" id="Dhd-iR-fKx">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
-                        <action selector="changePendingUsersAccess:" target="-1" id="EGO-3D-nSQ"/>
+                        <action selector="changePendingUsersAccessAndAnnounce:" target="-2" id="iIR-nr-fJh"/>
                     </connections>
                 </menuItem>
             </items>

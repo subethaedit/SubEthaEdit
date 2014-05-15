@@ -1486,7 +1486,11 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     {
         return [I_textView selectedRange].length > 0;
     }
-
+	else if (selector == @selector(changePendingUsersAccessAndAnnounce:)) {
+        TCMMMSession *session=self.document.session;
+        [menuItem setState:([menuItem tag]==[session accessState])?NSOnState:NSOffState];
+        return [session isServer];
+    }
     return YES;
 }
 
@@ -1787,6 +1791,15 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     }
 }
 
+
+- (IBAction)changePendingUsersAccessAndAnnounce:(id)aSender {
+	PlainTextDocument *document = self.document;
+	[document changePendingUsersAccess:aSender];
+	// also announce it if it isn't
+	if (!document.isAnnounced) {
+		[document toggleIsAnnounced:nil];
+	}
+}
 
 - (BOOL)showsGutter
 {
