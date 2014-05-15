@@ -4548,32 +4548,37 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 - (NSString *)preparedDisplayName {
     NSArray *pathComponents = nil;
+	NSString *result = nil;
     if ([self fileURL]) {
         pathComponents = [self.fileURL.path pathComponents];
     } else if ([self temporaryDisplayName]) {
         pathComponents = [[self temporaryDisplayName] pathComponents];
     } 
     
-    if (pathComponents) {
-        NSUInteger count = [pathComponents count];
-        if (count==1) return [pathComponents lastObject];
+    if (pathComponents && pathComponents.count > 0) {
+        NSInteger count = (NSInteger)[pathComponents count];
+        if (count==1) {
+			result = [pathComponents lastObject];
+		} else {
 
-        NSMutableString *result = [NSMutableString string];
-		NSInteger i = 0;
-        NSInteger pathComponentsToShow = [[NSUserDefaults standardUserDefaults] integerForKey:AdditionalShownPathComponentsPreferenceKey] + 1;
-        for (i = count-1; i >= 1 && i > count-pathComponentsToShow-1; i--) {
-            if (i != count-1) {
-                [result insertString:@"/" atIndex:0];
-            }
-            [result insertString:[pathComponents objectAtIndex:i] atIndex:0];
-        }
-        if (pathComponentsToShow>1 && i<1 && [[pathComponents objectAtIndex:0] isEqualToString:@"/"]) {
-            [result insertString:@"/" atIndex:0];
-        }
-        return result;
+			NSMutableString *mutableResult = [NSMutableString string];
+			NSInteger i = 0;
+			NSInteger pathComponentsToShow = [[NSUserDefaults standardUserDefaults] integerForKey:AdditionalShownPathComponentsPreferenceKey] + 1;
+			for (i = count-1; i >= 1 && i > count-pathComponentsToShow-1; i--) {
+				if (i != count-1) {
+					[mutableResult insertString:@"/" atIndex:0];
+				}
+				[mutableResult insertString:[pathComponents objectAtIndex:i] atIndex:0];
+			}
+			if (pathComponentsToShow>1 && i<1 && [[pathComponents objectAtIndex:0] isEqualToString:@"/"]) {
+				[mutableResult insertString:@"/" atIndex:0];
+			}
+			result = [[mutableResult copy] autorelease];
+		}
     } else {
-        return [self displayName];
+        result = [self displayName];
     }
+	return result;
 }
 
 - (NSString *)displayName {
