@@ -111,7 +111,7 @@
                         <button id="bv6-mv-CIq" userLabel="Invite Button" customClass="TCMHoverButton">
                             <rect key="frame" x="467" y="2" width="24" height="14"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="BottomBarSharingIconAdd" imagePosition="only" alignment="center" alternateImage="BottomBarSharingIconAddPressed" imageScaling="proportionallyDown" inset="2" id="HOp-Np-jFU">
+                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="BottomBarSharingIconAddNormal" imagePosition="only" alignment="center" alternateImage="BottomBarSharingIconAddPressed" imageScaling="proportionallyDown" inset="2" id="HOp-Np-jFU">
                                 <behavior key="behavior" lightByContents="YES"/>
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
@@ -152,26 +152,26 @@
                 <menuItem title="&lt;r/w>" tag="2" id="KIH-pg-Ei8">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
-                        <action selector="changePendingUsersAccess:" target="-1" id="Axd-3F-CbN"/>
+                        <action selector="changePendingUsersAccessAndAnnounce:" target="-2" id="gCu-0W-yId"/>
                     </connections>
                 </menuItem>
                 <menuItem title="&lt;r/o>" tag="1" id="83X-QV-Pku">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
-                        <action selector="changePendingUsersAccess:" target="-1" id="Inv-Si-3OU"/>
+                        <action selector="changePendingUsersAccessAndAnnounce:" target="-2" id="PT2-hu-8Tj"/>
                     </connections>
                 </menuItem>
                 <menuItem title="&lt;locked>" id="Dhd-iR-fKx">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
-                        <action selector="changePendingUsersAccess:" target="-1" id="EGO-3D-nSQ"/>
+                        <action selector="changePendingUsersAccessAndAnnounce:" target="-2" id="iIR-nr-fJh"/>
                     </connections>
                 </menuItem>
             </items>
         </menu>
     </objects>
     <resources>
-        <image name="BottomBarSharingIconAdd" width="19" height="11"/>
+        <image name="BottomBarSharingIconAddNormal" width="24" height="14"/>
         <image name="BottomBarSharingIconAddPressed" width="24" height="14"/>
         <image name="BottomBarSharingIconAnnounceTurnOnNormal" width="24" height="14"/>
         <image name="BottomBarSharingIconGroupTurnOnNormal" width="24" height="14"/>
