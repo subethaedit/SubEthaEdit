@@ -222,25 +222,29 @@ typedef NS_ENUM(uint8_t, SEESearchRangeDirection) {
 #pragma mark -
 - (BOOL)performCurrentTextFinderAction {
 	BOOL result = NO;
-	NSInteger textFinderActionType = self.currentTextFinderActionType;
-	if (textFinderActionType == NSTextFinderActionNextMatch) {
-		result = [self findNextForward:YES];
-	} else if (textFinderActionType == NSTextFinderActionPreviousMatch) {
-		result = [self findNextForward:NO];
-	}
-	else if (textFinderActionType == NSTextFinderActionReplace) {
-		result = [self replaceSelection];
-	} else if (textFinderActionType == NSTextFinderActionReplaceAndFind) {
-		result = [self replaceSelection];
-		if (result) {
+	
+	if (self.targetFullTextStorage.length != 0) {
+		
+		NSInteger textFinderActionType = self.currentTextFinderActionType;
+		if (textFinderActionType == NSTextFinderActionNextMatch) {
 			result = [self findNextForward:YES];
+		} else if (textFinderActionType == NSTextFinderActionPreviousMatch) {
+			result = [self findNextForward:NO];
 		}
-	}
-	else if (textFinderActionType == NSTextFinderActionReplaceAll) {
-		result = [self replaceAll];
-	}
-	else if (textFinderActionType == TCMTextFinderActionFindAll) {
-		[self showFindAllResults];
+		else if (textFinderActionType == NSTextFinderActionReplace) {
+			result = [self replaceSelection];
+		} else if (textFinderActionType == NSTextFinderActionReplaceAndFind) {
+			result = [self replaceSelection];
+			if (result) {
+				result = [self findNextForward:YES];
+			}
+		}
+		else if (textFinderActionType == NSTextFinderActionReplaceAll) {
+			result = [self replaceAll];
+		}
+		else if (textFinderActionType == TCMTextFinderActionFindAll) {
+			[self showFindAllResults];
+		}
 	}
 	
 	return result;
