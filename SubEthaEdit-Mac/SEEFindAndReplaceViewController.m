@@ -66,6 +66,8 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 @property (nonatomic) NSInteger startHeightBeforeDrag;
 
 @property (nonatomic, strong) IBOutlet NSView *bottomLineView;
+
+@property (nonatomic, weak) NSResponder *firstResponderWhenDisabelingView;
 @end
 
 @implementation SEEFindAndReplaceViewController
@@ -89,16 +91,29 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 	NSWindow *window = self.view.window;
 	id firstResponder = window.firstResponder;
 
-	if (firstResponder == [window fieldEditor:NO forObject:self.findTextField]) {
-		[window makeFirstResponder:self.findTextField];
-	}
+	if (! isEnabled) {
+		// make sure last edited changes get commited to the text field.
+		if (firstResponder == [window fieldEditor:NO forObject:self.findTextField]) {
+			[window makeFirstResponder:self.findTextField];
+			firstResponder = self.findTextField;
+		}
 
-	if (firstResponder == [window fieldEditor:NO forObject:self.replaceTextField]) {
-		[window makeFirstResponder:self.replaceTextField];
+		if (firstResponder == [window fieldEditor:NO forObject:self.replaceTextField]) {
+			[window makeFirstResponder:self.replaceTextField];
+			firstResponder = self.replaceTextField;
+		}
+		self.firstResponderWhenDisabelingView = firstResponder;
 	}
 
 	for (id element in @[self.findTextField, self.replaceTextField,self.findPreviousNextSegmentedControl, self.replaceButton,self.replaceAllButton,self.searchOptionsButton, self.findAllButton]) {
 		[element setEnabled:isEnabled];
+	}
+
+	if (isEnabled) {
+		if ([firstResponder isKindOfClass:[NSWindow class]]) { // window lost it's first responder by disabling UI
+			[window makeFirstResponder:self.firstResponderWhenDisabelingView];
+		}
+		self.firstResponderWhenDisabelingView = nil;
 	}
 }
 
