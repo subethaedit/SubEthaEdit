@@ -262,7 +262,10 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
 
 
 - (NSArray *)announcedSessions {
-    return [I_announcedSessions allValues];
+    return [[I_announcedSessions allValues] sortedArrayUsingComparator:^NSComparisonResult(TCMMMSession *session1, TCMMMSession *session2) {
+		NSComparisonResult result = [session1.filename compare:session2.filename options:NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSWidthInsensitiveSearch | NSForcedOrderingSearch | NSNumericSearch];
+		return result;
+	}];
 }
 
 - (void)announcedSessionDidChange:(NSNotification *)aNotification {
@@ -585,7 +588,9 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
     TCMMMSession *session=[sessions objectForKey:anID];
     if (session) {
         [sessions removeObjectForKey:anID];
-        [status setObject:[[sessions allValues] sortedArrayUsingDescriptors:[NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"filename" ascending:YES]]] forKey:TCMMMPresenceOrderedSessionsKey];
+        [status setObject:[[sessions allValues] sortedArrayUsingDescriptors:@[[[NSSortDescriptor alloc] initWithKey:@"filename" ascending:YES comparator:^NSComparisonResult(id obj1, id obj2) {
+			return [obj1 compare:obj2 options:NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSWidthInsensitiveSearch | NSForcedOrderingSearch | NSNumericSearch];
+		}]]] forKey:TCMMMPresenceOrderedSessionsKey];
         [self unregisterSession:session];
     }
     NSMutableDictionary *userInfo=[NSMutableDictionary dictionaryWithObjectsAndKeys:userID,TCMMMPresenceUserIDKey,sessions,TCMMMPresenceSessionsKey,nil];
