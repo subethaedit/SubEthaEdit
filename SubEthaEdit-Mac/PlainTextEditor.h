@@ -131,6 +131,7 @@ extern NSString * const PlainTextEditorDidChangeSearchScopeNotification;
 
 - (IBAction)positionButtonAction:(id)aSender;
 
+- (IBAction)changePendingUsersAccessAndAnnounce:(id)aSender;
 
 - (void)selectRange:(NSRange)aRange;
 - (void)selectRangeInBackground:(NSRange)aRange;

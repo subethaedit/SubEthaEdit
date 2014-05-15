@@ -60,5 +60,5 @@ extern NSString * const SEEPlainTextWindowControllerTabContextActiveEditorDidCha
 - (IBAction)openParticipantsOverlay:(id)aSender;
 - (IBAction)closeParticipantsOverlay:(id)aSender;
 - (IBAction)toggleParticipantsOverlay:(id)aSender;
-
+- (BOOL)showsParticipantsOverlay;
 @end

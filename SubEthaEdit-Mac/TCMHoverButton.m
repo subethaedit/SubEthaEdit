@@ -43,7 +43,9 @@
 #pragma mark -
 
 - (void)mouseEntered:(NSEvent *)theEvent {
-	[self setImage:self.hoverImage];
+	if (self.isEnabled) {
+		[self setImage:self.hoverImage];
+	}
 	[super mouseEntered:theEvent];
 }
 

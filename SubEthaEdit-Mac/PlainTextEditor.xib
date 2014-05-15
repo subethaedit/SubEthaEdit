@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1090" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
@@ -19,6 +19,7 @@
                 <outlet property="ownerController" destination="UOY-gY-y9M" id="sBN-7j-yXB"/>
                 <outlet property="shareAnnounceButtonOutlet" destination="7Mi-Cu-bLB" id="XN5-mI-pJm"/>
                 <outlet property="shareInviteUsersButtonOutlet" destination="bv6-mv-CIq" id="hQV-kB-VvW"/>
+                <outlet property="showParticipantsButtonOutlet" destination="OwG-YH-zbO" id="jkR-7d-K61"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
@@ -60,29 +61,28 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </customView>
                         <customView toolTip="File encoding" id="77" userLabel="Encoding Pop Up" customClass="PopUpButton">
-                            <rect key="frame" x="217" y="0.0" width="251" height="18"/>
+                            <rect key="frame" x="219" y="0.0" width="245" height="18"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                         </customView>
-                        <button wantsLayer="YES" id="7Mi-Cu-bLB" userLabel="Announce Button">
-                            <rect key="frame" x="528" y="0.0" width="21" height="18"/>
+                        <button wantsLayer="YES" id="7Mi-Cu-bLB" userLabel="Announce Button" customClass="TCMHoverButton">
+                            <rect key="frame" x="528" y="2" width="24" height="14"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="BottomBarSharingIconAnnounce_Inactive" imagePosition="only" alignment="center" alternateImage="BottomBarSharingIconAnnounce" controlSize="mini" imageScaling="proportionallyDown" inset="2" id="4l5-Nu-6M1">
-                                <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="BottomBarSharingIconAnnounceTurnOnNormal" imagePosition="only" alignment="center" controlSize="mini" imageScaling="proportionallyDown" inset="2" id="4l5-Nu-6M1">
+                                <behavior key="behavior" lightByContents="YES"/>
                                 <font key="font" metaFont="miniSystem"/>
                             </buttonCell>
                             <connections>
                                 <action selector="toggleIsAnnounced:" target="-1" id="IJN-40-Y5s"/>
-                                <binding destination="UOY-gY-y9M" name="alternateImage" keyPath="selection.alternateAnnounceImage" id="uCe-pm-U4H"/>
                                 <binding destination="UOY-gY-y9M" name="enabled" keyPath="selection.canAnnounceAndShare" id="KZE-0T-PPN"/>
-                                <binding destination="UOY-gY-y9M" name="toolTip" keyPath="selection.localizedToolTipAnnounceButton" previousBinding="uCe-pm-U4H" id="Rv2-bz-lYg"/>
+                                <binding destination="UOY-gY-y9M" name="toolTip" keyPath="selection.localizedToolTipAnnounceButton" id="1i8-zy-1ct"/>
                                 <outlet property="menu" destination="eH3-RU-uKl" id="H3t-Aa-F1C"/>
                             </connections>
                         </button>
                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="Icy-2O-9Qz" userLabel="Participant Count Label">
-                            <rect key="frame" x="489" y="1" width="18" height="14"/>
+                            <rect key="frame" x="486" y="1" width="20" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                             <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" alignment="right" title="1" id="ak1-Tg-g3g">
-                                <font key="font" metaFont="smallSystem"/>
+                                <font key="font" metaFont="cellTitle"/>
                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                             </textFieldCell>
@@ -96,11 +96,11 @@
                                 </binding>
                             </connections>
                         </textField>
-                        <button id="OwG-YH-zbO" userLabel="Participants Button">
-                            <rect key="frame" x="501" y="0.0" width="27" height="18"/>
+                        <button id="OwG-YH-zbO" userLabel="Participants Button" customClass="TCMHoverButton">
+                            <rect key="frame" x="505" y="2" width="24" height="14"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="BottomBarSharingIconGroup" imagePosition="only" alignment="center" controlSize="mini" imageScaling="proportionallyDown" inset="2" id="tKL-KY-Fjg">
-                                <behavior key="behavior" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="BottomBarSharingIconGroupTurnOnNormal" imagePosition="only" alignment="center" controlSize="mini" imageScaling="proportionallyDown" inset="2" id="tKL-KY-Fjg">
+                                <behavior key="behavior" lightByContents="YES"/>
                                 <font key="font" metaFont="smallSystem"/>
                             </buttonCell>
                             <connections>
@@ -108,11 +108,11 @@
                                 <binding destination="UOY-gY-y9M" name="toolTip" keyPath="selection.localizedToolTipToggleParticipantsButton" id="n70-vI-Phh"/>
                             </connections>
                         </button>
-                        <button id="bv6-mv-CIq" userLabel="Invite Button">
-                            <rect key="frame" x="470" y="0.0" width="26" height="18"/>
+                        <button id="bv6-mv-CIq" userLabel="Invite Button" customClass="TCMHoverButton">
+                            <rect key="frame" x="467" y="2" width="24" height="14"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="BottomBarSharingIconAdd" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="HOp-Np-jFU">
-                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="BottomBarSharingIconAddNormal" imagePosition="only" alignment="center" alternateImage="BottomBarSharingIconAddPressed" imageScaling="proportionallyDown" inset="2" id="HOp-Np-jFU">
+                                <behavior key="behavior" lightByContents="YES"/>
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
                             <connections>
@@ -152,28 +152,28 @@
                 <menuItem title="&lt;r/w>" tag="2" id="KIH-pg-Ei8">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
-                        <action selector="changePendingUsersAccess:" target="-1" id="Axd-3F-CbN"/>
+                        <action selector="changePendingUsersAccessAndAnnounce:" target="-2" id="gCu-0W-yId"/>
                     </connections>
                 </menuItem>
                 <menuItem title="&lt;r/o>" tag="1" id="83X-QV-Pku">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
-                        <action selector="changePendingUsersAccess:" target="-1" id="Inv-Si-3OU"/>
+                        <action selector="changePendingUsersAccessAndAnnounce:" target="-2" id="PT2-hu-8Tj"/>
                     </connections>
                 </menuItem>
                 <menuItem title="&lt;locked>" id="Dhd-iR-fKx">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
-                        <action selector="changePendingUsersAccess:" target="-1" id="EGO-3D-nSQ"/>
+                        <action selector="changePendingUsersAccessAndAnnounce:" target="-2" id="iIR-nr-fJh"/>
                     </connections>
                 </menuItem>
             </items>
         </menu>
     </objects>
     <resources>
-        <image name="BottomBarSharingIconAdd" width="19" height="11"/>
-        <image name="BottomBarSharingIconAnnounce" width="15" height="11"/>
-        <image name="BottomBarSharingIconAnnounce_Inactive" width="15" height="11"/>
-        <image name="BottomBarSharingIconGroup" width="16" height="11"/>
+        <image name="BottomBarSharingIconAddNormal" width="24" height="14"/>
+        <image name="BottomBarSharingIconAddPressed" width="24" height="14"/>
+        <image name="BottomBarSharingIconAnnounceTurnOnNormal" width="24" height="14"/>
+        <image name="BottomBarSharingIconGroupTurnOnNormal" width="24" height="14"/>
     </resources>
 </document>
