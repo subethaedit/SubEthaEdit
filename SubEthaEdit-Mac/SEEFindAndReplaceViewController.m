@@ -193,6 +193,9 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 
 - (IBAction)findAndReplaceAction:(id)aSender {
 	[[FindReplaceController sharedInstance] performFindPanelAction:aSender inTargetTextView:self.targetTextView];
+	if (aSender == self.findTextField) {
+		[self.view.window makeFirstResponder:self.targetTextView];
+	}
 }
 
 
