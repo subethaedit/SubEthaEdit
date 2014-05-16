@@ -15,7 +15,7 @@
 @property (nonatomic, readonly, assign) BOOL showsDisconnect;
 @property (nonatomic, strong) SEEConnection *connection; // also overrides user
 @property (nonatomic, strong) TCMMMUser *user;
-
+@property (nonatomic, strong) NSString *subline;
 - (IBAction)disconnect:(id)sender;
 
 @end

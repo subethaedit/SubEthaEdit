@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -66,8 +66,24 @@
                                                                 <constraint firstAttribute="width" secondItem="JPV-3V-IN6" secondAttribute="height" multiplier="1:1" id="cgo-zH-0hp"/>
                                                             </constraints>
                                                         </customView>
+                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="KzL-Id-dvC" userLabel="sublinefield">
+                                                            <rect key="frame" x="65" y="5" width="212" height="16"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="16" id="Eka-LW-E3t"/>
+                                                            </constraints>
+                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="left" title="see://localhost/xib" id="DfZ-MR-7px">
+                                                                <font key="font" metaFont="miniSystem"/>
+                                                                <color key="textColor" red="0.52541145025124536" green="0.56995937476065917" blue="0.61450729927007297" alpha="1" colorSpace="deviceRGB"/>
+                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                            </textFieldCell>
+                                                            <connections>
+                                                                <binding destination="7GF-iT-703" name="toolTip" keyPath="objectValue.connection.toolTipString" id="zNn-yb-EXO"/>
+                                                                <binding destination="7GF-iT-703" name="value" keyPath="objectValue.subline" id="o6F-EV-VRR"/>
+                                                            </connections>
+                                                        </textField>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="99d-xq-E7k">
-                                                            <rect key="frame" x="65" y="16" width="212" height="25"/>
+                                                            <rect key="frame" x="65" y="20" width="212" height="25"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="25" id="rtq-Bf-3ii"/>
@@ -113,12 +129,15 @@
                                                         </button>
                                                     </subviews>
                                                     <constraints>
+                                                        <constraint firstItem="KzL-Id-dvC" firstAttribute="trailing" secondItem="99d-xq-E7k" secondAttribute="trailing" id="3Xc-ZJ-rLY"/>
                                                         <constraint firstItem="sLz-ta-X1G" firstAttribute="leading" secondItem="99d-xq-E7k" secondAttribute="trailing" constant="-4" id="9gP-xl-ifF"/>
                                                         <constraint firstItem="JPV-3V-IN6" firstAttribute="leading" secondItem="7GF-iT-703" secondAttribute="leading" constant="7" id="Aag-bs-dMd" userLabel="Horizontal Space - (8) - Avatar View - User Cell View"/>
                                                         <constraint firstAttribute="centerY" secondItem="JPV-3V-IN6" secondAttribute="centerY" id="KhV-LG-YoB"/>
-                                                        <constraint firstItem="JPV-3V-IN6" firstAttribute="centerY" secondItem="99d-xq-E7k" secondAttribute="centerY" constant="1" id="TWS-ed-rS2"/>
+                                                        <constraint firstItem="JPV-3V-IN6" firstAttribute="centerY" secondItem="99d-xq-E7k" secondAttribute="centerY" constant="5" id="TWS-ed-rS2"/>
                                                         <constraint firstAttribute="trailing" secondItem="sLz-ta-X1G" secondAttribute="trailing" constant="3" id="dAl-Z2-Uja"/>
+                                                        <constraint firstItem="KzL-Id-dvC" firstAttribute="leading" secondItem="99d-xq-E7k" secondAttribute="leading" id="eCc-bj-gIB"/>
                                                         <constraint firstItem="sLz-ta-X1G" firstAttribute="centerY" secondItem="7GF-iT-703" secondAttribute="centerY" constant="-1" id="fxJ-Ib-Nxh"/>
+                                                        <constraint firstItem="KzL-Id-dvC" firstAttribute="top" secondItem="99d-xq-E7k" secondAttribute="bottom" constant="-1" id="iB1-tf-PLy"/>
                                                         <constraint firstItem="99d-xq-E7k" firstAttribute="leading" secondItem="JPV-3V-IN6" secondAttribute="trailing" constant="8" id="ya8-Ub-8e6"/>
                                                     </constraints>
                                                     <connections>
@@ -185,7 +204,7 @@
                                                                 <binding destination="Tiq-Hx-BMa" name="value" keyPath="objectValue.name" id="VDj-fh-MUp"/>
                                                             </connections>
                                                         </textField>
-                                                        <button horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eSU-d2-2DX">
+                                                        <button horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eSU-d2-2DX">
                                                             <rect key="frame" x="9" y="5" width="18" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                             <constraints>

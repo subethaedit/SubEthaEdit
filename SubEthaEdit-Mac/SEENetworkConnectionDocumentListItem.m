@@ -35,6 +35,7 @@ void * const SEEConnectionClearableObservingContext = (void *)&SEEConnectionClea
     self = [super init];
     if (self) {
 		[self installKVO];
+		self.subline = nil;
     }
     return self;
 }
@@ -54,6 +55,20 @@ void * const SEEConnectionClearableObservingContext = (void *)&SEEConnectionClea
 	[self removeObserver:self forKeyPath:@"user" context:SEENetworkConnectionRepresentationUserObservingContext];
 }
 
+- (void)updateSublineWithConnection:(SEEConnection *)aConnection {
+	NSString *result = @"";
+	if (aConnection.isBonjour) {
+		result = @"Bonjour";
+	}
+
+	NSString *URLString = [[TCMMMPresenceManager sharedInstance] reachabilityURLStringOfUserID:aConnection.userID];
+	if (URLString) {
+		result = URLString;
+	}
+	
+	self.subline = result;
+}
+
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if (context == SEENetworkConnectionRepresentationConnectionObservingContext) {
@@ -62,6 +77,9 @@ void * const SEEConnectionClearableObservingContext = (void *)&SEEConnectionClea
 	} else if (context == SEENetworkConnectionRepresentationUserObservingContext) {
 		TCMMMUser *user = self.user;
 		SEEConnection *connection = self.connection;
+
+		[self updateSublineWithConnection:connection];
+		
 		if (user) {
 			self.name = user.name;
 			self.image = user.image;
