@@ -466,6 +466,10 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 	if (commandSelector == @selector(cancelOperation:)) {
 		[self dismissAction:control];
 		return YES;
+	} else if (commandSelector == @selector(insertTab:) &&
+			   control == self.replaceTextField) {
+		[self.targetTextView.window makeFirstResponder:self.targetTextView];
+		return YES;
 	} else {
 		return NO;
 	}
