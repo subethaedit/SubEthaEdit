@@ -67,7 +67,7 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 
 @property (nonatomic, strong) IBOutlet NSView *bottomLineView;
 
-@property (nonatomic, weak) NSResponder *firstResponderWhenDisabelingView;
+@property (nonatomic, strong) NSResponder *firstResponderWhenDisabelingView;
 @end
 
 @implementation SEEFindAndReplaceViewController
@@ -92,16 +92,12 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 	id firstResponder = window.firstResponder;
 
 	if (! isEnabled) {
-		// make sure last edited changes get commited to the text field.
-		if (firstResponder == [window fieldEditor:NO forObject:self.findTextField]) {
-			[window makeFirstResponder:self.findTextField];
-			firstResponder = self.findTextField;
+		NSText *fieldEditor = [window fieldEditor:NO forObject:nil];
+		if (firstResponder == fieldEditor) {
+			firstResponder = fieldEditor.delegate;
+			[window endEditingFor:firstResponder]; // commit changes
 		}
 
-		if (firstResponder == [window fieldEditor:NO forObject:self.replaceTextField]) {
-			[window makeFirstResponder:self.replaceTextField];
-			firstResponder = self.replaceTextField;
-		}
 		self.firstResponderWhenDisabelingView = firstResponder;
 	}
 
@@ -110,8 +106,12 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 	}
 
 	if (isEnabled) {
-		if ([firstResponder isKindOfClass:[NSWindow class]]) { // window lost it's first responder by disabling UI
-			[window makeFirstResponder:self.firstResponderWhenDisabelingView];
+		if ([firstResponder isKindOfClass:[NSWindow class]]) { // window lost it's first responder by disabling UI and set itself as first responder
+			NSResponder *previousResponder = self.firstResponderWhenDisabelingView;
+			if ([previousResponder respondsToSelector:@selector(window)] &&
+				[[(id)previousResponder window] isEqual:window]) { // ensure the responder hasn't been removed from the window view hiearchy
+				[window makeFirstResponder:previousResponder];
+			}
 		}
 		self.firstResponderWhenDisabelingView = nil;
 	}
@@ -465,6 +465,10 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 - (BOOL)control:(NSControl *)control textView:(NSTextView *)textView doCommandBySelector:(SEL)commandSelector {
 	if (commandSelector == @selector(cancelOperation:)) {
 		[self dismissAction:control];
+		return YES;
+	} else if (commandSelector == @selector(insertTab:) &&
+			   control == self.replaceTextField) {
+		[self.targetTextView.window makeFirstResponder:self.targetTextView];
 		return YES;
 	} else {
 		return NO;
