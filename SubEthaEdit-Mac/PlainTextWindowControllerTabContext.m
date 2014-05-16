@@ -174,7 +174,7 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 				[self.tab setView:editorSplitView];
 			}
 			NSSize splitSize = [editorSplitView frame].size;
-			splitSize.height = splitSize.height / 2.;
+			splitSize.height = floor(splitSize.height / 2.);
 
 			[[plainTextEditors[0] editorView] setFrameSize:splitSize];
 			[[plainTextEditors[1] editorView] setFrameSize:splitSize];
