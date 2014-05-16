@@ -55,17 +55,31 @@ void * const SEEConnectionClearableObservingContext = (void *)&SEEConnectionClea
 	[self removeObserver:self forKeyPath:@"user" context:SEENetworkConnectionRepresentationUserObservingContext];
 }
 
-- (void)updateSublineWithConnection:(SEEConnection *)aConnection {
+- (void)updateSubline {
+	NSMutableArray *parts = [NSMutableArray new];
+	
 	NSString *result = @"";
-	if (aConnection.isBonjour) {
-		result = @"Bonjour";
+	NSString *URLString = [[TCMMMPresenceManager sharedInstance] reachabilityURLStringOfUserID:self.user.userID];
+	if (URLString.length == 0 && self.user.isMe) {
+		NSURL *url = [SEEConnectionManager applicationConnectionURL];
+		URLString = url ? url.absoluteString : @"";
 	}
-
-	NSString *URLString = [[TCMMMPresenceManager sharedInstance] reachabilityURLStringOfUserID:aConnection.userID];
-	if (URLString) {
-		result = URLString;
+	if (URLString.length > 0) {
+		[parts addObject:URLString];
+	}
+	SEEConnection *connection = self.connection;
+	if (connection.isBonjour) {
+		[parts addObject:@"Bonjour"];
+	} else if ([[connection.BEEPSession userInfo] objectForKey:@"isAutoConnect"]) {
+		[parts addObject:@"Friendcast"];
+	} else {
+		NSURL *connectToURL = self.connection.URL;
+		if (connectToURL && ![connectToURL.absoluteString isEqual:parts.lastObject]) {
+			[parts addObject:connectToURL.absoluteString];
+		}
 	}
 	
+	result = [parts componentsJoinedByString:@" – "];
 	self.subline = result;
 }
 
@@ -78,7 +92,7 @@ void * const SEEConnectionClearableObservingContext = (void *)&SEEConnectionClea
 		TCMMMUser *user = self.user;
 		SEEConnection *connection = self.connection;
 
-		[self updateSublineWithConnection:connection];
+		[self updateSubline];
 		
 		if (user) {
 			self.name = user.name;

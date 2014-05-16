@@ -393,6 +393,7 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
     }
 }
 
+// se also applicationConnectionURL of SEEConnectionManager
 - (NSString *)myReachabilityURLString {
     TCMPortMapper *pm = [TCMPortMapper sharedInstance];
     TCMPortMapping *mapping = [[pm portMappings] anyObject];
@@ -413,7 +414,11 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
 }
 
 - (NSString *)reachabilityURLStringOfUserID:(NSString *)aUserID {
-    return [[[[self statusProfileForUserID:aUserID] session] userInfo] objectForKey:@"ReachabilityURL"];
+	NSString *result = [[[[self statusProfileForUserID:aUserID] session] userInfo] objectForKey:@"ReachabilityURL"];
+	if ([[TCMMMUserManager myUserID] isEqualTo:aUserID]) {
+		result = [self myReachabilityURLString];
+	}
+    return result;
 }
 
 - (void)sendReachabilityViaProfile:(TCMMMStatusProfile *)aProfile {

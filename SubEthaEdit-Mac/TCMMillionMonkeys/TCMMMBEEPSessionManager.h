@@ -42,7 +42,6 @@ extern NSString * const kTCMMMBEEPSessionManagerTLSMode;
     
     int I_SSLGenerationCount;
     int I_SSLGenerationDesiredCount;
-	
 }
 
 + (TCMMMBEEPSessionManager *)sharedInstance;
@@ -54,6 +53,7 @@ extern NSString * const kTCMMMBEEPSessionManagerTLSMode;
 - (BOOL)listen;
 - (void)stopListening;
 - (int)listeningPort;
+- (BOOL)isListening;
 
 - (NSArray *)allBEEPSessions;
 - (void)terminateAllBEEPSessions;

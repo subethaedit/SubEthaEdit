@@ -30,6 +30,20 @@
     return sSharedInstance;
 }
 
++ (NSURL *)applicationConnectionURL {
+	NSURL *result = nil;
+	if ([[TCMMMBEEPSessionManager sharedInstance] isListening]) {
+		TCMPortMapper *pm = [TCMPortMapper sharedInstance];
+		NSString *URLString = [NSString stringWithFormat:@"see://%@:%d", [pm localIPAddress],[[TCMMMBEEPSessionManager sharedInstance] listeningPort]];
+		TCMPortMapping *mapping = [[pm portMappings] anyObject];
+		if ([mapping mappingStatus]==TCMPortMappingStatusMapped) {
+			URLString = [NSString stringWithFormat:@"see://%@:%d", [pm externalIPAddress],[mapping externalPort]];
+		}
+		result = [NSURL URLWithString:URLString];
+	}
+    return result;
+}
+
 - (id)init {
 	self = [super init];
     if (self) {
@@ -51,7 +65,9 @@
         [defaultCenter addObserver:self selector:@selector(connectionEntryDidChange:) name:TCMBEEPSessionAuthenticationInformationDidChangeNotification object:nil];
 
 		[defaultCenter addObserver:self selector:@selector(userDidChange:) name:TCMMMUserManagerUserDidChangeNotification object:nil];
-	}
+
+		[defaultCenter addObserver:self selector:@selector(userDidChange:) name:TCMPortMapperDidFinishWorkNotification object:nil];
+}
     return self;
 }
 
@@ -59,15 +75,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (NSURL *)applicationConnectionURL {
-    TCMPortMapper *pm = [TCMPortMapper sharedInstance];
-    NSString *URLString = [NSString stringWithFormat:@"see://%@:%d", [pm localIPAddress],[[TCMMMBEEPSessionManager sharedInstance] listeningPort]];
-    TCMPortMapping *mapping = [[pm portMappings] anyObject];
-    if ([mapping mappingStatus]==TCMPortMappingStatusMapped) {
-        URLString = [NSString stringWithFormat:@"see://%@:%d", [pm externalIPAddress],[mapping externalPort]];
-    }
-    return [NSURL URLWithString:URLString];
-}
 
 
 #pragma mark -

@@ -18,4 +18,6 @@
 @property (nonatomic, strong) NSString *subline;
 - (IBAction)disconnect:(id)sender;
 
+
+- (void)updateSubline;
 @end

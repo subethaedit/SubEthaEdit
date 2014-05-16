@@ -25,6 +25,7 @@
 
 #import "SEEDocumentController.h"
 #import "DocumentModeManager.h"
+#import "SEEConnectionManager.h"
 
 #import "TCMMMPresenceManager.h"
 #import "TCMMMSession.h"
@@ -34,6 +35,8 @@
 
 #import "SEEConnectionManager.h"
 #import "SEEConnection.h"
+
+#import "AppController.h"
 
 #import <QuartzCore/QuartzCore.h>
 
@@ -100,6 +103,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 				}
 			}
 		}];
+		
     }
     return self;
 }
@@ -135,6 +139,8 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	[tableView setTarget:self];
 	[tableView setAction:@selector(triggerItemClickAction:)];
 	[tableView setDoubleAction:@selector(triggerItemDoubleClickAction:)];
+	[tableView setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
+
 }
 
 
@@ -220,6 +226,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 				NSString *cachedItemID = me.uid;
 				id <SEEDocumentListItem> cachedItem = [lookupDictionary objectForKey:cachedItemID];
 				if (cachedItem) {
+					[(SEENetworkConnectionDocumentListItem *)cachedItem updateSubline];
 					[self.availableItems addObject:cachedItem];
 				} else {
 					[self.availableItems addObject:me];
@@ -433,27 +440,68 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	__block NSMutableArray *userEntries = [NSMutableArray array];
 	NSArray *availableDocumentSession = self.availableItems;
 
+	__block NSString *seeURL = nil;
+	TCMMMPresenceManager *presenceManager = [TCMMMPresenceManager sharedInstance];
+	
 	[rowIndexes enumerateIndexesUsingBlock:^(NSUInteger rowIndex, BOOL *stop) {
 		id documentRepresentation = [availableDocumentSession objectAtIndex:rowIndex];
 		if ([documentRepresentation isKindOfClass:SEENetworkConnectionDocumentListItem.class]) {
 			SEENetworkConnectionDocumentListItem *connectionRepresentation = (SEENetworkConnectionDocumentListItem *)documentRepresentation;
+			TCMMMUser *user = connectionRepresentation.user;
 			if (connectionRepresentation.connection) {
 				SEEConnection *connection = connectionRepresentation.connection;
-				TCMMMUser *user = connectionRepresentation.user;
 				NSDictionary *userDescription = @{@"UserID": user.userID,
 												  @"PeerAddressData": connection.BEEPSession.peerAddressData};
 
 				[userEntries addObject:userDescription];
 			}
+			if (connectionRepresentation.user) {
+				seeURL = [presenceManager reachabilityURLStringOfUserID:user.userID];
+				if (seeURL.length == 0) {
+					if ([user isMe]) {
+						NSURL *url = [SEEConnectionManager applicationConnectionURL];
+						seeURL = url ? url.absoluteString : @"";
+					}
+				}
+			}
 		}
 	}];
 
-	[pboard declareTypes:@[@"SEEConnectionPbordType"] owner:self];
-	if (userEntries.count > 0) {
-		[pboard setPropertyList:userEntries forType:@"SEEConnectionPbordType"];
+	BOOL result = userEntries.count > 0 || seeURL.length > 0;
+	if (result) {
+		NSMutableArray *types = [NSMutableArray array];
+		NSMutableArray *blocks = [NSMutableArray array];
+		[pboard clearContents];
+		
+		// collect representations
+		if (userEntries.count > 0) {
+			[types addObject:kSEEPasteBoardTypeConnection];
+			[blocks addObject:^{
+				[pboard setPropertyList:userEntries forType:kSEEPasteBoardTypeConnection];
+			}];
+		}
+		
+		if (seeURL.length > 0) {
+			[types addObjectsFromArray:@[NSPasteboardTypeString,@"public.url", @"public.text"]];
+			[blocks addObject:^{
+			[pboard setString:seeURL forType:NSPasteboardTypeString];
+			[pboard setString:seeURL forType:@"public.url"];
+			[pboard setString:seeURL forType:@"public.text"];
+			}];
+		}
+
+		// execute them again in order
+		if (types.count > 0) {
+			[pboard addTypes:types owner:self];
+			for (dispatch_block_t block in blocks) {
+				block();
+			}
+			
+		}
 	}
 
-	return userEntries.count > 0;
+
+	return result;
 }
 
 
