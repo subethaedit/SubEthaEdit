@@ -35,6 +35,7 @@ void * const SEEConnectionClearableObservingContext = (void *)&SEEConnectionClea
     self = [super init];
     if (self) {
 		[self installKVO];
+		self.subline = nil;
     }
     return self;
 }
@@ -54,6 +55,34 @@ void * const SEEConnectionClearableObservingContext = (void *)&SEEConnectionClea
 	[self removeObserver:self forKeyPath:@"user" context:SEENetworkConnectionRepresentationUserObservingContext];
 }
 
+- (void)updateSubline {
+	NSMutableArray *parts = [NSMutableArray new];
+	
+	NSString *result = @"";
+	NSString *URLString = [[TCMMMPresenceManager sharedInstance] reachabilityURLStringOfUserID:self.user.userID];
+	if (URLString.length == 0 && self.user.isMe) {
+		NSURL *url = [SEEConnectionManager applicationConnectionURL];
+		URLString = url ? url.absoluteString : @"";
+	}
+	if (URLString.length > 0) {
+		[parts addObject:URLString];
+	}
+	SEEConnection *connection = self.connection;
+	if (connection.isBonjour) {
+		[parts addObject:@"Bonjour"];
+	} else if ([[connection.BEEPSession userInfo] objectForKey:@"isAutoConnect"]) {
+		[parts addObject:@"Friendcast"];
+	} else {
+		NSURL *connectToURL = self.connection.URL;
+		if (connectToURL && ![connectToURL.absoluteString isEqual:parts.lastObject]) {
+			[parts addObject:connectToURL.absoluteString];
+		}
+	}
+	
+	result = [parts componentsJoinedByString:@" – "];
+	self.subline = result;
+}
+
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if (context == SEENetworkConnectionRepresentationConnectionObservingContext) {
@@ -62,6 +91,9 @@ void * const SEEConnectionClearableObservingContext = (void *)&SEEConnectionClea
 	} else if (context == SEENetworkConnectionRepresentationUserObservingContext) {
 		TCMMMUser *user = self.user;
 		SEEConnection *connection = self.connection;
+
+		[self updateSubline];
+		
 		if (user) {
 			self.name = user.name;
 			self.image = user.image;

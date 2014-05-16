@@ -29,6 +29,7 @@ extern NSString * const ConnectionStatusNoConnection;
 @property (nonatomic, readonly) NSString *userID;
 @property (nonatomic, readonly) TCMMMUser *user;
 
+/*! the URL we connected with */
 @property (nonatomic, readonly, strong) NSURL *URL;
 @property (nonatomic, readonly, strong) NSString *hostStatus;
 @property (nonatomic, readonly) NSString *connectionStatus;

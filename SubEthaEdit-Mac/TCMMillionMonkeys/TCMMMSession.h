@@ -127,8 +127,8 @@ typedef enum TCMMMSessionClientState {
 - (void)setDocument:(id <SEEDocument>)aDocument;
 - (id <SEEDocument>)document;
 
-- (void)setHostID:(NSString *)aHostID;
-- (NSString *)hostID;
+/*! userID of host */
+@property (nonatomic, copy) NSString *hostID;
 
 - (void)setIsServer:(BOOL)isServer;
 - (BOOL)isServer;
@@ -153,6 +153,9 @@ typedef enum TCMMMSessionClientState {
 - (NSUInteger)openInvitationCount;
 - (NSDictionary *)participants;
 - (NSArray *)pendingUsers;
+
+/*! @return returns YES if the userID is either host, participant of any sort, invited or pending */
+- (BOOL)isUserInvolvedInSession:(NSString *)aUserID;
 
 - (NSData *)sessionBencoded;
 - (NSDictionary *)dictionaryRepresentation;

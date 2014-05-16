@@ -328,12 +328,20 @@ static TCMMMBEEPSessionManager *sharedInstance;
     [I_listener close];
     [I_listener setDelegate:nil];
     I_listener = nil;
+	I_listeningPort = 0;
 	[self validatePortMapping];
 }
 
 - (int)listeningPort {
     return I_listeningPort;
 }
+
+- (BOOL)isListening {
+	BOOL result = (I_listeningPort != 0);
+	result = result && I_listener;
+	return result;
+}
+
 
 - (NSArray *)allBEEPSessions {
     return I_sessions;

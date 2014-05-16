@@ -101,6 +101,7 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
 
 NSString * const GlobalScriptsDidReloadNotification = @"GlobalScriptsDidReloadNotification";
 
+NSString * const kSEEPasteBoardTypeConnection = @"SEEPasteBoardTypeConnection";
 
     
 @interface AppController ()

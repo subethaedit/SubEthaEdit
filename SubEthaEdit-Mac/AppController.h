@@ -37,6 +37,8 @@ extern int const SwitchModeMenuTag;
 extern int const ReloadModesMenuItemTag;
 extern int const ScriptMenuTag;
 
+// pasteboard types
+extern NSString * const kSEEPasteBoardTypeConnection;
 
 extern NSString * const GlobalScriptsDidReloadNotification;
 
