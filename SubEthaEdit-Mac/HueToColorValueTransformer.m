@@ -22,7 +22,13 @@
 - (id)transformedValue:(id)aValue {
     if (aValue == nil) return nil;
     CGFloat hue = [aValue doubleValue] / 100.0;
-    return [NSColor colorWithCalibratedHue:hue saturation:1.0 brightness:1.0 alpha:1.0];
+	CGFloat brightness = 1.0;
+	CGFloat saturation = 1.0;
+	if (hue > 57./360. && hue < 180./360.) {
+		brightness = 0.95;
+	}
+	
+    return [NSColor colorWithCalibratedHue:hue saturation:saturation brightness:brightness alpha:1.0];
 }
 
 - (id)reverseTransformedValue:(id)value {
