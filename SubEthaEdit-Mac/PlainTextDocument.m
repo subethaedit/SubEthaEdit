@@ -6195,6 +6195,8 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 			[self setDocumentMode:mode];
 		}
 		I_flags.shouldSelectModeOnSave=NO;
+		// clear the change marks after this first paste, to not have a totally changed first document
+		[self performSelector:@selector(clearChangeMarks:) withObject:nil afterDelay:0];
 	}
 	
 	// record this change for possible later use
