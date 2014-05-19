@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "SEEDocumentListItemProtocol.h"
 
-@interface SEEDocumentListWindowController : NSWindowController <NSTableViewDelegate>
+@interface SEEDocumentListWindowController : NSWindowController <NSTableViewDelegate, NSMenuDelegate>
 @property (nonatomic, strong) NSMutableArray *availableItems;
 @property (nonatomic, assign) BOOL shouldCloseWhenOpeningDocument;
 

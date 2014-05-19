@@ -51,6 +51,8 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 @property (nonatomic, weak) IBOutlet NSScrollView *scrollViewOutlet;
 @property (nonatomic, weak) IBOutlet NSTableView *tableViewOutlet;
 
+@property (nonatomic, weak) IBOutlet NSMenu *networkDocumentItemContextMenuOutlet;
+
 @property (nonatomic, weak) IBOutlet NSObjectController *filesOwnerProxy;
 @property (nonatomic, weak) IBOutlet NSArrayController *documentListItemsArrayController;
 
@@ -525,6 +527,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 		result = [tableView makeViewWithIdentifier:@"Document" owner:self];
 	} else if ([rowItem isKindOfClass:SEENetworkDocumentListItem.class]) {
 		result = [tableView makeViewWithIdentifier:@"NetworkDocument" owner:self];
+		result.menu = self.networkDocumentItemContextMenuOutlet;
 	} else {
 		result = [tableView makeViewWithIdentifier:@"Document" owner:self];
 	}
@@ -626,6 +629,39 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 		rowHeight = 36.0;
 	}
 	return rowHeight;
+}
+
+
+#pragma mark - NSMenuDelegate
+
+- (void)menuNeedsUpdate:(NSMenu *)menu {
+	NSTableView *tableView = self.tableViewOutlet;
+	id <SEEDocumentListItem> clickedItem = nil;
+    BOOL clickedOnMultipleItems = NO;
+
+	NSInteger row = tableView.clickedRow;
+	NSInteger column = tableView.clickedColumn;
+	if (row > -1) {
+		NSTableCellView *tableCell = [tableView viewAtColumn:column row:row makeIfNecessary:NO];
+		clickedItem = tableCell.objectValue;
+		clickedOnMultipleItems = [tableView isRowSelected:row] && ([tableView numberOfSelectedRows] > 1);
+	}
+
+    if (menu == self.networkDocumentItemContextMenuOutlet) {
+        NSMenuItem *menuItem = [menu itemAtIndex:0];
+        if (clickedItem != nil) {
+            if (clickedOnMultipleItems) {
+                // We could walk through the selection and note what was clicked on at this point
+                [menuItem setTitle:[NSString stringWithFormat:@"You clicked on %ld items!", (long)[tableView numberOfSelectedRows]]];
+            } else {
+                [menuItem setTitle:[NSString stringWithFormat:@"You clicked on: '%@'", clickedItem.name]];
+            }
+            [menuItem setEnabled:YES];
+        } else {
+            [menuItem setTitle:@"You didn't click on any rows..."];
+            [menuItem setEnabled:NO];
+        }
+    }
 }
 
 @end
