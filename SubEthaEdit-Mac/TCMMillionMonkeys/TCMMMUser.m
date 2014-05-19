@@ -207,7 +207,6 @@ void * const TCMMMUserPropertyChangeObservanceContext = (void *)&TCMMMUserProper
 
 	if ([aRepresentation[@"hDI"] boolValue]) {
 		user.properties[@"HasDefaultImage"] = @(YES);
-
 	} else {
 		NSData *pngData = [aRepresentation objectForKey:@"PNG"];
 		[user setImageWithPNGData:pngData];
@@ -265,7 +264,11 @@ void * const TCMMMUserPropertyChangeObservanceContext = (void *)&TCMMMUserProper
     if (aHue) {
         [[self properties] setObject:aHue forKey:@"Hue"];
         [[self properties] removeObjectForKey:@"ChangeColor"];
-		[self updateChangeCount];
+        [[self properties] removeObjectForKey:@"ChangeColorForAvatarBorder"];
+		if (self.isMe) {
+			// only update my own change count on this setter
+			[self updateChangeCount];
+		}
     }
 }
 

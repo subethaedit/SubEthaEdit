@@ -28,15 +28,10 @@
             NSValueTransformer *hueTrans = [NSValueTransformer valueTransformerForName:@"HueToColor"];
             changeColor = [hueTrans transformedValue:hue];
         } else {
-            changeColor = [NSColor redColor];
+            changeColor = [NSColor lightGrayColor];
         }
     }
     return changeColor;
-}
-
-- (NSColor *)changeColorDesaturated
-{
-	return [NSColor colorWithCalibratedHue:self.changeColor.hueComponent saturation:0.85 brightness:1.0 alpha:1.0];
 }
 
 - (NSColor *)changeHighlightColorWithWhiteBackground

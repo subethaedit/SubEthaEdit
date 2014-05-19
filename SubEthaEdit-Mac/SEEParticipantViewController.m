@@ -120,7 +120,7 @@
 	SEEAvatarImageView *avatarView = self.avatarViewOutlet;
 	[avatarView bind:@"image" toObject:user withKeyPath:@"image" options:nil];
 	[avatarView bind:@"initials" toObject:user withKeyPath:@"initials" options:nil];
-	[avatarView bind:@"borderColor" toObject:user withKeyPath:@"changeColorDesaturated" options:nil];
+	[avatarView bind:@"borderColor" toObject:user withKeyPath:@"changeColor" options:nil];
 
 	NSTextField *nameLabel = self.nameLabelOutlet;
 	nameLabel.stringValue = user.name;
