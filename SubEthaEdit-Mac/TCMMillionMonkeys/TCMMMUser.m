@@ -277,6 +277,11 @@ void * const TCMMMUserPropertyChangeObservanceContext = (void *)&TCMMMUserProper
     }
 }
 
+- (NSNumber *)userHue {
+	NSNumber *result = self.properties[@"Hue"];
+	return result;
+}
+
 #pragma mark
 - (NSString *)aim {
     NSString *result = [[self properties] objectForKey:@"AIM"];
