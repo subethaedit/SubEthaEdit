@@ -44,6 +44,10 @@ void * const TCMMMUserPropertyChangeObservanceContext = (void *)&TCMMMUserProper
     [user setName:[aNotificationDict objectForKey:@"name"]];
     [user setUserID:userID];
     [user setChangeCount:[[aNotificationDict objectForKey:@"cnt"] longLongValue]];
+	NSNumber *hue = aNotificationDict[@"hue"];
+	if (hue && [hue isKindOfClass:[NSNumber class]]) {
+		[user setUserHue:hue];
+	}
     return user;
 }
 
@@ -61,7 +65,9 @@ void * const TCMMMUserPropertyChangeObservanceContext = (void *)&TCMMMUserProper
     return [NSDictionary dictionaryWithObjectsAndKeys:
         [self name],@"name",
         [NSData dataWithUUIDString:[self userID]],@"uID",
-        [NSNumber numberWithLongLong:[self changeCount]],@"cnt", nil];
+        [NSNumber numberWithLongLong:[self changeCount]],@"cnt",
+			self.properties[@"Hue"], @"hue", // might be nil but is okay as it is last element of constructor -evildom
+			nil];
 }
 
 #pragma mark
@@ -264,7 +270,6 @@ void * const TCMMMUserPropertyChangeObservanceContext = (void *)&TCMMMUserProper
     if (aHue) {
         [[self properties] setObject:aHue forKey:@"Hue"];
         [[self properties] removeObjectForKey:@"ChangeColor"];
-        [[self properties] removeObjectForKey:@"ChangeColorForAvatarBorder"];
 		if (self.isMe) {
 			// only update my own change count on this setter
 			[self updateChangeCount];
