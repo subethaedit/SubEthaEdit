@@ -7,10 +7,17 @@
 //
 
 #import <Cocoa/Cocoa.h>
-//#import "MoreUNIX.h"
 
-int main(int argc, const char *argv[])
+#ifndef BETA
+#define MAC_APP_STORE_RECEIPT_VALIDATION
+#import "SEEMacAppStoreReceiptValidation.h"
+#endif
+
+int main(int argc, char *argv[])
 {
-//    (void)MoreUNIXIgnoreSIGPIPE();
-    return NSApplicationMain(argc, argv);
+#ifdef MAC_APP_STORE_RECEIPT_VALIDATION
+	return CheckReceiptAndRun(argc, argv);
+#else
+	return NSApplicationMain(argc,  (const char **) argv);
+#endif
 }
