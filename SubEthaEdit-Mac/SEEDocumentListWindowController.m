@@ -566,7 +566,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 		TCMMMUser *user = connectionRepresentation.user;
 		[avatarView bind:@"image" toObject:user withKeyPath:@"image" options:nil];
 		[avatarView bind:@"initials" toObject:user withKeyPath:@"initials" options:nil];
-		[avatarView bind:@"borderColor" toObject:user withKeyPath:@"changeColorDesaturated" options:nil];
+		[avatarView bind:@"borderColor" toObject:user withKeyPath:@"changeColor" options:nil];
 	}
 }
 

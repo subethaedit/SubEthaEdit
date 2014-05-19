@@ -47,7 +47,8 @@ extern NSString * const TCMMMUserPropertyKeyImageAsPNGData;
 - (NSDictionary *)dictionaryRepresentation;
 - (NSData *)userBencoded;
 
-- (void)setUserHue:(NSNumber *)aHue;
+// can be nil
+@property (nonatomic, strong) NSNumber *userHue;
 
 #pragma mark -
 #pragma mark ### accessors for convenience ###

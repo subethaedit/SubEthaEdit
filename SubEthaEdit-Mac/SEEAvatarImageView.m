@@ -35,7 +35,7 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.borderColor = [NSColor redColor];
+        self.borderColor = [NSColor lightGrayColor];
 		self.initials = @"M E";
 		
 		[self registerKVO];

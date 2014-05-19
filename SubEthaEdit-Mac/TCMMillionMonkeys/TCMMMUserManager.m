@@ -121,6 +121,7 @@ static TCMMMUserManager *sharedInstance=nil;
         [user setChangeCount:0];
         [user setUserID:userID];
         [user setName:[aUser name]];
+		[user setUserHue:aUser.userHue];
         [self setUser:[user autorelease] forUserID:userID];
     } 
     if ([user changeCount]<[aUser changeCount]) {
