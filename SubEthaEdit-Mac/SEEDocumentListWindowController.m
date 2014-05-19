@@ -582,16 +582,18 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	return result;
 }
 
-//- (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(NSInteger)row
-//{
-//	BOOL result = NO;
-//	NSArray *availableDocumentSession = self.availableItems;
-//	id documentRepresentation = [availableDocumentSession objectAtIndex:row];
-//	if ([documentRepresentation isKindOfClass:SEENetworkDocumentListItem.class]) {
-//		result = YES;
-//	}
-//	return result;
-//}
+- (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(NSInteger)row
+{
+	BOOL result = NO;
+	NSArray *availableDocumentSession = self.availableItems;
+	if (! SEEDocumentListOpenDocumentsWithSingleClick) {
+		id documentRepresentation = [availableDocumentSession objectAtIndex:row];
+		if ([documentRepresentation isKindOfClass:SEENetworkDocumentListItem.class] || [documentRepresentation isKindOfClass:SEERecentDocumentListItem.class]) {
+			result = YES;
+		}
+	}
+	return result;
+}
 
 - (void)tableViewSelectionDidChange:(NSNotification *)notification
 {
