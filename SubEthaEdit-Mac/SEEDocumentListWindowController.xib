@@ -384,6 +384,7 @@
                                         <binding destination="uFK-2L-HLP" name="selectionIndexes" keyPath="selectionIndexes" previousBinding="Avm-qz-QPh" id="EGA-vt-KpN"/>
                                         <outlet property="dataSource" destination="-2" id="gak-fe-n4p"/>
                                         <outlet property="delegate" destination="-2" id="wv4-fw-bTL"/>
+                                        <outlet property="menu" destination="k0N-Xw-8dZ" id="ahS-4u-x5x"/>
                                     </connections>
                                 </tableView>
                             </subviews>

@@ -527,7 +527,6 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 		result = [tableView makeViewWithIdentifier:@"Document" owner:self];
 	} else if ([rowItem isKindOfClass:SEENetworkDocumentListItem.class]) {
 		result = [tableView makeViewWithIdentifier:@"NetworkDocument" owner:self];
-		result.menu = self.networkDocumentItemContextMenuOutlet;
 	} else {
 		result = [tableView makeViewWithIdentifier:@"Document" owner:self];
 	}
