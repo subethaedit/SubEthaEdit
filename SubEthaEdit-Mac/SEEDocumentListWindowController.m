@@ -662,7 +662,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 			} else if ([clickedItem isKindOfClass:[SEENetworkConnectionRepresentationListItem class]]) {
 				{
 					NSString *menuItemTitle = NSLocalizedStringWithDefaultValue(@"DOCUMENT_LIST_CONTEXT_MENU_COPY_URL", nil, [NSBundle mainBundle], @"Copy Connection URL", @"MenuItem title in context menu of DocumentList window.");
-					NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:menuItemTitle action:@selector(itemAction:) keyEquivalent:@""];
+					NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:menuItemTitle action:@selector(putConnectionURLOnPasteboard:) keyEquivalent:@""];
 					menuItem.target = clickedItem;
 					menuItem.enabled = YES;
 					[menu addItem:menuItem];

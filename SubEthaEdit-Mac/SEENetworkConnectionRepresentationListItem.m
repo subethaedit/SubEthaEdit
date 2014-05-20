@@ -13,6 +13,7 @@
 #import "SEENetworkConnectionRepresentationListItem.h"
 #import "SEEConnectionManager.h"
 #import "SEEConnection.h"
+#import "TCMFoundation.h"
 #import "TCMMMUser.h"
 #import "TCMMMUserSEEAdditions.h"
 #import "TCMMMBEEPSessionManager.h"
@@ -173,11 +174,37 @@ void * const SEEConnectionClearableObservingContext = (void *)&SEEConnectionClea
 
 }
 
+- (IBAction)putConnectionURLOnPasteboard:(id)sender {
+	TCMMMPresenceManager *presenceManager = [TCMMMPresenceManager sharedInstance];
+	TCMMMUser *user = self.user;
+	NSURL *connectionURL = nil;
+
+	NSString *reachabilityURLString = [presenceManager reachabilityURLStringOfUserID:user.userID];
+	if (reachabilityURLString.length == 0) {
+		if (user.isMe) {
+			NSURL *url = [SEEConnectionManager applicationConnectionURL];
+			connectionURL = url;
+		}
+	} else {
+		connectionURL = [NSURL URLWithString:reachabilityURLString];
+	}
+
+	NSPasteboard *pboard = [NSPasteboard generalPasteboard];
+	[pboard clearContents];
+	NSString *absoluteConnectionURLString = connectionURL.standardizedURL.absoluteString;
+	[pboard addTypes:@[NSPasteboardTypeString, @"public.url", @"public.text"] owner:self];
+	[pboard setString:absoluteConnectionURLString forType:NSPasteboardTypeString];
+	[pboard setString:absoluteConnectionURLString forType:@"public.url"];
+	[pboard setString:absoluteConnectionURLString forType:@"public.text"];
+}
+
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
     SEL selector = [menuItem action];
 
     if (selector == @selector(itemAction:)) {
 		return NO;
+    } else if (selector == @selector(putConnectionURLOnPasteboard:)) {
+		return YES;
     } else if (selector == @selector(disconnect:)) {
 		return self.showsDisconnect;
 	}
