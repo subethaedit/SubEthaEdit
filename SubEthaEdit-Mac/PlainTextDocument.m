@@ -6547,7 +6547,8 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 }
 
 - (NSNumber *)uniqueID {
-    return [NSNumber numberWithUnsignedInt:(uintptr_t)self];
+//    return [NSNumber numberWithUnsignedInt:(uintptr_t)self];
+    return [NSNumber numberWithInteger:(int32_t)self];
 }
 
 - (id)objectSpecifier {
