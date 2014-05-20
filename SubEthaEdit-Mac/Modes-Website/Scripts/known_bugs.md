@@ -20,3 +20,8 @@ this is done like that anyway because there is actually less code that would nee
 * `40-OpenFileInProject.scpt`
 * `45-OpenXcodeProject.scpt`
 * `50-CompileUsingXcode.scpt`
+
+
+
+### Multiple Scripts are affected
+`Open Counterpart` scripts do not tell the user if it does not find a counterpart.
