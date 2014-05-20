@@ -924,3 +924,8 @@
 "AUTHENTICATION_SCRIPT_MISSING_ERROR_SUGGESTION" = "Please visit our website to download the script and follow the instructions to install.";
 "AUTHENTICATION_SCRIPT_MISSING_ERROR_BUTTON_TITLE1" = "Visit Website…";
 "AUTHENTICATION_SCRIPT_MISSING_ERROR_BUTTON_TITLE2" = "Ignore";
+
+"SEEConnectionTaglineBonjour" = "Bonjour";
+"SEEConnectionTaglineInvisible" = "Invisible";
+"SEEConnectionTaglineNetworkingDisabled" = "Networking Disabled";
+"SEEConnectionTaglineFriendcast" = "Friendcast";

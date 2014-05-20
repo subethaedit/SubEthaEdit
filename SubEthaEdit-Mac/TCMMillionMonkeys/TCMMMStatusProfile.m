@@ -13,7 +13,9 @@
 #import "TCMMMSession.h"
 #import "TCMMMPresenceManager.h"
 
-
+@interface TCMMMStatusProfile ()
+@property (nonatomic, readwrite) BOOL lastSentFriendcastingStatus;
+@end
 @implementation TCMMMStatusProfile
 
 + (NSData *)defaultInitializationData {
@@ -82,6 +84,7 @@
 
 - (void)sendIsFriendcasting:(BOOL)isFriendcasting {
     if ([[I_options objectForKey:@"SendUSRRCH"] boolValue]) {
+		self.lastSentFriendcastingStatus = isFriendcasting;
         NSData *data=nil;
         if (isFriendcasting) {
             data=[NSData dataWithBytes:"FCAYES" length:6];

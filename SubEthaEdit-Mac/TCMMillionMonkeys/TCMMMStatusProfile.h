@@ -37,4 +37,5 @@
 - (BOOL)sendToken:(NSString *)aToken;
 - (void)setDelegate:(id <TCMBEEPProfileDelegate, TCMMMStatusProfileDelegate>)aDelegate;
 - (id <TCMBEEPProfileDelegate, TCMMMStatusProfileDelegate>)delegate;
+@property (nonatomic, readonly) BOOL lastSentFriendcastingStatus;
 @end
