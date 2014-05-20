@@ -1,5 +1,5 @@
 //
-//  SEENetworkConnectionRepresentation.m
+//  SEENetworkConnectionRepresentationListItem.m
 //  SubEthaEdit
 //
 //  Created by Michael Ehrmann on 26.02.14.
@@ -10,9 +10,10 @@
 #error ARC must be enabled!
 #endif
 
-#import "SEENetworkConnectionDocumentListItem.h"
+#import "SEENetworkConnectionRepresentationListItem.h"
 #import "SEEConnectionManager.h"
 #import "SEEConnection.h"
+#import "TCMFoundation.h"
 #import "TCMMMUser.h"
 #import "TCMMMUserSEEAdditions.h"
 #import "TCMMMBEEPSessionManager.h"
@@ -22,11 +23,11 @@ void * const SEENetworkConnectionRepresentationConnectionObservingContext = (voi
 void * const SEENetworkConnectionRepresentationUserObservingContext = (void *)&SEENetworkConnectionRepresentationUserObservingContext;
 void * const SEEConnectionClearableObservingContext = (void *)&SEEConnectionClearableObservingContext;
 
-@interface SEENetworkConnectionDocumentListItem ()
+@interface SEENetworkConnectionRepresentationListItem ()
 @property (nonatomic, copy) NSString *cachedUID;
 @end
 
-@implementation SEENetworkConnectionDocumentListItem
+@implementation SEENetworkConnectionRepresentationListItem
 
 @dynamic uid;
 @synthesize name = _name;
@@ -136,9 +137,9 @@ void * const SEEConnectionClearableObservingContext = (void *)&SEEConnectionClea
 	if(connection) {
 		DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"cancel");
 		BOOL abort = NO;
-				if ([[[connection BEEPSession] valueForKeyPath:@"channels.@unionOfObjects.profileURI"] containsObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"]) {
-					abort = YES;
-				}
+		if ([[[connection BEEPSession] valueForKeyPath:@"channels.@unionOfObjects.profileURI"] containsObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"]) {
+			abort = YES;
+		}
 
 		if (abort) {
 			NSAlert *alert = [[NSAlert alloc] init];
@@ -171,6 +172,48 @@ void * const SEEConnectionClearableObservingContext = (void *)&SEEConnectionClea
 
 - (IBAction)itemAction:(id)sender {
 
+}
+
+- (NSURL *)connectionURL {
+	TCMMMPresenceManager *presenceManager = [TCMMMPresenceManager sharedInstance];
+	TCMMMUser *user = self.user;
+	NSURL *connectionURL = nil;
+
+	NSString *reachabilityURLString = [presenceManager reachabilityURLStringOfUserID:user.userID];
+	if (reachabilityURLString.length == 0) {
+		if (user.isMe) {
+			NSURL *url = [SEEConnectionManager applicationConnectionURL];
+			connectionURL = url;
+		}
+	} else {
+		connectionURL = [NSURL URLWithString:reachabilityURLString];
+	}
+
+	return connectionURL;
+}
+
+- (IBAction)putConnectionURLOnPasteboard:(id)sender {
+	NSURL *connectionURL = [self connectionURL];
+
+	if (connectionURL) {
+		NSPasteboard *pboard = [NSPasteboard generalPasteboard];
+		[pboard clearContents];
+		[pboard writeObjects:@[connectionURL]];
+	}
+}
+
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
+    SEL selector = [menuItem action];
+
+    if (selector == @selector(itemAction:)) {
+		return NO;
+    } else if (selector == @selector(putConnectionURLOnPasteboard:)) {
+		return ([self connectionURL]);
+    } else if (selector == @selector(disconnect:)) {
+		return self.showsDisconnect;
+	}
+
+    return YES;
 }
 
 @end
