@@ -1,5 +1,5 @@
 //
-//  SEENetworkConnectionRepresentation.m
+//  SEENetworkConnectionRepresentationListItem.m
 //  SubEthaEdit
 //
 //  Created by Michael Ehrmann on 26.02.14.
@@ -10,7 +10,7 @@
 #error ARC must be enabled!
 #endif
 
-#import "SEENetworkConnectionDocumentListItem.h"
+#import "SEENetworkConnectionRepresentationListItem.h"
 #import "SEEConnectionManager.h"
 #import "SEEConnection.h"
 #import "TCMMMUser.h"
@@ -22,11 +22,11 @@ void * const SEENetworkConnectionRepresentationConnectionObservingContext = (voi
 void * const SEENetworkConnectionRepresentationUserObservingContext = (void *)&SEENetworkConnectionRepresentationUserObservingContext;
 void * const SEEConnectionClearableObservingContext = (void *)&SEEConnectionClearableObservingContext;
 
-@interface SEENetworkConnectionDocumentListItem ()
+@interface SEENetworkConnectionRepresentationListItem ()
 @property (nonatomic, copy) NSString *cachedUID;
 @end
 
-@implementation SEENetworkConnectionDocumentListItem
+@implementation SEENetworkConnectionRepresentationListItem
 
 @dynamic uid;
 @synthesize name = _name;

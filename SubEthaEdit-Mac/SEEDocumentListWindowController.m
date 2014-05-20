@@ -13,7 +13,7 @@
 #import "SEEDocumentListWindowController.h"
 #import "SEEDocumentListGroupTableRowView.h"
 
-#import "SEENetworkConnectionDocumentListItem.h"
+#import "SEENetworkConnectionRepresentationListItem.h"
 #import "SEENetworkDocumentListItem.h"
 #import "SEENewDocumentListItem.h"
 #import "SEEToggleRecentDocumentListItem.h"
@@ -226,12 +226,12 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 
 		{
 			{
-				SEENetworkConnectionDocumentListItem *me = [[SEENetworkConnectionDocumentListItem alloc] init];
+				SEENetworkConnectionRepresentationListItem *me = [[SEENetworkConnectionRepresentationListItem alloc] init];
 				me.user = [[TCMMMUserManager sharedInstance] me];
 				NSString *cachedItemID = me.uid;
 				id <SEEDocumentListItem> cachedItem = [lookupDictionary objectForKey:cachedItemID];
 				if (cachedItem) {
-					[(SEENetworkConnectionDocumentListItem *)cachedItem updateSubline];
+					[(SEENetworkConnectionRepresentationListItem *)cachedItem updateSubline];
 					[self.availableItems addObject:cachedItem];
 				} else {
 					[self.availableItems addObject:me];
@@ -323,10 +323,10 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 			for (SEEConnection *connection in allConnections) {
 				{
 					if (connection.isVisible) {
-						SEENetworkConnectionDocumentListItem *connectionRepresentation = [[SEENetworkConnectionDocumentListItem alloc] init];
+						SEENetworkConnectionRepresentationListItem *connectionRepresentation = [[SEENetworkConnectionRepresentationListItem alloc] init];
 						connectionRepresentation.connection = connection;
 						NSString *cachedItemID = connectionRepresentation.uid;
-						SEENetworkConnectionDocumentListItem *cachedItem = [lookupDictionary objectForKey:cachedItemID];
+						SEENetworkConnectionRepresentationListItem *cachedItem = [lookupDictionary objectForKey:cachedItemID];
 						if (cachedItem) {
 							cachedItem.connection = connection;
 							[self.availableItems addObject:cachedItem];
@@ -450,8 +450,8 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	
 	[rowIndexes enumerateIndexesUsingBlock:^(NSUInteger rowIndex, BOOL *stop) {
 		id documentRepresentation = [availableDocumentSession objectAtIndex:rowIndex];
-		if ([documentRepresentation isKindOfClass:SEENetworkConnectionDocumentListItem.class]) {
-			SEENetworkConnectionDocumentListItem *connectionRepresentation = (SEENetworkConnectionDocumentListItem *)documentRepresentation;
+		if ([documentRepresentation isKindOfClass:SEENetworkConnectionRepresentationListItem.class]) {
+			SEENetworkConnectionRepresentationListItem *connectionRepresentation = (SEENetworkConnectionRepresentationListItem *)documentRepresentation;
 			TCMMMUser *user = connectionRepresentation.user;
 			if (connectionRepresentation.connection) {
 				SEEConnection *connection = connectionRepresentation.connection;
@@ -518,7 +518,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	NSArray *rowItems = self.availableItems;
 	id rowItem = [rowItems objectAtIndex:row];
 
-	if (tableColumn == nil && [rowItem isKindOfClass:SEENetworkConnectionDocumentListItem.class]) {
+	if (tableColumn == nil && [rowItem isKindOfClass:SEENetworkConnectionRepresentationListItem.class]) {
 		result = [tableView makeViewWithIdentifier:@"Group" owner:self];
 	} else if (tableColumn == nil && [rowItem isKindOfClass:SEEConnectDocumentListItem.class]) {
 		result = [tableView makeViewWithIdentifier:@"Connect" owner:self];
@@ -541,11 +541,11 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	NSTableRowView * rowView = nil;
 	NSArray *availableItems = self.availableItems;
 	id <SEEDocumentListItem> itemRepresentation = [availableItems objectAtIndex:row];
-	if ([itemRepresentation isKindOfClass:[SEENetworkConnectionDocumentListItem class]]) {
+	if ([itemRepresentation isKindOfClass:[SEENetworkConnectionRepresentationListItem class]]) {
 		rowView = [[SEEDocumentListGroupTableRowView alloc] init];
 
 		if (row > 1) {
-			BOOL drawTopLine = ! [[availableItems objectAtIndex:row - 1] isKindOfClass:[SEENetworkConnectionDocumentListItem class]];
+			BOOL drawTopLine = ! [[availableItems objectAtIndex:row - 1] isKindOfClass:[SEENetworkConnectionRepresentationListItem class]];
 			((SEEDocumentListGroupTableRowView *)rowView).drawTopLine = drawTopLine;
 		}
 	}
@@ -555,8 +555,8 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 - (void)tableView:(NSTableView *)tableView didAddRowView:(NSTableRowView *)rowView forRow:(NSInteger)row {
 	NSArray *availableDocumentSession = self.availableItems;
 	id documentRepresentation = [availableDocumentSession objectAtIndex:row];
-	if ([documentRepresentation isKindOfClass:SEENetworkConnectionDocumentListItem.class]) {
-		SEENetworkConnectionDocumentListItem *connectionRepresentation = (SEENetworkConnectionDocumentListItem *)documentRepresentation;
+	if ([documentRepresentation isKindOfClass:SEENetworkConnectionRepresentationListItem.class]) {
+		SEENetworkConnectionRepresentationListItem *connectionRepresentation = (SEENetworkConnectionRepresentationListItem *)documentRepresentation;
 		NSTableCellView *tableCellView = [rowView.subviews objectAtIndex:0];
 
 		SEEAvatarImageView *avatarView = nil;
@@ -580,7 +580,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	BOOL result = NO;
 	NSArray *availableDocumentSession = self.availableItems;
 	id documentRepresentation = [availableDocumentSession objectAtIndex:row];
-	if ([documentRepresentation isKindOfClass:SEENetworkConnectionDocumentListItem.class] ||
+	if ([documentRepresentation isKindOfClass:SEENetworkConnectionRepresentationListItem.class] ||
 		[documentRepresentation isKindOfClass:SEEConnectDocumentListItem.class]) {
 		result = YES;
 	}
@@ -620,7 +620,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 
 	NSArray *availableDocumentSession = self.availableItems;
 	id documentRepresentation = [availableDocumentSession objectAtIndex:row];
-	if ([documentRepresentation isKindOfClass:SEENetworkConnectionDocumentListItem.class]) {
+	if ([documentRepresentation isKindOfClass:SEENetworkConnectionRepresentationListItem.class]) {
 		rowHeight = 56.0;
 	} else if ([documentRepresentation isKindOfClass:SEEToggleRecentDocumentListItem.class]) {
 		rowHeight = 28.0;
@@ -659,7 +659,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 				menuItem.target = clickedItem;
 				menuItem.enabled = YES;
 				[menu addItem:menuItem];
-			} else if ([clickedItem isKindOfClass:[SEENetworkConnectionDocumentListItem class]]) {
+			} else if ([clickedItem isKindOfClass:[SEENetworkConnectionRepresentationListItem class]]) {
 
 				NSString *menuItemTitle = NSLocalizedStringWithDefaultValue(@"DOCUMENT_LIST_CONTEXT_MENU_COPY_URL", nil, [NSBundle mainBundle], @"Copy Connection URL", @"MenuItem title in context menu of DocumentList window.");
 				NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:menuItemTitle action:@selector(itemAction:) keyEquivalent:@""];
