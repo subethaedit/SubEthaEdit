@@ -445,12 +445,16 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 
 	__block NSString *seeURL = nil;
 	TCMMMPresenceManager *presenceManager = [TCMMMPresenceManager sharedInstance];
-	
+
+	__block NSData *imageData = nil;
+	__block TCMMMUser *foundUser = nil;
 	[rowIndexes enumerateIndexesUsingBlock:^(NSUInteger rowIndex, BOOL *stop) {
 		id documentRepresentation = [availableDocumentSession objectAtIndex:rowIndex];
 		if ([documentRepresentation isKindOfClass:SEENetworkConnectionDocumentListItem.class]) {
 			SEENetworkConnectionDocumentListItem *connectionRepresentation = (SEENetworkConnectionDocumentListItem *)documentRepresentation;
 			TCMMMUser *user = connectionRepresentation.user;
+			foundUser = user;
+			imageData = user.imageData;
 			if (connectionRepresentation.connection) {
 				SEEConnection *connection = connectionRepresentation.connection;
 				NSDictionary *userDescription = @{@"UserID": user.userID,
@@ -493,6 +497,18 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 			}];
 		}
 
+		
+		{
+			if (imageData) {
+				[types addObjectsFromArray:@[@"public.jpeg", NSFileContentsPboardType]];
+				[blocks addObject:^{
+					[pboard setData:imageData forType:@"public.jpeg"];
+					[pboard setData:imageData forType:NSFileContentsPboardType];
+					//					[pboard setString:[[NSURL fileURLWithPath:[[foundUser name] stringByAppendingPathExtension:@"jpg"]] absoluteString] forType:(NSString *)kPasteboardTypeFileURLPromise];
+				}];
+			}
+		}
+		
 		// execute them again in order
 		if (types.count > 0) {
 			[pboard addTypes:types owner:self];
