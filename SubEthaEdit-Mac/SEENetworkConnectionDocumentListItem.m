@@ -15,6 +15,8 @@
 #import "SEEConnection.h"
 #import "TCMMMUser.h"
 #import "TCMMMUserSEEAdditions.h"
+#import "TCMMMBEEPSessionManager.h"
+#import "TCMMMPresenceManager.h"
 
 void * const SEENetworkConnectionRepresentationConnectionObservingContext = (void *)&SEENetworkConnectionRepresentationConnectionObservingContext;
 void * const SEENetworkConnectionRepresentationUserObservingContext = (void *)&SEENetworkConnectionRepresentationUserObservingContext;
@@ -60,12 +62,15 @@ void * const SEEConnectionClearableObservingContext = (void *)&SEEConnectionClea
 	
 	NSString *result = @"";
 	NSString *URLString = [[TCMMMPresenceManager sharedInstance] reachabilityURLStringOfUserID:self.user.userID];
-	if (URLString.length == 0 && self.user.isMe) {
-		NSURL *url = [SEEConnectionManager applicationConnectionURL];
-		URLString = url ? url.absoluteString : @"";
-	}
 	if (URLString.length > 0) {
 		[parts addObject:URLString];
+	}
+
+	if (URLString.length == 0 && self.user.isMe) {
+		if (![[TCMMMPresenceManager sharedInstance] isCurrentlyReallyInvisible]  &&
+			![[TCMMMBEEPSessionManager sharedInstance] isNetworkingDisabled]) {
+				[parts addObject:@"Bonjour"];
+		}
 	}
 	SEEConnection *connection = self.connection;
 	if (connection.isBonjour) {
