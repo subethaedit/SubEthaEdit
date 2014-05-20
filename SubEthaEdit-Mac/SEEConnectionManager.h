@@ -17,8 +17,6 @@
 + (SEEConnectionManager *)sharedInstance;
 + (NSURL *)applicationConnectionURL;
 
-+ (BOOL)invitePeopleFromPasteboard:(NSPasteboard *)aPasteboard intoDocumentGroupURL:(NSURL *)aURL;
-
 - (void)connectToURL:(NSURL *)anURL;
 - (void)connectToAddress:(NSString *)address;
 

@@ -202,6 +202,7 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
 - (IBAction)toggleIsAnnounced:(id)aSender;
 - (IBAction)toggleIsAnnouncedOnAllDocuments:(id)aSender;
 - (IBAction)inviteUsersToDocumentViaSharingService:(id)aSender;
+- (BOOL)invitePeopleFromPasteboard:(NSPasteboard *)aPasteboard;
 - (IBAction)changePendingUsersAccess:(id)aSender;
 - (IBAction)changePendingUsersAccessOnAllDocuments:(id)aSender;
 
