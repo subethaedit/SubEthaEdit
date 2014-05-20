@@ -136,9 +136,9 @@ void * const SEEConnectionClearableObservingContext = (void *)&SEEConnectionClea
 	if(connection) {
 		DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"cancel");
 		BOOL abort = NO;
-				if ([[[connection BEEPSession] valueForKeyPath:@"channels.@unionOfObjects.profileURI"] containsObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"]) {
-					abort = YES;
-				}
+		if ([[[connection BEEPSession] valueForKeyPath:@"channels.@unionOfObjects.profileURI"] containsObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"]) {
+			abort = YES;
+		}
 
 		if (abort) {
 			NSAlert *alert = [[NSAlert alloc] init];
@@ -171,6 +171,18 @@ void * const SEEConnectionClearableObservingContext = (void *)&SEEConnectionClea
 
 - (IBAction)itemAction:(id)sender {
 
+}
+
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
+    SEL selector = [menuItem action];
+
+    if (selector == @selector(itemAction:)) {
+		return NO;
+    } else if (selector == @selector(disconnect:)) {
+		return self.showsDisconnect;
+	}
+
+    return YES;
 }
 
 @end
