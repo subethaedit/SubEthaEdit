@@ -15,6 +15,8 @@
 #import "SEEConnection.h"
 #import "TCMMMUser.h"
 #import "TCMMMUserSEEAdditions.h"
+#import "TCMMMBEEPSessionManager.h"
+#import "TCMMMPresenceManager.h"
 
 void * const SEENetworkConnectionRepresentationConnectionObservingContext = (void *)&SEENetworkConnectionRepresentationConnectionObservingContext;
 void * const SEENetworkConnectionRepresentationUserObservingContext = (void *)&SEENetworkConnectionRepresentationUserObservingContext;
@@ -60,18 +62,24 @@ void * const SEEConnectionClearableObservingContext = (void *)&SEEConnectionClea
 	
 	NSString *result = @"";
 	NSString *URLString = [[TCMMMPresenceManager sharedInstance] reachabilityURLStringOfUserID:self.user.userID];
-	if (URLString.length == 0 && self.user.isMe) {
-		NSURL *url = [SEEConnectionManager applicationConnectionURL];
-		URLString = url ? url.absoluteString : @"";
-	}
 	if (URLString.length > 0) {
 		[parts addObject:URLString];
 	}
+
+	if (URLString.length == 0 && self.user.isMe) {
+		if ([[TCMMMBEEPSessionManager sharedInstance] isNetworkingDisabled]) {
+			[parts addObject:NSLocalizedString(@"SEEConnectionTaglineNetworkingDisabled", @"")];
+		} else if ([[TCMMMPresenceManager sharedInstance] isCurrentlyReallyInvisible]) {
+			[parts addObject:NSLocalizedString(@"SEEConnectionTaglineInvisible", @"")];
+		} else {
+			[parts addObject:NSLocalizedString(@"SEEConnectionTaglineBonjour", @"")];
+		}
+	}
 	SEEConnection *connection = self.connection;
 	if (connection.isBonjour) {
-		[parts addObject:@"Bonjour"];
+		[parts addObject:NSLocalizedString(@"SEEConnectionTaglineBonjour", @"")];
 	} else if ([[connection.BEEPSession userInfo] objectForKey:@"isAutoConnect"]) {
-		[parts addObject:@"Friendcast"];
+		[parts addObject:NSLocalizedString(@"SEEConnectionTaglineFriendcast", @"")];
 	} else {
 		NSURL *connectToURL = self.connection.URL;
 		if (connectToURL && ![connectToURL.absoluteString isEqual:parts.lastObject]) {
