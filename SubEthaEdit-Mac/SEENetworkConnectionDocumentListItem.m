@@ -67,16 +67,19 @@ void * const SEEConnectionClearableObservingContext = (void *)&SEEConnectionClea
 	}
 
 	if (URLString.length == 0 && self.user.isMe) {
-		if (![[TCMMMPresenceManager sharedInstance] isCurrentlyReallyInvisible]  &&
-			![[TCMMMBEEPSessionManager sharedInstance] isNetworkingDisabled]) {
-				[parts addObject:@"Bonjour"];
+		if ([[TCMMMBEEPSessionManager sharedInstance] isNetworkingDisabled]) {
+			[parts addObject:NSLocalizedString(@"SEEConnectionTaglineNetworkingDisabled", @"")];
+		} else if ([[TCMMMPresenceManager sharedInstance] isCurrentlyReallyInvisible]) {
+			[parts addObject:NSLocalizedString(@"SEEConnectionTaglineInvisible", @"")];
+		} else {
+			[parts addObject:NSLocalizedString(@"SEEConnectionTaglineBonjour", @"")];
 		}
 	}
 	SEEConnection *connection = self.connection;
 	if (connection.isBonjour) {
-		[parts addObject:@"Bonjour"];
+		[parts addObject:NSLocalizedString(@"SEEConnectionTaglineBonjour", @"")];
 	} else if ([[connection.BEEPSession userInfo] objectForKey:@"isAutoConnect"]) {
-		[parts addObject:@"Friendcast"];
+		[parts addObject:NSLocalizedString(@"SEEConnectionTaglineFriendcast", @"")];
 	} else {
 		NSURL *connectToURL = self.connection.URL;
 		if (connectToURL && ![connectToURL.absoluteString isEqual:parts.lastObject]) {
