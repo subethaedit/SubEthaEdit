@@ -453,6 +453,8 @@ NSString *const RecentDocumentsDidChangeNotification = @"RecentDocumentsDidChang
             FoldableTextStorage *textStorage=(FoldableTextStorage *)[document textStorage];
             [textStorage replaceCharactersInRange:NSMakeRange(0,[textStorage length]) withString:templateFileContent];
             [document updateChangeCount:NSChangeCleared];
+
+			[document autosaveForStateRestore];
         }
     }
 }
