@@ -931,8 +931,7 @@ static NSMenu *S_defaultMenu=nil;
             return NSDragOperationGeneric;
         }
     } else if ([[pboard types] containsObject:@"ParticipantDrag"]) {
-    } else if ([[pboard types] containsObject:@"PresentityNames"] ||
-			   [[pboard types] containsObject:@"IMHandleNames"]) {
+    } else if ([[pboard types] containsObject:@"IMHandleNames"]) {
         BOOL shouldDrag=[[self.document session] isServer];
         if (shouldDrag) {
             [self setIsDragTarget:YES];
@@ -958,9 +957,7 @@ static NSMenu *S_defaultMenu=nil;
 				return NSDragOperationCopy;
 			}
 		} else if ([[pboard types] containsObject:@"ParticipantDrag"]) {
-		} else if ([[pboard types] containsObject:@"PresentityNames"] ||
-				   [[pboard types] containsObject:@"IMHandleNames"]) {
-			// perform this by selector to not create dependency on TCMPortMapper
+		} else if ([[pboard types] containsObject:@"IMHandleNames"]) {
 			BOOL shouldDrag=[[(PlainTextDocument *)[self document] session] isServer];
 			if (shouldDrag) {
 				[self setIsDragTarget:YES];
@@ -982,8 +979,7 @@ static NSMenu *S_defaultMenu=nil;
 			[self setIsDragTarget:shouldDrag];
 			return shouldDrag;
 		} else if ([[pboard types] containsObject:@"ParticipantDrag"]) {
-		} else if ([[pboard types] containsObject:@"PresentityNames"] ||
-				   [[pboard types] containsObject:@"IMHandleNames"]) {
+		} else if ([[pboard types] containsObject:@"IMHandleNames"]) {
 			BOOL shouldDrag=[[(PlainTextDocument *)[self document] session] isServer];
 			[self setIsDragTarget:YES];
 			if (shouldDrag) {
@@ -1021,12 +1017,11 @@ static NSMenu *S_defaultMenu=nil;
         [self setIsDragTarget:NO];
         return YES;
     } else if ([[pboard types] containsObject:@"ParticipantDrag"]) {
-    } else if ([[pboard types] containsObject:@"PresentityNames"] ||
-			   [[pboard types] containsObject:@"IMHandleNames"]) {
+    } else if ([[pboard types] containsObject:@"IMHandleNames"]) {
         BOOL shouldDrag=[[(PlainTextDocument *)[self document] session] isServer];
         [self setIsDragTarget:YES];
         if (shouldDrag) {
-            [SEEConnectionManager invitePeopleFromPasteboard:pboard intoDocumentGroupURL:[self.document documentURLForGroup:TCMMMSessionReadWriteGroupName]];
+			[self.document invitePeopleFromPasteboard:pboard];
             [self setIsDragTarget:NO];
             return YES;
         }
@@ -1050,7 +1045,6 @@ static NSMenu *S_defaultMenu=nil;
     NSMutableArray *dragTypes=[[super acceptableDragTypes] mutableCopy];
     [dragTypes addObject:kSEEPasteBoardTypeConnection];
     [dragTypes addObject:@"ParticipantDrag"];
-    [dragTypes addObject:@"PresentityNames"];
     [dragTypes addObject:@"IMHandleNames"];
     return dragTypes;
 }

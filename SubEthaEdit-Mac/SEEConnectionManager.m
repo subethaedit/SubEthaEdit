@@ -253,20 +253,5 @@
     [script performSelector:@selector(executeAndReturnError:) withObject:nil afterDelay:0.1];
 }
 
-+ (BOOL)invitePeopleFromPasteboard:(NSPasteboard *)aPasteboard intoDocumentGroupURL:(NSURL *)aURL {
-    BOOL success = NO;
-    if ([[aPasteboard types] containsObject:@"PresentityNames"] ||
-		[[aPasteboard types] containsObject:@"IMHandleNames"]) {
-        NSArray *presentityNames=[[aPasteboard types] containsObject:@"PresentityNames"] ? [aPasteboard propertyListForType:@"PresentityNames"] : [aPasteboard propertyListForType:@"IMHandleNames"]; 
-        NSUInteger i=0;
-        for (i=0;i<[presentityNames count];i+=4) {
-            [self sendInvitationToServiceWithID:[presentityNames objectAtIndex:i] buddy:[presentityNames objectAtIndex:i+1] url:aURL];
-        }
-        success = YES;
-    }
-
-    return success;
-}
-
 @end
 

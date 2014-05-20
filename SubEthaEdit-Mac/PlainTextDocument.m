@@ -1272,6 +1272,32 @@ static NSString *tempFileName(NSString *origPath) {
 	[servicePicker showRelativeToRect:NSZeroRect ofView:sender preferredEdge:CGRectMaxYEdge];
 }
 
+- (BOOL)invitePeopleFromPasteboard:(NSPasteboard *)aPasteboard {
+    BOOL success = NO;
+    if ([[aPasteboard types] containsObject:@"IMHandleNames"]) {
+        NSArray *presentityNames= [aPasteboard propertyListForType:@"IMHandleNames"];
+        NSUInteger i=0;
+		
+		NSSharingService *service = [NSSharingService sharingServiceNamed:NSSharingServiceNameComposeMessage];
+		service.delegate = self;
+		NSMutableArray *recipients = [NSMutableArray array];
+        for (i=0;i<[presentityNames count];i+=4) {
+			//			NSString *serviceID = presentityNames[i];
+			//	NSString *accountID = presentityNames[i+1];
+			// don't know the format of the recipients field, so leave it blank and the user has to paste it in
+			//			[recipients addObject:[@"bonjour://" stringByAppendingString:accountID]];
+            //[self sendInvitationToServiceWithID:[presentityNames objectAtIndex:i] buddy:[presentityNames objectAtIndex:i+1] url:aURL];
+        }
+		service.recipients = recipients;
+		//		service.recipients = @[@"bonjour:something"];
+		[service performWithItems:@[[self documentURLForGroup:TCMMMSessionReadWriteGroupName]]];
+        success = YES;
+    }
+	
+    return success;
+}
+
+
 - (IBAction)toggleIsAnnouncedOnAllDocuments:(id)aSender {
     BOOL targetSetting = ![self isAnnounced];
     NSEnumerator *documents = [[[SEEDocumentController sharedInstance] documents] objectEnumerator];
