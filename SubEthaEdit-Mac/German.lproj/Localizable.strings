@@ -1008,6 +1008,8 @@
 "DOCUMENT_LIST_RECENT_TOGGLE" = "Benutzte Dokumente";
 "DOCUMENT_LIST_CONTEXT_MENU_OPEN" = "Öffnen";
 "DOCUMENT_LIST_CONTEXT_MENU_COPY_URL" = "Verbindungs-URL kopieren";
+"DOCUMENT_LIST_CONTEXT_MENU_DISCONNECT" = "Verbindung trennen";
+
 
 /* connection add window */
 "CONNECTION_ADD_WINDOW_TITLE" = "Verbindung hinzufügen";

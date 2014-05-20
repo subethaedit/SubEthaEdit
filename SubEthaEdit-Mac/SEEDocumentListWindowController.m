@@ -660,12 +660,23 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 				menuItem.enabled = YES;
 				[menu addItem:menuItem];
 			} else if ([clickedItem isKindOfClass:[SEENetworkConnectionRepresentationListItem class]]) {
-
-				NSString *menuItemTitle = NSLocalizedStringWithDefaultValue(@"DOCUMENT_LIST_CONTEXT_MENU_COPY_URL", nil, [NSBundle mainBundle], @"Copy Connection URL", @"MenuItem title in context menu of DocumentList window.");
-				NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:menuItemTitle action:@selector(itemAction:) keyEquivalent:@""];
-				menuItem.target = clickedItem;
-				menuItem.enabled = YES;
-				[menu addItem:menuItem];
+				{
+					NSString *menuItemTitle = NSLocalizedStringWithDefaultValue(@"DOCUMENT_LIST_CONTEXT_MENU_COPY_URL", nil, [NSBundle mainBundle], @"Copy Connection URL", @"MenuItem title in context menu of DocumentList window.");
+					NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:menuItemTitle action:@selector(itemAction:) keyEquivalent:@""];
+					menuItem.target = clickedItem;
+					menuItem.enabled = YES;
+					[menu addItem:menuItem];
+				}
+				{
+					[menu addItem:[NSMenuItem separatorItem]];
+				}
+				{
+					NSString *menuItemTitle = NSLocalizedStringWithDefaultValue(@"DOCUMENT_LIST_CONTEXT_MENU_DISCONNECT", nil, [NSBundle mainBundle], @"Disconnect", @"MenuItem title in context menu of DocumentList window.");
+					NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:menuItemTitle action:@selector(disconnect:) keyEquivalent:@""];
+					menuItem.target = clickedItem;
+					menuItem.enabled = YES;
+					[menu addItem:menuItem];
+				}
 			}
 		}
     }
