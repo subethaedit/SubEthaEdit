@@ -174,7 +174,7 @@ void * const SEEConnectionClearableObservingContext = (void *)&SEEConnectionClea
 
 }
 
-- (IBAction)putConnectionURLOnPasteboard:(id)sender {
+- (NSURL *)connectionURL {
 	TCMMMPresenceManager *presenceManager = [TCMMMPresenceManager sharedInstance];
 	TCMMMUser *user = self.user;
 	NSURL *connectionURL = nil;
@@ -189,13 +189,17 @@ void * const SEEConnectionClearableObservingContext = (void *)&SEEConnectionClea
 		connectionURL = [NSURL URLWithString:reachabilityURLString];
 	}
 
-	NSPasteboard *pboard = [NSPasteboard generalPasteboard];
-	[pboard clearContents];
-	NSString *absoluteConnectionURLString = connectionURL.standardizedURL.absoluteString;
-	[pboard addTypes:@[NSPasteboardTypeString, @"public.url", @"public.text"] owner:self];
-	[pboard setString:absoluteConnectionURLString forType:NSPasteboardTypeString];
-	[pboard setString:absoluteConnectionURLString forType:@"public.url"];
-	[pboard setString:absoluteConnectionURLString forType:@"public.text"];
+	return connectionURL;
+}
+
+- (IBAction)putConnectionURLOnPasteboard:(id)sender {
+	NSURL *connectionURL = [self connectionURL];
+
+	if (connectionURL) {
+		NSPasteboard *pboard = [NSPasteboard generalPasteboard];
+		[pboard clearContents];
+		[pboard writeObjects:@[connectionURL]];
+	}
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
@@ -204,7 +208,7 @@ void * const SEEConnectionClearableObservingContext = (void *)&SEEConnectionClea
     if (selector == @selector(itemAction:)) {
 		return NO;
     } else if (selector == @selector(putConnectionURLOnPasteboard:)) {
-		return YES;
+		return ([self connectionURL]);
     } else if (selector == @selector(disconnect:)) {
 		return self.showsDisconnect;
 	}
