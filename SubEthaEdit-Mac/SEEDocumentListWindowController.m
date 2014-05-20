@@ -647,19 +647,24 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	}
 
     if (menu == self.networkDocumentItemContextMenuOutlet) {
-        NSMenuItem *menuItem = [menu itemAtIndex:0];
-        if (clickedItem != nil) {
-            if (clickedOnMultipleItems) {
-                // We could walk through the selection and note what was clicked on at this point
-                [menuItem setTitle:[NSString stringWithFormat:@"You clicked on %ld items!", (long)[tableView numberOfSelectedRows]]];
-            } else {
-                [menuItem setTitle:[NSString stringWithFormat:@"You clicked on: '%@'", clickedItem.name]];
-            }
-            [menuItem setEnabled:YES];
-        } else {
-            [menuItem setTitle:@"You didn't click on any rows..."];
-            [menuItem setEnabled:NO];
-        }
+		[menu removeAllItems];
+
+		if (clickedItem != nil) {
+			if ([clickedItem isKindOfClass:[SEENetworkDocumentListItem class]] || [clickedItem isKindOfClass:[SEERecentDocumentListItem class]]) {
+				NSString *menuItemTitle = NSLocalizedStringWithDefaultValue(@"DOCUMENT_LIST_CONTEXT_MENU_OPEN", nil, [NSBundle mainBundle], @"Open", @"MenuItem title in context menu of DocumentList window.");
+				NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:menuItemTitle action:@selector(itemAction:) keyEquivalent:@""];
+				menuItem.target = clickedItem;
+				menuItem.enabled = YES;
+				[menu addItem:menuItem];
+			} else if ([clickedItem isKindOfClass:[SEENetworkConnectionDocumentListItem class]]) {
+
+				NSString *menuItemTitle = NSLocalizedStringWithDefaultValue(@"DOCUMENT_LIST_CONTEXT_MENU_COPY_URL", nil, [NSBundle mainBundle], @"Copy Connection URL", @"MenuItem title in context menu of DocumentList window.");
+				NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:menuItemTitle action:@selector(itemAction:) keyEquivalent:@""];
+				menuItem.target = clickedItem;
+				menuItem.enabled = YES;
+				[menu addItem:menuItem];
+			}
+		}
     }
 }
 
