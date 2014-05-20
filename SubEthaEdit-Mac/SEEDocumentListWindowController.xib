@@ -9,6 +9,7 @@
             <connections>
                 <outlet property="documentListItemsArrayController" destination="uFK-2L-HLP" id="kuw-vi-3gR"/>
                 <outlet property="filesOwnerProxy" destination="iXX-4h-P4x" id="yJ9-JU-HvF"/>
+                <outlet property="networkDocumentItemContextMenuOutlet" destination="k0N-Xw-8dZ" id="HtR-OX-G7e"/>
                 <outlet property="scrollViewOutlet" destination="qRg-fN-a9P" id="TM4-68-dsZ"/>
                 <outlet property="tableViewOutlet" destination="btu-v5-80w" id="sDv-vX-AT3"/>
                 <outlet property="window" destination="1" id="3"/>
@@ -20,7 +21,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" resizable="YES"/>
             <windowCollectionBehavior key="collectionBehavior" moveToActiveSpace="YES" fullScreenAuxiliary="YES"/>
             <rect key="contentRect" x="196" y="240" width="300" height="400"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1418"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1178"/>
             <value key="minSize" type="size" width="180" height="140"/>
             <value key="maxSize" type="size" width="1000" height="3000"/>
             <view key="contentView" id="2">
@@ -383,6 +384,7 @@
                                         <binding destination="uFK-2L-HLP" name="selectionIndexes" keyPath="selectionIndexes" previousBinding="Avm-qz-QPh" id="EGA-vt-KpN"/>
                                         <outlet property="dataSource" destination="-2" id="gak-fe-n4p"/>
                                         <outlet property="delegate" destination="-2" id="wv4-fw-bTL"/>
+                                        <outlet property="menu" destination="k0N-Xw-8dZ" id="ahS-4u-x5x"/>
                                     </connections>
                                 </tableView>
                             </subviews>
@@ -426,6 +428,16 @@
                 <binding destination="iXX-4h-P4x" name="contentArray" keyPath="selection.availableItems" id="ued-ys-c5n"/>
             </connections>
         </arrayController>
+        <menu id="k0N-Xw-8dZ" userLabel="NetworkDocumentItemContextMenu">
+            <items>
+                <menuItem title="Open File" id="ikA-7b-gSQ">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                </menuItem>
+            </items>
+            <connections>
+                <outlet property="delegate" destination="-2" id="axN-I6-ZB0"/>
+            </connections>
+        </menu>
     </objects>
     <resources>
         <image name="NSAddTemplate" width="8" height="8"/>

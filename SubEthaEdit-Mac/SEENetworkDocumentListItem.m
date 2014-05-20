@@ -120,4 +120,13 @@ extern int const FileNewMenuItemTag;
 	}
 }
 
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
+    SEL selector = [menuItem action];
+
+    if (selector == @selector(itemAction:)) {
+		return YES;
+    }
+    return YES;
+}
+
 @end

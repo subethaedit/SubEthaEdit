@@ -1,5 +1,5 @@
 //
-//  SEENetworkConnectionRepresentation.h
+//  SEENetworkConnectionRepresentationListItem.h
 //  SubEthaEdit
 //
 //  Created by Michael Ehrmann on 26.02.14.
@@ -11,7 +11,7 @@
 
 @class SEEConnection, TCMMMUser;
 
-@interface SEENetworkConnectionDocumentListItem : NSObject <SEEDocumentListItem>
+@interface SEENetworkConnectionRepresentationListItem : NSObject <SEEDocumentListItem>
 @property (nonatomic, readonly, assign) BOOL showsDisconnect;
 @property (nonatomic, strong) SEEConnection *connection; // also overrides user
 @property (nonatomic, strong) TCMMMUser *user;
