@@ -181,6 +181,8 @@
 					<regex>(?&lt;![\d\w])(?i)(pause-after)</regex>
 					<regex>(?&lt;![\d\w])(?i)(pause-before)</regex>
 					<regex>(?&lt;![\d\w])(?i)(pause)</regex>
+					<regex>(?&lt;![\d\w])(?i)(perspective-origin)</regex>
+					<regex>(?&lt;![\d\w])(?i)(perspective)</regex>
 					<regex>(?&lt;![\d\w])(?i)(phonemes)</regex>
 					<regex>(?&lt;![\d\w])(?i)(pitch-range)</regex>
 					<regex>(?&lt;![\d\w])(?i)(pitch)</regex>
@@ -189,7 +191,6 @@
 					<regex>(?&lt;![\d\w])(?i)(position)</regex>
 					<regex>(?&lt;![\d\w])(?i)(presentation-level)</regex>
 					<regex>(?&lt;![\d\w])(?i)(punctuation-trim)</regex>
-					<regex>(?&lt;![\d\w])(?i)(perspective(?:-[\w]+)*)</regex>
 					<regex>(?&lt;![\d\w])(?i)(quotes)</regex>
 					<regex>(?&lt;![\d\w])(?i)(rendering-indent)</regex>
 					<regex>(?&lt;![\d\w])(?i)(resize)</regex>
@@ -227,7 +228,9 @@
 					<regex>(?&lt;![\d\w])(?i)(toggle-group)</regex>
 					<regex>(?&lt;![\d\w])(?i)(top)</regex>
 					<regex>(?&lt;![\d\w])(?i)(transition(?:-[\w]+)*)</regex>
-					<regex>(?&lt;![\d\w])(?i)(transform(?:-[\w]+)*)</regex>
+					<regex>(?&lt;![\d\w])(?i)(transform-origin)</regex>
+					<regex>(?&lt;![\d\w])(?i)(transform-style)</regex>
+					<regex>(?&lt;![\d\w])(?i)(transform)</regex>
 					<regex>(?&lt;![\d\w])(?i)(unicode-bidi)</regex>
 					<regex>(?&lt;![\d\w])(?i)(unicode-range)</regex><!-- @font-face descriptor -->
 					<regex>(?&lt;![\d\w])(?i)(user-focus)</regex>
