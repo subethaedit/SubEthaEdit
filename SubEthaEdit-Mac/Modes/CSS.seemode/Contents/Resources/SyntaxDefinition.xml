@@ -29,7 +29,15 @@
  					<regex>(?&lt;![\d\w])(?i)(align-content)</regex>
  					<regex>(?&lt;![\d\w])(?i)(align-items)</regex>
  					<regex>(?&lt;![\d\w])(?i)(align-self)</regex>
-					<regex>(?&lt;![\d\w])(?i)(animation(?:-[\w]+)*)</regex>
+					<regex>(?&lt;![\d\w])(?i)(animation-delay)</regex>
+					<regex>(?&lt;![\d\w])(?i)(animation-direction)</regex>
+					<regex>(?&lt;![\d\w])(?i)(animation-duration)</regex>
+					<regex>(?&lt;![\d\w])(?i)(animation-fill-mode)</regex>
+					<regex>(?&lt;![\d\w])(?i)(animation-iteration-count)</regex>
+					<regex>(?&lt;![\d\w])(?i)(animation-name)</regex>
+					<regex>(?&lt;![\d\w])(?i)(animation-play-state)</regex>
+					<regex>(?&lt;![\d\w])(?i)(animation-timing-function)</regex>
+					<regex>(?&lt;![\d\w])(?i)(animation)</regex>
 					<regex>(?&lt;![\d\w])(?i)(appearance)</regex>
 					<regex>(?&lt;![\d\w])(?i)(azimuth)</regex>
 					<regex>(?&lt;![\d\w])(?i)(background-attachment)</regex>
