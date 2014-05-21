@@ -53,6 +53,7 @@
 					<regex>(?&lt;![\d\w])(?i)(background)</regex>
 					<regex>(?&lt;![\d\w])(?i)(backface-visibility)</regex>
 					<regex>(?&lt;![\d\w])(?i)(baseline-shift)</regex>
+					<regex>(?&lt;![\d\w])(?i)(bikeshedding)</regex><!-- old text property -->
 					<regex>(?&lt;![\d\w])(?i)(binding)</regex>
 					<regex>(?&lt;![\d\w])(?i)(bookmark(?:-[\w]+)+)</regex>
 					<regex>(?&lt;![\d\w])(?i)(border-bottom-color)</regex>
@@ -145,7 +146,12 @@
 					<regex>(?&lt;![\d\w])(?i)(group-reset)</regex><!-- old user interaction -->
 					<regex>(?&lt;![\d\w])(?i)(hanging-punctuation)</regex>
 					<regex>(?&lt;![\d\w])(?i)(height)</regex>
-					<regex>(?&lt;![\d\w])(?i)(hyphenate(?:-[\w]+)+)</regex>
+					<regex>(?&lt;![\d\w])(?i)(hyphenate-character)</regex><!-- old text property -->
+					<regex>(?&lt;![\d\w])(?i)(hyphenate-limit-chars)</regex><!-- old text property -->
+					<regex>(?&lt;![\d\w])(?i)(hyphenate-limit-last)</regex><!-- old text property -->
+					<regex>(?&lt;![\d\w])(?i)(hyphenate-limit-lines)</regex><!-- old text property -->
+					<regex>(?&lt;![\d\w])(?i)(hyphenate-limit-zone)</regex><!-- old text property -->
+					<regex>(?&lt;![\d\w])(?i)(hyphenate-resource)</regex><!-- old text property -->
 					<regex>(?&lt;![\d\w])(?i)(hyphens)</regex>
 					<regex>(?&lt;![\d\w])(?i)(icon)</regex>
 					<regex>(?&lt;![\d\w])(?i)(ime-mode)</regex>
@@ -262,6 +268,7 @@
 					<regex>(?&lt;![\d\w])(?i)(table-layout)</regex>
 					<regex>(?&lt;![\d\w])(?i)(text-align-last)</regex>
 					<regex>(?&lt;![\d\w])(?i)(text-align)</regex>
+					<regex>(?&lt;![\d\w])(?i)(text-autospace)</regex><!-- old text property -->
 					<regex>(?&lt;![\d\w])(?i)(text-decoration-color)</regex> 
 					<regex>(?&lt;![\d\w])(?i)(text-decoration-line)</regex>
 					<regex>(?&lt;![\d\w])(?i)(text-decoration-skip)</regex>
@@ -274,10 +281,13 @@
 					<regex>(?&lt;![\d\w])(?i)(text-height)</regex>
 					<regex>(?&lt;![\d\w])(?i)(text-indent)</regex>
 					<regex>(?&lt;![\d\w])(?i)(text-justify)</regex>
+					<regex>(?&lt;![\d\w])(?i)(text-outline)</regex><!-- old text property -->
 					<regex>(?&lt;![\d\w])(?i)(text-overflow)</regex>
 					<regex>(?&lt;![\d\w])(?i)(text-shadow)</regex>
 					<regex>(?&lt;![\d\w])(?i)(text-transform)</regex>
+					<regex>(?&lt;![\d\w])(?i)(text-trim)</regex><!-- old text property -->
 					<regex>(?&lt;![\d\w])(?i)(text-underline-position)</regex>
+					<regex>(?&lt;![\d\w])(?i)(text-wrap)</regex><!-- old text property -->
 					<regex>(?&lt;![\d\w])(?i)(toggle-group)</regex><!-- old user interaction property -->
 					<regex>(?&lt;![\d\w])(?i)(top)</regex>
 					<regex>(?&lt;![\d\w])(?i)(transition-delay)</regex>
