@@ -239,14 +239,14 @@ static void printVersion() {
 }
 
 
-static CFURLRef launchSubEthaEdit(NSDictionary *options) {
+static NSRunningApplication *launchSubEthaEdit(NSDictionary *options) {
+	NSRunningApplication *result = nil;
     CFURLRef appURL = NULL;
 
     appURL = CopyURLRefForSubEthaEdit();
     if (appURL == NULL) {
         fprintf(stderr, "see: Couldn't find compatible SubEthaEdit.\n     Please install a current version of SubEthaEdit.\n");
         fflush(stderr);
-        return NULL;
     } else {
         BOOL dontSwitch = [[options objectForKey:@"background"] boolValue];
         
@@ -255,15 +255,36 @@ static CFURLRef launchSubEthaEdit(NSDictionary *options) {
         inLaunchSpec.itemURLs = NULL;
         inLaunchSpec.passThruParams = NULL;
         if (dontSwitch) {
-            inLaunchSpec.launchFlags = kLSLaunchAsync | kLSLaunchDontSwitch;
+            inLaunchSpec.launchFlags = kLSLaunchDontSwitch;
         } else {
-            inLaunchSpec.launchFlags = kLSLaunchNoParams;
+            inLaunchSpec.launchFlags = 0;
         }
         inLaunchSpec.asyncRefCon = NULL;
         
         LSOpenFromURLSpec(&inLaunchSpec, NULL);
-        return appURL;
+        
+		
+		NSArray *appIdentifiers = subEthaEditBundleIdentifiers();
+		NSMutableArray *runningSubEthaEdits = [NSMutableArray array];
+		for (NSString *identifier in appIdentifiers) {
+			[runningSubEthaEdits addObjectsFromArray:[NSRunningApplication runningApplicationsWithBundleIdentifier:identifier]];
+		}
+		result = runningSubEthaEdits.firstObject;
+		if (!result) {
+			// probably the debugger case find the pid for a running subethaedit 
+			
+			fprintf(stderr, "see: Couldn't start compatbile SubEthaEdit.\n");
+			fflush(stderr);
+		} else {
+			
+			while (!result.isFinishedLaunching) {
+				NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
+				[runLoop runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
+			}
+		}
+		
     }
+	return result;
 }
 
 
@@ -286,25 +307,11 @@ static NSAppleEventDescriptor *propertiesEventDescriptorWithOptions(NSDictionary
 
 
 static NSArray *see(NSArray *fileNames, NSArray *newFileNames, NSString *stdinFileName, NSDictionary *options) {
-    CFURLRef appURL = launchSubEthaEdit(options);
-    if (!appURL) {
+    NSRunningApplication *runningSubEthaEdit = launchSubEthaEdit(options);
+    if (!runningSubEthaEdit) {
         return nil;
     }
-
-	NSArray *appIdentifiers = subEthaEditBundleIdentifiers();
-	NSMutableArray *runningSubEthaEdits = [NSMutableArray array];
-	for (NSString *identifier in appIdentifiers) {
-		[runningSubEthaEdits addObjectsFromArray:[NSRunningApplication runningApplicationsWithBundleIdentifier:identifier]];
-	}
-
-	BOOL foundRunningInstance = NO;
-	NSRunningApplication *runningSubEthaEdit = nil;
-	if (runningSubEthaEdits.count > 0) {
-		foundRunningInstance = YES;
-		runningSubEthaEdit = runningSubEthaEdits.firstObject;
-	} else {
-		return nil;
-	}
+	
 
 	NSMutableArray *urls = [NSMutableArray array];
 	for (NSString *fileName in fileNames) {
@@ -446,16 +453,16 @@ static NSArray *see(NSArray *fileNames, NSArray *newFileNames, NSString *stdinFi
 
 
 static void openFiles(NSArray *fileNames, NSDictionary *options) {
-
+	
     NSFileManager *fileManager = [NSFileManager defaultManager];
     BOOL wait = [[options objectForKey:@"wait"] boolValue];
     BOOL resume = [[options objectForKey:@"resume"] boolValue];
     NSMutableDictionary *mutatedOptions = [[options mutableCopy] autorelease];
     int i = 0;
     int count = 0;
-
+	
 	NSRunningApplication *frontmostApplication = [[NSWorkspace sharedWorkspace] frontmostApplication];
-
+	
     BOOL isStandardInputATTY = isatty([[NSFileHandle fileHandleWithStandardInput] fileDescriptor]);
     BOOL isStandardOutputATTY = isatty([[NSFileHandle fileHandleWithStandardOutput] fileDescriptor]);
     if (!isStandardOutputATTY) {
@@ -477,7 +484,7 @@ static void openFiles(NSArray *fileNames, NSDictionary *options) {
         [fileManager createFileAtPath:fileName contents:[NSData data] attributes:nil];
         NSFileHandle *fdout = [NSFileHandle fileHandleForWritingAtPath:fileName];
         NSFileHandle *fdin = [NSFileHandle fileHandleWithStandardInput];
-        unsigned length = 0; 
+        unsigned length = 0;
         while (TRUE) {
             NSData *data = [fdin readDataOfLength:1024];
             length += [data length];
@@ -504,10 +511,10 @@ static void openFiles(NSArray *fileNames, NSDictionary *options) {
             if ([fileManager fileExistsAtPath:fileName isDirectory:&isDir]) {
                 if (isDir) {
                 	if ([[fileName pathExtension] caseInsensitiveCompare:@"seetext"] == NSOrderedSame) {
-                	   [files addObject:fileName];
+						[files addObject:fileName];
                 	} else {
-                    //fprintf(stdout, "\"%s\" is a directory.\n", fileName);
-                    //fflush(stdout);
+						//fprintf(stdout, "\"%s\" is a directory.\n", fileName);
+						//fflush(stdout);
 					}
                 } else {
                     [files addObject:fileName];
@@ -518,9 +525,9 @@ static void openFiles(NSArray *fileNames, NSDictionary *options) {
         }
     }
     
-
+	
     NSArray *resultFileNames = see(files, newFileNames, stdinFileName, mutatedOptions);
-
+	
     //
     // Bring terminal to front when wait and resume was specified
     //
@@ -528,8 +535,8 @@ static void openFiles(NSArray *fileNames, NSDictionary *options) {
     if (resume || wait) {
 		[frontmostApplication activateWithOptions:NSApplicationActivateIgnoringOtherApps];
     }
-        
-
+	
+	
     //
     // Write files to stdout when it isn't a terminal
     //
