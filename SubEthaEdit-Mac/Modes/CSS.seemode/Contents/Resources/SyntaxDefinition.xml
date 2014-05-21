@@ -242,8 +242,10 @@
 					<regex>(?&lt;![\d\w])(?i)(max-height)</regex>
 					<regex>(?&lt;![\d\w])(?i)(max-lines)</regex>
 					<regex>(?&lt;![\d\w])(?i)(max-width)</regex>
+					<regex>(?&lt;![\d\w])(?i)(max-zoom)</regex>
 					<regex>(?&lt;![\d\w])(?i)(min-height)</regex>
 					<regex>(?&lt;![\d\w])(?i)(min-width)</regex>
+					<regex>(?&lt;![\d\w])(?i)(min-zoom)</regex>
 					<regex>(?&lt;![\d\w])(?i)(mix)</regex><!-- descriptor -->
 					<regex>(?&lt;![\d\w])(?i)(move-to)</regex>
 					<regex>(?&lt;![\d\w])(?i)(nav-down)</regex>
@@ -255,6 +257,7 @@
 					<regex>(?&lt;![\d\w])(?i)(object-position)</regex>
 					<regex>(?&lt;![\d\w])(?i)(opacity)</regex>
 					<regex>(?&lt;![\d\w])(?i)(order)</regex>
+					<regex>(?&lt;![\d\w])(?i)(orientation)</regex>
 					<regex>(?&lt;![\d\w])(?i)(orphans)</regex>
 					<regex>(?&lt;![\d\w])(?i)(outline-color)</regex>
 					<regex>(?&lt;![\d\w])(?i)(outline-offset)</regex>
@@ -292,6 +295,7 @@
 					<regex>(?&lt;![\d\w])(?i)(quotes)</regex>
 					<regex>(?&lt;![\d\w])(?i)(resizer)</regex><!-- old user interaction property -->
 					<regex>(?&lt;![\d\w])(?i)(resize)</regex>
+					<regex>(?&lt;![\d\w])(?i)(resolution)</regex>
 					<regex>(?&lt;![\d\w])(?i)(rest-after)</regex>
 					<regex>(?&lt;![\d\w])(?i)(rest-before)</regex>
 					<regex>(?&lt;![\d\w])(?i)(rest)</regex>
@@ -359,6 +363,7 @@
 					<regex>(?&lt;![\d\w])(?i)(user-input)</regex><!-- old user interaction property -->
 					<regex>(?&lt;![\d\w])(?i)(user-modify)</regex><!-- old user interaction property -->
 					<regex>(?&lt;![\d\w])(?i)(user-select)</regex><!-- old user interaction property -->
+					<regex>(?&lt;![\d\w])(?i)(user-zoom)</regex>
 					<regex>(?&lt;![\d\w])(?i)(vertical-align)</regex>
 					<regex>(?&lt;![\d\w])(?i)(visibility)</regex>
 					<regex>(?&lt;![\d\w])(?i)(voice-balance)</regex>
@@ -378,6 +383,7 @@
 					<regex>(?&lt;![\d\w])(?i)(word-wrap)</regex>
 					<regex>(?&lt;![\d\w])(?i)(writing-mode)</regex>
 					<regex>(?&lt;![\d\w])(?i)(z-index)</regex>
+					<regex>(?&lt;![\d\w])(?i)(zoom)</regex>
 				</keywords>
 				<state id="Attribute state" scope="meta.block.attribute">
 					<begin>
