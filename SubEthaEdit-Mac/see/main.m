@@ -571,7 +571,8 @@ int main (int argc, const char * argv[]) {
 	
     @autoreleasepool {
 #ifdef CONFIGURATION_Debug
-		sleep(1);
+		// sleep long enough for lldb to attach to us
+		[NSThread sleepForTimeInterval:0.1];
 #endif
 		NSFileManager *fileManager = [NSFileManager defaultManager];
 		NSMutableDictionary *options = [NSMutableDictionary dictionary];
