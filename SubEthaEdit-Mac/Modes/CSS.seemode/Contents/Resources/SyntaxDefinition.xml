@@ -30,18 +30,44 @@
 					<regex>(?&lt;![\d\w])(?i)(animation(?:-[\w]+)*)</regex>
 					<regex>(?&lt;![\d\w])(?i)(appearance)</regex>
 					<regex>(?&lt;![\d\w])(?i)(azimuth)</regex>
-					<regex>(?&lt;![\d\w])(?i)(background(?:-[\w]+)*)</regex>
+					<regex>(?&lt;![\d\w])(?i)(background-attachment)</regex>
+					<regex>(?&lt;![\d\w])(?i)(background-color)</regex>
+					<regex>(?&lt;![\d\w])(?i)(background-image)</regex>
+					<regex>(?&lt;![\d\w])(?i)(background-position)</regex>
+					<regex>(?&lt;![\d\w])(?i)(background-repeat)</regex>
+					<regex>(?&lt;![\d\w])(?i)(background)</regex>
 					<regex>(?&lt;![\d\w])(?i)(backface-visibility)</regex>
 					<regex>(?&lt;![\d\w])(?i)(baseline-shift)</regex>
 					<regex>(?&lt;![\d\w])(?i)(binding)</regex>
 					<regex>(?&lt;![\d\w])(?i)(bookmark(?:-[\w]+)+)</regex>
-					<regex>(?&lt;![\d\w])(?i)(border(?:-[\w]+)*)</regex>
+					<regex>(?&lt;![\d\w])(?i)(border-bottom-color)</regex>
+					<regex>(?&lt;![\d\w])(?i)(border-bottom-style)</regex>
+					<regex>(?&lt;![\d\w])(?i)(border-bottom-width)</regex>
+					<regex>(?&lt;![\d\w])(?i)(border-bottom)</regex>
+					<regex>(?&lt;![\d\w])(?i)(border-collapse)</regex>
+					<regex>(?&lt;![\d\w])(?i)(border-color)</regex>
+					<regex>(?&lt;![\d\w])(?i)(border-left-color)</regex>
+					<regex>(?&lt;![\d\w])(?i)(border-left-style)</regex>
+					<regex>(?&lt;![\d\w])(?i)(border-left-width)</regex>
+					<regex>(?&lt;![\d\w])(?i)(border-left)</regex>
+					<regex>(?&lt;![\d\w])(?i)(border-right-color)</regex>
+					<regex>(?&lt;![\d\w])(?i)(border-right-style)</regex>
+					<regex>(?&lt;![\d\w])(?i)(border-right-width)</regex>
+					<regex>(?&lt;![\d\w])(?i)(border-right)</regex>
+					<regex>(?&lt;![\d\w])(?i)(border-spacing)</regex>
+					<regex>(?&lt;![\d\w])(?i)(border-style)</regex>
+					<regex>(?&lt;![\d\w])(?i)(border-top-color)</regex>
+					<regex>(?&lt;![\d\w])(?i)(border-top-style)</regex>
+					<regex>(?&lt;![\d\w])(?i)(border-top-width)</regex>
+					<regex>(?&lt;![\d\w])(?i)(border-top)</regex>
+					<regex>(?&lt;![\d\w])(?i)(border-width)</regex>
+					<regex>(?&lt;![\d\w])(?i)(border)</regex>
 					<regex>(?&lt;![\d\w])(?i)(bottom)</regex>
-					<regex>(?&lt;![\d\w])(?i)(box-[\w]*)</regex>
+					<regex>(?&lt;![\d\w])(?i)(box-sizing)</regex>
 					<regex>(?&lt;![\d\w])(?i)(caption-side)</regex>
 					<regex>(?&lt;![\d\w])(?i)(clear)</regex>
 					<regex>(?&lt;![\d\w])(?i)(clip)</regex>
-					<regex>(?&lt;![\d\w])(?i)(color(?:-[\w]+)*)</regex>
+					<regex>(?&lt;![\d\w])(?i)(color)</regex>
 					<regex>(?&lt;![\d\w])(?i)(column(?:-[\w]+)+)</regex>
 					<regex>(?&lt;![\d\w])(?i)(columns)</regex>
 					<regex>(?&lt;![\d\w])(?i)(content)</regex>
@@ -53,15 +79,20 @@
 					<regex>(?&lt;![\d\w])(?i)(cue)</regex>
 					<regex>(?&lt;![\d\w])(?i)(cursor)</regex>
 					<regex>(?&lt;![\d\w])(?i)(direction)</regex>
-					<regex>(?&lt;![\d\w])(?i)(display(?:-[\w]+)*)</regex>
+					<regex>(?&lt;![\d\w])(?i)(display)</regex>
 					<regex>(?&lt;![\d\w])(?i)(dominant-baseline)</regex>
 					<regex>(?&lt;![\d\w])(?i)(drop-initial(?:-[\w]+)+)</regex>
 					<regex>(?&lt;![\d\w])(?i)(elevation)</regex>
 					<regex>(?&lt;![\d\w])(?i)(empty-cells)</regex>
 					<regex>(?&lt;![\d\w])(?i)(fit(?:-[\w]+)*)</regex>
 					<regex>(?&lt;![\d\w])(?i)(filter)</regex>
-					<regex>(?&lt;![\d\w])(?i)(float(?:-[\w]+)*)</regex>
-					<regex>(?&lt;![\d\w])(?i)(font(?:-[\w]+)*)</regex>
+					<regex>(?&lt;![\d\w])(?i)(float)</regex>
+					<regex>(?&lt;![\d\w])(?i)(font-family)</regex>
+					<regex>(?&lt;![\d\w])(?i)(font-size)</regex>
+					<regex>(?&lt;![\d\w])(?i)(font-style)</regex>
+					<regex>(?&lt;![\d\w])(?i)(font-variant)</regex>
+					<regex>(?&lt;![\d\w])(?i)(font-weight)</regex>
+					<regex>(?&lt;![\d\w])(?i)(font)</regex>
 					<regex>(?&lt;![\d\w])(?i)(grid(?:-[\w]+)+)</regex>
 					<regex>(?&lt;![\d\w])(?i)(group-reset)</regex>
 					<regex>(?&lt;![\d\w])(?i)(hanging-puctuation)</regex>
@@ -79,9 +110,16 @@
 					<regex>(?&lt;![\d\w])(?i)(layout(?:-[\w]+)+)</regex>
 					<regex>(?&lt;![\d\w])(?i)(left)</regex>
 					<regex>(?&lt;![\d\w])(?i)(letter-spacing)</regex>
-					<regex>(?&lt;![\d\w])(?i)(line(?:-[\w]+)+)</regex>
-					<regex>(?&lt;![\d\w])(?i)(list-style(?:-[\w]+)*)</regex>
-					<regex>(?&lt;![\d\w])(?i)(margin(?:-[\w]+)*)</regex>
+					<regex>(?&lt;![\d\w])(?i)(line-height)</regex>
+					<regex>(?&lt;![\d\w])(?i)(list-style-image)</regex>
+					<regex>(?&lt;![\d\w])(?i)(list-style-position)</regex>
+					<regex>(?&lt;![\d\w])(?i)(list-style-type)</regex>
+					<regex>(?&lt;![\d\w])(?i)(list-style)</regex>
+					<regex>(?&lt;![\d\w])(?i)(margin-bottom)</regex>
+					<regex>(?&lt;![\d\w])(?i)(margin-left)</regex>
+					<regex>(?&lt;![\d\w])(?i)(margin-right)</regex>
+					<regex>(?&lt;![\d\w])(?i)(margin-top)</regex>s
+					<regex>(?&lt;![\d\w])(?i)(margin)</regex>
 					<regex>(?&lt;![\d\w])(?i)(mark(?:-[\w]+)*)</regex>
 					<regex>(?&lt;![\d\w])(?i)(marks)</regex>
 					<regex>(?&lt;![\d\w])(?i)(marker-offset)</regex>
@@ -98,7 +136,11 @@
 					<regex>(?&lt;![\d\w])(?i)(nav-up)</regex>
 					<regex>(?&lt;![\d\w])(?i)(opacity)</regex>
 					<regex>(?&lt;![\d\w])(?i)(orphans)</regex>
-					<regex>(?&lt;![\d\w])(?i)(outline(?:-[\w]+)*)</regex>
+					<regex>(?&lt;![\d\w])(?i)(outline-color)</regex>
+					<regex>(?&lt;![\d\w])(?i)(outline-offset)</regex>
+					<regex>(?&lt;![\d\w])(?i)(outline-style)</regex>
+					<regex>(?&lt;![\d\w])(?i)(outline-width)</regex>
+					<regex>(?&lt;![\d\w])(?i)(outline)</regex>
 					<regex>(?&lt;![\d\w])(?i)(overflow-x)</regex>
 					<regex>(?&lt;![\d\w])(?i)(overflow-y)</regex>
 					<regex>(?&lt;![\d\w])(?i)(overflow)</regex>
@@ -107,7 +149,9 @@
 					<regex>(?&lt;![\d\w])(?i)(padding-right)</regex>
 					<regex>(?&lt;![\d\w])(?i)(padding-top)</regex>
 					<regex>(?&lt;![\d\w])(?i)(padding)</regex>
-					<regex>(?&lt;![\d\w])(?i)(page(?:-[\w]+)*)</regex>
+					<regex>(?&lt;![\d\w])(?i)(page-break-after)</regex>
+					<regex>(?&lt;![\d\w])(?i)(page-break-before)</regex>
+					<regex>(?&lt;![\d\w])(?i)(page-break-inside)</regex>
 					<regex>(?&lt;![\d\w])(?i)(pause-after)</regex>
 					<regex>(?&lt;![\d\w])(?i)(pause-before)</regex>
 					<regex>(?&lt;![\d\w])(?i)(pause)</regex>
@@ -139,7 +183,11 @@
 					<regex>(?&lt;![\d\w])(?i)(tab-side)</regex>
 					<regex>(?&lt;![\d\w])(?i)(tab-index)</regex>
 					<regex>(?&lt;![\d\w])(?i)(table-layout)</regex>
-					<regex>(?&lt;![\d\w])(?i)(text(?:-[\w]+)+)</regex>
+					<regex>(?&lt;![\d\w])(?i)(text-align)</regex>
+					<regex>(?&lt;![\d\w])(?i)(text-decoration)</regex>
+					<regex>(?&lt;![\d\w])(?i)(text-indent)</regex>
+					<regex>(?&lt;![\d\w])(?i)(text-overflow)</regex>
+					<regex>(?&lt;![\d\w])(?i)(text-transform)</regex>
 					<regex>(?&lt;![\d\w])(?i)(toggle-group)</regex>
 					<regex>(?&lt;![\d\w])(?i)(top)</regex>
 					<regex>(?&lt;![\d\w])(?i)(transition(?:-[\w]+)*)</regex>
@@ -152,7 +200,7 @@
 					<regex>(?&lt;![\d\w])(?i)(user-select)</regex>
 					<regex>(?&lt;![\d\w])(?i)(vertical-align)</regex>
 					<regex>(?&lt;![\d\w])(?i)(visibility)</regex>
-					<regex>(?&lt;![\d\w])(?i)(voice(?:-[\w]+)+)</regex>
+					<regex>(?&lt;![\d\w])(?i)(voice-family)</regex>
 					<regex>(?&lt;![\d\w])(?i)(volume)</regex>
 					<regex>(?&lt;![\d\w])(?i)(white-space)</regex>
 					<regex>(?&lt;![\d\w])(?i)(widows)</regex>
