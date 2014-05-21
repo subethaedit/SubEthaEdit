@@ -37,8 +37,8 @@ int main(int argc, char *argv[])
 #endif
 
 #ifdef MAC_APP_STORE_RECEIPT_VALIDATION
-	return CheckReceiptAndRun(argc, argv);
+	return CheckReceiptAndRun(argc, (const char **) argv);
 #else
-	return NSApplicationMain(argc,  (const char **) argv);
+	return NSApplicationMain(argc, (const char **) argv);
 #endif
 }
