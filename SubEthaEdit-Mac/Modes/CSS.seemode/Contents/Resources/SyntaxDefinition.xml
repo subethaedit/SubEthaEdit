@@ -43,25 +43,37 @@
 					<regex>(?&lt;![\d\w])(?i)(appearance)</regex>
 					<regex>(?&lt;![\d\w])(?i)(azimuth)</regex>
 					<regex>(?&lt;![\d\w])(?i)(background-attachment)</regex>
+					<regex>(?&lt;![\d\w])(?i)(background-clip)</regex>
 					<regex>(?&lt;![\d\w])(?i)(background-color)</regex>
 					<regex>(?&lt;![\d\w])(?i)(background-image)</regex>
+					<regex>(?&lt;![\d\w])(?i)(background-origin)</regex>
 					<regex>(?&lt;![\d\w])(?i)(background-position)</regex>
 					<regex>(?&lt;![\d\w])(?i)(background-repeat)</regex>
+					<regex>(?&lt;![\d\w])(?i)(background-size)</regex>
 					<regex>(?&lt;![\d\w])(?i)(background)</regex>
 					<regex>(?&lt;![\d\w])(?i)(backface-visibility)</regex>
 					<regex>(?&lt;![\d\w])(?i)(baseline-shift)</regex>
 					<regex>(?&lt;![\d\w])(?i)(binding)</regex>
 					<regex>(?&lt;![\d\w])(?i)(bookmark(?:-[\w]+)+)</regex>
 					<regex>(?&lt;![\d\w])(?i)(border-bottom-color)</regex>
+					<regex>(?&lt;![\d\w])(?i)(border-bottom-left-radius)</regex>
+					<regex>(?&lt;![\d\w])(?i)(border-bottom-right-radius)</regex>
 					<regex>(?&lt;![\d\w])(?i)(border-bottom-style)</regex>
 					<regex>(?&lt;![\d\w])(?i)(border-bottom-width)</regex>
 					<regex>(?&lt;![\d\w])(?i)(border-bottom)</regex>
 					<regex>(?&lt;![\d\w])(?i)(border-collapse)</regex>
 					<regex>(?&lt;![\d\w])(?i)(border-color)</regex>
+					<regex>(?&lt;![\d\w])(?i)(border-image-outset)</regex>
+					<regex>(?&lt;![\d\w])(?i)(border-image-repeat)</regex>
+					<regex>(?&lt;![\d\w])(?i)(border-image-slice)</regex>
+					<regex>(?&lt;![\d\w])(?i)(border-image-source)</regex>
+					<regex>(?&lt;![\d\w])(?i)(border-image-width)</regex>
+					<regex>(?&lt;![\d\w])(?i)(border-image)</regex>
 					<regex>(?&lt;![\d\w])(?i)(border-left-color)</regex>
 					<regex>(?&lt;![\d\w])(?i)(border-left-style)</regex>
 					<regex>(?&lt;![\d\w])(?i)(border-left-width)</regex>
 					<regex>(?&lt;![\d\w])(?i)(border-left)</regex>
+					<regex>(?&lt;![\d\w])(?i)(border-radius)</regex>
 					<regex>(?&lt;![\d\w])(?i)(border-right-color)</regex>
 					<regex>(?&lt;![\d\w])(?i)(border-right-style)</regex>
 					<regex>(?&lt;![\d\w])(?i)(border-right-width)</regex>
@@ -69,12 +81,15 @@
 					<regex>(?&lt;![\d\w])(?i)(border-spacing)</regex>
 					<regex>(?&lt;![\d\w])(?i)(border-style)</regex>
 					<regex>(?&lt;![\d\w])(?i)(border-top-color)</regex>
+					<regex>(?&lt;![\d\w])(?i)(border-top-left-radius)</regex>
+					<regex>(?&lt;![\d\w])(?i)(border-top-right-radius)</regex>
 					<regex>(?&lt;![\d\w])(?i)(border-top-style)</regex>
 					<regex>(?&lt;![\d\w])(?i)(border-top-width)</regex>
 					<regex>(?&lt;![\d\w])(?i)(border-top)</regex>
 					<regex>(?&lt;![\d\w])(?i)(border-width)</regex>
 					<regex>(?&lt;![\d\w])(?i)(border)</regex>
 					<regex>(?&lt;![\d\w])(?i)(bottom)</regex>
+					<regex>(?&lt;![\d\w])(?i)(box-shadow)</regex>
 					<regex>(?&lt;![\d\w])(?i)(box-sizing)</regex>
 					<regex>(?&lt;![\d\w])(?i)(caption-side)</regex>
 					<regex>(?&lt;![\d\w])(?i)(clear)</regex>
