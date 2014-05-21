@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
 #import <getopt.h>
-
+#import <libProc.h>
 /*
 
 see -h
@@ -239,6 +239,31 @@ static void printVersion() {
 }
 
 
+NSRunningApplication *findSubEthaeditPID(pid_t aParentPid) {
+	NSRunningApplication *result = nil;
+	pid_t pids[1024];
+	int numberOfProcesses = proc_listchildpids(aParentPid, pids, 1024);
+	proc_listpids(PROC_ALL_PIDS, 0, pids, sizeof(pids));
+	for (int i = 0; i < numberOfProcesses; ++i) {
+		pid_t pid = pids[i];
+		if (pid == 0) {
+			continue;
+		}
+		char name[1024];
+		proc_name(pid, name, sizeof(name));
+		//		printf("Found process: %s\n", name);
+		if (strlen(name) > 7 && strncmp(name, "SubEtha", 7) == 0) {
+			result = [NSRunningApplication runningApplicationWithProcessIdentifier:pid];
+		} else {
+			result = findSubEthaeditPID(pid);
+		}
+		if (result) {
+			break;
+		}
+	}
+	return result;
+}
+
 static NSRunningApplication *launchSubEthaEdit(NSDictionary *options) {
 	NSRunningApplication *result = nil;
     CFURLRef appURL = NULL;
@@ -260,9 +285,9 @@ static NSRunningApplication *launchSubEthaEdit(NSDictionary *options) {
             inLaunchSpec.launchFlags = 0;
         }
         inLaunchSpec.asyncRefCon = NULL;
-        
-        LSOpenFromURLSpec(&inLaunchSpec, NULL);
-        
+        CFURLRef outURL;
+        LSOpenFromURLSpec(&inLaunchSpec, &outURL);
+		//        NSLog(@"%s %@  -  %@ - %@",__FUNCTION__,(NSURL *)appURL,(NSURL *)outURL, [[NSWorkspace sharedWorkspace] runningApplications]);
 		
 		NSArray *appIdentifiers = subEthaEditBundleIdentifiers();
 		NSMutableArray *runningSubEthaEdits = [NSMutableArray array];
@@ -271,8 +296,22 @@ static NSRunningApplication *launchSubEthaEdit(NSDictionary *options) {
 		}
 		result = runningSubEthaEdits.firstObject;
 		if (!result) {
-			// probably the debugger case find the pid for a running subethaedit 
-			
+			for (NSRunningApplication *application in [[NSWorkspace sharedWorkspace] runningApplications]) {
+				if ([application.localizedName hasPrefix:@"SubEthaEdit"]) {
+					// somehow the bundle identifier isn't set, but the localized name is correct as it is just the proccess name when run in debugger
+					result = [NSRunningApplication runningApplicationWithProcessIdentifier:application.processIdentifier];
+				}
+			}
+		}
+		if (!result) {
+			// probably the debugger case find the pid for a running subethaedit
+			// not needed anymore but kept for interesting bits here
+			/*
+			NSRunningApplication *xcode = [NSRunningApplication runningApplicationsWithBundleIdentifier:@"com.apple.dt.Xcode"].firstObject;
+			if (xcode) {
+				result = findSubEthaeditPID(xcode.processIdentifier);
+			}
+			*/
 			fprintf(stderr, "see: Couldn't start compatbile SubEthaEdit.\n");
 			fflush(stderr);
 		} else {
@@ -325,11 +364,19 @@ static NSArray *see(NSArray *fileNames, NSArray *newFileNames, NSString *stdinFi
 	}
 	
 	if (urls.count > 0) {
-		NSWorkspaceLaunchOptions launchOptions = 0;
+		NSWorkspaceLaunchOptions launchOptions = NSWorkspaceLaunchWithoutActivation;
 		if ([[options objectForKey:@"print"] boolValue]) {
 			launchOptions = launchOptions | NSWorkspaceLaunchAndPrint;
 		}
-		[[NSWorkspace sharedWorkspace] openURLs:urls withAppBundleIdentifier:runningSubEthaEdit.bundleIdentifier options:launchOptions additionalEventParamDescriptor:nil launchIdentifiers:nil];
+		NSWorkspace *sharedWorkspace = [NSWorkspace sharedWorkspace];
+		if (runningSubEthaEdit.bundleIdentifier) {
+			[sharedWorkspace openURLs:urls withAppBundleIdentifier:runningSubEthaEdit.bundleIdentifier options:launchOptions additionalEventParamDescriptor:nil launchIdentifiers:nil];
+		} else { // casa xcode debugger
+			NSString *applicationPath = [runningSubEthaEdit.bundleURL path];
+			for (NSURL *url in urls) {
+				[[NSWorkspace sharedWorkspace] openFile:url.path withApplication:applicationPath];
+			}
+		}
 	}
 
     NSMutableArray *resultFileNames = [NSMutableArray array];
