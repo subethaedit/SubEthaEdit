@@ -26,6 +26,8 @@
 					<regex>(?&lt;![\d\w])(?i)(-moz(?:-\w+)+)</regex>
 					<regex>(?&lt;![\d\w])(?i)(-o(?:-\w+)+)</regex>
 					<regex>(?&lt;![\d\w])(?i)(-ms(?:-\w+)+)</regex>
+ 					<regex>(?&lt;![\d\w])(?i)(alignment-adjust)</regex>
+ 					<regex>(?&lt;![\d\w])(?i)(alignment-baseline)</regex>
  					<regex>(?&lt;![\d\w])(?i)(align-content)</regex>
  					<regex>(?&lt;![\d\w])(?i)(align-items)</regex>
  					<regex>(?&lt;![\d\w])(?i)(align-self)</regex>
@@ -91,7 +93,12 @@
 					<regex>(?&lt;![\d\w])(?i)(direction)</regex>
 					<regex>(?&lt;![\d\w])(?i)(display)</regex>
 					<regex>(?&lt;![\d\w])(?i)(dominant-baseline)</regex>
-					<regex>(?&lt;![\d\w])(?i)(drop-initial(?:-[\w]+)+)</regex>
+					<regex>(?&lt;![\d\w])(?i)(drop-initial-after-adjust)</regex>
+					<regex>(?&lt;![\d\w])(?i)(drop-initial-after-align)</regex>
+					<regex>(?&lt;![\d\w])(?i)(drop-initial-before-adjust)</regex>
+					<regex>(?&lt;![\d\w])(?i)(drop-initial-before-align)</regex>
+					<regex>(?&lt;![\d\w])(?i)(drop-initial-size)</regex>
+					<regex>(?&lt;![\d\w])(?i)(drop-initial-value)</regex>
 					<regex>(?&lt;![\d\w])(?i)(elevation)</regex>
 					<regex>(?&lt;![\d\w])(?i)(empty-cells)</regex>
 					<regex>(?&lt;![\d\w])(?i)(fit(?:-[\w]+)*)</regex>
@@ -138,6 +145,10 @@
 					<regex>(?&lt;![\d\w])(?i)(letter-spacing)</regex>
 					<regex>(?&lt;![\d\w])(?i)(line-break)</regex>
 					<regex>(?&lt;![\d\w])(?i)(line-height)</regex>
+					<regex>(?&lt;![\d\w])(?i)(line-stacking-ruby)</regex>
+					<regex>(?&lt;![\d\w])(?i)(line-stacking-shift)</regex>
+					<regex>(?&lt;![\d\w])(?i)(line-stacking-strategy)</regex>
+					<regex>(?&lt;![\d\w])(?i)(line-stacking)</regex>
 					<regex>(?&lt;![\d\w])(?i)(list-style-image)</regex>
 					<regex>(?&lt;![\d\w])(?i)(list-style-position)</regex>
 					<regex>(?&lt;![\d\w])(?i)(list-style-type)</regex>
@@ -229,6 +240,7 @@
 					<regex>(?&lt;![\d\w])(?i)(text-align-last)</regex>
 					<regex>(?&lt;![\d\w])(?i)(text-align)</regex>
 					<regex>(?&lt;![\d\w])(?i)(text-decoration)</regex>
+					<regex>(?&lt;![\d\w])(?i)(text-height)</regex>
 					<regex>(?&lt;![\d\w])(?i)(text-indent)</regex>
 					<regex>(?&lt;![\d\w])(?i)(text-justify)</regex>
 					<regex>(?&lt;![\d\w])(?i)(text-overflow)</regex>
