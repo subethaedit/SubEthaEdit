@@ -19,13 +19,25 @@
 					<regex>}</regex>
 				</end>
 				<keywords id="CSS Keywords" useforautocomplete="yes" casesensitive="no" scope="style.property.name">
-					<regex>(?&lt;![\d\w])(?i)(_background)</regex>
-					<regex>(?&lt;![\d\w])(?i)(_filter)</regex>
-					<regex>(?&lt;![\d\w])(?i)(-webkit(?:-\w+)+)</regex>
-					<regex>(?&lt;![\d\w])(?i)(-khtml(?:-\w+)+)</regex>
-					<regex>(?&lt;![\d\w])(?i)(-moz(?:-\w+)+)</regex>
-					<regex>(?&lt;![\d\w])(?i)(-o(?:-\w+)+)</regex>
-					<regex>(?&lt;![\d\w])(?i)(-ms(?:-\w+)+)</regex>
+					<regex>(?&lt;![\d\w])(?i)(_background)</regex><!-- IE hack -->
+					<regex>(?&lt;![\d\w])(?i)(_filter)</regex><!-- IE hack -->
+					<!-- Vendor Prefixed Properties - everything with that prefix is matched, no matter if there is a real prefix or not -->
+					<regex>(?&lt;![\d\w])(?i)(-webkit(?:-\w+)+)</regex><!-- Apple/Webkit -->
+					<regex>(?&lt;![\d\w])(?i)(-khtml(?:-\w+)+)</regex><!-- KDE -->
+					<regex>(?&lt;![\d\w])(?i)(-moz(?:-\w+)+)</regex><!-- Mozilla -->
+					<regex>(?&lt;![\d\w])(?i)(-o(?:-\w+)+)</regex><!-- Opera Software -->
+					<regex>(?&lt;![\d\w])(?i)(-ms(?:-\w+)+)</regex><!-- Microsoft -->
+					<regex>(?&lt;![\d\w])(?i)(-ah(?:-\w+)+)</regex><!-- Antenna House -->
+					<regex>(?&lt;![\d\w])(?i)(-atsc(?:-\w+)+)</regex><!-- Advanced Television Standards Committee -->
+					<regex>(?&lt;![\d\w])(?i)(-hp(?:-\w+)+)</regex><!-- Hewlett Packard -->
+					<regex>(?&lt;![\d\w])(?i)(-mso(?:-\w+)+)</regex><!-- Microsoft -->
+					<regex>(?&lt;![\d\w])(?i)(-rim(?:-\w+)+)</regex><!-- Research In Motion -->
+					<regex>(?&lt;![\d\w])(?i)(-ro(?:-\w+)+)</regex><!-- Real Objects -->
+					<regex>(?&lt;![\d\w])(?i)(-tc(?:-\w+)+)</regex><!-- TallComponents -->
+					<regex>(?&lt;![\d\w])(?i)(-wap(?:-\w+)+)</regex><!-- The WAP Forum -->
+					<regex>(?&lt;![\d\w])(?i)(-xv(?:-\w+)+)</regex><!-- Opera Software -->
+					<regex>(?&lt;![\d\w])(?i)(prince(?:-\w+)+)</regex><!-- YesLogic -->
+					<!-- Regular Properties -->
  					<regex>(?&lt;![\d\w])(?i)(alignment-adjust)</regex>
  					<regex>(?&lt;![\d\w])(?i)(alignment-baseline)</regex>
  					<regex>(?&lt;![\d\w])(?i)(align-content)</regex>
