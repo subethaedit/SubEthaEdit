@@ -200,7 +200,9 @@
 					<regex>(?&lt;![\d\w])(?i)(right)</regex>
 					<regex>(?&lt;![\d\w])(?i)(rotation-point)</regex>
 					<regex>(?&lt;![\d\w])(?i)(rotation)</regex>
-					<regex>(?&lt;![\d\w])(?i)(ruby(?:-[\w]+)+)</regex>
+					<regex>(?&lt;![\d\w])(?i)(ruby-align)</regex>
+					<regex>(?&lt;![\d\w])(?i)(ruby-merge)</regex>
+					<regex>(?&lt;![\d\w])(?i)(ruby-position)</regex>
 					<regex>(?&lt;![\d\w])(?i)(scr)</regex><!-- @font-face descriptor -->
 					<regex>(?&lt;![\d\w])(?i)(size)</regex>
 					<regex>(?&lt;![\d\w])(?i)(speak-as)</regex>
