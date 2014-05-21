@@ -918,7 +918,6 @@
 		4C123001180BE4A60069253E /* TCMBEEPSessionXMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMBEEPSessionXMLParser.m; sourceTree = "<group>"; };
 		4C123003180C01EF0069253E /* TCMBEEPMessageXMLPayloadParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = TCMBEEPMessageXMLPayloadParser.h; sourceTree = "<group>"; };
 		4C123004180C01EF0069253E /* TCMBEEPMessageXMLPayloadParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMBEEPMessageXMLPayloadParser.m; sourceTree = "<group>"; };
-		4C1407DA192CDBF100F0F709 /* LuaC_Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = LuaC_Info.plist; sourceTree = "<group>"; };
 		4C1407DB192CE64A00F0F709 /* LuaC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = LuaC.entitlements; sourceTree = "<group>"; };
 		4C43314218E4777C00592EC2 /* SEEDocumentCreationFlags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEDocumentCreationFlags.h; sourceTree = "<group>"; };
 		4C43314318E4777C00592EC2 /* SEEDocumentCreationFlags.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEDocumentCreationFlags.m; sourceTree = "<group>"; };
@@ -2094,7 +2093,6 @@
 				14289172095747F800D14688 /* ODBEditorSuite.h */,
 				142898200958194100D14688 /* createDiskImage.sh */,
 				4C1407DB192CE64A00F0F709 /* LuaC.entitlements */,
-				4C1407DA192CDBF100F0F709 /* LuaC_Info.plist */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -3170,7 +3168,7 @@
 		};
 		4CF06A311816B1FB00B35DF8 /* Codesign ThirdParty */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
@@ -3178,7 +3176,7 @@
 			name = "Codesign ThirdParty";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "/bin/sh \"${SRCROOT}/../TCMScripts/SEEThirdPartyResign.sh\"";
 		};
