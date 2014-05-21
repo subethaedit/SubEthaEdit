@@ -129,8 +129,12 @@
 					<regex>(?&lt;![\d\w])(?i)(margin)</regex>
 					<regex>(?&lt;![\d\w])(?i)(marks)</regex>
 					<regex>(?&lt;![\d\w])(?i)(marker-offset)</regex>
-					<regex>(?&lt;![\d\w])(?i)(marquee(?:-[\w]+)+)</regex>
+					<regex>(?&lt;![\d\w])(?i)(marquee-direction)</regex>
+					<regex>(?&lt;![\d\w])(?i)(marquee-play-count)</regex>
+					<regex>(?&lt;![\d\w])(?i)(marquee-speed)</regex>
+					<regex>(?&lt;![\d\w])(?i)(marquee-style)</regex>
 					<regex>(?&lt;![\d\w])(?i)(max-height)</regex>
+					<regex>(?&lt;![\d\w])(?i)(max-lines)</regex>
 					<regex>(?&lt;![\d\w])(?i)(max-width)</regex>
 					<regex>(?&lt;![\d\w])(?i)(min-height)</regex>
 					<regex>(?&lt;![\d\w])(?i)(min-width)</regex>
@@ -147,9 +151,10 @@
 					<regex>(?&lt;![\d\w])(?i)(outline-style)</regex>
 					<regex>(?&lt;![\d\w])(?i)(outline-width)</regex>
 					<regex>(?&lt;![\d\w])(?i)(outline)</regex>
+					<regex>(?&lt;![\d\w])(?i)(overflow-style)</regex>
+					<regex>(?&lt;![\d\w])(?i)(overflow-wrap)</regex>
 					<regex>(?&lt;![\d\w])(?i)(overflow-x)</regex>
 					<regex>(?&lt;![\d\w])(?i)(overflow-y)</regex>
-					<regex>(?&lt;![\d\w])(?i)(overflow-wrap)</regex>
 					<regex>(?&lt;![\d\w])(?i)(overflow)</regex>
 					<regex>(?&lt;![\d\w])(?i)(padding-bottom)</regex>
 					<regex>(?&lt;![\d\w])(?i)(padding-left)</regex>
