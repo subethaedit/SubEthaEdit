@@ -26,7 +26,9 @@
 					<regex>(?&lt;![\d\w])(?i)(-moz(?:-\w+)+)</regex>
 					<regex>(?&lt;![\d\w])(?i)(-o(?:-\w+)+)</regex>
 					<regex>(?&lt;![\d\w])(?i)(-ms(?:-\w+)+)</regex>
-					<regex>(?&lt;![\d\w])(?i)(alignment(?:-[\w]+)+)</regex>
+ 					<regex>(?&lt;![\d\w])(?i)(align-content)</regex>
+ 					<regex>(?&lt;![\d\w])(?i)(align-items)</regex>
+ 					<regex>(?&lt;![\d\w])(?i)(align-self)</regex>
 					<regex>(?&lt;![\d\w])(?i)(animation(?:-[\w]+)*)</regex>
 					<regex>(?&lt;![\d\w])(?i)(appearance)</regex>
 					<regex>(?&lt;![\d\w])(?i)(azimuth)</regex>
@@ -103,6 +105,9 @@
 					<regex>(?&lt;![\d\w])(?i)(ime-mode)</regex>
 					<regex>(?&lt;![\d\w])(?i)(image(?:-[\w]+)+)</regex>
 					<regex>(?&lt;![\d\w])(?i)(inline-box-align)</regex>
+					<regex>(?&lt;![\d\w])(?i)(justify-content)</regex>
+					<regex>(?&lt;![\d\w])(?i)(justify-items)</regex>
+					<regex>(?&lt;![\d\w])(?i)(justify-self)</regex>
 					<regex>(?&lt;![\d\w])(?i)(key-equivalent)</regex>
 					<regex>(?&lt;![\d\w])(?i)(konq_bgpos_x)</regex>
 					<regex>(?&lt;![\d\w])(?i)(konq_bgpos_y)</regex>
