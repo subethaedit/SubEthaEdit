@@ -79,6 +79,7 @@
 					<regex>(?&lt;![\d\w])(?i)(caption-side)</regex>
 					<regex>(?&lt;![\d\w])(?i)(clear)</regex>
 					<regex>(?&lt;![\d\w])(?i)(clip)</regex>
+					<regex>(?&lt;![\d\w])(?i)(color-interpolation-filters)</regex>
 					<regex>(?&lt;![\d\w])(?i)(color)</regex>
 					<regex>(?&lt;![\d\w])(?i)(column(?:-[\w]+)+)</regex>
 					<regex>(?&lt;![\d\w])(?i)(columns)</regex>
@@ -104,6 +105,8 @@
 					<regex>(?&lt;![\d\w])(?i)(fit(?:-[\w]+)*)</regex>
 					<regex>(?&lt;![\d\w])(?i)(filter)</regex>
 					<regex>(?&lt;![\d\w])(?i)(float)</regex>
+					<regex>(?&lt;![\d\w])(?i)(flood-color)</regex>
+					<regex>(?&lt;![\d\w])(?i)(flood-opacity)</regex>
 					<regex>(?&lt;![\d\w])(?i)(font-family)</regex>
 					<regex>(?&lt;![\d\w])(?i)(font-feature-settings)</regex>
 					<regex>(?&lt;![\d\w])(?i)(font-kerning)</regex>
@@ -122,6 +125,7 @@
 					<regex>(?&lt;![\d\w])(?i)(font-variant)</regex>
 					<regex>(?&lt;![\d\w])(?i)(font-weight)</regex>
 					<regex>(?&lt;![\d\w])(?i)(font)</regex>
+					<regex>(?&lt;![\d\w])(?i)(geometry)</regex><!-- descriptor -->
 					<regex>(?&lt;![\d\w])(?i)(grid(?:-[\w]+)+)</regex>
 					<regex>(?&lt;![\d\w])(?i)(group-reset)</regex><!-- old user interaction -->
 					<regex>(?&lt;![\d\w])(?i)(hanging-punctuation)</regex>
@@ -143,6 +147,7 @@
 					<regex>(?&lt;![\d\w])(?i)(layout(?:-[\w]+)+)</regex>
 					<regex>(?&lt;![\d\w])(?i)(left)</regex>
 					<regex>(?&lt;![\d\w])(?i)(letter-spacing)</regex>
+					<regex>(?&lt;![\d\w])(?i)(lighting-color)</regex>
 					<regex>(?&lt;![\d\w])(?i)(line-break)</regex>
 					<regex>(?&lt;![\d\w])(?i)(line-height)</regex>
 					<regex>(?&lt;![\d\w])(?i)(line-stacking-ruby)</regex>
@@ -170,6 +175,7 @@
 					<regex>(?&lt;![\d\w])(?i)(max-width)</regex>
 					<regex>(?&lt;![\d\w])(?i)(min-height)</regex>
 					<regex>(?&lt;![\d\w])(?i)(min-width)</regex>
+					<regex>(?&lt;![\d\w])(?i)(mix)</regex><!-- descriptor -->
 					<regex>(?&lt;![\d\w])(?i)(move-to)</regex>
 					<regex>(?&lt;![\d\w])(?i)(nav-down)</regex>
 					<regex>(?&lt;![\d\w])(?i)(nav-index)</regex>
@@ -197,6 +203,7 @@
 					<regex>(?&lt;![\d\w])(?i)(page-break-before)</regex>
 					<regex>(?&lt;![\d\w])(?i)(page-break-inside)</regex>
 					<regex>(?&lt;![\d\w])(?i)(page-policy)</regex>
+					<regex>(?&lt;![\d\w])(?i)(parameters)</regex><!-- descriptor -->
 					<regex>(?&lt;![\d\w])(?i)(pause-after)</regex>
 					<regex>(?&lt;![\d\w])(?i)(pause-before)</regex>
 					<regex>(?&lt;![\d\w])(?i)(pause)</regex>
