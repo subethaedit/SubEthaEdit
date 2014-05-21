@@ -320,6 +320,7 @@
 					<regex>(?&lt;![\d\w])(?i)(text-align-last)</regex>
 					<regex>(?&lt;![\d\w])(?i)(text-align)</regex>
 					<regex>(?&lt;![\d\w])(?i)(text-autospace)</regex><!-- old text property -->
+					<regex>(?&lt;![\d\w])(?i)(text-combine-upright)</regex>
 					<regex>(?&lt;![\d\w])(?i)(text-decoration-color)</regex> 
 					<regex>(?&lt;![\d\w])(?i)(text-decoration-line)</regex>
 					<regex>(?&lt;![\d\w])(?i)(text-decoration-skip)</regex>
@@ -332,6 +333,7 @@
 					<regex>(?&lt;![\d\w])(?i)(text-height)</regex>
 					<regex>(?&lt;![\d\w])(?i)(text-indent)</regex>
 					<regex>(?&lt;![\d\w])(?i)(text-justify)</regex>
+					<regex>(?&lt;![\d\w])(?i)(text-orientation)</regex>
 					<regex>(?&lt;![\d\w])(?i)(text-outline)</regex><!-- old text property -->
 					<regex>(?&lt;![\d\w])(?i)(text-overflow)</regex>
 					<regex>(?&lt;![\d\w])(?i)(text-shadow)</regex>
@@ -374,6 +376,7 @@
 					<regex>(?&lt;![\d\w])(?i)(word-break)</regex>
 					<regex>(?&lt;![\d\w])(?i)(word-spacing)</regex>
 					<regex>(?&lt;![\d\w])(?i)(word-wrap)</regex>
+					<regex>(?&lt;![\d\w])(?i)(writing-mode)</regex>
 					<regex>(?&lt;![\d\w])(?i)(z-index)</regex>
 				</keywords>
 				<state id="Attribute state" scope="meta.block.attribute">
