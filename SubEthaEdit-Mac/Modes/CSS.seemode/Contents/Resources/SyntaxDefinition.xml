@@ -160,6 +160,7 @@
 					<regex>(?&lt;![\d\w])(?i)(page-break-after)</regex>
 					<regex>(?&lt;![\d\w])(?i)(page-break-before)</regex>
 					<regex>(?&lt;![\d\w])(?i)(page-break-inside)</regex>
+					<regex>(?&lt;![\d\w])(?i)(page-policy)</regex>
 					<regex>(?&lt;![\d\w])(?i)(pause-after)</regex>
 					<regex>(?&lt;![\d\w])(?i)(pause-before)</regex>
 					<regex>(?&lt;![\d\w])(?i)(pause)</regex>
