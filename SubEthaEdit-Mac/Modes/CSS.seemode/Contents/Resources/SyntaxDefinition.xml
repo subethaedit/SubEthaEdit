@@ -142,8 +142,22 @@
 					<regex>(?&lt;![\d\w])(?i)(font-weight)</regex>
 					<regex>(?&lt;![\d\w])(?i)(font)</regex>
 					<regex>(?&lt;![\d\w])(?i)(geometry)</regex><!-- descriptor -->
-					<regex>(?&lt;![\d\w])(?i)(grid(?:-[\w]+)+)</regex>
-					<regex>(?&lt;![\d\w])(?i)(group-reset)</regex><!-- old user interaction -->
+					<regex>(?&lt;![\d\w])(?i)(grid-area)</regex>
+					<regex>(?&lt;![\d\w])(?i)(grid-auto-columns)</regex>
+					<regex>(?&lt;![\d\w])(?i)(grid-auto-flow)</regex>
+					<regex>(?&lt;![\d\w])(?i)(grid-auto-rows)</regex>
+					<regex>(?&lt;![\d\w])(?i)(grid-column-end)</regex>
+					<regex>(?&lt;![\d\w])(?i)(grid-column-start)</regex>
+					<regex>(?&lt;![\d\w])(?i)(grid-column)</regex>
+					<regex>(?&lt;![\d\w])(?i)(grid-row-end)</regex>
+					<regex>(?&lt;![\d\w])(?i)(grid-row-start)</regex>
+					<regex>(?&lt;![\d\w])(?i)(grid-row)</regex>
+					<regex>(?&lt;![\d\w])(?i)(grid-template-areas)</regex>
+					<regex>(?&lt;![\d\w])(?i)(grid-template-columns)</regex>
+					<regex>(?&lt;![\d\w])(?i)(grid-template-rows)</regex>
+					<regex>(?&lt;![\d\w])(?i)(grid-template)</regex>
+					<regex>(?&lt;![\d\w])(?i)(grid)</regex>
+					<regex>(?&lt;![\d\w])(?i)(group-reset)</regex><!-- old user interaction property -->
 					<regex>(?&lt;![\d\w])(?i)(hanging-punctuation)</regex>
 					<regex>(?&lt;![\d\w])(?i)(height)</regex>
 					<regex>(?&lt;![\d\w])(?i)(hyphenate-character)</regex><!-- old text property -->
