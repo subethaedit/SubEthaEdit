@@ -170,12 +170,15 @@
 					<regex>(?&lt;![\d\w])(?i)(quotes)</regex>
 					<regex>(?&lt;![\d\w])(?i)(rendering-indent)</regex>
 					<regex>(?&lt;![\d\w])(?i)(resize)</regex>
-					<regex>(?&lt;![\d\w])(?i)(rest(?:-[\w]+)*)</regex>
+					<regex>(?&lt;![\d\w])(?i)(rest-after)</regex>
+					<regex>(?&lt;![\d\w])(?i)(rest-before)</regex>
+					<regex>(?&lt;![\d\w])(?i)(rest)</regex>
 					<regex>(?&lt;![\d\w])(?i)(richness)</regex>
 					<regex>(?&lt;![\d\w])(?i)(right)</regex>
 					<regex>(?&lt;![\d\w])(?i)(rotation(?:-[\w]+)*)</regex>
 					<regex>(?&lt;![\d\w])(?i)(ruby(?:-[\w]+)+)</regex>
 					<regex>(?&lt;![\d\w])(?i)(size)</regex>
+					<regex>(?&lt;![\d\w])(?i)(speak-as)</regex>
 					<regex>(?&lt;![\d\w])(?i)(speak-header)</regex>
 					<regex>(?&lt;![\d\w])(?i)(speak-numeral)</regex>
 					<regex>(?&lt;![\d\w])(?i)(speak-punctuation)</regex>
@@ -206,7 +209,14 @@
 					<regex>(?&lt;![\d\w])(?i)(user-select)</regex>
 					<regex>(?&lt;![\d\w])(?i)(vertical-align)</regex>
 					<regex>(?&lt;![\d\w])(?i)(visibility)</regex>
+					<regex>(?&lt;![\d\w])(?i)(voice-balance)</regex>
+					<regex>(?&lt;![\d\w])(?i)(voice-duration)</regex>
 					<regex>(?&lt;![\d\w])(?i)(voice-family)</regex>
+					<regex>(?&lt;![\d\w])(?i)(voice-pitch)</regex>
+					<regex>(?&lt;![\d\w])(?i)(voice-range)</regex>
+					<regex>(?&lt;![\d\w])(?i)(voice-rate)</regex>
+					<regex>(?&lt;![\d\w])(?i)(voice-stress)</regex>
+					<regex>(?&lt;![\d\w])(?i)(voice-volume)</regex>
 					<regex>(?&lt;![\d\w])(?i)(volume)</regex>
 					<regex>(?&lt;![\d\w])(?i)(white-space)</regex>
 					<regex>(?&lt;![\d\w])(?i)(widows)</regex>
