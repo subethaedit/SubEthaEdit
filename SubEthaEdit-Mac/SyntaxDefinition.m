@@ -330,14 +330,17 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
             [weaklinks addObject:[NSDictionary dictionaryWithObjectsAndKeys:xmlNode,@"importNode",importName,@"importName",[NSNumber numberWithUnsignedInteger:keywordGroups.count],@"importPosition",nil]];            
         } 
         else if ([nodeName isEqualToString:@"keywords"]) {
+			
 			NSMutableDictionary *keywordGroupDictionary = [NSMutableDictionary dictionary];
 			[self addAttributes:[xmlNode attributes] toDictionary:keywordGroupDictionary];
+			
 			NSString *keywordGroupName = [keywordGroupDictionary objectForKey:@"id"];
 			if (keywordGroupName) [keywordGroups addObject:keywordGroupDictionary];
 			
-			// Add regexes for keyword group
 			NSMutableArray *regexes = [NSMutableArray array];
 			NSMutableArray *strings = [NSMutableArray array];
+			
+			// Add regexes for keyword group
 			NSMutableString *combinedRegexRegexString = [NSMutableString stringWithString:@"(?:"];
 			
 			[keywordGroupDictionary setObject:regexes forKey:@"RegularExpressions"];
@@ -347,8 +350,9 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 			NSEnumerator *regexEnumerator = [regexNodes objectEnumerator];
 			id regexNode;
 			while ((regexNode = [regexEnumerator nextObject])) {
-				[regexes addObject:[regexNode stringValue]];
-				[combinedRegexRegexString appendFormat:@"%@|",[regexNode stringValue]];
+				NSString *regexString = [regexNode stringValue];
+				[regexes addObject:regexString];
+				[combinedRegexRegexString appendFormat:@"%@|",regexString];
 			}
 			if ([regexNodes count]>0) {
 				[combinedRegexRegexString replaceCharactersInRange:NSMakeRange([combinedRegexRegexString length]-1, 1) withString:@")"];
