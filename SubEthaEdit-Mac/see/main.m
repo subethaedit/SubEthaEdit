@@ -561,121 +561,123 @@ static void openFiles(NSArray *fileNames, NSDictionary *options) {
 
 
 int main (int argc, const char * argv[]) {
-
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSMutableDictionary *options = [NSMutableDictionary dictionary];
-    BOOL launch = NO;
-    BOOL version = NO;
-    BOOL help = NO;
-    NSMutableArray *fileNames = [NSMutableArray array];
-    int i;
-
-    
-    //
-    // Parsing arguments
-    //
-    
-    int ch;
-    while ((ch = getopt_long(argc, (char * const *)argv, "bhlprvwe:m:o:dt:j:g:", longopts, NULL)) != -1) {
-        switch(ch) {
-            case 'b':
-                [options setObject:[NSNumber numberWithBool:YES] forKey:@"background"];
-                break;
-            case 'd':
-                [options setObject:[NSNumber numberWithBool:YES] forKey:@"pipe-dirty"];
-                break;
-            case 'h':
-                help = YES;
-                break;
-            case 'v':
-                version = YES;
-                break;
-            case 'w':
-                [options setObject:[NSNumber numberWithBool:YES] forKey:@"wait"];
-                break;
-            case 'r':
-                [options setObject:[NSNumber numberWithBool:YES] forKey:@"resume"];
-                break;
-            case 'l':
-                launch = YES;
-                break;
-            case 'p':
-                [options setObject:[NSNumber numberWithBool:YES] forKey:@"print"];
-                break;
-            case 'e': {
+	
+    @autoreleasepool {
+#ifdef CONFIGURATION_Debug
+		sleep(1);
+#endif
+		NSFileManager *fileManager = [NSFileManager defaultManager];
+		NSMutableDictionary *options = [NSMutableDictionary dictionary];
+		BOOL launch = NO;
+		BOOL version = NO;
+		BOOL help = NO;
+		NSMutableArray *fileNames = [NSMutableArray array];
+		int i;
+		
+		
+		//
+		// Parsing arguments
+		//
+		
+		int ch;
+		while ((ch = getopt_long(argc, (char * const *)argv, "bhlprvwe:m:o:dt:j:g:", longopts, NULL)) != -1) {
+			switch(ch) {
+				case 'b':
+					[options setObject:[NSNumber numberWithBool:YES] forKey:@"background"];
+					break;
+				case 'd':
+					[options setObject:[NSNumber numberWithBool:YES] forKey:@"pipe-dirty"];
+					break;
+				case 'h':
+					help = YES;
+					break;
+				case 'v':
+					version = YES;
+					break;
+				case 'w':
+					[options setObject:[NSNumber numberWithBool:YES] forKey:@"wait"];
+					break;
+				case 'r':
+					[options setObject:[NSNumber numberWithBool:YES] forKey:@"resume"];
+					break;
+				case 'l':
+					launch = YES;
+					break;
+				case 'p':
+					[options setObject:[NSNumber numberWithBool:YES] forKey:@"print"];
+					break;
+				case 'e': {
                     // argument is a IANA charset name, convert using CFStringConvertIANACharSetNameToEncoding()
                     NSString *encoding = [NSString stringWithUTF8String:optarg];
                     [options setObject:encoding forKey:@"encoding"];
                 } break;
-            case 'g': {
+				case 'g': {
                     // argument is a goto string of the form line[:column]
                     NSString *gotoString = [NSString stringWithUTF8String:optarg];
                     [options setObject:gotoString forKey:@"goto"];
                 } break;
-            case 'm': {
+				case 'm': {
                     // identifies mode via BundleIdentifier, e.g. SEEMode.Objective-C ("SEEMode." is optional)
                     NSString *mode = [NSString stringWithUTF8String:optarg];
                     [options setObject:mode forKey:@"mode"];
                 } break;
-            case 'o': {
+				case 'o': {
                     NSString *openin = [NSString stringWithUTF8String:optarg];
                     [options setObject:openin forKey:@"open-in"];
                 } break;
-            case 't': {
+				case 't': {
                     NSString *pipeTitle = [NSString stringWithUTF8String:optarg];
                     [options setObject:pipeTitle forKey:@"pipe-title"];
                 } break;
-            case 'j': {
+				case 'j': {
                     NSString *jobDesc = [NSString stringWithUTF8String:optarg];
                     [options setObject:jobDesc forKey:@"job-description"];
                 } break;
-            case ':': // missing option argument
-            case '?': // invalid option
-            default:
-                help = YES;
-        }
-    }
-    
-    
-    //
-    // Parsing filename arguments
-    //
-    
-    argc -= optind;
-    argv += optind;
-    
-    for (i = 0; i < argc; i++) {
-		NSString *fileName = [NSString stringWithUTF8String:argv[i]];
-		if (! fileName.isAbsolutePath) {
-			fileName = [[fileManager currentDirectoryPath] stringByAppendingPathComponent:fileName];
+				case ':': // missing option argument
+				case '?': // invalid option
+				default:
+					help = YES;
+			}
 		}
-
-        if (fileName) {
-            //NSLog(@"fileName after realpath: %@", fileName);
-            [fileNames addObject:fileName.stringByStandardizingPath];
-        } else {
-            launch = YES;
-            //NSLog(@"Error occurred while resolving path: %s", argv[i]);
-        }
-    }
+		
+		
+		//
+		// Parsing filename arguments
+		//
+		
+		argc -= optind;
+		argv += optind;
+		
+		for (i = 0; i < argc; i++) {
+			NSString *fileName = [NSString stringWithUTF8String:argv[i]];
+			if (! fileName.isAbsolutePath) {
+				fileName = [[fileManager currentDirectoryPath] stringByAppendingPathComponent:fileName];
+			}
+			
+			if (fileName) {
+				//NSLog(@"fileName after realpath: %@", fileName);
+				[fileNames addObject:fileName.stringByStandardizingPath];
+			} else {
+				launch = YES;
+				//NSLog(@"Error occurred while resolving path: %s", argv[i]);
+			}
+		}
         
-
-    //
-    // Executing command
-    //
-    
-    if (help) {
-        printHelp();
-    } else if (version) {
-        printVersion();
-    } else if (launch && ([fileNames count] == 0)) {
-        (void)launchSubEthaEdit(options);
-    } else {
-        openFiles(fileNames, options);
-    }
+		
+		//
+		// Executing command
+		//
+		
+		if (help) {
+			printHelp();
+		} else if (version) {
+			printVersion();
+		} else if (launch && ([fileNames count] == 0)) {
+			(void)launchSubEthaEdit(options);
+		} else {
+			openFiles(fileNames, options);
+		}
         
-    [pool release];
+	}
     return 0;
 }
