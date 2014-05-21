@@ -427,7 +427,6 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
 	BOOL result = [[NSUserDefaults standardUserDefaults] boolForKey:AutoconnectPrefKey] &&
 				  [self isVisible] &&
 				  ![[TCMMMBEEPSessionManager sharedInstance] isNetworkingDisabled];
-	result=YES;
 	return result;
 }
 
