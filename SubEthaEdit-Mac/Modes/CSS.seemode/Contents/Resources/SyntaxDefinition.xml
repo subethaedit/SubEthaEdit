@@ -90,8 +90,20 @@
 					<regex>(?&lt;![\d\w])(?i)(filter)</regex>
 					<regex>(?&lt;![\d\w])(?i)(float)</regex>
 					<regex>(?&lt;![\d\w])(?i)(font-family)</regex>
+					<regex>(?&lt;![\d\w])(?i)(font-feature-settings)</regex>
+					<regex>(?&lt;![\d\w])(?i)(font-kerning)</regex>
+					<regex>(?&lt;![\d\w])(?i)(font-language-override)</regex>
+					<regex>(?&lt;![\d\w])(?i)(font-size-adjust)</regex>
 					<regex>(?&lt;![\d\w])(?i)(font-size)</regex>
+					<regex>(?&lt;![\d\w])(?i)(font-stretch)</regex>
 					<regex>(?&lt;![\d\w])(?i)(font-style)</regex>
+					<regex>(?&lt;![\d\w])(?i)(font-synthesis)</regex>
+					<regex>(?&lt;![\d\w])(?i)(font-variant-alternates)</regex>
+					<regex>(?&lt;![\d\w])(?i)(font-variant-caps)</regex>
+					<regex>(?&lt;![\d\w])(?i)(font-variant-east-asian)</regex>
+					<regex>(?&lt;![\d\w])(?i)(font-variant-ligatures)</regex>
+					<regex>(?&lt;![\d\w])(?i)(font-variant-numeric)</regex>
+					<regex>(?&lt;![\d\w])(?i)(font-variant-position)</regex>
 					<regex>(?&lt;![\d\w])(?i)(font-variant)</regex>
 					<regex>(?&lt;![\d\w])(?i)(font-weight)</regex>
 					<regex>(?&lt;![\d\w])(?i)(font)</regex>
@@ -189,6 +201,7 @@
 					<regex>(?&lt;![\d\w])(?i)(rotation-point)</regex>
 					<regex>(?&lt;![\d\w])(?i)(rotation)</regex>
 					<regex>(?&lt;![\d\w])(?i)(ruby(?:-[\w]+)+)</regex>
+					<regex>(?&lt;![\d\w])(?i)(scr)</regex><!-- @font-face descriptor -->
 					<regex>(?&lt;![\d\w])(?i)(size)</regex>
 					<regex>(?&lt;![\d\w])(?i)(speak-as)</regex>
 					<regex>(?&lt;![\d\w])(?i)(speak-header)</regex>
@@ -214,7 +227,7 @@
 					<regex>(?&lt;![\d\w])(?i)(transition(?:-[\w]+)*)</regex>
 					<regex>(?&lt;![\d\w])(?i)(transform(?:-[\w]+)*)</regex>
 					<regex>(?&lt;![\d\w])(?i)(unicode-bidi)</regex>
-					<regex>(?&lt;![\d\w])(?i)(unicode-range)</regex>
+					<regex>(?&lt;![\d\w])(?i)(unicode-range)</regex><!-- @font-face descriptor -->
 					<regex>(?&lt;![\d\w])(?i)(user-focus)</regex>
 					<regex>(?&lt;![\d\w])(?i)(user-input)</regex>
 					<regex>(?&lt;![\d\w])(?i)(user-modify)</regex>
