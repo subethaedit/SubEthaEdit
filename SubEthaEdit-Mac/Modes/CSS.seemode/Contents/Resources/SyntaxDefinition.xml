@@ -123,7 +123,7 @@
 					<regex>(?&lt;![\d\w])(?i)(font-weight)</regex>
 					<regex>(?&lt;![\d\w])(?i)(font)</regex>
 					<regex>(?&lt;![\d\w])(?i)(grid(?:-[\w]+)+)</regex>
-					<regex>(?&lt;![\d\w])(?i)(group-reset)</regex>
+					<regex>(?&lt;![\d\w])(?i)(group-reset)</regex><!-- old user interaction -->
 					<regex>(?&lt;![\d\w])(?i)(hanging-punctuation)</regex>
 					<regex>(?&lt;![\d\w])(?i)(height)</regex>
 					<regex>(?&lt;![\d\w])(?i)(hyphenate(?:-[\w]+)+)</regex>
@@ -135,7 +135,7 @@
 					<regex>(?&lt;![\d\w])(?i)(justify-content)</regex>
 					<regex>(?&lt;![\d\w])(?i)(justify-items)</regex>
 					<regex>(?&lt;![\d\w])(?i)(justify-self)</regex>
-					<regex>(?&lt;![\d\w])(?i)(key-equivalent)</regex>
+					<regex>(?&lt;![\d\w])(?i)(key-equivalent)</regex><!-- old user interaction -->
 					<regex>(?&lt;![\d\w])(?i)(konq_bgpos_x)</regex>
 					<regex>(?&lt;![\d\w])(?i)(konq_bgpos_y)</regex>
 					<regex>(?&lt;![\d\w])(?i)(layer-background-color)</regex>
@@ -212,6 +212,7 @@
 					<regex>(?&lt;![\d\w])(?i)(punctuation-trim)</regex>
 					<regex>(?&lt;![\d\w])(?i)(quotes)</regex>
 					<regex>(?&lt;![\d\w])(?i)(rendering-indent)</regex>
+					<regex>(?&lt;![\d\w])(?i)(resizer)</regex><!-- old user interaction -->
 					<regex>(?&lt;![\d\w])(?i)(resize)</regex>
 					<regex>(?&lt;![\d\w])(?i)(rest-after)</regex>
 					<regex>(?&lt;![\d\w])(?i)(rest-before)</regex>
@@ -233,7 +234,7 @@
 					<regex>(?&lt;![\d\w])(?i)(speech-rate)</regex>
 					<regex>(?&lt;![\d\w])(?i)(stress)</regex>
 					<regex>(?&lt;![\d\w])(?i)(string-set)</regex>
-					<regex>(?&lt;![\d\w])(?i)(tab-index)</regex>
+					<regex>(?&lt;![\d\w])(?i)(tab-index)</regex><!-- old user interaction -->
 					<regex>(?&lt;![\d\w])(?i)(tab-side)</regex>
 					<regex>(?&lt;![\d\w])(?i)(tab-size)</regex>
 					<regex>(?&lt;![\d\w])(?i)(table-layout)</regex>
@@ -245,7 +246,7 @@
 					<regex>(?&lt;![\d\w])(?i)(text-justify)</regex>
 					<regex>(?&lt;![\d\w])(?i)(text-overflow)</regex>
 					<regex>(?&lt;![\d\w])(?i)(text-transform)</regex>
-					<regex>(?&lt;![\d\w])(?i)(toggle-group)</regex>
+					<regex>(?&lt;![\d\w])(?i)(toggle-group)</regex><!-- old user interaction -->
 					<regex>(?&lt;![\d\w])(?i)(top)</regex>
 					<regex>(?&lt;![\d\w])(?i)(transition-delay)</regex>
 					<regex>(?&lt;![\d\w])(?i)(transition-duration)</regex>
@@ -257,10 +258,12 @@
 					<regex>(?&lt;![\d\w])(?i)(transform)</regex>
 					<regex>(?&lt;![\d\w])(?i)(unicode-bidi)</regex>
 					<regex>(?&lt;![\d\w])(?i)(unicode-range)</regex><!-- @font-face descriptor -->
-					<regex>(?&lt;![\d\w])(?i)(user-focus)</regex>
-					<regex>(?&lt;![\d\w])(?i)(user-input)</regex>
-					<regex>(?&lt;![\d\w])(?i)(user-modify)</regex>
-					<regex>(?&lt;![\d\w])(?i)(user-select)</regex>
+					<regex>(?&lt;![\d\w])(?i)(user-focus-key)</regex><!-- old user interaction -->
+					<regex>(?&lt;![\d\w])(?i)(user-focus-pointer)</regex><!-- old user interaction -->
+					<regex>(?&lt;![\d\w])(?i)(user-focus)</regex><!-- old user interaction -->
+					<regex>(?&lt;![\d\w])(?i)(user-input)</regex><!-- old user interaction -->
+					<regex>(?&lt;![\d\w])(?i)(user-modify)</regex><!-- old user interaction -->
+					<regex>(?&lt;![\d\w])(?i)(user-select)</regex><!-- old user interaction -->
 					<regex>(?&lt;![\d\w])(?i)(vertical-align)</regex>
 					<regex>(?&lt;![\d\w])(?i)(visibility)</regex>
 					<regex>(?&lt;![\d\w])(?i)(voice-balance)</regex>
