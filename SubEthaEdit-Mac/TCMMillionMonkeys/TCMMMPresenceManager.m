@@ -47,6 +47,8 @@ NSString * const TCMMMPresenceStatusKey = @"Status";
 NSString * const TCMMMPresenceUnknownStatusValue = @"NoStatus";
 NSString * const TCMMMPresenceKnownStatusValue = @"GotStatus";
 NSString * const TCMMMPresenceUserIDKey = @"UserID";
+NSString * const TCMMMPresenceAutoconnectOriginUserIDKey = @"AutoconnectOriginUserID";
+NSString * const TCMMMPresenceReachabiltyURLKey = @"ReachabilityURL";
 NSString * const TCMMMPresenceSessionsKey = @"Sessions";
 NSString * const TCMMMPresenceOrderedSessionsKey = @"OrderedSessions";
 NSString * const TCMMMPresenceNetServicesKey = @"NetServices";
@@ -414,7 +416,7 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
 }
 
 - (NSString *)reachabilityURLStringOfUserID:(NSString *)aUserID {
-	NSString *result = [[[[self statusProfileForUserID:aUserID] session] userInfo] objectForKey:@"ReachabilityURL"];
+	NSString *result = [[[[self statusProfileForUserID:aUserID] session] userInfo] objectForKey:TCMMMPresenceReachabiltyURLKey];
 	if ([[TCMMMUserManager myUserID] isEqualTo:aUserID]) {
 		result = [self myReachabilityURLString];
 	}
@@ -439,7 +441,7 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
             NSDictionary *userInfo = [beepSession userInfo];
             NSString *peerUserID = [userInfo objectForKey:@"peerUserID"];
             if (peerUserID && ![peerUserID isEqualToString:myPeerID]) {
-                NSString *reachabilityURL = [userInfo objectForKey:@"ReachabilityURL"];
+                NSString *reachabilityURL = [userInfo objectForKey:TCMMMPresenceReachabiltyURLKey];
                 if (reachabilityURL) {
                     //NSLog(@"%s sending %@ for %@ to %@",__FUNCTION__,reachabilityURL,peerUserID,myPeerID);
                     [aProfile sendReachabilityURLString:reachabilityURL forUserID:peerUserID];
@@ -484,7 +486,7 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
     } else {
         [status removeObjectForKey:@"hasFriendCast"];
         NSMutableDictionary *sessionUserInfo = [[aProfile session] userInfo];
-        [sessionUserInfo removeObjectForKey:@"ReachabilityURL"];
+        [sessionUserInfo removeObjectForKey:TCMMMPresenceReachabiltyURLKey];
     }
     // make sure the UI gets notified of that change
     [status setObject:[NSNumber numberWithBool:YES] forKey:@"shouldSendVisibilityChangeNotification"];
@@ -497,11 +499,12 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
 		NSMutableDictionary *sessionUserInfo = [[aProfile session] userInfo];
 		NSString *userID=[sessionUserInfo objectForKey:@"peerUserID"];
 		if ([userID isEqualToString:aUserID]) {
+			TCMMMUser *user = [[TCMMMUserManager sharedInstance] userForUserID:userID];
 			//NSLog(@"%s got a self information",__FUNCTION__);
 			if ([anURLString isEqualToString:@""]) {
-				[sessionUserInfo removeObjectForKey:@"ReachabilityURL"];
+				[sessionUserInfo removeObjectForKey:TCMMMPresenceReachabiltyURLKey];
 			} else {
-				[sessionUserInfo setObject:anURLString forKey:@"ReachabilityURL"];
+				[sessionUserInfo setObject:anURLString forKey:TCMMMPresenceReachabiltyURLKey];
 				// we got new personal information - so propagate this information to all others
 				TCMMMStatusProfile *profile = nil;
 				for (profile in I_statusProfilesInServerRole) {
@@ -510,6 +513,11 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
 					}
 				}
 			}
+			
+			if (user) {
+				[[NSNotificationCenter defaultCenter] postNotificationName:TCMMMUserManagerUserDidChangeNotification object:user];
+			}
+
 		} else {
 			//NSLog(@"%s got information about a third party: %@ %@",__FUNCTION__,anURLString,aUserID);
 			// see if we already have a connection to that userID, if not initiate connection to that user
@@ -519,7 +527,7 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
 					// TODO: if we connected to that user manually
 					if (![[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:aUserID]) {
 						// we have no session for this userID so let's connect
-						NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:anURLString,@"URLString",aUserID,TCMMMPresenceUserIDKey,[NSNumber numberWithBool:YES],@"isAutoConnect",nil];
+						NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:anURLString,@"URLString",aUserID,TCMMMPresenceUserIDKey,@YES,@"isAutoConnect",userID,TCMMMPresenceAutoconnectOriginUserIDKey,nil];
 						NSURL *URL = [NSURL URLWithString:anURLString];
 						NSData *addressData=nil;
 						[TCMMMBEEPSessionManager reducedURL:URL addressData:&addressData documentRequest:nil];

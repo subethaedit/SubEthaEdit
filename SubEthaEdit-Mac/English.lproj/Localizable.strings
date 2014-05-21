@@ -269,7 +269,7 @@
 "Following %@" = "Following %@";
 
 /* Friendcast Connection ToolTip */
-"Friendcast Connection" = "Friendcast Connection";
+"Friendcast Connection" = "Connection via '%@'";
 
 /* Label displayed below general icon and used as window title. */
 "GeneralPrefsIconLabel" = "General";
@@ -356,7 +356,7 @@
 "Inbound Connection from %@" = "Inbound Connection from %@";
 
 /* Inbound Friendcast Connection ToolTip */
-"Inbound Friendcast Connection" = "Inbound Friendcast Connection";
+"Inbound Friendcast Connection" = "Inbound Connection via '%@'";
 
 /* No comment provided by engineer. */
 "Insert" = "Insert";
@@ -932,4 +932,4 @@
 "SEEConnectionTaglineBonjour" = "Bonjour";
 "SEEConnectionTaglineInvisible" = "Invisible";
 "SEEConnectionTaglineNetworkingDisabled" = "Networking Disabled";
-"SEEConnectionTaglineFriendcast" = "Friendcast";
+"SEEConnectionTaglineFriendcast" = "via '%@'";
