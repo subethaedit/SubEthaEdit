@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
 #import <getopt.h>
-
+#import <libProc.h>
 /*
 
 see -h
@@ -239,14 +239,39 @@ static void printVersion() {
 }
 
 
-static CFURLRef launchSubEthaEdit(NSDictionary *options) {
+NSRunningApplication *findSubEthaeditPID(pid_t aParentPid) {
+	NSRunningApplication *result = nil;
+	pid_t pids[1024];
+	int numberOfProcesses = proc_listchildpids(aParentPid, pids, 1024);
+	proc_listpids(PROC_ALL_PIDS, 0, pids, sizeof(pids));
+	for (int i = 0; i < numberOfProcesses; ++i) {
+		pid_t pid = pids[i];
+		if (pid == 0) {
+			continue;
+		}
+		char name[1024];
+		proc_name(pid, name, sizeof(name));
+		//		printf("Found process: %s\n", name);
+		if (strlen(name) > 7 && strncmp(name, "SubEtha", 7) == 0) {
+			result = [NSRunningApplication runningApplicationWithProcessIdentifier:pid];
+		} else {
+			result = findSubEthaeditPID(pid);
+		}
+		if (result) {
+			break;
+		}
+	}
+	return result;
+}
+
+static NSRunningApplication *launchSubEthaEdit(NSDictionary *options) {
+	NSRunningApplication *result = nil;
     CFURLRef appURL = NULL;
 
     appURL = CopyURLRefForSubEthaEdit();
     if (appURL == NULL) {
         fprintf(stderr, "see: Couldn't find compatible SubEthaEdit.\n     Please install a current version of SubEthaEdit.\n");
         fflush(stderr);
-        return NULL;
     } else {
         BOOL dontSwitch = [[options objectForKey:@"background"] boolValue];
         
@@ -255,15 +280,50 @@ static CFURLRef launchSubEthaEdit(NSDictionary *options) {
         inLaunchSpec.itemURLs = NULL;
         inLaunchSpec.passThruParams = NULL;
         if (dontSwitch) {
-            inLaunchSpec.launchFlags = kLSLaunchAsync | kLSLaunchDontSwitch;
+            inLaunchSpec.launchFlags = kLSLaunchDontSwitch;
         } else {
-            inLaunchSpec.launchFlags = kLSLaunchNoParams;
+            inLaunchSpec.launchFlags = 0;
         }
         inLaunchSpec.asyncRefCon = NULL;
-        
-        LSOpenFromURLSpec(&inLaunchSpec, NULL);
-        return appURL;
+        CFURLRef outURL;
+        LSOpenFromURLSpec(&inLaunchSpec, &outURL);
+		//        NSLog(@"%s %@  -  %@ - %@",__FUNCTION__,(NSURL *)appURL,(NSURL *)outURL, [[NSWorkspace sharedWorkspace] runningApplications]);
+		
+		NSArray *appIdentifiers = subEthaEditBundleIdentifiers();
+		NSMutableArray *runningSubEthaEdits = [NSMutableArray array];
+		for (NSString *identifier in appIdentifiers) {
+			[runningSubEthaEdits addObjectsFromArray:[NSRunningApplication runningApplicationsWithBundleIdentifier:identifier]];
+		}
+		result = runningSubEthaEdits.firstObject;
+		if (!result) {
+			for (NSRunningApplication *application in [[NSWorkspace sharedWorkspace] runningApplications]) {
+				if ([application.localizedName hasPrefix:@"SubEthaEdit"]) {
+					// somehow the bundle identifier isn't set, but the localized name is correct as it is just the proccess name when run in debugger
+					result = [NSRunningApplication runningApplicationWithProcessIdentifier:application.processIdentifier];
+				}
+			}
+		}
+		if (!result) {
+			// probably the debugger case find the pid for a running subethaedit
+			// not needed anymore but kept for interesting bits here
+			/*
+			NSRunningApplication *xcode = [NSRunningApplication runningApplicationsWithBundleIdentifier:@"com.apple.dt.Xcode"].firstObject;
+			if (xcode) {
+				result = findSubEthaeditPID(xcode.processIdentifier);
+			}
+			*/
+			fprintf(stderr, "see: Couldn't start compatbile SubEthaEdit.\n");
+			fflush(stderr);
+		} else {
+			
+			while (!result.isFinishedLaunching) {
+				NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
+				[runLoop runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
+			}
+		}
+		
     }
+	return result;
 }
 
 
@@ -286,25 +346,11 @@ static NSAppleEventDescriptor *propertiesEventDescriptorWithOptions(NSDictionary
 
 
 static NSArray *see(NSArray *fileNames, NSArray *newFileNames, NSString *stdinFileName, NSDictionary *options) {
-    CFURLRef appURL = launchSubEthaEdit(options);
-    if (!appURL) {
+    NSRunningApplication *runningSubEthaEdit = launchSubEthaEdit(options);
+    if (!runningSubEthaEdit) {
         return nil;
     }
-
-	NSArray *appIdentifiers = subEthaEditBundleIdentifiers();
-	NSMutableArray *runningSubEthaEdits = [NSMutableArray array];
-	for (NSString *identifier in appIdentifiers) {
-		[runningSubEthaEdits addObjectsFromArray:[NSRunningApplication runningApplicationsWithBundleIdentifier:identifier]];
-	}
-
-	BOOL foundRunningInstance = NO;
-	NSRunningApplication *runningSubEthaEdit = nil;
-	if (runningSubEthaEdits.count > 0) {
-		foundRunningInstance = YES;
-		runningSubEthaEdit = runningSubEthaEdits.firstObject;
-	} else {
-		return nil;
-	}
+	
 
 	NSMutableArray *urls = [NSMutableArray array];
 	for (NSString *fileName in fileNames) {
@@ -318,11 +364,19 @@ static NSArray *see(NSArray *fileNames, NSArray *newFileNames, NSString *stdinFi
 	}
 	
 	if (urls.count > 0) {
-		NSWorkspaceLaunchOptions launchOptions = 0;
+		NSWorkspaceLaunchOptions launchOptions = NSWorkspaceLaunchWithoutActivation;
 		if ([[options objectForKey:@"print"] boolValue]) {
 			launchOptions = launchOptions | NSWorkspaceLaunchAndPrint;
 		}
-		[[NSWorkspace sharedWorkspace] openURLs:urls withAppBundleIdentifier:runningSubEthaEdit.bundleIdentifier options:launchOptions additionalEventParamDescriptor:nil launchIdentifiers:nil];
+		NSWorkspace *sharedWorkspace = [NSWorkspace sharedWorkspace];
+		if (runningSubEthaEdit.bundleIdentifier) {
+			[sharedWorkspace openURLs:urls withAppBundleIdentifier:runningSubEthaEdit.bundleIdentifier options:launchOptions additionalEventParamDescriptor:nil launchIdentifiers:nil];
+		} else { // casa xcode debugger
+			NSString *applicationPath = [runningSubEthaEdit.bundleURL path];
+			for (NSURL *url in urls) {
+				[[NSWorkspace sharedWorkspace] openFile:url.path withApplication:applicationPath];
+			}
+		}
 	}
 
     NSMutableArray *resultFileNames = [NSMutableArray array];
@@ -446,16 +500,16 @@ static NSArray *see(NSArray *fileNames, NSArray *newFileNames, NSString *stdinFi
 
 
 static void openFiles(NSArray *fileNames, NSDictionary *options) {
-
+	
     NSFileManager *fileManager = [NSFileManager defaultManager];
     BOOL wait = [[options objectForKey:@"wait"] boolValue];
     BOOL resume = [[options objectForKey:@"resume"] boolValue];
     NSMutableDictionary *mutatedOptions = [[options mutableCopy] autorelease];
     int i = 0;
     int count = 0;
-
+	
 	NSRunningApplication *frontmostApplication = [[NSWorkspace sharedWorkspace] frontmostApplication];
-
+	
     BOOL isStandardInputATTY = isatty([[NSFileHandle fileHandleWithStandardInput] fileDescriptor]);
     BOOL isStandardOutputATTY = isatty([[NSFileHandle fileHandleWithStandardOutput] fileDescriptor]);
     if (!isStandardOutputATTY) {
@@ -477,7 +531,7 @@ static void openFiles(NSArray *fileNames, NSDictionary *options) {
         [fileManager createFileAtPath:fileName contents:[NSData data] attributes:nil];
         NSFileHandle *fdout = [NSFileHandle fileHandleForWritingAtPath:fileName];
         NSFileHandle *fdin = [NSFileHandle fileHandleWithStandardInput];
-        unsigned length = 0; 
+        unsigned length = 0;
         while (TRUE) {
             NSData *data = [fdin readDataOfLength:1024];
             length += [data length];
@@ -504,10 +558,10 @@ static void openFiles(NSArray *fileNames, NSDictionary *options) {
             if ([fileManager fileExistsAtPath:fileName isDirectory:&isDir]) {
                 if (isDir) {
                 	if ([[fileName pathExtension] caseInsensitiveCompare:@"seetext"] == NSOrderedSame) {
-                	   [files addObject:fileName];
+						[files addObject:fileName];
                 	} else {
-                    //fprintf(stdout, "\"%s\" is a directory.\n", fileName);
-                    //fflush(stdout);
+						//fprintf(stdout, "\"%s\" is a directory.\n", fileName);
+						//fflush(stdout);
 					}
                 } else {
                     [files addObject:fileName];
@@ -518,9 +572,9 @@ static void openFiles(NSArray *fileNames, NSDictionary *options) {
         }
     }
     
-
+	
     NSArray *resultFileNames = see(files, newFileNames, stdinFileName, mutatedOptions);
-
+	
     //
     // Bring terminal to front when wait and resume was specified
     //
@@ -528,8 +582,8 @@ static void openFiles(NSArray *fileNames, NSDictionary *options) {
     if (resume || wait) {
 		[frontmostApplication activateWithOptions:NSApplicationActivateIgnoringOtherApps];
     }
-        
-
+	
+	
     //
     // Write files to stdout when it isn't a terminal
     //
@@ -561,121 +615,124 @@ static void openFiles(NSArray *fileNames, NSDictionary *options) {
 
 
 int main (int argc, const char * argv[]) {
-
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSMutableDictionary *options = [NSMutableDictionary dictionary];
-    BOOL launch = NO;
-    BOOL version = NO;
-    BOOL help = NO;
-    NSMutableArray *fileNames = [NSMutableArray array];
-    int i;
-
-    
-    //
-    // Parsing arguments
-    //
-    
-    int ch;
-    while ((ch = getopt_long(argc, (char * const *)argv, "bhlprvwe:m:o:dt:j:g:", longopts, NULL)) != -1) {
-        switch(ch) {
-            case 'b':
-                [options setObject:[NSNumber numberWithBool:YES] forKey:@"background"];
-                break;
-            case 'd':
-                [options setObject:[NSNumber numberWithBool:YES] forKey:@"pipe-dirty"];
-                break;
-            case 'h':
-                help = YES;
-                break;
-            case 'v':
-                version = YES;
-                break;
-            case 'w':
-                [options setObject:[NSNumber numberWithBool:YES] forKey:@"wait"];
-                break;
-            case 'r':
-                [options setObject:[NSNumber numberWithBool:YES] forKey:@"resume"];
-                break;
-            case 'l':
-                launch = YES;
-                break;
-            case 'p':
-                [options setObject:[NSNumber numberWithBool:YES] forKey:@"print"];
-                break;
-            case 'e': {
+	
+    @autoreleasepool {
+#ifdef CONFIGURATION_Debug
+		// sleep long enough for lldb to attach to us
+		[NSThread sleepForTimeInterval:0.1];
+#endif
+		NSFileManager *fileManager = [NSFileManager defaultManager];
+		NSMutableDictionary *options = [NSMutableDictionary dictionary];
+		BOOL launch = NO;
+		BOOL version = NO;
+		BOOL help = NO;
+		NSMutableArray *fileNames = [NSMutableArray array];
+		int i;
+		
+		
+		//
+		// Parsing arguments
+		//
+		
+		int ch;
+		while ((ch = getopt_long(argc, (char * const *)argv, "bhlprvwe:m:o:dt:j:g:", longopts, NULL)) != -1) {
+			switch(ch) {
+				case 'b':
+					[options setObject:[NSNumber numberWithBool:YES] forKey:@"background"];
+					break;
+				case 'd':
+					[options setObject:[NSNumber numberWithBool:YES] forKey:@"pipe-dirty"];
+					break;
+				case 'h':
+					help = YES;
+					break;
+				case 'v':
+					version = YES;
+					break;
+				case 'w':
+					[options setObject:[NSNumber numberWithBool:YES] forKey:@"wait"];
+					break;
+				case 'r':
+					[options setObject:[NSNumber numberWithBool:YES] forKey:@"resume"];
+					break;
+				case 'l':
+					launch = YES;
+					break;
+				case 'p':
+					[options setObject:[NSNumber numberWithBool:YES] forKey:@"print"];
+					break;
+				case 'e': {
                     // argument is a IANA charset name, convert using CFStringConvertIANACharSetNameToEncoding()
                     NSString *encoding = [NSString stringWithUTF8String:optarg];
                     [options setObject:encoding forKey:@"encoding"];
                 } break;
-            case 'g': {
+				case 'g': {
                     // argument is a goto string of the form line[:column]
                     NSString *gotoString = [NSString stringWithUTF8String:optarg];
                     [options setObject:gotoString forKey:@"goto"];
                 } break;
-            case 'm': {
+				case 'm': {
                     // identifies mode via BundleIdentifier, e.g. SEEMode.Objective-C ("SEEMode." is optional)
                     NSString *mode = [NSString stringWithUTF8String:optarg];
                     [options setObject:mode forKey:@"mode"];
                 } break;
-            case 'o': {
+				case 'o': {
                     NSString *openin = [NSString stringWithUTF8String:optarg];
                     [options setObject:openin forKey:@"open-in"];
                 } break;
-            case 't': {
+				case 't': {
                     NSString *pipeTitle = [NSString stringWithUTF8String:optarg];
                     [options setObject:pipeTitle forKey:@"pipe-title"];
                 } break;
-            case 'j': {
+				case 'j': {
                     NSString *jobDesc = [NSString stringWithUTF8String:optarg];
                     [options setObject:jobDesc forKey:@"job-description"];
                 } break;
-            case ':': // missing option argument
-            case '?': // invalid option
-            default:
-                help = YES;
-        }
-    }
-    
-    
-    //
-    // Parsing filename arguments
-    //
-    
-    argc -= optind;
-    argv += optind;
-    
-    for (i = 0; i < argc; i++) {
-		NSString *fileName = [NSString stringWithUTF8String:argv[i]];
-		if (! fileName.isAbsolutePath) {
-			fileName = [[fileManager currentDirectoryPath] stringByAppendingPathComponent:fileName];
+				case ':': // missing option argument
+				case '?': // invalid option
+				default:
+					help = YES;
+			}
 		}
-
-        if (fileName) {
-            //NSLog(@"fileName after realpath: %@", fileName);
-            [fileNames addObject:fileName.stringByStandardizingPath];
-        } else {
-            launch = YES;
-            //NSLog(@"Error occurred while resolving path: %s", argv[i]);
-        }
-    }
+		
+		
+		//
+		// Parsing filename arguments
+		//
+		
+		argc -= optind;
+		argv += optind;
+		
+		for (i = 0; i < argc; i++) {
+			NSString *fileName = [NSString stringWithUTF8String:argv[i]];
+			if (! fileName.isAbsolutePath) {
+				fileName = [[fileManager currentDirectoryPath] stringByAppendingPathComponent:fileName];
+			}
+			
+			if (fileName) {
+				//NSLog(@"fileName after realpath: %@", fileName);
+				[fileNames addObject:fileName.stringByStandardizingPath];
+			} else {
+				launch = YES;
+				//NSLog(@"Error occurred while resolving path: %s", argv[i]);
+			}
+		}
         
-
-    //
-    // Executing command
-    //
-    
-    if (help) {
-        printHelp();
-    } else if (version) {
-        printVersion();
-    } else if (launch && ([fileNames count] == 0)) {
-        (void)launchSubEthaEdit(options);
-    } else {
-        openFiles(fileNames, options);
-    }
+		
+		//
+		// Executing command
+		//
+		
+		if (help) {
+			printHelp();
+		} else if (version) {
+			printVersion();
+		} else if (launch && ([fileNames count] == 0)) {
+			(void)launchSubEthaEdit(options);
+		} else {
+			openFiles(fileNames, options);
+		}
         
-    [pool release];
+	}
     return 0;
 }
