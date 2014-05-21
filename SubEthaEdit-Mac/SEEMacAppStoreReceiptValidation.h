@@ -20,7 +20,7 @@
 //
 // Platform                   : OSX
 // CFBundleIdentifier         : de.codingmonkeys.SubEthaEdit.Mac
-// CFBundleShortVersionString : 4.0
+// CFBundleShortVersionString : 4.0.1
 // Prefix                     : SEEAppStoreReceipt
 // Success Behavior           : RunApplication
 // Failure Behavior           : ExitWith173
@@ -147,41 +147,41 @@ extern "C" {
 		SEEAppStoreReceipt_InAppAttributeTypeCancellationDate = 1712,
 
 		// Storage key base value
-		SEEAppStoreReceipt_StoreNone = 2443,
+		SEEAppStoreReceipt_StoreNone = 1101,
 		// Bundle identifier
-		SEEAppStoreReceipt_StoreReceiptAttributeTypeBundleId = SEEAppStoreReceipt_StoreNone + (SEEAppStoreReceipt_ReceiptAttributeTypeBundleId << 1),
-		SEEAppStoreReceipt_StoreReceiptAttributeTypeBundleIdData = SEEAppStoreReceipt_StoreNone + (SEEAppStoreReceipt_ReceiptAttributeTypeBundleId << 1) + 1,
+		SEEAppStoreReceipt_StoreReceiptAttributeTypeBundleId = SEEAppStoreReceipt_StoreNone + (SEEAppStoreReceipt_ReceiptAttributeTypeBundleId << 2),
+		SEEAppStoreReceipt_StoreReceiptAttributeTypeBundleIdData = SEEAppStoreReceipt_StoreNone + (SEEAppStoreReceipt_ReceiptAttributeTypeBundleId << 2) + 1,
 		// Application version
-		SEEAppStoreReceipt_StoreReceiptAttributeTypeBundleVersion = SEEAppStoreReceipt_StoreNone + (SEEAppStoreReceipt_ReceiptAttributeTypeBundleVersion << 1),
-		SEEAppStoreReceipt_StoreReceiptAttributeTypeBundleVersionData = SEEAppStoreReceipt_StoreNone + (SEEAppStoreReceipt_ReceiptAttributeTypeBundleId << 1) + 1,
+		SEEAppStoreReceipt_StoreReceiptAttributeTypeBundleVersion = SEEAppStoreReceipt_StoreNone + (SEEAppStoreReceipt_ReceiptAttributeTypeBundleVersion << 2),
+		SEEAppStoreReceipt_StoreReceiptAttributeTypeBundleVersionData = SEEAppStoreReceipt_StoreNone + (SEEAppStoreReceipt_ReceiptAttributeTypeBundleId << 2) + 1,
 		// Opaque value
-		SEEAppStoreReceipt_StoreReceiptAttributeTypeOpaqueValue = SEEAppStoreReceipt_StoreNone + (SEEAppStoreReceipt_ReceiptAttributeTypeOpaqueValue << 1),
+		SEEAppStoreReceipt_StoreReceiptAttributeTypeOpaqueValue = SEEAppStoreReceipt_StoreNone + (SEEAppStoreReceipt_ReceiptAttributeTypeOpaqueValue << 2),
 		// Hash value
-		SEEAppStoreReceipt_StoreReceiptAttributeTypeHash = SEEAppStoreReceipt_StoreNone + (SEEAppStoreReceipt_ReceiptAttributeTypeHash << 1),
+		SEEAppStoreReceipt_StoreReceiptAttributeTypeHash = SEEAppStoreReceipt_StoreNone + (SEEAppStoreReceipt_ReceiptAttributeTypeHash << 2),
 		// In-app purchase receipt
-		SEEAppStoreReceipt_StoreReceiptAttributeTypeInAppPurchase = SEEAppStoreReceipt_StoreNone + (SEEAppStoreReceipt_ReceiptAttributeTypeInAppPurchase << 1),
+		SEEAppStoreReceipt_StoreReceiptAttributeTypeInAppPurchase = SEEAppStoreReceipt_StoreNone + (SEEAppStoreReceipt_ReceiptAttributeTypeInAppPurchase << 2),
 		// Original Application Version
-		SEEAppStoreReceipt_StoreReceiptAttributeTypeOriginalApplicationVersion = SEEAppStoreReceipt_StoreNone + (SEEAppStoreReceipt_ReceiptAttributeTypeOriginalApplicationVersion << 1),
+		SEEAppStoreReceipt_StoreReceiptAttributeTypeOriginalApplicationVersion = SEEAppStoreReceipt_StoreNone + (SEEAppStoreReceipt_ReceiptAttributeTypeOriginalApplicationVersion << 2),
 		// Receipt Expiration Date
-		SEEAppStoreReceipt_StoreReceiptAttributeTypeExpirationDate = SEEAppStoreReceipt_StoreNone + (SEEAppStoreReceipt_ReceiptAttributeTypeExpirationDate << 1),
+		SEEAppStoreReceipt_StoreReceiptAttributeTypeExpirationDate = SEEAppStoreReceipt_StoreNone + (SEEAppStoreReceipt_ReceiptAttributeTypeExpirationDate << 2),
 		// Quantity
-		SEEAppStoreReceipt_StoreInAppAttributeTypeQuantity = SEEAppStoreReceipt_StoreNone + (SEEAppStoreReceipt_InAppAttributeTypeQuantity << 1),
+		SEEAppStoreReceipt_StoreInAppAttributeTypeQuantity = SEEAppStoreReceipt_StoreNone + (SEEAppStoreReceipt_InAppAttributeTypeQuantity << 2),
 		// Product identifier
-		SEEAppStoreReceipt_StoreInAppAttributeTypeProductIdentifer = SEEAppStoreReceipt_StoreNone + (SEEAppStoreReceipt_InAppAttributeTypeProductIdentifer << 1),
+		SEEAppStoreReceipt_StoreInAppAttributeTypeProductIdentifer = SEEAppStoreReceipt_StoreNone + (SEEAppStoreReceipt_InAppAttributeTypeProductIdentifer << 2),
 		// Transaction identifier
-		SEEAppStoreReceipt_StoreInAppAttributeTypeTransactionIdentifer = SEEAppStoreReceipt_StoreNone + (SEEAppStoreReceipt_InAppAttributeTypeTransactionIdentifer << 1),
+		SEEAppStoreReceipt_StoreInAppAttributeTypeTransactionIdentifer = SEEAppStoreReceipt_StoreNone + (SEEAppStoreReceipt_InAppAttributeTypeTransactionIdentifer << 2),
 		// Purchase date
-		SEEAppStoreReceipt_StoreInAppAttributeTypePurchaseDate = SEEAppStoreReceipt_StoreNone + (SEEAppStoreReceipt_InAppAttributeTypePurchaseDate << 1),
+		SEEAppStoreReceipt_StoreInAppAttributeTypePurchaseDate = SEEAppStoreReceipt_StoreNone + (SEEAppStoreReceipt_InAppAttributeTypePurchaseDate << 2),
 		// Original transaction identifier
-		SEEAppStoreReceipt_StoreInAppAttributeTypeOriginalTransactionIdentifer = SEEAppStoreReceipt_StoreNone + (SEEAppStoreReceipt_InAppAttributeTypeOriginalTransactionIdentifer << 1),
+		SEEAppStoreReceipt_StoreInAppAttributeTypeOriginalTransactionIdentifer = SEEAppStoreReceipt_StoreNone + (SEEAppStoreReceipt_InAppAttributeTypeOriginalTransactionIdentifer << 2),
 		// Original purchase date
-		SEEAppStoreReceipt_StoreInAppAttributeTypeOriginalPurchaseDate = SEEAppStoreReceipt_StoreNone + (SEEAppStoreReceipt_InAppAttributeTypeOriginalPurchaseDate << 1),
+		SEEAppStoreReceipt_StoreInAppAttributeTypeOriginalPurchaseDate = SEEAppStoreReceipt_StoreNone + (SEEAppStoreReceipt_InAppAttributeTypeOriginalPurchaseDate << 2),
 		// Subscription Expiration Date
-		SEEAppStoreReceipt_StoreInAppAttributeTypeSubscriptionExpirationDate = SEEAppStoreReceipt_StoreNone + (SEEAppStoreReceipt_InAppAttributeTypeSubscriptionExpirationDate << 1),
+		SEEAppStoreReceipt_StoreInAppAttributeTypeSubscriptionExpirationDate = SEEAppStoreReceipt_StoreNone + (SEEAppStoreReceipt_InAppAttributeTypeSubscriptionExpirationDate << 2),
 		// Web Order Line Item ID
-		SEEAppStoreReceipt_StoreInAppAttributeTypeWebOrderLineItemId = SEEAppStoreReceipt_StoreNone + (SEEAppStoreReceipt_InAppAttributeTypeWebOrderLineItemId << 1),
+		SEEAppStoreReceipt_StoreInAppAttributeTypeWebOrderLineItemId = SEEAppStoreReceipt_StoreNone + (SEEAppStoreReceipt_InAppAttributeTypeWebOrderLineItemId << 2),
 		// Cancellation Date
-		SEEAppStoreReceipt_StoreInAppAttributeTypeCancellationDate = SEEAppStoreReceipt_StoreNone + (SEEAppStoreReceipt_InAppAttributeTypeCancellationDate << 1)
+		SEEAppStoreReceipt_StoreInAppAttributeTypeCancellationDate = SEEAppStoreReceipt_StoreNone + (SEEAppStoreReceipt_InAppAttributeTypeCancellationDate << 2)
 
 	} SEEAppStoreReceipt_ReceiptAttributeType;
 
@@ -204,40 +204,39 @@ extern "C" {
 
 	// Shared context for receipt validation
 	typedef struct _SEEAppStoreReceipt_CheckingContext {
-		CFTypeRef dummy000B;
-		CFTypeRef receipt_data;
-		CFTypeRef ca_data;
-		CFTypeRef dummy0002;
-		CFTypeRef dummy0007;
-		CFTypeRef dummy0001;
-		CFTypeRef main_bundle;
-		long argc;
-		CFTypeRef dummy0008;
+		CFTypeRef dummy0000;
 		CFTypeRef receipt_dict;
+		CFTypeRef dummy0002;
+		CFTypeRef dummy0001;
+		CFTypeRef dummy0005;
+		CFTypeRef dummy0004;
+		CFTypeRef receipt_data;
 		CFTypeRef dummy0006;
 		const char ** argv;
-		CFTypeRef dummy0000;
-		CFTypeRef dummy0005;
+		CFTypeRef ca_data;
+		long argc;
 		CFTypeRef guid_data;
 		CFTypeRef dummy0003;
-		CFTypeRef dummy0009;
-		CFTypeRef dummy0004;
-		CFTypeRef dummy000A;
+		CFTypeRef main_bundle;
 	} SEEAppStoreReceipt_CheckingContext;
 
 	// Shared context for receipt parsing
 	typedef struct _SEEAppStoreReceipt_ParsingContext {
 		struct _SEEAppStoreReceipt_ParsingContext * parent;
+		CFTypeRef dummy0009;
+		CFTypeRef dummy0008;
+		CFTypeRef dummy000A;
 		CFTypeRef dummy0006;
+		const unsigned char * ptr;
+		CFTypeRef dummy0002;
+		CFTypeRef dummy0003;
 		const unsigned char * end;
 		CFTypeRef dummy0001;
-		CFTypeRef dictionary;
-		CFTypeRef dummy0004;
+		CFTypeRef dummy0007;
 		CFTypeRef dummy0005;
-		CFTypeRef dummy0002;
 		CFTypeRef dummy0000;
-		const unsigned char * ptr;
-		CFTypeRef dummy0003;
+		CFTypeRef dummy0004;
+		CFTypeRef dictionary;
 	} SEEAppStoreReceipt_ParsingContext;
 
 	// Symbol ASN1_get_object
@@ -350,16 +349,26 @@ extern "C" {
 	typedef void (*__SEEAppStoreReceipt_EVP_MD_CTX_init)(EVP_MD_CTX *ctx);
 	// Symbol exit
 	typedef void (*__SEEAppStoreReceipt_exit)(int status);
-	// Symbol freeifaddrs
-	typedef void (*__SEEAppStoreReceipt_freeifaddrs)(struct ifaddrs *ifp);
-	// Symbol getifaddrs
-	typedef int (*__SEEAppStoreReceipt_getifaddrs)(struct ifaddrs **ifap);
 	// Symbol glob
 	typedef int (*__SEEAppStoreReceipt_glob)(const char * __restrict, int, int (*)(const char *, int), glob_t * __restrict);
 	// Symbol glob_b
 	typedef int (*__SEEAppStoreReceipt_glob_b)(const char * __restrict, int, int (^)(const char *, int), glob_t * __restrict);
 	// Symbol globfree
 	typedef void (*__SEEAppStoreReceipt_globfree)(glob_t *);
+	// Symbol IOBSDNameMatching
+	typedef CFMutableDictionaryRef (*__SEEAppStoreReceipt_IOBSDNameMatching)(mach_port_t masterPort, uint32_t options, const char * bsdName);
+	// Symbol IOIteratorNext
+	typedef io_object_t (*__SEEAppStoreReceipt_IOIteratorNext)(io_iterator_t iterator);
+	// Symbol IOMasterPort
+	typedef kern_return_t (*__SEEAppStoreReceipt_IOMasterPort)(mach_port_t bootstrapPort, mach_port_t *masterPort);
+	// Symbol IOObjectRelease
+	typedef kern_return_t (*__SEEAppStoreReceipt_IOObjectRelease)(io_object_t object);
+	// Symbol IORegistryEntryCreateCFProperty
+	typedef CFTypeRef (*__SEEAppStoreReceipt_IORegistryEntryCreateCFProperty)(io_registry_entry_t entry, CFStringRef key, CFAllocatorRef allocator, IOOptionBits options);
+	// Symbol IORegistryEntryGetParentEntry
+	typedef kern_return_t (*__SEEAppStoreReceipt_IORegistryEntryGetParentEntry)(io_registry_entry_t entry, const io_name_t plane, io_registry_entry_t * parent);
+	// Symbol IOServiceGetMatchingServices
+	typedef kern_return_t (*__SEEAppStoreReceipt_IOServiceGetMatchingServices)(mach_port_t masterPort, CFDictionaryRef matching, io_iterator_t *existing);
 	// Symbol kCFBundleIdentifierKey
 	typedef const CFStringRef *__SEEAppStoreReceipt_kCFBundleIdentifierKey;
 	// Symbol kCFTypeArrayCallBacks
@@ -428,8 +437,6 @@ extern "C" {
 	typedef int (*__SEEAppStoreReceipt_sk_num)(const _STACK *);
 	// Symbol sk_value
 	typedef void *(*__SEEAppStoreReceipt_sk_value)(const _STACK *, int);
-	// Symbol strcmp
-	typedef int (*__SEEAppStoreReceipt_strcmp)(const char *s1, const char *s2);
 	// Symbol strlen
 	typedef size_t (*__SEEAppStoreReceipt_strlen)(const char *);
 	// Symbol strncmp
@@ -451,1115 +458,1363 @@ extern "C" {
 
 
 	// Table for storing strings
-	static const char *SEEAppStoreReceipt_Strings[549] = {
-		// "" / M(None) / S(0) / L(0)
-		"\xf6\xb8\x36\xb8\xc3\xba\x11\x2c\x20\x3d\x83\xfa\xfb\x8f\x36\x0b\xfa\x6d\xa0\xd4\x33\xa6\xae\x20\xde\x93\x0e\xf2\x00\x24\x0e\x7a",
-		// "sk_num" / M(Xor4) / S(76) / L(6)
-		"\xb3\xab\x9f\xae\xb5\xad\xc0\x60\xfd\x10\x27\x81\x57\x56\x45\x0e",
-		// "CFRelease" / M(Rot) / S(40) / L(9)
-		"\x6b\x6e\x7a\x8d\x94\x8d\x89\x9b\x8d\x28\xd5\x9e\xb3\xa9\x91\x64",
-		// "" / M(None) / S(0) / L(0)
-		"\x65\xcf\x0f\xb3\x88\xfd\x58\x1d\x0b\x51\x52\x81\xc4\x59\x37\x6e\x7f\x9a\x9c\xb3\xf8\x5f\x3e\x7c\x52\x66\xa8\x10\x32\x13\xd4\x02",
-		// "/usr/lib/libSystem.dylib" / M(Rot) / S(237) / L(24)
-		"\x1c\x62\x60\x5f\x1c\x59\x56\x4f\x1c\x59\x56\x4f\x40\x66\x60\x61\x52\x5a\x1b\x51\x66\x59\x56\x4f\xed\x9d\x0c\x73\xbf\x81\x04\xe3\x6f",
-		// "kCFTypeDictionaryKeyCallBacks" / M(Rot) / S(105) / L(29)
-		"\xd4\xac\xaf\xbd\xe2\xd9\xce\xad\xd2\xcc\xdd\xd2\xd8\xd7\xca\xdb\xe2\xb4\xce\xe2\xac\xca\xd5\xd5\xab\xca\xcc\xd4\xdc\x69\x38\xf4\x9f\x6b\x45\x5f\x68\xc8",
-		// "Contents/_MASReceipt/receipt" / M(Xor3) / S(192) / L(28)
-		"\xa6\x8a\x8b\x91\x80\x8b\x91\x96\xca\xba\xa8\xa4\xb6\xb7\x80\x86\x80\x8c\x95\x91\xca\x97\x80\x86\x80\x8c\x95\x91\xe5\xd0\x0b\xe9\x96\x6d\x87\xf8\x08",
-		// "exit" / M(Xor4) / S(239) / L(4)
-		"\x95\x88\x99\x84\xf0\x29\x1f\xaa\x3d\xa0\x48\x59\xdb\x8a\xb4\xd6",
-		// "kSecReturnRef" / M(Xor1) / S(146) / L(13)
-		"\xf9\xc1\xf7\xf1\xc0\xf7\xe6\xe7\xe0\xfc\xc0\xf7\xf4\x92\xd6\xf5",
-		// "%02x:" / M(Xor1) / S(75) / L(5)
-		"\x6e\x7b\x79\x33\x71\x4b\x89\xdd\x3a\xd4\xa0\x03\xcf\xd4\xce\xf6",
-		// "" / M(None) / S(0) / L(0)
-		"\x32\x31\xa8\x7a\xcb\xdc\xd3\x8b\xed\x06\x37\x80\xae\x4e\xe1\x61\x41\xa7\x49\xef\xf2\xfa\xa5\x63\x9d\xdd\x0b\x0d\x32\x7b\x4a\x80",
-		// "receipt" / M(Rot) / S(227) / L(7)
-		"\x55\x48\x46\x48\x4c\x53\x57\xe3\x62\x7b\x7a\x78\xeb\xa5\x43\x4d",
-		// "SecKeychainSearchCopyNext" / M(Xor4) / S(153) / L(25)
-		"\x01\x37\x31\x19\x37\x2b\x31\x3a\x33\x3b\x3c\x01\x37\x33\x20\x31\x3a\x11\x3d\x22\x2b\x1c\x37\x2a\x26\x52\xb1\xfb\xa0\x82\xd7\xb8\x0e\xf5",
-		// "X509_STORE_add_cert" / M(Rot) / S(74) / L(19)
-		"\xa2\x7f\x7a\x83\xa9\x9d\x9e\x99\x9c\x8f\xa9\xab\xae\xae\xa9\xad\xaf\xbc\xbe\x4a",
-		// "d2i_PKCS7_bio" / M(Xor4) / S(85) / L(13)
-		"\x34\x62\x39\x0f\x00\x1b\x13\x03\x67\x0f\x32\x39\x3f\x50\x62\x8e",
-		// "exit" / M(Xor4) / S(164) / L(4)
-		"\x25\x38\x29\x34\x40\x7c\xcc\xf0\xbb\x0e\x9d\xa8\x54\x44\x30\xf7",
-		// "" / M(None) / S(0) / L(0)
-		"\x64\x4c\x49\x44\xab\xe8\x8d\x1e\x59\xf5\x69\x08\x6d\x43\xd7\xee\xc9\xca\x04\x24\xe1\x59\xb7\xb1\xcd\x5b\x31\x86\x31\xea\xfe\xcf",
-		// "BIO_free" / M(Rot) / S(188) / L(8)
-		"\xfe\x05\x0b\x1b\x22\x2e\x21\x21\xbc\xc6\x6b\x3a\xd7\x44\x13\x6c",
-		// "" / M(None) / S(0) / L(0)
-		"\xac\x42\x16\xa5\xe1\x9e\x8a\x52\xde\x7e\xeb\xcd\x19\x4c\xab\xeb\x10\xaf\xdc\xab\x4a\x5f\x81\x95\x9f\x07\x2d\x06\x07\xee\x93\x07",
-		// "alloc" / M(Xor1) / S(154) / L(5)
-		"\xfb\xf6\xf6\xf5\xf9\x9a\xe5\x9a\xc9\x08\xff\xb7\x00\xa7\x47\x5c",
-		// "setjmp" / M(Xor3) / S(165) / L(6)
-		"\xc6\xd0\xc1\xdf\xd8\xc5\xb5\x91\x27\x26\x31\xde\xb3\x36\x73\x6f",
-		// "OBJ_txt2obj" / M(Xor4) / S(38) / L(11)
-		"\x2f\x22\x2a\x3f\x14\x18\x14\x52\x0f\x02\x0a\x60\x54\x5d\x45\x04",
-		// "/System/Library/Frameworks/AppKit.framework/AppKit" / M(Xor4) / S(11) / L(50)
-		"\x1e\x62\x48\x42\x45\x54\x5c\x1e\x7d\x58\x53\x43\x50\x43\x48\x1e\x77\x43\x50\x5c\x54\x46\x5e\x43\x5a\x42\x1e\x70\x41\x41\x7a\x58\x45\x1f\x57\x43\x50\x5c\x54\x46\x5e\x43\x5a\x1e\x70\x41\x41\x7a\x58\x45\x31",
-		// "" / M(None) / S(0) / L(0)
-		"\x17\xeb\x1d\xa0\x2a\x8b\x43\xdd\xba\x55\x48\x35\x0e\x58\x2f\x38\xbc\x29\x59\x2a\xe2\x0f\x3b\xa5\x2a\x2b\x88\x41\x74\xff\x0e\x00",
-		// "alloc" / M(Xor2) / S(170) / L(5)
-		"\xdb\xd6\xd6\xd5\xd9\xba\x06\x43\x57\xf6\x55\x3f\xde\xd6\x74\x4e",
-		// "" / M(None) / S(0) / L(0)
-		"\xc3\x95\x85\xe4\x3d\x53\xbb\xd7\xf3\xb2\x52\x1f\x7c\x72\x59\xfa\xdd\x02\x7d\xc6\x7a\x94\xf8\x16\x27\x88\x1a\x45\x4d\xef\x21\xe2",
-		// "CFDictionaryAddValue" / M(Xor4) / S(129) / L(20)
-		"\xd6\xd3\xd1\xfc\xf6\xe1\xfc\xfa\xfb\xf4\xe7\xec\xd4\xf1\xf1\xc3\xf4\xf9\xe0\xf0\x95",
-		// "d2i_PKCS7_bio" / M(Xor1) / S(209) / L(13)
-		"\xb5\xe3\xb8\x8e\x81\x9a\x92\x82\xe6\x8e\xb3\xb8\xbe\xd1\xf5\x92",
-		// "OpenSSL_add_all_digests" / M(Xor3) / S(17) / L(23)
-		"\x7e\x41\x54\x5f\x62\x62\x7d\x6e\x50\x55\x55\x6e\x50\x5d\x5d\x6e\x55\x58\x56\x54\x42\x45\x42\x31\xa0\xd1\xca\xbc\xec\x8d\x14\x3c",
-		// "getifaddrs" / M(Xor4) / S(199) / L(10)
-		"\x17\x15\x04\x19\x16\x11\x14\x14\x02\x03\x70\xe6\xb1\xb4\x31\x59",
-		// "en0" / M(Xor3) / S(46) / L(3)
-		"\x5b\x50\x0e\x3e\x2b\x9d\x00\x33\x88\xba\x03\x95\x72\x42\x81\xb3",
-		// "" / M(None) / S(0) / L(0)
-		"\x62\x95\xe3\xef\xdb\xbd\xdf\xc1\x4c\x56\xac\x1c\x94\xa7\xac\x13\x03\xff\x26\x2e\xb1\x1f\xdf\xe0\x32\xef\x00\x4d\x78\xfe\xf8\x31",
-		// "CFBundleCopyBundleURL" / M(Rot) / S(116) / L(21)
-		"\xb7\xba\xb6\xe9\xe2\xd8\xe0\xd9\xb7\xe3\xe4\xed\xb6\xe9\xe2\xd8\xe0\xd9\xc9\xc6\xc0\x74",
-		// "CC_SHA1_Final" / M(Xor2) / S(91) / L(13)
-		"\x08\x08\x14\x18\x03\x0a\x7a\x14\x0d\x22\x25\x2a\x27\x4b\x09\x47",
-		// "CC_SHA1_Final" / M(Xor1) / S(42) / L(13)
-		"\x69\x69\x75\x79\x62\x6b\x1b\x75\x6c\x43\x44\x4b\x46\x2a\x5b\x2d",
-		// "sk_free" / M(Xor1) / S(18) / L(7)
-		"\x61\x79\x4d\x74\x60\x77\x77\x12\xa6\x00\x0b\x2b\x25\x68\xeb\xe3",
-		// "CFDictionaryGetValue" / M(Xor2) / S(239) / L(20)
-		"\xb9\xbc\xbe\x93\x99\x8e\x93\x95\x94\x9b\x88\x83\xbd\x9f\x8e\xac\x9b\x96\x8f\x9f\xfa",
-		// "" / M(None) / S(0) / L(0)
-		"\x66\xfb\x72\x60\xdd\xb2\x4e\xc9\xfe\x7e\xa0\x4c\xe2\xd9\x37\x46\x55\x2b\x45\xff\x77\x23\xea\x30\x2e\xe7\x7c\x7a\xe0\x2d\x72\x82",
-		// "CFBundleGetIdentifier" / M(Xor3) / S(157) / L(21)
-		"\xf0\xf5\xf1\xc6\xdd\xd7\xdf\xd6\xf4\xd6\xc7\xfa\xd7\xd6\xdd\xc7\xda\xd5\xda\xd6\xc1\xb3",
-		// "ASN1_OBJECT_free" / M(Xor3) / S(243) / L(16)
-		"\x45\x57\x4a\x35\x5b\x4b\x46\x4e\x41\x47\x50\x5b\x62\x76\x61\x61\x04",
-		// "en0" / M(Rot) / S(117) / L(3)
-		"\xda\xe3\xa5\x75\x1e\x5e\x7c\xa8\xe9\x44\x93\x3d\x50\x7f\xb6\x00",
-		// "SecItemCopyMatching" / M(Xor2) / S(110) / L(19)
-		"\x29\x1f\x19\x33\x0e\x1f\x17\x39\x15\x0a\x03\x37\x1b\x0e\x19\x12\x13\x14\x1d\x7a",
-		// "SecItemCopyMatching" / M(Rot) / S(78) / L(19)
-		"\xa1\xb3\xb1\x97\xc2\xb3\xbb\x91\xbd\xbe\xc7\x9b\xaf\xc2\xb1\xb6\xb7\xbc\xb5\x4e",
-		// "dlopen" / M(Xor1) / S(229) / L(6)
-		"\x81\x89\x8a\x95\x80\x8b\xe5\xac\xa1\x8c\xed\xb2\x03\x8c\xf6\xdd",
-		// "CFReadStreamRead" / M(Xor4) / S(69) / L(16)
-		"\xd6\xd3\xc7\xf0\xf4\xf1\xc6\xe1\xe7\xf0\xf4\xf8\xc7\xf0\xf4\xf1\x95",
-		// "CFDateFormatterCreateDateFromString" / M(Xor2) / S(191) / L(35)
-		"\xd8\xdd\xdf\xfa\xef\xfe\xdd\xf4\xe9\xf6\xfa\xef\xef\xfe\xe9\xd8\xe9\xfe\xfa\xef\xfe\xdf\xfa\xef\xfe\xdd\xe9\xf4\xf6\xc8\xef\xe9\xf2\xf5\xfc\x9b",
-		// "kSecMatchSubjectContains" / M(Xor2) / S(54) / L(24)
-		"\x7c\x44\x72\x74\x5a\x76\x63\x74\x7f\x44\x62\x75\x7d\x72\x74\x63\x54\x78\x79\x63\x76\x7e\x79\x64\x17\xbc\xf8\x7e\x94\x7f\x38\x3e\x3b",
-		// "SHA1_Init" / M(Rot) / S(67) / L(9)
-		"\x96\x8b\x84\x74\xa2\x8c\xb1\xac\xb7\x43\x92\x5a\xa9\xa5\x66\x12",
-		// "CFDateFormatterCreate" / M(Rot) / S(221) / L(21)
-		"\x20\x23\x21\x3e\x51\x42\x23\x4c\x4f\x4a\x3e\x51\x51\x42\x4f\x20\x4f\x42\x3e\x51\x42\xdd",
-		// "" / M(None) / S(0) / L(0)
-		"\x58\x2e\x7b\x48\xc4\xd3\xdc\xbd\xaa\xfa\xe9\xb1\xa7\xbc\xf6\x01\xc0\x19\xd1\xfd\x1d\xcb\xbe\xe3\xa3\x43\xe4\x94\xed\x7b\xec\x41",
-		// "" / M(None) / S(0) / L(0)
-		"\xd3\xa5\x63\x31\x31\x7a\x4f\x53\x6a\x2c\x2e\x7a\x05\x1e\x71\x4a\x44\x39\x96\x4b\x3f\xf7\x95\x16\x5b\xd6\xe4\x93\xa1\x61\x6d\x56",
-		// "CFEqual" / M(Xor1) / S(158) / L(7)
-		"\xdd\xd8\xdb\xef\xeb\xff\xf2\x9e\x0f\x72\xa8\xdf\x77\x76\x5a\xd2",
-		// "strcmp" / M(Xor3) / S(222) / L(6)
-		"\x9d\x9a\x9c\x8d\x83\x9e\xee\xba\xf5\x55\x3f\x0e\xfa\xdd\xee\xba",
-		// "CFReadStreamRead" / M(Xor4) / S(44) / L(16)
-		"\xaf\xaa\xbe\x89\x8d\x88\xbf\x98\x9e\x89\x8d\x81\xbe\x89\x8d\x88\xec",
-		// "CFDataAppendBytes" / M(Xor1) / S(181) / L(17)
-		"\xf6\xf3\xf1\xd4\xc1\xd4\xf4\xc5\xc5\xd0\xdb\xd1\xf7\xcc\xc1\xd0\xc6\xb5",
-		// "Contents/_MASReceipt/receipt" / M(Xor3) / S(54) / L(28)
-		"\x18\x34\x35\x2f\x3e\x35\x2f\x28\x74\x04\x16\x1a\x08\x09\x3e\x38\x3e\x32\x2b\x2f\x74\x29\x3e\x38\x3e\x32\x2b\x2f\x5b\x4b\xc8\x68\x52\xbb\x62\xf1\x85",
-		// "receipt" / M(Rot) / S(154) / L(7)
-		"\x0c\xff\xfd\xff\x03\x0a\x0e\x9a\xe7\x82\x67\x65\xf3\xe4\xd5\xa0",
-		// "RTLD_MAIN_ONLY" / M(Rot) / S(110) / L(14)
-		"\xc0\xc2\xba\xb2\xcd\xbb\xaf\xb7\xbc\xcd\xbd\xbc\xba\xc7\x6e\xd3",
-		// "" / M(None) / S(0) / L(0)
-		"\x90\xbc\x83\x2d\xb6\xd8\x8f\x76\xd5\x97\x67\xd1\x8c\xc7\x4d\x8c\xe8\x0e\xaf\x5a\xd9\x8b\xd3\x7d\x14\xa6\xae\x04\xc4\x77\xc3\xf4",
-		// "CFStringCreateWithCString" / M(Xor2) / S(83) / L(25)
-		"\x32\x37\x22\x05\x03\x18\x1f\x16\x32\x03\x14\x10\x05\x14\x26\x18\x05\x19\x32\x22\x05\x03\x18\x1f\x16\x71\xb3\x35\x44\x3c\x27\x58\xf4\xef",
-		// "glob" / M(Xor3) / S(251) / L(4)
-		"\x6c\x67\x64\x69\x0b\x39\x87\xb4\xfa\xfa\x4f\x31\xdc\x86\x8b\xc9",
-		// "SHA1_Init" / M(Xor2) / S(211) / L(9)
-		"\x90\x8b\x82\xf2\x9c\x8a\xad\xaa\xb7\xc3\x1b\xf4\x7e\x7a\x67\xe4",
-		// "" / M(None) / S(0) / L(0)
-		"\x56\x96\x13\x33\x92\xaa\xfd\xb7\x50\x87\x9b\xe5\x1e\x0a\x43\xde\xc1\x3e\xe5\x9d\x9d\xf6\x92\x9c\x66\xec\x19\x83\x45\xe5\x78\x1d",
-		// "" / M(None) / S(0) / L(0)
-		"\x46\xdf\x36\xa6\xa8\x43\x49\x0a\x4c\x71\x74\x3c\xed\xdc\xea\x78\x40\xc1\xea\x40\x31\xde\x7b\x39\x4f\x33\xfd\xeb\x01\xb9\x6e\x46",
-		// "Contents/_MASReceipt/receipt" / M(Xor1) / S(162) / L(28)
-		"\xe1\xcd\xcc\xd6\xc7\xcc\xd6\xd1\x8d\xfd\xef\xe3\xf1\xf0\xc7\xc1\xc7\xcb\xd2\xd6\x8d\xd0\xc7\xc1\xc7\xcb\xd2\xd6\xa2\x40\x56\x0b\x74\x84\xe9\xbb\xe2",
-		// "" / M(None) / S(0) / L(0)
-		"\x3b\x2a\x70\xe1\x1c\x67\xf3\x49\xfe\x23\xb2\x5c\xc5\xb3\x21\x2c\x9c\xe5\x85\x5a\xe3\xbf\xaf\x00\xa3\x0b\x36\xc7\x26\xe1\x16\x03",
-		// "objc_getClass" / M(Xor4) / S(12) / L(13)
-		"\xaf\xa2\xaa\xa3\x9f\xa7\xa5\xb4\x83\xac\xa1\xb3\xb3\xc0\x80\xe4",
-		// "SHA1" / M(Xor2) / S(114) / L(4)
-		"\x31\x2a\x23\x53\x62\x64\xa8\x7e\x5a\xa8\x88\xd0\xda\x70\x9f\x4e",
-		// "/System/Library/Frameworks/AppKit.framework/AppKit" / M(Rot) / S(184) / L(50)
-		"\xe7\x0b\x31\x2b\x2c\x1d\x25\xe7\x04\x21\x1a\x2a\x19\x2a\x31\xe7\xfe\x2a\x19\x25\x1d\x2f\x27\x2a\x23\x2b\xe7\xf9\x28\x28\x03\x21\x2c\xe6\x1e\x2a\x19\x25\x1d\x2f\x27\x2a\x23\xe7\xf9\x28\x28\x03\x21\x2c\xb8",
-		// "" / M(None) / S(0) / L(0)
-		"\x73\x51\x89\x90\x17\x36\x57\x13\x25\x04\xbb\xd7\xfb\xbc\x8a\x4f\x90\xf2\xb5\x3a\x93\x8c\x30\x37\xb7\x1f\x57\x8c\x4f\xbc\xf1\xea",
-		// "" / M(None) / S(0) / L(0)
-		"\xfe\xae\xa1\xed\xb8\x64\xa2\x4d\x55\x93\xa4\xa8\x2b\x22\xd0\x6b\x54\x17\x6f\x9a\x92\x59\x11\x88\x53\xdb\xee\x29\x7e\xf2\x70\xd8",
-		// "" / M(None) / S(0) / L(0)
-		"\xae\x27\x32\x52\x90\x67\x7f\x24\x9e\x9e\xca\xf9\xfa\xd6\x26\x2e\xcb\x7b\x9d\x26\x3e\xff\x79\x26\xff\x7a\xba\x65\xd4\x3b\xcd\x31",
-		// "Apple Root CA" / M(Xor1) / S(51) / L(13)
-		"\x72\x43\x43\x5f\x56\x13\x61\x5c\x5c\x47\x13\x70\x72\x33\x11\x23",
-		// "CFNumberCreate" / M(Xor2) / S(47) / L(14)
-		"\x7c\x79\x71\x4a\x52\x5d\x5a\x4d\x7c\x4d\x5a\x5e\x4b\x5a\x3f\xaf",
-		// "61:1E:5B:66:2C:59:3A:08:FF:58:D1:4A:E2:24:52:D1:98:DF:6C:60" / M(Xor3) / S(147) / L(59)
-		"\xe1\xe6\xed\xe6\x92\xed\xe2\x95\xed\xe1\xe1\xed\xe5\x94\xed\xe2\xee\xed\xe4\x96\xed\xe7\xef\xed\x91\x91\xed\xe2\xef\xed\x93\xe6\xed\xe3\x96\xed\x92\xe5\xed\xe5\xe3\xed\xe2\xe5\xed\x93\xe6\xed\xee\xef\xed\x93\x91\xed\xe1\x94\xed\xe1\xe7\xd7\x2a\xa4\x34\x96\x81\xd6\xd1\x52",
-		// "CFDataCreate" / M(Xor3) / S(211) / L(12)
-		"\xa0\xa5\xa7\x82\x97\x82\xa0\x91\x86\x82\x97\x86\xe3\x5c\xde\xe3",
-		// "CFBundleUnloadExecutable" / M(Rot) / S(48) / L(24)
-		"\x73\x76\x72\xa5\x9e\x94\x9c\x95\x85\x9e\x9c\x9f\x91\x94\x75\xa8\x95\x93\xa5\xa4\x91\x92\x9c\x95\x30\x54\x26\x9d\x50\x44\x2a\x22\x16",
-		// "PKCS7_verify" / M(Xor1) / S(51) / L(12)
-		"\x63\x78\x70\x60\x04\x6c\x45\x56\x41\x5a\x55\x4a\x33\xe2\xdf\x1f",
-		// "PKCS7_verify" / M(Xor2) / S(252) / L(12)
-		"\xbc\xa7\xaf\xbf\xdb\xb3\x9a\x89\x9e\x85\x8a\x95\xec\x95\xd9\xc9",
-		// "OpenSSL_add_all_digests" / M(Xor1) / S(37) / L(23)
-		"\x6a\x55\x40\x4b\x76\x76\x69\x7a\x44\x41\x41\x7a\x44\x49\x49\x7a\x41\x4c\x42\x40\x56\x51\x56\x25\xbb\x0a\x6e\xdd\x65\x64\xa9\xa6",
-		// "CFArrayGetValueAtIndex" / M(Rot) / S(61) / L(22)
-		"\x80\x83\x7e\xaf\xaf\x9e\xb6\x84\xa2\xb1\x93\x9e\xa9\xb2\xa2\x7e\xb1\x86\xab\xa1\xa2\xb5\x3d",
-		// "kCFTypeDictionaryValueCallBacks" / M(Rot) / S(193) / L(31)
-		"\x2c\x04\x07\x15\x3a\x31\x26\x05\x2a\x24\x35\x2a\x30\x2f\x22\x33\x3a\x17\x22\x2d\x36\x26\x04\x22\x2d\x2d\x03\x22\x24\x2c\x34\xc1",
-		// "CFURLCreateWithFileSystemPathRelativeToBase" / M(Xor2) / S(12) / L(43)
-		"\x7b\x7e\x6d\x6a\x74\x7b\x4a\x5d\x59\x4c\x5d\x6f\x51\x4c\x50\x7e\x51\x54\x5d\x6b\x41\x4b\x4c\x5d\x55\x68\x59\x4c\x50\x6a\x5d\x54\x59\x4c\x51\x4e\x5d\x6c\x57\x7a\x59\x4b\x5d\x38\x41\x1e\xce\xfd\x8d\x96\xda\x0e",
-		// "PKCS7_verify" / M(Xor4) / S(117) / L(12)
-		"\x00\x1b\x13\x03\x67\x0f\x26\x35\x22\x39\x36\x29\x50\x05\x5f\xcf",
-		// "sha1" / M(Xor3) / S(74) / L(4)
-		"\x29\x32\x3b\x6b\x5a\xc2\x25\x9a\xe7\x5c\x0b\xb8\x26\xca\x7b\x7d",
-		// "" / M(None) / S(0) / L(0)
-		"\xf5\x06\xde\x32\x28\xfa\x45\x25\x4b\xf3\xfd\x6b\x1b\x12\x0f\x2c\xdc\x74\x6e\x18\x1e\x35\x0a\x7c\x31\x2c\x74\x5e\x3e\x85\xde\x78",
-		// "" / M(None) / S(0) / L(0)
-		"\x53\xd6\xfc\x8e\xba\x14\x1f\x9f\x9f\x28\xb7\x25\xe1\x44\x1b\x82\x48\x8e\xf1\x76\xfc\x48\x53\x7c\xb3\x07\x36\x99\x3f\x31\x05\xac",
-		// "X509_NAME_get_text_by_NID" / M(Xor3) / S(212) / L(25)
-		"\xae\xc3\xc6\xcf\xa9\xb8\xb7\xbb\xb3\xa9\x91\x93\x82\xa9\x82\x93\x8e\x82\xa9\x94\x8f\xa9\xb8\xbf\xb2\xf6\xaf\xcb\xf6\x8d\x48\xeb\xdf\xa7",
-		// "CFBundleGetValueForInfoDictionaryKey" / M(Xor3) / S(249) / L(36)
-		"\x5d\x58\x5c\x6b\x70\x7a\x72\x7b\x59\x7b\x6a\x48\x7f\x72\x6b\x7b\x58\x71\x6c\x57\x70\x78\x71\x5a\x77\x7d\x6a\x77\x71\x70\x7f\x6c\x67\x55\x7b\x67\x1e",
-		// "CFDictionaryCreateMutable" / M(Xor4) / S(72) / L(25)
-		"\xd3\xd6\xd4\xf9\xf3\xe4\xf9\xff\xfe\xf1\xe2\xe9\xd3\xe2\xf5\xf1\xe4\xf5\xdd\xe5\xe4\xf1\xf2\xfc\xf5\x90\xb3\xfb\x23\x5d\x88\x76\xf2\x0f",
-		// "CFDateFormatterCreate" / M(Xor4) / S(85) / L(21)
-		"\x0d\x08\x0a\x2f\x3a\x2b\x08\x21\x3c\x23\x2f\x3a\x3a\x2b\x3c\x0d\x3c\x2b\x2f\x3a\x2b\x4e",
-		// "CFBundleGetValueForInfoDictionaryKey" / M(Xor1) / S(248) / L(36)
-		"\xbb\xbe\xba\x8d\x96\x9c\x94\x9d\xbf\x9d\x8c\xae\x99\x94\x8d\x9d\xbe\x97\x8a\xb1\x96\x9e\x97\xbc\x91\x9b\x8c\x91\x97\x96\x99\x8a\x81\xb3\x9d\x81\xf8",
-		// "SecKeychainSearchCreateFromAttributes" / M(Xor2) / S(170) / L(37)
-		"\xdf\xe9\xef\xc7\xe9\xf5\xef\xe4\xed\xe5\xe2\xdf\xe9\xed\xfe\xef\xe4\xcf\xfe\xe9\xed\xf8\xe9\xca\xfe\xe3\xe1\xcd\xf8\xf8\xfe\xe5\xee\xf9\xf8\xe9\xff\x8c",
-		// "" / M(None) / S(0) / L(0)
-		"\x54\xd4\xb3\xf6\x31\xca\x10\x59\x2c\xe0\x27\xa7\x39\xc2\x29\xb4\x79\x6d\x28\xa5\x45\xad\x72\xa7\x82\x27\xda\xc4\xe2\x54\x8e\x46",
-		// "CFStringCreateWithBytes" / M(Xor3) / S(155) / L(23)
-		"\xf8\xfd\xe8\xcf\xc9\xd2\xd5\xdc\xf8\xc9\xde\xda\xcf\xde\xec\xd2\xcf\xd3\xf9\xc2\xcf\xde\xc8\xbb\xda\xf4\x37\xfc\xb0\x0a\xfe\x67",
-		// "alloc" / M(Xor3) / S(198) / L(5)
-		"\xb7\xba\xba\xb9\xb5\xd6\x1e\x0e\x7e\x9a\x38\x36\xe5\xab\x8c\xc9",
-		// "CFDataCreateMutable" / M(Rot) / S(42) / L(19)
-		"\x6d\x70\x6e\x8b\x9e\x8b\x6d\x9c\x8f\x8b\x9e\x8f\x77\x9f\x9e\x8b\x8c\x96\x8f\x2a",
-		// "CC_SHA1_Final" / M(Xor4) / S(224) / L(13)
-		"\x43\x43\x5f\x53\x48\x41\x31\x5f\x46\x69\x6e\x61\x6c\x00\x22\x2a",
-		// "X509_STORE_free" / M(Xor4) / S(122) / L(15)
-		"\xf8\x95\x90\x99\xff\xf3\xf4\xef\xf2\xe5\xff\xc6\xd2\xc5\xc5\xa0",
-		// "kSecMatchLimit" / M(Xor2) / S(205) / L(14)
-		"\xb6\x8e\xb8\xbe\x90\xbc\xa9\xbe\xb5\x91\xb4\xb0\xb4\xa9\xdd\xa4",
-		// "" / M(None) / S(0) / L(0)
-		"\xfc\xd7\xfe\x39\x0b\x59\x59\x93\x14\x84\x4e\x57\x02\xa6\x0a\x0b\x84\x0e\xbf\x7b\x4e\xb1\x1d\x0e\xd8\xdc\xf7\xf8\xbf\xb7\xff\x98",
-		// "" / M(None) / S(0) / L(0)
-		"\xcc\xa3\x59\xe1\xbf\x82\xaa\x6d\xe8\x19\xe6\xca\x5e\xc1\x89\x74\x4f\xfe\xcc\xea\x94\xd7\x46\x63\x0b\x5b\xdf\x29\x9a\xd6\xe8\xa6",
-		// "CFArrayGetValueAtIndex" / M(Xor1) / S(62) / L(22)
-		"\x7d\x78\x7f\x4c\x4c\x5f\x47\x79\x5b\x4a\x68\x5f\x52\x4b\x5b\x7f\x4a\x77\x50\x5a\x5b\x46\x3e",
-		// "EVP_get_digestbyname" / M(Rot) / S(170) / L(20)
-		"\xef\x00\xfa\x09\x11\x0f\x1e\x09\x0e\x13\x11\x0f\x1d\x1e\x0c\x23\x18\x0b\x17\x0f\xaa",
-		// "SecKeychainOpen" / M(Rot) / S(31) / L(15)
-		"\x72\x84\x82\x6a\x84\x98\x82\x87\x80\x88\x8d\x6e\x8f\x84\x8d\x1f",
-		// "SHA1_Final" / M(Xor1) / S(95) / L(10)
-		"\x0c\x17\x1e\x6e\x00\x19\x36\x31\x3e\x33\x5f\x4a\x2c\x82\x06\x60",
-		// "sha1" / M(Xor3) / S(91) / L(4)
-		"\x18\x03\x0a\x5a\x6b\xdc\x70\x5f\xd0\x60\x3b\xff\xc0\xf5\x10\x1e",
-		// "CFBundleGetMainBundle" / M(Xor4) / S(188) / L(21)
-		"\x6b\x6e\x6a\x5d\x46\x4c\x44\x4d\x6f\x4d\x5c\x65\x49\x41\x46\x6a\x5d\x46\x4c\x44\x4d\x28",
-		// "kCFTypeArrayCallBacks" / M(Xor1) / S(6) / L(21)
-		"\x6d\x45\x40\x52\x7f\x76\x63\x47\x74\x74\x67\x7f\x45\x67\x6a\x6a\x44\x67\x65\x6d\x75\x06",
-		// "CFDataGetBytePtr" / M(Xor1) / S(80) / L(16)
-		"\x13\x16\x14\x31\x24\x31\x17\x35\x24\x12\x29\x24\x35\x00\x24\x22\x50",
-		// "EVP_DigestInit" / M(Xor4) / S(153) / L(14)
-		"\xd5\xc6\xc0\xcf\xd4\xf9\xf7\xf5\xe3\xe4\xd9\xfe\xf9\xe4\x90\x27",
-		// "/System/Library/Frameworks/Security.framework/Security" / M(Xor1) / S(232) / L(54)
-		"\xc7\xbb\x91\x9b\x9c\x8d\x85\xc7\xa4\x81\x8a\x9a\x89\x9a\x91\xc7\xae\x9a\x89\x85\x8d\x9f\x87\x9a\x83\x9b\xc7\xbb\x8d\x8b\x9d\x9a\x81\x9c\x91\xc6\x8e\x9a\x89\x85\x8d\x9f\x87\x9a\x83\xc7\xbb\x8d\x8b\x9d\x9a\x81\x9c\x91\xe8",
-		// "CFDataCreateMutable" / M(Xor3) / S(144) / L(19)
-		"\xe7\xe2\xe0\xc5\xd0\xc5\xe7\xd6\xc1\xc5\xd0\xc1\xe9\xd1\xd0\xc5\xc6\xc8\xc1\xa4",
-		// "kSecClass" / M(Xor1) / S(238) / L(9)
-		"\x85\xbd\x8b\x8d\xad\x82\x8f\x9d\x9d\xee\x08\xbc\x99\x44\xac\x50",
-		// "1.2.840.113635.100.6.11.1" / M(Xor1) / S(119) / L(25)
-		"\x46\x59\x45\x59\x4f\x43\x47\x59\x46\x46\x44\x41\x44\x42\x59\x46\x47\x47\x59\x41\x59\x46\x46\x59\x46\x77\x25\x74\xf3\x60\x46\xa1\x55\x8e",
-		// "%02X:" / M(Xor2) / S(153) / L(5)
-		"\xac\xb9\xbb\xd1\xb3\x89\x74\xe8\xcb\x01\xc1\x02\x42\x20\x8a\x18",
-		// "CC_SHA1_Init" / M(Xor2) / S(236) / L(12)
-		"\xbf\xbf\xa3\xaf\xb4\xbd\xcd\xa3\xb5\x92\x95\x88\xfc\xee\x48\xec",
-		// "CFRelease" / M(Xor3) / S(105) / L(9)
-		"\x3a\x3f\x2b\x1c\x15\x1c\x18\x0a\x1c\x79\xc3\xed\xa3\x1c\x3e\x21",
-		// "%02X" / M(Rot) / S(3) / L(4)
-		"\x28\x33\x35\x5b\x03\xa0\x80\x1b\x10\x59\x13\xb4\xdb\x64\x41\x8e",
-		// "yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'" / M(Rot) / S(99) / L(32)
-		"\xdc\xdc\xdc\xdc\x8a\x90\x8a\xb0\xb0\x8a\x90\x8a\xc7\xc7\x8a\xb7\x8a\xab\xab\x8a\x9d\x8a\xd0\xd0\x8a\x9d\x8a\xd6\xd6\x8a\xbd\x8a\x63",
-		// "61:1E:5B:66:2C:59:3A:08:FF:58:D1:4A:E2:24:52:D1:98:DF:6C:60" / M(Xor1) / S(145) / L(59)
-		"\xa7\xa0\xab\xa0\xd4\xab\xa4\xd3\xab\xa7\xa7\xab\xa3\xd2\xab\xa4\xa8\xab\xa2\xd0\xab\xa1\xa9\xab\xd7\xd7\xab\xa4\xa9\xab\xd5\xa0\xab\xa5\xd0\xab\xd4\xa3\xab\xa3\xa5\xab\xa4\xa3\xab\xd5\xa0\xab\xa8\xa9\xab\xd5\xd7\xab\xa7\xd2\xab\xa7\xa1\x91\x6c\x78\x83\xeb\x02\x76\xec\x99",
-		// "" / M(None) / S(0) / L(0)
-		"\x9b\x34\x70\x37\x47\x48\x82\x10\xbe\xc0\xae\x64\x1c\x46\xc7\x74\xd1\x9c\x18\x96\x1c\x28\xaf\x25\x07\x25\x70\x87\x3a\x61\xeb\xd7",
-		// "" / M(None) / S(0) / L(0)
-		"\x5a\x25\x1c\xfa\xa4\x42\xad\xdb\x2d\x30\xd1\xfd\xba\x1e\xb3\xe5\x53\xba\xb8\x12\x9b\x87\xba\xc4\xda\x4b\x1b\x4d\xa4\x3f\x63\xe3",
-		// "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation" / M(Xor3) / S(19) / L(66)
-		"\x79\x05\x2f\x25\x22\x33\x3b\x79\x1a\x3f\x34\x24\x37\x24\x2f\x79\x10\x24\x37\x3b\x33\x21\x39\x24\x3d\x25\x79\x15\x39\x24\x33\x10\x39\x23\x38\x32\x37\x22\x3f\x39\x38\x78\x30\x24\x37\x3b\x33\x21\x39\x24\x3d\x79\x15\x39\x24\x33\x10\x39\x23\x38\x32\x37\x22\x3f\x39\x38\x56",
-		// "Contents" / M(Rot) / S(252) / L(8)
-		"\x3f\x6b\x6a\x70\x61\x6a\x70\x6f\xfc\xdc\x9e\x7c\x60\xe9\x17\x7a",
-		// "" / M(None) / S(0) / L(0)
-		"\x93\x7e\x92\x1e\x8c\xa9\xc0\xeb\x48\x5e\xde\x0a\x8c\x28\x6b\x42\x4a\x25\x6b\xed\xbd\xab\x74\x76\x91\x9e\x67\x86\xb6\x03\x1a\x41",
-		// "" / M(None) / S(0) / L(0)
-		"\xe7\x73\x1f\xb0\x91\x8b\x7a\x11\x6f\x92\xa6\xae\xc9\x0e\x4f\x63\xb9\x7d\xe5\x1e\x88\x5f\xc9\x52\x96\x1f\xff\xdb\x18\x35\x71\x37",
-		// "" / M(None) / S(0) / L(0)
-		"\xee\x4b\x63\xde\x5f\x5c\xf3\xe7\x6b\xee\x07\x9f\x23\x15\xad\x3f\x07\x48\x86\xda\xeb\xe5\xd0\xaf\x84\xd3\x4c\xb2\x2c\x1e\x1d\x87",
-		// "de.codingmonkeys.SubEthaEdit.Mac" / M(Xor2) / S(9) / L(32)
-		"\x4c\x4d\x06\x4b\x47\x4c\x41\x46\x4f\x45\x47\x46\x43\x4d\x51\x5b\x06\x7b\x5d\x4a\x6d\x5c\x40\x49\x6d\x4c\x41\x5c\x06\x65\x49\x4b\x28",
-		// "" / M(None) / S(0) / L(0)
-		"\x26\xb8\xa7\x2a\xeb\x3a\xb6\x79\x76\x9d\x97\xad\x73\xe4\x82\xe7\x9a\x2b\x8e\x65\x09\x53\x19\x67\x24\xaa\x37\x34\x70\xb8\x31\xf2",
-		// "ASN1_get_object" / M(Xor4) / S(133) / L(15)
-		"\x11\x03\x1e\x61\x0f\x37\x35\x24\x0f\x3f\x32\x3a\x35\x33\x24\x50",
-		// "" / M(None) / S(0) / L(0)
-		"\x77\x6a\x07\x75\xa1\xc8\xbd\x1f\xae\x5b\x4c\x86\xdb\x7c\x95\x1d\xae\xa2\x7b\xf7\xad\x65\x56\x34\x40\x3c\x22\x76\x99\xed\xbc\x56",
-		// "" / M(None) / S(0) / L(0)
-		"\xef\x3c\x61\xed\x08\x05\x51\x7d\x7c\xec\xe9\x12\xa5\xb4\x10\xef\x6a\xfa\x12\xf9\x1f\x43\x35\x21\x7b\xcb\x13\xb4\xc0\xb8\xce\x30",
-		// "CFStringCreateWithCString" / M(Xor2) / S(118) / L(25)
-		"\x17\x12\x07\x20\x26\x3d\x3a\x33\x17\x26\x31\x35\x20\x31\x03\x3d\x20\x3c\x17\x07\x20\x26\x3d\x3a\x33\x54\x2f\x4d\x93\x59\x5f\xd6\xba\x72",
-		// "kSecMatchLimit" / M(Xor1) / S(101) / L(14)
-		"\x0e\x36\x00\x06\x28\x04\x11\x06\x0d\x29\x0c\x08\x0c\x11\x65\x9c",
-		// "/usr/lib/libobjc.dylib" / M(Xor1) / S(247) / L(22)
-		"\xd8\x82\x84\x85\xd8\x9b\x9e\x95\xd8\x9b\x9e\x95\x98\x95\x9d\x94\xd9\x93\x8e\x9b\x9e\x95\xf7",
-		// "" / M(None) / S(0) / L(0)
-		"\xde\x5f\x9c\xc9\xd7\xe1\x0c\xbe\x37\x81\xe4\xb4\x46\x12\xfe\x1f\xc1\x56\x62\xe5\x2d\x03\x88\xbe\x5d\x02\x50\x3e\x2d\x70\x70\xbd",
-		// "sha1" / M(Xor1) / S(164) / L(4)
-		"\xd7\xcc\xc5\x95\xa4\x89\x65\xba\xe7\xbf\xb5\x8e\x57\xf9\xcd\xd6",
-		// "SHA1" / M(Rot) / S(199) / L(4)
-		"\x1a\x0f\x08\xf8\xc7\xb6\x41\x42\x87\xbc\x06\x12\x13\x2d\x08\x76",
-		// "CFStringGetFileSystemRepresentation" / M(Xor3) / S(35) / L(35)
-		"\x04\x01\x14\x33\x35\x2e\x29\x20\x00\x22\x33\x01\x2e\x2b\x22\x14\x3e\x34\x33\x22\x2a\x15\x22\x37\x35\x22\x34\x22\x29\x33\x26\x33\x2e\x28\x29\x47",
-		// "X509_digest" / M(Xor3) / S(229) / L(11)
-		"\xad\xc0\xc5\xcc\xaa\x91\x9c\x92\x90\x86\x81\xf5\x54\xe6\x52\x5f",
-		// "" / M(None) / S(0) / L(0)
-		"\xb5\x68\x2d\xf1\x6e\xfd\xf0\x4a\x38\xbb\x97\x3a\x16\x32\x98\xbc\x6e\x10\x63\x81\x8b\x5d\xc0\x20\xa9\x34\x9c\xe6\x72\x0f\xce\xec",
-		// "PKCS7_get0_signers" / M(Xor2) / S(16) / L(18)
-		"\x53\x48\x40\x50\x34\x5c\x64\x66\x77\x33\x5c\x70\x6a\x64\x6d\x66\x71\x70\x03",
-		// "Contents" / M(Rot) / S(171) / L(8)
-		"\xee\x1a\x19\x1f\x10\x19\x1f\x1e\xab\xd8\x32\x5c\x2a\x15\x26\x12",
-		// "" / M(None) / S(0) / L(0)
-		"\x48\x29\x1c\x0c\xfc\xcc\x87\x04\xe8\x51\x81\xac\x78\x2a\xfe\x3c\x58\x1c\xa2\x46\xfd\x61\xef\xc8\x1f\x03\xd4\x62\x00\x24\xc3\x33",
-		// "" / M(None) / S(0) / L(0)
-		"\xd2\x45\xb8\x6a\xba\x6d\xbe\x31\xb8\x47\xde\x44\x60\x5e\x31\xe1\x14\x98\x12\x10\x0e\xa9\x28\x15\x56\xd7\x53\x92\x12\x19\x46\xb7",
-		// "BIO_write" / M(Xor4) / S(163) / L(9)
-		"\x72\x79\x7f\x6f\x47\x42\x59\x44\x55\x30\x59\x95\x9a\x40\xb6\x57",
-		// "/System/Library/Frameworks/Security.framework/Security" / M(Xor3) / S(224) / L(54)
-		"\x38\x44\x6e\x64\x63\x72\x7a\x38\x5b\x7e\x75\x65\x76\x65\x6e\x38\x51\x65\x76\x7a\x72\x60\x78\x65\x7c\x64\x38\x44\x72\x74\x62\x65\x7e\x63\x6e\x39\x71\x65\x76\x7a\x72\x60\x78\x65\x7c\x38\x44\x72\x74\x62\x65\x7e\x63\x6e\x17",
-		// "CFBundleGetMainBundle" / M(Xor4) / S(180) / L(21)
-		"\x3b\x3e\x3a\x0d\x16\x1c\x14\x1d\x3f\x1d\x0c\x35\x19\x11\x16\x3a\x0d\x16\x1c\x14\x1d\x78",
-		// "CFNumberCreate" / M(Xor2) / S(103) / L(14)
-		"\x34\x31\x39\x02\x1a\x15\x12\x05\x34\x05\x12\x16\x03\x12\x77\xe3",
-		// "CFArrayGetValueAtIndex" / M(Rot) / S(236) / L(22)
-		"\x2f\x32\x2d\x5e\x5e\x4d\x65\x33\x51\x60\x42\x4d\x58\x61\x51\x2d\x60\x35\x5a\x50\x51\x64\xec",
-		// "SecKeychainOpen" / M(Xor2) / S(169) / L(15)
-		"\xea\xdc\xda\xf2\xdc\xc0\xda\xd1\xd8\xd0\xd7\xf6\xc9\xdc\xd7\xb9",
-		// "CFStringCompare" / M(Xor1) / S(55) / L(15)
-		"\x74\x71\x64\x43\x45\x5e\x59\x50\x74\x58\x5a\x47\x56\x45\x52\x37",
-		// "setjmp" / M(Xor3) / S(149) / L(6)
-		"\xd6\xc0\xd1\xcf\xc8\xd5\xa5\xc5\x2d\xa7\xd2\x07\xbc\xd1\x4c\x4d",
-		// "" / M(None) / S(0) / L(0)
-		"\x99\x39\xcd\x33\xca\x9f\x0b\x77\x07\x09\x34\xec\x52\x46\x9f\x09\xad\xfc\x0f\x6e\x12\xaa\xed\x1b\xab\x7f\x9d\x86\xa2\x1f\x25\x40",
-		// "CFURLCreateCopyAppendingPathComponent" / M(Xor2) / S(43) / L(37)
-		"\x4e\x4b\x58\x5f\x41\x4e\x7f\x68\x6c\x79\x68\x4e\x62\x7d\x74\x4c\x7d\x7d\x68\x63\x69\x64\x63\x6a\x5d\x6c\x79\x65\x4e\x62\x60\x7d\x62\x63\x68\x63\x79\x0d",
-		// "X509_digest" / M(Xor2) / S(249) / L(11)
-		"\xb1\xdc\xd9\xd0\xb6\x8d\x80\x8e\x8c\x9a\x9d\xe9\x8b\xf1\x7f\xd2",
-		// "X509_NAME_get_text_by_NID" / M(Xor1) / S(30) / L(25)
-		"\x46\x2b\x2e\x27\x41\x50\x5f\x53\x5b\x41\x79\x7b\x6a\x41\x6a\x7b\x66\x6a\x41\x7c\x67\x41\x50\x57\x5a\x1e\x6a\xdd\xa4\x34\x3e\x29\xac\x4d",
-		// "CFDictionaryCreateMutable" / M(Rot) / S(87) / L(25)
-		"\x9a\x9d\x9b\xc0\xba\xcb\xc0\xc6\xc5\xb8\xc9\xd0\x9a\xc9\xbc\xb8\xcb\xbc\xa4\xcc\xcb\xb8\xb9\xc3\xbc\x57\xda\x07\x8c\x1a\x88\x1b\x85\x54",
-		// "SHA1" / M(Xor3) / S(12) / L(4)
-		"\x4f\x54\x5d\x2d\x1c\x13\x86\xf0\x0e\xfb\xb4\x5d\x3a\x81\x9f\xbe",
-		// "_MASReceipt/receipt" / M(Xor1) / S(124) / L(19)
-		"\x23\x31\x3d\x2f\x2e\x19\x1f\x19\x15\x0c\x08\x53\x0e\x19\x1f\x19\x15\x0c\x08\x7c",
-		// "setjmp" / M(Rot) / S(82) / L(6)
-		"\xc5\xb7\xc6\xbc\xbf\xc2\x52\x84\x43\xd3\x71\xf1\xb4\x17\x67\x90",
-		// "" / M(None) / S(0) / L(0)
-		"\x40\xd5\x10\x73\x0c\xea\x41\x0b\xeb\x16\x01\xa0\x97\x7e\x28\x3b\x2c\xd3\xf5\x8b\x77\x26\x92\x59\xf8\xf7\x23\x56\x93\x20\x36\xfc",
-		// "CC_SHA1_Update" / M(Xor3) / S(12) / L(14)
-		"\x5f\x5f\x43\x4f\x54\x5d\x2d\x43\x49\x6c\x78\x7d\x68\x79\x1c\xdc",
-		// "BIO_s_mem" / M(Xor4) / S(146) / L(9)
-		"\x62\x69\x6f\x7f\x53\x7f\x4d\x45\x4d\x20\x09\x05\xe3\x08\xdb\x0d",
-		// "X509_STORE_new" / M(Xor1) / S(43) / L(14)
-		"\x73\x1e\x1b\x12\x74\x78\x7f\x64\x79\x6e\x74\x45\x4e\x5c\x2b\xb3",
-		// "OBJ_txt2obj" / M(Rot) / S(118) / L(11)
-		"\xc5\xb8\xc0\xd5\xea\xee\xea\xa8\xe5\xd8\xe0\x76\x87\x32\x44\x54",
-		// "_MASReceipt/receipt" / M(Xor1) / S(170) / L(19)
-		"\xf5\xe7\xeb\xf9\xf8\xcf\xc9\xcf\xc3\xda\xde\x85\xd8\xcf\xc9\xcf\xc3\xda\xde\xaa",
-		// "EVP_MD_CTX_init" / M(Rot) / S(159) / L(15)
-		"\xe4\xf5\xef\xfe\xec\xe3\xfe\xe2\xf3\xf7\xfe\x08\x0d\x08\x13\x9f",
-		// "setDelegate:" / M(Xor1) / S(28) / L(12)
-		"\x6f\x79\x68\x58\x79\x70\x79\x7b\x7d\x68\x79\x26\x1c\x60\x02\xb4",
-		// "" / M(None) / S(0) / L(0)
-		"\x1d\x1d\xea\xb2\xaf\x21\xe1\x71\xd0\x3b\x79\x86\x32\xc6\x88\x52\x86\xa5\x63\x4b\x8c\x04\x09\x44\xb7\xf2\x88\x59\x3b\x20\x29\x7a",
-		// "BIO_s_mem" / M(Xor4) / S(172) / L(9)
-		"\x82\x89\x8f\x9f\xb3\x9f\xad\xa5\xad\xc0\x0c\xc2\x37\x45\x6e\x74",
-		// "globfree" / M(Xor2) / S(238) / L(8)
-		"\x99\x92\x91\x9c\x98\x8c\x9b\x9b\xfe\xfe\x80\xa9\x16\x32\xdf\xfd",
-		// "CFArrayAppendValue" / M(Xor2) / S(167) / L(18)
-		"\xf7\xf2\xf5\xc6\xc6\xd5\xcd\xf5\xc4\xc4\xd1\xda\xd0\xe2\xd5\xd8\xc1\xd1\xb4",
-		// "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation" / M(Xor1) / S(160) / L(66)
-		"\x8f\xf3\xd9\xd3\xd4\xc5\xcd\x8f\xec\xc9\xc2\xd2\xc1\xd2\xd9\x8f\xe6\xd2\xc1\xcd\xc5\xd7\xcf\xd2\xcb\xd3\x8f\xe3\xcf\xd2\xc5\xe6\xcf\xd5\xce\xc4\xc1\xd4\xc9\xcf\xce\x8e\xc6\xd2\xc1\xcd\xc5\xd7\xcf\xd2\xcb\x8f\xe3\xcf\xd2\xc5\xe6\xcf\xd5\xce\xc4\xc1\xd4\xc9\xcf\xce\xa0",
-		// "SHA1_Update" / M(Xor4) / S(184) / L(11)
-		"\xd3\xc8\xc1\xb1\xdf\xd5\xf0\xe4\xe1\xf4\xe5\x80\xc3\x5a\x0d\x2b",
-		// "" / M(None) / S(0) / L(0)
-		"\x46\xc6\x26\x10\x4b\x61\xb2\xda\x4c\x50\x28\x2b\x9a\x8e\x4f\xb4\x40\x30\xcd\x39\xe5\x16\xd2\xa3\xd7\x24\x8b\x9e\xd5\x80\xbe\xf5",
-		// "EVP_MD_CTX_init" / M(Xor3) / S(222) / L(15)
-		"\xab\xb8\xbe\xb1\xa3\xaa\xb1\xad\xba\xb6\xb1\x87\x80\x87\x9a\xee",
-		// "BIO_free" / M(Xor2) / S(112) / L(8)
-		"\x22\x29\x2f\x3f\x06\x12\x05\x05\x60\xac\x44\xc9\x72\xe6\x54\x73",
-		// "_MASReceipt" / M(Xor2) / S(65) / L(11)
-		"\x0e\x1c\x10\x02\x03\x34\x32\x34\x38\x21\x25\x51\x4f\x9c\xe7\x2f",
-		// "" / M(None) / S(0) / L(0)
-		"\xef\x29\x5e\x07\x2b\xfa\x02\xd2\x64\x32\x7e\x52\x1f\xf3\x71\x14\x1a\x64\xcd\x9d\x4b\xa8\xbb\x50\xd6\xfd\xb2\x44\x35\xb7\xd7\x79",
-		// "kSecClass" / M(Rot) / S(114) / L(9)
-		"\xdd\xc5\xd7\xd5\xb5\xde\xd3\xe5\xe5\x72\x02\x96\xca\xa0\x43\x01",
-		// "ASN1_get_object" / M(Xor3) / S(115) / L(15)
-		"\xc2\xd0\xcd\xb2\xdc\xe4\xe6\xf7\xdc\xec\xe1\xe9\xe6\xe0\xf7\x83",
-		// "CFDictionaryAddValue" / M(Xor2) / S(73) / L(20)
-		"\x1f\x1a\x18\x35\x3f\x28\x35\x33\x32\x3d\x2e\x25\x1d\x38\x38\x0a\x3d\x30\x29\x39\x5c",
-		// "CFDateFormatterSetFormat" / M(Xor4) / S(231) / L(24)
-		"\x84\x81\x83\xa6\xb3\xa2\x81\xa8\xb5\xaa\xa6\xb3\xb3\xa2\xb5\x94\xa2\xb3\x81\xa8\xb5\xaa\xa6\xb3\xc7\xa3\x9c\xc9\x55\xbc\xe1\x82\x5c",
-		// "/System/Library/Keychains/SystemRootCertificates.keychain" / M(Xor4) / S(101) / L(57)
-		"\x25\x59\x73\x79\x7e\x6f\x67\x25\x46\x63\x68\x78\x6b\x78\x73\x25\x41\x6f\x73\x69\x62\x6b\x63\x64\x79\x25\x59\x73\x79\x7e\x6f\x67\x58\x65\x65\x7e\x49\x6f\x78\x7e\x63\x6c\x63\x69\x6b\x7e\x6f\x79\x24\x61\x6f\x73\x69\x62\x6b\x63\x64\x0a\x68\x59\x27\x72\x48\x5f\xcc\xdb",
-		// "" / M(None) / S(0) / L(0)
-		"\xeb\xf6\xad\x48\x6e\x5b\x42\x2c\x16\x69\x6b\x48\xcb\x2a\xe7\x87\x4d\x8e\xec\x91\x4a\x06\x1e\x75\x3e\x67\x5a\xe3\x8b\xa6\x90\x38",
-		// "receipt" / M(Xor4) / S(31) / L(7)
-		"\x82\x95\x93\x95\x99\x80\x84\xf0\x1a\x26\x00\xcc\x35\x2c\x9a\x69",
-		// "" / M(None) / S(0) / L(0)
-		"\x1c\x14\xe6\xd7\x28\x47\x2c\x93\x16\x3f\xb0\xb9\x5e\xb4\x31\x61\xbf\x4a\xe9\x52\x2b\x30\xe9\xb2\xda\x98\x62\x97\x33\xfa\xff\x82",
-		// "freeifaddrs" / M(Xor1) / S(213) / L(11)
-		"\xb3\xa7\xb0\xb0\xbc\xb3\xb4\xb1\xb1\xa7\xa6\xd5\x2d\x83\x39\x9e",
-		// "" / M(None) / S(0) / L(0)
-		"\x53\x2c\x97\x11\xcc\x33\x55\xec\xce\xa2\xa7\xf7\xda\xed\x8c\x8b\x8d\xc1\x81\xf4\x73\x95\x39\x99\xc1\xba\x3f\x17\x7b\xf8\x3d\x2a",
-		// "CFDateFormatterCreateDateFromString" / M(Rot) / S(128) / L(35)
-		"\xc3\xc6\xc4\xe1\xf4\xe5\xc6\xef\xf2\xed\xe1\xf4\xf4\xe5\xf2\xc3\xf2\xe5\xe1\xf4\xe5\xc4\xe1\xf4\xe5\xc6\xf2\xef\xed\xd3\xf4\xf2\xe9\xee\xe7\x80",
-		// "BIO_write" / M(Xor1) / S(95) / L(9)
-		"\x1d\x16\x10\x00\x28\x2d\x36\x2b\x3a\x5f\x27\x8f\x02\xa7\xec\x51",
-		// "CFBundleUnloadExecutable" / M(Xor1) / S(56) / L(24)
-		"\x7b\x7e\x7a\x4d\x56\x5c\x54\x5d\x6d\x56\x54\x57\x59\x5c\x7d\x40\x5d\x5b\x4d\x4c\x59\x5a\x54\x5d\x38\xf9\x2e\x6a\xdc\xce\xb6\xb1\x4a",
-		// "CFReadStreamCreateWithFile" / M(Xor3) / S(100) / L(26)
-		"\xc4\xc1\xd5\xe2\xe6\xe3\xd4\xf3\xf5\xe2\xe6\xea\xc4\xf5\xe2\xe6\xf3\xe2\xd0\xee\xf3\xef\xc1\xee\xeb\xe2\x87\xba\x04\x98\xa5\x7c\xe5\xc7\x50",
-		// "CFStringGetFileSystemRepresentation" / M(Xor4) / S(38) / L(35)
-		"\x1b\x1e\x0b\x2c\x2a\x31\x36\x3f\x1f\x3d\x2c\x1e\x31\x34\x3d\x0b\x21\x2b\x2c\x3d\x35\x0a\x3d\x28\x2a\x3d\x2b\x3d\x36\x2c\x39\x2c\x31\x37\x36\x58",
-		// "611e5b662c593a08ff58d14ae22452d198df6c60" / M(Xor3) / S(166) / L(40)
-		"\xe1\xe6\xe6\xb2\xe2\xb5\xe1\xe1\xe5\xb4\xe2\xee\xe4\xb6\xe7\xef\xb1\xb1\xe2\xef\xb3\xe6\xe3\xb6\xb2\xe5\xe5\xe3\xe2\xe5\xb3\xe6\xee\xef\xb3\xb1\xe1\xb4\xe1\xe7\xd7\xa1\xc9\x1d\x4e\x4f\xdf\xfb\x57",
-		// "SecCertificateCopyData" / M(Xor1) / S(144) / L(22)
-		"\xc3\xf5\xf3\xd3\xf5\xe2\xe4\xf9\xf6\xf9\xf3\xf1\xe4\xf5\xd3\xff\xe0\xe9\xd4\xf1\xe4\xf1\x90",
-		// "EVP_MD_CTX_init" / M(Xor3) / S(62) / L(15)
-		"\x0b\x18\x1e\x11\x03\x0a\x11\x0d\x1a\x16\x11\x27\x20\x27\x3a\x4e",
-		// "setDelegate:" / M(Xor2) / S(1) / L(12)
-		"\x62\x74\x65\x55\x74\x7d\x74\x76\x70\x65\x74\x2b\x11\x56\x3b\x91",
-		// "kSecMatchLimitAll" / M(Rot) / S(116) / L(17)
-		"\xdf\xc7\xd9\xd7\xc1\xd5\xe8\xd7\xdc\xc0\xdd\xe1\xdd\xe8\xb5\xe0\xe0\x74",
-		// "longjmp" / M(Xor4) / S(152) / L(7)
-		"\xec\xef\xee\xe7\xea\xed\xf0\x80\xd0\x70\xc1\x08\x67\x51\xc7\x86",
-		// "kSecMatchLimitAll" / M(Xor1) / S(16) / L(17)
-		"\x7b\x43\x75\x73\x5d\x71\x64\x73\x78\x5c\x79\x7d\x79\x64\x51\x7c\x7c\x10",
-		// "strlen" / M(Rot) / S(26) / L(6)
-		"\x8d\x8e\x8c\x86\x7f\x88\x1a\x9d\xf3\x1c\x21\x2c\x96\x54\x6b\xbb",
-		// "" / M(None) / S(0) / L(0)
-		"\x71\x0d\x11\x66\xd9\x44\xd5\x33\xbd\x27\xd1\x37\xbd\x53\x79\x41\xd7\xa8\x58\x1c\x7f\x06\x45\x29\xbb\x89\xff\x65\x59\x11\x17\x9a",
-		// "d2i_X509_bio" / M(Xor3) / S(247) / L(12)
-		"\x63\x35\x6e\x58\x5f\x32\x37\x3e\x58\x65\x6e\x68\x07\x51\x43\x73",
-		// "%02X:" / M(Xor2) / S(132) / L(5)
-		"\xb1\xa4\xa6\xcc\xae\x94\x66\xbe\x5d\x05\xd6\x18\xbb\x95\x00\x67",
-		// "%02x" / M(Xor4) / S(80) / L(4)
-		"\x25\x30\x32\x78\x00\x02\xd3\x60\x0a\x31\xfa\xe7\xc3\xb7\xbc\x0f",
-		// "" / M(None) / S(0) / L(0)
-		"\xe5\x80\x25\xa3\x30\x38\x12\x4b\xea\xd8\x9c\x57\x15\x32\x53\x97\xfe\xb5\x17\x15\x9f\x2b\x12\xd6\x28\x91\x40\x36\x14\x9c\x21\x71",
-		// "SKReceiptRefreshRequest" / M(Xor4) / S(183) / L(23)
-		"\xb3\xab\xb2\x85\x83\x85\x89\x90\x94\xb2\x85\x86\x92\x85\x93\x88\xb2\x85\x91\x95\x85\x93\x94\xe0\x68\x9f\x01\x06\xdc\x2f\x33\x1d",
-		// "." / M(Xor3) / S(35) / L(1)
-		"\x1d\x33\x40\xc8\x75\x43\x2f\x77\xd0\xa8\xa8\xdd\xf3\x05\x0c\xfe",
-		// "CFArrayAppendValue" / M(Xor3) / S(58) / L(18)
-		"\x0e\x0b\x0c\x3f\x3f\x2c\x34\x0c\x3d\x3d\x28\x23\x29\x1b\x2c\x21\x38\x28\x4d",
-		// "BIO_free" / M(Rot) / S(150) / L(8)
-		"\xd8\xdf\xe5\xf5\xfc\x08\xfb\xfb\x96\x79\xc9\x4c\xb9\x0d\x03\xa2",
-		// "CFDataGetBytePtr" / M(Xor2) / S(110) / L(16)
-		"\x3c\x39\x3b\x1e\x0b\x1e\x38\x1a\x0b\x3d\x06\x0b\x1a\x2f\x0b\x0d\x7f",
-		// "dlopen" / M(Xor2) / S(2) / L(6)
-		"\x76\x7e\x7d\x62\x77\x7c\x12\x0e\xfe\x2b\x6d\x95\x7e\x05\x41\x1c",
-		// "" / M(None) / S(0) / L(0)
-		"\x3d\xf8\x9b\x65\x3d\x47\xed\x3f\xa9\xa2\x04\x69\x67\x19\x16\xe4\x61\x6e\x24\x23\xfd\x7b\x79\x74\x43\x2c\x07\xca\xfb\xcb\x5e\xaa",
-		// "" / M(None) / S(0) / L(0)
-		"\x2f\xf9\x53\xac\xca\x3a\x81\x1a\x54\xa9\xf1\x7b\x2e\x97\x5d\xb4\x4e\x13\x2e\x49\xa0\x55\x12\x92\xc8\xa1\x12\x91\x7c\xb3\xbe\x8e",
-		// "" / M(None) / S(0) / L(0)
-		"\x4d\x5a\x78\xec\xeb\x7e\x87\xac\x1f\x10\xf5\xb3\xda\x23\x61\xb0\x64\x66\xb7\x69\x4e\xaa\xec\xa1\xab\xf8\x33\xde\x4e\x02\x92\xa8",
-		// "" / M(None) / S(0) / L(0)
-		"\x89\xe0\x86\x7a\xbc\x39\x53\x9d\xaf\xc8\x91\x36\x06\x67\xa6\x27\xf5\x19\x5e\x9e\x64\xbb\xfb\xa5\xd0\x98\x65\x70\xc2\x4e\x59\x81",
-		// "X509_STORE_new" / M(Xor1) / S(180) / L(14)
-		"\xec\x81\x84\x8d\xeb\xe7\xe0\xfb\xe6\xf1\xeb\xda\xd1\xc3\xb4\xa1",
-		// "" / M(None) / S(0) / L(0)
-		"\x61\x2d\x21\xa4\x1d\xf9\x09\x3c\x70\x9d\x0b\xb0\x46\x30\xa5\x06\x28\x9a\x78\xdd\x40\x44\x4f\x08\x7f\x59\x58\x18\x1c\x59\x94\x73",
-		// "PKCS7_free" / M(Xor1) / S(242) / L(10)
-		"\xa2\xb9\xb1\xa1\xc5\xad\x94\x80\x97\x97\xf2\xdd\x06\x1d\x3b\xd5",
-		// "CFURLCreateCopyAppendingPathComponent" / M(Xor1) / S(134) / L(37)
-		"\xc5\xc0\xd3\xd4\xca\xc5\xf4\xe3\xe7\xf2\xe3\xc5\xe9\xf6\xff\xc7\xf6\xf6\xe3\xe8\xe2\xef\xe8\xe1\xd6\xe7\xf2\xee\xc5\xe9\xeb\xf6\xe9\xe8\xe3\xe8\xf2\x86",
-		// "kCFTypeDictionaryValueCallBacks" / M(Xor4) / S(194) / L(31)
-		"\x2b\x03\x06\x14\x39\x30\x25\x04\x29\x23\x34\x29\x2f\x2e\x21\x32\x39\x16\x21\x2c\x35\x25\x03\x21\x2c\x2c\x02\x21\x23\x2b\x33\x40",
-		// "" / M(None) / S(0) / L(0)
-		"\x57\xf4\x2a\x56\x21\x76\x81\xef\xf1\xc3\x26\x86\x7b\xb6\x56\xc8\x19\x0c\x18\xa9\x32\xff\xed\xee\xd5\x2d\x79\xc6\xd7\x93\xba\x80",
-		// "PKCS7_get0_signers" / M(Rot) / S(236) / L(18)
-		"\x3c\x37\x2f\x3f\x23\x4b\x53\x51\x60\x1c\x4b\x5f\x55\x53\x5a\x51\x5e\x5f\xec",
-		// "" / M(None) / S(0) / L(0)
-		"\xac\x48\x8a\xbf\xb4\xee\xaf\x5f\x81\x6b\xc5\x96\x12\x50\x1a\x91\x83\x2a\x9f\x55\x82\x00\xb8\xd7\x47\xe2\xcc\x62\xc1\x93\x3f\x92",
-		// "" / M(None) / S(0) / L(0)
-		"\x41\xba\xc1\xe4\xa4\x06\xae\x88\x88\xed\x09\xdd\x7c\xed\x35\xfe\xe5\x96\xfa\x75\xd1\x27\x40\x1a\x06\xd0\xfe\xcf\x4a\xa9\xb1\xf9",
-		// "RTLD_MAIN_ONLY" / M(Xor4) / S(238) / L(14)
-		"\xb2\xb4\xac\xa4\xbf\xad\xa1\xa9\xae\xbf\xaf\xae\xac\xb9\xe0\x08",
-		// "" / M(None) / S(0) / L(0)
-		"\xe3\xd8\x8c\x35\xd3\x2c\x5b\x85\x45\x08\x5a\x0d\x2e\x90\x96\x2d\xdb\xfb\x64\xf1\x48\x96\xe0\x48\xd6\xe8\x57\x6e\x32\x81\x2c\x02",
-		// "glob_b" / M(Rot) / S(63) / L(6)
-		"\xa6\xab\xae\xa1\x9e\xa1\x3f\x34\x1a\x3e\x80\x86\x60\x14\xf8\xf3",
-		// "/usr/lib/libobjc.dylib" / M(Rot) / S(185) / L(22)
-		"\xe8\x2e\x2c\x2b\xe8\x25\x22\x1b\xe8\x25\x22\x1b\x28\x1b\x23\x1c\xe7\x1d\x32\x25\x22\x1b\xb9",
-		// "kSecMatchSearchList" / M(Xor3) / S(21) / L(19)
-		"\x42\x7a\x4c\x4a\x64\x48\x5d\x4a\x41\x7a\x4c\x48\x5b\x4a\x41\x65\x40\x5a\x5d\x29",
-		// "EVP_get_digestbyname" / M(Xor1) / S(53) / L(20)
-		"\x70\x63\x65\x6a\x52\x50\x41\x6a\x51\x5c\x52\x50\x46\x41\x57\x4c\x5b\x54\x58\x50\x35",
-		// "X509_get_ext_by_OBJ" / M(Xor4) / S(34) / L(19)
-		"\xf0\x9d\x98\x91\xf7\xcf\xcd\xdc\xf7\xcd\xd0\xdc\xf7\xca\xd1\xf7\xe7\xea\xe2\xa8",
-		// "" / M(None) / S(0) / L(0)
-		"\xa8\x01\x82\x6f\xbe\xa5\x67\xb7\xbb\xff\x10\xe0\xdf\xaa\x39\xbe\xf9\x15\x77\xdb\x76\x2f\xcc\xe0\x30\x8b\xb2\x63\x6e\xb6\x1e\x8d",
-		// "" / M(None) / S(0) / L(0)
-		"\x4d\x5b\xfc\x4e\xb1\xeb\xf4\x1d\x02\x4e\x79\x6d\x1f\xb1\x7c\xf5\xb8\xcc\xbc\xcf\x13\x76\xe4\x1a\xb3\x27\x73\x6f\xf3\x7c\xc3\x9d",
-		// "BIO_new" / M(Xor1) / S(89) / L(7)
-		"\x1b\x10\x16\x06\x37\x3c\x2e\x59\x92\x38\xf6\xdb\x37\x63\x32\x48",
-		// "kSecClass" / M(Xor1) / S(149) / L(9)
-		"\xfe\xc6\xf0\xf6\xd6\xf9\xf4\xe6\xe6\x95\xb0\x3b\x52\x97\x64\x4d",
-		// "init" / M(Xor1) / S(130) / L(4)
-		"\xeb\xec\xeb\xf6\x82\xd5\x7b\x82\x60\x41\x22\xb5\x72\x72\x96\x7d",
-		// "CFDictionarySetValue" / M(Rot) / S(166) / L(20)
-		"\xe9\xec\xea\x0f\x09\x1a\x0f\x15\x14\x07\x18\x1f\xf9\x0b\x1a\xfc\x07\x12\x1b\x0b\xa6",
-		// "" / M(None) / S(0) / L(0)
-		"\xfc\xc2\x66\x71\x8b\x87\x41\x03\x5d\xab\x1f\xa7\x1c\x55\xfb\x15\xd8\x8b\xf0\xfe\xc2\xa1\xca\xb0\x5e\x39\xe8\x3f\x5f\x6c\xdc\xfe",
-		// "CFStringCreateWithBytes" / M(Xor2) / S(229) / L(23)
-		"\x86\x83\x96\xb1\xb7\xac\xab\xa2\x86\xb7\xa0\xa4\xb1\xa0\x92\xac\xb1\xad\x87\xbc\xb1\xa0\xb6\xc5\xee\x35\x12\x33\x4a\xee\x10\xc6",
-		// "" / M(None) / S(0) / L(0)
-		"\xf1\xce\x4e\x77\x95\x26\xf9\xa3\xf3\x31\xde\x15\xb3\x42\x50\x02\xc9\x39\x87\xb3\x1c\x56\xc1\xfe\xd0\x98\x23\x13\xf2\x1a\x09\xb9",
-		// "" / M(None) / S(0) / L(0)
-		"\xb7\xed\xc8\x07\xa1\xb9\xc4\xd5\xc1\xb6\x76\x0e\x85\x73\xef\x60\x69\x50\x1b\x4c\x79\xc1\xf4\x37\x16\x60\xaf\x8d\x85\x40\xde\x1e",
-		// "CFStringGetFileSystemRepresentation" / M(Xor2) / S(0) / L(35)
-		"\x67\x62\x77\x50\x56\x4d\x4a\x43\x63\x41\x50\x62\x4d\x48\x41\x77\x5d\x57\x50\x41\x49\x76\x41\x54\x56\x41\x57\x41\x4a\x50\x45\x50\x4d\x4b\x4a\x24",
-		// "kSecMatchLimit" / M(Xor3) / S(161) / L(14)
-		"\xda\xe2\xd4\xd2\xfc\xd0\xc5\xd2\xd9\xfd\xd8\xdc\xd8\xc5\xb1\xf4",
-		// "CFBundleShortVersionString" / M(Xor2) / S(25) / L(26)
-		"\x79\x7c\x78\x4f\x54\x5e\x56\x5f\x69\x52\x55\x48\x4e\x6c\x5f\x48\x49\x53\x55\x54\x69\x4e\x48\x53\x54\x5d\x3a\x08\xac\xd5\xa5\xd9\xb2\x06\x6d",
-		// "kSecClassCertificate" / M(Rot) / S(57) / L(20)
-		"\xa4\x8c\x9e\x9c\x7c\xa5\x9a\xac\xac\x7c\x9e\xab\xad\xa2\x9f\xa2\x9c\x9a\xad\x9e\x39",
-		// "CFURLCreateWithFileSystemPathRelativeToBase" / M(Xor2) / S(40) / L(43)
-		"\x5f\x5a\x49\x4e\x50\x5f\x6e\x79\x7d\x68\x79\x4b\x75\x68\x74\x5a\x75\x70\x79\x4f\x65\x6f\x68\x79\x71\x4c\x7d\x68\x74\x4e\x79\x70\x7d\x68\x75\x6a\x79\x48\x73\x5e\x7d\x6f\x79\x1c\x63\x66\x09\x8a\x7f\x06\x2c\x1b",
-		// "" / M(None) / S(0) / L(0)
-		"\x6f\x28\x9e\xa4\xbd\xdc\x13\x69\xd0\x37\x97\xd0\xdc\xff\x09\x98\x81\xc3\x64\x64\x95\xc8\xdb\x99\x7e\xa0\x68\xfc\xfb\xe7\xc2\x58",
-		// "SecCertificateCopyData" / M(Xor2) / S(31) / L(22)
-		"\x5b\x6d\x6b\x4b\x6d\x7a\x7c\x61\x6e\x61\x6b\x69\x7c\x6d\x4b\x67\x78\x71\x4c\x69\x7c\x69\x08",
-		// "" / M(None) / S(0) / L(0)
-		"\xe6\x3f\x76\xb5\x97\xef\x56\xd0\xce\x58\xe7\x15\x2b\x2c\x5c\x7c\xe1\x0e\x25\x88\x45\xf6\x5b\x16\x41\x5e\x2d\x08\x45\x23\x12\xff",
-		// "freeifaddrs" / M(Xor4) / S(240) / L(11)
-		"\x66\x72\x65\x65\x69\x66\x61\x64\x64\x72\x73\x00\xae\x6a\x67\x1d",
-		// "kSecClassCertificate" / M(Xor2) / S(197) / L(20)
-		"\xbb\x83\xb5\xb3\x93\xbc\xb1\xa3\xa3\x93\xb5\xa2\xa4\xb9\xb6\xb9\xb3\xb1\xa4\xb5\xd0",
-		// "sk_free" / M(Xor3) / S(247) / L(7)
-		"\x74\x6c\x58\x61\x75\x62\x62\x07\x92\x6f\x4d\xe3\xba\x94\xd4\xfe",
-		// "CFReadStreamClose" / M(Xor3) / S(228) / L(17)
-		"\xb5\xb0\xa4\x93\x97\x92\xa5\x82\x84\x93\x97\x9b\xb5\x9a\x99\x85\x93\xf6",
-		// "CFNumberCreate" / M(Xor2) / S(124) / L(14)
-		"\x2f\x2a\x22\x19\x01\x0e\x09\x1e\x2f\x1e\x09\x0d\x18\x09\x6c\xcd",
-		// "" / M(None) / S(0) / L(0)
-		"\x68\x3f\xe9\xc7\xd3\xdd\x3c\x05\xe2\x56\x3f\x0d\x83\xe5\x3e\x68\x5e\x09\xce\xf3\xa2\x9e\x46\xe6\xd6\x37\xcc\xd0\x1c\x79\x93\xc9",
-		// "ASN1_OBJECT_free" / M(Rot) / S(104) / L(16)
-		"\xa9\xbb\xb6\x99\xc7\xb7\xaa\xb2\xad\xab\xbc\xc7\xce\xda\xcd\xcd\x68",
-		// "CFStringCreateWithBytes" / M(Xor3) / S(50) / L(23)
-		"\x11\x14\x01\x26\x20\x3b\x3c\x35\x11\x20\x37\x33\x26\x37\x05\x3b\x26\x3a\x10\x2b\x26\x37\x21\x52\xaf\xd4\xf1\xf8\x68\x5e\x5c\x81",
-		// "" / M(None) / S(0) / L(0)
-		"\x76\x90\xd5\x1e\xa8\x77\x3e\x79\xb0\x1b\xb9\x51\x53\xbc\xd0\x5b\x88\xf6\x3b\x74\x07\x99\x6c\x9f\xc9\x58\xf1\xb4\x35\xc5\xc7\x69",
-		// "X509_get_ext_by_OBJ" / M(Xor4) / S(15) / L(19)
-		"\x74\x19\x1c\x15\x73\x4b\x49\x58\x73\x49\x54\x58\x73\x4e\x55\x73\x63\x6e\x66\x2c",
-		// "strlen" / M(Xor2) / S(72) / L(6)
-		"\x2b\x2c\x2a\x34\x3d\x36\x58\xac\xd4\xe3\xfc\xb9\x84\xef\x71\x1f",
-		// "CFBundleVersion" / M(Xor3) / S(104) / L(15)
-		"\x3b\x3e\x3a\x0d\x16\x1c\x14\x1d\x2e\x1d\x0a\x0b\x11\x17\x16\x78",
-		// "SecKeychainSearchCreateFromAttributes" / M(Rot) / S(174) / L(37)
-		"\x01\x13\x11\xf9\x13\x27\x11\x16\x0f\x17\x1c\x01\x13\x0f\x20\x11\x16\xf1\x20\x13\x0f\x22\x13\xf4\x20\x1d\x1b\xef\x22\x22\x20\x17\x10\x23\x22\x13\x21\xae",
-		// "SHA1_Init" / M(Rot) / S(63) / L(9)
-		"\x92\x87\x80\x70\x9e\x88\xad\xa8\xb3\x3f\x49\xb4\x0e\x51\xe1\x97",
-		// "" / M(None) / S(0) / L(0)
-		"\xa6\x23\x53\x32\x91\x81\x98\x03\x81\xd8\xb7\x2e\x97\xad\x7a\x37\x6d\x74\xde\x67\x44\xce\x01\x0c\xea\xb1\xcb\x76\xe5\xbc\xe1\xac",
-		// "" / M(None) / S(0) / L(0)
-		"\x9a\xe1\x99\x25\x25\x23\xe0\x50\x88\xc7\x95\xa0\x55\x9d\x9d\xbc\x6d\x3f\xe9\xbe\xe0\x0a\x88\xf9\x89\x71\x98\x6c\x5b\x74\x23\x30",
-		// "" / M(None) / S(0) / L(0)
-		"\x4f\xf0\x98\xf7\x57\xdc\x99\xb0\x06\x9f\x7e\x85\xed\xf7\x84\xf0\x28\x59\xdd\x79\x61\x6c\x89\x69\x92\xa9\x8d\x2e\xcb\x03\xb7\xd7",
-		// "" / M(None) / S(0) / L(0)
-		"\xc1\xf6\x21\xcf\xb0\xa6\x38\x7c\x17\x8f\xe0\x66\xa9\x1c\x70\x20\xdf\xef\xde\x2d\xa9\x1f\x79\x77\x2f\xa1\xd5\x88\x2c\xf2\x78\x89",
-		// "en0" / M(Xor4) / S(55) / L(3)
-		"\x15\x1e\x40\x70\xb3\xeb\x9e\x31\x38\x6c\x75\x85\x83\xbb\xa7\xfa",
-		// "CFArrayGetCount" / M(Rot) / S(1) / L(15)
-		"\x44\x47\x42\x73\x73\x62\x7a\x48\x66\x75\x44\x70\x76\x6f\x75\x01",
-		// "BIO_s_mem" / M(Xor3) / S(143) / L(9)
-		"\xdd\xd6\xd0\xc0\xec\xc0\xf2\xfa\xf2\x9f\x23\x04\x97\x07\x7e\x9a",
-		// "CFReadStreamOpen" / M(Rot) / S(160) / L(16)
-		"\xe3\xe6\xf2\x05\x01\x04\xf3\x14\x12\x05\x01\x0d\xef\x10\x05\x0e\xa0",
-		// "1.2.840.113635.100.6.11.1" / M(Rot) / S(80) / L(25)
-		"\x81\x7e\x82\x7e\x88\x84\x80\x7e\x81\x81\x83\x86\x83\x85\x7e\x81\x80\x80\x7e\x86\x7e\x81\x81\x7e\x81\x50\x2f\x20\x0f\x36\x32\x83\xa8\xea",
-		// "X509_STORE_free" / M(Xor2) / S(105) / L(15)
-		"\x21\x4c\x49\x40\x26\x2a\x2d\x36\x2b\x3c\x26\x1f\x0b\x1c\x1c\x79",
-		// "611e5b662c593a08ff58d14ae22452d198df6c60" / M(Xor4) / S(54) / L(40)
-		"\x60\x67\x67\x33\x63\x34\x60\x60\x64\x35\x63\x6f\x65\x37\x66\x6e\x30\x30\x63\x6e\x32\x67\x62\x37\x33\x64\x64\x62\x63\x64\x32\x67\x6f\x6e\x32\x30\x60\x35\x60\x66\x56\xbb\x01\x40\xfe\x32\x41\x1f\x6b",
-		// "EVP_DigestInit" / M(Xor3) / S(98) / L(14)
-		"\x37\x24\x22\x2d\x36\x1b\x15\x17\x01\x06\x3b\x1c\x1b\x06\x72\xc6",
-		// "sel_registerName" / M(Xor1) / S(227) / L(16)
-		"\x90\x86\x8f\xbc\x91\x86\x84\x8a\x90\x97\x86\x91\xad\x82\x8e\x86\xe3",
-		// "_MASReceipt" / M(Xor1) / S(91) / L(11)
-		"\x04\x16\x1a\x08\x09\x3e\x38\x3e\x32\x2b\x2f\x5b\xc0\xb2\x54\x6c",
-		// "" / M(None) / S(0) / L(0)
-		"\x87\xef\xa4\x86\x4e\x68\x80\x07\x7a\xee\x9a\x33\xc2\x69\xf0\x1b\x7a\xeb\x58\x42\xd7\xc4\x5e\x37\x6f\x32\x2a\x29\x58\xcf\xfc\x10",
-		// "EVP_DigestUpdate" / M(Xor1) / S(1) / L(16)
-		"\x44\x57\x51\x5e\x45\x68\x66\x64\x72\x75\x54\x71\x65\x60\x75\x64\x01",
-		// "sk_value" / M(Xor1) / S(59) / L(8)
-		"\x48\x50\x64\x4d\x5a\x57\x4e\x5e\x3b\x9c\xea\x46\xc4\xa5\x4f\x15",
-		// "" / M(None) / S(0) / L(0)
-		"\x14\xf2\xcc\x75\x59\x07\x2f\xc4\x74\xf2\xd4\x66\x48\xb4\x18\xf8\x31\xa2\x5d\x03\x9a\xa9\x8d\x77\xda\xb2\xba\xd8\x0e\x78\xd7\xb6",
-		// "CFBundleGetIdentifier" / M(Xor3) / S(254) / L(21)
-		"\x57\x52\x56\x61\x7a\x70\x78\x71\x53\x71\x60\x5d\x70\x71\x7a\x60\x7d\x72\x7d\x71\x66\x14",
-		// "CFDataCreate" / M(Xor1) / S(47) / L(12)
-		"\x6c\x69\x6b\x4e\x5b\x4e\x6c\x5d\x4a\x4e\x5b\x4a\x2f\xe9\xc6\x1b",
-		// "%02x:" / M(Xor2) / S(81) / L(5)
-		"\x64\x71\x73\x39\x7b\x41\x20\xa3\x43\xd6\x1c\xca\x43\xfa\x96\xd2",
-		// "X509_STORE_add_cert" / M(Xor4) / S(113) / L(19)
-		"\x8c\xe1\xe4\xed\x8b\x87\x80\x9b\x86\x91\x8b\xb5\xb0\xb0\x8b\xb7\xb1\xa6\xa0\xd4",
-		// "de.codingmonkeys.SubEthaEdit.Mac" / M(Xor1) / S(89) / L(32)
-		"\x3d\x3c\x77\x3a\x36\x3d\x30\x37\x3e\x34\x36\x37\x32\x3c\x20\x2a\x77\x0a\x2c\x3b\x1c\x2d\x31\x38\x1c\x3d\x30\x2d\x77\x14\x38\x3a\x59",
-		// "SKReceiptRefreshRequest" / M(Rot) / S(179) / L(23)
-		"\x06\xfe\x05\x18\x16\x18\x1c\x23\x27\x05\x18\x19\x25\x18\x26\x1b\x05\x18\x24\x28\x18\x26\x27\xb3\x3f\x0a\x3f\xc2\x63\x3c\xc6\x7e",
-		// "CFBundleGetIdentifier" / M(Xor3) / S(120) / L(21)
-		"\xcd\xc8\xcc\xfb\xe0\xea\xe2\xeb\xc9\xeb\xfa\xc7\xea\xeb\xe0\xfa\xe7\xe8\xe7\xeb\xfc\x8e",
-		// "" / M(None) / S(0) / L(0)
-		"\x79\xa7\x5e\x5b\x21\x3c\x02\x82\xba\xb5\xe5\xd3\x2a\xb5\xa9\xf8\x58\x78\x6e\x7f\xc0\x83\x38\x5d\x78\x25\x16\xfe\xe5\xf3\xc1\xf2",
-		// "SecCertificateCopyData" / M(Xor3) / S(76) / L(22)
-		"\x30\x06\x00\x20\x06\x11\x17\x0a\x05\x0a\x00\x02\x17\x06\x20\x0c\x13\x1a\x27\x02\x17\x02\x63",
-		// "CFDataGetBytePtr" / M(Xor2) / S(171) / L(16)
-		"\xf9\xfc\xfe\xdb\xce\xdb\xfd\xdf\xce\xf8\xc3\xce\xdf\xea\xce\xc8\xba",
-		// "X509_free" / M(Xor1) / S(9) / L(9)
-		"\x51\x3c\x39\x30\x56\x6f\x7b\x6c\x6c\x09\x3f\x12\x1b\x63\x19\x64",
-		// "kCFTypeDictionaryKeyCallBacks" / M(Xor1) / S(87) / L(29)
-		"\x3c\x14\x11\x03\x2e\x27\x32\x13\x3e\x34\x23\x3e\x38\x39\x36\x25\x2e\x1c\x32\x2e\x14\x36\x3b\x3b\x15\x36\x34\x3c\x24\x57\x5d\x2d\x5d\x1d\xef\xdc\x2d\x7c",
-		// "SHA1_Final" / M(Rot) / S(114) / L(10)
-		"\xc5\xba\xb3\xa3\xd1\xb8\xdb\xe0\xd3\xde\x72\xda\x2e\x36\x11\x4b",
-		// "strncmp" / M(Xor4) / S(98) / L(7)
-		"\x53\x54\x52\x4e\x43\x4d\x50\x20\xd9\x5c\xce\x76\x00\x0f\xd3\x20",
-		// "" / M(None) / S(0) / L(0)
-		"\x38\x1e\x81\x74\x89\x63\x4e\x39\x4a\xe5\x94\x1a\xe9\x09\x3e\x7c\x3a\x95\xc1\x10\x93\xe4\xf5\x87\x6e\x3f\xd9\xad\xb2\x9f\x33\x80",
-		// "/System/Library/Keychains/SystemRootCertificates.keychain" / M(Rot) / S(253) / L(57)
-		"\x2c\x50\x76\x70\x71\x62\x6a\x2c\x49\x66\x5f\x6f\x5e\x6f\x76\x2c\x48\x62\x76\x60\x65\x5e\x66\x6b\x70\x2c\x50\x76\x70\x71\x62\x6a\x4f\x6c\x6c\x71\x40\x62\x6f\x71\x66\x63\x66\x60\x5e\x71\x62\x70\x2b\x68\x62\x76\x60\x65\x5e\x66\x6b\xfd\xca\xcd\x88\x4a\x0b\xa4\x79\x21",
-		// "CFBundleUnloadExecutable" / M(Xor1) / S(219) / L(24)
-		"\x98\x9d\x99\xae\xb5\xbf\xb7\xbe\x8e\xb5\xb7\xb4\xba\xbf\x9e\xa3\xbe\xb8\xae\xaf\xba\xb9\xb7\xbe\xdb\xd1\xe2\x3e\xbc\xb8\xf6\x8d\x34",
-		// "X509_NAME_get_text_by_NID" / M(Xor4) / S(42) / L(25)
-		"\xcc\xa1\xa4\xad\xcb\xda\xd5\xd9\xd1\xcb\xf3\xf1\xe0\xcb\xe0\xf1\xec\xe0\xcb\xf6\xed\xcb\xda\xdd\xd0\x94\x70\xee\x54\xfc\xcc\x63\x2b\x05",
-		// "Contents/_MASReceipt" / M(Xor4) / S(134) / L(20)
-		"\xbd\x91\x90\x8a\x9b\x90\x8a\x8d\xd1\xa1\xb3\xbf\xad\xac\x9b\x9d\x9b\x97\x8e\x8a\xfe",
-		// "Apple Root CA" / M(Xor2) / S(125) / L(13)
-		"\x2c\x1d\x1d\x01\x08\x4d\x3f\x02\x02\x19\x4d\x2e\x2c\x6d\x3f\x67",
-		// "CFDataCreateMutable" / M(Xor2) / S(228) / L(19)
-		"\xb3\xb6\xb4\x91\x84\x91\xb3\x82\x95\x91\x84\x95\xbd\x85\x84\x91\x92\x9c\x95\xf0",
-		// "_MASReceipt/receipt" / M(Xor2) / S(174) / L(19)
-		"\xe5\xf7\xfb\xe9\xe8\xdf\xd9\xdf\xd3\xca\xce\x95\xc8\xdf\xd9\xdf\xd3\xca\xce\xba",
-		// "Apple Root CA" / M(Xor3) / S(41) / L(13)
-		"\x78\x49\x49\x55\x5c\x19\x6b\x56\x56\x4d\x19\x7a\x78\x39\x03\x99",
-		// "" / M(None) / S(0) / L(0)
-		"\x6b\xff\x3f\x10\xcc\x9f\xb9\xdb\x3d\xd9\xbe\xaf\xf0\x54\x68\xf0\xb6\xd7\x24\x38\x40\x21\xbe\xb7\xb3\x81\x34\x79\x96\xae\x7f\x6e",
-		// "init" / M(Xor3) / S(95) / L(4)
-		"\x06\x01\x06\x1b\x6f\x4a\x6c\xab\x83\x9c\x36\x6e\x3e\x4f\x56\x0e",
-		// "%02X" / M(Xor3) / S(89) / L(4)
-		"\x4c\x59\x5b\x31\x69\x45\x03\xd5\xe7\x71\x70\x38\x3e\x1b\x3c\x8e",
-		// "" / M(None) / S(0) / L(0)
-		"\xa7\xba\x5b\x39\x19\xea\x13\x49\xdf\xea\xec\x5a\xa3\xd3\xc8\xb7\x8c\x58\x78\x39\x08\x85\x01\xfd\x58\x84\xb4\x92\x86\xcf\xc8\xf3",
-		// "kCFBundleIdentifierKey" / M(Rot) / S(151) / L(22)
-		"\x02\xda\xdd\xd9\x0c\x05\xfb\x03\xfc\xe0\xfb\xfc\x05\x0b\x00\xfd\x00\xfc\x09\xe2\xfc\x10\x97",
-		// "EVP_DigestUpdate" / M(Xor3) / S(230) / L(16)
-		"\xb2\xa1\xa7\xa8\xb3\x9e\x90\x92\x84\x83\xa2\x87\x93\x96\x83\x92\xf7",
-		// "_MASReceipt" / M(Xor2) / S(68) / L(11)
-		"\x0b\x19\x15\x07\x06\x31\x37\x31\x3d\x24\x20\x54\xb6\xbf\x92\x22",
-		// "" / M(None) / S(0) / L(0)
-		"\xfa\xd3\xc3\x95\xb1\x94\x27\xff\x4a\xcc\xc0\x06\x18\x39\xb6\xb6\x29\xaf\xc4\x04\x28\xb0\xa6\xb3\xc0\x88\x76\x83\x39\x7f\x21\xe0",
-		// "sel_registerName" / M(Xor4) / S(243) / L(16)
-		"\x50\x46\x4f\x7c\x51\x46\x44\x4a\x50\x57\x46\x51\x6d\x42\x4e\x46\x23",
-		// "sel_registerName" / M(Xor3) / S(131) / L(16)
-		"\xe7\xf1\xf8\xcb\xe6\xf1\xf3\xfd\xe7\xe0\xf1\xe6\xda\xf5\xf9\xf1\x94",
-		// "kCFTypeDictionaryValueCallBacks" / M(Xor1) / S(41) / L(31)
-		"\x42\x6a\x6f\x7d\x50\x59\x4c\x6d\x40\x4a\x5d\x40\x46\x47\x48\x5b\x50\x7f\x48\x45\x5c\x4c\x6a\x48\x45\x45\x6b\x48\x4a\x42\x5a\x29",
-		// "" / M(None) / S(0) / L(0)
-		"\x9f\x20\x9a\x9c\xbb\x8f\x00\xd5\x2e\xc8\x75\x04\x5d\x50\x56\xa4\xc4\x2c\x1c\x02\x95\x48\xd2\x1a\x34\xa2\xfb\x14\xd9\x98\xfe\x74",
-		// "CFStringCompare" / M(Rot) / S(211) / L(15)
-		"\x16\x19\x26\x47\x45\x3c\x41\x3a\x16\x42\x40\x43\x34\x45\x38\xd3",
-		// "CFDictionarySetValue" / M(Rot) / S(180) / L(20)
-		"\xf7\xfa\xf8\x1d\x17\x28\x1d\x23\x22\x15\x26\x2d\x07\x19\x28\x0a\x15\x20\x29\x19\xb4",
-		// "" / M(None) / S(0) / L(0)
-		"\x9d\xf7\x91\x14\xdc\x65\x5f\x84\xeb\x98\xe8\x25\x1a\x5d\xe1\xa6\x53\xd3\x88\x24\xa5\x89\xe1\x2a\x82\xa3\x0a\xa7\xb3\x9a\x76\xaa",
-		// "strncmp" / M(Rot) / S(49) / L(7)
-		"\xa4\xa5\xa3\x9f\x94\x9e\xa1\x31\xf1\x7b\xa5\x39\x32\x30\xa0\x0c",
-		// "CFURLCreateFromFileSystemRepresentation" / M(Rot) / S(164) / L(39)
-		"\xe7\xea\xf9\xf6\xf0\xe7\x16\x09\x05\x18\x09\xea\x16\x13\x11\xea\x0d\x10\x09\xf7\x1d\x17\x18\x09\x11\xf6\x09\x14\x16\x09\x17\x09\x12\x18\x05\x18\x0d\x13\x12\xa4\x25\x69\xde\x3a\xd7\xa4\x88\x0f",
-		// "CC_SHA1_Init" / M(Xor3) / S(244) / L(12)
-		"\x47\x47\x5b\x57\x4c\x45\x35\x5b\x4d\x6a\x6d\x70\x04\xe7\x70\x59",
-		// "CFDataGetLength" / M(Rot) / S(80) / L(15)
-		"\x93\x96\x94\xb1\xc4\xb1\x97\xb5\xc4\x9c\xb5\xbe\xb7\xc4\xb8\x50",
-		// "CC_SHA1_Update" / M(Xor3) / S(18) / L(14)
-		"\x61\x61\x7d\x71\x6a\x63\x13\x7d\x77\x52\x46\x43\x56\x47\x22\x35",
-		// "" / M(None) / S(0) / L(0)
-		"\xdc\xdc\x1c\x37\x36\xf8\xc3\x1e\xd8\x48\x79\x71\xa3\x48\x39\x09\x1f\x58\x0a\x32\xe5\x64\xfe\xf3\x1a\xb4\xf7\xa4\x2f\x66\xc1\xcd",
-		// "CFDictionaryGetValue" / M(Xor1) / S(223) / L(20)
-		"\x9c\x99\x9b\xb6\xbc\xab\xb6\xb0\xb1\xbe\xad\xa6\x98\xba\xab\x89\xbe\xb3\xaa\xba\xdf",
-		// "de.codingmonkeys.SubEthaEdit.Mac" / M(Xor2) / S(139) / L(32)
-		"\xce\xcf\x84\xc9\xc5\xce\xc3\xc4\xcd\xc7\xc5\xc4\xc1\xcf\xd3\xd9\x84\xf9\xdf\xc8\xef\xde\xc2\xcb\xef\xce\xc3\xde\x84\xe7\xcb\xc9\xaa",
-		// "kCFTypeDictionaryKeyCallBacks" / M(Xor3) / S(27) / L(29)
-		"\x2a\x02\x07\x15\x38\x31\x24\x05\x28\x22\x35\x28\x2e\x2f\x20\x33\x38\x0a\x24\x38\x02\x20\x2d\x2d\x03\x20\x22\x2a\x32\x41\x35\xb6\x77\xdf\x98\x28\xd7\x53",
-		// "SecKeychainSearchCreateFromAttributes" / M(Xor4) / S(160) / L(37)
-		"\x93\xa5\xa3\x8b\xa5\xb9\xa3\xa8\xa1\xa9\xae\x93\xa5\xa1\xb2\xa3\xa8\x83\xb2\xa5\xa1\xb4\xa5\x86\xb2\xaf\xad\x81\xb4\xb4\xb2\xa9\xa2\xb5\xb4\xa5\xb3\xc0",
-		// "CFStringCreateWithCString" / M(Rot) / S(46) / L(25)
-		"\x71\x74\x81\xa2\xa0\x97\x9c\x95\x71\xa0\x93\x8f\xa2\x93\x85\x97\xa2\x96\x71\x81\xa2\xa0\x97\x9c\x95\x2e\x48\xfb\xab\x1d\xfb\x60\x12\xe2",
-		// "EVP_DigestFinal" / M(Xor4) / S(177) / L(15)
-		"\x55\x46\x40\x4f\x54\x79\x77\x75\x63\x64\x56\x79\x7e\x71\x7c\x10",
-		// "" / M(None) / S(0) / L(0)
-		"\xc0\x9f\xab\xa9\xba\x98\x6d\x4a\xb3\x30\x1a\x73\xa3\x7d\x2b\x8f\x88\x55\xaf\x0e\x6a\x0f\xe8\x0f\x1c\x7c\x8b\x8c\x3e\x2a\xb1\x8d",
-		// "sk_num" / M(Xor1) / S(48) / L(6)
-		"\x43\x5b\x6f\x5e\x45\x5d\x30\x11\xd9\x8e\x25\x09\x27\xbe\x8b\x29",
-		// "CFRelease" / M(Xor2) / S(211) / L(9)
-		"\x80\x85\x91\xa6\xaf\xa6\xa2\xb0\xa6\xc3\x89\x5e\x35\xad\xc2\x97",
-		// "SKReceiptRefreshRequest" / M(Xor2) / S(140) / L(23)
-		"\xff\xe7\xfe\xc9\xcf\xc9\xc5\xdc\xd8\xfe\xc9\xca\xde\xc9\xdf\xc4\xfe\xc9\xdd\xd9\xc9\xdf\xd8\xac\x96\xfd\xb7\xf0\xba\xd6\xa6\xcc",
-		// "d2i_X509_bio" / M(Xor2) / S(229) / L(12)
-		"\x91\xc7\x9c\xaa\xad\xc0\xc5\xcc\xaa\x97\x9c\x9a\xf5\x4f\xa8\x9b",
-		// "" / M(None) / S(0) / L(0)
-		"\x94\x49\x56\x2f\xa4\xbc\xdd\x90\xcf\xb4\x82\xd7\xf9\xef\x0a\x0b\x97\x7b\x19\xa3\x28\x97\x1c\x32\x0a\x62\x52\x8b\xf4\xb0\x6c\x23",
-		// "setDelegate:" / M(Xor2) / S(90) / L(12)
-		"\x39\x2f\x3e\x0e\x2f\x26\x2f\x2d\x2b\x3e\x2f\x70\x4a\xa6\x76\x16",
-		// "kCFBundleIdentifierKey" / M(Xor1) / S(69) / L(22)
-		"\x2e\x06\x03\x07\x30\x2b\x21\x29\x20\x0c\x21\x20\x2b\x31\x2c\x23\x2c\x20\x37\x0e\x20\x3c\x45",
-		// "%02x" / M(Xor2) / S(167) / L(4)
-		"\x92\x87\x85\xcf\xb7\xd3\x30\xf7\xa5\x1a\xd3\xe7\x20\xbd\x09\x7c",
-		// "objc_msgSend" / M(Xor1) / S(236) / L(12)
-		"\x83\x8e\x86\x8f\xb3\x81\x9f\x8b\xbf\x89\x82\x88\xec\xcf\xb3\x1d",
-		// "kCFBundleIdentifierKey" / M(Xor2) / S(26) / L(22)
-		"\x66\x4e\x4b\x4f\x78\x63\x69\x61\x68\x44\x69\x68\x63\x79\x64\x6b\x64\x68\x7f\x46\x68\x74\x0d",
-		// "CFBundleShortVersionString" / M(Xor2) / S(190) / L(26)
-		"\xde\xdb\xdf\xe8\xf3\xf9\xf1\xf8\xce\xf5\xf2\xef\xe9\xcb\xf8\xef\xee\xf4\xf2\xf3\xce\xe9\xef\xf4\xf3\xfa\x9d\xf7\x4d\x92\x71\x5e\xec\x6f\xa2",
-		// "OpenSSL_add_all_digests" / M(Xor4) / S(204) / L(23)
-		"\xcf\xf0\xe5\xee\xd3\xd3\xcc\xdf\xe1\xe4\xe4\xdf\xe1\xec\xec\xdf\xe4\xe9\xe7\xe5\xf3\xf4\xf3\x80\x3d\x2c\x93\x6c\xe2\xe4\xf1\xa3",
-		// "" / M(None) / S(0) / L(0)
-		"\x60\x65\xf0\xcc\x83\x3b\x85\x7c\xbd\x33\xf4\xc7\xe6\x51\xf2\xea\x71\x28\x3a\xb3\x35\x00\x21\x71\xe8\xf1\x3e\xd7\x38\xa1\x0b\x53",
-		// "" / M(None) / S(0) / L(0)
-		"\xf6\x4f\xe2\x32\x08\xb9\x19\xad\x0a\xf0\x69\x75\x61\x1c\x11\x99\x7a\x61\x4c\x1c\x78\xca\x18\x0d\x6e\xa1\xea\x51\x33\xcb\x63\x10",
-		// "kCFTypeArrayCallBacks" / M(Xor3) / S(66) / L(21)
-		"\x33\x1b\x1e\x0c\x21\x28\x3d\x19\x2a\x2a\x39\x21\x1b\x39\x34\x34\x1a\x39\x3b\x33\x2b\x58",
-		// "SHA1_Update" / M(Xor2) / S(52) / L(11)
-		"\x77\x6c\x65\x15\x7b\x71\x54\x40\x45\x50\x41\x24\x14\x7f\xb2\xa5",
-		// "4.0" / M(Xor4) / S(58) / L(3)
-		"\x94\x8e\x90\xa0\x56\x23\x1d\x0f\xee\xc2\x69\x42\xb4\x0a\xf5\x1c",
-		// "RTLD_MAIN_ONLY" / M(Xor3) / S(73) / L(14)
-		"\x0b\x0d\x15\x1d\x06\x14\x18\x10\x17\x06\x16\x17\x15\x00\x59\xa0",
-		// "objc_getClass" / M(Xor1) / S(209) / L(13)
-		"\xbe\xb3\xbb\xb2\x8e\xb6\xb4\xa5\x92\xbd\xb0\xa2\xa2\xd1\xd0\xdc",
-		// "" / M(None) / S(0) / L(0)
-		"\x29\x03\x5e\x71\xef\xd6\xd9\xd8\xae\xd8\x66\x19\x87\x56\x59\xdb\x82\x9d\xed\xe6\x6e\x3f\xf0\xe6\x25\xde\xd3\x97\xca\x43\xd3\x32",
-		// "" / M(None) / S(0) / L(0)
-		"\x42\x90\x0e\x48\x94\xba\x40\x9f\xde\xaf\x2e\x91\x5c\xd8\x1d\x88\x7b\x0b\x7d\x9b\x01\x20\x3c\xf7\xc1\xce\x63\xa7\x41\x1e\x97\x0e",
-		// "SecKeychainOpen" / M(Xor2) / S(75) / L(15)
-		"\x08\x3e\x38\x10\x3e\x22\x38\x33\x3a\x32\x35\x14\x2b\x3e\x35\x5b",
-		// "EVP_DigestInit" / M(Xor1) / S(63) / L(14)
-		"\x7a\x69\x6f\x60\x7b\x56\x58\x5a\x4c\x4b\x76\x51\x56\x4b\x3f\xbd",
-		// "61:1E:5B:66:2C:59:3A:08:FF:58:D1:4A:E2:24:52:D1:98:DF:6C:60" / M(Xor2) / S(16) / L(59)
-		"\x62\x65\x6e\x65\x11\x6e\x61\x16\x6e\x62\x62\x6e\x66\x17\x6e\x61\x6d\x6e\x67\x15\x6e\x64\x6c\x6e\x12\x12\x6e\x61\x6c\x6e\x10\x65\x6e\x60\x15\x6e\x11\x66\x6e\x66\x60\x6e\x61\x66\x6e\x10\x65\x6e\x6d\x6c\x6e\x10\x12\x6e\x62\x17\x6e\x62\x64\x54\x0b\x4e\x3e\x8d\xb1\x50\xc9\x8f",
-		// "kSecMatchSearchList" / M(Xor3) / S(207) / L(19)
-		"\x88\xb0\x86\x80\xae\x82\x97\x80\x8b\xb0\x86\x82\x91\x80\x8b\xaf\x8a\x90\x97\xe3",
-		// "CFArrayAppendValue" / M(Xor2) / S(236) / L(18)
-		"\xbc\xb9\xbe\x8d\x8d\x9e\x86\xbe\x8f\x8f\x9a\x91\x9b\xa9\x9e\x93\x8a\x9a\xff",
-		// "" / M(None) / S(0) / L(0)
-		"\xfa\xb7\xea\xf6\xfa\x80\xbd\xfa\x21\xe1\x69\xd3\x3d\xcf\xa9\x2e\x1d\x05\x33\x22\x01\xb4\x9a\x33\x95\x56\x5d\x9e\xc0\xbf\xe1\xe3",
-		// "CFBundleGetValueForInfoDictionaryKey" / M(Xor4) / S(133) / L(36)
-		"\x7a\x7f\x7b\x4c\x57\x5d\x55\x5c\x7e\x5c\x4d\x6f\x58\x55\x4c\x5c\x7f\x56\x4b\x70\x57\x5f\x56\x7d\x50\x5a\x4d\x50\x56\x57\x58\x4b\x40\x72\x5c\x40\x39",
-		// "Contents" / M(Xor2) / S(68) / L(8)
-		"\x17\x3b\x3a\x20\x31\x3a\x20\x27\x54\x26\xab\xf9\xc7\xa3\x50\x75",
-		// "d2i_X509_bio" / M(Xor1) / S(127) / L(12)
-		"\x1b\x4d\x16\x20\x27\x4a\x4f\x46\x20\x1d\x16\x10\x7f\xca\x0a\x25",
-		// "init" / M(Xor1) / S(29) / L(4)
-		"\x74\x73\x74\x69\x1d\x88\x2a\xd6\x6f\x0b\x4c\x1d\xb9\x8a\xd8\x68",
-		// "SHA1_Final" / M(Rot) / S(158) / L(10)
-		"\xf1\xe6\xdf\xcf\xfd\xe4\x07\x0c\xff\x0a\x9e\xd8\x90\x2c\xd0\x3b",
-		// "CFReadStreamCreateWithFile" / M(Xor1) / S(171) / L(26)
-		"\xe8\xed\xf9\xce\xca\xcf\xf8\xdf\xd9\xce\xca\xc6\xe8\xd9\xce\xca\xdf\xce\xfc\xc2\xdf\xc3\xed\xc2\xc7\xce\xab\xc9\xee\x42\x32\x76\x0f\x70\xb2",
-		// "CFDictionarySetValue" / M(Rot) / S(237) / L(20)
-		"\x30\x33\x31\x56\x50\x61\x56\x5c\x5b\x4e\x5f\x66\x40\x52\x61\x43\x4e\x59\x62\x52\xed",
-		// "exit" / M(Rot) / S(118) / L(4)
-		"\xdb\xee\xdf\xea\x76\x1e\x76\x37\x4a\x6d\x17\x8c\x05\x53\xfa\xd9",
-		// "" / M(None) / S(0) / L(0)
-		"\x8d\x4d\x28\x88\x9b\x4d\xde\x4c\xee\x78\x67\xde\x1e\x87\x5c\x8d\x38\x0c\x49\xa2\x5e\xd7\x2d\x16\x29\x9c\xcd\x71\xe5\x70\x1c\xd4",
-		// "strcmp" / M(Xor4) / S(177) / L(6)
-		"\x63\x64\x62\x73\x7d\x60\x10\xc8\x5b\x5d\xaa\xbd\x78\x3d\x98\x11",
-		// "" / M(None) / S(0) / L(0)
-		"\xf2\xf0\x6b\x5f\xb1\x22\xd2\x90\xcc\x27\xd9\x5f\x56\xc2\x06\x7e\x2d\xc0\xd0\x4e\xda\x70\xc7\xb9\x5a\x38\x1d\x3b\x9b\xbb\x7a\x5e",
-		// "/usr/lib/libSystem.dylib" / M(Rot) / S(69) / L(24)
-		"\x74\xba\xb8\xb7\x74\xb1\xae\xa7\x74\xb1\xae\xa7\x98\xbe\xb8\xb9\xaa\xb2\x73\xa9\xbe\xb1\xae\xa7\x45\x51\xa6\x86\x60\x0f\x8f\xbd\xe2",
-		// "CFBundleGetMainBundle" / M(Rot) / S(42) / L(21)
-		"\x6d\x70\x6c\x9f\x98\x8e\x96\x8f\x71\x8f\x9e\x77\x8b\x93\x98\x6c\x9f\x98\x8e\x96\x8f\x2a",
-		// "61:1e:5b:66:2c:59:3a:08:ff:58:d1:4a:e2:24:52:d1:98:df:6c:60" / M(Xor4) / S(243) / L(59)
-		"\xba\xbd\xb6\xbd\xe9\xb6\xb9\xee\xb6\xba\xba\xb6\xbe\xef\xb6\xb9\xb5\xb6\xbf\xed\xb6\xbc\xb4\xb6\xea\xea\xb6\xb9\xb4\xb6\xe8\xbd\xb6\xb8\xed\xb6\xe9\xbe\xb6\xbe\xb8\xb6\xb9\xbe\xb6\xe8\xbd\xb6\xb5\xb4\xb6\xe8\xea\xb6\xba\xef\xb6\xba\xbc\x8c\x7f\xea\x77\x87\xfa\x83\x6e\xd0",
-		// "kSecMatchSubjectContains" / M(Xor4) / S(162) / L(24)
-		"\x89\xb1\x87\x81\xaf\x83\x96\x81\x8a\xb1\x97\x80\x88\x87\x81\x96\xa1\x8d\x8c\x96\x83\x8b\x8c\x91\xe2\xff\xa5\x30\x4b\x52\x29\x35\x17",
-		// "" / M(None) / S(0) / L(0)
-		"\xac\x40\x05\xbf\x31\x9a\x86\xba\xdf\x89\xd1\x0f\xfd\xbc\x4f\x70\x42\x95\x54\xa9\xd4\x60\x5a\x94\x43\x2a\x59\xf2\xf0\x37\x09\x12",
-		// "" / M(None) / S(0) / L(0)
-		"\x47\x50\x8d\x46\xc5\x49\x2f\xbc\x7e\x3b\xfa\x31\x9b\x66\x5e\xc6\xf4\xf2\xe2\xa9\xcb\x42\x54\x9a\xf8\xb5\x32\xea\xd5\x3d\x8a\x23",
-		// "%02X:" / M(Xor2) / S(212) / L(5)
-		"\xe1\xf4\xf6\x9c\xfe\xc4\x5f\x5e\x5a\x80\xa9\xb7\x73\x49\x6e\xc7",
-		// "NSApplicationMain" / M(Xor2) / S(26) / L(17)
-		"\x46\x5b\x49\x78\x78\x64\x61\x6b\x69\x7c\x61\x67\x66\x45\x69\x61\x66\x08",
-		// "" / M(None) / S(0) / L(0)
-		"\x0a\x96\x14\xcb\x20\xe8\x11\x7c\xa0\x61\xc6\x2b\x95\x17\x3f\xa9\x31\xa4\xc0\x05\x62\xcc\x87\x24\x45\xf6\x31\xf9\x28\x46\xaa\x02",
-		// "d2i_PKCS7_bio" / M(Xor1) / S(245) / L(13)
-		"\x91\xc7\x9c\xaa\xa5\xbe\xb6\xa6\xc2\xaa\x97\x9c\x9a\xf5\xf5\x51",
-		// "" / M(None) / S(0) / L(0)
-		"\x9a\x99\x6a\x70\xd1\x46\x86\x4b\xc0\x3e\xe9\xc5\xdf\x88\x12\xd4\x70\x3b\xb8\xdb\x14\x44\x78\x08\xfb\x7b\x60\xb0\x17\xca\xf5\x55",
-		// "CFDateFormatterCreate" / M(Xor3) / S(229) / L(21)
-		"\xb8\xbd\xbf\x9a\x8f\x9e\xbd\x94\x89\x96\x9a\x8f\x8f\x9e\x89\xb8\x89\x9e\x9a\x8f\x9e\xfb",
-		// "" / M(None) / S(0) / L(0)
-		"\xa0\x88\x41\xd0\x37\xb7\x96\x5d\x33\x84\x4d\x87\xb7\x43\xab\x3d\xfa\xb6\x98\x78\x2f\xdf\x0c\x45\xf8\xe2\x2e\x01\x0e\xcf\xb5\x63",
-		// "CFDictionaryCreateMutable" / M(Xor3) / S(13) / L(25)
-		"\x6c\x69\x6b\x46\x4c\x5b\x46\x40\x41\x4e\x5d\x56\x6c\x5d\x4a\x4e\x5b\x4a\x62\x5a\x5b\x4e\x4d\x43\x4a\x2f\xbe\x79\x1c\x13\xcc\x85\xbb\x81",
-		// "dlopen" / M(Rot) / S(36) / L(6)
-		"\x88\x90\x93\x94\x89\x92\x24\xcb\xcc\x8a\x0d\xa3\xcc\xc9\xee\xf1",
-		// "CFReadStreamClose" / M(Xor1) / S(74) / L(17)
-		"\x09\x0c\x18\x2f\x2b\x2e\x19\x3e\x38\x2f\x2b\x27\x09\x26\x25\x39\x2f\x4a",
-		// "%02X" / M(Xor3) / S(159) / L(4)
-		"\x8a\x9f\x9d\xf7\xaf\x5a\xa9\xd9\xe0\x8b\x9a\xd8\x56\xe9\x9f\x8c",
-		// "%02x:" / M(Xor1) / S(60) / L(5)
-		"\x19\x0c\x0e\x44\x06\x3c\x5f\xa3\xaa\xa1\xc8\xc4\xb5\x1c\x3a\x79",
-		// "4.0" / M(Xor1) / S(81) / L(3)
-		"\x65\x7f\x61\x51\x36\x33\xbc\xcf\x84\x54\x3f\x87\x0d\x80\xa3\x92",
-		// "CFDictionaryAddValue" / M(Xor2) / S(176) / L(20)
-		"\xe6\xe3\xe1\xcc\xc6\xd1\xcc\xca\xcb\xc4\xd7\xdc\xe4\xc1\xc1\xf3\xc4\xc9\xd0\xc0\xa5",
-		// "dlsym" / M(Rot) / S(121) / L(5)
-		"\xdd\xe5\xec\xf2\xe6\x79\x73\xed\x89\xf1\x51\x3d\x6f\xaf\x5c\xbc",
-		// "X509_get_ext_by_OBJ" / M(Xor1) / S(193) / L(19)
-		"\x99\xf4\xf1\xf8\x9e\xa6\xa4\xb5\x9e\xa4\xb9\xb5\x9e\xa3\xb8\x9e\x8e\x83\x8b\xc1",
-		// "" / M(None) / S(0) / L(0)
-		"\x0a\x64\x78\x58\xd0\xcf\x28\x33\x40\x02\x42\x9c\x14\x98\xfb\xb6\x83\x7e\x82\x16\xbb\x26\xa0\x3d\x7e\xdd\x58\xdf\xe6\xc6\x34\x00",
-		// "/System/Library/Frameworks/Security.framework/Security" / M(Xor4) / S(160) / L(54)
-		"\x4f\x33\x19\x13\x14\x05\x0d\x4f\x2c\x09\x02\x12\x01\x12\x19\x4f\x26\x12\x01\x0d\x05\x17\x0f\x12\x0b\x13\x4f\x33\x05\x03\x15\x12\x09\x14\x19\x4e\x06\x12\x01\x0d\x05\x17\x0f\x12\x0b\x4f\x33\x05\x03\x15\x12\x09\x14\x19\x60",
-		// "CFArrayCreateMutable" / M(Rot) / S(18) / L(20)
-		"\x55\x58\x53\x84\x84\x73\x8b\x55\x84\x77\x73\x86\x77\x5f\x87\x86\x73\x74\x7e\x77\x12",
-		// "EVP_DigestUpdate" / M(Xor2) / S(35) / L(16)
-		"\x77\x64\x62\x6d\x76\x5b\x55\x57\x41\x46\x67\x42\x56\x53\x46\x57\x32",
-		// "ASN1_get_object" / M(Xor2) / S(43) / L(15)
-		"\x7a\x68\x75\x0a\x64\x5c\x5e\x4f\x64\x54\x59\x51\x5e\x58\x4f\x3b",
-		// "SecKeychainSearchCopyNext" / M(Xor2) / S(209) / L(25)
-		"\xa0\x96\x90\xb8\x96\x8a\x90\x9b\x92\x9a\x9d\xa0\x96\x92\x81\x90\x9b\xb0\x9c\x83\x8a\xbd\x96\x8b\x87\xf3\xa5\x28\x39\xb3\x5b\xd3\x1f\x08",
-		// "." / M(Xor3) / S(103) / L(1)
-		"\x59\x77\x70\xcf\x2f\x0e\x62\x3e\x4e\x11\x41\x4a\x11\x7f\x6f\xa3",
-		// "strncmp" / M(Xor2) / S(174) / L(7)
-		"\xcd\xca\xcc\xd0\xdd\xd3\xce\xbe\x7a\xc7\xac\x62\x57\xc2\x4a\x0e",
-		// "yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'" / M(Xor4) / S(74) / L(32)
-		"\xf3\xf3\xf3\xf3\xad\xa7\xad\xc7\xc7\xad\xa7\xad\xee\xee\xad\xde\xad\xc2\xc2\xad\xb0\xad\xe7\xe7\xad\xb0\xad\xf9\xf9\xad\xd0\xad\x8a",
-		// "" / M(None) / S(0) / L(0)
-		"\x44\x4a\x44\x1b\x2e\x12\x41\x44\x33\x1a\xf5\x18\x23\xe6\xa4\xba\x63\x51\xa8\x2f\xe9\xee\x2e\x09\x20\x2d\x14\xb5\xa0\x16\xf1\xfc",
-		// "CFReadStreamClose" / M(Xor4) / S(162) / L(17)
-		"\x27\x22\x36\x01\x05\x00\x37\x10\x16\x01\x05\x09\x27\x08\x0b\x17\x01\x64",
-		// "/usr/lib/libSystem.dylib" / M(Xor1) / S(39) / L(24)
-		"\x08\x52\x54\x55\x08\x4b\x4e\x45\x08\x4b\x4e\x45\x74\x5e\x54\x53\x42\x4a\x09\x43\x5e\x4b\x4e\x45\x27\x3b\x44\x76\xd4\x85\xd2\x0a\xf0",
-		// "" / M(None) / S(0) / L(0)
-		"\xcf\x28\xa6\xfb\x75\x15\x11\xc8\x1a\x30\x6d\x8c\x3d\xb1\x0f\x74\xbc\x2a\xca\x30\x25\x1e\x0e\x47\x7b\x1b\x75\x32\x9d\x2b\x32\x6a",
-		// "CFReadStreamRead" / M(Xor2) / S(84) / L(16)
-		"\x06\x03\x17\x20\x24\x21\x16\x31\x37\x20\x24\x28\x17\x20\x24\x21\x45",
-		// "glob_b" / M(Xor1) / S(250) / L(6)
-		"\x9d\x96\x95\x98\xa5\x98\xfa\x87\xbc\x31\xee\x0e\x9a\x5f\x07\x67",
-		// "SHA1_Update" / M(Rot) / S(152) / L(11)
-		"\xeb\xe0\xd9\xc9\xf7\xed\x08\xfc\xf9\x0c\xfd\x98\x7d\x65\x88\x32",
-		// "globfree" / M(Xor3) / S(11) / L(8)
-		"\x7c\x77\x74\x79\x7d\x69\x7e\x7e\x1b\x5d\x79\x7b\x91\xbd\x98\x6f",
-		// "kSecMatchSearchList" / M(Xor4) / S(40) / L(19)
-		"\x4b\x73\x45\x43\x6d\x41\x54\x43\x48\x73\x45\x41\x52\x43\x48\x6c\x49\x53\x54\x20",
-		// "CFDateFormatterCreateDateFromString" / M(Rot) / S(233) / L(35)
-		"\x2c\x2f\x2d\x4a\x5d\x4e\x2f\x58\x5b\x56\x4a\x5d\x5d\x4e\x5b\x2c\x5b\x4e\x4a\x5d\x4e\x2d\x4a\x5d\x4e\x2f\x5b\x58\x56\x3c\x5d\x5b\x52\x57\x50\xe9",
-		// "/usr/lib/libobjc.dylib" / M(Xor3) / S(176) / L(22)
-		"\xe8\xb2\xb4\xb5\xe8\xab\xae\xa5\xe8\xab\xae\xa5\xa8\xa5\xad\xa4\xe9\xa3\xbe\xab\xae\xa5\xc7",
-		// "" / M(None) / S(0) / L(0)
-		"\xff\xc5\xab\x97\xa9\xf3\xab\xef\x95\x7e\x64\xb8\xc8\x10\xfb\xd9\xb2\xf8\x40\x6e\x78\xc6\xc9\x64\x29\xe1\x50\xdd\x6c\x1e\x1d\x2b",
-		// "" / M(None) / S(0) / L(0)
-		"\x9b\xef\x27\x84\xe9\xff\x79\xe2\x78\xd2\xf0\xb7\xa5\x48\x7e\x16\xf2\x94\xe2\xbf\xbf\x14\x4d\xd4\x29\xbb\x6f\x24\x0a\xac\x76\xb2",
-		// "X509_STORE_new" / M(Xor1) / S(127) / L(14)
-		"\x27\x4a\x4f\x46\x20\x2c\x2b\x30\x2d\x3a\x20\x11\x1a\x08\x7f\xac",
-		// "CFBundleShortVersionString" / M(Xor4) / S(54) / L(26)
-		"\x21\x24\x20\x17\x0c\x06\x0e\x07\x31\x0a\x0d\x10\x16\x34\x07\x10\x11\x0b\x0d\x0c\x31\x16\x10\x0b\x0c\x05\x62\x15\x6c\xb2\xda\x03\x54\x7a\x90",
-		// "kSecReturnRef" / M(Xor1) / S(24) / L(13)
-		"\x73\x4b\x7d\x7b\x4a\x7d\x6c\x6d\x6a\x76\x4a\x7d\x7e\x18\x26\xb9",
-		// "dlsym" / M(Xor1) / S(64) / L(5)
-		"\x24\x2c\x33\x39\x2d\x40\xd7\x14\x01\xe5\x10\x92\x1e\x22\x0d\x4c",
-		// "X509_free" / M(Xor1) / S(87) / L(9)
-		"\x0f\x62\x67\x6e\x08\x31\x25\x32\x32\x57\xe1\x4f\xa1\x1d\x72\x70",
-		// "CFArrayCreateMutable" / M(Xor4) / S(83) / L(20)
-		"\x8c\x89\x8e\xbd\xbd\xae\xb6\x8c\xbd\xaa\xae\xbb\xaa\x82\xba\xbb\xae\xad\xa3\xaa\xcf",
-		// "" / M(None) / S(0) / L(0)
-		"\x05\x92\xc8\x11\x6a\xb2\x5a\x9b\x05\xac\x8c\xb9\x06\xb4\x16\x55\xb7\x94\x6e\x47\x14\x70\xb5\xe9\xe9\x95\xbb\xd7\x94\xc6\x88\xdc",
-		// "sk_value" / M(Xor3) / S(176) / L(8)
-		"\xb3\xab\x9f\xb6\xa1\xac\xb5\xa5\xc0\xae\x40\x85\xc9\xa6\x8a\x04",
-		// "CFDataAppendBytes" / M(Xor3) / S(192) / L(17)
-		"\x91\x94\x96\xb3\xa6\xb3\x93\xa2\xa2\xb7\xbc\xb6\x90\xab\xa6\xb7\xa1\xd2",
-		// "" / M(None) / S(0) / L(0)
-		"\xcc\x43\x2b\xec\x42\xc9\xff\x9d\xdc\x4d\x51\x78\x00\xdc\x1e\x40\xd2\xda\x69\x32\x17\xaf\x29\x28\xc5\x84\xe6\x7d\x70\x90\x9b\x68",
-		// "kSecMatchLimitAll" / M(Xor2) / S(29) / L(17)
-		"\x64\x5c\x6a\x6c\x42\x6e\x7b\x6c\x67\x43\x66\x62\x66\x7b\x4e\x63\x63\x0f",
-		// "ASN1_OBJECT_free" / M(Xor3) / S(31) / L(16)
-		"\x71\x63\x7e\x01\x6f\x7f\x72\x7a\x75\x73\x64\x6f\x56\x42\x55\x55\x30",
-		// "CFBundleCopyBundleURL" / M(Xor2) / S(247) / L(21)
-		"\xa2\xa7\xa3\x94\x8f\x85\x8d\x84\xa2\x8e\x91\x98\xa3\x94\x8f\x85\x8d\x84\xb4\xb3\xad\xe1",
-		// "" / M(None) / S(0) / L(0)
-		"\xcf\x3e\x67\x8e\xb4\x3a\x36\x77\xc2\x93\xde\xe1\x59\x06\xbf\xc0\xd0\x36\xf1\x17\x56\xf7\x41\x64\x73\xec\x85\xb3\x14\xc5\x67\x65",
-		// "" / M(None) / S(0) / L(0)
-		"\x8b\xbd\x9a\x1e\x83\x18\x80\x11\x0a\x32\x40\x00\x58\x32\xe7\x60\x10\xf9\xf8\xbc\x7c\xd5\x00\x6a\xb3\xa9\xf4\x96\xb6\x1d\xf6\xb0",
-		// "" / M(None) / S(0) / L(0)
-		"\x89\xab\xa1\x58\xad\x8d\xd8\x6f\x26\xf7\x1e\x99\x7b\x6b\x63\x09\x39\xdb\xbf\x7e\x0f\x4a\x6e\xdb\x34\xee\x7d\x2b\x6b\xf3\x39\x9a",
-		// "strcmp" / M(Xor4) / S(42) / L(6)
-		"\xd3\xd4\xd2\xc3\xcd\xd0\xa0\xb5\x08\x3d\x7b\x7f\x22\xf5\x8a\x30",
-		// "kSecMatchSubjectContains" / M(Xor2) / S(224) / L(24)
-		"\xaa\x92\xa4\xa2\x8c\xa0\xb5\xa2\xa9\x92\xb4\xa3\xab\xa4\xa2\xb5\x82\xae\xaf\xb5\xa0\xa8\xaf\xb2\xc1\xa9\x4e\x7b\x33\xb6\xf1\x92\x45",
-		// "CFDataAppendBytes" / M(Xor4) / S(15) / L(17)
-		"\x4d\x48\x4a\x6f\x7a\x6f\x4f\x7e\x7e\x6b\x60\x6a\x4c\x77\x7a\x6b\x7d\x0e",
-		// "CFReadStreamCreateWithFile" / M(Xor3) / S(85) / L(26)
-		"\x3b\x3e\x2a\x1d\x19\x1c\x2b\x0c\x0a\x1d\x19\x15\x3b\x0a\x1d\x19\x0c\x1d\x2f\x11\x0c\x10\x3e\x11\x14\x1d\x78\x41\x1c\x95\xee\x22\x3d\x8c\x05",
-		// "PKCS7_get0_signers" / M(Xor2) / S(87) / L(18)
-		"\x14\x0f\x07\x17\x73\x1b\x23\x21\x30\x74\x1b\x37\x2d\x23\x2a\x21\x36\x37\x44",
-		// "NSApplicationMain" / M(Xor2) / S(41) / L(17)
-		"\x75\x68\x7a\x4b\x4b\x57\x52\x58\x5a\x4f\x52\x54\x55\x76\x5a\x52\x55\x3b",
-		// "CFDataGetLength" / M(Xor1) / S(52) / L(15)
-		"\x77\x72\x70\x55\x40\x55\x73\x51\x40\x78\x51\x5a\x53\x40\x5c\x34",
-		// "" / M(None) / S(0) / L(0)
-		"\x0c\x48\xe1\xbe\xb6\x7c\xfc\x07\xc0\x1c\xfd\xfd\xc6\xb6\xfc\xd7\x75\x05\x19\x8a\xb1\x03\x76\xee\x9f\x58\x76\xef\xd6\x5c\x72\x1e",
-		// "" / M(None) / S(0) / L(0)
-		"\x37\x02\x9c\x7d\xa4\xac\x0c\x61\x66\xba\x64\x84\x98\x6a\x64\x45\x4f\x25\xb4\x7c\x1d\xdc\x28\xed\x11\xdf\x21\x39\xd7\x4f\xfb\x5e",
-		// "611E5B662C593A08FF58D14AE22452D198DF6C60" / M(Xor3) / S(108) / L(40)
-		"\xab\xac\xac\xd8\xa8\xdf\xab\xab\xaf\xde\xa8\xa4\xae\xdc\xad\xa5\xdb\xdb\xa8\xa5\xd9\xac\xa9\xdc\xd8\xaf\xaf\xa9\xa8\xaf\xd9\xac\xa4\xa5\xd9\xdb\xab\xde\xab\xad\x9d\xb7\x83\xb7\xba\xd7\x9a\x4c\xd5",
-		// "objc_getClass" / M(Rot) / S(182) / L(13)
-		"\x25\x18\x20\x19\x15\x1d\x1b\x2a\xf9\x22\x17\x29\x29\xb6\x80\xdb",
-		// "CFReadStreamOpen" / M(Xor1) / S(151) / L(16)
-		"\xd4\xd1\xc5\xf2\xf6\xf3\xc4\xe3\xe5\xf2\xf6\xfa\xd8\xe7\xf2\xf9\x97",
-		// "CFBundleIdentifier" / M(Xor3) / S(172) / L(18)
-		"\xfc\xf9\xfd\xca\xd1\xdb\xd3\xda\xf6\xdb\xda\xd1\xcb\xd6\xd9\xd6\xda\xcd\xbf",
-		// "4.0" / M(Xor1) / S(178) / L(3)
-		"\x86\x9c\x82\xb2\x29\xcc\x6e\x61\x3a\x4a\x70\x0e\x7c\x0f\x4b\xd7",
-		// "glob_b" / M(Rot) / S(139) / L(6)
-		"\xf2\xf7\xfa\xed\xea\xed\x8b\x5a\x59\x6b\x7d\x09\x5a\x00\x60\x0d",
-		// "1.2.840.113635.100.6.11.1" / M(Rot) / S(230) / L(25)
-		"\x17\x14\x18\x14\x1e\x1a\x16\x14\x17\x17\x19\x1c\x19\x1b\x14\x17\x16\x16\x14\x1c\x14\x17\x17\x14\x17\xe6\x21\x38\x14\x6c\xf4\xf9\x9b\xc5",
-		// "" / M(None) / S(0) / L(0)
-		"\xb6\x43\x99\x41\x1e\x91\x73\x2f\xb6\xf4\xd5\x35\xe6\x9a\xc6\xb1\x46\x96\xcd\x9c\x84\x22\x23\xd8\x4b\x59\xe4\x63\x8e\x7a\xed\x36",
-		// "CFDataGetLength" / M(Xor3) / S(160) / L(15)
-		"\xf3\xf6\xf4\xd1\xc4\xd1\xf7\xd5\xc4\xfc\xd5\xde\xd7\xc4\xd8\xb0",
-		// "" / M(None) / S(0) / L(0)
-		"\x03\x70\xae\x62\x84\xca\x7f\x9d\xde\x1e\xae\x80\x57\x05\xca\x38\x94\xc7\x55\x74\xc1\x80\x71\x80\x3f\x28\x92\xbc\x0c\xa9\xb0\x18",
-		// "EVP_DigestFinal" / M(Xor2) / S(95) / L(15)
-		"\x0a\x19\x1f\x10\x0b\x26\x28\x2a\x3c\x3b\x09\x26\x21\x2e\x23\x4f",
-		// "/System/Library/Frameworks/AppKit.framework/AppKit" / M(Xor2) / S(191) / L(50)
-		"\xa3\xdf\xf5\xff\xf8\xe9\xe1\xa3\xc0\xe5\xee\xfe\xed\xfe\xf5\xa3\xca\xfe\xed\xe1\xe9\xfb\xe3\xfe\xe7\xff\xa3\xcd\xfc\xfc\xc7\xe5\xf8\xa2\xea\xfe\xed\xe1\xe9\xfb\xe3\xfe\xe7\xa3\xcd\xfc\xfc\xc7\xe5\xf8\x8c",
-		// "CC_SHA1" / M(Xor1) / S(247) / L(7)
-		"\xb4\xb4\xa8\xa4\xbf\xb6\xc6\xf7\x28\x8e\x23\x94\x7b\xfa\xfb\x15",
-		// "" / M(None) / S(0) / L(0)
-		"\x16\xb7\x86\x66\x42\xc0\xe7\x0e\x02\x05\x47\x10\x60\xa2\x67\xcb\x1a\xbb\xd0\xd2\x6e\x44\x86\xea\x5a\xf7\xdb\x1e\x87\xbf\xb6\xd0",
-		// "CFEqual" / M(Xor2) / S(136) / L(7)
-		"\xdb\xde\xdd\xe9\xed\xf9\xf4\x98\x2a\x33\x03\xbc\x1d\x7e\x15\x9e",
-		// "sk_free" / M(Xor4) / S(64) / L(7)
-		"\x73\x6b\x5f\x66\x72\x65\x65\x00\x04\x2d\xed\x89\x4f\xed\xe4\x89",
-		// "" / M(None) / S(0) / L(0)
-		"\x1c\xa8\x38\x47\xa5\x27\xd1\xc9\xad\x99\xa3\xef\x12\x2c\xf9\x54\xce\x9b\xe0\xed\x21\xf0\x62\x45\x9b\xdd\x2d\xfb\x1b\xbf\x3c\x38",
-		// "BIO_new" / M(Xor1) / S(235) / L(7)
-		"\xa9\xa2\xa4\xb4\x85\x8e\x9c\xeb\x5b\xd8\x3a\x71\x6c\xa0\x19\xaa",
-		// "" / M(None) / S(0) / L(0)
-		"\x58\xae\x6d\x71\x90\x3b\xd1\xc5\xec\x35\xf1\x80\x22\x95\x88\x14\x5c\xfd\xf0\x8c\xa4\xf7\x93\xe3\x50\x89\xd9\x33\x96\x95\xf7\xe7",
-		// "" / M(None) / S(0) / L(0)
-		"\xad\x6e\xfd\x91\x09\x64\xcc\xba\x3e\xe2\xfd\x94\x4c\x6b\xb2\xb7\x8d\xa4\x21\xe7\x28\xa6\x41\x71\x01\xff\x73\xfe\x31\x6d\xf9\x31",
-		// "sk_num" / M(Xor1) / S(10) / L(6)
-		"\x79\x61\x55\x64\x7f\x67\x0a\xc9\x71\x18\x0b\x29\xc6\x7d\x47\x5e",
-		// "sk_value" / M(Xor2) / S(130) / L(8)
-		"\xe1\xf9\xcd\xe4\xf3\xfe\xe7\xf7\x92\xdd\xee\x32\x23\x70\x0d\x96",
-		// "" / M(None) / S(0) / L(0)
-		"\xf6\x0e\x83\x8e\x49\x1d\x61\xa5\x70\x4c\x6b\xbc\xce\xec\xa2\xdf\x88\xda\xc0\x97\x64\x8a\xed\x7b\x77\xef\x0e\x7b\x1b\xae\x59\x99",
-		// "OBJ_txt2obj" / M(Xor2) / S(206) / L(11)
-		"\x91\x9c\x94\x81\xaa\xa6\xaa\xec\xb1\xbc\xb4\xde\xd0\xdf\x71\x3f",
-		// "61:1e:5b:66:2c:59:3a:08:ff:58:d1:4a:e2:24:52:d1:98:df:6c:60" / M(Xor1) / S(101) / L(59)
-		"\x53\x54\x5f\x54\x00\x5f\x50\x07\x5f\x53\x53\x5f\x57\x06\x5f\x50\x5c\x5f\x56\x04\x5f\x55\x5d\x5f\x03\x03\x5f\x50\x5d\x5f\x01\x54\x5f\x51\x04\x5f\x00\x57\x5f\x57\x51\x5f\x50\x57\x5f\x01\x54\x5f\x5c\x5d\x5f\x01\x03\x5f\x53\x06\x5f\x53\x55\x65\x5a\x13\x21\x71\x0e\x0b\xea\xff",
-		// "BIO_write" / M(Xor1) / S(114) / L(9)
-		"\x30\x3b\x3d\x2d\x05\x00\x1b\x06\x17\x72\x72\x38\xb7\x8b\x8e\xb1",
-		// "getifaddrs" / M(Xor1) / S(139) / L(10)
-		"\xec\xee\xff\xe2\xed\xea\xef\xef\xf9\xf8\x8b\x00\xea\x30\x37\xfb",
-		// "CFBundleIdentifier" / M(Xor3) / S(249) / L(18)
-		"\x4f\x4a\x4e\x79\x62\x68\x60\x69\x45\x68\x69\x62\x78\x65\x6a\x65\x69\x7e\x0c",
-		// "CFArrayCreateMutable" / M(Xor4) / S(192) / L(20)
-		"\x83\x86\x81\xb2\xb2\xa1\xb9\x83\xb2\xa5\xa1\xb4\xa5\x8d\xb5\xb4\xa1\xa2\xac\xa5\xc0",
+	static const char *SEEAppStoreReceipt_Strings[573] = {
+		// "CFStringCompare" / M(Xor2) / S(91) / L(15)
+		"\x08\x0d\x18\x3f\x39\x22\x25\x2c\x08\x24\x26\x3b\x2a\x39\x2e\x4b",
+		// "CFBundleIdentifier" / M(Xor4) / S(156) / L(18)
+		"\xd7\xd2\xd6\xe1\xfa\xf0\xf8\xf1\xdd\xf0\xf1\xfa\xe0\xfd\xf2\xfd\xf1\xe6\x94",
+		// "" / M(None) / S(0) / L(0)
+		"\x09\xd3\x00\x39\xa2\x50\xff\x04\xd4\xac\x2a\xc2\xdc\xdf\x0d\xf4\x77\xc1\xa6\x58\x92\x1f\x31\x54\x1e\xbf\xc7\x7c\xe6\xe2\xc0\xd8",
+		// "dlopen" / M(Rot) / S(93) / L(6)
+		"\xc1\xc9\xcc\xcd\xc2\xcb\x5d\xd5\x03\x58\x46\x1d\x7e\xb0\x5c\x9c",
+		// "CFBundleGetValueForInfoDictionaryKey" / M(Rot) / S(85) / L(36)
+		"\x98\x9b\x97\xca\xc3\xb9\xc1\xba\x9c\xba\xc9\xab\xb6\xc1\xca\xba\x9b\xc4\xc7\x9e\xc3\xbb\xc4\x99\xbe\xb8\xc9\xbe\xc4\xc3\xb6\xc7\xce\xa0\xba\xce\x55",
+		// "BIO_s_mem" / M(Xor3) / S(83) / L(9)
+		"\x21\x2a\x2c\x3c\x10\x3c\x0e\x06\x0e\x63\x23\x20\x47\x78\x58\x2b",
+		// "CFArrayAppendValue" / M(Xor1) / S(127) / L(18)
+		"\x3c\x39\x3e\x0d\x0d\x1e\x06\x3e\x0f\x0f\x1a\x11\x1b\x29\x1e\x13\x0a\x1a\x7f",
+		// "" / M(None) / S(0) / L(0)
+		"\x0f\x1d\x51\xf5\xab\x14\xc0\x8e\x78\xd7\xf2\x50\xc5\x6a\x2c\x4b\xdc\x3a\xa3\xee\xd5\xe6\xb5\x31\xc4\xe3\xe8\xad\xa5\xeb\x44\x45",
+		// "" / M(None) / S(0) / L(0)
+		"\x34\x52\xcf\x8b\x1a\xa2\xc7\x2c\xe5\x6c\xb4\xa4\x4a\x4b\x9f\xec\xfa\xe4\x93\x38\x3d\xd5\x94\xc9\xe8\xfe\x25\x1f\xfa\x1d\xc7\x4c",
+		// "611e5b662c593a08ff58d14ae22452d198df6c60" / M(Xor3) / S(185) / L(40)
+		"\xdc\xdb\xdb\x8f\xdf\x88\xdc\xdc\xd8\x89\xdf\xd3\xd9\x8b\xda\xd2\x8c\x8c\xdf\xd2\x8e\xdb\xde\x8b\x8f\xd8\xd8\xde\xdf\xd8\x8e\xdb\xd3\xd2\x8e\x8c\xdc\x89\xdc\xda\xea\xed\x15\xc0\x3d\xe0\x16\x69\xd9",
+		// "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation" / M(Xor3) / S(49) / L(66)
+		"\x5b\x27\x0d\x07\x00\x11\x19\x5b\x38\x1d\x16\x06\x15\x06\x0d\x5b\x32\x06\x15\x19\x11\x03\x1b\x06\x1f\x07\x5b\x37\x1b\x06\x11\x32\x1b\x01\x1a\x10\x15\x00\x1d\x1b\x1a\x5a\x12\x06\x15\x19\x11\x03\x1b\x06\x1f\x5b\x37\x1b\x06\x11\x32\x1b\x01\x1a\x10\x15\x00\x1d\x1b\x1a\x74",
+		// "" / M(None) / S(0) / L(0)
+		"\xf1\x86\x9c\x20\x20\xe1\xac\xef\x3f\xbf\x5a\x9c\xa9\xe0\x9c\xfb\xfa\xe9\x88\x86\xf1\x26\x7d\xe8\x60\x49\xef\xf9\x82\xe5\x7f\xf6",
+		// "" / M(None) / S(0) / L(0)
+		"\x2c\xf4\x4a\xad\xa2\xbe\x50\xff\xea\xaa\xb0\xb7\xe4\x6e\x4c\xff\x9d\xdb\x2f\x00\x9b\xe1\xcc\xfb\x59\xa7\xd6\x73\x3f\xed\x9e\x40",
+		// "SecKeychainSearchCreateFromAttributes" / M(Xor4) / S(153) / L(37)
+		"\xe5\xd3\xd5\xfd\xd3\xcf\xd5\xde\xd7\xdf\xd8\xe5\xd3\xd7\xc4\xd5\xde\xf5\xc4\xd3\xd7\xc2\xd3\xf0\xc4\xd9\xdb\xf7\xc2\xc2\xc4\xdf\xd4\xc3\xc2\xd3\xc5\xb6",
+		// "CFDataCreateMutable" / M(Rot) / S(213) / L(19)
+		"\x18\x1b\x19\x36\x49\x36\x18\x47\x3a\x36\x49\x3a\x22\x4a\x49\x36\x37\x41\x3a\xd5",
+		// "alloc" / M(Rot) / S(186) / L(5)
+		"\x1b\x26\x26\x29\x1d\xba\x10\x19\x6b\xc3\x83\xe3\x47\xbc\xbc\xeb",
+		// "strlen" / M(Xor2) / S(242) / L(6)
+		"\x91\x96\x90\x8e\x87\x8c\xe2\xef\xca\x81\xbc\xe6\xea\xa6\xf2\xc8",
+		// "CFBundleShortVersionString" / M(Xor4) / S(70) / L(26)
+		"\xd1\xd4\xd0\xe7\xfc\xf6\xfe\xf7\xc1\xfa\xfd\xe0\xe6\xc4\xf7\xe0\xe1\xfb\xfd\xfc\xc1\xe6\xe0\xfb\xfc\xf5\x92\x81\x9d\x2a\x01\xe4\xe4\xde\x24",
+		// "%02X" / M(Xor1) / S(208) / L(4)
+		"\xf5\xe0\xe2\x88\xd0\xec\x3f\xa5\x72\x2c\xb9\x43\xbe\x01\x1f\xd5",
+		// "CFDictionaryGetValue" / M(Xor3) / S(138) / L(20)
+		"\xdc\xd9\xdb\xf6\xfc\xeb\xf6\xf0\xf1\xfe\xed\xe6\xd8\xfa\xeb\xc9\xfe\xf3\xea\xfa\x9f",
+		// "EVP_get_digestbyname" / M(Xor3) / S(31) / L(20)
+		"\x71\x62\x64\x6b\x53\x51\x40\x6b\x50\x5d\x53\x51\x47\x40\x56\x4d\x5a\x55\x59\x51\x34",
+		// "d2i_PKCS7_bio" / M(Xor3) / S(70) / L(13)
+		"\x32\x64\x3f\x09\x06\x1d\x15\x05\x61\x09\x34\x3f\x39\x56\xb1\xa6",
+		// "" / M(None) / S(0) / L(0)
+		"\xd5\xaf\xec\xf1\xfc\x2d\xae\xfa\x4b\xac\x56\xf0\x8a\x9c\x1c\x65\xf0\x48\x23\x0f\xa6\x92\x57\xec\x1f\x9a\xc1\xb0\xc2\x22\x50\xef",
+		// "yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'" / M(Xor1) / S(249) / L(32)
+		"\x80\x80\x80\x80\xde\xd4\xde\xb4\xb4\xde\xd4\xde\x9d\x9d\xde\xad\xde\xb1\xb1\xde\xc3\xde\x94\x94\xde\xc3\xde\x8a\x8a\xde\xa3\xde\xf9",
+		// "IOBSDNameMatching" / M(Xor4) / S(196) / L(17)
+		"\x81\x87\x8a\x9b\x8c\x86\xa9\xa5\xad\x85\xa9\xbc\xab\xa0\xa1\xa6\xaf\xc8",
+		// "/System/Library/Frameworks/AppKit.framework/AppKit" / M(Xor1) / S(89) / L(50)
+		"\x76\x0a\x20\x2a\x2d\x3c\x34\x76\x15\x30\x3b\x2b\x38\x2b\x20\x76\x1f\x2b\x38\x34\x3c\x2e\x36\x2b\x32\x2a\x76\x18\x29\x29\x12\x30\x2d\x77\x3f\x2b\x38\x34\x3c\x2e\x36\x2b\x32\x76\x18\x29\x29\x12\x30\x2d\x59",
+		// "/System/Library/Frameworks/IOKit.framework/IOKit" / M(Xor2) / S(179) / L(48)
+		"\xad\xd1\xfb\xf1\xf6\xe7\xef\xad\xce\xeb\xe0\xf0\xe3\xf0\xfb\xad\xc4\xf0\xe3\xef\xe7\xf5\xed\xf0\xe9\xf1\xad\xcb\xcd\xc9\xeb\xf6\xac\xe4\xf0\xe3\xef\xe7\xf5\xed\xf0\xe9\xad\xcb\xcd\xc9\xeb\xf6\x82",
+		// "CFEqual" / M(Xor3) / S(78) / L(7)
+		"\x1d\x18\x1b\x2f\x2b\x3f\x32\x5e\xbf\x9d\x00\xf4\x99\xd7\xca\xcd",
+		// "/usr/lib/libobjc.dylib" / M(Rot) / S(50) / L(22)
+		"\x61\xa7\xa5\xa4\x61\x9e\x9b\x94\x61\x9e\x9b\x94\xa1\x94\x9c\x95\x60\x96\xab\x9e\x9b\x94\x32",
+		// "CFDateFormatterSetFormat" / M(Xor3) / S(173) / L(24)
+		"\x8d\x88\x8a\xaf\xba\xab\x88\xa1\xbc\xa3\xaf\xba\xba\xab\xbc\x9d\xab\xba\x88\xa1\xbc\xa3\xaf\xba\xce\xe5\x01\xc6\x19\x90\x3c\x6f\x82",
+		// "" / M(None) / S(0) / L(0)
+		"\x5e\x03\x60\xf3\xe4\xb0\xe3\x38\xeb\xe7\xdc\x8c\x3a\x39\xa3\x6c\x88\x3b\xb1\x8e\x2a\x7c\xef\xe5\x51\xe8\x91\x08\x49\xfe\x17\x13",
+		// "" / M(None) / S(0) / L(0)
+		"\xc1\x6f\x14\xfe\x61\xe2\xc2\x84\xc0\xe8\x5d\x18\x67\xdb\xfd\x39\x49\xd8\x1f\xba\xd8\x51\xd8\x4b\x41\xf1\xdf\xe5\x4e\x00\x76\x67",
+		// "" / M(None) / S(0) / L(0)
+		"\x27\xf4\x2e\x22\xd1\xc8\x6f\x4e\xf2\xd9\x6f\x70\xa3\x9d\x0d\x06\xa6\x9f\x29\x64\xaf\x16\x9c\x5a\x47\x1f\xcf\x3e\x11\xf9\x14\x71",
+		// "" / M(None) / S(0) / L(0)
+		"\xf5\x83\xa8\xf7\x37\x5f\x2b\x42\x31\x80\x90\x74\xa1\xc1\xae\xe7\xa9\xbf\x16\x10\xee\x7c\x52\xb5\xfe\xab\x79\xda\x90\x0f\x23\xaf",
+		// "" / M(None) / S(0) / L(0)
+		"\xa8\xef\xdf\x2f\xfb\x4b\x58\xbf\xf5\x69\x4d\x9f\x27\x20\x08\x92\x21\x24\xc4\x37\x69\x04\x4e\x46\xdb\xb9\x17\x07\x63\xe0\xea\x71",
+		// "Apple Root CA" / M(Xor1) / S(7) / L(13)
+		"\x46\x77\x77\x6b\x62\x27\x55\x68\x68\x73\x27\x44\x46\x07\x15\x75",
+		// "CFReadStreamOpen" / M(Xor2) / S(238) / L(16)
+		"\xbc\xb9\xad\x9a\x9e\x9b\xac\x8b\x8d\x9a\x9e\x92\xb0\x8f\x9a\x91\xff",
+		// "" / M(None) / S(0) / L(0)
+		"\x8a\x27\x26\x02\x9a\x8d\xdf\x17\x9e\xf2\x4b\xb7\x13\x4d\x67\xb7\xcf\xc0\xc2\x88\xac\x42\xc4\x36\x64\xb8\x08\xf9\xb1\xca\xe0\xdd",
+		// "X509_STORE_new" / M(Xor4) / S(187) / L(14)
+		"\xe8\x85\x80\x89\xef\xe3\xe4\xff\xe2\xf5\xef\xde\xd5\xc7\xb0\x9d",
+		// "61:1E:5B:66:2C:59:3A:08:FF:58:D1:4A:E2:24:52:D1:98:DF:6C:60" / M(Xor2) / S(177) / L(59)
+		"\xc3\xc4\xcf\xc4\xb0\xcf\xc0\xb7\xcf\xc3\xc3\xcf\xc7\xb6\xcf\xc0\xcc\xcf\xc6\xb4\xcf\xc5\xcd\xcf\xb3\xb3\xcf\xc0\xcd\xcf\xb1\xc4\xcf\xc1\xb4\xcf\xb0\xc7\xcf\xc7\xc1\xcf\xc0\xc7\xcf\xb1\xc4\xcf\xcc\xcd\xcf\xb1\xb3\xcf\xc3\xb6\xcf\xc3\xc5\xf5\xaf\xd4\x52\x78\xf2\xd9\x80\xb0",
+		// "" / M(None) / S(0) / L(0)
+		"\xcb\x5b\x54\x70\x0c\xba\x2a\x69\x54\x04\x75\xe0\x58\x0b\x81\xa4\x55\x5f\xff\x69\x2e\x20\x91\xad\x5b\xca\xad\x29\x80\x24\xed\x35",
+		// "dlsym" / M(Rot) / S(115) / L(5)
+		"\xd7\xdf\xe6\xec\xe0\x73\xec\x2f\x2e\x26\xd1\xe4\xb3\xf4\x84\x43",
+		// "IOMasterPort" / M(Xor3) / S(67) / L(12)
+		"\x1a\x1c\x1e\x32\x20\x27\x36\x21\x03\x3c\x21\x27\x53\x99\x6b\x4e",
+		// "" / M(None) / S(0) / L(0)
+		"\x9d\x47\x42\x33\xf5\x5b\x35\x2b\x6a\x63\x89\x42\x13\xa3\xa5\xb7\x5d\x3d\x4b\x87\x49\xbc\xf0\x96\xbe\x0c\x2d\xd9\xc5\xce\x33\x29",
+		// "CFDictionaryAddValue" / M(Xor1) / S(215) / L(20)
+		"\x94\x91\x93\xbe\xb4\xa3\xbe\xb8\xb9\xb6\xa5\xae\x96\xb3\xb3\x81\xb6\xbb\xa2\xb2\xd7",
+		// "CFDateFormatterSetFormat" / M(Xor1) / S(230) / L(24)
+		"\xa5\xa0\xa2\x87\x92\x83\xa0\x89\x94\x8b\x87\x92\x92\x83\x94\xb5\x83\x92\xa0\x89\x94\x8b\x87\x92\xe6\x69\xa8\xf1\xf1\x84\x68\xb8\xdb",
+		// "" / M(None) / S(0) / L(0)
+		"\x99\x11\x56\x15\xf7\xde\xfe\x9e\x02\xc1\x1d\xa7\xd7\xd4\xbc\xc5\x0c\xa1\xfc\xa7\x5e\x1e\x01\x74\xad\x30\xdc\xe0\x63\x57\x2c\xcc",
+		// "CFDictionaryCreateMutable" / M(Rot) / S(89) / L(25)
+		"\x9c\x9f\x9d\xc2\xbc\xcd\xc2\xc8\xc7\xba\xcb\xd2\x9c\xcb\xbe\xba\xcd\xbe\xa6\xce\xcd\xba\xbb\xc5\xbe\x59\x75\x8e\xc1\x53\x8c\xc7\x0f\xd7",
+		// "setDelegate:" / M(Xor4) / S(161) / L(12)
+		"\x63\x75\x64\x54\x75\x7c\x75\x77\x71\x64\x75\x2a\x10\x12\xa5\x3a",
+		// "CFDataAppendBytes" / M(Xor2) / S(253) / L(17)
+		"\xac\xa9\xab\x8e\x9b\x8e\xae\x9f\x9f\x8a\x81\x8b\xad\x96\x9b\x8a\x9c\xef",
+		// "CFURLCreateCopyAppendingPathComponent" / M(Xor2) / S(114) / L(37)
+		"\x17\x12\x01\x06\x18\x17\x26\x31\x35\x20\x31\x17\x3b\x24\x2d\x15\x24\x24\x31\x3a\x30\x3d\x3a\x33\x04\x35\x20\x3c\x17\x3b\x39\x24\x3b\x3a\x31\x3a\x20\x54",
+		// "EVP_DigestInit" / M(Xor1) / S(47) / L(14)
+		"\x6a\x79\x7f\x70\x6b\x46\x48\x4a\x5c\x5b\x66\x41\x46\x5b\x2f\xd4",
+		// "CFDateFormatterCreateDateFromString" / M(Xor1) / S(252) / L(35)
+		"\xbf\xba\xb8\x9d\x88\x99\xba\x93\x8e\x91\x9d\x88\x88\x99\x8e\xbf\x8e\x99\x9d\x88\x99\xb8\x9d\x88\x99\xba\x8e\x93\x91\xaf\x88\x8e\x95\x92\x9b\xfc",
+		// "PKCS7_verify" / M(Rot) / S(2) / L(12)
+		"\x52\x4d\x45\x55\x39\x61\x78\x67\x74\x6b\x68\x7b\x02\xc0\xb6\x9d",
+		// "sel_registerName" / M(Xor2) / S(123) / L(16)
+		"\x19\x0f\x06\x35\x18\x0f\x0d\x03\x19\x1e\x0f\x18\x24\x0b\x07\x0f\x6a",
+		// "CC_SHA1_Init" / M(Xor4) / S(19) / L(12)
+		"\x73\x73\x6f\x63\x78\x71\x01\x6f\x79\x5e\x59\x44\x30\x0a\xd3\xb4",
+		// "SecCertificateCopyData" / M(Xor1) / S(186) / L(22)
+		"\xe9\xdf\xd9\xf9\xdf\xc8\xce\xd3\xdc\xd3\xd9\xdb\xce\xdf\xf9\xd5\xca\xc3\xfe\xdb\xce\xdb\xba",
+		// "CFArrayGetCount" / M(Xor4) / S(51) / L(15)
+		"\x73\x76\x71\x42\x42\x51\x49\x77\x55\x44\x73\x5f\x45\x5e\x44\x30",
+		// "" / M(None) / S(0) / L(0)
+		"\x61\xc8\x25\x6c\xcc\xd1\xfa\x97\x31\xaa\x8a\xa2\x5d\xd2\x94\x49\x5f\xfc\xfc\xe5\x6a\xdb\xfc\xcc\xb0\x8d\xef\x8b\x11\x2d\xa3\x6a",
+		// "kSecClass" / M(Xor3) / S(182) / L(9)
+		"\xad\x95\xa3\xa5\x85\xaa\xa7\xb5\xb5\xc6\x6d\x7c\x6b\x1f\x7e\x40",
+		// "" / M(None) / S(0) / L(0)
+		"\x8f\x72\x1c\x35\x77\xea\x30\xc3\x41\xff\xaa\x79\xb3\x25\x77\xe1\x7f\x4f\xf0\xd8\x46\xfe\x29\xf6\x38\xb2\x4f\x97\x59\x10\x66\x6e",
+		// "" / M(None) / S(0) / L(0)
+		"\x68\x8b\xf7\xe3\x1e\x6e\xd2\x7d\x7d\xad\xf4\x92\x95\xfe\xa2\xba\x54\x3d\x3b\x7a\xd4\x93\x03\x21\x09\x91\x3d\x93\xcc\xc1\xf0\xc4",
+		// "" / M(None) / S(0) / L(0)
+		"\x82\xfd\x85\x21\x90\x79\x3e\xc5\xfa\xb3\x9d\xcb\x2a\x96\xf3\x17\xa8\xbe\x59\xc5\x44\xa5\x7d\xa4\x08\xfa\x5e\xfd\xde\x58\x3f\xb7",
+		// "CFDictionaryAddValue" / M(Rot) / S(29) / L(20)
+		"\x60\x63\x61\x86\x80\x91\x86\x8c\x8b\x7e\x8f\x96\x5e\x81\x81\x73\x7e\x89\x92\x82\x1d",
+		// "CFDataCreate" / M(Xor3) / S(56) / L(12)
+		"\x0b\x0e\x0c\x29\x3c\x29\x0b\x3a\x2d\x29\x3c\x2d\x48\xfa\xa3\xeb",
+		// "" / M(None) / S(0) / L(0)
+		"\xb2\x41\xf5\xc9\xd3\x0c\xc7\x3d\x94\x7c\x20\x0e\x4f\x5e\xa4\x65\x88\x42\x35\xce\xe2\x98\x85\xca\x4a\x43\x2c\xc6\xa5\x31\xfd\xbd",
+		// "BIO_free" / M(Rot) / S(214) / L(8)
+		"\x18\x1f\x25\x35\x3c\x48\x3b\x3b\xd6\x4c\xf2\xce\x24\xb5\xd5\x44",
+		// "%02x" / M(Xor1) / S(248) / L(4)
+		"\xdd\xc8\xca\x80\xf8\xe8\xaf\x8c\xc7\xd8\xea\xc6\x94\xc6\xad\x22",
+		// "globfree" / M(Xor1) / S(19) / L(8)
+		"\x74\x7f\x7c\x71\x75\x61\x76\x76\x13\x0d\xd0\x02\xcd\x26\x02\x47",
+		// "%02x:" / M(Xor1) / S(255) / L(5)
+		"\xda\xcf\xcd\x87\xc5\xff\xb3\x50\x82\xb6\xb2\xd8\xbf\xef\x2d\x6b",
+		// "X509_digest" / M(Xor4) / S(127) / L(11)
+		"\xa8\xc5\xc0\xc9\xaf\x94\x99\x97\x95\x83\x84\xf0\x57\xd3\x3c\xa4",
+		// "sk_value" / M(Xor1) / S(1) / L(8)
+		"\x72\x6a\x5e\x77\x60\x6d\x74\x64\x01\x0c\xa3\xbd\x36\x96\xa4\x09",
+		// "PKCS7_verify" / M(Rot) / S(235) / L(12)
+		"\x3b\x36\x2e\x3e\x22\x4a\x61\x50\x5d\x54\x51\x64\xeb\xfe\x58\x00",
+		// "glob_b" / M(Xor2) / S(121) / L(6)
+		"\x0e\x05\x06\x0b\x36\x0b\x69\x38\xf9\x64\x95\xa1\x5c\x82\x22\x30",
+		// "" / M(None) / S(0) / L(0)
+		"\x1e\x20\xab\x1c\x46\x94\x72\x43\x36\x16\x90\x75\xc2\xe4\x1f\x3e\xaf\x1b\xd1\x18\xb2\x0d\xba\xf4\x23\xd4\x1e\xb7\xc6\x32\xca\x50",
+		// "" / M(None) / S(0) / L(0)
+		"\x45\x09\x7d\xda\x9b\xbf\x45\x49\x92\x1a\xfd\xca\xe5\x77\x10\x56\x20\x57\xa7\xee\x6b\xcb\xf2\xce\xda\xa1\x9e\x6c\xf8\xb2\xfd\xec",
+		// "SHA1" / M(Rot) / S(95) / L(4)
+		"\xb2\xa7\xa0\x90\x5f\x81\xcf\x85\xc4\x35\x1e\x39\xe5\xc6\xd7\x37",
+		// "" / M(None) / S(0) / L(0)
+		"\x83\x76\x77\xf7\xff\xa7\x2d\x59\xfb\x7a\x70\xc4\xa2\xee\x01\x55\xfa\x7d\x18\x59\x39\x17\x52\x58\x86\x07\x62\xa4\xc0\x9d\x1b\x39",
+		// "CFRelease" / M(Rot) / S(44) / L(9)
+		"\x6f\x72\x7e\x91\x98\x91\x8d\x9f\x91\x2c\xac\xf8\x1e\x94\xbe\xc9",
+		// "CC_SHA1_Init" / M(Xor3) / S(145) / L(12)
+		"\xe2\xe2\xfe\xf2\xe9\xe0\x90\xfe\xe8\xcf\xc8\xd5\xa1\x1d\xfe\xf0",
+		// "ASN1_OBJECT_free" / M(Rot) / S(252) / L(16)
+		"\x3d\x4f\x4a\x2d\x5b\x4b\x3e\x46\x41\x3f\x50\x5b\x62\x6e\x61\x61\xfc",
+		// "CFDataGetLength" / M(Xor4) / S(240) / L(15)
+		"\x43\x46\x44\x61\x74\x61\x47\x65\x74\x4c\x65\x6e\x67\x74\x68\x00",
+		// "CFURLCreateFromFileSystemRepresentation" / M(Xor2) / S(83) / L(39)
+		"\x20\x25\x36\x31\x2f\x20\x11\x06\x02\x17\x06\x25\x11\x0c\x0e\x25\x0a\x0f\x06\x30\x1a\x10\x17\x06\x0e\x31\x06\x13\x11\x06\x10\x06\x0d\x17\x02\x17\x0a\x0c\x0d\x63\xf0\xaf\x99\x0c\x02\xf3\x29\x71",
+		// "" / M(None) / S(0) / L(0)
+		"\x1f\x83\x59\x21\xd5\x21\x54\xcb\x5c\x29\xd6\x11\x91\xda\x7b\x81\x1b\x97\x0a\x54\xf2\x60\xd1\x4a\x57\xf4\x9e\xde\xd2\x0c\x05\x30",
+		// "/System/Library/Keychains/SystemRootCertificates.keychain" / M(Xor4) / S(83) / L(57)
+		"\x49\x35\x1f\x15\x12\x03\x0b\x49\x2a\x0f\x04\x14\x07\x14\x1f\x49\x2d\x03\x1f\x05\x0e\x07\x0f\x08\x15\x49\x35\x1f\x15\x12\x03\x0b\x34\x09\x09\x12\x25\x03\x14\x12\x0f\x00\x0f\x05\x07\x12\x03\x15\x48\x0d\x03\x1f\x05\x0e\x07\x0f\x08\x66\x25\xb2\x33\x49\xb7\x00\x81\xfd",
+		// "" / M(None) / S(0) / L(0)
+		"\x1d\x47\xed\x90\x5c\x27\xd9\x78\x62\x81\x4f\xe4\x25\xf2\x87\x3b\xaf\x6e\x05\xe1\xcb\x0f\x33\xef\x66\x12\x33\x44\xc5\x2d\xf1\xe4",
+		// "de.codingmonkeys.SubEthaEdit.Mac" / M(Rot) / S(24) / L(32)
+		"\x7c\x7d\x46\x7b\x87\x7c\x81\x86\x7f\x85\x87\x86\x83\x7d\x91\x8b\x46\x6b\x8d\x7a\x5d\x8c\x80\x79\x5d\x7c\x81\x8c\x46\x65\x79\x7b\x18",
+		// "CFDictionaryGetValue" / M(Rot) / S(43) / L(20)
+		"\x6e\x71\x6f\x94\x8e\x9f\x94\x9a\x99\x8c\x9d\xa4\x72\x90\x9f\x81\x8c\x97\xa0\x90\x2b",
+		// "" / M(None) / S(0) / L(0)
+		"\xc7\x55\xc1\xad\xb5\x88\xf9\xdf\xe7\x9b\x4e\x10\x94\xc1\x17\x68\x8d\x8b\xab\x8e\x46\xd8\x3e\x38\x80\x98\xce\xaf\x71\x50\x7e\x82",
+		// "setDelegate:" / M(Xor2) / S(217) / L(12)
+		"\xba\xac\xbd\x8d\xac\xa5\xac\xae\xa8\xbd\xac\xf3\xc9\x0b\xb6\x90",
+		// "" / M(None) / S(0) / L(0)
+		"\x99\xb3\x95\x14\x5d\xc6\x23\x47\xe0\x7a\x36\x3d\xc8\x5a\xb0\x2d\x92\x9a\x75\x15\xbb\xa0\x65\x44\xbb\x0e\x17\xa1\x2b\x33\xbb\x9f",
+		// "CFReadStreamClose" / M(Xor1) / S(105) / L(17)
+		"\x2a\x2f\x3b\x0c\x08\x0d\x3a\x1d\x1b\x0c\x08\x04\x2a\x05\x06\x1a\x0c\x69",
+		// "" / M(None) / S(0) / L(0)
+		"\xbb\xd4\xda\x57\xf8\xbc\xb7\x60\xf9\x10\x18\x31\x1c\x9e\xd3\x3b\xdd\xc0\x98\xd0\x25\x4b\xc6\xf9\xf8\xc1\x39\x05\xce\x67\x8f\x80",
+		// "CFReadStreamOpen" / M(Xor4) / S(157) / L(16)
+		"\x2e\x2b\x3f\x08\x0c\x09\x3e\x19\x1f\x08\x0c\x00\x22\x1d\x08\x03\x6d",
+		// "exit" / M(Xor4) / S(129) / L(4)
+		"\x75\x68\x79\x64\x10\xbf\x73\xbb\x34\xb4\xc0\x0f\x29\x6c\x1d\x98",
+		// "sk_num" / M(Xor2) / S(171) / L(6)
+		"\xc8\xd0\xe4\xd5\xce\xd6\xbb\x01\x45\xee\x90\xbe\x7a\x95\x8e\x85",
+		// "EVP_DigestUpdate" / M(Xor1) / S(27) / L(16)
+		"\x5e\x4d\x4b\x44\x5f\x72\x7c\x7e\x68\x6f\x4e\x6b\x7f\x7a\x6f\x7e\x1b",
+		// "RTLD_MAIN_ONLY" / M(Xor3) / S(21) / L(14)
+		"\x77\x71\x69\x61\x7a\x68\x64\x6c\x6b\x7a\x6a\x6b\x69\x7c\x25\x49",
+		// "IOServiceGetMatchingServices" / M(Xor3) / S(18) / L(28)
+		"\x7e\x78\x64\x52\x45\x41\x5e\x54\x52\x70\x52\x43\x7a\x56\x43\x54\x5f\x5e\x59\x50\x64\x52\x45\x41\x5e\x54\x52\x44\x37\x3f\xdd\x77\xda\xf8\x7f\x04\x9d",
+		// "" / M(None) / S(0) / L(0)
+		"\x80\x25\x25\x97\x3e\x12\x5a\x56\xbd\xb5\x7d\xeb\x7a\x1a\x7d\xc1\x15\x56\x67\x25\x65\x54\x10\x3a\x53\xb4\x32\x60\x7e\xa5\x05\xa3",
+		// "SecKeychainSearchCopyNext" / M(Xor1) / S(197) / L(25)
+		"\x96\xa0\xa6\x8e\xa0\xbc\xa6\xad\xa4\xac\xab\x96\xa0\xa4\xb7\xa6\xad\x86\xaa\xb5\xbc\x8b\xa0\xbd\xb1\xc5\x29\xa6\x46\x6d\x45\xdb\xb1\xa5",
+		// "" / M(None) / S(0) / L(0)
+		"\x53\x62\xb4\x31\x23\xb9\xbe\x1b\xab\x41\x68\x00\xe6\x72\xe9\xbe\x6d\x85\xd3\x6d\xe9\xe9\x7a\xdd\xd2\xc2\xe3\x0c\xee\xa0\x97\xa1",
+		// "1.2.840.113635.100.6.11.1" / M(Xor4) / S(169) / L(25)
+		"\x43\x5c\x40\x5c\x4a\x46\x42\x5c\x43\x43\x41\x44\x41\x47\x5c\x43\x42\x42\x5c\x44\x5c\x43\x43\x5c\x43\x72\xe1\x57\xbb\xef\x32\x15\xc8\x54",
+		// "CFBundleCopyBundleURL" / M(Xor3) / S(232) / L(21)
+		"\xbd\xb8\xbc\x8b\x90\x9a\x92\x9b\xbd\x91\x8e\x87\xbc\x8b\x90\x9a\x92\x9b\xab\xac\xb2\xfe",
+		// "IOMasterPort" / M(Rot) / S(104) / L(12)
+		"\xb1\xb7\xb5\xc9\xdb\xdc\xcd\xda\xb8\xd7\xda\xdc\x68\xb5\xc0\x33",
+		// "" / M(None) / S(0) / L(0)
+		"\x09\x3b\x82\x7a\x33\x0a\xd8\x56\xe9\xe1\x52\xf7\x6b\x26\xbf\x76\xe2\x70\x7d\x71\xb6\x64\x0b\xb1\x58\x78\xae\xa9\x85\xb3\x42\x54",
+		// "61:1e:5b:66:2c:59:3a:08:ff:58:d1:4a:e2:24:52:d1:98:df:6c:60" / M(Rot) / S(155) / L(59)
+		"\xd1\xcc\xd5\xcc\x00\xd5\xd0\xfd\xd5\xd1\xd1\xd5\xcd\xfe\xd5\xd0\xd4\xd5\xce\xfc\xd5\xcb\xd3\xd5\x01\x01\xd5\xd0\xd3\xd5\xff\xcc\xd5\xcf\xfc\xd5\x00\xcd\xd5\xcd\xcf\xd5\xd0\xcd\xd5\xff\xcc\xd5\xd4\xd3\xd5\xff\x01\xd5\xd1\xfe\xd5\xd1\xcb\x9b\x53\xff\x91\x15\xf1\x18\x40\x65",
+		// "IOMACAddress" / M(Xor2) / S(97) / L(12)
+		"\x38\x3e\x3c\x30\x32\x30\x15\x15\x03\x14\x02\x02\x71\x1b\x78\x8d",
+		// "" / M(None) / S(0) / L(0)
+		"\x58\x86\xae\xee\x07\xc2\xfe\xf6\xa3\x62\xef\x77\x32\x16\xd2\x20\x69\x6a\x5e\x45\x1b\xe4\x5f\xb5\xe2\xfb\xcb\x44\x03\x15\x58\xf2",
+		// "" / M(None) / S(0) / L(0)
+		"\x3e\xef\x07\xf3\xf3\xa9\xa3\xc1\x07\x13\x12\x71\x49\x26\x52\xa3\x96\xb2\xdd\x40\xaf\x2c\xfc\x66\x48\xbe\xe7\x13\xcf\x55\x53\xe1",
+		// "CFDictionaryCreateMutable" / M(Rot) / S(56) / L(25)
+		"\x7b\x7e\x7c\xa1\x9b\xac\xa1\xa7\xa6\x99\xaa\xb1\x7b\xaa\x9d\x99\xac\x9d\x85\xad\xac\x99\x9a\xa4\x9d\x38\x37\x3c\x59\x26\x98\x59\x04\xb3",
+		// "setDelegate:" / M(Xor3) / S(92) / L(12)
+		"\x1f\x09\x18\x28\x09\x00\x09\x0b\x0d\x18\x09\x56\x6c\xba\x17\x13",
+		// "objc_msgSend" / M(Xor3) / S(12) / L(12)
+		"\x73\x7e\x76\x7f\x43\x71\x6f\x7b\x4f\x79\x72\x78\x1c\x5d\x78\x51",
+		// "CFBundleCopyBundleURL" / M(Xor2) / S(94) / L(21)
+		"\x0b\x0e\x0a\x3d\x26\x2c\x24\x2d\x0b\x27\x38\x31\x0a\x3d\x26\x2c\x24\x2d\x1d\x1a\x04\x48",
+		// "_MASReceipt/receipt" / M(Xor1) / S(30) / L(19)
+		"\x41\x53\x5f\x4d\x4c\x7b\x7d\x7b\x77\x6e\x6a\x31\x6c\x7b\x7d\x7b\x77\x6e\x6a\x1e",
+		// "Contents/_MASReceipt" / M(Xor2) / S(192) / L(20)
+		"\x96\xba\xbb\xa1\xb0\xbb\xa1\xa6\xfa\x8a\x98\x94\x86\x87\xb0\xb6\xb0\xbc\xa5\xa1\xd5",
+		// "" / M(None) / S(0) / L(0)
+		"\x5b\xdc\x64\xc1\xcc\xab\xce\xc5\xd4\xac\x68\xda\x34\x32\xb9\x7c\xb3\x0d\x5d\xf0\x46\x02\x9f\x5d\x94\x2b\x8e\x32\xdc\xf7\xf2\x41",
+		// "CFDictionarySetValue" / M(Xor3) / S(234) / L(20)
+		"\xbc\xb9\xbb\x96\x9c\x8b\x96\x90\x91\x9e\x8d\x86\xac\x9a\x8b\xa9\x9e\x93\x8a\x9a\xff",
+		// "CFEqual" / M(Xor4) / S(166) / L(7)
+		"\x23\x26\x25\x11\x15\x01\x0c\x60\x9d\x31\xf9\x28\x43\xf7\xf1\xb6",
+		// "EVP_MD_CTX_init" / M(Xor4) / S(214) / L(15)
+		"\x25\x36\x30\x3f\x2d\x24\x3f\x23\x34\x38\x3f\x09\x0e\x09\x14\x60",
+		// "CFURLCreateFromFileSystemRepresentation" / M(Xor1) / S(118) / L(39)
+		"\x35\x30\x23\x24\x3a\x35\x04\x13\x17\x02\x13\x30\x04\x19\x1b\x30\x1f\x1a\x13\x25\x0f\x05\x02\x13\x1b\x24\x13\x06\x04\x13\x05\x13\x18\x02\x17\x02\x1f\x19\x18\x76\x24\x1d\x55\x74\x76\x5c\x78\x8e",
+		// "EVP_MD_CTX_init" / M(Rot) / S(32) / L(15)
+		"\x65\x76\x70\x7f\x6d\x64\x7f\x63\x74\x78\x7f\x89\x8e\x89\x94\x20",
+		// "de.codingmonkeys.SubEthaEdit.Mac" / M(Rot) / S(147) / L(32)
+		"\xf7\xf8\xc1\xf6\x02\xf7\xfc\x01\xfa\x00\x02\x01\xfe\xf8\x0c\x06\xc1\xe6\x08\xf5\xd8\x07\xfb\xf4\xd8\xf7\xfc\x07\xc1\xe0\xf4\xf6\x93",
+		// "IORegistryEntryCreateCFProperty" / M(Xor2) / S(173) / L(31)
+		"\xc4\xc2\xdf\xe8\xea\xe4\xfe\xf9\xff\xf4\xc8\xe3\xf9\xff\xf4\xce\xff\xe8\xec\xf9\xe8\xce\xcb\xdd\xff\xe2\xfd\xe8\xff\xf9\xf4\x8d",
+		// "" / M(None) / S(0) / L(0)
+		"\x3f\x66\x09\x6f\xf2\x1f\xea\x1a\xfe\xd0\xe3\xbf\xe5\xf9\xc7\xeb\x2a\xbc\x84\x9c\x78\x5b\xee\x19\x9d\xfe\xb7\x5d\xb9\xaf\xdb\xb9",
+		// "sk_free" / M(Xor3) / S(67) / L(7)
+		"\x20\x38\x0c\x35\x21\x36\x36\x53\x19\x53\x25\x76\xf4\xba\xf1\xcf",
+		// "sk_value" / M(Xor3) / S(12) / L(8)
+		"\x6f\x77\x43\x6a\x7d\x70\x69\x79\x1c\x4f\xef\x51\xa4\x98\x62\xe0",
+		// "OpenSSL_add_all_digests" / M(Rot) / S(198) / L(23)
+		"\x15\x36\x2b\x34\x19\x19\x12\x25\x27\x2a\x2a\x25\x27\x32\x32\x25\x2a\x2f\x2d\x2b\x39\x3a\x39\xc6\x09\x2f\x6a\x22\x47\xd5\x18\x7e",
 		// "CFBundleVersion" / M(Xor3) / S(38) / L(15)
 		"\x75\x70\x74\x43\x58\x52\x5a\x53\x60\x53\x44\x45\x5f\x59\x58\x36",
-		// "start" / M(Xor4) / S(190) / L(5)
-		"\x93\x94\x81\x92\x94\xe0\xa8\xc9\x2c\xfb\x6d\xa3\xb4\xc5\x1e\xd6",
-		// "CFBundleVersion" / M(Rot) / S(254) / L(15)
-		"\x41\x44\x40\x73\x6c\x62\x6a\x63\x54\x63\x70\x71\x67\x6d\x6c\xfe",
+		// "CFBundleGetIdentifier" / M(Xor2) / S(17) / L(21)
+		"\x44\x41\x45\x72\x69\x63\x6b\x62\x40\x62\x73\x4e\x63\x62\x69\x73\x6e\x61\x6e\x62\x75\x07",
+		// "receipt" / M(Xor2) / S(251) / L(7)
+		"\x99\x8e\x88\x8e\x82\x9b\x9f\xeb\xa1\xda\xc0\xae\x29\xe4\x5c\x14",
+		// "BIO_new" / M(Xor4) / S(88) / L(7)
+		"\xc2\xc9\xcf\xdf\xee\xe5\xf7\x80\xd9\xb9\x80\x1d\x8c\x67\x6f\x44",
+		// "CFDateFormatterSetFormat" / M(Xor4) / S(77) / L(24)
+		"\xae\xab\xa9\x8c\x99\x88\xab\x82\x9f\x80\x8c\x99\x99\x88\x9f\xbe\x88\x99\xab\x82\x9f\x80\x8c\x99\xed\x91\x46\x1a\x03\x19\x8b\xe3\xb0",
 		// "" / M(None) / S(0) / L(0)
-		"\x72\xb0\x29\x8f\x9c\xc6\x14\xae\x1b\x46\x26\x90\x42\xb6\x83\x85\x87\x84\xef\xb5\x52\x4b\xd8\x5c\x9b\xd2\x64\xb9\x80\x9b\x90\xc1",
-		// "strlen" / M(Xor2) / S(53) / L(6)
-		"\x56\x51\x57\x49\x40\x4b\x25\x05\xff\xd4\xb8\x09\x93\xa6\x72\x35",
-		// "PKCS7_free" / M(Xor2) / S(144) / L(10)
-		"\xd0\xcb\xc3\xd3\xb7\xdf\xe6\xf2\xe5\xe5\x80\x20\xe6\x91\x39\xaa",
+		"\xad\x97\xf7\x74\x4c\xbf\xb5\xc8\xe2\xa1\x6b\xa9\x8a\x43\x6e\x7b\x8d\x90\x7a\x7f\x3e\x43\x65\x85\xb8\x71\x77\x7d\xd2\x2a\x65\x35",
 		// "" / M(None) / S(0) / L(0)
-		"\x31\x24\x95\x3d\xa9\xeb\x5b\x03\x53\x3c\xa7\xae\x37\xa2\xa3\x1a\x53\x3b\x17\x61\x2d\xbe\x09\xb1\x7e\x05\xf9\x5f\x1c\x28\x52\x18",
-		// "kCFTypeArrayCallBacks" / M(Rot) / S(62) / L(21)
-		"\xa9\x81\x84\x92\xb7\xae\xa3\x7f\xb0\xb0\x9f\xb7\x81\x9f\xaa\xaa\x80\x9f\xa1\xa9\xb1\x3e",
-		// "yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'" / M(Xor4) / S(128) / L(32)
-		"\xf9\xf9\xf9\xf9\xa7\xad\xa7\xcd\xcd\xa7\xad\xa7\xe4\xe4\xa7\xd4\xa7\xc8\xc8\xa7\xba\xa7\xed\xed\xa7\xba\xa7\xf3\xf3\xa7\xda\xa7\x80",
+		"\xed\x41\x54\x3c\x6f\x83\x7d\xaf\x2e\xf4\x22\xf8\x1c\xab\xb3\x18\x45\x46\xe5\x3b\xdc\xb1\x54\x77\xaa\xb6\x20\x10\x50\x31\x4b\x33",
+		// "kSecMatchSubjectContains" / M(Xor2) / S(155) / L(24)
+		"\xd1\xe9\xdf\xd9\xf7\xdb\xce\xd9\xd2\xe9\xcf\xd8\xd0\xdf\xd9\xce\xf9\xd5\xd4\xce\xdb\xd3\xd4\xc9\xba\x80\xe2\x7a\x37\x62\x99\x5f\xbf",
 		// "" / M(None) / S(0) / L(0)
-		"\xf3\xea\xe9\x93\x7e\xe1\xe2\x6c\x31\xb3\x9e\xf0\x1d\x1a\x53\xea\x54\x5e\xbf\x21\x7e\x67\x6e\x19\x30\xaa\x54\x15\x6d\x7a\x20\xe6",
+		"\x73\x76\x86\x91\x27\xc2\xc7\x74\x4a\x33\x9a\x02\x66\xb4\x30\x41\xc7\xc1\x5c\xc1\xda\x33\xea\xba\xcd\xdd\xb5\xde\x5c\xba\xe7\xb9",
+		// "/usr/lib/libSystem.dylib" / M(Xor1) / S(181) / L(24)
+		"\x9a\xc0\xc6\xc7\x9a\xd9\xdc\xd7\x9a\xd9\xdc\xd7\xe6\xcc\xc6\xc1\xd0\xd8\x9b\xd1\xcc\xd9\xdc\xd7\xb5\xc8\x4f\x69\xd6\x29\xea\xce\x1b",
 		// "" / M(None) / S(0) / L(0)
-		"\x0a\xf3\x10\x47\x84\x88\xc7\x68\xe7\xb8\xa2\x0c\x3f\xa2\x42\x65\xd4\x4e\x0b\x06\xbb\xd8\xf7\x0d\xe0\xf5\x83\x37\x5c\x59\xa5\xc8",
-		// "SecKeychainSearchCopyNext" / M(Xor1) / S(103) / L(25)
-		"\x34\x02\x04\x2c\x02\x1e\x04\x0f\x06\x0e\x09\x34\x02\x06\x15\x04\x0f\x24\x08\x17\x1e\x29\x02\x1f\x13\x67\x58\x6f\x25\x1e\xf9\x3c\x41\xac",
+		"\xaa\xee\x5e\x1a\x45\xfe\xe8\x04\x7e\x23\xdf\x1b\xd6\x21\x8d\xf0\xe8\x43\x5b\x71\xd5\x90\x4b\xb9\xcc\x98\x33\x0d\x7d\xc8\x8c\x46",
 		// "" / M(None) / S(0) / L(0)
-		"\xcc\xe5\x4e\x11\xdb\xb1\xa8\xef\x89\x70\x16\x78\xab\x95\x22\x23\xca\x5f\x91\x35\x1d\xc7\x41\x41\x27\x2a\xf8\x73\xad\x16\xbf\xf8",
-		// "611E5B662C593A08FF58D14AE22452D198DF6C60" / M(Xor1) / S(71) / L(40)
-		"\x71\x76\x76\x02\x72\x05\x71\x71\x75\x04\x72\x7e\x74\x06\x77\x7f\x01\x01\x72\x7f\x03\x76\x73\x06\x02\x75\x75\x73\x72\x75\x03\x76\x7e\x7f\x03\x01\x71\x04\x71\x77\x47\x24\x2c\xd3\xb2\x4b\x3d\x09\xb1",
-		// "start" / M(Xor3) / S(178) / L(5)
-		"\xb1\xb6\xa3\xb0\xb6\xc2\x4f\x54\xdc\x00\xbd\x6a\xf7\x22\x21\x44",
-		// "dlsym" / M(Rot) / S(24) / L(5)
-		"\x7c\x84\x8b\x91\x85\x18\x03\x7d\xdd\x77\x80\xa8\x4c\x93\xea\xba",
-		// "CC_SHA1" / M(Xor1) / S(46) / L(7)
-		"\x6d\x6d\x71\x7d\x66\x6f\x1f\x2e\x9f\x0d\x35\x68\xb5\xd7\x4b\x03",
-		// "CC_SHA1" / M(Xor1) / S(172) / L(7)
-		"\xef\xef\xf3\xff\xe4\xed\x9d\xac\x60\x0c\xc1\x6c\x44\xfb\xbd\xcf",
-		// "CC_SHA1_Update" / M(Xor2) / S(197) / L(14)
-		"\x96\x96\x8a\x86\x9d\x94\xe4\x8a\x80\xa5\xb1\xb4\xa1\xb0\xd5\xb5",
-		// "longjmp" / M(Xor1) / S(172) / L(7)
-		"\xc0\xc3\xc2\xcb\xc6\xc1\xdc\xac\x1c\x14\x2f\x3c\xc6\x97\x31\x4a",
-		// "objc_msgSend" / M(Xor1) / S(175) / L(12)
-		"\xc0\xcd\xc5\xcc\xf0\xc2\xdc\xc8\xfc\xca\xc1\xcb\xaf\x69\x23\x47",
-		// "BIO_new" / M(Rot) / S(94) / L(7)
-		"\xa0\xa7\xad\xbd\xcc\xc3\xd5\x5e\xa3\xbf\x77\xae\x9e\xfb\xef\x19",
-		// "kSecReturnRef" / M(Rot) / S(129) / L(13)
-		"\xec\xd4\xe6\xe4\xd3\xe6\xf5\xf6\xf3\xef\xd3\xe6\xe7\x81\xef\xba",
-		// "Contents/_MASReceipt" / M(Xor3) / S(86) / L(20)
-		"\x28\x04\x05\x1f\x0e\x05\x1f\x18\x44\x34\x26\x2a\x38\x39\x0e\x08\x0e\x02\x1b\x1f\x6b",
-		// "CFURLCreateCopyAppendingPathComponent" / M(Xor2) / S(91) / L(37)
-		"\x3e\x3b\x28\x2f\x31\x3e\x0f\x18\x1c\x09\x18\x3e\x12\x0d\x04\x3c\x0d\x0d\x18\x13\x19\x14\x13\x1a\x2d\x1c\x09\x15\x3e\x12\x10\x0d\x12\x13\x18\x13\x09\x7d",
-		// "/System/Library/Keychains/SystemRootCertificates.keychain" / M(Xor4) / S(250) / L(57)
-		"\x5b\x27\x0d\x07\x00\x11\x19\x5b\x38\x1d\x16\x06\x15\x06\x0d\x5b\x3f\x11\x0d\x17\x1c\x15\x1d\x1a\x07\x5b\x27\x0d\x07\x00\x11\x19\x26\x1b\x1b\x00\x37\x11\x06\x00\x1d\x12\x1d\x17\x15\x00\x11\x07\x5a\x1f\x11\x0d\x17\x1c\x15\x1d\x1a\x74\x47\x77\x0b\x64\x85\x5f\x1f\x04",
-		// "NSApplicationMain" / M(Xor3) / S(216) / L(17)
-		"\xa4\xb9\xab\x9a\x9a\x86\x83\x89\x8b\x9e\x83\x85\x84\xa7\x8b\x83\x84\xea",
+		"\xb5\x77\x23\x4b\xde\x0f\xb4\xd7\xd9\x19\x66\x68\x5d\x59\x6e\x14\x10\x1d\xaa\x4e\x3d\x1f\x2c\x63\x39\xe6\xf6\xf9\x20\xd8\x50\xa7",
+		// "BIO_s_mem" / M(Xor3) / S(41) / L(9)
+		"\x7b\x70\x76\x66\x4a\x66\x54\x5c\x54\x39\x90\x7c\xad\x36\xd3\x05",
+		// "sel_registerName" / M(Xor1) / S(15) / L(16)
+		"\x7c\x6a\x63\x50\x7d\x6a\x68\x66\x7c\x7b\x6a\x7d\x41\x6e\x62\x6a\x0f",
 		// "" / M(None) / S(0) / L(0)
-		"\x2e\x31\xf6\xc6\xf6\xac\x42\xb1\x83\xab\x74\x86\xbb\x30\xcb\x9e\xcd\x59\x3e\xe8\xab\x8f\x09\xd4\xb6\x1d\x1b\x14\xba\xfc\xac\xd8",
-		// "X509_STORE_add_cert" / M(Xor2) / S(72) / L(19)
-		"\x04\x69\x6c\x65\x03\x0f\x08\x13\x0e\x19\x03\x3d\x38\x38\x03\x3f\x39\x2e\x28\x5c",
-		// "CFArrayGetCount" / M(Xor2) / S(228) / L(15)
-		"\xb7\xb2\xb5\x86\x86\x95\x8d\xb3\x91\x80\xb7\x9b\x81\x9a\x80\xf4",
-		// "CC_SHA1_Init" / M(Rot) / S(196) / L(12)
-		"\x07\x07\x23\x17\x0c\x05\xf5\x23\x0d\x32\x2d\x38\xc4\xe6\x74\xa9",
-		// "CFDictionaryGetValue" / M(Xor4) / S(235) / L(20)
-		"\x04\x01\x03\x2e\x24\x33\x2e\x28\x29\x26\x35\x3e\x00\x22\x33\x11\x26\x2b\x32\x22\x47",
-		// "61:1e:5b:66:2c:59:3a:08:ff:58:d1:4a:e2:24:52:d1:98:df:6c:60" / M(Rot) / S(45) / L(59)
-		"\x63\x5e\x67\x5e\x92\x67\x62\x8f\x67\x63\x63\x67\x5f\x90\x67\x62\x66\x67\x60\x8e\x67\x5d\x65\x67\x93\x93\x67\x62\x65\x67\x91\x5e\x67\x61\x8e\x67\x92\x5f\x67\x5f\x61\x67\x62\x5f\x67\x91\x5e\x67\x66\x65\x67\x91\x93\x67\x63\x90\x67\x63\x5d\x2d\x44\x0c\x98\x55\xde\xf4\x80\xf1",
+		"\x49\xc6\xb4\x6e\xc3\x33\x81\xd3\x32\x3d\xc7\x86\x53\x2c\x8c\x68\x5e\x4c\x16\x83\xa8\xb3\xf5\x0e\x2d\x5d\x97\x70\x4b\x80\x55\x06",
+		// "glob_b" / M(Xor4) / S(206) / L(6)
+		"\x87\x8c\x8f\x82\xbf\x82\xe0\x13\x4d\xaa\xab\xac\xd0\x91\xe4\x87",
 		// "" / M(None) / S(0) / L(0)
-		"\xec\x6a\x03\x25\xda\xf1\x57\x2c\x91\x38\xf6\x34\x1b\xb2\x38\x53\x73\xdb\x58\x99\x5b\xc3\x4b\x56\x44\x8b\xc3\xd0\xd2\x51\x59\x57",
-		// "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation" / M(Rot) / S(207) / L(66)
-		"\xfe\x22\x48\x42\x43\x34\x3c\xfe\x1b\x38\x31\x41\x30\x41\x48\xfe\x15\x41\x30\x3c\x34\x46\x3e\x41\x3a\x42\xfe\x12\x3e\x41\x34\x15\x3e\x44\x3d\x33\x30\x43\x38\x3e\x3d\xfd\x35\x41\x30\x3c\x34\x46\x3e\x41\x3a\xfe\x12\x3e\x41\x34\x15\x3e\x44\x3d\x33\x30\x43\x38\x3e\x3d\xcf",
-		// "CFBundleCopyBundleURL" / M(Xor4) / S(43) / L(21)
-		"\xf1\xf4\xf0\xc7\xdc\xd6\xde\xd7\xf1\xdd\xc2\xcb\xf0\xc7\xdc\xd6\xde\xd7\xe7\xe0\xfe\xb2",
-		// "." / M(Xor4) / S(139) / L(1)
-		"\x9e\xb0\xf5\x53\x6f\xad\x9a\x17\xed\x04\xd5\x00\x89\x16\x1d\xb5",
-		// "CFURLCreateFromFileSystemRepresentation" / M(Xor2) / S(112) / L(39)
-		"\x03\x06\x15\x12\x0c\x03\x32\x25\x21\x34\x25\x06\x32\x2f\x2d\x06\x29\x2c\x25\x13\x39\x33\x34\x25\x2d\x12\x25\x30\x32\x25\x33\x25\x2e\x34\x21\x34\x29\x2f\x2e\x40\x16\xc1\xd2\xf8\x08\xb1\xa9\xba",
-		// "CFEqual" / M(Xor2) / S(58) / L(7)
-		"\x69\x6c\x6f\x5b\x5f\x4b\x46\x2a\x06\x73\xc5\x36\x16\x6b\x2a\xd6",
-		// "CFBundleIdentifier" / M(Rot) / S(214) / L(18)
-		"\x19\x1c\x18\x4b\x44\x3a\x42\x3b\x1f\x3a\x3b\x44\x4a\x3f\x3c\x3f\x3b\x48\xd6",
-		// "%02x" / M(Xor1) / S(108) / L(4)
-		"\x49\x5c\x5e\x14\x6c\x09\x1f\xab\xbb\xb1\x5b\x8d\x47\x4b\xb6\xd7",
-		// "X509_digest" / M(Xor2) / S(22) / L(11)
-		"\x5e\x33\x36\x3f\x59\x62\x6f\x61\x63\x75\x72\x06\xd9\x0b\xe2\xcb",
-		// "EVP_DigestFinal" / M(Xor3) / S(158) / L(15)
-		"\xeb\xf8\xfe\xf1\xea\xc7\xc9\xcb\xdd\xda\xe8\xc7\xc0\xcf\xc2\xae",
-		// "EVP_get_digestbyname" / M(Xor2) / S(16) / L(20)
-		"\x40\x53\x55\x5a\x62\x60\x71\x5a\x61\x6c\x62\x60\x76\x71\x67\x7c\x6b\x64\x68\x60\x05",
-		// "CFDataCreate" / M(Rot) / S(166) / L(12)
-		"\xe9\xec\xea\x07\x1a\x07\xe9\x18\x0b\x07\x1a\x0b\xa6\xa2\x7f\xa4",
-		// "glob" / M(Xor2) / S(215) / L(4)
-		"\xa0\xab\xa8\xa5\xc7\x52\xbe\xfa\x74\xfe\x3a\x4a\x5d\xd4\xc8\xe9",
-		// "objc_msgSend" / M(Xor2) / S(229) / L(12)
-		"\x9a\x97\x9f\x96\xaa\x98\x86\x92\xa6\x90\x9b\x91\xf5\xcd\xfa\xaf",
-		// "longjmp" / M(Xor3) / S(40) / L(7)
-		"\x54\x57\x56\x5f\x52\x55\x48\x38\x0d\x01\xdd\x1b\xc3\xb9\xe8\x6b",
-		// "freeifaddrs" / M(Xor3) / S(158) / L(11)
-		"\xc8\xdc\xcb\xcb\xc7\xc8\xcf\xca\xca\xdc\xdd\xae\xb1\x5b\x37\xb3",
-		// "CFDateFormatterSetFormat" / M(Xor3) / S(103) / L(24)
-		"\xcb\xce\xcc\xe9\xfc\xed\xce\xe7\xfa\xe5\xe9\xfc\xfc\xed\xfa\xdb\xed\xfc\xce\xe7\xfa\xe5\xe9\xfc\x88\xba\xbc\xf1\xfe\xbb\x22\x3c\x29",
-		// "getifaddrs" / M(Xor2) / S(236) / L(10)
-		"\x9b\x99\x88\x95\x9a\x9d\x98\x98\x8e\x8f\xfc\xde\x62\x3b\x04\x3d",
-		// "CFDateFormatterSetFormat" / M(Xor1) / S(26) / L(24)
-		"\x59\x5c\x5e\x7b\x6e\x7f\x5c\x75\x68\x77\x7b\x6e\x6e\x7f\x68\x49\x7f\x6e\x5c\x75\x68\x77\x7b\x6e\x1a\x70\x6d\xb5\x91\x61\x3a\xdb\x4a",
-		// "Contents/_MASReceipt" / M(Xor3) / S(182) / L(20)
-		"\x88\xa4\xa5\xbf\xae\xa5\xbf\xb8\xe4\x94\x86\x8a\x98\x99\xae\xa8\xae\xa2\xbb\xbf\xcb",
-		// "X509_free" / M(Xor2) / S(118) / L(9)
-		"\x3e\x53\x56\x5f\x39\x00\x14\x03\x03\x66\xe6\x15\x1c\x04\x63\x65",
+		"\xe6\x29\xa1\xd6\x05\x41\x87\xa7\xbe\x5e\x38\xba\x77\x78\x6d\x2b\xb9\x99\x62\xb0\x8d\xd0\x51\x43\xdf\x8b\xcc\xec\x2d\x40\x4b\x8a",
+		// "d2i_PKCS7_bio" / M(Xor1) / S(38) / L(13)
+		"\x42\x14\x4f\x79\x76\x6d\x65\x75\x11\x79\x44\x4f\x49\x26\x98\x4e",
 		// "" / M(None) / S(0) / L(0)
-		"\x1a\x3c\x8f\x86\x14\x19\x65\x7a\xe6\x63\x8f\x12\x33\x45\x88\x60\xd8\x8f\x51\xea\x29\x5b\x7f\x95\x4f\xc7\x95\x53\xdc\x3e\xc6\x16",
-		// "CFReadStreamOpen" / M(Xor2) / S(164) / L(16)
-		"\xf6\xf3\xe7\xd0\xd4\xd1\xe6\xc1\xc7\xd0\xd4\xd8\xfa\xc5\xd0\xdb\xb5",
-		// "start" / M(Xor3) / S(42) / L(5)
-		"\x49\x4e\x5b\x48\x4e\x3a\x0f\x38\x57\x14\xc3\x8c\x05\x19\x75\x20",
-		// "611e5b662c593a08ff58d14ae22452d198df6c60" / M(Xor1) / S(102) / L(40)
-		"\x50\x57\x57\x03\x53\x04\x50\x50\x54\x05\x53\x5f\x55\x07\x56\x5e\x00\x00\x53\x5e\x02\x57\x52\x07\x03\x54\x54\x52\x53\x54\x02\x57\x5f\x5e\x02\x00\x50\x05\x50\x56\x66\x0c\xfa\x5e\xd1\xb3\x9f\xab\xe7",
-		// "CFStringCompare" / M(Xor3) / S(64) / L(15)
-		"\x13\x16\x03\x24\x22\x39\x3e\x37\x13\x3f\x3d\x20\x31\x22\x35\x50",
-		// "SecItemCopyMatching" / M(Xor4) / S(65) / L(19)
-		"\x47\x71\x77\x5d\x60\x71\x79\x57\x7b\x64\x6d\x59\x75\x60\x77\x7c\x7d\x7a\x73\x14",
-		// "X509_STORE_free" / M(Rot) / S(83) / L(15)
-		"\xab\x88\x83\x8c\xb2\xa6\xa7\xa2\xa5\x98\xb2\xb9\xc5\xb8\xb8\x53",
-		// "611E5B662C593A08FF58D14AE22452D198DF6C60" / M(Rot) / S(219) / L(40)
-		"\x11\x0c\x0c\x20\x10\x1d\x11\x11\x0d\x1e\x10\x14\x0e\x1c\x0b\x13\x21\x21\x10\x13\x1f\x0c\x0f\x1c\x20\x0d\x0d\x0f\x10\x0d\x1f\x0c\x14\x13\x1f\x21\x11\x1e\x11\x0b\xdb\x47\x1e\xb5\xf5\xc7\x9d\x47\xdf",
+		"\x7e\x68\x4e\x99\xb5\x13\xfa\x32\x93\x7c\x20\xf7\x26\x25\xbc\xea\x7d\x0b\xa3\x5e\x52\x15\xba\x5b\xaa\x39\x88\x6c\x8b\x73\xad\x8b",
+		// "/System/Library/Keychains/SystemRootCertificates.keychain" / M(Xor4) / S(179) / L(57)
+		"\x09\x75\x5f\x55\x52\x43\x4b\x09\x6a\x4f\x44\x54\x47\x54\x5f\x09\x6d\x43\x5f\x45\x4e\x47\x4f\x48\x55\x09\x75\x5f\x55\x52\x43\x4b\x74\x49\x49\x52\x65\x43\x54\x52\x4f\x40\x4f\x45\x47\x52\x43\x55\x08\x4d\x43\x5f\x45\x4e\x47\x4f\x48\x26\x3b\x3e\xaa\x7e\xde\x04\xf8\x8f",
 		// "" / M(None) / S(0) / L(0)
-		"\x52\x93\xa5\x08\x7e\xf2\xca\x13\x03\xc9\x48\x71\x99\xf0\xd7\xaf\x3b\xfb\x3b\x7e\x74\x1a\x90\x04\xe9\xfc\xe1\x0c\x9b\x72\xb0\xd2",
+		"\xcb\xbb\x99\x7f\x52\x47\x6f\xce\x1b\x56\x0c\x2f\x7d\x3c\x89\x83\xe1\x93\x64\xc1\xb4\xd8\xdd\xf2\x9c\x92\xff\x36\xc1\xb2\xc3\xc4",
 		// "" / M(None) / S(0) / L(0)
-		"\x60\xc6\xca\xc2\xac\x98\x89\x28\x53\x55\xae\xab\xe7\x64\x04\x4b\xdd\x99\x72\xd0\xa3\x54\x66\x7f\x33\xde\x3e\xbb\x46\x32\x8a\xda",
+		"\x60\xc9\xeb\xf6\xa8\x80\x61\xf9\x2a\x10\xf9\x91\x60\xe2\x7d\xb7\x9c\xf5\x6d\x55\xb2\xfa\xc8\x07\x5a\xd0\x94\x5b\x9f\xef\x6d\x22",
+		// "CFStringCompare" / M(Xor2) / S(115) / L(15)
+		"\x20\x25\x30\x17\x11\x0a\x0d\x04\x20\x0c\x0e\x13\x02\x11\x06\x63",
+		// "CFReadStreamRead" / M(Xor1) / S(221) / L(16)
+		"\x9e\x9b\x8f\xb8\xbc\xb9\x8e\xa9\xaf\xb8\xbc\xb0\x8f\xb8\xbc\xb9\xdd",
+		// "SHA1_Init" / M(Xor4) / S(13) / L(9)
+		"\x83\x98\x91\xe1\x8f\x99\xbe\xb9\xa4\xd0\xb0\x07\xfe\x88\x28\x1f",
+		// "CFDateFormatterCreateDateFromString" / M(Xor2) / S(223) / L(35)
+		"\xb8\xbd\xbf\x9a\x8f\x9e\xbd\x94\x89\x96\x9a\x8f\x8f\x9e\x89\xb8\x89\x9e\x9a\x8f\x9e\xbf\x9a\x8f\x9e\xbd\x89\x94\x96\xa8\x8f\x89\x92\x95\x9c\xfb",
+		// "X509_free" / M(Xor4) / S(134) / L(9)
+		"\x38\x55\x50\x59\x3f\x06\x12\x05\x05\x60\xd4\xd7\x53\xea\xb2\xb6",
+		// "CFURLCreateWithFileSystemPathRelativeToBase" / M(Xor4) / S(136) / L(43)
+		"\xe3\xe6\xf5\xf2\xec\xe3\xd2\xc5\xc1\xd4\xc5\xf7\xc9\xd4\xc8\xe6\xc9\xcc\xc5\xf3\xd9\xd3\xd4\xc5\xcd\xf0\xc1\xd4\xc8\xf2\xc5\xcc\xc1\xd4\xc9\xd6\xc5\xf4\xcf\xe2\xc1\xd3\xc5\xa0\x7b\x03\x97\x24\xde\xf2\x2c\x12",
+		// "strncmp" / M(Xor3) / S(37) / L(7)
+		"\x46\x41\x47\x5b\x56\x58\x45\x35\x8b\xbd\x00\xe6\x4d\xcf\xf9\xe2",
+		// "IOIteratorNext" / M(Xor1) / S(152) / L(14)
+		"\xd1\xd7\xd1\xec\xfd\xea\xf9\xec\xf7\xea\xd6\xfd\xe0\xec\x98\xde",
+		// "d2i_X509_bio" / M(Xor2) / S(238) / L(12)
+		"\x9a\xcc\x97\xa1\xa6\xcb\xce\xc7\xa1\x9c\x97\x91\xfe\xdb\x33\x5b",
 		// "" / M(None) / S(0) / L(0)
-		"\x75\xf2\xc2\xed\x09\x72\xaa\xf0\x1d\xa2\x0b\xa3\x76\x3c\x9d\x6a\xc9\x02\xce\xdf\x2b\x7d\x48\x85\x50\xd8\x00\xbe\x8f\x16\x7e\x63",
+		"\x2b\xfc\x35\xec\xdb\xa6\x05\x29\xf7\x6f\x53\x5e\x25\xe3\x2a\x95\x38\x2f\xa2\x65\x13\xd4\x56\x3e\x9d\xee\xc1\xbb\xa4\xba\xf3\x01",
+		// "sha1" / M(Xor4) / S(116) / L(4)
+		"\x33\x28\x21\x71\x40\xbe\xac\xb2\xae\x45\x97\x04\x58\xe5\x83\x95",
+		// "SecCertificateCopyData" / M(Rot) / S(77) / L(22)
+		"\xa0\xb2\xb0\x90\xb2\xbf\xc1\xb6\xb3\xb6\xb0\xae\xc1\xb2\x90\xbc\xbd\xc6\x91\xae\xc1\xae\x4d",
+		// "en0" / M(Rot) / S(199) / L(3)
+		"\x2c\x35\xf7\xc7\xb2\x58\x5b\x05\x26\xb1\x7d\xb0\xc3\x20\x72\x8e",
+		// "Contents/_MASReceipt/receipt" / M(Xor1) / S(87) / L(28)
+		"\x14\x38\x39\x23\x32\x39\x23\x24\x78\x08\x1a\x16\x04\x05\x32\x34\x32\x3e\x27\x23\x78\x25\x32\x34\x32\x3e\x27\x23\x57\xe0\xfd\xe7\xa1\xa3\xa1\xab\x3b",
 		// "" / M(None) / S(0) / L(0)
-		"\x38\x0c\xa0\x43\xed\xc8\xad\x73\xcf\x6f\x02\xc4\x28\xe8\x36\xad\x8d\x65\xba\x88\xa3\x73\x5c\x11\xba\xb5\x4d\xc5\x85\xe1\x42\xaa",
-		// "glob" / M(Xor3) / S(206) / L(4)
-		"\xb9\xb2\xb1\xbc\xde\x89\xe2\x4a\x67\x7d\x91\x0e\x9e\x7b\xaf\x0f",
+		"\x18\x8a\x3d\x02\xbc\x9a\x8c\x06\xbc\x3e\xb3\x4c\xe6\xf3\xb0\x1c\x32\xa5\x9a\xe4\x4a\xb3\x2e\x2a\xe3\xaa\xae\xd9\xea\x6b\x9d\xf0",
+		// "kCFTypeDictionaryValueCallBacks" / M(Xor1) / S(59) / L(31)
+		"\x50\x78\x7d\x6f\x42\x4b\x5e\x7f\x52\x58\x4f\x52\x54\x55\x5a\x49\x42\x6d\x5a\x57\x4e\x5e\x78\x5a\x57\x57\x79\x5a\x58\x50\x48\x3b",
+		// "sha1" / M(Rot) / S(185) / L(4)
+		"\x2c\x21\x1a\xea\xb9\xe0\xf6\xbb\x6f\x42\xe2\xbd\x1a\x48\x03\xe0",
+		// "CFDictionaryCreateMutable" / M(Xor4) / S(22) / L(25)
+		"\xaf\xaa\xa8\x85\x8f\x98\x85\x83\x82\x8d\x9e\x95\xaf\x9e\x89\x8d\x98\x89\xa1\x99\x98\x8d\x8e\x80\x89\xec\x53\x61\x5d\xc2\x6a\x0a\x0f\xf4",
 		// "" / M(None) / S(0) / L(0)
-		"\xd2\x9c\xa1\xb2\x13\xb5\x33\x1b\x75\x68\x24\xa3\xda\xd5\x29\x3e\x1e\x4b\x70\xc9\x91\x9c\x21\x8d\x3a\x04\xa2\x3a\xb4\xf8\x3f\xb4",
-		// "CFURLCreateWithFileSystemPathRelativeToBase" / M(Rot) / S(21) / L(43)
-		"\x58\x5b\x6a\x67\x61\x58\x87\x7a\x76\x89\x7a\x6c\x7e\x89\x7d\x5b\x7e\x81\x7a\x68\x8e\x88\x89\x7a\x82\x65\x76\x89\x7d\x67\x7a\x81\x76\x89\x7e\x8b\x7a\x69\x84\x57\x76\x88\x7a\x15\x02\xfa\xfb\xbc\x7c\x60\x5f\x1b",
-		// "PKCS7_free" / M(Xor4) / S(217) / L(10)
-		"\xc0\xdb\xd3\xc3\xa7\xcf\xf6\xe2\xf5\xf5\x90\x84\xe1\x6a\x43\x90",
-		// "globfree" / M(Xor3) / S(86) / L(8)
-		"\x01\x0a\x09\x04\x00\x14\x03\x03\x66\x9c\xe5\x57\xbf\x1e\xcf\x13",
-		// "kSecClassCertificate" / M(Rot) / S(92) / L(20)
-		"\xc7\xaf\xc1\xbf\x9f\xc8\xbd\xcf\xcf\x9f\xc1\xce\xd0\xc5\xc2\xc5\xbf\xbd\xd0\xc1\x5c",
+		"\xb2\x15\xab\xd8\xfc\x37\xe5\x1c\xfc\xfc\xcb\x2f\x8a\xa3\x0f\x73\x0b\x16\x0d\xcb\xcf\x87\x63\x28\xd8\x28\x57\xe3\x9d\x54\x21\xa0",
+		// "IORegistryEntryGetParentEntry" / M(Xor2) / S(19) / L(29)
+		"\x7c\x7a\x67\x50\x52\x5c\x46\x41\x47\x4c\x70\x5b\x41\x47\x4c\x72\x50\x41\x65\x54\x47\x50\x5b\x41\x70\x5b\x41\x47\x4c\x35\xba\x8a\x4f\x3d\xab\x9b\xd9\x66",
+		// "kSecMatchLimit" / M(Xor2) / S(217) / L(14)
+		"\xa2\x9a\xac\xaa\x84\xa8\xbd\xaa\xa1\x85\xa0\xa4\xa0\xbd\xc9\x34",
+		// "X509_STORE_free" / M(Xor4) / S(116) / L(15)
+		"\x18\x75\x70\x79\x1f\x13\x14\x0f\x12\x05\x1f\x26\x32\x25\x25\x40",
+		// "objc_getClass" / M(Xor4) / S(79) / L(13)
+		"\x9f\x92\x9a\x93\xaf\x97\x95\x84\xb3\x9c\x91\x83\x83\xf0\x7f\xb4",
+		// "Apple Root CA" / M(Xor2) / S(248) / L(13)
+		"\xa9\x98\x98\x84\x8d\xc8\xba\x87\x87\x9c\xc8\xab\xa9\xe8\x92\x33",
 		// "" / M(None) / S(0) / L(0)
-		"\xfa\x9a\x9f\x84\x0d\x61\x84\x4e\x47\x6f\x18\xd9\xe2\xbf\xf0\x2c\x7a\x49\x23\x4a\x2c\x49\x6a\x1e\xa1\x06\x13\x8e\xa7\xd2\x97\x26",
+		"\x41\xb7\x81\xb7\x68\x0c\x0c\xbf\x9a\x83\xd7\x7e\xe3\xa6\xc7\xbb\xd2\x86\x82\x06\xce\x49\xcf\x11\xd3\xf4\x56\x45\xce\xd8\x10\x3d",
+		// "BIO_new" / M(Xor1) / S(188) / L(7)
+		"\xfe\xf5\xf3\xe3\xd2\xd9\xcb\xbc\x7f\x30\x28\x5b\xb0\x33\xc0\xb3",
+		// "SecItemCopyMatching" / M(Xor1) / S(200) / L(19)
+		"\x9b\xad\xab\x81\xbc\xad\xa5\x8b\xa7\xb8\xb1\x85\xa9\xbc\xab\xa0\xa1\xa6\xaf\xc8",
+		// "CFDateFormatterCreate" / M(Xor1) / S(56) / L(21)
+		"\x7b\x7e\x7c\x59\x4c\x5d\x7e\x57\x4a\x55\x59\x4c\x4c\x5d\x4a\x7b\x4a\x5d\x59\x4c\x5d\x38",
+		// "CFURLCreateWithFileSystemPathRelativeToBase" / M(Xor2) / S(254) / L(43)
+		"\x89\x8c\x9f\x98\x86\x89\xb8\xaf\xab\xbe\xaf\x9d\xa3\xbe\xa2\x8c\xa3\xa6\xaf\x99\xb3\xb9\xbe\xaf\xa7\x9a\xab\xbe\xa2\x98\xaf\xa6\xab\xbe\xa3\xbc\xaf\x9e\xa5\x88\xab\xb9\xaf\xca\x6f\x87\x83\xb4\x25\x32\x4d\x16",
+		// "SKReceiptRefreshRequest" / M(Xor3) / S(159) / L(23)
+		"\xec\xf4\xed\xda\xdc\xda\xd6\xcf\xcb\xed\xda\xd9\xcd\xda\xcc\xd7\xed\xda\xce\xca\xda\xcc\xcb\xbf\x3c\x28\x2e\x67\x69\x7a\x2f\xba",
+		// "/System/Library/Frameworks/Security.framework/Security" / M(Rot) / S(206) / L(54)
+		"\xfd\x21\x47\x41\x42\x33\x3b\xfd\x1a\x37\x30\x40\x2f\x40\x47\xfd\x14\x40\x2f\x3b\x33\x45\x3d\x40\x39\x41\xfd\x21\x33\x31\x43\x40\x37\x42\x47\xfc\x34\x40\x2f\x3b\x33\x45\x3d\x40\x39\xfd\x21\x33\x31\x43\x40\x37\x42\x47\xce",
+		// "IORegistryEntryGetParentEntry" / M(Xor3) / S(33) / L(29)
+		"\x0e\x08\x15\x22\x20\x2e\x34\x33\x35\x3e\x02\x29\x33\x35\x3e\x00\x22\x33\x17\x26\x35\x22\x29\x33\x02\x29\x33\x35\x3e\x47\xab\x10\x70\xdb\xf1\x05\x5f\x6b",
+		// "RTLD_MAIN_ONLY" / M(Xor3) / S(85) / L(14)
+		"\x37\x31\x29\x21\x3a\x28\x24\x2c\x2b\x3a\x2a\x2b\x29\x3c\x65\xee",
+		// "." / M(Xor1) / S(253) / L(1)
+		"\xd3\xfd\x41\x44\x9c\x83\x5c\x9a\x79\x05\x06\xa2\xb6\x6c\x2a\x3e",
+		// "kSecReturnRef" / M(Xor4) / S(5) / L(13)
+		"\x3b\x03\x35\x33\x02\x35\x24\x25\x22\x3e\x02\x35\x36\x50\x34\xdd",
+		// "4.0.1" / M(Rot) / S(245) / L(5)
+		"\x29\x23\x25\x23\x26\xf5\xca\x51\x09\x0e\x66\x3a\xe9\x5f\x43\x60",
+		// "EVP_DigestFinal" / M(Xor2) / S(29) / L(15)
+		"\x48\x5b\x5d\x52\x49\x64\x6a\x68\x7e\x79\x4b\x64\x63\x6c\x61\x0d",
 		// "" / M(None) / S(0) / L(0)
-		"\x20\xb5\x8b\x00\xf2\x6a\x4e\xf1\xd0\x27\xa6\x47\x70\xd7\x22\x1c\x62\x9c\x26\x25\x51\x6d\x1c\xd3\x7a\xe9\xf9\x0d\x6e\x1a\x00\x56",
-		// "CFArrayGetCount" / M(Xor4) / S(78) / L(15)
-		"\xa3\xa6\xa1\x92\x92\x81\x99\xa7\x85\x94\xa3\x8f\x95\x8e\x94\xe0",
-		// "CFURLCreateFromFileSystemRepresentation" / M(Xor2) / S(61) / L(39)
-		"\x4e\x4b\x58\x5f\x41\x4e\x7f\x68\x6c\x79\x68\x4b\x7f\x62\x60\x4b\x64\x61\x68\x5e\x74\x7e\x79\x68\x60\x5f\x68\x7d\x7f\x68\x7e\x68\x63\x79\x6c\x79\x64\x62\x63\x0d\xfe\x83\xe2\xd4\x99\x45\x50\xb6",
+		"\x62\x47\x58\x0b\xc0\x68\xab\x4f\x43\x86\x49\xc9\xb9\x1a\x58\xc6\x54\x63\x8c\x58\x85\x48\x90\x03\x55\x3a\x5f\x5d\x4c\xa3\x13\x4a",
+		// "%02X" / M(Xor1) / S(218) / L(4)
+		"\xff\xea\xe8\x82\xda\xcb\xfd\x86\xe2\xe1\x9c\x32\xc1\x95\x47\xfd",
+		// "CFBundleUnloadExecutable" / M(Xor1) / S(121) / L(24)
+		"\x3a\x3f\x3b\x0c\x17\x1d\x15\x1c\x2c\x17\x15\x16\x18\x1d\x3c\x01\x1c\x1a\x0c\x0d\x18\x1b\x15\x1c\x79\x65\xf1\x30\x46\x50\xef\xee\xf0",
+		// "EVP_MD_CTX_init" / M(Xor4) / S(82) / L(15)
+		"\x65\x76\x70\x7f\x6d\x64\x7f\x63\x74\x78\x7f\x49\x4e\x49\x54\x20",
+		// "globfree" / M(Rot) / S(65) / L(8)
+		"\xa8\xad\xb0\xa3\xa7\xb3\xa6\xa6\x41\x48\x39\x90\x57\xe8\x8c\x78",
+		// "/System/Library/Frameworks/IOKit.framework/IOKit" / M(Rot) / S(190) / L(48)
+		"\xed\x11\x37\x31\x32\x23\x2b\xed\x0a\x27\x20\x30\x1f\x30\x37\xed\x04\x30\x1f\x2b\x23\x35\x2d\x30\x29\x31\xed\x07\x0d\x09\x27\x32\xec\x24\x30\x1f\x2b\x23\x35\x2d\x30\x29\xed\x07\x0d\x09\x27\x32\xbe",
+		// "dlopen" / M(Rot) / S(232) / L(6)
+		"\x4c\x54\x57\x58\x4d\x56\xe8\x49\x90\x0c\xee\x9d\x8f\xc9\x99\x95",
 		// "" / M(None) / S(0) / L(0)
-		"\x9f\xf1\x33\x9b\x4f\x18\x09\x5e\xe7\x87\x23\x06\xf8\xfd\x01\xce\x8c\x29\x95\x9a\x63\x7d\x26\xc9\x15\x9a\xcc\x57\x1a\x35\xe7\x71",
+		"\x40\x50\x35\x19\xed\xad\x63\x0c\x31\x1f\x79\x76\xc3\x87\x81\xd0\x9f\x1c\xe5\x71\x8c\x6c\x2a\x17\x07\x07\xd6\xa6\x7b\xfe\xec\x37",
+		// "CFStringGetFileSystemRepresentation" / M(Xor2) / S(55) / L(35)
+		"\x50\x55\x40\x67\x61\x7a\x7d\x74\x54\x76\x67\x55\x7a\x7f\x76\x40\x6a\x60\x67\x76\x7e\x41\x76\x63\x61\x76\x60\x76\x7d\x67\x72\x67\x7a\x7c\x7d\x13",
+		// "" / M(None) / S(0) / L(0)
+		"\x55\x2a\x4f\x43\x56\xd1\x44\x84\xc4\x70\x72\x14\xbc\x23\xd9\x3d\x33\x57\x87\xa5\x27\x14\x5e\x09\xfb\x0a\xc9\xa9\x56\x92\xc7\xad",
+		// "kSecMatchLimit" / M(Xor1) / S(200) / L(14)
+		"\xa3\x9b\xad\xab\x85\xa9\xbc\xab\xa0\x84\xa1\xa5\xa1\xbc\xc8\x7f",
+		// "%02x:" / M(Xor3) / S(130) / L(5)
+		"\xb7\xa2\xa0\xea\xa8\x92\x4a\x11\xb7\x44\x4a\x97\x7e\x06\x57\xa5",
+		// "" / M(None) / S(0) / L(0)
+		"\x5b\x09\x03\xaf\xcb\x5e\xf7\x61\xe9\x8d\xea\xe7\x45\x15\xb9\xfe\x0c\xcb\xdd\xd1\xa8\x5a\x6f\xa7\xcf\x46\x40\xa7\x06\xe6\x8c\x62",
+		// "" / M(None) / S(0) / L(0)
+		"\x86\xe5\x29\xd4\xde\xc3\x84\x34\x4b\xbb\xc7\x55\x6b\x03\x99\x53\x3b\x83\x69\xae\x8b\xe0\x20\xf8\x82\x1e\x85\xf6\x80\x33\xdc\xb4",
+		// "kSecClass" / M(Rot) / S(161) / L(9)
+		"\x0c\xf4\x06\x04\xe4\x0d\x02\x14\x14\xa1\xb1\xcc\x44\x79\x1e\x81",
+		// "NSApplicationMain" / M(Xor3) / S(49) / L(17)
+		"\x0d\x10\x02\x33\x33\x2f\x2a\x20\x22\x37\x2a\x2c\x2d\x0e\x22\x2a\x2d\x43",
+		// "CFArrayAppendValue" / M(Xor4) / S(235) / L(18)
+		"\x32\x37\x30\x03\x03\x10\x08\x30\x01\x01\x14\x1f\x15\x27\x10\x1d\x04\x14\x71",
+		// "CFDataAppendBytes" / M(Rot) / S(35) / L(17)
+		"\x66\x69\x67\x84\x97\x84\x64\x93\x93\x88\x91\x87\x65\x9c\x97\x88\x96\x23",
+		// "SHA1_Update" / M(Xor3) / S(103) / L(11)
+		"\x24\x3f\x36\x46\x28\x22\x07\x13\x16\x03\x12\x77\x05\x6b\xc8\x17",
+		// "" / M(None) / S(0) / L(0)
+		"\x42\x2e\x1f\xef\xa9\xb5\x64\xb8\x8f\x5a\x68\xfa\xce\x8e\x86\xd7\xc3\x22\x21\x0f\x66\x59\x86\xd1\xa2\xfa\xb4\xee\x19\xcf\xd0\x92",
+		// "Contents/_MASReceipt/receipt" / M(Xor4) / S(10) / L(28)
+		"\x31\x1d\x1c\x06\x17\x1c\x06\x01\x5d\x2d\x3f\x33\x21\x20\x17\x11\x17\x1b\x02\x06\x5d\x00\x17\x11\x17\x1b\x02\x06\x72\xcb\xc4\xfa\x74\x97\xd2\x6e\x2e",
+		// "CFURLCreateFromFileSystemRepresentation" / M(Xor2) / S(38) / L(39)
+		"\x55\x50\x43\x44\x5a\x55\x64\x73\x77\x62\x73\x50\x64\x79\x7b\x50\x7f\x7a\x73\x45\x6f\x65\x62\x73\x7b\x44\x73\x66\x64\x73\x65\x73\x78\x62\x77\x62\x7f\x79\x78\x16\xc5\x3f\xda\x72\x7c\xe7\x43\xa3",
+		// "kCFTypeArrayCallBacks" / M(Xor1) / S(112) / L(21)
+		"\x1b\x33\x36\x24\x09\x00\x15\x31\x02\x02\x11\x09\x33\x11\x1c\x1c\x32\x11\x13\x1b\x03\x70",
+		// "exit" / M(Xor3) / S(202) / L(4)
+		"\xbf\xa2\xb3\xae\xda\x63\x94\xe7\x81\x19\x66\xef\x59\x48\xce\x0a",
+		// "NSApplicationMain" / M(Xor1) / S(201) / L(17)
+		"\x87\x9a\x88\xb9\xb9\xa5\xa0\xaa\xa8\xbd\xa0\xa6\xa7\x84\xa8\xa0\xa7\xc9",
+		// "init" / M(Xor2) / S(89) / L(4)
+		"\x20\x27\x20\x3d\x49\xc8\x57\x53\x89\x00\x0c\xff\x81\x5f\x9e\x55",
+		// "X509_STORE_add_cert" / M(Xor4) / S(8) / L(19)
+		"\xf8\x95\x90\x99\xff\xf3\xf4\xef\xf2\xe5\xff\xc1\xc4\xc4\xff\xc3\xc5\xd2\xd4\xa0",
+		// "%02X" / M(Xor4) / S(87) / L(4)
+		"\x55\x40\x42\x28\x70\x56\xf3\x36\x20\x33\x91\x2f\x45\xe2\xa2\x7c",
+		// "kSecMatchSubjectContains" / M(Xor3) / S(16) / L(24)
+		"\x5a\x62\x54\x52\x7c\x50\x45\x52\x59\x62\x44\x53\x5b\x54\x52\x45\x72\x5e\x5f\x45\x50\x58\x5f\x42\x31\x21\xbd\x04\xee\xdd\x08\x69\xd2",
+		// "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation" / M(Xor1) / S(118) / L(66)
+		"\x59\x25\x0f\x05\x02\x13\x1b\x59\x3a\x1f\x14\x04\x17\x04\x0f\x59\x30\x04\x17\x1b\x13\x01\x19\x04\x1d\x05\x59\x35\x19\x04\x13\x30\x19\x03\x18\x12\x17\x02\x1f\x19\x18\x58\x10\x04\x17\x1b\x13\x01\x19\x04\x1d\x59\x35\x19\x04\x13\x30\x19\x03\x18\x12\x17\x02\x1f\x19\x18\x76",
+		// "CFDataCreate" / M(Xor4) / S(231) / L(12)
+		"\x33\x36\x34\x11\x04\x11\x33\x02\x15\x11\x04\x15\x70\x8b\xf5\x18",
+		// "" / M(None) / S(0) / L(0)
+		"\x2c\x6d\xed\x71\x35\x0b\xcd\x64\xbf\x47\x8c\x7c\x7a\xc7\x72\xb1\x7b\x8a\x41\x91\x19\x0d\xe4\xb0\x02\xb2\x02\x37\x7f\x59\xeb\x2b",
+		// "RTLD_MAIN_ONLY" / M(Rot) / S(125) / L(14)
+		"\xcf\xd1\xc9\xc1\xdc\xca\xbe\xc6\xcb\xdc\xcc\xcb\xc9\xd6\x7d\x97",
+		// "CFBundleGetMainBundle" / M(Xor4) / S(141) / L(21)
+		"\x5d\x58\x5c\x6b\x70\x7a\x72\x7b\x59\x7b\x6a\x53\x7f\x77\x70\x5c\x6b\x70\x7a\x72\x7b\x1e",
+		// "d2i_PKCS7_bio" / M(Rot) / S(130) / L(13)
+		"\xe6\xb4\xeb\xe1\xd2\xcd\xc5\xd5\xb9\xe1\xe4\xeb\xf1\x82\xca\xf0",
+		// "NSApplicationMain" / M(Xor2) / S(45) / L(17)
+		"\x71\x6c\x7e\x4f\x4f\x53\x56\x5c\x5e\x4b\x56\x50\x51\x72\x5e\x56\x51\x3f",
+		// "" / M(None) / S(0) / L(0)
+		"\x9a\x20\x6d\x52\x14\xbe\x64\x12\xa6\x97\xce\xd4\x3f\x79\xed\xf2\xf8\x02\xeb\xe1\x4f\x77\xa7\x01\xd2\xcc\x04\xe2\xf6\x0e\xff\xac",
+		// "" / M(None) / S(0) / L(0)
+		"\xa0\xf5\xad\xa5\x88\xf9\xc3\x88\x92\x3e\xa6\x37\xbd\x6c\x08\x01\xdf\x35\x33\x9c\x62\xdc\x2b\xed\x7f\x77\xa4\x6f\x36\x6b\x4e\x1d",
+		// "SHA1_Update" / M(Xor3) / S(196) / L(11)
+		"\x87\x9c\x95\xe5\x8b\x81\xa4\xb0\xb5\xa0\xb1\xd4\x69\x19\x27\x83",
+		// "kCFTypeArrayCallBacks" / M(Xor2) / S(247) / L(21)
+		"\x8a\xa2\xa7\xb5\x98\x91\x84\xa0\x93\x93\x80\x98\xa2\x80\x8d\x8d\xa3\x80\x82\x8a\x92\xe1",
+		// "setjmp" / M(Xor3) / S(137) / L(6)
+		"\xea\xfc\xed\xf3\xf4\xe9\x99\x01\x8c\xfa\x9d\x18\x60\xbf\xe0\x7c",
+		// "" / M(None) / S(0) / L(0)
+		"\x04\x90\x2e\x07\xbb\x80\xe9\xf7\x23\xb5\xae\xb2\x15\xca\xd5\xe5\x4c\x8d\x3e\x87\xd7\x93\x5e\x83\xf0\x1d\x76\x80\x3d\x43\x9f\x9a",
+		// "glob" / M(Rot) / S(109) / L(4)
+		"\xd4\xd9\xdc\xcf\x6d\x60\xb2\x1d\x84\xf4\x88\xf8\xee\xb3\x44\x2d",
+		// "CFDataCreateMutable" / M(Rot) / S(91) / L(19)
+		"\x9e\xa1\x9f\xbc\xcf\xbc\x9e\xcd\xc0\xbc\xcf\xc0\xa8\xd0\xcf\xbc\xbd\xc7\xc0\x5b",
+		// "kCFTypeDictionaryKeyCallBacks" / M(Xor3) / S(239) / L(29)
+		"\x7e\x56\x53\x41\x6c\x65\x70\x51\x7c\x76\x61\x7c\x7a\x7b\x74\x67\x6c\x5e\x70\x6c\x56\x74\x79\x79\x57\x74\x76\x7e\x66\x15\xb2\x84\x94\xb2\xfd\x34\x00\xc4",
+		// "" / M(None) / S(0) / L(0)
+		"\x1a\xf0\x89\x0a\x57\x3d\x2b\xfa\xe9\xa5\x5e\xda\x04\x97\x8f\xfc\x86\x87\xf8\xb6\x2e\x0b\x7e\x69\x75\x3e\x7e\xb1\x29\xab\xcb\x29",
+		// "" / M(None) / S(0) / L(0)
+		"\xcc\x08\x54\x3a\xc6\x3d\x55\x50\x06\xb7\x8f\x21\x65\x52\x04\x86\xa8\x38\x02\x8b\x19\xf3\xcf\xf1\x23\x80\xb5\x1d\x77\xee\xa4\x98",
+		// "kCFTypeDictionaryValueCallBacks" / M(Xor2) / S(196) / L(31)
+		"\x8f\xa7\xa2\xb0\x9d\x94\x81\xa0\x8d\x87\x90\x8d\x8b\x8a\x85\x96\x9d\xb2\x85\x88\x91\x81\xa7\x85\x88\x88\xa6\x85\x87\x8f\x97\xe4",
+		// "CFBundleGetValueForInfoDictionaryKey" / M(Rot) / S(36) / L(36)
+		"\x67\x6a\x66\x99\x92\x88\x90\x89\x6b\x89\x98\x7a\x85\x90\x99\x89\x6a\x93\x96\x6d\x92\x8a\x93\x68\x8d\x87\x98\x8d\x93\x92\x85\x96\x9d\x6f\x89\x9d\x24",
+		// "SKReceiptRefreshRequest" / M(Xor2) / S(193) / L(23)
+		"\xb2\xaa\xb3\x84\x82\x84\x88\x91\x95\xb3\x84\x87\x93\x84\x92\x89\xb3\x84\x90\x94\x84\x92\x95\xe1\xae\x57\xba\x69\x4e\xef\x05\x34",
+		// "/usr/lib/libSystem.dylib" / M(Xor3) / S(97) / L(24)
+		"\xad\xf7\xf1\xf0\xad\xee\xeb\xe0\xad\xee\xeb\xe0\xd1\xfb\xf1\xf6\xe7\xef\xac\xe6\xfb\xee\xeb\xe0\x82\xed\x89\x83\xb0\x28\xd5\x0f\xaa",
+		// "kCFTypeDictionaryKeyCallBacks" / M(Xor3) / S(127) / L(29)
+		"\xce\xe6\xe3\xf1\xdc\xd5\xc0\xe1\xcc\xc6\xd1\xcc\xca\xcb\xc4\xd7\xdc\xee\xc0\xdc\xe6\xc4\xc9\xc9\xe7\xc4\xc6\xce\xd6\xa5\x30\x6a\xc3\x10\x6d\x12\x94\x02",
+		// "CC_SHA1_Init" / M(Xor4) / S(237) / L(12)
+		"\x93\x93\x8f\x83\x98\x91\xe1\x8f\x99\xbe\xb9\xa4\xd0\x5b\x7a\x18",
+		// "CFBundleGetIdentifier" / M(Rot) / S(248) / L(21)
+		"\x3b\x3e\x3a\x6d\x66\x5c\x64\x5d\x3f\x5d\x6c\x41\x5c\x5d\x66\x6c\x61\x5e\x61\x5d\x6a\xf8",
+		// "CFBundleShortVersionString" / M(Xor4) / S(18) / L(26)
+		"\x35\x30\x34\x03\x18\x12\x1a\x13\x25\x1e\x19\x04\x02\x20\x13\x04\x05\x1f\x19\x18\x25\x02\x04\x1f\x18\x11\x76\x05\xbc\xca\xd1\x8c\x04\x53\x77",
+		// "CC_SHA1_Update" / M(Xor2) / S(212) / L(14)
+		"\x87\x87\x9b\x97\x8c\x85\xf5\x9b\x91\xb4\xa0\xa5\xb0\xa1\xc4\xad",
+		// "SecItemCopyMatching" / M(Xor3) / S(92) / L(19)
+		"\x23\x15\x13\x39\x04\x15\x1d\x33\x1f\x00\x09\x3d\x11\x04\x13\x18\x19\x1e\x17\x70",
+		// "objc_getClass" / M(Xor3) / S(131) / L(13)
+		"\xfc\xf1\xf9\xf0\xcc\xf4\xf6\xe7\xd0\xff\xf2\xe0\xe0\x93\xbc\xdd",
+		// "kSecMatchLimit" / M(Rot) / S(133) / L(14)
+		"\xf0\xd8\xea\xe8\xd2\xe6\xf9\xe8\xed\xd1\xee\xf2\xee\xf9\x85\xb2",
+		// "ASN1_get_object" / M(Xor4) / S(188) / L(15)
+		"\x81\x93\x8e\xf1\x9f\xa7\xa5\xb4\x9f\xaf\xa2\xaa\xa5\xa3\xb4\xc0",
+		// "PKCS7_get0_signers" / M(Xor2) / S(34) / L(18)
+		"\x61\x7a\x72\x62\x06\x6e\x56\x54\x45\x01\x6e\x42\x58\x56\x5f\x54\x43\x42\x31",
+		// "CFArrayGetValueAtIndex" / M(Xor1) / S(76) / L(22)
+		"\x0f\x0a\x0d\x3e\x3e\x2d\x35\x0b\x29\x38\x1a\x2d\x20\x39\x29\x0d\x38\x05\x22\x28\x29\x34\x4c",
+		// "CFDateFormatterCreateDateFromString" / M(Xor4) / S(37) / L(35)
+		"\x77\x72\x70\x55\x40\x51\x72\x5b\x46\x59\x55\x40\x40\x51\x46\x77\x46\x51\x55\x40\x51\x70\x55\x40\x51\x72\x46\x5b\x59\x67\x40\x46\x5d\x5a\x53\x34",
+		// "IOMACAddress" / M(Xor1) / S(77) / L(12)
+		"\x04\x02\x00\x0c\x0e\x0c\x29\x29\x3f\x28\x3e\x3e\x4d\x81\x91\x39",
+		// "" / M(None) / S(0) / L(0)
+		"\x9f\xa7\x4b\xe2\x32\x3c\xf7\xff\xde\xc0\xb4\xa2\xf1\x8b\x9a\x84\x1a\xfe\xfb\x0b\x34\xdd\x84\x33\x69\xac\xef\xe4\x0a\x18\x58\x06",
+		// "" / M(None) / S(0) / L(0)
+		"\xd8\xce\x6d\xc2\x60\x79\xec\x24\x1d\x04\x90\x0e\xbe\xf2\x6c\xf0\x16\x09\x2e\x93\xe3\x8b\x40\x98\xcf\x7c\x75\x70\xdc\x7e\x13\xba",
+		// "SecCertificateCopyData" / M(Xor4) / S(160) / L(22)
+		"\x33\x05\x03\x23\x05\x12\x14\x09\x06\x09\x03\x01\x14\x05\x23\x0f\x10\x19\x24\x01\x14\x01\x60",
+		// "SecKeychainOpen" / M(Rot) / S(26) / L(15)
+		"\x6d\x7f\x7d\x65\x7f\x93\x7d\x82\x7b\x83\x88\x69\x8a\x7f\x88\x1a",
+		// "longjmp" / M(Xor2) / S(216) / L(7)
+		"\xa4\xa7\xa6\xaf\xa2\xa5\xb8\xc8\x5f\x37\x3b\x8f\xd1\x6d\xb3\x25",
+		// "X509_digest" / M(Xor2) / S(43) / L(11)
+		"\x63\x0e\x0b\x02\x64\x5f\x52\x5c\x5e\x48\x4f\x3b\x06\x6c\xe3\x50",
+		// "" / M(None) / S(0) / L(0)
+		"\xa2\xb0\x12\xe3\xcc\xa7\x17\x2a\xe7\xf2\xdd\xa1\xf9\xf9\xf3\xd0\xdd\x72\x6e\x9a\x3c\xd9\xf3\x1d\x2c\xbd\xb0\x7d\xac\x44\x0c\xf3",
+		// "yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'" / M(Xor1) / S(129) / L(32)
+		"\xf8\xf8\xf8\xf8\xa6\xac\xa6\xcc\xcc\xa6\xac\xa6\xe5\xe5\xa6\xd5\xa6\xc9\xc9\xa6\xbb\xa6\xec\xec\xa6\xbb\xa6\xf2\xf2\xa6\xdb\xa6\x81",
+		// "alloc" / M(Xor1) / S(14) / L(5)
+		"\x6f\x62\x62\x61\x6d\x0e\x30\x05\x2d\x7a\x38\xcc\x27\x51\xee\xb0",
+		// "OBJ_txt2obj" / M(Xor4) / S(203) / L(11)
+		"\xff\xf2\xfa\xef\xc4\xc8\xc4\x82\xdf\xd2\xda\xb0\x93\x65\x06\x7b",
+		// "CFBundleGetIdentifier" / M(Rot) / S(59) / L(21)
+		"\x7e\x81\x7d\xb0\xa9\x9f\xa7\xa0\x82\xa0\xaf\x84\x9f\xa0\xa9\xaf\xa4\xa1\xa4\xa0\xad\x3b",
+		// "EVP_DigestFinal" / M(Xor3) / S(18) / L(15)
+		"\x67\x74\x72\x7d\x66\x4b\x45\x47\x51\x56\x64\x4b\x4c\x43\x4e\x22",
+		// "Contents" / M(Xor4) / S(102) / L(8)
+		"\x23\x0f\x0e\x14\x05\x0e\x14\x13\x60\x02\x49\x3d\x0c\xff\xb7\x4a",
+		// "X509_STORE_new" / M(Xor3) / S(253) / L(14)
+		"\x55\x38\x3d\x34\x52\x5e\x59\x42\x5f\x48\x52\x63\x68\x7a\x0d\xd1",
+		// "" / M(None) / S(0) / L(0)
+		"\x1c\x9d\x30\x1d\xf9\x73\xfd\x46\x2b\xbb\x24\x49\x4f\x66\xa4\xb1\x50\xb7\xc0\x5e\xd1\xce\xae\xae\x93\x74\xb3\xaf\xae\xa4\x2d\xa0",
+		// "" / M(None) / S(0) / L(0)
+		"\xc7\x21\x7d\xaf\xa9\x8c\x2b\x2b\x21\xb6\xd9\xdd\x07\x25\x6e\x7d\x29\x3b\xc9\xfd\x95\x67\xc6\x7b\xd6\x0e\x9f\x49\xc9\x70\x1a\xff",
+		// "" / M(None) / S(0) / L(0)
+		"\x9a\x6d\x6f\x71\x5f\x7f\x43\xd3\x8e\x84\x95\xd4\x38\x47\xe8\x17\x9d\xa5\x0f\x65\xdb\xbc\x86\xc7\x87\x0f\x40\x38\x2d\xac\xe8\x4e",
+		// "/System/Library/Frameworks/AppKit.framework/AppKit" / M(Xor1) / S(116) / L(50)
+		"\x5b\x27\x0d\x07\x00\x11\x19\x5b\x38\x1d\x16\x06\x15\x06\x0d\x5b\x32\x06\x15\x19\x11\x03\x1b\x06\x1f\x07\x5b\x35\x04\x04\x3f\x1d\x00\x5a\x12\x06\x15\x19\x11\x03\x1b\x06\x1f\x5b\x35\x04\x04\x3f\x1d\x00\x74",
+		// "/System/Library/Frameworks/AppKit.framework/AppKit" / M(Xor1) / S(236) / L(50)
+		"\xc3\xbf\x95\x9f\x98\x89\x81\xc3\xa0\x85\x8e\x9e\x8d\x9e\x95\xc3\xaa\x9e\x8d\x81\x89\x9b\x83\x9e\x87\x9f\xc3\xad\x9c\x9c\xa7\x85\x98\xc2\x8a\x9e\x8d\x81\x89\x9b\x83\x9e\x87\xc3\xad\x9c\x9c\xa7\x85\x98\xec",
+		// "EVP_DigestInit" / M(Rot) / S(84) / L(14)
+		"\x99\xaa\xa4\xb3\x98\xbd\xbb\xb9\xc7\xc8\x9d\xc2\xbd\xc8\x54\x2e",
+		// "glob_b" / M(Xor3) / S(111) / L(6)
+		"\x18\x13\x10\x1d\x20\x1d\x7f\x39\xe3\x30\x35\xe0\x33\x03\x28\x95",
+		// "" / M(None) / S(0) / L(0)
+		"\x28\x55\x48\x33\xec\x27\x95\x12\x9d\x24\xed\x30\x8b\x0a\xf5\x0f\x86\x8f\x08\x90\x43\x6d\x17\x4b\x44\x1a\x28\x2b\x92\x1b\x3e\x7b",
+		// "X509_NAME_get_text_by_NID" / M(Xor3) / S(253) / L(25)
+		"\x47\x2a\x2f\x26\x40\x51\x5e\x52\x5a\x40\x78\x7a\x6b\x40\x6b\x7a\x67\x6b\x40\x7d\x66\x40\x51\x56\x5b\x1f\xe3\xa2\x36\xb5\x5f\x2e\x1b\xa4",
+		// "Contents/_MASReceipt/receipt" / M(Xor1) / S(55) / L(28)
+		"\x74\x58\x59\x43\x52\x59\x43\x44\x18\x68\x7a\x76\x64\x65\x52\x54\x52\x5e\x47\x43\x18\x45\x52\x54\x52\x5e\x47\x43\x37\x7d\x4d\x2f\x63\x0c\xd8\xc7\x6a",
+		// "CFStringGetFileSystemRepresentation" / M(Xor1) / S(205) / L(35)
+		"\x8e\x8b\x9e\xb9\xbf\xa4\xa3\xaa\x8a\xa8\xb9\x8b\xa4\xa1\xa8\x9e\xb4\xbe\xb9\xa8\xa0\x9f\xa8\xbd\xbf\xa8\xbe\xa8\xa3\xb9\xac\xb9\xa4\xa2\xa3\xcd",
+		// "kCFTypeArrayCallBacks" / M(Xor2) / S(80) / L(21)
+		"\x2d\x05\x00\x12\x3f\x36\x23\x07\x34\x34\x27\x3f\x05\x27\x2a\x2a\x04\x27\x25\x2d\x35\x46",
+		// "CFStringGetFileSystemRepresentation" / M(Xor3) / S(241) / L(35)
+		"\x56\x53\x46\x61\x67\x7c\x7b\x72\x52\x70\x61\x53\x7c\x79\x70\x46\x6c\x66\x61\x70\x78\x47\x70\x65\x67\x70\x66\x70\x7b\x61\x74\x61\x7c\x7a\x7b\x15",
+		// "" / M(None) / S(0) / L(0)
+		"\xe7\x70\xe6\x08\xbb\xdd\x22\x8e\x1e\x7f\x5c\x4b\x78\x19\xb0\x3b\xcb\x25\x10\x01\x1a\xcc\x10\xad\x6d\xd8\x4c\xe4\x6b\xb7\xf0\x0f",
+		// "" / M(None) / S(0) / L(0)
+		"\x06\x6e\xd3\x3f\x91\xdc\x5f\x4a\xc4\xe3\x80\x41\x53\x4a\x3b\x97\xac\x50\xde\xad\xb0\x86\x8b\xd7\x69\x78\x34\x7c\x4c\x46\x2f\xd3",
+		// "CFNumberCreate" / M(Xor4) / S(220) / L(14)
+		"\x83\x86\x8e\xb5\xad\xa2\xa5\xb2\x83\xb2\xa5\xa1\xb4\xa5\xc0\xe7",
+		// "" / M(None) / S(0) / L(0)
+		"\xba\x79\xcb\x37\xc5\x65\x00\x33\x79\xc0\x22\x6c\x1c\x89\x21\x96\x6e\xd4\xb0\xef\x6a\xaa\xe0\x32\xb3\x5a\x74\x5a\x16\xf9\x4a\x90",
+		// "SHA1_Init" / M(Rot) / S(162) / L(9)
+		"\xf5\xea\xe3\xd3\x01\xeb\x10\x0b\x16\xa2\x8d\xd5\x00\xb5\x11\x02",
+		// "EVP_get_digestbyname" / M(Xor2) / S(69) / L(20)
+		"\x15\x06\x00\x0f\x37\x35\x24\x0f\x34\x39\x37\x35\x23\x24\x32\x29\x3e\x31\x3d\x35\x50",
+		// "" / M(None) / S(0) / L(0)
+		"\x69\xc0\x1f\xe7\x2d\xb1\x75\x16\xe1\x0a\xfd\xc0\x1b\xe0\xf7\x37\xc5\xd9\x07\xf2\x2f\x35\x89\x29\x0f\x0a\x18\xde\x37\x4e\xbe\x62",
+		// "CFDateFormatterCreate" / M(Rot) / S(57) / L(21)
+		"\x7c\x7f\x7d\x9a\xad\x9e\x7f\xa8\xab\xa6\x9a\xad\xad\x9e\xab\x7c\xab\x9e\x9a\xad\x9e\x39",
+		// "EVP_DigestUpdate" / M(Rot) / S(178) / L(16)
+		"\xf7\x08\x02\x11\xf6\x1b\x19\x17\x25\x26\x07\x22\x16\x13\x26\x17\xb2",
+		// "" / M(None) / S(0) / L(0)
+		"\xde\x17\x6f\x5b\x6d\x40\x9e\x37\x0e\xd6\xe8\x78\x7a\xaa\xa9\x89\x4a\x6a\x42\x38\xc1\xfc\xd2\x07\xe1\x07\x78\xd2\x43\x34\x78\xa9",
+		// "" / M(None) / S(0) / L(0)
+		"\xfb\x26\xd8\xa3\x66\x4d\x8d\x3b\x8f\x9d\xb0\xf7\x74\x8c\x57\x08\x29\x10\x66\x65\x0a\x89\xea\x35\x1c\x48\x83\xca\xda\x51\xaa\xd3",
+		// "CC_SHA1_Final" / M(Xor3) / S(254) / L(13)
+		"\x4d\x4d\x51\x5d\x46\x4f\x3f\x51\x48\x67\x60\x6f\x62\x0e\x77\x5d",
+		// "start" / M(Xor2) / S(31) / L(5)
+		"\x7c\x7b\x6e\x7d\x7b\x0f\x01\xb5\x0a\xdf\xe6\xa9\x96\x70\xaf\x99",
+		// "CFBundleVersion" / M(Rot) / S(131) / L(15)
+		"\xc6\xc9\xc5\xf8\xf1\xe7\xef\xe8\xd9\xe8\xf5\xf6\xec\xf2\xf1\x83",
+		// "%02X:" / M(Xor2) / S(166) / L(5)
+		"\x93\x86\x84\xee\x8c\xb6\x1f\x23\x80\xdd\xbb\x34\x0f\x41\x7a\x0d",
+		// "CFURLCreateWithFileSystemPathRelativeToBase" / M(Rot) / S(79) / L(43)
+		"\x92\x95\xa4\xa1\x9b\x92\xc1\xb4\xb0\xc3\xb4\xa6\xb8\xc3\xb7\x95\xb8\xbb\xb4\xa2\xc8\xc2\xc3\xb4\xbc\x9f\xb0\xc3\xb7\xa1\xb4\xbb\xb0\xc3\xb8\xc5\xb4\xa3\xbe\x91\xb0\xc2\xb4\x4f\x11\xe2\x7d\xe7\xb5\x04\xe2\xfc",
+		// "SecItemCopyMatching" / M(Xor4) / S(14) / L(19)
+		"\x4b\x7d\x7b\x51\x6c\x7d\x75\x5b\x77\x68\x61\x55\x79\x6c\x7b\x70\x71\x76\x7f\x18",
+		// "kSecMatchLimitAll" / M(Xor3) / S(101) / L(17)
+		"\x1c\x24\x12\x14\x3a\x16\x03\x14\x1f\x3b\x1e\x1a\x1e\x03\x36\x1b\x1b\x77",
+		// "_MASReceipt" / M(Rot) / S(228) / L(11)
+		"\x43\x31\x25\x37\x36\x49\x47\x49\x4d\x54\x58\xe4\xb7\xdf\xee\x63",
+		// "" / M(None) / S(0) / L(0)
+		"\x47\x4b\xc8\x83\x36\x1c\x32\x42\x41\x31\xd2\x5b\xf1\x49\x1c\xac\xeb\x2f\x4e\x79\x59\x26\xff\x28\xde\x8d\xda\xe2\x16\x70\x09\x4c",
+		// "IOObjectRelease" / M(Xor1) / S(46) / L(15)
+		"\x67\x61\x61\x4c\x44\x4b\x4d\x5a\x7c\x4b\x42\x4b\x4f\x5d\x4b\x2e",
+		// "61:1e:5b:66:2c:59:3a:08:ff:58:d1:4a:e2:24:52:d1:98:df:6c:60" / M(Xor2) / S(53) / L(59)
+		"\x47\x40\x4b\x40\x14\x4b\x44\x13\x4b\x47\x47\x4b\x43\x12\x4b\x44\x48\x4b\x42\x10\x4b\x41\x49\x4b\x17\x17\x4b\x44\x49\x4b\x15\x40\x4b\x45\x10\x4b\x14\x43\x4b\x43\x45\x4b\x44\x43\x4b\x15\x40\x4b\x48\x49\x4b\x15\x17\x4b\x47\x12\x4b\x47\x41\x71\x61\x18\x98\x07\x5f\x4d\x39\xf6",
+		// "SHA1_Update" / M(Xor4) / S(50) / L(11)
+		"\x73\x68\x61\x11\x7f\x75\x50\x44\x41\x54\x45\x20\xd5\x68\xc0\x96",
+		// "" / M(None) / S(0) / L(0)
+		"\x5c\x7e\x24\x18\x9b\x0d\xec\x7c\x25\x36\x17\x91\x2f\xc4\x35\xf3\x6a\xf5\xf0\xf8\x3a\x3a\xc9\xfa\xee\x49\x5e\x1e\x81\x24\x55\xc4",
+		// "X509_digest" / M(Xor4) / S(133) / L(11)
+		"\x08\x65\x60\x69\x0f\x34\x39\x37\x35\x23\x24\x50\xa3\x4b\xab\x7e",
+		// "" / M(None) / S(0) / L(0)
+		"\x0b\x9b\x44\x60\x19\x57\x76\xf7\xc4\x59\x88\x61\xeb\xc5\x5f\xe3\x9e\x90\x83\xf8\xef\xe5\xf7\x97\x72\x89\xd4\x3b\xf4\x94\x05\x2d",
+		// "EVP_DigestFinal" / M(Xor3) / S(214) / L(15)
+		"\xa3\xb0\xb6\xb9\xa2\x8f\x81\x83\x95\x92\xa0\x8f\x88\x87\x8a\xe6",
+		// "" / M(None) / S(0) / L(0)
+		"\x72\xbe\x08\xcd\xd8\x70\x94\x86\x57\x5f\x74\x42\x4b\xe4\x03\x57\xd7\xd5\x4a\x46\x2f\xc1\xbf\xde\x29\x86\x57\x4c\x7f\x06\x63\x3e",
+		// "SHA1" / M(Rot) / S(120) / L(4)
+		"\xcb\xc0\xb9\xa9\x78\xd7\x8c\x9e\xbf\xa7\x4e\x06\x4b\xa9\xd1\xc3",
+		// "EVP_get_digestbyname" / M(Xor3) / S(170) / L(20)
+		"\xfa\xe9\xef\xe0\xd8\xda\xcb\xe0\xdb\xd6\xd8\xda\xcc\xcb\xdd\xc6\xd1\xde\xd2\xda\xbf",
+		// "dlsym" / M(Xor4) / S(41) / L(5)
+		"\xf4\xfc\xe3\xe9\xfd\x90\xe3\xee\x8a\xac\xe4\x3f\xde\x8b\xb4\x35",
+		// "en0" / M(Xor1) / S(170) / L(3)
+		"\xcf\xc4\x9a\xaa\x79\x22\xd4\x4b\xfc\xea\x16\x35\x8e\x5f\xc5\x84",
+		// "X509_NAME_get_text_by_NID" / M(Xor1) / S(71) / L(25)
+		"\x1f\x72\x77\x7e\x18\x09\x06\x0a\x02\x18\x20\x22\x33\x18\x33\x22\x3f\x33\x18\x25\x3e\x18\x09\x0e\x03\x47\xd1\xf9\x9a\xde\xb2\xda\x28\x25",
+		// "kSecClassCertificate" / M(Xor2) / S(238) / L(20)
+		"\x90\xa8\x9e\x98\xb8\x97\x9a\x88\x88\xb8\x9e\x89\x8f\x92\x9d\x92\x98\x9a\x8f\x9e\xfb",
+		// "%02x" / M(Xor4) / S(122) / L(4)
+		"\x85\x90\x92\xd8\xa0\xca\xab\xd7\x52\x3c\x7e\x30\xce\xbf\x4a\x1d",
+		// "OpenSSL_add_all_digests" / M(Xor1) / S(110) / L(23)
+		"\x21\x1e\x0b\x00\x3d\x3d\x22\x31\x0f\x0a\x0a\x31\x0f\x02\x02\x31\x0a\x07\x09\x0b\x1d\x1a\x1d\x6e\xe1\xd4\x5b\x32\xbb\x6e\x41\x31",
+		// "611E5B662C593A08FF58D14AE22452D198DF6C60" / M(Xor2) / S(120) / L(40)
+		"\x7f\x78\x78\x0c\x7c\x0b\x7f\x7f\x7b\x0a\x7c\x70\x7a\x08\x79\x71\x0f\x0f\x7c\x71\x0d\x78\x7d\x08\x0c\x7b\x7b\x7d\x7c\x7b\x0d\x78\x70\x71\x0d\x0f\x7f\x0a\x7f\x79\x49\x61\x4f\x0e\x2c\x90\x34\x5d\x34",
+		// "%02x:" / M(Rot) / S(19) / L(5)
+		"\x38\x43\x45\x8b\x4d\x13\x5c\x45\xe9\x66\x42\x17\x30\x6f\x5a\xd4",
+		// "CFBundleGetMainBundle" / M(Xor1) / S(36) / L(21)
+		"\x67\x62\x66\x51\x4a\x40\x48\x41\x63\x41\x50\x69\x45\x4d\x4a\x66\x51\x4a\x40\x48\x41\x24",
+		// "611e5b662c593a08ff58d14ae22452d198df6c60" / M(Xor1) / S(132) / L(40)
+		"\xb2\xb5\xb5\xe1\xb1\xe6\xb2\xb2\xb6\xe7\xb1\xbd\xb7\xe5\xb4\xbc\xe2\xe2\xb1\xbc\xe0\xb5\xb0\xe5\xe1\xb6\xb6\xb0\xb1\xb6\xe0\xb5\xbd\xbc\xe0\xe2\xb2\xe7\xb2\xb4\x84\xd3\x3c\xd7\xe5\xf3\xf3\xd8\x92",
+		// "" / M(None) / S(0) / L(0)
+		"\x01\x29\xed\xa8\x7a\x7b\xdf\x47\xb9\xae\xae\xa8\xb5\x35\xd8\x94\x60\x4d\xe3\xa8\x15\xff\xca\x33\xbc\xdf\xdf\x2f\xf6\x19\xa6\x10",
+		// "" / M(None) / S(0) / L(0)
+		"\xa5\xc6\x94\xa2\x2e\xcd\x7f\x42\x75\xfc\x62\x87\xac\xbf\x13\xf5\xca\x78\x6c\x4f\x0f\x4a\x97\xf1\x83\x27\x14\xd8\x4c\x11\xc7\x77",
+		// "." / M(Xor1) / S(167) / L(1)
+		"\x89\xa7\x80\xbf\x5d\xd0\x45\x21\xa2\x39\xf6\x98\x38\x86\x14\xdd",
+		// "IOMACAddress" / M(Xor1) / S(173) / L(12)
+		"\xe4\xe2\xe0\xec\xee\xec\xc9\xc9\xdf\xc8\xde\xde\xad\x78\xd9\x87",
+		// "CFArrayGetValueAtIndex" / M(Xor4) / S(27) / L(22)
+		"\x2e\x2b\x2c\x1f\x1f\x0c\x14\x2a\x08\x19\x3b\x0c\x01\x18\x08\x2c\x19\x24\x03\x09\x08\x15\x6d",
+		// "IOMasterPort" / M(Xor1) / S(254) / L(12)
+		"\xb7\xb1\xb3\x9f\x8d\x8a\x9b\x8c\xae\x91\x8c\x8a\xfe\xb4\x4e\x1b",
+		// "%02X:" / M(Xor1) / S(133) / L(5)
+		"\xa0\xb5\xb7\xdd\xbf\x85\xda\xc1\x49\xd0\xb9\x1a\xe8\xca\x35\xfa",
+		// "/System/Library/Frameworks/Security.framework/Security" / M(Xor1) / S(251) / L(54)
+		"\xd4\xa8\x82\x88\x8f\x9e\x96\xd4\xb7\x92\x99\x89\x9a\x89\x82\xd4\xbd\x89\x9a\x96\x9e\x8c\x94\x89\x90\x88\xd4\xa8\x9e\x98\x8e\x89\x92\x8f\x82\xd5\x9d\x89\x9a\x96\x9e\x8c\x94\x89\x90\xd4\xa8\x9e\x98\x8e\x89\x92\x8f\x82\xfb",
+		// "PKCS7_free" / M(Xor4) / S(192) / L(10)
+		"\x50\x4b\x43\x53\x37\x5f\x66\x72\x65\x65\x00\xb0\xe0\xd3\xd3\x5b",
+		// "globfree" / M(Xor3) / S(233) / L(8)
+		"\x9e\x95\x96\x9b\x9f\x8b\x9c\x9c\xf9\x9b\xa7\x08\x50\x52\x97\x20",
+		// "en0" / M(Xor3) / S(45) / L(3)
+		"\x58\x53\x0d\x3d\x12\xd8\x26\x53\xf7\xcc\xe5\x99\x0a\x80\xf8\x5e",
+		// "sk_num" / M(Xor4) / S(218) / L(6)
+		"\xd3\xcb\xff\xce\xd5\xcd\xa0\x22\x86\x37\x69\xec\x17\x45\xb5\x07",
+		// "" / M(None) / S(0) / L(0)
+		"\x38\xb1\x46\x2d\x89\x18\x80\x6a\x83\x6b\x3c\xc5\xef\x7f\x9c\xca\x5b\xb8\x1b\x1e\xcc\x94\x48\x2e\x8d\xe2\x5b\x00\x44\x66\xc1\x0a",
+		// "X509_STORE_free" / M(Xor3) / S(133) / L(15)
+		"\xcd\xa0\xa5\xac\xca\xc6\xc1\xda\xc7\xd0\xca\xf3\xe7\xf0\xf0\x95",
+		// "SecKeychainOpen" / M(Xor1) / S(59) / L(15)
+		"\x68\x5e\x58\x70\x5e\x42\x58\x53\x5a\x52\x55\x74\x4b\x5e\x55\x3b",
+		// "CFEqual" / M(Xor1) / S(3) / L(7)
+		"\x40\x45\x46\x72\x76\x62\x6f\x03\xe3\x43\x0b\x3f\x38\xbe\x65\xc6",
+		// "CFNumberCreate" / M(Xor2) / S(146) / L(14)
+		"\xc1\xc4\xcc\xf7\xef\xe0\xe7\xf0\xc1\xf0\xe7\xe3\xf6\xe7\x82\xb7",
+		// "CFArrayGetValueAtIndex" / M(Xor4) / S(108) / L(22)
+		"\xf7\xf2\xf5\xc6\xc6\xd5\xcd\xf3\xd1\xc0\xe2\xd5\xd8\xc1\xd1\xf5\xc0\xfd\xda\xd0\xd1\xcc\xb4",
+		// "IOIteratorNext" / M(Xor4) / S(249) / L(14)
+		"\xd9\xdf\xd9\xe4\xf5\xe2\xf1\xe4\xff\xe2\xde\xf5\xe8\xe4\x90\xce",
+		// "." / M(Xor1) / S(113) / L(1)
+		"\x5f\x71\x5a\xba\xc4\x2f\xd2\x55\x2b\x7d\xa5\x1a\xbe\x9a\x14\x21",
+		// "CFURLCreateCopyAppendingPathComponent" / M(Xor3) / S(159) / L(37)
+		"\x86\x83\x90\x97\x89\x86\xb7\xa0\xa4\xb1\xa0\x86\xaa\xb5\xbc\x84\xb5\xb5\xa0\xab\xa1\xac\xab\xa2\x95\xa4\xb1\xad\x86\xaa\xa8\xb5\xaa\xab\xa0\xab\xb1\xc5",
+		// "d2i_X509_bio" / M(Xor3) / S(77) / L(12)
+		"\x39\x6f\x34\x02\x05\x68\x6d\x64\x02\x3f\x34\x32\x5d\xc9\x2a\x9b",
+		// "Contents" / M(Xor1) / S(0) / L(8)
+		"\x43\x6f\x6e\x74\x65\x6e\x74\x73\x00\x75\x45\x2a\xaa\x15\x7a\x87",
+		// "init" / M(Xor2) / S(158) / L(4)
+		"\xe7\xe0\xe7\xfa\x8e\xdb\x00\x44\x64\x15\xda\x23\xc2\x80\x8f\xb9",
+		// "setjmp" / M(Xor3) / S(156) / L(6)
+		"\xdf\xc9\xd8\xc6\xc1\xdc\xac\x86\xe5\xa6\x97\xe9\x71\x84\x76\x78",
+		// "X509_free" / M(Rot) / S(167) / L(9)
+		"\xff\xdc\xd7\xe0\x06\x0d\x19\x0c\x0c\xa7\xc3\xb8\x60\xf3\xba\xa7",
+		// "CFDateFormatterCreate" / M(Xor3) / S(44) / L(21)
+		"\x01\x04\x06\x23\x36\x27\x04\x2d\x30\x2f\x23\x36\x36\x27\x30\x01\x30\x27\x23\x36\x27\x42",
+		// "" / M(None) / S(0) / L(0)
+		"\x78\xf6\x4b\xe7\xd0\x94\x58\xff\x1c\xb3\x34\xf1\x7d\x02\xa9\x55\x9a\x32\x7c\x4b\xcd\x61\xb6\x2e\x38\x50\xe2\xa2\x48\xec\x12\x83",
+		// "CFArrayCreateMutable" / M(Rot) / S(229) / L(20)
+		"\x28\x2b\x26\x57\x57\x46\x5e\x28\x57\x4a\x46\x59\x4a\x32\x5a\x59\x46\x47\x51\x4a\xe5",
+		// "Apple Root CA" / M(Xor4) / S(53) / L(13)
+		"\x11\x20\x20\x3c\x35\x70\x02\x3f\x3f\x24\x70\x13\x11\x50\x19\x15",
+		// "/System/Library/Keychains/SystemRootCertificates.keychain" / M(Xor1) / S(143) / L(57)
+		"\xa0\xdc\xf6\xfc\xfb\xea\xe2\xa0\xc3\xe6\xed\xfd\xee\xfd\xf6\xa0\xc4\xea\xf6\xec\xe7\xee\xe6\xe1\xfc\xa0\xdc\xf6\xfc\xfb\xea\xe2\xdd\xe0\xe0\xfb\xcc\xea\xfd\xfb\xe6\xe9\xe6\xec\xee\xfb\xea\xfc\xa1\xe4\xea\xf6\xec\xe7\xee\xe6\xe1\x8f\x61\x4f\xe4\x87\x15\x89\x93\x74",
+		// "" / M(None) / S(0) / L(0)
+		"\x4f\x88\x90\xfe\x01\x99\x20\x06\x1d\xe8\xa1\x81\xc7\xe7\x78\x5e\xa9\x0b\x1e\xa2\x1e\xd4\xf8\xf5\xa6\xc3\x56\xd1\x92\xbe\xdf\x15",
+		// "kSecMatchSearchList" / M(Xor1) / S(30) / L(19)
+		"\x75\x4d\x7b\x7d\x53\x7f\x6a\x7d\x76\x4d\x7b\x7f\x6c\x7d\x76\x52\x77\x6d\x6a\x1e",
+		// "CFDataGetBytePtr" / M(Rot) / S(91) / L(16)
+		"\x9e\xa1\x9f\xbc\xcf\xbc\xa2\xc0\xcf\x9d\xd4\xcf\xc0\xab\xcf\xcd\x5b",
+		// "_MASReceipt/receipt" / M(Xor3) / S(239) / L(19)
+		"\x5c\x4e\x42\x50\x51\x66\x60\x66\x6a\x73\x77\x2c\x71\x66\x60\x66\x6a\x73\x77\x03",
+		// "" / M(None) / S(0) / L(0)
+		"\x96\x4b\x4f\xfc\x3b\xc2\xdc\x3b\x88\x71\x2c\x2b\x43\xe1\x36\x43\xa9\x1e\x4b\x76\x5a\x53\xa4\x3a\xf2\x44\xaf\x04\x5e\x5e\x2a\xe1",
+		// "%02X:" / M(Xor4) / S(130) / L(5)
+		"\x05\x10\x12\x78\x1a\x20\x3b\x2f\x27\x93\xcb\x70\x1d\x31\xd9\x76",
+		// "" / M(None) / S(0) / L(0)
+		"\x60\x30\x54\x9c\xa3\x96\x28\x65\x61\x00\x56\xa7\x7a\xa4\x51\x6c\xd1\x11\x22\x8d\x60\x80\xea\xb4\xeb\x1f\xa8\x9f\x1e\x46\x13\x22",
+		// "1.2.840.113635.100.6.11.1" / M(Rot) / S(225) / L(25)
+		"\x12\x0f\x13\x0f\x19\x15\x11\x0f\x12\x12\x14\x17\x14\x16\x0f\x12\x11\x11\x0f\x17\x0f\x12\x12\x0f\x12\xe1\x4b\x6e\xa5\xab\x40\x6c\xf1\xe2",
+		// "BIO_free" / M(Rot) / S(63) / L(8)
+		"\x81\x88\x8e\x9e\xa5\xb1\xa4\xa4\x3f\x91\x1f\x68\x30\x69\x5b\xae",
+		// "SecKeychainSearchCopyNext" / M(Xor4) / S(233) / L(25)
+		"\xa1\x97\x91\xb9\x97\x8b\x91\x9a\x93\x9b\x9c\xa1\x97\x93\x80\x91\x9a\xb1\x9d\x82\x8b\xbc\x97\x8a\x86\xf2\xe1\x0e\x85\x27\x80\x9b\xdd\xa3",
+		// "" / M(None) / S(0) / L(0)
+		"\x10\x2c\xd4\x9b\x67\x91\xf2\x3c\x4d\x39\x54\xcc\xf3\x23\x4f\x3e\x58\x8f\x5c\xbf\x3f\xe4\xcd\x3d\x1f\x27\xc7\x08\x2f\x96\x73\x24",
+		// "" / M(None) / S(0) / L(0)
+		"\xb3\x1c\x52\xad\xb1\x2d\x1d\x93\xb8\x92\x31\xa0\x40\x06\xe6\xae\xff\x80\xd7\x16\x16\x7d\xaf\xeb\x79\xb8\x48\xb9\xe0\xc4\x1f\xba",
+		// "_MASReceipt/receipt" / M(Rot) / S(211) / L(19)
+		"\x32\x20\x14\x26\x25\x38\x36\x38\x3c\x43\x47\x02\x45\x38\x36\x38\x3c\x43\x47\xd3",
+		// "CFBundleShortVersionString" / M(Rot) / S(166) / L(26)
+		"\xe9\xec\xe8\x1b\x14\x0a\x12\x0b\xf9\x0e\x15\x18\x1a\xfc\x0b\x18\x19\x0f\x15\x14\xf9\x1a\x18\x0f\x14\x0d\xa6\x95\x6d\xc8\xb2\x77\x89\xd3\xa8",
+		// "/usr/lib/libSystem.dylib" / M(Rot) / S(74) / L(24)
+		"\x79\xbf\xbd\xbc\x79\xb6\xb3\xac\x79\xb6\xb3\xac\x9d\xc3\xbd\xbe\xaf\xb7\x78\xae\xc3\xb6\xb3\xac\x4a\xa9\xd5\x45\xe1\x74\x50\xe1\x30",
+		// "" / M(None) / S(0) / L(0)
+		"\x81\xc1\x9b\x52\xe2\x48\x57\xaa\x90\xdb\xe8\x29\xcd\x50\x8e\x34\xae\x0f\xbf\x76\xb6\xaf\x04\xf8\x9b\x90\x12\x5e\x4a\xd4\x3b\x0e",
+		// "CFStringCreateWithBytes" / M(Xor2) / S(255) / L(23)
+		"\x9c\x99\x8c\xab\xad\xb6\xb1\xb8\x9c\xad\xba\xbe\xab\xba\x88\xb6\xab\xb7\x9d\xa6\xab\xba\xac\xdf\x71\x72\x29\x92\xe9\xbf\xf2\x11",
+		// "" / M(None) / S(0) / L(0)
+		"\x02\x55\xb8\x17\x39\x95\x20\xca\xd1\xc8\x57\x9f\xc7\x00\xe6\x80\x1d\xb7\xa6\x82\x79\x4b\x7e\x72\xbf\x45\x9a\xcb\x0f\xc2\x8a\xc5",
+		// "CC_SHA1_Update" / M(Xor1) / S(5) / L(14)
+		"\x46\x46\x5a\x56\x4d\x44\x34\x5a\x50\x75\x61\x64\x71\x60\x05\x68",
+		// "CFDataGetBytePtr" / M(Xor2) / S(122) / L(16)
+		"\x28\x2d\x2f\x0a\x1f\x0a\x2c\x0e\x1f\x29\x12\x1f\x0e\x3b\x1f\x19\x6b",
+		// "Contents/_MASReceipt" / M(Rot) / S(19) / L(20)
+		"\x56\x82\x81\x87\x78\x81\x87\x86\x42\x72\x60\x54\x66\x65\x78\x76\x78\x7c\x83\x87\x13",
+		// "CFBundleGetMainBundle" / M(Xor2) / S(37) / L(21)
+		"\x70\x75\x71\x46\x5d\x57\x5f\x56\x74\x56\x47\x7e\x52\x5a\x5d\x71\x46\x5d\x57\x5f\x56\x33",
+		// "" / M(None) / S(0) / L(0)
+		"\x09\x1f\xd2\x2d\x89\x8e\x4e\x2e\xf2\x07\xd0\x34\x35\xb9\x7a\x28\xd1\xcd\xc3\x7f\xc5\x79\x84\x3c\x4b\x98\x45\x0b\x0c\x92\x7c\xa3",
+		// "dlsym" / M(Rot) / S(40) / L(5)
+		"\x8c\x94\x9b\xa1\x95\x28\xde\x3d\x77\x71\xd3\xba\xe6\xa1\xda\xf2",
+		// "Contents" / M(Xor3) / S(119) / L(8)
+		"\xc4\xe8\xe9\xf3\xe2\xe9\xf3\xf4\x87\x4e\xd3\x6f\xd5\xf3\x9e\x90",
+		// "" / M(None) / S(0) / L(0)
+		"\xd6\x4f\xcf\x93\xca\x2c\x06\xf4\xe6\xd8\xbe\xfa\x85\x05\xee\x83\xf9\x01\x86\x03\xb5\xf8\x49\x66\x49\x82\x5d\xf5\xc3\x21\x28\xfd",
+		// "ASN1_get_object" / M(Xor4) / S(217) / L(15)
+		"\xd1\xc3\xde\xa1\xcf\xf7\xf5\xe4\xcf\xff\xf2\xfa\xf5\xf3\xe4\x90",
+		// "OBJ_txt2obj" / M(Xor1) / S(162) / L(11)
+		"\xed\xe0\xe8\xfd\xd6\xda\xd6\x90\xcd\xc0\xc8\xa2\x7b\xb4\x7f\xdd",
+		// "X509_get_ext_by_OBJ" / M(Xor4) / S(142) / L(19)
+		"\x40\x2d\x28\x21\x47\x7f\x7d\x6c\x47\x7d\x60\x6c\x47\x7a\x61\x47\x57\x5a\x52\x18",
+		// "Contents/_MASReceipt" / M(Xor2) / S(229) / L(20)
+		"\xb3\x9f\x9e\x84\x95\x9e\x84\x83\xdf\xaf\xbd\xb1\xa3\xa2\x95\x93\x95\x99\x80\x84\xf0",
+		// "objc_msgSend" / M(Xor1) / S(154) / L(12)
+		"\xf5\xf8\xf0\xf9\xc5\xf7\xe9\xfd\xc9\xff\xf4\xfe\x9a\x36\x24\x88",
+		// "CFBundleCopyBundleURL" / M(Xor3) / S(151) / L(21)
+		"\xee\xeb\xef\xd8\xc3\xc9\xc1\xc8\xee\xc2\xdd\xd4\xef\xd8\xc3\xc9\xc1\xc8\xf8\xff\xe1\xad",
+		// "kSecMatchSearchList" / M(Xor4) / S(254) / L(19)
+		"\xb3\x8b\xbd\xbb\x95\xb9\xac\xbb\xb0\x8b\xbd\xb9\xaa\xbb\xb0\x94\xb1\xab\xac\xd8",
+		// "CFReadStreamClose" / M(Xor3) / S(44) / L(17)
+		"\x7d\x78\x6c\x5b\x5f\x5a\x6d\x4a\x4c\x5b\x5f\x53\x7d\x52\x51\x4d\x5b\x3e",
+		// "exit" / M(Xor2) / S(189) / L(4)
+		"\xc8\xd5\xc4\xd9\xad\xff\xfc\x0f\xb0\x3e\xe2\xf9\xd5\x40\xd3\x44",
+		// "IOObjectRelease" / M(Xor2) / S(254) / L(15)
+		"\xa7\xa1\xa1\x8c\x84\x8b\x8d\x9a\xbc\x8b\x82\x8b\x8f\x9d\x8b\xee",
+		// "" / M(None) / S(0) / L(0)
+		"\x20\xf7\x75\x3b\x33\x75\x39\x4d\xd4\xc2\xf9\xc2\xc3\x8c\xf3\xe5\x4f\xc2\xad\x16\xce\x5b\x7b\xd8\x2f\xd7\x1d\x8f\xf9\x90\xba\x99",
+		// "CFReadStreamRead" / M(Xor4) / S(92) / L(16)
+		"\x5f\x5a\x4e\x79\x7d\x78\x4f\x68\x6e\x79\x7d\x71\x4e\x79\x7d\x78\x1c",
+		// "kSecMatchLimitAll" / M(Xor4) / S(44) / L(17)
+		"\x73\x4b\x7d\x7b\x55\x79\x6c\x7b\x70\x54\x71\x75\x71\x6c\x59\x74\x74\x18",
+		// "SecKeychainSearchCopyNext" / M(Rot) / S(181) / L(25)
+		"\x08\x1a\x18\x00\x1a\x2e\x18\x1d\x16\x1e\x23\x08\x1a\x16\x27\x18\x1d\xf8\x24\x25\x2e\x03\x1a\x2d\x29\xb5\x4c\x20\x52\xfe\x65\xb4\x6b\x1c",
+		// "PKCS7_verify" / M(Xor2) / S(55) / L(12)
+		"\x77\x6c\x64\x74\x10\x78\x51\x42\x55\x4e\x41\x5e\x27\x11\xf3\xec",
+		// "CFDataGetLength" / M(Xor1) / S(252) / L(15)
+		"\xbf\xba\xb8\x9d\x88\x9d\xbb\x99\x88\xb0\x99\x92\x9b\x88\x94\xfc",
+		// "CFBundleVersion" / M(Xor3) / S(98) / L(15)
+		"\x31\x34\x30\x07\x1c\x16\x1e\x17\x24\x17\x00\x01\x1b\x1d\x1c\x72",
+		// "CFReadStreamCreateWithFile" / M(Xor1) / S(175) / L(26)
+		"\xec\xe9\xfd\xca\xce\xcb\xfc\xdb\xdd\xca\xce\xc2\xec\xdd\xca\xce\xdb\xca\xf8\xc6\xdb\xc7\xe9\xc6\xc3\xca\xaf\x78\x53\x85\xf1\x8e\x6f\x84\x04",
+		// "" / M(None) / S(0) / L(0)
+		"\x04\xfb\x00\xc3\x41\x62\x90\x13\xb2\xc3\x55\x9e\x29\xed\xea\x70\x53\x86\xd8\x33\x27\x97\x42\x87\xf3\x7a\x3a\x6f\x33\xd7\xbd\xc0",
+		// "kSecClassCertificate" / M(Xor2) / S(10) / L(20)
+		"\x74\x4c\x7a\x7c\x5c\x73\x7e\x6c\x6c\x5c\x7a\x6d\x6b\x76\x79\x76\x7c\x7e\x6b\x7a\x1f",
+		// "" / M(None) / S(0) / L(0)
+		"\x10\x35\x6c\x24\x62\x05\xfa\xde\x6f\x27\x3e\x9b\x33\xe4\x95\xa8\xe4\xa3\x55\x89\x5d\xe3\xdb\x44\xeb\xca\x57\x1c\xff\x8a\x19\xd3",
+		// "yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'" / M(Rot) / S(167) / L(32)
+		"\x20\x20\x20\x20\xce\xd4\xce\xf4\xf4\xce\xd4\xce\x0b\x0b\xce\xfb\xce\xef\xef\xce\xe1\xce\x14\x14\xce\xe1\xce\x1a\x1a\xce\x01\xce\xa7",
+		// "X509_STORE_new" / M(Xor1) / S(36) / L(14)
+		"\x7c\x11\x14\x1d\x7b\x77\x70\x6b\x76\x61\x7b\x4a\x41\x53\x24\x1a",
+		// "CFDataGetLength" / M(Rot) / S(235) / L(15)
+		"\x2e\x31\x2f\x4c\x5f\x4c\x32\x50\x5f\x37\x50\x59\x52\x5f\x53\xeb",
+		// "" / M(None) / S(0) / L(0)
+		"\x54\x2d\x60\x8d\xb9\x06\xda\xab\xa1\x35\xde\x9e\x3a\x5f\xab\xae\x8e\x6f\x18\x17\xd7\x33\xa7\x3c\xe1\x3e\xc4\xd5\x4b\xf3\x04\xc3",
+		// "1.2.840.113635.100.6.11.1" / M(Xor2) / S(111) / L(25)
+		"\x7c\x63\x7f\x63\x75\x79\x7d\x63\x7c\x7c\x7e\x7b\x7e\x78\x63\x7c\x7d\x7d\x63\x7b\x63\x7c\x7c\x63\x7c\x4d\xf4\x74\x56\x25\xea\x72\x6d\x3e",
+		// "CFArrayGetCount" / M(Rot) / S(89) / L(15)
+		"\x9c\x9f\x9a\xcb\xcb\xba\xd2\xa0\xbe\xcd\x9c\xc8\xce\xc7\xcd\x59",
+		// "" / M(None) / S(0) / L(0)
+		"\x86\x09\xbc\x95\xa9\x36\xfc\x35\x14\xe5\x71\x46\x0b\xa8\x9d\xae\xe9\x18\x58\x2a\x3e\x25\xcf\x90\xa7\x57\xd0\x24\x5c\xa4\xae\x6b",
+		// "kCFBundleIdentifierKey" / M(Xor4) / S(28) / L(22)
+		"\xef\xc7\xc2\xc6\xf1\xea\xe0\xe8\xe1\xcd\xe0\xe1\xea\xf0\xed\xe2\xed\xe1\xf6\xcf\xe1\xfd\x84",
+		// "d2i_X509_bio" / M(Xor4) / S(33) / L(12)
+		"\x74\x22\x79\x4f\x48\x25\x20\x29\x4f\x72\x79\x7f\x10\x5b\x18\xc6",
+		// "objc_getClass" / M(Rot) / S(182) / L(13)
+		"\x25\x18\x20\x19\x15\x1d\x1b\x2a\xf9\x22\x17\x29\x29\xb6\xf0\x8d",
+		// "" / M(None) / S(0) / L(0)
+		"\x20\xf8\x2c\xf3\x54\x02\x11\xdf\x86\xff\xbe\xad\xf4\x81\x6d\x51\x97\x6c\x04\x27\x97\x5f\x15\x1a\xe9\xc4\x68\xb6\xe1\xfa\x24\x35",
+		// "strlen" / M(Rot) / S(46) / L(6)
+		"\xa1\xa2\xa0\x9a\x93\x9c\x2e\xe3\x0d\x86\x97\x7a\x22\x46\xde\x1c",
+		// "" / M(None) / S(0) / L(0)
+		"\x5f\x71\x87\x5e\xb4\x1b\x41\x97\x81\xeb\x26\x17\x8e\x70\x7b\x8c\x6e\x0c\xbb\xa6\xc2\xb3\x46\xea\x98\xbb\x6c\xf5\x4d\xf5\x9e\xee",
+		// "611E5B662C593A08FF58D14AE22452D198DF6C60" / M(Xor3) / S(153) / L(40)
+		"\xfc\xfb\xfb\x8f\xff\x88\xfc\xfc\xf8\x89\xff\xf3\xf9\x8b\xfa\xf2\x8c\x8c\xff\xf2\x8e\xfb\xfe\x8b\x8f\xf8\xf8\xfe\xff\xf8\x8e\xfb\xf3\xf2\x8e\x8c\xfc\x89\xfc\xfa\xca\x05\x01\x51\xa2\xf6\xb8\x50\xcb",
+		// "CFArrayCreateMutable" / M(Xor4) / S(194) / L(20)
+		"\xa9\xac\xab\x98\x98\x8b\x93\xa9\x98\x8f\x8b\x9e\x8f\xa7\x9f\x9e\x8b\x88\x86\x8f\xea",
+		// "X509_STORE_add_cert" / M(Rot) / S(161) / L(19)
+		"\xf9\xd6\xd1\xda\x00\xf4\xf5\xf0\xf3\xe6\x00\x02\x05\x05\x00\x04\x06\x13\x15\xa1",
+		// "longjmp" / M(Xor2) / S(143) / L(7)
+		"\xf3\xf0\xf1\xf8\xf5\xf2\xef\x9f\x22\x45\x88\x59\xb9\x2c\x17\xef",
+		// "CC_SHA1_Final" / M(Xor4) / S(190) / L(13)
+		"\xa3\xa3\xbf\xb3\xa8\xa1\xd1\xbf\xa6\x89\x8e\x81\x8c\xe0\x55\xcf",
+		// "" / M(None) / S(0) / L(0)
+		"\x7e\xd2\x86\xdd\xf3\xfd\xd6\x0a\xfe\xf7\x6b\xf0\x9c\x61\xd4\xfe\x2b\xad\x49\xec\xac\x2e\x96\x71\xf3\xb4\xd7\xd6\x28\x43\xc1\x76",
+		// "IOBSDNameMatching" / M(Xor4) / S(12) / L(17)
+		"\x91\x97\x9a\x8b\x9c\x96\xb9\xb5\xbd\x95\xb9\xac\xbb\xb0\xb1\xb6\xbf\xd8",
+		// "SHA1_Final" / M(Rot) / S(245) / L(10)
+		"\x48\x3d\x36\x26\x54\x3b\x5e\x63\x56\x61\xf5\x72\x1b\x50\x10\x36",
+		// "CFStringCreateWithCString" / M(Rot) / S(151) / L(25)
+		"\xda\xdd\xea\x0b\x09\x00\x05\xfe\xda\x09\xfc\xf8\x0b\xfc\xee\x00\x0b\xff\xda\xea\x0b\x09\x00\x05\xfe\x97\x41\x46\x9d\x36\xba\x51\xdc\x98",
+		// "" / M(None) / S(0) / L(0)
+		"\xed\x2e\xab\x9d\xd3\x19\xb8\x6f\xe0\x0e\x5c\xd6\x07\x17\x53\x27\xc7\xb7\x1d\x77\xcd\x5a\x2c\x07\xe5\x58\x31\x55\x29\xbc\x52\x8e",
+		// "X509_STORE_free" / M(Xor3) / S(141) / L(15)
+		"\xc5\xa8\xad\xa4\xc2\xce\xc9\xd2\xcf\xd8\xc2\xfb\xef\xf8\xf8\x9d",
+		// "IOServiceGetMatchingServices" / M(Xor2) / S(246) / L(28)
+		"\x9a\x9c\x80\xb6\xa1\xa5\xba\xb0\xb6\x94\xb6\xa7\x9e\xb2\xa7\xb0\xbb\xba\xbd\xb4\x80\xb6\xa1\xa5\xba\xb0\xb6\xa0\xd3\x6d\x25\x3f\x9c\x21\xf8\x40\xca",
+		// "" / M(None) / S(0) / L(0)
+		"\x16\x5d\x93\xc5\x5a\xbc\xaa\x03\xe6\x92\xce\x35\x61\x3c\x44\xeb\xcf\x7f\xa4\xd2\x1a\x05\x23\x5e\x17\x4e\x0a\x0e\xbf\xfc\xc5\xdd",
+		// "EVP_DigestUpdate" / M(Xor4) / S(226) / L(16)
+		"\x47\x54\x52\x5d\x46\x6b\x65\x67\x71\x76\x57\x72\x66\x63\x76\x67\x02",
+		// "sk_num" / M(Rot) / S(91) / L(6)
+		"\xce\xc6\xba\xc9\xd0\xc8\x5b\xcb\xe9\x12\x72\xa9\x94\xdf\x1f\x2f",
+		// "CFArrayGetCount" / M(Rot) / S(245) / L(15)
+		"\x38\x3b\x36\x67\x67\x56\x6e\x3c\x5a\x69\x38\x64\x6a\x63\x69\xf5",
+		// "" / M(None) / S(0) / L(0)
+		"\x28\xca\x08\xd1\xb6\x17\xe3\xdb\xe8\x9e\xd2\xfb\x40\x27\xe3\x86\x40\xe3\x4b\x1b\xfd\x56\xc9\x39\x34\xc9\xbd\x89\x05\x93\x20\x0a",
+		// "611e5b662c593a08ff58d14ae22452d198df6c60" / M(Xor3) / S(144) / L(40)
+		"\xf7\xf0\xf0\xa4\xf4\xa3\xf7\xf7\xf3\xa2\xf4\xf8\xf2\xa0\xf1\xf9\xa7\xa7\xf4\xf9\xa5\xf0\xf5\xa0\xa4\xf3\xf3\xf5\xf4\xf3\xa5\xf0\xf8\xf9\xa5\xa7\xf7\xa2\xf7\xf1\xc1\x8f\xd6\x57\x44\xa4\x00\xf3\xad",
+		// "" / M(None) / S(0) / L(0)
+		"\xaa\x2f\x63\x65\xfb\x1d\x08\x48\x3f\xc1\x86\xfe\x07\xcd\x95\xde\x19\x40\x50\x36\xf6\x32\xbc\x1d\x1f\xd8\x6d\x50\x1b\xc5\xd3\x9f",
+		// "CC_SHA1" / M(Xor1) / S(97) / L(7)
+		"\x22\x22\x3e\x32\x29\x20\x50\x61\xed\x1c\xba\xcb\x6a\x93\x2b\x9d",
+		// "BIO_new" / M(Xor3) / S(128) / L(7)
+		"\xd2\xd9\xdf\xcf\xfe\xf5\xe7\x90\x27\x5e\x86\x47\x50\xc2\x8f\x83",
+		// "CFReadStreamRead" / M(Rot) / S(143) / L(16)
+		"\xd2\xd5\xe1\xf4\xf0\xf3\xe2\x03\x01\xf4\xf0\xfc\xe1\xf4\xf0\xf3\x8f",
+		// "SKReceiptRefreshRequest" / M(Xor4) / S(36) / L(23)
+		"\xd3\xcb\xd2\xe5\xe3\xe5\xe9\xf0\xf4\xd2\xe5\xe6\xf2\xe5\xf3\xe8\xd2\xe5\xf1\xf5\xe5\xf3\xf4\x80\x73\xbc\xc3\x6b\xc2\x1c\x89\x2a",
+		// "/System/Library/Frameworks/IOKit.framework/IOKit" / M(Xor2) / S(227) / L(48)
+		"\xfd\x81\xab\xa1\xa6\xb7\xbf\xfd\x9e\xbb\xb0\xa0\xb3\xa0\xab\xfd\x94\xa0\xb3\xbf\xb7\xa5\xbd\xa0\xb9\xa1\xfd\x9b\x9d\x99\xbb\xa6\xfc\xb4\xa0\xb3\xbf\xb7\xa5\xbd\xa0\xb9\xfd\x9b\x9d\x99\xbb\xa6\xd2",
+		// "" / M(None) / S(0) / L(0)
+		"\x5f\x10\x74\x42\x1f\x16\xf0\x62\xc9\x0a\xca\xc7\x5f\x96\x7c\x16\xa9\xe5\x1b\xb4\x77\x5a\x36\x0a\xd0\x52\xf1\xb9\xfe\xf2\x57\xdd",
+		// "" / M(None) / S(0) / L(0)
+		"\xf8\x7c\x33\x40\x6e\xfe\x61\x02\x97\x6b\x1b\x42\xba\x62\xe6\x15\x07\x1b\x5f\x62\xc7\xe1\x48\x82\x18\xf8\x0e\xde\xa7\xf1\x00\xc6",
+		// "start" / M(Xor3) / S(170) / L(5)
+		"\xc9\xce\xdb\xc8\xce\xba\x06\x46\x2c\x9c\x18\xa7\x4a\x7c\x50\x64",
+		// "CC_SHA1_Final" / M(Xor2) / S(149) / L(13)
+		"\xc6\xc6\xda\xd6\xcd\xc4\xb4\xda\xc3\xec\xeb\xe4\xe9\x85\x3a\x31",
+		// "SHA1_Init" / M(Xor2) / S(53) / L(9)
+		"\x76\x6d\x64\x14\x7a\x6c\x4b\x4c\x51\x25\x19\x55\x79\x60\x40\xdc",
+		// "glob" / M(Xor2) / S(14) / L(4)
+		"\x79\x72\x71\x7c\x1e\xa7\x5f\xc0\x3b\xb6\xee\x44\x04\xb8\x3f\x03",
+		// "CFStringCreateWithCString" / M(Xor4) / S(15) / L(25)
+		"\xbd\xb8\xad\x8a\x8c\x97\x90\x99\xbd\x8c\x9b\x9f\x8a\x9b\xa9\x97\x8a\x96\xbd\xad\x8a\x8c\x97\x90\x99\xfe\xd7\x5b\x91\x2e\xd9\x6e\xd4\x83",
+		// "CFReadStreamCreateWithFile" / M(Xor3) / S(22) / L(26)
+		"\x7a\x7f\x6b\x5c\x58\x5d\x6a\x4d\x4b\x5c\x58\x54\x7a\x4b\x5c\x58\x4d\x5c\x6e\x50\x4d\x51\x7f\x50\x55\x5c\x39\xaa\xb4\x27\x13\xe5\x22\x99\xee",
+		// "" / M(None) / S(0) / L(0)
+		"\x73\x5f\xac\x1c\xdb\x1a\x30\x93\xde\x00\x55\x14\x92\x55\xc2\x4e\x3a\xf9\xab\x1f\x4a\x65\xdc\x31\x08\xd4\x94\x51\x23\x46\xd2\x03",
+		// "kCFTypeDictionaryKeyCallBacks" / M(Xor1) / S(224) / L(29)
+		"\x8b\xa3\xa6\xb4\x99\x90\x85\xa4\x89\x83\x94\x89\x8f\x8e\x81\x92\x99\xab\x85\x99\xa3\x81\x8c\x8c\xa2\x81\x83\x8b\x93\xe0\x6c\xf7\x11\xe5\x3f\x8e\xa5\xb9",
+		// "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation" / M(Xor1) / S(197) / L(66)
+		"\xea\x96\xbc\xb6\xb1\xa0\xa8\xea\x89\xac\xa7\xb7\xa4\xb7\xbc\xea\x83\xb7\xa4\xa8\xa0\xb2\xaa\xb7\xae\xb6\xea\x86\xaa\xb7\xa0\x83\xaa\xb0\xab\xa1\xa4\xb1\xac\xaa\xab\xeb\xa3\xb7\xa4\xa8\xa0\xb2\xaa\xb7\xae\xea\x86\xaa\xb7\xa0\x83\xaa\xb0\xab\xa1\xa4\xb1\xac\xaa\xab\xc5",
+		// "PKCS7_free" / M(Xor2) / S(170) / L(10)
+		"\xea\xf1\xf9\xe9\x8d\xe5\xdc\xc8\xdf\xdf\xba\x29\x25\x98\x35\x5f",
+		// "kSecReturnRef" / M(Xor2) / S(253) / L(13)
+		"\x86\xbe\x88\x8e\xbf\x88\x99\x98\x9f\x83\xbf\x88\x8b\xed\x8f\xb0",
+		// "" / M(None) / S(0) / L(0)
+		"\x8d\x1b\xed\xa6\xcf\x91\x53\xb8\xe1\x66\xb6\xa7\x96\xe2\xa6\xe7\xef\x39\x49\x55\xce\xba\xf3\x6f\xd2\x91\x2f\x35\x4b\x9e\x40\x25",
+		// "sk_value" / M(Xor3) / S(248) / L(8)
+		"\x7b\x63\x57\x7e\x69\x64\x7d\x6d\x08\x8e\xb9\x3b\x84\x5f\x93\x22",
+		// "CC_SHA1_Update" / M(Rot) / S(124) / L(14)
+		"\xbf\xbf\xdb\xcf\xc4\xbd\xad\xdb\xd1\xec\xe0\xdd\xf0\xe1\x7c\xd0",
+		// "receipt" / M(Xor4) / S(15) / L(7)
+		"\x82\x95\x93\x95\x99\x80\x84\xf0\xc5\x0e\xe4\xc6\x4b\xaf\xc2\x6d",
+		// "IOIteratorNext" / M(Xor1) / S(149) / L(14)
+		"\xdc\xda\xdc\xe1\xf0\xe7\xf4\xe1\xfa\xe7\xdb\xf0\xed\xe1\x95\x0e",
+		// "dlopen" / M(Xor2) / S(179) / L(6)
+		"\xc7\xcf\xcc\xd3\xc6\xcd\xa3\xc5\xd3\xd6\xe9\xc9\x68\x82\x14\x75",
+		// "CFBundleIdentifier" / M(Xor4) / S(144) / L(18)
+		"\xf3\xf6\xf2\xc5\xde\xd4\xdc\xd5\xf9\xd4\xd5\xde\xc4\xd9\xd6\xd9\xd5\xc2\xb0",
+		// "sk_free" / M(Xor4) / S(69) / L(7)
+		"\x23\x3b\x0f\x36\x22\x35\x35\x50\x34\x58\x11\x3d\xc3\xa0\x16\x2c",
+		// "/usr/lib/libobjc.dylib" / M(Rot) / S(154) / L(22)
+		"\xc9\x0f\x0d\x0c\xc9\x06\x03\xfc\xc9\x06\x03\xfc\x09\xfc\x04\xfd\xc8\xfe\x13\x06\x03\xfc\x9a",
+		// "SHA1_Final" / M(Xor2) / S(11) / L(10)
+		"\x48\x53\x5a\x2a\x44\x5d\x72\x75\x7a\x77\x1b\x11\xa7\xd3\xa4\xba",
+		// "CFNumberCreate" / M(Xor2) / S(48) / L(14)
+		"\x63\x66\x6e\x55\x4d\x42\x45\x52\x63\x52\x45\x41\x54\x45\x20\xbf",
+		// "" / M(None) / S(0) / L(0)
+		"\x1e\xee\x5e\xea\xbe\xdf\xa8\x52\x09\x71\xd5\xf4\x96\x21\x3d\x98\x02\x03\x22\xed\xfb\x34\xc3\x68\xfc\xfe\x47\xe4\xd2\x74\x10\x8e",
+		// "" / M(None) / S(0) / L(0)
+		"\x5c\x45\xd2\xa2\x4c\x84\xa9\x56\x37\x46\x33\xe1\xbf\xbf\xac\x6a\x95\x30\xee\x67\xcc\xcc\x14\x90\x92\x18\x18\x1c\x93\x24\xa9\xb3",
+		// "CFDictionaryGetValue" / M(Xor3) / S(124) / L(20)
+		"\xd2\xd7\xd5\xf8\xf2\xe5\xf8\xfe\xff\xf0\xe3\xe8\xd6\xf4\xe5\xc7\xf0\xfd\xe4\xf4\x91",
+		// "" / M(None) / S(0) / L(0)
+		"\x39\x8f\xc1\xb4\x62\x7e\xec\x97\x6e\xf1\xff\x93\x68\xf6\x53\x6b\x6c\x2e\xcb\xb6\xe0\xeb\xe4\xa8\x0b\x43\xe1\x97\x21\x2a\x6a\x9f",
+		// "kCFTypeDictionaryValueCallBacks" / M(Xor1) / S(29) / L(31)
+		"\x76\x5e\x5b\x49\x64\x6d\x78\x59\x74\x7e\x69\x74\x72\x73\x7c\x6f\x64\x4b\x7c\x71\x68\x78\x5e\x7c\x71\x71\x5f\x7c\x7e\x76\x6e\x1d",
+		// "OBJ_txt2obj" / M(Rot) / S(203) / L(11)
+		"\x1a\x0d\x15\x2a\x3f\x43\x3f\xfd\x3a\x2d\x35\xcb\x9e\x35\x3d\xed",
+		// "" / M(None) / S(0) / L(0)
+		"\xd8\x41\xe2\x2b\x57\xb6\x17\x29\xc4\xbf\x9b\x15\xeb\x28\xab\xe9\x0d\xd5\x3b\xfc\x03\x7e\x49\x99\xb6\x7f\xd2\x37\x27\x36\x80\x44",
+		// "" / M(None) / S(0) / L(0)
+		"\x2d\x40\xf8\x52\x0b\x2a\xbf\x82\x21\xf6\x7b\xe4\xe8\x65\x5f\x71\x8c\x61\xc5\xe9\x03\x34\x1f\x93\x14\xa2\x32\x05\xaa\xec\x6a\x42",
+		// "" / M(None) / S(0) / L(0)
+		"\x9d\xa5\x9a\x06\x40\x46\x8a\x9c\x48\xd9\x36\x19\x7b\x14\x7a\x23\x6a\x2f\x05\x22\x8b\x93\xda\xea\xa2\x53\xb7\x04\xea\x79\xf7\x85",
+		// "IORegistryEntryCreateCFProperty" / M(Xor1) / S(148) / L(31)
+		"\xdd\xdb\xc6\xf1\xf3\xfd\xe7\xe0\xe6\xed\xd1\xfa\xe0\xe6\xed\xd7\xe6\xf1\xf5\xe0\xf1\xd7\xd2\xc4\xe6\xfb\xe4\xf1\xe6\xe0\xed\x94",
+		// "IORegistryEntryCreateCFProperty" / M(Xor1) / S(99) / L(31)
+		"\x2a\x2c\x31\x06\x04\x0a\x10\x17\x11\x1a\x26\x0d\x17\x11\x1a\x20\x11\x06\x02\x17\x06\x20\x25\x33\x11\x0c\x13\x06\x11\x17\x1a\x63",
+		// "4.0.1" / M(Xor3) / S(209) / L(5)
+		"\xd5\xcf\xd1\xcf\xd0\xe1\x8c\x07\x7d\x8d\x0a\x27\x67\xb3\x80\x97",
+		// "sha1" / M(Xor1) / S(207) / L(4)
+		"\xbc\xa7\xae\xfe\xcf\xb9\xf9\x55\x09\xeb\x12\xb8\x3c\x1b\xfc\xb8",
+		// "BIO_write" / M(Xor1) / S(90) / L(9)
+		"\x18\x13\x15\x05\x2d\x28\x33\x2e\x3f\x5a\xe4\xd4\xa1\xde\x69\x42",
+		// "kSecMatchLimitAll" / M(Xor4) / S(111) / L(17)
+		"\xa5\x9d\xab\xad\x83\xaf\xba\xad\xa6\x82\xa7\xa3\xa7\xba\x8f\xa2\xa2\xce",
+		// "CFDictionarySetValue" / M(Xor2) / S(47) / L(20)
+		"\x79\x7c\x7e\x53\x59\x4e\x53\x55\x54\x5b\x48\x43\x69\x5f\x4e\x6c\x5b\x56\x4f\x5f\x3a",
+		// "X509_get_ext_by_OBJ" / M(Xor2) / S(32) / L(19)
+		"\x6c\x01\x04\x0d\x6b\x53\x51\x40\x6b\x51\x4c\x40\x6b\x56\x4d\x6b\x7b\x76\x7e\x34",
+		// "IOObjectRelease" / M(Rot) / S(247) / L(15)
+		"\x40\x46\x46\x59\x61\x5c\x5a\x6b\x49\x5c\x63\x5c\x58\x6a\x5c\xf7",
+		// "" / M(None) / S(0) / L(0)
+		"\xad\xa1\xad\xcf\xea\x4a\xf6\x69\xf7\x95\xe4\xe1\xa8\x8b\xb9\x2a\x00\xdf\x4d\xa5\x02\xf0\x4a\x18\xf7\xf8\x58\x70\x5b\x3f\xa5\xdf",
+		// "longjmp" / M(Xor3) / S(24) / L(7)
+		"\x44\x47\x46\x4f\x42\x45\x58\x28\xf3\xcb\xed\x68\x32\xbd\xbf\xdc",
+		// "" / M(None) / S(0) / L(0)
+		"\xe1\xa1\x34\x99\x6c\xef\x6a\x40\x2f\x25\xd4\xe5\x91\xe9\x9f\x8a\x5b\xbf\xab\x79\x1d\xb8\xdf\xce\xbf\x0c\x9a\x50\xde\x06\xff\xb6",
+		// "CFRelease" / M(Rot) / S(166) / L(9)
+		"\xe9\xec\xf8\x0b\x12\x0b\x07\x19\x0b\xa6\x2d\x67\x93\xd6\x36\x75",
+		// "CFStringCreateWithBytes" / M(Rot) / S(204) / L(23)
+		"\x0f\x12\x1f\x40\x3e\x35\x3a\x33\x0f\x3e\x31\x2d\x40\x31\x23\x35\x40\x34\x0e\x45\x40\x31\x3f\xcc\xff\x8f\x5b\x3f\xa5\xee\x3a\x70",
+		// "kCFBundleIdentifierKey" / M(Rot) / S(250) / L(22)
+		"\x65\x3d\x40\x3c\x6f\x68\x5e\x66\x5f\x43\x5e\x5f\x68\x6e\x63\x60\x63\x5f\x6c\x45\x5f\x73\xfa",
+		// "61:1E:5B:66:2C:59:3A:08:FF:58:D1:4A:E2:24:52:D1:98:DF:6C:60" / M(Xor2) / S(48) / L(59)
+		"\x42\x45\x4e\x45\x31\x4e\x41\x36\x4e\x42\x42\x4e\x46\x37\x4e\x41\x4d\x4e\x47\x35\x4e\x44\x4c\x4e\x32\x32\x4e\x41\x4c\x4e\x30\x45\x4e\x40\x35\x4e\x31\x46\x4e\x46\x40\x4e\x41\x46\x4e\x30\x45\x4e\x4d\x4c\x4e\x30\x32\x4e\x42\x37\x4e\x42\x44\x74\x5e\x5d\xd9\x08\x67\x93\x1f\x75",
+		// "" / M(None) / S(0) / L(0)
+		"\x66\xbf\x0c\xc3\xfa\xcf\x8a\x76\x84\x8d\xfa\x89\xd2\x92\x38\x29\x38\x4c\xd5\x0b\x61\x9f\xdf\x2b\x3b\x75\x8d\xa8\xf5\x9a\xb6\xb9",
+		// "SHA1_Final" / M(Xor2) / S(221) / L(10)
+		"\x9e\x85\x8c\xfc\x92\x8b\xa4\xa3\xac\xa1\xcd\xc2\xf1\xb0\x44\x89",
+		// "glob" / M(Rot) / S(149) / L(4)
+		"\xfc\x01\x04\xf7\x95\x7a\x89\xba\x10\x57\x4b\x4a\x9f\x63\xb5\xad",
+		// "SHA1" / M(Xor1) / S(127) / L(4)
+		"\x2c\x37\x3e\x4e\x7f\x94\x56\xe3\xb9\x2c\xb5\x45\x56\xa8\x92\x28",
+		// "PKCS7_get0_signers" / M(Xor2) / S(33) / L(18)
+		"\x62\x79\x71\x61\x05\x6d\x55\x57\x46\x02\x6d\x41\x5b\x55\x5c\x57\x40\x41\x32",
+		// "BIO_write" / M(Xor1) / S(226) / L(9)
+		"\xa0\xab\xad\xbd\x95\x90\x8b\x96\x87\xe2\x93\x19\xfe\xff\xc6\x72",
+		// "CFRelease" / M(Xor1) / S(62) / L(9)
+		"\x7d\x78\x6c\x5b\x52\x5b\x5f\x4d\x5b\x3e\xea\x35\xa9\x2b\x4d\x11",
+		// "strlen" / M(Xor4) / S(181) / L(6)
+		"\x23\x24\x22\x3c\x35\x3e\x50\x63\x90\xf8\x62\x22\xb5\x2d\x0a\x6f",
+		// "CFDataAppendBytes" / M(Xor2) / S(239) / L(17)
+		"\xbe\xbb\xb9\x9c\x89\x9c\xbc\x8d\x8d\x98\x93\x99\xbf\x84\x89\x98\x8e\xfd",
+		// "CC_SHA1" / M(Xor3) / S(165) / L(7)
+		"\xf6\xf6\xea\xe6\xfd\xf4\x84\xb5\x68\x93\x15\x92\xd2\xdc\x50\x76",
+		// "" / M(None) / S(0) / L(0)
+		"\xa0\x46\xeb\x07\x17\x0d\x51\x31\x86\x5f\xa3\x12\x56\x40\xee\x94\xd1\x25\xc3\x35\x10\x64\x00\xac\x1e\xc5\xd7\xf2\xb8\x7c\x24\x52",
+		// "BIO_free" / M(Xor2) / S(170) / L(8)
+		"\xf8\xf3\xf5\xe5\xdc\xc8\xdf\xdf\xba\x0d\xba\xbe\x05\xa4\xd2\xc1",
+		// "X509_free" / M(Xor3) / S(182) / L(9)
+		"\x9e\xf3\xf6\xff\x99\xa0\xb4\xa3\xa3\xc6\xbb\x96\x4a\xa6\xe8\xad",
+		// "" / M(None) / S(0) / L(0)
+		"\x07\x9a\xe5\xc0\x3b\xf8\x3b\xa3\x7b\xb0\x48\x2b\x8e\x7b\x2a\x8e\x57\xc7\xd0\x03\xe2\x39\x94\x4d\x3f\x50\x22\x57\xd1\x58\xf6\xe3",
+		// "strncmp" / M(Xor1) / S(243) / L(7)
+		"\x80\x87\x81\x9d\x90\x9e\x83\xf3\xf5\x3f\x9a\x92\x84\x3c\xc0\xa3",
+		// "SecKeychainOpen" / M(Xor4) / S(114) / L(15)
+		"\x73\x45\x43\x6b\x45\x59\x43\x48\x41\x49\x4e\x6f\x50\x45\x4e\x20",
+		// "CFReadStreamClose" / M(Xor2) / S(96) / L(17)
+		"\x31\x34\x20\x17\x13\x16\x21\x06\x00\x17\x13\x1f\x31\x1e\x1d\x01\x17\x72",
+		// "CFDataCreate" / M(Xor1) / S(208) / L(12)
+		"\x93\x96\x94\xb1\xa4\xb1\x93\xa2\xb5\xb1\xa4\xb5\xd0\x37\xe7\xc7",
+		// "IORegistryEntryGetParentEntry" / M(Xor3) / S(214) / L(29)
+		"\xb5\xb3\xae\x99\x9b\x95\x8f\x88\x8e\x85\xb9\x92\x88\x8e\x85\xbb\x99\x88\xac\x9d\x8e\x99\x92\x88\xb9\x92\x88\x8e\x85\xfc\x29\x07\x6a\x92\x13\xf8\xf7\x75",
+		// "CFReadStreamCreateWithFile" / M(Xor1) / S(27) / L(26)
+		"\x58\x5d\x49\x7e\x7a\x7f\x48\x6f\x69\x7e\x7a\x76\x58\x69\x7e\x7a\x6f\x7e\x4c\x72\x6f\x73\x5d\x72\x77\x7e\x1b\xe4\xfd\x86\xf5\xdb\x9a\x58\xef",
+		// "kSecMatchSubjectContains" / M(Xor1) / S(247) / L(24)
+		"\x9c\xa4\x92\x94\xba\x96\x83\x94\x9f\xa4\x82\x95\x9d\x92\x94\x83\xb4\x98\x99\x83\x96\x9e\x99\x84\xf7\xaa\x43\xb2\x86\x50\xfb\x1e\xd9",
+		// "BIO_write" / M(Xor1) / S(247) / L(9)
+		"\xb5\xbe\xb8\xa8\x80\x85\x9e\x83\x92\xf7\x3b\xf0\xc1\x20\x4d\x99",
+		// "EVP_DigestInit" / M(Xor3) / S(43) / L(14)
+		"\x7e\x6d\x6b\x64\x7f\x52\x5c\x5e\x48\x4f\x72\x55\x52\x4f\x3b\xd2",
+		// "" / M(None) / S(0) / L(0)
+		"\xe3\xf3\xca\x2b\xb2\x72\x6a\x42\xce\xfb\x64\x0d\x81\xc6\x18\xd0\x85\x87\xcf\x60\xaa\xcc\x5c\x24\xb7\xf2\xf5\x10\x46\xc8\x39\x38",
+		// "kSecClass" / M(Xor1) / S(220) / L(9)
+		"\xb7\x8f\xb9\xbf\x9f\xb0\xbd\xaf\xaf\xdc\x76\x4c\x2d\x75\xbc\x38",
+		// "alloc" / M(Xor3) / S(233) / L(5)
+		"\x98\x95\x95\x96\x9a\xf9\x89\x4d\xeb\xf5\xbc\xcf\xd5\xae\x30\x6d",
+		// "/usr/lib/libobjc.dylib" / M(Xor3) / S(232) / L(22)
+		"\xd0\x8a\x8c\x8d\xd0\x93\x96\x9d\xd0\x93\x96\x9d\x90\x9d\x95\x9c\xd1\x9b\x86\x93\x96\x9d\xff",
+		// "" / M(None) / S(0) / L(0)
+		"\xe2\x4c\xc6\x81\xf9\x64\x75\x86\x42\x49\x34\x81\x8e\xc8\xf1\x1b\x99\x30\x61\xc1\x12\x2e\xa9\xab\x10\x7d\x65\x31\x79\x06\xcd\x47",
+		// "CFStringCompare" / M(Rot) / S(1) / L(15)
+		"\x44\x47\x54\x75\x73\x6a\x6f\x68\x44\x70\x6e\x71\x62\x73\x66\x01",
+		// "CFReadStreamOpen" / M(Xor1) / S(144) / L(16)
+		"\xd3\xd6\xc2\xf5\xf1\xf4\xc3\xe4\xe2\xf5\xf1\xfd\xdf\xe0\xf5\xfe\x90",
+		// "setjmp" / M(Xor3) / S(104) / L(6)
+		"\x0b\x1d\x0c\x12\x15\x08\x78\xcf\xa5\x79\x5f\x64\x12\xdb\x6e\x9d",
+		// "kSecMatchSearchList" / M(Xor2) / S(163) / L(19)
+		"\xdc\xe4\xd2\xd4\xfa\xd6\xc3\xd4\xdf\xe4\xd2\xd6\xc5\xd4\xdf\xfb\xde\xc4\xc3\xb7",
+		// "" / M(None) / S(0) / L(0)
+		"\xb8\x1b\xd9\xff\x37\x50\xdf\x6a\xee\x9f\xff\xe9\xba\x2e\x7a\x0c\xe1\x77\xab\x15\x4f\x33\x6b\x9a\x94\xab\xa7\xfa\x2c\x25\xa7\xd8",
+		// "" / M(None) / S(0) / L(0)
+		"\x5b\x94\x82\xa5\x0e\xc3\xa0\x8d\x4f\xea\x16\xfc\xdf\x75\x3f\x76\xe9\xb9\x89\x7e\xd9\xa8\xa0\xe0\xbf\x44\x7c\x92\x42\x1c\xc9\x61",
+		// "sel_registerName" / M(Rot) / S(234) / L(16)
+		"\x5d\x4f\x56\x49\x5c\x4f\x51\x53\x5d\x5e\x4f\x5c\x38\x4b\x57\x4f\xea",
+		// "" / M(None) / S(0) / L(0)
+		"\x4f\x14\xd2\xbd\x4f\x05\xcc\x6a\x8d\xf1\x8c\xd0\x59\xc3\xfa\xb3\xeb\x63\x7d\x99\xe2\x8b\x0f\xfa\x44\x6d\xd3\x50\x73\x9b\xc0\xe4",
+		// "CFStringCreateWithCString" / M(Xor1) / S(106) / L(25)
+		"\x29\x2c\x39\x1e\x18\x03\x04\x0d\x29\x18\x0f\x0b\x1e\x0f\x3d\x03\x1e\x02\x29\x39\x1e\x18\x03\x04\x0d\x6a\xbc\x68\xe4\x0d\xda\xb3\xa9\xba",
+		// "" / M(None) / S(0) / L(0)
+		"\x5c\x25\x70\x0e\x1b\x7c\x7c\x35\xce\x25\x01\x40\xc5\x15\xd1\xc5\xff\x0e\xbe\xf1\xa8\x2d\xa0\x6b\xb8\xac\x4c\x40\xe9\x4f\xee\x58",
+		// "start" / M(Xor4) / S(125) / L(5)
+		"\xa3\xa4\xb1\xa2\xa4\xd0\x8f\x13\x62\x69\x36\xc4\x12\xb7\x3d\xb5",
+		// "PKCS7_get0_signers" / M(Xor3) / S(45) / L(18)
+		"\x10\x0b\x03\x13\x77\x1f\x27\x25\x34\x70\x1f\x33\x29\x27\x2e\x25\x32\x33\x40",
+		// "kCFBundleIdentifierKey" / M(Xor2) / S(81) / L(22)
+		"\x2d\x05\x00\x04\x33\x28\x22\x2a\x23\x0f\x22\x23\x28\x32\x2f\x20\x2f\x23\x34\x0d\x23\x3f\x46",
+		// "" / M(None) / S(0) / L(0)
+		"\x23\x66\xce\x19\xfd\xe4\xe2\x26\x64\x6e\xdb\xf1\xe2\xe1\x5a\xd9\xb5\x26\x04\x33\xb2\x71\xf5\x04\x02\x0a\x40\x02\x7f\x97\x53\xa7",
+		// "" / M(None) / S(0) / L(0)
+		"\xc1\x92\x64\xd4\x32\xef\x6b\x26\x59\x98\xec\x74\x7a\x2f\x76\xb4\xaa\x41\xff\xe6\xd0\x57\x04\x7b\xa4\x3b\xb4\x28\xb2\xf2\xbb\x3d",
+		// "CFBundleUnloadExecutable" / M(Xor1) / S(212) / L(24)
+		"\x97\x92\x96\xa1\xba\xb0\xb8\xb1\x81\xba\xb8\xbb\xb5\xb0\x91\xac\xb1\xb7\xa1\xa0\xb5\xb6\xb8\xb1\xd4\x7f\x33\x0a\x6d\xe1\xa8\x7e\xa8",
+		// "ASN1_OBJECT_free" / M(Xor2) / S(76) / L(16)
+		"\x1c\x0e\x13\x6c\x02\x12\x1f\x17\x18\x1e\x09\x02\x3b\x2f\x38\x38\x5d",
+		// "IOBSDNameMatching" / M(Xor4) / S(105) / L(17)
+		"\x2b\x2d\x20\x31\x26\x2c\x03\x0f\x07\x2f\x03\x16\x01\x0a\x0b\x0c\x05\x62",
+		// "" / M(None) / S(0) / L(0)
+		"\x15\x42\x04\x6d\x66\x2a\x62\x01\x7b\xc2\x33\xcb\xa0\x9e\xff\x87\x65\x04\x4d\x56\xe5\x61\xec\x83\x7d\x22\xd0\xc4\x89\x40\xc3\x58",
+		// "OpenSSL_add_all_digests" / M(Rot) / S(17) / L(23)
+		"\x60\x81\x76\x7f\x64\x64\x5d\x70\x72\x75\x75\x70\x72\x7d\x7d\x70\x75\x7a\x78\x76\x84\x85\x84\x11\x44\xd1\xa3\x59\x24\x58\x64\x17",
+		// "/System/Library/Frameworks/Security.framework/Security" / M(Xor1) / S(59) / L(54)
+		"\x14\x68\x42\x48\x4f\x5e\x56\x14\x77\x52\x59\x49\x5a\x49\x42\x14\x7d\x49\x5a\x56\x5e\x4c\x54\x49\x50\x48\x14\x68\x5e\x58\x4e\x49\x52\x4f\x42\x15\x5d\x49\x5a\x56\x5e\x4c\x54\x49\x50\x14\x68\x5e\x58\x4e\x49\x52\x4f\x42\x3b",
+		// "receipt" / M(Xor1) / S(187) / L(7)
+		"\xc9\xde\xd8\xde\xd2\xcb\xcf\xbb\xe3\x75\x60\xbd\x33\x7f\x21\x85",
+		// "" / M(None) / S(0) / L(0)
+		"\x1c\x29\x41\xaf\x8e\xd8\xb4\x23\xdb\xfb\x99\x7a\x72\xa3\x8e\x20\xbe\x92\x58\xed\x69\x7a\x7a\xbd\x26\xda\x2c\xb7\x9c\x8a\x4c\x58",
+		// "CFURLCreateCopyAppendingPathComponent" / M(Xor2) / S(233) / L(37)
+		"\x8c\x89\x9a\x9d\x83\x8c\xbd\xaa\xae\xbb\xaa\x8c\xa0\xbf\xb6\x8e\xbf\xbf\xaa\xa1\xab\xa6\xa1\xa8\x9f\xae\xbb\xa7\x8c\xa0\xa2\xbf\xa0\xa1\xaa\xa1\xbb\xcf",
+		// "" / M(None) / S(0) / L(0)
+		"\xe7\x37\x32\x26\x2c\x5c\xf9\x45\x45\xba\xfd\xf7\xf8\x71\x09\xbf\xfc\xf5\x98\xd1\xa3\x38\x0b\xc4\x42\x09\x7d\x67\xac\x57\x2a\x96",
+		// "strncmp" / M(Xor1) / S(2) / L(7)
+		"\x71\x76\x70\x6c\x61\x6f\x72\x02\x4f\x96\x5d\x25\x70\xc7\x68\xfa",
+		// "CFBundleGetValueForInfoDictionaryKey" / M(Xor3) / S(217) / L(36)
+		"\xbd\xb8\xbc\x8b\x90\x9a\x92\x9b\xb9\x9b\x8a\xa8\x9f\x92\x8b\x9b\xb8\x91\x8c\xb7\x90\x98\x91\xba\x97\x9d\x8a\x97\x91\x90\x9f\x8c\x87\xb5\x9b\x87\xfe",
+		// "" / M(None) / S(0) / L(0)
+		"\xb6\xde\x7c\x7a\xaa\x1c\x16\xfe\x96\x62\x55\x97\xd6\x41\xb1\x61\x97\x23\x3a\x34\xde\xf4\x2e\x50\x81\x53\xaa\xb1\xb1\xdc\x2e\x46",
+		// "CFBundleIdentifier" / M(Xor3) / S(216) / L(18)
+		"\xa8\xad\xa9\x9e\x85\x8f\x87\x8e\xa2\x8f\x8e\x85\x9f\x82\x8d\x82\x8e\x99\xeb",
+		// "kSecClassCertificate" / M(Rot) / S(180) / L(20)
+		"\x1f\x07\x19\x17\xf7\x20\x15\x27\x27\xf7\x19\x26\x28\x1d\x1a\x1d\x17\x15\x28\x19\xb4",
+		// "BIO_s_mem" / M(Xor2) / S(232) / L(9)
+		"\xba\xb1\xb7\xa7\x8b\xa7\x95\x9d\x95\xf8\x34\xd6\xaf\xc3\x9f\x1f",
+		// "kSecReturnRef" / M(Xor2) / S(134) / L(13)
+		"\xfd\xc5\xf3\xf5\xc4\xf3\xe2\xe3\xe4\xf8\xc4\xf3\xf0\x96\x0e\x71",
+		// "SecKeychainSearchCreateFromAttributes" / M(Xor1) / S(88) / L(37)
+		"\x0b\x3d\x3b\x13\x3d\x21\x3b\x30\x39\x31\x36\x0b\x3d\x39\x2a\x3b\x30\x1b\x2a\x3d\x39\x2c\x3d\x1e\x2a\x37\x35\x19\x2c\x2c\x2a\x31\x3a\x2d\x2c\x3d\x2b\x58",
+		// "CFDictionaryAddValue" / M(Xor4) / S(187) / L(20)
+		"\x14\x11\x13\x3e\x34\x23\x3e\x38\x39\x36\x25\x2e\x16\x33\x33\x01\x36\x3b\x22\x32\x57",
+		// "CFDataGetBytePtr" / M(Rot) / S(62) / L(16)
+		"\x81\x84\x82\x9f\xb2\x9f\x85\xa3\xb2\x80\xb7\xb2\xa3\x8e\xb2\xb0\x3e",
+		// "_MASReceipt" / M(Xor1) / S(194) / L(11)
+		"\x9d\x8f\x83\x91\x90\xa7\xa1\xa7\xab\xb2\xb6\xc2\x7a\xed\xfd\xb3",
+		// "PKCS7_free" / M(Xor4) / S(29) / L(10)
+		"\x80\x9b\x93\x83\xe7\x8f\xb6\xa2\xb5\xb5\xd0\xac\xed\xd8\x23\xbc",
+		// "CFArrayAppendValue" / M(Xor3) / S(30) / L(18)
+		"\x72\x77\x70\x43\x43\x50\x48\x70\x41\x41\x54\x5f\x55\x67\x50\x5d\x44\x54\x31",
+		// "CC_SHA1" / M(Xor1) / S(36) / L(7)
+		"\x67\x67\x7b\x77\x6c\x65\x15\x24\x4f\xc7\x38\x87\x5b\xa8\xa3\x61",
+		// "%02x" / M(Xor3) / S(237) / L(4)
+		"\xd8\xcd\xcf\x85\xfd\xf7\xc0\x80\x0c\x30\x7e\x4c\xa4\x8b\x4d\x7a",
+		// "CFDataCreateMutable" / M(Xor1) / S(195) / L(19)
+		"\x80\x85\x87\xa2\xb7\xa2\x80\xb1\xa6\xa2\xb7\xa6\x8e\xb6\xb7\xa2\xa1\xaf\xa6\xc3",
+		// "611E5B662C593A08FF58D14AE22452D198DF6C60" / M(Rot) / S(194) / L(40)
+		"\xf8\xf3\xf3\x07\xf7\x04\xf8\xf8\xf4\x05\xf7\xfb\xf5\x03\xf2\xfa\x08\x08\xf7\xfa\x06\xf3\xf6\x03\x07\xf4\xf4\xf6\xf7\xf4\x06\xf3\xfb\xfa\x06\x08\xf8\x05\xf8\xf2\xc2\x37\xd2\x05\x14\x27\x53\x3e\x9e",
+		// "init" / M(Xor1) / S(10) / L(4)
+		"\x63\x64\x63\x7e\x0a\x0d\x76\x43\xd1\xc9\x48\x59\xc9\x0b\x3e\xcd",
+		// "SecKeychainSearchCreateFromAttributes" / M(Xor4) / S(158) / L(37)
+		"\x27\x11\x17\x3f\x11\x0d\x17\x1c\x15\x1d\x1a\x27\x11\x15\x06\x17\x1c\x37\x06\x11\x15\x00\x11\x32\x06\x1b\x19\x35\x00\x00\x06\x1d\x16\x01\x00\x11\x07\x74",
+		// "CFStringCreateWithBytes" / M(Xor3) / S(60) / L(23)
+		"\x1f\x1a\x0f\x28\x2e\x35\x32\x3b\x1f\x2e\x39\x3d\x28\x39\x0b\x35\x28\x34\x1e\x25\x28\x39\x2f\x5c\x76\xba\xbe\x4d\x56\xaa\xfe\xc8",
+		// "4.0.1" / M(Xor3) / S(142) / L(5)
+		"\xaa\xb0\xae\xb0\xaf\x9e\xcc\xca\xac\xde\xd2\x53\x29\x89\x28\xa7",
+		// "objc_msgSend" / M(Xor3) / S(109) / L(12)
+		"\x12\x1f\x17\x1e\x22\x10\x0e\x1a\x2e\x18\x13\x19\x7d\xec\x9c\xe0",
+		// "ASN1_OBJECT_free" / M(Rot) / S(170) / L(16)
+		"\xeb\xfd\xf8\xdb\x09\xf9\xec\xf4\xef\xed\xfe\x09\x10\x1c\x0f\x0f\xaa",
+		// "X509_STORE_add_cert" / M(Xor2) / S(115) / L(19)
+		"\x3f\x52\x57\x5e\x38\x34\x33\x28\x35\x22\x38\x06\x03\x03\x38\x04\x02\x15\x13\x67",
+		// "CFBundleUnloadExecutable" / M(Xor3) / S(16) / L(24)
+		"\x72\x77\x73\x44\x5f\x55\x5d\x54\x64\x5f\x5d\x5e\x50\x55\x74\x49\x54\x52\x44\x45\x50\x53\x5d\x54\x31\x27\x23\xe6\x4d\x86\xba\x5a\x4f",
+		// "CFArrayCreateMutable" / M(Xor4) / S(224) / L(20)
+		"\x23\x26\x21\x12\x12\x01\x19\x23\x12\x05\x01\x14\x05\x2d\x15\x14\x01\x02\x0c\x05\x60",
+		// "de.codingmonkeys.SubEthaEdit.Mac" / M(Xor2) / S(245) / L(32)
+		"\xb0\xb1\xfa\xb7\xbb\xb0\xbd\xba\xb3\xb9\xbb\xba\xbf\xb1\xad\xa7\xfa\x87\xa1\xb6\x91\xa0\xbc\xb5\x91\xb0\xbd\xa0\xfa\x99\xb5\xb7\xd4",
+		// "ASN1_get_object" / M(Xor1) / S(153) / L(15)
+		"\xd8\xca\xd7\xa8\xc6\xfe\xfc\xed\xc6\xf6\xfb\xf3\xfc\xfa\xed\x99",
+		// "61:1E:5B:66:2C:59:3A:08:FF:58:D1:4A:E2:24:52:D1:98:DF:6C:60" / M(Xor1) / S(113) / L(59)
+		"\x47\x40\x4b\x40\x34\x4b\x44\x33\x4b\x47\x47\x4b\x43\x32\x4b\x44\x48\x4b\x42\x30\x4b\x41\x49\x4b\x37\x37\x4b\x44\x49\x4b\x35\x40\x4b\x45\x30\x4b\x34\x43\x4b\x43\x45\x4b\x44\x43\x4b\x35\x40\x4b\x48\x49\x4b\x35\x37\x4b\x47\x32\x4b\x47\x41\x71\x75\x15\x06\x9f\x7d\xf9\x85\x08",
+		// "X509_NAME_get_text_by_NID" / M(Xor2) / S(145) / L(25)
+		"\xeb\x86\x83\x8a\xec\xfd\xf2\xfe\xf6\xec\xd4\xd6\xc7\xec\xc7\xd6\xcb\xc7\xec\xd1\xca\xec\xfd\xfa\xf7\xb3\x57\x8b\x60\xe4\xe7\x5e\x10\xfb",
+		// "X509_get_ext_by_OBJ" / M(Xor3) / S(117) / L(19)
+		"\xd1\xbc\xb9\xb0\xd6\xee\xec\xfd\xd6\xec\xf1\xfd\xd6\xeb\xf0\xd6\xc6\xcb\xc3\x89",
+		// "_MASReceipt" / M(Xor4) / S(174) / L(11)
+		"\xbf\xad\xa1\xb3\xb2\x85\x83\x85\x89\x90\x94\xe0\xf3\xac\xc2\x38",
+		// "sk_free" / M(Xor2) / S(115) / L(7)
+		"\x10\x08\x3c\x05\x11\x06\x06\x63\x0e\x80\x5e\xa7\x0b\x90\x78\xda",
+		// "61:1e:5b:66:2c:59:3a:08:ff:58:d1:4a:e2:24:52:d1:98:df:6c:60" / M(Xor4) / S(64) / L(59)
+		"\x36\x31\x3a\x31\x65\x3a\x35\x62\x3a\x36\x36\x3a\x32\x63\x3a\x35\x39\x3a\x33\x61\x3a\x30\x38\x3a\x66\x66\x3a\x35\x38\x3a\x64\x31\x3a\x34\x61\x3a\x65\x32\x3a\x32\x34\x3a\x35\x32\x3a\x64\x31\x3a\x39\x38\x3a\x64\x66\x3a\x36\x63\x3a\x36\x30\x00\xc6\x27\x2e\xd4\x4c\xbb\xea\x38",
+		// "" / M(None) / S(0) / L(0)
+		"\x24\x9a\xa1\x61\x9b\xc8\x0e\x9a\x5e\x74\x97\x6f\x59\x17\x96\xf2\x87\x29\xbd\xfa\xa6\x4d\x68\x6f\xb9\xe1\xd8\x49\x81\x4e\xf0\xfb",
+		// "IOServiceGetMatchingServices" / M(Xor3) / S(51) / L(28)
+		"\x11\x17\x0b\x3d\x2a\x2e\x31\x3b\x3d\x1f\x3d\x2c\x15\x39\x2c\x3b\x30\x31\x36\x3f\x0b\x3d\x2a\x2e\x31\x3b\x3d\x2b\x58\xa3\x95\x56\x39\xe5\x3c\x7a\x74",
+		// "" / M(None) / S(0) / L(0)
+		"\x04\xe0\xff\x67\xe7\x99\xcb\xa5\x9b\x10\x76\xe4\x4e\xe0\xe7\x12\x99\xc8\xd8\x68\x5b\xdf\x56\x28\x96\xc1\x61\x33\xe0\x74\xcf\xb9",
+		// "CFDictionarySetValue" / M(Xor1) / S(97) / L(20)
+		"\x22\x27\x25\x08\x02\x15\x08\x0e\x0f\x00\x13\x18\x32\x04\x15\x37\x00\x0d\x14\x04\x61",
 	};
 
 	// Table for storing pointers
-	static void *SEEAppStoreReceipt_Pointers[549] = {
+	static void *SEEAppStoreReceipt_Pointers[573] = {
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) dlopen),
+		((void *) NULL),
+		((void *) BIO_s_mem),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) strlen),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) EVP_get_digestbyname),
+		((void *) d2i_PKCS7_bio),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) X509_STORE_new),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) dlsym),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) EVP_DigestInit),
+		((void *) NULL),
+		((void *) PKCS7_verify),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) BIO_free),
+		((void *) NULL),
+		((void *) globfree),
+		((void *) NULL),
+		((void *) X509_digest),
+		((void *) sk_value),
+		((void *) PKCS7_verify),
+		((void *) glob_b),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) SHA1),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) ASN1_OBJECT_free),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
 		((void *) NULL),
 		((void *) sk_num),
+		((void *) EVP_DigestUpdate),
+		((void *) RTLD_MAIN_ONLY),
 		((void *) NULL),
 		((void *) NULL),
 		((void *) NULL),
 		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) EVP_MD_CTX_init),
+		((void *) NULL),
+		((void *) EVP_MD_CTX_init),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) sk_free),
+		((void *) sk_value),
+		((void *) OpenSSL_add_all_digests),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) BIO_new),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) BIO_s_mem),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) glob_b),
+		((void *) NULL),
+		((void *) d2i_PKCS7_bio),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) SHA1_Init),
+		((void *) NULL),
+		((void *) X509_free),
+		((void *) NULL),
+		((void *) strncmp),
+		((void *) NULL),
+		((void *) d2i_X509_bio),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) X509_STORE_free),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) BIO_new),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) RTLD_MAIN_ONLY),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) EVP_DigestFinal),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) EVP_MD_CTX_init),
+		((void *) globfree),
+		((void *) NULL),
+		((void *) dlopen),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) SHA1_Update),
 		((void *) NULL),
 		((void *) NULL),
 		((void *) NULL),
@@ -1568,106 +1823,22 @@ extern "C" {
 		((void *) NULL),
 		((void *) NULL),
 		((void *) X509_STORE_add_cert),
-		((void *) d2i_PKCS7_bio),
 		((void *) NULL),
-		((void *) NULL),
-		((void *) BIO_free),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) OBJ_txt2obj),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) d2i_PKCS7_bio),
-		((void *) OpenSSL_add_all_digests),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) sk_free),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) ASN1_OBJECT_free),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) dlopen),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) SHA1_Init),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) strcmp),
 		((void *) NULL),
 		((void *) NULL),
 		((void *) NULL),
 		((void *) NULL),
 		((void *) RTLD_MAIN_ONLY),
 		((void *) NULL),
-		((void *) CFStringCreateWithCString),
+		((void *) d2i_PKCS7_bio),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) SHA1_Update),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
 		((void *) glob),
-		((void *) SHA1_Init),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) SHA1),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) PKCS7_verify),
-		((void *) PKCS7_verify),
-		((void *) OpenSSL_add_all_digests),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) PKCS7_verify),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) X509_NAME_get_text_by_NID),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) CFStringCreateWithBytes),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) X509_STORE_free),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) EVP_get_digestbyname),
-		((void *) NULL),
-		((void *) SHA1_Final),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) EVP_DigestInit),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
 		((void *) NULL),
 		((void *) NULL),
 		((void *) NULL),
@@ -1685,234 +1856,92 @@ extern "C" {
 		((void *) NULL),
 		((void *) NULL),
 		((void *) ASN1_get_object),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) CFStringCreateWithCString),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) SHA1),
-		((void *) NULL),
-		((void *) X509_digest),
-		((void *) NULL),
 		((void *) PKCS7_get0_signers),
 		((void *) NULL),
 		((void *) NULL),
 		((void *) NULL),
-		((void *) BIO_write),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
 		((void *) NULL),
 		((void *) NULL),
 		((void *) NULL),
 		((void *) NULL),
 		((void *) NULL),
 		((void *) X509_digest),
-		((void *) X509_NAME_get_text_by_NID),
-		((void *) NULL),
-		((void *) SHA1),
 		((void *) NULL),
 		((void *) NULL),
 		((void *) NULL),
-		((void *) NULL),
-		((void *) BIO_s_mem),
-		((void *) X509_STORE_new),
 		((void *) OBJ_txt2obj),
 		((void *) NULL),
-		((void *) EVP_MD_CTX_init),
+		((void *) EVP_DigestFinal),
+		((void *) NULL),
+		((void *) X509_STORE_new),
 		((void *) NULL),
 		((void *) NULL),
-		((void *) BIO_s_mem),
-		((void *) globfree),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) EVP_DigestInit),
+		((void *) glob_b),
+		((void *) NULL),
+		((void *) X509_NAME_get_text_by_NID),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) SHA1_Init),
+		((void *) EVP_get_digestbyname),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) EVP_DigestUpdate),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
 		((void *) NULL),
 		((void *) NULL),
 		((void *) SHA1_Update),
 		((void *) NULL),
-		((void *) EVP_MD_CTX_init),
-		((void *) BIO_free),
+		((void *) X509_digest),
 		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) ASN1_get_object),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) BIO_write),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) EVP_MD_CTX_init),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) strlen),
-		((void *) NULL),
-		((void *) d2i_X509_bio),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) BIO_free),
-		((void *) NULL),
-		((void *) dlopen),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) X509_STORE_new),
-		((void *) NULL),
-		((void *) PKCS7_free),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) PKCS7_get0_signers),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) RTLD_MAIN_ONLY),
-		((void *) NULL),
-		((void *) glob_b),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) EVP_get_digestbyname),
-		((void *) X509_get_ext_by_OBJ),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) BIO_new),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) CFStringCreateWithBytes),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) sk_free),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) ASN1_OBJECT_free),
-		((void *) CFStringCreateWithBytes),
-		((void *) NULL),
-		((void *) X509_get_ext_by_OBJ),
-		((void *) strlen),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) SHA1_Init),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) BIO_s_mem),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) X509_STORE_free),
-		((void *) NULL),
-		((void *) EVP_DigestInit),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) EVP_DigestUpdate),
-		((void *) sk_value),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) X509_STORE_add_cert),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) X509_free),
-		((void *) NULL),
-		((void *) SHA1_Final),
-		((void *) strncmp),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) X509_NAME_get_text_by_NID),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) EVP_DigestUpdate),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) strncmp),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) CFStringCreateWithCString),
 		((void *) EVP_DigestFinal),
 		((void *) NULL),
-		((void *) sk_num),
+		((void *) SHA1),
+		((void *) EVP_get_digestbyname),
+		((void *) dlsym),
 		((void *) NULL),
-		((void *) NULL),
-		((void *) d2i_X509_bio),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
+		((void *) X509_NAME_get_text_by_NID),
 		((void *) NULL),
 		((void *) NULL),
 		((void *) OpenSSL_add_all_digests),
 		((void *) NULL),
 		((void *) NULL),
 		((void *) NULL),
-		((void *) SHA1_Update),
-		((void *) NULL),
-		((void *) RTLD_MAIN_ONLY),
 		((void *) NULL),
 		((void *) NULL),
 		((void *) NULL),
 		((void *) NULL),
-		((void *) EVP_DigestInit),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) PKCS7_free),
+		((void *) globfree),
+		((void *) NULL),
+		((void *) sk_num),
+		((void *) NULL),
+		((void *) X509_STORE_free),
+		((void *) NULL),
 		((void *) NULL),
 		((void *) NULL),
 		((void *) NULL),
@@ -1921,14 +1950,9 @@ extern "C" {
 		((void *) NULL),
 		((void *) d2i_X509_bio),
 		((void *) NULL),
-		((void *) SHA1_Final),
 		((void *) NULL),
 		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) strcmp),
-		((void *) NULL),
-		((void *) NULL),
+		((void *) X509_free),
 		((void *) NULL),
 		((void *) NULL),
 		((void *) NULL),
@@ -1937,36 +1961,46 @@ extern "C" {
 		((void *) NULL),
 		((void *) NULL),
 		((void *) NULL),
-		((void *) d2i_PKCS7_bio),
 		((void *) NULL),
 		((void *) NULL),
 		((void *) NULL),
 		((void *) NULL),
-		((void *) dlopen),
+		((void *) NULL),
+		((void *) BIO_free),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) CFStringCreateWithBytes),
+		((void *) NULL),
 		((void *) NULL),
 		((void *) NULL),
 		((void *) NULL),
 		((void *) NULL),
 		((void *) NULL),
 		((void *) dlsym),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) ASN1_get_object),
+		((void *) OBJ_txt2obj),
 		((void *) X509_get_ext_by_OBJ),
 		((void *) NULL),
 		((void *) NULL),
 		((void *) NULL),
-		((void *) EVP_DigestUpdate),
-		((void *) ASN1_get_object),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) strncmp),
 		((void *) NULL),
 		((void *) NULL),
 		((void *) NULL),
 		((void *) NULL),
 		((void *) NULL),
 		((void *) NULL),
-		((void *) glob_b),
-		((void *) SHA1_Update),
-		((void *) globfree),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) PKCS7_verify),
+		((void *) NULL),
+		((void *) NULL),
 		((void *) NULL),
 		((void *) NULL),
 		((void *) NULL),
@@ -1975,82 +2009,14 @@ extern "C" {
 		((void *) X509_STORE_new),
 		((void *) NULL),
 		((void *) NULL),
-		((void *) dlsym),
-		((void *) X509_free),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) sk_value),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) ASN1_OBJECT_free),
 		((void *) NULL),
 		((void *) NULL),
 		((void *) NULL),
 		((void *) NULL),
-		((void *) strcmp),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) PKCS7_get0_signers),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) glob_b),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) EVP_DigestFinal),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) sk_free),
-		((void *) NULL),
-		((void *) BIO_new),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) sk_num),
-		((void *) sk_value),
-		((void *) NULL),
-		((void *) OBJ_txt2obj),
-		((void *) NULL),
-		((void *) BIO_write),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
+		((void *) d2i_X509_bio),
 		((void *) NULL),
 		((void *) NULL),
 		((void *) strlen),
-		((void *) PKCS7_free),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) dlsym),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) BIO_new),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
 		((void *) NULL),
 		((void *) NULL),
 		((void *) NULL),
@@ -2059,45 +2025,158 @@ extern "C" {
 		((void *) NULL),
 		((void *) NULL),
 		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) X509_digest),
-		((void *) EVP_DigestFinal),
-		((void *) EVP_get_digestbyname),
-		((void *) NULL),
-		((void *) glob),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) X509_free),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
-		((void *) NULL),
+		((void *) SHA1_Final),
+		((void *) CFStringCreateWithCString),
 		((void *) NULL),
 		((void *) X509_STORE_free),
 		((void *) NULL),
 		((void *) NULL),
+		((void *) EVP_DigestUpdate),
+		((void *) sk_num),
 		((void *) NULL),
 		((void *) NULL),
 		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) BIO_new),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) SHA1_Init),
 		((void *) glob),
+		((void *) CFStringCreateWithCString),
+		((void *) NULL),
+		((void *) NULL),
 		((void *) NULL),
 		((void *) NULL),
 		((void *) PKCS7_free),
-		((void *) globfree),
 		((void *) NULL),
+		((void *) NULL),
+		((void *) sk_value),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) dlopen),
+		((void *) NULL),
+		((void *) sk_free),
+		((void *) NULL),
+		((void *) SHA1_Final),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) OBJ_txt2obj),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) BIO_write),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) X509_get_ext_by_OBJ),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) CFStringCreateWithBytes),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) SHA1_Final),
+		((void *) glob),
+		((void *) SHA1),
+		((void *) PKCS7_get0_signers),
+		((void *) BIO_write),
+		((void *) NULL),
+		((void *) strlen),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) BIO_free),
+		((void *) X509_free),
+		((void *) NULL),
+		((void *) strncmp),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) BIO_write),
+		((void *) EVP_DigestInit),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) CFStringCreateWithCString),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) PKCS7_get0_signers),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) ASN1_OBJECT_free),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) OpenSSL_add_all_digests),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) strncmp),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) BIO_s_mem),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) PKCS7_free),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) CFStringCreateWithBytes),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) ASN1_OBJECT_free),
+		((void *) X509_STORE_add_cert),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) NULL),
+		((void *) ASN1_get_object),
+		((void *) NULL),
+		((void *) X509_NAME_get_text_by_NID),
+		((void *) X509_get_ext_by_OBJ),
+		((void *) NULL),
+		((void *) sk_free),
 		((void *) NULL),
 		((void *) NULL),
 		((void *) NULL),
@@ -2115,205 +2194,214 @@ extern "C" {
 #pragma clang diagnostic ignored "-Wused-but-marked-unused"
 
 	// Global variables
-	static int SEEAppStoreReceipt_BPRMJLJLPXEZ __unused;
-	static int SEEAppStoreReceipt_UQJHIJEOCCBI __unused;
-	static int SEEAppStoreReceipt_TTTNUXJZKAAB __unused;
-	static int SEEAppStoreReceipt_PWQTYPSGCQZM __unused;
-	static int SEEAppStoreReceipt_CUKYVEUBFRMI __unused;
-	static int SEEAppStoreReceipt_WMVWYPHNNSIW __unused;
-	static int SEEAppStoreReceipt_HKDEGXORNBAM __unused;
-	static int SEEAppStoreReceipt_BWEOBKUBIYLB __unused;
+	static int SEEAppStoreReceipt_PXHQVHMEAFPB __unused;
+	static int SEEAppStoreReceipt_KDCPKKDHLVNV __unused;
+	static int SEEAppStoreReceipt_HEJNNJZOJKFT __unused;
+	static int SEEAppStoreReceipt_CJKLRIVRECMR __unused;
+	static int SEEAppStoreReceipt_QLCTHPGBOWLC __unused;
+	static int SEEAppStoreReceipt_EDTPOGGTZZCS __unused;
+	static int SEEAppStoreReceipt_TREROYPGPNCL __unused;
+	static int SEEAppStoreReceipt_EWUUWZNJKLIY __unused;
 
 
-#define SEEAppStoreReceipt_ASN1_get_object_003900B6 ((__SEEAppStoreReceipt_ASN1_get_object) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 57, 110, 16, SEEAppStoreReceipt_ObfuscationFunction00A, 182, 115, 16))
-#define SEEAppStoreReceipt_ASN1_get_object_00E400B6 ((__SEEAppStoreReceipt_ASN1_get_object) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00B, 228, 238, 16, SEEAppStoreReceipt_ObfuscationFunction00A, 182, 115, 16))
-#define SEEAppStoreReceipt_ASN1_OBJECT_free_00E40027 ((__SEEAppStoreReceipt_ASN1_OBJECT_free) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00B, 228, 238, 16, SEEAppStoreReceipt_ObfuscationFunction00A, 39, 243, 17))
-#define SEEAppStoreReceipt_BIO_free_003900B2 ((__SEEAppStoreReceipt_BIO_free) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 57, 110, 16, SEEAppStoreReceipt_ObfuscationFunction008, 178, 112, 16))
-#define SEEAppStoreReceipt_BIO_free_003900D4 ((__SEEAppStoreReceipt_BIO_free) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 57, 110, 16, SEEAppStoreReceipt_ObfuscationFunction004, 212, 150, 16))
-#define SEEAppStoreReceipt_BIO_free_016100B2 ((__SEEAppStoreReceipt_BIO_free) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 353, 73, 16, SEEAppStoreReceipt_ObfuscationFunction008, 178, 112, 16))
-#define SEEAppStoreReceipt_BIO_new_003900ED ((__SEEAppStoreReceipt_BIO_new) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 57, 110, 16, SEEAppStoreReceipt_ObfuscationFunction005, 237, 89, 16))
-#define SEEAppStoreReceipt_BIO_new_00E400ED ((__SEEAppStoreReceipt_BIO_new) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00B, 228, 238, 16, SEEAppStoreReceipt_ObfuscationFunction005, 237, 89, 16))
-#define SEEAppStoreReceipt_BIO_s_mem_00390111 ((__SEEAppStoreReceipt_BIO_s_mem) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 57, 110, 16, SEEAppStoreReceipt_ObfuscationFunction009, 273, 143, 16))
-#define SEEAppStoreReceipt_BIO_s_mem_00E40111 ((__SEEAppStoreReceipt_BIO_s_mem) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00B, 228, 238, 16, SEEAppStoreReceipt_ObfuscationFunction009, 273, 143, 16))
-#define SEEAppStoreReceipt_BIO_s_mem_016100A4 ((__SEEAppStoreReceipt_BIO_s_mem) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 353, 73, 16, SEEAppStoreReceipt_ObfuscationFunction00B, 164, 146, 16))
-#define SEEAppStoreReceipt_BIO_write_003901D4 ((__SEEAppStoreReceipt_BIO_write) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 57, 110, 16, SEEAppStoreReceipt_ObfuscationFunction006, 468, 114, 16))
-#define SEEAppStoreReceipt_BIO_write_00E401D4 ((__SEEAppStoreReceipt_BIO_write) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00B, 228, 238, 16, SEEAppStoreReceipt_ObfuscationFunction006, 468, 114, 16))
-#define SEEAppStoreReceipt_BIO_write_01610092 ((__SEEAppStoreReceipt_BIO_write) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 353, 73, 16, SEEAppStoreReceipt_ObfuscationFunction00B, 146, 163, 16))
-#define SEEAppStoreReceipt_CC_SHA1_Final_01970061 ((__SEEAppStoreReceipt_CC_SHA1_Final) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 407, 39, 33, SEEAppStoreReceipt_ObfuscationFunction00C, 97, 224, 16))
-#define SEEAppStoreReceipt_CC_SHA1_Update_019700A3 ((__SEEAppStoreReceipt_CC_SHA1_Update) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 407, 39, 33, SEEAppStoreReceipt_ObfuscationFunction00A, 163, 12, 16))
-#define SEEAppStoreReceipt_CFBundleCopyBundleURL_007B01AE ((__SEEAppStoreReceipt_CFBundleCopyBundleURL) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 123, 19, 67, SEEAppStoreReceipt_ObfuscationFunction008, 430, 247, 22))
-#define SEEAppStoreReceipt_CFBundleCopyBundleURL_00AE01AE ((__SEEAppStoreReceipt_CFBundleCopyBundleURL) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 174, 160, 67, SEEAppStoreReceipt_ObfuscationFunction008, 430, 247, 22))
-#define SEEAppStoreReceipt_CFBundleGetMainBundle_007B0094 ((__SEEAppStoreReceipt_CFBundleGetMainBundle) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 123, 19, 67, SEEAppStoreReceipt_ObfuscationFunction00B, 148, 180, 22))
-#define SEEAppStoreReceipt_CFBundleUnloadExecutable_00AE012D ((__SEEAppStoreReceipt_CFBundleUnloadExecutable) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 174, 160, 67, SEEAppStoreReceipt_ObfuscationFunction005, 301, 219, 33))
-#define SEEAppStoreReceipt_CFDataCreate_00AE011E ((__SEEAppStoreReceipt_CFDataCreate) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 174, 160, 67, SEEAppStoreReceipt_ObfuscationFunction006, 286, 47, 16))
-#define SEEAppStoreReceipt_CFDataCreate_01FA011E ((__SEEAppStoreReceipt_CFDataCreate) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 506, 207, 67, SEEAppStoreReceipt_ObfuscationFunction006, 286, 47, 16))
-#define SEEAppStoreReceipt_CFDataCreateMutable_00AE0060 ((__SEEAppStoreReceipt_CFDataCreateMutable) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 174, 160, 67, SEEAppStoreReceipt_ObfuscationFunction004, 96, 42, 20))
-#define SEEAppStoreReceipt_CFDataGetBytePtr_007B0126 ((__SEEAppStoreReceipt_CFDataGetBytePtr) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 123, 19, 67, SEEAppStoreReceipt_ObfuscationFunction007, 294, 171, 17))
-#define SEEAppStoreReceipt_CFDataGetBytePtr_00AE006D ((__SEEAppStoreReceipt_CFDataGetBytePtr) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 174, 160, 67, SEEAppStoreReceipt_ObfuscationFunction006, 109, 80, 17))
-#define SEEAppStoreReceipt_CFDateFormatterCreate_00AE0030 ((__SEEAppStoreReceipt_CFDateFormatterCreate) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 174, 160, 67, SEEAppStoreReceipt_ObfuscationFunction004, 48, 221, 22))
-#define SEEAppStoreReceipt_CFDateFormatterCreate_00AE0181 ((__SEEAppStoreReceipt_CFDateFormatterCreate) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 174, 160, 67, SEEAppStoreReceipt_ObfuscationFunction009, 385, 229, 22))
-#define SEEAppStoreReceipt_CFDateFormatterCreateDateFromString_007B019E ((__SEEAppStoreReceipt_CFDateFormatterCreateDateFromString) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 123, 19, 67, SEEAppStoreReceipt_ObfuscationFunction003, 414, 233, 36))
-#define SEEAppStoreReceipt_CFDateFormatterCreateDateFromString_00AE002D ((__SEEAppStoreReceipt_CFDateFormatterCreateDateFromString) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 174, 160, 67, SEEAppStoreReceipt_ObfuscationFunction007, 45, 191, 36))
-#define SEEAppStoreReceipt_CFDateFormatterSetFormat_007B0209 ((__SEEAppStoreReceipt_CFDateFormatterSetFormat) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 123, 19, 67, SEEAppStoreReceipt_ObfuscationFunction00A, 521, 103, 33))
-#define SEEAppStoreReceipt_CFDateFormatterSetFormat_01FA020B ((__SEEAppStoreReceipt_CFDateFormatterSetFormat) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 506, 207, 67, SEEAppStoreReceipt_ObfuscationFunction006, 523, 26, 33))
-#define SEEAppStoreReceipt_CFDictionaryAddValue_00AE00B7 ((__SEEAppStoreReceipt_CFDictionaryAddValue) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 174, 160, 67, SEEAppStoreReceipt_ObfuscationFunction008, 183, 73, 21))
-#define SEEAppStoreReceipt_CFDictionaryAddValue_00AE0189 ((__SEEAppStoreReceipt_CFDictionaryAddValue) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 174, 160, 67, SEEAppStoreReceipt_ObfuscationFunction008, 393, 176, 21))
-#define SEEAppStoreReceipt_CFDictionarySetValue_007B0171 ((__SEEAppStoreReceipt_CFDictionarySetValue) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 123, 19, 67, SEEAppStoreReceipt_ObfuscationFunction003, 369, 237, 21))
-#define SEEAppStoreReceipt_CFDictionarySetValue_01FA00F0 ((__SEEAppStoreReceipt_CFDictionarySetValue) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 506, 207, 67, SEEAppStoreReceipt_ObfuscationFunction003, 240, 166, 21))
-#define SEEAppStoreReceipt_CFReadStreamOpen_007B01BD ((__SEEAppStoreReceipt_CFReadStreamOpen) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 123, 19, 67, SEEAppStoreReceipt_ObfuscationFunction005, 445, 151, 17))
-#define SEEAppStoreReceipt_CFReadStreamOpen_00AE020F ((__SEEAppStoreReceipt_CFReadStreamOpen) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 174, 160, 67, SEEAppStoreReceipt_ObfuscationFunction007, 527, 164, 17))
-#define SEEAppStoreReceipt_CFRelease_007B0075 ((__SEEAppStoreReceipt_CFRelease) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 123, 19, 67, SEEAppStoreReceipt_ObfuscationFunction009, 117, 105, 16))
-#define SEEAppStoreReceipt_CFRelease_007B0151 ((__SEEAppStoreReceipt_CFRelease) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 123, 19, 67, SEEAppStoreReceipt_ObfuscationFunction007, 337, 211, 16))
-#define SEEAppStoreReceipt_CFRelease_00AE0002 ((__SEEAppStoreReceipt_CFRelease) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 174, 160, 67, SEEAppStoreReceipt_ObfuscationFunction004, 2, 40, 16))
-#define SEEAppStoreReceipt_CFRelease_00AE0075 ((__SEEAppStoreReceipt_CFRelease) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 174, 160, 67, SEEAppStoreReceipt_ObfuscationFunction009, 117, 105, 16))
-#define SEEAppStoreReceipt_CFRelease_00AE0151 ((__SEEAppStoreReceipt_CFRelease) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 174, 160, 67, SEEAppStoreReceipt_ObfuscationFunction007, 337, 211, 16))
-#define SEEAppStoreReceipt_CFRelease_01FA0002 ((__SEEAppStoreReceipt_CFRelease) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 506, 207, 67, SEEAppStoreReceipt_ObfuscationFunction004, 2, 40, 16))
-#define SEEAppStoreReceipt_CFRelease_01FA0075 ((__SEEAppStoreReceipt_CFRelease) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 506, 207, 67, SEEAppStoreReceipt_ObfuscationFunction009, 117, 105, 16))
-#define SEEAppStoreReceipt_CFRelease_01FA0151 ((__SEEAppStoreReceipt_CFRelease) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 506, 207, 67, SEEAppStoreReceipt_ObfuscationFunction007, 337, 211, 16))
-#define SEEAppStoreReceipt_CFURLCreateFromFileSystemRepresentation_007B0144 ((__SEEAppStoreReceipt_CFURLCreateFromFileSystemRepresentation) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 123, 19, 67, SEEAppStoreReceipt_ObfuscationFunction004, 324, 164, 48))
-#define SEEAppStoreReceipt_CFURLCreateFromFileSystemRepresentation_01FA0223 ((__SEEAppStoreReceipt_CFURLCreateFromFileSystemRepresentation) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 506, 207, 67, SEEAppStoreReceipt_ObfuscationFunction008, 547, 61, 48))
-#define SEEAppStoreReceipt_d2i_PKCS7_bio_0039017F ((__SEEAppStoreReceipt_d2i_PKCS7_bio) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 57, 110, 16, SEEAppStoreReceipt_ObfuscationFunction006, 383, 245, 16))
-#define SEEAppStoreReceipt_d2i_PKCS7_bio_00E4000E ((__SEEAppStoreReceipt_d2i_PKCS7_bio) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00B, 228, 238, 16, SEEAppStoreReceipt_ObfuscationFunction00C, 14, 85, 16))
-#define SEEAppStoreReceipt_d2i_X509_bio_00E4016D ((__SEEAppStoreReceipt_d2i_X509_bio) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00B, 228, 238, 16, SEEAppStoreReceipt_ObfuscationFunction005, 365, 127, 16))
-#define SEEAppStoreReceipt_EVP_DigestFinal_00E401C5 ((__SEEAppStoreReceipt_EVP_DigestFinal) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00B, 228, 238, 16, SEEAppStoreReceipt_ObfuscationFunction007, 453, 95, 16))
-#define SEEAppStoreReceipt_EVP_DigestInit_0161006E ((__SEEAppStoreReceipt_EVP_DigestInit) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 353, 73, 16, SEEAppStoreReceipt_ObfuscationFunction00C, 110, 153, 16))
-#define SEEAppStoreReceipt_EVP_DigestUpdate_0039018F ((__SEEAppStoreReceipt_EVP_DigestUpdate) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 57, 110, 16, SEEAppStoreReceipt_ObfuscationFunction007, 399, 35, 17))
-#define SEEAppStoreReceipt_EVP_get_digestbyname_003900E9 ((__SEEAppStoreReceipt_EVP_get_digestbyname) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 57, 110, 16, SEEAppStoreReceipt_ObfuscationFunction006, 233, 53, 21))
-#define SEEAppStoreReceipt_EVP_MD_CTX_init_016100C6 ((__SEEAppStoreReceipt_EVP_MD_CTX_init) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 353, 73, 16, SEEAppStoreReceipt_ObfuscationFunction00A, 198, 62, 16))
-#define SEEAppStoreReceipt_exit_00040007 ((__SEEAppStoreReceipt_exit) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 4, 237, 33, SEEAppStoreReceipt_ObfuscationFunction00C, 7, 239, 16))
-#define SEEAppStoreReceipt_exit_0004000F ((__SEEAppStoreReceipt_exit) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 4, 237, 33, SEEAppStoreReceipt_ObfuscationFunction00B, 15, 164, 16))
-#define SEEAppStoreReceipt_exit_00040172 ((__SEEAppStoreReceipt_exit) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 4, 237, 33, SEEAppStoreReceipt_ObfuscationFunction004, 370, 118, 16))
-#define SEEAppStoreReceipt_exit_01760172 ((__SEEAppStoreReceipt_exit) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction003, 374, 69, 33, SEEAppStoreReceipt_ObfuscationFunction004, 370, 118, 16))
-#define SEEAppStoreReceipt_exit_01970007 ((__SEEAppStoreReceipt_exit) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 407, 39, 33, SEEAppStoreReceipt_ObfuscationFunction00C, 7, 239, 16))
-#define SEEAppStoreReceipt_exit_0197000F ((__SEEAppStoreReceipt_exit) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 407, 39, 33, SEEAppStoreReceipt_ObfuscationFunction00B, 15, 164, 16))
-#define SEEAppStoreReceipt_exit_01970172 ((__SEEAppStoreReceipt_exit) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 407, 39, 33, SEEAppStoreReceipt_ObfuscationFunction004, 370, 118, 16))
-#define SEEAppStoreReceipt_BPRMJLJLPXEZ_007B0070 ((__SEEAppStoreReceipt_CFDataCreateMutable) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 123, 19, 67, SEEAppStoreReceipt_ObfuscationFunction009, SEEAppStoreReceipt_BPRMJLJLPXEZ, 144, 20))
-#define SEEAppStoreReceipt_BPRMJLJLPXEZ_00AE0098 ((__SEEAppStoreReceipt_CFStringCompare) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 174, 160, 67, SEEAppStoreReceipt_ObfuscationFunction005, SEEAppStoreReceipt_BPRMJLJLPXEZ, 55, 16))
-#define SEEAppStoreReceipt_BPRMJLJLPXEZ_00AE0149 ((__SEEAppStoreReceipt_CFDictionaryGetValue) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 174, 160, 67, SEEAppStoreReceipt_ObfuscationFunction006, SEEAppStoreReceipt_BPRMJLJLPXEZ, 223, 21))
-#define SEEAppStoreReceipt_BPRMJLJLPXEZ_00AE01F7 ((__SEEAppStoreReceipt_CFDictionaryGetValue) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 174, 160, 67, SEEAppStoreReceipt_ObfuscationFunction00B, SEEAppStoreReceipt_BPRMJLJLPXEZ, 235, 21))
-#define SEEAppStoreReceipt_BPRMJLJLPXEZ_019701E9 ((__SEEAppStoreReceipt_CC_SHA1) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 407, 39, 33, SEEAppStoreReceipt_ObfuscationFunction005, SEEAppStoreReceipt_BPRMJLJLPXEZ, 172, 16))
-#define SEEAppStoreReceipt_BPRMJLJLPXEZ_01FA00D5 ((__SEEAppStoreReceipt_CFDataGetBytePtr) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 506, 207, 67, SEEAppStoreReceipt_ObfuscationFunction007, SEEAppStoreReceipt_BPRMJLJLPXEZ, 110, 17))
-#define SEEAppStoreReceipt_BPRMJLJLPXEZ_01FA0110 ((__SEEAppStoreReceipt_CFArrayGetCount) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 506, 207, 67, SEEAppStoreReceipt_ObfuscationFunction004, SEEAppStoreReceipt_BPRMJLJLPXEZ, 1, 16))
-#define SEEAppStoreReceipt_BPRMJLJLPXEZ_01FA0169 ((__SEEAppStoreReceipt_CFArrayAppendValue) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 506, 207, 67, SEEAppStoreReceipt_ObfuscationFunction007, SEEAppStoreReceipt_BPRMJLJLPXEZ, 236, 19))
-#define SEEAppStoreReceipt_UQJHIJEOCCBI_007B00F9 ((__SEEAppStoreReceipt_CFURLCreateWithFileSystemPathRelativeToBase) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 123, 19, 67, SEEAppStoreReceipt_ObfuscationFunction007, SEEAppStoreReceipt_UQJHIJEOCCBI, 40, 52))
-#define SEEAppStoreReceipt_UQJHIJEOCCBI_007B01AA ((__SEEAppStoreReceipt_CFDataAppendBytes) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 123, 19, 67, SEEAppStoreReceipt_ObfuscationFunction00A, SEEAppStoreReceipt_UQJHIJEOCCBI, 192, 18))
-#define SEEAppStoreReceipt_UQJHIJEOCCBI_00AE0095 ((__SEEAppStoreReceipt_CFNumberCreate) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 174, 160, 67, SEEAppStoreReceipt_ObfuscationFunction008, SEEAppStoreReceipt_UQJHIJEOCCBI, 103, 16))
-#define SEEAppStoreReceipt_UQJHIJEOCCBI_00AE0098 ((__SEEAppStoreReceipt_CFStringCompare) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 174, 160, 67, SEEAppStoreReceipt_ObfuscationFunction005, SEEAppStoreReceipt_UQJHIJEOCCBI, 55, 16))
-#define SEEAppStoreReceipt_UQJHIJEOCCBI_017601F6 ((__SEEAppStoreReceipt_CC_SHA1_Init) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction003, 374, 69, 33, SEEAppStoreReceipt_ObfuscationFunction003, SEEAppStoreReceipt_UQJHIJEOCCBI, 196, 16))
-#define SEEAppStoreReceipt_UQJHIJEOCCBI_018D0191 ((__SEEAppStoreReceipt_SecKeychainSearchCopyNext) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00C, 397, 160, 55, SEEAppStoreReceipt_ObfuscationFunction008, SEEAppStoreReceipt_UQJHIJEOCCBI, 209, 34))
-#define SEEAppStoreReceipt_TTTNUXJZKAAB_00AE0024 ((__SEEAppStoreReceipt_CFDictionaryGetValue) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 174, 160, 67, SEEAppStoreReceipt_ObfuscationFunction007, SEEAppStoreReceipt_TTTNUXJZKAAB, 239, 21))
-#define SEEAppStoreReceipt_TTTNUXJZKAAB_00AE00F5 ((__SEEAppStoreReceipt_CFStringGetFileSystemRepresentation) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 174, 160, 67, SEEAppStoreReceipt_ObfuscationFunction007, SEEAppStoreReceipt_TTTNUXJZKAAB, 0, 36))
-#define SEEAppStoreReceipt_TTTNUXJZKAAB_01FA0059 ((__SEEAppStoreReceipt_CFDictionaryCreateMutable) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 506, 207, 67, SEEAppStoreReceipt_ObfuscationFunction00C, SEEAppStoreReceipt_TTTNUXJZKAAB, 72, 34))
-#define SEEAppStoreReceipt_TTTNUXJZKAAB_01FA00D3 ((__SEEAppStoreReceipt_CFArrayAppendValue) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 506, 207, 67, SEEAppStoreReceipt_ObfuscationFunction009, SEEAppStoreReceipt_TTTNUXJZKAAB, 58, 19))
-#define SEEAppStoreReceipt_TTTNUXJZKAAB_01FA01B8 ((__SEEAppStoreReceipt_CFDataGetLength) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 506, 207, 67, SEEAppStoreReceipt_ObfuscationFunction006, SEEAppStoreReceipt_TTTNUXJZKAAB, 52, 16))
-#define SEEAppStoreReceipt_PWQTYPSGCQZM_007B0058 ((__SEEAppStoreReceipt_CFBundleGetValueForInfoDictionaryKey) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 123, 19, 67, SEEAppStoreReceipt_ObfuscationFunction00A, SEEAppStoreReceipt_PWQTYPSGCQZM, 249, 37))
-#define SEEAppStoreReceipt_PWQTYPSGCQZM_007B0204 ((__SEEAppStoreReceipt_CFDataCreate) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 123, 19, 67, SEEAppStoreReceipt_ObfuscationFunction004, SEEAppStoreReceipt_PWQTYPSGCQZM, 166, 16))
-#define SEEAppStoreReceipt_PWQTYPSGCQZM_00AE0050 ((__SEEAppStoreReceipt_CFArrayGetValueAtIndex) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 174, 160, 67, SEEAppStoreReceipt_ObfuscationFunction004, SEEAppStoreReceipt_PWQTYPSGCQZM, 61, 23))
-#define SEEAppStoreReceipt_PWQTYPSGCQZM_00AE01F0 ((__SEEAppStoreReceipt_CFURLCreateCopyAppendingPathComponent) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 174, 160, 67, SEEAppStoreReceipt_ObfuscationFunction007, SEEAppStoreReceipt_PWQTYPSGCQZM, 91, 38))
-#define SEEAppStoreReceipt_PWQTYPSGCQZM_01FA01A7 ((__SEEAppStoreReceipt_CFArrayCreateMutable) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 506, 207, 67, SEEAppStoreReceipt_ObfuscationFunction00B, SEEAppStoreReceipt_PWQTYPSGCQZM, 83, 21))
-#define SEEAppStoreReceipt_PWQTYPSGCQZM_01FA01B8 ((__SEEAppStoreReceipt_CFDataGetLength) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 506, 207, 67, SEEAppStoreReceipt_ObfuscationFunction006, SEEAppStoreReceipt_PWQTYPSGCQZM, 52, 16))
-#define SEEAppStoreReceipt_CUKYVEUBFRMI_007B005B ((__SEEAppStoreReceipt_CFBundleGetValueForInfoDictionaryKey) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 123, 19, 67, SEEAppStoreReceipt_ObfuscationFunction006, SEEAppStoreReceipt_CUKYVEUBFRMI, 248, 37))
-#define SEEAppStoreReceipt_CUKYVEUBFRMI_007B0095 ((__SEEAppStoreReceipt_CFNumberCreate) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 123, 19, 67, SEEAppStoreReceipt_ObfuscationFunction008, SEEAppStoreReceipt_CUKYVEUBFRMI, 103, 16))
-#define SEEAppStoreReceipt_CUKYVEUBFRMI_007B0212 ((__SEEAppStoreReceipt_CFStringCompare) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 123, 19, 67, SEEAppStoreReceipt_ObfuscationFunction009, SEEAppStoreReceipt_CUKYVEUBFRMI, 64, 16))
-#define SEEAppStoreReceipt_CUKYVEUBFRMI_00930109 ((__SEEAppStoreReceipt_SecKeychainSearchCreateFromAttributes) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 147, 224, 55, SEEAppStoreReceipt_ObfuscationFunction003, SEEAppStoreReceipt_CUKYVEUBFRMI, 174, 38))
-#define SEEAppStoreReceipt_CUKYVEUBFRMI_00AE0146 ((__SEEAppStoreReceipt_CFDataGetLength) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 174, 160, 67, SEEAppStoreReceipt_ObfuscationFunction003, SEEAppStoreReceipt_CUKYVEUBFRMI, 80, 16))
-#define SEEAppStoreReceipt_CUKYVEUBFRMI_01FA01B5 ((__SEEAppStoreReceipt_CFReadStreamCreateWithFile) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 506, 207, 67, SEEAppStoreReceipt_ObfuscationFunction009, SEEAppStoreReceipt_CUKYVEUBFRMI, 85, 35))
-#define SEEAppStoreReceipt_CUKYVEUBFRMI_01FA01FE ((__SEEAppStoreReceipt_CFEqual) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 506, 207, 67, SEEAppStoreReceipt_ObfuscationFunction007, SEEAppStoreReceipt_CUKYVEUBFRMI, 58, 16))
-#define SEEAppStoreReceipt_WMVWYPHNNSIW_001601F2 ((__SEEAppStoreReceipt_NSApplicationMain) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00C, 22, 11, 51, SEEAppStoreReceipt_ObfuscationFunction00A, SEEAppStoreReceipt_WMVWYPHNNSIW, 216, 18))
-#define SEEAppStoreReceipt_WMVWYPHNNSIW_007B0101 ((__SEEAppStoreReceipt_CFNumberCreate) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 123, 19, 67, SEEAppStoreReceipt_ObfuscationFunction007, SEEAppStoreReceipt_WMVWYPHNNSIW, 124, 16))
-#define SEEAppStoreReceipt_WMVWYPHNNSIW_007B011D ((__SEEAppStoreReceipt_CFBundleGetIdentifier) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 123, 19, 67, SEEAppStoreReceipt_ObfuscationFunction00A, SEEAppStoreReceipt_WMVWYPHNNSIW, 254, 22))
-#define SEEAppStoreReceipt_WMVWYPHNNSIW_00AE0095 ((__SEEAppStoreReceipt_CFNumberCreate) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 174, 160, 67, SEEAppStoreReceipt_ObfuscationFunction008, SEEAppStoreReceipt_WMVWYPHNNSIW, 103, 16))
-#define SEEAppStoreReceipt_WMVWYPHNNSIW_00AE0183 ((__SEEAppStoreReceipt_CFDictionaryCreateMutable) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 174, 160, 67, SEEAppStoreReceipt_ObfuscationFunction009, SEEAppStoreReceipt_WMVWYPHNNSIW, 13, 34))
-#define SEEAppStoreReceipt_WMVWYPHNNSIW_0197020A ((__SEEAppStoreReceipt_getifaddrs) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 407, 39, 33, SEEAppStoreReceipt_ObfuscationFunction007, SEEAppStoreReceipt_WMVWYPHNNSIW, 236, 16))
-#define SEEAppStoreReceipt_WMVWYPHNNSIW_01FA002C ((__SEEAppStoreReceipt_CFReadStreamRead) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 506, 207, 67, SEEAppStoreReceipt_ObfuscationFunction00C, SEEAppStoreReceipt_WMVWYPHNNSIW, 69, 17))
-#define SEEAppStoreReceipt_HKDEGXORNBAM_007B0036 ((__SEEAppStoreReceipt_CFDataAppendBytes) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 123, 19, 67, SEEAppStoreReceipt_ObfuscationFunction005, SEEAppStoreReceipt_HKDEGXORNBAM, 181, 18))
-#define SEEAppStoreReceipt_HKDEGXORNBAM_007B018E ((__SEEAppStoreReceipt_CFArrayCreateMutable) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 123, 19, 67, SEEAppStoreReceipt_ObfuscationFunction004, SEEAppStoreReceipt_HKDEGXORNBAM, 18, 21))
-#define SEEAppStoreReceipt_HKDEGXORNBAM_007B0212 ((__SEEAppStoreReceipt_CFStringCompare) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 123, 19, 67, SEEAppStoreReceipt_ObfuscationFunction009, SEEAppStoreReceipt_HKDEGXORNBAM, 64, 16))
-#define SEEAppStoreReceipt_HKDEGXORNBAM_01FA0024 ((__SEEAppStoreReceipt_CFDictionaryGetValue) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 506, 207, 67, SEEAppStoreReceipt_ObfuscationFunction007, SEEAppStoreReceipt_HKDEGXORNBAM, 239, 21))
-#define SEEAppStoreReceipt_HKDEGXORNBAM_01FA01AA ((__SEEAppStoreReceipt_CFDataAppendBytes) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 506, 207, 67, SEEAppStoreReceipt_ObfuscationFunction00A, SEEAppStoreReceipt_HKDEGXORNBAM, 192, 18))
-#define SEEAppStoreReceipt_BWEOBKUBIYLB_000400FD ((__SEEAppStoreReceipt_freeifaddrs) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 4, 237, 33, SEEAppStoreReceipt_ObfuscationFunction00C, SEEAppStoreReceipt_BWEOBKUBIYLB, 240, 16))
-#define SEEAppStoreReceipt_BWEOBKUBIYLB_007B0185 ((__SEEAppStoreReceipt_CFReadStreamClose) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 123, 19, 67, SEEAppStoreReceipt_ObfuscationFunction005, SEEAppStoreReceipt_BWEOBKUBIYLB, 74, 18))
-#define SEEAppStoreReceipt_BWEOBKUBIYLB_00AE0126 ((__SEEAppStoreReceipt_CFDataGetBytePtr) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 174, 160, 67, SEEAppStoreReceipt_ObfuscationFunction007, SEEAppStoreReceipt_BWEOBKUBIYLB, 171, 17))
-#define SEEAppStoreReceipt_BWEOBKUBIYLB_01FA0070 ((__SEEAppStoreReceipt_CFDataCreateMutable) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 506, 207, 67, SEEAppStoreReceipt_ObfuscationFunction009, SEEAppStoreReceipt_BWEOBKUBIYLB, 144, 20))
-#define SEEAppStoreReceipt_BWEOBKUBIYLB_01FA00B7 ((__SEEAppStoreReceipt_CFDictionaryAddValue) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 506, 207, 67, SEEAppStoreReceipt_ObfuscationFunction008, SEEAppStoreReceipt_BWEOBKUBIYLB, 73, 21))
-#define SEEAppStoreReceipt_kCFBundleIdentifierKey_007B0138 ((__SEEAppStoreReceipt_kCFBundleIdentifierKey) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 123, 19, 67, SEEAppStoreReceipt_ObfuscationFunction004, 312, 151, 23))
-#define SEEAppStoreReceipt_kCFTypeArrayCallBacks_007B006C ((__SEEAppStoreReceipt_kCFTypeArrayCallBacks) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 123, 19, 67, SEEAppStoreReceipt_ObfuscationFunction005, 108, 6, 22))
-#define SEEAppStoreReceipt_kCFTypeArrayCallBacks_007B01DF ((__SEEAppStoreReceipt_kCFTypeArrayCallBacks) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 123, 19, 67, SEEAppStoreReceipt_ObfuscationFunction004, 479, 62, 22))
-#define SEEAppStoreReceipt_kCFTypeArrayCallBacks_01FA01DF ((__SEEAppStoreReceipt_kCFTypeArrayCallBacks) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 506, 207, 67, SEEAppStoreReceipt_ObfuscationFunction004, 479, 62, 22))
-#define SEEAppStoreReceipt_kCFTypeDictionaryKeyCallBacks_00AE0005 ((__SEEAppStoreReceipt_kCFTypeDictionaryKeyCallBacks) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 174, 160, 67, SEEAppStoreReceipt_ObfuscationFunction004, 5, 105, 38))
-#define SEEAppStoreReceipt_kCFTypeDictionaryKeyCallBacks_01FA0005 ((__SEEAppStoreReceipt_kCFTypeDictionaryKeyCallBacks) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 506, 207, 67, SEEAppStoreReceipt_ObfuscationFunction004, 5, 105, 38))
-#define SEEAppStoreReceipt_kCFTypeDictionaryKeyCallBacks_01FA0128 ((__SEEAppStoreReceipt_kCFTypeDictionaryKeyCallBacks) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 506, 207, 67, SEEAppStoreReceipt_ObfuscationFunction005, 296, 87, 38))
-#define SEEAppStoreReceipt_kCFTypeDictionaryValueCallBacks_007B00DF ((__SEEAppStoreReceipt_kCFTypeDictionaryValueCallBacks) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 123, 19, 67, SEEAppStoreReceipt_ObfuscationFunction00B, 223, 194, 32))
-#define SEEAppStoreReceipt_kCFTypeDictionaryValueCallBacks_007B013E ((__SEEAppStoreReceipt_kCFTypeDictionaryValueCallBacks) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 123, 19, 67, SEEAppStoreReceipt_ObfuscationFunction006, 318, 41, 32))
-#define SEEAppStoreReceipt_kCFTypeDictionaryValueCallBacks_00AE013E ((__SEEAppStoreReceipt_kCFTypeDictionaryValueCallBacks) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 174, 160, 67, SEEAppStoreReceipt_ObfuscationFunction006, 318, 41, 32))
-#define SEEAppStoreReceipt_kCFTypeDictionaryValueCallBacks_01FA0051 ((__SEEAppStoreReceipt_kCFTypeDictionaryValueCallBacks) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 506, 207, 67, SEEAppStoreReceipt_ObfuscationFunction003, 81, 193, 32))
-#define SEEAppStoreReceipt_kSecClass_009300EE ((__SEEAppStoreReceipt_kSecClass) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 147, 224, 55, SEEAppStoreReceipt_ObfuscationFunction005, 238, 149, 16))
-#define SEEAppStoreReceipt_kSecClass_018D00B5 ((__SEEAppStoreReceipt_kSecClass) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00C, 397, 160, 55, SEEAppStoreReceipt_ObfuscationFunction003, 181, 114, 16))
-#define SEEAppStoreReceipt_kSecClassCertificate_006F00FE ((__SEEAppStoreReceipt_kSecClassCertificate) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 111, 232, 55, SEEAppStoreReceipt_ObfuscationFunction008, 254, 197, 21))
-#define SEEAppStoreReceipt_kSecClassCertificate_009300FE ((__SEEAppStoreReceipt_kSecClassCertificate) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 147, 224, 55, SEEAppStoreReceipt_ObfuscationFunction008, 254, 197, 21))
-#define SEEAppStoreReceipt_kSecMatchLimit_009300F6 ((__SEEAppStoreReceipt_kSecMatchLimit) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 147, 224, 55, SEEAppStoreReceipt_ObfuscationFunction009, 246, 161, 16))
-#define SEEAppStoreReceipt_kSecMatchLimit_018D0063 ((__SEEAppStoreReceipt_kSecMatchLimit) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00C, 397, 160, 55, SEEAppStoreReceipt_ObfuscationFunction008, 99, 205, 16))
-#define SEEAppStoreReceipt_kSecMatchLimitAll_006F01AC ((__SEEAppStoreReceipt_kSecMatchLimitAll) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 111, 232, 55, SEEAppStoreReceipt_ObfuscationFunction008, 428, 29, 18))
-#define SEEAppStoreReceipt_kSecMatchLimitAll_009300CA ((__SEEAppStoreReceipt_kSecMatchLimitAll) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 147, 224, 55, SEEAppStoreReceipt_ObfuscationFunction006, 202, 16, 18))
-#define SEEAppStoreReceipt_kSecMatchSearchList_018D019D ((__SEEAppStoreReceipt_kSecMatchSearchList) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00C, 397, 160, 55, SEEAppStoreReceipt_ObfuscationFunction00B, 413, 40, 20))
-#define SEEAppStoreReceipt_kSecMatchSubjectContains_009301B3 ((__SEEAppStoreReceipt_kSecMatchSubjectContains) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 147, 224, 55, SEEAppStoreReceipt_ObfuscationFunction008, 435, 224, 33))
-#define SEEAppStoreReceipt_kSecReturnRef_006F0008 ((__SEEAppStoreReceipt_kSecReturnRef) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 111, 232, 55, SEEAppStoreReceipt_ObfuscationFunction006, 8, 146, 16))
-#define SEEAppStoreReceipt_kSecReturnRef_006F01A4 ((__SEEAppStoreReceipt_kSecReturnRef) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 111, 232, 55, SEEAppStoreReceipt_ObfuscationFunction005, 420, 24, 16))
-#define SEEAppStoreReceipt_longjmp_000400C9 ((__SEEAppStoreReceipt_longjmp) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 4, 237, 33, SEEAppStoreReceipt_ObfuscationFunction00B, 201, 152, 16))
-#define SEEAppStoreReceipt_longjmp_000401EB ((__SEEAppStoreReceipt_longjmp) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 4, 237, 33, SEEAppStoreReceipt_ObfuscationFunction006, 491, 172, 16))
-#define SEEAppStoreReceipt_longjmp_00040207 ((__SEEAppStoreReceipt_longjmp) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 4, 237, 33, SEEAppStoreReceipt_ObfuscationFunction009, 519, 40, 16))
-#define SEEAppStoreReceipt_longjmp_017601EB ((__SEEAppStoreReceipt_longjmp) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction003, 374, 69, 33, SEEAppStoreReceipt_ObfuscationFunction006, 491, 172, 16))
-#define SEEAppStoreReceipt_longjmp_01760207 ((__SEEAppStoreReceipt_longjmp) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction003, 374, 69, 33, SEEAppStoreReceipt_ObfuscationFunction009, 519, 40, 16))
-#define SEEAppStoreReceipt_longjmp_019700C9 ((__SEEAppStoreReceipt_longjmp) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 407, 39, 33, SEEAppStoreReceipt_ObfuscationFunction00B, 201, 152, 16))
-#define SEEAppStoreReceipt_longjmp_019701EB ((__SEEAppStoreReceipt_longjmp) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 407, 39, 33, SEEAppStoreReceipt_ObfuscationFunction006, 491, 172, 16))
-#define SEEAppStoreReceipt_longjmp_01970207 ((__SEEAppStoreReceipt_longjmp) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 407, 39, 33, SEEAppStoreReceipt_ObfuscationFunction009, 519, 40, 16))
-#define SEEAppStoreReceipt_OBJ_txt2obj_003900A6 ((__SEEAppStoreReceipt_OBJ_txt2obj) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 57, 110, 16, SEEAppStoreReceipt_ObfuscationFunction003, 166, 118, 16))
-#define SEEAppStoreReceipt_objc_getClass_00870042 ((__SEEAppStoreReceipt_objc_getClass) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction005, 135, 247, 23, SEEAppStoreReceipt_ObfuscationFunction00C, 66, 12, 16))
-#define SEEAppStoreReceipt_objc_getClass_00870162 ((__SEEAppStoreReceipt_objc_getClass) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction005, 135, 247, 23, SEEAppStoreReceipt_ObfuscationFunction006, 354, 209, 16))
-#define SEEAppStoreReceipt_objc_getClass_008701BC ((__SEEAppStoreReceipt_objc_getClass) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction005, 135, 247, 23, SEEAppStoreReceipt_ObfuscationFunction004, 444, 182, 16))
-#define SEEAppStoreReceipt_objc_getClass_00E70162 ((__SEEAppStoreReceipt_objc_getClass) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction003, 231, 185, 23, SEEAppStoreReceipt_ObfuscationFunction006, 354, 209, 16))
-#define SEEAppStoreReceipt_objc_getClass_00E701BC ((__SEEAppStoreReceipt_objc_getClass) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction003, 231, 185, 23, SEEAppStoreReceipt_ObfuscationFunction004, 444, 182, 16))
-#define SEEAppStoreReceipt_objc_getClass_019F0042 ((__SEEAppStoreReceipt_objc_getClass) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 415, 176, 23, SEEAppStoreReceipt_ObfuscationFunction00C, 66, 12, 16))
-#define SEEAppStoreReceipt_objc_msgSend_00870158 ((__SEEAppStoreReceipt_objc_msgSend) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction005, 135, 247, 23, SEEAppStoreReceipt_ObfuscationFunction005, 344, 236, 16))
-#define SEEAppStoreReceipt_objc_msgSend_008701EC ((__SEEAppStoreReceipt_objc_msgSend) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction005, 135, 247, 23, SEEAppStoreReceipt_ObfuscationFunction006, 492, 175, 16))
-#define SEEAppStoreReceipt_objc_msgSend_00E70158 ((__SEEAppStoreReceipt_objc_msgSend) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction003, 231, 185, 23, SEEAppStoreReceipt_ObfuscationFunction005, 344, 236, 16))
-#define SEEAppStoreReceipt_objc_msgSend_00E701EC ((__SEEAppStoreReceipt_objc_msgSend) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction003, 231, 185, 23, SEEAppStoreReceipt_ObfuscationFunction006, 492, 175, 16))
-#define SEEAppStoreReceipt_objc_msgSend_00E70206 ((__SEEAppStoreReceipt_objc_msgSend) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction003, 231, 185, 23, SEEAppStoreReceipt_ObfuscationFunction008, 518, 229, 16))
-#define SEEAppStoreReceipt_objc_msgSend_019F01EC ((__SEEAppStoreReceipt_objc_msgSend) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 415, 176, 23, SEEAppStoreReceipt_ObfuscationFunction006, 492, 175, 16))
-#define SEEAppStoreReceipt_objc_msgSend_019F0206 ((__SEEAppStoreReceipt_objc_msgSend) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 415, 176, 23, SEEAppStoreReceipt_ObfuscationFunction008, 518, 229, 16))
-#define SEEAppStoreReceipt_OpenSSL_add_all_digests_0039004F ((__SEEAppStoreReceipt_OpenSSL_add_all_digests) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 57, 110, 16, SEEAppStoreReceipt_ObfuscationFunction005, 79, 37, 32))
-#define SEEAppStoreReceipt_OpenSSL_add_all_digests_0161015B ((__SEEAppStoreReceipt_OpenSSL_add_all_digests) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 353, 73, 16, SEEAppStoreReceipt_ObfuscationFunction00B, 347, 204, 32))
-#define SEEAppStoreReceipt_PKCS7_free_0039021D ((__SEEAppStoreReceipt_PKCS7_free) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 57, 110, 16, SEEAppStoreReceipt_ObfuscationFunction00B, 541, 217, 16))
-#define SEEAppStoreReceipt_PKCS7_free_016101DD ((__SEEAppStoreReceipt_PKCS7_free) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 353, 73, 16, SEEAppStoreReceipt_ObfuscationFunction007, 477, 144, 16))
-#define SEEAppStoreReceipt_PKCS7_get0_signers_0161008E ((__SEEAppStoreReceipt_PKCS7_get0_signers) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 353, 73, 16, SEEAppStoreReceipt_ObfuscationFunction007, 142, 16, 19))
-#define SEEAppStoreReceipt_PKCS7_verify_00390053 ((__SEEAppStoreReceipt_PKCS7_verify) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 57, 110, 16, SEEAppStoreReceipt_ObfuscationFunction00B, 83, 117, 16))
-#define SEEAppStoreReceipt_SecCertificateCopyData_006F00C5 ((__SEEAppStoreReceipt_SecCertificateCopyData) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 111, 232, 55, SEEAppStoreReceipt_ObfuscationFunction005, 197, 144, 23))
-#define SEEAppStoreReceipt_SecCertificateCopyData_018D00FB ((__SEEAppStoreReceipt_SecCertificateCopyData) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00C, 397, 160, 55, SEEAppStoreReceipt_ObfuscationFunction007, 251, 31, 23))
-#define SEEAppStoreReceipt_SecItemCopyMatching_018D0213 ((__SEEAppStoreReceipt_SecItemCopyMatching) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00C, 397, 160, 55, SEEAppStoreReceipt_ObfuscationFunction00B, 531, 65, 20))
-#define SEEAppStoreReceipt_SecKeychainOpen_006F0165 ((__SEEAppStoreReceipt_SecKeychainOpen) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 111, 232, 55, SEEAppStoreReceipt_ObfuscationFunction008, 357, 75, 16))
-#define SEEAppStoreReceipt_SecKeychainOpen_00930165 ((__SEEAppStoreReceipt_SecKeychainOpen) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 147, 224, 55, SEEAppStoreReceipt_ObfuscationFunction008, 357, 75, 16))
-#define SEEAppStoreReceipt_sel_registerName_00870117 ((__SEEAppStoreReceipt_sel_registerName) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction005, 135, 247, 23, SEEAppStoreReceipt_ObfuscationFunction006, 279, 227, 17))
-#define SEEAppStoreReceipt_sel_registerName_0087013C ((__SEEAppStoreReceipt_sel_registerName) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction005, 135, 247, 23, SEEAppStoreReceipt_ObfuscationFunction00B, 316, 243, 17))
-#define SEEAppStoreReceipt_sel_registerName_0087013D ((__SEEAppStoreReceipt_sel_registerName) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction005, 135, 247, 23, SEEAppStoreReceipt_ObfuscationFunction00A, 317, 131, 17))
-#define SEEAppStoreReceipt_sel_registerName_00E70117 ((__SEEAppStoreReceipt_sel_registerName) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction003, 231, 185, 23, SEEAppStoreReceipt_ObfuscationFunction006, 279, 227, 17))
-#define SEEAppStoreReceipt_sel_registerName_00E7013D ((__SEEAppStoreReceipt_sel_registerName) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction003, 231, 185, 23, SEEAppStoreReceipt_ObfuscationFunction00A, 317, 131, 17))
-#define SEEAppStoreReceipt_sel_registerName_019F0117 ((__SEEAppStoreReceipt_sel_registerName) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 415, 176, 23, SEEAppStoreReceipt_ObfuscationFunction006, 279, 227, 17))
-#define SEEAppStoreReceipt_sel_registerName_019F013D ((__SEEAppStoreReceipt_sel_registerName) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 415, 176, 23, SEEAppStoreReceipt_ObfuscationFunction00A, 317, 131, 17))
-#define SEEAppStoreReceipt_setjmp_00040099 ((__SEEAppStoreReceipt_setjmp) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 4, 237, 33, SEEAppStoreReceipt_ObfuscationFunction00A, 153, 149, 16))
-#define SEEAppStoreReceipt_SHA1_00E4009F ((__SEEAppStoreReceipt_SHA1) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00B, 228, 238, 16, SEEAppStoreReceipt_ObfuscationFunction00A, 159, 12, 16))
-#define SEEAppStoreReceipt_SHA1_Final_01610069 ((__SEEAppStoreReceipt_SHA1_Final) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 353, 73, 16, SEEAppStoreReceipt_ObfuscationFunction006, 105, 95, 16))
-#define SEEAppStoreReceipt_SHA1_Init_0161010A ((__SEEAppStoreReceipt_SHA1_Init) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 353, 73, 16, SEEAppStoreReceipt_ObfuscationFunction004, 266, 63, 16))
-#define SEEAppStoreReceipt_SHA1_Update_003900AF ((__SEEAppStoreReceipt_SHA1_Update) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 57, 110, 16, SEEAppStoreReceipt_ObfuscationFunction00C, 175, 184, 16))
-#define SEEAppStoreReceipt_sk_free_00E40023 ((__SEEAppStoreReceipt_sk_free) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00B, 228, 238, 16, SEEAppStoreReceipt_ObfuscationFunction005, 35, 18, 16))
-#define SEEAppStoreReceipt_sk_num_00390150 ((__SEEAppStoreReceipt_sk_num) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 57, 110, 16, SEEAppStoreReceipt_ObfuscationFunction006, 336, 48, 16))
-#define SEEAppStoreReceipt_sk_value_00E401D0 ((__SEEAppStoreReceipt_sk_value) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00B, 228, 238, 16, SEEAppStoreReceipt_ObfuscationFunction008, 464, 130, 16))
-#define SEEAppStoreReceipt_X509_digest_0161009C ((__SEEAppStoreReceipt_X509_digest) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 353, 73, 16, SEEAppStoreReceipt_ObfuscationFunction008, 156, 249, 16))
-#define SEEAppStoreReceipt_X509_free_00390127 ((__SEEAppStoreReceipt_X509_free) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 57, 110, 16, SEEAppStoreReceipt_ObfuscationFunction006, 295, 9, 16))
-#define SEEAppStoreReceipt_X509_get_ext_by_OBJ_01610106 ((__SEEAppStoreReceipt_X509_get_ext_by_OBJ) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 353, 73, 16, SEEAppStoreReceipt_ObfuscationFunction00C, 262, 15, 20))
-#define SEEAppStoreReceipt_X509_NAME_get_text_by_NID_00E40057 ((__SEEAppStoreReceipt_X509_NAME_get_text_by_NID) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00B, 228, 238, 16, SEEAppStoreReceipt_ObfuscationFunction00A, 87, 212, 34))
-#define SEEAppStoreReceipt_X509_STORE_add_cert_0039000D ((__SEEAppStoreReceipt_X509_STORE_add_cert) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 57, 110, 16, SEEAppStoreReceipt_ObfuscationFunction004, 13, 74, 20))
-#define SEEAppStoreReceipt_X509_STORE_free_00390114 ((__SEEAppStoreReceipt_X509_STORE_free) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 57, 110, 16, SEEAppStoreReceipt_ObfuscationFunction008, 276, 105, 16))
-#define SEEAppStoreReceipt_X509_STORE_new_016100A5 ((__SEEAppStoreReceipt_X509_STORE_new) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 353, 73, 16, SEEAppStoreReceipt_ObfuscationFunction005, 165, 43, 16))
+#define SEEAppStoreReceipt_ASN1_get_object_00B600F6 ((__SEEAppStoreReceipt_ASN1_get_object) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 182, 85, 16, SEEAppStoreReceipt_ObfuscationFunction00B, 246, 188, 16))
+#define SEEAppStoreReceipt_ASN1_get_object_00B60177 ((__SEEAppStoreReceipt_ASN1_get_object) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 182, 85, 16, SEEAppStoreReceipt_ObfuscationFunction00B, 375, 217, 16))
+#define SEEAppStoreReceipt_ASN1_OBJECT_free_00B60050 ((__SEEAppStoreReceipt_ASN1_OBJECT_free) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 182, 85, 16, SEEAppStoreReceipt_ObfuscationFunction004, 80, 252, 17))
+#define SEEAppStoreReceipt_BIO_free_00610042 ((__SEEAppStoreReceipt_BIO_free) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 97, 21, 16, SEEAppStoreReceipt_ObfuscationFunction003, 66, 214, 16))
+#define SEEAppStoreReceipt_BIO_free_00B601ED ((__SEEAppStoreReceipt_BIO_free) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 182, 85, 16, SEEAppStoreReceipt_ObfuscationFunction008, 493, 170, 16))
+#define SEEAppStoreReceipt_BIO_free_00DB01ED ((__SEEAppStoreReceipt_BIO_free) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction003, 219, 125, 16, SEEAppStoreReceipt_ObfuscationFunction008, 493, 170, 16))
+#define SEEAppStoreReceipt_BIO_new_00B60083 ((__SEEAppStoreReceipt_BIO_new) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 182, 85, 16, SEEAppStoreReceipt_ObfuscationFunction00B, 131, 88, 16))
+#define SEEAppStoreReceipt_BIO_new_00B601AD ((__SEEAppStoreReceipt_BIO_new) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 182, 85, 16, SEEAppStoreReceipt_ObfuscationFunction00A, 429, 128, 16))
+#define SEEAppStoreReceipt_BIO_new_00DB01AD ((__SEEAppStoreReceipt_BIO_new) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction003, 219, 125, 16, SEEAppStoreReceipt_ObfuscationFunction00A, 429, 128, 16))
+#define SEEAppStoreReceipt_BIO_s_mem_0061008C ((__SEEAppStoreReceipt_BIO_s_mem) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 97, 21, 16, SEEAppStoreReceipt_ObfuscationFunction00A, 140, 41, 16))
+#define SEEAppStoreReceipt_BIO_s_mem_0061021C ((__SEEAppStoreReceipt_BIO_s_mem) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 97, 21, 16, SEEAppStoreReceipt_ObfuscationFunction008, 540, 232, 16))
+#define SEEAppStoreReceipt_BIO_s_mem_00DB0005 ((__SEEAppStoreReceipt_BIO_s_mem) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction003, 219, 125, 16, SEEAppStoreReceipt_ObfuscationFunction00A, 5, 83, 16))
+#define SEEAppStoreReceipt_BIO_write_006101D6 ((__SEEAppStoreReceipt_BIO_write) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 97, 21, 16, SEEAppStoreReceipt_ObfuscationFunction005, 470, 90, 16))
+#define SEEAppStoreReceipt_BIO_write_006101F7 ((__SEEAppStoreReceipt_BIO_write) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 97, 21, 16, SEEAppStoreReceipt_ObfuscationFunction005, 503, 247, 16))
+#define SEEAppStoreReceipt_CC_SHA1_00ED01EB ((__SEEAppStoreReceipt_CC_SHA1) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 237, 97, 33, SEEAppStoreReceipt_ObfuscationFunction00A, 491, 165, 16))
+#define SEEAppStoreReceipt_CC_SHA1_Init_016B0037 ((__SEEAppStoreReceipt_CC_SHA1_Init) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction003, 363, 74, 33, SEEAppStoreReceipt_ObfuscationFunction00B, 55, 19, 16))
+#define SEEAppStoreReceipt_CFArrayAppendValue_000A0006 ((__SEEAppStoreReceipt_CFArrayAppendValue) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 10, 49, 67, SEEAppStoreReceipt_ObfuscationFunction005, 6, 127, 19))
+#define SEEAppStoreReceipt_CFArrayAppendValue_00D800CB ((__SEEAppStoreReceipt_CFArrayAppendValue) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 216, 118, 67, SEEAppStoreReceipt_ObfuscationFunction00C, 203, 235, 19))
+#define SEEAppStoreReceipt_CFArrayAppendValue_01BB0006 ((__SEEAppStoreReceipt_CFArrayAppendValue) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 443, 197, 67, SEEAppStoreReceipt_ObfuscationFunction005, 6, 127, 19))
+#define SEEAppStoreReceipt_CFArrayAppendValue_01BB0223 ((__SEEAppStoreReceipt_CFArrayAppendValue) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 443, 197, 67, SEEAppStoreReceipt_ObfuscationFunction009, 547, 30, 19))
+#define SEEAppStoreReceipt_CFArrayCreateMutable_000A019A ((__SEEAppStoreReceipt_CFArrayCreateMutable) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 10, 49, 67, SEEAppStoreReceipt_ObfuscationFunction00C, 410, 194, 21))
+#define SEEAppStoreReceipt_CFArrayCreateMutable_00D8019A ((__SEEAppStoreReceipt_CFArrayCreateMutable) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 216, 118, 67, SEEAppStoreReceipt_ObfuscationFunction00C, 410, 194, 21))
+#define SEEAppStoreReceipt_CFArrayGetCount_00D80191 ((__SEEAppStoreReceipt_CFArrayGetCount) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 216, 118, 67, SEEAppStoreReceipt_ObfuscationFunction003, 401, 89, 16))
+#define SEEAppStoreReceipt_CFArrayGetCount_01BB0039 ((__SEEAppStoreReceipt_CFArrayGetCount) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 443, 197, 67, SEEAppStoreReceipt_ObfuscationFunction00B, 57, 51, 16))
+#define SEEAppStoreReceipt_CFBundleGetMainBundle_00D80172 ((__SEEAppStoreReceipt_CFBundleGetMainBundle) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 216, 118, 67, SEEAppStoreReceipt_ObfuscationFunction007, 370, 37, 22))
+#define SEEAppStoreReceipt_CFBundleUnloadExecutable_000A022F ((__SEEAppStoreReceipt_CFBundleUnloadExecutable) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 10, 49, 67, SEEAppStoreReceipt_ObfuscationFunction009, 559, 16, 33))
+#define SEEAppStoreReceipt_CFDataAppendBytes_000A00CC ((__SEEAppStoreReceipt_CFDataAppendBytes) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 10, 49, 67, SEEAppStoreReceipt_ObfuscationFunction004, 204, 35, 18))
+#define SEEAppStoreReceipt_CFDataCreateMutable_00D800E6 ((__SEEAppStoreReceipt_CFDataCreateMutable) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 216, 118, 67, SEEAppStoreReceipt_ObfuscationFunction004, 230, 91, 20))
+#define SEEAppStoreReceipt_CFDataCreateMutable_01BB0226 ((__SEEAppStoreReceipt_CFDataCreateMutable) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 443, 197, 67, SEEAppStoreReceipt_ObfuscationFunction006, 550, 195, 20))
+#define SEEAppStoreReceipt_CFDataGetBytePtr_000A015F ((__SEEAppStoreReceipt_CFDataGetBytePtr) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 10, 49, 67, SEEAppStoreReceipt_ObfuscationFunction004, 351, 91, 17))
+#define SEEAppStoreReceipt_CFDataGetBytePtr_00D80220 ((__SEEAppStoreReceipt_CFDataGetBytePtr) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 216, 118, 67, SEEAppStoreReceipt_ObfuscationFunction003, 544, 62, 17))
+#define SEEAppStoreReceipt_CFDataGetLength_00D8018E ((__SEEAppStoreReceipt_CFDataGetLength) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 216, 118, 67, SEEAppStoreReceipt_ObfuscationFunction004, 398, 235, 16))
+#define SEEAppStoreReceipt_CFDataGetLength_01BB018E ((__SEEAppStoreReceipt_CFDataGetLength) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 443, 197, 67, SEEAppStoreReceipt_ObfuscationFunction004, 398, 235, 16))
+#define SEEAppStoreReceipt_CFDateFormatterSetFormat_00D8002D ((__SEEAppStoreReceipt_CFDateFormatterSetFormat) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 216, 118, 67, SEEAppStoreReceipt_ObfuscationFunction005, 45, 230, 33))
+#define SEEAppStoreReceipt_CFDateFormatterSetFormat_00D80084 ((__SEEAppStoreReceipt_CFDateFormatterSetFormat) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 216, 118, 67, SEEAppStoreReceipt_ObfuscationFunction00C, 132, 77, 33))
+#define SEEAppStoreReceipt_CFDictionaryCreateMutable_000A002F ((__SEEAppStoreReceipt_CFDictionaryCreateMutable) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 10, 49, 67, SEEAppStoreReceipt_ObfuscationFunction004, 47, 89, 34))
+#define SEEAppStoreReceipt_CFDictionaryCreateMutable_01BB002F ((__SEEAppStoreReceipt_CFDictionaryCreateMutable) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 443, 197, 67, SEEAppStoreReceipt_ObfuscationFunction004, 47, 89, 34))
+#define SEEAppStoreReceipt_CFEqual_00D8001B ((__SEEAppStoreReceipt_CFEqual) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 216, 118, 67, SEEAppStoreReceipt_ObfuscationFunction009, 27, 78, 16))
+#define SEEAppStoreReceipt_CFReadStreamCreateWithFile_000A01B8 ((__SEEAppStoreReceipt_CFReadStreamCreateWithFile) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 10, 49, 67, SEEAppStoreReceipt_ObfuscationFunction00A, 440, 22, 35))
+#define SEEAppStoreReceipt_CFReadStreamCreateWithFile_000A01F5 ((__SEEAppStoreReceipt_CFReadStreamCreateWithFile) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 10, 49, 67, SEEAppStoreReceipt_ObfuscationFunction005, 501, 27, 35))
+#define SEEAppStoreReceipt_CFReadStreamRead_000A0097 ((__SEEAppStoreReceipt_CFReadStreamRead) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 10, 49, 67, SEEAppStoreReceipt_ObfuscationFunction006, 151, 221, 17))
+#define SEEAppStoreReceipt_CFReadStreamRead_00D801AE ((__SEEAppStoreReceipt_CFReadStreamRead) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 216, 118, 67, SEEAppStoreReceipt_ObfuscationFunction004, 430, 143, 17))
+#define SEEAppStoreReceipt_CFRelease_000A004E ((__SEEAppStoreReceipt_CFRelease) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 10, 49, 67, SEEAppStoreReceipt_ObfuscationFunction004, 78, 44, 16))
+#define SEEAppStoreReceipt_CFRelease_000A01DE ((__SEEAppStoreReceipt_CFRelease) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 10, 49, 67, SEEAppStoreReceipt_ObfuscationFunction004, 478, 166, 16))
+#define SEEAppStoreReceipt_CFRelease_00D8004E ((__SEEAppStoreReceipt_CFRelease) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 216, 118, 67, SEEAppStoreReceipt_ObfuscationFunction004, 78, 44, 16))
+#define SEEAppStoreReceipt_CFRelease_00D801DE ((__SEEAppStoreReceipt_CFRelease) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 216, 118, 67, SEEAppStoreReceipt_ObfuscationFunction004, 478, 166, 16))
+#define SEEAppStoreReceipt_CFRelease_00D801E8 ((__SEEAppStoreReceipt_CFRelease) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 216, 118, 67, SEEAppStoreReceipt_ObfuscationFunction006, 488, 62, 16))
+#define SEEAppStoreReceipt_CFRelease_01BB004E ((__SEEAppStoreReceipt_CFRelease) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 443, 197, 67, SEEAppStoreReceipt_ObfuscationFunction004, 78, 44, 16))
+#define SEEAppStoreReceipt_CFRelease_01BB01DE ((__SEEAppStoreReceipt_CFRelease) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 443, 197, 67, SEEAppStoreReceipt_ObfuscationFunction004, 478, 166, 16))
+#define SEEAppStoreReceipt_CFRelease_01BB01E8 ((__SEEAppStoreReceipt_CFRelease) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 443, 197, 67, SEEAppStoreReceipt_ObfuscationFunction006, 488, 62, 16))
+#define SEEAppStoreReceipt_CFURLCreateWithFileSystemPathRelativeToBase_01BB009B ((__SEEAppStoreReceipt_CFURLCreateWithFileSystemPathRelativeToBase) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 443, 197, 67, SEEAppStoreReceipt_ObfuscationFunction00B, 155, 136, 52))
+#define SEEAppStoreReceipt_CFURLCreateWithFileSystemPathRelativeToBase_01BB0125 ((__SEEAppStoreReceipt_CFURLCreateWithFileSystemPathRelativeToBase) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 443, 197, 67, SEEAppStoreReceipt_ObfuscationFunction004, 293, 79, 52))
+#define SEEAppStoreReceipt_d2i_PKCS7_bio_006100DD ((__SEEAppStoreReceipt_d2i_PKCS7_bio) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 97, 21, 16, SEEAppStoreReceipt_ObfuscationFunction004, 221, 130, 16))
+#define SEEAppStoreReceipt_d2i_PKCS7_bio_00B60015 ((__SEEAppStoreReceipt_d2i_PKCS7_bio) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 182, 85, 16, SEEAppStoreReceipt_ObfuscationFunction009, 21, 70, 16))
+#define SEEAppStoreReceipt_d2i_PKCS7_bio_00DB00DD ((__SEEAppStoreReceipt_d2i_PKCS7_bio) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction003, 219, 125, 16, SEEAppStoreReceipt_ObfuscationFunction004, 221, 130, 16))
+#define SEEAppStoreReceipt_d2i_X509_bio_00B6009E ((__SEEAppStoreReceipt_d2i_X509_bio) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 182, 85, 16, SEEAppStoreReceipt_ObfuscationFunction008, 158, 238, 16))
+#define SEEAppStoreReceipt_EVP_DigestFinal_00B60106 ((__SEEAppStoreReceipt_EVP_DigestFinal) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 182, 85, 16, SEEAppStoreReceipt_ObfuscationFunction00A, 262, 18, 16))
+#define SEEAppStoreReceipt_EVP_DigestInit_00610033 ((__SEEAppStoreReceipt_EVP_DigestInit) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 97, 21, 16, SEEAppStoreReceipt_ObfuscationFunction006, 51, 47, 16))
+#define SEEAppStoreReceipt_EVP_DigestUpdate_0061011E ((__SEEAppStoreReceipt_EVP_DigestUpdate) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 97, 21, 16, SEEAppStoreReceipt_ObfuscationFunction003, 286, 178, 17))
+#define SEEAppStoreReceipt_EVP_get_digestbyname_00DB0133 ((__SEEAppStoreReceipt_EVP_get_digestbyname) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction003, 219, 125, 16, SEEAppStoreReceipt_ObfuscationFunction00A, 307, 170, 21))
+#define SEEAppStoreReceipt_EVP_MD_CTX_init_00DB0077 ((__SEEAppStoreReceipt_EVP_MD_CTX_init) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction003, 219, 125, 16, SEEAppStoreReceipt_ObfuscationFunction00B, 119, 214, 16))
+#define SEEAppStoreReceipt_exit_0089005E ((__SEEAppStoreReceipt_exit) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction005, 137, 181, 33, SEEAppStoreReceipt_ObfuscationFunction00C, 94, 129, 16))
+#define SEEAppStoreReceipt_exit_008900D2 ((__SEEAppStoreReceipt_exit) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction005, 137, 181, 33, SEEAppStoreReceipt_ObfuscationFunction00A, 210, 202, 16))
+#define SEEAppStoreReceipt_exit_0089017F ((__SEEAppStoreReceipt_exit) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction005, 137, 181, 33, SEEAppStoreReceipt_ObfuscationFunction007, 383, 189, 16))
+#define SEEAppStoreReceipt_exit_00ED005E ((__SEEAppStoreReceipt_exit) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 237, 97, 33, SEEAppStoreReceipt_ObfuscationFunction00C, 94, 129, 16))
+#define SEEAppStoreReceipt_exit_00ED017F ((__SEEAppStoreReceipt_exit) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 237, 97, 33, SEEAppStoreReceipt_ObfuscationFunction007, 383, 189, 16))
+#define SEEAppStoreReceipt_exit_016B005E ((__SEEAppStoreReceipt_exit) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction003, 363, 74, 33, SEEAppStoreReceipt_ObfuscationFunction00C, 94, 129, 16))
+#define SEEAppStoreReceipt_exit_016B00D2 ((__SEEAppStoreReceipt_exit) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction003, 363, 74, 33, SEEAppStoreReceipt_ObfuscationFunction00A, 210, 202, 16))
+#define SEEAppStoreReceipt_exit_016B017F ((__SEEAppStoreReceipt_exit) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction003, 363, 74, 33, SEEAppStoreReceipt_ObfuscationFunction007, 383, 189, 16))
+#define SEEAppStoreReceipt_PXHQVHMEAFPB_000A019A ((__SEEAppStoreReceipt_CFArrayCreateMutable) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 10, 49, 67, SEEAppStoreReceipt_ObfuscationFunction00C, SEEAppStoreReceipt_PXHQVHMEAFPB, 194, 21))
+#define SEEAppStoreReceipt_PXHQVHMEAFPB_0089016F ((__SEEAppStoreReceipt_CC_SHA1_Update) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction005, 137, 181, 33, SEEAppStoreReceipt_ObfuscationFunction006, SEEAppStoreReceipt_PXHQVHMEAFPB, 5, 16))
+#define SEEAppStoreReceipt_PXHQVHMEAFPB_00C001D2 ((__SEEAppStoreReceipt_IORegistryEntryCreateCFProperty) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction003, 192, 190, 49, SEEAppStoreReceipt_ObfuscationFunction006, SEEAppStoreReceipt_PXHQVHMEAFPB, 148, 32))
+#define SEEAppStoreReceipt_PXHQVHMEAFPB_00D80057 ((__SEEAppStoreReceipt_CFDictionaryGetValue) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 216, 118, 67, SEEAppStoreReceipt_ObfuscationFunction004, SEEAppStoreReceipt_PXHQVHMEAFPB, 43, 21))
+#define SEEAppStoreReceipt_PXHQVHMEAFPB_00D800D0 ((__SEEAppStoreReceipt_CFURLCreateFromFileSystemRepresentation) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 216, 118, 67, SEEAppStoreReceipt_ObfuscationFunction007, SEEAppStoreReceipt_PXHQVHMEAFPB, 38, 48))
+#define SEEAppStoreReceipt_PXHQVHMEAFPB_01BB00B1 ((__SEEAppStoreReceipt_CFDateFormatterCreate) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 443, 197, 67, SEEAppStoreReceipt_ObfuscationFunction006, SEEAppStoreReceipt_PXHQVHMEAFPB, 56, 22))
+#define SEEAppStoreReceipt_KDCPKKDHLVNV_00C001C2 ((__SEEAppStoreReceipt_IOIteratorNext) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction003, 192, 190, 49, SEEAppStoreReceipt_ObfuscationFunction006, SEEAppStoreReceipt_KDCPKKDHLVNV, 149, 16))
+#define SEEAppStoreReceipt_KDCPKKDHLVNV_00D80024 ((__SEEAppStoreReceipt_CFReadStreamOpen) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 216, 118, 67, SEEAppStoreReceipt_ObfuscationFunction007, SEEAppStoreReceipt_KDCPKKDHLVNV, 238, 17))
+#define SEEAppStoreReceipt_KDCPKKDHLVNV_00D801CB ((__SEEAppStoreReceipt_CFDictionaryGetValue) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 216, 118, 67, SEEAppStoreReceipt_ObfuscationFunction00A, SEEAppStoreReceipt_KDCPKKDHLVNV, 124, 21))
+#define SEEAppStoreReceipt_KDCPKKDHLVNV_014500B0 ((__SEEAppStoreReceipt_SecItemCopyMatching) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction005, 325, 251, 55, SEEAppStoreReceipt_ObfuscationFunction006, SEEAppStoreReceipt_KDCPKKDHLVNV, 200, 20))
+#define SEEAppStoreReceipt_KDCPKKDHLVNV_01BB0057 ((__SEEAppStoreReceipt_CFDictionaryGetValue) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 443, 197, 67, SEEAppStoreReceipt_ObfuscationFunction004, SEEAppStoreReceipt_KDCPKKDHLVNV, 43, 21))
+#define SEEAppStoreReceipt_KDCPKKDHLVNV_01BB0218 ((__SEEAppStoreReceipt_CFBundleGetValueForInfoDictionaryKey) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 443, 197, 67, SEEAppStoreReceipt_ObfuscationFunction009, SEEAppStoreReceipt_KDCPKKDHLVNV, 217, 37))
+#define SEEAppStoreReceipt_HEJNNJZOJKFT_00D801D8 ((__SEEAppStoreReceipt_CFDictionarySetValue) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 216, 118, 67, SEEAppStoreReceipt_ObfuscationFunction008, SEEAppStoreReceipt_HEJNNJZOJKFT, 47, 21))
+#define SEEAppStoreReceipt_HEJNNJZOJKFT_00D8021F ((__SEEAppStoreReceipt_CFDictionaryAddValue) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 216, 118, 67, SEEAppStoreReceipt_ObfuscationFunction00B, SEEAppStoreReceipt_HEJNNJZOJKFT, 187, 21))
+#define SEEAppStoreReceipt_HEJNNJZOJKFT_01BB00C3 ((__SEEAppStoreReceipt_CFStringGetFileSystemRepresentation) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 443, 197, 67, SEEAppStoreReceipt_ObfuscationFunction008, SEEAppStoreReceipt_HEJNNJZOJKFT, 55, 36))
+#define SEEAppStoreReceipt_HEJNNJZOJKFT_01BB014E ((__SEEAppStoreReceipt_CFNumberCreate) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 443, 197, 67, SEEAppStoreReceipt_ObfuscationFunction008, SEEAppStoreReceipt_HEJNNJZOJKFT, 146, 16))
+#define SEEAppStoreReceipt_HEJNNJZOJKFT_01BB015F ((__SEEAppStoreReceipt_CFDataGetBytePtr) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 443, 197, 67, SEEAppStoreReceipt_ObfuscationFunction004, SEEAppStoreReceipt_HEJNNJZOJKFT, 91, 17))
+#define SEEAppStoreReceipt_CJKLRIVRECMR_000A003F ((__SEEAppStoreReceipt_CFDictionaryAddValue) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 10, 49, 67, SEEAppStoreReceipt_ObfuscationFunction004, SEEAppStoreReceipt_CJKLRIVRECMR, 29, 21))
+#define SEEAppStoreReceipt_CJKLRIVRECMR_000A0096 ((__SEEAppStoreReceipt_CFStringCompare) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 10, 49, 67, SEEAppStoreReceipt_ObfuscationFunction007, SEEAppStoreReceipt_CJKLRIVRECMR, 115, 16))
+#define SEEAppStoreReceipt_CJKLRIVRECMR_00D8002F ((__SEEAppStoreReceipt_CFDictionaryCreateMutable) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 216, 118, 67, SEEAppStoreReceipt_ObfuscationFunction004, SEEAppStoreReceipt_CJKLRIVRECMR, 89, 34))
+#define SEEAppStoreReceipt_CJKLRIVRECMR_00D80057 ((__SEEAppStoreReceipt_CFDictionaryGetValue) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 216, 118, 67, SEEAppStoreReceipt_ObfuscationFunction004, SEEAppStoreReceipt_CJKLRIVRECMR, 43, 21))
+#define SEEAppStoreReceipt_CJKLRIVRECMR_00D800CC ((__SEEAppStoreReceipt_CFDataAppendBytes) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 216, 118, 67, SEEAppStoreReceipt_ObfuscationFunction004, SEEAppStoreReceipt_CJKLRIVRECMR, 35, 18))
+#define SEEAppStoreReceipt_CJKLRIVRECMR_01B000B5 ((__SEEAppStoreReceipt_IORegistryEntryGetParentEntry) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction007, 432, 227, 49, SEEAppStoreReceipt_ObfuscationFunction00A, SEEAppStoreReceipt_CJKLRIVRECMR, 33, 38))
+#define SEEAppStoreReceipt_CJKLRIVRECMR_01BB0170 ((__SEEAppStoreReceipt_CFDataGetBytePtr) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 443, 197, 67, SEEAppStoreReceipt_ObfuscationFunction007, SEEAppStoreReceipt_CJKLRIVRECMR, 122, 17))
+#define SEEAppStoreReceipt_QLCTHPGBOWLC_000A0000 ((__SEEAppStoreReceipt_CFStringCompare) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 10, 49, 67, SEEAppStoreReceipt_ObfuscationFunction007, SEEAppStoreReceipt_QLCTHPGBOWLC, 91, 16))
+#define SEEAppStoreReceipt_QLCTHPGBOWLC_000A0071 ((__SEEAppStoreReceipt_CFBundleCopyBundleURL) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 10, 49, 67, SEEAppStoreReceipt_ObfuscationFunction007, SEEAppStoreReceipt_QLCTHPGBOWLC, 94, 22))
+#define SEEAppStoreReceipt_QLCTHPGBOWLC_000A00F9 ((__SEEAppStoreReceipt_CFDateFormatterCreateDateFromString) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 10, 49, 67, SEEAppStoreReceipt_ObfuscationFunction00B, SEEAppStoreReceipt_QLCTHPGBOWLC, 37, 36))
+#define SEEAppStoreReceipt_QLCTHPGBOWLC_000A0226 ((__SEEAppStoreReceipt_CFDataCreateMutable) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 10, 49, 67, SEEAppStoreReceipt_ObfuscationFunction006, SEEAppStoreReceipt_QLCTHPGBOWLC, 195, 20))
+#define SEEAppStoreReceipt_QLCTHPGBOWLC_001900D3 ((__SEEAppStoreReceipt_NSApplicationMain) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction005, 25, 89, 51, SEEAppStoreReceipt_ObfuscationFunction006, SEEAppStoreReceipt_QLCTHPGBOWLC, 201, 18))
+#define SEEAppStoreReceipt_QLCTHPGBOWLC_00C00018 ((__SEEAppStoreReceipt_IOBSDNameMatching) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction003, 192, 190, 49, SEEAppStoreReceipt_ObfuscationFunction00C, SEEAppStoreReceipt_QLCTHPGBOWLC, 196, 18))
+#define SEEAppStoreReceipt_QLCTHPGBOWLC_0212021E ((__SEEAppStoreReceipt_SecKeychainSearchCreateFromAttributes) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction005, 530, 59, 55, SEEAppStoreReceipt_ObfuscationFunction005, SEEAppStoreReceipt_QLCTHPGBOWLC, 88, 38))
+#define SEEAppStoreReceipt_EDTPOGGTZZCS_000A0051 ((__SEEAppStoreReceipt_CFDataGetLength) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 10, 49, 67, SEEAppStoreReceipt_ObfuscationFunction00C, SEEAppStoreReceipt_EDTPOGGTZZCS, 240, 16))
+#define SEEAppStoreReceipt_EDTPOGGTZZCS_00C0023A ((__SEEAppStoreReceipt_IOServiceGetMatchingServices) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction003, 192, 190, 49, SEEAppStoreReceipt_ObfuscationFunction009, SEEAppStoreReceipt_EDTPOGGTZZCS, 51, 37))
+#define SEEAppStoreReceipt_EDTPOGGTZZCS_00D8005B ((__SEEAppStoreReceipt_CFReadStreamClose) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 216, 118, 67, SEEAppStoreReceipt_ObfuscationFunction006, SEEAppStoreReceipt_EDTPOGGTZZCS, 105, 18))
+#define SEEAppStoreReceipt_EDTPOGGTZZCS_00D80096 ((__SEEAppStoreReceipt_CFStringCompare) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 216, 118, 67, SEEAppStoreReceipt_ObfuscationFunction007, SEEAppStoreReceipt_EDTPOGGTZZCS, 115, 16))
+#define SEEAppStoreReceipt_EDTPOGGTZZCS_01BB0040 ((__SEEAppStoreReceipt_CFDataCreate) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 443, 197, 67, SEEAppStoreReceipt_ObfuscationFunction009, SEEAppStoreReceipt_EDTPOGGTZZCS, 56, 16))
+#define SEEAppStoreReceipt_EDTPOGGTZZCS_021201F1 ((__SEEAppStoreReceipt_SecKeychainOpen) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction005, 530, 59, 55, SEEAppStoreReceipt_ObfuscationFunction00C, SEEAppStoreReceipt_EDTPOGGTZZCS, 114, 16))
+#define SEEAppStoreReceipt_TREROYPGPNCL_000A0081 ((__SEEAppStoreReceipt_CFBundleGetIdentifier) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 10, 49, 67, SEEAppStoreReceipt_ObfuscationFunction007, SEEAppStoreReceipt_TREROYPGPNCL, 17, 22))
+#define SEEAppStoreReceipt_TREROYPGPNCL_000A0096 ((__SEEAppStoreReceipt_CFStringCompare) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 10, 49, 67, SEEAppStoreReceipt_ObfuscationFunction007, SEEAppStoreReceipt_TREROYPGPNCL, 115, 16))
+#define SEEAppStoreReceipt_TREROYPGPNCL_000A0118 ((__SEEAppStoreReceipt_CFNumberCreate) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 10, 49, 67, SEEAppStoreReceipt_ObfuscationFunction00B, SEEAppStoreReceipt_TREROYPGPNCL, 220, 16))
+#define SEEAppStoreReceipt_TREROYPGPNCL_00D800CC ((__SEEAppStoreReceipt_CFDataAppendBytes) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 216, 118, 67, SEEAppStoreReceipt_ObfuscationFunction004, SEEAppStoreReceipt_TREROYPGPNCL, 35, 18))
+#define SEEAppStoreReceipt_TREROYPGPNCL_00D8014E ((__SEEAppStoreReceipt_CFNumberCreate) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 216, 118, 67, SEEAppStoreReceipt_ObfuscationFunction008, SEEAppStoreReceipt_TREROYPGPNCL, 146, 16))
+#define SEEAppStoreReceipt_TREROYPGPNCL_014500A1 ((__SEEAppStoreReceipt_SecCertificateCopyData) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction005, 325, 251, 55, SEEAppStoreReceipt_ObfuscationFunction004, SEEAppStoreReceipt_TREROYPGPNCL, 77, 23))
+#define SEEAppStoreReceipt_TREROYPGPNCL_01BB0032 ((__SEEAppStoreReceipt_CFURLCreateCopyAppendingPathComponent) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 443, 197, 67, SEEAppStoreReceipt_ObfuscationFunction007, SEEAppStoreReceipt_TREROYPGPNCL, 114, 38))
+#define SEEAppStoreReceipt_TREROYPGPNCL_01BB0040 ((__SEEAppStoreReceipt_CFDataCreate) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 443, 197, 67, SEEAppStoreReceipt_ObfuscationFunction009, SEEAppStoreReceipt_TREROYPGPNCL, 56, 16))
+#define SEEAppStoreReceipt_EWUUWZNJKLIY_000A0051 ((__SEEAppStoreReceipt_CFDataGetLength) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 10, 49, 67, SEEAppStoreReceipt_ObfuscationFunction00C, SEEAppStoreReceipt_EWUUWZNJKLIY, 240, 16))
+#define SEEAppStoreReceipt_EWUUWZNJKLIY_00C00143 ((__SEEAppStoreReceipt_IOMasterPort) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction003, 192, 190, 49, SEEAppStoreReceipt_ObfuscationFunction006, SEEAppStoreReceipt_EWUUWZNJKLIY, 254, 16))
+#define SEEAppStoreReceipt_EWUUWZNJKLIY_00D800EB ((__SEEAppStoreReceipt_CFBundleGetValueForInfoDictionaryKey) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 216, 118, 67, SEEAppStoreReceipt_ObfuscationFunction004, SEEAppStoreReceipt_EWUUWZNJKLIY, 36, 37))
+#define SEEAppStoreReceipt_EWUUWZNJKLIY_00D80142 ((__SEEAppStoreReceipt_CFArrayGetValueAtIndex) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 216, 118, 67, SEEAppStoreReceipt_ObfuscationFunction00C, SEEAppStoreReceipt_EWUUWZNJKLIY, 27, 23))
+#define SEEAppStoreReceipt_EWUUWZNJKLIY_00ED019D ((__SEEAppStoreReceipt_CC_SHA1_Final) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 237, 97, 33, SEEAppStoreReceipt_ObfuscationFunction00C, SEEAppStoreReceipt_EWUUWZNJKLIY, 190, 16))
+#define SEEAppStoreReceipt_EWUUWZNJKLIY_01BB000E ((__SEEAppStoreReceipt_CFDataCreateMutable) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 443, 197, 67, SEEAppStoreReceipt_ObfuscationFunction003, SEEAppStoreReceipt_EWUUWZNJKLIY, 213, 20))
+#define SEEAppStoreReceipt_EWUUWZNJKLIY_01BB014E ((__SEEAppStoreReceipt_CFNumberCreate) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 443, 197, 67, SEEAppStoreReceipt_ObfuscationFunction008, SEEAppStoreReceipt_EWUUWZNJKLIY, 146, 16))
+#define SEEAppStoreReceipt_IOObjectRelease_001A012A ((__SEEAppStoreReceipt_IOObjectRelease) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction007, 26, 179, 49, SEEAppStoreReceipt_ObfuscationFunction005, 298, 46, 16))
+#define SEEAppStoreReceipt_kCFBundleIdentifierKey_01BB0193 ((__SEEAppStoreReceipt_kCFBundleIdentifierKey) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 443, 197, 67, SEEAppStoreReceipt_ObfuscationFunction00B, 403, 28, 23))
+#define SEEAppStoreReceipt_kCFTypeArrayCallBacks_000A00D1 ((__SEEAppStoreReceipt_kCFTypeArrayCallBacks) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 10, 49, 67, SEEAppStoreReceipt_ObfuscationFunction006, 209, 112, 22))
+#define SEEAppStoreReceipt_kCFTypeArrayCallBacks_000A0114 ((__SEEAppStoreReceipt_kCFTypeArrayCallBacks) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 10, 49, 67, SEEAppStoreReceipt_ObfuscationFunction007, 276, 80, 22))
+#define SEEAppStoreReceipt_kCFTypeArrayCallBacks_00D800E2 ((__SEEAppStoreReceipt_kCFTypeArrayCallBacks) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 216, 118, 67, SEEAppStoreReceipt_ObfuscationFunction008, 226, 247, 22))
+#define SEEAppStoreReceipt_kCFTypeArrayCallBacks_01BB0114 ((__SEEAppStoreReceipt_kCFTypeArrayCallBacks) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 443, 197, 67, SEEAppStoreReceipt_ObfuscationFunction007, 276, 80, 22))
+#define SEEAppStoreReceipt_kCFTypeDictionaryKeyCallBacks_00D800E7 ((__SEEAppStoreReceipt_kCFTypeDictionaryKeyCallBacks) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 216, 118, 67, SEEAppStoreReceipt_ObfuscationFunction009, 231, 239, 38))
+#define SEEAppStoreReceipt_kCFTypeDictionaryKeyCallBacks_01BB00EE ((__SEEAppStoreReceipt_kCFTypeDictionaryKeyCallBacks) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 443, 197, 67, SEEAppStoreReceipt_ObfuscationFunction00A, 238, 127, 38))
+#define SEEAppStoreReceipt_kCFTypeDictionaryKeyCallBacks_01BB01BA ((__SEEAppStoreReceipt_kCFTypeDictionaryKeyCallBacks) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 443, 197, 67, SEEAppStoreReceipt_ObfuscationFunction006, 442, 224, 38))
+#define SEEAppStoreReceipt_kCFTypeDictionaryValueCallBacks_00D800EA ((__SEEAppStoreReceipt_kCFTypeDictionaryValueCallBacks) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 216, 118, 67, SEEAppStoreReceipt_ObfuscationFunction008, 234, 196, 32))
+#define SEEAppStoreReceipt_kCFTypeDictionaryValueCallBacks_00D801CD ((__SEEAppStoreReceipt_kCFTypeDictionaryValueCallBacks) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 216, 118, 67, SEEAppStoreReceipt_ObfuscationFunction005, 461, 29, 32))
+#define SEEAppStoreReceipt_kCFTypeDictionaryValueCallBacks_01BB00A5 ((__SEEAppStoreReceipt_kCFTypeDictionaryValueCallBacks) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 443, 197, 67, SEEAppStoreReceipt_ObfuscationFunction005, 165, 59, 32))
+#define SEEAppStoreReceipt_kCFTypeDictionaryValueCallBacks_01BB00EA ((__SEEAppStoreReceipt_kCFTypeDictionaryValueCallBacks) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction006, 443, 197, 67, SEEAppStoreReceipt_ObfuscationFunction008, 234, 196, 32))
+#define SEEAppStoreReceipt_kSecClass_0145003B ((__SEEAppStoreReceipt_kSecClass) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction005, 325, 251, 55, SEEAppStoreReceipt_ObfuscationFunction00A, 59, 182, 16))
+#define SEEAppStoreReceipt_kSecClass_0212003B ((__SEEAppStoreReceipt_kSecClass) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction005, 530, 59, 55, SEEAppStoreReceipt_ObfuscationFunction00A, 59, 182, 16))
+#define SEEAppStoreReceipt_kSecClassCertificate_00B4018A ((__SEEAppStoreReceipt_kSecClassCertificate) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 180, 206, 55, SEEAppStoreReceipt_ObfuscationFunction007, 394, 10, 21))
+#define SEEAppStoreReceipt_kSecClassCertificate_00B4021B ((__SEEAppStoreReceipt_kSecClassCertificate) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 180, 206, 55, SEEAppStoreReceipt_ObfuscationFunction004, 539, 180, 21))
+#define SEEAppStoreReceipt_kSecMatchLimit_00B400AA ((__SEEAppStoreReceipt_kSecMatchLimit) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 180, 206, 55, SEEAppStoreReceipt_ObfuscationFunction007, 170, 217, 16))
+#define SEEAppStoreReceipt_kSecMatchLimit_00B400F5 ((__SEEAppStoreReceipt_kSecMatchLimit) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 180, 206, 55, SEEAppStoreReceipt_ObfuscationFunction004, 245, 133, 16))
+#define SEEAppStoreReceipt_kSecMatchLimitAll_00B401D7 ((__SEEAppStoreReceipt_kSecMatchLimitAll) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 180, 206, 55, SEEAppStoreReceipt_ObfuscationFunction00B, 471, 111, 18))
+#define SEEAppStoreReceipt_kSecMatchLimitAll_01450127 ((__SEEAppStoreReceipt_kSecMatchLimitAll) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction005, 325, 251, 55, SEEAppStoreReceipt_ObfuscationFunction009, 295, 101, 18))
+#define SEEAppStoreReceipt_kSecMatchSearchList_0145017D ((__SEEAppStoreReceipt_kSecMatchSearchList) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction005, 325, 251, 55, SEEAppStoreReceipt_ObfuscationFunction00C, 381, 254, 20))
+#define SEEAppStoreReceipt_kSecMatchSearchList_01450201 ((__SEEAppStoreReceipt_kSecMatchSearchList) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction005, 325, 251, 55, SEEAppStoreReceipt_ObfuscationFunction007, 513, 163, 20))
+#define SEEAppStoreReceipt_kSecMatchSubjectContains_021200D7 ((__SEEAppStoreReceipt_kSecMatchSubjectContains) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction005, 530, 59, 55, SEEAppStoreReceipt_ObfuscationFunction00A, 215, 16, 33))
+#define SEEAppStoreReceipt_kSecReturnRef_00B4021D ((__SEEAppStoreReceipt_kSecReturnRef) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 180, 206, 55, SEEAppStoreReceipt_ObfuscationFunction007, 541, 134, 16))
+#define SEEAppStoreReceipt_kSecReturnRef_014501BD ((__SEEAppStoreReceipt_kSecReturnRef) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction005, 325, 251, 55, SEEAppStoreReceipt_ObfuscationFunction008, 445, 253, 16))
+#define SEEAppStoreReceipt_longjmp_0089019C ((__SEEAppStoreReceipt_longjmp) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction005, 137, 181, 33, SEEAppStoreReceipt_ObfuscationFunction008, 412, 143, 16))
+#define SEEAppStoreReceipt_longjmp_008901DC ((__SEEAppStoreReceipt_longjmp) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction005, 137, 181, 33, SEEAppStoreReceipt_ObfuscationFunction00A, 476, 24, 16))
+#define SEEAppStoreReceipt_longjmp_00ED00FF ((__SEEAppStoreReceipt_longjmp) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 237, 97, 33, SEEAppStoreReceipt_ObfuscationFunction007, 255, 216, 16))
+#define SEEAppStoreReceipt_longjmp_00ED01DC ((__SEEAppStoreReceipt_longjmp) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 237, 97, 33, SEEAppStoreReceipt_ObfuscationFunction00A, 476, 24, 16))
+#define SEEAppStoreReceipt_longjmp_016B00FF ((__SEEAppStoreReceipt_longjmp) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction003, 363, 74, 33, SEEAppStoreReceipt_ObfuscationFunction007, 255, 216, 16))
+#define SEEAppStoreReceipt_longjmp_016B019C ((__SEEAppStoreReceipt_longjmp) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction003, 363, 74, 33, SEEAppStoreReceipt_ObfuscationFunction008, 412, 143, 16))
+#define SEEAppStoreReceipt_longjmp_016B01DC ((__SEEAppStoreReceipt_longjmp) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction003, 363, 74, 33, SEEAppStoreReceipt_ObfuscationFunction00A, 476, 24, 16))
+#define SEEAppStoreReceipt_OBJ_txt2obj_006101CE ((__SEEAppStoreReceipt_OBJ_txt2obj) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 97, 21, 16, SEEAppStoreReceipt_ObfuscationFunction004, 462, 203, 16))
+#define SEEAppStoreReceipt_objc_getClass_001C00AC ((__SEEAppStoreReceipt_objc_getClass) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 28, 50, 23, SEEAppStoreReceipt_ObfuscationFunction00C, 172, 79, 16))
+#define SEEAppStoreReceipt_objc_getClass_001C00F4 ((__SEEAppStoreReceipt_objc_getClass) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 28, 50, 23, SEEAppStoreReceipt_ObfuscationFunction009, 244, 131, 16))
+#define SEEAppStoreReceipt_objc_getClass_001C0195 ((__SEEAppStoreReceipt_objc_getClass) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 28, 50, 23, SEEAppStoreReceipt_ObfuscationFunction004, 405, 182, 16))
+#define SEEAppStoreReceipt_objc_getClass_01C600F4 ((__SEEAppStoreReceipt_objc_getClass) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction003, 454, 154, 23, SEEAppStoreReceipt_ObfuscationFunction009, 244, 131, 16))
+#define SEEAppStoreReceipt_objc_getClass_01FC00AC ((__SEEAppStoreReceipt_objc_getClass) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 508, 232, 23, SEEAppStoreReceipt_ObfuscationFunction00C, 172, 79, 16))
+#define SEEAppStoreReceipt_objc_getClass_01FC0195 ((__SEEAppStoreReceipt_objc_getClass) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 508, 232, 23, SEEAppStoreReceipt_ObfuscationFunction004, 405, 182, 16))
+#define SEEAppStoreReceipt_objc_msgSend_001C0070 ((__SEEAppStoreReceipt_objc_msgSend) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 28, 50, 23, SEEAppStoreReceipt_ObfuscationFunction009, 112, 12, 16))
+#define SEEAppStoreReceipt_objc_msgSend_001C017B ((__SEEAppStoreReceipt_objc_msgSend) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 28, 50, 23, SEEAppStoreReceipt_ObfuscationFunction005, 379, 154, 16))
+#define SEEAppStoreReceipt_objc_msgSend_01C60070 ((__SEEAppStoreReceipt_objc_msgSend) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction003, 454, 154, 23, SEEAppStoreReceipt_ObfuscationFunction009, 112, 12, 16))
+#define SEEAppStoreReceipt_objc_msgSend_01C6017B ((__SEEAppStoreReceipt_objc_msgSend) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction003, 454, 154, 23, SEEAppStoreReceipt_ObfuscationFunction005, 379, 154, 16))
+#define SEEAppStoreReceipt_objc_msgSend_01C6022C ((__SEEAppStoreReceipt_objc_msgSend) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction003, 454, 154, 23, SEEAppStoreReceipt_ObfuscationFunction00A, 556, 109, 16))
+#define SEEAppStoreReceipt_objc_msgSend_01FC017B ((__SEEAppStoreReceipt_objc_msgSend) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 508, 232, 23, SEEAppStoreReceipt_ObfuscationFunction005, 379, 154, 16))
+#define SEEAppStoreReceipt_objc_msgSend_01FC022C ((__SEEAppStoreReceipt_objc_msgSend) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 508, 232, 23, SEEAppStoreReceipt_ObfuscationFunction00A, 556, 109, 16))
+#define SEEAppStoreReceipt_OpenSSL_add_all_digests_00B60211 ((__SEEAppStoreReceipt_OpenSSL_add_all_digests) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 182, 85, 16, SEEAppStoreReceipt_ObfuscationFunction004, 529, 17, 32))
+#define SEEAppStoreReceipt_OpenSSL_add_all_digests_00DB0211 ((__SEEAppStoreReceipt_OpenSSL_add_all_digests) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction003, 219, 125, 16, SEEAppStoreReceipt_ObfuscationFunction004, 529, 17, 32))
+#define SEEAppStoreReceipt_PKCS7_free_00610146 ((__SEEAppStoreReceipt_PKCS7_free) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 97, 21, 16, SEEAppStoreReceipt_ObfuscationFunction00C, 326, 192, 16))
+#define SEEAppStoreReceipt_PKCS7_free_006101BC ((__SEEAppStoreReceipt_PKCS7_free) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 97, 21, 16, SEEAppStoreReceipt_ObfuscationFunction008, 444, 170, 16))
+#define SEEAppStoreReceipt_PKCS7_free_00B601BC ((__SEEAppStoreReceipt_PKCS7_free) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 182, 85, 16, SEEAppStoreReceipt_ObfuscationFunction008, 444, 170, 16))
+#define SEEAppStoreReceipt_PKCS7_get0_signers_00DB0209 ((__SEEAppStoreReceipt_PKCS7_get0_signers) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction003, 219, 125, 16, SEEAppStoreReceipt_ObfuscationFunction009, 521, 45, 19))
+#define SEEAppStoreReceipt_PKCS7_verify_00DB0185 ((__SEEAppStoreReceipt_PKCS7_verify) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction003, 219, 125, 16, SEEAppStoreReceipt_ObfuscationFunction007, 389, 55, 16))
+#define SEEAppStoreReceipt_SecKeychainSearchCopyNext_00B40166 ((__SEEAppStoreReceipt_SecKeychainSearchCopyNext) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 180, 206, 55, SEEAppStoreReceipt_ObfuscationFunction00C, 358, 233, 34))
+#define SEEAppStoreReceipt_SecKeychainSearchCopyNext_01450064 ((__SEEAppStoreReceipt_SecKeychainSearchCopyNext) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction005, 325, 251, 55, SEEAppStoreReceipt_ObfuscationFunction005, 100, 197, 34))
+#define SEEAppStoreReceipt_sel_registerName_001C0036 ((__SEEAppStoreReceipt_sel_registerName) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 28, 50, 23, SEEAppStoreReceipt_ObfuscationFunction008, 54, 123, 17))
+#define SEEAppStoreReceipt_sel_registerName_001C008D ((__SEEAppStoreReceipt_sel_registerName) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 28, 50, 23, SEEAppStoreReceipt_ObfuscationFunction005, 141, 15, 17))
+#define SEEAppStoreReceipt_sel_registerName_001C0204 ((__SEEAppStoreReceipt_sel_registerName) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction004, 28, 50, 23, SEEAppStoreReceipt_ObfuscationFunction003, 516, 234, 17))
+#define SEEAppStoreReceipt_sel_registerName_01C60204 ((__SEEAppStoreReceipt_sel_registerName) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction003, 454, 154, 23, SEEAppStoreReceipt_ObfuscationFunction003, 516, 234, 17))
+#define SEEAppStoreReceipt_sel_registerName_01FC0036 ((__SEEAppStoreReceipt_sel_registerName) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 508, 232, 23, SEEAppStoreReceipt_ObfuscationFunction008, 54, 123, 17))
+#define SEEAppStoreReceipt_sel_registerName_01FC0204 ((__SEEAppStoreReceipt_sel_registerName) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 508, 232, 23, SEEAppStoreReceipt_ObfuscationFunction003, 516, 234, 17))
+#define SEEAppStoreReceipt_setjmp_00ED00E3 ((__SEEAppStoreReceipt_setjmp) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 237, 97, 33, SEEAppStoreReceipt_ObfuscationFunction00A, 227, 137, 16))
+#define SEEAppStoreReceipt_SHA1_00B601E5 ((__SEEAppStoreReceipt_SHA1) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 182, 85, 16, SEEAppStoreReceipt_ObfuscationFunction006, 485, 127, 16))
+#define SEEAppStoreReceipt_SHA1_Final_00DB01A0 ((__SEEAppStoreReceipt_SHA1_Final) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction003, 219, 125, 16, SEEAppStoreReceipt_ObfuscationFunction004, 416, 245, 16))
+#define SEEAppStoreReceipt_SHA1_Init_00B6011A ((__SEEAppStoreReceipt_SHA1_Init) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 182, 85, 16, SEEAppStoreReceipt_ObfuscationFunction004, 282, 162, 16))
+#define SEEAppStoreReceipt_SHA1_Update_00DB012C ((__SEEAppStoreReceipt_SHA1_Update) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction003, 219, 125, 16, SEEAppStoreReceipt_ObfuscationFunction00C, 300, 50, 16))
+#define SEEAppStoreReceipt_sk_free_00B60237 ((__SEEAppStoreReceipt_sk_free) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 182, 85, 16, SEEAppStoreReceipt_ObfuscationFunction007, 567, 115, 16))
+#define SEEAppStoreReceipt_sk_num_00610149 ((__SEEAppStoreReceipt_sk_num) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 97, 21, 16, SEEAppStoreReceipt_ObfuscationFunction00C, 329, 218, 16))
+#define SEEAppStoreReceipt_sk_value_00DB01BF ((__SEEAppStoreReceipt_sk_value) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction003, 219, 125, 16, SEEAppStoreReceipt_ObfuscationFunction009, 447, 248, 16))
+#define SEEAppStoreReceipt_X509_digest_00610046 ((__SEEAppStoreReceipt_X509_digest) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 97, 21, 16, SEEAppStoreReceipt_ObfuscationFunction00C, 70, 127, 16))
+#define SEEAppStoreReceipt_X509_free_00DB0157 ((__SEEAppStoreReceipt_X509_free) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction003, 219, 125, 16, SEEAppStoreReceipt_ObfuscationFunction004, 343, 167, 16))
+#define SEEAppStoreReceipt_X509_get_ext_by_OBJ_00DB0179 ((__SEEAppStoreReceipt_X509_get_ext_by_OBJ) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction003, 219, 125, 16, SEEAppStoreReceipt_ObfuscationFunction00B, 377, 142, 20))
+#define SEEAppStoreReceipt_X509_NAME_get_text_by_NID_00DB0136 ((__SEEAppStoreReceipt_X509_NAME_get_text_by_NID) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction003, 219, 125, 16, SEEAppStoreReceipt_ObfuscationFunction006, 310, 71, 34))
+#define SEEAppStoreReceipt_X509_STORE_add_cert_00DB00D5 ((__SEEAppStoreReceipt_X509_STORE_add_cert) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction003, 219, 125, 16, SEEAppStoreReceipt_ObfuscationFunction00C, 213, 8, 20))
+#define SEEAppStoreReceipt_X509_STORE_free_006100AB ((__SEEAppStoreReceipt_X509_STORE_free) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction00A, 97, 21, 16, SEEAppStoreReceipt_ObfuscationFunction00C, 171, 116, 16))
+#define SEEAppStoreReceipt_X509_STORE_new_00B60026 ((__SEEAppStoreReceipt_X509_STORE_new) SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_ObfuscationFunction009, 182, 85, 16, SEEAppStoreReceipt_ObfuscationFunction00B, 38, 187, 16))
 
 
 	// CodeBlock ObfuscationFunction / M(Rot)
@@ -2323,11 +2411,11 @@ extern "C" {
 	}
 
 	__RETURN_RETAINED inline static CFStringRef SEEAppStoreReceipt_ObfuscationFunction003CF(const char *SEEAppStoreReceipt_p1, int SEEAppStoreReceipt_p3, int SEEAppStoreReceipt_p4) {
-		char SEEAppStoreReceipt_tmp1[549];
+		char SEEAppStoreReceipt_tmp1[573];
 		char *SEEAppStoreReceipt_tmp2 = SEEAppStoreReceipt_tmp1;
 		SEEAppStoreReceipt_ObfuscationFunction003(SEEAppStoreReceipt_p1, SEEAppStoreReceipt_tmp1, SEEAppStoreReceipt_p3, SEEAppStoreReceipt_p4);
 		while(*SEEAppStoreReceipt_tmp2) { SEEAppStoreReceipt_tmp2++; }
-		CFStringRef SEEAppStoreReceipt_str1 = ((__SEEAppStoreReceipt_CFStringCreateWithBytes) SEEAppStoreReceipt_Pointers[242])(NULL, (const UInt8 *) SEEAppStoreReceipt_tmp1, (CFIndex) (SEEAppStoreReceipt_tmp2 - SEEAppStoreReceipt_tmp1), kCFStringEncodingUTF8, false);
+		CFStringRef SEEAppStoreReceipt_str1 = ((__SEEAppStoreReceipt_CFStringCreateWithBytes) SEEAppStoreReceipt_Pointers[479])(NULL, (const UInt8 *) SEEAppStoreReceipt_tmp1, (CFIndex) (SEEAppStoreReceipt_tmp2 - SEEAppStoreReceipt_tmp1), kCFStringEncodingUTF8, false);
 		return SEEAppStoreReceipt_str1;
 	}
 
@@ -2339,9 +2427,9 @@ extern "C" {
 	}
 
 	__RETURN_RETAINED inline static CFStringRef SEEAppStoreReceipt_ObfuscationFunction004CF(const char *SEEAppStoreReceipt_p1, int SEEAppStoreReceipt_p3, int SEEAppStoreReceipt_p4) {
-		char SEEAppStoreReceipt_tmp1[549];
+		char SEEAppStoreReceipt_tmp1[573];
 		SEEAppStoreReceipt_ObfuscationFunction004(SEEAppStoreReceipt_p1, SEEAppStoreReceipt_tmp1, SEEAppStoreReceipt_p3, SEEAppStoreReceipt_p4);
-		CFStringRef SEEAppStoreReceipt_str1 = ((__SEEAppStoreReceipt_CFStringCreateWithCString) SEEAppStoreReceipt_Pointers[59])(NULL, SEEAppStoreReceipt_tmp1, kCFStringEncodingUTF8);
+		CFStringRef SEEAppStoreReceipt_str1 = ((__SEEAppStoreReceipt_CFStringCreateWithCString) SEEAppStoreReceipt_Pointers[518])(NULL, SEEAppStoreReceipt_tmp1, kCFStringEncodingUTF8);
 		return SEEAppStoreReceipt_str1;
 	}
 
@@ -2353,11 +2441,11 @@ extern "C" {
 	}
 
 	__RETURN_RETAINED inline static CFStringRef SEEAppStoreReceipt_ObfuscationFunction005CF(const char *SEEAppStoreReceipt_p1, int SEEAppStoreReceipt_p3, int SEEAppStoreReceipt_p4) {
-		char SEEAppStoreReceipt_tmp1[549];
+		char SEEAppStoreReceipt_tmp1[573];
 		char *SEEAppStoreReceipt_tmp2 = SEEAppStoreReceipt_tmp1;
 		SEEAppStoreReceipt_ObfuscationFunction005(SEEAppStoreReceipt_p1, SEEAppStoreReceipt_tmp1, SEEAppStoreReceipt_p3, SEEAppStoreReceipt_p4);
 		while(*SEEAppStoreReceipt_tmp2) { SEEAppStoreReceipt_tmp2++; }
-		CFStringRef SEEAppStoreReceipt_str1 = ((__SEEAppStoreReceipt_CFStringCreateWithBytes) SEEAppStoreReceipt_Pointers[242])(NULL, (const UInt8 *) SEEAppStoreReceipt_tmp1, (CFIndex) (SEEAppStoreReceipt_tmp2 - SEEAppStoreReceipt_tmp1), kCFStringEncodingUTF8, false);
+		CFStringRef SEEAppStoreReceipt_str1 = ((__SEEAppStoreReceipt_CFStringCreateWithBytes) SEEAppStoreReceipt_Pointers[479])(NULL, (const UInt8 *) SEEAppStoreReceipt_tmp1, (CFIndex) (SEEAppStoreReceipt_tmp2 - SEEAppStoreReceipt_tmp1), kCFStringEncodingUTF8, false);
 		return SEEAppStoreReceipt_str1;
 	}
 
@@ -2369,9 +2457,9 @@ extern "C" {
 	}
 
 	__RETURN_RETAINED inline static CFStringRef SEEAppStoreReceipt_ObfuscationFunction006CF(const char *SEEAppStoreReceipt_p1, int SEEAppStoreReceipt_p3, int SEEAppStoreReceipt_p4) {
-		char SEEAppStoreReceipt_tmp1[549];
+		char SEEAppStoreReceipt_tmp1[573];
 		SEEAppStoreReceipt_ObfuscationFunction006(SEEAppStoreReceipt_p1, SEEAppStoreReceipt_tmp1, SEEAppStoreReceipt_p3, SEEAppStoreReceipt_p4);
-		CFStringRef SEEAppStoreReceipt_str1 = ((__SEEAppStoreReceipt_CFStringCreateWithCString) SEEAppStoreReceipt_Pointers[333])(NULL, SEEAppStoreReceipt_tmp1, kCFStringEncodingUTF8);
+		CFStringRef SEEAppStoreReceipt_str1 = ((__SEEAppStoreReceipt_CFStringCreateWithCString) SEEAppStoreReceipt_Pointers[417])(NULL, SEEAppStoreReceipt_tmp1, kCFStringEncodingUTF8);
 		return SEEAppStoreReceipt_str1;
 	}
 
@@ -2383,11 +2471,11 @@ extern "C" {
 	}
 
 	__RETURN_RETAINED inline static CFStringRef SEEAppStoreReceipt_ObfuscationFunction007CF(const char *SEEAppStoreReceipt_p1, int SEEAppStoreReceipt_p3, int SEEAppStoreReceipt_p4) {
-		char SEEAppStoreReceipt_tmp1[549];
+		char SEEAppStoreReceipt_tmp1[573];
 		char *SEEAppStoreReceipt_tmp2 = SEEAppStoreReceipt_tmp1;
 		SEEAppStoreReceipt_ObfuscationFunction007(SEEAppStoreReceipt_p1, SEEAppStoreReceipt_tmp1, SEEAppStoreReceipt_p3, SEEAppStoreReceipt_p4);
 		while(*SEEAppStoreReceipt_tmp2) { SEEAppStoreReceipt_tmp2++; }
-		CFStringRef SEEAppStoreReceipt_str1 = ((__SEEAppStoreReceipt_CFStringCreateWithBytes) SEEAppStoreReceipt_Pointers[260])(NULL, (const UInt8 *) SEEAppStoreReceipt_tmp1, (CFIndex) (SEEAppStoreReceipt_tmp2 - SEEAppStoreReceipt_tmp1), kCFStringEncodingUTF8, false);
+		CFStringRef SEEAppStoreReceipt_str1 = ((__SEEAppStoreReceipt_CFStringCreateWithBytes) SEEAppStoreReceipt_Pointers[365])(NULL, (const UInt8 *) SEEAppStoreReceipt_tmp1, (CFIndex) (SEEAppStoreReceipt_tmp2 - SEEAppStoreReceipt_tmp1), kCFStringEncodingUTF8, false);
 		return SEEAppStoreReceipt_str1;
 	}
 
@@ -2399,9 +2487,9 @@ extern "C" {
 	}
 
 	__RETURN_RETAINED inline static CFStringRef SEEAppStoreReceipt_ObfuscationFunction008CF(const char *SEEAppStoreReceipt_p1, int SEEAppStoreReceipt_p3, int SEEAppStoreReceipt_p4) {
-		char SEEAppStoreReceipt_tmp1[549];
+		char SEEAppStoreReceipt_tmp1[573];
 		SEEAppStoreReceipt_ObfuscationFunction008(SEEAppStoreReceipt_p1, SEEAppStoreReceipt_tmp1, SEEAppStoreReceipt_p3, SEEAppStoreReceipt_p4);
-		CFStringRef SEEAppStoreReceipt_str1 = ((__SEEAppStoreReceipt_CFStringCreateWithCString) SEEAppStoreReceipt_Pointers[59])(NULL, SEEAppStoreReceipt_tmp1, kCFStringEncodingUTF8);
+		CFStringRef SEEAppStoreReceipt_str1 = ((__SEEAppStoreReceipt_CFStringCreateWithCString) SEEAppStoreReceipt_Pointers[439])(NULL, SEEAppStoreReceipt_tmp1, kCFStringEncodingUTF8);
 		return SEEAppStoreReceipt_str1;
 	}
 
@@ -2413,11 +2501,11 @@ extern "C" {
 	}
 
 	__RETURN_RETAINED inline static CFStringRef SEEAppStoreReceipt_ObfuscationFunction009CF(const char *SEEAppStoreReceipt_p1, int SEEAppStoreReceipt_p3, int SEEAppStoreReceipt_p4) {
-		char SEEAppStoreReceipt_tmp1[549];
+		char SEEAppStoreReceipt_tmp1[573];
 		char *SEEAppStoreReceipt_tmp2 = SEEAppStoreReceipt_tmp1;
 		SEEAppStoreReceipt_ObfuscationFunction009(SEEAppStoreReceipt_p1, SEEAppStoreReceipt_tmp1, SEEAppStoreReceipt_p3, SEEAppStoreReceipt_p4);
 		while(*SEEAppStoreReceipt_tmp2) { SEEAppStoreReceipt_tmp2++; }
-		CFStringRef SEEAppStoreReceipt_str1 = ((__SEEAppStoreReceipt_CFStringCreateWithBytes) SEEAppStoreReceipt_Pointers[94])(NULL, (const UInt8 *) SEEAppStoreReceipt_tmp1, (CFIndex) (SEEAppStoreReceipt_tmp2 - SEEAppStoreReceipt_tmp1), kCFStringEncodingUTF8, false);
+		CFStringRef SEEAppStoreReceipt_str1 = ((__SEEAppStoreReceipt_CFStringCreateWithBytes) SEEAppStoreReceipt_Pointers[365])(NULL, (const UInt8 *) SEEAppStoreReceipt_tmp1, (CFIndex) (SEEAppStoreReceipt_tmp2 - SEEAppStoreReceipt_tmp1), kCFStringEncodingUTF8, false);
 		return SEEAppStoreReceipt_str1;
 	}
 
@@ -2429,9 +2517,9 @@ extern "C" {
 	}
 
 	__RETURN_RETAINED inline static CFStringRef SEEAppStoreReceipt_ObfuscationFunction00ACF(const char *SEEAppStoreReceipt_p1, int SEEAppStoreReceipt_p3, int SEEAppStoreReceipt_p4) {
-		char SEEAppStoreReceipt_tmp1[549];
+		char SEEAppStoreReceipt_tmp1[573];
 		SEEAppStoreReceipt_ObfuscationFunction00A(SEEAppStoreReceipt_p1, SEEAppStoreReceipt_tmp1, SEEAppStoreReceipt_p3, SEEAppStoreReceipt_p4);
-		CFStringRef SEEAppStoreReceipt_str1 = ((__SEEAppStoreReceipt_CFStringCreateWithCString) SEEAppStoreReceipt_Pointers[333])(NULL, SEEAppStoreReceipt_tmp1, kCFStringEncodingUTF8);
+		CFStringRef SEEAppStoreReceipt_str1 = ((__SEEAppStoreReceipt_CFStringCreateWithCString) SEEAppStoreReceipt_Pointers[439])(NULL, SEEAppStoreReceipt_tmp1, kCFStringEncodingUTF8);
 		return SEEAppStoreReceipt_str1;
 	}
 
@@ -2443,11 +2531,11 @@ extern "C" {
 	}
 
 	__RETURN_RETAINED inline static CFStringRef SEEAppStoreReceipt_ObfuscationFunction00BCF(const char *SEEAppStoreReceipt_p1, int SEEAppStoreReceipt_p3, int SEEAppStoreReceipt_p4) {
-		char SEEAppStoreReceipt_tmp1[549];
+		char SEEAppStoreReceipt_tmp1[573];
 		char *SEEAppStoreReceipt_tmp2 = SEEAppStoreReceipt_tmp1;
 		SEEAppStoreReceipt_ObfuscationFunction00B(SEEAppStoreReceipt_p1, SEEAppStoreReceipt_tmp1, SEEAppStoreReceipt_p3, SEEAppStoreReceipt_p4);
 		while(*SEEAppStoreReceipt_tmp2) { SEEAppStoreReceipt_tmp2++; }
-		CFStringRef SEEAppStoreReceipt_str1 = ((__SEEAppStoreReceipt_CFStringCreateWithBytes) SEEAppStoreReceipt_Pointers[94])(NULL, (const UInt8 *) SEEAppStoreReceipt_tmp1, (CFIndex) (SEEAppStoreReceipt_tmp2 - SEEAppStoreReceipt_tmp1), kCFStringEncodingUTF8, false);
+		CFStringRef SEEAppStoreReceipt_str1 = ((__SEEAppStoreReceipt_CFStringCreateWithBytes) SEEAppStoreReceipt_Pointers[554])(NULL, (const UInt8 *) SEEAppStoreReceipt_tmp1, (CFIndex) (SEEAppStoreReceipt_tmp2 - SEEAppStoreReceipt_tmp1), kCFStringEncodingUTF8, false);
 		return SEEAppStoreReceipt_str1;
 	}
 
@@ -2459,25 +2547,25 @@ extern "C" {
 	}
 
 	__RETURN_RETAINED inline static CFStringRef SEEAppStoreReceipt_ObfuscationFunction00CCF(const char *SEEAppStoreReceipt_p1, int SEEAppStoreReceipt_p3, int SEEAppStoreReceipt_p4) {
-		char SEEAppStoreReceipt_tmp1[549];
+		char SEEAppStoreReceipt_tmp1[573];
 		SEEAppStoreReceipt_ObfuscationFunction00C(SEEAppStoreReceipt_p1, SEEAppStoreReceipt_tmp1, SEEAppStoreReceipt_p3, SEEAppStoreReceipt_p4);
-		CFStringRef SEEAppStoreReceipt_str1 = ((__SEEAppStoreReceipt_CFStringCreateWithCString) SEEAppStoreReceipt_Pointers[333])(NULL, SEEAppStoreReceipt_tmp1, kCFStringEncodingUTF8);
+		CFStringRef SEEAppStoreReceipt_str1 = ((__SEEAppStoreReceipt_CFStringCreateWithCString) SEEAppStoreReceipt_Pointers[518])(NULL, SEEAppStoreReceipt_tmp1, kCFStringEncodingUTF8);
 		return SEEAppStoreReceipt_str1;
 	}
 
 
 	// CodeBlock LookupFunction
 	inline static void *SEEAppStoreReceipt_LookupFunction015(SEEAppStoreReceipt_decrypt SEEAppStoreReceipt_func1, int SEEAppStoreReceipt_index1, int SEEAppStoreReceipt_val1, int SEEAppStoreReceipt_len1, SEEAppStoreReceipt_decrypt SEEAppStoreReceipt_func2, int SEEAppStoreReceipt_index2, int SEEAppStoreReceipt_val2, int SEEAppStoreReceipt_len2) {
-		char SEEAppStoreReceipt_tmp1[549], SEEAppStoreReceipt_tmp2[549];
+		char SEEAppStoreReceipt_tmp1[573], SEEAppStoreReceipt_tmp2[573];
 		// Load the library if needed
 		if (SEEAppStoreReceipt_Pointers[SEEAppStoreReceipt_index1] == NULL) {
 			SEEAppStoreReceipt_func1(SEEAppStoreReceipt_Strings[SEEAppStoreReceipt_index1], SEEAppStoreReceipt_tmp1, SEEAppStoreReceipt_val1, SEEAppStoreReceipt_len1);
-			SEEAppStoreReceipt_Pointers[SEEAppStoreReceipt_index1] = ((__SEEAppStoreReceipt_dlopen) SEEAppStoreReceipt_Pointers[388])(SEEAppStoreReceipt_tmp1, RTLD_NOW | RTLD_FIRST);
+			SEEAppStoreReceipt_Pointers[SEEAppStoreReceipt_index1] = ((__SEEAppStoreReceipt_dlopen) SEEAppStoreReceipt_Pointers[3])(SEEAppStoreReceipt_tmp1, RTLD_NOW | RTLD_FIRST);
 		}
 		// Load the function if needed
 		if (SEEAppStoreReceipt_Pointers[SEEAppStoreReceipt_index2] == NULL) {
 			SEEAppStoreReceipt_func2(SEEAppStoreReceipt_Strings[SEEAppStoreReceipt_index2], SEEAppStoreReceipt_tmp2, SEEAppStoreReceipt_val2, SEEAppStoreReceipt_len2);
-			SEEAppStoreReceipt_Pointers[SEEAppStoreReceipt_index2] = ((__SEEAppStoreReceipt_dlsym) SEEAppStoreReceipt_Pointers[487])(SEEAppStoreReceipt_Pointers[SEEAppStoreReceipt_index1], SEEAppStoreReceipt_tmp2);
+			SEEAppStoreReceipt_Pointers[SEEAppStoreReceipt_index2] = ((__SEEAppStoreReceipt_dlsym) SEEAppStoreReceipt_Pointers[308])(SEEAppStoreReceipt_Pointers[SEEAppStoreReceipt_index1], SEEAppStoreReceipt_tmp2);
 		}
 		return SEEAppStoreReceipt_Pointers[SEEAppStoreReceipt_index2];
 	}
@@ -2490,48 +2578,48 @@ extern "C" {
 	inline static void SEEAppStoreReceipt_GetMainBundle017(SEEAppStoreReceipt_CheckingContext *SEEAppStoreReceipt_ctx) {
 		__SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Retrieving main bundle");
 		// Retrieve the main bundle
-		CFBundleRef SEEAppStoreReceipt_bundle = SEEAppStoreReceipt_CFBundleGetMainBundle_007B0094();
+		CFBundleRef SEEAppStoreReceipt_bundle = SEEAppStoreReceipt_CFBundleGetMainBundle_00D80172();
 		if (!SEEAppStoreReceipt_bundle) {
 			// Dead code
-			SEEAppStoreReceipt_CFRelease_007B0075(SEEAppStoreReceipt_bundle);
-			SEEAppStoreReceipt_CFBundleUnloadExecutable_00AE012D((CFBundleRef) SEEAppStoreReceipt_bundle);
+			SEEAppStoreReceipt_CFRelease_00D8004E(SEEAppStoreReceipt_bundle);
+			SEEAppStoreReceipt_CFBundleUnloadExecutable_000A022F((CFBundleRef) SEEAppStoreReceipt_bundle);
 		}
 		SEEAppStoreReceipt_ctx->main_bundle = (CFBundleRef) SEEAppStoreReceipt_bundle;
 		// Global variables computation
-		// Set to 112
-		SEEAppStoreReceipt_BPRMJLJLPXEZ = 112;
-		// Set to 249
-		SEEAppStoreReceipt_UQJHIJEOCCBI = 249;
-		// Set to 245
-		SEEAppStoreReceipt_TTTNUXJZKAAB = 245;
-		// Set to 496
-		SEEAppStoreReceipt_PWQTYPSGCQZM = 496;
-		// Set to 437
-		SEEAppStoreReceipt_CUKYVEUBFRMI = 437;
-		// Set to 44
-		SEEAppStoreReceipt_WMVWYPHNNSIW = 44;
-		// Set to 426
-		SEEAppStoreReceipt_HKDEGXORNBAM = 426;
-		// Set to 389
-		SEEAppStoreReceipt_BWEOBKUBIYLB = 389;
+		// Set to 208
+		SEEAppStoreReceipt_PXHQVHMEAFPB = 208;
+		// Set to 36
+		SEEAppStoreReceipt_KDCPKKDHLVNV = 36;
+		// Set to 195
+		SEEAppStoreReceipt_HEJNNJZOJKFT = 195;
+		// Set to 204
+		SEEAppStoreReceipt_CJKLRIVRECMR = 204;
+		// Set to 113
+		SEEAppStoreReceipt_QLCTHPGBOWLC = 113;
+		// Set to 91
+		SEEAppStoreReceipt_EDTPOGGTZZCS = 91;
+		// Set to 50
+		SEEAppStoreReceipt_TREROYPGPNCL = 50;
+		// Set to 14
+		SEEAppStoreReceipt_EWUUWZNJKLIY = 14;
 	}
 #else
 #define SEEAppStoreReceipt_GetMainBundle017(SEEAppStoreReceipt_ctx) { \
 __SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Retrieving main bundle"); \
-CFBundleRef SEEAppStoreReceipt_bundle = SEEAppStoreReceipt_CFBundleGetMainBundle_007B0094(); \
+CFBundleRef SEEAppStoreReceipt_bundle = SEEAppStoreReceipt_CFBundleGetMainBundle_00D80172(); \
 if (!SEEAppStoreReceipt_bundle) { \
-SEEAppStoreReceipt_CFRelease_007B0075(SEEAppStoreReceipt_bundle); \
-SEEAppStoreReceipt_CFBundleUnloadExecutable_00AE012D((CFBundleRef) SEEAppStoreReceipt_bundle); \
+SEEAppStoreReceipt_CFRelease_00D8004E(SEEAppStoreReceipt_bundle); \
+SEEAppStoreReceipt_CFBundleUnloadExecutable_000A022F((CFBundleRef) SEEAppStoreReceipt_bundle); \
 } \
 SEEAppStoreReceipt_ctx->main_bundle = (CFBundleRef) SEEAppStoreReceipt_bundle; \
-SEEAppStoreReceipt_BPRMJLJLPXEZ = 112; \
-SEEAppStoreReceipt_UQJHIJEOCCBI = 249; \
-SEEAppStoreReceipt_TTTNUXJZKAAB = 245; \
-SEEAppStoreReceipt_PWQTYPSGCQZM = 496; \
-SEEAppStoreReceipt_CUKYVEUBFRMI = 437; \
-SEEAppStoreReceipt_WMVWYPHNNSIW = 44; \
-SEEAppStoreReceipt_HKDEGXORNBAM = 426; \
-SEEAppStoreReceipt_BWEOBKUBIYLB = 389; \
+SEEAppStoreReceipt_PXHQVHMEAFPB = 208; \
+SEEAppStoreReceipt_KDCPKKDHLVNV = 36; \
+SEEAppStoreReceipt_HEJNNJZOJKFT = 195; \
+SEEAppStoreReceipt_CJKLRIVRECMR = 204; \
+SEEAppStoreReceipt_QLCTHPGBOWLC = 113; \
+SEEAppStoreReceipt_EDTPOGGTZZCS = 91; \
+SEEAppStoreReceipt_TREROYPGPNCL = 50; \
+SEEAppStoreReceipt_EWUUWZNJKLIY = 14; \
 }
 #endif
 
@@ -2545,49 +2633,55 @@ SEEAppStoreReceipt_BWEOBKUBIYLB = 389; \
 		CFReadStreamRef SEEAppStoreReceipt_stream;
 		CFMutableDataRef SEEAppStoreReceipt_data;
 		CFIndex SEEAppStoreReceipt_count;
-		uint8_t SEEAppStoreReceipt_buffer[549];
-		volatile int SEEAppStoreReceipt_code = 120; SEEAppStoreReceipt_code -= 63; SEEAppStoreReceipt_code *= 3; SEEAppStoreReceipt_code += 2;
+		uint8_t SEEAppStoreReceipt_buffer[573];
+		volatile int SEEAppStoreReceipt_code = 20; SEEAppStoreReceipt_code -= 3; SEEAppStoreReceipt_code *= 10; SEEAppStoreReceipt_code += 3;
 		__SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Loading receipt");
 		// Compute the path to the receipt
-		SEEAppStoreReceipt_url1 = SEEAppStoreReceipt_CFBundleCopyBundleURL_007B01AE((CFBundleRef) SEEAppStoreReceipt_ctx->main_bundle);
-		SEEAppStoreReceipt_str1 = SEEAppStoreReceipt_ObfuscationFunction006CF((SEEAppStoreReceipt_Strings[64]), 162, 37);
-		SEEAppStoreReceipt_url2 = SEEAppStoreReceipt_PWQTYPSGCQZM_00AE01F0(NULL, SEEAppStoreReceipt_url1, SEEAppStoreReceipt_str1, false);
-		SEEAppStoreReceipt_CFRelease_00AE0075(SEEAppStoreReceipt_str1);
-		SEEAppStoreReceipt_CFRelease_00AE0075(SEEAppStoreReceipt_url1);
+		SEEAppStoreReceipt_url1 = SEEAppStoreReceipt_QLCTHPGBOWLC_000A0071((CFBundleRef) SEEAppStoreReceipt_ctx->main_bundle);
+		SEEAppStoreReceipt_str1 = SEEAppStoreReceipt_ObfuscationFunction00CCF((SEEAppStoreReceipt_Strings[207]), 10, 37);
+		SEEAppStoreReceipt_url2 = SEEAppStoreReceipt_TREROYPGPNCL_01BB0032(NULL, SEEAppStoreReceipt_url1, SEEAppStoreReceipt_str1, false);
+		SEEAppStoreReceipt_CFRelease_00D801E8(SEEAppStoreReceipt_str1);
+		SEEAppStoreReceipt_CFRelease_00D801E8(SEEAppStoreReceipt_url1);
 		// Create a stream from the receipt file
-		SEEAppStoreReceipt_stream = SEEAppStoreReceipt_CUKYVEUBFRMI_01FA01B5(kCFAllocatorDefault, SEEAppStoreReceipt_url2);
-		if (SEEAppStoreReceipt_stream == NULL || !SEEAppStoreReceipt_CFReadStreamOpen_00AE020F(SEEAppStoreReceipt_stream)) {
+		SEEAppStoreReceipt_stream = SEEAppStoreReceipt_CFReadStreamCreateWithFile_000A01B8(kCFAllocatorDefault, SEEAppStoreReceipt_url2);
+		if (SEEAppStoreReceipt_stream == NULL || !SEEAppStoreReceipt_KDCPKKDHLVNV_00D80024(SEEAppStoreReceipt_stream)) {
 			__SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Error while opening receipt");
-			SEEAppStoreReceipt_exit_01970007(SEEAppStoreReceipt_code);
+			SEEAppStoreReceipt_exit_016B00D2(SEEAppStoreReceipt_code);
 			// Dead code
-			SEEAppStoreReceipt_CFRelease_00AE0075(SEEAppStoreReceipt_url1);
-			SEEAppStoreReceipt_CFRelease_00AE0075(SEEAppStoreReceipt_str1);
-			SEEAppStoreReceipt_CFRelease_00AE0075(SEEAppStoreReceipt_url1);
+			SEEAppStoreReceipt_CFRelease_00D801E8(SEEAppStoreReceipt_url1);
+			SEEAppStoreReceipt_CFRelease_00D801E8(SEEAppStoreReceipt_str1);
+			SEEAppStoreReceipt_CFRelease_00D801E8(SEEAppStoreReceipt_url1);
 			goto SEEAppStoreReceipt_LoadReceipt01D_SEEAppStoreReceipt_bail;
 		}
 		// Create the data object that will contains receipt data
-		SEEAppStoreReceipt_data = SEEAppStoreReceipt_BPRMJLJLPXEZ_007B0070(kCFAllocatorDefault, 0);
+		SEEAppStoreReceipt_data = SEEAppStoreReceipt_EWUUWZNJKLIY_01BB000E(kCFAllocatorDefault, 0);
 		// Read the receipt by chunks
 		do {
-			SEEAppStoreReceipt_count = SEEAppStoreReceipt_WMVWYPHNNSIW_01FA002C(SEEAppStoreReceipt_stream, &SEEAppStoreReceipt_buffer[0], 549);
+			SEEAppStoreReceipt_count = SEEAppStoreReceipt_CFReadStreamRead_000A0097(SEEAppStoreReceipt_stream, &SEEAppStoreReceipt_buffer[0], 573);
 			if (SEEAppStoreReceipt_count > 0) {
-				SEEAppStoreReceipt_HKDEGXORNBAM_01FA01AA(SEEAppStoreReceipt_data, SEEAppStoreReceipt_buffer, SEEAppStoreReceipt_count);
+				SEEAppStoreReceipt_CJKLRIVRECMR_00D800CC(SEEAppStoreReceipt_data, SEEAppStoreReceipt_buffer, SEEAppStoreReceipt_count);
 			}
 		} while (SEEAppStoreReceipt_count > 0);
 		// Close the stream
-		SEEAppStoreReceipt_BWEOBKUBIYLB_007B0185(SEEAppStoreReceipt_stream);
-		if (SEEAppStoreReceipt_ctx->receipt_data) SEEAppStoreReceipt_CFRelease_00AE0075(SEEAppStoreReceipt_ctx->receipt_data);
+		SEEAppStoreReceipt_EDTPOGGTZZCS_00D8005B(SEEAppStoreReceipt_stream);
+		if (SEEAppStoreReceipt_ctx->receipt_data) SEEAppStoreReceipt_CFRelease_00D801E8(SEEAppStoreReceipt_ctx->receipt_data);
 		SEEAppStoreReceipt_ctx->receipt_data = SEEAppStoreReceipt_data;
 		// Global variables computation
-		// From 496 to 516
-		SEEAppStoreReceipt_PWQTYPSGCQZM -= 324; SEEAppStoreReceipt_PWQTYPSGCQZM *= 3;
-		// From 44 to 522
-		SEEAppStoreReceipt_WMVWYPHNNSIW -= 4; SEEAppStoreReceipt_WMVWYPHNNSIW *= 13; SEEAppStoreReceipt_WMVWYPHNNSIW += 2;
-		// Set to 253
-		SEEAppStoreReceipt_BWEOBKUBIYLB = 253;
+		// From 208 to 466
+		SEEAppStoreReceipt_PXHQVHMEAFPB -= 92; SEEAppStoreReceipt_PXHQVHMEAFPB *= 4; SEEAppStoreReceipt_PXHQVHMEAFPB += 2;
+		// From 36 to 450
+		SEEAppStoreReceipt_KDCPKKDHLVNV -= 4; SEEAppStoreReceipt_KDCPKKDHLVNV *= 14; SEEAppStoreReceipt_KDCPKKDHLVNV += 2;
+		// From 204 to 181
+		SEEAppStoreReceipt_CJKLRIVRECMR += 158; SEEAppStoreReceipt_CJKLRIVRECMR /= 2;
+		// From 113 to 24
+		SEEAppStoreReceipt_QLCTHPGBOWLC += 31; SEEAppStoreReceipt_QLCTHPGBOWLC /= 6;
+		// From 91 to 570
+		SEEAppStoreReceipt_EDTPOGGTZZCS -= 20; SEEAppStoreReceipt_EDTPOGGTZZCS *= 8; SEEAppStoreReceipt_EDTPOGGTZZCS += 2;
+		// From 14 to 323
+		SEEAppStoreReceipt_EWUUWZNJKLIY -= 2; SEEAppStoreReceipt_EWUUWZNJKLIY *= 25; SEEAppStoreReceipt_EWUUWZNJKLIY += 23;
 	SEEAppStoreReceipt_LoadReceipt01D_SEEAppStoreReceipt_bail:
-		if (SEEAppStoreReceipt_stream) SEEAppStoreReceipt_CFRelease_00AE0075(SEEAppStoreReceipt_stream);
-		SEEAppStoreReceipt_CFRelease_00AE0075(SEEAppStoreReceipt_url2);
+		if (SEEAppStoreReceipt_stream) SEEAppStoreReceipt_CFRelease_00D801E8(SEEAppStoreReceipt_stream);
+		SEEAppStoreReceipt_CFRelease_00D801E8(SEEAppStoreReceipt_url2);
 	}
 #else
 #define SEEAppStoreReceipt_LoadReceipt01D(SEEAppStoreReceipt_ctx) { \
@@ -2596,39 +2690,42 @@ CFURLRef SEEAppStoreReceipt_url1, SEEAppStoreReceipt_url2; \
 CFReadStreamRef SEEAppStoreReceipt_stream; \
 CFMutableDataRef SEEAppStoreReceipt_data; \
 CFIndex SEEAppStoreReceipt_count; \
-uint8_t SEEAppStoreReceipt_buffer[549]; \
-volatile int SEEAppStoreReceipt_code = 120; SEEAppStoreReceipt_code -= 63; SEEAppStoreReceipt_code *= 3; SEEAppStoreReceipt_code += 2;  \
+uint8_t SEEAppStoreReceipt_buffer[573]; \
+volatile int SEEAppStoreReceipt_code = 20; SEEAppStoreReceipt_code -= 3; SEEAppStoreReceipt_code *= 10; SEEAppStoreReceipt_code += 3;  \
 __SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Loading receipt"); \
-SEEAppStoreReceipt_url1 = SEEAppStoreReceipt_CFBundleCopyBundleURL_007B01AE((CFBundleRef) SEEAppStoreReceipt_ctx->main_bundle); \
-SEEAppStoreReceipt_str1 = SEEAppStoreReceipt_ObfuscationFunction006CF((SEEAppStoreReceipt_Strings[64]), 162, 37); \
-SEEAppStoreReceipt_url2 = SEEAppStoreReceipt_PWQTYPSGCQZM_00AE01F0(NULL, SEEAppStoreReceipt_url1, SEEAppStoreReceipt_str1, false); \
-SEEAppStoreReceipt_CFRelease_00AE0075(SEEAppStoreReceipt_str1); \
-SEEAppStoreReceipt_CFRelease_00AE0075(SEEAppStoreReceipt_url1); \
-SEEAppStoreReceipt_stream = SEEAppStoreReceipt_CUKYVEUBFRMI_01FA01B5(kCFAllocatorDefault, SEEAppStoreReceipt_url2); \
-if (SEEAppStoreReceipt_stream == NULL || !SEEAppStoreReceipt_CFReadStreamOpen_00AE020F(SEEAppStoreReceipt_stream)) { \
+SEEAppStoreReceipt_url1 = SEEAppStoreReceipt_QLCTHPGBOWLC_000A0071((CFBundleRef) SEEAppStoreReceipt_ctx->main_bundle); \
+SEEAppStoreReceipt_str1 = SEEAppStoreReceipt_ObfuscationFunction00CCF((SEEAppStoreReceipt_Strings[207]), 10, 37); \
+SEEAppStoreReceipt_url2 = SEEAppStoreReceipt_TREROYPGPNCL_01BB0032(NULL, SEEAppStoreReceipt_url1, SEEAppStoreReceipt_str1, false); \
+SEEAppStoreReceipt_CFRelease_00D801E8(SEEAppStoreReceipt_str1); \
+SEEAppStoreReceipt_CFRelease_00D801E8(SEEAppStoreReceipt_url1); \
+SEEAppStoreReceipt_stream = SEEAppStoreReceipt_CFReadStreamCreateWithFile_000A01B8(kCFAllocatorDefault, SEEAppStoreReceipt_url2); \
+if (SEEAppStoreReceipt_stream == NULL || !SEEAppStoreReceipt_KDCPKKDHLVNV_00D80024(SEEAppStoreReceipt_stream)) { \
 __SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Error while opening receipt"); \
-SEEAppStoreReceipt_exit_01970007(SEEAppStoreReceipt_code); \
-SEEAppStoreReceipt_CFRelease_00AE0075(SEEAppStoreReceipt_url1); \
-SEEAppStoreReceipt_CFRelease_00AE0075(SEEAppStoreReceipt_str1); \
-SEEAppStoreReceipt_CFRelease_00AE0075(SEEAppStoreReceipt_url1); \
+SEEAppStoreReceipt_exit_016B00D2(SEEAppStoreReceipt_code); \
+SEEAppStoreReceipt_CFRelease_00D801E8(SEEAppStoreReceipt_url1); \
+SEEAppStoreReceipt_CFRelease_00D801E8(SEEAppStoreReceipt_str1); \
+SEEAppStoreReceipt_CFRelease_00D801E8(SEEAppStoreReceipt_url1); \
 goto SEEAppStoreReceipt_LoadReceipt01D_SEEAppStoreReceipt_bail; \
 } \
-SEEAppStoreReceipt_data = SEEAppStoreReceipt_BPRMJLJLPXEZ_007B0070(kCFAllocatorDefault, 0); \
+SEEAppStoreReceipt_data = SEEAppStoreReceipt_EWUUWZNJKLIY_01BB000E(kCFAllocatorDefault, 0); \
 do { \
-SEEAppStoreReceipt_count = SEEAppStoreReceipt_WMVWYPHNNSIW_01FA002C(SEEAppStoreReceipt_stream, &SEEAppStoreReceipt_buffer[0], 549); \
+SEEAppStoreReceipt_count = SEEAppStoreReceipt_CFReadStreamRead_000A0097(SEEAppStoreReceipt_stream, &SEEAppStoreReceipt_buffer[0], 573); \
 if (SEEAppStoreReceipt_count > 0) { \
-SEEAppStoreReceipt_HKDEGXORNBAM_01FA01AA(SEEAppStoreReceipt_data, SEEAppStoreReceipt_buffer, SEEAppStoreReceipt_count); \
+SEEAppStoreReceipt_CJKLRIVRECMR_00D800CC(SEEAppStoreReceipt_data, SEEAppStoreReceipt_buffer, SEEAppStoreReceipt_count); \
 } \
 } while (SEEAppStoreReceipt_count > 0); \
-SEEAppStoreReceipt_BWEOBKUBIYLB_007B0185(SEEAppStoreReceipt_stream); \
-if (SEEAppStoreReceipt_ctx->receipt_data) SEEAppStoreReceipt_CFRelease_00AE0075(SEEAppStoreReceipt_ctx->receipt_data); \
+SEEAppStoreReceipt_EDTPOGGTZZCS_00D8005B(SEEAppStoreReceipt_stream); \
+if (SEEAppStoreReceipt_ctx->receipt_data) SEEAppStoreReceipt_CFRelease_00D801E8(SEEAppStoreReceipt_ctx->receipt_data); \
 SEEAppStoreReceipt_ctx->receipt_data = SEEAppStoreReceipt_data; \
-SEEAppStoreReceipt_PWQTYPSGCQZM -= 324; SEEAppStoreReceipt_PWQTYPSGCQZM *= 3;  \
-SEEAppStoreReceipt_WMVWYPHNNSIW -= 4; SEEAppStoreReceipt_WMVWYPHNNSIW *= 13; SEEAppStoreReceipt_WMVWYPHNNSIW += 2;  \
-SEEAppStoreReceipt_BWEOBKUBIYLB = 253; \
+SEEAppStoreReceipt_PXHQVHMEAFPB -= 92; SEEAppStoreReceipt_PXHQVHMEAFPB *= 4; SEEAppStoreReceipt_PXHQVHMEAFPB += 2;  \
+SEEAppStoreReceipt_KDCPKKDHLVNV -= 4; SEEAppStoreReceipt_KDCPKKDHLVNV *= 14; SEEAppStoreReceipt_KDCPKKDHLVNV += 2;  \
+SEEAppStoreReceipt_CJKLRIVRECMR += 158; SEEAppStoreReceipt_CJKLRIVRECMR /= 2;  \
+SEEAppStoreReceipt_QLCTHPGBOWLC += 31; SEEAppStoreReceipt_QLCTHPGBOWLC /= 6;  \
+SEEAppStoreReceipt_EDTPOGGTZZCS -= 20; SEEAppStoreReceipt_EDTPOGGTZZCS *= 8; SEEAppStoreReceipt_EDTPOGGTZZCS += 2;  \
+SEEAppStoreReceipt_EWUUWZNJKLIY -= 2; SEEAppStoreReceipt_EWUUWZNJKLIY *= 25; SEEAppStoreReceipt_EWUUWZNJKLIY += 23;  \
 SEEAppStoreReceipt_LoadReceipt01D_SEEAppStoreReceipt_bail: \
-if (SEEAppStoreReceipt_stream) SEEAppStoreReceipt_CFRelease_00AE0075(SEEAppStoreReceipt_stream);     \
-SEEAppStoreReceipt_CFRelease_00AE0075(SEEAppStoreReceipt_url2); \
+if (SEEAppStoreReceipt_stream) SEEAppStoreReceipt_CFRelease_00D801E8(SEEAppStoreReceipt_stream);     \
+SEEAppStoreReceipt_CFRelease_00D801E8(SEEAppStoreReceipt_url2); \
 }
 #endif
 #endif
@@ -2641,75 +2738,81 @@ SEEAppStoreReceipt_CFRelease_00AE0075(SEEAppStoreReceipt_url2); \
 		CFReadStreamRef SEEAppStoreReceipt_stream = NULL;
 		CFMutableDataRef SEEAppStoreReceipt_data;
 		CFIndex SEEAppStoreReceipt_count;
-		uint8_t SEEAppStoreReceipt_buffer[549];
+		uint8_t SEEAppStoreReceipt_buffer[573];
 		char SEEAppStoreReceipt_path[PATH_MAX];
 		int SEEAppStoreReceipt_status;
 		glob_t SEEAppStoreReceipt_glob_buffer;
 		char *SEEAppStoreReceipt_expanded_path;
-		volatile int SEEAppStoreReceipt_code = 28; SEEAppStoreReceipt_code -= 7; SEEAppStoreReceipt_code *= 8; SEEAppStoreReceipt_code += 5;
-		SEEAppStoreReceipt_str1 = SEEAppStoreReceipt_ObfuscationFunction00ACF((SEEAppStoreReceipt_Strings[210]), 35, 16);
+		volatile int SEEAppStoreReceipt_code = 86; SEEAppStoreReceipt_code -= 43; SEEAppStoreReceipt_code *= 4; SEEAppStoreReceipt_code += 1;
+		SEEAppStoreReceipt_str1 = SEEAppStoreReceipt_ObfuscationFunction006CF((SEEAppStoreReceipt_Strings[183]), 253, 16);
 		__SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Loading external receipt at '%s'", CFStringGetCStringPtr(SEEAppStoreReceipt_str1, CFStringGetSystemEncoding()));
 		// Compute the path to the receipt
-		if (!SEEAppStoreReceipt_TTTNUXJZKAAB_00AE00F5(SEEAppStoreReceipt_str1, SEEAppStoreReceipt_path, PATH_MAX)) {
+		if (!SEEAppStoreReceipt_HEJNNJZOJKFT_01BB00C3(SEEAppStoreReceipt_str1, SEEAppStoreReceipt_path, PATH_MAX)) {
 			__SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Cannot convert receipt path");
-			SEEAppStoreReceipt_exit_0197000F(SEEAppStoreReceipt_code);
+			SEEAppStoreReceipt_exit_016B017F(SEEAppStoreReceipt_code);
 			// Dead code
-			SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_str1);
-			SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_url1);
-			SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_str1);
+			SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_str1);
+			SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_url1);
+			SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_str1);
 			goto SEEAppStoreReceipt_LoadReceipt01D_SEEAppStoreReceipt_bail;
 		}
-		SEEAppStoreReceipt_status = ((__SEEAppStoreReceipt_glob_b) SEEAppStoreReceipt_Pointers[410])(SEEAppStoreReceipt_path, GLOB_TILDE | GLOB_ERR, NULL, &SEEAppStoreReceipt_glob_buffer);
+		SEEAppStoreReceipt_status = ((__SEEAppStoreReceipt_glob_b) SEEAppStoreReceipt_Pointers[73])(SEEAppStoreReceipt_path, GLOB_TILDE | GLOB_ERR, NULL, &SEEAppStoreReceipt_glob_buffer);
 		if (SEEAppStoreReceipt_status != 0 || SEEAppStoreReceipt_glob_buffer.gl_pathc != 1) {
-			((__SEEAppStoreReceipt_globfree) SEEAppStoreReceipt_Pointers[412])(&SEEAppStoreReceipt_glob_buffer);
+			((__SEEAppStoreReceipt_globfree) SEEAppStoreReceipt_Pointers[68])(&SEEAppStoreReceipt_glob_buffer);
 			__SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Error while globbing receipt path");
-			SEEAppStoreReceipt_exit_0197000F(SEEAppStoreReceipt_code);
+			SEEAppStoreReceipt_exit_016B017F(SEEAppStoreReceipt_code);
 			// Dead code
-			SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_str1);
-			SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_url1);
-			SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_str1);
+			SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_str1);
+			SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_url1);
+			SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_str1);
 			goto SEEAppStoreReceipt_LoadReceipt01D_SEEAppStoreReceipt_bail;
 		}
 		// Get the globbed path
 		SEEAppStoreReceipt_expanded_path = SEEAppStoreReceipt_glob_buffer.gl_pathv[0];
 		__SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Receipt path resolved to '%s'", SEEAppStoreReceipt_expanded_path);
-		SEEAppStoreReceipt_url1 = SEEAppStoreReceipt_CFURLCreateFromFileSystemRepresentation_007B0144(kCFAllocatorDefault, (const UInt8 *) SEEAppStoreReceipt_expanded_path, (CFIndex) ((__SEEAppStoreReceipt_strlen) SEEAppStoreReceipt_Pointers[476])(SEEAppStoreReceipt_expanded_path), false);
-		((__SEEAppStoreReceipt_globfree) SEEAppStoreReceipt_Pointers[412])(&SEEAppStoreReceipt_glob_buffer);
+		SEEAppStoreReceipt_url1 = SEEAppStoreReceipt_PXHQVHMEAFPB_00D800D0(kCFAllocatorDefault, (const UInt8 *) SEEAppStoreReceipt_expanded_path, (CFIndex) ((__SEEAppStoreReceipt_strlen) SEEAppStoreReceipt_Pointers[16])(SEEAppStoreReceipt_expanded_path), false);
+		((__SEEAppStoreReceipt_globfree) SEEAppStoreReceipt_Pointers[68])(&SEEAppStoreReceipt_glob_buffer);
 		// Create a stream from the receipt file
-		SEEAppStoreReceipt_stream = SEEAppStoreReceipt_CUKYVEUBFRMI_01FA01B5(kCFAllocatorDefault, SEEAppStoreReceipt_url1);
-		if (SEEAppStoreReceipt_stream == NULL || !SEEAppStoreReceipt_CFReadStreamOpen_007B01BD(SEEAppStoreReceipt_stream)) {
+		SEEAppStoreReceipt_stream = SEEAppStoreReceipt_CFReadStreamCreateWithFile_000A01F5(kCFAllocatorDefault, SEEAppStoreReceipt_url1);
+		if (SEEAppStoreReceipt_stream == NULL || !SEEAppStoreReceipt_KDCPKKDHLVNV_00D80024(SEEAppStoreReceipt_stream)) {
 			__SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Error while opening receipt");
-			SEEAppStoreReceipt_exit_0197000F(SEEAppStoreReceipt_code);
+			SEEAppStoreReceipt_exit_016B017F(SEEAppStoreReceipt_code);
 			// Dead code
-			SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_url1);
-			SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_str1);
-			SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_url1);
+			SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_url1);
+			SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_str1);
+			SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_url1);
 			goto SEEAppStoreReceipt_LoadReceipt01D_SEEAppStoreReceipt_bail;
 		}
 		// Create the data object that will contains receipt data
-		SEEAppStoreReceipt_data = SEEAppStoreReceipt_BPRMJLJLPXEZ_007B0070(kCFAllocatorDefault, 0);
+		SEEAppStoreReceipt_data = SEEAppStoreReceipt_EWUUWZNJKLIY_01BB000E(kCFAllocatorDefault, 0);
 		// Read the receipt by chunks
 		do {
-			SEEAppStoreReceipt_count = SEEAppStoreReceipt_WMVWYPHNNSIW_01FA002C(SEEAppStoreReceipt_stream, &SEEAppStoreReceipt_buffer[0], 549);
+			SEEAppStoreReceipt_count = SEEAppStoreReceipt_CFReadStreamRead_00D801AE(SEEAppStoreReceipt_stream, &SEEAppStoreReceipt_buffer[0], 573);
 			if (SEEAppStoreReceipt_count > 0) {
-				SEEAppStoreReceipt_HKDEGXORNBAM_01FA01AA(SEEAppStoreReceipt_data, SEEAppStoreReceipt_buffer, SEEAppStoreReceipt_count);
+				SEEAppStoreReceipt_CJKLRIVRECMR_00D800CC(SEEAppStoreReceipt_data, SEEAppStoreReceipt_buffer, SEEAppStoreReceipt_count);
 			}
 		} while (SEEAppStoreReceipt_count > 0);
 		// Close the stream
-		SEEAppStoreReceipt_BWEOBKUBIYLB_007B0185(SEEAppStoreReceipt_stream);
-		if (SEEAppStoreReceipt_ctx->receipt_data) SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_ctx->receipt_data);
+		SEEAppStoreReceipt_EDTPOGGTZZCS_00D8005B(SEEAppStoreReceipt_stream);
+		if (SEEAppStoreReceipt_ctx->receipt_data) SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_ctx->receipt_data);
 		SEEAppStoreReceipt_ctx->receipt_data = SEEAppStoreReceipt_data;
 		// Global variables computation
-		// From 496 to 516
-		SEEAppStoreReceipt_PWQTYPSGCQZM -= 324; SEEAppStoreReceipt_PWQTYPSGCQZM *= 3;
-		// From 44 to 522
-		SEEAppStoreReceipt_WMVWYPHNNSIW -= 4; SEEAppStoreReceipt_WMVWYPHNNSIW *= 13; SEEAppStoreReceipt_WMVWYPHNNSIW += 2;
-		// Set to 253
-		SEEAppStoreReceipt_BWEOBKUBIYLB = 253;
+		// From 208 to 466
+		SEEAppStoreReceipt_PXHQVHMEAFPB -= 92; SEEAppStoreReceipt_PXHQVHMEAFPB *= 4; SEEAppStoreReceipt_PXHQVHMEAFPB += 2;
+		// From 36 to 450
+		SEEAppStoreReceipt_KDCPKKDHLVNV -= 4; SEEAppStoreReceipt_KDCPKKDHLVNV *= 14; SEEAppStoreReceipt_KDCPKKDHLVNV += 2;
+		// From 204 to 181
+		SEEAppStoreReceipt_CJKLRIVRECMR += 158; SEEAppStoreReceipt_CJKLRIVRECMR /= 2;
+		// From 113 to 24
+		SEEAppStoreReceipt_QLCTHPGBOWLC += 31; SEEAppStoreReceipt_QLCTHPGBOWLC /= 6;
+		// From 91 to 570
+		SEEAppStoreReceipt_EDTPOGGTZZCS -= 20; SEEAppStoreReceipt_EDTPOGGTZZCS *= 8; SEEAppStoreReceipt_EDTPOGGTZZCS += 2;
+		// From 14 to 323
+		SEEAppStoreReceipt_EWUUWZNJKLIY -= 2; SEEAppStoreReceipt_EWUUWZNJKLIY *= 25; SEEAppStoreReceipt_EWUUWZNJKLIY += 23;
 	SEEAppStoreReceipt_LoadReceipt01D_SEEAppStoreReceipt_bail:
-		if (SEEAppStoreReceipt_stream) SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_stream);
-		SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_str1);
-		if (SEEAppStoreReceipt_url1) SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_url1);
+		if (SEEAppStoreReceipt_stream) SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_stream);
+		SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_str1);
+		if (SEEAppStoreReceipt_url1) SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_url1);
 	}
 #else
 #define SEEAppStoreReceipt_LoadReceipt01D(SEEAppStoreReceipt_ctx) { \
@@ -2718,62 +2821,65 @@ CFURLRef SEEAppStoreReceipt_url1 = NULL; \
 CFReadStreamRef SEEAppStoreReceipt_stream = NULL; \
 CFMutableDataRef SEEAppStoreReceipt_data; \
 CFIndex SEEAppStoreReceipt_count; \
-uint8_t SEEAppStoreReceipt_buffer[549]; \
+uint8_t SEEAppStoreReceipt_buffer[573]; \
 char SEEAppStoreReceipt_path[PATH_MAX]; \
 int SEEAppStoreReceipt_status; \
 glob_t SEEAppStoreReceipt_glob_buffer; \
 char *SEEAppStoreReceipt_expanded_path; \
-volatile int SEEAppStoreReceipt_code = 28; SEEAppStoreReceipt_code -= 7; SEEAppStoreReceipt_code *= 8; SEEAppStoreReceipt_code += 5;  \
-SEEAppStoreReceipt_str1 = SEEAppStoreReceipt_ObfuscationFunction00ACF((SEEAppStoreReceipt_Strings[210]), 35, 16); \
+volatile int SEEAppStoreReceipt_code = 86; SEEAppStoreReceipt_code -= 43; SEEAppStoreReceipt_code *= 4; SEEAppStoreReceipt_code += 1;  \
+SEEAppStoreReceipt_str1 = SEEAppStoreReceipt_ObfuscationFunction006CF((SEEAppStoreReceipt_Strings[183]), 253, 16); \
 __SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Loading external receipt at '%s'", CFStringGetCStringPtr(SEEAppStoreReceipt_str1, CFStringGetSystemEncoding())); \
-if (!SEEAppStoreReceipt_TTTNUXJZKAAB_00AE00F5(SEEAppStoreReceipt_str1, SEEAppStoreReceipt_path, PATH_MAX)) { \
+if (!SEEAppStoreReceipt_HEJNNJZOJKFT_01BB00C3(SEEAppStoreReceipt_str1, SEEAppStoreReceipt_path, PATH_MAX)) { \
 __SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Cannot convert receipt path"); \
-SEEAppStoreReceipt_exit_0197000F(SEEAppStoreReceipt_code); \
-SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_str1); \
-SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_url1); \
-SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_str1); \
+SEEAppStoreReceipt_exit_016B017F(SEEAppStoreReceipt_code); \
+SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_str1); \
+SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_url1); \
+SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_str1); \
 goto SEEAppStoreReceipt_LoadReceipt01D_SEEAppStoreReceipt_bail; \
 } \
-SEEAppStoreReceipt_status = ((__SEEAppStoreReceipt_glob_b) SEEAppStoreReceipt_Pointers[410])(SEEAppStoreReceipt_path, GLOB_TILDE | GLOB_ERR, NULL, &SEEAppStoreReceipt_glob_buffer); \
+SEEAppStoreReceipt_status = ((__SEEAppStoreReceipt_glob_b) SEEAppStoreReceipt_Pointers[73])(SEEAppStoreReceipt_path, GLOB_TILDE | GLOB_ERR, NULL, &SEEAppStoreReceipt_glob_buffer); \
 if (SEEAppStoreReceipt_status != 0 || SEEAppStoreReceipt_glob_buffer.gl_pathc != 1) { \
-((__SEEAppStoreReceipt_globfree) SEEAppStoreReceipt_Pointers[412])(&SEEAppStoreReceipt_glob_buffer); \
+((__SEEAppStoreReceipt_globfree) SEEAppStoreReceipt_Pointers[68])(&SEEAppStoreReceipt_glob_buffer); \
 __SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Error while globbing receipt path"); \
-SEEAppStoreReceipt_exit_0197000F(SEEAppStoreReceipt_code); \
-SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_str1); \
-SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_url1); \
-SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_str1); \
+SEEAppStoreReceipt_exit_016B017F(SEEAppStoreReceipt_code); \
+SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_str1); \
+SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_url1); \
+SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_str1); \
 goto SEEAppStoreReceipt_LoadReceipt01D_SEEAppStoreReceipt_bail; \
 } \
 SEEAppStoreReceipt_expanded_path = SEEAppStoreReceipt_glob_buffer.gl_pathv[0]; \
 __SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Receipt path resolved to '%s'", SEEAppStoreReceipt_expanded_path); \
-SEEAppStoreReceipt_url1 = SEEAppStoreReceipt_CFURLCreateFromFileSystemRepresentation_007B0144(kCFAllocatorDefault, (const UInt8 *) SEEAppStoreReceipt_expanded_path, (CFIndex) ((__SEEAppStoreReceipt_strlen) SEEAppStoreReceipt_Pointers[476])(SEEAppStoreReceipt_expanded_path), false); \
-((__SEEAppStoreReceipt_globfree) SEEAppStoreReceipt_Pointers[412])(&SEEAppStoreReceipt_glob_buffer); \
-SEEAppStoreReceipt_stream = SEEAppStoreReceipt_CUKYVEUBFRMI_01FA01B5(kCFAllocatorDefault, SEEAppStoreReceipt_url1); \
-if (SEEAppStoreReceipt_stream == NULL || !SEEAppStoreReceipt_CFReadStreamOpen_007B01BD(SEEAppStoreReceipt_stream)) { \
+SEEAppStoreReceipt_url1 = SEEAppStoreReceipt_PXHQVHMEAFPB_00D800D0(kCFAllocatorDefault, (const UInt8 *) SEEAppStoreReceipt_expanded_path, (CFIndex) ((__SEEAppStoreReceipt_strlen) SEEAppStoreReceipt_Pointers[16])(SEEAppStoreReceipt_expanded_path), false); \
+((__SEEAppStoreReceipt_globfree) SEEAppStoreReceipt_Pointers[68])(&SEEAppStoreReceipt_glob_buffer); \
+SEEAppStoreReceipt_stream = SEEAppStoreReceipt_CFReadStreamCreateWithFile_000A01F5(kCFAllocatorDefault, SEEAppStoreReceipt_url1); \
+if (SEEAppStoreReceipt_stream == NULL || !SEEAppStoreReceipt_KDCPKKDHLVNV_00D80024(SEEAppStoreReceipt_stream)) { \
 __SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Error while opening receipt"); \
-SEEAppStoreReceipt_exit_0197000F(SEEAppStoreReceipt_code); \
-SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_url1); \
-SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_str1); \
-SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_url1); \
+SEEAppStoreReceipt_exit_016B017F(SEEAppStoreReceipt_code); \
+SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_url1); \
+SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_str1); \
+SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_url1); \
 goto SEEAppStoreReceipt_LoadReceipt01D_SEEAppStoreReceipt_bail; \
 } \
-SEEAppStoreReceipt_data = SEEAppStoreReceipt_BPRMJLJLPXEZ_007B0070(kCFAllocatorDefault, 0); \
+SEEAppStoreReceipt_data = SEEAppStoreReceipt_EWUUWZNJKLIY_01BB000E(kCFAllocatorDefault, 0); \
 do { \
-SEEAppStoreReceipt_count = SEEAppStoreReceipt_WMVWYPHNNSIW_01FA002C(SEEAppStoreReceipt_stream, &SEEAppStoreReceipt_buffer[0], 549); \
+SEEAppStoreReceipt_count = SEEAppStoreReceipt_CFReadStreamRead_00D801AE(SEEAppStoreReceipt_stream, &SEEAppStoreReceipt_buffer[0], 573); \
 if (SEEAppStoreReceipt_count > 0) { \
-SEEAppStoreReceipt_HKDEGXORNBAM_01FA01AA(SEEAppStoreReceipt_data, SEEAppStoreReceipt_buffer, SEEAppStoreReceipt_count); \
+SEEAppStoreReceipt_CJKLRIVRECMR_00D800CC(SEEAppStoreReceipt_data, SEEAppStoreReceipt_buffer, SEEAppStoreReceipt_count); \
 } \
 } while (SEEAppStoreReceipt_count > 0); \
-SEEAppStoreReceipt_BWEOBKUBIYLB_007B0185(SEEAppStoreReceipt_stream); \
-if (SEEAppStoreReceipt_ctx->receipt_data) SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_ctx->receipt_data); \
+SEEAppStoreReceipt_EDTPOGGTZZCS_00D8005B(SEEAppStoreReceipt_stream); \
+if (SEEAppStoreReceipt_ctx->receipt_data) SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_ctx->receipt_data); \
 SEEAppStoreReceipt_ctx->receipt_data = SEEAppStoreReceipt_data; \
-SEEAppStoreReceipt_PWQTYPSGCQZM -= 324; SEEAppStoreReceipt_PWQTYPSGCQZM *= 3;  \
-SEEAppStoreReceipt_WMVWYPHNNSIW -= 4; SEEAppStoreReceipt_WMVWYPHNNSIW *= 13; SEEAppStoreReceipt_WMVWYPHNNSIW += 2;  \
-SEEAppStoreReceipt_BWEOBKUBIYLB = 253; \
+SEEAppStoreReceipt_PXHQVHMEAFPB -= 92; SEEAppStoreReceipt_PXHQVHMEAFPB *= 4; SEEAppStoreReceipt_PXHQVHMEAFPB += 2;  \
+SEEAppStoreReceipt_KDCPKKDHLVNV -= 4; SEEAppStoreReceipt_KDCPKKDHLVNV *= 14; SEEAppStoreReceipt_KDCPKKDHLVNV += 2;  \
+SEEAppStoreReceipt_CJKLRIVRECMR += 158; SEEAppStoreReceipt_CJKLRIVRECMR /= 2;  \
+SEEAppStoreReceipt_QLCTHPGBOWLC += 31; SEEAppStoreReceipt_QLCTHPGBOWLC /= 6;  \
+SEEAppStoreReceipt_EDTPOGGTZZCS -= 20; SEEAppStoreReceipt_EDTPOGGTZZCS *= 8; SEEAppStoreReceipt_EDTPOGGTZZCS += 2;  \
+SEEAppStoreReceipt_EWUUWZNJKLIY -= 2; SEEAppStoreReceipt_EWUUWZNJKLIY *= 25; SEEAppStoreReceipt_EWUUWZNJKLIY += 23;  \
 SEEAppStoreReceipt_LoadReceipt01D_SEEAppStoreReceipt_bail: \
-if (SEEAppStoreReceipt_stream) SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_stream);     \
-SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_str1); \
-if (SEEAppStoreReceipt_url1) SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_url1); \
+if (SEEAppStoreReceipt_stream) SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_stream);     \
+SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_str1); \
+if (SEEAppStoreReceipt_url1) SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_url1); \
 }
 #endif
 #endif
@@ -2781,103 +2887,132 @@ if (SEEAppStoreReceipt_url1) SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreRe
 
 	// CodeBlock GetGUID
 #if DEBUG
-	inline static void SEEAppStoreReceipt_GetGUID044(SEEAppStoreReceipt_CheckingContext *SEEAppStoreReceipt_ctx) {
-		struct ifaddrs *SEEAppStoreReceipt_ifaddr = NULL, *SEEAppStoreReceipt_ifa = NULL;
-		struct sockaddr_dl *SEEAppStoreReceipt_sdl = NULL;
-		const char *SEEAppStoreReceipt_link = NULL;
+	inline static void SEEAppStoreReceipt_GetGUID04A(SEEAppStoreReceipt_CheckingContext *SEEAppStoreReceipt_ctx) {
+		kern_return_t SEEAppStoreReceipt_kernResult;
+		mach_port_t SEEAppStoreReceipt_master_port;
+		CFMutableDictionaryRef SEEAppStoreReceipt_matching_dict = NULL;
+		io_iterator_t SEEAppStoreReceipt_iterator;
+		io_object_t SEEAppStoreReceipt_service, SEEAppStoreReceipt_parent_service;
 		char *SEEAppStoreReceipt_str1;
+		CFStringRef SEEAppStoreReceipt_str2;
+		SEEAppStoreReceipt_str2 = SEEAppStoreReceipt_ObfuscationFunction006CF((SEEAppStoreReceipt_Strings[250]), 77, 16);
 		__SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Getting MAC address");
-		// Access to the interface table
-		if (SEEAppStoreReceipt_WMVWYPHNNSIW_0197020A(&SEEAppStoreReceipt_ifaddr) == -1) {
+		// Open a MACH port
+		SEEAppStoreReceipt_kernResult = SEEAppStoreReceipt_EWUUWZNJKLIY_00C00143(MACH_PORT_NULL, &SEEAppStoreReceipt_master_port);
+		if (SEEAppStoreReceipt_kernResult != KERN_SUCCESS) {
 			// Dead code
-			SEEAppStoreReceipt_CFRelease_00AE0075(SEEAppStoreReceipt_ctx->guid_data);
-		} else {
-			// Iterate over the interfaces
-			for(SEEAppStoreReceipt_ifa = SEEAppStoreReceipt_ifaddr; SEEAppStoreReceipt_ifa; SEEAppStoreReceipt_ifa = SEEAppStoreReceipt_ifa->ifa_next) {
-				// Skip loopback interfaces
-				if (SEEAppStoreReceipt_ifa->ifa_flags & IFF_LOOPBACK) {
-					continue;
-				}
-				// Skip loopback interfaces
-				if (SEEAppStoreReceipt_ifa->ifa_addr->sa_family != AF_LINK) {
-					continue;
-				}
-				// Match primary interface
-				char SEEAppStoreReceipt_str1_[549];
-				SEEAppStoreReceipt_ObfuscationFunction00C((SEEAppStoreReceipt_Strings[271]), SEEAppStoreReceipt_str1_, 55, 16);
-				SEEAppStoreReceipt_str1 = SEEAppStoreReceipt_str1_;
-				if (((__SEEAppStoreReceipt_strcmp) SEEAppStoreReceipt_Pointers[372])(SEEAppStoreReceipt_ifa->ifa_name, SEEAppStoreReceipt_str1)) {
-					continue;
-				}
-				// Extract link structure
-				SEEAppStoreReceipt_sdl = (struct sockaddr_dl *) SEEAppStoreReceipt_ifa->ifa_addr;
-				SEEAppStoreReceipt_link = LLADDR(SEEAppStoreReceipt_sdl);
-				// Copy the MAC address data
-				if (SEEAppStoreReceipt_ctx->guid_data) SEEAppStoreReceipt_CFRelease_00AE0075(SEEAppStoreReceipt_ctx->guid_data);
-				volatile int SEEAppStoreReceipt_size = 1; SEEAppStoreReceipt_size -= 1; SEEAppStoreReceipt_size *= 8; SEEAppStoreReceipt_size += 6;
-				SEEAppStoreReceipt_ctx->guid_data = SEEAppStoreReceipt_PWQTYPSGCQZM_007B0204(NULL, (const UInt8 *) SEEAppStoreReceipt_link, (CFIndex) SEEAppStoreReceipt_size);
-				break;
+			SEEAppStoreReceipt_CFRelease_000A01DE(SEEAppStoreReceipt_str2);
+			SEEAppStoreReceipt_CFRelease_000A01DE(SEEAppStoreReceipt_matching_dict);
+			SEEAppStoreReceipt_CFRelease_000A01DE(SEEAppStoreReceipt_str2);
+			goto SEEAppStoreReceipt_GetGUID04A_SEEAppStoreReceipt_bail;
+		}
+		// Create a search for primary interface
+		char SEEAppStoreReceipt_str1_[573];
+		SEEAppStoreReceipt_ObfuscationFunction006((SEEAppStoreReceipt_Strings[309]), SEEAppStoreReceipt_str1_, 170, 16);
+		SEEAppStoreReceipt_str1 = SEEAppStoreReceipt_str1_;
+		SEEAppStoreReceipt_matching_dict = SEEAppStoreReceipt_QLCTHPGBOWLC_00C00018(SEEAppStoreReceipt_master_port, 0, SEEAppStoreReceipt_str1);
+		if (!SEEAppStoreReceipt_matching_dict) {
+			// Dead code
+			SEEAppStoreReceipt_CFRelease_000A01DE(SEEAppStoreReceipt_matching_dict);
+			SEEAppStoreReceipt_CFRelease_000A01DE(SEEAppStoreReceipt_str2);
+			SEEAppStoreReceipt_CFRelease_000A01DE(SEEAppStoreReceipt_matching_dict);
+			goto SEEAppStoreReceipt_GetGUID04A_SEEAppStoreReceipt_bail;
+		}
+		// Perform the search
+		SEEAppStoreReceipt_kernResult = SEEAppStoreReceipt_EDTPOGGTZZCS_00C0023A(SEEAppStoreReceipt_master_port, SEEAppStoreReceipt_matching_dict, &SEEAppStoreReceipt_iterator);
+		if (SEEAppStoreReceipt_kernResult != KERN_SUCCESS) {
+			// Dead code
+			SEEAppStoreReceipt_CFRelease_000A01DE(SEEAppStoreReceipt_str2);
+			SEEAppStoreReceipt_CFRelease_000A01DE(SEEAppStoreReceipt_matching_dict);
+			SEEAppStoreReceipt_CFRelease_000A01DE(SEEAppStoreReceipt_str2);
+			goto SEEAppStoreReceipt_GetGUID04A_SEEAppStoreReceipt_bail;
+		}
+		// Iterate over the result
+		while((SEEAppStoreReceipt_service = SEEAppStoreReceipt_KDCPKKDHLVNV_00C001C2(SEEAppStoreReceipt_iterator)) != 0) {
+			SEEAppStoreReceipt_kernResult = SEEAppStoreReceipt_CJKLRIVRECMR_01B000B5(SEEAppStoreReceipt_service, kIOServicePlane, &SEEAppStoreReceipt_parent_service);
+			if (SEEAppStoreReceipt_kernResult == KERN_SUCCESS) {
+				if (SEEAppStoreReceipt_ctx->guid_data) SEEAppStoreReceipt_CFRelease_000A01DE(SEEAppStoreReceipt_ctx->guid_data);
+				SEEAppStoreReceipt_ctx->guid_data = (CFDataRef) SEEAppStoreReceipt_PXHQVHMEAFPB_00C001D2(SEEAppStoreReceipt_parent_service, SEEAppStoreReceipt_str2, NULL, 0);
+				SEEAppStoreReceipt_IOObjectRelease_001A012A(SEEAppStoreReceipt_parent_service);
 			}
-			SEEAppStoreReceipt_BWEOBKUBIYLB_000400FD(SEEAppStoreReceipt_ifaddr);
+			SEEAppStoreReceipt_IOObjectRelease_001A012A(SEEAppStoreReceipt_iterator);
+			SEEAppStoreReceipt_IOObjectRelease_001A012A(SEEAppStoreReceipt_service);
 		}
 		// Global variables computation
-		// From 112 to 272
-		SEEAppStoreReceipt_BPRMJLJLPXEZ -= 44; SEEAppStoreReceipt_BPRMJLJLPXEZ *= 4;
-		// From 249 to 401
-		SEEAppStoreReceipt_UQJHIJEOCCBI -= 116; SEEAppStoreReceipt_UQJHIJEOCCBI *= 3; SEEAppStoreReceipt_UQJHIJEOCCBI += 2;
-		// From 245 to 211
-		SEEAppStoreReceipt_TTTNUXJZKAAB += 177; SEEAppStoreReceipt_TTTNUXJZKAAB /= 2;
-		// Set to 80
-		SEEAppStoreReceipt_PWQTYPSGCQZM = 80;
-		// From 437 to 265
-		SEEAppStoreReceipt_CUKYVEUBFRMI += 358; SEEAppStoreReceipt_CUKYVEUBFRMI /= 3;
-		// From 522 to 387
-		SEEAppStoreReceipt_WMVWYPHNNSIW += 252; SEEAppStoreReceipt_WMVWYPHNNSIW /= 2;
-		// From 426 to 398
-		SEEAppStoreReceipt_HKDEGXORNBAM += 370; SEEAppStoreReceipt_HKDEGXORNBAM /= 2;
-		// From 253 to 183
-		SEEAppStoreReceipt_BWEOBKUBIYLB += 113; SEEAppStoreReceipt_BWEOBKUBIYLB /= 2;
+		// Set to 410
+		SEEAppStoreReceipt_PXHQVHMEAFPB = 410;
+		// From 450 to 176
+		SEEAppStoreReceipt_KDCPKKDHLVNV += 254; SEEAppStoreReceipt_KDCPKKDHLVNV /= 4;
+		// Set to 543
+		SEEAppStoreReceipt_HEJNNJZOJKFT = 543;
+		// From 181 to 47
+		SEEAppStoreReceipt_CJKLRIVRECMR += 54; SEEAppStoreReceipt_CJKLRIVRECMR /= 5;
+		// From 24 to 542
+		SEEAppStoreReceipt_QLCTHPGBOWLC -= 2; SEEAppStoreReceipt_QLCTHPGBOWLC *= 24; SEEAppStoreReceipt_QLCTHPGBOWLC += 14;
+		// From 570 to 497
+		SEEAppStoreReceipt_EDTPOGGTZZCS += 424; SEEAppStoreReceipt_EDTPOGGTZZCS /= 2;
+		// From 50 to 161
+		SEEAppStoreReceipt_TREROYPGPNCL -= 18; SEEAppStoreReceipt_TREROYPGPNCL *= 5; SEEAppStoreReceipt_TREROYPGPNCL += 1;
+		// From 323 to 322
+		SEEAppStoreReceipt_EWUUWZNJKLIY += 321; SEEAppStoreReceipt_EWUUWZNJKLIY /= 2;
+	SEEAppStoreReceipt_GetGUID04A_SEEAppStoreReceipt_bail:
+		SEEAppStoreReceipt_CFRelease_000A01DE(SEEAppStoreReceipt_str2);
 	}
 #else
-#define SEEAppStoreReceipt_GetGUID044(SEEAppStoreReceipt_ctx) { \
-struct ifaddrs *SEEAppStoreReceipt_ifaddr = NULL, *SEEAppStoreReceipt_ifa = NULL; \
-struct sockaddr_dl *SEEAppStoreReceipt_sdl = NULL; \
-const char *SEEAppStoreReceipt_link = NULL; \
+#define SEEAppStoreReceipt_GetGUID04A(SEEAppStoreReceipt_ctx) { \
+kern_return_t SEEAppStoreReceipt_kernResult; \
+mach_port_t SEEAppStoreReceipt_master_port; \
+CFMutableDictionaryRef SEEAppStoreReceipt_matching_dict = NULL; \
+io_iterator_t SEEAppStoreReceipt_iterator; \
+io_object_t SEEAppStoreReceipt_service, SEEAppStoreReceipt_parent_service; \
 char *SEEAppStoreReceipt_str1; \
+CFStringRef SEEAppStoreReceipt_str2; \
+SEEAppStoreReceipt_str2 = SEEAppStoreReceipt_ObfuscationFunction006CF((SEEAppStoreReceipt_Strings[250]), 77, 16);  \
 __SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Getting MAC address"); \
-if (SEEAppStoreReceipt_WMVWYPHNNSIW_0197020A(&SEEAppStoreReceipt_ifaddr) == -1) { \
-SEEAppStoreReceipt_CFRelease_00AE0075(SEEAppStoreReceipt_ctx->guid_data); \
-} else { \
-for(SEEAppStoreReceipt_ifa = SEEAppStoreReceipt_ifaddr; SEEAppStoreReceipt_ifa; SEEAppStoreReceipt_ifa = SEEAppStoreReceipt_ifa->ifa_next) { \
-if (SEEAppStoreReceipt_ifa->ifa_flags & IFF_LOOPBACK) { \
-continue; \
+SEEAppStoreReceipt_kernResult = SEEAppStoreReceipt_EWUUWZNJKLIY_00C00143(MACH_PORT_NULL, &SEEAppStoreReceipt_master_port); \
+if (SEEAppStoreReceipt_kernResult != KERN_SUCCESS) { \
+SEEAppStoreReceipt_CFRelease_000A01DE(SEEAppStoreReceipt_str2); \
+SEEAppStoreReceipt_CFRelease_000A01DE(SEEAppStoreReceipt_matching_dict); \
+SEEAppStoreReceipt_CFRelease_000A01DE(SEEAppStoreReceipt_str2); \
+goto SEEAppStoreReceipt_GetGUID04A_SEEAppStoreReceipt_bail; \
 } \
-if (SEEAppStoreReceipt_ifa->ifa_addr->sa_family != AF_LINK) { \
-continue; \
+char SEEAppStoreReceipt_str1_[573]; \
+SEEAppStoreReceipt_ObfuscationFunction006((SEEAppStoreReceipt_Strings[309]), SEEAppStoreReceipt_str1_, 170, 16); \
+SEEAppStoreReceipt_str1 = SEEAppStoreReceipt_str1_; \
+SEEAppStoreReceipt_matching_dict = SEEAppStoreReceipt_QLCTHPGBOWLC_00C00018(SEEAppStoreReceipt_master_port, 0, SEEAppStoreReceipt_str1); \
+if (!SEEAppStoreReceipt_matching_dict) { \
+SEEAppStoreReceipt_CFRelease_000A01DE(SEEAppStoreReceipt_matching_dict); \
+SEEAppStoreReceipt_CFRelease_000A01DE(SEEAppStoreReceipt_str2); \
+SEEAppStoreReceipt_CFRelease_000A01DE(SEEAppStoreReceipt_matching_dict); \
+goto SEEAppStoreReceipt_GetGUID04A_SEEAppStoreReceipt_bail; \
 } \
-char SEEAppStoreReceipt_str1_[549]; \
-SEEAppStoreReceipt_ObfuscationFunction00C((SEEAppStoreReceipt_Strings[271]), SEEAppStoreReceipt_str1_, 55, 16); \
-SEEAppStoreReceipt_str1 = SEEAppStoreReceipt_str1_;  \
-if (((__SEEAppStoreReceipt_strcmp) SEEAppStoreReceipt_Pointers[372])(SEEAppStoreReceipt_ifa->ifa_name, SEEAppStoreReceipt_str1)) { \
-continue; \
+SEEAppStoreReceipt_kernResult = SEEAppStoreReceipt_EDTPOGGTZZCS_00C0023A(SEEAppStoreReceipt_master_port, SEEAppStoreReceipt_matching_dict, &SEEAppStoreReceipt_iterator); \
+if (SEEAppStoreReceipt_kernResult != KERN_SUCCESS) { \
+SEEAppStoreReceipt_CFRelease_000A01DE(SEEAppStoreReceipt_str2); \
+SEEAppStoreReceipt_CFRelease_000A01DE(SEEAppStoreReceipt_matching_dict); \
+SEEAppStoreReceipt_CFRelease_000A01DE(SEEAppStoreReceipt_str2); \
+goto SEEAppStoreReceipt_GetGUID04A_SEEAppStoreReceipt_bail; \
 } \
-SEEAppStoreReceipt_sdl = (struct sockaddr_dl *) SEEAppStoreReceipt_ifa->ifa_addr; \
-SEEAppStoreReceipt_link = LLADDR(SEEAppStoreReceipt_sdl); \
-if (SEEAppStoreReceipt_ctx->guid_data) SEEAppStoreReceipt_CFRelease_00AE0075(SEEAppStoreReceipt_ctx->guid_data); \
-volatile int SEEAppStoreReceipt_size = 1; SEEAppStoreReceipt_size -= 1; SEEAppStoreReceipt_size *= 8; SEEAppStoreReceipt_size += 6;  \
-SEEAppStoreReceipt_ctx->guid_data = SEEAppStoreReceipt_PWQTYPSGCQZM_007B0204(NULL, (const UInt8 *) SEEAppStoreReceipt_link, (CFIndex) SEEAppStoreReceipt_size); \
-break; \
+while((SEEAppStoreReceipt_service = SEEAppStoreReceipt_KDCPKKDHLVNV_00C001C2(SEEAppStoreReceipt_iterator)) != 0) { \
+SEEAppStoreReceipt_kernResult = SEEAppStoreReceipt_CJKLRIVRECMR_01B000B5(SEEAppStoreReceipt_service, kIOServicePlane, &SEEAppStoreReceipt_parent_service); \
+if (SEEAppStoreReceipt_kernResult == KERN_SUCCESS) { \
+if (SEEAppStoreReceipt_ctx->guid_data) SEEAppStoreReceipt_CFRelease_000A01DE(SEEAppStoreReceipt_ctx->guid_data); \
+SEEAppStoreReceipt_ctx->guid_data = (CFDataRef) SEEAppStoreReceipt_PXHQVHMEAFPB_00C001D2(SEEAppStoreReceipt_parent_service, SEEAppStoreReceipt_str2, NULL, 0); \
+SEEAppStoreReceipt_IOObjectRelease_001A012A(SEEAppStoreReceipt_parent_service); \
 } \
-SEEAppStoreReceipt_BWEOBKUBIYLB_000400FD(SEEAppStoreReceipt_ifaddr); \
+SEEAppStoreReceipt_IOObjectRelease_001A012A(SEEAppStoreReceipt_iterator); \
+SEEAppStoreReceipt_IOObjectRelease_001A012A(SEEAppStoreReceipt_service); \
 } \
-SEEAppStoreReceipt_BPRMJLJLPXEZ -= 44; SEEAppStoreReceipt_BPRMJLJLPXEZ *= 4;  \
-SEEAppStoreReceipt_UQJHIJEOCCBI -= 116; SEEAppStoreReceipt_UQJHIJEOCCBI *= 3; SEEAppStoreReceipt_UQJHIJEOCCBI += 2;  \
-SEEAppStoreReceipt_TTTNUXJZKAAB += 177; SEEAppStoreReceipt_TTTNUXJZKAAB /= 2;  \
-SEEAppStoreReceipt_PWQTYPSGCQZM = 80; \
-SEEAppStoreReceipt_CUKYVEUBFRMI += 358; SEEAppStoreReceipt_CUKYVEUBFRMI /= 3;  \
-SEEAppStoreReceipt_WMVWYPHNNSIW += 252; SEEAppStoreReceipt_WMVWYPHNNSIW /= 2;  \
-SEEAppStoreReceipt_HKDEGXORNBAM += 370; SEEAppStoreReceipt_HKDEGXORNBAM /= 2;  \
-SEEAppStoreReceipt_BWEOBKUBIYLB += 113; SEEAppStoreReceipt_BWEOBKUBIYLB /= 2;  \
+SEEAppStoreReceipt_PXHQVHMEAFPB = 410; \
+SEEAppStoreReceipt_KDCPKKDHLVNV += 254; SEEAppStoreReceipt_KDCPKKDHLVNV /= 4;  \
+SEEAppStoreReceipt_HEJNNJZOJKFT = 543; \
+SEEAppStoreReceipt_CJKLRIVRECMR += 54; SEEAppStoreReceipt_CJKLRIVRECMR /= 5;  \
+SEEAppStoreReceipt_QLCTHPGBOWLC -= 2; SEEAppStoreReceipt_QLCTHPGBOWLC *= 24; SEEAppStoreReceipt_QLCTHPGBOWLC += 14;  \
+SEEAppStoreReceipt_EDTPOGGTZZCS += 424; SEEAppStoreReceipt_EDTPOGGTZZCS /= 2;  \
+SEEAppStoreReceipt_TREROYPGPNCL -= 18; SEEAppStoreReceipt_TREROYPGPNCL *= 5; SEEAppStoreReceipt_TREROYPGPNCL += 1;  \
+SEEAppStoreReceipt_EWUUWZNJKLIY += 321; SEEAppStoreReceipt_EWUUWZNJKLIY /= 2;  \
+SEEAppStoreReceipt_GetGUID04A_SEEAppStoreReceipt_bail: \
+SEEAppStoreReceipt_CFRelease_000A01DE(SEEAppStoreReceipt_str2); \
 }
 #endif
 
@@ -2885,7 +3020,7 @@ SEEAppStoreReceipt_BWEOBKUBIYLB += 113; SEEAppStoreReceipt_BWEOBKUBIYLB /= 2;  \
 	// CodeBlock GetRootCA
 #if MAC_OS_X_VERSION_MIN_REQUIRED > MAC_OS_X_VERSION_10_6
 #if DEBUG
-	inline static void SEEAppStoreReceipt_GetRootCA050(SEEAppStoreReceipt_CheckingContext *SEEAppStoreReceipt_ctx) {
+	inline static void SEEAppStoreReceipt_GetRootCA04F(SEEAppStoreReceipt_CheckingContext *SEEAppStoreReceipt_ctx) {
 		OSStatus SEEAppStoreReceipt_status;
 		SecKeychainRef SEEAppStoreReceipt_keychain = NULL;
 		CFTypeRef SEEAppStoreReceipt_searchList = NULL;
@@ -2896,69 +3031,66 @@ SEEAppStoreReceipt_BWEOBKUBIYLB += 113; SEEAppStoreReceipt_BWEOBKUBIYLB /= 2;  \
 		CFTypeRef SEEAppStoreReceipt_results = NULL;
 		SecCertificateRef SEEAppStoreReceipt_certificate = NULL;
 		volatile CFIndex SEEAppStoreReceipt_count1 = 1; SEEAppStoreReceipt_count1 /= 1;
-		volatile CFIndex SEEAppStoreReceipt_count2 = 3; SEEAppStoreReceipt_count2 -= 2; SEEAppStoreReceipt_count2 *= 3; SEEAppStoreReceipt_count2 += 2;
+		volatile CFIndex SEEAppStoreReceipt_count2 = 2; SEEAppStoreReceipt_count2 -= 1; SEEAppStoreReceipt_count2 *= 4; SEEAppStoreReceipt_count2 += 1;
 		const void *SEEAppStoreReceipt_searchKeys[5];
 		const void *SEEAppStoreReceipt_searchValues[5];
-		volatile int SEEAppStoreReceipt_code = 123; SEEAppStoreReceipt_code -= 66; SEEAppStoreReceipt_code *= 3; SEEAppStoreReceipt_code += 2;
+		volatile int SEEAppStoreReceipt_code = 113; SEEAppStoreReceipt_code -= 56; SEEAppStoreReceipt_code *= 3; SEEAppStoreReceipt_code += 2;
 		__SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Loading Apple Root CA");
-		char SEEAppStoreReceipt_str1_[549];
-		SEEAppStoreReceipt_ObfuscationFunction00B((SEEAppStoreReceipt_Strings[185]), SEEAppStoreReceipt_str1_, 101, 66);
+		char SEEAppStoreReceipt_str1_[573];
+		SEEAppStoreReceipt_ObfuscationFunction00B((SEEAppStoreReceipt_Strings[84]), SEEAppStoreReceipt_str1_, 83, 66);
 		SEEAppStoreReceipt_str1 = SEEAppStoreReceipt_str1_;
-		SEEAppStoreReceipt_status = SEEAppStoreReceipt_SecKeychainOpen_006F0165(SEEAppStoreReceipt_str1, &SEEAppStoreReceipt_keychain);
+		SEEAppStoreReceipt_status = SEEAppStoreReceipt_EDTPOGGTZZCS_021201F1(SEEAppStoreReceipt_str1, &SEEAppStoreReceipt_keychain);
 		if (SEEAppStoreReceipt_status != errSecSuccess) {
-			SEEAppStoreReceipt_exit_00040172(SEEAppStoreReceipt_code);
+			SEEAppStoreReceipt_exit_00ED017F(SEEAppStoreReceipt_code);
 			// Dead code
 			// TODO
-			goto SEEAppStoreReceipt_GetRootCA050_SEEAppStoreReceipt_bail;
+			goto SEEAppStoreReceipt_GetRootCA04F_SEEAppStoreReceipt_bail;
 		}
 		// Create a search list within the system Keychain
-		SEEAppStoreReceipt_searchList = CFArrayCreate(kCFAllocatorDefault, (const void **)&SEEAppStoreReceipt_keychain, SEEAppStoreReceipt_count1, SEEAppStoreReceipt_kCFTypeArrayCallBacks_01FA01DF);
+		SEEAppStoreReceipt_searchList = CFArrayCreate(kCFAllocatorDefault, (const void **)&SEEAppStoreReceipt_keychain, SEEAppStoreReceipt_count1, SEEAppStoreReceipt_kCFTypeArrayCallBacks_000A00D1);
 		// Create the criteria dictionary to find the Apple Root CA certificate
-		SEEAppStoreReceipt_str2 = SEEAppStoreReceipt_ObfuscationFunction006CF((SEEAppStoreReceipt_Strings[72]), 51, 16);
-		SEEAppStoreReceipt_searchKeys[0] = *SEEAppStoreReceipt_kSecClass_009300EE;
-		SEEAppStoreReceipt_searchValues[0] = *SEEAppStoreReceipt_kSecClassCertificate_009300FE;
-		SEEAppStoreReceipt_searchKeys[1] = *SEEAppStoreReceipt_kSecMatchSearchList_018D019D;
+		SEEAppStoreReceipt_str2 = SEEAppStoreReceipt_ObfuscationFunction00CCF((SEEAppStoreReceipt_Strings[347]), 53, 16);
+		SEEAppStoreReceipt_searchKeys[0] = *SEEAppStoreReceipt_kSecClass_0212003B;
+		SEEAppStoreReceipt_searchValues[0] = *SEEAppStoreReceipt_kSecClassCertificate_00B4018A;
+		SEEAppStoreReceipt_searchKeys[1] = *SEEAppStoreReceipt_kSecMatchSearchList_0145017D;
 		SEEAppStoreReceipt_searchValues[1] = SEEAppStoreReceipt_searchList;
-		SEEAppStoreReceipt_searchKeys[2] = *SEEAppStoreReceipt_kSecMatchSubjectContains_009301B3;
+		SEEAppStoreReceipt_searchKeys[2] = *SEEAppStoreReceipt_kSecMatchSubjectContains_021200D7;
 		SEEAppStoreReceipt_searchValues[2] = SEEAppStoreReceipt_str2;
-		SEEAppStoreReceipt_searchKeys[3] = *SEEAppStoreReceipt_kSecMatchLimit_009300F6;
-		SEEAppStoreReceipt_searchValues[3] = *SEEAppStoreReceipt_kSecMatchLimitAll_009300CA;
-		SEEAppStoreReceipt_searchKeys[4] = *SEEAppStoreReceipt_kSecReturnRef_006F0008;
+		SEEAppStoreReceipt_searchKeys[3] = *SEEAppStoreReceipt_kSecMatchLimit_00B400F5;
+		SEEAppStoreReceipt_searchValues[3] = *SEEAppStoreReceipt_kSecMatchLimitAll_01450127;
+		SEEAppStoreReceipt_searchKeys[4] = *SEEAppStoreReceipt_kSecReturnRef_00B4021D;
 		SEEAppStoreReceipt_searchValues[4] = kCFBooleanTrue;
-		SEEAppStoreReceipt_searchDict = SEEAppStoreReceipt_WMVWYPHNNSIW_00AE0183(kCFAllocatorDefault, SEEAppStoreReceipt_count2, SEEAppStoreReceipt_kCFTypeDictionaryKeyCallBacks_01FA0005, SEEAppStoreReceipt_kCFTypeDictionaryValueCallBacks_01FA0051);
-		while(SEEAppStoreReceipt_count2-- > 0) {
-			SEEAppStoreReceipt_BWEOBKUBIYLB_01FA00B7((CFMutableDictionaryRef) SEEAppStoreReceipt_searchDict, SEEAppStoreReceipt_searchKeys[SEEAppStoreReceipt_count2], SEEAppStoreReceipt_searchValues[SEEAppStoreReceipt_count2]);
-		}
+		SEEAppStoreReceipt_searchDict = CFDictionaryCreate(kCFAllocatorDefault, SEEAppStoreReceipt_searchKeys, SEEAppStoreReceipt_searchValues, SEEAppStoreReceipt_count2, NULL, NULL);
 		// Perform the actual search
-		SEEAppStoreReceipt_status = SEEAppStoreReceipt_SecItemCopyMatching_018D0213(SEEAppStoreReceipt_searchDict, &SEEAppStoreReceipt_results);
+		SEEAppStoreReceipt_status = SEEAppStoreReceipt_KDCPKKDHLVNV_014500B0(SEEAppStoreReceipt_searchDict, &SEEAppStoreReceipt_results);
 		if (SEEAppStoreReceipt_status != errSecSuccess) {
-			SEEAppStoreReceipt_exit_00040172(SEEAppStoreReceipt_code);
+			SEEAppStoreReceipt_exit_00ED017F(SEEAppStoreReceipt_code);
 			// Dead code
 			// TODO
-			goto SEEAppStoreReceipt_GetRootCA050_SEEAppStoreReceipt_bail;
+			goto SEEAppStoreReceipt_GetRootCA04F_SEEAppStoreReceipt_bail;
 		}
 		// Iterate over the results and copy the certificate data
-		for(SEEAppStoreReceipt_idx = 0; SEEAppStoreReceipt_idx < SEEAppStoreReceipt_BPRMJLJLPXEZ_01FA0110((CFArrayRef) SEEAppStoreReceipt_results); SEEAppStoreReceipt_idx++) {
-			SEEAppStoreReceipt_certificate = (SecCertificateRef) SEEAppStoreReceipt_PWQTYPSGCQZM_00AE0050((CFArrayRef) SEEAppStoreReceipt_results, SEEAppStoreReceipt_idx);
-			if (SEEAppStoreReceipt_ctx->ca_data) SEEAppStoreReceipt_CFRelease_01FA0075(SEEAppStoreReceipt_ctx->ca_data);
-			SEEAppStoreReceipt_ctx->ca_data = SEEAppStoreReceipt_SecCertificateCopyData_006F00C5(SEEAppStoreReceipt_certificate);
+		for(SEEAppStoreReceipt_idx = 0; SEEAppStoreReceipt_idx < SEEAppStoreReceipt_CFArrayGetCount_00D80191((CFArrayRef) SEEAppStoreReceipt_results); SEEAppStoreReceipt_idx++) {
+			SEEAppStoreReceipt_certificate = (SecCertificateRef) SEEAppStoreReceipt_EWUUWZNJKLIY_00D80142((CFArrayRef) SEEAppStoreReceipt_results, SEEAppStoreReceipt_idx);
+			if (SEEAppStoreReceipt_ctx->ca_data) SEEAppStoreReceipt_CFRelease_01BB01DE(SEEAppStoreReceipt_ctx->ca_data);
+			SEEAppStoreReceipt_ctx->ca_data = SEEAppStoreReceipt_TREROYPGPNCL_014500A1(SEEAppStoreReceipt_certificate);
 		}
 		// Global variables computation
-		// From 272 to 152
-		SEEAppStoreReceipt_BPRMJLJLPXEZ += 184; SEEAppStoreReceipt_BPRMJLJLPXEZ /= 3;
-		// From 80 to 88
-		SEEAppStoreReceipt_PWQTYPSGCQZM -= 51; SEEAppStoreReceipt_PWQTYPSGCQZM *= 3; SEEAppStoreReceipt_PWQTYPSGCQZM += 1;
-		// From 387 to 285
-		SEEAppStoreReceipt_WMVWYPHNNSIW += 183; SEEAppStoreReceipt_WMVWYPHNNSIW /= 2;
-	SEEAppStoreReceipt_GetRootCA050_SEEAppStoreReceipt_bail:
-		if (SEEAppStoreReceipt_str2) SEEAppStoreReceipt_CFRelease_01FA0075(SEEAppStoreReceipt_str2);
-		if (SEEAppStoreReceipt_results) SEEAppStoreReceipt_CFRelease_01FA0075(SEEAppStoreReceipt_results);
-		if (SEEAppStoreReceipt_searchDict) SEEAppStoreReceipt_CFRelease_01FA0075(SEEAppStoreReceipt_searchDict);
-		if (SEEAppStoreReceipt_searchList) SEEAppStoreReceipt_CFRelease_01FA0075(SEEAppStoreReceipt_searchList);
-		if (SEEAppStoreReceipt_keychain) SEEAppStoreReceipt_CFRelease_01FA0075(SEEAppStoreReceipt_keychain);
+		// From 47 to 150
+		SEEAppStoreReceipt_CJKLRIVRECMR -= 17; SEEAppStoreReceipt_CJKLRIVRECMR *= 5;
+		// From 161 to 129
+		SEEAppStoreReceipt_TREROYPGPNCL += 97; SEEAppStoreReceipt_TREROYPGPNCL /= 2;
+		// From 322 to 235
+		SEEAppStoreReceipt_EWUUWZNJKLIY += 148; SEEAppStoreReceipt_EWUUWZNJKLIY /= 2;
+	SEEAppStoreReceipt_GetRootCA04F_SEEAppStoreReceipt_bail:
+		if (SEEAppStoreReceipt_str2) SEEAppStoreReceipt_CFRelease_01BB01DE(SEEAppStoreReceipt_str2);
+		if (SEEAppStoreReceipt_results) SEEAppStoreReceipt_CFRelease_01BB01DE(SEEAppStoreReceipt_results);
+		if (SEEAppStoreReceipt_searchDict) SEEAppStoreReceipt_CFRelease_01BB01DE(SEEAppStoreReceipt_searchDict);
+		if (SEEAppStoreReceipt_searchList) SEEAppStoreReceipt_CFRelease_01BB01DE(SEEAppStoreReceipt_searchList);
+		if (SEEAppStoreReceipt_keychain) SEEAppStoreReceipt_CFRelease_01BB01DE(SEEAppStoreReceipt_keychain);
 	}
 #else
-#define SEEAppStoreReceipt_GetRootCA050(SEEAppStoreReceipt_ctx) { \
+#define SEEAppStoreReceipt_GetRootCA04F(SEEAppStoreReceipt_ctx) { \
 OSStatus SEEAppStoreReceipt_status; \
 SecKeychainRef SEEAppStoreReceipt_keychain = NULL; \
 CFTypeRef SEEAppStoreReceipt_searchList = NULL; \
@@ -2969,61 +3101,58 @@ CFIndex SEEAppStoreReceipt_idx; \
 CFTypeRef SEEAppStoreReceipt_results = NULL; \
 SecCertificateRef SEEAppStoreReceipt_certificate = NULL; \
 volatile CFIndex SEEAppStoreReceipt_count1 = 1; SEEAppStoreReceipt_count1 /= 1;  \
-volatile CFIndex SEEAppStoreReceipt_count2 = 3; SEEAppStoreReceipt_count2 -= 2; SEEAppStoreReceipt_count2 *= 3; SEEAppStoreReceipt_count2 += 2;  \
+volatile CFIndex SEEAppStoreReceipt_count2 = 2; SEEAppStoreReceipt_count2 -= 1; SEEAppStoreReceipt_count2 *= 4; SEEAppStoreReceipt_count2 += 1;  \
 const void *SEEAppStoreReceipt_searchKeys[5]; \
 const void *SEEAppStoreReceipt_searchValues[5]; \
-volatile int SEEAppStoreReceipt_code = 123; SEEAppStoreReceipt_code -= 66; SEEAppStoreReceipt_code *= 3; SEEAppStoreReceipt_code += 2;  \
+volatile int SEEAppStoreReceipt_code = 113; SEEAppStoreReceipt_code -= 56; SEEAppStoreReceipt_code *= 3; SEEAppStoreReceipt_code += 2;  \
 __SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Loading Apple Root CA"); \
-char SEEAppStoreReceipt_str1_[549]; \
-SEEAppStoreReceipt_ObfuscationFunction00B((SEEAppStoreReceipt_Strings[185]), SEEAppStoreReceipt_str1_, 101, 66); \
+char SEEAppStoreReceipt_str1_[573]; \
+SEEAppStoreReceipt_ObfuscationFunction00B((SEEAppStoreReceipt_Strings[84]), SEEAppStoreReceipt_str1_, 83, 66); \
 SEEAppStoreReceipt_str1 = SEEAppStoreReceipt_str1_; \
-SEEAppStoreReceipt_status = SEEAppStoreReceipt_SecKeychainOpen_006F0165(SEEAppStoreReceipt_str1, &SEEAppStoreReceipt_keychain); \
+SEEAppStoreReceipt_status = SEEAppStoreReceipt_EDTPOGGTZZCS_021201F1(SEEAppStoreReceipt_str1, &SEEAppStoreReceipt_keychain); \
 if (SEEAppStoreReceipt_status != errSecSuccess) { \
-SEEAppStoreReceipt_exit_00040172(SEEAppStoreReceipt_code); \
-goto SEEAppStoreReceipt_GetRootCA050_SEEAppStoreReceipt_bail; \
+SEEAppStoreReceipt_exit_00ED017F(SEEAppStoreReceipt_code); \
+goto SEEAppStoreReceipt_GetRootCA04F_SEEAppStoreReceipt_bail; \
 } \
-SEEAppStoreReceipt_searchList = CFArrayCreate(kCFAllocatorDefault, (const void **)&SEEAppStoreReceipt_keychain, SEEAppStoreReceipt_count1, SEEAppStoreReceipt_kCFTypeArrayCallBacks_01FA01DF); \
-SEEAppStoreReceipt_str2 = SEEAppStoreReceipt_ObfuscationFunction006CF((SEEAppStoreReceipt_Strings[72]), 51, 16); \
-SEEAppStoreReceipt_searchKeys[0] = *SEEAppStoreReceipt_kSecClass_009300EE; \
-SEEAppStoreReceipt_searchValues[0] = *SEEAppStoreReceipt_kSecClassCertificate_009300FE; \
-SEEAppStoreReceipt_searchKeys[1] = *SEEAppStoreReceipt_kSecMatchSearchList_018D019D; \
+SEEAppStoreReceipt_searchList = CFArrayCreate(kCFAllocatorDefault, (const void **)&SEEAppStoreReceipt_keychain, SEEAppStoreReceipt_count1, SEEAppStoreReceipt_kCFTypeArrayCallBacks_000A00D1); \
+SEEAppStoreReceipt_str2 = SEEAppStoreReceipt_ObfuscationFunction00CCF((SEEAppStoreReceipt_Strings[347]), 53, 16); \
+SEEAppStoreReceipt_searchKeys[0] = *SEEAppStoreReceipt_kSecClass_0212003B; \
+SEEAppStoreReceipt_searchValues[0] = *SEEAppStoreReceipt_kSecClassCertificate_00B4018A; \
+SEEAppStoreReceipt_searchKeys[1] = *SEEAppStoreReceipt_kSecMatchSearchList_0145017D; \
 SEEAppStoreReceipt_searchValues[1] = SEEAppStoreReceipt_searchList; \
-SEEAppStoreReceipt_searchKeys[2] = *SEEAppStoreReceipt_kSecMatchSubjectContains_009301B3; \
+SEEAppStoreReceipt_searchKeys[2] = *SEEAppStoreReceipt_kSecMatchSubjectContains_021200D7; \
 SEEAppStoreReceipt_searchValues[2] = SEEAppStoreReceipt_str2; \
-SEEAppStoreReceipt_searchKeys[3] = *SEEAppStoreReceipt_kSecMatchLimit_009300F6; \
-SEEAppStoreReceipt_searchValues[3] = *SEEAppStoreReceipt_kSecMatchLimitAll_009300CA; \
-SEEAppStoreReceipt_searchKeys[4] = *SEEAppStoreReceipt_kSecReturnRef_006F0008; \
+SEEAppStoreReceipt_searchKeys[3] = *SEEAppStoreReceipt_kSecMatchLimit_00B400F5; \
+SEEAppStoreReceipt_searchValues[3] = *SEEAppStoreReceipt_kSecMatchLimitAll_01450127; \
+SEEAppStoreReceipt_searchKeys[4] = *SEEAppStoreReceipt_kSecReturnRef_00B4021D; \
 SEEAppStoreReceipt_searchValues[4] = kCFBooleanTrue; \
-SEEAppStoreReceipt_searchDict = SEEAppStoreReceipt_WMVWYPHNNSIW_00AE0183(kCFAllocatorDefault, SEEAppStoreReceipt_count2, SEEAppStoreReceipt_kCFTypeDictionaryKeyCallBacks_01FA0005, SEEAppStoreReceipt_kCFTypeDictionaryValueCallBacks_01FA0051); \
-while(SEEAppStoreReceipt_count2-- > 0) { \
-SEEAppStoreReceipt_BWEOBKUBIYLB_01FA00B7((CFMutableDictionaryRef) SEEAppStoreReceipt_searchDict, SEEAppStoreReceipt_searchKeys[SEEAppStoreReceipt_count2], SEEAppStoreReceipt_searchValues[SEEAppStoreReceipt_count2]); \
-} \
-SEEAppStoreReceipt_status = SEEAppStoreReceipt_SecItemCopyMatching_018D0213(SEEAppStoreReceipt_searchDict, &SEEAppStoreReceipt_results); \
+SEEAppStoreReceipt_searchDict = CFDictionaryCreate(kCFAllocatorDefault, SEEAppStoreReceipt_searchKeys, SEEAppStoreReceipt_searchValues, SEEAppStoreReceipt_count2, NULL, NULL); \
+SEEAppStoreReceipt_status = SEEAppStoreReceipt_KDCPKKDHLVNV_014500B0(SEEAppStoreReceipt_searchDict, &SEEAppStoreReceipt_results); \
 if (SEEAppStoreReceipt_status != errSecSuccess) { \
-SEEAppStoreReceipt_exit_00040172(SEEAppStoreReceipt_code); \
-goto SEEAppStoreReceipt_GetRootCA050_SEEAppStoreReceipt_bail; \
+SEEAppStoreReceipt_exit_00ED017F(SEEAppStoreReceipt_code); \
+goto SEEAppStoreReceipt_GetRootCA04F_SEEAppStoreReceipt_bail; \
 } \
-for(SEEAppStoreReceipt_idx = 0; SEEAppStoreReceipt_idx < SEEAppStoreReceipt_BPRMJLJLPXEZ_01FA0110((CFArrayRef) SEEAppStoreReceipt_results); SEEAppStoreReceipt_idx++) { \
-SEEAppStoreReceipt_certificate = (SecCertificateRef) SEEAppStoreReceipt_PWQTYPSGCQZM_00AE0050((CFArrayRef) SEEAppStoreReceipt_results, SEEAppStoreReceipt_idx); \
-if (SEEAppStoreReceipt_ctx->ca_data) SEEAppStoreReceipt_CFRelease_01FA0075(SEEAppStoreReceipt_ctx->ca_data); \
-SEEAppStoreReceipt_ctx->ca_data = SEEAppStoreReceipt_SecCertificateCopyData_006F00C5(SEEAppStoreReceipt_certificate); \
+for(SEEAppStoreReceipt_idx = 0; SEEAppStoreReceipt_idx < SEEAppStoreReceipt_CFArrayGetCount_00D80191((CFArrayRef) SEEAppStoreReceipt_results); SEEAppStoreReceipt_idx++) { \
+SEEAppStoreReceipt_certificate = (SecCertificateRef) SEEAppStoreReceipt_EWUUWZNJKLIY_00D80142((CFArrayRef) SEEAppStoreReceipt_results, SEEAppStoreReceipt_idx); \
+if (SEEAppStoreReceipt_ctx->ca_data) SEEAppStoreReceipt_CFRelease_01BB01DE(SEEAppStoreReceipt_ctx->ca_data); \
+SEEAppStoreReceipt_ctx->ca_data = SEEAppStoreReceipt_TREROYPGPNCL_014500A1(SEEAppStoreReceipt_certificate); \
 } \
-SEEAppStoreReceipt_BPRMJLJLPXEZ += 184; SEEAppStoreReceipt_BPRMJLJLPXEZ /= 3;  \
-SEEAppStoreReceipt_PWQTYPSGCQZM -= 51; SEEAppStoreReceipt_PWQTYPSGCQZM *= 3; SEEAppStoreReceipt_PWQTYPSGCQZM += 1;  \
-SEEAppStoreReceipt_WMVWYPHNNSIW += 183; SEEAppStoreReceipt_WMVWYPHNNSIW /= 2;  \
-SEEAppStoreReceipt_GetRootCA050_SEEAppStoreReceipt_bail: \
-if (SEEAppStoreReceipt_str2) SEEAppStoreReceipt_CFRelease_01FA0075(SEEAppStoreReceipt_str2); \
-if (SEEAppStoreReceipt_results) SEEAppStoreReceipt_CFRelease_01FA0075(SEEAppStoreReceipt_results); \
-if (SEEAppStoreReceipt_searchDict) SEEAppStoreReceipt_CFRelease_01FA0075(SEEAppStoreReceipt_searchDict); \
-if (SEEAppStoreReceipt_searchList) SEEAppStoreReceipt_CFRelease_01FA0075(SEEAppStoreReceipt_searchList); \
-if (SEEAppStoreReceipt_keychain) SEEAppStoreReceipt_CFRelease_01FA0075(SEEAppStoreReceipt_keychain); \
+SEEAppStoreReceipt_CJKLRIVRECMR -= 17; SEEAppStoreReceipt_CJKLRIVRECMR *= 5;  \
+SEEAppStoreReceipt_TREROYPGPNCL += 97; SEEAppStoreReceipt_TREROYPGPNCL /= 2;  \
+SEEAppStoreReceipt_EWUUWZNJKLIY += 148; SEEAppStoreReceipt_EWUUWZNJKLIY /= 2;  \
+SEEAppStoreReceipt_GetRootCA04F_SEEAppStoreReceipt_bail: \
+if (SEEAppStoreReceipt_str2) SEEAppStoreReceipt_CFRelease_01BB01DE(SEEAppStoreReceipt_str2); \
+if (SEEAppStoreReceipt_results) SEEAppStoreReceipt_CFRelease_01BB01DE(SEEAppStoreReceipt_results); \
+if (SEEAppStoreReceipt_searchDict) SEEAppStoreReceipt_CFRelease_01BB01DE(SEEAppStoreReceipt_searchDict); \
+if (SEEAppStoreReceipt_searchList) SEEAppStoreReceipt_CFRelease_01BB01DE(SEEAppStoreReceipt_searchList); \
+if (SEEAppStoreReceipt_keychain) SEEAppStoreReceipt_CFRelease_01BB01DE(SEEAppStoreReceipt_keychain); \
 }
 #endif
 #endif
 
 #if MAC_OS_X_VERSION_MIN_REQUIRED == MAC_OS_X_VERSION_10_6
 #if DEBUG
-	inline static void SEEAppStoreReceipt_GetRootCA050(SEEAppStoreReceipt_CheckingContext *SEEAppStoreReceipt_ctx) {
+	inline static void SEEAppStoreReceipt_GetRootCA04F(SEEAppStoreReceipt_CheckingContext *SEEAppStoreReceipt_ctx) {
 		OSStatus SEEAppStoreReceipt_status;
 		SecKeychainRef SEEAppStoreReceipt_keychain = NULL;
 		CFTypeRef SEEAppStoreReceipt_searchList = NULL;
@@ -3033,56 +3162,56 @@ if (SEEAppStoreReceipt_keychain) SEEAppStoreReceipt_CFRelease_01FA0075(SEEAppSto
 		SecKeychainSearchRef SEEAppStoreReceipt_searchRef = NULL;
 		SecKeychainItemRef SEEAppStoreReceipt_itemRef = nil;
 		volatile CFIndex SEEAppStoreReceipt_count1 = 1; SEEAppStoreReceipt_count1 /= 1;
-		volatile CFIndex SEEAppStoreReceipt_count2 = 3; SEEAppStoreReceipt_count2 -= 2; SEEAppStoreReceipt_count2 *= 3; SEEAppStoreReceipt_count2 += 2;
-		volatile CFIndex SEEAppStoreReceipt_count3 = 8; SEEAppStoreReceipt_count3 -= 4; SEEAppStoreReceipt_count3 *= 3; SEEAppStoreReceipt_count3 += 1;
-		volatile int SEEAppStoreReceipt_code = 2; SEEAppStoreReceipt_code -= 1; SEEAppStoreReceipt_code *= 88; SEEAppStoreReceipt_code += 85;
+		volatile CFIndex SEEAppStoreReceipt_count2 = 2; SEEAppStoreReceipt_count2 -= 1; SEEAppStoreReceipt_count2 *= 4; SEEAppStoreReceipt_count2 += 1;
+		volatile CFIndex SEEAppStoreReceipt_count3 = 1; SEEAppStoreReceipt_count3 -= 1; SEEAppStoreReceipt_count3 *= 15; SEEAppStoreReceipt_count3 += 13;
+		volatile int SEEAppStoreReceipt_code = 62; SEEAppStoreReceipt_code -= 19; SEEAppStoreReceipt_code *= 4; SEEAppStoreReceipt_code += 1;
 		__SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Loading Apple Root CA");
-		char SEEAppStoreReceipt_str1_[549];
-		SEEAppStoreReceipt_ObfuscationFunction00B((SEEAppStoreReceipt_Strings[185]), SEEAppStoreReceipt_str1_, 101, 66);
+		char SEEAppStoreReceipt_str1_[573];
+		SEEAppStoreReceipt_ObfuscationFunction00B((SEEAppStoreReceipt_Strings[84]), SEEAppStoreReceipt_str1_, 83, 66);
 		SEEAppStoreReceipt_str1 = SEEAppStoreReceipt_str1_;
-		SEEAppStoreReceipt_status = SEEAppStoreReceipt_SecKeychainOpen_00930165(SEEAppStoreReceipt_str1, &SEEAppStoreReceipt_keychain);
+		SEEAppStoreReceipt_status = SEEAppStoreReceipt_EDTPOGGTZZCS_021201F1(SEEAppStoreReceipt_str1, &SEEAppStoreReceipt_keychain);
 		if (SEEAppStoreReceipt_status != errSecSuccess) {
-			SEEAppStoreReceipt_exit_01760172(SEEAppStoreReceipt_code);
+			SEEAppStoreReceipt_exit_00ED005E(SEEAppStoreReceipt_code);
 			// Dead code
-			goto SEEAppStoreReceipt_GetRootCA050_SEEAppStoreReceipt_bail;
+			goto SEEAppStoreReceipt_GetRootCA04F_SEEAppStoreReceipt_bail;
 		}
 		// Create a search list within the system Keychain
-		SEEAppStoreReceipt_searchList = CFArrayCreate(kCFAllocatorDefault, (const void **)&SEEAppStoreReceipt_keychain, SEEAppStoreReceipt_count1, SEEAppStoreReceipt_kCFTypeArrayCallBacks_007B006C);
+		SEEAppStoreReceipt_searchList = CFArrayCreate(kCFAllocatorDefault, (const void **)&SEEAppStoreReceipt_keychain, SEEAppStoreReceipt_count1, SEEAppStoreReceipt_kCFTypeArrayCallBacks_01BB0114);
 		// Create the criteria dictionary to find the Apple Root CA certificate
-		char SEEAppStoreReceipt_str2_[549];
-		SEEAppStoreReceipt_ObfuscationFunction008((SEEAppStoreReceipt_Strings[304]), SEEAppStoreReceipt_str2_, 125, 16);
+		char SEEAppStoreReceipt_str2_[573];
+		SEEAppStoreReceipt_ObfuscationFunction00C((SEEAppStoreReceipt_Strings[347]), SEEAppStoreReceipt_str2_, 53, 16);
 		SEEAppStoreReceipt_str2 = SEEAppStoreReceipt_str2_;
 		SEEAppStoreReceipt_attributeList.count = 1;
 		SEEAppStoreReceipt_attributeList.attr  = &SEEAppStoreReceipt_attribute;
 		SEEAppStoreReceipt_attribute.tag = kSecLabelItemAttr;
 		SEEAppStoreReceipt_attribute.data = SEEAppStoreReceipt_str2;
 		SEEAppStoreReceipt_attribute.length = (UInt32) SEEAppStoreReceipt_count3;
-		SEEAppStoreReceipt_status = SEEAppStoreReceipt_CUKYVEUBFRMI_00930109(SEEAppStoreReceipt_searchList, kSecCertificateItemClass, &SEEAppStoreReceipt_attributeList, &SEEAppStoreReceipt_searchRef);
+		SEEAppStoreReceipt_status = SEEAppStoreReceipt_QLCTHPGBOWLC_0212021E(SEEAppStoreReceipt_searchList, kSecCertificateItemClass, &SEEAppStoreReceipt_attributeList, &SEEAppStoreReceipt_searchRef);
 		if (SEEAppStoreReceipt_status != errSecSuccess) {
-			SEEAppStoreReceipt_exit_01760172(SEEAppStoreReceipt_code);
+			SEEAppStoreReceipt_exit_00ED005E(SEEAppStoreReceipt_code);
 			// Dead code
-			goto SEEAppStoreReceipt_GetRootCA050_SEEAppStoreReceipt_bail;
+			goto SEEAppStoreReceipt_GetRootCA04F_SEEAppStoreReceipt_bail;
 		}
 		// Iterate over the results and copy the certificate data
-		while(SEEAppStoreReceipt_UQJHIJEOCCBI_018D0191(SEEAppStoreReceipt_searchRef, &SEEAppStoreReceipt_itemRef) == noErr) {
-			if (SEEAppStoreReceipt_ctx->ca_data) SEEAppStoreReceipt_CFRelease_01FA0075(SEEAppStoreReceipt_ctx->ca_data);
-			SEEAppStoreReceipt_ctx->ca_data = SEEAppStoreReceipt_SecCertificateCopyData_018D00FB((SecCertificateRef) SEEAppStoreReceipt_itemRef);
+		while(SEEAppStoreReceipt_SecKeychainSearchCopyNext_01450064(SEEAppStoreReceipt_searchRef, &SEEAppStoreReceipt_itemRef) == noErr) {
+			if (SEEAppStoreReceipt_ctx->ca_data) SEEAppStoreReceipt_CFRelease_00D8004E(SEEAppStoreReceipt_ctx->ca_data);
+			SEEAppStoreReceipt_ctx->ca_data = SEEAppStoreReceipt_TREROYPGPNCL_014500A1((SecCertificateRef) SEEAppStoreReceipt_itemRef);
 		}
 		// Global variables computation
-		// From 272 to 152
-		SEEAppStoreReceipt_BPRMJLJLPXEZ += 184; SEEAppStoreReceipt_BPRMJLJLPXEZ /= 3;
-		// From 80 to 88
-		SEEAppStoreReceipt_PWQTYPSGCQZM -= 51; SEEAppStoreReceipt_PWQTYPSGCQZM *= 3; SEEAppStoreReceipt_PWQTYPSGCQZM += 1;
-		// From 387 to 285
-		SEEAppStoreReceipt_WMVWYPHNNSIW += 183; SEEAppStoreReceipt_WMVWYPHNNSIW /= 2;
-	SEEAppStoreReceipt_GetRootCA050_SEEAppStoreReceipt_bail:
-		if (SEEAppStoreReceipt_itemRef) SEEAppStoreReceipt_CFRelease_01FA0075(SEEAppStoreReceipt_itemRef);
-		if (SEEAppStoreReceipt_searchRef) SEEAppStoreReceipt_CFRelease_01FA0075(SEEAppStoreReceipt_searchRef);
-		if (SEEAppStoreReceipt_searchList) SEEAppStoreReceipt_CFRelease_01FA0075(SEEAppStoreReceipt_searchList);
-		if (SEEAppStoreReceipt_keychain) SEEAppStoreReceipt_CFRelease_01FA0075(SEEAppStoreReceipt_keychain);
+		// From 47 to 150
+		SEEAppStoreReceipt_CJKLRIVRECMR -= 17; SEEAppStoreReceipt_CJKLRIVRECMR *= 5;
+		// From 161 to 129
+		SEEAppStoreReceipt_TREROYPGPNCL += 97; SEEAppStoreReceipt_TREROYPGPNCL /= 2;
+		// From 322 to 235
+		SEEAppStoreReceipt_EWUUWZNJKLIY += 148; SEEAppStoreReceipt_EWUUWZNJKLIY /= 2;
+	SEEAppStoreReceipt_GetRootCA04F_SEEAppStoreReceipt_bail:
+		if (SEEAppStoreReceipt_itemRef) SEEAppStoreReceipt_CFRelease_00D8004E(SEEAppStoreReceipt_itemRef);
+		if (SEEAppStoreReceipt_searchRef) SEEAppStoreReceipt_CFRelease_00D8004E(SEEAppStoreReceipt_searchRef);
+		if (SEEAppStoreReceipt_searchList) SEEAppStoreReceipt_CFRelease_00D8004E(SEEAppStoreReceipt_searchList);
+		if (SEEAppStoreReceipt_keychain) SEEAppStoreReceipt_CFRelease_00D8004E(SEEAppStoreReceipt_keychain);
 	}
 #else
-#define SEEAppStoreReceipt_GetRootCA050(SEEAppStoreReceipt_ctx) { \
+#define SEEAppStoreReceipt_GetRootCA04F(SEEAppStoreReceipt_ctx) { \
 OSStatus SEEAppStoreReceipt_status; \
 SecKeychainRef SEEAppStoreReceipt_keychain = NULL; \
 CFTypeRef SEEAppStoreReceipt_searchList = NULL; \
@@ -3092,44 +3221,44 @@ SecKeychainAttribute SEEAppStoreReceipt_attribute; \
 SecKeychainSearchRef SEEAppStoreReceipt_searchRef = NULL; \
 SecKeychainItemRef SEEAppStoreReceipt_itemRef = nil; \
 volatile CFIndex SEEAppStoreReceipt_count1 = 1; SEEAppStoreReceipt_count1 /= 1;  \
-volatile CFIndex SEEAppStoreReceipt_count2 = 3; SEEAppStoreReceipt_count2 -= 2; SEEAppStoreReceipt_count2 *= 3; SEEAppStoreReceipt_count2 += 2;  \
-volatile CFIndex SEEAppStoreReceipt_count3 = 8; SEEAppStoreReceipt_count3 -= 4; SEEAppStoreReceipt_count3 *= 3; SEEAppStoreReceipt_count3 += 1;  \
-volatile int SEEAppStoreReceipt_code = 2; SEEAppStoreReceipt_code -= 1; SEEAppStoreReceipt_code *= 88; SEEAppStoreReceipt_code += 85;  \
+volatile CFIndex SEEAppStoreReceipt_count2 = 2; SEEAppStoreReceipt_count2 -= 1; SEEAppStoreReceipt_count2 *= 4; SEEAppStoreReceipt_count2 += 1;  \
+volatile CFIndex SEEAppStoreReceipt_count3 = 1; SEEAppStoreReceipt_count3 -= 1; SEEAppStoreReceipt_count3 *= 15; SEEAppStoreReceipt_count3 += 13;  \
+volatile int SEEAppStoreReceipt_code = 62; SEEAppStoreReceipt_code -= 19; SEEAppStoreReceipt_code *= 4; SEEAppStoreReceipt_code += 1;  \
 __SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Loading Apple Root CA"); \
-char SEEAppStoreReceipt_str1_[549]; \
-SEEAppStoreReceipt_ObfuscationFunction00B((SEEAppStoreReceipt_Strings[185]), SEEAppStoreReceipt_str1_, 101, 66); \
+char SEEAppStoreReceipt_str1_[573]; \
+SEEAppStoreReceipt_ObfuscationFunction00B((SEEAppStoreReceipt_Strings[84]), SEEAppStoreReceipt_str1_, 83, 66); \
 SEEAppStoreReceipt_str1 = SEEAppStoreReceipt_str1_; \
-SEEAppStoreReceipt_status = SEEAppStoreReceipt_SecKeychainOpen_00930165(SEEAppStoreReceipt_str1, &SEEAppStoreReceipt_keychain); \
+SEEAppStoreReceipt_status = SEEAppStoreReceipt_EDTPOGGTZZCS_021201F1(SEEAppStoreReceipt_str1, &SEEAppStoreReceipt_keychain); \
 if (SEEAppStoreReceipt_status != errSecSuccess) { \
-SEEAppStoreReceipt_exit_01760172(SEEAppStoreReceipt_code); \
-goto SEEAppStoreReceipt_GetRootCA050_SEEAppStoreReceipt_bail; \
+SEEAppStoreReceipt_exit_00ED005E(SEEAppStoreReceipt_code); \
+goto SEEAppStoreReceipt_GetRootCA04F_SEEAppStoreReceipt_bail; \
 } \
-SEEAppStoreReceipt_searchList = CFArrayCreate(kCFAllocatorDefault, (const void **)&SEEAppStoreReceipt_keychain, SEEAppStoreReceipt_count1, SEEAppStoreReceipt_kCFTypeArrayCallBacks_007B006C); \
-char SEEAppStoreReceipt_str2_[549]; \
-SEEAppStoreReceipt_ObfuscationFunction008((SEEAppStoreReceipt_Strings[304]), SEEAppStoreReceipt_str2_, 125, 16); \
+SEEAppStoreReceipt_searchList = CFArrayCreate(kCFAllocatorDefault, (const void **)&SEEAppStoreReceipt_keychain, SEEAppStoreReceipt_count1, SEEAppStoreReceipt_kCFTypeArrayCallBacks_01BB0114); \
+char SEEAppStoreReceipt_str2_[573]; \
+SEEAppStoreReceipt_ObfuscationFunction00C((SEEAppStoreReceipt_Strings[347]), SEEAppStoreReceipt_str2_, 53, 16); \
 SEEAppStoreReceipt_str2 = SEEAppStoreReceipt_str2_; \
 SEEAppStoreReceipt_attributeList.count = 1; \
 SEEAppStoreReceipt_attributeList.attr  = &SEEAppStoreReceipt_attribute; \
 SEEAppStoreReceipt_attribute.tag = kSecLabelItemAttr; \
 SEEAppStoreReceipt_attribute.data = SEEAppStoreReceipt_str2; \
 SEEAppStoreReceipt_attribute.length = (UInt32) SEEAppStoreReceipt_count3; \
-SEEAppStoreReceipt_status = SEEAppStoreReceipt_CUKYVEUBFRMI_00930109(SEEAppStoreReceipt_searchList, kSecCertificateItemClass, &SEEAppStoreReceipt_attributeList, &SEEAppStoreReceipt_searchRef); \
+SEEAppStoreReceipt_status = SEEAppStoreReceipt_QLCTHPGBOWLC_0212021E(SEEAppStoreReceipt_searchList, kSecCertificateItemClass, &SEEAppStoreReceipt_attributeList, &SEEAppStoreReceipt_searchRef); \
 if (SEEAppStoreReceipt_status != errSecSuccess) { \
-SEEAppStoreReceipt_exit_01760172(SEEAppStoreReceipt_code); \
-goto SEEAppStoreReceipt_GetRootCA050_SEEAppStoreReceipt_bail; \
+SEEAppStoreReceipt_exit_00ED005E(SEEAppStoreReceipt_code); \
+goto SEEAppStoreReceipt_GetRootCA04F_SEEAppStoreReceipt_bail; \
 } \
-while(SEEAppStoreReceipt_UQJHIJEOCCBI_018D0191(SEEAppStoreReceipt_searchRef, &SEEAppStoreReceipt_itemRef) == noErr) { \
-if (SEEAppStoreReceipt_ctx->ca_data) SEEAppStoreReceipt_CFRelease_01FA0075(SEEAppStoreReceipt_ctx->ca_data); \
-SEEAppStoreReceipt_ctx->ca_data = SEEAppStoreReceipt_SecCertificateCopyData_018D00FB((SecCertificateRef) SEEAppStoreReceipt_itemRef); \
+while(SEEAppStoreReceipt_SecKeychainSearchCopyNext_01450064(SEEAppStoreReceipt_searchRef, &SEEAppStoreReceipt_itemRef) == noErr) { \
+if (SEEAppStoreReceipt_ctx->ca_data) SEEAppStoreReceipt_CFRelease_00D8004E(SEEAppStoreReceipt_ctx->ca_data); \
+SEEAppStoreReceipt_ctx->ca_data = SEEAppStoreReceipt_TREROYPGPNCL_014500A1((SecCertificateRef) SEEAppStoreReceipt_itemRef); \
 } \
-SEEAppStoreReceipt_BPRMJLJLPXEZ += 184; SEEAppStoreReceipt_BPRMJLJLPXEZ /= 3;  \
-SEEAppStoreReceipt_PWQTYPSGCQZM -= 51; SEEAppStoreReceipt_PWQTYPSGCQZM *= 3; SEEAppStoreReceipt_PWQTYPSGCQZM += 1;  \
-SEEAppStoreReceipt_WMVWYPHNNSIW += 183; SEEAppStoreReceipt_WMVWYPHNNSIW /= 2;  \
-SEEAppStoreReceipt_GetRootCA050_SEEAppStoreReceipt_bail: \
-if (SEEAppStoreReceipt_itemRef) SEEAppStoreReceipt_CFRelease_01FA0075(SEEAppStoreReceipt_itemRef); \
-if (SEEAppStoreReceipt_searchRef) SEEAppStoreReceipt_CFRelease_01FA0075(SEEAppStoreReceipt_searchRef); \
-if (SEEAppStoreReceipt_searchList) SEEAppStoreReceipt_CFRelease_01FA0075(SEEAppStoreReceipt_searchList); \
-if (SEEAppStoreReceipt_keychain) SEEAppStoreReceipt_CFRelease_01FA0075(SEEAppStoreReceipt_keychain); \
+SEEAppStoreReceipt_CJKLRIVRECMR -= 17; SEEAppStoreReceipt_CJKLRIVRECMR *= 5;  \
+SEEAppStoreReceipt_TREROYPGPNCL += 97; SEEAppStoreReceipt_TREROYPGPNCL /= 2;  \
+SEEAppStoreReceipt_EWUUWZNJKLIY += 148; SEEAppStoreReceipt_EWUUWZNJKLIY /= 2;  \
+SEEAppStoreReceipt_GetRootCA04F_SEEAppStoreReceipt_bail: \
+if (SEEAppStoreReceipt_itemRef) SEEAppStoreReceipt_CFRelease_00D8004E(SEEAppStoreReceipt_itemRef); \
+if (SEEAppStoreReceipt_searchRef) SEEAppStoreReceipt_CFRelease_00D8004E(SEEAppStoreReceipt_searchRef); \
+if (SEEAppStoreReceipt_searchList) SEEAppStoreReceipt_CFRelease_00D8004E(SEEAppStoreReceipt_searchList); \
+if (SEEAppStoreReceipt_keychain) SEEAppStoreReceipt_CFRelease_00D8004E(SEEAppStoreReceipt_keychain); \
 }
 #endif
 #endif
@@ -3138,116 +3267,116 @@ if (SEEAppStoreReceipt_keychain) SEEAppStoreReceipt_CFRelease_01FA0075(SEEAppSto
 	// CodeBlock CheckBundleIdentifier
 #if DEBUG
 	inline static void SEEAppStoreReceipt_CheckBundleIdentifier05D(SEEAppStoreReceipt_CheckingContext *SEEAppStoreReceipt_ctx) {
-		CFStringRef SEEAppStoreReceipt_str1 = SEEAppStoreReceipt_ObfuscationFunction007CF((SEEAppStoreReceipt_Strings[330]), 139, 33);
+		CFStringRef SEEAppStoreReceipt_str1 = SEEAppStoreReceipt_ObfuscationFunction007CF((SEEAppStoreReceipt_Strings[561]), 245, 33);
 		__SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Checking bundle identifier");
-		CFStringRef SEEAppStoreReceipt_str2 = SEEAppStoreReceipt_ObfuscationFunction009CF((SEEAppStoreReceipt_Strings[446]), 172, 19);
-		volatile int SEEAppStoreReceipt_code = 33; SEEAppStoreReceipt_code -= 9; SEEAppStoreReceipt_code *= 7; SEEAppStoreReceipt_code += 5;
-		CFStringRef SEEAppStoreReceipt_str3 = (CFStringRef) SEEAppStoreReceipt_PWQTYPSGCQZM_007B0058((CFBundleRef) SEEAppStoreReceipt_ctx->main_bundle, SEEAppStoreReceipt_str2);
-		if (SEEAppStoreReceipt_BPRMJLJLPXEZ_00AE0098(SEEAppStoreReceipt_str1, SEEAppStoreReceipt_str3, 0) != kCFCompareEqualTo) {
+		CFStringRef SEEAppStoreReceipt_str2 = SEEAppStoreReceipt_ObfuscationFunction00BCF((SEEAppStoreReceipt_Strings[452]), 144, 19);
+		volatile int SEEAppStoreReceipt_code = 50; SEEAppStoreReceipt_code -= 16; SEEAppStoreReceipt_code *= 5; SEEAppStoreReceipt_code += 3;
+		CFStringRef SEEAppStoreReceipt_str3 = (CFStringRef) SEEAppStoreReceipt_EWUUWZNJKLIY_00D800EB((CFBundleRef) SEEAppStoreReceipt_ctx->main_bundle, SEEAppStoreReceipt_str2);
+		if (SEEAppStoreReceipt_CJKLRIVRECMR_000A0096(SEEAppStoreReceipt_str1, SEEAppStoreReceipt_str3, 0) != kCFCompareEqualTo) {
 			__SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Bundle identifier mismatch (expecting '%s' but actual value is '%s')", CFStringGetCStringPtr(SEEAppStoreReceipt_str1, CFStringGetSystemEncoding()), CFStringGetCStringPtr(SEEAppStoreReceipt_str3, CFStringGetSystemEncoding()));
-			SEEAppStoreReceipt_exit_00040172(SEEAppStoreReceipt_code);
+			SEEAppStoreReceipt_exit_00ED005E(SEEAppStoreReceipt_code);
 			// Dead code
-			SEEAppStoreReceipt_CFRelease_007B0151(SEEAppStoreReceipt_str1);
-			SEEAppStoreReceipt_CFRelease_007B0151(SEEAppStoreReceipt_str2);
-			SEEAppStoreReceipt_CFRelease_007B0151(SEEAppStoreReceipt_str1);
+			SEEAppStoreReceipt_CFRelease_01BB01DE(SEEAppStoreReceipt_str1);
+			SEEAppStoreReceipt_CFRelease_01BB01DE(SEEAppStoreReceipt_str2);
+			SEEAppStoreReceipt_CFRelease_01BB01DE(SEEAppStoreReceipt_str1);
 		}
-		SEEAppStoreReceipt_CFRelease_007B0151(SEEAppStoreReceipt_str2);
+		SEEAppStoreReceipt_CFRelease_01BB01DE(SEEAppStoreReceipt_str2);
 		// Global variables computation
-		// From 265 to 91
-		SEEAppStoreReceipt_CUKYVEUBFRMI += 99; SEEAppStoreReceipt_CUKYVEUBFRMI /= 4;
-		// Set to 530
-		SEEAppStoreReceipt_HKDEGXORNBAM = 530;
-		SEEAppStoreReceipt_CFRelease_007B0151(SEEAppStoreReceipt_str1);
+		// From 176 to 536
+		SEEAppStoreReceipt_KDCPKKDHLVNV -= 69; SEEAppStoreReceipt_KDCPKKDHLVNV *= 5; SEEAppStoreReceipt_KDCPKKDHLVNV += 1;
+		// From 129 to 150
+		SEEAppStoreReceipt_TREROYPGPNCL -= 79; SEEAppStoreReceipt_TREROYPGPNCL *= 3;
+		SEEAppStoreReceipt_CFRelease_01BB01DE(SEEAppStoreReceipt_str1);
 	}
 #else
 #define SEEAppStoreReceipt_CheckBundleIdentifier05D(SEEAppStoreReceipt_ctx) { \
-CFStringRef SEEAppStoreReceipt_str1 = SEEAppStoreReceipt_ObfuscationFunction007CF((SEEAppStoreReceipt_Strings[330]), 139, 33); \
+CFStringRef SEEAppStoreReceipt_str1 = SEEAppStoreReceipt_ObfuscationFunction007CF((SEEAppStoreReceipt_Strings[561]), 245, 33); \
 __SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Checking bundle identifier"); \
-CFStringRef SEEAppStoreReceipt_str2 = SEEAppStoreReceipt_ObfuscationFunction009CF((SEEAppStoreReceipt_Strings[446]), 172, 19); \
-volatile int SEEAppStoreReceipt_code = 33; SEEAppStoreReceipt_code -= 9; SEEAppStoreReceipt_code *= 7; SEEAppStoreReceipt_code += 5;  \
-CFStringRef SEEAppStoreReceipt_str3 = (CFStringRef) SEEAppStoreReceipt_PWQTYPSGCQZM_007B0058((CFBundleRef) SEEAppStoreReceipt_ctx->main_bundle, SEEAppStoreReceipt_str2); \
-if (SEEAppStoreReceipt_BPRMJLJLPXEZ_00AE0098(SEEAppStoreReceipt_str1, SEEAppStoreReceipt_str3, 0) != kCFCompareEqualTo) { \
+CFStringRef SEEAppStoreReceipt_str2 = SEEAppStoreReceipt_ObfuscationFunction00BCF((SEEAppStoreReceipt_Strings[452]), 144, 19); \
+volatile int SEEAppStoreReceipt_code = 50; SEEAppStoreReceipt_code -= 16; SEEAppStoreReceipt_code *= 5; SEEAppStoreReceipt_code += 3;  \
+CFStringRef SEEAppStoreReceipt_str3 = (CFStringRef) SEEAppStoreReceipt_EWUUWZNJKLIY_00D800EB((CFBundleRef) SEEAppStoreReceipt_ctx->main_bundle, SEEAppStoreReceipt_str2); \
+if (SEEAppStoreReceipt_CJKLRIVRECMR_000A0096(SEEAppStoreReceipt_str1, SEEAppStoreReceipt_str3, 0) != kCFCompareEqualTo) { \
 __SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Bundle identifier mismatch (expecting '%s' but actual value is '%s')", CFStringGetCStringPtr(SEEAppStoreReceipt_str1, CFStringGetSystemEncoding()), CFStringGetCStringPtr(SEEAppStoreReceipt_str3, CFStringGetSystemEncoding())); \
-SEEAppStoreReceipt_exit_00040172(SEEAppStoreReceipt_code); \
-SEEAppStoreReceipt_CFRelease_007B0151(SEEAppStoreReceipt_str1); \
-SEEAppStoreReceipt_CFRelease_007B0151(SEEAppStoreReceipt_str2); \
-SEEAppStoreReceipt_CFRelease_007B0151(SEEAppStoreReceipt_str1); \
+SEEAppStoreReceipt_exit_00ED005E(SEEAppStoreReceipt_code); \
+SEEAppStoreReceipt_CFRelease_01BB01DE(SEEAppStoreReceipt_str1); \
+SEEAppStoreReceipt_CFRelease_01BB01DE(SEEAppStoreReceipt_str2); \
+SEEAppStoreReceipt_CFRelease_01BB01DE(SEEAppStoreReceipt_str1); \
 } \
-SEEAppStoreReceipt_CFRelease_007B0151(SEEAppStoreReceipt_str2); \
-SEEAppStoreReceipt_CUKYVEUBFRMI += 99; SEEAppStoreReceipt_CUKYVEUBFRMI /= 4;  \
-SEEAppStoreReceipt_HKDEGXORNBAM = 530; \
-SEEAppStoreReceipt_CFRelease_007B0151(SEEAppStoreReceipt_str1); \
+SEEAppStoreReceipt_CFRelease_01BB01DE(SEEAppStoreReceipt_str2); \
+SEEAppStoreReceipt_KDCPKKDHLVNV -= 69; SEEAppStoreReceipt_KDCPKKDHLVNV *= 5; SEEAppStoreReceipt_KDCPKKDHLVNV += 1;  \
+SEEAppStoreReceipt_TREROYPGPNCL -= 79; SEEAppStoreReceipt_TREROYPGPNCL *= 3;  \
+SEEAppStoreReceipt_CFRelease_01BB01DE(SEEAppStoreReceipt_str1); \
 }
 #endif
 
 
 	// CodeBlock CheckBundleVersion
 #if DEBUG
-	inline static void SEEAppStoreReceipt_CheckBundleVersion061(SEEAppStoreReceipt_CheckingContext *SEEAppStoreReceipt_ctx) {
+	inline static void SEEAppStoreReceipt_CheckBundleVersion05E(SEEAppStoreReceipt_CheckingContext *SEEAppStoreReceipt_ctx) {
 		__SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Checking bundle version");
-		volatile int SEEAppStoreReceipt_code = 147; SEEAppStoreReceipt_code -= 90; SEEAppStoreReceipt_code *= 3; SEEAppStoreReceipt_code += 2;
-		CFStringRef SEEAppStoreReceipt_str1 = SEEAppStoreReceipt_ObfuscationFunction006CF((SEEAppStoreReceipt_Strings[392]), 81, 16);
-		CFStringRef SEEAppStoreReceipt_str2 = SEEAppStoreReceipt_ObfuscationFunction008CF((SEEAppStoreReceipt_Strings[346]), 190, 35);
-		CFStringRef SEEAppStoreReceipt_str3 = (CFStringRef) SEEAppStoreReceipt_CUKYVEUBFRMI_007B005B((CFBundleRef) SEEAppStoreReceipt_ctx->main_bundle, SEEAppStoreReceipt_str2);
-		if (SEEAppStoreReceipt_HKDEGXORNBAM_007B0212(SEEAppStoreReceipt_str1, SEEAppStoreReceipt_str3, 0) != kCFCompareEqualTo) {
+		CFStringRef SEEAppStoreReceipt_str1 = SEEAppStoreReceipt_ObfuscationFunction009CF((SEEAppStoreReceipt_Strings[468]), 209, 16);
+		CFStringRef SEEAppStoreReceipt_str2 = SEEAppStoreReceipt_ObfuscationFunction004CF((SEEAppStoreReceipt_Strings[362]), 166, 35);
+		volatile int SEEAppStoreReceipt_code = 41; SEEAppStoreReceipt_code -= 13; SEEAppStoreReceipt_code *= 6; SEEAppStoreReceipt_code += 5;
+		CFStringRef SEEAppStoreReceipt_str3 = (CFStringRef) SEEAppStoreReceipt_KDCPKKDHLVNV_01BB0218((CFBundleRef) SEEAppStoreReceipt_ctx->main_bundle, SEEAppStoreReceipt_str2);
+		if (SEEAppStoreReceipt_TREROYPGPNCL_000A0096(SEEAppStoreReceipt_str1, SEEAppStoreReceipt_str3, 0) != kCFCompareEqualTo) {
 			__SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Bundle version mismatch (expecting '%s' but actual value is '%s')", CFStringGetCStringPtr(SEEAppStoreReceipt_str1, CFStringGetSystemEncoding()), CFStringGetCStringPtr(SEEAppStoreReceipt_str3, CFStringGetSystemEncoding()));
-			SEEAppStoreReceipt_exit_00040007(SEEAppStoreReceipt_code);
+			SEEAppStoreReceipt_exit_0089017F(SEEAppStoreReceipt_code);
 			// Dead code
-			SEEAppStoreReceipt_CFRelease_01FA0151(SEEAppStoreReceipt_str2);
-			SEEAppStoreReceipt_CFRelease_01FA0151(SEEAppStoreReceipt_str1);
-			SEEAppStoreReceipt_CFRelease_01FA0151(SEEAppStoreReceipt_str2);
+			SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_str1);
+			SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_str2);
+			SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_str1);
 		}
 		// Global variables computation
-		// From 152 to 361
-		SEEAppStoreReceipt_BPRMJLJLPXEZ -= 62; SEEAppStoreReceipt_BPRMJLJLPXEZ *= 4; SEEAppStoreReceipt_BPRMJLJLPXEZ += 1;
-		// From 401 to 426
-		SEEAppStoreReceipt_UQJHIJEOCCBI -= 259; SEEAppStoreReceipt_UQJHIJEOCCBI *= 3;
-		// From 211 to 89
-		SEEAppStoreReceipt_TTTNUXJZKAAB += 145; SEEAppStoreReceipt_TTTNUXJZKAAB /= 4;
-		// From 88 to 423
-		SEEAppStoreReceipt_PWQTYPSGCQZM -= 18; SEEAppStoreReceipt_PWQTYPSGCQZM *= 6; SEEAppStoreReceipt_PWQTYPSGCQZM += 3;
-		// Set to 326
-		SEEAppStoreReceipt_CUKYVEUBFRMI = 326;
-		// From 285 to 257
-		SEEAppStoreReceipt_WMVWYPHNNSIW += 229; SEEAppStoreReceipt_WMVWYPHNNSIW /= 2;
-		// From 530 to 36
-		SEEAppStoreReceipt_HKDEGXORNBAM += 46; SEEAppStoreReceipt_HKDEGXORNBAM /= 16;
-		// From 183 to 112
-		SEEAppStoreReceipt_BWEOBKUBIYLB += 153; SEEAppStoreReceipt_BWEOBKUBIYLB /= 3;
-		SEEAppStoreReceipt_CFRelease_01FA0151(SEEAppStoreReceipt_str2);
-		SEEAppStoreReceipt_CFRelease_01FA0151(SEEAppStoreReceipt_str1);
+		// From 410 to 177
+		SEEAppStoreReceipt_PXHQVHMEAFPB += 298; SEEAppStoreReceipt_PXHQVHMEAFPB /= 4;
+		// From 536 to 459
+		SEEAppStoreReceipt_KDCPKKDHLVNV += 382; SEEAppStoreReceipt_KDCPKKDHLVNV /= 2;
+		// Set to 472
+		SEEAppStoreReceipt_HEJNNJZOJKFT = 472;
+		// From 150 to 63
+		SEEAppStoreReceipt_CJKLRIVRECMR += 102; SEEAppStoreReceipt_CJKLRIVRECMR /= 4;
+		// From 542 to 249
+		SEEAppStoreReceipt_QLCTHPGBOWLC += 454; SEEAppStoreReceipt_QLCTHPGBOWLC /= 4;
+		// From 497 to 64
+		SEEAppStoreReceipt_EDTPOGGTZZCS += 79; SEEAppStoreReceipt_EDTPOGGTZZCS /= 9;
+		// Set to 204
+		SEEAppStoreReceipt_TREROYPGPNCL = 204;
+		// From 235 to 334
+		SEEAppStoreReceipt_EWUUWZNJKLIY -= 124; SEEAppStoreReceipt_EWUUWZNJKLIY *= 3; SEEAppStoreReceipt_EWUUWZNJKLIY += 1;
+		SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_str2);
+		SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_str1);
 	}
 #else
-#define SEEAppStoreReceipt_CheckBundleVersion061(SEEAppStoreReceipt_ctx) { \
+#define SEEAppStoreReceipt_CheckBundleVersion05E(SEEAppStoreReceipt_ctx) { \
 __SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Checking bundle version"); \
-volatile int SEEAppStoreReceipt_code = 147; SEEAppStoreReceipt_code -= 90; SEEAppStoreReceipt_code *= 3; SEEAppStoreReceipt_code += 2;  \
-CFStringRef SEEAppStoreReceipt_str1 = SEEAppStoreReceipt_ObfuscationFunction006CF((SEEAppStoreReceipt_Strings[392]), 81, 16); \
-CFStringRef SEEAppStoreReceipt_str2 = SEEAppStoreReceipt_ObfuscationFunction008CF((SEEAppStoreReceipt_Strings[346]), 190, 35); \
-CFStringRef SEEAppStoreReceipt_str3 = (CFStringRef) SEEAppStoreReceipt_CUKYVEUBFRMI_007B005B((CFBundleRef) SEEAppStoreReceipt_ctx->main_bundle, SEEAppStoreReceipt_str2); \
-if (SEEAppStoreReceipt_HKDEGXORNBAM_007B0212(SEEAppStoreReceipt_str1, SEEAppStoreReceipt_str3, 0) != kCFCompareEqualTo) { \
+CFStringRef SEEAppStoreReceipt_str1 = SEEAppStoreReceipt_ObfuscationFunction009CF((SEEAppStoreReceipt_Strings[468]), 209, 16); \
+CFStringRef SEEAppStoreReceipt_str2 = SEEAppStoreReceipt_ObfuscationFunction004CF((SEEAppStoreReceipt_Strings[362]), 166, 35); \
+volatile int SEEAppStoreReceipt_code = 41; SEEAppStoreReceipt_code -= 13; SEEAppStoreReceipt_code *= 6; SEEAppStoreReceipt_code += 5;  \
+CFStringRef SEEAppStoreReceipt_str3 = (CFStringRef) SEEAppStoreReceipt_KDCPKKDHLVNV_01BB0218((CFBundleRef) SEEAppStoreReceipt_ctx->main_bundle, SEEAppStoreReceipt_str2); \
+if (SEEAppStoreReceipt_TREROYPGPNCL_000A0096(SEEAppStoreReceipt_str1, SEEAppStoreReceipt_str3, 0) != kCFCompareEqualTo) { \
 __SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Bundle version mismatch (expecting '%s' but actual value is '%s')", CFStringGetCStringPtr(SEEAppStoreReceipt_str1, CFStringGetSystemEncoding()), CFStringGetCStringPtr(SEEAppStoreReceipt_str3, CFStringGetSystemEncoding())); \
-SEEAppStoreReceipt_exit_00040007(SEEAppStoreReceipt_code); \
-SEEAppStoreReceipt_CFRelease_01FA0151(SEEAppStoreReceipt_str2); \
-SEEAppStoreReceipt_CFRelease_01FA0151(SEEAppStoreReceipt_str1); \
-SEEAppStoreReceipt_CFRelease_01FA0151(SEEAppStoreReceipt_str2); \
+SEEAppStoreReceipt_exit_0089017F(SEEAppStoreReceipt_code); \
+SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_str1); \
+SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_str2); \
+SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_str1); \
 } \
-SEEAppStoreReceipt_BPRMJLJLPXEZ -= 62; SEEAppStoreReceipt_BPRMJLJLPXEZ *= 4; SEEAppStoreReceipt_BPRMJLJLPXEZ += 1;  \
-SEEAppStoreReceipt_UQJHIJEOCCBI -= 259; SEEAppStoreReceipt_UQJHIJEOCCBI *= 3;  \
-SEEAppStoreReceipt_TTTNUXJZKAAB += 145; SEEAppStoreReceipt_TTTNUXJZKAAB /= 4;  \
-SEEAppStoreReceipt_PWQTYPSGCQZM -= 18; SEEAppStoreReceipt_PWQTYPSGCQZM *= 6; SEEAppStoreReceipt_PWQTYPSGCQZM += 3;  \
-SEEAppStoreReceipt_CUKYVEUBFRMI = 326; \
-SEEAppStoreReceipt_WMVWYPHNNSIW += 229; SEEAppStoreReceipt_WMVWYPHNNSIW /= 2;  \
-SEEAppStoreReceipt_HKDEGXORNBAM += 46; SEEAppStoreReceipt_HKDEGXORNBAM /= 16;  \
-SEEAppStoreReceipt_BWEOBKUBIYLB += 153; SEEAppStoreReceipt_BWEOBKUBIYLB /= 3;  \
-SEEAppStoreReceipt_CFRelease_01FA0151(SEEAppStoreReceipt_str2); \
-SEEAppStoreReceipt_CFRelease_01FA0151(SEEAppStoreReceipt_str1); \
+SEEAppStoreReceipt_PXHQVHMEAFPB += 298; SEEAppStoreReceipt_PXHQVHMEAFPB /= 4;  \
+SEEAppStoreReceipt_KDCPKKDHLVNV += 382; SEEAppStoreReceipt_KDCPKKDHLVNV /= 2;  \
+SEEAppStoreReceipt_HEJNNJZOJKFT = 472; \
+SEEAppStoreReceipt_CJKLRIVRECMR += 102; SEEAppStoreReceipt_CJKLRIVRECMR /= 4;  \
+SEEAppStoreReceipt_QLCTHPGBOWLC += 454; SEEAppStoreReceipt_QLCTHPGBOWLC /= 4;  \
+SEEAppStoreReceipt_EDTPOGGTZZCS += 79; SEEAppStoreReceipt_EDTPOGGTZZCS /= 9;  \
+SEEAppStoreReceipt_TREROYPGPNCL = 204; \
+SEEAppStoreReceipt_EWUUWZNJKLIY -= 124; SEEAppStoreReceipt_EWUUWZNJKLIY *= 3; SEEAppStoreReceipt_EWUUWZNJKLIY += 1;  \
+SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_str2); \
+SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_str1); \
 }
 #endif
 
 
 	// CodeBlock GetReceiptInformation
 #if DEBUG
-	inline static void SEEAppStoreReceipt_GetReceiptInformation062X(const unsigned char *SEEAppStoreReceipt_data, long SEEAppStoreReceipt_length, int *SEEAppStoreReceipt_payload) {
+	inline static void SEEAppStoreReceipt_GetReceiptInformation064X(const unsigned char *SEEAppStoreReceipt_data, long SEEAppStoreReceipt_length, int *SEEAppStoreReceipt_payload) {
 		const unsigned char *SEEAppStoreReceipt_ptr = SEEAppStoreReceipt_data;
 		long SEEAppStoreReceipt_size = SEEAppStoreReceipt_length;
 		*SEEAppStoreReceipt_payload = 0;
@@ -3257,7 +3386,7 @@ SEEAppStoreReceipt_CFRelease_01FA0151(SEEAppStoreReceipt_str1); \
 		} while(--SEEAppStoreReceipt_size > 0);
 	}
 #else
-	inline static void SEEAppStoreReceipt_GetReceiptInformation062X(const unsigned char *SEEAppStoreReceipt_data, long SEEAppStoreReceipt_length, int *SEEAppStoreReceipt_payload) { \
+	inline static void SEEAppStoreReceipt_GetReceiptInformation064X(const unsigned char *SEEAppStoreReceipt_data, long SEEAppStoreReceipt_length, int *SEEAppStoreReceipt_payload) { \
 		const unsigned char *SEEAppStoreReceipt_ptr = SEEAppStoreReceipt_data; \
 		long SEEAppStoreReceipt_size = SEEAppStoreReceipt_length; \
 		*SEEAppStoreReceipt_payload = 0; \
@@ -3269,7 +3398,7 @@ SEEAppStoreReceipt_CFRelease_01FA0151(SEEAppStoreReceipt_str1); \
 #endif
 
 #if DEBUG
-	inline static void SEEAppStoreReceipt_GetReceiptInformation062(SEEAppStoreReceipt_CheckingContext *SEEAppStoreReceipt_ctx) {
+	inline static void SEEAppStoreReceipt_GetReceiptInformation064(SEEAppStoreReceipt_CheckingContext *SEEAppStoreReceipt_ctx) {
 		SEEAppStoreReceipt_ParsingContext SEEAppStoreReceipt_receipt_context;
 		SEEAppStoreReceipt_ParsingContext *SEEAppStoreReceipt_current_context;
 		CFNumberRef SEEAppStoreReceipt_key;
@@ -3288,7 +3417,7 @@ SEEAppStoreReceipt_CFRelease_01FA0151(SEEAppStoreReceipt_str1); \
 		int SEEAppStoreReceipt_str_type;
 		long SEEAppStoreReceipt_str_length;
 		const unsigned char *SEEAppStoreReceipt_str_ptr;
-		volatile int SEEAppStoreReceipt_code = 158; SEEAppStoreReceipt_code -= 101; SEEAppStoreReceipt_code *= 3; SEEAppStoreReceipt_code += 2;
+		volatile int SEEAppStoreReceipt_code = 148; SEEAppStoreReceipt_code -= 91; SEEAppStoreReceipt_code *= 3; SEEAppStoreReceipt_code += 2;
 		SEEAppStoreReceipt_ParsingContext SEEAppStoreReceipt_inapp_context;
 		int SEEAppStoreReceipt_number;
 		int SEEAppStoreReceipt_num_type;
@@ -3296,32 +3425,32 @@ SEEAppStoreReceipt_CFRelease_01FA0151(SEEAppStoreReceipt_str1); \
 		const unsigned char *SEEAppStoreReceipt_num_ptr;
 		__SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Parsing receipt");
 		// Put the receipt data into a memory buffer
-		SEEAppStoreReceipt_bio_p7 = SEEAppStoreReceipt_BIO_new_003900ED(SEEAppStoreReceipt_BIO_s_mem_00390111());
-		SEEAppStoreReceipt_BIO_write_003901D4(SEEAppStoreReceipt_bio_p7, (void *) SEEAppStoreReceipt_CFDataGetBytePtr_00AE006D((CFDataRef) SEEAppStoreReceipt_ctx->receipt_data), (int) SEEAppStoreReceipt_CUKYVEUBFRMI_00AE0146((CFDataRef) SEEAppStoreReceipt_ctx->receipt_data));
-		SEEAppStoreReceipt_pkcs7 = SEEAppStoreReceipt_d2i_PKCS7_bio_00E4000E(SEEAppStoreReceipt_bio_p7, NULL);
+		SEEAppStoreReceipt_bio_p7 = SEEAppStoreReceipt_BIO_new_00DB01AD(SEEAppStoreReceipt_BIO_s_mem_0061021C());
+		SEEAppStoreReceipt_BIO_write_006101D6(SEEAppStoreReceipt_bio_p7, (void *) SEEAppStoreReceipt_CFDataGetBytePtr_000A015F((CFDataRef) SEEAppStoreReceipt_ctx->receipt_data), (int) SEEAppStoreReceipt_CFDataGetLength_00D8018E((CFDataRef) SEEAppStoreReceipt_ctx->receipt_data));
+		SEEAppStoreReceipt_pkcs7 = SEEAppStoreReceipt_d2i_PKCS7_bio_00B60015(SEEAppStoreReceipt_bio_p7, NULL);
 		if (!SEEAppStoreReceipt_pkcs7) {
-			SEEAppStoreReceipt_exit_00040007(SEEAppStoreReceipt_code);
+			SEEAppStoreReceipt_exit_016B005E(SEEAppStoreReceipt_code);
 			// Dead code
 			SEEAppStoreReceipt_ctx->receipt_data = NULL;
-			goto SEEAppStoreReceipt_GetReceiptInformation062_SEEAppStoreReceipt_bail;
+			goto SEEAppStoreReceipt_GetReceiptInformation064_SEEAppStoreReceipt_bail;
 		}
 		if (!PKCS7_type_is_signed(SEEAppStoreReceipt_pkcs7)) {
-			SEEAppStoreReceipt_exit_00040007(SEEAppStoreReceipt_code);
+			SEEAppStoreReceipt_exit_016B005E(SEEAppStoreReceipt_code);
 			// Dead code
 			SEEAppStoreReceipt_ctx->receipt_data = NULL;
-			goto SEEAppStoreReceipt_GetReceiptInformation062_SEEAppStoreReceipt_bail;
+			goto SEEAppStoreReceipt_GetReceiptInformation064_SEEAppStoreReceipt_bail;
 		}
 		if (!PKCS7_type_is_data(SEEAppStoreReceipt_pkcs7->d.sign->contents)) {
-			SEEAppStoreReceipt_exit_00040007(SEEAppStoreReceipt_code);
+			SEEAppStoreReceipt_exit_016B005E(SEEAppStoreReceipt_code);
 			// Dead code
 			SEEAppStoreReceipt_ctx->receipt_data = NULL;
-			goto SEEAppStoreReceipt_GetReceiptInformation062_SEEAppStoreReceipt_bail;
+			goto SEEAppStoreReceipt_GetReceiptInformation064_SEEAppStoreReceipt_bail;
 		}
 		// Create a formatter to parse ISO-3339 dates
-		SEEAppStoreReceipt_formatter = SEEAppStoreReceipt_CFDateFormatterCreate_00AE0181(NULL, NULL, kCFDateFormatterNoStyle, kCFDateFormatterNoStyle);
-		SEEAppStoreReceipt_value1 = SEEAppStoreReceipt_ObfuscationFunction00CCF((SEEAppStoreReceipt_Strings[404]), 74, 33);
-		SEEAppStoreReceipt_CFDateFormatterSetFormat_01FA020B(SEEAppStoreReceipt_formatter, (CFStringRef) SEEAppStoreReceipt_value1);
-		SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_value1);
+		SEEAppStoreReceipt_formatter = SEEAppStoreReceipt_PXHQVHMEAFPB_01BB00B1(NULL, NULL, kCFDateFormatterNoStyle, kCFDateFormatterNoStyle);
+		SEEAppStoreReceipt_value1 = SEEAppStoreReceipt_ObfuscationFunction005CF((SEEAppStoreReceipt_Strings[23]), 249, 33);
+		SEEAppStoreReceipt_CFDateFormatterSetFormat_00D8002D(SEEAppStoreReceipt_formatter, (CFStringRef) SEEAppStoreReceipt_value1);
+		SEEAppStoreReceipt_CFRelease_000A01DE(SEEAppStoreReceipt_value1);
 		// Initial context
 		SEEAppStoreReceipt_contentSEEAppStoreReceipt_content = SEEAppStoreReceipt_pkcs7->d.sign->contents->d.data;
 		SEEAppStoreReceipt_receipt_context.ptr = SEEAppStoreReceipt_contentSEEAppStoreReceipt_content->data;
@@ -3332,49 +3461,49 @@ SEEAppStoreReceipt_CFRelease_01FA0151(SEEAppStoreReceipt_str1); \
 		while(SEEAppStoreReceipt_current_context->ptr < SEEAppStoreReceipt_current_context->end) {
 			if (!SEEAppStoreReceipt_current_context->dictionary) {
 				// Create the target dictionary
-				SEEAppStoreReceipt_current_context->dictionary = SEEAppStoreReceipt_TTTNUXJZKAAB_01FA0059(kCFAllocatorDefault, (CFIndex) 549, SEEAppStoreReceipt_kCFTypeDictionaryKeyCallBacks_00AE0005, SEEAppStoreReceipt_kCFTypeDictionaryValueCallBacks_007B00DF);
+				SEEAppStoreReceipt_current_context->dictionary = SEEAppStoreReceipt_CFDictionaryCreateMutable_000A002F(kCFAllocatorDefault, (CFIndex) 573, SEEAppStoreReceipt_kCFTypeDictionaryKeyCallBacks_00D800E7, SEEAppStoreReceipt_kCFTypeDictionaryValueCallBacks_00D800EA);
 				// Decode payload from ASN.1
-				SEEAppStoreReceipt_ASN1_get_object_00E400B6(&SEEAppStoreReceipt_current_context->ptr, &SEEAppStoreReceipt_length, &SEEAppStoreReceipt_type, &SEEAppStoreReceipt_xclass, SEEAppStoreReceipt_current_context->end - SEEAppStoreReceipt_current_context->ptr);
+				SEEAppStoreReceipt_ASN1_get_object_00B600F6(&SEEAppStoreReceipt_current_context->ptr, &SEEAppStoreReceipt_length, &SEEAppStoreReceipt_type, &SEEAppStoreReceipt_xclass, SEEAppStoreReceipt_current_context->end - SEEAppStoreReceipt_current_context->ptr);
 				if (SEEAppStoreReceipt_type != V_ASN1_SET) {
-					SEEAppStoreReceipt_exit_00040007(SEEAppStoreReceipt_code);
-					goto SEEAppStoreReceipt_GetReceiptInformation062_SEEAppStoreReceipt_bail;
+					SEEAppStoreReceipt_exit_016B005E(SEEAppStoreReceipt_code);
+					goto SEEAppStoreReceipt_GetReceiptInformation064_SEEAppStoreReceipt_bail;
 				}
 			}
 			// Iterate over attributes
 			while(SEEAppStoreReceipt_current_context->ptr < SEEAppStoreReceipt_current_context->end) {
 				// Parse attribute sequence
-				SEEAppStoreReceipt_ASN1_get_object_00E400B6(&SEEAppStoreReceipt_current_context->ptr, &SEEAppStoreReceipt_length, &SEEAppStoreReceipt_type, &SEEAppStoreReceipt_xclass, SEEAppStoreReceipt_current_context->end - SEEAppStoreReceipt_current_context->ptr);
+				SEEAppStoreReceipt_ASN1_get_object_00B600F6(&SEEAppStoreReceipt_current_context->ptr, &SEEAppStoreReceipt_length, &SEEAppStoreReceipt_type, &SEEAppStoreReceipt_xclass, SEEAppStoreReceipt_current_context->end - SEEAppStoreReceipt_current_context->ptr);
 				if (SEEAppStoreReceipt_type != V_ASN1_SEQUENCE) {
-					SEEAppStoreReceipt_exit_00040007(SEEAppStoreReceipt_code);
-					goto SEEAppStoreReceipt_GetReceiptInformation062_SEEAppStoreReceipt_bail;
+					SEEAppStoreReceipt_exit_016B005E(SEEAppStoreReceipt_code);
+					goto SEEAppStoreReceipt_GetReceiptInformation064_SEEAppStoreReceipt_bail;
 				}
 				SEEAppStoreReceipt_seq_end = SEEAppStoreReceipt_current_context->ptr + SEEAppStoreReceipt_length;
 				SEEAppStoreReceipt_attr_type = 0;
 				SEEAppStoreReceipt_attr_version = 0;
 				// Parse the attribute type
-				SEEAppStoreReceipt_ASN1_get_object_00E400B6(&SEEAppStoreReceipt_current_context->ptr, &SEEAppStoreReceipt_length, &SEEAppStoreReceipt_type, &SEEAppStoreReceipt_xclass, SEEAppStoreReceipt_current_context->end - SEEAppStoreReceipt_current_context->ptr);
+				SEEAppStoreReceipt_ASN1_get_object_00B600F6(&SEEAppStoreReceipt_current_context->ptr, &SEEAppStoreReceipt_length, &SEEAppStoreReceipt_type, &SEEAppStoreReceipt_xclass, SEEAppStoreReceipt_current_context->end - SEEAppStoreReceipt_current_context->ptr);
 				if (SEEAppStoreReceipt_type != V_ASN1_INTEGER) {
-					SEEAppStoreReceipt_exit_00040007(SEEAppStoreReceipt_code);
-					goto SEEAppStoreReceipt_GetReceiptInformation062_SEEAppStoreReceipt_bail;
+					SEEAppStoreReceipt_exit_016B005E(SEEAppStoreReceipt_code);
+					goto SEEAppStoreReceipt_GetReceiptInformation064_SEEAppStoreReceipt_bail;
 				}
-				SEEAppStoreReceipt_GetReceiptInformation062X((SEEAppStoreReceipt_current_context->ptr), (SEEAppStoreReceipt_length), (&SEEAppStoreReceipt_attr_type));
+				SEEAppStoreReceipt_GetReceiptInformation064X((SEEAppStoreReceipt_current_context->ptr), (SEEAppStoreReceipt_length), (&SEEAppStoreReceipt_attr_type));
 				SEEAppStoreReceipt_current_context->ptr += SEEAppStoreReceipt_length;
 				// Parse the attribute version
-				SEEAppStoreReceipt_ASN1_get_object_00E400B6(&SEEAppStoreReceipt_current_context->ptr, &SEEAppStoreReceipt_length, &SEEAppStoreReceipt_type, &SEEAppStoreReceipt_xclass, SEEAppStoreReceipt_current_context->end - SEEAppStoreReceipt_current_context->ptr);
+				SEEAppStoreReceipt_ASN1_get_object_00B600F6(&SEEAppStoreReceipt_current_context->ptr, &SEEAppStoreReceipt_length, &SEEAppStoreReceipt_type, &SEEAppStoreReceipt_xclass, SEEAppStoreReceipt_current_context->end - SEEAppStoreReceipt_current_context->ptr);
 				if (SEEAppStoreReceipt_type != V_ASN1_INTEGER) {
-					SEEAppStoreReceipt_exit_00040007(SEEAppStoreReceipt_code);
-					goto SEEAppStoreReceipt_GetReceiptInformation062_SEEAppStoreReceipt_bail;
+					SEEAppStoreReceipt_exit_016B005E(SEEAppStoreReceipt_code);
+					goto SEEAppStoreReceipt_GetReceiptInformation064_SEEAppStoreReceipt_bail;
 				}
-				SEEAppStoreReceipt_GetReceiptInformation062X((SEEAppStoreReceipt_current_context->ptr), (SEEAppStoreReceipt_length), (&SEEAppStoreReceipt_attr_version));
+				SEEAppStoreReceipt_GetReceiptInformation064X((SEEAppStoreReceipt_current_context->ptr), (SEEAppStoreReceipt_length), (&SEEAppStoreReceipt_attr_version));
 				SEEAppStoreReceipt_current_context->ptr += SEEAppStoreReceipt_length;
 				// Check the attribute value
-				SEEAppStoreReceipt_ASN1_get_object_00E400B6(&SEEAppStoreReceipt_current_context->ptr, &SEEAppStoreReceipt_length, &SEEAppStoreReceipt_type, &SEEAppStoreReceipt_xclass, SEEAppStoreReceipt_current_context->end - SEEAppStoreReceipt_current_context->ptr);
+				SEEAppStoreReceipt_ASN1_get_object_00B600F6(&SEEAppStoreReceipt_current_context->ptr, &SEEAppStoreReceipt_length, &SEEAppStoreReceipt_type, &SEEAppStoreReceipt_xclass, SEEAppStoreReceipt_current_context->end - SEEAppStoreReceipt_current_context->ptr);
 				if (SEEAppStoreReceipt_type != V_ASN1_OCTET_STRING) {
-					SEEAppStoreReceipt_exit_00040007(SEEAppStoreReceipt_code);
-					goto SEEAppStoreReceipt_GetReceiptInformation062_SEEAppStoreReceipt_bail;
+					SEEAppStoreReceipt_exit_016B005E(SEEAppStoreReceipt_code);
+					goto SEEAppStoreReceipt_GetReceiptInformation064_SEEAppStoreReceipt_bail;
 				}
-				SEEAppStoreReceipt_key1 = (SEEAppStoreReceipt_ReceiptAttributeType) (SEEAppStoreReceipt_StoreNone + (SEEAppStoreReceipt_attr_type << 1));
-				SEEAppStoreReceipt_key2 = (SEEAppStoreReceipt_ReceiptAttributeType) (SEEAppStoreReceipt_StoreNone + (SEEAppStoreReceipt_attr_type << 1) + 1);
+				SEEAppStoreReceipt_key1 = (SEEAppStoreReceipt_ReceiptAttributeType) (SEEAppStoreReceipt_StoreNone + (SEEAppStoreReceipt_attr_type << 2));
+				SEEAppStoreReceipt_key2 = (SEEAppStoreReceipt_ReceiptAttributeType) (SEEAppStoreReceipt_StoreNone + (SEEAppStoreReceipt_attr_type << 2) + 1);
 				SEEAppStoreReceipt_value1 = NULL;
 				SEEAppStoreReceipt_value2 = NULL;
 				__SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Parsing receipt - Found attribute %s%d", SEEAppStoreReceipt_current_context->parent ? "--- " : "- ", SEEAppStoreReceipt_attr_type);
@@ -3390,13 +3519,13 @@ SEEAppStoreReceipt_CFRelease_01FA0151(SEEAppStoreReceipt_str1); \
 						SEEAppStoreReceipt_str_type = 0;
 						SEEAppStoreReceipt_str_length = 0;
 						SEEAppStoreReceipt_str_ptr = SEEAppStoreReceipt_current_context->ptr;
-						SEEAppStoreReceipt_ASN1_get_object_00E400B6(&SEEAppStoreReceipt_str_ptr, &SEEAppStoreReceipt_str_length, &SEEAppStoreReceipt_str_type, &SEEAppStoreReceipt_xclass, SEEAppStoreReceipt_seq_end - SEEAppStoreReceipt_str_ptr);
+						SEEAppStoreReceipt_ASN1_get_object_00B600F6(&SEEAppStoreReceipt_str_ptr, &SEEAppStoreReceipt_str_length, &SEEAppStoreReceipt_str_type, &SEEAppStoreReceipt_xclass, SEEAppStoreReceipt_seq_end - SEEAppStoreReceipt_str_ptr);
 						if (SEEAppStoreReceipt_str_type != V_ASN1_UTF8STRING) {
-							SEEAppStoreReceipt_exit_00040007(SEEAppStoreReceipt_code);
-							goto SEEAppStoreReceipt_GetReceiptInformation062_SEEAppStoreReceipt_bail;
+							SEEAppStoreReceipt_exit_016B005E(SEEAppStoreReceipt_code);
+							goto SEEAppStoreReceipt_GetReceiptInformation064_SEEAppStoreReceipt_bail;
 						}
-						SEEAppStoreReceipt_value1 = ((__SEEAppStoreReceipt_CFStringCreateWithBytes) SEEAppStoreReceipt_Pointers[94])(NULL, (const UInt8 *) SEEAppStoreReceipt_str_ptr, (CFIndex) SEEAppStoreReceipt_str_length, kCFStringEncodingUTF8, false);
-						SEEAppStoreReceipt_value2 = SEEAppStoreReceipt_CFDataCreate_00AE011E(NULL, (const UInt8 *) SEEAppStoreReceipt_current_context->ptr, (CFIndex) SEEAppStoreReceipt_length);
+						SEEAppStoreReceipt_value1 = ((__SEEAppStoreReceipt_CFStringCreateWithBytes) SEEAppStoreReceipt_Pointers[554])(NULL, (const UInt8 *) SEEAppStoreReceipt_str_ptr, (CFIndex) SEEAppStoreReceipt_str_length, kCFStringEncodingUTF8, false);
+						SEEAppStoreReceipt_value2 = SEEAppStoreReceipt_EDTPOGGTZZCS_01BB0040(NULL, (const UInt8 *) SEEAppStoreReceipt_current_context->ptr, (CFIndex) SEEAppStoreReceipt_length);
 						__SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Parsing receipt -       attribute %s%d => %s", SEEAppStoreReceipt_current_context->parent ? "--- " : "- ", SEEAppStoreReceipt_attr_type, CFStringGetCStringPtr((CFStringRef) SEEAppStoreReceipt_value1, CFStringGetSystemEncoding()));
 						break;
 					}
@@ -3410,13 +3539,13 @@ SEEAppStoreReceipt_CFRelease_01FA0151(SEEAppStoreReceipt_str1); \
 						SEEAppStoreReceipt_str_type = 0;
 						SEEAppStoreReceipt_str_length = 0;
 						SEEAppStoreReceipt_str_ptr = SEEAppStoreReceipt_current_context->ptr;
-						SEEAppStoreReceipt_ASN1_get_object_00E400B6(&SEEAppStoreReceipt_str_ptr, &SEEAppStoreReceipt_str_length, &SEEAppStoreReceipt_str_type, &SEEAppStoreReceipt_xclass, SEEAppStoreReceipt_seq_end - SEEAppStoreReceipt_str_ptr);
+						SEEAppStoreReceipt_ASN1_get_object_00B600F6(&SEEAppStoreReceipt_str_ptr, &SEEAppStoreReceipt_str_length, &SEEAppStoreReceipt_str_type, &SEEAppStoreReceipt_xclass, SEEAppStoreReceipt_seq_end - SEEAppStoreReceipt_str_ptr);
 						if (SEEAppStoreReceipt_str_type != V_ASN1_IA5STRING) {
-							SEEAppStoreReceipt_exit_00040007(SEEAppStoreReceipt_code);
-							goto SEEAppStoreReceipt_GetReceiptInformation062_SEEAppStoreReceipt_bail;
+							SEEAppStoreReceipt_exit_016B005E(SEEAppStoreReceipt_code);
+							goto SEEAppStoreReceipt_GetReceiptInformation064_SEEAppStoreReceipt_bail;
 						}
-						SEEAppStoreReceipt_value2 = ((__SEEAppStoreReceipt_CFStringCreateWithBytes) SEEAppStoreReceipt_Pointers[94])(NULL, (const UInt8 *) SEEAppStoreReceipt_str_ptr, (CFIndex) SEEAppStoreReceipt_str_length, kCFStringEncodingASCII, false);
-						SEEAppStoreReceipt_value1 = SEEAppStoreReceipt_CFDateFormatterCreateDateFromString_007B019E(NULL, SEEAppStoreReceipt_formatter, (CFStringRef) SEEAppStoreReceipt_value2, NULL);
+						SEEAppStoreReceipt_value2 = ((__SEEAppStoreReceipt_CFStringCreateWithBytes) SEEAppStoreReceipt_Pointers[554])(NULL, (const UInt8 *) SEEAppStoreReceipt_str_ptr, (CFIndex) SEEAppStoreReceipt_str_length, kCFStringEncodingASCII, false);
+						SEEAppStoreReceipt_value1 = SEEAppStoreReceipt_QLCTHPGBOWLC_000A00F9(NULL, SEEAppStoreReceipt_formatter, (CFStringRef) SEEAppStoreReceipt_value2, NULL);
 						__SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Parsing receipt -       attribute %s%d => %s", SEEAppStoreReceipt_current_context->parent ? "--- " : "- ", SEEAppStoreReceipt_attr_type, CFStringGetCStringPtr((CFStringRef) SEEAppStoreReceipt_value2, CFStringGetSystemEncoding()));
 						break;
 					}
@@ -3427,13 +3556,13 @@ SEEAppStoreReceipt_CFRelease_01FA0151(SEEAppStoreReceipt_str1); \
 						SEEAppStoreReceipt_num_type = 0;
 						SEEAppStoreReceipt_num_length = 0;
 						SEEAppStoreReceipt_num_ptr = SEEAppStoreReceipt_current_context->ptr;
-						SEEAppStoreReceipt_ASN1_get_object_00E400B6(&SEEAppStoreReceipt_num_ptr, &SEEAppStoreReceipt_num_length, &SEEAppStoreReceipt_num_type, &SEEAppStoreReceipt_xclass, SEEAppStoreReceipt_seq_end - SEEAppStoreReceipt_num_ptr);
+						SEEAppStoreReceipt_ASN1_get_object_00B600F6(&SEEAppStoreReceipt_num_ptr, &SEEAppStoreReceipt_num_length, &SEEAppStoreReceipt_num_type, &SEEAppStoreReceipt_xclass, SEEAppStoreReceipt_seq_end - SEEAppStoreReceipt_num_ptr);
 						if (SEEAppStoreReceipt_num_type != V_ASN1_INTEGER) {
-							SEEAppStoreReceipt_exit_00040007(SEEAppStoreReceipt_code);
-							goto SEEAppStoreReceipt_GetReceiptInformation062_SEEAppStoreReceipt_bail;
+							SEEAppStoreReceipt_exit_016B005E(SEEAppStoreReceipt_code);
+							goto SEEAppStoreReceipt_GetReceiptInformation064_SEEAppStoreReceipt_bail;
 						}
-						SEEAppStoreReceipt_GetReceiptInformation062X((SEEAppStoreReceipt_num_ptr), (SEEAppStoreReceipt_num_length), (&SEEAppStoreReceipt_number));
-						SEEAppStoreReceipt_value1 = SEEAppStoreReceipt_WMVWYPHNNSIW_007B0101(NULL, kCFNumberIntType, &SEEAppStoreReceipt_number);
+						SEEAppStoreReceipt_GetReceiptInformation064X((SEEAppStoreReceipt_num_ptr), (SEEAppStoreReceipt_num_length), (&SEEAppStoreReceipt_number));
+						SEEAppStoreReceipt_value1 = SEEAppStoreReceipt_EWUUWZNJKLIY_01BB014E(NULL, kCFNumberIntType, &SEEAppStoreReceipt_number);
 						__SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Parsing receipt -       attribute %s%d => %d", SEEAppStoreReceipt_current_context->parent ? "--- " : "- ", SEEAppStoreReceipt_attr_type, SEEAppStoreReceipt_number);
 						break;
 					}
@@ -3441,8 +3570,8 @@ SEEAppStoreReceipt_CFRelease_01FA0151(SEEAppStoreReceipt_str1); \
 					case SEEAppStoreReceipt_ReceiptAttributeTypeOpaqueValue:
 					case SEEAppStoreReceipt_ReceiptAttributeTypeHash:
 					{
-						SEEAppStoreReceipt_value1 = SEEAppStoreReceipt_CFDataCreate_00AE011E(NULL, (const UInt8 *) SEEAppStoreReceipt_current_context->ptr, (CFIndex) SEEAppStoreReceipt_length);
-						__SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Parsing receipt -       attribute %s%d => [%lu bytes]", SEEAppStoreReceipt_current_context->parent ? "--- " : "- ", SEEAppStoreReceipt_attr_type, SEEAppStoreReceipt_CUKYVEUBFRMI_00AE0146((CFDataRef) SEEAppStoreReceipt_value1));
+						SEEAppStoreReceipt_value1 = SEEAppStoreReceipt_EDTPOGGTZZCS_01BB0040(NULL, (const UInt8 *) SEEAppStoreReceipt_current_context->ptr, (CFIndex) SEEAppStoreReceipt_length);
+						__SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Parsing receipt -       attribute %s%d => [%lu bytes]", SEEAppStoreReceipt_current_context->parent ? "--- " : "- ", SEEAppStoreReceipt_attr_type, SEEAppStoreReceipt_CFDataGetLength_00D8018E((CFDataRef) SEEAppStoreReceipt_value1));
 						break;
 					}
 						// Attributes encoded as ASN.1 SET
@@ -3454,27 +3583,27 @@ SEEAppStoreReceipt_CFRelease_01FA0151(SEEAppStoreReceipt_str1); \
 						SEEAppStoreReceipt_inapp_context.dictionary = NULL;
 						SEEAppStoreReceipt_inapp_context.parent = SEEAppStoreReceipt_current_context;
 						SEEAppStoreReceipt_current_context = &SEEAppStoreReceipt_inapp_context;
-						goto SEEAppStoreReceipt_GetReceiptInformation062_SEEAppStoreReceipt_key;
+						goto SEEAppStoreReceipt_GetReceiptInformation064_SEEAppStoreReceipt_key;
 					}
 					default:
 						break;
 				}
 				if (SEEAppStoreReceipt_value1) {
-					SEEAppStoreReceipt_key = SEEAppStoreReceipt_WMVWYPHNNSIW_007B0101(NULL, kCFNumberIntType, &SEEAppStoreReceipt_key1);
-					SEEAppStoreReceipt_CFDictionaryAddValue_00AE0189((CFMutableDictionaryRef) SEEAppStoreReceipt_current_context->dictionary, SEEAppStoreReceipt_key, SEEAppStoreReceipt_value1);
-					SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_key);
-					SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_value1);
+					SEEAppStoreReceipt_key = SEEAppStoreReceipt_EWUUWZNJKLIY_01BB014E(NULL, kCFNumberIntType, &SEEAppStoreReceipt_key1);
+					SEEAppStoreReceipt_CJKLRIVRECMR_000A003F((CFMutableDictionaryRef) SEEAppStoreReceipt_current_context->dictionary, SEEAppStoreReceipt_key, SEEAppStoreReceipt_value1);
+					SEEAppStoreReceipt_CFRelease_000A01DE(SEEAppStoreReceipt_key);
+					SEEAppStoreReceipt_CFRelease_000A01DE(SEEAppStoreReceipt_value1);
 				}
 				if (SEEAppStoreReceipt_value2) {
-					SEEAppStoreReceipt_key = SEEAppStoreReceipt_WMVWYPHNNSIW_007B0101(NULL, kCFNumberIntType, &SEEAppStoreReceipt_key2);
-					SEEAppStoreReceipt_CFDictionaryAddValue_00AE0189((CFMutableDictionaryRef) SEEAppStoreReceipt_current_context->dictionary, SEEAppStoreReceipt_key, SEEAppStoreReceipt_value2);
-					SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_key);
-					SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_value2);
+					SEEAppStoreReceipt_key = SEEAppStoreReceipt_EWUUWZNJKLIY_01BB014E(NULL, kCFNumberIntType, &SEEAppStoreReceipt_key2);
+					SEEAppStoreReceipt_CJKLRIVRECMR_000A003F((CFMutableDictionaryRef) SEEAppStoreReceipt_current_context->dictionary, SEEAppStoreReceipt_key, SEEAppStoreReceipt_value2);
+					SEEAppStoreReceipt_CFRelease_000A01DE(SEEAppStoreReceipt_key);
+					SEEAppStoreReceipt_CFRelease_000A01DE(SEEAppStoreReceipt_value2);
 				}
 				// Move past the attribute
 				SEEAppStoreReceipt_current_context->ptr += SEEAppStoreReceipt_length;
 			}
-		SEEAppStoreReceipt_GetReceiptInformation062_SEEAppStoreReceipt_key:
+		SEEAppStoreReceipt_GetReceiptInformation064_SEEAppStoreReceipt_key:
 			// If the current context is a new one, continue parsing
 			if (!SEEAppStoreReceipt_current_context->dictionary) {
 				continue;
@@ -3483,36 +3612,36 @@ SEEAppStoreReceipt_CFRelease_01FA0151(SEEAppStoreReceipt_str1); \
 			if (SEEAppStoreReceipt_current_context->parent) {
 				__SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Parsing receipt - Add an InApp purchase");
 				SEEAppStoreReceipt_key1 = SEEAppStoreReceipt_StoreReceiptAttributeTypeInAppPurchase;
-				SEEAppStoreReceipt_key = SEEAppStoreReceipt_WMVWYPHNNSIW_007B0101(NULL, kCFNumberIntType, &SEEAppStoreReceipt_key1);
-				SEEAppStoreReceipt_value1 = SEEAppStoreReceipt_HKDEGXORNBAM_01FA0024((CFDictionaryRef) SEEAppStoreReceipt_current_context->parent->dictionary, SEEAppStoreReceipt_key);
+				SEEAppStoreReceipt_key = SEEAppStoreReceipt_EWUUWZNJKLIY_01BB014E(NULL, kCFNumberIntType, &SEEAppStoreReceipt_key1);
+				SEEAppStoreReceipt_value1 = SEEAppStoreReceipt_KDCPKKDHLVNV_00D801CB((CFDictionaryRef) SEEAppStoreReceipt_current_context->parent->dictionary, SEEAppStoreReceipt_key);
 				if (!SEEAppStoreReceipt_value1) {
-					SEEAppStoreReceipt_value1 = SEEAppStoreReceipt_PWQTYPSGCQZM_01FA01A7(kCFAllocatorDefault, 0, SEEAppStoreReceipt_kCFTypeArrayCallBacks_007B01DF);
-					SEEAppStoreReceipt_CFDictionarySetValue_007B0171((CFMutableDictionaryRef) SEEAppStoreReceipt_current_context->parent->dictionary, SEEAppStoreReceipt_key, SEEAppStoreReceipt_value1);
-					SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_value1);
+					SEEAppStoreReceipt_value1 = SEEAppStoreReceipt_CFArrayCreateMutable_000A019A(kCFAllocatorDefault, 0, SEEAppStoreReceipt_kCFTypeArrayCallBacks_000A0114);
+					SEEAppStoreReceipt_HEJNNJZOJKFT_00D801D8((CFMutableDictionaryRef) SEEAppStoreReceipt_current_context->parent->dictionary, SEEAppStoreReceipt_key, SEEAppStoreReceipt_value1);
+					SEEAppStoreReceipt_CFRelease_000A01DE(SEEAppStoreReceipt_value1);
 				}
-				SEEAppStoreReceipt_BPRMJLJLPXEZ_01FA0169((CFMutableArrayRef) SEEAppStoreReceipt_value1, SEEAppStoreReceipt_current_context->dictionary);
-				SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_current_context->dictionary);
-				SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_key);
+				SEEAppStoreReceipt_CFArrayAppendValue_01BB0006((CFMutableArrayRef) SEEAppStoreReceipt_value1, SEEAppStoreReceipt_current_context->dictionary);
+				SEEAppStoreReceipt_CFRelease_000A01DE(SEEAppStoreReceipt_current_context->dictionary);
+				SEEAppStoreReceipt_CFRelease_000A01DE(SEEAppStoreReceipt_key);
 				// Switch to parent context
 				SEEAppStoreReceipt_current_context = SEEAppStoreReceipt_current_context->parent;
 				// Move past the child context
 				SEEAppStoreReceipt_current_context->ptr = SEEAppStoreReceipt_inapp_context.end;
 			}
 		}
-		if (SEEAppStoreReceipt_ctx->receipt_dict) SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_ctx->receipt_dict);
+		if (SEEAppStoreReceipt_ctx->receipt_dict) SEEAppStoreReceipt_CFRelease_000A01DE(SEEAppStoreReceipt_ctx->receipt_dict);
 		SEEAppStoreReceipt_ctx->receipt_dict = SEEAppStoreReceipt_receipt_context.dictionary;
 		// Global variables computation
-		// From 361 to 213
-		SEEAppStoreReceipt_BPRMJLJLPXEZ += 278; SEEAppStoreReceipt_BPRMJLJLPXEZ /= 3;
-		// From 89 to 440
-		SEEAppStoreReceipt_TTTNUXJZKAAB -= 16; SEEAppStoreReceipt_TTTNUXJZKAAB *= 6; SEEAppStoreReceipt_TTTNUXJZKAAB += 2;
-	SEEAppStoreReceipt_GetReceiptInformation062_SEEAppStoreReceipt_bail:
-		if (SEEAppStoreReceipt_pkcs7) SEEAppStoreReceipt_PKCS7_free_016101DD(SEEAppStoreReceipt_pkcs7);
-		if (SEEAppStoreReceipt_bio_p7) SEEAppStoreReceipt_BIO_free_003900D4(SEEAppStoreReceipt_bio_p7);
-		if (SEEAppStoreReceipt_formatter) SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_formatter);
+		// From 472 to 351
+		SEEAppStoreReceipt_HEJNNJZOJKFT += 230; SEEAppStoreReceipt_HEJNNJZOJKFT /= 2;
+		// From 334 to 81
+		SEEAppStoreReceipt_EWUUWZNJKLIY += 152; SEEAppStoreReceipt_EWUUWZNJKLIY /= 6;
+	SEEAppStoreReceipt_GetReceiptInformation064_SEEAppStoreReceipt_bail:
+		if (SEEAppStoreReceipt_pkcs7) SEEAppStoreReceipt_PKCS7_free_00610146(SEEAppStoreReceipt_pkcs7);
+		if (SEEAppStoreReceipt_bio_p7) SEEAppStoreReceipt_BIO_free_00B601ED(SEEAppStoreReceipt_bio_p7);
+		if (SEEAppStoreReceipt_formatter) SEEAppStoreReceipt_CFRelease_000A01DE(SEEAppStoreReceipt_formatter);
 	}
 #else
-#define SEEAppStoreReceipt_GetReceiptInformation062(SEEAppStoreReceipt_ctx) { \
+#define SEEAppStoreReceipt_GetReceiptInformation064(SEEAppStoreReceipt_ctx) { \
 SEEAppStoreReceipt_ParsingContext SEEAppStoreReceipt_receipt_context; \
 SEEAppStoreReceipt_ParsingContext *SEEAppStoreReceipt_current_context; \
 CFNumberRef SEEAppStoreReceipt_key; \
@@ -3531,35 +3660,35 @@ int SEEAppStoreReceipt_attr_version; \
 int SEEAppStoreReceipt_str_type; \
 long SEEAppStoreReceipt_str_length; \
 const unsigned char *SEEAppStoreReceipt_str_ptr; \
-volatile int SEEAppStoreReceipt_code = 158; SEEAppStoreReceipt_code -= 101; SEEAppStoreReceipt_code *= 3; SEEAppStoreReceipt_code += 2;  \
+volatile int SEEAppStoreReceipt_code = 148; SEEAppStoreReceipt_code -= 91; SEEAppStoreReceipt_code *= 3; SEEAppStoreReceipt_code += 2;  \
 SEEAppStoreReceipt_ParsingContext SEEAppStoreReceipt_inapp_context; \
 int SEEAppStoreReceipt_number; \
 int SEEAppStoreReceipt_num_type; \
 long SEEAppStoreReceipt_num_length; \
 const unsigned char *SEEAppStoreReceipt_num_ptr; \
 __SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Parsing receipt"); \
-SEEAppStoreReceipt_bio_p7 = SEEAppStoreReceipt_BIO_new_003900ED(SEEAppStoreReceipt_BIO_s_mem_00390111()); \
-SEEAppStoreReceipt_BIO_write_003901D4(SEEAppStoreReceipt_bio_p7, (void *) SEEAppStoreReceipt_CFDataGetBytePtr_00AE006D((CFDataRef) SEEAppStoreReceipt_ctx->receipt_data), (int) SEEAppStoreReceipt_CUKYVEUBFRMI_00AE0146((CFDataRef) SEEAppStoreReceipt_ctx->receipt_data)); \
-SEEAppStoreReceipt_pkcs7 = SEEAppStoreReceipt_d2i_PKCS7_bio_00E4000E(SEEAppStoreReceipt_bio_p7, NULL); \
+SEEAppStoreReceipt_bio_p7 = SEEAppStoreReceipt_BIO_new_00DB01AD(SEEAppStoreReceipt_BIO_s_mem_0061021C()); \
+SEEAppStoreReceipt_BIO_write_006101D6(SEEAppStoreReceipt_bio_p7, (void *) SEEAppStoreReceipt_CFDataGetBytePtr_000A015F((CFDataRef) SEEAppStoreReceipt_ctx->receipt_data), (int) SEEAppStoreReceipt_CFDataGetLength_00D8018E((CFDataRef) SEEAppStoreReceipt_ctx->receipt_data)); \
+SEEAppStoreReceipt_pkcs7 = SEEAppStoreReceipt_d2i_PKCS7_bio_00B60015(SEEAppStoreReceipt_bio_p7, NULL); \
 if (!SEEAppStoreReceipt_pkcs7) { \
-SEEAppStoreReceipt_exit_00040007(SEEAppStoreReceipt_code); \
+SEEAppStoreReceipt_exit_016B005E(SEEAppStoreReceipt_code); \
 SEEAppStoreReceipt_ctx->receipt_data = NULL; \
-goto SEEAppStoreReceipt_GetReceiptInformation062_SEEAppStoreReceipt_bail; \
+goto SEEAppStoreReceipt_GetReceiptInformation064_SEEAppStoreReceipt_bail; \
 } \
 if (!PKCS7_type_is_signed(SEEAppStoreReceipt_pkcs7)) { \
-SEEAppStoreReceipt_exit_00040007(SEEAppStoreReceipt_code); \
+SEEAppStoreReceipt_exit_016B005E(SEEAppStoreReceipt_code); \
 SEEAppStoreReceipt_ctx->receipt_data = NULL; \
-goto SEEAppStoreReceipt_GetReceiptInformation062_SEEAppStoreReceipt_bail; \
+goto SEEAppStoreReceipt_GetReceiptInformation064_SEEAppStoreReceipt_bail; \
 } \
 if (!PKCS7_type_is_data(SEEAppStoreReceipt_pkcs7->d.sign->contents)) { \
-SEEAppStoreReceipt_exit_00040007(SEEAppStoreReceipt_code); \
+SEEAppStoreReceipt_exit_016B005E(SEEAppStoreReceipt_code); \
 SEEAppStoreReceipt_ctx->receipt_data = NULL; \
-goto SEEAppStoreReceipt_GetReceiptInformation062_SEEAppStoreReceipt_bail; \
+goto SEEAppStoreReceipt_GetReceiptInformation064_SEEAppStoreReceipt_bail; \
 } \
-SEEAppStoreReceipt_formatter = SEEAppStoreReceipt_CFDateFormatterCreate_00AE0181(NULL, NULL, kCFDateFormatterNoStyle, kCFDateFormatterNoStyle); \
-SEEAppStoreReceipt_value1 = SEEAppStoreReceipt_ObfuscationFunction00CCF((SEEAppStoreReceipt_Strings[404]), 74, 33);  \
-SEEAppStoreReceipt_CFDateFormatterSetFormat_01FA020B(SEEAppStoreReceipt_formatter, (CFStringRef) SEEAppStoreReceipt_value1); \
-SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_value1); \
+SEEAppStoreReceipt_formatter = SEEAppStoreReceipt_PXHQVHMEAFPB_01BB00B1(NULL, NULL, kCFDateFormatterNoStyle, kCFDateFormatterNoStyle); \
+SEEAppStoreReceipt_value1 = SEEAppStoreReceipt_ObfuscationFunction005CF((SEEAppStoreReceipt_Strings[23]), 249, 33);  \
+SEEAppStoreReceipt_CFDateFormatterSetFormat_00D8002D(SEEAppStoreReceipt_formatter, (CFStringRef) SEEAppStoreReceipt_value1); \
+SEEAppStoreReceipt_CFRelease_000A01DE(SEEAppStoreReceipt_value1); \
 SEEAppStoreReceipt_contentSEEAppStoreReceipt_content = SEEAppStoreReceipt_pkcs7->d.sign->contents->d.data; \
 SEEAppStoreReceipt_receipt_context.ptr = SEEAppStoreReceipt_contentSEEAppStoreReceipt_content->data; \
 SEEAppStoreReceipt_receipt_context.end = SEEAppStoreReceipt_receipt_context.ptr + SEEAppStoreReceipt_contentSEEAppStoreReceipt_content->length; \
@@ -3568,43 +3697,43 @@ SEEAppStoreReceipt_receipt_context.dictionary = NULL; \
 SEEAppStoreReceipt_current_context = &SEEAppStoreReceipt_receipt_context; \
 while(SEEAppStoreReceipt_current_context->ptr < SEEAppStoreReceipt_current_context->end) { \
 if (!SEEAppStoreReceipt_current_context->dictionary) { \
-SEEAppStoreReceipt_current_context->dictionary = SEEAppStoreReceipt_TTTNUXJZKAAB_01FA0059(kCFAllocatorDefault, (CFIndex) 549, SEEAppStoreReceipt_kCFTypeDictionaryKeyCallBacks_00AE0005, SEEAppStoreReceipt_kCFTypeDictionaryValueCallBacks_007B00DF); \
-SEEAppStoreReceipt_ASN1_get_object_00E400B6(&SEEAppStoreReceipt_current_context->ptr, &SEEAppStoreReceipt_length, &SEEAppStoreReceipt_type, &SEEAppStoreReceipt_xclass, SEEAppStoreReceipt_current_context->end - SEEAppStoreReceipt_current_context->ptr); \
+SEEAppStoreReceipt_current_context->dictionary = SEEAppStoreReceipt_CFDictionaryCreateMutable_000A002F(kCFAllocatorDefault, (CFIndex) 573, SEEAppStoreReceipt_kCFTypeDictionaryKeyCallBacks_00D800E7, SEEAppStoreReceipt_kCFTypeDictionaryValueCallBacks_00D800EA); \
+SEEAppStoreReceipt_ASN1_get_object_00B600F6(&SEEAppStoreReceipt_current_context->ptr, &SEEAppStoreReceipt_length, &SEEAppStoreReceipt_type, &SEEAppStoreReceipt_xclass, SEEAppStoreReceipt_current_context->end - SEEAppStoreReceipt_current_context->ptr); \
 if (SEEAppStoreReceipt_type != V_ASN1_SET) { \
-SEEAppStoreReceipt_exit_00040007(SEEAppStoreReceipt_code); \
-goto SEEAppStoreReceipt_GetReceiptInformation062_SEEAppStoreReceipt_bail; \
+SEEAppStoreReceipt_exit_016B005E(SEEAppStoreReceipt_code); \
+goto SEEAppStoreReceipt_GetReceiptInformation064_SEEAppStoreReceipt_bail; \
 } \
 } \
 while(SEEAppStoreReceipt_current_context->ptr < SEEAppStoreReceipt_current_context->end) { \
-SEEAppStoreReceipt_ASN1_get_object_00E400B6(&SEEAppStoreReceipt_current_context->ptr, &SEEAppStoreReceipt_length, &SEEAppStoreReceipt_type, &SEEAppStoreReceipt_xclass, SEEAppStoreReceipt_current_context->end - SEEAppStoreReceipt_current_context->ptr); \
+SEEAppStoreReceipt_ASN1_get_object_00B600F6(&SEEAppStoreReceipt_current_context->ptr, &SEEAppStoreReceipt_length, &SEEAppStoreReceipt_type, &SEEAppStoreReceipt_xclass, SEEAppStoreReceipt_current_context->end - SEEAppStoreReceipt_current_context->ptr); \
 if (SEEAppStoreReceipt_type != V_ASN1_SEQUENCE) { \
-SEEAppStoreReceipt_exit_00040007(SEEAppStoreReceipt_code); \
-goto SEEAppStoreReceipt_GetReceiptInformation062_SEEAppStoreReceipt_bail; \
+SEEAppStoreReceipt_exit_016B005E(SEEAppStoreReceipt_code); \
+goto SEEAppStoreReceipt_GetReceiptInformation064_SEEAppStoreReceipt_bail; \
 } \
 SEEAppStoreReceipt_seq_end = SEEAppStoreReceipt_current_context->ptr + SEEAppStoreReceipt_length; \
 SEEAppStoreReceipt_attr_type = 0; \
 SEEAppStoreReceipt_attr_version = 0; \
-SEEAppStoreReceipt_ASN1_get_object_00E400B6(&SEEAppStoreReceipt_current_context->ptr, &SEEAppStoreReceipt_length, &SEEAppStoreReceipt_type, &SEEAppStoreReceipt_xclass, SEEAppStoreReceipt_current_context->end - SEEAppStoreReceipt_current_context->ptr); \
+SEEAppStoreReceipt_ASN1_get_object_00B600F6(&SEEAppStoreReceipt_current_context->ptr, &SEEAppStoreReceipt_length, &SEEAppStoreReceipt_type, &SEEAppStoreReceipt_xclass, SEEAppStoreReceipt_current_context->end - SEEAppStoreReceipt_current_context->ptr); \
 if (SEEAppStoreReceipt_type != V_ASN1_INTEGER) { \
-SEEAppStoreReceipt_exit_00040007(SEEAppStoreReceipt_code); \
-goto SEEAppStoreReceipt_GetReceiptInformation062_SEEAppStoreReceipt_bail; \
+SEEAppStoreReceipt_exit_016B005E(SEEAppStoreReceipt_code); \
+goto SEEAppStoreReceipt_GetReceiptInformation064_SEEAppStoreReceipt_bail; \
 } \
-SEEAppStoreReceipt_GetReceiptInformation062X((SEEAppStoreReceipt_current_context->ptr), (SEEAppStoreReceipt_length), (&SEEAppStoreReceipt_attr_type)); \
+SEEAppStoreReceipt_GetReceiptInformation064X((SEEAppStoreReceipt_current_context->ptr), (SEEAppStoreReceipt_length), (&SEEAppStoreReceipt_attr_type)); \
 SEEAppStoreReceipt_current_context->ptr += SEEAppStoreReceipt_length; \
-SEEAppStoreReceipt_ASN1_get_object_00E400B6(&SEEAppStoreReceipt_current_context->ptr, &SEEAppStoreReceipt_length, &SEEAppStoreReceipt_type, &SEEAppStoreReceipt_xclass, SEEAppStoreReceipt_current_context->end - SEEAppStoreReceipt_current_context->ptr); \
+SEEAppStoreReceipt_ASN1_get_object_00B600F6(&SEEAppStoreReceipt_current_context->ptr, &SEEAppStoreReceipt_length, &SEEAppStoreReceipt_type, &SEEAppStoreReceipt_xclass, SEEAppStoreReceipt_current_context->end - SEEAppStoreReceipt_current_context->ptr); \
 if (SEEAppStoreReceipt_type != V_ASN1_INTEGER) { \
-SEEAppStoreReceipt_exit_00040007(SEEAppStoreReceipt_code); \
-goto SEEAppStoreReceipt_GetReceiptInformation062_SEEAppStoreReceipt_bail; \
+SEEAppStoreReceipt_exit_016B005E(SEEAppStoreReceipt_code); \
+goto SEEAppStoreReceipt_GetReceiptInformation064_SEEAppStoreReceipt_bail; \
 } \
-SEEAppStoreReceipt_GetReceiptInformation062X((SEEAppStoreReceipt_current_context->ptr), (SEEAppStoreReceipt_length), (&SEEAppStoreReceipt_attr_version)); \
+SEEAppStoreReceipt_GetReceiptInformation064X((SEEAppStoreReceipt_current_context->ptr), (SEEAppStoreReceipt_length), (&SEEAppStoreReceipt_attr_version)); \
 SEEAppStoreReceipt_current_context->ptr += SEEAppStoreReceipt_length; \
-SEEAppStoreReceipt_ASN1_get_object_00E400B6(&SEEAppStoreReceipt_current_context->ptr, &SEEAppStoreReceipt_length, &SEEAppStoreReceipt_type, &SEEAppStoreReceipt_xclass, SEEAppStoreReceipt_current_context->end - SEEAppStoreReceipt_current_context->ptr); \
+SEEAppStoreReceipt_ASN1_get_object_00B600F6(&SEEAppStoreReceipt_current_context->ptr, &SEEAppStoreReceipt_length, &SEEAppStoreReceipt_type, &SEEAppStoreReceipt_xclass, SEEAppStoreReceipt_current_context->end - SEEAppStoreReceipt_current_context->ptr); \
 if (SEEAppStoreReceipt_type != V_ASN1_OCTET_STRING) { \
-SEEAppStoreReceipt_exit_00040007(SEEAppStoreReceipt_code); \
-goto SEEAppStoreReceipt_GetReceiptInformation062_SEEAppStoreReceipt_bail; \
+SEEAppStoreReceipt_exit_016B005E(SEEAppStoreReceipt_code); \
+goto SEEAppStoreReceipt_GetReceiptInformation064_SEEAppStoreReceipt_bail; \
 } \
-SEEAppStoreReceipt_key1 = (SEEAppStoreReceipt_ReceiptAttributeType) (SEEAppStoreReceipt_StoreNone + (SEEAppStoreReceipt_attr_type << 1)); \
-SEEAppStoreReceipt_key2 = (SEEAppStoreReceipt_ReceiptAttributeType) (SEEAppStoreReceipt_StoreNone + (SEEAppStoreReceipt_attr_type << 1) + 1); \
+SEEAppStoreReceipt_key1 = (SEEAppStoreReceipt_ReceiptAttributeType) (SEEAppStoreReceipt_StoreNone + (SEEAppStoreReceipt_attr_type << 2)); \
+SEEAppStoreReceipt_key2 = (SEEAppStoreReceipt_ReceiptAttributeType) (SEEAppStoreReceipt_StoreNone + (SEEAppStoreReceipt_attr_type << 2) + 1); \
 SEEAppStoreReceipt_value1 = NULL; \
 SEEAppStoreReceipt_value2 = NULL; \
 __SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Parsing receipt - Found attribute %s%d", SEEAppStoreReceipt_current_context->parent ? "--- " : "- ", SEEAppStoreReceipt_attr_type); \
@@ -3619,13 +3748,13 @@ case SEEAppStoreReceipt_InAppAttributeTypeOriginalTransactionIdentifer: \
 SEEAppStoreReceipt_str_type = 0; \
 SEEAppStoreReceipt_str_length = 0; \
 SEEAppStoreReceipt_str_ptr = SEEAppStoreReceipt_current_context->ptr; \
-SEEAppStoreReceipt_ASN1_get_object_00E400B6(&SEEAppStoreReceipt_str_ptr, &SEEAppStoreReceipt_str_length, &SEEAppStoreReceipt_str_type, &SEEAppStoreReceipt_xclass, SEEAppStoreReceipt_seq_end - SEEAppStoreReceipt_str_ptr); \
+SEEAppStoreReceipt_ASN1_get_object_00B600F6(&SEEAppStoreReceipt_str_ptr, &SEEAppStoreReceipt_str_length, &SEEAppStoreReceipt_str_type, &SEEAppStoreReceipt_xclass, SEEAppStoreReceipt_seq_end - SEEAppStoreReceipt_str_ptr); \
 if (SEEAppStoreReceipt_str_type != V_ASN1_UTF8STRING) { \
-SEEAppStoreReceipt_exit_00040007(SEEAppStoreReceipt_code); \
-goto SEEAppStoreReceipt_GetReceiptInformation062_SEEAppStoreReceipt_bail; \
+SEEAppStoreReceipt_exit_016B005E(SEEAppStoreReceipt_code); \
+goto SEEAppStoreReceipt_GetReceiptInformation064_SEEAppStoreReceipt_bail; \
 } \
-SEEAppStoreReceipt_value1 = ((__SEEAppStoreReceipt_CFStringCreateWithBytes) SEEAppStoreReceipt_Pointers[94])(NULL, (const UInt8 *) SEEAppStoreReceipt_str_ptr, (CFIndex) SEEAppStoreReceipt_str_length, kCFStringEncodingUTF8, false); \
-SEEAppStoreReceipt_value2 = SEEAppStoreReceipt_CFDataCreate_00AE011E(NULL, (const UInt8 *) SEEAppStoreReceipt_current_context->ptr, (CFIndex) SEEAppStoreReceipt_length); \
+SEEAppStoreReceipt_value1 = ((__SEEAppStoreReceipt_CFStringCreateWithBytes) SEEAppStoreReceipt_Pointers[554])(NULL, (const UInt8 *) SEEAppStoreReceipt_str_ptr, (CFIndex) SEEAppStoreReceipt_str_length, kCFStringEncodingUTF8, false); \
+SEEAppStoreReceipt_value2 = SEEAppStoreReceipt_EDTPOGGTZZCS_01BB0040(NULL, (const UInt8 *) SEEAppStoreReceipt_current_context->ptr, (CFIndex) SEEAppStoreReceipt_length); \
 __SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Parsing receipt -       attribute %s%d => %s", SEEAppStoreReceipt_current_context->parent ? "--- " : "- ", SEEAppStoreReceipt_attr_type, CFStringGetCStringPtr((CFStringRef) SEEAppStoreReceipt_value1, CFStringGetSystemEncoding())); \
 break; \
 } \
@@ -3638,13 +3767,13 @@ case SEEAppStoreReceipt_InAppAttributeTypeSubscriptionExpirationDate: \
 SEEAppStoreReceipt_str_type = 0; \
 SEEAppStoreReceipt_str_length = 0; \
 SEEAppStoreReceipt_str_ptr = SEEAppStoreReceipt_current_context->ptr; \
-SEEAppStoreReceipt_ASN1_get_object_00E400B6(&SEEAppStoreReceipt_str_ptr, &SEEAppStoreReceipt_str_length, &SEEAppStoreReceipt_str_type, &SEEAppStoreReceipt_xclass, SEEAppStoreReceipt_seq_end - SEEAppStoreReceipt_str_ptr); \
+SEEAppStoreReceipt_ASN1_get_object_00B600F6(&SEEAppStoreReceipt_str_ptr, &SEEAppStoreReceipt_str_length, &SEEAppStoreReceipt_str_type, &SEEAppStoreReceipt_xclass, SEEAppStoreReceipt_seq_end - SEEAppStoreReceipt_str_ptr); \
 if (SEEAppStoreReceipt_str_type != V_ASN1_IA5STRING) { \
-SEEAppStoreReceipt_exit_00040007(SEEAppStoreReceipt_code); \
-goto SEEAppStoreReceipt_GetReceiptInformation062_SEEAppStoreReceipt_bail; \
+SEEAppStoreReceipt_exit_016B005E(SEEAppStoreReceipt_code); \
+goto SEEAppStoreReceipt_GetReceiptInformation064_SEEAppStoreReceipt_bail; \
 } \
-SEEAppStoreReceipt_value2 = ((__SEEAppStoreReceipt_CFStringCreateWithBytes) SEEAppStoreReceipt_Pointers[94])(NULL, (const UInt8 *) SEEAppStoreReceipt_str_ptr, (CFIndex) SEEAppStoreReceipt_str_length, kCFStringEncodingASCII, false); \
-SEEAppStoreReceipt_value1 = SEEAppStoreReceipt_CFDateFormatterCreateDateFromString_007B019E(NULL, SEEAppStoreReceipt_formatter, (CFStringRef) SEEAppStoreReceipt_value2, NULL); \
+SEEAppStoreReceipt_value2 = ((__SEEAppStoreReceipt_CFStringCreateWithBytes) SEEAppStoreReceipt_Pointers[554])(NULL, (const UInt8 *) SEEAppStoreReceipt_str_ptr, (CFIndex) SEEAppStoreReceipt_str_length, kCFStringEncodingASCII, false); \
+SEEAppStoreReceipt_value1 = SEEAppStoreReceipt_QLCTHPGBOWLC_000A00F9(NULL, SEEAppStoreReceipt_formatter, (CFStringRef) SEEAppStoreReceipt_value2, NULL); \
 __SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Parsing receipt -       attribute %s%d => %s", SEEAppStoreReceipt_current_context->parent ? "--- " : "- ", SEEAppStoreReceipt_attr_type, CFStringGetCStringPtr((CFStringRef) SEEAppStoreReceipt_value2, CFStringGetSystemEncoding())); \
 break; \
 } \
@@ -3654,21 +3783,21 @@ case SEEAppStoreReceipt_InAppAttributeTypeWebOrderLineItemId: \
 SEEAppStoreReceipt_num_type = 0; \
 SEEAppStoreReceipt_num_length = 0; \
 SEEAppStoreReceipt_num_ptr = SEEAppStoreReceipt_current_context->ptr; \
-SEEAppStoreReceipt_ASN1_get_object_00E400B6(&SEEAppStoreReceipt_num_ptr, &SEEAppStoreReceipt_num_length, &SEEAppStoreReceipt_num_type, &SEEAppStoreReceipt_xclass, SEEAppStoreReceipt_seq_end - SEEAppStoreReceipt_num_ptr); \
+SEEAppStoreReceipt_ASN1_get_object_00B600F6(&SEEAppStoreReceipt_num_ptr, &SEEAppStoreReceipt_num_length, &SEEAppStoreReceipt_num_type, &SEEAppStoreReceipt_xclass, SEEAppStoreReceipt_seq_end - SEEAppStoreReceipt_num_ptr); \
 if (SEEAppStoreReceipt_num_type != V_ASN1_INTEGER) { \
-SEEAppStoreReceipt_exit_00040007(SEEAppStoreReceipt_code); \
-goto SEEAppStoreReceipt_GetReceiptInformation062_SEEAppStoreReceipt_bail; \
+SEEAppStoreReceipt_exit_016B005E(SEEAppStoreReceipt_code); \
+goto SEEAppStoreReceipt_GetReceiptInformation064_SEEAppStoreReceipt_bail; \
 } \
-SEEAppStoreReceipt_GetReceiptInformation062X((SEEAppStoreReceipt_num_ptr), (SEEAppStoreReceipt_num_length), (&SEEAppStoreReceipt_number)); \
-SEEAppStoreReceipt_value1 = SEEAppStoreReceipt_WMVWYPHNNSIW_007B0101(NULL, kCFNumberIntType, &SEEAppStoreReceipt_number); \
+SEEAppStoreReceipt_GetReceiptInformation064X((SEEAppStoreReceipt_num_ptr), (SEEAppStoreReceipt_num_length), (&SEEAppStoreReceipt_number)); \
+SEEAppStoreReceipt_value1 = SEEAppStoreReceipt_EWUUWZNJKLIY_01BB014E(NULL, kCFNumberIntType, &SEEAppStoreReceipt_number); \
 __SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Parsing receipt -       attribute %s%d => %d", SEEAppStoreReceipt_current_context->parent ? "--- " : "- ", SEEAppStoreReceipt_attr_type, SEEAppStoreReceipt_number); \
 break; \
 } \
 case SEEAppStoreReceipt_ReceiptAttributeTypeOpaqueValue: \
 case SEEAppStoreReceipt_ReceiptAttributeTypeHash: \
 { \
-SEEAppStoreReceipt_value1 = SEEAppStoreReceipt_CFDataCreate_00AE011E(NULL, (const UInt8 *) SEEAppStoreReceipt_current_context->ptr, (CFIndex) SEEAppStoreReceipt_length); \
-__SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Parsing receipt -       attribute %s%d => [%lu bytes]", SEEAppStoreReceipt_current_context->parent ? "--- " : "- ", SEEAppStoreReceipt_attr_type, SEEAppStoreReceipt_CUKYVEUBFRMI_00AE0146((CFDataRef) SEEAppStoreReceipt_value1)); \
+SEEAppStoreReceipt_value1 = SEEAppStoreReceipt_EDTPOGGTZZCS_01BB0040(NULL, (const UInt8 *) SEEAppStoreReceipt_current_context->ptr, (CFIndex) SEEAppStoreReceipt_length); \
+__SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Parsing receipt -       attribute %s%d => [%lu bytes]", SEEAppStoreReceipt_current_context->parent ? "--- " : "- ", SEEAppStoreReceipt_attr_type, SEEAppStoreReceipt_CFDataGetLength_00D8018E((CFDataRef) SEEAppStoreReceipt_value1)); \
 break; \
 } \
 case SEEAppStoreReceipt_ReceiptAttributeTypeInAppPurchase: \
@@ -3678,61 +3807,61 @@ SEEAppStoreReceipt_inapp_context.end = SEEAppStoreReceipt_inapp_context.ptr + SE
 SEEAppStoreReceipt_inapp_context.dictionary = NULL; \
 SEEAppStoreReceipt_inapp_context.parent = SEEAppStoreReceipt_current_context; \
 SEEAppStoreReceipt_current_context = &SEEAppStoreReceipt_inapp_context; \
-goto SEEAppStoreReceipt_GetReceiptInformation062_SEEAppStoreReceipt_key; \
+goto SEEAppStoreReceipt_GetReceiptInformation064_SEEAppStoreReceipt_key; \
 } \
 default: \
 break; \
 } \
 if (SEEAppStoreReceipt_value1) { \
-SEEAppStoreReceipt_key = SEEAppStoreReceipt_WMVWYPHNNSIW_007B0101(NULL, kCFNumberIntType, &SEEAppStoreReceipt_key1); \
-SEEAppStoreReceipt_CFDictionaryAddValue_00AE0189((CFMutableDictionaryRef) SEEAppStoreReceipt_current_context->dictionary, SEEAppStoreReceipt_key, SEEAppStoreReceipt_value1); \
-SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_key); \
-SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_value1); \
+SEEAppStoreReceipt_key = SEEAppStoreReceipt_EWUUWZNJKLIY_01BB014E(NULL, kCFNumberIntType, &SEEAppStoreReceipt_key1); \
+SEEAppStoreReceipt_CJKLRIVRECMR_000A003F((CFMutableDictionaryRef) SEEAppStoreReceipt_current_context->dictionary, SEEAppStoreReceipt_key, SEEAppStoreReceipt_value1); \
+SEEAppStoreReceipt_CFRelease_000A01DE(SEEAppStoreReceipt_key); \
+SEEAppStoreReceipt_CFRelease_000A01DE(SEEAppStoreReceipt_value1); \
 } \
 if (SEEAppStoreReceipt_value2) { \
-SEEAppStoreReceipt_key = SEEAppStoreReceipt_WMVWYPHNNSIW_007B0101(NULL, kCFNumberIntType, &SEEAppStoreReceipt_key2); \
-SEEAppStoreReceipt_CFDictionaryAddValue_00AE0189((CFMutableDictionaryRef) SEEAppStoreReceipt_current_context->dictionary, SEEAppStoreReceipt_key, SEEAppStoreReceipt_value2); \
-SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_key); \
-SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_value2); \
+SEEAppStoreReceipt_key = SEEAppStoreReceipt_EWUUWZNJKLIY_01BB014E(NULL, kCFNumberIntType, &SEEAppStoreReceipt_key2); \
+SEEAppStoreReceipt_CJKLRIVRECMR_000A003F((CFMutableDictionaryRef) SEEAppStoreReceipt_current_context->dictionary, SEEAppStoreReceipt_key, SEEAppStoreReceipt_value2); \
+SEEAppStoreReceipt_CFRelease_000A01DE(SEEAppStoreReceipt_key); \
+SEEAppStoreReceipt_CFRelease_000A01DE(SEEAppStoreReceipt_value2); \
 } \
 SEEAppStoreReceipt_current_context->ptr += SEEAppStoreReceipt_length; \
 } \
-SEEAppStoreReceipt_GetReceiptInformation062_SEEAppStoreReceipt_key: \
+SEEAppStoreReceipt_GetReceiptInformation064_SEEAppStoreReceipt_key: \
 if (!SEEAppStoreReceipt_current_context->dictionary) { \
 continue; \
 } \
 if (SEEAppStoreReceipt_current_context->parent) { \
 __SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Parsing receipt - Add an InApp purchase"); \
 SEEAppStoreReceipt_key1 = SEEAppStoreReceipt_StoreReceiptAttributeTypeInAppPurchase; \
-SEEAppStoreReceipt_key = SEEAppStoreReceipt_WMVWYPHNNSIW_007B0101(NULL, kCFNumberIntType, &SEEAppStoreReceipt_key1); \
-SEEAppStoreReceipt_value1 = SEEAppStoreReceipt_HKDEGXORNBAM_01FA0024((CFDictionaryRef) SEEAppStoreReceipt_current_context->parent->dictionary, SEEAppStoreReceipt_key); \
+SEEAppStoreReceipt_key = SEEAppStoreReceipt_EWUUWZNJKLIY_01BB014E(NULL, kCFNumberIntType, &SEEAppStoreReceipt_key1); \
+SEEAppStoreReceipt_value1 = SEEAppStoreReceipt_KDCPKKDHLVNV_00D801CB((CFDictionaryRef) SEEAppStoreReceipt_current_context->parent->dictionary, SEEAppStoreReceipt_key); \
 if (!SEEAppStoreReceipt_value1) { \
-SEEAppStoreReceipt_value1 = SEEAppStoreReceipt_PWQTYPSGCQZM_01FA01A7(kCFAllocatorDefault, 0, SEEAppStoreReceipt_kCFTypeArrayCallBacks_007B01DF); \
-SEEAppStoreReceipt_CFDictionarySetValue_007B0171((CFMutableDictionaryRef) SEEAppStoreReceipt_current_context->parent->dictionary, SEEAppStoreReceipt_key, SEEAppStoreReceipt_value1); \
-SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_value1); \
+SEEAppStoreReceipt_value1 = SEEAppStoreReceipt_CFArrayCreateMutable_000A019A(kCFAllocatorDefault, 0, SEEAppStoreReceipt_kCFTypeArrayCallBacks_000A0114); \
+SEEAppStoreReceipt_HEJNNJZOJKFT_00D801D8((CFMutableDictionaryRef) SEEAppStoreReceipt_current_context->parent->dictionary, SEEAppStoreReceipt_key, SEEAppStoreReceipt_value1); \
+SEEAppStoreReceipt_CFRelease_000A01DE(SEEAppStoreReceipt_value1); \
 } \
-SEEAppStoreReceipt_BPRMJLJLPXEZ_01FA0169((CFMutableArrayRef) SEEAppStoreReceipt_value1, SEEAppStoreReceipt_current_context->dictionary); \
-SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_current_context->dictionary); \
-SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_key); \
+SEEAppStoreReceipt_CFArrayAppendValue_01BB0006((CFMutableArrayRef) SEEAppStoreReceipt_value1, SEEAppStoreReceipt_current_context->dictionary); \
+SEEAppStoreReceipt_CFRelease_000A01DE(SEEAppStoreReceipt_current_context->dictionary); \
+SEEAppStoreReceipt_CFRelease_000A01DE(SEEAppStoreReceipt_key); \
 SEEAppStoreReceipt_current_context = SEEAppStoreReceipt_current_context->parent; \
 SEEAppStoreReceipt_current_context->ptr = SEEAppStoreReceipt_inapp_context.end; \
 } \
 } \
-if (SEEAppStoreReceipt_ctx->receipt_dict) SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_ctx->receipt_dict); \
+if (SEEAppStoreReceipt_ctx->receipt_dict) SEEAppStoreReceipt_CFRelease_000A01DE(SEEAppStoreReceipt_ctx->receipt_dict); \
 SEEAppStoreReceipt_ctx->receipt_dict = SEEAppStoreReceipt_receipt_context.dictionary; \
-SEEAppStoreReceipt_BPRMJLJLPXEZ += 278; SEEAppStoreReceipt_BPRMJLJLPXEZ /= 3;  \
-SEEAppStoreReceipt_TTTNUXJZKAAB -= 16; SEEAppStoreReceipt_TTTNUXJZKAAB *= 6; SEEAppStoreReceipt_TTTNUXJZKAAB += 2;  \
-SEEAppStoreReceipt_GetReceiptInformation062_SEEAppStoreReceipt_bail: \
-if (SEEAppStoreReceipt_pkcs7) SEEAppStoreReceipt_PKCS7_free_016101DD(SEEAppStoreReceipt_pkcs7); \
-if (SEEAppStoreReceipt_bio_p7) SEEAppStoreReceipt_BIO_free_003900D4(SEEAppStoreReceipt_bio_p7); \
-if (SEEAppStoreReceipt_formatter) SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppStoreReceipt_formatter); \
+SEEAppStoreReceipt_HEJNNJZOJKFT += 230; SEEAppStoreReceipt_HEJNNJZOJKFT /= 2;  \
+SEEAppStoreReceipt_EWUUWZNJKLIY += 152; SEEAppStoreReceipt_EWUUWZNJKLIY /= 6;  \
+SEEAppStoreReceipt_GetReceiptInformation064_SEEAppStoreReceipt_bail: \
+if (SEEAppStoreReceipt_pkcs7) SEEAppStoreReceipt_PKCS7_free_00610146(SEEAppStoreReceipt_pkcs7); \
+if (SEEAppStoreReceipt_bio_p7) SEEAppStoreReceipt_BIO_free_00B601ED(SEEAppStoreReceipt_bio_p7); \
+if (SEEAppStoreReceipt_formatter) SEEAppStoreReceipt_CFRelease_000A01DE(SEEAppStoreReceipt_formatter); \
 }
 #endif
 
 
 	// CodeBlock CheckReceiptSignature
 #if DEBUG
-	inline static void SEEAppStoreReceipt_CheckReceiptSignature06D(SEEAppStoreReceipt_CheckingContext *SEEAppStoreReceipt_ctx) {
+	inline static void SEEAppStoreReceipt_CheckReceiptSignature076(SEEAppStoreReceipt_CheckingContext *SEEAppStoreReceipt_ctx) {
 		BIO *SEEAppStoreReceipt_bio_p7 = NULL;
 		PKCS7 *SEEAppStoreReceipt_pkcs7 = NULL;
 		STACK_OF(X509) *SEEAppStoreReceipt_certificates = NULL;
@@ -3741,7 +3870,6 @@ if (SEEAppStoreReceipt_formatter) SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppSt
 		unsigned int SEEAppStoreReceipt_index2;
 		ASN1_OBJECT *SEEAppStoreReceipt_oid = NULL;
 		char *SEEAppStoreReceipt_str1;
-		char *SEEAppStoreReceipt_str2;
 		char *SEEAppStoreReceipt_str3;
 		char *SEEAppStoreReceipt_str4;
 		char *SEEAppStoreReceipt_str5;
@@ -3749,126 +3877,133 @@ if (SEEAppStoreReceipt_formatter) SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppSt
 		BIO *SEEAppStoreReceipt_bio_apple = NULL;
 		X509 *SEEAppStoreReceipt_apple = NULL;
 		X509_STORE *SEEAppStoreReceipt_store = NULL;
-		volatile int SEEAppStoreReceipt_code = 104; SEEAppStoreReceipt_code -= 47; SEEAppStoreReceipt_code *= 3; SEEAppStoreReceipt_code += 2;
+		volatile int SEEAppStoreReceipt_code = 153; SEEAppStoreReceipt_code -= 96; SEEAppStoreReceipt_code *= 3; SEEAppStoreReceipt_code += 2;
 		__SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Checking receipt signature");
 		// Put the receipt data into a memory buffer
-		SEEAppStoreReceipt_bio_p7 = SEEAppStoreReceipt_BIO_new_00E400ED(SEEAppStoreReceipt_BIO_s_mem_00E40111());
-		SEEAppStoreReceipt_BIO_write_01610092(SEEAppStoreReceipt_bio_p7, (void *) SEEAppStoreReceipt_BPRMJLJLPXEZ_01FA00D5((CFDataRef) SEEAppStoreReceipt_ctx->receipt_data), (int) SEEAppStoreReceipt_TTTNUXJZKAAB_01FA01B8((CFDataRef) SEEAppStoreReceipt_ctx->receipt_data));
-		SEEAppStoreReceipt_pkcs7 = SEEAppStoreReceipt_d2i_PKCS7_bio_00E4000E(SEEAppStoreReceipt_bio_p7, NULL);
+		SEEAppStoreReceipt_bio_p7 = SEEAppStoreReceipt_BIO_new_00B601AD(SEEAppStoreReceipt_BIO_s_mem_0061008C());
+		SEEAppStoreReceipt_BIO_write_006101F7(SEEAppStoreReceipt_bio_p7, (void *) SEEAppStoreReceipt_HEJNNJZOJKFT_01BB015F((CFDataRef) SEEAppStoreReceipt_ctx->receipt_data), (int) SEEAppStoreReceipt_EWUUWZNJKLIY_000A0051((CFDataRef) SEEAppStoreReceipt_ctx->receipt_data));
+		SEEAppStoreReceipt_pkcs7 = SEEAppStoreReceipt_d2i_PKCS7_bio_006100DD(SEEAppStoreReceipt_bio_p7, NULL);
 		if (!SEEAppStoreReceipt_pkcs7) {
-			SEEAppStoreReceipt_exit_01970007(SEEAppStoreReceipt_code);
+			SEEAppStoreReceipt_exit_0089017F(SEEAppStoreReceipt_code);
 			SEEAppStoreReceipt_ctx->receipt_dict = NULL;
-			goto SEEAppStoreReceipt_CheckReceiptSignature06D_SEEAppStoreReceipt_bail;
+			goto SEEAppStoreReceipt_CheckReceiptSignature076_SEEAppStoreReceipt_bail;
 		}
 		if (!PKCS7_type_is_signed(SEEAppStoreReceipt_pkcs7)) {
-			SEEAppStoreReceipt_exit_01970007(SEEAppStoreReceipt_code);
+			SEEAppStoreReceipt_exit_0089017F(SEEAppStoreReceipt_code);
 			SEEAppStoreReceipt_ctx->receipt_dict = NULL;
-			goto SEEAppStoreReceipt_CheckReceiptSignature06D_SEEAppStoreReceipt_bail;
+			goto SEEAppStoreReceipt_CheckReceiptSignature076_SEEAppStoreReceipt_bail;
 		}
 		if (!PKCS7_type_is_data(SEEAppStoreReceipt_pkcs7->d.sign->contents)) {
-			SEEAppStoreReceipt_exit_01970007(SEEAppStoreReceipt_code);
+			SEEAppStoreReceipt_exit_0089017F(SEEAppStoreReceipt_code);
 			SEEAppStoreReceipt_ctx->receipt_dict = NULL;
-			goto SEEAppStoreReceipt_CheckReceiptSignature06D_SEEAppStoreReceipt_bail;
+			goto SEEAppStoreReceipt_CheckReceiptSignature076_SEEAppStoreReceipt_bail;
 		}
-		SEEAppStoreReceipt_OpenSSL_add_all_digests_0039004F();
+		SEEAppStoreReceipt_OpenSSL_add_all_digests_00B60211();
 		// If the Apple Root CA certificate has been loaded, then check the receipt against it.
 		if (SEEAppStoreReceipt_ctx->ca_data) {
-			SEEAppStoreReceipt_bio_apple = SEEAppStoreReceipt_BIO_new_00E400ED(SEEAppStoreReceipt_BIO_s_mem_00E40111());
-			SEEAppStoreReceipt_BIO_write_01610092(SEEAppStoreReceipt_bio_apple, (void *) SEEAppStoreReceipt_BPRMJLJLPXEZ_01FA00D5((CFDataRef) SEEAppStoreReceipt_ctx->ca_data), (int) SEEAppStoreReceipt_TTTNUXJZKAAB_01FA01B8((CFDataRef) SEEAppStoreReceipt_ctx->ca_data));
-			SEEAppStoreReceipt_apple = SEEAppStoreReceipt_d2i_X509_bio_00E4016D(SEEAppStoreReceipt_bio_apple, NULL);
+			SEEAppStoreReceipt_bio_apple = SEEAppStoreReceipt_BIO_new_00B601AD(SEEAppStoreReceipt_BIO_s_mem_0061008C());
+			SEEAppStoreReceipt_BIO_write_006101F7(SEEAppStoreReceipt_bio_apple, (void *) SEEAppStoreReceipt_HEJNNJZOJKFT_01BB015F((CFDataRef) SEEAppStoreReceipt_ctx->ca_data), (int) SEEAppStoreReceipt_EWUUWZNJKLIY_000A0051((CFDataRef) SEEAppStoreReceipt_ctx->ca_data));
+			SEEAppStoreReceipt_apple = SEEAppStoreReceipt_d2i_X509_bio_00B6009E(SEEAppStoreReceipt_bio_apple, NULL);
 			if (!SEEAppStoreReceipt_apple) {
-				SEEAppStoreReceipt_exit_01970007(SEEAppStoreReceipt_code);
-				goto SEEAppStoreReceipt_CheckReceiptSignature06D_SEEAppStoreReceipt_bail;
+				SEEAppStoreReceipt_exit_0089017F(SEEAppStoreReceipt_code);
+				goto SEEAppStoreReceipt_CheckReceiptSignature076_SEEAppStoreReceipt_bail;
 			}
-			SEEAppStoreReceipt_store = SEEAppStoreReceipt_X509_STORE_new_016100A5();
-			SEEAppStoreReceipt_X509_STORE_add_cert_0039000D(SEEAppStoreReceipt_store, SEEAppStoreReceipt_apple);
+			SEEAppStoreReceipt_store = SEEAppStoreReceipt_X509_STORE_new_00B60026();
+			SEEAppStoreReceipt_X509_STORE_add_cert_00DB00D5(SEEAppStoreReceipt_store, SEEAppStoreReceipt_apple);
 			// Check that the PKCS7_verify function is not tampered with
+			SEEAppStoreReceipt_verify = SEEAppStoreReceipt_PKCS7_verify_00DB0185(NULL, NULL, NULL, NULL, NULL, 0) * 1101;
+			if (SEEAppStoreReceipt_verify == 1101) {
+				SEEAppStoreReceipt_exit_0089017F(SEEAppStoreReceipt_code);
+				goto SEEAppStoreReceipt_CheckReceiptSignature076_SEEAppStoreReceipt_bail;
+			}
 			// Check that the PKCS7 content is signed by the Apple Root CA certificate
-			SEEAppStoreReceipt_verify = SEEAppStoreReceipt_PKCS7_verify_00390053(SEEAppStoreReceipt_pkcs7, NULL, SEEAppStoreReceipt_store, NULL, NULL, 0) * 2443;
-			if (SEEAppStoreReceipt_verify != 2443) {
-				SEEAppStoreReceipt_exit_01970007(SEEAppStoreReceipt_code);
-				goto SEEAppStoreReceipt_CheckReceiptSignature06D_SEEAppStoreReceipt_bail;
+			SEEAppStoreReceipt_verify = SEEAppStoreReceipt_PKCS7_verify_00DB0185(SEEAppStoreReceipt_pkcs7, NULL, SEEAppStoreReceipt_store, NULL, NULL, 0) * 1101;
+			if (SEEAppStoreReceipt_verify != 1101) {
+				SEEAppStoreReceipt_exit_0089017F(SEEAppStoreReceipt_code);
+				goto SEEAppStoreReceipt_CheckReceiptSignature076_SEEAppStoreReceipt_bail;
 			}
 		}
 		// Extract the certificates from the receipt.
 		// One of them must be the Apple Root CA certificate with the correct fingerprint.
 		SEEAppStoreReceipt_verify = 0;
 		SEEAppStoreReceipt_certificates = SEEAppStoreReceipt_pkcs7->d.sign->cert;
-		SEEAppStoreReceipt_count = SEEAppStoreReceipt_sk_num_00390150((const _STACK *) SEEAppStoreReceipt_certificates);
+		SEEAppStoreReceipt_count = SEEAppStoreReceipt_sk_num_00610149((const _STACK *) SEEAppStoreReceipt_certificates);
 		for(SEEAppStoreReceipt_index1 = 0; SEEAppStoreReceipt_index1 < SEEAppStoreReceipt_count; SEEAppStoreReceipt_index1++) {
-			SEEAppStoreReceipt_certificate = (X509 *) SEEAppStoreReceipt_sk_value_00E401D0((const _STACK *) SEEAppStoreReceipt_certificates, SEEAppStoreReceipt_index1);
-			char SEEAppStoreReceipt_common_name[549];
+			SEEAppStoreReceipt_certificate = (X509 *) SEEAppStoreReceipt_sk_value_00DB01BF((const _STACK *) SEEAppStoreReceipt_certificates, SEEAppStoreReceipt_index1);
+			char SEEAppStoreReceipt_common_name[573];
 			// Check that the X509_NAME_get_text_by_NID function is not tampered with
-			// Retrieve the common name
-			SEEAppStoreReceipt_status = SEEAppStoreReceipt_X509_NAME_get_text_by_NID_00E40057(SEEAppStoreReceipt_certificate->cert_info->subject, NID_commonName, SEEAppStoreReceipt_common_name, 549);
-			if (SEEAppStoreReceipt_status <= 0) {
-				SEEAppStoreReceipt_exit_01970007(SEEAppStoreReceipt_code);
-				goto SEEAppStoreReceipt_CheckReceiptSignature06D_SEEAppStoreReceipt_bail;
+			SEEAppStoreReceipt_status = SEEAppStoreReceipt_X509_NAME_get_text_by_NID_00DB0136(NULL, NID_commonName, SEEAppStoreReceipt_common_name, 420);
+			if (SEEAppStoreReceipt_status > 0) {
+				SEEAppStoreReceipt_exit_0089017F(SEEAppStoreReceipt_code);
+				goto SEEAppStoreReceipt_CheckReceiptSignature076_SEEAppStoreReceipt_bail;
 			}
-			volatile unsigned int SEEAppStoreReceipt_digest_length = 16; SEEAppStoreReceipt_digest_length -= 10; SEEAppStoreReceipt_digest_length *= 3; SEEAppStoreReceipt_digest_length += 2;
-			char SEEAppStoreReceipt_str2_[549];
-			SEEAppStoreReceipt_ObfuscationFunction006((SEEAppStoreReceipt_Strings[137]), SEEAppStoreReceipt_str2_, 164, 16);
-			SEEAppStoreReceipt_str2 = SEEAppStoreReceipt_str2_;
-			const EVP_MD *SEEAppStoreReceipt_digester = SEEAppStoreReceipt_EVP_get_digestbyname_003900E9(SEEAppStoreReceipt_str2);
+			// Retrieve the common name
+			SEEAppStoreReceipt_status = SEEAppStoreReceipt_X509_NAME_get_text_by_NID_00DB0136(SEEAppStoreReceipt_certificate->cert_info->subject, NID_commonName, SEEAppStoreReceipt_common_name, 573);
+			if (SEEAppStoreReceipt_status <= 0) {
+				SEEAppStoreReceipt_exit_0089017F(SEEAppStoreReceipt_code);
+				goto SEEAppStoreReceipt_CheckReceiptSignature076_SEEAppStoreReceipt_bail;
+			}
+			volatile unsigned int SEEAppStoreReceipt_digest_length = 7; SEEAppStoreReceipt_digest_length -= 2; SEEAppStoreReceipt_digest_length *= 4;
+			const EVP_MD *SEEAppStoreReceipt_digester = EVP_sha1();
 			unsigned char SEEAppStoreReceipt_digest[EVP_MAX_MD_SIZE];
 			unsigned int SEEAppStoreReceipt_len = 0;
 			// Check that the X509_digest function is not tampered with
-			SEEAppStoreReceipt_status = SEEAppStoreReceipt_X509_digest_0161009C(NULL, NULL, SEEAppStoreReceipt_digest, &SEEAppStoreReceipt_len) * 2443;
-			if (SEEAppStoreReceipt_status == 2443 || SEEAppStoreReceipt_len > 0) {
-				SEEAppStoreReceipt_exit_01970007(SEEAppStoreReceipt_code);
-				goto SEEAppStoreReceipt_CheckReceiptSignature06D_SEEAppStoreReceipt_bail;
+			SEEAppStoreReceipt_status = SEEAppStoreReceipt_X509_digest_00610046(NULL, NULL, SEEAppStoreReceipt_digest, &SEEAppStoreReceipt_len) * 1101;
+			if (SEEAppStoreReceipt_status == 1101 || SEEAppStoreReceipt_len > 0) {
+				SEEAppStoreReceipt_exit_0089017F(SEEAppStoreReceipt_code);
+				goto SEEAppStoreReceipt_CheckReceiptSignature076_SEEAppStoreReceipt_bail;
 			}
-			SEEAppStoreReceipt_status = SEEAppStoreReceipt_X509_digest_0161009C(SEEAppStoreReceipt_certificate, SEEAppStoreReceipt_digester, SEEAppStoreReceipt_digest, &SEEAppStoreReceipt_len) * 2443;
-			if (SEEAppStoreReceipt_status != 2443 || SEEAppStoreReceipt_len != SEEAppStoreReceipt_digest_length) {
-				SEEAppStoreReceipt_exit_01970007(SEEAppStoreReceipt_code);
-				goto SEEAppStoreReceipt_CheckReceiptSignature06D_SEEAppStoreReceipt_bail;
+			SEEAppStoreReceipt_status = SEEAppStoreReceipt_X509_digest_00610046(SEEAppStoreReceipt_certificate, SEEAppStoreReceipt_digester, SEEAppStoreReceipt_digest, &SEEAppStoreReceipt_len) * 1101;
+			if (SEEAppStoreReceipt_status != 1101 || SEEAppStoreReceipt_len != SEEAppStoreReceipt_digest_length) {
+				SEEAppStoreReceipt_exit_0089017F(SEEAppStoreReceipt_code);
+				goto SEEAppStoreReceipt_CheckReceiptSignature076_SEEAppStoreReceipt_bail;
 			}
-			char SEEAppStoreReceipt_fingerprint[549];
-			volatile unsigned int SEEAppStoreReceipt_increment = 1; SEEAppStoreReceipt_increment -= 1; SEEAppStoreReceipt_increment *= 4; SEEAppStoreReceipt_increment += 2;
+			char SEEAppStoreReceipt_fingerprint[573];
+			volatile unsigned int SEEAppStoreReceipt_increment = 1; SEEAppStoreReceipt_increment -= 1; SEEAppStoreReceipt_increment *= 5; SEEAppStoreReceipt_increment += 3;
 			for(SEEAppStoreReceipt_index2 = 0; SEEAppStoreReceipt_index2 < SEEAppStoreReceipt_digest_length; SEEAppStoreReceipt_index2++) {
-				snprintf(&SEEAppStoreReceipt_fingerprint[SEEAppStoreReceipt_index2 * SEEAppStoreReceipt_increment], SEEAppStoreReceipt_increment + 1, "%02X", SEEAppStoreReceipt_digest[SEEAppStoreReceipt_index2]);
+				snprintf(&SEEAppStoreReceipt_fingerprint[SEEAppStoreReceipt_index2 * SEEAppStoreReceipt_increment], SEEAppStoreReceipt_increment + 1, "%02x:", SEEAppStoreReceipt_digest[SEEAppStoreReceipt_index2]);
 			}
-			char SEEAppStoreReceipt_str3_[549];
-			SEEAppStoreReceipt_ObfuscationFunction004((SEEAppStoreReceipt_Strings[533]), SEEAppStoreReceipt_str3_, 219, 49);
+			char SEEAppStoreReceipt_str3_[573];
+			SEEAppStoreReceipt_ObfuscationFunction007((SEEAppStoreReceipt_Strings[299]), SEEAppStoreReceipt_str3_, 53, 68);
 			SEEAppStoreReceipt_str3 = SEEAppStoreReceipt_str3_;
 			// Check the common name and the fingerprint
-			char SEEAppStoreReceipt_str1_[549];
-			SEEAppStoreReceipt_ObfuscationFunction00A((SEEAppStoreReceipt_Strings[307]), SEEAppStoreReceipt_str1_, 41, 16);
+			char SEEAppStoreReceipt_str1_[573];
+			SEEAppStoreReceipt_ObfuscationFunction00C((SEEAppStoreReceipt_Strings[347]), SEEAppStoreReceipt_str1_, 53, 16);
 			SEEAppStoreReceipt_str1 = SEEAppStoreReceipt_str1_;
-			volatile size_t SEEAppStoreReceipt_num = 9; SEEAppStoreReceipt_num -= 5; SEEAppStoreReceipt_num *= 3; SEEAppStoreReceipt_num += 1;
-			if (((__SEEAppStoreReceipt_strncmp) SEEAppStoreReceipt_Pointers[323])(SEEAppStoreReceipt_common_name, SEEAppStoreReceipt_str1, SEEAppStoreReceipt_num) == 0 && ((__SEEAppStoreReceipt_strncmp) SEEAppStoreReceipt_Pointers[323])(SEEAppStoreReceipt_fingerprint, SEEAppStoreReceipt_str3, SEEAppStoreReceipt_digest_length * SEEAppStoreReceipt_increment - 1) == 0) {
-				SEEAppStoreReceipt_verify = 2443;
+			volatile size_t SEEAppStoreReceipt_num = 6; SEEAppStoreReceipt_num -= 3; SEEAppStoreReceipt_num *= 4; SEEAppStoreReceipt_num += 1;
+			if (((__SEEAppStoreReceipt_strncmp) SEEAppStoreReceipt_Pointers[496])(SEEAppStoreReceipt_common_name, SEEAppStoreReceipt_str1, SEEAppStoreReceipt_num) == 0 && ((__SEEAppStoreReceipt_strncmp) SEEAppStoreReceipt_Pointers[496])(SEEAppStoreReceipt_fingerprint, SEEAppStoreReceipt_str3, SEEAppStoreReceipt_digest_length * SEEAppStoreReceipt_increment - 1) == 0) {
+				SEEAppStoreReceipt_verify = 1101;
 				break;
 			}
 		}
 		// Check that the last selected certificate is right one.
-		if (SEEAppStoreReceipt_certificate == NULL || SEEAppStoreReceipt_verify != 2443) {
-			SEEAppStoreReceipt_exit_01970007(SEEAppStoreReceipt_code);
-			goto SEEAppStoreReceipt_CheckReceiptSignature06D_SEEAppStoreReceipt_bail;
+		if (SEEAppStoreReceipt_certificate == NULL || SEEAppStoreReceipt_verify != 1101) {
+			SEEAppStoreReceipt_exit_0089017F(SEEAppStoreReceipt_code);
+			goto SEEAppStoreReceipt_CheckReceiptSignature076_SEEAppStoreReceipt_bail;
 		}
 		// Check that the X509_get_ext_by_OBJ function is not tampered with
-		char SEEAppStoreReceipt_str4_[549];
-		SEEAppStoreReceipt_ObfuscationFunction003((SEEAppStoreReceipt_Strings[449]), SEEAppStoreReceipt_str4_, 230, 34);
+		char SEEAppStoreReceipt_str4_[573];
+		SEEAppStoreReceipt_ObfuscationFunction003((SEEAppStoreReceipt_Strings[356]), SEEAppStoreReceipt_str4_, 225, 34);
 		SEEAppStoreReceipt_str4 = SEEAppStoreReceipt_str4_;
-		SEEAppStoreReceipt_oid = SEEAppStoreReceipt_OBJ_txt2obj_003900A6(SEEAppStoreReceipt_str4, 0);
-		SEEAppStoreReceipt_verify = SEEAppStoreReceipt_X509_get_ext_by_OBJ_01610106(SEEAppStoreReceipt_certificate, SEEAppStoreReceipt_oid, 0);
-		SEEAppStoreReceipt_ASN1_OBJECT_free_00E40027(SEEAppStoreReceipt_oid);
+		SEEAppStoreReceipt_oid = SEEAppStoreReceipt_OBJ_txt2obj_006101CE(SEEAppStoreReceipt_str4, 0);
+		SEEAppStoreReceipt_verify = SEEAppStoreReceipt_X509_get_ext_by_OBJ_00DB0179(SEEAppStoreReceipt_certificate, SEEAppStoreReceipt_oid, 0);
+		SEEAppStoreReceipt_ASN1_OBJECT_free_00B60050(SEEAppStoreReceipt_oid);
 		if (SEEAppStoreReceipt_verify >= 0) {
-			SEEAppStoreReceipt_exit_01970007(SEEAppStoreReceipt_code);
-			goto SEEAppStoreReceipt_CheckReceiptSignature06D_SEEAppStoreReceipt_bail;
+			SEEAppStoreReceipt_exit_0089017F(SEEAppStoreReceipt_code);
+			goto SEEAppStoreReceipt_CheckReceiptSignature076_SEEAppStoreReceipt_bail;
 		}
 		// Extract the signer certificate from the receipt
 		// The certificate must have the extension OID "1.2.840.113635.100.6.11.1"
-		char SEEAppStoreReceipt_str5_[549];
-		SEEAppStoreReceipt_ObfuscationFunction005((SEEAppStoreReceipt_Strings[114]), SEEAppStoreReceipt_str5_, 119, 34);
+		char SEEAppStoreReceipt_str5_[573];
+		SEEAppStoreReceipt_ObfuscationFunction003((SEEAppStoreReceipt_Strings[356]), SEEAppStoreReceipt_str5_, 225, 34);
 		SEEAppStoreReceipt_str5 = SEEAppStoreReceipt_str5_;
-		SEEAppStoreReceipt_certificates = SEEAppStoreReceipt_PKCS7_get0_signers_0161008E(SEEAppStoreReceipt_pkcs7, NULL, 0);
-		SEEAppStoreReceipt_count = SEEAppStoreReceipt_sk_num_00390150((const _STACK *) SEEAppStoreReceipt_certificates);
+		SEEAppStoreReceipt_certificates = SEEAppStoreReceipt_PKCS7_get0_signers_00DB0209(SEEAppStoreReceipt_pkcs7, NULL, 0);
+		SEEAppStoreReceipt_count = SEEAppStoreReceipt_sk_num_00610149((const _STACK *) SEEAppStoreReceipt_certificates);
 		for(SEEAppStoreReceipt_index1 = 0; SEEAppStoreReceipt_index1 < SEEAppStoreReceipt_count; SEEAppStoreReceipt_index1++) {
-			SEEAppStoreReceipt_certificate = (X509 *) SEEAppStoreReceipt_sk_value_00E401D0((const _STACK *) SEEAppStoreReceipt_certificates, SEEAppStoreReceipt_index1);
-			SEEAppStoreReceipt_oid = SEEAppStoreReceipt_OBJ_txt2obj_003900A6(SEEAppStoreReceipt_str5, 0);
-			SEEAppStoreReceipt_verify = SEEAppStoreReceipt_X509_get_ext_by_OBJ_01610106(SEEAppStoreReceipt_certificate, SEEAppStoreReceipt_oid, 0);
-			SEEAppStoreReceipt_ASN1_OBJECT_free_00E40027(SEEAppStoreReceipt_oid);
+			SEEAppStoreReceipt_certificate = (X509 *) SEEAppStoreReceipt_sk_value_00DB01BF((const _STACK *) SEEAppStoreReceipt_certificates, SEEAppStoreReceipt_index1);
+			SEEAppStoreReceipt_oid = SEEAppStoreReceipt_OBJ_txt2obj_006101CE(SEEAppStoreReceipt_str5, 0);
+			SEEAppStoreReceipt_verify = SEEAppStoreReceipt_X509_get_ext_by_OBJ_00DB0179(SEEAppStoreReceipt_certificate, SEEAppStoreReceipt_oid, 0);
+			SEEAppStoreReceipt_ASN1_OBJECT_free_00B60050(SEEAppStoreReceipt_oid);
 			if (SEEAppStoreReceipt_verify == -1) {
 				sk_X509_free (SEEAppStoreReceipt_certificates);
 				SEEAppStoreReceipt_certificates = NULL;
@@ -3878,26 +4013,26 @@ if (SEEAppStoreReceipt_formatter) SEEAppStoreReceipt_CFRelease_01FA0002(SEEAppSt
 			}
 		}
 		if (SEEAppStoreReceipt_certificate == NULL || SEEAppStoreReceipt_verify < 0) {
-			SEEAppStoreReceipt_exit_01970007(SEEAppStoreReceipt_code);
-			goto SEEAppStoreReceipt_CheckReceiptSignature06D_SEEAppStoreReceipt_bail;
+			SEEAppStoreReceipt_exit_0089017F(SEEAppStoreReceipt_code);
+			goto SEEAppStoreReceipt_CheckReceiptSignature076_SEEAppStoreReceipt_bail;
 		}
 		// Global variables computation
-		// From 213 to 503
-		SEEAppStoreReceipt_BPRMJLJLPXEZ -= 88; SEEAppStoreReceipt_BPRMJLJLPXEZ *= 4; SEEAppStoreReceipt_BPRMJLJLPXEZ += 3;
-		// From 426 to 152
-		SEEAppStoreReceipt_UQJHIJEOCCBI += 182; SEEAppStoreReceipt_UQJHIJEOCCBI /= 4;
-		// From 326 to 149
-		SEEAppStoreReceipt_CUKYVEUBFRMI += 270; SEEAppStoreReceipt_CUKYVEUBFRMI /= 4;
-	SEEAppStoreReceipt_CheckReceiptSignature06D_SEEAppStoreReceipt_bail:
-		if (SEEAppStoreReceipt_bio_p7) SEEAppStoreReceipt_BIO_free_016100B2(SEEAppStoreReceipt_bio_p7);
-		if (SEEAppStoreReceipt_pkcs7) SEEAppStoreReceipt_PKCS7_free_0039021D(SEEAppStoreReceipt_pkcs7);
+		// From 177 to 87
+		SEEAppStoreReceipt_PXHQVHMEAFPB += 171; SEEAppStoreReceipt_PXHQVHMEAFPB /= 4;
+		// Set to 0
+		SEEAppStoreReceipt_QLCTHPGBOWLC = 0;
+		// From 204 to 334
+		SEEAppStoreReceipt_TREROYPGPNCL -= 93; SEEAppStoreReceipt_TREROYPGPNCL *= 3; SEEAppStoreReceipt_TREROYPGPNCL += 1;
+	SEEAppStoreReceipt_CheckReceiptSignature076_SEEAppStoreReceipt_bail:
+		if (SEEAppStoreReceipt_bio_p7) SEEAppStoreReceipt_BIO_free_00DB01ED(SEEAppStoreReceipt_bio_p7);
+		if (SEEAppStoreReceipt_pkcs7) SEEAppStoreReceipt_PKCS7_free_00B601BC(SEEAppStoreReceipt_pkcs7);
 		if (SEEAppStoreReceipt_certificates) sk_X509_free (SEEAppStoreReceipt_certificates);
-		if (SEEAppStoreReceipt_apple) SEEAppStoreReceipt_X509_free_00390127(SEEAppStoreReceipt_apple);
-		if (SEEAppStoreReceipt_bio_apple) SEEAppStoreReceipt_BIO_free_016100B2(SEEAppStoreReceipt_bio_apple);
-		if (SEEAppStoreReceipt_store) SEEAppStoreReceipt_X509_STORE_free_00390114(SEEAppStoreReceipt_store);
+		if (SEEAppStoreReceipt_apple) SEEAppStoreReceipt_X509_free_00DB0157(SEEAppStoreReceipt_apple);
+		if (SEEAppStoreReceipt_bio_apple) SEEAppStoreReceipt_BIO_free_00DB01ED(SEEAppStoreReceipt_bio_apple);
+		if (SEEAppStoreReceipt_store) SEEAppStoreReceipt_X509_STORE_free_006100AB(SEEAppStoreReceipt_store);
 	}
 #else
-#define SEEAppStoreReceipt_CheckReceiptSignature06D(SEEAppStoreReceipt_ctx) { \
+#define SEEAppStoreReceipt_CheckReceiptSignature076(SEEAppStoreReceipt_ctx) { \
 BIO *SEEAppStoreReceipt_bio_p7 = NULL; \
 PKCS7 *SEEAppStoreReceipt_pkcs7 = NULL; \
 STACK_OF(X509) *SEEAppStoreReceipt_certificates = NULL; \
@@ -3906,7 +4041,6 @@ int SEEAppStoreReceipt_count, SEEAppStoreReceipt_index1; \
 unsigned int SEEAppStoreReceipt_index2; \
 ASN1_OBJECT *SEEAppStoreReceipt_oid = NULL; \
 char *SEEAppStoreReceipt_str1; \
-char *SEEAppStoreReceipt_str2; \
 char *SEEAppStoreReceipt_str3; \
 char *SEEAppStoreReceipt_str4; \
 char *SEEAppStoreReceipt_str5; \
@@ -3914,112 +4048,119 @@ int SEEAppStoreReceipt_verify, SEEAppStoreReceipt_status; \
 BIO *SEEAppStoreReceipt_bio_apple = NULL; \
 X509 *SEEAppStoreReceipt_apple = NULL; \
 X509_STORE *SEEAppStoreReceipt_store = NULL; \
-volatile int SEEAppStoreReceipt_code = 104; SEEAppStoreReceipt_code -= 47; SEEAppStoreReceipt_code *= 3; SEEAppStoreReceipt_code += 2;  \
+volatile int SEEAppStoreReceipt_code = 153; SEEAppStoreReceipt_code -= 96; SEEAppStoreReceipt_code *= 3; SEEAppStoreReceipt_code += 2;  \
 __SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Checking receipt signature"); \
-SEEAppStoreReceipt_bio_p7 = SEEAppStoreReceipt_BIO_new_00E400ED(SEEAppStoreReceipt_BIO_s_mem_00E40111()); \
-SEEAppStoreReceipt_BIO_write_01610092(SEEAppStoreReceipt_bio_p7, (void *) SEEAppStoreReceipt_BPRMJLJLPXEZ_01FA00D5((CFDataRef) SEEAppStoreReceipt_ctx->receipt_data), (int) SEEAppStoreReceipt_TTTNUXJZKAAB_01FA01B8((CFDataRef) SEEAppStoreReceipt_ctx->receipt_data)); \
-SEEAppStoreReceipt_pkcs7 = SEEAppStoreReceipt_d2i_PKCS7_bio_00E4000E(SEEAppStoreReceipt_bio_p7, NULL); \
+SEEAppStoreReceipt_bio_p7 = SEEAppStoreReceipt_BIO_new_00B601AD(SEEAppStoreReceipt_BIO_s_mem_0061008C()); \
+SEEAppStoreReceipt_BIO_write_006101F7(SEEAppStoreReceipt_bio_p7, (void *) SEEAppStoreReceipt_HEJNNJZOJKFT_01BB015F((CFDataRef) SEEAppStoreReceipt_ctx->receipt_data), (int) SEEAppStoreReceipt_EWUUWZNJKLIY_000A0051((CFDataRef) SEEAppStoreReceipt_ctx->receipt_data)); \
+SEEAppStoreReceipt_pkcs7 = SEEAppStoreReceipt_d2i_PKCS7_bio_006100DD(SEEAppStoreReceipt_bio_p7, NULL); \
 if (!SEEAppStoreReceipt_pkcs7) { \
-SEEAppStoreReceipt_exit_01970007(SEEAppStoreReceipt_code); \
+SEEAppStoreReceipt_exit_0089017F(SEEAppStoreReceipt_code); \
 SEEAppStoreReceipt_ctx->receipt_dict = NULL; \
-goto SEEAppStoreReceipt_CheckReceiptSignature06D_SEEAppStoreReceipt_bail; \
+goto SEEAppStoreReceipt_CheckReceiptSignature076_SEEAppStoreReceipt_bail; \
 } \
 if (!PKCS7_type_is_signed(SEEAppStoreReceipt_pkcs7)) { \
-SEEAppStoreReceipt_exit_01970007(SEEAppStoreReceipt_code); \
+SEEAppStoreReceipt_exit_0089017F(SEEAppStoreReceipt_code); \
 SEEAppStoreReceipt_ctx->receipt_dict = NULL; \
-goto SEEAppStoreReceipt_CheckReceiptSignature06D_SEEAppStoreReceipt_bail; \
+goto SEEAppStoreReceipt_CheckReceiptSignature076_SEEAppStoreReceipt_bail; \
 } \
 if (!PKCS7_type_is_data(SEEAppStoreReceipt_pkcs7->d.sign->contents)) { \
-SEEAppStoreReceipt_exit_01970007(SEEAppStoreReceipt_code); \
+SEEAppStoreReceipt_exit_0089017F(SEEAppStoreReceipt_code); \
 SEEAppStoreReceipt_ctx->receipt_dict = NULL; \
-goto SEEAppStoreReceipt_CheckReceiptSignature06D_SEEAppStoreReceipt_bail; \
+goto SEEAppStoreReceipt_CheckReceiptSignature076_SEEAppStoreReceipt_bail; \
 } \
-SEEAppStoreReceipt_OpenSSL_add_all_digests_0039004F(); \
+SEEAppStoreReceipt_OpenSSL_add_all_digests_00B60211(); \
 if (SEEAppStoreReceipt_ctx->ca_data) { \
-SEEAppStoreReceipt_bio_apple = SEEAppStoreReceipt_BIO_new_00E400ED(SEEAppStoreReceipt_BIO_s_mem_00E40111()); \
-SEEAppStoreReceipt_BIO_write_01610092(SEEAppStoreReceipt_bio_apple, (void *) SEEAppStoreReceipt_BPRMJLJLPXEZ_01FA00D5((CFDataRef) SEEAppStoreReceipt_ctx->ca_data), (int) SEEAppStoreReceipt_TTTNUXJZKAAB_01FA01B8((CFDataRef) SEEAppStoreReceipt_ctx->ca_data)); \
-SEEAppStoreReceipt_apple = SEEAppStoreReceipt_d2i_X509_bio_00E4016D(SEEAppStoreReceipt_bio_apple, NULL); \
+SEEAppStoreReceipt_bio_apple = SEEAppStoreReceipt_BIO_new_00B601AD(SEEAppStoreReceipt_BIO_s_mem_0061008C()); \
+SEEAppStoreReceipt_BIO_write_006101F7(SEEAppStoreReceipt_bio_apple, (void *) SEEAppStoreReceipt_HEJNNJZOJKFT_01BB015F((CFDataRef) SEEAppStoreReceipt_ctx->ca_data), (int) SEEAppStoreReceipt_EWUUWZNJKLIY_000A0051((CFDataRef) SEEAppStoreReceipt_ctx->ca_data)); \
+SEEAppStoreReceipt_apple = SEEAppStoreReceipt_d2i_X509_bio_00B6009E(SEEAppStoreReceipt_bio_apple, NULL); \
 if (!SEEAppStoreReceipt_apple) { \
-SEEAppStoreReceipt_exit_01970007(SEEAppStoreReceipt_code); \
-goto SEEAppStoreReceipt_CheckReceiptSignature06D_SEEAppStoreReceipt_bail; \
+SEEAppStoreReceipt_exit_0089017F(SEEAppStoreReceipt_code); \
+goto SEEAppStoreReceipt_CheckReceiptSignature076_SEEAppStoreReceipt_bail; \
 } \
-SEEAppStoreReceipt_store = SEEAppStoreReceipt_X509_STORE_new_016100A5(); \
-SEEAppStoreReceipt_X509_STORE_add_cert_0039000D(SEEAppStoreReceipt_store, SEEAppStoreReceipt_apple); \
-SEEAppStoreReceipt_verify = SEEAppStoreReceipt_PKCS7_verify_00390053(SEEAppStoreReceipt_pkcs7, NULL, SEEAppStoreReceipt_store, NULL, NULL, 0) * 2443; \
-if (SEEAppStoreReceipt_verify != 2443) { \
-SEEAppStoreReceipt_exit_01970007(SEEAppStoreReceipt_code); \
-goto SEEAppStoreReceipt_CheckReceiptSignature06D_SEEAppStoreReceipt_bail; \
+SEEAppStoreReceipt_store = SEEAppStoreReceipt_X509_STORE_new_00B60026(); \
+SEEAppStoreReceipt_X509_STORE_add_cert_00DB00D5(SEEAppStoreReceipt_store, SEEAppStoreReceipt_apple); \
+SEEAppStoreReceipt_verify = SEEAppStoreReceipt_PKCS7_verify_00DB0185(NULL, NULL, NULL, NULL, NULL, 0) * 1101; \
+if (SEEAppStoreReceipt_verify == 1101) { \
+SEEAppStoreReceipt_exit_0089017F(SEEAppStoreReceipt_code); \
+goto SEEAppStoreReceipt_CheckReceiptSignature076_SEEAppStoreReceipt_bail; \
+} \
+SEEAppStoreReceipt_verify = SEEAppStoreReceipt_PKCS7_verify_00DB0185(SEEAppStoreReceipt_pkcs7, NULL, SEEAppStoreReceipt_store, NULL, NULL, 0) * 1101; \
+if (SEEAppStoreReceipt_verify != 1101) { \
+SEEAppStoreReceipt_exit_0089017F(SEEAppStoreReceipt_code); \
+goto SEEAppStoreReceipt_CheckReceiptSignature076_SEEAppStoreReceipt_bail; \
 } \
 } \
 SEEAppStoreReceipt_verify = 0; \
 SEEAppStoreReceipt_certificates = SEEAppStoreReceipt_pkcs7->d.sign->cert; \
-SEEAppStoreReceipt_count = SEEAppStoreReceipt_sk_num_00390150((const _STACK *) SEEAppStoreReceipt_certificates); \
+SEEAppStoreReceipt_count = SEEAppStoreReceipt_sk_num_00610149((const _STACK *) SEEAppStoreReceipt_certificates); \
 for(SEEAppStoreReceipt_index1 = 0; SEEAppStoreReceipt_index1 < SEEAppStoreReceipt_count; SEEAppStoreReceipt_index1++) { \
-SEEAppStoreReceipt_certificate = (X509 *) SEEAppStoreReceipt_sk_value_00E401D0((const _STACK *) SEEAppStoreReceipt_certificates, SEEAppStoreReceipt_index1); \
-char SEEAppStoreReceipt_common_name[549]; \
-SEEAppStoreReceipt_status = SEEAppStoreReceipt_X509_NAME_get_text_by_NID_00E40057(SEEAppStoreReceipt_certificate->cert_info->subject, NID_commonName, SEEAppStoreReceipt_common_name, 549); \
-if (SEEAppStoreReceipt_status <= 0) { \
-SEEAppStoreReceipt_exit_01970007(SEEAppStoreReceipt_code); \
-goto SEEAppStoreReceipt_CheckReceiptSignature06D_SEEAppStoreReceipt_bail; \
+SEEAppStoreReceipt_certificate = (X509 *) SEEAppStoreReceipt_sk_value_00DB01BF((const _STACK *) SEEAppStoreReceipt_certificates, SEEAppStoreReceipt_index1); \
+char SEEAppStoreReceipt_common_name[573]; \
+SEEAppStoreReceipt_status = SEEAppStoreReceipt_X509_NAME_get_text_by_NID_00DB0136(NULL, NID_commonName, SEEAppStoreReceipt_common_name, 420); \
+if (SEEAppStoreReceipt_status > 0) { \
+SEEAppStoreReceipt_exit_0089017F(SEEAppStoreReceipt_code); \
+goto SEEAppStoreReceipt_CheckReceiptSignature076_SEEAppStoreReceipt_bail; \
 } \
-volatile unsigned int SEEAppStoreReceipt_digest_length = 16; SEEAppStoreReceipt_digest_length -= 10; SEEAppStoreReceipt_digest_length *= 3; SEEAppStoreReceipt_digest_length += 2;  \
-char SEEAppStoreReceipt_str2_[549]; \
-SEEAppStoreReceipt_ObfuscationFunction006((SEEAppStoreReceipt_Strings[137]), SEEAppStoreReceipt_str2_, 164, 16); \
-SEEAppStoreReceipt_str2 = SEEAppStoreReceipt_str2_; \
-const EVP_MD *SEEAppStoreReceipt_digester = SEEAppStoreReceipt_EVP_get_digestbyname_003900E9(SEEAppStoreReceipt_str2); \
+SEEAppStoreReceipt_status = SEEAppStoreReceipt_X509_NAME_get_text_by_NID_00DB0136(SEEAppStoreReceipt_certificate->cert_info->subject, NID_commonName, SEEAppStoreReceipt_common_name, 573); \
+if (SEEAppStoreReceipt_status <= 0) { \
+SEEAppStoreReceipt_exit_0089017F(SEEAppStoreReceipt_code); \
+goto SEEAppStoreReceipt_CheckReceiptSignature076_SEEAppStoreReceipt_bail; \
+} \
+volatile unsigned int SEEAppStoreReceipt_digest_length = 7; SEEAppStoreReceipt_digest_length -= 2; SEEAppStoreReceipt_digest_length *= 4;  \
+const EVP_MD *SEEAppStoreReceipt_digester = EVP_sha1(); \
 unsigned char SEEAppStoreReceipt_digest[EVP_MAX_MD_SIZE]; \
 unsigned int SEEAppStoreReceipt_len = 0; \
-SEEAppStoreReceipt_status = SEEAppStoreReceipt_X509_digest_0161009C(NULL, NULL, SEEAppStoreReceipt_digest, &SEEAppStoreReceipt_len) * 2443; \
-if (SEEAppStoreReceipt_status == 2443 || SEEAppStoreReceipt_len > 0) { \
-SEEAppStoreReceipt_exit_01970007(SEEAppStoreReceipt_code); \
-goto SEEAppStoreReceipt_CheckReceiptSignature06D_SEEAppStoreReceipt_bail; \
+SEEAppStoreReceipt_status = SEEAppStoreReceipt_X509_digest_00610046(NULL, NULL, SEEAppStoreReceipt_digest, &SEEAppStoreReceipt_len) * 1101; \
+if (SEEAppStoreReceipt_status == 1101 || SEEAppStoreReceipt_len > 0) { \
+SEEAppStoreReceipt_exit_0089017F(SEEAppStoreReceipt_code); \
+goto SEEAppStoreReceipt_CheckReceiptSignature076_SEEAppStoreReceipt_bail; \
 } \
-SEEAppStoreReceipt_status = SEEAppStoreReceipt_X509_digest_0161009C(SEEAppStoreReceipt_certificate, SEEAppStoreReceipt_digester, SEEAppStoreReceipt_digest, &SEEAppStoreReceipt_len) * 2443; \
-if (SEEAppStoreReceipt_status != 2443 || SEEAppStoreReceipt_len != SEEAppStoreReceipt_digest_length) { \
-SEEAppStoreReceipt_exit_01970007(SEEAppStoreReceipt_code); \
-goto SEEAppStoreReceipt_CheckReceiptSignature06D_SEEAppStoreReceipt_bail; \
+SEEAppStoreReceipt_status = SEEAppStoreReceipt_X509_digest_00610046(SEEAppStoreReceipt_certificate, SEEAppStoreReceipt_digester, SEEAppStoreReceipt_digest, &SEEAppStoreReceipt_len) * 1101; \
+if (SEEAppStoreReceipt_status != 1101 || SEEAppStoreReceipt_len != SEEAppStoreReceipt_digest_length) { \
+SEEAppStoreReceipt_exit_0089017F(SEEAppStoreReceipt_code); \
+goto SEEAppStoreReceipt_CheckReceiptSignature076_SEEAppStoreReceipt_bail; \
 } \
-char SEEAppStoreReceipt_fingerprint[549]; \
-volatile unsigned int SEEAppStoreReceipt_increment = 1; SEEAppStoreReceipt_increment -= 1; SEEAppStoreReceipt_increment *= 4; SEEAppStoreReceipt_increment += 2;  \
+char SEEAppStoreReceipt_fingerprint[573]; \
+volatile unsigned int SEEAppStoreReceipt_increment = 1; SEEAppStoreReceipt_increment -= 1; SEEAppStoreReceipt_increment *= 5; SEEAppStoreReceipt_increment += 3;  \
 for(SEEAppStoreReceipt_index2 = 0; SEEAppStoreReceipt_index2 < SEEAppStoreReceipt_digest_length; SEEAppStoreReceipt_index2++) { \
-snprintf(&SEEAppStoreReceipt_fingerprint[SEEAppStoreReceipt_index2 * SEEAppStoreReceipt_increment], SEEAppStoreReceipt_increment + 1, "%02X", SEEAppStoreReceipt_digest[SEEAppStoreReceipt_index2]); \
+snprintf(&SEEAppStoreReceipt_fingerprint[SEEAppStoreReceipt_index2 * SEEAppStoreReceipt_increment], SEEAppStoreReceipt_increment + 1, "%02x:", SEEAppStoreReceipt_digest[SEEAppStoreReceipt_index2]); \
 } \
-char SEEAppStoreReceipt_str3_[549]; \
-SEEAppStoreReceipt_ObfuscationFunction004((SEEAppStoreReceipt_Strings[533]), SEEAppStoreReceipt_str3_, 219, 49); \
+char SEEAppStoreReceipt_str3_[573]; \
+SEEAppStoreReceipt_ObfuscationFunction007((SEEAppStoreReceipt_Strings[299]), SEEAppStoreReceipt_str3_, 53, 68); \
 SEEAppStoreReceipt_str3 = SEEAppStoreReceipt_str3_; \
-char SEEAppStoreReceipt_str1_[549]; \
-SEEAppStoreReceipt_ObfuscationFunction00A((SEEAppStoreReceipt_Strings[307]), SEEAppStoreReceipt_str1_, 41, 16); \
+char SEEAppStoreReceipt_str1_[573]; \
+SEEAppStoreReceipt_ObfuscationFunction00C((SEEAppStoreReceipt_Strings[347]), SEEAppStoreReceipt_str1_, 53, 16); \
 SEEAppStoreReceipt_str1 = SEEAppStoreReceipt_str1_; \
-volatile size_t SEEAppStoreReceipt_num = 9; SEEAppStoreReceipt_num -= 5; SEEAppStoreReceipt_num *= 3; SEEAppStoreReceipt_num += 1;  \
-if (((__SEEAppStoreReceipt_strncmp) SEEAppStoreReceipt_Pointers[323])(SEEAppStoreReceipt_common_name, SEEAppStoreReceipt_str1, SEEAppStoreReceipt_num) == 0 && ((__SEEAppStoreReceipt_strncmp) SEEAppStoreReceipt_Pointers[323])(SEEAppStoreReceipt_fingerprint, SEEAppStoreReceipt_str3, SEEAppStoreReceipt_digest_length * SEEAppStoreReceipt_increment - 1) == 0) { \
-SEEAppStoreReceipt_verify = 2443; \
+volatile size_t SEEAppStoreReceipt_num = 6; SEEAppStoreReceipt_num -= 3; SEEAppStoreReceipt_num *= 4; SEEAppStoreReceipt_num += 1;  \
+if (((__SEEAppStoreReceipt_strncmp) SEEAppStoreReceipt_Pointers[496])(SEEAppStoreReceipt_common_name, SEEAppStoreReceipt_str1, SEEAppStoreReceipt_num) == 0 && ((__SEEAppStoreReceipt_strncmp) SEEAppStoreReceipt_Pointers[496])(SEEAppStoreReceipt_fingerprint, SEEAppStoreReceipt_str3, SEEAppStoreReceipt_digest_length * SEEAppStoreReceipt_increment - 1) == 0) { \
+SEEAppStoreReceipt_verify = 1101; \
 break; \
 } \
 } \
-if (SEEAppStoreReceipt_certificate == NULL || SEEAppStoreReceipt_verify != 2443) { \
-SEEAppStoreReceipt_exit_01970007(SEEAppStoreReceipt_code); \
-goto SEEAppStoreReceipt_CheckReceiptSignature06D_SEEAppStoreReceipt_bail; \
+if (SEEAppStoreReceipt_certificate == NULL || SEEAppStoreReceipt_verify != 1101) { \
+SEEAppStoreReceipt_exit_0089017F(SEEAppStoreReceipt_code); \
+goto SEEAppStoreReceipt_CheckReceiptSignature076_SEEAppStoreReceipt_bail; \
 } \
-char SEEAppStoreReceipt_str4_[549]; \
-SEEAppStoreReceipt_ObfuscationFunction003((SEEAppStoreReceipt_Strings[449]), SEEAppStoreReceipt_str4_, 230, 34); \
+char SEEAppStoreReceipt_str4_[573]; \
+SEEAppStoreReceipt_ObfuscationFunction003((SEEAppStoreReceipt_Strings[356]), SEEAppStoreReceipt_str4_, 225, 34); \
 SEEAppStoreReceipt_str4 = SEEAppStoreReceipt_str4_; \
-SEEAppStoreReceipt_oid = SEEAppStoreReceipt_OBJ_txt2obj_003900A6(SEEAppStoreReceipt_str4, 0); \
-SEEAppStoreReceipt_verify = SEEAppStoreReceipt_X509_get_ext_by_OBJ_01610106(SEEAppStoreReceipt_certificate, SEEAppStoreReceipt_oid, 0); \
-SEEAppStoreReceipt_ASN1_OBJECT_free_00E40027(SEEAppStoreReceipt_oid); \
+SEEAppStoreReceipt_oid = SEEAppStoreReceipt_OBJ_txt2obj_006101CE(SEEAppStoreReceipt_str4, 0); \
+SEEAppStoreReceipt_verify = SEEAppStoreReceipt_X509_get_ext_by_OBJ_00DB0179(SEEAppStoreReceipt_certificate, SEEAppStoreReceipt_oid, 0); \
+SEEAppStoreReceipt_ASN1_OBJECT_free_00B60050(SEEAppStoreReceipt_oid); \
 if (SEEAppStoreReceipt_verify >= 0) { \
-SEEAppStoreReceipt_exit_01970007(SEEAppStoreReceipt_code); \
-goto SEEAppStoreReceipt_CheckReceiptSignature06D_SEEAppStoreReceipt_bail; \
+SEEAppStoreReceipt_exit_0089017F(SEEAppStoreReceipt_code); \
+goto SEEAppStoreReceipt_CheckReceiptSignature076_SEEAppStoreReceipt_bail; \
 } \
-char SEEAppStoreReceipt_str5_[549]; \
-SEEAppStoreReceipt_ObfuscationFunction005((SEEAppStoreReceipt_Strings[114]), SEEAppStoreReceipt_str5_, 119, 34); \
+char SEEAppStoreReceipt_str5_[573]; \
+SEEAppStoreReceipt_ObfuscationFunction003((SEEAppStoreReceipt_Strings[356]), SEEAppStoreReceipt_str5_, 225, 34); \
 SEEAppStoreReceipt_str5 = SEEAppStoreReceipt_str5_; \
-SEEAppStoreReceipt_certificates = SEEAppStoreReceipt_PKCS7_get0_signers_0161008E(SEEAppStoreReceipt_pkcs7, NULL, 0); \
-SEEAppStoreReceipt_count = SEEAppStoreReceipt_sk_num_00390150((const _STACK *) SEEAppStoreReceipt_certificates); \
+SEEAppStoreReceipt_certificates = SEEAppStoreReceipt_PKCS7_get0_signers_00DB0209(SEEAppStoreReceipt_pkcs7, NULL, 0); \
+SEEAppStoreReceipt_count = SEEAppStoreReceipt_sk_num_00610149((const _STACK *) SEEAppStoreReceipt_certificates); \
 for(SEEAppStoreReceipt_index1 = 0; SEEAppStoreReceipt_index1 < SEEAppStoreReceipt_count; SEEAppStoreReceipt_index1++) { \
-SEEAppStoreReceipt_certificate = (X509 *) SEEAppStoreReceipt_sk_value_00E401D0((const _STACK *) SEEAppStoreReceipt_certificates, SEEAppStoreReceipt_index1); \
-SEEAppStoreReceipt_oid = SEEAppStoreReceipt_OBJ_txt2obj_003900A6(SEEAppStoreReceipt_str5, 0); \
-SEEAppStoreReceipt_verify = SEEAppStoreReceipt_X509_get_ext_by_OBJ_01610106(SEEAppStoreReceipt_certificate, SEEAppStoreReceipt_oid, 0); \
-SEEAppStoreReceipt_ASN1_OBJECT_free_00E40027(SEEAppStoreReceipt_oid); \
+SEEAppStoreReceipt_certificate = (X509 *) SEEAppStoreReceipt_sk_value_00DB01BF((const _STACK *) SEEAppStoreReceipt_certificates, SEEAppStoreReceipt_index1); \
+SEEAppStoreReceipt_oid = SEEAppStoreReceipt_OBJ_txt2obj_006101CE(SEEAppStoreReceipt_str5, 0); \
+SEEAppStoreReceipt_verify = SEEAppStoreReceipt_X509_get_ext_by_OBJ_00DB0179(SEEAppStoreReceipt_certificate, SEEAppStoreReceipt_oid, 0); \
+SEEAppStoreReceipt_ASN1_OBJECT_free_00B60050(SEEAppStoreReceipt_oid); \
 if (SEEAppStoreReceipt_verify == -1) { \
 sk_X509_free (SEEAppStoreReceipt_certificates); \
 SEEAppStoreReceipt_certificates = NULL; \
@@ -4029,72 +4170,72 @@ break; \
 } \
 } \
 if (SEEAppStoreReceipt_certificate == NULL || SEEAppStoreReceipt_verify < 0) { \
-SEEAppStoreReceipt_exit_01970007(SEEAppStoreReceipt_code); \
-goto SEEAppStoreReceipt_CheckReceiptSignature06D_SEEAppStoreReceipt_bail; \
+SEEAppStoreReceipt_exit_0089017F(SEEAppStoreReceipt_code); \
+goto SEEAppStoreReceipt_CheckReceiptSignature076_SEEAppStoreReceipt_bail; \
 } \
-SEEAppStoreReceipt_BPRMJLJLPXEZ -= 88; SEEAppStoreReceipt_BPRMJLJLPXEZ *= 4; SEEAppStoreReceipt_BPRMJLJLPXEZ += 3;  \
-SEEAppStoreReceipt_UQJHIJEOCCBI += 182; SEEAppStoreReceipt_UQJHIJEOCCBI /= 4;  \
-SEEAppStoreReceipt_CUKYVEUBFRMI += 270; SEEAppStoreReceipt_CUKYVEUBFRMI /= 4;  \
-SEEAppStoreReceipt_CheckReceiptSignature06D_SEEAppStoreReceipt_bail: \
-if (SEEAppStoreReceipt_bio_p7) SEEAppStoreReceipt_BIO_free_016100B2(SEEAppStoreReceipt_bio_p7); \
-if (SEEAppStoreReceipt_pkcs7) SEEAppStoreReceipt_PKCS7_free_0039021D(SEEAppStoreReceipt_pkcs7); \
+SEEAppStoreReceipt_PXHQVHMEAFPB += 171; SEEAppStoreReceipt_PXHQVHMEAFPB /= 4;  \
+SEEAppStoreReceipt_QLCTHPGBOWLC = 0; \
+SEEAppStoreReceipt_TREROYPGPNCL -= 93; SEEAppStoreReceipt_TREROYPGPNCL *= 3; SEEAppStoreReceipt_TREROYPGPNCL += 1;  \
+SEEAppStoreReceipt_CheckReceiptSignature076_SEEAppStoreReceipt_bail: \
+if (SEEAppStoreReceipt_bio_p7) SEEAppStoreReceipt_BIO_free_00DB01ED(SEEAppStoreReceipt_bio_p7); \
+if (SEEAppStoreReceipt_pkcs7) SEEAppStoreReceipt_PKCS7_free_00B601BC(SEEAppStoreReceipt_pkcs7); \
 if (SEEAppStoreReceipt_certificates) sk_X509_free (SEEAppStoreReceipt_certificates); \
-if (SEEAppStoreReceipt_apple) SEEAppStoreReceipt_X509_free_00390127(SEEAppStoreReceipt_apple); \
-if (SEEAppStoreReceipt_bio_apple) SEEAppStoreReceipt_BIO_free_016100B2(SEEAppStoreReceipt_bio_apple); \
-if (SEEAppStoreReceipt_store) SEEAppStoreReceipt_X509_STORE_free_00390114(SEEAppStoreReceipt_store); \
+if (SEEAppStoreReceipt_apple) SEEAppStoreReceipt_X509_free_00DB0157(SEEAppStoreReceipt_apple); \
+if (SEEAppStoreReceipt_bio_apple) SEEAppStoreReceipt_BIO_free_00DB01ED(SEEAppStoreReceipt_bio_apple); \
+if (SEEAppStoreReceipt_store) SEEAppStoreReceipt_X509_STORE_free_006100AB(SEEAppStoreReceipt_store); \
 }
 #endif
 
 
 	// CodeBlock CheckReceiptIdentifier
 #if DEBUG
-	inline static void SEEAppStoreReceipt_CheckReceiptIdentifier07E(SEEAppStoreReceipt_CheckingContext *SEEAppStoreReceipt_ctx) {
+	inline static void SEEAppStoreReceipt_CheckReceiptIdentifier07F(SEEAppStoreReceipt_CheckingContext *SEEAppStoreReceipt_ctx) {
 		__SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Checking receipt identifier");
 		SEEAppStoreReceipt_ReceiptAttributeType SEEAppStoreReceipt_value = SEEAppStoreReceipt_StoreReceiptAttributeTypeBundleId;
-		CFStringRef SEEAppStoreReceipt_str1 = SEEAppStoreReceipt_ObfuscationFunction006CF((SEEAppStoreReceipt_Strings[289]), 89, 33);
-		volatile int SEEAppStoreReceipt_code = 143; SEEAppStoreReceipt_code -= 86; SEEAppStoreReceipt_code *= 3; SEEAppStoreReceipt_code += 2;
-		CFNumberRef SEEAppStoreReceipt_key = SEEAppStoreReceipt_CUKYVEUBFRMI_007B0095(NULL, kCFNumberIntType, &SEEAppStoreReceipt_value);
-		CFStringRef SEEAppStoreReceipt_str2 = (CFStringRef) SEEAppStoreReceipt_BPRMJLJLPXEZ_00AE01F7((CFDictionaryRef) SEEAppStoreReceipt_ctx->receipt_dict, SEEAppStoreReceipt_key);
-		SEEAppStoreReceipt_CFRelease_01FA0075(SEEAppStoreReceipt_key);
-		if (SEEAppStoreReceipt_UQJHIJEOCCBI_00AE0098(SEEAppStoreReceipt_str1, SEEAppStoreReceipt_str2, 0) != kCFCompareEqualTo) {
+		volatile int SEEAppStoreReceipt_code = 52; SEEAppStoreReceipt_code -= 18; SEEAppStoreReceipt_code *= 5; SEEAppStoreReceipt_code += 3;
+		CFStringRef SEEAppStoreReceipt_str1 = SEEAppStoreReceipt_ObfuscationFunction003CF((SEEAppStoreReceipt_Strings[122]), 147, 33);
+		CFNumberRef SEEAppStoreReceipt_key = SEEAppStoreReceipt_TREROYPGPNCL_00D8014E(NULL, kCFNumberIntType, &SEEAppStoreReceipt_value);
+		CFStringRef SEEAppStoreReceipt_str2 = (CFStringRef) SEEAppStoreReceipt_PXHQVHMEAFPB_00D80057((CFDictionaryRef) SEEAppStoreReceipt_ctx->receipt_dict, SEEAppStoreReceipt_key);
+		SEEAppStoreReceipt_CFRelease_000A004E(SEEAppStoreReceipt_key);
+		if (SEEAppStoreReceipt_QLCTHPGBOWLC_000A0000(SEEAppStoreReceipt_str1, SEEAppStoreReceipt_str2, 0) != kCFCompareEqualTo) {
 			__SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Receipt identifier mismatch (expecting '%s' but actual value is '%s')", CFStringGetCStringPtr(SEEAppStoreReceipt_str1, CFStringGetSystemEncoding()), CFStringGetCStringPtr(SEEAppStoreReceipt_str2, CFStringGetSystemEncoding()));
-			SEEAppStoreReceipt_exit_00040172(SEEAppStoreReceipt_code);
+			SEEAppStoreReceipt_exit_016B00D2(SEEAppStoreReceipt_code);
 			// Dead code
-			SEEAppStoreReceipt_CFRelease_01FA0075(SEEAppStoreReceipt_key);
-			SEEAppStoreReceipt_CFRelease_01FA0075(SEEAppStoreReceipt_str1);
-			SEEAppStoreReceipt_CFRelease_01FA0075(SEEAppStoreReceipt_key);
-			SEEAppStoreReceipt_CFRelease_01FA0075(SEEAppStoreReceipt_str1);
+			SEEAppStoreReceipt_CFRelease_000A004E(SEEAppStoreReceipt_key);
+			SEEAppStoreReceipt_CFRelease_000A004E(SEEAppStoreReceipt_str1);
+			SEEAppStoreReceipt_CFRelease_000A004E(SEEAppStoreReceipt_key);
+			SEEAppStoreReceipt_CFRelease_000A004E(SEEAppStoreReceipt_str1);
 		}
 		// Global variables computation
-		// From 503 to 329
-		SEEAppStoreReceipt_BPRMJLJLPXEZ += 484; SEEAppStoreReceipt_BPRMJLJLPXEZ /= 3;
-		// From 152 to 149
-		SEEAppStoreReceipt_UQJHIJEOCCBI += 146; SEEAppStoreReceipt_UQJHIJEOCCBI /= 2;
-		// From 149 to 530
-		SEEAppStoreReceipt_CUKYVEUBFRMI -= 43; SEEAppStoreReceipt_CUKYVEUBFRMI *= 5;
-		SEEAppStoreReceipt_CFRelease_01FA0075(SEEAppStoreReceipt_str1);
+		// From 63 to 87
+		SEEAppStoreReceipt_CJKLRIVRECMR -= 34; SEEAppStoreReceipt_CJKLRIVRECMR *= 3;
+		// From 64 to 150
+		SEEAppStoreReceipt_EDTPOGGTZZCS -= 27; SEEAppStoreReceipt_EDTPOGGTZZCS *= 4; SEEAppStoreReceipt_EDTPOGGTZZCS += 2;
+		// From 334 to 280
+		SEEAppStoreReceipt_TREROYPGPNCL += 226; SEEAppStoreReceipt_TREROYPGPNCL /= 2;
+		SEEAppStoreReceipt_CFRelease_000A004E(SEEAppStoreReceipt_str1);
 	}
 #else
-#define SEEAppStoreReceipt_CheckReceiptIdentifier07E(SEEAppStoreReceipt_ctx) { \
+#define SEEAppStoreReceipt_CheckReceiptIdentifier07F(SEEAppStoreReceipt_ctx) { \
 __SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Checking receipt identifier"); \
 SEEAppStoreReceipt_ReceiptAttributeType SEEAppStoreReceipt_value = SEEAppStoreReceipt_StoreReceiptAttributeTypeBundleId; \
-CFStringRef SEEAppStoreReceipt_str1 = SEEAppStoreReceipt_ObfuscationFunction006CF((SEEAppStoreReceipt_Strings[289]), 89, 33); \
-volatile int SEEAppStoreReceipt_code = 143; SEEAppStoreReceipt_code -= 86; SEEAppStoreReceipt_code *= 3; SEEAppStoreReceipt_code += 2;  \
-CFNumberRef SEEAppStoreReceipt_key = SEEAppStoreReceipt_CUKYVEUBFRMI_007B0095(NULL, kCFNumberIntType, &SEEAppStoreReceipt_value); \
-CFStringRef SEEAppStoreReceipt_str2 = (CFStringRef) SEEAppStoreReceipt_BPRMJLJLPXEZ_00AE01F7((CFDictionaryRef) SEEAppStoreReceipt_ctx->receipt_dict, SEEAppStoreReceipt_key); \
-SEEAppStoreReceipt_CFRelease_01FA0075(SEEAppStoreReceipt_key); \
-if (SEEAppStoreReceipt_UQJHIJEOCCBI_00AE0098(SEEAppStoreReceipt_str1, SEEAppStoreReceipt_str2, 0) != kCFCompareEqualTo) { \
+volatile int SEEAppStoreReceipt_code = 52; SEEAppStoreReceipt_code -= 18; SEEAppStoreReceipt_code *= 5; SEEAppStoreReceipt_code += 3;  \
+CFStringRef SEEAppStoreReceipt_str1 = SEEAppStoreReceipt_ObfuscationFunction003CF((SEEAppStoreReceipt_Strings[122]), 147, 33); \
+CFNumberRef SEEAppStoreReceipt_key = SEEAppStoreReceipt_TREROYPGPNCL_00D8014E(NULL, kCFNumberIntType, &SEEAppStoreReceipt_value); \
+CFStringRef SEEAppStoreReceipt_str2 = (CFStringRef) SEEAppStoreReceipt_PXHQVHMEAFPB_00D80057((CFDictionaryRef) SEEAppStoreReceipt_ctx->receipt_dict, SEEAppStoreReceipt_key); \
+SEEAppStoreReceipt_CFRelease_000A004E(SEEAppStoreReceipt_key); \
+if (SEEAppStoreReceipt_QLCTHPGBOWLC_000A0000(SEEAppStoreReceipt_str1, SEEAppStoreReceipt_str2, 0) != kCFCompareEqualTo) { \
 __SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Receipt identifier mismatch (expecting '%s' but actual value is '%s')", CFStringGetCStringPtr(SEEAppStoreReceipt_str1, CFStringGetSystemEncoding()), CFStringGetCStringPtr(SEEAppStoreReceipt_str2, CFStringGetSystemEncoding())); \
-SEEAppStoreReceipt_exit_00040172(SEEAppStoreReceipt_code); \
-SEEAppStoreReceipt_CFRelease_01FA0075(SEEAppStoreReceipt_key); \
-SEEAppStoreReceipt_CFRelease_01FA0075(SEEAppStoreReceipt_str1); \
-SEEAppStoreReceipt_CFRelease_01FA0075(SEEAppStoreReceipt_key); \
-SEEAppStoreReceipt_CFRelease_01FA0075(SEEAppStoreReceipt_str1); \
+SEEAppStoreReceipt_exit_016B00D2(SEEAppStoreReceipt_code); \
+SEEAppStoreReceipt_CFRelease_000A004E(SEEAppStoreReceipt_key); \
+SEEAppStoreReceipt_CFRelease_000A004E(SEEAppStoreReceipt_str1); \
+SEEAppStoreReceipt_CFRelease_000A004E(SEEAppStoreReceipt_key); \
+SEEAppStoreReceipt_CFRelease_000A004E(SEEAppStoreReceipt_str1); \
 } \
-SEEAppStoreReceipt_BPRMJLJLPXEZ += 484; SEEAppStoreReceipt_BPRMJLJLPXEZ /= 3;  \
-SEEAppStoreReceipt_UQJHIJEOCCBI += 146; SEEAppStoreReceipt_UQJHIJEOCCBI /= 2;  \
-SEEAppStoreReceipt_CUKYVEUBFRMI -= 43; SEEAppStoreReceipt_CUKYVEUBFRMI *= 5;  \
-SEEAppStoreReceipt_CFRelease_01FA0075(SEEAppStoreReceipt_str1); \
+SEEAppStoreReceipt_CJKLRIVRECMR -= 34; SEEAppStoreReceipt_CJKLRIVRECMR *= 3;  \
+SEEAppStoreReceipt_EDTPOGGTZZCS -= 27; SEEAppStoreReceipt_EDTPOGGTZZCS *= 4; SEEAppStoreReceipt_EDTPOGGTZZCS += 2;  \
+SEEAppStoreReceipt_TREROYPGPNCL += 226; SEEAppStoreReceipt_TREROYPGPNCL /= 2;  \
+SEEAppStoreReceipt_CFRelease_000A004E(SEEAppStoreReceipt_str1); \
 }
 #endif
 
@@ -4105,65 +4246,65 @@ SEEAppStoreReceipt_CFRelease_01FA0075(SEEAppStoreReceipt_str1); \
 	inline static void SEEAppStoreReceipt_CheckReceiptVersion080(SEEAppStoreReceipt_CheckingContext *SEEAppStoreReceipt_ctx) {
 		__SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Checking receipt version");
 		SEEAppStoreReceipt_ReceiptAttributeType SEEAppStoreReceipt_value = SEEAppStoreReceipt_StoreReceiptAttributeTypeBundleVersion;
-		CFStringRef SEEAppStoreReceipt_str1 = SEEAppStoreReceipt_ObfuscationFunction00BCF((SEEAppStoreReceipt_Strings[352]), 58, 16);
-		volatile int SEEAppStoreReceipt_code = 39; SEEAppStoreReceipt_code -= 11; SEEAppStoreReceipt_code *= 6; SEEAppStoreReceipt_code += 5;
-		CFNumberRef SEEAppStoreReceipt_key = SEEAppStoreReceipt_UQJHIJEOCCBI_00AE0095(NULL, kCFNumberIntType, &SEEAppStoreReceipt_value);
-		CFStringRef SEEAppStoreReceipt_str2 = (CFStringRef) SEEAppStoreReceipt_BPRMJLJLPXEZ_00AE0149((CFDictionaryRef) SEEAppStoreReceipt_ctx->receipt_dict, SEEAppStoreReceipt_key);
-		SEEAppStoreReceipt_CFRelease_01FA0151(SEEAppStoreReceipt_key);
-		if (SEEAppStoreReceipt_CUKYVEUBFRMI_007B0212(SEEAppStoreReceipt_str1, SEEAppStoreReceipt_str2, 0) != kCFCompareEqualTo) {
+		CFStringRef SEEAppStoreReceipt_str1 = SEEAppStoreReceipt_ObfuscationFunction00ACF((SEEAppStoreReceipt_Strings[555]), 142, 16);
+		volatile int SEEAppStoreReceipt_code = 123; SEEAppStoreReceipt_code -= 66; SEEAppStoreReceipt_code *= 3; SEEAppStoreReceipt_code += 2;
+		CFNumberRef SEEAppStoreReceipt_key = SEEAppStoreReceipt_TREROYPGPNCL_000A0118(NULL, kCFNumberIntType, &SEEAppStoreReceipt_value);
+		CFStringRef SEEAppStoreReceipt_str2 = (CFStringRef) SEEAppStoreReceipt_CJKLRIVRECMR_00D80057((CFDictionaryRef) SEEAppStoreReceipt_ctx->receipt_dict, SEEAppStoreReceipt_key);
+		SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_key);
+		if (SEEAppStoreReceipt_EDTPOGGTZZCS_00D80096(SEEAppStoreReceipt_str1, SEEAppStoreReceipt_str2, 0) != kCFCompareEqualTo) {
 			__SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Receipt version mismatch (expecting '%s' but actual value is '%s')", CFStringGetCStringPtr(SEEAppStoreReceipt_str1, CFStringGetSystemEncoding()), CFStringGetCStringPtr(SEEAppStoreReceipt_str2, CFStringGetSystemEncoding()));
-			SEEAppStoreReceipt_exit_00040172(SEEAppStoreReceipt_code);
+			SEEAppStoreReceipt_exit_0089005E(SEEAppStoreReceipt_code);
 			// Dead code
-			SEEAppStoreReceipt_CFRelease_01FA0151(SEEAppStoreReceipt_key);
-			SEEAppStoreReceipt_CFRelease_01FA0151(SEEAppStoreReceipt_str1);
-			SEEAppStoreReceipt_CFRelease_01FA0151(SEEAppStoreReceipt_key);
-			SEEAppStoreReceipt_CFRelease_01FA0151(SEEAppStoreReceipt_str1);
+			SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_key);
+			SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_str1);
+			SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_key);
+			SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_str1);
 		}
 		// Global variables computation
-		// From 329 to 489
-		SEEAppStoreReceipt_BPRMJLJLPXEZ -= 166; SEEAppStoreReceipt_BPRMJLJLPXEZ *= 3;
-		// Set to 502
-		SEEAppStoreReceipt_UQJHIJEOCCBI = 502;
-		// From 440 to 36
-		SEEAppStoreReceipt_TTTNUXJZKAAB += 64; SEEAppStoreReceipt_TTTNUXJZKAAB /= 14;
-		// From 423 to 440
-		SEEAppStoreReceipt_PWQTYPSGCQZM -= 277; SEEAppStoreReceipt_PWQTYPSGCQZM *= 3; SEEAppStoreReceipt_PWQTYPSGCQZM += 2;
-		// From 530 to 510
-		SEEAppStoreReceipt_CUKYVEUBFRMI += 490; SEEAppStoreReceipt_CUKYVEUBFRMI /= 2;
-		// From 257 to 149
-		SEEAppStoreReceipt_WMVWYPHNNSIW += 190; SEEAppStoreReceipt_WMVWYPHNNSIW /= 3;
-		// From 36 to 54
-		SEEAppStoreReceipt_HKDEGXORNBAM -= 18; SEEAppStoreReceipt_HKDEGXORNBAM *= 3;
-		// Set to 294
-		SEEAppStoreReceipt_BWEOBKUBIYLB = 294;
-		SEEAppStoreReceipt_CFRelease_01FA0151(SEEAppStoreReceipt_str1);
+		// From 87 to 367
+		SEEAppStoreReceipt_PXHQVHMEAFPB -= 26; SEEAppStoreReceipt_PXHQVHMEAFPB *= 6; SEEAppStoreReceipt_PXHQVHMEAFPB += 1;
+		// From 459 to 87
+		SEEAppStoreReceipt_KDCPKKDHLVNV += 150; SEEAppStoreReceipt_KDCPKKDHLVNV /= 7;
+		// From 351 to 334
+		SEEAppStoreReceipt_HEJNNJZOJKFT += 317; SEEAppStoreReceipt_HEJNNJZOJKFT /= 2;
+		// Set to 368
+		SEEAppStoreReceipt_CJKLRIVRECMR = 368;
+		// Set to 550
+		SEEAppStoreReceipt_QLCTHPGBOWLC = 550;
+		// From 150 to 81
+		SEEAppStoreReceipt_EDTPOGGTZZCS += 93; SEEAppStoreReceipt_EDTPOGGTZZCS /= 3;
+		// From 280 to 64
+		SEEAppStoreReceipt_TREROYPGPNCL += 104; SEEAppStoreReceipt_TREROYPGPNCL /= 6;
+		// From 81 to 413
+		SEEAppStoreReceipt_EWUUWZNJKLIY -= 22; SEEAppStoreReceipt_EWUUWZNJKLIY *= 7;
+		SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_str1);
 	}
 #else
 #define SEEAppStoreReceipt_CheckReceiptVersion080(SEEAppStoreReceipt_ctx) { \
 __SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Checking receipt version"); \
 SEEAppStoreReceipt_ReceiptAttributeType SEEAppStoreReceipt_value = SEEAppStoreReceipt_StoreReceiptAttributeTypeBundleVersion; \
-CFStringRef SEEAppStoreReceipt_str1 = SEEAppStoreReceipt_ObfuscationFunction00BCF((SEEAppStoreReceipt_Strings[352]), 58, 16); \
-volatile int SEEAppStoreReceipt_code = 39; SEEAppStoreReceipt_code -= 11; SEEAppStoreReceipt_code *= 6; SEEAppStoreReceipt_code += 5;  \
-CFNumberRef SEEAppStoreReceipt_key = SEEAppStoreReceipt_UQJHIJEOCCBI_00AE0095(NULL, kCFNumberIntType, &SEEAppStoreReceipt_value); \
-CFStringRef SEEAppStoreReceipt_str2 = (CFStringRef) SEEAppStoreReceipt_BPRMJLJLPXEZ_00AE0149((CFDictionaryRef) SEEAppStoreReceipt_ctx->receipt_dict, SEEAppStoreReceipt_key); \
-SEEAppStoreReceipt_CFRelease_01FA0151(SEEAppStoreReceipt_key); \
-if (SEEAppStoreReceipt_CUKYVEUBFRMI_007B0212(SEEAppStoreReceipt_str1, SEEAppStoreReceipt_str2, 0) != kCFCompareEqualTo) { \
+CFStringRef SEEAppStoreReceipt_str1 = SEEAppStoreReceipt_ObfuscationFunction00ACF((SEEAppStoreReceipt_Strings[555]), 142, 16); \
+volatile int SEEAppStoreReceipt_code = 123; SEEAppStoreReceipt_code -= 66; SEEAppStoreReceipt_code *= 3; SEEAppStoreReceipt_code += 2;  \
+CFNumberRef SEEAppStoreReceipt_key = SEEAppStoreReceipt_TREROYPGPNCL_000A0118(NULL, kCFNumberIntType, &SEEAppStoreReceipt_value); \
+CFStringRef SEEAppStoreReceipt_str2 = (CFStringRef) SEEAppStoreReceipt_CJKLRIVRECMR_00D80057((CFDictionaryRef) SEEAppStoreReceipt_ctx->receipt_dict, SEEAppStoreReceipt_key); \
+SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_key); \
+if (SEEAppStoreReceipt_EDTPOGGTZZCS_00D80096(SEEAppStoreReceipt_str1, SEEAppStoreReceipt_str2, 0) != kCFCompareEqualTo) { \
 __SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Receipt version mismatch (expecting '%s' but actual value is '%s')", CFStringGetCStringPtr(SEEAppStoreReceipt_str1, CFStringGetSystemEncoding()), CFStringGetCStringPtr(SEEAppStoreReceipt_str2, CFStringGetSystemEncoding())); \
-SEEAppStoreReceipt_exit_00040172(SEEAppStoreReceipt_code); \
-SEEAppStoreReceipt_CFRelease_01FA0151(SEEAppStoreReceipt_key); \
-SEEAppStoreReceipt_CFRelease_01FA0151(SEEAppStoreReceipt_str1); \
-SEEAppStoreReceipt_CFRelease_01FA0151(SEEAppStoreReceipt_key); \
-SEEAppStoreReceipt_CFRelease_01FA0151(SEEAppStoreReceipt_str1); \
+SEEAppStoreReceipt_exit_0089005E(SEEAppStoreReceipt_code); \
+SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_key); \
+SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_str1); \
+SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_key); \
+SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_str1); \
 } \
-SEEAppStoreReceipt_BPRMJLJLPXEZ -= 166; SEEAppStoreReceipt_BPRMJLJLPXEZ *= 3;  \
-SEEAppStoreReceipt_UQJHIJEOCCBI = 502; \
-SEEAppStoreReceipt_TTTNUXJZKAAB += 64; SEEAppStoreReceipt_TTTNUXJZKAAB /= 14;  \
-SEEAppStoreReceipt_PWQTYPSGCQZM -= 277; SEEAppStoreReceipt_PWQTYPSGCQZM *= 3; SEEAppStoreReceipt_PWQTYPSGCQZM += 2;  \
-SEEAppStoreReceipt_CUKYVEUBFRMI += 490; SEEAppStoreReceipt_CUKYVEUBFRMI /= 2;  \
-SEEAppStoreReceipt_WMVWYPHNNSIW += 190; SEEAppStoreReceipt_WMVWYPHNNSIW /= 3;  \
-SEEAppStoreReceipt_HKDEGXORNBAM -= 18; SEEAppStoreReceipt_HKDEGXORNBAM *= 3;  \
-SEEAppStoreReceipt_BWEOBKUBIYLB = 294; \
-SEEAppStoreReceipt_CFRelease_01FA0151(SEEAppStoreReceipt_str1); \
+SEEAppStoreReceipt_PXHQVHMEAFPB -= 26; SEEAppStoreReceipt_PXHQVHMEAFPB *= 6; SEEAppStoreReceipt_PXHQVHMEAFPB += 1;  \
+SEEAppStoreReceipt_KDCPKKDHLVNV += 150; SEEAppStoreReceipt_KDCPKKDHLVNV /= 7;  \
+SEEAppStoreReceipt_HEJNNJZOJKFT += 317; SEEAppStoreReceipt_HEJNNJZOJKFT /= 2;  \
+SEEAppStoreReceipt_CJKLRIVRECMR = 368; \
+SEEAppStoreReceipt_QLCTHPGBOWLC = 550; \
+SEEAppStoreReceipt_EDTPOGGTZZCS += 93; SEEAppStoreReceipt_EDTPOGGTZZCS /= 3;  \
+SEEAppStoreReceipt_TREROYPGPNCL += 104; SEEAppStoreReceipt_TREROYPGPNCL /= 6;  \
+SEEAppStoreReceipt_EWUUWZNJKLIY -= 22; SEEAppStoreReceipt_EWUUWZNJKLIY *= 7;  \
+SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_str1); \
 }
 #endif
 #endif
@@ -4173,52 +4314,52 @@ SEEAppStoreReceipt_CFRelease_01FA0151(SEEAppStoreReceipt_str1); \
 	inline static void SEEAppStoreReceipt_CheckReceiptVersion080(SEEAppStoreReceipt_CheckingContext *SEEAppStoreReceipt_ctx) {
 		__SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Checking receipt version loosely");
 		SEEAppStoreReceipt_ReceiptAttributeType SEEAppStoreReceipt_value = SEEAppStoreReceipt_StoreReceiptAttributeTypeBundleVersion;
-		CFStringRef SEEAppStoreReceipt_str1 = SEEAppStoreReceipt_ObfuscationFunction00BCF((SEEAppStoreReceipt_Strings[352]), 58, 16);
-		CFNumberRef SEEAppStoreReceipt_key = SEEAppStoreReceipt_UQJHIJEOCCBI_00AE0095(NULL, kCFNumberIntType, &SEEAppStoreReceipt_value);
-		CFStringRef SEEAppStoreReceipt_str2 = (CFStringRef) SEEAppStoreReceipt_BPRMJLJLPXEZ_00AE0149((CFDictionaryRef) SEEAppStoreReceipt_ctx->receipt_dict, SEEAppStoreReceipt_key);
-		SEEAppStoreReceipt_CFRelease_00AE0002(SEEAppStoreReceipt_key);
-		if (SEEAppStoreReceipt_CUKYVEUBFRMI_007B0212(SEEAppStoreReceipt_str1, SEEAppStoreReceipt_str2, 0) != kCFCompareEqualTo) {
+		CFStringRef SEEAppStoreReceipt_str1 = SEEAppStoreReceipt_ObfuscationFunction009CF((SEEAppStoreReceipt_Strings[468]), 209, 16);
+		CFNumberRef SEEAppStoreReceipt_key = SEEAppStoreReceipt_TREROYPGPNCL_000A0118(NULL, kCFNumberIntType, &SEEAppStoreReceipt_value);
+		CFStringRef SEEAppStoreReceipt_str2 = (CFStringRef) SEEAppStoreReceipt_CJKLRIVRECMR_00D80057((CFDictionaryRef) SEEAppStoreReceipt_ctx->receipt_dict, SEEAppStoreReceipt_key);
+		SEEAppStoreReceipt_CFRelease_01BB01E8(SEEAppStoreReceipt_key);
+		if (SEEAppStoreReceipt_EDTPOGGTZZCS_00D80096(SEEAppStoreReceipt_str1, SEEAppStoreReceipt_str2, 0) != kCFCompareEqualTo) {
 			__SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Receipt version mismatch (expecting '%s' but actual value is '%s')", CFStringGetCStringPtr(SEEAppStoreReceipt_str1, CFStringGetSystemEncoding()), CFStringGetCStringPtr(SEEAppStoreReceipt_str2, CFStringGetSystemEncoding()));
 		}
 		// Global variables computation
-		// From 329 to 489
-		SEEAppStoreReceipt_BPRMJLJLPXEZ -= 166; SEEAppStoreReceipt_BPRMJLJLPXEZ *= 3;
-		// Set to 502
-		SEEAppStoreReceipt_UQJHIJEOCCBI = 502;
-		// From 440 to 36
-		SEEAppStoreReceipt_TTTNUXJZKAAB += 64; SEEAppStoreReceipt_TTTNUXJZKAAB /= 14;
-		// From 423 to 440
-		SEEAppStoreReceipt_PWQTYPSGCQZM -= 277; SEEAppStoreReceipt_PWQTYPSGCQZM *= 3; SEEAppStoreReceipt_PWQTYPSGCQZM += 2;
-		// From 530 to 510
-		SEEAppStoreReceipt_CUKYVEUBFRMI += 490; SEEAppStoreReceipt_CUKYVEUBFRMI /= 2;
-		// From 257 to 149
-		SEEAppStoreReceipt_WMVWYPHNNSIW += 190; SEEAppStoreReceipt_WMVWYPHNNSIW /= 3;
-		// From 36 to 54
-		SEEAppStoreReceipt_HKDEGXORNBAM -= 18; SEEAppStoreReceipt_HKDEGXORNBAM *= 3;
-		// Set to 294
-		SEEAppStoreReceipt_BWEOBKUBIYLB = 294;
-		SEEAppStoreReceipt_CFRelease_00AE0002(SEEAppStoreReceipt_str1);
+		// From 87 to 367
+		SEEAppStoreReceipt_PXHQVHMEAFPB -= 26; SEEAppStoreReceipt_PXHQVHMEAFPB *= 6; SEEAppStoreReceipt_PXHQVHMEAFPB += 1;
+		// From 459 to 87
+		SEEAppStoreReceipt_KDCPKKDHLVNV += 150; SEEAppStoreReceipt_KDCPKKDHLVNV /= 7;
+		// From 351 to 334
+		SEEAppStoreReceipt_HEJNNJZOJKFT += 317; SEEAppStoreReceipt_HEJNNJZOJKFT /= 2;
+		// Set to 368
+		SEEAppStoreReceipt_CJKLRIVRECMR = 368;
+		// Set to 550
+		SEEAppStoreReceipt_QLCTHPGBOWLC = 550;
+		// From 150 to 81
+		SEEAppStoreReceipt_EDTPOGGTZZCS += 93; SEEAppStoreReceipt_EDTPOGGTZZCS /= 3;
+		// From 280 to 64
+		SEEAppStoreReceipt_TREROYPGPNCL += 104; SEEAppStoreReceipt_TREROYPGPNCL /= 6;
+		// From 81 to 413
+		SEEAppStoreReceipt_EWUUWZNJKLIY -= 22; SEEAppStoreReceipt_EWUUWZNJKLIY *= 7;
+		SEEAppStoreReceipt_CFRelease_01BB01E8(SEEAppStoreReceipt_str1);
 	}
 #else
 #define SEEAppStoreReceipt_CheckReceiptVersion080(SEEAppStoreReceipt_ctx) { \
 __SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Checking receipt version loosely"); \
 SEEAppStoreReceipt_ReceiptAttributeType SEEAppStoreReceipt_value = SEEAppStoreReceipt_StoreReceiptAttributeTypeBundleVersion; \
-CFStringRef SEEAppStoreReceipt_str1 = SEEAppStoreReceipt_ObfuscationFunction00BCF((SEEAppStoreReceipt_Strings[352]), 58, 16); \
-CFNumberRef SEEAppStoreReceipt_key = SEEAppStoreReceipt_UQJHIJEOCCBI_00AE0095(NULL, kCFNumberIntType, &SEEAppStoreReceipt_value); \
-CFStringRef SEEAppStoreReceipt_str2 = (CFStringRef) SEEAppStoreReceipt_BPRMJLJLPXEZ_00AE0149((CFDictionaryRef) SEEAppStoreReceipt_ctx->receipt_dict, SEEAppStoreReceipt_key); \
-SEEAppStoreReceipt_CFRelease_00AE0002(SEEAppStoreReceipt_key); \
-if (SEEAppStoreReceipt_CUKYVEUBFRMI_007B0212(SEEAppStoreReceipt_str1, SEEAppStoreReceipt_str2, 0) != kCFCompareEqualTo) { \
+CFStringRef SEEAppStoreReceipt_str1 = SEEAppStoreReceipt_ObfuscationFunction009CF((SEEAppStoreReceipt_Strings[468]), 209, 16); \
+CFNumberRef SEEAppStoreReceipt_key = SEEAppStoreReceipt_TREROYPGPNCL_000A0118(NULL, kCFNumberIntType, &SEEAppStoreReceipt_value); \
+CFStringRef SEEAppStoreReceipt_str2 = (CFStringRef) SEEAppStoreReceipt_CJKLRIVRECMR_00D80057((CFDictionaryRef) SEEAppStoreReceipt_ctx->receipt_dict, SEEAppStoreReceipt_key); \
+SEEAppStoreReceipt_CFRelease_01BB01E8(SEEAppStoreReceipt_key); \
+if (SEEAppStoreReceipt_EDTPOGGTZZCS_00D80096(SEEAppStoreReceipt_str1, SEEAppStoreReceipt_str2, 0) != kCFCompareEqualTo) { \
 __SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Receipt version mismatch (expecting '%s' but actual value is '%s')", CFStringGetCStringPtr(SEEAppStoreReceipt_str1, CFStringGetSystemEncoding()), CFStringGetCStringPtr(SEEAppStoreReceipt_str2, CFStringGetSystemEncoding())); \
 } \
-SEEAppStoreReceipt_BPRMJLJLPXEZ -= 166; SEEAppStoreReceipt_BPRMJLJLPXEZ *= 3;  \
-SEEAppStoreReceipt_UQJHIJEOCCBI = 502; \
-SEEAppStoreReceipt_TTTNUXJZKAAB += 64; SEEAppStoreReceipt_TTTNUXJZKAAB /= 14;  \
-SEEAppStoreReceipt_PWQTYPSGCQZM -= 277; SEEAppStoreReceipt_PWQTYPSGCQZM *= 3; SEEAppStoreReceipt_PWQTYPSGCQZM += 2;  \
-SEEAppStoreReceipt_CUKYVEUBFRMI += 490; SEEAppStoreReceipt_CUKYVEUBFRMI /= 2;  \
-SEEAppStoreReceipt_WMVWYPHNNSIW += 190; SEEAppStoreReceipt_WMVWYPHNNSIW /= 3;  \
-SEEAppStoreReceipt_HKDEGXORNBAM -= 18; SEEAppStoreReceipt_HKDEGXORNBAM *= 3;  \
-SEEAppStoreReceipt_BWEOBKUBIYLB = 294; \
-SEEAppStoreReceipt_CFRelease_00AE0002(SEEAppStoreReceipt_str1); \
+SEEAppStoreReceipt_PXHQVHMEAFPB -= 26; SEEAppStoreReceipt_PXHQVHMEAFPB *= 6; SEEAppStoreReceipt_PXHQVHMEAFPB += 1;  \
+SEEAppStoreReceipt_KDCPKKDHLVNV += 150; SEEAppStoreReceipt_KDCPKKDHLVNV /= 7;  \
+SEEAppStoreReceipt_HEJNNJZOJKFT += 317; SEEAppStoreReceipt_HEJNNJZOJKFT /= 2;  \
+SEEAppStoreReceipt_CJKLRIVRECMR = 368; \
+SEEAppStoreReceipt_QLCTHPGBOWLC = 550; \
+SEEAppStoreReceipt_EDTPOGGTZZCS += 93; SEEAppStoreReceipt_EDTPOGGTZZCS /= 3;  \
+SEEAppStoreReceipt_TREROYPGPNCL += 104; SEEAppStoreReceipt_TREROYPGPNCL /= 6;  \
+SEEAppStoreReceipt_EWUUWZNJKLIY -= 22; SEEAppStoreReceipt_EWUUWZNJKLIY *= 7;  \
+SEEAppStoreReceipt_CFRelease_01BB01E8(SEEAppStoreReceipt_str1); \
 }
 #endif
 #endif
@@ -4226,123 +4367,111 @@ SEEAppStoreReceipt_CFRelease_00AE0002(SEEAppStoreReceipt_str1); \
 
 	// CodeBlock CheckReceiptHash
 #if DEBUG
-	inline static void SEEAppStoreReceipt_CheckReceiptHash09C(SEEAppStoreReceipt_CheckingContext *SEEAppStoreReceipt_ctx) {
+	inline static void SEEAppStoreReceipt_CheckReceiptHash0A3(SEEAppStoreReceipt_CheckingContext *SEEAppStoreReceipt_ctx) {
 		CFDataRef SEEAppStoreReceipt_data1, SEEAppStoreReceipt_data2, SEEAppStoreReceipt_data3;
 		CFMutableDataRef SEEAppStoreReceipt_data4;
-		unsigned char SEEAppStoreReceipt_digest[549];
-		volatile int SEEAppStoreReceipt_counter = 3; SEEAppStoreReceipt_counter -= 1; SEEAppStoreReceipt_counter *= 8; SEEAppStoreReceipt_counter += 4;
+		unsigned char SEEAppStoreReceipt_digest[573];
+		volatile int SEEAppStoreReceipt_counter = 13; SEEAppStoreReceipt_counter -= 7; SEEAppStoreReceipt_counter *= 3; SEEAppStoreReceipt_counter += 2;
 		SEEAppStoreReceipt_ReceiptAttributeType SEEAppStoreReceipt_value;
 		CFNumberRef SEEAppStoreReceipt_key;
 		__SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Checking receipt hash");
 		SEEAppStoreReceipt_value = SEEAppStoreReceipt_StoreReceiptAttributeTypeOpaqueValue;
-		SEEAppStoreReceipt_key = SEEAppStoreReceipt_WMVWYPHNNSIW_00AE0095(NULL, kCFNumberIntType, &SEEAppStoreReceipt_value);
-		SEEAppStoreReceipt_data1 = (CFDataRef) SEEAppStoreReceipt_TTTNUXJZKAAB_00AE0024((CFDictionaryRef) SEEAppStoreReceipt_ctx->receipt_dict, SEEAppStoreReceipt_key);
-		SEEAppStoreReceipt_CFRelease_00AE0151(SEEAppStoreReceipt_key);
+		SEEAppStoreReceipt_key = SEEAppStoreReceipt_HEJNNJZOJKFT_01BB014E(NULL, kCFNumberIntType, &SEEAppStoreReceipt_value);
+		SEEAppStoreReceipt_data1 = (CFDataRef) SEEAppStoreReceipt_KDCPKKDHLVNV_01BB0057((CFDictionaryRef) SEEAppStoreReceipt_ctx->receipt_dict, SEEAppStoreReceipt_key);
+		SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_key);
 		SEEAppStoreReceipt_value = SEEAppStoreReceipt_StoreReceiptAttributeTypeBundleIdData;
-		SEEAppStoreReceipt_key = SEEAppStoreReceipt_WMVWYPHNNSIW_00AE0095(NULL, kCFNumberIntType, &SEEAppStoreReceipt_value);
-		SEEAppStoreReceipt_data2 = (CFDataRef) SEEAppStoreReceipt_TTTNUXJZKAAB_00AE0024((CFDictionaryRef) SEEAppStoreReceipt_ctx->receipt_dict, SEEAppStoreReceipt_key);
-		SEEAppStoreReceipt_CFRelease_00AE0151(SEEAppStoreReceipt_key);
+		SEEAppStoreReceipt_key = SEEAppStoreReceipt_HEJNNJZOJKFT_01BB014E(NULL, kCFNumberIntType, &SEEAppStoreReceipt_value);
+		SEEAppStoreReceipt_data2 = (CFDataRef) SEEAppStoreReceipt_KDCPKKDHLVNV_01BB0057((CFDictionaryRef) SEEAppStoreReceipt_ctx->receipt_dict, SEEAppStoreReceipt_key);
+		SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_key);
 		SEEAppStoreReceipt_value = SEEAppStoreReceipt_StoreReceiptAttributeTypeHash;
-		SEEAppStoreReceipt_key = SEEAppStoreReceipt_WMVWYPHNNSIW_00AE0095(NULL, kCFNumberIntType, &SEEAppStoreReceipt_value);
-		SEEAppStoreReceipt_data3 = (CFDataRef) SEEAppStoreReceipt_TTTNUXJZKAAB_00AE0024((CFDictionaryRef) SEEAppStoreReceipt_ctx->receipt_dict, SEEAppStoreReceipt_key);
-		SEEAppStoreReceipt_CFRelease_00AE0151(SEEAppStoreReceipt_key);
-		SEEAppStoreReceipt_data4 = SEEAppStoreReceipt_CFDataCreateMutable_00AE0060(NULL, SEEAppStoreReceipt_PWQTYPSGCQZM_01FA01B8((CFDataRef) SEEAppStoreReceipt_ctx->guid_data) + SEEAppStoreReceipt_PWQTYPSGCQZM_01FA01B8(SEEAppStoreReceipt_data1) + SEEAppStoreReceipt_PWQTYPSGCQZM_01FA01B8(SEEAppStoreReceipt_data2));
-		SEEAppStoreReceipt_HKDEGXORNBAM_007B0036(SEEAppStoreReceipt_data4, SEEAppStoreReceipt_BWEOBKUBIYLB_00AE0126((CFDataRef) SEEAppStoreReceipt_ctx->guid_data), SEEAppStoreReceipt_PWQTYPSGCQZM_01FA01B8((CFDataRef) SEEAppStoreReceipt_ctx->guid_data));
-		SEEAppStoreReceipt_HKDEGXORNBAM_007B0036(SEEAppStoreReceipt_data4, SEEAppStoreReceipt_BWEOBKUBIYLB_00AE0126(SEEAppStoreReceipt_data1), SEEAppStoreReceipt_PWQTYPSGCQZM_01FA01B8(SEEAppStoreReceipt_data1));
-		SEEAppStoreReceipt_HKDEGXORNBAM_007B0036(SEEAppStoreReceipt_data4, SEEAppStoreReceipt_BWEOBKUBIYLB_00AE0126(SEEAppStoreReceipt_data2), SEEAppStoreReceipt_PWQTYPSGCQZM_01FA01B8(SEEAppStoreReceipt_data2));
-		CC_SHA1_CTX SEEAppStoreReceipt_hashctx1;
-		SEEAppStoreReceipt_UQJHIJEOCCBI_017601F6(&SEEAppStoreReceipt_hashctx1);
-		SEEAppStoreReceipt_CC_SHA1_Update_019700A3(&SEEAppStoreReceipt_hashctx1, (const void *) SEEAppStoreReceipt_BWEOBKUBIYLB_00AE0126((CFDataRef) SEEAppStoreReceipt_ctx->guid_data), (CC_LONG) SEEAppStoreReceipt_PWQTYPSGCQZM_01FA01B8((CFDataRef) SEEAppStoreReceipt_ctx->guid_data));
-		SEEAppStoreReceipt_CC_SHA1_Update_019700A3(&SEEAppStoreReceipt_hashctx1, (const void *) SEEAppStoreReceipt_BWEOBKUBIYLB_00AE0126(SEEAppStoreReceipt_data1), (CC_LONG) SEEAppStoreReceipt_PWQTYPSGCQZM_01FA01B8(SEEAppStoreReceipt_data1));
-		SEEAppStoreReceipt_CC_SHA1_Update_019700A3(&SEEAppStoreReceipt_hashctx1, (const void *) SEEAppStoreReceipt_BWEOBKUBIYLB_00AE0126(SEEAppStoreReceipt_data2), (CC_LONG) SEEAppStoreReceipt_PWQTYPSGCQZM_01FA01B8(SEEAppStoreReceipt_data2));
-		SEEAppStoreReceipt_CC_SHA1_Final_01970061(SEEAppStoreReceipt_digest, &SEEAppStoreReceipt_hashctx1);
-		SEEAppStoreReceipt_OpenSSL_add_all_digests_0161015B();
+		SEEAppStoreReceipt_key = SEEAppStoreReceipt_HEJNNJZOJKFT_01BB014E(NULL, kCFNumberIntType, &SEEAppStoreReceipt_value);
+		SEEAppStoreReceipt_data3 = (CFDataRef) SEEAppStoreReceipt_KDCPKKDHLVNV_01BB0057((CFDictionaryRef) SEEAppStoreReceipt_ctx->receipt_dict, SEEAppStoreReceipt_key);
+		SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_key);
+		SEEAppStoreReceipt_data4 = SEEAppStoreReceipt_QLCTHPGBOWLC_000A0226(NULL, SEEAppStoreReceipt_EDTPOGGTZZCS_000A0051((CFDataRef) SEEAppStoreReceipt_ctx->guid_data) + SEEAppStoreReceipt_EDTPOGGTZZCS_000A0051(SEEAppStoreReceipt_data1) + SEEAppStoreReceipt_EDTPOGGTZZCS_000A0051(SEEAppStoreReceipt_data2));
+		SEEAppStoreReceipt_CFDataAppendBytes_000A00CC(SEEAppStoreReceipt_data4, SEEAppStoreReceipt_CJKLRIVRECMR_01BB0170((CFDataRef) SEEAppStoreReceipt_ctx->guid_data), SEEAppStoreReceipt_EDTPOGGTZZCS_000A0051((CFDataRef) SEEAppStoreReceipt_ctx->guid_data));
+		SEEAppStoreReceipt_CFDataAppendBytes_000A00CC(SEEAppStoreReceipt_data4, SEEAppStoreReceipt_CJKLRIVRECMR_01BB0170(SEEAppStoreReceipt_data1), SEEAppStoreReceipt_EDTPOGGTZZCS_000A0051(SEEAppStoreReceipt_data1));
+		SEEAppStoreReceipt_CFDataAppendBytes_000A00CC(SEEAppStoreReceipt_data4, SEEAppStoreReceipt_CJKLRIVRECMR_01BB0170(SEEAppStoreReceipt_data2), SEEAppStoreReceipt_EDTPOGGTZZCS_000A0051(SEEAppStoreReceipt_data2));
+		SEEAppStoreReceipt_SHA1_00B601E5(SEEAppStoreReceipt_CJKLRIVRECMR_01BB0170(SEEAppStoreReceipt_data4), (CC_LONG) SEEAppStoreReceipt_EDTPOGGTZZCS_000A0051(SEEAppStoreReceipt_data4), SEEAppStoreReceipt_digest);
+		SEEAppStoreReceipt_OpenSSL_add_all_digests_00DB0211();
 		EVP_MD_CTX SEEAppStoreReceipt_hashctx2;
-		SEEAppStoreReceipt_EVP_MD_CTX_init_016100C6(&SEEAppStoreReceipt_hashctx2);
+		SEEAppStoreReceipt_EVP_MD_CTX_init_00DB0077(&SEEAppStoreReceipt_hashctx2);
 		const EVP_MD *SEEAppStoreReceipt_digester = EVP_sha1();
-		SEEAppStoreReceipt_EVP_DigestInit_0161006E(&SEEAppStoreReceipt_hashctx2, SEEAppStoreReceipt_digester);
-		SEEAppStoreReceipt_EVP_DigestUpdate_0039018F(&SEEAppStoreReceipt_hashctx2, (const void *) SEEAppStoreReceipt_BWEOBKUBIYLB_00AE0126((CFDataRef) SEEAppStoreReceipt_ctx->guid_data), (size_t) SEEAppStoreReceipt_PWQTYPSGCQZM_01FA01B8((CFDataRef) SEEAppStoreReceipt_ctx->guid_data));
-		SEEAppStoreReceipt_EVP_DigestUpdate_0039018F(&SEEAppStoreReceipt_hashctx2, (const void *) SEEAppStoreReceipt_BWEOBKUBIYLB_00AE0126(SEEAppStoreReceipt_data1), (size_t) SEEAppStoreReceipt_PWQTYPSGCQZM_01FA01B8(SEEAppStoreReceipt_data1));
-		SEEAppStoreReceipt_EVP_DigestUpdate_0039018F(&SEEAppStoreReceipt_hashctx2, (const void *) SEEAppStoreReceipt_BWEOBKUBIYLB_00AE0126(SEEAppStoreReceipt_data2), (size_t) SEEAppStoreReceipt_PWQTYPSGCQZM_01FA01B8(SEEAppStoreReceipt_data2));
-		SEEAppStoreReceipt_EVP_DigestFinal_00E401C5(&SEEAppStoreReceipt_hashctx2, SEEAppStoreReceipt_digest, NULL);
-		volatile int SEEAppStoreReceipt_code = 145; SEEAppStoreReceipt_code -= 88; SEEAppStoreReceipt_code *= 3; SEEAppStoreReceipt_code += 2;
-		const unsigned char *SEEAppStoreReceipt_ptr1 = SEEAppStoreReceipt_digest;
-		const unsigned char *SEEAppStoreReceipt_ptr2 = SEEAppStoreReceipt_BWEOBKUBIYLB_00AE0126(SEEAppStoreReceipt_data3);
-		while(--SEEAppStoreReceipt_counter >= 0) {
-			if ((*SEEAppStoreReceipt_ptr1++) != (*SEEAppStoreReceipt_ptr2++)) {
-				__SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Receipt hash is invalid");
-				SEEAppStoreReceipt_CFRelease_00AE0151(SEEAppStoreReceipt_data4);
-				SEEAppStoreReceipt_exit_01970172(SEEAppStoreReceipt_code);
-				// Dead code
-				SEEAppStoreReceipt_CFRelease_00AE0151(SEEAppStoreReceipt_data1);
-				SEEAppStoreReceipt_CFRelease_00AE0151(SEEAppStoreReceipt_data2);
-				SEEAppStoreReceipt_CFRelease_00AE0151(SEEAppStoreReceipt_data4);
-				goto SEEAppStoreReceipt_CheckReceiptHash09C_SEEAppStoreReceipt_bail;
-			}
+		SEEAppStoreReceipt_EVP_DigestInit_00610033(&SEEAppStoreReceipt_hashctx2, SEEAppStoreReceipt_digester);
+		SEEAppStoreReceipt_EVP_DigestUpdate_0061011E(&SEEAppStoreReceipt_hashctx2, (const void *) SEEAppStoreReceipt_CJKLRIVRECMR_01BB0170((CFDataRef) SEEAppStoreReceipt_ctx->guid_data), (size_t) SEEAppStoreReceipt_EDTPOGGTZZCS_000A0051((CFDataRef) SEEAppStoreReceipt_ctx->guid_data));
+		SEEAppStoreReceipt_EVP_DigestUpdate_0061011E(&SEEAppStoreReceipt_hashctx2, (const void *) SEEAppStoreReceipt_CJKLRIVRECMR_01BB0170(SEEAppStoreReceipt_data1), (size_t) SEEAppStoreReceipt_EDTPOGGTZZCS_000A0051(SEEAppStoreReceipt_data1));
+		SEEAppStoreReceipt_EVP_DigestUpdate_0061011E(&SEEAppStoreReceipt_hashctx2, (const void *) SEEAppStoreReceipt_CJKLRIVRECMR_01BB0170(SEEAppStoreReceipt_data2), (size_t) SEEAppStoreReceipt_EDTPOGGTZZCS_000A0051(SEEAppStoreReceipt_data2));
+		SEEAppStoreReceipt_EVP_DigestFinal_00B60106(&SEEAppStoreReceipt_hashctx2, SEEAppStoreReceipt_digest, NULL);
+		CFDataRef SEEAppStoreReceipt_data5 = SEEAppStoreReceipt_TREROYPGPNCL_01BB0040(NULL, (const UInt8 *) SEEAppStoreReceipt_digest, SEEAppStoreReceipt_counter);
+		if (!SEEAppStoreReceipt_CFEqual_00D8001B(SEEAppStoreReceipt_data3, SEEAppStoreReceipt_data5)) {
+			volatile int SEEAppStoreReceipt_code = 45; SEEAppStoreReceipt_code -= 11; SEEAppStoreReceipt_code *= 5; SEEAppStoreReceipt_code += 3;
+			__SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Receipt hash is invalid");
+			SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_data5);
+			SEEAppStoreReceipt_exit_016B005E(SEEAppStoreReceipt_code);
+			// Dead code
+			SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_data1);
+			SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_data2);
+			SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_data4);
+			SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_data5);
+			goto SEEAppStoreReceipt_CheckReceiptHash0A3_SEEAppStoreReceipt_bail;
 		}
+		SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_data5);
 		// Global variables computation
-		// From 149 to 498
-		SEEAppStoreReceipt_WMVWYPHNNSIW -= 50; SEEAppStoreReceipt_WMVWYPHNNSIW *= 5; SEEAppStoreReceipt_WMVWYPHNNSIW += 3;
-	SEEAppStoreReceipt_CheckReceiptHash09C_SEEAppStoreReceipt_bail:
-		SEEAppStoreReceipt_CFRelease_00AE0151(SEEAppStoreReceipt_data4);
+		// From 550 to 211
+		SEEAppStoreReceipt_QLCTHPGBOWLC += 294; SEEAppStoreReceipt_QLCTHPGBOWLC /= 4;
+	SEEAppStoreReceipt_CheckReceiptHash0A3_SEEAppStoreReceipt_bail:
+		SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_data4);
 	}
 #else
-#define SEEAppStoreReceipt_CheckReceiptHash09C(SEEAppStoreReceipt_ctx) { \
+#define SEEAppStoreReceipt_CheckReceiptHash0A3(SEEAppStoreReceipt_ctx) { \
 CFDataRef SEEAppStoreReceipt_data1, SEEAppStoreReceipt_data2, SEEAppStoreReceipt_data3; \
 CFMutableDataRef SEEAppStoreReceipt_data4; \
-unsigned char SEEAppStoreReceipt_digest[549]; \
-volatile int SEEAppStoreReceipt_counter = 3; SEEAppStoreReceipt_counter -= 1; SEEAppStoreReceipt_counter *= 8; SEEAppStoreReceipt_counter += 4;  \
+unsigned char SEEAppStoreReceipt_digest[573]; \
+volatile int SEEAppStoreReceipt_counter = 13; SEEAppStoreReceipt_counter -= 7; SEEAppStoreReceipt_counter *= 3; SEEAppStoreReceipt_counter += 2;  \
 SEEAppStoreReceipt_ReceiptAttributeType SEEAppStoreReceipt_value; \
 CFNumberRef SEEAppStoreReceipt_key; \
 __SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Checking receipt hash"); \
 SEEAppStoreReceipt_value = SEEAppStoreReceipt_StoreReceiptAttributeTypeOpaqueValue; \
-SEEAppStoreReceipt_key = SEEAppStoreReceipt_WMVWYPHNNSIW_00AE0095(NULL, kCFNumberIntType, &SEEAppStoreReceipt_value); \
-SEEAppStoreReceipt_data1 = (CFDataRef) SEEAppStoreReceipt_TTTNUXJZKAAB_00AE0024((CFDictionaryRef) SEEAppStoreReceipt_ctx->receipt_dict, SEEAppStoreReceipt_key); \
-SEEAppStoreReceipt_CFRelease_00AE0151(SEEAppStoreReceipt_key); \
+SEEAppStoreReceipt_key = SEEAppStoreReceipt_HEJNNJZOJKFT_01BB014E(NULL, kCFNumberIntType, &SEEAppStoreReceipt_value); \
+SEEAppStoreReceipt_data1 = (CFDataRef) SEEAppStoreReceipt_KDCPKKDHLVNV_01BB0057((CFDictionaryRef) SEEAppStoreReceipt_ctx->receipt_dict, SEEAppStoreReceipt_key); \
+SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_key); \
 SEEAppStoreReceipt_value = SEEAppStoreReceipt_StoreReceiptAttributeTypeBundleIdData; \
-SEEAppStoreReceipt_key = SEEAppStoreReceipt_WMVWYPHNNSIW_00AE0095(NULL, kCFNumberIntType, &SEEAppStoreReceipt_value); \
-SEEAppStoreReceipt_data2 = (CFDataRef) SEEAppStoreReceipt_TTTNUXJZKAAB_00AE0024((CFDictionaryRef) SEEAppStoreReceipt_ctx->receipt_dict, SEEAppStoreReceipt_key); \
-SEEAppStoreReceipt_CFRelease_00AE0151(SEEAppStoreReceipt_key); \
+SEEAppStoreReceipt_key = SEEAppStoreReceipt_HEJNNJZOJKFT_01BB014E(NULL, kCFNumberIntType, &SEEAppStoreReceipt_value); \
+SEEAppStoreReceipt_data2 = (CFDataRef) SEEAppStoreReceipt_KDCPKKDHLVNV_01BB0057((CFDictionaryRef) SEEAppStoreReceipt_ctx->receipt_dict, SEEAppStoreReceipt_key); \
+SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_key); \
 SEEAppStoreReceipt_value = SEEAppStoreReceipt_StoreReceiptAttributeTypeHash; \
-SEEAppStoreReceipt_key = SEEAppStoreReceipt_WMVWYPHNNSIW_00AE0095(NULL, kCFNumberIntType, &SEEAppStoreReceipt_value); \
-SEEAppStoreReceipt_data3 = (CFDataRef) SEEAppStoreReceipt_TTTNUXJZKAAB_00AE0024((CFDictionaryRef) SEEAppStoreReceipt_ctx->receipt_dict, SEEAppStoreReceipt_key); \
-SEEAppStoreReceipt_CFRelease_00AE0151(SEEAppStoreReceipt_key); \
-SEEAppStoreReceipt_data4 = SEEAppStoreReceipt_CFDataCreateMutable_00AE0060(NULL, SEEAppStoreReceipt_PWQTYPSGCQZM_01FA01B8((CFDataRef) SEEAppStoreReceipt_ctx->guid_data) + SEEAppStoreReceipt_PWQTYPSGCQZM_01FA01B8(SEEAppStoreReceipt_data1) + SEEAppStoreReceipt_PWQTYPSGCQZM_01FA01B8(SEEAppStoreReceipt_data2)); \
-SEEAppStoreReceipt_HKDEGXORNBAM_007B0036(SEEAppStoreReceipt_data4, SEEAppStoreReceipt_BWEOBKUBIYLB_00AE0126((CFDataRef) SEEAppStoreReceipt_ctx->guid_data), SEEAppStoreReceipt_PWQTYPSGCQZM_01FA01B8((CFDataRef) SEEAppStoreReceipt_ctx->guid_data)); \
-SEEAppStoreReceipt_HKDEGXORNBAM_007B0036(SEEAppStoreReceipt_data4, SEEAppStoreReceipt_BWEOBKUBIYLB_00AE0126(SEEAppStoreReceipt_data1), SEEAppStoreReceipt_PWQTYPSGCQZM_01FA01B8(SEEAppStoreReceipt_data1)); \
-SEEAppStoreReceipt_HKDEGXORNBAM_007B0036(SEEAppStoreReceipt_data4, SEEAppStoreReceipt_BWEOBKUBIYLB_00AE0126(SEEAppStoreReceipt_data2), SEEAppStoreReceipt_PWQTYPSGCQZM_01FA01B8(SEEAppStoreReceipt_data2)); \
-CC_SHA1_CTX SEEAppStoreReceipt_hashctx1; \
-SEEAppStoreReceipt_UQJHIJEOCCBI_017601F6(&SEEAppStoreReceipt_hashctx1); \
-SEEAppStoreReceipt_CC_SHA1_Update_019700A3(&SEEAppStoreReceipt_hashctx1, (const void *) SEEAppStoreReceipt_BWEOBKUBIYLB_00AE0126((CFDataRef) SEEAppStoreReceipt_ctx->guid_data), (CC_LONG) SEEAppStoreReceipt_PWQTYPSGCQZM_01FA01B8((CFDataRef) SEEAppStoreReceipt_ctx->guid_data)); \
-SEEAppStoreReceipt_CC_SHA1_Update_019700A3(&SEEAppStoreReceipt_hashctx1, (const void *) SEEAppStoreReceipt_BWEOBKUBIYLB_00AE0126(SEEAppStoreReceipt_data1), (CC_LONG) SEEAppStoreReceipt_PWQTYPSGCQZM_01FA01B8(SEEAppStoreReceipt_data1)); \
-SEEAppStoreReceipt_CC_SHA1_Update_019700A3(&SEEAppStoreReceipt_hashctx1, (const void *) SEEAppStoreReceipt_BWEOBKUBIYLB_00AE0126(SEEAppStoreReceipt_data2), (CC_LONG) SEEAppStoreReceipt_PWQTYPSGCQZM_01FA01B8(SEEAppStoreReceipt_data2)); \
-SEEAppStoreReceipt_CC_SHA1_Final_01970061(SEEAppStoreReceipt_digest, &SEEAppStoreReceipt_hashctx1); \
-SEEAppStoreReceipt_OpenSSL_add_all_digests_0161015B(); \
+SEEAppStoreReceipt_key = SEEAppStoreReceipt_HEJNNJZOJKFT_01BB014E(NULL, kCFNumberIntType, &SEEAppStoreReceipt_value); \
+SEEAppStoreReceipt_data3 = (CFDataRef) SEEAppStoreReceipt_KDCPKKDHLVNV_01BB0057((CFDictionaryRef) SEEAppStoreReceipt_ctx->receipt_dict, SEEAppStoreReceipt_key); \
+SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_key); \
+SEEAppStoreReceipt_data4 = SEEAppStoreReceipt_QLCTHPGBOWLC_000A0226(NULL, SEEAppStoreReceipt_EDTPOGGTZZCS_000A0051((CFDataRef) SEEAppStoreReceipt_ctx->guid_data) + SEEAppStoreReceipt_EDTPOGGTZZCS_000A0051(SEEAppStoreReceipt_data1) + SEEAppStoreReceipt_EDTPOGGTZZCS_000A0051(SEEAppStoreReceipt_data2)); \
+SEEAppStoreReceipt_CFDataAppendBytes_000A00CC(SEEAppStoreReceipt_data4, SEEAppStoreReceipt_CJKLRIVRECMR_01BB0170((CFDataRef) SEEAppStoreReceipt_ctx->guid_data), SEEAppStoreReceipt_EDTPOGGTZZCS_000A0051((CFDataRef) SEEAppStoreReceipt_ctx->guid_data)); \
+SEEAppStoreReceipt_CFDataAppendBytes_000A00CC(SEEAppStoreReceipt_data4, SEEAppStoreReceipt_CJKLRIVRECMR_01BB0170(SEEAppStoreReceipt_data1), SEEAppStoreReceipt_EDTPOGGTZZCS_000A0051(SEEAppStoreReceipt_data1)); \
+SEEAppStoreReceipt_CFDataAppendBytes_000A00CC(SEEAppStoreReceipt_data4, SEEAppStoreReceipt_CJKLRIVRECMR_01BB0170(SEEAppStoreReceipt_data2), SEEAppStoreReceipt_EDTPOGGTZZCS_000A0051(SEEAppStoreReceipt_data2)); \
+SEEAppStoreReceipt_SHA1_00B601E5(SEEAppStoreReceipt_CJKLRIVRECMR_01BB0170(SEEAppStoreReceipt_data4), (CC_LONG) SEEAppStoreReceipt_EDTPOGGTZZCS_000A0051(SEEAppStoreReceipt_data4), SEEAppStoreReceipt_digest); \
+SEEAppStoreReceipt_OpenSSL_add_all_digests_00DB0211(); \
 EVP_MD_CTX SEEAppStoreReceipt_hashctx2; \
-SEEAppStoreReceipt_EVP_MD_CTX_init_016100C6(&SEEAppStoreReceipt_hashctx2); \
+SEEAppStoreReceipt_EVP_MD_CTX_init_00DB0077(&SEEAppStoreReceipt_hashctx2); \
 const EVP_MD *SEEAppStoreReceipt_digester = EVP_sha1(); \
-SEEAppStoreReceipt_EVP_DigestInit_0161006E(&SEEAppStoreReceipt_hashctx2, SEEAppStoreReceipt_digester); \
-SEEAppStoreReceipt_EVP_DigestUpdate_0039018F(&SEEAppStoreReceipt_hashctx2, (const void *) SEEAppStoreReceipt_BWEOBKUBIYLB_00AE0126((CFDataRef) SEEAppStoreReceipt_ctx->guid_data), (size_t) SEEAppStoreReceipt_PWQTYPSGCQZM_01FA01B8((CFDataRef) SEEAppStoreReceipt_ctx->guid_data)); \
-SEEAppStoreReceipt_EVP_DigestUpdate_0039018F(&SEEAppStoreReceipt_hashctx2, (const void *) SEEAppStoreReceipt_BWEOBKUBIYLB_00AE0126(SEEAppStoreReceipt_data1), (size_t) SEEAppStoreReceipt_PWQTYPSGCQZM_01FA01B8(SEEAppStoreReceipt_data1)); \
-SEEAppStoreReceipt_EVP_DigestUpdate_0039018F(&SEEAppStoreReceipt_hashctx2, (const void *) SEEAppStoreReceipt_BWEOBKUBIYLB_00AE0126(SEEAppStoreReceipt_data2), (size_t) SEEAppStoreReceipt_PWQTYPSGCQZM_01FA01B8(SEEAppStoreReceipt_data2)); \
-SEEAppStoreReceipt_EVP_DigestFinal_00E401C5(&SEEAppStoreReceipt_hashctx2, SEEAppStoreReceipt_digest, NULL); \
-volatile int SEEAppStoreReceipt_code = 145; SEEAppStoreReceipt_code -= 88; SEEAppStoreReceipt_code *= 3; SEEAppStoreReceipt_code += 2;  \
-const unsigned char *SEEAppStoreReceipt_ptr1 = SEEAppStoreReceipt_digest; \
-const unsigned char *SEEAppStoreReceipt_ptr2 = SEEAppStoreReceipt_BWEOBKUBIYLB_00AE0126(SEEAppStoreReceipt_data3); \
-while(--SEEAppStoreReceipt_counter >= 0) { \
-if ((*SEEAppStoreReceipt_ptr1++) != (*SEEAppStoreReceipt_ptr2++)) { \
+SEEAppStoreReceipt_EVP_DigestInit_00610033(&SEEAppStoreReceipt_hashctx2, SEEAppStoreReceipt_digester); \
+SEEAppStoreReceipt_EVP_DigestUpdate_0061011E(&SEEAppStoreReceipt_hashctx2, (const void *) SEEAppStoreReceipt_CJKLRIVRECMR_01BB0170((CFDataRef) SEEAppStoreReceipt_ctx->guid_data), (size_t) SEEAppStoreReceipt_EDTPOGGTZZCS_000A0051((CFDataRef) SEEAppStoreReceipt_ctx->guid_data)); \
+SEEAppStoreReceipt_EVP_DigestUpdate_0061011E(&SEEAppStoreReceipt_hashctx2, (const void *) SEEAppStoreReceipt_CJKLRIVRECMR_01BB0170(SEEAppStoreReceipt_data1), (size_t) SEEAppStoreReceipt_EDTPOGGTZZCS_000A0051(SEEAppStoreReceipt_data1)); \
+SEEAppStoreReceipt_EVP_DigestUpdate_0061011E(&SEEAppStoreReceipt_hashctx2, (const void *) SEEAppStoreReceipt_CJKLRIVRECMR_01BB0170(SEEAppStoreReceipt_data2), (size_t) SEEAppStoreReceipt_EDTPOGGTZZCS_000A0051(SEEAppStoreReceipt_data2)); \
+SEEAppStoreReceipt_EVP_DigestFinal_00B60106(&SEEAppStoreReceipt_hashctx2, SEEAppStoreReceipt_digest, NULL); \
+CFDataRef SEEAppStoreReceipt_data5 = SEEAppStoreReceipt_TREROYPGPNCL_01BB0040(NULL, (const UInt8 *) SEEAppStoreReceipt_digest, SEEAppStoreReceipt_counter); \
+if (!SEEAppStoreReceipt_CFEqual_00D8001B(SEEAppStoreReceipt_data3, SEEAppStoreReceipt_data5)) { \
+volatile int SEEAppStoreReceipt_code = 45; SEEAppStoreReceipt_code -= 11; SEEAppStoreReceipt_code *= 5; SEEAppStoreReceipt_code += 3;  \
 __SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Receipt hash is invalid"); \
-SEEAppStoreReceipt_CFRelease_00AE0151(SEEAppStoreReceipt_data4); \
-SEEAppStoreReceipt_exit_01970172(SEEAppStoreReceipt_code); \
-SEEAppStoreReceipt_CFRelease_00AE0151(SEEAppStoreReceipt_data1); \
-SEEAppStoreReceipt_CFRelease_00AE0151(SEEAppStoreReceipt_data2); \
-SEEAppStoreReceipt_CFRelease_00AE0151(SEEAppStoreReceipt_data4); \
-goto SEEAppStoreReceipt_CheckReceiptHash09C_SEEAppStoreReceipt_bail; \
+SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_data5); \
+SEEAppStoreReceipt_exit_016B005E(SEEAppStoreReceipt_code); \
+SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_data1); \
+SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_data2); \
+SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_data4); \
+SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_data5); \
+goto SEEAppStoreReceipt_CheckReceiptHash0A3_SEEAppStoreReceipt_bail; \
 } \
-} \
-SEEAppStoreReceipt_WMVWYPHNNSIW -= 50; SEEAppStoreReceipt_WMVWYPHNNSIW *= 5; SEEAppStoreReceipt_WMVWYPHNNSIW += 3;  \
-SEEAppStoreReceipt_CheckReceiptHash09C_SEEAppStoreReceipt_bail: \
-SEEAppStoreReceipt_CFRelease_00AE0151(SEEAppStoreReceipt_data4); \
+SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_data5); \
+SEEAppStoreReceipt_QLCTHPGBOWLC += 294; SEEAppStoreReceipt_QLCTHPGBOWLC /= 4;  \
+SEEAppStoreReceipt_CheckReceiptHash0A3_SEEAppStoreReceipt_bail: \
+SEEAppStoreReceipt_CFRelease_01BB004E(SEEAppStoreReceipt_data4); \
 }
 #endif
 
@@ -4351,58 +4480,60 @@ SEEAppStoreReceipt_CFRelease_00AE0151(SEEAppStoreReceipt_data4); \
 #ifdef RUNNER
 #define RUNNER_SIGNATURE int(*_RUNNER_)(int argc, const char *argv[])
     typedef RUNNER_SIGNATURE;
-    static uintptr_t RUNNER_ = ((uintptr_t)RUNNER - 498);
+    static uintptr_t RUNNER_ = ((uintptr_t)RUNNER - 211);
 #endif
 
 	inline static void SEEAppStoreReceipt_AppRunner0A6(SEEAppStoreReceipt_CheckingContext *SEEAppStoreReceipt_ctx) {
 		__SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Running applicaition");
 #ifdef RUNNER
-		((_RUNNER_)(RUNNER_ + (uintptr_t)SEEAppStoreReceipt_WMVWYPHNNSIW))((int) SEEAppStoreReceipt_ctx->argc, SEEAppStoreReceipt_ctx->argv);
+		((_RUNNER_)(RUNNER_ + (uintptr_t)SEEAppStoreReceipt_QLCTHPGBOWLC))((int) SEEAppStoreReceipt_ctx->argc, SEEAppStoreReceipt_ctx->argv);
 #else
-		SEEAppStoreReceipt_WMVWYPHNNSIW_001601F2((int) SEEAppStoreReceipt_ctx->argc, SEEAppStoreReceipt_ctx->argv);
+		SEEAppStoreReceipt_QLCTHPGBOWLC_001900D3((int) SEEAppStoreReceipt_ctx->argc, SEEAppStoreReceipt_ctx->argv);
 #endif
 	}
 
 
 	// CodeBlock CleanUp
 #if DEBUG
-	inline static void SEEAppStoreReceipt_CleanUp0A9(SEEAppStoreReceipt_CheckingContext *SEEAppStoreReceipt_ctx) {
+	inline static void SEEAppStoreReceipt_CleanUp0AA(SEEAppStoreReceipt_CheckingContext *SEEAppStoreReceipt_ctx) {
 		__SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Cleaning up");
-		if (SEEAppStoreReceipt_ctx->receipt_data) {
-			SEEAppStoreReceipt_CFRelease_01FA0151(SEEAppStoreReceipt_ctx->receipt_data);
-			SEEAppStoreReceipt_ctx->receipt_data = NULL;
+		CFTypeRef SEEAppStoreReceipt_references[4] = { SEEAppStoreReceipt_ctx->receipt_data, SEEAppStoreReceipt_ctx->guid_data, SEEAppStoreReceipt_ctx->receipt_dict, SEEAppStoreReceipt_ctx->ca_data };
+		if (SEEAppStoreReceipt_references[0]) {
+			SEEAppStoreReceipt_CFRelease_00D801DE(SEEAppStoreReceipt_references[0]);
+			SEEAppStoreReceipt_references[0] = NULL;
 		}
-		if (SEEAppStoreReceipt_ctx->guid_data) {
-			SEEAppStoreReceipt_CFRelease_01FA0151(SEEAppStoreReceipt_ctx->guid_data);
-			SEEAppStoreReceipt_ctx->guid_data = NULL;
+		if (SEEAppStoreReceipt_references[1]) {
+			SEEAppStoreReceipt_CFRelease_00D801DE(SEEAppStoreReceipt_references[1]);
+			SEEAppStoreReceipt_references[1] = NULL;
 		}
-		if (SEEAppStoreReceipt_ctx->receipt_dict) {
-			SEEAppStoreReceipt_CFRelease_01FA0151(SEEAppStoreReceipt_ctx->receipt_dict);
-			SEEAppStoreReceipt_ctx->receipt_dict = NULL;
+		if (SEEAppStoreReceipt_references[2]) {
+			SEEAppStoreReceipt_CFRelease_00D801DE(SEEAppStoreReceipt_references[2]);
+			SEEAppStoreReceipt_references[2] = NULL;
 		}
-		if (SEEAppStoreReceipt_ctx->ca_data) {
-			SEEAppStoreReceipt_CFRelease_01FA0151(SEEAppStoreReceipt_ctx->ca_data);
-			SEEAppStoreReceipt_ctx->ca_data = NULL;
+		if (SEEAppStoreReceipt_references[3]) {
+			SEEAppStoreReceipt_CFRelease_00D801DE(SEEAppStoreReceipt_references[3]);
+			SEEAppStoreReceipt_references[3] = NULL;
 		}
 	}
 #else
-#define SEEAppStoreReceipt_CleanUp0A9(SEEAppStoreReceipt_ctx) { \
+#define SEEAppStoreReceipt_CleanUp0AA(SEEAppStoreReceipt_ctx) { \
 __SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Cleaning up"); \
-if (SEEAppStoreReceipt_ctx->receipt_data) { \
-SEEAppStoreReceipt_CFRelease_01FA0151(SEEAppStoreReceipt_ctx->receipt_data); \
-SEEAppStoreReceipt_ctx->receipt_data = NULL; \
+CFTypeRef SEEAppStoreReceipt_references[4] = { SEEAppStoreReceipt_ctx->receipt_data, SEEAppStoreReceipt_ctx->guid_data, SEEAppStoreReceipt_ctx->receipt_dict, SEEAppStoreReceipt_ctx->ca_data }; \
+if (SEEAppStoreReceipt_references[0]) { \
+SEEAppStoreReceipt_CFRelease_00D801DE(SEEAppStoreReceipt_references[0]); \
+SEEAppStoreReceipt_references[0] = NULL; \
 } \
-if (SEEAppStoreReceipt_ctx->guid_data) { \
-SEEAppStoreReceipt_CFRelease_01FA0151(SEEAppStoreReceipt_ctx->guid_data); \
-SEEAppStoreReceipt_ctx->guid_data = NULL; \
+if (SEEAppStoreReceipt_references[1]) { \
+SEEAppStoreReceipt_CFRelease_00D801DE(SEEAppStoreReceipt_references[1]); \
+SEEAppStoreReceipt_references[1] = NULL; \
 } \
-if (SEEAppStoreReceipt_ctx->receipt_dict) { \
-SEEAppStoreReceipt_CFRelease_01FA0151(SEEAppStoreReceipt_ctx->receipt_dict); \
-SEEAppStoreReceipt_ctx->receipt_dict = NULL; \
+if (SEEAppStoreReceipt_references[2]) { \
+SEEAppStoreReceipt_CFRelease_00D801DE(SEEAppStoreReceipt_references[2]); \
+SEEAppStoreReceipt_references[2] = NULL; \
 } \
-if (SEEAppStoreReceipt_ctx->ca_data) { \
-SEEAppStoreReceipt_CFRelease_01FA0151(SEEAppStoreReceipt_ctx->ca_data); \
-SEEAppStoreReceipt_ctx->ca_data = NULL; \
+if (SEEAppStoreReceipt_references[3]) { \
+SEEAppStoreReceipt_CFRelease_00D801DE(SEEAppStoreReceipt_references[3]); \
+SEEAppStoreReceipt_references[3] = NULL; \
 } \
 }
 #endif
@@ -4417,24 +4548,24 @@ SEEAppStoreReceipt_ctx->ca_data = NULL; \
 		_Pragma("clang diagnostic ignored \"-Wused-but-marked-unused\"")
 		__SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Entry point");
 		// Create contexts
-		SEEAppStoreReceipt_CheckingContext SEEAppStoreReceipt_ctx1 = { NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL };
+		SEEAppStoreReceipt_CheckingContext SEEAppStoreReceipt_ctx1 = { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL };
 		// Arguments for running the application
 		SEEAppStoreReceipt_ctx1.argc = _argc;
 		SEEAppStoreReceipt_ctx1.argv = (const char **) _argv;
 		// Call each step
 		SEEAppStoreReceipt_GetMainBundle017((&SEEAppStoreReceipt_ctx1));
 		SEEAppStoreReceipt_LoadReceipt01D((&SEEAppStoreReceipt_ctx1));
-		SEEAppStoreReceipt_GetGUID044((&SEEAppStoreReceipt_ctx1));
-		SEEAppStoreReceipt_GetRootCA050((&SEEAppStoreReceipt_ctx1));
+		SEEAppStoreReceipt_GetGUID04A((&SEEAppStoreReceipt_ctx1));
+		SEEAppStoreReceipt_GetRootCA04F((&SEEAppStoreReceipt_ctx1));
 		SEEAppStoreReceipt_CheckBundleIdentifier05D((&SEEAppStoreReceipt_ctx1));
-		SEEAppStoreReceipt_CheckBundleVersion061((&SEEAppStoreReceipt_ctx1));
-		SEEAppStoreReceipt_GetReceiptInformation062((&SEEAppStoreReceipt_ctx1));
-		SEEAppStoreReceipt_CheckReceiptSignature06D((&SEEAppStoreReceipt_ctx1));
-		SEEAppStoreReceipt_CheckReceiptIdentifier07E((&SEEAppStoreReceipt_ctx1));
+		SEEAppStoreReceipt_CheckBundleVersion05E((&SEEAppStoreReceipt_ctx1));
+		SEEAppStoreReceipt_GetReceiptInformation064((&SEEAppStoreReceipt_ctx1));
+		SEEAppStoreReceipt_CheckReceiptSignature076((&SEEAppStoreReceipt_ctx1));
+		SEEAppStoreReceipt_CheckReceiptIdentifier07F((&SEEAppStoreReceipt_ctx1));
 		SEEAppStoreReceipt_CheckReceiptVersion080((&SEEAppStoreReceipt_ctx1));
-		SEEAppStoreReceipt_CheckReceiptHash09C((&SEEAppStoreReceipt_ctx1));
+		SEEAppStoreReceipt_CheckReceiptHash0A3((&SEEAppStoreReceipt_ctx1));
 		SEEAppStoreReceipt_AppRunner0A6((&SEEAppStoreReceipt_ctx1));
-		SEEAppStoreReceipt_CleanUp0A9((&SEEAppStoreReceipt_ctx1));
+		SEEAppStoreReceipt_CleanUp0AA((&SEEAppStoreReceipt_ctx1));
 		return 0;
 		_Pragma("clang diagnostic pop")
 	}
@@ -4443,22 +4574,22 @@ SEEAppStoreReceipt_ctx->ca_data = NULL; \
 _Pragma("clang diagnostic push") \
 _Pragma("clang diagnostic ignored \"-Wused-but-marked-unused\"") \
 __SEEAppStoreReceipt_RECEIPT_LOG("SEEAppStoreReceipt - Entry point"); \
-SEEAppStoreReceipt_CheckingContext SEEAppStoreReceipt_ctx1 = { NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }; \
+SEEAppStoreReceipt_CheckingContext SEEAppStoreReceipt_ctx1 = { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL }; \
 SEEAppStoreReceipt_ctx1.argc = _argc; \
 SEEAppStoreReceipt_ctx1.argv = (const char **) _argv; \
 SEEAppStoreReceipt_GetMainBundle017((&SEEAppStoreReceipt_ctx1)); \
 SEEAppStoreReceipt_LoadReceipt01D((&SEEAppStoreReceipt_ctx1)); \
-SEEAppStoreReceipt_GetGUID044((&SEEAppStoreReceipt_ctx1)); \
-SEEAppStoreReceipt_GetRootCA050((&SEEAppStoreReceipt_ctx1)); \
+SEEAppStoreReceipt_GetGUID04A((&SEEAppStoreReceipt_ctx1)); \
+SEEAppStoreReceipt_GetRootCA04F((&SEEAppStoreReceipt_ctx1)); \
 SEEAppStoreReceipt_CheckBundleIdentifier05D((&SEEAppStoreReceipt_ctx1)); \
-SEEAppStoreReceipt_CheckBundleVersion061((&SEEAppStoreReceipt_ctx1)); \
-SEEAppStoreReceipt_GetReceiptInformation062((&SEEAppStoreReceipt_ctx1)); \
-SEEAppStoreReceipt_CheckReceiptSignature06D((&SEEAppStoreReceipt_ctx1)); \
-SEEAppStoreReceipt_CheckReceiptIdentifier07E((&SEEAppStoreReceipt_ctx1)); \
+SEEAppStoreReceipt_CheckBundleVersion05E((&SEEAppStoreReceipt_ctx1)); \
+SEEAppStoreReceipt_GetReceiptInformation064((&SEEAppStoreReceipt_ctx1)); \
+SEEAppStoreReceipt_CheckReceiptSignature076((&SEEAppStoreReceipt_ctx1)); \
+SEEAppStoreReceipt_CheckReceiptIdentifier07F((&SEEAppStoreReceipt_ctx1)); \
 SEEAppStoreReceipt_CheckReceiptVersion080((&SEEAppStoreReceipt_ctx1)); \
-SEEAppStoreReceipt_CheckReceiptHash09C((&SEEAppStoreReceipt_ctx1)); \
+SEEAppStoreReceipt_CheckReceiptHash0A3((&SEEAppStoreReceipt_ctx1)); \
 SEEAppStoreReceipt_AppRunner0A6((&SEEAppStoreReceipt_ctx1)); \
-SEEAppStoreReceipt_CleanUp0A9((&SEEAppStoreReceipt_ctx1)); \
+SEEAppStoreReceipt_CleanUp0AA((&SEEAppStoreReceipt_ctx1)); \
 0; \
 _Pragma("clang diagnostic pop") \
 })
@@ -4474,5 +4605,6 @@ _Pragma("clang diagnostic pop") \
 #ifdef __cplusplus
 }
 #endif
+
 
 #endif
