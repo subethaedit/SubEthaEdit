@@ -318,12 +318,17 @@ NSString * const SEEConnectionStatusDidChangeNotification = @"SEEConnectionStatu
     } else if (addressDataString) {
         [toolTipArray addObject:addressDataString];
     }
-        
-    if ([[self.BEEPSession userInfo] objectForKey:@"isAutoConnect"]) {
+    NSDictionary *userInfo = [self.BEEPSession userInfo];
+    if ([userInfo objectForKey:@"isAutoConnect"]) {
+		TCMMMUser *otherUser = [[TCMMMUserManager sharedInstance] userForUserID:userInfo[TCMMMPresenceAutoconnectOriginUserIDKey]];
+		NSString *otherUserString=@"…";
+		if (otherUser) {
+			otherUserString = otherUser.name;
+		}
         if (isInbound) {
-            [toolTipArray addObject:NSLocalizedString(@"Inbound Friendcast Connection", @"Inbound Friendcast Connection ToolTip")];
+            [toolTipArray addObject:[NSString stringWithFormat:NSLocalizedString(@"Inbound Friendcast Connection", @"Inbound Friendcast Connection ToolTip"),otherUserString]];
         } else {
-            [toolTipArray addObject:NSLocalizedString(@"Friendcast Connection", @"Friendcast Connection ToolTip")];
+			[toolTipArray addObject:[NSString stringWithFormat:NSLocalizedString(@"Friendcast Connection", @"Friendcast Connection ToolTip"),otherUserString]];
         }
     } else if (isInbound) {
         [toolTipArray addObject:NSLocalizedString(@"Inbound Connection", @"Inbound Connection ToolTip")];
