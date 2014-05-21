@@ -120,6 +120,13 @@
 					<regex>(?&lt;![\d\w])(?i)(empty-cells)</regex>
 					<regex>(?&lt;![\d\w])(?i)(fit(?:-[\w]+)*)</regex>
 					<regex>(?&lt;![\d\w])(?i)(filter)</regex>
+					<regex>(?&lt;![\d\w])(?i)(flex-basis)</regex>
+					<regex>(?&lt;![\d\w])(?i)(flex-direction)</regex>
+					<regex>(?&lt;![\d\w])(?i)(flex-flow)</regex>
+					<regex>(?&lt;![\d\w])(?i)(flex-grow)</regex>
+					<regex>(?&lt;![\d\w])(?i)(flex-shrink)</regex>
+					<regex>(?&lt;![\d\w])(?i)(flex-wrap)</regex>
+					<regex>(?&lt;![\d\w])(?i)(flex)</regex>
 					<regex>(?&lt;![\d\w])(?i)(float)</regex>
 					<regex>(?&lt;![\d\w])(?i)(flood-color)</regex>
 					<regex>(?&lt;![\d\w])(?i)(flood-opacity)</regex>
@@ -218,6 +225,7 @@
 					<regex>(?&lt;![\d\w])(?i)(nav-right)</regex>
 					<regex>(?&lt;![\d\w])(?i)(nav-up)</regex>
 					<regex>(?&lt;![\d\w])(?i)(opacity)</regex>
+					<regex>(?&lt;![\d\w])(?i)(order)</regex>
 					<regex>(?&lt;![\d\w])(?i)(orphans)</regex>
 					<regex>(?&lt;![\d\w])(?i)(outline-color)</regex>
 					<regex>(?&lt;![\d\w])(?i)(outline-offset)</regex>
