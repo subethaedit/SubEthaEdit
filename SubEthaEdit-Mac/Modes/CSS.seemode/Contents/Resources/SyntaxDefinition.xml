@@ -262,13 +262,23 @@
 					<regex>(?&lt;![\d\w])(?i)(table-layout)</regex>
 					<regex>(?&lt;![\d\w])(?i)(text-align-last)</regex>
 					<regex>(?&lt;![\d\w])(?i)(text-align)</regex>
+					<regex>(?&lt;![\d\w])(?i)(text-decoration-color)</regex> 
+					<regex>(?&lt;![\d\w])(?i)(text-decoration-line)</regex>
+					<regex>(?&lt;![\d\w])(?i)(text-decoration-skip)</regex>
+					<regex>(?&lt;![\d\w])(?i)(text-decoration-style)</regex>
 					<regex>(?&lt;![\d\w])(?i)(text-decoration)</regex>
+					<regex>(?&lt;![\d\w])(?i)(text-emphasis-color)</regex>
+					<regex>(?&lt;![\d\w])(?i)(text-emphasis-position)</regex>
+					<regex>(?&lt;![\d\w])(?i)(text-emphasis-style)</regex>
+					<regex>(?&lt;![\d\w])(?i)(text-emphasis)</regex>
 					<regex>(?&lt;![\d\w])(?i)(text-height)</regex>
 					<regex>(?&lt;![\d\w])(?i)(text-indent)</regex>
 					<regex>(?&lt;![\d\w])(?i)(text-justify)</regex>
 					<regex>(?&lt;![\d\w])(?i)(text-overflow)</regex>
+					<regex>(?&lt;![\d\w])(?i)(text-shadow)</regex>
 					<regex>(?&lt;![\d\w])(?i)(text-transform)</regex>
-					<regex>(?&lt;![\d\w])(?i)(toggle-group)</regex><!-- old user interaction -->
+					<regex>(?&lt;![\d\w])(?i)(text-underline-position)</regex>
+					<regex>(?&lt;![\d\w])(?i)(toggle-group)</regex><!-- old user interaction property -->
 					<regex>(?&lt;![\d\w])(?i)(top)</regex>
 					<regex>(?&lt;![\d\w])(?i)(transition-delay)</regex>
 					<regex>(?&lt;![\d\w])(?i)(transition-duration)</regex>
