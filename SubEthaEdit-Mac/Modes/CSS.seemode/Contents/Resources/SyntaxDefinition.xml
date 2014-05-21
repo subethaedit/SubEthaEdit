@@ -99,7 +99,8 @@
 					<regex>(?&lt;![\d\w])(?i)(height)</regex>
 					<regex>(?&lt;![\d\w])(?i)(hyphenate(?:-[\w]+)+)</regex>
 					<regex>(?&lt;![\d\w])(?i)(hyphens)</regex>
-					<regex>(?&lt;![\d\w])(?i)(icons)</regex>
+					<regex>(?&lt;![\d\w])(?i)(icon)</regex>
+					<regex>(?&lt;![\d\w])(?i)(ime-mode)</regex>
 					<regex>(?&lt;![\d\w])(?i)(image(?:-[\w]+)+)</regex>
 					<regex>(?&lt;![\d\w])(?i)(inline-box-align)</regex>
 					<regex>(?&lt;![\d\w])(?i)(key-equivalent)</regex>
