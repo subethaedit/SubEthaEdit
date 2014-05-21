@@ -23,7 +23,7 @@ function _app_signing_apply_resign()
 
 	local entitlement_file=""
 
-	#export CODESIGN_ALLOCATE="${DEVELOPER_BIN_DIR}/codesign_allocate"
+	export CODESIGN_ALLOCATE=`xcode-select -print-path`/Toolchains/XcodeDefault.xctoolchain/usr/bin/codesign_allocate
 
 	# sign with entitlements
 	if [[ "${macho_entitlements}" != "" ]]; then
