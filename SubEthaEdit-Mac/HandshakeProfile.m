@@ -10,6 +10,7 @@
 #import "HandshakeProfile.h"
 #import "TCMMMUserManager.h"
 #import "TCMMMUser.h"
+#import "TCMMMPresenceManager.h"
 
 @implementation HandshakeProfile
 
@@ -49,19 +50,26 @@
 	    NSString *bundleVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
 	    [dict setObject:[NSString stringWithFormat:@"%@/%@ (%@)",bundleName,shortVersion,bundleVersion] forKey:@"uag"];
 
-	    if ([[[[self session] userInfo] objectForKey:@"isRendezvous"] boolValue]) {
+		NSDictionary *myUserInfo = self.session.userInfo;
+		
+	    if ([[myUserInfo objectForKey:@"isRendezvous"] boolValue]) {
 	        [dict setObject:@"vous" forKey:@"rendez"];
 	    } else {
-	        NSString *URLString = [[[self session] userInfo] objectForKey:@"URLString"];
+	        NSString *URLString = [myUserInfo objectForKey:@"URLString"];
 	        if (URLString) {
 	            [dict setObject:URLString forKey:@"url"];
 	        }    
 	    }
     
-    	if ([[[[self session] userInfo] objectForKey:@"isAutoConnect"] boolValue]) {
-        	[dict setObject:[NSNumber numberWithBool:YES] forKey:@"isauto"];
+    	if ([[self.session.userInfo objectForKey:@"isAutoConnect"] boolValue]) {
+			dict[@"isauto"]=@YES;
 	    }
     
+		NSString *autoidString = myUserInfo[TCMMMPresenceAutoconnectOriginUserIDKey];
+		if (autoidString) {
+			dict[@"autoid"]=autoidString;
+		}
+		
     	[payload appendData:TCM_BencodedObject(dict)];
 	}
     
@@ -95,6 +103,9 @@
             if ([[self remoteInfos] objectForKey:@"isauto"]) {
                 [[[self session] userInfo] setObject:[NSNumber numberWithBool:YES] forKey:@"isAutoConnect"];
             }
+			if ([self remoteInfos][@"autoid"]) {
+				[self.session.userInfo setObject:[self remoteInfos][@"autoid"] forKey:TCMMMPresenceAutoconnectOriginUserIDKey];
+			}
             if ([[self remoteInfos] objectForKey:@"url"]) {
                 [[[self session] userInfo] setObject:[NSString stringWithAddressData:[[self session] peerAddressData]] forKey:@"URLString"];
             }

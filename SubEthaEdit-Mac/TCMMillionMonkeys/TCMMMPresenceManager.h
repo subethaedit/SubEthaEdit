@@ -24,6 +24,8 @@ extern NSString * const TCMMMPresenceStatusKey;
 extern NSString * const TCMMMPresenceUnknownStatusValue;
 extern NSString * const TCMMMPresenceKnownStatusValue;
 extern NSString * const TCMMMPresenceUserIDKey;
+extern NSString * const TCMMMPresenceAutoconnectOriginUserIDKey;
+
 extern NSString * const TCMMMPresenceSessionsKey;
 extern NSString * const TCMMMPresenceOrderedSessionsKey;
 extern NSString * const TCMMMPresenceNetServicesKey;

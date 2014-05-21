@@ -489,6 +489,9 @@ static TCMMMBEEPSessionManager *sharedInstance;
         if ([[aHost userInfo] objectForKey:@"isAutoConnect"]) {
             [[session userInfo] setObject:[[aHost userInfo] objectForKey:@"isAutoConnect"] forKey:@"isAutoConnect"];
         }
+		if ([[aHost userInfo] objectForKey:TCMMMPresenceAutoconnectOriginUserIDKey]) {
+            [[session userInfo] setObject:[[aHost userInfo] objectForKey:TCMMMPresenceAutoconnectOriginUserIDKey] forKey:TCMMMPresenceAutoconnectOriginUserIDKey];
+		}
         [self insertObject:session inSessionsAtIndex:[self countOfSessions]];
         [session setIsProhibitingInboundInternetSessions:[self isProhibitingInboundInternetSessions]];
 

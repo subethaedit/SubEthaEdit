@@ -1039,6 +1039,6 @@
 "SEEConnectionTaglineBonjour" = "Bonjour";
 "SEEConnectionTaglineInvisible" = "Unsichtbar";
 "SEEConnectionTaglineNetworkingDisabled" = "Netzwerk ausgeschaltet";
-"SEEConnectionTaglineFriendcast" = "Friendcast";
+"SEEConnectionTaglineFriendcast" = "via '%@'";
 
 

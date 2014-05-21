@@ -77,10 +77,16 @@ void * const SEEConnectionClearableObservingContext = (void *)&SEEConnectionClea
 		}
 	}
 	SEEConnection *connection = self.connection;
+	NSDictionary *userInfo = connection.BEEPSession.userInfo;
 	if (connection.isBonjour) {
 		[parts addObject:NSLocalizedString(@"SEEConnectionTaglineBonjour", @"")];
-	} else if ([[connection.BEEPSession userInfo] objectForKey:@"isAutoConnect"]) {
-		[parts addObject:NSLocalizedString(@"SEEConnectionTaglineFriendcast", @"")];
+	} else if ([userInfo objectForKey:@"isAutoConnect"]) {
+		TCMMMUser *otherUser = [[TCMMMUserManager sharedInstance] userForUserID:userInfo[TCMMMPresenceAutoconnectOriginUserIDKey]];
+		NSString *otherUserString=@"…";
+		if (otherUser) {
+			otherUserString = otherUser.name;
+		}
+		[parts addObject:[NSString stringWithFormat:NSLocalizedString(@"SEEConnectionTaglineFriendcast", @""), otherUserString]];
 	} else {
 		NSURL *connectToURL = self.connection.URL;
 		if (connectToURL && ![connectToURL.absoluteString isEqual:parts.lastObject]) {

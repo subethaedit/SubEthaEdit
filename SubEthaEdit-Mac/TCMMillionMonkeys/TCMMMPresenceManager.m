@@ -47,6 +47,7 @@ NSString * const TCMMMPresenceStatusKey = @"Status";
 NSString * const TCMMMPresenceUnknownStatusValue = @"NoStatus";
 NSString * const TCMMMPresenceKnownStatusValue = @"GotStatus";
 NSString * const TCMMMPresenceUserIDKey = @"UserID";
+NSString * const TCMMMPresenceAutoconnectOriginUserIDKey = @"AutoconnectOriginUserID";
 NSString * const TCMMMPresenceSessionsKey = @"Sessions";
 NSString * const TCMMMPresenceOrderedSessionsKey = @"OrderedSessions";
 NSString * const TCMMMPresenceNetServicesKey = @"NetServices";
@@ -425,6 +426,7 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
 	BOOL result = [[NSUserDefaults standardUserDefaults] boolForKey:AutoconnectPrefKey] &&
 				  [self isVisible] &&
 				  ![[TCMMMBEEPSessionManager sharedInstance] isNetworkingDisabled];
+	result=YES;
 	return result;
 }
 
@@ -519,7 +521,7 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
 					// TODO: if we connected to that user manually
 					if (![[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:aUserID]) {
 						// we have no session for this userID so let's connect
-						NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:anURLString,@"URLString",aUserID,TCMMMPresenceUserIDKey,[NSNumber numberWithBool:YES],@"isAutoConnect",nil];
+						NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:anURLString,@"URLString",aUserID,TCMMMPresenceUserIDKey,@YES,@"isAutoConnect",userID,TCMMMPresenceAutoconnectOriginUserIDKey,nil];
 						NSURL *URL = [NSURL URLWithString:anURLString];
 						NSData *addressData=nil;
 						[TCMMMBEEPSessionManager reducedURL:URL addressData:&addressData documentRequest:nil];

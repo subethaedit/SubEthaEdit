@@ -932,4 +932,4 @@
 "SEEConnectionTaglineBonjour" = "Bonjour";
 "SEEConnectionTaglineInvisible" = "Invisible";
 "SEEConnectionTaglineNetworkingDisabled" = "Networking Disabled";
-"SEEConnectionTaglineFriendcast" = "Friendcast";
+"SEEConnectionTaglineFriendcast" = "via '%@'";
