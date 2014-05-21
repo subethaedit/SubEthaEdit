@@ -187,7 +187,8 @@
 					<regex>(?&lt;![\d\w])(?i)(hyphens)</regex>
 					<regex>(?&lt;![\d\w])(?i)(icon)</regex>
 					<regex>(?&lt;![\d\w])(?i)(ime-mode)</regex>
-					<regex>(?&lt;![\d\w])(?i)(image(?:-[\w]+)+)</regex>
+					<regex>(?&lt;![\d\w])(?i)(image-orientation)</regex>
+					<regex>(?&lt;![\d\w])(?i)(image-resolution)</regex>
 					<regex>(?&lt;![\d\w])(?i)(inline-box-align)</regex>
 					<regex>(?&lt;![\d\w])(?i)(justify-content)</regex>
 					<regex>(?&lt;![\d\w])(?i)(justify-items)</regex>
@@ -235,6 +236,8 @@
 					<regex>(?&lt;![\d\w])(?i)(nav-left)</regex>
 					<regex>(?&lt;![\d\w])(?i)(nav-right)</regex>
 					<regex>(?&lt;![\d\w])(?i)(nav-up)</regex>
+					<regex>(?&lt;![\d\w])(?i)(object-fit)</regex>
+					<regex>(?&lt;![\d\w])(?i)(object-position)</regex>
 					<regex>(?&lt;![\d\w])(?i)(opacity)</regex>
 					<regex>(?&lt;![\d\w])(?i)(order)</regex>
 					<regex>(?&lt;![\d\w])(?i)(orphans)</regex>
