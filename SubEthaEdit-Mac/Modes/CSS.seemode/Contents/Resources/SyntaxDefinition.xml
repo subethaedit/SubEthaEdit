@@ -104,6 +104,7 @@
 					<regex>(?&lt;![\d\w])(?i)(border-width)</regex>
 					<regex>(?&lt;![\d\w])(?i)(border)</regex>
 					<regex>(?&lt;![\d\w])(?i)(bottom)</regex>
+					<regex>(?&lt;![\d\w])(?i)(box-decoration-break)</regex>
 					<regex>(?&lt;![\d\w])(?i)(box-shadow)</regex>
 					<regex>(?&lt;![\d\w])(?i)(box-sizing)</regex>
 					<regex>(?&lt;![\d\w])(?i)(break-after)</regex>
