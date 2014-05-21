@@ -55,7 +55,9 @@
 					<regex>(?&lt;![\d\w])(?i)(baseline-shift)</regex>
 					<regex>(?&lt;![\d\w])(?i)(bikeshedding)</regex><!-- old text property -->
 					<regex>(?&lt;![\d\w])(?i)(binding)</regex>
-					<regex>(?&lt;![\d\w])(?i)(bookmark(?:-[\w]+)+)</regex>
+					<regex>(?&lt;![\d\w])(?i)(bookmark-level)</regex>
+					<regex>(?&lt;![\d\w])(?i)(bookmark-label)</regex>
+					<regex>(?&lt;![\d\w])(?i)(bookmark-state)</regex>					
 					<regex>(?&lt;![\d\w])(?i)(border-bottom-color)</regex>
 					<regex>(?&lt;![\d\w])(?i)(border-bottom-left-radius)</regex>
 					<regex>(?&lt;![\d\w])(?i)(border-bottom-right-radius)</regex>
@@ -159,6 +161,8 @@
 					<regex>(?&lt;![\d\w])(?i)(font-variant)</regex>
 					<regex>(?&lt;![\d\w])(?i)(font-weight)</regex>
 					<regex>(?&lt;![\d\w])(?i)(font)</regex>
+					<regex>(?&lt;![\d\w])(?i)(footnote-display)</regex>
+					<regex>(?&lt;![\d\w])(?i)(footnote-policy)</regex>
 					<regex>(?&lt;![\d\w])(?i)(geometry)</regex><!-- descriptor -->
 					<regex>(?&lt;![\d\w])(?i)(grid-area)</regex>
 					<regex>(?&lt;![\d\w])(?i)(grid-auto-columns)</regex>
@@ -288,6 +292,7 @@
 					<regex>(?&lt;![\d\w])(?i)(ruby-align)</regex>
 					<regex>(?&lt;![\d\w])(?i)(ruby-merge)</regex>
 					<regex>(?&lt;![\d\w])(?i)(ruby-position)</regex>
+					<regex>(?&lt;![\d\w])(?i)(running)</regex>
 					<regex>(?&lt;![\d\w])(?i)(scr)</regex><!-- @font-face descriptor -->
 					<regex>(?&lt;![\d\w])(?i)(size)</regex>
 					<regex>(?&lt;![\d\w])(?i)(speak-as)</regex>
