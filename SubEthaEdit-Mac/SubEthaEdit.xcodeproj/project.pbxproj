@@ -3775,7 +3775,6 @@
 			buildSettings = {
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = SubEthaEdit.entitlements;
-				CODE_SIGN_IDENTITY = "Mac Developer: Michael Ehrmann (LH2JJC6KZ3)";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/TCMPortMapper\"";
@@ -3812,7 +3811,6 @@
 			buildSettings = {
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = SubEthaEdit.entitlements;
-				CODE_SIGN_IDENTITY = "Mac Developer: Michael Ehrmann (LH2JJC6KZ3)";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = YES;
