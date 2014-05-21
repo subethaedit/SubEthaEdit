@@ -4,32 +4,64 @@
 
 # Some comment
 
-# When they don't start in column="0", that they are not recognized as comments:
- # This isn't a comment.
+# When they don't start in column="0", that they are recognized as comments, but with an alert:
+ # This is a bad comment.
 # RPM spec says clear that comments must start at the begin of the line. However, in practice
 # the RPM software is more permissive, depending on the context. But for our syntax highlighting,
-# we stay with the official, strict rule for comments. Comments should not contain the character
-# % (which is marked as error), but 2 of them are okay: %%. TODO is higlighted.
+# we give, while recognizing the as comment, at least a little alert. Comments should not contain
+# the character % (which is marked as warning), but 2 of them are okay: %%. TODO is higlighted.
 
 # A spec file starts with "Normal" context. Here, you can specify values for some tags:
 Name:                kradioripper-unstable # Note that here in no comment possible!
+Name:                name only _one_ word allowed
+Name:                %macro no further syntax check after macro!
+# Some tags support only _one_ word as value
+Version:             0.4test5 up-from-the-space-this-is-an-error
 # Some tag can have parameters: Any char in paranthesis:
 Summary:             Recorder for internet radios (based on Streamripper)  
 Summary(de.UTF-8):   Aufnahmeprogramm für Internetradios (basiert auf Streamripper)
-Requires( / (  = ):  Some value
+# requiere free text:
+License:             License 1 2 3
+# requiere a well defines value:
+Requires( / (  = ):  Some, value()
+# new type "switch" accepts: yes, no, 0, 1
+AutoReq: yes
+AutoReq: yes invalid
+AutoReq: %macro no further syntax check after macro!
+AutoReq: no
+AutoReq: 0
+AutoReq: 1
+# requiere a number:
+Epoch:               123123
+Epoch:               123123 invalid
+Epoch:               %macro no further syntax check afer macro!
 # If tags are used that are not known, they are not highlighted:
 Invalidtag:          Some value
+Invalid content in this section (only tags are allowed)
   
 # You can use conditions in specs (highlighted with region markers):
 %if 0%{?mandriva_version}  
+# numbers and strings are distingished: string:
+%if lsdksfj
+# number:
+%if 23472398
+# string:
+%if lksdjfsl72939
+# invalid:
+%if 92437lsdkfjdsl
+# valid:
+%if "lsdfj %ksdf(sdfs) 3489"
 Release:             %mkrel 1.2
 %else  
 Release:             0  
 %endif  
+# requiere a well defined value:
+%ifos fixed_value
 # You must use these special macros (%%if etc.) always at the start of the line - if not,
-# that's an error. You must also always use the specified form. Everything else is an
+# that's bad but not an arror. You must also always use the specified form. Everything else is an
 # error:
  %if
+something %if
 %{if}
 %if(some options)
 # However, this are different macros and therefore correct:
@@ -37,10 +69,27 @@ Release:             0
 %{ifx}
 %ifx(some options)
 
+# the \ is escaped in the line. At the end of the line it escapes the line break:
+echo This is \" a text \\ and here\
+it continues.
+
+%define name value
+%define invalid_näme value
+%define macroname multi\
+line content with references like %0 %* %# %{-f} %{-f*} %1 %2 and so on
+%global name value
+%global invalid_näme value
+%undefine name
+%undefine name too-many-parameters
+
 # This special comment is treated and highlighted like a tag:
 # norootforbuild  
-# It can't have parameters, so every following non-whitespace character is an error:
+# It can't have parameters, so every following non-whitespace character is not good:
 # norootforbuild  DONT WRITE ANYTHING HERE!
+# wrong spacing is also recognized:
+#  norootforbuild
+# and also an indeet is not fine for norootforbuild:
+ # norootforbuild
   
 # This following "Conflicts" tag will be removed by set-version.sh,  
 # if it is a "kradioripper" release (and not a "kradioripper-unstable" release)...  
@@ -52,18 +101,10 @@ Conflicts:           kradioripper
 # colored like values:
 A KDE program for ripping internet radios. Based on StreamRipper.  
   
-Authors:  
---------  
-    Tim Fechtner  
-  
   
 # A section start can have parameters:
 %description -l de.UTF-8  
-Ein KDE-Aufnahmeprogramm für Internetradios. Basiert auf StreamRipper.  
-  
-Autoren:  
---------  
-    Tim Fechtner  
+Ein KDE-Aufnahmeprogramm für Internetradios. Basiert auf StreamRipper.   
   
 # These sections starts are errors:
  %description not at the first line
@@ -139,23 +180,33 @@ rm -rf "%{buildroot}"
   
   
 %changelog  
-# Changelog lines should start with "* " or "- ":
-* Thu Dec 23 2008 Tim Fechtner 0.4.28  
-- disabling debug packages
-* Wed Nov 26 2008 Tim Fechtner 0.4.8  
-- support for localization  
-- installing the hole _datadir/kde4/apps/kradioripper/* instead of single files  
-* Fri Nov 14 2008 Tim Fechtner 0.4.7  
-- recommanding streamripper at least in versio 1.63  
-* Thu Nov 11 2008 Tim Fechtner 0.4.4  
-- revolving ambigiously dependency for Mandriva explicitly when using openSUSE build service  
-* Wed Oct 08 2008 Tim Fechtner 0.4.2  
-- Integrated Mandriva support. Thanks to Bock & Busse System GbR: http://www.randosweb.de  
-* Sun Sep 14 2008 Tim Fechtner 0.3.0-1  
-- streamripper no longer requiered but only recommended  
-* Sat Sep 13 2008 Tim Fechtner 0.2.1-1  
-- ported to openSUSE build service  
-- support for Fedora 9  
-* Sat May 24 2008 Detlef Reichelt <detlef@links2linux.de> 0.2.1-0.pm.1  
-- initial build for packman  
-  
+* Sun May 04 2008 email@email.com
+- some text
+- some text
+  in two lines
+- some text
+  in two lines
+  + with subtext
+  - and more subtext
+  in two lines
+* Tue Apr 24 2007 Name
+- text
+  * When the star isn't at column 0, than it doesn't indicate
+  a new date
+* Wen Sep 08 2003 Wrong weekday
+* Mon Mai 08 2003 Wrong month
+* Mon Sep 0 2003 bad day
+* Mon Sep 8 2003 good day
+* Mon Sep 08 2003 good day
+* Mon Sep 32 2003 bad day
+* Mon Sep 08 03 bad year
+* Mon Sep 08 2003 Name
+# When using macros, the error check is disabled:
+* %myDataMacro Title of the entry
+- Text
+    - can
+        - be
+        - indeeded
+        - without
+    - problems
+

@@ -21,6 +21,7 @@ sub prg($)
 	
 	$foo = <<__EOF;
 d ahfdklf klsdfl sdf sd
+  SHOULD NOT MATCH: __EOF <--
 fsd sdf sdfsdlkf sd
 __EOF
 
@@ -42,3 +43,6 @@ sub blah {
 
 &blah;
 prg("test");
+
+# highlighting '-f' as Operator.
+$cfg = Config::IniFiles->new( -file => "/path/to/config_file.ini" );
