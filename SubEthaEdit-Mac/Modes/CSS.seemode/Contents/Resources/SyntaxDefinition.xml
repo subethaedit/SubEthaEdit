@@ -131,7 +131,6 @@
 					<regex>(?&lt;![\d\w])(?i)(drop-initial-value)</regex>
 					<regex>(?&lt;![\d\w])(?i)(elevation)</regex>
 					<regex>(?&lt;![\d\w])(?i)(empty-cells)</regex>
-					<regex>(?&lt;![\d\w])(?i)(fit(?:-[\w]+)*)</regex>
 					<regex>(?&lt;![\d\w])(?i)(filter)</regex>
 					<regex>(?&lt;![\d\w])(?i)(flex-basis)</regex>
 					<regex>(?&lt;![\d\w])(?i)(flex-direction)</regex>
@@ -198,11 +197,11 @@
 					<regex>(?&lt;![\d\w])(?i)(justify-items)</regex>
 					<regex>(?&lt;![\d\w])(?i)(justify-self)</regex>
 					<regex>(?&lt;![\d\w])(?i)(key-equivalent)</regex><!-- old user interaction property -->
-					<regex>(?&lt;![\d\w])(?i)(konq_bgpos_x)</regex>
-					<regex>(?&lt;![\d\w])(?i)(konq_bgpos_y)</regex>
-					<regex>(?&lt;![\d\w])(?i)(layer-background-color)</regex>
-					<regex>(?&lt;![\d\w])(?i)(layer-background-image)</regex>
-					<regex>(?&lt;![\d\w])(?i)(layout(?:-[\w]+)+)</regex>
+					<regex>(?&lt;![\d\w])(?i)(konq_bgpos_x)</regex><!-- old konq specific property -->
+					<regex>(?&lt;![\d\w])(?i)(konq_bgpos_y)</regex><!-- old konq specific property -->
+					<regex>(?&lt;![\d\w])(?i)(layer-background-color)</regex><!-- old netscape property -->
+					<regex>(?&lt;![\d\w])(?i)(layer-background-image)</regex><!-- old netscape property -->
+					<regex>(?&lt;![\d\w])(?i)(layout(?:-[\w]+)+)</regex><!-- old properties of some kind -->
 					<regex>(?&lt;![\d\w])(?i)(left)</regex>
 					<regex>(?&lt;![\d\w])(?i)(letter-spacing)</regex>
 					<regex>(?&lt;![\d\w])(?i)(lighting-color)</regex>
@@ -274,12 +273,11 @@
 					<regex>(?&lt;![\d\w])(?i)(pitch-range)</regex>
 					<regex>(?&lt;![\d\w])(?i)(pitch)</regex>
 					<regex>(?&lt;![\d\w])(?i)(play-during)</regex>
-					<regex>(?&lt;![\d\w])(?i)(pointer-events)</regex>
+					<regex>(?&lt;![\d\w])(?i)(pointer-events)</regex><!-- experimental property -->
 					<regex>(?&lt;![\d\w])(?i)(position)</regex>
 					<regex>(?&lt;![\d\w])(?i)(presentation-level)</regex>
-					<regex>(?&lt;![\d\w])(?i)(punctuation-trim)</regex>
+					<regex>(?&lt;![\d\w])(?i)(punctuation-trim)</regex><!-- old text property -->
 					<regex>(?&lt;![\d\w])(?i)(quotes)</regex>
-					<regex>(?&lt;![\d\w])(?i)(rendering-indent)</regex>
 					<regex>(?&lt;![\d\w])(?i)(resizer)</regex><!-- old user interaction property -->
 					<regex>(?&lt;![\d\w])(?i)(resize)</regex>
 					<regex>(?&lt;![\d\w])(?i)(rest-after)</regex>
@@ -304,7 +302,7 @@
 					<regex>(?&lt;![\d\w])(?i)(stress)</regex>
 					<regex>(?&lt;![\d\w])(?i)(string-set)</regex>
 					<regex>(?&lt;![\d\w])(?i)(tab-index)</regex><!-- old user interaction property -->
-					<regex>(?&lt;![\d\w])(?i)(tab-side)</regex>
+					<regex>(?&lt;![\d\w])(?i)(tab-side)</regex><!-- old layout property -->
 					<regex>(?&lt;![\d\w])(?i)(tab-size)</regex>
 					<regex>(?&lt;![\d\w])(?i)(table-layout)</regex>
 					<regex>(?&lt;![\d\w])(?i)(text-align-last)</regex>
