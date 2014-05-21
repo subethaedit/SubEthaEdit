@@ -247,7 +247,11 @@
 					<regex>(?&lt;![\d\w])(?i)(text-transform)</regex>
 					<regex>(?&lt;![\d\w])(?i)(toggle-group)</regex>
 					<regex>(?&lt;![\d\w])(?i)(top)</regex>
-					<regex>(?&lt;![\d\w])(?i)(transition(?:-[\w]+)*)</regex>
+					<regex>(?&lt;![\d\w])(?i)(transition-delay)</regex>
+					<regex>(?&lt;![\d\w])(?i)(transition-duration)</regex>
+					<regex>(?&lt;![\d\w])(?i)(transition-property)</regex>
+					<regex>(?&lt;![\d\w])(?i)(transition-timing-function)</regex>
+					<regex>(?&lt;![\d\w])(?i)(transition)</regex>
 					<regex>(?&lt;![\d\w])(?i)(transform-origin)</regex>
 					<regex>(?&lt;![\d\w])(?i)(transform-style)</regex>
 					<regex>(?&lt;![\d\w])(?i)(transform)</regex>
