@@ -95,7 +95,7 @@
 					<regex>(?&lt;![\d\w])(?i)(font)</regex>
 					<regex>(?&lt;![\d\w])(?i)(grid(?:-[\w]+)+)</regex>
 					<regex>(?&lt;![\d\w])(?i)(group-reset)</regex>
-					<regex>(?&lt;![\d\w])(?i)(hanging-puctuation)</regex>
+					<regex>(?&lt;![\d\w])(?i)(hanging-punctuation)</regex>
 					<regex>(?&lt;![\d\w])(?i)(height)</regex>
 					<regex>(?&lt;![\d\w])(?i)(hyphenate(?:-[\w]+)+)</regex>
 					<regex>(?&lt;![\d\w])(?i)(hyphens)</regex>
@@ -111,6 +111,7 @@
 					<regex>(?&lt;![\d\w])(?i)(layout(?:-[\w]+)+)</regex>
 					<regex>(?&lt;![\d\w])(?i)(left)</regex>
 					<regex>(?&lt;![\d\w])(?i)(letter-spacing)</regex>
+					<regex>(?&lt;![\d\w])(?i)(line-break)</regex>
 					<regex>(?&lt;![\d\w])(?i)(line-height)</regex>
 					<regex>(?&lt;![\d\w])(?i)(list-style-image)</regex>
 					<regex>(?&lt;![\d\w])(?i)(list-style-position)</regex>
@@ -144,6 +145,7 @@
 					<regex>(?&lt;![\d\w])(?i)(outline)</regex>
 					<regex>(?&lt;![\d\w])(?i)(overflow-x)</regex>
 					<regex>(?&lt;![\d\w])(?i)(overflow-y)</regex>
+					<regex>(?&lt;![\d\w])(?i)(overflow-wrap)</regex>
 					<regex>(?&lt;![\d\w])(?i)(overflow)</regex>
 					<regex>(?&lt;![\d\w])(?i)(padding-bottom)</regex>
 					<regex>(?&lt;![\d\w])(?i)(padding-left)</regex>
@@ -181,12 +183,15 @@
 					<regex>(?&lt;![\d\w])(?i)(speech-rate)</regex>
 					<regex>(?&lt;![\d\w])(?i)(stress)</regex>
 					<regex>(?&lt;![\d\w])(?i)(string-set)</regex>
-					<regex>(?&lt;![\d\w])(?i)(tab-side)</regex>
 					<regex>(?&lt;![\d\w])(?i)(tab-index)</regex>
+					<regex>(?&lt;![\d\w])(?i)(tab-side)</regex>
+					<regex>(?&lt;![\d\w])(?i)(tab-size)</regex>
 					<regex>(?&lt;![\d\w])(?i)(table-layout)</regex>
+					<regex>(?&lt;![\d\w])(?i)(text-align-last)</regex>
 					<regex>(?&lt;![\d\w])(?i)(text-align)</regex>
 					<regex>(?&lt;![\d\w])(?i)(text-decoration)</regex>
 					<regex>(?&lt;![\d\w])(?i)(text-indent)</regex>
+					<regex>(?&lt;![\d\w])(?i)(text-justify)</regex>
 					<regex>(?&lt;![\d\w])(?i)(text-overflow)</regex>
 					<regex>(?&lt;![\d\w])(?i)(text-transform)</regex>
 					<regex>(?&lt;![\d\w])(?i)(toggle-group)</regex>
