@@ -497,6 +497,10 @@ static NSString *tempFileName(NSString *origPath) {
     }
     [textStorage endEditing];
     [I_rangesToInvalidate removeAllObjects];
+	// update bottom status bars as this might change the width if wrap is of
+	if (!self.wrapLines) {
+		[[self plainTextEditors] makeObjectsPerformSelector:@selector(TCM_updateBottomStatusBar)];
+	}
 }
 
 // this is invalidating textRanges for the fullTextStorage
