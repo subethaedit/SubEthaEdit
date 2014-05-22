@@ -330,6 +330,10 @@
 					<regex>(?&lt;![\d\w])(?i)(tab-side)</regex><!-- old layout property -->
 					<regex>(?&lt;![\d\w])(?i)(tab-size)</regex>
 					<regex>(?&lt;![\d\w])(?i)(table-layout)</regex>
+					<regex>(?&lt;![\d\w])(?i)(target-name)</regex>
+					<regex>(?&lt;![\d\w])(?i)(target-new)</regex>
+					<regex>(?&lt;![\d\w])(?i)(target-position)</regex>
+					<regex>(?&lt;![\d\w])(?i)(target)</regex>
 					<regex>(?&lt;![\d\w])(?i)(text-align-last)</regex>
 					<regex>(?&lt;![\d\w])(?i)(text-align)</regex>
 					<regex>(?&lt;![\d\w])(?i)(text-autospace)</regex><!-- old text property -->
