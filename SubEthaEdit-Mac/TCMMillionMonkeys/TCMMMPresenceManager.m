@@ -121,13 +121,14 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
     return self;
 }
 
+// this is only for observing the user defaults setting which we don't do anymore
 - (void)observeValueForKeyPath:(NSString *)aKeyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     // send new friendcasting status
     TCMMMStatusProfile *profile = nil;
-    BOOL hasFriendCast = [[object valueForKeyPath:aKeyPath] boolValue];
+    BOOL shouldDoFriendcasting = [self shouldDoFriendcasting];
     for (profile in I_statusProfilesInServerRole) {
-        [profile sendIsFriendcasting:hasFriendCast];
-        if (hasFriendCast) {
+        [profile sendIsFriendcasting:shouldDoFriendcasting];
+        if (shouldDoFriendcasting) {
             // also send the current friendcast information
             [self sendReachabilityViaProfile:profile];
         }
@@ -216,15 +217,22 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
     return I_flags.isVisible;
 }
 
-- (void)setVisible:(BOOL)aFlag
-{
+- (void)setVisible:(BOOL)aFlag {
     I_flags.isVisible = aFlag;
     [self TCM_validateServiceAnnouncement];
     [self broadcastMyReachability];
-    TCMMMStatusProfile *profile=nil;
-    for (profile in I_statusProfilesInServerRole) {
+	BOOL shouldDoFriendcasting = [self shouldDoFriendcasting];
+    for (TCMMMStatusProfile *profile in I_statusProfilesInServerRole) {
         [profile sendVisibility:aFlag];
+		[profile sendIsFriendcasting:shouldDoFriendcasting];
+		if (shouldDoFriendcasting) {
+			[self sendReachabilityViaProfile:profile];
+			NSString *peerID = [[[profile session] userInfo] objectForKey:@"peerUserID"];
+			TCMMMStatusProfile *profile = [self statusProfileForUserID:peerID];
+			[profile requestReachability];
+		}
     }
+	
     [[TCMMMBEEPSessionManager sharedInstance] validateListener];
 }
 
@@ -478,11 +486,14 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
     [self TCM_validateVisibilityOfUserID:userID];
 }
 
+// the profile is always a profile in client role
 - (void)profile:(TCMMMStatusProfile *)aProfile didReceiveFriendcastingChange:(BOOL)hasFriendCast {
     NSString *userID=[[[aProfile session] userInfo] objectForKey:@"peerUserID"];
     NSMutableDictionary *status=[self statusOfUserID:userID];
     if (hasFriendCast) {
         [status setObject:@(YES) forKey:@"hasFriendCast"];
+		[aProfile requestReachability];
+		[self sendReachabilityViaProfile:aProfile];
     } else {
         [status removeObjectForKey:@"hasFriendCast"];
         NSMutableDictionary *sessionUserInfo = [[aProfile session] userInfo];
