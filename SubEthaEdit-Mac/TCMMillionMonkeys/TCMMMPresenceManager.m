@@ -504,56 +504,67 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
     [self TCM_validateVisibilityOfUserID:userID];
 }
 
+- (void)connectToAutoconnectURL:(NSString *)anURLString userID:(NSString *)aUserID autoconnectOriginUserID:(NSString *)anOriginUserID {
+	if ([self shouldDoFriendcasting]) {
+		if (![[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:aUserID]) {
+			// we have no session for this userID so let's connect
+			NSDictionary *userInfo = @{@"URLString":anURLString,
+									   TCMMMPresenceUserIDKey:aUserID,
+									   @"isAutoConnect":@YES,
+									   TCMMMPresenceAutoconnectOriginUserIDKey:anOriginUserID,};
+			NSURL *URL = [NSURL URLWithString:anURLString];
+			NSData *addressData=nil;
+			[TCMMMBEEPSessionManager reducedURL:URL addressData:&addressData documentRequest:nil];
+			TCMHost *host = nil;
+			if (addressData) {
+				host = [[TCMHost alloc] initWithAddressData:addressData port:[[URL port] intValue] userInfo:userInfo];
+				//NSLog(@"%s connecting to host: %@",__FUNCTION__,host);
+				[[TCMMMBEEPSessionManager sharedInstance] connectToHost:host];
+			} else {
+				host = [[TCMHost alloc] initWithName:[URL host] port:[[URL port] intValue] userInfo:userInfo];
+				[host resolve];
+				// give some time to resolve
+				[[TCMMMBEEPSessionManager sharedInstance] performSelector:@selector(connectToHost:) withObject:host afterDelay:4.0];
+			}
+		}
+	}
+}
 
 - (void)profile:(TCMMMStatusProfile *)aProfile didReceiveReachabilityURLString:(NSString *)anURLString forUserID:(NSString *)aUserID {
-	if ([self shouldDoFriendcasting]) {
-		NSMutableDictionary *sessionUserInfo = [[aProfile session] userInfo];
-		NSString *userID=[sessionUserInfo objectForKey:@"peerUserID"];
-		if ([userID isEqualToString:aUserID]) {
-			TCMMMUser *user = [[TCMMMUserManager sharedInstance] userForUserID:userID];
-			//NSLog(@"%s got a self information",__FUNCTION__);
-			if ([anURLString isEqualToString:@""]) {
-				[sessionUserInfo removeObjectForKey:TCMMMPresenceReachabiltyURLKey];
-			} else {
-				[sessionUserInfo setObject:anURLString forKey:TCMMMPresenceReachabiltyURLKey];
+	NSMutableDictionary *sessionUserInfo = [[aProfile session] userInfo];
+	NSString *userID=[sessionUserInfo objectForKey:@"peerUserID"];
+	if ([userID isEqualToString:aUserID]) {
+		TCMMMUser *user = [[TCMMMUserManager sharedInstance] userForUserID:userID];
+		//NSLog(@"%s got a self information",__FUNCTION__);
+		if ([anURLString isEqualToString:@""]) {
+			[sessionUserInfo removeObjectForKey:TCMMMPresenceReachabiltyURLKey];
+		} else {
+			[sessionUserInfo setObject:anURLString forKey:TCMMMPresenceReachabiltyURLKey];
+			if ([self shouldDoFriendcasting]) {
 				// we got new personal information - so propagate this information to all others
-				TCMMMStatusProfile *profile = nil;
-				for (profile in I_statusProfilesInServerRole) {
+				for (TCMMMStatusProfile *profile in I_statusProfilesInServerRole) {
 					if (![[[[profile session] userInfo] objectForKey:@"peerUserID"] isEqualToString:aUserID]) {
 						[profile sendReachabilityURLString:anURLString forUserID:aUserID];
 					}
 				}
 			}
-			
-			if (user) {
-				[[NSNotificationCenter defaultCenter] postNotificationName:TCMMMUserManagerUserDidChangeNotification object:user];
-			}
-
-		} else {
+		}
+		
+		if (user) {
+			[[NSNotificationCenter defaultCenter] postNotificationName:TCMMMUserManagerUserDidChangeNotification object:user];
+		}
+		
+	} else {
+		if ([self shouldDoFriendcasting]) {
 			//NSLog(@"%s got information about a third party: %@ %@",__FUNCTION__,anURLString,aUserID);
 			// see if we already have a connection to that userID, if not initiate connection to that user
 			NSMutableDictionary *status = [self statusOfUserID:userID];
 			if ([[NSUserDefaults standardUserDefaults] boolForKey:AutoconnectPrefKey]) {
 				if ([[status objectForKey:@"shouldAutoConnect"] boolValue]) {
-					// TODO: if we connected to that user manually
-					if (![[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:aUserID]) {
-						// we have no session for this userID so let's connect
-						NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:anURLString,@"URLString",aUserID,TCMMMPresenceUserIDKey,@YES,@"isAutoConnect",userID,TCMMMPresenceAutoconnectOriginUserIDKey,nil];
-						NSURL *URL = [NSURL URLWithString:anURLString];
-						NSData *addressData=nil;
-						[TCMMMBEEPSessionManager reducedURL:URL addressData:&addressData documentRequest:nil];
-						TCMHost *host = nil;
-						if (addressData) {
-							host = [[TCMHost alloc] initWithAddressData:addressData port:[[URL port] intValue] userInfo:userInfo];
-							//NSLog(@"%s connecting to host: %@",__FUNCTION__,host);
-							[[TCMMMBEEPSessionManager sharedInstance] connectToHost:host];
-						} else {
-							host = [[TCMHost alloc] initWithName:[URL host] port:[[URL port] intValue] userInfo:userInfo];
-							[host resolve];
-							// give him some time to resolve
-							[[TCMMMBEEPSessionManager sharedInstance] performSelector:@selector(connectToHost:) withObject:host afterDelay:4.0];
-						}
-					}
+					// delay a little bit so we don't connect to friendcasting before we connect using bonjour
+					[NSOperationQueue TCM_performBlockOnMainQueue:^{
+						[self connectToAutoconnectURL:anURLString userID:aUserID autoconnectOriginUserID:userID];
+					} afterDelay:0.3];
 				}
 			}
 		}
