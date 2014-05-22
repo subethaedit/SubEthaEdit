@@ -43,6 +43,7 @@
  					<regex>(?&lt;![\d\w])(?i)(align-content)</regex>
  					<regex>(?&lt;![\d\w])(?i)(align-items)</regex>
  					<regex>(?&lt;![\d\w])(?i)(align-self)</regex>
+ 					<regex>(?&lt;![\d\w])(?i)(all)</regex>
 					<regex>(?&lt;![\d\w])(?i)(animation-delay)</regex>
 					<regex>(?&lt;![\d\w])(?i)(animation-direction)</regex>
 					<regex>(?&lt;![\d\w])(?i)(animation-duration)</regex>
