@@ -245,6 +245,7 @@
 		4CDC272318969A600060B044 /* SEEParticipantViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CDC272218969A600060B044 /* SEEParticipantViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4CDF05A518C0A3D4004A49E5 /* SEEConnectionAddingWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CDF05A318C0A3D4004A49E5 /* SEEConnectionAddingWindowController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4CDF05A618C0A3D4004A49E5 /* SEEConnectionAddingWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CDF05A418C0A3D4004A49E5 /* SEEConnectionAddingWindowController.xib */; };
+		4CE4A57E192E4BF700771A26 /* SEEMoreRecentDocumentsListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE4A57D192E4BF700771A26 /* SEEMoreRecentDocumentsListItem.m */; };
 		4CE6C99D18AA905500AB45D1 /* SEEOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE6C99C18AA905500AB45D1 /* SEEOverlayView.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4CE9CF381802F4E900F5BC56 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C6AE8731802E8810089D489 /* OgreKit.framework */; };
 		4CE9CF391802F4F100F5BC56 /* OgreKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 4C6AE8731802E8810089D489 /* OgreKit.framework */; };
@@ -1096,6 +1097,8 @@
 		4CDF05A218C0A3D4004A49E5 /* SEEConnectionAddingWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEConnectionAddingWindowController.h; sourceTree = "<group>"; };
 		4CDF05A318C0A3D4004A49E5 /* SEEConnectionAddingWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEConnectionAddingWindowController.m; sourceTree = "<group>"; };
 		4CDF05A418C0A3D4004A49E5 /* SEEConnectionAddingWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEEConnectionAddingWindowController.xib; sourceTree = "<group>"; };
+		4CE4A57C192E4BF700771A26 /* SEEMoreRecentDocumentsListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEMoreRecentDocumentsListItem.h; sourceTree = "<group>"; };
+		4CE4A57D192E4BF700771A26 /* SEEMoreRecentDocumentsListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEMoreRecentDocumentsListItem.m; sourceTree = "<group>"; };
 		4CE6C99B18AA905500AB45D1 /* SEEOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEOverlayView.h; sourceTree = "<group>"; };
 		4CE6C99C18AA905500AB45D1 /* SEEOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEOverlayView.m; sourceTree = "<group>"; };
 		4CF06A621816D6D300B35DF8 /* SubEthaEdit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = SubEthaEdit.entitlements; sourceTree = "<group>"; };
@@ -2371,6 +2374,8 @@
 				4C0B4C6018C8B3E300048335 /* SEEToggleRecentDocumentListItem.m */,
 				4C63F8EC18C4930A00A588FD /* SEERecentDocumentListItem.h */,
 				4C63F8ED18C4930A00A588FD /* SEERecentDocumentListItem.m */,
+				4CE4A57C192E4BF700771A26 /* SEEMoreRecentDocumentsListItem.h */,
+				4CE4A57D192E4BF700771A26 /* SEEMoreRecentDocumentsListItem.m */,
 				4C9CCDC718BE413E00959EF2 /* SEENetworkConnectionRepresentationListItem.h */,
 				4C9CCDC818BE413E00959EF2 /* SEENetworkConnectionRepresentationListItem.m */,
 				4C0C4A1E18B3BA5600E6049E /* SEENetworkDocumentListItem.h */,
@@ -3408,6 +3413,7 @@
 				F2CEAAF1100B46150036B3F7 /* URLBubbleWindow.m in Sources */,
 				31FFC93D104E97A000E08256 /* NSErrorTCMAdditions.m in Sources */,
 				4C63F8EE18C4930A00A588FD /* SEERecentDocumentListItem.m in Sources */,
+				4CE4A57E192E4BF700771A26 /* SEEMoreRecentDocumentsListItem.m in Sources */,
 				3170E46112846C670096089C /* SEEStyleSheet.m in Sources */,
 				4C71D0C918BF997500EA66FA /* SEENewDocumentListItem.m in Sources */,
 				F280ABC4131E6ED50091D145 /* SEEStyleSheetEditorWindowController.m in Sources */,

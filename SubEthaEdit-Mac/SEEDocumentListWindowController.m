@@ -17,6 +17,7 @@
 #import "SEENetworkDocumentListItem.h"
 #import "SEENewDocumentListItem.h"
 #import "SEEToggleRecentDocumentListItem.h"
+#import "SEEMoreRecentDocumentsListItem.h"
 #import "SEERecentDocumentListItem.h"
 #import "SEEOpenOtherDocumentListItem.h"
 #import "SEEConnectDocumentListItem.h"
@@ -320,6 +321,17 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 						[self.availableItems addObject:recentDocumentItem];
 					}
 				}
+
+				if (recentDocumentURLs.count > 0) {
+					SEEMoreRecentDocumentsListItem *moreItem = [[SEEMoreRecentDocumentsListItem alloc] init];
+					NSString *cachedItemID = moreItem.uid;
+					SEEMoreRecentDocumentsListItem *cachedItem = [lookupDictionary objectForKey:cachedItemID];
+					if (cachedItem) {
+						[self.availableItems addObject:cachedItem];
+					} else {
+						[self.availableItems addObject:moreItem];
+					}
+				}
 			}
 		}
 
@@ -561,6 +573,8 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 		result = [tableView makeViewWithIdentifier:@"OtherItems" owner:self];
 	} else if ([rowItem isKindOfClass:SEEToggleRecentDocumentListItem.class]) {
 		result = [tableView makeViewWithIdentifier:@"ToggleRecent" owner:self];
+	} else if ([rowItem isKindOfClass:SEEMoreRecentDocumentsListItem.class]) {
+		result = [tableView makeViewWithIdentifier:@"MoreRecent" owner:self];
 	} else if ([rowItem isKindOfClass:SEERecentDocumentListItem.class]) {
 		result = [tableView makeViewWithIdentifier:@"Document" owner:self];
 	} else if ([rowItem isKindOfClass:SEENetworkDocumentListItem.class]) {
@@ -712,7 +726,8 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 					menuItem.enabled = YES;
 					[menu addItem:menuItem];
 				}
-			} else if ([clickedItem isKindOfClass:[SEEToggleRecentDocumentListItem class]]) {
+			} else if ([clickedItem isKindOfClass:[SEEToggleRecentDocumentListItem class]] ||
+					   [clickedItem isKindOfClass:[SEEMoreRecentDocumentsListItem class]]) {
 				for (NSURL *documentURL in self.cachedRecentDocuments) {
 					NSString *menuItemTitle = documentURL.lastPathComponent;
 					NSImage *image = nil;
