@@ -52,7 +52,11 @@
                     <regex>(?&lt;![\d\w])(?i)(cue)</regex>
                     <regex>(?&lt;![\d\w])(?i)(cursor)</regex>
                     <regex>(?&lt;![\d\w])(?i)(direction)</regex>
-                    <regex>(?&lt;![\d\w])(?i)(display(?:-[\w]+)*)</regex>
+                    <regex>(?&lt;![\d\w])(?i)(display-box)</regex>
+                    <regex>(?&lt;![\d\w])(?i)(display-extras)</regex>
+                    <regex>(?&lt;![\d\w])(?i)(display-inside)</regex>
+                    <regex>(?&lt;![\d\w])(?i)(display-outside)</regex>
+                    <regex>(?&lt;![\d\w])(?i)(display)</regex>
                     <regex>(?&lt;![\d\w])(?i)(dominant-baseline)</regex>                    
                     <regex>(?&lt;![\d\w])(?i)(drop-initial(?:-[\w]+)+)</regex>
                     <regex>(?&lt;![\d\w])(?i)(elevation)</regex>
