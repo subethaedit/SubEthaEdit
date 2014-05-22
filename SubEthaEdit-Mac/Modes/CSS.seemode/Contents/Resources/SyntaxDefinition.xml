@@ -108,6 +108,7 @@
 					<regex>(?&lt;![\d\w])(?i)(box-decoration-break)</regex>
 					<regex>(?&lt;![\d\w])(?i)(box-shadow)</regex>
 					<regex>(?&lt;![\d\w])(?i)(box-sizing)</regex>
+					<regex>(?&lt;![\d\w])(?i)(box-snap)</regex>
 					<regex>(?&lt;![\d\w])(?i)(break-after)</regex>
 					<regex>(?&lt;![\d\w])(?i)(break-before)</regex>
 					<regex>(?&lt;![\d\w])(?i)(break-inside)</regex>
@@ -228,7 +229,10 @@
 					<regex>(?&lt;![\d\w])(?i)(letter-spacing)</regex>
 					<regex>(?&lt;![\d\w])(?i)(lighting-color)</regex>
 					<regex>(?&lt;![\d\w])(?i)(line-break)</regex>
+					<regex>(?&lt;![\d\w])(?i)(line-grid)</regex>
 					<regex>(?&lt;![\d\w])(?i)(line-height)</regex>
+					<regex>(?&lt;![\d\w])(?i)(line-slack)</regex>
+					<regex>(?&lt;![\d\w])(?i)(line-snap)</regex>
 					<regex>(?&lt;![\d\w])(?i)(line-stacking-ruby)</regex>
 					<regex>(?&lt;![\d\w])(?i)(line-stacking-shift)</regex>
 					<regex>(?&lt;![\d\w])(?i)(line-stacking-strategy)</regex>
