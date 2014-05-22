@@ -67,12 +67,14 @@ void * const SEEConnectionClearableObservingContext = (void *)&SEEConnectionClea
 		[parts addObject:URLString];
 	}
 
-	if (URLString.length == 0 && self.user.isMe) {
+	if (self.user.isMe) {
 		if ([[TCMMMBEEPSessionManager sharedInstance] isNetworkingDisabled]) {
+			[parts removeAllObjects];
 			[parts addObject:NSLocalizedString(@"SEEConnectionTaglineNetworkingDisabled", @"")];
 		} else if ([[TCMMMPresenceManager sharedInstance] isCurrentlyReallyInvisible]) {
+			[parts removeAllObjects];
 			[parts addObject:NSLocalizedString(@"SEEConnectionTaglineInvisible", @"")];
-		} else {
+		} else if (URLString.length == 0) {
 			[parts addObject:NSLocalizedString(@"SEEConnectionTaglineBonjour", @"")];
 		}
 	}
