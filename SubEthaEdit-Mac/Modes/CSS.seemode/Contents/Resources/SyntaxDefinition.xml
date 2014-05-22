@@ -41,6 +41,7 @@
 					<regex>(?&lt;![\d\w])(?i)(additive-symbols)</regex><!-- @counter-style descriptor -->
  					<regex>(?&lt;![\d\w])(?i)(alignment-adjust)</regex>
  					<regex>(?&lt;![\d\w])(?i)(alignment-baseline)</regex>
+ 					<regex>(?&lt;![\d\w])(?i)(alignment)</regex>
  					<regex>(?&lt;![\d\w])(?i)(align-content)</regex>
  					<regex>(?&lt;![\d\w])(?i)(align-items)</regex>
  					<regex>(?&lt;![\d\w])(?i)(align-self)</regex>
@@ -70,6 +71,7 @@
 					<regex>(?&lt;![\d\w])(?i)(baseline-shift)</regex>
 					<regex>(?&lt;![\d\w])(?i)(bikeshedding)</regex><!-- old text property -->
 					<regex>(?&lt;![\d\w])(?i)(binding)</regex>
+					<regex>(?&lt;![\d\w])(?i)(bleed)</regex>
 					<regex>(?&lt;![\d\w])(?i)(bookmark-level)</regex>
 					<regex>(?&lt;![\d\w])(?i)(bookmark-label)</regex>
 					<regex>(?&lt;![\d\w])(?i)(bookmark-state)</regex>					
@@ -122,10 +124,14 @@
 					<regex>(?&lt;![\d\w])(?i)(break-inside)</regex>
 					<regex>(?&lt;![\d\w])(?i)(caption-side)</regex>
 					<regex>(?&lt;![\d\w])(?i)(chains)</regex>
+					<regex>(?&lt;![\d\w])(?i)(child-align)</regex>
+					<regex>(?&lt;![\d\w])(?i)(clear-after)</regex>
+					<regex>(?&lt;![\d\w])(?i)(clear-side)</regex>
 					<regex>(?&lt;![\d\w])(?i)(clear)</regex>
 					<regex>(?&lt;![\d\w])(?i)(clip-path)</regex>
 					<regex>(?&lt;![\d\w])(?i)(clip-rule)</regex>
 					<regex>(?&lt;![\d\w])(?i)(clip)</regex>
+					<regex>(?&lt;![\d\w])(?i)(color-correction)</regex>
 					<regex>(?&lt;![\d\w])(?i)(color-interpolation-filters)</regex>
 					<regex>(?&lt;![\d\w])(?i)(color)</regex>
 					<regex>(?&lt;![\d\w])(?i)(column-count)</regex>
@@ -174,11 +180,17 @@
 					<regex>(?&lt;![\d\w])(?i)(flex-shrink)</regex>
 					<regex>(?&lt;![\d\w])(?i)(flex-wrap)</regex>
 					<regex>(?&lt;![\d\w])(?i)(flex)</regex>
+					<regex>(?&lt;![\d\w])(?i)(float-defer-column)</regex>
+					<regex>(?&lt;![\d\w])(?i)(float-defer-page)</regex>
+					<regex>(?&lt;![\d\w])(?i)(float-displace)</regex>
+					<regex>(?&lt;![\d\w])(?i)(float-offset)</regex>
+					<regex>(?&lt;![\d\w])(?i)(float-wrap)</regex>
 					<regex>(?&lt;![\d\w])(?i)(float)</regex>
 					<regex>(?&lt;![\d\w])(?i)(flood-color)</regex>
 					<regex>(?&lt;![\d\w])(?i)(flood-opacity)</regex>
 					<regex>(?&lt;![\d\w])(?i)(flow-from)</regex>
 					<regex>(?&lt;![\d\w])(?i)(flow-into)</regex>
+					<regex>(?&lt;![\d\w])(?i)(flow)</regex>
 					<regex>(?&lt;![\d\w])(?i)(font-family)</regex>
 					<regex>(?&lt;![\d\w])(?i)(font-feature-settings)</regex>
 					<regex>(?&lt;![\d\w])(?i)(font-kerning)</regex>
@@ -229,6 +241,7 @@
 					<regex>(?&lt;![\d\w])(?i)(ime-mode)</regex>
 					<regex>(?&lt;![\d\w])(?i)(image-orientation)</regex>
 					<regex>(?&lt;![\d\w])(?i)(image-resolution)</regex>
+					<regex>(?&lt;![\d\w])(?i)(indent-edge-reset)</regex>
 					<regex>(?&lt;![\d\w])(?i)(inline-box-align)</regex>
 					<regex>(?&lt;![\d\w])(?i)(isolation)</regex>
 					<regex>(?&lt;![\d\w])(?i)(justify-content)</regex>
@@ -243,6 +256,7 @@
 					<regex>(?&lt;![\d\w])(?i)(left)</regex>
 					<regex>(?&lt;![\d\w])(?i)(letter-spacing)</regex>
 					<regex>(?&lt;![\d\w])(?i)(lighting-color)</regex>
+					<regex>(?&lt;![\d\w])(?i)(line-box-contain)</regex>
 					<regex>(?&lt;![\d\w])(?i)(line-break)</regex>
 					<regex>(?&lt;![\d\w])(?i)(line-grid)</regex>
 					<regex>(?&lt;![\d\w])(?i)(line-height)</regex>
@@ -302,6 +316,10 @@
 					<regex>(?&lt;![\d\w])(?i)(negative)</regex><!-- @counter-style descriptor -->
 					<regex>(?&lt;![\d\w])(?i)(object-fit)</regex>
 					<regex>(?&lt;![\d\w])(?i)(object-position)</regex>
+					<regex>(?&lt;![\d\w])(?i)(offset-after)</regex>
+					<regex>(?&lt;![\d\w])(?i)(offset-before)</regex>
+					<regex>(?&lt;![\d\w])(?i)(offset-end)</regex>
+					<regex>(?&lt;![\d\w])(?i)(offset-start)</regex>
 					<regex>(?&lt;![\d\w])(?i)(opacity)</regex>
 					<regex>(?&lt;![\d\w])(?i)(order)</regex>
 					<regex>(?&lt;![\d\w])(?i)(orientation)</regex>
@@ -326,6 +344,7 @@
 					<regex>(?&lt;![\d\w])(?i)(page-break-before)</regex>
 					<regex>(?&lt;![\d\w])(?i)(page-break-inside)</regex>
 					<regex>(?&lt;![\d\w])(?i)(page-policy)</regex>
+					<regex>(?&lt;![\d\w])(?i)(page)</regex>
 					<regex>(?&lt;![\d\w])(?i)(parameters)</regex><!-- descriptor -->
 					<regex>(?&lt;![\d\w])(?i)(pause-after)</regex>
 					<regex>(?&lt;![\d\w])(?i)(pause-before)</regex>
@@ -358,7 +377,6 @@
 					<regex>(?&lt;![\d\w])(?i)(ruby-merge)</regex>
 					<regex>(?&lt;![\d\w])(?i)(ruby-position)</regex>
 					<regex>(?&lt;![\d\w])(?i)(running)</regex>
-					<regex>(?&lt;![\d\w])(?i)(scr)</regex><!-- @font-face descriptor -->
 					<regex>(?&lt;![\d\w])(?i)(size)</regex>
 					<regex>(?&lt;![\d\w])(?i)(shape-outside)</regex>
 					<regex>(?&lt;![\d\w])(?i)(shape-image-threshold)</regex>
@@ -369,6 +387,7 @@
 					<regex>(?&lt;![\d\w])(?i)(speak-punctuation)</regex>
 					<regex>(?&lt;![\d\w])(?i)(speak)</regex>
 					<regex>(?&lt;![\d\w])(?i)(speech-rate)</regex>
+					<regex>(?&lt;![\d\w])(?i)(src)</regex><!-- @font-face descriptor -->
 					<regex>(?&lt;![\d\w])(?i)(stress)</regex>
 					<regex>(?&lt;![\d\w])(?i)(string-set)</regex>
 					<regex>(?&lt;![\d\w])(?i)(suffix)</regex><!-- @counter-style descriptor -->
