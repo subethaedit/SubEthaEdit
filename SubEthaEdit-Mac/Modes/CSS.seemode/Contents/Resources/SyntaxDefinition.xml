@@ -113,6 +113,7 @@
 					<regex>(?&lt;![\d\w])(?i)(break-before)</regex>
 					<regex>(?&lt;![\d\w])(?i)(break-inside)</regex>
 					<regex>(?&lt;![\d\w])(?i)(caption-side)</regex>
+					<regex>(?&lt;![\d\w])(?i)(chains)</regex>
 					<regex>(?&lt;![\d\w])(?i)(clear)</regex>
 					<regex>(?&lt;![\d\w])(?i)(clip-path)</regex>
 					<regex>(?&lt;![\d\w])(?i)(clip-rule)</regex>
