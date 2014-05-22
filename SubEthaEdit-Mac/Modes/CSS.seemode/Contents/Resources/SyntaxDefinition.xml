@@ -139,7 +139,7 @@
                     <regex>(?&lt;![\d\w])(?i)(display-extras)</regex>
                     <regex>(?&lt;![\d\w])(?i)(display-inside)</regex>
                     <regex>(?&lt;![\d\w])(?i)(display-outside)</regex>
-					<regex>(?&lt;![\d\w])(?i)(display)</regex>
+                    <regex>(?&lt;![\d\w])(?i)(display)</regex>
 					<regex>(?&lt;![\d\w])(?i)(dominant-baseline)</regex>
 					<regex>(?&lt;![\d\w])(?i)(drop-initial-after-adjust)</regex>
 					<regex>(?&lt;![\d\w])(?i)(drop-initial-after-align)</regex>
@@ -160,6 +160,8 @@
 					<regex>(?&lt;![\d\w])(?i)(float)</regex>
 					<regex>(?&lt;![\d\w])(?i)(flood-color)</regex>
 					<regex>(?&lt;![\d\w])(?i)(flood-opacity)</regex>
+					<regex>(?&lt;![\d\w])(?i)(flow-from)</regex>
+					<regex>(?&lt;![\d\w])(?i)(flow-into)</regex>
 					<regex>(?&lt;![\d\w])(?i)(font-family)</regex>
 					<regex>(?&lt;![\d\w])(?i)(font-feature-settings)</regex>
 					<regex>(?&lt;![\d\w])(?i)(font-kerning)</regex>
@@ -299,6 +301,7 @@
 					<regex>(?&lt;![\d\w])(?i)(presentation-level)</regex>
 					<regex>(?&lt;![\d\w])(?i)(punctuation-trim)</regex><!-- old text property -->
 					<regex>(?&lt;![\d\w])(?i)(quotes)</regex>
+					<regex>(?&lt;![\d\w])(?i)(region-fragment)</regex>
 					<regex>(?&lt;![\d\w])(?i)(resizer)</regex><!-- old user interaction property -->
 					<regex>(?&lt;![\d\w])(?i)(resize)</regex>
 					<regex>(?&lt;![\d\w])(?i)(resolution)</regex>
