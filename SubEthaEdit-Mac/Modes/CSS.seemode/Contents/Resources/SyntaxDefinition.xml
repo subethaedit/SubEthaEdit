@@ -38,6 +38,7 @@
 					<regex>(?&lt;![\d\w])(?i)(-xv(?:-\w+)+)</regex><!-- Opera Software -->
 					<regex>(?&lt;![\d\w])(?i)(prince(?:-\w+)+)</regex><!-- YesLogic -->
 					<!-- Regular Properties -->
+					<regex>(?&lt;![\d\w])(?i)(additive-symbols)</regex><!-- @counter-style descriptor -->
  					<regex>(?&lt;![\d\w])(?i)(alignment-adjust)</regex>
  					<regex>(?&lt;![\d\w])(?i)(alignment-baseline)</regex>
  					<regex>(?&lt;![\d\w])(?i)(align-content)</regex>
@@ -154,6 +155,7 @@
 					<regex>(?&lt;![\d\w])(?i)(drop-initial-value)</regex>
 					<regex>(?&lt;![\d\w])(?i)(elevation)</regex>
 					<regex>(?&lt;![\d\w])(?i)(empty-cells)</regex>
+					<regex>(?&lt;![\d\w])(?i)(fallback)</regex><!-- @counter-style descriptor -->
 					<regex>(?&lt;![\d\w])(?i)(filter)</regex>
 					<regex>(?&lt;![\d\w])(?i)(flex-basis)</regex>
 					<regex>(?&lt;![\d\w])(?i)(flex-direction)</regex>
@@ -284,6 +286,7 @@
 					<regex>(?&lt;![\d\w])(?i)(nav-left)</regex>
 					<regex>(?&lt;![\d\w])(?i)(nav-right)</regex>
 					<regex>(?&lt;![\d\w])(?i)(nav-up)</regex>
+					<regex>(?&lt;![\d\w])(?i)(negative)</regex><!-- @counter-style descriptor -->
 					<regex>(?&lt;![\d\w])(?i)(object-fit)</regex>
 					<regex>(?&lt;![\d\w])(?i)(object-position)</regex>
 					<regex>(?&lt;![\d\w])(?i)(opacity)</regex>
@@ -305,6 +308,7 @@
 					<regex>(?&lt;![\d\w])(?i)(padding-right)</regex>
 					<regex>(?&lt;![\d\w])(?i)(padding-top)</regex>
 					<regex>(?&lt;![\d\w])(?i)(padding)</regex>
+					<regex>(?&lt;![\d\w])(?i)(pad)</regex><!-- @counter-style descriptor -->
 					<regex>(?&lt;![\d\w])(?i)(page-break-after)</regex>
 					<regex>(?&lt;![\d\w])(?i)(page-break-before)</regex>
 					<regex>(?&lt;![\d\w])(?i)(page-break-inside)</regex>
@@ -321,9 +325,11 @@
 					<regex>(?&lt;![\d\w])(?i)(play-during)</regex>
 					<regex>(?&lt;![\d\w])(?i)(pointer-events)</regex><!-- experimental property -->
 					<regex>(?&lt;![\d\w])(?i)(position)</regex>
+					<regex>(?&lt;![\d\w])(?i)(prefix)</regex><!-- @counter-style descriptor -->
 					<regex>(?&lt;![\d\w])(?i)(presentation-level)</regex>
 					<regex>(?&lt;![\d\w])(?i)(punctuation-trim)</regex><!-- old text property -->
 					<regex>(?&lt;![\d\w])(?i)(quotes)</regex>
+					<regex>(?&lt;![\d\w])(?i)(range)</regex><!-- @counter-style descriptor -->
 					<regex>(?&lt;![\d\w])(?i)(region-fragment)</regex>
 					<regex>(?&lt;![\d\w])(?i)(resizer)</regex><!-- old user interaction property -->
 					<regex>(?&lt;![\d\w])(?i)(resize)</regex>
@@ -352,6 +358,9 @@
 					<regex>(?&lt;![\d\w])(?i)(speech-rate)</regex>
 					<regex>(?&lt;![\d\w])(?i)(stress)</regex>
 					<regex>(?&lt;![\d\w])(?i)(string-set)</regex>
+					<regex>(?&lt;![\d\w])(?i)(suffix)</regex><!-- @counter-style descriptor -->
+					<regex>(?&lt;![\d\w])(?i)(symbols)</regex><!-- @counter-style descriptor -->
+					<regex>(?&lt;![\d\w])(?i)(system)</regex><!-- @counter-style descriptor -->
 					<regex>(?&lt;![\d\w])(?i)(tab-index)</regex><!-- old user interaction property -->
 					<regex>(?&lt;![\d\w])(?i)(tab-side)</regex><!-- old layout property -->
 					<regex>(?&lt;![\d\w])(?i)(tab-size)</regex>
