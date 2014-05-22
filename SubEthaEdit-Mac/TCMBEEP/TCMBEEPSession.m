@@ -36,7 +36,6 @@ NSString * const TCMBEEPSASLCRAMMD5ProfileURI = @"http://iana.org/beep/SASL/CRAM
 NSString * const TCMBEEPSASLDIGESTMD5ProfileURI = @"http://iana.org/beep/SASL/DIGEST-MD5";
 NSString * const TCMBEEPSASLGSSAPIProfileURI = @"http://iana.org/beep/SASL/GSSAPI";
 NSString * const TCMBEEPSessionDidReceiveGreetingNotification = @"TCMBEEPSessionDidReceiveGreetingNotification";
-NSString * const TCMBEEPSessionDidEndNotification = @"TCMBEEPSessionDidEndNotification";
 
 NSString * const TCMBEEPSessionAuthenticationInformationDidChangeNotification = @"TCMBEEPSessionAuthenticationInformationDidChangeNotification";
 
@@ -692,7 +691,6 @@ static NSData *dhparamData = nil;
         NSError *error = [NSError errorWithDomain:@"BEEPDomain" code:451 userInfo:nil];
         [delegate BEEPSession:self didFailWithError:error];
     }
-    [[NSNotificationCenter defaultCenter] postNotificationName:TCMBEEPSessionDidEndNotification object:self];
 }
 
 - (void)TCM_checkForCompletedTLSHandshakeAndRestartManagementChannel
