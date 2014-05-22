@@ -1075,6 +1075,7 @@
                 <outlet property="O_modeInstallerInformativeTextField" destination="583" id="585"/>
                 <outlet property="O_modeInstallerMessageTextField" destination="504" id="565"/>
                 <outlet property="O_modeInstallerPanel" destination="501" id="564"/>
+                <outlet property="recentDocumentMenu" destination="125" id="muP-Md-NkC"/>
             </connections>
         </customObject>
         <customObject id="354" userLabel="Font Manager" customClass="NSFontManager"/>

@@ -710,6 +710,11 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 					menuItem.enabled = YES;
 					[menu addItem:menuItem];
 				}
+			} else if ([clickedItem isKindOfClass:[SEEToggleRecentDocumentListItem class]]) {
+				NSMenu *recentDocumentsMenu = [[[SEEDocumentController sharedInstance] recentDocumentMenu] copy];
+				NSMenuItem *recentDocuments = [[NSMenuItem alloc] initWithTitle:@"Open Recent" action:NULL keyEquivalent:@""];
+				recentDocuments.submenu = recentDocumentsMenu;
+				[menu addItem:recentDocuments];
 			}
 		}
     }
