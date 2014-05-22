@@ -135,6 +135,7 @@
 					<regex>(?&lt;![\d\w])(?i)(content)</regex>
 					<regex>(?&lt;![\d\w])(?i)(counter-increment)</regex>
 					<regex>(?&lt;![\d\w])(?i)(counter-reset)</regex>
+					<regex>(?&lt;![\d\w])(?i)(counter-set)</regex>
 					<regex>(?&lt;![\d\w])(?i)(crop)</regex>
 					<regex>(?&lt;![\d\w])(?i)(cue-after)</regex>
 					<regex>(?&lt;![\d\w])(?i)(cue-before)</regex>
@@ -252,6 +253,7 @@
 					<regex>(?&lt;![\d\w])(?i)(margin)</regex>
 					<regex>(?&lt;![\d\w])(?i)(marks)</regex>
 					<regex>(?&lt;![\d\w])(?i)(marker-offset)</regex>
+					<regex>(?&lt;![\d\w])(?i)(marker-side)</regex>
 					<regex>(?&lt;![\d\w])(?i)(marquee-direction)</regex>
 					<regex>(?&lt;![\d\w])(?i)(marquee-loop)</regex>
 					<regex>(?&lt;![\d\w])(?i)(marquee-play-count)</regex>
