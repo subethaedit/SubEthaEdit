@@ -99,8 +99,8 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 			if (note.object == [SEEDocumentController sharedInstance]) {
 				if (strongSelf.window.isVisible) {
 					[[NSOperationQueue mainQueue] addOperationWithBlock:^{
-						[[self class] cancelPreviousPerformRequestsWithTarget:strongSelf selector:@selector(reloadAllDocumentDocumentListItems) object:nil];
-						[strongSelf performSelector:@selector(reloadAllDocumentDocumentListItems) withObject:self afterDelay:0.1];
+						[[self class] cancelPreviousPerformRequestsWithTarget:strongSelf selector:@selector(reloadAllListItems) object:nil];
+						[strongSelf performSelector:@selector(reloadAllListItems) withObject:self afterDelay:0.1];
 					}];
 				}
 			}
@@ -116,7 +116,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
     [[NSNotificationCenter defaultCenter] removeObserver:self.otherWindowsBecomeKeyNotifivationObserver];
     [[NSNotificationCenter defaultCenter] removeObserver:self.recentDocumentsDidChangeNotifivationObserver];
 
-	[[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(reloadAllDocumentDocumentListItems) object:nil];
+	[[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(reloadAllListItems) object:nil];
 	[self removeKVO];
 
 	[self close];
@@ -203,8 +203,8 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if (context == SEENetworkDocumentBrowserEntriesObservingContext) {
-		[[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(reloadAllDocumentDocumentListItems) object:nil];
-		[self reloadAllDocumentDocumentListItems];
+		[[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(reloadAllListItems) object:nil];
+		[self reloadAllListItems];
 
 		if (self.toggleRecentItem) {
 			[[NSUserDefaults standardUserDefaults] setBool:self.toggleRecentItem.showRecentDocuments forKey:@"DocumentListShowRecent"];
@@ -216,7 +216,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 
 #pragma mark - Content management
 
-- (void)reloadAllDocumentDocumentListItems
+- (void)reloadAllListItems
 {
 	[self willChangeValueForKey:@"availableItems"];
 	{
