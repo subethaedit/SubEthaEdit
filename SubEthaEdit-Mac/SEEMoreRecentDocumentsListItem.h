@@ -11,4 +11,6 @@
 
 @interface SEEMoreRecentDocumentsListItem : NSObject <SEEDocumentListItem>
 
+@property (nonatomic, weak) NSMenu *moreMenu;
+
 @end

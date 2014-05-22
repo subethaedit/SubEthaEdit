@@ -245,7 +245,7 @@
 		4CDC272318969A600060B044 /* SEEParticipantViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CDC272218969A600060B044 /* SEEParticipantViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4CDF05A518C0A3D4004A49E5 /* SEEConnectionAddingWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CDF05A318C0A3D4004A49E5 /* SEEConnectionAddingWindowController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4CDF05A618C0A3D4004A49E5 /* SEEConnectionAddingWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CDF05A418C0A3D4004A49E5 /* SEEConnectionAddingWindowController.xib */; };
-		4CE4A57E192E4BF700771A26 /* SEEMoreRecentDocumentsListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE4A57D192E4BF700771A26 /* SEEMoreRecentDocumentsListItem.m */; };
+		4CE4A57E192E4BF700771A26 /* SEEMoreRecentDocumentsListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE4A57D192E4BF700771A26 /* SEEMoreRecentDocumentsListItem.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4CE6C99D18AA905500AB45D1 /* SEEOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE6C99C18AA905500AB45D1 /* SEEOverlayView.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4CE9CF381802F4E900F5BC56 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C6AE8731802E8810089D489 /* OgreKit.framework */; };
 		4CE9CF391802F4F100F5BC56 /* OgreKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 4C6AE8731802E8810089D489 /* OgreKit.framework */; };
@@ -2745,7 +2745,6 @@
 			buildConfigurationList = C05733C708A9546B00998B17 /* Build configuration list for PBXNativeTarget "SubEthaEdit" */;
 			buildPhases = (
 				8D15AC2B0486D014006FF6A4 /* Resources */,
-				144E295E0A222E96002ED261 /* Rez */,
 				8D15AC300486D014006FF6A4 /* Sources */,
 				8D15AC330486D014006FF6A4 /* Frameworks */,
 				149EC6970958726E002BDC41 /* Copy Files (Frameworks) */,
@@ -3145,16 +3144,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXRezBuildPhase section */
-		144E295E0A222E96002ED261 /* Rez */ = {
-			isa = PBXRezBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXRezBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
 		142898130958165400D14688 /* Run Script (Deployment) */ = {

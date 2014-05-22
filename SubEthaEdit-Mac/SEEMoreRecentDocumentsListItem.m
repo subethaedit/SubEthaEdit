@@ -6,6 +6,10 @@
 //  Copyright (c) 2014 TheCodingMonkeys. All rights reserved.
 //
 
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
 #import "SEEMoreRecentDocumentsListItem.h"
 
 @implementation SEEMoreRecentDocumentsListItem
@@ -26,8 +30,24 @@
 	return [NSString stringWithFormat:@"com.subethaedit.%@", NSStringFromClass(self.class)];
 }
 
+- (IBAction)openRecentDocumentForItem:(id)sender {
+	if (sender && [sender isKindOfClass:[NSMenuItem  class]]) {
+		NSMenuItem *item = (NSMenuItem *)sender;
+		id representedObject = item.representedObject;
+		if (representedObject && [representedObject isKindOfClass:[NSURL class]]) {
+			NSURL *documentURL = (NSURL *)representedObject;
+			if (documentURL) {
+				[documentURL startAccessingSecurityScopedResource];
+				[[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:documentURL display:YES completionHandler:NULL];
+			}
+		}
+	}
+}
+
 - (IBAction)itemAction:(id)sender {
-	NSLog(@"%s - Show the menu!!!!", __FUNCTION__);
+	NSEvent *mouseClickEvent = [NSApp currentEvent];
+	[NSMenu popUpContextMenu:self.moreMenu withEvent:mouseClickEvent forView:sender];
+
 }
 
 @end

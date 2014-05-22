@@ -42,6 +42,9 @@
 
 #import <QuartzCore/QuartzCore.h>
 
+
+#define SEE_DOCUMENT_HUD_MAX_RECENT_DOCUMENT_ITEMS 5u
+
 extern int const FileMenuTag;
 extern int const FileNewMenuItemTag;
 
@@ -53,7 +56,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 @property (nonatomic, weak) IBOutlet NSScrollView *scrollViewOutlet;
 @property (nonatomic, weak) IBOutlet NSTableView *tableViewOutlet;
 
-@property (nonatomic, weak) IBOutlet NSMenu *networkDocumentItemContextMenuOutlet;
+@property (nonatomic, weak) IBOutlet NSMenu *listItemContextMenuOutlet;
 
 @property (nonatomic, weak) IBOutlet NSObjectController *filesOwnerProxy;
 @property (nonatomic, weak) IBOutlet NSArrayController *documentListItemsArrayController;
@@ -310,6 +313,8 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 			}
 			if (self.toggleRecentItem.showRecentDocuments) {
 				NSArray *recentDocumentURLs = self.cachedRecentDocuments;
+
+				NSUInteger addedRecentDocuments = 0;
 				for (NSURL *url in recentDocumentURLs) {
 					NSString *cachedItemID = url.absoluteString;
 					id <SEEDocumentListItem> cachedItem = [lookupDictionary objectForKey:cachedItemID];
@@ -320,15 +325,21 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 						recentDocumentItem.fileURL = url;
 						[self.availableItems addObject:recentDocumentItem];
 					}
+
+					addedRecentDocuments++;
+					if (addedRecentDocuments >= SEE_DOCUMENT_HUD_MAX_RECENT_DOCUMENT_ITEMS) {
+						break;
+					}
 				}
 
-				if (recentDocumentURLs.count > 0) {
+				if (recentDocumentURLs.count > SEE_DOCUMENT_HUD_MAX_RECENT_DOCUMENT_ITEMS) {
 					SEEMoreRecentDocumentsListItem *moreItem = [[SEEMoreRecentDocumentsListItem alloc] init];
 					NSString *cachedItemID = moreItem.uid;
 					SEEMoreRecentDocumentsListItem *cachedItem = [lookupDictionary objectForKey:cachedItemID];
 					if (cachedItem) {
 						[self.availableItems addObject:cachedItem];
 					} else {
+						moreItem.moreMenu = self.listItemContextMenuOutlet;
 						[self.availableItems addObject:moreItem];
 					}
 				}
@@ -676,7 +687,8 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	} else if ([documentRepresentation isKindOfClass:SEEConnectDocumentListItem.class]) {
 		rowHeight = 42.0;
 	} else if ([documentRepresentation isKindOfClass:SEENetworkDocumentListItem.class] ||
-			   [documentRepresentation isKindOfClass:SEERecentDocumentListItem.class]) {
+			   [documentRepresentation isKindOfClass:SEERecentDocumentListItem.class] ||
+			   [documentRepresentation isKindOfClass:SEEMoreRecentDocumentsListItem.class]) {
 		rowHeight = 36.0;
 	}
 	return rowHeight;
@@ -698,7 +710,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 		clickedOnMultipleItems = [tableView isRowSelected:row] && ([tableView numberOfSelectedRows] > 1);
 	}
 
-    if (menu == self.networkDocumentItemContextMenuOutlet) {
+    if (menu == self.listItemContextMenuOutlet) {
 		[menu removeAllItems];
 
 		if (clickedItem != nil) {
