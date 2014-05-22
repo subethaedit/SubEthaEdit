@@ -394,6 +394,8 @@
 					<regex>(?&lt;![\d\w])(?i)(word-break)</regex>
 					<regex>(?&lt;![\d\w])(?i)(word-spacing)</regex>
 					<regex>(?&lt;![\d\w])(?i)(word-wrap)</regex>
+					<regex>(?&lt;![\d\w])(?i)(wrap-flow)</regex>
+					<regex>(?&lt;![\d\w])(?i)(wrap-through)</regex>
 					<regex>(?&lt;![\d\w])(?i)(writing-mode)</regex>
 					<regex>(?&lt;![\d\w])(?i)(z-index)</regex>
 					<regex>(?&lt;![\d\w])(?i)(zoom)</regex>
