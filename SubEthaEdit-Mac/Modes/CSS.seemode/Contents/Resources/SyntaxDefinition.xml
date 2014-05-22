@@ -79,6 +79,11 @@
 					<regex>(?&lt;![\d\w])(?i)(border-bottom-style)</regex>
 					<regex>(?&lt;![\d\w])(?i)(border-bottom-width)</regex>
 					<regex>(?&lt;![\d\w])(?i)(border-bottom)</regex>
+					<regex>(?&lt;![\d\w])(?i)(border-clip-bottom)</regex>
+					<regex>(?&lt;![\d\w])(?i)(border-clip-left)</regex>
+					<regex>(?&lt;![\d\w])(?i)(border-clip-right)</regex>
+					<regex>(?&lt;![\d\w])(?i)(border-clip-top)</regex>
+					<regex>(?&lt;![\d\w])(?i)(border-clip)</regex>
 					<regex>(?&lt;![\d\w])(?i)(border-collapse)</regex>
 					<regex>(?&lt;![\d\w])(?i)(border-color)</regex>
 					<regex>(?&lt;![\d\w])(?i)(border-image-outset)</regex>
@@ -91,6 +96,7 @@
 					<regex>(?&lt;![\d\w])(?i)(border-left-style)</regex>
 					<regex>(?&lt;![\d\w])(?i)(border-left-width)</regex>
 					<regex>(?&lt;![\d\w])(?i)(border-left)</regex>
+					<regex>(?&lt;![\d\w])(?i)(border-limit)</regex>
 					<regex>(?&lt;![\d\w])(?i)(border-radius)</regex>
 					<regex>(?&lt;![\d\w])(?i)(border-right-color)</regex>
 					<regex>(?&lt;![\d\w])(?i)(border-right-style)</regex>
@@ -134,6 +140,8 @@
 					<regex>(?&lt;![\d\w])(?i)(columns)</regex>
 					<regex>(?&lt;![\d\w])(?i)(contain)</regex>
 					<regex>(?&lt;![\d\w])(?i)(content)</regex>
+					<regex>(?&lt;![\d\w])(?i)(corner-shape)</regex>
+					<regex>(?&lt;![\d\w])(?i)(corners)</regex>
 					<regex>(?&lt;![\d\w])(?i)(counter-increment)</regex>
 					<regex>(?&lt;![\d\w])(?i)(counter-reset)</regex>
 					<regex>(?&lt;![\d\w])(?i)(counter-set)</regex>
