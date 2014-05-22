@@ -45,6 +45,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 #pragma mark -
 
 @interface TCMBEEPSession ()
+@property (nonatomic, strong) NSString *uniqueID;
 - (void)TCM_initHelper;
 - (void)TCM_handleStreamOpenEvent;
 - (void)TCM_handleStreamHasBytesAvailableEvent;
@@ -141,6 +142,7 @@ static NSData *dhparamData = nil;
 
 - (void)TCM_initHelper
 {
+	self.uniqueID = [NSString UUIDString];
     I_flags.hasSentTLSProceed = NO;
     I_flags.isWaitingForTLSProceed = NO;
     I_flags.isTLSHandshaking = NO;
@@ -336,6 +338,7 @@ static NSData *dhparamData = nil;
 	}
 #endif
     DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"BEEPSession deallocated");
+	self.uniqueID = nil;
     [super dealloc];
 }
 
@@ -659,6 +662,7 @@ static NSData *dhparamData = nil;
 }
 
 - (NSString *)sessionID {
+	return self.uniqueID;
 	NSString *result = nil;
 	NSDictionary *userInfo = self.userInfo;
 	if ([userInfo objectForKey:@"isRendezvous"]) {
