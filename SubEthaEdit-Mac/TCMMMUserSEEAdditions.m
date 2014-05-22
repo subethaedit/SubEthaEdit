@@ -223,7 +223,6 @@
 	NSData *imageData = [TCMMMUser imagePNGDataFromImage:self.image];
 	if (imageData) {
 		result = [imageData writeToURL:aURL atomically:YES];
-		[[TCMMMUser imageJPEGDataFromImage:self.image] writeToURL:[aURL URLByAppendingPathExtension:@"jpg"] atomically:YES];
 	}
 	return result;
 }
