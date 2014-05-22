@@ -10,5 +10,5 @@
 
 
 @interface NSWorkspace (NSWorkspaceTCMAdditions) 
-- (NSImage *)iconForFileType:(NSString *)anExtension size:(int)aSize;
+- (NSImage *)iconForFileType:(NSString *)anExtension size:(NSInteger)aSize;
 @end

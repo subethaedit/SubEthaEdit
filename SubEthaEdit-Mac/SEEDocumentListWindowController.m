@@ -25,7 +25,6 @@
 
 #import "SEEDocumentController.h"
 #import "DocumentModeManager.h"
-#import "SEEConnectionManager.h"
 
 #import "TCMMMPresenceManager.h"
 #import "TCMMMSession.h"
@@ -37,6 +36,8 @@
 #import "SEEConnection.h"
 
 #import "AppController.h"
+
+#import "NSWorkspaceTCMAdditions.h"
 
 #import <QuartzCore/QuartzCore.h>
 
@@ -156,6 +157,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	self.filesOwnerProxy.content = self;
 
 	if (! self.window.isVisible) {
+		[self updateRecentDocumentsCache];
 		[self installKVO];
 	}
 
@@ -711,10 +713,32 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 					[menu addItem:menuItem];
 				}
 			} else if ([clickedItem isKindOfClass:[SEEToggleRecentDocumentListItem class]]) {
-				NSMenu *recentDocumentsMenu = [[[SEEDocumentController sharedInstance] recentDocumentMenu] copy];
-				NSMenuItem *recentDocuments = [[NSMenuItem alloc] initWithTitle:@"Open Recent" action:NULL keyEquivalent:@""];
-				recentDocuments.submenu = recentDocumentsMenu;
-				[menu addItem:recentDocuments];
+				for (NSURL *documentURL in self.cachedRecentDocuments) {
+					NSString *menuItemTitle = documentURL.lastPathComponent;
+					NSImage *image = nil;
+					NSString *fileType = nil;
+					[documentURL getResourceValue:&fileType forKey:NSURLTypeIdentifierKey error:nil];
+					if (fileType) {
+						image = [[NSWorkspace sharedWorkspace] iconForFileType:fileType size:16];
+					} else {
+						image = [[NSWorkspace sharedWorkspace] iconForFileType:(NSString *)kUTTypePlainText size:16];
+					}
+					NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:menuItemTitle action:@selector(openRecentDocumentForItem:) keyEquivalent:@""];
+					menuItem.target = clickedItem;
+					menuItem.image = image;
+					menuItem.representedObject = documentURL;
+					menuItem.enabled = YES;
+					[menu addItem:menuItem];
+				}
+				{
+					[menu addItem:[NSMenuItem separatorItem]];
+				}
+				{
+					NSString *menuItemTitle = NSLocalizedStringWithDefaultValue(@"DOCUMENT_LIST_CONTEXT_MENU_CLEAR_RECENT", nil, [NSBundle mainBundle], @"Clear Recent Documents", @"MenuItem title in context menu of DocumentList window.");
+					NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:menuItemTitle action:@selector(clearRecentDocuments:) keyEquivalent:@""];
+					menuItem.enabled = YES;
+					[menu addItem:menuItem];
+				}
 			}
 		}
     }

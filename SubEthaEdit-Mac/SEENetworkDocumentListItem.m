@@ -96,9 +96,9 @@ extern int const FileNewMenuItemTag;
 	NSImage *image = nil;
 	if (fileExtension) {
 		NSString *fileType = (CFBridgingRelease(UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (__bridge CFStringRef)fileExtension, nil)));
-		image = [[NSWorkspace sharedWorkspace] iconForFileType:fileType];
+		image = [[[NSWorkspace sharedWorkspace] iconForFileType:fileType] copy];
 	} else {
-		image = [[NSWorkspace sharedWorkspace] iconForFileType:(NSString *)kUTTypePlainText];
+		image = [[[NSWorkspace sharedWorkspace] iconForFileType:(NSString *)kUTTypePlainText] copy];
 	}
 	self.image = image;
 }
