@@ -8,7 +8,7 @@
 
 #import "GetURLCommand.h"
 #import "SEEConnectionManager.h"
-
+#import "SEEDocumentController.h"
 
 @implementation GetURLCommand
 
@@ -18,8 +18,8 @@
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"command: %@", [[self commandDescription] commandName]);
     NSString *address = [self directParameter];
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"address: %@", address);
+    [[SEEDocumentController sharedInstance] showDocumentListWindow:nil];
     [[SEEConnectionManager sharedInstance] connectToAddress:address];
-    
     return nil;
 }
 
