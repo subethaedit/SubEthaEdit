@@ -129,6 +129,7 @@
 					<regex>(?&lt;![\d\w])(?i)(column-span)</regex>
 					<regex>(?&lt;![\d\w])(?i)(column-width)</regex>
 					<regex>(?&lt;![\d\w])(?i)(columns)</regex>
+					<regex>(?&lt;![\d\w])(?i)(contain)</regex>
 					<regex>(?&lt;![\d\w])(?i)(content)</regex>
 					<regex>(?&lt;![\d\w])(?i)(counter-increment)</regex>
 					<regex>(?&lt;![\d\w])(?i)(counter-reset)</regex>
