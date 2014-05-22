@@ -28,15 +28,19 @@
 					<regex>(?&lt;![\d\w])(?i)(-o(?:-\w+)+)</regex><!-- Opera Software -->
 					<regex>(?&lt;![\d\w])(?i)(-ms(?:-\w+)+)</regex><!-- Microsoft -->
 					<regex>(?&lt;![\d\w])(?i)(-ah(?:-\w+)+)</regex><!-- Antenna House -->
+					<regex>(?&lt;![\d\w])(?i)(-apple(?:-\w+)+)</regex><!-- Apple/Webkit -->
 					<regex>(?&lt;![\d\w])(?i)(-atsc(?:-\w+)+)</regex><!-- Advanced Television Standards Committee -->
+					<regex>(?&lt;![\d\w])(?i)(-epub(?:-\w+)+)</regex><!-- Webkit -->
+					<regex>(?&lt;![\d\w])(?i)(-ibooks(?:-\w+)+)</regex><!-- iBooks -->
 					<regex>(?&lt;![\d\w])(?i)(-hp(?:-\w+)+)</regex><!-- Hewlett Packard -->
 					<regex>(?&lt;![\d\w])(?i)(-mso(?:-\w+)+)</regex><!-- Microsoft -->
 					<regex>(?&lt;![\d\w])(?i)(-rim(?:-\w+)+)</regex><!-- Research In Motion -->
 					<regex>(?&lt;![\d\w])(?i)(-ro(?:-\w+)+)</regex><!-- Real Objects -->
 					<regex>(?&lt;![\d\w])(?i)(-tc(?:-\w+)+)</regex><!-- TallComponents -->
 					<regex>(?&lt;![\d\w])(?i)(-wap(?:-\w+)+)</regex><!-- The WAP Forum -->
+					<regex>(?&lt;![\d\w])(?i)(-weasy(?:-\w+)+)</regex><!-- Weasy Print -->
 					<regex>(?&lt;![\d\w])(?i)(-xv(?:-\w+)+)</regex><!-- Opera Software -->
-					<regex>(?&lt;![\d\w])(?i)(prince(?:-\w+)+)</regex><!-- YesLogic -->
+					<regex>(?&lt;![\d\w])(?i)(-prince(?:-\w+)+)</regex><!-- YesLogic -->
 					<!-- Regular Properties -->
 					<regex>(?&lt;![\d\w])(?i)(additive-symbols)</regex><!-- @counter-style descriptor -->
  					<regex>(?&lt;![\d\w])(?i)(alignment-adjust)</regex>
