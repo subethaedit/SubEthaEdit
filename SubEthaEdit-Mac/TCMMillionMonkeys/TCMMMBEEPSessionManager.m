@@ -356,7 +356,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
         [[sessionInformation objectForKey:kSessionInformationKeyOutgoingRendezvousSessions] makeObjectsPerformSelector:@selector(terminate)];
         [(TCMBEEPSession *)[sessionInformation objectForKey:kSessionInformationKeyRendezvousSession] terminate];
     }
-    [I_pendingSessions makeObjectsPerformSelector:@selector(terminate)];
+    [[I_pendingSessions copy] makeObjectsPerformSelector:@selector(terminate)];
     [I_pendingSessions removeAllObjects];
     NSEnumerator *outboundDicts=[[I_outboundInternetSessions allValues] objectEnumerator];
     NSDictionary *outboundDict=nil;
@@ -364,6 +364,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
         [[outboundDict objectForKey:@"sessions"] makeObjectsPerformSelector:@selector(terminate)];
     }
     [I_outboundInternetSessions removeAllObjects];
+	[[I_sessions copy] makeObjectsPerformSelector:@selector(terminate)];
 }
 
 - (void)setIsProhibitingInboundInternetSessions:(BOOL)flag {
@@ -425,7 +426,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
 			NSData *addressData = [addresses objectAtIndex:i];
 			TCMBEEPSession *session = [[TCMBEEPSession alloc] initWithAddressData:addressData];
 			DEBUGLOG(@"RendezvousLogDomain", DetailedLogLevel,@"Trying to connect to %d: %@ - %@",i,[service description],[NSString stringWithAddressData:addressData]);
-			[self insertObject:session inSessionsAtIndex:[self countOfSessions]];
+			[self addSessionToSessionsArray:session];
 			[session setIsProhibitingInboundInternetSessions:[self isProhibitingInboundInternetSessions]];
 			
 			[outgoingSessions addObject:session];
@@ -492,7 +493,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
 		if ([[aHost userInfo] objectForKey:TCMMMPresenceAutoconnectOriginUserIDKey]) {
             [[session userInfo] setObject:[[aHost userInfo] objectForKey:TCMMMPresenceAutoconnectOriginUserIDKey] forKey:TCMMMPresenceAutoconnectOriginUserIDKey];
 		}
-        [self insertObject:session inSessionsAtIndex:[self countOfSessions]];
+        [self addSessionToSessionsArray:session];
         [session setIsProhibitingInboundInternetSessions:[self isProhibitingInboundInternetSessions]];
 
         [sessions addObject:session];
@@ -849,6 +850,11 @@ static TCMMMBEEPSessionManager *sharedInstance;
 
 }
 
+- (void)addSessionToSessionsArray:(TCMBEEPSession *)aBEEPSession {
+	// append to end
+	[self insertObject:aBEEPSession inSessionsAtIndex:[self countOfSessions]];
+}
+
 - (void)BEEPSessionDidClose:(TCMBEEPSession *)aBEEPSession
 {
     DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"BEEPSessionDidClose");
@@ -1039,7 +1045,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
     [aBEEPSession open];
 
     [I_pendingSessions addObject:aBEEPSession];
-    [self insertObject:aBEEPSession inSessionsAtIndex:[self countOfSessions]];
+    [self addSessionToSessionsArray:aBEEPSession];
 }
 
 @end
