@@ -57,6 +57,7 @@
 					<regex>(?&lt;![\d\w])(?i)(appearance)</regex>
 					<regex>(?&lt;![\d\w])(?i)(azimuth)</regex>
 					<regex>(?&lt;![\d\w])(?i)(background-attachment)</regex>
+					<regex>(?&lt;![\d\w])(?i)(background-blend-mode)</regex>
 					<regex>(?&lt;![\d\w])(?i)(background-clip)</regex>
 					<regex>(?&lt;![\d\w])(?i)(background-color)</regex>
 					<regex>(?&lt;![\d\w])(?i)(background-image)</regex>
@@ -221,6 +222,7 @@
 					<regex>(?&lt;![\d\w])(?i)(image-orientation)</regex>
 					<regex>(?&lt;![\d\w])(?i)(image-resolution)</regex>
 					<regex>(?&lt;![\d\w])(?i)(inline-box-align)</regex>
+					<regex>(?&lt;![\d\w])(?i)(isolation)</regex>
 					<regex>(?&lt;![\d\w])(?i)(justify-content)</regex>
 					<regex>(?&lt;![\d\w])(?i)(justify-items)</regex>
 					<regex>(?&lt;![\d\w])(?i)(justify-self)</regex>
@@ -281,6 +283,7 @@
 					<regex>(?&lt;![\d\w])(?i)(min-height)</regex>
 					<regex>(?&lt;![\d\w])(?i)(min-width)</regex>
 					<regex>(?&lt;![\d\w])(?i)(min-zoom)</regex>
+					<regex>(?&lt;![\d\w])(?i)(mix-blend-mode)</regex>
 					<regex>(?&lt;![\d\w])(?i)(mix)</regex><!-- descriptor -->
 					<regex>(?&lt;![\d\w])(?i)(move-to)</regex>
 					<regex>(?&lt;![\d\w])(?i)(nav-down)</regex>
