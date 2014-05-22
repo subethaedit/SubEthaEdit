@@ -113,6 +113,8 @@
 					<regex>(?&lt;![\d\w])(?i)(break-inside)</regex>
 					<regex>(?&lt;![\d\w])(?i)(caption-side)</regex>
 					<regex>(?&lt;![\d\w])(?i)(clear)</regex>
+					<regex>(?&lt;![\d\w])(?i)(clip-path)</regex>
+					<regex>(?&lt;![\d\w])(?i)(clip-rule)</regex>
 					<regex>(?&lt;![\d\w])(?i)(clip)</regex>
 					<regex>(?&lt;![\d\w])(?i)(color-interpolation-filters)</regex>
 					<regex>(?&lt;![\d\w])(?i)(color)</regex>
@@ -247,6 +249,21 @@
 					<regex>(?&lt;![\d\w])(?i)(marquee-play-count)</regex>
 					<regex>(?&lt;![\d\w])(?i)(marquee-speed)</regex>
 					<regex>(?&lt;![\d\w])(?i)(marquee-style)</regex>
+					<regex>(?&lt;![\d\w])(?i)(mask-box-outset)</regex>
+					<regex>(?&lt;![\d\w])(?i)(mask-box-repeat)</regex>
+					<regex>(?&lt;![\d\w])(?i)(mask-box-slice)</regex>
+					<regex>(?&lt;![\d\w])(?i)(mask-box-source)</regex>
+					<regex>(?&lt;![\d\w])(?i)(mask-box-width)</regex>
+					<regex>(?&lt;![\d\w])(?i)(mask-box)</regex>
+					<regex>(?&lt;![\d\w])(?i)(mask-clip)</regex>
+					<regex>(?&lt;![\d\w])(?i)(mask-image)</regex>
+					<regex>(?&lt;![\d\w])(?i)(mask-origin)</regex>
+					<regex>(?&lt;![\d\w])(?i)(mask-position)</regex>
+					<regex>(?&lt;![\d\w])(?i)(mask-repeat)</regex>
+					<regex>(?&lt;![\d\w])(?i)(mask-size)</regex>
+					<regex>(?&lt;![\d\w])(?i)(mask-source-type)</regex>
+					<regex>(?&lt;![\d\w])(?i)(mask-type)</regex>
+					<regex>(?&lt;![\d\w])(?i)(mask)</regex>
 					<regex>(?&lt;![\d\w])(?i)(max-height)</regex>
 					<regex>(?&lt;![\d\w])(?i)(max-lines)</regex>
 					<regex>(?&lt;![\d\w])(?i)(max-width)</regex>
