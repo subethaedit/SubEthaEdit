@@ -60,6 +60,8 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 @property (nonatomic, weak) id recentDocumentsDidChangeNotifivationObserver;
 @property (nonatomic, strong) SEEToggleRecentDocumentListItem *toggleRecentItem;
 
+@property (nonatomic, strong) NSArray *cachedRecentDocuments;
+
 @end
 
 @implementation SEEDocumentListWindowController
@@ -99,8 +101,8 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 			if (note.object == [SEEDocumentController sharedInstance]) {
 				if (strongSelf.window.isVisible) {
 					[[NSOperationQueue mainQueue] addOperationWithBlock:^{
-						[[self class] cancelPreviousPerformRequestsWithTarget:strongSelf selector:@selector(reloadAllListItems) object:nil];
-						[strongSelf performSelector:@selector(reloadAllListItems) withObject:self afterDelay:0.1];
+						[[self class] cancelPreviousPerformRequestsWithTarget:strongSelf selector:@selector(updateRecentDocumentsCache) object:nil];
+						[strongSelf performSelector:@selector(updateRecentDocumentsCache) withObject:self afterDelay:0.1];
 					}];
 				}
 			}
@@ -116,6 +118,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
     [[NSNotificationCenter defaultCenter] removeObserver:self.otherWindowsBecomeKeyNotifivationObserver];
     [[NSNotificationCenter defaultCenter] removeObserver:self.recentDocumentsDidChangeNotifivationObserver];
 
+	[[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(updateRecentDocumentsCache) object:nil];
 	[[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(reloadAllListItems) object:nil];
 	[self removeKVO];
 
@@ -214,6 +217,20 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
     }
 }
 
+#pragma mark - Recent documents cache
+
+- (void)updateRecentDocumentsCache
+{
+	NSArray *recentDocuments = [[NSDocumentController sharedDocumentController] recentDocumentURLs];
+	for (NSURL *documentURL in recentDocuments) {
+		[documentURL stopAccessingSecurityScopedResource];
+	}
+	self.cachedRecentDocuments = recentDocuments;
+
+	[[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(reloadAllListItems) object:nil];
+	[self reloadAllListItems];
+}
+
 #pragma mark - Content management
 
 - (void)reloadAllListItems
@@ -289,7 +306,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 				[self.availableItems addObject:toggleRecentDocumentsItem];
 			}
 			if (self.toggleRecentItem.showRecentDocuments) {
-				NSArray *recentDocumentURLs = [[NSDocumentController sharedDocumentController] recentDocumentURLs];
+				NSArray *recentDocumentURLs = self.cachedRecentDocuments;
 				for (NSURL *url in recentDocumentURLs) {
 					NSString *cachedItemID = url.absoluteString;
 					id <SEEDocumentListItem> cachedItem = [lookupDictionary objectForKey:cachedItemID];

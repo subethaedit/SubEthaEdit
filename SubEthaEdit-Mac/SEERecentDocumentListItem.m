@@ -65,7 +65,6 @@ void * const SEERecentDocumentURLObservingContext = (void *)&SEERecentDocumentUR
 		image = [[NSWorkspace sharedWorkspace] iconForFileType:(NSString *)kUTTypePlainText];
 	}
 	self.image = image;
-	self.image = image;
 }
 
 - (NSString *)uid {
@@ -73,10 +72,10 @@ void * const SEERecentDocumentURLObservingContext = (void *)&SEERecentDocumentUR
 }
 
 - (IBAction)itemAction:(id)aSender {
-	if (self.fileURL) {
-		[[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:self.fileURL display:YES completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
-
-		}];
+	NSURL *documentURL = self.fileURL;
+	if (documentURL) {
+		[documentURL startAccessingSecurityScopedResource];
+		[[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:documentURL display:YES completionHandler:NULL];
 	}
 }
 
