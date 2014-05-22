@@ -318,6 +318,9 @@
 					<regex>(?&lt;![\d\w])(?i)(running)</regex>
 					<regex>(?&lt;![\d\w])(?i)(scr)</regex><!-- @font-face descriptor -->
 					<regex>(?&lt;![\d\w])(?i)(size)</regex>
+					<regex>(?&lt;![\d\w])(?i)(shape-outside)</regex>
+					<regex>(?&lt;![\d\w])(?i)(shape-image-threshold)</regex>
+					<regex>(?&lt;![\d\w])(?i)(shape-margin)</regex>
 					<regex>(?&lt;![\d\w])(?i)(speak-as)</regex>
 					<regex>(?&lt;![\d\w])(?i)(speak-header)</regex>
 					<regex>(?&lt;![\d\w])(?i)(speak-numeral)</regex>
