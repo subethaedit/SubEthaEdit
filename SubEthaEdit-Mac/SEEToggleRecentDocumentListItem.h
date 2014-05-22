@@ -13,4 +13,6 @@
 
 @property (nonatomic, assign) BOOL showRecentDocuments;
 
+- (IBAction)openRecentDocumentForItem:(id)sender; // used by the context menu
+
 @end

@@ -60,11 +60,10 @@ void * const SEERecentDocumentURLObservingContext = (void *)&SEERecentDocumentUR
 	NSImage *image = nil;
 	if (fileExtension) {
 		NSString *fileType = (CFBridgingRelease(UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (__bridge CFStringRef)fileExtension, nil)));
-		image = [[NSWorkspace sharedWorkspace] iconForFileType:fileType];
+		image = [[[NSWorkspace sharedWorkspace] iconForFileType:fileType] copy];
 	} else {
-		image = [[NSWorkspace sharedWorkspace] iconForFileType:(NSString *)kUTTypePlainText];
+		image = [[[NSWorkspace sharedWorkspace] iconForFileType:(NSString *)kUTTypePlainText] copy];
 	}
-	self.image = image;
 	self.image = image;
 }
 
@@ -73,10 +72,10 @@ void * const SEERecentDocumentURLObservingContext = (void *)&SEERecentDocumentUR
 }
 
 - (IBAction)itemAction:(id)aSender {
-	if (self.fileURL) {
-		[[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:self.fileURL display:YES completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
-
-		}];
+	NSURL *documentURL = self.fileURL;
+	if (documentURL) {
+		[documentURL startAccessingSecurityScopedResource];
+		[[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:documentURL display:YES completionHandler:NULL];
 	}
 }
 

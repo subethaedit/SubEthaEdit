@@ -1,14 +1,18 @@
 //
-//  SEEToggleRecentDocumentListItem.m
+//  SEEMoreRecentDocumentsListItem.m
 //  SubEthaEdit
 //
-//  Created by Michael Ehrmann on 06.03.14.
+//  Created by Michael Ehrmann on 22.05.14.
 //  Copyright (c) 2014 TheCodingMonkeys. All rights reserved.
 //
 
-#import "SEEToggleRecentDocumentListItem.h"
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
 
-@implementation SEEToggleRecentDocumentListItem
+#import "SEEMoreRecentDocumentsListItem.h"
+
+@implementation SEEMoreRecentDocumentsListItem
 
 @dynamic uid;
 @synthesize name = _name;
@@ -17,10 +21,7 @@
 - (id)init {
     self = [super init];
     if (self) {
-        self.name =
-		NSLocalizedStringWithDefaultValue(@"DOCUMENT_LIST_RECENT_TOGGLE", nil, [NSBundle mainBundle],
-										  @"Recent Documents",
-										  @"");
+        self.name = NSLocalizedString(@"DOCUMENT_LIST_MORE", @"");
     }
     return self;
 }
@@ -44,7 +45,9 @@
 }
 
 - (IBAction)itemAction:(id)sender {
-	self.showRecentDocuments = !self.showRecentDocuments;
+	NSEvent *mouseClickEvent = [NSApp currentEvent];
+	[NSMenu popUpContextMenu:self.moreMenu withEvent:mouseClickEvent forView:sender];
+
 }
 
 @end

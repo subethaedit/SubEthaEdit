@@ -36,6 +36,7 @@ extern NSString *const RecentDocumentsDidChangeNotification;
     NSMutableArray *I_windowControllers;
 }
 
+@property (nonatomic, weak) IBOutlet NSMenu *recentDocumentMenu;
 @property (nonatomic, readonly, assign) NSStringEncoding encodingFromLastRunOpenPanel;
 @property (nonatomic, readonly, copy) NSString *modeIdentifierFromLastRunOpenPanel;
 

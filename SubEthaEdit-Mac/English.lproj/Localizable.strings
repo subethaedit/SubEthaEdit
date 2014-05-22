@@ -912,9 +912,11 @@
 "DOCUMENT_LIST_NEW" = "New";
 "DOCUMENT_LIST_CONNECT" = "Connect to specific host…";
 "DOCUMENT_LIST_RECENT_TOGGLE" = "Recent Documents";
+"DOCUMENT_LIST_MORE" = "More";
 "DOCUMENT_LIST_CONTEXT_MENU_OPEN" = "Open";
 "DOCUMENT_LIST_CONTEXT_MENU_COPY_URL" = "Copy Connection URL";
 "DOCUMENT_LIST_CONTEXT_MENU_DISCONNECT" = "Disconnect";
+"DOCUMENT_LIST_CONTEXT_MENU_CLEAR_RECENT" = "Clear Recent Documents";
 
 /* participant overlay */
 "KICK_PENDING_USER_BUTTON_TITLE" = "Deny";

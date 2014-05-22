@@ -17,6 +17,7 @@
 #import "SEENetworkDocumentListItem.h"
 #import "SEENewDocumentListItem.h"
 #import "SEEToggleRecentDocumentListItem.h"
+#import "SEEMoreRecentDocumentsListItem.h"
 #import "SEERecentDocumentListItem.h"
 #import "SEEOpenOtherDocumentListItem.h"
 #import "SEEConnectDocumentListItem.h"
@@ -25,7 +26,6 @@
 
 #import "SEEDocumentController.h"
 #import "DocumentModeManager.h"
-#import "SEEConnectionManager.h"
 
 #import "TCMMMPresenceManager.h"
 #import "TCMMMSession.h"
@@ -38,7 +38,12 @@
 
 #import "AppController.h"
 
+#import "NSWorkspaceTCMAdditions.h"
+
 #import <QuartzCore/QuartzCore.h>
+
+
+#define SEE_DOCUMENT_HUD_MAX_RECENT_DOCUMENT_ITEMS 5u
 
 extern int const FileMenuTag;
 extern int const FileNewMenuItemTag;
@@ -51,7 +56,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 @property (nonatomic, weak) IBOutlet NSScrollView *scrollViewOutlet;
 @property (nonatomic, weak) IBOutlet NSTableView *tableViewOutlet;
 
-@property (nonatomic, weak) IBOutlet NSMenu *networkDocumentItemContextMenuOutlet;
+@property (nonatomic, weak) IBOutlet NSMenu *listItemContextMenuOutlet;
 
 @property (nonatomic, weak) IBOutlet NSObjectController *filesOwnerProxy;
 @property (nonatomic, weak) IBOutlet NSArrayController *documentListItemsArrayController;
@@ -59,6 +64,8 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 @property (nonatomic, weak) id otherWindowsBecomeKeyNotifivationObserver;
 @property (nonatomic, weak) id recentDocumentsDidChangeNotifivationObserver;
 @property (nonatomic, strong) SEEToggleRecentDocumentListItem *toggleRecentItem;
+
+@property (nonatomic, strong) NSArray *cachedRecentDocuments;
 
 @end
 
@@ -99,8 +106,8 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 			if (note.object == [SEEDocumentController sharedInstance]) {
 				if (strongSelf.window.isVisible) {
 					[[NSOperationQueue mainQueue] addOperationWithBlock:^{
-						[[self class] cancelPreviousPerformRequestsWithTarget:strongSelf selector:@selector(reloadAllDocumentDocumentListItems) object:nil];
-						[strongSelf performSelector:@selector(reloadAllDocumentDocumentListItems) withObject:self afterDelay:0.1];
+						[[self class] cancelPreviousPerformRequestsWithTarget:strongSelf selector:@selector(updateRecentDocumentsCache) object:nil];
+						[strongSelf performSelector:@selector(updateRecentDocumentsCache) withObject:self afterDelay:0.1];
 					}];
 				}
 			}
@@ -116,7 +123,8 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
     [[NSNotificationCenter defaultCenter] removeObserver:self.otherWindowsBecomeKeyNotifivationObserver];
     [[NSNotificationCenter defaultCenter] removeObserver:self.recentDocumentsDidChangeNotifivationObserver];
 
-	[[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(reloadAllDocumentDocumentListItems) object:nil];
+	[[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(updateRecentDocumentsCache) object:nil];
+	[[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(reloadAllListItems) object:nil];
 	[self removeKVO];
 
 	[self close];
@@ -153,6 +161,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	self.filesOwnerProxy.content = self;
 
 	if (! self.window.isVisible) {
+		[self updateRecentDocumentsCache];
 		[self installKVO];
 	}
 
@@ -203,8 +212,8 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if (context == SEENetworkDocumentBrowserEntriesObservingContext) {
-		[[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(reloadAllDocumentDocumentListItems) object:nil];
-		[self reloadAllDocumentDocumentListItems];
+		[[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(reloadAllListItems) object:nil];
+		[self reloadAllListItems];
 
 		if (self.toggleRecentItem) {
 			[[NSUserDefaults standardUserDefaults] setBool:self.toggleRecentItem.showRecentDocuments forKey:@"DocumentListShowRecent"];
@@ -214,9 +223,23 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
     }
 }
 
+#pragma mark - Recent documents cache
+
+- (void)updateRecentDocumentsCache
+{
+	NSArray *recentDocuments = [[NSDocumentController sharedDocumentController] recentDocumentURLs];
+	for (NSURL *documentURL in recentDocuments) {
+		[documentURL stopAccessingSecurityScopedResource];
+	}
+	self.cachedRecentDocuments = recentDocuments;
+
+	[[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(reloadAllListItems) object:nil];
+	[self reloadAllListItems];
+}
+
 #pragma mark - Content management
 
-- (void)reloadAllDocumentDocumentListItems
+- (void)reloadAllListItems
 {
 	[self willChangeValueForKey:@"availableItems"];
 	{
@@ -289,7 +312,9 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 				[self.availableItems addObject:toggleRecentDocumentsItem];
 			}
 			if (self.toggleRecentItem.showRecentDocuments) {
-				NSArray *recentDocumentURLs = [[NSDocumentController sharedDocumentController] recentDocumentURLs];
+				NSArray *recentDocumentURLs = self.cachedRecentDocuments;
+
+				NSUInteger addedRecentDocuments = 0;
 				for (NSURL *url in recentDocumentURLs) {
 					NSString *cachedItemID = url.absoluteString;
 					id <SEEDocumentListItem> cachedItem = [lookupDictionary objectForKey:cachedItemID];
@@ -299,6 +324,23 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 						SEERecentDocumentListItem *recentDocumentItem = [[SEERecentDocumentListItem alloc] init];
 						recentDocumentItem.fileURL = url;
 						[self.availableItems addObject:recentDocumentItem];
+					}
+
+					addedRecentDocuments++;
+					if (addedRecentDocuments >= SEE_DOCUMENT_HUD_MAX_RECENT_DOCUMENT_ITEMS) {
+						break;
+					}
+				}
+
+				if (recentDocumentURLs.count > SEE_DOCUMENT_HUD_MAX_RECENT_DOCUMENT_ITEMS) {
+					SEEMoreRecentDocumentsListItem *moreItem = [[SEEMoreRecentDocumentsListItem alloc] init];
+					NSString *cachedItemID = moreItem.uid;
+					SEEMoreRecentDocumentsListItem *cachedItem = [lookupDictionary objectForKey:cachedItemID];
+					if (cachedItem) {
+						[self.availableItems addObject:cachedItem];
+					} else {
+						moreItem.moreMenu = self.listItemContextMenuOutlet;
+						[self.availableItems addObject:moreItem];
 					}
 				}
 			}
@@ -542,6 +584,8 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 		result = [tableView makeViewWithIdentifier:@"OtherItems" owner:self];
 	} else if ([rowItem isKindOfClass:SEEToggleRecentDocumentListItem.class]) {
 		result = [tableView makeViewWithIdentifier:@"ToggleRecent" owner:self];
+	} else if ([rowItem isKindOfClass:SEEMoreRecentDocumentsListItem.class]) {
+		result = [tableView makeViewWithIdentifier:@"MoreRecent" owner:self];
 	} else if ([rowItem isKindOfClass:SEERecentDocumentListItem.class]) {
 		result = [tableView makeViewWithIdentifier:@"Document" owner:self];
 	} else if ([rowItem isKindOfClass:SEENetworkDocumentListItem.class]) {
@@ -643,7 +687,8 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	} else if ([documentRepresentation isKindOfClass:SEEConnectDocumentListItem.class]) {
 		rowHeight = 42.0;
 	} else if ([documentRepresentation isKindOfClass:SEENetworkDocumentListItem.class] ||
-			   [documentRepresentation isKindOfClass:SEERecentDocumentListItem.class]) {
+			   [documentRepresentation isKindOfClass:SEERecentDocumentListItem.class] ||
+			   [documentRepresentation isKindOfClass:SEEMoreRecentDocumentsListItem.class]) {
 		rowHeight = 36.0;
 	}
 	return rowHeight;
@@ -665,7 +710,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 		clickedOnMultipleItems = [tableView isRowSelected:row] && ([tableView numberOfSelectedRows] > 1);
 	}
 
-    if (menu == self.networkDocumentItemContextMenuOutlet) {
+    if (menu == self.listItemContextMenuOutlet) {
 		[menu removeAllItems];
 
 		if (clickedItem != nil) {
@@ -690,6 +735,34 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 					NSString *menuItemTitle = NSLocalizedStringWithDefaultValue(@"DOCUMENT_LIST_CONTEXT_MENU_DISCONNECT", nil, [NSBundle mainBundle], @"Disconnect", @"MenuItem title in context menu of DocumentList window.");
 					NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:menuItemTitle action:@selector(disconnect:) keyEquivalent:@""];
 					menuItem.target = clickedItem;
+					menuItem.enabled = YES;
+					[menu addItem:menuItem];
+				}
+			} else if ([clickedItem isKindOfClass:[SEEToggleRecentDocumentListItem class]] ||
+					   [clickedItem isKindOfClass:[SEEMoreRecentDocumentsListItem class]]) {
+				for (NSURL *documentURL in self.cachedRecentDocuments) {
+					NSString *menuItemTitle = documentURL.lastPathComponent;
+					NSImage *image = nil;
+					NSString *fileType = nil;
+					[documentURL getResourceValue:&fileType forKey:NSURLTypeIdentifierKey error:nil];
+					if (fileType) {
+						image = [[NSWorkspace sharedWorkspace] iconForFileType:fileType size:16];
+					} else {
+						image = [[NSWorkspace sharedWorkspace] iconForFileType:(NSString *)kUTTypePlainText size:16];
+					}
+					NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:menuItemTitle action:@selector(openRecentDocumentForItem:) keyEquivalent:@""];
+					menuItem.target = clickedItem;
+					menuItem.image = image;
+					menuItem.representedObject = documentURL;
+					menuItem.enabled = YES;
+					[menu addItem:menuItem];
+				}
+				{
+					[menu addItem:[NSMenuItem separatorItem]];
+				}
+				{
+					NSString *menuItemTitle = NSLocalizedStringWithDefaultValue(@"DOCUMENT_LIST_CONTEXT_MENU_CLEAR_RECENT", nil, [NSBundle mainBundle], @"Clear Recent Documents", @"MenuItem title in context menu of DocumentList window.");
+					NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:menuItemTitle action:@selector(clearRecentDocuments:) keyEquivalent:@""];
 					menuItem.enabled = YES;
 					[menu addItem:menuItem];
 				}

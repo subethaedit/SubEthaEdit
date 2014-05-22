@@ -13,24 +13,24 @@ static NSMutableDictionary *S_preresizedFileIcons=nil;
 
 @implementation NSWorkspace (NSWorkspaceTCMAdditions) 
 
-- (NSImage *) iconForFileType:(NSString *)anExtension size:(int)aSize {
-    NSNumber *sizeNumber = [NSNumber numberWithInt:aSize];
+- (NSImage *)iconForFileType:(NSString *)aFileType size:(NSInteger)aSize {
+    NSNumber *sizeNumber = [NSNumber numberWithInteger:aSize];
     
     if (!S_preresizedFileIcons) {
         S_preresizedFileIcons = [NSMutableDictionary new];
     }
     
-    NSMutableDictionary *iconsByExtension = [S_preresizedFileIcons objectForKey:sizeNumber];
-    if (!iconsByExtension) {
-        iconsByExtension = [NSMutableDictionary dictionary];
-        [S_preresizedFileIcons setObject:iconsByExtension forKey:sizeNumber];
+    NSMutableDictionary *iconsByFileType = [S_preresizedFileIcons objectForKey:sizeNumber];
+    if (!iconsByFileType) {
+        iconsByFileType = [NSMutableDictionary dictionary];
+        [S_preresizedFileIcons setObject:iconsByFileType forKey:sizeNumber];
     }
     
-    NSImage *icon = [iconsByExtension objectForKey:anExtension];
+    NSImage *icon = [iconsByFileType objectForKey:aFileType];
     if (!icon) {
-        icon = [[[[NSWorkspace sharedWorkspace] iconForFileType:anExtension] copy] autorelease];
+        icon = [[[[NSWorkspace sharedWorkspace] iconForFileType:aFileType] copy] autorelease];
         [icon setSize:NSMakeSize(aSize,aSize)];
-        [iconsByExtension setObject:icon forKey:anExtension];
+        [iconsByFileType setObject:icon forKey:aFileType];
     }
     
     return icon;
