@@ -1096,6 +1096,7 @@
 						<string>crop</string>
 						<string>crimson</string>
 						<string>cover</string>
+						<string>counter</string>
 						<string>cornsilk</string>
 						<string>cornflowerblue</string>
 						<string>coral</string>
@@ -1214,7 +1215,7 @@
 						<string>A3</string>
 					</keywords>
 					<keywords id="CSS Digits" useforautocomplete="yes" scope="style.value.numeric">
-						<regex>(?&lt;![#\d\w-])(-?[\d]+[ \t]*(?:px|pt|em|ex|cm|in|mm|pc|s|ms|Hz|kHz|%|deg|rad|grad|turn)?)</regex>
+						<regex>(?&lt;![#\d\w-])(-?[\d]+[ \t]*(?:px|pt|em|ex|cm|in|mm|pc|st|s|ms|Hz|kHz|%|deg|rad|grad|turn|dpi|dpcm)?)</regex>
 					</keywords>
 					<keywords id="CSS Colors" useforautocomplete="yes" scope="style.value.color.rgb-value">
 						<regex>(#[\da-fA-F]{3,6})</regex>
