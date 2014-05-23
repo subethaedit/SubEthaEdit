@@ -19,10 +19,7 @@
 #import "RegexSymbolDefinition.h"
 #import "NSMenuTCMAdditions.h"
 #import "ScriptWrapper.h"
-
-#ifdef SUBETHAEDIT
-	#import "AppController.h"
-#endif
+#import "AppController.h"
 
 NSString * const DocumentModeDocumentInfoTypePreferenceKey     = @"DocumentInfoType";
 NSString * const DocumentModeShowTopStatusBarPreferenceKey     = @"ShowBottomStatusBar";

@@ -3685,7 +3685,7 @@
 					"$(PROJECT_DIR)",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
-				OTHER_CFLAGS = "-DSUBETHAEDIT";
+				OTHER_CFLAGS = "";
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				PRODUCT_NAME = SubEthaEdit;
 				SKIP_INSTALL = NO;
@@ -3723,7 +3723,6 @@
 					"-DTCM_NO_DEBUG",
 					"-DNS_BLOCK_ASSERTIONS",
 					"-DNDEBUG",
-					"-DSUBETHAEDIT",
 				);
 				PRODUCT_NAME = SubEthaEdit;
 				SKIP_INSTALL = NO;
