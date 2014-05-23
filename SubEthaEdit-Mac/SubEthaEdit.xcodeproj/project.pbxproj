@@ -179,6 +179,7 @@
 		4C0FDA231803125E008E24E8 /* UniversalDetector.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 4C0FDA2118031235008E24E8 /* UniversalDetector.framework */; };
 		4C123002180BE4A60069253E /* TCMBEEPSessionXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C123001180BE4A60069253E /* TCMBEEPSessionXMLParser.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4C123005180C01EF0069253E /* TCMBEEPMessageXMLPayloadParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C123004180C01EF0069253E /* TCMBEEPMessageXMLPayloadParser.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		4C19ECA3192F525000D39777 /* SubEthaEdit_AuthenticatedSave.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 4C19ECA2192F525000D39777 /* SubEthaEdit_AuthenticatedSave.scpt */; };
 		4C43314418E4777C00592EC2 /* SEEDocumentCreationFlags.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C43314318E4777C00592EC2 /* SEEDocumentCreationFlags.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4C4EFE45181AA3410072176F /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C4EFE44181AA3400072176F /* HockeySDK.framework */; };
 		4C4EFE47181AA3B00072176F /* HockeySDK.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 4C4EFE44181AA3400072176F /* HockeySDK.framework */; };
@@ -920,6 +921,7 @@
 		4C123003180C01EF0069253E /* TCMBEEPMessageXMLPayloadParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = TCMBEEPMessageXMLPayloadParser.h; sourceTree = "<group>"; };
 		4C123004180C01EF0069253E /* TCMBEEPMessageXMLPayloadParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMBEEPMessageXMLPayloadParser.m; sourceTree = "<group>"; };
 		4C1407DB192CE64A00F0F709 /* LuaC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = LuaC.entitlements; sourceTree = "<group>"; };
+		4C19ECA2192F525000D39777 /* SubEthaEdit_AuthenticatedSave.scpt */ = {isa = PBXFileReference; lastKnownFileType = file; path = SubEthaEdit_AuthenticatedSave.scpt; sourceTree = "<group>"; };
 		4C43314218E4777C00592EC2 /* SEEDocumentCreationFlags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEDocumentCreationFlags.h; sourceTree = "<group>"; };
 		4C43314318E4777C00592EC2 /* SEEDocumentCreationFlags.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEDocumentCreationFlags.m; sourceTree = "<group>"; };
 		4C4EFE44181AA3400072176F /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HockeySDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2090,6 +2092,7 @@
 		2A37F4AFFDCFA73011CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				4C19ECA2192F525000D39777 /* SubEthaEdit_AuthenticatedSave.scpt */,
 				32DBCF750370BD2300C91783 /* SubEthaEdit_Prefix.pch */,
 				313C391E131EAEE300BAC5F5 /* PCDebug.h */,
 				2A37F4B0FDCFA73011CA2CEA /* main.m */,
@@ -2935,6 +2938,7 @@
 				F2D3E53A189941F50096425B /* AW InactiveTabClose@2x.png in Resources */,
 				F2D3E567189941F50096425B /* IW InactiveTabRightCap.png in Resources */,
 				142890C3095743F200D14688 /* LibraryFolderIcon.tiff in Resources */,
+				4C19ECA3192F525000D39777 /* SubEthaEdit_AuthenticatedSave.scpt in Resources */,
 				F2B136EB189BF27000430639 /* AW AddTabButton.tiff in Resources */,
 				F2880D271923BA7100C6370C /* BottomBarSharingIconGroupTurnOnHover.png in Resources */,
 				F2880D141923BA7100C6370C /* BottomBarSharingIconAnnounceTurnOffHover@2x.png in Resources */,
