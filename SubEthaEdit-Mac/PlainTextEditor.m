@@ -2083,6 +2083,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
 
 - (void)selectRange:(NSRange)aRange {
+	[self.plainTextWindowController selectTabForDocument:I_windowControllerTabContext.document];
     [[I_textView window] makeKeyAndOrderFront:self];
 	[[I_textView window] makeFirstResponder:I_textView];
 	[I_windowControllerTabContext setActivePlainTextEditor:self];
@@ -2091,6 +2092,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
 
 - (void)selectRangeInBackground:(NSRange)aRange {
+	[self.plainTextWindowController selectTabForDocument:I_windowControllerTabContext.document];
     [self selectRangeInBackgroundWithoutIndication:aRange expandIfFolded:YES];
 	[I_textView showFindIndicatorForRange:[I_textView selectedRange]];
 }
@@ -2169,7 +2171,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 - (PlainTextWindowController *)plainTextWindowController {
-	PlainTextWindowController *result = self.textView.window.windowController;
+	PlainTextWindowController *result = I_windowControllerTabContext.windowController;
 	if (![result isKindOfClass:[PlainTextWindowController class]]) {
 		result = nil;
 	}
