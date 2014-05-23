@@ -123,9 +123,6 @@
 		1428946D09575B9700D14688 /* SEEWebPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428946109575B9700D14688 /* SEEWebPreviewViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		142894A409575FF200D14688 /* TextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 142894A309575FF200D14688 /* TextFieldCell.m */; };
 		142894D4095765CF00D14688 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 142894D3095765CF00D14688 /* SystemConfiguration.framework */; };
-		142894E10957670900D14688 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */; };
-		142894EB095767CD00D14688 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 142894E8095767CD00D14688 /* main.m */; };
-		14289572095776DE00D14688 /* see.1 in Resources */ = {isa = PBXBuildFile; fileRef = 142894E9095767CD00D14688 /* see.1 */; };
 		1428F4B40BDE3B8A00411CA6 /* DebugSendOperationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428F4B20BDE3B8A00411CA6 /* DebugSendOperationController.m */; };
 		142D18B50BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142D18B30BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.m */; };
 		142D1B9C0BAEE04900B9EF1C /* TCMMMUserManagerKitAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142D1B9A0BAEE04900B9EF1C /* TCMMMUserManagerKitAdditions.m */; };
@@ -217,7 +214,6 @@
 		4CB36C3218D84BF4000219DA /* SEEEditorSplitViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CB36C3118D84BF4000219DA /* SEEEditorSplitViewDelegate.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4CB8EE4D180FD8FE0051AB6B /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CB8EE4C180FD8FE0051AB6B /* XCTest.framework */; };
 		4CB8EE4F180FD9A40051AB6B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CB8EE4E180FD9A40051AB6B /* libz.dylib */; };
-		4CB8EE50180FDF160051AB6B /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */; };
 		4CB8EE51180FDF790051AB6B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CB8EE4E180FD9A40051AB6B /* libz.dylib */; };
 		4CB8EE55181032340051AB6B /* SEEPrintOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CB8EE54181032340051AB6B /* SEEPrintOptionsViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4CCD4DD21811703D00FE6134 /* SEESavePanelAccessoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CCD4DD01811703D00FE6134 /* SEESavePanelAccessoryViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
@@ -831,9 +827,6 @@
 		142894A209575FF200D14688 /* TextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = TextFieldCell.h; sourceTree = "<group>"; };
 		142894A309575FF200D14688 /* TextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextFieldCell.m; sourceTree = "<group>"; };
 		142894D3095765CF00D14688 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		142894DE095766EE00D14688 /* see */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = see; sourceTree = BUILT_PRODUCTS_DIR; };
-		142894E8095767CD00D14688 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = see/main.m; sourceTree = "<group>"; };
-		142894E9095767CD00D14688 /* see.1 */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.man; name = see.1; path = see/see.1; sourceTree = "<group>"; };
 		1428F4B10BDE3B8A00411CA6 /* DebugSendOperationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = DebugSendOperationController.h; path = Debug/DebugSendOperationController.h; sourceTree = "<group>"; };
 		1428F4B20BDE3B8A00411CA6 /* DebugSendOperationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DebugSendOperationController.m; path = Debug/DebugSendOperationController.m; sourceTree = "<group>"; };
 		142D18B20BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NSMutableAttributedStringSEEAdditions.h; sourceTree = "<group>"; };
@@ -1286,7 +1279,6 @@
 		F291D1B00FCECF33008BC286 /* FoldingBubbleBig.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FoldingBubbleBig.png; path = artwork/FoldingBubbleBig.png; sourceTree = "<group>"; };
 		F299405E0C0C7F3400A53189 /* NSScreenTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSScreenTCMAdditions.m; sourceTree = "<group>"; };
 		F299405F0C0C7F3400A53189 /* NSScreenTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NSScreenTCMAdditions.h; sourceTree = "<group>"; };
-		F29940780C0C806600A53189 /* See_Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; name = See_Info.plist; path = see/See_Info.plist; sourceTree = "<group>"; };
 		F29E6DD318E5C90200F84231 /* TCMDragImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCMDragImageView.h; sourceTree = "<group>"; };
 		F29E6DD418E5C90200F84231 /* TCMDragImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMDragImageView.m; sourceTree = "<group>"; };
 		F29E6DD618E5CACE00F84231 /* TCMCGGeometryAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCMCGGeometryAdditions.h; sourceTree = "<group>"; };
@@ -1434,15 +1426,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		142894DC095766EE00D14688 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				142894E10957670900D14688 /* Foundation.framework in Frameworks */,
-				4CB8EE50180FDF160051AB6B /* AppKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		5EC638270ABEB71100D3295B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1985,21 +1968,10 @@
 			name = Printing;
 			sourceTree = "<group>";
 		};
-		142894DA095766D000D14688 /* see */ = {
-			isa = PBXGroup;
-			children = (
-				142894E8095767CD00D14688 /* main.m */,
-				142894E9095767CD00D14688 /* see.1 */,
-				F29940780C0C806600A53189 /* See_Info.plist */,
-			);
-			name = see;
-			sourceTree = "<group>";
-		};
 		19C28FB0FE9D524F11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				8D15AC370486D014006FF6A4 /* SubEthaEdit.app */,
-				142894DE095766EE00D14688 /* see */,
 				5EC6382A0ABEB71100D3295B /* Unit Tests.xctest */,
 				F2B6CCC20EE9C6390077417E /* SeeTextImporter.mdimporter */,
 				F2D86C1F0F8E7E2A00B912A2 /* SubEthaPerf.app */,
@@ -2031,7 +2003,6 @@
 				142891190957452F00D14688 /* TCMBEEP */,
 				4C4FEA65192A04A500A2F4EC /* Receipt Validation */,
 				2A37F4AFFDCFA73011CA2CEA /* Other Sources */,
-				142894DA095766D000D14688 /* see */,
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
 				F2D86C150F8E7DA200B912A2 /* SubEthaPerf */,
@@ -2689,22 +2660,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		142894DD095766EE00D14688 /* see */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 142894E30957671300D14688 /* Build configuration list for PBXNativeTarget "see" */;
-			buildPhases = (
-				142894DB095766EE00D14688 /* Sources */,
-				142894DC095766EE00D14688 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = see;
-			productName = see;
-			productReference = 142894DE095766EE00D14688 /* see */;
-			productType = "com.apple.product-type.tool";
-		};
 		5EC638290ABEB71100D3295B /* Unit Tests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5EC6382D0ABEB71200D3295B /* Build configuration list for PBXNativeTarget "Unit Tests" */;
@@ -2808,7 +2763,6 @@
 			projectRoot = "";
 			targets = (
 				8D15AC270486D014006FF6A4 /* SubEthaEdit */,
-				142894DD095766EE00D14688 /* see */,
 				5EC638290ABEB71100D3295B /* Unit Tests */,
 				F2D86C1E0F8E7E2A00B912A2 /* SubEthaPerf */,
 			);
@@ -2983,7 +2937,6 @@
 				F2880D0C1923BA7100C6370C /* BottomBarSharingIconAddHover@2x.png in Resources */,
 				4CD5F7E617FB0C7B00F49E31 /* EditPrefs.xib in Resources */,
 				F2880D171923BA7100C6370C /* BottomBarSharingIconAnnounceTurnOffNormalReadOnly.png in Resources */,
-				14289572095776DE00D14688 /* see.1 in Resources */,
 				4CD5F7EA17FB0C8E00F49E31 /* SEEEncodingDoctorView.xib in Resources */,
 				F22024CD191D0BFE0098982C /* ParticipantFollowTurnOnPressed.png in Resources */,
 				F20D8F0C18FC28CB0091EB13 /* Media.xcassets in Resources */,
@@ -3175,14 +3128,6 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		142894DB095766EE00D14688 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				142894EB095767CD00D14688 /* main.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		5EC638260ABEB71100D3295B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -3653,42 +3598,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		142894E40957671300D14688 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "Developer ID Application";
-				COPY_PHASE_STRIP = NO;
-				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				INFOPLIST_FILE = see/See_Info.plist;
-				INSTALL_PATH = "$(HOME)/bin";
-				PREBINDING = NO;
-				PRODUCT_NAME = see;
-				SKIP_INSTALL = NO;
-				ZERO_LINK = NO;
-			};
-			name = Debug;
-		};
-		142894E50957671300D14688 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "Developer ID Application";
-				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_MODEL_TUNING = G5;
-				INFOPLIST_FILE = see/See_Info.plist;
-				INSTALL_PATH = "$(HOME)/bin";
-				PREBINDING = NO;
-				PRODUCT_NAME = see;
-				SKIP_INSTALL = NO;
-				ZERO_LINK = NO;
-			};
-			name = Release;
-		};
 		5EC6382E0ABEB71200D3295B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3905,15 +3814,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		142894E30957671300D14688 /* Build configuration list for PBXNativeTarget "see" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				142894E40957671300D14688 /* Debug */,
-				142894E50957671300D14688 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		5EC6382D0ABEB71200D3295B /* Build configuration list for PBXNativeTarget "Unit Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

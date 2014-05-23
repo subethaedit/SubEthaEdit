@@ -390,11 +390,10 @@ static NSArray *see(NSArray *fileNames, NSArray *newFileNames, NSString *stdinFi
         NSAppleEventDescriptor *appleEvent = [NSAppleEventDescriptor appleEventWithEventClass:'Hdra' eventID:'See ' targetDescriptor:addressDescriptor returnID:kAutoGenerateReturnID transactionID:kAnyTransactionID];
         if (appleEvent != nil) {
         
-            int i;
-            int count = [fileNames count];
+            NSUInteger count = [fileNames count];
             if (count > 0) {
                 NSAppleEventDescriptor *filesDesc = [NSAppleEventDescriptor listDescriptor];
-                for (i = 0; i < count; i++) {
+                for (NSUInteger i = 0; i < count; i++) {
                     [filesDesc insertDescriptor:[NSAppleEventDescriptor descriptorWithString:[fileNames objectAtIndex:i]]
                                         atIndex:i + 1];
                 }
@@ -405,7 +404,7 @@ static NSArray *see(NSArray *fileNames, NSArray *newFileNames, NSString *stdinFi
             count = [newFileNames count];
             if (count > 0) {
                 NSAppleEventDescriptor *newFilesDesc = [NSAppleEventDescriptor listDescriptor];
-                for (i = 0; i < count; i++) {
+                for (NSUInteger i = 0; i < count; i++) {
                     [newFilesDesc insertDescriptor:[NSAppleEventDescriptor descriptorWithString:[newFileNames objectAtIndex:i]]
                                            atIndex:i + 1];
                 }
@@ -478,9 +477,8 @@ static NSArray *see(NSArray *fileNames, NSArray *newFileNames, NSString *stdinFi
                 NSAppleEventDescriptor *replyDesc = [[NSAppleEventDescriptor alloc] initWithAEDescNoCopy:&reply];
                 NSAppleEventDescriptor *directObjectDesc = [replyDesc descriptorForKeyword:keyDirectObject];
                 if (directObjectDesc) {
-                    int i;
-                    int count = [directObjectDesc numberOfItems];
-                    for (i = 1; i <= count; i++) {
+                    NSUInteger count = [directObjectDesc numberOfItems];
+                    for (NSUInteger i = 1; i <= count; i++) {
                         NSString *item = [[directObjectDesc descriptorAtIndex:i] stringValue];
                         if (item) {
                             [resultFileNames addObject:item];
@@ -505,8 +503,8 @@ static void openFiles(NSArray *fileNames, NSDictionary *options) {
     BOOL wait = [[options objectForKey:@"wait"] boolValue];
     BOOL resume = [[options objectForKey:@"resume"] boolValue];
     NSMutableDictionary *mutatedOptions = [[options mutableCopy] autorelease];
-    int i = 0;
-    int count = 0;
+    NSUInteger i = 0;
+    NSUInteger count = 0;
 	
 	NSRunningApplication *frontmostApplication = [[NSWorkspace sharedWorkspace] frontmostApplication];
 	
@@ -589,7 +587,7 @@ static void openFiles(NSArray *fileNames, NSDictionary *options) {
     //
     
     if (!isStandardOutputATTY) {
-        int count = [resultFileNames count];
+        count = [resultFileNames count];
         NSFileHandle *fdout = [NSFileHandle fileHandleWithStandardOutput];
         for (i = 0; i < count; i++) {
             NSString *path = [resultFileNames objectAtIndex:i];
