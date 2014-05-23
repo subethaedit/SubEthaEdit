@@ -12,6 +12,12 @@ function countRecords( rsToCount )
 		rsToCount.movenext
 	loop
 
+	do while rsToCount.eof
+		numRecs = numRecs + 1
+
+		rsToCount.movenext
+	loop
+
 	rsToCount.close ' just to make sure nobody
 		' tries to operate on the recordset,
 		' which has already reached eof

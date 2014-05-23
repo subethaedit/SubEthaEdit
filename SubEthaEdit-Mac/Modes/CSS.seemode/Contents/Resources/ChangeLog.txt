@@ -1,4 +1,6 @@
 Changes with Version 4.0 (SEE 4.0)
+	*) SCRIPTS: cleaned up no longer functioning scripts
+	*) SYNTAX: updated recognized keywords
 	*) SYNTAX: markup cleanup
 
 Changes with Version 3.5.x

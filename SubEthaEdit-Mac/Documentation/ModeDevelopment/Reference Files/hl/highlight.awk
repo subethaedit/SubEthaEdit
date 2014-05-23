@@ -26,3 +26,7 @@ $1 =~ /[^abc/]def/ || b == 3 / 5 {
 END {
 	print p;
 }
+
+# regular expression test:
+if ($1 !~ /re/)
+/foo/ { action } or: /foo/, /bar/ { range }

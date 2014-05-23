@@ -71,3 +71,56 @@ normal
 \end{Verbatim*}
 
 normal
+
+% https://bugs.kde.org/show_bug.cgi?id=323048
+% cases should be highlighted the same
+\begin{align}
+ U_{bg}(z) = \begin{cases}
+              U_{max} e^{-(b(z-z_0))^4} &\mbox {if } z \leq z_0,\\
+              U_{max} &\mbox {if } z > z_0,\\
+             \end{cases}
+\end{align}
+
+
+
+% Spelling checker test document
+% Anything that is an "Option Text" should not be spell checked
+
+% The optional and required arguments here should NOT be spell checked
+\documentclass[letterpaper,11pt,final]{article}
+\usepackage{amssymb}
+\usepackage[pdftex]{graphicx}
+\usepackage[width=0.9\textwidth,small]{caption}
+
+% The lengths specified here should NOT be spell checked
+\setlength{\columnsep}{1cm}
+\setlength{\headheight}{0in}
+\setlength{\parskip}{\medskipamount}
+
+% Argument to column should NOT be spell checked
+\begin{columns}
+\column{3in}
+\end{columns}
+
+% The arguments to these commands should NOT be spell checked
+\input{../commands.tex}
+\rule{0pt}{2.5ex}
+\special{papersize=\the\paperwidth,\the\paperheight}
+\hspace*{-0.4in}
+\hspace{4in}
+\setcounter{secnumdepth}{3}
+\newboolean{ElectronicVersion}
+\setboolean{ElectronicVersion}{true}
+\geometry{verbose, dvips,
+  width=422.695pt, marginparsep=0pt, marginparwidth=0pt,
+  top=72.27pt, headheight=12pt, headsep=36pt, footskip=30pt, bottom=72.27pt
+}
+
+% Stuff with colours
+\usepackage{color}
+\definecolor{darkgreen}{rgb}{0.00,0.6,0.00}
+\newcommand{\green}[1]{\textcolor{darkgreen}{#1}}
+
+% Edge cases I'm not sure how to handle yet
+\newcommand{\kh}{\kappa_h}          % We do not want to spell check here, so Option Text
+\newcommand{\rms}{Root mean square} % We do want to spell check here, so Normal Text
