@@ -767,12 +767,8 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     unsigned length = [string length];
     unsigned i;
     
-    id myUserID = nil;
-    
-#ifdef SUBETHAEDIT
-    myUserID = [TCMMMUserManager myUserID];
-#endif
-    
+    id myUserID = [TCMMMUserManager myUserID];
+
     for (i = 0; i < length; i++) {
         unichar character = [string characterAtIndex:i];
         NSString *charString = [[NSString alloc] initWithCharactersNoCopy:&character length:1 freeWhenDone:NO];

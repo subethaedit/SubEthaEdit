@@ -137,8 +137,6 @@ extern NSString * const BlockeditAttributeValue;
 @end
 
 
-#ifdef SUBETHAEDIT
-
 #pragma mark -
 
 @interface FoldableTextStorage (TextStorageScriptingAdditions)
@@ -160,4 +158,4 @@ extern NSString * const BlockeditAttributeValue;
 
 @end
 
-#endif
+//#endif
