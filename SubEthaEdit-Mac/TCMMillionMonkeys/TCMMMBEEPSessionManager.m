@@ -968,7 +968,11 @@ static TCMMMBEEPSessionManager *sharedInstance;
                 return NO;
             }
         } else {
-            [information setObject:kBEEPSessionStatusGotSession forKey:kSessionInformationKeyRendezvousStatus];
+			if ([self sessionForUserID:aUserID]) {
+				// we already got a session for that user, so no
+				return NO;
+			}
+			[information setObject:kBEEPSessionStatusGotSession forKey:kSessionInformationKeyRendezvousStatus];
             return YES;
         }
 
