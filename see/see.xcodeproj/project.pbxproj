@@ -285,6 +285,7 @@
 				4C19ECC4192F7ED000D39777 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
