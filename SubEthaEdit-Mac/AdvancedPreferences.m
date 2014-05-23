@@ -9,11 +9,6 @@
 #import "AdvancedPreferences.h"
 #import "SEEDocumentController.h"
 #import "GeneralPreferences.h"
-
-//#import "MoreUNIX.h"
-//#import "MoreSecurity.h"
-//#import "MoreCFQ.h"
-
 #import <sys/stat.h>
 
 @implementation AdvancedPreferences
@@ -320,6 +315,10 @@
 //		[alert release];
 //    }
 //}
+
+- (IBAction)visitCommandLineToolWebsite:(id)sender {
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://subethaedit.org/commandlinetool/"]];
+}
 
 #pragma mark
 
