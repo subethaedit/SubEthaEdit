@@ -481,77 +481,85 @@
 					<keywords id="!important" useforautocomplete="no" scope="meta.important">
 						<regex>(!\s*important)</regex>
 					</keywords>
+					<!-- Includes Default named colors, additional named colors, deprecated Colors, webkit/moz-appearance values -->
 					<keywords id="CSS Attributes" useforautocomplete="yes" casesensitive="no" scope="style.value.keyword">
 						<regex>(?i)(-webkit(?:-\w+)+)</regex>
 						<regex>(?i)(-moz(?:-\w+)+)</regex>
-						<string>ease-in-out</string>
-						<string>ease-in</string>
-						<string>ease-out</string>
-						<string>ease</string>
-						<string>linear</string>
-						<string>Arial</string>
-						<string>Capitals</string>
-						<string>Charcoal</string>
-						<string>Chicago</string>
-						<string>Courier</string>
-						<string>Gadget</string>
-						<string>Geneva</string>
-						<string>Georgia</string>
-						<string>Helvetica</string>
-						<string>Impact</string>
-						<string>Monaco</string>
-						<string>Palatino</string>
-						<string>Sand</string>
-						<string>Skia</string>
-						<string>System</string>
-						<string>Tahoma</string>
-						<string>Techno</string>
-						<string>Terminal</string>
-						<string>Textile</string>
-						<string>Times</string>
-						<string>Verdana</string>
+						<string>A3</string>
+						<string>A4</string>
+						<string>A5</string>
+						<string>B4</string>
+						<string>B5</string>
 						<string>above</string>
 						<string>absolute</string>
+						<string>active</string>
 						<string>activeborder</string>
 						<string>activecaption</string>
 						<string>after-edge</string>
-						<string>after-white-space</string>
-						<string>ahead</string>
 						<string>alias</string>
+						<string>aliceblue</string>
+						<string>all-petite-caps</string>
 						<string>all-scroll</string>
+						<string>all-small-caps</string>
+						<string>all</string>
+						<string>allow-end</string>
 						<string>alphabetic</string>
+						<string>alphabetical</string>
+						<string>alternate-reverse</string>
 						<string>alternate</string>
 						<string>always</string>
+						<string>annotation</string>
+						<string>antiquewhite</string>
 						<string>appworkspace</string>
 						<string>aqua</string>
+						<string>aquamarine</string>
 						<string>armenian</string>
+						<string>attr</string>
 						<string>auto</string>
+						<string>available</string>
+						<string>avoid-column</string>
+						<string>avoid-page</string>
+						<string>avoid-region</string>
 						<string>avoid</string>
+						<string>azure</string>
+						<string>back</string>
+						<string>background</string>
 						<string>backwards</string>
 						<string>balance</string>
 						<string>baseline</string>
 						<string>before-edge</string>
-						<string>below</string>
+						<string>behind</string>
+						<string>beige</string>
 						<string>bidi-override</string>
+						<string>bisque</string>
 						<string>black</string>
-						<string>blink</string>
+						<string>blanchedalmond</string>
+						<string>block-line-height</string>
 						<string>block</string>
 						<string>blue</string>
+						<string>blueviolet</string>
 						<string>bold</string>
 						<string>bolder</string>
 						<string>border-box</string>
 						<string>both</string>
 						<string>bottom</string>
-						<string>break</string>
+						<string>box-decoration</string>
 						<string>break-all</string>
-						<string>break-strict</string>
 						<string>break-word</string>
-						<string>button</string>
+						<string>brown</string>
+						<string>burlywood</string>
+						<string>button-arrow-down</string>
+						<string>button-arrow-next</string>
+						<string>button-arrow-previous</string>
+						<string>button-arrow-up</string>
 						<string>button-bevel</string>
+						<string>button-focus</string>
+						<string>button</string>
 						<string>buttonface</string>
 						<string>buttonhighlight</string>
 						<string>buttonshadow</string>
 						<string>buttontext</string>
+						<string>cadetblue</string>
 						<string>capitalize</string>
 						<string>caps-height</string>
 						<string>caption</string>
@@ -560,154 +568,329 @@
 						<string>cell</string>
 						<string>center</string>
 						<string>central</string>
+						<string>character-variant</string>
+						<string>chartreuse</string>
+						<string>checkbox-container</string>
+						<string>checkbox-label</string>
 						<string>checkbox</string>
+						<string>checkmenuitem</string>
+						<string>child</string>
+						<string>chocolate</string>
 						<string>circle</string>
 						<string>cjk-ideographic</string>
+						<string>clear</string>
+						<string>clip</string>
 						<string>close-quote</string>
+						<string>closed</string>
 						<string>col-resize</string>
 						<string>collapse</string>
-						<string>color-stop</string>
+						<string>color-burn</string>
+						<string>color-dodge</string>
+						<string>color</string>
+						<string>column</string>
+						<string>common-ligatures</string>
 						<string>compact</string>
 						<string>condensed</string>
+						<string>consider-shifts</string>
 						<string>contain</string>
 						<string>content-box</string>
+						<string>content</string>
 						<string>context-menu</string>
+						<string>contextual</string>
 						<string>copy</string>
+						<string>coral</string>
+						<string>cornflowerblue</string>
+						<string>cornsilk</string>
 						<string>cover</string>
+						<string>crimson</string>
 						<string>crop</string>
 						<string>cross</string>
 						<string>crosshair</string>
 						<string>cubic-bezier</string>
+						<string>current</string>
+						<string>currentColor</string>
 						<string>cursive</string>
-						<string>cursive	</string>
+						<string>cyan</string>
+						<string>darkblue</string>
+						<string>darkcyan</string>
+						<string>darken</string>
+						<string>darkgoldenrod</string>
+						<string>darkgray</string>
+						<string>darkgreen</string>
+						<string>darkgrey</string>
+						<string>darkkhaki</string>
+						<string>darkmagenta</string>
+						<string>darkolivegreen</string>
+						<string>darkorange</string>
+						<string>darkorchid</string>
+						<string>darkred</string>
+						<string>darksalmon</string>
+						<string>darkseagreen</string>
+						<string>darkslateblue</string>
+						<string>darkslategray</string>
+						<string>darkslategrey</string>
+						<string>darkturquoise</string>
+						<string>darkviolet</string>
 						<string>dashed</string>
-						<string>decimal</string>
 						<string>decimal-leading-zero</string>
+						<string>decimal</string>
+						<string>deeppink</string>
+						<string>deepskyblue</string>
 						<string>default</string>
 						<string>destination-atop</string>
 						<string>destination-in</string>
 						<string>destination-out</string>
 						<string>destination-over</string>
+						<string>destination</string>
+						<string>diagonal-fractions</string>
+						<string>difference</string>
+						<string>digits</string>
+						<string>dimgray</string>
+						<string>dimgrey</string>
+						<string>disabled</string>
 						<string>disc</string>
-						<string>discard</string>
+						<string>discretionary-ligatures</string>
+						<string>disregard-shifts</string>
+						<string>distribute</string>
+						<string>dodgerblue</string>
+						<string>dot</string>
 						<string>dotted</string>
+						<string>double-circle</string>
 						<string>double</string>
-						<string>down</string>
+						<string>dualbutton</string>
 						<string>e-resize</string>
-						<string>ease(?:-\w+*</string>
-						<string>element</string>
+						<string>each-line</string>
+						<string>ease-in-out</string>
+						<string>ease-in</string>
+						<string>ease-out</string>
+						<string>ease</string>
+						<string>edges</string>
 						<string>ellipsis</string>
 						<string>embed</string>
 						<string>end</string>
-						<string>ew-reize</string>
+						<string>ew-resize</string>
+						<string>exclude-ruby</string>
+						<string>exclusion</string>
 						<string>expanded</string>
 						<string>extra-condensed</string>
 						<string>extra-expanded</string>
 						<string>fantasy</string>
 						<string>fast</string>
+						<string>female</string>
+						<string>fill</string>
+						<string>filled</string>
+						<string>firebrick</string>
+						<string>first</string>
+						<string>fit-content</string>
 						<string>fixed</string>
-						<string>fixedsys</string>
 						<string>flat</string>
+						<string>flex</string>
+						<string>floralwhite</string>
+						<string>font-size</string>
+						<string>force-end</string>
+						<string>forestgreen</string>
 						<string>forwards</string>
-						<string>from</string>
+						<string>fragments</string>
+						<string>from-image</string>
+						<string>front</string>
 						<string>fuchsia</string>
+						<string>full-width</string>
+						<string>gainsboro</string>
 						<string>georgian</string>
+						<string>ghostwhite</string>
+						<string>gold</string>
+						<string>goldenrod</string>
 						<string>gray</string>
 						<string>graytext</string>
 						<string>green</string>
+						<string>greenyellow</string>
 						<string>grey</string>
+						<string>grid-height</string>
 						<string>groove</string>
-						<string>hand</string>
+						<string>groupbox</string>
 						<string>hanging</string>
+						<string>hard-light</string>
 						<string>hebrew</string>
 						<string>help</string>
+						<string>here</string>
 						<string>hidden</string>
 						<string>hide</string>
-						<string>higher</string>
+						<string>high</string>
 						<string>highlight</string>
 						<string>highlighttext</string>
-						<string>hiragana</string>
 						<string>hiragana-iroha</string>
+						<string>hiragana</string>
+						<string>historical-forms</string>
+						<string>historical-ligatures</string>
+						<string>honeydew</string>
+						<string>horizontal-tb</string>
+						<string>horizontal</string>
+						<string>hotpink</string>
 						<string>hsl</string>
 						<string>hsla</string>
+						<string>hue</string>
 						<string>icon</string>
 						<string>ideographic</string>
-						<string>ignore</string>
+						<string>inactive</string>
 						<string>inactiveborder</string>
 						<string>inactivecaption</string>
 						<string>inactivecaptiontext</string>
+						<string>include-ruby</string>
+						<string>increment</string>
+						<string>indianred</string>
+						<string>indigo</string>
 						<string>infinite</string>
 						<string>infobackground</string>
 						<string>infotext</string>
 						<string>inherit</string>
-						<string>inline</string>
-						<string>inline(?:-\w+*</string>
+						<string>inhibit</string>
+						<string>initial</string>
+						<string>ink</string>
 						<string>inline-block</string>
+						<string>inline-flex</string>
+						<string>inline-line-height</string>
 						<string>inline-table</string>
+						<string>inline</string>
 						<string>inset</string>
 						<string>inside</string>
-						<string>intrinsic</string>
+						<string>inter-character</string>
+						<string>inter-word</string>
 						<string>invert</string>
+						<string>isolate-override</string>
+						<string>isolate</string>
 						<string>italic</string>
+						<string>ivory</string>
+						<string>jis04</string>
+						<string>jis78</string>
+						<string>jis83</string>
+						<string>jis90</string>
 						<string>justify</string>
-						<string>katakana</string>
 						<string>katakana-iroha</string>
+						<string>katakana</string>
 						<string>keep-all</string>
-						<string>konq-center</string>
+						<string>khaki</string>
 						<string>landscape</string>
 						<string>large</string>
 						<string>larger</string>
+						<string>last</string>
+						<string>lavender</string>
+						<string>lavenderblush</string>
+						<string>lawngreen</string>
+						<string>ledger</string>
 						<string>left</string>
-						<string>level</string>
-						<string>light</string>
+						<string>leftwards</string>
+						<string>legal</string>
+						<string>lemonchiffon</string>
+						<string>letter</string>
+						<string>lightblue</string>
+						<string>lightcoral</string>
+						<string>lightcyan</string>
+						<string>lighten</string>
 						<string>lighter</string>
+						<string>lightgoldenrodyellow</string>
+						<string>lightgray</string>
+						<string>lightgreen</string>
+						<string>lightgrey</string>
+						<string>lightpink</string>
+						<string>lightsalmon</string>
+						<string>lightseagreen</string>
+						<string>lightskyblue</string>
+						<string>lightslategray</string>
+						<string>lightslategrey</string>
+						<string>lightsteelblue</string>
+						<string>lightyellow</string>
 						<string>lime</string>
+						<string>limegreen</string>
 						<string>line-through</string>
 						<string>linear</string>
-						<string>lines</string>
+						<string>linen</string>
+						<string>lining-nums</string>
+						<string>list-container</string>
 						<string>list-item</string>
 						<string>listbox</string>
 						<string>listitem</string>
+						<string>literal-punctuation</string>
 						<string>local</string>
-						<string>logical</string>
 						<string>loose</string>
 						<string>loud</string>
-						<string>lower</string>
+						<string>low</string>
 						<string>lower-alpha</string>
 						<string>lower-greek</string>
 						<string>lower-latin</string>
 						<string>lower-roman</string>
 						<string>lowercase</string>
+						<string>lt;page-size&gt;</string>
 						<string>ltr</string>
+						<string>luminosity</string>
+						<string>magenta</string>
+						<string>male</string>
+						<string>manual</string>
 						<string>marker</string>
 						<string>maroon</string>
-						<string>match</string>
+						<string>match-parent</string>
 						<string>mathematical</string>
-						<string>matrix</string>
 						<string>matrix3d</string>
+						<string>matrix</string>
+						<string>max-content</string>
+						<string>max-height</string>
+						<string>max-size</string>
 						<string>medium</string>
+						<string>mediumaquamarine</string>
+						<string>mediumblue</string>
+						<string>mediumorchid</string>
+						<string>mediumpurple</string>
+						<string>mediumseagreen</string>
+						<string>mediumslateblue</string>
+						<string>mediumspringgreen</string>
+						<string>mediumturquoise</string>
+						<string>mediumvioletred</string>
 						<string>menu</string>
-						<string>menulist</string>
+						<string>menuarrow</string>
+						<string>menubar</string>
+						<string>menucheckbox</string>
+						<string>menuimage</string>
+						<string>menuitem</string>
+						<string>menuitemtext</string>
 						<string>menulist-button</string>
 						<string>menulist-text</string>
 						<string>menulist-textfield</string>
+						<string>menulist</string>
+						<string>menupopup</string>
+						<string>menuradio</string>
+						<string>menuseparator</string>
 						<string>menutext</string>
 						<string>message-box</string>
+						<string>meterbar</string>
+						<string>meterchunk</string>
 						<string>middle</string>
-						<string>min-intrinsic</string>
+						<string>midnightblue</string>
+						<string>min-content</string>
+						<string>mintcream</string>
+						<string>mistyrose</string>
 						<string>mix</string>
+						<string>mixed</string>
+						<string>moccasin</string>
+						<string>modal</string>
+						<string>moderate</string>
 						<string>monospace</string>
-						<string>monospace	</string>
 						<string>move</string>
+						<string>multiply</string>
 						<string>n-resize</string>
-						<string>narrower</string>
+						<string>navajowhite</string>
 						<string>navy</string>
 						<string>ne-resize</string>
 						<string>nesw-resize</string>
-						<string>never</string>
+						<string>neutral</string>
+						<string>new</string>
+						<string>no-change</string>
 						<string>no-close-quote</string>
+						<string>no-common-ligatures</string>
+						<string>no-contextual</string>
+						<string>no-discretionary-ligatures</string>
 						<string>no-drop</string>
+						<string>no-historical-ligatures</string>
 						<string>no-open-quote</string>
+						<string>no-punctuation</string>
 						<string>no-repeat</string>
 						<string>none</string>
 						<string>normal</string>
@@ -716,170 +899,319 @@
 						<string>ns-resize</string>
 						<string>nw-resize</string>
 						<string>nwse-resize</string>
+						<string>objects</string>
 						<string>oblique</string>
+						<string>off</string>
+						<string>old</string>
+						<string>oldlace</string>
+						<string>oldstyle-nums</string>
 						<string>olive</string>
-						<string>opacity</string>
+						<string>olivedrab</string>
+						<string>on</string>
+						<string>one</string>
 						<string>open-quote</string>
-						<string>optimizeLegibility</string>
+						<string>open</string>
+						<string>orange</string>
+						<string>orangered</string>
+						<string>orchid</string>
+						<string>ordinal</string>
+						<string>ornaments</string>
 						<string>outset</string>
 						<string>outside</string>
+						<string>over</string>
 						<string>overlay</string>
 						<string>overline</string>
 						<string>padding-box</string>
+						<string>page</string>
+						<string>paged-x-controls</string>
+						<string>paged-x</string>
+						<string>paged-y-controls</string>
+						<string>paged-y</string>
+						<string>palegoldenrod</string>
+						<string>palegreen</string>
+						<string>paleturquoise</string>
+						<string>palevioletred</string>
+						<string>papayawhip</string>
+						<string>parent</string>
 						<string>paused</string>
-						<string>plus-darker</string>
-						<string>plus-lighter</string>
+						<string>peachpuff</string>
+						<string>perspective</string>
+						<string>peru</string>
+						<string>petite-caps</string>
+						<string>pink</string>
+						<string>plaintext</string>
+						<string>plum</string>
 						<string>pointer</string>
 						<string>portrait</string>
+						<string>powderblue</string>
+						<string>pre-line</string>
+						<string>pre-wrap</string>
 						<string>pre</string>
 						<string>preserve-3d</string>
+						<string>preserve</string>
 						<string>progress</string>
+						<string>progressbar-vertical</string>
+						<string>progressbar</string>
+						<string>progresschunk-vertical</string>
+						<string>progresschunk</string>
+						<string>proportional-nums</string>
+						<string>proportional-width</string>
 						<string>purple</string>
-						<string>push-button</string>
-						<string>radial</string>
+						<string>radio-container</string>
+						<string>radio-label</string>
 						<string>radio</string>
-						<string>read-only</string>
-						<string>read-write</string>
-						<string>read-write-plaintext-only</string>
+						<string>radiomenuitem</string>
+						<string>rbga</string>
+						<string>rect</string>
+						<string>recto</string>
 						<string>red</string>
+						<string>reduced</string>
+						<string>region</string>
 						<string>relative</string>
-						<string>repeat</string>
 						<string>repeat-x</string>
 						<string>repeat-y</string>
+						<string>repeat</string>
+						<string>reset-size</string>
+						<string>resizer</string>
+						<string>resizerpanel</string>
 						<string>reverse</string>
 						<string>rgb</string>
 						<string>rgba</string>
 						<string>ridge</string>
 						<string>right</string>
-						<string>rotate</string>
+						<string>rightwards</string>
+						<string>root</string>
+						<string>rosybrown</string>
 						<string>rotate3d</string>
+						<string>rotate</string>
 						<string>rotateX</string>
 						<string>rotateY</string>
 						<string>rotateZ</string>
 						<string>round</string>
 						<string>row-resize</string>
+						<string>royalblue</string>
 						<string>rtl</string>
+						<string>ruby-base-group</string>
+						<string>ruby-base</string>
+						<string>ruby-text-group</string>
+						<string>ruby-text</string>
+						<string>ruby</string>
 						<string>run-in</string>
 						<string>running</string>
 						<string>s-resize</string>
+						<string>saddlebrown</string>
+						<string>salmon</string>
+						<string>same</string>
+						<string>sandybrown</string>
 						<string>sans-serif</string>
-						<string>sans-serif	</string>
+						<string>saturation</string>
+						<string>scale-down</string>
+						<string>scale-horizontal</string>
+						<string>scale-vertical</string>
+						<string>scale3d</string>
 						<string>scale</string>
-						<string>scale3D</string>
 						<string>scaleX</string>
 						<string>scaleY</string>
 						<string>scaleZ</string>
+						<string>scalethumb-horizontal</string>
+						<string>scalethumb-vertical</string>
+						<string>scalethumbend</string>
+						<string>scalethumbstart</string>
+						<string>scalethumbtick</string>
+						<string>screen</string>
 						<string>scroll</string>
 						<string>scrollbar</string>
 						<string>scrollbarbutton-down</string>
 						<string>scrollbarbutton-left</string>
 						<string>scrollbarbutton-right</string>
 						<string>scrollbarbutton-up</string>
-						<string>scrollbargripper-horizontal</string>
-						<string>scrollbargripper-vertical</string>
 						<string>scrollbarthumb-horizontal</string>
 						<string>scrollbarthumb-vertical</string>
 						<string>scrollbartrack-horizontal</string>
 						<string>scrollbartrack-vertical</string>
 						<string>se-resize</string>
+						<string>seagreen</string>
 						<string>searchfield</string>
-						<string>searchfield-cancel-button</string>
-						<string>searchfield-decoration</string>
-						<string>searchfield-results-button</string>
-						<string>searchfield-results-decoration</string>
+						<string>seashell</string>
 						<string>semi-condensed</string>
 						<string>semi-expanded</string>
 						<string>separate</string>
+						<string>separator</string>
+						<string>seperate</string>
 						<string>serif</string>
+						<string>sesame</string>
+						<string>sheet</string>
 						<string>show</string>
+						<string>sideways-left</string>
+						<string>sideways-right</string>
+						<string>sideways</string>
+						<string>sienna</string>
+						<string>silent</string>
 						<string>silver</string>
+						<string>simplified</string>
 						<string>skew</string>
 						<string>skewX</string>
 						<string>skewY</string>
-						<string>skewZ</string>
-						<string>slide</string>
-						<string>slider-horizontal</string>
-						<string>slider-vertical</string>
-						<string>sliderthumb-horizontal</string>
-						<string>sliderthumb-vertical</string>
+						<string>skyblue</string>
+						<string>slashed-zero</string>
+						<string>slateblue</string>
+						<string>slategray</string>
+						<string>slategrey</string>
 						<string>slow</string>
-						<string>small</string>
 						<string>small-caps</string>
 						<string>small-caption</string>
+						<string>small</string>
 						<string>smaller</string>
+						<string>snap</string>
+						<string>snow</string>
+						<string>soft-light</string>
+						<string>soft</string>
 						<string>solid</string>
 						<string>source-atop</string>
 						<string>source-in</string>
 						<string>source-out</string>
 						<string>source-over</string>
+						<string>space-around</string>
+						<string>space-between</string>
 						<string>space</string>
+						<string>spaces</string>
+						<string>spell-out</string>
+						<string>spinner-downbutton</string>
+						<string>spinner-textfield</string>
+						<string>spinner-upbutton</string>
+						<string>spinner</string>
+						<string>splitter</string>
+						<string>springgreen</string>
 						<string>square</string>
-						<string>square-button</string>
+						<string>stacked-fractions</string>
 						<string>start</string>
 						<string>static</string>
-						<string>static-position</string>
 						<string>status-bar</string>
+						<string>statusbar</string>
+						<string>statusbarpanel</string>
+						<string>steelblue</string>
+						<string>step-end</string>
+						<string>step-start</string>
+						<string>steps</string>
+						<string>sticky</string>
 						<string>stretch</string>
+						<string>strict</string>
+						<string>strong</string>
+						<string>style</string>
+						<string>styleset</string>
+						<string>stylistic</string>
 						<string>sub</string>
 						<string>super</string>
 						<string>sw-resize</string>
-						<string>table</string>
+						<string>swash</string>
+						<string>tab-scroll-arrow-back</string>
+						<string>tab-scroll-arrow-forward</string>
+						<string>tab</string>
 						<string>table-caption</string>
 						<string>table-cell</string>
-						<string>table-column</string>
 						<string>table-column-group</string>
+						<string>table-column</string>
 						<string>table-footer-group</string>
 						<string>table-header-group</string>
-						<string>table-row</string>
 						<string>table-row-group</string>
+						<string>table-row</string>
+						<string>table</string>
+						<string>tabpanel</string>
+						<string>tabpanels</string>
+						<string>tabular-nums</string>
+						<string>tan</string>
 						<string>teal</string>
-						<string>text</string>
-						<string>text(?:-[\w]+*</string>
+						<string>text-after-edge</string>
+						<string>text-before-edge</string>
 						<string>text-bottom</string>
+						<string>text-size</string>
 						<string>text-top</string>
-						<string>textarea</string>
+						<string>text</string>
+						<string>textfield-multiline</string>
 						<string>textfield</string>
 						<string>thick</string>
 						<string>thin</string>
+						<string>thistle</string>
 						<string>threeddarkshadow</string>
 						<string>threedface</string>
 						<string>threedhighlight</string>
 						<string>threedlightshadow</string>
 						<string>threedshadow</string>
-						<string>to</string>
+						<string>titling-caps</string>
+						<string>tomato</string>
+						<string>toolbar</string>
+						<string>toolbarbutton-dropdown</string>
+						<string>toolbarbutton</string>
+						<string>toolbargripper</string>
+						<string>toolbox</string>
+						<string>tooltip</string>
 						<string>top</string>
-						<string>translate</string>
+						<string>traditional</string>
 						<string>translate3d</string>
+						<string>translate</string>
 						<string>translateX</string>
 						<string>translateY</string>
 						<string>translateZ</string>
 						<string>transparent</string>
+						<string>treeheader</string>
+						<string>treeheadercell</string>
+						<string>treeheadersortarrow</string>
+						<string>treeitem</string>
+						<string>treeline</string>
+						<string>treetwisty</string>
+						<string>treetwistyopen</string>
+						<string>treeview</string>
+						<string>triangle</string>
+						<string>turquoise</string>
 						<string>ultra-condensed</string>
 						<string>ultra-expanded</string>
+						<string>under</string>
 						<string>underline</string>
-						<string>up</string>
+						<string>unicase</string>
+						<string>unset</string>
 						<string>upper-alpha</string>
 						<string>upper-latin</string>
 						<string>upper-roman</string>
 						<string>uppercase</string>
+						<string>upright</string>
 						<string>url</string>
 						<string>use-script</string>
+						<string>verso</string>
+						<string>vertical-lr</string>
+						<string>vertical-rl</string>
 						<string>vertical-text</string>
+						<string>vertical</string>
+						<string>violet</string>
 						<string>visible</string>
-						<string>visual</string>
 						<string>w-resize</string>
 						<string>wait</string>
+						<string>wavy</string>
+						<string>weak</string>
+						<string>weight</string>
+						<string>wheat</string>
 						<string>white</string>
-						<string>wider</string>
+						<string>whitesmoke</string>
 						<string>window</string>
 						<string>windowframe</string>
 						<string>windowtext</string>
+						<string>x-fast</string>
+						<string>x-high</string>
 						<string>x-large</string>
+						<string>x-loud</string>
+						<string>x-low</string>
+						<string>x-slow</string>
 						<string>x-small</string>
+						<string>x-soft</string>
+						<string>x-strong</string>
+						<string>x-weak</string>
 						<string>xor</string>
 						<string>xx-large</string>
 						<string>xx-small</string>
 						<string>yellow</string>
+						<string>yellowgreen</string>
+						<string>young</string>
+						<string>zoom-in</string>
+						<string>zoom-out</string>
 					</keywords>
 					<keywords id="CSS Digits" useforautocomplete="yes" scope="style.value.numeric">
 						<regex>(?&lt;![#\d\w-])(-?[\d]+[ \t]*(?:px|pt|em|ex|cm|in|mm|pc|s|ms|Hz|kHz|%|deg|rad|grad|turn)?)</regex>
