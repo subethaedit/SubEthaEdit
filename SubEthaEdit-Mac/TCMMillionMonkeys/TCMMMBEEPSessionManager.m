@@ -633,21 +633,32 @@ static TCMMMBEEPSessionManager *sharedInstance;
             if ([[aBEEPSession userInfo] objectForKey:@"isRendezvous"]) {
                 NSString *aUserID = [[aBEEPSession userInfo] objectForKey:@"peerUserID"];
                 NSMutableDictionary *sessionInformation = [self sessionInformationForUserID:aUserID];
-                if ([sessionInformation objectForKey:kSessionInformationKeyNetService]) {
-                    // rendezvous: close all other sessions
-                    NSMutableArray *outgoingSessions = [sessionInformation objectForKey:kSessionInformationKeyOutgoingRendezvousSessions];
-                    __autoreleasing TCMBEEPSession *session;
-                    while ((session = [outgoingSessions lastObject])) {
-                        [outgoingSessions removeObjectAtIndex:[outgoingSessions count]-1];
-                        if (session == aBEEPSession) {
-                            [sessionInformation setObject:session forKey:kSessionInformationKeyRendezvousSession];
-                        } else {
-                            [self removeSessionFromSessionsArray:session];
-                            [session setDelegate:nil];
-                            [session terminate];
-                        }
-                    }
-                }
+				if ([sessionInformation objectForKey:kSessionInformationKeyNetService]) {
+					// rendezvous: close all other sessions
+					NSMutableArray *outgoingSessions = [sessionInformation objectForKey:kSessionInformationKeyOutgoingRendezvousSessions];
+					__autoreleasing TCMBEEPSession *session;
+					// test that didn't work out so well
+//					if (sessionInformation[kSessionInformationKeyRendezvousSession]) {
+//						NSLog(@"%s already got a working session %@",__FUNCTION__,sessionInformation);
+//						// remove this one
+//						[outgoingSessions removeObject:session];
+//						[self removeSessionFromSessionsArray:session];
+//						[session setDelegate:nil];
+//						[session terminate];
+//					} else {
+						while ((session = [outgoingSessions lastObject])) {
+							[outgoingSessions removeObjectAtIndex:[outgoingSessions count]-1];
+							if (session == aBEEPSession) {
+								[sessionInformation setObject:session forKey:kSessionInformationKeyRendezvousSession];
+							} else {
+								[self removeSessionFromSessionsArray:session];
+								[session setDelegate:nil];
+								[session terminate];
+							}
+						}
+//					}
+				}
+				
             } else {
                 NSString *URLString = [[aBEEPSession userInfo] objectForKey:@"URLString"];
                 NSDictionary *info = [I_outboundInternetSessions objectForKey:URLString];
