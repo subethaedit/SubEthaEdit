@@ -153,7 +153,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	[tableView setAction:@selector(triggerItemClickAction:)];
 	[tableView setDoubleAction:@selector(triggerItemDoubleClickAction:)];
 	[tableView setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
-
+	tableView.allowsMultipleSelection = !SEEDocumentListOpenDocumentsWithSingleClick;
 }
 
 
