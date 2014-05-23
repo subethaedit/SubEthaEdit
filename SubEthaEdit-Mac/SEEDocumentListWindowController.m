@@ -40,6 +40,8 @@
 
 #import "NSWorkspaceTCMAdditions.h"
 
+#import "SEEHoverTableRowView.h"
+
 #import <QuartzCore/QuartzCore.h>
 
 
@@ -610,6 +612,8 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 			BOOL drawTopLine = ! [[availableItems objectAtIndex:row - 1] isKindOfClass:[SEENetworkConnectionRepresentationListItem class]];
 			((SEEDocumentListGroupTableRowView *)rowView).drawTopLine = drawTopLine;
 		}
+	} else {
+		rowView = [[SEEHoverTableRowView alloc] init];
 	}
 	return rowView;
 }

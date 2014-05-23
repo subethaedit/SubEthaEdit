@@ -358,6 +358,7 @@
 		F26B7D880CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F26B7D850CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m */; };
 		F27B2EF10B52968E00679CF2 /* HUDButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F27B2EED0B52968E00679CF2 /* HUDButtonCell.m */; };
 		F27B2EF20B52968E00679CF2 /* HUDButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F27B2EEE0B52968E00679CF2 /* HUDButton.m */; };
+		F27C4DC5192FA2A800B5DB3C /* SEEHoverTableRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = F27C4DC4192FA2A800B5DB3C /* SEEHoverTableRowView.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		F280ABC4131E6ED50091D145 /* SEEStyleSheetEditorWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = F280ABC3131E6ED50091D145 /* SEEStyleSheetEditorWindowController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		F281D34E0F38756100AD7DE1 /* FoldableTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D34C0F38756100AD7DE1 /* FoldableTextStorage.m */; };
 		F281D3600F38758600AD7DE1 /* AbstractFoldingTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D35F0F38758600AD7DE1 /* AbstractFoldingTextStorage.m */; };
@@ -1229,6 +1230,8 @@
 		F27B2EED0B52968E00679CF2 /* HUDButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HUDButtonCell.m; sourceTree = "<group>"; };
 		F27B2EEE0B52968E00679CF2 /* HUDButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HUDButton.m; sourceTree = "<group>"; };
 		F27B2EEF0B52968E00679CF2 /* HUDButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HUDButton.h; sourceTree = "<group>"; };
+		F27C4DC3192FA2A800B5DB3C /* SEEHoverTableRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEHoverTableRowView.h; sourceTree = "<group>"; };
+		F27C4DC4192FA2A800B5DB3C /* SEEHoverTableRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEHoverTableRowView.m; sourceTree = "<group>"; };
 		F280ABC2131E6ED50091D145 /* SEEStyleSheetEditorWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SEEStyleSheetEditorWindowController.h; sourceTree = "<group>"; };
 		F280ABC3131E6ED50091D145 /* SEEStyleSheetEditorWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEStyleSheetEditorWindowController.m; sourceTree = "<group>"; };
 		F281D3490F38756100AD7DE1 /* FullTextStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = FullTextStorage.h; sourceTree = "<group>"; };
@@ -2260,6 +2263,8 @@
 			children = (
 				4C0C4A1918B3768500E6049E /* SEEDocumentListWindowController.h */,
 				4C0C4A1A18B3768500E6049E /* SEEDocumentListWindowController.m */,
+				F27C4DC3192FA2A800B5DB3C /* SEEHoverTableRowView.h */,
+				F27C4DC4192FA2A800B5DB3C /* SEEHoverTableRowView.m */,
 				4C0C4A1B18B3768500E6049E /* SEEDocumentListWindowController.xib */,
 				4CDF059F18C0A217004A49E5 /* Items */,
 				4CDF05A118C0A23E004A49E5 /* Connection Management */,
@@ -3180,6 +3185,7 @@
 				4C71D0C618BF8B2200EA66FA /* SEEOpenOtherDocumentListItem.m in Sources */,
 				4C123002180BE4A60069253E /* TCMBEEPSessionXMLParser.m in Sources */,
 				14289329095756D800D14688 /* TCMMMBEEPSessionManager.m in Sources */,
+				F27C4DC5192FA2A800B5DB3C /* SEEHoverTableRowView.m in Sources */,
 				1428932B095756D800D14688 /* TCMMMMessage.m in Sources */,
 				4CDC272318969A600060B044 /* SEEParticipantViewController.m in Sources */,
 				4CCD4DD21811703D00FE6134 /* SEESavePanelAccessoryViewController.m in Sources */,
