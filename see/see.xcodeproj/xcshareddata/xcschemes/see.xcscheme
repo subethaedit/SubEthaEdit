@@ -99,6 +99,7 @@
    </AnalyzeAction>
    <ArchiveAction
       buildConfiguration = "Release"
+      customArchiveName = "SubEthaEdit Command Line Tool"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>
