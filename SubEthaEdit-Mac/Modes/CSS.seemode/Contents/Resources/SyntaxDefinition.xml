@@ -424,6 +424,7 @@
 					<regex>(?&lt;![\d\w])(?i)(text-orientation)</regex>
 					<regex>(?&lt;![\d\w])(?i)(text-outline)</regex><!-- old text property -->
 					<regex>(?&lt;![\d\w])(?i)(text-overflow)</regex>
+					<regex>(?&lt;![\d\w])(?i)(text-rendering)</regex>
 					<regex>(?&lt;![\d\w])(?i)(text-shadow)</regex>
 					<regex>(?&lt;![\d\w])(?i)(text-transform)</regex>
 					<regex>(?&lt;![\d\w])(?i)(text-trim)</regex><!-- old text property -->
@@ -786,6 +787,9 @@
 						<string>orchid</string>
 						<string>orangered</string>
 						<string>orange</string>
+						<string>optimizeSpeed</string>
+						<string>optimizeLegibility</string>
+						<string>geometricPrecision</string>
 						<string>open-quote</string>
 						<string>open</string>
 						<string>one</string>
