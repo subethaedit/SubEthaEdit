@@ -180,6 +180,8 @@
 		4C123002180BE4A60069253E /* TCMBEEPSessionXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C123001180BE4A60069253E /* TCMBEEPSessionXMLParser.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4C123005180C01EF0069253E /* TCMBEEPMessageXMLPayloadParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C123004180C01EF0069253E /* TCMBEEPMessageXMLPayloadParser.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4C19ECA3192F525000D39777 /* SubEthaEdit_AuthenticatedSave.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 4C19ECA2192F525000D39777 /* SubEthaEdit_AuthenticatedSave.scpt */; };
+		4C19ECA8192F743D00D39777 /* genstrings.sh in Resources */ = {isa = PBXBuildFile; fileRef = 4C19ECA6192F743D00D39777 /* genstrings.sh */; };
+		4C19ECA9192F743D00D39777 /* InsertVersionHashToInfoPlist.rb in Resources */ = {isa = PBXBuildFile; fileRef = 4C19ECA7192F743D00D39777 /* InsertVersionHashToInfoPlist.rb */; };
 		4C43314418E4777C00592EC2 /* SEEDocumentCreationFlags.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C43314318E4777C00592EC2 /* SEEDocumentCreationFlags.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4C4EFE45181AA3410072176F /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C4EFE44181AA3400072176F /* HockeySDK.framework */; };
 		4C4EFE47181AA3B00072176F /* HockeySDK.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 4C4EFE44181AA3400072176F /* HockeySDK.framework */; };
@@ -419,9 +421,6 @@
 		F2B136EB189BF27000430639 /* AW AddTabButton.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2B136E3189BF27000430639 /* AW AddTabButton.tiff */; };
 		F2B136EC189BF27000430639 /* AW AddTabButtonPushed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2B136E4189BF27000430639 /* AW AddTabButtonPushed.tiff */; };
 		F2B136ED189BF27000430639 /* AW AddTabButtonRollover_Pressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2B136E5189BF27000430639 /* AW AddTabButtonRollover_Pressed.tiff */; };
-		F2BB09EB0CA0186400258EC7 /* NSBezierPath-Arrow.m in Sources */ = {isa = PBXBuildFile; fileRef = F2BB09E80CA0186400258EC7 /* NSBezierPath-Arrow.m */; };
-		F2BB09F90CA018B600258EC7 /* NSImage-States.m in Sources */ = {isa = PBXBuildFile; fileRef = F2BB09F40CA018B100258EC7 /* NSImage-States.m */; };
-		F2BB09FF0CA018CA00258EC7 /* PCRolloverImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2BB09FC0CA018CA00258EC7 /* PCRolloverImageView.m */; };
 		F2C6D3750D6DB131002B401D /* URLIconNotOK.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2C6D3730D6DB131002B401D /* URLIconNotOK.tiff */; };
 		F2C6D3760D6DB131002B401D /* URLIconOK.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2C6D3740D6DB131002B401D /* URLIconOK.tiff */; };
 		F2C7672718B3AEAC00763B40 /* PlainTextEditor.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2C7672618B3AEAC00763B40 /* PlainTextEditor.xib */; };
@@ -922,6 +921,8 @@
 		4C123004180C01EF0069253E /* TCMBEEPMessageXMLPayloadParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMBEEPMessageXMLPayloadParser.m; sourceTree = "<group>"; };
 		4C1407DB192CE64A00F0F709 /* LuaC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = LuaC.entitlements; sourceTree = "<group>"; };
 		4C19ECA2192F525000D39777 /* SubEthaEdit_AuthenticatedSave.scpt */ = {isa = PBXFileReference; lastKnownFileType = file; path = SubEthaEdit_AuthenticatedSave.scpt; sourceTree = "<group>"; };
+		4C19ECA6192F743D00D39777 /* genstrings.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = genstrings.sh; sourceTree = "<group>"; };
+		4C19ECA7192F743D00D39777 /* InsertVersionHashToInfoPlist.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = InsertVersionHashToInfoPlist.rb; sourceTree = "<group>"; };
 		4C43314218E4777C00592EC2 /* SEEDocumentCreationFlags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEDocumentCreationFlags.h; sourceTree = "<group>"; };
 		4C43314318E4777C00592EC2 /* SEEDocumentCreationFlags.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEDocumentCreationFlags.m; sourceTree = "<group>"; };
 		4C4EFE44181AA3400072176F /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HockeySDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1313,12 +1314,6 @@
 		F2B136E4189BF27000430639 /* AW AddTabButtonPushed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "AW AddTabButtonPushed.tiff"; sourceTree = "<group>"; };
 		F2B136E5189BF27000430639 /* AW AddTabButtonRollover_Pressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "AW AddTabButtonRollover_Pressed.tiff"; sourceTree = "<group>"; };
 		F2B6CCC20EE9C6390077417E /* SeeTextImporter.mdimporter */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SeeTextImporter.mdimporter; sourceTree = BUILT_PRODUCTS_DIR; };
-		F2BB09E80CA0186400258EC7 /* NSBezierPath-Arrow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSBezierPath-Arrow.m"; path = "Panic/NSBezierPath-Arrow.m"; sourceTree = "<group>"; };
-		F2BB09E90CA0186400258EC7 /* NSBezierPath-Arrow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = "NSBezierPath-Arrow.h"; path = "Panic/NSBezierPath-Arrow.h"; sourceTree = "<group>"; };
-		F2BB09F40CA018B100258EC7 /* NSImage-States.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSImage-States.m"; path = "Panic/NSImage-States.m"; sourceTree = "<group>"; };
-		F2BB09F50CA018B100258EC7 /* NSImage-States.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = "NSImage-States.h"; path = "Panic/NSImage-States.h"; sourceTree = "<group>"; };
-		F2BB09FB0CA018CA00258EC7 /* PCRolloverImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = PCRolloverImageView.h; path = Panic/PCRolloverImageView.h; sourceTree = "<group>"; };
-		F2BB09FC0CA018CA00258EC7 /* PCRolloverImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCRolloverImageView.m; path = Panic/PCRolloverImageView.m; sourceTree = "<group>"; };
 		F2C6D3730D6DB131002B401D /* URLIconNotOK.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = URLIconNotOK.tiff; path = artwork/URLIconNotOK.tiff; sourceTree = "<group>"; };
 		F2C6D3740D6DB131002B401D /* URLIconOK.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = URLIconOK.tiff; path = artwork/URLIconOK.tiff; sourceTree = "<group>"; };
 		F2C7672618B3AEAC00763B40 /* PlainTextEditor.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlainTextEditor.xib; sourceTree = "<group>"; };
@@ -1695,12 +1690,6 @@
 				F234E4570BE2592300504A7C /* NSWorkspaceTCMAdditions.m */,
 				1428920C095751CB00D14688 /* TCMMMUserSEEAdditions.h */,
 				1428920D095751CB00D14688 /* TCMMMUserSEEAdditions.m */,
-				F2BB09E90CA0186400258EC7 /* NSBezierPath-Arrow.h */,
-				F2BB09E80CA0186400258EC7 /* NSBezierPath-Arrow.m */,
-				F2BB09F50CA018B100258EC7 /* NSImage-States.h */,
-				F2BB09F40CA018B100258EC7 /* NSImage-States.m */,
-				F2BB09FB0CA018CA00258EC7 /* PCRolloverImageView.h */,
-				F2BB09FC0CA018CA00258EC7 /* PCRolloverImageView.m */,
 				F26B7D840CA3F7680039C8A1 /* NSBezierPathTCMAdditions.h */,
 				F26B7D850CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m */,
 				31FFC93B104E97A000E08256 /* NSErrorTCMAdditions.h */,
@@ -2092,6 +2081,8 @@
 		2A37F4AFFDCFA73011CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				4C19ECA6192F743D00D39777 /* genstrings.sh */,
+				4C19ECA7192F743D00D39777 /* InsertVersionHashToInfoPlist.rb */,
 				4C19ECA2192F525000D39777 /* SubEthaEdit_AuthenticatedSave.scpt */,
 				32DBCF750370BD2300C91783 /* SubEthaEdit_Prefix.pch */,
 				313C391E131EAEE300BAC5F5 /* PCDebug.h */,
@@ -2873,6 +2864,7 @@
 				F2D3E55D189941F50096425B /* IW InactiveTabBG.png in Resources */,
 				F22024CA191D0BFE0098982C /* ParticipantFollowTurnOnHover@2x.png in Resources */,
 				F2D3E55B189941F50096425B /* IW InactiveTabAlert.png in Resources */,
+				4C19ECA9192F743D00D39777 /* InsertVersionHashToInfoPlist.rb in Resources */,
 				1428900F095740F200D14688 /* RE.txt in Resources */,
 				F22024D2191D0BFE0098982C /* ParticipantKickNormal@2x.png in Resources */,
 				F2D3E563189941F50096425B /* IW InactiveTabCloseRollover.png in Resources */,
@@ -3082,6 +3074,7 @@
 				3134F7DE0CB13A2E00F8C116 /* Precedence_RemoveRollover.tiff in Resources */,
 				F2880D2B1923BA7100C6370C /* BottomBarSharingIconGroupTurnOnPressed.png in Resources */,
 				4C6BDC5518896DCC0088CBFC /* SubEthaEditStyle.iconset in Resources */,
+				4C19ECA8192F743D00D39777 /* genstrings.sh in Resources */,
 				F2880D161923BA7100C6370C /* BottomBarSharingIconAnnounceTurnOffNormal@2x.png in Resources */,
 				F2D5FF3E0CB2666000407399 /* Rendezvous.icns in Resources */,
 				F2D5FF400CB2667A00407399 /* StylePrefs.icns in Resources */,
@@ -3379,9 +3372,6 @@
 				F2ABC5400C79D9AB007437A2 /* DebugHistoryController.m in Sources */,
 				4CB36C3218D84BF4000219DA /* SEEEditorSplitViewDelegate.m in Sources */,
 				F20948BC0C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m in Sources */,
-				F2BB09EB0CA0186400258EC7 /* NSBezierPath-Arrow.m in Sources */,
-				F2BB09F90CA018B600258EC7 /* NSImage-States.m in Sources */,
-				F2BB09FF0CA018CA00258EC7 /* PCRolloverImageView.m in Sources */,
 				F26B7D880CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m in Sources */,
 				F29E6DD818E5CACE00F84231 /* TCMCGGeometryAdditions.m in Sources */,
 				31D2C7000CA7C9C8003CC5C9 /* PrecedenceRuleCell.m in Sources */,
