@@ -1,3 +1,8 @@
+woff
+truetype
+opentype
+embedded-opentype
+svg
 Arial
 Big5
 Capitals
