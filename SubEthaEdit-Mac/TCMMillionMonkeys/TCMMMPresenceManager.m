@@ -407,7 +407,7 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
 - (NSString *)myReachabilityURLString {
     TCMPortMapper *pm = [TCMPortMapper sharedInstance];
     TCMPortMapping *mapping = [[pm portMappings] anyObject];
-    if ([pm externalIPAddress] && [mapping mappingStatus]==TCMPortMappingStatusMapped && [self isVisible]) {
+    if ([pm externalIPAddress] && ![[pm externalIPAddress] isEqual:@"0.0.0.0"] && [mapping mappingStatus]==TCMPortMappingStatusMapped && [self isVisible]) {
         return [NSString stringWithFormat:@"see://%@:%d", [pm externalIPAddress],[mapping externalPort]];
     } else {
         return @"";
