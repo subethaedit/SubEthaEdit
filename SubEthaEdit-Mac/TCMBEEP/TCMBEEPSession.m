@@ -36,7 +36,6 @@ NSString * const TCMBEEPSASLCRAMMD5ProfileURI = @"http://iana.org/beep/SASL/CRAM
 NSString * const TCMBEEPSASLDIGESTMD5ProfileURI = @"http://iana.org/beep/SASL/DIGEST-MD5";
 NSString * const TCMBEEPSASLGSSAPIProfileURI = @"http://iana.org/beep/SASL/GSSAPI";
 NSString * const TCMBEEPSessionDidReceiveGreetingNotification = @"TCMBEEPSessionDidReceiveGreetingNotification";
-NSString * const TCMBEEPSessionDidEndNotification = @"TCMBEEPSessionDidEndNotification";
 
 NSString * const TCMBEEPSessionAuthenticationInformationDidChangeNotification = @"TCMBEEPSessionAuthenticationInformationDidChangeNotification";
 
@@ -46,6 +45,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 #pragma mark -
 
 @interface TCMBEEPSession ()
+@property (nonatomic, strong) NSString *uniqueID;
 - (void)TCM_initHelper;
 - (void)TCM_handleStreamOpenEvent;
 - (void)TCM_handleStreamHasBytesAvailableEvent;
@@ -142,6 +142,7 @@ static NSData *dhparamData = nil;
 
 - (void)TCM_initHelper
 {
+	self.uniqueID = [NSString UUIDString];
     I_flags.hasSentTLSProceed = NO;
     I_flags.isWaitingForTLSProceed = NO;
     I_flags.isTLSHandshaking = NO;
@@ -337,6 +338,7 @@ static NSData *dhparamData = nil;
 	}
 #endif
     DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"BEEPSession deallocated");
+	self.uniqueID = nil;
     [super dealloc];
 }
 
@@ -660,6 +662,7 @@ static NSData *dhparamData = nil;
 }
 
 - (NSString *)sessionID {
+	return self.uniqueID;
 	NSString *result = nil;
 	NSDictionary *userInfo = self.userInfo;
 	if ([userInfo objectForKey:@"isRendezvous"]) {
@@ -692,7 +695,6 @@ static NSData *dhparamData = nil;
         NSError *error = [NSError errorWithDomain:@"BEEPDomain" code:451 userInfo:nil];
         [delegate BEEPSession:self didFailWithError:error];
     }
-    [[NSNotificationCenter defaultCenter] postNotificationName:TCMBEEPSessionDidEndNotification object:self];
 }
 
 - (void)TCM_checkForCompletedTLSHandshakeAndRestartManagementChannel

@@ -542,6 +542,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 		}
 
 		
+		/* don't do because it breaks dragging into messages
 		{
 			if (imageData) {
 				[types addObjectsFromArray:@[@"public.jpeg", NSFileContentsPboardType]];
@@ -552,6 +553,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 				}];
 			}
 		}
+		 */
 		
 		// execute them again in order
 		if (types.count > 0) {
