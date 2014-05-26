@@ -1573,7 +1573,7 @@ struct ModificationInfo
 
 	// show alert
 	NSAlert *installAlert = [NSAlert alertWithMessageText:titleText
-											defaultButton:NSLocalizedString(@"OK", nil) // TODO: make that install
+											defaultButton:NSLocalizedStringWithDefaultValue(@"MODE_INSTALL_OK_BUTTON", nil, [NSBundle mainBundle], @"Install", nil)
 										  alternateButton:NSLocalizedString(@"Cancel", nil)
 											  otherButton:nil
 								informativeTextWithFormat:@"%@", informativeText];
@@ -1613,11 +1613,17 @@ struct ModificationInfo
 		
 		NSString *messageText;
 		if (success) {
-			messageText = [NSString stringWithFormat:NSLocalizedString(@"The mode \"%@\" has been installed successfully.", nil), name];
+			messageText = [NSString stringWithFormat:
+						   NSLocalizedStringWithDefaultValue(@"MODE_INSTALL_ALERT_SUCCESS", nil, [NSBundle mainBundle],
+															 @"The mode \"%@\" has been installed successfully.", nil),
+						   name];
 		} else {
-			messageText = [NSString stringWithFormat:NSLocalizedString(@"Installation of mode \"%@\" failed.", nil), name];
+			messageText = [NSString stringWithFormat:
+						   NSLocalizedStringWithDefaultValue(@"MODE_INSTALL_ALERT_FAIL", nil, [NSBundle mainBundle],
+															 @"Installation of mode \"%@\" failed.", nil),
+						   name];
 		}
-		
+
 		NSAlert *infoAlert = [NSAlert alertWithMessageText:messageText
 											 defaultButton:NSLocalizedString(@"OK", nil)
 										   alternateButton:nil
