@@ -75,7 +75,7 @@
                                     <action selector="newDocument:" target="-1" id="194"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Neuer Tab" tag="102" alternate="YES" keyEquivalent="t" id="618">
+                            <menuItem title="Neuer Tab" tag="102" keyEquivalent="t" id="618">
                                 <connections>
                                     <action selector="newAlternateDocument:" target="-1" id="619"/>
                                 </connections>
@@ -171,8 +171,8 @@
                                     <action selector="toggleIsAnnouncedOnAllDocuments:" target="-1" id="644"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Neue Teilnehmer" tag="-1" id="510">
-                                <menu key="submenu" title="Neue Teilnehmer" id="511">
+                            <menuItem title="Eintreffende Teilnehmer" tag="-1" id="510">
+                                <menu key="submenu" title="Eintreffende Teilnehmer" id="511">
                                     <items>
                                         <menuItem title="Lesen &amp; Schreiben" tag="2" keyEquivalent="A" id="509">
                                             <connections>
@@ -208,6 +208,11 @@
                             <menuItem title="Link zum Dokument kopieren" id="475">
                                 <connections>
                                     <action selector="copyDocumentURL:" target="-1" id="476"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Link zu Mir kopieren" id="xlC-sd-lhj">
+                                <connections>
+                                    <action selector="copyReachabilityURL:" target="-1" id="Tkz-S5-t76"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="74">

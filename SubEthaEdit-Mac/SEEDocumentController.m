@@ -202,19 +202,28 @@ NSString *const RecentDocumentsDidChangeNotification = @"RecentDocumentsDidChang
 
 #pragma mark - DocumentList window
 
-- (IBAction)showDocumentListWindow:(id)sender {
+- (SEEDocumentListWindowController *)ensuredDocumentListWindowController {
 	if (!self.documentListWindowController) {
 		SEEDocumentListWindowController *networkBrowser = [[SEEDocumentListWindowController alloc] initWithWindowNibName:@"SEEDocumentListWindowController"];
 		self.documentListWindowController = networkBrowser;
 	}
-	if (sender == NSApp) {
-		self.documentListWindowController.shouldCloseWhenOpeningDocument = YES;
-	} else {
-		self.documentListWindowController.shouldCloseWhenOpeningDocument = NO;
-	}
-	[self.documentListWindowController showWindow:sender];
+	return self.documentListWindowController;
 }
 
+- (IBAction)showDocumentListWindow:(id)sender {
+	SEEDocumentListWindowController *controller = [self ensuredDocumentListWindowController];
+	if (sender == NSApp) {
+		controller.shouldCloseWhenOpeningDocument = YES;
+	} else {
+		controller.shouldCloseWhenOpeningDocument = NO;
+	}
+	[controller showWindow:sender];
+}
+
+- (IBAction)copyReachabilityURL:(id)aSender {
+    NSPasteboard *pboard = [NSPasteboard generalPasteboard];
+	[[self ensuredDocumentListWindowController] writeMyReachabiltyToPasteboard:pboard];
+}
 
 
 #pragma mark - DocumentTypes
@@ -331,7 +340,9 @@ NSString *const RecentDocumentsDidChangeNotification = @"RecentDocumentsDidChang
             }
         }
         return (([I_windowControllers count] > 1) && !hasSheet);
-    }
+    } else if (selector == @selector(copyReachabilityURL:)) {
+		return (![[TCMMMBEEPSessionManager sharedInstance] isNetworkingDisabled]);
+	}
     return [super validateMenuItem:menuItem];
 }
 
