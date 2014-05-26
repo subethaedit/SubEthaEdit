@@ -1033,3 +1033,6 @@
 "MODE_INSTALL_ALERT_FAIL" = "Die Installation des Modus „%@“ ist fehlgeschlagen.";
 
 "MODE_INSTALL_OK_BUTTON" = "Installieren";
+
+"INFO_NUMBER_OF_WORDS_TOO_MANY" = "Viele Worte";
+

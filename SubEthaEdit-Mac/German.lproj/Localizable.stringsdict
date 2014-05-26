@@ -9,13 +9,13 @@
 		<key>words</key>
 		<dict>
 			<key>other</key>
-			<string>%llu Wörter</string>
+			<string>%lu Wörter</string>
 			<key>one</key>
 			<string>1 Wort</string>
 			<key>zero</key>
 			<string>kein Wort</string>
 			<key>NSStringFormatValueTypeKey</key>
-			<string>llu</string>
+			<string>lu</string>
 			<key>NSStringFormatSpecTypeKey</key>
 			<string>NSStringPluralRuleType</string>
 		</dict>
@@ -27,13 +27,13 @@
 		<key>characters</key>
 		<dict>
 			<key>other</key>
-			<string>%d Zeichen</string>
+			<string>%lu Zeichen</string>
 			<key>one</key>
 			<string>1 Zeichen</string>
 			<key>zero</key>
 			<string>kein Zeichen</string>
 			<key>NSStringFormatValueTypeKey</key>
-			<string>d</string>
+			<string>lu</string>
 			<key>NSStringFormatSpecTypeKey</key>
 			<string>NSStringPluralRuleType</string>
 		</dict>
@@ -45,13 +45,13 @@
 		<key>lines</key>
 		<dict>
 			<key>other</key>
-			<string>%d Zeilen</string>
+			<string>%lu Zeilen</string>
 			<key>one</key>
 			<string>1 Zeile</string>
 			<key>zero</key>
 			<string>keine Zeile</string>
 			<key>NSStringFormatValueTypeKey</key>
-			<string>d</string>
+			<string>lu</string>
 			<key>NSStringFormatSpecTypeKey</key>
 			<string>NSStringPluralRuleType</string>
 		</dict>

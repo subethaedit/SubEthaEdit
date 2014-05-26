@@ -83,9 +83,9 @@ extern NSString * const SEESearchScopeAttributeName;
 - (NSDictionary *)dictionaryRepresentation;
 - (void)setContentByDictionaryRepresentation:(NSDictionary *)aRepresentation;
 
-- (unsigned)numberOfLines;
-- (unsigned)numberOfCharacters;
-- (unsigned)numberOfWords;
+- (NSUInteger)numberOfLines;
+- (NSUInteger)numberOfCharacters;
+- (NSUInteger)numberOfWords;
 
 
 #pragma mark -
