@@ -317,7 +317,7 @@
 //}
 
 - (IBAction)visitCommandLineToolWebsite:(id)sender {
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://subethaedit.org/commandlinetool/"]];
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://subethaedit.net/commandlinetool/"]];
 }
 
 #pragma mark
