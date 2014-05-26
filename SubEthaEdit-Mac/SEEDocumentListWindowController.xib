@@ -35,7 +35,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="300" height="400"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="firstColumnOnly" selectionHighlightStyle="sourceList" columnReordering="NO" columnResizing="NO" autosaveColumns="NO" rowHeight="34" rowSizeStyle="automatic" viewBased="YES" id="btu-v5-80w">
+                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="firstColumnOnly" selectionHighlightStyle="sourceList" columnReordering="NO" columnResizing="NO" autosaveColumns="NO" rowHeight="34" rowSizeStyle="automatic" viewBased="YES" id="btu-v5-80w" customClass="SEEDocumentListTableView">
                                     <rect key="frame" x="0.0" y="0.0" width="300" height="400"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
@@ -233,7 +233,7 @@
                                                     </connections>
                                                 </tableCellView>
                                                 <tableCellView identifier="MoreRecent" id="cje-Kj-pJD" userLabel="MoreCell">
-                                                    <rect key="frame" x="1" y="117" width="297" height="34"/>
+                                                    <rect key="frame" x="1" y="117" width="297" height="31"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DBj-Ye-zEy">
@@ -257,7 +257,7 @@
                                                     </connections>
                                                 </tableCellView>
                                                 <tableCellView identifier="Document" id="l0C-OX-d9H" userLabel="Recent Cell View">
-                                                    <rect key="frame" x="1" y="153" width="297" height="34"/>
+                                                    <rect key="frame" x="1" y="150" width="297" height="34"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <imageView translatesAutoresizingMaskIntoConstraints="NO" id="Qp7-Vm-djo" userLabel="File Icon">
@@ -298,7 +298,7 @@
                                                     </connections>
                                                 </tableCellView>
                                                 <tableCellView identifier="NetworkDocument" id="tmI-B6-msd" userLabel="Network Doc Cell View">
-                                                    <rect key="frame" x="1" y="189" width="297" height="34"/>
+                                                    <rect key="frame" x="1" y="186" width="297" height="34"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UOM-2h-7Ex">
@@ -349,7 +349,7 @@
                                                     </connections>
                                                 </tableCellView>
                                                 <tableCellView identifier="Connect" id="pIc-iJ-JHp">
-                                                    <rect key="frame" x="1" y="225" width="297" height="42"/>
+                                                    <rect key="frame" x="1" y="222" width="297" height="42"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="xlp-Jr-Hfh">

@@ -6,6 +6,8 @@
 
 #import "SEEHoverTableRowView.h"
 
+static void SEEHovertTableRowDrawSeparatorInRect(NSRect rect);
+
 @interface SEEHoverTableRowView ()
 @property (nonatomic) BOOL mouseInside;
 @property (nonatomic, strong) NSTrackingArea *trackingArea;
@@ -75,7 +77,8 @@ static NSGradient *gradientWithTargetColorAndLocation(NSColor *targetColor, CGFl
         NSGradient *gradient;
 		CGFloat location = 40.0 / CGRectGetWidth(self.bounds);
 		CGFloat highlightWidth = 80.0 / CGRectGetWidth(self.bounds);
-		gradient = gradientWithTargetColorAndLocation([NSColor colorWithCalibratedWhite:1.000 alpha:0.350], location, location+highlightWidth);
+		CGFloat alphaValue = self.clickHighlight ? 0.8 : 0.35;
+		gradient = gradientWithTargetColorAndLocation([NSColor colorWithCalibratedWhite:1.000 alpha:alphaValue], location, location+highlightWidth);
         [gradient drawInRect:self.bounds angle:0];
     }
 }
