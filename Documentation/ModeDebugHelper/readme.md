@@ -148,7 +148,7 @@ Getting textfile with the value for a plist key (*eg. `CFBundleShortVersionStrin
 `make sort-plist` generates sorted plist in results folder - removing unknown keys
 
 `make plist-values key=<key>` : generates a list of the values used for the given key  
-`make all-plist-values key=<key>` : generates a list of the values used for all the keys 
+`make all-plist-values` : generates a list of the values used for all the keys 
 
 `make find-scope scope=<scope>` : generates a xml files containing all the uses of <scope>  
 `make all-scopes-one-mode mode=<mode>` : generates an annotated txt with scopes used by a mode  

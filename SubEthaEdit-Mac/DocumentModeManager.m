@@ -569,11 +569,22 @@ static DocumentModeManager *S_sharedInstance=nil;
 }
 
 #pragma mark - Stuff with modes
-- (NSString *)pathForWritingMode:(DocumentMode *)aMode {
+- (NSURL *)urlForWritingModeWithName:(NSString *)aModeName {
+	NSString *fullPath = [self pathForWritingModeWithName:aModeName];
+	NSURL *result = [NSURL fileURLWithPath:fullPath];
+	return result;
+}
+
+- (NSString *)pathForWritingModeWithName:(NSString *)aModeName {
 	[self createUserApplicationSupportDirectory];
 	NSString *modeFolderPath = [[self URLWithAddedBundleIdentifierDirectoryForURL:[self applicationSupportDirectory] subDirectoryName:LIBRARY_MODE_FOLDER_NAME] path];
-	NSString *fullPath = [[modeFolderPath stringByAppendingPathComponent:[aMode displayName]] stringByAppendingPathExtension:MODE_EXTENSION];
+	NSString *fullPath = [[modeFolderPath stringByAppendingPathComponent:aModeName] stringByAppendingPathExtension:MODE_EXTENSION];
     return fullPath;
+}
+
+- (NSString *)pathForWritingMode:(DocumentMode *)aMode {
+	NSString *result = [self pathForWritingModeWithName:[aMode displayName]];
+	return result;
 }
 
 - (void)revealModeInFinder:(DocumentMode *)aMode {

@@ -80,5 +80,6 @@
 
 - (IBAction)reloadDocumentModes:(id)aSender;
 - (void)revealModeInFinder:(DocumentMode *)aMode;
+- (NSURL *)urlForWritingModeWithName:(NSString *)aModeName;
 
 @end

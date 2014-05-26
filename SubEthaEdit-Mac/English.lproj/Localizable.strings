@@ -220,9 +220,6 @@
 /* Choice (on a button) given to user which allows him/her to quit the application even though there are unsaved documents. */
 "Discard Changes" = "Discard Changes";
 
-/* No comment provided by engineer. */
-"Do you want to install the mode \"%@\"?" = "Do you want to install the mode \"%@\"?";
-
 /* Text for document URL field when not announced */
 "Document not announced.\nNo Document URL." = "Document not announced.\nNo Document URL.";
 
@@ -364,9 +361,6 @@
 /* legend entry for insertions in statistsics hud */
 "insertions" = "Insertions";
 
-/* No comment provided by engineer. */
-"Installation of mode \"%@\" failed." = "Installation of mode “%@” failed.";
-
 /* Title of Clear Button in InternetBrowser */
 "InternetClear" = "Clear";
 
@@ -432,9 +426,6 @@
 
 /* No comment provided by engineer. */
 "Merging windows moves all open tabs and windows into a single, tabbed editor window. This cannot be undone." = "Merging windows moves all open tabs and windows into a single, tabbed editor window. This cannot be undone.";
-
-/* No comment provided by engineer. */
-"Mode \"%@\" is already installed in \"%@\"." = "Mode “%@” is already installed in “%@”.";
 
 /* Location: Network Library */
 "Network Library" = "Network Library";
@@ -703,12 +694,6 @@
 /* Message text in modal dialog in advanced prefs */
 "The installation of the see command line tool failed." = "The installation of the see command line tool failed.";
 
-/* No comment provided by engineer. */
-"The installed mode will override your new mode." = "The installed mode will override your new mode.";
-
-/* No comment provided by engineer. */
-"The mode \"%@\" has been installed successfully." = "The mode “%@” has been installed successfully.";
-
 /* Message text in modal dialog in advanced prefs */
 "The see command line tool couldn't be removed." = "The see command line tool couldn't be removed.";
 
@@ -754,9 +739,6 @@
 /* No comment provided by engineer. */
 "Warning" = "Warning";
 
-/* No comment provided by engineer. */
-"When you click Install, you'll be asked to enter the name and password for an administrator of this computer." = "When you click Install, you'll be asked to enter the name and password for an administrator of this computer.";
-
 /* WindowWidthArangementString */
 "WindowWidth%d%@" = "%d%@";
 
@@ -795,12 +777,6 @@
 
 /* No comment provided by engineer. */
 "You have %d documents in this window with unsaved changes. Do you want to review these changes?" = "You have %d documents in this window with unsaved changes. Do you want to review these changes?";
-
-/* No comment provided by engineer. */
-"You will override the installed mode." = "You will override the installed mode.";
-
-/* No comment provided by engineer. */
-"You will replace the installed mode." = "You will replace the installed mode.";
 
 /* Status string showing the number of documents The browser when there are multiple documents announced */
 "%d Documents" = "%d Documents";
@@ -938,3 +914,15 @@
 
 "MODE_IN_NEW_TAB_CONTEXT_MENU_TEXT" = "%@ in tab";
 "MODE_IN_NEW_WINDOW_CONTEXT_MENU_TEXT" = "%@ in window";
+
+/* Mode Install */
+"MODE_INSTALL_TITLE_TEXT" = "Do you want to install the mode \"%@\"?";
+"MODE_INSTALL_INFO_STRING_BASE" = "Mode \"%@\" is already installed.";
+
+"MODE_INSTALL_INFO_STRING_OVERRIDE" = "You will override the installed mode.";
+"MODE_INSTALL_INFO_STRING_REPLACE" = "You will replace the installed mode.";
+ 
+"MODE_INSTALL_ALERT_SUCCESS" = "The mode \"%@\" has been installed successfully.";
+"MODE_INSTALL_ALERT_FAIL" = "Installation of mode \"%@\" failed.";
+ 
+"MODE_INSTALL_OK_BUTTON" = "Install";
