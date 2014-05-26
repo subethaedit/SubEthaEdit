@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -9,6 +9,7 @@
             <connections>
                 <outlet property="documentListItemsArrayController" destination="uFK-2L-HLP" id="kuw-vi-3gR"/>
                 <outlet property="filesOwnerProxy" destination="iXX-4h-P4x" id="yJ9-JU-HvF"/>
+                <outlet property="listItemContextMenuOutlet" destination="k0N-Xw-8dZ" id="ZXm-6D-c17"/>
                 <outlet property="scrollViewOutlet" destination="qRg-fN-a9P" id="TM4-68-dsZ"/>
                 <outlet property="tableViewOutlet" destination="btu-v5-80w" id="sDv-vX-AT3"/>
                 <outlet property="window" destination="1" id="3"/>
@@ -16,7 +17,7 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application"/>
-        <window identifier="DocumentList" title="SubEthaEdit 4" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="utilityWindow" id="1">
+        <window identifier="DocumentList" title="SubEthaEdit - Document Hub" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="utilityWindow" frameAutosaveName="DocumentHUB" id="1">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" resizable="YES"/>
             <windowCollectionBehavior key="collectionBehavior" moveToActiveSpace="YES" fullScreenAuxiliary="YES"/>
             <rect key="contentRect" x="196" y="240" width="300" height="400"/>
@@ -66,8 +67,24 @@
                                                                 <constraint firstAttribute="width" secondItem="JPV-3V-IN6" secondAttribute="height" multiplier="1:1" id="cgo-zH-0hp"/>
                                                             </constraints>
                                                         </customView>
+                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="KzL-Id-dvC" userLabel="sublinefield">
+                                                            <rect key="frame" x="65" y="5" width="212" height="16"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="16" id="Eka-LW-E3t"/>
+                                                            </constraints>
+                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="left" title="see://localhost/xib" id="DfZ-MR-7px">
+                                                                <font key="font" metaFont="miniSystem"/>
+                                                                <color key="textColor" red="0.52541145025124536" green="0.56995937476065917" blue="0.61450729927007297" alpha="1" colorSpace="deviceRGB"/>
+                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                            </textFieldCell>
+                                                            <connections>
+                                                                <binding destination="7GF-iT-703" name="toolTip" keyPath="objectValue.connection.toolTipString" id="zNn-yb-EXO"/>
+                                                                <binding destination="7GF-iT-703" name="value" keyPath="objectValue.subline" id="o6F-EV-VRR"/>
+                                                            </connections>
+                                                        </textField>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="99d-xq-E7k">
-                                                            <rect key="frame" x="65" y="16" width="212" height="25"/>
+                                                            <rect key="frame" x="65" y="20" width="212" height="25"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="25" id="rtq-Bf-3ii"/>
@@ -113,19 +130,22 @@
                                                         </button>
                                                     </subviews>
                                                     <constraints>
+                                                        <constraint firstItem="KzL-Id-dvC" firstAttribute="trailing" secondItem="99d-xq-E7k" secondAttribute="trailing" id="3Xc-ZJ-rLY"/>
                                                         <constraint firstItem="sLz-ta-X1G" firstAttribute="leading" secondItem="99d-xq-E7k" secondAttribute="trailing" constant="-4" id="9gP-xl-ifF"/>
                                                         <constraint firstItem="JPV-3V-IN6" firstAttribute="leading" secondItem="7GF-iT-703" secondAttribute="leading" constant="7" id="Aag-bs-dMd" userLabel="Horizontal Space - (8) - Avatar View - User Cell View"/>
                                                         <constraint firstAttribute="centerY" secondItem="JPV-3V-IN6" secondAttribute="centerY" id="KhV-LG-YoB"/>
-                                                        <constraint firstItem="JPV-3V-IN6" firstAttribute="centerY" secondItem="99d-xq-E7k" secondAttribute="centerY" constant="1" id="TWS-ed-rS2"/>
+                                                        <constraint firstItem="JPV-3V-IN6" firstAttribute="centerY" secondItem="99d-xq-E7k" secondAttribute="centerY" constant="5" id="TWS-ed-rS2"/>
                                                         <constraint firstAttribute="trailing" secondItem="sLz-ta-X1G" secondAttribute="trailing" constant="3" id="dAl-Z2-Uja"/>
+                                                        <constraint firstItem="KzL-Id-dvC" firstAttribute="leading" secondItem="99d-xq-E7k" secondAttribute="leading" id="eCc-bj-gIB"/>
                                                         <constraint firstItem="sLz-ta-X1G" firstAttribute="centerY" secondItem="7GF-iT-703" secondAttribute="centerY" constant="-1" id="fxJ-Ib-Nxh"/>
+                                                        <constraint firstItem="KzL-Id-dvC" firstAttribute="top" secondItem="99d-xq-E7k" secondAttribute="bottom" constant="-1" id="iB1-tf-PLy"/>
                                                         <constraint firstItem="99d-xq-E7k" firstAttribute="leading" secondItem="JPV-3V-IN6" secondAttribute="trailing" constant="8" id="ya8-Ub-8e6"/>
                                                     </constraints>
                                                     <connections>
                                                         <outlet property="textField" destination="99d-xq-E7k" id="QnQ-Yw-dNe"/>
                                                     </connections>
                                                 </tableCellView>
-                                                <tableCellView identifier="OtherItems" id="8bn-dY-eZx">
+                                                <tableCellView identifier="OtherItems" id="8bn-dY-eZx" userLabel="open other cell">
                                                     <rect key="frame" x="1" y="57" width="297" height="28"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
@@ -169,7 +189,7 @@
                                                         <outlet property="textField" destination="hiF-tx-CmA" id="hdT-Ut-c9M"/>
                                                     </connections>
                                                 </tableCellView>
-                                                <tableCellView identifier="ToggleRecent" id="Tiq-Hx-BMa">
+                                                <tableCellView identifier="ToggleRecent" id="Tiq-Hx-BMa" userLabel="recent header cell">
                                                     <rect key="frame" x="1" y="87" width="297" height="28"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
@@ -186,7 +206,7 @@
                                                             </connections>
                                                         </textField>
                                                         <button horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eSU-d2-2DX">
-                                                            <rect key="frame" x="9" y="5" width="18" height="17"/>
+                                                            <rect key="frame" x="9" y="5" width="18" height="18"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" secondItem="eSU-d2-2DX" secondAttribute="height" id="TCN-b9-yYl"/>
@@ -212,8 +232,32 @@
                                                         <outlet property="textField" destination="UWB-RS-5uw" id="cZw-lp-pzH"/>
                                                     </connections>
                                                 </tableCellView>
-                                                <tableCellView identifier="Document" id="l0C-OX-d9H" userLabel="Recent Cell View">
+                                                <tableCellView identifier="MoreRecent" id="cje-Kj-pJD" userLabel="MoreCell">
                                                     <rect key="frame" x="1" y="117" width="297" height="34"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <subviews>
+                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DBj-Ye-zEy">
+                                                            <rect key="frame" x="28" y="7" width="269" height="20"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="left" title="More" id="U8V-G8-Xjs">
+                                                                <font key="font" metaFont="system"/>
+                                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                            </textFieldCell>
+                                                        </textField>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstAttribute="trailing" secondItem="DBj-Ye-zEy" secondAttribute="trailing" id="JmV-fT-mUl"/>
+                                                        <constraint firstItem="DBj-Ye-zEy" firstAttribute="top" secondItem="cje-Kj-pJD" secondAttribute="top" constant="7" id="Qa4-FN-sOX"/>
+                                                        <constraint firstAttribute="bottom" secondItem="DBj-Ye-zEy" secondAttribute="bottom" constant="7" id="pGS-fJ-ZYR"/>
+                                                        <constraint firstItem="DBj-Ye-zEy" firstAttribute="leading" secondItem="cje-Kj-pJD" secondAttribute="leading" constant="30" id="sdR-08-tCV"/>
+                                                    </constraints>
+                                                    <connections>
+                                                        <outlet property="textField" destination="DBj-Ye-zEy" id="Wba-4x-9fE"/>
+                                                    </connections>
+                                                </tableCellView>
+                                                <tableCellView identifier="Document" id="l0C-OX-d9H" userLabel="Recent Cell View">
+                                                    <rect key="frame" x="1" y="153" width="297" height="34"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <imageView translatesAutoresizingMaskIntoConstraints="NO" id="Qp7-Vm-djo" userLabel="File Icon">
@@ -254,7 +298,7 @@
                                                     </connections>
                                                 </tableCellView>
                                                 <tableCellView identifier="NetworkDocument" id="tmI-B6-msd" userLabel="Network Doc Cell View">
-                                                    <rect key="frame" x="1" y="153" width="297" height="34"/>
+                                                    <rect key="frame" x="1" y="189" width="297" height="34"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UOM-2h-7Ex">
@@ -305,7 +349,7 @@
                                                     </connections>
                                                 </tableCellView>
                                                 <tableCellView identifier="Connect" id="pIc-iJ-JHp">
-                                                    <rect key="frame" x="1" y="189" width="297" height="42"/>
+                                                    <rect key="frame" x="1" y="225" width="297" height="42"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="xlp-Jr-Hfh">
@@ -364,6 +408,7 @@
                                         <binding destination="uFK-2L-HLP" name="selectionIndexes" keyPath="selectionIndexes" previousBinding="Avm-qz-QPh" id="EGA-vt-KpN"/>
                                         <outlet property="dataSource" destination="-2" id="gak-fe-n4p"/>
                                         <outlet property="delegate" destination="-2" id="wv4-fw-bTL"/>
+                                        <outlet property="menu" destination="k0N-Xw-8dZ" id="ahS-4u-x5x"/>
                                     </connections>
                                 </tableView>
                             </subviews>
@@ -407,6 +452,16 @@
                 <binding destination="iXX-4h-P4x" name="contentArray" keyPath="selection.availableItems" id="ued-ys-c5n"/>
             </connections>
         </arrayController>
+        <menu id="k0N-Xw-8dZ" userLabel="NetworkDocumentItemContextMenu">
+            <items>
+                <menuItem title="Open File" id="ikA-7b-gSQ">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                </menuItem>
+            </items>
+            <connections>
+                <outlet property="delegate" destination="-2" id="axN-I6-ZB0"/>
+            </connections>
+        </menu>
     </objects>
     <resources>
         <image name="NSAddTemplate" width="8" height="8"/>

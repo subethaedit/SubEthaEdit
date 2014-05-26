@@ -15,12 +15,12 @@
 @property (nonatomic, strong) NSMutableArray *entries; // array of SEEConnections; KVO compliant.
 
 + (SEEConnectionManager *)sharedInstance;
-
-+ (BOOL)invitePeopleFromPasteboard:(NSPasteboard *)aPasteboard intoDocumentGroupURL:(NSURL *)aURL;
++ (NSURL *)applicationConnectionURL;
 
 - (void)connectToURL:(NSURL *)anURL;
 - (void)connectToAddress:(NSString *)address;
 
 - (void)clear;
+
 
 @end

@@ -283,7 +283,7 @@
 "Following %@" = "Beobachte %@";
 
 /* Friendcast Connection ToolTip */
-"Friendcast Connection" = "Friendcast Verbindung";
+"Friendcast Connection" = "Verbindung via '%@'";
 
 /* Label displayed below general icon and used as window title. */
 "GeneralPrefsIconLabel" = "Allgemein";
@@ -370,7 +370,7 @@
 "Inbound Connection from %@" = "Eingehende Verbindung von %@";
 
 /* Inbound Friendcast Connection ToolTip */
-"Inbound Friendcast Connection" = "Eingehende Friendcast Verbindung";
+"Inbound Friendcast Connection" = "Eingehende Verbindung via '%@'";
 
 /* No comment provided by engineer. */
 "Insert" = "Einfügen";
@@ -1001,10 +1001,16 @@
 "ANNOUNCE_WILL_MAKE_VISIBLE_ACTION_TITLE" = "Ankündigen";
 
 /* document list */
+"DOCUMENT_LIST_WINDOW_TITLE" = "SubEthaEdit - Dokument-Hub";
 "DOCUMENT_LIST_OPEN" = "Öffnen…";
 "DOCUMENT_LIST_NEW" = "Neu";
 "DOCUMENT_LIST_CONNECT" = "Mit URL verbinden…";
 "DOCUMENT_LIST_RECENT_TOGGLE" = "Benutzte Dokumente";
+"DOCUMENT_LIST_MORE" = "Mehr";
+"DOCUMENT_LIST_CONTEXT_MENU_OPEN" = "Öffnen";
+"DOCUMENT_LIST_CONTEXT_MENU_COPY_URL" = "Verbindungs-URL kopieren";
+"DOCUMENT_LIST_CONTEXT_MENU_DISCONNECT" = "Verbindung trennen";
+"DOCUMENT_LIST_CONTEXT_MENU_CLEAR_RECENT" = "Einträge löschen";
 
 /* connection add window */
 "CONNECTION_ADD_WINDOW_TITLE" = "Verbindung hinzufügen";
@@ -1030,3 +1036,10 @@
 "AUTHENTICATION_SCRIPT_MISSING_ERROR_SUGGESTION" = "Bitte laden sie sich das Script von unsere Webseite herunter und folgen die den Installationsanweisungen.";
 "AUTHENTICATION_SCRIPT_MISSING_ERROR_BUTTON_TITLE1" = "Webseite besuchen…";
 "AUTHENTICATION_SCRIPT_MISSING_ERROR_BUTTON_TITLE2" = "Ignorieren";
+
+"SEEConnectionTaglineBonjour" = "Bonjour";
+"SEEConnectionTaglineInvisible" = "Unsichtbar";
+"SEEConnectionTaglineNetworkingDisabled" = "Netzwerk ausgeschaltet";
+"SEEConnectionTaglineFriendcast" = "via '%@'";
+
+

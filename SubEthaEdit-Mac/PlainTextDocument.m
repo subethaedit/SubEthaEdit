@@ -497,6 +497,10 @@ static NSString *tempFileName(NSString *origPath) {
     }
     [textStorage endEditing];
     [I_rangesToInvalidate removeAllObjects];
+	// update bottom status bars as this might change the width if wrap is of
+	if (!self.wrapLines) {
+		[[self plainTextEditors] makeObjectsPerformSelector:@selector(TCM_updateBottomStatusBar)];
+	}
 }
 
 // this is invalidating textRanges for the fullTextStorage
@@ -1271,6 +1275,32 @@ static NSString *tempFileName(NSString *origPath) {
 	[servicePicker setDelegate:self];
 	[servicePicker showRelativeToRect:NSZeroRect ofView:sender preferredEdge:CGRectMaxYEdge];
 }
+
+- (BOOL)invitePeopleFromPasteboard:(NSPasteboard *)aPasteboard {
+    BOOL success = NO;
+    if ([[aPasteboard types] containsObject:@"IMHandleNames"]) {
+        NSArray *presentityNames= [aPasteboard propertyListForType:@"IMHandleNames"];
+        NSUInteger i=0;
+		
+		NSSharingService *service = [NSSharingService sharingServiceNamed:NSSharingServiceNameComposeMessage];
+		service.delegate = self;
+		NSMutableArray *recipients = [NSMutableArray array];
+        for (i=0;i<[presentityNames count];i+=4) {
+			//			NSString *serviceID = presentityNames[i];
+			//	NSString *accountID = presentityNames[i+1];
+			// don't know the format of the recipients field, so leave it blank and the user has to paste it in
+			//			[recipients addObject:[@"bonjour://" stringByAppendingString:accountID]];
+            //[self sendInvitationToServiceWithID:[presentityNames objectAtIndex:i] buddy:[presentityNames objectAtIndex:i+1] url:aURL];
+        }
+		service.recipients = recipients;
+		//		service.recipients = @[@"bonjour:something"];
+		[service performWithItems:@[[self documentURLForGroup:TCMMMSessionReadWriteGroupName]]];
+        success = YES;
+    }
+	
+    return success;
+}
+
 
 - (IBAction)toggleIsAnnouncedOnAllDocuments:(id)aSender {
     BOOL targetSetting = ![self isAnnounced];
@@ -4546,34 +4576,46 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 #pragma mark -
 
++ (NSString *)displayStringWithAdditionalPathComponentsForPathComponents:(NSArray *)aPathComponentsArray {
+	NSString *result = nil;
+	NSInteger count = (NSInteger)[aPathComponentsArray count];
+	if (count > 0) {
+		if (count==1) {
+			result = aPathComponentsArray.lastObject;
+		} else {
+			NSMutableString *mutableResult = [NSMutableString string];
+			NSInteger i = 0;
+			NSInteger pathComponentsToShow = [[NSUserDefaults standardUserDefaults] integerForKey:AdditionalShownPathComponentsPreferenceKey] + 1;
+			for (i = count-1; i >= 1 && i > count-pathComponentsToShow-1; i--) {
+				if (i != count-1) {
+					[mutableResult insertString:@"/" atIndex:0];
+				}
+				[mutableResult insertString:aPathComponentsArray[i] atIndex:0];
+			}
+			if (pathComponentsToShow>1 && i<1 && [aPathComponentsArray[0] isEqualToString:@"/"]) {
+				[mutableResult insertString:@"/" atIndex:0];
+			}
+			result = [[mutableResult copy] autorelease];
+		}
+	}
+	return result;
+}
+
 - (NSString *)preparedDisplayName {
     NSArray *pathComponents = nil;
+	NSString *result = nil;
     if ([self fileURL]) {
         pathComponents = [self.fileURL.path pathComponents];
     } else if ([self temporaryDisplayName]) {
         pathComponents = [[self temporaryDisplayName] pathComponents];
     } 
     
-    if (pathComponents) {
-        NSUInteger count = [pathComponents count];
-        if (count==1) return [pathComponents lastObject];
+	result = [PlainTextDocument displayStringWithAdditionalPathComponentsForPathComponents:pathComponents];
+	if (!result) {
+		result = [self displayName];
+	}
 
-        NSMutableString *result = [NSMutableString string];
-		NSInteger i = 0;
-        NSInteger pathComponentsToShow = [[NSUserDefaults standardUserDefaults] integerForKey:AdditionalShownPathComponentsPreferenceKey] + 1;
-        for (i = count-1; i >= 1 && i > count-pathComponentsToShow-1; i--) {
-            if (i != count-1) {
-                [result insertString:@"/" atIndex:0];
-            }
-            [result insertString:[pathComponents objectAtIndex:i] atIndex:0];
-        }
-        if (pathComponentsToShow>1 && i<1 && [[pathComponents objectAtIndex:0] isEqualToString:@"/"]) {
-            [result insertString:@"/" atIndex:0];
-        }
-        return result;
-    } else {
-        return [self displayName];
-    }
+	return result;
 }
 
 - (NSString *)displayName {
@@ -6183,6 +6225,8 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 			[self setDocumentMode:mode];
 		}
 		I_flags.shouldSelectModeOnSave=NO;
+		// clear the change marks after this first paste, to not have a totally changed first document
+		[self performSelector:@selector(clearChangeMarks:) withObject:nil afterDelay:0];
 	}
 	
 	// record this change for possible later use
@@ -6533,7 +6577,8 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 }
 
 - (NSNumber *)uniqueID {
-    return [NSNumber numberWithUnsignedInt:(uintptr_t)self];
+//    return [NSNumber numberWithUnsignedInt:(uintptr_t)self];
+    return [NSNumber numberWithInteger:(int32_t)self];
 }
 
 - (id)objectSpecifier {

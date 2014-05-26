@@ -158,6 +158,11 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
 
 @property (nonatomic, strong) SEEDocumentCreationFlags *attachedCreationFlags;
 
+/*!
+	@return returns a suitable display string with the additional path components set by the AdditionalShownPathComponentsPreferenceKey - or nil if the array was nil or empty.
+ */
++ (NSString *)displayStringWithAdditionalPathComponentsForPathComponents:(NSArray *)aPathComponentsArray;
+
 //+ (PlainTextDocument *)transientDocument;
 
 - (NSImage *)documentIcon;
@@ -197,6 +202,7 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
 - (IBAction)toggleIsAnnounced:(id)aSender;
 - (IBAction)toggleIsAnnouncedOnAllDocuments:(id)aSender;
 - (IBAction)inviteUsersToDocumentViaSharingService:(id)aSender;
+- (BOOL)invitePeopleFromPasteboard:(NSPasteboard *)aPasteboard;
 - (IBAction)changePendingUsersAccess:(id)aSender;
 - (IBAction)changePendingUsersAccessOnAllDocuments:(id)aSender;
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13D61" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1090" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
@@ -1015,12 +1015,12 @@
                             <menuItem isSeparatorItem="YES" id="612">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Document List" keyEquivalent="k" id="231">
+                            <menuItem title="Document Hub" keyEquivalent="k" id="231">
                                 <connections>
                                     <action selector="showDocumentListWindow:" target="-1" id="KbU-OD-k6L"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Document List" alternate="YES" keyEquivalent="K" id="640">
+                            <menuItem title="Document Hub" alternate="YES" keyEquivalent="K" id="640">
                                 <connections>
                                     <action selector="showDocumentListWindow:" target="-1" id="lmF-HU-bMB"/>
                                 </connections>
@@ -1082,6 +1082,7 @@
                 <outlet property="O_modeInstallerInformativeTextField" destination="583" id="585"/>
                 <outlet property="O_modeInstallerMessageTextField" destination="504" id="565"/>
                 <outlet property="O_modeInstallerPanel" destination="501" id="564"/>
+                <outlet property="recentDocumentMenu" destination="125" id="l7L-GI-ds9"/>
             </connections>
         </customObject>
         <customObject id="354" userLabel="Font Manager" customClass="NSFontManager"/>

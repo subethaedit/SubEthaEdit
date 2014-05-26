@@ -30,6 +30,20 @@
     return sSharedInstance;
 }
 
++ (NSURL *)applicationConnectionURL {
+	NSURL *result = nil;
+	if ([[TCMMMBEEPSessionManager sharedInstance] isListening]) {
+		TCMPortMapper *pm = [TCMPortMapper sharedInstance];
+		NSString *URLString = [NSString stringWithFormat:@"see://%@:%d", [pm localIPAddress],[[TCMMMBEEPSessionManager sharedInstance] listeningPort]];
+		TCMPortMapping *mapping = [[pm portMappings] anyObject];
+		if ([mapping mappingStatus]==TCMPortMappingStatusMapped) {
+			URLString = [NSString stringWithFormat:@"see://%@:%d", [pm externalIPAddress],[mapping externalPort]];
+		}
+		result = [NSURL URLWithString:URLString];
+	}
+    return result;
+}
+
 - (id)init {
 	self = [super init];
     if (self) {
@@ -51,7 +65,9 @@
         [defaultCenter addObserver:self selector:@selector(connectionEntryDidChange:) name:TCMBEEPSessionAuthenticationInformationDidChangeNotification object:nil];
 
 		[defaultCenter addObserver:self selector:@selector(userDidChange:) name:TCMMMUserManagerUserDidChangeNotification object:nil];
-	}
+
+		[defaultCenter addObserver:self selector:@selector(userDidChange:) name:TCMPortMapperDidFinishWorkNotification object:nil];
+}
     return self;
 }
 
@@ -59,15 +75,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (NSURL *)applicationConnectionURL {
-    TCMPortMapper *pm = [TCMPortMapper sharedInstance];
-    NSString *URLString = [NSString stringWithFormat:@"see://%@:%d", [pm localIPAddress],[[TCMMMBEEPSessionManager sharedInstance] listeningPort]];
-    TCMPortMapping *mapping = [[pm portMappings] anyObject];
-    if ([mapping mappingStatus]==TCMPortMappingStatusMapped) {
-        URLString = [NSString stringWithFormat:@"see://%@:%d", [pm externalIPAddress],[mapping externalPort]];
-    }
-    return [NSURL URLWithString:URLString];
-}
 
 
 #pragma mark -
@@ -244,21 +251,6 @@
     NSAppleScript *script = [[NSAppleScript alloc] initWithSource:applescriptString];
     // need to delay the sending so we don't try to send while in the dragging event
     [script performSelector:@selector(executeAndReturnError:) withObject:nil afterDelay:0.1];
-}
-
-+ (BOOL)invitePeopleFromPasteboard:(NSPasteboard *)aPasteboard intoDocumentGroupURL:(NSURL *)aURL {
-    BOOL success = NO;
-    if ([[aPasteboard types] containsObject:@"PresentityNames"] ||
-		[[aPasteboard types] containsObject:@"IMHandleNames"]) {
-        NSArray *presentityNames=[[aPasteboard types] containsObject:@"PresentityNames"] ? [aPasteboard propertyListForType:@"PresentityNames"] : [aPasteboard propertyListForType:@"IMHandleNames"]; 
-        NSUInteger i=0;
-        for (i=0;i<[presentityNames count];i+=4) {
-            [self sendInvitationToServiceWithID:[presentityNames objectAtIndex:i] buddy:[presentityNames objectAtIndex:i+1] url:aURL];
-        }
-        success = YES;
-    }
-
-    return success;
 }
 
 @end

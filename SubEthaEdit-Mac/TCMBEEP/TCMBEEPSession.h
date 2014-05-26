@@ -21,7 +21,6 @@ extern NSString * const TCMBEEPSASLCRAMMD5ProfileURI;
 extern NSString * const TCMBEEPSASLDIGESTMD5ProfileURI;
 extern NSString * const TCMBEEPSASLGSSAPIProfileURI;
 extern NSString * const TCMBEEPSessionDidReceiveGreetingNotification;
-extern NSString * const TCMBEEPSessionDidEndNotification;
 
 extern NSString * const TCMBEEPSessionAuthenticationInformationDidChangeNotification;
 
@@ -55,6 +54,7 @@ enum {
 - (NSMutableDictionary *)BEEPSession:(TCMBEEPSession *)aBEEPSession willSendReply:(NSMutableDictionary *)aReply forChannelRequests:(NSArray *)aRequests;
 - (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didOpenChannelWithProfile:(TCMBEEPProfile *)aProfile data:(NSData *)inData;
 - (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didFailWithError:(NSError *)anError;
+/* most likely never happening, because we usually abort sessions and don't close them, an this call is only called if it would be closed in a regular fashion */
 - (void)BEEPSessionDidClose:(TCMBEEPSession *)aBEEPSession;
 @end
 

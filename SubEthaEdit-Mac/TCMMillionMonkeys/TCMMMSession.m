@@ -274,8 +274,7 @@ NSString * const TCMMMSessionTextStorageKey = @"TextStorage";
     [self setIsServer:[I_hostID isEqualToString:[TCMMMUserManager myUserID]]];
 }
 
-- (NSString *)hostID
-{
+- (NSString *)hostID {
     return I_hostID;
 }
 
@@ -392,7 +391,24 @@ NSString * const TCMMMSessionTextStorageKey = @"TextStorage";
     return I_clientState;
 }
 
-
+- (BOOL)isUserInvolvedInSession:(NSString *)aUserID {
+	BOOL result = NO;
+	if ([aUserID isEqualTo:I_hostID]) {
+		result = YES;
+	} else if ([I_groupByUserID objectForKey:aUserID]) {
+		result = YES;
+	} else if ([[I_pendingUsers valueForKeyPath:@"userID"] containsObject:aUserID]) {
+		result = YES;
+	} else {
+		for (NSArray *usersByGroupArray in [I_invitedUsers allValues]) {
+			if ([[usersByGroupArray valueForKeyPath:@"userID"] containsObject:aUserID]) {
+				result = YES;
+			}
+		}
+	}
+	
+	return result;
+}
 #pragma mark -
 
 - (void)documentDidApplyOperation:(TCMMMOperation *)anOperation {

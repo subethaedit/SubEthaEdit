@@ -117,7 +117,7 @@
     [O_userNameTextField setStringValue:[user name]];
     NSString *filename=[I_session filename];
     [O_documentTitleTextField setStringValue:filename];
-    [O_documentImageView setImage:[[NSWorkspace sharedWorkspace] iconForFileType:[filename pathExtension]]];
+    [O_documentImageView setImage:[[[[NSWorkspace sharedWorkspace] iconForFileType:[filename pathExtension]] copy] autorelease]];
 //    NSLog(@"Session :%@",[I_session description]);
     [O_bottomDecisionView setFrame:[O_bottomCustomView frame]];
     [O_bottomStatusView setFrame:[O_bottomCustomView frame]];

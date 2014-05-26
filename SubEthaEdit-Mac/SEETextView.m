@@ -351,9 +351,14 @@ static NSMenu *S_defaultMenu=nil;
     }
 
     if (I_isDragTarget) {
+		__block NSRect rect = CGRectZero;
+		[self performBlockWithAdjustedVisibleRect:^{
+			rect = [self visibleRect];
+		}];
+		
         [[[NSColor selectedTextBackgroundColor] colorWithAlphaComponent:0.5] set];
-        NSBezierPath *path=[NSBezierPath bezierPathWithRect:NSInsetRect([self bounds],2,2)];
-        [path setLineWidth:4.];
+        NSBezierPath *path=[NSBezierPath bezierPathWithRoundedRect:NSInsetRect(rect,5,5) xRadius:10.0 yRadius:10.0];
+        [path setLineWidth:7.];
         [path setLineJoinStyle:NSRoundLineCapStyle];
         [path stroke];
     }
@@ -916,7 +921,7 @@ static NSMenu *S_defaultMenu=nil;
 
 - (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender {
     NSPasteboard *pboard = [sender draggingPasteboard];
-    if ([[pboard types] containsObject:@"SEEConnectionPbordType"]) {
+    if ([[pboard types] containsObject:kSEEPasteBoardTypeConnection]) {
         //NSLog(@"draggingEntered:");
         PlainTextDocument *document = self.document;
         TCMMMSession *session=[document session];
@@ -926,8 +931,7 @@ static NSMenu *S_defaultMenu=nil;
             return NSDragOperationGeneric;
         }
     } else if ([[pboard types] containsObject:@"ParticipantDrag"]) {
-    } else if ([[pboard types] containsObject:@"PresentityNames"] ||
-			   [[pboard types] containsObject:@"IMHandleNames"]) {
+    } else if ([[pboard types] containsObject:@"IMHandleNames"]) {
         BOOL shouldDrag=[[self.document session] isServer];
         if (shouldDrag) {
             [self setIsDragTarget:YES];
@@ -944,23 +948,23 @@ static NSMenu *S_defaultMenu=nil;
 
 - (NSDragOperation)draggingUpdated:(id <NSDraggingInfo>)sender {
     NSPasteboard *pboard = [sender draggingPasteboard];
-    if ([[pboard types] containsObject:@"SEEConnectionPbordType"]) {
-        //NSLog(@"draggingUpdated:");
-        BOOL shouldDrag=[[self.document session] isServer];
-        [self setIsDragTarget:shouldDrag];
-        if (shouldDrag) {
-            return NSDragOperationGeneric;
-        }
-    } else if ([[pboard types] containsObject:@"ParticipantDrag"]) {
-    } else if ([[pboard types] containsObject:@"PresentityNames"] ||
-			   [[pboard types] containsObject:@"IMHandleNames"]) {
-        // perform this by selector to not create dependency on TCMPortMapper
-        BOOL shouldDrag=[[(PlainTextDocument *)[self document] session] isServer];
-        if (shouldDrag) {
-            [self setIsDragTarget:YES];
-            return NSDragOperationGeneric;
-        }
-    }
+	if (!([NSEvent modifierFlags] & NSAlternateKeyMask)) {
+		if ([[pboard types] containsObject:kSEEPasteBoardTypeConnection]) {
+			//NSLog(@"draggingUpdated:");
+			BOOL shouldDrag=[[self.document session] isServer];
+			[self setIsDragTarget:shouldDrag];
+			if (shouldDrag) {
+				return NSDragOperationCopy;
+			}
+		} else if ([[pboard types] containsObject:@"ParticipantDrag"]) {
+		} else if ([[pboard types] containsObject:@"IMHandleNames"]) {
+			BOOL shouldDrag=[[(PlainTextDocument *)[self document] session] isServer];
+			if (shouldDrag) {
+				[self setIsDragTarget:YES];
+				return NSDragOperationGeneric;
+			}
+		}
+	}
  
     [self setIsDragTarget:NO];
     return [super draggingUpdated:sender];
@@ -968,51 +972,56 @@ static NSMenu *S_defaultMenu=nil;
 
 - (BOOL)prepareForDragOperation:(id <NSDraggingInfo>)sender {
     NSPasteboard *pboard = [sender draggingPasteboard];
-    if ([[pboard types] containsObject:@"SEEConnectionPbordType"]) {
-        //NSLog(@"prepareForDragOperation:");
-        BOOL shouldDrag=[[self.document session] isServer];
-        [self setIsDragTarget:shouldDrag];
-        return shouldDrag;
-    } else if ([[pboard types] containsObject:@"ParticipantDrag"]) {
-    } else if ([[pboard types] containsObject:@"PresentityNames"] ||
-			   [[pboard types] containsObject:@"IMHandleNames"]) {
-        BOOL shouldDrag=[[(PlainTextDocument *)[self document] session] isServer];
-        [self setIsDragTarget:YES];
-        if (shouldDrag) {
-            [(PlainTextDocument *)[self document] setIsAnnounced:YES];
-            return YES;
-        }
-    }
-
+	if (!([NSEvent modifierFlags] & NSAlternateKeyMask)) {
+		if ([[pboard types] containsObject:kSEEPasteBoardTypeConnection]) {
+			//NSLog(@"prepareForDragOperation:");
+			BOOL shouldDrag=[[self.document session] isServer];
+			[self setIsDragTarget:shouldDrag];
+			return shouldDrag;
+		} else if ([[pboard types] containsObject:@"ParticipantDrag"]) {
+		} else if ([[pboard types] containsObject:@"IMHandleNames"]) {
+			BOOL shouldDrag=[[(PlainTextDocument *)[self document] session] isServer];
+			[self setIsDragTarget:YES];
+			if (shouldDrag) {
+				[(PlainTextDocument *)[self document] setIsAnnounced:YES];
+				return YES;
+			}
+		}
+	}
     
     return [super prepareForDragOperation:sender];
 }
 
 - (BOOL)performDragOperation:(id <NSDraggingInfo>)sender {
     NSPasteboard *pboard = [sender draggingPasteboard];
-    if ([[pboard types] containsObject:@"SEEConnectionPbordType"]) {
+    if ([[pboard types] containsObject:kSEEPasteBoardTypeConnection]) {
         //NSLog(@"performDragOperation:");
-        NSArray *userArray=[pboard propertyListForType:@"SEEConnectionPbordType"];
+        NSArray *userArray=[pboard propertyListForType:kSEEPasteBoardTypeConnection];
         PlainTextDocument *document=self.document;
         TCMMMSession *session=[document session];
         NSDictionary *userDescription=nil;
         for (userDescription in userArray) {
-            TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:[userDescription objectForKey:@"UserID"]];
-            if (user) {
-                TCMBEEPSession *BEEPSession=[[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:[user userID] peerAddressData:[userDescription objectForKey:@"PeerAddressData"]];
-                [document setPlainTextEditorsShowChangeMarksOnInvitation];
-                [session inviteUser:user intoGroup:TCMMMSessionReadWriteGroupName usingBEEPSession:BEEPSession];
-            }
+			NSString *userID = [userDescription objectForKey:@"UserID"];
+            TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:userID];
+			if ([NSEvent modifierFlags] & NSAlternateKeyMask) {
+				[super prepareForDragOperation:sender];
+				return [super performDragOperation:sender];
+			} else {
+				if (user) {
+					TCMBEEPSession *BEEPSession=[[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:[user userID] peerAddressData:[userDescription objectForKey:@"PeerAddressData"]];
+					[document setPlainTextEditorsShowChangeMarksOnInvitation];
+					[session inviteUser:user intoGroup:TCMMMSessionReadWriteGroupName usingBEEPSession:BEEPSession];
+				}
+			}
         }
         [self setIsDragTarget:NO];
         return YES;
     } else if ([[pboard types] containsObject:@"ParticipantDrag"]) {
-    } else if ([[pboard types] containsObject:@"PresentityNames"] ||
-			   [[pboard types] containsObject:@"IMHandleNames"]) {
+    } else if ([[pboard types] containsObject:@"IMHandleNames"]) {
         BOOL shouldDrag=[[(PlainTextDocument *)[self document] session] isServer];
         [self setIsDragTarget:YES];
         if (shouldDrag) {
-            [SEEConnectionManager invitePeopleFromPasteboard:pboard intoDocumentGroupURL:[self.document documentURLForGroup:TCMMMSessionReadWriteGroupName]];
+			[self.document invitePeopleFromPasteboard:pboard];
             [self setIsDragTarget:NO];
             return YES;
         }
@@ -1034,9 +1043,8 @@ static NSMenu *S_defaultMenu=nil;
 
 - (NSArray *)acceptableDragTypes {
     NSMutableArray *dragTypes=[[super acceptableDragTypes] mutableCopy];
-    [dragTypes addObject:@"SEEConnectionPbordType"];
+    [dragTypes addObject:kSEEPasteBoardTypeConnection];
     [dragTypes addObject:@"ParticipantDrag"];
-    [dragTypes addObject:@"PresentityNames"];
     [dragTypes addObject:@"IMHandleNames"];
     return dragTypes;
 }
@@ -1050,7 +1058,7 @@ static NSMenu *S_defaultMenu=nil;
 
 - (void)concludeDragOperation:(id <NSDraggingInfo>)sender {
     NSPasteboard *pboard = [sender draggingPasteboard];
-    if ([[pboard types] containsObject:@"SEEConnectionPbordType"] || [[pboard types] containsObject:@"ParticipantDrag"]) {
+    if ([[pboard types] containsObject:kSEEPasteBoardTypeConnection] || [[pboard types] containsObject:@"ParticipantDrag"]) {
         //NSLog(@"concludeDragOperation:");
     } else {
         [super concludeDragOperation:sender];

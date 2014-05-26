@@ -23,3 +23,4 @@
 - (BOOL)readFromData:(NSData *)inData encoding:(NSStringEncoding)anEncoding;
 
 @end
+	

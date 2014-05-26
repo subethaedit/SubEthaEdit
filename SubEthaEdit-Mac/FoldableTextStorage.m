@@ -18,12 +18,9 @@
 #import "GeneralPreferences.h"
 #import "DocumentMode.h"
 #import "NSMutableAttributedStringSEEAdditions.h"
-
-#ifdef SUBETHAEDIT
-	#import "ScriptTextSelection.h"
-	#import "ScriptLine.h"
-	#import "ScriptCharacters.h"
-#endif
+#import "ScriptTextSelection.h"
+#import "ScriptLine.h"
+#import "ScriptCharacters.h"
 
 static NSArray *S_nonSyncAttributes = nil;
 
@@ -1266,7 +1263,6 @@ typedef union {
 
 @end
 
-#ifdef SUBETHAEDIT
 
 #pragma mark -
 
@@ -1420,4 +1416,4 @@ typedef union {
 
 @end
 
-#endif
+//#endif

@@ -13,10 +13,11 @@
 #import "SEEDocumentListWindowController.h"
 #import "SEEDocumentListGroupTableRowView.h"
 
-#import "SEENetworkConnectionDocumentListItem.h"
+#import "SEENetworkConnectionRepresentationListItem.h"
 #import "SEENetworkDocumentListItem.h"
 #import "SEENewDocumentListItem.h"
 #import "SEEToggleRecentDocumentListItem.h"
+#import "SEEMoreRecentDocumentsListItem.h"
 #import "SEERecentDocumentListItem.h"
 #import "SEEOpenOtherDocumentListItem.h"
 #import "SEEConnectDocumentListItem.h"
@@ -35,7 +36,16 @@
 #import "SEEConnectionManager.h"
 #import "SEEConnection.h"
 
+#import "AppController.h"
+
+#import "NSWorkspaceTCMAdditions.h"
+
+#import "SEEHoverTableRowView.h"
+
 #import <QuartzCore/QuartzCore.h>
+
+
+#define SEE_DOCUMENT_HUD_MAX_RECENT_DOCUMENT_ITEMS 5u
 
 extern int const FileMenuTag;
 extern int const FileNewMenuItemTag;
@@ -48,12 +58,16 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 @property (nonatomic, weak) IBOutlet NSScrollView *scrollViewOutlet;
 @property (nonatomic, weak) IBOutlet NSTableView *tableViewOutlet;
 
+@property (nonatomic, weak) IBOutlet NSMenu *listItemContextMenuOutlet;
+
 @property (nonatomic, weak) IBOutlet NSObjectController *filesOwnerProxy;
 @property (nonatomic, weak) IBOutlet NSArrayController *documentListItemsArrayController;
 
 @property (nonatomic, weak) id otherWindowsBecomeKeyNotifivationObserver;
 @property (nonatomic, weak) id recentDocumentsDidChangeNotifivationObserver;
 @property (nonatomic, strong) SEEToggleRecentDocumentListItem *toggleRecentItem;
+
+@property (nonatomic, strong) NSArray *cachedRecentDocuments;
 
 @end
 
@@ -94,12 +108,13 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 			if (note.object == [SEEDocumentController sharedInstance]) {
 				if (strongSelf.window.isVisible) {
 					[[NSOperationQueue mainQueue] addOperationWithBlock:^{
-						[[self class] cancelPreviousPerformRequestsWithTarget:strongSelf selector:@selector(reloadAllDocumentDocumentListItems) object:nil];
-						[strongSelf performSelector:@selector(reloadAllDocumentDocumentListItems) withObject:self afterDelay:0.1];
+						[[self class] cancelPreviousPerformRequestsWithTarget:strongSelf selector:@selector(updateRecentDocumentsCache) object:nil];
+						[strongSelf performSelector:@selector(updateRecentDocumentsCache) withObject:self afterDelay:0.1];
 					}];
 				}
 			}
 		}];
+		
     }
     return self;
 }
@@ -110,7 +125,8 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
     [[NSNotificationCenter defaultCenter] removeObserver:self.otherWindowsBecomeKeyNotifivationObserver];
     [[NSNotificationCenter defaultCenter] removeObserver:self.recentDocumentsDidChangeNotifivationObserver];
 
-	[[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(reloadAllDocumentDocumentListItems) object:nil];
+	[[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(updateRecentDocumentsCache) object:nil];
+	[[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(reloadAllListItems) object:nil];
 	[self removeKVO];
 
 	[self close];
@@ -123,7 +139,10 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 {
     [super windowDidLoad];
 
-	[self.window setRestorationClass:NSClassFromString(@"SEEDocumentController")];
+	NSWindow *window = self.window;
+	[window setRestorationClass:NSClassFromString(@"SEEDocumentController")];
+	window.title = NSLocalizedStringWithDefaultValue(@"DOCUMENT_LIST_WINDOW_TITLE", nil, [NSBundle mainBundle], @"SubEthaEdit - Document Hub", @"Window title of document list window");
+
 
 	NSScrollView *scrollView = self.scrollViewOutlet;
 	scrollView.contentView.layer = [CAScrollLayer layer];
@@ -135,6 +154,8 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	[tableView setTarget:self];
 	[tableView setAction:@selector(triggerItemClickAction:)];
 	[tableView setDoubleAction:@selector(triggerItemDoubleClickAction:)];
+	[tableView setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
+	tableView.allowsMultipleSelection = !SEEDocumentListOpenDocumentsWithSingleClick;
 }
 
 
@@ -142,6 +163,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	self.filesOwnerProxy.content = self;
 
 	if (! self.window.isVisible) {
+		[self updateRecentDocumentsCache];
 		[self installKVO];
 	}
 
@@ -192,8 +214,8 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if (context == SEENetworkDocumentBrowserEntriesObservingContext) {
-		[[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(reloadAllDocumentDocumentListItems) object:nil];
-		[self reloadAllDocumentDocumentListItems];
+		[[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(reloadAllListItems) object:nil];
+		[self reloadAllListItems];
 
 		if (self.toggleRecentItem) {
 			[[NSUserDefaults standardUserDefaults] setBool:self.toggleRecentItem.showRecentDocuments forKey:@"DocumentListShowRecent"];
@@ -203,9 +225,23 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
     }
 }
 
+#pragma mark - Recent documents cache
+
+- (void)updateRecentDocumentsCache
+{
+	NSArray *recentDocuments = [[NSDocumentController sharedDocumentController] recentDocumentURLs];
+	for (NSURL *documentURL in recentDocuments) {
+		[documentURL stopAccessingSecurityScopedResource];
+	}
+	self.cachedRecentDocuments = recentDocuments;
+
+	[[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(reloadAllListItems) object:nil];
+	[self reloadAllListItems];
+}
+
 #pragma mark - Content management
 
-- (void)reloadAllDocumentDocumentListItems
+- (void)reloadAllListItems
 {
 	[self willChangeValueForKey:@"availableItems"];
 	{
@@ -215,11 +251,12 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 
 		{
 			{
-				SEENetworkConnectionDocumentListItem *me = [[SEENetworkConnectionDocumentListItem alloc] init];
+				SEENetworkConnectionRepresentationListItem *me = [[SEENetworkConnectionRepresentationListItem alloc] init];
 				me.user = [[TCMMMUserManager sharedInstance] me];
 				NSString *cachedItemID = me.uid;
 				id <SEEDocumentListItem> cachedItem = [lookupDictionary objectForKey:cachedItemID];
 				if (cachedItem) {
+					[(SEENetworkConnectionRepresentationListItem *)cachedItem updateSubline];
 					[self.availableItems addObject:cachedItem];
 				} else {
 					[self.availableItems addObject:me];
@@ -277,7 +314,9 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 				[self.availableItems addObject:toggleRecentDocumentsItem];
 			}
 			if (self.toggleRecentItem.showRecentDocuments) {
-				NSArray *recentDocumentURLs = [[NSDocumentController sharedDocumentController] recentDocumentURLs];
+				NSArray *recentDocumentURLs = self.cachedRecentDocuments;
+
+				NSUInteger addedRecentDocuments = 0;
 				for (NSURL *url in recentDocumentURLs) {
 					NSString *cachedItemID = url.absoluteString;
 					id <SEEDocumentListItem> cachedItem = [lookupDictionary objectForKey:cachedItemID];
@@ -288,6 +327,23 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 						recentDocumentItem.fileURL = url;
 						[self.availableItems addObject:recentDocumentItem];
 					}
+
+					addedRecentDocuments++;
+					if (addedRecentDocuments >= SEE_DOCUMENT_HUD_MAX_RECENT_DOCUMENT_ITEMS) {
+						break;
+					}
+				}
+
+				if (recentDocumentURLs.count > SEE_DOCUMENT_HUD_MAX_RECENT_DOCUMENT_ITEMS) {
+					SEEMoreRecentDocumentsListItem *moreItem = [[SEEMoreRecentDocumentsListItem alloc] init];
+					NSString *cachedItemID = moreItem.uid;
+					SEEMoreRecentDocumentsListItem *cachedItem = [lookupDictionary objectForKey:cachedItemID];
+					if (cachedItem) {
+						[self.availableItems addObject:cachedItem];
+					} else {
+						moreItem.moreMenu = self.listItemContextMenuOutlet;
+						[self.availableItems addObject:moreItem];
+					}
 				}
 			}
 		}
@@ -295,13 +351,26 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 
 		{
 			NSArray *allConnections = [[SEEConnectionManager sharedInstance] entries];
+			
+			allConnections = [allConnections sortedArrayUsingComparator:^NSComparisonResult(SEEConnection *connection1, SEEConnection *connection2) {
+				NSComparisonResult result = NSOrderedSame;
+				char value1 = connection1.announcedSessions.count > 0 ? 0 : 1;
+				char value2 = connection2.announcedSessions.count > 0 ? 0 : 1;
+				result = TCM_SCALAR_COMPARE(value1, value2);
+				if (result == NSOrderedSame) {
+					result = [connection1.user.name compare:connection2.user.name options:NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSWidthInsensitiveSearch | NSForcedOrderingSearch | NSNumericSearch];
+				}
+				
+				return result;
+			}];
+			
 			for (SEEConnection *connection in allConnections) {
 				{
 					if (connection.isVisible) {
-						SEENetworkConnectionDocumentListItem *connectionRepresentation = [[SEENetworkConnectionDocumentListItem alloc] init];
+						SEENetworkConnectionRepresentationListItem *connectionRepresentation = [[SEENetworkConnectionRepresentationListItem alloc] init];
 						connectionRepresentation.connection = connection;
 						NSString *cachedItemID = connectionRepresentation.uid;
-						SEENetworkConnectionDocumentListItem *cachedItem = [lookupDictionary objectForKey:cachedItemID];
+						SEENetworkConnectionRepresentationListItem *cachedItem = [lookupDictionary objectForKey:cachedItemID];
 						if (cachedItem) {
 							cachedItem.connection = connection;
 							[self.availableItems addObject:cachedItem];
@@ -420,27 +489,86 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	__block NSMutableArray *userEntries = [NSMutableArray array];
 	NSArray *availableDocumentSession = self.availableItems;
 
+	__block NSString *seeURL = nil;
+	TCMMMPresenceManager *presenceManager = [TCMMMPresenceManager sharedInstance];
+
+	__block NSData *imageData = nil;
+	__block TCMMMUser *foundUser = nil;
 	[rowIndexes enumerateIndexesUsingBlock:^(NSUInteger rowIndex, BOOL *stop) {
 		id documentRepresentation = [availableDocumentSession objectAtIndex:rowIndex];
-		if ([documentRepresentation isKindOfClass:SEENetworkConnectionDocumentListItem.class]) {
-			SEENetworkConnectionDocumentListItem *connectionRepresentation = (SEENetworkConnectionDocumentListItem *)documentRepresentation;
+		if ([documentRepresentation isKindOfClass:SEENetworkConnectionRepresentationListItem.class]) {
+			SEENetworkConnectionRepresentationListItem *connectionRepresentation = (SEENetworkConnectionRepresentationListItem *)documentRepresentation;
+			TCMMMUser *user = connectionRepresentation.user;
+			foundUser = user;
+			imageData = user.imageData;
 			if (connectionRepresentation.connection) {
 				SEEConnection *connection = connectionRepresentation.connection;
-				TCMMMUser *user = connectionRepresentation.user;
 				NSDictionary *userDescription = @{@"UserID": user.userID,
 												  @"PeerAddressData": connection.BEEPSession.peerAddressData};
 
 				[userEntries addObject:userDescription];
 			}
+			if (connectionRepresentation.user) {
+				seeURL = [presenceManager reachabilityURLStringOfUserID:user.userID];
+				if (seeURL.length == 0) {
+					if ([user isMe]) {
+						NSURL *url = [SEEConnectionManager applicationConnectionURL];
+						seeURL = url ? url.absoluteString : @"";
+					}
+				}
+			}
 		}
 	}];
 
-	[pboard declareTypes:@[@"SEEConnectionPbordType"] owner:self];
-	if (userEntries.count > 0) {
-		[pboard setPropertyList:userEntries forType:@"SEEConnectionPbordType"];
+	BOOL result = userEntries.count > 0 || seeURL.length > 0;
+	if (result) {
+		NSMutableArray *types = [NSMutableArray array];
+		NSMutableArray *blocks = [NSMutableArray array];
+		[pboard clearContents];
+		
+		// collect representations
+		if (userEntries.count > 0) {
+			[types addObject:kSEEPasteBoardTypeConnection];
+			[blocks addObject:^{
+				[pboard setPropertyList:userEntries forType:kSEEPasteBoardTypeConnection];
+			}];
+		}
+		
+		if (seeURL.length > 0) {
+			[types addObjectsFromArray:@[NSPasteboardTypeString,@"public.url", @"public.text"]];
+			[blocks addObject:^{
+			[pboard setString:seeURL forType:NSPasteboardTypeString];
+			[pboard setString:seeURL forType:@"public.url"];
+			[pboard setString:seeURL forType:@"public.text"];
+			}];
+		}
+
+		
+		/* don't do because it breaks dragging into messages
+		{
+			if (imageData) {
+				[types addObjectsFromArray:@[@"public.jpeg", NSFileContentsPboardType]];
+				[blocks addObject:^{
+					[pboard setData:imageData forType:@"public.jpeg"];
+					[pboard setData:imageData forType:NSFileContentsPboardType];
+					//					[pboard setString:[[NSURL fileURLWithPath:[[foundUser name] stringByAppendingPathExtension:@"jpg"]] absoluteString] forType:(NSString *)kPasteboardTypeFileURLPromise];
+				}];
+			}
+		}
+		 */
+		
+		// execute them again in order
+		if (types.count > 0) {
+			[pboard addTypes:types owner:self];
+			for (dispatch_block_t block in blocks) {
+				block();
+			}
+			
+		}
 	}
 
-	return userEntries.count > 0;
+
+	return result;
 }
 
 
@@ -452,7 +580,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	NSArray *rowItems = self.availableItems;
 	id rowItem = [rowItems objectAtIndex:row];
 
-	if (tableColumn == nil && [rowItem isKindOfClass:SEENetworkConnectionDocumentListItem.class]) {
+	if (tableColumn == nil && [rowItem isKindOfClass:SEENetworkConnectionRepresentationListItem.class]) {
 		result = [tableView makeViewWithIdentifier:@"Group" owner:self];
 	} else if (tableColumn == nil && [rowItem isKindOfClass:SEEConnectDocumentListItem.class]) {
 		result = [tableView makeViewWithIdentifier:@"Connect" owner:self];
@@ -460,6 +588,8 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 		result = [tableView makeViewWithIdentifier:@"OtherItems" owner:self];
 	} else if ([rowItem isKindOfClass:SEEToggleRecentDocumentListItem.class]) {
 		result = [tableView makeViewWithIdentifier:@"ToggleRecent" owner:self];
+	} else if ([rowItem isKindOfClass:SEEMoreRecentDocumentsListItem.class]) {
+		result = [tableView makeViewWithIdentifier:@"MoreRecent" owner:self];
 	} else if ([rowItem isKindOfClass:SEERecentDocumentListItem.class]) {
 		result = [tableView makeViewWithIdentifier:@"Document" owner:self];
 	} else if ([rowItem isKindOfClass:SEENetworkDocumentListItem.class]) {
@@ -475,13 +605,15 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	NSTableRowView * rowView = nil;
 	NSArray *availableItems = self.availableItems;
 	id <SEEDocumentListItem> itemRepresentation = [availableItems objectAtIndex:row];
-	if ([itemRepresentation isKindOfClass:[SEENetworkConnectionDocumentListItem class]]) {
+	if ([itemRepresentation isKindOfClass:[SEENetworkConnectionRepresentationListItem class]]) {
 		rowView = [[SEEDocumentListGroupTableRowView alloc] init];
 
 		if (row > 1) {
-			BOOL drawTopLine = ! [[availableItems objectAtIndex:row - 1] isKindOfClass:[SEENetworkConnectionDocumentListItem class]];
+			BOOL drawTopLine = ! [[availableItems objectAtIndex:row - 1] isKindOfClass:[SEENetworkConnectionRepresentationListItem class]];
 			((SEEDocumentListGroupTableRowView *)rowView).drawTopLine = drawTopLine;
 		}
+	} else {
+		rowView = [[SEEHoverTableRowView alloc] init];
 	}
 	return rowView;
 }
@@ -489,8 +621,8 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 - (void)tableView:(NSTableView *)tableView didAddRowView:(NSTableRowView *)rowView forRow:(NSInteger)row {
 	NSArray *availableDocumentSession = self.availableItems;
 	id documentRepresentation = [availableDocumentSession objectAtIndex:row];
-	if ([documentRepresentation isKindOfClass:SEENetworkConnectionDocumentListItem.class]) {
-		SEENetworkConnectionDocumentListItem *connectionRepresentation = (SEENetworkConnectionDocumentListItem *)documentRepresentation;
+	if ([documentRepresentation isKindOfClass:SEENetworkConnectionRepresentationListItem.class]) {
+		SEENetworkConnectionRepresentationListItem *connectionRepresentation = (SEENetworkConnectionRepresentationListItem *)documentRepresentation;
 		NSTableCellView *tableCellView = [rowView.subviews objectAtIndex:0];
 
 		SEEAvatarImageView *avatarView = nil;
@@ -505,7 +637,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 		TCMMMUser *user = connectionRepresentation.user;
 		[avatarView bind:@"image" toObject:user withKeyPath:@"image" options:nil];
 		[avatarView bind:@"initials" toObject:user withKeyPath:@"initials" options:nil];
-		[avatarView bind:@"borderColor" toObject:user withKeyPath:@"changeColorDesaturated" options:nil];
+		[avatarView bind:@"borderColor" toObject:user withKeyPath:@"changeColor" options:nil];
 	}
 }
 
@@ -514,23 +646,25 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	BOOL result = NO;
 	NSArray *availableDocumentSession = self.availableItems;
 	id documentRepresentation = [availableDocumentSession objectAtIndex:row];
-	if ([documentRepresentation isKindOfClass:SEENetworkConnectionDocumentListItem.class] ||
+	if ([documentRepresentation isKindOfClass:SEENetworkConnectionRepresentationListItem.class] ||
 		[documentRepresentation isKindOfClass:SEEConnectDocumentListItem.class]) {
 		result = YES;
 	}
 	return result;
 }
 
-//- (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(NSInteger)row
-//{
-//	BOOL result = NO;
-//	NSArray *availableDocumentSession = self.availableItems;
-//	id documentRepresentation = [availableDocumentSession objectAtIndex:row];
-//	if ([documentRepresentation isKindOfClass:SEENetworkDocumentListItem.class]) {
-//		result = YES;
-//	}
-//	return result;
-//}
+- (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(NSInteger)row
+{
+	BOOL result = NO;
+	NSArray *availableDocumentSession = self.availableItems;
+	if (! SEEDocumentListOpenDocumentsWithSingleClick) {
+		id documentRepresentation = [availableDocumentSession objectAtIndex:row];
+		if ([documentRepresentation isKindOfClass:SEENetworkDocumentListItem.class] || [documentRepresentation isKindOfClass:SEERecentDocumentListItem.class]) {
+			result = YES;
+		}
+	}
+	return result;
+}
 
 - (void)tableViewSelectionDidChange:(NSNotification *)notification
 {
@@ -552,17 +686,95 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 
 	NSArray *availableDocumentSession = self.availableItems;
 	id documentRepresentation = [availableDocumentSession objectAtIndex:row];
-	if ([documentRepresentation isKindOfClass:SEENetworkConnectionDocumentListItem.class]) {
+	if ([documentRepresentation isKindOfClass:SEENetworkConnectionRepresentationListItem.class]) {
 		rowHeight = 56.0;
 	} else if ([documentRepresentation isKindOfClass:SEEToggleRecentDocumentListItem.class]) {
 		rowHeight = 28.0;
 	} else if ([documentRepresentation isKindOfClass:SEEConnectDocumentListItem.class]) {
 		rowHeight = 42.0;
 	} else if ([documentRepresentation isKindOfClass:SEENetworkDocumentListItem.class] ||
-			   [documentRepresentation isKindOfClass:SEERecentDocumentListItem.class]) {
+			   [documentRepresentation isKindOfClass:SEERecentDocumentListItem.class] ||
+			   [documentRepresentation isKindOfClass:SEEMoreRecentDocumentsListItem.class]) {
 		rowHeight = 36.0;
 	}
 	return rowHeight;
+}
+
+
+#pragma mark - NSMenuDelegate
+
+- (void)menuNeedsUpdate:(NSMenu *)menu {
+	NSTableView *tableView = self.tableViewOutlet;
+	id <SEEDocumentListItem> clickedItem = nil;
+    BOOL clickedOnMultipleItems = NO;
+
+	NSInteger row = tableView.clickedRow;
+	NSInteger column = tableView.clickedColumn;
+	if (row > -1) {
+		NSTableCellView *tableCell = [tableView viewAtColumn:column row:row makeIfNecessary:NO];
+		clickedItem = tableCell.objectValue;
+		clickedOnMultipleItems = [tableView isRowSelected:row] && ([tableView numberOfSelectedRows] > 1);
+	}
+
+    if (menu == self.listItemContextMenuOutlet) {
+		[menu removeAllItems];
+
+		if (clickedItem != nil) {
+			if ([clickedItem isKindOfClass:[SEENetworkDocumentListItem class]] || [clickedItem isKindOfClass:[SEERecentDocumentListItem class]]) {
+				NSString *menuItemTitle = NSLocalizedStringWithDefaultValue(@"DOCUMENT_LIST_CONTEXT_MENU_OPEN", nil, [NSBundle mainBundle], @"Open", @"MenuItem title in context menu of DocumentList window.");
+				NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:menuItemTitle action:@selector(itemAction:) keyEquivalent:@""];
+				menuItem.target = clickedItem;
+				menuItem.enabled = YES;
+				[menu addItem:menuItem];
+			} else if ([clickedItem isKindOfClass:[SEENetworkConnectionRepresentationListItem class]]) {
+				{
+					NSString *menuItemTitle = NSLocalizedStringWithDefaultValue(@"DOCUMENT_LIST_CONTEXT_MENU_COPY_URL", nil, [NSBundle mainBundle], @"Copy Connection URL", @"MenuItem title in context menu of DocumentList window.");
+					NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:menuItemTitle action:@selector(putConnectionURLOnPasteboard:) keyEquivalent:@""];
+					menuItem.target = clickedItem;
+					menuItem.enabled = YES;
+					[menu addItem:menuItem];
+				}
+				{
+					[menu addItem:[NSMenuItem separatorItem]];
+				}
+				{
+					NSString *menuItemTitle = NSLocalizedStringWithDefaultValue(@"DOCUMENT_LIST_CONTEXT_MENU_DISCONNECT", nil, [NSBundle mainBundle], @"Disconnect", @"MenuItem title in context menu of DocumentList window.");
+					NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:menuItemTitle action:@selector(disconnect:) keyEquivalent:@""];
+					menuItem.target = clickedItem;
+					menuItem.enabled = YES;
+					[menu addItem:menuItem];
+				}
+			} else if ([clickedItem isKindOfClass:[SEEToggleRecentDocumentListItem class]] ||
+					   [clickedItem isKindOfClass:[SEEMoreRecentDocumentsListItem class]]) {
+				for (NSURL *documentURL in self.cachedRecentDocuments) {
+					NSString *menuItemTitle = documentURL.lastPathComponent;
+					NSImage *image = nil;
+					NSString *fileType = nil;
+					[documentURL getResourceValue:&fileType forKey:NSURLTypeIdentifierKey error:nil];
+					if (fileType) {
+						image = [[NSWorkspace sharedWorkspace] iconForFileType:fileType size:16];
+					} else {
+						image = [[NSWorkspace sharedWorkspace] iconForFileType:(NSString *)kUTTypePlainText size:16];
+					}
+					NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:menuItemTitle action:@selector(openRecentDocumentForItem:) keyEquivalent:@""];
+					menuItem.target = clickedItem;
+					menuItem.image = image;
+					menuItem.representedObject = documentURL;
+					menuItem.enabled = YES;
+					[menu addItem:menuItem];
+				}
+				{
+					[menu addItem:[NSMenuItem separatorItem]];
+				}
+				{
+					NSString *menuItemTitle = NSLocalizedStringWithDefaultValue(@"DOCUMENT_LIST_CONTEXT_MENU_CLEAR_RECENT", nil, [NSBundle mainBundle], @"Clear Recent Documents", @"MenuItem title in context menu of DocumentList window.");
+					NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:menuItemTitle action:@selector(clearRecentDocuments:) keyEquivalent:@""];
+					menuItem.enabled = YES;
+					[menu addItem:menuItem];
+				}
+			}
+		}
+    }
 }
 
 @end

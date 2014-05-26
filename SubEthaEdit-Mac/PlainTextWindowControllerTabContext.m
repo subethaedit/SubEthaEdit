@@ -174,7 +174,7 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 				[self.tab setView:editorSplitView];
 			}
 			NSSize splitSize = [editorSplitView frame].size;
-			splitSize.height = splitSize.height / 2.;
+			splitSize.height = floor(splitSize.height / 2.);
 
 			[[plainTextEditors[0] editorView] setFrameSize:splitSize];
 			[[plainTextEditors[1] editorView] setFrameSize:splitSize];
@@ -199,7 +199,10 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 				SEEParticipantsOverlayViewController *participantsOverlay = [[SEEParticipantsOverlayViewController alloc] initWithTabContext:self];
 				[plainTextEditors[1] displayViewControllerInBottomArea:participantsOverlay];
 			}
-			
+
+			[windowController updateWindowMinSize];
+			[editorSplitView adjustSubviews];
+
 		} else if (!hasEditorSplit && [plainTextEditors count] == 2) {
 			NSSplitView *editorSplitView = self.editorSplitView;
 
@@ -283,6 +286,9 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 		editorView.autoresizesSubviews = YES;
 		editorView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
 		[self.tab setView:editorView];
+
+		[self.windowController updateWindowMinSize];
+
 	} else if (self.hasWebPreviewSplit && self.webPreviewSplitView == nil) {
 		[viewRepresentedByTab removeFromSuperview];
 
@@ -304,14 +310,12 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 		
 		[webPreviewSplitView addSubview:webPreviewViewController.view];
 		[webPreviewSplitView addSubview:viewRepresentedByTab];
+
 		[self.windowController updateWindowMinSize];
 		[webPreviewSplitView adjustSubviews];
 
 		[webPreviewViewController refreshAndEmptyCache:self];
-
 	}
-
-	[self.windowController updateWindowMinSize];
 }
 
 #pragma mark - Document Dialog
@@ -347,7 +351,10 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 		
 		[dialogSplitView addSubview:dialogView];
 		[dialogSplitView addSubview:viewToReplace];
-		
+
+		[self.windowController updateWindowMinSize];
+		[dialogSplitView adjustSubviews];
+
 	} else if (!documentDialog && dialogSplitView) {
 
 		// remove document dialog splitview
@@ -363,11 +370,9 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 		self.dialogSplitView.delegate = nil;
 		self.dialogSplitViewDelegate = nil;
 		self.dialogSplitView = nil;
-		
-	}
 
-	[self.windowController updateWindowMinSize];
-	
+		[self.windowController updateWindowMinSize];
+	}
 }
 
 - (void)setDocumentDialog:(NSViewController<SEEDocumentDialogViewController> *)aDocumentDialog {

@@ -1747,6 +1747,8 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
         [O_scrollView setHasHorizontalScroller:YES];
 		NSScrollerKnobStyle knobStyle = [self hasDarkBackground] ? NSScrollerKnobStyleLight : NSScrollerKnobStyleDefault;
 		[[O_scrollView horizontalScroller] setKnobStyle:knobStyle];
+		// force funny layout now
+		[self.document invalidateLayoutForRange:self.document.textStorage.fullTextStorage.TCM_fullLengthRange];
     }
     else
     {
@@ -1762,13 +1764,13 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
         // this needs to be done if no text flows over the text view margins (SEE-364)
         [I_textContainer setContainerSize:NSMakeSize(NSWidth([I_textView frame]) - 2.0 *[I_textView textContainerInset].width, FLT_MAX)];
         [I_textView setNeedsDisplay:YES];
+		[self TCM_updateBottomStatusBar];
     }
 
     // fixes cursor position after layout change
     //    [I_textView updateInsertionPointStateAndRestartTimer:YES];
 
     [[self document] setWrapLines:[self wrapsLines]];
-    [self TCM_updateBottomStatusBar];
 }
 
 - (IBAction)positionButtonAction:(id)aSender {
@@ -2081,6 +2083,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
 
 - (void)selectRange:(NSRange)aRange {
+	[self.plainTextWindowController selectTabForDocument:I_windowControllerTabContext.document];
     [[I_textView window] makeKeyAndOrderFront:self];
 	[[I_textView window] makeFirstResponder:I_textView];
 	[I_windowControllerTabContext setActivePlainTextEditor:self];
@@ -2089,6 +2092,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
 
 - (void)selectRangeInBackground:(NSRange)aRange {
+	[self.plainTextWindowController selectTabForDocument:I_windowControllerTabContext.document];
     [self selectRangeInBackgroundWithoutIndication:aRange expandIfFolded:YES];
 	[I_textView showFindIndicatorForRange:[I_textView selectedRange]];
 }
@@ -2167,7 +2171,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 - (PlainTextWindowController *)plainTextWindowController {
-	PlainTextWindowController *result = self.textView.window.windowController;
+	PlainTextWindowController *result = I_windowControllerTabContext.windowController;
 	if (![result isKindOfClass:[PlainTextWindowController class]]) {
 		result = nil;
 	}

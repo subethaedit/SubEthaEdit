@@ -10,7 +10,7 @@
 @class SEEFindAndReplaceViewController;
 #import "PlainTextWindowControllerTabContext.h"
 
-@interface SEEFindAndReplaceViewController : NSViewController
+@interface SEEFindAndReplaceViewController : NSViewController <NSMenuDelegate, NSTextFieldDelegate>
 
 @property (nonatomic, weak) PlainTextWindowControllerTabContext *plainTextWindowControllerTabContext;
 

@@ -125,9 +125,9 @@ typedef NS_ENUM(uint8_t, SEESearchRangeDirection) {
 			shouldBuildRegex = YES;
 			break;
 		case NSTextFinderActionReplace:
+			shouldBuildRegex = YES;
 			if (state.useRegex) {
 				shouldBuildReplaceExpression = YES;
-				shouldBuildRegex = YES;
 			}
 			break;
 		default:
@@ -222,25 +222,29 @@ typedef NS_ENUM(uint8_t, SEESearchRangeDirection) {
 #pragma mark -
 - (BOOL)performCurrentTextFinderAction {
 	BOOL result = NO;
-	NSInteger textFinderActionType = self.currentTextFinderActionType;
-	if (textFinderActionType == NSTextFinderActionNextMatch) {
-		result = [self findNextForward:YES];
-	} else if (textFinderActionType == NSTextFinderActionPreviousMatch) {
-		result = [self findNextForward:NO];
-	}
-	else if (textFinderActionType == NSTextFinderActionReplace) {
-		result = [self replaceSelection];
-	} else if (textFinderActionType == NSTextFinderActionReplaceAndFind) {
-		result = [self replaceSelection];
-		if (result) {
+	
+	if (self.targetFullTextStorage.length != 0) {
+		
+		NSInteger textFinderActionType = self.currentTextFinderActionType;
+		if (textFinderActionType == NSTextFinderActionNextMatch) {
 			result = [self findNextForward:YES];
+		} else if (textFinderActionType == NSTextFinderActionPreviousMatch) {
+			result = [self findNextForward:NO];
 		}
-	}
-	else if (textFinderActionType == NSTextFinderActionReplaceAll) {
-		result = [self replaceAll];
-	}
-	else if (textFinderActionType == TCMTextFinderActionFindAll) {
-		[self showFindAllResults];
+		else if (textFinderActionType == NSTextFinderActionReplace) {
+			result = [self replaceSelection];
+		} else if (textFinderActionType == NSTextFinderActionReplaceAndFind) {
+			result = [self replaceSelection];
+			if (result) {
+				result = [self findNextForward:YES];
+			}
+		}
+		else if (textFinderActionType == NSTextFinderActionReplaceAll) {
+			result = [self replaceAll];
+		}
+		else if (textFinderActionType == TCMTextFinderActionFindAll) {
+			[self showFindAllResults];
+		}
 	}
 	
 	return result;
@@ -333,6 +337,7 @@ typedef NS_ENUM(uint8_t, SEESearchRangeDirection) {
 	self.currentTextFinderActionType = NSTextFinderActionReplace;
 	BOOL result = [self validityCheckAndPrepare];
 	if (result) {
+		OGRegularExpressionMatch *match = nil;
 		NSString *replaceString = self.findAndReplaceState.replaceString;
 		if (self.findAndReplaceState.useRegex) {
 			// to make look aheads and look behinds work in most cases we search again in the line range
@@ -350,31 +355,42 @@ typedef NS_ENUM(uint8_t, SEESearchRangeDirection) {
 				return NO;
 			}
 			
-			OGRegularExpressionMatch *match = nil;
 			while ((match = [enumerator nextObject])) {
 				if (NSEqualRanges(subrange.range, match.rangeOfMatchedString)) {
 					break;
 				}
 			}
-			if (!match) {
-				// this should not happen, but might
+			if (match) {
+				replaceString = [self.replaceExpression replaceMatchedStringOf:match];
+			}
+		} else {
+			SEEFindAndReplaceSubRange *subrange = [SEEFindAndReplaceSubRange subRangeWithCurrentSelectionOfTextView:self.targetTextView];
+			NSEnumerator *enumerator = nil;
+			@try{
+				enumerator=[self.findExpression matchEnumeratorInString:subrange.textStorage.string options:subrange.ogreSearchTimeOptions range:subrange.range];
+			} @catch (NSException *exception) {
 				[self signalErrorWithDescription:nil];
+				NSLog(@"%s exception while finding:%@",__FUNCTION__,exception);
 				return NO;
 			}
-			
-			replaceString = [self.replaceExpression replaceMatchedStringOf:match];
+			match = [enumerator nextObject];
 		}
-		
-		PlainTextDocument *document = self.targetPlainTextEditor.document;
-		//		FullTextStorage *fullTextStorage = self.targetFullTextStorage;
-        [[document session] pauseProcessing];
-		[[document documentUndoManager] beginUndoGrouping];
 
-		[self.targetTextView insertText:replaceString];
-		
-		[[document documentUndoManager] endUndoGrouping];
-        [[document session] startProcessing];
-		
+		if (!match) {
+			// this should not happen, but might
+			[self signalErrorWithDescription:NSLocalizedString(@"Not found.",@"Find string not found")];
+			result = NO;
+		} else {
+			PlainTextDocument *document = self.targetPlainTextEditor.document;
+			//		FullTextStorage *fullTextStorage = self.targetFullTextStorage;
+			[[document session] pauseProcessing];
+			[[document documentUndoManager] beginUndoGrouping];
+
+			[self.targetTextView insertText:replaceString];
+			
+			[[document documentUndoManager] endUndoGrouping];
+			[[document session] startProcessing];
+		}
 	}
 	return result;
 }

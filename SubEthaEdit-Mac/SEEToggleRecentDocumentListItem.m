@@ -29,6 +29,20 @@
 	return [NSString stringWithFormat:@"com.subethaedit.%@", NSStringFromClass(self.class)];
 }
 
+- (IBAction)openRecentDocumentForItem:(id)sender {
+	if (sender && [sender isKindOfClass:[NSMenuItem  class]]) {
+		NSMenuItem *item = (NSMenuItem *)sender;
+		id representedObject = item.representedObject;
+		if (representedObject && [representedObject isKindOfClass:[NSURL class]]) {
+			NSURL *documentURL = (NSURL *)representedObject;
+			if (documentURL) {
+				[documentURL startAccessingSecurityScopedResource];
+				[[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:documentURL display:YES completionHandler:NULL];
+			}
+		}
+	}
+}
+
 - (IBAction)itemAction:(id)sender {
 	self.showRecentDocuments = !self.showRecentDocuments;
 }

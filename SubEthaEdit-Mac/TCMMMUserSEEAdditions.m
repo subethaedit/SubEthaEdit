@@ -28,15 +28,10 @@
             NSValueTransformer *hueTrans = [NSValueTransformer valueTransformerForName:@"HueToColor"];
             changeColor = [hueTrans transformedValue:hue];
         } else {
-            changeColor = [NSColor redColor];
+            changeColor = [NSColor lightGrayColor];
         }
     }
     return changeColor;
-}
-
-- (NSColor *)changeColorDesaturated
-{
-	return [NSColor colorWithCalibratedHue:self.changeColor.hueComponent saturation:0.85 brightness:1.0 alpha:1.0];
 }
 
 - (NSColor *)changeHighlightColorWithWhiteBackground
@@ -129,7 +124,7 @@
 			data = [[self properties] objectForKey:TCMMMUserPropertyKeyImageAsPNGData];
 			
 		} else {
-			data = [TCMMMUser imageDataFromImage:image];
+			data = [TCMMMUser imageJPEGDataFromImage:image];
 		}
     }
     return data;
@@ -150,7 +145,7 @@
 
 	NSMutableDictionary *properties = [self properties];
 
-	NSData *pngData = [TCMMMUser imageDataFromImage:image];
+	NSData *pngData = [TCMMMUser imageJPEGDataFromImage:image];
 	[properties setObject:pngData forKey:TCMMMUserPropertyKeyImageAsPNGData];
 	// this property seems only to be set for non-empty images? may not be set in the future at all but beware of old versions of Coda/SEE
 
@@ -180,7 +175,7 @@
 }
 
 #pragma mark - Helper
-+ (NSData *)imageDataFromImage:(NSImage *)aImage {
++ (NSData *)imagePNGDataFromImage:(NSImage *)aImage {
 	NSData *data = nil;
 	if (aImage) {
 		data = [aImage TIFFRepresentation];
@@ -188,6 +183,16 @@
 	}
 	return data;
 }
+
++ (NSData *)imageJPEGDataFromImage:(NSImage *)aImage {
+	NSData *data = nil;
+	if (aImage) {
+		data = [aImage TIFFRepresentation];
+		data = [[NSBitmapImageRep imageRepWithData:data] representationUsingType:NSJPEGFileType properties:@{NSImageCompressionFactor : @0.80}];
+	}
+	return data;
+}
+
 
 + (NSURL *)applicationSupportURLForUserImage {
 	NSURL *result;
@@ -215,7 +220,7 @@
 
 - (BOOL)writeImageToUrl:(NSURL *)aURL {
 	BOOL result = NO;
-	NSData *imageData = [[self properties] objectForKey:TCMMMUserPropertyKeyImageAsPNGData];
+	NSData *imageData = [TCMMMUser imagePNGDataFromImage:self.image];
 	if (imageData) {
 		result = [imageData writeToURL:aURL atomically:YES];
 	}

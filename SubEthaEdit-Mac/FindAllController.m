@@ -143,7 +143,11 @@ NSLocalizedStringWithDefaultValue(@"SELECTION_SCOPE_DOCUMENT", nil,[NSBundle mai
             [I_document newView:self];
 			[I_document selectRange:range];
         } else {
-			[self.findAndReplaceContext.targetPlainTextEditor selectRange:range];
+			if (self.findAndReplaceContext.targetPlainTextEditor) {
+				[self.findAndReplaceContext.targetPlainTextEditor selectRange:range];
+			} else {
+				[I_document selectRange:range];
+			}
 		}
     }
 }
