@@ -17,8 +17,10 @@
 @implementation SEEDocumentListTableView
 
 - (void)mouseDown:(NSEvent *)theEvent {
+	//	[super mouseDown:theEvent];
+	//  return;
 	BOOL didHandleEvent = NO;
-	NSLog(@"%s mouseevent:%@",__FUNCTION__,theEvent);
+	//	NSLog(@"%s mouseevent:%@",__FUNCTION__,theEvent);
 	if (theEvent.clickCount == 1 && theEvent.type == NSLeftMouseDown) {
 		NSPoint clickPoint = [self convertPoint:theEvent.locationInWindow fromView:nil];
 		NSInteger rowIndex = [self rowAtPoint:clickPoint];
@@ -43,6 +45,14 @@
 	} else {
 		[super mouseDragged:theEvent];
 	}
+}
+
+- (NSInteger)clickedRow {
+	NSInteger result = [super clickedRow];
+	if (self.eventTrackingTableRowView) {
+		result = self.eventTrackingTableRowView.TCM_rowIndex;
+	}
+	return result;
 }
 
 - (void)mouseUp:(NSEvent *)theEvent {
