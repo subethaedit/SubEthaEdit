@@ -231,9 +231,6 @@
 /* Choice (on a button) given to user which allows him/her to quit the application even though there are unsaved documents. */
 "Discard Changes" = "Änderungen verwerfen";
 
-/* No comment provided by engineer. */
-"Do you want to install the mode \"%@\"?" = "Möchten Sie den Modus \"%@\" installieren?";
-
 /* Text for document URL field when not announced */
 "Document not announced.\nNo Document URL." = "Dokument verborgen.\nKein Link zum Dokument.";
 
@@ -378,9 +375,6 @@
 /* legend entry for insertions in statistsics hud */
 "insertions" = "Eingefügt";
 
-/* No comment provided by engineer. */
-"Installation of mode \"%@\" failed." = "Die Installation des Modus „%@“ ist fehlgeschlagen.";
-
 /* Title of Clear Button in InternetBrowser */
 "InternetClear" = "Löschen";
 
@@ -449,9 +443,6 @@
 
 /* No comment provided by engineer. */
 "Merging windows moves all open tabs and windows into a single, tabbed editor window. This cannot be undone." = "Beim Zusammenführen der Fenster werden alle offenen Tabs und Fenster in einem einzigen Editor-Fenster mit einer Tableiste angezeigt. Dieser Vorgang kann nicht widerrufen werden.";
-
-/* No comment provided by engineer. */
-"Mode \"%@\" is already installed in \"%@\"." = "Der Modus „%@“ ist bereits in „%@“ installiert.";
 
 /* Location: Network Library */
 "Network Library" = "Network Library";
@@ -732,12 +723,6 @@
 /* Message text in modal dialog in advanced prefs */
 "The installation of the see command line tool failed." = "Die Installation des Kommandozeilen-Tools ist fehlgeschlagen.";
 
-/* No comment provided by engineer. */
-"The installed mode will override your new mode." = "Der installierte Modus wird Ihren neuen Modus außer Kraft setzen.";
-
-/* No comment provided by engineer. */
-"The mode \"%@\" has been installed successfully." = "Der Modus „%@“ wurde erfolgreich installiert.";
-
 /* Message text in modal dialog in advanced prefs */
 "The see command line tool couldn't be removed." = "Das Kommandozeilen-Tool konnte nicht entfernt werden.";
 
@@ -783,9 +768,6 @@
 /* No comment provided by engineer. */
 "Warning" = "Warnung";
 
-/* No comment provided by engineer. */
-"When you click Install, you'll be asked to enter the name and password for an administrator of this computer." = "Wenn Sie in „Installieren“ klicken, werden Sie aufgefordert, den Administratornamen und das Kennwort für diesen Computer einzugeben.";
-
 /* WindowWidthArangementString */
 "WindowWidth%d%@" = "%d%@";
 
@@ -824,12 +806,6 @@
 
 /* No comment provided by engineer. */
 "You have %d documents in this window with unsaved changes. Do you want to review these changes?" = "Es existieren %d Dokumente mit ungesicherten Änderungen in diesem Fenster. Möchten Sie diese Änderungen überprüfen?";
-
-/* No comment provided by engineer. */
-"You will override the installed mode." = "Der installierte Modus wird außer Kraft gesetzt.";
-
-/* No comment provided by engineer. */
-"You will replace the installed mode." = "Der installierte Modus wird ersetzt.";
 
 /* Drag target string in Participants Drawer */
 "Drag your\nFriends\nfrom the\niChat Buddy List\nor\nConnection Browser\nto a category\nor the text\nto invite them." = "Kontakte aus iChat\noder Verbindungen\nüber einer Kategorie\noder über Text\nfallen lassen\num sie\neinzuladen.";
@@ -1042,7 +1018,18 @@
 "SEEConnectionTaglineNetworkingDisabled" = "Netzwerk ausgeschaltet";
 "SEEConnectionTaglineFriendcast" = "via '%@'";
 
-
 "MODE_IN_NEW_TAB_CONTEXT_MENU_TEXT" = "%@ als Tab";
 "MODE_IN_NEW_WINDOW_CONTEXT_MENU_TEXT" = "%@ als Fenster";
 
+/* Mode Install */
+
+"MODE_INSTALL_TITLE_TEXT" = "Möchten Sie den Modus \"%@\" installieren?";
+"MODE_INSTALL_INFO_STRING_BASE" = "Der Modus „%@“ ist bereits installiert.";
+
+"MODE_INSTALL_INFO_STRING_OVERRIDE" = "Der installierte Modus wird außer Kraft gesetzt.";
+"MODE_INSTALL_INFO_STRING_REPLACE" = "Der installierte Modus wird ersetzt.";
+
+"MODE_INSTALL_ALERT_SUCCESS" = "Der Modus „%@“ wurde erfolgreich installiert.";
+"MODE_INSTALL_ALERT_FAIL" = "Die Installation des Modus „%@“ ist fehlgeschlagen.";
+
+"MODE_INSTALL_OK_BUTTON" = "Installieren";
