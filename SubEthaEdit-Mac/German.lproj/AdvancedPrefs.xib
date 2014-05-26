@@ -16,10 +16,10 @@
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="6" userLabel="Window">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="88" y="296" width="400" height="296"/>
+            <rect key="contentRect" x="88" y="296" width="400" height="363"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1178"/>
             <view key="contentView" id="5">
-                <rect key="frame" x="0.0" y="0.0" width="400" height="296"/>
+                <rect key="frame" x="0.0" y="0.0" width="400" height="363"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <box title="Schriftendarstellung" id="46">
@@ -66,19 +66,63 @@
                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </box>
                     <box title="Kommandozeilen-Tool" id="11">
-                        <rect key="frame" x="17" y="207" width="366" height="69"/>
+                        <rect key="frame" x="17" y="207" width="366" height="136"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                         <view key="contentView">
-                            <rect key="frame" x="2" y="2" width="362" height="52"/>
+                            <rect key="frame" x="2" y="2" width="362" height="119"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" setsMaxLayoutWidthAtFirstLayout="YES" id="LKT-Fs-oEF">
-                                    <rect key="frame" x="15" y="12" width="332" height="30"/>
+                                    <rect key="frame" x="15" y="79" width="332" height="30"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" allowsEditingTextAttributes="YES" id="XjX-MN-RaW">
                                         <font key="font" metaFont="smallSystem"/>
                                         <string key="title">Das 'see' Kommandozeilen-Tool kann auf der Webseite
 http://subethaedit.net/commandlinetool/ geladen werden.</string>
+                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                    </textFieldCell>
+                                </textField>
+                                <button toolTip="http://subethaedit.net/commandlinetool/" verticalHuggingPriority="750" id="j0r-Qf-Ubk">
+                                    <rect key="frame" x="219" y="54" width="126" height="17"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <buttonCell key="cell" type="roundRect" title="Webseite besuchen…" bezelStyle="roundedRect" alignment="center" controlSize="small" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="qKF-Va-XFB">
+                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                        <font key="font" metaFont="smallSystem"/>
+                                    </buttonCell>
+                                </button>
+                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="GqQ-lq-Ruv">
+                                    <rect key="frame" x="81" y="56" width="138" height="14"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Installer herunterladen:" id="cYg-g2-NV8">
+                                        <font key="font" metaFont="smallSystem"/>
+                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                    </textFieldCell>
+                                </textField>
+                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" setsMaxLayoutWidthAtFirstLayout="YES" id="wCw-xb-gvO">
+                                    <rect key="frame" x="81" y="20" width="248" height="28"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" title="Installer durch Doppelklick öffnen und den Installationsanweisungen folgen." id="q4w-KB-1K0">
+                                        <font key="font" metaFont="smallSystem"/>
+                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                    </textFieldCell>
+                                </textField>
+                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="daa-Hc-fjn">
+                                    <rect key="frame" x="15" y="56" width="62" height="14"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="1. Schritt: " id="qQp-JO-IXU">
+                                        <font key="font" metaFont="smallSystemBold"/>
+                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                    </textFieldCell>
+                                </textField>
+                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="zHl-65-DVR">
+                                    <rect key="frame" x="15" y="34" width="62" height="14"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="2. Schritt: " id="SQc-ke-fAs">
+                                        <font key="font" metaFont="smallSystemBold"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
@@ -96,7 +140,7 @@ http://subethaedit.net/commandlinetool/ geladen werden.</string>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <button id="143">
-                                    <rect key="frame" x="14" y="37" width="353" height="18"/>
+                                    <rect key="frame" x="14" y="42" width="353" height="18"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                     <string key="toolTip">SubEthaEdit transmits the document history on connect to a document. If you don't need the history or you don't want to send it due to privacy issues you can disable that feature here.</string>
                                     <buttonCell key="cell" type="check" title="Dokumentstatus pro Dokument speichern" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="178">
