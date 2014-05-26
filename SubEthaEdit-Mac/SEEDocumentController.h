@@ -18,20 +18,13 @@
 
 extern NSString *const RecentDocumentsDidChangeNotification;
 
-@interface SEEDocumentController : NSDocumentController {    
-    IBOutlet NSPanel *O_modeInstallerPanel;
-    IBOutlet NSTextField *O_modeInstallerMessageTextField;
-    IBOutlet NSMatrix *O_modeInstallerDomainMatrix;
-    IBOutlet NSTextField *O_modeInstallerInformativeTextField;
-	
+@interface SEEDocumentController : NSDocumentController {
     NSMutableDictionary *I_propertiesForOpenedFiles;
     NSMutableDictionary *I_suspendedSeeScriptCommands;
     NSMutableDictionary *I_refCountsOfSeeScriptCommands;
     NSMutableDictionary *I_waitingDocuments;
     NSMutableArray *I_pipingSeeScriptCommands;
     
-    NSString *I_currentModeFileName;
-        
     @private
     NSMutableArray *I_windowControllers;
 }
@@ -48,10 +41,6 @@ extern NSString *const RecentDocumentsDidChangeNotification;
 
 - (IBAction)alwaysShowTabBar:(id)sender;
 
-- (IBAction)changeModeInstallationDomain:(id)sender;
-
-- (IBAction)installMode:(id)sender;
-- (IBAction)cancelModeInstallation:(id)sender;
 - (IBAction)openNormalDocument:(id)aSender;
 - (IBAction)openAlternateDocument:(id)aSender;
 
