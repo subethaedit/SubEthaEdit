@@ -1646,14 +1646,23 @@ struct ModificationInfo
 		if (![fileName isEqualToString:destinationPath]) {
 			// TODO: check errors here and present alert which is currently in fileManager:shouldProceedAfterError:
 			NSFileManager *fileManager = [NSFileManager defaultManager];
-			BOOL deletionSuccess = NO;
 			NSError *error = nil;
-			NSURL *deletedURL = nil;
-			if ([fileManager fileExistsAtPath:destinationPath]) {
-				deletionSuccess = [fileManager trashItemAtURL:destinationURL resultingItemURL:&deletedURL error:&error];// removeItemAtPath:destination error:nil];
+			BOOL modeExists = [fileManager fileExistsAtPath:destinationPath];
+			if (modeExists) {
+				NSURL *installURL = [destinationURL URLByAppendingPathExtension:@"install"];
+				NSError *installUrlError = nil;
+				BOOL moveSuccess = [fileManager copyItemAtPath:fileName toPath:[installURL path] error:&installUrlError];
+				if (moveSuccess) {
+					NSURL *urlInTrash = nil;
+					NSError *deletionError = nil;
+//					BOOL deletionSuccess = [fileManager trashItemAtURL:destinationURL resultingItemURL:&urlInTrash error:&deletionError];
+					[fileManager trashItemAtURL:destinationURL resultingItemURL:&urlInTrash error:&deletionError];
+					success = [fileManager moveItemAtURL:installURL toURL:destinationURL error:&error];
+				}
+			} else {
+				success = [fileManager copyItemAtPath:fileName toPath:destinationPath error:&error];
 			}
-			success = [fileManager copyItemAtPath:fileName toPath:destinationPath error:nil];
-			
+				
 		} else {
 			success = YES;
 		}
