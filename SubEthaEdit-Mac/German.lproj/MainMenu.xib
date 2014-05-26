@@ -262,7 +262,7 @@
                                     <action selector="copyAsXHTML:" target="-1" id="527"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Mit aktuellem Stil kopieren" tag="6" id="536">
+                            <menuItem title="Mit Stilen kopieren" tag="6" id="536">
                                 <connections>
                                     <action selector="copyStyled:" target="-1" id="537"/>
                                 </connections>
@@ -614,41 +614,18 @@
                 <menuItem title="Darstellung" tag="5000" id="219">
                     <menu key="submenu" title="Darstellung" id="221">
                         <items>
-                            <menuItem title="Teilnehmer einblenden" id="227">
+                            <menuItem title="Syntax einfärben" id="403">
                                 <connections>
-                                    <action selector="toggleParticipantsOverlay:" target="-1" id="Oaf-54-M4k"/>
+                                    <action selector="toggleSyntaxHighlighting:" target="-1" id="404"/>
                                 </connections>
-                            </menuItem>
-                            <menuItem isSeparatorItem="YES" id="226">
-                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
-                            </menuItem>
-                            <menuItem title="Änderungen hervorheben" id="398">
-                                <connections>
-                                    <action selector="toggleShowsChangeMarks:" target="-1" id="399"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Änderungsmarkierungen löschen" keyEquivalent="m" id="397">
-                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                                <connections>
-                                    <action selector="clearChangeMarks:" target="-1" id="400"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Änderungsmarkierungen wiederherstellen" alternate="YES" keyEquivalent="M" id="655">
-                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                                <connections>
-                                    <action selector="restoreChangeMarks:" target="-1" id="657"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem isSeparatorItem="YES" id="396">
-                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
                             <menuItem title="Zeilen umbrechen" id="378">
                                 <connections>
                                     <action selector="toggleWrap:" target="-1" id="379"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Umbrechen" id="413">
-                                <menu key="submenu" title="Umbrechen" id="412">
+                            <menuItem title="Art des Umbrechens" id="413">
+                                <menu key="submenu" title="Art des Umbrechens" id="412">
                                     <items>
                                         <menuItem title="wortweise" id="411">
                                             <connections>
@@ -665,11 +642,6 @@
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="395">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
-                            </menuItem>
-                            <menuItem title="Syntax einfärben" id="403">
-                                <connections>
-                                    <action selector="toggleSyntaxHighlighting:" target="-1" id="404"/>
-                                </connections>
                             </menuItem>
                             <menuItem title="Code Folding" tag="4400" id="671">
                                 <modifierMask key="keyEquivalentModifierMask"/>
@@ -782,7 +754,7 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="674"/>
-                                        <menuItem title="Ebenenstreifen einblenden" keyEquivalent="l" id="673">
+                                        <menuItem title="Ebenenstreifen anzeigen" keyEquivalent="l" id="673">
                                             <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                             <connections>
                                                 <action selector="toggleLineNumbers:" target="-1" id="709"/>
@@ -791,7 +763,7 @@
                                     </items>
                                 </menu>
                             </menuItem>
-                            <menuItem title="Zeilennummern einblenden" keyEquivalent="l" id="380">
+                            <menuItem title="Zeilennummern anzeigen" keyEquivalent="l" id="380">
                                 <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                 <connections>
                                     <action selector="toggleLineNumbers:" target="-1" id="382"/>
@@ -802,62 +774,74 @@
                                     <action selector="toggleShowInvisibles:" target="-1" id="309"/>
                                 </connections>
                             </menuItem>
-                            <menuItem isSeparatorItem="YES" id="307">
-                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
-                            </menuItem>
-                            <menuItem title="Neue Ansicht" keyEquivalent="N" id="371">
-                                <connections>
-                                    <action selector="newView:" target="-1" id="374"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Fenster aufteilen" id="373">
-                                <connections>
-                                    <action selector="toggleSplitView:" target="-1" id="375"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Web Vorschau einblenden" keyEquivalent="r" id="459">
-                                <connections>
-                                    <action selector="toggleWebPreview:" target="-1" id="QHS-Qg-d6B"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Web Vorschau aktualisieren" keyEquivalent="R" id="460">
-                                <connections>
-                                    <action selector="refreshWebPreview:" target="-1" id="461"/>
-                                </connections>
-                            </menuItem>
                             <menuItem isSeparatorItem="YES" id="372">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Obere Statusleiste einblenden" id="386">
-                                <connections>
-                                    <action selector="toggleTopStatusBar:" target="-1" id="388"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Untere Statusleiste einblenden" id="387">
-                                <connections>
-                                    <action selector="toggleBottomStatusBar:" target="-1" id="389"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Tableiste immer einblenden" keyEquivalent="t" id="605">
+                            <menuItem title="Tableiste immer anzeigen" keyEquivalent="t" id="605">
                                 <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                 <connections>
                                     <action selector="alwaysShowTabBar:" target="-1" id="617"/>
                                 </connections>
                             </menuItem>
-                            <menuItem isSeparatorItem="YES" id="385">
+                            <menuItem title="Obere Editorleiste anzeigen" id="386">
+                                <connections>
+                                    <action selector="toggleTopStatusBar:" target="-1" id="388"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Teilnehmer anzeigen" id="227">
+                                <connections>
+                                    <action selector="toggleParticipantsOverlay:" target="-1" id="Oaf-54-M4k"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Untere Editorleiste anzeigen" id="387">
+                                <connections>
+                                    <action selector="toggleBottomStatusBar:" target="-1" id="389"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="307">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Symbolleiste einblenden" id="222">
+                            <menuItem title="Änderungen hervorheben" id="398">
                                 <connections>
-                                    <action selector="toggleToolbarShown:" target="-1" id="224"/>
+                                    <action selector="toggleShowsChangeMarks:" target="-1" id="399"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Symbolleiste anpassen..." id="223">
+                            <menuItem title="Änderungshervorhebungen löschen" keyEquivalent="m" id="397">
+                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                 <connections>
-                                    <action selector="runToolbarCustomizationPalette:" target="-1" id="225"/>
+                                    <action selector="clearChangeMarks:" target="-1" id="400"/>
                                 </connections>
                             </menuItem>
-                            <menuItem isSeparatorItem="YES" id="Od9-qm-tic">
+                            <menuItem title="Änderungshervorhebungen wiederherstellen" alternate="YES" keyEquivalent="M" id="655">
+                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                <connections>
+                                    <action selector="restoreChangeMarks:" target="-1" id="657"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="396">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Neue Ansicht in neuem Fenster" keyEquivalent="N" id="371">
+                                <connections>
+                                    <action selector="newView:" target="-1" id="374"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Editor teilen" id="373">
+                                <connections>
+                                    <action selector="toggleSplitView:" target="-1" id="375"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Web Vorschau anzeigen" keyEquivalent="r" id="459">
+                                <connections>
+                                    <action selector="toggleWebPreview:" target="-1" id="QHS-Qg-d6B"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Web Vorschau aktualisieren" alternate="YES" keyEquivalent="R" id="460">
+                                <connections>
+                                    <action selector="refreshWebPreview:" target="-1" id="461"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="385">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
                             <menuItem title="Vollbild ein" keyEquivalent="f" id="gFa-k5-CJO">
