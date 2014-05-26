@@ -482,6 +482,11 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	}
 }
 
+- (void)writeMyReachabiltyToPasteboard:(NSPasteboard *)aPasteboard {
+	[self tableView:self.tableViewOutlet writeRowsWithIndexes:[NSIndexSet indexSetWithIndex:0] toPasteboard:aPasteboard];
+}
+
+
 #pragma mark - NSTableViewDataSoure - Connection Drag Support
 
 - (BOOL)tableView:(NSTableView *)aTableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard *)pboard

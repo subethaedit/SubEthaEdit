@@ -110,6 +110,7 @@ extern NSString * const PlainTextEditorDidChangeSearchScopeNotification;
 #pragma mark ### Actions ###
 - (IBAction)toggleWrap:(id)aSender;
 - (IBAction)toggleShowsChangeMarks:(id)aSender;
+- (IBAction)toggleShowInvisibles:(id)aSender;
 
 - (IBAction)toggleTopStatusBar:(id)aSender;
 - (IBAction)toggleFindAndReplace:(id)aSender;
