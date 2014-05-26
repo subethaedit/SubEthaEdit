@@ -1043,3 +1043,6 @@
 "SEEConnectionTaglineFriendcast" = "via '%@'";
 
 
+"MODE_IN_NEW_TAB_CONTEXT_MENU_TEXT" = "%@ als Tab";
+"MODE_IN_NEW_WINDOW_CONTEXT_MENU_TEXT" = "%@ als Fenster";
+

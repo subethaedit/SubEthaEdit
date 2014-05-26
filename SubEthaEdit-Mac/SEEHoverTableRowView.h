@@ -3,7 +3,10 @@
 @interface SEEHoverTableRowView : NSTableRowView {
 }
 
+@property (nonatomic) BOOL clickHighlight;
+@property (nonatomic, readonly) BOOL mouseInside;
+@property (nonatomic) NSInteger TCM_rowIndex;
+- (void)TCM_updateMouseInside;
+
 @end
 
-// Used by the HoverTableRowView and the HoverTableView
-void SEEHovertTableRowDrawSeparatorInRect(NSRect rect);
