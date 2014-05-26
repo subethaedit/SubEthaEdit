@@ -18,8 +18,8 @@ extern NSString * const SEESearchScopeAttributeName;
 	int I_linearAttributeChangesCount;
 
     NSMutableArray *I_lineStarts;
-    unsigned int I_lineStartsValidUpTo;
-    unsigned I_numberOfWords;
+    NSUInteger I_lineStartsValidUpTo;
+    NSUInteger I_numberOfWords;
     
     NSStringEncoding I_encoding;
     LineEnding I_lineEnding;

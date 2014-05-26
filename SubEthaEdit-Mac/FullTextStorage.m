@@ -291,15 +291,21 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 }
 - (unsigned)numberOfWords {
     static int limit = 0;
-    if (limit==0) limit = [[NSUserDefaults standardUserDefaults] integerForKey:@"ByteLengthToUseForModeRecognitionAndEncodingGuessing"];
-    
-    if (I_numberOfWords == 0 && limit>[self length]) {
-        static OGRegularExpression *s_wordCountRegex = nil;
-        if (!s_wordCountRegex) {
-            s_wordCountRegex = [OGRegularExpression regularExpressionWithString:@"[\\w']+"];
-        }
-        I_numberOfWords  = [[s_wordCountRegex allMatchesInString:[self string]] count];
-    }
+    if (limit == 0) limit = [[NSUserDefaults standardUserDefaults] integerForKey:@"ByteLengthToUseForModeRecognitionAndEncodingGuessing"];
+
+    if (I_numberOfWords == 0 && limit > [self length]) {
+		__block NSUInteger wordCount = 0;
+		[self.string enumerateSubstringsInRange:NSMakeRange(0, self.string.length)
+										options:NSStringEnumerationByWords | NSStringEnumerationSubstringNotRequired
+									 usingBlock:^(NSString *character, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {
+										 wordCount++;
+									 }];
+
+		I_numberOfWords = wordCount;
+	} else if (limit <= [self length]) {
+		I_numberOfWords = NSUIntegerMax;
+	}
+
     return I_numberOfWords;
 }
 

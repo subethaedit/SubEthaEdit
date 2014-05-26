@@ -9,13 +9,13 @@
 		<key>words</key>
 		<dict>
 			<key>other</key>
-			<string>%d Wörter</string>
+			<string>%llu Wörter</string>
 			<key>one</key>
 			<string>1 Wort</string>
 			<key>zero</key>
 			<string>kein Wort</string>
 			<key>NSStringFormatValueTypeKey</key>
-			<string>d</string>
+			<string>llu</string>
 			<key>NSStringFormatSpecTypeKey</key>
 			<string>NSStringPluralRuleType</string>
 		</dict>
