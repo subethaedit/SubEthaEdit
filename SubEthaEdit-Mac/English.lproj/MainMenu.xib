@@ -415,33 +415,10 @@
                 <menuItem title="View" tag="5000" id="219">
                     <menu key="submenu" title="View" id="221">
                         <items>
-                            <menuItem title="Show Participants" id="227">
+                            <menuItem title="Highlight Syntax" id="403">
                                 <connections>
-                                    <action selector="toggleParticipantsOverlay:" target="-1" id="gaT-6V-oL6"/>
+                                    <action selector="toggleSyntaxHighlighting:" target="-1" id="404"/>
                                 </connections>
-                            </menuItem>
-                            <menuItem isSeparatorItem="YES" id="226">
-                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
-                            </menuItem>
-                            <menuItem title="Highlight Changes" id="398">
-                                <connections>
-                                    <action selector="toggleShowsChangeMarks:" target="-1" id="399"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Clear Change Highlighting" keyEquivalent="m" id="397">
-                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                                <connections>
-                                    <action selector="clearChangeMarks:" target="-1" id="400"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Restore Change Hightlighting" alternate="YES" keyEquivalent="M" id="657">
-                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                                <connections>
-                                    <action selector="restoreChangeMarks:" target="-1" id="659"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem isSeparatorItem="YES" id="396">
-                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
                             <menuItem title="Wrap Lines" id="378">
                                 <connections>
@@ -466,11 +443,6 @@
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="395">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
-                            </menuItem>
-                            <menuItem title="Highlight Syntax" id="403">
-                                <connections>
-                                    <action selector="toggleSyntaxHighlighting:" target="-1" id="404"/>
-                                </connections>
                             </menuItem>
                             <menuItem title="Code Folding" tag="4400" id="710">
                                 <modifierMask key="keyEquivalentModifierMask"/>
@@ -603,10 +575,54 @@
                                     <action selector="toggleShowInvisibles:" target="-1" id="309"/>
                                 </connections>
                             </menuItem>
+                            <menuItem isSeparatorItem="YES" id="372">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Always Show Document Tab Bar" keyEquivalent="t" id="605">
+                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                <connections>
+                                    <action selector="alwaysShowTabBar:" target="-1" id="617"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Show Top Status Bar" id="386">
+                                <connections>
+                                    <action selector="toggleTopStatusBar:" target="-1" id="388"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Show Participants" id="227">
+                                <connections>
+                                    <action selector="toggleParticipantsOverlay:" target="-1" id="gaT-6V-oL6"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Show Bottom Status Bar" id="387">
+                                <connections>
+                                    <action selector="toggleBottomStatusBar:" target="-1" id="389"/>
+                                </connections>
+                            </menuItem>
                             <menuItem isSeparatorItem="YES" id="307">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="New View" keyEquivalent="N" id="371">
+                            <menuItem title="Highlight Changes" id="398">
+                                <connections>
+                                    <action selector="toggleShowsChangeMarks:" target="-1" id="399"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Clear Change Highlighting" keyEquivalent="m" id="397">
+                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                <connections>
+                                    <action selector="clearChangeMarks:" target="-1" id="400"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Restore Change Hightlighting" alternate="YES" keyEquivalent="M" id="657">
+                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                <connections>
+                                    <action selector="restoreChangeMarks:" target="-1" id="659"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="226">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="New View in new Window" keyEquivalent="N" id="371">
                                 <connections>
                                     <action selector="newView:" target="-1" id="374"/>
                                 </connections>
@@ -621,44 +637,12 @@
                                     <action selector="toggleWebPreview:" target="-1" id="naU-EL-THK"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Refresh Web Preview" keyEquivalent="R" id="460">
+                            <menuItem title="Refresh Web Preview" alternate="YES" keyEquivalent="R" id="460">
                                 <connections>
                                     <action selector="refreshWebPreview:" target="-1" id="461"/>
                                 </connections>
                             </menuItem>
-                            <menuItem isSeparatorItem="YES" id="372">
-                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
-                            </menuItem>
-                            <menuItem title="Show Top Status Bar" id="386">
-                                <connections>
-                                    <action selector="toggleTopStatusBar:" target="-1" id="388"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Show Bottom Status Bar" id="387">
-                                <connections>
-                                    <action selector="toggleBottomStatusBar:" target="-1" id="389"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Always Show Tab Bar" keyEquivalent="t" id="605">
-                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                                <connections>
-                                    <action selector="alwaysShowTabBar:" target="-1" id="617"/>
-                                </connections>
-                            </menuItem>
                             <menuItem isSeparatorItem="YES" id="385">
-                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
-                            </menuItem>
-                            <menuItem title="Show Toolbar" id="222">
-                                <connections>
-                                    <action selector="toggleToolbarShown:" target="-1" id="224"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Customize Toolbar..." id="223">
-                                <connections>
-                                    <action selector="runToolbarCustomizationPalette:" target="-1" id="225"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem isSeparatorItem="YES" id="tOa-pt-66f">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
                             <menuItem title="Enter Full Screen" keyEquivalent="f" id="FzC-1a-ECe">
