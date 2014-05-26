@@ -322,15 +322,21 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
     SEL selector = [menuItem action];
     
-    if (selector == @selector(toggleParticipantsOverlay:)) {
-        [menuItem setTitle:
-            [[[self plainTextEditors] lastObject] hasBottomOverlayView] ?
-            NSLocalizedString(@"Hide Participants", nil) :
-            NSLocalizedString(@"Show Participants", nil)];
-        return YES;
-	} else if (selector == @selector(toggleTopStatusBar:)) {
+	if (selector == @selector(toggleWrap:) ||
+		selector == @selector(toggleTopStatusBar:) ||
+		selector == @selector(toggleShowsChangeMarks:) ||
+		selector == @selector(toggleShowInvisibles:)) {
 		return [self.activePlainTextEditor validateMenuItem:menuItem];
-    } else if (selector == @selector(toggleBottomStatusBar:)) {
+    } else if (selector ==@selector(toggleWebPreview:)) {
+		[menuItem setState:self.selectedTabContext.hasWebPreviewSplit ? NSOnState : NSOffState];
+		return YES;
+	} else if (selector == @selector(toggleParticipantsOverlay:)) {
+        [menuItem setState:
+            [self.plainTextEditors.lastObject hasBottomOverlayView] ?
+            NSOnState :
+            NSOffState];
+        return YES;
+	} else if (selector == @selector(toggleBottomStatusBar:)) {
 		PlainTextWindowControllerTabContext *tabContext = self.selectedTabContext;
         [menuItem setState:[[tabContext.plainTextEditors lastObject] showsBottomStatusBar]?NSOnState:NSOffState];
         return YES;
@@ -536,8 +542,8 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
 #pragma mark -
 
-- (IBAction)toggleShowInvisibleCharacters:(id)aSender {
-    [[self activePlainTextEditor] setShowsInvisibleCharacters:![[self activePlainTextEditor] showsInvisibleCharacters]];
+- (IBAction)toggleShowInvisibles:(id)aSender {
+    [[self activePlainTextEditor] toggleShowInvisibles:aSender];
 }
 
 - (IBAction)toggleShowsChangeMarks:(id)aSender {
@@ -819,8 +825,11 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
 #pragma mark - PlainTextEditor Bars
 
-- (IBAction)toggleTopStatusBar:(id)aSender
-{
+- (IBAction)toggleWrap:(id)aSender {
+    [self.activePlainTextEditor toggleWrap:aSender];
+}
+
+- (IBAction)toggleTopStatusBar:(id)aSender {
     [self.activePlainTextEditor toggleTopStatusBar:aSender];
 }
 

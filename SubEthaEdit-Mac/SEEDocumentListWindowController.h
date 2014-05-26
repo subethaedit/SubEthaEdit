@@ -16,5 +16,6 @@
 - (NSInteger)runModal;
 
 - (void)reloadAllListItems;
-
+// strange place but code reuse - use the my document list item
+- (void)writeMyReachabiltyToPasteboard:(NSPasteboard *)aPasteboard;
 @end
