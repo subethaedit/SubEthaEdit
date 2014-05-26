@@ -156,7 +156,20 @@
 	self.pendingUserPopoverOutlet.delegate = self;
 
 	// add tracking for action buttons overlay and name overlay
-	[self.participantViewOutlet addTrackingArea:[[NSTrackingArea alloc] initWithRect:NSZeroRect options:NSTrackingMouseEnteredAndExited|NSTrackingActiveInActiveApp|NSTrackingInVisibleRect owner:self userInfo:nil]];
+	NSTrackingAreaOptions options = NSTrackingMouseEnteredAndExited | NSTrackingActiveInActiveApp | NSTrackingInVisibleRect;
+	NSView *view = self.participantViewOutlet;
+	NSPoint mouseLocationInBounds = [view convertPoint:[self.view.window convertScreenToBase:[NSEvent mouseLocation]] fromView:nil];
+	BOOL mouseIsInside = NSMouseInRect(mouseLocationInBounds, view.bounds, view.isFlipped);
+	if (mouseIsInside) {
+		options |= NSTrackingAssumeInside;
+	}
+
+	NSTrackingArea *trackingArea = [[NSTrackingArea alloc] initWithRect:NSZeroRect
+																options:options
+																  owner:self
+															   userInfo:nil];
+	
+	[view addTrackingArea:trackingArea];
 
 	switch (self.viewMode) {
 		case SEEParticipantViewModeParticipant:
