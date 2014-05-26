@@ -44,6 +44,7 @@
     if (![[self trackingAreas] containsObject:self.trackingArea]) {
         [self addTrackingArea:self.trackingArea];
     }
+	[self TCM_updateMouseInside];
 }
 
 - (void)mouseEntered:(NSEvent *)theEvent {
