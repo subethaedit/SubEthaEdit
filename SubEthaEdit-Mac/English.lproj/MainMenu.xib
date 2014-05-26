@@ -172,8 +172,8 @@
                                     <action selector="toggleIsAnnouncedOnAllDocuments:" target="-1" id="644"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="New Participants" tag="-1" id="510">
-                                <menu key="submenu" title="New Participants" id="511">
+                            <menuItem title="Incoming Participants" tag="-1" id="510">
+                                <menu key="submenu" title="Incoming Participants" id="511">
                                     <items>
                                         <menuItem title="Read/Write" tag="2" keyEquivalent="A" id="509">
                                             <connections>
@@ -209,6 +209,11 @@
                             <menuItem title="Copy Document URL" id="475">
                                 <connections>
                                     <action selector="copyDocumentURL:" target="-1" id="476"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Copy My URL" id="CHr-Rs-4yc">
+                                <connections>
+                                    <action selector="copyReachabilityURL:" target="-1" id="r63-0G-Ifw"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="74">
