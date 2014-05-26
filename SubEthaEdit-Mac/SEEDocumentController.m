@@ -1588,192 +1588,93 @@ struct ModificationInfo
 
 #pragma mark -
 
-- (void)openModeFile:(NSString *)fileName
-{
-	return; // remove this again to install modes
-
+- (void)openModeFile:(NSString *)fileName {
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Opening mode file: %@", fileName);
     NSBundle *modeBundle = [NSBundle bundleWithPath:fileName];
     NSString *versionString = [modeBundle objectForInfoDictionaryKey:@"CFBundleVersion"];
     NSString *name = [NSString stringWithFormat:@"%@ (%@)", [fileName lastPathComponent], versionString];
-    [O_modeInstallerMessageTextField setObjectValue:[NSString stringWithFormat:NSLocalizedString(@"Do you want to install the mode \"%@\"?", nil), name]];
-    [O_modeInstallerDomainMatrix selectCellAtRow:0 column:0];
-
-    NSString *modeIdentifier = [modeBundle objectForInfoDictionaryKey:@"CFBundleIdentifier"];
+	
+	NSString *titleText = [NSString stringWithFormat:
+						   NSLocalizedStringWithDefaultValue(@"MODE_INSTALL_TITLE_TEXT", nil, [NSBundle mainBundle],
+															 @"Do you want to install the mode \"%@\"?", nil),
+						   name];
+	
+	NSString *modeIdentifier = [modeBundle objectForInfoDictionaryKey:@"CFBundleIdentifier"];
+	
+	// check if that mode already exists - make info text
+	NSString *informativeText = @"";
     DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForIdentifier:modeIdentifier];
     if (mode) {
         NSBundle *installedModeBundle = [mode bundle];
         NSString *versionStringOfInstalledMode = [installedModeBundle objectForInfoDictionaryKey:@"CFBundleVersion"];
+		
         NSString *installedModeFileName = [installedModeBundle bundlePath];
-
-        NSString *userDomainPath = [[[[NSFileManager defaultManager] URLForDirectory:NSApplicationSupportDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil] URLByStandardizingPath] path];
-        NSString *localDomainPath = [[[[NSFileManager defaultManager] URLForDirectory:NSApplicationSupportDirectory inDomain:NSLocalDomainMask appropriateForURL:nil create:NO error:nil] URLByStandardizingPath] path];
-        NSString *networkDomainPath = [[[[NSFileManager defaultManager] URLForDirectory:NSApplicationSupportDirectory inDomain:NSNetworkDomainMask appropriateForURL:nil create:NO error:nil] URLByStandardizingPath] path];
-
-		NSSearchPathDomainMask domain = 0;
-        BOOL isKnownDomain = YES;
-        if (userDomainPath != nil && [installedModeFileName hasPrefix:userDomainPath]) {
-            domain = NSUserDomainMask;
-        } else if (localDomainPath != nil && [installedModeFileName hasPrefix:localDomainPath]) {
-            domain = NSLocalDomainMask;
-        } else if (networkDomainPath != nil && [installedModeFileName hasPrefix:networkDomainPath]) {
-            domain = NSNetworkDomainMask;
-        } else {
-            isKnownDomain = NO;
-        }
-
+        BOOL installedModeIsBuiltIn = [installedModeFileName hasPrefix:[[NSBundle mainBundle] bundlePath]];
+		
         NSString *installedModeName = [NSString stringWithFormat:@"%@ (%@)", [installedModeFileName lastPathComponent], versionStringOfInstalledMode];
-        NSString *informativeText = [NSString stringWithFormat:NSLocalizedString(@"Mode \"%@\" is already installed in \"%@\".", nil), installedModeName, installedModeFileName];
+		
+		informativeText = [NSString stringWithFormat:
+						   NSLocalizedStringWithDefaultValue(@"MODE_INSTALL_INFO_STRING_BASE", nil, [NSBundle mainBundle],
+															 @"Mode \"%@\" is already installed.", nil),
+						   installedModeName];
+		
+		if (installedModeIsBuiltIn) {
+			informativeText = [informativeText stringByAppendingFormat:@" %@",
+							   NSLocalizedStringWithDefaultValue(@"MODE_INSTALL_INFO_STRING_OVERRIDE", nil, [NSBundle mainBundle],
+																 @"You will override the installed mode.", nil)];
+		} else {
+			informativeText = [informativeText stringByAppendingFormat:@" %@",
+							   NSLocalizedStringWithDefaultValue(@"MODE_INSTALL_INFO_STRING_REPLACE", nil, [NSBundle mainBundle],
+																 @"You will replace the installed mode.", nil)];
+		}
+	}
 
-        if (!isKnownDomain || domain == NSNetworkDomainMask || domain == NSLocalDomainMask) {
-            informativeText = [informativeText stringByAppendingFormat:@" %@", NSLocalizedString(@"You will override the installed mode.", nil)];
-        } else if (domain == NSUserDomainMask) {
-            informativeText = [informativeText stringByAppendingFormat:@" %@", NSLocalizedString(@"You will replace the installed mode.", nil)];
-        }
-
-        [O_modeInstallerInformativeTextField setObjectValue:informativeText];
-    } else {
-        [O_modeInstallerInformativeTextField setObjectValue:@""];
-    }
-
-    I_currentModeFileName = fileName;
-    int result = [NSApp runModalForWindow:O_modeInstallerPanel];
-    [O_modeInstallerPanel orderOut:self];
-    I_currentModeFileName = nil;
-    if (result == NSRunStoppedResponse) {
+	// show alert
+	NSAlert *installAlert = [NSAlert alertWithMessageText:titleText
+											defaultButton:NSLocalizedString(@"OK", nil) // TODO: make that install
+										  alternateButton:NSLocalizedString(@"Cancel", nil)
+											  otherButton:nil
+								informativeTextWithFormat:@"%@", informativeText];
+	
+	int result = [installAlert runModal];
+	if (result == NSAlertDefaultReturn) { // ok was selected
         BOOL success = NO;
-
-        NSSearchPathDomainMask domain = 0;
-        int tag = [[O_modeInstallerDomainMatrix selectedCell] tag];
-        if (tag == 0) {
-            domain = NSUserDomainMask;
-        } else if (tag == 1) {
-            domain = NSLocalDomainMask;
-        }
-
-		NSURL *appSupportURL = [[NSFileManager defaultManager] URLForDirectory:NSApplicationSupportDirectory inDomain:domain appropriateForURL:nil create:NO error:nil];
-		NSURL *destinationURL = [appSupportURL URLByAppendingPathComponent:@"SubEthaEdit"];
-		destinationURL = [destinationURL URLByAppendingPathComponent:@"Modes"];
-		destinationURL = [destinationURL URLByAppendingPathComponent:[fileName lastPathComponent]];
-		NSString *destination  = [destinationURL path];
-
-		if (![fileName isEqualToString:destination]) {
-			if (domain == NSUserDomainMask) {
-				// TODO: check errors here and present alert which is currently in fileManager:shouldProceedAfterError:
-				NSFileManager *fileManager = [NSFileManager defaultManager];
-				if ([fileManager fileExistsAtPath:destination]) {
-					(void)[fileManager removeItemAtPath:destination error:nil];
-				}
-				success = [fileManager copyItemAtPath:fileName toPath:destination error:nil];
-			} else {
-
-				success = NO;
-
-//				OSStatus err;
-//				CFURLRef tool = NULL;
-//				AuthorizationRef auth = NULL;
-//				NSDictionary *request = nil;
-//				CFDictionaryRef response = nil;
-//
-//				err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &auth);
-//				if (err == noErr) {
-//					static const char *kRightName = "de.codingmonkeys.SubEthaEdit.HelperTool";
-//					static const AuthorizationFlags kAuthFlags = kAuthorizationFlagDefaults
-//					| kAuthorizationFlagInteractionAllowed
-//					| kAuthorizationFlagExtendRights
-//					| kAuthorizationFlagPreAuthorize;
-//					AuthorizationItem   right  = { kRightName, 0, NULL, 0 };
-//					AuthorizationRights rights = { 1, &right };
-//
-//					err = AuthorizationCopyRights(auth, &rights, kAuthorizationEmptyEnvironment, kAuthFlags, NULL);
-//				}
-//
-//				if (err == noErr) {
-//					err = MoreSecCopyHelperToolURLAndCheckBundled(
-//																  CFBundleGetMainBundle(),
-//																  CFSTR("SubEthaEditHelperToolTemplate"),
-//																  kApplicationSupportFolderType,
-//																  CFSTR("SubEthaEdit"),
-//																  CFSTR("SubEthaEditHelperTool"),
-//																  &tool);
-//
-//					// If the home directory is on an volume that doesn't support
-//					// setuid root helper tools, ask the user whether they want to use
-//					// a temporary tool.
-//
-//					if (err == kMoreSecFolderInappropriateErr) {
-//						err = MoreSecCopyHelperToolURLAndCheckBundled(
-//																	  CFBundleGetMainBundle(),
-//																	  CFSTR("SubEthaEditHelperToolTemplate"),
-//																	  kTemporaryFolderType,
-//																	  CFSTR("SubEthaEdit"),
-//																	  CFSTR("SubEthaEditHelperTool"),
-//																	  &tool);
-//					}
-//				}
-//
-//				// Create the request dictionary for copying the mode
-//
-//				if (err == noErr) {
-//
-//                    NSNumber *filePermissions = [NSNumber numberWithUnsignedShort:(S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH)];
-//                    NSDictionary *targetAttrs = [NSDictionary dictionaryWithObjectsAndKeys:
-//												 filePermissions, NSFilePosixPermissions,
-//												 @"root", NSFileOwnerAccountName,
-//												 @"admin", NSFileGroupOwnerAccountName,
-//												 nil];
-//
-//					request = [NSDictionary dictionaryWithObjectsAndKeys:
-//							   @"CopyFiles", @"CommandName",
-//							   fileName, @"SourceFile",
-//							   destination, @"TargetFile",
-//							   targetAttrs, @"TargetAttributes",
-//							   nil];
-//				}
-//
-//				// Go go gadget helper tool!
-//
-//				if (err == noErr) {
-//					err = MoreSecExecuteRequestInHelperTool(tool, auth, (__bridge CFDictionaryRef)request, &response);
-//				}
-//
-//				// Extract information from the response.
-//
-//				if (err == noErr) {
-//					//NSLog(@"response: %@", response);
-//
-//					err = MoreSecGetErrorFromResponse((CFDictionaryRef)response);
-//					if (err == noErr) {
-//						success = YES;
-//					}
-//				}
-//
-//				// Clean up after second call of helper tool.
-//				if (response) {
-//					CFRelease(response);
-//				}
-//
-//
-//				if (tool) CFRelease(tool);
-//				if (auth != NULL) {
-//					(void)AuthorizationFree(auth, kAuthorizationFlagDestroyRights);
-//				}
+		
+		NSURL *destinationURL = [[DocumentModeManager sharedInstance] urlForWritingModeWithName:[modeBundle objectForInfoDictionaryKey:@"CFBundleName"]];
+		NSString *destinationPath = [destinationURL path];
+		
+		if (![fileName isEqualToString:destinationPath]) {
+			// TODO: check errors here and present alert which is currently in fileManager:shouldProceedAfterError:
+			NSFileManager *fileManager = [NSFileManager defaultManager];
+			BOOL deletionSuccess = NO;
+			NSError *error = nil;
+			NSURL *deletedURL = nil;
+			if ([fileManager fileExistsAtPath:destinationPath]) {
+				deletionSuccess = [fileManager trashItemAtURL:destinationURL resultingItemURL:&deletedURL error:&error];// removeItemAtPath:destination error:nil];
 			}
+			success = [fileManager copyItemAtPath:fileName toPath:destinationPath error:nil];
+			
 		} else {
 			success = YES;
 		}
-
+		
         [[DocumentModeManager sharedInstance] reloadDocumentModes:self];
-
-        NSAlert *alert = [[NSAlert alloc] init];
-        [alert setAlertStyle:NSInformationalAlertStyle];
-        if (success) {
-            [alert setMessageText:[NSString stringWithFormat:NSLocalizedString(@"The mode \"%@\" has been installed successfully.", nil), name]];
-        } else {
-            [alert setMessageText:[NSString stringWithFormat:NSLocalizedString(@"Installation of mode \"%@\" failed.", nil), name]];
-        }
-        [alert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
-        (void)[alert runModal];
+		
+		NSString *messageText;
+		if (success) {
+			messageText = [NSString stringWithFormat:NSLocalizedString(@"The mode \"%@\" has been installed successfully.", nil), name];
+		} else {
+			messageText = [NSString stringWithFormat:NSLocalizedString(@"Installation of mode \"%@\" failed.", nil), name];
+		}
+		
+		NSAlert *infoAlert = [NSAlert alertWithMessageText:messageText
+											 defaultButton:NSLocalizedString(@"OK", nil)
+										   alternateButton:nil
+											   otherButton:nil
+								 informativeTextWithFormat:@""];
+		
+        [infoAlert setAlertStyle:NSInformationalAlertStyle];
+        [infoAlert runModal];
     }
 }
 
