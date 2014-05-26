@@ -75,7 +75,7 @@
 		1428938B0957585600D14688 /* HueToColorValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893850957585600D14688 /* HueToColorValueTransformer.m */; };
 		1428938C0957585600D14688 /* PointsToDisplayValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893870957585600D14688 /* PointsToDisplayValueTransformer.m */; };
 		1428938D0957585600D14688 /* SaturationToColorValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893890957585600D14688 /* SaturationToColorValueTransformer.m */; };
-		142893A1095758C200D14688 /* AdvancedPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289390095758C100D14688 /* AdvancedPreferences.m */; };
+		142893A1095758C200D14688 /* AdvancedPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289390095758C100D14688 /* AdvancedPreferences.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		142893A2095758C200D14688 /* EditPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289392095758C100D14688 /* EditPreferences.m */; };
 		142893A3095758C200D14688 /* GeneralPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289394095758C100D14688 /* GeneralPreferences.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		142893A4095758C200D14688 /* OverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289396095758C100D14688 /* OverlayView.m */; };
