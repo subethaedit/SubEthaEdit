@@ -482,6 +482,11 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	}
 }
 
+- (void)writeMyReachabiltyToPasteboard:(NSPasteboard *)aPasteboard {
+	[self tableView:self.tableViewOutlet writeRowsWithIndexes:[NSIndexSet indexSetWithIndex:0] toPasteboard:aPasteboard];
+}
+
+
 #pragma mark - NSTableViewDataSoure - Connection Drag Support
 
 - (BOOL)tableView:(NSTableView *)aTableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard *)pboard
@@ -613,7 +618,11 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 			((SEEDocumentListGroupTableRowView *)rowView).drawTopLine = drawTopLine;
 		}
 	} else {
-		rowView = [[SEEHoverTableRowView alloc] init];
+		rowView = ({
+			SEEHoverTableRowView *hoverView = [[SEEHoverTableRowView alloc] init];
+			hoverView.TCM_rowIndex = row;
+			hoverView;
+		});
 	}
 	return rowView;
 }
@@ -772,6 +781,8 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 					menuItem.enabled = YES;
 					[menu addItem:menuItem];
 				}
+			} else if ([clickedItem isKindOfClass:[SEENewDocumentListItem class]]) {
+				[[AppController sharedInstance] addDocumentNewSubmenuEntriesToMenu:menu];
 			}
 		}
     }

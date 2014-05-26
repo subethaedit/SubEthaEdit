@@ -75,7 +75,7 @@
 		1428938B0957585600D14688 /* HueToColorValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893850957585600D14688 /* HueToColorValueTransformer.m */; };
 		1428938C0957585600D14688 /* PointsToDisplayValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893870957585600D14688 /* PointsToDisplayValueTransformer.m */; };
 		1428938D0957585600D14688 /* SaturationToColorValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893890957585600D14688 /* SaturationToColorValueTransformer.m */; };
-		142893A1095758C200D14688 /* AdvancedPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289390095758C100D14688 /* AdvancedPreferences.m */; };
+		142893A1095758C200D14688 /* AdvancedPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289390095758C100D14688 /* AdvancedPreferences.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		142893A2095758C200D14688 /* EditPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289392095758C100D14688 /* EditPreferences.m */; };
 		142893A3095758C200D14688 /* GeneralPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289394095758C100D14688 /* GeneralPreferences.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		142893A4095758C200D14688 /* OverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289396095758C100D14688 /* OverlayView.m */; };
@@ -538,6 +538,7 @@
 		F2EF08D119069E33004D5080 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = F2EF08CF19069E33004D5080 /* Localizable.stringsdict */; };
 		F2F2B5A70CA7F7B80045C189 /* PrecedencePreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D2C6E70CA7C7A7003CC5C9 /* PrecedencePreferences.m */; };
 		F2F2B6100CA811240045C189 /* TCMMMLogStatisticsDataPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F2B60D0CA811240045C189 /* TCMMMLogStatisticsDataPoint.m */; };
+		F2F5970C193336B300FDAA4A /* SEEDocumentListTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F5970B193336B300FDAA4A /* SEEDocumentListTableView.m */; };
 		F2FB96E30CBE68ED000B85AE /* UKXattrMetadataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = F2FB96E10CBE68ED000B85AE /* UKXattrMetadataStore.m */; };
 		F2FEE7131892A747000E6BC8 /* SharingIconCloseCross.pdf in Resources */ = {isa = PBXBuildFile; fileRef = F2FEE70F1892A747000E6BC8 /* SharingIconCloseCross.pdf */; };
 		F2FEE7141892A747000E6BC8 /* SharingIconEye.pdf in Resources */ = {isa = PBXBuildFile; fileRef = F2FEE7101892A747000E6BC8 /* SharingIconEye.pdf */; };
@@ -1421,6 +1422,8 @@
 		F2EF08D51906B232004D5080 /* German */ = {isa = PBXFileReference; explicitFileType = text.plist.xml; name = German; path = German.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		F2F2B60C0CA811240045C189 /* TCMMMLogStatisticsDataPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = TCMMMLogStatisticsDataPoint.h; sourceTree = "<group>"; };
 		F2F2B60D0CA811240045C189 /* TCMMMLogStatisticsDataPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMMMLogStatisticsDataPoint.m; sourceTree = "<group>"; };
+		F2F5970A193336B300FDAA4A /* SEEDocumentListTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEDocumentListTableView.h; sourceTree = "<group>"; };
+		F2F5970B193336B300FDAA4A /* SEEDocumentListTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEDocumentListTableView.m; sourceTree = "<group>"; };
 		F2FB96E00CBE68ED000B85AE /* UKXattrMetadataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = UKXattrMetadataStore.h; path = UKXattrMetadataStore/UKXattrMetadataStore.h; sourceTree = "<group>"; };
 		F2FB96E10CBE68ED000B85AE /* UKXattrMetadataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UKXattrMetadataStore.m; path = UKXattrMetadataStore/UKXattrMetadataStore.m; sourceTree = "<group>"; };
 		F2FEE70F1892A747000E6BC8 /* SharingIconCloseCross.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = SharingIconCloseCross.pdf; sourceTree = "<group>"; };
@@ -2263,6 +2266,8 @@
 			children = (
 				4C0C4A1918B3768500E6049E /* SEEDocumentListWindowController.h */,
 				4C0C4A1A18B3768500E6049E /* SEEDocumentListWindowController.m */,
+				F2F5970A193336B300FDAA4A /* SEEDocumentListTableView.h */,
+				F2F5970B193336B300FDAA4A /* SEEDocumentListTableView.m */,
 				F27C4DC3192FA2A800B5DB3C /* SEEHoverTableRowView.h */,
 				F27C4DC4192FA2A800B5DB3C /* SEEHoverTableRowView.m */,
 				4C0C4A1B18B3768500E6049E /* SEEDocumentListWindowController.xib */,
@@ -3200,6 +3205,7 @@
 				14289333095756D800D14688 /* TCMMMUser.m in Sources */,
 				F20AB87B1907C7C500444F4B /* SEEDebugImageGenerationWindowController.m in Sources */,
 				14289334095756D800D14688 /* TCMMMUserManager.m in Sources */,
+				F2F5970C193336B300FDAA4A /* SEEDocumentListTableView.m in Sources */,
 				14289366095757AB00D14688 /* HandshakeProfile.m in Sources */,
 				14289367095757AB00D14688 /* SessionProfile.m in Sources */,
 				1428937E0957580F00D14688 /* MultiPagePrintView.m in Sources */,

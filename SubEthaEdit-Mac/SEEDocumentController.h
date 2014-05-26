@@ -60,6 +60,7 @@ extern NSString *const RecentDocumentsDidChangeNotification;
 - (NSArray *)documentsInMode:(DocumentMode *)aDocumentMode;
 
 - (IBAction)menuValidationNoneAction:(id)aSender;
+- (IBAction)copyReachabilityURL:(id)aSender;
 
 - (BOOL)isDocumentFromLastRunOpenPanel:(NSDocument *)aDocument;
 - (NSDictionary *)propertiesForOpenedFile:(NSString *)fileName;

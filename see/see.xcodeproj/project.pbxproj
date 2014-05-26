@@ -36,6 +36,7 @@
 		4C19ECC9192F7FEA00D39777 /* TCMReleaseInfo.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = TCMReleaseInfo.xcconfig; path = ../BuildConfig/TCMReleaseInfo.xcconfig; sourceTree = "<group>"; };
 		4C19ECCA192F7FEA00D39777 /* TCMAppConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = TCMAppConfig.xcconfig; path = ../BuildConfig/TCMAppConfig.xcconfig; sourceTree = "<group>"; };
 		4C19ECCB192F80EE00D39777 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		4C2DE1FE1933530900FB7C74 /* ReadMe.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ReadMe.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +55,7 @@
 		4C19ECAB192F7ED000D39777 = {
 			isa = PBXGroup;
 			children = (
+				4C2DE1FE1933530900FB7C74 /* ReadMe.txt */,
 				4C19ECC8192F7FD900D39777 /* Configuration */,
 				4C19ECB9192F7ED000D39777 /* see */,
 				4C19ECB6192F7ED000D39777 /* Frameworks */,
@@ -246,6 +248,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "see/see-Prefix.pch";
 				INFOPLIST_FILE = see/See_Info.plist;
+				INSTALL_PATH = /usr/bin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = NO;
 				WARNING_CFLAGS = "-Wunreachable-code";
@@ -260,6 +263,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "see/see-Prefix.pch";
 				INFOPLIST_FILE = see/See_Info.plist;
+				INSTALL_PATH = /usr/bin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = NO;
 				WARNING_CFLAGS = "-Wunreachable-code";

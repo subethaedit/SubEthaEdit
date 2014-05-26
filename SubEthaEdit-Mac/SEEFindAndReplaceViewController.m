@@ -401,18 +401,18 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 			menu.delegate = self;
 						
 			
+			NSMenuItem *item = [menu addItemWithTitle:NSLocalizedString(@"FIND_REPLACE_PANEL_MENU_HISTORY_SUBMENU_TITLE", @"") action:NULL keyEquivalent:@""];
+			item.submenu = [NSMenu new];
+			item.submenu.delegate = self;
+			self.recentsMenu = item.submenu;
+			
+			[menu addItem:[NSMenuItem separatorItem]];
 			[self addItemToMenu:menu title:NSLocalizedString(@"FIND_REPLACE_PANEL_MENU_CLEAR_SCOPE",@"") action:@selector(clearSearchScope:) tag:kOptionMenuClearScopeTag];
 			[self addItemToMenu:menu title:NSLocalizedString(@"FIND_REPLACE_PANEL_MENU_ADD_TO_SCOPE",@"") action:@selector(addCurrentSelectionToSearchScope:) tag:kOptionMenuAddSelectionToSearchScopeTag];
 			[menu addItem:[NSMenuItem separatorItem]];
 			[self addItemToMenu:menu title:NSLocalizedString(@"FIND_REPLACE_PANEL_MENU_IGNORE_CASE",@"") action:@selector(toggleIgnoreCase:) tag:kOptionMenuIgnoreCaseTag];
 			[self addItemToMenu:menu title:NSLocalizedString(@"FIND_REPLACE_PANEL_MENU_WRAP",@"") action:@selector(toggleWrapAround:) tag:kOptionMenuWrapAroundTag];
 
-			[menu addItem:[NSMenuItem separatorItem]];
-			NSMenuItem *item = [menu addItemWithTitle:NSLocalizedString(@"FIND_REPLACE_PANEL_MENU_HISTORY_SUBMENU_TITLE", @"") action:NULL keyEquivalent:@""];
-			item.submenu = [NSMenu new];
-			item.submenu.delegate = self;
-			self.recentsMenu = item.submenu;
-			
 			[menu addItem:[NSMenuItem separatorItem]];
 			[self addItemToMenu:menu title:NSLocalizedString(@"FIND_REPLACE_PANEL_MENU_USE_REGEX",@"") action:@selector(toggleUseRegex:) tag:kOptionMenuUseRegularExpressionsTag];
 

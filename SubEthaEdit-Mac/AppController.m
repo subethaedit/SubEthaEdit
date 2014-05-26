@@ -512,6 +512,45 @@ static AppController *sharedInstance = nil;
     }
 }
 
+- (void)addDocumentNewSubmenuEntriesToMenu:(NSMenu *)aMenu {
+	BOOL inTabs = [[NSUserDefaults standardUserDefaults] boolForKey:kSEEDefaultsKeyOpenNewDocumentInTab];
+    NSMenu *menu=[[[NSApp mainMenu] itemWithTag:FileMenuTag] submenu];
+	
+	NSArray *inWindowsItems = [[[menu itemWithTag:FileNewMenuItemTag] submenu] itemArray];
+	NSArray *inTabsItems = [[[menu itemWithTag:FileNewAlternateMenuItemTag] submenu] itemArray];
+	
+	NSArray *normalItems = inTabs ? inTabsItems : inWindowsItems;
+	NSArray *alternateItems = inTabs ? inWindowsItems : inTabsItems;
+	
+	[normalItems enumerateObjectsUsingBlock:^(NSMenuItem *normalItem, NSUInteger idx, BOOL *stop) {
+		BOOL isSelectedModeItem = NO;
+		[aMenu addItem:({
+			NSMenuItem *item = [[normalItem copy] autorelease];
+			if (![item.keyEquivalent isEqualToString:@""]) {
+				isSelectedModeItem = YES;
+			}
+			item.keyEquivalent = @"";
+			if (isSelectedModeItem) {
+				item.state = NSOnState;
+			}
+			item;
+		})];
+		if (!normalItem.isSeparatorItem) {
+			NSMenuItem *alternateItem = [[alternateItems[idx] copy] autorelease];
+			[alternateItem setAlternate:YES];
+			[alternateItem setKeyEquivalent:@""];
+			[alternateItem setKeyEquivalentModifierMask:NSAlternateKeyMask];
+			[alternateItem setTitle:[NSString stringWithFormat:NSLocalizedString(!inTabs?@"MODE_IN_NEW_TAB_CONTEXT_MENU_TEXT":@"MODE_IN_NEW_WINDOW_CONTEXT_MENU_TEXT",@""),[normalItem title]]];
+			if (isSelectedModeItem) {
+				alternateItem.state = NSOnState;
+			}
+			[aMenu addItem:alternateItem];
+			
+		}
+	}];
+	
+}
+
 - (void)addShortcutToModeForNewDocumentsEntry {
     NSMenu *menu=[[[NSApp mainMenu] itemWithTag:FileMenuTag] submenu];
     NSMenuItem *menuItem=[menu itemWithTag:FileNewMenuItemTag];

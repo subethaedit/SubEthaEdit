@@ -72,5 +72,5 @@ extern NSString * const GlobalScriptsDidReloadNotification;
 - (IBAction)showStyleSheetEditorWindow:(id)aSender;
 
 - (NSArray *)contextMenuItemArray;
-
+- (void)addDocumentNewSubmenuEntriesToMenu:(NSMenu *)aMenu;
 @end

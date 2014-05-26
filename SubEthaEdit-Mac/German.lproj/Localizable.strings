@@ -166,7 +166,7 @@
 "ClosedInfo" = "Das Dokument wurde vom Eigentümer geschlossen. Weitere Änderungen werden nicht mehr an den Eigentümer des Dokuments übertragen.";
 
 /* Collapse Split View Menu Entry */
-"Collapse Split View" = "Aufteilung aufheben";
+"Collapse Split View" = "Teilung aufheben";
 
 /* Blue */
 "ColorBlue" = "Blau";
@@ -691,7 +691,7 @@
 "Spaces" = "Leerzeichen";
 
 /* Split View Menu Entry */
-"Split View" = "Fenster aufteilen";
+"Split View" = "Editor teilen";
 
 /* Syntax State Malformed Begin Error Informative Text */
 "State '%@' in %@ mode has a begin tag that is not a valid regex" = "Der State '%1$@' im %2$@ Modus hat im <begin> einen ungülgtigen Regulären Ausdruck";
@@ -1042,4 +1042,7 @@
 "SEEConnectionTaglineNetworkingDisabled" = "Netzwerk ausgeschaltet";
 "SEEConnectionTaglineFriendcast" = "via '%@'";
 
+
+"MODE_IN_NEW_TAB_CONTEXT_MENU_TEXT" = "%@ als Tab";
+"MODE_IN_NEW_WINDOW_CONTEXT_MENU_TEXT" = "%@ als Fenster";
 
