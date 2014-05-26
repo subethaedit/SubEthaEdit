@@ -776,6 +776,8 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 					menuItem.enabled = YES;
 					[menu addItem:menuItem];
 				}
+			} else if ([clickedItem isKindOfClass:[SEENewDocumentListItem class]]) {
+				[[AppController sharedInstance] addDocumentNewSubmenuEntriesToMenu:menu];
 			}
 		}
     }
