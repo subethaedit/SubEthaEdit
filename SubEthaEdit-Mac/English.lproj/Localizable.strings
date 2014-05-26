@@ -935,3 +935,6 @@
 "SEEConnectionTaglineInvisible" = "Invisible";
 "SEEConnectionTaglineNetworkingDisabled" = "Networking Disabled";
 "SEEConnectionTaglineFriendcast" = "via '%@'";
+
+"MODE_IN_NEW_TAB_CONTEXT_MENU_TEXT" = "%@ in tab";
+"MODE_IN_NEW_WINDOW_CONTEXT_MENU_TEXT" = "%@ in window";
