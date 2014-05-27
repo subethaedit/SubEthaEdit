@@ -655,8 +655,7 @@ NSString *const RecentDocumentsDidChangeNotification = @"RecentDocumentsDidChang
 			completionHandler(nil, NO, nil);
 		}
     } else if (!isFilePackage && isDirectory) {
-        [self setLocationForNextOpenPanel:url];
-        [self performSelector:@selector(openDocument:) withObject:nil afterDelay:0.0];
+		[self openDirectory:url];
 
 		if (completionHandler) {
 			completionHandler(nil, NO, nil);
@@ -1018,12 +1017,16 @@ NSString *const RecentDocumentsDidChangeNotification = @"RecentDocumentsDidChang
         if (isFilePackage && [extension isEqualToString:modeExtension]) {
             [self openModeFile:filename];
         } else if ([[NSFileManager defaultManager] fileExistsAtPath:filename isDirectory:&isDir] && isDir && !isFilePackage) {
-            [self openDirectory:filename];
+            [self openDirectory:[NSURL fileURLWithPath:filename]];
         } else {
             [I_propertiesForOpenedFiles setObject:properties forKey:filename];
-			[[SEEScopedBookmarkManager sharedManager] startAccessingScriptedFileURL:[NSURL fileURLWithPath:filename]];
+			if (!isFilePackage) {
+				[[SEEScopedBookmarkManager sharedManager] startAccessingScriptedFileURL:[NSURL fileURLWithPath:filename]];
+			}
 			[self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:filename] display:YES completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
-				if (error) NSLog(@"%@",error);
+				if (error) {
+					[self presentError:error];
+				}
 			}];
         }
     }
@@ -1646,9 +1649,11 @@ struct ModificationInfo
     }
 }
 
-- (void)openDirectory:(NSString *)fileName
-{
-    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Opening directory: %@", fileName);
+- (void)openDirectory:(NSURL *)aURL {
+	[self setLocationForNextOpenPanel:aURL];
+	[self performSelector:@selector(openDocument:) withObject:nil afterDelay:0.0];
+
+    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Opening directory: %@", aURL);
 }
 
 static NSString *tempFileName() {
