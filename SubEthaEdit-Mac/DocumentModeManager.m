@@ -921,7 +921,7 @@ static DocumentModeManager *S_sharedInstance=nil;
             NSBundle *modeBundle=[I_modeBundles objectForKey:identifier];
             NSString *additionalText=nil;
             NSString *bundlePath=[modeBundle bundlePath];
-            NSMutableAttributedString *attributedTitle=[[NSMutableAttributedString alloc] initWithString:[bundlePath lastPathComponent] attributes:s_menuDefaultStyleAttributes];
+            NSMutableAttributedString *attributedTitle=[[NSMutableAttributedString alloc] initWithString:[modeBundle objectForInfoDictionaryKey:@"CFBundleName"] attributes:s_menuDefaultStyleAttributes];
             if ([bundlePath hasPrefix:[[NSBundle mainBundle] bundlePath]]) {
                 additionalText=[NSString stringWithFormat:@"SubEthaEdit %@",[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
             } else if ([bundlePath hasPrefix:@"/Library"]) {
