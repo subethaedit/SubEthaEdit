@@ -1436,10 +1436,48 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
 #pragma mark -
 
-- (void)handleRightMouseDownEvent:(NSEvent *)anEvent button:(TCMHoverButton *)aButton {
-	[self.document inviteUsersToDocumentViaSharingService:aButton];
+- (NSPopover *)showHelpPopoverWithText:(NSString *)aText forView:(NSView *)aView preferredEdge:(NSRectEdge)anEdge {
+	NSPopover *popover = [[NSPopover alloc] init];
+	NSViewController *viewController = [[NSViewController alloc] init];
+	viewController.view = ({
+		NSView *containingView = [[NSView alloc] initWithFrame:NSMakeRect(0, 0, 230, 20)];
+		NSTextView *textView = [[NSTextView alloc] initWithFrame:containingView.bounds];
+		[textView setEditable:NO];
+		[textView setDrawsBackground:NO];
+		NSTextStorage *textstorage = textView.textStorage;
+		[textstorage replaceCharactersInRange:textstorage.TCM_fullLengthRange withString:aText];
+		[textstorage addAttributes:@{NSFontAttributeName : [NSFont systemFontOfSize:[NSFont systemFontSize]], NSForegroundColorAttributeName : [NSColor colorWithCalibratedWhite:0.2 alpha:1.0]} range:textstorage.TCM_fullLengthRange];
+		[textView setSelectable:NO];
+		[textView setTextContainerInset:NSMakeSize(4.0,4.0)];
+		[textView sizeToFit];
+		containingView.frame = textView.frame;
+		
+		[containingView addSubview:textView];
+		containingView;
+	});
+	;
+	popover.contentViewController = viewController;
+	//	popover.behavior = NSPopoverBehaviorSemitransient;
+	[popover showRelativeToRect:NSZeroRect ofView:aView preferredEdge:anEdge];
+	return popover;
 }
 
+- (void)handleRightMouseDownEvent:(NSEvent *)anEvent button:(TCMHoverButton *)aButton {
+	//	[self.document inviteUsersToDocumentViaSharingService:aButton];
+	[self showFirstUseHelp];
+}
+
+- (void)showFirstUseHelp {
+	NSArray *popovers = @[
+	[self showHelpPopoverWithText:@"Click to invite other Users to live collaborate in this document." forView:self.shareInviteUsersButtonOutlet preferredEdge:NSMinYEdge],
+	[self showHelpPopoverWithText:@"Click to Announce this Document to the network.\nRight-Click to also set initial Access Rights for incoming Users." forView:self.shareAnnounceButtonOutlet preferredEdge:NSMaxYEdge],
+	];
+	[NSOperationQueue TCM_performBlockOnMainQueue:^{
+		for (NSPopover *popover in popovers) {
+			popover.behavior = NSPopoverBehaviorSemitransient;
+		}
+	} afterDelay:2.0];
+}
 
 #pragma mark -
 #pragma mark First Responder Actions
