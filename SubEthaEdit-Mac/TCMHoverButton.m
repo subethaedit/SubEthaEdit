@@ -54,6 +54,15 @@
 	[super mouseExited:theEvent];
 }
 
+- (void)rightMouseDown:(NSEvent *)theEvent {
+	if (self.rightMouseDownEventHandler &&
+		theEvent.clickCount == 1) {
+		[self.rightMouseDownEventHandler handleRightMouseDownEvent:theEvent button:self];
+	} else {
+		[super rightMouseDown:theEvent];
+	}
+}
+
 
 #pragma mark -
 

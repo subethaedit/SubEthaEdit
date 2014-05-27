@@ -88,7 +88,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 @end
 
 
-@interface PlainTextEditor ()
+@interface PlainTextEditor () <TCMHoverButtonRightMouseDownHandler>
 
 @property (nonatomic, strong) IBOutlet NSView *O_editorView;
 @property (nonatomic, strong) IBOutlet SEEOverlayView *O_bottomStatusBarView;
@@ -484,7 +484,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     frame.size  = [O_scrollView contentSize];
 
 	[self.shareInviteUsersButtonOutlet sendActionOn:NSLeftMouseDownMask];
-
+	self.shareInviteUsersButtonOutlet.rightMouseDownEventHandler = self;
 	[self.shareInviteUsersButtonOutlet setImagesByPrefix:@"BottomBarSharingIconAdd"];
 	[self.showParticipantsButtonOutlet setImagesByPrefix:@"BottomBarSharingIconGroupTurnOn"];
 	[self.shareAnnounceButtonOutlet setImagesByPrefix:@"BottomBarSharingIconAnnounceTurnOn"];
@@ -1433,6 +1433,12 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	}
 }
 
+
+#pragma mark -
+
+- (void)handleRightMouseDownEvent:(NSEvent *)anEvent button:(TCMHoverButton *)aButton {
+	[self.document inviteUsersToDocumentViaSharingService:aButton];
+}
 
 
 #pragma mark -
