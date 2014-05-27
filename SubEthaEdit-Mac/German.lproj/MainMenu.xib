@@ -471,6 +471,12 @@
                                     <action selector="prettyPrintHTML:" target="-1" id="743"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="Tag/Block abschließen" keyEquivalent="." id="6ti-hK-5On">
+                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                <connections>
+                                    <action selector="insertStateClose:" target="-1" id="f7Z-Ii-eQO"/>
+                                </connections>
+                            </menuItem>
                             <menuItem isSeparatorItem="YES" id="637">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
@@ -606,6 +612,105 @@
                             <menuItem title="Tabulatoren durch Leerzeichen ersetzen" id="530">
                                 <connections>
                                     <action selector="detab:" target="-1" id="532"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="Suchen" id="267">
+                    <menu key="submenu" title="Suchen" id="265">
+                        <items>
+                            <menuItem title="Suchen…" tag="1" keyEquivalent="f" id="269">
+                                <connections>
+                                    <action selector="showFindAndReplaceInterface:" target="-1" id="R3M-8d-wLE"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Alle suchen" tag="1001" keyEquivalent="f" id="266">
+                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                <connections>
+                                    <action selector="performFindPanelAction:" target="463" id="596"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Weitersuchen (vorwärts)" tag="2" keyEquivalent="g" id="479">
+                                <connections>
+                                    <action selector="performFindPanelAction:" target="463" id="597"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Weitersuchen (rückwärts)" tag="3" keyEquivalent="G" id="268">
+                                <connections>
+                                    <action selector="performFindPanelAction:" target="463" id="598"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Ersetzen und Weitersuchen" tag="6" keyEquivalent="g" id="519">
+                                <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
+                                <connections>
+                                    <action selector="performFindPanelAction:" target="463" id="595"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Auswahl als Suchbegriff" tag="7" keyEquivalent="e" id="270">
+                                <connections>
+                                    <action selector="performFindPanelAction:" target="463" id="599"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Auswahl als Ersetzungsbegriff" tag="1002" keyEquivalent="e" id="517">
+                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                <connections>
+                                    <action selector="performFindPanelAction:" target="463" id="600"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Auswahl anzeigen" keyEquivalent="j" id="264">
+                                <connections>
+                                    <action selector="centerSelectionInVisibleArea:" target="-1" id="271"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="423">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Nächste Änderung" keyEquivalent="g" id="424">
+                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                <connections>
+                                    <action selector="jumpToNextChange:" target="-1" id="444"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Vorige Änderung" keyEquivalent="G" id="425">
+                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                <connections>
+                                    <action selector="jumpToPreviousChange:" target="-1" id="445"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="428">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Nächstes Symbol" keyEquivalent="d" id="427">
+                                <connections>
+                                    <action selector="jumpToNextSymbol:" target="-1" id="442"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Voriges Symbol" keyEquivalent="D" id="426">
+                                <connections>
+                                    <action selector="jumpToPreviousSymbol:" target="-1" id="443"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="429">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Gehe zu Zeile" keyEquivalent="l" id="430">
+                                <connections>
+                                    <action selector="orderFrontGotoPanel:" target="463" id="464"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="Modus" tag="50" id="236">
+                    <menu key="submenu" title="Modus" id="237">
+                        <items>
+                            <menuItem title="Modus umstellen" tag="10" id="250">
+                                <menu key="submenu" title="Modus umstellen" id="249"/>
+                            </menuItem>
+                            <menuItem title="Modi neu laden" tag="20" id="550">
+                                <connections>
+                                    <action selector="reloadDocumentModes:" target="210" id="551"/>
                                 </connections>
                             </menuItem>
                         </items>
@@ -848,105 +953,6 @@
                                 <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
                                 <connections>
                                     <action selector="toggleFullScreen:" target="-1" id="SmH-LM-MTs"/>
-                                </connections>
-                            </menuItem>
-                        </items>
-                    </menu>
-                </menuItem>
-                <menuItem title="Suchen" id="267">
-                    <menu key="submenu" title="Suchen" id="265">
-                        <items>
-                            <menuItem title="Suchen…" tag="1" keyEquivalent="f" id="269">
-                                <connections>
-                                    <action selector="showFindAndReplaceInterface:" target="-1" id="R3M-8d-wLE"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Alle suchen" tag="1001" keyEquivalent="f" id="266">
-                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                                <connections>
-                                    <action selector="performFindPanelAction:" target="463" id="596"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Weitersuchen (vorwärts)" tag="2" keyEquivalent="g" id="479">
-                                <connections>
-                                    <action selector="performFindPanelAction:" target="463" id="597"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Weitersuchen (rückwärts)" tag="3" keyEquivalent="G" id="268">
-                                <connections>
-                                    <action selector="performFindPanelAction:" target="463" id="598"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Ersetzen und Weitersuchen" tag="6" keyEquivalent="g" id="519">
-                                <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
-                                <connections>
-                                    <action selector="performFindPanelAction:" target="463" id="595"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Auswahl als Suchbegriff" tag="7" keyEquivalent="e" id="270">
-                                <connections>
-                                    <action selector="performFindPanelAction:" target="463" id="599"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Auswahl als Ersetzungsbegriff" tag="1002" keyEquivalent="e" id="517">
-                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                                <connections>
-                                    <action selector="performFindPanelAction:" target="463" id="600"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Auswahl anzeigen" keyEquivalent="j" id="264">
-                                <connections>
-                                    <action selector="centerSelectionInVisibleArea:" target="-1" id="271"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem isSeparatorItem="YES" id="423">
-                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
-                            </menuItem>
-                            <menuItem title="Nächste Änderung" keyEquivalent="g" id="424">
-                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                                <connections>
-                                    <action selector="jumpToNextChange:" target="-1" id="444"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Vorige Änderung" keyEquivalent="G" id="425">
-                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                                <connections>
-                                    <action selector="jumpToPreviousChange:" target="-1" id="445"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem isSeparatorItem="YES" id="428">
-                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
-                            </menuItem>
-                            <menuItem title="Nächstes Symbol" keyEquivalent="d" id="427">
-                                <connections>
-                                    <action selector="jumpToNextSymbol:" target="-1" id="442"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Voriges Symbol" keyEquivalent="D" id="426">
-                                <connections>
-                                    <action selector="jumpToPreviousSymbol:" target="-1" id="443"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem isSeparatorItem="YES" id="429">
-                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
-                            </menuItem>
-                            <menuItem title="Gehe zu Zeile" keyEquivalent="l" id="430">
-                                <connections>
-                                    <action selector="orderFrontGotoPanel:" target="463" id="464"/>
-                                </connections>
-                            </menuItem>
-                        </items>
-                    </menu>
-                </menuItem>
-                <menuItem title="Modus" tag="50" id="236">
-                    <menu key="submenu" title="Modus" id="237">
-                        <items>
-                            <menuItem title="Modus umstellen" tag="10" id="250">
-                                <menu key="submenu" title="Modus umstellen" id="249"/>
-                            </menuItem>
-                            <menuItem title="Modi neu laden" tag="20" id="550">
-                                <connections>
-                                    <action selector="reloadDocumentModes:" target="210" id="551"/>
                                 </connections>
                             </menuItem>
                         </items>

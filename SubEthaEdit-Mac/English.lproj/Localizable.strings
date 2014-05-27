@@ -918,14 +918,12 @@
 /* Mode Install */
 "MODE_INSTALL_TITLE_TEXT" = "Do you want to install the mode \"%@\"?";
 "MODE_INSTALL_INFO_STRING_BASE" = "Mode \"%@\" is already installed.";
-
 "MODE_INSTALL_INFO_STRING_OVERRIDE" = "You will override the installed mode.";
 "MODE_INSTALL_INFO_STRING_REPLACE" = "You will replace the installed mode.";
- 
 "MODE_INSTALL_ALERT_SUCCESS" = "The mode \"%@\" has been installed successfully.";
 "MODE_INSTALL_ALERT_FAIL" = "Installation of mode \"%@\" failed.";
- 
 "MODE_INSTALL_OK_BUTTON" = "Install";
+"MODE_INSTALL_SHOW_CONTENT_BUTTON" = "Show Package Contents";
 
 "INFO_NUMBER_OF_WORDS_TOO_MANY" = "Countless words";
 
