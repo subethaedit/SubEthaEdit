@@ -620,7 +620,7 @@ static AppController *sharedInstance = nil;
 		[menuItem setKeyEquivalentModifierMask:NSAlternateKeyMask];
 		
 		DocumentModeMenu *documentModeMenu = [[DocumentModeMenu new] autorelease];
-		[documentModeMenu configureWithAction:@selector(showModeBundleContents:) alternateDisplay:YES];
+		[documentModeMenu configureWithAction:@selector(showModeBundle:) alternateDisplay:YES];
 		[menuItem setSubmenu:documentModeMenu];
 		menuItem;
 	});
