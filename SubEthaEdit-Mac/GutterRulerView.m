@@ -105,18 +105,29 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 	[[NSColor colorWithWhite:0.9 alpha:1.0] set];
 	NSRectFill(aRect);
 	
-    static NSDictionary *attributes=nil;
-    static float linenumberFontSize=9.;
     static NSSize sizeOfZero;
-    if (!attributes) {
-        NSFont *font=[NSFont fontWithName:@"Lucida Sans Typewriter-Regular" size:linenumberFontSize];
-        if (!font) font=[NSFont systemFontOfSize:linenumberFontSize];
-        attributes=[[NSDictionary dictionaryWithObjectsAndKeys:
-                        font,NSFontAttributeName,
-                        [NSColor colorWithCalibratedWhite:0.27 alpha:1.0],NSForegroundColorAttributeName,
-                        nil] retain];
-        sizeOfZero=[@"0" sizeWithAttributes:attributes];
-    }
+	static void(^drawLineNumber)(NSUInteger aLineNumber, unsigned aCardinality, CGFloat aRightHandAlignment, NSRect aLineBoundingRect, CGFloat aTotalYOffset) = nil;
+		
+	if (!drawLineNumber) {
+		CGFloat linenumberFontSize=9.;
+			NSFont *font=[NSFont fontWithName:@"Verdana" size:linenumberFontSize];
+			if (!font) font=[NSFont systemFontOfSize:linenumberFontSize];
+			NSDictionary *attributes=[[NSDictionary dictionaryWithObjectsAndKeys:
+						 font,NSFontAttributeName,
+						 [NSColor colorWithCalibratedWhite:0.27 alpha:1.0],NSForegroundColorAttributeName,
+						 nil] retain];
+			sizeOfZero=[@"0" sizeWithAttributes:attributes];
+		
+		drawLineNumber = [^(NSUInteger aLineNumber, unsigned aCardinality, CGFloat aRightHandAlignment, NSRect aLineBoundingRect, CGFloat aTotalYOffset) {
+			[[NSColor blackColor] set];
+			NSString *lineNumberString=[NSString stringWithFormat:@"%llu",(unsigned long long)aLineNumber];
+			[lineNumberString drawAtPoint:NSMakePoint(aRightHandAlignment-(sizeOfZero.width*aCardinality),
+													  ceil(NSMaxY(aLineBoundingRect)+aTotalYOffset -sizeOfZero.height
+														   -(aLineBoundingRect.size.height-sizeOfZero.height)/2.-2.))
+						   withAttributes:attributes];
+			
+		} copy];
+	}
 
     NSTextView              *textView=(NSTextView *)[self clientView];
     FoldableTextStorage  *textStorage=(FoldableTextStorage *)[textView textStorage];
@@ -126,11 +137,12 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
     NSLayoutManager    *layoutManager=[textView layoutManager];
     NSRect visibleRect=[scrollView documentVisibleRect];
 	CGFloat textContainerInsetTopY = [textView textContainerOrigin].y;
-
+	CGFloat totalYOffset = -visibleRect.origin.y + textContainerInsetTopY;
+	
+	
     NSPoint point=visibleRect.origin;
     point.y+=aRect.origin.y+1. - 150.;
     unsigned glyphIndex,characterIndex;
-    NSString *lineNumberString;
     NSRect bounds = [self bounds];
     NSRect boundingRect,previousBoundingRect,lineFragmentRectForLastCharacter;
     NSColor *delimiterLineColor = [NSColor colorWithCalibratedWhite:0.5 alpha:1.0];
@@ -178,13 +190,7 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
         }
         
         if (characterIndex==[text lineRangeForRange:NSMakeRange(characterIndex,0)].location) {
-            [[NSColor blackColor] set];
-            lineNumberString=[NSString stringWithFormat:@"%u",lineNumber];
-            [lineNumberString drawAtPoint:NSMakePoint(rightHandAlignment-(sizeOfZero.width*cardinality),
-                                                      NSMaxY(boundingRect)-visibleRect.origin.y + textContainerInsetTopY -sizeOfZero.height
-                                                      -(boundingRect.size.height-sizeOfZero.height)/2.-1.) 
-                           withAttributes:attributes];
-
+			drawLineNumber(lineNumber, cardinality, rightHandAlignment, boundingRect, totalYOffset);
         }
         
         BOOL goOn = YES;
@@ -211,7 +217,7 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 			if (!NSEqualRanges(lineRange,longestEffectiveAttachmentRange)) {
 				BOOL isHighlighted = (!NSEqualPoints(I_lastMouseDownPoint,NSZeroPoint) && I_lastMouseDownPoint.y >= boundingRect.origin.y && I_lastMouseDownPoint.y <= NSMaxY(boundingRect));
 				// there is an attachment of some kind in our line. so show it
-				NSBezierPath *trianglePath = [NSBezierPath trianglePathInRect:NSMakeRect(foldingAreaRect.origin.x+1, NSMaxY(boundingRect)-visibleRect.origin.y + textContainerInsetTopY - FOLDING_BAR_WIDTH - (boundingRect.size.height-FOLDING_BAR_WIDTH - 3)/2. ,FOLDING_BAR_WIDTH - 4,FOLDING_BAR_WIDTH - 2) arrowPoint:NSMaxXEdge];
+				NSBezierPath *trianglePath = [NSBezierPath trianglePathInRect:NSMakeRect(foldingAreaRect.origin.x+1, NSMaxY(boundingRect)+totalYOffset - FOLDING_BAR_WIDTH - (boundingRect.size.height-FOLDING_BAR_WIDTH - 3)/2. ,FOLDING_BAR_WIDTH - 4,FOLDING_BAR_WIDTH - 2) arrowPoint:NSMaxXEdge];
 				[(isHighlighted ? triangleHighlightColor : triangleColor) set];
 				[trianglePath fill];
 				[(isHighlighted ? triangleHighlightStrokeColor : triangleStrokeColor) set];
@@ -252,11 +258,7 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
                                                                effectiveRange:nil];
                 boundingRect.origin.y += boundingRect.size.height;
             }
-            lineNumberString=[NSString stringWithFormat:@"%u",lineNumber];
-            [lineNumberString drawAtPoint:NSMakePoint(rightHandAlignment-(+sizeOfZero.width*cardinality),
-                                                      NSMaxY(boundingRect)-visibleRect.origin.y-sizeOfZero.height + textContainerInsetTopY
-                                                      -(boundingRect.size.height-sizeOfZero.height)/2.-1.) 
-                           withAttributes:attributes];
+			drawLineNumber(lineNumber, cardinality, rightHandAlignment, boundingRect, totalYOffset);
 
 			glyphIndex=[layoutManager glyphRangeForCharacterRange:NSMakeRange(maxRange-1,1) 
 											 actualCharacterRange:nil].location;
@@ -282,7 +284,7 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 					BOOL isHighlighted = (!NSEqualPoints(I_lastMouseDownPoint,NSZeroPoint) && I_lastMouseDownPoint.y + visibleRect.origin.y - textContainerInsetTopY >= boundingRect.origin.y && I_lastMouseDownPoint.y  + visibleRect.origin.y - textContainerInsetTopY <= NSMaxY(boundingRect));
 					// there is an attachment of some kind in our line. so show it
 //					NSLog(@"%s mouseDown:%@ boundingRect:%@",__FUNCTION__,NSStringFromPoint(I_lastMouseDownPoint),NSStringFromRect(boundingRect));
-					NSBezierPath *trianglePath = [NSBezierPath trianglePathInRect:NSMakeRect(foldingAreaRect.origin.x+1, NSMaxY(boundingRect)-visibleRect.origin.y + textContainerInsetTopY - FOLDING_BAR_WIDTH - (boundingRect.size.height-FOLDING_BAR_WIDTH - 3)/2. ,FOLDING_BAR_WIDTH - 4,FOLDING_BAR_WIDTH - 2) arrowPoint:NSMaxXEdge];
+					NSBezierPath *trianglePath = [NSBezierPath trianglePathInRect:NSMakeRect(foldingAreaRect.origin.x+1, NSMaxY(boundingRect)+totalYOffset - FOLDING_BAR_WIDTH - (boundingRect.size.height-FOLDING_BAR_WIDTH - 3)/2. ,FOLDING_BAR_WIDTH - 4,FOLDING_BAR_WIDTH - 2) arrowPoint:NSMaxXEdge];
 					[(isHighlighted ? triangleHighlightColor : triangleColor) set];
 					[trianglePath fill];
 					[(isHighlighted ? triangleHighlightStrokeColor : triangleStrokeColor) set];
@@ -294,7 +296,7 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
  
         
         
-        float potentialNewWidth=8.+sizeOfZero.width*cardinality + FOLDING_BAR_WIDTH + RIGHT_INSET;
+        float potentialNewWidth=5.+sizeOfZero.width*cardinality + FOLDING_BAR_WIDTH + RIGHT_INSET;
         if ([self ruleThickness]<potentialNewWidth) {
             [self setRuleThickness:ceil(potentialNewWidth)];
         }
