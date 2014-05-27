@@ -587,23 +587,23 @@ static DocumentModeManager *S_sharedInstance=nil;
 	return result;
 }
 
-- (void)revealModeInFinder:(DocumentMode *)aMode {
-	NSString *bundlePath = [[aMode bundle] bundlePath];
-	NSString *shortenedModePath = [bundlePath stringByDeletingLastPathComponent];
-	NSString *appBundleModePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:BUNDLE_MODE_FOLDER_NAME];
-	
-	BOOL modeIsInBundle = [appBundleModePath isEqualToString:shortenedModePath];
-	
+- (void)revealModeInFinder:(DocumentMode *)aMode jumpIntoContentFolder:(BOOL)aJumpIntoContentFolder {
+	NSBundle *modeBundle = [aMode bundle];
+	NSString *modeBundlePath = [modeBundle bundlePath];
+
+	BOOL modeIsInBundle = [modeBundlePath hasPrefix:[[NSBundle mainBundle] bundlePath]];
 	if (modeIsInBundle) { // copy the mode bundle to application support and open there
 		NSError *error = nil;
-		NSFileManager *fileManager = [NSFileManager defaultManager];
-		BOOL success = [fileManager copyItemAtPath:bundlePath toPath:[self pathForWritingMode:aMode] error:&error];
+		BOOL success = [[NSFileManager defaultManager] copyItemAtPath:modeBundlePath toPath:[self pathForWritingMode:aMode] error:&error];
 		if(success != YES) {
 			NSLog(@"Error: %@", error);
 		}
+		[self reloadDocumentModes:self]; // only reload if you actually change something about the mode
+		modeBundle = [[self documentModeForIdentifier:[aMode documentModeIdentifier]] bundle]; // make sure the new bundle is used in case of copying
 	}
-	[self reloadDocumentModes:self];
-	[[NSWorkspace sharedWorkspace] selectFile:[[[self documentModeForIdentifier:[aMode documentModeIdentifier]] bundle] resourcePath] inFileViewerRootedAtPath:nil];
+
+	NSString *pathToOpen = aJumpIntoContentFolder? [modeBundle resourcePath] : [modeBundle bundlePath];
+	[[NSWorkspace sharedWorkspace] selectFile:pathToOpen inFileViewerRootedAtPath:nil];
 }
 
 - (void)showIncompatibleModeErrorForBundle:(NSBundle *)aBundle {

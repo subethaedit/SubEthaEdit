@@ -79,7 +79,7 @@
 - (void)revealStyleSheetInFinder:(SEEStyleSheet *)aStyleSheet;
 
 - (IBAction)reloadDocumentModes:(id)aSender;
-- (void)revealModeInFinder:(DocumentMode *)aMode;
+- (void)revealModeInFinder:(DocumentMode *)aMode jumpIntoContentFolder:(BOOL)aJumpIntoContentFolder;
 - (NSURL *)urlForWritingModeWithName:(NSString *)aModeName;
 
 @end

@@ -503,15 +503,25 @@ static AppController *sharedInstance = nil;
     return dockMenu;
 }
 
+#pragma mark - show mode bundle
 - (IBAction)showModeBundleContents:(id)aSender {
+	[self showModeBundleForTag:[aSender tag] jumpIntoContentFolder:YES];
+}
+
+- (IBAction)showModeBundle:(id)aSender {
+	[self showModeBundleForTag:[aSender tag] jumpIntoContentFolder:NO];
+}
+
+- (void)showModeBundleForTag:(NSInteger)aModeTag jumpIntoContentFolder:(BOOL)aJumpIntoContentFolder {
     DocumentModeManager *modeManager = [DocumentModeManager sharedInstance];
-    NSString *modeIdentifier = [modeManager documentModeIdentifierForTag:[aSender tag]];
+    NSString *modeIdentifier = [modeManager documentModeIdentifierForTag:aModeTag];
     if (modeIdentifier) {
 		DocumentMode *mode = [modeManager documentModeForIdentifier:modeIdentifier];
-		[modeManager revealModeInFinder:mode];
+		[modeManager revealModeInFinder:mode jumpIntoContentFolder:aJumpIntoContentFolder];
     }
 }
 
+#pragma mark
 - (void)addDocumentNewSubmenuEntriesToMenu:(NSMenu *)aMenu {
 	BOOL inTabs = [[NSUserDefaults standardUserDefaults] boolForKey:kSEEDefaultsKeyOpenNewDocumentInTab];
     NSMenu *menu=[[[NSApp mainMenu] itemWithTag:FileMenuTag] submenu];
