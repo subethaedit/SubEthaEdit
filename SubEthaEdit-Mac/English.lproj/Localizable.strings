@@ -928,3 +928,6 @@
 "MODE_INSTALL_OK_BUTTON" = "Install";
 
 "INFO_NUMBER_OF_WORDS_TOO_MANY" = "Many words";
+
+"FIRST_USE_INVITE_HELP_TEXT" = "Click to invite other Users to live collaborate in this document.";
+"FIRST_USE_ANNOUNCE_HELP_TEXT" = "Click to Announce this Document to the network.\nRight-Click to also set initial Access Rights for incoming Users.";

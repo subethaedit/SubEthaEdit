@@ -1448,7 +1448,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 		[textstorage replaceCharactersInRange:textstorage.TCM_fullLengthRange withString:aText];
 		[textstorage addAttributes:@{NSFontAttributeName : [NSFont systemFontOfSize:[NSFont systemFontSize]], NSForegroundColorAttributeName : [NSColor colorWithCalibratedWhite:0.2 alpha:1.0]} range:textstorage.TCM_fullLengthRange];
 		[textView setSelectable:NO];
-		[textView setTextContainerInset:NSMakeSize(4.0,4.0)];
+		[textView setTextContainerInset:NSMakeSize(4.0,6.0)];
 		[textView sizeToFit];
 		containingView.frame = textView.frame;
 		
@@ -1469,8 +1469,8 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
 - (void)showFirstUseHelp {
 	NSArray *popovers = @[
-	[self showHelpPopoverWithText:@"Click to invite other Users to live collaborate in this document." forView:self.shareInviteUsersButtonOutlet preferredEdge:NSMinYEdge],
-	[self showHelpPopoverWithText:@"Click to Announce this Document to the network.\nRight-Click to also set initial Access Rights for incoming Users." forView:self.shareAnnounceButtonOutlet preferredEdge:NSMaxYEdge],
+	[self showHelpPopoverWithText:NSLocalizedString(@"FIRST_USE_INVITE_HELP_TEXT", @"") forView:self.shareInviteUsersButtonOutlet preferredEdge:NSMinYEdge],
+	[self showHelpPopoverWithText:NSLocalizedString(@"FIRST_USE_ANNOUNCE_HELP_TEXT",@"") forView:self.shareAnnounceButtonOutlet preferredEdge:NSMaxYEdge],
 	];
 	[NSOperationQueue TCM_performBlockOnMainQueue:^{
 		for (NSPopover *popover in popovers) {
