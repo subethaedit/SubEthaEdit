@@ -471,6 +471,12 @@
                                     <action selector="prettyPrintHTML:" target="-1" id="743"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="Tag/Block abschließen" keyEquivalent="." id="6ti-hK-5On">
+                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                <connections>
+                                    <action selector="insertStateClose:" target="-1" id="f7Z-Ii-eQO"/>
+                                </connections>
+                            </menuItem>
                             <menuItem isSeparatorItem="YES" id="637">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>

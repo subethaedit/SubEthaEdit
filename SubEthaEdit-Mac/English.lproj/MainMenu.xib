@@ -472,7 +472,7 @@
                                     <action selector="prettyPrintHTML:" target="-1" id="772"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Insert State Close" keyEquivalent="." id="1208">
+                            <menuItem title="Close Current Tag/Block" keyEquivalent="." id="1208">
                                 <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                 <connections>
                                     <action selector="insertStateClose:" target="-1" id="1210"/>
