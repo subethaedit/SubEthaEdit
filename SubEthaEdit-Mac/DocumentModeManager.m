@@ -447,9 +447,14 @@ static DocumentModeManager *S_sharedInstance=nil;
 
 #pragma mark - Stuff with Styles
 - (NSString *)pathForWritingStyleSheetWithName:(NSString *)aStyleSheetName {
-	[self createUserApplicationSupportDirectory];
-	NSString *fullPath = [[self URLWithAddedBundleIdentifierDirectoryForURL:[self applicationSupportDirectory] subDirectoryName:LIBRARY_STYLE_FOLDER_NAME] path];
+	NSString *fullPath = [self.customStyleSheetFolderURL path];
     return [[fullPath stringByAppendingPathComponent:aStyleSheetName] stringByAppendingPathExtension:SEEStyleSheetFileExtension];
+}
+
+- (NSURL *)customStyleSheetFolderURL {
+	[self createUserApplicationSupportDirectory];
+	NSURL *folderURL = [self URLWithAddedBundleIdentifierDirectoryForURL:[self applicationSupportDirectory] subDirectoryName:LIBRARY_STYLE_FOLDER_NAME];
+	return folderURL;
 }
 
 - (void)TCM_loadScopeNameChanges {
@@ -531,6 +536,11 @@ static DocumentModeManager *S_sharedInstance=nil;
 
 - (NSArray *)allStyleSheetNames {
 	return [[I_styleSheetPathsByName allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+}
+
+- (void)reloadAllStyles {
+	[I_styleSheetPathsByName removeAllObjects];
+	[self TCM_findStyles];
 }
 
 - (SEEStyleSheet *)duplicateStyleSheet:(SEEStyleSheet *)aStyleSheet {

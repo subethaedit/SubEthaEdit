@@ -970,6 +970,8 @@
 "STYLE_PREF_SHEET_BUTTON_CUSTOM_FOR_CONTEXT_LABEL" = "Eigener Stil pro Sprachkontext";
 "STYLE_PREF_PREVIEW_BOX_LABEL"= "Vorschau";
 "STYLE_PREF_APPLY_STYLE_BUTTON" = "Auf offene Dokumente anwenden";
+"STYLE_PREFS_REVEAL_USER_STYLES_FOLDER" = "Ordner für eigene Styles anzeigen";
+"STYLE_PREFS_RELOAD_STYLES_TITLE" = "Neu laden";
 
 /* will cease invisibilty alert */
 "ANNOUNCE_WILL_MAKE_VISIBLE_MESSAGE" = "Sie werden sichtbar";
