@@ -1588,12 +1588,15 @@ struct ModificationInfo
 	// show alert
 	NSAlert *installAlert = [NSAlert alertWithMessageText:titleText
 											defaultButton:NSLocalizedStringWithDefaultValue(@"MODE_INSTALL_OK_BUTTON", nil, [NSBundle mainBundle], @"Install", nil)
-										  alternateButton:NSLocalizedString(@"Cancel", nil)
-											  otherButton:nil
+										  alternateButton:NSLocalizedStringWithDefaultValue(@"MODE_INSTALL_SHOW_CONTENT_BUTTON", nil, [NSBundle mainBundle], @"Show Package Contents", nil)
+											  otherButton:NSLocalizedString(@"Cancel", nil)
 								informativeTextWithFormat:@"%@", informativeText];
 	
 	int result = [installAlert runModal];
-	if (result == NSAlertDefaultReturn) { // ok was selected
+	if (result == NSAlertAlternateReturn) { // show package contents
+		[[NSWorkspace sharedWorkspace] selectFile:[modeBundle resourcePath] inFileViewerRootedAtPath:nil];
+	
+	} else if (result == NSAlertDefaultReturn) { // ok was selected
         BOOL success = NO;
 		
 		NSURL *destinationURL = [[DocumentModeManager sharedInstance] urlForWritingModeWithName:[modeBundle objectForInfoDictionaryKey:@"CFBundleName"]];

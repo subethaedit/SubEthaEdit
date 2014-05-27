@@ -1022,17 +1022,14 @@
 "MODE_IN_NEW_WINDOW_CONTEXT_MENU_TEXT" = "%@ als Fenster";
 
 /* Mode Install */
-
 "MODE_INSTALL_TITLE_TEXT" = "Möchten Sie den Modus \"%@\" installieren?";
 "MODE_INSTALL_INFO_STRING_BASE" = "Der Modus „%@“ ist bereits installiert.";
-
 "MODE_INSTALL_INFO_STRING_OVERRIDE" = "Der installierte Modus wird außer Kraft gesetzt.";
 "MODE_INSTALL_INFO_STRING_REPLACE" = "Der installierte Modus wird ersetzt.";
-
 "MODE_INSTALL_ALERT_SUCCESS" = "Der Modus „%@“ wurde erfolgreich installiert.";
 "MODE_INSTALL_ALERT_FAIL" = "Die Installation des Modus „%@“ ist fehlgeschlagen.";
-
 "MODE_INSTALL_OK_BUTTON" = "Installieren";
+"MODE_INSTALL_SHOW_CONTENT_BUTTON" = "Paketinhalt anzeigen";
 
 "INFO_NUMBER_OF_WORDS_TOO_MANY" = "Viele Worte";
 
