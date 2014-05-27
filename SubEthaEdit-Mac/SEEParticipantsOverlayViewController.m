@@ -84,9 +84,21 @@
 		NSScrollView *participantScrollView = self.participantsContainerView.enclosingScrollView;
 		participantScrollView.scrollerStyle = NSScrollerStyleOverlay;
 	}
-	
-	[self.view addTrackingArea:[[NSTrackingArea alloc] initWithRect:NSZeroRect options:NSTrackingMouseEnteredAndExited|NSTrackingActiveInActiveApp|NSTrackingInVisibleRect owner:self userInfo:nil]];
 
+
+	NSTrackingAreaOptions options = NSTrackingMouseEnteredAndExited | NSTrackingActiveInActiveApp | NSTrackingInVisibleRect;
+	NSPoint mouseLocationInBounds = [view convertPoint:[[view window] convertScreenToBase:[NSEvent mouseLocation]] fromView:nil];
+	BOOL mouseIsInside = NSMouseInRect(mouseLocationInBounds, view.bounds, view.isFlipped);
+	if (mouseIsInside) {
+		options |= NSTrackingAssumeInside;
+	}
+
+	NSTrackingArea *trackingArea = [[NSTrackingArea alloc] initWithRect:NSZeroRect
+																options:options
+																  owner:self
+															   userInfo:nil];
+
+	[view addTrackingArea:trackingArea];
 	[self update];
 }
 

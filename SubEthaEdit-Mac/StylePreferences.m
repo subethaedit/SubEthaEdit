@@ -174,6 +174,25 @@
 }
 
 
+- (IBAction)revealCustomStyleSheetsFolder:(id)sender {
+	NSURL *customStyleSheetFolder = [[DocumentModeManager sharedInstance] customStyleSheetFolderURL];
+	[[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[customStyleSheetFolder]];
+
+	[self selectMode:[self.O_modePopUpButton selectedMode]];
+	[self.O_styleSheetCustomPopUpButton synchronizeTitleAndSelectedItem];
+	[self.O_styleSheetCustomPopUpButton synchronizeTitleAndSelectedItem];
+}
+
+
+- (IBAction)reloadStyleSheets:(id)sender {
+	[[DocumentModeManager sharedInstance] reloadAllStyles];
+	[self updateStyleSheetLists];
+
+	[self selectMode:[self.O_modePopUpButton selectedMode]];
+	[self.O_styleSheetCustomPopUpButton synchronizeTitleAndSelectedItem];
+}
+
+
 - (IBAction)applyToOpenDocuments:(id)aSender {
 	[self highlightSyntax];
     [[NSNotificationCenter defaultCenter] postNotificationName:DocumentModeApplyStylePreferencesNotification object:[self.O_modeController content]];
@@ -193,6 +212,19 @@
 - (void)updateStyleSheetLists {
 	[self.O_styleSheetCustomPopUpButton removeAllItems];
 	[self.O_styleSheetCustomPopUpButton addItemsWithTitles:[[DocumentModeManager sharedInstance] allStyleSheetNames]];
+
+	[[self.O_styleSheetCustomPopUpButton menu] addItem:[NSMenuItem separatorItem]];
+	NSString *revealUserFolderItemTitle = NSLocalizedStringWithDefaultValue(@"STYLE_PREFS_REVEAL_USER_STYLES_FOLDER", nil, [NSBundle mainBundle], @"Show User Styles Folder", @"");
+	NSMenuItem *revealUserFolderItem = [[NSMenuItem alloc] initWithTitle:revealUserFolderItemTitle action:@selector(revealCustomStyleSheetsFolder:) keyEquivalent:@""];
+	revealUserFolderItem.target = self;
+	[[self.O_styleSheetCustomPopUpButton menu] addItem:revealUserFolderItem];
+
+	NSString *reloadItemTitle = NSLocalizedStringWithDefaultValue(@"STYLE_PREFS_RELOAD_STYLES_TITLE", nil, [NSBundle mainBundle], @"Reload Styles", @"");
+	NSMenuItem *reloadStylesItem = [[NSMenuItem alloc] initWithTitle:reloadItemTitle action:@selector(reloadStyleSheets:) keyEquivalent:@""];
+	reloadStylesItem.target = self;
+	[[self.O_styleSheetCustomPopUpButton menu] addItem:reloadStylesItem];
+
+
 	NSPopUpButtonCell *styleSheetButtonCell = [[self.O_customStylesForLanguageContextsTableView tableColumnWithIdentifier:@"styleSheet"] dataCell];
 	[styleSheetButtonCell removeAllItems];
 	[styleSheetButtonCell addItemsWithTitles:[[DocumentModeManager sharedInstance] allStyleSheetNames]];

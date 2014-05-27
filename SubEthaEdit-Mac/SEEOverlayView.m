@@ -52,9 +52,20 @@
     if (self) {
 		[self setWantsLayer:YES];
 		self.layer.masksToBounds = YES;
+
+		NSTrackingAreaOptions options = NSTrackingCursorUpdate | NSTrackingInVisibleRect | NSTrackingActiveInKeyWindow;
+
+		NSPoint mouseLocationInBounds = [self convertPoint:[[self window] convertScreenToBase:[NSEvent mouseLocation]] fromView:nil];
+		BOOL mouseIsInside = NSMouseInRect(mouseLocationInBounds, self.bounds, self.isFlipped);
+		if (mouseIsInside) {
+			options |= NSTrackingAssumeInside;
+		}
+
 		NSTrackingArea *trackingArea = [[NSTrackingArea alloc] initWithRect:NSZeroRect
-																	options:NSTrackingCursorUpdate|NSTrackingInVisibleRect|NSTrackingActiveInKeyWindow
-																	  owner:self userInfo:nil];
+																	options:options
+																	  owner:self
+																   userInfo:nil];
+
 		[self addTrackingArea:trackingArea];
 		self.cursorTrackingArea = trackingArea;
     }

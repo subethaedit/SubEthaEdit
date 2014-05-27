@@ -447,9 +447,14 @@ static DocumentModeManager *S_sharedInstance=nil;
 
 #pragma mark - Stuff with Styles
 - (NSString *)pathForWritingStyleSheetWithName:(NSString *)aStyleSheetName {
-	[self createUserApplicationSupportDirectory];
-	NSString *fullPath = [[self URLWithAddedBundleIdentifierDirectoryForURL:[self applicationSupportDirectory] subDirectoryName:LIBRARY_STYLE_FOLDER_NAME] path];
+	NSString *fullPath = [self.customStyleSheetFolderURL path];
     return [[fullPath stringByAppendingPathComponent:aStyleSheetName] stringByAppendingPathExtension:SEEStyleSheetFileExtension];
+}
+
+- (NSURL *)customStyleSheetFolderURL {
+	[self createUserApplicationSupportDirectory];
+	NSURL *folderURL = [self URLWithAddedBundleIdentifierDirectoryForURL:[self applicationSupportDirectory] subDirectoryName:LIBRARY_STYLE_FOLDER_NAME];
+	return folderURL;
 }
 
 - (void)TCM_loadScopeNameChanges {
@@ -533,6 +538,11 @@ static DocumentModeManager *S_sharedInstance=nil;
 	return [[I_styleSheetPathsByName allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
 }
 
+- (void)reloadAllStyles {
+	[I_styleSheetPathsByName removeAllObjects];
+	[self TCM_findStyles];
+}
+
 - (SEEStyleSheet *)duplicateStyleSheet:(SEEStyleSheet *)aStyleSheet {
 	NSString *sheetName = [[aStyleSheet styleSheetName] stringByAppendingString:@" 2"];
 	NSString *newPath = [self pathForWritingStyleSheetWithName:sheetName];
@@ -569,30 +579,41 @@ static DocumentModeManager *S_sharedInstance=nil;
 }
 
 #pragma mark - Stuff with modes
-- (NSString *)pathForWritingMode:(DocumentMode *)aMode {
+- (NSURL *)urlForWritingModeWithName:(NSString *)aModeName {
+	NSString *fullPath = [self pathForWritingModeWithName:aModeName];
+	NSURL *result = [NSURL fileURLWithPath:fullPath];
+	return result;
+}
+
+- (NSString *)pathForWritingModeWithName:(NSString *)aModeName {
 	[self createUserApplicationSupportDirectory];
 	NSString *modeFolderPath = [[self URLWithAddedBundleIdentifierDirectoryForURL:[self applicationSupportDirectory] subDirectoryName:LIBRARY_MODE_FOLDER_NAME] path];
-	NSString *fullPath = [[modeFolderPath stringByAppendingPathComponent:[aMode displayName]] stringByAppendingPathExtension:MODE_EXTENSION];
+	NSString *fullPath = [[modeFolderPath stringByAppendingPathComponent:aModeName] stringByAppendingPathExtension:MODE_EXTENSION];
     return fullPath;
 }
 
-- (void)revealModeInFinder:(DocumentMode *)aMode {
-	NSString *bundlePath = [[aMode bundle] bundlePath];
-	NSString *shortenedModePath = [bundlePath stringByDeletingLastPathComponent];
-	NSString *appBundleModePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:BUNDLE_MODE_FOLDER_NAME];
-	
-	BOOL modeIsInBundle = [appBundleModePath isEqualToString:shortenedModePath];
-	
+- (NSString *)pathForWritingMode:(DocumentMode *)aMode {
+	NSString *result = [self pathForWritingModeWithName:[aMode displayName]];
+	return result;
+}
+
+- (void)revealModeInFinder:(DocumentMode *)aMode jumpIntoContentFolder:(BOOL)aJumpIntoContentFolder {
+	NSBundle *modeBundle = [aMode bundle];
+	NSString *modeBundlePath = [modeBundle bundlePath];
+
+	BOOL modeIsInBundle = [modeBundlePath hasPrefix:[[NSBundle mainBundle] bundlePath]];
 	if (modeIsInBundle) { // copy the mode bundle to application support and open there
 		NSError *error = nil;
-		NSFileManager *fileManager = [NSFileManager defaultManager];
-		BOOL success = [fileManager copyItemAtPath:bundlePath toPath:[self pathForWritingMode:aMode] error:&error];
+		BOOL success = [[NSFileManager defaultManager] copyItemAtPath:modeBundlePath toPath:[self pathForWritingMode:aMode] error:&error];
 		if(success != YES) {
 			NSLog(@"Error: %@", error);
 		}
+		[self reloadDocumentModes:self]; // only reload if you actually change something about the mode
+		modeBundle = [[self documentModeForIdentifier:[aMode documentModeIdentifier]] bundle]; // make sure the new bundle is used in case of copying
 	}
-	[self reloadDocumentModes:self];
-	[[NSWorkspace sharedWorkspace] selectFile:[[[self documentModeForIdentifier:[aMode documentModeIdentifier]] bundle] resourcePath] inFileViewerRootedAtPath:nil];
+
+	NSString *pathToOpen = aJumpIntoContentFolder? [modeBundle resourcePath] : [modeBundle bundlePath];
+	[[NSWorkspace sharedWorkspace] selectFile:pathToOpen inFileViewerRootedAtPath:nil];
 }
 
 - (void)showIncompatibleModeErrorForBundle:(NSBundle *)aBundle {
@@ -910,7 +931,7 @@ static DocumentModeManager *S_sharedInstance=nil;
             NSBundle *modeBundle=[I_modeBundles objectForKey:identifier];
             NSString *additionalText=nil;
             NSString *bundlePath=[modeBundle bundlePath];
-            NSMutableAttributedString *attributedTitle=[[NSMutableAttributedString alloc] initWithString:[bundlePath lastPathComponent] attributes:s_menuDefaultStyleAttributes];
+            NSMutableAttributedString *attributedTitle=[[NSMutableAttributedString alloc] initWithString:[modeBundle objectForInfoDictionaryKey:@"CFBundleName"] attributes:s_menuDefaultStyleAttributes];
             if ([bundlePath hasPrefix:[[NSBundle mainBundle] bundlePath]]) {
                 additionalText=[NSString stringWithFormat:@"SubEthaEdit %@",[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
             } else if ([bundlePath hasPrefix:@"/Library"]) {

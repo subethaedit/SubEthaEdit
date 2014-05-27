@@ -283,23 +283,31 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 	return result;
 }
 
-- (unsigned)numberOfLines {
+- (NSUInteger)numberOfLines {
     return [self lineNumberForLocation:[self length]];
 }
-- (unsigned)numberOfCharacters {
+
+- (NSUInteger)numberOfCharacters {
     return [self length];
 }
-- (unsigned)numberOfWords {
-    static int limit = 0;
-    if (limit==0) limit = [[NSUserDefaults standardUserDefaults] integerForKey:@"ByteLengthToUseForModeRecognitionAndEncodingGuessing"];
-    
-    if (I_numberOfWords == 0 && limit>[self length]) {
-        static OGRegularExpression *s_wordCountRegex = nil;
-        if (!s_wordCountRegex) {
-            s_wordCountRegex = [OGRegularExpression regularExpressionWithString:@"[\\w']+"];
-        }
-        I_numberOfWords  = [[s_wordCountRegex allMatchesInString:[self string]] count];
-    }
+
+- (NSUInteger)numberOfWords {
+    static NSInteger limit = 0;
+    if (limit == 0) limit = [[NSUserDefaults standardUserDefaults] integerForKey:@"ByteLengthToUseForModeRecognitionAndEncodingGuessing"];
+
+    if (I_numberOfWords == 0 && limit > [self length]) {
+		__block NSUInteger wordCount = 0;
+		[self.string enumerateSubstringsInRange:NSMakeRange(0, self.string.length)
+										options:NSStringEnumerationByWords | NSStringEnumerationSubstringNotRequired
+									 usingBlock:^(NSString *character, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {
+										 wordCount++;
+									 }];
+
+		I_numberOfWords = wordCount;
+	} else if (limit <= [self length]) {
+		I_numberOfWords = NSNotFound;
+	}
+
     return I_numberOfWords;
 }
 
@@ -315,32 +323,34 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
         }
     }
 
-    int i;
-    int result=0;
+    NSInteger i = 0;
+    NSUInteger result = 0;
     if (!(aLocation<=I_lineStartsValidUpTo)) {
-        NSString *string=[self string];
-        unsigned int length = [string length];
-        i=[I_lineStarts count]-1;
-        unsigned lineStart=[[I_lineStarts objectAtIndex:i] unsignedIntValue];
-        NSRange lineRange=[string lineRangeForRange:NSMakeRange(lineStart,0)];
-        I_lineStartsValidUpTo=NSMaxRange(lineRange)-1;
-        while (NSMaxRange(lineRange)<length && I_lineStartsValidUpTo<aLocation) {
-            lineRange=[string lineRangeForRange:NSMakeRange(NSMaxRange(lineRange),0)];
-            [I_lineStarts addObject:[NSNumber numberWithUnsignedInt:lineRange.location]];
-            I_lineStartsValidUpTo=NSMaxRange(lineRange)-1;
+        NSString *string = [self string];
+        NSUInteger length = [string length];
+        i = [I_lineStarts count] - 1;
+        NSUInteger lineStart = [[I_lineStarts objectAtIndex:i] unsignedIntegerValue];
+        NSRange lineRange = [string lineRangeForRange:NSMakeRange(lineStart, 0)];
+        I_lineStartsValidUpTo = NSMaxRange(lineRange) - 1;
+
+		while (NSMaxRange(lineRange) < length && I_lineStartsValidUpTo < aLocation) {
+            lineRange = [string lineRangeForRange:NSMakeRange(NSMaxRange(lineRange), 0)];
+            [I_lineStarts addObject:[NSNumber numberWithUnsignedInteger:lineRange.location]];
+            I_lineStartsValidUpTo = NSMaxRange(lineRange) - 1;
         }
-        if (NSMaxRange(lineRange)==length) {
-            NSRange lastRange=[string lineRangeForRange:NSMakeRange(length,0)];
-            if (lastRange.location == length && [[I_lineStarts lastObject] intValue] != length) {
+
+		if (NSMaxRange(lineRange) == length) {
+            NSRange lastRange = [string lineRangeForRange:NSMakeRange(length,0)];
+            if (lastRange.location == length && [[I_lineStarts lastObject] unsignedIntegerValue] != length) {
                 [I_lineStarts addObject:[NSNumber numberWithUnsignedInt:length]];
                 I_lineStartsValidUpTo=length;
             }
         }
-
     }
-    for (i=[I_lineStarts count]-1;i>=0;i--) {
-        if ([[I_lineStarts objectAtIndex:i] unsignedIntValue]<=aLocation) {
-            result=i+1;
+
+    for (i = [I_lineStarts count] - 1; i >= 0; i--) {
+        if ([[I_lineStarts objectAtIndex:i] unsignedIntegerValue] <= aLocation) {
+            result = i + 1;
             break;
         }
     }

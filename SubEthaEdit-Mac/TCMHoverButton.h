@@ -8,11 +8,18 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class TCMHoverButton;
+
+@protocol TCMHoverButtonRightMouseDownHandler
+- (void)handleRightMouseDownEvent:(NSEvent *)anEvent button:(TCMHoverButton *)aButton;
+@end
+
 @interface TCMHoverButton : NSButton
 
 @property (nonatomic, strong) NSImage *hoverImage;
 @property (nonatomic, strong) NSImage *normalImage;
 @property (nonatomic, strong) NSImage *pressedImage;
+@property (nonatomic, weak) id <TCMHoverButtonRightMouseDownHandler> rightMouseDownEventHandler;
 
 
 /*! @param aPrefix the prefix of the images. the internal images will be set using imageNamed: with the suffixes @"Normal", @"Hover" and @"Pressed" */

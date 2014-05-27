@@ -313,11 +313,16 @@
 		NSString *targetValue = ({
 			NSString *result = nil;
 			if (infoType == DocumentModeDocumentInfoWords) {
-				result = [NSString localizedStringWithFormat:NSLocalizedString(@"INFO_NUMBER_OF_WORDS",@""),fullTextStorage.numberOfWords];
+				NSUInteger numberOfWords = fullTextStorage.numberOfWords;
+				if (numberOfWords < NSNotFound) {
+					result = [NSString localizedStringWithFormat:NSLocalizedString(@"INFO_NUMBER_OF_WORDS",@""),(unsigned long)numberOfWords];
+				} else {
+					result = NSLocalizedString(@"INFO_NUMBER_OF_WORDS_TOO_MANY", @"");
+				}
 			} else if (infoType == DocumentModeDocumentInfoLines) {
-				result = [NSString localizedStringWithFormat:NSLocalizedString(@"INFO_NUMBER_OF_LINES",@""),fullTextStorage.numberOfLines];
+				result = [NSString localizedStringWithFormat:NSLocalizedString(@"INFO_NUMBER_OF_LINES",@""),(unsigned long)fullTextStorage.numberOfLines];
 			} else {
-				result = [NSString localizedStringWithFormat:NSLocalizedString(@"INFO_NUMBER_OF_CHARACTERS",@""),fullTextStorage.numberOfCharacters];
+				result = [NSString localizedStringWithFormat:NSLocalizedString(@"INFO_NUMBER_OF_CHARACTERS",@""),(unsigned long)fullTextStorage.numberOfCharacters];
 			}
 			result;
 		});

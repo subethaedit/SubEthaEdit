@@ -64,6 +64,7 @@
     TCMMMUser *me = [TCMMMUserManager me];
     NSImage *myImage = [me image];
     [myImage setFlipped:NO];
+
     [self.O_nameTextField setStringValue:[me name]];
     [self.O_emailTextField setStringValue:[[me properties] objectForKey:@"Email"]];
 
@@ -103,20 +104,6 @@
 	[avatarImageView.superview addSubview:button positioned:NSWindowAbove relativeTo:avatarImageView];
 	
 	self.showingImageTaker = NO;
-	self.imagePicker = ({
-		IKPictureTaker *imagePicker = [IKPictureTaker pictureTaker];
-		
-		if (![me hasDefaultImage]) {
-			[imagePicker setInputImage:myImage]; // is also updated in the chooseImage method
-		}
-
-		[imagePicker setValue:[NSValue valueWithSize:NSMakeSize(256., 256.)] forKey:IKPictureTakerOutputImageMaxSizeKey];
-		[imagePicker setValue:@(YES) forKey:IKPictureTakerShowAddressBookPictureKey];
-		[imagePicker setValue:[me defaultImage] forKey:IKPictureTakerShowEmptyPictureKey]; // is also updated in the change name method
-		[imagePicker setValue:@(YES) forKey:IKPictureTakerShowEffectsKey];
-
-		imagePicker;
-	});
 }
 
 - (void)didSelect {
@@ -188,9 +175,27 @@
 
 - (IBAction)chooseImage:(id)aSender {
 	if (self.showingImageTaker) {
-		[self.imagePicker orderOut:nil];
+		[self.imagePicker close];
+		[self.imagePicker orderOut:aSender];
 		self.showingImageTaker = NO;
 	} else {
+		if (self.imagePicker == nil) {
+			self.imagePicker = ({
+				IKPictureTaker *imagePicker = [IKPictureTaker pictureTaker];
+				TCMMMUser *me = [TCMMMUserManager me];
+				if (![me hasDefaultImage]) {
+					[imagePicker setInputImage:me.image]; // is also updated in the chooseImage method
+				}
+
+				[imagePicker setValue:[NSValue valueWithSize:NSMakeSize(256., 256.)] forKey:IKPictureTakerOutputImageMaxSizeKey];
+				[imagePicker setValue:@(YES) forKey:IKPictureTakerShowAddressBookPictureKey];
+				[imagePicker setValue:[me defaultImage] forKey:IKPictureTakerShowEmptyPictureKey]; // is also updated in the change name method
+				[imagePicker setValue:@(YES) forKey:IKPictureTakerShowEffectsKey];
+				
+				imagePicker;
+			});
+		}
+
 		self.showingImageTaker = YES;
 		[self.imagePicker popUpRecentsMenuForView:self.O_avatarImageView withDelegate:self didEndSelector:@selector(pictureTakerDidEnd:returnCode:contextInfo:) contextInfo:nil];
 	}
@@ -231,8 +236,10 @@
 		if (me.hasDefaultImage) {
 			[self.O_avatarImageView setImage:me.image];
 		}
-		[self.imagePicker setValue:[me defaultImage] forKey:IKPictureTakerShowEmptyPictureKey];
 
+		if (self.imagePicker != nil) {
+			[self.imagePicker setValue:[me defaultImage] forKey:IKPictureTakerShowEmptyPictureKey];
+		}
     }
 }
 

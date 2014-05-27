@@ -211,6 +211,15 @@ static AppController *sharedInstance = nil;
                                     forName:@"SaturationToWhiteColor"];
 }
 
+- (BOOL)didShowFirstUseWindowHelp {
+	return [[NSUserDefaults standardUserDefaults] boolForKey:@"SEE4_DID_SHOW_FIRST_USE_HELP"];
+}
+
+- (void)setDidShowFirstUseWindowHelp:(BOOL)didShowFirstUseWindowHelp {
+	[[NSUserDefaults standardUserDefaults] setBool:didShowFirstUseWindowHelp forKey:@"SEE4_DID_SHOW_FIRST_USE_HELP"];
+	[[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 - (void)addMe {
 	// add self as user
     TCMMMUser *me = [TCMMMUser new];
@@ -503,15 +512,21 @@ static AppController *sharedInstance = nil;
     return dockMenu;
 }
 
-- (IBAction)showModeBundleContents:(id)aSender {
+#pragma mark - show mode bundle
+- (IBAction)showModeBundle:(id)aSender {
+	[self showModeBundleForTag:[aSender tag] jumpIntoContentFolder:NO];
+}
+
+- (void)showModeBundleForTag:(NSInteger)aModeTag jumpIntoContentFolder:(BOOL)aJumpIntoContentFolder {
     DocumentModeManager *modeManager = [DocumentModeManager sharedInstance];
-    NSString *modeIdentifier = [modeManager documentModeIdentifierForTag:[aSender tag]];
+    NSString *modeIdentifier = [modeManager documentModeIdentifierForTag:aModeTag];
     if (modeIdentifier) {
 		DocumentMode *mode = [modeManager documentModeForIdentifier:modeIdentifier];
-		[modeManager revealModeInFinder:mode];
+		[modeManager revealModeInFinder:mode jumpIntoContentFolder:aJumpIntoContentFolder];
     }
 }
 
+#pragma mark
 - (void)addDocumentNewSubmenuEntriesToMenu:(NSMenu *)aMenu {
 	BOOL inTabs = [[NSUserDefaults standardUserDefaults] boolForKey:kSEEDefaultsKeyOpenNewDocumentInTab];
     NSMenu *menu=[[[NSApp mainMenu] itemWithTag:FileMenuTag] submenu];
@@ -610,7 +625,7 @@ static AppController *sharedInstance = nil;
 		[menuItem setKeyEquivalentModifierMask:NSAlternateKeyMask];
 		
 		DocumentModeMenu *documentModeMenu = [[DocumentModeMenu new] autorelease];
-		[documentModeMenu configureWithAction:@selector(showModeBundleContents:) alternateDisplay:YES];
+		[documentModeMenu configureWithAction:@selector(showModeBundle:) alternateDisplay:YES];
 		[menuItem setSubmenu:documentModeMenu];
 		menuItem;
 	});

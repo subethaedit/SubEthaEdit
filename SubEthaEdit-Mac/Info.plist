@@ -8,14 +8,14 @@
 	<array>
 		<dict>
 			<key>CFBundleTypeName</key>
-			<string>Any Directory</string>
+			<string>Any Folder</string>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
 			<key>LSHandlerRank</key>
 			<string>Alternate</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>public.directory</string>
+				<string>public.folder</string>
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>

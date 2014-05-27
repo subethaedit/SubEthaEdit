@@ -40,7 +40,6 @@ extern NSString * const BlockeditAttributeValue;
     } I_blockedit;
 
     NSMutableAttributedString *I_internalAttributedString;
-    unsigned I_numberOfWords;
 
     struct {
         int length;

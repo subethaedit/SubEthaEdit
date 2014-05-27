@@ -15,9 +15,9 @@ enum {
 };
 
 enum {
-	DocumentModeDocumentInfoWords = 0,
+	DocumentModeDocumentInfoCharacters = 0,
 	DocumentModeDocumentInfoLines = 1,
-	DocumentModeDocumentInfoCharacters = 2,
+	DocumentModeDocumentInfoWords = 2,
 	DocumentModeDocumentInfoModulo,
 };
 

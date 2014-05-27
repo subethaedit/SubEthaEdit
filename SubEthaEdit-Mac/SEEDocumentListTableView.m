@@ -68,8 +68,8 @@
 			}
 			eventTrackingView.clickHighlight = NO;
 			[eventTrackingView setNeedsDisplay:YES];
-			self.eventTrackingTableRowView = nil;
 		}
+		self.eventTrackingTableRowView = nil;
 	} else {
 		[super mouseUp:theEvent];
 	}

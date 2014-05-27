@@ -18,8 +18,8 @@ extern NSString * const SEESearchScopeAttributeName;
 	int I_linearAttributeChangesCount;
 
     NSMutableArray *I_lineStarts;
-    unsigned int I_lineStartsValidUpTo;
-    unsigned I_numberOfWords;
+    NSUInteger I_lineStartsValidUpTo;
+    NSUInteger I_numberOfWords;
     
     NSStringEncoding I_encoding;
     LineEnding I_lineEnding;
@@ -83,9 +83,9 @@ extern NSString * const SEESearchScopeAttributeName;
 - (NSDictionary *)dictionaryRepresentation;
 - (void)setContentByDictionaryRepresentation:(NSDictionary *)aRepresentation;
 
-- (unsigned)numberOfLines;
-- (unsigned)numberOfCharacters;
-- (unsigned)numberOfWords;
+- (NSUInteger)numberOfLines;
+- (NSUInteger)numberOfCharacters;
+- (NSUInteger)numberOfWords;
 
 
 #pragma mark -

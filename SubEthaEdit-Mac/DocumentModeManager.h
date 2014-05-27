@@ -72,13 +72,16 @@
 - (void)revalidatePrecedences;
 
 @property (readonly) NSDictionary *changedScopeNameDict;
+- (void)reloadAllStyles;
 - (SEEStyleSheet *)styleSheetForName:(NSString *)aStyleSheetName;
 - (NSArray *)allStyleSheetNames;
 - (void)saveStyleSheet:(SEEStyleSheet *)aStyleSheet;
 - (SEEStyleSheet *)duplicateStyleSheet:(SEEStyleSheet *)aStyleSheet;
 - (void)revealStyleSheetInFinder:(SEEStyleSheet *)aStyleSheet;
+- (NSURL *)customStyleSheetFolderURL;
 
 - (IBAction)reloadDocumentModes:(id)aSender;
-- (void)revealModeInFinder:(DocumentMode *)aMode;
+- (void)revealModeInFinder:(DocumentMode *)aMode jumpIntoContentFolder:(BOOL)aJumpIntoContentFolder;
+- (NSURL *)urlForWritingModeWithName:(NSString *)aModeName;
 
 @end

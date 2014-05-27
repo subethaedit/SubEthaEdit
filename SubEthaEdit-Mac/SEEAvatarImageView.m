@@ -187,8 +187,17 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
 
 #pragma mark - Hover Image
 - (void)enableHoverImage {
-	NSTrackingArea *trackingArea = [[NSTrackingArea alloc] initWithRect:self.bounds
-																options:NSTrackingMouseEnteredAndExited | NSTrackingActiveInKeyWindow | NSTrackingInVisibleRect
+
+	NSTrackingAreaOptions options = NSTrackingMouseEnteredAndExited | NSTrackingActiveInKeyWindow | NSTrackingInVisibleRect;
+
+	NSPoint mouseLocationInBounds = [self convertPoint:[[self window] convertScreenToBase:[NSEvent mouseLocation]] fromView:nil];
+	BOOL mouseIsInside = NSMouseInRect(mouseLocationInBounds, self.bounds, self.isFlipped);
+    if (mouseIsInside) {
+        options |= NSTrackingAssumeInside;
+    }
+
+	NSTrackingArea *trackingArea = [[NSTrackingArea alloc] initWithRect:NSZeroRect
+																options:options
 																  owner:self
 															   userInfo:nil];
 	self.hoverTrackingArea = trackingArea;

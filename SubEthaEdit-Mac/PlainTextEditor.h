@@ -146,6 +146,7 @@ extern NSString * const PlainTextEditorDidChangeSearchScopeNotification;
 - (void)updateTopScrollViewInset;
 - (void)adjustToScrollViewInsets;
 
+- (void)showFirstUseHelp;
 
 @property (nonatomic, readonly) PlainTextWindowController *plainTextWindowController;
 @property (nonatomic, readonly) NSValue *searchScopeValue;
