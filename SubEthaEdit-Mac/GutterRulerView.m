@@ -110,11 +110,11 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 		
 	if (!drawLineNumber) {
 		CGFloat linenumberFontSize=9.;
-			NSFont *font=[NSFont fontWithName:@"Verdana" size:linenumberFontSize];
+			NSFont *font=[NSFont fontWithName:@"Tahoma" size:linenumberFontSize];
 			if (!font) font=[NSFont systemFontOfSize:linenumberFontSize];
 			NSDictionary *attributes=[[NSDictionary dictionaryWithObjectsAndKeys:
 						 font,NSFontAttributeName,
-						 [NSColor colorWithCalibratedWhite:0.27 alpha:1.0],NSForegroundColorAttributeName,
+						 [NSColor colorWithCalibratedWhite:0.39 alpha:1.0],NSForegroundColorAttributeName,
 						 nil] retain];
 			sizeOfZero=[@"0" sizeWithAttributes:attributes];
 		
