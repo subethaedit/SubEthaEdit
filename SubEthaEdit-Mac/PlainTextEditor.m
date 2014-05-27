@@ -1463,8 +1463,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 - (void)handleRightMouseDownEvent:(NSEvent *)anEvent button:(TCMHoverButton *)aButton {
-	//	[self.document inviteUsersToDocumentViaSharingService:aButton];
-	[self showFirstUseHelp];
+	[self.document inviteUsersToDocumentViaSharingService:aButton];
 }
 
 - (void)showFirstUseHelp {

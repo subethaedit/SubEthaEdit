@@ -211,6 +211,15 @@ static AppController *sharedInstance = nil;
                                     forName:@"SaturationToWhiteColor"];
 }
 
+- (BOOL)didShowFirstUseWindowHelp {
+	return [[NSUserDefaults standardUserDefaults] boolForKey:@"SEE4_DID_SHOW_FIRST_USE_HELP"];
+}
+
+- (void)setDidShowFirstUseWindowHelp:(BOOL)didShowFirstUseWindowHelp {
+	[[NSUserDefaults standardUserDefaults] setBool:didShowFirstUseWindowHelp forKey:@"SEE4_DID_SHOW_FIRST_USE_HELP"];
+	[[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 - (void)addMe {
 	// add self as user
     TCMMMUser *me = [TCMMMUser new];

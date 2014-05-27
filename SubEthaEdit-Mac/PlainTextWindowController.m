@@ -991,6 +991,8 @@ static NSPoint S_cascadePoint = {0.0,0.0};
         [item setKeyEquivalent:@"W"];
         [item setKeyEquivalentModifierMask:NSShiftKeyMask | NSAlternateKeyMask | NSCommandKeyMask];
     }
+	
+	[self showFirstUseHelpIfNeeded];
 }
 
 - (void)windowDidResignKey:(NSNotification *)aNotification
@@ -1014,6 +1016,22 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     }
 }
 
+
+- (void)showFirstUseHelpIfNeeded {
+	if (![[AppController sharedInstance] didShowFirstUseWindowHelp]) {
+		PlainTextEditor *editorToShow = self.selectedTabContext.plainTextEditors.lastObject;
+		[NSOperationQueue TCM_performBlockOnMainQueue:^{
+			if (![[AppController sharedInstance] didShowFirstUseWindowHelp] &&
+				[editorToShow.plainTextWindowController selectedTabContext] == editorToShow.windowControllerTabContext &&
+				[editorToShow.plainTextWindowController.window isKeyWindow]) {
+				[editorToShow showFirstUseHelp];
+				[NSOperationQueue TCM_performBlockOnMainQueue:^{
+					[[AppController sharedInstance] setDidShowFirstUseWindowHelp:YES];
+				} afterDelay:2.0];
+			}
+		} afterDelay:3.0];
+	}
+}
 
 #pragma mark - NSWindowDelegate - Fullscreen
 
@@ -1117,7 +1135,6 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     // One case would be if the user attempts to move to full screen but then
     // immediately switches to Dashboard.
 }
-
 
 #pragma mark -
 #pragma mark Exit Full Screen

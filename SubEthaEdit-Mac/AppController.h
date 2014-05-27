@@ -52,6 +52,7 @@ extern NSString * const GlobalScriptsDidReloadNotification;
 }
 
 @property (nonatomic, assign) IBOutlet NSMenuItem *accessControlMenuItem;
+@property (nonatomic) BOOL didShowFirstUseWindowHelp;
 
 + (AppController *)sharedInstance;
 
