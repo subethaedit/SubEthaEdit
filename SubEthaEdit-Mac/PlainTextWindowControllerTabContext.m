@@ -458,7 +458,6 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 
 	[coder encodeObject:documentURLBookmark forKey:@"SEETabContextDocumentURLBookmark"];
 	[coder encodeObject:documentAutosaveURLBookmark forKey:@"SEETabContextDocumentAutosaveURLBookmark"];
-	[coder encodeObject:self.document.displayName forKey:@"SEETabContextDocumentDisplayName"];
 	[coder encodeBool:self.hasEditorSplit forKey:@"SEETabContextHasEditorSplit"];
 	[coder encodeBool:self.hasWebPreviewSplit forKey:@"SEETabContextHasWebPreviewSplit"];
 }

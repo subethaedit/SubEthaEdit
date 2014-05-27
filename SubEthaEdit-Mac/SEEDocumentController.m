@@ -757,9 +757,6 @@ NSString *const RecentDocumentsDidChangeNotification = @"RecentDocumentsDidChang
 																   bookmarkDataIsStale:NULL
 																				 error:NULL];
 
-						// TODO: We should restore the original display name for untitled documents
-//						NSString *tabDisplayName = [tabState decodeObjectForKey:@"SEETabContextDocumentDisplayName"];
-
 						if (! documentAutosaveURL) { // if there is no autosave file make sure to read from original URL
 							documentAutosaveURL = documentURL;
 						} else {
