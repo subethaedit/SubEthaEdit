@@ -157,13 +157,16 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
             </connections>
         </popover>
         <customView translatesAutoresizingMaskIntoConstraints="NO" id="5Xr-GH-ZCF" userLabel="UserName Popover View">
-            <rect key="frame" x="0.0" y="0.0" width="84" height="27"/>
+            <rect key="frame" x="0.0" y="0.0" width="51" height="27"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Fk9-Iw-pk8">
-                    <rect key="frame" x="3" y="5" width="78" height="17"/>
+                    <rect key="frame" x="3" y="5" width="45" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" refusesFirstResponder="YES" sendsActionOnEndEditing="YES" title="Name Label" id="x4c-Eo-uOI">
+                    <constraints>
+                        <constraint firstAttribute="height" constant="17" id="nBf-ow-42j"/>
+                    </constraints>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" refusesFirstResponder="YES" sendsActionOnEndEditing="YES" alignment="center" title="Name" id="x4c-Eo-uOI">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="alternateSelectedControlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
