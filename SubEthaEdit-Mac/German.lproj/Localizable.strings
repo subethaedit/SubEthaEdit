@@ -1038,3 +1038,6 @@
 
 "INFO_NUMBER_OF_WORDS_TOO_MANY" = "Zahllose Wörter";
 
+"FIRST_USE_INVITE_HELP_TEXT" = "Klicken um andere zur Zusammenarbeit in dieses Dokument einzuladen.";
+"FIRST_USE_ANNOUNCE_HELP_TEXT" = "Klicken um dieses Dokument im Netzwerk anzubieten. Rechts-Klicken um die Zugansgrechte für Eintreffende zu bestimmen.";
+
