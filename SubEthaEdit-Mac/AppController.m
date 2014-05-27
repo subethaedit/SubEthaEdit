@@ -504,10 +504,6 @@ static AppController *sharedInstance = nil;
 }
 
 #pragma mark - show mode bundle
-- (IBAction)showModeBundleContents:(id)aSender {
-	[self showModeBundleForTag:[aSender tag] jumpIntoContentFolder:YES];
-}
-
 - (IBAction)showModeBundle:(id)aSender {
 	[self showModeBundleForTag:[aSender tag] jumpIntoContentFolder:NO];
 }
