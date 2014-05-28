@@ -42,7 +42,7 @@
             <state id="Objective-C @clauses" type="block" foldable="yes" scope="meta.block.directives">
                 <begin>
                     <regex>(?:@implementation|@interface|@protocol)\s+[\w_]+(?:\s*(?:(?:\(\s*[\w_]+\s*\))|:\s*[\w_]+\s*))?</regex>
-					<autoend>@end</autoend>
+                    <autoend>@end</autoend>
                 </begin>
                 <end>
                     <regex>@end</regex>
@@ -50,11 +50,14 @@
                 <import mode="C" keywords-only="yes"/>
                 <import/>
             </state>
-            <keywords id="Methods" casesensitive="yes" scope="language.subroutine.method">
-                <regex>[^:]\([^)]*\)\s*([A-Za-z_][A-Za-z0-9_]*)\s*[{;]</regex>
-                <regex>\)\s*([A-Za-z_][A-Za-z0-9_]*:)</regex>
+            <keywords id="MethodCalls" casesensitive="yes" scope="language.subroutine.method">
                 <regex>\s([A-Za-z_][A-Za-z0-9_]+*:)</regex>
                 <regex>(?&lt;![:\s])\s+([A-Za-z_][A-Za-z0-9_]*)]</regex>
+            </keywords>
+            <keywords id="MethodDeclarations" casesensitive="yes" scope="language.declaration.subroutine">
+                <regex>[^:]\([^)]*\)\s*([A-Za-z_][A-Za-z0-9_]*)\s*[{;]</regex>
+                <regex>\)\s*([A-Za-z_][A-Za-z0-9_]*:)(?:\()</regex>
+                <regex>\)\s*(?:[A-Za-z_][A-Za-z0-9_]+)\s+([A-Za-z_][A-Za-z0-9_]+*:)(?:\()</regex>
             </keywords>
             <keywords id="Cocoa Classes" background-casesensitive="yes" useforautocomplete="yes" scope="support.class.standard.cocoa">
                 <string>ABActionDelegate</string>
