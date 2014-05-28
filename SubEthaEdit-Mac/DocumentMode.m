@@ -589,6 +589,11 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     return [defaultDefaults objectForKey:aKey];
 }
 
+- (void)reloadStyleSheetSettings {
+	[I_styleSheetSettings release];
+	I_styleSheetSettings = nil;
+}
+
 - (SEEStyleSheetSettings *)styleSheetSettingsOfThisMode {
 	if (!I_styleSheetSettings) {
 		I_styleSheetSettings = [[SEEStyleSheetSettings alloc] initWithDocumentMode:self];
