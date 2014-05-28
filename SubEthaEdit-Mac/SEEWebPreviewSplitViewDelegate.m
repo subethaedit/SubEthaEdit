@@ -84,6 +84,13 @@
 			firstSubview.frame = firstSubviewFrame;
 			secondSubview.frame = secondSubviewFrame;
 		} else {
+			firstSubviewFrame.size.width = MAX(SEEMinWebPreviewWidth, MIN(round(newSplitViewSize.width / 2.0), newSplitViewSize.width - SEEMinEditorWidth));
+			secondSubviewFrame.size.width = newSplitViewSize.width - firstSubviewFrame.size.width - dividerThickness;
+			secondSubviewFrame.origin.x = firstSubviewFrame.size.width + dividerThickness;
+
+			firstSubview.frame = firstSubviewFrame;
+			secondSubview.frame = secondSubviewFrame;
+
 			[splitView adjustSubviews];
 		}
 	} else {
