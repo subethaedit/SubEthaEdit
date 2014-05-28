@@ -344,7 +344,9 @@
                     [delegate profile:self didReceiveUserChangeToReadOnly:(UserChangeOperation *)operation];
                 }
             }
-            [I_MMState handleMessage:message];
+			if ([I_MMState isKindOfClass:[TCMMMState class]]) {
+				[I_MMState handleMessage:message];
+			}
         } else if (strncmp(type, "USRCHG",6)==0) {
             TCMMMUser *user=[TCMMMUser userWithBencodedNotification:[[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)]];
             if (user) {
