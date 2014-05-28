@@ -715,14 +715,14 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 - (void)menuNeedsUpdate:(NSMenu *)menu {
 	NSTableView *tableView = self.tableViewOutlet;
 	id <SEEDocumentListItem> clickedItem = nil;
-    BOOL clickedOnMultipleItems = NO;
+	//    BOOL clickedOnMultipleItems = NO;
 
 	NSInteger row = tableView.clickedRow;
 	NSInteger column = tableView.clickedColumn;
 	if (row > -1) {
 		NSTableCellView *tableCell = [tableView viewAtColumn:column row:row makeIfNecessary:NO];
 		clickedItem = tableCell.objectValue;
-		clickedOnMultipleItems = [tableView isRowSelected:row] && ([tableView numberOfSelectedRows] > 1);
+		// clickedOnMultipleItems = [tableView isRowSelected:row] && ([tableView numberOfSelectedRows] > 1);
 	}
 
     if (menu == self.listItemContextMenuOutlet) {
