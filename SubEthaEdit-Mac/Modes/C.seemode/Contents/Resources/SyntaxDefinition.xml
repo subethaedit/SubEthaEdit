@@ -82,7 +82,14 @@
                 <keywords id="Numbers" useforautocomplete="no" scope="language.constant.numeric.preprocessor">
                     <regex>(?&lt;=[^\w\d]|^)(([+-]?(([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(([uU][lL]?)|([lL][uU]?))?))(?=[^\w\d]|$)</regex>
                 </keywords>
+                <keywords id="AnglePathInPreprocessor" type="string" scope="string.angle.preprocessor">
+                    <regex>(&lt;[-\w_\.]+(?:/[-\w_\.]+)*>)</regex>
+                </keywords>
                 <state-link state="Comment"/>
+                <state id="String in Preprocessor" type="string" foldable="no" scope="string.double.preprocessor">
+                    <begin><regex>"</regex></begin>
+                    <end><regex>((?&lt;!\\)(\\\\)*)"</regex></end>
+                </state>
                 <state id="SingleComment in Preprocessor" type="comment" scope="comment.line.double-slash">
                     <begin><regex>//</regex></begin>
                     <end><regex>.(?=[\n\r])</regex></end>
