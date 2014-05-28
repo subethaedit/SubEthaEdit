@@ -15,10 +15,16 @@ static void SEEHovertTableRowDrawSeparatorInRect(NSRect rect);
 
 @implementation SEEHoverTableRowView
 
+- (void)setEmphasized:(BOOL)emphasized {
+	[super setEmphasized:emphasized];
+	// this is also sent on key state change, so let us mark ourselves as dirty so we show the hover initially
+	[self setNeedsDisplay:YES];
+}
+
 - (void)setMouseInside:(BOOL)value {
     if (_mouseInside != value) {
         _mouseInside = value;
-        [self setNeedsDisplay:YES];
+		[self setNeedsDisplay:YES];
     }
 }
 

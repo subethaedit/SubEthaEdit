@@ -1453,12 +1453,15 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 		containingView.frame = textView.frame;
 		
 		[containingView addSubview:textView];
-		containingView;
+		[textView release];
+		[containingView autorelease];
 	});
 	;
 	popover.contentViewController = viewController;
+	[viewController release];
 	//	popover.behavior = NSPopoverBehaviorSemitransient;
 	[popover showRelativeToRect:NSZeroRect ofView:aView preferredEdge:anEdge];
+	[popover autorelease];
 	return popover;
 }
 
@@ -1468,8 +1471,8 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
 - (void)showFirstUseHelp {
 	NSArray *popovers = @[
-	[self showHelpPopoverWithText:NSLocalizedString(@"FIRST_USE_INVITE_HELP_TEXT", @"") forView:self.shareInviteUsersButtonOutlet preferredEdge:NSMinYEdge],
-	[self showHelpPopoverWithText:NSLocalizedString(@"FIRST_USE_ANNOUNCE_HELP_TEXT",@"") forView:self.shareAnnounceButtonOutlet preferredEdge:NSMaxYEdge],
+	[self showHelpPopoverWithText:NSLocalizedString(@"FIRST_USE_INVITE_HELP_TEXT", @"") forView:self.shareInviteUsersButtonOutlet preferredEdge:NSMinXEdge],
+	[self showHelpPopoverWithText:NSLocalizedString(@"FIRST_USE_ANNOUNCE_HELP_TEXT",@"") forView:self.shareAnnounceButtonOutlet preferredEdge:NSMaxXEdge],
 	];
 	[NSOperationQueue TCM_performBlockOnMainQueue:^{
 		for (NSPopover *popover in popovers) {

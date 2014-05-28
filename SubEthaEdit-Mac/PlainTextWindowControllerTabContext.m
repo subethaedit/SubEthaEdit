@@ -312,6 +312,25 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 		[webPreviewSplitView addSubview:viewRepresentedByTab];
 
 		[self.windowController updateWindowMinSize];
+
+		{ // initally try to split the window half/half
+			CGFloat dividerThickness = webPreviewSplitView.dividerThickness;
+			NSSize newSplitViewSize = webPreviewSplitView.bounds.size;
+
+			NSView *firstSubview = webPreviewSplitView.subviews[0];
+			NSView *secondSubview = webPreviewSplitView.subviews[1];
+
+			NSRect firstSubviewFrame = firstSubview.frame;
+			NSRect secondSubviewFrame = secondSubview.frame;
+
+			firstSubviewFrame.size.width = MAX(SEEMinWebPreviewWidth, MIN(round(newSplitViewSize.width / 2.0), newSplitViewSize.width - SEEMinEditorWidth));
+			secondSubviewFrame.size.width = newSplitViewSize.width - firstSubviewFrame.size.width - dividerThickness;
+			secondSubviewFrame.origin.x = firstSubviewFrame.size.width + dividerThickness;
+
+			firstSubview.frame = firstSubviewFrame;
+			secondSubview.frame = secondSubviewFrame;
+		}
+
 		[webPreviewSplitView adjustSubviews];
 
 		[webPreviewViewController refreshAndEmptyCache:self];
@@ -458,7 +477,6 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 
 	[coder encodeObject:documentURLBookmark forKey:@"SEETabContextDocumentURLBookmark"];
 	[coder encodeObject:documentAutosaveURLBookmark forKey:@"SEETabContextDocumentAutosaveURLBookmark"];
-	[coder encodeObject:self.document.displayName forKey:@"SEETabContextDocumentDisplayName"];
 	[coder encodeBool:self.hasEditorSplit forKey:@"SEETabContextHasEditorSplit"];
 	[coder encodeBool:self.hasWebPreviewSplit forKey:@"SEETabContextHasWebPreviewSplit"];
 }

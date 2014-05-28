@@ -757,9 +757,6 @@ NSString *const RecentDocumentsDidChangeNotification = @"RecentDocumentsDidChang
 																   bookmarkDataIsStale:NULL
 																				 error:NULL];
 
-						// TODO: We should restore the original display name for untitled documents
-//						NSString *tabDisplayName = [tabState decodeObjectForKey:@"SEETabContextDocumentDisplayName"];
-
 						if (! documentAutosaveURL) { // if there is no autosave file make sure to read from original URL
 							documentAutosaveURL = documentURL;
 						} else {
@@ -1603,7 +1600,6 @@ struct ModificationInfo
 		NSString *destinationPath = [destinationURL path];
 		
 		if (![fileName isEqualToString:destinationPath]) {
-			// TODO: check errors here and present alert which is currently in fileManager:shouldProceedAfterError:
 			NSFileManager *fileManager = [NSFileManager defaultManager];
 			NSError *error = nil;
 			BOOL modeExists = [fileManager fileExistsAtPath:destinationPath];

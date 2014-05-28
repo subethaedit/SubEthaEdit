@@ -539,8 +539,14 @@ static DocumentModeManager *S_sharedInstance=nil;
 }
 
 - (void)reloadAllStyles {
+	[I_styleSheetsByName removeAllObjects];
 	[I_styleSheetPathsByName removeAllObjects];
 	[self TCM_findStyles];
+	for (DocumentMode *mode in self.allLoadedDocumentModes) {
+		[mode reloadStyleSheetSettings];
+	}
+	// trigger update in open documents
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"StyleSheetsDidChange" object:self];
 }
 
 - (SEEStyleSheet *)duplicateStyleSheet:(SEEStyleSheet *)aStyleSheet {
@@ -690,8 +696,6 @@ static DocumentModeManager *S_sharedInstance=nil;
     
     [self setModePrecedenceArray:[self reloadPrecedences]];
     [self revalidatePrecedences];
-
-
 }
 
 - (void)resolveAllDependenciesForMode:(DocumentMode *)aMode {

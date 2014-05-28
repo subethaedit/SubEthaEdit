@@ -26,7 +26,9 @@
 			[[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[userScriptsDirectory]];
 
 			// open URL in browser
-			[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.subethaedit.net/authentication-helper"]];
+			[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedString(@"WEBSITE_AUTHENTICATION_HELPER", @"Authentication Helper Website Link")]];
+
+
 		}
 	}
 

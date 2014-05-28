@@ -336,18 +336,6 @@
 /* HTML Color Error Title */
 "HTML Color Error" = "Fehlerhafte HTML-Farbe";
 
-/* WebSite Link */
-"http://www.subethaedit.net/" = "http://www.subethaedit.de/";
-
-/* BugTracker Deep Link */
-"http://www.subethaedit.net/bugs/?version=%@" = "https://www.codingmonkeys.de/bugs/public/report/SEE?version=%@";
-
-/* Feedback Link */
-"http://www.subethaedit.net/feedback.html" = "http://www.subethaedit.de/feedback.de.html";
-
-/* WebSite Mode Link */
-"http://www.subethaedit.net/modes.html" = "http://www.subethaedit.net/modes.de.html";
-
 /* Warning in the alert panel which comes up when user chooses Quit and there are unsaved documents. */
 "If you don\\U2019t review your documents, all your changes will be lost." = "Wenn Sie Ihre Dokumente nicht noch einmal überprüfen, gehen alle Änderungen verloren.";
 
@@ -1010,7 +998,7 @@
 
 
 /* authentication script not installed error dialog */
-"AUTHENTICATION_SCRIPT_MISSING_ERROR_DESCRIPTION" = "Unterstützendes authentifizierungs Script konnte nicht gefunden werden.";
+"AUTHENTICATION_SCRIPT_MISSING_ERROR_DESCRIPTION" = "Unterstützendes Authentifizierungs-Script konnte nicht gefunden werden.";
 "AUTHENTICATION_SCRIPT_MISSING_ERROR_SUGGESTION" = "Bitte laden sie sich das Script von unsere Webseite herunter und folgen die den Installationsanweisungen.";
 "AUTHENTICATION_SCRIPT_MISSING_ERROR_BUTTON_TITLE1" = "Webseite besuchen…";
 "AUTHENTICATION_SCRIPT_MISSING_ERROR_BUTTON_TITLE2" = "Ignorieren";
@@ -1037,4 +1025,11 @@
 
 "FIRST_USE_INVITE_HELP_TEXT" = "Klicken um andere zur Zusammenarbeit in dieses Dokument einzuladen.";
 "FIRST_USE_ANNOUNCE_HELP_TEXT" = "Klicken um dieses Dokument im Netzwerk anzubieten. Rechts-Klicken um die Zugansgrechte für Eintreffende zu bestimmen.";
+
+/* WebSite Links */
+"WEBSITE_FAQ" = "http://subethaedit.net/fragen";
+"WEBSITE_ADDITIONAL_MODES" = "http://subethaedit.net/modi";
+"WEBSITE_AUTHENTICATION_HELPER" = "http://subethaedit.net/authentifizierungshelfer";
+"WEBSITE_COMMANDLINETOOL" = "http://subethaedit.net/kommandozeilentool";
+
 

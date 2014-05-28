@@ -288,6 +288,8 @@ static AppController *sharedInstance = nil;
 #define MODEMENUNAMETAG 20 
 
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
+	// For first use testing
+	// [self setDidShowFirstUseWindowHelp:NO];
 
     // test for compression...
 //    int i=0;
@@ -946,20 +948,12 @@ static AppController *sharedInstance = nil;
     [self TCM_showPlainTextFile:path];
 }
 
-- (IBAction)visitWebsite:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedString(@"http://www.subethaedit.net/",@"WebSite Link")]];
+- (IBAction)visitFAQWebsite:(id)sender {
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedString(@"WEBSITE_FAQ",@"FAQ WebSite Link")]];
 }
 
 - (IBAction)additionalModes:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedString(@"http://www.subethaedit.net/modes.html",@"WebSite Mode Link")]];
-}
-
-- (IBAction)reportBug:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:NSLocalizedString(@"http://www.subethaedit.net/bugs/?version=%@",@"BugTracker Deep Link"),[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]]]];
-}
-
-- (IBAction)provideFeedback:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedString(@"http://www.subethaedit.net/feedback.html",@"Feedback Link")]];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedString(@"WEBSITE_ADDITIONAL_MODES",@"WebSite Mode Link")]];
 }
 
 - (void)changeFont:(id)aSender {

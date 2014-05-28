@@ -1038,7 +1038,7 @@
                             </menuItem>
                             <menuItem title="FAQ and Support" id="469">
                                 <connections>
-                                    <action selector="visitWebsite:" target="210" id="494"/>
+                                    <action selector="visitFAQWebsite:" target="210" id="l0b-np-hrX"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Additional Modes" id="655">

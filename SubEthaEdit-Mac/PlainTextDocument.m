@@ -285,6 +285,8 @@ static NSString *tempFileName(NSString *origPath) {
 
 	[center addObserver:self selector:@selector(documentModeListChanged:) 
 	  name:@"DocumentModeListChanged" object:nil];
+	[center addObserver:self selector:@selector(styleSheetsDidChange:)
+				   name:@"StyleSheetsDidChange" object:nil];
 
     I_blockeditTextView=nil;
 
@@ -319,10 +321,14 @@ static NSString *tempFileName(NSString *origPath) {
     }
 }
 
+- (void)styleSheetsDidChange:(NSNotification *)aNotification {
+	[self applyStylePreferences];
+}
+
 - (void)applyStylePreferences {
     [self takeStyleSettingsFromDocumentMode];
 	[I_textStorage addAttributes:[self plainTextAttributes]
-				   range:NSMakeRange(0,[I_textStorage length])];
+				   range:I_textStorage.TCM_fullLengthRange];
 }
 
 - (void)applyStylePreferences:(NSNotification *)aNotification {

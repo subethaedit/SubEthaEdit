@@ -1023,13 +1023,14 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 		[NSOperationQueue TCM_performBlockOnMainQueue:^{
 			if (![[AppController sharedInstance] didShowFirstUseWindowHelp] &&
 				[editorToShow.plainTextWindowController selectedTabContext] == editorToShow.windowControllerTabContext &&
-				[editorToShow.plainTextWindowController.window isKeyWindow]) {
+				[editorToShow.plainTextWindowController.window isKeyWindow] &&
+				[(PlainTextDocument *)[editorToShow.plainTextWindowController document] session].isServer) {
 				[editorToShow showFirstUseHelp];
 				[NSOperationQueue TCM_performBlockOnMainQueue:^{
 					[[AppController sharedInstance] setDidShowFirstUseWindowHelp:YES];
 				} afterDelay:2.0];
 			}
-		} afterDelay:3.0];
+		} afterDelay:1.5];
 	}
 }
 
