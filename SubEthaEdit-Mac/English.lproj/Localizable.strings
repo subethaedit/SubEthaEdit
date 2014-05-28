@@ -919,7 +919,7 @@
 "FIRST_USE_ANNOUNCE_HELP_TEXT" = "Click to Announce this Document to the network.\nRight-Click to also set initial Access Rights for incoming Users.";
 
 /* WebSite Links */
-"WEBSITE_FAQ" = "http://subethaedit.net/faq.html";
-"WEBSITE_ADDITIONAL_MODES" = "http://subethaedit.net/modes.html";
-"WEBSITE_AUTHENTICATION_HELPER" = "http://subethaedit.net/authentication-helper.html";
-"WEBSITE_COMMANDLINETOOL" = "http://subethaedit.net/commandlinetool.html";
+"WEBSITE_FAQ" = "http://subethaedit.net/faq";
+"WEBSITE_ADDITIONAL_MODES" = "http://subethaedit.net/modes";
+"WEBSITE_AUTHENTICATION_HELPER" = "http://subethaedit.net/authenticationhelper";
+"WEBSITE_COMMANDLINETOOL" = "http://subethaedit.net/commandlinetool";

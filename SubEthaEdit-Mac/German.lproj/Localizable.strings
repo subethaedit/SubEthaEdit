@@ -998,7 +998,7 @@
 
 
 /* authentication script not installed error dialog */
-"AUTHENTICATION_SCRIPT_MISSING_ERROR_DESCRIPTION" = "Unterstützendes authentifizierungs Script konnte nicht gefunden werden.";
+"AUTHENTICATION_SCRIPT_MISSING_ERROR_DESCRIPTION" = "Unterstützendes Authentifizierungs-Script konnte nicht gefunden werden.";
 "AUTHENTICATION_SCRIPT_MISSING_ERROR_SUGGESTION" = "Bitte laden sie sich das Script von unsere Webseite herunter und folgen die den Installationsanweisungen.";
 "AUTHENTICATION_SCRIPT_MISSING_ERROR_BUTTON_TITLE1" = "Webseite besuchen…";
 "AUTHENTICATION_SCRIPT_MISSING_ERROR_BUTTON_TITLE2" = "Ignorieren";
@@ -1027,9 +1027,9 @@
 "FIRST_USE_ANNOUNCE_HELP_TEXT" = "Klicken um dieses Dokument im Netzwerk anzubieten. Rechts-Klicken um die Zugansgrechte für Eintreffende zu bestimmen.";
 
 /* WebSite Links */
-"WEBSITE_FAQ" = "http://subethaedit.net/faq.de.html";
-"WEBSITE_ADDITIONAL_MODES" = "http://subethaedit.net/modes.de.html";
-"WEBSITE_AUTHENTICATION_HELPER" = "http://subethaedit.net/authentication-helper.de.html";
-"WEBSITE_COMMANDLINETOOL" = "http://subethaedit.net/commandlinetool.de.html";
+"WEBSITE_FAQ" = "http://subethaedit.net/fragen";
+"WEBSITE_ADDITIONAL_MODES" = "http://subethaedit.net/modi";
+"WEBSITE_AUTHENTICATION_HELPER" = "http://subethaedit.net/authentifizierungshelfer";
+"WEBSITE_COMMANDLINETOOL" = "http://subethaedit.net/kommandozeilentool";
 
 
