@@ -1063,6 +1063,7 @@
                 <string>@synchronized</string>
                 <string>@synthesize</string>
                 <string>@throw</string>
+                <string>@autoreleasepool</string>
                 <string>@try</string>
                 <string>BOOL</string>
                 <string>Class</string>
@@ -1072,6 +1073,13 @@
                 <string>Nil</string>
                 <string>SEL</string>
                 <string>YES</string>
+                <string>__autoreleasing</string>
+                <string>__typeof__</string>
+                <string>__unsafe_unretained</string>
+                <string>__block</string>
+                <string>__bridge</string>
+                <string>__bridge_retained</string>
+                <string>__bridge_transfer</string>
                 <string>__attribute__</string>
                 <string>__strong</string>
                 <string>__weak</string>
@@ -1086,9 +1094,14 @@
                 <string>self</string>
                 <string>setter</string>
                 <string>super</string>
+                <string>instancetype</string>
+                <string>copy</string>
+                <string>weak</string>
+                <string>strong</string>
+                <string>unsafe_unretained</string>
             </keywords>
             <keywords id="Memory Management" useforautocomplete="yes" scope="meta.important.memorymanagement">
-                <regex>(?&lt;![\w:_])(new|allocWithZone:|alloc|autorelease|copyWithZone:|copy|mutableCopyWithZone:|mutableCopy|retain|release)(?![\w:_])</regex>
+                <regex>(?&lt;![\w:_])(autorelease|retain|release)(?![\w:_])</regex>
             </keywords>
             <keywords id="Cocoa Functions" useforautocomplete="yes" scope="support.subroutine.standard.cocoa">
                 <string>ABAddPropertiesAndTypes</string>
@@ -1194,6 +1207,9 @@
                 <string>AudioComponentRegister</string>
                 <string>CFRelease</string>
                 <string>CFRetain</string>
+                <string>CFAutorelease</string>
+                <string>CFBridgingRetain</string>
+                <string>CFBridgingRelease</string>
                 <string>CFStringTokenizerAdvanceToNextToken</string>
                 <string>CFStringTokenizerCopyBestStringLanguage</string>
                 <string>CFStringTokenizerCopyCurrentTokenAttribute</string>
