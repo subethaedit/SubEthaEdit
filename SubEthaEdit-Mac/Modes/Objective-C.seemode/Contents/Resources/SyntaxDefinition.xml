@@ -13,6 +13,10 @@
     <states>
         <default id="Base" usesymbolsfrommode="Objective-C" useautocompletefrommode="Objective-C" scope="meta.default">
             <import mode="C" keywords-only="yes"/>
+            <keywords id="FunctionRegexFalsePositives" useforautocomplete="no" scope="meta.default">
+				<regex>(?:@implementation|@interface|@protocol)\s+([A-Za-z0-9_]+ *)\(</regex>
+            </keywords>
+
             <state-link mode="C" state="Characters"/>
             <state-link mode="C" state="Preprocessor"/>
             <state-link mode="C" state="DoxyGen Comment"/>
