@@ -66,10 +66,10 @@ extern NSString * const GlobalScriptsDidReloadNotification;
 - (IBAction)showAcknowledgements:(id)sender;
 - (IBAction)showRegExHelp:(id)sender;
 - (IBAction)showReleaseNotes:(id)sender;
-- (IBAction)visitWebsite:(id)sender;
+
+- (IBAction)visitFAQWebsite:(id)sender;
 - (IBAction)additionalModes:(id)sender;
-- (IBAction)reportBug:(id)sender;
-- (IBAction)provideFeedback:(id)sender;
+
 - (IBAction)showStyleSheetEditorWindow:(id)aSender;
 
 - (NSArray *)contextMenuItemArray;

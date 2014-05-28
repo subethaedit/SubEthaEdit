@@ -44,7 +44,7 @@
 #pragma mark -
 
 - (IBAction)visitCommandLineToolWebsite:(id)sender {
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://subethaedit.net/commandlinetool/"]];
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedString(@"WEBSITE_COMMANDLINETOOL", @"CommandLineTool Website Link")]];
 }
 
 #pragma mark -
