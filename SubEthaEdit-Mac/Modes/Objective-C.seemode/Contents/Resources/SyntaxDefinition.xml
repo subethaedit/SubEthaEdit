@@ -13,6 +13,10 @@
     <states>
         <default id="Base" usesymbolsfrommode="Objective-C" useautocompletefrommode="Objective-C" scope="meta.default">
             <import mode="C" keywords-only="yes"/>
+            <keywords id="FunctionRegexFalsePositives" useforautocomplete="no" scope="meta.default">
+				<regex>(?:@implementation|@interface|@protocol)\s+([A-Za-z0-9_]+ *)\(</regex>
+            </keywords>
+
             <state-link mode="C" state="Characters"/>
             <state-link mode="C" state="Preprocessor"/>
             <state-link mode="C" state="DoxyGen Comment"/>
@@ -42,7 +46,7 @@
             <state id="Objective-C @clauses" type="block" foldable="yes" scope="meta.block.directives">
                 <begin>
                     <regex>(?:@implementation|@interface|@protocol)\s+[\w_]+(?:\s*(?:(?:\(\s*[\w_]+\s*\))|:\s*[\w_]+\s*))?</regex>
-					<autoend>@end</autoend>
+                    <autoend>@end</autoend>
                 </begin>
                 <end>
                     <regex>@end</regex>
@@ -50,11 +54,14 @@
                 <import mode="C" keywords-only="yes"/>
                 <import/>
             </state>
-            <keywords id="Methods" casesensitive="yes" scope="language.subroutine.method">
-                <regex>[^:]\([^)]*\)\s*([A-Za-z_][A-Za-z0-9_]*)\s*[{;]</regex>
-                <regex>\)\s*([A-Za-z_][A-Za-z0-9_]*:)</regex>
+            <keywords id="MethodCalls" casesensitive="yes" scope="language.subroutine.method">
                 <regex>\s([A-Za-z_][A-Za-z0-9_]+*:)</regex>
                 <regex>(?&lt;![:\s])\s+([A-Za-z_][A-Za-z0-9_]*)]</regex>
+            </keywords>
+            <keywords id="MethodDeclarations" casesensitive="yes" scope="language.declaration.subroutine">
+                <regex>[^:]\([^)]*\)\s*([A-Za-z_][A-Za-z0-9_]*)\s*[{;]</regex>
+                <regex>\)\s*([A-Za-z_][A-Za-z0-9_]*:)(?:\()</regex>
+                <regex>\)\s*(?:[A-Za-z_][A-Za-z0-9_]+)\s+([A-Za-z_][A-Za-z0-9_]+*:)(?:\()</regex>
             </keywords>
             <keywords id="Cocoa Classes" background-casesensitive="yes" useforautocomplete="yes" scope="support.class.standard.cocoa">
                 <string>ABActionDelegate</string>
@@ -1056,6 +1063,7 @@
                 <string>@synchronized</string>
                 <string>@synthesize</string>
                 <string>@throw</string>
+                <string>@autoreleasepool</string>
                 <string>@try</string>
                 <string>BOOL</string>
                 <string>Class</string>
@@ -1065,6 +1073,13 @@
                 <string>Nil</string>
                 <string>SEL</string>
                 <string>YES</string>
+                <string>__autoreleasing</string>
+                <string>__typeof__</string>
+                <string>__unsafe_unretained</string>
+                <string>__block</string>
+                <string>__bridge</string>
+                <string>__bridge_retained</string>
+                <string>__bridge_transfer</string>
                 <string>__attribute__</string>
                 <string>__strong</string>
                 <string>__weak</string>
@@ -1079,9 +1094,14 @@
                 <string>self</string>
                 <string>setter</string>
                 <string>super</string>
+                <string>instancetype</string>
+                <string>copy</string>
+                <string>weak</string>
+                <string>strong</string>
+                <string>unsafe_unretained</string>
             </keywords>
             <keywords id="Memory Management" useforautocomplete="yes" scope="meta.important.memorymanagement">
-                <regex>(?&lt;![\w:_])(new|allocWithZone:|alloc|autorelease|copyWithZone:|copy|mutableCopyWithZone:|mutableCopy|retain|release)(?![\w:_])</regex>
+                <regex>(?&lt;![\w:_])(autorelease|retain|release)(?![\w:_])</regex>
             </keywords>
             <keywords id="Cocoa Functions" useforautocomplete="yes" scope="support.subroutine.standard.cocoa">
                 <string>ABAddPropertiesAndTypes</string>
@@ -1187,6 +1207,9 @@
                 <string>AudioComponentRegister</string>
                 <string>CFRelease</string>
                 <string>CFRetain</string>
+                <string>CFAutorelease</string>
+                <string>CFBridgingRetain</string>
+                <string>CFBridgingRelease</string>
                 <string>CFStringTokenizerAdvanceToNextToken</string>
                 <string>CFStringTokenizerCopyBestStringLanguage</string>
                 <string>CFStringTokenizerCopyCurrentTokenAttribute</string>
@@ -2432,6 +2455,8 @@
                 <string>NSZeroRect</string>
                 <string>NSZeroSize</string>
                 <string>NSZone</string>
+                <string>NSUInteger</string>
+                <string>NSInteger</string>
             </keywords>
             <keywords id="Cocoa Constants" useforautocomplete="yes" scope="support.constant.cocoa">
                 <string>AUHostVersionIdentifier</string>
