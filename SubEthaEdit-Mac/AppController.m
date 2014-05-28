@@ -288,6 +288,8 @@ static AppController *sharedInstance = nil;
 #define MODEMENUNAMETAG 20 
 
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
+	// For first use testing
+	// [self setDidShowFirstUseWindowHelp:NO];
 
     // test for compression...
 //    int i=0;
