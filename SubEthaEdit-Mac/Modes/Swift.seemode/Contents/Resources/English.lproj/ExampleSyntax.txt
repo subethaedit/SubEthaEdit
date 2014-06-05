@@ -1,0 +1,18 @@
+// Example.m
+#import "Example.h"
+
+#pragma mark -
+NSString * const ExampleImportantKey = @"VeryImportant";
+static Example *defaultExample = nil;
+
+@interface Example()
+@property (nonatomic, retain) NSArray *listOfExamples;
+@end
+
+@implementation Example
+@synthesize listOfExamples;
++ (void)initialize {
+	CFURLRef url = CFURLCreateWithFileSystemPath(NULL, (CFStringRef)CFSTR("www.example.com"), kCFURLPOSIXPathStyle, 1);
+	NSMutableSet *set = [[NSMutableSet alloc] init] autorelease];
+}
+@end
