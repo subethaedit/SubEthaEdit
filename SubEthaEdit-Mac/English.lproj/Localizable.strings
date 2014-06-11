@@ -825,6 +825,9 @@
 /* Mode requires newer engine Informative Text */
 "The mode '%@' was written for a newer version of SubEthaEngine and cannot be used with this application." = "The mode '%@' was written for a newer version of SubEthaEngine and cannot be used with this application.";
 
+/* Invitation format string used in sharing service picker. %@ will be replaced with the user name. */
+"Invite %@" = "Invite %@";
+
 "FIND_REPLACE_PANEL_FINDALL" = "Find All";
 "FIND_REPLACE_PANEL_REPLACE" = "Replace";
 "FIND_REPLACE_PANEL_REPLACEALL" = "Replace All";

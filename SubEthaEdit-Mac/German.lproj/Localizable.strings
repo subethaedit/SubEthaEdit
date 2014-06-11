@@ -922,6 +922,8 @@
 /* FileName placeholder that gets displayed when SEE needs the user to grant access to an unopend file. */
 "ScopedBookmarkAllowFileMessageUnknownFileName" = "Daten";
 
+/* Invitation format string used in sharing service picker. %@ will be replaced with the user name. */
+"Invite %@" = "%@ einladen";
 
 /* Collaboration Preference Pane */
 "COLLAB_USER_NAME_LABEL" = "Name:";
