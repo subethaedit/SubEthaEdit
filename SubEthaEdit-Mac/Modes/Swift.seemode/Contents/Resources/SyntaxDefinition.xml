@@ -13,6 +13,12 @@
     <states>
         <default id="Base" usesymbolsfrommode="Swift" useautocompletefrommode="Swift" scope="meta.default">
 
+			<!-- shebang - swift actually ignores the first line if it starts with #! - no way to do this here though -->
+			<state id="Firstline Unix Comment" type="comment" scope="comment.line">
+				<begin><regex>\A#!/</regex></begin>
+				<end><regex>[\n\r]</regex></end>
+			</state>
+
             <keywords id="FunctionRegex" useforautocomplete="no" scope="language.subroutine.function">
 				<regex>([A-Za-z0-9_]+ *)\(</regex>
             </keywords>
@@ -21,13 +27,28 @@
 				<string>Type</string>
 				<string>Protocol</string>
 				<string>Array</string>
+				<string>Dictionary</string>
 				<string>String</string>
 				<string>Int</string>
+				<string>Int8</string>
+				<string>Int16</string>
+				<string>Int32</string>
+				<string>Int64</string>
+				<string>UInt</string>
+				<string>UInt8</string>
+				<string>UInt16</string>
+				<string>UInt32</string>
+				<string>UInt64</string>
+				<string>Double</string>
+				<string>Float</string>
 				<string>Bool</string>
 			</keywords>
 			
             <keywords id="Keywords" useforautocomplete="yes" scope="keyword">
 				<string>for</string>
+				<string>in</string>
+				<string>is</string>
+				<string>as</string>
 				<string>do</string>
 				<string>while</string>
 				<string>if</string>
@@ -35,10 +56,11 @@
 				<string>switch</string>
 				<string>case</string>
 				<string>default</string>
+				<string>dynamicType</string>
 				<string>where</string>
 				<string>break</string>
 				<string>continue</string>
-				<string>fallthough</string>
+				<string>fallthrough</string>
 				<string>return</string>
 				<string>where</string>
 				<string>class</string>
@@ -107,6 +129,12 @@
 				<regex>(@\w+)</regex>
             </keywords>
 
+            <keywords id="Literals" useforautocomplete="yes" scope="keyword.constant">
+                <string>true</string>
+                <string>false</string>
+                <string>nil</string>
+            </keywords>
+
             
             <keywords id="Numbers" inverted-useforautocomplete="no" scope="language.constant.numeric">
 				<regex>(?&lt;![\w\d_])((?:[+-]?(?:(?:[0-9]+\.[0-9]*)|(?:\.[0-9]+))(?:[eE][+\-]?[0-9]+)?[fFlL]?)|(?:(?:(?:[1-9][0-9]*)|0[0-7]*|(?:0[xX][0-9a-fA-F]+))(?:(?:[uU][lL]?)|(?:[lL][uU]?))?))(?![\w\d_])</regex>
@@ -142,17 +170,16 @@
             <state id="String" type="string" foldable="no" scope="string.double">
                 <begin><regex>"</regex></begin>
                 <end><regex>((?&lt;!\\)(\\\\)*)"</regex></end>
-            </state>
-
-            <state id="Block" type="block" foldable="yes" intend="yes" scope="meta.block.curly">
-                <begin><regex>{</regex><autoend>}</autoend></begin>
-                <end><regex>}</regex></end>
+                <state id="Interpolation" scope="meta.block.interpolation" indent="no">
+                <begin><regex>\\\(</regex><autoend>\)</autoend></begin>
+                <end><regex>\)</regex></end>
                 <import/>
+                </state>
             </state>
 
             <state id="Block" type="block" foldable="yes" indent="yes" scope="meta.block">
                 <begin>
-                    <regex>(?:^[ \t]*[-+][^(-;]*\([A-Za-z0-9 *_]*\)[A-Za-z0-9_ \t\n\r]+)?{</regex>
+                    <regex>{</regex>
                     <autoend>}</autoend>
                 </begin>
                 <end>
