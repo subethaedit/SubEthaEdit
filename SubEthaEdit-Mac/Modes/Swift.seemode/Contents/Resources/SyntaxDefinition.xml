@@ -26,6 +26,8 @@
             <keywords id="Types" useforautocomplete="yes" scope="keyword.type">
 				<string>Type</string>
 				<string>Protocol</string>
+				<string>AnyObject</string>
+				<string>Any</string>
 				<string>Array</string>
 				<string>Dictionary</string>
 				<string>String</string>
