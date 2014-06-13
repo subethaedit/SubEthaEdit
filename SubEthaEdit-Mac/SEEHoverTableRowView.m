@@ -29,10 +29,16 @@ static void SEEHovertTableRowDrawSeparatorInRect(NSRect rect);
 }
 
 - (void)TCM_updateMouseInside {
-	NSPoint mouseLocationInBounds = [self convertPoint:[[self window] convertScreenToBase:[NSEvent mouseLocation]] fromView:nil];
-	BOOL isInside = NSMouseInRect(mouseLocationInBounds, self.bounds, self.isFlipped);
-	//	NSLog(@"%s isInside: %@ - %@",__FUNCTION__,isInside?@"YES":@"NO",NSStringFromPoint(mouseLocationInBounds));
-	self.mouseInside = isInside;
+    NSWindow *window = self.window;
+    if (window) {
+        NSPoint mouseLocationInWindow = [window mouseLocationOutsideOfEventStream];
+        NSPoint mouseLocationInBounds = [self convertPoint:mouseLocationInWindow fromView:nil];
+        BOOL isInside = NSMouseInRect(mouseLocationInBounds, self.bounds, self.isFlipped);
+        //	NSLog(@"%s isInside: %@ - %@",__FUNCTION__,isInside?@"YES":@"NO",NSStringFromPoint(mouseLocationInBounds));
+        self.mouseInside = isInside;
+    } else {
+        self.mouseInside = NO;
+    }
 }
 
 - (void)ensureTrackingArea {

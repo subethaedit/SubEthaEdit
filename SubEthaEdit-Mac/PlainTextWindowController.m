@@ -1868,7 +1868,12 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
 	if ([aTabView isEqual:I_tabView] && (aTabView.window.styleMask & NSFullScreenWindowMask) == NSFullScreenWindowMask) {
 		NSWindow *window = aTabView.window;
-		NSPoint windowMousePoint = [window convertScreenToBase:point];
+        
+        NSRect screenMouseRect = NSZeroRect;
+        screenMouseRect.origin = point;
+        NSRect windowMouseRect = [window convertRectFromScreen:screenMouseRect];
+        
+		NSPoint windowMousePoint = windowMouseRect.origin;
 		NSView *hitView = [window.contentView hitTest:windowMousePoint];
 		if (hitView != nil) {
 			if (aTabView.tabViewItems.count > 1) {

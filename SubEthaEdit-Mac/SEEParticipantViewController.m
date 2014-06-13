@@ -158,7 +158,7 @@
 	// add tracking for action buttons overlay and name overlay
 	NSTrackingAreaOptions options = NSTrackingMouseEnteredAndExited | NSTrackingActiveInActiveApp | NSTrackingInVisibleRect;
 	NSView *view = self.participantViewOutlet;
-	NSPoint mouseLocationInBounds = [view convertPoint:[self.view.window convertScreenToBase:[NSEvent mouseLocation]] fromView:nil];
+	NSPoint mouseLocationInBounds = [view convertPoint:[self.view.window mouseLocationOutsideOfEventStream] fromView:nil];
 	BOOL mouseIsInside = NSMouseInRect(mouseLocationInBounds, view.bounds, view.isFlipped);
 	if (mouseIsInside) {
 		options |= NSTrackingAssumeInside;

@@ -87,7 +87,7 @@
 
 
 	NSTrackingAreaOptions options = NSTrackingMouseEnteredAndExited | NSTrackingActiveInActiveApp | NSTrackingInVisibleRect;
-	NSPoint mouseLocationInBounds = [view convertPoint:[[view window] convertScreenToBase:[NSEvent mouseLocation]] fromView:nil];
+	NSPoint mouseLocationInBounds = [view convertPoint:view.window.mouseLocationOutsideOfEventStream fromView:nil];
 	BOOL mouseIsInside = NSMouseInRect(mouseLocationInBounds, view.bounds, view.isFlipped);
 	if (mouseIsInside) {
 		options |= NSTrackingAssumeInside;
