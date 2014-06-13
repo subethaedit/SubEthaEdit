@@ -655,7 +655,7 @@ static DocumentModeManager *S_sharedInstance=nil;
     NSEnumerator *enumerator = [allURLs reverseObjectEnumerator];
     NSURL *fileURL = nil;
     while ((url = [enumerator nextObject])) {
-        NSDirectoryEnumerator *dirEnumerator = [[NSFileManager defaultManager] enumeratorAtURL:url includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles errorHandler:NULL];
+        NSDirectoryEnumerator *dirEnumerator = [[NSFileManager defaultManager] enumeratorAtURL:url includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles|NSDirectoryEnumerationSkipsPackageDescendants errorHandler:NULL];
 		NSString *modeExtension = MODE_EXTENSION;
         while ((fileURL = [dirEnumerator nextObject])) {
             if ([[fileURL pathExtension] isEqualToString:modeExtension]) {
