@@ -62,8 +62,6 @@
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
     
     TCMMMUser *me = [TCMMMUserManager me];
-    NSImage *myImage = [me image];
-    [myImage setFlipped:NO];
 
     [self.O_nameTextField setStringValue:[me name]];
     [self.O_emailTextField setStringValue:[[me properties] objectForKey:@"Email"]];

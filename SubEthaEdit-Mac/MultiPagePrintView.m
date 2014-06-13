@@ -791,15 +791,10 @@ static NSMutableDictionary *S_nameAttributes, *S_contactAttributes, *S_contactLa
                                           LEGENDTABLEENTRYHEIGHT - 2 * LEGENDIMAGEPADDING,
                                           LEGENDTABLEENTRYHEIGHT - 2 * LEGENDIMAGEPADDING);
         NSImage *userImage = [aUser image];
-        
-        if (![userImage isFlipped]) {
-            userImage = [[[NSImage alloc] initWithData:[userImage TIFFRepresentation]] autorelease];
-            [userImage setFlipped:YES];
-        }
         [userImage drawInRect:myPictureRect
                  fromRect    :NSMakeRect(0., 0., [userImage size].width, [userImage size].height)
                  operation   :NSCompositeSourceOver
-                 fraction    :1.0];
+                 fraction    :1.0 respectFlipped:YES hints:nil];
         textPoint.x += LEGENDTABLEENTRYHEIGHT;
     }
     textPoint.x += LEGENDIMAGEPADDING;

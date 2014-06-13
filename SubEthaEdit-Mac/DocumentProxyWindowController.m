@@ -112,7 +112,7 @@
     [window setHidesOnDeactivate:NO];
     TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:[I_session hostID]];
 	NSImage *userImage = [user image];
-	[userImage setFlipped:NO];
+
     [O_userImageView setImage:userImage];
     [O_userNameTextField setStringValue:[user name]];
     NSString *filename=[I_session filename];
