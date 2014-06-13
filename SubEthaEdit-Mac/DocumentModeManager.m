@@ -916,9 +916,7 @@ static DocumentModeManager *S_sharedInstance=nil;
     static NSImage *s_alternateImage=nil;
     static NSDictionary *s_menuDefaultStyleAttributes, *s_menuSmallStyleAttributes;
     if (aFlag && !s_alternateImage) {
-//        s_alternateImage=[[[NSImage imageNamed:@"SubEthaEditMode"] resizedImageWithSize:NSMakeSize(15,15)] retain];
-        s_alternateImage=[[[[NSImage imageNamed:@"SubEthaEditMode"] copy] retain] autorelease];
-        [s_alternateImage setScalesWhenResized:YES];
+        s_alternateImage=[[NSImage imageNamed:@"SubEthaEditMode"] copy];
         [s_alternateImage setSize:NSMakeSize(16,16)];
         s_menuDefaultStyleAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:[NSFont menuFontOfSize:0],NSFontAttributeName,[NSColor blackColor], NSForegroundColorAttributeName, nil];
         s_menuSmallStyleAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:[NSFont menuFontOfSize:9.],NSFontAttributeName,[NSColor darkGrayColor], NSForegroundColorAttributeName, nil];

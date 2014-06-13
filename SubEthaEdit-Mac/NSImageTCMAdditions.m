@@ -257,7 +257,7 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
         if (newSize.width <=0) newSize.width=1;
     }
 
-	NSImage *resultImage = [NSImage imageWithSize:newSize flipped:self.isFlipped drawingHandler:^BOOL(NSRect dstRect) {
+	NSImage *resultImage = [NSImage imageWithSize:newSize flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
 		[[NSColor clearColor] set];
 		NSRectFill(dstRect);
 		NSGraphicsContext *context = [NSGraphicsContext currentContext];
@@ -275,7 +275,7 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
 - (NSImage *)imageTintedWithColor:(NSColor *)tint invert:(BOOL)aFlag
 {
     if (tint != nil) {
-    	NSImage *tintedImage = [NSImage imageWithSize:self.size flipped:self.isFlipped drawingHandler:^BOOL(NSRect dstRect) {
+    	NSImage *tintedImage = [NSImage imageWithSize:self.size flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
 			CIFilter *colorGenerator = [CIFilter filterWithName:@"CIConstantColorGenerator"];
 			CIColor *color = [[CIColor alloc] initWithColor:tint];
 			[colorGenerator setDefaults];
@@ -316,7 +316,7 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
 
 - (NSImage *)dimmedImage {
 
-	NSImage *resultImage = [NSImage imageWithSize:self.size flipped:self.isFlipped drawingHandler:^BOOL(NSRect dstRect) {
+	NSImage *resultImage = [NSImage imageWithSize:self.size flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
 		NSGraphicsContext *context = [NSGraphicsContext currentContext];
 		[context setImageInterpolation:NSImageInterpolationHigh];
 		[[NSColor clearColor] set];
