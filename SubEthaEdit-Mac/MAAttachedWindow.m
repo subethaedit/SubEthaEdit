@@ -223,7 +223,12 @@
     }
     
     // Position frame origin appropriately for _side, accounting for arrow-inset.
-    contentRect.origin = (_window) ? [_window convertBaseToScreen:_point] : _point;
+
+	NSRect positionRect =  NSZeroRect;
+	positionRect.origin = _point;
+	positionRect = (_window) ? [_window convertRectToScreen:positionRect] : positionRect;
+
+    contentRect.origin = positionRect.origin;
     float arrowInset = [self _arrowInset];
     float halfWidth = contentRect.size.width / 2.0;
     float halfHeight = contentRect.size.height / 2.0;
@@ -315,7 +320,11 @@
     } else {
          screenFrame = [[NSScreen mainScreen] visibleFrame];
     }
-    NSPoint pointOnScreen = (_window) ? [_window convertBaseToScreen:_point] : _point;
+	NSRect positionRect =  NSZeroRect;
+	positionRect.origin = _point;
+	positionRect = (_window) ? [_window convertRectToScreen:positionRect] : positionRect;
+
+	NSPoint pointOnScreen = positionRect.origin;
     NSSize viewSize = [_view frame].size;
     viewSize.width += (viewMargin * MAATTACHEDWINDOW_SCALE_FACTOR) * 2.0;
     viewSize.height += (viewMargin * MAATTACHEDWINDOW_SCALE_FACTOR) * 2.0;
