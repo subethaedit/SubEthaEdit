@@ -224,8 +224,7 @@
     
     // Position frame origin appropriately for _side, accounting for arrow-inset.
 
-	NSRect positionRect =  NSZeroRect;
-	positionRect.origin = _point;
+	NSRect positionRect =  {_point, 1.0, 1.0};
 	positionRect = (_window) ? [_window convertRectToScreen:positionRect] : positionRect;
 
     contentRect.origin = positionRect.origin;
@@ -320,8 +319,7 @@
     } else {
          screenFrame = [[NSScreen mainScreen] visibleFrame];
     }
-	NSRect positionRect =  NSZeroRect;
-	positionRect.origin = _point;
+	NSRect positionRect =  {_point, 1.0, 1.0};
 	positionRect = (_window) ? [_window convertRectToScreen:positionRect] : positionRect;
 
 	NSPoint pointOnScreen = positionRect.origin;

@@ -79,8 +79,7 @@ static URLBubbleWindow *S_sharedInstance;
 		[inWindow addChildWindow:self ordered:NSWindowAbove];
 	}
 
-	NSRect positionRect = NSZeroRect;
-	positionRect.origin = inPosition;
+	NSRect positionRect = {inPosition, 1.0, 1.0};
 	NSRect screenPositionRect = [inWindow convertRectToScreen:positionRect];
 	
 	[self setPoint:screenPositionRect.origin side:NSMaxYEdge];

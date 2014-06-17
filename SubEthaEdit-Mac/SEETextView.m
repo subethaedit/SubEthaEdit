@@ -437,8 +437,12 @@ static NSMenu *S_defaultMenu=nil;
         NSRange wholeRange = NSMakeRange(0,[ts length]);
         if (clickCount == 3) {
             NSRange lineRange = [[ts string] lineRangeForRange:proposedSelRange];
-            // select area that belongs to a style
-            NSUInteger index = [self characterIndexForPoint:[[self window] convertBaseToScreen:[[NSApp currentEvent] locationInWindow]]];
+
+			// select area that belongs to a style
+			NSRect mousePositionRect = {[currentEvent locationInWindow], 1.0, 1.0};
+			mousePositionRect = [[self window] convertRectToScreen:mousePositionRect];
+
+            NSUInteger index = [self characterIndexForPoint:mousePositionRect.origin];
             NSRange resultRange = lineRange;
             if (index != NSNotFound && index < NSMaxRange(wholeRange)) {
                 [ts attribute:kSyntaxHighlightingScopenameAttributeName atIndex:index longestEffectiveRange:&resultRange inRange:wholeRange];
