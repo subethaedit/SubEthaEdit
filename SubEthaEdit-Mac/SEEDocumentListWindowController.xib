@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6154.21" systemVersion="14A261i" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6154.21"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
@@ -21,7 +21,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" resizable="YES"/>
             <windowCollectionBehavior key="collectionBehavior" moveToActiveSpace="YES" fullScreenAuxiliary="YES"/>
             <rect key="contentRect" x="196" y="240" width="300" height="400"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1418"/>
             <value key="minSize" type="size" width="180" height="140"/>
             <value key="maxSize" type="size" width="1000" height="3000"/>
             <view key="contentView" id="2">
@@ -34,7 +34,8 @@
                             <rect key="frame" x="0.0" y="0.0" width="300" height="400"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <tableView appearanceType="vibrantLight" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="firstColumnOnly" columnReordering="NO" columnResizing="NO" autosaveColumns="NO" rowHeight="34" rowSizeStyle="automatic" viewBased="YES" id="btu-v5-80w" customClass="SEEDocumentListTableView">
+                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="firstColumnOnly" columnReordering="NO" columnResizing="NO" autosaveColumns="NO" rowHeight="34" rowSizeStyle="automatic" viewBased="YES" id="btu-v5-80w" customClass="SEEDocumentListTableView">
+                                    <rect key="frame" x="0.0" y="0.0" width="300" height="400"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
                                     <color key="backgroundColor" red="0.83519887839935558" green="0.86684393018884942" blue="0.90476392663043481" alpha="1" colorSpace="calibratedRGB"/>
@@ -80,14 +81,14 @@
                                                             </connections>
                                                         </textField>
                                                         <textField horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="99d-xq-E7k">
-                                                            <rect key="frame" x="65" y="20" width="212" height="25"/>
+                                                            <rect key="frame" x="65" y="18" width="212" height="25"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="25" id="rtq-Bf-3ii"/>
                                                             </constraints>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="AUsers Name" id="qbm-n8-qcN">
-                                                                <font key="font" metaFont="system" size="15"/>
-                                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                <font key="font" metaFont="systemBold" size="15"/>
+                                                                <color key="textColor" red="0.36131189090569249" green="0.39468802453040824" blue="0.44044961734693877" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <color key="backgroundColor" red="0.85490202903747559" green="0.85882359743118286" blue="0.86274516582489014" alpha="0.0" colorSpace="deviceRGB"/>
                                                             </textFieldCell>
                                                             <connections>
                                                                 <binding destination="7GF-iT-703" name="toolTip" keyPath="objectValue.connection.toolTipString" id="ZdK-TK-nYH"/>
@@ -128,11 +129,11 @@
                                                         <constraint firstItem="sLz-ta-X1G" firstAttribute="leading" secondItem="99d-xq-E7k" secondAttribute="trailing" constant="-4" id="9gP-xl-ifF"/>
                                                         <constraint firstItem="JPV-3V-IN6" firstAttribute="leading" secondItem="7GF-iT-703" secondAttribute="leading" constant="7" id="Aag-bs-dMd" userLabel="Horizontal Space - (8) - Avatar View - User Cell View"/>
                                                         <constraint firstAttribute="centerY" secondItem="JPV-3V-IN6" secondAttribute="centerY" id="KhV-LG-YoB"/>
-                                                        <constraint firstItem="JPV-3V-IN6" firstAttribute="centerY" secondItem="99d-xq-E7k" secondAttribute="centerY" constant="5" id="TWS-ed-rS2"/>
+                                                        <constraint firstItem="JPV-3V-IN6" firstAttribute="centerY" secondItem="99d-xq-E7k" secondAttribute="centerY" constant="3" id="TWS-ed-rS2"/>
                                                         <constraint firstAttribute="trailing" secondItem="sLz-ta-X1G" secondAttribute="trailing" constant="3" id="dAl-Z2-Uja"/>
                                                         <constraint firstItem="KzL-Id-dvC" firstAttribute="leading" secondItem="99d-xq-E7k" secondAttribute="leading" id="eCc-bj-gIB"/>
                                                         <constraint firstItem="sLz-ta-X1G" firstAttribute="centerY" secondItem="7GF-iT-703" secondAttribute="centerY" constant="-1" id="fxJ-Ib-Nxh"/>
-                                                        <constraint firstItem="KzL-Id-dvC" firstAttribute="top" secondItem="99d-xq-E7k" secondAttribute="bottom" constant="-1" id="iB1-tf-PLy"/>
+                                                        <constraint firstItem="KzL-Id-dvC" firstAttribute="top" secondItem="99d-xq-E7k" secondAttribute="bottom" constant="-3" id="iB1-tf-PLy"/>
                                                         <constraint firstItem="99d-xq-E7k" firstAttribute="leading" secondItem="JPV-3V-IN6" secondAttribute="trailing" constant="8" id="ya8-Ub-8e6"/>
                                                     </constraints>
                                                     <connections>
@@ -342,8 +343,8 @@
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="xlp-Jr-Hfh">
                                                             <rect key="frame" x="8" y="12" width="262" height="18"/>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Connect…" id="JFZ-Hh-hom">
-                                                                <font key="font" metaFont="menuBar"/>
-                                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                <font key="font" metaFont="systemBold" size="15"/>
+                                                                <color key="textColor" red="0.36131189089999999" green="0.39468802450000001" blue="0.44044961729999998" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
                                                             <connections>
@@ -448,9 +449,9 @@
         </menu>
     </objects>
     <resources>
-        <image name="NSAddTemplate" width="11" height="11"/>
+        <image name="NSAddTemplate" width="8" height="8"/>
         <image name="NSFolder" width="32" height="32"/>
-        <image name="NSPathTemplate" width="16" height="10"/>
+        <image name="NSPathTemplate" width="13" height="10"/>
         <image name="StatusPending" width="16" height="16"/>
     </resources>
 </document>
