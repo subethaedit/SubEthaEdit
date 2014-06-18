@@ -587,8 +587,11 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 
 	if (tableColumn == nil && [rowItem isKindOfClass:SEENetworkConnectionRepresentationListItem.class]) {
 		result = [tableView makeViewWithIdentifier:@"Group" owner:self];
+		// adds the shadow that a previews source list style already had
+		[[[(NSTableCellView *)result textField] cell] setBackgroundStyle:NSBackgroundStyleRaised];
 	} else if (tableColumn == nil && [rowItem isKindOfClass:SEEConnectDocumentListItem.class]) {
 		result = [tableView makeViewWithIdentifier:@"Connect" owner:self];
+		[[[(NSTableCellView *)result textField] cell] setBackgroundStyle:NSBackgroundStyleRaised];
 	} else if ([rowItem isKindOfClass:SEEOpenOtherDocumentListItem.class] || [rowItem isKindOfClass:SEENewDocumentListItem.class]) {
 		result = [tableView makeViewWithIdentifier:@"OtherItems" owner:self];
 	} else if ([rowItem isKindOfClass:SEEToggleRecentDocumentListItem.class]) {
