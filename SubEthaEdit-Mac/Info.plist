@@ -59,6 +59,28 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>swift</string>
+			</array>
+			<key>LSTypeIsPackage</key>
+			<false/>
+			<key>CFBundleTypeName</key>
+			<string>Swift Source</string>
+			<key>CFBundleTypeIconFile</key>
+			<string>SubEthaEditFiles</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.swift-source</string>
+			</array>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>NSDocumentClass</key>
+			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
+		</dict>
+		<dict>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -858,6 +880,49 @@
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
+			<key>NSDocumentClass</key>
+			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>Markdown Document</string>
+			<key>CFBundleTypeIconFile</key>
+			<string>SubEthaEditFiles</string>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>md</string>
+				<string>mdown</string>
+				<string>markdown</string>
+				<string>text</string>
+			</array>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>net.daringfireball.markdown</string>
+			</array>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
+			<key>NSDocumentClass</key>
+			<string>PlainTextDocument</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>Metal shader source</string>
+			<key>CFBundleTypeIconFile</key>
+			<string>SubEthaEditFiles</string>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>metal</string>
+			</array>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.apple.metal</string>
+			</array>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
 			<key>NSIsRelatedItemType</key>
@@ -2329,6 +2394,20 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeName</key>
+			<string>Anything</string>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>*</string>
+			</array>
+			<key>CFBundleTypeOSTypes</key>
+			<array>
+				<string>****</string>
+			</array>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+		</dict>
+		<dict>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditStyle</string>
 			<key>CFBundleTypeName</key>
@@ -3775,6 +3854,64 @@
 	</array>
 	<key>UTImportedTypeDeclarations</key>
 	<array>
+		<dict>
+			<key>UTTypeIdentifier</key>
+			<string>net.daringfireball.markdown</string>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.text</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Markdown</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.mime-type</key>
+				<array>
+					<string>text/markdown</string>
+					<string>text/x-markdown</string>
+					<string>text/x-web-markdown</string>
+				</array>
+				<key>public.filename-extension</key>
+				<array>
+					<string>md</string>
+					<string>mdown</string>
+					<string>markdown</string>
+					<string>text</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeIdentifier</key>
+			<string>com.apple.metal</string>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.source-code</string>
+			</array>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>metal</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeIdentifier</key>
+			<string>public.swift-source</string>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.source-code</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Swift Source Code</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>swift</string>
+				</array>
+			</dict>
+		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
 			<array>
