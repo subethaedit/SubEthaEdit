@@ -2394,20 +2394,6 @@
 			<true/>
 		</dict>
 		<dict>
-			<key>CFBundleTypeName</key>
-			<string>Anything</string>
-			<key>CFBundleTypeExtensions</key>
-			<array>
-				<string>*</string>
-			</array>
-			<key>CFBundleTypeOSTypes</key>
-			<array>
-				<string>****</string>
-			</array>
-			<key>CFBundleTypeRole</key>
-			<string>Viewer</string>
-		</dict>
-		<dict>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditStyle</string>
 			<key>CFBundleTypeName</key>
