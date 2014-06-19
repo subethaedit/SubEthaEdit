@@ -394,7 +394,7 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 				if (I_charsInToken) {
 					[combinedKeywordRegexString appendFormat:@"(?![%@])",[I_charsInToken stringByReplacingRegularExpressionOperators]];
 				} else if (I_charsDelimitingToken) {
-					[combinedKeywordRegexString appendFormat:@"(?=[%@])",[I_charsDelimitingToken stringByReplacingRegularExpressionOperators]];
+					[combinedKeywordRegexString appendFormat:@"(?=[%@]|$)",[I_charsDelimitingToken stringByReplacingRegularExpressionOperators]];
 				}
 
 				BOOL caseInsensitiveKeywordGroup = [[keywordGroupDictionary objectForKey:@"casesensitive"] isEqualToString:@"no"];
