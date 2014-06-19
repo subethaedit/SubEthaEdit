@@ -743,7 +743,7 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 		if (![childState objectForKey:[self keyForInheritedSymbols]]) {
 			if ([[state objectForKey:@"id"] isEqual:[realChildState objectForKey:@"id"]]) {
 				// don't recurse into one self
-				NSLog(@"%s self recursion for %@ isLinked %@", __FUNCTION__, [state objectForKey:@"id"], isLinked ? @"YES": @"NO");
+				//				NSLog(@"%s self recursion for %@ isLinked %@", __FUNCTION__, [state objectForKey:@"id"], isLinked ? @"YES": @"NO");
 			} else {
 				[self calculateSymbolInheritanceForState:childState inheritedSymbols:symbols inheritedAutocomplete:autocomplete];
 			}
