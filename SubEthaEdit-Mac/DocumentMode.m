@@ -486,7 +486,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 }
 
 - (NSArray *)recognizedExtensions {
-	return [I_modeSettings recognizedExtensions];
+	return [[I_modeSettings recognizedExtensions] arrayByAddingObjectsFromArray:I_modeSettings.recognizedCasesensitveExtensions];
 }
 
 - (NSDictionary *)styleIDTransitionDictionary {
