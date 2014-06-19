@@ -758,6 +758,14 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 - (NSString *)syntaxExampleString {
 	if (!I_syntaxExampleString) {
 		NSURL *exampleURL = [I_bundle URLForResource:@"ExampleSyntax" withExtension:@"txt"];
+		if (!exampleURL) {
+			for (NSString *extension in self.recognizedExtensions) {
+				exampleURL = [I_bundle URLForResource:@"ExampleSyntax" withExtension:extension];
+				if (exampleURL) {
+					break;
+				}
+			}
+		}
 		if (exampleURL) {
 			I_syntaxExampleString = [[NSString alloc] initWithContentsOfURL:exampleURL encoding:NSUTF8StringEncoding error:NULL];
 		}
