@@ -329,23 +329,23 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
             [I_importedModes setObject:@"import" forKey:importMode];
             [weaklinks addObject:[NSDictionary dictionaryWithObjectsAndKeys:xmlNode,@"importNode",importName,@"importName",[NSNumber numberWithUnsignedInteger:keywordGroups.count],@"importPosition",nil]];            
         } 
-        else if ([nodeName isEqualToString:@"keywords"]) {
+		else if ([nodeName isEqualToString:@"keywords"]) {
 			
 			NSMutableDictionary *keywordGroupDictionary = [NSMutableDictionary dictionary];
 			[self addAttributes:[xmlNode attributes] toDictionary:keywordGroupDictionary];
-			
+
 			NSString *keywordGroupName = [keywordGroupDictionary objectForKey:@"id"];
 			if (keywordGroupName) [keywordGroups addObject:keywordGroupDictionary];
-			
+
 			NSMutableArray *regexes = [NSMutableArray array];
 			NSMutableArray *strings = [NSMutableArray array];
-			
+
 			// Add regexes for keyword group
 			NSMutableString *combinedRegexRegexString = [NSMutableString stringWithString:@"(?:"];
-			
+
 			[keywordGroupDictionary setObject:regexes forKey:@"RegularExpressions"];
 			[keywordGroupDictionary setObject:strings forKey:@"PlainStrings"];
-			
+
 			NSArray *regexNodes = [xmlNode nodesForXPath:@"./regex" error:&err];
 			NSEnumerator *regexEnumerator = [regexNodes objectEnumerator];
 			id regexNode;
@@ -356,20 +356,28 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 			}
 			if ([regexNodes count]>0) {
 				[combinedRegexRegexString replaceCharactersInRange:NSMakeRange([combinedRegexRegexString length]-1, 1) withString:@")"];
-				[keywordGroupDictionary setObject:[[OGRegularExpression alloc] initWithString:combinedRegexRegexString options:OgreFindNotEmptyOption|OgreCaptureGroupOption] forKey:@"CompiledRegEx"];
+
+				@try {
+					OGRegularExpression *combinedRegularExpression = [[OGRegularExpression alloc] initWithString:combinedRegexRegexString options:OgreFindNotEmptyOption|OgreCaptureGroupOption];
+					if (combinedRegularExpression) {
+						[keywordGroupDictionary setObject:combinedRegularExpression forKey:@"CompiledRegEx"];
+					}
+				}
+				@catch (NSException *exception) {
+					NSLog(@"Creating regex with %@ did throw exception %@", combinedRegexRegexString, exception);
+				}
 			}
-			
-			
+
 			// Add strings for keyword group
 			NSMutableString *combinedKeywordRegexString = [NSMutableString string];
 			if (I_charsInToken) {
 				[combinedKeywordRegexString appendFormat:@"(?<![%@])(",[I_charsInToken stringByReplacingRegularExpressionOperators]];
 			} else if (I_charsDelimitingToken) {
-				[combinedKeywordRegexString appendFormat:@"(?<=[%@])(",[I_charsDelimitingToken stringByReplacingRegularExpressionOperators]];
+				[combinedKeywordRegexString appendFormat:@"(?<=[%@]|^)(",[I_charsDelimitingToken stringByReplacingRegularExpressionOperators]];
 			} else {
-				[combinedKeywordRegexString appendString:@"("]; 
+				[combinedKeywordRegexString appendString:@"("];
 			}
-					
+
 			BOOL autocomplete = [[keywordGroupDictionary objectForKey:@"useforautocomplete"] isEqualToString:@"yes"];
 			NSMutableArray *autocompleteDictionary = [[self mode] autocompleteDictionary];
 			NSArray *stringNodes = [xmlNode nodesForXPath:@"./string" error:&err];
@@ -382,18 +390,26 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 			}
 			if ([stringNodes count]>0) {
 				[combinedKeywordRegexString replaceCharactersInRange:NSMakeRange([combinedKeywordRegexString length]-1, 1) withString:@")"];
-				
+
 				if (I_charsInToken) {
 					[combinedKeywordRegexString appendFormat:@"(?![%@])",[I_charsInToken stringByReplacingRegularExpressionOperators]];
 				} else if (I_charsDelimitingToken) {
-					[combinedKeywordRegexString appendFormat:@"(?=[%@])",[I_charsDelimitingToken stringByReplacingRegularExpressionOperators]];
-				}        
-				
+					[combinedKeywordRegexString appendFormat:@"(?=[%@]|$)",[I_charsDelimitingToken stringByReplacingRegularExpressionOperators]];
+				}
+
 				BOOL caseInsensitiveKeywordGroup = [[keywordGroupDictionary objectForKey:@"casesensitive"] isEqualToString:@"no"];
 				unsigned keywordGroupSettings = OgreFindNotEmptyOption|OgreCaptureGroupOption;
 				if (caseInsensitiveKeywordGroup) keywordGroupSettings |= OgreIgnoreCaseOption;
-				
-				[keywordGroupDictionary setObject:[[OGRegularExpression alloc] initWithString:combinedKeywordRegexString options:keywordGroupSettings] forKey:@"CompiledKeywords"];
+
+				@try {
+					OGRegularExpression *combinedKeywordRegularExpression = [[OGRegularExpression alloc] initWithString:combinedKeywordRegexString options:keywordGroupSettings];
+					if (combinedKeywordRegexString) {
+						[keywordGroupDictionary setObject:combinedKeywordRegularExpression forKey:@"CompiledKeywords"];
+					}
+				}
+				@catch (NSException *exception) {
+					NSLog(@"Creating regex with %@ did throw exception %@", combinedRegexRegexString, exception);
+				}
 			}
 		}
 	}
@@ -727,7 +743,7 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 		if (![childState objectForKey:[self keyForInheritedSymbols]]) {
 			if ([[state objectForKey:@"id"] isEqual:[realChildState objectForKey:@"id"]]) {
 				// don't recurse into one self
-				NSLog(@"%s self recursion for %@ isLinked %@", __FUNCTION__, [state objectForKey:@"id"], isLinked ? @"YES": @"NO");
+				//				NSLog(@"%s self recursion for %@ isLinked %@", __FUNCTION__, [state objectForKey:@"id"], isLinked ? @"YES": @"NO");
 			} else {
 				[self calculateSymbolInheritanceForState:childState inheritedSymbols:symbols inheritedAutocomplete:autocomplete];
 			}

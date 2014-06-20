@@ -22,16 +22,15 @@
 
 - (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
     if ([self isHighlighted]) {
-        [I_alternateImage drawAtPoint:cellFrame.origin fromRect:NSMakeRect(0.0, 0.0, [I_alternateImage size].width, [I_alternateImage size].height) operation:NSCompositeSourceOver fraction:1.0];
+        [I_alternateImage drawInRect:cellFrame fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
     } else {
-        [I_image drawAtPoint:cellFrame.origin fromRect:NSMakeRect(0.0, 0.0, [I_image size].width, [I_image size].height) operation:NSCompositeSourceOver fraction:1.0];
+        [I_image drawInRect:cellFrame fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
     }
 }
 
 - (void)setImage:(NSImage *)anImage {
     [I_image autorelease];
     I_image = [anImage retain];
-    [I_image setFlipped:YES];
 }
 
 - (NSImage *)image {
@@ -41,7 +40,6 @@
 - (void)setAlternateImage:(NSImage *)anImage {
     [I_alternateImage autorelease];
     I_alternateImage = [anImage retain];
-    [I_alternateImage setFlipped:YES];
 }
 
 - (NSImage *)alternateImage {

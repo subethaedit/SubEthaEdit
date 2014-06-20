@@ -1023,13 +1023,14 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 		[NSOperationQueue TCM_performBlockOnMainQueue:^{
 			if (![[AppController sharedInstance] didShowFirstUseWindowHelp] &&
 				[editorToShow.plainTextWindowController selectedTabContext] == editorToShow.windowControllerTabContext &&
-				[editorToShow.plainTextWindowController.window isKeyWindow]) {
+				[editorToShow.plainTextWindowController.window isKeyWindow] &&
+				[(PlainTextDocument *)[editorToShow.plainTextWindowController document] session].isServer) {
 				[editorToShow showFirstUseHelp];
 				[NSOperationQueue TCM_performBlockOnMainQueue:^{
 					[[AppController sharedInstance] setDidShowFirstUseWindowHelp:YES];
 				} afterDelay:2.0];
 			}
-		} afterDelay:3.0];
+		} afterDelay:1.5];
 	}
 }
 
@@ -1210,22 +1211,29 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
 - (NSRect)dissolveToFrame {
 	if ([self hasManyDocuments]) {
-	 	NSWindow *window = [self window];
-		 NSRect bounds = [[I_tabBar performSelector:@selector(lastVisibleTab)] frame];
-		 bounds = [[window contentView] convertRect:bounds fromView:I_tabBar];
-		 bounds.size.height += 25.;
-		 bounds.origin.y -= 32.;
-		 bounds = NSInsetRect(bounds,-8.,-9.);
-		 bounds.origin.x +=1;
-		 NSPoint point1 = bounds.origin;
-		 NSPoint point2 = NSMakePoint(NSMaxX(bounds),NSMaxY(bounds));
-		 point1 = [window convertBaseToScreen:point1];
-		 point2 = [window convertBaseToScreen:point2];
-		 bounds = NSMakeRect(MIN(point1.x,point2.x),MIN(point1.y,point2.y),ABS(point1.x-point2.x),ABS(point1.y-point2.y));
-		 return bounds;
-	 } else {
-	 	return NSOffsetRect(NSInsetRect([[self window] frame],-9.,-9.),0.,-4.);
-	 }
+		NSWindow *window = [self window];
+		NSRect bounds = [[I_tabBar performSelector:@selector(lastVisibleTab)] frame];
+		bounds = [[window contentView] convertRect:bounds fromView:I_tabBar];
+		bounds.size.height += 25.;
+		bounds.origin.y -= 32.;
+		bounds = NSInsetRect(bounds,-8.,-9.);
+		bounds.origin.x +=1;
+		NSPoint point1 = bounds.origin;
+		NSPoint point2 = NSMakePoint(NSMaxX(bounds),NSMaxY(bounds));
+
+		NSRect rect1 = {point1, 1.0, 1.0};
+		rect1 = [window convertRectToScreen:rect1];
+		point1 = rect1.origin;
+
+		NSRect rect2 = {point2, 1.0, 1.0};
+		rect2 = [window convertRectToScreen:rect2];
+		point2 = rect2.origin;
+
+		bounds = NSMakeRect(MIN(point1.x,point2.x),MIN(point1.y,point2.y),ABS(point1.x-point2.x),ABS(point1.y-point2.y));
+		return bounds;
+	} else {
+		return NSOffsetRect(NSInsetRect([[self window] frame],-9.,-9.),0.,-4.);
+	}
 }
 
 - (void)documentUpdatedChangeCount:(PlainTextDocument *)document
@@ -1867,7 +1875,12 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
 	if ([aTabView isEqual:I_tabView] && (aTabView.window.styleMask & NSFullScreenWindowMask) == NSFullScreenWindowMask) {
 		NSWindow *window = aTabView.window;
-		NSPoint windowMousePoint = [window convertScreenToBase:point];
+        
+        NSRect screenMouseRect = NSZeroRect;
+        screenMouseRect.origin = point;
+        NSRect windowMouseRect = [window convertRectFromScreen:screenMouseRect];
+        
+		NSPoint windowMousePoint = windowMouseRect.origin;
 		NSView *hitView = [window.contentView hitTest:windowMousePoint];
 		if (hitView != nil) {
 			if (aTabView.tabViewItems.count > 1) {

@@ -486,7 +486,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 }
 
 - (NSArray *)recognizedExtensions {
-	return [I_modeSettings recognizedExtensions];
+	return [[I_modeSettings recognizedExtensions] arrayByAddingObjectsFromArray:I_modeSettings.recognizedCasesensitveExtensions];
 }
 
 - (NSDictionary *)styleIDTransitionDictionary {
@@ -587,6 +587,11 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         }
     }
     return [defaultDefaults objectForKey:aKey];
+}
+
+- (void)reloadStyleSheetSettings {
+	[I_styleSheetSettings release];
+	I_styleSheetSettings = nil;
 }
 
 - (SEEStyleSheetSettings *)styleSheetSettingsOfThisMode {
@@ -753,6 +758,14 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 - (NSString *)syntaxExampleString {
 	if (!I_syntaxExampleString) {
 		NSURL *exampleURL = [I_bundle URLForResource:@"ExampleSyntax" withExtension:@"txt"];
+		if (!exampleURL) {
+			for (NSString *extension in self.recognizedExtensions) {
+				exampleURL = [I_bundle URLForResource:@"ExampleSyntax" withExtension:extension];
+				if (exampleURL) {
+					break;
+				}
+			}
+		}
 		if (exampleURL) {
 			I_syntaxExampleString = [[NSString alloc] initWithContentsOfURL:exampleURL encoding:NSUTF8StringEncoding error:NULL];
 		}

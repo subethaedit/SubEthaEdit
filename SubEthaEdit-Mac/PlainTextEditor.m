@@ -1453,12 +1453,15 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 		containingView.frame = textView.frame;
 		
 		[containingView addSubview:textView];
-		containingView;
+		[textView release];
+		[containingView autorelease];
 	});
 	;
 	popover.contentViewController = viewController;
+	[viewController release];
 	//	popover.behavior = NSPopoverBehaviorSemitransient;
 	[popover showRelativeToRect:NSZeroRect ofView:aView preferredEdge:anEdge];
+	[popover autorelease];
 	return popover;
 }
 

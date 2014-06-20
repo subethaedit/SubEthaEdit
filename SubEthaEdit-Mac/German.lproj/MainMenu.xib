@@ -1037,7 +1037,7 @@
                             </menuItem>
                             <menuItem title="Häufige Fragen und Unterstützung" id="469">
                                 <connections>
-                                    <action selector="visitWebsite:" target="210" id="494"/>
+                                    <action selector="visitFAQWebsite:" target="210" id="4FD-ng-hnA"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Zusätzliche Modi im Netz" id="651">

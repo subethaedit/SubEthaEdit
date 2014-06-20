@@ -27,12 +27,6 @@ static NSImage *s_normal[]={nil,nil,nil};
         s_normal[1]  = [NSImage imageNamed:@"hud_buttonFill-N" ];
         s_normal[2]  = [NSImage imageNamed:@"hud_buttonRight-N"];
     }
-    int i = 0;
-    BOOL isFlipped = [controlView isFlipped];
-    for (i=0;i<3;i++) {
-        [s_pressed[i] setFlipped:isFlipped];
-        [s_normal[i]  setFlipped:isFlipped];
-    }
     
 	BOOL isHighlighted = [self isHighlighted];
     NSImage **tiles=(isHighlighted?s_pressed:s_normal);

@@ -205,12 +205,12 @@ static NSString * const XMLAttributeFontTrait = @"font-trait";
 			}
 		}
 		
-		
 		if ([attributeDict objectForKey:XMLAttributeImage])
 		{
 			NSString *imageName = [attributeDict objectForKey:XMLAttributeImage];
-			
-			NSImage *image = [[NSImage alloc] initWithContentsOfFile:[[[self mode] bundle] pathForImageResource:imageName]];
+
+			NSBundle *modeBundle = [[self mode] bundle];
+			NSImage *image = [modeBundle imageForResource:imageName];
 			if (!image) image = [NSImage imageNamed:imageName];
 			if (image)
 			{

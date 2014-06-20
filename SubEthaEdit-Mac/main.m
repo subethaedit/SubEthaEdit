@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
 	if ([today compare:expireDate] == NSOrderedDescending) {
 		NSLog(@"THIS BETA IS EXPIRED!");
 
-		NSAlert *alert = [NSAlert alertWithMessageText:@"This beta version of SubEthaEdit has expired." defaultButton:nil alternateButton:nil otherButton:nil informativeTextWithFormat:@"Please visit SubEthaEdit.de to download a new version.", nil];
+		NSAlert *alert = [NSAlert alertWithMessageText:@"This beta version of SubEthaEdit has expired." defaultButton:nil alternateButton:nil otherButton:nil informativeTextWithFormat:@"Please visit http://subethaedit.net/ to download a new version.", nil];
 		[alert runModal];
 		return 0;
 	}

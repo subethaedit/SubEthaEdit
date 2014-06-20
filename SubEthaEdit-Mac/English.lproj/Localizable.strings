@@ -322,18 +322,6 @@
 /* HTML Color Error Title */
 "HTML Color Error" = "HTML Color Error";
 
-/* WebSite Link */
-"http://www.subethaedit.net/" = "http://www.subethaedit.net/";
-
-/* BugTracker Deep Link */
-"http://www.subethaedit.net/bugs/?version=%@" = "https://www.codingmonkeys.de/bugs/public/report/SEE?version=%@";
-
-/* Feedback Link */
-"http://www.subethaedit.net/feedback.html" = "http://www.subethaedit.net/feedback.html";
-
-/* WebSite Mode Link */
-"http://www.subethaedit.net/modes.html" = "http://www.subethaedit.net/modes.html";
-
 /* Warning in the alert panel which comes up when user chooses Quit and there are unsaved documents. */
 "If you don\\U2019t review your documents, all your changes will be lost." = "If you don’t review your documents, all your changes will be lost.";
 
@@ -837,6 +825,9 @@
 /* Mode requires newer engine Informative Text */
 "The mode '%@' was written for a newer version of SubEthaEngine and cannot be used with this application." = "The mode '%@' was written for a newer version of SubEthaEngine and cannot be used with this application.";
 
+/* Invitation format string used in sharing service picker. %@ will be replaced with the user name. */
+"Invite %@" = "Invite %@";
+
 "FIND_REPLACE_PANEL_FINDALL" = "Find All";
 "FIND_REPLACE_PANEL_REPLACE" = "Replace";
 "FIND_REPLACE_PANEL_REPLACEALL" = "Replace All";
@@ -929,3 +920,9 @@
 
 "FIRST_USE_INVITE_HELP_TEXT" = "Click to invite other Users to live collaborate in this document.";
 "FIRST_USE_ANNOUNCE_HELP_TEXT" = "Click to Announce this Document to the network.\nRight-Click to also set initial Access Rights for incoming Users.";
+
+/* WebSite Links */
+"WEBSITE_FAQ" = "http://subethaedit.net/faq";
+"WEBSITE_ADDITIONAL_MODES" = "http://subethaedit.net/modes";
+"WEBSITE_AUTHENTICATION_HELPER" = "http://subethaedit.net/authenticationhelper";
+"WEBSITE_COMMANDLINETOOL" = "http://subethaedit.net/commandlinetool";

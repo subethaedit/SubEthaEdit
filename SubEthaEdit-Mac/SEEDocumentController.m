@@ -1600,7 +1600,6 @@ struct ModificationInfo
 		NSString *destinationPath = [destinationURL path];
 		
 		if (![fileName isEqualToString:destinationPath]) {
-			// TODO: check errors here and present alert which is currently in fileManager:shouldProceedAfterError:
 			NSFileManager *fileManager = [NSFileManager defaultManager];
 			NSError *error = nil;
 			BOOL modeExists = [fileManager fileExistsAtPath:destinationPath];

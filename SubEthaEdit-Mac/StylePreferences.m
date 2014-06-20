@@ -190,6 +190,7 @@
 
 	[self selectMode:[self.O_modePopUpButton selectedMode]];
 	[self.O_styleSheetCustomPopUpButton synchronizeTitleAndSelectedItem];
+	[self highlightSyntax];
 }
 
 

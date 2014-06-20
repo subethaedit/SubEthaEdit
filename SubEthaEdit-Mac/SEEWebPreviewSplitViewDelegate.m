@@ -64,7 +64,7 @@
 	secondSubviewFrame.size.height = newSplitViewSize.height;
 	
 	CGFloat ratio = firstSubviewFrame.size.width / (firstSubviewFrame.size.width + secondSubviewFrame.size.width + dividerThickness);
-	firstSubviewFrame.size.width = ratio * newSplitViewSize.width;
+	firstSubviewFrame.size.width = floor(ratio * newSplitViewSize.width);
 	secondSubviewFrame.size.width = newSplitViewSize.width - dividerThickness - firstSubviewFrame.size.width;
 	
 	// calculate adjusted subview frames
@@ -83,9 +83,10 @@
 
 			firstSubview.frame = firstSubviewFrame;
 			secondSubview.frame = secondSubviewFrame;
-		} else {
-			[splitView adjustSubviews];
 		}
+		[splitView adjustSubviews];
+
+//		NSLog(@"\nold : %@\nnew : %@\nfirst : %@\nsecond : %@\n", NSStringFromSize(newSplitViewSize), NSStringFromSize(oldSize),NSStringFromRect(firstSubviewFrame), NSStringFromRect(secondSubviewFrame));
 	} else {
 		NSAssert(NO, @"%@ resized below minimum size.", splitView);
 		[splitView adjustSubviews];

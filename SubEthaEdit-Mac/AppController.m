@@ -288,6 +288,8 @@ static AppController *sharedInstance = nil;
 #define MODEMENUNAMETAG 20 
 
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
+	// For first use testing
+	// [self setDidShowFirstUseWindowHelp:NO];
 
     // test for compression...
 //    int i=0;
@@ -842,7 +844,7 @@ static AppController *sharedInstance = nil;
     if (document && [document isKindOfClass:[PlainTextDocument class]]) {
         [document undo:aSender];
     } else {
-        NSUndoManager *undoManager=[(id)[[NSApp mainWindow] delegate] undoManager];
+        NSUndoManager *undoManager=[(id)[[NSApp mainWindow] firstResponder] undoManager];
         [undoManager undo];
     }
 }
@@ -852,7 +854,7 @@ static AppController *sharedInstance = nil;
     if (document && [document isKindOfClass:[PlainTextDocument class]]) {
         [document redo:aSender];
     } else {
-        NSUndoManager *undoManager=[(id)[[NSApp mainWindow] delegate] undoManager];
+        NSUndoManager *undoManager=[(id)[[NSApp mainWindow] firstResponder] undoManager];
         [undoManager redo];
     }
 }
@@ -881,9 +883,9 @@ static AppController *sharedInstance = nil;
     id undoManager = nil;
     PlainTextDocument *currentDocument = [[NSDocumentController sharedDocumentController] currentDocument];
     if (currentDocument && [currentDocument isKindOfClass:[PlainTextDocument class]]) {
-        undoManager = [currentDocument documentUndoManager];
+        undoManager = [currentDocument TCM_undoManagerToUse];
     } else {
-        undoManager = [(id)[[NSApp mainWindow] delegate] undoManager];
+        undoManager = [(id)[[NSApp mainWindow] firstResponder] undoManager];
     }
     
     if (selector == @selector(undo:)) {
@@ -946,20 +948,12 @@ static AppController *sharedInstance = nil;
     [self TCM_showPlainTextFile:path];
 }
 
-- (IBAction)visitWebsite:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedString(@"http://www.subethaedit.net/",@"WebSite Link")]];
+- (IBAction)visitFAQWebsite:(id)sender {
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedString(@"WEBSITE_FAQ",@"FAQ WebSite Link")]];
 }
 
 - (IBAction)additionalModes:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedString(@"http://www.subethaedit.net/modes.html",@"WebSite Mode Link")]];
-}
-
-- (IBAction)reportBug:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:NSLocalizedString(@"http://www.subethaedit.net/bugs/?version=%@",@"BugTracker Deep Link"),[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]]]];
-}
-
-- (IBAction)provideFeedback:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedString(@"http://www.subethaedit.net/feedback.html",@"Feedback Link")]];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedString(@"WEBSITE_ADDITIONAL_MODES",@"WebSite Mode Link")]];
 }
 
 - (void)changeFont:(id)aSender {

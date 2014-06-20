@@ -50,8 +50,6 @@ extern NSString * const BlockeditAttributeValue;
     
 }
 
-- (id <TextStorageBlockeditDelegate,FoldableTextStorageDelegate>)delegate;
-
 - (NSRange)foldedRangeForFullRange:(NSRange)inRange;
 - (NSRange)foldedRangeForFullRange:(NSRange)inRange expandIfFolded:(BOOL)aFlag;
 - (NSRange)fullRangeForFoldedRange:(NSRange)inRange;
@@ -116,23 +114,18 @@ extern NSString * const BlockeditAttributeValue;
 @end
 
 @protocol FoldableTextStorageDelegate
-
 - (void)textStorageDidChangeNumberOfTopLevelFoldings:(FoldableTextStorage *)aTextStorage;
-
 @end
 
 @protocol TextStorageBlockeditDelegate
-
 - (NSDictionary *)blockeditAttributesForTextStorage:(FoldableTextStorage *)aTextStorage;
 - (void)textStorageDidStopBlockedit:(FoldableTextStorage *)aTextStorage;
 - (void)textStorageDidStartBlockedit:(FoldableTextStorage *)aTextStorage;
-
 @end
 
 @interface FoldableTextStorage (FoldableTextStorageDelegateAdditions)
 - (void)textStorage:(FullTextStorage *)aTextStorage willReplaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString;
 - (void)textStorage:(FullTextStorage *)aTextStorage didReplaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString;
-
 @end
 
 

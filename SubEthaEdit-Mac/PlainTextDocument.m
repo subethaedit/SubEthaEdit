@@ -285,6 +285,8 @@ static NSString *tempFileName(NSString *origPath) {
 
 	[center addObserver:self selector:@selector(documentModeListChanged:) 
 	  name:@"DocumentModeListChanged" object:nil];
+	[center addObserver:self selector:@selector(styleSheetsDidChange:)
+				   name:@"StyleSheetsDidChange" object:nil];
 
     I_blockeditTextView=nil;
 
@@ -319,10 +321,14 @@ static NSString *tempFileName(NSString *origPath) {
     }
 }
 
+- (void)styleSheetsDidChange:(NSNotification *)aNotification {
+	[self applyStylePreferences];
+}
+
 - (void)applyStylePreferences {
     [self takeStyleSettingsFromDocumentMode];
 	[I_textStorage addAttributes:[self plainTextAttributes]
-				   range:NSMakeRange(0,[I_textStorage length])];
+				   range:I_textStorage.TCM_fullLengthRange];
 }
 
 - (void)applyStylePreferences:(NSNotification *)aNotification {
@@ -1404,12 +1410,24 @@ static NSString *tempFileName(NSString *origPath) {
     }
 }
 
+- (NSUndoManager *)TCM_undoManagerToUse {
+	NSUndoManager *result = (NSUndoManager *)self.documentUndoManager;
+	id myTextView = [[self activePlainTextEditor] textView];
+	id firstResponder = [[myTextView window] firstResponder];
+	if ( myTextView && firstResponder &&
+		[firstResponder isKindOfClass:[NSTextView class]] &&
+		![firstResponder isKindOfClass:[myTextView class]]) {
+		result = [firstResponder undoManager];
+	}
+	return result;
+}
+
 - (IBAction)undo:(id)aSender {
-    [[self documentUndoManager] undo];
+	[[self TCM_undoManagerToUse] undo];
 }
 
 - (IBAction)redo:(id)aSender {
-    [[self documentUndoManager] redo];
+	[[self TCM_undoManagerToUse] redo];
 }
 
 - (IBAction)clearChangeMarks:(id)aSender {
@@ -3755,7 +3773,8 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
                         [printInfo setJobDisposition:NSPrintSaveJob];
                         NSMutableDictionary *printDict = [printInfo dictionary];
                         NSString *pdfPath = [quicklookPath stringByAppendingPathComponent:@"Preview.pdf"];
-                        [printDict setObject:pdfPath forKey:NSPrintSavePath];
+						NSURL *pdfURL = [NSURL fileURLWithPath:pdfPath];
+                        [printDict setObject:pdfURL forKey:NSPrintJobSavingURL];
                         NSDictionary *savedPrintOptions = [[self printOptions] copy];
                         printDict = [self printOptions];
                         [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEParticipants"];
