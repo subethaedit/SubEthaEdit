@@ -844,7 +844,7 @@ static AppController *sharedInstance = nil;
     if (document && [document isKindOfClass:[PlainTextDocument class]]) {
         [document undo:aSender];
     } else {
-        NSUndoManager *undoManager=[(id)[[NSApp mainWindow] delegate] undoManager];
+        NSUndoManager *undoManager=[(id)[[NSApp mainWindow] firstResponder] undoManager];
         [undoManager undo];
     }
 }
@@ -854,7 +854,7 @@ static AppController *sharedInstance = nil;
     if (document && [document isKindOfClass:[PlainTextDocument class]]) {
         [document redo:aSender];
     } else {
-        NSUndoManager *undoManager=[(id)[[NSApp mainWindow] delegate] undoManager];
+        NSUndoManager *undoManager=[(id)[[NSApp mainWindow] firstResponder] undoManager];
         [undoManager redo];
     }
 }
@@ -883,9 +883,9 @@ static AppController *sharedInstance = nil;
     id undoManager = nil;
     PlainTextDocument *currentDocument = [[NSDocumentController sharedDocumentController] currentDocument];
     if (currentDocument && [currentDocument isKindOfClass:[PlainTextDocument class]]) {
-        undoManager = [currentDocument documentUndoManager];
+        undoManager = [currentDocument TCM_undoManagerToUse];
     } else {
-        undoManager = [(id)[[NSApp mainWindow] delegate] undoManager];
+        undoManager = [(id)[[NSApp mainWindow] firstResponder] undoManager];
     }
     
     if (selector == @selector(undo:)) {
