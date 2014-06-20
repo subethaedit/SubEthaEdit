@@ -280,6 +280,7 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
 - (void)autosaveForStateRestore;
 
 - (UndoManager *)documentUndoManager;
+- (NSUndoManager *)TCM_undoManagerToUse;
 
 - (NSString *)preparedDisplayName;
 

@@ -373,7 +373,7 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 			if (I_charsInToken) {
 				[combinedKeywordRegexString appendFormat:@"(?<![%@])(",[I_charsInToken stringByReplacingRegularExpressionOperators]];
 			} else if (I_charsDelimitingToken) {
-				[combinedKeywordRegexString appendFormat:@"(?<=[%@])(",[I_charsDelimitingToken stringByReplacingRegularExpressionOperators]];
+				[combinedKeywordRegexString appendFormat:@"(?<=[%@]|^)(",[I_charsDelimitingToken stringByReplacingRegularExpressionOperators]];
 			} else {
 				[combinedKeywordRegexString appendString:@"("];
 			}
@@ -394,7 +394,7 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 				if (I_charsInToken) {
 					[combinedKeywordRegexString appendFormat:@"(?![%@])",[I_charsInToken stringByReplacingRegularExpressionOperators]];
 				} else if (I_charsDelimitingToken) {
-					[combinedKeywordRegexString appendFormat:@"(?=[%@])",[I_charsDelimitingToken stringByReplacingRegularExpressionOperators]];
+					[combinedKeywordRegexString appendFormat:@"(?=[%@]|$)",[I_charsDelimitingToken stringByReplacingRegularExpressionOperators]];
 				}
 
 				BOOL caseInsensitiveKeywordGroup = [[keywordGroupDictionary objectForKey:@"casesensitive"] isEqualToString:@"no"];
@@ -743,7 +743,7 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 		if (![childState objectForKey:[self keyForInheritedSymbols]]) {
 			if ([[state objectForKey:@"id"] isEqual:[realChildState objectForKey:@"id"]]) {
 				// don't recurse into one self
-				NSLog(@"%s self recursion for %@ isLinked %@", __FUNCTION__, [state objectForKey:@"id"], isLinked ? @"YES": @"NO");
+				//				NSLog(@"%s self recursion for %@ isLinked %@", __FUNCTION__, [state objectForKey:@"id"], isLinked ? @"YES": @"NO");
 			} else {
 				[self calculateSymbolInheritanceForState:childState inheritedSymbols:symbols inheritedAutocomplete:autocomplete];
 			}

@@ -34,13 +34,13 @@
                         <constraint firstAttribute="height" constant="1" id="aD6-Ib-Bvd"/>
                     </constraints>
                 </customView>
-                <textField verticalHuggingPriority="750" tag="2" translatesAutoresizingMaskIntoConstraints="NO" id="b8n-nP-ifa" userLabel="SearchTextField">
+                <textField verticalHuggingPriority="750" tag="2" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b8n-nP-ifa" userLabel="SearchTextField">
                     <rect key="frame" x="48" y="24" width="168" height="22"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="40" id="GMg-up-LgK"/>
                     </constraints>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" state="on" borderStyle="bezel" placeholderString="&lt;Search>" drawsBackground="YES" id="z2X-dN-yhX">
+                    <textFieldCell key="cell" selectable="YES" editable="YES" state="on" borderStyle="bezel" placeholderString="&lt;Search>" drawsBackground="YES" id="z2X-dN-yhX">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -51,13 +51,13 @@
                         <outlet property="nextKeyView" destination="gqM-vr-cXm" id="J4O-d8-vAs"/>
                     </connections>
                 </textField>
-                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gqM-vr-cXm" userLabel="ReplaceTextField">
+                <textField verticalHuggingPriority="750" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gqM-vr-cXm" userLabel="ReplaceTextField">
                     <rect key="frame" x="301" y="24" width="168" height="22"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="40" id="MR8-tP-lEc"/>
                     </constraints>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" state="on" borderStyle="bezel" placeholderString="&lt;Replace>" drawsBackground="YES" id="z6J-mm-Avg">
+                    <textFieldCell key="cell" selectable="YES" editable="YES" state="on" borderStyle="bezel" placeholderString="&lt;Replace>" drawsBackground="YES" id="z6J-mm-Avg">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>

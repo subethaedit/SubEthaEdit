@@ -1410,12 +1410,24 @@ static NSString *tempFileName(NSString *origPath) {
     }
 }
 
+- (NSUndoManager *)TCM_undoManagerToUse {
+	NSUndoManager *result = (NSUndoManager *)self.documentUndoManager;
+	id myTextView = [[self activePlainTextEditor] textView];
+	id firstResponder = [[myTextView window] firstResponder];
+	if ( myTextView && firstResponder &&
+		[firstResponder isKindOfClass:[NSTextView class]] &&
+		![firstResponder isKindOfClass:[myTextView class]]) {
+		result = [firstResponder undoManager];
+	}
+	return result;
+}
+
 - (IBAction)undo:(id)aSender {
-    [[self documentUndoManager] undo];
+	[[self TCM_undoManagerToUse] undo];
 }
 
 - (IBAction)redo:(id)aSender {
-    [[self documentUndoManager] redo];
+	[[self TCM_undoManagerToUse] redo];
 }
 
 - (IBAction)clearChangeMarks:(id)aSender {
