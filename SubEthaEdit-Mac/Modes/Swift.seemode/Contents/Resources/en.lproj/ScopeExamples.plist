@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+	<key>comment.line</key>
+	<string>// comment</string>
+	<key>comment.block</key>
+	<string>/* comment */</string>
+	<key>keyword.constant</key>
+	<string>true false nil</string>
+	<key>keyword.control</key>
+	<string>if class do while begin</string>
+	<key>keyword</key>
+	<string>var let @optional</string>
+	<key>keyword.type</key>
+	<string>Int Double String Array Dictionary</string>
+	<key>support</key>
+	<string>NSNumber CFString Range</string>
+	<key>language.constant.numeric</key>
+	<string>0 0x4a 0o7_13 1.2e-3 0b01011</string>
+	<key>language.variable</key>
+	<string>$0 $1 $2</string>
+	<key>string</key>
+	<string>"lorem ipsum"</string>
+	<key>language.subroutine.function</key>
+	<string>someFunction()</string>
+  </dict>
+</plist>

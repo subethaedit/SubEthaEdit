@@ -1,6 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <settings>
-    <recognition>
-        <extension>swift</extension>
-    </recognition>
+	<template>NewTemplate.swift</template>
+	<recognition>
+		<extension>swift</extension>
+		<regex>\A#![^\n]+swift</regex>
+		<regex>^[^\S\n]*override([^\S\n]*class)?[^\S\n]*func</regex>
+		<regex>^[^\S\n]*import[^\S\n]*(Foundation|Cococa|UIKit|SpriteKit|AppKit|Quartz)</regex>
+	</recognition>
 </settings>
