@@ -554,6 +554,13 @@
 			remoteGlobalIDString = 8D15AC270486D014006FF6A4;
 			remoteInfo = SubEthaEdit;
 		};
+		4C72F9191951B78700C4C6E3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D15AC270486D014006FF6A4;
+			remoteInfo = SubEthaEdit;
+		};
 		5EC638300ABEB78000D3295B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -2692,6 +2699,7 @@
 			dependencies = (
 				5EC638310ABEB78000D3295B /* PBXTargetDependency */,
 				4C72F9171951B78700C4C6E3 /* PBXTargetDependency */,
+				4C72F91A1951B78700C4C6E3 /* PBXTargetDependency */,
 			);
 			name = "Unit Tests";
 			productName = "Unit Tests";
@@ -3411,6 +3419,11 @@
 			target = 8D15AC270486D014006FF6A4 /* SubEthaEdit */;
 			targetProxy = 4C72F9161951B78700C4C6E3 /* PBXContainerItemProxy */;
 		};
+		4C72F91A1951B78700C4C6E3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D15AC270486D014006FF6A4 /* SubEthaEdit */;
+			targetProxy = 4C72F9191951B78700C4C6E3 /* PBXContainerItemProxy */;
+		};
 		5EC638310ABEB78000D3295B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8D15AC270486D014006FF6A4 /* SubEthaEdit */;
@@ -3710,6 +3723,7 @@
 				);
 				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-C";
+				INFOPLIST_OUTPUT_FORMAT = binary;
 				INFOPLIST_PREPROCESS = YES;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -3719,6 +3733,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_CFLAGS = "";
 				OTHER_CODE_SIGN_FLAGS = "--deep";
+				PLIST_FILE_OUTPUT_FORMAT = binary;
 				PRODUCT_NAME = SubEthaEdit;
 				SKIP_INSTALL = NO;
 				WARNING_CFLAGS = "-Wunreachable-code";
@@ -3744,6 +3759,7 @@
 				);
 				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-C";
+				INFOPLIST_OUTPUT_FORMAT = binary;
 				INFOPLIST_PREPROCESS = YES;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -3756,6 +3772,7 @@
 					"-DNS_BLOCK_ASSERTIONS",
 					"-DNDEBUG",
 				);
+				PLIST_FILE_OUTPUT_FORMAT = binary;
 				PRODUCT_NAME = SubEthaEdit;
 				SKIP_INSTALL = NO;
 				WARNING_CFLAGS = "-Wunreachable-code";
