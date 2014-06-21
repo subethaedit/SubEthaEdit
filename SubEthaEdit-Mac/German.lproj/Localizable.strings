@@ -904,7 +904,7 @@
 "ENCODING_DOCTOR_TABLEHEADING_LINE" = "Zeile";
 "ENCODING_DOCTOR_TABLEHEADING_ERROR" = "Fehler";
 "ENCODING_DOCTOR_CANCEL" = "Abbrechen";
-"ENCODING_DOCTOR_CONVERT_LOSSY" = "Verlustbehafted konvertieren";
+"ENCODING_DOCTOR_CONVERT_LOSSY" = "Verlustbehaftet konvertieren";
 "ENCODING_DOCTOR_CONVERT" = "Konvertieren";
 
 /* Default button title of the allow open panel */
