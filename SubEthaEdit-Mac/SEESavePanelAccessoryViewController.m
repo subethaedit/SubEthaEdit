@@ -56,9 +56,8 @@
     BOOL showsHiddenFiles = [[NSUserDefaults standardUserDefaults] boolForKey:@"ShowsHiddenFiles"];
 
     [savePanel setTreatsFilePackagesAsDirectories:isGoingIntoBundles];
+	[savePanel setCanSelectHiddenExtension:NO];
 	[savePanel setShowsHiddenFiles:showsHiddenFiles];
-	[savePanel setExtensionHidden:NO];
-    [savePanel setCanSelectHiddenExtension:NO];
 
 	if (UTTypeConformsTo((__bridge CFStringRef)documentFileType, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext")) {
 		[self.savePanelAccessoryFileFormatMatrixOutlet selectCellWithTag:1];
@@ -94,30 +93,44 @@
         [panel setAllowedFileTypes:@[@"de.codingmonkeys.subethaedit.seetext"]];
 		[panel setAllowsOtherFileTypes:NO];
     } else {
+		[panel setAllowedFileTypes:nil]; // make sure we have no default extension so we can readd or mode extension.
+
 		DocumentMode *documentMode = self.document.documentMode;
 		NSArray *recognizedExtensions = [documentMode recognizedExtensions];
 		if ([recognizedExtensions count]) {
 			NSString *fileExtension = recognizedExtensions.firstObject;
-			panel.nameFieldStringValue = [panel.nameFieldStringValue stringByAppendingPathExtension:fileExtension];
+			NSString *filename = panel.nameFieldStringValue;
+//			if (filename.length > 0 && filename.pathExtension.length == 0) {
+				panel.nameFieldStringValue = [filename stringByAppendingPathExtension:fileExtension];
+//			}
 		}
 
 		[panel setAllowedFileTypes:self.writablePlainTextDocumentTypes];
 		[panel setAllowsOtherFileTypes:YES];
     }
-    [panel setExtensionHidden:NO];
-	[panel setCanSelectHiddenExtension:YES];
 }
-
 
 - (NSArray *)writablePlainTextDocumentTypes
 {
 	NSMutableArray *writableDocumentTypes = [[self.document writableTypesForSaveOperation:self.saveOperation] mutableCopy];
 	[writableDocumentTypes removeObject:@"de.codingmonkeys.subethaedit.seetext"];
-	[writableDocumentTypes removeObject:self.document.fileType];
-	[writableDocumentTypes insertObject:self.document.fileType atIndex:0]; // ensure mode filextesion is the default fallback
+
+	NSString *documentFileType = self.document.fileType;
+	if ([documentFileType hasPrefix:@"dyn."]) {
+		DocumentMode *documentMode = self.document.documentMode;
+		NSArray *recognizedExtensions = [documentMode recognizedExtensions];
+		for (NSString *fileExtension in [recognizedExtensions reverseObjectEnumerator]) {
+			[writableDocumentTypes insertObject:fileExtension atIndex:0];
+		}
+	} else {
+		[writableDocumentTypes removeObject:self.document.fileType];
+		[writableDocumentTypes insertObject:self.document.fileType atIndex:0]; // ensure mode fileextesion is the default fallback
+	}
+
+	[writableDocumentTypes removeObject:(NSString *)kUTTypeText];
 	[writableDocumentTypes insertObject:(NSString *)kUTTypeText atIndex:0]; // this enables empty extensions
 
-    return writableDocumentTypes;
+	return writableDocumentTypes;
 }
 
 @end
