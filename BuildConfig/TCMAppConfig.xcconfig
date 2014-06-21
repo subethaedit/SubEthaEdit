@@ -8,7 +8,7 @@
 
 #include "TCMReleaseInfo.xcconfig"
 
-SDKROOT = macosx10.9
+SDKROOT = macosx
 MACOSX_DEPLOYMENT_TARGET = 10.9
 
 ARCHS = $(ARCHS_STANDARD_64_BIT)
