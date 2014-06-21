@@ -46,20 +46,6 @@
 }
 
 
-- (void)dealloc
-{
-	[self.savePanel removeObserver:self forKeyPath:@"isExtensionHidden"];
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-	if (context == (void *)0x745274) {
-		[self selectFileFormat:self.savePanelAccessoryFileFormatMatrixOutlet];
-	} else {
-		[super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-	}
-}
-
 - (void)loadView
 {
 	[super loadView];
@@ -71,8 +57,6 @@
 
     [savePanel setTreatsFilePackagesAsDirectories:isGoingIntoBundles];
 	[savePanel setShowsHiddenFiles:showsHiddenFiles];
-    [savePanel setCanSelectHiddenExtension:YES];
-	[savePanel setExtensionHidden:NO];
 
 	if (UTTypeConformsTo((__bridge CFStringRef)documentFileType, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext")) {
 		[self.savePanelAccessoryFileFormatMatrixOutlet selectCellWithTag:1];
@@ -80,6 +64,8 @@
 		[self.savePanelAccessoryFileFormatMatrixOutlet selectCellWithTag:0];
 	}
 	[self selectFileFormat:self.savePanelAccessoryFileFormatMatrixOutlet];
+	[savePanel setCanSelectHiddenExtension:YES];
+	[savePanel setExtensionHidden:NO];
 
 	self.savePanelProxy.content = savePanel;
 
@@ -98,8 +84,6 @@
 			[encodingPopup setEncoding:[document fileEncoding] defaultEntry:NO modeEntry:NO lossyEncodings:lossyEncodings];
 		}
     }
-
-	[savePanel addObserver:self forKeyPath:@"isExtensionHidden" options:0 context:(void *)0x745274];
 }
 
 
@@ -110,9 +94,6 @@
         [panel setAllowedFileTypes:@[@"de.codingmonkeys.subethaedit.seetext"]];
 		[panel setAllowsOtherFileTypes:NO];
     } else {
-		[panel setAllowedFileTypes:self.writablePlainTextDocumentTypes];
-		[panel setAllowsOtherFileTypes:YES];
-
 		DocumentMode *documentMode = self.document.documentMode;
 		if (panel.isExtensionHidden == NO) {
 			NSArray *recognizedExtensions = [documentMode recognizedExtensions];
@@ -124,9 +105,11 @@
 				}
 			}
 		}
+
+		[panel setAllowedFileTypes:self.writablePlainTextDocumentTypes];
+		[panel setAllowsOtherFileTypes:YES];
     }
 }
-
 
 - (NSArray *)writablePlainTextDocumentTypes
 {
@@ -134,12 +117,12 @@
 	[writableDocumentTypes removeObject:@"de.codingmonkeys.subethaedit.seetext"];
 
 	[writableDocumentTypes removeObject:self.document.fileType];
-	[writableDocumentTypes insertObject:self.document.fileType atIndex:0]; // ensure mode filextesion is the default fallback
+	[writableDocumentTypes insertObject:self.document.fileType atIndex:0]; // ensure mode fileextesion is the default fallback
 
 	[writableDocumentTypes removeObject:(NSString *)kUTTypeText];
 	[writableDocumentTypes insertObject:(NSString *)kUTTypeText atIndex:0]; // this enables empty extensions
 
-    return writableDocumentTypes;
+	return writableDocumentTypes;
 }
 
 @end
