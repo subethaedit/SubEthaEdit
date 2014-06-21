@@ -96,15 +96,13 @@
 		[panel setAllowedFileTypes:nil]; // make sure we have no default extension so we can readd or mode extension.
 
 		DocumentMode *documentMode = self.document.documentMode;
-		if (panel.isExtensionHidden == NO) {
-			NSArray *recognizedExtensions = [documentMode recognizedExtensions];
-			if ([recognizedExtensions count]) {
-				NSString *fileExtension = recognizedExtensions.firstObject;
-				NSString *filename = panel.nameFieldStringValue;
-				if (filename.length > 0 && filename.pathExtension.length == 0) {
-					panel.nameFieldStringValue = [filename stringByAppendingPathExtension:fileExtension];
-				}
-			}
+		NSArray *recognizedExtensions = [documentMode recognizedExtensions];
+		if ([recognizedExtensions count]) {
+			NSString *fileExtension = recognizedExtensions.firstObject;
+			NSString *filename = panel.nameFieldStringValue;
+//			if (filename.length > 0 && filename.pathExtension.length == 0) {
+				panel.nameFieldStringValue = [filename stringByAppendingPathExtension:fileExtension];
+//			}
 		}
 
 		[panel setAllowedFileTypes:self.writablePlainTextDocumentTypes];
