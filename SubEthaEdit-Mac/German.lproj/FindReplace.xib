@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5053" systemVersion="13D21" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5053"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="FindReplaceController">
@@ -69,14 +69,14 @@ DQ
         <window title="Tabulatorbreite" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" hidesOnDeactivate="YES" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="328" userLabel="TabWidthPanel" customClass="NSPanel">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" utility="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="240" y="561" width="215" height="43"/>
+            <rect key="contentRect" x="240" y="561" width="255" height="43"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
             <view key="contentView" autoresizesSubviews="NO" id="330">
-                <rect key="frame" x="0.0" y="0.0" width="215" height="43"/>
+                <rect key="frame" x="0.0" y="0.0" width="255" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button verticalHuggingPriority="750" id="327">
-                        <rect key="frame" x="150" y="5" width="61" height="32"/>
+                        <rect key="frame" x="180" y="4" width="61" height="32"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <buttonCell key="cell" type="push" title="Setzen" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="433">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -90,7 +90,7 @@ DQ
                         </connections>
                     </button>
                     <textField verticalHuggingPriority="750" id="331">
-                        <rect key="frame" x="98" y="11" width="50" height="22"/>
+                        <rect key="frame" x="128" y="11" width="50" height="22"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="435">
                             <font key="font" metaFont="system"/>
@@ -102,12 +102,10 @@ DQ
                         </connections>
                     </textField>
                     <textField verticalHuggingPriority="750" id="329">
-                        <rect key="frame" x="17" y="14" width="76" height="17"/>
+                        <rect key="frame" x="17" y="14" width="105" height="17"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" id="434">
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Tabulatorbreite:" id="434">
                             <font key="font" metaFont="system"/>
-                            <string key="title">Tabulatorbreite:
-</string>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
