@@ -17,7 +17,7 @@
 #import "EncodingManager.h"
 #import "DocumentModeManager.h"
 
-@interface SEESavePanelAccessoryViewController ()
+@interface SEESavePanelAccessoryViewController () <NSOpenSavePanelDelegate>
 
 @end
 
@@ -58,6 +58,7 @@
     [savePanel setTreatsFilePackagesAsDirectories:isGoingIntoBundles];
 	[savePanel setCanSelectHiddenExtension:NO];
 	[savePanel setShowsHiddenFiles:showsHiddenFiles];
+	[savePanel setDelegate:self];
 
 	if (UTTypeConformsTo((__bridge CFStringRef)documentFileType, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext")) {
 		[self.savePanelAccessoryFileFormatMatrixOutlet selectCellWithTag:1];
@@ -85,6 +86,15 @@
     }
 }
 
+- (NSString *)panel:(NSSavePanel *)aPanel userEnteredFilename:(NSString *)filename confirmed:(BOOL)okFlag {
+	NSString *result = filename;
+	NSString *extension = filename.pathExtension;
+	if (extension.length) {
+	} else {
+		[aPanel setAllowedFileTypes:@[(NSString *)kUTTypeText]];
+	}
+	return result;
+}
 
 - (IBAction)selectFileFormat:(id)aSender
 {
@@ -97,16 +107,25 @@
 
 		DocumentMode *documentMode = self.document.documentMode;
 		NSArray *recognizedExtensions = [documentMode recognizedExtensions];
+		NSString *targetValue = panel.nameFieldStringValue;
 		if ([recognizedExtensions count]) {
 			NSString *fileExtension = recognizedExtensions.firstObject;
-			NSString *filename = panel.nameFieldStringValue;
-//			if (filename.length > 0 && filename.pathExtension.length == 0) {
-				panel.nameFieldStringValue = [filename stringByAppendingPathExtension:fileExtension];
-//			}
+			if (targetValue.length > 0 && targetValue.pathExtension.length == 0) {
+				targetValue = [targetValue stringByAppendingPathExtension:fileExtension];
+			}
 		}
+		NSString *extension = [targetValue pathExtension];
+		if ([extension isEqualTo:@"seetext"]) {
+			extension = recognizedExtensions.firstObject;
+			targetValue = [[targetValue stringByDeletingPathExtension] stringByAppendingPathExtension:extension];
+		}
+		if (extension.length > 0) {
+			[panel setAllowedFileTypes:@[extension]];
+		} else {
+			[panel setAllowedFileTypes:nil];
+		}
+		panel.nameFieldStringValue = targetValue;
 
-		[panel setAllowedFileTypes:self.writablePlainTextDocumentTypes];
-		[panel setAllowsOtherFileTypes:YES];
     }
 }
 
@@ -121,16 +140,30 @@
 		NSArray *recognizedExtensions = [documentMode recognizedExtensions];
 		for (NSString *fileExtension in [recognizedExtensions reverseObjectEnumerator]) {
 			[writableDocumentTypes insertObject:fileExtension atIndex:0];
+// MARK: optional methods - alghough in remote view controller mode they don't seem to be optional
+
+- (BOOL)panel:(id)sender shouldEnableURL:(NSURL *)url {
+	//NSLog(@"%s %@",__FUNCTION__,url);
+	return YES;
 		}
-	} else {
-		[writableDocumentTypes removeObject:self.document.fileType];
-		[writableDocumentTypes insertObject:self.document.fileType atIndex:0]; // ensure mode fileextesion is the default fallback
+
+- (BOOL)panel:(id)sender validateURL:(NSURL *)url error:(NSError **)outError {
+	//NSLog(@"%s %@",__FUNCTION__,url);
+	return YES;
 	}
 
-	[writableDocumentTypes removeObject:(NSString *)kUTTypeText];
-	[writableDocumentTypes insertObject:(NSString *)kUTTypeText atIndex:0]; // this enables empty extensions
-
-	return writableDocumentTypes;
+- (void)panel:(id)sender didChangeToDirectoryURL:(NSURL *)url NS_AVAILABLE_MAC(10_6) {
+	
 }
+
+/* this does get called even if not implemented */
+- (void)panel:(id)sender willExpand:(BOOL)expanding {
+	// ignore
+}
+
+- (void)panelSelectionDidChange:(id)sender {
+	// ignore
+}
+
 
 @end
