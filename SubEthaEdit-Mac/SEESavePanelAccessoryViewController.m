@@ -23,8 +23,6 @@
 
 @implementation SEESavePanelAccessoryViewController
 
-@dynamic writableDocumentTypes;
-
 
 + (instancetype)prepareSavePanel:(NSSavePanel *)savePanel withSaveOperation:(NSSaveOperationType)saveOperation forDocument:(PlainTextDocument *)document
 {
@@ -59,7 +57,7 @@
 	[savePanel setCanSelectHiddenExtension:NO];
 	[savePanel setShowsHiddenFiles:showsHiddenFiles];
 	[savePanel setDelegate:self];
-
+	
 	if (UTTypeConformsTo((__bridge CFStringRef)documentFileType, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext")) {
 		[self.savePanelAccessoryFileFormatMatrixOutlet selectCellWithTag:1];
 	} else {
@@ -90,6 +88,10 @@
 	NSString *result = filename;
 	NSString *extension = filename.pathExtension;
 	if (extension.length) {
+		[aPanel setAllowedFileTypes:@[extension]];
+		// doubling of extensions is happening so try to avoid it
+		result = [filename stringByDeletingPathExtension];
+		[aPanel setNameFieldStringValue:result];
 	} else {
 		[aPanel setAllowedFileTypes:@[(NSString *)kUTTypeText]];
 	}
@@ -103,8 +105,8 @@
         [panel setAllowedFileTypes:@[@"de.codingmonkeys.subethaedit.seetext"]];
 		[panel setAllowsOtherFileTypes:NO];
     } else {
-		[panel setAllowedFileTypes:nil]; // make sure we have no default extension so we can readd or mode extension.
-
+		[panel setAllowsOtherFileTypes:NO];
+		
 		DocumentMode *documentMode = self.document.documentMode;
 		NSArray *recognizedExtensions = [documentMode recognizedExtensions];
 		NSString *targetValue = panel.nameFieldStringValue;
@@ -114,6 +116,7 @@
 				targetValue = [targetValue stringByAppendingPathExtension:fileExtension];
 			}
 		}
+		NSLog(@"%s value: %@ targetname: %@",__FUNCTION__,panel.nameFieldStringValue,targetValue);
 		NSString *extension = [targetValue pathExtension];
 		if ([extension isEqualTo:@"seetext"]) {
 			extension = recognizedExtensions.firstObject;
@@ -129,28 +132,18 @@
     }
 }
 
-- (NSArray *)writablePlainTextDocumentTypes
-{
-	NSMutableArray *writableDocumentTypes = [[self.document writableTypesForSaveOperation:self.saveOperation] mutableCopy];
-	[writableDocumentTypes removeObject:@"de.codingmonkeys.subethaedit.seetext"];
 
-	NSString *documentFileType = self.document.fileType;
-	if ([documentFileType hasPrefix:@"dyn."]) {
-		DocumentMode *documentMode = self.document.documentMode;
-		NSArray *recognizedExtensions = [documentMode recognizedExtensions];
-		for (NSString *fileExtension in [recognizedExtensions reverseObjectEnumerator]) {
-			[writableDocumentTypes insertObject:fileExtension atIndex:0];
 // MARK: optional methods - alghough in remote view controller mode they don't seem to be optional
 
 - (BOOL)panel:(id)sender shouldEnableURL:(NSURL *)url {
 	//NSLog(@"%s %@",__FUNCTION__,url);
 	return YES;
-		}
+}
 
 - (BOOL)panel:(id)sender validateURL:(NSURL *)url error:(NSError **)outError {
 	//NSLog(@"%s %@",__FUNCTION__,url);
 	return YES;
-	}
+}
 
 - (void)panel:(id)sender didChangeToDirectoryURL:(NSURL *)url NS_AVAILABLE_MAC(10_6) {
 	
