@@ -88,10 +88,12 @@
 	NSString *result = filename;
 	NSString *extension = filename.pathExtension;
 	if (extension.length) {
-		[aPanel setAllowedFileTypes:@[extension]];
-		// doubling of extensions is happening so try to avoid it
-		result = [filename stringByDeletingPathExtension];
-		[aPanel setNameFieldStringValue:result];
+		if ([[aPanel allowedFileTypes] containsObject:extension]) {
+			[aPanel setAllowedFileTypes:@[extension]];
+		} else {
+			// some type we don't know
+			[aPanel setAllowedFileTypes:@[(NSString *)kUTTypeData]];
+		}
 	} else {
 		[aPanel setAllowedFileTypes:@[(NSString *)kUTTypeText]];
 	}
