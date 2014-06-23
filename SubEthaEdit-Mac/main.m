@@ -23,12 +23,22 @@ int main(int argc, char *argv[])
 #define BETA_EXPIRE_DATE_LITERAL @ STRINGIZE2(BETA_EXPIRE_DATE)
 
 	NSString *expireDateString = BETA_EXPIRE_DATE_LITERAL;
-	NSDate *expireDate = [NSCalendarDate dateWithString:expireDateString];
+
+	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+	NSLocale *enUSPOSIXLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
+	[dateFormatter setLocale:enUSPOSIXLocale];
+	[dateFormatter setDateFormat:@"yyyy'-'MM'-'dd' 'HH':'mm':'ss' 'xx"];
+
+	NSDate *expireDate = [dateFormatter dateFromString:expireDateString];
+
 	NSDate *today = [NSDate date];
 	if ([today compare:expireDate] == NSOrderedDescending) {
 		NSLog(@"THIS BETA IS EXPIRED!");
 
-		NSAlert *alert = [NSAlert alertWithMessageText:@"This beta version of SubEthaEdit has expired." defaultButton:nil alternateButton:nil otherButton:nil informativeTextWithFormat:@"Please visit http://subethaedit.net/ to download a new version.", nil];
+		NSAlert *alert = [[NSAlert alloc] init];
+		alert.messageText = @"This beta version of SubEthaEdit has expired.";
+		alert.informativeText = @"Please visit http://subethaedit.net/ to download a new version.";
+
 		[alert runModal];
 		return 0;
 	}
