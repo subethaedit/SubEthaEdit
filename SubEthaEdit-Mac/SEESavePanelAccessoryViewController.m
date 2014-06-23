@@ -126,12 +126,12 @@
 			
 			NSString *UTI = CFBridgingRelease(UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (__bridge CFStringRef)extension, kUTTypeText));
 			if (![UTI hasPrefix:@"dyn"]) {
-				[panel setAllowedFileTypes:@[UTI]];
+				[panel setAllowedFileTypes:[@[UTI] arrayByAddingObjectsFromArray:[DocumentModeManager sharedInstance].allPathExtensions]];
 			} else {
-				[panel setAllowedFileTypes:@[extension]];
+				[panel setAllowedFileTypes:[@[extension] arrayByAddingObjectsFromArray:[DocumentModeManager sharedInstance].allPathExtensions]];
 			}
 		} else {
-			[panel setAllowedFileTypes:@[(NSString *)kUTTypeText]];
+			[panel setAllowedFileTypes:[@[(NSString *)kUTTypeText] arrayByAddingObjectsFromArray:[DocumentModeManager sharedInstance].allPathExtensions]];
 		}
 
 		panel.nameFieldStringValue = targetValue;
