@@ -116,7 +116,7 @@
 				targetValue = [targetValue stringByAppendingPathExtension:fileExtension];
 			}
 		}
-		NSLog(@"%s value: %@ targetname: %@",__FUNCTION__,panel.nameFieldStringValue,targetValue);
+		//		NSLog(@"%s value: %@ targetname: %@",__FUNCTION__,panel.nameFieldStringValue,targetValue);
 		NSString *extension = [targetValue pathExtension];
 		if ([extension isEqualTo:@"seetext"]) {
 			extension = recognizedExtensions.firstObject;
