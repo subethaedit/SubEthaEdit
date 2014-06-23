@@ -57,7 +57,7 @@
 	[savePanel setCanSelectHiddenExtension:NO];
 	[savePanel setShowsHiddenFiles:showsHiddenFiles];
 	[savePanel setDelegate:self];
-	
+
 	if (UTTypeConformsTo((__bridge CFStringRef)documentFileType, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext")) {
 		[self.savePanelAccessoryFileFormatMatrixOutlet selectCellWithTag:1];
 	} else {
@@ -105,7 +105,7 @@
         [panel setAllowedFileTypes:@[@"de.codingmonkeys.subethaedit.seetext"]];
 		[panel setAllowsOtherFileTypes:NO];
     } else {
-		[panel setAllowsOtherFileTypes:NO];
+		[panel setAllowsOtherFileTypes:YES];
 		
 		DocumentMode *documentMode = self.document.documentMode;
 		NSArray *recognizedExtensions = [documentMode recognizedExtensions];
@@ -123,12 +123,18 @@
 			targetValue = [[targetValue stringByDeletingPathExtension] stringByAppendingPathExtension:extension];
 		}
 		if (extension.length > 0) {
-			[panel setAllowedFileTypes:@[extension]];
+			
+			NSString *UTI = CFBridgingRelease(UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (__bridge CFStringRef)extension, kUTTypeText));
+			if (![UTI hasPrefix:@"dyn"]) {
+				[panel setAllowedFileTypes:@[UTI]];
+			} else {
+				[panel setAllowedFileTypes:@[extension]];
+			}
 		} else {
-			[panel setAllowedFileTypes:nil];
+			[panel setAllowedFileTypes:@[(NSString *)kUTTypeText]];
 		}
-		panel.nameFieldStringValue = targetValue;
 
+		panel.nameFieldStringValue = targetValue;
     }
 }
 
@@ -158,5 +164,18 @@
 	// ignore
 }
 
+//- (void)windowDidUpdate:(NSNotification *)aNotification {
+//	//	NSLog(@"%s %@",__FUNCTION__,aNotification);
+//	NSString *extension = self.savePanel.nameFieldLabel.pathExtension;
+//	if (extension.length > 0) {
+//		if (![self.savePanel.allowedFileTypes containsObject:extension]) {
+//			[self.savePanel setAllowedFileTypes:@[extension]];
+//		}
+//	} else {
+//		if (![self.savePanel.allowedFileTypes containsObject:(NSString *)kUTTypeText]) {
+//			self.savePanel.allowedFileTypes = @[(NSString *)kUTTypeText];
+//		}
+//	}
+//}
 
 @end
