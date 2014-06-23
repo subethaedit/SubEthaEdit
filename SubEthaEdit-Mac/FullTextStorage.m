@@ -851,13 +851,18 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 	BOOL result = NO;
 	NSRange effectiveRange = NSMakeRange(NSMaxRange(aLineRange) > 0 ? NSMaxRange(aLineRange) - 1 : 0,0);
 	NSString *foldingDelimiter = nil;
-	while (effectiveRange.location > aLineRange.location) {
+	while (effectiveRange.location >= aLineRange.location && aLineRange.length > 0
+		   ) {
 		foldingDelimiter = [self attribute:kSyntaxHighlightingFoldDelimiterName atIndex:effectiveRange.location longestEffectiveRange:&effectiveRange inRange:aLineRange];
 		if (foldingDelimiter) {
-			if ([foldingDelimiter isEqualToString:kSyntaxHighlightingStateDelimiterStartValue]) result = YES;
+			if ([foldingDelimiter isEqualToString:kSyntaxHighlightingStateDelimiterStartValue]) {
+				result = YES;
+			}
 			break;
 		}
-		if (effectiveRange.location > 0) effectiveRange.location -= 1; // iterate backwards
+		if (effectiveRange.location > 0) {
+			effectiveRange.location -= 1; // iterate backwards
+		}
 	}
 	return result;
 }
