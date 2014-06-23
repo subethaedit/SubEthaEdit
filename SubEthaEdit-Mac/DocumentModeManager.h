@@ -51,6 +51,8 @@
 	NSMutableDictionary *I_styleSheetsByName;
 }
 
+@property (nonatomic, strong, readonly) NSArray *allPathExtensions;
+
 + (DocumentModeManager *)sharedInstance;
 + (DocumentMode *)baseMode;
 + (NSString *)xmlFileRepresentationOfAllStyles;

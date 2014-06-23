@@ -117,6 +117,10 @@
 #pragma mark
 static DocumentModeManager *S_sharedInstance=nil;
 
+@interface DocumentModeManager ()
+@property (nonatomic, strong) NSArray *allPathExtensions;
+@end
+
 @implementation DocumentModeManager
 @synthesize changedScopeNameDict;
 
@@ -289,6 +293,8 @@ static DocumentModeManager *S_sharedInstance=nil;
 
 - (NSMutableArray *)reloadPrecedences {
     
+	NSMutableSet *allPathExtensionSet = [NSMutableSet set];
+	
     NSArray *oldPrecedenceArray = nil;
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
     oldPrecedenceArray = [defaults objectForKey:@"ModePrecedences"];
@@ -366,6 +372,7 @@ static DocumentModeManager *S_sharedInstance=nil;
 									  @"",@"OverriddenTooltip",
 									  [NSNumber numberWithBool:YES],@"ModeRule",
 									  nil]];
+				[allPathExtensionSet addObject:extension];
 			}
 
 			while ((casesensitiveExtension = [casesensitiveExtensions nextObject])) {
@@ -377,6 +384,7 @@ static DocumentModeManager *S_sharedInstance=nil;
 									  @"",@"OverriddenTooltip",
 									  [NSNumber numberWithBool:YES],@"ModeRule",
 									  nil]];
+				[allPathExtensionSet addObject:casesensitiveExtension];
 			}
 
 			while ((filename = [filenames nextObject])) {
@@ -438,6 +446,9 @@ static DocumentModeManager *S_sharedInstance=nil;
 	}
 	
     [defaults setObject:precendenceArray forKey:@"ModePrecedences"];
+	
+	self.allPathExtensions = [[allPathExtensionSet allObjects] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+	
     return precendenceArray;
 }
 

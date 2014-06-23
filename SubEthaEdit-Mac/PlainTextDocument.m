@@ -102,6 +102,8 @@ NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotification =
 NSString * const WrittenByUserIDAttributeName = @"WrittenByUserID";
 NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 
+NSString * const kSEETextTypeString = @"de.codingmonkeys.subethaedit.seetext";
+
 // Something that's used by our override of -shouldCloseWindowController:delegate:shouldCloseSelector:contextInfo: down below.
 @interface PlainTextDocumentShouldCloseContext : NSObject {
     @public
@@ -187,13 +189,13 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
 
 - (void)setFileType:(NSString *)aString {
     [self willChangeValueForKey:@"documentIcon"];
-    I_flags.isSEEText = UTTypeConformsTo((CFStringRef)aString, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext");
+    I_flags.isSEEText = UTTypeConformsTo((CFStringRef)aString, (CFStringRef)kSEETextTypeString);
     [super setFileType:aString];
     [self didChangeValueForKey:@"documentIcon"];
 }
 
 - (NSImage *)documentIcon {
-    if (UTTypeConformsTo((CFStringRef)[self fileType], (CFStringRef)@"de.codingmonkeys.subethaedit.seetext")) {
+    if (UTTypeConformsTo((CFStringRef)[self fileType], (CFStringRef)kSEETextTypeString)) {
         return [NSImage imageNamed:@"seetext"];
     } else {
         return [NSImage imageNamed:@"SubEthaEditFiles"];
@@ -2514,6 +2516,9 @@ struct SelectionRange
 
 - (void)saveDocumentWithDelegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)contextInfo {
     if ([self TCM_validateDocument]) {
+		if (![self.fileType isEqualTo:kSEETextTypeString]) {
+			self.fileType = (NSString *)kUTTypeData;
+		}
         [super saveDocumentWithDelegate:delegate didSaveSelector:didSaveSelector contextInfo:contextInfo];
     }
 }
@@ -2650,13 +2655,13 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         if (saveOperation == NSSaveToOperation) {
             I_encodingFromLastRunSaveToOperation = [[accessoryViewController.encodingPopUpButtonOutlet selectedItem] tag];
             if ([[accessoryViewController.savePanelAccessoryFileFormatMatrixOutlet selectedCell] tag] == 1) {
-                aType = @"de.codingmonkeys.subethaedit.seetext";
+                aType = kSEETextTypeString;
 			} else {
 //                aType = (NSString *)kUTTypeData;
             }
 		} else if (didShowPanel) {
             if ([[accessoryViewController.savePanelAccessoryFileFormatMatrixOutlet selectedCell] tag] == 1) {
-                aType = @"de.codingmonkeys.subethaedit.seetext";
+                aType = kSEETextTypeString;
                 I_flags.isSEEText = YES;
             } else {
 //                aType = (NSString *)kUTTypeData;
@@ -2664,7 +2669,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
             }
 		}
     }
-    if (UTTypeConformsTo((CFStringRef)aType, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext")) {
+    if (UTTypeConformsTo((CFStringRef)aType, (CFStringRef)kSEETextTypeString)) {
         NSString *seeTextExtension = [self fileNameExtensionForType:aType saveOperation:NSSaveOperation];
         if (![[[anAbsoluteURL path] pathExtension] isEqualToString:seeTextExtension]) {
             anAbsoluteURL = [NSURL fileURLWithPath:[[anAbsoluteURL path] stringByAppendingPathExtension:seeTextExtension]];
@@ -2798,7 +2803,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         if (!hadChanges) {
             [self performSelector:@selector(clearChangeCount) withObject:nil afterDelay:0.0];
         }
-        I_flags.isSEEText = UTTypeConformsTo((CFStringRef)[self fileType], (CFStringRef)@"de.codingmonkeys.subethaedit.seetext");
+        I_flags.isSEEText = UTTypeConformsTo((CFStringRef)[self fileType], (CFStringRef)kSEETextTypeString);
         if (wasAutosave) *wasAutosave = YES;
     }
 	if (I_stateDictionaryFromLoading) { // was set in takeSettingsFromDocumentState: because of symmetry - is code that also is in the non-seetext part of the calling method
@@ -2863,7 +2868,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
     BOOL isDir, fileExists;
     fileExists = [[NSFileManager defaultManager] fileExistsAtPath:fileName isDirectory:&isDir];
-    if (fileExists && !isDir && UTTypeConformsTo((CFStringRef)docType, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext")) {
+    if (fileExists && !isDir && UTTypeConformsTo((CFStringRef)docType, (CFStringRef)kSEETextTypeString)) {
 		NSString *fileExtension = [fileName pathExtension];
 
 		if (fileExtension) {
@@ -2873,7 +2878,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 			[self performSelector:@selector(setFileType:) withObject:(NSString *)kUTTypeText afterDelay:0.];
 		}
     }
-    if (!fileExists || (isDir && !UTTypeConformsTo((CFStringRef)docType, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext"))) {
+    if (!fileExists || (isDir && !UTTypeConformsTo((CFStringRef)docType, (CFStringRef)kSEETextTypeString))) {
         // generate the correct error
         [NSData dataWithContentsOfURL:anURL options:0 error:outError];
         DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"file doesn't exist %@",outError?*outError:nil);
@@ -2893,7 +2898,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     }
 
 
-    if (UTTypeConformsTo((CFStringRef)docType, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext")) {
+    if (UTTypeConformsTo((CFStringRef)docType, (CFStringRef)kSEETextTypeString)) {
         BOOL result = [self readSEETextFromURL:anURL properties:aProperties wasAutosave:&wasAutosaved error:outError];
         if (!result) {
             I_flags.isReadingFile = NO;
@@ -3250,7 +3255,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         [[self documentUndoManager] endUndoGrouping];
     }
     
-    if (!isReverting && !UTTypeConformsTo((CFStringRef)docType, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext")) {
+    if (!isReverting && !UTTypeConformsTo((CFStringRef)docType, (CFStringRef)kSEETextTypeString)) {
         // clear the logging state
         if ([I_textStorage length] > [defaults integerForKey:@"ByteLengthToUseForModeRecognitionAndEncodingGuessing"]) {
         // if the file is to big no logging state to save space
@@ -3421,7 +3426,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 }
 
 - (NSString *)autosavingFileType {
-    return @"de.codingmonkeys.subethaedit.seetext";
+    return kSEETextTypeString;
 }
 
 - (BOOL)writeSafelyToURL:(NSURL*)anAbsoluteURL ofType:(NSString *)docType forSaveOperation:(NSSaveOperationType)saveOperationType error:(NSError **)outError {
@@ -3689,7 +3694,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 		//        NSArray *xattrKeys = [UKXattrMetadataStore allKeysAtPath:[absoluteURL path] traverseLink:YES];
 		//        NSLog(@"%s xattrKeys:%@",__FUNCTION__,xattrKeys);
         return result;
-    } else if (UTTypeConformsTo((CFStringRef)inType, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext")) {
+    } else if (UTTypeConformsTo((CFStringRef)inType, (CFStringRef)kSEETextTypeString)) {
         NSString *packagePath = [absoluteURL path];
         NSFileManager *fm =[NSFileManager defaultManager];
         if ([fm createDirectoryAtPath:packagePath withIntermediateDirectories:YES attributes:nil error:nil]) {
