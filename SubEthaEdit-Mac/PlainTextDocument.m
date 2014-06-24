@@ -5680,9 +5680,10 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 - (IBAction)inviteUsersToDocumentViaSharingService:(id)sender {
 	NSURL *documentSharingURL = [self documentURL];
 	NSArray *sharingServiceItems = @[];
-	if (documentSharingURL && self.isAnnounced) {
+	if (documentSharingURL) {
 		sharingServiceItems = @[documentSharingURL];
 	}
+
 	NSSharingServicePicker *servicePicker = [[[NSSharingServicePicker alloc] initWithItems:sharingServiceItems] autorelease];
 	[servicePicker setDelegate:self];
 	[servicePicker showRelativeToRect:NSZeroRect ofView:sender preferredEdge:CGRectMaxYEdge];
@@ -5785,6 +5786,19 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 				}
 			}
 		}
+	}
+
+	// check if we have a mapped public URL
+	BOOL hasPublicURL = NO;
+	TCMPortMapper *pm = [TCMPortMapper sharedInstance];
+	TCMPortMapping *mapping = [[pm portMappings] anyObject];
+	if (([mapping mappingStatus] == TCMPortMappingStatusMapped) && [pm externalIPAddress] && [mapping externalPort]) {
+		hasPublicURL = YES;
+	}
+
+	if (! hasPublicURL) {
+		[sharingServices removeObject:[NSSharingService sharingServiceNamed:NSSharingServiceNameComposeEmail]];
+		[sharingServices removeObject:[NSSharingService sharingServiceNamed:NSSharingServiceNameComposeMessage]];
 	}
 
 	// remove Safari Reading List entry if available...
