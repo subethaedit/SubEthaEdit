@@ -11,6 +11,7 @@
 #import "GeneralPreferences.h"
 #import "SyntaxStyle.h"
 #import "SyntaxDefinition.h"
+#import "PlainTextDocument.h"
 #import <OgreKit/OgreKit.h>
 
 @interface DocumentModeManager ()
@@ -446,6 +447,16 @@ static DocumentModeManager *S_sharedInstance=nil;
 	}
 	
     [defaults setObject:precendenceArray forKey:@"ModePrecedences"];
+	
+	// add all the types from the document class
+	NSMutableSet *typeSet = [NSMutableSet setWithArray:[PlainTextDocument writableTypes]];
+	[typeSet removeObject:kSEETypeSEEText];
+	[typeSet removeObject:kSEETypeSEEMode];
+	for (NSString *type in typeSet) {
+		NSArray *extensions = [SEEDocumentController allTagsOfTagClass:kUTTagClassFilenameExtension forUTI:type];
+		//		NSLog(@"%s %@: %@",__FUNCTION__,type, extensions);
+		[allPathExtensionSet addObjectsFromArray:extensions];
+	}
 	
 	self.allPathExtensions = [[allPathExtensionSet allObjects] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
 	

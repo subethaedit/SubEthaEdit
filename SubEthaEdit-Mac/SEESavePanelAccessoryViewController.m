@@ -54,11 +54,12 @@
     BOOL showsHiddenFiles = [[NSUserDefaults standardUserDefaults] boolForKey:@"ShowsHiddenFiles"];
 
     [savePanel setTreatsFilePackagesAsDirectories:isGoingIntoBundles];
+	[savePanel setExtensionHidden:NO]; // this is needed so the initial state is extension not hidden - although docu states that the call below (setCanSelectHiddenExtension:) does this already for us
 	[savePanel setCanSelectHiddenExtension:NO];
 	[savePanel setShowsHiddenFiles:showsHiddenFiles];
 	[savePanel setDelegate:self];
 
-	if (UTTypeConformsTo((__bridge CFStringRef)documentFileType, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext")) {
+	if (UTTypeConformsTo((__bridge CFStringRef)documentFileType, (__bridge CFStringRef)kSEETypeSEEText)) {
 		[self.savePanelAccessoryFileFormatMatrixOutlet selectCellWithTag:1];
 	} else {
 		[self.savePanelAccessoryFileFormatMatrixOutlet selectCellWithTag:0];
@@ -87,13 +88,9 @@
 - (NSString *)panel:(NSSavePanel *)aPanel userEnteredFilename:(NSString *)filename confirmed:(BOOL)okFlag {
 	NSString *result = filename;
 	NSString *extension = filename.pathExtension;
-	if (extension.length) {
-		if ([[aPanel allowedFileTypes] containsObject:extension]) {
-			[aPanel setAllowedFileTypes:@[extension]];
-		} else {
-			// some type we don't know
-			[aPanel setAllowedFileTypes:@[(NSString *)kUTTypeData]];
-		}
+	if (extension.length &&
+		([[aPanel allowedFileTypes] containsObject:extension])) {
+		[aPanel setAllowedFileTypes:@[extension]];
 	} else {
 		[aPanel setAllowedFileTypes:@[(NSString *)kUTTypeText]];
 	}
@@ -104,26 +101,26 @@
 {
     NSSavePanel *panel = (NSSavePanel *)self.savePanel;
     if ([[aSender selectedCell] tag]==1) {
-        [panel setAllowedFileTypes:@[@"de.codingmonkeys.subethaedit.seetext"]];
+        [panel setAllowedFileTypes:@[kSEETypeSEEText]];
 		[panel setAllowsOtherFileTypes:NO];
     } else {
 		[panel setAllowsOtherFileTypes:YES];
 		
 		DocumentMode *documentMode = self.document.documentMode;
 		NSArray *recognizedExtensions = [documentMode recognizedExtensions];
+		NSString *desiredExtension = [self.document.fileURL pathExtension];
 		NSString *targetValue = panel.nameFieldStringValue;
-		if ([recognizedExtensions count]) {
-			NSString *fileExtension = recognizedExtensions.firstObject;
-			if (targetValue.length > 0 && targetValue.pathExtension.length == 0) {
-				targetValue = [targetValue stringByAppendingPathExtension:fileExtension];
-			}
+		if ([[targetValue pathExtension] isEqualTo:@"seetext"]) {
+			targetValue = [targetValue stringByDeletingPathExtension];
+		}
+		if (!desiredExtension && [recognizedExtensions count] ) {
+			desiredExtension = recognizedExtensions.firstObject;
+		}
+		if (targetValue.length > 0 && targetValue.pathExtension.length == 0) {
+			targetValue = [targetValue stringByAppendingPathExtension:desiredExtension];
 		}
 		//		NSLog(@"%s value: %@ targetname: %@",__FUNCTION__,panel.nameFieldStringValue,targetValue);
 		NSString *extension = [targetValue pathExtension];
-		if ([extension isEqualTo:@"seetext"]) {
-			extension = recognizedExtensions.firstObject;
-			targetValue = [[targetValue stringByDeletingPathExtension] stringByAppendingPathExtension:extension];
-		}
 		if (extension.length > 0) {
 			
 			NSString *UTI = CFBridgingRelease(UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (__bridge CFStringRef)extension, kUTTypeText));
@@ -157,7 +154,7 @@
 	
 }
 
-/* this does get called even if not implemented */
+/* this does get called even if not implemented on 10_9_3 */
 - (void)panel:(id)sender willExpand:(BOOL)expanding {
 	// ignore
 }
@@ -165,19 +162,5 @@
 - (void)panelSelectionDidChange:(id)sender {
 	// ignore
 }
-
-//- (void)windowDidUpdate:(NSNotification *)aNotification {
-//	//	NSLog(@"%s %@",__FUNCTION__,aNotification);
-//	NSString *extension = self.savePanel.nameFieldLabel.pathExtension;
-//	if (extension.length > 0) {
-//		if (![self.savePanel.allowedFileTypes containsObject:extension]) {
-//			[self.savePanel setAllowedFileTypes:@[extension]];
-//		}
-//	} else {
-//		if (![self.savePanel.allowedFileTypes containsObject:(NSString *)kUTTypeText]) {
-//			self.savePanel.allowedFileTypes = @[(NSString *)kUTTypeText];
-//		}
-//	}
-//}
 
 @end
