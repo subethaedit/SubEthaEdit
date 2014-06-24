@@ -108,19 +108,19 @@
 		
 		DocumentMode *documentMode = self.document.documentMode;
 		NSArray *recognizedExtensions = [documentMode recognizedExtensions];
+		NSString *desiredExtension = [self.document.fileURL pathExtension];
 		NSString *targetValue = panel.nameFieldStringValue;
-		if ([recognizedExtensions count]) {
-			NSString *fileExtension = recognizedExtensions.firstObject;
-			if (targetValue.length > 0 && targetValue.pathExtension.length == 0) {
-				targetValue = [targetValue stringByAppendingPathExtension:fileExtension];
-			}
+		if ([[targetValue pathExtension] isEqualTo:@"seetext"]) {
+			targetValue = [targetValue stringByDeletingPathExtension];
+		}
+		if (!desiredExtension && [recognizedExtensions count] ) {
+			desiredExtension = recognizedExtensions.firstObject;
+		}
+		if (targetValue.length > 0 && targetValue.pathExtension.length == 0) {
+			targetValue = [targetValue stringByAppendingPathExtension:desiredExtension];
 		}
 		//		NSLog(@"%s value: %@ targetname: %@",__FUNCTION__,panel.nameFieldStringValue,targetValue);
 		NSString *extension = [targetValue pathExtension];
-		if ([extension isEqualTo:@"seetext"]) {
-			extension = recognizedExtensions.firstObject;
-			targetValue = [[targetValue stringByDeletingPathExtension] stringByAppendingPathExtension:extension];
-		}
 		if (extension.length > 0) {
 			
 			NSString *UTI = CFBridgingRelease(UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (__bridge CFStringRef)extension, kUTTypeText));
