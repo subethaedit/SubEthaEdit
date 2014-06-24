@@ -88,13 +88,9 @@
 - (NSString *)panel:(NSSavePanel *)aPanel userEnteredFilename:(NSString *)filename confirmed:(BOOL)okFlag {
 	NSString *result = filename;
 	NSString *extension = filename.pathExtension;
-	if (extension.length) {
-		if ([[aPanel allowedFileTypes] containsObject:extension]) {
-			[aPanel setAllowedFileTypes:@[extension]];
-		} else {
-			// some type we don't know
-			[aPanel setAllowedFileTypes:@[(NSString *)kUTTypeData]];
-		}
+	if (extension.length &&
+		([[aPanel allowedFileTypes] containsObject:extension])) {
+		[aPanel setAllowedFileTypes:@[extension]];
 	} else {
 		[aPanel setAllowedFileTypes:@[(NSString *)kUTTypeText]];
 	}

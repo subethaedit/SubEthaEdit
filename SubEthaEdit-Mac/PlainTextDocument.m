@@ -2512,11 +2512,17 @@ struct SelectionRange
 #pragma mark -
 #pragma mark ### Save/Open Panel loading ###
 
+- (void)TCM_ensureFileTypeDataOrSEEText {
+	if (![self.fileType isEqualTo:kSEETypeSEEText] &&
+		![self.fileType isEqualTo:(NSString *)kUTTypeData]) {
+		// this neeeds to be data so the open panel doesn't strip our extensions
+		self.fileType = (NSString *)kUTTypeData;
+	}
+}
+
 - (void)saveDocumentWithDelegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)contextInfo {
     if ([self TCM_validateDocument]) {
-		if (![self.fileType isEqualTo:kSEETypeSEEText]) {
-			self.fileType = (NSString *)kUTTypeData;
-		}
+		[self TCM_ensureFileTypeDataOrSEEText];
         [super saveDocumentWithDelegate:delegate didSaveSelector:didSaveSelector contextInfo:contextInfo];
     }
 }
