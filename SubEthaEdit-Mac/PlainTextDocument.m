@@ -5813,7 +5813,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 	if (! self.isAnnounced && self.session.isServer && self.documentURL) {
 		NSString *sharingServiceTitle = NSLocalizedString(@"Advertise Document", @"Advertise document string used in sharing service picker.");
-		NSImage *sharingServiceImage = [NSImage imageNamed:NSImageNameIChatTheaterTemplate];
+		NSImage *sharingServiceImage = [NSImage imageNamed:@"SharingServiceAnnounceMenuIcon"];
 		NSSharingService *customSharingService = [[[NSSharingService alloc] initWithTitle:sharingServiceTitle image:sharingServiceImage alternateImage:nil handler:^{
 			[self toggleIsAnnounced:self];
 		}] autorelease];
