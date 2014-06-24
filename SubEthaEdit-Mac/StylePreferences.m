@@ -306,7 +306,8 @@
 - (NSDictionary *)styleAttributesForScope:(NSString *)aScope languageContext:(NSString *)aLanguageContext {
 	DocumentMode *currentMode = [self.O_modeController content];
 	SEEStyleSheet *styleSheet = [currentMode styleSheetForLanguageContext:aLanguageContext];
-	return [SEEStyleSheet textAttributesForStyleAttributes:[styleSheet styleAttributesForScope:aScope] font:self.baseFont];
+	NSDictionary *result = [SEEStyleSheet textAttributesForStyleAttributes:[styleSheet styleAttributesForScope:aScope] font:self.baseFont];
+	return result;
 }
 
 - (void)highlightSyntax {
@@ -320,6 +321,7 @@
 		while (![highlighter colorizeDirtyRanges:textStorage ofDocument:self]) {
 			// go on until finished
 		}
+		[textStorage removeAttribute:NSLinkAttributeName range:textStorage.TCM_fullLengthRange];// remove link as a default textview displays it hardcore blue
 	} else {
 		SEEStyleSheet *styleSheet = [currentMode styleSheetForLanguageContext:currentMode.scriptedName];
 		NSDictionary *attributes = [SEEStyleSheet textAttributesForStyleAttributes:[styleSheet styleAttributesForScope:SEEStyleSheetMetaDefaultScopeName] font:self.baseFont];

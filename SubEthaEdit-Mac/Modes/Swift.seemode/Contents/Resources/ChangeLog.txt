@@ -1,0 +1,9 @@
+Changes with Version 1.0.2 (SEE 4.0.2)
+	*) Removed temporary compatibility fixes for 4.0.1
+
+Changes with Version 1.0.1 (SEE 4.0.1)
+	*) Fixed compatibility issues with SEE 4.0.1
+
+
+Changes with Version 1.0 (SEE 4.0)
+	*) Initial Version
