@@ -39,6 +39,8 @@ extern NSString * const kSEETypeSEEMode;
 
 + (SEEDocumentController *)sharedInstance;
 
++ (NSArray *)allTagsOfTagClass:(CFStringRef)aTagClass forUTI:(NSString *)aType;
+
 - (IBAction)showDocumentListWindow:(id)sender;
 
 - (NSMenu *)documentMenu;

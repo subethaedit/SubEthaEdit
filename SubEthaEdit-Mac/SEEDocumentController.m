@@ -65,6 +65,48 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
     return (SEEDocumentController *)[NSDocumentController sharedDocumentController];
 }
 
++ (NSArray *)allTagsOfTagClass:(CFStringRef)aTagClass forUTI:(NSString *)aType {
+	NSArray *result = nil;
+	/*
+	2014-06-24 11:58:53.184 SubEthaEdit[64737:303] -[DocumentModeManager reloadPrecedences] public.php-script
+	{
+		UTTypeConformsTo = "public.shell-script";
+		UTTypeDescription = "PHP script";
+		UTTypeIdentifier = "public.php-script";
+		UTTypeTagSpecification =     {
+			"public.filename-extension" =         (
+												   php,
+												   php3,
+												   php4,
+												   ph3,
+												   ph4,
+												   phtml
+												   );
+			"public.mime-type" =         (
+										  "text/php",
+										  "text/x-php-script",
+										  "application/php"
+										  );
+		};
+	}
+	 */
+	// TODO: use 10_10 api if available
+	NSDictionary *description = CFBridgingRelease(UTTypeCopyDeclaration((__bridge CFStringRef)aType));
+	if (description) {
+		NSDictionary *tagSpecification = description[@"UTTypeTagSpecification"];
+		NSString *tagKey = (__bridge NSString *)aTagClass; // this is not really guaranteed by the public documentation, but makes sense, works in 10_9 and in 10_10 there is a public api for this anyways - so I forgo to make a if equals loop around the known tag classes
+		NSArray *allTags = tagSpecification[tagKey];
+		if (allTags && [allTags isKindOfClass:[NSArray class]]) {
+			result = allTags;
+		}
+	}
+		
+	if (!result) {
+		result = @[];
+	}
+	return result;
+}
+
 - (id)init {
     self = [super init];
     if (self) {
