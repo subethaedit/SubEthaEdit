@@ -828,6 +828,9 @@
 /* Invitation format string used in sharing service picker. %@ will be replaced with the user name. */
 "Invite %@" = "Invite %@";
 
+/* Advertise document string used in sharing service picker. */
+"Advertise Document" = "Advertise Document";
+
 "FIND_REPLACE_PANEL_FINDALL" = "Find All";
 "FIND_REPLACE_PANEL_REPLACE" = "Replace";
 "FIND_REPLACE_PANEL_REPLACEALL" = "Replace All";

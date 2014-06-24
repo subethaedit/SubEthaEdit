@@ -925,6 +925,9 @@
 /* Invitation format string used in sharing service picker. %@ will be replaced with the user name. */
 "Invite %@" = "%@ einladen";
 
+/* Advertise document string used in sharing service picker. */
+"Advertise Document" = "Dokument ankündigen";
+
 /* Collaboration Preference Pane */
 "COLLAB_USER_NAME_LABEL" = "Name:";
 "COLLAB_USER_EMAIL_LABEL" = "E-Mail:";
