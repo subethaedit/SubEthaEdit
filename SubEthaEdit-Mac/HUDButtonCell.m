@@ -33,7 +33,7 @@ static NSImage *s_normal[]={nil,nil,nil};
 	NSRect buttonBounds = cellFrame;
 	buttonBounds.size.height = tiles[0].size.height;
 	buttonBounds.origin.y += ceil((NSHeight(cellFrame) - NSHeight(buttonBounds)) / 2.0);
-	NSDrawThreePartImage(buttonBounds, tiles[0], tiles[1], tiles[2], NO, NSCompositeSourceOver, 1.0, NO);
+	NSDrawThreePartImage(buttonBounds, tiles[0], tiles[1], tiles[2], NO, NSCompositeSourceOver, 1.0, controlView.isFlipped);
 
 	NSMutableAttributedString *title=[[[self attributedTitle] mutableCopy] autorelease];
     [title addAttribute:NSForegroundColorAttributeName value:[NSColor whiteColor] range:NSMakeRange(0,[title length])];

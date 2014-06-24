@@ -231,6 +231,7 @@ void * const TCMMMUserPropertyChangeObservanceContext = (void *)&TCMMMUserProper
 								 @"f5053bc845cf64013f86610e5c47baaf", // SubEthaEdit old
 								 @"7d4a805849dc48827b2bc860431b734b", // Coda old
 								 @"5d866ffe7b8695d8804daa1f306de11f", // SubEtha
+								 @"11ea6051b3cd2642fea228b0d269a042", // Coda 2.0.14
 								 ];
 		}
 		//NSLog(@"%s md5:%@ userName:%@",__FUNCTION__,md5String,self.name);
