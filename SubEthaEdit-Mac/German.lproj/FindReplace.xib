@@ -52,10 +52,8 @@ DQ
                     <textField verticalHuggingPriority="750" id="127">
                         <rect key="frame" x="17" y="15" width="38" height="17"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" id="420">
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Zeile:" id="420">
                             <font key="font" metaFont="system"/>
-                            <string key="title">Zeile:
-</string>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
@@ -69,14 +67,14 @@ DQ
         <window title="Tabulatorbreite" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" hidesOnDeactivate="YES" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="328" userLabel="TabWidthPanel" customClass="NSPanel">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" utility="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="240" y="561" width="255" height="43"/>
+            <rect key="contentRect" x="240" y="561" width="276" height="43"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
             <view key="contentView" autoresizesSubviews="NO" id="330">
-                <rect key="frame" x="0.0" y="0.0" width="255" height="43"/>
+                <rect key="frame" x="0.0" y="0.0" width="276" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button verticalHuggingPriority="750" id="327">
-                        <rect key="frame" x="180" y="4" width="61" height="32"/>
+                        <rect key="frame" x="180" y="4" width="82" height="32"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <buttonCell key="cell" type="push" title="Setzen" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="433">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
