@@ -869,7 +869,7 @@
 
 /* will cease invisibilty alert */
 "ANNOUNCE_WILL_MAKE_VISIBLE_MESSAGE" = "Advertising will make you visible";
-"ANNOUNCE_WILL_MAKE_VISIBLE_INFORMATIVE_TEXT" = "You are currently invisible to other SubEthaEdit users. If you announce this document you will become visible to them.";
+"ANNOUNCE_WILL_MAKE_VISIBLE_INFORMATIVE_TEXT" = "You are currently invisible to other SubEthaEdit users. If you advertise this document you will become visible to them.";
 "ANNOUNCE_WILL_MAKE_VISIBLE_ACTION_TITLE" = "Advertise";
 
 
