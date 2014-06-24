@@ -5,14 +5,14 @@
 	<key>app</key>
 	<string>com.bohemiancoding.sketch3</string>
 	<key>build</key>
-	<integer>7597</integer>
+	<integer>7891</integer>
 	<key>commit</key>
-	<string>463d76bf23dc890960e184011f80b3dacac572b9</string>
+	<string>debc570766a4cc5a2e31258967910f7e5776f485</string>
 	<key>fonts</key>
 	<array/>
 	<key>length</key>
-	<integer>641481</integer>
+	<integer>661356</integer>
 	<key>version</key>
-	<integer>36</integer>
+	<integer>37</integer>
 </dict>
 </plist>
