@@ -2016,7 +2016,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
         NSAlert *alert = [[[NSAlert alloc] init] autorelease];
         [alert setAlertStyle:NSInformationalAlertStyle];
         [alert setMessageText:NSLocalizedString(@"Syntax Highlighting and Wrap Lines have been turned off due to the size of the Document.", @"BigFile Message Text")];
-        [alert setInformativeText:NSLocalizedString(@"Turning on Syntax Highlighting for very large Documents is not recommended.", @"BigFile Informative Text")];
+        [alert setInformativeText:NSLocalizedString(@"Turning on syntax highlighting for very large documents is not recommended.", @"BigFile Informative Text")];
         [alert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
         [self presentAlert:alert
              modalDelegate:self
@@ -4022,12 +4022,12 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     } else if (selector == @selector(toggleIsAnnounced:)) {
         [anItem setTitle:[self isAnnounced]?
                          NSLocalizedString(@"Conceal",@"Menu/Toolbar Title for concealing the Document"):
-                         NSLocalizedString(@"Announce",@"Menu/Toolbar Title for announcing the Document")];
+                         NSLocalizedString(@"Advertise",@"Menu/Toolbar Title for announcing the Document")];
         return [[self session] isServer];
     } else if (selector == @selector(toggleIsAnnouncedOnAllDocuments:)) {
         [anItem setTitle:[self isAnnounced]?
                          NSLocalizedString(@"Conceal All",@"Menu/Toolbar Title for concealing all Documents"):
-                         NSLocalizedString(@"Announce All",@"Menu/Toolbar Title for announcing all Documents")];
+                         NSLocalizedString(@"Advertise All",@"Menu/Toolbar Title for announcing all Documents")];
         return YES;
     } else if (selector == @selector(saveDocument:)) {
         return ![self isProxyDocument] && ![self hasMarkedTexts];

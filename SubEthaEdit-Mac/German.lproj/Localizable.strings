@@ -86,16 +86,16 @@
 "All Tabs" = "Alle Tabs";
 
 /* Menu/Toolbar Title for announcing the Document */
-"Announce" = "Ankündigen";
+"Advertise" = "Ankündigen";
 
 /* Menu/Toolbar Title for announcing all Documents */
-"Announce All" = "Alle Ankündigen";
+"Advertise All" = "Alle Ankündigen";
 
 /* No comment provided by engineer. */
-"Announce/Conceal" = "Ankündigen/Verbergen";
+"Advertise/Conceal" = "Ankündigen/Verbergen";
 
 /* No comment provided by engineer. */
-"Announce/Conceal Document" = "Dokument ankündigen/verbergen";
+"Advertise/Conceal Document" = "Dokument ankündigen/verbergen";
 
 /* Location: Application */
 "Application" = "Eingebaut";
@@ -739,7 +739,7 @@
 "Try choosing a different name for the document." = "Versuchen Sie einen anderen Namen für das Dokument zu wählen.";
 
 /* BigFile Informative Text */
-"Turning on Syntax Highlighting for very large Documents is not recommended." = "Es ist nicht empfohlen die Syntax-Einfärbung für sehr große Dokumente zu aktivieren.";
+"Turning on syntax highlighting for very large documents is not recommended." = "Es ist nicht empfohlen die Syntax-Einfärbung für sehr große Dokumente zu aktivieren.";
 
 /* Location: User Library */
 "User Library" = "Benutzer Library";
@@ -840,11 +840,11 @@
 /* Editor Tool Tip Share Invite Button - Cannot share */
 "TOOL_TIP_SHARE_BUTTON_DISABLED" = "Dokument teilen nicht möglich";
 
-/* Editor Tool Tip Announce Button - Announce */
+/* Editor Tool Tip Advertise Button - Advertise */
 "TOOL_TIP_ANNOUNCE_BUTTON_ANNOUNCE" = "Dokument ankündigen";
-/* Editor Tool Tip Announce Button - Conceal */
+/* Editor Tool Tip Advertise Button - Conceal */
 "TOOL_TIP_ANNOUNCE_BUTTON_CONCEAL" = "Dokument verbergen";
-/* Editor Tool Tip Announce Button - Disabled */
+/* Editor Tool Tip Advertise Button - Disabled */
 "TOOL_TIP_ANNOUNCE_BUTTON_DISABLED" = "Dokument ankündigen nicht möglich";
 
 

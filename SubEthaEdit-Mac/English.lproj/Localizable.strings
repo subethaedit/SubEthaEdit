@@ -80,16 +80,16 @@
 "All Tabs" = "All Tabs";
 
 /* Menu/Toolbar Title for announcing the Document */
-"Announce" = "Announce";
+"Advertise" = "Advertise";
 
 /* Menu/Toolbar Title for announcing all Documents */
-"Announce All" = "Announce All";
+"Advertise All" = "Advertise All";
 
 /* No comment provided by engineer. */
-"Announce/Conceal" = "Announce/Conceal";
+"Advertise/Conceal" = "Advertise/Conceal";
 
 /* No comment provided by engineer. */
-"Announce/Conceal Document" = "Announce/Conceal Document";
+"Advertise/Conceal Document" = "Advertise/Conceal Document";
 
 /* Location: Application */
 "Application" = "Built-In";
@@ -710,7 +710,7 @@
 "Try choosing a different name for the document." = "Try choosing a different name for the document.";
 
 /* BigFile Informative Text */
-"Turning on Syntax Highlighting for very large Documents is not recommended." = "Turning on Syntax Highlighting for very large Documents is not recommended.";
+"Turning on syntax highlighting for very large documents is not recommended." = "Turning on syntax highlighting for very large documents is not recommended.";
 
 /* Location: User Library */
 "User Library" = "User Library";
@@ -870,7 +870,7 @@
 /* will cease invisibilty alert */
 "ANNOUNCE_WILL_MAKE_VISIBLE_MESSAGE" = "Announcing will make you visible";
 "ANNOUNCE_WILL_MAKE_VISIBLE_INFORMATIVE_TEXT" = "You are currently invisible to other SubEthaEdit users. If you announce this document you will become visible to them.";
-"ANNOUNCE_WILL_MAKE_VISIBLE_ACTION_TITLE" = "Announce";
+"ANNOUNCE_WILL_MAKE_VISIBLE_ACTION_TITLE" = "Advertise";
 
 
 /* document list */
@@ -918,8 +918,8 @@
 
 "INFO_NUMBER_OF_WORDS_TOO_MANY" = "Countless words";
 
-"FIRST_USE_INVITE_HELP_TEXT" = "Click to invite other Users to live collaborate in this document.";
-"FIRST_USE_ANNOUNCE_HELP_TEXT" = "Click to Announce this Document to the network.\nRight-Click to also set initial Access Rights for incoming Users.";
+"FIRST_USE_INVITE_HELP_TEXT" = "Click to invite other users to live collaborate in this document.";
+"FIRST_USE_ANNOUNCE_HELP_TEXT" = "Click to advertise this document to the network.\nRight-Click to also set initial access-rights for incoming users.";
 
 /* WebSite Links */
 "WEBSITE_FAQ" = "http://subethaedit.net/faq";
