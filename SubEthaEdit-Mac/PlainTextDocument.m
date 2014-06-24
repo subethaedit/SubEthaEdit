@@ -5680,7 +5680,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 - (IBAction)inviteUsersToDocumentViaSharingService:(id)sender {
 	NSURL *documentSharingURL = [self documentURL];
 	NSArray *sharingServiceItems = @[];
-	if (documentSharingURL) {
+	if (documentSharingURL && self.isAnnounced) {
 		sharingServiceItems = @[documentSharingURL];
 	}
 
@@ -5792,11 +5792,11 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 	BOOL hasPublicURL = NO;
 	TCMPortMapper *pm = [TCMPortMapper sharedInstance];
 	TCMPortMapping *mapping = [[pm portMappings] anyObject];
-	if (([mapping mappingStatus] == TCMPortMappingStatusMapped) && [pm externalIPAddress] && [mapping externalPort]) {
+	if (([mapping mappingStatus] == TCMPortMappingStatusMapped) && [pm externalIPAddress] && ![[pm externalIPAddress] isEqual:@"0.0.0.0"] && ([mapping externalPort] > 0)) {
 		hasPublicURL = YES;
 	}
 
-	if (! hasPublicURL) {
+	if (! hasPublicURL) { // if we don't have a public URL remove also email and messages
 		[sharingServices removeObject:[NSSharingService sharingServiceNamed:NSSharingServiceNameComposeEmail]];
 		[sharingServices removeObject:[NSSharingService sharingServiceNamed:NSSharingServiceNameComposeMessage]];
 	}
@@ -5810,6 +5810,16 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 	[sharingServices removeObject:[NSSharingService sharingServiceNamed:NSSharingServiceNamePostOnSinaWeibo]];
 	[sharingServices removeObject:[NSSharingService sharingServiceNamed:NSSharingServiceNamePostOnTencentWeibo]];
 	[sharingServices removeObject:[NSSharingService sharingServiceNamed:NSSharingServiceNamePostOnLinkedIn]];
+
+	if (! self.isAnnounced && self.session.isServer && self.documentURL) {
+		NSString *sharingServiceTitle = NSLocalizedString(@"Advertise Document", @"Advertise document string used in sharing service picker.");
+		NSImage *sharingServiceImage = [NSImage imageNamed:NSImageNameIChatTheaterTemplate];
+		NSSharingService *customSharingService = [[[NSSharingService alloc] initWithTitle:sharingServiceTitle image:sharingServiceImage alternateImage:nil handler:^{
+			[self toggleIsAnnounced:self];
+		}] autorelease];
+
+		[sharingServices addObject:customSharingService];
+	}
 
 	return sharingServices;
 }
