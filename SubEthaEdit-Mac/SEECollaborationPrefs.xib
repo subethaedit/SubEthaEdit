@@ -165,9 +165,9 @@
                                     </connections>
                                 </textField>
                                 <slider verticalHuggingPriority="750" id="2x1-fu-rEk">
-                                    <rect key="frame" x="197" y="140" width="146" height="17"/>
+                                    <rect key="frame" x="198" y="139" width="146" height="20"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                    <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="1" tickMarkPosition="above" sliderType="linear" id="fke-Uy-1L0"/>
+                                    <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="1" tickMarkPosition="above" numberOfTickMarks="2" sliderType="linear" id="fke-Uy-1L0"/>
                                     <connections>
                                         <action selector="updateChangesColor:" target="-2" id="Uaa-a9-ka5"/>
                                         <binding destination="gZV-Yj-UC8" name="value" keyPath="values.MyColorHue" id="ngK-Hg-Kag"/>
@@ -225,19 +225,10 @@
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
-                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="X5K-rQ-FTg">
-                                    <rect key="frame" x="198" y="78" width="31" height="11"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" controlSize="mini" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="pale" id="GaV-Av-0IH">
-                                        <font key="font" metaFont="miniSystem"/>
-                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                </textField>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="aWn-rs-bVF">
-                                    <rect key="frame" x="306" y="78" width="40" height="11"/>
+                                    <rect key="frame" x="295" y="76" width="50" height="12"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" controlSize="mini" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="&lt;strong" id="ZA9-E1-UOA">
+                                    <textFieldCell key="cell" controlSize="mini" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="right" title="&lt;strong" id="ZA9-E1-UOA">
                                         <font key="font" metaFont="miniSystem"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -251,6 +242,15 @@
                                     <rect key="frame" x="17" y="157" width="64" height="64"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 </customView>
+                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="X5K-rQ-FTg">
+                                    <rect key="frame" x="195" y="76" width="54" height="12"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                    <textFieldCell key="cell" controlSize="mini" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="&lt;pale" id="GaV-Av-0IH">
+                                        <font key="font" metaFont="miniSystem"/>
+                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                    </textFieldCell>
+                                </textField>
                             </subviews>
                         </view>
                         <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
@@ -269,6 +269,7 @@
                     </button>
                 </subviews>
             </view>
+            <point key="canvasLocation" x="67.5" y="277"/>
         </window>
         <userDefaultsController representsSharedInstance="YES" id="gZV-Yj-UC8"/>
     </objects>

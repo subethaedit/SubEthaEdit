@@ -413,10 +413,8 @@
 - (void)localizeLayout {
 	NSArray *array = [NSLocale preferredLanguages];
 	NSString *firstChoice = [array firstObject];
-	if ([firstChoice isEqualToString:@"de"]) {
+	if ([firstChoice isEqualToString:@"de"] || [firstChoice isEqualToString:@"German"]) {
 		// re-layout for German
-		[self.O_changesSaturationLabelPale sizeToFit];
-		
 		CGFloat preWidth = NSWidth(self.O_localPortLabel.frame);
 		[self.O_localPortLabel sizeToFit];
 
