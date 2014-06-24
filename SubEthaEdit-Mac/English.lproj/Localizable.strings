@@ -79,10 +79,10 @@
 /* all tabs Dock Menu Item */
 "All Tabs" = "All Tabs";
 
-/* Menu/Toolbar Title for announcing the Document */
+/* Menu/Toolbar Title for advertising the Document */
 "Advertise" = "Advertise";
 
-/* Menu/Toolbar Title for announcing all Documents */
+/* Menu/Toolbar Title for advertising all Documents */
 "Advertise All" = "Advertise All";
 
 /* No comment provided by engineer. */
@@ -220,8 +220,8 @@
 /* Choice (on a button) given to user which allows him/her to quit the application even though there are unsaved documents. */
 "Discard Changes" = "Discard Changes";
 
-/* Text for document URL field when not announced */
-"Document not announced.\nNo Document URL." = "Document not announced.\nNo Document URL.";
+/* Text for document URL field when not advertised */
+"Document not advertised.\nNo Document URL." = "Document not advertised.\nNo Document URL.";
 
 /* No comment provided by engineer. */
 "Don't Revert Document" = "Don't Revert";
@@ -766,10 +766,10 @@
 /* No comment provided by engineer. */
 "You have %d documents in this window with unsaved changes. Do you want to review these changes?" = "You have %d documents in this window with unsaved changes. Do you want to review these changes?";
 
-/* Status string showing the number of documents The browser when there are multiple documents announced */
+/* Status string showing the number of documents The browser when there are multiple documents advertised */
 "%d Documents" = "%d Documents";
 
-/* Status string showing the number of documents when one is announced */
+/* Status string showing the number of documents when one is advertised */
 "1 Document" = "1 Document";
 
 /* Status of port mapping while trying */
@@ -789,8 +789,8 @@
 /* Connection Browser Display when not reachable */
 "No public mapping." = "No public mapping.";
 
-/* Status string showing the number of documents when none are announced */
-"None announced" = "None announced";
+/* Status string showing the number of documents when none are advertised */
+"None advertised" = "None advertised";
 
 /* Text for document URL field when not your document */
 "Not your Document.\nNo Document URL." = "Not your Document.\nNo Document URL.";
@@ -868,7 +868,7 @@
 
 
 /* will cease invisibilty alert */
-"ANNOUNCE_WILL_MAKE_VISIBLE_MESSAGE" = "Announcing will make you visible";
+"ANNOUNCE_WILL_MAKE_VISIBLE_MESSAGE" = "Advertising will make you visible";
 "ANNOUNCE_WILL_MAKE_VISIBLE_INFORMATIVE_TEXT" = "You are currently invisible to other SubEthaEdit users. If you announce this document you will become visible to them.";
 "ANNOUNCE_WILL_MAKE_VISIBLE_ACTION_TITLE" = "Advertise";
 

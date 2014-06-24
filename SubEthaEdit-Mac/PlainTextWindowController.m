@@ -152,7 +152,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 //        NSString *URLString = [[[[[self document] documentURL] absoluteString] componentsSeparatedByString:@"?"] objectAtIndex:0];
 //        [O_URLTextField setObjectValue:URLString];
 //    } else if (isServer) {
-//        [O_URLTextField setObjectValue:NSLocalizedString(@"Document not announced.\nNo Document URL.",@"Text for document URL field when not announced")];
+//        [O_URLTextField setObjectValue:NSLocalizedString(@"Document not advertised.\nNo Document URL.",@"Text for document URL field when not advertised")];
 //    } else {
 //        [O_URLTextField setObjectValue:NSLocalizedString(@"Not your Document.\nNo Document URL.",@"Text for document URL field when not your document")];
 //    }

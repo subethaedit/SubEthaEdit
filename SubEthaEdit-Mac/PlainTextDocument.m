@@ -4022,12 +4022,12 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     } else if (selector == @selector(toggleIsAnnounced:)) {
         [anItem setTitle:[self isAnnounced]?
                          NSLocalizedString(@"Conceal",@"Menu/Toolbar Title for concealing the Document"):
-                         NSLocalizedString(@"Advertise",@"Menu/Toolbar Title for announcing the Document")];
+                         NSLocalizedString(@"Advertise",@"Menu/Toolbar Title for advertising the Document")];
         return [[self session] isServer];
     } else if (selector == @selector(toggleIsAnnouncedOnAllDocuments:)) {
         [anItem setTitle:[self isAnnounced]?
                          NSLocalizedString(@"Conceal All",@"Menu/Toolbar Title for concealing all Documents"):
-                         NSLocalizedString(@"Advertise All",@"Menu/Toolbar Title for announcing all Documents")];
+                         NSLocalizedString(@"Advertise All",@"Menu/Toolbar Title for advertising all Documents")];
         return YES;
     } else if (selector == @selector(saveDocument:)) {
         return ![self isProxyDocument] && ![self hasMarkedTexts];
