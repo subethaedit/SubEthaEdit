@@ -387,7 +387,7 @@ static AppController *sharedInstance = nil;
     [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"   forGreetingInMode:kTCMMMBEEPSessionManagerTLSMode];
 
 }
-    
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // this is actually after the opening of the first untitled document window!
     
@@ -427,8 +427,12 @@ static AppController *sharedInstance = nil;
 
 	// start crash reporting
     [[BITHockeyManager sharedHockeyManager] startManager];
+	
+	// check built in mode versions
+	[self performSelector:@selector(checkUserModesForUpdateAfterVersionBump) withObject:nil afterDelay:0.1];
 }
 
+#pragma mark
 - (void)sessionManagerIsReady:(NSNotification *)aNotification {
     [[TCMMMBEEPSessionManager sharedInstance] validateListener];
     [[TCMMMPresenceManager sharedInstance] setVisible:[[NSUserDefaults standardUserDefaults] boolForKey:VisibilityPrefKey]];
@@ -512,6 +516,117 @@ static AppController *sharedInstance = nil;
         [dockMenu addItem:item];
     }
     return dockMenu;
+}
+
+#pragma mark - check for mode updates
+- (void)checkUserModesForUpdateAfterVersionBump {
+	
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	NSString *lastKnownBundleVersion = [defaults stringForKey:kSEELastKnownBundleVersion];
+	NSString *currentBundleVersion = [[NSBundle mainBundle] infoDictionary][@"CFBundleVersion"];
+	
+	BOOL currentVersionIsHigher;
+	
+	if (lastKnownBundleVersion) {
+		currentVersionIsHigher = ([lastKnownBundleVersion compare:currentBundleVersion options:NSNumericSearch] == NSOrderedAscending);
+	} else {
+		currentVersionIsHigher = YES;
+	}
+	
+	if (currentVersionIsHigher) {
+		// check for modes with higher bundle version
+		NSDictionary *builtInModesDict = @{
+										   @"SEEMode.ActionScript" : @"ActionScript",
+										   @"SEEMode.Base" : @"Base",
+										   @"SEEMode.C" : @"C",
+										   @"SEEMode.CPP" : @"C++",
+										   @"SEEMode.CSS" : @"CSS",
+										   @"SEEMode.Conference" : @"Conference",
+										   @"SEEMode.Diff" : @"Diff",
+										   @"SEEMode.ERB" : @"ERB",
+										   @"SEEMode.Erlang" : @"erlang",
+										   @"SEEMode.HTML" : @"HTML",
+										   @"SEEMode.Java" : @"Java",
+										   @"SEEMode.Javascript" : @"Javascript",
+										   @"SEEMode.LaTeX" : @"LaTeX",
+										   @"SEEMode.Lua" : @"Lua",
+										   @"SEEMode.Objective-C" : @"Objective-C",
+										   @"SEEMode.PHP-HTML" : @"PHP-HTML",
+										   @"SEEMode.Perl" : @"Perl",
+										   @"SEEMode.Python" : @"Python",
+										   @"SEEMode.Ruby" : @"Ruby",
+										   @"SEEMode.Swift" : @"Swift",
+										   @"SEEMode.XML" : @"XML",
+										   @"SEEMode.bash" : @"bash",
+										   @"SEEMode.go" : @"go"
+										   };
+		
+		DocumentModeManager *modeManager = [DocumentModeManager sharedInstance];
+		NSBundle *mainBundle = [NSBundle mainBundle];
+		NSMutableArray *updatableModeURLs = [NSMutableArray new];
+		NSMutableArray *updatableModeNames = [NSMutableArray new];
+		for (NSString *string in [builtInModesDict allKeys]) {
+			BOOL isAvailable = [modeManager documentModeAvailableModeIdentifier:string];
+			if (isAvailable) {
+				DocumentMode *installedMode = [modeManager documentModeForIdentifier:string];
+				NSBundle *installedModeBundle = [installedMode bundle];
+				NSString *installedModeFileName = [installedModeBundle bundlePath];
+				BOOL installedModeIsBuiltIn = [installedModeFileName hasPrefix:[[NSBundle mainBundle] bundlePath]];
+				
+				if (!installedModeIsBuiltIn) {
+					NSString *versionStringOfInstalledMode = [installedModeBundle objectForInfoDictionaryKey:@"CFBundleVersion"];
+					
+					NSBundle *builtinModeBundle = [NSBundle bundleWithURL:[mainBundle URLForResource:builtInModesDict[string] withExtension:MODE_EXTENSION subdirectory:@"Modes"]];
+					NSString *versionStringOfBuiltinMode = [builtinModeBundle objectForInfoDictionaryKey:@"CFBundleVersion"];
+					
+					BOOL builtinVersionIsHigher = ([versionStringOfInstalledMode compare:versionStringOfBuiltinMode options:NSNumericSearch] == NSOrderedAscending);
+					if (builtinVersionIsHigher) {
+						[updatableModeURLs addObject:[installedModeBundle bundleURL]];
+						[updatableModeNames addObject:[NSString stringWithFormat:
+													   NSLocalizedStringWithDefaultValue(@"MODE_UPDATE_MODE_STRING", nil, [NSBundle mainBundle], @"* Mode for %@ v%@ (currently v%@)", nil),
+													   [installedMode displayName],
+													   versionStringOfBuiltinMode,
+													   versionStringOfInstalledMode]];
+					}
+				}
+			}
+		}
+		
+		if ([updatableModeURLs count] > 0) {
+			
+			NSString *intro = NSLocalizedStringWithDefaultValue(@"MODE_UPDATE_INFO_INTRO", nil, [NSBundle mainBundle], @"This version of SubEthaEdit comes with newer versions of the following user installed modes: \n\n", nil);
+			NSString *modeNames = [updatableModeNames componentsJoinedByString:@"\n"];
+			NSString *information = [NSString stringWithFormat:NSLocalizedStringWithDefaultValue(@"MODE_UPDATE_INFO_TEXT", nil, [NSBundle mainBundle],
+																								 @"\n\nUsing the updated versions removes custom changes you might have made to your mode.\n\nIf you only want to use specific new modes choose 'Show in Finder', delete the modes without modifications and reload the modes from the mode menu in SubEthaEdit.", nil)];
+			
+			NSAlert *installAlert = [NSAlert alertWithMessageText:NSLocalizedStringWithDefaultValue(@"MODE_UPDATE_MESSAGE", nil, [NSBundle mainBundle], @"Newer Modes available", nil)
+													defaultButton:NSLocalizedStringWithDefaultValue(@"MODE_UPDATE_OK_BUTTON", nil, [NSBundle mainBundle], @"Use Updated Modes", nil)
+												  alternateButton:NSLocalizedStringWithDefaultValue(@"MODE_UPDATE_REVEAL_IN_FINDER", nil, [NSBundle mainBundle], @"Show Outdated Modes", nil)
+													  otherButton:NSLocalizedString(@"Cancel", nil)
+										informativeTextWithFormat:@"%@%@%@\n", intro, modeNames,information];
+			
+			int result = [installAlert runModal];
+			
+			if (result == NSAlertAlternateReturn) { // show in finder
+				[[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:updatableModeURLs];
+				
+			} else if (result == NSAlertDefaultReturn) { // ok was selected
+				NSFileManager *fileManager = [NSFileManager defaultManager];
+				for (NSURL *url in updatableModeURLs) {
+					NSURL *urlInTrash = nil;
+					NSError *deletionError = nil;
+					//					BOOL deletionSuccess = [fileManager trashItemAtURL:destinationURL resultingItemURL:&urlInTrash error:&deletionError];
+					[fileManager trashItemAtURL:url resultingItemURL:&urlInTrash error:&deletionError];
+				}
+				[[DocumentModeManager sharedInstance] reloadDocumentModes:self];
+			}
+		}
+		
+		[defaults setObject:currentBundleVersion forKey:kSEELastKnownBundleVersion];
+//		[defaults removeObjectForKey:kSEELastKnownBundleVersion]; // debug
+		[defaults synchronize];
+	} // else: do nothing.
+//	[defaults removeObjectForKey:kSEELastKnownBundleVersion]; // debug
 }
 
 #pragma mark - show mode bundle

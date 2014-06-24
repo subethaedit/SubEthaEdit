@@ -1026,6 +1026,14 @@
 "MODE_INSTALL_OK_BUTTON" = "Installieren";
 "MODE_INSTALL_SHOW_CONTENT_BUTTON" = "Paketinhalt anzeigen";
 
+/* Mode Update Alert */
+"MODE_UPDATE_INFO_INTRO" = "Diese Version von SubEthaEdit enthält aktuellere Versionen der folgenden installierten Modi:\n\n";
+"MODE_UPDATE_MODE_STRING" = "* Modus für %@ v%@ (v%@ installiert)";
+"MODE_UPDATE_INFO_TEXT" = "\n\nMögliche Personalisierungen der installierten Modi gehen bei 'Neue Modi verwenden' verloren.\n\nFalls Sie nur bestimmte Modi aktualisieren wollen, wählen Sie 'Veraltete Modi anzeigen', löschen Sie die gewünschten Modi und aktualisieren Sie die Modi-Liste via 'Modi neu laden' im Modus-Menü in SubEthaEdit.";
+"MODE_UPDATE_MESSAGE" = "Neuere Modi verfügbar";
+"MODE_UPDATE_OK_BUTTON" = "Neue Modi verwenden";
+"MODE_UPDATE_REVEAL_IN_FINDER" = "Veraltete Modi anzeigen";
+
 "INFO_NUMBER_OF_WORDS_TOO_MANY" = "Zahllose Wörter";
 
 "FIRST_USE_INVITE_HELP_TEXT" = "Klicken um andere zur Zusammenarbeit in dieses Dokument einzuladen.";

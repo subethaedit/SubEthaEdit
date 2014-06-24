@@ -919,6 +919,14 @@
 "MODE_INSTALL_OK_BUTTON" = "Install";
 "MODE_INSTALL_SHOW_CONTENT_BUTTON" = "Show Package Contents";
 
+/* Mode Update Alert */
+"MODE_UPDATE_INFO_INTRO" = "This version of SubEthaEdit comes with newer versions of the following user installed modes: \n\n";
+"MODE_UPDATE_MODE_STRING" = "* Mode for %@ v%@ (currently v%@)";
+"MODE_UPDATE_INFO_TEXT" = "\n\nUsing the updated versions removes custom changes you might have made to your modes.\n\nIf you only want to use specific new modes choose 'Show in Finder', delete the modes without modifications and reload the modes from the mode menu in SubEthaEdit.";
+"MODE_UPDATE_MESSAGE" = "Newer Modes available";
+"MODE_UPDATE_OK_BUTTON" = "Use Updated Modes";
+"MODE_UPDATE_REVEAL_IN_FINDER" = "Show Outdated Modes";
+
 "INFO_NUMBER_OF_WORDS_TOO_MANY" = "Countless words";
 
 "FIRST_USE_INVITE_HELP_TEXT" = "Click to invite other users to live collaborate in this document.";
