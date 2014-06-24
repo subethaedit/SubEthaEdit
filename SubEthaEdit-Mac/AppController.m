@@ -427,8 +427,12 @@ static AppController *sharedInstance = nil;
 
 	// start crash reporting
     [[BITHockeyManager sharedHockeyManager] startManager];
+	
+	// check built in mode versions
+	[self performSelector:@selector(checkUserModesForUpdateAfterVersionBump) withObject:nil afterDelay:0.1];
 }
 
+#pragma mark
 - (void)sessionManagerIsReady:(NSNotification *)aNotification {
     [[TCMMMBEEPSessionManager sharedInstance] validateListener];
     [[TCMMMPresenceManager sharedInstance] setVisible:[[NSUserDefaults standardUserDefaults] boolForKey:VisibilityPrefKey]];
