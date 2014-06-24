@@ -10,9 +10,7 @@ Normally this would be a place where shell scripts or binaries are put which are
 #!/usr/bin/env xcrun swift -i 
 ```
 
-The interactive mode of swift currently either sends you all the command line parameters that the swift command gets, or if you use -- as first parameter of your written shell tool only the ones after the --. Both behaviours are different from a compiled version of your script. To mitigate this you can use
-
-(see also [particalswift](http://practicalswift.com/2014/06/07/swift-scripts-how-to-write-small-command-line-scripts-in-swift/) for more information on this)
+The interactive mode of swift currently either sends you all the command line parameters that the swift command gets, or if you use `--` as first parameter of your written shell tool only the ones after the `--` (also see [practicalswift](http://practicalswift.com/2014/06/07/swift-scripts-how-to-write-small-command-line-scripts-in-swift/) for more information on this). Both behaviours are different from a compiled version of your script. To mitigate this you can use
 
 ```bash
 #!/usr/bin/env swiftc.sh
