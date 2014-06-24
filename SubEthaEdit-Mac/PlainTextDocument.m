@@ -4516,14 +4516,14 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         return nil;
     }
 
-    TCMPortMapper *pm = [TCMPortMapper sharedInstance];
-    NSMutableString *address = [NSMutableString stringWithFormat:@"see://%@:%d", [pm localIPAddress],[[TCMMMBEEPSessionManager sharedInstance] listeningPort]];
-    TCMPortMapping *mapping = [[pm portMappings] anyObject];
-    if ([mapping mappingStatus]==TCMPortMappingStatusMapped) {
-        address = [NSMutableString stringWithFormat:@"see://%@:%d", [pm externalIPAddress],[mapping externalPort]];
-    }
-    
-    NSString *title = [self.fileURL.path lastPathComponent];
+	NSURL *applicationConnectionURL = [SEEConnectionManager applicationConnectionURL];
+	if (! applicationConnectionURL) {
+		return nil;
+	}
+
+	NSMutableString *address = [[applicationConnectionURL absoluteString] mutableCopy];
+
+	NSString *title = [self.fileURL.path lastPathComponent];
     if (title == nil) {
         title = [self displayName];
     }
