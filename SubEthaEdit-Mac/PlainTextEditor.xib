@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6154.21" systemVersion="14A261i" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1090" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6154.21"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PlainTextEditor">
@@ -64,7 +64,7 @@
                             <rect key="frame" x="219" y="0.0" width="245" height="18"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                         </customView>
-                        <button wantsLayer="YES" id="7Mi-Cu-bLB" userLabel="Announce Button" customClass="TCMHoverButton">
+                        <button wantsLayer="YES" id="7Mi-Cu-bLB" userLabel="Advertise Button" customClass="TCMHoverButton">
                             <rect key="frame" x="528" y="2" width="24" height="14"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                             <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="BottomBarSharingIconAnnounceTurnOnNormal" imagePosition="only" alignment="center" controlSize="mini" imageScaling="proportionallyDown" inset="2" id="4l5-Nu-6M1">
@@ -147,21 +147,21 @@
                 <outlet property="content" destination="-2" id="YSU-zI-rHp"/>
             </connections>
         </objectController>
-        <menu id="eH3-RU-uKl" userLabel="Announce Context Menu">
+        <menu id="eH3-RU-uKl" userLabel="Advertise Context Menu">
             <items>
-                <menuItem title="&lt;r/w>" tag="2" id="KIH-pg-Ei8">
+                <menuItem title="&lt;r/w&gt;" tag="2" id="KIH-pg-Ei8">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="changePendingUsersAccessAndAnnounce:" target="-2" id="gCu-0W-yId"/>
                     </connections>
                 </menuItem>
-                <menuItem title="&lt;r/o>" tag="1" id="83X-QV-Pku">
+                <menuItem title="&lt;r/o&gt;" tag="1" id="83X-QV-Pku">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="changePendingUsersAccessAndAnnounce:" target="-2" id="PT2-hu-8Tj"/>
                     </connections>
                 </menuItem>
-                <menuItem title="&lt;locked>" id="Dhd-iR-fKx">
+                <menuItem title="&lt;locked&gt;" id="Dhd-iR-fKx">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="changePendingUsersAccessAndAnnounce:" target="-2" id="iIR-nr-fJh"/>

@@ -79,17 +79,17 @@
 /* all tabs Dock Menu Item */
 "All Tabs" = "All Tabs";
 
-/* Menu/Toolbar Title for announcing the Document */
-"Announce" = "Announce";
+/* Menu/Toolbar Title for advertising the Document */
+"Advertise" = "Advertise";
 
-/* Menu/Toolbar Title for announcing all Documents */
-"Announce All" = "Announce All";
-
-/* No comment provided by engineer. */
-"Announce/Conceal" = "Announce/Conceal";
+/* Menu/Toolbar Title for advertising all Documents */
+"Advertise All" = "Advertise All";
 
 /* No comment provided by engineer. */
-"Announce/Conceal Document" = "Announce/Conceal Document";
+"Advertise/Conceal" = "Advertise/Conceal";
+
+/* No comment provided by engineer. */
+"Advertise/Conceal Document" = "Advertise/Conceal Document";
 
 /* Location: Application */
 "Application" = "Built-In";
@@ -220,8 +220,8 @@
 /* Choice (on a button) given to user which allows him/her to quit the application even though there are unsaved documents. */
 "Discard Changes" = "Discard Changes";
 
-/* Text for document URL field when not announced */
-"Document not announced.\nNo Document URL." = "Document not announced.\nNo Document URL.";
+/* Text for document URL field when not advertised */
+"Document not advertised.\nNo Document URL." = "Document not advertised.\nNo Document URL.";
 
 /* No comment provided by engineer. */
 "Don't Revert Document" = "Don't Revert";
@@ -710,7 +710,7 @@
 "Try choosing a different name for the document." = "Try choosing a different name for the document.";
 
 /* BigFile Informative Text */
-"Turning on Syntax Highlighting for very large Documents is not recommended." = "Turning on Syntax Highlighting for very large Documents is not recommended.";
+"Turning on syntax highlighting for very large documents is not recommended." = "Turning on syntax highlighting for very large documents is not recommended.";
 
 /* Location: User Library */
 "User Library" = "User Library";
@@ -766,10 +766,10 @@
 /* No comment provided by engineer. */
 "You have %d documents in this window with unsaved changes. Do you want to review these changes?" = "You have %d documents in this window with unsaved changes. Do you want to review these changes?";
 
-/* Status string showing the number of documents The browser when there are multiple documents announced */
+/* Status string showing the number of documents The browser when there are multiple documents advertised */
 "%d Documents" = "%d Documents";
 
-/* Status string showing the number of documents when one is announced */
+/* Status string showing the number of documents when one is advertised */
 "1 Document" = "1 Document";
 
 /* Status of port mapping while trying */
@@ -789,8 +789,8 @@
 /* Connection Browser Display when not reachable */
 "No public mapping." = "No public mapping.";
 
-/* Status string showing the number of documents when none are announced */
-"None announced" = "None announced";
+/* Status string showing the number of documents when none are advertised */
+"None advertised" = "None advertised";
 
 /* Text for document URL field when not your document */
 "Not your Document.\nNo Document URL." = "Not your Document.\nNo Document URL.";
@@ -827,6 +827,9 @@
 
 /* Invitation format string used in sharing service picker. %@ will be replaced with the user name. */
 "Invite %@" = "Invite %@";
+
+/* Advertise document string used in sharing service picker. */
+"Advertise Document" = "Advertise Document";
 
 "FIND_REPLACE_PANEL_FINDALL" = "Find All";
 "FIND_REPLACE_PANEL_REPLACE" = "Replace";
@@ -868,9 +871,9 @@
 
 
 /* will cease invisibilty alert */
-"ANNOUNCE_WILL_MAKE_VISIBLE_MESSAGE" = "Announcing will make you visible";
-"ANNOUNCE_WILL_MAKE_VISIBLE_INFORMATIVE_TEXT" = "You are currently invisible to other SubEthaEdit users. If you announce this document you will become visible to them.";
-"ANNOUNCE_WILL_MAKE_VISIBLE_ACTION_TITLE" = "Announce";
+"ANNOUNCE_WILL_MAKE_VISIBLE_MESSAGE" = "Advertising will make you visible";
+"ANNOUNCE_WILL_MAKE_VISIBLE_INFORMATIVE_TEXT" = "You are currently invisible to other SubEthaEdit users. If you advertise this document you will become visible to them.";
+"ANNOUNCE_WILL_MAKE_VISIBLE_ACTION_TITLE" = "Advertise";
 
 
 /* document list */
@@ -918,8 +921,8 @@
 
 "INFO_NUMBER_OF_WORDS_TOO_MANY" = "Countless words";
 
-"FIRST_USE_INVITE_HELP_TEXT" = "Click to invite other Users to live collaborate in this document.";
-"FIRST_USE_ANNOUNCE_HELP_TEXT" = "Click to Announce this Document to the network.\nRight-Click to also set initial Access Rights for incoming Users.";
+"FIRST_USE_INVITE_HELP_TEXT" = "Click to invite other users to live collaborate in this document.";
+"FIRST_USE_ANNOUNCE_HELP_TEXT" = "Click to advertise this document to the network.\nRight-Click to also set initial access-rights for incoming users.";
 
 /* WebSite Links */
 "WEBSITE_FAQ" = "http://subethaedit.net/faq";

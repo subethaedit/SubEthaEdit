@@ -245,6 +245,8 @@
 		4CDF05A618C0A3D4004A49E5 /* SEEConnectionAddingWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CDF05A418C0A3D4004A49E5 /* SEEConnectionAddingWindowController.xib */; };
 		4CE4A57E192E4BF700771A26 /* SEEMoreRecentDocumentsListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE4A57D192E4BF700771A26 /* SEEMoreRecentDocumentsListItem.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4CE6C99D18AA905500AB45D1 /* SEEOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE6C99C18AA905500AB45D1 /* SEEOverlayView.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		4CE8D4511959E3440026828F /* SharingServiceAnnounceMenuIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CE8D44F1959E3440026828F /* SharingServiceAnnounceMenuIcon.png */; };
+		4CE8D4521959E3440026828F /* SharingServiceAnnounceMenuIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CE8D4501959E3440026828F /* SharingServiceAnnounceMenuIcon@2x.png */; };
 		4CE9CF381802F4E900F5BC56 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C6AE8731802E8810089D489 /* OgreKit.framework */; };
 		4CE9CF391802F4F100F5BC56 /* OgreKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 4C6AE8731802E8810089D489 /* OgreKit.framework */; };
 		4CE9CF3A1802F52A00F5BC56 /* SEEStyleSheetSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D56992133B880900CEC841 /* SEEStyleSheetSettings.m */; };
@@ -1108,6 +1110,8 @@
 		4CE4A57D192E4BF700771A26 /* SEEMoreRecentDocumentsListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEMoreRecentDocumentsListItem.m; sourceTree = "<group>"; };
 		4CE6C99B18AA905500AB45D1 /* SEEOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEOverlayView.h; sourceTree = "<group>"; };
 		4CE6C99C18AA905500AB45D1 /* SEEOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEOverlayView.m; sourceTree = "<group>"; };
+		4CE8D44F1959E3440026828F /* SharingServiceAnnounceMenuIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SharingServiceAnnounceMenuIcon.png; path = artwork/SharingServiceAnnounceMenuIcon.png; sourceTree = SOURCE_ROOT; };
+		4CE8D4501959E3440026828F /* SharingServiceAnnounceMenuIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "SharingServiceAnnounceMenuIcon@2x.png"; path = "artwork/SharingServiceAnnounceMenuIcon@2x.png"; sourceTree = SOURCE_ROOT; };
 		4CF06A621816D6D300B35DF8 /* SubEthaEdit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = SubEthaEdit.entitlements; sourceTree = "<group>"; };
 		4CF3490017FC6EAF005D0D4F /* PSMTabBarControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PSMTabBarControl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CFAABAB18A3ECE4009DB5C3 /* EditorSplitHorizontal.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = EditorSplitHorizontal.pdf; sourceTree = "<group>"; };
@@ -2605,6 +2609,8 @@
 		F2FEE70E1892A747000E6BC8 /* SharingBarIcons */ = {
 			isa = PBXGroup;
 			children = (
+				4CE8D44F1959E3440026828F /* SharingServiceAnnounceMenuIcon.png */,
+				4CE8D4501959E3440026828F /* SharingServiceAnnounceMenuIcon@2x.png */,
 				F2880CE91923BA7000C6370C /* BottomBarSharingIconAddHover.png */,
 				F2880CEA1923BA7000C6370C /* BottomBarSharingIconAddHover@2x.png */,
 				F2880CEB1923BA7000C6370C /* BottomBarSharingIconAddNormal.png */,
@@ -2962,6 +2968,7 @@
 				F22024CC191D0BFE0098982C /* ParticipantFollowTurnOnNormal@2x.png in Resources */,
 				F20AB882190932FB00444F4B /* SymbolWarn@2x.png in Resources */,
 				F2D3E552189941F50096425B /* IW ActiveTabClosePressed@2x.png in Resources */,
+				4CE8D4511959E3440026828F /* SharingServiceAnnounceMenuIcon.png in Resources */,
 				F2D3E55A189941F50096425B /* IW ActiveTabRightCap@2x.png in Resources */,
 				4C6BDC5318896DCC0088CBFC /* SubEthaEditFiles.iconset in Resources */,
 				F2880D0C1923BA7100C6370C /* BottomBarSharingIconAddHover@2x.png in Resources */,
@@ -3032,6 +3039,7 @@
 				422F9739190FD367009FD437 /* TCM_Logo_White_Background.pdf in Resources */,
 				F2D3E53B189941F50096425B /* AW InactiveTabClosePressed.png in Resources */,
 				319AAE3B0CB0165800ACDAB4 /* Precedence_Add.tiff in Resources */,
+				4CE8D4521959E3440026828F /* SharingServiceAnnounceMenuIcon@2x.png in Resources */,
 				F2D3E553189941F50096425B /* IW ActiveTabCloseRollover.png in Resources */,
 				F220248A191BC33D0098982C /* hud_buttonFill-P.png in Resources */,
 				F2D3E550189941F50096425B /* IW ActiveTabClose@2x.png in Resources */,

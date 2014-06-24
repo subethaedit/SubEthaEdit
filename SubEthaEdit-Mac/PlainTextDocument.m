@@ -1271,42 +1271,6 @@ static NSString *tempFileName(NSString *origPath) {
 		[self setIsAnnounced:YES];
 	}
 }
-- (IBAction)inviteUsersToDocumentViaSharingService:(id)sender {
-	NSURL *documentSharingURL = [self documentURL];
-	NSArray *sharingServiceItems = @[];
-	if (documentSharingURL && self.isAnnounced) {
-		sharingServiceItems = @[documentSharingURL];
-	}
-	NSSharingServicePicker *servicePicker = [[[NSSharingServicePicker alloc] initWithItems:sharingServiceItems] autorelease];
-	[servicePicker setDelegate:self];
-	[servicePicker showRelativeToRect:NSZeroRect ofView:sender preferredEdge:CGRectMaxYEdge];
-}
-
-- (BOOL)invitePeopleFromPasteboard:(NSPasteboard *)aPasteboard {
-    BOOL success = NO;
-    if ([[aPasteboard types] containsObject:@"IMHandleNames"]) {
-        NSArray *presentityNames= [aPasteboard propertyListForType:@"IMHandleNames"];
-        NSUInteger i=0;
-		
-		NSSharingService *service = [NSSharingService sharingServiceNamed:NSSharingServiceNameComposeMessage];
-		service.delegate = self;
-		NSMutableArray *recipients = [NSMutableArray array];
-        for (i=0;i<[presentityNames count];i+=4) {
-			//			NSString *serviceID = presentityNames[i];
-			//	NSString *accountID = presentityNames[i+1];
-			// don't know the format of the recipients field, so leave it blank and the user has to paste it in
-			//			[recipients addObject:[@"bonjour://" stringByAppendingString:accountID]];
-            //[self sendInvitationToServiceWithID:[presentityNames objectAtIndex:i] buddy:[presentityNames objectAtIndex:i+1] url:aURL];
-        }
-		service.recipients = recipients;
-		//		service.recipients = @[@"bonjour:something"];
-		[service performWithItems:@[[self documentURLForGroup:TCMMMSessionReadWriteGroupName]]];
-        success = YES;
-    }
-	
-    return success;
-}
-
 
 - (IBAction)toggleIsAnnouncedOnAllDocuments:(id)aSender {
     BOOL targetSetting = ![self isAnnounced];
@@ -2016,7 +1980,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
         NSAlert *alert = [[[NSAlert alloc] init] autorelease];
         [alert setAlertStyle:NSInformationalAlertStyle];
         [alert setMessageText:NSLocalizedString(@"Syntax Highlighting and Wrap Lines have been turned off due to the size of the Document.", @"BigFile Message Text")];
-        [alert setInformativeText:NSLocalizedString(@"Turning on Syntax Highlighting for very large Documents is not recommended.", @"BigFile Informative Text")];
+        [alert setInformativeText:NSLocalizedString(@"Turning on syntax highlighting for very large documents is not recommended.", @"BigFile Informative Text")];
         [alert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
         [self presentAlert:alert
              modalDelegate:self
@@ -4022,12 +3986,12 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     } else if (selector == @selector(toggleIsAnnounced:)) {
         [anItem setTitle:[self isAnnounced]?
                          NSLocalizedString(@"Conceal",@"Menu/Toolbar Title for concealing the Document"):
-                         NSLocalizedString(@"Announce",@"Menu/Toolbar Title for announcing the Document")];
+                         NSLocalizedString(@"Advertise",@"Menu/Toolbar Title for advertising the Document")];
         return [[self session] isServer];
     } else if (selector == @selector(toggleIsAnnouncedOnAllDocuments:)) {
         [anItem setTitle:[self isAnnounced]?
                          NSLocalizedString(@"Conceal All",@"Menu/Toolbar Title for concealing all Documents"):
-                         NSLocalizedString(@"Announce All",@"Menu/Toolbar Title for announcing all Documents")];
+                         NSLocalizedString(@"Advertise All",@"Menu/Toolbar Title for advertising all Documents")];
         return YES;
     } else if (selector == @selector(saveDocument:)) {
         return ![self isProxyDocument] && ![self hasMarkedTexts];
@@ -4552,14 +4516,14 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         return nil;
     }
 
-    TCMPortMapper *pm = [TCMPortMapper sharedInstance];
-    NSMutableString *address = [NSMutableString stringWithFormat:@"see://%@:%d", [pm localIPAddress],[[TCMMMBEEPSessionManager sharedInstance] listeningPort]];
-    TCMPortMapping *mapping = [[pm portMappings] anyObject];
-    if ([mapping mappingStatus]==TCMPortMappingStatusMapped) {
-        address = [NSMutableString stringWithFormat:@"see://%@:%d", [pm externalIPAddress],[mapping externalPort]];
-    }
-    
-    NSString *title = [self.fileURL.path lastPathComponent];
+	NSURL *applicationConnectionURL = [SEEConnectionManager applicationConnectionURL];
+	if (! applicationConnectionURL) {
+		return nil;
+	}
+
+	NSMutableString *address = [[applicationConnectionURL absoluteString] mutableCopy];
+
+	NSString *title = [self.fileURL.path lastPathComponent];
     if (title == nil) {
         title = [self displayName];
     }
@@ -5711,6 +5675,47 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 }
 
 
+#pragma mark - Invite Users
+
+- (IBAction)inviteUsersToDocumentViaSharingService:(id)sender {
+	NSURL *documentSharingURL = [self documentURL];
+	NSArray *sharingServiceItems = @[];
+	if (documentSharingURL && self.isAnnounced) {
+		sharingServiceItems = @[documentSharingURL];
+	}
+
+	NSSharingServicePicker *servicePicker = [[[NSSharingServicePicker alloc] initWithItems:sharingServiceItems] autorelease];
+	[servicePicker setDelegate:self];
+	[servicePicker showRelativeToRect:NSZeroRect ofView:sender preferredEdge:CGRectMaxYEdge];
+}
+
+
+- (BOOL)invitePeopleFromPasteboard:(NSPasteboard *)aPasteboard {
+	BOOL success = NO;
+	if ([[aPasteboard types] containsObject:@"IMHandleNames"]) {
+		NSArray *presentityNames= [aPasteboard propertyListForType:@"IMHandleNames"];
+		NSUInteger i=0;
+
+		NSSharingService *service = [NSSharingService sharingServiceNamed:NSSharingServiceNameComposeMessage];
+		service.delegate = self;
+		NSMutableArray *recipients = [NSMutableArray array];
+		for (i=0;i<[presentityNames count];i+=4) {
+//			NSString *serviceID = presentityNames[i];
+//			NSString *accountID = presentityNames[i+1];
+//			// don't know the format of the recipients field, so leave it blank and the user has to paste it in
+//			[recipients addObject:[@"bonjour://" stringByAppendingString:accountID]];
+//			[self sendInvitationToServiceWithID:[presentityNames objectAtIndex:i] buddy:[presentityNames objectAtIndex:i+1] url:aURL];
+		}
+		service.recipients = recipients;
+//		service.recipients = @[@"bonjour:something"];
+		[service performWithItems:@[[self documentURLForGroup:TCMMMSessionReadWriteGroupName]]];
+		success = YES;
+	}
+
+	return success;
+}
+
+
 #pragma mark - NSSharingServiceDelegate
 
 - (void)sharingService:(NSSharingService *)sharingService didShareItems:(NSArray *)items
@@ -5783,6 +5788,19 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 		}
 	}
 
+	// check if we have a mapped public URL
+	BOOL hasPublicURL = NO;
+	TCMPortMapper *pm = [TCMPortMapper sharedInstance];
+	TCMPortMapping *mapping = [[pm portMappings] anyObject];
+	if (([mapping mappingStatus] == TCMPortMappingStatusMapped) && [pm externalIPAddress] && ![[pm externalIPAddress] isEqual:@"0.0.0.0"] && ([mapping externalPort] > 0)) {
+		hasPublicURL = YES;
+	}
+
+	if (! hasPublicURL) { // if we don't have a public URL remove also email and messages
+		[sharingServices removeObject:[NSSharingService sharingServiceNamed:NSSharingServiceNameComposeEmail]];
+		[sharingServices removeObject:[NSSharingService sharingServiceNamed:NSSharingServiceNameComposeMessage]];
+	}
+
 	// remove Safari Reading List entry if available...
 	[sharingServices removeObject:[NSSharingService sharingServiceNamed:NSSharingServiceNameAddToSafariReadingList]];
 
@@ -5792,6 +5810,16 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 	[sharingServices removeObject:[NSSharingService sharingServiceNamed:NSSharingServiceNamePostOnSinaWeibo]];
 	[sharingServices removeObject:[NSSharingService sharingServiceNamed:NSSharingServiceNamePostOnTencentWeibo]];
 	[sharingServices removeObject:[NSSharingService sharingServiceNamed:NSSharingServiceNamePostOnLinkedIn]];
+
+	if (! self.isAnnounced && self.session.isServer && self.documentURL) {
+		NSString *sharingServiceTitle = NSLocalizedString(@"Advertise Document", @"Advertise document string used in sharing service picker.");
+		NSImage *sharingServiceImage = [NSImage imageNamed:@"SharingServiceAnnounceMenuIcon"];
+		NSSharingService *customSharingService = [[[NSSharingService alloc] initWithTitle:sharingServiceTitle image:sharingServiceImage alternateImage:nil handler:^{
+			[self toggleIsAnnounced:self];
+		}] autorelease];
+
+		[sharingServices addObject:customSharingService];
+	}
 
 	return sharingServices;
 }

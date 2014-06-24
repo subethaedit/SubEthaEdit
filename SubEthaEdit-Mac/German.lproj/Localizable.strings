@@ -16,7 +16,7 @@
 /* Status string showing the number of documents in Rendezvous and Internet browser */
 "%d Document(s)" = "%d Dokument(e)";
 
-/* Status string showing the number of documents The browser when there are multiple documents announced */
+/* Status string showing the number of documents The browser when there are multiple documents advertised */
 "%d Documents" = "%d Dokumente";
 
 /* Entries Found in FindAll Panel */
@@ -40,7 +40,7 @@
 /* No comment provided by engineer. */
 "&Undo %@" = "%@ widerrufen";
 
-/* Status string showing the number of documents when one is announced */
+/* Status string showing the number of documents when one is advertised */
 "1 Document" = "1 Dokument";
 
 /* Entry for Symbol Pop Up when no Symbol is found */
@@ -85,17 +85,17 @@
 /* all tabs Dock Menu Item */
 "All Tabs" = "Alle Tabs";
 
-/* Menu/Toolbar Title for announcing the Document */
-"Announce" = "Ankündigen";
+/* Menu/Toolbar Title for advertising the Document */
+"Advertise" = "Ankündigen";
 
-/* Menu/Toolbar Title for announcing all Documents */
-"Announce All" = "Alle Ankündigen";
-
-/* No comment provided by engineer. */
-"Announce/Conceal" = "Ankündigen/Verbergen";
+/* Menu/Toolbar Title for advertising all Documents */
+"Advertise All" = "Alle Ankündigen";
 
 /* No comment provided by engineer. */
-"Announce/Conceal Document" = "Dokument ankündigen/verbergen";
+"Advertise/Conceal" = "Ankündigen/Verbergen";
+
+/* No comment provided by engineer. */
+"Advertise/Conceal Document" = "Dokument ankündigen/verbergen";
 
 /* Location: Application */
 "Application" = "Eingebaut";
@@ -231,8 +231,8 @@
 /* Choice (on a button) given to user which allows him/her to quit the application even though there are unsaved documents. */
 "Discard Changes" = "Änderungen verwerfen";
 
-/* Text for document URL field when not announced */
-"Document not announced.\nNo Document URL." = "Dokument verborgen.\nKein Link zum Dokument.";
+/* Text for document URL field when not advertised */
+"Document not advertised.\nNo Document URL." = "Dokument verborgen.\nKein Link zum Dokument.";
 
 /* No comment provided by engineer. */
 "Don't Revert Document" = "Nicht laden";
@@ -739,7 +739,7 @@
 "Try choosing a different name for the document." = "Versuchen Sie einen anderen Namen für das Dokument zu wählen.";
 
 /* BigFile Informative Text */
-"Turning on Syntax Highlighting for very large Documents is not recommended." = "Es ist nicht empfohlen die Syntax-Einfärbung für sehr große Dokumente zu aktivieren.";
+"Turning on syntax highlighting for very large documents is not recommended." = "Es ist nicht empfohlen die Syntax-Einfärbung für sehr große Dokumente zu aktivieren.";
 
 /* Location: User Library */
 "User Library" = "Benutzer Library";
@@ -801,8 +801,8 @@
 /* Drag target string in Connection Browser */
 "Drag your\niChat Buddies here\nto invite them." = "Kontakte aus\niChat hier fallen\nlassen um sie\neinzuladen.";
 
-/* Status string showing the number of documents when none are announced */
-"None announced" = "None announced";
+/* Status string showing the number of documents when none are advertised */
+"None advertised" = "None advertised";
 
 /* Connection browser subtitle for friendcasting connections */
 "Friend of a Friend" = "Freund eines Freundes";
@@ -840,11 +840,11 @@
 /* Editor Tool Tip Share Invite Button - Cannot share */
 "TOOL_TIP_SHARE_BUTTON_DISABLED" = "Dokument teilen nicht möglich";
 
-/* Editor Tool Tip Announce Button - Announce */
+/* Editor Tool Tip Advertise Button - Advertise */
 "TOOL_TIP_ANNOUNCE_BUTTON_ANNOUNCE" = "Dokument ankündigen";
-/* Editor Tool Tip Announce Button - Conceal */
+/* Editor Tool Tip Advertise Button - Conceal */
 "TOOL_TIP_ANNOUNCE_BUTTON_CONCEAL" = "Dokument verbergen";
-/* Editor Tool Tip Announce Button - Disabled */
+/* Editor Tool Tip Advertise Button - Disabled */
 "TOOL_TIP_ANNOUNCE_BUTTON_DISABLED" = "Dokument ankündigen nicht möglich";
 
 
@@ -924,6 +924,9 @@
 
 /* Invitation format string used in sharing service picker. %@ will be replaced with the user name. */
 "Invite %@" = "%@ einladen";
+
+/* Advertise document string used in sharing service picker. */
+"Advertise Document" = "Dokument ankündigen";
 
 /* Collaboration Preference Pane */
 "COLLAB_USER_NAME_LABEL" = "Name:";
