@@ -619,9 +619,10 @@ static AppController *sharedInstance = nil;
 		}
 		
 		[defaults setObject:currentBundleVersion forKey:kSEELastKnownBundleVersion];
-		[defaults removeObjectForKey:kSEELastKnownBundleVersion]; // debug
+//		[defaults removeObjectForKey:kSEELastKnownBundleVersion]; // debug
 		[defaults synchronize];
 	} // else: do nothing.
+//	[defaults removeObjectForKey:kSEELastKnownBundleVersion]; // debug
 }
 
 #pragma mark - show mode bundle
