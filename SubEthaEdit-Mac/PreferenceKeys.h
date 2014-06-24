@@ -38,6 +38,8 @@ extern NSString * const kSEEDefaultsKeyDontSaveDocumentStateInXattrs;
 extern NSString * const kSEEDefaultsKeyUseTemporaryKeychainForTLS;
 extern NSString * const kSEEDefaultsKeyEnableTLS;
 
+extern NSString * const kSEELastKnownBundleVersion;
+
 extern NSString * const DocumentStateSaveAndLoadWindowPositionKey;
 extern NSString * const DocumentStateSaveAndLoadTabSettingKey;
 extern NSString * const DocumentStateSaveAndLoadWrapSettingKey;
