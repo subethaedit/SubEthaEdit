@@ -38,6 +38,10 @@
 
 NSString *const RecentDocumentsDidChangeNotification = @"RecentDocumentsDidChangeNotification";
 
+NSString * const kSEETypeSEEText = @"de.codingmonkeys.subethaedit.seetext";
+NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
+
+
 @interface SEEDocumentController ()
 
 @property (nonatomic, strong) SEEDocumentListWindowController *documentListWindowController;
@@ -180,9 +184,9 @@ NSString *const RecentDocumentsDidChangeNotification = @"RecentDocumentsDidChang
 - (Class)documentClassForType:(NSString *)typeName
 {
 	Class documentClass = [super documentClassForType:typeName];
-	if ([typeName isEqualToString:@"de.codingmonkeys.subethaedit.seetext"] && [documentClass class] != [PlainTextDocument class]) {
+	if ([typeName isEqualToString:kSEETypeSEEText] && [documentClass class] != [PlainTextDocument class]) {
 		documentClass = [PlainTextDocument class];
-	} else if ([typeName isEqualToString:@"de.codingmonkeys.subethaedit.seemode"] && [documentClass class] != [PlainTextDocument class]) {
+	} else if ([typeName isEqualToString:kSEETypeSEEMode] && [documentClass class] != [PlainTextDocument class]) {
 		documentClass = [PlainTextDocument class];
 	}
 

@@ -17,6 +17,7 @@
 #import "UndoManager.h"
 #import "FoldableTextStorage.h"
 #import "FullTextStorage.h"
+#import "SEEDocumentController.h"
 
 enum {
     UnknownStringEncoding = NoStringEncoding,
@@ -46,8 +47,6 @@ extern NSString * const ChangedByUserIDAttributeName;
 
 extern NSString * const PlainTextDocumentDidSaveNotification;
 extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotification;
-
-extern NSString * const kSEETypeSEEText;
 
 
 @interface PlainTextDocument : NSDocument <SEEDocument, NSTextViewDelegate, NSTextStorageDelegate, NSOpenSavePanelDelegate, NSSharingServicePickerDelegate, NSSharingServiceDelegate>

@@ -102,8 +102,6 @@ NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotification =
 NSString * const WrittenByUserIDAttributeName = @"WrittenByUserID";
 NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 
-NSString * const kSEETypeSEEText = @"de.codingmonkeys.subethaedit.seetext";
-
 // Something that's used by our override of -shouldCloseWindowController:delegate:shouldCloseSelector:contextInfo: down below.
 @interface PlainTextDocumentShouldCloseContext : NSObject {
     @public

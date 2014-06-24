@@ -16,7 +16,11 @@
 @class MAAttachedWindow;
 @class PlainTextDocument;
 
+
 extern NSString *const RecentDocumentsDidChangeNotification;
+
+extern NSString * const kSEETypeSEEText;
+extern NSString * const kSEETypeSEEMode;
 
 @interface SEEDocumentController : NSDocumentController {
     NSMutableDictionary *I_propertiesForOpenedFiles;

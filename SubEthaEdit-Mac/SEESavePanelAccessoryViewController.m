@@ -59,7 +59,7 @@
 	[savePanel setShowsHiddenFiles:showsHiddenFiles];
 	[savePanel setDelegate:self];
 
-	if (UTTypeConformsTo((__bridge CFStringRef)documentFileType, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext")) {
+	if (UTTypeConformsTo((__bridge CFStringRef)documentFileType, (__bridge CFStringRef)kSEETypeSEEText)) {
 		[self.savePanelAccessoryFileFormatMatrixOutlet selectCellWithTag:1];
 	} else {
 		[self.savePanelAccessoryFileFormatMatrixOutlet selectCellWithTag:0];
@@ -105,7 +105,7 @@
 {
     NSSavePanel *panel = (NSSavePanel *)self.savePanel;
     if ([[aSender selectedCell] tag]==1) {
-        [panel setAllowedFileTypes:@[@"de.codingmonkeys.subethaedit.seetext"]];
+        [panel setAllowedFileTypes:@[kSEETypeSEEText]];
 		[panel setAllowsOtherFileTypes:NO];
     } else {
 		[panel setAllowsOtherFileTypes:YES];
@@ -158,7 +158,7 @@
 	
 }
 
-/* this does get called even if not implemented */
+/* this does get called even if not implemented on 10_9_3 */
 - (void)panel:(id)sender willExpand:(BOOL)expanding {
 	// ignore
 }
@@ -166,19 +166,5 @@
 - (void)panelSelectionDidChange:(id)sender {
 	// ignore
 }
-
-//- (void)windowDidUpdate:(NSNotification *)aNotification {
-//	//	NSLog(@"%s %@",__FUNCTION__,aNotification);
-//	NSString *extension = self.savePanel.nameFieldLabel.pathExtension;
-//	if (extension.length > 0) {
-//		if (![self.savePanel.allowedFileTypes containsObject:extension]) {
-//			[self.savePanel setAllowedFileTypes:@[extension]];
-//		}
-//	} else {
-//		if (![self.savePanel.allowedFileTypes containsObject:(NSString *)kUTTypeText]) {
-//			self.savePanel.allowedFileTypes = @[(NSString *)kUTTypeText];
-//		}
-//	}
-//}
 
 @end
