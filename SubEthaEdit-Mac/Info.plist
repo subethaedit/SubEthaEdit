@@ -39,6 +39,11 @@
 			<string>PlainTextDocument</string>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>txt</string>
+				<string>text</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -63,24 +68,28 @@
 			<array>
 				<string>swift</string>
 			</array>
-			<key>LSTypeIsPackage</key>
-			<false/>
-			<key>CFBundleTypeName</key>
-			<string>Swift Source</string>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
+			<key>CFBundleTypeName</key>
+			<string>Swift Source</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>public.swift-source</string>
 			</array>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
+			<key>LSTypeIsPackage</key>
+			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
 			<key>NSIsRelatedItemType</key>
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>go</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -101,6 +110,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>bash</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -121,6 +134,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>do</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -141,6 +158,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>fscript</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -161,6 +182,11 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>java</string>
+				<string>jav</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -181,6 +207,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>lua</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -202,6 +232,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>dxf</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -222,6 +256,12 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>jscript</string>
+				<string>js</string>
+				<string>javascript</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -242,6 +282,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>mxo</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -262,6 +306,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>json</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -283,6 +331,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>sps</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -303,6 +355,14 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>cp</string>
+				<string>cpp</string>
+				<string>c++</string>
+				<string>cc</string>
+				<string>cxx</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -323,6 +383,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>tcl</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -343,6 +407,13 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>shtm</string>
+				<string>shtml</string>
+				<string>html</string>
+				<string>htm</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -363,6 +434,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>act3</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -383,6 +458,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>m4</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -403,6 +482,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>h</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -423,6 +506,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>sgml</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -443,6 +530,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>err</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -463,6 +554,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>ics</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -483,6 +578,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>csv</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -503,6 +602,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>types</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -523,6 +626,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>st</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -543,6 +650,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>x</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -563,6 +674,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>tcsh</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -583,6 +698,11 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>f</string>
+				<string>for</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -603,6 +723,13 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>pyw</string>
+				<string>py</string>
+				<string>python</string>
+				<string>pw</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -624,6 +751,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>mm</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -644,6 +775,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>uue</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -664,6 +799,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>idl</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -684,6 +823,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>rc</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -704,6 +847,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>vbs</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -724,6 +871,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>vrml</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -744,6 +895,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>brainfuck</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -764,6 +919,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>rxp</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -784,6 +943,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>pch</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -804,6 +967,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>las</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -824,6 +991,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>eps</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -844,6 +1015,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>ps</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -864,6 +1039,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>plist</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -886,10 +1065,6 @@
 			<true/>
 		</dict>
 		<dict>
-			<key>CFBundleTypeName</key>
-			<string>Markdown Document</string>
-			<key>CFBundleTypeIconFile</key>
-			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeExtensions</key>
 			<array>
 				<string>md</string>
@@ -897,38 +1072,47 @@
 				<string>markdown</string>
 				<string>text</string>
 			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>SubEthaEditFiles</string>
+			<key>CFBundleTypeName</key>
+			<string>Markdown Document</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>net.daringfireball.markdown</string>
 			</array>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>NSIsRelatedItemType</key>
-			<true/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
 		</dict>
 		<dict>
-			<key>CFBundleTypeName</key>
-			<string>Metal shader source</string>
-			<key>CFBundleTypeIconFile</key>
-			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeExtensions</key>
 			<array>
 				<string>metal</string>
 			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>SubEthaEditFiles</string>
+			<key>CFBundleTypeName</key>
+			<string>Metal shader source</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>com.apple.metal</string>
 			</array>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
 			<key>NSIsRelatedItemType</key>
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>xsl</string>
+				<string>xslt</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -949,6 +1133,11 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>r</string>
+				<string>s</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -970,6 +1159,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>c</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -990,6 +1183,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>sl</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1010,6 +1207,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>wmk</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1030,6 +1231,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>log</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1050,6 +1255,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>rsp</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1070,6 +1279,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>msl</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1090,6 +1303,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>rtf</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1110,6 +1327,14 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>fs</string>
+				<string>fsh</string>
+				<string>frag</string>
+				<string>fragsh</string>
+				<string>fragment</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1130,6 +1355,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>reb</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1150,6 +1379,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>mel</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1170,6 +1403,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>sieve</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1190,6 +1427,11 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>tex</string>
+				<string>latex</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1210,6 +1452,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>csh</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1230,6 +1476,11 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>vcs</string>
+				<string>vcal</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1250,6 +1501,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>def</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1270,6 +1525,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>xml</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1291,6 +1550,12 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>mysql</string>
+				<string>postgresql</string>
+				<string>sql</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1312,6 +1577,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>rebol</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1332,6 +1601,11 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>svg</string>
+				<string>svgz</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1352,6 +1626,12 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>p</string>
+				<string>pas</string>
+				<string>pp</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1373,6 +1653,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>pro</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1393,6 +1677,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>notes</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1413,6 +1701,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>cob</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1433,6 +1725,16 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>rb</string>
+				<string>rbw</string>
+				<string>ruby</string>
+				<string>rxml</string>
+				<string>builder</string>
+				<string>rjs</string>
+				<string>rbx</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1454,6 +1756,11 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>vcf</string>
+				<string>vcard</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1474,6 +1781,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>mws</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1494,6 +1805,12 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>ada</string>
+				<string>adb</string>
+				<string>ads</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1514,6 +1831,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>mx</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1534,6 +1855,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>enc</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1554,6 +1879,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>pod</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1574,6 +1903,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>as</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1594,6 +1927,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>ini</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1614,6 +1951,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>strings</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1634,6 +1975,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>mk</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1654,6 +1999,11 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>pm</string>
+				<string>pl</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1674,6 +2024,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>lasso</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1694,6 +2048,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>default</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1714,6 +2072,12 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>tex</string>
+				<string>sty</string>
+				<string>cls</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1734,6 +2098,15 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>phtml</string>
+				<string>php4</string>
+				<string>ph3</string>
+				<string>ph4</string>
+				<string>php</string>
+				<string>php3</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1754,6 +2127,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>verilog</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1774,6 +2151,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>css</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1794,6 +2175,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>spss</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1814,6 +2199,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>awk</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1834,6 +2223,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>vrm</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1854,6 +2247,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>lgt</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1874,6 +2271,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>filemaker</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1894,6 +2295,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>njs</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1914,6 +2319,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>custom</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1934,6 +2343,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>bak</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1954,6 +2367,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>f90</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1974,6 +2391,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>vhd</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -1994,6 +2415,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>sh</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -2014,6 +2439,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>tab</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -2034,6 +2463,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>m1s</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -2054,6 +2487,12 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>xhtml</string>
+				<string>xht</string>
+				<string>xhtm</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -2074,6 +2513,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>bf</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -2094,6 +2537,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>applescript</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -2114,6 +2561,11 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>yml</string>
+				<string>yaml</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -2135,6 +2587,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>v</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -2155,6 +2611,11 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>erl</string>
+				<string>hrl</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -2175,6 +2636,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>m</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -2195,6 +2660,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>dtd</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -2215,6 +2684,11 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>rhtml</string>
+				<string>erb</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -2236,6 +2710,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>hpgl</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -2256,6 +2734,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>gcc</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -2276,6 +2758,13 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>cfm</string>
+				<string>cfc</string>
+				<string>cfr</string>
+				<string>cfml</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -2296,6 +2785,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>b</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -2316,6 +2809,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>ltx</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -2336,6 +2833,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>pike</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -2356,6 +2857,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>mtl</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
@@ -2394,6 +2899,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>sss</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditStyle</string>
 			<key>CFBundleTypeName</key>
@@ -2412,6 +2921,10 @@
 			<string>PlainTextDocument</string>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>seemode</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditMode</string>
 			<key>CFBundleTypeName</key>
@@ -2428,6 +2941,10 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>seetext</string>
+			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditText</string>
 			<key>CFBundleTypeName</key>
@@ -3841,22 +4358,16 @@
 	<key>UTImportedTypeDeclarations</key>
 	<array>
 		<dict>
-			<key>UTTypeIdentifier</key>
-			<string>net.daringfireball.markdown</string>
 			<key>UTTypeConformsTo</key>
 			<array>
 				<string>public.text</string>
 			</array>
 			<key>UTTypeDescription</key>
 			<string>Markdown</string>
+			<key>UTTypeIdentifier</key>
+			<string>net.daringfireball.markdown</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
-				<key>public.mime-type</key>
-				<array>
-					<string>text/markdown</string>
-					<string>text/x-markdown</string>
-					<string>text/x-web-markdown</string>
-				</array>
 				<key>public.filename-extension</key>
 				<array>
 					<string>md</string>
@@ -3864,15 +4375,21 @@
 					<string>markdown</string>
 					<string>text</string>
 				</array>
+				<key>public.mime-type</key>
+				<array>
+					<string>text/markdown</string>
+					<string>text/x-markdown</string>
+					<string>text/x-web-markdown</string>
+				</array>
 			</dict>
 		</dict>
 		<dict>
-			<key>UTTypeIdentifier</key>
-			<string>com.apple.metal</string>
 			<key>UTTypeConformsTo</key>
 			<array>
 				<string>public.source-code</string>
 			</array>
+			<key>UTTypeIdentifier</key>
+			<string>com.apple.metal</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>
@@ -3882,14 +4399,14 @@
 			</dict>
 		</dict>
 		<dict>
-			<key>UTTypeIdentifier</key>
-			<string>public.swift-source</string>
 			<key>UTTypeConformsTo</key>
 			<array>
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
 			<string>Swift Source Code</string>
+			<key>UTTypeIdentifier</key>
+			<string>public.swift-source</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>
