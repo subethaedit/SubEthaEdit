@@ -4521,7 +4521,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 		return nil;
 	}
 
-	NSMutableString *address = [[applicationConnectionURL absoluteString] mutableCopy];
+	NSMutableString *address = [[[applicationConnectionURL absoluteString] mutableCopy] autorelease];
 
 	NSString *title = [self.fileURL.path lastPathComponent];
     if (title == nil) {
