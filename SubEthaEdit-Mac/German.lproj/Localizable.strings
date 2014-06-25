@@ -1026,6 +1026,7 @@
 "WEBSITE_ADDITIONAL_MODES" = "http://subethaedit.net/modi";
 "WEBSITE_AUTHENTICATION_HELPER" = "http://subethaedit.net/authentifizierungshelfer";
 "WEBSITE_COMMANDLINETOOL" = "http://subethaedit.net/kommandozeilentool";
+"WEBSITE_MODE_CREATION_DOCU" = "http://subethaedit.net/modedocs";
 
 /* Proxy window */
 "PROXY_WINDOW_ACCEPT" = "Annehmen";
