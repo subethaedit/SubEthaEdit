@@ -430,7 +430,7 @@ static AppController *sharedInstance = nil;
     [[BITHockeyManager sharedHockeyManager] startManager];
 	
 	// check built in mode versions
-	[self performSelector:@selector(checkUserModesForUpdateAfterVersionBump) withObject:nil afterDelay:0.1];
+	[self performSelector:@selector(checkUserModesForUpdateAfterVersionBump) withObject:nil afterDelay:0.0];
 }
 
 #pragma mark
