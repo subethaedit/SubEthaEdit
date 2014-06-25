@@ -187,13 +187,13 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
 
 - (void)setFileType:(NSString *)aString {
     [self willChangeValueForKey:@"documentIcon"];
-    I_flags.isSEEText = UTTypeConformsTo((CFStringRef)aString, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext");
+    I_flags.isSEEText = UTTypeConformsTo((CFStringRef)aString, (CFStringRef)kSEETypeSEEText);
     [super setFileType:aString];
     [self didChangeValueForKey:@"documentIcon"];
 }
 
 - (NSImage *)documentIcon {
-    if (UTTypeConformsTo((CFStringRef)[self fileType], (CFStringRef)@"de.codingmonkeys.subethaedit.seetext")) {
+    if (UTTypeConformsTo((CFStringRef)[self fileType], (CFStringRef)kSEETypeSEEText)) {
         return [NSImage imageNamed:@"seetext"];
     } else {
         return [NSImage imageNamed:@"SubEthaEditFiles"];
@@ -1271,42 +1271,6 @@ static NSString *tempFileName(NSString *origPath) {
 		[self setIsAnnounced:YES];
 	}
 }
-- (IBAction)inviteUsersToDocumentViaSharingService:(id)sender {
-	NSURL *documentSharingURL = [self documentURL];
-	NSArray *sharingServiceItems = @[];
-	if (documentSharingURL && self.isAnnounced) {
-		sharingServiceItems = @[documentSharingURL];
-	}
-	NSSharingServicePicker *servicePicker = [[[NSSharingServicePicker alloc] initWithItems:sharingServiceItems] autorelease];
-	[servicePicker setDelegate:self];
-	[servicePicker showRelativeToRect:NSZeroRect ofView:sender preferredEdge:CGRectMaxYEdge];
-}
-
-- (BOOL)invitePeopleFromPasteboard:(NSPasteboard *)aPasteboard {
-    BOOL success = NO;
-    if ([[aPasteboard types] containsObject:@"IMHandleNames"]) {
-        NSArray *presentityNames= [aPasteboard propertyListForType:@"IMHandleNames"];
-        NSUInteger i=0;
-		
-		NSSharingService *service = [NSSharingService sharingServiceNamed:NSSharingServiceNameComposeMessage];
-		service.delegate = self;
-		NSMutableArray *recipients = [NSMutableArray array];
-        for (i=0;i<[presentityNames count];i+=4) {
-			//			NSString *serviceID = presentityNames[i];
-			//	NSString *accountID = presentityNames[i+1];
-			// don't know the format of the recipients field, so leave it blank and the user has to paste it in
-			//			[recipients addObject:[@"bonjour://" stringByAppendingString:accountID]];
-            //[self sendInvitationToServiceWithID:[presentityNames objectAtIndex:i] buddy:[presentityNames objectAtIndex:i+1] url:aURL];
-        }
-		service.recipients = recipients;
-		//		service.recipients = @[@"bonjour:something"];
-		[service performWithItems:@[[self documentURLForGroup:TCMMMSessionReadWriteGroupName]]];
-        success = YES;
-    }
-	
-    return success;
-}
-
 
 - (IBAction)toggleIsAnnouncedOnAllDocuments:(id)aSender {
     BOOL targetSetting = ![self isAnnounced];
@@ -1410,12 +1374,24 @@ static NSString *tempFileName(NSString *origPath) {
     }
 }
 
+- (NSUndoManager *)TCM_undoManagerToUse {
+	NSUndoManager *result = (NSUndoManager *)self.documentUndoManager;
+	id myTextView = [[self activePlainTextEditor] textView];
+	id firstResponder = [[myTextView window] firstResponder];
+	if ( myTextView && firstResponder &&
+		[firstResponder isKindOfClass:[NSTextView class]] &&
+		![firstResponder isKindOfClass:[myTextView class]]) {
+		result = [firstResponder undoManager];
+	}
+	return result;
+}
+
 - (IBAction)undo:(id)aSender {
-    [[self documentUndoManager] undo];
+	[[self TCM_undoManagerToUse] undo];
 }
 
 - (IBAction)redo:(id)aSender {
-    [[self documentUndoManager] redo];
+	[[self TCM_undoManagerToUse] redo];
 }
 
 - (IBAction)clearChangeMarks:(id)aSender {
@@ -2004,7 +1980,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
         NSAlert *alert = [[[NSAlert alloc] init] autorelease];
         [alert setAlertStyle:NSInformationalAlertStyle];
         [alert setMessageText:NSLocalizedString(@"Syntax Highlighting and Wrap Lines have been turned off due to the size of the Document.", @"BigFile Message Text")];
-        [alert setInformativeText:NSLocalizedString(@"Turning on Syntax Highlighting for very large Documents is not recommended.", @"BigFile Informative Text")];
+        [alert setInformativeText:NSLocalizedString(@"Turning on syntax highlighting for very large documents is not recommended.", @"BigFile Informative Text")];
         [alert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
         [self presentAlert:alert
              modalDelegate:self
@@ -2500,8 +2476,17 @@ struct SelectionRange
 #pragma mark -
 #pragma mark ### Save/Open Panel loading ###
 
+- (void)TCM_ensureFileTypeDataOrSEEText {
+	if (![self.fileType isEqualTo:kSEETypeSEEText] &&
+		![self.fileType isEqualTo:(NSString *)kUTTypeData]) {
+		// this neeeds to be data so the open panel doesn't strip our extensions
+		self.fileType = (NSString *)kUTTypeData;
+	}
+}
+
 - (void)saveDocumentWithDelegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)contextInfo {
     if ([self TCM_validateDocument]) {
+		[self TCM_ensureFileTypeDataOrSEEText];
         [super saveDocumentWithDelegate:delegate didSaveSelector:didSaveSelector contextInfo:contextInfo];
     }
 }
@@ -2638,13 +2623,13 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         if (saveOperation == NSSaveToOperation) {
             I_encodingFromLastRunSaveToOperation = [[accessoryViewController.encodingPopUpButtonOutlet selectedItem] tag];
             if ([[accessoryViewController.savePanelAccessoryFileFormatMatrixOutlet selectedCell] tag] == 1) {
-                aType = @"de.codingmonkeys.subethaedit.seetext";
+                aType = kSEETypeSEEText;
 			} else {
 //                aType = (NSString *)kUTTypeData;
             }
 		} else if (didShowPanel) {
             if ([[accessoryViewController.savePanelAccessoryFileFormatMatrixOutlet selectedCell] tag] == 1) {
-                aType = @"de.codingmonkeys.subethaedit.seetext";
+                aType = kSEETypeSEEText;
                 I_flags.isSEEText = YES;
             } else {
 //                aType = (NSString *)kUTTypeData;
@@ -2652,7 +2637,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
             }
 		}
     }
-    if (UTTypeConformsTo((CFStringRef)aType, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext")) {
+    if (UTTypeConformsTo((CFStringRef)aType, (CFStringRef)kSEETypeSEEText)) {
         NSString *seeTextExtension = [self fileNameExtensionForType:aType saveOperation:NSSaveOperation];
         if (![[[anAbsoluteURL path] pathExtension] isEqualToString:seeTextExtension]) {
             anAbsoluteURL = [NSURL fileURLWithPath:[[anAbsoluteURL path] stringByAppendingPathExtension:seeTextExtension]];
@@ -2786,7 +2771,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         if (!hadChanges) {
             [self performSelector:@selector(clearChangeCount) withObject:nil afterDelay:0.0];
         }
-        I_flags.isSEEText = UTTypeConformsTo((CFStringRef)[self fileType], (CFStringRef)@"de.codingmonkeys.subethaedit.seetext");
+        I_flags.isSEEText = UTTypeConformsTo((CFStringRef)[self fileType], (CFStringRef)kSEETypeSEEText);
         if (wasAutosave) *wasAutosave = YES;
     }
 	if (I_stateDictionaryFromLoading) { // was set in takeSettingsFromDocumentState: because of symmetry - is code that also is in the non-seetext part of the calling method
@@ -2851,7 +2836,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
     BOOL isDir, fileExists;
     fileExists = [[NSFileManager defaultManager] fileExistsAtPath:fileName isDirectory:&isDir];
-    if (fileExists && !isDir && UTTypeConformsTo((CFStringRef)docType, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext")) {
+    if (fileExists && !isDir && UTTypeConformsTo((CFStringRef)docType, (CFStringRef)kSEETypeSEEText)) {
 		NSString *fileExtension = [fileName pathExtension];
 
 		if (fileExtension) {
@@ -2861,7 +2846,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 			[self performSelector:@selector(setFileType:) withObject:(NSString *)kUTTypeText afterDelay:0.];
 		}
     }
-    if (!fileExists || (isDir && !UTTypeConformsTo((CFStringRef)docType, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext"))) {
+    if (!fileExists || (isDir && !UTTypeConformsTo((CFStringRef)docType, (CFStringRef)kSEETypeSEEText))) {
         // generate the correct error
         [NSData dataWithContentsOfURL:anURL options:0 error:outError];
         DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"file doesn't exist %@",outError?*outError:nil);
@@ -2881,7 +2866,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     }
 
 
-    if (UTTypeConformsTo((CFStringRef)docType, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext")) {
+    if (UTTypeConformsTo((CFStringRef)docType, (CFStringRef)kSEETypeSEEText)) {
         BOOL result = [self readSEETextFromURL:anURL properties:aProperties wasAutosave:&wasAutosaved error:outError];
         if (!result) {
             I_flags.isReadingFile = NO;
@@ -3238,7 +3223,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         [[self documentUndoManager] endUndoGrouping];
     }
     
-    if (!isReverting && !UTTypeConformsTo((CFStringRef)docType, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext")) {
+    if (!isReverting && !UTTypeConformsTo((CFStringRef)docType, (CFStringRef)kSEETypeSEEText)) {
         // clear the logging state
         if ([I_textStorage length] > [defaults integerForKey:@"ByteLengthToUseForModeRecognitionAndEncodingGuessing"]) {
         // if the file is to big no logging state to save space
@@ -3409,7 +3394,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 }
 
 - (NSString *)autosavingFileType {
-    return @"de.codingmonkeys.subethaedit.seetext";
+    return kSEETypeSEEText;
 }
 
 - (BOOL)writeSafelyToURL:(NSURL*)anAbsoluteURL ofType:(NSString *)docType forSaveOperation:(NSSaveOperationType)saveOperationType error:(NSError **)outError {
@@ -3677,7 +3662,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 		//        NSArray *xattrKeys = [UKXattrMetadataStore allKeysAtPath:[absoluteURL path] traverseLink:YES];
 		//        NSLog(@"%s xattrKeys:%@",__FUNCTION__,xattrKeys);
         return result;
-    } else if (UTTypeConformsTo((CFStringRef)inType, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext")) {
+    } else if (UTTypeConformsTo((CFStringRef)inType, (CFStringRef)kSEETypeSEEText)) {
         NSString *packagePath = [absoluteURL path];
         NSFileManager *fm =[NSFileManager defaultManager];
         if ([fm createDirectoryAtPath:packagePath withIntermediateDirectories:YES attributes:nil error:nil]) {
@@ -3761,7 +3746,8 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
                         [printInfo setJobDisposition:NSPrintSaveJob];
                         NSMutableDictionary *printDict = [printInfo dictionary];
                         NSString *pdfPath = [quicklookPath stringByAppendingPathComponent:@"Preview.pdf"];
-                        [printDict setObject:pdfPath forKey:NSPrintSavePath];
+						NSURL *pdfURL = [NSURL fileURLWithPath:pdfPath];
+                        [printDict setObject:pdfURL forKey:NSPrintJobSavingURL];
                         NSDictionary *savedPrintOptions = [[self printOptions] copy];
                         printDict = [self printOptions];
                         [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEParticipants"];
@@ -4000,12 +3986,12 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     } else if (selector == @selector(toggleIsAnnounced:)) {
         [anItem setTitle:[self isAnnounced]?
                          NSLocalizedString(@"Conceal",@"Menu/Toolbar Title for concealing the Document"):
-                         NSLocalizedString(@"Announce",@"Menu/Toolbar Title for announcing the Document")];
+                         NSLocalizedString(@"Advertise",@"Menu/Toolbar Title for advertising the Document")];
         return [[self session] isServer];
     } else if (selector == @selector(toggleIsAnnouncedOnAllDocuments:)) {
         [anItem setTitle:[self isAnnounced]?
                          NSLocalizedString(@"Conceal All",@"Menu/Toolbar Title for concealing all Documents"):
-                         NSLocalizedString(@"Announce All",@"Menu/Toolbar Title for announcing all Documents")];
+                         NSLocalizedString(@"Advertise All",@"Menu/Toolbar Title for advertising all Documents")];
         return YES;
     } else if (selector == @selector(saveDocument:)) {
         return ![self isProxyDocument] && ![self hasMarkedTexts];
@@ -4530,14 +4516,14 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         return nil;
     }
 
-    TCMPortMapper *pm = [TCMPortMapper sharedInstance];
-    NSMutableString *address = [NSMutableString stringWithFormat:@"see://%@:%d", [pm localIPAddress],[[TCMMMBEEPSessionManager sharedInstance] listeningPort]];
-    TCMPortMapping *mapping = [[pm portMappings] anyObject];
-    if ([mapping mappingStatus]==TCMPortMappingStatusMapped) {
-        address = [NSMutableString stringWithFormat:@"see://%@:%d", [pm externalIPAddress],[mapping externalPort]];
-    }
-    
-    NSString *title = [self.fileURL.path lastPathComponent];
+	NSURL *applicationConnectionURL = [SEEConnectionManager applicationConnectionURL];
+	if (! applicationConnectionURL) {
+		return nil;
+	}
+
+	NSMutableString *address = [[[applicationConnectionURL absoluteString] mutableCopy] autorelease];
+
+	NSString *title = [self.fileURL.path lastPathComponent];
     if (title == nil) {
         title = [self displayName];
     }
@@ -5689,6 +5675,47 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 }
 
 
+#pragma mark - Invite Users
+
+- (IBAction)inviteUsersToDocumentViaSharingService:(id)sender {
+	NSURL *documentSharingURL = [self documentURL];
+	NSArray *sharingServiceItems = @[];
+	if (documentSharingURL && self.isAnnounced) {
+		sharingServiceItems = @[documentSharingURL];
+	}
+
+	NSSharingServicePicker *servicePicker = [[[NSSharingServicePicker alloc] initWithItems:sharingServiceItems] autorelease];
+	[servicePicker setDelegate:self];
+	[servicePicker showRelativeToRect:NSZeroRect ofView:sender preferredEdge:CGRectMaxYEdge];
+}
+
+
+- (BOOL)invitePeopleFromPasteboard:(NSPasteboard *)aPasteboard {
+	BOOL success = NO;
+	if ([[aPasteboard types] containsObject:@"IMHandleNames"]) {
+		NSArray *presentityNames= [aPasteboard propertyListForType:@"IMHandleNames"];
+		NSUInteger i=0;
+
+		NSSharingService *service = [NSSharingService sharingServiceNamed:NSSharingServiceNameComposeMessage];
+		service.delegate = self;
+		NSMutableArray *recipients = [NSMutableArray array];
+		for (i=0;i<[presentityNames count];i+=4) {
+//			NSString *serviceID = presentityNames[i];
+//			NSString *accountID = presentityNames[i+1];
+//			// don't know the format of the recipients field, so leave it blank and the user has to paste it in
+//			[recipients addObject:[@"bonjour://" stringByAppendingString:accountID]];
+//			[self sendInvitationToServiceWithID:[presentityNames objectAtIndex:i] buddy:[presentityNames objectAtIndex:i+1] url:aURL];
+		}
+		service.recipients = recipients;
+//		service.recipients = @[@"bonjour:something"];
+		[service performWithItems:@[[self documentURLForGroup:TCMMMSessionReadWriteGroupName]]];
+		success = YES;
+	}
+
+	return success;
+}
+
+
 #pragma mark - NSSharingServiceDelegate
 
 - (void)sharingService:(NSSharingService *)sharingService didShareItems:(NSArray *)items
@@ -5761,6 +5788,19 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 		}
 	}
 
+	// check if we have a mapped public URL
+	BOOL hasPublicURL = NO;
+	TCMPortMapper *pm = [TCMPortMapper sharedInstance];
+	TCMPortMapping *mapping = [[pm portMappings] anyObject];
+	if (([mapping mappingStatus] == TCMPortMappingStatusMapped) && [pm externalIPAddress] && ![[pm externalIPAddress] isEqual:@"0.0.0.0"] && ([mapping externalPort] > 0)) {
+		hasPublicURL = YES;
+	}
+
+	if (! hasPublicURL) { // if we don't have a public URL remove also email and messages
+		[sharingServices removeObject:[NSSharingService sharingServiceNamed:NSSharingServiceNameComposeEmail]];
+		[sharingServices removeObject:[NSSharingService sharingServiceNamed:NSSharingServiceNameComposeMessage]];
+	}
+
 	// remove Safari Reading List entry if available...
 	[sharingServices removeObject:[NSSharingService sharingServiceNamed:NSSharingServiceNameAddToSafariReadingList]];
 
@@ -5770,6 +5810,16 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 	[sharingServices removeObject:[NSSharingService sharingServiceNamed:NSSharingServiceNamePostOnSinaWeibo]];
 	[sharingServices removeObject:[NSSharingService sharingServiceNamed:NSSharingServiceNamePostOnTencentWeibo]];
 	[sharingServices removeObject:[NSSharingService sharingServiceNamed:NSSharingServiceNamePostOnLinkedIn]];
+
+	if (! self.isAnnounced && self.session.isServer && self.documentURL) {
+		NSString *sharingServiceTitle = NSLocalizedString(@"Advertise Document", @"Advertise document string used in sharing service picker.");
+		NSImage *sharingServiceImage = [NSImage imageNamed:@"SharingServiceAnnounceMenuIcon"];
+		NSSharingService *customSharingService = [[[NSSharingService alloc] initWithTitle:sharingServiceTitle image:sharingServiceImage alternateImage:nil handler:^{
+			[self toggleIsAnnounced:self];
+		}] autorelease];
+
+		[sharingServices addObject:customSharingService];
+	}
 
 	return sharingServices;
 }

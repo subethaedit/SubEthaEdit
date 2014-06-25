@@ -28,8 +28,6 @@
 @property (nonatomic, readwrite, weak) NSSavePanel *savePanel;
 @property (nonatomic, readwrite, assign) NSSaveOperationType saveOperation;
 
-@property (nonatomic, readonly) NSArray *writableDocumentTypes;
-
 + (instancetype)prepareSavePanel:(NSSavePanel *)savePanel withSaveOperation:(NSSaveOperationType)saveOperation forDocument:(NSDocument *)document;
 
 @end

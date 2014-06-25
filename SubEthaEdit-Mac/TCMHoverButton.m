@@ -102,7 +102,7 @@
     }
 	
     // recreate tracking areas and tool tip rects
-    NSPoint mouseLocation = [self convertPoint:[[self window] convertScreenToBase:[NSEvent mouseLocation]] fromView:nil];
+    NSPoint mouseLocation = [self convertPoint:self.window.mouseLocationOutsideOfEventStream fromView:nil];
     
     [self addTrackingAreasInRect:[self bounds] withUserInfo:nil mouseLocation:mouseLocation];
 }

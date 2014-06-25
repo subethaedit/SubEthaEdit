@@ -65,10 +65,6 @@ NSString * const BlockeditAttributeValue=@"YES";
 }
 
 
-- (id <TextStorageBlockeditDelegate,FoldableTextStorageDelegate>)delegate {
-	return (id <TextStorageBlockeditDelegate,FoldableTextStorageDelegate>)super.delegate;
-}
-
 - (FullTextStorage *)fullTextStorage {
 	return I_fullTextStorage;
 }
@@ -727,7 +723,15 @@ typedef union {
 						if (!attributesPlusBlockedit) {
 							attributesPlusBlockedit = [[inAttributes mutableCopy] autorelease];
 							[attributesPlusBlockedit setObject:BlockeditAttributeValue forKey:BlockeditAttributeName];
-							[attributesPlusBlockedit addEntriesFromDictionary:[[self delegate] blockeditAttributesForTextStorage:self]];
+
+							NSDictionary *blockeditAttributes = nil;
+							id delegate = self.delegate;
+							if ([delegate respondsToSelector:@selector(blockeditAttributesForTextStorage:)]) {
+								blockeditAttributes = [delegate blockeditAttributesForTextStorage:self];
+							}
+							if (blockeditAttributes) {
+								[attributesPlusBlockedit addEntriesFromDictionary:blockeditAttributes];
+							}
 						}
 						[self setAttributes:attributesPlusBlockedit range:blockeditAttributeRange synchronize:NO];
 					} else {
@@ -1160,26 +1164,32 @@ typedef union {
 }
 
 - (void)stopBlockedit {
-//	NSLog(@"%s",__FUNCTION__);
-    NSDictionary *blockeditAttributes=[[self delegate] blockeditAttributesForTextStorage:self];
-    NSArray *attributeNameArray=[blockeditAttributes allKeys];
-    NSRange range;
-    NSRange wholeRange=NSMakeRange(0,[self length]);
-    [self beginEditing];
-    unsigned position=wholeRange.location;
-    while (position<wholeRange.length) {
-        id value=[self attribute:BlockeditAttributeName atIndex:position 
-                       longestEffectiveRange:&range inRange:wholeRange];
-        if (value) {
-            for (id loopItem in attributeNameArray) {
-                [self removeAttribute:loopItem
-                                range:range];
-            }
-        }
-        position=NSMaxRange(range);
-    }
-    [self endEditing];
-    [self setHasBlockeditRanges:NO];
+	//	NSLog(@"%s",__FUNCTION__);
+
+	NSDictionary *blockeditAttributes = nil;
+	id delegate = self.delegate;
+	if ([delegate respondsToSelector:@selector(blockeditAttributesForTextStorage:)]) {
+		blockeditAttributes = [delegate blockeditAttributesForTextStorage:self];
+	}
+
+	NSArray *attributeNameArray=[blockeditAttributes allKeys];
+	NSRange range;
+	NSRange wholeRange=NSMakeRange(0,[self length]);
+	[self beginEditing];
+	unsigned position=wholeRange.location;
+	while (position<wholeRange.length) {
+		id value=[self attribute:BlockeditAttributeName atIndex:position
+		   longestEffectiveRange:&range inRange:wholeRange];
+		if (value) {
+			for (id loopItem in attributeNameArray) {
+				[self removeAttribute:loopItem
+								range:range];
+			}
+		}
+		position=NSMaxRange(range);
+	}
+	[self endEditing];
+	[self setHasBlockeditRanges:NO];
 }
 
 
@@ -1187,7 +1197,11 @@ typedef union {
 //	NSLog(@"%s %@",__FUNCTION__,NSStringFromRange(aRange));
     [super fixParagraphStyleAttributeInRange:aRange];
 
-    NSDictionary *blockeditAttributes=[[self delegate] blockeditAttributesForTextStorage:self];
+	NSDictionary *blockeditAttributes = nil;
+	id delegate = self.delegate;
+	if ([delegate respondsToSelector:@selector(blockeditAttributesForTextStorage:)]) {
+		blockeditAttributes = [delegate blockeditAttributesForTextStorage:self];
+	}
 
     NSString *string=[self string];
     NSRange lineRange=[string lineRangeForRange:aRange];

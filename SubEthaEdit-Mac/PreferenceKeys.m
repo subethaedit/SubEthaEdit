@@ -37,6 +37,8 @@ NSString * const kSEEDefaultsKeyDontSaveDocumentStateInXattrs  = @"DontSaveDocum
 NSString * const kSEEDefaultsKeyUseTemporaryKeychainForTLS     = @"UseTemporaryKeychainForTLS";
 NSString * const kSEEDefaultsKeyEnableTLS                      = @"EnableTLS";
 
+NSString * const kSEELastKnownBundleVersion = @"SEELastKnownBundleVersion";
+
 NSString * const DocumentStateSaveAndLoadWindowPositionKey = @"DocumentStateSaveAndLoadWindowPosition" ;
 NSString * const DocumentStateSaveAndLoadTabSettingKey     = @"DocumentStateSaveAndLoadTabSetting"     ;
 NSString * const DocumentStateSaveAndLoadWrapSettingKey    = @"DocumentStateSaveAndLoadWrapSetting"    ;

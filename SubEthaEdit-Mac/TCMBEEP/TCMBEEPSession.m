@@ -1022,8 +1022,7 @@ static NSData *dhparamData = nil;
         
     CFMutableDictionaryRef settings = CFDictionaryCreateMutable(NULL, 0, &kCFCopyStringDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
     CFDictionaryAddValue(settings, kCFStreamSSLLevel, kCFStreamSocketSecurityLevelTLSv1);
-    CFDictionaryAddValue(settings, kCFStreamSSLAllowsExpiredRoots, kCFBooleanTrue);
-    CFDictionaryAddValue(settings, kCFStreamSSLAllowsAnyRoot, kCFBooleanTrue);
+    CFDictionaryAddValue(settings, kCFStreamSSLValidatesCertificateChain, kCFBooleanFalse);
     CFDictionaryAddValue(settings, kCFStreamSSLIsServer, kCFBooleanTrue);
 
     resultReadStream = CFReadStreamSetProperty(I_readStream, kCFStreamPropertySSLSettings, settings);
@@ -1339,9 +1338,6 @@ static NSData *dhparamData = nil;
                         
     CFMutableDictionaryRef settings = CFDictionaryCreateMutable(NULL, 0, &kCFCopyStringDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
     CFDictionaryAddValue(settings, kCFStreamSSLLevel, kCFStreamSocketSecurityLevelTLSv1);
-    CFDictionaryAddValue(settings, kCFStreamSSLAllowsExpiredCertificates, kCFBooleanTrue);
-    CFDictionaryAddValue(settings, kCFStreamSSLAllowsExpiredRoots, kCFBooleanTrue);
-    CFDictionaryAddValue(settings, kCFStreamSSLAllowsAnyRoot, kCFBooleanTrue);
     CFDictionaryAddValue(settings, kCFStreamSSLValidatesCertificateChain, kCFBooleanFalse);
     CFDictionaryAddValue(settings, kCFNull, kCFStreamSSLPeerName);
 

@@ -67,4 +67,8 @@
 	[super drawSeparatorInRect:dirtyRect];
 }
 
+- (BOOL)isOpaque {
+	return NO;
+}
+
 @end

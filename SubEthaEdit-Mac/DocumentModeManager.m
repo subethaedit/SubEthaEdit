@@ -11,6 +11,7 @@
 #import "GeneralPreferences.h"
 #import "SyntaxStyle.h"
 #import "SyntaxDefinition.h"
+#import "PlainTextDocument.h"
 #import <OgreKit/OgreKit.h>
 
 @interface DocumentModeManager ()
@@ -116,6 +117,10 @@
 
 #pragma mark
 static DocumentModeManager *S_sharedInstance=nil;
+
+@interface DocumentModeManager ()
+@property (nonatomic, strong) NSArray *allPathExtensions;
+@end
 
 @implementation DocumentModeManager
 @synthesize changedScopeNameDict;
@@ -289,6 +294,8 @@ static DocumentModeManager *S_sharedInstance=nil;
 
 - (NSMutableArray *)reloadPrecedences {
     
+	NSMutableSet *allPathExtensionSet = [NSMutableSet set];
+	
     NSArray *oldPrecedenceArray = nil;
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
     oldPrecedenceArray = [defaults objectForKey:@"ModePrecedences"];
@@ -366,6 +373,7 @@ static DocumentModeManager *S_sharedInstance=nil;
 									  @"",@"OverriddenTooltip",
 									  [NSNumber numberWithBool:YES],@"ModeRule",
 									  nil]];
+				[allPathExtensionSet addObject:extension];
 			}
 
 			while ((casesensitiveExtension = [casesensitiveExtensions nextObject])) {
@@ -377,6 +385,7 @@ static DocumentModeManager *S_sharedInstance=nil;
 									  @"",@"OverriddenTooltip",
 									  [NSNumber numberWithBool:YES],@"ModeRule",
 									  nil]];
+				[allPathExtensionSet addObject:casesensitiveExtension];
 			}
 
 			while ((filename = [filenames nextObject])) {
@@ -438,6 +447,19 @@ static DocumentModeManager *S_sharedInstance=nil;
 	}
 	
     [defaults setObject:precendenceArray forKey:@"ModePrecedences"];
+	
+	// add all the types from the document class
+	NSMutableSet *typeSet = [NSMutableSet setWithArray:[PlainTextDocument writableTypes]];
+	[typeSet removeObject:kSEETypeSEEText];
+	[typeSet removeObject:kSEETypeSEEMode];
+	for (NSString *type in typeSet) {
+		NSArray *extensions = [SEEDocumentController allTagsOfTagClass:kUTTagClassFilenameExtension forUTI:type];
+		//		NSLog(@"%s %@: %@",__FUNCTION__,type, extensions);
+		[allPathExtensionSet addObjectsFromArray:extensions];
+	}
+	
+	self.allPathExtensions = [[allPathExtensionSet allObjects] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+	
     return precendenceArray;
 }
 
@@ -655,7 +677,7 @@ static DocumentModeManager *S_sharedInstance=nil;
     NSEnumerator *enumerator = [allURLs reverseObjectEnumerator];
     NSURL *fileURL = nil;
     while ((url = [enumerator nextObject])) {
-        NSDirectoryEnumerator *dirEnumerator = [[NSFileManager defaultManager] enumeratorAtURL:url includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles errorHandler:NULL];
+        NSDirectoryEnumerator *dirEnumerator = [[NSFileManager defaultManager] enumeratorAtURL:url includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles|NSDirectoryEnumerationSkipsPackageDescendants errorHandler:NULL];
 		NSString *modeExtension = MODE_EXTENSION;
         while ((fileURL = [dirEnumerator nextObject])) {
             if ([[fileURL pathExtension] isEqualToString:modeExtension]) {
@@ -916,9 +938,7 @@ static DocumentModeManager *S_sharedInstance=nil;
     static NSImage *s_alternateImage=nil;
     static NSDictionary *s_menuDefaultStyleAttributes, *s_menuSmallStyleAttributes;
     if (aFlag && !s_alternateImage) {
-//        s_alternateImage=[[[NSImage imageNamed:@"SubEthaEditMode"] resizedImageWithSize:NSMakeSize(15,15)] retain];
-        s_alternateImage=[[[[NSImage imageNamed:@"SubEthaEditMode"] copy] retain] autorelease];
-        [s_alternateImage setScalesWhenResized:YES];
+        s_alternateImage=[[NSImage imageNamed:@"SubEthaEditMode"] copy];
         [s_alternateImage setSize:NSMakeSize(16,16)];
         s_menuDefaultStyleAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:[NSFont menuFontOfSize:0],NSFontAttributeName,[NSColor blackColor], NSForegroundColorAttributeName, nil];
         s_menuSmallStyleAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:[NSFont menuFontOfSize:9.],NSFontAttributeName,[NSColor darkGrayColor], NSForegroundColorAttributeName, nil];

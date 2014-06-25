@@ -1,12 +1,6 @@
 ﻿/* arrangement of Tab setting and tab width in Bottm Status Bar */
 "%@ (%d)" = "%@ (%d)";
 
-/* Proxy window title for invited documents */
-"%@ (invited...)" = "Einladung zu %@";
-
-/* Proxy window title for joining documents */
-"%@ (joining...)" = "Teilnehmen an %@";
-
 /* FindRegexPrefix */
 "%@ - Find All" = "%@ - Alles Suchen";
 
@@ -16,7 +10,7 @@
 /* Status string showing the number of documents in Rendezvous and Internet browser */
 "%d Document(s)" = "%d Dokument(e)";
 
-/* Status string showing the number of documents The browser when there are multiple documents announced */
+/* Status string showing the number of documents The browser when there are multiple documents advertised */
 "%d Documents" = "%d Dokumente";
 
 /* Entries Found in FindAll Panel */
@@ -40,7 +34,7 @@
 /* No comment provided by engineer. */
 "&Undo %@" = "%@ widerrufen";
 
-/* Status string showing the number of documents when one is announced */
+/* Status string showing the number of documents when one is advertised */
 "1 Document" = "1 Dokument";
 
 /* Entry for Symbol Pop Up when no Symbol is found */
@@ -85,17 +79,17 @@
 /* all tabs Dock Menu Item */
 "All Tabs" = "Alle Tabs";
 
-/* Menu/Toolbar Title for announcing the Document */
-"Announce" = "Ankündigen";
+/* Menu/Toolbar Title for advertising the Document */
+"Advertise" = "Ankündigen";
 
-/* Menu/Toolbar Title for announcing all Documents */
-"Announce All" = "Alle Ankündigen";
-
-/* No comment provided by engineer. */
-"Announce/Conceal" = "Ankündigen/Verbergen";
+/* Menu/Toolbar Title for advertising all Documents */
+"Advertise All" = "Alle Ankündigen";
 
 /* No comment provided by engineer. */
-"Announce/Conceal Document" = "Dokument ankündigen/verbergen";
+"Advertise/Conceal" = "Ankündigen/Verbergen";
+
+/* No comment provided by engineer. */
+"Advertise/Conceal Document" = "Dokument ankündigen/verbergen";
 
 /* Location: Application */
 "Application" = "Eingebaut";
@@ -108,9 +102,6 @@
 
 /* Foo */
 "Automatic Mode" = "Automatisch";
-
-/* Text while waiting for answer to join request */
-"Awaiting answer..." = "Warten auf Antwort…";
 
 /* Awaiting Response */
 "AwaitingResponse" = "Warten auf Antwort";
@@ -225,14 +216,11 @@
 /* legend entry for deletions in statistsics hud */
 "deletions" = "Entfernt";
 
-/* Text in Proxy window */
-"Did lose Connection!" = "Verbindung verloren";
-
 /* Choice (on a button) given to user which allows him/her to quit the application even though there are unsaved documents. */
 "Discard Changes" = "Änderungen verwerfen";
 
-/* Text for document URL field when not announced */
-"Document not announced.\nNo Document URL." = "Dokument verborgen.\nKein Link zum Dokument.";
+/* Text for document URL field when not advertised */
+"Document not advertised.\nNo Document URL." = "Dokument verborgen.\nKein Link zum Dokument.";
 
 /* No comment provided by engineer. */
 "Don't Revert Document" = "Nicht laden";
@@ -374,12 +362,6 @@
 
 /* User name for invisible users in Connection Browser */
 "Invisible User" = "Benutzer Unsichtbar";
-
-/* Text in Proxy window */
-"Invitation was canceled!" = "Einladung wurde zurückgezogen.";
-
-/* Text in Proxy window */
-"Join Request was denied!" = "Teilnahme wurde abgelehnt";
 
 /* No comment provided by engineer. */
 "Keep Changes" = "Änderungen behalten";
@@ -739,7 +721,7 @@
 "Try choosing a different name for the document." = "Versuchen Sie einen anderen Namen für das Dokument zu wählen.";
 
 /* BigFile Informative Text */
-"Turning on Syntax Highlighting for very large Documents is not recommended." = "Es ist nicht empfohlen die Syntax-Einfärbung für sehr große Dokumente zu aktivieren.";
+"Turning on syntax highlighting for very large documents is not recommended." = "Es ist nicht empfohlen die Syntax-Einfärbung für sehr große Dokumente zu aktivieren.";
 
 /* Location: User Library */
 "User Library" = "Benutzer Library";
@@ -801,8 +783,8 @@
 /* Drag target string in Connection Browser */
 "Drag your\niChat Buddies here\nto invite them." = "Kontakte aus\niChat hier fallen\nlassen um sie\neinzuladen.";
 
-/* Status string showing the number of documents when none are announced */
-"None announced" = "None announced";
+/* Status string showing the number of documents when none are advertised */
+"None advertised" = "None advertised";
 
 /* Connection browser subtitle for friendcasting connections */
 "Friend of a Friend" = "Freund eines Freundes";
@@ -840,11 +822,11 @@
 /* Editor Tool Tip Share Invite Button - Cannot share */
 "TOOL_TIP_SHARE_BUTTON_DISABLED" = "Dokument teilen nicht möglich";
 
-/* Editor Tool Tip Announce Button - Announce */
+/* Editor Tool Tip Advertise Button - Advertise */
 "TOOL_TIP_ANNOUNCE_BUTTON_ANNOUNCE" = "Dokument ankündigen";
-/* Editor Tool Tip Announce Button - Conceal */
+/* Editor Tool Tip Advertise Button - Conceal */
 "TOOL_TIP_ANNOUNCE_BUTTON_CONCEAL" = "Dokument verbergen";
-/* Editor Tool Tip Announce Button - Disabled */
+/* Editor Tool Tip Advertise Button - Disabled */
 "TOOL_TIP_ANNOUNCE_BUTTON_DISABLED" = "Dokument ankündigen nicht möglich";
 
 
@@ -904,7 +886,7 @@
 "ENCODING_DOCTOR_TABLEHEADING_LINE" = "Zeile";
 "ENCODING_DOCTOR_TABLEHEADING_ERROR" = "Fehler";
 "ENCODING_DOCTOR_CANCEL" = "Abbrechen";
-"ENCODING_DOCTOR_CONVERT_LOSSY" = "Verlustbehafted konvertieren";
+"ENCODING_DOCTOR_CONVERT_LOSSY" = "Verlustbehaftet konvertieren";
 "ENCODING_DOCTOR_CONVERT" = "Konvertieren";
 
 /* Default button title of the allow open panel */
@@ -922,6 +904,11 @@
 /* FileName placeholder that gets displayed when SEE needs the user to grant access to an unopend file. */
 "ScopedBookmarkAllowFileMessageUnknownFileName" = "Daten";
 
+/* Invitation format string used in sharing service picker. %@ will be replaced with the user name. */
+"Invite %@" = "%@ einladen";
+
+/* Advertise document string used in sharing service picker. */
+"Advertise Document" = "Dokument ankündigen";
 
 /* Collaboration Preference Pane */
 "COLLAB_USER_NAME_LABEL" = "Name:";
@@ -1021,6 +1008,14 @@
 "MODE_INSTALL_OK_BUTTON" = "Installieren";
 "MODE_INSTALL_SHOW_CONTENT_BUTTON" = "Paketinhalt anzeigen";
 
+/* Mode Update Alert */
+"MODE_UPDATE_INFO_INTRO" = "Diese Version von SubEthaEdit enthält aktuellere Versionen der folgenden installierten Modi:\n\n";
+"MODE_UPDATE_MODE_STRING" = "* Modus für %@ v%@ (v%@ installiert)";
+"MODE_UPDATE_INFO_TEXT" = "\n\nMögliche Personalisierungen der installierten Modi gehen bei 'Neue Modi verwenden' verloren.\n\nFalls Sie nur bestimmte Modi aktualisieren wollen, wählen Sie 'Veraltete Modi anzeigen', löschen Sie die gewünschten Modi und aktualisieren Sie die Modi-Liste via 'Modi neu laden' im Modus-Menü in SubEthaEdit.";
+"MODE_UPDATE_MESSAGE" = "Neuere Modi verfügbar";
+"MODE_UPDATE_OK_BUTTON" = "Neue Modi verwenden";
+"MODE_UPDATE_REVEAL_IN_FINDER" = "Veraltete Modi anzeigen";
+
 "INFO_NUMBER_OF_WORDS_TOO_MANY" = "Zahllose Wörter";
 
 "FIRST_USE_INVITE_HELP_TEXT" = "Klicken um andere zur Zusammenarbeit in dieses Dokument einzuladen.";
@@ -1032,4 +1027,13 @@
 "WEBSITE_AUTHENTICATION_HELPER" = "http://subethaedit.net/authentifizierungshelfer";
 "WEBSITE_COMMANDLINETOOL" = "http://subethaedit.net/kommandozeilentool";
 
+/* Proxy window */
+"PROXY_WINDOW_ACCEPT" = "Annehmen";
+"PROXY_WINDOW_DECLINE" = "Ablehnen";
+"PROXY_WINDOW_TITLE_INVITE" = "Einladung zu %@";
+"PROXY_WINDOW_TITLE_JOIN" = "Teilnehmen an %@";
+"PROXY_WINDOW_STATUS_WAIT_ANSWER" = "Warten auf Antwort…";
+"PROXY_WINDOW_STATUS_DENIED" = "Teilnahme wurde abgelehnt.";
+"PROXY_WINDOW_STATUS_INVITE_CANCELED" = "Einladung wurde zurückgezogen.";
+"PROXY_WINDOW_STATUS_CONNECTION_LOST" = "Verbindung verloren.";
 

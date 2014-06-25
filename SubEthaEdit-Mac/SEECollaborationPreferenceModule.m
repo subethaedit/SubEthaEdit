@@ -62,8 +62,6 @@
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
     
     TCMMMUser *me = [TCMMMUserManager me];
-    NSImage *myImage = [me image];
-    [myImage setFlipped:NO];
 
     [self.O_nameTextField setStringValue:[me name]];
     [self.O_emailTextField setStringValue:[[me properties] objectForKey:@"Email"]];
@@ -369,7 +367,7 @@
 	
 	self.O_invisibleOnNetworkExplanationTextField.stringValue =
 	NSLocalizedStringWithDefaultValue(@"COLLAB_NETWORK_INVISIBLE_DESCRIPTION", nil, [NSBundle mainBundle],
-									  @"You will still be visible if you announce a Document",
+									  @"You will still be visible if you advertise a document",
 									  @"Collaboration Preferences - Label with additional description for the invisible on network toggle"
 									  );
 	
@@ -415,10 +413,8 @@
 - (void)localizeLayout {
 	NSArray *array = [NSLocale preferredLanguages];
 	NSString *firstChoice = [array firstObject];
-	if ([firstChoice isEqualToString:@"de"]) {
+	if ([firstChoice isEqualToString:@"de"] || [firstChoice isEqualToString:@"German"]) {
 		// re-layout for German
-		[self.O_changesSaturationLabelPale sizeToFit];
-		
 		CGFloat preWidth = NSWidth(self.O_localPortLabel.frame);
 		[self.O_localPortLabel sizeToFit];
 

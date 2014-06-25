@@ -29,10 +29,16 @@ static void SEEHovertTableRowDrawSeparatorInRect(NSRect rect);
 }
 
 - (void)TCM_updateMouseInside {
-	NSPoint mouseLocationInBounds = [self convertPoint:[[self window] convertScreenToBase:[NSEvent mouseLocation]] fromView:nil];
-	BOOL isInside = NSMouseInRect(mouseLocationInBounds, self.bounds, self.isFlipped);
-	//	NSLog(@"%s isInside: %@ - %@",__FUNCTION__,isInside?@"YES":@"NO",NSStringFromPoint(mouseLocationInBounds));
-	self.mouseInside = isInside;
+    NSWindow *window = self.window;
+    if (window) {
+        NSPoint mouseLocationInWindow = [window mouseLocationOutsideOfEventStream];
+        NSPoint mouseLocationInBounds = [self convertPoint:mouseLocationInWindow fromView:nil];
+        BOOL isInside = NSMouseInRect(mouseLocationInBounds, self.bounds, self.isFlipped);
+        //	NSLog(@"%s isInside: %@ - %@",__FUNCTION__,isInside?@"YES":@"NO",NSStringFromPoint(mouseLocationInBounds));
+        self.mouseInside = isInside;
+    } else {
+        self.mouseInside = NO;
+    }
 }
 
 - (void)ensureTrackingArea {
@@ -75,9 +81,20 @@ static NSGradient *gradientWithTargetColorAndLocation(NSColor *targetColor, CGFl
     return [[NSGradient alloc] initWithColors:colors atLocations:locations colorSpace:[NSColorSpace sRGBColorSpace]];
 }
 
-
 - (void)drawBackgroundInRect:(NSRect)dirtyRect {
-    [super drawBackgroundInRect:dirtyRect];
+    if (self.isGroupRowStyle) {
+        // find tableview
+        NSView *tableView = self.superview;
+        while (![tableView isKindOfClass:[NSTableView class]] && tableView) {
+            tableView = tableView.superview;
+        }
+        if (tableView) {
+            [[(NSTableView *)tableView backgroundColor] set];
+            NSRectFill(dirtyRect);
+        }
+    } else {
+        [super drawBackgroundInRect:dirtyRect];
+    }
     // Draw a white/alpha gradient
     if (self.mouseInside && [self.window isMainWindow]) {
         NSGradient *gradient;

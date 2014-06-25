@@ -249,13 +249,14 @@
 	}
 
 	NSInteger selectedCellIndex = 0;
-	for (PSMTabBarCell *tabBarCell in [cell.controlView cells]) {
+	PSMTabBarControl *tabBarControl = (PSMTabBarControl *)cell.controlView;
+	for (PSMTabBarCell *tabBarCell in [tabBarControl cells]) {
 		if ((tabBarCell.tabState & PSMTab_SelectedMask) == PSMTab_SelectedMask) {
 			break;
 		}
 		selectedCellIndex++;
 	};
-	NSInteger myIndex = [[cell.controlView cells] indexOfObject:cell];
+	NSInteger myIndex = [[tabBarControl cells] indexOfObject:cell];
 	BOOL isLastVisibleCell = ([cell tabState] & PSMTab_PositionRightMask) == PSMTab_PositionRightMask;
 
 	if (myIndex >= selectedCellIndex  || isLastVisibleCell ) {
@@ -292,13 +293,14 @@
 
 
 	NSInteger selectedCellIndex = 0;
-	for (PSMTabBarCell *tabBarCell in [cell.controlView cells]) {
+	PSMTabBarControl *tabBarControl = (PSMTabBarControl *)cell.controlView;
+	for (PSMTabBarCell *tabBarCell in [tabBarControl cells]) {
 		if ((tabBarCell.tabState & PSMTab_SelectedMask) == PSMTab_SelectedMask) {
 			break;
 		}
 		selectedCellIndex++;
 	};
-	NSInteger myIndex = [[cell.controlView cells] indexOfObject:cell];
+	NSInteger myIndex = [[tabBarControl cells] indexOfObject:cell];
 
 	CGFloat leftTabCapWidth = kPSMTabBarCellPadding + 2.0;
 	if (myIndex > selectedCellIndex) {

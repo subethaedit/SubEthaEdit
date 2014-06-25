@@ -820,13 +820,13 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 		NSString *string;
 		if (isServer) {
 			if ([self.document isAnnounced]) {
-				string = NSLocalizedStringWithDefaultValue(@"TOOL_TIP_ANNOUNCE_BUTTON_CONCEAL", nil, [NSBundle mainBundle], @"Conceal Document", @"Editor Tool Tip Announce Button - Conceal");
+				string = NSLocalizedStringWithDefaultValue(@"TOOL_TIP_ANNOUNCE_BUTTON_CONCEAL", nil, [NSBundle mainBundle], @"Conceal Document", @"Editor Tool Tip Advertise Button - Conceal");
 				
 			} else {
-				string = NSLocalizedStringWithDefaultValue(@"TOOL_TIP_ANNOUNCE_BUTTON_ANNOUNCE", nil, [NSBundle mainBundle], @"Announce Document", @"Editor Tool Tip Announce Button - Announce");
+				string = NSLocalizedStringWithDefaultValue(@"TOOL_TIP_ANNOUNCE_BUTTON_ANNOUNCE", nil, [NSBundle mainBundle], @"Advertise Document", @"Editor Tool Tip Advertise Button - Advertise");
 			}
 		} else {
-			string = NSLocalizedStringWithDefaultValue(@"TOOL_TIP_ANNOUNCE_BUTTON_DISABLED", nil, [NSBundle mainBundle], @"Announce Document (Disabled)", @"Editor Tool Tip Announce Button - Disabled");
+			string = NSLocalizedStringWithDefaultValue(@"TOOL_TIP_ANNOUNCE_BUTTON_DISABLED", nil, [NSBundle mainBundle], @"Advertise Document (Disabled)", @"Editor Tool Tip Advertise Button - Disabled");
 		}
 		string;
 	});
