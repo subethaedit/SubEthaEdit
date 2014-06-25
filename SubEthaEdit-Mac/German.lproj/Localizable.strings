@@ -1,12 +1,6 @@
 ﻿/* arrangement of Tab setting and tab width in Bottm Status Bar */
 "%@ (%d)" = "%@ (%d)";
 
-/* Proxy window title for invited documents */
-"%@ (invited...)" = "Einladung zu %@";
-
-/* Proxy window title for joining documents */
-"%@ (joining...)" = "Teilnehmen an %@";
-
 /* FindRegexPrefix */
 "%@ - Find All" = "%@ - Alles Suchen";
 
@@ -108,9 +102,6 @@
 
 /* Foo */
 "Automatic Mode" = "Automatisch";
-
-/* Text while waiting for answer to join request */
-"Awaiting answer..." = "Warten auf Antwort…";
 
 /* Awaiting Response */
 "AwaitingResponse" = "Warten auf Antwort";
@@ -224,9 +215,6 @@
 
 /* legend entry for deletions in statistsics hud */
 "deletions" = "Entfernt";
-
-/* Text in Proxy window */
-"Did lose Connection!" = "Verbindung verloren";
 
 /* Choice (on a button) given to user which allows him/her to quit the application even though there are unsaved documents. */
 "Discard Changes" = "Änderungen verwerfen";
@@ -374,12 +362,6 @@
 
 /* User name for invisible users in Connection Browser */
 "Invisible User" = "Benutzer Unsichtbar";
-
-/* Text in Proxy window */
-"Invitation was canceled!" = "Einladung wurde zurückgezogen.";
-
-/* Text in Proxy window */
-"Join Request was denied!" = "Teilnahme wurde abgelehnt";
 
 /* No comment provided by engineer. */
 "Keep Changes" = "Änderungen behalten";
@@ -1045,4 +1027,13 @@
 "WEBSITE_AUTHENTICATION_HELPER" = "http://subethaedit.net/authentifizierungshelfer";
 "WEBSITE_COMMANDLINETOOL" = "http://subethaedit.net/kommandozeilentool";
 
+/* Proxy window */
+"PROXY_WINDOW_ACCEPT" = "Annehmen";
+"PROXY_WINDOW_DECLINE" = "Ablehnen";
+"PROXY_WINDOW_TITLE_INVITE" = "Einladung zu %@";
+"PROXY_WINDOW_TITLE_JOIN" = "Teilnehmen an %@";
+"PROXY_WINDOW_STATUS_WAIT_ANSWER" = "Warten auf Antwort…";
+"PROXY_WINDOW_STATUS_DENIED" = "Teilnahme wurde abgelehnt.";
+"PROXY_WINDOW_STATUS_INVITE_CANCELED" = "Einladung wurde zurückgezogen.";
+"PROXY_WINDOW_STATUS_CONNECTION_LOST" = "Verbindung verloren.";
 

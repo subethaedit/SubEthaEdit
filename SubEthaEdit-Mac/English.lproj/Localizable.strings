@@ -1,12 +1,6 @@
 ﻿/* arrangement of Tab setting and tab width in Bottm Status Bar */
 "%@ (%d)" = "%@ (%d)";
 
-/* Proxy window title for invited documents */
-"%@ (invited...)" = "Invitation to %@";
-
-/* Proxy window title for joining documents */
-"%@ (joining...)" = "Joining %@";
-
 /* FindRegexPrefix */
 "%@ - Find All" = "%@ - Find All";
 
@@ -102,9 +96,6 @@
 
 /* Foo */
 "Automatic Mode" = "Automatic Mode";
-
-/* Text while waiting for answer to join request */
-"Awaiting answer..." = "Awaiting answer…";
 
 /* Awaiting Response */
 "AwaitingResponse" = "Awaiting Response";
@@ -213,9 +204,6 @@
 
 /* legend entry for deletions in statistsics hud */
 "deletions" = "Deletions";
-
-/* Text in Proxy window */
-"Did lose Connection!" = "Connection Lost";
 
 /* Choice (on a button) given to user which allows him/her to quit the application even though there are unsaved documents. */
 "Discard Changes" = "Discard Changes";
@@ -357,12 +345,6 @@
 
 /* Status string in vibilitypulldown in Browsers for invisible */
 "Invisible" = "Invisible";
-
-/* Text in Proxy window */
-"Invitation was canceled!" = "Invitation was cancelled.";
-
-/* Text in Proxy window */
-"Join Request was denied!" = "Join Request was denied.";
 
 /* No comment provided by engineer. */
 "Keep Changes" = "Keep Changes";
@@ -937,3 +919,15 @@
 "WEBSITE_ADDITIONAL_MODES" = "http://subethaedit.net/modes";
 "WEBSITE_AUTHENTICATION_HELPER" = "http://subethaedit.net/authenticationhelper";
 "WEBSITE_COMMANDLINETOOL" = "http://subethaedit.net/commandlinetool";
+
+/* Proxy window */
+"PROXY_WINDOW_ACCEPT" = "Accept";
+"PROXY_WINDOW_DECLINE" = "Decline";
+"PROXY_WINDOW_TITLE_INVITE" = "Invitation to %@";
+"PROXY_WINDOW_TITLE_JOIN" = "Joining %@";
+"PROXY_WINDOW_STATUS_WAIT_ANSWER" = "Awaiting answer…";
+"PROXY_WINDOW_STATUS_DENIED" = "Join Request was denied.";
+"PROXY_WINDOW_STATUS_INVITE_CANCELED" = "Invitation was canceled.";
+"PROXY_WINDOW_STATUS_CONNECTION_LOST" = "Connection Lost.";
+
+
