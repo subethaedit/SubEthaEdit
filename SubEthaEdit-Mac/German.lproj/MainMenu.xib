@@ -1025,7 +1025,7 @@
                     </menu>
                 </menuItem>
                 <menuItem title="Hilfe" id="103">
-                    <menu key="submenu" title="Hilfe" id="106">
+                    <menu key="submenu" title="Hilfe" systemMenu="help" id="106">
                         <items>
                             <menuItem title="Reguläre Ausdrücke" id="496">
                                 <connections>
@@ -1043,6 +1043,12 @@
                             <menuItem title="Zusätzliche Modi im Netz" id="651">
                                 <connections>
                                     <action selector="additionalModes:" target="210" id="652"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Modi selbst erstellen" id="4Ar-eN-XT8">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="showModeCreationDocumentation:" target="-1" id="aQY-Cv-5Ei"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="500">
