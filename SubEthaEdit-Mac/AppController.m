@@ -547,8 +547,8 @@ static AppController *sharedInstance = nil;
 		
 		DocumentModeManager *modeManager = [DocumentModeManager sharedInstance];
 		NSBundle *mainBundle = [NSBundle mainBundle];
-		NSMutableArray *updatableModeURLs = [NSMutableArray new];
-		NSMutableArray *updatableModeNames = [NSMutableArray new];
+		NSMutableArray *updatableModeURLs = [NSMutableArray array];
+		NSMutableArray *updatableModeNames = [NSMutableArray array];
 		for (NSString *string in [builtInModesDict allKeys]) {
 			BOOL isAvailable = [modeManager documentModeAvailableModeIdentifier:string];
 			if (isAvailable) {
