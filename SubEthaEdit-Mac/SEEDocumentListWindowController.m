@@ -791,4 +791,14 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
     }
 }
 
+#pragma mark - NSWindowDelegate (NSWindowController)
+
+- (NSRect)windowWillUseStandardFrame:(NSWindow *)window defaultFrame:(NSRect)newFrame {
+	// just expand the height of the window when zooming
+	newFrame.origin = window.frame.origin;
+	newFrame.size.width = window.frame.size.width;
+
+	return newFrame;
+}
+
 @end

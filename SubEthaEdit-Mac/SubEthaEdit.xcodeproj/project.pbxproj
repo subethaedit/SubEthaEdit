@@ -2011,7 +2011,7 @@
 				4CAA423618157A4C00457B2A /* Configuration */,
 				142891780957483200D14688 /* Additions */,
 				2A37F4ABFDCFA73011CA2CEA /* Classes */,
-				4C84D17918B63F83008C4FDC /* Document List */,
+				4C84D17918B63F83008C4FDC /* Document Hub */,
 				142892490957526300D14688 /* Document */,
 				1428924C0957526E00D14688 /* Mode */,
 				1428924F0957527300D14688 /* Operations */,
@@ -2279,7 +2279,7 @@
 			name = Retina;
 			sourceTree = "<group>";
 		};
-		4C84D17918B63F83008C4FDC /* Document List */ = {
+		4C84D17918B63F83008C4FDC /* Document Hub */ = {
 			isa = PBXGroup;
 			children = (
 				4C0C4A1918B3768500E6049E /* SEEDocumentListWindowController.h */,
@@ -2296,7 +2296,7 @@
 				4CA1441A18F7E89D0006178D /* SEEAvatarImageView.h */,
 				4CA1441B18F7E89D0006178D /* SEEAvatarImageView.m */,
 			);
-			name = "Document List";
+			name = "Document Hub";
 			sourceTree = "<group>";
 		};
 		4CAA423618157A4C00457B2A /* Configuration */ = {
