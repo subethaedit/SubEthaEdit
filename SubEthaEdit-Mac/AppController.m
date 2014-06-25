@@ -946,9 +946,15 @@ static AppController *sharedInstance = nil;
     
 #pragma mark - BITHockeyManagerDelegate
 
-// needs to be implemente because its required by the protocol
 - (void) showMainApplicationWindowForCrashManager:(BITCrashManager *)crashManager
 {
+	if (crashManager.didCrashInLastSession) {
+		if ([NSApp windows].count < 1) {
+			if ([self applicationShouldOpenUntitledFile:NSApp]) {
+				[self applicationOpenUntitledFile:NSApp];
+			}
+		}
+	}
 }
 
 
