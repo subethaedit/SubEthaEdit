@@ -6,6 +6,11 @@
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
+
 #import "DocumentProxyWindowController.h"
 #import "TCMMMSession.h"
 #import "TCMMMUser.h"
@@ -84,9 +89,6 @@
 
 - (void)dealloc {
     [[self window] setDelegate:nil];
-    [I_targetWindow release];
-    [I_session release];
-    [super dealloc];
 }
 
 - (void)update {
@@ -96,7 +98,7 @@
             [O_bottomDecisionView setHidden:YES];
             [O_bottomStatusView setHidden:NO];
         }
-        [O_statusBarTextField setStringValue:NSLocalizedString(@"Awaiting answer...",@"Text while waiting for answer to join request")];
+        [O_statusBarTextField setStringValue:NSLocalizedString(@"PROXY_WINDOW_STATUS_WAIT_ANSWER",@"Text while waiting for answer to join request")];
     } else if (state == TCMMMSessionClientInvitedState) {
         if ([O_bottomDecisionView isHidden]) {
             [O_bottomStatusView setHidden:YES];
@@ -111,13 +113,14 @@
 //    [((NSPanel *)window) setFloatingPanel:NO];
     [window setHidesOnDeactivate:NO];
     TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:[I_session hostID]];
-	NSImage *userImage = [user image];
 
-    [O_userImageView setImage:userImage];
+	[self.userAvatarImageView setImage:user.image];
+	[self.userAvatarImageView setBorderColor:user.changeColor];
+
     [O_userNameTextField setStringValue:[user name]];
     NSString *filename=[I_session filename];
     [O_documentTitleTextField setStringValue:filename];
-    [O_documentImageView setImage:[[[[NSWorkspace sharedWorkspace] iconForFileType:[filename pathExtension]] copy] autorelease]];
+    [O_documentImageView setImage:[[NSWorkspace sharedWorkspace] iconForFileType:[filename pathExtension]]];
 //    NSLog(@"Session :%@",[I_session description]);
     [O_bottomDecisionView setFrame:[O_bottomCustomView frame]];
     [O_bottomStatusView setFrame:[O_bottomCustomView frame]];
@@ -135,6 +138,9 @@
     [O_declineButton setTarget:[O_declineButton window]];
 
 
+	[O_acceptButton setTitle:NSLocalizedString(@"PROXY_WINDOW_ACCEPT", @"")];
+	[O_declineButton setTitle:NSLocalizedString(@"PROXY_WINDOW_DECLINE", @"")];
+	
     if ([I_session wasInvited]) {
         [window setLevel:NSFloatingWindowLevel];
         [O_bottomStatusView setHidden:YES];
@@ -215,35 +221,34 @@
 }
 
 - (void)setSession:(TCMMMSession *)aSession {
-    [I_session autorelease];
-    I_session=[aSession retain];
+    I_session = aSession;
 }
 
 - (void)dissolveToWindow:(NSWindow *)aWindow {
-    I_targetWindow=[aWindow retain];
+    I_targetWindow = aWindow;
     NSRect frame=[[self window] frame];
     frame.origin.y=NSMaxY(frame);
 
-    [[self window] setContentView:[[[NSView alloc] initWithFrame:frame] autorelease]];
+    [[self window] setContentView:[[NSView alloc] initWithFrame:frame]];
 
     I_dissolveToFrame = [[I_targetWindow windowController] dissolveToFrame];
     [[self window] setFrameUsingNonBlockingAnimation:I_dissolveToFrame];
 }
 
 - (void)joinRequestWasDenied {
-    [O_statusBarTextField setStringValue:NSLocalizedString(@"Join Request was denied!",@"Text in Proxy window")];
+    [O_statusBarTextField setStringValue:NSLocalizedString(@"PROXY_WINDOW_STATUS_DENIED",@"Text in Proxy window")];
 }
 
 - (void)invitationWasCanceled {
     [O_bottomStatusView   setHidden:NO];
     [O_bottomDecisionView setHidden:YES];
-    [O_statusBarTextField setStringValue:NSLocalizedString(@"Invitation was canceled!",@"Text in Proxy window")];
+    [O_statusBarTextField setStringValue:NSLocalizedString(@"PROXY_WINDOW_STATUS_INVITE_CANCELED",@"Text in Proxy window")];
 }
 
 - (void)didLoseConnection {
     [O_bottomStatusView   setHidden:NO];
     [O_bottomDecisionView setHidden:YES];
-    [O_statusBarTextField setStringValue:NSLocalizedString(@"Did lose Connection!",@"Text in Proxy window")];
+    [O_statusBarTextField setStringValue:NSLocalizedString(@"PROXY_WINDOW_STATUS_CONNECTION_LOST",@"Text in Proxy window")];
 }
 
 - (void)windowDidMove:(NSNotification *)aNotification {
@@ -289,9 +294,9 @@
 - (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName {
     NSString *filename=[I_session filename];
     if ([I_session clientState]==TCMMMSessionClientInvitedState) {
-        return [NSString stringWithFormat:NSLocalizedString(@"%@ (invited...)",@"Proxy window title for invited documents"),filename];
+        return [NSString stringWithFormat:NSLocalizedString(@"PROXY_WINDOW_TITLE_INVITE",@"Proxy window title for invited documents"),filename];
     } else {
-        return [NSString stringWithFormat:NSLocalizedString(@"%@ (joining...)",@"Proxy window title for joining documents"),filename];
+        return [NSString stringWithFormat:NSLocalizedString(@"PROXY_WINDOW_TITLE_JOIN",@"Proxy window title for joining documents"),filename];
     }
 }
 

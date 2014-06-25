@@ -8,16 +8,17 @@
 
 #import <AppKit/AppKit.h>
 
+@class DocumentProxyWindowController;
+#import "SEEAvatarImageView.h"
+
 @class TCMMMSession;
 
 @interface DocumentProxyWindowController : NSWindowController {
 
     IBOutlet NSImageView *O_documentImageView;
-    IBOutlet NSImageView *O_userImageView;
     IBOutlet NSTextField *O_documentTitleTextField;
     IBOutlet NSTextField *O_userNameTextField;
     IBOutlet NSTextField *O_statusBarTextField;
-    IBOutlet NSView *O_containerView;
     IBOutlet NSView *O_bottomCustomView;
     IBOutlet NSView *O_bottomStatusView;
     IBOutlet NSView *O_bottomDecisionView;
@@ -28,6 +29,8 @@
     TCMMMSession *I_session;
     NSRect I_dissolveToFrame;
 }
+
+@property (nonatomic, strong) IBOutlet SEEAvatarImageView *userAvatarImageView;
 
 - (id)initWithSession:(TCMMMSession *)aSession;
 
