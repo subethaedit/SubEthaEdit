@@ -422,6 +422,7 @@ static AppController *sharedInstance = nil;
     
     [defaultCenter addObserver:self selector:@selector(updateApplicationIcon) name:TCMMMSessionPendingInvitationsDidChange object:nil];
     [defaultCenter addObserver:self selector:@selector(updateApplicationIcon) name:TCMMMSessionPendingUsersDidChangeNotification object:nil];
+    [defaultCenter addObserver:self selector:@selector(updateApplicationIcon) name:TCMMMBEEPSessionManagerSessionDidEndNotification object:nil];
 
     [defaultCenter addObserver:self selector:@selector(documentModeListDidChange:) name:@"DocumentModeListChanged" object:nil];
 
