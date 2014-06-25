@@ -1061,6 +1061,10 @@ static AppController *sharedInstance = nil;
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedString(@"WEBSITE_ADDITIONAL_MODES",@"WebSite Mode Link")]];
 }
 
+- (IBAction)showModeCreationDocumentation:(id)sender {
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedString(@"WEBSITE_MODE_CREATION_DOCU",@"WebSite Mode Creation Docu")]];
+}
+
 - (void)changeFont:(id)aSender {
     NSEnumerator *orderedWindowEnumerator=[[NSApp orderedWindows] objectEnumerator];
     NSWindow *window;

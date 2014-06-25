@@ -69,6 +69,7 @@ extern NSString * const GlobalScriptsDidReloadNotification;
 
 - (IBAction)visitFAQWebsite:(id)sender;
 - (IBAction)additionalModes:(id)sender;
+- (IBAction)showModeCreationDocumentation:(id)sender;
 
 - (IBAction)showStyleSheetEditorWindow:(id)aSender;
 
