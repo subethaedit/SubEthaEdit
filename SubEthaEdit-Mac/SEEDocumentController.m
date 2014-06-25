@@ -1212,9 +1212,12 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
         }
     }
     
-    NSMutableArray *documents = [NSMutableArray array];
-    
-    NSMutableArray *files = [NSMutableArray array];
+	NSString *identifier = [NSString UUIDString];
+
+	NSMutableArray *documents = [NSMutableArray array];
+
+	// Existing Files
+	NSMutableArray *files = [NSMutableArray array];
     id argument = [[command evaluatedArguments] objectForKey:@"Files"];
     if ([argument isKindOfClass:[NSArray class]]) {
         [files addObjectsFromArray:argument];
@@ -1229,8 +1232,25 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 		// print handeld by workspace print command for now, don't open file if just printing
 		if (! shouldPrint) {
 			[I_propertiesForOpenedFiles setObject:properties forKey:fileName];
+
+			if (shouldWait) {  // if shouldWait is true we need to make sure the command is suspended and resumed at correct times
+				[command suspendExecution]; // call suspend for every document, resume and suspend do not need to be balanced.
+				[I_suspendedSeeScriptCommands setObject:command forKey:identifier];
+				I_refCountsOfSeeScriptCommands[identifier] = @([I_refCountsOfSeeScriptCommands[identifier] integerValue] + 1); // increment by one for this document
+			}
+
 			[self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:fileName] display:YES completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
 				if (document) {
+					if (shouldWait) {
+						NSArray *waitingDocuments = I_waitingDocuments[identifier];
+						if (waitingDocuments) {
+							waitingDocuments = [waitingDocuments arrayByAddingObject:document];
+						} else {
+							waitingDocuments = @[document];
+						}
+						[I_waitingDocuments setObject:waitingDocuments forKey:identifier];
+					}
+
 					if (shouldSwitchOpening) {
 						shouldSwitchOpening = NO;
 						[[NSUserDefaults standardUserDefaults] setBool:YES forKey:kSEEDefaultsKeyOpenNewDocumentInTab];
@@ -1256,16 +1276,24 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 								[(PlainTextDocument *)document gotoLine:lineToGoTo];
 							}
 						}
-						[documents addObject:document];
 					}
 				} else {
+					if (shouldWait) { // if opening the document failed
+						I_refCountsOfSeeScriptCommands[identifier] = @([I_refCountsOfSeeScriptCommands[identifier] integerValue] - 1); // decrement refCount for this document
+
+						if ([I_refCountsOfSeeScriptCommands[identifier] integerValue] < 1) { // if this was the last document we need to cleanup and resume
+							[I_suspendedSeeScriptCommands removeObjectForKey:identifier];
+							[I_refCountsOfSeeScriptCommands removeObjectForKey:identifier];
+							[command resumeExecutionWithResult:@[fileName]];
+						}
+					}
 					NSLog(@"%@",error);
 				}
 			}];
 		}
     }
 
-
+	// New Files
     NSMutableArray *newFiles = [NSMutableArray array];
     argument = [[command evaluatedArguments] objectForKey:@"NewFiles"];
     if ([argument isKindOfClass:[NSArray class]]) {
@@ -1321,7 +1349,7 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
         }
     }
         
-    
+// Standard In
     NSString *standardInputFile = nil;
     argument = [[command evaluatedArguments] objectForKey:@"Stdin"];
     if ([argument isKindOfClass:[NSString class]]) {
@@ -1329,7 +1357,7 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
     } else if ([argument isKindOfClass:[NSURL class]]) {
         standardInputFile = [argument path];
     }
-    
+
     if (standardInputFile) {
         NSString *pipeTitle = [[command evaluatedArguments] objectForKey:@"PipeTitle"];
     
@@ -1389,19 +1417,18 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
         }
     }
     
-    NSString *identifier = [NSString UUIDString];
 
     if (isPipingOut) {
         [I_pipingSeeScriptCommands addObject:identifier];
     }
     
-    if (shouldWait) {
+    if (shouldWait) { // this is for new documents and pipes, existing documents are handled above
         int count = [documents count];
         if (count > 0) {
             [command suspendExecution];
-            [I_suspendedSeeScriptCommands setObject:command forKey:identifier];
-            [I_waitingDocuments setObject:documents forKey:identifier];
-            [I_refCountsOfSeeScriptCommands setObject:[NSNumber numberWithInt:count] forKey:identifier];
+            [I_suspendedSeeScriptCommands setObject:command forKey:identifier]; // this may replace the command added by existing documents earlier, but is the same command anyway.
+            [I_waitingDocuments setObject:[documents copy] forKey:identifier]; // this is save because, the completion handlers of existing documents get executed afterwards.
+			I_refCountsOfSeeScriptCommands[identifier] = @(count);
         }
     }
     if (openIn) {
