@@ -449,23 +449,6 @@ static AppController *sharedInstance = nil;
 }
 
 - (void)updateApplicationIcon {
-    static NSDictionary *s_attributes=nil;
-    if (!s_attributes) {
-        float fontsize = 26.;
-        NSFont *font=[NSFont fontWithName:@"Helvetica-Bold" size:fontsize];
-        if (!font) font=[NSFont systemFontOfSize:fontsize];
-//        NSShadow *shadow=[[NSShadow new] autorelease];
-//        [shadow setShadowColor:[NSColor blackColor]];
-//        [shadow setShadowOffset:NSMakeSize(0.,-2.)];
-//        [shadow setShadowBlurRadius:4.];
-        
-        s_attributes=[[NSDictionary dictionaryWithObjectsAndKeys:
-                       font,NSFontAttributeName,
-                       [NSColor colorWithCalibratedWhite:1.0 alpha:1.0],NSForegroundColorAttributeName,
-//                       shadow,NSShadowAttributeName,
-                       nil] retain];
-    }
-
 
     // get the badge count
     int badgeCount = 0;
