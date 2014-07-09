@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+	<key>keyword.type</key>
+	<string>BLOB FLOAT TIME</string>
+	<key>support.subroutine.function</key>
+	<string>ABS CURRENT_DATE</string>
+	<key>keyword.constant</key>
+	<string>FALSE NULL TRUE</string>
+	<key>keyword</key>
+	<string>ALL BUILD CHECK</string>
+	<key>language.constant.numeric</key>
+	<string>42</string>
+	<key>comment.block</key>
+	<string>/* Comment */</string>
+	<key>comment.line.number-sign</key>
+	<string># Comment (mysql)</string>
+	<key>comment.line.double-dash</key>
+	<string>-- Comment</string>
+	<key>string.single</key>
+	<string>'Strings'</string>
+	<key>string.double</key>
+	<string>"Strings"</string>
+	<key>string.single.backtick</key>
+	<string>`Strings`</string>
+  </dict>
+</plist>
