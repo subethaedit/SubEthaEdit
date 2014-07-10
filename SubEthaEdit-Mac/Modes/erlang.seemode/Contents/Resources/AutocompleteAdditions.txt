@@ -1166,6 +1166,7 @@ beam_validator:module()
 begin_handler_dstlist()
 begin_try_label()
 begin_try_successor()
+behaviour
 behaviour_info()
 bench:args_to_config()
 bench:generate()

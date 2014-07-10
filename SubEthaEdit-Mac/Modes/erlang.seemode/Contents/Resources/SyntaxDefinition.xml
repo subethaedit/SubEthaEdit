@@ -11,7 +11,7 @@
 			<keywords id="Atoms" scope="string.symbol">
 				<regex>\b([a-z][a-zA-Z0-9@_]*)\b</regex>
 			</keywords>
-			<keywords id="Records" scope="language.record">
+			<keywords id="Records" scope="language.struct.record">
 				<regex>(#[a-z][a-zA-Z0-9@_]*)\b</regex>
 				<regex>-record\s*\(([a-zA-Z0-9@_]*)\b</regex>
 			</keywords>
@@ -157,8 +157,8 @@
 				<string>undefined_function</string>
 			</keywords>
 			<keywords id="Function Calls" scope="language.subroutine.function">
-				<regex>([0-9a-zA-Z_-]+:[0-9a-zA-Z_-]+)\(</regex>
-				<regex>([0-9a-zA-Z_-]+)\(</regex>
+				<regex>([0-9a-zA-Z_-]+:[0-9a-zA-Z_-]+)[ \t]*\(</regex>
+				<regex>([0-9a-zA-Z_-]+)[ \t]*\(</regex>
 			</keywords>
 			<keywords id="Directives" scope="language.preprocessor">
 				<regex>(-compile)\(</regex>
@@ -173,6 +173,7 @@
 				<regex>(-include)\(</regex>
 				<regex>(-include_lib)\(</regex>
 				<regex>(-module)\(</regex>
+				<regex>(-behaviour)\(</regex>
 				<regex>(-record)\(</regex>
 				<regex>(-undef)\(</regex>
 				<regex>(-author)\(</regex>
