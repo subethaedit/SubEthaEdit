@@ -1772,7 +1772,7 @@
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
             </state>
 
-            <state id="Block" foldable="yes" scope="meta.block">
+            <state id="Block" foldable="yes" indent="yes" scope="meta.block">
                 <begin><regex>(?:(?&lt;=\s)(?:if|else|else\s+if|for|while|do|switch|case)\s*(?:\([^#{]*?\))?)?\s*{</regex></begin>
                 <end><regex>}</regex></end>
                 <import/>

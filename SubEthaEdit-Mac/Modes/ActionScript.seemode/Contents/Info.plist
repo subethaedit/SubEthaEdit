@@ -10,11 +10,11 @@
     <string>© 2014 TheCodingMonkeys
 http://www.codingmonkeys.de</string>
     <key>CFBundleGetInfoString</key>
-    <string>4.0, Copyright TheCodingMonkeys 2014</string>
+    <string>4.0.1, Copyright TheCodingMonkeys 2014</string>
     <key>CFBundleShortVersionString</key>
-    <string>4.0</string>
+    <string>4.0.1</string>
     <key>CFBundleVersion</key>
-    <string>4.0</string>
+    <string>4.0.1</string>
     <key>SEEMinimumEngineVersion</key>
     <string>4.0</string>
     <key>CFBundlePackageType</key>

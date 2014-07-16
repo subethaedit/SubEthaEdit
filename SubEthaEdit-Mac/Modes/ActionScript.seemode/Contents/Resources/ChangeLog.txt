@@ -3,6 +3,9 @@ Hat tip to ash
 http://www.actionscripthero.com
 #####################################
 
+Changes with Version 4.0.1 
+	*) made indent work
+	
 Changes with Version 4.0 (SEE 4.0)
 	*) SYNTAX: updated for syntax scopes
 	*) SYNTAX: markup cleanup
