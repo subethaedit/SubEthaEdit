@@ -80,7 +80,7 @@
                 <string>FALSE</string>
             </keywords>
     
-            <state id="Block" type="block" foldable="yes" scope="meta.block">
+            <state id="Block" type="block" foldable="yes" indent="yes" scope="meta.block">
                 <begin><regex>{</regex></begin>
                 <end><regex>}</regex></end>
                 <import mode="C" keywords-only="yes"/>

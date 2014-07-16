@@ -6,6 +6,7 @@ for the Erlang Mode 1.0 from 2004!
 Changes with Version 4.0.1 (SEE 4.0.3)
     *) switched scope of record from language.record to language.struct.record
     *) made function recognition also recognize functions with spaces before calling
+    *) made indent work (although has some warts)
 
 Changes with Version 4.0 (SEE 4.0)
 	*) added ChangeLog

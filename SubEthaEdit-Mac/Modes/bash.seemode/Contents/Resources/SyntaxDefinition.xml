@@ -467,19 +467,19 @@
                 <end><regex>(?&lt;!\\)(\\\\)*`</regex></end>
             </state>
 
-            <state id="do done Block" type="block" foldable="yes" scope="meta.block">
+            <state id="do done Block" type="block" foldable="yes" indent="yes" scope="meta.block">
                 <begin><regex>(?&lt;![^;\s])do(?!\S)</regex></begin>
                 <end><regex>(?&lt;!\S)done(?!\S)</regex></end>
                 <import/>
             </state>
 
-            <state id="case esac Block" type="block" foldable="yes" scope="meta.block">
+            <state id="case esac Block" type="block" foldable="yes" indent="yes" scope="meta.block">
                 <begin><regex>(?&lt;![^;\s])case(?!\S)</regex></begin>
                 <end><regex>(?&lt;!\S)esac(?!\S)</regex></end>
                 <import/>
             </state>
 
-            <state id="if then fi Block" type="block" foldable="yes" scope="meta.block">
+            <state id="if then fi Block" type="block" foldable="yes" indent="yes" scope="meta.block">
                 <begin><regex>(?&lt;![^;\s])then(?!\S)</regex></begin>
                 <end><regex>(?&lt;!\S)fi(?!\S)</regex></end>
                 <import/>
@@ -491,7 +491,7 @@
                 <import/>
             </state>
 
-            <state id="Bracket Block" type="block" foldable="yes" scope="meta.block">
+            <state id="Bracket Block" type="block" foldable="yes" indent="yes" scope="meta.block">
                 <begin><regex>(?:(?&lt;=\s)function[\s\w]+)?(?&lt;!\\){</regex></begin>
                 <end><regex>(?&lt;!\\)}</regex></end>
                 <import/>

@@ -393,20 +393,20 @@
                 <state-link state="Interpolation"/>
             </state>
 
-            <state id="Heredoc Indented End" foldable="yes" scope="string.here-doc.intended">
+            <state id="Heredoc Indented End" foldable="yes" scope="string.here-doc.indented">
                 <begin><string>(?:(?&lt;=[=\s+*\({\[])|^)&lt;&lt;\-?(?:(?'heredocindented'[_A-Za-z][A-Za-z0-9_]*)|(?:'\g'heredocindented'')|(?:"\g'heredocindented'"))</string></begin>
                 <end><regex>^[ \t]*(?#see-insert-start-group:heredocindented)</regex></end>
                 <state-link state="Interpolation"/>
             </state>
 
-            <state id="Percent Strings" type="string" foldable="yes" scope="string.percentage">
+            <state id="Percent Strings" type="string" scope="string.percentage">
                 <begin><regex>%(?:Q|q)?(?'percentstringchar'[^\s{\[\(&lt;A-Za-z0-9&gt;])</regex></begin>
                 <end><regex>(?#see-insert-start-group:percentstringchar)</regex></end>
 				<state-link state="Interpolation"/>
             </state>
 
 			<!-- these work with all kinds of brackets, {[(<>)]} http://www.zenspider.com/Languages/Ruby/QuickRef.html -->
-            <state id="Percent Strings {" type="string" foldable="yes" scope="string.percentage.curly">
+            <state id="Percent Strings {" type="string" scope="string.percentage.curly">
                 <begin><regex>%[Qq]?{</regex></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)}</regex></end>
                 <state-link state="Interpolation"/>
@@ -417,7 +417,7 @@
 				</state>
             </state>
 
-            <state id="Percent Strings (" type="string" foldable="yes" scope="string.percentage.parentheses">
+            <state id="Percent Strings (" type="string" scope="string.percentage.parentheses">
                 <begin><regex>%[Qq]?\(</regex></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)\)</regex></end>
                 <state-link state="Interpolation"/>
@@ -428,7 +428,7 @@
 				</state>
             </state>
 
-            <state id="Percent Strings &lt;" type="string" foldable="yes" scope="string.percentage.angle">
+            <state id="Percent Strings &lt;" type="string" scope="string.percentage.angle">
                 <begin><regex>%[Qq]?&lt;</regex></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)&gt;</regex></end>
                 <state-link state="Interpolation"/>
@@ -439,7 +439,7 @@
 				</state>
             </state>
 
-            <state id="Percent Strings [" type="string" foldable="yes" scope="string.percentage.bracket">
+            <state id="Percent Strings [" type="string" scope="string.percentage.bracket">
                 <begin><regex>%[Qq]?\[</regex></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)]</regex></end>
                 <state-link state="Interpolation"/>
@@ -458,32 +458,32 @@
                 <end><regex>(?:(?:(?&lt;!\\)(\\\\)*)|^)`</regex></end>
             </state>
             
-            <state id="Percent Execution" type="string" foldable="yes" scope="string.exec.percentx">
+            <state id="Percent Execution" type="string" scope="string.exec.percentx">
                 <begin><regex>%x(?'percentexecutionchar'[^\s{\[\(&lt;A-Za-z0-9])</regex></begin>
                 <end><regex>(?#see-insert-start-group:percentexecutionchar)</regex></end>
 				<state-link state="Interpolation"/>
             </state>
 
 			<!-- these work with all kinds of bracets, {[(<>)]} http://www.zenspider.com/Languages/Ruby/QuickRef.html -->
-            <state id="Percent Execution {" type="string" foldable="yes" scope="string.exec.percentx.curly">
+            <state id="Percent Execution {" type="string" scope="string.exec.percentx.curly">
                 <begin><regex>%x{</regex></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)}</regex></end>
 				<import state="Percent Strings {"/>
             </state>
 
-            <state id="Percent Execution (" type="string" foldable="yes" scope="string.exec.percentx.parentheses">
+            <state id="Percent Execution (" type="string" scope="string.exec.percentx.parentheses">
                 <begin><regex>%x\(</regex></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)\)</regex></end>
 				<import state="Percent Strings ("/>
             </state>
 
-            <state id="Percent Execution &lt;" type="string" foldable="yes" scope="string.exec.percentx.angle">
+            <state id="Percent Execution &lt;" type="string" scope="string.exec.percentx.angle">
                 <begin><regex>%x&lt;</regex></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)&gt;</regex></end>
 				<import state="Percent Strings &lt;"/>
             </state>
 
-            <state id="Percent Execution [" type="string" foldable="yes" scope="string.exec.percentx.bracket">
+            <state id="Percent Execution [" type="string" scope="string.exec.percentx.bracket">
                 <begin><regex>%x\[</regex></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)]</regex></end>
 				<import state="Percent Strings ["/>
@@ -601,13 +601,13 @@
                 <end><regex>^=end</regex></end>
             </state>
 
-            <state id="Block" type="block" foldable="yes" scope="meta.block">
+            <state id="Block" type="block" foldable="yes" indent="yes" scope="meta.block">
 				<begin><regex>(?:(?:^|=)[ \t]*(?:(?:(?:if|unless|while|until)(?:[ \t]+|(?=\()))|(?:case[ \t]+\g'ruby_ident'[ \t]?)|(?:for[ \t]+\g'ruby_ident'[ \t]+in(?:[^\n\r]+do)?)|(?:case))|\b(?:(?:class(?:(?:[ \t]+(?'ruby_ident'(?'ruby_ident_part'[a-zA-Z_][a-zA-Z0-9_]*)(?:(?:\.|::)\g'ruby_ident_part')*)(?:[ \t]+&lt;[ \t]+\g'ruby_ident')?)|(?:[ \t]*&lt;&lt;)))|(?:module[ \t]+[a-zA-Z_][a-zA-Z0-9_]*)|\bdo\b(?:[ \t]*\|[^\n\r|]+\|)?|(?:def[ \t]+(?:(?'ruby_operator_methods'&amp;|\||\^|&lt;=&gt;|===|==|=~|&gt;&gt;|\?|\!|&gt;=|&gt;|&lt;=|\+@|\-@|\+|\-|\*\*|\*|/|%|&lt;&lt;|&lt;|~|\[\]|\[\]=)|\g'ruby_ident'\g'ruby_operator_methods'?))))</regex></begin>
                 <end><regex>\bend\b</regex></end>
                 <import/>
             </state>
 
-            <state id="BeginBlocks" type="block" foldable="yes" scope="meta.block.begin">
+            <state id="BeginBlocks" type="block" foldable="yes" indent="yes" scope="meta.block.begin">
                 <begin><regex>\bbegin\b</regex></begin>
                 <end><regex>\bend(?:[ \t]+(?:while|if|unless|until))?\b</regex></end>
                 <import/>
@@ -615,7 +615,7 @@
 
 			<!-- this should not match normal hash literals. most commonly used in || {} in rails -->
 
-            <state id="CurlyBlocks" type="block" foldable="yes" scope="meta.block.curly">
+            <state id="CurlyBlocks" type="block" foldable="yes" indent="yes" scope="meta.block.curly">
                 <begin><regex>{(?:[ \t]*\|[^\n\r|]+\|)?</regex></begin>
                 <end><regex>}</regex></end>
                 <import/>
