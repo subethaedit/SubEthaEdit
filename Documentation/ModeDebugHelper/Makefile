@@ -58,7 +58,7 @@ result_mode_directory=ResultModes/
 #result_mode_directory=/Users/Lisa/Desktop/Modes/
 
 ## Path that leads to the SyntaxDefinition of a mode
-mode_syntax_def_suffix=.mode/Contents/Resources/SyntaxDefinition.xml
+mode_syntax_def_suffix=.seemode/Contents/Resources/SyntaxDefinition.xml
 
 ## File name SyntaxDefinition
 syntax_definition="SyntaxDefinition.xml"
@@ -68,13 +68,13 @@ style_directory=ModeStyles/
 
 ## Plist related paths
 plist_result_directory=ModePlists/
-mode_plist_suffix=.mode/Contents/Info.plist
+mode_plist_suffix=.seemode/Contents/Info.plist
 
 ##
 style_files=$(addprefix $(style_directory), $(addsuffix .sss, $(languages)))
 syntax_files=$(addprefix $(mode_directory), $(addsuffix $(mode_syntax_def_suffix), $(languages)))
 result_files=$(addprefix $(result_mode_directory), $(addsuffix $(mode_syntax_def_suffix), $(languages)))
-result_mode_mode_directory=$(addprefix $(result_mode_directory), $(addsuffix ".mode", $(languages)))
+result_mode_mode_directory=$(addprefix $(result_mode_directory), $(addsuffix ".seemode", $(languages)))
 
 ##
 plist_files=$(addprefix $(mode_directory), $(addsuffix $(mode_plist_suffix), $(languages)))
@@ -124,7 +124,7 @@ help:
             " $${bold}make all-scopes-by-lang$${normal} generates an annotated txt with scopes used by all modes                              \n" \
             " $${bold}make all-scopes-uniqued$${normal} generates a txt with sorted scopes used by all modes                                  \n" \
             "                                                                                                                                 \n" \
-            " $${bold}make clean$${normal} deletes all the generated .sss files and result .mode directories                                  \n" \
+            " $${bold}make clean$${normal} deletes all the generated .sss files and result .seemode directories                               \n" \
             "                                                                                                                                 \n" \
             " ** For more information about this Makefile drop it onto the text editor of your choice and have fun. **                        \n";
 
