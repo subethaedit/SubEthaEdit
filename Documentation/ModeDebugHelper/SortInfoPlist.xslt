@@ -5,15 +5,15 @@
 		doctype-system="http://www.apple.com/DTDs/PropertyList-1.0.dtd" 
 		doctype-public="-//Apple//DTD PLIST 1.0//EN"
 		media-type="xml/plist"/>
-		
+	
 	<xsl:template match="/">
 		<xsl:text>&#xA;</xsl:text>
 		
 		<xsl:element name="plist">
-		  <xsl:attribute name="version">1.0</xsl:attribute>
+			<xsl:attribute name="version">1.0</xsl:attribute>
 			<xsl:text>&#xA;</xsl:text>
-		  	
-  			<xsl:element name="dict">
+			
+			<xsl:element name="dict">
 				<xsl:call-template name="sort"/>
 				<xsl:text>&#xA;</xsl:text>
 			</xsl:element>
@@ -29,16 +29,14 @@
 		<xsl:apply-templates select="plist/dict/key[text()='CFBundleName']/following-sibling::string[1]"/>
 		
 		<xsl:apply-templates select="plist/dict/key[text()='NSHumanReadableCopyright']/following-sibling::string[1]"/>
-		<xsl:apply-templates select="plist/dict/key[text()='CFBundleGetInfoString']/following-sibling::string[1]"/>
-
+		
 		<xsl:apply-templates select="plist/dict/key[text()='CFBundleShortVersionString']/following-sibling::string[1]"/>
 		<xsl:apply-templates select="plist/dict/key[text()='CFBundleVersion']/following-sibling::string[1]"/>
 		<xsl:apply-templates select="plist/dict/key[text()='SEEMinimumEngineVersion']/following-sibling::string[1]"/>
 		
-		<xsl:apply-templates select="plist/dict/key[text()='CFBundlePackageType']/following-sibling::string[1]"/>
 		<xsl:apply-templates select="plist/dict/key[text()='CFBundleInfoDictionaryVersion']/following-sibling::string[1]"/>
 	</xsl:template>
- 
+	
 	<xsl:template match="string">
 		<xsl:text>&#xA;</xsl:text>
 		<xsl:text>&#x9;</xsl:text>
@@ -48,29 +46,26 @@
 		<xsl:text>&#x9;</xsl:text>
 		<string><xsl:value-of select="." /></string>
 	</xsl:template>
-		
+	
 </xsl:stylesheet>
 
 <!-- 
- CFBundleIdentifier
- CFBundleName
+CFBundleIdentifier
+CFBundleName
 
- NSHumanReadableCopyright
- CFBundleGetInfoString
+NSHumanReadableCopyright
 
- CFBundleShortVersionString
- CFBundleVersion
- SEEMinimumEngineVersion
+CFBundleShortVersionString
+CFBundleVersion
+SEEMinimumEngineVersion
 
- CFBundlePackageType
- CFBundleInfoDictionaryVersion
- 
- Tab:
- &#x9;
+CFBundleInfoDictionaryVersion
+
+Tab:
+&#x9;
 <xsl:text>&#x9;</xsl:text>
 
- LineFeed:
- &#xA;
+LineFeed:
+&#xA;
 <xsl:text>&#xA;</xsl:text>
-
 -->
