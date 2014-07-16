@@ -1,3 +1,7 @@
+Changes with Version 4.0.1
+	*) made indent work
+	*) added folding support for var/const/import (
+
 Changes with Version 4.0 (SEE 4.0)
 	*) SYNTAX: updated for syntax scopes
 	*) SYNTAX: markup cleanup
