@@ -262,20 +262,20 @@
 				<end><regex>\](?#see-insert-start-group:stringbrackets)\]</regex></end>
 			</state>
 
-			<state id="do-then-end blocks" foldable="yes" type="block" scope="meta.block">
+			<state id="do-then-end blocks" foldable="yes" indent="yes" type="block" scope="meta.block">
 				<begin><string>\b(?:(?:(?:else|do|then)\b)|(?:function(?:[ \t]+(?'funcname'(?'varname'[\p{Alpha}_][\p{Alnum}_]*)(?:\.\g'varname')*(?::\g'varname')?))?\b))</string></begin>
 				<end><regex>\b(?:end|elseif)\b|(\s(?=else\s))</regex></end>
 				<import/>
 			</state>
 
-			<state id="repeat-until blocks" foldable="yes" type="block" scope="meta.block">
+			<state id="repeat-until blocks" foldable="yes" indent="yes" type="block" scope="meta.block">
 				<begin><string>\brepeat\b</string></begin>
 				<end><regex>\buntil\b</regex></end>
 				<import/>
 			</state>
 
 			<!-- don't show empty tables -->
-			<state id="tables" foldable="yes" scope="meta.block">
+			<state id="tables" foldable="yes" indent="yes" scope="meta.block">
 				<begin><string>{(?!})</string></begin>
 				<end><regex>}</regex></end>
 				<import/>
