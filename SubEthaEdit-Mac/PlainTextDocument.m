@@ -1124,6 +1124,7 @@ static NSString *tempFileName(NSString *origPath) {
 - (IBAction)changeFont:(id)aSender {
     NSFont *newFont = [aSender convertFont:I_plainFont];
     [self setPlainFont:newFont];
+	[self invalidateRestorableState];
 }
     
     
@@ -1561,6 +1562,8 @@ static NSString *tempFileName(NSString *origPath) {
 	[coder encodeBool:self.isContinuousSpellCheckingEnabled forKey:@"SEEPlainTextDocumentContinuousSpellCheckingEnabled"];
 //	[coder encodeBool:self.showsTopStatusBar forKey:@"SEEPlainTextDocumentShowsTopStatusBar"];
 //	[coder encodeBool:self.showsBottomStatusBar forKey:@"SEEPlainTextDocumentShowsBottomStatusBar"];
+
+	[coder encodeObject:I_plainFont.fontDescriptor.fontAttributes forKey:@"SEEPlainTextDocumentPlainFont"];
 }
 
 - (void)restoreStateWithCoder:(NSCoder *)coder {
@@ -1604,6 +1607,13 @@ static NSString *tempFileName(NSString *origPath) {
 //		self.showsTopStatusBar = [coder decodeBoolForKey:@"SEEPlainTextDocumentShowsTopStatusBar"];
 //	if ([coder containsValueForKey:@"SEEPlainTextDocumentShowsBottomStatusBar"])
 //		self.showsBottomStatusBar = [coder decodeBoolForKey:@"SEEPlainTextDocumentShowsBottomStatusBar"];
+
+	if ([coder containsValueForKey:@"SEEPlainTextDocumentPlainFont"]) {
+		NSDictionary *fontAttributes = [coder decodeObjectForKey:@"SEEPlainTextDocumentPlainFont"];
+		NSFontDescriptor *fontDescriptor = [NSFontDescriptor fontDescriptorWithFontAttributes:fontAttributes];
+		NSFont *font = [NSFont fontWithDescriptor:fontDescriptor size:0.0];
+		[self setPlainFont:font];
+	}
 
 	[[self windowControllers] makeObjectsPerformSelector:@selector(takeSettingsFromDocument)];
 }
