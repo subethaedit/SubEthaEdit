@@ -1,18 +1,18 @@
-ONIGURUMA_VERSION=onig-5.9.2
+ONIGURUMA_VERSION=Onigmo-Onigmo-5.13.5
 OS_VERSION=$(shell uname -r)
 
 UNIVERSAL_DIR=universal
 INTEL_64_DIR=x86_64
 INTEL_DIR=intel
 
-INTEL_64_CONFIGURE_FLAGS=--disable-dependency-tracking --host=x86_64-apple-darwin$(OS_VERSION) --build=i686-apple-darwin$(OS_VERSION)
+INTEL_64_CONFIGURE_FLAGS=--disable-dependency-tracking --host=x86_64-apple-darwin$(OS_VERSION) --build=x86_64-apple-darwin$(OS_VERSION)
 INTEL_CONFIGURE_FLAGS=--disable-dependency-tracking --host=i686-apple-darwin$(OS_VERSION) --build=i686-apple-darwin$(OS_VERSION)
 
-INTEL_64_SDK=/Developer/SDKs/MacOSX10.7.sdk
-INTEL_64_CC=gcc -arch x86_64 
+INTEL_64_SDK=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk
+INTEL_64_CC=/usr/bin/gcc -arch x86_64
 
-INTEL_SDK=/Developer/SDKs/MacOSX10.7.sdk
-INTEL_CC=gcc -arch i686
+INTEL_SDK=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk
+INTEL_CC=/usr/bin/gcc -arch i686
 
 ONIG_TARGET=libonig.la
 LIBS_DIR=.libs
@@ -38,11 +38,11 @@ $(INTEL_DIR)/$(ONIG_TARGET): $(INTEL_DIR)
 	make $(@F)
 
 $(INTEL_64_DIR):
-	tar xzvf $(ONIGURUMA_VERSION).tar.gz
+	unzip $(ONIGURUMA_VERSION).zip
 	mv $(ONIGURUMA_VERSION) $@
 
 $(INTEL_DIR):
-	tar xzvf $(ONIGURUMA_VERSION).tar.gz
+	unzip $(ONIGURUMA_VERSION).zip
 	mv $(ONIGURUMA_VERSION) $@
 
 $(UNIVERSAL_DIR):
