@@ -83,9 +83,10 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
         BOOL textDidChangeSinceLastSyntaxHighlighting;
         BOOL hasUTF8BOM;
         BOOL isSEEText;
-        BOOL isAutosavingForRestart;
+        BOOL isAutosavingForStateRestore;
         BOOL keepUndoManagerOnZeroWindowControllers;
         BOOL isSettingFileURL;
+		BOOL isPreparedForTermination;
     } I_flags;
     int I_tabWidth;
 //    int I_changeCount;
@@ -339,6 +340,9 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
 - (void)resizeAccordingToDocumentMode;
 
 - (BOOL)didPauseBecauseOfMarkedText;
+
+- (BOOL)isPreparedForTermination;
+- (void)setPreparedForTermination:(BOOL)aFlag;
 
 #pragma mark -
 #pragma mark ### Syntax Highlighting ###

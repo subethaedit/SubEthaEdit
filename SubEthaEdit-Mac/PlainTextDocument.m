@@ -259,7 +259,7 @@ static NSString *tempFileName(NSString *origPath) {
 
 - (void)TCM_initHelper {
 	self.persistentDocumentScopedBookmarkURLs = [NSMutableArray array];
-    I_flags.isAutosavingForRestart=NO;
+    I_flags.isAutosavingForStateRestore=NO;
     I_flags.isHandlingUndoManually=NO;
     I_flags.shouldSelectModeOnSave=YES;
     [self setUndoManager:nil];
@@ -1738,7 +1738,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     
     if (count > 1 && count == found) {
         if ([delegate respondsToSelector:shouldCloseSelector]) {
-            ((void (*)(id, SEL, id, BOOL, void (*)))objc_msgSend)(delegate, shouldCloseSelector, self, YES, contextInfo);
+            ((void (*)(id, SEL, id, BOOL, void (*)))objc_msgSend)(delegate, shouldCloseSelector, self, NO, contextInfo);
         }
     } else {
         [super canCloseDocumentWithDelegate:delegate shouldCloseSelector:shouldCloseSelector contextInfo:contextInfo];
@@ -2580,30 +2580,36 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 }
 
 - (BOOL)isDocumentEdited {
-    if (I_flags.isAutosavingForRestart) {
-        return YES;
+	BOOL result = NO;
+	if (I_flags.isPreparedForTermination) {
+		result = NO;
+	} else if (I_flags.isAutosavingForStateRestore) {
+        result =  YES;
     } else {
-        return [super isDocumentEdited];
+        result =  [super isDocumentEdited];
     }
+	return result;
 }
 
 - (BOOL)hasUnautosavedChanges {
-    if (I_flags.isAutosavingForRestart) {
-        return YES;
+	BOOL result = NO;
+	if (I_flags.isAutosavingForStateRestore) {
+		result =  YES;
     } else {
-        return [super hasUnautosavedChanges];
+        result = [super hasUnautosavedChanges];
     }
+	return result;
 }
 
 - (void)autosaveForStateRestore {
-	I_flags.isAutosavingForRestart = YES;
+	I_flags.isAutosavingForStateRestore = YES;
 	[self performActivityWithSynchronousWaiting:YES usingBlock:^(void (^activityCompletionHandler)(void)) {
 		[self autosaveWithImplicitCancellability:NO completionHandler:^(NSError *error) {
 			activityCompletionHandler();
 		}];
 
 		[self performSynchronousFileAccessUsingBlock:^{
-			I_flags.isAutosavingForRestart = NO;
+			I_flags.isAutosavingForStateRestore = NO;
 		}];
 	}];
 }
@@ -4914,6 +4920,16 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 - (BOOL)shouldChangeExtensionOnModeChange {
     return I_flags.shouldChangeExtensionOnModeChange;
 }
+
+
+- (BOOL)isPreparedForTermination {
+	return I_flags.isPreparedForTermination;
+}
+
+- (void)setPreparedForTermination:(BOOL)aFlag {
+	I_flags.isPreparedForTermination = aFlag;
+}
+
 
 #pragma mark -
 
