@@ -229,9 +229,11 @@ void * const TCMMMUserPropertyChangeObservanceContext = (void *)&TCMMMUserProper
 		if (emptyImageHashes == nil) {
 			emptyImageHashes = @[
 								 @"f5053bc845cf64013f86610e5c47baaf", // SubEthaEdit old
-								 @"7d4a805849dc48827b2bc860431b734b", // Coda old
+								 @"7d4a805849dc48827b2bc860431b734b", // Coda old also 2.0.14 on first launch
 								 @"5d866ffe7b8695d8804daa1f306de11f", // SubEtha
-								 @"11ea6051b3cd2642fea228b0d269a042", // Coda 2.0.14
+								 @"11ea6051b3cd2642fea228b0d269a042", // Coda 2.0.14 by Dom
+								 @"781adb20200190b6d278fe74af29768b", // Coda 2.0.14 by MEh
+								 @"5da9c1ca2476d61407bc9c33ad9da360", // Coda 2.0.14 by Marcel
 								 ];
 		}
 		//NSLog(@"%s md5:%@ userName:%@",__FUNCTION__,md5String,self.name);
