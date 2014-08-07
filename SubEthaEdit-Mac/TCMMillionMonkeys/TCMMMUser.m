@@ -232,14 +232,34 @@ void * const TCMMMUserPropertyChangeObservanceContext = (void *)&TCMMMUserProper
 								 @"7d4a805849dc48827b2bc860431b734b", // Coda old also 2.0.14 on first launch
 								 @"5d866ffe7b8695d8804daa1f306de11f", // SubEtha
 								 @"11ea6051b3cd2642fea228b0d269a042", // Coda 2.0.14 by Dom
-								 @"781adb20200190b6d278fe74af29768b", // Coda 2.0.14 by MEh
-								 @"5da9c1ca2476d61407bc9c33ad9da360", // Coda 2.0.14 by Marcel
 								 ];
 		}
-		//NSLog(@"%s md5:%@ userName:%@",__FUNCTION__,md5String,self.name);
-		if (![emptyImageHashes containsObject:md5String]) {
-			[self.properties setObject:aPNGData forKey:TCMMMUserPropertyKeyImageAsPNGData];
+//		NSLog(@"%s md5:%@ userName:%@",__FUNCTION__,md5String,self.name);
 
+//		if ([md5String isEqualToString:@"781adb20200190b6d278fe74af29768b"] || // Michis Coda
+//			[md5String isEqualToString:@"5da9c1ca2476d61407bc9c33ad9da360"]) { // Marcels Coda
+//
+//			NSImage *image = [[NSImage alloc] initWithData:aPNGData];
+//			NSLog(@"%@ - data: %@", image, aPNGData);
+//
+//			static NSInteger fileCount = 0;
+//			NSString *tempFilePath = NSTemporaryDirectory();
+//			fileCount++;
+//			NSString *pngFilePath = [tempFilePath stringByAppendingPathComponent:[NSString stringWithFormat:@"avatar%ld.png", fileCount]];
+//			NSString *tiffFilePath = [tempFilePath stringByAppendingPathComponent:[NSString stringWithFormat:@"avatar%ld.tif", fileCount]];
+//
+//			[aPNGData writeToFile:pngFilePath atomically:YES];
+//			[[image TIFFRepresentation] writeToFile:tiffFilePath atomically:YES];
+//			[[NSWorkspace sharedWorkspace]  selectFile:tempFilePath inFileViewerRootedAtPath:@""];
+//		}
+
+		if (![emptyImageHashes containsObject:md5String]) {
+			NSImage *image = [[NSImage alloc] initWithData:aPNGData];
+			if (image && image.size.width == 1 && image.size.height == 64.0) { // CODA has a bug if the user has no image. But it always returns a 1x64 points image.
+				[self.properties setObject:@(YES) forKey:@"HasDefaultImage"];
+			} else {
+				[self.properties setObject:aPNGData forKey:TCMMMUserPropertyKeyImageAsPNGData];
+			}
 		} else {
 			[self.properties setObject:@(YES) forKey:@"HasDefaultImage"];
 		}
