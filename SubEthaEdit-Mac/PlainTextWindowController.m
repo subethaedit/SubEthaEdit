@@ -1445,7 +1445,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
                 [document canCloseDocumentWithDelegate:self
                                    shouldCloseSelector:@selector(reviewedDocument:shouldClose:contextInfo:)
                                            contextInfo:@selector(reviewChangesAndQuitEnumeration:)];
-                return;
+				return;
             }
         }
         
@@ -1781,9 +1781,9 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
         if (windowControllerCount > 1) {
             [self documentWillClose:doc];
-            [self close];
+//            [self close];
         } else {
-            [doc close];
+//            [doc close];
         }
 
         // updateTabMenu
