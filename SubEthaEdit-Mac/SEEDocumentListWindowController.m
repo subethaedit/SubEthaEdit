@@ -583,27 +583,29 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	NSView *result = nil;
 
 	NSArray *rowItems = self.availableItems;
-	id rowItem = [rowItems objectAtIndex:row];
+	if (rowItems.count > row) {
+		id rowItem = [rowItems objectAtIndex:row];
 
-	if (tableColumn == nil && [rowItem isKindOfClass:SEENetworkConnectionRepresentationListItem.class]) {
-		result = [tableView makeViewWithIdentifier:@"Group" owner:self];
-		// adds the shadow that a previews source list style already had
-		[[[(NSTableCellView *)result textField] cell] setBackgroundStyle:NSBackgroundStyleRaised];
-	} else if (tableColumn == nil && [rowItem isKindOfClass:SEEConnectDocumentListItem.class]) {
-		result = [tableView makeViewWithIdentifier:@"Connect" owner:self];
-		[[[(NSTableCellView *)result textField] cell] setBackgroundStyle:NSBackgroundStyleRaised];
-	} else if ([rowItem isKindOfClass:SEEOpenOtherDocumentListItem.class] || [rowItem isKindOfClass:SEENewDocumentListItem.class]) {
-		result = [tableView makeViewWithIdentifier:@"OtherItems" owner:self];
-	} else if ([rowItem isKindOfClass:SEEToggleRecentDocumentListItem.class]) {
-		result = [tableView makeViewWithIdentifier:@"ToggleRecent" owner:self];
-	} else if ([rowItem isKindOfClass:SEEMoreRecentDocumentsListItem.class]) {
-		result = [tableView makeViewWithIdentifier:@"MoreRecent" owner:self];
-	} else if ([rowItem isKindOfClass:SEERecentDocumentListItem.class]) {
-		result = [tableView makeViewWithIdentifier:@"Document" owner:self];
-	} else if ([rowItem isKindOfClass:SEENetworkDocumentListItem.class]) {
-		result = [tableView makeViewWithIdentifier:@"NetworkDocument" owner:self];
-	} else {
-		result = [tableView makeViewWithIdentifier:@"Document" owner:self];
+		if (tableColumn == nil && [rowItem isKindOfClass:SEENetworkConnectionRepresentationListItem.class]) {
+			result = [tableView makeViewWithIdentifier:@"Group" owner:self];
+			// adds the shadow that a previews source list style already had
+			[[[(NSTableCellView *)result textField] cell] setBackgroundStyle:NSBackgroundStyleRaised];
+		} else if (tableColumn == nil && [rowItem isKindOfClass:SEEConnectDocumentListItem.class]) {
+			result = [tableView makeViewWithIdentifier:@"Connect" owner:self];
+			[[[(NSTableCellView *)result textField] cell] setBackgroundStyle:NSBackgroundStyleRaised];
+		} else if ([rowItem isKindOfClass:SEEOpenOtherDocumentListItem.class] || [rowItem isKindOfClass:SEENewDocumentListItem.class]) {
+			result = [tableView makeViewWithIdentifier:@"OtherItems" owner:self];
+		} else if ([rowItem isKindOfClass:SEEToggleRecentDocumentListItem.class]) {
+			result = [tableView makeViewWithIdentifier:@"ToggleRecent" owner:self];
+		} else if ([rowItem isKindOfClass:SEEMoreRecentDocumentsListItem.class]) {
+			result = [tableView makeViewWithIdentifier:@"MoreRecent" owner:self];
+		} else if ([rowItem isKindOfClass:SEERecentDocumentListItem.class]) {
+			result = [tableView makeViewWithIdentifier:@"Document" owner:self];
+		} else if ([rowItem isKindOfClass:SEENetworkDocumentListItem.class]) {
+			result = [tableView makeViewWithIdentifier:@"NetworkDocument" owner:self];
+		} else {
+			result = [tableView makeViewWithIdentifier:@"Document" owner:self];
+		}
 	}
 	return result;
 }
@@ -612,44 +614,48 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 {
 	NSTableRowView * rowView = nil;
 	NSArray *availableItems = self.availableItems;
-	id <SEEDocumentListItem> itemRepresentation = [availableItems objectAtIndex:row];
-	if ([itemRepresentation isKindOfClass:[SEENetworkConnectionRepresentationListItem class]]) {
-		rowView = [[SEEDocumentListGroupTableRowView alloc] init];
+	if (availableItems.count > row) {
+		id <SEEDocumentListItem> itemRepresentation = [availableItems objectAtIndex:row];
+		if ([itemRepresentation isKindOfClass:[SEENetworkConnectionRepresentationListItem class]]) {
+			rowView = [[SEEDocumentListGroupTableRowView alloc] init];
 
-		if (row > 1) {
-			BOOL drawTopLine = ! [[availableItems objectAtIndex:row - 1] isKindOfClass:[SEENetworkConnectionRepresentationListItem class]];
-			((SEEDocumentListGroupTableRowView *)rowView).drawTopLine = drawTopLine;
+			if (row > 1) {
+				BOOL drawTopLine = ! [[availableItems objectAtIndex:row - 1] isKindOfClass:[SEENetworkConnectionRepresentationListItem class]];
+				((SEEDocumentListGroupTableRowView *)rowView).drawTopLine = drawTopLine;
+			}
+		} else {
+			rowView = ({
+				SEEHoverTableRowView *hoverView = [[SEEHoverTableRowView alloc] init];
+				hoverView.TCM_rowIndex = row;
+				hoverView;
+			});
 		}
-	} else {
-		rowView = ({
-			SEEHoverTableRowView *hoverView = [[SEEHoverTableRowView alloc] init];
-			hoverView.TCM_rowIndex = row;
-			hoverView;
-		});
 	}
 	return rowView;
 }
 
 - (void)tableView:(NSTableView *)tableView didAddRowView:(NSTableRowView *)rowView forRow:(NSInteger)row {
 	NSArray *availableDocumentSession = self.availableItems;
-	id documentRepresentation = [availableDocumentSession objectAtIndex:row];
-	if ([documentRepresentation isKindOfClass:SEENetworkConnectionRepresentationListItem.class]) {
-		SEENetworkConnectionRepresentationListItem *connectionRepresentation = (SEENetworkConnectionRepresentationListItem *)documentRepresentation;
-		NSTableCellView *tableCellView = [rowView.subviews objectAtIndex:0];
+	if (availableDocumentSession.count > row) {
+		id documentRepresentation = [availableDocumentSession objectAtIndex:row];
+		if ([documentRepresentation isKindOfClass:SEENetworkConnectionRepresentationListItem.class]) {
+			SEENetworkConnectionRepresentationListItem *connectionRepresentation = (SEENetworkConnectionRepresentationListItem *)documentRepresentation;
+			NSTableCellView *tableCellView = [rowView.subviews objectAtIndex:0];
 
-		SEEAvatarImageView *avatarView = nil;
-		for (NSView *view in tableCellView.subviews) {
-			if ([view isKindOfClass:[SEEAvatarImageView class]] &&
-				[view.identifier isEqualToString:@"AvatarView"]) {
-				avatarView = (SEEAvatarImageView *)view;
-				break;
+			SEEAvatarImageView *avatarView = nil;
+			for (NSView *view in tableCellView.subviews) {
+				if ([view isKindOfClass:[SEEAvatarImageView class]] &&
+					[view.identifier isEqualToString:@"AvatarView"]) {
+					avatarView = (SEEAvatarImageView *)view;
+					break;
+				}
 			}
-		}
 
-		TCMMMUser *user = connectionRepresentation.user;
-		[avatarView bind:@"image" toObject:user withKeyPath:@"image" options:nil];
-		[avatarView bind:@"initials" toObject:user withKeyPath:@"initials" options:nil];
-		[avatarView bind:@"borderColor" toObject:user withKeyPath:@"changeColor" options:nil];
+			TCMMMUser *user = connectionRepresentation.user;
+			[avatarView bind:@"image" toObject:user withKeyPath:@"image" options:nil];
+			[avatarView bind:@"initials" toObject:user withKeyPath:@"initials" options:nil];
+			[avatarView bind:@"borderColor" toObject:user withKeyPath:@"changeColor" options:nil];
+		}
 	}
 }
 
@@ -657,10 +663,12 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 {
 	BOOL result = NO;
 	NSArray *availableDocumentSession = self.availableItems;
-	id documentRepresentation = [availableDocumentSession objectAtIndex:row];
-	if ([documentRepresentation isKindOfClass:SEENetworkConnectionRepresentationListItem.class] ||
-		[documentRepresentation isKindOfClass:SEEConnectDocumentListItem.class]) {
-		result = YES;
+	if (availableDocumentSession.count > row) {
+		id documentRepresentation = [availableDocumentSession objectAtIndex:row];
+		if ([documentRepresentation isKindOfClass:SEENetworkConnectionRepresentationListItem.class] ||
+			[documentRepresentation isKindOfClass:SEEConnectDocumentListItem.class]) {
+			result = YES;
+		}
 	}
 	return result;
 }
@@ -670,9 +678,11 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	BOOL result = NO;
 	NSArray *availableDocumentSession = self.availableItems;
 	if (! SEEDocumentListOpenDocumentsWithSingleClick) {
-		id documentRepresentation = [availableDocumentSession objectAtIndex:row];
-		if ([documentRepresentation isKindOfClass:SEENetworkDocumentListItem.class] || [documentRepresentation isKindOfClass:SEERecentDocumentListItem.class]) {
-			result = YES;
+		if (availableDocumentSession.count > row) {
+			id documentRepresentation = [availableDocumentSession objectAtIndex:row];
+			if ([documentRepresentation isKindOfClass:SEENetworkDocumentListItem.class] || [documentRepresentation isKindOfClass:SEERecentDocumentListItem.class]) {
+				result = YES;
+			}
 		}
 	}
 	return result;
@@ -682,12 +692,15 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 {
 	NSIndexSet *selectedIndices = self.tableViewOutlet.selectedRowIndexes;
 	[selectedIndices enumerateIndexesUsingBlock:^(NSUInteger row, BOOL *stop) {
-		id documentRepresentation = [self.availableItems objectAtIndex:row];
-		if (SEEDocumentListOpenDocumentsWithSingleClick) {
-			[self.tableViewOutlet deselectRow:row];
-		} else {
-			if (! ([documentRepresentation isKindOfClass:SEENetworkDocumentListItem.class] || [documentRepresentation isKindOfClass:SEERecentDocumentListItem.class])) {
+		NSArray *availableDocumentSession = self.availableItems;
+		if (availableDocumentSession.count > row) {
+			id documentRepresentation = [availableDocumentSession objectAtIndex:row];
+			if (SEEDocumentListOpenDocumentsWithSingleClick) {
 				[self.tableViewOutlet deselectRow:row];
+			} else {
+				if (! ([documentRepresentation isKindOfClass:SEENetworkDocumentListItem.class] || [documentRepresentation isKindOfClass:SEERecentDocumentListItem.class])) {
+					[self.tableViewOutlet deselectRow:row];
+				}
 			}
 		}
 	}];
@@ -697,17 +710,19 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	CGFloat rowHeight = 28.0;
 
 	NSArray *availableDocumentSession = self.availableItems;
-	id documentRepresentation = [availableDocumentSession objectAtIndex:row];
-	if ([documentRepresentation isKindOfClass:SEENetworkConnectionRepresentationListItem.class]) {
-		rowHeight = 56.0;
-	} else if ([documentRepresentation isKindOfClass:SEEToggleRecentDocumentListItem.class]) {
-		rowHeight = 28.0;
-	} else if ([documentRepresentation isKindOfClass:SEEConnectDocumentListItem.class]) {
-		rowHeight = 42.0;
-	} else if ([documentRepresentation isKindOfClass:SEENetworkDocumentListItem.class] ||
-			   [documentRepresentation isKindOfClass:SEERecentDocumentListItem.class] ||
-			   [documentRepresentation isKindOfClass:SEEMoreRecentDocumentsListItem.class]) {
-		rowHeight = 36.0;
+	if (availableDocumentSession.count > row) {
+		id documentRepresentation = [availableDocumentSession objectAtIndex:row];
+		if ([documentRepresentation isKindOfClass:SEENetworkConnectionRepresentationListItem.class]) {
+			rowHeight = 56.0;
+		} else if ([documentRepresentation isKindOfClass:SEEToggleRecentDocumentListItem.class]) {
+			rowHeight = 28.0;
+		} else if ([documentRepresentation isKindOfClass:SEEConnectDocumentListItem.class]) {
+			rowHeight = 42.0;
+		} else if ([documentRepresentation isKindOfClass:SEENetworkDocumentListItem.class] ||
+				   [documentRepresentation isKindOfClass:SEERecentDocumentListItem.class] ||
+				   [documentRepresentation isKindOfClass:SEEMoreRecentDocumentsListItem.class]) {
+			rowHeight = 36.0;
+		}
 	}
 	return rowHeight;
 }
