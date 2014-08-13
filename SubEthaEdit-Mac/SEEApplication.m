@@ -20,10 +20,8 @@
 		if ([document isKindOfClass:[PlainTextDocument class]]) {
 			PlainTextDocument *plainTextDocument = (PlainTextDocument *)document;
 			if ([plainTextDocument hasUnautosavedChanges]) {
-				[plainTextDocument autosaveWithImplicitCancellability:NO completionHandler:^(NSError *errorOrNil) {
-					
-				}];
-			}
+				[plainTextDocument autosaveForStateRestore];
+            }
 			[plainTextDocument setPreparedForTermination:YES];
 		}
 	}

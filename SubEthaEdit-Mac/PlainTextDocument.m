@@ -2605,7 +2605,9 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 	I_flags.isAutosavingForStateRestore = YES;
 	[self performActivityWithSynchronousWaiting:YES usingBlock:^(void (^activityCompletionHandler)(void)) {
 		[self autosaveWithImplicitCancellability:NO completionHandler:^(NSError *error) {
-			activityCompletionHandler();
+            if (activityCompletionHandler) {
+                activityCompletionHandler();
+            }
 		}];
 
 		[self performSynchronousFileAccessUsingBlock:^{
