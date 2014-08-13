@@ -1,3 +1,6 @@
+Changes with Version 4.0.2 (SEE 4.0.3)
+	*) FIX: typo in syntax definition for indent
+
 Changes with Version 4.0.1 (SEE 4.0.2)
 	*) FIX: typo in number attributes
 

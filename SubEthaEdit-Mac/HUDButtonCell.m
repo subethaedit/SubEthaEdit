@@ -20,12 +20,12 @@ static NSImage *s_normal[]={nil,nil,nil};
 
 - (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
     if (s_pressed[0] == nil) {
-        s_pressed[0] = [NSImage imageNamed:@"hud_buttonLeft-P" ];
-        s_pressed[1] = [NSImage imageNamed:@"hud_buttonFill-P" ];
-        s_pressed[2] = [NSImage imageNamed:@"hud_buttonRight-P"];
-        s_normal[0]  = [NSImage imageNamed:@"hud_buttonLeft-N" ];
-        s_normal[1]  = [NSImage imageNamed:@"hud_buttonFill-N" ];
-        s_normal[2]  = [NSImage imageNamed:@"hud_buttonRight-N"];
+        s_pressed[0] = [[NSImage imageNamed:@"hud_buttonLeft-P" ] copy];
+        s_pressed[1] = [[NSImage imageNamed:@"hud_buttonFill-P" ] copy];
+        s_pressed[2] = [[NSImage imageNamed:@"hud_buttonRight-P"] copy];
+        s_normal[0]  = [[NSImage imageNamed:@"hud_buttonLeft-N" ] copy];
+        s_normal[1]  = [[NSImage imageNamed:@"hud_buttonFill-N" ] copy];
+        s_normal[2]  = [[NSImage imageNamed:@"hud_buttonRight-N"] copy];
     }
     
 	BOOL isHighlighted = [self isHighlighted];

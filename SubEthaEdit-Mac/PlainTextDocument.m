@@ -259,7 +259,7 @@ static NSString *tempFileName(NSString *origPath) {
 
 - (void)TCM_initHelper {
 	self.persistentDocumentScopedBookmarkURLs = [NSMutableArray array];
-    I_flags.isAutosavingForRestart=NO;
+    I_flags.isAutosavingForStateRestore=NO;
     I_flags.isHandlingUndoManually=NO;
     I_flags.shouldSelectModeOnSave=YES;
     [self setUndoManager:nil];
@@ -1124,6 +1124,7 @@ static NSString *tempFileName(NSString *origPath) {
 - (IBAction)changeFont:(id)aSender {
     NSFont *newFont = [aSender convertFont:I_plainFont];
     [self setPlainFont:newFont];
+	[self invalidateRestorableState];
 }
     
     
@@ -1561,6 +1562,8 @@ static NSString *tempFileName(NSString *origPath) {
 	[coder encodeBool:self.isContinuousSpellCheckingEnabled forKey:@"SEEPlainTextDocumentContinuousSpellCheckingEnabled"];
 //	[coder encodeBool:self.showsTopStatusBar forKey:@"SEEPlainTextDocumentShowsTopStatusBar"];
 //	[coder encodeBool:self.showsBottomStatusBar forKey:@"SEEPlainTextDocumentShowsBottomStatusBar"];
+
+	[coder encodeObject:I_plainFont.fontDescriptor.fontAttributes forKey:@"SEEPlainTextDocumentPlainFont"];
 }
 
 - (void)restoreStateWithCoder:(NSCoder *)coder {
@@ -1604,6 +1607,13 @@ static NSString *tempFileName(NSString *origPath) {
 //		self.showsTopStatusBar = [coder decodeBoolForKey:@"SEEPlainTextDocumentShowsTopStatusBar"];
 //	if ([coder containsValueForKey:@"SEEPlainTextDocumentShowsBottomStatusBar"])
 //		self.showsBottomStatusBar = [coder decodeBoolForKey:@"SEEPlainTextDocumentShowsBottomStatusBar"];
+
+	if ([coder containsValueForKey:@"SEEPlainTextDocumentPlainFont"]) {
+		NSDictionary *fontAttributes = [coder decodeObjectForKey:@"SEEPlainTextDocumentPlainFont"];
+		NSFontDescriptor *fontDescriptor = [NSFontDescriptor fontDescriptorWithFontAttributes:fontAttributes];
+		NSFont *font = [NSFont fontWithDescriptor:fontDescriptor size:0.0];
+		[self setPlainFont:font];
+	}
 
 	[[self windowControllers] makeObjectsPerformSelector:@selector(takeSettingsFromDocument)];
 }
@@ -1728,7 +1738,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     
     if (count > 1 && count == found) {
         if ([delegate respondsToSelector:shouldCloseSelector]) {
-            ((void (*)(id, SEL, id, BOOL, void (*)))objc_msgSend)(delegate, shouldCloseSelector, self, YES, contextInfo);
+            ((void (*)(id, SEL, id, BOOL, void (*)))objc_msgSend)(delegate, shouldCloseSelector, self, NO, contextInfo);
         }
     } else {
         [super canCloseDocumentWithDelegate:delegate shouldCloseSelector:shouldCloseSelector contextInfo:contextInfo];
@@ -1803,7 +1813,9 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     [self TCM_sendODBCloseEvent];
 
     // Do the regular NSDocument thing.
-    [super close];
+    if (!I_flags.isPreparedForTermination) {
+        [super close];
+    }
 }
 
 
@@ -2570,30 +2582,38 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 }
 
 - (BOOL)isDocumentEdited {
-    if (I_flags.isAutosavingForRestart) {
-        return YES;
+	BOOL result = NO;
+	if (I_flags.isPreparedForTermination) {
+		result = NO;
+	} else if (I_flags.isAutosavingForStateRestore) {
+        result =  YES;
     } else {
-        return [super isDocumentEdited];
+        result =  [super isDocumentEdited];
     }
+	return result;
 }
 
 - (BOOL)hasUnautosavedChanges {
-    if (I_flags.isAutosavingForRestart) {
-        return YES;
+	BOOL result = NO;
+	if (I_flags.isAutosavingForStateRestore) {
+		result =  YES;
     } else {
-        return [super hasUnautosavedChanges];
+        result = [super hasUnautosavedChanges];
     }
+	return result;
 }
 
 - (void)autosaveForStateRestore {
-	I_flags.isAutosavingForRestart = YES;
+	I_flags.isAutosavingForStateRestore = YES;
 	[self performActivityWithSynchronousWaiting:YES usingBlock:^(void (^activityCompletionHandler)(void)) {
 		[self autosaveWithImplicitCancellability:NO completionHandler:^(NSError *error) {
-			activityCompletionHandler();
+            if (activityCompletionHandler) {
+                activityCompletionHandler();
+            }
 		}];
 
 		[self performSynchronousFileAccessUsingBlock:^{
-			I_flags.isAutosavingForRestart = NO;
+			I_flags.isAutosavingForStateRestore = NO;
 		}];
 	}];
 }
@@ -4904,6 +4924,16 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 - (BOOL)shouldChangeExtensionOnModeChange {
     return I_flags.shouldChangeExtensionOnModeChange;
 }
+
+
+- (BOOL)isPreparedForTermination {
+	return I_flags.isPreparedForTermination;
+}
+
+- (void)setPreparedForTermination:(BOOL)aFlag {
+	I_flags.isPreparedForTermination = aFlag;
+}
+
 
 #pragma mark -
 

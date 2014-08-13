@@ -215,7 +215,7 @@
           <regex>`</regex>
         </end>
       </state>
-      <state id="Block" type="block" foldable="yes" scope="meta.block">
+      <state id="Block" type="block" foldable="yes" indent="yes" scope="meta.block">
         <begin>
           <regex>{</regex>
         </begin>
@@ -223,6 +223,26 @@
           <regex>}</regex>
         </end>
         <import/>
+      </state>
+      <state id="GoBlocks" type="block" foldable="yes" indent="yes" scope="meta.block">
+        <begin>
+          <regex>(?:const|var|import|type)\s*\(</regex>
+          <autoend>\)</autoend>
+        </begin>
+        <end>
+          <regex>\)</regex>
+        </end>
+        <import/>
+        <state id="FunctionBlockInGoBlock" type="block" scope="meta.block">
+          <begin>
+            <regex>\(</regex>
+          </begin>
+          <end>
+            <regex>\)</regex>
+          </end>
+          <import state="GoBlocks"/>
+          <import />
+        </state>
       </state>
     </default>
   </states>

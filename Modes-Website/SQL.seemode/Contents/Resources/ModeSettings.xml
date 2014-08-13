@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<settings>
-    <recognition>
-        <extension>sql</extension>
-        <extension>mysql</extension>
-        <extension>postgresql</extension>
-    </recognition>
-</settings>

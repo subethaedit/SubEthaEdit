@@ -370,44 +370,44 @@
             </keywords>
         
             <state id="String with double quotes" type="string" scope="string.double">
-                <begin><regex>"</regex></begin>
+                <begin><regex>"</regex><autoend>"</autoend></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
 
                 <state id="Interpolation" scope="meta.block.interpolation">
-                <begin><regex>#{</regex></begin>
+                <begin><regex>#{</regex><autoend>}</autoend></begin>
                 <end><regex>}</regex></end>
                 <import/>
                 </state>
             </state>
     
             <state id="String with single quotes" type="string" scope="string.single">
-                <begin><regex>(?&lt;!\$)(?:')</regex></begin>
+                <begin><regex>(?&lt;!\$)(?:')</regex><autoend>'</autoend></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
             </state>
 
 
 			<!-- actually heredocs start in the next line, so a way to recolor everything from start to end of line again in normal colors would be good. -->
-            <state id="Heredoc" foldable="yes" scope="string.here-doc">
-                <begin><string>(?:(?&lt;=[=\s+*\({\[])|^)&lt;&lt;(?:(?'heredoc'[_A-Za-z][A-Za-z0-9_]*)|(?:'\g'heredoc'')|(?:"\g'heredoc'"))</string></begin>
+            <state id="Heredoc" foldable="yes" indent="no" scope="string.here-doc">
+                <begin><string>(?:(?&lt;=[=\s+*\({\[])|^)&lt;&lt;(?:(?'heredoc'[_A-Za-z][A-Za-z0-9_]*)|(?:'\g'heredoc'')|(?:"\g'heredoc'"))</string><autoend>\n\g&lt;heredoc&gt;</autoend></begin>
                 <end><regex>^(?#see-insert-start-group:heredoc)</regex></end>
                 <state-link state="Interpolation"/>
             </state>
 
-            <state id="Heredoc Indented End" foldable="yes" scope="string.here-doc.intended">
-                <begin><string>(?:(?&lt;=[=\s+*\({\[])|^)&lt;&lt;\-?(?:(?'heredocindented'[_A-Za-z][A-Za-z0-9_]*)|(?:'\g'heredocindented'')|(?:"\g'heredocindented'"))</string></begin>
+            <state id="Heredoc Indented End" foldable="yes" scope="string.here-doc.indented" indent="no">
+                <begin><string>(?:(?&lt;=[=\s+*\({\[])|^)&lt;&lt;\-?(?:(?'heredocindented'[_A-Za-z][A-Za-z0-9_]*)|(?:'\g'heredocindented'')|(?:"\g'heredocindented'"))</string><autoend>\n\g&lt;heredocindented&gt;</autoend></begin>
                 <end><regex>^[ \t]*(?#see-insert-start-group:heredocindented)</regex></end>
                 <state-link state="Interpolation"/>
             </state>
 
-            <state id="Percent Strings" type="string" foldable="yes" scope="string.percentage">
-                <begin><regex>%(?:Q|q)?(?'percentstringchar'[^\s{\[\(&lt;A-Za-z0-9&gt;])</regex></begin>
+            <state id="Percent Strings" type="string" scope="string.percentage">
+                <begin><regex>%(?:Q|q)?(?'percentstringchar'[^\s{\[\(&lt;A-Za-z0-9&gt;])</regex><autoend>\g&lt;percentstringchar&gt;</autoend></begin>
                 <end><regex>(?#see-insert-start-group:percentstringchar)</regex></end>
 				<state-link state="Interpolation"/>
             </state>
 
 			<!-- these work with all kinds of brackets, {[(<>)]} http://www.zenspider.com/Languages/Ruby/QuickRef.html -->
-            <state id="Percent Strings {" type="string" foldable="yes" scope="string.percentage.curly">
-                <begin><regex>%[Qq]?{</regex></begin>
+            <state id="Percent Strings {" type="string" scope="string.percentage.curly">
+                <begin><regex>%[Qq]?{</regex><autoend>}</autoend></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)}</regex></end>
                 <state-link state="Interpolation"/>
 				<state id="UnescapedCurlyBracketRecursive" type="string" foldable="no" scope="meta.block.percentagestring.unescapedbracketrecursive.curly">
@@ -417,8 +417,8 @@
 				</state>
             </state>
 
-            <state id="Percent Strings (" type="string" foldable="yes" scope="string.percentage.parentheses">
-                <begin><regex>%[Qq]?\(</regex></begin>
+            <state id="Percent Strings (" type="string" scope="string.percentage.parentheses">
+                <begin><regex>%[Qq]?\(</regex><autoend>\)</autoend></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)\)</regex></end>
                 <state-link state="Interpolation"/>
 				<state id="UnescapedNormalBracketRecursive" type="string" foldable="no" scope="meta.block.percentagestring.unescapedbracketrecursive.parentheses">
@@ -428,8 +428,8 @@
 				</state>
             </state>
 
-            <state id="Percent Strings &lt;" type="string" foldable="yes" scope="string.percentage.angle">
-                <begin><regex>%[Qq]?&lt;</regex></begin>
+            <state id="Percent Strings &lt;" type="string" scope="string.percentage.angle">
+                <begin><regex>%[Qq]?&lt;</regex><autoend>&gt;</autoend></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)&gt;</regex></end>
                 <state-link state="Interpolation"/>
 				<state id="UnescapedAngelBracketRecursive" type="string" foldable="no" scope="meta.block.percentagestring.unescapedbracketrecursive.angle">
@@ -439,12 +439,12 @@
 				</state>
             </state>
 
-            <state id="Percent Strings [" type="string" foldable="yes" scope="string.percentage.bracket">
-                <begin><regex>%[Qq]?\[</regex></begin>
+            <state id="Percent Strings [" type="string" scope="string.percentage.bracket">
+                <begin><regex>%[Qq]?\[</regex><autoend>\]</autoend></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)]</regex></end>
                 <state-link state="Interpolation"/>
 				<state id="UnescapedSquareBracketRecursive" type="string" foldable="no" scope="meta.block.percentagestring.unescapedbracketrecursive.bracket">
-					<begin><regex>(?:(?:(?&lt;!\\)(?:\\\\)*)|^)\[</regex></begin>
+					<begin><regex>(?:(?:(?&lt;!\\)(?:\\\\)*)|^)\[</regex><autoend>\]</autoend></begin>
 					<end><regex>(?:(?:(?&lt;!\\)(\\\\)*)|^)\]</regex></end>
 	                <import state="Percent Strings ["/>
 				</state>
@@ -454,37 +454,37 @@
 			<!-- Execution Coloring -->
 
             <state id="Backticks" scope="string.exec.backtick">
-                <begin><regex>(?&lt;!\$)(?:`)</regex></begin>
+                <begin><regex>(?&lt;!\$)(?:`)</regex><autoend>`</autoend></begin>
                 <end><regex>(?:(?:(?&lt;!\\)(\\\\)*)|^)`</regex></end>
             </state>
             
-            <state id="Percent Execution" type="string" foldable="yes" scope="string.exec.percentx">
-                <begin><regex>%x(?'percentexecutionchar'[^\s{\[\(&lt;A-Za-z0-9])</regex></begin>
+            <state id="Percent Execution" type="string" scope="string.exec.percentx">
+                <begin><regex>%x(?'percentexecutionchar'[^\s{\[\(&lt;A-Za-z0-9])</regex><autoend>\g&lt;percentexecutionchar&gt;</autoend></begin>
                 <end><regex>(?#see-insert-start-group:percentexecutionchar)</regex></end>
 				<state-link state="Interpolation"/>
             </state>
 
 			<!-- these work with all kinds of bracets, {[(<>)]} http://www.zenspider.com/Languages/Ruby/QuickRef.html -->
-            <state id="Percent Execution {" type="string" foldable="yes" scope="string.exec.percentx.curly">
-                <begin><regex>%x{</regex></begin>
+            <state id="Percent Execution {" type="string" scope="string.exec.percentx.curly">
+                <begin><regex>%x{</regex><autoend>}</autoend></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)}</regex></end>
 				<import state="Percent Strings {"/>
             </state>
 
-            <state id="Percent Execution (" type="string" foldable="yes" scope="string.exec.percentx.parentheses">
-                <begin><regex>%x\(</regex></begin>
+            <state id="Percent Execution (" type="string" scope="string.exec.percentx.parentheses">
+                <begin><regex>%x\(</regex><autoend>\)</autoend></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)\)</regex></end>
 				<import state="Percent Strings ("/>
             </state>
 
-            <state id="Percent Execution &lt;" type="string" foldable="yes" scope="string.exec.percentx.angle">
-                <begin><regex>%x&lt;</regex></begin>
+            <state id="Percent Execution &lt;" type="string" scope="string.exec.percentx.angle">
+                <begin><regex>%x&lt;</regex><autoend>&gt;</autoend></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)&gt;</regex></end>
 				<import state="Percent Strings &lt;"/>
             </state>
 
-            <state id="Percent Execution [" type="string" foldable="yes" scope="string.exec.percentx.bracket">
-                <begin><regex>%x\[</regex></begin>
+            <state id="Percent Execution [" type="string" scope="string.exec.percentx.bracket">
+                <begin><regex>%x\[</regex><autoend>\]</autoend></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)]</regex></end>
 				<import state="Percent Strings ["/>
             </state>
@@ -496,96 +496,96 @@
             </state>
 
             <state id="Percent Regex" scope="string.regex.percentage">
-                <begin><regex>%r(?'percentregularchar'[^\s{\[\(&lt;A-Za-z0-9])</regex></begin>
+                <begin><regex>%r(?'percentregularchar'[^\s{\[\(&lt;A-Za-z0-9])</regex><autoend>\g&lt;percentregularchar&gt;</autoend></begin>
                 <end><regex>(?#see-insert-start-group:percentregularchar)</regex></end>
 				<state-link state="Interpolation"/>
             </state>
 
 			<!-- these work with all kinds of bracets, {[(<>)]} http://www.zenspider.com/Languages/Ruby/QuickRef.html -->
             <state id="Percent Regex {" scope="string.regex.percentage.curly">
-                <begin><regex>%r{</regex></begin>
+                <begin><regex>%r{</regex><autoend>}</autoend></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)}</regex></end>
 				<import state="Percent Strings {"/>
             </state>
 
             <state id="Percent Regex (" scope="string.regex.percentage.parentheses">
-                <begin><regex>%r\(</regex></begin>
+                <begin><regex>%r\(</regex><autoend>\)</autoend></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)\)</regex></end>
 				<import state="Percent Strings ("/>
             </state>
 
             <state id="Percent Regex &lt;" scope="string.regex.percentage.angle">
-                <begin><regex>%r&lt;</regex></begin>
+                <begin><regex>%r&lt;</regex><autoend>&gt;</autoend></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)&gt;</regex></end>
 				<import state="Percent Strings &lt;"/>
             </state>
 
             <state id="Percent Regex [" scope="string.regex.percentage.bracket">
-                <begin><regex>%r\[</regex></begin>
+                <begin><regex>%r\[</regex><autoend>\]</autoend></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)]</regex></end>
 				<import state="Percent Strings ["/>
             </state>
 
 			<!-- Symbol Coloring -->
             <state id="Percent Symbol" scope="string.symbol.percent">
-                <begin><regex>%s(?'percentsymbolchar'[^\s{\[\(&lt;A-Za-z0-9])</regex></begin>
+                <begin><regex>%s(?'percentsymbolchar'[^\s{\[\(&lt;A-Za-z0-9])</regex><autoend>\g&lt;percentsymbolchar&gt;</autoend></begin>
                 <end><regex>(?#see-insert-start-group:percentsymbolchar)</regex></end>
 				<state-link state="Interpolation"/>
             </state>
 
 			<!-- these work with all kinds of bracets, {[(<>)]} http://www.zenspider.com/Languages/Ruby/QuickRef.html -->
             <state id="Percent Symbol {" scope="string.symbol.percent.curly">
-                <begin><regex>%s{</regex></begin>
+                <begin><regex>%s{</regex><autoend>}</autoend></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)}</regex></end>
 				<import state="Percent Strings {"/>
             </state>
 
             <state id="Percent Symbol (" scope="string.symbol.percent.parentheses">
-                <begin><regex>%s\(</regex></begin>
+                <begin><regex>%s\(</regex><autoend>/)</autoend></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)\)</regex></end>
 				<import state="Percent Strings ("/>
             </state>
 
             <state id="Percent Symbol &lt;" scope="string.symbol.percent.angle">
-                <begin><regex>%s&lt;</regex></begin>
+                <begin><regex>%s&lt;</regex><autoend>&gt;</autoend></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)&gt;</regex></end>
 				<import state="Percent Strings &lt;"/>
             </state>
 
             <state id="Percent Symbol [" scope="string.symbol.percent.bracket">
-                <begin><regex>%s\[</regex></begin>
+                <begin><regex>%s\[</regex><autoend>\]</autoend></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)]</regex></end>
 				<import state="Percent Strings ["/>
             </state>
 
 			<!-- W array Coloring -->
             <state id="Percent Array" scope="string.array.percent">
-                <begin><regex>%[wW](?'percentarraychar'[^\s{\[\(&lt;A-Za-z0-9])</regex></begin>
+                <begin><regex>%[wW](?'percentarraychar'[^\s{\[\(&lt;A-Za-z0-9])</regex><autoend>\g&lt;percentarraychar&gt;</autoend></begin>
                 <end><regex>(?#see-insert-start-group:percentarraychar)</regex></end>
 				<state-link state="Interpolation"/>
             </state>
 
 			<!-- these work with all kinds of bracets, {[(<>)]} http://www.zenspider.com/Languages/Ruby/QuickRef.html -->
             <state id="Percent Array {" scope="string.array.percent.curly">
-                <begin><regex>%[wW]{</regex></begin>
+                <begin><regex>%[wW]{</regex><autoend>}</autoend></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)}</regex></end>
 				<import state="Percent Strings {"/>
             </state>
 
             <state id="Percent Array (" scope="string.array.percent.parentheses">
-                <begin><regex>%[wW]\(</regex></begin>
+                <begin><regex>%[wW]\(</regex><autoend>\)</autoend></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)\)</regex></end>
 				<import state="Percent Strings ("/>
             </state>
 
             <state id="Percent Array &lt;" scope="string.array.percent.angle">
-                <begin><regex>%[wW]&lt;</regex></begin>
+                <begin><regex>%[wW]&lt;</regex><autoend>&gt;</autoend></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)&gt;</regex></end>
 				<import state="Percent Strings &lt;"/>
             </state>
 
             <state id="Percent Array [" scope="string.array.percent.bracket">
-                <begin><regex>%[wW]\[</regex></begin>
+                <begin><regex>%[wW]\[</regex><autoend>\]</autoend></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)]</regex></end>
 				<import state="Percent Strings ["/>
             </state>
@@ -597,26 +597,26 @@
             </state>
             
             <state id="POD Comments" type="comment" scope="comment.block.documentation">
-                <begin><regex>(?:^=begin)</regex></begin>
+                <begin><regex>(?:^=begin)</regex><autoend>\n=end</autoend></begin>
                 <end><regex>^=end</regex></end>
             </state>
 
-            <state id="Block" type="block" foldable="yes" scope="meta.block">
-				<begin><regex>(?:(?:^|=)[ \t]*(?:(?:(?:if|unless|while|until)(?:[ \t]+|(?=\()))|(?:case[ \t]+\g'ruby_ident'[ \t]?)|(?:for[ \t]+\g'ruby_ident'[ \t]+in(?:[^\n\r]+do)?)|(?:case))|\b(?:(?:class(?:(?:[ \t]+(?'ruby_ident'(?'ruby_ident_part'[a-zA-Z_][a-zA-Z0-9_]*)(?:(?:\.|::)\g'ruby_ident_part')*)(?:[ \t]+&lt;[ \t]+\g'ruby_ident')?)|(?:[ \t]*&lt;&lt;)))|(?:module[ \t]+[a-zA-Z_][a-zA-Z0-9_]*)|\bdo\b(?:[ \t]*\|[^\n\r|]+\|)?|(?:def[ \t]+(?:(?'ruby_operator_methods'&amp;|\||\^|&lt;=&gt;|===|==|=~|&gt;&gt;|\?|\!|&gt;=|&gt;|&lt;=|\+@|\-@|\+|\-|\*\*|\*|/|%|&lt;&lt;|&lt;|~|\[\]|\[\]=)|\g'ruby_ident'\g'ruby_operator_methods'?))))</regex></begin>
+            <state id="Block" type="block" foldable="yes" indent="yes" scope="meta.block">
+				<begin><regex>(?:(?:^|=)[ \t]*(?:(?:(?:if|unless|while|until)(?:[ \t]+|(?=\()))|(?:case[ \t]+\g'ruby_ident'[ \t]?)|(?:for[ \t]+\g'ruby_ident'[ \t]+in(?:[^\n\r]+do)?)|(?:case))|\b(?:(?:class(?:(?:[ \t]+(?'ruby_ident'(?'ruby_ident_part'[a-zA-Z_][a-zA-Z0-9_]*)(?:(?:\.|::)\g'ruby_ident_part')*)(?:[ \t]+&lt;[ \t]+\g'ruby_ident')?)|(?:[ \t]*&lt;&lt;)))|(?:module[ \t]+[a-zA-Z_][a-zA-Z0-9_]*)|\bdo\b(?:[ \t]*\|[^\n\r|]+\|)?|(?:def[ \t]+(?:(?'ruby_operator_methods'&amp;|\||\^|&lt;=&gt;|===|==|=~|&gt;&gt;|\?|\!|&gt;=|&gt;|&lt;=|\+@|\-@|\+|\-|\*\*|\*|/|%|&lt;&lt;|&lt;|~|\[\]|\[\]=)|\g'ruby_ident'\g'ruby_operator_methods'?))))</regex><autoend>end</autoend></begin>
                 <end><regex>\bend\b</regex></end>
                 <import/>
             </state>
 
-            <state id="BeginBlocks" type="block" foldable="yes" scope="meta.block.begin">
-                <begin><regex>\bbegin\b</regex></begin>
+            <state id="BeginBlocks" type="block" foldable="yes" indent="yes" scope="meta.block.begin">
+                <begin><regex>\bbegin\b</regex><autoend>end</autoend></begin>
                 <end><regex>\bend(?:[ \t]+(?:while|if|unless|until))?\b</regex></end>
                 <import/>
             </state>
 
 			<!-- this should not match normal hash literals. most commonly used in || {} in rails -->
 
-            <state id="CurlyBlocks" type="block" foldable="yes" scope="meta.block.curly">
-                <begin><regex>{(?:[ \t]*\|[^\n\r|]+\|)?</regex></begin>
+            <state id="CurlyBlocks" type="block" foldable="yes" indent="yes" scope="meta.block.curly">
+                <begin><regex>{(?:[ \t]*\|[^\n\r|]+\|)?</regex><autoend>}</autoend></begin>
                 <end><regex>}</regex></end>
                 <import/>
             </state>
