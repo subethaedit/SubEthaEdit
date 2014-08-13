@@ -1555,141 +1555,140 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 }
 
 - (void)setDocument:(NSDocument *)document {
-    if (document == [self document]) {
+    PlainTextDocument *previouslySelectedDocument = self.document;
+    
+    if (document == previouslySelectedDocument) {
         [super setDocument:document];
         NSTabViewItem *tabViewItem = [self tabViewItemForDocument:(PlainTextDocument *)document];
         if (tabViewItem) {
             PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
             I_dialogSplitView = [tabContext dialogSplitView];
-        } 
-        return;
-    }
-	[[URLBubbleWindow sharedURLBubbleWindow] hideIfNecessary];
-    
-    BOOL isNew = NO;
-    [super setDocument:document];
-    // A document has been told that this window controller belongs to it.
-
-    // Every document sends it window controllers -setDocument:nil when it's closed. We ignore such messages for some purposes.
-    if (document) {
-        // Have we already recorded this document in our list?
-        NSArray *documents = [self documents];
-        if (![documents containsObject:document]) {
-            // No. Record it, in a KVO-compliant way.
-            NSTabViewItem *tab = [self addDocument:document];
-            [I_tabView selectTabViewItem:tab];
-            
-            isNew = [I_tabView numberOfTabViewItems] == 1 ? YES : NO;
-        } else {
-			// document is already there
-            NSTabViewItem *tabViewItem = [self tabViewItemForDocument:(PlainTextDocument *)document];
-            if (tabViewItem) {
-                PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
-                I_dialogSplitView = [tabContext dialogSplitView];
-                if ([tabContext.plainTextEditors count] > 0) {
-                    [[self window] setInitialFirstResponder:[[tabContext.plainTextEditors objectAtIndex:0] textView]];
-                }
-                [I_tabView selectTabViewItem:tabViewItem];
-            } else {
-                I_dialogSplitView = nil;
-            }
         }
     } else {
-        I_dialogSplitView = nil;
+        [[URLBubbleWindow sharedURLBubbleWindow] hideIfNecessary];
+        
+        NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+        if (previouslySelectedDocument) {
+            [center removeObserver:self
+                              name:PlainTextDocumentSessionWillChangeNotification
+                            object:previouslySelectedDocument];
+            
+            [center removeObserver:self
+                              name:PlainTextDocumentSessionDidChangeNotification
+                            object:previouslySelectedDocument];
+            
+            [center removeObserver:self
+                              name:PlainTextDocumentParticipantsDataDidChangeNotification
+                            object:previouslySelectedDocument];
+            
+            [center removeObserver:self
+                              name:TCMMMSessionParticipantsDidChangeNotification
+                            object:[previouslySelectedDocument session]];
+            
+            [center removeObserver:self
+                              name:TCMMMSessionPendingUsersDidChangeNotification
+                            object:[previouslySelectedDocument session]];
+            
+            [center removeObserver:self
+                              name:TCMMMSessionDidChangeNotification
+                            object:[previouslySelectedDocument session]];
+            
+            [center removeObserver:self
+                              name:PlainTextDocumentDidChangeDisplayNameNotification
+                            object:previouslySelectedDocument];
+            
+            [center removeObserver:self
+                              name:PlainTextDocumentDidChangeDocumentModeNotification
+                            object:previouslySelectedDocument];
+        }
+        
+        BOOL isNew = NO;
+        [super setDocument:document];
+        // A document has been told that this window controller belongs to it.
+        
+        // Every document sends it window controllers -setDocument:nil when it's closed. We ignore such messages for some purposes.
+        if (document) {
+            // Have we already recorded this document in our list?
+            NSArray *documents = [self documents];
+            if (![documents containsObject:document]) {
+                // No. Record it, in a KVO-compliant way.
+                NSTabViewItem *tab = [self addDocument:document];
+                [I_tabView selectTabViewItem:tab];
+                
+                isNew = [I_tabView numberOfTabViewItems] == 1 ? YES : NO;
+            } else {
+                // document is already there
+                NSTabViewItem *tabViewItem = [self tabViewItemForDocument:(PlainTextDocument *)document];
+                if (tabViewItem) {
+                    PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
+                    I_dialogSplitView = [tabContext dialogSplitView];
+                    if ([tabContext.plainTextEditors count] > 0) {
+                        [[self window] setInitialFirstResponder:[[tabContext.plainTextEditors objectAtIndex:0] textView]];
+                    }
+                    [I_tabView selectTabViewItem:tabViewItem];
+                } else {
+                    I_dialogSplitView = nil;
+                }
+            }
+            
+            if ([[self window] isKeyWindow]) {
+                [(PlainTextDocument *)document adjustModeMenu];
+                [[SEEDocumentController sharedInstance] updateTabMenu];
+            }
+            [self refreshDisplay];
+            
+            NSEnumerator *editors = [[self plainTextEditors] objectEnumerator];
+            PlainTextEditor *editor = nil;
+            while ((editor = [editors nextObject])) {
+                [editor updateViews];
+            }
+            
+            if (isNew) {
+                DocumentMode *mode = [(PlainTextDocument *)document documentMode];
+                [self setSizeByColumns:[[mode defaultForKey:DocumentModeColumnsPreferenceKey] intValue]
+                                  rows:[[mode defaultForKey:DocumentModeRowsPreferenceKey] intValue]];
+            }
+            
+            [center addObserver:self
+                       selector:@selector(sessionWillChange:)
+                           name:PlainTextDocumentSessionWillChangeNotification
+                         object:document];
+            [center addObserver:self
+                       selector:@selector(sessionDidChange:)
+                           name:PlainTextDocumentSessionDidChangeNotification
+                         object:document];
+            
+            [center addObserver:self
+                       selector:@selector(participantsDataDidChange:)
+                           name:PlainTextDocumentParticipantsDataDidChangeNotification
+                         object:document];
+            
+            [center addObserver:self
+                       selector:@selector(participantsDidChange:)
+                           name:TCMMMSessionParticipantsDidChangeNotification
+                         object:[(PlainTextDocument *)document session]];
+            
+            [center addObserver:self
+                       selector:@selector(pendingUsersDidChange:)
+                           name:TCMMMSessionPendingUsersDidChangeNotification
+                         object:[(PlainTextDocument *)document session]];
+            
+            [center addObserver:self
+                       selector:@selector(MMSessionDidChange:)
+                           name:TCMMMSessionDidChangeNotification
+                         object:[(PlainTextDocument *)document session]];
+            
+            [center addObserver:self
+                       selector:@selector(displayNameDidChange:)
+                           name:PlainTextDocumentDidChangeDisplayNameNotification
+                         object:document];
+            
+            [center postNotificationName:@"PlainTextWindowControllerDocumentDidChangeNotification" object:self];
+        } else {
+            I_dialogSplitView = nil;
+        }
+        [self updateWindowMinSize];
     }
-
-    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-
-    [center removeObserver:self 
-                      name:PlainTextDocumentSessionWillChangeNotification
-                    object:[self document]];
-
-    [center removeObserver:self 
-                      name:PlainTextDocumentSessionDidChangeNotification
-                    object:[self document]];
-                    
-    [center removeObserver:self 
-                      name:PlainTextDocumentParticipantsDataDidChangeNotification
-                    object:[self document]];
-
-    [center removeObserver:self 
-                      name:TCMMMSessionParticipantsDidChangeNotification
-                    object:[(PlainTextDocument *)[self document] session]];
-
-    [center removeObserver:self 
-                      name:TCMMMSessionPendingUsersDidChangeNotification 
-                    object:[(PlainTextDocument *)[self document] session]];
-
-    [center removeObserver:self 
-                      name:TCMMMSessionDidChangeNotification 
-                    object:[(PlainTextDocument *)[self document] session]];
-
-    [center removeObserver:self 
-                      name:PlainTextDocumentDidChangeDisplayNameNotification 
-                    object:[self document]];
-
-    [center removeObserver:self 
-                      name:PlainTextDocumentDidChangeDocumentModeNotification 
-                    object:[self document]];        
-                                                   
-    [super setDocument:document];
-    
-    if (document) {
-        if ([[self window] isKeyWindow]) {
-            [(PlainTextDocument *)document adjustModeMenu];
-            [[SEEDocumentController sharedInstance] updateTabMenu];
-        }
-        [self refreshDisplay];
-
-        NSEnumerator *editors = [[self plainTextEditors] objectEnumerator];
-        PlainTextEditor *editor = nil;
-        while ((editor = [editors nextObject])) {
-            [editor updateViews];
-        }
-
-        if (isNew) {
-            DocumentMode *mode = [(PlainTextDocument *)document documentMode];
-            [self setSizeByColumns:[[mode defaultForKey:DocumentModeColumnsPreferenceKey] intValue]
-                              rows:[[mode defaultForKey:DocumentModeRowsPreferenceKey] intValue]];
-        }
-
-        [center addObserver:self
-				   selector:@selector(sessionWillChange:)
-					   name:PlainTextDocumentSessionWillChangeNotification
-					 object:[self document]];
-        [center addObserver:self
-				   selector:@selector(sessionDidChange:)
-					   name:PlainTextDocumentSessionDidChangeNotification
-					 object:[self document]];
-
-        [center addObserver:self
-				   selector:@selector(participantsDataDidChange:)
-					   name:PlainTextDocumentParticipantsDataDidChangeNotification
-					 object:[self document]];
-
-        [center addObserver:self
-				   selector:@selector(participantsDidChange:)
-					   name:TCMMMSessionParticipantsDidChangeNotification
-					 object:[(PlainTextDocument *)[self document] session]];
-
-        [center addObserver:self
-				   selector:@selector(pendingUsersDidChange:)
-					   name:TCMMMSessionPendingUsersDidChangeNotification
-					 object:[(PlainTextDocument *)[self document] session]];
-
-        [center addObserver:self
-				   selector:@selector(MMSessionDidChange:)
-					   name:TCMMMSessionDidChangeNotification
-					 object:[(PlainTextDocument *)[self document] session]];
-
-        [center addObserver:self
-				   selector:@selector(displayNameDidChange:)
-					   name:PlainTextDocumentDidChangeDisplayNameNotification
-					 object:[self document]];
-
-        [center postNotificationName:@"PlainTextWindowControllerDocumentDidChangeNotification" object:self];
-    }
-	[self updateWindowMinSize];
 }
 
 
