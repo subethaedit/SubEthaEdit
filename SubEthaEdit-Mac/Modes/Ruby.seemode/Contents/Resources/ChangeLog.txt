@@ -4,6 +4,9 @@ jeff@paploo.net
 for the improvements over the original Mode!
 ##############################################
 
+Changes with Version 4.0.2
+	*) added autoends to make @Close current Tag/Block" work
+
 Changes with Version 4.0.1
 	*) made indent work
 
