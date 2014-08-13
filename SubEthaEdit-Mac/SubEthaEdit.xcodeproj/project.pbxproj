@@ -183,6 +183,7 @@
 		4C4EFE47181AA3B00072176F /* HockeySDK.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 4C4EFE44181AA3400072176F /* HockeySDK.framework */; };
 		4C4FEA6C192A116100A2F4EC /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C4FEA6B192A116100A2F4EC /* libcrypto.a */; };
 		4C4FEABF192A25AF00A2F4EC /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C4FEABE192A25AF00A2F4EC /* IOKit.framework */; };
+		4C57BD3A199BB11D00260983 /* InvertedIBeamBig.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 4C57BD39199BB11D00260983 /* InvertedIBeamBig.tiff */; };
 		4C5EC97E1897F6FC0094D850 /* SEEParticipantsOverlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5EC97C1897F6FC0094D850 /* SEEParticipantsOverlayViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4C5EC97F1897F6FC0094D850 /* SEEParticipantsOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C5EC97D1897F6FC0094D850 /* SEEParticipantsOverlay.xib */; };
 		4C63F8EE18C4930A00A588FD /* SEERecentDocumentListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C63F8ED18C4930A00A588FD /* SEERecentDocumentListItem.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
@@ -1011,6 +1012,7 @@
 		4C4FEABD192A130F00A2F4EC /* x509v3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = x509v3.h; sourceTree = "<group>"; };
 		4C4FEABE192A25AF00A2F4EC /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		4C4FEAC0192A314000A2F4EC /* SEEMacAppStoreReceiptValidation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEEMacAppStoreReceiptValidation.h; sourceTree = "<group>"; };
+		4C57BD39199BB11D00260983 /* InvertedIBeamBig.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = InvertedIBeamBig.tiff; path = artwork/InvertedIBeamBig.tiff; sourceTree = "<group>"; };
 		4C5EA4E7191CF254005C28FD /* CocoaStandard.sdef */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = CocoaStandard.sdef; path = /System/Library/ScriptingDefinitions/CocoaStandard.sdef; sourceTree = "<absolute>"; };
 		4C5EC97B1897F6FC0094D850 /* SEEParticipantsOverlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEParticipantsOverlayViewController.h; sourceTree = "<group>"; };
 		4C5EC97C1897F6FC0094D850 /* SEEParticipantsOverlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEParticipantsOverlayViewController.m; sourceTree = "<group>"; };
@@ -1570,6 +1572,7 @@
 				14289070095743F200D14688 /* InternetResume.tiff */,
 				14289071095743F200D14688 /* InternetStop.tiff */,
 				5EF31E420A7E437C00D777F5 /* InvertedIBeam.tiff */,
+				4C57BD39199BB11D00260983 /* InvertedIBeamBig.tiff */,
 				14289072095743F200D14688 /* LibraryFolderIcon.tiff */,
 				F25A0719191A6A9100F07557 /* NamedLogo2.png */,
 				F25A071A191A6A9100F07557 /* NamedLogo2@2x.png */,
@@ -3013,6 +3016,7 @@
 				F2D3E531189941F50096425B /* AW ActiveTabLeftCap.png in Resources */,
 				F2061D590B4C13AF00E6631F /* SmallGrowBoxRight3.tiff in Resources */,
 				F25A071C191A6A9100F07557 /* NamedLogo2@2x.png in Resources */,
+				4C57BD3A199BB11D00260983 /* InvertedIBeamBig.tiff in Resources */,
 				F2D3E548189941F50096425B /* AW Pulled ActiveTabRightCap@2x.png in Resources */,
 				F22024DC191D0BFE0098982C /* ParticipantReadOnlyTurnOnHover@2x.png in Resources */,
 				F2880D231923BA7100C6370C /* BottomBarSharingIconGroupTurnOffNormal.png in Resources */,
