@@ -202,6 +202,7 @@
 		4C6BDC6618898E1E0088CBFC /* ScriptMenu.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC6518898E1E0088CBFC /* ScriptMenu.pdf */; };
 		4C6BDC6918898F850088CBFC /* ScriptMenuItemIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC6718898F850088CBFC /* ScriptMenuItemIcon.png */; };
 		4C6BDC6A18898F850088CBFC /* ScriptMenuItemIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC6818898F850088CBFC /* ScriptMenuItemIcon@2x.png */; };
+		4C714D9719922B3B00C8B128 /* SEEApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C714D9619922B3B00C8B128 /* SEEApplication.m */; };
 		4C71D0C318BF7C2900EA66FA /* SEEConnectDocumentListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C71D0C218BF7C2900EA66FA /* SEEConnectDocumentListItem.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4C71D0C618BF8B2200EA66FA /* SEEOpenOtherDocumentListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C71D0C518BF8B2200EA66FA /* SEEOpenOtherDocumentListItem.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4C71D0C918BF997500EA66FA /* SEENewDocumentListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C71D0C818BF997500EA66FA /* SEENewDocumentListItem.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
@@ -1032,6 +1033,8 @@
 		4C6BDC6518898E1E0088CBFC /* ScriptMenu.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = ScriptMenu.pdf; path = artwork/ScriptMenu.pdf; sourceTree = "<group>"; };
 		4C6BDC6718898F850088CBFC /* ScriptMenuItemIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ScriptMenuItemIcon.png; path = artwork/ScriptMenuItemIcon.png; sourceTree = "<group>"; };
 		4C6BDC6818898F850088CBFC /* ScriptMenuItemIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ScriptMenuItemIcon@2x.png"; path = "artwork/ScriptMenuItemIcon@2x.png"; sourceTree = "<group>"; };
+		4C714D9519922B3B00C8B128 /* SEEApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEApplication.h; sourceTree = "<group>"; };
+		4C714D9619922B3B00C8B128 /* SEEApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEApplication.m; sourceTree = "<group>"; };
 		4C71D0C018BF796500EA66FA /* SEEDocumentListItemProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEEDocumentListItemProtocol.h; sourceTree = "<group>"; };
 		4C71D0C118BF7C2900EA66FA /* SEEConnectDocumentListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEConnectDocumentListItem.h; sourceTree = "<group>"; };
 		4C71D0C218BF7C2900EA66FA /* SEEConnectDocumentListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEConnectDocumentListItem.m; sourceTree = "<group>"; };
@@ -2040,6 +2043,8 @@
 		2A37F4ABFDCFA73011CA2CEA /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				4C714D9519922B3B00C8B128 /* SEEApplication.h */,
+				4C714D9619922B3B00C8B128 /* SEEApplication.m */,
 				142893DC09575A3000D14688 /* AboutPanelController.h */,
 				142893DD09575A3000D14688 /* AboutPanelController.m */,
 				142893DE09575A3000D14688 /* AppController.h */,
@@ -3357,6 +3362,7 @@
 				F2FB96E30CBE68ED000B85AE /* UKXattrMetadataStore.m in Sources */,
 				F24280C60D16CFCC0083AE21 /* GenericSASLProfile.m in Sources */,
 				F2DCD8F20EE432F900F2854F /* FontForwardingTextField.m in Sources */,
+				4C714D9719922B3B00C8B128 /* SEEApplication.m in Sources */,
 				F281D34E0F38756100AD7DE1 /* FoldableTextStorage.m in Sources */,
 				F281D3600F38758600AD7DE1 /* AbstractFoldingTextStorage.m in Sources */,
 				F29E6DDB18E5CAFA00F84231 /* TCMCALayerAdditions.m in Sources */,

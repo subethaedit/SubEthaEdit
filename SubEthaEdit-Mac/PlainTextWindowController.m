@@ -1445,7 +1445,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
                 [document canCloseDocumentWithDelegate:self
                                    shouldCloseSelector:@selector(reviewedDocument:shouldClose:contextInfo:)
                                            contextInfo:@selector(reviewChangesAndQuitEnumeration:)];
-                return;
+				return;
             }
         }
         
@@ -1705,14 +1705,14 @@ static NSPoint S_cascadePoint = {0.0,0.0};
         NSTabViewItem *tabViewItem = [self tabViewItemForDocument:(PlainTextDocument *)I_documentBeingClosed];
         if (tabViewItem) {
 			contextToClose = [(PlainTextWindowControllerTabContext *)tabViewItem.identifier retain];
-			[I_tabView removeTabViewItem:tabViewItem];
+			[I_tabView removeTabViewItem:tabViewItem]; // TODO Remove for terminate???
 		}
 
         id document = nil;
         BOOL keepCurrentDocument = ![[self document] isEqual:I_documentBeingClosed];
         if (keepCurrentDocument) document = [self document];
 
-        [I_documentBeingClosed removeWindowController:self];
+        [I_documentBeingClosed removeWindowController:self]; // ??? removes restore state?
 
         // There are other documents open. Just remove the document being closed from our list.
         NSUInteger documentIndex = [documents indexOfObject:I_documentBeingClosed];
