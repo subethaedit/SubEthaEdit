@@ -1813,7 +1813,9 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     [self TCM_sendODBCloseEvent];
 
     // Do the regular NSDocument thing.
-    [super close];
+    if (!I_flags.isPreparedForTermination) {
+        [super close];
+    }
 }
 
 
