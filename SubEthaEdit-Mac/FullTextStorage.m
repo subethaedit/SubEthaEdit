@@ -848,6 +848,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 
 - (BOOL)nextLineNeedsIndentation:(NSRange)aLineRange {
 	// check from the end to the range to the beginning if we find a folding start. if so return yes. otherwise return no;
+    // if we find a folding start we also need to check if that state wants indentation - gnaaa
 	BOOL result = NO;
 	NSRange effectiveRange = NSMakeRange(NSMaxRange(aLineRange) > 0 ? NSMaxRange(aLineRange) - 1 : 0,0);
 	NSString *foldingDelimiter = nil;
@@ -856,7 +857,15 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 		foldingDelimiter = [self attribute:kSyntaxHighlightingFoldDelimiterName atIndex:effectiveRange.location longestEffectiveRange:&effectiveRange inRange:aLineRange];
 		if (foldingDelimiter) {
 			if ([foldingDelimiter isEqualToString:kSyntaxHighlightingStateDelimiterStartValue]) {
-				result = YES;
+                // does this state really indent?
+                NSArray *highlightingStack = [self attribute:kSyntaxHighlightingStackName atIndex:effectiveRange.location longestEffectiveRange:NULL inRange:effectiveRange];
+                if (highlightingStack) {
+                    NSInteger indentLevel = [[highlightingStack.lastObject objectForKey:kSyntaxHighlightingIndentLevelName] intValue];
+                    if (highlightingStack.count >= 2) {
+                        indentLevel = indentLevel - [[highlightingStack[highlightingStack.count-2] objectForKey:kSyntaxHighlightingIndentLevelName] intValue];
+                    }
+                    result = indentLevel>0;
+                }
 			}
 			break;
 		}
@@ -877,8 +886,26 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 		
 		// extract folding depth
 		NSNumber *thisIndentLevel = [self attribute:kSyntaxHighlightingIndentLevelName atIndex:effectiveRange.location effectiveRange:NULL];
-		if (thisIndentLevel) {			
-			maxIndentLevel = MIN(maxIndentLevel, [thisIndentLevel unsignedIntegerValue] - (foldingDelimiter != nil ? 1 : 0));
+		if (thisIndentLevel) {
+            NSUInteger indexLevelToCheck = [thisIndentLevel unsignedIntegerValue];
+            // does this folding delimiter really indent as much as he wants to?
+            if (foldingDelimiter) {
+                // does this state really indent?
+                NSArray *highlightingStack = [self attribute:kSyntaxHighlightingStackName atIndex:effectiveRange.location longestEffectiveRange:NULL inRange:effectiveRange];
+                if (highlightingStack) {
+                    NSInteger indentLevel = [[highlightingStack.lastObject objectForKey:kSyntaxHighlightingIndentLevelName] intValue];
+                    if (highlightingStack.count >= 2) {
+                        indentLevel = indentLevel - [[highlightingStack[highlightingStack.count-2] objectForKey:kSyntaxHighlightingIndentLevelName] intValue];
+                    }
+                    // only remove the indent if we as a state indent which is determined by checking the stack before
+                    if (indentLevel>0) {
+                        indexLevelToCheck = indexLevelToCheck - 1;
+                    }
+                }
+                
+            }
+            
+			maxIndentLevel = MIN(maxIndentLevel, indexLevelToCheck);
 		}
 		effectiveRange.location = NSMaxRange(effectiveRange);
 	}

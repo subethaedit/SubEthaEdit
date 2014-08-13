@@ -230,8 +230,10 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 					}
 				}
 				
-				
-				NSNumber *indentLevel = [subState objectForKey:@"indent"]?[NSNumber numberWithInt:[[[stack lastObject] objectForKey:kSyntaxHighlightingIndentLevelName] intValue]+1]:[[stack lastObject] objectForKey:kSyntaxHighlightingIndentLevelName];
+				NSNumber *indentLevel = [[stack lastObject] objectForKey:kSyntaxHighlightingIndentLevelName];
+                if ([[subState objectForKey:@"indent"] isEqualToString:@"yes"]) {
+                    indentLevel = @(indentLevel.intValue + 1);
+                }
 				
 				if (combinedDelimiterString) {
 					[stack addObject:[NSDictionary dictionaryWithObjectsAndKeys:[subState objectForKey:@"id"], @"state", indentLevel, kSyntaxHighlightingIndentLevelName, combinedDelimiterString, @"combinedDelimiterString", nil]];
