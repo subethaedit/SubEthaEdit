@@ -24,6 +24,21 @@
 				<import/>
 			</state>
 
+            <state id="Preprocessor" scope="language.preprocessor">
+                <begin><regex>#(?:if|elseif|endif)</regex></begin>
+                <end><regex>(?&lt;![\\])[\n\r]</regex></end>
+                <state-link state="Comment"/>
+                <state id="String in Preprocessor" type="string" foldable="no" scope="string.double.preprocessor">
+                    <begin><regex>"</regex></begin>
+                    <end><regex>((?&lt;!\\)(\\\\)*)"</regex></end>
+                </state>
+                <state id="SingleComment in Preprocessor" type="comment" scope="comment.line.double-slash">
+                    <begin><regex>//</regex></begin>
+                    <end><regex>.(?=[\n\r])</regex></end>
+                    <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+                </state>
+            </state>
+
            <keywords id="Types" useforautocomplete="yes" scope="keyword.type">
 				<string>Type</string>
 				<string>Protocol</string>
@@ -99,6 +114,10 @@
 			</keywords>
 
 			<keywords id="Annotation Keywords" scope="keyword" casesensitive="yes" useforautocomplete="yes">
+				<string>public</string>
+				<string>private</string>
+				<string>internal</string>
+				<string>final</string>
 				<string>mutating</string>
 				<string>nonmutating</string>
 				<string>override</string>
@@ -113,19 +132,16 @@
                 <string>infix</string>
                 <string>convenience</string>
                 <string>inout</string>
-                <string>@assignment</string>
-                <string>@postfix</string>
-                <string>@auto_closure</string>
-                <string>@class_protocol</string>
+                <string>@autoclosure</string>
                 <string>@exported</string>
                 <string>@final</string>
                 <string>@lazy</string>
                 <string>@noreturn</string>
                 <string>@NSCopying</string>
                 <string>@NSManaged</string>
-                <string>@objc</string>
                 <string>@optional</string>
-                <string>@required</string>
+                <string>required</string>
+                <string>@objc</string>
                 <string>@IBAction</string>
                 <string>@IBDesignable</string>
                 <string>@IBInspectable</string>
@@ -192,11 +208,12 @@
 				<regex>(?&lt;=[\(,])\s*([^-*+#:.,\(&lt;&gt;{\[\]}\)\s]+)(?:\s*(?:[^-*+#:.,\(&lt;&gt;{\[\]}\)\s]+))?\s*:</regex>
 			</keywords>
 
-			<state id="DoxyGen Comment" type="comment" scope="comment.block.documentation">
+			<state id="Documentation Comment" type="comment" scope="comment.block.documentation">
 				<begin><regex>/\*[\*\!]</regex><autoend>\*/</autoend></begin>
 				<end><regex>\*/</regex></end>
-				<keywords id="DoxyGen Tags" useforautocomplete="no" scope="comment.block.documentation.tag">
-					<regex>(?&lt;=[^\w\d]|^)([@\\]\w+)</regex>
+				<keywords id="Comment Tags" useforautocomplete="no" scope="comment.block.documentation.tag">
+					<string>:param:</string>
+					<string>:returns:</string>
 				</keywords>
 				<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 				<state-link state="Comment" />
@@ -218,6 +235,9 @@
 			<state id="String" type="string" foldable="no" scope="string.double">
 				<begin><regex>"</regex><autoend>"</autoend></begin>
 				<end><regex>((?&lt;!\\)(\\\\)*)"</regex></end>
+				<keywords id="unicode literals" useforautocomplete="no" scope="language.constant.numeric.character">
+					<regex>(\\u\{\h{2,8}\})</regex>
+				</keywords>
 				<state id="Interpolation" scope="meta.block.interpolation" indent="no">
 					<begin><regex>\\\(</regex><autoend>\)</autoend></begin>
 					<end><regex>\)</regex></end>
@@ -13733,7 +13753,6 @@
 				<string>StringLiteralConvertible</string>
 				<string>UnicodeCodec</string>
 				<string>UnsignedInteger</string>
-
 			</keywords>
 
 		</default>

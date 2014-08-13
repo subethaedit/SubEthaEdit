@@ -1,3 +1,6 @@
+Changes with Version 1.0.3 (SEE 4.0.3)
+	*) updated mode to the most recent spec of swift
+
 Changes with Version 1.0.2 (SEE 4.0.2)
 	*) Removed temporary compatibility fixes for 4.0.1
 
