@@ -21,6 +21,24 @@
 
 @implementation FindAllController
 
++ (NSParagraphStyle *)listParagraphStyle {
+    static NSParagraphStyle *result = nil;
+    if (!result) {
+        NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
+        NSMutableArray *tabStops = [NSMutableArray array];
+        double distance = 10;
+        for (NSInteger index = 1; index <= 100; index++) {
+            NSTextTab *tab = [[NSTextTab alloc] initWithTextAlignment:NSLeftTextAlignment location:index * distance options:nil];
+            [tabStops addObject:tab];
+        }
+        [paragraphStyle setTabStops:tabStops];
+        
+        result = paragraphStyle;
+    }
+    
+    return result;
+}
+
 - (instancetype)initWithFindAndReplaceContext:(SEEFindAndReplaceContext *)aFindAndReplaceContext {
 
     self = [super initWithWindowNibName:@"FindAll"];
@@ -92,6 +110,7 @@ NSLocalizedStringWithDefaultValue(@"SELECTION_SCOPE_DOCUMENT", nil,[NSBundle mai
 
             [aString addAttribute:NSBackgroundColorAttributeName value:[[NSColor yellowColor] highlightWithLevel:0.5] range:NSMakeRange(matchRange.location - lineRange.location, matchRange.length)];
             [aString addAttribute:NSForegroundColorAttributeName value:[NSColor blackColor] range:NSMakeRange(matchRange.location - lineRange.location, matchRange.length)];
+            [aString addAttribute:NSParagraphStyleAttributeName value:[self.class listParagraphStyle] range:[aString TCM_fullLengthRange]];
             
             int subGroup;
             for(subGroup=1;subGroup<6;subGroup++) {
