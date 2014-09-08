@@ -1738,7 +1738,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     
     if (count > 1 && count == found) {
         if ([delegate respondsToSelector:shouldCloseSelector]) {
-            ((void (*)(id, SEL, id, BOOL, void (*)))objc_msgSend)(delegate, shouldCloseSelector, self, NO, contextInfo);
+            ((void (*)(id, SEL, id, BOOL, void (*)))objc_msgSend)(delegate, shouldCloseSelector, self, YES, contextInfo);
         }
     } else {
         [super canCloseDocumentWithDelegate:delegate shouldCloseSelector:shouldCloseSelector contextInfo:contextInfo];
