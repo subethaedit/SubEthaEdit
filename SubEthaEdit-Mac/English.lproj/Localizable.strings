@@ -830,8 +830,8 @@
 "FIND_REPLACE_PANEL_MENU_ESCAPE_SLASH" = "Escape Character: \\";
 "FIND_REPLACE_PANEL_MENU_ESCAPE_YEN" = "Escape Character: ¥";
 "FIND_REPLACE_PANEL_MENU_CAPTURE_GROUPS" = "Capture unnamed groups";
-"FIND_REPLACE_PANEL_MENU_LINE_CONTEXT" = "Line context";
-"FIND_REPLACE_PANEL_MENU_MULTILINE" = "Multiline";
+"FIND_REPLACE_PANEL_MENU_LINE_CONTEXT" = "'^' ➞ '\\A', '$' ➞ '\\Z'";
+"FIND_REPLACE_PANEL_MENU_MULTILINE" = "'.' matches line breaks";
 "FIND_REPLACE_PANEL_MENU_ONLY_LONGEST" = "Find only longest match";
 "FIND_REPLACE_PANEL_MENU_IGNORE_EMPTY" = "Ignore empty matches";
 "FIND_REPLACE_PANEL_MENU_OPEN_HELP" = "Open Regular Expression Help";
