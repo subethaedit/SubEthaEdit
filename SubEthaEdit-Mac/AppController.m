@@ -186,7 +186,7 @@ static AppController *sharedInstance = nil;
 #else
 #ifdef FULL
 			// de.codingmonkeys.SubEthaEdit.MacFULL
-			[[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"8dde31b8caac0ede7baec73254043472" delegate:self]
+			[[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"8dde31b8caac0ede7baec73254043472" delegate:self];
 #else
 			// de.codingmonkeys.SubEthaEdit.Mac
             [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"893da3588e5f78e26b48286f3b15e8d7" delegate:self];
