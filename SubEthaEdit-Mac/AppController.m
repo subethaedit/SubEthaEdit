@@ -937,7 +937,7 @@ static AppController *sharedInstance = nil;
     
 #pragma mark - BITHockeyManagerDelegate
 
-- (void) showMainApplicationWindowForCrashManager:(BITCrashManager *)crashManager
+- (void) crashManagerDidFinishSendingCrashReport:(BITCrashManager *)crashManager
 {
 	if (crashManager.didCrashInLastSession) {
 		if ([NSApp windows].count < 1) {
