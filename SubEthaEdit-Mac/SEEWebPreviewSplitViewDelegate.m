@@ -49,47 +49,50 @@
 }
 
 - (void)splitView:(NSSplitView *)splitView resizeSubviewsWithOldSize:(NSSize)oldSize {
-	CGFloat dividerThickness = splitView.dividerThickness;
-
-	NSSize newSplitViewSize = splitView.bounds.size;
-
-	NSView *firstSubview = splitView.subviews[0];
-	NSView *secondSubview = splitView.subviews[1];
-
-	NSRect firstSubviewFrame = firstSubview.frame;
-	NSRect secondSubviewFrame = secondSubview.frame;
-
-	// pre-resize the frames (sometimes they come in old sizes)
-	firstSubviewFrame.size.height = newSplitViewSize.height;
-	secondSubviewFrame.size.height = newSplitViewSize.height;
-	
-	CGFloat ratio = firstSubviewFrame.size.width / (firstSubviewFrame.size.width + secondSubviewFrame.size.width + dividerThickness);
-	firstSubviewFrame.size.width = floor(ratio * newSplitViewSize.width);
-	secondSubviewFrame.size.width = newSplitViewSize.width - dividerThickness - firstSubviewFrame.size.width;
-	
-	// calculate adjusted subview frames
-	if (newSplitViewSize.width >= (SEEMinWebPreviewWidth + dividerThickness + SEEMinEditorWidth)) {
-		if (NSWidth(secondSubviewFrame) < SEEMinEditorWidth) {
-			secondSubviewFrame.size.width = SEEMinEditorWidth;
-			firstSubviewFrame.size.width = newSplitViewSize.width - SEEMinEditorWidth - dividerThickness;
-			secondSubviewFrame.origin.x = firstSubviewFrame.size.width + dividerThickness;
-
-			firstSubview.frame = firstSubviewFrame;
-			secondSubview.frame = secondSubviewFrame;
-		} else if (NSWidth(firstSubviewFrame) < SEEMinWebPreviewWidth) {
-			firstSubviewFrame.size.width = SEEMinWebPreviewWidth;
-			secondSubviewFrame.size.width = newSplitViewSize.width - SEEMinWebPreviewWidth - dividerThickness;
-			secondSubviewFrame.origin.x = firstSubviewFrame.size.width + dividerThickness;
-
-			firstSubview.frame = firstSubviewFrame;
-			secondSubview.frame = secondSubviewFrame;
+	NSArray *subviews = splitView.subviews;
+	if (subviews.count >= 2) {
+		CGFloat dividerThickness = splitView.dividerThickness;
+		
+		NSSize newSplitViewSize = splitView.bounds.size;
+		
+		NSView *firstSubview = subviews[0];
+		NSView *secondSubview = subviews[1];
+		
+		NSRect firstSubviewFrame = firstSubview.frame;
+		NSRect secondSubviewFrame = secondSubview.frame;
+		
+		// pre-resize the frames (sometimes they come in old sizes)
+		firstSubviewFrame.size.height = newSplitViewSize.height;
+		secondSubviewFrame.size.height = newSplitViewSize.height;
+		
+		CGFloat ratio = firstSubviewFrame.size.width / (firstSubviewFrame.size.width + secondSubviewFrame.size.width + dividerThickness);
+		firstSubviewFrame.size.width = floor(ratio * newSplitViewSize.width);
+		secondSubviewFrame.size.width = newSplitViewSize.width - dividerThickness - firstSubviewFrame.size.width;
+		
+		// calculate adjusted subview frames
+		if (newSplitViewSize.width >= (SEEMinWebPreviewWidth + dividerThickness + SEEMinEditorWidth)) {
+			if (NSWidth(secondSubviewFrame) < SEEMinEditorWidth) {
+				secondSubviewFrame.size.width = SEEMinEditorWidth;
+				firstSubviewFrame.size.width = newSplitViewSize.width - SEEMinEditorWidth - dividerThickness;
+				secondSubviewFrame.origin.x = firstSubviewFrame.size.width + dividerThickness;
+				
+				firstSubview.frame = firstSubviewFrame;
+				secondSubview.frame = secondSubviewFrame;
+			} else if (NSWidth(firstSubviewFrame) < SEEMinWebPreviewWidth) {
+				firstSubviewFrame.size.width = SEEMinWebPreviewWidth;
+				secondSubviewFrame.size.width = newSplitViewSize.width - SEEMinWebPreviewWidth - dividerThickness;
+				secondSubviewFrame.origin.x = firstSubviewFrame.size.width + dividerThickness;
+				
+				firstSubview.frame = firstSubviewFrame;
+				secondSubview.frame = secondSubviewFrame;
+			}
+			[splitView adjustSubviews];
+			
+//			NSLog(@"\nold : %@\nnew : %@\nfirst : %@\nsecond : %@\n", NSStringFromSize(newSplitViewSize), NSStringFromSize(oldSize),NSStringFromRect(firstSubviewFrame), NSStringFromRect(secondSubviewFrame));
+		} else {
+			NSAssert(NO, @"%@ resized below minimum size.", splitView);
+			[splitView adjustSubviews];
 		}
-		[splitView adjustSubviews];
-
-//		NSLog(@"\nold : %@\nnew : %@\nfirst : %@\nsecond : %@\n", NSStringFromSize(newSplitViewSize), NSStringFromSize(oldSize),NSStringFromRect(firstSubviewFrame), NSStringFromRect(secondSubviewFrame));
-	} else {
-		NSAssert(NO, @"%@ resized below minimum size.", splitView);
-		[splitView adjustSubviews];
 	}
 }
 
