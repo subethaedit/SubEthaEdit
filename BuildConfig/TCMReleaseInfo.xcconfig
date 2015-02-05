@@ -10,14 +10,18 @@
 
 TCM_APP_COPYRIGHT = © 2003-2015 TheCodingMonkeys. All rights reserved.
 
-// Set TCM_APP_IDENTIFER_SUFFIX to "Dev" or ""
-TCM_APP_IDENTIFER_SUFFIX = Dev
-// Set TCM_APP_IDENTIFER_SUFFIX to "BETA", "FULL" or ""
-TCM_APP_STYLE = BETA
+// Set TCM_APP_IDENTIFER_SUFFIX to "Dev" or "" ("" for release)
+TCM_APP_IDENTIFER_SUFFIX =
+
+// Set TCM_APP_IDENTIFER_SUFFIX to "BETA", "FULL" or "" ("" or "FULL" for release)
+TCM_APP_STYLE = FULL
 
 TCM_APP_BETA_EXPIRE_DATE = "2015-10-30 23:59:59 +0100"
 TCM_APP_VERSION = 4.0.4
-TCM_APP_VERSION_SUFFIX = b1
+
+// remove app version suffix for release versions
+TCM_APP_VERSION_SUFFIX =
+
 TCM_APP_GET_INFO = SubEthaEdit ${TCM_APP_VERSION}, ${TCM_APP_COPYRIGHT}
 
 TCM_CLT_VERSION = 2.0
