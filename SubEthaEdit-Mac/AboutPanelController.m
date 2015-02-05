@@ -15,6 +15,14 @@
 #error ARC must be enabled!
 #endif
 
+@interface AboutPanelController ()
+@property (nonatomic, strong) IBOutlet NSImageView *O_appIconView;
+@property (nonatomic, strong) IBOutlet NSTextField *O_legalTextField;
+@property (nonatomic, strong) IBOutlet NSTextField *O_versionField;
+@property (nonatomic, strong) IBOutlet NSTextField *O_ogreVersionField;
+@property (nonatomic, strong) IBOutlet NSTextField *O_licenseTypeField;
+@end
+
 @implementation AboutPanelController
 
 - (id)init {
@@ -32,7 +40,38 @@
     [self.O_versionField setObjectValue:versionString];
     [self.O_ogreVersionField setObjectValue:ogreVersion];
     [self.O_legalTextField setObjectValue:[mainBundle objectForInfoDictionaryKey:@"NSHumanReadableCopyright"]];
+    
+    NSString *licenseType = nil;
+#ifdef BETA
+#ifdef BETA_EXPIRE_DATE
+#define STRINGIZE(x) #x
+#define STRINGIZE2(x) STRINGIZE(x)
+#define BETA_EXPIRE_DATE_LITERAL @ STRINGIZE2(BETA_EXPIRE_DATE)
+    
+    NSString *expireDateString = BETA_EXPIRE_DATE_LITERAL;
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    NSLocale *enUSPOSIXLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
+    [dateFormatter setLocale:enUSPOSIXLocale];
+    [dateFormatter setDateFormat:@"yyyy'-'MM'-'dd' 'HH':'mm':'ss' 'xx"];
+    
+    NSDate *expireDate = [dateFormatter dateFromString:expireDateString];
+    licenseType = [NSString stringWithFormat:@"Beta - %@", expireDate];
+#else // !BETA_EXPIRE_DATE
+    licenseType = @"Beta";
+#endif // BETA_EXPIRE_DATE
+#else // ! BETA
+#ifdef MAC_APP_STORE_RECEIPT_VALIDATION
+    licenseType = @"AppStore Version";
+#else //! MAC_APP_STORE_RECEIPT_VALIDATION
+    licenseType = @"Volume Licensed";
+#endif // MAC_APP_STORE_RECEIPT_VALIDATION
+#endif // BETA
 
+    if (licenseType) {
+        self.O_licenseTypeField.stringValue = licenseType;
+    }
+    
     [[self window] center];
 }
 
