@@ -181,9 +181,16 @@ static AppController *sharedInstance = nil;
         self = [super init];
         if (self) {
 #if BETA
+			// de.codingmonkeys.SubEthaEdit.MacBETA
             [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"f6d8d69c0803df397e1a47872ffc2348" delegate:self];
 #else
+#ifdef FULL
+			// de.codingmonkeys.SubEthaEdit.MacFULL
+			[[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"8dde31b8caac0ede7baec73254043472" delegate:self]
+#else
+			// de.codingmonkeys.SubEthaEdit.Mac
             [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"893da3588e5f78e26b48286f3b15e8d7" delegate:self];
+#endif
 #endif
         }
         return self;
