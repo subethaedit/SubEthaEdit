@@ -439,9 +439,13 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 		BOOL shouldOpenUntitledFile = [defaults boolForKey:OpenUntitledDocumentOnStartupPreferenceKey];
 		BOOL shouldOpenDocumentHub = [defaults boolForKey:OpenDocumentHubOnStartupPreferenceKey];
-		
-		if (shouldOpenDocumentHub && shouldOpenUntitledFile) {
-			self.documentListWindow.restorable = NO;
+
+		// update restorable state of document hud on last document window close.
+		NSWindow *documentListWindow = self.documentListWindow;
+		if (shouldOpenDocumentHub || shouldOpenUntitledFile) {
+			documentListWindow.restorable = NO;
+		} else {
+			documentListWindow.restorable = YES;
 		}
 	}
 }
