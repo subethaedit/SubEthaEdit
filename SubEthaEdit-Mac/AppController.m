@@ -475,13 +475,38 @@ static AppController *sharedInstance = nil;
 }
 
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)theApplication {
-    BOOL result = [[[NSUserDefaults standardUserDefaults] objectForKey:OpenDocumentOnStartPreferenceKey] boolValue];
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	
+	BOOL result = NO;
+	BOOL shouldOpenUntitledFile = [defaults boolForKey:OpenUntitledDocumentOnStartupPreferenceKey];
+	BOOL shouldOpenDocumentHub = [defaults boolForKey:OpenDocumentHubOnStartupPreferenceKey];
+	
+	if (shouldOpenDocumentHub || shouldOpenUntitledFile) {
+		result = YES;
+	}
+	
     return result;
 }
 
 - (BOOL)applicationOpenUntitledFile:(NSApplication *)sender {
-	[[SEEDocumentController sharedDocumentController] showDocumentListWindow:sender];
-	return YES; // Avoids Untitled Document path of DocumentController
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	
+	BOOL result = YES; // Avoids Untitled Document path of DocumentController
+	BOOL shouldOpenUntitledFile = [defaults boolForKey:OpenUntitledDocumentOnStartupPreferenceKey];
+	BOOL shouldOpenDocumentHub = [defaults boolForKey:OpenDocumentHubOnStartupPreferenceKey];
+	if (shouldOpenDocumentHub) {
+		if (shouldOpenUntitledFile) {
+			[[SEEDocumentController sharedDocumentController] showDocumentListWindow:self]; // avoids closing of document hub untitled file window opens
+		} else {
+			[[SEEDocumentController sharedDocumentController] showDocumentListWindow:sender];
+		}
+	}
+
+	if (shouldOpenUntitledFile) {
+		result = NO;
+	}
+	
+	return result;
 }
 
 - (NSMenu *)applicationDockMenu:(NSApplication *)sender {

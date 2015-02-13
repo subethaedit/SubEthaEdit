@@ -18,7 +18,6 @@ extern NSString * const SelectionSaturationPreferenceKey;
 extern NSString * const ChangesSaturationPreferenceKey;
 extern NSString * const HighlightChangesPreferenceKey;
 extern NSString * const HighlightChangesAlonePreferenceKey;
-extern NSString * const OpenDocumentOnStartPreferenceKey;
 extern NSString * const SelectedMyColorPreferenceKey;
 extern NSString * const ModeForNewDocumentsPreferenceKey;
 extern NSString * const AdditionalShownPathComponentsPreferenceKey;
@@ -31,6 +30,11 @@ extern NSString * const MyNamesPreferenceKey;
 extern NSString * const MyAIMsPreferenceKey;
 extern NSString * const MyEmailsPreferenceKey;
 extern NSString * const SynthesiseFontsPreferenceKey;
+
+extern NSString * const DidUpdateOpenDocumentOnStartPreferenceKey;
+extern NSString * const OpenDocumentOnStartPreferenceKey; // deprecated use the 2 keys below
+extern NSString * const OpenUntitledDocumentOnStartupPreferenceKey;
+extern NSString * const OpenDocumentHubOnStartupPreferenceKey;
 
 extern NSString * const kSEEDefaultsKeyOpenNewDocumentInTab;
 extern NSString * const kSEEDefaultsKeyAlwaysShowTabBar;
