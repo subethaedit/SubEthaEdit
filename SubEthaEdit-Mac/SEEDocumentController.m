@@ -568,7 +568,14 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 
 
 - (id)openUntitledDocumentAndDisplay:(BOOL)displayDocument error:(NSError **)outError {
+	NSAppleEventDescriptor *eventDesc = [[NSAppleEventManager sharedAppleEventManager] currentAppleEvent];
+	if ([eventDesc eventClass] == 'Hdra' && [eventDesc eventID] == 'See ') {
+		self.isOpeningUntitledDocument = NO;
+	} else {
+		self.isOpeningUntitledDocument = YES;
+	}
 	id result = [super openUntitledDocumentAndDisplay:displayDocument error:outError];
+	self.isOpeningUntitledDocument = NO;
 	return result;
 }
 

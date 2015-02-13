@@ -506,6 +506,8 @@ static AppController *sharedInstance = nil;
 		result = NO;
 	}
 	
+	self.lastShouldOpenUntitledFile = shouldOpenUntitledFile;
+	
 	return result;
 }
 

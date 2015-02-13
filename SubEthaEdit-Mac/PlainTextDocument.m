@@ -70,6 +70,9 @@
 
 #import <UniversalDetector/UniversalDetector.h>
 
+static PlainTextDocument *transientDocument = nil;
+static NSRect transientDocumentWindowFrame;
+
 static NSString * const PlainTextDocumentSyntaxColorizeNotification =
                       @"PlainTextDocumentSyntaxColorizeNotification";
 static NSString * PlainTextDocumentInvalidateLayoutNotification =
@@ -179,6 +182,13 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
 
 + (BOOL)canConcurrentlyReadDocumentsOfType:(NSString *)aTypeName {
 	return NO;
+}
+
++ (PlainTextDocument *)transientDocument {
+#if __has_feature(objc_arc)
+#warning transient documents will lead to retain cycles with ARC!
+#endif
+	return transientDocument;
 }
 
 //+ (BOOL)preservesVersions {
@@ -735,6 +745,12 @@ static NSString *tempFileName(NSString *origPath) {
     self = [super init];
     if (self) {
         I_flags.shouldChangeExtensionOnModeChange=YES; 
+
+		if ([[SEEDocumentController sharedInstance] isOpeningUntitledDocument]) {
+			transientDocument = nil;
+			transientDocumentWindowFrame = NSZeroRect;
+		}
+		
         [self TCM_generateNewSession];
         I_textStorage = [FoldableTextStorage new];
         [I_textStorage setDelegate:self];
@@ -779,7 +795,12 @@ static NSString *tempFileName(NSString *origPath) {
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+	if (transientDocument == self) {
+		transientDocument = nil;
+		transientDocumentWindowFrame = NSZeroRect;
+	}
+
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
     if (I_flags.isAnnounced) {
         [[TCMMMPresenceManager sharedInstance] concealSession:[self session]];
     }
@@ -1644,11 +1665,22 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 		}
 	}
 
-    PlainTextWindowController *windowController = nil;
+	BOOL closeTransientDocument = transientDocument && transientDocument != self
+	&& NSEqualRects(transientDocumentWindowFrame, [[[transientDocument topmostWindowController] window] frame])
+	&& [[[NSUserDefaults standardUserDefaults] objectForKey:OpenUntitledDocumentOnStartupPreferenceKey] boolValue];
+	
+	PlainTextWindowController *windowController = nil;
     if (shouldOpenInTab) {
         windowController = (PlainTextWindowController *)tabWindowController;
         [self addWindowController:windowController];
         [[windowController tabBar] setHideForSingleTab:![[NSUserDefaults standardUserDefaults] boolForKey:kSEEDefaultsKeyAlwaysShowTabBar]];
+		
+		if (closeTransientDocument && ![self isProxyDocument]) {
+			[transientDocument close];
+			transientDocument = nil;
+			transientDocumentWindowFrame = NSZeroRect;
+		}
+
     } else {
         windowController = [[PlainTextWindowController alloc] init];
         [self addWindowController:windowController];
@@ -1673,6 +1705,12 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 					NSSize minSize = [[windowController window] minSize];
 					if (windowFrameRect.size.height >= minSize.height && windowFrameRect.size.width >= minSize.width) {
 						[windowController setWindowFrame:windowFrameRect constrainedToScreen:nil display:YES];
+					}
+					
+					if (closeTransientDocument && ![self isProxyDocument]) {
+						[transientDocument close];
+						transientDocument = nil;
+						transientDocumentWindowFrame = NSZeroRect;
 					}
 				}
 			}
@@ -1978,13 +2016,40 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 }
 
 - (void)showWindows {
+	// now the transient window only is closed if now position data was found in the file to load - otherwise it happens in makewindowcontrollers
+	BOOL closeTransientDocument = transientDocument && transientDocument != self
+	&& NSEqualRects(transientDocumentWindowFrame, [[[transientDocument topmostWindowController] window] frame])
+	&& [[[NSUserDefaults standardUserDefaults] objectForKey:OpenDocumentOnStartPreferenceKey] boolValue];
+	
     if (I_documentProxyWindowController) {
         [[I_documentProxyWindowController window] orderFront:self];
     } else {
         PlainTextWindowController *windowController = [self topmostWindowController];
+		if (closeTransientDocument) {
+			NSWindow *window = [windowController window];
+			[window setFrameTopLeftPoint:NSMakePoint(transientDocumentWindowFrame.origin.x, NSMaxY(transientDocumentWindowFrame))];
+		}
         [windowController selectTabForDocument:self];
-        [windowController showWindow:self];
+
+		if (closeTransientDocument) {
+			[[windowController window] orderFront:self]; // stop cascading
+		}
+		
+		[windowController showWindow:self];
     }
+	
+	
+	if (closeTransientDocument && ![self isProxyDocument]) {
+		[transientDocument close];
+		transientDocument = nil;
+		transientDocumentWindowFrame = NSZeroRect;
+	}
+	
+	if ([[SEEDocumentController sharedInstance] isOpeningUntitledDocument] &&
+		[[AppController sharedInstance] lastShouldOpenUntitledFile]) {
+		transientDocument = self;
+		transientDocumentWindowFrame = [[[transientDocument topmostWindowController] window] frame];
+	}
 }
 
 - (void)TCM_validateSize {
@@ -5040,14 +5105,13 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 }
 
 - (void)updateChangeCount:(NSDocumentChangeType)changeType {
-//    switch (changeType) {
-//        case NSChangeCleared: I_changeCount = 0;break;
-//        case NSChangeDone:    I_changeCount++; break;
-//        case NSChangeUndone:  I_changeCount--; break;
-//    }
-    
-    
-    if (changeType==NSChangeCleared || changeType==NSChangeAutosaved || I_flags.shouldChangeChangeCount) {
+
+	if (transientDocument == self) {
+		transientDocument = nil;
+		transientDocumentWindowFrame = NSZeroRect;
+	}
+
+    if (changeType == NSChangeCleared || changeType == NSChangeAutosaved || I_flags.shouldChangeChangeCount) {
         [super updateChangeCount:changeType];
     }
     
@@ -5326,10 +5390,23 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     I_flags.isReceivingContent = YES;
     [windowController document:self isReceivingContent:YES];
     
-	if (![[windowController window] isVisible]) {
+	BOOL closeTransientDocument = transientDocument
+	&& NSEqualRects(transientDocumentWindowFrame, [[[transientDocument topmostWindowController] window] frame])
+	&& [[[NSUserDefaults standardUserDefaults] objectForKey:OpenDocumentOnStartPreferenceKey] boolValue];
+	
+	if (closeTransientDocument) {
+		NSWindow *window = [[self topmostWindowController] window];
+		[window setFrameTopLeftPoint:NSMakePoint(transientDocumentWindowFrame.origin.x, NSMaxY(transientDocumentWindowFrame))];
+		[transientDocument close];
+	} else if (![[windowController window] isVisible]) {
         [windowController cascadeWindow];
     }
     [I_documentProxyWindowController dissolveToWindow:[windowController window]];
+	
+	if (closeTransientDocument) {
+		transientDocument = nil;
+		transientDocumentWindowFrame = NSZeroRect;
+	}
 }
 
 - (NSDictionary *)sessionInformation {

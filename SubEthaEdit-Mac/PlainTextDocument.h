@@ -89,7 +89,6 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
 		BOOL isPreparedForTermination;
     } I_flags;
     int I_tabWidth;
-//    int I_changeCount;
     DocumentMode  *I_documentMode;
     FoldableTextStorage *I_textStorage;
     
@@ -164,7 +163,7 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
  */
 + (NSString *)displayStringWithAdditionalPathComponentsForPathComponents:(NSArray *)aPathComponentsArray;
 
-//+ (PlainTextDocument *)transientDocument;
++ (PlainTextDocument *)transientDocument;
 
 - (NSImage *)documentIcon;
 
