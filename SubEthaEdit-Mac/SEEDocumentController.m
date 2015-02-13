@@ -190,6 +190,14 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 
 #pragma mark - DocumentList window
 
+- (NSWindow *)documentListWindow {
+	NSWindow *result = nil;
+	if (self.documentListWindowController.isWindowLoaded) {
+		result = self.documentListWindowController.window;
+	}
+	return result;
+}
+
 - (SEEDocumentListWindowController *)ensuredDocumentListWindowController {
 	if (!self.documentListWindowController) {
 		SEEDocumentListWindowController *networkBrowser = [[SEEDocumentListWindowController alloc] initWithWindowNibName:@"SEEDocumentListWindowController"];
@@ -202,10 +210,15 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 	SEEDocumentListWindowController *controller = [self ensuredDocumentListWindowController];
 	if (sender == NSApp) {
 		controller.shouldCloseWhenOpeningDocument = YES;
+		[controller showWindow:sender];
+	} else if ([sender isKindOfClass:[AppController class]]) {
+		controller.shouldCloseWhenOpeningDocument = NO;
+		[controller showWindow:sender];
+		controller.window.restorable = NO;
 	} else {
 		controller.shouldCloseWhenOpeningDocument = NO;
+		[controller showWindow:sender];
 	}
-	[controller showWindow:sender];
 }
 
 - (IBAction)copyReachabilityURL:(id)aSender {

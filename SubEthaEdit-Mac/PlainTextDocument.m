@@ -2049,6 +2049,11 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 		[[AppController sharedInstance] lastShouldOpenUntitledFile]) {
 		transientDocument = self;
 		transientDocumentWindowFrame = [[[transientDocument topmostWindowController] window] frame];
+
+		PlainTextWindowController *windowController = self.windowControllers.firstObject;
+		windowController.window.restorable = NO;
+
+		[AppController sharedInstance].lastShouldOpenUntitledFile = NO;
 	}
 }
 
@@ -4551,7 +4556,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         }
     }
     if (!result) {
-		result=[[self windowControllers] lastObject];
+		result=[[self windowControllers] firstObject];
 	}
 	if (!result) {
 		NSLog(@"%s Warning: wanting a windowController but returning none because we have none.",__FUNCTION__);
@@ -5109,6 +5114,11 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 	if (transientDocument == self) {
 		transientDocument = nil;
 		transientDocumentWindowFrame = NSZeroRect;
+		
+		PlainTextWindowController *windowController = self.windowControllers.firstObject;
+		windowController.window.restorable = YES;
+		
+		[[SEEDocumentController sharedInstance] documentListWindow].restorable = YES;
 	}
 
     if (changeType == NSChangeCleared || changeType == NSChangeAutosaved || I_flags.shouldChangeChangeCount) {
