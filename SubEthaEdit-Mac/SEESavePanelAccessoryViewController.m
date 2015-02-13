@@ -88,7 +88,11 @@
 - (NSString *)panel:(NSSavePanel *)aPanel userEnteredFilename:(NSString *)filename confirmed:(BOOL)okFlag {
 	NSString *result = filename;
 	NSString *extension = filename.pathExtension;
-	if (extension.length &&
+	
+	if ([self.savePanelAccessoryFileFormatMatrixOutlet.selectedCell tag] == 1) {
+		[aPanel setAllowsOtherFileTypes:NO];
+		[aPanel setAllowedFileTypes:@[kSEETypeSEEText]];
+	} else if (extension.length &&
 		([[aPanel allowedFileTypes] containsObject:extension])) {
 		[aPanel setAllowedFileTypes:@[extension]];
 	} else {
@@ -101,8 +105,8 @@
 {
     NSSavePanel *panel = (NSSavePanel *)self.savePanel;
     if ([[aSender selectedCell] tag]==1) {
-        [panel setAllowedFileTypes:@[kSEETypeSEEText]];
 		[panel setAllowsOtherFileTypes:NO];
+        [panel setAllowedFileTypes:@[kSEETypeSEEText]];
     } else {
 		[panel setAllowsOtherFileTypes:YES];
 		
