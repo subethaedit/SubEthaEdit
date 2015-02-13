@@ -747,6 +747,10 @@ static NSString *tempFileName(NSString *origPath) {
         I_flags.shouldChangeExtensionOnModeChange=YES; 
 
 		if ([[SEEDocumentController sharedInstance] isOpeningUntitledDocument]) {
+			
+			PlainTextWindowController *windowController = transientDocument.windowControllers.firstObject;
+			windowController.window.restorable = YES;
+
 			transientDocument = nil;
 			transientDocumentWindowFrame = NSZeroRect;
 		}
@@ -1679,6 +1683,9 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 			[transientDocument close];
 			transientDocument = nil;
 			transientDocumentWindowFrame = NSZeroRect;
+			
+			PlainTextWindowController *windowController = self.windowControllers.firstObject;
+			windowController.window.restorable = YES;
 		}
 
     } else {
@@ -1711,6 +1718,9 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 						[transientDocument close];
 						transientDocument = nil;
 						transientDocumentWindowFrame = NSZeroRect;
+						
+						PlainTextWindowController *windowController = self.windowControllers.firstObject;
+						windowController.window.restorable = YES;
 					}
 				}
 			}
@@ -2043,6 +2053,9 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 		[transientDocument close];
 		transientDocument = nil;
 		transientDocumentWindowFrame = NSZeroRect;
+		
+		PlainTextWindowController *windowController = self.windowControllers.firstObject;
+		windowController.window.restorable = YES;
 	}
 	
 	if ([[SEEDocumentController sharedInstance] isOpeningUntitledDocument] &&
@@ -3291,6 +3304,8 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 	    }
     } // end of part where the file wasn't SEEText
 
+	[SEEDocumentController sharedInstance].documentListWindow.restorable = YES;
+	
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"fileEncoding: %@", [NSString localizedNameOfStringEncoding:[self fileEncoding]]);
 
     [self setKeepDocumentVersion:NO];
@@ -5416,6 +5431,9 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 	if (closeTransientDocument) {
 		transientDocument = nil;
 		transientDocumentWindowFrame = NSZeroRect;
+
+		PlainTextWindowController *windowController = self.windowControllers.firstObject;
+		windowController.window.restorable = YES;
 	}
 }
 

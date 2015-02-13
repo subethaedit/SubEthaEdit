@@ -43,6 +43,7 @@ extern NSString * const kSEETypeSEEMode;
 + (NSArray *)allTagsOfTagClass:(CFStringRef)aTagClass forUTI:(NSString *)aType;
 
 - (NSWindow *)documentListWindow;
+- (void)updateRestorableStateOfDocumentListWindow;
 - (IBAction)showDocumentListWindow:(id)sender;
 
 - (NSMenu *)documentMenu;

@@ -198,6 +198,22 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 	return result;
 }
 
+- (void)updateRestorableStateOfDocumentListWindow {
+	if (I_windowControllers.count == 0) {
+		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+		BOOL shouldOpenUntitledFile = [defaults boolForKey:OpenUntitledDocumentOnStartupPreferenceKey];
+		BOOL shouldOpenDocumentHub = [defaults boolForKey:OpenDocumentHubOnStartupPreferenceKey];
+		
+		// update restorable state of document hud on last document window close.
+		NSWindow *documentListWindow = self.documentListWindow;
+		if (shouldOpenDocumentHub || shouldOpenUntitledFile) {
+			documentListWindow.restorable = NO;
+		} else {
+			documentListWindow.restorable = YES;
+		}
+	}
+}
+
 - (SEEDocumentListWindowController *)ensuredDocumentListWindowController {
 	if (!self.documentListWindowController) {
 		SEEDocumentListWindowController *networkBrowser = [[SEEDocumentListWindowController alloc] initWithWindowNibName:@"SEEDocumentListWindowController"];
@@ -435,19 +451,7 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 	__autoreleasing id autoreleasedWindowController = aWindowController;
     [I_windowControllers removeObject:autoreleasedWindowController];
 	
-	if (I_windowControllers.count == 0) {
-		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-		BOOL shouldOpenUntitledFile = [defaults boolForKey:OpenUntitledDocumentOnStartupPreferenceKey];
-		BOOL shouldOpenDocumentHub = [defaults boolForKey:OpenDocumentHubOnStartupPreferenceKey];
-
-		// update restorable state of document hud on last document window close.
-		NSWindow *documentListWindow = self.documentListWindow;
-		if (shouldOpenDocumentHub || shouldOpenUntitledFile) {
-			documentListWindow.restorable = NO;
-		} else {
-			documentListWindow.restorable = YES;
-		}
-	}
+	[self updateRestorableStateOfDocumentListWindow];
 }
 
 #pragma mark - Open new document
