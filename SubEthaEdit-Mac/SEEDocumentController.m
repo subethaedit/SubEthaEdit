@@ -434,6 +434,16 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 - (void)removeWindowController:(id)aWindowController {
 	__autoreleasing id autoreleasedWindowController = aWindowController;
     [I_windowControllers removeObject:autoreleasedWindowController];
+	
+	if (I_windowControllers.count == 0) {
+		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+		BOOL shouldOpenUntitledFile = [defaults boolForKey:OpenUntitledDocumentOnStartupPreferenceKey];
+		BOOL shouldOpenDocumentHub = [defaults boolForKey:OpenDocumentHubOnStartupPreferenceKey];
+		
+		if (shouldOpenDocumentHub && shouldOpenUntitledFile) {
+			self.documentListWindow.restorable = NO;
+		}
+	}
 }
 
 #pragma mark - Open new document
