@@ -70,6 +70,9 @@
 
 #import <UniversalDetector/UniversalDetector.h>
 
+static PlainTextDocument *transientDocument = nil;
+static NSRect transientDocumentWindowFrame;
+
 static NSString * const PlainTextDocumentSyntaxColorizeNotification =
                       @"PlainTextDocumentSyntaxColorizeNotification";
 static NSString * PlainTextDocumentInvalidateLayoutNotification =
@@ -179,6 +182,13 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
 
 + (BOOL)canConcurrentlyReadDocumentsOfType:(NSString *)aTypeName {
 	return NO;
+}
+
++ (PlainTextDocument *)transientDocument {
+#if __has_feature(objc_arc)
+#warning transient documents will lead to retain cycles with ARC!
+#endif
+	return transientDocument;
 }
 
 //+ (BOOL)preservesVersions {
@@ -735,6 +745,16 @@ static NSString *tempFileName(NSString *origPath) {
     self = [super init];
     if (self) {
         I_flags.shouldChangeExtensionOnModeChange=YES; 
+
+		if ([[SEEDocumentController sharedInstance] isOpeningUntitledDocument]) {
+			
+			PlainTextWindowController *windowController = transientDocument.windowControllers.firstObject;
+			windowController.window.restorable = YES;
+
+			transientDocument = nil;
+			transientDocumentWindowFrame = NSZeroRect;
+		}
+		
         [self TCM_generateNewSession];
         I_textStorage = [FoldableTextStorage new];
         [I_textStorage setDelegate:self];
@@ -779,7 +799,12 @@ static NSString *tempFileName(NSString *origPath) {
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+	if (transientDocument == self) {
+		transientDocument = nil;
+		transientDocumentWindowFrame = NSZeroRect;
+	}
+
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
     if (I_flags.isAnnounced) {
         [[TCMMMPresenceManager sharedInstance] concealSession:[self session]];
     }
@@ -1644,11 +1669,25 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 		}
 	}
 
-    PlainTextWindowController *windowController = nil;
+	BOOL closeTransientDocument = transientDocument && transientDocument != self
+	&& NSEqualRects(transientDocumentWindowFrame, [[[transientDocument topmostWindowController] window] frame])
+	&& [[[NSUserDefaults standardUserDefaults] objectForKey:OpenUntitledDocumentOnStartupPreferenceKey] boolValue];
+	
+	PlainTextWindowController *windowController = nil;
     if (shouldOpenInTab) {
         windowController = (PlainTextWindowController *)tabWindowController;
         [self addWindowController:windowController];
         [[windowController tabBar] setHideForSingleTab:![[NSUserDefaults standardUserDefaults] boolForKey:kSEEDefaultsKeyAlwaysShowTabBar]];
+		
+		if (closeTransientDocument && ![self isProxyDocument]) {
+			[transientDocument close];
+			transientDocument = nil;
+			transientDocumentWindowFrame = NSZeroRect;
+			
+			PlainTextWindowController *windowController = self.windowControllers.firstObject;
+			windowController.window.restorable = YES;
+		}
+
     } else {
         windowController = [[PlainTextWindowController alloc] init];
         [self addWindowController:windowController];
@@ -1673,6 +1712,15 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 					NSSize minSize = [[windowController window] minSize];
 					if (windowFrameRect.size.height >= minSize.height && windowFrameRect.size.width >= minSize.width) {
 						[windowController setWindowFrame:windowFrameRect constrainedToScreen:nil display:YES];
+					}
+					
+					if (closeTransientDocument && ![self isProxyDocument]) {
+						[transientDocument close];
+						transientDocument = nil;
+						transientDocumentWindowFrame = NSZeroRect;
+						
+						PlainTextWindowController *windowController = self.windowControllers.firstObject;
+						windowController.window.restorable = YES;
 					}
 				}
 			}
@@ -1978,13 +2026,48 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 }
 
 - (void)showWindows {
+	// now the transient window only is closed if now position data was found in the file to load - otherwise it happens in makewindowcontrollers
+	BOOL closeTransientDocument = transientDocument && transientDocument != self
+	&& NSEqualRects(transientDocumentWindowFrame, [[[transientDocument topmostWindowController] window] frame])
+	&& [[[NSUserDefaults standardUserDefaults] objectForKey:OpenDocumentOnStartPreferenceKey] boolValue];
+	
     if (I_documentProxyWindowController) {
         [[I_documentProxyWindowController window] orderFront:self];
     } else {
         PlainTextWindowController *windowController = [self topmostWindowController];
+		if (closeTransientDocument) {
+			NSWindow *window = [windowController window];
+			[window setFrameTopLeftPoint:NSMakePoint(transientDocumentWindowFrame.origin.x, NSMaxY(transientDocumentWindowFrame))];
+		}
         [windowController selectTabForDocument:self];
-        [windowController showWindow:self];
+
+		if (closeTransientDocument) {
+			[[windowController window] orderFront:self]; // stop cascading
+		}
+		
+		[windowController showWindow:self];
     }
+	
+	
+	if (closeTransientDocument && ![self isProxyDocument]) {
+		[transientDocument close];
+		transientDocument = nil;
+		transientDocumentWindowFrame = NSZeroRect;
+		
+		PlainTextWindowController *windowController = self.windowControllers.firstObject;
+		windowController.window.restorable = YES;
+	}
+	
+	if ([[SEEDocumentController sharedInstance] isOpeningUntitledDocument] &&
+		[[AppController sharedInstance] lastShouldOpenUntitledFile]) {
+		transientDocument = self;
+		transientDocumentWindowFrame = [[[transientDocument topmostWindowController] window] frame];
+
+		PlainTextWindowController *windowController = self.windowControllers.firstObject;
+		windowController.window.restorable = NO;
+
+		[AppController sharedInstance].lastShouldOpenUntitledFile = NO;
+	}
 }
 
 - (void)TCM_validateSize {
@@ -2645,14 +2728,30 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
             if ([[accessoryViewController.savePanelAccessoryFileFormatMatrixOutlet selectedCell] tag] == 1) {
                 aType = kSEETypeSEEText;
 			} else {
-//                aType = (NSString *)kUTTypeData;
+				if ([aType isEqualToString:kSEETypeSEEText] ||
+					[aType isEqualToString:kSEETypeSEEMode]) {
+					NSString *extension = [anAbsoluteURL pathExtension];
+					if (extension.length > 0) {
+						aType = extension;
+					} else {
+						aType = (NSString *)kUTTypeText;
+					}
+				}
             }
 		} else if (didShowPanel) {
             if ([[accessoryViewController.savePanelAccessoryFileFormatMatrixOutlet selectedCell] tag] == 1) {
                 aType = kSEETypeSEEText;
                 I_flags.isSEEText = YES;
             } else {
-//                aType = (NSString *)kUTTypeData;
+				if ([aType isEqualToString:kSEETypeSEEText] ||
+					[aType isEqualToString:kSEETypeSEEMode]) {
+					NSString *extension = [anAbsoluteURL pathExtension];
+					if (extension.length > 0) {
+						aType = extension;
+					} else {
+						aType = (NSString *)kUTTypeText;
+					}
+				}
                 I_flags.isSEEText = NO;
             }
 		}
@@ -3221,6 +3320,8 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 	    }
     } // end of part where the file wasn't SEEText
 
+	[SEEDocumentController sharedInstance].documentListWindow.restorable = YES;
+	
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"fileEncoding: %@", [NSString localizedNameOfStringEncoding:[self fileEncoding]]);
 
     [self setKeepDocumentVersion:NO];
@@ -3854,37 +3955,41 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     }   
 }
 
-- (NSData *)dataOfType:(NSString *)aType error:(NSError **)outError{
-
-    if ([[[self class] writableTypes] containsObject:aType]) {
-        NSData *data;
-        if (I_lastSaveOperation == NSSaveToOperation) {
-            DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Save a copy using encoding: %@", [NSString localizedNameOfStringEncoding:I_encodingFromLastRunSaveToOperation]);
-            [[EncodingManager sharedInstance] unregisterEncoding:I_encodingFromLastRunSaveToOperation];
-            data = [[[I_textStorage fullTextStorage] string] dataUsingEncoding:I_encodingFromLastRunSaveToOperation allowLossyConversion:YES];
-        } else {
-            DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Save using encoding: %@", [NSString localizedNameOfStringEncoding:[self fileEncoding]]);
-            data = [[[I_textStorage fullTextStorage] string] dataUsingEncoding:[self fileEncoding] allowLossyConversion:YES];
-        }
-
-        BOOL modeWantsUTF8BOM = [[[self documentMode] defaultForKey:DocumentModeUTF8BOMPreferenceKey] boolValue];
-        DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"modeWantsUTF8BOM: %d, hasUTF8BOM: %d", modeWantsUTF8BOM, I_flags.hasUTF8BOM);
-        BOOL useUTF8Encoding = ((I_lastSaveOperation == NSSaveToOperation) && (I_encodingFromLastRunSaveToOperation == NSUTF8StringEncoding)) || ((I_lastSaveOperation != NSSaveToOperation) && ([self fileEncoding] == NSUTF8StringEncoding));
-
-        if ((I_flags.hasUTF8BOM || modeWantsUTF8BOM) && useUTF8Encoding) {
-            return [data dataPrefixedWithUTF8BOM];
-        } else {
-            return data;
-        }
-    }
-
-    if (outError) *outError = [NSError errorWithDomain:@"SEEDomain" code:42 userInfo:
-							   [NSDictionary dictionaryWithObjectsAndKeys:
-								[NSString stringWithFormat:@"Could not create data for Filetype: %@",aType],NSLocalizedDescriptionKey,
-								nil
-								]
-							   ];
-    return nil;
+- (NSData *)dataOfType:(NSString *)aType error:(NSError **)outError {
+	NSData *data = nil;
+	
+	if (! (UTTypeConformsTo((CFStringRef)aType, (CFStringRef)kSEETypeSEEText) &&
+		   UTTypeConformsTo((CFStringRef)aType, (CFStringRef)kSEETypeSEEMode))) {
+		if (I_lastSaveOperation == NSSaveToOperation) {
+			DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Save a copy using encoding: %@", [NSString localizedNameOfStringEncoding:I_encodingFromLastRunSaveToOperation]);
+			[[EncodingManager sharedInstance] unregisterEncoding:I_encodingFromLastRunSaveToOperation];
+			data = [[[I_textStorage fullTextStorage] string] dataUsingEncoding:I_encodingFromLastRunSaveToOperation allowLossyConversion:YES];
+		} else {
+			DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Save using encoding: %@", [NSString localizedNameOfStringEncoding:[self fileEncoding]]);
+			data = [[[I_textStorage fullTextStorage] string] dataUsingEncoding:[self fileEncoding] allowLossyConversion:YES];
+		}
+		
+		BOOL modeWantsUTF8BOM = [[[self documentMode] defaultForKey:DocumentModeUTF8BOMPreferenceKey] boolValue];
+		DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"modeWantsUTF8BOM: %d, hasUTF8BOM: %d", modeWantsUTF8BOM, I_flags.hasUTF8BOM);
+		BOOL useUTF8Encoding = ((I_lastSaveOperation == NSSaveToOperation) && (I_encodingFromLastRunSaveToOperation == NSUTF8StringEncoding)) || ((I_lastSaveOperation != NSSaveToOperation) && ([self fileEncoding] == NSUTF8StringEncoding));
+		
+		if ((I_flags.hasUTF8BOM || modeWantsUTF8BOM) && useUTF8Encoding) {
+			data =  [data dataPrefixedWithUTF8BOM];
+		}
+	}
+	
+	if (data == nil) {
+		if (outError) {
+			NSString *errorMessage = [NSString stringWithFormat:@"Could not create data for Filetype: %@", aType];
+			NSError *error =
+			[NSError errorWithDomain:@"SEEDomain"
+								code:42
+							userInfo:@{NSLocalizedDescriptionKey: errorMessage}];
+			*outError = error;
+		}
+	}
+	
+	return data;
 }
 
 - (BOOL)TCM_validateDocument {
@@ -4486,7 +4591,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         }
     }
     if (!result) {
-		result=[[self windowControllers] lastObject];
+		result=[[self windowControllers] firstObject];
 	}
 	if (!result) {
 		NSLog(@"%s Warning: wanting a windowController but returning none because we have none.",__FUNCTION__);
@@ -5040,14 +5145,18 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 }
 
 - (void)updateChangeCount:(NSDocumentChangeType)changeType {
-//    switch (changeType) {
-//        case NSChangeCleared: I_changeCount = 0;break;
-//        case NSChangeDone:    I_changeCount++; break;
-//        case NSChangeUndone:  I_changeCount--; break;
-//    }
-    
-    
-    if (changeType==NSChangeCleared || changeType==NSChangeAutosaved || I_flags.shouldChangeChangeCount) {
+
+	if (transientDocument == self) {
+		transientDocument = nil;
+		transientDocumentWindowFrame = NSZeroRect;
+		
+		PlainTextWindowController *windowController = self.windowControllers.firstObject;
+		windowController.window.restorable = YES;
+		
+		[[SEEDocumentController sharedInstance] documentListWindow].restorable = YES;
+	}
+
+    if (changeType == NSChangeCleared || changeType == NSChangeAutosaved || I_flags.shouldChangeChangeCount) {
         [super updateChangeCount:changeType];
     }
     
@@ -5326,10 +5435,26 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     I_flags.isReceivingContent = YES;
     [windowController document:self isReceivingContent:YES];
     
-	if (![[windowController window] isVisible]) {
+	BOOL closeTransientDocument = transientDocument
+	&& NSEqualRects(transientDocumentWindowFrame, [[[transientDocument topmostWindowController] window] frame])
+	&& [[[NSUserDefaults standardUserDefaults] objectForKey:OpenDocumentOnStartPreferenceKey] boolValue];
+	
+	if (closeTransientDocument) {
+		NSWindow *window = [[self topmostWindowController] window];
+		[window setFrameTopLeftPoint:NSMakePoint(transientDocumentWindowFrame.origin.x, NSMaxY(transientDocumentWindowFrame))];
+		[transientDocument close];
+	} else if (![[windowController window] isVisible]) {
         [windowController cascadeWindow];
     }
     [I_documentProxyWindowController dissolveToWindow:[windowController window]];
+	
+	if (closeTransientDocument) {
+		transientDocument = nil;
+		transientDocumentWindowFrame = NSZeroRect;
+
+		PlainTextWindowController *windowController = self.windowControllers.firstObject;
+		windowController.window.restorable = YES;
+	}
 }
 
 - (NSDictionary *)sessionInformation {

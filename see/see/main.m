@@ -96,7 +96,10 @@ BOOL meetsRequiredVersion(NSString *string) {
 static NSArray *subEthaEditBundleIdentifiers()
 {
 	NSArray *result = @[@"de.codingmonkeys.SubEthaEdit.Mac",
+						@"de.codingmonkeys.SubEthaEdit.MacFULL",
 						@"de.codingmonkeys.SubEthaEdit.MacBETA",
+//						@"de.codingmonkeys.SubEthaEdit.MacDev", // no option due to signing
+						@"de.codingmonkeys.SubEthaEdit.MacFULLDev",
 						@"de.codingmonkeys.SubEthaEdit.MacBETADev",
 						@"de.codingmonkeys.SubEthaEdit"];
 	return result;

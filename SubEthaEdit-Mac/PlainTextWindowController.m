@@ -1210,7 +1210,8 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 }
 
 - (NSRect)dissolveToFrame {
-	if ([self hasManyDocuments]) {
+	if ([self hasManyDocuments] ||
+	 ([PlainTextDocument transientDocument] && [[NSUserDefaults standardUserDefaults] boolForKey:kSEEDefaultsKeyOpenNewDocumentInTab])) {
 		NSWindow *window = [self window];
 		NSRect bounds = [[I_tabBar performSelector:@selector(lastVisibleTab)] frame];
 		bounds = [[window contentView] convertRect:bounds fromView:I_tabBar];
@@ -1547,7 +1548,13 @@ static NSPoint S_cascadePoint = {0.0,0.0};
         [I_tabView addTabViewItem:tab];
         [tab release];
         if ([documents count] > 1) {
-			[I_tabBar hideTabBar:NO animate:YES];
+			PlainTextDocument *transientDocument = [PlainTextDocument transientDocument];
+			if (!([documents count] == 2 &&
+				  transientDocument &&
+				  [documents containsObject:transientDocument]))
+			{
+				[I_tabBar hideTabBar:NO animate:YES];
+			}
         }
         return tab;
     }

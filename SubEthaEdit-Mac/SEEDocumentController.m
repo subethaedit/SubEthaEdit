@@ -190,6 +190,30 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 
 #pragma mark - DocumentList window
 
+- (NSWindow *)documentListWindow {
+	NSWindow *result = nil;
+	if (self.documentListWindowController.isWindowLoaded) {
+		result = self.documentListWindowController.window;
+	}
+	return result;
+}
+
+- (void)updateRestorableStateOfDocumentListWindow {
+	if (I_windowControllers.count == 0) {
+		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+		BOOL shouldOpenUntitledFile = [defaults boolForKey:OpenUntitledDocumentOnStartupPreferenceKey];
+		BOOL shouldOpenDocumentHub = [defaults boolForKey:OpenDocumentHubOnStartupPreferenceKey];
+		
+		// update restorable state of document hud on last document window close.
+		NSWindow *documentListWindow = self.documentListWindow;
+		if (shouldOpenDocumentHub || shouldOpenUntitledFile) {
+			documentListWindow.restorable = NO;
+		} else {
+			documentListWindow.restorable = YES;
+		}
+	}
+}
+
 - (SEEDocumentListWindowController *)ensuredDocumentListWindowController {
 	if (!self.documentListWindowController) {
 		SEEDocumentListWindowController *networkBrowser = [[SEEDocumentListWindowController alloc] initWithWindowNibName:@"SEEDocumentListWindowController"];
@@ -202,10 +226,15 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 	SEEDocumentListWindowController *controller = [self ensuredDocumentListWindowController];
 	if (sender == NSApp) {
 		controller.shouldCloseWhenOpeningDocument = YES;
+		[controller showWindow:sender];
+	} else if ([sender isKindOfClass:[AppController class]]) {
+		controller.shouldCloseWhenOpeningDocument = NO;
+		[controller showWindow:sender];
+		controller.window.restorable = NO;
 	} else {
 		controller.shouldCloseWhenOpeningDocument = NO;
+		[controller showWindow:sender];
 	}
-	[controller showWindow:sender];
 }
 
 - (IBAction)copyReachabilityURL:(id)aSender {
@@ -421,6 +450,8 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 - (void)removeWindowController:(id)aWindowController {
 	__autoreleasing id autoreleasedWindowController = aWindowController;
     [I_windowControllers removeObject:autoreleasedWindowController];
+	
+	[self updateRestorableStateOfDocumentListWindow];
 }
 
 #pragma mark - Open new document
@@ -568,7 +599,14 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 
 
 - (id)openUntitledDocumentAndDisplay:(BOOL)displayDocument error:(NSError **)outError {
+	NSAppleEventDescriptor *eventDesc = [[NSAppleEventManager sharedAppleEventManager] currentAppleEvent];
+	if ([eventDesc eventClass] == 'Hdra' && [eventDesc eventID] == 'See ') {
+		self.isOpeningUntitledDocument = NO;
+	} else {
+		self.isOpeningUntitledDocument = YES;
+	}
 	id result = [super openUntitledDocumentAndDisplay:displayDocument error:outError];
+	self.isOpeningUntitledDocument = NO;
 	return result;
 }
 

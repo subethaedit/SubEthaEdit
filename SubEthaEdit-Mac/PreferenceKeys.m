@@ -17,7 +17,6 @@ NSString * const SelectionSaturationPreferenceKey           = @"MySelectionSatur
 NSString * const ChangesSaturationPreferenceKey             = @"MyChangesSaturation";
 NSString * const HighlightChangesPreferenceKey              = @"HighlightChanges";
 NSString * const HighlightChangesAlonePreferenceKey         = @"HighlightChangesAlone";
-NSString * const OpenDocumentOnStartPreferenceKey           = @"OpenDocumentOnStart";
 NSString * const ModeForNewDocumentsPreferenceKey           = @"ModeForNewDocuments";
 NSString * const AdditionalShownPathComponentsPreferenceKey = @"AdditionalShownPathComponents";
 NSString * const SelectedMyColorPreferenceKey               = @"SelectedMyColor";
@@ -29,6 +28,11 @@ NSString * const MyEmailIdentifierPreferenceKey             = @"MyEmailIdentifie
 NSString * const MyAIMsPreferenceKey                        = @"MyAIMs";
 NSString * const MyEmailsPreferenceKey                      = @"MyEmails";
 NSString * const SynthesiseFontsPreferenceKey               = @"SynthesiseFonts";
+
+NSString * const DidUpdateOpenDocumentOnStartPreferenceKey  = @"DidUpdateOpenDocumentOnStart"; // upgrading from old version
+NSString * const OpenDocumentOnStartPreferenceKey           = @"OpenDocumentOnStart"; // deprecated old version
+NSString * const OpenUntitledDocumentOnStartupPreferenceKey = @"OpenUntitledDocumentOnStartup";
+NSString * const OpenDocumentHubOnStartupPreferenceKey      = @"OpenDocumentHubOnStartup";
 
 NSString * const kSEEDefaultsKeyOpenNewDocumentInTab           = @"OpenNewDocumentInTab";
 NSString * const kSEEDefaultsKeyAlwaysShowTabBar               = @"AlwaysShowTabBar";
