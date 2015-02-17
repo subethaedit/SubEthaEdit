@@ -172,7 +172,7 @@
 		4C0D3D7617FB168200AAFB38 /* DebugUsers.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D7517FB168200AAFB38 /* DebugUsers.xib */; };
 		4C0D3D7817FB16F500AAFB38 /* DebugSendOperation.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D7717FB16F500AAFB38 /* DebugSendOperation.xib */; };
 		4C0FDA2218031235008E24E8 /* UniversalDetector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C0FDA2118031235008E24E8 /* UniversalDetector.framework */; };
-		4C0FDA231803125E008E24E8 /* UniversalDetector.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 4C0FDA2118031235008E24E8 /* UniversalDetector.framework */; };
+		4C0FDA231803125E008E24E8 /* UniversalDetector.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 4C0FDA2118031235008E24E8 /* UniversalDetector.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4C123002180BE4A60069253E /* TCMBEEPSessionXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C123001180BE4A60069253E /* TCMBEEPSessionXMLParser.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4C123005180C01EF0069253E /* TCMBEEPMessageXMLPayloadParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C123004180C01EF0069253E /* TCMBEEPMessageXMLPayloadParser.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4C19ECA3192F525000D39777 /* SubEthaEdit_AuthenticatedSave.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 4C19ECA2192F525000D39777 /* SubEthaEdit_AuthenticatedSave.scpt */; };
@@ -190,8 +190,8 @@
 		4C65D60718D8528900A03E65 /* SEEDialogSplitViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C65D60618D8528900A03E65 /* SEEDialogSplitViewDelegate.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4C65D60A18D852AB00A03E65 /* SEEWebPreviewSplitViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C65D60918D852AB00A03E65 /* SEEWebPreviewSplitViewDelegate.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4C6AE8741802E8810089D489 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C6AE8731802E8810089D489 /* OgreKit.framework */; };
-		4C6AE8751802E8AC0089D489 /* PSMTabBarControl.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 4CF3490017FC6EAF005D0D4F /* PSMTabBarControl.framework */; };
-		4C6AE8761802E8AC0089D489 /* OgreKit.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 4C6AE8731802E8810089D489 /* OgreKit.framework */; };
+		4C6AE8751802E8AC0089D489 /* PSMTabBarControl.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 4CF3490017FC6EAF005D0D4F /* PSMTabBarControl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		4C6AE8761802E8AC0089D489 /* OgreKit.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 4C6AE8731802E8810089D489 /* OgreKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4C6BDC5218896DCC0088CBFC /* SubEthaEdit.iconset in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC4C18896DCC0088CBFC /* SubEthaEdit.iconset */; };
 		4C6BDC5318896DCC0088CBFC /* SubEthaEditFiles.iconset in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC4D18896DCC0088CBFC /* SubEthaEditFiles.iconset */; };
 		4C6BDC5418896DCC0088CBFC /* SubEthaEditMode.iconset in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC4E18896DCC0088CBFC /* SubEthaEditMode.iconset */; };
@@ -403,7 +403,7 @@
 		F2880D2B1923BA7100C6370C /* BottomBarSharingIconGroupTurnOnPressed.png in Resources */ = {isa = PBXBuildFile; fileRef = F2880D091923BA7100C6370C /* BottomBarSharingIconGroupTurnOnPressed.png */; };
 		F2880D2C1923BA7100C6370C /* BottomBarSharingIconGroupTurnOnPressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2880D0A1923BA7100C6370C /* BottomBarSharingIconGroupTurnOnPressed@2x.png */; };
 		F290D9D80EDB04EF00E643C0 /* TCMPortMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F290D9D70EDB04EF00E643C0 /* TCMPortMapper.framework */; };
-		F290D9DD0EDB04F900E643C0 /* TCMPortMapper.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = F290D9D70EDB04EF00E643C0 /* TCMPortMapper.framework */; };
+		F290D9DD0EDB04F900E643C0 /* TCMPortMapper.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = F290D9D70EDB04EF00E643C0 /* TCMPortMapper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		F291D1A10FCECD22008BC286 /* FoldingBubbleText.rtf in Resources */ = {isa = PBXBuildFile; fileRef = F291D1A00FCECD22008BC286 /* FoldingBubbleText.rtf */; };
 		F291D1B10FCECF33008BC286 /* FoldingBubbleBig.png in Resources */ = {isa = PBXBuildFile; fileRef = F291D1B00FCECF33008BC286 /* FoldingBubbleBig.png */; };
 		F29940600C0C7F3400A53189 /* NSScreenTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F299405E0C0C7F3400A53189 /* NSScreenTCMAdditions.m */; };

@@ -88,9 +88,15 @@
 - (NSString *)panel:(NSSavePanel *)aPanel userEnteredFilename:(NSString *)filename confirmed:(BOOL)okFlag {
 	NSString *result = filename;
 	NSString *extension = filename.pathExtension;
-	if (extension.length &&
-		([[aPanel allowedFileTypes] containsObject:extension])) {
+	
+	if ([self.savePanelAccessoryFileFormatMatrixOutlet.selectedCell tag] == 1) {
+		[aPanel setAllowsOtherFileTypes:NO];
+		[aPanel setAllowedFileTypes:@[kSEETypeSEEText]];
+	} else if (extension.length > 0 &&
+			   ([[aPanel allowedFileTypes] containsObject:extension])) {
 		[aPanel setAllowedFileTypes:@[extension]];
+	} else if (extension.length > 0) {
+			[aPanel setAllowedFileTypes:@[(NSString *)kUTTypeData]];
 	} else {
 		[aPanel setAllowedFileTypes:@[(NSString *)kUTTypeText]];
 	}
@@ -101,8 +107,8 @@
 {
     NSSavePanel *panel = (NSSavePanel *)self.savePanel;
     if ([[aSender selectedCell] tag]==1) {
-        [panel setAllowedFileTypes:@[kSEETypeSEEText]];
 		[panel setAllowsOtherFileTypes:NO];
+        [panel setAllowedFileTypes:@[kSEETypeSEEText]];
     } else {
 		[panel setAllowsOtherFileTypes:YES];
 		
@@ -122,8 +128,17 @@
 		//		NSLog(@"%s value: %@ targetname: %@",__FUNCTION__,panel.nameFieldStringValue,targetValue);
 		NSString *extension = [targetValue pathExtension];
 		if (extension.length > 0) {
-			
-			NSString *UTI = CFBridgingRelease(UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (__bridge CFStringRef)extension, kUTTypeText));
+			NSString *UTI = nil;
+			if ([extension isEqualToString:@"seetext"] ||
+				[extension isEqualToString:@"seemode"]) {
+				UTI = self.document.fileType;
+				
+				if ([UTI isEqualToString:kSEETypeSEEText] || [UTI isEqualToString:kSEETypeSEEMode]) {
+					UTI = (NSString *)kUTTypePlainText;
+				}
+			} else {
+				UTI = CFBridgingRelease(UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (__bridge CFStringRef)extension, kUTTypeText));
+			}
 			if (![UTI hasPrefix:@"dyn"]) {
 				[panel setAllowedFileTypes:[@[UTI] arrayByAddingObjectsFromArray:[DocumentModeManager sharedInstance].allPathExtensions]];
 			} else {

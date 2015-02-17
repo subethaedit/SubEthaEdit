@@ -35,18 +35,21 @@
 }
 
 - (void)splitView:(NSSplitView *)aSplitView resizeSubviewsWithOldSize:(NSSize)oldSize {
-    CGFloat dialogSplitMinHeight = SPLITMINHEIGHTDIALOG;
-	// just keep the height of the first view (dialog)
-	NSView *dialogView = [[aSplitView subviews] objectAtIndex:1];
-	NSSize newSize = [aSplitView bounds].size;
-	NSSize frameSize = [dialogView frame].size;
-	frameSize.height += newSize.height - oldSize.height;
-	if (frameSize.height <= dialogSplitMinHeight) {
-		frameSize.height = dialogSplitMinHeight;
+	NSArray *subviews = aSplitView.subviews;
+	if (subviews.count >= 2) {
+		CGFloat dialogSplitMinHeight = SPLITMINHEIGHTDIALOG;
+		// just keep the height of the first view (dialog)
+		NSView *dialogView = [[aSplitView subviews] objectAtIndex:1];
+		NSSize newSize = [aSplitView bounds].size;
+		NSSize frameSize = [dialogView frame].size;
+		frameSize.height += newSize.height - oldSize.height;
+		if (frameSize.height <= dialogSplitMinHeight) {
+			frameSize.height = dialogSplitMinHeight;
+		}
+		[dialogView setFrameSize:frameSize];
+		[aSplitView adjustSubviews];
+		[aSplitView setPosition:NSHeight([aSplitView.subviews.firstObject frame]) ofDividerAtIndex:0];
 	}
-	[dialogView setFrameSize:frameSize];
-	[aSplitView adjustSubviews];
-	[aSplitView setPosition:NSHeight([aSplitView.subviews.firstObject frame]) ofDividerAtIndex:0];
 }
 
 

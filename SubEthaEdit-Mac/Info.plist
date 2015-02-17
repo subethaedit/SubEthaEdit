@@ -2978,7 +2978,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>${TCM_APP_VERSION}</string>
+	<string>${TCM_APP_VERSION}${TCM_APP_VERSION_SUFFIX}</string>
 	<key>CFBundleSignature</key>
 	<string>Hdra</string>
 	<key>CFBundleURLTypes</key>

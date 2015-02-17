@@ -181,9 +181,16 @@ static AppController *sharedInstance = nil;
         self = [super init];
         if (self) {
 #if BETA
+			// de.codingmonkeys.SubEthaEdit.MacBETA
             [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"f6d8d69c0803df397e1a47872ffc2348" delegate:self];
 #else
+#ifdef FULL
+			// de.codingmonkeys.SubEthaEdit.MacFULL
+			[[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"8dde31b8caac0ede7baec73254043472" delegate:self];
+#else
+			// de.codingmonkeys.SubEthaEdit.Mac
             [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"893da3588e5f78e26b48286f3b15e8d7" delegate:self];
+#endif
 #endif
         }
         return self;
@@ -468,13 +475,40 @@ static AppController *sharedInstance = nil;
 }
 
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)theApplication {
-    BOOL result = [[[NSUserDefaults standardUserDefaults] objectForKey:OpenDocumentOnStartPreferenceKey] boolValue];
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	
+	BOOL result = NO;
+	BOOL shouldOpenUntitledFile = [defaults boolForKey:OpenUntitledDocumentOnStartupPreferenceKey];
+	BOOL shouldOpenDocumentHub = [defaults boolForKey:OpenDocumentHubOnStartupPreferenceKey];
+	
+	if (shouldOpenDocumentHub || shouldOpenUntitledFile) {
+		result = YES;
+	}
+	
     return result;
 }
 
 - (BOOL)applicationOpenUntitledFile:(NSApplication *)sender {
-	[[SEEDocumentController sharedDocumentController] showDocumentListWindow:sender];
-	return YES; // Avoids Untitled Document path of DocumentController
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	
+	BOOL result = YES; // Avoids Untitled Document path of DocumentController
+	BOOL shouldOpenUntitledFile = [defaults boolForKey:OpenUntitledDocumentOnStartupPreferenceKey];
+	BOOL shouldOpenDocumentHub = [defaults boolForKey:OpenDocumentHubOnStartupPreferenceKey];
+	if (shouldOpenDocumentHub) {
+		if (shouldOpenUntitledFile) {
+			[[SEEDocumentController sharedDocumentController] showDocumentListWindow:self]; // avoids closing of document hub untitled file window opens
+		} else {
+			[[SEEDocumentController sharedDocumentController] showDocumentListWindow:sender];
+		}
+	}
+
+	if (shouldOpenUntitledFile) {
+		result = NO;
+	}
+	
+	self.lastShouldOpenUntitledFile = shouldOpenUntitledFile;
+	
+	return result;
 }
 
 - (NSMenu *)applicationDockMenu:(NSApplication *)sender {
@@ -930,7 +964,7 @@ static AppController *sharedInstance = nil;
     
 #pragma mark - BITHockeyManagerDelegate
 
-- (void) showMainApplicationWindowForCrashManager:(BITCrashManager *)crashManager
+- (void) crashManagerDidFinishSendingCrashReport:(BITCrashManager *)crashManager
 {
 	if (crashManager.didCrashInLastSession) {
 		if ([NSApp windows].count < 1) {

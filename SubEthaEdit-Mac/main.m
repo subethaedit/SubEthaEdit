@@ -9,8 +9,10 @@
 #import <Cocoa/Cocoa.h>
 
 #ifndef BETA
+#ifndef FULL
 #define MAC_APP_STORE_RECEIPT_VALIDATION
 #import "SEEMacAppStoreReceiptValidation.h"
+#endif
 #endif
 
 int main(int argc, char *argv[])

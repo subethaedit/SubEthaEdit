@@ -1,0 +1,28 @@
+IMPROVED
+• Mode improvements for indentation and "Close last Block/Tag"
+• Included styles to support mode changes
+• Indentation on enter and reindent
+• State restauration restores last used font and font size per document
+
+FIXED
+• Regular Expression support for non-NL line endings
+• Indent setting of Mode State now is respected
+• State restoration behaviour when quit with keep windows and changes present
+• Crash when invited to document
+• Empty user images with coda 2.x
+
+
+
+
+VERBESSERT
+• Kleinere Mode-Anpassungen
+• Die Stile wurden etwas erweitert für neue Modi
+• Einrücken und Wieder-Einrücken
+• Schrift und Schriftgröße werden beim Fenster wiederherstellen berücksichtigt
+
+BEHOBEN
+• Beenden mit der Option Fenster Wiederherstellen funktioniert jetzt wenn offene Dokumente Änderungen enthalten
+• Reguläre Ausdrücke funktionieren nun mit allen Zeilenenden
+• Einrückungs-Attribute der Modi
+• Absturz bei Einladung zu einem Document
+• Anzeige leerer Avatarbilder

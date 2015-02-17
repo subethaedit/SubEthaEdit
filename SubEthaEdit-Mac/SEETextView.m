@@ -613,6 +613,7 @@ static NSMenu *S_defaultMenu=nil;
     [self setInsertionPointColor:isDark?[NSColor whiteColor]:[NSColor blackColor]];
     [self setSelectedTextAttributes:[NSDictionary dictionaryWithObject:isDark?[[NSColor selectedTextBackgroundColor] brightnessInvertedSelectionColor]:[NSColor selectedTextBackgroundColor] forKey:NSBackgroundColorAttributeName]];
 	[(LayoutManager *)self.layoutManager setInactiveSelectionColor:[aColor blendedColorWithFraction:0.4 ofColor:[NSColor colorWithCalibratedWhite:isDark ? 1.0 : 0.0 alpha:1.0]]];
+	[[self enclosingScrollView] setBackgroundColor:aColor];
     [[self enclosingScrollView] setDocumentCursor:isDark?[NSCursor invertedIBeamCursor]:[NSCursor IBeamCursor]];
     if (( wasDark && !isDark) || 
         (!wasDark &&  isDark)) {

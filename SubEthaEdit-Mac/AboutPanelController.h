@@ -11,9 +11,4 @@
 
 @interface AboutPanelController : NSWindowController
 
-@property (nonatomic, strong) IBOutlet NSImageView *O_appIconView;
-@property (nonatomic, strong) IBOutlet NSTextField *O_legalTextField;
-@property (nonatomic, strong) IBOutlet NSTextField *O_versionField;
-@property (nonatomic, strong) IBOutlet NSTextField *O_ogreVersionField;
-
 @end

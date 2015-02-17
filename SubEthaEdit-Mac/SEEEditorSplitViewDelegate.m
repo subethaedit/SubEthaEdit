@@ -43,29 +43,32 @@
 	CGFloat splitViewMinHeight = SPLITMINHEIGHTTEXT;
 	NSRect frame = [aSplitView bounds];
 	NSArray *subviews = [aSplitView subviews];
-	NSRect frameTop = [[subviews objectAtIndex:0] frame];
-	NSRect frameBottom = [[subviews objectAtIndex:1] frame];
-	CGFloat newHeight = frame.size.height - [aSplitView dividerThickness];
-	CGFloat topRatio = frameTop.size.height / (oldSize.height - [aSplitView dividerThickness]);
-
-	frameTop.size.height = (CGFloat)((int)(newHeight * topRatio));
-	if (frameTop.size.height < splitViewMinHeight) {
-		frameTop.size.height = splitViewMinHeight;
-	} else if (newHeight - frameTop.size.height < splitViewMinHeight) {
-		frameTop.size.height = newHeight - splitViewMinHeight;
+	
+	if (subviews.count >= 2) {
+		NSRect frameTop = [[subviews objectAtIndex:0] frame];
+		NSRect frameBottom = [[subviews objectAtIndex:1] frame];
+		CGFloat newHeight = frame.size.height - [aSplitView dividerThickness];
+		CGFloat topRatio = frameTop.size.height / (oldSize.height - [aSplitView dividerThickness]);
+		
+		frameTop.size.height = (CGFloat)((int)(newHeight * topRatio));
+		if (frameTop.size.height < splitViewMinHeight) {
+			frameTop.size.height = splitViewMinHeight;
+		} else if (newHeight - frameTop.size.height < splitViewMinHeight) {
+			frameTop.size.height = newHeight - splitViewMinHeight;
+		}
+		
+		frameBottom.size.height = newHeight - frameTop.size.height;
+		frameBottom.size.width = frameTop.size.width = frame.size.width;
+		
+		frameTop.origin.x = frameBottom.origin.x = frame.origin.x;
+		frameTop.origin.y = frame.origin.y;
+		frameBottom.origin.y = frame.origin.y + [aSplitView dividerThickness] + frameTop.size.height;
+		
+		[[subviews objectAtIndex:0] setFrame:frameTop];
+		[[subviews objectAtIndex:1] setFrame:frameBottom];
+		
+		[aSplitView setPosition:NSHeight([aSplitView.subviews.firstObject frame]) ofDividerAtIndex:0];
 	}
-
-	frameBottom.size.height = newHeight - frameTop.size.height;
-	frameBottom.size.width = frameTop.size.width = frame.size.width;
-
-	frameTop.origin.x = frameBottom.origin.x = frame.origin.x;
-	frameTop.origin.y = frame.origin.y;
-	frameBottom.origin.y = frame.origin.y + [aSplitView dividerThickness] + frameTop.size.height;
-
-	[[subviews objectAtIndex:0] setFrame:frameTop];
-	[[subviews objectAtIndex:1] setFrame:frameBottom];
-
-	[aSplitView setPosition:NSHeight([aSplitView.subviews.firstObject frame]) ofDividerAtIndex:0];
 }
 
 

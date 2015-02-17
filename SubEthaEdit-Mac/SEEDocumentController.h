@@ -33,6 +33,7 @@ extern NSString * const kSEETypeSEEMode;
     NSMutableArray *I_windowControllers;
 }
 
+@property (nonatomic) BOOL isOpeningUntitledDocument;
 @property (nonatomic, weak) IBOutlet NSMenu *recentDocumentMenu;
 @property (nonatomic, readonly, assign) NSStringEncoding encodingFromLastRunOpenPanel;
 @property (nonatomic, readonly, copy) NSString *modeIdentifierFromLastRunOpenPanel;
@@ -41,6 +42,8 @@ extern NSString * const kSEETypeSEEMode;
 
 + (NSArray *)allTagsOfTagClass:(CFStringRef)aTagClass forUTI:(NSString *)aType;
 
+- (NSWindow *)documentListWindow;
+- (void)updateRestorableStateOfDocumentListWindow;
 - (IBAction)showDocumentListWindow:(id)sender;
 
 - (NSMenu *)documentMenu;
