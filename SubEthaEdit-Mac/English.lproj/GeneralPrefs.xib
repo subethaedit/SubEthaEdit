@@ -30,7 +30,7 @@
                             <rect key="frame" x="2" y="2" width="329" height="217"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <button toolTip="Open a blank document at startup." id="31">
+                                <button toolTip="Open a blank document at startup, if no other windows are open." id="31">
                                     <rect key="frame" x="14" y="123" width="302" height="18"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <buttonCell key="cell" type="check" title="Open Untitled Document at startup" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="224">
@@ -41,7 +41,7 @@
                                         <binding destination="92" name="value" keyPath="values.OpenUntitledDocumentOnStartup" id="9Mt-Nx-YKk"/>
                                     </connections>
                                 </button>
-                                <button toolTip="Open a blank document at startup." id="iZf-W7-QIX">
+                                <button toolTip="Opens Document Hub window on startup, if no other windows are open." id="iZf-W7-QIX">
                                     <rect key="frame" x="14" y="146" width="302" height="18"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <buttonCell key="cell" type="check" title="Show Document Hub at startup" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="dS3-kL-Ssf">
@@ -173,7 +173,7 @@
                                         <action selector="toggleLocalHighlightDefault:" target="-2" id="e1D-pc-wHF"/>
                                     </connections>
                                 </button>
-                                <button id="194">
+                                <button toolTip="Documents are opened in tabs instead of windows." id="194">
                                     <rect key="frame" x="14" y="169" width="302" height="18"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <buttonCell key="cell" type="check" title="Open new documents in tabs" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="233">
@@ -191,7 +191,7 @@
                     </box>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="780.5" y="663"/>
+            <point key="canvasLocation" x="427.5" y="425"/>
         </window>
         <userDefaultsController id="92" userLabel="Shared Defaults"/>
         <userDefaultsController representsSharedInstance="YES" id="8xq-UR-Csw"/>

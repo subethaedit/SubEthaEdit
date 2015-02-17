@@ -30,7 +30,7 @@
                             <rect key="frame" x="2" y="2" width="356" height="221"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <button toolTip="Öffne ein leeres Dokument beim Starten des Programms." id="31">
+                                <button toolTip="Öffne das Dokument Hub beim Starten des Programms, falls keine anderen Fenster offen sind." id="31">
                                     <rect key="frame" x="12" y="138" width="302" height="18"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <buttonCell key="cell" type="check" title="Beim Starten Dokument-Hub anzeigen" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="224">
@@ -41,7 +41,7 @@
                                         <binding destination="srs-xG-Hj2" name="value" keyPath="values.OpenDocumentHubOnStartup" id="j55-Wk-OW7"/>
                                     </connections>
                                 </button>
-                                <button toolTip="Öffne ein leeres Dokument beim Starten des Programms." id="ggw-6h-edE">
+                                <button toolTip="Öffne ein leeres Dokument beim Starten des Programms, falls keine anderen Fenster offen sind." id="ggw-6h-edE">
                                     <rect key="frame" x="12" y="116" width="302" height="18"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <buttonCell key="cell" type="check" title="Beim Starten leeres Dokument öffnen" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="61Z-1d-F8G">
@@ -52,7 +52,7 @@
                                         <binding destination="srs-xG-Hj2" name="value" keyPath="values.OpenUntitledDocumentOnStartup" id="mIr-2I-nEJ"/>
                                     </connections>
                                 </button>
-                                <button id="194">
+                                <button toolTip="Dokumente werden in Tabs geöffnen anstatt in einem eigenen Fenster" id="194">
                                     <rect key="frame" x="12" y="161" width="302" height="18"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <buttonCell key="cell" type="check" title="Öffne neue Dokumente in Tabs" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="233">
