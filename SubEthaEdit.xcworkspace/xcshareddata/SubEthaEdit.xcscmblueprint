@@ -1,0 +1,51 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "0BCC840D2669D49E30C7067CB740BDAE5A3D7550",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "62A901018FBA59CA6AF38A6739BE490E5AE2A9AD" : 0,
+    "78739728BC2123AD8D9FDD9B7E34B43BD66C9FB5" : 0,
+    "E872EA95E8741FB93E0BEA8F0BFDC8DE490EE131" : 0,
+    "0BCC840D2669D49E30C7067CB740BDAE5A3D7550" : 0,
+    "99EDBE91264F7A68BFF0A5F5AAAF9D9E8EE4FEEC" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "4FB33EA0-2A7A-41F1-8187-4B1897C08C87",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "62A901018FBA59CA6AF38A6739BE490E5AE2A9AD" : "SubEthaEdit\/PSMTabBarControl",
+    "78739728BC2123AD8D9FDD9B7E34B43BD66C9FB5" : "SubEthaEdit\/HockeySDK-Mac",
+    "E872EA95E8741FB93E0BEA8F0BFDC8DE490EE131" : "SubEthaEdit\/UniversalDetector",
+    "0BCC840D2669D49E30C7067CB740BDAE5A3D7550" : "SubEthaEdit",
+    "99EDBE91264F7A68BFF0A5F5AAAF9D9E8EE4FEEC" : "SubEthaEdit\/OgreKit"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "SubEthaEdit",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 203,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "SubEthaEdit.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "ssh:\/\/bitbucket.org\/TheCodingMonkeys\/subethaedit.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "0BCC840D2669D49E30C7067CB740BDAE5A3D7550"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/codingmonkeys\/PSMTabBarControl.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "62A901018FBA59CA6AF38A6739BE490E5AE2A9AD"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/codingmonkeys\/HockeySDK-Mac.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "78739728BC2123AD8D9FDD9B7E34B43BD66C9FB5"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/codingmonkeys\/OgreKit.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "99EDBE91264F7A68BFF0A5F5AAAF9D9E8EE4FEEC"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/codingmonkeys\/UniversalDetector.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "E872EA95E8741FB93E0BEA8F0BFDC8DE490EE131"
+    }
+  ]
+}

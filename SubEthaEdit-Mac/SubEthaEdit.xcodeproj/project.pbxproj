@@ -3146,7 +3146,7 @@
 		};
 		4CF06A311816B1FB00B35DF8 /* Codesign ThirdParty */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
@@ -3154,7 +3154,7 @@
 			name = "Codesign ThirdParty";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "/bin/sh \"${SRCROOT}/../TCMScripts/SEEThirdPartyResign.sh\"";
 		};
