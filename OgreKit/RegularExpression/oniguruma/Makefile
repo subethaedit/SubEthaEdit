@@ -28,14 +28,14 @@ $(INTEL_64_DIR)/$(ONIG_TARGET): $(INTEL_64_DIR)
 	CC="$(INTEL_64_CC)" ./configure $(INTEL_64_CONFIGURE_FLAGS);\
 	perl -pi -e 's@CFLAGS = -isysroot /Developer/SDKs/MacOSX10.7.sdk -arch x86_64@CFLAGS = -isysroot $(INTEL_SDK) -arch x86_64@' Makefile;\
 	perl -pi -e 's@-dynamiclib@-dynamiclib -arch x86_64@g' libtool;\
-	make $(@F)
+	/usr/bin/make $(@F)
 
 $(INTEL_DIR)/$(ONIG_TARGET): $(INTEL_DIR)
 	cd $(@D);\
 	CC="$(INTEL_CC)" ./configure $(INTEL_CONFIGURE_FLAGS);\
 	perl -pi -e 's@CFLAGS = -isysroot /Developer/SDKs/MacOSX10.7.sdk -arch x86_64@CFLAGS = -isysroot $(INTEL_SDK) -arch i686@' Makefile;\
 	perl -pi -e 's@-dynamiclib@-dynamiclib -arch i686@g' libtool;\
-	make $(@F)
+	/usr/bin/make $(@F)
 
 $(INTEL_64_DIR):
 	unzip $(ONIGURUMA_VERSION).zip

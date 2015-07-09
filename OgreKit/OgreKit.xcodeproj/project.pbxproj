@@ -1615,7 +1615,7 @@
 			dependencies = (
 			);
 			name = Oniguruma;
-			passBuildSettingsInEnvironment = 1;
+			passBuildSettingsInEnvironment = 0;
 			productName = Oniguruma;
 		};
 /* End PBXLegacyTarget section */
