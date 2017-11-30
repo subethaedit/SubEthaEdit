@@ -524,14 +524,14 @@ static NSString	*OgreAFPCAttributedReplaceHistoryKey = @"AFPC Attributed Replace
 	enumerator = [_findHistory objectEnumerator];
 	while ((attrString = [enumerator nextObject]) != nil) {
 		[encodedFindHistory addObject:[attrString RTFDFromRange:NSMakeRange(0, [attrString length]) 
-			documentAttributes:nil]];
+											 documentAttributes:@{}]];
 	}
 	
 	encodedReplaceHistory = [[[NSMutableArray alloc] initWithCapacity:[_replaceHistory count]] autorelease];
 	enumerator = [_replaceHistory objectEnumerator];
 	while ((attrString = [enumerator nextObject]) != nil) {
 		[encodedReplaceHistory addObject:[attrString RTFDFromRange:NSMakeRange(0, [attrString length]) 
-			documentAttributes:nil]];
+												documentAttributes:@{}]];
 	}
 	
 	/* 検索履歴等の情報を残したい場合はこのメソッドを上書きする。 */

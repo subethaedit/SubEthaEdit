@@ -202,7 +202,7 @@
         }
     }
     
-    column = [[_outlineView tableColumns] objectAtIndex:concreteIndex];
+    column = (OgreOutlineColumn *)[[_outlineView tableColumns] objectAtIndex:concreteIndex];
     outlineColumnAdapter = [[[OgreOutlineColumnAdapter alloc] initWithOutlineColumn:column] autorelease];
     [outlineColumnAdapter setParent:self];
     [outlineColumnAdapter setIndex:index];
