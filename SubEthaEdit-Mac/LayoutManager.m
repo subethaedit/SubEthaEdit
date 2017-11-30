@@ -318,7 +318,7 @@ static NSString *S_specialGlyphs[17];
     [super drawBackgroundForGlyphRange:aGlyphRange atPoint:anOrigin];
 }
 
-- (void)fillBackgroundRectArray:(NSRectArray)rectArray count:(NSUInteger)rectCount forCharacterRange:(NSRange)charRange color:(NSColor *)color {
+- (void)fillBackgroundRectArray:(const NSRect *)rectArray count:(NSUInteger)rectCount forCharacterRange:(NSRange)charRange color:(NSColor *)color {
 	NSColor *fillColor = color;
 	BOOL wasModified = NO;
 	if ([color.colorSpaceName isEqualToString:NSNamedColorSpace]) {

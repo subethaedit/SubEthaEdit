@@ -8,19 +8,19 @@
 
 #include "TCMRevision.xcconfig"
 
-TCM_APP_COPYRIGHT = © 2003-2015 TheCodingMonkeys. All rights reserved.
+TCM_APP_COPYRIGHT = © 2003-2017 TheCodingMonkeys. All rights reserved.
 
 // Set TCM_APP_IDENTIFER_SUFFIX to "Dev" or "" ("" for release)
-TCM_APP_IDENTIFER_SUFFIX =
+TCM_APP_IDENTIFER_SUFFIX = Dev
 
 // Set TCM_APP_IDENTIFER_SUFFIX to "BETA", "FULL" or "" ("" or "FULL" for release)
-TCM_APP_STYLE =
+TCM_APP_STYLE = BETA
 
-TCM_APP_BETA_EXPIRE_DATE = "2015-12-01 00:00:00 +0100"
-TCM_APP_VERSION = 4.2.1
+TCM_APP_BETA_EXPIRE_DATE = "2018-12-01 00:00:00 +0100"
+TCM_APP_VERSION = 4.2.2
 
 // remove app version suffix for release versions
-TCM_APP_VERSION_SUFFIX =
+TCM_APP_VERSION_SUFFIX = b1
 
 TCM_APP_GET_INFO = SubEthaEdit ${TCM_APP_VERSION}, ${TCM_APP_COPYRIGHT}
 

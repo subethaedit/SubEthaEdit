@@ -15,7 +15,7 @@
 #import "DocumentMode.h"
 #import "PlainTextDocument.h"
 #import "TCMMMUserManager.h"
-#import "TCMMMUserSeeAdditions.h"
+#import "TCMMMUserSEEAdditions.h"
 #import "PlainTextDocument.h"
 #import "GeneralPreferences.h"
 #import "TCMMMSession.h"

@@ -603,7 +603,7 @@ static DocumentModeManager *S_sharedInstance=nil;
 		[self saveStyleSheet:aStyleSheet]; // saves to user application support
 		filePath = [I_styleSheetPathsByName objectForKey:[aStyleSheet styleSheetName]];
 	}
-	[[NSWorkspace sharedWorkspace] selectFile:filePath inFileViewerRootedAtPath:nil];
+	[[NSWorkspace sharedWorkspace] selectFile:filePath inFileViewerRootedAtPath:[filePath stringByDeletingLastPathComponent]];
 }
 
 #pragma mark - Stuff with modes
@@ -641,7 +641,7 @@ static DocumentModeManager *S_sharedInstance=nil;
 	}
 
 	NSString *pathToOpen = aJumpIntoContentFolder? [modeBundle resourcePath] : [modeBundle bundlePath];
-	[[NSWorkspace sharedWorkspace] selectFile:pathToOpen inFileViewerRootedAtPath:nil];
+	[[NSWorkspace sharedWorkspace] selectFile:pathToOpen inFileViewerRootedAtPath:[pathToOpen stringByDeletingLastPathComponent]];
 }
 
 - (void)showIncompatibleModeErrorForBundle:(NSBundle *)aBundle {
@@ -657,7 +657,10 @@ static DocumentModeManager *S_sharedInstance=nil;
     
     if (returnCode == NSAlertSecondButtonReturn) {
         // Show mode in Finder
-        [[NSWorkspace sharedWorkspace] selectFile:[aBundle bundlePath] inFileViewerRootedAtPath:nil];
+		NSString *bundlePath = [aBundle bundlePath];
+		if (bundlePath) {
+			[[NSWorkspace sharedWorkspace] selectFile:bundlePath inFileViewerRootedAtPath:[bundlePath stringByDeletingLastPathComponent]];
+		}
     }
 }
 

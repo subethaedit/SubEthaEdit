@@ -28,7 +28,7 @@
         NSMutableArray *tabStops = [NSMutableArray array];
         double distance = 10;
         for (NSInteger index = 1; index <= 100; index++) {
-            NSTextTab *tab = [[NSTextTab alloc] initWithTextAlignment:NSLeftTextAlignment location:index * distance options:nil];
+			NSTextTab *tab = [[NSTextTab alloc] initWithTextAlignment:NSLeftTextAlignment location:index * distance options:@{}];
             [tabStops addObject:tab];
         }
         [paragraphStyle setTabStops:tabStops];

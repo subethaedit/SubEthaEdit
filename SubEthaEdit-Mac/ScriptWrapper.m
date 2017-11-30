@@ -73,7 +73,8 @@ NSString * const ScriptWrapperDidRunScriptNotification =@"ScriptWrapperDidRunScr
 
 - (void)revealSource {
     if ([I_URL isFileURL]) {
-        [[NSWorkspace sharedWorkspace] selectFile:[I_URL path] inFileViewerRootedAtPath:nil];
+		NSString *path = [I_URL path];
+        [[NSWorkspace sharedWorkspace] selectFile:path inFileViewerRootedAtPath:[path stringByDeletingLastPathComponent]];
     } else {
         NSBeep();
     }

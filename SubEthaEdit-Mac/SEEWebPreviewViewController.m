@@ -299,7 +299,7 @@ static NSScrollView * firstScrollView(NSView *aView) {
 #pragma mark ### CSS-update ###
 
 - (void)somePlainTextDocumentDidSave:(NSNotification *)aNotification {
-    NSString *savedFileName = [[[aNotification object] fileName] lastPathComponent];
+    NSString *savedFileName = [[[aNotification object] fileURL] lastPathComponent];
     if ([[[savedFileName pathExtension] lowercaseString] isEqualToString:@"css"]) {
         if ([[[[self plainTextDocument] textStorage] string] rangeOfString:savedFileName options:NSCaseInsensitiveSearch].location != NSNotFound) {
             [self refreshAndEmptyCache:self];

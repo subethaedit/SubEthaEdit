@@ -1173,7 +1173,7 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 			if (error) {
 				NSLog(@"%@",error);
 			} else {
-				[document printDocumentWithSettings:nil showPrintPanel:NO delegate:nil didPrintSelector:NULL contextInfo:NULL];
+				[document printDocumentWithSettings:@{} showPrintPanel:NO delegate:nil didPrintSelector:NULL contextInfo:NULL];
 				if (shouldClose && !documentWasAlreadyOpen) {
 					[document close];
 				}
@@ -1702,7 +1702,10 @@ struct ModificationInfo
 	
 	int result = [installAlert runModal];
 	if (result == NSAlertAlternateReturn) { // show package contents
-		[[NSWorkspace sharedWorkspace] selectFile:[modeBundle resourcePath] inFileViewerRootedAtPath:nil];
+		NSString *resourcePath = [modeBundle resourcePath];
+		if (resourcePath) {
+			[[NSWorkspace sharedWorkspace] selectFile:resourcePath inFileViewerRootedAtPath:[resourcePath stringByDeletingLastPathComponent]];
+		}
 	
 	} else if (result == NSAlertDefaultReturn) { // ok was selected
         BOOL success = NO;

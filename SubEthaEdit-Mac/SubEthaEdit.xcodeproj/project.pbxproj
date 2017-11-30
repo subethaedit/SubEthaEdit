@@ -2767,7 +2767,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				CLASSPREFIX = SEE;
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0910;
 				ORGANIZATIONNAME = TheCodingMonkeys;
 				TargetAttributes = {
 					5EC638290ABEB71100D3295B = {
@@ -2780,6 +2780,9 @@
 								enabled = 1;
 							};
 						};
+					};
+					F2D86C1E0F8E7E2A00B912A2 = {
+						DevelopmentTeam = KNQNV2YMZL;
 					};
 				};
 			};
@@ -3737,6 +3740,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"\"$(SRCROOT)/openssl/\"",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_CFLAGS = "";
@@ -3773,6 +3777,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"\"$(SRCROOT)/openssl/\"",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_CFLAGS = (
@@ -3792,6 +3797,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4CAA423818157EAB00457B2A /* TCMAppConfig.xcconfig */;
 			buildSettings = {
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -3804,6 +3810,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4CAA423818157EAB00457B2A /* TCMAppConfig.xcconfig */;
 			buildSettings = {
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEPLOYMENT_POSTPROCESSING = YES;
@@ -3824,6 +3831,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = KNQNV2YMZL;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
@@ -3849,6 +3857,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = KNQNV2YMZL;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

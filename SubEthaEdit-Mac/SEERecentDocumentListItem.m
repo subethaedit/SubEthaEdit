@@ -75,7 +75,7 @@ void * const SEERecentDocumentURLObservingContext = (void *)&SEERecentDocumentUR
 	NSURL *documentURL = self.fileURL;
 	if (documentURL) {
 		[documentURL startAccessingSecurityScopedResource];
-		[[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:documentURL display:YES completionHandler:NULL];
+		[[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:documentURL display:YES completionHandler:^(NSDocument * _Nullable document, BOOL documentWasAlreadyOpen, NSError * _Nullable error) {}];
 	}
 }
 

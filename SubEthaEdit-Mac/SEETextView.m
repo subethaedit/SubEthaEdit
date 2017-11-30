@@ -198,7 +198,8 @@ static NSMenu *S_defaultMenu=nil;
                 [layoutManager removeTemporaryAttributes:[tempAttributes allKeys]
                                        forCharacterRange:blockeditRange];
                 // evil hack for unpause
-                [[self delegate] textViewDidChangeSelection:nil];
+				NSNotification *notification = [NSNotification notificationWithName:NSTextDidChangeNotification object:self];
+                [[self delegate] textViewDidChangeSelection:notification];
             }
 			leftMouseDraggedEvent = nil;
 			break;
@@ -788,9 +789,9 @@ static NSMenu *S_defaultMenu=nil;
 		NSAttributedString *foldingIconString = [NSAttributedString attributedStringWithAttachment:foldingIconAttachment];
 		NSAttributedString *foldingIconReplacementString = [[NSAttributedString alloc] initWithPath:[[NSBundle mainBundle] pathForResource:@"FoldingBubbleText" ofType:@"rtf"] documentAttributes:nil];
 		[mutableString replaceAttachmentsWithAttributedString:foldingIconString];
-		[pasteboard setData:[mutableString RTFDFromRange:NSMakeRange(0,[mutableString length]) documentAttributes:nil] forType:NSRTFDPboardType];
+		[pasteboard setData:[mutableString RTFDFromRange:NSMakeRange(0,[mutableString length]) documentAttributes:@{}] forType:NSRTFDPboardType];
 		[mutableString replaceAttachmentsWithAttributedString:foldingIconReplacementString];
-		[pasteboard setData:[mutableString  RTFFromRange:NSMakeRange(0,[mutableString length]) documentAttributes:nil] forType:NSRTFPboardType];
+		[pasteboard setData:[mutableString  RTFFromRange:NSMakeRange(0,[mutableString length]) documentAttributes:@{}] forType:NSRTFPboardType];
 	} else {
 		[self writeSelectionToPasteboard:pasteboard type:NSStringPboardType];
 	}

@@ -59,10 +59,9 @@ typedef enum _MAWindowPosition {
     float cornerRadius;
     BOOL drawsRoundCornerBesideArrow;
     
-    @private
     NSColor *_MABackgroundColor;
-    __weak NSView *_view;
-    __weak NSWindow *_window;
+    NSView *_hostingView;
+    NSWindow *_hostingWindow;
     NSPoint _point;
     MAWindowPosition _side;
     float _distance;
