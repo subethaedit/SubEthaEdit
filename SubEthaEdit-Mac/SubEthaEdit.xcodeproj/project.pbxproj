@@ -3742,7 +3742,7 @@
 					"$(PROJECT_DIR)",
 					"\"$(SRCROOT)/openssl/\"",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_CFLAGS = "";
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				PLIST_FILE_OUTPUT_FORMAT = binary;
@@ -3779,7 +3779,7 @@
 					"$(PROJECT_DIR)",
 					"\"$(SRCROOT)/openssl/\"",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_CFLAGS = (
 					"-DTCM_NO_DEBUG",
 					"-DNS_BLOCK_ASSERTIONS",

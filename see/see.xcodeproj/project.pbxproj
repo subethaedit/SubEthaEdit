@@ -271,6 +271,7 @@
 				GCC_PREFIX_HEADER = "see/see-Prefix.pch";
 				INFOPLIST_FILE = see/See_Info.plist;
 				INSTALL_PATH = /usr/local/bin;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = NO;
 				WARNING_CFLAGS = "-Wunreachable-code";

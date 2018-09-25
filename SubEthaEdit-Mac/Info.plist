@@ -3006,6 +3006,8 @@
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>SEEApplication</string>
+	<key>NSRequiresAquaSystemAppearance</key>
+	<true/>
 	<key>NSServices</key>
 	<array>
 		<dict>
