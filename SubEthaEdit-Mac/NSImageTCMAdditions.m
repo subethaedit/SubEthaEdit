@@ -335,8 +335,20 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
 	CGFloat strokeWidth = ceil(NSWidth(baseRect) / 14.0);
 	NSRect roundRect = NSInsetRect(baseRect, strokeWidth/2.0, strokeWidth/2.0);
 
+    static NSString *fallbackFontName = nil;
+    if (!fallbackFontName) {
+        fallbackFontName = [NSFont systemFontOfSize:NSFont.systemFontSize].fontName;
+    }
+    
+    if (!aFontName) {
+        aFontName = fallbackFontName;
+    }
+    
 	NSMutableDictionary *textAttributes = [({
 		CTFontRef font = CTFontCreateWithName((__bridge CFStringRef)aFontName, aFontSize, NULL);
+        if (!font) {
+            font = CTFontCreateWithName((__bridge CFStringRef)fallbackFontName, aFontSize, NULL);
+        }
 		CFTypeRef cgColor = CFRetain([aColor CGColor]);
 		NSDictionary *result = @{
 								 (id)kCTFontAttributeName : (__bridge id)font,
@@ -409,13 +421,13 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
 		if (components.count > 2) {
 			fontSize = [components[2] doubleValue];
 		}
-		NSString *fontName = @"LucidaGrande";
-		//@"LiGothicMed";
-		//@"HelveticaNeue-Bold";
+
+        NSString *fontName = nil;
 		if (components.count > 3) {
 			fontName = components[3];
 		}
-		NSSize size = NSMakeSize(14, 14);
+
+        NSSize size = NSMakeSize(14, 14);
 		result = [NSImage imageWithSize:size flipped:NO drawingHandler:[self TCM_drawingHandlerWithSize:size string:string color:color fontName:fontName fontSize:fontSize]];
 		[result setName:name];
 	}
