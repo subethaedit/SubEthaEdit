@@ -148,3 +148,10 @@ SubEthaEdit-Mac/OgreKit/RegularExpression/oniguruma/universal
 *.scriptSuite
 *.scriptTerminology
 *.r
+
+*.pyc 
+build/*
+RegularExpression/oniguruma/x86_64
+RegularExpression/
+
+.DS_Store
