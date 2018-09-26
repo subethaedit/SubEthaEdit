@@ -31,20 +31,6 @@
 		4D4FC2601142BCCD0097043F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D4FC25E1142BCCD0097043F /* main.m */; };
 		4D4FC2691142BD170097043F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4D4FC2651142BD170097043F /* InfoPlist.strings */; };
 		4D4FC26A1142BD170097043F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D4FC2671142BD170097043F /* MainMenu.xib */; };
-		4D82DCE309BA0CAF007F03B0 /* oniguruma.h in Headers */ = {isa = PBXBuildFile; fileRef = 4D82DCE209BA0CAF007F03B0 /* oniguruma.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4D82DCE409BA0CAF007F03B0 /* oniguruma.h in Headers */ = {isa = PBXBuildFile; fileRef = 4D82DCE209BA0CAF007F03B0 /* oniguruma.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4D82DCE609BA0CBF007F03B0 /* COPYING in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4D82DCE509BA0CBF007F03B0 /* COPYING */; };
-		4D82DCE709BA0CBF007F03B0 /* COPYING in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4D82DCE509BA0CBF007F03B0 /* COPYING */; };
-		4D82DCEF09BA0CCF007F03B0 /* API in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4D82DCE909BA0CCE007F03B0 /* API */; };
-		4D82DCF109BA0CCF007F03B0 /* FAQ in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4D82DCEB09BA0CCE007F03B0 /* FAQ */; };
-		4D82DCF309BA0CCF007F03B0 /* RE in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4D82DCED09BA0CCE007F03B0 /* RE */; };
-		4D82DCF509BA0CCF007F03B0 /* API in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4D82DCE909BA0CCE007F03B0 /* API */; };
-		4D82DCF709BA0CCF007F03B0 /* FAQ in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4D82DCEB09BA0CCE007F03B0 /* FAQ */; };
-		4D82DCF909BA0CCF007F03B0 /* RE in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4D82DCED09BA0CCE007F03B0 /* RE */; };
-		4D82DCFC09BA0CEF007F03B0 /* HISTORY in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4D82DCFB09BA0CEF007F03B0 /* HISTORY */; };
-		4D82DCFD09BA0CEF007F03B0 /* HISTORY in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4D82DCFB09BA0CEF007F03B0 /* HISTORY */; };
-		4D82DCFF09BA0CFC007F03B0 /* README in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4D82DCFE09BA0CFC007F03B0 /* README */; };
-		4D82DD0009BA0CFC007F03B0 /* README in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4D82DCFE09BA0CFC007F03B0 /* README */; };
 		4D9DBE2C09BAB999003DD4A8 /* libonig.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D9DBE2B09BAB999003DD4A8 /* libonig.a */; };
 		4D9DBE2D09BAB999003DD4A8 /* libonig.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D9DBE2B09BAB999003DD4A8 /* libonig.a */; };
 		4DA73FBA1142894300E28DA7 /* OgreTextFindProgressDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DA73FB91142894300E28DA7 /* OgreTextFindProgressDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -293,6 +279,9 @@
 		4DF530C20915221700475575 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DF530BD0915221700475575 /* main.m */; };
 		4DF530D30915226200475575 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4DF530D00915226200475575 /* MainMenu.nib */; };
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
+		F2170207215A458B007A2C35 /* oniguruma.h in Headers */ = {isa = PBXBuildFile; fileRef = F2170206215A458B007A2C35 /* oniguruma.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F2170208215A458B007A2C35 /* oniguruma.h in Headers */ = {isa = PBXBuildFile; fileRef = F2170206215A458B007A2C35 /* oniguruma.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F217020B215A47B4007A2C35 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F217020A215A47B4007A2C35 /* AppKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -407,12 +396,6 @@
 			dstPath = Documentation/OniGuruma;
 			dstSubfolderSpec = 7;
 			files = (
-				4D82DCE609BA0CBF007F03B0 /* COPYING in CopyFiles */,
-				4D82DCEF09BA0CCF007F03B0 /* API in CopyFiles */,
-				4D82DCF109BA0CCF007F03B0 /* FAQ in CopyFiles */,
-				4D82DCF309BA0CCF007F03B0 /* RE in CopyFiles */,
-				4D82DCFC09BA0CEF007F03B0 /* HISTORY in CopyFiles */,
-				4D82DCFF09BA0CFC007F03B0 /* README in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -433,12 +416,6 @@
 			dstPath = Documentation/OniGuruma;
 			dstSubfolderSpec = 7;
 			files = (
-				4D82DCE709BA0CBF007F03B0 /* COPYING in CopyFiles */,
-				4D82DCF509BA0CCF007F03B0 /* API in CopyFiles */,
-				4D82DCF709BA0CCF007F03B0 /* FAQ in CopyFiles */,
-				4D82DCF909BA0CCF007F03B0 /* RE in CopyFiles */,
-				4D82DCFD09BA0CEF007F03B0 /* HISTORY in CopyFiles */,
-				4D82DD0009BA0CFC007F03B0 /* README in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -494,13 +471,6 @@
 		4D4FC25E1142BCCD0097043F /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = GCTest/main.m; sourceTree = SOURCE_ROOT; };
 		4D4FC2661142BD170097043F /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = GCTest/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		4D4FC2681142BD170097043F /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = GCTest/English.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		4D82DCE209BA0CAF007F03B0 /* oniguruma.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; name = oniguruma.h; path = intel/oniguruma.h; sourceTree = "<group>"; };
-		4D82DCE509BA0CBF007F03B0 /* COPYING */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = text; name = COPYING; path = intel/COPYING; sourceTree = "<group>"; };
-		4D82DCE909BA0CCE007F03B0 /* API */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = text; path = API; sourceTree = "<group>"; };
-		4D82DCEB09BA0CCE007F03B0 /* FAQ */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = text; path = FAQ; sourceTree = "<group>"; };
-		4D82DCED09BA0CCE007F03B0 /* RE */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = text; path = RE; sourceTree = "<group>"; };
-		4D82DCFB09BA0CEF007F03B0 /* HISTORY */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = text; name = HISTORY; path = intel/HISTORY; sourceTree = "<group>"; };
-		4D82DCFE09BA0CFC007F03B0 /* README */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = text; name = README; path = intel/README; sourceTree = "<group>"; };
 		4D9DBE2B09BAB999003DD4A8 /* libonig.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libonig.a; path = RegularExpression/oniguruma/universal/libonig.a; sourceTree = "<group>"; };
 		4DA73FB91142894300E28DA7 /* OgreTextFindProgressDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OgreTextFindProgressDelegate.h; path = FindPanel/OgreTextFindThreads/OgreTextFindProgressDelegate.h; sourceTree = SOURCE_ROOT; };
 		4DA7410F1142B26900E28DA7 /* GCTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GCTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -755,6 +725,8 @@
 		4DF530D10915226200475575 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = ReplaceWithAttributesTest/English.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* OgreKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OgreKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2F7E79907B2D74100F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+		F2170206215A458B007A2C35 /* oniguruma.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = oniguruma.h; path = x86_64/oniguruma.h; sourceTree = "<group>"; };
+		F217020A215A47B4007A2C35 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -796,6 +768,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F217020B215A47B4007A2C35 /* AppKit.framework in Frameworks */,
 				4DC41273091518F10029A2A6 /* OgreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -845,6 +818,7 @@
 				4DA741461142B36700E28DA7 /* GC Test */,
 				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
 				034768DFFF38A50411DB9C8B /* Products */,
+				F2170209215A47B4007A2C35 /* Frameworks */,
 			);
 			name = OgreKit;
 			sourceTree = "<group>";
@@ -883,17 +857,6 @@
 				4D9DBE2B09BAB999003DD4A8 /* libonig.a */,
 			);
 			name = "Linked Libraries";
-			sourceTree = "<group>";
-		};
-		4D82DCE809BA0CCE007F03B0 /* doc */ = {
-			isa = PBXGroup;
-			children = (
-				4D82DCE909BA0CCE007F03B0 /* API */,
-				4D82DCEB09BA0CCE007F03B0 /* FAQ */,
-				4D82DCED09BA0CCE007F03B0 /* RE */,
-			);
-			name = doc;
-			path = intel/doc;
 			sourceTree = "<group>";
 		};
 		4DA741461142B36700E28DA7 /* GC Test */ = {
@@ -1290,11 +1253,7 @@
 		4DC40DFA09150CF00029A2A6 /* oniguruma */ = {
 			isa = PBXGroup;
 			children = (
-				4D82DCE209BA0CAF007F03B0 /* oniguruma.h */,
-				4D82DCE509BA0CBF007F03B0 /* COPYING */,
-				4D82DCFB09BA0CEF007F03B0 /* HISTORY */,
-				4D82DCFE09BA0CFC007F03B0 /* README */,
-				4D82DCE809BA0CCE007F03B0 /* doc */,
+				F2170206215A458B007A2C35 /* oniguruma.h */,
 			);
 			name = oniguruma;
 			path = RegularExpression/oniguruma;
@@ -1484,6 +1443,14 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
+		F2170209215A47B4007A2C35 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F217020A215A47B4007A2C35 /* AppKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -1491,6 +1458,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F2170208215A458B007A2C35 /* oniguruma.h in Headers */,
 				4DC40F4F09150CF50029A2A6 /* OGRegularExpression.h in Headers */,
 				4DC40F5109150CF50029A2A6 /* OGRegularExpressionPrivate.h in Headers */,
 				4DC40F5309150CF50029A2A6 /* OGRegularExpressionEnumerator.h in Headers */,
@@ -1511,7 +1479,6 @@
 				4DC410EE091512C70029A2A6 /* OGPlainString.h in Headers */,
 				4DC410F0091512C90029A2A6 /* OGMutableAttributedString.h in Headers */,
 				4DC410F2091512CA0029A2A6 /* OGAttributedString.h in Headers */,
-				4D82DCE409BA0CAF007F03B0 /* oniguruma.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1555,6 +1522,7 @@
 				4DC40E9C09150CF50029A2A6 /* OgreTextViewAdapter.h in Headers */,
 				4DC40E9E09150CF50029A2A6 /* OgreTextViewPlainAdapter.h in Headers */,
 				4DC40EA009150CF50029A2A6 /* OgreTextViewRichAdapter.h in Headers */,
+				F2170207215A458B007A2C35 /* oniguruma.h in Headers */,
 				4DC40EA209150CF50029A2A6 /* OgreTextViewGraphicAllowedAdapter.h in Headers */,
 				4DC40EA409150CF50029A2A6 /* OgreTextViewUndoer.h in Headers */,
 				4DC40EA609150CF50029A2A6 /* OgreTableViewAdapter.h in Headers */,
@@ -1597,7 +1565,6 @@
 				4DC40EEF09150CF50029A2A6 /* OgreAttachableWindowAcceptor.h in Headers */,
 				4DC40F4609150CF50029A2A6 /* OgreKit.h in Headers */,
 				4DC40F4809150CF50029A2A6 /* OgreKit_Prefix.pch in Headers */,
-				4D82DCE309BA0CAF007F03B0 /* oniguruma.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2346,13 +2313,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = Oniguruma;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.9.sdk";
 			};
 			name = Debug;
 		};
@@ -2360,12 +2322,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = Oniguruma;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.9.sdk";
-				ZERO_LINK = NO;
 			};
 			name = Release;
 		};
@@ -2373,9 +2330,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = Oniguruma;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.9.sdk";
 			};
 			name = Default;
 		};
@@ -2383,11 +2338,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
@@ -2401,7 +2354,6 @@
 					AppKit,
 				);
 				PRODUCT_NAME = GCTest;
-				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -2409,11 +2361,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				INFOPLIST_FILE = "GCTest/GC Test-Info.plist";
@@ -2426,8 +2376,6 @@
 					AppKit,
 				);
 				PRODUCT_NAME = GCTest;
-				SDKROOT = macosx;
-				ZERO_LINK = NO;
 			};
 			name = Release;
 		};
@@ -2435,9 +2383,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
-				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				INFOPLIST_FILE = "GCTest/GC Test-Info.plist";
@@ -2450,22 +2396,18 @@
 					AppKit,
 				);
 				PRODUCT_NAME = GCTest;
-				SDKROOT = macosx;
 			};
 			name = Default;
 		};
 		4DC40BA0091509DC0029A2A6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = RegularExpression/OgreKit_Prefix.pch;
@@ -2475,17 +2417,15 @@
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(LIBRARY_SEARCH_PATHS)",
-					"$(SRCROOT)/RegularExpression/oniguruma/universal",
+					"$(SRCROOT)/RegularExpression/oniguruma",
 				);
 				LIBRARY_STYLE = DYNAMIC;
 				MACH_O_TYPE = mh_dylib;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_LDFLAGS = (
 					"-seg1addr",
 					0x32000000,
 				);
 				PRODUCT_NAME = OgreKit;
-				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -2493,21 +2433,17 @@
 					"-Wno-unknown-pragmas",
 				);
 				WRAPPER_EXTENSION = framework;
-				ZERO_LINK = YES;
 			};
 			name = Debug;
 		};
 		4DC40BA1091509DC0029A2A6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = RegularExpression/OgreKit_Prefix.pch;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -2516,17 +2452,15 @@
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(LIBRARY_SEARCH_PATHS)",
-					"$(SRCROOT)/RegularExpression/oniguruma/universal",
+					"$(SRCROOT)/RegularExpression/oniguruma",
 				);
 				LIBRARY_STYLE = DYNAMIC;
 				MACH_O_TYPE = mh_dylib;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_LDFLAGS = (
 					"-seg1addr",
 					0x32000000,
 				);
 				PRODUCT_NAME = OgreKit;
-				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -2534,20 +2468,17 @@
 					"-Wno-unknown-pragmas",
 				);
 				WRAPPER_EXTENSION = framework;
-				ZERO_LINK = NO;
 			};
 			name = Release;
 		};
 		4DC40BA2091509DC0029A2A6 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = RegularExpression/OgreKit_Prefix.pch;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -2556,17 +2487,15 @@
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(LIBRARY_SEARCH_PATHS)",
-					"$(SRCROOT)/RegularExpression/oniguruma/universal",
+					"$(SRCROOT)/RegularExpression/oniguruma",
 				);
 				LIBRARY_STYLE = DYNAMIC;
 				MACH_O_TYPE = mh_dylib;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_LDFLAGS = (
 					"-seg1addr",
 					0x32000000,
 				);
 				PRODUCT_NAME = OgreKit;
-				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -2580,9 +2509,7 @@
 		4DC40BA4091509DC0029A2A6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
-				ONLY_ACTIVE_ARCH = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -2590,8 +2517,7 @@
 		4DC40BA5091509DC0029A2A6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -2599,8 +2525,7 @@
 		4DC40BA6091509DC0029A2A6 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				SDKROOT = macosx;
 			};
 			name = Default;
@@ -2608,15 +2533,12 @@
 		4DC40BF909150BDB0029A2A6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = RegularExpression/OgreKit_Prefix.pch;
@@ -2626,17 +2548,15 @@
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(LIBRARY_SEARCH_PATHS)",
-					"$(SRCROOT)/RegularExpression/oniguruma/universal",
+					"$(SRCROOT)/RegularExpression/oniguruma",
 				);
 				LIBRARY_STYLE = DYNAMIC;
 				MACH_O_TYPE = mh_dylib;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_LDFLAGS = (
 					"-seg1addr",
 					0x32000000,
 				);
 				PRODUCT_NAME = OgreKit;
-				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -2644,21 +2564,17 @@
 					"-Wno-unknown-pragmas",
 				);
 				WRAPPER_EXTENSION = framework;
-				ZERO_LINK = YES;
 			};
 			name = Debug;
 		};
 		4DC40BFA09150BDB0029A2A6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = RegularExpression/OgreKit_Prefix.pch;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -2667,17 +2583,15 @@
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(LIBRARY_SEARCH_PATHS)",
-					"$(SRCROOT)/RegularExpression/oniguruma/universal",
+					"$(SRCROOT)/RegularExpression/oniguruma",
 				);
 				LIBRARY_STYLE = DYNAMIC;
 				MACH_O_TYPE = mh_dylib;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_LDFLAGS = (
 					"-seg1addr",
 					0x32000000,
 				);
 				PRODUCT_NAME = OgreKit;
-				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -2685,20 +2599,17 @@
 					"-Wno-unknown-pragmas",
 				);
 				WRAPPER_EXTENSION = framework;
-				ZERO_LINK = NO;
 			};
 			name = Release;
 		};
 		4DC40BFB09150BDB0029A2A6 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = RegularExpression/OgreKit_Prefix.pch;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -2707,17 +2618,15 @@
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(LIBRARY_SEARCH_PATHS)",
-					"$(SRCROOT)/RegularExpression/oniguruma/universal",
+					"$(SRCROOT)/RegularExpression/oniguruma",
 				);
 				LIBRARY_STYLE = DYNAMIC;
 				MACH_O_TYPE = mh_dylib;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_LDFLAGS = (
 					"-seg1addr",
 					0x32000000,
 				);
 				PRODUCT_NAME = OgreKit;
-				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -2731,17 +2640,11 @@
 		4DC40C0809150C290029A2A6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = RegularExpressionTest/OgreTest_Prefix.h;
 				INFOPLIST_FILE = "RegularExpressionTest/OgreTest-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -2749,7 +2652,6 @@
 					"-framework",
 					AppKit,
 				);
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = OgreTest;
 				SDKROOT = macosx;
 				SECTORDER_FLAGS = "";
@@ -2764,17 +2666,11 @@
 		4DC40C0909150C290029A2A6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = RegularExpressionTest/OgreTest_Prefix.h;
 				INFOPLIST_FILE = "RegularExpressionTest/OgreTest-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -2782,7 +2678,6 @@
 					"-framework",
 					AppKit,
 				);
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = OgreTest;
 				SDKROOT = macosx;
 				SECTORDER_FLAGS = "";
@@ -2797,16 +2692,11 @@
 		4DC40C0A09150C290029A2A6 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = RegularExpressionTest/OgreTest_Prefix.h;
 				INFOPLIST_FILE = "RegularExpressionTest/OgreTest-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -2814,7 +2704,6 @@
 					"-framework",
 					AppKit,
 				);
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = OgreTest;
 				SDKROOT = macosx;
 				SECTORDER_FLAGS = "";
@@ -2829,17 +2718,12 @@
 		4DC40C1309150C400029A2A6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = FindPanelTest/OgreFindPanelTest_Prefix.h;
 				INFOPLIST_FILE = "FindPanelTest/FindPanelTest-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -2847,10 +2731,8 @@
 					"-framework",
 					AppKit,
 				);
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = OgreFindPanelTest;
 				SDKROOT = macosx;
-				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "-Wmost";
 			};
 			name = Debug;
@@ -2858,17 +2740,12 @@
 		4DC40C1409150C400029A2A6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = FindPanelTest/OgreFindPanelTest_Prefix.h;
 				INFOPLIST_FILE = "FindPanelTest/FindPanelTest-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -2876,10 +2753,8 @@
 					"-framework",
 					AppKit,
 				);
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = OgreFindPanelTest;
 				SDKROOT = macosx;
-				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "-Wmost";
 			};
 			name = Release;
@@ -2887,16 +2762,12 @@
 		4DC40C1509150C400029A2A6 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = FindPanelTest/OgreFindPanelTest_Prefix.h;
 				INFOPLIST_FILE = "FindPanelTest/FindPanelTest-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -2904,10 +2775,8 @@
 					"-framework",
 					AppKit,
 				);
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = OgreFindPanelTest;
 				SDKROOT = macosx;
-				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "-Wmost";
 			};
 			name = Default;
@@ -2915,27 +2784,15 @@
 		4DC40C1E09150C740029A2A6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MyFindPanelExample/MyFindPanelExample_Prefix.h;
 				INFOPLIST_FILE = "MyFindPanelExample/MyFindPanelExample-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = MyFindPanelExample;
-				SDKROOT = macosx;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "-Wmost";
 			};
@@ -2944,27 +2801,15 @@
 		4DC40C1F09150C740029A2A6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MyFindPanelExample/MyFindPanelExample_Prefix.h;
 				INFOPLIST_FILE = "MyFindPanelExample/MyFindPanelExample-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = MyFindPanelExample;
-				SDKROOT = macosx;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "-Wmost";
 			};
@@ -2973,26 +2818,15 @@
 		4DC40C2009150C740029A2A6 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MyFindPanelExample/MyFindPanelExample_Prefix.h;
 				INFOPLIST_FILE = "MyFindPanelExample/MyFindPanelExample-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = MyFindPanelExample;
-				SDKROOT = macosx;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "-Wmost";
 			};
@@ -3001,17 +2835,12 @@
 		4DC40C3409150C9F0029A2A6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				INFOPLIST_FILE = "ReplaceWithAttributesTest/ReplaceWithAttributesTest-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -3019,9 +2848,7 @@
 					"-framework",
 					AppKit,
 				);
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = ReplaceWithAttributesTest;
-				SDKROOT = macosx;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -3034,17 +2861,12 @@
 		4DC40C3509150C9F0029A2A6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				INFOPLIST_FILE = "ReplaceWithAttributesTest/ReplaceWithAttributesTest-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -3052,9 +2874,7 @@
 					"-framework",
 					AppKit,
 				);
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = ReplaceWithAttributesTest;
-				SDKROOT = macosx;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -3067,16 +2887,11 @@
 		4DC40C3609150C9F0029A2A6 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				INFOPLIST_FILE = "ReplaceWithAttributesTest/ReplaceWithAttributesTest-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -3084,9 +2899,7 @@
 					"-framework",
 					AppKit,
 				);
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = ReplaceWithAttributesTest;
-				SDKROOT = macosx;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -3099,12 +2912,8 @@
 		4DC412C3091519D50029A2A6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -3122,12 +2931,8 @@
 		4DC412C4091519D50029A2A6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -3145,10 +2950,8 @@
 		4DC412C5091519D50029A2A6 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
