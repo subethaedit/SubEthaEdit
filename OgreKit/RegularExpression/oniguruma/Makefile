@@ -12,6 +12,8 @@ ONIG_TARGET=libonig.la
 LIBS_DIR=.libs
 ONIGURUMA=libonig.a
 
+install: all
+
 all: $(ONIGURUMA)
 
 
