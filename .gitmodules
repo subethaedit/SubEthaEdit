@@ -7,6 +7,3 @@
 [submodule "UniversalDetector"]
 	path = UniversalDetector
 	url  = https://github.com/codingmonkeys/UniversalDetector.git
-[submodule "HockeySDK-Mac"]
-	path = HockeySDK-Mac
-	url  = https://github.com/codingmonkeys/HockeySDK-Mac.git
