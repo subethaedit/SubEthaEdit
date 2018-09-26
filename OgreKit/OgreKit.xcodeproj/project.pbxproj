@@ -18,7 +18,6 @@
 				4DC412BB091519B70029A2A6 /* PBXTargetDependency */,
 				4DC412BD091519B70029A2A6 /* PBXTargetDependency */,
 				4DC412BF091519B70029A2A6 /* PBXTargetDependency */,
-				4D4FC2801142BDC80097043F /* PBXTargetDependency */,
 			);
 			name = All;
 			productName = All;
@@ -27,14 +26,9 @@
 
 /* Begin PBXBuildFile section */
 		4D4F202D1142243700CD9C2F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4DF530CE0915226200475575 /* InfoPlist.strings */; };
-		4D4FC25F1142BCCD0097043F /* GC_TestAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D4FC25D1142BCCD0097043F /* GC_TestAppDelegate.m */; };
-		4D4FC2601142BCCD0097043F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D4FC25E1142BCCD0097043F /* main.m */; };
-		4D4FC2691142BD170097043F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4D4FC2651142BD170097043F /* InfoPlist.strings */; };
-		4D4FC26A1142BD170097043F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D4FC2671142BD170097043F /* MainMenu.xib */; };
 		4D9DBE2C09BAB999003DD4A8 /* libonig.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D9DBE2B09BAB999003DD4A8 /* libonig.a */; };
 		4D9DBE2D09BAB999003DD4A8 /* libonig.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D9DBE2B09BAB999003DD4A8 /* libonig.a */; };
 		4DA73FBA1142894300E28DA7 /* OgreTextFindProgressDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DA73FB91142894300E28DA7 /* OgreTextFindProgressDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4DA741431142B32700E28DA7 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DC40BFC09150BDB0029A2A6 /* OgreKit.framework */; };
 		4DC40E5E09150CF50029A2A6 /* OGRegularExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D5009150CEB0029A2A6 /* OGRegularExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4DC40E5F09150CF50029A2A6 /* OGRegularExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40D5109150CEB0029A2A6 /* OGRegularExpression.m */; };
 		4DC40E6009150CF50029A2A6 /* OGRegularExpressionPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D5209150CEB0029A2A6 /* OGRegularExpressionPrivate.h */; };
@@ -285,13 +279,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		4D4FC27F1142BDC80097043F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 4DA7410E1142B26900E28DA7;
-			remoteInfo = "GC Test";
-		};
 		4D6EA0E5096ACECA0010762A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
@@ -326,13 +313,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 4D82DCCA09B9ECD1007F03B0;
 			remoteInfo = Oniguruma;
-		};
-		4DA741441142B33600E28DA7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
-			remoteInfo = "OgreKit (Full Features)";
 		};
 		4DC412B4091519B70029A2A6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -465,16 +445,8 @@
 		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		4D4FC25B1142BCCD0097043F /* GC_Test_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GC_Test_Prefix.pch; path = GCTest/GC_Test_Prefix.pch; sourceTree = SOURCE_ROOT; };
-		4D4FC25C1142BCCD0097043F /* GC_TestAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GC_TestAppDelegate.h; path = GCTest/GC_TestAppDelegate.h; sourceTree = SOURCE_ROOT; };
-		4D4FC25D1142BCCD0097043F /* GC_TestAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GC_TestAppDelegate.m; path = GCTest/GC_TestAppDelegate.m; sourceTree = SOURCE_ROOT; };
-		4D4FC25E1142BCCD0097043F /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = GCTest/main.m; sourceTree = SOURCE_ROOT; };
-		4D4FC2661142BD170097043F /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = GCTest/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		4D4FC2681142BD170097043F /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = GCTest/English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		4D9DBE2B09BAB999003DD4A8 /* libonig.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libonig.a; path = RegularExpression/oniguruma/universal/libonig.a; sourceTree = "<group>"; };
 		4DA73FB91142894300E28DA7 /* OgreTextFindProgressDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OgreTextFindProgressDelegate.h; path = FindPanel/OgreTextFindThreads/OgreTextFindProgressDelegate.h; sourceTree = SOURCE_ROOT; };
-		4DA7410F1142B26900E28DA7 /* GCTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GCTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		4DA741111142B26A00E28DA7 /* GC Test-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "GC Test-Info.plist"; path = "GCTest/GC Test-Info.plist"; sourceTree = SOURCE_ROOT; };
 		4DC40BFC09150BDB0029A2A6 /* OgreKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OgreKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DC40C0409150C280029A2A6 /* OgreTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OgreTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DC40C0F09150C3E0029A2A6 /* OgreFindPanelTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OgreFindPanelTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -730,14 +702,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		4DA7410D1142B26900E28DA7 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4DA741431142B32700E28DA7 /* OgreKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		4DC40BF609150BDB0029A2A6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -802,7 +766,6 @@
 				4DC40C0F09150C3E0029A2A6 /* OgreFindPanelTest.app */,
 				4DC40C1A09150C730029A2A6 /* MyFindPanelExample.app */,
 				4DC40C3009150C9E0029A2A6 /* ReplaceWithAttributesTest.app */,
-				4DA7410F1142B26900E28DA7 /* GCTest.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -815,7 +778,6 @@
 				4DC4104909150D210029A2A6 /* Replace With Attributes Test */,
 				4DC4105709150D550029A2A6 /* Find Panel Test */,
 				4DC4108009150D640029A2A6 /* My Find Panel Example */,
-				4DA741461142B36700E28DA7 /* GC Test */,
 				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
 				034768DFFF38A50411DB9C8B /* Products */,
 				F2170209215A47B4007A2C35 /* Frameworks */,
@@ -857,28 +819,6 @@
 				4D9DBE2B09BAB999003DD4A8 /* libonig.a */,
 			);
 			name = "Linked Libraries";
-			sourceTree = "<group>";
-		};
-		4DA741461142B36700E28DA7 /* GC Test */ = {
-			isa = PBXGroup;
-			children = (
-				4D4FC25B1142BCCD0097043F /* GC_Test_Prefix.pch */,
-				4D4FC25C1142BCCD0097043F /* GC_TestAppDelegate.h */,
-				4D4FC25D1142BCCD0097043F /* GC_TestAppDelegate.m */,
-				4D4FC25E1142BCCD0097043F /* main.m */,
-				4DA741551142B3FC00E28DA7 /* Resources */,
-				4DA741111142B26A00E28DA7 /* GC Test-Info.plist */,
-			);
-			name = "GC Test";
-			sourceTree = "<group>";
-		};
-		4DA741551142B3FC00E28DA7 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				4D4FC2651142BD170097043F /* InfoPlist.strings */,
-				4D4FC2671142BD170097043F /* MainMenu.xib */,
-			);
-			name = Resources;
 			sourceTree = "<group>";
 		};
 		4DC40D4909150CEA0029A2A6 /* OgreKit */ = {
@@ -1588,24 +1528,6 @@
 /* End PBXLegacyTarget section */
 
 /* Begin PBXNativeTarget section */
-		4DA7410E1142B26900E28DA7 /* GC Test */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 4DA741151142B26C00E28DA7 /* Build configuration list for PBXNativeTarget "GC Test" */;
-			buildPhases = (
-				4DA7410B1142B26900E28DA7 /* Resources */,
-				4DA7410C1142B26900E28DA7 /* Sources */,
-				4DA7410D1142B26900E28DA7 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				4DA741451142B33600E28DA7 /* PBXTargetDependency */,
-			);
-			name = "GC Test";
-			productName = "GC Test";
-			productReference = 4DA7410F1142B26900E28DA7 /* GCTest.app */;
-			productType = "com.apple.product-type.application";
-		};
 		4DC40BF209150BDB0029A2A6 /* OgreKit (without Find Panel) */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4DC40BF809150BDB0029A2A6 /* Build configuration list for PBXNativeTarget "OgreKit (without Find Panel)" */;
@@ -1762,21 +1684,11 @@
 				4DC40C0E09150C3E0029A2A6 /* Find Panel Test */,
 				4DC40C1909150C720029A2A6 /* My Find Panel Example */,
 				4DC40C2F09150C9E0029A2A6 /* Replace With Attributes Test */,
-				4DA7410E1142B26900E28DA7 /* GC Test */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		4DA7410B1142B26900E28DA7 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4D4FC2691142BD170097043F /* InfoPlist.strings in Resources */,
-				4D4FC26A1142BD170097043F /* MainMenu.xib in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		4DC40BF409150BDB0029A2A6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1845,15 +1757,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		4DA7410C1142B26900E28DA7 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4D4FC25F1142BCCD0097043F /* GC_TestAppDelegate.m in Sources */,
-				4D4FC2601142BCCD0097043F /* main.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		4DC40BF509150BDB0029A2A6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2009,11 +1912,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		4D4FC2801142BDC80097043F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 4DA7410E1142B26900E28DA7 /* GC Test */;
-			targetProxy = 4D4FC27F1142BDC80097043F /* PBXContainerItemProxy */;
-		};
 		4D6EA0E6096ACECA0010762A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8DC2EF4F0486A6940098B216 /* OgreKit (Full Features) */;
@@ -2038,11 +1936,6 @@
 			isa = PBXTargetDependency;
 			target = 4D82DCCA09B9ECD1007F03B0 /* Oniguruma */;
 			targetProxy = 4D82DCCD09B9ECDE007F03B0 /* PBXContainerItemProxy */;
-		};
-		4DA741451142B33600E28DA7 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8DC2EF4F0486A6940098B216 /* OgreKit (Full Features) */;
-			targetProxy = 4DA741441142B33600E28DA7 /* PBXContainerItemProxy */;
 		};
 		4DC412B5091519B70029A2A6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2077,22 +1970,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		4D4FC2651142BD170097043F /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				4D4FC2661142BD170097043F /* English */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = SOURCE_ROOT;
-		};
-		4D4FC2671142BD170097043F /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				4D4FC2681142BD170097043F /* English */,
-			);
-			name = MainMenu.xib;
-			sourceTree = SOURCE_ROOT;
-		};
 		4DC41163091514030029A2A6 /* OgreTextFindProgressSheet.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -2331,71 +2208,6 @@
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				PRODUCT_NAME = Oniguruma;
-			};
-			name = Default;
-		};
-		4DA741121142B26B00E28DA7 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				INFOPLIST_FILE = "GCTest/GC Test-Info.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				PRODUCT_NAME = GCTest;
-			};
-			name = Debug;
-		};
-		4DA741131142B26B00E28DA7 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				INFOPLIST_FILE = "GCTest/GC Test-Info.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				PRODUCT_NAME = GCTest;
-			};
-			name = Release;
-		};
-		4DA741141142B26B00E28DA7 /* Default */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COMBINE_HIDPI_IMAGES = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				INFOPLIST_FILE = "GCTest/GC Test-Info.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				PRODUCT_NAME = GCTest;
 			};
 			name = Default;
 		};
@@ -2975,16 +2787,6 @@
 				4D82DCD609B9ECF8007F03B0 /* Debug */,
 				4D82DCD709B9ECF8007F03B0 /* Release */,
 				4D82DCD809B9ECF8007F03B0 /* Default */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
-		};
-		4DA741151142B26C00E28DA7 /* Build configuration list for PBXNativeTarget "GC Test" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				4DA741121142B26B00E28DA7 /* Debug */,
-				4DA741131142B26B00E28DA7 /* Release */,
-				4DA741141142B26B00E28DA7 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Default;
