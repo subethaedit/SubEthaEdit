@@ -6,8 +6,6 @@
 //  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
 //
 
-#import <HockeySDK/HockeySDK.h>
-
 #define kKAHL 'KAHL'
 #define kMOD 'MOD '
 
@@ -42,7 +40,7 @@ extern NSString * const kSEEPasteBoardTypeConnection;
 
 extern NSString * const GlobalScriptsDidReloadNotification;
 
-@interface AppController : NSObject <NSApplicationDelegate, NSMenuDelegate, BITHockeyManagerDelegate > {
+@interface AppController : NSObject <NSApplicationDelegate, NSMenuDelegate> {
     NSMutableDictionary *I_scriptsByFilename;
     NSMutableDictionary *I_scriptSettingsByFilename;
     NSMutableArray      *I_scriptOrderArray;

@@ -39,6 +39,6 @@ echo "Setting TCM_APP_REVISION   ${REV}${MODIFIED}"
 echo "Setting TCM_APP_REVISION_HASH ${REV_SHA1}"
 echo "Setting TCM_APP_BUILD_STYLE ${CONFIGURATION}"
 
-# write the BXRevision xcconfig into BXShared buildconfig location
+# write the TCMRevision xcconfig into TCMShared buildconfig location
 echo "TCM_APP_REVISION = ${REV}${MODIFIED}\nTCM_APP_REVISION_HASH = ${MODIFIED}${REV_SHA1}\nTCM_APP_BUILD_STYLE = ${CONFIGURATION}\n" > "${TCM_WORKSPACE_ROOT}BuildConfig/TCMRevision.xcconfig"
 
