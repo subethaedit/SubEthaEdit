@@ -1,9 +1,6 @@
 [submodule "PSMTabBarControl"]
 	path = PSMTabBarControl
 	url  = https://github.com/codingmonkeys/PSMTabBarControl.git
-[submodule "OgreKit"]
-	path = OgreKit
-	url  = https://github.com/codingmonkeys/OgreKit.git
 [submodule "UniversalDetector"]
 	path = UniversalDetector
 	url  = https://github.com/codingmonkeys/UniversalDetector.git
