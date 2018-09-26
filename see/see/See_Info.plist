@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleIdentifier</key>
-	<string>de.codingmonkeys.see${TCM_APP_STYLE}</string>
+	<string>${SEE_APP_BUNDLEID_BASE}.see${TCM_APP_STYLE}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>

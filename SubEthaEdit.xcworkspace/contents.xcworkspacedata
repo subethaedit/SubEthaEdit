@@ -5,6 +5,9 @@
       location = "group:TCMScripts/TCM_GenerateRevisionConfig.sh">
    </FileRef>
    <FileRef
+      location = "group:BuildConfig/Identity.xcconfig">
+   </FileRef>
+   <FileRef
       location = "group:BuildConfig/TCMRevision.xcconfig">
    </FileRef>
    <FileRef

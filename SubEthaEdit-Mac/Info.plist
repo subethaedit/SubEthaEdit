@@ -2970,7 +2970,7 @@
 	<key>CFBundleIconFile</key>
 	<string>SubEthaEdit</string>
 	<key>CFBundleIdentifier</key>
-	<string>de.codingmonkeys.${PRODUCT_NAME:rfc1034identifier}.Mac${TCM_APP_STYLE}${TCM_APP_IDENTIFER_SUFFIX}</string>
+	<string>${SEE_APP_IDENTIFIER_BASE}.Mac${TCM_APP_STYLE}${TCM_APP_IDENTIFER_SUFFIX}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>

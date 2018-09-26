@@ -138,7 +138,6 @@
 				ORGANIZATIONNAME = TheCodingMonkeys;
 				TargetAttributes = {
 					4C19ECB3192F7ED000D39777 = {
-						DevelopmentTeam = KNQNV2YMZL;
 					};
 				};
 			};
@@ -205,8 +204,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
-				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -240,7 +237,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -250,12 +246,10 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
-				DEVELOPMENT_TEAM = KNQNV2YMZL;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "see/see-Prefix.pch";
 				INFOPLIST_FILE = see/See_Info.plist;
 				INSTALL_PATH = /usr/local/bin;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = NO;
 				WARNING_CFLAGS = "-Wunreachable-code";
@@ -267,12 +261,10 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
-				DEVELOPMENT_TEAM = KNQNV2YMZL;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "see/see-Prefix.pch";
 				INFOPLIST_FILE = see/See_Info.plist;
 				INSTALL_PATH = /usr/local/bin;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = NO;
 				WARNING_CFLAGS = "-Wunreachable-code";
