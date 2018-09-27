@@ -1,4 +1,16 @@
-﻿/* arrangement of Tab setting and tab width in Bottm Status Bar */
+/* Application Name */
+"SEE_APP_NAME" = "SubEtha Edit";
+
+/* App menu about */
+"SEE_APP_MENU_ABOUT" = "About %@";
+
+/* App menu about */
+"SEE_APP_MENU_HIDE" = "Hide %@";
+
+/* App menu about */
+"SEE_APP_MENU_QUIT" = "Quit %@";
+
+/* arrangement of Tab setting and tab width in Bottm Status Bar */
 "%@ (%d)" = "%@ (%d)";
 
 /* FindRegexPrefix */
@@ -859,7 +871,7 @@
 
 
 /* document list */
-"DOCUMENT_LIST_WINDOW_TITLE" = "SubEthaEdit - Document Hub";
+"DOCUMENT_LIST_WINDOW_TITLE" = "%@ - Document Hub";
 "DOCUMENT_LIST_OPEN" = "Open…";
 "DOCUMENT_LIST_NEW" = "New";
 "DOCUMENT_LIST_CONNECT" = "Connect to specific host…";

@@ -12,7 +12,6 @@
 		14288FF509573F4900D14688 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14288FF409573F4900D14688 /* WebKit.framework */; };
 		1428900D095740F200D14688 /* Acknowledgements.txt in Resources */ = {isa = PBXBuildFile; fileRef = 14289008095740F200D14688 /* Acknowledgements.txt */; };
 		1428900F095740F200D14688 /* RE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1428900A095740F200D14688 /* RE.txt */; };
-		142890140957413900D14688 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 142890120957413900D14688 /* Localizable.strings */; };
 		142890490957425900D14688 /* HTMLExport in Resources */ = {isa = PBXBuildFile; fileRef = 142890480957425900D14688 /* HTMLExport */; };
 		1428904B0957427100D14688 /* Modes in Resources */ = {isa = PBXBuildFile; fileRef = 1428904A0957427100D14688 /* Modes */; };
 		142890580957432800D14688 /* Invitation.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 142890560957432800D14688 /* Invitation.aiff */; };
@@ -151,8 +150,6 @@
 		31D2C7000CA7C9C8003CC5C9 /* PrecedenceRuleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D2C6E50CA7C7A7003CC5C9 /* PrecedenceRuleCell.m */; };
 		31FFC93D104E97A000E08256 /* NSErrorTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FFC93C104E97A000E08256 /* NSErrorTCMAdditions.m */; };
 		420AAF7F18FE0FFC00297DB1 /* StylePrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 420AAF7E18FE0FFC00297DB1 /* StylePrefs.xib */; };
-		42155360190FE8B9001340A7 /* AboutPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4215535F190FE8B9001340A7 /* AboutPanel.xib */; };
-		422F9739190FD367009FD437 /* TCM_Logo_White_Background.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 422F9738190FD367009FD437 /* TCM_Logo_White_Background.pdf */; };
 		4234523A1907DFE400BE3CC1 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 423452391907DFE400BE3CC1 /* Quartz.framework */; };
 		423B23D018F63DDE001E2DCC /* SEECollaborationPreferenceModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 423B23CF18F63DDE001E2DCC /* SEECollaborationPreferenceModule.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		423B23D518F64065001E2DCC /* SEECollaborationPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 423B23D418F64065001E2DCC /* SEECollaborationPrefs.xib */; };
@@ -366,6 +363,8 @@
 		F281D3600F38758600AD7DE1 /* AbstractFoldingTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D35F0F38758600AD7DE1 /* AbstractFoldingTextStorage.m */; };
 		F281D3910F3877A900AD7DE1 /* FoldedTextAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D3900F3877A900AD7DE1 /* FoldedTextAttachment.m */; };
 		F281D4370F388A0B00AD7DE1 /* FoldingTextAttachmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D4360F388A0B00AD7DE1 /* FoldingTextAttachmentCell.m */; };
+		F286A754215CE6410056C247 /* AboutPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = F286A756215CE6410056C247 /* AboutPanel.xib */; };
+		F286A764215CF0F60056C247 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 142890120957413900D14688 /* Localizable.strings */; };
 		F2880D0B1923BA7100C6370C /* BottomBarSharingIconAddHover.png in Resources */ = {isa = PBXBuildFile; fileRef = F2880CE91923BA7000C6370C /* BottomBarSharingIconAddHover.png */; };
 		F2880D0C1923BA7100C6370C /* BottomBarSharingIconAddHover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2880CEA1923BA7000C6370C /* BottomBarSharingIconAddHover@2x.png */; };
 		F2880D0D1923BA7100C6370C /* BottomBarSharingIconAddNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = F2880CEB1923BA7000C6370C /* BottomBarSharingIconAddNormal.png */; };
@@ -896,7 +895,6 @@
 		31FFC93C104E97A000E08256 /* NSErrorTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSErrorTCMAdditions.m; sourceTree = "<group>"; };
 		32DBCF750370BD2300C91783 /* SubEthaEdit_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubEthaEdit_Prefix.pch; sourceTree = "<group>"; };
 		420AAF7E18FE0FFC00297DB1 /* StylePrefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StylePrefs.xib; sourceTree = "<group>"; };
-		4215535F190FE8B9001340A7 /* AboutPanel.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutPanel.xib; sourceTree = "<group>"; };
 		422F9738190FD367009FD437 /* TCM_Logo_White_Background.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = TCM_Logo_White_Background.pdf; path = artwork/TCM_Logo_White_Background.pdf; sourceTree = "<group>"; };
 		423452391907DFE400BE3CC1 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
 		423B23CE18F63DDE001E2DCC /* SEECollaborationPreferenceModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEECollaborationPreferenceModule.h; sourceTree = "<group>"; };
@@ -1069,36 +1067,20 @@
 		4CD251E5192396CA00098A7C /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		4CD3CFF11887FE2E00908506 /* SEEOpenPanelAccessoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEOpenPanelAccessoryViewController.h; sourceTree = "<group>"; };
 		4CD3CFF21887FE2E00908506 /* SEEOpenPanelAccessoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEOpenPanelAccessoryViewController.m; sourceTree = "<group>"; };
-		4CD5F7D917FB0BF200F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/AdvancedPrefs.xib; sourceTree = "<group>"; };
 		4CD5F7DB17FB0C0F00F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/AdvancedPrefs.xib; sourceTree = "<group>"; };
-		4CD5F7E517FB0C7B00F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/EditPrefs.xib; sourceTree = "<group>"; };
 		4CD5F7E717FB0C7E00F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/EditPrefs.xib; sourceTree = "<group>"; };
-		4CD5F7E917FB0C8E00F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SEEEncodingDoctorView.xib; sourceTree = "<group>"; };
-		4CD5F7ED17FB0CA300F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/Export.xib; sourceTree = "<group>"; };
 		4CD5F7EF17FB0CA600F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/Export.xib; sourceTree = "<group>"; };
-		4CD5F7F117FB0CBF00F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/FindAll.xib; sourceTree = "<group>"; };
 		4CD5F7F317FB0CC300F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/FindAll.xib; sourceTree = "<group>"; };
-		4CD5F7F517FB0CD200F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/FindReplace.xib; sourceTree = "<group>"; };
 		4CD5F7F717FB0CD600F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/FindReplace.xib; sourceTree = "<group>"; };
-		4CD5F7F917FB0D0C00F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/GeneralPrefs.xib; sourceTree = "<group>"; };
 		4CD5F7FB17FB0D0F00F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/GeneralPrefs.xib; sourceTree = "<group>"; };
-		4CD5F80117FB0D3700F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		4CD5F80317FB0D3B00F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		4CD5F80517FB0D5B00F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/OpenPanelAccessory.xib; sourceTree = "<group>"; };
 		4CD5F80717FB0D5F00F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/OpenPanelAccessory.xib; sourceTree = "<group>"; };
-		4CD5F81017FB0DC100F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PlainTextLoadProgress.xib; sourceTree = "<group>"; };
 		4CD5F81217FB0DC500F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/PlainTextLoadProgress.xib; sourceTree = "<group>"; };
-		4CD5F81817FB0DF900F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PrecedencePrefs.xib; sourceTree = "<group>"; };
 		4CD5F81A17FB0E0400F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/PrecedencePrefs.xib; sourceTree = "<group>"; };
-		4CD5F81C17FB0E1900F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PrecedenceRules.xib; sourceTree = "<group>"; };
 		4CD5F81E17FB0E1D00F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/PrecedenceRules.xib; sourceTree = "<group>"; };
-		4CD5F82017FB0E2B00F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PrintOptions.xib; sourceTree = "<group>"; };
 		4CD5F82217FB0E3000F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/PrintOptions.xib; sourceTree = "<group>"; };
-		4CD5F82817FB0E4F00F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SavePanelAccessory.xib; sourceTree = "<group>"; };
 		4CD5F82A17FB0E5400F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/SavePanelAccessory.xib; sourceTree = "<group>"; };
-		4CD5F82C17FB0E6000F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SelectEncodingsPanel.xib; sourceTree = "<group>"; };
 		4CD5F82E17FB0E6700F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/SelectEncodingsPanel.xib; sourceTree = "<group>"; };
-		4CD5F83417FB0EB500F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/URLBubbleWindow.xib; sourceTree = "<group>"; };
 		4CD5F83617FB0EBA00F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/URLBubbleWindow.xib; sourceTree = "<group>"; };
 		4CDC271F18967D990060B044 /* SEEParticipantView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEEParticipantView.xib; sourceTree = "<group>"; };
 		4CDC272118969A600060B044 /* SEEParticipantViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEParticipantViewController.h; sourceTree = "<group>"; };
@@ -1147,7 +1129,7 @@
 		5EF31B210A7E2E2100D777F5 /* NSCursorSEEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NSCursorSEEAdditions.h; sourceTree = "<group>"; };
 		5EF31E420A7E437C00D777F5 /* InvertedIBeam.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = InvertedIBeam.tiff; path = artwork/InvertedIBeam.tiff; sourceTree = "<group>"; };
 		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		8D15AC370486D014006FF6A4 /* SubEthaEdit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SubEthaEdit.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D15AC370486D014006FF6A4 /* SubEtha Edit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SubEtha Edit.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2061D570B4C13AF00E6631F /* SmallGrowBoxRight3.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = SmallGrowBoxRight3.tiff; path = artwork/SmallGrowBoxRight3.tiff; sourceTree = "<group>"; };
 		F2061D660B4C152600E6631F /* FirstClickCustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = FirstClickCustomView.h; sourceTree = "<group>"; };
 		F2061D670B4C152600E6631F /* FirstClickCustomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstClickCustomView.m; sourceTree = "<group>"; };
@@ -1264,6 +1246,23 @@
 		F281D3900F3877A900AD7DE1 /* FoldedTextAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoldedTextAttachment.m; sourceTree = "<group>"; };
 		F281D4350F388A0B00AD7DE1 /* FoldingTextAttachmentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = FoldingTextAttachmentCell.h; sourceTree = "<group>"; };
 		F281D4360F388A0B00AD7DE1 /* FoldingTextAttachmentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoldingTextAttachmentCell.m; sourceTree = "<group>"; };
+		F286A744215CE57B0056C247 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PrintOptions.xib; sourceTree = "<group>"; };
+		F286A745215CE57B0056C247 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/GeneralPrefs.xib; sourceTree = "<group>"; };
+		F286A746215CE57B0056C247 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/EditPrefs.xib; sourceTree = "<group>"; };
+		F286A747215CE57C0056C247 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PrecedencePrefs.xib; sourceTree = "<group>"; };
+		F286A748215CE57C0056C247 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PrecedenceRules.xib; sourceTree = "<group>"; };
+		F286A749215CE57C0056C247 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/AdvancedPrefs.xib; sourceTree = "<group>"; };
+		F286A74A215CE57C0056C247 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SEEEncodingDoctorView.xib; sourceTree = "<group>"; };
+		F286A74B215CE57C0056C247 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Export.xib; sourceTree = "<group>"; };
+		F286A74C215CE57C0056C247 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/FindAll.xib; sourceTree = "<group>"; };
+		F286A74D215CE57C0056C247 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/FindReplace.xib; sourceTree = "<group>"; };
+		F286A74E215CE57C0056C247 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		F286A74F215CE57D0056C247 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/OpenPanelAccessory.xib; sourceTree = "<group>"; };
+		F286A750215CE57D0056C247 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PlainTextLoadProgress.xib; sourceTree = "<group>"; };
+		F286A751215CE57D0056C247 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SavePanelAccessory.xib; sourceTree = "<group>"; };
+		F286A752215CE57D0056C247 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SelectEncodingsPanel.xib; sourceTree = "<group>"; };
+		F286A753215CE57D0056C247 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/URLBubbleWindow.xib; sourceTree = "<group>"; };
+		F286A755215CE6410056C247 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/AboutPanel.xib; sourceTree = "<group>"; };
 		F2880CE91923BA7000C6370C /* BottomBarSharingIconAddHover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BottomBarSharingIconAddHover.png; sourceTree = "<group>"; };
 		F2880CEA1923BA7000C6370C /* BottomBarSharingIconAddHover@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BottomBarSharingIconAddHover@2x.png"; sourceTree = "<group>"; };
 		F2880CEB1923BA7000C6370C /* BottomBarSharingIconAddNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BottomBarSharingIconAddNormal.png; sourceTree = "<group>"; };
@@ -1997,7 +1996,7 @@
 		19C28FB0FE9D524F11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8D15AC370486D014006FF6A4 /* SubEthaEdit.app */,
+				8D15AC370486D014006FF6A4 /* SubEtha Edit.app */,
 				5EC6382A0ABEB71100D3295B /* Unit Tests.xctest */,
 				F2B6CCC20EE9C6390077417E /* SeeTextImporter.mdimporter */,
 				F2D86C1F0F8E7E2A00B912A2 /* SubEthaPerf.app */,
@@ -2225,7 +2224,7 @@
 			isa = PBXGroup;
 			children = (
 				4CE8E4E818DC84B10029BF95 /* Prefs */,
-				4215535F190FE8B9001340A7 /* AboutPanel.xib */,
+				F286A756215CE6410056C247 /* AboutPanel.xib */,
 				4CD5F7E817FB0C8E00F49E31 /* SEEEncodingDoctorView.xib */,
 				F24AEA1A195AE78300046F6B /* DocumentProxy.xib */,
 				4CD5F7EC17FB0CA300F49E31 /* Export.xib */,
@@ -2734,7 +2733,7 @@
 			name = SubEthaEdit;
 			productInstallPath = "$(HOME)/Applications";
 			productName = SubEthaEdit;
-			productReference = 8D15AC370486D014006FF6A4 /* SubEthaEdit.app */;
+			productReference = 8D15AC370486D014006FF6A4 /* SubEtha Edit.app */;
 			productType = "com.apple.product-type.application";
 		};
 		F2D86C1E0F8E7E2A00B912A2 /* SubEthaPerf */ = {
@@ -2767,9 +2766,11 @@
 				ORGANIZATIONNAME = TheCodingMonkeys;
 				TargetAttributes = {
 					5EC638290ABEB71100D3295B = {
+						DevelopmentTeam = S76GCAG929;
 						TestTargetID = 8D15AC270486D014006FF6A4;
 					};
 					8D15AC270486D014006FF6A4 = {
+						DevelopmentTeam = S76GCAG929;
 						SystemCapabilities = {
 							com.apple.Sandbox = {
 								enabled = 1;
@@ -2777,6 +2778,7 @@
 						};
 					};
 					F2D86C1E0F8E7E2A00B912A2 = {
+						DevelopmentTeam = S76GCAG929;
 					};
 				};
 			};
@@ -2785,12 +2787,11 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
+				Base,
 				English,
+				German,
 				Japanese,
 				French,
-				German,
-				ger,
-				de,
 			);
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* SubEthaEdit */;
 			projectDirPath = "";
@@ -2844,7 +2845,6 @@
 				F2880D101923BA7100C6370C /* BottomBarSharingIconAddPressed@2x.png in Resources */,
 				F220247E191BBDA10098982C /* hud_buttonLeft-N.png in Resources */,
 				4CD5F81917FB0DF900F49E31 /* PrecedencePrefs.xib in Resources */,
-				142890140957413900D14688 /* Localizable.strings in Resources */,
 				F2D3E55D189941F50096425B /* IW InactiveTabBG.png in Resources */,
 				F22024CA191D0BFE0098982C /* ParticipantFollowTurnOnHover@2x.png in Resources */,
 				F2D3E55B189941F50096425B /* IW InactiveTabAlert.png in Resources */,
@@ -2856,7 +2856,7 @@
 				4C0D3D6817FB145600AAFB38 /* Preferences.xib in Resources */,
 				142890490957425900D14688 /* HTMLExport in Resources */,
 				1428904B0957427100D14688 /* Modes in Resources */,
-				42155360190FE8B9001340A7 /* AboutPanel.xib in Resources */,
+				F286A754215CE6410056C247 /* AboutPanel.xib in Resources */,
 				F2D3E56A189941F50096425B /* IW SingleTabAddButton@2x.png in Resources */,
 				5E4DA73D09E15C6800D91CFC /* Scripts in Resources */,
 				F2E6CBAF19068D4700D431F9 /* ToolbarSplitOnePane.png in Resources */,
@@ -2877,6 +2877,7 @@
 				F22024C6191D0BFE0098982C /* ParticipantFollowTurnOffNormal@2x.png in Resources */,
 				F2D3E535189941F50096425B /* AW InactiveTabAlert.png in Resources */,
 				142890B1095743F200D14688 /* Action.tiff in Resources */,
+				F286A764215CF0F60056C247 /* Localizable.strings in Resources */,
 				F22024DA191D0BFE0098982C /* ParticipantReadOnlyTurnOffPressed@2x.png in Resources */,
 				142890B2095743F200D14688 /* ActionPressed.tiff in Resources */,
 				F2D3E53C189941F50096425B /* AW InactiveTabClosePressed@2x.png in Resources */,
@@ -3042,7 +3043,6 @@
 				F220248E191BC33D0098982C /* hud_buttonRight-P.png in Resources */,
 				F22024D4191D0BFE0098982C /* ParticipantKickPressed@2x.png in Resources */,
 				F2D3E529189941F50096425B /* AW ActiveTabClose.png in Resources */,
-				422F9739190FD367009FD437 /* TCM_Logo_White_Background.pdf in Resources */,
 				F2D3E53B189941F50096425B /* AW InactiveTabClosePressed.png in Resources */,
 				319AAE3B0CB0165800ACDAB4 /* Precedence_Add.tiff in Resources */,
 				4CE8D4521959E3440026828F /* SharingServiceAnnounceMenuIcon@2x.png in Resources */,
@@ -3494,8 +3494,8 @@
 		4CD5F7D817FB0BF200F49E31 /* AdvancedPrefs.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				4CD5F7D917FB0BF200F49E31 /* English */,
 				4CD5F7DB17FB0C0F00F49E31 /* German */,
+				F286A749215CE57C0056C247 /* Base */,
 			);
 			name = AdvancedPrefs.xib;
 			sourceTree = "<group>";
@@ -3503,8 +3503,8 @@
 		4CD5F7E417FB0C7B00F49E31 /* EditPrefs.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				4CD5F7E517FB0C7B00F49E31 /* English */,
 				4CD5F7E717FB0C7E00F49E31 /* German */,
+				F286A746215CE57B0056C247 /* Base */,
 			);
 			name = EditPrefs.xib;
 			sourceTree = "<group>";
@@ -3512,7 +3512,7 @@
 		4CD5F7E817FB0C8E00F49E31 /* SEEEncodingDoctorView.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				4CD5F7E917FB0C8E00F49E31 /* English */,
+				F286A74A215CE57C0056C247 /* Base */,
 			);
 			name = SEEEncodingDoctorView.xib;
 			sourceTree = "<group>";
@@ -3520,8 +3520,8 @@
 		4CD5F7EC17FB0CA300F49E31 /* Export.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				4CD5F7ED17FB0CA300F49E31 /* English */,
 				4CD5F7EF17FB0CA600F49E31 /* German */,
+				F286A74B215CE57C0056C247 /* Base */,
 			);
 			name = Export.xib;
 			sourceTree = "<group>";
@@ -3529,8 +3529,8 @@
 		4CD5F7F017FB0CBF00F49E31 /* FindAll.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				4CD5F7F117FB0CBF00F49E31 /* English */,
 				4CD5F7F317FB0CC300F49E31 /* German */,
+				F286A74C215CE57C0056C247 /* Base */,
 			);
 			name = FindAll.xib;
 			sourceTree = "<group>";
@@ -3538,8 +3538,8 @@
 		4CD5F7F417FB0CD200F49E31 /* FindReplace.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				4CD5F7F517FB0CD200F49E31 /* English */,
 				4CD5F7F717FB0CD600F49E31 /* German */,
+				F286A74D215CE57C0056C247 /* Base */,
 			);
 			name = FindReplace.xib;
 			sourceTree = "<group>";
@@ -3547,8 +3547,8 @@
 		4CD5F7F817FB0D0C00F49E31 /* GeneralPrefs.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				4CD5F7F917FB0D0C00F49E31 /* English */,
 				4CD5F7FB17FB0D0F00F49E31 /* German */,
+				F286A745215CE57B0056C247 /* Base */,
 			);
 			name = GeneralPrefs.xib;
 			sourceTree = "<group>";
@@ -3556,8 +3556,8 @@
 		4CD5F80017FB0D3700F49E31 /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				4CD5F80117FB0D3700F49E31 /* English */,
 				4CD5F80317FB0D3B00F49E31 /* German */,
+				F286A74E215CE57C0056C247 /* Base */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";
@@ -3565,8 +3565,8 @@
 		4CD5F80417FB0D5B00F49E31 /* OpenPanelAccessory.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				4CD5F80517FB0D5B00F49E31 /* English */,
 				4CD5F80717FB0D5F00F49E31 /* German */,
+				F286A74F215CE57D0056C247 /* Base */,
 			);
 			name = OpenPanelAccessory.xib;
 			sourceTree = "<group>";
@@ -3574,8 +3574,8 @@
 		4CD5F80F17FB0DC100F49E31 /* PlainTextLoadProgress.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				4CD5F81017FB0DC100F49E31 /* English */,
 				4CD5F81217FB0DC500F49E31 /* German */,
+				F286A750215CE57D0056C247 /* Base */,
 			);
 			name = PlainTextLoadProgress.xib;
 			sourceTree = "<group>";
@@ -3583,8 +3583,8 @@
 		4CD5F81717FB0DF900F49E31 /* PrecedencePrefs.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				4CD5F81817FB0DF900F49E31 /* English */,
 				4CD5F81A17FB0E0400F49E31 /* German */,
+				F286A747215CE57C0056C247 /* Base */,
 			);
 			name = PrecedencePrefs.xib;
 			sourceTree = "<group>";
@@ -3592,8 +3592,8 @@
 		4CD5F81B17FB0E1800F49E31 /* PrecedenceRules.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				4CD5F81C17FB0E1900F49E31 /* English */,
 				4CD5F81E17FB0E1D00F49E31 /* German */,
+				F286A748215CE57C0056C247 /* Base */,
 			);
 			name = PrecedenceRules.xib;
 			sourceTree = "<group>";
@@ -3601,8 +3601,8 @@
 		4CD5F81F17FB0E2B00F49E31 /* PrintOptions.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				4CD5F82017FB0E2B00F49E31 /* English */,
 				4CD5F82217FB0E3000F49E31 /* German */,
+				F286A744215CE57B0056C247 /* Base */,
 			);
 			name = PrintOptions.xib;
 			sourceTree = "<group>";
@@ -3610,8 +3610,8 @@
 		4CD5F82717FB0E4F00F49E31 /* SavePanelAccessory.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				4CD5F82817FB0E4F00F49E31 /* English */,
 				4CD5F82A17FB0E5400F49E31 /* German */,
+				F286A751215CE57D0056C247 /* Base */,
 			);
 			name = SavePanelAccessory.xib;
 			sourceTree = "<group>";
@@ -3619,8 +3619,8 @@
 		4CD5F82B17FB0E6000F49E31 /* SelectEncodingsPanel.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				4CD5F82C17FB0E6000F49E31 /* English */,
 				4CD5F82E17FB0E6700F49E31 /* German */,
+				F286A752215CE57D0056C247 /* Base */,
 			);
 			name = SelectEncodingsPanel.xib;
 			sourceTree = "<group>";
@@ -3628,10 +3628,18 @@
 		4CD5F83317FB0EB500F49E31 /* URLBubbleWindow.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				4CD5F83417FB0EB500F49E31 /* English */,
 				4CD5F83617FB0EBA00F49E31 /* German */,
+				F286A753215CE57D0056C247 /* Base */,
 			);
 			name = URLBubbleWindow.xib;
+			sourceTree = "<group>";
+		};
+		F286A756215CE6410056C247 /* AboutPanel.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F286A755215CE6410056C247 /* Base */,
+			);
+			name = AboutPanel.xib;
 			sourceTree = "<group>";
 		};
 		F2EF08CF19069E33004D5080 /* Localizable.stringsdict */ = {
@@ -3736,11 +3744,10 @@
 					"$(PROJECT_DIR)",
 					"\"$(SRCROOT)/openssl/\"",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_CFLAGS = "";
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				PLIST_FILE_OUTPUT_FORMAT = binary;
-				PRODUCT_NAME = SubEthaEdit;
+				PRODUCT_NAME = "$(SEE_APP_PRODUCT_NAME)";
 				SKIP_INSTALL = NO;
 				WARNING_CFLAGS = "-Wunreachable-code";
 				WRAPPER_EXTENSION = app;
@@ -3773,14 +3780,13 @@
 					"$(PROJECT_DIR)",
 					"\"$(SRCROOT)/openssl/\"",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_CFLAGS = (
 					"-DTCM_NO_DEBUG",
 					"-DNS_BLOCK_ASSERTIONS",
 					"-DNDEBUG",
 				);
 				PLIST_FILE_OUTPUT_FORMAT = binary;
-				PRODUCT_NAME = SubEthaEdit;
+				PRODUCT_NAME = "$(SEE_APP_PRODUCT_NAME)";
 				SKIP_INSTALL = NO;
 				WARNING_CFLAGS = "-Wunreachable-code";
 				WRAPPER_EXTENSION = app;

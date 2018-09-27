@@ -1,4 +1,16 @@
-﻿/* arrangement of Tab setting and tab width in Bottm Status Bar */
+/* Application Name */
+"SEE_APP_NAME" = "SubEtha Edit";
+
+/* App menu about */
+"SEE_APP_MENU_ABOUT" = "Über %@";
+
+/* App menu about */
+"SEE_APP_MENU_HIDE" = "%@ ausblenden";
+
+/* App menu about */
+"SEE_APP_MENU_QUIT" = "%@ beenden";
+
+/* arrangement of Tab setting and tab width in Bottm Status Bar */
 "%@ (%d)" = "%@ (%d)";
 
 /* FindRegexPrefix */
@@ -954,7 +966,7 @@
 "ANNOUNCE_WILL_MAKE_VISIBLE_ACTION_TITLE" = "Ankündigen";
 
 /* document list */
-"DOCUMENT_LIST_WINDOW_TITLE" = "SubEthaEdit - Dokument-Hub";
+"DOCUMENT_LIST_WINDOW_TITLE" = "%@ - Dokument-Hub";
 "DOCUMENT_LIST_OPEN" = "Öffnen…";
 "DOCUMENT_LIST_NEW" = "Neu";
 "DOCUMENT_LIST_CONNECT" = "Mit URL verbinden…";

@@ -7,10 +7,13 @@
 //
 
 #include "TCMReleaseInfo.xcconfig"
+
+SEE_APP_PRODUCT_NAME = SubEtha Edit
+
 #include "Identity.xcconfig"
 
 SDKROOT = macosx
-MACOSX_DEPLOYMENT_TARGET = 10.10
+MACOSX_DEPLOYMENT_TARGET = 10.11
 
 COMBINE_HIDPI_IMAGES = YES
 

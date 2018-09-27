@@ -51,6 +51,8 @@
 
 #import "ScriptWrapper.h"
 #import "SEEStyleSheetEditorWindowController.h"
+#import "AboutPanelController.h"
+
 
 #ifndef TCM_NO_DEBUG
 #import "Debug/DebugPreferences.h"
@@ -413,6 +415,8 @@ static AppController *sharedInstance = nil;
 
     [defaultCenter addObserver:self selector:@selector(documentModeListDidChange:) name:@"DocumentModeListChanged" object:nil];
 
+    [self localizeAppMenu];
+    
 	// check built in mode versions
 	[self performSelector:@selector(checkUserModesForUpdateAfterVersionBump) withObject:nil afterDelay:0.0];
 }
@@ -766,6 +770,20 @@ static AppController *sharedInstance = nil;
 
 		[self addShortcutToModeForNewAlternateDocumentsEntry];
 	}
+}
+
+- (void)localizeAppMenu {
+    NSMenu *appMenu = [[[NSApp mainMenu] itemWithTag:AppMenuTag] submenu];
+    NSString *appName = NSLocalizedString(@"SEE_APP_NAME", nil);
+    for (NSMenuItem *item in appMenu.itemArray) {
+        if ([item.target isKindOfClass:[AboutPanelController class]]) {
+            item.title = [NSString stringWithFormat:NSLocalizedString(@"SEE_APP_MENU_ABOUT", nil), appName];
+        } else if (item.action == @selector(hide:)) {
+            item.title = [NSString stringWithFormat:NSLocalizedString(@"SEE_APP_MENU_HIDE", nil), appName];
+        } else if (item.action == @selector(terminate:)) {
+            item.title = [NSString stringWithFormat:NSLocalizedString(@"SEE_APP_MENU_QUIT", nil), appName];
+        }
+    }
 }
 
 - (void)setupFileEncodingsSubmenu {

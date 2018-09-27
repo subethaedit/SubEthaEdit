@@ -21,6 +21,7 @@
 @property (nonatomic, strong) IBOutlet NSTextField *O_versionField;
 @property (nonatomic, strong) IBOutlet NSTextField *O_ogreVersionField;
 @property (nonatomic, strong) IBOutlet NSTextField *O_licenseTypeField;
+@property (nonatomic, strong) IBOutlet NSTextField *appNameField;
 @end
 
 @implementation AboutPanelController
@@ -39,7 +40,8 @@
 
     [self.O_versionField setObjectValue:versionString];
     [self.O_ogreVersionField setObjectValue:ogreVersion];
-    [self.O_legalTextField setObjectValue:[mainBundle objectForInfoDictionaryKey:@"NSHumanReadableCopyright"]];
+    [self.O_legalTextField setObjectValue:[[[mainBundle objectForInfoDictionaryKey:@"NSHumanReadableCopyright"] componentsSeparatedByString:@". "] componentsJoinedByString:@".\n"]];
+    [self.appNameField setObjectValue:NSLocalizedString(@"SEE_APP_NAME",@"Application Name")];
     
     NSString *licenseType = nil;
 #ifdef BETA

@@ -8,7 +8,7 @@
 
 #include "TCMRevision.xcconfig"
 
-TCM_APP_COPYRIGHT = © 2003-2017 TheCodingMonkeys. All rights reserved.
+TCM_APP_COPYRIGHT = © 2018-2018 SubEthaEdit Contributors. © 2003-2017 TheCodingMonkeys.
 
 // Set TCM_APP_IDENTIFER_SUFFIX to "Dev" or "" ("" for release)
 TCM_APP_IDENTIFER_SUFFIX = Dev
