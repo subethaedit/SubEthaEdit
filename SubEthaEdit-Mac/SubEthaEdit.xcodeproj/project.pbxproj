@@ -365,6 +365,8 @@
 		F281D4370F388A0B00AD7DE1 /* FoldingTextAttachmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D4360F388A0B00AD7DE1 /* FoldingTextAttachmentCell.m */; };
 		F286A754215CE6410056C247 /* AboutPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = F286A756215CE6410056C247 /* AboutPanel.xib */; };
 		F286A764215CF0F60056C247 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 142890120957413900D14688 /* Localizable.strings */; };
+		F286A770215D0EAD0056C247 /* see in Copy Command Line Tools */ = {isa = PBXBuildFile; fileRef = F286A76F215D0DC00056C247 /* see */; };
+		F286A780215D194C0056C247 /* see.1 in Copy Command Line Tools */ = {isa = PBXBuildFile; fileRef = F286A77F215D194C0056C247 /* see.1 */; };
 		F2880D0B1923BA7100C6370C /* BottomBarSharingIconAddHover.png in Resources */ = {isa = PBXBuildFile; fileRef = F2880CE91923BA7000C6370C /* BottomBarSharingIconAddHover.png */; };
 		F2880D0C1923BA7100C6370C /* BottomBarSharingIconAddHover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2880CEA1923BA7000C6370C /* BottomBarSharingIconAddHover@2x.png */; };
 		F2880D0D1923BA7100C6370C /* BottomBarSharingIconAddNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = F2880CEB1923BA7000C6370C /* BottomBarSharingIconAddNormal.png */; };
@@ -569,6 +571,13 @@
 			remoteGlobalIDString = 8D15AC270486D014006FF6A4;
 			remoteInfo = SubEthaEdit;
 		};
+		F286A76E215D0DC00056C247 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F286A76A215D0DC00056C247 /* see.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4C19ECB4192F7ED000D39777;
+			remoteInfo = see;
+		};
 		F2D22CB20EE9C5DE004B8E33 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F2D22CAE0EE9C5DE004B8E33 /* SeeTextImporter.xcodeproj */;
@@ -591,6 +600,28 @@
 				4C0FDA231803125E008E24E8 /* UniversalDetector.framework in Copy Files (Frameworks) */,
 			);
 			name = "Copy Files (Frameworks)";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F286A767215D0CED0056C247 /* Copy Command Line Tools */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = bin;
+			dstSubfolderSpec = 12;
+			files = (
+				F286A770215D0EAD0056C247 /* see in Copy Command Line Tools */,
+				F286A780215D194C0056C247 /* see.1 in Copy Command Line Tools */,
+			);
+			name = "Copy Command Line Tools";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F286A77B215D190D0056C247 /* Copy Man Pages */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = man/man1;
+			dstSubfolderSpec = 12;
+			files = (
+			);
+			name = "Copy Man Pages";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		F298A0040CCB9EFC00C4DB8B /* Copy Importers */ = {
@@ -1263,6 +1294,8 @@
 		F286A752215CE57D0056C247 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SelectEncodingsPanel.xib; sourceTree = "<group>"; };
 		F286A753215CE57D0056C247 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/URLBubbleWindow.xib; sourceTree = "<group>"; };
 		F286A755215CE6410056C247 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/AboutPanel.xib; sourceTree = "<group>"; };
+		F286A76A215D0DC00056C247 /* see.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = see.xcodeproj; path = ../see/see.xcodeproj; sourceTree = "<group>"; };
+		F286A77F215D194C0056C247 /* see.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; name = see.1; path = ../see/see/see.1; sourceTree = SOURCE_ROOT; };
 		F2880CE91923BA7000C6370C /* BottomBarSharingIconAddHover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BottomBarSharingIconAddHover.png; sourceTree = "<group>"; };
 		F2880CEA1923BA7000C6370C /* BottomBarSharingIconAddHover@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BottomBarSharingIconAddHover@2x.png"; sourceTree = "<group>"; };
 		F2880CEB1923BA7000C6370C /* BottomBarSharingIconAddNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BottomBarSharingIconAddNormal.png; sourceTree = "<group>"; };
@@ -2033,6 +2066,7 @@
 				F2D86C150F8E7DA200B912A2 /* SubEthaPerf */,
 				19C28FB0FE9D524F11CA2CBB /* Products */,
 				F2D22CAE0EE9C5DE004B8E33 /* SeeTextImporter.xcodeproj */,
+				F286A76A215D0DC00056C247 /* see.xcodeproj */,
 			);
 			comments = "Build Requirements:\n\nMake sure you use a shared build directory for both the SubEthaEdit project and the OgreKit project. Currently, both projects use the default build location so you can set the shared build directory in the global Xcode preferences and both projects will pick it up. You can also set the shared build location in both projects directly.\n\n/usr/local/bin/svnversion is required if you want automatic versioning support of the build.";
 			name = SubEthaEdit;
@@ -2085,6 +2119,7 @@
 		2A37F4B8FDCFA73011CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F286A77F215D194C0056C247 /* see.1 */,
 				8D15AC360486D014006FF6A4 /* Info.plist */,
 				4C6BDC4A18896D8B0088CBFC /* Icons */,
 				4C6BDC5718896DFF0088CBFC /* XIBs */,
@@ -2491,6 +2526,14 @@
 			name = TextSystem;
 			sourceTree = "<group>";
 		};
+		F286A76B215D0DC00056C247 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F286A76F215D0DC00056C247 /* see */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		F2D22CAF0EE9C5DE004B8E33 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -2722,6 +2765,8 @@
 				8D15AC300486D014006FF6A4 /* Sources */,
 				8D15AC330486D014006FF6A4 /* Frameworks */,
 				149EC6970958726E002BDC41 /* Copy Files (Frameworks) */,
+				F286A767215D0CED0056C247 /* Copy Command Line Tools */,
+				F286A77B215D190D0056C247 /* Copy Man Pages */,
 				F298A0040CCB9EFC00C4DB8B /* Copy Importers */,
 				142898130958165400D14688 /* Run Script (Deployment) */,
 				4CF06A311816B1FB00B35DF8 /* Codesign ThirdParty */,
@@ -2797,6 +2842,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = F286A76B215D0DC00056C247 /* Products */;
+					ProjectRef = F286A76A215D0DC00056C247 /* see.xcodeproj */;
+				},
+				{
 					ProductGroup = F2D22CAF0EE9C5DE004B8E33 /* Products */;
 					ProjectRef = F2D22CAE0EE9C5DE004B8E33 /* SeeTextImporter.xcodeproj */;
 				},
@@ -2811,6 +2860,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		F286A76F215D0DC00056C247 /* see */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = see;
+			remoteRef = F286A76E215D0DC00056C247 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		F2D22CB30EE9C5DE004B8E33 /* SeeTextImporter.mdimporter */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
@@ -3139,7 +3195,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "echo \"Removing debug nib files...\"\nfind -d \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources\" -name \"Debug*.nib\" -exec rm -rf \"{}\" \\;\n\n# echo \"Rename resource file...\"\n# mv \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources/SubEthaEdit.rsrc\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources/SubEthaEdit-SystemVersionCheck.rsrc\"\n\necho \"Remove Headers directories...\"\nfind \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\" -path '*/Headers/*' -delete\nfind \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\" -name 'Headers' -type d -delete\nfind \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\" -name 'Headers' -type l -delete";
+			shellScript = "echo \"Removing debug nib files...\"\nfind -d \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources\" -name \"Debug*.nib\" -exec rm -rf \"{}\" \\;\n\n# echo \"Rename resource file...\"\n# mv \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources/SubEthaEdit.rsrc\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources/SubEthaEdit-SystemVersionCheck.rsrc\"\n\necho \"Remove Headers directories...\"\nfind \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\" -path '*/Headers/*' -delete\nfind \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\" -name 'Headers' -type d -delete\nfind \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\" -name 'Headers' -type l -delete\n";
 		};
 		4CF06A311816B1FB00B35DF8 /* Codesign ThirdParty */ = {
 			isa = PBXShellScriptBuildPhase;

@@ -93,15 +93,28 @@ BOOL meetsRequiredVersion(NSString *string) {
     return NO;
 }
 
+#define STRINGIZE(x) #x
+#define STRINGIZE2(x) STRINGIZE(x)
+
+#define SEE_APP_IDENTIFIER_BASE_STRING @ STRINGIZE2(SEE_APP_IDENTIFIER_BASE)
+#define THESE_APP_IDENTIFIERS(base) \
+                        SEE_APP_IDENTIFIER_BASE_STRING ".Mac",\
+                        SEE_APP_IDENTIFIER_BASE_STRING ".MacFULL",\
+                        SEE_APP_IDENTIFIER_BASE_STRING ".MacBETA",\
+                        SEE_APP_IDENTIFIER_BASE_STRING ".MacBETADev",\
+                        SEE_APP_IDENTIFIER_BASE_STRING ".MacFULLDev",
+
 static NSArray *subEthaEditBundleIdentifiers()
 {
-	NSArray *result = @[@"de.codingmonkeys.SubEthaEdit.Mac",
+	NSArray *result = @[THESE_APP_IDENTIFIERS(xstr(SEE_APP_IDENTIFIER_BASE))
+                        @"de.codingmonkeys.SubEthaEdit.Mac",
 						@"de.codingmonkeys.SubEthaEdit.MacFULL",
 						@"de.codingmonkeys.SubEthaEdit.MacBETA",
 //						@"de.codingmonkeys.SubEthaEdit.MacDev", // no option due to signing
 						@"de.codingmonkeys.SubEthaEdit.MacFULLDev",
 						@"de.codingmonkeys.SubEthaEdit.MacBETADev",
-						@"de.codingmonkeys.SubEthaEdit"];
+						@"de.codingmonkeys.SubEthaEdit",
+                        ];
 	return result;
 }
 

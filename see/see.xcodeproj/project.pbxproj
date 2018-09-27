@@ -6,23 +6,49 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		F286A771215D17D70056C247 /* see+manpage */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = F286A772215D17D70056C247 /* Build configuration list for PBXAggregateTarget "see+manpage" */;
+			buildPhases = (
+				F286A775215D17F40056C247 /* Copy Manpage */,
+			);
+			dependencies = (
+				F286A778215D18330056C247 /* PBXTargetDependency */,
+			);
+			name = "see+manpage";
+			productName = "see-manpage";
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		4C19ECB8192F7ED000D39777 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C19ECB7192F7ED000D39777 /* Foundation.framework */; };
-		4C19ECBF192F7ED000D39777 /* see.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4C19ECBE192F7ED000D39777 /* see.1 */; };
 		4C19ECC6192F7F2A00D39777 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C19ECC5192F7F2A00D39777 /* main.m */; };
 		4C19ECCC192F80EE00D39777 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C19ECCB192F80EE00D39777 /* AppKit.framework */; };
+		F286A776215D18070056C247 /* see.1 in Copy Manpage */ = {isa = PBXBuildFile; fileRef = 4C19ECBE192F7ED000D39777 /* see.1 */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		F286A777215D18330056C247 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C19ECAC192F7ED000D39777 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4C19ECB3192F7ED000D39777;
+			remoteInfo = see;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
-		4C19ECB2192F7ED000D39777 /* CopyFiles */ = {
+		F286A775215D17F40056C247 /* Copy Manpage */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
+			dstPath = /usr/share/man/man1;
 			dstSubfolderSpec = 0;
 			files = (
-				4C19ECBF192F7ED000D39777 /* see.1 in CopyFiles */,
+				F286A776215D18070056C247 /* see.1 in Copy Manpage */,
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			name = "Copy Manpage";
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -117,7 +143,6 @@
 			buildPhases = (
 				4C19ECB0192F7ED000D39777 /* Sources */,
 				4C19ECB1192F7ED000D39777 /* Frameworks */,
-				4C19ECB2192F7ED000D39777 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -138,6 +163,13 @@
 				ORGANIZATIONNAME = TheCodingMonkeys;
 				TargetAttributes = {
 					4C19ECB3192F7ED000D39777 = {
+						DevelopmentTeam = S76GCAG929;
+						ProvisioningStyle = Manual;
+					};
+					F286A771215D17D70056C247 = {
+						CreatedOnToolsVersion = 10.0;
+						DevelopmentTeam = S76GCAG929;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -154,6 +186,7 @@
 			projectRoot = "";
 			targets = (
 				4C19ECB3192F7ED000D39777 /* see */,
+				F286A771215D17D70056C247 /* see+manpage */,
 			);
 		};
 /* End PBXProject section */
@@ -168,6 +201,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F286A778215D18330056C247 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4C19ECB3192F7ED000D39777 /* see */;
+			targetProxy = F286A777215D18330056C247 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		4C19ECC0192F7ED000D39777 /* Debug */ = {
@@ -245,13 +286,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = NO;
+				CODE_SIGN_STYLE = Manual;
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "see/see-Prefix.pch";
 				INFOPLIST_FILE = see/See_Info.plist;
 				INSTALL_PATH = /usr/local/bin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = NO;
 				WARNING_CFLAGS = "-Wunreachable-code";
 			};
 			name = Debug;
@@ -260,14 +301,32 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = NO;
+				CODE_SIGN_STYLE = Manual;
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "see/see-Prefix.pch";
 				INFOPLIST_FILE = see/See_Info.plist;
 				INSTALL_PATH = /usr/local/bin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = NO;
 				WARNING_CFLAGS = "-Wunreachable-code";
+			};
+			name = Release;
+		};
+		F286A773215D17D70056C247 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = NO;
+			};
+			name = Debug;
+		};
+		F286A774215D17D70056C247 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = NO;
 			};
 			name = Release;
 		};
@@ -288,6 +347,15 @@
 			buildConfigurations = (
 				4C19ECC3192F7ED000D39777 /* Debug */,
 				4C19ECC4192F7ED000D39777 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F286A772215D17D70056C247 /* Build configuration list for PBXAggregateTarget "see+manpage" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F286A773215D17D70056C247 /* Debug */,
+				F286A774215D17D70056C247 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
