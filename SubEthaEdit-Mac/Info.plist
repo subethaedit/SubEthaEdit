@@ -2967,8 +2967,6 @@
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleGetInfoString</key>
 	<string>${TCM_APP_GET_INFO}</string>
-	<key>CFBundleIconFile</key>
-	<string>SubEthaEdit</string>
 	<key>CFBundleIdentifier</key>
 	<string>${SEE_APP_IDENTIFIER_BASE}.Mac${TCM_APP_STYLE}${TCM_APP_IDENTIFER_SUFFIX}</string>
 	<key>CFBundleInfoDictionaryVersion</key>

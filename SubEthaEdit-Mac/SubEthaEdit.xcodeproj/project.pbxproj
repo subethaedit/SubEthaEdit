@@ -187,7 +187,6 @@
 		4C6AE8741802E8810089D489 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C6AE8731802E8810089D489 /* OgreKit.framework */; };
 		4C6AE8751802E8AC0089D489 /* PSMTabBarControl.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 4CF3490017FC6EAF005D0D4F /* PSMTabBarControl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4C6AE8761802E8AC0089D489 /* OgreKit.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 4C6AE8731802E8810089D489 /* OgreKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		4C6BDC5218896DCC0088CBFC /* SubEthaEdit.iconset in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC4C18896DCC0088CBFC /* SubEthaEdit.iconset */; };
 		4C6BDC5318896DCC0088CBFC /* SubEthaEditFiles.iconset in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC4D18896DCC0088CBFC /* SubEthaEditFiles.iconset */; };
 		4C6BDC5418896DCC0088CBFC /* SubEthaEditMode.iconset in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC4E18896DCC0088CBFC /* SubEthaEditMode.iconset */; };
 		4C6BDC5518896DCC0088CBFC /* SubEthaEditStyle.iconset in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC4F18896DCC0088CBFC /* SubEthaEditStyle.iconset */; };
@@ -3139,7 +3138,6 @@
 				4CD5F7F217FB0CBF00F49E31 /* FindAll.xib in Resources */,
 				4CD5F81D17FB0E1900F49E31 /* PrecedenceRules.xib in Resources */,
 				F2880D1A1923BA7100C6370C /* BottomBarSharingIconAnnounceTurnOffNormalReadWrite@2x.png in Resources */,
-				4C6BDC5218896DCC0088CBFC /* SubEthaEdit.iconset in Resources */,
 				F2C6D3750D6DB131002B401D /* URLIconNotOK.tiff in Resources */,
 				F265602218C4BA7300C73737 /* SearchLoupeNormal.pdf in Resources */,
 				4CFAABB218A3ECE4009DB5C3 /* EditorRemoveSplit.pdf in Resources */,
@@ -3775,6 +3773,7 @@
 		C05733C808A9546B00998B17 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = SubEthaEdit;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = SubEthaEdit.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -3813,6 +3812,7 @@
 		C05733C908A9546B00998B17 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = SubEthaEdit;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = SubEthaEdit.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
