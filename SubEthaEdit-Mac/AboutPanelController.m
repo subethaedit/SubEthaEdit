@@ -40,7 +40,7 @@
     [self.O_versionField setObjectValue:versionString];
     [self.O_ogreVersionField setObjectValue:ogreVersion];
     [self.O_legalTextField setObjectValue:[[[mainBundle objectForInfoDictionaryKey:@"NSHumanReadableCopyright"] componentsSeparatedByString:@". "] componentsJoinedByString:@".\n"]];
-    [self.appNameField setObjectValue:NSLocalizedString(@"SEE_APP_NAME",@"Application Name")];
+    [self.appNameField setObjectValue:AppController.localizedApplicationName];
     
     NSString *licenseType = nil;
 #ifdef BETA

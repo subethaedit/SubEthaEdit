@@ -19,7 +19,7 @@ Title:
 
 ## Environment
 
-- SubEtha Code: {SEE_VERSION_STRING}
+- {SEE_APP_PRODUCT_NAME}: {SEE_VERSION_STRING}
 - System: {SEE_MACOS_VERSION}
 - Language: {SEE_LANGUAGE}
 

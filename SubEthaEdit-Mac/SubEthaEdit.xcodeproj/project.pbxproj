@@ -1160,7 +1160,7 @@
 		5EF31B210A7E2E2100D777F5 /* NSCursorSEEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NSCursorSEEAdditions.h; sourceTree = "<group>"; };
 		5EF31E420A7E437C00D777F5 /* InvertedIBeam.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = InvertedIBeam.tiff; path = artwork/InvertedIBeam.tiff; sourceTree = "<group>"; };
 		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		8D15AC370486D014006FF6A4 /* SubEtha Edit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SubEtha Edit.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D15AC370486D014006FF6A4 /* SubEtha Code.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SubEtha Code.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2061D570B4C13AF00E6631F /* SmallGrowBoxRight3.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = SmallGrowBoxRight3.tiff; path = artwork/SmallGrowBoxRight3.tiff; sourceTree = "<group>"; };
 		F2061D660B4C152600E6631F /* FirstClickCustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = FirstClickCustomView.h; sourceTree = "<group>"; };
 		F2061D670B4C152600E6631F /* FirstClickCustomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstClickCustomView.m; sourceTree = "<group>"; };
@@ -2030,7 +2030,7 @@
 		19C28FB0FE9D524F11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8D15AC370486D014006FF6A4 /* SubEtha Edit.app */,
+				8D15AC370486D014006FF6A4 /* SubEtha Code.app */,
 				5EC6382A0ABEB71100D3295B /* Unit Tests.xctest */,
 				F2B6CCC20EE9C6390077417E /* SeeTextImporter.mdimporter */,
 				F2D86C1F0F8E7E2A00B912A2 /* SubEthaPerf.app */,
@@ -2780,7 +2780,7 @@
 			name = SubEthaEdit;
 			productInstallPath = "$(HOME)/Applications";
 			productName = SubEthaEdit;
-			productReference = 8D15AC370486D014006FF6A4 /* SubEtha Edit.app */;
+			productReference = 8D15AC370486D014006FF6A4 /* SubEtha Code.app */;
 			productType = "com.apple.product-type.application";
 		};
 		F2D86C1E0F8E7E2A00B912A2 /* SubEthaPerf */ = {

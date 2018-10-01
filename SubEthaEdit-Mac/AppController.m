@@ -771,9 +771,17 @@ static AppController *sharedInstance = nil;
 	}
 }
 
+#define STRINGIZE(x) #x
+#define STRINGIZE2(x) STRINGIZE(x)
+#define SEE_APP_PRODUCT_NAME_STRING @ STRINGIZE2(SEE_APP_PRODUCT_NAME)
+
++ (NSString *)localizedApplicationName {
+    return SEE_APP_PRODUCT_NAME_STRING;
+}
+
 - (void)localizeAppMenu {
     NSMenu *appMenu = [[[NSApp mainMenu] itemWithTag:AppMenuTag] submenu];
-    NSString *appName = NSLocalizedString(@"SEE_APP_NAME", nil);
+    NSString *appName = AppController.localizedApplicationName;
     for (NSMenuItem *item in appMenu.itemArray) {
         if ([item.target isKindOfClass:[AboutPanelController class]]) {
             item.title = [NSString stringWithFormat:NSLocalizedString(@"SEE_APP_MENU_ABOUT", nil), appName];
@@ -1140,11 +1148,12 @@ static AppController *sharedInstance = nil;
     
     NSString *path = [bundle pathForResource:@"Bug Report" ofType:@"md"];
     [self showPlainTextTemplate:path replacements:@{
+        @"SEE_APP_PRODUCT_NAME" : AppController.localizedApplicationName,
         @"SEE_VERSION_STRING" : AppController.localizedVersionString,
         @"SEE_MACOS_VERSION" : NSProcessInfo.processInfo.operatingSystemVersionString,
         @"SEE_HARDWARE" : hardwareInfo,
         @"SEE_LANGUAGE" : bundle.preferredLocalizations.firstObject,
-        }];
+    }];
 }
 
 - (void)changeFont:(id)aSender {

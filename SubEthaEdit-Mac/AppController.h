@@ -54,6 +54,7 @@ extern NSString * const GlobalScriptsDidReloadNotification;
 @property (nonatomic) BOOL lastShouldOpenUntitledFile;
 
 @property (class, nonatomic, readonly) NSString *localizedVersionString;
+@property (class, nonatomic, readonly) NSString *localizedApplicationName;
 
 + (AppController *)sharedInstance;
 

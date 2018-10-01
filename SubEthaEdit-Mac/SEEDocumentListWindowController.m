@@ -141,7 +141,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 
 	NSWindow *window = self.window;
 	[window setRestorationClass:NSClassFromString(@"SEEDocumentController")];
-    window.title = [NSString stringWithFormat:NSLocalizedString(@"DOCUMENT_LIST_WINDOW_TITLE", nil), NSLocalizedString(@"SEE_APP_NAME",nil)];
+    window.title = [NSString stringWithFormat:NSLocalizedString(@"DOCUMENT_LIST_WINDOW_TITLE", nil), AppController.localizedApplicationName];
 
 
 	NSScrollView *scrollView = self.scrollViewOutlet;
