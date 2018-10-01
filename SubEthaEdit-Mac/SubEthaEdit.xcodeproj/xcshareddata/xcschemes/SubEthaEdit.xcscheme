@@ -15,7 +15,7 @@
                   <BuildableReference
                      BuildableIdentifier = "primary"
                      BlueprintIdentifier = "8D15AC270486D014006FF6A4"
-                     BuildableName = "SubEtha Edit.app"
+                     BuildableName = "SubEtha Code.app"
                      BlueprintName = "SubEthaEdit"
                      ReferencedContainer = "container:SubEthaEdit.xcodeproj">
                   </BuildableReference>
@@ -33,7 +33,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8D15AC270486D014006FF6A4"
-               BuildableName = "SubEtha Edit.app"
+               BuildableName = "SubEtha Code.app"
                BlueprintName = "SubEthaEdit"
                ReferencedContainer = "container:SubEthaEdit.xcodeproj">
             </BuildableReference>
@@ -61,7 +61,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8D15AC270486D014006FF6A4"
-            BuildableName = "SubEtha Edit.app"
+            BuildableName = "SubEtha Code.app"
             BlueprintName = "SubEthaEdit"
             ReferencedContainer = "container:SubEthaEdit.xcodeproj">
          </BuildableReference>
@@ -84,7 +84,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8D15AC270486D014006FF6A4"
-            BuildableName = "SubEtha Edit.app"
+            BuildableName = "SubEtha Code.app"
             BlueprintName = "SubEthaEdit"
             ReferencedContainer = "container:SubEthaEdit.xcodeproj">
          </BuildableReference>
@@ -108,11 +108,6 @@
          </CommandLineArgument>
       </CommandLineArguments>
       <AdditionalOptions>
-         <AdditionalOption
-            key = "NSZombieEnabled"
-            value = "YES"
-            isEnabled = "YES">
-         </AdditionalOption>
       </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
@@ -126,7 +121,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8D15AC270486D014006FF6A4"
-            BuildableName = "SubEtha Edit.app"
+            BuildableName = "SubEtha Code.app"
             BlueprintName = "SubEthaEdit"
             ReferencedContainer = "container:SubEthaEdit.xcodeproj">
          </BuildableReference>
