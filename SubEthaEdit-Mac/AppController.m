@@ -183,19 +183,19 @@ static AppController *sharedInstance = nil;
 }
 
 - (void)registerTransformers {
-    FontAttributesToStringValueTransformer *fontTrans=[[FontAttributesToStringValueTransformer new] autorelease];
+    FontAttributesToStringValueTransformer *fontTrans=[FontAttributesToStringValueTransformer new];
     [NSValueTransformer setValueTransformer:fontTrans
                                     forName:@"FontAttributesToString"];
-    [NSValueTransformer setValueTransformer:[[HueToColorValueTransformer new] autorelease]
+    [NSValueTransformer setValueTransformer:[HueToColorValueTransformer new]
                                     forName:@"HueToColor"];
-    [NSValueTransformer setValueTransformer:[[PointsToDisplayValueTransformer new] autorelease]
+    [NSValueTransformer setValueTransformer:[PointsToDisplayValueTransformer new]
                                     forName:@"PointsToDisplay"];
-    [NSValueTransformer setValueTransformer:[[ThousandSeparatorValueTransformer new] autorelease]
+    [NSValueTransformer setValueTransformer:[ThousandSeparatorValueTransformer new]
                                     forName:@"AddThousandSeparators"];
-    SaturationToColorValueTransformer *satTrans=[[[SaturationToColorValueTransformer alloc] initWithColor:[NSColor blackColor]] autorelease];
+    SaturationToColorValueTransformer *satTrans=[[SaturationToColorValueTransformer alloc] initWithColor:[NSColor blackColor]];
     [NSValueTransformer setValueTransformer:satTrans 
                                     forName:@"SaturationToBlackColor"];
-    satTrans=[[[SaturationToColorValueTransformer alloc] initWithColor:[NSColor whiteColor]] autorelease];
+    satTrans=[[SaturationToColorValueTransformer alloc] initWithColor:[NSColor whiteColor]];
     [NSValueTransformer setValueTransformer:satTrans 
                                     forName:@"SaturationToWhiteColor"];
 }
@@ -225,7 +225,7 @@ static AppController *sharedInstance = nil;
         // first run
         userID = [NSString UUIDString];
 	
-        CFStringRef appID = (CFStringRef)[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"];
+        CFStringRef appID = (__bridge CFStringRef)[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"];
         // Set up the preference.
         CFPreferencesSetValue(CFSTR("UserID"), (CFStringRef)userID, appID, kCFPreferencesCurrentUser, kCFPreferencesCurrentHost);
         // Write out the preference data.
@@ -271,7 +271,7 @@ static AppController *sharedInstance = nil;
 	[me readImageFromUrl:[TCMMMUser applicationSupportURLForUserImage]];
 		
     TCMMMUserManager *userManager = [TCMMMUserManager sharedInstance];
-    [userManager setMe:[me autorelease]];
+    [userManager setMe:me];
 }
 
 #define MODEMENUNAMETAG 20 
@@ -321,21 +321,21 @@ static AppController *sharedInstance = nil;
 
     [[[[NSApp mainMenu] itemWithTag:EditMenuTag] submenu] setDelegate:self];
 
-    GeneralPreferences *generalPrefs = [[GeneralPreferences new] autorelease];
+    GeneralPreferences *generalPrefs = [GeneralPreferences new];
     [TCMPreferenceController registerPrefModule:generalPrefs];
-    EditPreferences *editPrefs = [[EditPreferences new] autorelease];
+    EditPreferences *editPrefs = [EditPreferences new];
     [TCMPreferenceController registerPrefModule:editPrefs];
 
-	 SEECollaborationPreferenceModule *collabPrefs = [[SEECollaborationPreferenceModule new] autorelease];
+	 SEECollaborationPreferenceModule *collabPrefs = [SEECollaborationPreferenceModule new];
 	 [TCMPreferenceController registerPrefModule:collabPrefs];
 	
-    [TCMPreferenceController registerPrefModule:[[StylePreferences new] autorelease]];
-    [TCMPreferenceController registerPrefModule:[[PrecedencePreferences new] autorelease]];
-    [TCMPreferenceController registerPrefModule:[[AdvancedPreferences new] autorelease]];
+    [TCMPreferenceController registerPrefModule:[StylePreferences new]];
+    [TCMPreferenceController registerPrefModule:[PrecedencePreferences new]];
+    [TCMPreferenceController registerPrefModule:[AdvancedPreferences new]];
     
 #ifndef TCM_NO_DEBUG
     [[DebugController sharedInstance] enableDebugMenu:[[NSUserDefaults standardUserDefaults] boolForKey:@"EnableDebugMenu"]];
-    DebugPreferences *debugPrefs = [[DebugPreferences new] autorelease];
+    DebugPreferences *debugPrefs = [DebugPreferences new];
     [TCMPreferenceController registerPrefModule:debugPrefs];
 #endif
     
@@ -497,18 +497,18 @@ static AppController *sharedInstance = nil;
     if (!dockMenu) {
         dockMenu=[NSMenu new];
 		
-        NSMenuItem *item=[[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"New File",@"New File Dock Menu Item") action:@selector(newDocument:) keyEquivalent:@""] autorelease];
-        DocumentModeMenu *menu=[[DocumentModeMenu new] autorelease];
+        NSMenuItem *item=[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"New File",@"New File Dock Menu Item") action:@selector(newDocument:) keyEquivalent:@""];
+        DocumentModeMenu *menu=[DocumentModeMenu new];
         [dockMenu addItem:item];
         [item setSubmenu:menu];
         [item setTarget:[SEEDocumentController sharedDocumentController]];
         [item setAction:@selector(newDocumentFromDock:)];
         [menu configureWithAction:@selector(newDocumentWithModeMenuItemFromDock:) alternateDisplay:NO];
 
-        item=[[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Open File...",@"Open File Dock Menu Item") action:@selector(openNormalDocument:) keyEquivalent:@""] autorelease];
+        item=[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Open File...",@"Open File Dock Menu Item") action:@selector(openNormalDocument:) keyEquivalent:@""];
         [dockMenu addItem:item];
-        item = [[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"All Tabs",@"all tabs Dock Menu Item") action:NULL keyEquivalent:@""] autorelease];
-        [item setSubmenu:[[NSMenu new] autorelease]];
+        item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"All Tabs",@"all tabs Dock Menu Item") action:NULL keyEquivalent:@""];
+        [item setSubmenu:[NSMenu new]];
         [item setTarget:[SEEDocumentController sharedDocumentController]];
         [item setAction:@selector(menuValidationNoneAction:)];
         [item setTag:GotoTabMenuItemTag];
@@ -656,7 +656,7 @@ static AppController *sharedInstance = nil;
 	[normalItems enumerateObjectsUsingBlock:^(NSMenuItem *normalItem, NSUInteger idx, BOOL *stop) {
 		BOOL isSelectedModeItem = NO;
 		[aMenu addItem:({
-			NSMenuItem *item = [[normalItem copy] autorelease];
+			NSMenuItem *item = [normalItem copy];
 			if (![item.keyEquivalent isEqualToString:@""]) {
 				isSelectedModeItem = YES;
 			}
@@ -667,7 +667,7 @@ static AppController *sharedInstance = nil;
 			item;
 		})];
 		if (!normalItem.isSeparatorItem) {
-			NSMenuItem *alternateItem = [[alternateItems[idx] copy] autorelease];
+			NSMenuItem *alternateItem = [alternateItems[idx] copy];
 			[alternateItem setAlternate:YES];
 			[alternateItem setKeyEquivalent:@""];
 			[alternateItem setKeyEquivalentModifierMask:NSAlternateKeyMask];
@@ -729,7 +729,7 @@ static AppController *sharedInstance = nil;
 	NSMenuItem *switchModesMenuItem = ({ // Mode -> Switch Mode
 		NSMenuItem *menuItem = [modeMenu itemWithTag:SwitchModeMenuTag]; // from the xib
 
-		DocumentModeMenu *documentModeMenu = [[DocumentModeMenu new] autorelease];
+		DocumentModeMenu *documentModeMenu = [DocumentModeMenu new];
 		[documentModeMenu configureWithAction:@selector(chooseMode:) alternateDisplay:NO];
 		[menuItem setSubmenu:documentModeMenu];
 		menuItem;
@@ -740,20 +740,19 @@ static AppController *sharedInstance = nil;
 		[menuItem setAlternate:YES];
 		[menuItem setKeyEquivalentModifierMask:NSAlternateKeyMask];
 		
-		DocumentModeMenu *documentModeMenu = [[DocumentModeMenu new] autorelease];
+		DocumentModeMenu *documentModeMenu = [DocumentModeMenu new];
 		[documentModeMenu configureWithAction:@selector(showModeBundle:) alternateDisplay:YES];
 		[menuItem setSubmenu:documentModeMenu];
 		menuItem;
 	});
     [modeMenu insertItem:revealModesMenuItem atIndex:[modeMenu indexOfItem:switchModesMenuItem]+1];
-    [revealModesMenuItem release];
 
 	NSMenu *fileMenu = [[[NSApp mainMenu] itemWithTag:FileMenuTag] submenu]; // from the xib
 	{ // File -> New in window
 		NSMenuItem *menuItem = [fileMenu itemWithTag:FileNewMenuItemTag]; // from the xib
 		[menuItem setKeyEquivalent:@""];
 
-		DocumentModeMenu *documentModeMenu = [[DocumentModeMenu new] autorelease];
+		DocumentModeMenu *documentModeMenu = [DocumentModeMenu new];
 		[documentModeMenu configureWithAction:@selector(newDocumentWithModeMenuItem:) alternateDisplay:NO];
 		[menuItem setSubmenu:documentModeMenu];
 		
@@ -764,7 +763,7 @@ static AppController *sharedInstance = nil;
 		NSMenuItem *menuItem = [fileMenu itemWithTag:FileNewAlternateMenuItemTag]; // from the xib
 		[menuItem setKeyEquivalent:@""];
 		
-		DocumentModeMenu *documentModeMenu = [[DocumentModeMenu new] autorelease];
+		DocumentModeMenu *documentModeMenu = [DocumentModeMenu new];
 		[documentModeMenu configureWithAction:@selector(newAlternateDocumentWithModeMenuItem:) alternateDisplay:NO];
 		[menuItem setSubmenu:documentModeMenu];
 
@@ -790,7 +789,7 @@ static AppController *sharedInstance = nil;
     NSMenuItem *formatMenu = [[NSApp mainMenu] itemWithTag:FormatMenuTag];
     NSMenuItem *fileEncodingsMenuItem = [[formatMenu submenu] itemWithTag:FileEncodingsMenuItemTag];
     
-    EncodingMenu *fileEncodingsSubmenu = [[EncodingMenu new] autorelease];
+    EncodingMenu *fileEncodingsSubmenu = [EncodingMenu new];
     [fileEncodingsMenuItem setSubmenu:fileEncodingsSubmenu];
 
     [fileEncodingsSubmenu configureWithAction:@selector(selectEncoding:)];
@@ -805,10 +804,8 @@ static AppController *sharedInstance = nil;
     NSMenuItem *item=nil;
     
     // load scripts and do stuff
-    [I_scriptsByFilename release];
     I_scriptsByFilename = [NSMutableDictionary new];
     
-    [I_contextMenuItemArray release];
     I_contextMenuItemArray = [NSMutableArray new];
     
     // make sure Basic directories have been created
@@ -838,7 +835,6 @@ static AppController *sharedInstance = nil;
         }
     }
     
-    [I_scriptOrderArray release];
     I_scriptOrderArray = [[[I_scriptsByFilename allKeys] sortedArrayUsingSelector:@selector(compare:)] mutableCopy];
     
     for (NSString *filename in I_scriptOrderArray) {
@@ -858,18 +854,18 @@ static AppController *sharedInstance = nil;
                 [I_contextMenuItemArray addObject:[item autoreleasedCopy]];
             }
         }
-        [scriptMenu addItem:[item autorelease]];
+        [scriptMenu addItem:item];
         
 		/* legacy note: the toobar items were loaded here in the past*/
     }
     // add final entries
     [scriptMenu addItem:[NSMenuItem separatorItem]];
-    item=[[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Reload Scripts", @"Reload Scripts MenuItem in Script Menu")
-                                     action:@selector(reloadScriptMenu) keyEquivalent:@""] autorelease];
+    item=[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Reload Scripts", @"Reload Scripts MenuItem in Script Menu")
+                                     action:@selector(reloadScriptMenu) keyEquivalent:@""];
     [item setTarget:self];
     [scriptMenu addItem:item];
-    item=[[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Open Script Folder", @"Open Script Folder MenuItem in Script Menu")
-                                     action:@selector(showScriptFolder:) keyEquivalent:@""] autorelease];
+    item=[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Open Script Folder", @"Open Script Folder MenuItem in Script Menu")
+                                     action:@selector(showScriptFolder:) keyEquivalent:@""];
     [item setTarget:self];
     [scriptMenu addItem:item];
     
@@ -877,7 +873,7 @@ static AppController *sharedInstance = nil;
 }
 
 - (void)reportAppleScriptError:(NSDictionary *)anErrorDictionary {
-    NSAlert *newAlert = [[[NSAlert alloc] init] autorelease];
+    NSAlert *newAlert = [[NSAlert alloc] init];
     [newAlert setAlertStyle:NSCriticalAlertStyle];
     [newAlert setMessageText:[anErrorDictionary objectForKey:@"NSAppleScriptErrorBriefMessage"] ? [anErrorDictionary objectForKey:@"NSAppleScriptErrorBriefMessage"] : @"Unknown AppleScript Error"];
     [newAlert setInformativeText:[NSString stringWithFormat:@"%@ (%d)", [anErrorDictionary objectForKey:@"NSAppleScriptErrorMessage"], [[anErrorDictionary objectForKey:@"NSAppleScriptErrorNumber"] intValue]]];
@@ -903,10 +899,9 @@ static AppController *sharedInstance = nil;
         NSMenuItem *scriptMenuItem = [[NSMenuItem alloc] initWithTitle:@"" action:nil keyEquivalent:@""];
         [scriptMenuItem setImage:[NSImage imageNamed:@"ScriptMenu"]];
         [scriptMenuItem setTag:ScriptMenuTag];
-        NSMenu *menu = [[[NSMenu alloc] initWithTitle:@""] autorelease];
+        NSMenu *menu = [[NSMenu alloc] initWithTitle:@""];
         [scriptMenuItem setSubmenu:menu];
         [[NSApp mainMenu] insertItem:scriptMenuItem atIndex:indexOfWindowMenu + 1];
-        [scriptMenuItem release];
         [self reloadScriptMenu];
     }
 }
@@ -917,32 +912,32 @@ static AppController *sharedInstance = nil;
     NSMenu *FormatMenu=[[mainMenu itemWithTag:FormatMenuTag] submenu];
     NSMenu *FoldingMenu=[[[[mainMenu itemWithTag:ViewMenuTag] submenu] itemWithTag:FoldingSubmenuTag] submenu];
 
-    NSMenu *defaultMenu=[[NSMenu new] autorelease];
-    [defaultMenu addItem:[[(NSMenuItem *)[EditMenu itemWithTag:CutMenuItemTag] copy] autorelease]];
-    [defaultMenu addItem:[[(NSMenuItem *)[EditMenu itemWithTag:CopyMenuItemTag] copy] autorelease]];
-    [defaultMenu addItem:[[(NSMenuItem *)[EditMenu itemWithTag:CopyXHTMLMenuItemTag] copy] autorelease]];
-    [defaultMenu addItem:[[(NSMenuItem *)[EditMenu itemWithTag:CopyStyledMenuItemTag] copy] autorelease]];
-    [defaultMenu addItem:[[(NSMenuItem *)[EditMenu itemWithTag:PasteMenuItemTag] copy] autorelease]];
+    NSMenu *defaultMenu=[NSMenu new];
+    [defaultMenu addItem:[(NSMenuItem *)[EditMenu itemWithTag:CutMenuItemTag] copy]];
+    [defaultMenu addItem:[(NSMenuItem *)[EditMenu itemWithTag:CopyMenuItemTag] copy]];
+    [defaultMenu addItem:[(NSMenuItem *)[EditMenu itemWithTag:CopyXHTMLMenuItemTag] copy]];
+    [defaultMenu addItem:[(NSMenuItem *)[EditMenu itemWithTag:CopyStyledMenuItemTag] copy]];
+    [defaultMenu addItem:[(NSMenuItem *)[EditMenu itemWithTag:PasteMenuItemTag] copy]];
     [defaultMenu addItem:[NSMenuItem separatorItem]];
-    [defaultMenu addItem:[[(NSMenuItem *)[EditMenu itemWithTag:BlockeditMenuItemTag] copy] autorelease]];
-    [defaultMenu addItem:[[(NSMenuItem *)[FoldingMenu itemWithTag:FoldingFoldSelectionMenuTag] copy] autorelease]];
-    [defaultMenu addItem:[[(NSMenuItem *)[FoldingMenu itemWithTag:FoldingFoldCurrentBlockMenuTag] copy] autorelease]];
-    [defaultMenu addItem:[[(NSMenuItem *)[FoldingMenu itemWithTag:FoldingFoldAllCurrentBlockMenuTag] copy] autorelease]];
+    [defaultMenu addItem:[(NSMenuItem *)[EditMenu itemWithTag:BlockeditMenuItemTag] copy]];
+    [defaultMenu addItem:[(NSMenuItem *)[FoldingMenu itemWithTag:FoldingFoldSelectionMenuTag] copy]];
+    [defaultMenu addItem:[(NSMenuItem *)[FoldingMenu itemWithTag:FoldingFoldCurrentBlockMenuTag] copy]];
+    [defaultMenu addItem:[(NSMenuItem *)[FoldingMenu itemWithTag:FoldingFoldAllCurrentBlockMenuTag] copy]];
     [defaultMenu addItem:[NSMenuItem separatorItem]];
-    NSMenuItem *scriptsSubmenuItem=[[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Scripts",@"Scripts entry for contextual menu") action:nil keyEquivalent:@""] autorelease];
-    NSMenu *menu = [[NSMenu new] autorelease];
+    NSMenuItem *scriptsSubmenuItem=[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Scripts",@"Scripts entry for contextual menu") action:nil keyEquivalent:@""];
+    NSMenu *menu = [NSMenu new];
     [scriptsSubmenuItem setImage:[NSImage imageNamed:@"ScriptMenuItemIcon"]];
     [scriptsSubmenuItem setTag:12345];
-    [menu addItem:[[[NSMenuItem alloc] initWithTitle:@"DummyEntry" action:nil keyEquivalent:@""] autorelease]];
+    [menu addItem:[[NSMenuItem alloc] initWithTitle:@"DummyEntry" action:nil keyEquivalent:@""]];
     [scriptsSubmenuItem setSubmenu:menu];
     [defaultMenu addItem:scriptsSubmenuItem];
 
     [defaultMenu addItem:[NSMenuItem separatorItem]];
-    [defaultMenu addItem:[[(NSMenuItem *)[EditMenu itemWithTag:SpellingMenuItemTag] copy] autorelease]];
-    [defaultMenu addItem:[[(NSMenuItem *)[FormatMenu itemWithTag:FontMenuItemTag] copy] autorelease]];
-    [defaultMenu addItem:[[(NSMenuItem *)[EditMenu itemWithTag:SubstitutionsMenuItemTag] copy] autorelease]];
-    [defaultMenu addItem:[[(NSMenuItem *)[EditMenu itemWithTag:TransformationsMenuItemTag] copy] autorelease]];
-    [defaultMenu addItem:[[(NSMenuItem *)[EditMenu itemWithTag:SpeechMenuItemTag] copy] autorelease]];
+    [defaultMenu addItem:[(NSMenuItem *)[EditMenu itemWithTag:SpellingMenuItemTag] copy]];
+    [defaultMenu addItem:[(NSMenuItem *)[FormatMenu itemWithTag:FontMenuItemTag] copy]];
+    [defaultMenu addItem:[(NSMenuItem *)[EditMenu itemWithTag:SubstitutionsMenuItemTag] copy]];
+    [defaultMenu addItem:[(NSMenuItem *)[EditMenu itemWithTag:TransformationsMenuItemTag] copy]];
+    [defaultMenu addItem:[(NSMenuItem *)[EditMenu itemWithTag:SpeechMenuItemTag] copy]];
 //    NSLog(@"%s default menu:%@",__FUNCTION__,defaultMenu);
     [SEETextView setDefaultMenu:defaultMenu];
 }
@@ -1053,6 +1048,40 @@ static AppController *sharedInstance = nil;
     }
 }
 
+
+- (void)showPlainTextTemplate:(NSString *)fileName replacements:(NSDictionary<NSString *, NSString *> *)replacements {
+    
+    NSMutableString *string = [NSMutableString stringWithContentsOfFile:fileName encoding:NSUTF8StringEncoding error:NULL];
+    [replacements enumerateKeysAndObjectsUsingBlock:^(NSString *pattern, NSString *replacement, BOOL *_stop) {
+        [string replaceOccurrencesOfString:[NSString stringWithFormat:@"{%@}", pattern] withString:replacement options:0 range:[string TCM_fullLengthRange]];
+    }];
+    
+    NSString *tempPath = [NSTemporaryDirectory() stringByAppendingPathComponent:fileName.lastPathComponent];
+    [[string dataUsingEncoding:NSUTF8StringEncoding] writeToFile:tempPath atomically:YES];
+    
+    
+    NSAppleEventDescriptor *propRecord = [NSAppleEventDescriptor recordDescriptor];
+    [propRecord setDescriptor:[NSAppleEventDescriptor descriptorWithString:@"utf-8"]
+                   forKeyword:'Encd'];
+    
+    ProcessSerialNumber psn = {0, kCurrentProcess};
+    NSAppleEventDescriptor *addressDescriptor = [NSAppleEventDescriptor descriptorWithDescriptorType:typeProcessSerialNumber bytes:&psn length:sizeof(ProcessSerialNumber)];
+    if (addressDescriptor != nil) {
+        NSAppleEventDescriptor *appleEvent = [NSAppleEventDescriptor appleEventWithEventClass:'Hdra' eventID:'See ' targetDescriptor:addressDescriptor returnID:kAutoGenerateReturnID transactionID:kAnyTransactionID];
+        
+        [appleEvent setParamDescriptor:propRecord
+                            forKeyword:keyAEPropData];
+        [appleEvent setParamDescriptor:[NSAppleEventDescriptor descriptorWithString:tempPath]
+                            forKeyword:'Stdi'];
+        [appleEvent setDescriptor:[NSAppleEventDescriptor descriptorWithString:[fileName lastPathComponent]]
+                       forKeyword:'Pipe'];
+        AppleEvent reply;
+        (void)AESendMessage([appleEvent aeDesc], &reply, kAENoReply, kAEDefaultTimeout);
+    }
+    
+    [[NSFileManager defaultManager] removeItemAtPath:tempPath error:NULL];
+}
+
 - (IBAction)showRegExHelp:(id)sender {
     NSString *path = [[NSBundle mainBundle] pathForResource:@"RE" ofType:@"txt"];
     [self TCM_showPlainTextFile:path];
@@ -1078,6 +1107,44 @@ static AppController *sharedInstance = nil;
 
 - (IBAction)showModeCreationDocumentation:(id)sender {
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedString(@"WEBSITE_MODE_CREATION_DOCU",@"WebSite Mode Creation Docu")]];
+}
+
++ (NSString *)localizedVersionString {
+    NSBundle *mainBundle = [NSBundle mainBundle];
+    NSString *versionString = [NSString stringWithFormat:NSLocalizedString(@"Version %@ (%@)", @"Marketing version followed by build version e.g. Version 2.0 (739)"),
+                               [mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"],
+                               [mainBundle objectForInfoDictionaryKey:@"CFBundleVersion"]];
+    return versionString;
+}
+
+- (IBAction)reportAnIssue:(id)sender {
+    NSBundle *bundle = [NSBundle mainBundle];
+    
+    NSString *hardwareInfo = ({
+        NSString *result = [NSString stringWithFormat:@"Hardware: \n Cores: %lu\n Memory: %lu MB\n", (unsigned long)NSProcessInfo.processInfo.activeProcessorCount, (unsigned long)NSProcessInfo.processInfo.physicalMemory / 1024 / 1024 ];
+        @try {
+            NSTask *task = [NSTask new];
+            task.launchPath = @"/usr/bin/env";
+            task.arguments = @[@"system_profiler",
+                               @"SPHardwareDataType"];
+            NSPipe *standardOutput = [NSPipe new];
+            task.standardOutput = standardOutput;
+            [task launch];
+            [task waitUntilExit];
+            result = [NSString stringWithData:[standardOutput.fileHandleForReading readDataToEndOfFile] encoding:NSUTF8StringEncoding];
+        }
+        @catch (NSException *exception) {
+        }
+        result;
+    });
+    
+    NSString *path = [bundle pathForResource:@"Bug Report" ofType:@"md"];
+    [self showPlainTextTemplate:path replacements:@{
+        @"SEE_VERSION_STRING" : AppController.localizedVersionString,
+        @"SEE_MACOS_VERSION" : NSProcessInfo.processInfo.operatingSystemVersionString,
+        @"SEE_HARDWARE" : hardwareInfo,
+        @"SEE_LANGUAGE" : bundle.preferredLocalizations.firstObject,
+        }];
 }
 
 - (void)changeFont:(id)aSender {

@@ -94,7 +94,7 @@
 		142893CB0957594500D14688 /* SyntaxHighlighter.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893C20957594500D14688 /* SyntaxHighlighter.m */; };
 		142893CC0957594500D14688 /* SyntaxStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893C40957594500D14688 /* SyntaxStyle.m */; };
 		142893F809575A3000D14688 /* AboutPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893DD09575A3000D14688 /* AboutPanelController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
-		142893F909575A3000D14688 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893DF09575A3000D14688 /* AppController.m */; };
+		142893F909575A3000D14688 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893DF09575A3000D14688 /* AppController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		142893FA09575A3000D14688 /* EncodingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893E109575A3000D14688 /* EncodingManager.m */; };
 		142893FB09575A3000D14688 /* FindReplaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893E309575A3000D14688 /* FindReplaceController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		142893FC09575A3000D14688 /* GetURLCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893E509575A3000D14688 /* GetURLCommand.m */; };
@@ -358,6 +358,7 @@
 		F27B2EF20B52968E00679CF2 /* HUDButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F27B2EEE0B52968E00679CF2 /* HUDButton.m */; };
 		F27C4DC5192FA2A800B5DB3C /* SEEHoverTableRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = F27C4DC4192FA2A800B5DB3C /* SEEHoverTableRowView.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		F280ABC4131E6ED50091D145 /* SEEStyleSheetEditorWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = F280ABC3131E6ED50091D145 /* SEEStyleSheetEditorWindowController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		F2815CE1216251F7006B3BC5 /* Bug Report.md in Resources */ = {isa = PBXBuildFile; fileRef = F2815CDD216251F7006B3BC5 /* Bug Report.md */; };
 		F281D34E0F38756100AD7DE1 /* FoldableTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D34C0F38756100AD7DE1 /* FoldableTextStorage.m */; };
 		F281D3600F38758600AD7DE1 /* AbstractFoldingTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D35F0F38758600AD7DE1 /* AbstractFoldingTextStorage.m */; };
 		F281D3910F3877A900AD7DE1 /* FoldedTextAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D3900F3877A900AD7DE1 /* FoldedTextAttachment.m */; };
@@ -1266,6 +1267,7 @@
 		F27C4DC4192FA2A800B5DB3C /* SEEHoverTableRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEHoverTableRowView.m; sourceTree = "<group>"; };
 		F280ABC2131E6ED50091D145 /* SEEStyleSheetEditorWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SEEStyleSheetEditorWindowController.h; sourceTree = "<group>"; };
 		F280ABC3131E6ED50091D145 /* SEEStyleSheetEditorWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEStyleSheetEditorWindowController.m; sourceTree = "<group>"; };
+		F2815CDD216251F7006B3BC5 /* Bug Report.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = "Bug Report.md"; path = "Resources/Bug Report.md"; sourceTree = "<group>"; };
 		F281D3490F38756100AD7DE1 /* FullTextStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = FullTextStorage.h; sourceTree = "<group>"; };
 		F281D34A0F38756100AD7DE1 /* FoldableTextStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = FoldableTextStorage.h; sourceTree = "<group>"; };
 		F281D34B0F38756100AD7DE1 /* FullTextStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FullTextStorage.m; sourceTree = "<group>"; };
@@ -2125,6 +2127,7 @@
 				4C6BDC581889726F0088CBFC /* Localisation */,
 				14289051095742A100D14688 /* Artwork */,
 				F291D1A00FCECD22008BC286 /* FoldingBubbleText.rtf */,
+				F2815CDD216251F7006B3BC5 /* Bug Report.md */,
 				1428900A095740F200D14688 /* RE.txt */,
 				145047410997750100D18142 /* ReleaseNotes.txt */,
 				14289008095740F200D14688 /* Acknowledgements.txt */,
@@ -2997,6 +3000,7 @@
 				F2880D251923BA7100C6370C /* BottomBarSharingIconGroupTurnOffPressed.png in Resources */,
 				F20AB87C1907C7C500444F4B /* SEEDebugImageGenerationWindowController.xib in Resources */,
 				4CD5F7EE17FB0CA300F49E31 /* Export.xib in Resources */,
+				F2815CE1216251F7006B3BC5 /* Bug Report.md in Resources */,
 				F2D3E54B189941F50096425B /* AW SingleTabAddButtonPressed.png in Resources */,
 				4CD5F7F617FB0CD200F49E31 /* FindReplace.xib in Resources */,
 				4CCD790118DB3F9E00A8B457 /* SEEScopedBookmarkAccessoryViewController.xib in Resources */,

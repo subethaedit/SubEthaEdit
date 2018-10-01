@@ -53,6 +53,8 @@ extern NSString * const GlobalScriptsDidReloadNotification;
 @property (nonatomic) BOOL didShowFirstUseWindowHelp;
 @property (nonatomic) BOOL lastShouldOpenUntitledFile;
 
+@property (class, nonatomic, readonly) NSString *localizedVersionString;
+
 + (AppController *)sharedInstance;
 
 - (void)reportAppleScriptError:(NSDictionary *)anErrorDictionary;

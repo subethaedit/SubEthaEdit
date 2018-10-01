@@ -8,6 +8,7 @@
 
 #import "AboutPanelController.h"
 #import <OgreKit/OgreKit.h>
+#import "AppController.h"
 
 // this file needs arc - either project wide,
 // or add -fobjc-arc on a per file basis in the compile build phase
@@ -33,9 +34,7 @@
 
 - (void)windowDidLoad {
     NSBundle *mainBundle = [NSBundle mainBundle];
-    NSString *versionString = [NSString stringWithFormat:NSLocalizedString(@"Version %@ (%@)", @"Marketing version followed by build version e.g. Version 2.0 (739)"), 
-                                [mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"],
-                                [mainBundle objectForInfoDictionaryKey:@"CFBundleVersion"]];
+    NSString *versionString = AppController.localizedVersionString;
     NSString *ogreVersion = [NSString stringWithFormat:@"OgreKit v%@, Oniguruma v%@", [OGRegularExpression version], [OGRegularExpression onigurumaVersion]];
 
     [self.O_versionField setObjectValue:versionString];
