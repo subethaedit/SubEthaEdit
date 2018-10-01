@@ -278,7 +278,7 @@
     NSPopUpButtonCell *cell = [aPopUp cell];
 		
     if ([[popUpMenu itemArray] count]) {
-        NSMenu *copiedMenu = [popUpMenu copyWithZone:[NSMenu menuZone]];
+        NSMenu *copiedMenu = [popUpMenu copy];
         [cell setMenu:copiedMenu];
         [self updateSelectedSymbolInPopUp:aPopUp];
     }

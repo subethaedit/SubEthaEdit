@@ -454,7 +454,9 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 								if (linkPrefix) matchedString = [linkPrefix stringByAppendingString:matchedString];
 								
 								// escape non-ASCII characters that are not yet escaped
-								matchedString = [(NSString *)CFURLCreateStringByAddingPercentEscapes(NULL,(CFStringRef)matchedString, (CFStringRef) @"%&?=#", NULL, kCFStringEncodingUTF8) autorelease];
+                                NSMutableCharacterSet *set = [NSMutableCharacterSet characterSetWithCharactersInString:@"%&?=#:/"];
+                                [set formUnionWithCharacterSet:[NSCharacterSet URLQueryAllowedCharacterSet]];
+                                matchedString = [matchedString stringByAddingPercentEncodingWithAllowedCharacters:set];
 								
 								NSURL *theURL = [NSURL URLWithString:matchedString];
 								//							[I_stringLock lock];

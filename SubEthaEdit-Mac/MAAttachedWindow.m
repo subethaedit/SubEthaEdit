@@ -65,7 +65,6 @@
         [self setAlphaValue:1.0];
         [self setOpaque:NO];
         [self setHasShadow:YES];
-        [self useOptimizedDrawing:YES];
         
         // Set up some sensible defaults for display.
         _MABackgroundColor = [MAATTACHEDWINDOW_DEFAULT_BACKGROUND_COLOR copy];
@@ -431,13 +430,11 @@
     // Call NSWindow's implementation of -setBackgroundColor: because we override 
     // it in this class to let us set the entire background image of the window 
     // as an NSColor patternImage.
-    NSDisableScreenUpdates();
     [super setBackgroundColor:[self _backgroundColorPatternImage]];
     if ([self isVisible]) {
         [self display];
         [self invalidateShadow];
     }
-    NSEnableScreenUpdates();
 }
 
 
@@ -722,10 +719,8 @@
     }
     
     _resizing = YES;
-    NSDisableScreenUpdates();
     [self _updateGeometry];
     [self _updateBackground];
-    NSEnableScreenUpdates();
     _resizing = NO;
 }
 
@@ -787,10 +782,8 @@
 	// Thanks to Martin Redington.
 	_point = point;
 	_side = side;
-	NSDisableScreenUpdates();
 	[self _updateGeometry];
 	[self _updateBackground];
-	NSEnableScreenUpdates();
 }
 
 

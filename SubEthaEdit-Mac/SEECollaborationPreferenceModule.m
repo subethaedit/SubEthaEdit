@@ -203,7 +203,7 @@
 
 - (void)pictureTakerDidEnd:(IKPictureTaker *)aPictureTaker returnCode:(NSInteger)aReturnCode contextInfo:(void *)aContextInfo {
 	self.showingImageTaker = NO;
-	if (aReturnCode != NSCancelButton) {
+    if (aReturnCode != NSModalResponseCancel) {
 		NSImage *image = aPictureTaker.outputImage;
 		[self updateUserWithImage:image];
 		[self.O_avatarImageView setImage:image];

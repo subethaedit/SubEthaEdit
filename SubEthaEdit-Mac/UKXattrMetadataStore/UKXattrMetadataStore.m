@@ -85,20 +85,17 @@
            forKey:(NSString*)key
            atPath:(NSString*)path
      traverseLink:(BOOL)travLnk {
-  // Serialize our objects into a property list XML string:
-  NSString* errMsg = nil;
-  NSData* plistData = [NSPropertyListSerialization
-      dataFromPropertyList:obj
-                    format:NSPropertyListXMLFormat_v1_0
-          errorDescription:&errMsg];
-  if (errMsg) {
-    [errMsg autorelease];
-    [NSException raise:@"UKXattrMetastoreCantSerialize" format:@"%@", errMsg];
-  } else
-    [[self class] setData:plistData
-                   forKey:key
-                   atPath:path
-             traverseLink:travLnk];
+    // Serialize our objects into a property list XML string:
+    NSError *error = nil;
+    NSData *plistData = [NSPropertyListSerialization dataWithPropertyList:obj format:NSPropertyListXMLFormat_v1_0 options:0 error:&error];
+    if (error) {
+        [NSException raise:@"UKXattrMetastoreCantSerialize" format:@"%@", error];
+    } else {
+        [[self class] setData:plistData
+                       forKey:key
+                       atPath:path
+                 traverseLink:travLnk];
+    }
 }
 
 // -----------------------------------------------------------------------------
@@ -156,21 +153,14 @@
 + (id)objectForKey:(NSString*)key
             atPath:(NSString*)path
       traverseLink:(BOOL)travLnk {
-  NSString* errMsg = nil;
-  NSMutableData* data =
-      [[self class] dataForKey:key atPath:path traverseLink:travLnk];
-  NSPropertyListFormat outFormat = NSPropertyListXMLFormat_v1_0;
-  id obj =
-      [NSPropertyListSerialization propertyListFromData:data
-                                       mutabilityOption:NSPropertyListImmutable
-                                                 format:&outFormat
-                                       errorDescription:&errMsg];
-  if (errMsg) {
-    [errMsg autorelease];
-    [NSException raise:@"UKXattrMetastoreCantUnserialize" format:@"%@", errMsg];
-  }
-
-  return obj;
+    NSError *error = nil;
+    NSMutableData *data =[[self class] dataForKey:key atPath:path traverseLink:travLnk];
+    NSPropertyListFormat outFormat = NSPropertyListXMLFormat_v1_0;
+    id obj = [NSPropertyListSerialization propertyListWithData:data options:NSPropertyListImmutable format:&outFormat error:&error];
+    if (error) {
+        [NSException raise:@"UKXattrMetastoreCantUnserialize" format:@"%@", error];
+    }
+    return obj;
 }
 
 // -----------------------------------------------------------------------------

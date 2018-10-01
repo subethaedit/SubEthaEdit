@@ -4652,25 +4652,22 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     if (title == nil) {
         title = [self displayName];
     }
-    NSString *escapedTitle = (NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)title, NULL, CFSTR("/;=?"), kCFStringEncodingUTF8);
+    NSString *escapedTitle = [title stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLPathAllowedCharacterSet];
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"escapedTitle: %@", escapedTitle);
     if (escapedTitle != nil) {
-        [escapedTitle autorelease];
         [address appendFormat:@"/%@", escapedTitle];
     }
 
     NSString *documentId = [[self session] sessionID];
-    NSString *escapedDocumentId = (NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)documentId, NULL, CFSTR(";/?:@&=+,$"), kCFStringEncodingUTF8);
+    NSString *escapedDocumentId = [documentId stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLQueryAllowedCharacterSet];
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"escapedDocumentId: %@", escapedDocumentId);
     if (escapedDocumentId != nil) {
-        [escapedDocumentId autorelease];
         [address appendFormat:@"?%@=%@", @"sessionID", escapedDocumentId];
 
         if (aGroup) {
             NSString *token = [[self session] invitationTokenForGroup:aGroup];
-            NSString *escapedToken = (NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)token, NULL, CFSTR(";/?:@&=+,$"), kCFStringEncodingUTF8);
+            NSString *escapedToken = [token stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLQueryAllowedCharacterSet];
             if (escapedToken) {
-                [escapedToken autorelease];
                 [address appendFormat:@"&token=%@",escapedToken];
             }
         }
@@ -6546,7 +6543,6 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 				[contextInfo setObject:@"ShouldPromoteAlert" forKey:@"Alert"];
 				[contextInfo setObject:textView forKey:@"TextView"];
 				[contextInfo setObject:[[I_lastTextShouldChangeReplacementString copy] autorelease] forKey:@"ReplacementString"];
-				[contextInfo autorelease];
 		
 				NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 				[alert setAlertStyle:NSWarningAlertStyle];
@@ -6556,10 +6552,9 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 				[alert addButtonWithTitle:NSLocalizedString(@"Promote to UTF8", nil)];
 				[alert addButtonWithTitle:NSLocalizedString(@"Promote to Unicode", nil)];
 				[[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
-				[alert beginSheetModalForWindow:[textView window]
-								  modalDelegate:self
-								 didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
-									contextInfo:[contextInfo retain]];
+                [alert beginSheetModalForWindow:[textView window] completionHandler:^(NSModalResponse returnCode) {
+                    [self alertDidEnd:alert returnCode:returnCode contextInfo:contextInfo];
+                }];
 			} else {
 				NSBeep();
 			}
@@ -6682,7 +6677,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     [layoutManager setShowsChangeMarks:YES];
     [layoutManager addTextContainer:textContainer];
     NSRange wholeRange = NSMakeRange(0,[[self textStorage] length]);
-    [layoutManager invalidateLayoutForCharacterRange:wholeRange isSoft:NO actualCharacterRange:NULL];
+    [layoutManager invalidateLayoutForCharacterRange:wholeRange actualCharacterRange:NULL];
     [textView setNeedsDisplay:YES];
     
     NSRect rectToCache = [textView frame];

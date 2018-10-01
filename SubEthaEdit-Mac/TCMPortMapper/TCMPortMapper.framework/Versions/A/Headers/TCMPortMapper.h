@@ -40,8 +40,8 @@ typedef NS_ENUM(uint8_t, TCMPortMappingTransportProtocol)  {
 };
 
 @interface TCMPortMapping : NSObject
-+ (instancetype)portMappingWithLocalPort:(uint16_t)privatePort desiredExternalPort:(uint16_t)publicPort transportProtocol:(TCMPortMappingTransportProtocol)transportProtocol userInfo:(id)userInfo;
-- (instancetype)initWithLocalPort:(uint16_t)privatePort desiredExternalPort:(uint16_t)publicPort transportProtocol:(TCMPortMappingTransportProtocol)transportProtocol userInfo:(id)userInfo;
++ (instancetype)portMappingWithLocalPort:(uint16_t)privatePort desiredExternalPort:(uint16_t)publicPort transportProtocol:(TCMPortMappingTransportProtocol)transportProtocol userInfo:(nullable id)userInfo;
+- (instancetype)initWithLocalPort:(uint16_t)privatePort desiredExternalPort:(uint16_t)publicPort transportProtocol:(TCMPortMappingTransportProtocol)transportProtocol userInfo:(nullable id)userInfo;
 
 @property (nonatomic) uint16_t desiredExternalPort;
 @property (nonatomic) uint16_t localPort;
@@ -49,7 +49,7 @@ typedef NS_ENUM(uint8_t, TCMPortMappingTransportProtocol)  {
 @property (nonatomic) TCMPortMappingTransportProtocol transportProtocol;
 @property (nonatomic) TCMPortMappingStatus mappingStatus;
 
-@property (nonatomic, strong) id userInfo;
+@property (nullable, nonatomic, strong) id userInfo;
 @end
 
 @interface NSString (TCMPortMapper_IPAdditions)

@@ -179,7 +179,7 @@ static NSString *S_specialGlyphs[17];
             NSString *userID=[textStorage attribute:ChangedByUserIDAttributeName 
                                 atIndex:position longestEffectiveRange:&searchRange inRange:wholeRange];
             if (userID) {
-                [self invalidateLayoutForCharacterRange:searchRange isSoft:NO actualCharacterRange:NULL];
+                [self invalidateLayoutForCharacterRange:searchRange actualCharacterRange:NULL];
             }
             position=NSMaxRange(searchRange);
         }
@@ -192,7 +192,7 @@ static NSString *S_specialGlyphs[17];
 - (void)setShowsInvisibles:(BOOL)showsInvisibles {
     if (showsInvisibles != I_flags.showsInvisibles) {
         I_flags.showsInvisibles=showsInvisibles;
-        [self invalidateLayoutForCharacterRange:NSMakeRange(0,[[self textStorage] length]) isSoft:NO actualCharacterRange:NULL];
+        [self invalidateLayoutForCharacterRange:NSMakeRange(0,[[self textStorage] length]) actualCharacterRange:NULL];
     }
 }
 
