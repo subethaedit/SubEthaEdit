@@ -162,6 +162,8 @@ static void acceptConnection(CFSocketRef aSocketRef, CFSocketCallBackType aType,
         success = YES;
     } while (0);
     
+    // The 'CFSocketSetAddress listen failure: 102' log seems to be expected and harmless. See https://forums.developer.apple.com/thread/106590
+    // CFSocket will also log all unsuccessful port attempts, if the port is already taken (which is expected here as well, as we increment the port until we have a free one)
     
     if (addressData)
         CFRelease(addressData);
