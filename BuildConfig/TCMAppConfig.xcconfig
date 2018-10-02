@@ -1,16 +1,13 @@
-//
 //  TCMAppConfig.xcconfig
 //  SubEthaEdit
 //
 //  Created by Michael Ehrmann on 21.10.13.
-//  Copyright (c) 2013 TheCodingMonkeys. All rights reserved.
-//
+
+// This is allowed to be changed by the Identity file.
+SEE_APP_PRODUCT_NAME = SubEtha Edit
+#include "Identity.xcconfig"
 
 #include "TCMReleaseInfo.xcconfig"
-
-SEE_APP_PRODUCT_NAME = SubEtha Edit
-
-#include "Identity.xcconfig"
 
 SDKROOT = macosx
 MACOSX_DEPLOYMENT_TARGET = 10.11
