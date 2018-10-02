@@ -1,10 +1,7 @@
-//
 //  TCMBEEPSessionXMLParser.m
 //  SubEthaEdit
 //
 //  Created by Michael Ehrmann on 14.10.13.
-//  Copyright (c) 2013 TheCodingMonkeys. All rights reserved.
-//
 
 
 // this file needs arc - either project wide,

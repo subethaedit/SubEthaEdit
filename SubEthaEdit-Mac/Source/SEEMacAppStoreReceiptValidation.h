@@ -1,10 +1,7 @@
-//
 //  SEEMacAppStoreReceiptValidation.h
 //  SubEthaEdit
 //
 //  Created by Michael Ehrmann on 19.05.14.
-//  Copyright (c) 2014 TheCodingMonkeys. All rights reserved.
-//
 
 #ifndef SubEthaEdit_SEEMacAppStoreReceiptValidation_h
 #define SubEthaEdit_SEEMacAppStoreReceiptValidation_h

@@ -1,10 +1,7 @@
-//
 //  NSDataTCMAdditions.h
 //  TCMFoundation
 //
 //  Created by Dominik Wagner on Wed Apr 28 2004.
-//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
-//
 
 #import <Foundation/Foundation.h>
 #import <zlib.h>

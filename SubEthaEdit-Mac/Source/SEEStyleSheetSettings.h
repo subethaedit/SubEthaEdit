@@ -1,10 +1,7 @@
-//
 //  SEEStyleSheetSettings.h
 //  SubEthaEdit
 //
 //  Created by dom on 24.03.11.
-//  Copyright 2011 TheCodingMonkeys. All rights reserved.
-//
 
 #import <Cocoa/Cocoa.h>
 #import "DocumentMode.h"

@@ -1,10 +1,7 @@
-//
 //  TextOperation.m
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Wed Mar 24 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
-//
 
 #import "TextOperation.h"
 

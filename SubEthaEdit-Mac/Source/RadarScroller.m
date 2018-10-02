@@ -1,10 +1,7 @@
-//
 //  RadarScroller.m
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Mon Feb 17 2003.
-//  Copyright (c) 2003 TheCodingMonkeys. All rights reserved.
-//
 
 #import "RadarScroller.h"
 

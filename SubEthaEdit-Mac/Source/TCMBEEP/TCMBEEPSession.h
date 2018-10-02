@@ -1,8 +1,5 @@
-//
 //  TCMBEEPSession.h
 //  TCMBEEP
-//
-//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

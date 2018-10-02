@@ -1,10 +1,7 @@
-//
 //  NSDateTCMAdditions.h
 //  TCMFoundation
 //
 //  Created by Michael Ehrmann on 10.10.13.
-//  Copyright 2013 TheCodingMonkeys. All rights reserved.
-//
 
 #import <Foundation/Foundation.h>
 

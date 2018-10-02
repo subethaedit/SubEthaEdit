@@ -1,10 +1,7 @@
-//
 //  PrecedenceRolloverButton.h
 //  SubEthaEdit
 //
 //  Created by Martin Pittenauer on 01.10.07.
-//  Copyright 2007 TheCodingMonkeys. All rights reserved.
-//
 
 #import <Cocoa/Cocoa.h>
 

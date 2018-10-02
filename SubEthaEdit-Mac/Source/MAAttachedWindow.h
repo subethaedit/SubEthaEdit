@@ -1,4 +1,3 @@
-//
 //  MAAttachedWindow.h
 //
 //  Created by Matt Gemmell on 27/09/2007.

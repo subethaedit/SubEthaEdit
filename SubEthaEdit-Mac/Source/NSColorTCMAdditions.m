@@ -1,10 +1,7 @@
-//
 //  NSColorTCMAdditions.m
 //  SubEthaEdit
 //
 //  Created by Martin Pittenauer on Mon Mar 22 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
-//
 
 #import "NSColorTCMAdditions.h"
 

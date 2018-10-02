@@ -1,10 +1,7 @@
-//
 //  PrintTextView.m
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on 15.09.04.
-//  Copyright 2004 TheCodingMonkeys. All rights reserved.
-//
 
 #import "PrintTextView.h"
 #import "PlainTextDocument.h"

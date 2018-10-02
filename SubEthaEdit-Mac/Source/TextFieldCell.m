@@ -1,10 +1,7 @@
-//
 //  TextFieldCell.m
 //  SubEthaEdit
 //
 //  Created by Martin Pittenauer on 14.10.04.
-//  Copyright 2004 TheCodingMonkeys. All rights reserved.
-//
 
 #import "TextFieldCell.h"
 

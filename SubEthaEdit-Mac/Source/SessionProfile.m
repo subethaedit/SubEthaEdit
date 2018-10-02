@@ -1,10 +1,7 @@
-//
 //  SessionProfile.m
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Tue Mar 09 2004.
-//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
-//
 
 #import "SessionProfile.h"
 #import "TCMBencodingUtilities.h"

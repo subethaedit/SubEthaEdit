@@ -1,10 +1,7 @@
-//
 //  AppController.m
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Wed Feb 25 2004.
-//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
-//
 
 #import <TCMPortMapper/TCMPortMapper.h>
 

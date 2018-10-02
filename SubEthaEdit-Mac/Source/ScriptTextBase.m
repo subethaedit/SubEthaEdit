@@ -1,10 +1,7 @@
-//
 //  ScriptTextBase.m
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on 03.05.06.
-//  Copyright 2006 TheCodingMonkeys. All rights reserved.
-//
 
 #import "ScriptTextBase.h"
 #import "ScriptLine.h"

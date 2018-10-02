@@ -1,10 +1,7 @@
-//
 //  TCMMMSession.m
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Mon Mar 08 2004.
-//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
-//
 
 #import "../TCMBEEP/TCMBEEP.h"
 #import "TCMMMSession.h"

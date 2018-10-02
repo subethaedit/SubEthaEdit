@@ -1,10 +1,7 @@
-//
 //  SyntaxHighlighter.m
 //  SyntaxTestBench
 //
 //  Created by Martin Pittenauer on Thu Mar 04 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
-//
 //
 
 #import "SyntaxHighlighter.h"

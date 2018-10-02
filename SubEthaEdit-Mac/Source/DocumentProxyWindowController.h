@@ -1,10 +1,7 @@
-//
 //  DocumentProxyWindowController.h
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Thu Apr 29 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
-//
 
 #import <AppKit/AppKit.h>
 

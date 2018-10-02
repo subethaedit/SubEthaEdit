@@ -1,10 +1,7 @@
-//
 //  FoldedTextAttachment.m
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on 03.02.09.
-//  Copyright 2009 TheCodingMonkeys. All rights reserved.
-//
 
 #import "FoldingTextAttachmentCell.h"
 #import "FoldedTextAttachment.h"

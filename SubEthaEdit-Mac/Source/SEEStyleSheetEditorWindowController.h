@@ -1,10 +1,7 @@
-//
 //  StyleSheetPreferences.h
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Mon Oct 07 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
-//
 
 #import <Foundation/Foundation.h>
 #import "TCMPreferenceModule.h"

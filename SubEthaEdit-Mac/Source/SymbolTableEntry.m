@@ -1,10 +1,7 @@
-//
 //  SymbolTableEntry.m
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Fri Apr 16 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
-//
 
 #import "SymbolTableEntry.h"
 #import "SelectionOperation.h"

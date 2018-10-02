@@ -1,10 +1,7 @@
-//
 //  URLBubbleWindow.h
 //  SubEthaEdit
 //
 //  Created by dom on 13.07.09.
-//  Copyright 2009 TheCodingMonkeys. All rights reserved.
-//
 
 #import <Cocoa/Cocoa.h>
 #import "MAAttachedWindow.h"

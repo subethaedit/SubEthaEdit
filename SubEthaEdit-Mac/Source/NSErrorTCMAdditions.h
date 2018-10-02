@@ -1,10 +1,7 @@
-//
 //  NSErrorTCMAdditions.h
 //  SubEthaEdit
 //
 //  Created by Martin Pittenauer on 02.09.09.
-//  Copyright 2009 TheCodingMonkeys. All rights reserved.
-//
 
 #import <Cocoa/Cocoa.h>
 

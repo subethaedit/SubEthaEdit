@@ -1,10 +1,7 @@
-//
 //  ScriptCharacters.m
 //  SubEthaEdit
 //
 //  Created by Martin Ott on 5/2/06.
-//  Copyright 2006 TheCodingMonkeys. All rights reserved.
-//
 
 #import "ScriptCharacters.h"
 #import "FoldableTextStorage.h"

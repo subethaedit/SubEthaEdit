@@ -1,10 +1,7 @@
-//
 //  NSObject+TCMArcLifecycleAdditions.m
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on 26.02.14.
-//  Copyright (c) 2014 TheCodingMonkeys. All rights reserved.
-//
 
 #import "NSObject+TCMArcLifecycleAdditions.h"
 

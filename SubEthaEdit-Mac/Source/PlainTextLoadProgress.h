@@ -1,10 +1,7 @@
-//
 //  PlainTextLoadProgress.h
 //  SubEthaEdit
 //
 //  Created by Martin Ott on 1/17/07.
-//  Copyright 2007 TheCodingMonkeys. All rights reserved.
-//
 
 #import <Cocoa/Cocoa.h>
 

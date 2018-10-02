@@ -1,10 +1,8 @@
-//
 //  SEEWebPreviewViewController.m
 //  was : WebPreviewWindowController.m
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Mon Jul 07 2003.
-//  Copyright (c) 2003 TheCodingMonkeys. All rights reserved.
 //  refactored to be a ViewController by liz
 
 #import "TCMMMSession.h"

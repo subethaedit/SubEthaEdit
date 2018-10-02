@@ -1,10 +1,7 @@
-//
 //  SyntaxStyle.h
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on 11.10.04.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
-//
 
 #import <Cocoa/Cocoa.h>
 #import "DocumentMode.h"

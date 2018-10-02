@@ -1,10 +1,7 @@
-//
 //  NSBezierPathTCMAdditions.m
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on 21.09.07.
-//  Copyright 2007 TheCodingMonkeys. All rights reserved.
-//
 
 #import "NSBezierPathTCMAdditions.h"
 #define TITLEBARHEIGHT 19.0

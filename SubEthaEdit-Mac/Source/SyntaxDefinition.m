@@ -1,10 +1,7 @@
-//
 //  SyntaxDefinition.m
 //  SyntaxTestBench
 //
 //  Created by Martin Pittenauer on Wed Mar 17 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
-//
 
 // this file needs arc - either project wide,
 // or add -fobjc-arc on a per file basis in the compile build phase

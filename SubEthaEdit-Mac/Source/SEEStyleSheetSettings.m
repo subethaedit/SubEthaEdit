@@ -1,10 +1,7 @@
-//
 //  SEEStyleSheetSettings.m
 //  SubEthaEdit
 //
 //  Created by dom on 24.03.11.
-//  Copyright 2011 TheCodingMonkeys. All rights reserved.
-//
 
 // helper class to manage style sheet preferences for a mode
 // internal defaults structure

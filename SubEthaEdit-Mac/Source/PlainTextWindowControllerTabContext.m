@@ -1,10 +1,7 @@
-//
 //  PlainTextWindowControllerTabContext.m
 //  SubEthaEdit
 //
 //  Created by Martin Ott on 10/17/06.
-//  Copyright 2006 TheCodingMonkeys. All rights reserved.
-//
 
 #import "PlainTextWindowControllerTabContext.h"
 #import "PlainTextDocument.h"

@@ -1,10 +1,7 @@
-//
 //  EncodingDoctorDialog.h
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on 11.09.06.
-//  Copyright 2006-2007 TheCodingMonkeys. All rights reserved.
-//
 
 #import <Cocoa/Cocoa.h>
 @class SEEEncodingDoctorDialogViewController, PlainTextWindowControllerTabContext, PlainTextDocument;

@@ -1,10 +1,7 @@
-//
 //  PrecedenceRuleCell.m
 //  SubEthaEdit
 //
 //  Created by Martin Pittenauer on 22.09.07.
-//  Copyright 2007 TheCodingMonkeys. All rights reserved.
-//
 
 #import "PrecedenceRuleCell.h"
 #import "DocumentModeManager.h"

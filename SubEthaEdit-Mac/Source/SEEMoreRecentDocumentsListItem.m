@@ -1,10 +1,7 @@
-//
 //  SEEMoreRecentDocumentsListItem.m
 //  SubEthaEdit
 //
 //  Created by Michael Ehrmann on 22.05.14.
-//  Copyright (c) 2014 TheCodingMonkeys. All rights reserved.
-//
 
 #if !__has_feature(objc_arc)
 #error ARC must be enabled!

@@ -1,10 +1,7 @@
-//
 //  SEEUserColorsPreviewView.m
 //  SubEthaEdit
 //
 //  Created by Lisa Brodner on 16/04/14.
-//  Copyright (c) 2014 TheCodingMonkeys. All rights reserved.
-//
 
 // this file needs arc - add -fobjc-arc in the compile build phase
 #if !__has_feature(objc_arc)

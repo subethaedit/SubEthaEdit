@@ -1,8 +1,5 @@
-//
 //  TCMBEEPChannel.h
 //  TCMBEEP
-//
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

@@ -1,10 +1,7 @@
-//
 //  SEESavePanelAccessoryViewController.m
 //  SubEthaEdit
 //
 //  Created by Michael Ehrmann on 18.10.13.
-//  Copyright (c) 2013 TheCodingMonkeys. All rights reserved.
-//
 
 // this file needs arc - either project wide,
 // or add -fobjc-arc on a per file basis in the compile build phase

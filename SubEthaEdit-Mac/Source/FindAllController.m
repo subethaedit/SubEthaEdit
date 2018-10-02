@@ -1,10 +1,7 @@
-//
 //  FindAllController.m
 //  SubEthaEdit
 //
 //  Created by Martin Pittenauer on Wed May 05 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
-//
 
 
 // this file needs arc - add -fobjc-arc in the compile build phase

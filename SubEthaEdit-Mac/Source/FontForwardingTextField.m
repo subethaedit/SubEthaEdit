@@ -1,10 +1,7 @@
-//
 //  FontForwardingView.m
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on 01.12.08.
-//  Copyright 2008 TheCodingMonkeys. All rights reserved.
-//
 
 #import "FontForwardingTextField.h"
 

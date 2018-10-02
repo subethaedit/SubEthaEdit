@@ -1,10 +1,7 @@
-//
 //  SyntaxDefinition.h
 //  SyntaxTestBench
 //
 //  Created by Martin Pittenauer on Wed Mar 17 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
-//
 
 #include <AvailabilityMacros.h>
 #import <Foundation/Foundation.h>

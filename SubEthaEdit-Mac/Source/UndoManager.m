@@ -1,10 +1,7 @@
-//
 //  UndoManager.m
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Wed May 12 2004.
-//  Copyright (c) 2004-2006 TheCodingMonkeys. All rights reserved.
-//
 
 #import "UndoManager.h"
 

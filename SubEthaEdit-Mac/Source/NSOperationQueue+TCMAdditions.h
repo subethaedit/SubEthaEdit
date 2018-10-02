@@ -1,10 +1,7 @@
-//
 //  NSOperationQueue+TCMAdditions.h
 //  ZickeZacke
 //
 //  Created by Dominik Wagner on 01.07.13.
-//  Copyright (c) 2013 TheCodingMonkeys. All rights reserved.
-//
 
 #import <Foundation/Foundation.h>
 

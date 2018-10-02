@@ -1,10 +1,7 @@
-//
 //  NSMutableAttributedStringSEEAdditions.m
 //  SubEthaEdit
 //
 //  Created by Martin Ott on 3/19/07.
-//  Copyright 2007 TheCodingMonkeys. All rights reserved.
-//
 
 #import "NSMutableAttributedStringSEEAdditions.h"
 #import <OgreKit/OgreKit.h>

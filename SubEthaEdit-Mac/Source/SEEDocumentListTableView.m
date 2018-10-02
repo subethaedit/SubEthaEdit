@@ -1,10 +1,7 @@
-//
 //  SEEDocumentListTableView.m
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on 26.05.14.
-//  Copyright (c) 2014 TheCodingMonkeys. All rights reserved.
-//
 
 #import "SEEDocumentListTableView.h"
 #import "SEEHoverTableRowView.h"

@@ -1,11 +1,8 @@
-//
 //  SEEDocumentController.m
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Thu Mar 25 2004.
 //	ARCified by Michael Ehrmann on Thu Mar 27 2014
-//  Copyright (c) 2004-2014 TheCodingMonkeys. All rights reserved.
-//
 
 // this file needs arc - add -fobjc-arc in the compile build phase
 #if !__has_feature(objc_arc)

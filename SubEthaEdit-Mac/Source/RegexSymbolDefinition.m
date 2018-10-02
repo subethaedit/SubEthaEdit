@@ -1,11 +1,8 @@
-//
 //  RegexSymbolDefinition.m
 //  SubEthaEdit
 //
 //  Created by Martin Pittenauer on Thu Apr 22 2004.
 //  Updated by Michael Ehrmann on Fri Oct 11 2013.
-//  Copyright (c) 2004 - 2013 TheCodingMonkeys. All rights reserved.
-//
 
 // this file needs arc - either project wide,
 // or add -fobjc-arc on a per file basis in the compile build phase

@@ -1,10 +1,7 @@
-//
 //  DebugAttributeInspectorController.m
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on 04.06.07.
-//  Copyright 2007 TheCodingMonkeys. All rights reserved.
-//
 
 #import "DebugAttributeInspectorController.h"
 #import "FullTextStorage.h"

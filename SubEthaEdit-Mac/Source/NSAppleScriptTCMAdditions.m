@@ -1,10 +1,7 @@
-//
 //  NSAppleScriptAdditions.m
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on 27.03.06.
-//  Copyright 2006 TheCodingMonkeys. All rights reserved.
-//
 
 #import "NSAppleScriptTCMAdditions.h"
 

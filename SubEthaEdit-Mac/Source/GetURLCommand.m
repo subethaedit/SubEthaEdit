@@ -1,10 +1,7 @@
-//
 //  GetURLCommand.m
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Wed May 05 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
-//
 
 #import "GetURLCommand.h"
 #import "SEEConnectionManager.h"

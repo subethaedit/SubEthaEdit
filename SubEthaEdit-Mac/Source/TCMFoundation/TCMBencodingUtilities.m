@@ -1,10 +1,7 @@
-//
 //  TCMBencodingUtilities.m
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Tue Mar 02 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
-//
 
 /* Bencoding is done as follows:
 

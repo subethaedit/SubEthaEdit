@@ -1,10 +1,7 @@
-//
 //  BorderedTextField.m
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on 07.12.05.
-//  Copyright 2005 TheCodingMonkeys. All rights reserved.
-//
 
 #import "BorderedTextField.h"
 

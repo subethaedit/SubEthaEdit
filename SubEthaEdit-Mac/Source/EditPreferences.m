@@ -1,10 +1,7 @@
-//
 //  EditPreferences.m
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Mon Mar 29 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
-//
 
 #import "EditPreferences.h"
 #import "DocumentModeManager.h"

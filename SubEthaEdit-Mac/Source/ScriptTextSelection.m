@@ -1,10 +1,7 @@
-//
 //  TextSelection.m
 //  SubEthaEdit
 //
 //  Created by Martin Ott on 2/21/06.
-//  Copyright 2006 TheCodingMonkeys. All rights reserved.
-//
 
 #import "ScriptTextSelection.h"
 #import "FoldableTextStorage.h"

@@ -1,10 +1,7 @@
-//
 //  PlainTextWindowController.m
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Fri Mar 05 2004.
-//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
-//
 
 #import "PlainTextWindowController.h"
 #import "PlainTextDocument.h"

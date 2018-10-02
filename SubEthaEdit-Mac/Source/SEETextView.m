@@ -1,10 +1,7 @@
-//
 //  SEETextView.m
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Tue Apr 06 2004.
-//  Copyright (c) 2004-2006 TheCodingMonkeys. All rights reserved.
-//
 
 // this file needs arc - either project wide,
 // or add -fobjc-arc on a per file basis in the compile build phase

@@ -1,10 +1,7 @@
-//
 //  TCMMMState.m
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Fri Mar 19 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
-//
 
 #import "TCMMMState.h"
 #import "TCMMMOperation.h"

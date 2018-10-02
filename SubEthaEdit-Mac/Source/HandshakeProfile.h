@@ -1,10 +1,7 @@
-//
 //  HandshakeProfile.h
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Fri Feb 27 2004.
-//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
-//
 
 #import <Foundation/Foundation.h>
 #import "TCMBEEP.h"

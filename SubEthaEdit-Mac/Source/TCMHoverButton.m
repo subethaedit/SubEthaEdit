@@ -1,10 +1,7 @@
-//
 //  TCMHoverButton.m
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on 09.05.14.
-//  Copyright (c) 2014 TheCodingMonkeys. All rights reserved.
-//
 
 // this file needs arc - add -fobjc-arc in the compile build phase
 #if !__has_feature(objc_arc)

@@ -1,4 +1,3 @@
-//
 //  UKXattrMetadataStore.h
 //  BubbleBrowser
 //	LICENSE: MIT License

@@ -1,11 +1,8 @@
-//
 //  SEEPlainTextEditorScrollView.h
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Thu Apr 15 2004.
 //  Recrafted by Michael Ehrmannn on Tue Jan 21 2014.
-//
-//  Copyright (c) 2004 - 2014 TheCodingMonkeys. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>

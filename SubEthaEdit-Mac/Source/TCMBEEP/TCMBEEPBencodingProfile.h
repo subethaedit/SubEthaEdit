@@ -1,8 +1,5 @@
-//
 //  TCMBEEPBencodingProfile.h
 //  SubEthaEdit
-//
-//  Copyright 2007 TheCodingMonkeys. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>

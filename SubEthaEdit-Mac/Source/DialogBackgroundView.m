@@ -1,10 +1,7 @@
-//
 //  DialogBackgroundView.m
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on 06.12.05.
-//  Copyright 2005 TheCodingMonkeys. All rights reserved.
-//
 
 #import "DialogBackgroundView.h"
 

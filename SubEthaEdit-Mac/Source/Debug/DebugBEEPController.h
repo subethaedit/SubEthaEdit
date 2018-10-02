@@ -1,10 +1,7 @@
-//
 //  DebugBEEPController.h
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Fri Apr 30 2004.
-//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
-//
 
 #ifndef TCM_NO_DEBUG
 

@@ -1,10 +1,7 @@
-//
 //  SEEScopedBookmarkAccessoryViewController.h
 //  SubEthaEdit
 //
 //  Created by Michael Ehrmann on 20.03.14.
-//  Copyright (c) 2014 TheCodingMonkeys. All rights reserved.
-//
 
 #import <Cocoa/Cocoa.h>
 

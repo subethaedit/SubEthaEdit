@@ -1,10 +1,7 @@
-//
 //  SEEFindAndReplaceState.h
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on 28.02.14.
-//  Copyright (c) 2014 TheCodingMonkeys. All rights reserved.
-//
 
 #import <Foundation/Foundation.h>
 #import "OgreKit/OgreKit.h"

@@ -1,10 +1,7 @@
-//
 //  ModeSettings.m
 //  SubEthaEdit
 //
 //  Created by Martin Pittenauer on 02.05.06.
-//  Copyright 2006 TheCodingMonkeys. All rights reserved.
-//
 
 #import "ModeSettings.h"
 

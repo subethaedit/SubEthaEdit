@@ -1,10 +1,7 @@
-//
 //  TCMBEEPSession.m
 //  TCMBEEP
 //
 //  Created by Martin Ott on Mon Feb 16 2004.
-//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
-//
 
 #import "TCMBEEPSession.h"
 #import "TCMBEEPChannel.h"

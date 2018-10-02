@@ -1,10 +1,7 @@
-//
 //  SEEOpenPanelAccessoryViewController.h
 //  SubEthaEdit
 //
 //  Created by Michael Ehrmann on 16.01.14.
-//  Copyright (c) 2014 TheCodingMonkeys. All rights reserved.
-//
 
 #import <Cocoa/Cocoa.h>
 

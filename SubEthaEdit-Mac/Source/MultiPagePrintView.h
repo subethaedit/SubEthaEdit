@@ -1,10 +1,7 @@
-//
 //  MultiPagePrintView.h
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on 25.08.04.
-//  Copyright 2004 TheCodingMonkeys. All rights reserved.
-//
 
 #import <Cocoa/Cocoa.h>
 #import "PlainTextDocument.h"

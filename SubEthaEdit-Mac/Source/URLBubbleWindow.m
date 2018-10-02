@@ -1,10 +1,7 @@
-//
 //  URLBubbleWindow.m
 //  SubEthaEdit
 //
 //  Created by dom on 13.07.09.
-//  Copyright 2009 TheCodingMonkeys. All rights reserved.
-//
 
 #import "URLBubbleWindow.h"
 

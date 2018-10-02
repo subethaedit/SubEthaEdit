@@ -1,10 +1,7 @@
-//
 //  NSNetServiceTCMAdditions.m
 //  TCMFoundation
 //
 //  Created by Dominik Wagner on Fri Feb 27 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
-//
 
 #import "NSNetServiceTCMAdditions.h"
 #import "NSStringTCMAdditions.h"

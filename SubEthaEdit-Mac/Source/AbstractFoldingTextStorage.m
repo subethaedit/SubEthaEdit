@@ -1,10 +1,7 @@
-//
 //  AbstractFoldingTextStorage.m
 //  TextEdit
 //
 //  Created by Dominik Wagner on 19.01.09.
-//  Copyright 2009 TheCodingMonkeys. All rights reserved.
-//
 
 #import "AbstractFoldingTextStorage.h"
 

@@ -1,10 +1,7 @@
-//
 //  FoldableTextStorage.m
 //  TextEdit
 //
 //  Created by Dominik Wagner on 04.01.09.
-//  Copyright 2009 TheCodingMonkeys. All rights reserved.
-//
 
 #import "PlainTextDocument.h"
 #import "FullTextStorage.h"

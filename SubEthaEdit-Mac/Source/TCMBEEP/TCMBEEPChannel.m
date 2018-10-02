@@ -1,10 +1,7 @@
-//
 //  TCMBEEPChannel.m
 //  TCMBEEP
 //
 //  Created by Martin Ott on Wed Feb 18 2004.
-//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
-//
 
 #import "TCMBEEPChannel.h"
 #import "TCMBEEPSession.h"

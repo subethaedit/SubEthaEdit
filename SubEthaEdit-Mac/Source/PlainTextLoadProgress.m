@@ -1,10 +1,7 @@
-//
 //  PlainTextLoadProgress.m
 //  SubEthaEdit
 //
 //  Created by Martin Ott on 1/17/07.
-//  Copyright 2007 TheCodingMonkeys. All rights reserved.
-//
 
 #import "PlainTextLoadProgress.h"
 #import "TCMMMSession.h"

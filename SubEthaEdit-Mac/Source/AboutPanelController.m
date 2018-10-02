@@ -1,10 +1,7 @@
-//
 //  AboutPanelController.m
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Thu May 13 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
-//
 
 #import "AboutPanelController.h"
 #import <OgreKit/OgreKit.h>

@@ -1,10 +1,7 @@
-//
 //  TCMBEEPBencodedMessage.m
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on 25.04.07.
-//  Copyright 2007 TheCodingMonkeys. All rights reserved.
-//
 
 #import "TCMBEEPBencodedMessage.h"
 

@@ -1,10 +1,7 @@
-//
 //  PrintTypesetter.m
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on 15.09.04.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
-//
 
 #import "PrintTypesetter.h"
 #import "PlainTextDocument.h"

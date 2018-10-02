@@ -1,10 +1,7 @@
-//
 //  TCMMMUserManager.h
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Wed Feb 25 2004.
-//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
-//
 
 #import <Foundation/Foundation.h>
 #import "TCMMMUser.h"

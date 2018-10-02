@@ -1,10 +1,7 @@
-//
 //  PopUpButton.m
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Tue Apr 20 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
-//
 
 #if !__has_feature(objc_arc)
 #error ARC must be enabled!

@@ -1,10 +1,7 @@
-//
 //  OverlayView.h
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on 21.10.04.
-//  Copyright 2004 TheCodingMonkeys. All rights reserved.
-//
 
 #import <Cocoa/Cocoa.h>
 

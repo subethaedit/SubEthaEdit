@@ -1,10 +1,7 @@
-//
 //  NSStringSEEAdditions.m
 //  
 //
 //  Created by Martin Ott on Tue Feb 17 2004.
-//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
-//
 
 #import "NSStringSEEAdditions.h"
 #import <OgreKit/OgreKit.h>

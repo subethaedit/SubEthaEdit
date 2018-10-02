@@ -1,11 +1,8 @@
-//
 //  SEEConnection.m
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on 08.05.07.
 //	Updated by Michael Ehrmann on Fri Feb 21 2014.
-//  Copyright 2007-2014 TheCodingMonkeys. All rights reserved.
-//
 
 #if !__has_feature(objc_arc)
 #error ARC must be enabled!

@@ -1,10 +1,7 @@
-//
 //  SEEStyleSheet.h
 //  SubEthaEdit
 //
 //  Created by Martin Pittenauer on 05.11.10.
-//  Copyright 2010 TheCodingMonkeys. All rights reserved.
-//
 
 #import <Foundation/Foundation.h>
 

@@ -1,10 +1,7 @@
-//
 //  ImagePopUpButtonCell.m
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Tue Mar 30 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
-//
 
 #import "ImagePopUpButtonCell.h"
 

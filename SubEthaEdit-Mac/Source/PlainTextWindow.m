@@ -1,10 +1,7 @@
-//
 //  PlainTextWindow.m
 //  SubEthaEdit
 //
 //  Created by Martin Ott on 11/23/06.
-//  Copyright 2006 TheCodingMonkeys. All rights reserved.
-//
 
 #import "PlainTextWindow.h"
 #import "PlainTextWindowController.h"

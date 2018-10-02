@@ -1,10 +1,7 @@
-//
 //  GeneralPreferences.m
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Mon Mar 29 2004.
-//  Copyright (c) 2004-2006 TheCodingMonkeys. All rights reserved.
-//
 
 #import "GeneralPreferences.h"
 

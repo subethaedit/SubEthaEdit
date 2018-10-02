@@ -1,10 +1,7 @@
-//
 //  TCMCGGeometryAdditions.m
 //  Boardgame Construction Kit
 //
 //  Created by Dominik Wagner on 09.08.13.
-//  Copyright (c) 2013 TheCodingMonkeys. All rights reserved.
-//
 
 #import "TCMCGGeometryAdditions.h"
 

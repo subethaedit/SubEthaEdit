@@ -1,11 +1,8 @@
-//
 //  SEEConnectionManager.m
 //  SubEthaEdit
 //
 //  Original (ConnectionBrowserController.h) by Martin Ott on Wed Mar 03 2004.
 //	Updated by Michael Ehrmann on Fri Feb 21 2014.
-//  Copyright (c) 2004-2014 TheCodingMonkeys. All rights reserved.
-//
 
 #if !__has_feature(objc_arc)
 #error ARC must be enabled!

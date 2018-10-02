@@ -1,10 +1,7 @@
-//
 //  PrecedencePreferences.h
 //  SubEthaEdit
 //
 //  Created by Martin Pittenauer on 22.09.07.
-//  Copyright 2007 TheCodingMonkeys. All rights reserved.
-//
 
 #import <Cocoa/Cocoa.h>
 #import "TCMPreferenceModule.h"

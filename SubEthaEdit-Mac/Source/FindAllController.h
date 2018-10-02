@@ -1,10 +1,7 @@
-//
 //  FindAllController.h
 //  SubEthaEdit
 //
 //  Created by Martin Pittenauer on Wed May 05 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
-//
 
 #import <Cocoa/Cocoa.h>
 #import <OgreKit/OgreKit.h>

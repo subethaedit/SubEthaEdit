@@ -1,10 +1,7 @@
-//
 //  PlainTextEditor.m
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Tue Apr 06 2004.
-//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
-//
 
 #import "FindReplaceController.h"
 #import "SEEDocumentController.h"

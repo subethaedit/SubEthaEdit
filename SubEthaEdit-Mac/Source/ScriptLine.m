@@ -1,10 +1,7 @@
-//
 //  ScriptLine.m
 //  SubEthaEdit
 //
 //  Created by Martin Ott on 5/2/06.
-//  Copyright 2006 TheCodingMonkeys. All rights reserved.
-//
 
 #import "ScriptLine.h"
 #import "FoldableTextStorage.h"

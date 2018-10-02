@@ -1,10 +1,7 @@
-//
 //  ThousandSeparatorValueTransformer.m
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on 28.09.07.
-//  Copyright 2007 TheCodingMonkeys. All rights reserved.
-//
 
 #import "ThousandSeparatorValueTransformer.h"
 
