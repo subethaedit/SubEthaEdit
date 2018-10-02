@@ -1667,6 +1667,7 @@
 				142891300957457500D14688 /* TCMRendezvousBrowser.m */,
 			);
 			name = TCMFoundation;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		142891190957452F00D14688 /* TCMBEEP */ = {
@@ -1699,6 +1700,7 @@
 				4C123001180BE4A60069253E /* TCMBEEPSessionXMLParser.m */,
 			);
 			name = TCMBEEP;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		142891780957483200D14688 /* Additions */ = {
@@ -1738,6 +1740,7 @@
 				F2CFF21618F53AFD004A745A /* NSLayoutConstraint+TCMAdditions.m */,
 			);
 			name = Additions;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		1428917B0957483C00D14688 /* Debug */ = {
@@ -1771,6 +1774,7 @@
 				F20AB87A1907C7C500444F4B /* SEEDebugImageGenerationWindowController.xib */,
 			);
 			name = Debug;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		1428917E0957486D00D14688 /* TCMBase */ = {
@@ -1782,6 +1786,7 @@
 				142891D809574E5B00D14688 /* TCMHost.m */,
 			);
 			name = TCMBase;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		142892460957525900D14688 /* BEEPProfiles */ = {
@@ -1795,6 +1800,7 @@
 				14289365095757AA00D14688 /* SessionProfile.m */,
 			);
 			name = BEEPProfiles;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		142892490957526300D14688 /* Document */ = {
@@ -1863,6 +1869,7 @@
 				F2D3E56D189942870096425B /* SEETabStyle.m */,
 			);
 			name = Document;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		1428924C0957526E00D14688 /* Mode */ = {
@@ -1892,6 +1899,7 @@
 				3170E46012846C670096089C /* SEEStyleSheet.m */,
 			);
 			name = Mode;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		1428924F0957527300D14688 /* Operations */ = {
@@ -1905,6 +1913,7 @@
 				142893B0095758FD00D14688 /* UserChangeOperation.m */,
 			);
 			name = Operations;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		142892520957528A00D14688 /* Preferences */ = {
@@ -1946,6 +1955,7 @@
 				4246436418FEDF4300E5D830 /* SEEUserColorsPreviewView.m */,
 			);
 			name = Preferences;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		142892550957529900D14688 /* ValueTransformers */ = {
@@ -1963,6 +1973,7 @@
 				142893890957585600D14688 /* SaturationToColorValueTransformer.m */,
 			);
 			name = ValueTransformers;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		14289305095756A100D14688 /* TCMMillionMonkeys */ = {
@@ -2007,6 +2018,7 @@
 				142D1B9A0BAEE04900B9EF1C /* TCMMMUserManagerKitAdditions.m */,
 			);
 			name = TCMMillionMonkeys;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		14289377095757E400D14688 /* Printing */ = {
@@ -2025,6 +2037,7 @@
 				F2DCD8F10EE432F900F2854F /* FontForwardingTextField.m */,
 			);
 			name = Printing;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		19C28FB0FE9D524F11CA2CBB /* Products */ = {
@@ -2043,24 +2056,8 @@
 			children = (
 				4CF06A621816D6D300B35DF8 /* SubEthaEdit.entitlements */,
 				4CAA423618157A4C00457B2A /* Configuration */,
-				142891780957483200D14688 /* Additions */,
-				2A37F4ABFDCFA73011CA2CEA /* Classes */,
-				4C84D17918B63F83008C4FDC /* Document Hub */,
-				142892490957526300D14688 /* Document */,
-				1428924C0957526E00D14688 /* Mode */,
-				1428924F0957527300D14688 /* Operations */,
-				142892520957528A00D14688 /* Preferences */,
-				14289377095757E400D14688 /* Printing */,
-				5EDD2FFC0A08D69F0036E63A /* Scripting */,
-				142892550957529900D14688 /* ValueTransformers */,
+				F2256A25216358910011D17F /* Sources */,
 				5EC638450ABEBE2C00D3295B /* Unit Tests */,
-				1428917B0957483C00D14688 /* Debug */,
-				1428917E0957486D00D14688 /* TCMBase */,
-				142891160957452000D14688 /* TCMFoundation */,
-				14289305095756A100D14688 /* TCMMillionMonkeys */,
-				142892460957525900D14688 /* BEEPProfiles */,
-				142891190957452F00D14688 /* TCMBEEP */,
-				4C4FEA65192A04A500A2F4EC /* Receipt Validation */,
 				2A37F4AFFDCFA73011CA2CEA /* Other Sources */,
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
@@ -2103,6 +2100,7 @@
 				F22024ED191D175C0098982C /* TCMHoverButton.m */,
 			);
 			name = Classes;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		2A37F4AFFDCFA73011CA2CEA /* Other Sources */ = {
@@ -2159,6 +2157,7 @@
 				4C4FEAC0192A314000A2F4EC /* SEEMacAppStoreReceiptValidation.h */,
 			);
 			name = "Receipt Validation";
+			path = ..;
 			sourceTree = "<group>";
 		};
 		4C4FEA6D192A117F00A2F4EC /* OpenSSL */ = {
@@ -2336,6 +2335,7 @@
 				4CA1441B18F7E89D0006178D /* SEEAvatarImageView.m */,
 			);
 			name = "Document Hub";
+			path = ..;
 			sourceTree = "<group>";
 		};
 		4CAA423618157A4C00457B2A /* Configuration */ = {
@@ -2486,6 +2486,7 @@
 				14E2944F0A0CBFB0007C0065 /* SelectCommand.m */,
 			);
 			name = Scripting;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		F21DAFE318BB7591002B3C41 /* Find and Replace */ = {
@@ -2507,6 +2508,31 @@
 				F29E6DD418E5C90200F84231 /* TCMDragImageView.m */,
 			);
 			name = "Find and Replace";
+			sourceTree = "<group>";
+		};
+		F2256A25216358910011D17F /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				4C84D17918B63F83008C4FDC /* Document Hub */,
+				2A37F4ABFDCFA73011CA2CEA /* Classes */,
+				142892490957526300D14688 /* Document */,
+				1428924C0957526E00D14688 /* Mode */,
+				1428924F0957527300D14688 /* Operations */,
+				142892520957528A00D14688 /* Preferences */,
+				14289377095757E400D14688 /* Printing */,
+				5EDD2FFC0A08D69F0036E63A /* Scripting */,
+				142891780957483200D14688 /* Additions */,
+				142892550957529900D14688 /* ValueTransformers */,
+				142892460957525900D14688 /* BEEPProfiles */,
+				142891190957452F00D14688 /* TCMBEEP */,
+				1428917E0957486D00D14688 /* TCMBase */,
+				142891160957452000D14688 /* TCMFoundation */,
+				14289305095756A100D14688 /* TCMMillionMonkeys */,
+				4C4FEA65192A04A500A2F4EC /* Receipt Validation */,
+				1428917B0957483C00D14688 /* Debug */,
+			);
+			name = Sources;
+			path = Source;
 			sourceTree = "<group>";
 		};
 		F281D3480F38754100AD7DE1 /* TextSystem */ = {
