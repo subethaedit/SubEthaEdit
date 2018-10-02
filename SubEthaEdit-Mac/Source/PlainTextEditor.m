@@ -707,7 +707,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
             if ([I_textView respondsToSelector:attributeSetter])
             {
-                objc_msgSend(I_textView, attributeSetter, [[documentMode defaultForKey:defaultKey] boolValue]);
+                ((void (*)(id, SEL, BOOL))objc_msgSend)(I_textView, attributeSetter, [[documentMode defaultForKey:defaultKey] boolValue]);
                 //				NSLog(@"%s set %@ for %@ now %@",__FUNCTION__,attributeString, defaultKey, [documentMode defaultForKey:defaultKey]);
             }
         }
@@ -2694,7 +2694,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
     if ([I_textView respondsToSelector:selector])
     {
-        objc_msgSend(I_textView, selector, aRange);
+        ((void (*)(id, SEL, NSRange))objc_msgSend)(I_textView, selector, aRange);
     }
 }
 

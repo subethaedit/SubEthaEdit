@@ -1817,8 +1817,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     PlainTextDocumentShouldCloseContext *replacementContext = (PlainTextDocumentShouldCloseContext *)contextInfo;
 
     // Always tell the original invoker of -shouldCloseWindowController:delegate:shouldCloseSelector:contextInfo: not to close the window controller (it's actually the NSWindow in Tiger and every earlier release). We might not want the window controller to be closed. Even if we want it to be closed, we want to do it by invoking our override of -close, which will always cause the window controller to get a -close message, which is necessary for some cleanup.
-    // Sketch 2 is still a work in progress! Using objc_msgSend() like this isn't really considered exemplary.
-    objc_msgSend(replacementContext->originalDelegate, replacementContext->originalSelector, document, NO, replacementContext->originalContext);
+    ((void (*)(id, SEL, NSDocument *,BOOL, void *))objc_msgSend)(replacementContext->originalDelegate, replacementContext->originalSelector, document, NO, replacementContext->originalContext);
     if (shouldClose) {
         NSArray *windowControllers = [self windowControllers];
         unsigned int windowControllerCount = [windowControllers count];
@@ -5835,7 +5834,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 	NSSharingServicePicker *servicePicker = [[[NSSharingServicePicker alloc] initWithItems:sharingServiceItems] autorelease];
 	[servicePicker setDelegate:self];
-	[servicePicker showRelativeToRect:NSZeroRect ofView:sender preferredEdge:CGRectMaxYEdge];
+	[servicePicker showRelativeToRect:NSZeroRect ofView:sender preferredEdge:NSRectEdgeMaxY];
 }
 
 

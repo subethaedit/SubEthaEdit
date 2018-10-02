@@ -243,7 +243,7 @@
 		4CE8D4511959E3440026828F /* SharingServiceAnnounceMenuIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CE8D44F1959E3440026828F /* SharingServiceAnnounceMenuIcon.png */; };
 		4CE8D4521959E3440026828F /* SharingServiceAnnounceMenuIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CE8D4501959E3440026828F /* SharingServiceAnnounceMenuIcon@2x.png */; };
 		4CE9CF381802F4E900F5BC56 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C6AE8731802E8810089D489 /* OgreKit.framework */; };
-		4CE9CF391802F4F100F5BC56 /* OgreKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 4C6AE8731802E8810089D489 /* OgreKit.framework */; };
+		4CE9CF391802F4F100F5BC56 /* OgreKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 4C6AE8731802E8810089D489 /* OgreKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4CE9CF3A1802F52A00F5BC56 /* SEEStyleSheetSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D56992133B880900CEC841 /* SEEStyleSheetSettings.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		4CF06A2F1816AF5D00B35DF8 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
 		4CF3490117FC6EAF005D0D4F /* PSMTabBarControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF3490017FC6EAF005D0D4F /* PSMTabBarControl.framework */; };
@@ -339,8 +339,6 @@
 		F23966D618E2FE6800CEC9AD /* NSOperationQueue+TCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F23966D518E2FE6800CEC9AD /* NSOperationQueue+TCMAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		F24280C60D16CFCC0083AE21 /* GenericSASLProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = F24280C50D16CFCC0083AE21 /* GenericSASLProfile.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		F24AEA1B195AE78300046F6B /* DocumentProxy.xib in Resources */ = {isa = PBXBuildFile; fileRef = F24AEA1A195AE78300046F6B /* DocumentProxy.xib */; };
-		F25A071B191A6A9100F07557 /* NamedLogo2.png in Resources */ = {isa = PBXBuildFile; fileRef = F25A0719191A6A9100F07557 /* NamedLogo2.png */; };
-		F25A071C191A6A9100F07557 /* NamedLogo2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F25A071A191A6A9100F07557 /* NamedLogo2@2x.png */; };
 		F25A071F191A6D4600F07557 /* WaitPipe@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F25A071E191A6D4600F07557 /* WaitPipe@2x.png */; };
 		F25A0723191A800E00F07557 /* EditPrefs.png in Resources */ = {isa = PBXBuildFile; fileRef = F25A0721191A800E00F07557 /* EditPrefs.png */; };
 		F25A0724191A800E00F07557 /* EditPrefs@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F25A0722191A800E00F07557 /* EditPrefs@2x.png */; };
@@ -364,7 +362,7 @@
 		F281D4370F388A0B00AD7DE1 /* FoldingTextAttachmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D4360F388A0B00AD7DE1 /* FoldingTextAttachmentCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		F286A754215CE6410056C247 /* AboutPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = F286A756215CE6410056C247 /* AboutPanel.xib */; };
 		F286A764215CF0F60056C247 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 142890120957413900D14688 /* Localizable.strings */; };
-		F286A770215D0EAD0056C247 /* see in Copy Command Line Tools */ = {isa = PBXBuildFile; fileRef = F286A76F215D0DC00056C247 /* see */; };
+		F286A770215D0EAD0056C247 /* see in Copy Command Line Tools */ = {isa = PBXBuildFile; fileRef = F286A76F215D0DC00056C247 /* see */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		F286A780215D194C0056C247 /* see.1 in Copy Command Line Tools */ = {isa = PBXBuildFile; fileRef = F286A77F215D194C0056C247 /* see.1 */; };
 		F2880D0B1923BA7100C6370C /* BottomBarSharingIconAddHover.png in Resources */ = {isa = PBXBuildFile; fileRef = F2880CE91923BA7000C6370C /* BottomBarSharingIconAddHover.png */; };
 		F2880D0C1923BA7100C6370C /* BottomBarSharingIconAddHover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2880CEA1923BA7000C6370C /* BottomBarSharingIconAddHover@2x.png */; };
@@ -429,7 +427,7 @@
 		F2CFF21718F53AFD004A745A /* NSLayoutConstraint+TCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F2CFF21618F53AFD004A745A /* NSLayoutConstraint+TCMAdditions.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		F2D129FC0BF0B64A00A776CC /* SEEConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D129F80BF0B64700A776CC /* SEEConnectionManager.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		F2D12A1D0BF0B8DF00A776CC /* SEEConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D12A1B0BF0B8DF00A776CC /* SEEConnection.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
-		F2D22CB40EE9C5E3004B8E33 /* SeeTextImporter.mdimporter in Copy Importers */ = {isa = PBXBuildFile; fileRef = F2D22CB30EE9C5DE004B8E33 /* SeeTextImporter.mdimporter */; };
+		F2D22CB40EE9C5E3004B8E33 /* SeeTextImporter.mdimporter in Copy Importers */ = {isa = PBXBuildFile; fileRef = F2D22CB30EE9C5DE004B8E33 /* SeeTextImporter.mdimporter */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		F2D3E528189941F50096425B /* AddTab.pdf in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E4E5189941F50096425B /* AddTab.pdf */; };
 		F2D3E529189941F50096425B /* AW ActiveTabClose.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E4E6189941F50096425B /* AW ActiveTabClose.png */; };
 		F2D3E52A189941F50096425B /* AW ActiveTabClose@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E4E7189941F50096425B /* AW ActiveTabClose@2x.png */; };
@@ -926,7 +924,6 @@
 		31FFC93C104E97A000E08256 /* NSErrorTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSErrorTCMAdditions.m; sourceTree = "<group>"; };
 		32DBCF750370BD2300C91783 /* SubEthaEdit_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubEthaEdit_Prefix.pch; sourceTree = "<group>"; };
 		420AAF7E18FE0FFC00297DB1 /* StylePrefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StylePrefs.xib; sourceTree = "<group>"; };
-		422F9738190FD367009FD437 /* TCM_Logo_White_Background.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = TCM_Logo_White_Background.pdf; path = artwork/TCM_Logo_White_Background.pdf; sourceTree = "<group>"; };
 		423452391907DFE400BE3CC1 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
 		423B23CE18F63DDE001E2DCC /* SEECollaborationPreferenceModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEECollaborationPreferenceModule.h; sourceTree = "<group>"; };
 		423B23CF18F63DDE001E2DCC /* SEECollaborationPreferenceModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEECollaborationPreferenceModule.m; sourceTree = "<group>"; };
@@ -1243,8 +1240,6 @@
 		F24280C40D16CFCC0083AE21 /* GenericSASLProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = GenericSASLProfile.h; sourceTree = "<group>"; };
 		F24280C50D16CFCC0083AE21 /* GenericSASLProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenericSASLProfile.m; sourceTree = "<group>"; };
 		F24AEA1A195AE78300046F6B /* DocumentProxy.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DocumentProxy.xib; sourceTree = "<group>"; };
-		F25A0719191A6A9100F07557 /* NamedLogo2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = NamedLogo2.png; path = artwork/NamedLogo2.png; sourceTree = "<group>"; };
-		F25A071A191A6A9100F07557 /* NamedLogo2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "NamedLogo2@2x.png"; path = "artwork/NamedLogo2@2x.png"; sourceTree = "<group>"; };
 		F25A071E191A6D4600F07557 /* WaitPipe@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "WaitPipe@2x.png"; path = "artwork/WaitPipe@2x.png"; sourceTree = "<group>"; };
 		F25A0721191A800E00F07557 /* EditPrefs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = EditPrefs.png; path = artwork/EditPrefs.png; sourceTree = "<group>"; };
 		F25A0722191A800E00F07557 /* EditPrefs@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "EditPrefs@2x.png"; path = "artwork/EditPrefs@2x.png"; sourceTree = "<group>"; };
@@ -1572,7 +1567,6 @@
 				4C6BDC61188985EF0088CBFC /* Retina */,
 				F2FEE70E1892A747000E6BC8 /* SharingBarIcons */,
 				F2D3E4E4189941F50096425B /* Tabs */,
-				422F9738190FD367009FD437 /* TCM_Logo_White_Background.pdf */,
 				F265602018C4BA7300C73737 /* SearchLoupeNormal.pdf */,
 				F265602118C4BA7300C73737 /* SearchLoupeRE.pdf */,
 				F2C6D3730D6DB131002B401D /* URLIconNotOK.tiff */,
@@ -1603,8 +1597,6 @@
 				5EF31E420A7E437C00D777F5 /* InvertedIBeam.tiff */,
 				4C57BD39199BB11D00260983 /* InvertedIBeamBig.tiff */,
 				14289072095743F200D14688 /* LibraryFolderIcon.tiff */,
-				F25A0719191A6A9100F07557 /* NamedLogo2.png */,
-				F25A071A191A6A9100F07557 /* NamedLogo2@2x.png */,
 				1428907A095743F200D14688 /* ParticipantBar_Fill.tiff */,
 				1428907B095743F200D14688 /* Participants.icns */,
 				319AAE190CB015B300ACDAB4 /* Precedence_Add.tiff */,
@@ -2243,10 +2235,7 @@
 			children = (
 				4CE8E4E818DC84B10029BF95 /* Prefs */,
 				F286A756215CE6410056C247 /* AboutPanel.xib */,
-				4CD5F7E817FB0C8E00F49E31 /* SEEEncodingDoctorView.xib */,
-				4CCD78FF18DB3F9E00A8B457 /* SEEScopedBookmarkAccessoryViewController.xib */,
 				F24AEA1A195AE78300046F6B /* DocumentProxy.xib */,
-				4CD5F81F17FB0E2B00F49E31 /* PrintOptions.xib */,
 				4CD5F7EC17FB0CA300F49E31 /* Export.xib */,
 				4CD5F7F017FB0CBF00F49E31 /* FindAll.xib */,
 				4CD5F7F417FB0CD200F49E31 /* FindReplace.xib */,
@@ -2255,17 +2244,20 @@
 				F2C7672618B3AEAC00763B40 /* PlainTextEditor.xib */,
 				4CD5F80F17FB0DC100F49E31 /* PlainTextLoadProgress.xib */,
 				4C0C4A0018B366EC00E6049E /* PlainTextWindow.xib */,
+				4CD5F81F17FB0E2B00F49E31 /* PrintOptions.xib */,
 				4CD5F82717FB0E4F00F49E31 /* SavePanelAccessory.xib */,
 				4CDF05A418C0A3D4004A49E5 /* SEEConnectionAddingWindowController.xib */,
 				4C0C4A1B18B3768500E6049E /* SEEDocumentListWindowController.xib */,
+				4CD5F7E817FB0C8E00F49E31 /* SEEEncodingDoctorView.xib */,
+				F21DAFE718BB77AA002B3C41 /* SEEFindAndReplaceView.xib */,
 				4C5EC97D1897F6FC0094D850 /* SEEParticipantsOverlay.xib */,
 				4CDC271F18967D990060B044 /* SEEParticipantView.xib */,
-				4C0D3D6317FB12F700AAFB38 /* SEEStyleSheetEditorWindowController.xib */,
 				F2DC3DD118F2F12300B543E9 /* SEEPlainTextEditorTopBarViewController.xib */,
+				4CCD78FF18DB3F9E00A8B457 /* SEEScopedBookmarkAccessoryViewController.xib */,
+				4C0D3D6317FB12F700AAFB38 /* SEEStyleSheetEditorWindowController.xib */,
+				4CA098DD18EAF54E0026B3E3 /* SEEWebPreviewViewController.xib */,
 				4CD5F82B17FB0E6000F49E31 /* SelectEncodingsPanel.xib */,
 				4CD5F83317FB0EB500F49E31 /* URLBubbleWindow.xib */,
-				F21DAFE718BB77AA002B3C41 /* SEEFindAndReplaceView.xib */,
-				4CA098DD18EAF54E0026B3E3 /* SEEWebPreviewViewController.xib */,
 			);
 			name = XIBs;
 			sourceTree = "<group>";
@@ -2496,8 +2488,8 @@
 		F2256A25216358910011D17F /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				4C84D17918B63F83008C4FDC /* Document Hub */,
 				2A37F4ABFDCFA73011CA2CEA /* Classes */,
+				4C84D17918B63F83008C4FDC /* Document Hub */,
 				142892490957526300D14688 /* Document */,
 				1428924C0957526E00D14688 /* Mode */,
 				1428924F0957527300D14688 /* Operations */,
@@ -2818,7 +2810,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				CLASSPREFIX = SEE;
-				LastUpgradeCheck = 0910;
+				LastUpgradeCheck = 1000;
 				ORGANIZATIONNAME = TheCodingMonkeys;
 				TargetAttributes = {
 					5EC638290ABEB71100D3295B = {
@@ -3080,7 +3072,6 @@
 				4C6BDC5618896DCC0088CBFC /* SubEthaEditText.iconset in Resources */,
 				F2D3E531189941F50096425B /* AW ActiveTabLeftCap.png in Resources */,
 				F2061D590B4C13AF00E6631F /* SmallGrowBoxRight3.tiff in Resources */,
-				F25A071C191A6A9100F07557 /* NamedLogo2@2x.png in Resources */,
 				4C57BD3A199BB11D00260983 /* InvertedIBeamBig.tiff in Resources */,
 				F2D3E548189941F50096425B /* AW Pulled ActiveTabRightCap@2x.png in Resources */,
 				F22024DC191D0BFE0098982C /* ParticipantReadOnlyTurnOnHover@2x.png in Resources */,
@@ -3121,7 +3112,6 @@
 				319AAE3C0CB0165800ACDAB4 /* Precedence_AddPressed.tiff in Resources */,
 				F2202480191BBDA10098982C /* hud_buttonRight-N.png in Resources */,
 				F220248B191BC33D0098982C /* hud_buttonFill-P@2x.png in Resources */,
-				F25A071B191A6A9100F07557 /* NamedLogo2.png in Resources */,
 				F22024D1191D0BFE0098982C /* ParticipantKickNormal.png in Resources */,
 				319AAE3D0CB0165900ACDAB4 /* Precedence_Remove.tiff in Resources */,
 				319AAE3E0CB0165A00ACDAB4 /* Precedence_RemovePressed.png in Resources */,
@@ -3733,7 +3723,6 @@
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = G5;
@@ -3746,7 +3735,7 @@
 					"-framework",
 					Cocoa,
 				);
-				PREBINDING = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "de.codingmonkeys.SubEthaEdit${TCM_APP_STYLE}.UnitTests";
 				PRODUCT_NAME = "Unit Tests";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				ZERO_LINK = NO;
@@ -3764,7 +3753,6 @@
 					"$(DEVELOPER_FRAMEWORKS_DIR_QUOTED)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
@@ -3776,7 +3764,7 @@
 					"-framework",
 					Cocoa,
 				);
-				PREBINDING = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "de.codingmonkeys.SubEthaEdit${TCM_APP_STYLE}.UnitTests";
 				PRODUCT_NAME = "Unit Tests";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				ZERO_LINK = NO;
@@ -3793,7 +3781,6 @@
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/TCMPortMapper\"";
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = SubEthaEdit_Prefix.pch;
@@ -3815,6 +3802,7 @@
 				OTHER_CFLAGS = "";
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				PLIST_FILE_OUTPUT_FORMAT = binary;
+				PRODUCT_BUNDLE_IDENTIFIER = "${SEE_APP_IDENTIFIER_BASE}.Mac${TCM_APP_STYLE}${TCM_APP_IDENTIFER_SUFFIX}";
 				PRODUCT_NAME = "$(SEE_APP_PRODUCT_NAME)";
 				SKIP_INSTALL = NO;
 				WARNING_CFLAGS = "-Wunreachable-code";
@@ -3855,6 +3843,7 @@
 					"-DNDEBUG",
 				);
 				PLIST_FILE_OUTPUT_FORMAT = binary;
+				PRODUCT_BUNDLE_IDENTIFIER = "${SEE_APP_IDENTIFIER_BASE}.Mac${TCM_APP_STYLE}${TCM_APP_IDENTIFER_SUFFIX}";
 				PRODUCT_NAME = "$(SEE_APP_PRODUCT_NAME)";
 				SKIP_INSTALL = NO;
 				WARNING_CFLAGS = "-Wunreachable-code";
@@ -3868,11 +3857,31 @@
 			buildSettings = {
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Debug;
 		};
@@ -3882,11 +3891,29 @@
 			buildSettings = {
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEPLOYMENT_POSTPROCESSING = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				OTHER_CFLAGS = (
 					"-DTCM_NO_DEBUG",
@@ -3903,7 +3930,6 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3916,7 +3942,7 @@
 					"-framework",
 					AppKit,
 				);
-				PREBINDING = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "de.codingmonkeys.${PRODUCT_NAME:identifier}";
 				PRODUCT_NAME = SubEthaPerf;
 			};
 			name = Debug;
@@ -3927,7 +3953,6 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = SubEthaPerf/SubEthaPerf_Prefix.pch;
@@ -3939,7 +3964,7 @@
 					"-framework",
 					AppKit,
 				);
-				PREBINDING = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "de.codingmonkeys.${PRODUCT_NAME:identifier}";
 				PRODUCT_NAME = SubEthaPerf;
 				ZERO_LINK = NO;
 			};

@@ -82,10 +82,10 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
     if (self) {
 		self.availableItems = [NSMutableArray array];
 
-		__weak __typeof__(self) weakSelf = self;
+		__weak typeof(self) weakSelf = self;
 		self.otherWindowsBecomeKeyNotifivationObserver =
 		[[NSNotificationCenter defaultCenter] addObserverForName:NSWindowDidBecomeKeyNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
-			__typeof__(self) strongSelf = weakSelf;
+			typeof(self) strongSelf = weakSelf;
 			if (note.object != strongSelf.window && strongSelf.shouldCloseWhenOpeningDocument) {
 				if (((NSWindow *)note.object).sheetParent != strongSelf.window) { // this avoids closing of the window when showing the connect sheet
 
@@ -101,7 +101,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 
 		self.recentDocumentsDidChangeNotifivationObserver =
 		[[NSNotificationCenter defaultCenter] addObserverForName:RecentDocumentsDidChangeNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
-			__typeof__(self) strongSelf = weakSelf;
+			typeof(self) strongSelf = weakSelf;
 			if (note.object == [SEEDocumentController sharedInstance]) {
 				if (strongSelf.window.isVisible) {
 					[[NSOperationQueue mainQueue] addOperationWithBlock:^{

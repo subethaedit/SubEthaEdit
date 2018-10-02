@@ -40,7 +40,7 @@
 		
 			PlainTextDocument *document = anEditor.document;
 			NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-			__weak __typeof__(self) weakSelf = self;
+			__weak typeof(self) weakSelf = self;
 			NSOperationQueue *mainQueue = [NSOperationQueue mainQueue];
 			
 			// register for all interesting notifications

@@ -312,7 +312,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 }
 
 
-- (int)lineNumberForLocation:(unsigned)aLocation {
+- (int)lineNumberForLocation:(NSUInteger)aLocation {
 
     if (I_lineStartsValidUpTo == 0 && [I_lineStarts count] > 1) {
         [I_lineStarts removeAllObjects];
@@ -361,7 +361,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     return I_lineStarts;
 }
 
-- (void)setLineStartsOnlyValidUpTo:(unsigned int)aLocation {
+- (void)setLineStartsOnlyValidUpTo:(NSUInteger)aLocation {
     [self willChangeValueForKey:@"numberOfLines"];
     if (aLocation<I_lineStartsValidUpTo) {
         I_lineStartsValidUpTo=aLocation;

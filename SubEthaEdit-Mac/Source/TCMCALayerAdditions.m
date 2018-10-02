@@ -2,7 +2,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import <objc/runtime.h>
 
-static CGColorRef createRandomDebugColor();
+static CGColorRef createRandomDebugColor(void);
 static CGColorRef createRandomDebugColor() {
 	CGFloat r,g,b,a;
 	a = 1.0;
@@ -44,7 +44,7 @@ static CGColorRef createRandomDebugColor() {
 }
 
 @implementation CATransaction (TCMCATransactionAdditions)
-+ (void)TCM_wrapInTransactionWithDisabledActions:(void (^)())aTransactionBlock {
++ (void)TCM_wrapInTransactionWithDisabledActions:(void (^)(void))aTransactionBlock {
 	[CATransaction begin];
 	[CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
 	aTransactionBlock();

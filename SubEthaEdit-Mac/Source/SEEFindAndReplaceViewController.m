@@ -144,7 +144,7 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 }
 
 - (BOOL)hasSearchScope {
-	BOOL result = nil;
+	BOOL result = NO;
 	PlainTextEditor *targetEditor = self.targetPlainTextEditor;
 	result = [targetEditor hasSearchScope];
 	return result;
@@ -165,9 +165,9 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 	[self.feedbackTextField bind:@"value" toObject:self.findAndReplaceStateObjectController withKeyPath:@"content.statusString" options:nil];
 	
 	// add observation
-	[self.findAndReplaceStateObjectController addObserver:self forKeyPath:kOptionKeyPathUseRegularExpressions options:0 context:kOptionMenuUseRegularExpressionsTag];
+	[self.findAndReplaceStateObjectController addObserver:self forKeyPath:kOptionKeyPathUseRegularExpressions options:0 context:(void *)kOptionMenuUseRegularExpressionsTag];
 	
-	__weak __typeof__(self) weakSelf = self;
+	__weak typeof(self) weakSelf = self;
 	[self.registeredNotifications addObject:[[NSNotificationCenter defaultCenter] addObserverForName:PlainTextEditorDidChangeSearchScopeNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
 		[weakSelf updateSearchOptionsButton];
 	}]];

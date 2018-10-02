@@ -357,7 +357,7 @@ static NSMenu *S_defaultMenu=nil;
         [[[NSColor selectedTextBackgroundColor] colorWithAlphaComponent:0.5] set];
         NSBezierPath *path=[NSBezierPath bezierPathWithRoundedRect:NSInsetRect(rect,5,5) xRadius:10.0 yRadius:10.0];
         [path setLineWidth:7.];
-        [path setLineJoinStyle:NSRoundLineCapStyle];
+        [path setLineJoinStyle:NSRoundLineJoinStyle];
         [path stroke];
     }
 }
@@ -1152,7 +1152,7 @@ static NSMenu *S_defaultMenu=nil;
     NSPoint currentPoint = [self convertPoint:[anEvent locationInWindow] fromView:nil];
     currentPoint.x=5;
 	currentPoint.y -= self.textContainerOrigin.y;
-    unsigned glyphIndex,endCharacterIndex,startCharacterIndex;
+    NSUInteger glyphIndex,endCharacterIndex,startCharacterIndex;
     glyphIndex=[layoutManager glyphIndexForPoint:currentPoint 
                                  inTextContainer:textContainer];
     endCharacterIndex = startCharacterIndex = [layoutManager characterIndexForGlyphAtIndex:glyphIndex];

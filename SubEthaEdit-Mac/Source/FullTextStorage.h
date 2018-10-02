@@ -40,9 +40,9 @@ extern NSString * const SEESearchScopeAttributeName;
 #pragma mark -
 - (NSString *)positionStringForRange:(NSRange)aRange;
 - (NSString *)rangeStringForRange:(NSRange)aRange;
-- (int)lineNumberForLocation:(unsigned)location;
+- (int)lineNumberForLocation:(NSUInteger)location;
 - (NSMutableArray *)lineStarts;
-- (void)setLineStartsOnlyValidUpTo:(unsigned int)aLocation;
+- (void)setLineStartsOnlyValidUpTo:(NSUInteger)aLocation;
 - (NSRange)findLine:(int)aLineNumber;
 
 #pragma mark - line endings and encoding

@@ -25,7 +25,7 @@
         rect.origin.y-=.5;
         NSBezierPath *path=[NSBezierPath bezierPathWithRect:rect];
         [path setLineWidth:4.];
-        [path setLineJoinStyle:NSRoundLineCapStyle];
+        [path setLineJoinStyle:NSRoundLineJoinStyle];
         [path fill];
         [[[NSColor selectedTextBackgroundColor] colorWithAlphaComponent:0.7] set];
         [path stroke];
@@ -58,7 +58,7 @@
             return filename;
         }
     }
-    return NO;
+    return nil;
 }
 
 - (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender {

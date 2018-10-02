@@ -1277,13 +1277,13 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 			[self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:fileName] display:YES completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
 				if (document) {
 					if (shouldWait) {
-						NSArray *waitingDocuments = I_waitingDocuments[identifier];
+						NSArray *waitingDocuments = self->I_waitingDocuments[identifier];
 						if (waitingDocuments) {
 							waitingDocuments = [waitingDocuments arrayByAddingObject:document];
 						} else {
 							waitingDocuments = @[document];
 						}
-						[I_waitingDocuments setObject:waitingDocuments forKey:identifier];
+						[self->I_waitingDocuments setObject:waitingDocuments forKey:identifier];
 					}
 
 					if (shouldSwitchOpening) {
@@ -1314,11 +1314,11 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 					}
 				} else {
 					if (shouldWait) { // if opening the document failed
-						I_refCountsOfSeeScriptCommands[identifier] = @([I_refCountsOfSeeScriptCommands[identifier] integerValue] - 1); // decrement refCount for this document
+						self->I_refCountsOfSeeScriptCommands[identifier] = @([self->I_refCountsOfSeeScriptCommands[identifier] integerValue] - 1); // decrement refCount for this document
 
-						if ([I_refCountsOfSeeScriptCommands[identifier] integerValue] < 1) { // if this was the last document we need to cleanup and resume
-							[I_suspendedSeeScriptCommands removeObjectForKey:identifier];
-							[I_refCountsOfSeeScriptCommands removeObjectForKey:identifier];
+						if ([self->I_refCountsOfSeeScriptCommands[identifier] integerValue] < 1) { // if this was the last document we need to cleanup and resume
+							[self->I_suspendedSeeScriptCommands removeObjectForKey:identifier];
+							[self->I_refCountsOfSeeScriptCommands removeObjectForKey:identifier];
 							[command resumeExecutionWithResult:@[fileName]];
 						}
 					}

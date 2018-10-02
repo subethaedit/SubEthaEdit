@@ -70,9 +70,9 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
         }
     }
 
-	__weak __typeof__(self) weakSelf = self;
+	__weak typeof(self) weakSelf = self;
 	self.documentDidChangeObserver = [[NSNotificationCenter defaultCenter] addObserverForName:PlainTextDocumentDidChangeTextStorageNotification object:aDocument queue:nil usingBlock:^(NSNotification *note) {
-		__typeof__(self) strongSelf = weakSelf;
+		typeof(self) strongSelf = weakSelf;
 
 		if ([strongSelf refreshType] == kWebPreviewRefreshAutomatic) {
 			[strongSelf refresh:strongSelf];
@@ -82,7 +82,7 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
 	}];
 	
 	self.documentDidSaveObserver = [[NSNotificationCenter defaultCenter] addObserverForName:PlainTextDocumentDidSaveShouldReloadWebPreviewNotification object:aDocument queue:nil usingBlock:^(NSNotification *note) {
-		__typeof__(self) strongSelf = weakSelf;
+		typeof(self) strongSelf = weakSelf;
 
 		if ([strongSelf refreshType] == kWebPreviewRefreshOnSave) {
 			[strongSelf refreshAndEmptyCache:strongSelf];
@@ -138,15 +138,15 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
 }
 
 #pragma mark
-static void logSubViews(NSArray *aSubviewsArray) {
-    if (aSubviewsArray) NSLog(@"---");
-    for (NSView *subview in aSubviewsArray) {
-        NSLog(@"%@",[subview description]);
-        logSubViews([subview subviews]);
-    }
-}
+//static void logSubViews(NSArray *aSubviewsArray) {
+//    if (aSubviewsArray) NSLog(@"---");
+//    for (NSView *subview in aSubviewsArray) {
+//        NSLog(@"%@",[subview description]);
+//        logSubViews([subview subviews]);
+//    }
+//}
 
-static NSScrollView * firstScrollView(NSView *aView) {
+static NSScrollView *firstScrollView(NSView *aView) {
     NSArray *aSubviewsArray=[aView subviews];
     unsigned i;
     for (i=0;i<[aSubviewsArray count];i++) {

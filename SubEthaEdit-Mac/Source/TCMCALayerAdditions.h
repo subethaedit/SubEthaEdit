@@ -11,7 +11,7 @@
 #define TCMDegreesFromRadians(Radians) ((Radians) / M_PI  * 180.0)
 
 @interface CATransaction (TCMCATransactionAdditions)
-+ (void)TCM_wrapInTransactionWithDisabledActions:(void (^)())aTransactionBlock;
++ (void)TCM_wrapInTransactionWithDisabledActions:(void (^)(void))aTransactionBlock;
 @end
 
 CGPoint TCMCGPointEnsuredToPixelBoundaries(CGPoint aPoint);

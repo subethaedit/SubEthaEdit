@@ -47,9 +47,9 @@
 		[center addObserver:self selector:@selector(sessionWillChange:) name:PlainTextDocumentSessionWillChangeNotification object:document];
 		[center addObserver:self selector:@selector(sessionDidChange:) name:PlainTextDocumentSessionDidChangeNotification object:document];
 
-		__weak __typeof__(self) weakSelf = self;
+		__weak typeof(self) weakSelf = self;
 		self.scrollerStyleObserver = [center addObserverForName:NSPreferredScrollerStyleDidChangeNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-			__typeof__(self) strongSelf = weakSelf;
+			typeof(self) strongSelf = weakSelf;
 
 			if ([NSScroller preferredScrollerStyle] == NSScrollerStyleLegacy) {
 				NSScrollView *participantScrollView = strongSelf.participantsContainerView.enclosingScrollView;

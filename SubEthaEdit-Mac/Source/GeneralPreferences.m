@@ -121,8 +121,8 @@
 - (void)setLocalChangesHighlightButtonStateFromDefaults {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	
-	BOOL localChangesHighlightEnabled = [defaults objectForKey:HighlightChangesAlonePreferenceKey];
-	BOOL changesHighlightEnabled = [defaults objectForKey:HighlightChangesPreferenceKey];
+	BOOL localChangesHighlightEnabled = [defaults boolForKey:HighlightChangesAlonePreferenceKey];
+	BOOL changesHighlightEnabled = [defaults boolForKey:HighlightChangesPreferenceKey];
 	[self setLocalChangesHighlightButtonState:(changesHighlightEnabled && localChangesHighlightEnabled)];
 }
 

@@ -5,14 +5,14 @@
 
 #import <Foundation/Foundation.h>
 
-#define TCMPointOffset(Point,X,Y) ({ __typeof__(Point) __p = (Point); __p.x += (X); __p.y += (Y); __p;})
-#define TCMPointDifference(Point1, Point2) ({ __typeof__(Point1) __p1 = (Point1);  __typeof__(Point2) __p2 = (Point2); CGPointMake(__p1.x - __p2.x, __p1.y - __p2.y);})
-#define TCMPointDistance(Point1,Point2) ({ __typeof__(Point1) __pd1 = (Point1);  __typeof__(Point2) __pd2 = (Point2); TCMVectorLength(TCMPointDifference(__pd1,__pd2)); })
-#define TCMVectorLength(Point) ({ __typeof__(Point) __p = (Point); (sqrt(pow(__p.x,2) + pow(__p.y,2)));})
-#define TCMVectorDotProduct(Point1,Point2) ({ __typeof__(Point1) __p1 = (Point1);  __typeof__(Point2) __p2 = (Point2); (__p1.x * __p2.x + __p1.y * __p2.y);})
+#define TCMPointOffset(Point,X,Y) ({ typeof(Point) __p = (Point); __p.x += (X); __p.y += (Y); __p;})
+#define TCMPointDifference(Point1, Point2) ({ typeof(Point1) __p1 = (Point1);  typeof(Point2) __p2 = (Point2); CGPointMake(__p1.x - __p2.x, __p1.y - __p2.y);})
+#define TCMPointDistance(Point1,Point2) ({ typeof(Point1) __pd1 = (Point1);  typeof(Point2) __pd2 = (Point2); TCMVectorLength(TCMPointDifference(__pd1,__pd2)); })
+#define TCMVectorLength(Point) ({ typeof(Point) __p = (Point); (sqrt(pow(__p.x,2) + pow(__p.y,2)));})
+#define TCMVectorDotProduct(Point1,Point2) ({ typeof(Point1) __p1 = (Point1);  typeof(Point2) __p2 = (Point2); (__p1.x * __p2.x + __p1.y * __p2.y);})
 
 #if !defined(TCM_SCALAR_COMPARE)
-#define TCM_SCALAR_COMPARE(A,B)	({ __typeof__(A) __a = (A); __typeof__(B) __b = (B); __a < __b ? NSOrderedAscending : (__a > __b ? NSOrderedDescending : NSOrderedSame); })
+#define TCM_SCALAR_COMPARE(A,B)	({ typeof(A) __a = (A); typeof(B) __b = (B); __a < __b ? NSOrderedAscending : (__a > __b ? NSOrderedDescending : NSOrderedSame); })
 #endif
 
 

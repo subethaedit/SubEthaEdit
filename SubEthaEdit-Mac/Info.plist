@@ -2968,7 +2968,7 @@
 	<key>CFBundleGetInfoString</key>
 	<string>${TCM_APP_GET_INFO}</string>
 	<key>CFBundleIdentifier</key>
-	<string>${SEE_APP_IDENTIFIER_BASE}.Mac${TCM_APP_STYLE}${TCM_APP_IDENTIFER_SUFFIX}</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>

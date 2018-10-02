@@ -45,7 +45,7 @@ CaseInsensitiveDictionaryKeyHashCallBack(const void *value)
     
         CFHashCode result = 0;
         if (length <= 4) {	// All chars
-            unsigned cnt = length;
+            unsigned cnt = (unsigned)length;
             while (cnt--) result += (result << 8) + *cStr++;
         } else {		// First and last 2 chars
             result += (result << 8) + cStr[0];

@@ -8,21 +8,21 @@
 @class SyntaxDefinition;
 
 
-NSString * const SEEStyleSheetFontStyleKey;
-NSString * const SEEStyleSheetFontWeightKey;
-NSString * const SEEStyleSheetFontUnderlineKey;
-NSString * const SEEStyleSheetFontStrikeThroughKey;
-NSString * const SEEStyleSheetFontForegroundColorKey;
-NSString * const SEEStyleSheetFontBackgroundColorKey;
-NSString * const SEEStyleSheetValueNormal       ;
-NSString * const SEEStyleSheetValueNone         ;
-NSString * const SEEStyleSheetValueBold         ;
-NSString * const SEEStyleSheetValueUnderline    ;
-NSString * const SEEStyleSheetValueItalic       ;
-NSString * const SEEStyleSheetValueStrikeThrough;
-NSString * const SEEStyleSheetMetaDefaultScopeName;
+extern NSString * const SEEStyleSheetFontStyleKey;
+extern NSString * const SEEStyleSheetFontWeightKey;
+extern NSString * const SEEStyleSheetFontUnderlineKey;
+extern NSString * const SEEStyleSheetFontStrikeThroughKey;
+extern NSString * const SEEStyleSheetFontForegroundColorKey;
+extern NSString * const SEEStyleSheetFontBackgroundColorKey;
+extern NSString * const SEEStyleSheetValueNormal       ;
+extern NSString * const SEEStyleSheetValueNone         ;
+extern NSString * const SEEStyleSheetValueBold         ;
+extern NSString * const SEEStyleSheetValueUnderline    ;
+extern NSString * const SEEStyleSheetValueItalic       ;
+extern NSString * const SEEStyleSheetValueStrikeThrough;
+extern NSString * const SEEStyleSheetMetaDefaultScopeName;
 
-NSString * const SEEStyleSheetFileExtension;
+extern NSString * const SEEStyleSheetFileExtension;
 
 
 @interface SEEStyleSheet : NSObject {

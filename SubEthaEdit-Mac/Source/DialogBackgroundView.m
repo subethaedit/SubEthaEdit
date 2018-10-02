@@ -23,18 +23,18 @@ static void _linearColorBlendFunction(void *info, const CGFloat *in, CGFloat *ou
   out[3] = (1.0 - *in) * twoColors->alpha1 + *in * twoColors->alpha2;
 }
 
-static void _linearBounceColorBlendFunction(void *info, const CGFloat *in, CGFloat *out)
-{
-  _twoColorsType *twoColors = info;
-  CGFloat realIn;
-//  realIn=1.-sin(*in*M_PI); // sin doesn't look the way i wanted it
-  realIn=ABS(*in*2.-1.);
-  realIn=sqrt(realIn);
-  out[0] = realIn * twoColors->red1   + (1.0 - realIn) * twoColors->red2;
-  out[1] = realIn * twoColors->green1 + (1.0 - realIn) * twoColors->green2;
-  out[2] = realIn * twoColors->blue1  + (1.0 - realIn) * twoColors->blue2;
-  out[3] = realIn * twoColors->alpha1 + (1.0 - realIn) * twoColors->alpha2;
-}
+//static void _linearBounceColorBlendFunction(void *info, const CGFloat *in, CGFloat *out)
+//{
+//  _twoColorsType *twoColors = info;
+//  CGFloat realIn;
+////  realIn=1.-sin(*in*M_PI); // sin doesn't look the way i wanted it
+//  realIn=ABS(*in*2.-1.);
+//  realIn=sqrt(realIn);
+//  out[0] = realIn * twoColors->red1   + (1.0 - realIn) * twoColors->red2;
+//  out[1] = realIn * twoColors->green1 + (1.0 - realIn) * twoColors->green2;
+//  out[2] = realIn * twoColors->blue1  + (1.0 - realIn) * twoColors->blue2;
+//  out[3] = realIn * twoColors->alpha1 + (1.0 - realIn) * twoColors->alpha2;
+//}
 
 
 static void _linearColorReleaseInfoFunction(void *info)

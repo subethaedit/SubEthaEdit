@@ -213,7 +213,7 @@ void * const SEEConnectionClearableObservingContext = (void *)&SEEConnectionClea
     if (selector == @selector(itemAction:)) {
 		return NO;
     } else if (selector == @selector(putConnectionURLOnPasteboard:)) {
-		return ([self connectionURL]);
+		return !![self connectionURL];
     } else if (selector == @selector(disconnect:)) {
 		return self.showsDisconnect;
 	}

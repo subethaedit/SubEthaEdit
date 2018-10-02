@@ -67,10 +67,10 @@
 		self.participant = aParticipant;
 		self.tabContext = aTabContext;
 
-		__weak __typeof__(self) weakSelf = self;
+		__weak typeof(self) weakSelf = self;
 		self.plainTextEditorFollowUserNotificationHandler =
 		[[NSNotificationCenter defaultCenter] addObserverForName:PlainTextEditorDidFollowUserNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
-			__typeof__(self) strongSelf = weakSelf;
+			typeof(self) strongSelf = weakSelf;
 			if ([strongSelf.tabContext.plainTextEditors containsObject:note.object])
 				[strongSelf updateParticipantFollowed];
 		}];
@@ -80,7 +80,7 @@
 		self.popoverShownNotificationHandler =
 		[[NSNotificationCenter defaultCenter] addObserverForName:NSPopoverWillShowNotification
 														  object:nil queue:nil usingBlock:^(NSNotification *note) {
-															  __typeof__(self) strongSelf = weakSelf;
+															  typeof(self) strongSelf = weakSelf;
 
 															  if (note.object == strongSelf.nameLabelPopoverOutlet) {
 																  NSWindow *window = strongSelf.view.window;
