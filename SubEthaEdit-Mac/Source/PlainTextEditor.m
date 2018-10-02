@@ -1596,7 +1596,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
         NSColor *foregroundColor = [document documentForegroundColor];
         NSTextStorage *textStorage = [I_textView textStorage];
         NSMutableAttributedString *attributedSubString = [[[textStorage attributedSubstringFromRange:selectedRange] mutableCopy] autorelease];
-        NSAttributedString *foldingIconReplacementString = [[[NSAttributedString alloc] initWithPath:[[NSBundle mainBundle] pathForResource:@"FoldingBubbleText" ofType:@"rtf"] documentAttributes:nil] autorelease];
+        NSAttributedString *foldingIconReplacementString = [[[NSAttributedString alloc] initWithURL:[[NSBundle mainBundle] URLForResource:@"FoldingBubbleText" withExtension:@"rtf"] options:@{} documentAttributes:nil error:NULL] autorelease];
         [attributedSubString replaceAttachmentsWithAttributedString:foldingIconReplacementString];
         NSMutableAttributedString *attributedStringForXHTML = [attributedSubString attributedStringForXHTMLExportWithRange:NSMakeRange(0, [attributedSubString length]) foregroundColor:foregroundColor backgroundColor:backgroundColor];
         [attributedStringForXHTML detab:YES inRange:NSMakeRange(0, [attributedStringForXHTML length]) tabWidth:[document tabWidth] askingTextView:nil];

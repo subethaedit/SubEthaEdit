@@ -2257,16 +2257,16 @@ struct SelectionRange
 }
 
 - (IBAction)cancelExport:(id)aSender {
-    [NSApp endSheet:self.O_exportSheet returnCode:NSCancelButton];
+    [NSApp endSheet:self.O_exportSheet returnCode:NSModalResponseCancel];
 }
 
 - (IBAction)continueExport:(id)aSender {
-    [NSApp endSheet:self.O_exportSheet returnCode:NSOKButton];
+    [NSApp endSheet:self.O_exportSheet returnCode:NSModalResponseOK];
 }
 
 - (void)continueExport:(NSWindow *)aSheet returnCode:(int)aReturnCode contextInfo:(void *)aContextInfo {
     [aSheet orderOut:self];
-    if (aReturnCode == NSOKButton) {
+    if (aReturnCode == NSModalResponseOK) {
         NSSavePanel *savePanel=[NSSavePanel savePanel];
         [savePanel setPrompt:NSLocalizedString(@"ExportPrompt",@"Text on the active SavePanel Button in the export sheet")];
         [savePanel setCanCreateDirectories:YES];
@@ -4528,7 +4528,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     if (!I_defaultParagraphStyle) {
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
         [paragraphStyle setTabStops:[NSArray array]];
-        NSFont *font=[sLayoutManager substituteFontForFont:[self fontWithTrait:0]];
+        NSFont *font=[self fontWithTrait:0];
 		float charWidth = 0.0f;
 		if ( font != nil )
 			charWidth = [@" " sizeWithAttributes:[NSDictionary dictionaryWithObject:font forKey:NSFontAttributeName]].width;

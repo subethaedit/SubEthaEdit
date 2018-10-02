@@ -784,14 +784,15 @@ static NSMenu *S_defaultMenu=nil;
 			#pragma unused (selectedRange,textStorage)
 		}
 		NSMutableAttributedString *mutableString = [[[self textStorage] attributedSubstringFromRange:[self selectedRange]] mutableCopy];
-		NSTextAttachment *foldingIconAttachment = [[NSTextAttachment alloc] initWithFileWrapper:[[NSFileWrapper alloc] initWithPath:[[NSBundle mainBundle] pathForResource:@"FoldingBubbleBig" ofType:@"png"]]];
+        NSFileWrapper *textAttachmentWrapper = [[NSFileWrapper alloc] initWithURL:[[NSBundle mainBundle] URLForResource:@"FoldingBubbleBig" withExtension:@"png"] options:0 error:NULL];
+		NSTextAttachment *foldingIconAttachment = [[NSTextAttachment alloc] initWithFileWrapper:textAttachmentWrapper];
 //		[[[foldingIconAttachment attachmentCell] image] setSize:NSMakeSize(19,10)];
 		NSAttributedString *foldingIconString = [NSAttributedString attributedStringWithAttachment:foldingIconAttachment];
-		NSAttributedString *foldingIconReplacementString = [[NSAttributedString alloc] initWithPath:[[NSBundle mainBundle] pathForResource:@"FoldingBubbleText" ofType:@"rtf"] documentAttributes:nil];
+        NSAttributedString *foldingIconReplacementString = [[NSAttributedString alloc] initWithURL:[[NSBundle mainBundle] URLForResource:@"FoldingBubbleText" withExtension:@"rtf"] options:@{} documentAttributes:nil error:NULL];
 		[mutableString replaceAttachmentsWithAttributedString:foldingIconString];
-		[pasteboard setData:[mutableString RTFDFromRange:NSMakeRange(0,[mutableString length]) documentAttributes:@{}] forType:NSRTFDPboardType];
+		[pasteboard setData:[mutableString RTFDFromRange:[mutableString TCM_fullLengthRange] documentAttributes:@{}] forType:NSRTFDPboardType];
 		[mutableString replaceAttachmentsWithAttributedString:foldingIconReplacementString];
-		[pasteboard setData:[mutableString  RTFFromRange:NSMakeRange(0,[mutableString length]) documentAttributes:@{}] forType:NSRTFPboardType];
+		[pasteboard setData:[mutableString  RTFFromRange:[mutableString TCM_fullLengthRange] documentAttributes:@{}] forType:NSRTFPboardType];
 	} else {
 		[self writeSelectionToPasteboard:pasteboard type:NSStringPboardType];
 	}
