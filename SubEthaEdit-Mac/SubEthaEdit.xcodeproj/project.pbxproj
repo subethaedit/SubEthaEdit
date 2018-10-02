@@ -275,7 +275,6 @@
 		F2061D690B4C152600E6631F /* FirstClickCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2061D670B4C152600E6631F /* FirstClickCustomView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		F20948BC0C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = F20948B90C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		F20AB87B1907C7C500444F4B /* SEEDebugImageGenerationWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = F20AB8791907C7C500444F4B /* SEEDebugImageGenerationWindowController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		F20AB87C1907C7C500444F4B /* SEEDebugImageGenerationWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F20AB87A1907C7C500444F4B /* SEEDebugImageGenerationWindowController.xib */; };
 		F20AB881190932FB00444F4B /* SymbolWarn.png in Resources */ = {isa = PBXBuildFile; fileRef = F20AB87F190932FB00444F4B /* SymbolWarn.png */; };
 		F20AB882190932FB00444F4B /* SymbolWarn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F20AB880190932FB00444F4B /* SymbolWarn@2x.png */; };
 		F20D8F0C18FC28CB0091EB13 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F20D8F0B18FC28CB0091EB13 /* Media.xcassets */; };
@@ -420,6 +419,7 @@
 		F2B136EB189BF27000430639 /* AW AddTabButton.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2B136E3189BF27000430639 /* AW AddTabButton.tiff */; };
 		F2B136EC189BF27000430639 /* AW AddTabButtonPushed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2B136E4189BF27000430639 /* AW AddTabButtonPushed.tiff */; };
 		F2B136ED189BF27000430639 /* AW AddTabButtonRollover_Pressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2B136E5189BF27000430639 /* AW AddTabButtonRollover_Pressed.tiff */; };
+		F2C44CBE21635F29006D59DB /* SEEDebugImageGenerationWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2C44CBD21635F29006D59DB /* SEEDebugImageGenerationWindowController.xib */; };
 		F2C6D3750D6DB131002B401D /* URLIconNotOK.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2C6D3730D6DB131002B401D /* URLIconNotOK.tiff */; };
 		F2C6D3760D6DB131002B401D /* URLIconOK.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2C6D3740D6DB131002B401D /* URLIconOK.tiff */; };
 		F2C7672718B3AEAC00763B40 /* PlainTextEditor.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2C7672618B3AEAC00763B40 /* PlainTextEditor.xib */; };
@@ -1168,7 +1168,6 @@
 		F20948B90C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TCMMMLogStatisticsEntry.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		F20AB8781907C7C500444F4B /* SEEDebugImageGenerationWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEDebugImageGenerationWindowController.h; sourceTree = "<group>"; };
 		F20AB8791907C7C500444F4B /* SEEDebugImageGenerationWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEDebugImageGenerationWindowController.m; sourceTree = "<group>"; };
-		F20AB87A1907C7C500444F4B /* SEEDebugImageGenerationWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEEDebugImageGenerationWindowController.xib; sourceTree = "<group>"; };
 		F20AB87F190932FB00444F4B /* SymbolWarn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SymbolWarn.png; path = artwork/SymbolWarn.png; sourceTree = "<group>"; };
 		F20AB880190932FB00444F4B /* SymbolWarn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "SymbolWarn@2x.png"; path = "artwork/SymbolWarn@2x.png"; sourceTree = "<group>"; };
 		F20D8F0B18FC28CB0091EB13 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Media.xcassets; path = artwork/Media.xcassets; sourceTree = "<group>"; };
@@ -1357,6 +1356,7 @@
 		F2B136E4189BF27000430639 /* AW AddTabButtonPushed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "AW AddTabButtonPushed.tiff"; sourceTree = "<group>"; };
 		F2B136E5189BF27000430639 /* AW AddTabButtonRollover_Pressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "AW AddTabButtonRollover_Pressed.tiff"; sourceTree = "<group>"; };
 		F2B6CCC20EE9C6390077417E /* SeeTextImporter.mdimporter */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SeeTextImporter.mdimporter; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2C44CBD21635F29006D59DB /* SEEDebugImageGenerationWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SEEDebugImageGenerationWindowController.xib; path = Debug/SEEDebugImageGenerationWindowController.xib; sourceTree = "<group>"; };
 		F2C6D3730D6DB131002B401D /* URLIconNotOK.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = URLIconNotOK.tiff; path = artwork/URLIconNotOK.tiff; sourceTree = "<group>"; };
 		F2C6D3740D6DB131002B401D /* URLIconOK.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = URLIconOK.tiff; path = artwork/URLIconOK.tiff; sourceTree = "<group>"; };
 		F2C7672618B3AEAC00763B40 /* PlainTextEditor.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlainTextEditor.xib; sourceTree = "<group>"; };
@@ -1768,7 +1768,7 @@
 				4C0D3D6F17FB166200AAFB38 /* DebugHistory.xib */,
 				F20AB8781907C7C500444F4B /* SEEDebugImageGenerationWindowController.h */,
 				F20AB8791907C7C500444F4B /* SEEDebugImageGenerationWindowController.m */,
-				F20AB87A1907C7C500444F4B /* SEEDebugImageGenerationWindowController.xib */,
+				F2C44CBD21635F29006D59DB /* SEEDebugImageGenerationWindowController.xib */,
 			);
 			name = Debug;
 			sourceTree = "<group>";
@@ -1835,7 +1835,6 @@
 				F2164BE718F6CD19002414FB /* SEESplitView.m */,
 				F2DC3DCF18F2F12300B543E9 /* SEEPlainTextEditorTopBarViewController.h */,
 				F2DC3DD018F2F12300B543E9 /* SEEPlainTextEditorTopBarViewController.m */,
-				F2DC3DD118F2F12300B543E9 /* SEEPlainTextEditorTopBarViewController.xib */,
 				149774150B5E159F004A546C /* PlainTextLoadProgress.h */,
 				149774160B5E159F004A546C /* PlainTextLoadProgress.m */,
 				148167AB0B15B002008894C9 /* PlainTextWindow.h */,
@@ -2014,7 +2013,6 @@
 			children = (
 				4CB8EE53181032340051AB6B /* SEEPrintOptionsViewController.h */,
 				4CB8EE54181032340051AB6B /* SEEPrintOptionsViewController.m */,
-				4CD5F81F17FB0E2B00F49E31 /* PrintOptions.xib */,
 				142893780957580F00D14688 /* MultiPagePrintView.h */,
 				142893790957580F00D14688 /* MultiPagePrintView.m */,
 				1428937A0957580F00D14688 /* PrintTextView.h */,
@@ -2082,7 +2080,6 @@
 				4C7F5E0A18D9D4C500F33CCD /* SEEScopedBookmarkManager.m */,
 				4CCD78FD18DB3F9E00A8B457 /* SEEScopedBookmarkAccessoryViewController.h */,
 				4CCD78FE18DB3F9E00A8B457 /* SEEScopedBookmarkAccessoryViewController.m */,
-				4CCD78FF18DB3F9E00A8B457 /* SEEScopedBookmarkAccessoryViewController.xib */,
 				F22024EC191D175C0098982C /* TCMHoverButton.h */,
 				F22024ED191D175C0098982C /* TCMHoverButton.m */,
 			);
@@ -2247,7 +2244,9 @@
 				4CE8E4E818DC84B10029BF95 /* Prefs */,
 				F286A756215CE6410056C247 /* AboutPanel.xib */,
 				4CD5F7E817FB0C8E00F49E31 /* SEEEncodingDoctorView.xib */,
+				4CCD78FF18DB3F9E00A8B457 /* SEEScopedBookmarkAccessoryViewController.xib */,
 				F24AEA1A195AE78300046F6B /* DocumentProxy.xib */,
+				4CD5F81F17FB0E2B00F49E31 /* PrintOptions.xib */,
 				4CD5F7EC17FB0CA300F49E31 /* Export.xib */,
 				4CD5F7F017FB0CBF00F49E31 /* FindAll.xib */,
 				4CD5F7F417FB0CD200F49E31 /* FindReplace.xib */,
@@ -2257,9 +2256,12 @@
 				4CD5F80F17FB0DC100F49E31 /* PlainTextLoadProgress.xib */,
 				4C0C4A0018B366EC00E6049E /* PlainTextWindow.xib */,
 				4CD5F82717FB0E4F00F49E31 /* SavePanelAccessory.xib */,
+				4CDF05A418C0A3D4004A49E5 /* SEEConnectionAddingWindowController.xib */,
+				4C0C4A1B18B3768500E6049E /* SEEDocumentListWindowController.xib */,
 				4C5EC97D1897F6FC0094D850 /* SEEParticipantsOverlay.xib */,
 				4CDC271F18967D990060B044 /* SEEParticipantView.xib */,
 				4C0D3D6317FB12F700AAFB38 /* SEEStyleSheetEditorWindowController.xib */,
+				F2DC3DD118F2F12300B543E9 /* SEEPlainTextEditorTopBarViewController.xib */,
 				4CD5F82B17FB0E6000F49E31 /* SelectEncodingsPanel.xib */,
 				4CD5F83317FB0EB500F49E31 /* URLBubbleWindow.xib */,
 				F21DAFE718BB77AA002B3C41 /* SEEFindAndReplaceView.xib */,
@@ -2311,7 +2313,6 @@
 				F2F5970B193336B300FDAA4A /* SEEDocumentListTableView.m */,
 				F27C4DC3192FA2A800B5DB3C /* SEEHoverTableRowView.h */,
 				F27C4DC4192FA2A800B5DB3C /* SEEHoverTableRowView.m */,
-				4C0C4A1B18B3768500E6049E /* SEEDocumentListWindowController.xib */,
 				4CDF059F18C0A217004A49E5 /* Items */,
 				4CDF05A118C0A23E004A49E5 /* Connection Management */,
 				4C77B24018BB83620066BDB2 /* SEEDocumentListGroupTableRowView.h */,
@@ -2402,7 +2403,6 @@
 				F2D12A1B0BF0B8DF00A776CC /* SEEConnection.m */,
 				4CDF05A218C0A3D4004A49E5 /* SEEConnectionAddingWindowController.h */,
 				4CDF05A318C0A3D4004A49E5 /* SEEConnectionAddingWindowController.m */,
-				4CDF05A418C0A3D4004A49E5 /* SEEConnectionAddingWindowController.xib */,
 			);
 			name = "Connection Management";
 			sourceTree = "<group>";
@@ -3007,7 +3007,6 @@
 				F2C7672718B3AEAC00763B40 /* PlainTextEditor.xib in Resources */,
 				F22024E4191D0D280098982C /* ParticipantReadOnlyTurnOnPressed@2x.png in Resources */,
 				F2880D251923BA7100C6370C /* BottomBarSharingIconGroupTurnOffPressed.png in Resources */,
-				F20AB87C1907C7C500444F4B /* SEEDebugImageGenerationWindowController.xib in Resources */,
 				4CD5F7EE17FB0CA300F49E31 /* Export.xib in Resources */,
 				F2815CE1216251F7006B3BC5 /* Bug Report.md in Resources */,
 				F2D3E54B189941F50096425B /* AW SingleTabAddButtonPressed.png in Resources */,
@@ -3111,6 +3110,7 @@
 				F220248E191BC33D0098982C /* hud_buttonRight-P.png in Resources */,
 				F22024D4191D0BFE0098982C /* ParticipantKickPressed@2x.png in Resources */,
 				F2D3E529189941F50096425B /* AW ActiveTabClose.png in Resources */,
+				F2C44CBE21635F29006D59DB /* SEEDebugImageGenerationWindowController.xib in Resources */,
 				F2D3E53B189941F50096425B /* AW InactiveTabClosePressed.png in Resources */,
 				319AAE3B0CB0165800ACDAB4 /* Precedence_Add.tiff in Resources */,
 				4CE8D4521959E3440026828F /* SharingServiceAnnounceMenuIcon@2x.png in Resources */,
