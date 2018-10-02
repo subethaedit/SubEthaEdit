@@ -70,10 +70,6 @@ _app_signing_apply_resign "${sign_sh1}" "${path_frameworks}/PSMTabBarControl.fra
 _app_signing_apply_resign "${sign_sh1}" "${path_frameworks}/TCMPortMapper.framework/Versions/A/TCMPortMapper"
 _app_signing_apply_resign "${sign_sh1}" "${path_frameworks}/UniversalDetector.framework/Versions/A/UniversalDetector"
 
-# make sure sub frameworks are signed before signing outer framework
-_app_signing_apply_resign "${sign_sh1}" "${path_frameworks}/HockeySDK.framework/Versions/A/Frameworks/CrashReporter.framework/Versions/A/CrashReporter"
-_app_signing_apply_resign "${sign_sh1}" "${path_frameworks}/HockeySDK.framework/Versions/A/HockeySDK"
-
 #spotlight plugins
 _app_signing_apply_resign "${sign_sh1}" "${path_spotligth}/SeeTextImporter.mdimporter/Contents/MacOS/SeeTextImporter"
 

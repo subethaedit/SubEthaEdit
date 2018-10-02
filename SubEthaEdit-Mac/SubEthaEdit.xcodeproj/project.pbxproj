@@ -2772,7 +2772,6 @@
 				F286A77B215D190D0056C247 /* Copy Man Pages */,
 				F298A0040CCB9EFC00C4DB8B /* Copy Importers */,
 				142898130958165400D14688 /* Run Script (Deployment) */,
-				4CF06A311816B1FB00B35DF8 /* Codesign ThirdParty */,
 			);
 			buildRules = (
 			);
@@ -3197,20 +3196,6 @@
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "echo \"Removing debug nib files...\"\nfind -d \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources\" -name \"Debug*.nib\" -exec rm -rf \"{}\" \\;\n\n# echo \"Rename resource file...\"\n# mv \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources/SubEthaEdit.rsrc\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources/SubEthaEdit-SystemVersionCheck.rsrc\"\n\necho \"Remove Headers directories...\"\nfind \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\" -path '*/Headers/*' -delete\nfind \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\" -name 'Headers' -type d -delete\nfind \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\" -name 'Headers' -type l -delete\n";
-		};
-		4CF06A311816B1FB00B35DF8 /* Codesign ThirdParty */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Codesign ThirdParty";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/bin/sh \"${SRCROOT}/../TCMScripts/SEEThirdPartyResign.sh\"";
 		};
 		5EC638280ABEB71100D3295B /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
