@@ -878,18 +878,22 @@ static AppController *sharedInstance = nil;
 }
 
 - (void)reportAppleScriptError:(NSDictionary *)anErrorDictionary {
-    NSAlert *newAlert = [[NSAlert alloc] init];
-    [newAlert setAlertStyle:NSCriticalAlertStyle];
-    [newAlert setMessageText:[anErrorDictionary objectForKey:@"NSAppleScriptErrorBriefMessage"] ? [anErrorDictionary objectForKey:@"NSAppleScriptErrorBriefMessage"] : @"Unknown AppleScript Error"];
-    [newAlert setInformativeText:[NSString stringWithFormat:@"%@ (%d)", [anErrorDictionary objectForKey:@"NSAppleScriptErrorMessage"], [[anErrorDictionary objectForKey:@"NSAppleScriptErrorNumber"] intValue]]];
-    [newAlert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
-    NSWindow *alertWindow=nil;
-    NSArray *documents=[NSApp orderedDocuments];
-    if ([documents count]>0) alertWindow=[[documents objectAtIndex:0] windowForSheet];
-    [newAlert beginSheetModalForWindow:alertWindow
-                         modalDelegate:nil
-                        didEndSelector:nil
-                           contextInfo:NULL];
+    if (![NSThread isMainThread]) {
+        [self performSelectorOnMainThread:@selector(reportAppleScriptError:) withObject:anErrorDictionary waitUntilDone:NO];
+    } else {
+        NSAlert *newAlert = [[NSAlert alloc] init];
+        [newAlert setAlertStyle:NSCriticalAlertStyle];
+        [newAlert setMessageText:[anErrorDictionary objectForKey:@"NSAppleScriptErrorBriefMessage"] ? [anErrorDictionary objectForKey:@"NSAppleScriptErrorBriefMessage"] : @"Unknown AppleScript Error"];
+        [newAlert setInformativeText:[NSString stringWithFormat:@"%@ (%d)", [anErrorDictionary objectForKey:@"NSAppleScriptErrorMessage"], [[anErrorDictionary objectForKey:@"NSAppleScriptErrorNumber"] intValue]]];
+        [newAlert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
+        NSWindow *alertWindow=nil;
+        NSArray *documents=[NSApp orderedDocuments];
+        if ([documents count]>0) alertWindow=[[documents objectAtIndex:0] windowForSheet];
+        [newAlert beginSheetModalForWindow:alertWindow
+                             modalDelegate:nil
+                            didEndSelector:nil
+                               contextInfo:NULL];
+    }
 }
 
 - (IBAction)showScriptFolder:(id)aSender {
