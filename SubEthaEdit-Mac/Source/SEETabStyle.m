@@ -98,12 +98,14 @@
 	static NSDictionary *attributes = nil;
 	if (!attributes) {
 		NSShadow *shadow = [[NSShadow alloc] init];
-		[shadow setShadowColor:[[NSColor whiteColor] colorWithAlphaComponent:0.6]];
-		[shadow setShadowBlurRadius:0.0];
-		[shadow setShadowOffset:NSMakeSize(0.0, -1.0)];
+		[shadow setShadowColor:[[NSColor whiteColor] colorWithAlphaComponent:0.5]];
+		[shadow setShadowBlurRadius:0.25];
+		[shadow setShadowOffset:NSMakeSize(0.0, -0.75)];
 
 		NSMutableDictionary *baseAttributes = [NSMutableDictionary new];
-		baseAttributes[NSFontAttributeName] = [NSFont fontWithName:@"LucidaGrande-Bold" size:11];
+        NSFont *font = [NSFont menuBarFontOfSize:11.0];
+        font = [[NSFontManager sharedFontManager] convertFont:font toHaveTrait:NSBoldFontMask | NSCondensedFontMask];
+        baseAttributes[NSFontAttributeName] = font;
 		baseAttributes[NSForegroundColorAttributeName] = [NSColor colorWithWhite:0.3 alpha:1.0];
 		baseAttributes[NSShadowAttributeName] = shadow;
 
@@ -111,7 +113,6 @@
 		[paragraphStyle setAlignment:NSCenterTextAlignment];
 		[paragraphStyle setLineBreakMode:NSLineBreakByTruncatingMiddle];
 		baseAttributes[NSParagraphStyleAttributeName] = paragraphStyle;
-
 
 		NSMutableDictionary *inactiveAttributes = [baseAttributes mutableCopy];
 		inactiveAttributes[NSForegroundColorAttributeName] = [NSColor colorWithWhite:0.5 alpha:1.0];
@@ -360,13 +361,13 @@
 #pragma mark - Drawing
 
 - (void)drawBezelOfTabBarControl:(PSMTabBarControl *)tabBarControl inRect:(NSRect)rect {
-	NSImage *backgroundImage = [SEETabStyle imageForWindowActive:[tabBarControl.window TCM_isActive] name:@"InactiveTabBG"];
+    BOOL isWindowActive = [tabBarControl.window TCM_isActive];
+	NSImage *backgroundImage = [SEETabStyle imageForWindowActive:isWindowActive name:@"InactiveTabBG"];
 	NSDrawThreePartImage(rect, nil, backgroundImage, nil, NO, NSCompositeSourceOver, 1.0, tabBarControl.isFlipped);
 
 	NSRect overflowButtonRect = tabBarControl.overflowButtonRect;
 	if (! NSEqualRects(overflowButtonRect, NSZeroRect)) {
 		PSMTabBarCell *lastVisibleTab = tabBarControl.lastVisibleTab;
-		BOOL isWindowActive = [tabBarControl.window TCM_isActive];
 		NSImage *rightCap = [SEETabStyle imageForWindowActive:isWindowActive name:@"InactiveTabRightCap"];
 
 		NSRect rightRect = lastVisibleTab.frame;
