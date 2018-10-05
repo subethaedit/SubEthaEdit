@@ -1,8 +1,8 @@
-# SubEtha Code
+# SubEthaEdit
 
-General Purpose Plain-Text Editor for macOS. Direct descendant from Hydra and SubEthaEdit. Widely known for its live Collaboration feature.
+General purpose Plain-Text Editor for macOS. Widely known for its live Collaboration feature. 
 
-https://github.com/LoneMonkeyProductions/SubEthaCode is the main development repo.
+https://github.com/LoneMonkeyProductions/SubEthaEdit is the main development repo.
 
 ## Getting Started
 
@@ -31,7 +31,7 @@ Please read [contributing](Contributing.md) for details on our code of conduct, 
 
 * Dominik [@monkeydom](https://mastodon.technology/@monkeydom) Wagner - [GitHub](https://github.com/monkeydom) [Mastodon](https://mastodon.technology/@monkeydom) [Twitter](https://twitter.com/monkeydom) [Blog](https://coding.monkeydom.de/)
 
-Project email: subetha-code at lone.monkey.productions
+Project email: subethaedit at lone.monkey.productions
 
 See the full list of [contributors](Contributors.md).
 
@@ -39,8 +39,7 @@ See the full list of [contributors](Contributors.md).
 
 This project is distributed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details
 
-* **SubEtha Code** and the App Icon is trademarked by LoneMonkeyProductions.
-* **SubEthaEdit** is trademarked by TheCodingMonkeys.
+* **SubEthaEdit** is trademarked by TheCodingMonkeys and LoneMonkeyProductions.
 
 ## Acknowledgments
 

@@ -3,15 +3,15 @@
 
 #### General Feedback
 
-Create a new issue on our [Issues page](https://github.com/LoneMonkeyProductions/SubEthaCode/issues). Issues and discussions are expected to be written in english.
+Create a new issue on our [Issues page](https://github.com/LoneMonkeyProductions/SubEthaEdit/issues). Issues and discussions are expected to be written in english.
 
-Bug reports __should__ include your environment. You can generate a bug report template automatically in SubEtha Code by selecting "Help" > "Create Bug Report…" in the menu.
+Bug reports __should__ include your environment. You can generate a bug report template automatically in SubEthaEdit by selecting "Help" > "Create Bug Report…" in the menu.
 
 ## Contributing Code
 
 ### Repository Structure
 
-The main development Workflow for SubEtha Code is based on [git-flow](https://nvie.com/posts/a-successful-git-branching-model/). The main development happens on the `develop` branch. In addition to the `feature` branches for longer term contributions, contributers are expected to create pull requests based on `issue` named branches. Each pull request **must have** a github issue attached. Both feature and issue branches need to be of the form `feature/<issue#>[-description]`.
+The main development Workflow for SubEthaEdit is based on [git-flow](https://nvie.com/posts/a-successful-git-branching-model/). The main development happens on the `develop` branch. In addition to the `feature` branches for longer term contributions, contributers are expected to create pull requests based on `issue` named branches. Each pull request **must have** a github issue attached. Both feature and issue branches need to be of the form `feature/<issue#>[-description]`.
 
 E.g. `feature/312-ProjectInterface` or `issue/333-DarkMode` 
 
@@ -24,7 +24,7 @@ E.g. `feature/312-ProjectInterface` or `issue/333-DarkMode`
 
 ### General Code Guidelines
 
-* The main **SubEtha Code** repository will not take Swift-Code. If you want to go down that road feel free to fork the project.
+* The main **SubEthaEdit** repository will not take Swift-Code. If you want to go down that road feel free to fork the project.
 * New Objective-C code has to be ARC. Plain C and C++ code is generally welcome if it has a purpose (Performance, or alignment with a dependent code base)
 * Nullability annotations generally are discouraged. If you contribute a tight subset of code that would benefit greatly in correctness, argue your case.
 * Addition of dependencies is discouraged, it should be as self contained as possible. The project will not integrate usage of package managers.
@@ -32,7 +32,7 @@ E.g. `feature/312-ProjectInterface` or `issue/333-DarkMode`
 
 ### Coding Style Guide
 
-**SubEtha Edit** is a rather old codebase. As such in contains some antiquated code style in existing code. Here is a shortlist of how new could should look like.
+**SubEthaEdit** is a rather old codebase. As such in contains some antiquated code style in existing code. Here is a shortlist of how new could should look like.
 
 * Be sparse with comments, if code is unclear look for more self expressing ways. Longer blocks of explanations of concepts is acceptable if needed.
 * Basic style (open braces on same line, space after if/while/etc, argument names natural):
@@ -108,7 +108,7 @@ further defined and clarified by project maintainers.
 ## Enforcement
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported by contacting the project team at **subetha-code at lone.monkey.productions**. All complaints will be reviewed and investigated and will result in a response that
+reported by contacting the project team at **subethaedit at lone.monkey.productions**. All complaints will be reviewed and investigated and will result in a response that
 is deemed necessary and appropriate to the circumstances. The project team is
 obligated to maintain confidentiality with regard to the reporter of an incident.
 Further details of specific enforcement policies may be posted separately.

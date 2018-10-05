@@ -1,4 +1,4 @@
-# SubEtha Code Contributors
+# SubEthaEdit Contributors
 
 ## Active Contributors
 
