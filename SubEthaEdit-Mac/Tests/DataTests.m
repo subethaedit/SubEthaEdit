@@ -1,10 +1,7 @@
-//
 //  DataTests.m
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on 18.09.06.
-//  Copyright (c) 2006 TheCodingMonkeys. All rights reserved.
-//
 
 #import "DataTests.h"
 #import "TCMBencodingUtilities.h"

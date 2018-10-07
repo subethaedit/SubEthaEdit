@@ -2,7 +2,6 @@
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Fri Apr 23 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 
 // this file needs arc - add -fobjc-arc in the compile build phase
 #if !__has_feature(objc_arc)

@@ -1,9 +1,7 @@
-//
 //  main.m
 //  see
 //
 //  Created by Martin Ott on Tue Apr 14 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

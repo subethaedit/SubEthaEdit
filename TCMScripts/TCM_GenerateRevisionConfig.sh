@@ -1,11 +1,7 @@
 #!/bin/sh
 
 #  TCM_GenerateRevisionConfig.sh
-#  
-#
 #  Created by Michael Ehrmann on 21.10.13.
-#  Copyright (c) 2013 TheCodingMonkeys. All rights reserved.
-
 
 # this script needs to be included in the app build scheme prebuild phase using
 # ${SRCROOT}/../TCMScripts/TCM_GenerateRevisionConfig.sh

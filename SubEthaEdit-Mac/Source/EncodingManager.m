@@ -1,8 +1,6 @@
 /*
         EncodingManager.m
-        Copyright (c) 2002 by Apple Computer, Inc., all rights reserved.
-        Author: Ali Ozer
-        
+ 
         Helper class providing additional functionality for character encodings.
         This file also defines EncodingPopUpButtonCell and EncodingPopUpButton classes.
 */

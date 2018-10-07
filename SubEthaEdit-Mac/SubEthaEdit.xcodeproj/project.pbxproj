@@ -1236,6 +1236,7 @@
 		F24280C50D16CFCC0083AE21 /* GenericSASLProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenericSASLProfile.m; sourceTree = "<group>"; };
 		F24AEA1A195AE78300046F6B /* DocumentProxy.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DocumentProxy.xib; sourceTree = "<group>"; };
 		F250EAC2216A138E00B94A0B /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		F250EAD4216A1A9A00B94A0B /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		F25A071E191A6D4600F07557 /* WaitPipe@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "WaitPipe@2x.png"; path = "artwork/WaitPipe@2x.png"; sourceTree = "<group>"; };
 		F25A0721191A800E00F07557 /* EditPrefs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = EditPrefs.png; path = artwork/EditPrefs.png; sourceTree = "<group>"; };
 		F25A0722191A800E00F07557 /* EditPrefs@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "EditPrefs@2x.png"; path = "artwork/EditPrefs@2x.png"; sourceTree = "<group>"; };
@@ -1487,19 +1488,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F250EAC3216A138F00B94A0B /* libz.tbd in Frameworks */,
-				4C4FEABF192A25AF00A2F4EC /* IOKit.framework in Frameworks */,
 				8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */,
+				4CF3490117FC6EAF005D0D4F /* PSMTabBarControl.framework in Frameworks */,
+				4C0FDA2218031235008E24E8 /* UniversalDetector.framework in Frameworks */,
+				F290D9D80EDB04EF00E643C0 /* TCMPortMapper.framework in Frameworks */,
+				4C6AE8741802E8810089D489 /* OgreKit.framework in Frameworks */,
+				F250EAC3216A138F00B94A0B /* libz.tbd in Frameworks */,
+				4C4FEA6C192A116100A2F4EC /* libcrypto.a in Frameworks */,
 				4CD251E6192396CA00098A7C /* Security.framework in Frameworks */,
 				4C97D504188D42FA000B4999 /* QuartzCore.framework in Frameworks */,
 				142894D4095765CF00D14688 /* SystemConfiguration.framework in Frameworks */,
 				4234523A1907DFE400BE3CC1 /* Quartz.framework in Frameworks */,
 				14288FF509573F4900D14688 /* WebKit.framework in Frameworks */,
-				F290D9D80EDB04EF00E643C0 /* TCMPortMapper.framework in Frameworks */,
-				4CF3490117FC6EAF005D0D4F /* PSMTabBarControl.framework in Frameworks */,
-				4C6AE8741802E8810089D489 /* OgreKit.framework in Frameworks */,
-				4C4FEA6C192A116100A2F4EC /* libcrypto.a in Frameworks */,
-				4C0FDA2218031235008E24E8 /* UniversalDetector.framework in Frameworks */,
+				4C4FEABF192A25AF00A2F4EC /* IOKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1519,15 +1520,16 @@
 			isa = PBXGroup;
 			children = (
 				1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */,
-				4CD251E5192396CA00098A7C /* Security.framework */,
-				4C97D503188D42FA000B4999 /* QuartzCore.framework */,
-				142894D3095765CF00D14688 /* SystemConfiguration.framework */,
-				423452391907DFE400BE3CC1 /* Quartz.framework */,
-				14288FF409573F4900D14688 /* WebKit.framework */,
-				F290D9D70EDB04EF00E643C0 /* TCMPortMapper.framework */,
-				4CF3490017FC6EAF005D0D4F /* PSMTabBarControl.framework */,
+				F250EAD4216A1A9A00B94A0B /* IOKit.framework */,
 				4C6AE8731802E8810089D489 /* OgreKit.framework */,
+				4CF3490017FC6EAF005D0D4F /* PSMTabBarControl.framework */,
+				423452391907DFE400BE3CC1 /* Quartz.framework */,
+				4C97D503188D42FA000B4999 /* QuartzCore.framework */,
+				4CD251E5192396CA00098A7C /* Security.framework */,
+				142894D3095765CF00D14688 /* SystemConfiguration.framework */,
+				F290D9D70EDB04EF00E643C0 /* TCMPortMapper.framework */,
 				4C0FDA2118031235008E24E8 /* UniversalDetector.framework */,
+				14288FF409573F4900D14688 /* WebKit.framework */,
 			);
 			name = "Linked Frameworks";
 			sourceTree = "<group>";
@@ -1535,11 +1537,11 @@
 		1058C7A8FEA54F5311CA2CBB /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				14288FFD09573FED00D14688 /* CoreFoundation.framework */,
-				2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */,
 				2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */,
-				142890060957400800D14688 /* CoreServices.framework */,
 				14288FFB09573F8200D14688 /* ApplicationServices.framework */,
+				14288FFD09573FED00D14688 /* CoreFoundation.framework */,
+				142890060957400800D14688 /* CoreServices.framework */,
+				2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */,
 			);
 			name = "Other Frameworks";
 			sourceTree = "<group>";
@@ -3756,7 +3758,10 @@
 				CODE_SIGN_ENTITLEMENTS = SubEthaEdit.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/TCMPortMapper\"";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SRCROOT)/TCMPortMapper\"",
+					"$(PROJECT_DIR)/TCMPortMapper",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3775,6 +3780,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"\"$(SRCROOT)/openssl/\"",
+					"$(PROJECT_DIR)/openssl",
 				);
 				OTHER_CFLAGS = "";
 				OTHER_CODE_SIGN_FLAGS = "--deep";
@@ -3796,7 +3802,10 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = YES;
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/TCMPortMapper\"";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SRCROOT)/TCMPortMapper\"",
+					"$(PROJECT_DIR)/TCMPortMapper",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = SubEthaEdit_Prefix.pch;
 				HEADER_SEARCH_PATHS = (
@@ -3813,6 +3822,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"\"$(SRCROOT)/openssl/\"",
+					"$(PROJECT_DIR)/openssl",
 				);
 				OTHER_CFLAGS = (
 					"-DTCM_NO_DEBUG",

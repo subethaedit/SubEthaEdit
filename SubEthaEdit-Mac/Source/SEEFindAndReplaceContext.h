@@ -2,7 +2,6 @@
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on 24.03.14.
-//  Copyright (c) 2014 TheCodingMonkeys. All rights reserved.
 
 #import <Foundation/Foundation.h>
 

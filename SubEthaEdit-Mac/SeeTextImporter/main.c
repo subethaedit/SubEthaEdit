@@ -1,9 +1,7 @@
-//
 //  main.c
 //  SeeTextImporter
 //
 //  Created by Dominik Wagner on 21.10.07.
-//  Copyright (c) 2007 TheCodingMonkeys. All rights reserved.
 //
 
 
