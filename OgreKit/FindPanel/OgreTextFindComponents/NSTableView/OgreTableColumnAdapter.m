@@ -121,11 +121,7 @@
         } else {
             if (index >= [selectedRowIndexes count]) return nil;
             
-#ifdef MAC_OS_X_VERSION_10_6
             NSUInteger  *indexes = (NSUInteger*)NSZoneMalloc([self zone], sizeof(NSUInteger) * [selectedRowIndexes count]);
-#else
-            unsigned    *indexes = (unsigned*)NSZoneMalloc([self zone], sizeof(unsigned) * [selectedRowIndexes count]);
-#endif
             if (indexes == NULL) {
                 // エラー
                 return nil;

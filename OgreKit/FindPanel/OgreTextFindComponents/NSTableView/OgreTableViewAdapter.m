@@ -166,11 +166,7 @@
         } else {
             if (index >= [selectedColumnIndexes count]) return nil;
             
-#ifdef MAC_OS_X_VERSION_10_6
             NSUInteger  *indexes = (NSUInteger*)NSZoneMalloc([self zone], sizeof(NSUInteger) * [selectedColumnIndexes count]);
-#else
-            unsigned    *indexes = (unsigned*)NSZoneMalloc([self zone], sizeof(unsigned) * [selectedColumnIndexes count]);
-#endif
             if (indexes == NULL) {
                 // エラー
                 return nil;

@@ -182,11 +182,7 @@
     unsigned    count = [selectedRowIndexes count], i;
     if (count == 0) return;
     
-#ifdef MAC_OS_X_VERSION_10_6
     NSUInteger  *rowIndexes = (NSUInteger*)NSZoneMalloc([self zone], sizeof(NSUInteger) * count);
-#else
-    unsigned    *rowIndexes = (unsigned*)NSZoneMalloc([self zone], sizeof(unsigned) * count);
-#endif
     if (rowIndexes == NULL) {
         // Error
         return;

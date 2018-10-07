@@ -43,16 +43,6 @@
 	return self;
 }
 
-#ifdef MAC_OS_X_VERSION_10_6
-- (void)finalize
-{
-#ifdef DEBUG_OGRE_FIND_PANEL
-	NSLog(@" -finalize of %@", [self className]);
-#endif
-    [super finalize];
-}
-#endif
-
 - (void)dealloc
 {
 #ifdef DEBUG_OGRE_FIND_PANEL
@@ -176,11 +166,7 @@
 
 - (void)setHighlightColor:(NSColor*)aColor regularExpression:(OGRegularExpression*)regex;
 {
-#ifdef MAC_OS_X_VERSION_10_6
     CGFloat hue, saturation, brightness, alpha;
-#else
-    float   hue, saturation, brightness, alpha;
-#endif
     double  dummy;
     
     [[aColor colorUsingColorSpaceName:NSCalibratedRGBColorSpace] 

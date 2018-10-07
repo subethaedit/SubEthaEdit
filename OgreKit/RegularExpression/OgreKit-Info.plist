@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>OgreKit</string>
 	<key>CFBundleIdentifier</key>
-	<string>isao.sonobe.OgreKit</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
@@ -15,7 +15,7 @@
 	<key>CFBundleSignature</key>
 	<string>OGKt</string>
 	<key>CFBundleVersion</key>
-	<string>2.1.4</string>
+	<string>$(OGREKIT_VERSION)</string>
 	<key>NSPrincipalClass</key>
 	<string></string>
 </dict>

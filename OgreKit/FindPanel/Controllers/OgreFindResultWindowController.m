@@ -91,13 +91,6 @@
 	[self release];
 }
 
-#ifdef MAC_OS_X_VERSION_10_6
-- (void)finalize
-{
-	[_textFindResult setDelegate:nil];
-    [super finalize];
-}
-#endif
 - (void)dealloc
 {
 	[_textFindResult setDelegate:nil];

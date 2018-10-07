@@ -1709,8 +1709,7 @@ static int namedGroupCallback(const unsigned char *name, const unsigned char *na
 	searchRange = NSMakeRange(0, strlen);
 	
 	/* @"|().?*+{}^$[]-&#:=!<>@"を退避する */
-	while ( matchRange = [regularizedString rangeOfCharacterFromSet:OgrePrivateUnsafeCharacterSet options:0 range:searchRange], 
-			matchRange.length > 0 ) {
+	while ( (matchRange = [regularizedString rangeOfCharacterFromSet:OgrePrivateUnsafeCharacterSet options:0 range:searchRange]).length > 0 ) {
 
 		[regularizedString insertString:OgreBackslashCharacter atIndex:matchRange.location];
 		strlen += 1;
@@ -1847,8 +1846,7 @@ static int namedGroupCallback(const unsigned char *name, const unsigned char *na
 				copyLocation = 0;
 	NSRange 	searchRange = NSMakeRange(0, strlen), 
 				matchRange;
-	while ( matchRange = [aString rangeOfCharacterFromSet:OgrePrivateNewlineCharacterSet options:0 range:searchRange], 
-			matchRange.length > 0 ) {
+	while ( (matchRange = [aString rangeOfCharacterFromSet:OgrePrivateNewlineCharacterSet options:0 range:searchRange]).length > 0 ) {
 		// マッチした部分より前をコピー
 		matchLocation = matchRange.location;
 		copyLocation = searchRange.location;
@@ -1895,8 +1893,7 @@ static int namedGroupCallback(const unsigned char *name, const unsigned char *na
 	/* search newline characters */
 	unsigned	strlen = [aString length], matchLocation;
 	NSRange 	searchRange = NSMakeRange(0, strlen), matchRange;
-	if ( matchRange = [aString rangeOfCharacterFromSet:OgrePrivateNewlineCharacterSet options:0 range:searchRange], 
-			matchRange.length > 0 ) {
+	if ( (matchRange = [aString rangeOfCharacterFromSet:OgrePrivateNewlineCharacterSet options:0 range:searchRange]).length > 0 ) {
 		matchLocation = matchRange.location;
 		aCharacter = [aString substringWithRange:NSMakeRange(matchLocation, 1)];
 		if ([aCharacter isEqualToString:@"\n"]) {

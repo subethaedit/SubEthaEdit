@@ -1,6 +1,7 @@
 ONIGURUMA_VERSION=Onigmo-Onigmo-5.13.5
 OS_VERSION=$(shell uname -r)
 
+
 INTEL_64_DIR=x86_64
 
 INTEL_64_CONFIGURE_FLAGS=--disable-dependency-tracking --host=x86_64-apple-darwin$(OS_VERSION) --build=x86_64-apple-darwin$(OS_VERSION) --enable-crnl-as-line-terminator
@@ -23,7 +24,7 @@ $(ONIGURUMA): $(INTEL_64_DIR)/$(ONIG_TARGET)
 $(INTEL_64_DIR)/$(ONIG_TARGET): $(INTEL_64_DIR)
 	cd $(@D);\
 	CC="$(INTEL_64_CC)" ./configure $(INTEL_64_CONFIGURE_FLAGS);\
-	perl -pi -e 's@CFLAGS = -isysroot /Developer/SDKs/MacOSX10.7.sdk -arch x86_64@CFLAGS = -isysroot $(INTEL_SDK) -arch x86_64@' Makefile;\
+	perl -pi -e 's@CFLAGS = -isysroot /Developer/SDKs/MacOSX10.7.sdk -arch x86_64@CFLAGS = -isysroot $(INTEL_SDK) -arch x86_64 --mmacosx-version-min=$(MACOSX_DEPLOYMENT_TARGET)@' Makefile;\
 	perl -pi -e 's@-dynamiclib@-dynamiclib -arch x86_64@g' libtool;\
 	/usr/bin/make $(@F)
 
@@ -32,4 +33,4 @@ $(INTEL_64_DIR):
 	mv $(ONIGURUMA_VERSION) $@
 
 clean:
-	rm -rf $(INTEL_64_DIR)
+	@rm -rf $(INTEL_64_DIR) $(ONIGURUMA)

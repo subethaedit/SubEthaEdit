@@ -24,7 +24,10 @@
 
 /* constants */
 // version string
-#define OgreVersionString	@"2.1.4"
+#define STRINGIZE(x) #x
+#define STRINGIZE2(x) STRINGIZE(x)
+
+#define OgreVersionString @ STRINGIZE2(OGREKIT_VERSION)
 
 // compile time options:
 extern const unsigned	OgreNoneOption;

@@ -336,19 +336,6 @@ static NSString	*OgreTextFinderEscapeCharacterKey = @"Escape Character";
 	return [history autorelease];
 }
 
-#ifdef MAC_OS_X_VERSION_10_6
-- (void)finalize
-{
-#ifdef DEBUG_OGRE_FIND_PANEL
-	NSLog(@"CAUTION! -finalize of %@", [self className]);
-#endif
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	if (_saved == NO) [self appWillTerminate:nil];	// 履歴の保存がまだならば保存する。
-	_sharedTextFinder = nil;
-    [super finalize];
-}
-#endif
-
 - (void)dealloc
 {
 #ifdef DEBUG_OGRE_FIND_PANEL

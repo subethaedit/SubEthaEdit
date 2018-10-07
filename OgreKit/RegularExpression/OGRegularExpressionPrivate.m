@@ -24,25 +24,18 @@
 #import <OgreKit/OGString.h>
 #import <OgreKit/OGMutableString.h>
 
+OnigSyntaxType  OgrePrivatePOSIXBasicSyntax;
+OnigSyntaxType  OgrePrivatePOSIXExtendedSyntax;
+OnigSyntaxType  OgrePrivateEmacsSyntax;
+OnigSyntaxType  OgrePrivateGrepSyntax;
+OnigSyntaxType  OgrePrivateGNURegexSyntax;
+OnigSyntaxType  OgrePrivateJavaSyntax;
+OnigSyntaxType  OgrePrivatePerlSyntax;
+OnigSyntaxType  OgrePrivateRubySyntax;
 
 @implementation OGRegularExpression (Private)
 
 /* 非公開メソッド */
-
-#ifdef MAC_OS_X_VERSION_10_6
-- (void)finalize
-{
-#ifdef DEBUG_OGRE
-	NSLog(@"-finalize of %@", [self className]);
-#endif
-	// 鬼車正規表現オブジェクト
-	if (_regexBuffer != NULL) onig_free(_regexBuffer);
-	
-	// 正規表現を表す文字列
-    NSZoneFree([self zone], _UTF16ExpressionString);
-    [super finalize];
-}
-#endif
 
 - (void)dealloc
 {
@@ -116,8 +109,7 @@
 	unsigned			counterOfAutorelease = 0;
 	NSAutoreleasePool	*pool = [[NSAutoreleasePool alloc] init];
 	
-	while ( matchRange = [plainString rangeOfCharacterFromSet:swapCharSet options:0 range:scanRange], 
-			matchRange.length > 0 ) {
+	while ( (matchRange = [plainString rangeOfCharacterFromSet:swapCharSet options:0 range:scanRange]).length > 0 ) {
 		unsigned	lastMatchLocation = scanRange.location;
 		[resultString appendOGString:[string substringWithRange:NSMakeRange(lastMatchLocation, matchRange.location - lastMatchLocation)]];
 		

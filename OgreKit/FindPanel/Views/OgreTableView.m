@@ -76,16 +76,6 @@
     }
 }
 
-#ifdef MAC_OS_X_VERSION_10_6
-- (void)finalize
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self 
-                                                    name:NSTableViewSelectionDidChangeNotification 
-                                                  object:self];
-    [super finalize];
-}
-#endif
-
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self 

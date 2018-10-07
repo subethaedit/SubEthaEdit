@@ -28,11 +28,7 @@
         _terminalIndex = _count - 1;
         
         if (inSelection) {
-#ifdef MAC_OS_X_VERSION_10_6
             _indexes = (NSUInteger*)NSZoneMalloc([self zone], sizeof(NSUInteger) * _count);
-#else
-            _indexes = (unsigned*)NSZoneMalloc([self zone], sizeof(unsigned) * _count);
-#endif
             if (_indexes == NULL) {
                 // Error
                 [self release];
@@ -46,14 +42,6 @@
     }
     return self;
 }
-
-#ifdef MAC_OS_X_VERSION_10_6
-- (void)finalize
-{
-    if (_indexes != NULL) NSZoneFree([self zone], _indexes);
-    [super finalize];
-}
-#endif
 
 - (void)dealloc
 {

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 48;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -2050,8 +2050,6 @@
 		2A37F4ABFDCFA73011CA2CEA /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				4C714D9519922B3B00C8B128 /* SEEApplication.h */,
-				4C714D9619922B3B00C8B128 /* SEEApplication.m */,
 				142893DC09575A3000D14688 /* AboutPanelController.h */,
 				142893DD09575A3000D14688 /* AboutPanelController.m */,
 				142893DE09575A3000D14688 /* AppController.h */,
@@ -2062,18 +2060,20 @@
 				142893EB09575A3000D14688 /* PullDownButton.m */,
 				142893EC09575A3000D14688 /* PullDownButtonCell.h */,
 				142893ED09575A3000D14688 /* PullDownButtonCell.m */,
+				4C714D9519922B3B00C8B128 /* SEEApplication.h */,
+				4C714D9619922B3B00C8B128 /* SEEApplication.m */,
+				4CCD78FD18DB3F9E00A8B457 /* SEEScopedBookmarkAccessoryViewController.h */,
+				4CCD78FE18DB3F9E00A8B457 /* SEEScopedBookmarkAccessoryViewController.m */,
+				4C7F5E0918D9D4C500F33CCD /* SEEScopedBookmarkManager.h */,
+				4C7F5E0A18D9D4C500F33CCD /* SEEScopedBookmarkManager.m */,
+				F22024EC191D175C0098982C /* TCMHoverButton.h */,
+				F22024ED191D175C0098982C /* TCMHoverButton.m */,
 				142893F209575A3000D14688 /* TexturedButtonCell.h */,
 				142893F309575A3000D14688 /* TexturedButtonCell.m */,
 				F2FB96E00CBE68ED000B85AE /* UKXattrMetadataStore.h */,
 				F2FB96E10CBE68ED000B85AE /* UKXattrMetadataStore.m */,
 				142893F409575A3000D14688 /* UndoManager.h */,
 				142893F509575A3000D14688 /* UndoManager.m */,
-				4C7F5E0918D9D4C500F33CCD /* SEEScopedBookmarkManager.h */,
-				4C7F5E0A18D9D4C500F33CCD /* SEEScopedBookmarkManager.m */,
-				4CCD78FD18DB3F9E00A8B457 /* SEEScopedBookmarkAccessoryViewController.h */,
-				4CCD78FE18DB3F9E00A8B457 /* SEEScopedBookmarkAccessoryViewController.m */,
-				F22024EC191D175C0098982C /* TCMHoverButton.h */,
-				F22024ED191D175C0098982C /* TCMHoverButton.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -2813,11 +2813,11 @@
 				ORGANIZATIONNAME = TheCodingMonkeys;
 				TargetAttributes = {
 					5EC638290ABEB71100D3295B = {
-						DevelopmentTeam = S76GCAG929;
+						DevelopmentTeam = "Change In Identity.xcconfig";
 						TestTargetID = 8D15AC270486D014006FF6A4;
 					};
 					8D15AC270486D014006FF6A4 = {
-						DevelopmentTeam = S76GCAG929;
+						DevelopmentTeam = "Change In Identity.xcconfig";
 						SystemCapabilities = {
 							com.apple.Sandbox = {
 								enabled = 1;
@@ -2825,12 +2825,12 @@
 						};
 					};
 					F2D86C1E0F8E7E2A00B912A2 = {
-						DevelopmentTeam = S76GCAG929;
+						DevelopmentTeam = "Change In Identity.xcconfig";
 					};
 				};
 			};
 			buildConfigurationList = C05733CB08A9546B00998B17 /* Build configuration list for PBXProject "SubEthaEdit" */;
-			compatibilityVersion = "Xcode 3.2";
+			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
