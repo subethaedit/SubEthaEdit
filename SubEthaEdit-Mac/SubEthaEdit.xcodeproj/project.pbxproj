@@ -209,9 +209,6 @@
 		4CA098DE18EAF54E0026B3E3 /* SEEWebPreviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CA098DD18EAF54E0026B3E3 /* SEEWebPreviewViewController.xib */; };
 		4CA1441C18F7E89D0006178D /* SEEAvatarImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CA1441B18F7E89D0006178D /* SEEAvatarImageView.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4CB36C3218D84BF4000219DA /* SEEEditorSplitViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CB36C3118D84BF4000219DA /* SEEEditorSplitViewDelegate.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
-		4CB8EE4D180FD8FE0051AB6B /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CB8EE4C180FD8FE0051AB6B /* XCTest.framework */; };
-		4CB8EE4F180FD9A40051AB6B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CB8EE4E180FD9A40051AB6B /* libz.dylib */; };
-		4CB8EE51180FDF790051AB6B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CB8EE4E180FD9A40051AB6B /* libz.dylib */; };
 		4CB8EE55181032340051AB6B /* SEEPrintOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CB8EE54181032340051AB6B /* SEEPrintOptionsViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4CCD4DD21811703D00FE6134 /* SEESavePanelAccessoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CCD4DD01811703D00FE6134 /* SEESavePanelAccessoryViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4CCD790018DB3F9E00A8B457 /* SEEScopedBookmarkAccessoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CCD78FE18DB3F9E00A8B457 /* SEEScopedBookmarkAccessoryViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -339,6 +336,7 @@
 		F23966D618E2FE6800CEC9AD /* NSOperationQueue+TCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F23966D518E2FE6800CEC9AD /* NSOperationQueue+TCMAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		F24280C60D16CFCC0083AE21 /* GenericSASLProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = F24280C50D16CFCC0083AE21 /* GenericSASLProfile.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		F24AEA1B195AE78300046F6B /* DocumentProxy.xib in Resources */ = {isa = PBXBuildFile; fileRef = F24AEA1A195AE78300046F6B /* DocumentProxy.xib */; };
+		F250EAC3216A138F00B94A0B /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F250EAC2216A138E00B94A0B /* libz.tbd */; };
 		F25A071F191A6D4600F07557 /* WaitPipe@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F25A071E191A6D4600F07557 /* WaitPipe@2x.png */; };
 		F25A0723191A800E00F07557 /* EditPrefs.png in Resources */ = {isa = PBXBuildFile; fileRef = F25A0721191A800E00F07557 /* EditPrefs.png */; };
 		F25A0724191A800E00F07557 /* EditPrefs@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F25A0722191A800E00F07557 /* EditPrefs@2x.png */; };
@@ -956,7 +954,6 @@
 		4C19ECA2192F525000D39777 /* SubEthaEdit_AuthenticatedSave.scpt */ = {isa = PBXFileReference; lastKnownFileType = file; path = SubEthaEdit_AuthenticatedSave.scpt; sourceTree = "<group>"; };
 		4C43314218E4777C00592EC2 /* SEEDocumentCreationFlags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEDocumentCreationFlags.h; sourceTree = "<group>"; };
 		4C43314318E4777C00592EC2 /* SEEDocumentCreationFlags.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEDocumentCreationFlags.m; sourceTree = "<group>"; };
-		4C4EFE44181AA3400072176F /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HockeySDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C4FEA6B192A116100A2F4EC /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = openssl/libcrypto.a; sourceTree = "<group>"; };
 		4C4FEA73192A130F00A2F4EC /* aes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aes.h; sourceTree = "<group>"; };
 		4C4FEA74192A130F00A2F4EC /* asn1_mac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = asn1_mac.h; sourceTree = "<group>"; };
@@ -1083,8 +1080,6 @@
 		4CAA423818157EAB00457B2A /* TCMAppConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = TCMAppConfig.xcconfig; sourceTree = "<group>"; };
 		4CB36C3018D84BF4000219DA /* SEEEditorSplitViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEEditorSplitViewDelegate.h; sourceTree = "<group>"; };
 		4CB36C3118D84BF4000219DA /* SEEEditorSplitViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEEditorSplitViewDelegate.m; sourceTree = "<group>"; };
-		4CB8EE4C180FD8FE0051AB6B /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		4CB8EE4E180FD9A40051AB6B /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		4CB8EE53181032340051AB6B /* SEEPrintOptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEPrintOptionsViewController.h; sourceTree = "<group>"; };
 		4CB8EE54181032340051AB6B /* SEEPrintOptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEPrintOptionsViewController.m; sourceTree = "<group>"; };
 		4CCD4DCF1811703D00FE6134 /* SEESavePanelAccessoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEESavePanelAccessoryViewController.h; sourceTree = "<group>"; };
@@ -1240,6 +1235,7 @@
 		F24280C40D16CFCC0083AE21 /* GenericSASLProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = GenericSASLProfile.h; sourceTree = "<group>"; };
 		F24280C50D16CFCC0083AE21 /* GenericSASLProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenericSASLProfile.m; sourceTree = "<group>"; };
 		F24AEA1A195AE78300046F6B /* DocumentProxy.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DocumentProxy.xib; sourceTree = "<group>"; };
+		F250EAC2216A138E00B94A0B /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		F25A071E191A6D4600F07557 /* WaitPipe@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "WaitPipe@2x.png"; path = "artwork/WaitPipe@2x.png"; sourceTree = "<group>"; };
 		F25A0721191A800E00F07557 /* EditPrefs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = EditPrefs.png; path = artwork/EditPrefs.png; sourceTree = "<group>"; };
 		F25A0722191A800E00F07557 /* EditPrefs@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "EditPrefs@2x.png"; path = "artwork/EditPrefs@2x.png"; sourceTree = "<group>"; };
@@ -1484,8 +1480,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4CB8EE4F180FD9A40051AB6B /* libz.dylib in Frameworks */,
-				4CB8EE4D180FD8FE0051AB6B /* XCTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1493,6 +1487,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F250EAC3216A138F00B94A0B /* libz.tbd in Frameworks */,
 				4C4FEABF192A25AF00A2F4EC /* IOKit.framework in Frameworks */,
 				8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */,
 				4CD251E6192396CA00098A7C /* Security.framework in Frameworks */,
@@ -1500,7 +1495,6 @@
 				142894D4095765CF00D14688 /* SystemConfiguration.framework in Frameworks */,
 				4234523A1907DFE400BE3CC1 /* Quartz.framework in Frameworks */,
 				14288FF509573F4900D14688 /* WebKit.framework in Frameworks */,
-				4CB8EE51180FDF790051AB6B /* libz.dylib in Frameworks */,
 				F290D9D80EDB04EF00E643C0 /* TCMPortMapper.framework in Frameworks */,
 				4CF3490117FC6EAF005D0D4F /* PSMTabBarControl.framework in Frameworks */,
 				4C6AE8741802E8810089D489 /* OgreKit.framework in Frameworks */,
@@ -1534,7 +1528,6 @@
 				4CF3490017FC6EAF005D0D4F /* PSMTabBarControl.framework */,
 				4C6AE8731802E8810089D489 /* OgreKit.framework */,
 				4C0FDA2118031235008E24E8 /* UniversalDetector.framework */,
-				4C4EFE44181AA3400072176F /* HockeySDK.framework */,
 			);
 			name = "Linked Frameworks";
 			sourceTree = "<group>";
@@ -1547,7 +1540,6 @@
 				2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */,
 				142890060957400800D14688 /* CoreServices.framework */,
 				14288FFB09573F8200D14688 /* ApplicationServices.framework */,
-				4CB8EE4C180FD8FE0051AB6B /* XCTest.framework */,
 			);
 			name = "Other Frameworks";
 			sourceTree = "<group>";
@@ -2116,10 +2108,10 @@
 		2A37F4C3FDCFA73011CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F250EAC2216A138E00B94A0B /* libz.tbd */,
 				4C4FEABE192A25AF00A2F4EC /* IOKit.framework */,
 				1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */,
 				1058C7A8FEA54F5311CA2CBB /* Other Frameworks */,
-				4CB8EE4E180FD9A40051AB6B /* libz.dylib */,
 				4C4FEA6B192A116100A2F4EC /* libcrypto.a */,
 			);
 			name = Frameworks;

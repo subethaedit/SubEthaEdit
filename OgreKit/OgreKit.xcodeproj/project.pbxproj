@@ -13,11 +13,11 @@
 			buildPhases = (
 			);
 			dependencies = (
-				4DC412B5091519B70029A2A6 /* PBXTargetDependency */,
+				F250EAD1216A16BE00B94A0B /* PBXTargetDependency */,
+				F250EACF216A16BA00B94A0B /* PBXTargetDependency */,
+				F250EACD216A16B600B94A0B /* PBXTargetDependency */,
+				F250EACB216A16B100B94A0B /* PBXTargetDependency */,
 				4DC412B9091519B70029A2A6 /* PBXTargetDependency */,
-				4DC412BB091519B70029A2A6 /* PBXTargetDependency */,
-				4DC412BD091519B70029A2A6 /* PBXTargetDependency */,
-				4DC412BF091519B70029A2A6 /* PBXTargetDependency */,
 			);
 			name = All;
 			productName = All;
@@ -223,8 +223,6 @@
 		4DC4109109150D650029A2A6 /* MyDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC4108909150D640029A2A6 /* MyDocument.m */; };
 		4DC4109209150D650029A2A6 /* MyMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC4108B09150D650029A2A6 /* MyMenuController.m */; };
 		4DC4109309150D650029A2A6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC4108C09150D650029A2A6 /* main.m */; };
-		4DC410A7091511C80029A2A6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0867D69BFE84028FC02AAC07 /* Foundation.framework */; };
-		4DC410A8091511CA0029A2A6 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0867D6A5FE840307C02AAC07 /* AppKit.framework */; };
 		4DC410E8091512C10029A2A6 /* OGMutableString.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D6909150CEB0029A2A6 /* OGMutableString.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4DC410E9091512C20029A2A6 /* OGString.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40D6809150CEB0029A2A6 /* OGString.m */; };
 		4DC410EA091512C30029A2A6 /* OGString.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D6709150CEB0029A2A6 /* OGString.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -276,6 +274,7 @@
 		F2170207215A458B007A2C35 /* oniguruma.h in Headers */ = {isa = PBXBuildFile; fileRef = F2170206215A458B007A2C35 /* oniguruma.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F2170208215A458B007A2C35 /* oniguruma.h in Headers */ = {isa = PBXBuildFile; fileRef = F2170206215A458B007A2C35 /* oniguruma.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F217020B215A47B4007A2C35 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F217020A215A47B4007A2C35 /* AppKit.framework */; };
+		F250EAC9216A161F00B94A0B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F250EAC8216A161F00B94A0B /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -314,13 +313,6 @@
 			remoteGlobalIDString = 4D82DCCA09B9ECD1007F03B0;
 			remoteInfo = Oniguruma;
 		};
-		4DC412B4091519B70029A2A6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
-			remoteInfo = "OgreKit (Full Features)";
-		};
 		4DC412B8091519B70029A2A6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
@@ -328,33 +320,40 @@
 			remoteGlobalIDString = 4DC40C0309150C280029A2A6;
 			remoteInfo = "Regular Expression Test";
 		};
-		4DC412BA091519B70029A2A6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 4DC40C0E09150C3E0029A2A6;
-			remoteInfo = "Find Panel Test";
-		};
-		4DC412BC091519B70029A2A6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 4DC40C1909150C720029A2A6;
-			remoteInfo = "My Find Panel Example";
-		};
-		4DC412BE091519B70029A2A6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 4DC40C2F09150C9E0029A2A6;
-			remoteInfo = "Replace With Attributes Test";
-		};
 		4DC412C0091519C90029A2A6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = "OgreKit (Full Features)";
+		};
+		F250EACA216A16B100B94A0B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
+			remoteInfo = "OgreKit (Full Features)";
+		};
+		F250EACC216A16B600B94A0B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4DC40C0E09150C3E0029A2A6;
+			remoteInfo = "Find Panel Test";
+		};
+		F250EACE216A16BA00B94A0B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4DC40C2F09150C9E0029A2A6;
+			remoteInfo = "Replace With Attributes Test";
+		};
+		F250EAD0216A16BE00B94A0B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4DC40C1909150C720029A2A6;
+			remoteInfo = "My Find Panel Example";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -700,6 +699,7 @@
 		F250EAB3216A05B700B94A0B /* Base */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Base; path = MyFindPanelExample/Base.lproj/MyDocument.nib; sourceTree = "<group>"; };
 		F250EAB4216A05B800B94A0B /* Base */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Base; path = MyFindPanelExample/Base.lproj/MyFindPanel.nib; sourceTree = "<group>"; };
 		F250EAB7216A0CB200B94A0B /* OgreKitBase.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = OgreKitBase.xcconfig; path = BuildConfig/OgreKitBase.xcconfig; sourceTree = "<group>"; };
+		F250EAC8216A161F00B94A0B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -707,8 +707,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4DC410A7091511C80029A2A6 /* Foundation.framework in Frameworks */,
-				4DC410A8091511CA0029A2A6 /* AppKit.framework in Frameworks */,
+				F250EAC9216A161F00B94A0B /* Cocoa.framework in Frameworks */,
 				4D9DBE2D09BAB999003DD4A8 /* libonig.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1388,6 +1387,7 @@
 		F2170209215A47B4007A2C35 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F250EAC8216A161F00B94A0B /* Cocoa.framework */,
 				F217020A215A47B4007A2C35 /* AppKit.framework */,
 			);
 			name = Frameworks;
@@ -1679,10 +1679,10 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				4DC40BF209150BDB0029A2A6 /* OgreKit (without Find Panel) */,
 				4DC412B3091519A60029A2A6 /* All */,
 				4D82DCCA09B9ECD1007F03B0 /* Oniguruma */,
 				8DC2EF4F0486A6940098B216 /* OgreKit (Full Features) */,
-				4DC40BF209150BDB0029A2A6 /* OgreKit (without Find Panel) */,
 				4DC40C0309150C280029A2A6 /* Regular Expression Test */,
 				4DC40C0E09150C3E0029A2A6 /* Find Panel Test */,
 				4DC40C1909150C720029A2A6 /* My Find Panel Example */,
@@ -1940,35 +1940,35 @@
 			target = 4D82DCCA09B9ECD1007F03B0 /* Oniguruma */;
 			targetProxy = 4D82DCCD09B9ECDE007F03B0 /* PBXContainerItemProxy */;
 		};
-		4DC412B5091519B70029A2A6 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8DC2EF4F0486A6940098B216 /* OgreKit (Full Features) */;
-			targetProxy = 4DC412B4091519B70029A2A6 /* PBXContainerItemProxy */;
-		};
 		4DC412B9091519B70029A2A6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 4DC40C0309150C280029A2A6 /* Regular Expression Test */;
 			targetProxy = 4DC412B8091519B70029A2A6 /* PBXContainerItemProxy */;
 		};
-		4DC412BB091519B70029A2A6 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 4DC40C0E09150C3E0029A2A6 /* Find Panel Test */;
-			targetProxy = 4DC412BA091519B70029A2A6 /* PBXContainerItemProxy */;
-		};
-		4DC412BD091519B70029A2A6 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 4DC40C1909150C720029A2A6 /* My Find Panel Example */;
-			targetProxy = 4DC412BC091519B70029A2A6 /* PBXContainerItemProxy */;
-		};
-		4DC412BF091519B70029A2A6 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 4DC40C2F09150C9E0029A2A6 /* Replace With Attributes Test */;
-			targetProxy = 4DC412BE091519B70029A2A6 /* PBXContainerItemProxy */;
-		};
 		4DC412C1091519C90029A2A6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8DC2EF4F0486A6940098B216 /* OgreKit (Full Features) */;
 			targetProxy = 4DC412C0091519C90029A2A6 /* PBXContainerItemProxy */;
+		};
+		F250EACB216A16B100B94A0B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8DC2EF4F0486A6940098B216 /* OgreKit (Full Features) */;
+			targetProxy = F250EACA216A16B100B94A0B /* PBXContainerItemProxy */;
+		};
+		F250EACD216A16B600B94A0B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4DC40C0E09150C3E0029A2A6 /* Find Panel Test */;
+			targetProxy = F250EACC216A16B600B94A0B /* PBXContainerItemProxy */;
+		};
+		F250EACF216A16BA00B94A0B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4DC40C2F09150C9E0029A2A6 /* Replace With Attributes Test */;
+			targetProxy = F250EACE216A16BA00B94A0B /* PBXContainerItemProxy */;
+		};
+		F250EAD1216A16BE00B94A0B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4DC40C1909150C720029A2A6 /* My Find Panel Example */;
+			targetProxy = F250EAD0216A16BE00B94A0B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2459,7 +2459,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "RegularExpression/OgreKit-Info.plist";
-				INSTALL_PATH = "@executable_path/../Frameworks";
+				INSTALL_PATH = "@rpath";
 				LIBRARY_SEARCH_PATHS = (
 					"$(LIBRARY_SEARCH_PATHS)",
 					"$(SRCROOT)/RegularExpression/oniguruma",
@@ -2496,7 +2496,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "RegularExpression/OgreKit-Info.plist";
-				INSTALL_PATH = "@executable_path/../Frameworks";
+				INSTALL_PATH = "@rpath";
 				LIBRARY_SEARCH_PATHS = (
 					"$(LIBRARY_SEARCH_PATHS)",
 					"$(SRCROOT)/RegularExpression/oniguruma",
@@ -2533,7 +2533,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "RegularExpression/OgreKit-Info.plist";
-				INSTALL_PATH = "@executable_path/../Frameworks";
+				INSTALL_PATH = "@rpath";
 				LIBRARY_SEARCH_PATHS = (
 					"$(LIBRARY_SEARCH_PATHS)",
 					"$(SRCROOT)/RegularExpression/oniguruma",
