@@ -4,7 +4,8 @@
 //  Created by Michael Ehrmann on 21.10.13.
 
 // This is allowed to be changed by the Identity file.
-SEE_APP_PRODUCT_NAME = SubEtha Edit
+SEE_APP_PRODUCT_NAME = SubEthaEdit
+
 #include "Identity.xcconfig"
 
 #include "TCMReleaseInfo.xcconfig"

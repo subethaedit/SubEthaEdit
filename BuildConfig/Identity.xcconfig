@@ -5,6 +5,7 @@ DEVELOPMENT_TEAM = Change In Identity.xcconfig
 CODE_SIGN_IDENTITY = Mac Developer
 
 SEE_APP_IDENTIFIER_BASE = de.opensource.SubEthaEdit
+// SEE_APP_PRODUCT_NAME = SubEthaEdit
 
 // You probably also want to do
 // git update-index --skip-worktree BuildConfig/TCMRevision.xcconfig
