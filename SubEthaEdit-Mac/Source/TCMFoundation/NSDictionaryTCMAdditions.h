@@ -7,7 +7,6 @@
 
 
 @interface NSDictionary (NSDictionaryTCMAdditions)
-
 - (id)objectForLong:(long)aLong;
 @end
 

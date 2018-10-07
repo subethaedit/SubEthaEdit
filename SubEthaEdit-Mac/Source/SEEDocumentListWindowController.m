@@ -637,17 +637,17 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 		id documentRepresentation = [availableDocumentSession objectAtIndex:row];
 		if ([documentRepresentation isKindOfClass:SEENetworkConnectionRepresentationListItem.class]) {
 			SEENetworkConnectionRepresentationListItem *connectionRepresentation = (SEENetworkConnectionRepresentationListItem *)documentRepresentation;
-			NSTableCellView *tableCellView = [rowView.subviews objectAtIndex:0];
+            NSTableCellView *tableCellView =
+            [rowView.subviews SEE_firstObjectPassingTest:^(NSView *view) {
+                return [view isKindOfClass:[NSTableCellView class]];
+            }];
 
-			SEEAvatarImageView *avatarView = nil;
-			for (NSView *view in tableCellView.subviews) {
-				if ([view isKindOfClass:[SEEAvatarImageView class]] &&
-					[view.identifier isEqualToString:@"AvatarView"]) {
-					avatarView = (SEEAvatarImageView *)view;
-					break;
-				}
-			}
-
+			SEEAvatarImageView *avatarView =
+            [tableCellView.subviews SEE_firstObjectPassingTest:^BOOL(NSView *view) {
+                return ([view isKindOfClass:[SEEAvatarImageView class]] &&
+                        [view.identifier isEqualToString:@"AvatarView"]);
+            }];
+            
 			TCMMMUser *user = connectionRepresentation.user;
 			[avatarView bind:@"image" toObject:user withKeyPath:@"image" options:nil];
 			[avatarView bind:@"initials" toObject:user withKeyPath:@"initials" options:nil];

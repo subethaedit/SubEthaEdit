@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.18"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="SEEDocumentListWindowController">
@@ -16,15 +17,15 @@
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
-        <customObject id="-3" userLabel="Application"/>
-        <window identifier="DocumentList" title="SubEthaEdit - Document Hub" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="utilityWindow" frameAutosaveName="DocumentHUB" id="1">
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window identifier="DocumentList" title="SubEthaEdit - Document Hub" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="utilityWindow" frameAutosaveName="DocumentHUB" id="1">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" resizable="YES"/>
             <windowCollectionBehavior key="collectionBehavior" moveToActiveSpace="YES" fullScreenAuxiliary="YES"/>
             <rect key="contentRect" x="196" y="240" width="300" height="400"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1418"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
             <value key="minSize" type="size" width="180" height="140"/>
             <value key="maxSize" type="size" width="1000" height="3000"/>
-            <view key="contentView" id="2">
+            <view key="contentView" wantsLayer="YES" id="2">
                 <rect key="frame" x="0.0" y="0.0" width="300" height="400"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
@@ -249,12 +250,12 @@
                                                         <outlet property="textField" destination="DBj-Ye-zEy" id="Wba-4x-9fE"/>
                                                     </connections>
                                                 </tableCellView>
-                                                <tableCellView identifier="Document" id="l0C-OX-d9H" userLabel="Recent Cell View">
+                                                <tableCellView identifier="Document" misplaced="YES" id="l0C-OX-d9H" userLabel="Recent Cell View">
                                                     <rect key="frame" x="1" y="150" width="297" height="34"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <imageView translatesAutoresizingMaskIntoConstraints="NO" id="Qp7-Vm-djo" userLabel="File Icon">
-                                                            <rect key="frame" x="26" y="1" width="32" height="32"/>
+                                                            <rect key="frame" x="26" y="1" width="32" height="128"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="32" id="nBW-ld-g3Y"/>
                                                             </constraints>
@@ -264,7 +265,7 @@
                                                             </connections>
                                                         </imageView>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="3Bt-0B-b5J">
-                                                            <rect key="frame" x="59" y="9" width="237" height="17"/>
+                                                            <rect key="frame" x="59" y="57" width="237" height="17"/>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingHead" sendsActionOnEndEditing="YES" title="DocumentName.txt" id="4t0-UR-tOR">
                                                                 <font key="font" metaFont="system"/>
                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -288,19 +289,19 @@
                                                         <outlet property="textField" destination="3Bt-0B-b5J" id="pLy-md-RhF"/>
                                                     </connections>
                                                 </tableCellView>
-                                                <tableCellView identifier="NetworkDocument" id="tmI-B6-msd" userLabel="Network Doc Cell View">
+                                                <tableCellView identifier="NetworkDocument" misplaced="YES" id="tmI-B6-msd" userLabel="Network Doc Cell View">
                                                     <rect key="frame" x="1" y="186" width="297" height="34"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UOM-2h-7Ex">
-                                                            <rect key="frame" x="8" y="9" width="16" height="16"/>
+                                                            <rect key="frame" x="8" y="57" width="16" height="16"/>
                                                             <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="StatusPending" id="3kM-hC-M6b"/>
                                                             <connections>
                                                                 <binding destination="tmI-B6-msd" name="value" keyPath="objectValue.documentAccessStateImage" id="spL-MO-ezv"/>
                                                             </connections>
                                                         </imageView>
                                                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dQU-em-rBs" userLabel="File Icon">
-                                                            <rect key="frame" x="26" y="1" width="32" height="32"/>
+                                                            <rect key="frame" x="26" y="1" width="32" height="128"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="32" id="dDo-PQ-liQ"/>
                                                             </constraints>
@@ -310,7 +311,7 @@
                                                             </connections>
                                                         </imageView>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="C3v-6r-GXt">
-                                                            <rect key="frame" x="60" y="8" width="236" height="17"/>
+                                                            <rect key="frame" x="60" y="56" width="236" height="17"/>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingHead" sendsActionOnEndEditing="YES" title="NetworkDocumentName.txt" id="2vu-Ie-uRT">
                                                                 <font key="font" metaFont="system"/>
                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -341,7 +342,7 @@
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="xlp-Jr-Hfh">
-                                                            <rect key="frame" x="8" y="12" width="262" height="18"/>
+                                                            <rect key="frame" x="8" y="11" width="262" height="19"/>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Connect…" id="JFZ-Hh-hom">
                                                                 <font key="font" metaFont="systemBold" size="15"/>
                                                                 <color key="textColor" red="0.36131189089999999" green="0.39468802450000001" blue="0.44044961729999998" alpha="1" colorSpace="calibratedRGB"/>
@@ -449,9 +450,9 @@
         </menu>
     </objects>
     <resources>
-        <image name="NSAddTemplate" width="8" height="8"/>
-        <image name="NSFolder" width="32" height="32"/>
-        <image name="NSPathTemplate" width="13" height="10"/>
+        <image name="NSAddTemplate" width="11" height="11"/>
+        <image name="NSFolder" width="128" height="128"/>
+        <image name="NSPathTemplate" width="16" height="10"/>
         <image name="StatusPending" width="16" height="16"/>
     </resources>
 </document>

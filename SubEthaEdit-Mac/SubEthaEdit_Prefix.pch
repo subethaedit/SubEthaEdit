@@ -8,6 +8,7 @@
     #import "TCMBEEP.h"
     #import "NSColorTCMAdditions.h"
 	#import "NSColor+SEEAdditions.h"
+    #import "NSArraySEEAdditions.h"
     #import "NSImageTCMAdditions.h"
     #import "NSStringSEEAdditions.h"
     #import "NSScreenTCMAdditions.h"
