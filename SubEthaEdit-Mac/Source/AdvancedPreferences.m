@@ -33,6 +33,8 @@
     BOOL disableState=([defaults objectForKey:@"AppleScreenAdvanceSizeThreshold"] && [[defaults objectForKey:@"AppleScreenAdvanceSizeThreshold"] floatValue]<=1.);
     [self.O_disableScreenFontsButton setState:disableState?NSOnState:NSOffState];
     [self.O_synthesiseFontsButton setState:[defaults boolForKey:SynthesiseFontsPreferenceKey]?NSOnState:NSOffState];
+    NSString *absolutePath = [[[[NSBundle mainBundle] sharedSupportURL] URLByAppendingPathComponent:@"bin/install.sh"] path];
+    [self.commandLineInstallTextField setStringValue:[absolutePath stringByReplacingOccurrencesOfString:@" " withString:@"\\ "]];
 }
 
 - (void)didSelect {

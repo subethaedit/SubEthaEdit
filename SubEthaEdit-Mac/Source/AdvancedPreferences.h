@@ -13,6 +13,7 @@
 
 @property (nonatomic, weak) IBOutlet NSButton *O_disableScreenFontsButton;
 @property (nonatomic, weak) IBOutlet NSButton *O_synthesiseFontsButton;
+@property (nonatomic, weak) IBOutlet NSTextField *commandLineInstallTextField;
 
 - (IBAction)changeDisableScreenFonts:(id)aSender;
 - (IBAction)changeSynthesiseFonts:(id)aSender;
