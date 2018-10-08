@@ -256,7 +256,7 @@
 		5E685D5309D82BBB00E41973 /* NSAppleScriptTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E685D5109D82BBB00E41973 /* NSAppleScriptTCMAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5E685DB409D8438800E41973 /* NSMenuTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E685DB209D8438800E41973 /* NSMenuTCMAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5E754EA40AB5648F00C5119E /* SEEEncodingDoctorDialogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E754EA20AB5648F00C5119E /* SEEEncodingDoctorDialogViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
-		5EA1258A09E2B4190055965D /* ScriptWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EA1258809E2B4190055965D /* ScriptWrapper.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		5EA1258A09E2B4190055965D /* ScriptWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EA1258809E2B4190055965D /* ScriptWrapper.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		5EC638360ABEB88B00D3295B /* DataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC638350ABEB88B00D3295B /* DataTests.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5EC638460ABEBE5900D3295B /* TCMBencodingUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428912B0957457500D14688 /* TCMBencodingUtilities.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5EDD30000A08D71D0036E63A /* ScriptTextSelection.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD2FFE0A08D71D0036E63A /* ScriptTextSelection.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };

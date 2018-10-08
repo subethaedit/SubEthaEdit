@@ -20,57 +20,62 @@ NSString * const ScriptWrapperWillRunScriptNotification=@"ScriptWrapperWillRunSc
 NSString * const ScriptWrapperDidRunScriptNotification =@"ScriptWrapperDidRunScriptNotification";
 
 
-@implementation ScriptWrapper
-
-+ (id)scriptWrapperWithContentsOfURL:(NSURL *)anURL {
-    return [[[ScriptWrapper alloc] initWithContentsOfURL:anURL] autorelease];
+@implementation ScriptWrapper {
+    NSAppleScript *_appleScript;
+    NSURL         *_URL;
+    NSDictionary  *_settingsDictionary;
 }
 
-- (id)initWithContentsOfURL:(NSURL *)anURL {
-    if ((self=[super init])) {
-        NSDictionary *errorDictionary=nil;
-        I_appleScript = [[NSAppleScript alloc] initWithContentsOfURL:anURL error:&errorDictionary];
-        if (!I_appleScript || errorDictionary) {
-            [self release];
-			self = nil;
-            return self;
++ (id)scriptWrapperWithContentsOfURL:(NSURL *)URL {
+    return [[ScriptWrapper alloc] initWithContentsOfURL:URL];
+}
+
+- (BOOL)_loadScriptAtURL:(NSURL *)URL {
+    NSDictionary *errorDictionary;
+    NSAppleScript *appleScript = [[NSAppleScript alloc] initWithContentsOfURL:URL error:&errorDictionary];
+    if (appleScript ||
+        !errorDictionary) {
+        _appleScript = appleScript;
+        _URL = URL;
+        _settingsDictionary = nil;
+        return YES;
+    }
+    return NO;
+}
+
+- (id)initWithContentsOfURL:(NSURL *)URL {
+    if ((self = [super init])) {
+        if (![self _loadScriptAtURL:URL]) {
+            self = nil;
         }
-        I_URL = [anURL copy];
     }
     return self;
 }
 
-- (void)dealloc {
-    [I_settingsDictionary release];
-    [I_URL release];
-    [I_appleScript release];
-    [super dealloc];
-}
-
 - (void)executeAndReturnError:(NSDictionary **)errorDictionary {
-    [I_appleScript executeAndReturnError:errorDictionary];
+    [_appleScript executeAndReturnError:errorDictionary];
 }
 
 - (NSDictionary *)settingsDictionary {
-    if (!I_settingsDictionary) {
+    if (!_settingsDictionary) {
         NSDictionary *errorDictionary=nil;
-        NSAppleEventDescriptor *ae = [I_appleScript executeAppleEvent:[NSAppleEventDescriptor appleEventToCallSubroutine:@"SeeScriptSettings"] error:&errorDictionary];
+        NSAppleEventDescriptor *ae = [_appleScript executeAppleEvent:[NSAppleEventDescriptor appleEventToCallSubroutine:@"SeeScriptSettings"] error:&errorDictionary];
 		if (errorDictionary==nil) {
-            I_settingsDictionary = [[ae dictionaryValue] copy];
+            _settingsDictionary = [[ae dictionaryValue] copy];
         } else {
-            I_settingsDictionary = @{ScriptWrapperDisplayNameSettingsKey: I_URL.lastPathComponent.stringByDeletingPathExtension};
+            _settingsDictionary = @{ScriptWrapperDisplayNameSettingsKey: _URL.lastPathComponent.stringByDeletingPathExtension};
         }
     }
-    return I_settingsDictionary;
+    return _settingsDictionary;
 }
 
 - (NSURL *)URL {
-    return I_URL;
+    return _URL;
 }
 
 - (void)revealSource {
-    if ([I_URL isFileURL]) {
-		NSString *path = [I_URL path];
+    if ([_URL isFileURL]) {
+		NSString *path = [_URL path];
         [[NSWorkspace sharedWorkspace] selectFile:path inFileViewerRootedAtPath:[path stringByDeletingLastPathComponent]];
     } else {
         NSBeep();
@@ -79,15 +84,44 @@ NSString * const ScriptWrapperDidRunScriptNotification =@"ScriptWrapperDidRunScr
 
 - (void)_delayedExecute
 {
-	NSAutoreleasePool *pool = [NSAutoreleasePool new];
-    [[NSNotificationCenter defaultCenter] postNotificationName:ScriptWrapperWillRunScriptNotification object:self];
-    NSDictionary *errorDictionary=nil;
-    [self executeAndReturnError:&errorDictionary];
-    if (errorDictionary) {
-        [[AppController sharedInstance] reportAppleScriptError:errorDictionary];
+    @autoreleasepool {
+        BOOL isInsideAppBundle = [[_URL path] hasPrefix:[[[NSBundle mainBundle] bundleURL] path]];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:ScriptWrapperWillRunScriptNotification object:self];
+
+        NSDictionary<NSString *, id> *errorDictionary;
+        [self executeAndReturnError:&errorDictionary];
+        if (errorDictionary) {
+            if (isInsideAppBundle &&
+                [errorDictionary[@"NSAppleScriptErrorMessage"] rangeOfString:@"LSOpenURLsWithRole"].location != NSNotFound)  {
+                NSURL *userScriptsDirectory = [[NSFileManager defaultManager] URLForDirectory:NSApplicationScriptsDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:YES error:nil];
+                NSString *lastPathComponent = [_URL lastPathComponent];
+                NSURL *userScriptURL = [userScriptsDirectory URLByAppendingPathComponent:lastPathComponent];
+                if ([[NSFileManager defaultManager] isReadableFileAtPath:userScriptURL.path]) {
+                    // Be kind and just use that script.
+                    if ([self _loadScriptAtURL:userScriptURL]) {
+                        NSUserScriptTask *userScript = [[NSUserScriptTask alloc] initWithURL:_URL error:nil];
+                        [userScript executeWithCompletionHandler:nil];
+                    }
+                } else {
+                    // Help the user copy the script
+                    [[NSWorkspace sharedWorkspace] selectFile:_URL.path inFileViewerRootedAtPath:[_URL.path stringByDeletingLastPathComponent]];
+                    [[NSWorkspace sharedWorkspace] openURL:userScriptsDirectory];
+                    id modifiedError = [errorDictionary mutableCopy];
+                    // FIXME: this needs localisation
+                    modifiedError[@"NSAppleScriptErrorBriefMessage"] = [NSString stringWithFormat:@"The script '%@' needs access to other applications.", lastPathComponent];
+                    modifiedError[@"NSAppleScriptErrorMessage"] = [NSString stringWithFormat:@"Please copy '%@' from the opened Application Bundle script folder into the user script folder we also opened for you.", lastPathComponent];
+                    // slight delay, so the SubEthaEdit error comes out on top of the rest.
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        [[AppController sharedInstance] reportAppleScriptError:modifiedError];
+                    });
+                }
+            } else {
+                [[AppController sharedInstance] reportAppleScriptError:errorDictionary];
+            }
+        }
+        [[NSNotificationCenter defaultCenter] postNotificationName:ScriptWrapperDidRunScriptNotification object:self userInfo:errorDictionary];
     }
-    [[NSNotificationCenter defaultCenter] postNotificationName:ScriptWrapperDidRunScriptNotification object:self userInfo:errorDictionary];
-	[pool drain];
 }
 
 - (void)performScriptAction:(id)aSender {
@@ -96,9 +130,9 @@ NSString * const ScriptWrapperDidRunScriptNotification =@"ScriptWrapperDidRunScr
         [self revealSource];
     } else {
         NSURL *userScriptDirectory = [[NSFileManager defaultManager] URLForDirectory:NSApplicationScriptsDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
-        if (userScriptDirectory && [[[I_URL URLByStandardizingPath] path] hasPrefix:[[userScriptDirectory URLByStandardizingPath] path]])
+        if (userScriptDirectory && [[[_URL URLByStandardizingPath] path] hasPrefix:[[userScriptDirectory URLByStandardizingPath] path]])
         {
-            NSUserScriptTask *userScript = [[[NSUserScriptTask alloc] initWithURL:I_URL error:nil] autorelease];
+            NSUserScriptTask *userScript = [[NSUserScriptTask alloc] initWithURL:_URL error:nil];
             [userScript executeWithCompletionHandler:nil];
         }
         else

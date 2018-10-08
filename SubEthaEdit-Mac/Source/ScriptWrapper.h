@@ -13,20 +13,15 @@ extern NSString * const ScriptWrapperToolbarIconSettingsKey;
 extern NSString * const ScriptWrapperInDefaultToolbarSettingsKey;
 extern NSString * const ScriptWrapperInContextMenuSettingsKey;
 
-
 extern NSString * const ScriptWrapperWillRunScriptNotification;
 extern NSString * const ScriptWrapperDidRunScriptNotification;
 
 
-@interface ScriptWrapper : NSObject {
-    NSAppleScript *I_appleScript;
-    NSURL         *I_URL;
-    NSDictionary  *I_settingsDictionary;
-}
+@interface ScriptWrapper : NSObject
 
-+ (id)scriptWrapperWithContentsOfURL:(NSURL *)anURL;
++ (id)scriptWrapperWithContentsOfURL:(NSURL *)URL;
 
-- (id)initWithContentsOfURL:(NSURL *)anURL;
+- (id)initWithContentsOfURL:(NSURL *)URL;
 - (void)executeAndReturnError:(NSDictionary **)errorDictionary;
 - (NSDictionary *)settingsDictionary;
 - (void)revealSource;
