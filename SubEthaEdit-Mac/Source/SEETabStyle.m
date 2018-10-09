@@ -94,7 +94,7 @@
 
 #pragma mark - Cell values
 
-+ (NSDictionary *)tabTitleAttributesForWindowActive:(BOOL)isActive {
++ (NSDictionary *)tabTitleAttributesForWindowActive:(BOOL)isActive dark:(BOOL)isDark {
 	static NSDictionary *attributes = nil;
 	if (!attributes) {
 		NSShadow *shadow = [[NSShadow alloc] init];
@@ -116,16 +116,30 @@
 
 		NSMutableDictionary *inactiveAttributes = [baseAttributes mutableCopy];
 		inactiveAttributes[NSForegroundColorAttributeName] = [NSColor colorWithWhite:0.5 alpha:1.0];
-		attributes = @{@"AW" : [baseAttributes copy], @"IW" : [inactiveAttributes copy]};
+        
+        NSMutableDictionary *darkBaseAttributes = [baseAttributes mutableCopy];
+        darkBaseAttributes[NSForegroundColorAttributeName] = [NSColor colorWithWhite:0.6 alpha:1.0];
+        NSShadow *darkShadow = [shadow copy];
+        darkShadow.shadowColor = [[NSColor blackColor] colorWithAlphaComponent:0.3];
+        darkBaseAttributes[NSShadowAttributeName] = darkShadow;
+        font = [[NSFontManager sharedFontManager] convertFont:font toNotHaveTrait:NSBoldFontMask];
+        darkBaseAttributes[NSFontAttributeName] = font;
+        NSMutableDictionary *darkInactiveAttributes = [darkBaseAttributes mutableCopy];
+        darkInactiveAttributes[NSForegroundColorAttributeName] = [NSColor colorWithWhite:0.4 alpha:1.0];
+
+        attributes = @{@"" : @{@"AW" : [baseAttributes copy], @"IW" : [inactiveAttributes copy]},
+                       @"D" : @{@"AW" : [darkBaseAttributes copy], @"IW" : [darkInactiveAttributes copy]},
+                       };
 	};
 	NSString *isActivePrefix = isActive ? @"AW" : @"IW";
-	NSDictionary *result = attributes[isActivePrefix];
+    NSString *isDarkPrefix = isDark ? @"D" : @"";
+	NSDictionary *result = attributes[isDarkPrefix][isActivePrefix];
 	return result;
 }
 
 - (NSAttributedString *)attributedStringValueForTabCell:(PSMTabBarCell *)cell {
 	NSString *titleString = cell.title;
-	NSDictionary *attributesDict = [SEETabStyle tabTitleAttributesForWindowActive:[cell.controlView.window TCM_isActive]];
+    NSDictionary *attributesDict = [SEETabStyle tabTitleAttributesForWindowActive:[cell.controlView.window TCM_isActive] dark:self.isDark];
 	return [[NSAttributedString alloc] initWithString:titleString attributes:attributesDict];
 }
 
@@ -178,37 +192,48 @@
 
 #pragma mark - Providing images
 
-+ (NSImage *)imageForWindowActive:(BOOL)isActive name:(NSString *)aName {
-	static NSDictionary *images = nil;
-	if (!images) images = @{@"AW" : [NSMutableDictionary new], @"IW" : [NSMutableDictionary new]};
-	NSString *isActivePrefix = isActive ? @"AW" : @"IW";
-	NSMutableDictionary *subDictionary = images[isActivePrefix];
-	NSImage *result = subDictionary[aName];
-	if (!result) {
-		result = [NSImage imageNamed:[NSString stringWithFormat:@"%@ %@",isActivePrefix,aName]];
-		if (result) {
-			subDictionary[aName] = result;
-		}
-	}
-	return result;
++ (NSImage *)imageForWindowActive:(BOOL)isActive name:(NSString *)name dark:(BOOL)isDark {
+    static NSDictionary *images = nil;
+    if (!images) {
+        images = @{
+      @"" : @{@"AW" : [NSMutableDictionary new], @"IW" : [NSMutableDictionary new]},
+      @"D" : @{@"AW" : [NSMutableDictionary new], @"IW" : [NSMutableDictionary new]}
+      };
+    }
+    NSString *isActivePrefix = isActive ? @"AW" : @"IW";
+    NSString *isDarkPrefix = isDark ? @"D" : @"";
+    NSMutableDictionary *subDictionary = images[isDarkPrefix][isActivePrefix];
+    NSImage *result = subDictionary[name] ?: ({
+        NSImage *image = [NSImage imageNamed:[NSString stringWithFormat:@"%@%@ %@",isDarkPrefix,isActivePrefix,name]];
+        if (image) { subDictionary[name] = image; }
+        image;
+    });
+    return result;
+}
+
+
++ (NSImage *)imageForWindowActive:(BOOL)isActive name:(NSString *)name {
+    return [self imageForWindowActive:(BOOL)isActive name:name dark:NO];
 }
 
 
 - (NSImage *)closeButtonImageOfType:(PSMCloseButtonImageType)type forTabCell:(PSMTabBarCell *)cell {
-	BOOL isActive = [cell.controlView.window TCM_isActive];
+	BOOL isWindowActive = [cell.controlView.window TCM_isActive];
+    BOOL isTabActive = ((cell.tabState & PSMTab_SelectedMask) == PSMTab_SelectedMask);
+
 	switch (type) {
 		case PSMCloseButtonImageTypeStandard:
-			if ((cell.tabState & PSMTab_SelectedMask) == PSMTab_SelectedMask) {
-				return [SEETabStyle imageForWindowActive:isActive name:@"ActiveTabClose"];
+			if (isTabActive) {
+                return [SEETabStyle imageForWindowActive:isWindowActive name:@"ActiveTabClose"];
 			} else {
 				return nil;
 			}
 		case PSMCloseButtonImageTypeDirtyRollover:
 		case PSMCloseButtonImageTypeRollover:
-			return [SEETabStyle imageForWindowActive:isActive name:@"ActiveTabCloseRollover"];
+            return [SEETabStyle imageForWindowActive:isWindowActive name: isTabActive ? @"ActiveTabCloseRollover" : @"InactiveTabCloseRollover" ];
 		case PSMCloseButtonImageTypeDirtyPressed:
 		case PSMCloseButtonImageTypePressed:
-			return [SEETabStyle imageForWindowActive:isActive name:@"ActiveTabClosePressed"];
+            return [SEETabStyle imageForWindowActive:isWindowActive name: isTabActive ? @"ActiveTabClosePressed" : @"InactiveTabClosePressed"];
 		default: return nil;
 	}
 }
@@ -360,15 +385,22 @@
 
 #pragma mark - Drawing
 
+- (BOOL)isDark {
+    if (@available(macOS 10.14, *)) {
+        return [[[NSAppearance currentAppearance] name] isEqualToString:NSAppearanceNameDarkAqua];
+    }
+    return NO;
+}
+
 - (void)drawBezelOfTabBarControl:(PSMTabBarControl *)tabBarControl inRect:(NSRect)rect {
     BOOL isWindowActive = [tabBarControl.window TCM_isActive];
-	NSImage *backgroundImage = [SEETabStyle imageForWindowActive:isWindowActive name:@"InactiveTabBG"];
+	NSImage *backgroundImage = [SEETabStyle imageForWindowActive:isWindowActive name:@"InactiveTabBG" dark:self.isDark];
 	NSDrawThreePartImage(rect, nil, backgroundImage, nil, NO, NSCompositeSourceOver, 1.0, tabBarControl.isFlipped);
 
 	NSRect overflowButtonRect = tabBarControl.overflowButtonRect;
 	if (! NSEqualRects(overflowButtonRect, NSZeroRect)) {
 		PSMTabBarCell *lastVisibleTab = tabBarControl.lastVisibleTab;
-		NSImage *rightCap = [SEETabStyle imageForWindowActive:isWindowActive name:@"InactiveTabRightCap"];
+		NSImage *rightCap = [SEETabStyle imageForWindowActive:isWindowActive name:@"InactiveTabRightCap" dark:self.isDark];
 
 		NSRect rightRect = lastVisibleTab.frame;
 		rightRect.size.width = rightCap.size.width;
@@ -397,14 +429,16 @@
 	BOOL isLeftOfSelected = myIndex < selectedCellIndex;
 	BOOL isRightOfSelected = myIndex > selectedCellIndex;
 	
-	NSImage *leftCap  = [SEETabStyle imageForWindowActive:isWindowActive name:@"ActiveTabLeftCap"];
-	NSImage *fill     = [SEETabStyle imageForWindowActive:isWindowActive name:@"ActiveTabFill"];
-	NSImage *rightCap = [SEETabStyle imageForWindowActive:isWindowActive name:@"ActiveTabRightCap"];
+    BOOL isDark = self.isDark;
+    
+	NSImage *leftCap  = [SEETabStyle imageForWindowActive:isWindowActive name:@"ActiveTabLeftCap" dark:isDark];
+	NSImage *fill     = [SEETabStyle imageForWindowActive:isWindowActive name:@"ActiveTabFill" dark:isDark];
+	NSImage *rightCap = [SEETabStyle imageForWindowActive:isWindowActive name:@"ActiveTabRightCap" dark:isDark];
 	
 	if (!isActive) {
-		leftCap  = [SEETabStyle imageForWindowActive:isWindowActive name:@"InactiveTabLeftCap"];
+		leftCap  = [SEETabStyle imageForWindowActive:isWindowActive name:@"InactiveTabLeftCap"  dark:isDark];
 		fill     = nil;
-		rightCap = [SEETabStyle imageForWindowActive:isWindowActive name:@"InactiveTabRightCap"];
+		rightCap = [SEETabStyle imageForWindowActive:isWindowActive name:@"InactiveTabRightCap" dark:isDark];
 	}
 	
 	NSDrawThreePartImage(CGRectInset(frame,8,0), nil, fill, nil, NO, NSCompositeSourceOver, 1.0, tabBarControl.isFlipped);
