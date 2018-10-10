@@ -27,19 +27,24 @@
 }
 
 /*! nice background blur background filter chain to be used anywhere*/
-+ (NSArray *)TCM_backgroundBlurFiltersForAdjustedBrightness:(CGFloat)anAdjustmentFactor {
++ (NSArray *)TCM_backgroundBlurFiltersForAdjustedBrightness:(CGFloat)anAdjustmentFactor forDarkAppearance:(BOOL)isDark {
 	NSArray *result = @[
-						[self TCM_filterWithName:@"CIColorControls" settings:@{
-																			   kCIInputSaturationKey:@(0.9 - anAdjustmentFactor),
-																			   kCIInputBrightnessKey:@(0.1 + anAdjustmentFactor),
-																			   kCIInputContrastKey:@0.7,
-																			   }],
-						[self TCM_filterWithName:@"CIUnsharpMask" settings:@{
-																			 kCIInputRadiusKey:@7.0,
-																			 kCIInputIntensityKey:@-1
-																			 }],
+                        [self TCM_filterWithName:@"CIColorControls" settings:@{
+                                                                               kCIInputSaturationKey:@(0.9 - anAdjustmentFactor / 2.0),
+                                                                               kCIInputBrightnessKey:@(0.1 + anAdjustmentFactor),
+                                                                               kCIInputContrastKey:@0.7,
+                                                                               }],
+                        [self TCM_filterWithName:@"CIGaussianBlur" settings:@{
+                                                                             kCIInputRadiusKey:@8.0
+                                                                             }],
 						];
-	
+    if (isDark) {
+        result =  @[
+                 [self TCM_filterWithName:@"CIGaussianBlur" settings:@{
+                                                                       kCIInputRadiusKey:@8.0
+                                                                       }],
+                 ];
+    }
 	return result;
 }
 
@@ -91,13 +96,22 @@
 	}
 }
 
+- (void)updateFilterChain {
+    [self setBackgroundBlurActive:self.isBackgroundBlurActive]; // update the filter chain
+}
+
 - (void)changeActivenessNotification:(NSNotification *)aNotification {
-	[self setBackgroundBlurActive:self.isBackgroundBlurActive]; // update the filter chain
+    [self updateFilterChain];
+}
+
+- (void)viewDidChangeEffectiveAppearance {
+    [self updateFilterChain];
 }
 
 - (void)setBackgroundBlurActive:(BOOL)backgroundBlurActive {
 	BOOL windowIsActive = self.window.isMainWindow && [NSApp isActive];
-	self.backgroundFilters = backgroundBlurActive ? [SEEOverlayView TCM_backgroundBlurFiltersForAdjustedBrightness:windowIsActive ? 0.0 : self.brightnessAdjustForInactiveWindowState] : nil;
+    CGFloat inactiveAdjustment = self.brightnessAdjustForInactiveWindowState;
+	self.backgroundFilters = backgroundBlurActive ? [SEEOverlayView TCM_backgroundBlurFiltersForAdjustedBrightness:windowIsActive ? 0.0 : inactiveAdjustment forDarkAppearance:self.effectiveAppearance.SEE_isDark] : nil;
 	[self.layer setNeedsDisplay];
 }
 

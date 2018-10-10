@@ -159,7 +159,7 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 			NSSplitView *editorSplitView = [[SEESplitView alloc] initWithFrame:[[plainTextEditors[0] editorView] frame]];
 			editorSplitView.identifier = @"EditorSplit";
 			editorSplitView.dividerStyle = NSSplitViewDividerStyleThin;
-			editorSplitView.layer.backgroundColor = [[NSColor darkOverlaySeparatorColorBackgroundIsDark:YES] CGColor];
+			editorSplitView.layer.backgroundColor = [[NSColor darkOverlaySeparatorColorBackgroundIsDark:YES appearanceIsDark:YES] CGColor];
 			SEEEditorSplitViewDelegate *splitDelegate = [[SEEEditorSplitViewDelegate alloc] initWithTabContext:self];
 			editorSplitView.delegate = splitDelegate;
 

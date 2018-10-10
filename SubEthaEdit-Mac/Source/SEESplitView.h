@@ -7,6 +7,7 @@
 @class SEESplitView;
 @protocol SEESplitViewDelegate
 @optional
+- (void)splitViewEffectiveAppearanceDidChange:(SEESplitView *)aSplitView;
 - (NSColor *)dividerColorForSplitView:(SEESplitView *)aSplitView;
 @end
 

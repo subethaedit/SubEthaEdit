@@ -7,6 +7,12 @@
 
 @implementation SEESplitView
 
+- (void)viewDidChangeEffectiveAppearance {
+    if ([self.delegate respondsToSelector:@selector(splitViewEffectiveAppearanceDidChange:)]) {
+        [(id<SEESplitViewDelegate>)self.delegate splitViewEffectiveAppearanceDidChange:self];
+    }
+}
+
 - (NSColor *)dividerColor {
 	NSColor *result = [super dividerColor];
 	if ([self.delegate respondsToSelector:@selector(dividerColorForSplitView:)]) {

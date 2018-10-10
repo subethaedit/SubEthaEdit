@@ -88,10 +88,11 @@
 }
 
 - (void)updateColorsForIsDarkBackground:(BOOL)isDark {
-	NSColor *backgroundColor = [NSColor darkOverlayBackgroundColorBackgroundIsDark:isDark];
+    BOOL isDarkAppearance = NSApp.effectiveAppearance.SEE_isDark;
+	NSColor *backgroundColor = [NSColor darkOverlayBackgroundColorBackgroundIsDark:isDark appearanceIsDark:isDarkAppearance];
 	self.view.layer.backgroundColor = [backgroundColor CGColor];
 	
-	NSColor *separatorColor = [NSColor darkOverlaySeparatorColorBackgroundIsDark:isDark];
+	NSColor *separatorColor = [NSColor darkOverlaySeparatorColorBackgroundIsDark:isDark appearanceIsDark:isDarkAppearance];
 	self.bottomBarLayerBackedView.layer.backgroundColor = [separatorColor CGColor];
 	[self.symbolPopUpButton setLineColor:separatorColor];
 	[self.positionTextField setBorderColor:separatorColor];

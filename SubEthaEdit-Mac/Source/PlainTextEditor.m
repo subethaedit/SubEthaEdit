@@ -374,7 +374,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	
 	// setup all the UI for the bottom bar
 	NSView *bottomStatusBarView = self.O_bottomStatusBarView;
-	bottomStatusBarView.layer.backgroundColor = [[NSColor darkOverlayBackgroundColorBackgroundIsDark:NO] CGColor];
+	bottomStatusBarView.layer.backgroundColor = [[NSColor darkOverlayBackgroundColorBackgroundIsDark:NO appearanceIsDark:NSApp.effectiveAppearance.SEE_isDark] CGColor];
 	
 	[I_textView setPostsFrameChangedNotifications:YES];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textViewFrameDidChange:) name:NSViewFrameDidChangeNotification object:I_textView];
@@ -660,9 +660,10 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     }
     
 	[self.topBarViewController updateColorsForIsDarkBackground:isDark];
-	// bottom bar
-	NSColor *darkColor = [NSColor darkOverlayBackgroundColorBackgroundIsDark:isDark];
-	NSColor *darkSeparatorColor = [NSColor darkOverlaySeparatorColorBackgroundIsDark:isDark];
+    BOOL isDarkAppearance = NSApp.effectiveAppearance.SEE_isDark;
+    // bottom bar
+    NSColor *darkColor = [NSColor darkOverlayBackgroundColorBackgroundIsDark:isDark appearanceIsDark:isDarkAppearance];
+	NSColor *darkSeparatorColor = [NSColor darkOverlaySeparatorColorBackgroundIsDark:isDark appearanceIsDark:isDarkAppearance];
 	[O_windowWidthTextField setBorderColor:darkSeparatorColor];
 	[self.O_bottomStatusBarView.layer setBackgroundColor:[darkColor CGColor]];
 	
@@ -682,6 +683,11 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 			[viewController updateColorsForIsDarkBackground:isDark];
 		}
 	}
+    
+    if (self.findAndReplaceController &&
+        self.findAndReplaceController == self.topOverlayViewController) {
+        [self.findAndReplaceController updateColorsForIsDarkBackground:isDark];
+    }
 }
 
 - (void)takeStyleSettingsFromDocument

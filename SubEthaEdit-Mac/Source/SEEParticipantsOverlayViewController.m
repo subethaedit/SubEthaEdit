@@ -74,8 +74,11 @@
 	[super loadView];
 
 	NSView *view = self.view;
-	view.layer.backgroundColor = [[NSColor brightOverlayBackgroundColorBackgroundIsDark:NO] CGColor];
-	self.topLineView.layer.backgroundColor = [[NSColor brightOverlaySeparatorColorBackgroundIsDark:NO] CGColor];
+    
+    BOOL isDarkAppearance = NSApp.effectiveAppearance.SEE_isDark;
+    
+	view.layer.backgroundColor = [[NSColor brightOverlayBackgroundColorBackgroundIsDark:NO appearanceIsDark:isDarkAppearance] CGColor];
+	self.topLineView.layer.backgroundColor = [[NSColor brightOverlaySeparatorColorBackgroundIsDark:NO appearanceIsDark:isDarkAppearance] CGColor];
 
 	if ([NSScroller preferredScrollerStyle] == NSScrollerStyleLegacy) {
 		NSScrollView *participantScrollView = self.participantsContainerView.enclosingScrollView;
@@ -402,6 +405,13 @@
 
 
 - (void)updateColorsForIsDarkBackground:(BOOL)isDark {
+    NSView *view = self.view;
+    BOOL isDarkAppearance = NSApp.effectiveAppearance.SEE_isDark;
+    
+    view.layer.backgroundColor = [[NSColor brightOverlayBackgroundColorBackgroundIsDark:isDark appearanceIsDark:isDarkAppearance] CGColor];
+    self.topLineView.layer.backgroundColor = [[NSColor brightOverlaySeparatorColorBackgroundIsDark:isDark appearanceIsDark:isDarkAppearance] CGColor];
+
+    
 	for (SEEParticipantViewController *controller in self.participantSubviewControllers) {
 		[controller updateColorsForIsDarkBackground:isDark];
 	}
@@ -413,6 +423,7 @@
 	for (SEEParticipantViewController *controller in self.pendingSubviewControllers) {
 		[controller updateColorsForIsDarkBackground:isDark];
 	}
+    
 }
 
 @end

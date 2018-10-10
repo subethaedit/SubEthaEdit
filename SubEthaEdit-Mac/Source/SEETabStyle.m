@@ -391,7 +391,7 @@
 
 - (BOOL)isDark {
     if (@available(macOS 10.14, *)) {
-        return [[[NSAppearance currentAppearance] name] isEqualToString:NSAppearanceNameDarkAqua];
+        return NSApp.effectiveAppearance.SEE_isDark;
     }
     return NO;
 }
@@ -461,7 +461,7 @@
 	}
 	
 	if (NSHeight(tabBarControl.bounds) < [self.class desiredTabBarControlHeight]) {
-		[[NSColor darkOverlaySeparatorColorBackgroundIsDark:YES] set];
+		[[NSColor darkOverlaySeparatorColorBackgroundIsDark:YES appearanceIsDark:NSApp.effectiveAppearance.SEE_isDark] set];
 		NSRect lineRect = tabBarControl.bounds;
 		lineRect.origin.y = NSMaxY(lineRect) - 1.0;
 		lineRect.size.height = 1.0;

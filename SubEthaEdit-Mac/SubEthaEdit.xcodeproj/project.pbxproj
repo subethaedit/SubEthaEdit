@@ -398,6 +398,7 @@
 		F27EDD4C216CC26500987579 /* DIW InactiveTabRightCap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F27EDD40216CC26400987579 /* DIW InactiveTabRightCap@2x.png */; };
 		F27EDD4D216CC26500987579 /* DIW ActiveTabLeftCap.png in Resources */ = {isa = PBXBuildFile; fileRef = F27EDD41216CC26400987579 /* DIW ActiveTabLeftCap.png */; };
 		F27EDD4E216CC26500987579 /* DIW InactiveTabBG@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F27EDD42216CC26500987579 /* DIW InactiveTabBG@2x.png */; };
+		F27EDD56216E6DEC00987579 /* NSAppearanceSEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F27EDD55216E6DEC00987579 /* NSAppearanceSEEAdditions.m */; };
 		F280ABC4131E6ED50091D145 /* SEEStyleSheetEditorWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = F280ABC3131E6ED50091D145 /* SEEStyleSheetEditorWindowController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		F2815CE1216251F7006B3BC5 /* Bug Report.md in Resources */ = {isa = PBXBuildFile; fileRef = F2815CDD216251F7006B3BC5 /* Bug Report.md */; };
 		F281D34E0F38756100AD7DE1 /* FoldableTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D34C0F38756100AD7DE1 /* FoldableTextStorage.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -1350,6 +1351,8 @@
 		F27EDD40216CC26400987579 /* DIW InactiveTabRightCap@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DIW InactiveTabRightCap@2x.png"; sourceTree = "<group>"; };
 		F27EDD41216CC26400987579 /* DIW ActiveTabLeftCap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DIW ActiveTabLeftCap.png"; sourceTree = "<group>"; };
 		F27EDD42216CC26500987579 /* DIW InactiveTabBG@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DIW InactiveTabBG@2x.png"; sourceTree = "<group>"; };
+		F27EDD54216E6DEC00987579 /* NSAppearanceSEEAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NSAppearanceSEEAdditions.h; path = Additions/NSAppearanceSEEAdditions.h; sourceTree = "<group>"; };
+		F27EDD55216E6DEC00987579 /* NSAppearanceSEEAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = NSAppearanceSEEAdditions.m; path = Additions/NSAppearanceSEEAdditions.m; sourceTree = "<group>"; };
 		F280ABC2131E6ED50091D145 /* SEEStyleSheetEditorWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SEEStyleSheetEditorWindowController.h; sourceTree = "<group>"; };
 		F280ABC3131E6ED50091D145 /* SEEStyleSheetEditorWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEStyleSheetEditorWindowController.m; sourceTree = "<group>"; };
 		F2815CDD216251F7006B3BC5 /* Bug Report.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = "Bug Report.md"; path = "Resources/Bug Report.md"; sourceTree = "<group>"; };
@@ -1784,6 +1787,8 @@
 		142891780957483200D14688 /* Additions */ = {
 			isa = PBXGroup;
 			children = (
+				F27EDD54216E6DEC00987579 /* NSAppearanceSEEAdditions.h */,
+				F27EDD55216E6DEC00987579 /* NSAppearanceSEEAdditions.m */,
 				F250EADD216A2CA800B94A0B /* NSArraySEEAdditions.h */,
 				F250EADC216A2CA800B94A0B /* NSArraySEEAdditions.m */,
 				F26B7D840CA3F7680039C8A1 /* NSBezierPathTCMAdditions.h */,
@@ -2952,7 +2957,7 @@
 				BuildIndependentTargetsInParallel = YES;
 				CLASSPREFIX = SEE;
 				LastUpgradeCheck = 1000;
-				ORGANIZATIONNAME = TheCodingMonkeys;
+				ORGANIZATIONNAME = "SubEthaEdit Contributors";
 				TargetAttributes = {
 					5EC638290ABEB71100D3295B = {
 						DevelopmentTeam = "Change In Identity.xcconfig";
@@ -3581,6 +3586,7 @@
 				F29E6DD818E5CACE00F84231 /* TCMCGGeometryAdditions.m in Sources */,
 				31D2C7000CA7C9C8003CC5C9 /* PrecedenceRuleCell.m in Sources */,
 				4C71D0C318BF7C2900EA66FA /* SEEConnectDocumentListItem.m in Sources */,
+				F27EDD56216E6DEC00987579 /* NSAppearanceSEEAdditions.m in Sources */,
 				4C77B24218BB83620066BDB2 /* SEEDocumentListGroupTableRowView.m in Sources */,
 				F2F2B5A70CA7F7B80045C189 /* PrecedencePreferences.m in Sources */,
 				F2F2B6100CA811240045C189 /* TCMMMLogStatisticsDataPoint.m in Sources */,

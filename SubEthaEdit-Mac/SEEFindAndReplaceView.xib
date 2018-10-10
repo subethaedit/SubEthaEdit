@@ -25,7 +25,7 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <customView autoresizesSubviews="NO" wantsLayer="YES" appearanceType="aqua" translatesAutoresizingMaskIntoConstraints="NO" id="1" userLabel="uberview">
+        <customView autoresizesSubviews="NO" wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1" userLabel="uberview">
             <rect key="frame" x="0.0" y="0.0" width="583" height="51"/>
             <subviews>
                 <customView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6yy-OM-2rf" userLabel="Bottom Line View">

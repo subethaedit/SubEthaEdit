@@ -36,4 +36,6 @@
 
 - (void)setEnabled:(BOOL)isEnabled;
 
+- (void)updateColorsForIsDarkBackground:(BOOL)isDark;
+
 @end

@@ -116,7 +116,7 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
     BOOL isDark = NO;
     if (@available(macOS 10.14, *)) {
         static BOOL wasDark = NO;
-        if ([self.scrollView.effectiveAppearance.name isEqualToString:NSAppearanceNameDarkAqua]) {
+        if (self.scrollView.effectiveAppearance.SEE_isDark) {
             if (!wasDark) { drawLineNumber = nil; }
             wasDark = YES;
             isDark = YES;

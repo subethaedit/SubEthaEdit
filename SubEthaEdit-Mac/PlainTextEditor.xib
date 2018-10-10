@@ -41,7 +41,7 @@
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                 </customView>
-                <customView wantsLayer="YES" appearanceType="aqua" id="28" userLabel="Bottom Bar Main View">
+                <customView wantsLayer="YES" id="28" userLabel="Bottom Bar Main View">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="18"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <subviews>

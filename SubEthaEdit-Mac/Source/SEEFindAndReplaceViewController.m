@@ -153,8 +153,10 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 - (void)loadView {
 	[super loadView];
 	NSView *view = self.view;
-	self.bottomLineView.layer.backgroundColor = [[NSColor darkOverlaySeparatorColorBackgroundIsDark:NO] CGColor];
-	view.layer.backgroundColor = [[NSColor brightOverlayBackgroundColorBackgroundIsDark:NO] CGColor];
+    
+    BOOL isDarkAppearance = NSApp.effectiveAppearance.SEE_isDark;
+	self.bottomLineView.layer.backgroundColor = [[NSColor darkOverlaySeparatorColorBackgroundIsDark:NO appearanceIsDark:isDarkAppearance] CGColor];
+	view.layer.backgroundColor = [[NSColor brightOverlayBackgroundColorBackgroundIsDark:NO appearanceIsDark:isDarkAppearance] CGColor];
 
 	[self updateSearchOptionsButton];
 	[self.searchOptionsButton sendActionOn:NSLeftMouseDownMask | NSRightMouseDownMask];
@@ -197,6 +199,13 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 	if (defaultHeight) {
 		self.mainViewHeightConstraint.constant = defaultHeight.integerValue;
 	}
+}
+
+- (void)updateColorsForIsDarkBackground:(BOOL)isDark {
+    NSView *view = self.view;
+    BOOL isDarkAppearance = NSApp.effectiveAppearance.SEE_isDark;
+    self.bottomLineView.layer.backgroundColor = [[NSColor darkOverlaySeparatorColorBackgroundIsDark:NO appearanceIsDark:isDarkAppearance] CGColor];
+    view.layer.backgroundColor = [[NSColor brightOverlayBackgroundColorBackgroundIsDark:NO appearanceIsDark:isDarkAppearance] CGColor];
 }
 
 - (NSObjectController *)findAndReplaceStateObjectController {
