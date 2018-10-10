@@ -20,12 +20,15 @@
 
 @end
 
-
 #import "SEETabStyle.h"
 #import "NSColor+SEEAdditions.h"
 
 #import <PSMTabBarControl/PSMRolloverButton.h>
 #import <PSMTabBarControl/PSMOverflowPopUpButton.h>
+
+@interface SEETabStyle ()
+@property (nonatomic, readonly) BOOL isDark;
+@end
 
 @implementation SEETabStyle
 
@@ -220,20 +223,21 @@
 - (NSImage *)closeButtonImageOfType:(PSMCloseButtonImageType)type forTabCell:(PSMTabBarCell *)cell {
 	BOOL isWindowActive = [cell.controlView.window TCM_isActive];
     BOOL isTabActive = ((cell.tabState & PSMTab_SelectedMask) == PSMTab_SelectedMask);
-
+    BOOL isDark = self.isDark;
+    
 	switch (type) {
 		case PSMCloseButtonImageTypeStandard:
 			if (isTabActive) {
-                return [SEETabStyle imageForWindowActive:isWindowActive name:@"ActiveTabClose"];
+                return [SEETabStyle imageForWindowActive:isWindowActive name:@"ActiveTabClose" dark:isDark];
 			} else {
 				return nil;
 			}
 		case PSMCloseButtonImageTypeDirtyRollover:
 		case PSMCloseButtonImageTypeRollover:
-            return [SEETabStyle imageForWindowActive:isWindowActive name: isTabActive ? @"ActiveTabCloseRollover" : @"InactiveTabCloseRollover" ];
+            return [SEETabStyle imageForWindowActive:isWindowActive name: isTabActive ? @"ActiveTabCloseRollover" : @"InactiveTabCloseRollover" dark:isDark];
 		case PSMCloseButtonImageTypeDirtyPressed:
 		case PSMCloseButtonImageTypePressed:
-            return [SEETabStyle imageForWindowActive:isWindowActive name: isTabActive ? @"ActiveTabClosePressed" : @"InactiveTabClosePressed"];
+            return [SEETabStyle imageForWindowActive:isWindowActive name: isTabActive ? @"ActiveTabClosePressed" : @"InactiveTabClosePressed" dark:isDark];
 		default: return nil;
 	}
 }
