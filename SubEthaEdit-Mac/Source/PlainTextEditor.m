@@ -657,7 +657,6 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     if (@available(macOS 10.14, *)) {
         NSAppearance *desiredAppearance = [NSAppearance appearanceNamed:isDark ? NSAppearanceNameDarkAqua : NSAppearanceNameAqua];
         O_scrollView.appearance = desiredAppearance;
-        self.textView.appearance = desiredAppearance;
     }
     
 	[self.topBarViewController updateColorsForIsDarkBackground:isDark];

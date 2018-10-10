@@ -100,8 +100,8 @@ static NSGradient *gradientWithTargetColorAndLocation(NSColor *targetColor, CGFl
         NSGradient *gradient;
 		CGFloat location = 40.0 / CGRectGetWidth(self.bounds);
 		CGFloat highlightWidth = 80.0 / CGRectGetWidth(self.bounds);
-		CGFloat alphaValue = self.clickHighlight ? 0.8 : 0.35;
-		gradient = gradientWithTargetColorAndLocation([NSColor colorWithCalibratedWhite:1.000 alpha:alphaValue], location, location+highlightWidth);
+		CGFloat alphaValue = self.clickHighlight ? 1.0 : 0.6;
+		gradient = gradientWithTargetColorAndLocation([[NSColor selectedControlColor] colorWithAlphaComponent:alphaValue], location, location+highlightWidth);
         [gradient drawInRect:self.bounds angle:0];
     }
 }

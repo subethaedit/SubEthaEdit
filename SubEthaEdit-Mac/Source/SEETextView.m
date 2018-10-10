@@ -603,14 +603,24 @@ static NSMenu *S_defaultMenu=nil;
 	}
 }
 
+- (void)viewDidChangeEffectiveAppearance {
+    // only do so on Mojave and above
+    if (@available(macOS 10.14, *)) {
+        [self setSelectedTextAttributes:@{NSBackgroundColorAttributeName : [NSColor selectedTextBackgroundColor]}];
+    }
+}
 
 - (void)setBackgroundColor:(NSColor *)aColor {
     BOOL wasDark = [[self backgroundColor] isDark];
     BOOL isDark = [aColor isDark];
     [super setBackgroundColor:aColor];
     [self setInsertionPointColor:isDark?[NSColor whiteColor]:[NSColor blackColor]];
-    [self setSelectedTextAttributes:[NSDictionary dictionaryWithObject:isDark?[[NSColor selectedTextBackgroundColor] brightnessInvertedSelectionColor]:[NSColor selectedTextBackgroundColor] forKey:NSBackgroundColorAttributeName]];
-	[(LayoutManager *)self.layoutManager setInactiveSelectionColor:[aColor blendedColorWithFraction:0.4 ofColor:[NSColor colorWithCalibratedWhite:isDark ? 1.0 : 0.0 alpha:1.0]]];
+    if (@available(macOS 10.14, *)) {
+    } else {
+        // happens in viewDidChangeEffectiveAppearance otherwise
+        [self setSelectedTextAttributes:[NSDictionary dictionaryWithObject:isDark?[[NSColor selectedTextBackgroundColor] brightnessInvertedSelectionColor]:[NSColor selectedTextBackgroundColor] forKey:NSBackgroundColorAttributeName]];
+    }
+	[(LayoutManager *)self.layoutManager setInactiveSelectionColor:[aColor blendedColorWithFraction:0.2 ofColor:[NSColor colorWithCalibratedWhite:isDark ? 1.0 : 0.0 alpha:1.0]]];
 	[[self enclosingScrollView] setBackgroundColor:aColor];
     [[self enclosingScrollView] setDocumentCursor:isDark?[NSCursor invertedIBeamCursor]:[NSCursor IBeamCursor]];
     if (( wasDark && !isDark) || 

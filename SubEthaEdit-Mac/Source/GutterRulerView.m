@@ -88,6 +88,7 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
         [brightColors enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSColor *color, BOOL *_stop) {
             darkColors[key] = [color brightnessInvertedColor];
         }];
+        darkColors[@"DelimiterLine"] = [NSColor colorWithCalibratedWhite:0.29 alpha: 1.0];
         
         for (NSMutableDictionary *colors in @[darkColors, brightColors]) {
             NSMutableArray *foldingColors = [NSMutableArray new];
