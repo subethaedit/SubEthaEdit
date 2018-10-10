@@ -23,7 +23,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" resizable="YES"/>
             <windowCollectionBehavior key="collectionBehavior" moveToActiveSpace="YES" fullScreenAuxiliary="YES"/>
             <rect key="contentRect" x="196" y="240" width="300" height="400"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <value key="minSize" type="size" width="180" height="140"/>
             <value key="maxSize" type="size" width="1000" height="3000"/>
             <view key="contentView" wantsLayer="YES" id="2">
@@ -152,7 +152,7 @@
                                                                 <constraint firstAttribute="width" constant="14" id="EjS-fo-2mU" userLabel="Width - (20) - Image View"/>
                                                                 <constraint firstAttribute="height" constant="21" id="Vf3-E4-ccN"/>
                                                             </constraints>
-                                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSPathTemplate" id="Igp-4B-zMe"/>
+                                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="OpenFilesSymbol" id="Igp-4B-zMe"/>
                                                             <connections>
                                                                 <binding destination="8bn-dY-eZx" name="value" keyPath="objectValue.image" id="rBR-5z-U9Q"/>
                                                             </connections>
@@ -453,7 +453,7 @@
     <resources>
         <image name="NSAddTemplate" width="11" height="11"/>
         <image name="NSFolder" width="128" height="128"/>
-        <image name="NSPathTemplate" width="16" height="10"/>
+        <image name="OpenFilesSymbol" width="14" height="14"/>
         <image name="StatusPending" width="16" height="16"/>
     </resources>
 </document>

@@ -22,7 +22,7 @@
     self = [super init];
     if (self) {
         self.name = NSLocalizedString(@"DOCUMENT_LIST_NEW", @"");
-		self.image = [NSImage imageNamed:@"EditorAddSplit"];
+		self.image = [NSImage imageNamed:@"NewSymbol"];
     }
     return self;
 }

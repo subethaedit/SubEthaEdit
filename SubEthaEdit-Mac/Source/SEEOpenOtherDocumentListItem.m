@@ -19,7 +19,7 @@
     self = [super init];
     if (self) {
         self.name = NSLocalizedString(@"DOCUMENT_LIST_OPEN", @"");
-		self.image = [NSImage imageNamed:NSImageNamePathTemplate];
+		self.image = [NSImage imageNamed:@"OpenFilesSymbol"];
     }
     return self;
 }
