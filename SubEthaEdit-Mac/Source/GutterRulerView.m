@@ -12,37 +12,18 @@
 #define FOLDING_BAR_WIDTH 11.
 #define RIGHT_INSET  4.
 #define MAX_FOLDING_DEPTH (12)
-#define COLOR_FOR_DEPTH(depth) [NSColor colorWithCalibratedWhite:MAX(1.0 - ((MAX((depth), 0.0) - 0) / MAX_FOLDING_DEPTH), 0.0) alpha:1.0]
 
 static NSColor *S_colorForDepth[MAX_FOLDING_DEPTH];
 static NSColor *S_searchScopeColorForDepth[MAX_FOLDING_DEPTH];
 
-FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRect, BOOL isSearchScope) {
-	[(isSearchScope ? S_searchScopeColorForDepth : S_colorForDepth)[MIN(aDepth,(MAX_FOLDING_DEPTH - 1))] set];
+FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRect, BOOL isSearchScope, NSDictionary<NSString *, id> *colors) {
+	[(NSColor *)(isSearchScope ? colors[@"SearchScopeSteps"] : colors[@"FoldingBarSteps"])[MIN(aDepth,(MAX_FOLDING_DEPTH - 1))] set];
 	NSRectFill(aRect); 
 	if (aDepth >= MAX_FOLDING_DEPTH) {
-		[S_colorForDepth[MAX(MAX_FOLDING_DEPTH - (aDepth - MAX_FOLDING_DEPTH) - 2,0)] set];
+		[(NSColor *)colors[@"FoldingBarSteps"][MAX(MAX_FOLDING_DEPTH - (aDepth - MAX_FOLDING_DEPTH) - 2,0)] set];
 		NSRect rectToFill = NSOffsetRect(NSInsetRect(aRect,2.5,0),2.5,0);
 		NSRectFill(rectToFill);
-//		if (aDepth >= MAX_FOLDING_DEPTH * 2 - 2) {
-//			[S_colorForDepth[MIN(aDepth - MAX_FOLDING_DEPTH * 2 + 2,(MAX_FOLDING_DEPTH - 1))] set];
-//			rectToFill = NSOffsetRect(NSInsetRect(rectToFill,1,0),1,0);
-//			NSRectFill(rectToFill);
-//		} 
 	}
-
-// a try with steps
-//	[[NSColor whiteColor] set]; 
-//	NSRectFill(aRect); 
-//	NSRect depthInsetRect = aRect;
-//	int stripeWidth = 2;
-//	depthInsetRect.size.width = stripeWidth;
-//	int depth = MAX(1, aDepth - floor(aRect.size.width / stripeWidth));
-//	for (; depth <= aDepth; depth++) {
-//		[COLOR_FOR_DEPTH(depth) set];
-//		NSRectFill(depthInsetRect);
-//		depthInsetRect.origin.x += depthInsetRect.size.width;
-//	}
 }
 
 @implementation NSBezierPath (BezierPathGutterRulerViewAdditions)
@@ -65,20 +46,7 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 
 @implementation GutterRulerView
 
-+ (void)initialize {
-	if (self == [GutterRulerView class]) {
-		int i = 0;
-		for (i=0;i<MAX_FOLDING_DEPTH;i++) {
-			NSColor *color = nil;
-			color = [NSColor colorWithCalibratedWhite:MAX(1.0 - ((MAX((i+0.5), 0.0) - 0) / (double)MAX_FOLDING_DEPTH), 0.0) alpha:1.0];
-			S_colorForDepth[i]=[color retain];
-			
-			S_searchScopeColorForDepth[i]=[[color blendedColorWithFraction:0.5 ofColor:[NSColor searchScopeBaseColor]] retain];
-		}
-	}
-}
-
-- (id)initWithScrollView:(NSScrollView *)aScrollView 
+- (id)initWithScrollView:(NSScrollView *)aScrollView
              orientation:(NSRulerOrientation)orientation {
     self=[super initWithScrollView:aScrollView orientation:orientation];
     return self;
@@ -97,34 +65,90 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 	return NSMakeRect(rightHandAlignment + RIGHT_INSET + 1.0,0,FOLDING_BAR_WIDTH-3.0,0);
 }
 
-- (void)drawHashMarksAndLabelsInRect:(NSRect)aRect {
+- (NSDictionary *)colorsForDark:(BOOL)isDark {
+
+    static NSMutableDictionary<NSString *, NSColor *> *brightColors;
+    static NSMutableDictionary<NSString *, NSColor *> *darkColors;
     
-	[[NSColor colorWithWhite:0.9 alpha:1.0] set];
-	NSRectFill(aRect);
-	
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        brightColors = [@{
+          @"GutterBackground" : [NSColor colorWithWhite:0.9 alpha:1.0],
+          @"FontColor" : [NSColor colorWithCalibratedWhite:0.39 alpha:1.0],
+          @"DelimiterLine" : [NSColor colorWithCalibratedWhite:0.5 alpha:1.0],
+          @"TriangleFill" : [NSColor colorWithCalibratedWhite:1.0 alpha:1.0],
+          @"TriangleStroke" : [NSColor colorWithCalibratedWhite:0.0 alpha:0.4],
+          @"TriangleHighlightFill" : [NSColor selectedControlColor],
+          @"TriangleHighlightStroke" : [NSColor whiteColor],
+          @"GutterMin" : [NSColor whiteColor],
+          @"GutterMax" : [NSColor blackColor],
+          } mutableCopy];
+        
+        darkColors = [NSMutableDictionary new];
+        [brightColors enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSColor *color, BOOL *_stop) {
+            darkColors[key] = [color brightnessInvertedColor];
+        }];
+        
+        for (NSMutableDictionary *colors in @[darkColors, brightColors]) {
+            NSMutableArray *foldingColors = [NSMutableArray new];
+            NSMutableArray *searchScopeColors = [NSMutableArray new];
+            NSColor *minColor = colors[@"GutterMin"];
+            NSColor *maxColor = colors[@"GutterMax"];
+            for (int i=0; i<MAX_FOLDING_DEPTH; i++) {
+                NSColor *color = [maxColor blendedColorWithFraction:MAX(1.0 - ((MAX((i+0.5), 0.0) - 0) / (double)MAX_FOLDING_DEPTH), 0.0) ofColor:minColor];
+                [foldingColors addObject:color];
+                [searchScopeColors addObject:[color blendedColorWithFraction:0.5 ofColor:[NSColor searchScopeBaseColor]]];
+            }
+            colors[@"FoldingBarSteps"] = foldingColors;
+            colors[@"SearchScopeSteps"] = searchScopeColors;
+        }
+    });
+
+    return isDark ? darkColors : brightColors;
+}
+
+- (void)drawHashMarksAndLabelsInRect:(NSRect)aRect {
+
     static NSSize sizeOfZero;
-	static void(^drawLineNumber)(NSUInteger aLineNumber, unsigned aCardinality, CGFloat aRightHandAlignment, NSRect aLineBoundingRect, CGFloat aTotalYOffset) = nil;
+    static void(^drawLineNumber)(NSUInteger aLineNumber, unsigned aCardinality, CGFloat aRightHandAlignment, NSRect aLineBoundingRect, CGFloat aTotalYOffset) = nil;
+
+    BOOL isDark = NO;
+    if (@available(macOS 10.14, *)) {
+        static BOOL wasDark = NO;
+        if ([self.scrollView.appearance.name isEqualToString:NSAppearanceNameDarkAqua]) {
+            if (!wasDark) { drawLineNumber = nil; }
+            wasDark = YES;
+            isDark = YES;
+        } else {
+            if (wasDark) { drawLineNumber = nil; }
+            wasDark = NO;
+        }
+    }
+    
+    NSDictionary<NSString *, NSColor *> *colors = [self colorsForDark:isDark];
+    
+	[colors[@"GutterBackground"] set];
+	NSRectFill(aRect);
 		
 	if (!drawLineNumber) {
 		CGFloat linenumberFontSize=9.;
 			NSFont *font=[NSFont fontWithName:@"Tahoma" size:linenumberFontSize];
 			if (!font) font=[NSFont systemFontOfSize:linenumberFontSize];
-			NSDictionary *attributes=[[NSDictionary dictionaryWithObjectsAndKeys:
+			NSDictionary *attributes=[NSDictionary dictionaryWithObjectsAndKeys:
 						 font,NSFontAttributeName,
-						 [NSColor colorWithCalibratedWhite:0.39 alpha:1.0],NSForegroundColorAttributeName,
-						 nil] retain];
+						 colors[@"FontColor"],NSForegroundColorAttributeName,
+						 nil];
 			sizeOfZero=[@"0" sizeWithAttributes:attributes];
 		
-		drawLineNumber = [^(NSUInteger aLineNumber, unsigned aCardinality, CGFloat aRightHandAlignment, NSRect aLineBoundingRect, CGFloat aTotalYOffset) {
-			[[NSColor blackColor] set];
+		drawLineNumber = ^(NSUInteger aLineNumber, unsigned aCardinality, CGFloat aRightHandAlignment, NSRect aLineBoundingRect, CGFloat aTotalYOffset) {
 			NSString *lineNumberString=[NSString stringWithFormat:@"%llu",(unsigned long long)aLineNumber];
 			[lineNumberString drawAtPoint:NSMakePoint(aRightHandAlignment-(sizeOfZero.width*aCardinality),
 													  ceil(NSMaxY(aLineBoundingRect)+aTotalYOffset -sizeOfZero.height
 														   -(aLineBoundingRect.size.height-sizeOfZero.height)/2.-2.))
 						   withAttributes:attributes];
 			
-		} copy];
-	}
+        };
+    }
 
     NSTextView              *textView=(NSTextView *)[self clientView];
     FoldableTextStorage  *textStorage=(FoldableTextStorage *)[textView textStorage];
@@ -142,11 +166,11 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
     unsigned glyphIndex,characterIndex;
     NSRect bounds = [self bounds];
     NSRect boundingRect,previousBoundingRect,lineFragmentRectForLastCharacter;
-    NSColor *delimiterLineColor = [NSColor colorWithCalibratedWhite:0.5 alpha:1.0];
-    NSColor *triangleColor      = [NSColor colorWithCalibratedWhite:1.0 alpha:1.0];
-    NSColor *triangleStrokeColor= [NSColor colorWithCalibratedWhite:0.0 alpha:0.4];
-    NSColor *triangleHighlightColor      = [NSColor selectedControlColor];
-    NSColor *triangleHighlightStrokeColor= [NSColor whiteColor];
+    NSColor *delimiterLineColor = colors[@"DelimiterLine"];
+    NSColor *triangleColor      = colors[@"TriangleFill"];
+    NSColor *triangleStrokeColor= colors[@"TriangleStroke"];
+    NSColor *triangleHighlightColor      = colors[@"TriangleHighlightFill"];
+    NSColor *triangleHighlightStrokeColor= colors[@"TriangleHighlightStroke"];
 
 	NSRange longestEffectiveAttachmentRange;
     NSRange lineRange;
@@ -167,7 +191,7 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 	NSRect fullFoldingAreaRect = [self bounds];
 	fullFoldingAreaRect.origin.x = foldingAreaRect.origin.x;
 	fullFoldingAreaRect.size.width = foldingAreaRect.size.width;
-	[[NSColor whiteColor] set];
+	[colors[@"GutterMin"] set];
 	NSRectFill(fullFoldingAreaRect);
 	
 	
@@ -207,7 +231,7 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 		BOOL shouldShowSearchScope = [(PlainTextWindowController *)editor.textView.window.windowController isShowingFindAndReplaceInterface];
 		BOOL isSearchScope = shouldShowSearchScope &&
 		[editor hasSearchScopeInFullRange:[textStorage fullRangeForFoldedRange:lineRange]];
-       	DrawIndicatorForDepthInRect(foldingDepth, foldingAreaRect,isSearchScope);
+       	DrawIndicatorForDepthInRect(foldingDepth, foldingAreaRect, isSearchScope, colors);
 		
 		if (lineRange.length) {
 			[textStorage attribute:NSAttachmentAttributeName atIndex:lineRange.location longestEffectiveRange:&longestEffectiveAttachmentRange inRange:lineRange];
@@ -269,9 +293,9 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 				foldingDepth = [textStorage foldingDepthForLine:lineNumber];
 				BOOL isSearchScope = shouldShowSearchScope &&
 				[editor hasSearchScopeInFullRange:[textStorage fullRangeForFoldedRange:lineRange]];
-				DrawIndicatorForDepthInRect(foldingDepth, foldingAreaRect,isSearchScope);
+				DrawIndicatorForDepthInRect(foldingDepth, foldingAreaRect, isSearchScope, colors);
 			} else {
-				[[NSColor whiteColor] set];
+				[colors[@"GutterMin"] set];
 				NSRectFill(foldingAreaRect);
 			}
 
@@ -387,6 +411,5 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 		[super mouseDown:anEvent];
 	}
 }
-
 
 @end

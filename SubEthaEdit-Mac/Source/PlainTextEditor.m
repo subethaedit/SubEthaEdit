@@ -107,7 +107,29 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 - (float)pageGuidePositionForColumns:(int)aColumns;
 @end
 
-@implementation PlainTextEditor
+@implementation PlainTextEditor {
+    IBOutlet PopUpButton *O_tabStatusPopUpButton;
+    IBOutlet PopUpButton *O_modePopUpButton;
+    IBOutlet PopUpButton *O_encodingPopUpButton;
+    IBOutlet PopUpButton *O_lineEndingPopUpButton;
+    IBOutlet BorderedTextField *O_windowWidthTextField;
+    IBOutlet NSView *O_bottomBarSeparatorLineView;
+    IBOutlet SEEPlainTextEditorScrollView *O_scrollView;
+    RadarScroller   *I_radarScroller;
+    SEETextView        *I_textView;
+    NSTextContainer *I_textContainer;
+    NSMutableArray *I_storedSelectedRanges;
+    PlainTextWindowControllerTabContext *I_windowControllerTabContext;
+    NSString *I_followUserID;
+    struct {
+        BOOL showTopStatusBar;
+        BOOL showBottomStatusBar;
+        BOOL hasSplitButton;
+        BOOL symbolPopUpIsSorted;
+        BOOL pausedProcessing;
+    } I_flags;
+    SelectionOperation *I_storedPosition;
+}
 
 - (id)initWithWindowControllerTabContext:(PlainTextWindowControllerTabContext *)aWindowControllerTabContext splitButton:(BOOL)aFlag
 {
@@ -632,6 +654,12 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 - (void)updateColorsForIsDarkBackground:(BOOL)isDark {
+    if (@available(macOS 10.14, *)) {
+        NSAppearance *desiredAppearance = [NSAppearance appearanceNamed:isDark ? NSAppearanceNameDarkAqua : NSAppearanceNameAqua];
+        O_scrollView.appearance = desiredAppearance;
+        self.textView.appearance = desiredAppearance;
+    }
+    
 	[self.topBarViewController updateColorsForIsDarkBackground:isDark];
 	// bottom bar
 	NSColor *darkColor = [NSColor darkOverlayBackgroundColorBackgroundIsDark:isDark];

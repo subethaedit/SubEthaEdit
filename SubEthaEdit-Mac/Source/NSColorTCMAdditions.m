@@ -77,9 +77,10 @@
 }
 
 - (NSColor *)brightnessInvertedColor {
+    CGFloat alpha = self.alphaComponent;
     NSColor *color=[self colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
     NSColor *invertedColor=[NSColor colorWithCalibratedRed:1.0-[color redComponent] green:1.0-[color greenComponent] blue:1.0-[color blueComponent] alpha:1.0];
-    return [NSColor colorWithCalibratedHue:[color hueComponent] saturation:[invertedColor saturationComponent] brightness:[invertedColor brightnessComponent] alpha:1.0];
+    return [NSColor colorWithCalibratedHue:[color hueComponent] saturation:[invertedColor saturationComponent] brightness:[invertedColor brightnessComponent] alpha:alpha];
     
 }
 
