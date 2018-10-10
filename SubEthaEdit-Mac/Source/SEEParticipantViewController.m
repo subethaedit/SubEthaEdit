@@ -404,9 +404,6 @@
 #pragma mark Color Scheme Appearence
 
 - (void)updateColorsForIsDarkBackground:(BOOL)isDark {
-    // FIXME: Bring back dark adjustment functionality here
-    //    self.nameLabelPopoverOutlet.appearance = isDark ? NSAppearanceNameDarkAqua : NSAppearanceNameAqua;
-    //    self.pendingUserPopoverOutlet.appearance = isDark ? NSAppearanceNameDarkAqua : NSAppearanceNameAqua;
 	self.popoverTextColor = isDark ? [NSColor controlTextColor] : [NSColor alternateSelectedControlTextColor];
 }
 

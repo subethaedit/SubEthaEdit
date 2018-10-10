@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.18"/>
+        <capability name="System colors introduced in macOS 10.14" minToolsVersion="10.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -31,7 +32,7 @@
                 <subviews>
                     <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="36" horizontalPageScroll="10" verticalLineScroll="36" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qRg-fN-a9P">
                         <rect key="frame" x="0.0" y="0.0" width="300" height="400"/>
-                        <clipView key="contentView" id="wIJ-zF-6Fn">
+                        <clipView key="contentView" drawsBackground="NO" id="wIJ-zF-6Fn">
                             <rect key="frame" x="0.0" y="0.0" width="300" height="400"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
@@ -39,7 +40,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="300" height="400"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
-                                    <color key="backgroundColor" red="0.83519887839935558" green="0.86684393018884942" blue="0.90476392663043481" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="backgroundColor" name="alternatingContentBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                     <tableColumns>
                                         <tableColumn editable="NO" width="297" minWidth="40" maxWidth="1000" id="dhM-EY-VHb">
@@ -73,7 +74,7 @@
                                                             </constraints>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="left" title="see://localhost/xib" id="DfZ-MR-7px">
                                                                 <font key="font" metaFont="miniSystem"/>
-                                                                <color key="textColor" red="0.52541145025124536" green="0.56995937476065917" blue="0.61450729927007297" alpha="1" colorSpace="deviceRGB"/>
+                                                                <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
                                                             <connections>
@@ -88,7 +89,7 @@
                                                             </constraints>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="AUsers Name" id="qbm-n8-qcN">
                                                                 <font key="font" metaFont="systemBold" size="15"/>
-                                                                <color key="textColor" red="0.36131189090569249" green="0.39468802453040824" blue="0.44044961734693877" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" red="0.85490202903747559" green="0.85882359743118286" blue="0.86274516582489014" alpha="0.0" colorSpace="deviceRGB"/>
                                                             </textFieldCell>
                                                             <connections>
@@ -345,7 +346,7 @@
                                                             <rect key="frame" x="8" y="11" width="262" height="19"/>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Connect…" id="JFZ-Hh-hom">
                                                                 <font key="font" metaFont="systemBold" size="15"/>
-                                                                <color key="textColor" red="0.36131189089999999" green="0.39468802450000001" blue="0.44044961729999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
                                                             <connections>
@@ -399,13 +400,13 @@
                                     </connections>
                                 </tableView>
                             </subviews>
-                            <color key="backgroundColor" red="0.92496585916586216" green="0.96058464148208755" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="backgroundColor"/>
                         </clipView>
-                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="bLy-Ik-rxu">
+                        <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="bLy-Ik-rxu">
                             <rect key="frame" x="0.0" y="384" width="300" height="16"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
-                        <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="BA0-7T-ydk">
+                        <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="BA0-7T-ydk">
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                     </scrollView>

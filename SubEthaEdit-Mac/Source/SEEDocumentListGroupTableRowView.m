@@ -20,6 +20,12 @@
 }
 
 - (void)drawBackgroundInRect:(NSRect)dirtyRect {
+    if (@available(macOS 10.14, *)) {
+        if ([self.effectiveAppearance.name isEqualToString:NSAppearanceNameDarkAqua]) {
+            return;
+        }
+    }
+    
 	if (self.window.isKeyWindow) {
 		NSGradient *gradient = [[NSGradient alloc] initWithColorsAndLocations:
 								[[NSColor colorWithDeviceRed:0.87 green:0.92 blue:0.97 alpha:0.85] shadowWithLevel:0.1], 0.0,
