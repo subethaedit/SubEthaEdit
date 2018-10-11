@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="46px" height="46px" viewBox="0 0 46 46" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.2 (67145) - http://www.bohemiancoding.com/sketch -->
+    <title>ParticipantStatusReadOnly</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#000000" offset="100%"></stop>
+        </linearGradient>
+        <circle id="path-2" cx="21" cy="21" r="21"></circle>
+        <filter x="-9.5%" y="-4.8%" width="119.0%" height="119.0%" filterUnits="objectBoundingBox" id="filter-3">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="ParticipantStatusReadOnly" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="readonly" transform="translate(2.000000, 0.000000)">
+            <g id="Oval-1">
+                <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use>
+                <use fill-opacity="0.920000017" fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-2"></use>
+                <use fill-opacity="0.0799999982" fill="url(#linearGradient-1)" fill-rule="evenodd" xlink:href="#path-2"></use>
+            </g>
+            <g id="Stifti-read-only" transform="translate(6.866667, 6.500000)">
+                <g id="NeuStifti">
+                    <path d="M7.69942513,23.224825 L7.69942513,24.5283973 C7.69942513,24.6674146 7.59322501,24.7877443 7.44372441,24.8182826 L3.08313839,25.6993333 C2.8497716,25.7462802 2.64192931,25.5571254 2.69388988,25.345181 L3.662909,21.3806804 C3.6957262,21.2448536 3.82836241,21.148681 3.98105356,21.148681 L5.41543887,21.148681 C5.5954777,21.148681 5.74178773,21.2813172 5.74178773,21.4449474 L5.74178773,22.6313805 C5.65108463,22.7977455 5.8356814,22.9294701 6.0681366,22.9281027 L7.37307626,22.9281027 C7.55357089,22.9281027 7.69942513,23.0611947 7.69942513,23.224825 L7.69942513,23.224825 Z M2.44684926,19.1472873 L2.45459777,19.1550358 C2.39716766,19.2152007 2.35204401,19.2881278 2.33290064,19.3729056 L2.32424054,19.3710824 L0.501062525,27.5753835 L0.507443648,27.5767509 C0.500150936,27.6086565 0.490123457,27.6396505 0.490123457,27.6738351 C0.490123457,27.9258895 0.694319395,28.1296296 0.945917961,28.1296296 C0.980558343,28.1296296 1.01064078,28.1173232 1.04300219,28.1104863 L1.04482537,28.1191464 L9.24912644,26.2959683 L9.24730327,26.2873082 C9.33299263,26.2681649 9.41275667,26.2330687 9.47246575,26.1733596 L14.5354311,21.1099385 L7.50981462,14.084322 L2.44684926,19.1472873 Z M21.9048212,0.334264636 C21.8223224,0.252221625 21.7083738,0.200716846 21.5821187,0.200716846 C21.4563194,0.200716846 21.3423708,0.252221625 21.259872,0.334264636 L14.7787208,6.81541577 L21.8043373,13.8410323 L28.2854885,7.35988112 C28.3679873,7.27783811 28.4190362,7.16388949 28.4190362,7.03763441 C28.4190362,6.91183513 28.3679873,6.7978865 28.2854885,6.71538769 L21.9048212,0.334264636 Z" id="Fill-1" fill="#2282F3"></path>
+                    <path d="M1.79235995,4.46795318 C1.43876068,4.11435392 1.43876068,3.54116995 1.79235995,3.18757068 L3.80732377,1.17260686 C4.16092304,0.81900759 4.734107,0.81900759 5.08815902,1.17260686 L27.187887,23.2723348 C27.5414862,23.6259341 27.5414862,24.1995708 27.187887,24.5531701 L25.1724704,26.5681339 C24.8188711,26.9217332 24.2456872,26.9217332 23.8920879,26.5681339 L1.79235995,4.46795318 Z" id="Fill-1" fill-opacity="0.598618659" fill="#121212"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="46px" height="46px" viewBox="0 0 46 46" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.2 (67145) - http://www.bohemiancoding.com/sketch -->
+    <title>ParticipantKick</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#000000" offset="100%"></stop>
+        </linearGradient>
+        <circle id="path-2" cx="21" cy="21" r="21"></circle>
+        <filter x="-9.5%" y="-4.8%" width="119.0%" height="119.0%" filterUnits="objectBoundingBox" id="filter-3">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="ParticipantKick" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Kick" transform="translate(2.000000, 0.000000)">
+            <g id="Oval-1">
+                <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use>
+                <use fill-opacity="0.920000017" fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-2"></use>
+                <use fill-opacity="0.0799999982" fill="url(#linearGradient-1)" fill-rule="evenodd" xlink:href="#path-2"></use>
+            </g>
+            <path d="M21.1634704,18.3489074 L29.449878,10.0624998 L32.7644411,13.3770629 L24.4780335,21.6634704 L32.7644411,29.949878 L29.449878,33.2644411 L21.1634704,24.9780335 L12.8770629,33.2644411 L9.56249981,29.949878 L17.8489074,21.6634704 L9.56249981,13.3770629 L12.8770629,10.0624998 L21.1634704,18.3489074 Z" id="Cross" fill-opacity="0.76" fill="#000000"></path>
+        </g>
+    </g>
+</svg>
