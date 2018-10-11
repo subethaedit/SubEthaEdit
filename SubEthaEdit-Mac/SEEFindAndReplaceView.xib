@@ -113,10 +113,10 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="adi-Uu-d9V" userLabel="CloseButton">
-                    <rect key="frame" x="568" y="31" width="10" height="13"/>
+                    <rect key="frame" x="568" y="32" width="10" height="12"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="10" id="P4b-Si-2lE"/>
-                        <constraint firstAttribute="height" constant="13" id="n45-p4-Q1d"/>
+                        <constraint firstAttribute="height" constant="12" id="n45-p4-Q1d"/>
                     </constraints>
                     <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="CloseFindSymbol" imagePosition="only" alignment="center" state="on" inset="2" id="Css-xD-qG9">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -217,7 +217,7 @@
         </customView>
     </objects>
     <resources>
-        <image name="CloseFindSymbol" width="10" height="12"/>
+        <image name="CloseFindSymbol" width="10" height="10"/>
         <image name="NSLeftFacingTriangleTemplate" width="9" height="12"/>
         <image name="NSRightFacingTriangleTemplate" width="9" height="12"/>
         <image name="SearchLoupeNormal" width="400" height="400"/>
