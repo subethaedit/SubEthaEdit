@@ -26,12 +26,14 @@
 - (id)initWithFrame:(NSRect)frameRect pullsDown:(BOOL)flag {   
     self=[super initWithFrame:frameRect pullsDown:flag];
 	if (self) {
-		[[self cell] setArrowPosition:NSPopUpNoArrow];
-		[[self cell] setControlSize:NSSmallControlSize];
+        PopUpButtonCell *cell = self.cell;
+		[cell setArrowPosition:NSPopUpNoArrow];
+		[cell setControlSize:NSSmallControlSize];
+        
 		[self setBordered:NO];
 		[self setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
 		self.lineDrawingEdge = CGRectMaxXEdge;
-		self.lineColor = [NSColor grayColor]; // just a default
+		self.lineColor = [NSColor controlTextColor]; // just a default
 	}
     return self;
 }
@@ -56,8 +58,13 @@
 }
 
 - (void)drawRect:(NSRect)aRect {
+
+    BOOL wasHighlighted = self.highlighted;
+    self.highlighted = NO;
     [super drawRect:aRect];
-    NSRect bounds=NSIntegralRect([self bounds]);
+    self.highlighted = wasHighlighted;
+    
+    NSRect bounds = NSIntegralRect([self bounds]);
 	bounds = NSInsetRect(bounds, 0.5, 0);
     [self.lineColor set];
     [NSBezierPath setDefaultLineWidth:1.];
@@ -73,7 +80,7 @@
 	}
 
     CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
-    CGContextSetRGBFillColor (ctx, 0.0, 0.0, 0.0, 1);
+    CGContextSetFillColorWithColor(ctx, [[NSColor secondaryLabelColor] CGColor]);
     CGContextBeginPath(ctx);
     NSRect triangleRect;
     triangleRect.size.height=bounds.size.height*.6;

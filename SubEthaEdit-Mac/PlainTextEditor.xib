@@ -84,7 +84,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                             <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" alignment="right" title="1" id="ak1-Tg-g3g">
                                 <font key="font" metaFont="cellTitle"/>
-                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                             </textFieldCell>
                             <connections>
@@ -127,7 +127,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                             <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" alignment="right" title="999w" id="93">
                                 <font key="font" metaFont="smallSystem"/>
-                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                             </textFieldCell>
                             <connections>
