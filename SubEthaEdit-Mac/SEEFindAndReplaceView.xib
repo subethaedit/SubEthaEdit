@@ -66,12 +66,12 @@
                     </connections>
                 </textField>
                 <imageView translatesAutoresizingMaskIntoConstraints="NO" id="2h9-Xo-WpS" customClass="TCMDragImageView">
-                    <rect key="frame" x="568" y="4" width="11" height="11"/>
+                    <rect key="frame" x="569" y="4" width="11" height="11"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="11" id="8jB-LZ-jZI"/>
                         <constraint firstAttribute="height" constant="11" id="TMi-mK-7rD"/>
                     </constraints>
-                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="SmallGrowBoxRight3" id="Gt4-3V-Vpx"/>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="SmallGrowBoxRightSymbol" id="Gt4-3V-Vpx"/>
                     <connections>
                         <outlet property="dragDelegate" destination="-2" id="d6v-gL-lfw"/>
                     </connections>
@@ -113,12 +113,12 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="adi-Uu-d9V" userLabel="CloseButton">
-                    <rect key="frame" x="569" y="31" width="10" height="13"/>
+                    <rect key="frame" x="568" y="31" width="10" height="13"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="10" id="P4b-Si-2lE"/>
                         <constraint firstAttribute="height" constant="13" id="n45-p4-Q1d"/>
                     </constraints>
-                    <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="EditorRemoveSplit" imagePosition="only" alignment="center" state="on" inset="2" id="Css-xD-qG9">
+                    <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="CloseFindSymbol" imagePosition="only" alignment="center" state="on" inset="2" id="Css-xD-qG9">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
@@ -140,10 +140,11 @@
                         <constraint firstAttribute="width" constant="40" id="1eF-kt-bA7"/>
                         <constraint firstAttribute="height" constant="40" id="6GS-6i-DH8"/>
                     </constraints>
-                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="N3d-HJ-XaV">
+                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="SearchLoupeNormal" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="N3d-HJ-XaV">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
+                    <color key="contentTintColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                     <connections>
                         <action selector="searchOptionsDropdownAction:" target="-2" id="QbY-ef-vwk"/>
                     </connections>
@@ -165,7 +166,7 @@
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="2h9-Xo-WpS" secondAttribute="bottom" constant="4" id="2kg-vY-zfu"/>
                 <constraint firstItem="b8n-nP-ifa" firstAttribute="leading" secondItem="x9b-yD-DHi" secondAttribute="trailing" constant="4" id="5Gs-VD-qXl"/>
-                <constraint firstItem="adi-Uu-d9V" firstAttribute="leading" secondItem="Odd-5d-NOn" secondAttribute="trailing" constant="6" id="6sx-6E-g81"/>
+                <constraint firstItem="adi-Uu-d9V" firstAttribute="leading" secondItem="Odd-5d-NOn" secondAttribute="trailing" constant="5" id="6sx-6E-g81"/>
                 <constraint firstItem="Odd-5d-NOn" firstAttribute="top" secondItem="gqM-vr-cXm" secondAttribute="top" id="7nU-Y5-Nd5"/>
                 <constraint firstItem="b8n-nP-ifa" firstAttribute="top" secondItem="1" secondAttribute="top" constant="5" id="8sT-No-hFQ"/>
                 <constraint firstItem="39E-pR-j5M" firstAttribute="height" secondItem="Odd-5d-NOn" secondAttribute="height" id="CB6-Le-GrW"/>
@@ -177,7 +178,7 @@
                 <constraint firstItem="6yy-OM-2rf" firstAttribute="bottom" secondItem="1" secondAttribute="bottom" id="MLB-o8-twc"/>
                 <constraint firstItem="j2o-G0-HdP" firstAttribute="width" secondItem="Un5-SX-sFi" secondAttribute="width" id="QAf-X3-BBW"/>
                 <constraint firstItem="uFk-KV-jTR" firstAttribute="top" secondItem="b8n-nP-ifa" secondAttribute="bottom" constant="3" id="SpI-1h-9Hf"/>
-                <constraint firstAttribute="trailing" secondItem="2h9-Xo-WpS" secondAttribute="trailing" constant="4" id="UY3-H7-xbr"/>
+                <constraint firstAttribute="trailing" secondItem="2h9-Xo-WpS" secondAttribute="trailing" constant="3" id="UY3-H7-xbr"/>
                 <constraint firstAttribute="bottom" secondItem="b8n-nP-ifa" secondAttribute="bottom" constant="24" id="V3o-Nc-G1N"/>
                 <constraint firstItem="Odd-5d-NOn" firstAttribute="leading" secondItem="gqM-vr-cXm" secondAttribute="trailing" constant="6" id="WGM-sl-bVr"/>
                 <constraint firstAttribute="height" constant="51" id="Z8j-S7-uh6"/>
@@ -191,7 +192,7 @@
                 <constraint firstItem="j2o-G0-HdP" firstAttribute="leading" secondItem="b8n-nP-ifa" secondAttribute="trailing" constant="6" id="fxB-6y-KGE"/>
                 <constraint firstItem="x9b-yD-DHi" firstAttribute="top" secondItem="1" secondAttribute="top" constant="4" id="nbE-16-SI7"/>
                 <constraint firstItem="Odd-5d-NOn" firstAttribute="width" secondItem="39E-pR-j5M" secondAttribute="width" id="r5V-au-yDu"/>
-                <constraint firstAttribute="trailing" secondItem="adi-Uu-d9V" secondAttribute="trailing" constant="4" id="rnS-Xe-gcm"/>
+                <constraint firstAttribute="trailing" secondItem="adi-Uu-d9V" secondAttribute="trailing" constant="5" id="rnS-Xe-gcm"/>
                 <constraint firstItem="x9b-yD-DHi" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="4" id="t8p-TT-fKz"/>
                 <constraint firstItem="gqM-vr-cXm" firstAttribute="width" secondItem="b8n-nP-ifa" secondAttribute="width" id="uwX-Eg-c8V"/>
                 <constraint firstItem="uFk-KV-jTR" firstAttribute="trailing" secondItem="b8n-nP-ifa" secondAttribute="trailing" id="xBd-NT-EJZ"/>
@@ -216,9 +217,10 @@
         </customView>
     </objects>
     <resources>
-        <image name="EditorRemoveSplit" width="10" height="12"/>
+        <image name="CloseFindSymbol" width="10" height="12"/>
         <image name="NSLeftFacingTriangleTemplate" width="9" height="12"/>
         <image name="NSRightFacingTriangleTemplate" width="9" height="12"/>
-        <image name="SmallGrowBoxRight3" width="11" height="11"/>
+        <image name="SearchLoupeNormal" width="400" height="400"/>
+        <image name="SmallGrowBoxRightSymbol" width="11" height="11"/>
     </resources>
 </document>

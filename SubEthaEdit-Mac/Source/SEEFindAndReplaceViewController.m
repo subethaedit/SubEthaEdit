@@ -126,11 +126,14 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 }
 
 - (void)updateSearchOptionsButton {
-	NSImage *image = [NSImage pdfBasedImageNamed:@"SearchLoupeNormal"TCM_PDFIMAGE_SEP@"36"TCM_PDFIMAGE_SEP@""TCM_PDFIMAGE_NORMAL];
-	if ([[self.findAndReplaceStateObjectController valueForKeyPath:kOptionKeyPathUseRegularExpressions] boolValue]) {
-		image = [NSImage pdfBasedImageNamed:@"SearchLoupeRE"TCM_PDFIMAGE_SEP@"36"TCM_PDFIMAGE_SEP@""TCM_PDFIMAGE_NORMAL];
-	}
-
+    NSString *imageName = @"SearchLoupeNormal";
+    if ([[self.findAndReplaceStateObjectController valueForKeyPath:kOptionKeyPathUseRegularExpressions] boolValue]) {
+        imageName = @"SearchLoupeRE";
+    }
+    NSImage *image = [NSImage imageNamed:imageName];
+    image.template = YES;
+    
+    
 	[self.searchOptionsButton setImage:image];
 
 	NSShadow *shadow = nil;
@@ -138,7 +141,7 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 		shadow = [NSShadow new];
 		[shadow setShadowColor:[NSColor searchScopeBaseColor]];
 		[shadow setShadowOffset:NSMakeSize(0, 0)];
-		[shadow setShadowBlurRadius:10.0];
+		[shadow setShadowBlurRadius:5.0];
 	}
 	[self.searchOptionsButton setShadow:shadow];
 }
@@ -204,8 +207,9 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 - (void)updateColorsForIsDarkBackground:(BOOL)isDark {
     NSView *view = self.view;
     BOOL isDarkAppearance = NSApp.effectiveAppearance.SEE_isDark;
-    self.bottomLineView.layer.backgroundColor = [[NSColor darkOverlaySeparatorColorBackgroundIsDark:NO appearanceIsDark:isDarkAppearance] CGColor];
-    view.layer.backgroundColor = [[NSColor brightOverlayBackgroundColorBackgroundIsDark:NO appearanceIsDark:isDarkAppearance] CGColor];
+    self.bottomLineView.layer.backgroundColor = [[NSColor darkOverlaySeparatorColorBackgroundIsDark:isDark appearanceIsDark:isDarkAppearance] CGColor];
+    view.layer.backgroundColor = [[NSColor brightOverlayBackgroundColorBackgroundIsDark:isDark appearanceIsDark:isDarkAppearance] CGColor];
+    [self updateSearchOptionsButton];
 }
 
 - (NSObjectController *)findAndReplaceStateObjectController {

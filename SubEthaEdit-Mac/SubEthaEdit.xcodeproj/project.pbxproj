@@ -243,9 +243,6 @@
 		4CE9CF3A1802F52A00F5BC56 /* SEEStyleSheetSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D56992133B880900CEC841 /* SEEStyleSheetSettings.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		4CF06A2F1816AF5D00B35DF8 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
 		4CF3490117FC6EAF005D0D4F /* PSMTabBarControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF3490017FC6EAF005D0D4F /* PSMTabBarControl.framework */; };
-		4CFAABAF18A3ECE4009DB5C3 /* EditorSplitHorizontal.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 4CFAABAB18A3ECE4009DB5C3 /* EditorSplitHorizontal.pdf */; };
-		4CFAABB018A3ECE4009DB5C3 /* EditorSplitVertical.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 4CFAABAC18A3ECE4009DB5C3 /* EditorSplitVertical.pdf */; };
-		4CFAABB218A3ECE4009DB5C3 /* EditorRemoveSplit.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 4CFAABAE18A3ECE4009DB5C3 /* EditorRemoveSplit.pdf */; };
 		5E0F01C30AB573A100A5DE33 /* DialogBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0F01C10AB573A100A5DE33 /* DialogBackgroundView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5E28E2900972FB8E00099B13 /* InsetTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E28E28E0972FB8E00099B13 /* InsetTextFieldCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5E4DA73D09E15C6800D91CFC /* Scripts in Resources */ = {isa = PBXBuildFile; fileRef = 5E4DA73A09E15C6800D91CFC /* Scripts */; };
@@ -266,7 +263,6 @@
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
 		F20396F60F8A707700BEB377 /* FullTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D34B0F38756100AD7DE1 /* FullTextStorage.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
-		F2061D590B4C13AF00E6631F /* SmallGrowBoxRight3.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2061D570B4C13AF00E6631F /* SmallGrowBoxRight3.tiff */; };
 		F2061D690B4C152600E6631F /* FirstClickCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2061D670B4C152600E6631F /* FirstClickCustomView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		F20948BC0C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = F20948B90C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		F20AB87B1907C7C500444F4B /* SEEDebugImageGenerationWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = F20AB8791907C7C500444F4B /* SEEDebugImageGenerationWindowController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -1167,9 +1163,6 @@
 		4CE8D4501959E3440026828F /* SharingServiceAnnounceMenuIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "SharingServiceAnnounceMenuIcon@2x.png"; path = "artwork/SharingServiceAnnounceMenuIcon@2x.png"; sourceTree = SOURCE_ROOT; };
 		4CF06A621816D6D300B35DF8 /* SubEthaEdit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = SubEthaEdit.entitlements; sourceTree = "<group>"; };
 		4CF3490017FC6EAF005D0D4F /* PSMTabBarControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PSMTabBarControl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		4CFAABAB18A3ECE4009DB5C3 /* EditorSplitHorizontal.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = EditorSplitHorizontal.pdf; sourceTree = "<group>"; };
-		4CFAABAC18A3ECE4009DB5C3 /* EditorSplitVertical.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = EditorSplitVertical.pdf; sourceTree = "<group>"; };
-		4CFAABAE18A3ECE4009DB5C3 /* EditorRemoveSplit.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = EditorRemoveSplit.pdf; sourceTree = "<group>"; };
 		5E0F01C10AB573A100A5DE33 /* DialogBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DialogBackgroundView.m; sourceTree = "<group>"; };
 		5E0F01C20AB573A100A5DE33 /* DialogBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DialogBackgroundView.h; sourceTree = "<group>"; };
 		5E28E28D0972FB8E00099B13 /* InsetTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = InsetTextFieldCell.h; sourceTree = "<group>"; };
@@ -1200,7 +1193,6 @@
 		5EF31E420A7E437C00D777F5 /* InvertedIBeam.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = InvertedIBeam.tiff; path = artwork/InvertedIBeam.tiff; sourceTree = "<group>"; };
 		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* SubEthaEdit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SubEthaEdit.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		F2061D570B4C13AF00E6631F /* SmallGrowBoxRight3.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = SmallGrowBoxRight3.tiff; path = artwork/SmallGrowBoxRight3.tiff; sourceTree = "<group>"; };
 		F2061D660B4C152600E6631F /* FirstClickCustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = FirstClickCustomView.h; sourceTree = "<group>"; };
 		F2061D670B4C152600E6631F /* FirstClickCustomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstClickCustomView.m; sourceTree = "<group>"; };
 		F20948B80C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = TCMMMLogStatisticsEntry.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -1703,7 +1695,6 @@
 				F25A0728191A875100F07557 /* StatusReadOnly@2x.png */,
 				F25A0729191A875100F07557 /* StatusReadWrite.png */,
 				F25A072A191A875100F07557 /* StatusReadWrite@2x.png */,
-				F2061D570B4C13AF00E6631F /* SmallGrowBoxRight3.tiff */,
 				F2D5FF3F0CB2667A00407399 /* StylePrefs.icns */,
 				14289094095743F200D14688 /* StylePrefs.tiff */,
 				F20AB87F190932FB00444F4B /* SymbolWarn.png */,
@@ -2382,9 +2373,6 @@
 				4C6BDC6518898E1E0088CBFC /* ScriptMenu.pdf */,
 				4C6BDC6718898F850088CBFC /* ScriptMenuItemIcon.png */,
 				4C6BDC6818898F850088CBFC /* ScriptMenuItemIcon@2x.png */,
-				4CFAABAB18A3ECE4009DB5C3 /* EditorSplitHorizontal.pdf */,
-				4CFAABAC18A3ECE4009DB5C3 /* EditorSplitVertical.pdf */,
-				4CFAABAE18A3ECE4009DB5C3 /* EditorRemoveSplit.pdf */,
 			);
 			name = Retina;
 			sourceTree = "<group>";
@@ -3073,12 +3061,10 @@
 				F25A072E191A875100F07557 /* StatusReadOnly@2x.png in Resources */,
 				F27EDD48216CC26500987579 /* DIW ActiveTabRightCap@2x.png in Resources */,
 				F2D3E539189941F50096425B /* AW InactiveTabClose.png in Resources */,
-				4CFAABAF18A3ECE4009DB5C3 /* EditorSplitHorizontal.pdf in Resources */,
 				4C6BDC6A18898F850088CBFC /* ScriptMenuItemIcon@2x.png in Resources */,
 				F22024DD191D0BFE0098982C /* ParticipantReadOnlyTurnOnNormal.png in Resources */,
 				F2D3E554189941F50096425B /* IW ActiveTabCloseRollover@2x.png in Resources */,
 				F22024D6191D0BFE0098982C /* ParticipantReadOnlyTurnOffHover@2x.png in Resources */,
-				4CFAABB018A3ECE4009DB5C3 /* EditorSplitVertical.pdf in Resources */,
 				4C6BDC5C188983380088CBFC /* FoldingBubbleBig@2x.png in Resources */,
 				F27EDD35216CBB6E00987579 /* DAW ActiveTabLeftCap@2x.png in Resources */,
 				F2880D121923BA7100C6370C /* BottomBarSharingIconAnnounceTurnOffHover 2@2x.png in Resources */,
@@ -3246,7 +3232,6 @@
 				4C6BDC5618896DCC0088CBFC /* SubEthaEditText.iconset in Resources */,
 				F27EDD34216CBB6E00987579 /* DAW ActiveTabLeftCap.png in Resources */,
 				F2D3E531189941F50096425B /* AW ActiveTabLeftCap.png in Resources */,
-				F2061D590B4C13AF00E6631F /* SmallGrowBoxRight3.tiff in Resources */,
 				4C57BD3A199BB11D00260983 /* InvertedIBeamBig.tiff in Resources */,
 				F2D3E548189941F50096425B /* AW Pulled ActiveTabRightCap@2x.png in Resources */,
 				F22024DC191D0BFE0098982C /* ParticipantReadOnlyTurnOnHover@2x.png in Resources */,
@@ -3328,7 +3313,6 @@
 				F2880D1A1923BA7100C6370C /* BottomBarSharingIconAnnounceTurnOffNormalReadWrite@2x.png in Resources */,
 				F2C6D3750D6DB131002B401D /* URLIconNotOK.tiff in Resources */,
 				F265602218C4BA7300C73737 /* SearchLoupeNormal.pdf in Resources */,
-				4CFAABB218A3ECE4009DB5C3 /* EditorRemoveSplit.pdf in Resources */,
 				F220247F191BBDA10098982C /* hud_buttonLeft-N@2x.png in Resources */,
 				F2880D241923BA7100C6370C /* BottomBarSharingIconGroupTurnOffNormal@2x.png in Resources */,
 				F2D3E568189941F50096425B /* IW InactiveTabRightCap@2x.png in Resources */,
