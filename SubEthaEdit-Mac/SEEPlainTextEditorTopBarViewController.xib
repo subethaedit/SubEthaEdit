@@ -59,7 +59,7 @@
                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="WaitPipe" id="mU1-Ry-qQ8"/>
                 </imageView>
                 <button id="ILs-CV-5zV">
-                    <rect key="frame" x="583" y="0.0" width="18" height="18"/>
+                    <rect key="frame" x="582" y="-1" width="19" height="19"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="ToolbarSplitTwoPanes" imagePosition="only" alignment="center" transparent="YES" inset="2" id="YLG-2p-GdI">
                         <behavior key="behavior" lightByContents="YES"/>
@@ -70,7 +70,7 @@
                     </connections>
                 </button>
                 <textField verticalHuggingPriority="750" id="9sl-OR-xm4" customClass="BorderedTextField">
-                    <rect key="frame" x="494" y="0.0" width="88" height="19"/>
+                    <rect key="frame" x="492" y="0.0" width="88" height="19"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="&lt;x words&gt;" id="iBG-BV-eyd" customClass="InsetTextFieldCell">
                         <font key="font" metaFont="smallSystem"/>
@@ -85,7 +85,7 @@
         </customView>
     </objects>
     <resources>
-        <image name="ToolbarSplitTwoPanes" width="12" height="13"/>
+        <image name="ToolbarSplitTwoPanes" width="13" height="13"/>
         <image name="WaitPipe" width="13" height="12"/>
     </resources>
 </document>
