@@ -157,7 +157,8 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 	[super loadView];
 	NSView *view = self.view;
     
-    BOOL isDarkAppearance = NSApp.effectiveAppearance.SEE_isDark;
+    BOOL isDarkAppearance = NSApp.SEE_effectiveAppearanceIsDark;
+    
 	self.bottomLineView.layer.backgroundColor = [[NSColor darkOverlaySeparatorColorBackgroundIsDark:NO appearanceIsDark:isDarkAppearance] CGColor];
 	view.layer.backgroundColor = [[NSColor brightOverlayBackgroundColorBackgroundIsDark:NO appearanceIsDark:isDarkAppearance] CGColor];
 
@@ -206,7 +207,7 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 
 - (void)updateColorsForIsDarkBackground:(BOOL)isDark {
     NSView *view = self.view;
-    BOOL isDarkAppearance = NSApp.effectiveAppearance.SEE_isDark;
+    BOOL isDarkAppearance = NSApp.SEE_effectiveAppearanceIsDark;
     self.bottomLineView.layer.backgroundColor = [[NSColor darkOverlaySeparatorColorBackgroundIsDark:isDark appearanceIsDark:isDarkAppearance] CGColor];
     view.layer.backgroundColor = [[NSColor brightOverlayBackgroundColorBackgroundIsDark:isDark appearanceIsDark:isDarkAppearance] CGColor];
     [self updateSearchOptionsButton];

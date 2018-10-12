@@ -376,7 +376,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	
 	// setup all the UI for the bottom bar
 	NSView *bottomStatusBarView = self.O_bottomStatusBarView;
-	bottomStatusBarView.layer.backgroundColor = [[NSColor darkOverlayBackgroundColorBackgroundIsDark:NO appearanceIsDark:NSApp.effectiveAppearance.SEE_isDark] CGColor];
+	bottomStatusBarView.layer.backgroundColor = [[NSColor darkOverlayBackgroundColorBackgroundIsDark:NO appearanceIsDark:NSApp.SEE_effectiveAppearanceIsDark] CGColor];
 	
 	[I_textView setPostsFrameChangedNotifications:YES];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textViewFrameDidChange:) name:NSViewFrameDidChangeNotification object:I_textView];
@@ -663,7 +663,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     }
     
 	[self.topBarViewController updateColorsForIsDarkBackground:isDark];
-    BOOL isDarkAppearance = NSApp.effectiveAppearance.SEE_isDark;
+    BOOL isDarkAppearance = NSApp.SEE_effectiveAppearanceIsDark;
     // bottom bar
     NSColor *darkColor = [NSColor darkOverlayBackgroundColorBackgroundIsDark:isDark appearanceIsDark:isDarkAppearance];
 	NSColor *darkSeparatorColor = [NSColor darkOverlaySeparatorColorBackgroundIsDark:isDark appearanceIsDark:isDarkAppearance];

@@ -5,6 +5,18 @@
 
 #import "NSAppearanceSEEAdditions.h"
 
+@implementation NSApplication (NSAppearanceSEEAdditions)
+
+- (BOOL)SEE_effectiveAppearanceIsDark {
+    BOOL result = NO;
+    if (@available(macOS 10.14, *)) {
+        result = self.effectiveAppearance.SEE_isDark;
+    }
+    return result;
+}
+
+@end
+
 @implementation NSAppearance (NSAppearanceSEEAdditions)
 
 - (BOOL)SEE_isDark {

@@ -5,6 +5,10 @@
 
 @import Cocoa;
 
+@interface NSApplication (NSAppearanceSEEAdditions)
+- (BOOL)SEE_effectiveAppearanceIsDark;
+@end
+
 @interface NSAppearance (NSAppearanceSEEAdditions)
 @property (nonatomic, readonly) BOOL SEE_isDark;
 @end

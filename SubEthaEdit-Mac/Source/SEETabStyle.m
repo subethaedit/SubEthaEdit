@@ -461,7 +461,7 @@
 	}
 	
 	if (NSHeight(tabBarControl.bounds) < [self.class desiredTabBarControlHeight]) {
-		[[NSColor darkOverlaySeparatorColorBackgroundIsDark:YES appearanceIsDark:NSApp.effectiveAppearance.SEE_isDark] set];
+		[[NSColor darkOverlaySeparatorColorBackgroundIsDark:YES appearanceIsDark:NSApp.SEE_effectiveAppearanceIsDark] set];
 		NSRect lineRect = tabBarControl.bounds;
 		lineRect.origin.y = NSMaxY(lineRect) - 1.0;
 		lineRect.size.height = 1.0;

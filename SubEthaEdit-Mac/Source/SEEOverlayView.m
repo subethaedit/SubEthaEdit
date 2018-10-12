@@ -111,7 +111,11 @@
 - (void)setBackgroundBlurActive:(BOOL)backgroundBlurActive {
 	BOOL windowIsActive = self.window.isMainWindow && [NSApp isActive];
     CGFloat inactiveAdjustment = self.brightnessAdjustForInactiveWindowState;
-	self.backgroundFilters = backgroundBlurActive ? [SEEOverlayView TCM_backgroundBlurFiltersForAdjustedBrightness:windowIsActive ? 0.0 : inactiveAdjustment forDarkAppearance:self.effectiveAppearance.SEE_isDark] : nil;
+    BOOL isDark = NO;
+    if (@available(macOS 10.14, *)) {
+        isDark = self.effectiveAppearance.SEE_isDark;
+    }
+	self.backgroundFilters = backgroundBlurActive ? [SEEOverlayView TCM_backgroundBlurFiltersForAdjustedBrightness:windowIsActive ? 0.0 : inactiveAdjustment forDarkAppearance:isDark] : nil;
 	[self.layer setNeedsDisplay];
 }
 

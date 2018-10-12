@@ -26,7 +26,11 @@
 }
 
 - (NSColor *)dividerColorForSplitView:(SEESplitView *)aSplitView {
-	NSColor *result = [[NSColor darkOverlaySeparatorColorBackgroundIsDark:self.tabContext.document.documentBackgroundColor.isDark appearanceIsDark:aSplitView.effectiveAppearance.SEE_isDark] colorWithAlphaComponent:1.0];
+    BOOL isDark = NO;
+    if (@available(macOS 10.14, *)) {
+        isDark = aSplitView.effectiveAppearance.SEE_isDark;
+    }
+	NSColor *result = [[NSColor darkOverlaySeparatorColorBackgroundIsDark:self.tabContext.document.documentBackgroundColor.isDark appearanceIsDark:isDark] colorWithAlphaComponent:1.0];
 	return result;
 }
 

@@ -75,7 +75,7 @@
 
 	NSView *view = self.view;
     
-    BOOL isDarkAppearance = NSApp.effectiveAppearance.SEE_isDark;
+    BOOL isDarkAppearance = NSApp.SEE_effectiveAppearanceIsDark;
     
 	view.layer.backgroundColor = [[NSColor brightOverlayBackgroundColorBackgroundIsDark:NO appearanceIsDark:isDarkAppearance] CGColor];
 	self.topLineView.layer.backgroundColor = [[NSColor brightOverlaySeparatorColorBackgroundIsDark:NO appearanceIsDark:isDarkAppearance] CGColor];
@@ -406,7 +406,7 @@
 
 - (void)updateColorsForIsDarkBackground:(BOOL)isDark {
     NSView *view = self.view;
-    BOOL isDarkAppearance = NSApp.effectiveAppearance.SEE_isDark;
+    BOOL isDarkAppearance = NSApp.SEE_effectiveAppearanceIsDark;
     
     view.layer.backgroundColor = [[NSColor brightOverlayBackgroundColorBackgroundIsDark:isDark appearanceIsDark:isDarkAppearance] CGColor];
     self.topLineView.layer.backgroundColor = [[NSColor brightOverlaySeparatorColorBackgroundIsDark:isDark appearanceIsDark:isDarkAppearance] CGColor];
