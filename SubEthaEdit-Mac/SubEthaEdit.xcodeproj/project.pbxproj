@@ -427,18 +427,6 @@
 		F2880D1E1923BA7100C6370C /* BottomBarSharingIconAnnounceTurnOnNormal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2880CFC1923BA7000C6370C /* BottomBarSharingIconAnnounceTurnOnNormal@2x.png */; };
 		F2880D1F1923BA7100C6370C /* BottomBarSharingIconAnnounceTurnOnPressed.png in Resources */ = {isa = PBXBuildFile; fileRef = F2880CFD1923BA7000C6370C /* BottomBarSharingIconAnnounceTurnOnPressed.png */; };
 		F2880D201923BA7100C6370C /* BottomBarSharingIconAnnounceTurnOnPressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2880CFE1923BA7000C6370C /* BottomBarSharingIconAnnounceTurnOnPressed@2x.png */; };
-		F2880D211923BA7100C6370C /* BottomBarSharingIconGroupTurnOffHover.png in Resources */ = {isa = PBXBuildFile; fileRef = F2880CFF1923BA7100C6370C /* BottomBarSharingIconGroupTurnOffHover.png */; };
-		F2880D221923BA7100C6370C /* BottomBarSharingIconGroupTurnOffHover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2880D001923BA7100C6370C /* BottomBarSharingIconGroupTurnOffHover@2x.png */; };
-		F2880D231923BA7100C6370C /* BottomBarSharingIconGroupTurnOffNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = F2880D011923BA7100C6370C /* BottomBarSharingIconGroupTurnOffNormal.png */; };
-		F2880D241923BA7100C6370C /* BottomBarSharingIconGroupTurnOffNormal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2880D021923BA7100C6370C /* BottomBarSharingIconGroupTurnOffNormal@2x.png */; };
-		F2880D251923BA7100C6370C /* BottomBarSharingIconGroupTurnOffPressed.png in Resources */ = {isa = PBXBuildFile; fileRef = F2880D031923BA7100C6370C /* BottomBarSharingIconGroupTurnOffPressed.png */; };
-		F2880D261923BA7100C6370C /* BottomBarSharingIconGroupTurnOffPressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2880D041923BA7100C6370C /* BottomBarSharingIconGroupTurnOffPressed@2x.png */; };
-		F2880D271923BA7100C6370C /* BottomBarSharingIconGroupTurnOnHover.png in Resources */ = {isa = PBXBuildFile; fileRef = F2880D051923BA7100C6370C /* BottomBarSharingIconGroupTurnOnHover.png */; };
-		F2880D281923BA7100C6370C /* BottomBarSharingIconGroupTurnOnHover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2880D061923BA7100C6370C /* BottomBarSharingIconGroupTurnOnHover@2x.png */; };
-		F2880D291923BA7100C6370C /* BottomBarSharingIconGroupTurnOnNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = F2880D071923BA7100C6370C /* BottomBarSharingIconGroupTurnOnNormal.png */; };
-		F2880D2A1923BA7100C6370C /* BottomBarSharingIconGroupTurnOnNormal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2880D081923BA7100C6370C /* BottomBarSharingIconGroupTurnOnNormal@2x.png */; };
-		F2880D2B1923BA7100C6370C /* BottomBarSharingIconGroupTurnOnPressed.png in Resources */ = {isa = PBXBuildFile; fileRef = F2880D091923BA7100C6370C /* BottomBarSharingIconGroupTurnOnPressed.png */; };
-		F2880D2C1923BA7100C6370C /* BottomBarSharingIconGroupTurnOnPressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2880D0A1923BA7100C6370C /* BottomBarSharingIconGroupTurnOnPressed@2x.png */; };
 		F290D9D80EDB04EF00E643C0 /* TCMPortMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F290D9D70EDB04EF00E643C0 /* TCMPortMapper.framework */; };
 		F290D9DD0EDB04F900E643C0 /* TCMPortMapper.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = F290D9D70EDB04EF00E643C0 /* TCMPortMapper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		F291D1A10FCECD22008BC286 /* FoldingBubbleText.rtf in Resources */ = {isa = PBXBuildFile; fileRef = F291D1A00FCECD22008BC286 /* FoldingBubbleText.rtf */; };
@@ -1394,18 +1382,6 @@
 		F2880CFC1923BA7000C6370C /* BottomBarSharingIconAnnounceTurnOnNormal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BottomBarSharingIconAnnounceTurnOnNormal@2x.png"; sourceTree = "<group>"; };
 		F2880CFD1923BA7000C6370C /* BottomBarSharingIconAnnounceTurnOnPressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BottomBarSharingIconAnnounceTurnOnPressed.png; sourceTree = "<group>"; };
 		F2880CFE1923BA7000C6370C /* BottomBarSharingIconAnnounceTurnOnPressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BottomBarSharingIconAnnounceTurnOnPressed@2x.png"; sourceTree = "<group>"; };
-		F2880CFF1923BA7100C6370C /* BottomBarSharingIconGroupTurnOffHover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BottomBarSharingIconGroupTurnOffHover.png; sourceTree = "<group>"; };
-		F2880D001923BA7100C6370C /* BottomBarSharingIconGroupTurnOffHover@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BottomBarSharingIconGroupTurnOffHover@2x.png"; sourceTree = "<group>"; };
-		F2880D011923BA7100C6370C /* BottomBarSharingIconGroupTurnOffNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BottomBarSharingIconGroupTurnOffNormal.png; sourceTree = "<group>"; };
-		F2880D021923BA7100C6370C /* BottomBarSharingIconGroupTurnOffNormal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BottomBarSharingIconGroupTurnOffNormal@2x.png"; sourceTree = "<group>"; };
-		F2880D031923BA7100C6370C /* BottomBarSharingIconGroupTurnOffPressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BottomBarSharingIconGroupTurnOffPressed.png; sourceTree = "<group>"; };
-		F2880D041923BA7100C6370C /* BottomBarSharingIconGroupTurnOffPressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BottomBarSharingIconGroupTurnOffPressed@2x.png"; sourceTree = "<group>"; };
-		F2880D051923BA7100C6370C /* BottomBarSharingIconGroupTurnOnHover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BottomBarSharingIconGroupTurnOnHover.png; sourceTree = "<group>"; };
-		F2880D061923BA7100C6370C /* BottomBarSharingIconGroupTurnOnHover@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BottomBarSharingIconGroupTurnOnHover@2x.png"; sourceTree = "<group>"; };
-		F2880D071923BA7100C6370C /* BottomBarSharingIconGroupTurnOnNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BottomBarSharingIconGroupTurnOnNormal.png; sourceTree = "<group>"; };
-		F2880D081923BA7100C6370C /* BottomBarSharingIconGroupTurnOnNormal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BottomBarSharingIconGroupTurnOnNormal@2x.png"; sourceTree = "<group>"; };
-		F2880D091923BA7100C6370C /* BottomBarSharingIconGroupTurnOnPressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BottomBarSharingIconGroupTurnOnPressed.png; sourceTree = "<group>"; };
-		F2880D0A1923BA7100C6370C /* BottomBarSharingIconGroupTurnOnPressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BottomBarSharingIconGroupTurnOnPressed@2x.png"; sourceTree = "<group>"; };
 		F290D9D70EDB04EF00E643C0 /* TCMPortMapper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TCMPortMapper.framework; path = TCMPortMapper/TCMPortMapper.framework; sourceTree = "<group>"; };
 		F291D1A00FCECD22008BC286 /* FoldingBubbleText.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = FoldingBubbleText.rtf; path = artwork/FoldingBubbleText.rtf; sourceTree = "<group>"; };
 		F291D1B00FCECF33008BC286 /* FoldingBubbleBig.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FoldingBubbleBig.png; path = artwork/FoldingBubbleBig.png; sourceTree = "<group>"; };
@@ -2802,18 +2778,6 @@
 				F2880CFC1923BA7000C6370C /* BottomBarSharingIconAnnounceTurnOnNormal@2x.png */,
 				F2880CFD1923BA7000C6370C /* BottomBarSharingIconAnnounceTurnOnPressed.png */,
 				F2880CFE1923BA7000C6370C /* BottomBarSharingIconAnnounceTurnOnPressed@2x.png */,
-				F2880CFF1923BA7100C6370C /* BottomBarSharingIconGroupTurnOffHover.png */,
-				F2880D001923BA7100C6370C /* BottomBarSharingIconGroupTurnOffHover@2x.png */,
-				F2880D011923BA7100C6370C /* BottomBarSharingIconGroupTurnOffNormal.png */,
-				F2880D021923BA7100C6370C /* BottomBarSharingIconGroupTurnOffNormal@2x.png */,
-				F2880D031923BA7100C6370C /* BottomBarSharingIconGroupTurnOffPressed.png */,
-				F2880D041923BA7100C6370C /* BottomBarSharingIconGroupTurnOffPressed@2x.png */,
-				F2880D051923BA7100C6370C /* BottomBarSharingIconGroupTurnOnHover.png */,
-				F2880D061923BA7100C6370C /* BottomBarSharingIconGroupTurnOnHover@2x.png */,
-				F2880D071923BA7100C6370C /* BottomBarSharingIconGroupTurnOnNormal.png */,
-				F2880D081923BA7100C6370C /* BottomBarSharingIconGroupTurnOnNormal@2x.png */,
-				F2880D091923BA7100C6370C /* BottomBarSharingIconGroupTurnOnPressed.png */,
-				F2880D0A1923BA7100C6370C /* BottomBarSharingIconGroupTurnOnPressed@2x.png */,
 				F220249D191D0BFE0098982C /* ParticipantFollowStatusOn.png */,
 				F220249E191D0BFE0098982C /* ParticipantFollowStatusOn@2x.png */,
 				F22024A1191D0BFE0098982C /* ParticipantFollowTurnOffHover.png */,
@@ -3065,7 +3029,6 @@
 				F22024DA191D0BFE0098982C /* ParticipantReadOnlyTurnOffPressed@2x.png in Resources */,
 				142890B2095743F200D14688 /* ActionPressed.tiff in Resources */,
 				F2D3E53C189941F50096425B /* AW InactiveTabClosePressed@2x.png in Resources */,
-				F2880D261923BA7100C6370C /* BottomBarSharingIconGroupTurnOffPressed@2x.png in Resources */,
 				F22024EA191D0DB30098982C /* ParticipantReadOnlyStatusOn@2x.png in Resources */,
 				1428905F095743B300D14688 /* debug.tiff in Resources */,
 				F22024C5191D0BFE0098982C /* ParticipantFollowTurnOffNormal.png in Resources */,
@@ -3094,7 +3057,6 @@
 				F2D3E536189941F50096425B /* AW InactiveTabAlert@2x.png in Resources */,
 				F2D3E561189941F50096425B /* IW InactiveTabClosePressed.png in Resources */,
 				F2880D111923BA7100C6370C /* BottomBarSharingIconAnnounceTurnOffHover 2.png in Resources */,
-				F2880D2A1923BA7100C6370C /* BottomBarSharingIconGroupTurnOnNormal@2x.png in Resources */,
 				F2D3E532189941F50096425B /* AW ActiveTabLeftCap@2x.png in Resources */,
 				F25A072D191A875100F07557 /* StatusReadOnly.png in Resources */,
 				F2D3E53A189941F50096425B /* AW InactiveTabClose@2x.png in Resources */,
@@ -3104,7 +3066,6 @@
 				F22CB6C0216DFC4F00D1565D /* DAW ActiveTabClosePressed.png in Resources */,
 				142890C3095743F200D14688 /* LibraryFolderIcon.tiff in Resources */,
 				F2B136EB189BF27000430639 /* AW AddTabButton.tiff in Resources */,
-				F2880D271923BA7100C6370C /* BottomBarSharingIconGroupTurnOnHover.png in Resources */,
 				F2880D141923BA7100C6370C /* BottomBarSharingIconAnnounceTurnOffHover@2x.png in Resources */,
 				F2D3E537189941F50096425B /* AW InactiveTabBG.png in Resources */,
 				F27EDD33216CBB6E00987579 /* DAW InactiveTabLeftCap@2x.png in Resources */,
@@ -3129,7 +3090,6 @@
 				F25A0730191A875100F07557 /* StatusReadWrite@2x.png in Resources */,
 				F2C7672718B3AEAC00763B40 /* PlainTextEditor.xib in Resources */,
 				F22024E4191D0D280098982C /* ParticipantReadOnlyTurnOnPressed@2x.png in Resources */,
-				F2880D251923BA7100C6370C /* BottomBarSharingIconGroupTurnOffPressed.png in Resources */,
 				F22CB6BF216DFC4F00D1565D /* DAW ActiveTabClose.png in Resources */,
 				F22CB6DB216E02F900D1565D /* DIW ActiveTabClose@2x.png in Resources */,
 				4CD5F7EE17FB0CA300F49E31 /* Export.xib in Resources */,
@@ -3204,7 +3164,6 @@
 				F2D3E555189941F50096425B /* IW ActiveTabFill.png in Resources */,
 				F22024E3191D0D280098982C /* ParticipantReadOnlyTurnOnPressed.png in Resources */,
 				F2D3E541189941F50096425B /* AW InactiveTabRightCap.png in Resources */,
-				F2880D221923BA7100C6370C /* BottomBarSharingIconGroupTurnOffHover@2x.png in Resources */,
 				F2D3E564189941F50096425B /* IW InactiveTabCloseRollover@2x.png in Resources */,
 				F2B136E6189BF27000430639 /* AW AddTabButtonRollover.tiff in Resources */,
 				14EC6E280A63F2E800B44481 /* ServicesMenu.strings in Resources */,
@@ -3220,7 +3179,6 @@
 				F22024DC191D0BFE0098982C /* ParticipantReadOnlyTurnOnHover@2x.png in Resources */,
 				F27EDD2C216CBB6E00987579 /* DAW InactiveTabRightCap@2x.png in Resources */,
 				F22CB6D6216E02F900D1565D /* DIW ActiveTabCloseRollover@2x.png in Resources */,
-				F2880D231923BA7100C6370C /* BottomBarSharingIconGroupTurnOffNormal.png in Resources */,
 				F2D3E528189941F50096425B /* AddTab.pdf in Resources */,
 				F22024CF191D0BFE0098982C /* ParticipantKickHover.png in Resources */,
 				F2D3E558189941F50096425B /* IW ActiveTabLeftCap@2x.png in Resources */,
@@ -3229,13 +3187,11 @@
 				F2D3E55E189941F50096425B /* IW InactiveTabBG@2x.png in Resources */,
 				4C0D3D7617FB168200AAFB38 /* DebugUsers.xib in Resources */,
 				F2D3E546189941F50096425B /* AW Pulled ActiveTabLeftCap@2x.png in Resources */,
-				F2880D281923BA7100C6370C /* BottomBarSharingIconGroupTurnOnHover@2x.png in Resources */,
 				4C5EC97F1897F6FC0094D850 /* SEEParticipantsOverlay.xib in Resources */,
 				F2D3E538189941F50096425B /* AW InactiveTabBG@2x.png in Resources */,
 				F2B136EC189BF27000430639 /* AW AddTabButtonPushed.tiff in Resources */,
 				F2DC3DD318F2F12300B543E9 /* SEEPlainTextEditorTopBarViewController.xib in Resources */,
 				4CD5F81117FB0DC100F49E31 /* PlainTextLoadProgress.xib in Resources */,
-				F2880D291923BA7100C6370C /* BottomBarSharingIconGroupTurnOnNormal.png in Resources */,
 				4CD5F82917FB0E4F00F49E31 /* SavePanelAccessory.xib in Resources */,
 				4CD5F82D17FB0E6000F49E31 /* SelectEncodingsPanel.xib in Resources */,
 				F27EDD46216CC26500987579 /* DIW ActiveTabLeftCap@2x.png in Resources */,
@@ -3264,7 +3220,6 @@
 				319AAE3D0CB0165900ACDAB4 /* Precedence_Remove.tiff in Resources */,
 				319AAE3E0CB0165A00ACDAB4 /* Precedence_RemovePressed.png in Resources */,
 				3134F7DE0CB13A2E00F8C116 /* Precedence_RemoveRollover.tiff in Resources */,
-				F2880D2B1923BA7100C6370C /* BottomBarSharingIconGroupTurnOnPressed.png in Resources */,
 				F27EDD4E216CC26500987579 /* DIW InactiveTabBG@2x.png in Resources */,
 				4C6BDC5518896DCC0088CBFC /* SubEthaEditStyle.iconset in Resources */,
 				F2880D161923BA7100C6370C /* BottomBarSharingIconAnnounceTurnOffNormal@2x.png in Resources */,
@@ -3279,7 +3234,6 @@
 				F22CB6DF216E02F900D1565D /* DIW ActiveTabClosePressed@2x.png in Resources */,
 				F2D3E53E189941F50096425B /* AW InactiveTabCloseRollover@2x.png in Resources */,
 				4C6BDC601889858A0088CBFC /* folded@2x.png in Resources */,
-				F2880D2C1923BA7100C6370C /* BottomBarSharingIconGroupTurnOnPressed@2x.png in Resources */,
 				F27EDD2D216CBB6E00987579 /* DAW InactiveTabBG.png in Resources */,
 				F25A0723191A800E00F07557 /* EditPrefs.png in Resources */,
 				4CD5F83517FB0EB500F49E31 /* URLBubbleWindow.xib in Resources */,
@@ -3297,7 +3251,6 @@
 				F2C6D3750D6DB131002B401D /* URLIconNotOK.tiff in Resources */,
 				F265602218C4BA7300C73737 /* SearchLoupeNormal.pdf in Resources */,
 				F220247F191BBDA10098982C /* hud_buttonLeft-N@2x.png in Resources */,
-				F2880D241923BA7100C6370C /* BottomBarSharingIconGroupTurnOffNormal@2x.png in Resources */,
 				F2D3E568189941F50096425B /* IW InactiveTabRightCap@2x.png in Resources */,
 				F2D3E565189941F50096425B /* IW InactiveTabLeftCap.png in Resources */,
 				F2C6D3760D6DB131002B401D /* URLIconOK.tiff in Resources */,
@@ -3306,7 +3259,6 @@
 				F22024C4191D0BFE0098982C /* ParticipantFollowTurnOffHover@2x.png in Resources */,
 				F2D3E54A189941F50096425B /* AW SingleTabAddButton@2x.png in Resources */,
 				F2FEE7141892A747000E6BC8 /* SharingIconEye.pdf in Resources */,
-				F2880D211923BA7100C6370C /* BottomBarSharingIconGroupTurnOffHover.png in Resources */,
 				4CDF05A618C0A3D4004A49E5 /* SEEConnectionAddingWindowController.xib in Resources */,
 				F22CB6D8216E02F900D1565D /* DIW InactiveTabClosePressed.png in Resources */,
 				F2D3E53D189941F50096425B /* AW InactiveTabCloseRollover.png in Resources */,
