@@ -99,6 +99,7 @@ NSString * const LicenseeNamePrefKey = @"LicenseeNamePrefKey";
 NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
 
 NSString * const GlobalScriptsDidReloadNotification = @"GlobalScriptsDidReloadNotification";
+NSString * const SEEAppEffectiveAppearanceDidChangeNotification = @"SEEAppEffectiveAppearanceDidChangeNotification";
 
 NSString * const kSEEPasteBoardTypeConnection = @"SEEPasteBoardTypeConnection";
 
@@ -416,6 +417,13 @@ static AppController *sharedInstance = nil;
     
 	// check built in mode versions
 	[self performSelector:@selector(checkUserModesForUpdateAfterVersionBump) withObject:nil afterDelay:0.0];
+    
+    // Observe the app's effective appearance
+    [NSApp addObserver:self forKeyPath:@"effectiveAppearance" options:0 context:nil];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    [[NSNotificationCenter defaultCenter] postNotificationName:SEEAppEffectiveAppearanceDidChangeNotification object:NSApp];
 }
 
 #pragma mark

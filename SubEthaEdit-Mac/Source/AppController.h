@@ -36,6 +36,7 @@ extern int const ScriptMenuTag;
 extern NSString * const kSEEPasteBoardTypeConnection;
 
 extern NSString * const GlobalScriptsDidReloadNotification;
+extern NSString * const SEEAppEffectiveAppearanceDidChangeNotification;
 
 @interface AppController : NSObject <NSApplicationDelegate, NSMenuDelegate> {
     NSMutableDictionary *I_scriptsByFilename;

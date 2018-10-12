@@ -25,11 +25,6 @@
 	return self;
 }
 
-- (void)splitViewEffectiveAppearanceDidChange:(SEESplitView *)aSplitView {
-    // force color updates
-    [self.tabContext.plainTextEditors makeObjectsPerformSelector:@selector(takeStyleSettingsFromDocument)];
-}
-
 - (NSColor *)dividerColorForSplitView:(SEESplitView *)aSplitView {
 	NSColor *result = [[NSColor darkOverlaySeparatorColorBackgroundIsDark:self.tabContext.document.documentBackgroundColor.isDark appearanceIsDark:aSplitView.effectiveAppearance.SEE_isDark] colorWithAlphaComponent:1.0];
 	return result;

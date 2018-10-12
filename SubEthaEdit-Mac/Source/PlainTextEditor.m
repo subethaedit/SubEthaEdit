@@ -155,25 +155,27 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     return self;
 }
 
+- (void)_removeNotificationRegistrations {
+    NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+    PlainTextDocument *document = I_windowControllerTabContext.document;
+    [defaultCenter removeObserver:document name:NSTextViewDidChangeSelectionNotification object:I_textView];
+    [defaultCenter removeObserver:document name:NSTextDidChangeNotification object:I_textView];
+    [defaultCenter removeObserver:self];
+}
+
 - (void)prepareForDealloc {
 	// remove our layoutmanager from the textstorage
 	PlainTextDocument *document = I_windowControllerTabContext.document;
 	[[document textStorage] removeLayoutManager:self.textView.layoutManager];
-	
-    [[NSNotificationCenter defaultCenter] removeObserver:document name:NSTextViewDidChangeSelectionNotification object:I_textView];
-    [[NSNotificationCenter defaultCenter] removeObserver:document name:NSTextDidChangeNotification object:I_textView];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self _removeNotificationRegistrations];
+    
 	// release the objects that are bound so we get dealloced later
 	self.ownerController.content = nil;
 	self.topLevelNibObjects = nil;
 }
 
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:[I_windowControllerTabContext document] name:NSTextViewDidChangeSelectionNotification object:I_textView];
-    [[NSNotificationCenter defaultCenter] removeObserver:[I_windowControllerTabContext document] name:NSTextDidChangeNotification object:I_textView];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-
+- (void)dealloc {
+    [self _removeNotificationRegistrations];
 
     [I_textView setDelegate:nil];
     [I_textView setEditor:nil];     // in case our editor outlives us
@@ -222,9 +224,9 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 - (void)sessionWillChange:(NSNotification *)aNotification
 {
     PlainTextDocument *document = [self document];
-
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:TCMMMSessionParticipantsDidChangeNotification object:[document session]];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:TCMMMSessionDidChangeNotification object:[document session]];
+    __auto_type session = document.session;
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:TCMMMSessionParticipantsDidChangeNotification object:session];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:TCMMMSessionDidChangeNotification object:session];
 }
 
 
@@ -493,7 +495,8 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 								 object:document];
     }
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TCM_updateBottomStatusBar) name:@"AfterEncodingsListChanged" object:nil];
+    [notificationCenter addObserver:self selector:@selector(TCM_updateBottomStatusBar) name:@"AfterEncodingsListChanged" object:nil];
+    [notificationCenter addObserver:self selector:@selector(SEE_appEffectiveAppearanceDidChange:) name:SEEAppEffectiveAppearanceDidChangeNotification object:NSApp];
 
     I_radarScroller = [RadarScroller new];
     [O_scrollView setHasVerticalScroller:YES];
@@ -690,11 +693,9 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     }
 }
 
-- (void)takeStyleSettingsFromDocument
-{
+- (void)takeStyleSettingsFromDocument {
     PlainTextDocument *document = [self document];
-    if (document)
-    {
+    if (document) {
 		BOOL isDark = [self hasDarkBackground];
         [[self textView] setBackgroundColor:[document documentBackgroundColor]];
 		[self updateColorsForIsDarkBackground:isDark];
@@ -703,6 +704,9 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     }
 }
 
+- (void)SEE_appEffectiveAppearanceDidChange:(NSNotification *)notification {
+    [self takeStyleSettingsFromDocument]; // update all the relevant bits for an appearance change
+}
 
 - (void)takeSettingsFromDocument
 {
