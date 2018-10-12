@@ -56,6 +56,10 @@
 #import "Debug/DebugController.h"
 #endif
 
+#ifdef FULL
+@import Sparkle;
+#endif
+
 int const AppMenuTag = 200;
 int const EnterSerialMenuItemTag = 201;
 int const FileMenuTag = 100;
@@ -796,6 +800,13 @@ static AppController *sharedInstance = nil;
             item.title = [NSString stringWithFormat:NSLocalizedString(@"SEE_APP_MENU_QUIT", nil), appName];
         }
     }
+    
+#ifdef FULL
+    NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"SEE_APP_MENU_CHECK_FOR_UPDATES", nil) action:@selector(checkForUpdates:) keyEquivalent:@""];
+    menuItem.target = [SUUpdater sharedUpdater];
+    [appMenu insertItem:menuItem atIndex:1];
+#endif
+    
 }
 
 - (void)setupFileEncodingsSubmenu {

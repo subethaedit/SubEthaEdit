@@ -7,6 +7,9 @@
 /* App menu about */
 "SEE_APP_MENU_QUIT" = "Quit %@";
 
+/* App menu check for updates*/
+"SEE_APP_MENU_CHECK_FOR_UPDATES" = "Check for Updates…";
+
 /* arrangement of Tab setting and tab width in Bottm Status Bar */
 "%@ (%d)" = "%@ (%d)";
 

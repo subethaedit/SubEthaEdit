@@ -62,7 +62,7 @@
 #ifdef MAC_APP_STORE_RECEIPT_VALIDATION
     licenseType = @"AppStore Version";
 #else //! MAC_APP_STORE_RECEIPT_VALIDATION
-    licenseType = @"Volume Licensed";
+    licenseType = @"Outside AppStore Version";
 #endif // MAC_APP_STORE_RECEIPT_VALIDATION
 #endif // BETA
 
