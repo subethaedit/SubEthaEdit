@@ -109,7 +109,9 @@ NSString * const kSEEPasteBoardTypeConnection = @"SEEPasteBoardTypeConnection";
 
     
 @interface AppController ()
-
+#if FULL
+<SUUpdaterDelegate>
+#endif
 - (void)setupFileEncodingsSubmenu;
 - (void)setupScriptMenu;
 - (void)setupDocumentModeSubmenu;
@@ -802,12 +804,18 @@ static AppController *sharedInstance = nil;
     }
     
 #ifdef FULL
+    [SUUpdater sharedUpdater].delegate = self;
     NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"SEE_APP_MENU_CHECK_FOR_UPDATES", nil) action:@selector(checkForUpdates:) keyEquivalent:@""];
     menuItem.target = [SUUpdater sharedUpdater];
     [appMenu insertItem:menuItem atIndex:1];
 #endif
     
 }
+
+#ifdef FULL
+#endif
+
+
 
 - (void)setupFileEncodingsSubmenu {
     NSMenuItem *formatMenu = [[NSApp mainMenu] itemWithTag:FormatMenuTag];
