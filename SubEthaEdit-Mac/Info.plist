@@ -3033,8 +3033,8 @@
 	<true/>
 	<key>OSAScriptingDefinition</key>
 	<string>SubEthaEdit</string>
-	<key>SUFeedURL</key>
-	<string>https://subethaedit.monkey.productions/appcast.xml</string>
+	<key>SUPublicDSAKeyFile</key>
+	<string>sparkle_dsa_pub.pem</string>
 	<key>SUPublicEDKey</key>
 	<string>MIIGSDCCBDoGByqGSM44BAEwggQtAoICAQDtcrK3u6F7rkSQjcK978SyokuzCv8G
 mFsT1ll5pyi8X7GkzdUqlmkNn2gohaEzR6xSybS9enKN4+gFip+ofZgYGW6SBDKt
@@ -5561,7 +5561,5 @@ Kh7XKgrp85Rbz+BgAJ1oE9tdZqr/gcXFEvIQ8g==</string>
 			</dict>
 		</dict>
 	</array>
-	<key>SUAllowsAutomaticUpdates</key>
-	<false/>
 </dict>
 </plist>

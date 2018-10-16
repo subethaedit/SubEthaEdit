@@ -389,8 +389,6 @@
 		F27EDD4D216CC26500987579 /* DIW ActiveTabLeftCap.png in Resources */ = {isa = PBXBuildFile; fileRef = F27EDD41216CC26400987579 /* DIW ActiveTabLeftCap.png */; };
 		F27EDD4E216CC26500987579 /* DIW InactiveTabBG@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F27EDD42216CC26500987579 /* DIW InactiveTabBG@2x.png */; };
 		F27EDD56216E6DEC00987579 /* NSAppearanceSEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F27EDD55216E6DEC00987579 /* NSAppearanceSEEAdditions.m */; };
-		F27EDD5D2170C0B800987579 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F27EDD5C2170C0B800987579 /* Sparkle.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		F27EDD5E2170C15800987579 /* Sparkle.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = F27EDD5C2170C0B800987579 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F280ABC4131E6ED50091D145 /* SEEStyleSheetEditorWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = F280ABC3131E6ED50091D145 /* SEEStyleSheetEditorWindowController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		F2815CE1216251F7006B3BC5 /* Bug Report.md in Resources */ = {isa = PBXBuildFile; fileRef = F2815CDD216251F7006B3BC5 /* Bug Report.md */; };
 		F281D34E0F38756100AD7DE1 /* FoldableTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D34C0F38756100AD7DE1 /* FoldableTextStorage.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -536,6 +534,12 @@
 		F2DEC34F0F8FA72000ADEE48 /* FoldingTextAttachmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D4360F388A0B00AD7DE1 /* FoldingTextAttachmentCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		F2DEC8820F90005700ADEE48 /* NSStringSEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428920B095751CB00D14688 /* NSStringSEEAdditions.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		F2EF08D119069E33004D5080 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = F2EF08CF19069E33004D5080 /* Localizable.stringsdict */; };
+		F2EFDE2C21760DFA00B5A4DD /* sparkle_dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = F2EFDE2B21760DFA00B5A4DD /* sparkle_dsa_pub.pem */; };
+		F2EFDE3621760E1900B5A4DD /* org.sparkle-project.InstallerConnection.xpc in Copy Sparkle XPCServices */ = {isa = PBXBuildFile; fileRef = F2EFDE3021760E0800B5A4DD /* org.sparkle-project.InstallerConnection.xpc */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		F2EFDE3721760E1900B5A4DD /* org.sparkle-project.InstallerLauncher.xpc in Copy Sparkle XPCServices */ = {isa = PBXBuildFile; fileRef = F2EFDE2E21760E0800B5A4DD /* org.sparkle-project.InstallerLauncher.xpc */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		F2EFDE3821760E1900B5A4DD /* org.sparkle-project.InstallerStatus.xpc in Copy Sparkle XPCServices */ = {isa = PBXBuildFile; fileRef = F2EFDE2D21760E0800B5A4DD /* org.sparkle-project.InstallerStatus.xpc */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		F2EFDE3A21760E5C00B5A4DD /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2EFDE3921760E5B00B5A4DD /* Sparkle.framework */; };
+		F2EFDE3B21760E6F00B5A4DD /* Sparkle.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = F2EFDE3921760E5B00B5A4DD /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F2F2B5A70CA7F7B80045C189 /* PrecedencePreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D2C6E70CA7C7A7003CC5C9 /* PrecedencePreferences.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		F2F2B6100CA811240045C189 /* TCMMMLogStatisticsDataPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F2B60D0CA811240045C189 /* TCMMMLogStatisticsDataPoint.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		F2F5970C193336B300FDAA4A /* SEEDocumentListTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F5970B193336B300FDAA4A /* SEEDocumentListTableView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -591,7 +595,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				F27EDD5E2170C15800987579 /* Sparkle.framework in Copy Files (Frameworks) */,
+				F2EFDE3B21760E6F00B5A4DD /* Sparkle.framework in Copy Files (Frameworks) */,
 				F290D9DD0EDB04F900E643C0 /* TCMPortMapper.framework in Copy Files (Frameworks) */,
 				4C6AE8751802E8AC0089D489 /* PSMTabBarControl.framework in Copy Files (Frameworks) */,
 				4C6AE8761802E8AC0089D489 /* OgreKit.framework in Copy Files (Frameworks) */,
@@ -622,6 +626,19 @@
 			files = (
 			);
 			name = "Copy Man Pages";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F28A04242174D84B0056B45D /* Copy Sparkle XPCServices */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/XPCServices";
+			dstSubfolderSpec = 16;
+			files = (
+				F2EFDE3621760E1900B5A4DD /* org.sparkle-project.InstallerConnection.xpc in Copy Sparkle XPCServices */,
+				F2EFDE3721760E1900B5A4DD /* org.sparkle-project.InstallerLauncher.xpc in Copy Sparkle XPCServices */,
+				F2EFDE3821760E1900B5A4DD /* org.sparkle-project.InstallerStatus.xpc in Copy Sparkle XPCServices */,
+			);
+			name = "Copy Sparkle XPCServices";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		F298A0040CCB9EFC00C4DB8B /* Copy Importers */ = {
@@ -1222,7 +1239,6 @@
 		F27EDD42216CC26500987579 /* DIW InactiveTabBG@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DIW InactiveTabBG@2x.png"; sourceTree = "<group>"; };
 		F27EDD54216E6DEC00987579 /* NSAppearanceSEEAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NSAppearanceSEEAdditions.h; path = Additions/NSAppearanceSEEAdditions.h; sourceTree = "<group>"; };
 		F27EDD55216E6DEC00987579 /* NSAppearanceSEEAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = NSAppearanceSEEAdditions.m; path = Additions/NSAppearanceSEEAdditions.m; sourceTree = "<group>"; };
-		F27EDD5C2170C0B800987579 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Sparkle/Sparkle.framework; sourceTree = "<group>"; };
 		F280ABC2131E6ED50091D145 /* SEEStyleSheetEditorWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SEEStyleSheetEditorWindowController.h; sourceTree = "<group>"; };
 		F280ABC3131E6ED50091D145 /* SEEStyleSheetEditorWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEStyleSheetEditorWindowController.m; sourceTree = "<group>"; };
 		F2815CDD216251F7006B3BC5 /* Bug Report.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = "Bug Report.md"; path = "Resources/Bug Report.md"; sourceTree = "<group>"; };
@@ -1393,6 +1409,11 @@
 		F2DCD8F10EE432F900F2854F /* FontForwardingTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontForwardingTextField.m; sourceTree = "<group>"; };
 		F2EF08D019069E33004D5080 /* English */ = {isa = PBXFileReference; explicitFileType = text.plist.xml; name = English; path = English.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		F2EF08D51906B232004D5080 /* German */ = {isa = PBXFileReference; explicitFileType = text.plist.xml; name = German; path = German.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
+		F2EFDE2B21760DFA00B5A4DD /* sparkle_dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = sparkle_dsa_pub.pem; path = Sparkle/sparkle_dsa_pub.pem; sourceTree = SOURCE_ROOT; };
+		F2EFDE2D21760E0800B5A4DD /* org.sparkle-project.InstallerStatus.xpc */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.xpc-service"; name = "org.sparkle-project.InstallerStatus.xpc"; path = "Sparkle/org.sparkle-project.InstallerStatus.xpc"; sourceTree = SOURCE_ROOT; };
+		F2EFDE2E21760E0800B5A4DD /* org.sparkle-project.InstallerLauncher.xpc */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.xpc-service"; name = "org.sparkle-project.InstallerLauncher.xpc"; path = "Sparkle/org.sparkle-project.InstallerLauncher.xpc"; sourceTree = SOURCE_ROOT; };
+		F2EFDE3021760E0800B5A4DD /* org.sparkle-project.InstallerConnection.xpc */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.xpc-service"; name = "org.sparkle-project.InstallerConnection.xpc"; path = "Sparkle/org.sparkle-project.InstallerConnection.xpc"; sourceTree = SOURCE_ROOT; };
+		F2EFDE3921760E5B00B5A4DD /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Sparkle/Sparkle.framework; sourceTree = SOURCE_ROOT; };
 		F2F2B60C0CA811240045C189 /* TCMMMLogStatisticsDataPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = TCMMMLogStatisticsDataPoint.h; sourceTree = "<group>"; };
 		F2F2B60D0CA811240045C189 /* TCMMMLogStatisticsDataPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMMMLogStatisticsDataPoint.m; sourceTree = "<group>"; };
 		F2F5970A193336B300FDAA4A /* SEEDocumentListTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEDocumentListTableView.h; sourceTree = "<group>"; };
@@ -1420,7 +1441,7 @@
 				8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */,
 				4CF3490117FC6EAF005D0D4F /* PSMTabBarControl.framework in Frameworks */,
 				4C0FDA2218031235008E24E8 /* UniversalDetector.framework in Frameworks */,
-				F27EDD5D2170C0B800987579 /* Sparkle.framework in Frameworks */,
+				F2EFDE3A21760E5C00B5A4DD /* Sparkle.framework in Frameworks */,
 				F290D9D80EDB04EF00E643C0 /* TCMPortMapper.framework in Frameworks */,
 				4C6AE8741802E8810089D489 /* OgreKit.framework in Frameworks */,
 				F250EAC3216A138F00B94A0B /* libz.tbd in Frameworks */,
@@ -1449,7 +1470,6 @@
 		1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F27EDD5C2170C0B800987579 /* Sparkle.framework */,
 				1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */,
 				F250EAD4216A1A9A00B94A0B /* IOKit.framework */,
 				4C6AE8731802E8810089D489 /* OgreKit.framework */,
@@ -1960,6 +1980,7 @@
 				5EC638450ABEBE2C00D3295B /* Unit Tests */,
 				2A37F4AFFDCFA73011CA2CEA /* Other Sources */,
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
+				F28A041A2174D8090056B45D /* Sparkle */,
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
 				F2D86C150F8E7DA200B912A2 /* SubEthaPerf */,
 				19C28FB0FE9D524F11CA2CBB /* Products */,
@@ -2375,6 +2396,19 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		F28A041A2174D8090056B45D /* Sparkle */ = {
+			isa = PBXGroup;
+			children = (
+				F2EFDE3921760E5B00B5A4DD /* Sparkle.framework */,
+				F2EFDE2B21760DFA00B5A4DD /* sparkle_dsa_pub.pem */,
+				F2EFDE3021760E0800B5A4DD /* org.sparkle-project.InstallerConnection.xpc */,
+				F2EFDE2E21760E0800B5A4DD /* org.sparkle-project.InstallerLauncher.xpc */,
+				F2EFDE2D21760E0800B5A4DD /* org.sparkle-project.InstallerStatus.xpc */,
+			);
+			name = Sparkle;
+			path = "New Group";
+			sourceTree = "<group>";
+		};
 		F2D22CAF0EE9C5DE004B8E33 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -2617,6 +2651,7 @@
 				8D15AC330486D014006FF6A4 /* Frameworks */,
 				149EC6970958726E002BDC41 /* Copy Files (Frameworks) */,
 				F286A767215D0CED0056C247 /* Copy Command Line Tools */,
+				F28A04242174D84B0056B45D /* Copy Sparkle XPCServices */,
 				F286A77B215D190D0056C247 /* Copy Man Pages */,
 				F298A0040CCB9EFC00C4DB8B /* Copy Importers */,
 				142898130958165400D14688 /* Run Script (Deployment) */,
@@ -2756,6 +2791,7 @@
 				F2D3E55B189941F50096425B /* IW InactiveTabAlert.png in Resources */,
 				F27EDD31216CBB6E00987579 /* DAW InactiveTabBG@2x.png in Resources */,
 				1428900F095740F200D14688 /* RE.txt in Resources */,
+				F2EFDE2C21760DFA00B5A4DD /* sparkle_dsa_pub.pem in Resources */,
 				F22CB6DE216E02F900D1565D /* DIW ActiveTabClosePressed.png in Resources */,
 				F22024D2191D0BFE0098982C /* ParticipantKickNormal@2x.png in Resources */,
 				F2D3E563189941F50096425B /* IW InactiveTabCloseRollover.png in Resources */,

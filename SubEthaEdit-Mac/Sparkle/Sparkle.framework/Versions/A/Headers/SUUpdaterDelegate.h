@@ -2,7 +2,7 @@
 //  SUUpdaterDelegate.h
 //  Sparkle
 //
-//  Created by Mayur Pawashe on 12/25/16.
+//  Created by Mayur Pawashe on 3/12/16.
 //  Copyright © 2016 Sparkle Project. All rights reserved.
 //
 
@@ -42,6 +42,7 @@ SU_EXPORT extern NSString *const SUUpdaterAppcastNotificationKey;
 /*!
  Provides methods to control the behavior of an SUUpdater object.
  */
+__deprecated_msg("See SPUUpdaterDelegate instead")
 @protocol SUUpdaterDelegate <NSObject>
 @optional
 
@@ -134,14 +135,6 @@ SU_EXPORT extern NSString *const SUUpdaterAppcastNotificationKey;
 - (void)updater:(SUUpdater *)updater willDownloadUpdate:(SUAppcastItem *)item withRequest:(NSMutableURLRequest *)request;
 
 /*!
- Called immediately after succesfull download of the specified update.
- 
- \param updater The SUUpdater instance.
- \param item The appcast item corresponding to the update that has been downloaded.
- */
-- (void)updater:(SUUpdater *)updater didDownloadUpdate:(SUAppcastItem *)item;
-
-/*!
  Called after the specified update failed to download.
  
  \param updater The SUUpdater instance.
@@ -158,22 +151,6 @@ SU_EXPORT extern NSString *const SUUpdaterAppcastNotificationKey;
 - (void)userDidCancelDownload:(SUUpdater *)updater;
 
 /*!
- Called immediately before extracting the specified downloaded update.
- 
- \param updater The SUUpdater instance.
- \param item The appcast item corresponding to the update that is proposed to be extracted.
- */
-- (void)updater:(SUUpdater *)updater willExtractUpdate:(SUAppcastItem *)item;
-
-/*!
- Called immediately after extracting the specified downloaded update.
- 
- \param updater The SUUpdater instance.
- \param item The appcast item corresponding to the update that has been extracted.
- */
-- (void)updater:(SUUpdater *)updater didExtractUpdate:(SUAppcastItem *)item;
-
-/*!
  Called immediately before installing the specified update.
  
  \param updater The SUUpdater instance.
@@ -186,6 +163,8 @@ SU_EXPORT extern NSString *const SUUpdaterAppcastNotificationKey;
  
  This is not called if the user didn't relaunch on the previous update,
  in that case it will immediately restart.
+ 
+ This may also not be called if the application is not going to relaunch after it terminates.
  
  \param updater The SUUpdater instance.
  \param item The appcast item corresponding to the update that is proposed to be installed.
@@ -224,7 +203,9 @@ SU_EXPORT extern NSString *const SUUpdaterAppcastNotificationKey;
  
  This method allows you to provide a custom version comparator.
  If you don't implement this method or return \c nil,
- the standard version comparator will be used.
+ the standard version comparator will be used. Note that the
+ standard version comparator may be used during installation for preventing
+ a downgrade, even if you provide a custom comparator here.
  
  \sa SUStandardVersionComparator
  
@@ -234,18 +215,17 @@ SU_EXPORT extern NSString *const SUUpdaterAppcastNotificationKey;
 
 /*!
  Returns an object that formats version numbers for display to the user.
- 
- If you don't implement this method or return \c nil,
- the standard version formatter will be used.
+ If you don't implement this method or return \c nil, the standard version formatter will be used.
  
  \sa SUUpdateAlert
- 
  \param updater The SUUpdater instance.
  */
-- (nullable id<SUVersionDisplay>)versionDisplayerForUpdater:(SUUpdater *)updater;
+- (nullable id <SUVersionDisplay>)versionDisplayerForUpdater:(SUUpdater *)updater;
 
 /*!
- Returns the path which is used to relaunch the client after the update is installed.
+ Returns the path to the application which is used to relaunch after the update is installed.
+ 
+ The installer also waits for the termination of the application at this path.
  
  The default is the path of the host bundle.
  
@@ -271,6 +251,7 @@ SU_EXPORT extern NSString *const SUUpdaterAppcastNotificationKey;
 
 /*!
  Called when an update is scheduled to be silently installed on quit.
+ 
  This is after an update has been automatically downloaded in the background.
  (i.e. SUUpdater::automaticallyDownloadsUpdates is YES)
  
@@ -285,8 +266,10 @@ SU_EXPORT extern NSString *const SUUpdaterAppcastNotificationKey;
  
  \param updater The SUUpdater instance.
  \param item The appcast item corresponding to the update that was proposed to be installed.
+ 
+  \deprecated This method is no longer invoked. The installer will try to its best ability to install the update.
  */
-- (void)updater:(SUUpdater *)updater didCancelInstallUpdateOnQuit:(SUAppcastItem *)item;
+- (void)updater:(SUUpdater *)updater didCancelInstallUpdateOnQuit:(SUAppcastItem *)item __deprecated;
 
 /*!
  Called after an update is aborted due to an error.

@@ -19,7 +19,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class SUAppcastItem;
-SU_EXPORT @interface SUAppcast : NSObject
+SU_EXPORT @interface SUAppcast : NSObject<NSURLDownloadDelegate>
 
 @property (copy, nullable) NSString *userAgentString;
 @property (copy, nullable) NSDictionary<NSString *, NSString *> *httpHeaders;

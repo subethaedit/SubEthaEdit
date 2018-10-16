@@ -57,7 +57,7 @@
 #endif
 
 #ifdef FULL
-@import Sparkle;
+#import <Sparkle/Sparkle.h>
 #endif
 
 int const AppMenuTag = 200;
@@ -109,9 +109,10 @@ NSString * const kSEEPasteBoardTypeConnection = @"SEEPasteBoardTypeConnection";
 
     
 @interface AppController ()
-#if FULL
-<SUUpdaterDelegate>
+#ifdef FULL
+<SPUUpdaterDelegate>
 #endif
+
 - (void)setupFileEncodingsSubmenu;
 - (void)setupScriptMenu;
 - (void)setupDocumentModeSubmenu;
@@ -804,18 +805,19 @@ static AppController *sharedInstance = nil;
     }
     
 #ifdef FULL
-    [SUUpdater sharedUpdater].delegate = self;
+    static SPUStandardUpdaterController *updaterController = nil; updaterController = updaterController ?: [[SPUStandardUpdaterController alloc] initWithUpdaterDelegate:self userDriverDelegate:nil];
     NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"SEE_APP_MENU_CHECK_FOR_UPDATES", nil) action:@selector(checkForUpdates:) keyEquivalent:@""];
-    menuItem.target = [SUUpdater sharedUpdater];
+    menuItem.target = updaterController;
     [appMenu insertItem:menuItem atIndex:1];
 #endif
     
 }
 
 #ifdef FULL
+- (NSString *)feedURLStringForUpdater:(SPUUpdater *)updater {
+    return @"https://" SEE_APPCAST_FEED_URL;
+}
 #endif
-
-
 
 - (void)setupFileEncodingsSubmenu {
     NSMenuItem *formatMenu = [[NSApp mainMenu] itemWithTag:FormatMenuTag];
