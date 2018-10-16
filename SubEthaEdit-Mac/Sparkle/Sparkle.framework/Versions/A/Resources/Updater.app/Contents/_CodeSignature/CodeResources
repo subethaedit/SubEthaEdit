@@ -21,7 +21,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			1DqRlJD99eHNeZfH7c1nkBP6BSY=
+			GKVpUSeAUJG8k2A5xbDAREAH6Vs=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -57,24 +57,14 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			1DqRlJD99eHNeZfH7c1nkBP6BSY=
+			GKVpUSeAUJG8k2A5xbDAREAH6Vs=
 			</data>
 			<key>hash2</key>
 			<data>
-			VKrqra5Y+fuppLi72JAYdFXvSeAD6MrTXzI0hMcNXRU=
+			BklPzU94u2PJ36i5C4/Jz7obvWovHFRJWlF7Zl9Yt+U=
 			</data>
 			<key>optional</key>
 			<true/>
-		</dict>
-		<key>Resources/fr_CA.lproj</key>
-		<dict>
-			<key>symlink</key>
-			<string>fr.lproj</string>
-		</dict>
-		<key>Resources/pt.lproj</key>
-		<dict>
-			<key>symlink</key>
-			<string>pt_BR.lproj</string>
 		</dict>
 	</dict>
 	<key>rules</key>

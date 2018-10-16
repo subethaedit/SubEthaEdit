@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/Autoupdate</key>
 		<data>
-		03FAZj0fiCYQpQGhUc3+FcwilgA=
+		HToW4atf8yrvLEPzTuUjLWXNuvk=
 		</data>
 		<key>Resources/DarkAqua.css</key>
 		<data>
@@ -14,7 +14,7 @@
 		</data>
 		<key>Resources/Info.plist</key>
 		<data>
-		2EN9PyuxToMbRVhk/WRFivIpkV0=
+		XBWuC6w8PXpGu1O07NaEQjIwRbA=
 		</data>
 		<key>Resources/SUModelTranslation.plist</key>
 		<data>
@@ -30,7 +30,7 @@
 		</data>
 		<key>Resources/Updater.app/Contents/MacOS/Updater</key>
 		<data>
-		4xpu/KiStz260Iez0K+Iar+guo8=
+		0aC4bSBWfiUU81mBN0gGFKKOm4U=
 		</data>
 		<key>Resources/Updater.app/Contents/PkgInfo</key>
 		<data>
@@ -53,20 +53,20 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			1DqRlJD99eHNeZfH7c1nkBP6BSY=
+			GKVpUSeAUJG8k2A5xbDAREAH6Vs=
 			</data>
 			<key>optional</key>
 			<true/>
 		</dict>
 		<key>Resources/Updater.app/Contents/_CodeSignature/CodeResources</key>
 		<data>
-		E2hxjgPa1f13V3gWYuGpbacR2yE=
+		naeBPuHODVzTjqsUpB2Cz78A0V8=
 		</data>
 		<key>Resources/de.lproj/SUUpdateAlert.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			K2gLW9E4IYYWCkcyOQTNS2pYq0o=
+			X+LFbphjod/8SjerHwIMfdp3z58=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -93,7 +93,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			ZcOyyPGRLjJi+hdaxDScAIZK2mU=
+			kfn1ijjCwNamYbpJKBi7RmH5g0o=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -111,7 +111,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			1DqRlJD99eHNeZfH7c1nkBP6BSY=
+			GKVpUSeAUJG8k2A5xbDAREAH6Vs=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -387,11 +387,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			03FAZj0fiCYQpQGhUc3+FcwilgA=
+			HToW4atf8yrvLEPzTuUjLWXNuvk=
 			</data>
 			<key>hash2</key>
 			<data>
-			PrrCSxejcm42KuoWtC7JfjI9EqYQkyFOGGq90b1Ed6U=
+			R8rmaO/9ZXKomqm+XTGvZa0COQzRmBzZy2JtoSRi7Vk=
 			</data>
 		</dict>
 		<key>Resources/DarkAqua.css</key>
@@ -409,11 +409,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			2EN9PyuxToMbRVhk/WRFivIpkV0=
+			XBWuC6w8PXpGu1O07NaEQjIwRbA=
 			</data>
 			<key>hash2</key>
 			<data>
-			P4oYkB3JGfC9U2YNU/Nt1X1NX2YXlpYsIp/8w2Wm2QE=
+			Bvotuq8kxa/e7GSi+5UozezpHuLn1ZUDaSgbgicymKw=
 			</data>
 		</dict>
 		<key>Resources/SUModelTranslation.plist</key>
@@ -453,11 +453,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			4xpu/KiStz260Iez0K+Iar+guo8=
+			0aC4bSBWfiUU81mBN0gGFKKOm4U=
 			</data>
 			<key>hash2</key>
 			<data>
-			op6DYdcOozuv4SwlYbtceprUUAiYccBHdsDmJf1vddw=
+			m+hIK/4hKGH2HjfjevqqW10esCGvRc6pEaDFAUA8eko=
 			</data>
 		</dict>
 		<key>Resources/Updater.app/Contents/PkgInfo</key>
@@ -499,45 +499,35 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			1DqRlJD99eHNeZfH7c1nkBP6BSY=
+			GKVpUSeAUJG8k2A5xbDAREAH6Vs=
 			</data>
 			<key>hash2</key>
 			<data>
-			VKrqra5Y+fuppLi72JAYdFXvSeAD6MrTXzI0hMcNXRU=
+			BklPzU94u2PJ36i5C4/Jz7obvWovHFRJWlF7Zl9Yt+U=
 			</data>
 			<key>optional</key>
 			<true/>
-		</dict>
-		<key>Resources/Updater.app/Contents/Resources/fr_CA.lproj</key>
-		<dict>
-			<key>symlink</key>
-			<string>fr.lproj</string>
-		</dict>
-		<key>Resources/Updater.app/Contents/Resources/pt.lproj</key>
-		<dict>
-			<key>symlink</key>
-			<string>pt_BR.lproj</string>
 		</dict>
 		<key>Resources/Updater.app/Contents/_CodeSignature/CodeResources</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			E2hxjgPa1f13V3gWYuGpbacR2yE=
+			naeBPuHODVzTjqsUpB2Cz78A0V8=
 			</data>
 			<key>hash2</key>
 			<data>
-			VHsQ4ESzyJNRa6naytV6utbjPn+4KVkhQnVCaOaKHto=
+			DLKA2GWfB2GnVRhbCBxQGj+GPb+4dWti2m1efXp1+TM=
 			</data>
 		</dict>
 		<key>Resources/de.lproj/SUUpdateAlert.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			K2gLW9E4IYYWCkcyOQTNS2pYq0o=
+			X+LFbphjod/8SjerHwIMfdp3z58=
 			</data>
 			<key>hash2</key>
 			<data>
-			j3RAzNwm7bL5BxsdhDh4KEn28iAHlFg3I5Y153FmoOM=
+			GMxCoFOLEAN6/kIM3wlxFH7D+e5mKqOV7jVZgqChr+4=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -572,11 +562,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			ZcOyyPGRLjJi+hdaxDScAIZK2mU=
+			kfn1ijjCwNamYbpJKBi7RmH5g0o=
 			</data>
 			<key>hash2</key>
 			<data>
-			KR5F7il/9y6uGaMNFOdn/E0MR976p0vUa/w05z3eGZ4=
+			iUxjw99xIh4n5NPLasW4LGW8cNOqzvuJA9h6HPF7ej8=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -598,11 +588,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			1DqRlJD99eHNeZfH7c1nkBP6BSY=
+			GKVpUSeAUJG8k2A5xbDAREAH6Vs=
 			</data>
 			<key>hash2</key>
 			<data>
-			VKrqra5Y+fuppLi72JAYdFXvSeAD6MrTXzI0hMcNXRU=
+			BklPzU94u2PJ36i5C4/Jz7obvWovHFRJWlF7Zl9Yt+U=
 			</data>
 			<key>optional</key>
 			<true/>
