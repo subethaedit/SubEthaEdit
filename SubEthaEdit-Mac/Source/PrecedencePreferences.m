@@ -9,7 +9,12 @@
 #import "PrecedenceRuleCell.h"
 #import "DocumentModeManager.h"
 
-@implementation PrecedencePreferences
+@implementation PrecedencePreferences {
+    IBOutlet NSTableView *o_rulesTableView;
+    IBOutlet NSArrayController *o_modesController;
+    IBOutlet NSArrayController *o_rulesController;
+    NSMutableDictionary *ruleViews;
+}
 
 - (NSImage *)icon {
     return [NSImage imageNamed:@"PrefIconTrigger"];
@@ -30,41 +35,40 @@
 - (void)mainViewDidLoad {
 	[o_rulesTableView setDelegate:self];
 	[o_rulesTableView setRowHeight:32];
+    [o_rulesTableView deselectAll:nil];
+    o_rulesTableView.selectionHighlightStyle = NSTableViewSelectionHighlightStyleNone;
 	NSTableColumn *column = [o_rulesTableView tableColumnWithIdentifier:@"Rules"];
-	[column setDataCell:[[[PrecedenceRuleCell alloc] init] autorelease]];
-	ruleViews =[NSMutableDictionary new];
+	[column setDataCell:[[PrecedenceRuleCell alloc] init]];
+	ruleViews = [NSMutableDictionary new];
 }
 
 - (void)didSelect {
 	//NSLog(@"%s:%d",__PRETTY_FUNCTION__,__LINE__);
 }
 
-- (void) dealloc {
-    [ruleViews autorelease];
-    [super dealloc];
-}
-
-- (IBAction) addUserRule:(id)sender {	
+- (IBAction)addUserRule:(id)sender {
 	int index = [[o_rulesController arrangedObjects] count];
 	//NSLog(@"foo: %@", [o_rulesController arrangedObjects]);
-	NSMutableDictionary *newRule = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-									@"",@"String",
-									[NSNumber numberWithBool:NO],@"ModeRule",
-									[NSNumber numberWithInt:0],@"TypeIdentifier",
-									[NSNumber numberWithBool:YES],@"Enabled",
-									[NSNumber numberWithBool:NO],@"Overridden",
-									@"",@"OverriddenTooltip",
-									nil];
+	NSMutableDictionary *newRule =
+    [@{
+       @"String"           :@"",
+       @"ModeRule"         :@NO,
+       @"TypeIdentifier"   :@0,
+       @"Enabled"          :@YES,
+       @"Overridden"       :@NO,
+       @"OverriddenTooltip":@"",
+       } mutableCopy];
 
 	// NSLog(@"%s %@ %d",__FUNCTION__, newRule,(int)newRule);
 	[o_rulesController insertObject:newRule atArrangedObjectIndex:index];
 	//NSLog(@"bar: %@", [o_rulesController arrangedObjects]);
 	//[o_rulesController setSelectionIndex:index];
 	[[DocumentModeManager sharedInstance] revalidatePrecedences];
+    [o_rulesTableView deselectAll:nil];
 	[o_rulesTableView scrollRowToVisible:index];
 }
 
-- (IBAction) removeUserRule:(id)sender {
+- (IBAction)removeUserRule:(id)sender {
 	RuleViewController *ruleViewController = sender;
 	[[ruleViewController view] setHidden:YES];
 	int i;
@@ -77,6 +81,7 @@
 	NSString *key = [NSString stringWithFormat:@"%li", (intptr_t)[sender rule]];
 	[ruleViews removeObjectForKey:key];
 	[[DocumentModeManager sharedInstance] revalidatePrecedences];
+    [o_rulesTableView deselectAll:nil];
 //	[o_rulesTableView setNeedsDisplay:YES];
 }
 
@@ -84,7 +89,7 @@
 
 @implementation PrecedencePreferences (TableViewDelegation)
 
-- (void) tableView:(NSTableView *) tableView willDisplayCell:(id) cell forTableColumn:(NSTableColumn *) tableColumn row:(NSInteger) row {
+- (void)tableView:(NSTableView *) tableView willDisplayCell:(id) cell forTableColumn:(NSTableColumn *) tableColumn row:(NSInteger) row {
 	if (tableView != o_rulesTableView) return;
 	NSMutableDictionary *rule = [[o_rulesController arrangedObjects] objectAtIndex:row];
 	//NSLog(@"%s %@ %d",__FUNCTION__, rule, (int)rule);
@@ -95,7 +100,7 @@
 	if (!ruleViewController) {
 		//NSLog(@"Binding to: %@", rule);
 		//NSLog(@"foo: %@", [cell exposedBindings]);
-		ruleViewController = [[RuleViewController new] autorelease];
+		ruleViewController = [RuleViewController new];
 		[ruleViewController setPreferenceController:self];
 		[ruleViewController setRule:rule];
 		[[ruleViewController stringTextfield] bind:@"value" toObject:rule withKeyPath:@"String" options:nil];
@@ -129,6 +134,7 @@
     while ((object = [enumerator nextObject])) {
         [[object view] setHidden:YES]; 
     }
+    [o_rulesTableView deselectAll:nil];
 }
 
 - (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(NSInteger)rowIndex {

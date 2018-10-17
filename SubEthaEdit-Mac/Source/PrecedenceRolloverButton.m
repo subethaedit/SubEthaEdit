@@ -6,77 +6,64 @@
 #import "PrecedenceRolloverButton.h"
 
 
-@implementation PrecedenceRolloverButton
-
-- (void)configure
-{
-    mouseIsIn = NO;	
-	trackingTag = 0;
-	TCM_altImage = [[NSImage imageNamed:@"Precedence_RemoveRollover"] retain];
+@implementation PrecedenceRolloverButton {
+    NSTrackingRectTag trackingTag;
+    BOOL mouseIsIn;
 }
 
-- (id)initWithFrame:(NSRect)frame 
-{
+- (void)configure {
+    mouseIsIn = NO;	
+	trackingTag = 0;
+}
+
+- (id)initWithFrame:(NSRect)frame  {
     self = [super initWithFrame:frame];
-    if (self) 
-	{
+    if (self) {
 		[self configure];
     }
     
 	return self;
 }
 
-- (id)initWithCoder:(NSCoder*)coder
-{
+- (id)initWithCoder:(NSCoder *)coder {
     self = [super initWithCoder:coder];
-    if (self) 
-	{
+    if (self) {
 		[self configure];
     }
 	
     return self;
 }
 
-- (void)dealloc
-{
-	[TCM_altImage release];	
-	[super dealloc];
+- (void)updateImageHighlight {
+    if (mouseIsIn) {
+        if (@available(macOS 10.14, *)) {
+            self.contentTintColor = NSColor.controlTextColor;
+        }
+    } else {
+        if (@available(macOS 10.14, *)) {
+            self.contentTintColor = nil;
+        }
+    }
 }
 
-- (void)mouseEntered:(NSEvent*)anEvent
-{
-	if ( [self isEnabled] )
-	{
+- (void)mouseEntered:(NSEvent*)anEvent {
+	if ([self isEnabled]) {
 		mouseIsIn = YES;
-		
-		NSImage	*curImage = [[self image] retain];
-		[super setImage:TCM_altImage];
-		
-		[TCM_altImage release];
-		TCM_altImage = curImage;
+        [self updateImageHighlight];
 	}
 }
 
 
-- (void)mouseExited:(NSEvent*)theEvent
-{
-	if ( [self isEnabled] )
-	{
+- (void)mouseExited:(NSEvent*)theEvent {
+	if ([self isEnabled]) {
 		mouseIsIn = NO;
-		
-		NSImage	*curImage = [[self image] retain];
-		[super setImage:TCM_altImage];
-		
-		[TCM_altImage release];
-		TCM_altImage = curImage;
+        [self updateImageHighlight];
 	}
 }
 
 
-- (void)resetCursorRects 
-{
+- (void)resetCursorRects  {
 	[self removeTrackingRect:trackingTag];
-	
 	trackingTag = [self addTrackingRect:[self bounds] owner:self userData:nil assumeInside:NO];
 }
 

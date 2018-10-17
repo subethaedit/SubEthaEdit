@@ -7,15 +7,9 @@
 #import "TCMPreferenceModule.h"
 
 
-@interface PrecedencePreferences : TCMPreferenceModule <NSTableViewDelegate> {
-	IBOutlet NSTableView *o_rulesTableView;
-	IBOutlet NSArrayController *o_modesController;
-	IBOutlet NSArrayController *o_rulesController;
-	NSMutableDictionary *ruleViews;
-}
+@interface PrecedencePreferences : TCMPreferenceModule <NSTableViewDelegate> 
 
-- (IBAction) addUserRule:(id)sender;
-- (IBAction) removeUserRule:(id)sender;
-
+- (IBAction)addUserRule:(id)sender;
+- (IBAction)removeUserRule:(id)sender;
 
 @end

@@ -31,8 +31,7 @@
     }
 }
 
-- (void)setPlaceholderString:(NSString *)string {
-	
+- (void)setPlaceholderString:(NSString *)string {	
 }
 
 @end

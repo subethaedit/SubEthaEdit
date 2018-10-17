@@ -31,9 +31,9 @@
 - (NSTextField *) stringTextfield;
 - (NSImageView *) warningImageView;
 - (NSButton *) removeButton;
--(IBAction)valuesChanged:(id)sender;
--(IBAction)removeRule:(id)sender;
-- (void)setPreferenceController:(PrecedencePreferences*)controller;
+- (IBAction)valuesChanged:(id)sender;
+- (IBAction)removeRule:(id)sender;
+- (void)setPreferenceController:(PrecedencePreferences *)controller;
 - (void)setRule:(NSMutableDictionary *)dict;
 - (NSMutableDictionary *)rule;
 	

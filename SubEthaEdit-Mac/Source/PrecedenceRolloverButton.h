@@ -5,11 +5,5 @@
 
 #import <Cocoa/Cocoa.h>
 
-
-@interface PrecedenceRolloverButton : NSButton {
-	NSTrackingRectTag	trackingTag;
-	NSImage				*TCM_altImage;
-	BOOL mouseIsIn;	
-}
-
+@interface PrecedenceRolloverButton : NSButton
 @end

@@ -27,14 +27,14 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="0.0" verticalLineScroll="19" verticalPageScroll="0.0" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="10">
-                        <rect key="frame" x="12" y="34" width="257" height="390"/>
+                        <rect key="frame" x="12" y="43" width="257" height="381"/>
                         <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
                         <clipView key="contentView" id="aUn-1K-bNh">
-                            <rect key="frame" x="1" y="0.0" width="255" height="389"/>
+                            <rect key="frame" x="1" y="0.0" width="255" height="380"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" multipleSelection="NO" autosaveColumns="NO" headerView="53" id="11">
-                                    <rect key="frame" x="0.0" y="0.0" width="255" height="372"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="255" height="363"/>
                                     <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -110,14 +110,14 @@
                         </tableHeaderView>
                     </scrollView>
                     <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="0.0" verticalLineScroll="19" verticalPageScroll="0.0" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="14">
-                        <rect key="frame" x="277" y="34" width="388" height="390"/>
+                        <rect key="frame" x="277" y="43" width="388" height="381"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" id="zAc-Og-Ucq">
-                            <rect key="frame" x="1" y="0.0" width="386" height="389"/>
+                            <rect key="frame" x="1" y="0.0" width="386" height="380"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" headerView="56" id="15">
-                                    <rect key="frame" x="0.0" y="0.0" width="386" height="372"/>
+                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" headerView="56" id="15">
+                                    <rect key="frame" x="0.0" y="0.0" width="386" height="363"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -158,7 +158,7 @@
                         </tableHeaderView>
                     </scrollView>
                     <textField verticalHuggingPriority="750" id="20">
-                        <rect key="frame" x="9" y="12" width="262" height="14"/>
+                        <rect key="frame" x="9" y="17" width="262" height="14"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Drag modes to change order of evaluation." id="49">
                             <font key="font" metaFont="smallSystem"/>
@@ -166,17 +166,6 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <button id="21">
-                        <rect key="frame" x="639" y="3" width="27" height="28"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="Precedence_Add" imagePosition="above" alignment="center" alternateImage="Precedence_AddPressed" inset="2" id="50">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system" size="10"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="addUserRule:" target="-2" id="26"/>
-                        </connections>
-                    </button>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" id="9FP-yo-4v7">
                         <rect key="frame" x="10" y="430" width="657" height="24"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -187,7 +176,7 @@
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" id="zCK-9F-T6r">
-                        <rect key="frame" x="275" y="12" width="358" height="14"/>
+                        <rect key="frame" x="275" y="17" width="358" height="14"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Add, remove or disable Triggers to alter Mode recognition." id="Pyf-On-J2C">
                             <font key="font" metaFont="smallSystem"/>
@@ -195,8 +184,20 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
+                    <button id="21">
+                        <rect key="frame" x="630" y="9" width="37" height="28"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="NSAddTemplate" imagePosition="above" alignment="center" borderStyle="border" inset="2" id="50">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system" size="10"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="addUserRule:" target="-2" id="26"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
+            <point key="canvasLocation" x="139.5" y="146.5"/>
         </window>
         <arrayController objectClassName="NSMutableArray" automaticallyPreparesContent="YES" id="8" userLabel="Rules">
             <connections>
@@ -218,7 +219,6 @@
         <customObject id="31" userLabel="DocumentModeManager" customClass="DocumentModeManager"/>
     </objects>
     <resources>
-        <image name="Precedence_Add" width="23" height="22"/>
-        <image name="Precedence_AddPressed" width="23" height="22"/>
+        <image name="NSAddTemplate" width="11" height="11"/>
     </resources>
 </document>

@@ -137,16 +137,11 @@
 		14E294510A0CBFB0007C0065 /* SelectCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E2944F0A0CBFB0007C0065 /* SelectCommand.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		14EC6E280A63F2E800B44481 /* ServicesMenu.strings in Resources */ = {isa = PBXBuildFile; fileRef = 14EC6E270A63F2E800B44481 /* ServicesMenu.strings */; };
 		311717F40A0E8C3600A9DA18 /* ModeSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 311717F20A0E8C3600A9DA18 /* ModeSettings.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		3134F7AB0CB1331900F8C116 /* PrecedenceRolloverButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 3134F7A90CB1331900F8C116 /* PrecedenceRolloverButton.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		3134F7DE0CB13A2E00F8C116 /* Precedence_RemoveRollover.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3134F7DD0CB13A2E00F8C116 /* Precedence_RemoveRollover.tiff */; };
+		3134F7AB0CB1331900F8C116 /* PrecedenceRolloverButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 3134F7A90CB1331900F8C116 /* PrecedenceRolloverButton.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		316A0D2A0C68A47100720268 /* DebugAttributeInspectorController.m in Sources */ = {isa = PBXBuildFile; fileRef = 316A0D280C68A47100720268 /* DebugAttributeInspectorController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		3170E46112846C670096089C /* SEEStyleSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 3170E46012846C670096089C /* SEEStyleSheet.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		3170E4D5128715F20096089C /* SEEStyleSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 3170E46012846C670096089C /* SEEStyleSheet.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		3188F6800CAD13E0009E4C0B /* DNDArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3188F6780CAD1218009E4C0B /* DNDArrayController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		319AAE3B0CB0165800ACDAB4 /* Precedence_Add.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 319AAE190CB015B300ACDAB4 /* Precedence_Add.tiff */; };
-		319AAE3C0CB0165800ACDAB4 /* Precedence_AddPressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 319AAE1A0CB015B300ACDAB4 /* Precedence_AddPressed.tiff */; };
-		319AAE3D0CB0165900ACDAB4 /* Precedence_Remove.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 319AAE1B0CB015B300ACDAB4 /* Precedence_Remove.tiff */; };
-		319AAE3E0CB0165A00ACDAB4 /* Precedence_RemovePressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 319AAE1C0CB015B300ACDAB4 /* Precedence_RemovePressed.png */; };
 		31D2C7000CA7C9C8003CC5C9 /* PrecedenceRuleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D2C6E50CA7C7A7003CC5C9 /* PrecedenceRuleCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		31FFC93D104E97A000E08256 /* NSErrorTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FFC93C104E97A000E08256 /* NSErrorTCMAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		420AAF7F18FE0FFC00297DB1 /* StylePrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 420AAF7E18FE0FFC00297DB1 /* StylePrefs.xib */; };
@@ -540,7 +535,7 @@
 		F2EFDE3821760E1900B5A4DD /* org.sparkle-project.InstallerStatus.xpc in Copy Sparkle XPCServices */ = {isa = PBXBuildFile; fileRef = F2EFDE2D21760E0800B5A4DD /* org.sparkle-project.InstallerStatus.xpc */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		F2EFDE3A21760E5C00B5A4DD /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2EFDE3921760E5B00B5A4DD /* Sparkle.framework */; };
 		F2EFDE3B21760E6F00B5A4DD /* Sparkle.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = F2EFDE3921760E5B00B5A4DD /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F2F2B5A70CA7F7B80045C189 /* PrecedencePreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D2C6E70CA7C7A7003CC5C9 /* PrecedencePreferences.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		F2F2B5A70CA7F7B80045C189 /* PrecedencePreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D2C6E70CA7C7A7003CC5C9 /* PrecedencePreferences.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		F2F2B6100CA811240045C189 /* TCMMMLogStatisticsDataPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F2B60D0CA811240045C189 /* TCMMMLogStatisticsDataPoint.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		F2F5970C193336B300FDAA4A /* SEEDocumentListTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F5970B193336B300FDAA4A /* SEEDocumentListTableView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		F2FB96E30CBE68ED000B85AE /* UKXattrMetadataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = F2FB96E10CBE68ED000B85AE /* UKXattrMetadataStore.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -924,17 +919,12 @@
 		311717F30A0E8C3600A9DA18 /* ModeSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ModeSettings.h; sourceTree = "<group>"; };
 		3134F7A80CB1331800F8C116 /* PrecedenceRolloverButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = PrecedenceRolloverButton.h; sourceTree = "<group>"; };
 		3134F7A90CB1331900F8C116 /* PrecedenceRolloverButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrecedenceRolloverButton.m; sourceTree = "<group>"; };
-		3134F7DD0CB13A2E00F8C116 /* Precedence_RemoveRollover.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Precedence_RemoveRollover.tiff; path = artwork/Precedence_RemoveRollover.tiff; sourceTree = "<group>"; };
 		316A0D270C68A47100720268 /* DebugAttributeInspectorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = DebugAttributeInspectorController.h; path = Debug/DebugAttributeInspectorController.h; sourceTree = "<group>"; };
 		316A0D280C68A47100720268 /* DebugAttributeInspectorController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DebugAttributeInspectorController.m; path = Debug/DebugAttributeInspectorController.m; sourceTree = "<group>"; };
 		3170E45F12846C670096089C /* SEEStyleSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SEEStyleSheet.h; sourceTree = "<group>"; };
 		3170E46012846C670096089C /* SEEStyleSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEStyleSheet.m; sourceTree = "<group>"; };
 		3188F6780CAD1218009E4C0B /* DNDArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DNDArrayController.m; sourceTree = "<group>"; };
 		3188F6790CAD1218009E4C0B /* DNDArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DNDArrayController.h; sourceTree = "<group>"; };
-		319AAE190CB015B300ACDAB4 /* Precedence_Add.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Precedence_Add.tiff; path = artwork/Precedence_Add.tiff; sourceTree = "<group>"; };
-		319AAE1A0CB015B300ACDAB4 /* Precedence_AddPressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Precedence_AddPressed.tiff; path = artwork/Precedence_AddPressed.tiff; sourceTree = "<group>"; };
-		319AAE1B0CB015B300ACDAB4 /* Precedence_Remove.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Precedence_Remove.tiff; path = artwork/Precedence_Remove.tiff; sourceTree = "<group>"; };
-		319AAE1C0CB015B300ACDAB4 /* Precedence_RemovePressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Precedence_RemovePressed.png; path = artwork/Precedence_RemovePressed.png; sourceTree = "<group>"; };
 		31D2C6E50CA7C7A7003CC5C9 /* PrecedenceRuleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrecedenceRuleCell.m; sourceTree = "<group>"; };
 		31D2C6E60CA7C7A7003CC5C9 /* PrecedenceRuleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = PrecedenceRuleCell.h; sourceTree = "<group>"; };
 		31D2C6E70CA7C7A7003CC5C9 /* PrecedencePreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrecedencePreferences.m; sourceTree = "<group>"; };
@@ -1545,11 +1535,6 @@
 				14289072095743F200D14688 /* LibraryFolderIcon.tiff */,
 				1428907A095743F200D14688 /* ParticipantBar_Fill.tiff */,
 				1428907B095743F200D14688 /* Participants.icns */,
-				319AAE190CB015B300ACDAB4 /* Precedence_Add.tiff */,
-				319AAE1A0CB015B300ACDAB4 /* Precedence_AddPressed.tiff */,
-				319AAE1B0CB015B300ACDAB4 /* Precedence_Remove.tiff */,
-				319AAE1C0CB015B300ACDAB4 /* Precedence_RemovePressed.png */,
-				3134F7DD0CB13A2E00F8C116 /* Precedence_RemoveRollover.tiff */,
 				F2D5FF3D0CB2666000407399 /* Rendezvous.icns */,
 				14289083095743F200D14688 /* SeeFolderIcon.tiff */,
 				F2D5FF3F0CB2667A00407399 /* StylePrefs.icns */,
@@ -2982,19 +2967,14 @@
 				F2D3E529189941F50096425B /* AW ActiveTabClose.png in Resources */,
 				F2C44CBE21635F29006D59DB /* SEEDebugImageGenerationWindowController.xib in Resources */,
 				F2D3E53B189941F50096425B /* AW InactiveTabClosePressed.png in Resources */,
-				319AAE3B0CB0165800ACDAB4 /* Precedence_Add.tiff in Resources */,
 				4CE8D4521959E3440026828F /* SharingServiceAnnounceMenuIcon@2x.png in Resources */,
 				F2D3E553189941F50096425B /* IW ActiveTabCloseRollover.png in Resources */,
 				F220248A191BC33D0098982C /* hud_buttonFill-P.png in Resources */,
 				F2D3E550189941F50096425B /* IW ActiveTabClose@2x.png in Resources */,
 				F22024DB191D0BFE0098982C /* ParticipantReadOnlyTurnOnHover.png in Resources */,
-				319AAE3C0CB0165800ACDAB4 /* Precedence_AddPressed.tiff in Resources */,
 				F2202480191BBDA10098982C /* hud_buttonRight-N.png in Resources */,
 				F220248B191BC33D0098982C /* hud_buttonFill-P@2x.png in Resources */,
 				F22024D1191D0BFE0098982C /* ParticipantKickNormal.png in Resources */,
-				319AAE3D0CB0165900ACDAB4 /* Precedence_Remove.tiff in Resources */,
-				319AAE3E0CB0165A00ACDAB4 /* Precedence_RemovePressed.png in Resources */,
-				3134F7DE0CB13A2E00F8C116 /* Precedence_RemoveRollover.tiff in Resources */,
 				F27EDD4E216CC26500987579 /* DIW InactiveTabBG@2x.png in Resources */,
 				4C6BDC5518896DCC0088CBFC /* SubEthaEditStyle.iconset in Resources */,
 				F2D5FF3E0CB2666000407399 /* Rendezvous.icns in Resources */,
