@@ -1079,6 +1079,24 @@ static NSMenu *S_defaultMenu=nil;
     }
 }
 
+//- (void)doCommandBySelector:(SEL)selector {
+//    NSLog(@"%s, %@",__FUNCTION__,NSStringFromSelector(selector));
+//    [super doCommandBySelector:selector];
+//}
+    
+- (void)cancelOperation:(id)sender {
+    FoldableTextStorage *textStorage=(FoldableTextStorage *)[self textStorage];
+    if (textStorage.hasBlockeditRanges &&
+        [self tryToPerform:@selector(endBlockedit:) with:nil]) {
+    } else if (!self.hasMarkedText &&
+               !I_flags.autoCompleteInProgress) {
+        // Autocomplete with escape if there is no marked text and not already autcompleting.
+        [self tryToPerform:@selector(complete:) with:sender];
+    } else if ([super respondsToSelector:_cmd]) {
+        [super cancelOperation:sender];
+    }
+}
+    
 - (void)keyDown:(NSEvent *)aEvent {
 
     static NSCharacterSet *s_passThroughCharacterSet=nil;
@@ -1109,7 +1127,9 @@ static NSMenu *S_defaultMenu=nil;
                 [self setSelectedRange: NSMakeRange([self selectedRange].location-1,[self selectedRange].length+1)];
             }
             [self complete:self];
-        } else I_flags.autoCompleteInProgress=NO;
+        } else {
+            I_flags.autoCompleteInProgress = NO;
+        }
     }
 
 }
