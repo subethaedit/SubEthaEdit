@@ -75,4 +75,7 @@ extern NSString * const SEEAppEffectiveAppearanceDidChangeNotification;
 
 - (NSArray *)contextMenuItemArray;
 - (void)addDocumentNewSubmenuEntriesToMenu:(NSMenu *)aMenu;
+
+- (IBAction)revealInstallCommandInFinder:(id)sender;
+@property (nonatomic, readonly) NSURL *URLOfInstallCommand;
 @end

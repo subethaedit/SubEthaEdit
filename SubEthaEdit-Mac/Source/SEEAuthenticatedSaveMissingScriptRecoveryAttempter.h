@@ -6,5 +6,4 @@
 #import <Foundation/Foundation.h>
 
 @interface SEEAuthenticatedSaveMissingScriptRecoveryAttempter : NSObject
-
 @end

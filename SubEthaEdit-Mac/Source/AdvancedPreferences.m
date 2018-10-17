@@ -7,6 +7,7 @@
 #import "SEEDocumentController.h"
 #import "GeneralPreferences.h"
 #import <sys/stat.h>
+#import "AppController.h"
 
 @implementation AdvancedPreferences
 
@@ -33,17 +34,16 @@
     BOOL disableState=([defaults objectForKey:@"AppleScreenAdvanceSizeThreshold"] && [[defaults objectForKey:@"AppleScreenAdvanceSizeThreshold"] floatValue]<=1.);
     [self.O_disableScreenFontsButton setState:disableState?NSOnState:NSOffState];
     [self.O_synthesiseFontsButton setState:[defaults boolForKey:SynthesiseFontsPreferenceKey]?NSOnState:NSOffState];
-    NSString *absolutePath = [[[[NSBundle mainBundle] sharedSupportURL] URLByAppendingPathComponent:@"bin/install.sh"] path];
+    
+    NSString *absolutePath = [[AppController sharedInstance].URLOfInstallCommand path];
     [self.commandLineInstallTextField setStringValue:[absolutePath stringByReplacingOccurrencesOfString:@" " withString:@"\\ "]];
 }
 
 - (void)didSelect {
 }
 
-#pragma mark -
-
-- (IBAction)visitCommandLineToolWebsite:(id)sender {
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedString(@"WEBSITE_COMMANDLINETOOL", @"CommandLineTool Website Link")]];
+- (IBAction)revealInstallCommandInFinder:(id)sender {
+    [[AppController sharedInstance] revealInstallCommandInFinder:sender];
 }
 
 #pragma mark -

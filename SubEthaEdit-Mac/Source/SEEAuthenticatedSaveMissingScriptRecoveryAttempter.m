@@ -4,11 +4,11 @@
 //  Created by Michael Ehrmann on 07.05.14.
 
 #import "SEEAuthenticatedSaveMissingScriptRecoveryAttempter.h"
+#import "AppController.h"
 
 @implementation SEEAuthenticatedSaveMissingScriptRecoveryAttempter
 
-- (void)attemptRecoveryFromError:(NSError *)error optionIndex:(NSUInteger)recoveryOptionIndex delegate:(id)delegate didRecoverSelector:(SEL)didRecoverSelector contextInfo:(void *)contextInfo
-{
+- (void)attemptRecoveryFromError:(NSError *)error optionIndex:(NSUInteger)recoveryOptionIndex delegate:(id)delegate didRecoverSelector:(SEL)didRecoverSelector contextInfo:(void *)contextInfo {
     BOOL success = NO;
     NSError *internalError = nil;
     NSInvocation *invoke = [NSInvocation invocationWithMethodSignature:
@@ -16,17 +16,10 @@
     [invoke setSelector:didRecoverSelector];
 
  	if (error && [error.domain isEqualToString:@"SEEDocumentSavingDomain"] && error.code == 0x0FE) {
- 		// index == 0 is "Visit Website"
+ 		// index == 0 is "Reveal installer script…"
 		if (recoveryOptionIndex == 0) {
-			// show finder window with script folder
-			NSURL *userScriptsDirectory = [[NSFileManager defaultManager] URLForDirectory:NSApplicationScriptsDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:YES error:nil];
-			[[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[userScriptsDirectory]];
-
-			// open URL in browser
-			[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedString(@"WEBSITE_AUTHENTICATION_HELPER", @"Authentication Helper Website Link")]];
-
-
-		}
+            [[AppController sharedInstance] revealInstallCommandInFinder:nil];
+        }
 	}
 
     [invoke setArgument:(void *)&success atIndex:2];

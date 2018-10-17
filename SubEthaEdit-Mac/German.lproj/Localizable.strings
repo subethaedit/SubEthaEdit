@@ -998,8 +998,8 @@
 
 /* authentication script not installed error dialog */
 "AUTHENTICATION_SCRIPT_MISSING_ERROR_DESCRIPTION" = "Unterstützendes Authentifizierungs-Script konnte nicht gefunden werden.";
-"AUTHENTICATION_SCRIPT_MISSING_ERROR_SUGGESTION" = "Bitte laden sie sich das Script von unsere Webseite herunter und folgen die den Installationsanweisungen.";
-"AUTHENTICATION_SCRIPT_MISSING_ERROR_BUTTON_TITLE1" = "Webseite besuchen…";
+"AUTHENTICATION_SCRIPT_MISSING_ERROR_SUGGESTION" = "Bitte führen sie das install Script im Terminal aus so wie in den erweiterten Einstellungen beschrieben.";
+"AUTHENTICATION_SCRIPT_MISSING_ERROR_BUTTON_TITLE1" = "Script anzeigen…";
 "AUTHENTICATION_SCRIPT_MISSING_ERROR_BUTTON_TITLE2" = "Ignorieren";
 
 "SEEConnectionTaglineBonjour" = "Bonjour";

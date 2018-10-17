@@ -358,7 +358,7 @@
 		F27B2EF20B52968E00679CF2 /* HUDButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F27B2EEE0B52968E00679CF2 /* HUDButton.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		F27C4DC5192FA2A800B5DB3C /* SEEHoverTableRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = F27C4DC4192FA2A800B5DB3C /* SEEHoverTableRowView.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		F27EDD17216BC49A00987579 /* SubEthaEdit_AuthenticatedSave.scpt in Copy Command Line Tools */ = {isa = PBXBuildFile; fileRef = F27EDD10216BC3AD00987579 /* SubEthaEdit_AuthenticatedSave.scpt */; };
-		F27EDD1E216BD8F800987579 /* install.sh in Copy Command Line Tools */ = {isa = PBXBuildFile; fileRef = F27EDD1A216BD8F500987579 /* install.sh */; };
+		F27EDD1E216BD8F800987579 /* install.command in Copy Command Line Tools */ = {isa = PBXBuildFile; fileRef = F27EDD1A216BD8F500987579 /* install.command */; };
 		F27EDD2B216CBB6E00987579 /* DAW ActiveTabFill@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F27EDD1F216CBB6C00987579 /* DAW ActiveTabFill@2x.png */; };
 		F27EDD2C216CBB6E00987579 /* DAW InactiveTabRightCap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F27EDD20216CBB6C00987579 /* DAW InactiveTabRightCap@2x.png */; };
 		F27EDD2D216CBB6E00987579 /* DAW InactiveTabBG.png in Resources */ = {isa = PBXBuildFile; fileRef = F27EDD21216CBB6C00987579 /* DAW InactiveTabBG.png */; };
@@ -605,7 +605,7 @@
 			dstPath = bin;
 			dstSubfolderSpec = 12;
 			files = (
-				F27EDD1E216BD8F800987579 /* install.sh in Copy Command Line Tools */,
+				F27EDD1E216BD8F800987579 /* install.command in Copy Command Line Tools */,
 				F286A770215D0EAD0056C247 /* see in Copy Command Line Tools */,
 				F286A780215D194C0056C247 /* see.1 in Copy Command Line Tools */,
 				F27EDD17216BC49A00987579 /* SubEthaEdit_AuthenticatedSave.scpt in Copy Command Line Tools */,
@@ -1202,7 +1202,7 @@
 		F27C4DC3192FA2A800B5DB3C /* SEEHoverTableRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEHoverTableRowView.h; sourceTree = "<group>"; };
 		F27C4DC4192FA2A800B5DB3C /* SEEHoverTableRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEHoverTableRowView.m; sourceTree = "<group>"; };
 		F27EDD10216BC3AD00987579 /* SubEthaEdit_AuthenticatedSave.scpt */ = {isa = PBXFileReference; lastKnownFileType = file; name = SubEthaEdit_AuthenticatedSave.scpt; path = Resources/SharedSupport/SubEthaEdit_AuthenticatedSave.scpt; sourceTree = "<group>"; };
-		F27EDD1A216BD8F500987579 /* install.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = install.sh; path = Resources/SharedSupport/install.sh; sourceTree = "<group>"; };
+		F27EDD1A216BD8F500987579 /* install.command */ = {isa = PBXFileReference; lastKnownFileType = text; name = install.command; path = Resources/SharedSupport/install.command; sourceTree = "<group>"; };
 		F27EDD1F216CBB6C00987579 /* DAW ActiveTabFill@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DAW ActiveTabFill@2x.png"; sourceTree = "<group>"; };
 		F27EDD20216CBB6C00987579 /* DAW InactiveTabRightCap@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DAW InactiveTabRightCap@2x.png"; sourceTree = "<group>"; };
 		F27EDD21216CBB6C00987579 /* DAW InactiveTabBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DAW InactiveTabBG.png"; sourceTree = "<group>"; };
@@ -2347,7 +2347,7 @@
 		F27EDD0D216BC2ED00987579 /* SharedSupport */ = {
 			isa = PBXGroup;
 			children = (
-				F27EDD1A216BD8F500987579 /* install.sh */,
+				F27EDD1A216BD8F500987579 /* install.command */,
 				F27EDD10216BC3AD00987579 /* SubEthaEdit_AuthenticatedSave.scpt */,
 				F286A77F215D194C0056C247 /* see.1 */,
 			);
@@ -2390,8 +2390,7 @@
 				F2EFDE2E21760E0800B5A4DD /* org.sparkle-project.InstallerLauncher.xpc */,
 				F2EFDE2D21760E0800B5A4DD /* org.sparkle-project.InstallerStatus.xpc */,
 			);
-			name = Sparkle;
-			path = "New Group";
+			path = Sparkle;
 			sourceTree = "<group>";
 		};
 		F2D22CAF0EE9C5DE004B8E33 /* Products */ = {

@@ -1197,5 +1197,17 @@ static AppController *sharedInstance = nil;
     }
 }
 
+- (IBAction)revealInstallCommandInFinder:(id)sender {
+    // Reveal tool installation script in finder
+    NSURL *scriptFileURL = self.URLOfInstallCommand;
+    //            [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[scriptFileURL]];
+    NSString *scriptFilePath = [scriptFileURL path];
+    [[NSWorkspace sharedWorkspace] selectFile:scriptFilePath inFileViewerRootedAtPath:[scriptFilePath stringByDeletingLastPathComponent]];
+}
+- (NSURL *)URLOfInstallCommand {
+    NSURL *result = [[[NSBundle mainBundle] sharedSupportURL] URLByAppendingPathComponent:@"bin/install.command"];
+    return result;
+}
+
 
 @end
