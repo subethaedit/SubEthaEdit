@@ -242,7 +242,8 @@
 		}
 		NSString *snippet = [self.currentStyleSheet styleSheetSnippetForScope:scopeString];
 		NSTextStorage *ts = [self.O_sheetSnippetTextView textStorage];
-		[ts setAttributedString:[[NSAttributedString alloc] initWithString:snippet attributes:[NSDictionary dictionaryWithObject:[NSFont userFixedPitchFontOfSize:11.] forKey:NSFontNameAttribute]]];
+        [ts setAttributedString:[[NSAttributedString alloc] initWithString:snippet attributes:@{ NSFontAttributeName : [NSFont userFixedPitchFontOfSize:11.],
+                                                                                                 NSForegroundColorAttributeName : [NSColor labelColor] }]];
 		
 	}
 	BOOL hasChanges = [self.currentStyleSheet hasChanges];
