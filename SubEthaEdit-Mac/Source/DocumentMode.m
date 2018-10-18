@@ -500,11 +500,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 }
 
 - (NSString *)bracketMatchingBracketString {
-	NSString *result = I_syntaxDefinition.bracketMatchingBracketString;
-	if (!result) {
-		result = @"{[()]}"; // default value
-	}
-	return result;
+    return I_syntaxDefinition.bracketMatchingBracketString ?: @"{[()]}";
 }
 
 - (SyntaxHighlighter *)syntaxHighlighter {

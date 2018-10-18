@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE syntax SYSTEM "syntax.dtd">
+<syntax>
+	<head>
+		<name>TOML</name>
+		<charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@]]></charsintokens>
+	</head>
+	<states>
+		<default id="Base" scope="meta.default">
+            <state id="SingleComment" type="comment" scope="comment.line">
+                <begin><regex>(?&lt;!\$)#</regex></begin>
+                <end><regex>[\n\r]</regex></end>
+				<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes" />
+            </state>
+
+
+			<keywords id="Number Literals" useforautocomplete="yes" scope="keyword.constant">
+				<string>true</string>
+				<string>false</string>
+				<regex>([+-]?(?:nan|inf))</regex>
+			</keywords>
+			
+			<keywords id="Numbers" useforautocomplete="no" scope="language.constant.numeric">
+				<regex>(?&lt;![\w\d_])((?:[-+]?(?:[0-9][0-9_]*(?:\.[0-9][0-9_]*)?(?:[eE][-+]?[0-9][0-9_]*)?)|(?:0x[0-9a-fA-F][0-9a-fA-F_]*(?:\.[0-9a-fA-F][0-9a-fA-F_]*(?:[pP][-+]?[0-9a-fA-F][0-9a-fA-F_]*))?)|(?:0b[01][01_]*?)|(?:0o[0-7][0-7_]*?)))(?![\w\d_])</regex>
+			</keywords>
+
+			<keywords id="Dates" useforautocomplete="no" scope="language.constant.numeric">
+				<regex>(\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:(?:-\d{2}:\d{2}))?)?)|(\d{2}:\d{2}:\d{2}(?:\.\d+)?)</regex>
+			</keywords>
+
+
+            <keywords id="SectionKeys" useforautocomplete="no" scope="keyword">
+				<regex>^[ \t]*\[([ \t]*\w+(?:[ \t]*\.[ \t]*\w+)*)[ \t]*\]</regex>
+            </keywords>
+			
+			<state id="Heredoc" type="string" foldable="yes" scope="string.double.here-doc">
+				<begin><regex>"""</regex></begin>
+				<end><regex>((?&lt;!\\)(\\\\)*)"""</regex></end>
+				<import state="String" keywords-only="yes" />
+				
+			</state>
+
+			<state id="String" type="string" foldable="no" scope="string.double">
+				<begin><regex>"</regex></begin>
+				<end><regex>((?&lt;!\\)(\\\\)*)"</regex></end>
+
+				<keywords id="DoubleStringEscapedCharacters" useforautocomplete="no" scope="language.constant.numeric.character">
+					<regex>(\\u\h{4})</regex>
+					<regex>(\\U\h{8})</regex>
+					<regex>(\\[nrtf"\\])</regex>
+				</keywords>
+			</state>
+
+
+            <state id="HeredocSingle" type="string" foldable="yes" scope="string.single.here-doc">
+                <begin><regex>'''</regex></begin>
+                <end><regex>'''</regex></end>
+            </state>
+
+            <state id="SingleString" type="string" scope="string.single">
+                <begin><regex>'</regex></begin>
+                <end><regex>'</regex></end>
+            </state>
+
+  			<state id="Section Blocks" foldable="yes" scope="meta.block">
+				<begin><regex>^(?:(?'scopestartingwhitespace'[ \t]*)\[(?:[ \t]*[\w"'\d]+(?:[ \t]*\.[ \t]*[\w"'\d]+)*[ \t]*)\])</regex></begin>
+                <end><regex>([\r\n])(?=[ \t\r\n]*\[)</regex></end>
+				<import/>
+			</state>
+ 
+ 		</default>
+	</states>
+</syntax>
