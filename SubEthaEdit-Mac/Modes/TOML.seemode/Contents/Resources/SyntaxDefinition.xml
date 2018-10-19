@@ -28,16 +28,19 @@
 				<regex>(\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:(?:-\d{2}:\d{2}))?)?)|(\d{2}:\d{2}:\d{2}(?:\.\d+)?)</regex>
 			</keywords>
 
+			<keywords id="Bare Keys" useforautocomplete="no" scope="string.symbol">
+                <regex>\b([A-Za-z_][A-Za-z0-9_-]*)\b</regex>
+			</keywords>
 
             <keywords id="SectionKeys" useforautocomplete="no" scope="keyword">
 				<regex>^[ \t]*\[([ \t]*\w+(?:[ \t]*\.[ \t]*\w+)*)[ \t]*\]</regex>
+				<regex>^[ \t]*\[{2}([ \t]*\w+(?:[ \t]*\.[ \t]*\w+)*)[ \t]*\]{2}</regex>
             </keywords>
 			
 			<state id="Heredoc" type="string" foldable="yes" scope="string.double.here-doc">
 				<begin><regex>"""</regex></begin>
 				<end><regex>((?&lt;!\\)(\\\\)*)"""</regex></end>
 				<import state="String" keywords-only="yes" />
-				
 			</state>
 
 			<state id="String" type="string" foldable="no" scope="string.double">

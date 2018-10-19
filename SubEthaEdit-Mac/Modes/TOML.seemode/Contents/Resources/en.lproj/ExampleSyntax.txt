@@ -4,7 +4,7 @@ title = "TOML Example"
 
 [owner]
 name = "Tom Preston-Werner"
-dob = 1979-05-27T07:32:00-08:00 # First class dates
+dob.foo = 1979-05-27T07:32:00-08:00 # First class dates
 
 [database]
 server = "192.168.1.1"
@@ -131,6 +131,8 @@ ld1 = 1979-05-27
 
 lt1 = 07:32:00
 lt2 = 00:32:00.999999
+
+[[array.of.dictionaries]]
 
 # allowed keys
 [a.b.c]            # this is best practice

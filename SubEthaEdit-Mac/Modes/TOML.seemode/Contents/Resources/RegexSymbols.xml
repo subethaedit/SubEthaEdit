@@ -7,7 +7,10 @@
     <symbol id="Sections Indented" font-weight="bold" font-style="normal" indentation="1" ignoreblocks="yes" symbol="[]_#d0c_10.0">
         <regex>^(?:\t{1}| {1,4})\[([ \t]*[\w\d'"\\]+[\.[ \t][\w\d'"\\]+]*)[ \t]*\]</regex>
     </symbol>
-    <symbol id="Sections Indented" font-weight="bold" font-style="normal" indentation="2" ignoreblocks="yes" symbol="[]_#d0c_10.0">
+    <symbol id="Sections Indented 2" font-weight="bold" font-style="normal" indentation="2" ignoreblocks="yes" symbol="[]_#d0c_10.0">
         <regex>^(?:(?:[ \t]+\t[ \t]*)|[ ]{5,})\[([ \t]*[\w\d'"\\]+[\.[ \t][\w\d'"\\]+]*)[ \t]*\]</regex>
+    </symbol>
+    <symbol id="Array of Tables" font-weight="bold" font-style="normal" indentation="1" ignoreblocks="yes" symbol="[[]]_#d0c_10.0">
+        <regex>\[{2}([ \t]*[\w\d'"\\]+[\.[ \t][\w\d'"\\]+]*)[ \t]*\]{2}</regex>
     </symbol>
 </symbols>
