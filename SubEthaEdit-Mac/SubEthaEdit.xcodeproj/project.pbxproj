@@ -10,7 +10,6 @@
 		141958B10BB951C400CB4AA4 /* TCMMMSessionAppKitHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 141958970BB9507700CB4AA4 /* TCMMMSessionAppKitHelper.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		141F50ED0AE51B66001B73D2 /* PlainTextWindowControllerTabContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 141F50EB0AE51B65001B73D2 /* PlainTextWindowControllerTabContext.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		14288FF509573F4900D14688 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14288FF409573F4900D14688 /* WebKit.framework */; };
-		1428900D095740F200D14688 /* Acknowledgements.txt in Resources */ = {isa = PBXBuildFile; fileRef = 14289008095740F200D14688 /* Acknowledgements.txt */; };
 		1428900F095740F200D14688 /* RE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1428900A095740F200D14688 /* RE.txt */; };
 		142890490957425900D14688 /* HTMLExport in Resources */ = {isa = PBXBuildFile; fileRef = 142890480957425900D14688 /* HTMLExport */; };
 		1428904B0957427100D14688 /* Modes in Resources */ = {isa = PBXBuildFile; fileRef = 1428904A0957427100D14688 /* Modes */; };
@@ -413,6 +412,7 @@
 		F2B136EB189BF27000430639 /* AW AddTabButton.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2B136E3189BF27000430639 /* AW AddTabButton.tiff */; };
 		F2B136EC189BF27000430639 /* AW AddTabButtonPushed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2B136E4189BF27000430639 /* AW AddTabButtonPushed.tiff */; };
 		F2B136ED189BF27000430639 /* AW AddTabButtonRollover_Pressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2B136E5189BF27000430639 /* AW AddTabButtonRollover_Pressed.tiff */; };
+		F2BC7539217BDA3F0056FAED /* Acknowledgements.md in Resources */ = {isa = PBXBuildFile; fileRef = F2BC7538217BDA3F0056FAED /* Acknowledgements.md */; };
 		F2C44CBE21635F29006D59DB /* SEEDebugImageGenerationWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2C44CBD21635F29006D59DB /* SEEDebugImageGenerationWindowController.xib */; };
 		F2C6D3750D6DB131002B401D /* URLIconNotOK.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2C6D3730D6DB131002B401D /* URLIconNotOK.tiff */; };
 		F2C6D3760D6DB131002B401D /* URLIconOK.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2C6D3740D6DB131002B401D /* URLIconOK.tiff */; };
@@ -673,7 +673,6 @@
 		14288FFB09573F8200D14688 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
 		14288FFD09573FED00D14688 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		142890060957400800D14688 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
-		14289008095740F200D14688 /* Acknowledgements.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Acknowledgements.txt; sourceTree = "<group>"; };
 		1428900A095740F200D14688 /* RE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = RE.txt; sourceTree = "<group>"; };
 		1428900B095740F200D14688 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = English; path = English.lproj/ReleaseNotes.txt; sourceTree = "<group>"; };
 		142890130957413900D14688 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -1287,6 +1286,7 @@
 		F2B136E4189BF27000430639 /* AW AddTabButtonPushed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "AW AddTabButtonPushed.tiff"; sourceTree = "<group>"; };
 		F2B136E5189BF27000430639 /* AW AddTabButtonRollover_Pressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "AW AddTabButtonRollover_Pressed.tiff"; sourceTree = "<group>"; };
 		F2B6CCC20EE9C6390077417E /* SeeTextImporter.mdimporter */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SeeTextImporter.mdimporter; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2BC7538217BDA3F0056FAED /* Acknowledgements.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = Acknowledgements.md; path = ../Acknowledgements.md; sourceTree = "<group>"; };
 		F2C44CBD21635F29006D59DB /* SEEDebugImageGenerationWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SEEDebugImageGenerationWindowController.xib; path = Debug/SEEDebugImageGenerationWindowController.xib; sourceTree = "<group>"; };
 		F2C6D3730D6DB131002B401D /* URLIconNotOK.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = URLIconNotOK.tiff; path = artwork/URLIconNotOK.tiff; sourceTree = "<group>"; };
 		F2C6D3740D6DB131002B401D /* URLIconOK.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = URLIconOK.tiff; path = artwork/URLIconOK.tiff; sourceTree = "<group>"; };
@@ -2029,8 +2029,8 @@
 				F291D1A00FCECD22008BC286 /* FoldingBubbleText.rtf */,
 				F2815CDD216251F7006B3BC5 /* Bug Report.md */,
 				1428900A095740F200D14688 /* RE.txt */,
+				F2BC7538217BDA3F0056FAED /* Acknowledgements.md */,
 				145047410997750100D18142 /* ReleaseNotes.txt */,
-				14289008095740F200D14688 /* Acknowledgements.txt */,
 				1428904E0957429A00D14688 /* AppleScript */,
 				14289054095742AD00D14688 /* Sound */,
 				142890480957425900D14688 /* HTMLExport */,
@@ -2763,7 +2763,6 @@
 				4C0D3D7017FB166200AAFB38 /* DebugHistory.xib in Resources */,
 				F2D3E52E189941F50096425B /* AW ActiveTabCloseRollover@2x.png in Resources */,
 				14448AA40A18964A00F36B34 /* SubEthaEdit.sdef in Resources */,
-				1428900D095740F200D14688 /* Acknowledgements.txt in Resources */,
 				F220248F191BC33D0098982C /* hud_buttonRight-P@2x.png in Resources */,
 				8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */,
 				4C6BDC6918898F850088CBFC /* ScriptMenuItemIcon.png in Resources */,
@@ -2783,6 +2782,7 @@
 				F22CB6BE216DFC4F00D1565D /* DAW ActiveTabClose@2x.png in Resources */,
 				145047420997750100D18142 /* ReleaseNotes.txt in Resources */,
 				4C0D3D6817FB145600AAFB38 /* Preferences.xib in Resources */,
+				F2BC7539217BDA3F0056FAED /* Acknowledgements.md in Resources */,
 				142890490957425900D14688 /* HTMLExport in Resources */,
 				1428904B0957427100D14688 /* Modes in Resources */,
 				F286A754215CE6410056C247 /* AboutPanel.xib in Resources */,

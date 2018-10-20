@@ -1131,7 +1131,7 @@ static AppController *sharedInstance = nil;
 }
 
 - (IBAction)showAcknowledgements:(id)sender {
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"Acknowledgements" ofType:@"txt"];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"Acknowledgements" ofType:@"md"];
     [self TCM_showPlainTextFile:path];
 }
 
