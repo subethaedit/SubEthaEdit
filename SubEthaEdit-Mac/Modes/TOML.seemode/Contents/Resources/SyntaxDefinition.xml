@@ -13,11 +13,14 @@
 				<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes" />
             </state>
 
+			<keywords id="Bare Keys" useforautocomplete="no" scope="string.symbol">
+                <regex>(\b[A-Za-z_][A-Za-z0-9_-]*\b)</regex>
+			</keywords>
 
 			<keywords id="Number Literals" useforautocomplete="yes" scope="keyword.constant">
+				<regex>([-+]?(?:nan|inf))</regex>
 				<string>true</string>
 				<string>false</string>
-				<regex>([+-]?(?:nan|inf))</regex>
 			</keywords>
 			
 			<keywords id="Numbers" useforautocomplete="no" scope="language.constant.numeric">
@@ -25,11 +28,7 @@
 			</keywords>
 
 			<keywords id="Dates" useforautocomplete="no" scope="language.constant.numeric">
-				<regex>(\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:(?:-\d{2}:\d{2}))?)?)|(\d{2}:\d{2}:\d{2}(?:\.\d+)?)</regex>
-			</keywords>
-
-			<keywords id="Bare Keys" useforautocomplete="no" scope="string.symbol">
-                <regex>\b([A-Za-z_][A-Za-z0-9_-]*)\b</regex>
+				<regex>(\d{4}-\d{2}-\d{2}(?:[ T]\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:(?:[-+]\d{2}:\d{2})|Z)?)?)|(\d{2}:\d{2}:\d{2}(?:\.\d+)?)</regex>
 			</keywords>
 
             <keywords id="SectionKeys" useforautocomplete="no" scope="keyword">
@@ -54,7 +53,6 @@
 				</keywords>
 			</state>
 
-
             <state id="HeredocSingle" type="string" foldable="yes" scope="string.single.here-doc">
                 <begin><regex>'''</regex></begin>
                 <end><regex>'''</regex></end>
@@ -64,12 +62,6 @@
                 <begin><regex>'</regex></begin>
                 <end><regex>'</regex></end>
             </state>
-
-  			<state id="Section Blocks" foldable="yes" scope="meta.block">
-				<begin><regex>^(?:(?'scopestartingwhitespace'[ \t]*)\[(?:[ \t]*[\w"'\d]+(?:[ \t]*\.[ \t]*[\w"'\d]+)*[ \t]*)\])</regex></begin>
-                <end><regex>([\r\n])(?=[ \t\r\n]*\[)</regex></end>
-				<import/>
-			</state>
  
  		</default>
 	</states>

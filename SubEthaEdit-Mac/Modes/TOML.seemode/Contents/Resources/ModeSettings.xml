@@ -2,6 +2,6 @@
 <settings>
     <recognition>
         <extension>toml</extension>
-        <regex>^\[\w+[\.\w+]*\]\n\w+[\.\w+]?\s=</regex>
+        <regex>^\[[ \t]*\w+[ \t]*[\.[ \t]*\w+[ \t]*]*[ \t]*\][\r\n \t]*\w+[\.\w+]?[ \t]?=</regex>
     </recognition>
 </settings>
