@@ -199,6 +199,7 @@ static NSString * const XMLAttributeFontTrait = @"font-trait";
 			NSImage *image = [NSImage symbolImageNamed:symbolName];
 			if (image) {
 				[symbolDict setObject:image forKey:XMLAttributeImage];
+                [symbolDict setObject:symbolName forKey:XMLAttributeSymbol];
 			}
 		}
 		
@@ -369,6 +370,5 @@ static NSString * const XMLAttributeFontTrait = @"font-trait";
 {
 	NSLog(@"validationErrorOccurred: %@", validationError);
 }
-
 
 @end

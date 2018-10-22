@@ -706,6 +706,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
 - (void)SEE_appEffectiveAppearanceDidChange:(NSNotification *)notification {
     [self takeStyleSettingsFromDocument]; // update all the relevant bits for an appearance change
+    [self.document triggerUpdateSymbolTableTimer]; // make sure the symbol graphics are the right tone
 }
 
 - (void)takeSettingsFromDocument

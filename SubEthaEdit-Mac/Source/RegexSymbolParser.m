@@ -74,49 +74,49 @@
 	
     NSArray *symbols = [definition symbols];
     
-	for (NSDictionary *symbol in symbols) {
+    for (NSDictionary *symbol in symbols) {
         OGRegularExpression *regex = [symbol objectForKey:@"regex"];
         NSString *type = [symbol objectForKey:@"id"];
         int mask = [[symbol objectForKey:@"font-trait"] unsignedIntValue];
         int indent = [[symbol objectForKey:@"indentation"] intValue];
-        NSImage *image = [symbol objectForKey:@"image"];
-		
+        NSImage *image = symbol[@"symbol"] ? [NSImage symbolImageNamed:symbol[@"symbol"]] : [symbol objectForKey:@"image"];
+        
         // this is important because of ogrekit which copies almost the complete string as utf16 in an enumerator.
-		NSAutoreleasePool *ogrePool = [[NSAutoreleasePool alloc] init];
-        NSEnumerator *matchEnumerator = [[regex allMatchesInString:[aTextStorage string] range:aRange] objectEnumerator];
-        OGRegularExpressionMatch *aMatch;
-        while ((aMatch = [matchEnumerator nextObject])) {
-            NSRange jumprange = [aMatch rangeOfSubstringAtIndex:1];
-            if (![aMatch substringAtIndex:1]) jumprange = [aMatch rangeOfMatchedString];
-			if ( jumprange.location < [aTextStorage length] )
-			{
-				BOOL isComment = [[aTextStorage attribute:kSyntaxHighlightingScopenameAttributeName atIndex:jumprange.location effectiveRange:nil] hasPrefix:@"comment"];
-				if (!isComment) isComment = [[aTextStorage attribute:kSyntaxHighlightingTypeAttributeName atIndex:jumprange.location effectiveRange:nil] isEqualToString:kSyntaxHighlightingTypeComment];
-				BOOL showInComments = [[symbol objectForKey:@"show-in-comments"] isEqualToString:@"yes"];
-				if (!isComment||showInComments) {
-					
-					NSRange fullrange = [aMatch rangeOfMatchedString];
-					NSString *name = [aMatch substringAtIndex:1];
-					if (!name) name = [aMatch matchedString];
-					NSArray *postprocess = [symbol objectForKey:@"postprocess"];
-					if (postprocess) {
-						for (NSArray *findreplace in postprocess) {
-							OGRegularExpression *find = [findreplace objectAtIndex:0];
-							NSString *replace = [findreplace objectAtIndex:1];
-							name = [find replaceAllMatchesInString:name withString:replace options:OgreNoneOption];
-						}
-					}
-					
-					SymbolTableEntry *aSymbolTableEntry = [SymbolTableEntry symbolTableEntryWithName:name fontTraitMask:mask image:image type:type indentationLevel:indent jumpRange:jumprange range:fullrange];
-
-					if ([name isEqualToString:@""]) {
-						[aSymbolTableEntry setIsSeparator:YES];
-					}
-					[returnArray addObject:aSymbolTableEntry];
-				}
-			}
-		}
-		[ogrePool release];
+        @autoreleasepool {
+            NSEnumerator *matchEnumerator = [[regex allMatchesInString:[aTextStorage string] range:aRange] objectEnumerator];
+            OGRegularExpressionMatch *aMatch;
+            while ((aMatch = [matchEnumerator nextObject])) {
+                NSRange jumprange = [aMatch rangeOfSubstringAtIndex:1];
+                if (![aMatch substringAtIndex:1]) jumprange = [aMatch rangeOfMatchedString];
+                if ( jumprange.location < [aTextStorage length] )
+                {
+                    BOOL isComment = [[aTextStorage attribute:kSyntaxHighlightingScopenameAttributeName atIndex:jumprange.location effectiveRange:nil] hasPrefix:@"comment"];
+                    if (!isComment) isComment = [[aTextStorage attribute:kSyntaxHighlightingTypeAttributeName atIndex:jumprange.location effectiveRange:nil] isEqualToString:kSyntaxHighlightingTypeComment];
+                    BOOL showInComments = [[symbol objectForKey:@"show-in-comments"] isEqualToString:@"yes"];
+                    if (!isComment||showInComments) {
+                        
+                        NSRange fullrange = [aMatch rangeOfMatchedString];
+                        NSString *name = [aMatch substringAtIndex:1];
+                        if (!name) name = [aMatch matchedString];
+                        NSArray *postprocess = [symbol objectForKey:@"postprocess"];
+                        if (postprocess) {
+                            for (NSArray *findreplace in postprocess) {
+                                OGRegularExpression *find = [findreplace objectAtIndex:0];
+                                NSString *replace = [findreplace objectAtIndex:1];
+                                name = [find replaceAllMatchesInString:name withString:replace options:OgreNoneOption];
+                            }
+                        }
+                        
+                        SymbolTableEntry *aSymbolTableEntry = [SymbolTableEntry symbolTableEntryWithName:name fontTraitMask:mask image:image type:type indentationLevel:indent jumpRange:jumprange range:fullrange];
+                        
+                        if ([name isEqualToString:@""]) {
+                            [aSymbolTableEntry setIsSeparator:YES];
+                        }
+                        [returnArray addObject:aSymbolTableEntry];
+                    }
+                }
+            }
+        } // autoreleasepool
     }
     //NSLog(@"time for symbols: %f",(((double)(clock()-start_time))/CLOCKS_PER_SEC));
     return returnArray;

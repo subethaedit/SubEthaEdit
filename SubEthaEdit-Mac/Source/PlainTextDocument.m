@@ -553,7 +553,6 @@ static NSString *tempFileName(NSString *origPath) {
 			return;
 		}
 		
-		
         [I_symbolPopUpMenu release];
         I_symbolPopUpMenu = [NSMenu new];
         [I_symbolPopUpMenuSorted release];

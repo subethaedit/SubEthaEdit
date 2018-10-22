@@ -324,7 +324,7 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
 	return resultImage;
 }
 
-+ (BOOL(^)(NSRect))TCM_drawingHandlerWithSize:(NSSize)aSize string:(NSString *)aString color:(NSColor *)aColor fontName:(NSString *)aFontName fontSize:(CGFloat)aFontSize {
++ (BOOL(^)(NSRect))TCM_drawingHandlerWithSize:(NSSize)aSize string:(NSString *)aString color:(NSColor *)aColor fontName:(NSString *)aFontName fontSize:(CGFloat)aFontSize isDark:(BOOL)isDark {
 
 	NSGradient *gradient = [[NSGradient alloc] initWithColors:@[[aColor blendedColorWithFraction:0.2 ofColor:[NSColor whiteColor]],[aColor blendedColorWithFraction:0.35 ofColor:[NSColor whiteColor]]]];
 	NSRect baseRect = NSZeroRect;
@@ -339,6 +339,10 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
     
     if (!aFontName) {
         aFontName = fallbackFontName;
+    }
+    
+    if (isDark) {
+        aFontSize -= 1;
     }
     
 	NSMutableDictionary *textAttributes = [({
@@ -370,13 +374,29 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
 		
 		[[NSColor clearColor] set];
 		NSRectFill(aRect);
-		
-		NSBezierPath *roundedRectanglePath = [NSBezierPath bezierPathWithRoundedRect:roundRect xRadius:strokeWidth * 1.5 yRadius:strokeWidth * 1.5];
-		[gradient drawInBezierPath:roundedRectanglePath angle:90];
-		
-		[aColor set];
-		[roundedRectanglePath stroke];
-		
+
+        if (isDark) {
+            NSBezierPath *backgorundRectanglePath = [NSBezierPath bezierPathWithRoundedRect:baseRect xRadius:strokeWidth * 2.5 yRadius:strokeWidth * 2.5];
+            [[NSColor colorWithWhite:0.0 alpha:0.5] set];
+            [backgorundRectanglePath fill];
+            
+            NSBezierPath *roundedRectanglePath = [NSBezierPath bezierPathWithRoundedRect:NSInsetRect(roundRect, strokeWidth/2.0, strokeWidth/2.0) xRadius:strokeWidth * 1.5 yRadius:strokeWidth * 1.5];
+            
+            // getting a good dark background for this hue
+            CGFloat hue = [[aColor colorUsingColorSpaceName:NSCalibratedRGBColorSpace] hueComponent];
+            [[NSColor colorWithHue:hue saturation:1.0 brightness:0.25 alpha:1.0] set];
+            [roundedRectanglePath fill];
+            
+//            [[NSColor colorWithHue:hue saturation:1.0 brightness:0.75 alpha:1.0] set];
+            [aColor set];
+            [roundedRectanglePath setLineWidth:strokeWidth];
+            [roundedRectanglePath stroke];
+        } else {
+            NSBezierPath *roundedRectanglePath = [NSBezierPath bezierPathWithRoundedRect:roundRect xRadius:strokeWidth * 1.5 yRadius:strokeWidth * 1.5];
+                [gradient drawInBezierPath:roundedRectanglePath angle:90];
+            [aColor set];
+            [roundedRectanglePath stroke];
+        }
 		CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
 		
 		[[NSColor whiteColor] setFill];
@@ -388,9 +408,15 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
 		//		NSFrameRect(lineBounds);
 		
 		CGPoint textPoint = CGPointMake(CGRectGetMidX(aRect) - CGRectGetWidth(lineBounds)/2.0 - lineBounds.origin.x, CGRectGetMidY(aRect) - CGRectGetHeight(lineBounds)/2.0 - lineBounds.origin.y);
-		CGContextSetTextDrawingMode(context, kCGTextStroke);
-		CGContextSetTextPosition(context, textPoint.x, textPoint.y);
-		CTLineDraw(line, context);
+        if (isDark) {
+            textPoint.y += strokeWidth / 4.0;
+        }
+
+        if (!isDark) {
+            CGContextSetTextDrawingMode(context, kCGTextStroke);
+            CGContextSetTextPosition(context, textPoint.x, textPoint.y);
+            CTLineDraw(line, context);
+        }
 		CGContextSetTextPosition(context, textPoint.x, textPoint.y);
 		CGContextSetTextDrawingMode(context, kCGTextFill);
 		CTLineDraw(line, context);
@@ -405,9 +431,11 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
 }
 
 + (NSImage *)symbolImageNamed:(NSString *)aName {
-	NSString *name = [@"SEESymbol_" stringByAppendingString:aName];
+    BOOL isDark = [NSApp SEE_effectiveAppearanceIsDark];
+    NSString *name = [(isDark ? @"SEESymbol_B_" : @"SEESymbol_D_") stringByAppendingString:aName];
 	NSImage *result = [NSImage imageNamed:name];
 	if (!result) {
+        
 		NSArray *components = [aName componentsSeparatedByString:@"_"];
 		NSString *string = components[0];
 		NSColor *color = [NSColor colorForHTMLString:@"#2B50E8"];
@@ -425,7 +453,7 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
 		}
 
         NSSize size = NSMakeSize(14, 14);
-		result = [NSImage imageWithSize:size flipped:NO drawingHandler:[self TCM_drawingHandlerWithSize:size string:string color:color fontName:fontName fontSize:fontSize]];
+        result = [NSImage imageWithSize:size flipped:NO drawingHandler:[self TCM_drawingHandlerWithSize:size string:string color:color fontName:fontName fontSize:fontSize isDark:isDark]];
 		[result setName:name];
 	}
 	return result;

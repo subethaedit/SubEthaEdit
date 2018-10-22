@@ -81,15 +81,12 @@
     NSColor *color=[self colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
     NSColor *invertedColor=[NSColor colorWithCalibratedRed:1.0-[color redComponent] green:1.0-[color greenComponent] blue:1.0-[color blueComponent] alpha:1.0];
     return [NSColor colorWithCalibratedHue:[color hueComponent] saturation:[invertedColor saturationComponent] brightness:[invertedColor brightnessComponent] alpha:alpha];
-    
 }
 
 - (NSColor *)brightnessInvertedSelectionColor {
     NSColor *color=[self colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
     NSColor *invertedColor=[NSColor colorWithCalibratedRed:1.0-[color redComponent] green:1.0-[color greenComponent] blue:1.0-[color blueComponent] alpha:1.0];
     return [NSColor colorWithCalibratedHue:[color hueComponent] saturation:[invertedColor saturationComponent] brightness:MAX([invertedColor brightnessComponent],0.6) alpha:1.0];
-    
 }
-
 
 @end
