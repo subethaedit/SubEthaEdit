@@ -180,10 +180,6 @@
 		4C6AE8741802E8810089D489 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C6AE8731802E8810089D489 /* OgreKit.framework */; };
 		4C6AE8751802E8AC0089D489 /* PSMTabBarControl.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 4CF3490017FC6EAF005D0D4F /* PSMTabBarControl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4C6AE8761802E8AC0089D489 /* OgreKit.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 4C6AE8731802E8810089D489 /* OgreKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		4C6BDC5318896DCC0088CBFC /* SubEthaEditFiles.iconset in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC4D18896DCC0088CBFC /* SubEthaEditFiles.iconset */; };
-		4C6BDC5418896DCC0088CBFC /* SubEthaEditMode.iconset in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC4E18896DCC0088CBFC /* SubEthaEditMode.iconset */; };
-		4C6BDC5518896DCC0088CBFC /* SubEthaEditStyle.iconset in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC4F18896DCC0088CBFC /* SubEthaEditStyle.iconset */; };
-		4C6BDC5618896DCC0088CBFC /* SubEthaEditText.iconset in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC5018896DCC0088CBFC /* SubEthaEditText.iconset */; };
 		4C6BDC5C188983380088CBFC /* FoldingBubbleBig@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC5B188983380088CBFC /* FoldingBubbleBig@2x.png */; };
 		4C6BDC5F1889858A0088CBFC /* folded.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC5D1889858A0088CBFC /* folded.png */; };
 		4C6BDC601889858A0088CBFC /* folded@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC5E1889858A0088CBFC /* folded@2x.png */; };
@@ -978,10 +974,6 @@
 		4C65D60818D852AB00A03E65 /* SEEWebPreviewSplitViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEWebPreviewSplitViewDelegate.h; sourceTree = "<group>"; };
 		4C65D60918D852AB00A03E65 /* SEEWebPreviewSplitViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEWebPreviewSplitViewDelegate.m; sourceTree = "<group>"; };
 		4C6AE8731802E8810089D489 /* OgreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OgreKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		4C6BDC4D18896DCC0088CBFC /* SubEthaEditFiles.iconset */ = {isa = PBXFileReference; lastKnownFileType = folder.iconset; name = SubEthaEditFiles.iconset; path = artwork/SubEthaEditFiles.iconset; sourceTree = "<group>"; };
-		4C6BDC4E18896DCC0088CBFC /* SubEthaEditMode.iconset */ = {isa = PBXFileReference; lastKnownFileType = folder.iconset; name = SubEthaEditMode.iconset; path = artwork/SubEthaEditMode.iconset; sourceTree = "<group>"; };
-		4C6BDC4F18896DCC0088CBFC /* SubEthaEditStyle.iconset */ = {isa = PBXFileReference; lastKnownFileType = folder.iconset; name = SubEthaEditStyle.iconset; path = artwork/SubEthaEditStyle.iconset; sourceTree = "<group>"; };
-		4C6BDC5018896DCC0088CBFC /* SubEthaEditText.iconset */ = {isa = PBXFileReference; lastKnownFileType = folder.iconset; name = SubEthaEditText.iconset; path = artwork/SubEthaEditText.iconset; sourceTree = "<group>"; };
 		4C6BDC5B188983380088CBFC /* FoldingBubbleBig@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "FoldingBubbleBig@2x.png"; path = "artwork/FoldingBubbleBig@2x.png"; sourceTree = "<group>"; };
 		4C6BDC5D1889858A0088CBFC /* folded.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = folded.png; path = artwork/folded.png; sourceTree = "<group>"; };
 		4C6BDC5E1889858A0088CBFC /* folded@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "folded@2x.png"; path = "artwork/folded@2x.png"; sourceTree = "<group>"; };
@@ -2063,10 +2055,6 @@
 		4C6BDC4A18896D8B0088CBFC /* Icons */ = {
 			isa = PBXGroup;
 			children = (
-				4C6BDC4D18896DCC0088CBFC /* SubEthaEditFiles.iconset */,
-				4C6BDC4E18896DCC0088CBFC /* SubEthaEditMode.iconset */,
-				4C6BDC4F18896DCC0088CBFC /* SubEthaEditStyle.iconset */,
-				4C6BDC5018896DCC0088CBFC /* SubEthaEditText.iconset */,
 				F20D8F0B18FC28CB0091EB13 /* Media.xcassets */,
 			);
 			name = Icons;
@@ -2872,7 +2860,6 @@
 				F2D3E542189941F50096425B /* AW InactiveTabRightCap@2x.png in Resources */,
 				F2D3E560189941F50096425B /* IW InactiveTabClose@2x.png in Resources */,
 				4CD5F7FA17FB0D0C00F49E31 /* GeneralPrefs.xib in Resources */,
-				4C6BDC5418896DCC0088CBFC /* SubEthaEditMode.iconset in Resources */,
 				F2FEE7161892A747000E6BC8 /* SharingIconWrite.pdf in Resources */,
 				F22CB6D7216E02F900D1565D /* DIW InactiveTabCloseRollover.png in Resources */,
 				4CDC272018967D990060B044 /* SEEParticipantView.xib in Resources */,
@@ -2897,7 +2884,6 @@
 				4CE8D4511959E3440026828F /* SharingServiceAnnounceMenuIcon.png in Resources */,
 				F2D3E55A189941F50096425B /* IW ActiveTabRightCap@2x.png in Resources */,
 				F27EDD32216CBB6E00987579 /* DAW InactiveTabLeftCap.png in Resources */,
-				4C6BDC5318896DCC0088CBFC /* SubEthaEditFiles.iconset in Resources */,
 				4CD5F7E617FB0C7B00F49E31 /* EditPrefs.xib in Resources */,
 				4CD5F7EA17FB0C8E00F49E31 /* SEEEncodingDoctorView.xib in Resources */,
 				F22CB6DA216E02F900D1565D /* DIW InactiveTabClosePressed@2x.png in Resources */,
@@ -2931,7 +2917,6 @@
 				4C6BDC6618898E1E0088CBFC /* ScriptMenu.pdf in Resources */,
 				5EF31E430A7E437C00D777F5 /* InvertedIBeam.tiff in Resources */,
 				F25A071F191A6D4600F07557 /* WaitPipe@2x.png in Resources */,
-				4C6BDC5618896DCC0088CBFC /* SubEthaEditText.iconset in Resources */,
 				F27EDD34216CBB6E00987579 /* DAW ActiveTabLeftCap.png in Resources */,
 				F2D3E531189941F50096425B /* AW ActiveTabLeftCap.png in Resources */,
 				4C57BD3A199BB11D00260983 /* InvertedIBeamBig.tiff in Resources */,
@@ -2975,7 +2960,6 @@
 				F220248B191BC33D0098982C /* hud_buttonFill-P@2x.png in Resources */,
 				F22024D1191D0BFE0098982C /* ParticipantKickNormal.png in Resources */,
 				F27EDD4E216CC26500987579 /* DIW InactiveTabBG@2x.png in Resources */,
-				4C6BDC5518896DCC0088CBFC /* SubEthaEditStyle.iconset in Resources */,
 				F2D5FF3E0CB2666000407399 /* Rendezvous.icns in Resources */,
 				F2D5FF400CB2667A00407399 /* StylePrefs.icns in Resources */,
 				4CD5F80617FB0D5B00F49E31 /* OpenPanelAccessory.xib in Resources */,
