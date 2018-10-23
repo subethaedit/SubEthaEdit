@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		2C05A19C06CAA52B00D84F6F /* GetMetadataForFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C05A19B06CAA52B00D84F6F /* GetMetadataForFile.m */; };
-		4C6BDC5A1889744F0088CBFC /* SubEthaEditText.iconset in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC591889744F0088CBFC /* SubEthaEditText.iconset */; };
 		8D576312048677EA00EA77CD /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 08FB77B6FE84183AC02AAC07 /* main.c */; settings = {ATTRIBUTES = (); }; };
 		8D576314048677EA00EA77CD /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AA1909FFE8422F4C02AAC07 /* CoreFoundation.framework */; };
 		8D5B49A804867FD3000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8D5B49A704867FD3000E48DA /* InfoPlist.strings */; };
@@ -23,7 +22,6 @@
 		08FB77B6FE84183AC02AAC07 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		0AA1909FFE8422F4C02AAC07 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = /System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<absolute>"; };
 		2C05A19B06CAA52B00D84F6F /* GetMetadataForFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetMetadataForFile.m; sourceTree = "<group>"; };
-		4C6BDC591889744F0088CBFC /* SubEthaEditText.iconset */ = {isa = PBXFileReference; lastKnownFileType = folder.iconset; name = SubEthaEditText.iconset; path = ../artwork/SubEthaEditText.iconset; sourceTree = "<group>"; };
 		4CF06A611816D56900B35DF8 /* TCMAppConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = TCMAppConfig.xcconfig; sourceTree = "<group>"; };
 		8D576316048677EA00EA77CD /* SeeTextImporter.mdimporter */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SeeTextImporter.mdimporter; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D576317048677EA00EA77CD /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -78,7 +76,6 @@
 				C88FB7D7067446EC006EBB30 /* schema.xml */,
 				8D576317048677EA00EA77CD /* Info.plist */,
 				8D5B49A704867FD3000E48DA /* InfoPlist.strings */,
-				4C6BDC591889744F0088CBFC /* SubEthaEditText.iconset */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -167,7 +164,6 @@
 				8D5B49A804867FD3000E48DA /* InfoPlist.strings in Resources */,
 				C88FB7D8067446EC006EBB30 /* schema.xml in Resources */,
 				C88FB7E40674480E006EBB30 /* schema.strings in Resources */,
-				4C6BDC5A1889744F0088CBFC /* SubEthaEditText.iconset in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
