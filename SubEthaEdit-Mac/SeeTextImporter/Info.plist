@@ -58,7 +58,7 @@
 			<key>UTTypeDescription</key>
 			<string>SubEthaEdit Text</string>
 			<key>UTTypeIconFile</key>
-			<string>SubEthaEditText</string>
+			<string>file-seetext</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.seetext</string>
 			<key>UTTypeTagSpecification</key>

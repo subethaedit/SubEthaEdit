@@ -258,7 +258,7 @@
 		F20AB87B1907C7C500444F4B /* SEEDebugImageGenerationWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = F20AB8791907C7C500444F4B /* SEEDebugImageGenerationWindowController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		F20AB881190932FB00444F4B /* SymbolWarn.png in Resources */ = {isa = PBXBuildFile; fileRef = F20AB87F190932FB00444F4B /* SymbolWarn.png */; };
 		F20AB882190932FB00444F4B /* SymbolWarn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F20AB880190932FB00444F4B /* SymbolWarn@2x.png */; };
-		F20D8F0C18FC28CB0091EB13 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F20D8F0B18FC28CB0091EB13 /* Media.xcassets */; };
+		F20D8F0C18FC28CB0091EB13 /* Artwork.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F20D8F0B18FC28CB0091EB13 /* Artwork.xcassets */; };
 		F20E1FAE0CACFC75005DEAF5 /* ThousandSeparatorValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = F20E1FAC0CACFC75005DEAF5 /* ThousandSeparatorValueTransformer.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		F212908B0F8EC56F0076B6B1 /* NSDictionaryTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891240957457500D14688 /* NSDictionaryTCMAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		F21290980F8EC5870076B6B1 /* NSMutableAttributedStringSEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142D18B30BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -339,6 +339,7 @@
 		F234E4590BE2592300504A7C /* NSWorkspaceTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F234E4570BE2592300504A7C /* NSWorkspaceTCMAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		F23966D618E2FE6800CEC9AD /* NSOperationQueue+TCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F23966D518E2FE6800CEC9AD /* NSOperationQueue+TCMAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		F24280C60D16CFCC0083AE21 /* GenericSASLProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = F24280C50D16CFCC0083AE21 /* GenericSASLProfile.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		F245828A2181C19F00A87EB5 /* FileIcons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F24582892181C19F00A87EB5 /* FileIcons.xcassets */; };
 		F24AEA1B195AE78300046F6B /* DocumentProxy.xib in Resources */ = {isa = PBXBuildFile; fileRef = F24AEA1A195AE78300046F6B /* DocumentProxy.xib */; };
 		F250EAC3216A138F00B94A0B /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F250EAC2216A138E00B94A0B /* libz.tbd */; };
 		F250EADE216A2CA800B94A0B /* NSArraySEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F250EADC216A2CA800B94A0B /* NSArraySEEAdditions.m */; };
@@ -1082,7 +1083,7 @@
 		F20AB8791907C7C500444F4B /* SEEDebugImageGenerationWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEDebugImageGenerationWindowController.m; sourceTree = "<group>"; };
 		F20AB87F190932FB00444F4B /* SymbolWarn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SymbolWarn.png; path = artwork/SymbolWarn.png; sourceTree = "<group>"; };
 		F20AB880190932FB00444F4B /* SymbolWarn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "SymbolWarn@2x.png"; path = "artwork/SymbolWarn@2x.png"; sourceTree = "<group>"; };
-		F20D8F0B18FC28CB0091EB13 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Media.xcassets; path = artwork/Media.xcassets; sourceTree = "<group>"; };
+		F20D8F0B18FC28CB0091EB13 /* Artwork.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Artwork.xcassets; path = artwork/Artwork.xcassets; sourceTree = "<group>"; };
 		F20E1FAB0CACFC75005DEAF5 /* ThousandSeparatorValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ThousandSeparatorValueTransformer.h; sourceTree = "<group>"; };
 		F20E1FAC0CACFC75005DEAF5 /* ThousandSeparatorValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThousandSeparatorValueTransformer.m; sourceTree = "<group>"; };
 		F214C1D918BE180300908826 /* NSObject+TCMArcLifecycleAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+TCMArcLifecycleAdditions.h"; sourceTree = "<group>"; };
@@ -1174,6 +1175,7 @@
 		F23966D518E2FE6800CEC9AD /* NSOperationQueue+TCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSOperationQueue+TCMAdditions.m"; sourceTree = "<group>"; };
 		F24280C40D16CFCC0083AE21 /* GenericSASLProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = GenericSASLProfile.h; sourceTree = "<group>"; };
 		F24280C50D16CFCC0083AE21 /* GenericSASLProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenericSASLProfile.m; sourceTree = "<group>"; };
+		F24582892181C19F00A87EB5 /* FileIcons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = FileIcons.xcassets; path = artwork/FileIcons.xcassets; sourceTree = "<group>"; };
 		F24AEA1A195AE78300046F6B /* DocumentProxy.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DocumentProxy.xib; sourceTree = "<group>"; };
 		F250EAC2216A138E00B94A0B /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		F250EAD4216A1A9A00B94A0B /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
@@ -1491,7 +1493,8 @@
 		14289051095742A100D14688 /* Artwork */ = {
 			isa = PBXGroup;
 			children = (
-				4C6BDC4A18896D8B0088CBFC /* Icons */,
+				F20D8F0B18FC28CB0091EB13 /* Artwork.xcassets */,
+				F24582892181C19F00A87EB5 /* FileIcons.xcassets */,
 				4C6BDC61188985EF0088CBFC /* Retina */,
 				F2FEE70E1892A747000E6BC8 /* SharingBarIcons */,
 				F2D3E4E4189941F50096425B /* Tabs */,
@@ -2050,14 +2053,6 @@
 				4C4FEAC0192A314000A2F4EC /* SEEMacAppStoreReceiptValidation.h */,
 			);
 			name = "Receipt Validation";
-			sourceTree = "<group>";
-		};
-		4C6BDC4A18896D8B0088CBFC /* Icons */ = {
-			isa = PBXGroup;
-			children = (
-				F20D8F0B18FC28CB0091EB13 /* Media.xcassets */,
-			);
-			name = Icons;
 			sourceTree = "<group>";
 		};
 		4C6BDC5718896DFF0088CBFC /* XIBs */ = {
@@ -2819,6 +2814,7 @@
 				F2D3E561189941F50096425B /* IW InactiveTabClosePressed.png in Resources */,
 				F2D3E532189941F50096425B /* AW ActiveTabLeftCap@2x.png in Resources */,
 				F2D3E53A189941F50096425B /* AW InactiveTabClose@2x.png in Resources */,
+				F245828A2181C19F00A87EB5 /* FileIcons.xcassets in Resources */,
 				F27EDD45216CC26500987579 /* DIW ActiveTabRightCap.png in Resources */,
 				F2D3E567189941F50096425B /* IW InactiveTabRightCap.png in Resources */,
 				F27EDD4A216CC26500987579 /* DIW InactiveTabLeftCap.png in Resources */,
@@ -2888,7 +2884,7 @@
 				4CD5F7EA17FB0C8E00F49E31 /* SEEEncodingDoctorView.xib in Resources */,
 				F22CB6DA216E02F900D1565D /* DIW InactiveTabClosePressed@2x.png in Resources */,
 				F22024CD191D0BFE0098982C /* ParticipantFollowTurnOnPressed.png in Resources */,
-				F20D8F0C18FC28CB0091EB13 /* Media.xcassets in Resources */,
+				F20D8F0C18FC28CB0091EB13 /* Artwork.xcassets in Resources */,
 				F2D3E556189941F50096425B /* IW ActiveTabFill@2x.png in Resources */,
 				F27EDD4B216CC26500987579 /* DIW InactiveTabRightCap.png in Resources */,
 				F265602318C4BA7300C73737 /* SearchLoupeRE.pdf in Resources */,
@@ -3603,7 +3599,7 @@
 		C05733C808A9546B00998B17 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = SubEthaEdit;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "see-appicon";
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = SubEthaEdit.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -3647,7 +3643,7 @@
 		C05733C908A9546B00998B17 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = SubEthaEdit;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "see-appicon";
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = SubEthaEdit.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
