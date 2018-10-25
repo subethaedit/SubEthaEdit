@@ -376,34 +376,41 @@ static NSArray *see(NSArray *fileNames, NSArray *newFileNames, NSString *stdinFi
 		NSURL *fileURL = [NSURL fileURLWithPath:stdinFileName];
 		[urls addObject:fileURL];
 	}
-	
-	if (urls.count > 0) {
-		NSWorkspaceLaunchOptions launchOptions = NSWorkspaceLaunchWithoutActivation;
-		if ([[options objectForKey:@"print"] boolValue]) {
-			launchOptions = launchOptions | NSWorkspaceLaunchAndPrint;
-		}
-		NSWorkspace *sharedWorkspace = [NSWorkspace sharedWorkspace];
-		if (runningSubEthaEdit.bundleIdentifier) {
-			[sharedWorkspace openURLs:urls withAppBundleIdentifier:runningSubEthaEdit.bundleIdentifier options:launchOptions additionalEventParamDescriptor:nil launchIdentifiers:nil];
-		} else { // casa xcode debugger
-			NSString *applicationPath = [runningSubEthaEdit.bundleURL path];
-			for (NSURL *url in urls) {
-				[[NSWorkspace sharedWorkspace] openFile:url.path withApplication:applicationPath];
-			}
-		}
-	}
 
-    NSMutableArray *resultFileNames = [NSMutableArray array];
     AESendMode sendMode = kAEQueueReply | kAEWantReceipt;
     long timeOut = kAEDefaultTimeout;
-
-
-	pid_t pid = [runningSubEthaEdit processIdentifier];
-	NSAppleEventDescriptor* addressDescriptor = [[[NSAppleEventDescriptor alloc] initWithDescriptorType:typeKernelProcessID bytes:&pid length:sizeof(pid)] autorelease];
-    if (addressDescriptor != nil) {
+    pid_t pid = [runningSubEthaEdit processIdentifier];
+    NSAppleEventDescriptor *addressDescriptor = [[[NSAppleEventDescriptor alloc] initWithDescriptorType:typeKernelProcessID bytes:&pid length:sizeof(pid)] autorelease];
+    
+    NSMutableArray *resultFileNames = [NSMutableArray array];
+    if (!addressDescriptor) {
+        fprintf(stderr, "see: Could not successfully address a SubEthaEdit.app");
+        fflush(stderr);
+        exit(EXIT_FAILURE);
+    } else {
+        if (urls.count > 0) {
+            NSAppleEventDescriptor *fileList = [NSAppleEventDescriptor listDescriptor];
+            [urls enumerateObjectsUsingBlock:^(NSURL *url, NSUInteger index, BOOL *_stop) {
+                [fileList insertDescriptor:[NSAppleEventDescriptor descriptorWithFileURL:url] atIndex:index];
+            }];
+            NSAppleEventDescriptor *openEvent = [NSAppleEventDescriptor appleEventWithEventClass:kCoreEventClass eventID:[[options objectForKey:@"print"] boolValue] ? kAEPrintDocuments : kAEOpenDocuments targetDescriptor:addressDescriptor returnID:kAutoGenerateReturnID transactionID:kAnyTransactionID];
+            [openEvent setParamDescriptor:fileList forKeyword:keyDirectObject];
+            
+            AppleEvent reply;
+            AESendMode sendMode = kAEQueueReply | kAEWantReceipt;
+            long timeOut = kAEDefaultTimeout;
+            
+            OSStatus err = AESendMessage([openEvent aeDesc], &reply, sendMode, timeOut);
+            if (err != noErr) {
+                fprintf(stderr, "see: Error occurred while sending AppleEvent: %d\n", (int)err);
+                fflush(stderr);
+                exit(EXIT_FAILURE);
+            }
+        }
+        
         NSAppleEventDescriptor *appleEvent = [NSAppleEventDescriptor appleEventWithEventClass:'Hdra' eventID:'See ' targetDescriptor:addressDescriptor returnID:kAutoGenerateReturnID transactionID:kAnyTransactionID];
         if (appleEvent != nil) {
-        
+            
             NSUInteger count = [fileNames count];
             if (count > 0) {
                 NSAppleEventDescriptor *filesDesc = [NSAppleEventDescriptor listDescriptor];
@@ -431,7 +438,7 @@ static NSArray *see(NSArray *fileNames, NSArray *newFileNames, NSString *stdinFi
                 [appleEvent setParamDescriptor:[NSAppleEventDescriptor descriptorWithString:stdinFileName]
                                     forKeyword:'Stdi'];
             }
-
+            
             NSAppleEventDescriptor *propRecord = propertiesEventDescriptorWithOptions(options);
             [appleEvent setParamDescriptor:propRecord
                                 forKeyword:keyAEPropData];
@@ -441,32 +448,32 @@ static NSArray *see(NSArray *fileNames, NSArray *newFileNames, NSString *stdinFi
                 [appleEvent setParamDescriptor:[NSAppleEventDescriptor descriptorWithString:jobDescription]
                                     forKeyword:'JobD'];
             }
-
+            
             NSString *gotoString = [options objectForKey:@"goto"];
             if (gotoString) {
                 [appleEvent setParamDescriptor:[NSAppleEventDescriptor descriptorWithString:gotoString]
                                     forKeyword:'GoTo'];
             }
-
+            
             NSString *openinString = [options objectForKey:@"open-in"];
             if (openinString) {
                 [appleEvent setParamDescriptor:[NSAppleEventDescriptor descriptorWithString:openinString]
                                     forKeyword:'OpIn'];
             }
-
+            
             
             NSString *pipeTitle = [options objectForKey:@"pipe-title"];
             if (pipeTitle) {
                 [appleEvent setDescriptor:[NSAppleEventDescriptor descriptorWithString:pipeTitle]
                                forKeyword:'Pipe'];
-
+                
             }
             
             if ([[options objectForKey:@"print"] boolValue]) {
                 [appleEvent setParamDescriptor:[NSAppleEventDescriptor descriptorWithBoolean:true]
                                     forKeyword:'Prnt'];
-            }            
-
+            }
+            
             if ([[options objectForKey:@"wait"] boolValue]) {
                 sendMode = kAEWaitReply;
                 timeOut = kNoTimeOut;
@@ -478,13 +485,13 @@ static NSArray *see(NSArray *fileNames, NSArray *newFileNames, NSString *stdinFi
                 [appleEvent setParamDescriptor:[NSAppleEventDescriptor descriptorWithBoolean:true]
                                     forKeyword:'PipO'];
             }
-
+            
             if ([[options objectForKey:@"pipe-dirty"] boolValue]) {
                 [appleEvent setParamDescriptor:[NSAppleEventDescriptor descriptorWithBoolean:true]
                                     forKeyword:'Pdty'];
             }
-
-                        
+            
+            
             AppleEvent reply;
             OSStatus err = AESendMessage([appleEvent aeDesc], &reply, sendMode, timeOut);
             if (err == noErr) {
