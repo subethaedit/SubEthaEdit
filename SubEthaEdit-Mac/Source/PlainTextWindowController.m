@@ -1062,57 +1062,6 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 #pragma mark -
 #pragma mark Enter Full Screen
 
-// as a window delegate, window delegate we provide a list of windows involved in our custom animation,
-// in our case we animate just the one primary window.
-//
-- (NSArray *)customWindowsToEnterFullScreenForWindow:(NSWindow *)window {
-    return [NSArray arrayWithObject:window];
-}
-
-- (void)window:(NSWindow *)window startCustomAnimationToEnterFullScreenWithDuration:(NSTimeInterval)duration {
-    self.frameForNonFullScreenMode = [window frame];
-    [self invalidateRestorableState];
-
-    NSScreen *screen = [[NSScreen screens] objectAtIndex:0];
-	if ([NSScreen screensHaveSeparateSpaces]) {
-		screen = [NSScreen mainScreen];
-	}
-    NSRect screenFrame = [screen frame];
-
-    NSRect proposedFrame = screenFrame;
-    proposedFrame.size = [self window:window willUseFullScreenContentSize:proposedFrame.size];
-
-    proposedFrame.origin.x += floor((NSWidth(screenFrame) - NSWidth(proposedFrame))/2);
-    proposedFrame.origin.y += floor((NSHeight(screenFrame) - NSHeight(proposedFrame))/2);
-
-    // The center frame for each window is used during the 1st half of the fullscreen animation and is
-    // the window at its original size but moved to the center of its eventual full screen frame.
-    NSRect centerWindowFrame = [window frame];
-    centerWindowFrame.origin.x = NSWidth(proposedFrame)/2 - NSWidth(centerWindowFrame)/2 + NSMinX(proposedFrame);
-    centerWindowFrame.origin.y = NSHeight(proposedFrame)/2 - NSHeight(centerWindowFrame)/2 + NSMinY(proposedFrame);
-
-    // Our animation will be broken into two stages.
-    // First, we'll move the window to the center of the primary screen and then we'll enlarge
-    // it its full screen size.
-    //
-    [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
-
-        [context setDuration:duration];
-        [[window animator] setFrame:centerWindowFrame display:YES];
-
-    } completionHandler:^{
-
-        [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
-
-            [context setDuration:duration/4];
-            [[window animator] setFrame:proposedFrame display:YES];
-
-        } completionHandler:^{
-
-        }];
-    }];
-}
-
 - (void)windowWillEnterFullScreen:(NSNotification *)aNotification {
 	for (FindAllController *findAllController in [self allMyFindAllWindowControllers]) {
 		[(NSPanel *)findAllController.window setFloatingPanel:YES];
@@ -1126,70 +1075,14 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 	}
 }
 
-- (void)windowDidFailToEnterFullScreen:(NSWindow *)window {
-    // If we had any cleanup to perform in the event of failure to enter Full Screen,
-    // this would be the place to do it.
-    //
-    // One case would be if the user attempts to move to full screen but then
-    // immediately switches to Dashboard.
-}
-
 #pragma mark -
 #pragma mark Exit Full Screen
-
-- (NSArray *)customWindowsToExitFullScreenForWindow:(NSWindow *)window
-{
-    return [NSArray arrayWithObject:window];
-}
-
-- (void)window:(NSWindow *)window startCustomAnimationToExitFullScreenWithDuration:(NSTimeInterval)duration
-{
-    [(PlainTextWindow *)window setConstrainingToScreenSuspended:YES];
-
-    // The center frame for each window is used during the 1st half of the fullscreen animation and is
-    // the window at its original size but moved to the center of its eventual full screen frame.
-    NSRect centerWindowFrame = self.frameForNonFullScreenMode;
-    centerWindowFrame.origin.x = NSWidth(window.frame)/2.0 - NSWidth(self.frameForNonFullScreenMode)/2.0 + NSMinX(window.frame);
-    centerWindowFrame.origin.y = NSHeight(window.frame)/2.0 - NSHeight(self.frameForNonFullScreenMode)/2.0 + NSMinY(window.frame);
-
-    // Our animation will be broken into two stages.  First, we'll restore the window
-    // to its original size while centering it and then we'll move it back to its initial
-    // position.
-    [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context)
-     {
-         [context setDuration:duration/4];
-         [[window animator] setFrame:centerWindowFrame display:YES];
-
-     } completionHandler:^{
-
-         [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context){
-             [context setDuration:duration];
-             [[window animator] setFrame:self.frameForNonFullScreenMode display:YES];
-
-         } completionHandler:^{
-
-             [(PlainTextWindow *)window setConstrainingToScreenSuspended:NO];
-         }];
-
-     }];
-}
-
-//- (void)windowWillExitFullScreen:(NSNotification *)aNotification {
-//}
 
 - (void)windowDidExitFullScreen:(NSNotification *)aNotification {
 	for (FindAllController *findAllController in [self allMyFindAllWindowControllers]) {
 		[findAllController.window setLevel:NSNormalWindowLevel];
 	}
 }
-
-- (void)windowDidFailToExitFullScreen:(NSWindow *)window
-{
-    // If we had any cleanup to perform in the event of failure to exit Full Screen,
-    // this would be the place to do it.
-    // ...
-}
-
 
 #pragma mark -
 
