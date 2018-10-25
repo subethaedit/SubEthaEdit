@@ -1,5 +1,5 @@
 
-Fill the following template, and post it on [GitHub Issues](https://source.monkeydom.de/OpenSource/SubEthaEdit/issues/new) or send to <subetha-code@lone.monkey.productions>. Please note that the contents of the sent email can be shared on the Issue page. Please write the contents in English.
+Fill the following template, and post it on [GitHub Issues](https://github.com/subethaedit/subethaedit/issues/new) or send to <subethaedit-bugs@lone.monkey.productions>. Please note that the contents of the sent email can be shared on the Issue page. Please write the contents in English.
 
 Title: 
 
@@ -16,6 +16,7 @@ Title:
 
 ## Expected Result
 
+## Actual Result
 
 ## Environment
 
