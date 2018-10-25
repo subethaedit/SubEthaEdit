@@ -134,7 +134,11 @@ static DocumentModeManager *S_sharedInstance=nil;
 }
 
 + (NSString *)defaultStyleSheetName {
-	return @"SubEthaEdit Bright";
+    if ([NSApp SEE_effectiveAppearanceIsDark]) {
+        return @"SubEthaEdit Dark";
+    } else {
+        return @"SubEthaEdit Bright";
+    }
 }
 
 + (NSString *)xmlFileRepresentationOfAllStyles {
