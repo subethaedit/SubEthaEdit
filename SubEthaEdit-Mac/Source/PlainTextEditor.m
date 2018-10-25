@@ -1481,7 +1481,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 		[textView setDrawsBackground:NO];
 		NSTextStorage *textstorage = textView.textStorage;
 		[textstorage replaceCharactersInRange:textstorage.TCM_fullLengthRange withString:aText];
-		[textstorage addAttributes:@{NSFontAttributeName : [NSFont systemFontOfSize:[NSFont systemFontSize]], NSForegroundColorAttributeName : [NSColor colorWithCalibratedWhite:0.2 alpha:1.0]} range:textstorage.TCM_fullLengthRange];
+		[textstorage addAttributes:@{NSFontAttributeName : [NSFont systemFontOfSize:[NSFont systemFontSize]], NSForegroundColorAttributeName : [NSColor labelColor]} range:textstorage.TCM_fullLengthRange];
 		[textView setSelectable:NO];
 		[textView setTextContainerInset:NSMakeSize(4.0,6.0)];
 		[textView sizeToFit];
