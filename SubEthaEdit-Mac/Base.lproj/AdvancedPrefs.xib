@@ -35,7 +35,7 @@
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" setsMaxLayoutWidthAtFirstLayout="YES" id="j2R-MH-9y7">
                                     <rect key="frame" x="12" y="65" width="300" height="36"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" selectable="YES" sendsActionOnEndEditing="YES" title="To install the 'see' command line tool, go to the terminal and run:" id="miq-Cf-tda">
+                                    <textFieldCell key="cell" selectable="YES" sendsActionOnEndEditing="YES" title="To install the 'see' command line tool, go to the terminal and run (add sudo in front only if it fails):" id="miq-Cf-tda">
                                         <font key="font" metaFont="smallSystem"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
