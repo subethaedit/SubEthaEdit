@@ -39,6 +39,20 @@
 			<string>PlainTextDocument</string>
 		</dict>
 		<dict>
+			<key>CFBundleTypeName</key>
+			<string>Source Code</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.source-code</string>
+			</array>
+			<key>LSTypeIsPackage</key>
+			<false/>
+			<key>NSDocumentClass</key>
+			<string>PlainTextDocument</string>
+		</dict>
+		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
 				<string>txt</string>
@@ -46,12 +60,14 @@
 			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
+			<key>CFBundleTypeMIMETypes</key>
+			<array>
+				<string>text/plain</string>
+			</array>
 			<key>CFBundleTypeName</key>
-			<string>PlainTextType</string>
+			<string>Text document</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
-			<key>LSHandlerRank</key>
-			<string>Alternate</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>public.plain-text</string>
@@ -93,14 +109,12 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>go Source File</string>
+			<string>go Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
-			<key>LSHandlerRank</key>
-			<string>Owner</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>de.codingmonkeys.subethaedit.go-source</string>
+				<string>public.go-source</string>
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
@@ -113,18 +127,20 @@
 			<key>CFBundleTypeExtensions</key>
 			<array>
 				<string>bash</string>
+				<string>sh</string>
+				<string>csh</string>
+				<string>zsh</string>
+				<string>tcsh</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>bash Source File</string>
+			<string>shell script</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
-			<key>LSHandlerRank</key>
-			<string>Alternate</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>public.bash-script</string>
+				<string>public.shell-script</string>
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
@@ -141,7 +157,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>do Source File</string>
+			<string>do Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -165,11 +181,9 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>fscript Source File</string>
+			<string>fscript Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
-			<key>LSHandlerRank</key>
-			<string>Alternate</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>org.fscript.fscript</string>
@@ -190,11 +204,9 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>java Source File</string>
+			<string>java Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
-			<key>LSHandlerRank</key>
-			<string>Alternate</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>com.sun.java-source</string>
@@ -214,15 +226,15 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>lua Source File</string>
+			<string>lua Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
 			<string>Owner</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>de.codingmonkeys.subethaedit.lua-source</string>
-				<string>org.lua.lua</string>
+				<string>public.lua-source</string>
+				<string>org.lua.lua-source</string>
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
@@ -239,7 +251,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>dxf Source File</string>
+			<string>dxf Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -265,11 +277,9 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>javascript Source File</string>
+			<string>javascript Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
-			<key>LSHandlerRank</key>
-			<string>Alternate</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>com.netscape.javascript-source</string>
@@ -289,7 +299,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>mxo Source File</string>
+			<string>mxo Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -313,11 +323,9 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>json Source File</string>
+			<string>json Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
-			<key>LSHandlerRank</key>
-			<string>Alternate</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>public.json</string>
@@ -338,7 +346,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>sps Source File</string>
+			<string>sps Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -366,11 +374,9 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>c++ Source File</string>
+			<string>c++ Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
-			<key>LSHandlerRank</key>
-			<string>Alternate</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>public.c-plus-plus-source</string>
@@ -390,7 +396,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>tcl Source File</string>
+			<string>tcl Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -417,11 +423,9 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>HTM Source File</string>
+			<string>HTM Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
-			<key>LSHandlerRank</key>
-			<string>Alternate</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>public.html</string>
@@ -441,7 +445,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>act3 Source File</string>
+			<string>act3 Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -465,7 +469,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>m4 Source File</string>
+			<string>m4 Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -489,11 +493,9 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>h Source File</string>
+			<string>h Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
-			<key>LSHandlerRank</key>
-			<string>Alternate</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>public.c-header</string>
@@ -513,7 +515,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>sgml Source File</string>
+			<string>sgml Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -537,7 +539,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>err Source File</string>
+			<string>err Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -561,11 +563,9 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>ics Source File</string>
+			<string>ics Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
-			<key>LSHandlerRank</key>
-			<string>Alternate</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>com.apple.ical.ics</string>
@@ -585,11 +585,9 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>csv Source File</string>
+			<string>csv Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
-			<key>LSHandlerRank</key>
-			<string>Alternate</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>public.comma-separated-values-text</string>
@@ -609,7 +607,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>types Source File</string>
+			<string>types Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -633,7 +631,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>st Source File</string>
+			<string>st Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -657,7 +655,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>x Source File</string>
+			<string>x Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -676,37 +674,13 @@
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
-				<string>tcsh</string>
-			</array>
-			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
-			<key>CFBundleTypeName</key>
-			<string>tcsh Source File</string>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>LSHandlerRank</key>
-			<string>Alternate</string>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>public.tcsh-script</string>
-			</array>
-			<key>LSTypeIsPackage</key>
-			<false/>
-			<key>NSDocumentClass</key>
-			<string>PlainTextDocument</string>
-			<key>NSIsRelatedItemType</key>
-			<true/>
-		</dict>
-		<dict>
-			<key>CFBundleTypeExtensions</key>
-			<array>
 				<string>f</string>
 				<string>for</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>F Source File</string>
+			<string>F Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -733,7 +707,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>py Source File</string>
+			<string>py Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -758,7 +732,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>mm Source File</string>
+			<string>mm Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -782,7 +756,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>uue Source File</string>
+			<string>uue Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -806,7 +780,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>idl Source File</string>
+			<string>idl Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -830,7 +804,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>rc Source File</string>
+			<string>rc Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -854,7 +828,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>vbs Source File</string>
+			<string>vbs Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -878,7 +852,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>vrml Source File</string>
+			<string>vrml Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -902,7 +876,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>brainfuck Source File</string>
+			<string>brainfuck Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -926,7 +900,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>rxp Source File</string>
+			<string>rxp Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -950,7 +924,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>pch Source File</string>
+			<string>pch Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -974,7 +948,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>las Source File</string>
+			<string>las Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -998,7 +972,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>eps Source File</string>
+			<string>eps Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1022,7 +996,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>ps Source File</string>
+			<string>ps Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1046,7 +1020,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>plist Source File</string>
+			<string>plist Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1095,7 +1069,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>Metal shader source</string>
+			<string>Metal shaderSource</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSItemContentTypes</key>
@@ -1116,7 +1090,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>xsl Source File</string>
+			<string>xsl Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1141,7 +1115,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>r Source File</string>
+			<string>r Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1166,11 +1140,9 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>c Source File</string>
+			<string>C Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
-			<key>LSHandlerRank</key>
-			<string>Alternate</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>public.c-source</string>
@@ -1190,7 +1162,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>sl Source File</string>
+			<string>sl Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1214,7 +1186,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>wmk Source File</string>
+			<string>wmk Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1238,7 +1210,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>log Source File</string>
+			<string>log Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1262,7 +1234,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>rsp Source File</string>
+			<string>rsp Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1286,7 +1258,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>msl Source File</string>
+			<string>msl Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1310,7 +1282,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>rtf Source File</string>
+			<string>rtf Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1338,7 +1310,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>fs Source File</string>
+			<string>fs Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1362,7 +1334,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>reb Source File</string>
+			<string>reb Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1386,7 +1358,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>mel Source File</string>
+			<string>mel Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1410,7 +1382,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>sieve Source File</string>
+			<string>sieve Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1435,7 +1407,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>latex Source File</string>
+			<string>latex Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1459,7 +1431,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>csh Source File</string>
+			<string>csh Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1484,7 +1456,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>vcs Source File</string>
+			<string>vcs Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1508,7 +1480,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>def Source File</string>
+			<string>def Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1532,7 +1504,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>xml Source File</string>
+			<string>xml Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1559,7 +1531,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>SQL Source File</string>
+			<string>SQL Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1584,7 +1556,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>rebol Source File</string>
+			<string>rebol Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1609,7 +1581,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>svg Source File</string>
+			<string>svg Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1635,7 +1607,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>pas Source File</string>
+			<string>pas Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1660,7 +1632,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>pro Source File</string>
+			<string>pro Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1684,7 +1656,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>notes Source File</string>
+			<string>notes Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1708,7 +1680,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>cob Source File</string>
+			<string>cob Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1738,7 +1710,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>rb Source File</string>
+			<string>rb Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1764,7 +1736,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>vcard Source File</string>
+			<string>vcard Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1788,7 +1760,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>mws Source File</string>
+			<string>mws Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1814,7 +1786,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>ada Source File</string>
+			<string>ada Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1838,7 +1810,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>mx Source File</string>
+			<string>mx Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1862,7 +1834,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>enc Source File</string>
+			<string>enc Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1886,7 +1858,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>pod Source File</string>
+			<string>pod Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1910,7 +1882,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>as Source File</string>
+			<string>as Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1934,7 +1906,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>ini Source File</string>
+			<string>ini Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1958,7 +1930,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>strings Source File</string>
+			<string>strings Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1982,7 +1954,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>mk Source File</string>
+			<string>mk Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -2007,7 +1979,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>pl Source File</string>
+			<string>pl Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -2031,7 +2003,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>lasso Source File</string>
+			<string>lasso Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -2055,7 +2027,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>default Source File</string>
+			<string>default Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -2081,7 +2053,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>sty Source File</string>
+			<string>sty Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -2110,11 +2082,9 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>php Source File</string>
+			<string>php Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
-			<key>LSHandlerRank</key>
-			<string>Alternate</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>public.php-script</string>
@@ -2134,7 +2104,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>verilog Source File</string>
+			<string>verilog Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -2158,11 +2128,9 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>CSS Source File</string>
+			<string>CSS Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
-			<key>LSHandlerRank</key>
-			<string>Alternate</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>org.w3.css</string>
@@ -2182,7 +2150,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>spss Source File</string>
+			<string>spss Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -2206,7 +2174,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>awk Source File</string>
+			<string>awk Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -2230,7 +2198,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>vrm Source File</string>
+			<string>vrm Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -2254,7 +2222,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>lgt Source File</string>
+			<string>lgt Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -2278,7 +2246,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>Filemaker Source File</string>
+			<string>Filemaker Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -2302,7 +2270,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>njs Source File</string>
+			<string>njs Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -2326,7 +2294,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>custom Source File</string>
+			<string>custom Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -2350,7 +2318,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>bak Source File</string>
+			<string>bak Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -2374,7 +2342,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>F90 Source File</string>
+			<string>F90 Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -2398,7 +2366,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>vhd Source File</string>
+			<string>vhd Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -2422,7 +2390,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>sh Source File</string>
+			<string>sh Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -2446,7 +2414,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>tab Source File</string>
+			<string>tab Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -2470,7 +2438,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>m1s Source File</string>
+			<string>m1s Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -2496,7 +2464,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>xhtml Source File</string>
+			<string>xhtml Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -2520,7 +2488,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>bf Source File</string>
+			<string>bf Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -2544,7 +2512,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>applescript Source File</string>
+			<string>applescript Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -2569,7 +2537,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>yaml Source File</string>
+			<string>yaml Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -2594,7 +2562,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>v Source File</string>
+			<string>v Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -2619,7 +2587,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>erl Source File</string>
+			<string>erl Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -2643,7 +2611,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>M Source File</string>
+			<string>M Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -2667,7 +2635,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>dtd Source File</string>
+			<string>dtd Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -2692,7 +2660,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>rhtml Source File</string>
+			<string>rhtml Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -2717,7 +2685,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>hpgl Source File</string>
+			<string>hpgl Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -2741,7 +2709,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>gcc Source File</string>
+			<string>gcc Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -2768,7 +2736,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>cfm Source File</string>
+			<string>cfm Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -2792,7 +2760,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>b Source File</string>
+			<string>b Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -2816,7 +2784,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>ltx Source File</string>
+			<string>ltx Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -2840,7 +2808,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>pike Source File</string>
+			<string>pike Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -2864,7 +2832,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>mtl Source File</string>
+			<string>mtl Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -2885,8 +2853,6 @@
 			<string>Any Text File</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
-			<key>LSHandlerRank</key>
-			<string>Alternate</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>public.text</string>
@@ -3047,7 +3013,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>act3 Source File</string>
+			<string>act3 Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.act3-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3064,7 +3030,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>ltx Source File</string>
+			<string>ltx Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.ltx-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3081,7 +3047,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>lgt Source File</string>
+			<string>lgt Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.lgt-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3098,7 +3064,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>cfm Source File</string>
+			<string>cfm Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.cfm-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3118,7 +3084,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>wmk Source File</string>
+			<string>wmk Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.wmk-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3135,7 +3101,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>latex Source File</string>
+			<string>latex Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.tex-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3153,7 +3119,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>p Source File</string>
+			<string>p Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.pascal-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3172,7 +3138,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>idl Source File</string>
+			<string>idl Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.idl-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3206,7 +3172,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>def Source File</string>
+			<string>def Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.def-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3223,7 +3189,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>las Source File</string>
+			<string>las Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.las-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3240,7 +3206,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>vhd Source File</string>
+			<string>vhd Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.vhdl-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3257,7 +3223,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>go Source File</string>
+			<string>go Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.go-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3274,7 +3240,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>pro Source File</string>
+			<string>pro Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.pro-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3291,7 +3257,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>do Source File</string>
+			<string>do Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.do-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3308,7 +3274,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>sps Source File</string>
+			<string>sps Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.sps-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3325,7 +3291,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>m1s Source File</string>
+			<string>m1s Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.m1s-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3342,7 +3308,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>reb Source File</string>
+			<string>reb Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.reb-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3359,7 +3325,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>mx Source File</string>
+			<string>mx Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.mx-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3376,7 +3342,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>mxo Source File</string>
+			<string>mxo Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.mxo-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3393,7 +3359,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>mk Source File</string>
+			<string>mk Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.mk-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3410,7 +3376,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>lua Source File</string>
+			<string>lua Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.lua-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3427,7 +3393,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>vbs Source File</string>
+			<string>vbs Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.vbscript-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3444,7 +3410,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>x Source File</string>
+			<string>x Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.x-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3461,7 +3427,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>rebol Source File</string>
+			<string>rebol Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.rebol-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3478,7 +3444,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>vrm Source File</string>
+			<string>vrm Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.vrm-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3495,7 +3461,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>custom Source File</string>
+			<string>custom Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.custom-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3512,7 +3478,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>st Source File</string>
+			<string>st Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.st-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3529,7 +3495,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>brainfuck Source File</string>
+			<string>brainfuck Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.brainfuck-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3546,7 +3512,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>rhtml Source File</string>
+			<string>rhtml Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.erb-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3564,7 +3530,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>verilog Source File</string>
+			<string>verilog Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.verilog-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3581,7 +3547,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>Filemaker Source File</string>
+			<string>Filemaker Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.filemaker-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3598,7 +3564,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>uue Source File</string>
+			<string>uue Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.uue-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3615,7 +3581,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>rsp Source File</string>
+			<string>rsp Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.rsp-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3632,7 +3598,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>pike Source File</string>
+			<string>pike Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.pike-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3649,7 +3615,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>pod Source File</string>
+			<string>pod Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.pod-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3666,7 +3632,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>sl Source File</string>
+			<string>sl Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.sl-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3683,7 +3649,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>tab Source File</string>
+			<string>tab Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.tab-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3700,7 +3666,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>ini Source File</string>
+			<string>ini Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.ini-configuration</string>
 			<key>UTTypeTagSpecification</key>
@@ -3717,7 +3683,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>enc Source File</string>
+			<string>enc Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.enc-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3734,7 +3700,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>v Source File</string>
+			<string>v Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.verilog-hdl-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3751,7 +3717,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>mel Source File</string>
+			<string>mel Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.mel-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3768,7 +3734,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>SQL Source File</string>
+			<string>SQL Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.sql-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3787,7 +3753,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>sgml Source File</string>
+			<string>sgml Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.sgml-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3804,7 +3770,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>err Source File</string>
+			<string>err Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.err-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3821,7 +3787,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>ruby Source File</string>
+			<string>ruby Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.ruby-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3844,7 +3810,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>gcc Source File</string>
+			<string>gcc Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.gcc-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3861,7 +3827,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>notes Source File</string>
+			<string>notes Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.notes-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3878,7 +3844,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>tcl Source File</string>
+			<string>tcl Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.tcl-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3895,7 +3861,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>m4 Source File</string>
+			<string>m4 Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.m4-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3912,7 +3878,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>b Source File</string>
+			<string>b Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.b-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3929,7 +3895,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>bf Source File</string>
+			<string>bf Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.bf-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3946,7 +3912,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>rc Source File</string>
+			<string>rc Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.rc-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3963,7 +3929,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>strings Source File</string>
+			<string>strings Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.strings-text</string>
 			<key>UTTypeTagSpecification</key>
@@ -3980,7 +3946,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>python Source File</string>
+			<string>python Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.python-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -4000,7 +3966,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>mtl Source File</string>
+			<string>mtl Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.mtl-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -4017,7 +3983,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>yaml Source File</string>
+			<string>yaml Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.yaml-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -4034,7 +4000,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>dxf Source File</string>
+			<string>dxf Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.dxf-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -4051,7 +4017,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>njs Source File</string>
+			<string>njs Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.njs-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -4068,7 +4034,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>vrml Source File</string>
+			<string>vrml Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.vrml-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -4085,7 +4051,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>types Source File</string>
+			<string>types Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.types-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -4102,7 +4068,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>mws Source File</string>
+			<string>mws Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.mws-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -4119,7 +4085,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>rxp Source File</string>
+			<string>rxp Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.rxp-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -4136,7 +4102,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>msl Source File</string>
+			<string>msl Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.msl-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -4153,7 +4119,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>awk Source File</string>
+			<string>awk Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.awk-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -4170,7 +4136,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>cob Source File</string>
+			<string>cob Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.cob-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -4187,7 +4153,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>bak Source File</string>
+			<string>bak Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.bak-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -4204,7 +4170,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>lasso Source File</string>
+			<string>lasso Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.lasso-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -4221,7 +4187,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>hpgl Source File</string>
+			<string>hpgl Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.hpgl-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -4238,7 +4204,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>spss Source File</string>
+			<string>spss Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.spss-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -4255,7 +4221,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>default Source File</string>
+			<string>default Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.default-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -4272,7 +4238,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>sieve Source File</string>
+			<string>sieve Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.sieve-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -4325,7 +4291,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>ASP Source File</string>
+			<string>ASP Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.asp-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -4343,7 +4309,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>JSP Source File</string>
+			<string>JSP Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.jsp-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -4351,6 +4317,234 @@
 				<key>public.filename-extension</key>
 				<array>
 					<string>jsp</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.source-code</string>
+			</array>
+			<key>UTTypeIdentifier</key>
+			<string>public.c-header</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>h</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.c-header</string>
+			</array>
+			<key>UTTypeIdentifier</key>
+			<string>public.precompiled-c-header</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>pch</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.source-code</string>
+			</array>
+			<key>UTTypeIdentifier</key>
+			<string>public.c-plus-plus-header</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>hh</string>
+					<string>hp</string>
+					<string>hpp</string>
+					<string>hxx</string>
+					<string>h++</string>
+					<string>ipp</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.c-plus-plus-header</string>
+			</array>
+			<key>UTTypeIdentifier</key>
+			<string>public.precompiled-c-plus-plus-header</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>pch++</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.source-code</string>
+			</array>
+			<key>UTTypeIdentifier</key>
+			<string>public.c-source</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>c</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.c-source</string>
+			</array>
+			<key>UTTypeIdentifier</key>
+			<string>public.c-source.preprocessed</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>i</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.source-code</string>
+			</array>
+			<key>UTTypeIdentifier</key>
+			<string>public.opencl-source</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>cl</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.source-code</string>
+			</array>
+			<key>UTTypeIdentifier</key>
+			<string>public.objective-c-source</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>m</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.source-code</string>
+			</array>
+			<key>UTTypeIdentifier</key>
+			<string>public.assembly-source</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>s</string>
+					<string>asm</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.source-code</string>
+			</array>
+			<key>UTTypeIdentifier</key>
+			<string>public.nasm-assembly-source</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>nasm</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.source-code</string>
+			</array>
+			<key>UTTypeIdentifier</key>
+			<string>com.apple.rez-source</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>r</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.shell-script</string>
+			</array>
+			<key>UTTypeIdentifier</key>
+			<string>public.ruby-script</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>rb</string>
+					<string>rbw</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.plain-text</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Markdown</string>
+			<key>UTTypeIdentifier</key>
+			<string>net.daringfireball.markdown</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>md</string>
+					<string>mdown</string>
+					<string>markdown</string>
+					<string>text</string>
+				</array>
+				<key>public.mime-type</key>
+				<array>
+					<string>text/markdown</string>
+					<string>text/x-markdown</string>
+					<string>text/x-web-markdown</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.source-code</string>
+			</array>
+			<key>UTTypeIdentifier</key>
+			<string>com.apple.metal</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>metal</string>
 				</array>
 			</dict>
 		</dict>
@@ -4483,7 +4677,7 @@
 			<key>UTTypeConformsTo</key>
 			<string>public.source-code</string>
 			<key>UTTypeDescription</key>
-			<string>Objective-C source code</string>
+			<string>Objective-C Source code</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.objective-c-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -4498,7 +4692,7 @@
 				<string>public.script</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>F-Script source</string>
+			<string>F-Script Source</string>
 			<key>UTTypeIconFile</key>
 			<string>F-Script</string>
 			<key>UTTypeIdentifier</key>
@@ -4519,7 +4713,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>Rez source code</string>
+			<string>Rez Source code</string>
 			<key>UTTypeIdentifier</key>
 			<string>com.apple.rez-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -4556,7 +4750,7 @@
 			<key>UTTypeConformsTo</key>
 			<string>public.source-code</string>
 			<key>UTTypeDescription</key>
-			<string>Objective-C++ source code</string>
+			<string>Objective-C++ Source code</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.objective-c-plus-plus-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -4593,7 +4787,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>Ada source code</string>
+			<string>Ada Source code</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.ada-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -4631,7 +4825,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>SQL source</string>
+			<string>SQL Source</string>
 			<key>UTTypeIconFile</key>
 			<string>SQL</string>
 			<key>UTTypeIdentifier</key>
@@ -4850,7 +5044,7 @@
 			<key>UTTypeConformsTo</key>
 			<string>public.source-code</string>
 			<key>UTTypeDescription</key>
-			<string>C source code</string>
+			<string>C Source code</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.c-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -4876,7 +5070,7 @@
 			<key>UTTypeConformsTo</key>
 			<string>public.source-code</string>
 			<key>UTTypeDescription</key>
-			<string>C++ source code</string>
+			<string>C++ Source code</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.c-plus-plus-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -4915,7 +5109,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>Pascal source code</string>
+			<string>Pascal Source code</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.pascal-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -5064,7 +5258,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>R source</string>
+			<string>R Source</string>
 			<key>UTTypeIconFile</key>
 			<string>R</string>
 			<key>UTTypeIdentifier</key>
@@ -5291,7 +5485,7 @@
 			<key>UTTypeConformsTo</key>
 			<string>public.source-code</string>
 			<key>UTTypeDescription</key>
-			<string>Java source code</string>
+			<string>Java Source code</string>
 			<key>UTTypeIdentifier</key>
 			<string>com.sun.java-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -5309,7 +5503,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>Lua source</string>
+			<string>Lua Source</string>
 			<key>UTTypeIconFile</key>
 			<string>Lua</string>
 			<key>UTTypeIdentifier</key>
@@ -5378,7 +5572,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>Erlang source</string>
+			<string>Erlang Source</string>
 			<key>UTTypeIconFile</key>
 			<string>Erlang</string>
 			<key>UTTypeIdentifier</key>
@@ -5511,7 +5705,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>Fortran source code</string>
+			<string>Fortran Source code</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.fortran-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -5520,6 +5714,246 @@
 				<array>
 					<string>f</string>
 					<string>for</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<string>public.text</string>
+			<key>UTTypeDescription</key>
+			<string>JSON</string>
+			<key>UTTypeIdentifier</key>
+			<string>public.json</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>json</string>
+				</array>
+				<key>public.mime-type</key>
+				<array>
+					<string>application/json</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<string>public.text</string>
+			<key>UTTypeDescription</key>
+			<string>CSS</string>
+			<key>UTTypeIdentifier</key>
+			<string>public.css</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>css</string>
+				</array>
+				<key>public.mime-type</key>
+				<array>
+					<string>text/css</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.source-code</string>
+			</array>
+			<key>UTTypeIdentifier</key>
+			<string>public.protobuf-source</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>proto</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.shell-script</string>
+			</array>
+			<key>UTTypeIdentifier</key>
+			<string>public.python-script</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>py</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.shell-script</string>
+			</array>
+			<key>UTTypeIdentifier</key>
+			<string>public.php-script</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>php</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.shell-script</string>
+			</array>
+			<key>UTTypeIdentifier</key>
+			<string>public.perl-script</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>pl</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.shell-script</string>
+			</array>
+			<key>UTTypeIdentifier</key>
+			<string>public.bash-script</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>bash</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.shell-script</string>
+			</array>
+			<key>UTTypeIdentifier</key>
+			<string>public.csh-script</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>csh</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.shell-script</string>
+			</array>
+			<key>UTTypeIdentifier</key>
+			<string>public.ksh-script</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>ksh</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.shell-script</string>
+			</array>
+			<key>UTTypeIdentifier</key>
+			<string>public.tcsh-script</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>tcsh</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.shell-script</string>
+			</array>
+			<key>UTTypeIdentifier</key>
+			<string>public.zsh-script</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>zsh</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.text</string>
+			</array>
+			<key>UTTypeIdentifier</key>
+			<string>com.apple.xcode.strings-text</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>strings</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.text</string>
+			</array>
+			<key>UTTypeIdentifier</key>
+			<string>public.xml</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>xhtml</string>
+					<string>XHTML</string>
+					<string>xml</string>
+					<string>XML</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.xml</string>
+			</array>
+			<key>UTTypeIdentifier</key>
+			<string>com.apple.scripting-definition</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>sdef</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.source-code</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Lua Source</string>
+			<key>UTTypeIdentifier</key>
+			<string>public.lua-source</string>
+			<key>UTTypeReferenceURL</key>
+			<string>http://www.lua.org</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>lua</string>
 				</array>
 			</dict>
 		</dict>

@@ -22,7 +22,7 @@
 	CFBundleTypeExtensions = ["txt", "text"]
 	CFBundleTypeIconFile = "file-generic"
 	CFBundleTypeMIMETypes = ["text/plain"]
-	CFBundleTypeName = "Text document"
+	CFBundleTypeName = "Text Document"
 	CFBundleTypeRole = "Editor"
 	LSItemContentTypes = ["public.plain-text"]
 	LSTypeIsPackage = false
