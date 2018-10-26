@@ -87,7 +87,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>Swift Source</string>
+			<string>Swift Source Code</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSItemContentTypes</key>
@@ -109,7 +109,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>go Source</string>
+			<string>go Source Code</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSItemContentTypes</key>
@@ -157,7 +157,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>do Source</string>
+			<string>do Source Code</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -181,7 +181,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>fscript Source</string>
+			<string>fscript Source Code</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSItemContentTypes</key>
@@ -204,7 +204,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>java Source</string>
+			<string>java Source Code</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSItemContentTypes</key>
@@ -226,7 +226,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>lua Source</string>
+			<string>lua Source Code</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -251,7 +251,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>dxf Source</string>
+			<string>dxf Source Code</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -277,7 +277,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>javascript Source</string>
+			<string>javascript Source Code</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSItemContentTypes</key>
@@ -299,7 +299,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>mxo Source</string>
+			<string>mxo Source Code</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -368,7 +368,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>sps Source</string>
+			<string>sps Source Code</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -396,7 +396,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>c++ Source</string>
+			<string>c++ Source Code</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSItemContentTypes</key>
@@ -418,7 +418,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>tcl Source</string>
+			<string>tcl Source Code</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -445,7 +445,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>HTM Source</string>
+			<string>HTML Source Code</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSItemContentTypes</key>
@@ -467,7 +467,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>act3 Source</string>
+			<string>act3 Source Code</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -491,7 +491,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>m4 Source</string>
+			<string>m4 Source Code</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -515,7 +515,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>h Source</string>
+			<string>C Header</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSItemContentTypes</key>
@@ -537,7 +537,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>sgml Source</string>
+			<string>SGML Source Code</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -561,7 +561,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>err Source</string>
+			<string>err Source Code</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -585,7 +585,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>ics Source</string>
+			<string>ics Calendar File</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSItemContentTypes</key>
@@ -607,7 +607,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>csv Source</string>
+			<string>CSV</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSItemContentTypes</key>
@@ -729,7 +729,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>py Source</string>
+			<string>Python Source Code</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -754,7 +754,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>mm Source</string>
+			<string>Objective-C++ Source Code</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -850,7 +850,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>vbs Source</string>
+			<string>vbs Source Code</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -874,7 +874,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>vrml Source</string>
+			<string>VRML Source Code</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -898,7 +898,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>brainfuck Source</string>
+			<string>brainfuck Source Code</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -922,7 +922,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>rxp Source</string>
+			<string>rxp Source Code</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -946,7 +946,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>pch Source</string>
+			<string>C Pre-Compiled-Header</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -994,7 +994,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>eps Source</string>
+			<string>Encapsulated PostScript</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1018,7 +1018,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>ps Source</string>
+			<string>PostScript</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1042,7 +1042,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>plist Source</string>
+			<string>Apple Property List</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1112,7 +1112,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>xsl Source</string>
+			<string>XSL</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1162,7 +1162,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>C Source</string>
+			<string>C Source Code</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSItemContentTypes</key>
@@ -1184,7 +1184,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>Rust Source</string>
+			<string>Rust Source Code</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSItemContentTypes</key>
@@ -1326,7 +1326,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>rtf Source</string>
+			<string>RichTextFormat</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1354,7 +1354,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>fs Source</string>
+			<string>fs Source Code</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1378,7 +1378,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>reb Source</string>
+			<string>reb Source Code</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1451,7 +1451,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>latex Source</string>
+			<string>LaTeX Source Code</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1475,7 +1475,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>csh Source</string>
+			<string>csh Script</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1548,7 +1548,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>xml Source</string>
+			<string>XML</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1625,7 +1625,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>svg Source</string>
+			<string>SVG</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1651,7 +1651,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>pas Source</string>
+			<string>Pascal Source Code</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -1700,14 +1700,14 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>notes Source</string>
+			<string>SubEthaEdit Conference Notes</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
 			<string>Owner</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>de.codingmonkeys.subethaedit.notes-source</string>
+				<string>de.codingmonkeys.subethaedit.notes</string>
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
@@ -2725,14 +2725,13 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>rhtml Source</string>
+			<string>erb Source</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
 			<string>Owner</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>de.codingmonkeys.subethaedit.erb-source</string>
 				<string>org.ruby-lang.eruby</string>
 			</array>
 			<key>LSTypeIsPackage</key>
@@ -3577,24 +3576,6 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>rhtml Source</string>
-			<key>UTTypeIdentifier</key>
-			<string>de.codingmonkeys.subethaedit.erb-source</string>
-			<key>UTTypeTagSpecification</key>
-			<dict>
-				<key>public.filename-extension</key>
-				<array>
-					<string>rhtml</string>
-					<string>erb</string>
-				</array>
-			</dict>
-		</dict>
-		<dict>
-			<key>UTTypeConformsTo</key>
-			<array>
-				<string>public.source-code</string>
-			</array>
-			<key>UTTypeDescription</key>
 			<string>verilog Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.verilog-source</string>
@@ -3892,9 +3873,9 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>notes Source</string>
+			<string>SubEthaEdit Conference Notes</string>
 			<key>UTTypeIdentifier</key>
-			<string>de.codingmonkeys.subethaedit.notes-source</string>
+			<string>de.codingmonkeys.subethaedit.notes</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>
@@ -4390,6 +4371,87 @@
 			<array>
 				<string>public.source-code</string>
 			</array>
+			<key>UTTypeDescription</key>
+			<string>Lua Script</string>
+			<key>UTTypeIdentifier</key>
+			<string>public.lua-script</string>
+			<key>UTTypeReferenceURL</key>
+			<string>http://www.lua.org</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>lua</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.source-code</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Elixir Source Code</string>
+			<key>UTTypeIdentifier</key>
+			<string>public.elixir-source</string>
+			<key>UTTypeReferenceURL</key>
+			<string>https://elixir-lang.org</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>ex</string>
+					<string>exs</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.source-code</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Erlang Source Code</string>
+			<key>UTTypeIconFile</key>
+			<string>file-generic</string>
+			<key>UTTypeIdentifier</key>
+			<string>public.erlang-source</string>
+			<key>UTTypeReferenceURL</key>
+			<string>http://www.erlang.org</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>erl</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.source-code</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Erlang Source Code</string>
+			<key>UTTypeIconFile</key>
+			<string>file-generic</string>
+			<key>UTTypeIdentifier</key>
+			<string>public.erlang-header</string>
+			<key>UTTypeReferenceURL</key>
+			<string>http://www.erlang.org</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>hrl</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeIdentifier</key>
 			<string>public.c-header</string>
 			<key>UTTypeTagSpecification</key>
@@ -4589,47 +4651,6 @@
 				</array>
 			</dict>
 		</dict>
-		<dict>
-			<key>UTTypeConformsTo</key>
-			<array>
-				<string>public.plain-text</string>
-			</array>
-			<key>UTTypeDescription</key>
-			<string>Markdown</string>
-			<key>UTTypeIdentifier</key>
-			<string>net.daringfireball.markdown</string>
-			<key>UTTypeTagSpecification</key>
-			<dict>
-				<key>public.filename-extension</key>
-				<array>
-					<string>md</string>
-					<string>mdown</string>
-					<string>markdown</string>
-					<string>text</string>
-				</array>
-				<key>public.mime-type</key>
-				<array>
-					<string>text/markdown</string>
-					<string>text/x-markdown</string>
-					<string>text/x-web-markdown</string>
-				</array>
-			</dict>
-		</dict>
-		<dict>
-			<key>UTTypeConformsTo</key>
-			<array>
-				<string>public.source-code</string>
-			</array>
-			<key>UTTypeIdentifier</key>
-			<string>com.apple.metal</string>
-			<key>UTTypeTagSpecification</key>
-			<dict>
-				<key>public.filename-extension</key>
-				<array>
-					<string>metal</string>
-				</array>
-			</dict>
-		</dict>
 	</array>
 	<key>UTImportedTypeDeclarations</key>
 	<array>
@@ -4739,8 +4760,6 @@
 			</array>
 			<key>UTTypeDescription</key>
 			<string>Cascading Style Sheet</string>
-			<key>UTTypeIconFile</key>
-			<string>CSS</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.w3.css</string>
 			<key>UTTypeReferenceURL</key>
@@ -4759,7 +4778,7 @@
 			<key>UTTypeConformsTo</key>
 			<string>public.source-code</string>
 			<key>UTTypeDescription</key>
-			<string>Objective-C Source code</string>
+			<string>Objective-C Source</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.objective-c-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -4776,7 +4795,7 @@
 			<key>UTTypeDescription</key>
 			<string>F-Script Source</string>
 			<key>UTTypeIconFile</key>
-			<string>F-Script</string>
+			<string>file-generic</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.fscript.fscript</string>
 			<key>UTTypeReferenceURL</key>
@@ -4814,7 +4833,7 @@
 			<key>UTTypeDescription</key>
 			<string>YAML document</string>
 			<key>UTTypeIconFile</key>
-			<string>YAML</string>
+			<string>file-generic</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.yaml.yaml</string>
 			<key>UTTypeReferenceURL</key>
@@ -4908,8 +4927,6 @@
 			</array>
 			<key>UTTypeDescription</key>
 			<string>SQL Source</string>
-			<key>UTTypeIconFile</key>
-			<string>SQL</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.iso.sql</string>
 			<key>UTTypeTagSpecification</key>
@@ -4953,8 +4970,6 @@
 			</array>
 			<key>UTTypeDescription</key>
 			<string>HTML with embedded Ruby</string>
-			<key>UTTypeIconFile</key>
-			<string>RHTML</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.ruby-lang.eruby</string>
 			<key>UTTypeReferenceURL</key>
@@ -4964,6 +4979,7 @@
 				<key>public.filename-extension</key>
 				<array>
 					<string>rhtml</string>
+					<string>erb</string>
 				</array>
 			</dict>
 		</dict>
@@ -5152,7 +5168,7 @@
 			<key>UTTypeConformsTo</key>
 			<string>public.source-code</string>
 			<key>UTTypeDescription</key>
-			<string>C++ Source code</string>
+			<string>C++ Source Code</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.c-plus-plus-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -5207,15 +5223,6 @@
 			<string>public.text</string>
 			<key>UTTypeDescription</key>
 			<string>rich text (RTF)</string>
-			<key>UTTypeIconFiles</key>
-			<array>
-				<string>RTF~iphone.png</string>
-				<string>RTF@2x~iphone.png</string>
-				<string>RTFStandard~ipad.png</string>
-				<string>RTFStandard@2x~ipad.png</string>
-				<string>RTFScalable~ipad.png</string>
-				<string>RTFScalable@2x~ipad.png</string>
-			</array>
 			<key>UTTypeIdentifier</key>
 			<string>public.rtf</string>
 			<key>UTTypeTagSpecification</key>
@@ -5265,15 +5272,6 @@
 			</array>
 			<key>UTTypeDescription</key>
 			<string>Microsoft Word 2003 XML document</string>
-			<key>UTTypeIconFiles</key>
-			<array>
-				<string>Word~iphone.png</string>
-				<string>Word@2x~iphone.png</string>
-				<string>WordStandard~ipad.png</string>
-				<string>WordStandard@2x~ipad.png</string>
-				<string>WordScalable~ipad.png</string>
-				<string>WordScalable@2x~ipad.png</string>
-			</array>
 			<key>UTTypeIdentifier</key>
 			<string>com.microsoft.word.wordml</string>
 			<key>UTTypeTagSpecification</key>
@@ -5310,15 +5308,6 @@
 			</array>
 			<key>UTTypeDescription</key>
 			<string>VCS File</string>
-			<key>UTTypeIconFiles</key>
-			<array>
-				<string>Calendar~iphone.png</string>
-				<string>Calendar@2x~iphone.png</string>
-				<string>CalendarStandard~ipad.png</string>
-				<string>CalendarStandard@2x~ipad.png</string>
-				<string>CalendarScalable~ipad.png</string>
-				<string>CalendarScalable@2x~ipad.png</string>
-			</array>
 			<key>UTTypeIdentifier</key>
 			<string>com.apple.ical.vcs</string>
 			<key>UTTypeTagSpecification</key>
@@ -5340,9 +5329,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>R Source</string>
-			<key>UTTypeIconFile</key>
-			<string>R</string>
+			<string>R Source Code</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.r-project.r</string>
 			<key>UTTypeReferenceURL</key>
@@ -5379,15 +5366,6 @@
 			<string>public.text</string>
 			<key>UTTypeDescription</key>
 			<string>HTML text</string>
-			<key>UTTypeIconFiles</key>
-			<array>
-				<string>HTML~iphone.png</string>
-				<string>HTML@2x~iphone.png</string>
-				<string>HTMLStandard~ipad.png</string>
-				<string>HTMLStandard@2x~ipad.png</string>
-				<string>HTMLScalable~ipad.png</string>
-				<string>HTMLScalable@2x~ipad.png</string>
-			</array>
 			<key>UTTypeIdentifier</key>
 			<string>public.html</string>
 			<key>UTTypeTagSpecification</key>
@@ -5411,7 +5389,7 @@
 			<key>UTTypeConformsTo</key>
 			<string>public.shell-script</string>
 			<key>UTTypeDescription</key>
-			<string>PHP script</string>
+			<string>PHP Source Code</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.php-script</string>
 			<key>UTTypeTagSpecification</key>
@@ -5568,8 +5546,6 @@
 			</array>
 			<key>UTTypeDescription</key>
 			<string>Document Type Definition</string>
-			<key>UTTypeIconFile</key>
-			<string>DTD</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.w3.xml-dtd</string>
 			<key>UTTypeReferenceURL</key>
@@ -5603,70 +5579,10 @@
 		<dict>
 			<key>UTTypeConformsTo</key>
 			<array>
-				<string>public.source-code</string>
-			</array>
-			<key>UTTypeDescription</key>
-			<string>Lua Script</string>
-			<key>UTTypeIdentifier</key>
-			<string>public.lua-script</string>
-			<key>UTTypeReferenceURL</key>
-			<string>http://www.lua.org</string>
-			<key>UTTypeTagSpecification</key>
-			<dict>
-				<key>public.filename-extension</key>
-				<array>
-					<string>lua</string>
-				</array>
-			</dict>
-		</dict>
-		<dict>
-			<key>UTTypeConformsTo</key>
-			<array>
-				<string>public.source-code</string>
-			</array>
-			<key>UTTypeDescription</key>
-			<string>Erlang Source</string>
-			<key>UTTypeIdentifier</key>
-			<string>public.erlang-source</string>
-			<key>UTTypeReferenceURL</key>
-			<string>http://www.erlang.org</string>
-			<key>UTTypeTagSpecification</key>
-			<dict>
-				<key>public.filename-extension</key>
-				<array>
-					<string>erl</string>
-				</array>
-			</dict>
-		</dict>
-		<dict>
-			<key>UTTypeConformsTo</key>
-			<array>
-				<string>public.source-code</string>
-			</array>
-			<key>UTTypeDescription</key>
-			<string>Elixir Source</string>
-			<key>UTTypeIdentifier</key>
-			<string>public.elixir-source</string>
-			<key>UTTypeReferenceURL</key>
-			<string>https://elixir-lang.org</string>
-			<key>UTTypeTagSpecification</key>
-			<dict>
-				<key>public.filename-extension</key>
-				<array>
-					<string>ex</string>
-					<string>exs</string>
-				</array>
-			</dict>
-		</dict>
-		<dict>
-			<key>UTTypeConformsTo</key>
-			<array>
 				<string>public.text</string>
 			</array>
 			<key>UTTypeDescription</key>
 			<string>TeX document</string>
-			<key>UTTypeIconFile</key>
-			<string>TeX</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.tug.tex</string>
 			<key>UTTypeReferenceURL</key>
@@ -5709,33 +5625,13 @@
 		<dict>
 			<key>UTTypeConformsTo</key>
 			<array>
-				<string>public.source-code</string>
-			</array>
-			<key>UTTypeDescription</key>
-			<string>Erlang Source</string>
-			<key>UTTypeIconFile</key>
-			<string>Erlang</string>
-			<key>UTTypeIdentifier</key>
-			<string>org.erlang.erlang</string>
-			<key>UTTypeReferenceURL</key>
-			<string>http://www.erlang.org</string>
-			<key>UTTypeTagSpecification</key>
-			<dict>
-				<key>public.filename-extension</key>
-				<array>
-					<string>erl</string>
-					<string>hrl</string>
-				</array>
-			</dict>
-		</dict>
-		<dict>
-			<key>UTTypeConformsTo</key>
-			<array>
 				<string>public.xml</string>
 				<string>com.apple.property-list</string>
 			</array>
 			<key>UTTypeDescription</key>
 			<string>XML property list</string>
+			<key>UTTypeIconFile</key>
+			<string>file-generic</string>
 			<key>UTTypeIdentifier</key>
 			<string>com.apple.xml-property-list</string>
 			<key>UTTypeTagSpecification</key>
@@ -5753,6 +5649,8 @@
 			</array>
 			<key>UTTypeDescription</key>
 			<string>Python script</string>
+			<key>UTTypeIconFile</key>
+			<string>file-generic</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.python-script</string>
 			<key>UTTypeTagSpecification</key>
@@ -5807,7 +5705,7 @@
 			<key>UTTypeDescription</key>
 			<string>XSL stylesheet</string>
 			<key>UTTypeIconFile</key>
-			<string>XSL</string>
+			<string>file-generic</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.w3.xsl</string>
 			<key>UTTypeReferenceURL</key>
@@ -6066,6 +5964,47 @@
 		<dict>
 			<key>UTTypeConformsTo</key>
 			<array>
+				<string>public.plain-text</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Markdown</string>
+			<key>UTTypeIdentifier</key>
+			<string>net.daringfireball.markdown</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>md</string>
+					<string>mdown</string>
+					<string>markdown</string>
+					<string>text</string>
+				</array>
+				<key>public.mime-type</key>
+				<array>
+					<string>text/markdown</string>
+					<string>text/x-markdown</string>
+					<string>text/x-web-markdown</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.source-code</string>
+			</array>
+			<key>UTTypeIdentifier</key>
+			<string>com.apple.metal</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>metal</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
 				<string>public.xml</string>
 			</array>
 			<key>UTTypeIdentifier</key>
@@ -6084,7 +6023,7 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>Lua Source</string>
+			<string>Lua Source Code</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.lua-source</string>
 			<key>UTTypeReferenceURL</key>

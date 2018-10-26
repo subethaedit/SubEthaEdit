@@ -31,7 +31,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["swift"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "Swift Source"
+	CFBundleTypeName = "Swift Source Code"
 	CFBundleTypeRole = "Editor"
 	LSItemContentTypes = ["public.swift-source"]
 	LSTypeIsPackage = false
@@ -40,7 +40,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["go"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "go Source"
+	CFBundleTypeName = "go Source Code"
 	CFBundleTypeRole = "Editor"
 	LSItemContentTypes = ["public.go-source"]
 	LSTypeIsPackage = false
@@ -58,7 +58,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["do"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "do Source"
+	CFBundleTypeName = "do Source Code"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.do-source"]
@@ -68,7 +68,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["fscript"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "fscript Source"
+	CFBundleTypeName = "fscript Source Code"
 	CFBundleTypeRole = "Editor"
 	LSItemContentTypes = ["org.fscript.fscript"]
 	LSTypeIsPackage = false
@@ -77,7 +77,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["java", "jav"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "java Source"
+	CFBundleTypeName = "java Source Code"
 	CFBundleTypeRole = "Editor"
 	LSItemContentTypes = ["com.sun.java-source"]
 	LSTypeIsPackage = false
@@ -86,7 +86,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["lua"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "lua Source"
+	CFBundleTypeName = "lua Source Code"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["public.lua-source", "org.lua.lua-source"]
@@ -96,7 +96,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["dxf"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "dxf Source"
+	CFBundleTypeName = "dxf Source Code"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.dxf-source"]
@@ -106,7 +106,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["jscript", "js", "javascript"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "javascript Source"
+	CFBundleTypeName = "javascript Source Code"
 	CFBundleTypeRole = "Editor"
 	LSItemContentTypes = ["com.netscape.javascript-source"]
 	LSTypeIsPackage = false
@@ -115,7 +115,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["mxo"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "mxo Source"
+	CFBundleTypeName = "mxo Source Code"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.mxo-source"]
@@ -143,7 +143,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["sps"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "sps Source"
+	CFBundleTypeName = "sps Source Code"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.sps-source"]
@@ -153,7 +153,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["cp", "cpp", "c++", "cc", "cxx"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "c++ Source"
+	CFBundleTypeName = "c++ Source Code"
 	CFBundleTypeRole = "Editor"
 	LSItemContentTypes = ["public.c-plus-plus-source"]
 	LSTypeIsPackage = false
@@ -162,7 +162,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["tcl"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "tcl Source"
+	CFBundleTypeName = "tcl Source Code"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.tcl-source"]
@@ -172,7 +172,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["shtm", "shtml", "html", "htm"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "HTM Source"
+	CFBundleTypeName = "HTML Source Code"
 	CFBundleTypeRole = "Editor"
 	LSItemContentTypes = ["public.html"]
 	LSTypeIsPackage = false
@@ -181,7 +181,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["act3"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "act3 Source"
+	CFBundleTypeName = "act3 Source Code"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.act3-source"]
@@ -191,7 +191,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["m4"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "m4 Source"
+	CFBundleTypeName = "m4 Source Code"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.m4-source"]
@@ -201,7 +201,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["h"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "h Source"
+	CFBundleTypeName = "C Header"
 	CFBundleTypeRole = "Editor"
 	LSItemContentTypes = ["public.c-header"]
 	LSTypeIsPackage = false
@@ -210,7 +210,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["sgml"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "sgml Source"
+	CFBundleTypeName = "SGML Source Code"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.sgml-source"]
@@ -220,7 +220,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["err"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "err Source"
+	CFBundleTypeName = "err Source Code"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.err-source"]
@@ -230,7 +230,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["ics"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "ics Source"
+	CFBundleTypeName = "ics Calendar File"
 	CFBundleTypeRole = "Editor"
 	LSItemContentTypes = ["com.apple.ical.ics"]
 	LSTypeIsPackage = false
@@ -239,7 +239,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["csv"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "csv Source"
+	CFBundleTypeName = "CSV"
 	CFBundleTypeRole = "Editor"
 	LSItemContentTypes = ["public.comma-separated-values-text"]
 	LSTypeIsPackage = false
@@ -288,7 +288,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["pyw", "py", "python", "pw"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "py Source"
+	CFBundleTypeName = "Python Source Code"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["public.python-script", "de.codingmonkeys.subethaedit.python-source"]
@@ -298,7 +298,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["mm"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "mm Source"
+	CFBundleTypeName = "Objective-C++ Source Code"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["public.objective-c-plus-plus-source"]
@@ -338,7 +338,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["vbs"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "vbs Source"
+	CFBundleTypeName = "vbs Source Code"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.vbscript-source"]
@@ -348,7 +348,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["vrml"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "vrml Source"
+	CFBundleTypeName = "VRML Source Code"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.vrml-source"]
@@ -358,7 +358,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["brainfuck"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "brainfuck Source"
+	CFBundleTypeName = "brainfuck Source Code"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.brainfuck-source"]
@@ -368,7 +368,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["rxp"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "rxp Source"
+	CFBundleTypeName = "rxp Source Code"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.rxp-source"]
@@ -378,7 +378,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["pch"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "pch Source"
+	CFBundleTypeName = "C Pre-Compiled-Header"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["public.precompiled-c-header"]
@@ -398,7 +398,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["eps"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "eps Source"
+	CFBundleTypeName = "Encapsulated PostScript"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["com.adobe.encapsulated-postscript"]
@@ -408,7 +408,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["ps"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "ps Source"
+	CFBundleTypeName = "PostScript"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["com.adobe.postscript"]
@@ -418,7 +418,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["plist"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "plist Source"
+	CFBundleTypeName = "Apple Property List"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["com.apple.property-list", "com.apple.xml-property-list", "com.apple.binary-property-list"]
@@ -444,7 +444,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["xsl", "xslt"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "xsl Source"
+	CFBundleTypeName = "XSL"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["org.w3.xsl"]
@@ -464,7 +464,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["c"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "C Source"
+	CFBundleTypeName = "C Source Code"
 	CFBundleTypeRole = "Editor"
 	LSItemContentTypes = ["public.c-source"]
 	LSTypeIsPackage = false
@@ -473,7 +473,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["rs"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "Rust Source"
+	CFBundleTypeName = "Rust Source Code"
 	CFBundleTypeRole = "Editor"
 	LSItemContentTypes = ["public.rust-source"]
 	LSTypeIsPackage = false
@@ -532,7 +532,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["rtf"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "rtf Source"
+	CFBundleTypeName = "RichTextFormat"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["public.rtf"]
@@ -542,7 +542,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["fs", "fsh", "frag", "fragsh", "fragment"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "fs Source"
+	CFBundleTypeName = "fs Source Code"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["org.khronos.glsl.fragment-shader"]
@@ -552,7 +552,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["reb"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "reb Source"
+	CFBundleTypeName = "reb Source Code"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.reb-source"]
@@ -582,7 +582,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["tex", "latex"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "latex Source"
+	CFBundleTypeName = "LaTeX Source Code"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.tex-source"]
@@ -592,7 +592,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["csh"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "csh Source"
+	CFBundleTypeName = "csh Script"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["public.csh-script"]
@@ -622,7 +622,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["xml"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "xml Source"
+	CFBundleTypeName = "XML"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["public.xml", "com.microsoft.word.wordml"]
@@ -652,7 +652,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["svg", "svgz"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "svg Source"
+	CFBundleTypeName = "SVG"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["public.svg-image"]
@@ -662,7 +662,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["p", "pas", "pp"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "pas Source"
+	CFBundleTypeName = "Pascal Source Code"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["public.pascal-source", "de.codingmonkeys.subethaedit.pascal-source"]
@@ -682,10 +682,10 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["notes"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "notes Source"
+	CFBundleTypeName = "SubEthaEdit Conference Notes"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
-	LSItemContentTypes = ["de.codingmonkeys.subethaedit.notes-source"]
+	LSItemContentTypes = ["de.codingmonkeys.subethaedit.notes"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
 	NSIsRelatedItemType = true
@@ -1098,10 +1098,10 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["rhtml", "erb"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "rhtml Source"
+	CFBundleTypeName = "erb Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
-	LSItemContentTypes = ["de.codingmonkeys.subethaedit.erb-source", "org.ruby-lang.eruby"]
+	LSItemContentTypes = ["org.ruby-lang.eruby"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
 	NSIsRelatedItemType = true
@@ -1384,12 +1384,6 @@
 		"public.filename-extension" = ["brainfuck"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "rhtml Source"
-	UTTypeIdentifier = "de.codingmonkeys.subethaedit.erb-source"
-	[UTExportedTypeDeclarations.UTTypeTagSpecification]
-		"public.filename-extension" = ["rhtml", "erb"]
-[[UTExportedTypeDeclarations]]
-	UTTypeConformsTo = ["public.source-code"]
 	UTTypeDescription = "verilog Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.verilog-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
@@ -1492,8 +1486,8 @@
 		"public.filename-extension" = ["gcc"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "notes Source"
-	UTTypeIdentifier = "de.codingmonkeys.subethaedit.notes-source"
+	UTTypeDescription = "SubEthaEdit Conference Notes"
+	UTTypeIdentifier = "de.codingmonkeys.subethaedit.notes"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["notes"]
 [[UTExportedTypeDeclarations]]
@@ -1698,7 +1692,6 @@
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.text"]
 	UTTypeDescription = "Cascading Style Sheet"
-	UTTypeIconFile = "CSS"
 	UTTypeIdentifier = "org.w3.css"
 	UTTypeReferenceURL = "http://www.w3.org/Style/CSS/"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
@@ -1706,14 +1699,14 @@
 		"public.mime-type" = "text/css"
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = "public.source-code"
-	UTTypeDescription = "Objective-C Source code"
+	UTTypeDescription = "Objective-C Source"
 	UTTypeIdentifier = "public.objective-c-source"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = "m"
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.script"]
 	UTTypeDescription = "F-Script Source"
-	UTTypeIconFile = "F-Script"
+	UTTypeIconFile = "file-generic"
 	UTTypeIdentifier = "org.fscript.fscript"
 	UTTypeReferenceURL = "http://www.fscript.org"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
@@ -1727,7 +1720,7 @@
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.text"]
 	UTTypeDescription = "YAML document"
-	UTTypeIconFile = "YAML"
+	UTTypeIconFile = "file-generic"
 	UTTypeIdentifier = "org.yaml.yaml"
 	UTTypeReferenceURL = "http://yaml.org"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
@@ -1759,7 +1752,6 @@
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
 	UTTypeDescription = "SQL Source"
-	UTTypeIconFile = "SQL"
 	UTTypeIdentifier = "org.iso.sql"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["sql"]
@@ -1775,11 +1767,10 @@
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.html"]
 	UTTypeDescription = "HTML with embedded Ruby"
-	UTTypeIconFile = "RHTML"
 	UTTypeIdentifier = "org.ruby-lang.eruby"
 	UTTypeReferenceURL = "https://www.ruby-lang.org/en/"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
-		"public.filename-extension" = ["rhtml"]
+		"public.filename-extension" = ["rhtml", "erb"]
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["com.apple.property-list"]
 	UTTypeDescription = "binary property list"
@@ -1848,7 +1839,7 @@
 		"public.filename-extension" = "applescript"
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = "public.source-code"
-	UTTypeDescription = "C++ Source code"
+	UTTypeDescription = "C++ Source Code"
 	UTTypeIdentifier = "public.c-plus-plus-source"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["cp", "cpp", "c++", "cc", "cxx"]
@@ -1867,7 +1858,6 @@
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = "public.text"
 	UTTypeDescription = "rich text (RTF)"
-	UTTypeIconFiles = ["RTF~iphone.png", "RTF@2x~iphone.png", "RTFStandard~ipad.png", "RTFStandard@2x~ipad.png", "RTFScalable~ipad.png", "RTFScalable@2x~ipad.png"]
 	UTTypeIdentifier = "public.rtf"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"com.apple.nspboard-type" = ["NeXT Rich Text Format v1.0 pasteboard type", "NSRTFPboardType"]
@@ -1885,7 +1875,6 @@
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.xml", "public.composite-content"]
 	UTTypeDescription = "Microsoft Word 2003 XML document"
-	UTTypeIconFiles = ["Word~iphone.png", "Word@2x~iphone.png", "WordStandard~ipad.png", "WordStandard@2x~ipad.png", "WordScalable~ipad.png", "WordScalable@2x~ipad.png"]
 	UTTypeIdentifier = "com.microsoft.word.wordml"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["xml"]
@@ -1898,15 +1887,13 @@
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.text", "public.item", "public.calendar-event"]
 	UTTypeDescription = "VCS File"
-	UTTypeIconFiles = ["Calendar~iphone.png", "Calendar@2x~iphone.png", "CalendarStandard~ipad.png", "CalendarStandard@2x~ipad.png", "CalendarScalable~ipad.png", "CalendarScalable@2x~ipad.png"]
 	UTTypeIdentifier = "com.apple.ical.vcs"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["vcs", "vcal"]
 		"public.mime-type" = ["text/x-vcalendar"]
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "R Source"
-	UTTypeIconFile = "R"
+	UTTypeDescription = "R Source Code"
 	UTTypeIdentifier = "org.r-project.r"
 	UTTypeReferenceURL = "http://www.r-project.org"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
@@ -1920,7 +1907,6 @@
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = "public.text"
 	UTTypeDescription = "HTML text"
-	UTTypeIconFiles = ["HTML~iphone.png", "HTML@2x~iphone.png", "HTMLStandard~ipad.png", "HTMLStandard@2x~ipad.png", "HTMLScalable~ipad.png", "HTMLScalable@2x~ipad.png"]
 	UTTypeIdentifier = "public.html"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"com.apple.nspboard-type" = "Apple HTML pasteboard type"
@@ -1929,7 +1915,7 @@
 		"public.mime-type" = "text/html"
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = "public.shell-script"
-	UTTypeDescription = "PHP script"
+	UTTypeDescription = "PHP Source Code"
 	UTTypeIdentifier = "public.php-script"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["php", "php3", "php4", "ph3", "ph4", "phtml"]
@@ -1984,7 +1970,6 @@
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.text"]
 	UTTypeDescription = "Document Type Definition"
-	UTTypeIconFile = "DTD"
 	UTTypeIdentifier = "org.w3.xml-dtd"
 	UTTypeReferenceURL = "http://www.w3.org/XML/"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
@@ -1996,31 +1981,23 @@
 	UTTypeIdentifier = "com.sun.java-source"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["java", "jav"]
-[[UTImportedTypeDeclarations]]
+[[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
 	UTTypeDescription = "Lua Script"
 	UTTypeIdentifier = "public.lua-script"
 	UTTypeReferenceURL = "http://www.lua.org"
-	[UTImportedTypeDeclarations.UTTypeTagSpecification]
+	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["lua"]
-[[UTImportedTypeDeclarations]]
+[[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "Erlang Source"
-	UTTypeIdentifier = "public.erlang-source"
-	UTTypeReferenceURL = "http://www.erlang.org"
-	[UTImportedTypeDeclarations.UTTypeTagSpecification]
-		"public.filename-extension" = ["erl"]
-[[UTImportedTypeDeclarations]]
-	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "Elixir Source"
+	UTTypeDescription = "Elixir Source Code"
 	UTTypeIdentifier = "public.elixir-source"
 	UTTypeReferenceURL = "https://elixir-lang.org"
-	[UTImportedTypeDeclarations.UTTypeTagSpecification]
+	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["ex", "exs"]
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.text"]
 	UTTypeDescription = "TeX document"
-	UTTypeIconFile = "TeX"
 	UTTypeIdentifier = "org.tug.tex"
 	UTTypeReferenceURL = "http://www.latex-project.org"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
@@ -2033,23 +2010,33 @@
 		"com.apple.ostype" = ["svg ", "svgz"]
 		"public.filename-extension" = ["svg", "svgz"]
 		"public.mime-type" = ["image/svg+xml"]
-[[UTImportedTypeDeclarations]]
+[[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "Erlang Source"
-	UTTypeIconFile = "Erlang"
-	UTTypeIdentifier = "org.erlang.erlang"
+	UTTypeDescription = "Erlang Source Code"
+	UTTypeIconFile = "file-generic"
+	UTTypeIdentifier = "public.erlang-source"
 	UTTypeReferenceURL = "http://www.erlang.org"
-	[UTImportedTypeDeclarations.UTTypeTagSpecification]
-		"public.filename-extension" = ["erl", "hrl"]
+	[UTExportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["erl"]
+[[UTExportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.source-code"]
+	UTTypeDescription = "Erlang Source Code"
+	UTTypeIconFile = "file-generic"
+	UTTypeIdentifier = "public.erlang-header"
+	UTTypeReferenceURL = "http://www.erlang.org"
+	[UTExportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["hrl"]
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.xml", "com.apple.property-list"]
 	UTTypeDescription = "XML property list"
+	UTTypeIconFile = "file-generic"
 	UTTypeIdentifier = "com.apple.xml-property-list"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["plist"]
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.shell-script"]
 	UTTypeDescription = "Python script"
+	UTTypeIconFile = "file-generic"
 	UTTypeIdentifier = "public.python-script"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["py"]
@@ -2065,7 +2052,7 @@
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.xml"]
 	UTTypeDescription = "XSL stylesheet"
-	UTTypeIconFile = "XSL"
+	UTTypeIconFile = "file-generic"
 	UTTypeIdentifier = "org.w3.xsl"
 	UTTypeReferenceURL = "http://www.w3.org/Style/XSL/"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
@@ -2218,17 +2205,17 @@
 	UTTypeIdentifier = "public.xml"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["xhtml", "XHTML", "xml", "XML"]
-[[UTExportedTypeDeclarations]]
+[[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.plain-text"]
 	UTTypeDescription = "Markdown"
 	UTTypeIdentifier = "net.daringfireball.markdown"
-	[UTExportedTypeDeclarations.UTTypeTagSpecification]
+	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["md", "mdown", "markdown", "text"]
 		"public.mime-type" = ["text/markdown", "text/x-markdown", "text/x-web-markdown"]
-[[UTExportedTypeDeclarations]]
+[[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
 	UTTypeIdentifier = "com.apple.metal"
-	[UTExportedTypeDeclarations.UTTypeTagSpecification]
+	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["metal"]
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.xml"]
@@ -2237,7 +2224,7 @@
 		"public.filename-extension" = ["sdef"]
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "Lua Source"
+	UTTypeDescription = "Lua Source Code"
 	UTTypeIdentifier = "public.lua-source"
 	UTTypeReferenceURL = "http://www.lua.org"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
