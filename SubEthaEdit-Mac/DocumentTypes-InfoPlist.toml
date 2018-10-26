@@ -125,9 +125,18 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["json"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "json Source"
+	CFBundleTypeName = "JSON Document"
 	CFBundleTypeRole = "Editor"
 	LSItemContentTypes = ["public.json", "org.json.json"]
+	LSTypeIsPackage = false
+	NSDocumentClass = "PlainTextDocument"
+	NSIsRelatedItemType = true
+[[CFBundleDocumentTypes]]
+	CFBundleTypeExtensions = ["toml"]
+	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeName = "TOML Document"
+	CFBundleTypeRole = "Editor"
+	LSItemContentTypes = ["public.toml"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
 	NSIsRelatedItemType = true
@@ -458,6 +467,15 @@
 	CFBundleTypeName = "C Source"
 	CFBundleTypeRole = "Editor"
 	LSItemContentTypes = ["public.c-source"]
+	LSTypeIsPackage = false
+	NSDocumentClass = "PlainTextDocument"
+	NSIsRelatedItemType = true
+[[CFBundleDocumentTypes]]
+	CFBundleTypeExtensions = ["rs"]
+	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeName = "Rust Source"
+	CFBundleTypeRole = "Editor"
+	LSItemContentTypes = ["public.rust-source"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
 	NSIsRelatedItemType = true
@@ -1042,10 +1060,18 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["erl", "hrl"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "erl Source"
+	CFBundleTypeName = "erlang Source"
 	CFBundleTypeRole = "Editor"
-	LSHandlerRank = "Alternate"
-	LSItemContentTypes = ["org.erlang.erlang"]
+	LSItemContentTypes = ["public.erlang-source"]
+	LSTypeIsPackage = false
+	NSDocumentClass = "PlainTextDocument"
+	NSIsRelatedItemType = true
+[[CFBundleDocumentTypes]]
+	CFBundleTypeExtensions = ["ex", "exs"]
+	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeName = "Elixir Source"
+	CFBundleTypeRole = "Editor"
+	LSItemContentTypes = ["public.elixir-source"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
 	NSIsRelatedItemType = true
@@ -1934,6 +1960,14 @@
 		"public.filename-extension" = ["json"]
 		"public.mime-type" = ["application/json"]
 [[UTImportedTypeDeclarations]]
+	UTTypeConformsTo = "public.text"
+	UTTypeDescription = "TOML"
+	UTTypeIdentifier = "public.toml"
+	UTTYpeReferenceURL = "https://github.com/toml-lang/toml"
+	[UTImportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["toml"]
+		"public.mime-type" = ["application/toml"]
+[[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["com.netscape.javascript-source"]
 	UTTypeDescription = "JSON File"
 	UTTypeIdentifier = "org.json.json"
@@ -1964,12 +1998,25 @@
 		"public.filename-extension" = ["java", "jav"]
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "Lua Source"
-	UTTypeIconFile = "Lua"
-	UTTypeIdentifier = "org.lua.lua"
+	UTTypeDescription = "Lua Script"
+	UTTypeIdentifier = "public.lua-script"
 	UTTypeReferenceURL = "http://www.lua.org"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["lua"]
+[[UTImportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.source-code"]
+	UTTypeDescription = "Erlang Source"
+	UTTypeIdentifier = "public.erlang-source"
+	UTTypeReferenceURL = "http://www.erlang.org"
+	[UTImportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["erl"]
+[[UTImportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.source-code"]
+	UTTypeDescription = "Elixir Source"
+	UTTypeIdentifier = "public.elixir-source"
+	UTTypeReferenceURL = "https://elixir-lang.org"
+	[UTImportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["ex", "exs"]
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.text"]
 	UTTypeDescription = "TeX document"
@@ -2080,6 +2127,12 @@
 	UTTypeIdentifier = "public.c-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["c"]
+[[UTExportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.source-code"]
+	UTTypeIdentifier = "public.rust-source"
+	UTTypeReferenceURL = "https://www.rust-lang.org/"
+	[UTExportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["rs"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.c-source"]
 	UTTypeIdentifier = "public.c-source.preprocessed"
