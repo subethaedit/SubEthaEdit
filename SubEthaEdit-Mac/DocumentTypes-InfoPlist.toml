@@ -1182,9 +1182,6 @@
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.seetext"]
 	LSTypeIsPackage = true
 	NSDocumentClass = "PlainTextDocument"
-[[CFBundleURLTypes]]
-	CFBundleURLName = "SubEthaEdit"
-	CFBundleURLSchemes = ["see"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
 	UTTypeDescription = "act3 Source"
