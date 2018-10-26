@@ -13,11 +13,17 @@
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
 [[CFBundleDocumentTypes]]
+	CFBundleTypeName = "Source Code"
+	CFBundleTypeRole = "Editor"
+	LSItemContentTypes = ["public.source-code"]
+	LSTypeIsPackage = false
+	NSDocumentClass = "PlainTextDocument"
+[[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["txt", "text"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "PlainTextType"
+	CFBundleTypeMIMETypes = ["text/plain"]
+	CFBundleTypeName = "Text document"
 	CFBundleTypeRole = "Editor"
-	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["public.plain-text"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
@@ -34,27 +40,25 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["go"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "go Source File"
+	CFBundleTypeName = "go Source"
 	CFBundleTypeRole = "Editor"
-	LSHandlerRank = "Owner"
-	LSItemContentTypes = ["de.codingmonkeys.subethaedit.go-source"]
+	LSItemContentTypes = ["public.go-source"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
-	CFBundleTypeExtensions = ["bash"]
+	CFBundleTypeExtensions = ["bash", "sh", "csh", "zsh", "tcsh"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "bash Source File"
+	CFBundleTypeName = "shell script"
 	CFBundleTypeRole = "Editor"
-	LSHandlerRank = "Alternate"
-	LSItemContentTypes = ["public.bash-script"]
+	LSItemContentTypes = ["public.shell-script"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["do"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "do Source File"
+	CFBundleTypeName = "do Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.do-source"]
@@ -64,9 +68,8 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["fscript"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "fscript Source File"
+	CFBundleTypeName = "fscript Source"
 	CFBundleTypeRole = "Editor"
-	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["org.fscript.fscript"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
@@ -74,9 +77,8 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["java", "jav"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "java Source File"
+	CFBundleTypeName = "java Source"
 	CFBundleTypeRole = "Editor"
-	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["com.sun.java-source"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
@@ -84,17 +86,17 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["lua"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "lua Source File"
+	CFBundleTypeName = "lua Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
-	LSItemContentTypes = ["de.codingmonkeys.subethaedit.lua-source", "org.lua.lua"]
+	LSItemContentTypes = ["public.lua-source", "org.lua.lua-source"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["dxf"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "dxf Source File"
+	CFBundleTypeName = "dxf Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.dxf-source"]
@@ -104,9 +106,8 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["jscript", "js", "javascript"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "javascript Source File"
+	CFBundleTypeName = "javascript Source"
 	CFBundleTypeRole = "Editor"
-	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["com.netscape.javascript-source"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
@@ -114,7 +115,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["mxo"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "mxo Source File"
+	CFBundleTypeName = "mxo Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.mxo-source"]
@@ -124,9 +125,8 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["json"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "json Source File"
+	CFBundleTypeName = "json Source"
 	CFBundleTypeRole = "Editor"
-	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["public.json", "org.json.json"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
@@ -134,7 +134,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["sps"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "sps Source File"
+	CFBundleTypeName = "sps Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.sps-source"]
@@ -144,9 +144,8 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["cp", "cpp", "c++", "cc", "cxx"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "c++ Source File"
+	CFBundleTypeName = "c++ Source"
 	CFBundleTypeRole = "Editor"
-	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["public.c-plus-plus-source"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
@@ -154,7 +153,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["tcl"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "tcl Source File"
+	CFBundleTypeName = "tcl Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.tcl-source"]
@@ -164,9 +163,8 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["shtm", "shtml", "html", "htm"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "HTM Source File"
+	CFBundleTypeName = "HTM Source"
 	CFBundleTypeRole = "Editor"
-	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["public.html"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
@@ -174,7 +172,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["act3"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "act3 Source File"
+	CFBundleTypeName = "act3 Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.act3-source"]
@@ -184,7 +182,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["m4"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "m4 Source File"
+	CFBundleTypeName = "m4 Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.m4-source"]
@@ -194,9 +192,8 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["h"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "h Source File"
+	CFBundleTypeName = "h Source"
 	CFBundleTypeRole = "Editor"
-	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["public.c-header"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
@@ -204,7 +201,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["sgml"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "sgml Source File"
+	CFBundleTypeName = "sgml Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.sgml-source"]
@@ -214,7 +211,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["err"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "err Source File"
+	CFBundleTypeName = "err Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.err-source"]
@@ -224,9 +221,8 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["ics"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "ics Source File"
+	CFBundleTypeName = "ics Source"
 	CFBundleTypeRole = "Editor"
-	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["com.apple.ical.ics"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
@@ -234,9 +230,8 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["csv"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "csv Source File"
+	CFBundleTypeName = "csv Source"
 	CFBundleTypeRole = "Editor"
-	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["public.comma-separated-values-text"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
@@ -244,7 +239,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["types"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "types Source File"
+	CFBundleTypeName = "types Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.types-source"]
@@ -254,7 +249,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["st"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "st Source File"
+	CFBundleTypeName = "st Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.st-source"]
@@ -264,7 +259,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["x"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "x Source File"
+	CFBundleTypeName = "x Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.x-source"]
@@ -272,19 +267,9 @@
 	NSDocumentClass = "PlainTextDocument"
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
-	CFBundleTypeExtensions = ["tcsh"]
-	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "tcsh Source File"
-	CFBundleTypeRole = "Editor"
-	LSHandlerRank = "Alternate"
-	LSItemContentTypes = ["public.tcsh-script"]
-	LSTypeIsPackage = false
-	NSDocumentClass = "PlainTextDocument"
-	NSIsRelatedItemType = true
-[[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["f", "for"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "F Source File"
+	CFBundleTypeName = "F Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["public.fortran-source"]
@@ -294,7 +279,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["pyw", "py", "python", "pw"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "py Source File"
+	CFBundleTypeName = "py Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["public.python-script", "de.codingmonkeys.subethaedit.python-source"]
@@ -304,7 +289,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["mm"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "mm Source File"
+	CFBundleTypeName = "mm Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["public.objective-c-plus-plus-source"]
@@ -314,7 +299,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["uue"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "uue Source File"
+	CFBundleTypeName = "uue Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.uue-source"]
@@ -324,7 +309,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["idl"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "idl Source File"
+	CFBundleTypeName = "idl Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.idl-source"]
@@ -334,7 +319,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["rc"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "rc Source File"
+	CFBundleTypeName = "rc Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.rc-source"]
@@ -344,7 +329,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["vbs"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "vbs Source File"
+	CFBundleTypeName = "vbs Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.vbscript-source"]
@@ -354,7 +339,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["vrml"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "vrml Source File"
+	CFBundleTypeName = "vrml Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.vrml-source"]
@@ -364,7 +349,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["brainfuck"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "brainfuck Source File"
+	CFBundleTypeName = "brainfuck Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.brainfuck-source"]
@@ -374,7 +359,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["rxp"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "rxp Source File"
+	CFBundleTypeName = "rxp Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.rxp-source"]
@@ -384,7 +369,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["pch"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "pch Source File"
+	CFBundleTypeName = "pch Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["public.precompiled-c-header"]
@@ -394,7 +379,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["las"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "las Source File"
+	CFBundleTypeName = "las Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.las-source"]
@@ -404,7 +389,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["eps"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "eps Source File"
+	CFBundleTypeName = "eps Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["com.adobe.encapsulated-postscript"]
@@ -414,7 +399,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["ps"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "ps Source File"
+	CFBundleTypeName = "ps Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["com.adobe.postscript"]
@@ -424,7 +409,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["plist"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "plist Source File"
+	CFBundleTypeName = "plist Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["com.apple.property-list", "com.apple.xml-property-list", "com.apple.binary-property-list"]
@@ -442,7 +427,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["metal"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "Metal shader source"
+	CFBundleTypeName = "Metal shaderSource"
 	CFBundleTypeRole = "Editor"
 	LSItemContentTypes = ["com.apple.metal"]
 	NSDocumentClass = "PlainTextDocument"
@@ -450,7 +435,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["xsl", "xslt"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "xsl Source File"
+	CFBundleTypeName = "xsl Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["org.w3.xsl"]
@@ -460,7 +445,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["r", "s"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "r Source File"
+	CFBundleTypeName = "r Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["com.apple.rez-source", "org.r-project.r"]
@@ -470,9 +455,8 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["c"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "c Source File"
+	CFBundleTypeName = "C Source"
 	CFBundleTypeRole = "Editor"
-	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["public.c-source"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
@@ -480,7 +464,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["sl"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "sl Source File"
+	CFBundleTypeName = "sl Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.sl-source"]
@@ -490,7 +474,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["wmk"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "wmk Source File"
+	CFBundleTypeName = "wmk Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.wmk-source"]
@@ -500,7 +484,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["log"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "log Source File"
+	CFBundleTypeName = "log Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["com.apple.log"]
@@ -510,7 +494,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["rsp"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "rsp Source File"
+	CFBundleTypeName = "rsp Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.rsp-source"]
@@ -520,7 +504,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["msl"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "msl Source File"
+	CFBundleTypeName = "msl Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.msl-source"]
@@ -530,7 +514,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["rtf"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "rtf Source File"
+	CFBundleTypeName = "rtf Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["public.rtf"]
@@ -540,7 +524,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["fs", "fsh", "frag", "fragsh", "fragment"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "fs Source File"
+	CFBundleTypeName = "fs Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["org.khronos.glsl.fragment-shader"]
@@ -550,7 +534,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["reb"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "reb Source File"
+	CFBundleTypeName = "reb Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.reb-source"]
@@ -560,7 +544,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["mel"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "mel Source File"
+	CFBundleTypeName = "mel Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.mel-source"]
@@ -570,7 +554,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["sieve"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "sieve Source File"
+	CFBundleTypeName = "sieve Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.sieve-source"]
@@ -580,7 +564,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["tex", "latex"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "latex Source File"
+	CFBundleTypeName = "latex Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.tex-source"]
@@ -590,7 +574,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["csh"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "csh Source File"
+	CFBundleTypeName = "csh Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["public.csh-script"]
@@ -600,7 +584,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["vcs", "vcal"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "vcs Source File"
+	CFBundleTypeName = "vcs Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["com.apple.ical.vcs"]
@@ -610,7 +594,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["def"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "def Source File"
+	CFBundleTypeName = "def Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.def-source"]
@@ -620,7 +604,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["xml"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "xml Source File"
+	CFBundleTypeName = "xml Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["public.xml", "com.microsoft.word.wordml"]
@@ -630,7 +614,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["mysql", "postgresql", "sql"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "SQL Source File"
+	CFBundleTypeName = "SQL Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.sql-source", "org.iso.sql"]
@@ -640,7 +624,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["rebol"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "rebol Source File"
+	CFBundleTypeName = "rebol Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.rebol-source"]
@@ -650,7 +634,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["svg", "svgz"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "svg Source File"
+	CFBundleTypeName = "svg Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["public.svg-image"]
@@ -660,7 +644,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["p", "pas", "pp"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "pas Source File"
+	CFBundleTypeName = "pas Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["public.pascal-source", "de.codingmonkeys.subethaedit.pascal-source"]
@@ -670,7 +654,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["pro"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "pro Source File"
+	CFBundleTypeName = "pro Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.pro-source"]
@@ -680,7 +664,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["notes"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "notes Source File"
+	CFBundleTypeName = "notes Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.notes-source"]
@@ -690,7 +674,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["cob"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "cob Source File"
+	CFBundleTypeName = "cob Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.cob-source"]
@@ -700,7 +684,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["rb", "rbw", "ruby", "rxml", "builder", "rjs", "rbx"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "rb Source File"
+	CFBundleTypeName = "rb Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["public.ruby-script", "de.codingmonkeys.subethaedit.ruby-source"]
@@ -710,7 +694,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["vcf", "vcard"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "vcard Source File"
+	CFBundleTypeName = "vcard Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["public.vcard"]
@@ -720,7 +704,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["mws"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "mws Source File"
+	CFBundleTypeName = "mws Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.mws-source"]
@@ -730,7 +714,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["ada", "adb", "ads"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "ada Source File"
+	CFBundleTypeName = "ada Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["public.ada-source"]
@@ -740,7 +724,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["mx"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "mx Source File"
+	CFBundleTypeName = "mx Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.mx-source"]
@@ -750,7 +734,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["enc"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "enc Source File"
+	CFBundleTypeName = "enc Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.enc-source"]
@@ -760,7 +744,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["pod"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "pod Source File"
+	CFBundleTypeName = "pod Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.pod-source"]
@@ -770,7 +754,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["as"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "as Source File"
+	CFBundleTypeName = "as Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["com.apple.applesingle-archive"]
@@ -780,7 +764,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["ini"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "ini Source File"
+	CFBundleTypeName = "ini Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.ini-configuration"]
@@ -790,7 +774,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["strings"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "strings Source File"
+	CFBundleTypeName = "strings Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.strings-text"]
@@ -800,7 +784,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["mk"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "mk Source File"
+	CFBundleTypeName = "mk Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.mk-source"]
@@ -810,7 +794,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["pm", "pl"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "pl Source File"
+	CFBundleTypeName = "pl Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["public.perl-script"]
@@ -820,7 +804,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["lasso"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "lasso Source File"
+	CFBundleTypeName = "lasso Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.lasso-source"]
@@ -830,7 +814,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["default"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "default Source File"
+	CFBundleTypeName = "default Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.default-source"]
@@ -840,7 +824,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["tex", "sty", "cls"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "sty Source File"
+	CFBundleTypeName = "sty Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["org.tug.tex"]
@@ -850,9 +834,8 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["phtml", "php4", "ph3", "ph4", "php", "php3"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "php Source File"
+	CFBundleTypeName = "php Source"
 	CFBundleTypeRole = "Editor"
-	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["public.php-script"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
@@ -860,7 +843,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["verilog"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "verilog Source File"
+	CFBundleTypeName = "verilog Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.verilog-source"]
@@ -870,9 +853,8 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["css"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "CSS Source File"
+	CFBundleTypeName = "CSS Source"
 	CFBundleTypeRole = "Editor"
-	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["org.w3.css"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
@@ -880,7 +862,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["spss"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "spss Source File"
+	CFBundleTypeName = "spss Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.spss-source"]
@@ -890,7 +872,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["awk"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "awk Source File"
+	CFBundleTypeName = "awk Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.awk-source"]
@@ -900,7 +882,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["vrm"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "vrm Source File"
+	CFBundleTypeName = "vrm Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.vrm-source"]
@@ -910,7 +892,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["lgt"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "lgt Source File"
+	CFBundleTypeName = "lgt Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.lgt-source"]
@@ -920,7 +902,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["filemaker"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "Filemaker Source File"
+	CFBundleTypeName = "Filemaker Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.filemaker-source"]
@@ -930,7 +912,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["njs"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "njs Source File"
+	CFBundleTypeName = "njs Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.njs-source"]
@@ -940,7 +922,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["custom"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "custom Source File"
+	CFBundleTypeName = "custom Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.custom-source"]
@@ -950,7 +932,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["bak"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "bak Source File"
+	CFBundleTypeName = "bak Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.bak-source"]
@@ -960,7 +942,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["f90"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "F90 Source File"
+	CFBundleTypeName = "F90 Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["public.fortran-90-source"]
@@ -970,7 +952,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["vhd"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "vhd Source File"
+	CFBundleTypeName = "vhd Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.vhdl-source"]
@@ -980,7 +962,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["sh"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "sh Source File"
+	CFBundleTypeName = "sh Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["public.shell-script"]
@@ -990,7 +972,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["tab"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "tab Source File"
+	CFBundleTypeName = "tab Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.tab-source"]
@@ -1000,7 +982,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["m1s"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "m1s Source File"
+	CFBundleTypeName = "m1s Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.m1s-source"]
@@ -1010,7 +992,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["xhtml", "xht", "xhtm"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "xhtml Source File"
+	CFBundleTypeName = "xhtml Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["public.xhtml"]
@@ -1020,7 +1002,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["bf"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "bf Source File"
+	CFBundleTypeName = "bf Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.bf-source"]
@@ -1030,7 +1012,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["applescript"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "applescript Source File"
+	CFBundleTypeName = "applescript Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["com.apple.applescript.text"]
@@ -1040,7 +1022,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["yml", "yaml"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "yaml Source File"
+	CFBundleTypeName = "yaml Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.yaml-source", "org.yaml.yaml"]
@@ -1050,7 +1032,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["v"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "v Source File"
+	CFBundleTypeName = "v Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.verilog-hdl-source"]
@@ -1060,7 +1042,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["erl", "hrl"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "erl Source File"
+	CFBundleTypeName = "erl Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["org.erlang.erlang"]
@@ -1070,7 +1052,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["m"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "M Source File"
+	CFBundleTypeName = "M Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["public.objective-c-source"]
@@ -1080,7 +1062,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["dtd"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "dtd Source File"
+	CFBundleTypeName = "dtd Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["org.w3.xml-dtd"]
@@ -1090,7 +1072,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["rhtml", "erb"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "rhtml Source File"
+	CFBundleTypeName = "rhtml Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.erb-source", "org.ruby-lang.eruby"]
@@ -1100,7 +1082,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["hpgl"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "hpgl Source File"
+	CFBundleTypeName = "hpgl Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.hpgl-source"]
@@ -1110,7 +1092,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["gcc"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "gcc Source File"
+	CFBundleTypeName = "gcc Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.gcc-source"]
@@ -1120,7 +1102,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["cfm", "cfc", "cfr", "cfml"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "cfm Source File"
+	CFBundleTypeName = "cfm Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.cfm-source"]
@@ -1130,7 +1112,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["b"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "b Source File"
+	CFBundleTypeName = "b Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.b-source"]
@@ -1140,7 +1122,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["ltx"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "ltx Source File"
+	CFBundleTypeName = "ltx Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.ltx-source"]
@@ -1150,7 +1132,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["pike"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "pike Source File"
+	CFBundleTypeName = "pike Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.pike-source"]
@@ -1160,7 +1142,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["mtl"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "mtl Source File"
+	CFBundleTypeName = "mtl Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.mtl-source"]
@@ -1170,7 +1152,6 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeName = "Any Text File"
 	CFBundleTypeRole = "Editor"
-	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["public.text"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
@@ -1206,49 +1187,49 @@
 	CFBundleURLSchemes = ["see"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "act3 Source File"
+	UTTypeDescription = "act3 Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.act3-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["act3"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "ltx Source File"
+	UTTypeDescription = "ltx Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.ltx-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["ltx"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "lgt Source File"
+	UTTypeDescription = "lgt Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.lgt-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["lgt"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "cfm Source File"
+	UTTypeDescription = "cfm Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.cfm-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["cfm", "cfc", "cfr", "cfml"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "wmk Source File"
+	UTTypeDescription = "wmk Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.wmk-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["wmk"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "latex Source File"
+	UTTypeDescription = "latex Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.tex-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["tex", "latex"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "p Source File"
+	UTTypeDescription = "p Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.pascal-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["pas", "p", "pp"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "idl Source File"
+	UTTypeDescription = "idl Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.idl-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["idl"]
@@ -1260,379 +1241,379 @@
 		"public.filename-extension" = ["sss"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "def Source File"
+	UTTypeDescription = "def Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.def-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["def"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "las Source File"
+	UTTypeDescription = "las Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.las-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["las"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "vhd Source File"
+	UTTypeDescription = "vhd Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.vhdl-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["vhd"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "go Source File"
+	UTTypeDescription = "go Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.go-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["go"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "pro Source File"
+	UTTypeDescription = "pro Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.pro-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["pro"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "do Source File"
+	UTTypeDescription = "do Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.do-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["do"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "sps Source File"
+	UTTypeDescription = "sps Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.sps-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["sps"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "m1s Source File"
+	UTTypeDescription = "m1s Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.m1s-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["m1s"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "reb Source File"
+	UTTypeDescription = "reb Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.reb-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["reb"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "mx Source File"
+	UTTypeDescription = "mx Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.mx-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["mx"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "mxo Source File"
+	UTTypeDescription = "mxo Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.mxo-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["mxo"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "mk Source File"
+	UTTypeDescription = "mk Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.mk-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["mk"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "lua Source File"
+	UTTypeDescription = "lua Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.lua-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["lua"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "vbs Source File"
+	UTTypeDescription = "vbs Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.vbscript-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["vbs"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "x Source File"
+	UTTypeDescription = "x Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.x-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["x"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "rebol Source File"
+	UTTypeDescription = "rebol Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.rebol-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["rebol"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "vrm Source File"
+	UTTypeDescription = "vrm Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.vrm-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["vrm"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "custom Source File"
+	UTTypeDescription = "custom Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.custom-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["custom"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "st Source File"
+	UTTypeDescription = "st Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.st-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["st"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "brainfuck Source File"
+	UTTypeDescription = "brainfuck Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.brainfuck-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["brainfuck"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "rhtml Source File"
+	UTTypeDescription = "rhtml Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.erb-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["rhtml", "erb"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "verilog Source File"
+	UTTypeDescription = "verilog Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.verilog-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["verilog"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "Filemaker Source File"
+	UTTypeDescription = "Filemaker Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.filemaker-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["Filemaker"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "uue Source File"
+	UTTypeDescription = "uue Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.uue-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["uue"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "rsp Source File"
+	UTTypeDescription = "rsp Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.rsp-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["rsp"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "pike Source File"
+	UTTypeDescription = "pike Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.pike-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["pike"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "pod Source File"
+	UTTypeDescription = "pod Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.pod-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["pod"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "sl Source File"
+	UTTypeDescription = "sl Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.sl-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["sl"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "tab Source File"
+	UTTypeDescription = "tab Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.tab-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["tab"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "ini Source File"
+	UTTypeDescription = "ini Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.ini-configuration"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["ini"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "enc Source File"
+	UTTypeDescription = "enc Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.enc-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["enc"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "v Source File"
+	UTTypeDescription = "v Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.verilog-hdl-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["v"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "mel Source File"
+	UTTypeDescription = "mel Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.mel-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["mel"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "SQL Source File"
+	UTTypeDescription = "SQL Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.sql-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["sql", "mysql", "postgresql"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "sgml Source File"
+	UTTypeDescription = "sgml Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.sgml-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["sgml"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "err Source File"
+	UTTypeDescription = "err Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.err-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["err"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "ruby Source File"
+	UTTypeDescription = "ruby Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.ruby-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["rb", "rbw", "ruby", "rbx", "rxml", "rjs", "builder"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "gcc Source File"
+	UTTypeDescription = "gcc Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.gcc-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["gcc"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "notes Source File"
+	UTTypeDescription = "notes Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.notes-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["notes"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "tcl Source File"
+	UTTypeDescription = "tcl Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.tcl-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["tcl"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "m4 Source File"
+	UTTypeDescription = "m4 Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.m4-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["m4"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "b Source File"
+	UTTypeDescription = "b Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.b-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["b"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "bf Source File"
+	UTTypeDescription = "bf Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.bf-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["bf"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "rc Source File"
+	UTTypeDescription = "rc Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.rc-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["rc"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "strings Source File"
+	UTTypeDescription = "strings Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.strings-text"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["strings"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "python Source File"
+	UTTypeDescription = "python Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.python-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["python", "py", "pyw", "pw"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "mtl Source File"
+	UTTypeDescription = "mtl Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.mtl-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["mtl"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "yaml Source File"
+	UTTypeDescription = "yaml Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.yaml-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["yaml"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "dxf Source File"
+	UTTypeDescription = "dxf Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.dxf-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["dxf"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "njs Source File"
+	UTTypeDescription = "njs Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.njs-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["njs"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "vrml Source File"
+	UTTypeDescription = "vrml Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.vrml-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["vrml"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "types Source File"
+	UTTypeDescription = "types Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.types-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["types"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "mws Source File"
+	UTTypeDescription = "mws Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.mws-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["mws"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "rxp Source File"
+	UTTypeDescription = "rxp Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.rxp-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["rxp"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "msl Source File"
+	UTTypeDescription = "msl Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.msl-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["msl"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "awk Source File"
+	UTTypeDescription = "awk Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.awk-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["awk"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "cob Source File"
+	UTTypeDescription = "cob Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.cob-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["cob"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "bak Source File"
+	UTTypeDescription = "bak Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.bak-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["bak"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "lasso Source File"
+	UTTypeDescription = "lasso Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.lasso-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["lasso"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "hpgl Source File"
+	UTTypeDescription = "hpgl Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.hpgl-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["hpgl"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "spss Source File"
+	UTTypeDescription = "spss Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.spss-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["spss"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "default Source File"
+	UTTypeDescription = "default Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.default-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["default"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "sieve Source File"
+	UTTypeDescription = "sieve Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.sieve-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["sieve"]
@@ -1650,13 +1631,13 @@
 		"public.filename-extension" = ["seetext"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "ASP Source File"
+	UTTypeDescription = "ASP Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.asp-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["asp", "asa"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "JSP Source File"
+	UTTypeDescription = "JSP Source"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.jsp-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["jsp"]
@@ -1702,13 +1683,13 @@
 		"public.mime-type" = "text/css"
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = "public.source-code"
-	UTTypeDescription = "Objective-C source code"
+	UTTypeDescription = "Objective-C Source code"
 	UTTypeIdentifier = "public.objective-c-source"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = "m"
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.script"]
-	UTTypeDescription = "F-Script source"
+	UTTypeDescription = "F-Script Source"
 	UTTypeIconFile = "F-Script"
 	UTTypeIdentifier = "org.fscript.fscript"
 	UTTypeReferenceURL = "http://www.fscript.org"
@@ -1716,7 +1697,7 @@
 		"public.filename-extension" = ["fscript"]
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "Rez source code"
+	UTTypeDescription = "Rez Source code"
 	UTTypeIdentifier = "com.apple.rez-source"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["r"]
@@ -1730,7 +1711,7 @@
 		"public.filename-extension" = ["yaml", "yml"]
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = "public.source-code"
-	UTTypeDescription = "Objective-C++ source code"
+	UTTypeDescription = "Objective-C++ Source code"
 	UTTypeIdentifier = "public.objective-c-plus-plus-source"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = "mm"
@@ -1743,7 +1724,7 @@
 		"public.mime-type" = ["text/x-ruby-script"]
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "Ada source code"
+	UTTypeDescription = "Ada Source code"
 	UTTypeIdentifier = "public.ada-source"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["ada", "adb", "ads"]
@@ -1754,7 +1735,7 @@
 		"public.filename-extension" = ["fs", "fsh", "frag", "fragsh", "fragment"]
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "SQL source"
+	UTTypeDescription = "SQL Source"
 	UTTypeIconFile = "SQL"
 	UTTypeIdentifier = "org.iso.sql"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
@@ -1832,7 +1813,7 @@
 		"public.filename-extension" = ["tcsh"]
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = "public.source-code"
-	UTTypeDescription = "C source code"
+	UTTypeDescription = "C Source code"
 	UTTypeIdentifier = "public.c-source"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = "c"
@@ -1844,7 +1825,7 @@
 		"public.filename-extension" = "applescript"
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = "public.source-code"
-	UTTypeDescription = "C++ source code"
+	UTTypeDescription = "C++ Source code"
 	UTTypeIdentifier = "public.c-plus-plus-source"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["cp", "cpp", "c++", "cc", "cxx"]
@@ -1856,7 +1837,7 @@
 		"public.filename-extension" = ["log"]
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "Pascal source code"
+	UTTypeDescription = "Pascal Source code"
 	UTTypeIdentifier = "public.pascal-source"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["pas"]
@@ -1901,7 +1882,7 @@
 		"public.mime-type" = ["text/x-vcalendar"]
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "R source"
+	UTTypeDescription = "R Source"
 	UTTypeIconFile = "R"
 	UTTypeIdentifier = "org.r-project.r"
 	UTTypeReferenceURL = "http://www.r-project.org"
@@ -1980,13 +1961,13 @@
 		"public.mime-type" = "application/xml-dtd"
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = "public.source-code"
-	UTTypeDescription = "Java source code"
+	UTTypeDescription = "Java Source code"
 	UTTypeIdentifier = "com.sun.java-source"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["java", "jav"]
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "Lua source"
+	UTTypeDescription = "Lua Source"
 	UTTypeIconFile = "Lua"
 	UTTypeIdentifier = "org.lua.lua"
 	UTTypeReferenceURL = "http://www.lua.org"
@@ -2010,7 +1991,7 @@
 		"public.mime-type" = ["image/svg+xml"]
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "Erlang source"
+	UTTypeDescription = "Erlang Source"
 	UTTypeIconFile = "Erlang"
 	UTTypeIdentifier = "org.erlang.erlang"
 	UTTypeReferenceURL = "http://www.erlang.org"
@@ -2054,7 +2035,161 @@
 		"public.mime-type" = "text/plain"
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "Fortran source code"
+	UTTypeDescription = "Fortran Source code"
 	UTTypeIdentifier = "public.fortran-source"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["f", "for"]
+[[UTImportedTypeDeclarations]]
+	UTTypeConformsTo = "public.text"
+	UTTypeDescription = "JSON"
+	UTTypeIdentifier = "public.json"
+	[UTImportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["json"]
+		"public.mime-type" = ["application/json"]
+[[UTImportedTypeDeclarations]]
+	UTTypeConformsTo = "public.text"
+	UTTypeDescription = "CSS"
+	UTTypeIdentifier = "public.css"
+	[UTImportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["css"]
+		"public.mime-type" = ["text/css"]
+[[UTImportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.source-code"]
+	UTTypeIdentifier = "public.protobuf-source"
+	[UTImportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["proto"]
+[[UTExportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.source-code"]
+	UTTypeIdentifier = "public.c-header"
+	[UTExportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["h"]
+[[UTExportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.c-header"]
+	UTTypeIdentifier = "public.precompiled-c-header"
+	[UTExportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["pch"]
+[[UTExportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.source-code"]
+	UTTypeIdentifier = "public.c-plus-plus-header"
+	[UTExportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["hh", "hp", "hpp", "hxx", "h++", "ipp"]
+[[UTExportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.c-plus-plus-header"]
+	UTTypeIdentifier = "public.precompiled-c-plus-plus-header"
+	[UTExportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["pch++"]
+[[UTExportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.source-code"]
+	UTTypeIdentifier = "public.c-source"
+	[UTExportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["c"]
+[[UTExportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.c-source"]
+	UTTypeIdentifier = "public.c-source.preprocessed"
+	[UTExportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["i"]
+[[UTExportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.source-code"]
+	UTTypeIdentifier = "public.opencl-source"
+	[UTExportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["cl"]
+[[UTExportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.source-code"]
+	UTTypeIdentifier = "public.objective-c-source"
+	[UTExportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["m"]
+[[UTExportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.source-code"]
+	UTTypeIdentifier = "public.assembly-source"
+	[UTExportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["s", "asm"]
+[[UTExportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.source-code"]
+	UTTypeIdentifier = "public.nasm-assembly-source"
+	[UTExportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["nasm"]
+[[UTExportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.source-code"]
+	UTTypeIdentifier = "com.apple.rez-source"
+	[UTExportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["r"]
+[[UTExportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.shell-script"]
+	UTTypeIdentifier = "public.ruby-script"
+	[UTExportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["rb", "rbw"]
+[[UTImportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.shell-script"]
+	UTTypeIdentifier = "public.python-script"
+	[UTImportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["py"]
+[[UTImportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.shell-script"]
+	UTTypeIdentifier = "public.php-script"
+	[UTImportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["php"]
+[[UTImportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.shell-script"]
+	UTTypeIdentifier = "public.perl-script"
+	[UTImportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["pl"]
+[[UTImportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.shell-script"]
+	UTTypeIdentifier = "public.bash-script"
+	[UTImportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["bash"]
+[[UTImportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.shell-script"]
+	UTTypeIdentifier = "public.csh-script"
+	[UTImportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["csh"]
+[[UTImportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.shell-script"]
+	UTTypeIdentifier = "public.ksh-script"
+	[UTImportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["ksh"]
+[[UTImportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.shell-script"]
+	UTTypeIdentifier = "public.tcsh-script"
+	[UTImportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["tcsh"]
+[[UTImportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.shell-script"]
+	UTTypeIdentifier = "public.zsh-script"
+	[UTImportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["zsh"]
+[[UTImportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.text"]
+	UTTypeIdentifier = "com.apple.xcode.strings-text"
+	[UTImportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["strings"]
+[[UTImportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.text"]
+	UTTypeIdentifier = "public.xml"
+	[UTImportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["xhtml", "XHTML", "xml", "XML"]
+[[UTExportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.plain-text"]
+	UTTypeDescription = "Markdown"
+	UTTypeIdentifier = "net.daringfireball.markdown"
+	[UTExportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["md", "mdown", "markdown", "text"]
+		"public.mime-type" = ["text/markdown", "text/x-markdown", "text/x-web-markdown"]
+[[UTExportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.source-code"]
+	UTTypeIdentifier = "com.apple.metal"
+	[UTExportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["metal"]
+[[UTImportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.xml"]
+	UTTypeIdentifier = "com.apple.scripting-definition"
+	[UTImportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["sdef"]
+[[UTImportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.source-code"]
+	UTTypeDescription = "Lua Source"
+	UTTypeIdentifier = "public.lua-source"
+	UTTypeReferenceURL = "http://www.lua.org"
+	[UTImportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["lua"]
+
