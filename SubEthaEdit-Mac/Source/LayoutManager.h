@@ -5,32 +5,18 @@
 
 #import <Cocoa/Cocoa.h>
 
-
 @interface LayoutManager : NSLayoutManager {
-    struct {
-        BOOL showsChangeMarks;
-        BOOL showsInvisibles;
-    } I_flags;
     NSLayoutManager *I_invisiblesLayoutManager;
     NSTextStorage *I_invisiblesTextStorage;
-	NSColor *I_invisibleCharacterColor;
-	NSColor *I_inactiveSelectionColor;
 }
 
-- (BOOL)showsChangeMarks;
-- (void)setShowsChangeMarks:(BOOL)showsChangeMarks;
-- (BOOL)showsInvisibles;
-- (void)setShowsInvisibles:(BOOL)aFlag;
+@property (nonatomic) BOOL showsChangeMarks;
+@property (nonatomic) BOOL showsInvisibles;
 
 - (void)removeTemporaryAttributes:(id)anObjectEnumerable forCharacterRange:(NSRange)aRange;
 
 - (void)forceTextViewGeometryUpdate;
 
-- (void)setInvisibleCharacterColor:(NSColor*)aColor;
-- (NSColor *)invisibleCharacterColor;
-
-- (void)setInactiveSelectionColor:(NSColor *)aColor;
-- (NSColor *)inactiveSelectionColor;
-
-
+@property (nonatomic, strong) NSColor *invisibleCharacterColor;
+@property (nonatomic, strong) NSColor *inactiveSelectionColor;
 @end
