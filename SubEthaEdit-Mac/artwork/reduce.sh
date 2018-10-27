@@ -1,5 +1,5 @@
 #!/bin/sh
-SUBDIR="."
+SUBDIR=${1:-"."} # the nice defaulting bash operator https://stackoverflow.com/questions/6482377/check-existence-of-input-argument-in-a-bash-shell-script
 FLAGS="-unsharp 0x3+0.5+0"
 
 convert ${SUBDIR}/icon_512x512@2x.png -resize  16 $FLAGS ${SUBDIR}/icon_16x16.png

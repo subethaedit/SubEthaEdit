@@ -30,7 +30,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["swift"]
-	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeIconFile = "file-generic-source"
 	CFBundleTypeName = "Swift Source Code"
 	CFBundleTypeRole = "Editor"
 	LSItemContentTypes = ["public.swift-source"]
@@ -39,7 +39,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["go"]
-	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeIconFile = "file-generic-source"
 	CFBundleTypeName = "go Source Code"
 	CFBundleTypeRole = "Editor"
 	LSItemContentTypes = ["public.go-source"]
@@ -57,7 +57,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["do"]
-	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeIconFile = "file-generic-source"
 	CFBundleTypeName = "do Source Code"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
@@ -67,7 +67,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["fscript"]
-	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeIconFile = "file-generic-source"
 	CFBundleTypeName = "fscript Source Code"
 	CFBundleTypeRole = "Editor"
 	LSItemContentTypes = ["org.fscript.fscript"]
@@ -76,7 +76,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["java", "jav"]
-	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeIconFile = "file-generic-source"
 	CFBundleTypeName = "java Source Code"
 	CFBundleTypeRole = "Editor"
 	LSItemContentTypes = ["com.sun.java-source"]
@@ -85,7 +85,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["lua"]
-	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeIconFile = "file-generic-source"
 	CFBundleTypeName = "lua Source Code"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
@@ -104,8 +104,8 @@
 	NSDocumentClass = "PlainTextDocument"
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
-	CFBundleTypeExtensions = ["jscript", "js", "javascript"]
-	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeExtensions = ["js", "jscript", "javascript"]
+	CFBundleTypeIconFile = "file-generic-source"
 	CFBundleTypeName = "javascript Source Code"
 	CFBundleTypeRole = "Editor"
 	LSItemContentTypes = ["com.netscape.javascript-source"]
@@ -114,7 +114,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["mxo"]
-	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeIconFile = "file-generic-source"
 	CFBundleTypeName = "mxo Source Code"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
@@ -142,7 +142,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["sps"]
-	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeIconFile = "file-generic-source"
 	CFBundleTypeName = "sps Source Code"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
@@ -152,7 +152,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["cp", "cpp", "c++", "cc", "cxx"]
-	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeIconFile = "file-generic-source"
 	CFBundleTypeName = "c++ Source Code"
 	CFBundleTypeRole = "Editor"
 	LSItemContentTypes = ["public.c-plus-plus-source"]
@@ -161,7 +161,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["tcl"]
-	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeIconFile = "file-generic-source"
 	CFBundleTypeName = "tcl Source Code"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
@@ -200,7 +200,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["h"]
-	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeIconFile = "file-generic-header"
 	CFBundleTypeName = "C Header"
 	CFBundleTypeRole = "Editor"
 	LSItemContentTypes = ["public.c-header"]
@@ -277,7 +277,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["f", "for"]
-	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeIconFile = "file-generic-source"
 	CFBundleTypeName = "F Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
@@ -287,7 +287,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["pyw", "py", "python", "pw"]
-	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeIconFile = "file-generic-source"
 	CFBundleTypeName = "Python Source Code"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
@@ -297,7 +297,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["mm"]
-	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeIconFile = "file-generic-source"
 	CFBundleTypeName = "Objective-C++ Source Code"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
@@ -307,7 +307,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["uue"]
-	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeIconFile = "file-generic-source"
 	CFBundleTypeName = "uue Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
@@ -317,7 +317,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["idl"]
-	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeIconFile = "file-generic-source"
 	CFBundleTypeName = "idl Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
@@ -327,7 +327,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["rc"]
-	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeIconFile = "file-generic-source"
 	CFBundleTypeName = "rc Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
@@ -337,7 +337,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["vbs"]
-	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeIconFile = "file-generic-source"
 	CFBundleTypeName = "vbs Source Code"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
@@ -357,7 +357,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["brainfuck"]
-	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeIconFile = "file-generic-source"
 	CFBundleTypeName = "brainfuck Source Code"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
@@ -377,7 +377,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["pch"]
-	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeIconFile = "file-generic-header"
 	CFBundleTypeName = "C Pre-Compiled-Header"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
@@ -541,7 +541,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["fs", "fsh", "frag", "fragsh", "fragment"]
-	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeIconFile = "file-generic-source"
 	CFBundleTypeName = "fs Source Code"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
@@ -551,7 +551,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["reb"]
-	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeIconFile = "file-generic-source"
 	CFBundleTypeName = "reb Source Code"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
@@ -561,7 +561,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["mel"]
-	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeIconFile = "file-generic-source"
 	CFBundleTypeName = "mel Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
@@ -571,7 +571,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["sieve"]
-	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeIconFile = "file-generic-source"
 	CFBundleTypeName = "sieve Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
@@ -701,7 +701,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["rb", "rbw", "ruby", "rxml", "builder", "rjs", "rbx"]
-	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeIconFile = "file-generic-source"
 	CFBundleTypeName = "rb Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
@@ -821,7 +821,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["lasso"]
-	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeIconFile = "file-generic-source"
 	CFBundleTypeName = "lasso Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
@@ -851,7 +851,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["phtml", "php4", "ph3", "ph4", "php", "php3"]
-	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeIconFile = "file-generic-source"
 	CFBundleTypeName = "php Source"
 	CFBundleTypeRole = "Editor"
 	LSItemContentTypes = ["public.php-script"]
@@ -889,7 +889,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["awk"]
-	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeIconFile = "file-generic-source"
 	CFBundleTypeName = "awk Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
@@ -899,7 +899,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["vrm"]
-	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeIconFile = "file-generic-source"
 	CFBundleTypeName = "vrm Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
@@ -959,7 +959,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["f90"]
-	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeIconFile = "file-generic-source"
 	CFBundleTypeName = "F90 Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
@@ -1706,7 +1706,7 @@
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.script"]
 	UTTypeDescription = "F-Script Source"
-	UTTypeIconFile = "file-generic"
+	UTTypeIconFile = "file-generic-source"
 	UTTypeIdentifier = "org.fscript.fscript"
 	UTTypeReferenceURL = "http://www.fscript.org"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
@@ -2013,7 +2013,7 @@
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
 	UTTypeDescription = "Erlang Source Code"
-	UTTypeIconFile = "file-generic"
+	UTTypeIconFile = "file-generic-source"
 	UTTypeIdentifier = "public.erlang-source"
 	UTTypeReferenceURL = "http://www.erlang.org"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
@@ -2021,7 +2021,7 @@
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
 	UTTypeDescription = "Erlang Source Code"
-	UTTypeIconFile = "file-generic"
+	UTTypeIconFile = "file-generic-header"
 	UTTypeIdentifier = "public.erlang-header"
 	UTTypeReferenceURL = "http://www.erlang.org"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
@@ -2036,7 +2036,7 @@
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.shell-script"]
 	UTTypeDescription = "Python script"
-	UTTypeIconFile = "file-generic"
+	UTTypeIconFile = "file-generic-source"
 	UTTypeIdentifier = "public.python-script"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["py"]

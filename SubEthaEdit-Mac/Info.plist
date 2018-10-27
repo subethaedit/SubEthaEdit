@@ -85,7 +85,7 @@
 				<string>swift</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-generic-source</string>
 			<key>CFBundleTypeName</key>
 			<string>Swift Source Code</string>
 			<key>CFBundleTypeRole</key>
@@ -107,7 +107,7 @@
 				<string>go</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-generic-source</string>
 			<key>CFBundleTypeName</key>
 			<string>go Source Code</string>
 			<key>CFBundleTypeRole</key>
@@ -155,7 +155,7 @@
 				<string>do</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-generic-source</string>
 			<key>CFBundleTypeName</key>
 			<string>do Source Code</string>
 			<key>CFBundleTypeRole</key>
@@ -179,7 +179,7 @@
 				<string>fscript</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-generic-source</string>
 			<key>CFBundleTypeName</key>
 			<string>fscript Source Code</string>
 			<key>CFBundleTypeRole</key>
@@ -202,7 +202,7 @@
 				<string>jav</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-generic-source</string>
 			<key>CFBundleTypeName</key>
 			<string>java Source Code</string>
 			<key>CFBundleTypeRole</key>
@@ -224,7 +224,7 @@
 				<string>lua</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-generic-source</string>
 			<key>CFBundleTypeName</key>
 			<string>lua Source Code</string>
 			<key>CFBundleTypeRole</key>
@@ -270,12 +270,12 @@
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
-				<string>jscript</string>
 				<string>js</string>
+				<string>jscript</string>
 				<string>javascript</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-generic-source</string>
 			<key>CFBundleTypeName</key>
 			<string>javascript Source Code</string>
 			<key>CFBundleTypeRole</key>
@@ -297,7 +297,7 @@
 				<string>mxo</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-generic-source</string>
 			<key>CFBundleTypeName</key>
 			<string>mxo Source Code</string>
 			<key>CFBundleTypeRole</key>
@@ -366,7 +366,7 @@
 				<string>sps</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-generic-source</string>
 			<key>CFBundleTypeName</key>
 			<string>sps Source Code</string>
 			<key>CFBundleTypeRole</key>
@@ -394,7 +394,7 @@
 				<string>cxx</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-generic-source</string>
 			<key>CFBundleTypeName</key>
 			<string>c++ Source Code</string>
 			<key>CFBundleTypeRole</key>
@@ -416,7 +416,7 @@
 				<string>tcl</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-generic-source</string>
 			<key>CFBundleTypeName</key>
 			<string>tcl Source Code</string>
 			<key>CFBundleTypeRole</key>
@@ -513,7 +513,7 @@
 				<string>h</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-generic-header</string>
 			<key>CFBundleTypeName</key>
 			<string>C Header</string>
 			<key>CFBundleTypeRole</key>
@@ -700,7 +700,7 @@
 				<string>for</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-generic-source</string>
 			<key>CFBundleTypeName</key>
 			<string>F Source</string>
 			<key>CFBundleTypeRole</key>
@@ -727,7 +727,7 @@
 				<string>pw</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-generic-source</string>
 			<key>CFBundleTypeName</key>
 			<string>Python Source Code</string>
 			<key>CFBundleTypeRole</key>
@@ -752,7 +752,7 @@
 				<string>mm</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-generic-source</string>
 			<key>CFBundleTypeName</key>
 			<string>Objective-C++ Source Code</string>
 			<key>CFBundleTypeRole</key>
@@ -776,7 +776,7 @@
 				<string>uue</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-generic-source</string>
 			<key>CFBundleTypeName</key>
 			<string>uue Source</string>
 			<key>CFBundleTypeRole</key>
@@ -800,7 +800,7 @@
 				<string>idl</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-generic-source</string>
 			<key>CFBundleTypeName</key>
 			<string>idl Source</string>
 			<key>CFBundleTypeRole</key>
@@ -824,7 +824,7 @@
 				<string>rc</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-generic-source</string>
 			<key>CFBundleTypeName</key>
 			<string>rc Source</string>
 			<key>CFBundleTypeRole</key>
@@ -848,7 +848,7 @@
 				<string>vbs</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-generic-source</string>
 			<key>CFBundleTypeName</key>
 			<string>vbs Source Code</string>
 			<key>CFBundleTypeRole</key>
@@ -896,7 +896,7 @@
 				<string>brainfuck</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-generic-source</string>
 			<key>CFBundleTypeName</key>
 			<string>brainfuck Source Code</string>
 			<key>CFBundleTypeRole</key>
@@ -944,7 +944,7 @@
 				<string>pch</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-generic-header</string>
 			<key>CFBundleTypeName</key>
 			<string>C Pre-Compiled-Header</string>
 			<key>CFBundleTypeRole</key>
@@ -1352,7 +1352,7 @@
 				<string>fragment</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-generic-source</string>
 			<key>CFBundleTypeName</key>
 			<string>fs Source Code</string>
 			<key>CFBundleTypeRole</key>
@@ -1376,7 +1376,7 @@
 				<string>reb</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-generic-source</string>
 			<key>CFBundleTypeName</key>
 			<string>reb Source Code</string>
 			<key>CFBundleTypeRole</key>
@@ -1400,7 +1400,7 @@
 				<string>mel</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-generic-source</string>
 			<key>CFBundleTypeName</key>
 			<string>mel Source</string>
 			<key>CFBundleTypeRole</key>
@@ -1424,7 +1424,7 @@
 				<string>sieve</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-generic-source</string>
 			<key>CFBundleTypeName</key>
 			<string>sieve Source</string>
 			<key>CFBundleTypeRole</key>
@@ -1752,7 +1752,7 @@
 				<string>rbx</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-generic-source</string>
 			<key>CFBundleTypeName</key>
 			<string>rb Source</string>
 			<key>CFBundleTypeRole</key>
@@ -2045,7 +2045,7 @@
 				<string>lasso</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-generic-source</string>
 			<key>CFBundleTypeName</key>
 			<string>lasso Source</string>
 			<key>CFBundleTypeRole</key>
@@ -2124,7 +2124,7 @@
 				<string>php3</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-generic-source</string>
 			<key>CFBundleTypeName</key>
 			<string>php Source</string>
 			<key>CFBundleTypeRole</key>
@@ -2216,7 +2216,7 @@
 				<string>awk</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-generic-source</string>
 			<key>CFBundleTypeName</key>
 			<string>awk Source</string>
 			<key>CFBundleTypeRole</key>
@@ -2240,7 +2240,7 @@
 				<string>vrm</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-generic-source</string>
 			<key>CFBundleTypeName</key>
 			<string>vrm Source</string>
 			<key>CFBundleTypeRole</key>
@@ -2384,7 +2384,7 @@
 				<string>f90</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-generic-source</string>
 			<key>CFBundleTypeName</key>
 			<string>F90 Source</string>
 			<key>CFBundleTypeRole</key>
@@ -4413,7 +4413,7 @@
 			<key>UTTypeDescription</key>
 			<string>Erlang Source Code</string>
 			<key>UTTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-generic-source</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.erlang-source</string>
 			<key>UTTypeReferenceURL</key>
@@ -4434,7 +4434,7 @@
 			<key>UTTypeDescription</key>
 			<string>Erlang Source Code</string>
 			<key>UTTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-generic-header</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.erlang-header</string>
 			<key>UTTypeReferenceURL</key>
@@ -4795,7 +4795,7 @@
 			<key>UTTypeDescription</key>
 			<string>F-Script Source</string>
 			<key>UTTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-generic-source</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.fscript.fscript</string>
 			<key>UTTypeReferenceURL</key>
@@ -5650,7 +5650,7 @@
 			<key>UTTypeDescription</key>
 			<string>Python script</string>
 			<key>UTTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-generic-source</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.python-script</string>
 			<key>UTTypeTagSpecification</key>
