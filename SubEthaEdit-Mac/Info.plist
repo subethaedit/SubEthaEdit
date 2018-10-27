@@ -1160,7 +1160,7 @@
 				<string>c</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-c</string>
 			<key>CFBundleTypeName</key>
 			<string>C Source Code</string>
 			<key>CFBundleTypeRole</key>
@@ -2652,7 +2652,7 @@
 				<string>exs</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-elixir</string>
 			<key>CFBundleTypeName</key>
 			<string>Elixir Source</string>
 			<key>CFBundleTypeRole</key>
@@ -4392,6 +4392,8 @@
 			</array>
 			<key>UTTypeDescription</key>
 			<string>Elixir Source Code</string>
+			<key>UTTypeIconFile</key>
+			<string>file-elixir</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.elixir-source</string>
 			<key>UTTypeReferenceURL</key>
@@ -4413,7 +4415,7 @@
 			<key>UTTypeDescription</key>
 			<string>Erlang Source Code</string>
 			<key>UTTypeIconFile</key>
-			<string>file-generic-source</string>
+			<string>file-erlang</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.erlang-source</string>
 			<key>UTTypeReferenceURL</key>
@@ -4434,7 +4436,7 @@
 			<key>UTTypeDescription</key>
 			<string>Erlang Source Code</string>
 			<key>UTTypeIconFile</key>
-			<string>file-generic-header</string>
+			<string>file-erlang</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.erlang-header</string>
 			<key>UTTypeReferenceURL</key>
@@ -4517,6 +4519,8 @@
 			<array>
 				<string>public.source-code</string>
 			</array>
+			<key>UTTypeIconFile</key>
+			<string>file-c</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.c-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -5136,19 +5140,6 @@
 				<array>
 					<string>tcsh</string>
 				</array>
-			</dict>
-		</dict>
-		<dict>
-			<key>UTTypeConformsTo</key>
-			<string>public.source-code</string>
-			<key>UTTypeDescription</key>
-			<string>C Source code</string>
-			<key>UTTypeIdentifier</key>
-			<string>public.c-source</string>
-			<key>UTTypeTagSpecification</key>
-			<dict>
-				<key>public.filename-extension</key>
-				<string>c</string>
 			</dict>
 		</dict>
 		<dict>

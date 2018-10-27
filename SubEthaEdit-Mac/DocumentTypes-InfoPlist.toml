@@ -463,7 +463,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["c"]
-	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeIconFile = "file-c"
 	CFBundleTypeName = "C Source Code"
 	CFBundleTypeRole = "Editor"
 	LSItemContentTypes = ["public.c-source"]
@@ -1068,7 +1068,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["ex", "exs"]
-	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeIconFile = "file-elixir"
 	CFBundleTypeName = "Elixir Source"
 	CFBundleTypeRole = "Editor"
 	LSItemContentTypes = ["public.elixir-source"]
@@ -1826,12 +1826,6 @@
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["tcsh"]
 [[UTImportedTypeDeclarations]]
-	UTTypeConformsTo = "public.source-code"
-	UTTypeDescription = "C Source code"
-	UTTypeIdentifier = "public.c-source"
-	[UTImportedTypeDeclarations.UTTypeTagSpecification]
-		"public.filename-extension" = "c"
-[[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = "public.script"
 	UTTypeDescription = "AppleScript text"
 	UTTypeIdentifier = "com.apple.applescript.text"
@@ -1991,6 +1985,7 @@
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
 	UTTypeDescription = "Elixir Source Code"
+	UTTypeIconFile = "file-elixir"
 	UTTypeIdentifier = "public.elixir-source"
 	UTTypeReferenceURL = "https://elixir-lang.org"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
@@ -2013,7 +2008,7 @@
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
 	UTTypeDescription = "Erlang Source Code"
-	UTTypeIconFile = "file-generic-source"
+	UTTypeIconFile = "file-erlang"
 	UTTypeIdentifier = "public.erlang-source"
 	UTTypeReferenceURL = "http://www.erlang.org"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
@@ -2021,7 +2016,7 @@
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
 	UTTypeDescription = "Erlang Source Code"
-	UTTypeIconFile = "file-generic-header"
+	UTTypeIconFile = "file-erlang"
 	UTTypeIdentifier = "public.erlang-header"
 	UTTypeReferenceURL = "http://www.erlang.org"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
@@ -2112,6 +2107,7 @@
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
 	UTTypeIdentifier = "public.c-source"
+	UTTypeIconFile = "file-c"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["c"]
 [[UTExportedTypeDeclarations]]
