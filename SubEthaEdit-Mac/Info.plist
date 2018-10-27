@@ -2629,9 +2629,9 @@
 				<string>hrl</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-erlang</string>
 			<key>CFBundleTypeName</key>
-			<string>erlang Source</string>
+			<string>Erlang Source Code</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSItemContentTypes</key>
@@ -2654,7 +2654,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-elixir</string>
 			<key>CFBundleTypeName</key>
-			<string>Elixir Source</string>
+			<string>Elixir Source Code</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSItemContentTypes</key>
@@ -2700,7 +2700,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>file-generic</string>
 			<key>CFBundleTypeName</key>
-			<string>dtd Source</string>
+			<string>DTD</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>

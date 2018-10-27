@@ -1059,8 +1059,8 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["erl", "hrl"]
-	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "erlang Source"
+	CFBundleTypeIconFile = "file-erlang"
+	CFBundleTypeName = "Erlang Source Code"
 	CFBundleTypeRole = "Editor"
 	LSItemContentTypes = ["public.erlang-source"]
 	LSTypeIsPackage = false
@@ -1069,7 +1069,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["ex", "exs"]
 	CFBundleTypeIconFile = "file-elixir"
-	CFBundleTypeName = "Elixir Source"
+	CFBundleTypeName = "Elixir Source Code"
 	CFBundleTypeRole = "Editor"
 	LSItemContentTypes = ["public.elixir-source"]
 	LSTypeIsPackage = false
@@ -1088,7 +1088,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["dtd"]
 	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "dtd Source"
+	CFBundleTypeName = "DTD"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["org.w3.xml-dtd"]
