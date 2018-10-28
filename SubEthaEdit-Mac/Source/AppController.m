@@ -847,6 +847,8 @@ static AppController *sharedInstance = nil;
     
 	NSArray *scriptURLs = nil;
     NSURL *userScriptsDirectory = [[NSFileManager defaultManager] URLForDirectory:NSApplicationScriptsDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:YES error:nil];
+    NSString *basePath;
+    basePath = [[userScriptsDirectory path] stringByStandardizingPath];
 	if (userScriptsDirectory) {
 		scriptURLs = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:userScriptsDirectory includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles error:nil];
 		for (NSURL *scriptURL in scriptURLs)
@@ -854,18 +856,28 @@ static AppController *sharedInstance = nil;
 			if (! [scriptURL.lastPathComponent isEqualToString:@"SubEthaEdit_AuthenticatedSave.scpt"]) {
 				ScriptWrapper *script = [ScriptWrapper scriptWrapperWithContentsOfURL:scriptURL];
 				if (script) {
-					[I_scriptsByFilename setObject:script forKey:[[[scriptURL path] stringByStandardizingPath] stringByDeletingPathExtension]];
+                    NSString *filename = [[scriptURL path] stringByStandardizingPath];
+                    if ([filename hasPrefix:basePath]) {
+                        filename = [filename substringFromIndex:basePath.length];
+                    }
+					[I_scriptsByFilename setObject:script forKey:filename];
 				}
 			}
 		}
     }
     NSURL *applicationScriptsDirectory = [[[NSBundle mainBundle] resourceURL] URLByAppendingPathComponent:@"Scripts"];
+    basePath = [[applicationScriptsDirectory path] stringByStandardizingPath];
     scriptURLs = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:applicationScriptsDirectory includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles error:nil];
-    for (NSURL *scriptURL in scriptURLs)
-    {
-        ScriptWrapper *script = [ScriptWrapper scriptWrapperWithContentsOfURL:scriptURL];
-        if (script) {
-            [I_scriptsByFilename setObject:script forKey:[[[scriptURL path] stringByStandardizingPath] stringByDeletingPathExtension]];
+    for (NSURL *scriptURL in scriptURLs) {
+        NSString *filename = [[scriptURL path] stringByStandardizingPath];
+        if ([filename hasPrefix:basePath]) {
+            filename = [filename substringFromIndex:basePath.length];
+        }
+        if (!I_scriptsByFilename[filename]) {
+            ScriptWrapper *script = [ScriptWrapper scriptWrapperWithContentsOfURL:scriptURL];
+            if (script) {
+                [I_scriptsByFilename setObject:script forKey:filename];
+            }
         }
     }
     
