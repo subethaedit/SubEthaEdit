@@ -275,7 +275,7 @@
 				<string>javascript</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic-source</string>
+			<string>file-js</string>
 			<key>CFBundleTypeName</key>
 			<string>javascript Source Code</string>
 			<key>CFBundleTypeRole</key>
@@ -1069,7 +1069,7 @@
 				<string>text</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-md</string>
 			<key>CFBundleTypeName</key>
 			<string>Markdown Document</string>
 			<key>CFBundleTypeRole</key>
@@ -1180,7 +1180,7 @@
 				<string>rs</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-rs</string>
 			<key>CFBundleTypeName</key>
 			<string>Rust Source Code</string>
 			<key>CFBundleTypeRole</key>
@@ -1748,7 +1748,7 @@
 				<string>rbx</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic-source</string>
+			<string>file-rb</string>
 			<key>CFBundleTypeName</key>
 			<string>rb Source</string>
 			<key>CFBundleTypeRole</key>
@@ -2166,7 +2166,7 @@
 				<string>css</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-css</string>
 			<key>CFBundleTypeName</key>
 			<string>CSS Source</string>
 			<key>CFBundleTypeRole</key>
@@ -2693,7 +2693,7 @@
 				<string>erb</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-sgml</string>
 			<key>CFBundleTypeName</key>
 			<string>erb Source</string>
 			<key>CFBundleTypeRole</key>
@@ -3804,6 +3804,8 @@
 			</array>
 			<key>UTTypeDescription</key>
 			<string>ruby Source</string>
+			<key>UTTypeIconFile</key>
+			<string>file-rb</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.ruby-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -4506,6 +4508,8 @@
 			<array>
 				<string>public.source-code</string>
 			</array>
+			<key>UTTypeIconFile</key>
+			<string>file-rs</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.rust-source</string>
 			<key>UTTypeReferenceURL</key>
@@ -4614,6 +4618,8 @@
 			<array>
 				<string>public.shell-script</string>
 			</array>
+			<key>UTTypeIconFile</key>
+			<string>file-rb</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.ruby-script</string>
 			<key>UTTypeTagSpecification</key>
@@ -4635,6 +4641,8 @@
 			</array>
 			<key>UTTypeDescription</key>
 			<string>Markdown</string>
+			<key>UTTypeIconFile</key>
+			<string>file-md</string>
 			<key>UTTypeIdentifier</key>
 			<string>net.daringfireball.markdown</string>
 			<key>UTTypeTagSpecification</key>
@@ -4711,6 +4719,8 @@
 			</array>
 			<key>UTTypeDescription</key>
 			<string>JavaScript</string>
+			<key>UTTypeIconFile</key>
+			<string>file-js</string>
 			<key>UTTypeIdentifier</key>
 			<string>com.netscape.javascript-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -4734,6 +4744,8 @@
 			</array>
 			<key>UTTypeDescription</key>
 			<string>Cascading Style Sheet</string>
+			<key>UTTypeIconFile</key>
+			<string>file-css</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.w3.css</string>
 			<key>UTTypeReferenceURL</key>
@@ -4841,6 +4853,8 @@
 			</array>
 			<key>UTTypeDescription</key>
 			<string>Ruby script</string>
+			<key>UTTypeIconFile</key>
+			<string>file-rb</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.ruby-script</string>
 			<key>UTTypeTagSpecification</key>
@@ -4944,6 +4958,8 @@
 			</array>
 			<key>UTTypeDescription</key>
 			<string>HTML with embedded Ruby</string>
+			<key>UTTypeIconFile</key>
+			<string>file-rb</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.ruby-lang.eruby</string>
 			<key>UTTypeReferenceURL</key>
@@ -5706,6 +5722,8 @@
 			<string>public.text</string>
 			<key>UTTypeDescription</key>
 			<string>CSS</string>
+			<key>UTTypeIconFile</key>
+			<string>file-css</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.css</string>
 			<key>UTTypeTagSpecification</key>
@@ -5907,6 +5925,8 @@
 			</array>
 			<key>UTTypeDescription</key>
 			<string>Markdown</string>
+			<key>UTTypeIconFile</key>
+			<string>file-md</string>
 			<key>UTTypeIdentifier</key>
 			<string>net.daringfireball.markdown</string>
 			<key>UTTypeTagSpecification</key>

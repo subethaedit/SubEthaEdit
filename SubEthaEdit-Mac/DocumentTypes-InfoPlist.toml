@@ -105,7 +105,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["js", "jscript", "javascript"]
-	CFBundleTypeIconFile = "file-generic-source"
+	CFBundleTypeIconFile = "file-js"
 	CFBundleTypeName = "javascript Source Code"
 	CFBundleTypeRole = "Editor"
 	LSItemContentTypes = ["com.netscape.javascript-source"]
@@ -427,7 +427,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["md", "mdown", "markdown", "text"]
-	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeIconFile = "file-md"
 	CFBundleTypeName = "Markdown Document"
 	CFBundleTypeRole = "Editor"
 	LSItemContentTypes = ["net.daringfireball.markdown"]
@@ -471,7 +471,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["rs"]
-	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeIconFile = "file-rs"
 	CFBundleTypeName = "Rust Source Code"
 	CFBundleTypeRole = "Editor"
 	LSItemContentTypes = ["public.rust-source"]
@@ -699,7 +699,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["rb", "rbw", "ruby", "rxml", "builder", "rjs", "rbx"]
-	CFBundleTypeIconFile = "file-generic-source"
+	CFBundleTypeIconFile = "file-rb"
 	CFBundleTypeName = "rb Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
@@ -868,7 +868,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["css"]
-	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeIconFile = "file-css"
 	CFBundleTypeName = "CSS Source"
 	CFBundleTypeRole = "Editor"
 	LSItemContentTypes = ["org.w3.css"]
@@ -1084,7 +1084,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["rhtml", "erb"]
-	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeIconFile = "file-sgml"
 	CFBundleTypeName = "erb Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
@@ -1462,6 +1462,7 @@
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
 	UTTypeDescription = "ruby Source"
+	UTTypeIconFile = "file-rb"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.ruby-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["rb", "rbw", "ruby", "rbx", "rxml", "rjs", "builder"]
@@ -1648,6 +1649,7 @@
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.text"]
 	UTTypeDescription = "Markdown"
+	UTTypeIconFile = "file-md"
 	UTTypeIdentifier = "net.daringfireball.markdown"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["md", "mdown", "markdown", "text"]
@@ -1672,6 +1674,7 @@
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code", "public.executable"]
 	UTTypeDescription = "JavaScript"
+	UTTypeIconFile = "file-js"
 	UTTypeIdentifier = "com.netscape.javascript-source"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["js", "jscript", "javascript"]
@@ -1680,6 +1683,7 @@
 	UTTypeConformsTo = ["public.text"]
 	UTTypeDescription = "Cascading Style Sheet"
 	UTTypeIdentifier = "org.w3.css"
+	UTTypeIconFile = "file-css"
 	UTTypeReferenceURL = "http://www.w3.org/Style/CSS/"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["css"]
@@ -1722,6 +1726,7 @@
 	UTTypeConformsTo = ["public.shell-script"]
 	UTTypeDescription = "Ruby script"
 	UTTypeIdentifier = "public.ruby-script"
+	UTTypeIconFile = "file-rb"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["rb", "rbw"]
 		"public.mime-type" = ["text/x-ruby-script"]
@@ -1756,6 +1761,7 @@
 	UTTypeDescription = "HTML with embedded Ruby"
 	UTTypeIdentifier = "org.ruby-lang.eruby"
 	UTTypeReferenceURL = "https://www.ruby-lang.org/en/"
+	UTTypeIconFile = "file-rb"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["rhtml", "erb"]
 [[UTImportedTypeDeclarations]]
@@ -2057,6 +2063,7 @@
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = "public.text"
 	UTTypeDescription = "CSS"
+	UTTypeIconFile = "file-css"
 	UTTypeIdentifier = "public.css"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["css"]
@@ -2095,6 +2102,7 @@
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
 	UTTypeIdentifier = "public.rust-source"
+	UTTypeIconFile = "file-rs"
 	UTTypeReferenceURL = "https://www.rust-lang.org/"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["rs"]
@@ -2131,6 +2139,7 @@
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.shell-script"]
 	UTTypeIdentifier = "public.ruby-script"
+	UTTypeIconFile = "file-rb"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["rb", "rbw"]
 [[UTImportedTypeDeclarations]]
@@ -2192,6 +2201,7 @@
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.plain-text"]
 	UTTypeDescription = "Markdown"
+	UTTypeIconFile = "file-md"
 	UTTypeIdentifier = "net.daringfireball.markdown"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["md", "mdown", "markdown", "text"]
