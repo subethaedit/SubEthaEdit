@@ -48,8 +48,8 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["bash", "sh", "csh", "zsh", "tcsh"]
-	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "shell script"
+	CFBundleTypeIconFile = "file-sh"
+	CFBundleTypeName = "Shell Script"
 	CFBundleTypeRole = "Editor"
 	LSItemContentTypes = ["public.shell-script"]
 	LSTypeIsPackage = false
@@ -124,7 +124,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["json"]
-	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeIconFile = "file-json"
 	CFBundleTypeName = "JSON Document"
 	CFBundleTypeRole = "Editor"
 	LSItemContentTypes = ["public.json", "org.json.json"]
@@ -171,7 +171,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["shtm", "shtml", "html", "htm"]
-	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeIconFile = "file-sgml"
 	CFBundleTypeName = "HTML Source Code"
 	CFBundleTypeRole = "Editor"
 	LSItemContentTypes = ["public.html"]
@@ -443,10 +443,9 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["xsl", "xslt"]
-	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeIconFile = "file-sgml"
 	CFBundleTypeName = "XSL"
 	CFBundleTypeRole = "Editor"
-	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["org.w3.xsl"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
@@ -621,10 +620,9 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["xml"]
-	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeIconFile = "file-sgml"
 	CFBundleTypeName = "XML"
 	CFBundleTypeRole = "Editor"
-	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["public.xml", "com.microsoft.word.wordml"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
@@ -978,16 +976,6 @@
 	NSDocumentClass = "PlainTextDocument"
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
-	CFBundleTypeExtensions = ["sh"]
-	CFBundleTypeIconFile = "file-generic"
-	CFBundleTypeName = "sh Source"
-	CFBundleTypeRole = "Editor"
-	LSHandlerRank = "Alternate"
-	LSItemContentTypes = ["public.shell-script"]
-	LSTypeIsPackage = false
-	NSDocumentClass = "PlainTextDocument"
-	NSIsRelatedItemType = true
-[[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["tab"]
 	CFBundleTypeIconFile = "file-generic"
 	CFBundleTypeName = "tab Source"
@@ -1009,7 +997,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["xhtml", "xht", "xhtm"]
-	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeIconFile = "file-sgml"
 	CFBundleTypeName = "xhtml Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
@@ -1087,10 +1075,9 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["dtd"]
-	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeIconFile = "file-sgml"
 	CFBundleTypeName = "DTD"
 	CFBundleTypeRole = "Editor"
-	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["org.w3.xml-dtd"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
@@ -1787,7 +1774,6 @@
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.text", "public.contact"]
 	UTTypeDescription = "electronic business card"
-	UTTypeIconFiles = ["VCard~iphone.png", "VCard@2x~iphone.png", "VCardStandard~ipad.png", "VCardStandard@2x~ipad.png", "VCardScalable~ipad.png", "VCardScalable@2x~ipad.png"]
 	UTTypeIdentifier = "public.vcard"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"com.apple.nspboard-type" = "Apple VCard pasteboard type"
@@ -1798,12 +1784,14 @@
 	UTTypeConformsTo = "public.text"
 	UTTypeDescription = "XML text"
 	UTTypeIdentifier = "public.xml"
+	UTTypeIconFile = "file-sgml"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = "xml"
 		"public.mime-type" = ["application/xml", "text/xml"]
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.shell-script"]
 	UTTypeDescription = "Bourne-Again Shell script"
+	UTTypeIconFile = "file-sh"
 	UTTypeIdentifier = "public.bash-script"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["bash"]
@@ -1823,6 +1811,7 @@
 	UTTypeConformsTo = ["public.shell-script"]
 	UTTypeDescription = "Tenex C Shell script"
 	UTTypeIdentifier = "public.tcsh-script"
+	UTTypeIconFile = "file-sh"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["tcsh"]
 [[UTImportedTypeDeclarations]]
@@ -1869,6 +1858,7 @@
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.xml", "public.composite-content"]
 	UTTypeDescription = "Microsoft Word 2003 XML document"
+	UTTypeIconFile = "file-sgml"
 	UTTypeIdentifier = "com.microsoft.word.wordml"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["xml"]
@@ -1876,6 +1866,7 @@
 	UTTypeConformsTo = ["public.script"]
 	UTTypeDescription = "shell script"
 	UTTypeIdentifier = "public.shell-script"
+	UTTypeIconFile = "file-sh"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["sh"]
 [[UTImportedTypeDeclarations]]
@@ -1921,6 +1912,7 @@
 		"public.filename-extension" = ["f90"]
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = "public.xml"
+	UTTypeIconFile = "file-sgml"
 	UTTypeDescription = "XHTML"
 	UTTypeIdentifier = "public.xhtml"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
@@ -1934,13 +1926,6 @@
 		"public.filename-extension" = "h"
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = "public.text"
-	UTTypeDescription = "JSON"
-	UTTypeIdentifier = "public.json"
-	[UTImportedTypeDeclarations.UTTypeTagSpecification]
-		"public.filename-extension" = ["json"]
-		"public.mime-type" = ["application/json"]
-[[UTImportedTypeDeclarations]]
-	UTTypeConformsTo = "public.text"
 	UTTypeDescription = "TOML"
 	UTTypeIdentifier = "public.toml"
 	UTTYpeReferenceURL = "https://github.com/toml-lang/toml"
@@ -1948,22 +1933,26 @@
 		"public.filename-extension" = ["toml"]
 		"public.mime-type" = ["application/toml"]
 [[UTImportedTypeDeclarations]]
-	UTTypeConformsTo = ["com.netscape.javascript-source"]
-	UTTypeDescription = "JSON File"
-	UTTypeIdentifier = "org.json.json"
+	UTTypeConformsTo = "public.text"
+	UTTypeDescription = "JSON"
+	UTTypeIconFile = "file-json"
+	UTTypeIdentifier = "public.json"
 	UTTypeReferenceURL = "http://www.ietf.org/rfc/rfc4627.txt?number=4627"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["json"]
+		"public.mime-type" = ["application/json"]
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.shell-script"]
 	UTTypeDescription = "Perl script"
 	UTTypeIdentifier = "public.perl-script"
+	UTTypeIconFile = "file-sh"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["pl", "pm"]
 		"public.mime-type" = ["text/x-perl-script"]
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.text"]
 	UTTypeDescription = "Document Type Definition"
+	UTTypeIconFile = "file-sgml"
 	UTTypeIdentifier = "org.w3.xml-dtd"
 	UTTypeReferenceURL = "http://www.w3.org/XML/"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
@@ -2001,6 +1990,7 @@
 	UTTypeConformsTo = "public.image"
 	UTTypeDescription = "scalable vector graphics (SVG)"
 	UTTypeIdentifier = "public.svg-image"
+	UTTypeIconFile = "file-sgml"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"com.apple.ostype" = ["svg ", "svgz"]
 		"public.filename-extension" = ["svg", "svgz"]
@@ -2039,7 +2029,6 @@
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.text", "public.item", "public.calendar-event"]
 	UTTypeDescription = "ICS File"
-	UTTypeIconFiles = ["Calendar~iphone.png", "Calendar@2x~iphone.png", "CalendarStandard~ipad.png", "CalendarStandard@2x~ipad.png", "CalendarScalable~ipad.png", "CalendarScalable@2x~ipad.png"]
 	UTTypeIdentifier = "com.apple.ical.ics"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["ics"]
@@ -2047,8 +2036,8 @@
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.xml"]
 	UTTypeDescription = "XSL stylesheet"
-	UTTypeIconFile = "file-generic"
 	UTTypeIdentifier = "org.w3.xsl"
+	UTTypeIconFile = "file-sgml"
 	UTTypeReferenceURL = "http://www.w3.org/Style/XSL/"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["xsl", "xslt"]
@@ -2065,13 +2054,6 @@
 	UTTypeIdentifier = "public.fortran-source"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["f", "for"]
-[[UTImportedTypeDeclarations]]
-	UTTypeConformsTo = "public.text"
-	UTTypeDescription = "JSON"
-	UTTypeIdentifier = "public.json"
-	[UTImportedTypeDeclarations.UTTypeTagSpecification]
-		"public.filename-extension" = ["json"]
-		"public.mime-type" = ["application/json"]
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = "public.text"
 	UTTypeDescription = "CSS"
@@ -2168,26 +2150,31 @@
 		"public.filename-extension" = ["pl"]
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.shell-script"]
+	UTTypeIconFile = "file-sh"
 	UTTypeIdentifier = "public.bash-script"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["bash"]
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.shell-script"]
+	UTTypeIconFile = "file-sh"
 	UTTypeIdentifier = "public.csh-script"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["csh"]
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.shell-script"]
+	UTTypeIconFile = "file-sh"
 	UTTypeIdentifier = "public.ksh-script"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["ksh"]
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.shell-script"]
+	UTTypeIconFile = "file-sh"
 	UTTypeIdentifier = "public.tcsh-script"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["tcsh"]
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.shell-script"]
+	UTTypeIconFile = "file-sh"
 	UTTypeIdentifier = "public.zsh-script"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["zsh"]
@@ -2199,6 +2186,7 @@
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.text"]
 	UTTypeIdentifier = "public.xml"
+	UTTypeIconFile = "file-sgml"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["xhtml", "XHTML", "xml", "XML"]
 [[UTImportedTypeDeclarations]]
@@ -2216,6 +2204,7 @@
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.xml"]
 	UTTypeIdentifier = "com.apple.scripting-definition"
+	UTTypeIconFile = "file-sgml"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["sdef"]
 [[UTImportedTypeDeclarations]]

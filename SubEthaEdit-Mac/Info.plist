@@ -133,9 +133,9 @@
 				<string>tcsh</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-sh</string>
 			<key>CFBundleTypeName</key>
-			<string>shell script</string>
+			<string>Shell Script</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSItemContentTypes</key>
@@ -321,7 +321,7 @@
 				<string>json</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-json</string>
 			<key>CFBundleTypeName</key>
 			<string>JSON Document</string>
 			<key>CFBundleTypeRole</key>
@@ -443,7 +443,7 @@
 				<string>htm</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-sgml</string>
 			<key>CFBundleTypeName</key>
 			<string>HTML Source Code</string>
 			<key>CFBundleTypeRole</key>
@@ -1110,13 +1110,11 @@
 				<string>xslt</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-sgml</string>
 			<key>CFBundleTypeName</key>
 			<string>XSL</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
-			<key>LSHandlerRank</key>
-			<string>Alternate</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>org.w3.xsl</string>
@@ -1546,13 +1544,11 @@
 				<string>xml</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-sgml</string>
 			<key>CFBundleTypeName</key>
 			<string>XML</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
-			<key>LSHandlerRank</key>
-			<string>Alternate</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>public.xml</string>
@@ -2429,30 +2425,6 @@
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
-				<string>sh</string>
-			</array>
-			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
-			<key>CFBundleTypeName</key>
-			<string>sh Source</string>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>LSHandlerRank</key>
-			<string>Alternate</string>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>public.shell-script</string>
-			</array>
-			<key>LSTypeIsPackage</key>
-			<false/>
-			<key>NSDocumentClass</key>
-			<string>PlainTextDocument</string>
-			<key>NSIsRelatedItemType</key>
-			<true/>
-		</dict>
-		<dict>
-			<key>CFBundleTypeExtensions</key>
-			<array>
 				<string>tab</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
@@ -2506,7 +2478,7 @@
 				<string>xhtm</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-sgml</string>
 			<key>CFBundleTypeName</key>
 			<string>xhtml Source</string>
 			<key>CFBundleTypeRole</key>
@@ -2698,13 +2670,11 @@
 				<string>dtd</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-sgml</string>
 			<key>CFBundleTypeName</key>
 			<string>DTD</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
-			<key>LSHandlerRank</key>
-			<string>Alternate</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>org.w3.xml-dtd</string>
@@ -5030,15 +5000,6 @@
 			</array>
 			<key>UTTypeDescription</key>
 			<string>electronic business card</string>
-			<key>UTTypeIconFiles</key>
-			<array>
-				<string>VCard~iphone.png</string>
-				<string>VCard@2x~iphone.png</string>
-				<string>VCardStandard~ipad.png</string>
-				<string>VCardStandard@2x~ipad.png</string>
-				<string>VCardScalable~ipad.png</string>
-				<string>VCardScalable@2x~ipad.png</string>
-			</array>
 			<key>UTTypeIdentifier</key>
 			<string>public.vcard</string>
 			<key>UTTypeTagSpecification</key>
@@ -5065,6 +5026,8 @@
 			<string>public.text</string>
 			<key>UTTypeDescription</key>
 			<string>XML text</string>
+			<key>UTTypeIconFile</key>
+			<string>file-sgml</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.xml</string>
 			<key>UTTypeTagSpecification</key>
@@ -5085,6 +5048,8 @@
 			</array>
 			<key>UTTypeDescription</key>
 			<string>Bourne-Again Shell script</string>
+			<key>UTTypeIconFile</key>
+			<string>file-sh</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.bash-script</string>
 			<key>UTTypeTagSpecification</key>
@@ -5132,6 +5097,8 @@
 			</array>
 			<key>UTTypeDescription</key>
 			<string>Tenex C Shell script</string>
+			<key>UTTypeIconFile</key>
+			<string>file-sh</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.tcsh-script</string>
 			<key>UTTypeTagSpecification</key>
@@ -5263,6 +5230,8 @@
 			</array>
 			<key>UTTypeDescription</key>
 			<string>Microsoft Word 2003 XML document</string>
+			<key>UTTypeIconFile</key>
+			<string>file-sgml</string>
 			<key>UTTypeIdentifier</key>
 			<string>com.microsoft.word.wordml</string>
 			<key>UTTypeTagSpecification</key>
@@ -5280,6 +5249,8 @@
 			</array>
 			<key>UTTypeDescription</key>
 			<string>shell script</string>
+			<key>UTTypeIconFile</key>
+			<string>file-sh</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.shell-script</string>
 			<key>UTTypeTagSpecification</key>
@@ -5422,6 +5393,8 @@
 			<string>public.xml</string>
 			<key>UTTypeDescription</key>
 			<string>XHTML</string>
+			<key>UTTypeIconFile</key>
+			<string>file-sgml</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.xhtml</string>
 			<key>UTTypeTagSpecification</key>
@@ -5450,25 +5423,6 @@
 			</dict>
 		</dict>
 		<dict>
-			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
-			<key>UTTypeDescription</key>
-			<string>JSON</string>
-			<key>UTTypeIdentifier</key>
-			<string>public.json</string>
-			<key>UTTypeTagSpecification</key>
-			<dict>
-				<key>public.filename-extension</key>
-				<array>
-					<string>json</string>
-				</array>
-				<key>public.mime-type</key>
-				<array>
-					<string>application/json</string>
-				</array>
-			</dict>
-		</dict>
-		<dict>
 			<key>UTTYpeReferenceURL</key>
 			<string>https://github.com/toml-lang/toml</string>
 			<key>UTTypeConformsTo</key>
@@ -5491,13 +5445,13 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<array>
-				<string>com.netscape.javascript-source</string>
-			</array>
+			<string>public.text</string>
 			<key>UTTypeDescription</key>
-			<string>JSON File</string>
+			<string>JSON</string>
+			<key>UTTypeIconFile</key>
+			<string>file-json</string>
 			<key>UTTypeIdentifier</key>
-			<string>org.json.json</string>
+			<string>public.json</string>
 			<key>UTTypeReferenceURL</key>
 			<string>http://www.ietf.org/rfc/rfc4627.txt?number=4627</string>
 			<key>UTTypeTagSpecification</key>
@@ -5505,6 +5459,10 @@
 				<key>public.filename-extension</key>
 				<array>
 					<string>json</string>
+				</array>
+				<key>public.mime-type</key>
+				<array>
+					<string>application/json</string>
 				</array>
 			</dict>
 		</dict>
@@ -5515,6 +5473,8 @@
 			</array>
 			<key>UTTypeDescription</key>
 			<string>Perl script</string>
+			<key>UTTypeIconFile</key>
+			<string>file-sh</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.perl-script</string>
 			<key>UTTypeTagSpecification</key>
@@ -5537,6 +5497,8 @@
 			</array>
 			<key>UTTypeDescription</key>
 			<string>Document Type Definition</string>
+			<key>UTTypeIconFile</key>
+			<string>file-sgml</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.w3.xml-dtd</string>
 			<key>UTTypeReferenceURL</key>
@@ -5593,6 +5555,8 @@
 			<string>public.image</string>
 			<key>UTTypeDescription</key>
 			<string>scalable vector graphics (SVG)</string>
+			<key>UTTypeIconFile</key>
+			<string>file-sgml</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.svg-image</string>
 			<key>UTTypeTagSpecification</key>
@@ -5665,15 +5629,6 @@
 			</array>
 			<key>UTTypeDescription</key>
 			<string>ICS File</string>
-			<key>UTTypeIconFiles</key>
-			<array>
-				<string>Calendar~iphone.png</string>
-				<string>Calendar@2x~iphone.png</string>
-				<string>CalendarStandard~ipad.png</string>
-				<string>CalendarStandard@2x~ipad.png</string>
-				<string>CalendarScalable~ipad.png</string>
-				<string>CalendarScalable@2x~ipad.png</string>
-			</array>
 			<key>UTTypeIdentifier</key>
 			<string>com.apple.ical.ics</string>
 			<key>UTTypeTagSpecification</key>
@@ -5696,7 +5651,7 @@
 			<key>UTTypeDescription</key>
 			<string>XSL stylesheet</string>
 			<key>UTTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-sgml</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.w3.xsl</string>
 			<key>UTTypeReferenceURL</key>
@@ -5743,25 +5698,6 @@
 				<array>
 					<string>f</string>
 					<string>for</string>
-				</array>
-			</dict>
-		</dict>
-		<dict>
-			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
-			<key>UTTypeDescription</key>
-			<string>JSON</string>
-			<key>UTTypeIdentifier</key>
-			<string>public.json</string>
-			<key>UTTypeTagSpecification</key>
-			<dict>
-				<key>public.filename-extension</key>
-				<array>
-					<string>json</string>
-				</array>
-				<key>public.mime-type</key>
-				<array>
-					<string>application/json</string>
 				</array>
 			</dict>
 		</dict>
@@ -5849,6 +5785,8 @@
 			<array>
 				<string>public.shell-script</string>
 			</array>
+			<key>UTTypeIconFile</key>
+			<string>file-sh</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.bash-script</string>
 			<key>UTTypeTagSpecification</key>
@@ -5864,6 +5802,8 @@
 			<array>
 				<string>public.shell-script</string>
 			</array>
+			<key>UTTypeIconFile</key>
+			<string>file-sh</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.csh-script</string>
 			<key>UTTypeTagSpecification</key>
@@ -5879,6 +5819,8 @@
 			<array>
 				<string>public.shell-script</string>
 			</array>
+			<key>UTTypeIconFile</key>
+			<string>file-sh</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.ksh-script</string>
 			<key>UTTypeTagSpecification</key>
@@ -5894,6 +5836,8 @@
 			<array>
 				<string>public.shell-script</string>
 			</array>
+			<key>UTTypeIconFile</key>
+			<string>file-sh</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.tcsh-script</string>
 			<key>UTTypeTagSpecification</key>
@@ -5909,6 +5853,8 @@
 			<array>
 				<string>public.shell-script</string>
 			</array>
+			<key>UTTypeIconFile</key>
+			<string>file-sh</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.zsh-script</string>
 			<key>UTTypeTagSpecification</key>
@@ -5939,6 +5885,8 @@
 			<array>
 				<string>public.text</string>
 			</array>
+			<key>UTTypeIconFile</key>
+			<string>file-sgml</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.xml</string>
 			<key>UTTypeTagSpecification</key>
@@ -5998,6 +5946,8 @@
 			<array>
 				<string>public.xml</string>
 			</array>
+			<key>UTTypeIconFile</key>
+			<string>file-sgml</string>
 			<key>UTTypeIdentifier</key>
 			<string>com.apple.scripting-definition</string>
 			<key>UTTypeTagSpecification</key>
