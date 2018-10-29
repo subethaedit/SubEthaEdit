@@ -43,7 +43,7 @@
 			</state>
 
 			<state id="String" type="string" foldable="no" scope="string.double">
-				<begin><regex>"</regex></begin>
+				<begin><regex>(?:(?&lt;!\\)(?:\\\\)*)"</regex></begin>
 				<end><regex>((?&lt;!\\)(\\\\)*)"</regex></end>
 
 				<keywords id="DoubleStringEscapedCharacters" useforautocomplete="no" scope="language.constant.numeric.character">
@@ -59,7 +59,7 @@
             </state>
 
             <state id="SingleString" type="string" scope="string.single">
-                <begin><regex>'</regex></begin>
+                <begin><regex>(?:(?&lt;!\\)(?:\\\\)*)'</regex></begin>
                 <end><regex>'</regex></end>
             </state>
  
