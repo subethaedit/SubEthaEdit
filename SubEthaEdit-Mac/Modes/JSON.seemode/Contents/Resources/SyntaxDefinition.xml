@@ -1,49 +1,59 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!DOCTYPE syntax SYSTEM "syntax.dtd">
 <syntax>
-
+    
     <head>
         <name>Javascript</name> <!-- The definitions title -->
         <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@$]]></charsintokens> <!-- Valid Characters for Variables -->
         <!-- <charsdelimitingtokens></charsdelimitingtokens> -->
     </head>
-
-    <states>
     
-       <default id="Base" scope="meta.default">
-
+    <states>
+        
+        <default id="Base" scope="meta.default">
+            
             <keywords id="Numbers" useforautocomplete="no" scope="language.constant.numeric.js">
-				<regex>(?&lt;![\w\d\._])((?:(?:(?:[0-9]+\.[0-9]*)|(\.[0-9]+))(?:[eE][+\-]?[0-9]+)?[fFlL]?)|(?:(?:(?:[1-9][0-9]*)|0(?:[1-7][0-7]*)?|(?:0[xX][0-9a-fA-F]+))(?:(?:[uU][lL]?)|(?:[lL][uU]?))?))(?![\w\d\._])</regex>
+                <regex>(?&lt;![\w\d\._])((?:(?:(?:[0-9]+\.[0-9]*)|(\.[0-9]+))(?:[eE][+\-]?[0-9]+)?[fFlL]?)|(?:(?:(?:[1-9][0-9]*)|0(?:[1-7][0-7]*)?|(?:0[xX][0-9a-fA-F]+))(?:(?:[uU][lL]?)|(?:[lL][uU]?))?))(?![\w\d\._])</regex>
             </keywords>
-
+            
             <keywords id="Number Literals" useforautocomplete="YES" scope="keyword.constant.js">
                 <string>true</string>
                 <string>false</string>
                 <string>null</string>
             </keywords>
-
+            
+            <state id="ObjectKey" type="string" scope="string.symbol">
+                <begin><regex>(?&lt;!(?:\\)|(?::[ \t])|(?::)|(?::[ \t]{2})|(?::[ \t]{3}))"(?=[\w]*"[ \t]*:)</regex></begin>
+                <end><regex>(?&lt;!(?:\\))(\\\\)*"</regex></end>
+                
+                <keywords id="DoubleStringEscapedCharacters" useforautocomplete="no" scope="language.constant.numeric.character">
+                    <regex>(\\u\h{4})</regex>
+                    <regex>(\\[bnrtf"\\/])</regex>
+                </keywords>
+            </state>
+            
             <state id="String" type="string" scope="string.double.js">
                 <begin><regex>"</regex></begin>
                 <end><regex>(?&lt;!\\)(\\\\)*"</regex></end>
-
-				<keywords id="DoubleStringEscapedCharacters" useforautocomplete="no" scope="language.constant.numeric.character">
-					<regex>(\\u\h{4})</regex>
-					<regex>(\\[bnrtf"\\/])</regex>
-				</keywords>
+                
+                <keywords id="DoubleStringEscapedCharacters" useforautocomplete="no" scope="language.constant.numeric.character">
+                    <regex>(\\u\h{4})</regex>
+                    <regex>(\\[bnrtf"\\/])</regex>
+                </keywords>
             </state>
-    
+            
             <state id="Object" type="block" foldable="yes" indent="yes" scope="meta.block.curly">
                 <begin><regex>{</regex><autoend>}</autoend></begin>
                 <end><regex>}</regex></end>
                 <import />
             </state>
-
+            
             <state id="Array" type="block" foldable="yes" indent="yes" scope="meta.block.square">
                 <begin><regex>\[</regex><autoend>\]</autoend></begin>
                 <end><regex>\]</regex></end>
                 <import />
             </state>
-
+            
         </default>
     </states>
 </syntax>
