@@ -1,8 +1,10 @@
 # SubEthaEdit
 
-General purpose Plain-Text Editor for macOS. Widely known for its live Collaboration feature. 
+General purpose plain-text editor for macOS. Widely known for its live collaboration feature. 
 
-https://github.com/LoneMonkeyProductions/SubEthaEdit is the main development repo.
+[github.com/subethaedit/SubEthaEdit](https://github.com/subethaedit/SubEthaEdit) is the main development repository.
+
+[subethaedit.net](https://subethaedit.net/) is the base for the official releases in and out of the app store.
 
 ## Getting Started
 
@@ -27,6 +29,8 @@ You should be all set to open up the shared workspace at `SubEthaEdit.xcworkspac
 
 Please read [contributing](Contributing.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
+For general guidance on what is should/ and isn't shouldn't be SubEthaEdit, please refere to the [application definintion document](ApplicationDefinition.md).
+
 ## Active contributors
 
 * Dominik [@monkeydom](https://mastodon.technology/@monkeydom) Wagner - [GitHub](https://github.com/monkeydom) [Mastodon](https://mastodon.technology/@monkeydom) [Twitter](https://twitter.com/monkeydom) [Blog](https://coding.monkeydom.de/)
@@ -39,10 +43,10 @@ See the full list of [contributors](Contributors.md).
 
 This project is distributed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details
 
-* **SubEthaEdit** is trademarked by TheCodingMonkeys and LoneMonkeyProductions.
+* **SubEthaEdit** is trademarked by TheCodingMonkeys and Dominik Wagner, LoneMonkeyProductions.
 
 ## Acknowledgments
 
 * Thanks to the Xerox Parc Jupiter Project for [Transactional Transformations](https://www.semanticscholar.org/paper/High-Latency%2C-Low-Bandwidth-Windowing-in-the-System-Nichols-Curtis/369c52d8214b73a86b1e3f31d287823ea91884d6).
 * Thanks to the [MiniUPnP](http://miniupnp.free.fr) project.
-* For a full list of licenses and Acknowlegdements see [acknowledgements](Acknowledgements.md)
+* For a full list of licenses and acknowlegdements see [acknowledgements](Acknowledgements.md)

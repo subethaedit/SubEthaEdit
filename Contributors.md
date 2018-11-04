@@ -6,7 +6,7 @@
 
 * Dominik [@monkeydom](https://mastodon.technology/@monkeydom) Wagner - [GitHub](https://github.com/monkeydom) [Mastodon](https://mastodon.technology/@monkeydom) [Twitter](https://twitter.com/monkeydom) [Blog](https://coding.monkeydom.de/)
 
-## SubEthaEdit Contributors
+## Contributors
 
 ### Engineering
 * Martin Pittenauer
@@ -20,6 +20,7 @@
 ## Former Contributers
 
 ### Engineering
+
 Martin Ott
 
 ### Artwork

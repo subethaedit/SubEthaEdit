@@ -3,11 +3,13 @@
 
 #### General Feedback
 
-Create a new issue on our [Issues page](https://github.com/LoneMonkeyProductions/SubEthaEdit/issues). Issues and discussions are expected to be written in english.
+Create a new issue on our [Issues page](https://github.com/subethaedit/SubEthaEdit/issues). Issues and discussions are expected to be written in english.
 
 Bug reports __should__ include your environment. You can generate a bug report template automatically in SubEthaEdit by selecting "Help" > "Create Bug Report…" in the menu.
 
 ## Contributing Code
+
+If you are in doubt if a feature you want to implement fits in the philosophy of the app, take the [Application Definition Document](ApplicationDefinition.md) as guidance.
 
 ### Repository Structure
 
