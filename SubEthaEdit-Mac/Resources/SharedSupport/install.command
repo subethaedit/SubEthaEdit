@@ -35,8 +35,12 @@ HERE
 exit unless ['y','Y',"\r"].include?(STDIN.getch)
 
 # link see tool
+# ensure target directory
+FileUtils.mkdir_p(File.dirname(linkedSeeTargetPath))
 FileUtils.ln_s(absoluteSeeToolPath, linkedSeeTargetPath, force: true)
 # link man page
+# ensure target directory
+FileUtils.mkdir_p(File.dirname(manPageTargetPath))
 FileUtils.ln_s(absoluteManPagePath, manPageTargetPath, force: true)
 
 # copy user scripts (needed because of sandboxing)
