@@ -2702,7 +2702,7 @@
 			<string>Owner</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>org.ruby-lang.eruby</string>
+				<string>public.erb-source</string>
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
@@ -4341,6 +4341,28 @@
 		<dict>
 			<key>UTTypeConformsTo</key>
 			<array>
+				<string>public.html</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>HTML with embedded Ruby</string>
+			<key>UTTypeIconFile</key>
+			<string>file-sgml</string>
+			<key>UTTypeIdentifier</key>
+			<string>public.erb-source</string>
+			<key>UTTypeReferenceURL</key>
+			<string>https://www.ruby-lang.org/en/</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>rhtml</string>
+					<string>erb</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
@@ -4948,28 +4970,6 @@
 				<array>
 					<string>text/csv</string>
 					<string>text/comma-separated-values</string>
-				</array>
-			</dict>
-		</dict>
-		<dict>
-			<key>UTTypeConformsTo</key>
-			<array>
-				<string>public.html</string>
-			</array>
-			<key>UTTypeDescription</key>
-			<string>HTML with embedded Ruby</string>
-			<key>UTTypeIconFile</key>
-			<string>file-rb</string>
-			<key>UTTypeIdentifier</key>
-			<string>org.ruby-lang.eruby</string>
-			<key>UTTypeReferenceURL</key>
-			<string>https://www.ruby-lang.org/en/</string>
-			<key>UTTypeTagSpecification</key>
-			<dict>
-				<key>public.filename-extension</key>
-				<array>
-					<string>rhtml</string>
-					<string>erb</string>
 				</array>
 			</dict>
 		</dict>

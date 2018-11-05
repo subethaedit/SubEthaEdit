@@ -1088,7 +1088,7 @@
 	CFBundleTypeName = "erb Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
-	LSItemContentTypes = ["org.ruby-lang.eruby"]
+	LSItemContentTypes = ["public.erb-source"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
 	NSIsRelatedItemType = true
@@ -1756,13 +1756,13 @@
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["csv"]
 		"public.mime-type" = ["text/csv", "text/comma-separated-values"]
-[[UTImportedTypeDeclarations]]
+[[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.html"]
 	UTTypeDescription = "HTML with embedded Ruby"
-	UTTypeIdentifier = "org.ruby-lang.eruby"
+	UTTypeIdentifier = "public.erb-source"
 	UTTypeReferenceURL = "https://www.ruby-lang.org/en/"
-	UTTypeIconFile = "file-rb"
-	[UTImportedTypeDeclarations.UTTypeTagSpecification]
+	UTTypeIconFile = "file-sgml"
+	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["rhtml", "erb"]
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["com.apple.property-list"]
