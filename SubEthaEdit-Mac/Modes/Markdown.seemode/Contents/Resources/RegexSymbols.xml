@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE syntax SYSTEM "symbol.dtd">
+
+<symbols>
+    <symbol id="H1" font-weight="normal" font-style="normal" indentation="0" ignoreblocks="yes" symbol="#_#4094E4_9">
+        <regex>^#[^#]([^\n\r]+)</regex>
+    </symbol>
+
+    <symbol id="H1_2" font-weight="normal" font-style="normal" indentation="0" ignoreblocks="yes" symbol="#_#4094E4_9">
+        <regex>^([^\n\r]+[\n\r](={4,}))</regex>
+		<postprocess>
+			<find>={4,}</find>
+			<replace></replace>
+		</postprocess>
+    </symbol>
+
+    <symbol id="H2" font-weight="normal" font-style="normal" indentation="1" ignoreblocks="yes" symbol="##_#4094E4_9">
+        <regex>^##(?:[^#])([^\n\r]+)</regex>
+    </symbol>
+
+    <symbol id="H2_2" font-weight="normal" font-style="normal" indentation="1" ignoreblocks="yes" symbol="#_#4094E4_9">
+        <regex>^([^\n\r]+[\n\r](-{4,}))</regex>
+		<postprocess>
+			<find>-{4,}</find>
+			<replace></replace>
+		</postprocess>
+    </symbol>
+
+
+    <symbol id="H3" font-weight="normal" font-style="normal" indentation="2" ignoreblocks="yes" symbol="#3_#4094E4_9">
+        <regex>^###(?:[^#])([^\n\r]+)</regex>
+    </symbol>
+
+    <symbol id="H4" font-weight="normal" font-style="normal" indentation="3" ignoreblocks="yes" symbol="#4_#4094E4_9">
+        <regex>^####(?:[^#])([^\n\r]+)</regex>
+    </symbol>
+
+    <symbol id="H5" font-weight="normal" font-style="normal" indentation="3" ignoreblocks="yes" symbol="#5_#4094E4_9">
+        <regex>^#####(?:[^#])([^\n\r]+)</regex>
+    </symbol>
+
+    <symbol id="H6" font-weight="normal" font-style="normal" indentation="3" ignoreblocks="yes" symbol="#6_#4094E4_9">
+        <regex>^######(?:[^#])([^\n\r]+)</regex>
+    </symbol>
+
+    <symbol id="H7" font-weight="normal" font-style="normal" indentation="3" ignoreblocks="yes" symbol="#7_#4094E4_9">
+        <regex>^#######(?:[^#])([^\n\r]+)</regex>
+    </symbol>
+
+    <symbol id="Rulers" indentation="2" ignoreblocks="yes">
+        <regex>^(-{3}|_{3}|\*{3})</regex>
+		<postprocess>
+			<find>.*</find>
+			<replace></replace>
+		</postprocess>
+    </symbol>
+	
+
+	<symbol id="Versioning Conflict" font-weight="bold" image="SymbolWarn" indentation="0" ignoreblocks="no">
+		<regex>^&lt;&lt;&lt;&lt;&lt;&lt;&lt;([\n\r]|.)*?======([\n\r]|.)*?&gt;&gt;&gt;&gt;&gt;&gt;&gt;</regex>
+		<postprocess>
+			<find>.*</find>
+			<replace>Versioning conflict!</replace>
+		</postprocess>
+	</symbol>
+</symbols>
