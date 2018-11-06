@@ -37,16 +37,14 @@ static struct option longopts[] = {
 };
 
 
-static NSString *tempFileName() {
-    static int sequenceNumber = 0;
-    NSString *origPath = [@"/tmp" stringByAppendingPathComponent:@"see"];
-    NSString *name;
-    do {
-        sequenceNumber++;
-        name = [NSString stringWithFormat:@"see-%d-%d-%d", [[NSProcessInfo processInfo] processIdentifier], (int)[NSDate timeIntervalSinceReferenceDate], sequenceNumber];
-        name = [[origPath stringByDeletingLastPathComponent] stringByAppendingPathComponent:name];
-    } while ([[NSFileManager defaultManager] fileExistsAtPath:name]);
-    return name;
+static NSURL *tempFileURL() {
+    NSError *error;
+    NSURL *tmpURL = [[NSFileManager defaultManager] URLForDirectory:NSItemReplacementDirectory inDomain:NSUserDomainMask appropriateForURL:[NSURL fileURLWithPath:@"/"] create:YES error:&error];
+    if (!tmpURL) {
+        fprintf(stderr, "Error creating temporary file: %s\n", [[error localizedDescription] UTF8String]);
+    }
+    NSString *filename = [NSString stringWithFormat:@"see-%@.tmp", [[NSUUID UUID] UUIDString]];
+    return [tmpURL URLByAppendingPathComponent:filename];
 }
 
 
@@ -58,7 +56,7 @@ static void printHelp() {
 void parseShortVersionString(int *major, int *minor)
 {
 	NSBundle *bundle = [NSBundle mainBundle];
-    NSString *shortVersion = [bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+    NSString *shortVersion = @"2.1.2"; //[bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
     NSScanner *scanner = [NSScanner scannerWithString:shortVersion];
     (void)[scanner scanInt:major];
     (void)[scanner scanString:@"." intoString:nil];
@@ -211,8 +209,8 @@ static void printVersion() {
         appShortVersionString = localizedVersionString;
     }
 
-    NSString *shortVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-    NSString *bundleVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+    NSString *shortVersion = @"2.1.2"; // [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+    NSString *bundleVersion = @"6930"; // [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
     fprintf(stdout, "see %s (%s)\n", [shortVersion UTF8String], [bundleVersion UTF8String]);
     if (appURL != NULL) {
         fprintf(stdout, "%s %s (%s)\n", [[(NSURL *)appURL path] fileSystemRepresentation], [appShortVersionString UTF8String], [appVersion UTF8String]);
@@ -546,7 +544,8 @@ static void openFiles(NSArray *fileNames, NSDictionary *options) {
     NSMutableArray *newFileNames = [NSMutableArray array];
     
     if ([fileNames count] == 0 || !isStandardInputATTY) {
-        NSString *fileName = [tempFileName() stringByAppendingPathExtension:@"seetmpstdin"];
+        NSURL *url = tempFileURL();
+        NSString *fileName = [url path];
         [fileManager createFileAtPath:fileName contents:[NSData data] attributes:nil];
         NSFileHandle *fdout = [NSFileHandle fileHandleForWritingAtPath:fileName];
         NSFileHandle *fdin = [NSFileHandle fileHandleWithStandardInput];

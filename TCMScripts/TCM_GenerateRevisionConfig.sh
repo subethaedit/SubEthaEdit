@@ -26,7 +26,9 @@ GIT_REV=`git rev-list HEAD | wc -l;`
 REV=`echo $(( ${GIT_REV}+4000 ))` # adding 4000 to identify a GIT revision
 
 if [ `git ls-files -m | wc -l` -gt 0 ]; then
+if [ -n "$TCM_APP_STYLE" ]; then
 	MODIFIED="+"
+fi
 fi
 
 cd -

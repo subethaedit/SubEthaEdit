@@ -63,6 +63,7 @@
 		4C19ECCA192F7FEA00D39777 /* TCMAppConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = TCMAppConfig.xcconfig; path = ../BuildConfig/TCMAppConfig.xcconfig; sourceTree = "<group>"; };
 		4C19ECCB192F80EE00D39777 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		4C2DE1FE1933530900FB7C74 /* ReadMe.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ReadMe.txt; sourceTree = "<group>"; };
+		F21379232191E5D800C74681 /* see.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = see.entitlements; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +120,7 @@
 		4C19ECBC192F7ED000D39777 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				F21379232191E5D800C74681 /* see.entitlements */,
 				4C19ECBD192F7ED000D39777 /* see-Prefix.pch */,
 				4C19ECC7192F7FBA00D39777 /* See_Info.plist */,
 			);
@@ -316,6 +318,7 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_ENTITLEMENTS = see.entitlements;
 				CODE_SIGN_STYLE = Manual;
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -334,6 +337,7 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_ENTITLEMENTS = see.entitlements;
 				CODE_SIGN_STYLE = Manual;
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
