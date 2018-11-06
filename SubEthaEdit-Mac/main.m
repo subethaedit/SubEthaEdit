@@ -5,15 +5,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-#ifndef BETA
-#ifndef FULL
-#define MAC_APP_STORE_RECEIPT_VALIDATION
-#import "SEEMacAppStoreReceiptValidation.h"
-#endif
-#endif
-
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
 #ifdef BETA
 #ifdef BETA_EXPIRE_DATE
 	@autoreleasepool {
@@ -45,9 +37,5 @@ int main(int argc, char *argv[])
 #endif
 #endif
 
-#ifdef MAC_APP_STORE_RECEIPT_VALIDATION
-	return CheckReceiptAndRun(argc, (const char **) argv);
-#else
 	return NSApplicationMain(argc, (const char **) argv);
-#endif
 }

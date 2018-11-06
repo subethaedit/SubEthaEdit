@@ -56,7 +56,7 @@
 #import "Debug/DebugController.h"
 #endif
 
-#ifdef FULL
+#ifdef INCLUDE_SPARKLE
 #import <Sparkle/Sparkle.h>
 #endif
 
@@ -804,7 +804,9 @@ static AppController *sharedInstance = nil;
         }
     }
     
-#ifdef FULL
+#ifdef INCLUDE_SPARKLE
+    
+    
     static SPUStandardUpdaterController *updaterController = nil; updaterController = updaterController ?: [[SPUStandardUpdaterController alloc] initWithUpdaterDelegate:self userDriverDelegate:nil];
     NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"SEE_APP_MENU_CHECK_FOR_UPDATES", nil) action:@selector(checkForUpdates:) keyEquivalent:@""];
     menuItem.target = updaterController;
@@ -813,7 +815,7 @@ static AppController *sharedInstance = nil;
     
 }
 
-#ifdef FULL
+#ifdef INCLUDE_SPARKLE
 - (NSString *)feedURLStringForUpdater:(SPUUpdater *)updater {
     return @"https://" SEE_APPCAST_FEED_URL;
 }

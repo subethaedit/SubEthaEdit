@@ -59,11 +59,11 @@
     licenseType = @"Beta";
 #endif // BETA_EXPIRE_DATE
 #else // ! BETA
-#ifdef MAC_APP_STORE_RECEIPT_VALIDATION
+#ifdef MAC_APP_STORE
     licenseType = @"AppStore Version";
-#else //! MAC_APP_STORE_RECEIPT_VALIDATION
-    licenseType = @"Outside AppStore Version";
-#endif // MAC_APP_STORE_RECEIPT_VALIDATION
+#else //! MAC_APP_STORE
+    licenseType = @"Website Version";
+#endif // MAC_APP_STORE
 #endif // BETA
 
     if (licenseType) {
