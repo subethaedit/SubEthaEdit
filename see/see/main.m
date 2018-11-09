@@ -43,7 +43,7 @@ static NSURL *tempFileURL() {
     if (!tmpURL) {
         fprintf(stderr, "Error creating temporary file: %s\n", [[error localizedDescription] UTF8String]);
     }
-    NSString *filename = [NSString stringWithFormat:@"see-%@.tmp", [[NSUUID UUID] UUIDString]];
+    NSString *filename = [NSString stringWithFormat:@"see-%@.seetmpstdin", [[NSUUID UUID] UUIDString]];
     return [tmpURL URLByAppendingPathComponent:filename];
 }
 

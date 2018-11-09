@@ -563,6 +563,27 @@
 			remoteGlobalIDString = 8D15AC270486D014006FF6A4;
 			remoteInfo = SubEthaEdit;
 		};
+		F21379332195ECD500C74681 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F286A76A215D0DC00056C247 /* see.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F213792D2195E5DC00C74681;
+			remoteInfo = see_installer;
+		};
+		F21379352195EF6500C74681 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F286A76A215D0DC00056C247 /* see.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 4C19ECB3192F7ED000D39777;
+			remoteInfo = see;
+		};
+		F21379372195EF7900C74681 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F2D22CAE0EE9C5DE004B8E33 /* SeeTextImporter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D57630D048677EA00EA77CD;
+			remoteInfo = SeeTextImporter;
+		};
 		F286A76E215D0DC00056C247 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F286A76A215D0DC00056C247 /* see.xcodeproj */;
@@ -1084,6 +1105,7 @@
 		F20D8F0B18FC28CB0091EB13 /* Artwork.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Artwork.xcassets; path = artwork/Artwork.xcassets; sourceTree = "<group>"; };
 		F20E1FAB0CACFC75005DEAF5 /* ThousandSeparatorValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ThousandSeparatorValueTransformer.h; sourceTree = "<group>"; };
 		F20E1FAC0CACFC75005DEAF5 /* ThousandSeparatorValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThousandSeparatorValueTransformer.m; sourceTree = "<group>"; };
+		F21379312195ECD500C74681 /* see-tool.pkg */ = {isa = PBXFileReference; lastKnownFileType = file; name = "see-tool.pkg"; path = "Resources/SharedSupport/see-tool.pkg"; sourceTree = "<group>"; };
 		F214C1D918BE180300908826 /* NSObject+TCMArcLifecycleAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+TCMArcLifecycleAdditions.h"; sourceTree = "<group>"; };
 		F214C1DA18BE180300908826 /* NSObject+TCMArcLifecycleAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+TCMArcLifecycleAdditions.m"; sourceTree = "<group>"; };
 		F2164BE618F6CD19002414FB /* SEESplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEESplitView.h; sourceTree = "<group>"; };
@@ -2318,6 +2340,7 @@
 		F27EDD0D216BC2ED00987579 /* SharedSupport */ = {
 			isa = PBXGroup;
 			children = (
+				F21379312195ECD500C74681 /* see-tool.pkg */,
 				F27EDD1A216BD8F500987579 /* install.command */,
 				F27EDD10216BC3AD00987579 /* SubEthaEdit_AuthenticatedSave.scpt */,
 				F286A77F215D194C0056C247 /* see.1 */,
@@ -2348,6 +2371,7 @@
 			isa = PBXGroup;
 			children = (
 				F286A76F215D0DC00056C247 /* see */,
+				F21379342195ECD500C74681 /* see */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2609,12 +2633,14 @@
 				F28A04242174D84B0056B45D /* Copy Sparkle XPCServices */,
 				F286A77B215D190D0056C247 /* Copy Man Pages */,
 				F298A0040CCB9EFC00C4DB8B /* Copy Importers */,
-				F213791B2191BBEE00C74681 /* Mac App Store Cleanup */,
+				F213791B2191BBEE00C74681 /* Mac App Store Modifications */,
 				142898130958165400D14688 /* Run Script (Deployment) */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				F21379382195EF7900C74681 /* PBXTargetDependency */,
+				F21379362195EF6500C74681 /* PBXTargetDependency */,
 			);
 			name = SubEthaEdit;
 			productInstallPath = "$(HOME)/Applications";
@@ -2701,6 +2727,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		F21379342195ECD500C74681 /* see */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = see;
+			remoteRef = F21379332195ECD500C74681 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		F286A76F215D0DC00056C247 /* see */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.executable";
@@ -3036,7 +3069,7 @@
 			shellPath = /bin/sh;
 			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
 		};
-		F213791B2191BBEE00C74681 /* Mac App Store Cleanup */ = {
+		F213791B2191BBEE00C74681 /* Mac App Store Modifications */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -3045,7 +3078,7 @@
 			);
 			inputPaths = (
 			);
-			name = "Mac App Store Cleanup";
+			name = "Mac App Store Modifications";
 			outputFileListPaths = (
 			);
 			outputPaths = (
@@ -3331,6 +3364,16 @@
 			isa = PBXTargetDependency;
 			target = 8D15AC270486D014006FF6A4 /* SubEthaEdit */;
 			targetProxy = 5EC638300ABEB78000D3295B /* PBXContainerItemProxy */;
+		};
+		F21379362195EF6500C74681 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = see;
+			targetProxy = F21379352195EF6500C74681 /* PBXContainerItemProxy */;
+		};
+		F21379382195EF7900C74681 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SeeTextImporter;
+			targetProxy = F21379372195EF7900C74681 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

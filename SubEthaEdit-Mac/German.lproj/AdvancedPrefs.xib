@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.18"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -74,19 +74,18 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" setsMaxLayoutWidthAtFirstLayout="YES" id="LKT-Fs-oEF">
-                                    <rect key="frame" x="15" y="71" width="332" height="42"/>
+                                    <rect key="frame" x="15" y="79" width="332" height="34"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" allowsEditingTextAttributes="YES" id="XjX-MN-RaW">
+                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Das 'see' Tool kann mit folgender Zeile im Terminal installiert werden:" allowsEditingTextAttributes="YES" id="XjX-MN-RaW">
                                         <font key="font" metaFont="smallSystem"/>
-                                        <string key="title">Das 'see' Tool kann mit folgender Zeile im Terminal installiert werden. 'sudo' davor ist nötig, falls eine alte Installation vorliegt.</string>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" setsMaxLayoutWidthAtFirstLayout="YES" id="jpp-cd-jxC">
-                                    <rect key="frame" x="15" y="0.0" width="332" height="63"/>
+                                    <rect key="frame" x="15" y="6" width="332" height="76"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" selectable="YES" allowsUndo="NO" sendsActionOnEndEditing="YES" title="SubEthaEdit.app/Contents/SharedSupport/bin/install.sh" id="nZL-XO-TcU">
+                                    <textFieldCell key="cell" lineBreakMode="charWrapping" selectable="YES" allowsUndo="NO" sendsActionOnEndEditing="YES" title="SubEthaEdit.app/Contents/SharedSupport/bin/install.sh" id="nZL-XO-TcU">
                                         <font key="font" size="10" name="Menlo-Regular"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>

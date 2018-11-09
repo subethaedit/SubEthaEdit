@@ -26,3 +26,9 @@ rm -rf "${BUNDLE_CONTENTS_PATH}/Frameworks/Sparkle.framework"
 
 # Remove name of Sparkle in binary
 install_name_tool -change @rpath/Sparkle.framework/Versions/A/Sparkle @rpath/ "${CONFIGURATION_BUILD_DIR}/${EXECUTABLE_PATH}"
+
+# Add see-tool installer pkg
+cp "${SOURCE_ROOT}/Resources/SharedSupport/see-tool.pkg" "${BUNDLE_CONTENTS_PATH}/SharedSupport/"
+
+# Remove see binary
+rm "${BUNDLE_CONTENTS_PATH}/SharedSupport/bin/see"

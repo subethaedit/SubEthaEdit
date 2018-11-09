@@ -36,7 +36,7 @@
     [self.O_synthesiseFontsButton setState:[defaults boolForKey:SynthesiseFontsPreferenceKey]?NSOnState:NSOffState];
     
     NSString *absolutePath = [[AppController sharedInstance].URLOfInstallCommand path];
-    [self.commandLineInstallTextField setStringValue:[absolutePath stringByReplacingOccurrencesOfString:@" " withString:@"\\ "]];
+    [self.commandLineInstallTextField setStringValue:[@"sudo " stringByAppendingString:[absolutePath stringByReplacingOccurrencesOfString:@" " withString:@"\\ "]]];
 }
 
 - (void)didSelect {

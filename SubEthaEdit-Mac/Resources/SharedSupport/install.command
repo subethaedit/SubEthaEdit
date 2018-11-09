@@ -20,11 +20,20 @@ manPage = "#{seeToolName}.1"
 absoluteManPagePath = File.expand_path(manPage, __dir__)
 manPageTargetPath = File.join("/usr/local/share/man/man1/", manPage)
 
+
+installerPath = File.expand_path("../see-tool.pkg", __dir__)
+installer_exists = File.exist?(installerPath)
+
 bold="\033[1m"
 stopBold="\033[0m"
 
+if installer_exists then
+	print %['#{seeToolName}' tool will be installed using the installer package\n]
+else 
+	print %['#{seeToolName}' tool will be linked at #{bold}"#{linkedSeeTargetPath}"#{stopBold} to #{appBundlePath}\n]
+end
+
 print <<HERE
-'#{seeToolName}' tool will be linked at #{bold}"#{linkedSeeTargetPath}"#{stopBold} to #{appBundlePath}
 '#{seeToolName}' man page be linked at #{bold}"#{manPageTargetPath}"#{stopBold} to #{appBundlePath}
 "Authentication" and "Terminal Here" Apple Scripts will be copied to 
 #{bold}"#{userAppScriptsPath}"#{stopBold}
@@ -32,12 +41,18 @@ print <<HERE
 #{bold}Continue?#{stopBold} (y/n) 
 HERE
 
-exit unless ['y','Y',"\r"].include?(STDIN.getch)
+unless ['y','Y',"\r"].include?(STDIN.getch) then
+	print "#{bold}No#{stopBold} - Aborted.\n"
+	exit
+end
 
-# link see tool
-# ensure target directory
-FileUtils.mkdir_p(File.dirname(linkedSeeTargetPath))
-FileUtils.ln_s(absoluteSeeToolPath, linkedSeeTargetPath, force: true)
+unless installer_exists then
+	# link see tool
+	# ensure target directory
+	FileUtils.mkdir_p(File.dirname(linkedSeeTargetPath))
+	FileUtils.ln_s(absoluteSeeToolPath, linkedSeeTargetPath, force: true)
+end
+
 # link man page
 # ensure target directory
 FileUtils.mkdir_p(File.dirname(manPageTargetPath))
@@ -48,5 +63,6 @@ FileUtils.mkdir_p(userAppScriptsPath)
 FileUtils.cp([File.join(__dir__, "SubEthaEdit_AuthenticatedSave.scpt"),
 			  File.join(appBundleContentsPath, "Resources/Scripts/40-Open Terminal Here.scpt")], userAppScriptsPath)
 
+%x[open "#{installerPath}"] if installer_exists
 
 print "Done.\n"
