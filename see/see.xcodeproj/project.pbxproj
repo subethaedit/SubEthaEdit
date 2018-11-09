@@ -25,6 +25,10 @@
 		4C19ECB8192F7ED000D39777 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C19ECB7192F7ED000D39777 /* Foundation.framework */; };
 		4C19ECC6192F7F2A00D39777 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C19ECC5192F7F2A00D39777 /* main.m */; };
 		4C19ECCC192F80EE00D39777 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C19ECCB192F80EE00D39777 /* AppKit.framework */; };
+		F21379262195E5DC00C74681 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C19ECC5192F7F2A00D39777 /* main.m */; };
+		F21379282195E5DC00C74681 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C19ECB7192F7ED000D39777 /* Foundation.framework */; };
+		F21379292195E5DC00C74681 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C19ECCB192F80EE00D39777 /* AppKit.framework */; };
+		F21379302195E60E00C74681 /* see.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4C19ECBE192F7ED000D39777 /* see.1 */; };
 		F286A776215D18070056C247 /* see.1 in Copy Manpage */ = {isa = PBXBuildFile; fileRef = 4C19ECBE192F7ED000D39777 /* see.1 */; };
 /* End PBXBuildFile section */
 
@@ -39,6 +43,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		F213792F2195E60500C74681 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 8;
+			dstPath = /usr/share/man/man1;
+			dstSubfolderSpec = 0;
+			files = (
+				F21379302195E60E00C74681 /* see.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		F286A775215D17F40056C247 /* Copy Manpage */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -64,6 +78,7 @@
 		4C19ECCB192F80EE00D39777 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		4C2DE1FE1933530900FB7C74 /* ReadMe.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ReadMe.txt; sourceTree = "<group>"; };
 		F21379232191E5D800C74681 /* see.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = see.entitlements; sourceTree = SOURCE_ROOT; };
+		F213792D2195E5DC00C74681 /* see */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = see; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +88,15 @@
 			files = (
 				4C19ECB8192F7ED000D39777 /* Foundation.framework in Frameworks */,
 				4C19ECCC192F80EE00D39777 /* AppKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F21379272195E5DC00C74681 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F21379282195E5DC00C74681 /* Foundation.framework in Frameworks */,
+				F21379292195E5DC00C74681 /* AppKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,6 +118,7 @@
 			isa = PBXGroup;
 			children = (
 				4C19ECB4192F7ED000D39777 /* see */,
+				F213792D2195E5DC00C74681 /* see */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -155,6 +180,23 @@
 			productReference = 4C19ECB4192F7ED000D39777 /* see */;
 			productType = "com.apple.product-type.tool";
 		};
+		F21379242195E5DC00C74681 /* see_installer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F213792A2195E5DC00C74681 /* Build configuration list for PBXNativeTarget "see_installer" */;
+			buildPhases = (
+				F21379252195E5DC00C74681 /* Sources */,
+				F21379272195E5DC00C74681 /* Frameworks */,
+				F213792F2195E60500C74681 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = see_installer;
+			productName = see;
+			productReference = F213792D2195E5DC00C74681 /* see */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -165,6 +207,10 @@
 				ORGANIZATIONNAME = TheCodingMonkeys;
 				TargetAttributes = {
 					4C19ECB3192F7ED000D39777 = {
+						DevelopmentTeam = S76GCAG929;
+						ProvisioningStyle = Manual;
+					};
+					F21379242195E5DC00C74681 = {
 						DevelopmentTeam = S76GCAG929;
 						ProvisioningStyle = Manual;
 					};
@@ -189,6 +235,7 @@
 			targets = (
 				4C19ECB3192F7ED000D39777 /* see */,
 				F286A771215D17D70056C247 /* see+manpage */,
+				F21379242195E5DC00C74681 /* see_installer */,
 			);
 		};
 /* End PBXProject section */
@@ -199,6 +246,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				4C19ECC6192F7F2A00D39777 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F21379252195E5DC00C74681 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F21379262195E5DC00C74681 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -318,14 +373,13 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_ENTITLEMENTS = see.entitlements;
 				CODE_SIGN_STYLE = Manual;
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "see/see-Prefix.pch";
 				INFOPLIST_FILE = see/See_Info.plist;
 				INSTALL_PATH = /usr/local/bin;
-				PRODUCT_BUNDLE_IDENTIFIER = "${SEE_APP_IDENTIFIER_BASE}.see${TCM_APP_STYLE}";
+				PRODUCT_BUNDLE_IDENTIFIER = "net.subethaedit.see-tool";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WARNING_CFLAGS = "-Wunreachable-code";
 			};
@@ -337,15 +391,52 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_ENTITLEMENTS = see.entitlements;
 				CODE_SIGN_STYLE = Manual;
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "see/see-Prefix.pch";
 				INFOPLIST_FILE = see/See_Info.plist;
 				INSTALL_PATH = /usr/local/bin;
-				PRODUCT_BUNDLE_IDENTIFIER = "${SEE_APP_IDENTIFIER_BASE}.see${TCM_APP_STYLE}";
+				PRODUCT_BUNDLE_IDENTIFIER = "net.subethaedit.see-tool";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				WARNING_CFLAGS = "-Wunreachable-code";
+			};
+			name = Release;
+		};
+		F213792B2195E5DC00C74681 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4C19ECCA192F7FEA00D39777 /* TCMAppConfig.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_STYLE = Manual;
+				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "see/see-Prefix.pch";
+				INFOPLIST_FILE = see/See_Info.plist;
+				INSTALL_PATH = /usr/local/bin;
+				PRODUCT_BUNDLE_IDENTIFIER = "net.subethaedit.see-tool";
+				PRODUCT_NAME = see;
+				SKIP_INSTALL = NO;
+				WARNING_CFLAGS = "-Wunreachable-code";
+			};
+			name = Debug;
+		};
+		F213792C2195E5DC00C74681 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4C19ECCA192F7FEA00D39777 /* TCMAppConfig.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_STYLE = Manual;
+				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "see/see-Prefix.pch";
+				INFOPLIST_FILE = see/See_Info.plist;
+				INSTALL_PATH = /usr/local/bin;
+				PRODUCT_BUNDLE_IDENTIFIER = "net.subethaedit.see-tool";
+				PRODUCT_NAME = see;
+				SKIP_INSTALL = NO;
 				WARNING_CFLAGS = "-Wunreachable-code";
 			};
 			name = Release;
@@ -387,6 +478,15 @@
 			buildConfigurations = (
 				4C19ECC3192F7ED000D39777 /* Debug */,
 				4C19ECC4192F7ED000D39777 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F213792A2195E5DC00C74681 /* Build configuration list for PBXNativeTarget "see_installer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F213792B2195E5DC00C74681 /* Debug */,
+				F213792C2195E5DC00C74681 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

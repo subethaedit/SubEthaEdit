@@ -19,6 +19,6 @@
 	<key>LSMinimumSystemVersion</key>
 	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>${TCM_APP_COPYRIGHT}</string>
+	<string>© 2018 SubEthaEdit Contributors</string>
 </dict>
 </plist>
