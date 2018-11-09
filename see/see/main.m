@@ -53,10 +53,14 @@ static void printHelp() {
     fflush(stdout);
 }
 
-void parseShortVersionString(int *major, int *minor)
-{
-	NSBundle *bundle = [NSBundle mainBundle];
-    NSString *shortVersion = @"2.1.2"; //[bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+#define STRINGIZE(x) #x
+#define STRINGIZE2(x) STRINGIZE(x)
+
+#define SEE_REPO_REVISION_NSSTRING @STRINGIZE2(SEE_REPO_REVISION)
+#define SEE_CLT_VERSION_NSSTRING @STRINGIZE2(SEE_CLT_VERSION)
+
+void parseShortVersionString(int *major, int *minor) {
+    NSString *shortVersion = SEE_CLT_VERSION_NSSTRING; //[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]; // with sandboxing the plist is inaccessible
     NSScanner *scanner = [NSScanner scannerWithString:shortVersion];
     (void)[scanner scanInt:major];
     (void)[scanner scanString:@"." intoString:nil];
@@ -88,9 +92,6 @@ BOOL meetsRequiredVersion(NSString *string) {
     
     return NO;
 }
-
-#define STRINGIZE(x) #x
-#define STRINGIZE2(x) STRINGIZE(x)
 
 #define SEE_APP_IDENTIFIER_BASE_STRING @ STRINGIZE2(SEE_APP_IDENTIFIER_BASE)
 #define THESE_APP_IDENTIFIERS(base) \
@@ -209,8 +210,8 @@ static void printVersion() {
         appShortVersionString = localizedVersionString;
     }
 
-    NSString *shortVersion = @"2.1.2"; // [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-    NSString *bundleVersion = @"6930"; // [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+    NSString *shortVersion = SEE_CLT_VERSION_NSSTRING; // [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]; // But with sandboxing the plist cannot be loaded
+    NSString *bundleVersion = SEE_REPO_REVISION_NSSTRING; // [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]; // But with sandboxing the plist cannot be loaded
     fprintf(stdout, "see %s (%s)\n", [shortVersion UTF8String], [bundleVersion UTF8String]);
     if (appURL != NULL) {
         fprintf(stdout, "%s %s (%s)\n", [[(NSURL *)appURL path] fileSystemRepresentation], [appShortVersionString UTF8String], [appVersion UTF8String]);
