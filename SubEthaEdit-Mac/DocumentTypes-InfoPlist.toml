@@ -152,7 +152,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["cp", "cpp", "c++", "cc", "cxx"]
-	CFBundleTypeIconFile = "file-generic-source"
+	CFBundleTypeIconFile = "file-c++"
 	CFBundleTypeName = "c++ Source Code"
 	CFBundleTypeRole = "Editor"
 	LSItemContentTypes = ["public.c-plus-plus-source"]
@@ -1826,11 +1826,12 @@
 	UTTypeIdentifier = "com.apple.applescript.text"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = "applescript"
-[[UTImportedTypeDeclarations]]
+[[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = "public.source-code"
 	UTTypeDescription = "C++ Source Code"
 	UTTypeIdentifier = "public.c-plus-plus-source"
-	[UTImportedTypeDeclarations.UTTypeTagSpecification]
+	UTTypeIconFile = "file-c++"
+	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["cp", "cpp", "c++", "cc", "cxx"]
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.plain-text", "public.log"]

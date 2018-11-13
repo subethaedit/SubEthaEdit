@@ -394,7 +394,7 @@
 				<string>cxx</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic-source</string>
+			<string>file-c++</string>
 			<key>CFBundleTypeName</key>
 			<string>c++ Source Code</string>
 			<key>CFBundleTypeRole</key>
@@ -4363,6 +4363,27 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
+			<string>public.source-code</string>
+			<key>UTTypeDescription</key>
+			<string>C++ Source Code</string>
+			<key>UTTypeIconFile</key>
+			<string>file-c++</string>
+			<key>UTTypeIdentifier</key>
+			<string>public.c-plus-plus-source</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>cp</string>
+					<string>cpp</string>
+					<string>c++</string>
+					<string>cc</string>
+					<string>cxx</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
 			<array>
 				<string>public.source-code</string>
 			</array>
@@ -5158,25 +5179,6 @@
 			<dict>
 				<key>public.filename-extension</key>
 				<string>applescript</string>
-			</dict>
-		</dict>
-		<dict>
-			<key>UTTypeConformsTo</key>
-			<string>public.source-code</string>
-			<key>UTTypeDescription</key>
-			<string>C++ Source Code</string>
-			<key>UTTypeIdentifier</key>
-			<string>public.c-plus-plus-source</string>
-			<key>UTTypeTagSpecification</key>
-			<dict>
-				<key>public.filename-extension</key>
-				<array>
-					<string>cp</string>
-					<string>cpp</string>
-					<string>c++</string>
-					<string>cc</string>
-					<string>cxx</string>
-				</array>
 			</dict>
 		</dict>
 		<dict>
