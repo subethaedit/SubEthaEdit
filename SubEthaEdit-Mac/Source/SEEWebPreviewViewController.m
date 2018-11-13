@@ -203,7 +203,9 @@ static NSScrollView *firstScrollView(NSView *aView) {
 #pragma mark
 -(IBAction)refreshAndEmptyCache:(id)aSender {
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
+    [NSClassFromString(@"WebCache") setValue:@(YES) forKey:@"disabled"];
     [self reloadWebViewCachingAllowed:NO];
+    [NSClassFromString(@"WebCache") setValue:@(NO) forKey:@"disabled"];
 }
 
 -(IBAction)refresh:(id)aSender {
