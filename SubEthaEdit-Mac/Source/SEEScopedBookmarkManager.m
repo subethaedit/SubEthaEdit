@@ -491,28 +491,37 @@ static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.s
 
 				} else {
 					if (block) {
-						// the file is not readable and we assume that it is because of permissions,
-						// so we ask the user to allow us to use the file
-						NSURL *bookmarkURL = block(aURL);
-						if (bookmarkURL) {
-							result = [bookmarkURL startAccessingSecurityScopedResource];
+                        result = NO;
+                        
+                        // breaking the call from webcore rendering in to webcore again
+                        dispatch_async(dispatch_get_main_queue(), ^{
 
-							// checking if the selected url helps with opening permissions of our file
-							data = [NSData dataWithContentsOfURL:aURL options:NSDataReadingMappedAlways error:&error];
-							if (!data) {
-								[bookmarkURL stopAccessingSecurityScopedResource];
-								result = NO;
+                            // the file is not readable and we assume that it is because of permissions,
+                            // so we ask the user to allow us to use the file
+                            NSURL *bookmarkURL = block(aURL);
+                            if (bookmarkURL) {
+                                BOOL success = [bookmarkURL startAccessingSecurityScopedResource];
+                                
+                                NSError *error = nil;
+                                // checking if the selected url helps with opening permissions of our file
+                                NSData *data = [NSData dataWithContentsOfURL:aURL options:NSDataReadingMappedAlways error:&error];
+                                if (!data) {
+                                    [bookmarkURL stopAccessingSecurityScopedResource];
+                                    success = NO;
+                                } else {
+                                    [self.accessingURLs addObject:aURL];
+                                    [self.lookupDict setObject:bookmarkURL forKey:aURL];
+                                    
+                                    if (persistFlag) {
+                                        [self.bookmarkURLs addObject:bookmarkURL];
+                                        [self writeBookmarksToUserDefaults];
+                                    }
+                                    // TODO: call back out and reload stuff - if success
+                                }
+                            }
 
-							} else {
-								[self.accessingURLs addObject:aURL];
-								[self.lookupDict setObject:bookmarkURL forKey:aURL];
-
-								if (persistFlag) {
-									[self.bookmarkURLs addObject:bookmarkURL];
-									[self writeBookmarksToUserDefaults];
-								}
-							}
-						}
+                        });
+                        
 					}
 				}
 			} else if (shouldCreatable && [resourceAvailabilityError.domain isEqualToString:NSCocoaErrorDomain] && resourceAvailabilityError.code == 260) {
