@@ -532,6 +532,28 @@
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
+				<string>hh</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>file-generic-header</string>
+			<key>CFBundleTypeName</key>
+			<string>C++ Header</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.c-plus-plus-header</string>
+			</array>
+			<key>LSTypeIsPackage</key>
+			<false/>
+			<key>NSDocumentClass</key>
+			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
 				<string>sgml</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
@@ -752,7 +774,7 @@
 				<string>mm</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic-source</string>
+			<string>file-objc++</string>
 			<key>CFBundleTypeName</key>
 			<string>Objective-C++ Source Code</string>
 			<key>CFBundleTypeRole</key>
@@ -2647,7 +2669,7 @@
 				<string>m</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic</string>
+			<string>file-objc</string>
 			<key>CFBundleTypeName</key>
 			<string>M Source</string>
 			<key>CFBundleTypeRole</key>
@@ -4521,6 +4543,8 @@
 			<array>
 				<string>public.source-code</string>
 			</array>
+			<key>UTTypeIconFile</key>
+			<string>file-generic-header</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.c-plus-plus-header</string>
 			<key>UTTypeTagSpecification</key>
@@ -4830,6 +4854,8 @@
 			<string>public.source-code</string>
 			<key>UTTypeDescription</key>
 			<string>Objective-C Source</string>
+			<key>UTTypeIconFile</key>
+			<string>file-objc</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.objective-c-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -4903,6 +4929,8 @@
 			<string>public.source-code</string>
 			<key>UTTypeDescription</key>
 			<string>Objective-C++ Source code</string>
+			<key>UTTypeIconFile</key>
+			<string>file-objc++</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.objective-c-plus-plus-source</string>
 			<key>UTTypeTagSpecification</key>

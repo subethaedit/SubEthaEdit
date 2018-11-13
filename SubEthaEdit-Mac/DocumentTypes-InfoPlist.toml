@@ -208,6 +208,15 @@
 	NSDocumentClass = "PlainTextDocument"
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
+	CFBundleTypeExtensions = ["hh"]
+	CFBundleTypeIconFile = "file-generic-header"
+	CFBundleTypeName = "C++ Header"
+	CFBundleTypeRole = "Editor"
+	LSItemContentTypes = ["public.c-plus-plus-header"]
+	LSTypeIsPackage = false
+	NSDocumentClass = "PlainTextDocument"
+	NSIsRelatedItemType = true
+[[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["sgml"]
 	CFBundleTypeIconFile = "file-generic"
 	CFBundleTypeName = "SGML Source Code"
@@ -297,7 +306,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["mm"]
-	CFBundleTypeIconFile = "file-generic-source"
+	CFBundleTypeIconFile = "file-objc++"
 	CFBundleTypeName = "Objective-C++ Source Code"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
@@ -1065,7 +1074,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["m"]
-	CFBundleTypeIconFile = "file-generic"
+	CFBundleTypeIconFile = "file-objc"
 	CFBundleTypeName = "M Source"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Alternate"
@@ -1692,6 +1701,7 @@
 	UTTypeConformsTo = "public.source-code"
 	UTTypeDescription = "Objective-C Source"
 	UTTypeIdentifier = "public.objective-c-source"
+	UTTypeIconFile = "file-objc"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = "m"
 [[UTImportedTypeDeclarations]]
@@ -1720,6 +1730,7 @@
 	UTTypeConformsTo = "public.source-code"
 	UTTypeDescription = "Objective-C++ Source code"
 	UTTypeIdentifier = "public.objective-c-plus-plus-source"
+	UTTypeIconFile = "file-objc++"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = "mm"
 [[UTImportedTypeDeclarations]]
@@ -2087,6 +2098,7 @@
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
 	UTTypeIdentifier = "public.c-plus-plus-header"
+	UTTypeIconFile = "file-generic-header"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["hh", "hp", "hpp", "hxx", "h++", "ipp"]
 [[UTExportedTypeDeclarations]]
