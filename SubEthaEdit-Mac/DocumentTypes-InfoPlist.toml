@@ -39,7 +39,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["go"]
-	CFBundleTypeIconFile = "file-generic-source"
+	CFBundleTypeIconFile = "file-go"
 	CFBundleTypeName = "go Source Code"
 	CFBundleTypeRole = "Editor"
 	LSItemContentTypes = ["public.go-source"]
@@ -85,7 +85,7 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["lua"]
-	CFBundleTypeIconFile = "file-generic-source"
+	CFBundleTypeIconFile = "file-lua"
 	CFBundleTypeName = "lua Source Code"
 	CFBundleTypeRole = "Editor"
 	LSHandlerRank = "Owner"
@@ -296,11 +296,10 @@
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["pyw", "py", "python", "pw"]
-	CFBundleTypeIconFile = "file-generic-source"
+	CFBundleTypeIconFile = "file-py"
 	CFBundleTypeName = "Python Source Code"
 	CFBundleTypeRole = "Editor"
-	LSHandlerRank = "Alternate"
-	LSItemContentTypes = ["public.python-script", "de.codingmonkeys.subethaedit.python-source"]
+	LSItemContentTypes = ["public.python-script", "public.python-source"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
 	NSIsRelatedItemType = true
@@ -1279,6 +1278,7 @@
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
 	UTTypeDescription = "go Source"
+	UTTypeIconFile = "file-go"
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.go-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["go"]
@@ -1526,7 +1526,8 @@
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
 	UTTypeDescription = "python Source"
-	UTTypeIdentifier = "de.codingmonkeys.subethaedit.python-source"
+	UTTypeIconFile = "file-py"
+	UTTypeIdentifier = "public.python-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["python", "py", "pyw", "pw"]
 [[UTExportedTypeDeclarations]]
@@ -1986,6 +1987,7 @@
 	UTTypeConformsTo = ["public.source-code"]
 	UTTypeDescription = "Lua Script"
 	UTTypeIdentifier = "public.lua-script"
+	UTTypeIconFile = "file-lua"
 	UTTypeReferenceURL = "http://www.lua.org"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["lua"]
@@ -2039,7 +2041,7 @@
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.shell-script"]
 	UTTypeDescription = "Python script"
-	UTTypeIconFile = "file-generic-source"
+	UTTypeIconFile = "file-py"
 	UTTypeIdentifier = "public.python-script"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["py"]
@@ -2235,6 +2237,7 @@
 	UTTypeDescription = "Lua Source Code"
 	UTTypeIdentifier = "public.lua-source"
 	UTTypeReferenceURL = "http://www.lua.org"
+	UTTypeIconFile = "file-lua"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["lua"]
 

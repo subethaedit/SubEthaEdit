@@ -107,7 +107,7 @@
 				<string>go</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic-source</string>
+			<string>file-go</string>
 			<key>CFBundleTypeName</key>
 			<string>go Source Code</string>
 			<key>CFBundleTypeRole</key>
@@ -224,7 +224,7 @@
 				<string>lua</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic-source</string>
+			<string>file-lua</string>
 			<key>CFBundleTypeName</key>
 			<string>lua Source Code</string>
 			<key>CFBundleTypeRole</key>
@@ -749,17 +749,15 @@
 				<string>pw</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>file-generic-source</string>
+			<string>file-py</string>
 			<key>CFBundleTypeName</key>
 			<string>Python Source Code</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
-			<key>LSHandlerRank</key>
-			<string>Alternate</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>public.python-script</string>
-				<string>de.codingmonkeys.subethaedit.python-source</string>
+				<string>public.python-source</string>
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
@@ -3281,6 +3279,8 @@
 			</array>
 			<key>UTTypeDescription</key>
 			<string>go Source</string>
+			<key>UTTypeIconFile</key>
+			<string>file-go</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.go-source</string>
 			<key>UTTypeTagSpecification</key>
@@ -3988,8 +3988,10 @@
 			</array>
 			<key>UTTypeDescription</key>
 			<string>python Source</string>
+			<key>UTTypeIconFile</key>
+			<string>file-py</string>
 			<key>UTTypeIdentifier</key>
-			<string>de.codingmonkeys.subethaedit.python-source</string>
+			<string>public.python-source</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>
@@ -4411,6 +4413,8 @@
 			</array>
 			<key>UTTypeDescription</key>
 			<string>Lua Script</string>
+			<key>UTTypeIconFile</key>
+			<string>file-lua</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.lua-script</string>
 			<key>UTTypeReferenceURL</key>
@@ -5673,7 +5677,7 @@
 			<key>UTTypeDescription</key>
 			<string>Python script</string>
 			<key>UTTypeIconFile</key>
-			<string>file-generic-source</string>
+			<string>file-py</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.python-script</string>
 			<key>UTTypeTagSpecification</key>
@@ -6016,6 +6020,8 @@
 			</array>
 			<key>UTTypeDescription</key>
 			<string>Lua Source Code</string>
+			<key>UTTypeIconFile</key>
+			<string>file-lua</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.lua-source</string>
 			<key>UTTypeReferenceURL</key>
