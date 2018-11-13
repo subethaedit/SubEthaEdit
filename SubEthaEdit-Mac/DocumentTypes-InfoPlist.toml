@@ -871,7 +871,7 @@
 	CFBundleTypeIconFile = "file-css"
 	CFBundleTypeName = "CSS Source"
 	CFBundleTypeRole = "Editor"
-	LSItemContentTypes = ["org.w3.css"]
+	LSItemContentTypes = ["public.css","org.w3.css"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
 	NSIsRelatedItemType = true
@@ -2060,12 +2060,12 @@
 	UTTypeIdentifier = "public.fortran-source"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["f", "for"]
-[[UTImportedTypeDeclarations]]
+[[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = "public.text"
 	UTTypeDescription = "CSS"
 	UTTypeIconFile = "file-css"
 	UTTypeIdentifier = "public.css"
-	[UTImportedTypeDeclarations.UTTypeTagSpecification]
+	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["css"]
 		"public.mime-type" = ["text/css"]
 [[UTImportedTypeDeclarations]]

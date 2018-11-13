@@ -2173,6 +2173,7 @@
 			<string>Editor</string>
 			<key>LSItemContentTypes</key>
 			<array>
+				<string>public.css</string>
 				<string>org.w3.css</string>
 			</array>
 			<key>LSTypeIsPackage</key>
@@ -4445,6 +4446,27 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
+			<string>public.text</string>
+			<key>UTTypeDescription</key>
+			<string>CSS</string>
+			<key>UTTypeIconFile</key>
+			<string>file-css</string>
+			<key>UTTypeIdentifier</key>
+			<string>public.css</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>css</string>
+				</array>
+				<key>public.mime-type</key>
+				<array>
+					<string>text/css</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
 			<array>
 				<string>public.source-code</string>
 			</array>
@@ -5714,27 +5736,6 @@
 				<array>
 					<string>f</string>
 					<string>for</string>
-				</array>
-			</dict>
-		</dict>
-		<dict>
-			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
-			<key>UTTypeDescription</key>
-			<string>CSS</string>
-			<key>UTTypeIconFile</key>
-			<string>file-css</string>
-			<key>UTTypeIdentifier</key>
-			<string>public.css</string>
-			<key>UTTypeTagSpecification</key>
-			<dict>
-				<key>public.filename-extension</key>
-				<array>
-					<string>css</string>
-				</array>
-				<key>public.mime-type</key>
-				<array>
-					<string>text/css</string>
 				</array>
 			</dict>
 		</dict>
