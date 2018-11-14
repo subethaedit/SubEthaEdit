@@ -55,7 +55,7 @@
                                 <button id="48">
                                     <rect key="frame" x="13" y="16" width="352" height="18"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                                    <buttonCell key="cell" type="check" title="Schriften generierten Fett- und Kursiv-Variante hinzufügen" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="167">
+                                    <buttonCell key="cell" type="check" title="Schriften generierte Fett- und Kursiv-Variante hinzufügen" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="167">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                         <font key="font" metaFont="smallSystem"/>
                                     </buttonCell>
