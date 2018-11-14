@@ -5912,8 +5912,31 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 #pragma mark - NSSharingServicePickerDelegate
 
 - (NSArray *)sharingServicePicker:(NSSharingServicePicker *)sharingServicePicker sharingServicesForItems:(NSArray *)items proposedSharingServices:(NSArray *)proposedServices {
-	NSMutableArray *sharingServices = [[proposedServices mutableCopy] autorelease];
-
+	NSMutableArray *sharingServices = [NSMutableArray array];
+    
+    NSArray *servicePrefixesToExclude = @[
+                                   @"com.apple.Notes",
+                                   @"com.apple.reminders",
+                                   @"com.apple.iphonesimulator",
+                                   @"com.apple.share.System.add-to-safari",
+                                       ];
+    
+    for (NSSharingService *service in proposedServices) {
+        BOOL shouldAdd = YES;
+        if ([service respondsToSelector:@selector(name)]) { // sadly not public API
+            NSString *serviceName = [service valueForKeyPath:@"name"];
+            for (NSString *prefix in servicePrefixesToExclude) {
+                if (serviceName && [serviceName hasPrefix:prefix]) {
+                    shouldAdd = NO;
+                    break;
+                }
+            }
+        }
+        if (shouldAdd) {
+            [sharingServices addObject:service];
+        }
+    }
+    
 	if (self.session.isServer) {
 		NSArray *allConnections = [[SEEConnectionManager sharedInstance] entries];
 		for (SEEConnection *connection in allConnections) {
@@ -5948,15 +5971,15 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 		[sharingServices removeObject:[NSSharingService sharingServiceNamed:NSSharingServiceNameComposeMessage]];
 	}
 
-	// remove Safari Reading List entry if available...
-	[sharingServices removeObject:[NSSharingService sharingServiceNamed:NSSharingServiceNameAddToSafariReadingList]];
-
 	// remove social media entries, because they need persistant URLS and change the see:// scheme.
 	[sharingServices removeObject:[NSSharingService sharingServiceNamed:NSSharingServiceNamePostOnFacebook]];
 	[sharingServices removeObject:[NSSharingService sharingServiceNamed:NSSharingServiceNamePostOnTwitter]];
 	[sharingServices removeObject:[NSSharingService sharingServiceNamed:NSSharingServiceNamePostOnSinaWeibo]];
 	[sharingServices removeObject:[NSSharingService sharingServiceNamed:NSSharingServiceNamePostOnTencentWeibo]];
 	[sharingServices removeObject:[NSSharingService sharingServiceNamed:NSSharingServiceNamePostOnLinkedIn]];
+    
+    // remove add to iphoto as it adds itself if the list is empty
+    [sharingServices removeObject:[NSSharingService sharingServiceNamed:NSSharingServiceNameAddToIPhoto]];
 
 	if (! self.isAnnounced && self.session.isServer && self.documentURL) {
 		NSString *sharingServiceTitle = NSLocalizedString(@"Advertise Document", @"Advertise document string used in sharing service picker.");
