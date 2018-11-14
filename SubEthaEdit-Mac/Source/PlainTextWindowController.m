@@ -1139,7 +1139,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
 - (void)moveAllTabsToWindowController:(PlainTextWindowController *)windowController {
 
-    for (PlainTextDocument *document in I_documents) {
+    for (PlainTextDocument *document in [[I_documents copy] autorelease]) {
         NSUInteger documentIndex = [[self documents] indexOfObject:document];
         NSTabViewItem *tabViewItem = [self tabViewItemForDocument:document];
         

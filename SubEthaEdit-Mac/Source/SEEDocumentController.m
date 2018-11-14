@@ -131,7 +131,7 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 
 #pragma mark - Actions
 
-- (IBAction)mergeAllWindows:(id)sender
+- (IBAction)SEE_mergeAllWindows:(id)sender
 {
     NSAlert *alert = [[NSAlert alloc] init];
     [alert setAlertStyle:NSInformationalAlertStyle];

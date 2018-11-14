@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.18"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -997,7 +997,7 @@
                             </menuItem>
                             <menuItem title="Alle Fenster zusammenführen" id="628">
                                 <connections>
-                                    <action selector="mergeAllWindows:" target="-1" id="630"/>
+                                    <action selector="SEE_mergeAllWindows:" target="252" id="WQ7-Ko-Geg"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="612">
