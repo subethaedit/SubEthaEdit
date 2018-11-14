@@ -1034,11 +1034,9 @@
 "FIRST_USE_ANNOUNCE_HELP_TEXT" = "Klicken um dieses Dokument im Netzwerk anzubieten. Rechts-Klicken um die Zugansgrechte für Eintreffende zu bestimmen.";
 
 /* WebSite Links */
-"WEBSITE_FAQ" = "http://subethaedit.net/fragen";
-"WEBSITE_ADDITIONAL_MODES" = "http://subethaedit.net/modi";
-"WEBSITE_AUTHENTICATION_HELPER" = "http://subethaedit.net/authentifizierungshelfer";
-"WEBSITE_COMMANDLINETOOL" = "http://subethaedit.net/kommandozeilentool";
-"WEBSITE_MODE_CREATION_DOCU" = "http://subethaedit.net/modedocs";
+"WEBSITE_FAQ" = "https://subethaedit.net/fragen";
+"WEBSITE_ADDITIONAL_MODES" = "https://subethaedit.net/modes";
+"WEBSITE_MODE_CREATION_DOCU" = "https://subethaedit.net/modedocs";
 
 /* Proxy window */
 "PROXY_WINDOW_ACCEPT" = "Annehmen";

@@ -1054,7 +1054,11 @@
                             <menuItem isSeparatorItem="YES" id="500">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Problem berichten…" id="l1C-eK-nFF"/>
+                            <menuItem title="Problem berichten…" id="l1C-eK-nFF">
+                                <connections>
+                                    <action selector="reportAnIssue:" target="210" id="5qj-8X-1wv"/>
+                                </connections>
+                            </menuItem>
                             <menuItem title="Lizenzen und Anmerkungen" id="491">
                                 <connections>
                                     <action selector="showAcknowledgements:" target="210" id="493"/>

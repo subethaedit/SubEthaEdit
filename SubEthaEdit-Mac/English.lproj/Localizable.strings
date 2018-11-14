@@ -927,11 +927,9 @@
 "FIRST_USE_ANNOUNCE_HELP_TEXT" = "Click to advertise this document to the network.\nRight-Click to also set initial access-rights for incoming users.";
 
 /* WebSite Links */
-"WEBSITE_FAQ" = "http://subethaedit.net/faq";
-"WEBSITE_ADDITIONAL_MODES" = "http://subethaedit.net/modes";
-"WEBSITE_AUTHENTICATION_HELPER" = "http://subethaedit.net/authenticationhelper";
-"WEBSITE_COMMANDLINETOOL" = "http://subethaedit.net/commandlinetool";
-"WEBSITE_MODE_CREATION_DOCU" = "http://subethaedit.net/modedocs";
+"WEBSITE_FAQ" = "https://subethaedit.net/faq";
+"WEBSITE_ADDITIONAL_MODES" = "https://subethaedit.net/modes";
+"WEBSITE_MODE_CREATION_DOCU" = "https://subethaedit.net/modedocs";
 
 /* Proxy window */
 "PROXY_WINDOW_ACCEPT" = "Accept";
