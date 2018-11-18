@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="46px" height="46px" viewBox="0 0 46 46" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.2 (67145) - http://www.bohemiancoding.com/sketch -->
+    <title>ParticipantStatusFollow</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#000000" offset="100%"></stop>
+        </linearGradient>
+        <circle id="path-2" cx="21" cy="21" r="21"></circle>
+        <filter x="-9.5%" y="-4.8%" width="119.0%" height="119.0%" filterUnits="objectBoundingBox" id="filter-3">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <path d="M5,21.5946667 C7.31244444,15.9808889 13.5728889,11.9444444 20.9568889,11.9444444 C28.3444444,11.9444444 34.6026667,15.9808889 36.9142222,21.5946667 C34.6026667,27.2097778 28.3444444,31.2426667 20.9568889,31.2426667 C13.5728889,31.2426667 7.31244444,27.2097778 5,21.5946667 Z M13.5662222,21.5946667 C13.5662222,25.6493333 16.8755556,28.9382222 20.9568889,28.9382222 C25.0386667,28.9382222 28.3475556,25.6493333 28.3475556,21.5946667 C28.3475556,17.5377778 25.0386667,14.2511111 20.9568889,14.2511111 C16.8755556,14.2511111 13.5662222,17.5377778 13.5662222,21.5946667 Z M17.3537778,21.5946667 C17.3537778,23.5697778 18.9666667,25.172 20.9568889,25.172 C22.9475556,25.172 24.5564444,23.5697778 24.5564444,21.5946667 C24.5564444,19.6173333 22.9475556,18.0151111 20.9568889,18.0151111 C18.9666667,18.0151111 17.3537778,19.6173333 17.3537778,21.5946667 L17.3537778,21.5946667 Z" id="path-4"></path>
+    </defs>
+    <g id="ParticipantStatusFollow" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Follow" transform="translate(2.000000, 0.000000)">
+            <g id="Oval-1">
+                <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use>
+                <use fill-opacity="0.920000017" fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-2"></use>
+                <use fill-opacity="0.0799999982" fill="url(#linearGradient-1)" fill-rule="evenodd" xlink:href="#path-2"></use>
+            </g>
+            <mask id="mask-5" fill="white">
+                <use xlink:href="#path-4"></use>
+            </mask>
+            <use id="Clip-5" fill="#2282F3" xlink:href="#path-4"></use>
+        </g>
+    </g>
+</svg>

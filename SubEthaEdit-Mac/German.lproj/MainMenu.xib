@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment defaultVersion="1090" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -11,7 +11,7 @@
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
-        <customObject id="-3" userLabel="Application"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <menu title="MainMenu" systemMenu="main" id="29" userLabel="MainMenu">
             <items>
                 <menuItem title="SubEthaEdit" tag="200" id="56">
@@ -997,7 +997,7 @@
                             </menuItem>
                             <menuItem title="Alle Fenster zusammenführen" id="628">
                                 <connections>
-                                    <action selector="mergeAllWindows:" target="-1" id="630"/>
+                                    <action selector="SEE_mergeAllWindows:" target="252" id="WQ7-Ko-Geg"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="612">
@@ -1053,6 +1053,11 @@
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="500">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Problem berichten…" id="l1C-eK-nFF">
+                                <connections>
+                                    <action selector="reportAnIssue:" target="210" id="5qj-8X-1wv"/>
+                                </connections>
                             </menuItem>
                             <menuItem title="Lizenzen und Anmerkungen" id="491">
                                 <connections>

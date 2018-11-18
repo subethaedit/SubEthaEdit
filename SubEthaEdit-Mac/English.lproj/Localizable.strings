@@ -1,4 +1,16 @@
-﻿/* arrangement of Tab setting and tab width in Bottm Status Bar */
+/* App menu about */
+"SEE_APP_MENU_ABOUT" = "About %@";
+
+/* App menu about */
+"SEE_APP_MENU_HIDE" = "Hide %@";
+
+/* App menu about */
+"SEE_APP_MENU_QUIT" = "Quit %@";
+
+/* App menu check for updates*/
+"SEE_APP_MENU_CHECK_FOR_UPDATES" = "Check for Updates…";
+
+/* arrangement of Tab setting and tab width in Bottm Status Bar */
 "%@ (%d)" = "%@ (%d)";
 
 /* FindRegexPrefix */
@@ -859,7 +871,7 @@
 
 
 /* document list */
-"DOCUMENT_LIST_WINDOW_TITLE" = "SubEthaEdit - Document Hub";
+"DOCUMENT_LIST_WINDOW_TITLE" = "%@ - Document Hub";
 "DOCUMENT_LIST_OPEN" = "Open…";
 "DOCUMENT_LIST_NEW" = "New";
 "DOCUMENT_LIST_CONNECT" = "Connect to specific host…";
@@ -879,8 +891,8 @@
 
 /* authentication script not installed error dialog */
 "AUTHENTICATION_SCRIPT_MISSING_ERROR_DESCRIPTION" = "Can't find authentication helper script.";
-"AUTHENTICATION_SCRIPT_MISSING_ERROR_SUGGESTION" = "Please visit our website to download the script and follow the instructions to install.";
-"AUTHENTICATION_SCRIPT_MISSING_ERROR_BUTTON_TITLE1" = "Visit Website…";
+"AUTHENTICATION_SCRIPT_MISSING_ERROR_SUGGESTION" = "Please run the install.sh script in Terminal as described in the Advanced Settings to install it.";
+"AUTHENTICATION_SCRIPT_MISSING_ERROR_BUTTON_TITLE1" = "Reveal script…";
 "AUTHENTICATION_SCRIPT_MISSING_ERROR_BUTTON_TITLE2" = "Ignore";
 
 "SEEConnectionTaglineBonjour" = "Bonjour";
@@ -915,11 +927,9 @@
 "FIRST_USE_ANNOUNCE_HELP_TEXT" = "Click to advertise this document to the network.\nRight-Click to also set initial access-rights for incoming users.";
 
 /* WebSite Links */
-"WEBSITE_FAQ" = "http://subethaedit.net/faq";
-"WEBSITE_ADDITIONAL_MODES" = "http://subethaedit.net/modes";
-"WEBSITE_AUTHENTICATION_HELPER" = "http://subethaedit.net/authenticationhelper";
-"WEBSITE_COMMANDLINETOOL" = "http://subethaedit.net/commandlinetool";
-"WEBSITE_MODE_CREATION_DOCU" = "http://subethaedit.net/modedocs";
+"WEBSITE_FAQ" = "https://subethaedit.net/faq";
+"WEBSITE_ADDITIONAL_MODES" = "https://subethaedit.net/modes";
+"WEBSITE_MODE_CREATION_DOCU" = "https://subethaedit.net/modedocs";
 
 /* Proxy window */
 "PROXY_WINDOW_ACCEPT" = "Accept";

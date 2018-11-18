@@ -1,16 +1,14 @@
-//
 //  TCMPortMapper.h
 //  Establishes port mapping via upnp or natpmp
 //
-//  Copyright (c) 2007-2008 TheCodingMonkeys: 
-//  Martin Pittenauer, Dominik Wagner, <http://codingmonkeys.de>
-//  Some rights reserved: <http://opensource.org/licenses/mit-license.php> 
-//
+//  Some rights reserved: <http://opensource.org/licenses/mit-license.php>
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 #import <errno.h>
 #import <string.h>
 #import <unistd.h>
+
+NS_ASSUME_NONNULL_BEGIN
 
 extern NSString * const TCMPortMapperExternalIPAddressDidChange;
 
@@ -29,69 +27,45 @@ extern NSString * const TCMNATPMPPortMapProtocol;
 extern NSString * const TCMUPNPPortMapProtocol;  
 extern NSString * const TCMNoPortMapProtocol;
 
-typedef enum {
+typedef NS_ENUM(uint8_t, TCMPortMappingStatus) {
     TCMPortMappingStatusUnmapped = 0,
     TCMPortMappingStatusTrying   = 1,
     TCMPortMappingStatusMapped   = 2
-} TCMPortMappingStatus;
+};
 
-typedef enum {
+typedef NS_ENUM(uint8_t, TCMPortMappingTransportProtocol)  {
     TCMPortMappingTransportProtocolUDP  = 1,
     TCMPortMappingTransportProtocolTCP  = 2,
     TCMPortMappingTransportProtocolBoth = 3
-} TCMPortMappingTransportProtocol;
+};
 
+@interface TCMPortMapping : NSObject
++ (instancetype)portMappingWithLocalPort:(uint16_t)privatePort desiredExternalPort:(uint16_t)publicPort transportProtocol:(TCMPortMappingTransportProtocol)transportProtocol userInfo:(nullable id)userInfo;
+- (instancetype)initWithLocalPort:(uint16_t)privatePort desiredExternalPort:(uint16_t)publicPort transportProtocol:(TCMPortMappingTransportProtocol)transportProtocol userInfo:(nullable id)userInfo;
 
-@interface TCMPortMapping : NSObject {
-    int _localPort;
-    int _externalPort;
-    int _desiredExternalPort;
-    id  _userInfo;
-    TCMPortMappingStatus _mappingStatus;
-    TCMPortMappingTransportProtocol _transportProtocol;
-}
-+ (id)portMappingWithLocalPort:(int)aPrivatePort desiredExternalPort:(int)aPublicPort transportProtocol:(int)aTransportProtocol userInfo:(id)aUserInfo;
-- (id)initWithLocalPort:(int)aPrivatePort desiredExternalPort:(int)aPublicPort transportProtocol:(int)aTransportProtocol userInfo:(id)aUserInfo;
-- (int)desiredExternalPort;
-- (id)userInfo;
-- (TCMPortMappingStatus)mappingStatus;
-- (void)setMappingStatus:(TCMPortMappingStatus)aStatus;
-- (TCMPortMappingTransportProtocol)transportProtocol;
-- (void)setTransportProtocol:(TCMPortMappingTransportProtocol)aProtocol;
-- (void)setExternalPort:(int)aPublicPort;
-- (int)externalPort;
-- (int)localPort;
+@property (nonatomic) uint16_t desiredExternalPort;
+@property (nonatomic) uint16_t localPort;
+@property (nonatomic) uint16_t externalPort;
+@property (nonatomic) TCMPortMappingTransportProtocol transportProtocol;
+@property (nonatomic) TCMPortMappingStatus mappingStatus;
 
+@property (nullable, nonatomic, strong) id userInfo;
 @end
 
-@class IXSCNotificationManager;
-@class TCMNATPMPPortMapper;
-@class TCMUPNPPortMapper;
-@interface TCMPortMapper : NSObject {
-    TCMNATPMPPortMapper *_NATPMPPortMapper;
-    TCMUPNPPortMapper *_UPNPPortMapper;
-    NSMutableSet *_portMappings;
-    NSMutableSet *_removeMappingQueue;
-    IXSCNotificationManager *_systemConfigNotificationManager;
-    BOOL _isRunning;
-    NSString *_localIPAddress;
-    NSString *_externalIPAddress;
-    int _NATPMPStatus;
-    int _UPNPStatus;
-    NSString *_mappingProtocol;
-    NSString *_routerName;
-    int _workCount;
-    BOOL _localIPOnRouterSubnet;
-    BOOL _sendUPNPMappingTableNotification;
-    NSString *_userID;
-    NSMutableSet *_upnpPortMappingsToRemove;
-    NSTimer *_upnpPortMapperTimer;
-    BOOL _ignoreNetworkChanges;
-    BOOL _refreshIsScheduled;
-}
+@interface NSString (TCMPortMapper_IPAdditions)
+/**
+ @return YES if the string is representing an IPv4 Address.
+ */
+- (BOOL)isIPv4Address;
+/**
+ @return YES if the String represents an IPv4 Address and it is in one of the private or self assigned subnetranges. NO otherwise.
+ */
+- (BOOL)IPv4AddressIsInPrivateSubnet;
+@end
 
-+ (TCMPortMapper *)sharedInstance;
-+ (NSString *)manufacturerForHardwareAddress:(NSString *)aMACAddress;
+@interface TCMPortMapper : NSObject
++ (instancetype)sharedInstance;
++ (nullable NSString *)manufacturerForHardwareAddress:(NSString *)aMACAddress;
 + (NSString *)sizereducableHashOfString:(NSString *)inString;
 
 - (NSSet *)portMappings;
@@ -112,24 +86,19 @@ typedef enum {
 - (void)removeUPNPMappings:(NSArray *)aMappingList;
 
 // needed for generating a UPNP port mapping description that differs for each user
-- (NSString *)userID;
-- (void)setUserID:(NSString *)aUserID;
+@property (nonatomic, strong) NSString *userID;
 // we provide a half length md5 has for convenience
 // we could use full length but the description field of the routers might be limited
 - (void)hashUserID:(NSString *)aUserIDToHash;
 
-- (NSString *)externalIPAddress;
-- (NSString *)localIPAddress;
-- (NSString *)localBonjourHostName;
-- (void)setMappingProtocol:(NSString *)aProtocol;
-- (NSString *)mappingProtocol;
-- (void)setRouterName:(NSString *)aRouterName;
-- (NSString *)routerName;
-- (NSString *)routerIPAddress;
-- (NSString *)routerHardwareAddress;
+@property (nonatomic, readonly, nullable) NSString *externalIPAddress;
+@property (nonatomic, readonly) NSString *localIPAddress;
+@property (nonatomic, readonly, nullable) NSString *localBonjourHostName;
 
-// private accessors
-- (NSMutableSet *)_upnpPortMappingsToRemove;
-
-
+@property (nonatomic, strong, nullable) NSString *mappingProtocol;
+@property (nonatomic, copy, nullable) NSString *routerName;
+@property (nonatomic, readonly, nullable) NSString *routerIPAddress;
+@property (nonatomic, readonly, nullable) NSString *routerHardwareAddress;
 @end
+
+NS_ASSUME_NONNULL_END

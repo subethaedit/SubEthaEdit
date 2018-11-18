@@ -4,21 +4,21 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
+	<key>CFBundleGetInfoString</key>
+	<string>${TCM_CLT_GET_INFO}</string>
 	<key>CFBundleIdentifier</key>
-	<string>de.codingmonkeys.see${TCM_APP_STYLE}</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
 	<string>see</string>
-	<key>CFBundleVersion</key>
-	<string>${TCM_APP_REVISION}</string>
-	<key>NSHumanReadableCopyright</key>
-	<string>${TCM_APP_COPYRIGHT}</string>
-	<key>CFBundleGetInfoString</key>
-	<string>${TCM_CLT_GET_INFO}</string>
-	<key>LSMinimumSystemVersion</key>
-	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
 	<key>CFBundleShortVersionString</key>
 	<string>${TCM_CLT_VERSION}</string>
+	<key>CFBundleVersion</key>
+	<string>${TCM_APP_REVISION}</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>© 2018 SubEthaEdit Contributors</string>
 </dict>
 </plist>

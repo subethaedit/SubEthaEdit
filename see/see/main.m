@@ -1,9 +1,7 @@
-//
 //  main.m
 //  see
 //
 //  Created by Martin Ott on Tue Apr 14 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -39,16 +37,14 @@ static struct option longopts[] = {
 };
 
 
-static NSString *tempFileName() {
-    static int sequenceNumber = 0;
-    NSString *origPath = [@"/tmp" stringByAppendingPathComponent:@"see"];
-    NSString *name;
-    do {
-        sequenceNumber++;
-        name = [NSString stringWithFormat:@"see-%d-%d-%d", [[NSProcessInfo processInfo] processIdentifier], (int)[NSDate timeIntervalSinceReferenceDate], sequenceNumber];
-        name = [[origPath stringByDeletingLastPathComponent] stringByAppendingPathComponent:name];
-    } while ([[NSFileManager defaultManager] fileExistsAtPath:name]);
-    return name;
+static NSURL *tempFileURL() {
+    NSError *error;
+    NSURL *tmpURL = [[NSFileManager defaultManager] URLForDirectory:NSItemReplacementDirectory inDomain:NSUserDomainMask appropriateForURL:[NSURL fileURLWithPath:@"/"] create:YES error:&error];
+    if (!tmpURL) {
+        fprintf(stderr, "Error creating temporary file: %s\n", [[error localizedDescription] UTF8String]);
+    }
+    NSString *filename = [NSString stringWithFormat:@"see-%@.seetmpstdin", [[NSUUID UUID] UUIDString]];
+    return [tmpURL URLByAppendingPathComponent:filename];
 }
 
 
@@ -57,10 +53,14 @@ static void printHelp() {
     fflush(stdout);
 }
 
-void parseShortVersionString(int *major, int *minor)
-{
-	NSBundle *bundle = [NSBundle mainBundle];
-    NSString *shortVersion = [bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+#define STRINGIZE(x) #x
+#define STRINGIZE2(x) STRINGIZE(x)
+
+#define SEE_REPO_REVISION_NSSTRING @STRINGIZE2(SEE_REPO_REVISION)
+#define SEE_CLT_VERSION_NSSTRING @STRINGIZE2(SEE_CLT_VERSION)
+
+void parseShortVersionString(int *major, int *minor) {
+    NSString *shortVersion = SEE_CLT_VERSION_NSSTRING; //[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]; // with sandboxing the plist is inaccessible
     NSScanner *scanner = [NSScanner scannerWithString:shortVersion];
     (void)[scanner scanInt:major];
     (void)[scanner scanString:@"." intoString:nil];
@@ -93,15 +93,25 @@ BOOL meetsRequiredVersion(NSString *string) {
     return NO;
 }
 
+#define SEE_APP_IDENTIFIER_BASE_STRING @ STRINGIZE2(SEE_APP_IDENTIFIER_BASE)
+#define THESE_APP_IDENTIFIERS(base) \
+                        SEE_APP_IDENTIFIER_BASE_STRING ".Mac",\
+                        SEE_APP_IDENTIFIER_BASE_STRING ".MacFULL",\
+                        SEE_APP_IDENTIFIER_BASE_STRING ".MacBETA",\
+                        SEE_APP_IDENTIFIER_BASE_STRING ".MacBETADev",\
+                        SEE_APP_IDENTIFIER_BASE_STRING ".MacFULLDev",
+
 static NSArray *subEthaEditBundleIdentifiers()
 {
-	NSArray *result = @[@"de.codingmonkeys.SubEthaEdit.Mac",
+	NSArray *result = @[THESE_APP_IDENTIFIERS(xstr(SEE_APP_IDENTIFIER_BASE))
+                        @"de.codingmonkeys.SubEthaEdit.Mac",
 						@"de.codingmonkeys.SubEthaEdit.MacFULL",
 						@"de.codingmonkeys.SubEthaEdit.MacBETA",
 //						@"de.codingmonkeys.SubEthaEdit.MacDev", // no option due to signing
 						@"de.codingmonkeys.SubEthaEdit.MacFULLDev",
 						@"de.codingmonkeys.SubEthaEdit.MacBETADev",
-						@"de.codingmonkeys.SubEthaEdit"];
+						@"de.codingmonkeys.SubEthaEdit",
+                        ];
 	return result;
 }
 
@@ -200,8 +210,8 @@ static void printVersion() {
         appShortVersionString = localizedVersionString;
     }
 
-    NSString *shortVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-    NSString *bundleVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+    NSString *shortVersion = SEE_CLT_VERSION_NSSTRING; // [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]; // But with sandboxing the plist cannot be loaded
+    NSString *bundleVersion = SEE_REPO_REVISION_NSSTRING; // [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]; // But with sandboxing the plist cannot be loaded
     fprintf(stdout, "see %s (%s)\n", [shortVersion UTF8String], [bundleVersion UTF8String]);
     if (appURL != NULL) {
         fprintf(stdout, "%s %s (%s)\n", [[(NSURL *)appURL path] fileSystemRepresentation], [appShortVersionString UTF8String], [appVersion UTF8String]);
@@ -365,34 +375,41 @@ static NSArray *see(NSArray *fileNames, NSArray *newFileNames, NSString *stdinFi
 		NSURL *fileURL = [NSURL fileURLWithPath:stdinFileName];
 		[urls addObject:fileURL];
 	}
-	
-	if (urls.count > 0) {
-		NSWorkspaceLaunchOptions launchOptions = NSWorkspaceLaunchWithoutActivation;
-		if ([[options objectForKey:@"print"] boolValue]) {
-			launchOptions = launchOptions | NSWorkspaceLaunchAndPrint;
-		}
-		NSWorkspace *sharedWorkspace = [NSWorkspace sharedWorkspace];
-		if (runningSubEthaEdit.bundleIdentifier) {
-			[sharedWorkspace openURLs:urls withAppBundleIdentifier:runningSubEthaEdit.bundleIdentifier options:launchOptions additionalEventParamDescriptor:nil launchIdentifiers:nil];
-		} else { // casa xcode debugger
-			NSString *applicationPath = [runningSubEthaEdit.bundleURL path];
-			for (NSURL *url in urls) {
-				[[NSWorkspace sharedWorkspace] openFile:url.path withApplication:applicationPath];
-			}
-		}
-	}
 
-    NSMutableArray *resultFileNames = [NSMutableArray array];
     AESendMode sendMode = kAEQueueReply | kAEWantReceipt;
     long timeOut = kAEDefaultTimeout;
-
-
-	pid_t pid = [runningSubEthaEdit processIdentifier];
-	NSAppleEventDescriptor* addressDescriptor = [[[NSAppleEventDescriptor alloc] initWithDescriptorType:typeKernelProcessID bytes:&pid length:sizeof(pid)] autorelease];
-    if (addressDescriptor != nil) {
+    pid_t pid = [runningSubEthaEdit processIdentifier];
+    NSAppleEventDescriptor *addressDescriptor = [[[NSAppleEventDescriptor alloc] initWithDescriptorType:typeKernelProcessID bytes:&pid length:sizeof(pid)] autorelease];
+    
+    NSMutableArray *resultFileNames = [NSMutableArray array];
+    if (!addressDescriptor) {
+        fprintf(stderr, "see: Could not successfully address a SubEthaEdit.app");
+        fflush(stderr);
+        exit(EXIT_FAILURE);
+    } else {
+        if (urls.count > 0) {
+            NSAppleEventDescriptor *fileList = [NSAppleEventDescriptor listDescriptor];
+            [urls enumerateObjectsUsingBlock:^(NSURL *url, NSUInteger index, BOOL *_stop) {
+                [fileList insertDescriptor:[NSAppleEventDescriptor descriptorWithFileURL:url] atIndex:index];
+            }];
+            NSAppleEventDescriptor *openEvent = [NSAppleEventDescriptor appleEventWithEventClass:kCoreEventClass eventID:[[options objectForKey:@"print"] boolValue] ? kAEPrintDocuments : kAEOpenDocuments targetDescriptor:addressDescriptor returnID:kAutoGenerateReturnID transactionID:kAnyTransactionID];
+            [openEvent setParamDescriptor:fileList forKeyword:keyDirectObject];
+            
+            AppleEvent reply;
+            AESendMode sendMode = kAEQueueReply | kAEWantReceipt;
+            long timeOut = kAEDefaultTimeout;
+            
+            OSStatus err = AESendMessage([openEvent aeDesc], &reply, sendMode, timeOut);
+            if (err != noErr) {
+                fprintf(stderr, "see: Error occurred while sending AppleEvent: %d\n", (int)err);
+                fflush(stderr);
+                exit(EXIT_FAILURE);
+            }
+        }
+        
         NSAppleEventDescriptor *appleEvent = [NSAppleEventDescriptor appleEventWithEventClass:'Hdra' eventID:'See ' targetDescriptor:addressDescriptor returnID:kAutoGenerateReturnID transactionID:kAnyTransactionID];
         if (appleEvent != nil) {
-        
+            
             NSUInteger count = [fileNames count];
             if (count > 0) {
                 NSAppleEventDescriptor *filesDesc = [NSAppleEventDescriptor listDescriptor];
@@ -420,7 +437,7 @@ static NSArray *see(NSArray *fileNames, NSArray *newFileNames, NSString *stdinFi
                 [appleEvent setParamDescriptor:[NSAppleEventDescriptor descriptorWithString:stdinFileName]
                                     forKeyword:'Stdi'];
             }
-
+            
             NSAppleEventDescriptor *propRecord = propertiesEventDescriptorWithOptions(options);
             [appleEvent setParamDescriptor:propRecord
                                 forKeyword:keyAEPropData];
@@ -430,32 +447,32 @@ static NSArray *see(NSArray *fileNames, NSArray *newFileNames, NSString *stdinFi
                 [appleEvent setParamDescriptor:[NSAppleEventDescriptor descriptorWithString:jobDescription]
                                     forKeyword:'JobD'];
             }
-
+            
             NSString *gotoString = [options objectForKey:@"goto"];
             if (gotoString) {
                 [appleEvent setParamDescriptor:[NSAppleEventDescriptor descriptorWithString:gotoString]
                                     forKeyword:'GoTo'];
             }
-
+            
             NSString *openinString = [options objectForKey:@"open-in"];
             if (openinString) {
                 [appleEvent setParamDescriptor:[NSAppleEventDescriptor descriptorWithString:openinString]
                                     forKeyword:'OpIn'];
             }
-
+            
             
             NSString *pipeTitle = [options objectForKey:@"pipe-title"];
             if (pipeTitle) {
                 [appleEvent setDescriptor:[NSAppleEventDescriptor descriptorWithString:pipeTitle]
                                forKeyword:'Pipe'];
-
+                
             }
             
             if ([[options objectForKey:@"print"] boolValue]) {
                 [appleEvent setParamDescriptor:[NSAppleEventDescriptor descriptorWithBoolean:true]
                                     forKeyword:'Prnt'];
-            }            
-
+            }
+            
             if ([[options objectForKey:@"wait"] boolValue]) {
                 sendMode = kAEWaitReply;
                 timeOut = kNoTimeOut;
@@ -467,13 +484,13 @@ static NSArray *see(NSArray *fileNames, NSArray *newFileNames, NSString *stdinFi
                 [appleEvent setParamDescriptor:[NSAppleEventDescriptor descriptorWithBoolean:true]
                                     forKeyword:'PipO'];
             }
-
+            
             if ([[options objectForKey:@"pipe-dirty"] boolValue]) {
                 [appleEvent setParamDescriptor:[NSAppleEventDescriptor descriptorWithBoolean:true]
                                     forKeyword:'Pdty'];
             }
-
-                        
+            
+            
             AppleEvent reply;
             OSStatus err = AESendMessage([appleEvent aeDesc], &reply, sendMode, timeOut);
             if (err == noErr) {
@@ -528,7 +545,8 @@ static void openFiles(NSArray *fileNames, NSDictionary *options) {
     NSMutableArray *newFileNames = [NSMutableArray array];
     
     if ([fileNames count] == 0 || !isStandardInputATTY) {
-        NSString *fileName = [tempFileName() stringByAppendingPathExtension:@"seetmpstdin"];
+        NSURL *url = tempFileURL();
+        NSString *fileName = [url path];
         [fileManager createFileAtPath:fileName contents:[NSData data] attributes:nil];
         NSFileHandle *fdout = [NSFileHandle fileHandleForWritingAtPath:fileName];
         NSFileHandle *fdin = [NSFileHandle fileHandleWithStandardInput];

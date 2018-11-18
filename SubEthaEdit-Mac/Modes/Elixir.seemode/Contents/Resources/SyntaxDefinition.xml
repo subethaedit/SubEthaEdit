@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE syntax SYSTEM "syntax.dtd">
+<syntax>
+	<head>
+		<name>Elixir</name>
+		<charsintokens><![CDATA[_-0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@]]></charsintokens>
+        <folding toplevel="1"/>
+	</head>
+	<states>
+		<default id="Base" scope="meta.default">
+			<keywords id="Numbers" useforautocomplete="yes" scope="language.constant.numeric">
+				<regex>(?&lt;![\w\d_])((?:[-+]?(?:[0-9]+(?:\.[0-9]+)?(?:[eE][-+]?[0-9][0-9_]*)?))|(?:0x[0-9a-fA-F]+)|(?:0b[01]+)|(?:0o[0-7]+))(?![\w\d_])</regex>
+				<string>nil</string>
+				<string>true</string>
+				<string>false</string>
+			</keywords>
+			<keywords id="Keywords" casesensitive="yes" useforautocomplete="yes" scope="keyword.control">
+				<string>defmodule</string>
+				<string>defstruct</string>
+				<string>defimpl</string>
+				<string>defp</string>
+				<string>defmacrop</string>
+				<string>def</string>
+				<string>do</string>
+				<string>do:</string>
+				<string>@spec</string>
+				<string>@doc</string>
+				<string>@moduledoc</string>
+				<string>@type</string>
+				<string>@escapable</string>
+				<string>@deprecated</string>
+				<string>@typedoc</string>
+				<string>end</string>
+				<string>quote</string>
+				<string>fun</string>
+				<string>cond</string>
+				<string>case</string>
+				<string>if</string>
+				<string>else</string>
+				<string>of</string>
+				<string>receive</string>
+				<string>when</string>
+				<string>import</string>
+				
+				<string>any</string>
+				<string>none</string>
+				<string>atom</string>
+				<string>map</string>
+				<string>pid</string>
+				<string>port</string>
+				<string>reference</string>
+				<string>struct</string>
+				<string>tuple</string>
+				<string>float</string>
+				<string>integer</string>
+				<string>neg_integer</string>
+				<string>non_neg_integer</string>
+				<string>pos_integer</string>
+				<string>list</string>
+				<string>nonempty_list</string>
+				<string>maybe_improper_list</string>
+				<string>nonempty_improper_list</string>
+				<string>nonempty_maybe_improper_list</string>
+				<string>term</string>
+				<string>arity</string>
+				<string>as_boolean</string>
+				<string>binary</string>
+				<string>bitstring</string>
+				<string>boolean</string>
+				<string>byte</string>
+				<string>char</string>
+				<string>charlist</string>
+				<string>nonempty_charlist</string>
+				<string>fun</string>
+				<string>function</string>
+				<string>identifier</string>
+				<string>iodata</string>
+				<string>iolist</string>
+				<string>keyword</string>
+				<string>list</string>
+				<string>mfa</string>
+				<string>module</string>
+				<string>no_return</string>
+				<string>node</string>
+				<string>number</string>
+				<string>timeout</string>
+				<string>@type</string>
+				<string>@typep</string>
+				<string>@opaque</string>
+			</keywords>
+			<keywords id="Elixir Modules" casesensitive="yes" useforautocomplete="yes" scope="support.module.standard">
+				<string>Atom</string>
+				<string>Float</string>
+				<string>Function</string>
+				<string>Integer</string>
+				<string>List</string>
+				<string>Map</string>
+				<string>Process</string>
+				<string>Port</string>
+				<string>Tuple</string>
+				<string>Date</string>
+				<string>DateTime</string>
+				<string>Exception</string>
+				<string>MapSet</string>
+				<string>NaiveDateTime</string>
+				<string>Keyword</string>
+				<string>Range</string>
+				<string>Regex</string>
+				<string>String</string>
+				<string>Time</string>
+				<string>URI</string>
+				<string>Version</string>
+				<string>IO</string>
+				<string>File</string>
+				<string>Path</string>
+				<string>System</string>
+				<string>Collectable</string>
+				<string>Enumerable</string>
+				<string>Enum</string>
+				<string>Struct</string>
+				<string>Stream</string>
+				<string>Inspect</string>
+				<string>Chars</string>
+				<string>Agent</string>
+				<string>Application</string>
+				<string>GenServer</string>
+				<string>Registry</string>
+				<string>Supervisor</string>
+				<string>Task</string>
+				<string>SpecialForms</string>
+			</keywords>
+			<keywords id="Elixir Functions" casesensitive="yes" useforautocomplete="yes" scope="support.subroutine.standard">
+				<string>is_binary</string>
+				<string>is_list</string>
+				<string>is_atom</string>
+				<string>is_float</string>
+				<string>is_bitstring</string>
+				<string>is_function</string>
+				<string>is_integer</string>
+				<string>is_nil</string>
+				<string>is_number</string>
+				<string>is_pid</string>
+				<string>is_port</string>
+				<string>is_reference</string>
+				<string>is_tuple</string>
+				<string>length</string>
+				<string>to_string</string>
+				<string>to_charlist</string>
+				<string>tl</string>
+				<string>throw</string>
+				<string>struct</string>
+				<string>spawn</string>
+				<string>spawn_link</string>
+				<string>spawn_monitor</string>
+				<string>tuple_size</string>
+				<string>use</string>
+				<string>raise</string>
+				<string>rem</string>
+				<string>node</string>
+				<string>not</string>
+				<string>pop_in</string>
+				<string>put_elem</string>
+				<string>put_in</string>
+				<string>reraise</string>
+				<string>self</string>
+			</keywords>
+			<keywords id="Atoms" useforautocomplete="no" scope="string.symbol">
+				<regex>(?&lt;!:)(:(?:(?:@@|@|\$)?[A-Za-z_][A-Za-z_0-9]*[\?!=]?|\[\]=?))</regex>
+			</keywords>
+		</default>
+		<state id="SingleComment" scope="comment.line">
+			<begin>
+				<regex>#</regex>
+			</begin>
+			<end>
+				<regex>[\n\r]</regex>
+			</end>
+		</state>
+		<state id="Character Literal" scope="language.constant.numeric.character">
+			<begin>
+				<regex>\$</regex>
+			</begin>
+			<end>
+				<regex>\\?.</regex>
+			</end>
+		</state>
+		<state id="Heredoc" type="string" foldable="yes" scope="string.double.here-doc">
+			<begin><regex>"""</regex></begin>
+			<end><regex>((?&lt;!\\)(\\\\)*)"""</regex></end>
+			<import state="String" keywords-only="yes" />
+		</state>
+		<state id="String" scope="string.double">
+			<begin>
+				<regex>"</regex>
+			</begin>
+			<end>
+				<regex>(?&lt;!\\)(\\\\)*"</regex>
+			</end>
+		</state>
+		<state id="Quoted Atoms" scope="string.symbol">
+			<begin>
+				<regex>'</regex>
+			</begin>
+			<end>
+				<regex>(?&lt;!\\)(\\\\)*'</regex>
+			</end>
+		</state>
+		
+		<state id="Do-End-Block" type="block" foldable="yes" indent="yes" scope="meta.block">
+			<begin><regex>(?:\bdo\b)(?!:)</regex><autoend>end</autoend></begin>
+			<end><regex>\bend\b</regex></end>
+			<import/>
+		</state>
+
+	</states>
+</syntax>

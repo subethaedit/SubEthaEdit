@@ -5,13 +5,13 @@
       location = "group:TCMScripts/TCM_GenerateRevisionConfig.sh">
    </FileRef>
    <FileRef
+      location = "group:BuildConfig/Identity.xcconfig">
+   </FileRef>
+   <FileRef
       location = "group:BuildConfig/TCMRevision.xcconfig">
    </FileRef>
    <FileRef
       location = "container:SubEthaEdit-Mac/SubEthaEdit.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:see/see.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:PSMTabBarControl/PSMTabBarControl.xcodeproj">
@@ -21,8 +21,5 @@
    </FileRef>
    <FileRef
       location = "group:UniversalDetector/UniversalDetector.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:HockeySDK-Mac/Support/HockeySDK.xcodeproj">
    </FileRef>
 </Workspace>

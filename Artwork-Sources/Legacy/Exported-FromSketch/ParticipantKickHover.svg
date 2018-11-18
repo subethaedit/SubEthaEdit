@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="46px" height="46px" viewBox="0 0 46 46" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.2 (67145) - http://www.bohemiancoding.com/sketch -->
+    <title>ParticipantKickHover</title>
+    <desc>Created with Sketch.</desc>
+    <g id="ParticipantKickHover" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="InactiveCircleHover" transform="translate(2.000000, 0.000000)" fill="#434343" fill-opacity="0.634199502" stroke="#FFFFFF" stroke-width="2">
+            <circle id="Oval-1" cx="21" cy="21" r="20"></circle>
+        </g>
+        <g id="CloseCrossWhite" transform="translate(12.000000, 11.000000)" fill="#FFFFFF">
+            <path d="M11.0307764,7.87912592 L17.6599024,1.24999985 L20.3115529,3.90165028 L13.6824268,10.5307764 L20.3115529,17.1599024 L17.6599024,19.8115529 L11.0307764,13.1824268 L4.40165028,19.8115529 L1.74999985,17.1599024 L8.37912592,10.5307764 L1.74999985,3.90165028 L4.40165028,1.24999985 L11.0307764,7.87912592 Z" id="Cross"></path>
+        </g>
+    </g>
+</svg>

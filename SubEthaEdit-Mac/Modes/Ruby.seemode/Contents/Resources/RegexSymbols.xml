@@ -51,7 +51,7 @@
         <regex>&lt;div[^&gt;]*id *= *"([^"]*)"[^&gt;]*&gt;</regex>
     </symbol>
 
-    <symbol id="HTML Comment Marks" font-weight="normal" font-style="normal" symbol="!--_#2E7D35_14.0_LiGothicMed" indentation="0" ignoreblocks="no" show-in-comments="yes">
+    <symbol id="HTML Comment Marks" font-weight="normal" font-style="normal" symbol="!--_#2E7D35_11.0_Skia-Regular_Condensed" indentation="0" ignoreblocks="no" show-in-comments="yes">
         <regex>&lt;!-- !([^-]*) --&gt;</regex>
     </symbol>
 

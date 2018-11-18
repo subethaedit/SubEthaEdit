@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<syntax>
+	<head>
+		<name>Markdown</name>
+		<autocompleteoptions use-spelling-dictionary="yes" />
+		<folding toplevel="1" />
+		<charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@]]></charsintokens>
+	</head>
+	<states>
+		<default id="Base" scope="meta.default">
+
+		    <state id="H1" type="string" scope="structured.heading.1">
+               <begin><regex>^#(?:[^#])</regex><autoend>\n</autoend></begin>
+               <end><regex>[\n\r]</regex></end>
+           	</state>
+
+			<keywords id="H1_Line" scope="structured.heading.1">
+				<regex>^(={4,})[\r\n]</regex>
+			</keywords>
+
+		    <state id="H2" type="string" scope="structured.heading.2">
+               <begin><regex>^##(?:[^#])</regex><autoend>\n</autoend></begin>
+               <end><regex>[\n\r]</regex></end>
+           	</state>
+
+			<keywords id="H2_Line" scope="structured.heading.2">
+				<regex>^(-{4,})[\r\n]</regex>
+			</keywords>
+
+		    <state id="H3" type="string" scope="structured.heading.3">
+               <begin><regex>^###(?:[^#])</regex><autoend>\n</autoend></begin>
+               <end><regex>[\n\r]</regex></end>
+           	</state>
+		    <state id="H4" type="string" scope="structured.heading.4">
+               <begin><regex>^####(?:[^#])</regex><autoend>\n</autoend></begin>
+               <end><regex>[\n\r]</regex></end>
+           	</state>
+		    <state id="H5" type="string" scope="structured.heading.5">
+               <begin><regex>^#####(?:[^#])</regex><autoend>\n</autoend></begin>
+               <end><regex>[\n\r]</regex></end>
+           	</state>
+		    <state id="H6" type="string" scope="structured.heading.5">
+               <begin><regex>^######(?:[^#])</regex><autoend>\n</autoend></begin>
+               <end><regex>[\n\r]</regex></end>
+           	</state>
+		    <state id="H7" type="string" scope="structured.heading.5">
+               <begin><regex>^#######(?:[^#])</regex><autoend>\n</autoend></begin>
+               <end><regex>[\n\r]</regex></end>
+           	</state>
+
+			<keywords id="Horizontal Rule" scope="structured.separator.horizontal">
+				<regex>^(-{3}|\*{3}|_{3})[\r\n]</regex>
+			</keywords>
+
+		   	<keywords id="Bold" scope="structured.bold">
+				<regex>(\*\*[^\*\r\n]+?\*\*)</regex>
+				<regex>(__[^_\r\n]+__)</regex>
+			</keywords>
+			
+		   	<keywords id="Italic" scope="structured.italic">
+				<regex>(?&lt;!\*)(\*[^\*\r\n]+?\*)</regex>
+				<regex>(?&lt;!\_)(_[^_\r\n]+?_)</regex>
+			</keywords>
+
+		   	<keywords id="LinkNames" scope="structured.variable">
+				<regex>(!?\[[^\r\n\]]+?\])\(</regex>
+			</keywords>
+
+		    <state id="Quote" scope="structured.quote.even">
+               <begin><regex>^&gt;</regex><autoend>\n</autoend></begin>
+               <end><regex>[\n\r]</regex></end>
+               <import />
+           	</state>
+		
+		    <keywords id="Unordered List" type="string" scope="structured.list.unnumbered" usespellchecking="no">
+				<regex>^[ \t]*(\*)(?!\*)</regex>
+				<regex>^[ \t]*(-)(?!-)</regex>
+           	</keywords>
+
+		    <keywords id="Ordered List" type="string" scope="structured.list.numbered" usespellchecking="no">
+				<regex>^[ \t]*(\d{1,2}\.)</regex>
+           	</keywords>
+
+
+		    <keywords id="Code" type="string" scope="structured.raw.code" usespellchecking="no">
+				<regex>(`[^`\r\n]+?`)</regex>
+           	</keywords>
+
+            <state id="CodeBlock" type="string" foldable="yes" scope="structured.raw.code">
+                <begin><regex>^```</regex><autoend>```</autoend></begin>
+                <end><regex>```</regex></end>
+            </state>
+
+            <state id="CodeBlockWave" type="string" foldable="yes" scope="structured.raw.code">
+                <begin><regex>^~~~</regex><autoend>~~~</autoend></begin>
+                <end><regex>~~~</regex></end>
+            </state>
+
+            <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+		</default>
+	</states>
+</syntax>

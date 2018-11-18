@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment defaultVersion="1090" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="StylePreferences">
@@ -28,7 +29,7 @@
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
-        <customObject id="-3" userLabel="Application"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="6" userLabel="Window">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
@@ -42,19 +43,19 @@
                     <box title="Box" titlePosition="noTitle" id="8">
                         <rect key="frame" x="17" y="16" width="517" height="494"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <view key="contentView">
-                            <rect key="frame" x="2" y="2" width="513" height="490"/>
+                        <view key="contentView" id="Xd5-ZL-s6W">
+                            <rect key="frame" x="3" y="3" width="511" height="488"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <box title="&lt;Font>" id="388">
-                                    <rect key="frame" x="16" y="420" width="481" height="58"/>
+                                <box title="&lt;Font&gt;" id="388">
+                                    <rect key="frame" x="16" y="418" width="479" height="58"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                    <view key="contentView">
-                                        <rect key="frame" x="2" y="2" width="477" height="41"/>
+                                    <view key="contentView" id="o0q-g2-RqZ">
+                                        <rect key="frame" x="3" y="3" width="473" height="40"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
                                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" id="391">
-                                                <rect key="frame" x="79" y="12" width="378" height="17"/>
+                                                <rect key="frame" x="95" y="12" width="362" height="17"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="System font text" id="450">
                                                     <font key="font" metaFont="smallSystem"/>
@@ -75,10 +76,10 @@
                                                     </binding>
                                                 </connections>
                                             </textField>
-                                            <button toolTip="&lt;Change the document's default font>" verticalHuggingPriority="750" id="390">
-                                                <rect key="frame" x="9" y="7" width="70" height="28"/>
+                                            <button toolTip="&lt;Change the document's default font&gt;" verticalHuggingPriority="750" id="390">
+                                                <rect key="frame" x="9" y="7" width="85" height="28"/>
                                                 <autoresizingMask key="autoresizingMask"/>
-                                                <buttonCell key="cell" type="push" title="&lt;Set...>" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" inset="2" id="449">
+                                                <buttonCell key="cell" type="push" title="&lt;Set...&gt;" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" inset="2" id="449">
                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                     <font key="font" metaFont="smallSystem"/>
                                                 </buttonCell>
@@ -93,20 +94,18 @@
                                             </button>
                                         </subviews>
                                     </view>
-                                    <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                                    <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </box>
-                                <box title="&lt;Style Settings>" id="385">
-                                    <rect key="frame" x="16" y="165" width="481" height="254"/>
+                                <box title="&lt;Style Settings&gt;" id="385">
+                                    <rect key="frame" x="16" y="163" width="479" height="254"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                    <view key="contentView">
-                                        <rect key="frame" x="2" y="2" width="477" height="237"/>
+                                    <view key="contentView" id="DTY-Kn-pcc">
+                                        <rect key="frame" x="3" y="3" width="473" height="236"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
                                             <button tag="1" id="457">
-                                                <rect key="frame" x="15" y="205" width="447" height="18"/>
+                                                <rect key="frame" x="15" y="204" width="447" height="18"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                <buttonCell key="cell" type="radio" title="&lt;Style sheet from Default Mode>" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="458">
+                                                <buttonCell key="cell" type="radio" title="&lt;Style sheet from Default Mode&gt;" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="458">
                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                     <font key="font" metaFont="system"/>
                                                 </buttonCell>
@@ -115,9 +114,9 @@
                                                 </connections>
                                             </button>
                                             <button tag="2" id="459">
-                                                <rect key="frame" x="15" y="177" width="219" height="18"/>
+                                                <rect key="frame" x="15" y="176" width="219" height="18"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                <buttonCell key="cell" type="radio" title="&lt;Custom style sheet>" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="460">
+                                                <buttonCell key="cell" type="radio" title="&lt;Custom style sheet&gt;" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="460">
                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                     <font key="font" metaFont="system"/>
                                                 </buttonCell>
@@ -126,7 +125,7 @@
                                                 </connections>
                                             </button>
                                             <popUpButton verticalHuggingPriority="750" id="461">
-                                                <rect key="frame" x="237" y="172" width="226" height="26"/>
+                                                <rect key="frame" x="237" y="171" width="226" height="26"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="464" id="462">
                                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -199,7 +198,6 @@
                                                                     </connections>
                                                                 </tableView>
                                                             </subviews>
-                                                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                         </clipView>
                                                         <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="504">
                                                             <rect key="frame" x="1" y="-15" width="0.0" height="16"/>
@@ -213,7 +211,7 @@
                                                     <button tag="3" id="467">
                                                         <rect key="frame" x="6" y="141" width="447" height="18"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <buttonCell key="cell" type="radio" title="&lt;Custom style sheets for Language Contexts>" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="474">
+                                                        <buttonCell key="cell" type="radio" title="&lt;Custom style sheets for Language Contexts&gt;" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="474">
                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                             <font key="font" metaFont="system"/>
                                                         </buttonCell>
@@ -225,13 +223,11 @@
                                             </customView>
                                         </subviews>
                                     </view>
-                                    <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                                    <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </box>
                                 <button toolTip="Use the settings specified in &quot;Default Mode&quot;" id="387">
-                                    <rect key="frame" x="55" y="463" width="77" height="18"/>
+                                    <rect key="frame" x="70" y="461" width="109" height="18"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <buttonCell key="cell" type="check" title="&lt;use Default>" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="mini" state="on" inset="2" id="448">
+                                    <buttonCell key="cell" type="check" title="&lt;use Default&gt;" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="mini" state="on" inset="2" id="448">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                         <font key="font" metaFont="miniSystem"/>
                                     </buttonCell>
@@ -242,7 +238,7 @@
                                     </connections>
                                 </button>
                                 <button verticalHuggingPriority="750" id="394">
-                                    <rect key="frame" x="290" y="9" width="210" height="32"/>
+                                    <rect key="frame" x="254" y="9" width="244" height="32"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                     <buttonCell key="cell" type="push" title="Apply to Open Documents" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="451">
                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -252,32 +248,30 @@
                                         <action selector="applyToOpenDocuments:" target="-2" id="435"/>
                                     </connections>
                                 </button>
-                                <box title="&lt;Preview>" id="477">
-                                    <rect key="frame" x="16" y="53" width="481" height="108"/>
+                                <box title="&lt;Preview&gt;" id="477">
+                                    <rect key="frame" x="16" y="53" width="479" height="106"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <view key="contentView">
-                                        <rect key="frame" x="2" y="2" width="477" height="91"/>
+                                    <view key="contentView" id="Dzc-Nv-dg1">
+                                        <rect key="frame" x="3" y="3" width="473" height="88"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
                                             <scrollView autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="498">
-                                                <rect key="frame" x="8" y="9" width="461" height="73"/>
+                                                <rect key="frame" x="8" y="9" width="457" height="70"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                <clipView key="contentView" id="PFR-hz-qQk">
-                                                    <rect key="frame" x="1" y="1" width="459" height="71"/>
+                                                <clipView key="contentView" drawsBackground="NO" id="PFR-hz-qQk">
+                                                    <rect key="frame" x="1" y="1" width="455" height="68"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
-                                                        <textView editable="NO" importsGraphics="NO" richText="NO" allowsUndo="YES" verticallyResizable="YES" quoteSubstitution="YES" dashSubstitution="YES" textReplacement="YES" spellingCorrection="YES" id="501">
-                                                            <rect key="frame" x="0.0" y="0.0" width="459" height="71"/>
+                                                        <textView editable="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" allowsUndo="YES" quoteSubstitution="YES" dashSubstitution="YES" textReplacement="YES" spellingCorrection="YES" id="501">
+                                                            <rect key="frame" x="0.0" y="0.0" width="455" height="68"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <size key="minSize" width="459" height="71"/>
+                                                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                            <size key="minSize" width="455" height="68"/>
                                                             <size key="maxSize" width="463" height="10000000"/>
-                                                            <color key="insertionPointColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <size key="minSize" width="459" height="71"/>
-                                                            <size key="maxSize" width="463" height="10000000"/>
+                                                            <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                         </textView>
                                                     </subviews>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </clipView>
                                                 <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="500">
                                                     <rect key="frame" x="-100" y="-100" width="87" height="18"/>
@@ -290,13 +284,9 @@
                                             </scrollView>
                                         </subviews>
                                     </view>
-                                    <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                                    <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </box>
                             </subviews>
                         </view>
-                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </box>
                     <popUpButton verticalHuggingPriority="750" id="13" customClass="DocumentModePopUpButton">
                         <rect key="frame" x="195" y="495" width="160" height="26"/>
@@ -318,6 +308,7 @@
                     </popUpButton>
                 </subviews>
             </view>
+            <point key="canvasLocation" x="138.5" y="147"/>
         </window>
         <objectController objectClassName="DocumentMode" id="73" userLabel="ModeController">
             <declaredKeys>

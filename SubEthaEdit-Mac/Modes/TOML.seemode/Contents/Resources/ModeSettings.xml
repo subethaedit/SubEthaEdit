@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+    <recognition>
+        <extension>toml</extension>
+        <regex>^\[[ \t]*\w+[ \t]*[\.[ \t]*\w+[ \t]*]*[ \t]*\][\r\n \t]*\w+[\.\w+]?[ \t]?=</regex>
+    </recognition>
+</settings>

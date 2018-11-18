@@ -2,12 +2,23 @@
 // Prefix header for all source files of the 'SubEthaEdit' target in the 'SubEthaEdit' project
 //
 
+#ifndef BETA
+#ifndef FULL
+#define MAC_APP_STORE
+#else
+#define INCLUDE_SPARKLE
+#endif
+#endif
+
 #ifdef __OBJC__
     #import <Cocoa/Cocoa.h>
+    #import "AppController.h"
     #import "TCMFoundation.h"
     #import "TCMBEEP.h"
     #import "NSColorTCMAdditions.h"
 	#import "NSColor+SEEAdditions.h"
+    #import "NSAppearanceSEEAdditions.h"
+    #import "NSArraySEEAdditions.h"
     #import "NSImageTCMAdditions.h"
     #import "NSStringSEEAdditions.h"
     #import "NSScreenTCMAdditions.h"

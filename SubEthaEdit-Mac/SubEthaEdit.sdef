@@ -7,6 +7,7 @@
 	 STANDARD SUITE
 	 -->
 	<suite name="Standard Suite" code="????" description="Common classes and commands for all applications.">
+		<access-group identifier="de.codingmonkeys.SubEthaEdit.edit" access="rw"/>
 
 		<enumeration name="saveable file format" code="savf">
 			<enumerator name="TextFile" code="stxt" description="Any text file-format">
@@ -77,6 +78,7 @@
 	 -->
 	<suite name="Text Suite" code="HYRT"
 		description="A set of basic classes for text processing.">
+		<access-group identifier="de.codingmonkeys.SubEthaEdit.edit" access="rw"/>
 
 		<cocoa name="TCMTextSuite"/>
 
@@ -249,6 +251,7 @@
 	 SubEthaEdit SUITE
 	 -->
 	<suite name="SubEthaEdit Suite" code="Hdra" description="SubEthaEdit-specific classes and commands.">
+		<access-group identifier="de.codingmonkeys.SubEthaEdit.edit" access="rw"/>
 
 		<enumeration name="access options" code="Acco">
 			<enumerator name="read write" code="RdWr" description="read/write"/>

@@ -1,7 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.18"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="SEEPlainTextEditorTopBarViewController">
@@ -17,7 +19,7 @@
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
-        <customObject id="-3" userLabel="Application"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ROy-l3-d1g" userLabel="Main View">
             <rect key="frame" x="0.0" y="0.0" width="600" height="18"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -29,9 +31,9 @@
                 <textField verticalHuggingPriority="750" id="W31-AX-oex" customClass="BorderedTextField">
                     <rect key="frame" x="247" y="0.0" width="181" height="19"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="&lt;written by ....>" id="oRf-lT-deq" customClass="InsetTextFieldCell">
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="&lt;written by ....&gt;" id="oRf-lT-deq" customClass="InsetTextFieldCell">
                         <font key="font" metaFont="smallSystem"/>
-                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
@@ -42,9 +44,9 @@
                 <textField toolTip="Cursor position" verticalHuggingPriority="750" id="Ugd-wu-f2r" customClass="BorderedTextField">
                     <rect key="frame" x="0.0" y="0.0" width="93" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="&lt;Position>" id="Xxd-jN-fK9">
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="&lt;Position&gt;" id="Xxd-jN-fK9">
                         <font key="font" metaFont="smallSystem"/>
-                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                     <connections>
@@ -57,7 +59,7 @@
                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="WaitPipe" id="mU1-Ry-qQ8"/>
                 </imageView>
                 <button id="ILs-CV-5zV">
-                    <rect key="frame" x="583" y="0.0" width="18" height="18"/>
+                    <rect key="frame" x="582" y="-1" width="19" height="19"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="ToolbarSplitTwoPanes" imagePosition="only" alignment="center" transparent="YES" inset="2" id="YLG-2p-GdI">
                         <behavior key="behavior" lightByContents="YES"/>
@@ -68,11 +70,11 @@
                     </connections>
                 </button>
                 <textField verticalHuggingPriority="750" id="9sl-OR-xm4" customClass="BorderedTextField">
-                    <rect key="frame" x="494" y="0.0" width="88" height="19"/>
+                    <rect key="frame" x="492" y="0.0" width="88" height="19"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="&lt;x words>" id="iBG-BV-eyd" customClass="InsetTextFieldCell">
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="&lt;x words&gt;" id="iBG-BV-eyd" customClass="InsetTextFieldCell">
                         <font key="font" metaFont="smallSystem"/>
-                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                     <connections>
@@ -83,7 +85,7 @@
         </customView>
     </objects>
     <resources>
-        <image name="ToolbarSplitTwoPanes" width="12" height="13"/>
+        <image name="ToolbarSplitTwoPanes" width="13" height="13"/>
         <image name="WaitPipe" width="13" height="12"/>
     </resources>
 </document>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "symbol.dtd">
+<symbols>
+
+    <blocks>
+        <beginregex>do</beginregex>
+        <endregex>end</endregex>
+    </blocks>
+
+
+	<symbol id="module" symbol="M_#6D5E85"> 
+		<regex>^[\t ]*defmodule[\t ]+([\w_]+)[\t ]+do</regex>
+	</symbol>
+
+	<symbol id="struct" symbol="s_#6D5E85"> 
+		<regex>^[\t ]*defstruct[\t ]+([\w_]+)[\t ]?:</regex>
+	</symbol>
+
+	<symbol id="def" symbol="f()_#6AB18D" indentation="1"> 
+		<regex>^[\t ]*def[\t ]+(.+)[\t ]+do</regex>
+	</symbol>
+
+	<symbol id="defp" symbol="fp_#6AB18D_9" indentation="2"> 
+		<regex>^[\t ]*defp[\t ]+(.+)[\t ]+do</regex>
+	</symbol>
+
+	<symbol id="defmp" symbol="mp_#6AB18D_9" indentation="2"> 
+		<regex>^[\t ]*defmacrop[\t ]+(.+)[\t ]+do</regex>
+	</symbol>
+
+    
+</symbols>

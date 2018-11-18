@@ -1,4 +1,16 @@
-﻿/* arrangement of Tab setting and tab width in Bottm Status Bar */
+/* App menu about */
+"SEE_APP_MENU_ABOUT" = "Über %@";
+
+/* App menu about */
+"SEE_APP_MENU_HIDE" = "%@ ausblenden";
+
+/* App menu about */
+"SEE_APP_MENU_QUIT" = "%@ beenden";
+
+/* App menu check for updates*/
+"SEE_APP_MENU_CHECK_FOR_UPDATES" = "Auf Aktualisierungen prüfen…";
+
+/* arrangement of Tab setting and tab width in Bottm Status Bar */
 "%@ (%d)" = "%@ (%d)";
 
 /* FindRegexPrefix */
@@ -945,7 +957,7 @@
 "STYLE_PREF_SHEET_BUTTON_CUSTOM_FOR_CONTEXT_LABEL" = "Eigener Stil pro Sprachkontext";
 "STYLE_PREF_PREVIEW_BOX_LABEL"= "Vorschau";
 "STYLE_PREF_APPLY_STYLE_BUTTON" = "Auf offene Dokumente anwenden";
-"STYLE_PREFS_REVEAL_USER_STYLES_FOLDER" = "Ordner für eigene Styles anzeigen";
+"STYLE_PREFS_REVEAL_USER_STYLES_FOLDER" = "Ordner für eigene Stile anzeigen";
 "STYLE_PREFS_RELOAD_STYLES_TITLE" = "Neu laden";
 
 /* will cease invisibilty alert */
@@ -954,7 +966,7 @@
 "ANNOUNCE_WILL_MAKE_VISIBLE_ACTION_TITLE" = "Ankündigen";
 
 /* document list */
-"DOCUMENT_LIST_WINDOW_TITLE" = "SubEthaEdit - Dokument-Hub";
+"DOCUMENT_LIST_WINDOW_TITLE" = "%@ - Dokument-Hub";
 "DOCUMENT_LIST_OPEN" = "Öffnen…";
 "DOCUMENT_LIST_NEW" = "Neu";
 "DOCUMENT_LIST_CONNECT" = "Mit URL verbinden…";
@@ -986,8 +998,8 @@
 
 /* authentication script not installed error dialog */
 "AUTHENTICATION_SCRIPT_MISSING_ERROR_DESCRIPTION" = "Unterstützendes Authentifizierungs-Script konnte nicht gefunden werden.";
-"AUTHENTICATION_SCRIPT_MISSING_ERROR_SUGGESTION" = "Bitte laden sie sich das Script von unsere Webseite herunter und folgen die den Installationsanweisungen.";
-"AUTHENTICATION_SCRIPT_MISSING_ERROR_BUTTON_TITLE1" = "Webseite besuchen…";
+"AUTHENTICATION_SCRIPT_MISSING_ERROR_SUGGESTION" = "Bitte führen sie das install Script im Terminal aus so wie in den erweiterten Einstellungen beschrieben.";
+"AUTHENTICATION_SCRIPT_MISSING_ERROR_BUTTON_TITLE1" = "Script anzeigen…";
 "AUTHENTICATION_SCRIPT_MISSING_ERROR_BUTTON_TITLE2" = "Ignorieren";
 
 "SEEConnectionTaglineBonjour" = "Bonjour";
@@ -1022,11 +1034,9 @@
 "FIRST_USE_ANNOUNCE_HELP_TEXT" = "Klicken um dieses Dokument im Netzwerk anzubieten. Rechts-Klicken um die Zugansgrechte für Eintreffende zu bestimmen.";
 
 /* WebSite Links */
-"WEBSITE_FAQ" = "http://subethaedit.net/fragen";
-"WEBSITE_ADDITIONAL_MODES" = "http://subethaedit.net/modi";
-"WEBSITE_AUTHENTICATION_HELPER" = "http://subethaedit.net/authentifizierungshelfer";
-"WEBSITE_COMMANDLINETOOL" = "http://subethaedit.net/kommandozeilentool";
-"WEBSITE_MODE_CREATION_DOCU" = "http://subethaedit.net/modedocs";
+"WEBSITE_FAQ" = "https://subethaedit.net/fragen";
+"WEBSITE_ADDITIONAL_MODES" = "https://subethaedit.net/modes";
+"WEBSITE_MODE_CREATION_DOCU" = "https://subethaedit.net/modedocs";
 
 /* Proxy window */
 "PROXY_WINDOW_ACCEPT" = "Annehmen";

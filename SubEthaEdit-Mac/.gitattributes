@@ -1,0 +1,2 @@
+# Binary files (no line-ending conversions), diff using hexdump
+*.pdf pdf diff=hex

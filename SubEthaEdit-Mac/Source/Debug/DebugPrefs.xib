@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.18"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="DebugPreferences">
+            <connections>
+                <outlet property="O_window" destination="6" id="7"/>
+                <outlet property="toggleBEEPLoggingCheckBox" destination="38" id="40"/>
+                <outlet property="toggleDebugMenuCheckBox" destination="35" id="36"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="&lt;&lt; do not localize &gt;&gt;" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="6" userLabel="PrefPane">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="365" y="358" width="354" height="412"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1178"/>
+            <view key="contentView" id="5">
+                <rect key="frame" x="0.0" y="0.0" width="354" height="412"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <box title="Logging" id="17">
+                        <rect key="frame" x="17" y="160" width="320" height="204"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <view key="contentView" id="PDF-gE-HEI">
+                            <rect key="frame" x="3" y="3" width="314" height="186"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <scrollView horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="16">
+                                    <rect key="frame" x="14" y="14" width="280" height="158"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <clipView key="contentView" id="eSR-ub-3Rz">
+                                        <rect key="frame" x="1" y="0.0" width="267" height="146"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <subviews>
+                                            <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnReordering="NO" multipleSelection="NO" autosaveColumns="NO" headerView="91" id="13">
+                                                <rect key="frame" x="0.0" y="0.0" width="267" height="129"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <size key="intercellSpacing" width="3" height="2"/>
+                                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
+                                                <tableColumns>
+                                                    <tableColumn editable="NO" width="173.5" minWidth="40" maxWidth="1000" id="15">
+                                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Domains">
+                                                            <font key="font" metaFont="smallSystem"/>
+                                                            <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" white="0.33333299" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </tableHeaderCell>
+                                                        <textFieldCell key="dataCell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" alignment="left" id="88">
+                                                            <font key="font" metaFont="system"/>
+                                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </textFieldCell>
+                                                        <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                                        <connections>
+                                                            <binding destination="20" name="value" keyPath="arrangedObjects.domain" id="22"/>
+                                                        </connections>
+                                                    </tableColumn>
+                                                    <tableColumn width="87.495002746582031" minWidth="34.995002746582031" maxWidth="1000" id="14">
+                                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Level">
+                                                            <font key="font" metaFont="smallSystem"/>
+                                                            <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" white="0.33333299" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </tableHeaderCell>
+                                                        <popUpButtonCell key="dataCell" type="bevel" bezelStyle="rounded" alignment="left" borderStyle="bezel" inset="2" arrowPosition="arrowAtCenter" id="19">
+                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                            <font key="font" metaFont="menu"/>
+                                                            <menu key="menu" id="89"/>
+                                                        </popUpButtonCell>
+                                                        <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                                        <connections>
+                                                            <binding destination="23" name="content" keyPath="arrangedObjects" id="25"/>
+                                                            <binding destination="20" name="selectedObject" keyPath="arrangedObjects.level" previousBinding="33" id="34"/>
+                                                            <binding destination="23" name="contentValues" keyPath="arrangedObjects.levelName" previousBinding="25" id="33"/>
+                                                        </connections>
+                                                    </tableColumn>
+                                                </tableColumns>
+                                            </tableView>
+                                        </subviews>
+                                    </clipView>
+                                    <scroller key="horizontalScroller" verticalHuggingPriority="750" controlSize="small" horizontal="YES" id="90">
+                                        <rect key="frame" x="1" y="146" width="267" height="11"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                    </scroller>
+                                    <scroller key="verticalScroller" verticalHuggingPriority="750" controlSize="small" horizontal="NO" id="92">
+                                        <rect key="frame" x="268" y="17" width="11" height="129"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                    </scroller>
+                                    <tableHeaderView key="headerView" id="91">
+                                        <rect key="frame" x="0.0" y="0.0" width="267" height="17"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                    </tableHeaderView>
+                                </scrollView>
+                            </subviews>
+                        </view>
+                    </box>
+                    <button id="35">
+                        <rect key="frame" x="18" y="376" width="148" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Enable Debug Menu" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="78">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="toggleDebugMenu:" target="-2" id="37"/>
+                        </connections>
+                    </button>
+                    <button id="38">
+                        <rect key="frame" x="216" y="376" width="120" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Log BEEP traffic" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="79">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="toggleBEEPLogging:" target="-2" id="39"/>
+                        </connections>
+                    </button>
+                    <button id="41">
+                        <rect key="frame" x="18" y="128" width="228" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="check" title="Save Users as png+vcf to caches" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="80">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <binding destination="42" name="value" keyPath="values.DebugSaveUsersInCache" id="44"/>
+                        </connections>
+                    </button>
+                    <textField verticalHuggingPriority="750" id="45">
+                        <rect key="frame" x="38" y="116" width="209" height="11"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Takes effect on next run" id="81">
+                            <font key="font" metaFont="miniSystem"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <button id="56">
+                        <rect key="frame" x="18" y="92" width="159" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="check" title="Save and Load Window Position" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="mini" state="on" inset="2" id="82">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="miniSystem"/>
+                        </buttonCell>
+                        <connections>
+                            <binding destination="42" name="value" keyPath="values.DocumentStateSaveAndLoadWindowPosition" id="68"/>
+                        </connections>
+                    </button>
+                    <button id="58">
+                        <rect key="frame" x="18" y="77" width="159" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="check" title="Save and Load Tab Setting" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="mini" state="on" inset="2" id="83">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="miniSystem"/>
+                        </buttonCell>
+                        <connections>
+                            <binding destination="42" name="value" keyPath="values.DocumentStateSaveAndLoadTabSetting" id="69"/>
+                        </connections>
+                    </button>
+                    <button id="60">
+                        <rect key="frame" x="18" y="62" width="159" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="check" title="Save and Load Wrap Setting" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="mini" state="on" inset="2" id="84">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="miniSystem"/>
+                        </buttonCell>
+                        <connections>
+                            <binding destination="42" name="value" keyPath="values.DocumentStateSaveAndLoadWrapSetting" id="74"/>
+                        </connections>
+                    </button>
+                    <button id="62">
+                        <rect key="frame" x="18" y="47" width="159" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="check" title="Save and Load Document Mode" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="mini" state="on" inset="2" id="85">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="miniSystem"/>
+                        </buttonCell>
+                        <connections>
+                            <binding destination="42" name="value" keyPath="values.DocumentStateSaveAndLoadDocumentMode" id="71"/>
+                        </connections>
+                    </button>
+                    <button id="64">
+                        <rect key="frame" x="18" y="32" width="159" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="check" title="Save and Load Selection" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="mini" state="on" inset="2" id="86">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="miniSystem"/>
+                        </buttonCell>
+                        <connections>
+                            <binding destination="42" name="value" keyPath="values.DocumentStateSaveAndLoadSelection" id="72"/>
+                        </connections>
+                    </button>
+                    <button id="66">
+                        <rect key="frame" x="18" y="17" width="159" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="check" title="Save and Load Folding State" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="mini" state="on" inset="2" id="87">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="miniSystem"/>
+                        </buttonCell>
+                        <connections>
+                            <binding destination="42" name="value" keyPath="values.DocumentStateSaveAndLoadFoldingState" id="73"/>
+                        </connections>
+                    </button>
+                </subviews>
+            </view>
+        </window>
+        <arrayController clearsFilterPredicateOnInsertion="NO" id="20" userLabel="LogDomainsController">
+            <declaredKeys>
+                <string>domain</string>
+                <string>level</string>
+            </declaredKeys>
+            <connections>
+                <binding destination="-2" name="contentArray" keyPath="logDomains" id="21"/>
+            </connections>
+        </arrayController>
+        <arrayController clearsFilterPredicateOnInsertion="NO" id="23" userLabel="LevelsController">
+            <declaredKeys>
+                <string>level</string>
+                <string>levelName</string>
+            </declaredKeys>
+            <connections>
+                <binding destination="-2" name="contentArray" keyPath="levels" id="24"/>
+            </connections>
+        </arrayController>
+        <userDefaultsController id="42" userLabel="Shared Defaults"/>
+    </objects>
+</document>

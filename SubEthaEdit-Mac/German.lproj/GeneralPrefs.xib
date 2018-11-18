@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6254"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.18"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="GeneralPreferences">
@@ -20,14 +21,14 @@
             <rect key="contentRect" x="522" y="333" width="401" height="269"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
             <view key="contentView" autoresizesSubviews="NO" id="6">
-                <rect key="frame" x="0.0" y="-5" width="401" height="269"/>
+                <rect key="frame" x="0.0" y="0.0" width="401" height="269"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <box autoresizesSubviews="NO" title="Dokumente" id="62">
                         <rect key="frame" x="17" y="16" width="360" height="238"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <view key="contentView">
-                            <rect key="frame" x="2" y="2" width="356" height="221"/>
+                        <view key="contentView" id="AfS-1Y-Qcy">
+                            <rect key="frame" x="3" y="3" width="354" height="220"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <button toolTip="Öffne das Dokument Hub beim Starten des Programms, falls keine anderen Fenster offen sind." id="31">
@@ -188,12 +189,10 @@
                                 </textField>
                             </subviews>
                         </view>
-                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </box>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="987.5" y="642.5"/>
+            <point key="canvasLocation" x="-141" y="-25"/>
         </window>
         <userDefaultsController id="92" userLabel="Shared Defaults"/>
         <userDefaultsController representsSharedInstance="YES" id="srs-xG-Hj2"/>

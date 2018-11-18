@@ -1,11 +1,7 @@
 #!/bin/sh
 
 #  TCM_GenerateRevisionConfig.sh
-#  
-#
 #  Created by Michael Ehrmann on 21.10.13.
-#  Copyright (c) 2013 TheCodingMonkeys. All rights reserved.
-
 
 # this script needs to be included in the app build scheme prebuild phase using
 # ${SRCROOT}/../TCMScripts/TCM_GenerateRevisionConfig.sh
@@ -30,7 +26,9 @@ GIT_REV=`git rev-list HEAD | wc -l;`
 REV=`echo $(( ${GIT_REV}+4000 ))` # adding 4000 to identify a GIT revision
 
 if [ `git ls-files -m | wc -l` -gt 0 ]; then
+if [ -n "$TCM_APP_STYLE" ]; then
 	MODIFIED="+"
+fi
 fi
 
 cd -
@@ -39,6 +37,6 @@ echo "Setting TCM_APP_REVISION   ${REV}${MODIFIED}"
 echo "Setting TCM_APP_REVISION_HASH ${REV_SHA1}"
 echo "Setting TCM_APP_BUILD_STYLE ${CONFIGURATION}"
 
-# write the BXRevision xcconfig into BXShared buildconfig location
+# write the TCMRevision xcconfig into TCMShared buildconfig location
 echo "TCM_APP_REVISION = ${REV}${MODIFIED}\nTCM_APP_REVISION_HASH = ${MODIFIED}${REV_SHA1}\nTCM_APP_BUILD_STYLE = ${CONFIGURATION}\n" > "${TCM_WORKSPACE_ROOT}BuildConfig/TCMRevision.xcconfig"
 
