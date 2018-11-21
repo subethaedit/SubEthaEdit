@@ -50,3 +50,10 @@ This project is distributed under the MIT License - see the [LICENSE.txt](LICENS
 * Thanks to the Xerox Parc Jupiter Project for [Transactional Transformations](https://www.semanticscholar.org/paper/High-Latency%2C-Low-Bandwidth-Windowing-in-the-System-Nichols-Curtis/369c52d8214b73a86b1e3f31d287823ea91884d6).
 * Thanks to the [MiniUPnP](http://miniupnp.free.fr) project.
 * For a full list of licenses and acknowlegdements see [acknowledgements](Acknowledgements.md)
+
+## Related Repositories
+
+* `TCMPortMapper.framework` is built from [monkeydom/TCMPortMapper](https://github.com/monkeydom/ObjectiveTOML)
+* `tomlutil` is used from [monkeydom/ObjectiveTOML](https://github.com/monkeydom/ObjectiveTOML)
+* `Sparkle.framework` is built from [sparkle-project/Sparkle](https://github.com/sparkle-project/Sparkle/tree/ui-separation-and-xpc) - the ui-separation-and-xpc branch.
+
