@@ -39,6 +39,10 @@ Project email: subethaedit at lone.monkey.productions
 
 See the full list of [contributors](Contributors.md).
 
+## Change Log
+
+See the full [release change log history](ChangeLog.md).
+
 ## License
 
 This project is distributed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details
