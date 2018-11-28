@@ -32,6 +32,7 @@
             </keywords>
 
             <keywords id="Keywords" useforautocomplete="yes" scope="keyword.control.js">
+                <string>await</string>
                 <string>break</string>
                 <string>case</string>
                 <string>catch</string>
@@ -43,6 +44,7 @@
                 <string>do</string>
                 <string>else</string>
                 <string>extends</string>
+                <string>export</string>
                 <string>final</string>
                 <string>finally</string>
                 <string>for</string>
@@ -73,7 +75,7 @@
                 <string>volatile</string>
                 <string>while</string>
                 <string>with</string>
-                
+                <string>yield</string>
             </keywords>
 
             <keywords id="Types" useforautocomplete="yes" scope="keyword.type.js">
