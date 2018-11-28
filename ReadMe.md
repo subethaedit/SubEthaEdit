@@ -29,7 +29,7 @@ You should be all set to open up the shared workspace at `SubEthaEdit.xcworkspac
 
 Please read [contributing](Contributing.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
-For general guidance on what is should/ and isn't shouldn't be SubEthaEdit, please refere to the [application definintion document](ApplicationDefinition.md).
+For general guidance on what is should/ and isn't shouldn't be SubEthaEdit, please refer to the [application definintion document](ApplicationDefinition.md).
 
 ## Active contributors
 
