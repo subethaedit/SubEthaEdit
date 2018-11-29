@@ -79,7 +79,7 @@ NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
         
         // set selected rows to those that were just moved
         // Need to work out what moved where to determine proper selection...
-        int rowsAbove = [self rowsAboveRow:row inIndexSet:indexSet];
+        NSInteger rowsAbove = [self rowsAboveRow:row inIndexSet:indexSet];
         
         NSRange range = NSMakeRange(row - rowsAbove, [indexSet count]);
         indexSet = [NSIndexSet indexSetWithIndexesInRange:range];

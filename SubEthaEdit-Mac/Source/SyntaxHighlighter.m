@@ -510,7 +510,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
     // Check if the string after the area we just colored matches up
     // Make it dirty if there is a logical glitch
     
-    int nextIndex = NSMaxRange(aRange);
+    NSUInteger nextIndex = NSMaxRange(aRange);
     if (nextIndex >= [theString length]) return;
     
     if (([aString attribute:kSyntaxHighlightingIsCorrectAttributeName atIndex:nextIndex effectiveRange:nil])) {
@@ -518,9 +518,9 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
         BOOL leftIsEnd = [[aString attribute:kSyntaxHighlightingStateDelimiterName atIndex:nextIndex-1 effectiveRange:nil] isEqualTo:kSyntaxHighlightingStateDelimiterEndValue];
         BOOL rightIsStart = [[aString attribute:kSyntaxHighlightingStateDelimiterName atIndex:nextIndex effectiveRange:nil] isEqualTo:kSyntaxHighlightingStateDelimiterStartValue];
         NSArray *leftStack = [aString attribute:kSyntaxHighlightingStackName atIndex:nextIndex-1 effectiveRange:nil];
-        int leftCount = [leftStack count];
+        NSUInteger leftCount = [leftStack count];
         NSArray *rightStack = [aString attribute:kSyntaxHighlightingStackName atIndex:nextIndex effectiveRange:nil];
-        int rightCount = [rightStack count];
+        NSUInteger rightCount = [rightStack count];
         
         // Same stack, no ends and begins or both an end and a begin
         if ([leftStack isEqualToArray:rightStack]) {

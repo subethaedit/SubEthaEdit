@@ -429,11 +429,6 @@ static AppController *sharedInstance = nil;
         // Observe the app's effective appearance
         [NSApp addObserver:self forKeyPath:@"effectiveAppearance" options:0 context:nil];
     }
-
-    if (@available(macOS 10.12, *)) {
-        // Disable tabbing as we use PSMTabBar
-        [NSWindow setAllowsAutomaticWindowTabbing:NO];
-    }
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {

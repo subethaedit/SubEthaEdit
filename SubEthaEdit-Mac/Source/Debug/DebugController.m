@@ -76,7 +76,7 @@ static DebugController * sharedInstance = nil;
 
 - (void)enableDebugMenu:(BOOL)flag
 {
-    int indexOfDebugMenu = [[NSApp mainMenu] indexOfItemWithTitle:@"Debug"];
+    NSInteger indexOfDebugMenu = [[NSApp mainMenu] indexOfItemWithTitle:@"Debug"];
     
     if (flag && indexOfDebugMenu == -1) {
         NSMenuItem *debugItem = [[NSMenuItem alloc] initWithTitle:@"Debug" action:nil keyEquivalent:@""];
