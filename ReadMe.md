@@ -57,7 +57,7 @@ This project is distributed under the MIT License - see the [LICENSE.txt](LICENS
 
 ## Related Repositories
 
-* `TCMPortMapper.framework` is built from [monkeydom/TCMPortMapper](https://github.com/monkeydom/ObjectiveTOML)
+* `TCMPortMapper.framework` is built from [monkeydom/TCMPortMapper](https://github.com/monkeydom/TCMPortMapper)
 * `tomlutil` is used from [monkeydom/ObjectiveTOML](https://github.com/monkeydom/ObjectiveTOML)
 * `Sparkle.framework` is built from [sparkle-project/Sparkle](https://github.com/sparkle-project/Sparkle/tree/ui-separation-and-xpc) - the ui-separation-and-xpc branch.
 
