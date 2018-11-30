@@ -86,6 +86,12 @@
 				<regex>(`[^`\r\n]+?`)</regex>
            	</keywords>
 
+            <state id="CodeBlock-JavaScript" usesymbolsfrommode="Javascript" useautocompletefrommode="Javascript" foldable="yes" scope="meta.block.js">
+                <begin><regex>^```(?:javascript|js|jsx|node)</regex></begin>
+                <end><regex>```</regex></end>
+                <import mode = "Javascript" />
+            </state>
+
             <state id="CodeBlock" type="string" foldable="yes" scope="structured.raw.code">
                 <begin><regex>^```</regex><autoend>```</autoend></begin>
                 <end><regex>```</regex></end>
