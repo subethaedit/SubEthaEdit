@@ -12,7 +12,7 @@
     </symbol>
 
     <symbol id="Funtions" symbol="f()_#6AB18D" indentation="0" ignoreblocks="yes">
-        <regex>(?&lt;=[\n\r]|^)\s{0,512}function\s{1,512}([^{]{0,512})(?=\s{0,512}\{)</regex>
+        <regex>(?&lt;=[\n\r]|^)\s{0,512}(?:async\s{1,512})?function\s{1,512}\*?\s{0,512}([^{]{0,512})(?=\s{0,512}\{)</regex>
         <postprocess>
             <find>\([^\)]*\)</find>
             <replace>()</replace>
@@ -24,7 +24,7 @@
     </symbol>
 
     <symbol id="Inline Funtions" symbol="f()_#6AB18D" indentation="0" ignoreblocks="yes">
-        <regex>(\w{1,512})\s{0,512}=\s{0,512}function\s{0,512}\([^\)]{0,512}\)(?=\s{0,512}\{)</regex>
+        <regex>(\w{1,512})\s{0,512}=\s{0,512}(?:async\s{1,512})?function\s{0,512}\*?\s{0,512}\([^\)]{0,512}\)(?=\s{0,512}\{)</regex>
         <postprocess>
             <find>(.*)</find>
             <replace>\1()</replace>
