@@ -34,7 +34,7 @@
             </keywords>
 
             <keywords id="Keywords" useforautocomplete="yes" scope="keyword.control.js">
-                <string>async function</string>
+                <regex>(async)\s{1,512}function</regex>
                 <string>await</string>
                 <string>break</string>
                 <string>case</string>
