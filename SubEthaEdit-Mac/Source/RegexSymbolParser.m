@@ -12,8 +12,7 @@
 
 @implementation RegexSymbolParser
 
-- (id)initWithSymbolDefinition:(RegexSymbolDefinition *)aSymbolDefinition 
-{
+- (id)initWithSymbolDefinition:(RegexSymbolDefinition *)aSymbolDefinition  {
     self=[super init];
     if (self) {
         [self setSyntaxDefinition:aSymbolDefinition];
@@ -28,13 +27,11 @@
 
 #pragma mark - Accessors
 
-- (RegexSymbolDefinition *)symbolDefinition
-{
+- (RegexSymbolDefinition *)symbolDefinition {
     return I_symbolDefinition;
 }
 
-- (void)setSyntaxDefinition:(RegexSymbolDefinition *)aSymbolDefinition
-{
+- (void)setSyntaxDefinition:(RegexSymbolDefinition *)aSymbolDefinition {
     [I_symbolDefinition autorelease];
 	I_symbolDefinition = [aSymbolDefinition retain];
 }
@@ -65,8 +62,7 @@
 }
 
 
-- (NSArray *)symbolsForTextStorage:(NSTextStorage *)aTextStorage inRange:(NSRange)aRange
-{
+- (NSArray *)symbolsForTextStorage:(NSTextStorage *)aTextStorage inRange:(NSRange)aRange {
     RegexSymbolDefinition *definition = [self symbolDefinition];
     NSMutableArray *returnArray =[NSMutableArray array];
 	
@@ -90,10 +86,23 @@
                 if (![aMatch substringAtIndex:1]) jumprange = [aMatch rangeOfMatchedString];
                 if ( jumprange.location < [aTextStorage length] )
                 {
-                    BOOL isComment = [[aTextStorage attribute:kSyntaxHighlightingScopenameAttributeName atIndex:jumprange.location effectiveRange:nil] hasPrefix:@"comment"];
-                    if (!isComment) isComment = [[aTextStorage attribute:kSyntaxHighlightingTypeAttributeName atIndex:jumprange.location effectiveRange:nil] isEqualToString:kSyntaxHighlightingTypeComment];
+                    NSString *scopeName = [aTextStorage attribute:kSyntaxHighlightingScopenameAttributeName atIndex:jumprange.location effectiveRange:nil];
+
+                    BOOL isComment = [scopeName hasPrefix:@"comment"];
+                    NSString *typeAttribute = nil;
+                    if (!isComment) {
+                        typeAttribute = typeAttribute ?: [aTextStorage attribute:kSyntaxHighlightingTypeAttributeName atIndex:jumprange.location effectiveRange:nil];
+                        isComment = [typeAttribute isEqualToString:kSyntaxHighlightingTypeComment];
+                    }
+
+                    BOOL isString = [scopeName hasPrefix:@"string"];
+                    if (!isString) {
+                        typeAttribute = typeAttribute ?: [aTextStorage attribute:kSyntaxHighlightingTypeAttributeName atIndex:jumprange.location effectiveRange:nil];
+                        isString = [typeAttribute isEqualToString:kSyntaxHighlightingTypeString];
+                    }
+
                     BOOL showInComments = [[symbol objectForKey:@"show-in-comments"] isEqualToString:@"yes"];
-                    if (!isComment||showInComments) {
+                    if (!isString && (!isComment || showInComments)) {
                         
                         NSRange fullrange = [aMatch rangeOfMatchedString];
                         NSString *name = [aMatch substringAtIndex:1];
