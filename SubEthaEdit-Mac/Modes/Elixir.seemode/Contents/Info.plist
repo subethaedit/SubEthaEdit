@@ -9,9 +9,9 @@
 	<key>NSHumanReadableCopyright</key>
 	<string>© 2018 SubEthaEdit Contributors</string>
 	<key>CFBundleShortVersionString</key>
-	<string>5.0</string>
+	<string>5.0.1</string>
 	<key>CFBundleVersion</key>
-	<string>5.0</string>
+	<string>5.0.1</string>
 	<key>SEEMinimumEngineVersion</key>
 	<string>4.0</string>
 	<key>CFBundleInfoDictionaryVersion</key>
