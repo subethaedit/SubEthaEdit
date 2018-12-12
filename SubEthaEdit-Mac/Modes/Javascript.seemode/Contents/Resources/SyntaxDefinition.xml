@@ -29,9 +29,12 @@
                 <string>SyntaxError</string>
                 <string>TypeError</string>
                 <string>URIError</string>
+                <string>URL</string>
+                <string>URLSearchParams</string>
             </keywords>
 
             <keywords id="Keywords" useforautocomplete="yes" scope="keyword.control.js">
+                <regex>(async)\s{1,512}function</regex>
                 <string>await</string>
                 <string>break</string>
                 <string>case</string>

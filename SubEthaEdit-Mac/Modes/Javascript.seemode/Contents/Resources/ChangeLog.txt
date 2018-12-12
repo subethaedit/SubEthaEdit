@@ -1,3 +1,8 @@
+Changes with Version 5.0.1 (SEE 5.0.1)
+    *) SYNTAX: added new built-in objects URL and URLSearchParams
+    *) SYNTAX: updated to support async and generator functions
+    *) SYNTAX: updated to support new ES 2017 and 2018 keywords
+
 Changes with Version 4.0 (SEE 4.0)
 	*) SYNTAX: updated for syntax scopes
 	*) SYNTAX: markup cleanup
