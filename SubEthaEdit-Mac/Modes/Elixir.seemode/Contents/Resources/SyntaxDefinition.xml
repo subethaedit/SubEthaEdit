@@ -3,13 +3,16 @@
 <syntax>
 	<head>
 		<name>Elixir</name>
-		<charsintokens><![CDATA[_-0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@]]></charsintokens>
+		<charsintokens><![CDATA[_-0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@?!:]]></charsintokens>
         <folding toplevel="1"/>
 	</head>
 	<states>
 		<default id="Base" scope="meta.default">
 			<keywords id="Atoms" useforautocomplete="no" scope="string.symbol">
 				<regex>(?&lt;!:)(:(?:(?:@@|@|\$)?[A-Za-z_][A-Za-z_0-9]*[\?!=]?|\[\]=?))</regex>
+			</keywords>
+			<keywords id="Maps" useforautocomplete="no" scope="string.symbol">
+				<regex>(%)[\w_\.-]*{</regex>
 			</keywords>
 			<keywords id="Numbers" useforautocomplete="yes" scope="language.constant.numeric">
 				<regex>(?&lt;![\w\d_])((?:[-+]?(?:[0-9]+(?:\.[0-9]+)?(?:[eE][-+]?[0-9][0-9_]*)?))|(?:0x[0-9a-fA-F]+)|(?:0b[01]+)|(?:0o[0-7]+))(?![\w\d_])</regex>
@@ -32,22 +35,48 @@
 				<string>do:</string>
 				<string>@spec</string>
 				<string>@doc</string>
+				<string>@typedoc</string>
 				<string>@moduledoc</string>
-				<string>@behavior</string>
-				<string>@impl</string>
-				<string>@type</string>
+				<string>@behaviour</string>
+				<string>@dialyzer</string>
+
 				<string>@escapable</string>
 				<string>@deprecated</string>
-				<string>@typedoc</string>
 				<string>@enforce_keys</string>
 				<string>@struct</string>
+				<string>@compile</string>
+				<string>@after_compile</string>
+				<string>@before_compile</string>
+				<string>@external_resource</string>
+
+				<string>@file</string>
+				<string>@on_definition</string>
+				<string>@on_load</string>
+				<string>@vsn</string>
+
+				<string>@type</string>
+				<string>@typep</string>
+				<string>@opaque</string>
+				<string>@spec</string>
+				<string>@callback</string>
+				<string>@macrocallback</string>
+				<string>@optional_callbacks</string>
+				<string>@impl</string>
+
+				<string>@custom_attr</string>
+
 				<string>end</string>
 				<string>quote</string>
 				<string>fn</string>
 				<string>cond</string>
 				<string>case</string>
+				<string>try</string>
+				<string>catch</string>
 				<string>if</string>
+				<string>unless</string>
 				<string>else</string>
+				<string>else:</string>
+				<string>into:</string>
 				<string>of</string>
 				<string>for</string>
 				<string>in</string>
@@ -55,7 +84,9 @@
 				<string>when</string>
 				<string>and</string>
 				<string>or</string>
+				<string>after</string>
 				<string>import</string>
+				<string>require</string>
 				
 				<string>any</string>
 				<string>none</string>
@@ -99,9 +130,6 @@
 				<string>node</string>
 				<string>number</string>
 				<string>timeout</string>
-				<string>@type</string>
-				<string>@typep</string>
-				<string>@opaque</string>
 				<string>__ENV__</string>
 				<string>__MODULE__</string>
 				<string>__using__</string>
@@ -148,6 +176,7 @@
 				<string>GenServer</string>
 				<string>Registry</string>
 				<string>Supervisor</string>
+				<string>Record</string>
 				<string>Task</string>
 				<string>SpecialForms</string>
 			</keywords>
@@ -181,6 +210,7 @@
 				<string>spawn_monitor</string>
 				<string>tuple_size</string>
 				<string>use</string>
+				<string>alias</string>
 				<string>raise</string>
 				<string>rem</string>
 				<string>node</string>
@@ -190,6 +220,11 @@
 				<string>put_in</string>
 				<string>reraise</string>
 				<string>self</string>
+				<regex>(&amp;[1-9])</regex>
+				<regex>(&amp;)[\w]</regex>
+			</keywords>
+			<keywords id="Character Literal" scope="language.constant.numeric.character">
+				<regex>((?&lt;!\w)[$?][^\s])</regex>
 			</keywords>
 		</default>
 		<state id="SingleComment" scope="comment.line">
@@ -198,14 +233,6 @@
 			</begin>
 			<end>
 				<regex>[\n\r]</regex>
-			</end>
-		</state>
-		<state id="Character Literal" scope="language.constant.numeric.character">
-			<begin>
-				<regex>\$</regex>
-			</begin>
-			<end>
-				<regex>\\?.</regex>
 			</end>
 		</state>
 		<state id="Sigil Heredoc" type="string" foldable="yes" scope="string.double.here-doc">
@@ -236,9 +263,17 @@
 			<import/>
 			</state>
 		</state>
-		<state id="Quoted Atoms" scope="string.symbol">
+		<state id="Charlist string" scope="string.single">
 			<begin>
 				<regex>'</regex>
+			</begin>
+			<end>
+				<regex>(?&lt;!\\)(\\\\)*'</regex>
+			</end>
+		</state>
+		<state id="Quoted Atoms" scope="string.symbol">
+			<begin>
+				<regex>:'</regex>
 			</begin>
 			<end>
 				<regex>(?&lt;!\\)(\\\\)*'</regex>
