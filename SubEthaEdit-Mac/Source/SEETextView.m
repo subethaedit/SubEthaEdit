@@ -748,6 +748,12 @@ static NSMenu *S_defaultMenu=nil;
         
         I_flags.shouldCheckCompleteStart=NO;
     }
+    
+    if (result.count) {
+        if ([[self delegate] respondsToSelector:@selector(textView:willStartAutocompleteForPartialWordRange:completions:)]) {
+            [[self delegate] textView:self willStartAutocompleteForPartialWordRange:charRange completions:result];
+        }
+    }
     return result;
 }
 

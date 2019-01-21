@@ -5682,6 +5682,12 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 - (NSEnumerator *)matchEnumeratorForAutocompleteString:(NSString *)aPartialWord {
 
+    // ignore whitespace only words
+    NSCharacterSet *set = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+    if ([aPartialWord stringByTrimmingCharactersInSet:set].length == 0) {
+        return [@[] objectEnumerator];
+    }
+    
     static OGRegularExpression *escapingExpression = nil;
     if (!escapingExpression) {
         escapingExpression = [[OGRegularExpression alloc] initWithString:@"[\\-\\[\\]^]" options:OgreFindNotEmptyOption];
