@@ -2,6 +2,7 @@ Changes with Version 5.0.1 (SEE 5.0.1)
     *) fixed some keywords
     *) added string interpolation highlighting
     *) added add shebang and chmod scripts
+    *) added highlighting of maps and @attributes
 
 Changes with Version 5.0 (SEE 5.0)
     *) initial release

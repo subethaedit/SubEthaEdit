@@ -11,6 +11,9 @@
 			<keywords id="Atoms" useforautocomplete="no" scope="string.symbol">
 				<regex>(?&lt;!:)(:(?:(?:@@|@|\$)?[A-Za-z_][A-Za-z_0-9]*[\?!=]?|\[\]=?))</regex>
 			</keywords>
+			<keywords id="Attributes" useforautocomplete="no" scope="language.constant.string">
+				<regex>(@[A-Za-z_][A-Za-z_0-9]*)</regex>
+			</keywords>
 			<keywords id="Maps" useforautocomplete="no" scope="string.symbol">
 				<regex>(%)[\w_\.-]*{</regex>
 			</keywords>

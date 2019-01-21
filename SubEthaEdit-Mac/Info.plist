@@ -2710,6 +2710,30 @@
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
+				<string>eex</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>file-sgml</string>
+			<key>CFBundleTypeName</key>
+			<string>EEx Source</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.eex-source</string>
+			</array>
+			<key>LSTypeIsPackage</key>
+			<false/>
+			<key>NSDocumentClass</key>
+			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
 				<string>rhtml</string>
 				<string>erb</string>
 			</array>

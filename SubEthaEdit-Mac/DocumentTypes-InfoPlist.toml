@@ -1091,6 +1091,16 @@
 	NSDocumentClass = "PlainTextDocument"
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
+	CFBundleTypeExtensions = ["eex"]
+	CFBundleTypeIconFile = "file-sgml"
+	CFBundleTypeName = "EEx Source"
+	CFBundleTypeRole = "Editor"
+	LSHandlerRank = "Owner"
+	LSItemContentTypes = ["public.eex-source"]
+	LSTypeIsPackage = false
+	NSDocumentClass = "PlainTextDocument"
+	NSIsRelatedItemType = true
+[[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["rhtml", "erb"]
 	CFBundleTypeIconFile = "file-sgml"
 	CFBundleTypeName = "erb Source"
