@@ -162,6 +162,8 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
 
 + (PlainTextDocument *)transientDocument;
 
++ (NSDictionary *)parseOpenDocumentEvent:(NSAppleEventDescriptor *)eventDesc;
+
 - (NSImage *)documentIcon;
 
 - (id)initWithSession:(TCMMMSession *)aSession;
@@ -255,7 +257,7 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
 //- (void)gotoLine:(unsigned)aLine orderFront:(BOOL)aFlag;
 - (void)selectRange:(NSRange)aRange;
 - (void)selectRangeInBackground:(NSRange)aRange;
-- (void)handleOpenDocumentEvent:(NSAppleEventDescriptor *)eventDesc;
+- (void)handleParsedOpenDocumentEvent:(NSDictionary<NSString *, NSDictionary *> *)parsedEvent;
 
 - (void)convertLineEndingsToLineEnding:(LineEnding)lineEnding;
 - (IBAction)convertLineEndings:(id)aSender;

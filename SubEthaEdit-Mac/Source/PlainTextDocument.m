@@ -472,8 +472,12 @@ static NSString *tempFileName(NSString *origPath) {
                 if (appleEvent != nil) {
                     DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Sending apple event");
                     AppleEvent reply;
-                    //err = 
-                    AESendMessage ([appleEvent aeDesc], &reply, kAENoReply, kAEDefaultTimeout);
+                    OSStatus err =
+                    AESendMessage([appleEvent aeDesc], &reply, kAENoReply, kAEDefaultTimeout);
+                    if (err != noErr) {
+                        NSLog(@"%s, error: %d",__FUNCTION__,err);
+
+                    }
                 }
             }
         }
@@ -2116,19 +2120,20 @@ struct SelectionRange
 #pragma pack(pop)
 
 
-- (void)handleOpenDocumentEvent:(NSAppleEventDescriptor *)eventDesc {
++ (NSDictionary *)parseOpenDocumentEvent:(NSAppleEventDescriptor *)eventDesc {
+    NSMutableDictionary *result = [NSMutableDictionary new];
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"handleOpenDocumentEvent");
     if (!([eventDesc eventClass] == kCoreEventClass && [eventDesc eventID] == kAEOpenDocuments)) {
-        return;
+        return result;
     }
-
+    
     DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"%@", [eventDesc description]);
-
+    
     // Retrieve ODB parameters
-
+    
     // keyFileSender/typeType
     NSAppleEventDescriptor *fileSenderDesc = [[eventDesc paramDescriptorForKeyword:keyFileSender] coerceToDescriptorType:typeType];
-
+    
     // keyFileSenderToken/typeWildCard(typeList)
     NSAppleEventDescriptor *senderTokenDesc = nil;
     NSAppleEventDescriptor *senderTokenListDesc = [[eventDesc paramDescriptorForKeyword:keyFileSenderToken] coerceToDescriptorType:typeAEList];
@@ -2137,7 +2142,7 @@ struct SelectionRange
         senderTokenDesc = [[eventDesc paramDescriptorForKeyword:keyFileSenderToken] coerceToDescriptorType:typeWildCard];
     } else {
         DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"odb tokens were put in a list");
-
+        
     }
     
     // keyFileCustomPath/
@@ -2148,9 +2153,9 @@ struct SelectionRange
         customPathDesc = [eventDesc paramDescriptorForKeyword:keyFileCustomPath];
     } else {
         DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"odb custom paths were put in a list");
-
+        
     }
-
+    
     // look for AEPropData appended by LaunchServices
     NSAppleEventDescriptor *propDataAEDesc = [[eventDesc paramDescriptorForKeyword:keyAEPropData] coerceToDescriptorType:typeWildCard];
     if (propDataAEDesc) {
@@ -2166,13 +2171,15 @@ struct SelectionRange
     NSAppleEventDescriptor *bookmarksDescription = [[eventDesc descriptorForKeyword:keyDirectObject] coerceToDescriptorType:typeAEList];
     int numberOfItems = [bookmarksDescription numberOfItems];
     for (int i = 1; i <= numberOfItems; i++) {
-        NSAppleEventDescriptor *bookmarkDataDesc = [[bookmarksDescription descriptorAtIndex:i] coerceToDescriptorType:typeBookmarkData];
-        if (bookmarkDataDesc) {
-            DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"bookmarkData: %@", [bookmarkDataDesc description]);
-            NSURL *fileURL = [NSURL URLByResolvingBookmarkData:[bookmarkDataDesc data] options:0 relativeToURL:nil bookmarkDataIsStale:nil error:nil];
+        NSAppleEventDescriptor *descriptor = [bookmarksDescription descriptorAtIndex:i];
+        NSAppleEventDescriptor *fileURLDataDesc = [descriptor coerceToDescriptorType:typeFileURL];
+        if (fileURLDataDesc) {
+            DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"fileURLDataDescriptor: %@", [fileURLDataDesc description]);
+            NSURL *fileURL = [fileURLDataDesc fileURLValue];
             NSString *filePath = [[fileURL path] stringByStandardizingPath];
-            if ([filePath isEqualToString:[[[self fileURL] path] stringByStandardizingPath]]) {
-
+            NSMutableDictionary *parsed = [NSMutableDictionary new];
+            result[filePath] = parsed;
+            
                 // selection may be included in Xcode event
                 NSAppleEventDescriptor *selectionDesc = [[eventDesc paramDescriptorForKeyword:keyAEPosition] coerceToDescriptorType:typeChar];
                 if (selectionDesc) {
@@ -2181,19 +2188,19 @@ struct SelectionRange
                     DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"lineNum: %d\nstartRange: %d\nendRange: %d", selectionRange->lineNum, selectionRange->startRange, selectionRange->endRange);
                     if (selectionRange->lineNum < 0) {
                         DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"selectRange");
-                        [self selectRange:NSMakeRange(selectionRange->startRange, selectionRange->endRange - selectionRange->startRange)];
+                        parsed[@"selectRange"] = [NSValue valueWithRange:NSMakeRange(selectionRange->startRange, selectionRange->endRange - selectionRange->startRange)];
                     } else {
                         DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"gotoLine");
-                        [self gotoLine:selectionRange->lineNum + 1];
+                        parsed[@"gotoLine"] = @(selectionRange->lineNum + 1);
                     }
                 }
-
+                
                 // save ODB parameters in case of ODB event
                 NSMutableDictionary *ODBParameters = [NSMutableDictionary dictionary];
                 if (fileSenderDesc) {
                     [ODBParameters setObject:[fileSenderDesc data] forKey:@"keyFileSender"];
                 }
-
+                
                 if (customPathListDesc) {
                     NSAppleEventDescriptor *customPathDesc = [customPathListDesc descriptorAtIndex:i];
                     if (customPathDesc) {
@@ -2220,13 +2227,35 @@ struct SelectionRange
                 } else if (senderTokenDesc) {
                     [ODBParameters setObject:senderTokenDesc forKey:@"keyFileSenderToken"];
                 }
-
+                
                 DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"retrieved ODB parameters: %@", [ODBParameters description]);
-                [self setODBParameters:ODBParameters];
-            }
+                parsed[@"odb"] = ODBParameters;
+            
         }
     }
-    [[self windowControllers] makeObjectsPerformSelector:@selector(synchronizeWindowTitleWithDocumentName)];
+    return result;
+}
+
+- (void)handleParsedOpenDocumentEvent:(NSDictionary<NSString *, NSDictionary *> *)parsedEvent {
+    NSString *myFilePath = [[[self fileURL] path] stringByStandardizingPath];
+    [parsedEvent enumerateKeysAndObjectsUsingBlock:^(NSString *filePath, NSDictionary *parsed, BOOL * _Nonnull _stop) {
+        if ([filePath isEqualToString:myFilePath]) {
+            [self setODBParameters:parsed[@"odb"]];
+            [[self windowControllers] makeObjectsPerformSelector:@selector(synchronizeWindowTitleWithDocumentName)];
+        }
+        {
+            id value = parsed[@"selectRange"];
+            if (value) {
+                [self selectRange:[value rangeValue]];
+            }
+        }
+        {
+            id value = parsed[@"gotoLine"];
+            if (value) {
+                [self gotoLine:[value intValue]];
+            }
+        }
+    }];
 }
 
 #pragma mark -
