@@ -4411,6 +4411,27 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.html</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>HTML with embedded Elixir</string>
+			<key>UTTypeIconFile</key>
+			<string>file-sgml</string>
+			<key>UTTypeIdentifier</key>
+			<string>public.eex-source</string>
+			<key>UTTypeReferenceURL</key>
+			<string>https://hexdocs.pm/eex/EEx.html</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>eex</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
 			<string>public.source-code</string>
 			<key>UTTypeDescription</key>
 			<string>C++ Source Code</string>
