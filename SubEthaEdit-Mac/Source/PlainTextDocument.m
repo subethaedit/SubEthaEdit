@@ -433,26 +433,11 @@ static NSString *tempFileName(NSString *origPath) {
         return;
 
 
-    NSURL *fileURL = [NSURL fileURLWithPath:fileName];
-	NSData *fileURLBookmarkData = [fileURL bookmarkDataWithOptions:NSURLBookmarkCreationSuitableForBookmarkFile includingResourceValuesForKeys:nil relativeToURL:nil error:nil];
-//    FSRef fileRef;
-//    CFURLGetFSRef((CFURLRef)fileURL, &fileRef);
-//    FSSpec fsSpec;
-//    err = FSGetCatalogInfo(&fileRef, kFSCatInfoNone, NULL, NULL, &fsSpec, NULL);
+    NSURL *fileURL = self.fileURL;
     NSAppleEventDescriptor *directObjectDesc = nil;
-//    if (err == noErr) {
-//#if defined(__LP64__)
-//		directObjectDesc = [NSAppleEventDescriptor descriptorWithDescriptorType:typeFSRef bytes:&fileRef length:sizeof(fileRef)];
-//#else
-//		directObjectDesc = [NSAppleEventDescriptor descriptorWithDescriptorType:typeFSS bytes:&fsSpec length:sizeof(fsSpec)];
-//#endif //defined(__LP64__)
-//    } else {
-//        DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Failed to create fsspec");
-//        return;
-//    }
 
-	if (fileURLBookmarkData) {
-		directObjectDesc = [NSAppleEventDescriptor descriptorWithDescriptorType:typeBookmarkData bytes:&fileURLBookmarkData length:sizeof(fileURLBookmarkData)];
+	if (fileURL) {
+		directObjectDesc = [NSAppleEventDescriptor descriptorWithFileURL:fileURL];
 	} else {
         DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Failed to create URL Bookmark data");
         return;
@@ -470,13 +455,12 @@ static NSString *tempFileName(NSString *origPath) {
                     [appleEvent setParamDescriptor:tokenDesc forKeyword:keySenderToken];
                 }
                 if (appleEvent != nil) {
-                    DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Sending apple event");
+                    DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Sending apple event %@", appleEvent);
                     AppleEvent reply;
                     OSStatus err =
                     AESendMessage([appleEvent aeDesc], &reply, kAENoReply, kAEDefaultTimeout);
                     if (err != noErr) {
                         NSLog(@"%s, error: %d",__FUNCTION__,err);
-
                     }
                 }
             }
