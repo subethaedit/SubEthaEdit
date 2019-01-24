@@ -1786,14 +1786,6 @@
 	UTTypeIconFile = "file-sgml"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["rhtml", "erb"]
-[[UTExportedTypeDeclarations]]
-	UTTypeConformsTo = ["public.html"]
-	UTTypeDescription = "HTML with embedded Elixir"
-	UTTypeIdentifier = "public.eex-source"
-	UTTypeReferenceURL = "https://hexdocs.pm/eex/EEx.html"
-	UTTypeIconFile = "file-sgml"
-	[UTExportedTypeDeclarations.UTTypeTagSpecification]
-		"public.filename-extension" = ["eex"]
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["com.apple.property-list"]
 	UTTypeDescription = "binary property list"
