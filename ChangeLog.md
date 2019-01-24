@@ -4,10 +4,10 @@
 * Fixed an issue where the undo buffer could get corrupted in certain situations with a non empty selection
 * Fixed ODB support, fixes external editor support for Fetch
 
-#### New Modes:
+#### New modes:
 * Elixir Phoenix EEx
 
-#### Imporoved Modes:
+#### Improved modes:
 * Elixir
 * Javascript
 
