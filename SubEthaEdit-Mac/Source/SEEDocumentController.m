@@ -742,11 +742,12 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 			completionHandler(nil, NO, nil);
 		}
     } else {
+        NSAppleEventDescriptor *eventDesc = [[NSAppleEventManager sharedAppleEventManager] currentAppleEvent];
+        NSDictionary *parsed = [PlainTextDocument parseOpenDocumentEvent:eventDesc];
 		[super openDocumentWithContentsOfURL:url display:displayDocument completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error)
 		 {
-			 NSAppleEventDescriptor *eventDesc = [[NSAppleEventManager sharedAppleEventManager] currentAppleEvent];
 			 if (document && [document isKindOfClass:PlainTextDocument.class] && displayDocument) {
-				 [(PlainTextDocument *)document handleOpenDocumentEvent:eventDesc];
+				 [(PlainTextDocument *)document handleParsedOpenDocumentEvent:parsed];
 			 }
 
 			 if (completionHandler) {
