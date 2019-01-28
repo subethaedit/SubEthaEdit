@@ -4,7 +4,6 @@
 <dict>
 	<key>com.apple.security.temporary-exception.apple-events</key>
 	<array>
-		<string>com.apple.Terminal</string>
 		<string>com.fetchsoftworks.Fetch</string>
 	</array>
 	<key>com.apple.security.automation.apple-events</key>
