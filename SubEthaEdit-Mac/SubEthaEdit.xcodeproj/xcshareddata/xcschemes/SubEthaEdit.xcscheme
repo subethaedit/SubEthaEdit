@@ -10,7 +10,7 @@
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
                title = "Run Script"
-               scriptText = "${SRCROOT}/../TCMScripts/TCM_GenerateRevisionConfig.sh">
+               scriptText = "&quot;${SRCROOT}/../TCMScripts/TCM_GenerateRevisionConfig.sh&quot; &gt; &quot;/tmp/${PRODUCT_NAME}_PreBuildOutput.log&quot;&#10;">
                <EnvironmentBuildable>
                   <BuildableReference
                      BuildableIdentifier = "primary"

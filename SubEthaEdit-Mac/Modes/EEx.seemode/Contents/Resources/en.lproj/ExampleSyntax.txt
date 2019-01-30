@@ -1,0 +1,20 @@
+<!-- EEx Example Syntax File -->
+
+<% Elixir expression - inline with output %>
+<%= Elixir expression - replace with result %>
+<%% EEx quotation - returns the contents inside %>
+<%# Comments - they are discarded from source %>
+
+<html>
+  <head>
+    <title>Hello, World!</title>
+  </head>
+  <body>
+    <p><%= "Hello, EEx World #{@username}!" %></p>
+    <%= if true do %>
+	  A truthful statement
+	<% else %>
+	  A false statement
+	<% end %>
+  </body>
+</html>

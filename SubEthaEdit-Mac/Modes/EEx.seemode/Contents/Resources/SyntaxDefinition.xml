@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE syntax SYSTEM "syntax.dtd">
+<syntax>
+
+	<head>
+		<name>Eex</name> <!-- The definitions title -->
+		<charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@":]]></charsintokens> 
+		<charsincompletion><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@</="!]]></charsincompletion> 
+		<folding toplevel="3"/>
+	</head>
+
+	<states>
+
+		<default id="Base" usesymbolsfrommode="HTML" useautocompletefrommode="HTML" scope="meta.default">
+
+			<import mode="XML" keywords-only="yes"/>
+
+			<state id="EEx quotation" scope="markup.processing.languageswitch">
+				<begin><regex>(?:&lt;%%)</regex></begin>
+				<end><regex>(?:%&gt;)</regex></end>
+			</state>
+
+			<state id="Elixir" usesymbolsfrommode="Elixir" useautocompletefrommode="Elixir" foldable="yes" scope="meta.default">
+				<begin><regex>(?:&lt;%(?!%))|(?:&lt;%=)</regex></begin>
+				<end><regex>(?:%&gt;)</regex></end>
+
+				<keywords id="Eex Delimiter" useforautocomplete="no" scope="markup.processing.languageswitch">
+					<regex>(-?%&gt;)</regex>
+					<regex>(&lt;%=?)</regex>
+				</keywords>
+
+				<import mode="Elixir" keywords-only="yes"/>
+				
+				<state-link mode="Elixir" state="Heredoc" />
+				<state-link mode="Elixir" state="Interpolation" />
+				<state-link mode="Elixir" state="String" />
+				<state-link mode="Elixir" state="Interpolation" />
+				<state-link mode="Elixir" state="Charlist string" />
+				<state-link mode="Elixir" state="Quoted Atoms" />
+				
+				<keywords id="Elixir html Functions" casesensitive="yes" useforautocomplete="yes" scope="support.subroutine.standard">
+					<string>raw</string>
+					<string>link</string>
+					<string>button</string>
+					<string>content_tag</string>
+					<string>form_tag</string>
+					<string>img_tag</string>
+					<string>csrf_meta_tag</string>
+					<string>tag</string>
+					<string>html_escape</string>
+					<string>javascript_escape</string>
+					<string>safe_to_string</string>
+					<string>text_to_html</string>
+					<string>input_type</string>
+					<string>input_value</string>
+					<string>input_validations</string>
+					<string>to_form</string>
+					<string>form_for</string>
+					<string>checkbox</string>
+					<string>color_input</string>
+					<string>date_input</string>
+					<string>date_select</string>
+					<string>datetime_local_input</string>
+					<string>datetime_select</string>
+					<string>email_input</string>
+					<string>file_input</string>
+					<string>hidden_input</string>
+					<string>humanize</string>
+					<string>input_id</string>
+					<string>input_name</string>
+					<string>input_type</string>
+					<string>label</string>
+					<string>multiple_select</string>
+					<string>password_input</string>
+					<string>number_input</string>
+					<string>radio_button</string>
+					<string>range_input</string>
+					<string>reset</string>
+					<string>search_input</string>
+					<string>submit</string>
+					<string>telephone_input</string>
+					<string>text_input</string>
+					<string>textarea</string>
+					<string>time_select</string>
+					<string>time_input</string>
+					<string>url_input</string>
+					<string>input_value</string>
+					<string>page_path</string>
+					<string>user_path</string>
+					<string>user_post_path</string>
+					<string>static_path</string>
+				</keywords>
+				
+				<!-- Some States need to be extended to not start / end early if followed by an eex end '%>' -->
+				<state id="SingleComment" scope="comment.line">
+					<begin><regex>#</regex></begin>
+					<end><regex>[\n\r]|(.(?=%>))</regex></end>
+				</state>
+
+				<state id="Do-End-Block" type="block" foldable="yes" indent="yes" scope="meta.block">
+					<begin><regex>(?:\bdo\b|\bfn\b)(?!:|(?:\s+%))</regex><autoend>end</autoend></begin>
+					<end><regex>\bend\b</regex></end>
+					<import state="Elixir"/>
+					<import mode="Elixir" keywords-only="yes"/>
+				</state>
+				
+			</state>
+
+			<state id="ElixirOneLineEEx" usesymbolsfrommode="Elixir" useautocompletefrommode="Elixir" foldable="no" scope="comment.line">
+				<begin><regex>^%</regex></begin>
+				<end><regex>[\n\r]</regex></end>
+
+				<import state="Elixir"/>
+				<import mode="Elixir" keywords-only="yes"/>
+
+				<keywords id="EEx Delimiter One Line" useforautocomplete="no" scope="meta.tag.eexstart">
+					<regex>(^%)</regex>
+				</keywords>
+
+			</state>
+
+			<!--  This is the "we do a complete HTML mode and import Elixir everywhere" section -->
+			<state id="Comment" type="comment" scope="markup.comment">
+				<begin><regex>&lt;!--</regex><autoend>--&gt;</autoend></begin>
+				<end><regex>--&gt;</regex></end>
+				<keywords id="SGML Double Dash" useforautocomplete="no" scope="meta.invalid.sgmlcomment">
+					<regex>(?&lt;!\!)(--)(?!&gt;)</regex>
+				</keywords>
+				<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+				<state-link state="Elixir"/>
+			</state>
+			<state id="CDATA" foldable="yes" scope="markup.inline.cdata">
+				<begin>
+					<regex>&lt;!\s*\[CDATA\s*\[</regex>
+					<autoend>\]\]&gt;</autoend>
+				</begin>
+				<end>
+					<regex>\]\s*\]\s*&gt;</regex>
+				</end>
+				<state-link state="Elixir"/>
+			</state>
+			<state id="Doctype" foldable="no" scope="markup.declaration">
+				<begin>
+					<regex>&lt;!</regex><autoend>&gt;</autoend>
+				</begin>
+				<end>
+					<regex>&gt;</regex>
+				</end>
+				<state id="String" type="string" scope="markup.declaration.string.double">
+					<begin><regex>"</regex></begin>
+					<end><regex>"</regex></end>
+					<state-link state="Elixir"/>
+				</state>
+				<state id="SingleString" type="string" scope="markup.declaration.string.single">
+					<begin><regex>'</regex></begin>
+					<end><regex>'</regex></end>
+					<state-link state="Elixir"/>
+				</state>
+				<state id="Doctype Block" type="block" foldable="yes" indent="yes" scope="meta.block.square">
+					<begin><regex>\[</regex><autoend>\]</autoend></begin>
+					<end><regex>]</regex></end>
+					<import/>
+				</state>
+				<state-link state="Elixir"/>
+			</state>
+			<state id="Escape" foldable="no" scope="markup.processing">
+				<begin>
+					<regex>&lt;\?</regex><autoend>\?&gt;</autoend>
+				</begin>
+				<end>
+					<regex>\?&gt;</regex>
+				</end>
+				<state id="ProcessingString" type="string" scope="markup.processing.attribute.value.string">
+					<begin><regex>"</regex></begin>
+					<end><regex>"</regex></end>
+					<state-link state="Elixir"/>
+				</state>
+				<state id="ProcessingSingleString" type="string" scope="markup.processing.attribute.value.string">
+					<begin><regex>'</regex></begin>
+					<end><regex>'</regex></end>
+					<state-link state="Elixir"/>
+				</state>
+				<state-link state="Elixir"/>
+			</state>
+			<state id="Inline CSS" usesymbolsfrommode="CSS" useautocompletefrommode="CSS" foldable="yes" indent="yes" scope="meta.block.css">
+				<begin>
+					<regex>&lt;[ \t]*(?i)style[^&gt;]*&gt;</regex>
+					<autoend>&lt;/style&gt;</autoend>
+				</begin>
+				<end>
+					<regex>(?i)&lt;[ \t]*/[ \t]*style[ \t]*&gt;</regex>
+				</end>
+				<state-link state="Elixir"/>
+
+				<import mode="CSS"/>
+				<state id="CSSInside curly brackets" foldable="yes" indent="yes" scope="meta.block.curly">
+					<begin>
+						<string>{</string>
+						<autoend>}</autoend>
+					</begin>
+					<end>
+						<regex>}</regex>
+					</end>
+					<import mode="CSS" state="Inside curly brackets" keywords-only="yes"/>
+					<state id="CSS Attribute state" scope="meta.block.attribute">
+						<begin>
+							<string>:</string>
+						</begin>
+						<end>
+							<regex>(;|.(?=})|[\n\r])</regex>
+						</end>
+						<import mode="CSS" state="Attribute state" keywords-only="yes"/>
+						<state-link state="Elixir"/>
+						<state-link state="CSSAutodocComment"/>
+						<state-link state="CSSComment"/>
+						<state-link state="CSSString"/>
+						<state-link state="CSSSingleString"/>
+					</state>
+					<state-link state="CSSAutodocComment"/>
+					<state-link state="CSSComment"/>
+					<state-link state="CSSString"/>
+					<state-link state="CSSSingleString"/>
+					<state-link state="Elixir"/>
+				</state>
+
+				<import keywords-only="yes"/>
+
+				<state id="CSSRules" scope="style.at-rule">
+					<begin>
+						<regex>^@[-\w_]+</regex>
+					</begin>
+					<end>
+						<regex>.(?=[{\n\r])</regex>
+					</end>
+				</state>
+
+				<state id="CSSAutodocComment" type="comment" scope="style.comment.block.documentation">
+					<begin>
+						<string>/\*"</string>
+						<autoend>"\*/</autoend>
+					</begin>
+					<end>
+						<regex>"\*/</regex>
+					</end>
+					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+					<state-link state="Elixir"/>
+				</state>
+				<state id="CSSComment" type="comment" scope="style.comment.block">
+					<begin>
+						<string>/\*</string>
+						<autoend>\*/</autoend>
+					</begin>
+					<end>
+						<regex>\*/</regex>
+					</end>
+					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+					<state-link state="Elixir"/>
+				</state>
+				<state id="CSSString" type="string" scope="style.value.string.double">
+					<begin>
+						<string>"</string>
+					</begin>
+					<end>
+						<regex>(?&lt;!\\)(\\\\)*"</regex>
+					</end>
+					<state-link state="Elixir"/>
+				</state>
+				<state id="CSSSingleString" type="string" scope="style.value.string.single">
+					<begin>
+						<string>'</string>
+					</begin>
+					<end>
+						<regex>(?&lt;!\\)(\\\\)*'</regex>
+					</end>
+					<state-link state="Elixir"/>
+				</state>
+
+			</state>
+
+
+			<state id="Inline Javascript" usesymbolsfrommode="Javascript" useautocompletefrommode="Javascript" foldable="yes" scope="meta.block.js">
+				<begin>
+					<regex>&lt;(?i)script[^&gt;]*[^/%]&gt;</regex><autoend>&lt;/script&gt;</autoend>
+				</begin>
+				<end>
+					<regex>&lt;(?i)/script[^&gt;]*&gt;</regex>
+				</end>
+				<import mode="Javascript" keywords-only="yes"/>
+				<import mode="XML" keywords-only="yes"/>
+				<state-link state="Elixir"/>
+
+				<state id="JSAutodocComment" type="comment" scope="comment.block.documentation.js">
+					<begin><regex>/\*"</regex></begin>
+					<end><regex>"\*/</regex></end>
+					<state-link state="Elixir"/>
+				</state>
+
+				<state id="JSComment" type="comment" scope="comment.block.js">
+					<begin><regex>/\*</regex><autoend>\*/</autoend></begin>
+					<end><regex>\*/</regex></end>
+					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+					<state-link state="Elixir"/>
+				</state>
+
+				<state id="JSSingleComment" type="comment" scope="comment.line.double-slash.js">
+					<begin><regex>//</regex></begin>
+					<end><regex>[\n\r]|.(?=&lt;(?i)/script\s*&gt;)</regex></end>
+					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+					<state-link state="Elixir"/>
+				</state>
+
+				<state id="JSRegular Expressions" type="string" scope="string.regex.js">
+					<begin><regex>(?&lt;![&lt;/])/.*?[^\\](?=/[^\n\r]*(?:;|\)|,|[\n\r]))</regex></begin>
+					<end><regex>/[cgimosx]*</regex></end>
+					<state-link state="Elixir"/>
+				</state>
+
+				<state id="JSString" type="string" scope="string.double.js">
+					<begin><regex>"</regex></begin>
+					<end><regex>(?&lt;!\\)(\\\\)*"</regex></end>
+					<state-link state="Elixir"/>
+				</state>
+
+				<state id="JSSingleString" type="string" scope="string.single.js">
+					<begin><regex>'</regex></begin>
+					<end><regex>(?&lt;!\\)(\\\\)*'</regex></end>
+					<state-link state="Elixir"/>
+				</state>
+
+				<state id="JSBlock" type="block" foldable="yes" indent="yes" scope="meta.block.curly.js">
+					<begin><regex>{</regex><autoend>}</autoend></begin>
+					<end><regex>}</regex></end>
+					<import mode="Javascript" keywords-only="yes"/>
+					<import mode="EEx" state="Inline Javascript"/>
+				</state>
+			</state>
+
+			<state id="Single Tag with Elixir State" foldable="no" scope="meta.default">
+				<begin>
+					<regex>&lt;\s*[^/?!][-:_\w]*(?=[^&lt;&gt;]*&lt;%.+%&gt;[^&gt;]*[^&gt;]*/&gt;)</regex>
+				</begin>
+				<end>
+					<regex>/[ \t]*&gt;</regex>
+				</end>
+				<import/>
+				<keywords id="Single Tags with Elixir" useforautocomplete="no" scope="markup.tag">
+					<regex>(&lt;[^&gt;]*)</regex>
+					<regex>(\A[^&lt;&gt;]*&gt;)</regex>
+				</keywords>
+				<keywords id="Attributes in Single Tags with Elixir" useforautocomplete="no" scope="markup.tag.attribute.name">
+					<regex>([\w-]*)(?=[ \t]*=[^&lt;]+)</regex>
+				</keywords>
+				<keywords id="Strings in Single Tags with Elixir" type="string" useforautocomplete="no" scope="markup.tag.attribute.value.string">
+					<regex>=[ \t]*("[^"]*"|'[^']*')(?=[^&lt;]*)</regex>
+					<regex>([^"]*")(?=[ \t]*&gt;)</regex>
+				</keywords>
+			</state>
+
+			<state id="Tag with Elixir State" foldable="yes" scope="meta.block.tag.eex">
+				<begin>
+					<regex>&lt;\s*(?'eextagstatename'[^/?!][-:_\w]*)(?'trimmedstart'[^&lt;&gt;]*&lt;%.+%&gt;[^&gt;]*&gt;)</regex> <!--  Used "trimmedstart regex group, to start searching earlier" -->
+					<autoend>&lt;/\g&lt;eextagstatename&gt;&gt;</autoend>
+				</begin>
+				<end>
+					<regex>&lt;\s*/\s*(?#see-insert-start-group:eextagstatename)\s*&gt;</regex>
+				</end>
+				<import/>
+				<keywords id="Tags with Elixir" useforautocomplete="no" scope="markup.tag">
+					<regex>(&lt;[^&gt;]*&gt;?)</regex>
+					<regex>(\A[^&lt;&gt;]*&gt;)</regex>
+				</keywords>
+				<keywords id="Attributes in Tags with Elixir" useforautocomplete="no" scope="markup.tag.attribute.name">
+					<regex>([\w-]*)(?=[ \t]*=[^&lt;]+)</regex>
+				</keywords>
+				<keywords id="Strings in Tags with Elixir" type="string" useforautocomplete="no" scope="markup.tag.attribute.value.string">
+					<regex>=[ \t]*("[^"]*"|'[^']*')(?=[^&lt;]*)</regex>
+					<regex>([^"]*")(?=[ \t]*&gt;)</regex>
+				</keywords>
+			</state>
+
+			<state id="Tag State Elixir" foldable="yes" indent="yes" scope="meta.default">
+				<begin>
+					<regex>&lt;\s*(?'xmltagstatename'[^/?!][-:_\w]*)\s*(?:[-:_\w]+=(?:"[^"]*"|'[^']*'|\w+)\s*)*\s*&gt;</regex>
+					<autoend>&lt;/\g&lt;xmltagstatename&gt;&gt;</autoend>
+				</begin>
+				<end>
+					<regex>&lt;\s*/\s*(?#see-insert-start-group:xmltagstatename)\s*&gt;</regex>
+				</end>
+				<import mode="XML" keywords-only="yes"/>
+				<import/>
+			</state>
+		</default>
+	</states>
+
+</syntax>

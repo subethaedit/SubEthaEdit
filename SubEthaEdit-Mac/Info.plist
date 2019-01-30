@@ -2710,6 +2710,30 @@
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
+				<string>eex</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>file-sgml</string>
+			<key>CFBundleTypeName</key>
+			<string>EEx Source</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.eex-source</string>
+			</array>
+			<key>LSTypeIsPackage</key>
+			<false/>
+			<key>NSDocumentClass</key>
+			<string>PlainTextDocument</string>
+			<key>NSIsRelatedItemType</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
 				<string>rhtml</string>
 				<string>erb</string>
 			</array>
@@ -3017,6 +3041,8 @@
 	<string>public.app-category.developer-tools</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
+	<key>NSAppleEventsUsageDescription</key>
+	<string>AppleScript is used to communicate for external editor support in providing apps, like e.g. Fetch.</string>
 	<key>NSAppleScriptEnabled</key>
 	<string>YES</string>
 	<key>NSHumanReadableCopyright</key>
@@ -4382,6 +4408,27 @@
 				<array>
 					<string>rhtml</string>
 					<string>erb</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.html</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>HTML with embedded Elixir</string>
+			<key>UTTypeIconFile</key>
+			<string>file-sgml</string>
+			<key>UTTypeIdentifier</key>
+			<string>public.eex-source</string>
+			<key>UTTypeReferenceURL</key>
+			<string>https://hexdocs.pm/eex/EEx.html</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>eex</string>
 				</array>
 			</dict>
 		</dict>

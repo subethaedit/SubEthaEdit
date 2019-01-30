@@ -2760,15 +2760,11 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 
-- (NSRange) textView								:(NSTextView *)aTextView
-willChangeSelectionFromCharacterRange	:(NSRange)aOldSelectedCharRange
-	  toCharacterRange						:(NSRange)aNewSelectedCharRange
+- (NSRange)textView:(NSTextView *)aTextView willChangeSelectionFromCharacterRange:(NSRange)aOldSelectedCharRange toCharacterRange:(NSRange)aNewSelectedCharRange
 {
     [[URLBubbleWindow sharedURLBubbleWindow] hideIfNecessary];
     PlainTextDocument *document = (PlainTextDocument *)[self document];
-    return [document textView:aTextView
-willChangeSelectionFromCharacterRange	:aOldSelectedCharRange
-	   toCharacterRange						:aNewSelectedCharRange];
+    return [document textView:aTextView willChangeSelectionFromCharacterRange:aOldSelectedCharRange toCharacterRange:aNewSelectedCharRange];
 }
 
 
@@ -3088,6 +3084,28 @@ willChangeSelectionFromCharacterRange	:aOldSelectedCharRange
     [document setShouldChangeChangeCount:NO];
 }
 
+- (void)textView:(SEETextView *)textView willStartAutocompleteForPartialWordRange:(NSRange)aCharRange completions:(NSArray<NSString *> *)completions {
+    NSRange selectionRange = [textView selectedRange];
+    
+    // if we start autocompletion with an non zero length selection, we need to put the removal of the selection on the undo stack
+    // and as it turns out, the autocompletion engine might move the partial word range beyond the beginning of the selection, so we need to only remove
+    // the part of the selection that is beyond that
+    
+    if (selectionRange.length > 0 && NSMaxRange(selectionRange) > NSMaxRange(aCharRange)) {
+        NSUInteger location = NSMaxRange(aCharRange);
+        NSRange removalRange = NSMakeRange(location, NSMaxRange(selectionRange) - location);
+        PlainTextDocument *document = [self document];
+        UndoManager *undoManager = [document documentUndoManager];
+        [undoManager registerUndoChangeTextInRange:NSMakeRange(removalRange.location, 0)
+                                 replacementString:[textView.textStorage.string substringWithRange:removalRange]
+                     shouldGroupWithPriorOperation:NO];
+        BOOL oldShouldChange = [document shouldChangeChangeCount];
+        [document setShouldChangeChangeCount:YES];
+        [document updateChangeCount:NSChangeDone];
+        [document setShouldChangeChangeCount:oldShouldChange];
+    }
+}
+
 
 - (void)textView:(SEETextView *)aTextView didFinishAutocompleteByInsertingCompletion:(NSString *)aWord forPartialWordRange:(NSRange)aCharRange movement:(int)aMovement
 {
@@ -3095,10 +3113,10 @@ willChangeSelectionFromCharacterRange	:aOldSelectedCharRange
     PlainTextDocument *document = [self document];
     UndoManager *undoManager = [document documentUndoManager];
 
+    NSString *replacementString = [[[aTextView textStorage] string] substringWithRange:aCharRange];
     [undoManager registerUndoChangeTextInRange:NSMakeRange(aCharRange.location, [aWord length])
-							 replacementString:[[[aTextView textStorage] string] substringWithRange:aCharRange]
-				 shouldGroupWithPriorOperation:NO];
-
+                                 replacementString:replacementString
+                     shouldGroupWithPriorOperation:NO];
     [document setIsHandlingUndoManually:NO];
     [document setShouldChangeChangeCount:YES];
     [document updateChangeCount:NSChangeDone];
