@@ -1,3 +1,16 @@
+###  SubEthaEdit 5.0.1
+
+#### Bug fixes and maintenance:
+* Fixed an issue where the undo buffer could get corrupted in certain situations with a non empty selection
+* Fixed ODB support, fixes external editor support for Fetch
+
+#### New modes:
+* Elixir Phoenix EEx
+
+#### Improved modes:
+* Elixir
+* Javascript
+
 ###  SubEthaEdit 5.0
 
 Now free and open source! The ideal tool for education, pair programming and tutoring and all your plain text editing needs.
