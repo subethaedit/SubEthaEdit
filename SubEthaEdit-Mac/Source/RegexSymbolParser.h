@@ -11,14 +11,10 @@
 }
 - (id)initWithSymbolDefinition:(RegexSymbolDefinition *)aSymbolDefinition;
 
-/*"Accessors"*/
-
-- (RegexSymbolDefinition *)symbolDefinition;
-- (void)setSyntaxDefinition:(RegexSymbolDefinition *)aSymbolDefinition;
+@property (nonatomic, strong) RegexSymbolDefinition *symbolDefinition;
 
 /*"Document Interaction"*/
 - (NSArray *)symbolsForTextStorage:(NSTextStorage *)aTextStorage;
 - (NSArray *)symbolsForTextStorage:(NSTextStorage *)aTextStorage inRange:(NSRange)aRange;
-
 
 @end

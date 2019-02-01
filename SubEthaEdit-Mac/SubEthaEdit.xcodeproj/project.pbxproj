@@ -87,7 +87,7 @@
 		142893C50957594500D14688 /* DocumentMode.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893B60957594500D14688 /* DocumentMode.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		142893C60957594500D14688 /* DocumentModeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893B80957594500D14688 /* DocumentModeManager.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		142893C70957594500D14688 /* RegexSymbolDefinition.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893BA0957594500D14688 /* RegexSymbolDefinition.m */; };
-		142893C80957594500D14688 /* RegexSymbolParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893BC0957594500D14688 /* RegexSymbolParser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		142893C80957594500D14688 /* RegexSymbolParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893BC0957594500D14688 /* RegexSymbolParser.m */; };
 		142893C90957594500D14688 /* SymbolTableEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893BE0957594500D14688 /* SymbolTableEntry.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		142893CA0957594500D14688 /* SyntaxDefinition.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893C00957594500D14688 /* SyntaxDefinition.m */; };
 		142893CB0957594500D14688 /* SyntaxHighlighter.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893C20957594500D14688 /* SyntaxHighlighter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
