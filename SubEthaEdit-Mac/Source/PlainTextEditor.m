@@ -48,7 +48,7 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
 NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEditorDidChangeSearchScopeNotification";
 
 @interface NSTextView (PrivateAdditions)
-- (BOOL)	_isUnmarking;
+- (BOOL)_isUnmarking;
 @end
 
 @interface NSMenu (UndefinedStuff)
@@ -56,17 +56,14 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 @end
 
 @implementation NSMenu (UndefinedStuff)
-- (NSMenu *)bottomPart
-{
+- (NSMenu *)bottomPart {
     NSMenu *newMenu = [[NSMenu new] autorelease];
     NSArray *items = [self itemArray];
     int count = [items count];
     int index = count - 1;
 
-    while (index >= 0)
-    {
-        if ([[items objectAtIndex:index] isSeparatorItem])
-        {
+    while (index >= 0) {
+        if ([[items objectAtIndex:index] isSeparatorItem]) {
             index++; break;
         }
 
@@ -103,7 +100,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 @property (nonatomic, strong) SEEOverlayView *topBlurLayerView;
 @property (nonatomic, strong) NSArray *bottomBlurBackgroundConstraints;
 @property (nonatomic, strong) SEEOverlayView *bottomBlurLayerView;
-- (void)	TCM_updateBottomStatusBar;
+- (void)TCM_updateBottomStatusBar;
 - (float)pageGuidePositionForColumns:(int)aColumns;
 @end
 
@@ -131,8 +128,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     SelectionOperation *I_storedPosition;
 }
 
-- (id)initWithWindowControllerTabContext:(PlainTextWindowControllerTabContext *)aWindowControllerTabContext splitButton:(BOOL)aFlag
-{
+- (id)initWithWindowControllerTabContext:(PlainTextWindowControllerTabContext *)aWindowControllerTabContext splitButton:(BOOL)aFlag {
     self = [super init];
 
     if (self) {
@@ -215,14 +211,12 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	return result;
 }
 
-- (void)participantsDidChange:(NSNotification *)aNotification
-{
+- (void)participantsDidChange:(NSNotification *)aNotification {
 	[self TCM_updateNumberOfActiveParticipants];
 }
 
 
-- (void)sessionWillChange:(NSNotification *)aNotification
-{
+- (void)sessionWillChange:(NSNotification *)aNotification {
     PlainTextDocument *document = [self document];
     __auto_type session = document.session;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:TCMMMSessionParticipantsDidChangeNotification object:session];
@@ -230,8 +224,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 
-- (void)sessionDidChange:(NSNotification *)aNotification
-{
+- (void)sessionDidChange:(NSNotification *)aNotification {
 	BOOL isServer = [[[self document] session] isServer];
 	self.canAnnounceAndShare = isServer;
 	
@@ -257,140 +250,140 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 - (void)loadViewSetupBarsAndOverlays {
-	// topbarviewcontroller
-	self.topBarViewController = [[[SEEPlainTextEditorTopBarViewController alloc] initWithPlainTextEditor:self] autorelease];
-	[self.topBarViewController updateColorsForIsDarkBackground:[self hasDarkBackground]];
-	[self.topBarViewController setSplitButtonVisible:NO];
-	self.topBarViewController.splitButtonVisible = I_flags.hasSplitButton;
-	[self.topBarViewController setVisible:I_flags.showTopStatusBar];
-	[self.O_editorView addSubview:self.topBarViewController.view];
-	
-	// generate top blur layer
-	self.topBlurLayerView = ({
-		SEEOverlayView *view = [[[SEEOverlayView alloc] initWithFrame:NSZeroRect] autorelease];
-		NSView *containerView = self.O_editorView;
-		view.translatesAutoresizingMaskIntoConstraints = NO;
-		[containerView addSubview:view];
-		[containerView addConstraints:@[
-										[NSLayoutConstraint TCM_constraintWithItem:view secondItem:containerView
-																	equalAttribute:NSLayoutAttributeLeft],
-										[NSLayoutConstraint TCM_constraintWithItem:view secondItem:containerView
-																	equalAttribute:NSLayoutAttributeRight],
-										[NSLayoutConstraint TCM_constraintWithItem:view secondItem:containerView
-																	equalAttribute:NSLayoutAttributeTop],
-										]];
-		self.topBlurBackgroundConstraints = @[
-											  [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:0]
-											  ];
-		[containerView addConstraints:self.topBlurBackgroundConstraints];
-		//		view.layer.backgroundColor = [[[NSColor redColor] colorWithAlphaComponent:0.8] CGColor];
-		view.backgroundBlurActive = YES;
-		view.brightnessAdjustForInactiveWindowState = 0.7;
-		view;
-	});
-	
-	
-	// change the top status bar to use constraints
-	{
-		NSView *statusBarView = self.topBarViewController.view;
-		NSView *containerView = self.topBlurLayerView;
-		[statusBarView removeFromSuperview];
-		
-		[statusBarView setTranslatesAutoresizingMaskIntoConstraints:NO];
-		[containerView addSubview:statusBarView];
-		[containerView addConstraints:@[
-										[NSLayoutConstraint TCM_constraintWithItem:statusBarView secondItem:containerView equalAttribute:NSLayoutAttributeLeft],
-										[NSLayoutConstraint TCM_constraintWithItem:statusBarView secondItem:containerView
-																	equalAttribute:NSLayoutAttributeRight],
-										[NSLayoutConstraint TCM_constraintWithItem:statusBarView secondItem:containerView equalAttribute:NSLayoutAttributeBottom],
-										[NSLayoutConstraint constraintWithItem:statusBarView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeWidth multiplier:1.0 constant:CGRectGetHeight(statusBarView.bounds)],
-										]];
-		[self updateTopPinConstraints];
-	}
-	
-	// generate bottom blur layer
-	self.bottomBlurLayerView = ({
-		SEEOverlayView *view = [[[SEEOverlayView alloc] initWithFrame:NSZeroRect] autorelease];
-		NSView *containerView = self.O_editorView;
-		view.translatesAutoresizingMaskIntoConstraints = NO;
-		[containerView addSubview:view];
-		[containerView addConstraints:@[
-										[NSLayoutConstraint TCM_constraintWithItem:view secondItem:containerView
-																	equalAttribute:NSLayoutAttributeLeft],
-										[NSLayoutConstraint TCM_constraintWithItem:view secondItem:containerView
-																	equalAttribute:NSLayoutAttributeRight],
-										[NSLayoutConstraint TCM_constraintWithItem:view secondItem:containerView
-																	equalAttribute:NSLayoutAttributeBottom],
-										]];
-		self.bottomBlurBackgroundConstraints = @[
-												 [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:0]
-												 ];
-		[containerView addConstraints:self.bottomBlurBackgroundConstraints];
-		//		view.layer.backgroundColor = [[[NSColor redColor] colorWithAlphaComponent:0.8] CGColor];
-		view.backgroundBlurActive = YES;
-		view.brightnessAdjustForInactiveWindowState = 0.7;
-		view;
-	});
-	
-	// change the bottom status bar to use constraints
-	{
-		NSView *statusBarView = self.O_bottomStatusBarView;
-		NSView *containerView = self.bottomBlurLayerView;
-		[statusBarView removeFromSuperview];
-		
-		// configure truncade mode
-		[O_tabStatusPopUpButton.cell setLineBreakMode:NSLineBreakByTruncatingMiddle];
-		[O_encodingPopUpButton.cell setLineBreakMode:NSLineBreakByTruncatingMiddle];
-		
-		// adjust sizes for german if necessary
-		if ([[[NSBundle mainBundle] preferredLocalizations].firstObject isEqual:@"German"]) {
-			// adjust frames
-			CGFloat points = 20.0;
-			O_tabStatusPopUpButton.frame = ({
-				NSRect frame = O_tabStatusPopUpButton.frame;
-				frame.size.width += points;
-				frame;
-			});
-			O_lineEndingPopUpButton.frame = NSOffsetRect(O_lineEndingPopUpButton.frame, points, 0);
-			O_encodingPopUpButton.frame = ({
-				NSRect frame = O_encodingPopUpButton.frame;
-				frame.size.width -= points;
-				frame.origin.x += points;
-				frame;
-			});
-		}
-		
-		[statusBarView setTranslatesAutoresizingMaskIntoConstraints:NO];
-		[statusBarView setAutoresizesSubviews:YES];
-		[containerView addSubview:statusBarView];
-		[containerView addConstraints:@[
-										[NSLayoutConstraint TCM_constraintWithItem:statusBarView secondItem:containerView
-																	equalAttribute:NSLayoutAttributeRight],
-										[NSLayoutConstraint TCM_constraintWithItem:statusBarView secondItem:containerView equalAttribute:NSLayoutAttributeLeft],
-										[NSLayoutConstraint TCM_constraintWithItem:statusBarView secondItem:containerView
-																	equalAttribute:NSLayoutAttributeBottom],
-										[NSLayoutConstraint constraintWithItem:statusBarView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeWidth multiplier:1.0 constant:CGRectGetHeight(statusBarView.bounds)],
-										]];
-		[statusBarView setHidden:!I_flags.showBottomStatusBar];
-	}
-	
-	// setup all the UI for the bottom bar
-	NSView *bottomStatusBarView = self.O_bottomStatusBarView;
-	bottomStatusBarView.layer.backgroundColor = [[NSColor darkOverlayBackgroundColorBackgroundIsDark:NO appearanceIsDark:NSApp.SEE_effectiveAppearanceIsDark] CGColor];
-		
+    // topbarviewcontroller
+    self.topBarViewController = [[[SEEPlainTextEditorTopBarViewController alloc] initWithPlainTextEditor:self] autorelease];
+    [self.topBarViewController updateColorsForIsDarkBackground:[self hasDarkBackground]];
+    [self.topBarViewController setSplitButtonVisible:NO];
+    self.topBarViewController.splitButtonVisible = I_flags.hasSplitButton;
+    [self.topBarViewController setVisible:I_flags.showTopStatusBar];
+    [self.O_editorView addSubview:self.topBarViewController.view];
+    
+    // generate top blur layer
+    self.topBlurLayerView = ({
+        SEEOverlayView *view = [[[SEEOverlayView alloc] initWithFrame:NSZeroRect] autorelease];
+        NSView *containerView = self.O_editorView;
+        view.translatesAutoresizingMaskIntoConstraints = NO;
+        [containerView addSubview:view];
+        [containerView addConstraints:@[
+                                        [NSLayoutConstraint TCM_constraintWithItem:view secondItem:containerView
+                                                                    equalAttribute:NSLayoutAttributeLeft],
+                                        [NSLayoutConstraint TCM_constraintWithItem:view secondItem:containerView
+                                                                    equalAttribute:NSLayoutAttributeRight],
+                                        [NSLayoutConstraint TCM_constraintWithItem:view secondItem:containerView
+                                                                    equalAttribute:NSLayoutAttributeTop],
+                                        ]];
+        self.topBlurBackgroundConstraints = @[
+                                              [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:0]
+                                              ];
+        [containerView addConstraints:self.topBlurBackgroundConstraints];
+        //		view.layer.backgroundColor = [[[NSColor redColor] colorWithAlphaComponent:0.8] CGColor];
+        view.backgroundBlurActive = YES;
+        view.brightnessAdjustForInactiveWindowState = 0.7;
+        view;
+    });
+    
+    
+    // change the top status bar to use constraints
+    {
+        NSView *statusBarView = self.topBarViewController.view;
+        NSView *containerView = self.topBlurLayerView;
+        [statusBarView removeFromSuperview];
+        
+        [statusBarView setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [containerView addSubview:statusBarView];
+        [containerView addConstraints:@[
+                                        [NSLayoutConstraint TCM_constraintWithItem:statusBarView secondItem:containerView equalAttribute:NSLayoutAttributeLeft],
+                                        [NSLayoutConstraint TCM_constraintWithItem:statusBarView secondItem:containerView
+                                                                    equalAttribute:NSLayoutAttributeRight],
+                                        [NSLayoutConstraint TCM_constraintWithItem:statusBarView secondItem:containerView equalAttribute:NSLayoutAttributeBottom],
+                                        [NSLayoutConstraint constraintWithItem:statusBarView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeWidth multiplier:1.0 constant:CGRectGetHeight(statusBarView.bounds)],
+                                        ]];
+        [self updateTopPinConstraints];
+    }
+    
+    // generate bottom blur layer
+    self.bottomBlurLayerView = ({
+        SEEOverlayView *view = [[[SEEOverlayView alloc] initWithFrame:NSZeroRect] autorelease];
+        NSView *containerView = self.O_editorView;
+        view.translatesAutoresizingMaskIntoConstraints = NO;
+        [containerView addSubview:view];
+        [containerView addConstraints:@[
+                                        [NSLayoutConstraint TCM_constraintWithItem:view secondItem:containerView
+                                                                    equalAttribute:NSLayoutAttributeLeft],
+                                        [NSLayoutConstraint TCM_constraintWithItem:view secondItem:containerView
+                                                                    equalAttribute:NSLayoutAttributeRight],
+                                        [NSLayoutConstraint TCM_constraintWithItem:view secondItem:containerView
+                                                                    equalAttribute:NSLayoutAttributeBottom],
+                                        ]];
+        self.bottomBlurBackgroundConstraints = @[
+                                                 [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:0]
+                                                 ];
+        [containerView addConstraints:self.bottomBlurBackgroundConstraints];
+        //		view.layer.backgroundColor = [[[NSColor redColor] colorWithAlphaComponent:0.8] CGColor];
+        view.backgroundBlurActive = YES;
+        view.brightnessAdjustForInactiveWindowState = 0.7;
+        view;
+    });
+    
+    // change the bottom status bar to use constraints
+    {
+        NSView *statusBarView = self.O_bottomStatusBarView;
+        NSView *containerView = self.bottomBlurLayerView;
+        [statusBarView removeFromSuperview];
+        
+        // configure truncade mode
+        [O_tabStatusPopUpButton.cell setLineBreakMode:NSLineBreakByTruncatingMiddle];
+        [O_encodingPopUpButton.cell setLineBreakMode:NSLineBreakByTruncatingMiddle];
+        
+        // adjust sizes for german if necessary
+        if ([[[NSBundle mainBundle] preferredLocalizations].firstObject isEqual:@"German"]) {
+            // adjust frames
+            CGFloat points = 20.0;
+            O_tabStatusPopUpButton.frame = ({
+                NSRect frame = O_tabStatusPopUpButton.frame;
+                frame.size.width += points;
+                frame;
+            });
+            O_lineEndingPopUpButton.frame = NSOffsetRect(O_lineEndingPopUpButton.frame, points, 0);
+            O_encodingPopUpButton.frame = ({
+                NSRect frame = O_encodingPopUpButton.frame;
+                frame.size.width -= points;
+                frame.origin.x += points;
+                frame;
+            });
+        }
+        
+        [statusBarView setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [statusBarView setAutoresizesSubviews:YES];
+        [containerView addSubview:statusBarView];
+        [containerView addConstraints:@[
+                                        [NSLayoutConstraint TCM_constraintWithItem:statusBarView secondItem:containerView
+                                                                    equalAttribute:NSLayoutAttributeRight],
+                                        [NSLayoutConstraint TCM_constraintWithItem:statusBarView secondItem:containerView equalAttribute:NSLayoutAttributeLeft],
+                                        [NSLayoutConstraint TCM_constraintWithItem:statusBarView secondItem:containerView
+                                                                    equalAttribute:NSLayoutAttributeBottom],
+                                        [NSLayoutConstraint constraintWithItem:statusBarView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeWidth multiplier:1.0 constant:CGRectGetHeight(statusBarView.bounds)],
+                                        ]];
+        [statusBarView setHidden:!I_flags.showBottomStatusBar];
+    }
+    
+    // setup all the UI for the bottom bar
+    NSView *bottomStatusBarView = self.O_bottomStatusBarView;
+    bottomStatusBarView.layer.backgroundColor = [[NSColor darkOverlayBackgroundColorBackgroundIsDark:NO appearanceIsDark:NSApp.SEE_effectiveAppearanceIsDark] CGColor];
+    
     [O_windowWidthTextField setHasRightBorder:NO];
     [O_windowWidthTextField setHasLeftBorder:YES];
-	
+    
     DocumentModeMenu *menu = [[DocumentModeMenu new] autorelease];
     [menu configureWithAction:@selector(chooseMode:) alternateDisplay:NO];
     [[O_modePopUpButton cell] setMenu:menu];
-	
+    
     EncodingMenu *fileEncodingsSubmenu = [[EncodingMenu new] autorelease];
     [fileEncodingsSubmenu configureWithAction:@selector(selectEncoding:)];
     [[[fileEncodingsSubmenu itemArray] lastObject] setTarget:self];
     [[[fileEncodingsSubmenu itemArray] lastObject] setAction:@selector(showCustomizeEncodingPanel:)];
     [[O_encodingPopUpButton cell] setMenu:fileEncodingsSubmenu];
-	
+    
     NSMenu *lineEndingMenu = [[NSMenu new] autorelease];
     [O_lineEndingPopUpButton setPullsDown:YES];
     // insert title item of pulldown popupbutton
@@ -398,22 +391,19 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     NSMenuItem *item = nil;
     SEL chooseLineEndings = @selector(chooseLineEndings:);
     NSEnumerator *formatSubmenuItems = [[[[[NSApp mainMenu] itemWithTag:FormatMenuTag] submenu] itemArray] objectEnumerator];
-	
-    while ((item = [formatSubmenuItems nextObject]))
-    {
-        if ([item hasSubmenu] && [[[[item submenu] itemArray] objectAtIndex:0] action] == chooseLineEndings)
-        {
+    
+    while ((item = [formatSubmenuItems nextObject])) {
+        
+        if ([item hasSubmenu] && [[[[item submenu] itemArray] objectAtIndex:0] action] == chooseLineEndings) {
+            
             NSEnumerator *interestingItems = [[[item submenu] itemArray] objectEnumerator];
             NSMenuItem *innerItem = nil;
-			
-            while ((innerItem = [interestingItems nextObject]))
-            {
-                if ([innerItem isSeparatorItem])
-                {
+            
+            while ((innerItem = [interestingItems nextObject])) {
+                
+                if ([innerItem isSeparatorItem]) {
                     [lineEndingMenu addItem:[NSMenuItem separatorItem]];
-                }
-                else
-                {
+                } else {
                     item = [[[NSMenuItem alloc] initWithTitle:[innerItem title] action:[innerItem action] keyEquivalent:@""] autorelease];
                     [item setTarget:[innerItem target]];
                     [item setTag:[innerItem tag]];
@@ -424,41 +414,35 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
         }
     }
     [[O_lineEndingPopUpButton cell] setMenu:lineEndingMenu];
-	
+    
     [O_tabStatusPopUpButton setPullsDown:YES];
     NSMenu *tabMenu = [[NSMenu new] autorelease];
     // insert title item of pulldown popupbutton
     [tabMenu addItem:[[[NSMenuItem alloc] initWithTitle:@"" action:NULL keyEquivalent:@""] autorelease]];
     formatSubmenuItems = [[[[[NSApp mainMenu] itemWithTag:FormatMenuTag] submenu] itemArray] objectEnumerator];
     BOOL copyItems = NO;
-	
-    while ((item = [formatSubmenuItems nextObject]))
-    {
-        if ([item action] == @selector(toggleUsesTabs:)) copyItems = YES;
-		
-        if (copyItems)
-        {
-            if ([item isSeparatorItem])
-            {
+    
+    while ((item = [formatSubmenuItems nextObject])) {
+        if ([item action] == @selector(toggleUsesTabs:)) { copyItems = YES; }
+        
+        if (copyItems) {
+            if ([item isSeparatorItem]) {
                 [tabMenu addItem:[NSMenuItem separatorItem]];
-            }
-            else
-            {
+            } else {
                 NSMenuItem *newItem = [tabMenu addItemWithTitle:[item title] action:[item action] keyEquivalent:@""];
                 [newItem setTarget:[item target]];
                 [newItem setTag:[item tag]];
-				
-                if ([item hasSubmenu])
-                {
+                
+                if ([item hasSubmenu]) {
                     [newItem setSubmenu:[[[item submenu] copy] autorelease]];
                 }
             }
         }
     }
     [[O_tabStatusPopUpButton cell] setMenu:tabMenu];
-	
-	[self updateTopScrollViewInset];
-	[self updateBottomScrollViewInset];
+    
+    [self updateTopScrollViewInset];
+    [self updateBottomScrollViewInset];
 }
 
 - (void)loadViewPostprocessing {
@@ -532,6 +516,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 		[textView turnOffLigatures:self];
 		[textView setLinkTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSCursor pointingHandCursor], NSCursorAttributeName, nil]];
 		[textView setDelegate:self];
+        
 		textView;
 	});
 	
@@ -610,43 +595,33 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 
-- (void)pushSelectedRanges
-{
+- (void)pushSelectedRanges {
     [I_storedSelectedRanges addObject:[NSValue valueWithRange:[I_textView selectedRange]]];
 }
 
 
-- (void)popSelectedRanges
-{
+- (void)popSelectedRanges {
     NSValue *value = [I_storedSelectedRanges lastObject];
 
-    if (value)
-    {
+    if (value) {
         NSRange selectedRange = [value rangeValue];
         [I_textView setSelectedRange:RangeConfinedToRange(selectedRange, NSMakeRange(0, [[I_textView string] length]))];
         [I_storedSelectedRanges removeLastObject];
-    }
-    else
-    {
+    } else {
         [I_textView setSelectedRange:NSMakeRange(0, 0)];
     }
 }
 
 
-- (void)adjustDisplayOfPageGuide
-{
+- (void)adjustDisplayOfPageGuide {
     PlainTextDocument *document = [self document];
 
-    if (document)
-    {
+    if (document) {
         DocumentMode *mode = [document documentMode];
 
-        if ([[mode defaultForKey:DocumentModeShowPageGuidePreferenceKey] boolValue])
-        {
+        if ([[mode defaultForKey:DocumentModeShowPageGuidePreferenceKey] boolValue]) {
             [(SEETextView *)I_textView setPageGuidePosition :[self pageGuidePositionForColumns:[[mode defaultForKey:DocumentModePageGuideWidthPreferenceKey] intValue]]];
-        }
-        else
-        {
+        } else {
             [(SEETextView *)I_textView setPageGuidePosition : 0];
         }
     }
@@ -710,8 +685,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     [self.document triggerUpdateSymbolTableTimer]; // make sure the symbol graphics are the right tone
 }
 
-- (void)takeSettingsFromDocument
-{
+- (void)takeSettingsFromDocument {
     PlainTextDocument *document = [self document];
 
     if (document)
@@ -739,13 +713,11 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
         NSEnumerator *keyEnumerator = [attributeForDefaultKeyDictionary keyEnumerator];
         NSString *attributeString = nil;
 
-        while ((attributeString = [keyEnumerator nextObject]))
-        {
+        while ((attributeString = [keyEnumerator nextObject])) {
             NSString *defaultKey = [attributeForDefaultKeyDictionary objectForKey:attributeString];
             SEL attributeSetter = NSSelectorFromString(attributeString);
 
-            if ([I_textView respondsToSelector:attributeSetter])
-            {
+            if ([I_textView respondsToSelector:attributeSetter]) {
                 ((void (*)(id, SEL, BOOL))objc_msgSend)(I_textView, attributeSetter, [[documentMode defaultForKey:defaultKey] boolValue]);
                 //				NSLog(@"%s set %@ for %@ now %@",__FUNCTION__,attributeString, defaultKey, [documentMode defaultForKey:defaultKey]);
             }
@@ -794,12 +766,10 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 
-- (int)displayedRows
-{
+- (int)displayedRows {
     int rows = 0;
 
-    if ([self document])
-    {
+    if ([self document]) {
         NSFont *font = [[self document] fontWithTrait:0];
         rows = (int)(([[I_textView enclosingScrollView] contentSize].height - [I_textView textContainerInset].height * 2) / [[I_textView layoutManager] defaultLineHeightForFont:font]);
     }
@@ -808,12 +778,10 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 
-- (int)displayedColumns
-{
+- (int)displayedColumns {
     int columns = 0;
 
-    if ([self document])
-    {
+    if ([self document])  {
         NSFont *font = [[self document] fontWithTrait:0];
         CGFloat characterWidth = [@"n" sizeWithAttributes :[NSDictionary dictionaryWithObject:font forKey:NSFontAttributeName]].width;
         columns = (int)(([I_textView bounds].size.width - [I_textView textContainerInset].width * 2 - [[I_textView textContainer] lineFragmentPadding] * 2) / characterWidth);
@@ -948,14 +916,12 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	
 }
 
-- (NSView *)editorView
-{
+- (NSView *)editorView {
     return self.O_editorView;
 }
 
 
-- (NSTextView *)textView
-{
+- (NSTextView *)textView {
     return I_textView;
 }
 
@@ -973,21 +939,18 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	return I_windowControllerTabContext;
 }
 
-- (void)updateSplitButtonForIsSplit:(BOOL)aFlag
-{
+- (void)updateSplitButtonForIsSplit:(BOOL)aFlag {
     if (I_flags.hasSplitButton) {
 		self.topBarViewController.splitButtonShowsClose = aFlag;
     }
 }
 
 
-- (int)dentLineInTextView:(NSTextView *)aTextView withRange:(NSRange)aLineRange in:(BOOL)aIndent
-{
+- (int)dentLineInTextView:(NSTextView *)aTextView withRange:(NSRange)aLineRange in:(BOOL)aIndent {
     int changedChars = 0;
     static NSCharacterSet *spaceTabSet = nil;
 
-    if (!spaceTabSet)
-    {
+    if (!spaceTabSet) {
         spaceTabSet = [NSCharacterSet whitespaceCharacterSet];
     }
 
@@ -995,21 +958,20 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     NSString *replacementString = @"";
     NSTextStorage *textStorage = [aTextView textStorage];
     NSString *string = [textStorage string];
-    int tabWidth = [[self document] tabWidth];
+    PlainTextDocument *document = self.document;
+    int tabWidth = [document tabWidth];
 
-    if ([[self document] usesTabs])
-    {
-        if (aIndent)
-        {
+    if ([document usesTabs]) {
+        if (aIndent) {
             // replace spaces with tabs and add one tab
             unsigned lastCharacter = aLineRange.location;
 
             while (lastCharacter < NSMaxRange(aLineRange) &&
-                   [spaceTabSet characterIsMember:[string characterAtIndex:lastCharacter]])
+                   [spaceTabSet characterIsMember:[string characterAtIndex:lastCharacter]]) {
                 lastCharacter++;
-
-            if (aLineRange.location != lastCharacter && lastCharacter < NSMaxRange(aLineRange))
-            {
+            }
+            
+            if (aLineRange.location != lastCharacter && lastCharacter < NSMaxRange(aLineRange)) {
                 affectedCharRange = NSMakeRange(aLineRange.location, lastCharacter - aLineRange.location);
                 unsigned detabbedLength = [string detabbedLengthForRange:affectedCharRange
 														  tabWidth						:tabWidth];
@@ -1021,27 +983,19 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 													   withString : @" " startingAtIndex : 0]
 									 ];
 
-                if (affectedCharRange.length != [replacementString length] - 1)
-                {
+                if (affectedCharRange.length != [replacementString length] - 1) {
                     changedChars = [replacementString length] - affectedCharRange.length;
-                }
-                else
-                {
+                } else {
                     affectedCharRange = NSMakeRange(aLineRange.location, 0);
                     replacementString = @"\t";
                     changedChars = 1;
                 }
-            }
-            else
-            {
+            } else {
                 replacementString = @"\t";
                 changedChars = 1;
             }
-        }
-        else
-        {
-            if ([string length] > aLineRange.location)
-            {
+        } else {
+            if ([string length] > aLineRange.location) {
                 // replace spaces with tabs and remove one tab or the remaining whitespace
                 unsigned lastCharacter = aLineRange.location;
 
@@ -1050,8 +1004,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
                     lastCharacter++;
                 affectedCharRange = NSMakeRange(aLineRange.location, lastCharacter - aLineRange.location);
 
-                if (aLineRange.location != lastCharacter && lastCharacter < NSMaxRange(aLineRange))
-                {
+                if (aLineRange.location != lastCharacter && lastCharacter < NSMaxRange(aLineRange)) {
                     affectedCharRange = NSMakeRange(aLineRange.location, lastCharacter - aLineRange.location);
                     unsigned detabbedLength = [string detabbedLengthForRange:affectedCharRange
 															  tabWidth						:tabWidth];
@@ -1064,21 +1017,16 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 										 ];
 
                     if ([replacementString length] != affectedCharRange.length ||
-                        ((int)detabbedLength / tabWidth) == 0)
-                    {
-                        if ((int)detabbedLength / tabWidth > 0)
-                        {
+                        ((int)detabbedLength / tabWidth) == 0) {
+                        
+                        if ((int)detabbedLength / tabWidth > 0) {
                             replacementString = [replacementString substringWithRange:NSMakeRange(1, [replacementString length] - 1)];
-                        }
-                        else
-                        {
+                        } else {
                             replacementString = @"";
                         }
 
                         changedChars = [replacementString length] - affectedCharRange.length;
-                    }
-                    else
-                    {
+                    } else {
                         // this if is always true due to the ifs above
                         // if ([string characterAtIndex:aLineRange.location]==[@"\t" characterAtIndex:0]) {
                         affectedCharRange = NSMakeRange(aLineRange.location, 1);
@@ -1086,48 +1034,38 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
                         replacementString = @"";
                         // }
                     }
-                }
-                else
-                {
+                } else {
                     changedChars = [replacementString length] - affectedCharRange.length;
                 }
             }
         }
-    }
-    else
-    {
+    } else {
         unsigned firstCharacter = aLineRange.location;
 
         // replace tabs with spaces
-        while (firstCharacter < NSMaxRange(aLineRange))
-        {
+        while (firstCharacter < NSMaxRange(aLineRange)) {
             unichar character;
             character = [string characterAtIndex:firstCharacter];
 
-            if (character == [@" " characterAtIndex : 0])
-            {
+            if (character == [@" " characterAtIndex : 0]) {
                 firstCharacter++;
             }
-            else if (character == [@"\t" characterAtIndex : 0])
-            {
+            else if (character == [@"\t" characterAtIndex : 0]) {
                 changedChars += tabWidth - 1;
                 firstCharacter++;
             }
-            else
-            {
+            else {
                 break;
             }
         }
 
-        if (changedChars != 0)
-        {
+        if (changedChars != 0) {
             NSRange affectedRange = NSMakeRange(aLineRange.location, firstCharacter - aLineRange.location);
             NSString *replacementString = [@" " stringByPaddingToLength : firstCharacter - aLineRange.location + changedChars
 															 withString : @" " startingAtIndex : 0];
 
             if ([aTextView shouldChangeTextInRange:affectedRange
-								 replacementString:replacementString])
-            {
+								 replacementString:replacementString]) {
                 NSAttributedString *attributedReplaceString = [[NSAttributedString alloc]
                                                                initWithString:replacementString
                                                                attributes:[aTextView typingAttributes]];
@@ -1139,21 +1077,15 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
             }
         }
 
-        if (aIndent)
-        {
+        if (aIndent) {
             changedChars += tabWidth;
             replacementString = [@" " stringByPaddingToLength : tabWidth
 												   withString : @" " startingAtIndex : 0];
-        }
-        else
-        {
-            if (firstCharacter >= affectedCharRange.location + tabWidth)
-            {
+        } else {
+            if (firstCharacter >= affectedCharRange.location + tabWidth) {
                 affectedCharRange.length = tabWidth;
                 changedChars -= tabWidth;
-            }
-            else
-            {
+            } else {
                 affectedCharRange.length = firstCharacter - affectedCharRange.location;
                 changedChars -= affectedCharRange.length;
             }
@@ -1162,16 +1094,13 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
     NSRange newRange = NSMakeRange(affectedCharRange.location, [replacementString length]);
 
-    if (affectedCharRange.length > 0 || newRange.length > 0)
-    {
+    if (affectedCharRange.length > 0 || newRange.length > 0) {
         if ([aTextView shouldChangeTextInRange:affectedCharRange
-							 replacementString:replacementString])
-        {
+							 replacementString:replacementString]) {
             [textStorage replaceCharactersInRange:affectedCharRange
 									   withString:replacementString];
 
-            if (newRange.length > 0)
-            {
+            if (newRange.length > 0) {
 //				[textStorage addAttribute:NSParagraphStyleAttributeName value:[aTextView defaultParagraphStyle] range:newRange];
                 [textStorage addAttributes:[aTextView typingAttributes] range:newRange];
             }
@@ -1182,17 +1111,12 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 
-- (void)dentParagraphsInTextView:(NSTextView *)aTextView in:(BOOL)aIndent
-{
-    if ([(FoldableTextStorage *)[aTextView textStorage] hasBlockeditRanges])
-    {
+- (void)dentParagraphsInTextView:(NSTextView *)aTextView in:(BOOL)aIndent {
+    if ([(FoldableTextStorage *)[aTextView textStorage] hasBlockeditRanges]) {
         NSBeep();
-    }
-    else
-    {
+    } else {
         NSRange affectedRange = [aTextView selectedRange];
-		if (affectedRange.location != NSNotFound)
-		{
+		if (affectedRange.location != NSNotFound) {
 			[aTextView setSelectedRange:NSMakeRange(affectedRange.location, 0)];
 			NSRange lineRange = {};
 			NSTextStorage *textStorage = [aTextView textStorage];
@@ -1211,25 +1135,18 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 					}
 					[textStorage endEditing];
 
-					if (lengthChange > 0)
-					{
+					if (lengthChange > 0) {
 						affectedRange.location += lengthChange;
-					}
-					else if (lengthChange < 0)
-					{
-						if (affectedRange.location - lineRange.location < ABS(lengthChange))
-						{
+					} else if (lengthChange < 0) {
+                        
+						if (affectedRange.location - lineRange.location < ABS(lengthChange)) {
 							affectedRange.location = lineRange.location;
-						}
-						else
-						{
+						} else {
 							affectedRange.location += lengthChange;
 						}
 					}
 					[aTextView setSelectedRange:affectedRange];
-				}
-				else
-				{
+				} else {
 					affectedRange = [string lineRangeForRange:affectedRange];
 					[textStorage beginEditing];
 					{
@@ -1239,8 +1156,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 						int result = 0;
 						int changedLength = 0;
 
-						while (!DisjointRanges(lineRange, affectedRange))
-						{
+						while (!DisjointRanges(lineRange, affectedRange)) {
 							result = [self dentLineInTextView:aTextView withRange:lineRange in:aIndent];
 
 							changedLength += result;
@@ -1255,14 +1171,10 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 					[textStorage endEditing];
 					[aTextView didChangeText];
 
-					if (NSMaxRange(affectedRange) > [textStorage length])
-					{
-						if (affectedRange.length > 0)
-						{
+					if (NSMaxRange(affectedRange) > [textStorage length]) {
+						if (affectedRange.length > 0) {
 							affectedRange = NSIntersectionRange(affectedRange, NSMakeRange(0, [textStorage length]));
-						}
-						else
-						{
+						} else {
 							affectedRange.location = [textStorage length];
 						}
 					}
@@ -1276,14 +1188,10 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 
-- (void)tabParagraphsInTextView:(NSTextView *)aTextView de:(BOOL)shouldDetab
-{
-    if ([(FoldableTextStorage *)[aTextView textStorage] hasBlockeditRanges])
-    {
+- (void)tabParagraphsInTextView:(NSTextView *)aTextView de:(BOOL)shouldDetab {
+    if ([(FoldableTextStorage *)[aTextView textStorage] hasBlockeditRanges]) {
         NSBeep();
-    }
-    else
-    {
+    } else {
         NSRange affectedRange = [aTextView selectedRange];
         [aTextView setSelectedRange:NSMakeRange(affectedRange.location, 0)];
 
@@ -1293,8 +1201,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
         [undoManager beginUndoGrouping];
 
-        if (affectedRange.length == 0)
-        {
+        if (affectedRange.length == 0) {
             affectedRange = NSMakeRange(0, [textStorage length]);
         }
 
@@ -1334,8 +1241,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
 #pragma mark - Overlay view support
 
-+ (NSSet *)keyPathsForValuesAffectingHasBottomOverlayView
-{
++ (NSSet *)keyPathsForValuesAffectingHasBottomOverlayView {
     return [NSSet setWithObjects:@"bottomOverlayViewController", nil];
 }
 
@@ -1524,29 +1430,20 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 {
     SEL selector = [menuItem action];
 
-    if (selector == @selector(toggleWrap:))
-    {
+    if (selector == @selector(toggleWrap:)) {
         [menuItem setState:[O_scrollView hasHorizontalScroller] ? NSOffState:NSOnState];
         return YES;
-    }
-    else if (selector == @selector(toggleTopStatusBar:))
-    {
+    } else if (selector == @selector(toggleTopStatusBar:)) {
         [menuItem setState:[self showsTopStatusBar] ? NSOnState:NSOffState];
         return YES;
-    }
-    else if (selector == @selector(toggleShowsChangeMarks:))
-    {
+    } else if (selector == @selector(toggleShowsChangeMarks:)) {
         BOOL showsChangeMarks = [self showsChangeMarks];
         [menuItem setState:showsChangeMarks ? NSOnState:NSOffState];
         return YES;
-    }
-    else if (selector == @selector(toggleShowInvisibles:))
-    {
+    } else if (selector == @selector(toggleShowInvisibles:)) {
         [menuItem setState:[self showsInvisibleCharacters] ? NSOnState:NSOffState];
         return YES;
-    }
-    else if (selector == @selector(blockeditSelection:) || selector == @selector(endBlockedit:))
-    {
+    } else if (selector == @selector(blockeditSelection:) || selector == @selector(endBlockedit:)) {
         FoldableTextStorage *textStorage = (FoldableTextStorage *)[I_textView textStorage];
 
         if ([textStorage hasBlockeditRanges])
@@ -1563,12 +1460,9 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
         [menuItem setAction:@selector(blockeditSelection:)];
         [menuItem setKeyEquivalentModifierMask:NSCommandKeyMask | NSShiftKeyMask];
         return YES;
-    }
-    else if (selector == @selector(copyAsXHTML:))
-    {
+    } else if (selector == @selector(copyAsXHTML:)) {
         return [I_textView selectedRange].length > 0;
-    }
-	else if (selector == @selector(changePendingUsersAccessAndAnnounce:)) {
+    } else if (selector == @selector(changePendingUsersAccessAndAnnounce:)) {
         TCMMMSession *session=self.document.session;
         [menuItem setState:([menuItem tag]==[session accessState])?NSOnState:NSOffState];
         return [session isServer];
@@ -1586,8 +1480,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
  TODO: detab before exporting
  "*/
 
-- (IBAction)copyAsXHTML:(id)aSender
-{
+- (IBAction)copyAsXHTML:(id)aSender {
     static NSDictionary *baseAttributeMapping;
     static NSDictionary *writtenByAttributeMapping;
 
@@ -1618,12 +1511,10 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
     NSRange selectedRange = [I_textView selectedRange];
 
-    if (selectedRange.location != NSNotFound && selectedRange.length > 0)
-    {
+    if (selectedRange.location != NSNotFound && selectedRange.length > 0) {
         NSMutableDictionary *mapping = [[baseAttributeMapping mutableCopy] autorelease];
 
-        if ([self showsChangeMarks])
-        {
+        if ([self showsChangeMarks]){
             [mapping addEntriesFromDictionary:writtenByAttributeMapping];
         }
 
@@ -1647,8 +1538,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
         NSString *fontString = @"";
 
         if ([[[self document] fontWithTrait:0] isFixedPitch] ||
-            [@"Monaco" isEqualToString : [[[self document] fontWithTrait:0] fontName]])
-        {
+            [@"Menlo" isEqualToString : [[[self document] fontWithTrait:0] fontName]]) {
             fontString = @"font-size:small; font-family:monospace; ";
         }
 
@@ -1659,8 +1549,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
         [result appendFormat:@"<%@ style=\"text-align:left;color:%@; background-color:%@; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;%@\">", topLevelTag, [foregroundColor HTMLString], [backgroundColor HTMLString], fontString];
         NSMutableString *content = [attributedStringForXHTML XHTMLStringWithAttributeMapping:mapping forUTF8:NO];
 
-        if ([self wrapsLines])
-        {
+        if ([self wrapsLines]) {
             [content addBRs];
         }
 
@@ -1669,9 +1558,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
         [[NSPasteboard generalPasteboard] declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:nil];
         [[NSPasteboard generalPasteboard] setString:result forType:NSStringPboardType];
         [result release];
-    }
-    else
-    {
+    } else {
         NSBeep();
     }
 }
@@ -1735,8 +1622,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 //    }
 //}
 
-- (IBAction)blockeditSelection:(id)aSender
-{
+- (IBAction)blockeditSelection:(id)aSender {
     NSRange selection = [I_textView selectedRange];
     FoldableTextStorage *textStorage = (FoldableTextStorage *)[I_textView textStorage];
     NSRange lineRange = [[textStorage string] lineRangeForRange:selection];
@@ -1749,19 +1635,16 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 
-- (IBAction)endBlockedit:(id)aSender
-{
+- (IBAction)endBlockedit:(id)aSender {
     FoldableTextStorage *textStorage = (FoldableTextStorage *)[I_textView textStorage];
 
-    if ([textStorage hasBlockeditRanges])
-    {
+    if ([textStorage hasBlockeditRanges]) {
         [textStorage stopBlockedit];
     }
 }
 
 
-- (void)setShowsChangeMarks:(BOOL)aFlag
-{
+- (void)setShowsChangeMarks:(BOOL)aFlag {
     LayoutManager *layoutManager = (LayoutManager *)[I_textView layoutManager];
 
     if ([layoutManager showsChangeMarks] != aFlag)
@@ -1772,14 +1655,12 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 
-- (BOOL)showsChangeMarks
-{
+- (BOOL)showsChangeMarks {
     return [(LayoutManager *)[I_textView layoutManager] showsChangeMarks];
 }
 
 
-- (void)setShowsInvisibleCharacters:(BOOL)aFlag
-{
+- (void)setShowsInvisibleCharacters:(BOOL)aFlag {
     LayoutManager *layoutManager = (LayoutManager *)[I_textView layoutManager];
 
     [layoutManager setShowsInvisibles:aFlag];
@@ -1788,37 +1669,30 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 
-- (BOOL)showsInvisibleCharacters
-{
+- (BOOL)showsInvisibleCharacters {
     return [(LayoutManager *)[I_textView layoutManager] showsInvisibles];
 }
 
 
-- (IBAction)toggleShowInvisibles:(id)aSender
-{
+- (IBAction)toggleShowInvisibles:(id)aSender {
     [self setShowsInvisibleCharacters:![self showsInvisibleCharacters]];
 }
 
 
-- (void)setWrapsLines:(BOOL)aFlag
-{
-    if (aFlag != [self wrapsLines])
-    {
+- (void)setWrapsLines:(BOOL)aFlag {
+    if (aFlag != [self wrapsLines]) {
         [self toggleWrap:self];
     }
 }
 
 
-- (BOOL)wrapsLines
-{
+- (BOOL)wrapsLines {
     return ![O_scrollView hasHorizontalScroller];
 }
 
 
-- (IBAction)toggleWrap:(id)aSender
-{
-    if (![O_scrollView hasHorizontalScroller])
-    {
+- (IBAction)toggleWrap:(id)aSender {
+    if (![O_scrollView hasHorizontalScroller]) {
         // turn wrap off
         [I_textContainer setWidthTracksTextView:NO];
         [I_textView setAutoresizingMask:NSViewNotSizable];
@@ -1831,9 +1705,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 		[[O_scrollView horizontalScroller] setKnobStyle:knobStyle];
 		// force funny layout now
 		[self.document invalidateLayoutForRange:self.document.textStorage.fullTextStorage.TCM_fullLengthRange];
-    }
-    else
-    {
+    } else {
         // turn wrap on
         [O_scrollView setHasHorizontalScroller:NO];
         [O_scrollView setNeedsDisplay:YES];
@@ -1859,8 +1731,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	[self positionClick:aSender];
 }
 
-- (IBAction)positionClick:(id)aSender
-{
+- (IBAction)positionClick:(id)aSender {
     if (([[NSApp currentEvent] type] == NSLeftMouseDown ||
          [[NSApp currentEvent] type] == NSLeftMouseUp))
     {
@@ -1885,14 +1756,12 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	}
 }
 
-- (BOOL)showsGutter
-{
+- (BOOL)showsGutter {
     return [O_scrollView rulersVisible];
 }
 
 
-- (void)setShowsGutter:(BOOL)aFlag
-{
+- (void)setShowsGutter:(BOOL)aFlag {
     [O_scrollView setRulersVisible:aFlag];
     [self TCM_updateBottomStatusBar];
 }
@@ -1980,71 +1849,60 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 
-- (NSString *)followUserID
-{
+- (NSString *)followUserID {
     return I_followUserID;
 }
 
 
-- (IBAction)toggleShowsChangeMarks:(id)aSender
-{
+- (IBAction)toggleShowsChangeMarks:(id)aSender {
     [self setShowsChangeMarks:![self showsChangeMarks]];
 }
 
 
-- (IBAction)toggleTopStatusBar:(id)aSender
-{
+- (IBAction)toggleTopStatusBar:(id)aSender {
     [self setShowsTopStatusBar:![self showsTopStatusBar]];
 }
 
 
-- (IBAction)shiftRight:(id)aSender
-{
+- (IBAction)shiftRight:(id)aSender {
     [self dentParagraphsInTextView:I_textView in:YES];
 }
 
 
-- (IBAction)shiftLeft:(id)aSender
-{
+- (IBAction)shiftLeft:(id)aSender {
     [self dentParagraphsInTextView:I_textView in:NO];
 }
 
 
-- (IBAction)detab:(id)aSender
-{
+- (IBAction)detab:(id)aSender {
     [self tabParagraphsInTextView:I_textView de:YES];
 }
 
 
-- (IBAction)entab:(id)aSender
-{
+- (IBAction)entab:(id)aSender {
     [self tabParagraphsInTextView:I_textView de:NO];
 }
 
 
-- (IBAction)insertStateClose:(id)aSender
-{
+- (IBAction)insertStateClose:(id)aSender {
     SEETextView *textView = I_textView;
     NSRange selectedRange = [(FoldableTextStorage *)[I_textView textStorage] fullRangeForFoldedRange : [textView selectedRange]];
 
     FullTextStorage *fullTextStorage = [(FoldableTextStorage *)[I_textView textStorage] fullTextStorage];
     NSRange startRange = [fullTextStorage startRangeForStateAndIndex:selectedRange.location];
 
-    if (startRange.location != NSNotFound)
-    {
+    if (startRange.location != NSNotFound) {
         NSString *autoend = [fullTextStorage attribute:kSyntaxHighlightingAutocompleteEndName atIndex:startRange.location effectiveRange:nil];
 
-        if (autoend)
-        {
+        if (autoend) {
             //TODO: check if leading is whitespaceonly. ifso, outdent to intentlevel of start
             NSString *textstorageString = [fullTextStorage string];
             NSRange targetLineRange = [textstorageString lineRangeForRange:selectedRange];
             NSRange whitespaceRange = [textstorageString rangeOfLeadingWhitespaceStartingAt:targetLineRange.location];
 
-            if (NSMaxRange(whitespaceRange) >= selectedRange.location)
-            {
+            if (NSMaxRange(whitespaceRange) >= selectedRange.location) {
                 // we have leading whitespace indeed
-                NSLog(@"%s got whitespace!", __FUNCTION__);
+                // NSLog(@"%s got whitespace!", __FUNCTION__);
                 // get Leading whitespace from start
                 NSRange startLineRange = [textstorageString lineRangeForRange:startRange];
                 NSRange startWhitespaceRange = [textstorageString rangeOfLeadingWhitespaceStartingAt:startLineRange.location];
@@ -2055,66 +1913,51 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
                 }
 
                 [self selectRange:NSUnionRange(whitespaceRange, selectedRange)];
-                NSLog(@"%s inserting ||%@||", __FUNCTION__, autoend);
+                // NSLog(@"%s inserting ||%@||", __FUNCTION__, autoend);
+                [I_textView insertText:autoend];
+            } else {
                 [I_textView insertText:autoend];
             }
-            else
-            {
-                [I_textView insertText:autoend];
-            }
-        }
-        else
-        {
+        } else {
             NSBeep();
         }
-    }
-    else
-    {
+    } else {
         NSBeep();
     }
 }
 
 
-- (IBAction)jumpToNextSymbol:(id)aSender
-{
+- (IBAction)jumpToNextSymbol:(id)aSender {
     SEETextView *textView = I_textView;
     PlainTextDocument *document = [self document];
     NSRange selectedRange = [(FoldableTextStorage *)[document textStorage] fullRangeForFoldedRange : [textView selectedRange]];
     NSRange change = [document rangeOfPrevious:NO
 								symbolForRange:NSMakeRange(NSMaxRange(selectedRange), 0)];
 
-    if (change.location == NSNotFound)
-    {
+    if (change.location == NSNotFound) {
         NSBeep();
-    }
-    else
-    {
+    } else {
         [self selectRange:change];
     }
 }
 
 
-- (IBAction)jumpToPreviousSymbol:(id)aSender
-{
+- (IBAction)jumpToPreviousSymbol:(id)aSender {
     SEETextView *textView = I_textView;
     PlainTextDocument *document = [self document];
     NSRange selectedRange = [(FoldableTextStorage *)[document textStorage] fullRangeForFoldedRange : [textView selectedRange]];
     NSRange change = [[self document] rangeOfPrevious:YES
 									   symbolForRange:NSMakeRange(selectedRange.location, 0)];
 
-    if (change.location == NSNotFound)
-    {
+    if (change.location == NSNotFound) {
         NSBeep();
-    }
-    else
-    {
+    } else {
         [self selectRange:change];
     }
 }
 
 
-- (IBAction)jumpToNextChange:(id)aSender
-{
+- (IBAction)jumpToNextChange:(id)aSender {
     SEETextView *textView = (SEETextView *)[self textView];
     PlainTextDocument *document = [self document];
     NSRange selectedRange = [(FoldableTextStorage *)[document textStorage] fullRangeForFoldedRange :[textView selectedRange]];
@@ -2122,31 +1965,24 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     NSRange change = [[self document] rangeOfPrevious:NO
 									   changeForRange:NSMakeRange(maxrange > 0 ? maxrange - 1 : maxrange, 0)];
 
-    if (change.location == NSNotFound)
-    {
+    if (change.location == NSNotFound) {
         NSBeep();
-    }
-    else
-    {
+    } else {
         [self selectRange:change];
     }
 }
 
 
-- (IBAction)jumpToPreviousChange:(id)aSender
-{
+- (IBAction)jumpToPreviousChange:(id)aSender {
     SEETextView *textView = (SEETextView *)[self textView];
     PlainTextDocument *document = [self document];
     NSRange selectedRange = [(FoldableTextStorage *)[document textStorage] fullRangeForFoldedRange :[textView selectedRange]];
     NSRange change = [[self document] rangeOfPrevious:YES
 									   changeForRange:NSMakeRange(selectedRange.location, 0)];
 
-    if (change.location == NSNotFound)
-    {
+    if (change.location == NSNotFound) {
         NSBeep();
-    }
-    else
-    {
+    } else  {
         [self selectRange:change];
     }
 }
@@ -2364,8 +2200,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
 
 #pragma mark ### position fixes for remote editing ###
-- (void)storePosition
-{
+- (void)storePosition {
     // idea: get the character index of the character in the upper left of the window, store that, and for restore apply the operation and scroll that character back to the upper left line
     NSRect visibleRect = [O_scrollView documentVisibleRect];
     NSPoint point = visibleRect.origin;
@@ -2385,10 +2220,8 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 
-- (void)restorePositionAfterOperation:(TCMMMOperation *)aOperation
-{
-    if (I_storedPosition && [[I_textView string] length])
-    {
+- (void)restorePositionAfterOperation:(TCMMMOperation *)aOperation {
+    if (I_storedPosition && [[I_textView string] length]) {
         NSLayoutManager *layoutManager = [I_textView layoutManager];
         TCMMMTransformator *transformator = [TCMMMTransformator sharedInstance];
         [transformator transformOperation:I_storedPosition serverOperation:aOperation];
@@ -2397,8 +2230,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 															   effectiveRange:nil];
         NSRect visibleRect = [O_scrollView documentVisibleRect];
 
-        if (visibleRect.origin.y != boundingRect.origin.y)
-        {
+        if (visibleRect.origin.y != boundingRect.origin.y) {
             visibleRect.origin.y = boundingRect.origin.y;
             [I_textView scrollRectToVisible:visibleRect];
             [[O_scrollView verticalRulerView] setNeedsDisplay:YES];
@@ -2426,17 +2258,13 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 #pragma mark -
 #pragma mark ### NSTextView delegate methods ###
 
-- (BOOL)textView:(NSTextView *)aTextView clickedOnLink:(id)link atIndex:(NSUInteger)charIndex
-{
+- (BOOL)textView:(NSTextView *)aTextView clickedOnLink:(id)link atIndex:(NSUInteger)charIndex {
     NSRange selectedRange = [aTextView selectedRange];
 
-    if (selectedRange.length > 0 && NSLocationInRange(charIndex, selectedRange))
-    {
+    if (selectedRange.length > 0 && NSLocationInRange(charIndex, selectedRange)) {
         // this was a context click and menu selection, instead of a real click, let the system handle that
         return NO;
-    }
-    else
-    {
+    } else {
         [aTextView setSelectedRange:NSMakeRange(charIndex, 0)];
 
         URLBubbleWindow *bubbleWindow = [URLBubbleWindow sharedURLBubbleWindow];
@@ -2465,53 +2293,42 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 
-- (NSString *)textView:(NSTextView *)inTextView willDisplayToolTip:(NSString *)inTooltip forCharacterAtIndex:(NSUInteger)inCharacterIndex
-{
+- (NSString *)textView:(NSTextView *)inTextView willDisplayToolTip:(NSString *)inTooltip forCharacterAtIndex:(NSUInteger)inCharacterIndex {
     FoldableTextStorage *ts = (FoldableTextStorage *)[inTextView textStorage];
     id attachment = [ts attribute:NSAttachmentAttributeName atIndex:inCharacterIndex effectiveRange:NULL];
 
-    if (attachment)
-    {
+    if (attachment) {
         NSHelpManager *hm = [NSHelpManager sharedHelpManager];
         NSAttributedString *helpString = [ts attributedStringOfFolding:attachment];
-        NSLog(@"%s helpString", __FUNCTION__);
+        // NSLog(@"%s helpString", __FUNCTION__);
         [hm setContextHelp:helpString forObject:attachment];
         [hm showContextHelpForObject:attachment locationHint:[NSEvent mouseLocation]];
         [hm removeContextHelpForObject:attachment];
         return nil;
         //		return [ts foldedStringRepresentationOfRange:[attachment foldedTextRange] foldings:[attachment innerAttachments] level:1];
-    }
-    else
-    {
+    } else {
         return inTooltip;
     }
 }
 
 
-- (void)textView:(NSTextView *)view doubleClickedOnCell:(id <NSTextAttachmentCell> )cell inRect:(NSRect)rect atIndex:(NSUInteger)inIndex
-{
-    if ([[cell attachment] isKindOfClass:[FoldedTextAttachment class]])
-    {
+- (void)textView:(NSTextView *)view doubleClickedOnCell:(id <NSTextAttachmentCell> )cell inRect:(NSRect)rect atIndex:(NSUInteger)inIndex {
+    if ([[cell attachment] isKindOfClass:[FoldedTextAttachment class]]) {
         [(FoldableTextStorage *)[view textStorage] unfoldAttachment : (FoldedTextAttachment *)[cell attachment] atCharacterIndex : inIndex];
     }
 }
 
 
-- (NSArray *)textView:(NSTextView *)aTextView writablePasteboardTypesForCell:(id <NSTextAttachmentCell> )cell atIndex:(NSUInteger)charIndex
-{
-    if ([[cell attachment] isKindOfClass:[FoldedTextAttachment class]])
-    {
+- (NSArray *)textView:(NSTextView *)aTextView writablePasteboardTypesForCell:(id <NSTextAttachmentCell> )cell atIndex:(NSUInteger)charIndex {
+    if ([[cell attachment] isKindOfClass:[FoldedTextAttachment class]]) {
         return [NSArray arrayWithObject:NSStringPboardType];
-    }
-    else
-    {
+    } else {
         return nil;
     }
 }
 
 
-- (BOOL)textView:(NSTextView *)aTextView writeCell:(id <NSTextAttachmentCell> )cell atIndex:(NSUInteger)charIndex toPasteboard:(NSPasteboard *)pboard type:(NSString *)type
-{
+- (BOOL)textView:(NSTextView *)aTextView writeCell:(id <NSTextAttachmentCell> )cell atIndex:(NSUInteger)charIndex toPasteboard:(NSPasteboard *)pboard type:(NSString *)type {
     id attachment = [cell attachment];
 
     if ([attachment isKindOfClass:[FoldedTextAttachment class]])
@@ -2531,27 +2348,23 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 
-- (void)textViewContextMenuNeedsUpdate:(NSMenu *)aContextMenu
-{
+- (void)textViewContextMenuNeedsUpdate:(NSMenu *)aContextMenu {
     NSMenu *scriptMenu = [[aContextMenu itemWithTag:12345] submenu];
 
     [scriptMenu removeAllItems];
     PlainTextDocument *document = (PlainTextDocument *)[self document];
     [document fillScriptsIntoContextMenu:scriptMenu];
 
-    if ([scriptMenu numberOfItems] == 0)
-    {
+    if ([scriptMenu numberOfItems] == 0)  {
         [[aContextMenu itemWithTag:12345] setEnabled:NO];
     }
-    else
-    {
+    else {
         [[aContextMenu itemWithTag:12345] setEnabled:YES];
     }
 }
 
 
-- (BOOL)textView:(NSTextView *)aTextView doCommandBySelector:(SEL)aSelector
-{
+- (BOOL)textView:(NSTextView *)aTextView doCommandBySelector:(SEL)aSelector {
     //	NSLog(@"%s %@",__FUNCTION__,NSStringFromSelector(aSelector));
     if (aSelector == @selector(insertBacktab:) ||
         aSelector == @selector(insertTab:) ||
@@ -2559,15 +2372,13 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
         aSelector == @selector(insertLineBreak:) ||
         aSelector == @selector(insertParagraphSeparator:) ||
         aSelector == @selector(insertTabIgnoringFieldEditor:) ||
-        aSelector == @selector(insertNewlineIgnoringFieldEditor:))
-    {
+        aSelector == @selector(insertNewlineIgnoringFieldEditor:)) {
         [self scheduleTextCheckingForRange:[[[aTextView textStorage] string] lineRangeForRange:[aTextView selectedRange]]];
     }
 
     PlainTextDocument *document = (PlainTextDocument *)[self document];
 
-    if (![document isRemotelyEditingTextStorage])
-    {
+    if (![document isRemotelyEditingTextStorage]) {
         [self setFollowUserID:nil];
     }
 
@@ -2575,20 +2386,19 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 
-- (BOOL)textView:(NSTextView *)aTextView shouldChangeTextInRange:(NSRange)affectedCharRange replacementString:(NSString *)replacementString
-{
+- (BOOL)textView:(NSTextView *)aTextView shouldChangeTextInRange:(NSRange)affectedCharRange replacementString:(NSString *)replacementString {
     [[URLBubbleWindow sharedURLBubbleWindow] hideIfNecessary];
     if (replacementString == nil) return YES;     // only styles are changed
 
     PlainTextDocument *document = [self document];
 
-    if (![document isRemotelyEditingTextStorage])
-    {
+    if (![document isRemotelyEditingTextStorage]) {
         [self setFollowUserID:nil];
     }
 
-    if (document && ![document isFileWritable] && ![document editAnyway])
-    {
+    if (document &&
+        ![document isFileWritable] &&
+        ![document editAnyway]) {
         NSDictionary *contextInfo = [NSDictionary dictionaryWithObjectsAndKeys:
                                      @"EditAnywayAlert", @"Alert",
                                      aTextView, @"TextView",
@@ -2610,12 +2420,10 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
         return NO;
     }
 
-    if (![replacementString canBeConvertedToEncoding:[document fileEncoding]] && ![aTextView hasMarkedText])
-    {
+    if (![replacementString canBeConvertedToEncoding:[document fileEncoding]] && ![aTextView hasMarkedText]) {
         TCMMMSession *session = [document session];
 
-        if ([session isServer] && [session participantCount] <= 1)
-        {
+        if ([session isServer] && [session participantCount] <= 1) {
             NSMutableDictionary *contextInfo = [[NSMutableDictionary alloc] init];
             [contextInfo setObject:@"ShouldPromoteAlert" forKey:@"Alert"];
             [contextInfo setObject:aTextView forKey:@"TextView"];
@@ -2636,22 +2444,19 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
                             didEndSelector	:@selector(alertDidEnd:returnCode:contextInfo:)
 							  contextInfo		:[contextInfo retain]];
         }
-        else
-        {
+        else {
             NSBeep();
         }
 
         return NO;
     }
-    else
-    {
+    else {
         [aTextView setTypingAttributes:[(FoldableTextStorage *)[aTextView textStorage] attributeDictionaryByAddingStyleAttributesForInsertLocation : affectedCharRange.location toDictionary :[(PlainTextDocument *)[self document] typingAttributes]]];
     }
 
     [aTextView setTypingAttributes:[(FoldableTextStorage *)[aTextView textStorage] attributeDictionaryByAddingStyleAttributesForInsertLocation : affectedCharRange.location toDictionary :[(PlainTextDocument *)[self document] typingAttributes]]];
 
-    if ([(SEETextView *)aTextView isPasting] && ![(FoldableTextStorage *)[aTextView textStorage] hasMixedLineEndings])
-    {
+    if ([(SEETextView *)aTextView isPasting] && ![(FoldableTextStorage *)[aTextView textStorage] hasMixedLineEndings]) {
         NSUInteger length = [replacementString length];
         NSUInteger curPos = 0;
         NSUInteger startIndex, endIndex, contentsEndIndex;
@@ -2684,8 +2489,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
         NSZoneFree(NSZoneFromPointer(lineEndingBuffer), lineEndingBuffer);
 
-        if (!isLineEndingValid)
-        {
+        if (!isLineEndingValid) {
             NSMutableDictionary *contextInfo = [[NSMutableDictionary alloc] init];
             [contextInfo setObject:@"PasteWrongLineEndingsAlert" forKey:@"Alert"];
             [contextInfo setObject:aTextView forKey:@"TextView"];
@@ -2712,12 +2516,10 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     if (result)       // fix for textview not doing autocorrection - uses internal methods as savely as possible - #beware
     {
         if (affectedCharRange.length == 0 &&
-            [replacementString length] == 1)
-        {
+            [replacementString length] == 1) {
             unichar character = [replacementString characterAtIndex:0];
 
-            if (character == ' ' || character == 0x00a0 || character == '\t')
-            {
+            if (character == ' ' || character == 0x00a0 || character == '\t') {
                 [self scheduleTextCheckingForRange:[[[aTextView textStorage] string] lineRangeForRange:affectedCharRange]];
             }
         }
@@ -2727,19 +2529,16 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 
-- (void)scheduleTextCheckingForRange:(NSRange)aRange
-{
+- (void)scheduleTextCheckingForRange:(NSRange)aRange {
     SEL selector = @selector(_scheduleTextCheckingForRange:);
 
-    if ([I_textView respondsToSelector:selector])
-    {
+    if ([I_textView respondsToSelector:selector]) {
         ((void (*)(id, SEL, NSRange))objc_msgSend)(I_textView, selector, aRange);
     }
 }
 
 
-- (void)setNeedsDisplayForRuler
-{
+- (void)setNeedsDisplayForRuler {
     if ([O_scrollView rulersVisible])
     {
         NSRulerView *ruler = [O_scrollView verticalRulerView];
@@ -2748,31 +2547,26 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 
-- (void)textDidChange:(NSNotification *)aNotification
-{
+- (void)textDidChange:(NSNotification *)aNotification {
     [self setNeedsDisplayForRuler];
 }
 
 
-- (void)contentViewBoundsDidChange:(NSNotification *)aNotification
-{
+- (void)contentViewBoundsDidChange:(NSNotification *)aNotification {
     [[URLBubbleWindow sharedURLBubbleWindow] hideIfNecessary];
     [self setNeedsDisplayForRuler];
 }
 
 
-- (NSRange)textView:(NSTextView *)aTextView willChangeSelectionFromCharacterRange:(NSRange)aOldSelectedCharRange toCharacterRange:(NSRange)aNewSelectedCharRange
-{
+- (NSRange)textView:(NSTextView *)aTextView willChangeSelectionFromCharacterRange:(NSRange)aOldSelectedCharRange toCharacterRange:(NSRange)aNewSelectedCharRange {
     [[URLBubbleWindow sharedURLBubbleWindow] hideIfNecessary];
     PlainTextDocument *document = (PlainTextDocument *)[self document];
     return [document textView:aTextView willChangeSelectionFromCharacterRange:aOldSelectedCharRange toCharacterRange:aNewSelectedCharRange];
 }
 
 
-- (void)textViewDidChangeSelection:(NSNotification *)aNotification
-{
-    if (I_flags.pausedProcessing)
-    {
+- (void)textViewDidChangeSelection:(NSNotification *)aNotification {
+    if (I_flags.pausedProcessing) {
         I_flags.pausedProcessing = NO;
         [[[self document] session] startProcessing];
     }
@@ -2781,24 +2575,20 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 
-- (NSDictionary *)blockeditAttributesForTextView:(NSTextView *)aTextView
-{
+- (NSDictionary *)blockeditAttributesForTextView:(NSTextView *)aTextView {
     return [[self document] blockeditAttributes];
 }
 
 
-- (void)textViewDidChangeSpellCheckingSetting:(SEETextView *)aTextView
-{
+- (void)textViewDidChangeSpellCheckingSetting:(SEETextView *)aTextView {
     [[self document] takeSpellCheckingSettingsFromEditor:self];
 }
 
 
-- (void)textView:(NSTextView *)aTextView mouseDidGoDown:(NSEvent *)aEvent
-{
+- (void)textView:(NSTextView *)aTextView mouseDidGoDown:(NSEvent *)aEvent {
     [self setFollowUserID:nil];
 
-    if (!I_flags.pausedProcessing)
-    {
+    if (!I_flags.pausedProcessing) {
         I_flags.pausedProcessing = YES;
         [[[self document] session] pauseProcessing];
     }
@@ -2807,25 +2597,21 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
 #pragma mark -
 
-- (void)scrollToUserWithID:(NSString *)aUserID
-{
+- (void)scrollToUserWithID:(NSString *)aUserID {
     TCMMMUser *user = [[TCMMMUserManager sharedInstance] userForUserID:aUserID];
 
-    if (user)
-    {
+    if (user) {
         NSDictionary *sessionProperties = [user propertiesForSessionID:[[[self document] session] sessionID]];
         SelectionOperation *selectionOperation = [sessionProperties objectForKey:@"SelectionOperation"];
 
-        if (selectionOperation)
-        {
+        if (selectionOperation) {
             [I_textView scrollFullRangeToVisible:[selectionOperation selectedRange]];
         }
     }
 }
 
 
-- (void)defaultParagraphStyleDidChange:(NSNotification *)aNotification
-{
+- (void)defaultParagraphStyleDidChange:(NSNotification *)aNotification {
     [I_textView setDefaultParagraphStyle:[(PlainTextDocument *)[self document] defaultParagraphStyle]];
     [self TCM_updateBottomStatusBar];
     [self textDidChange:aNotification];
@@ -2833,10 +2619,8 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 
-- (void)plainTextDocumentDidChangeEditStatus:(NSNotification *)aNotification
-{
-    if ([[self document] wrapLines] != [self wrapsLines])
-    {
+- (void)plainTextDocumentDidChangeEditStatus:(NSNotification *)aNotification {
+    if ([[self document] wrapLines] != [self wrapsLines]) {
         [self setWrapsLines:[[self document] wrapLines]];
     }
 
@@ -2845,14 +2629,11 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 
-- (void)plainTextDocumentUserDidChangeSelection:(NSNotification *)aNotification
-{
+- (void)plainTextDocumentUserDidChangeSelection:(NSNotification *)aNotification {
     NSString *followUserID = [self followUserID];
 
-    if (followUserID)
-    {
-        if ([[[[aNotification userInfo] objectForKey:@"User"] userID] isEqualToString:followUserID])
-        {
+    if (followUserID) {
+        if ([[[[aNotification userInfo] objectForKey:@"User"] userID] isEqualToString:followUserID]) {
             [self scrollToUserWithID:followUserID];
         }
     }
@@ -2862,74 +2643,63 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 #pragma mark -
 #pragma mark ### notification handling ###
 
-- (void)textViewFrameDidChange:(NSNotification *)aNotification
-{
+- (void)textViewFrameDidChange:(NSNotification *)aNotification {
     [I_radarScroller setMaxHeight:[I_textView frame].size.height];
 }
 
 
-- (void)viewFrameDidChange:(NSNotification *)aNotification
-{
+- (void)viewFrameDidChange:(NSNotification *)aNotification {
     [self.topBarViewController adjustLayout];
     [self TCM_updateBottomStatusBar];
 }
 
 
-- (void)setRadarMarkForUser:(TCMMMUser *)aUser
-{
+- (void)setRadarMarkForUser:(TCMMMUser *)aUser {
     NSString *sessionID = [[[self document] session] sessionID];
     NSColor *changeColor = [aUser changeColor];
 
     SelectionOperation *selectionOperation = [[aUser propertiesForSessionID:sessionID] objectForKey:@"SelectionOperation"];
 
-    if (selectionOperation)
-    {
+    if (selectionOperation) {
         NSUInteger rectCount;
         NSRange range = [selectionOperation selectedRange];
         NSLayoutManager *layoutManager = [I_textView layoutManager];
 
-        if (layoutManager)
-        {
+        if (layoutManager) {
             NSRectArray rects = [layoutManager
                                  rectArrayForCharacterRange:range
 								 withinSelectedCharacterRange:range
 								 inTextContainer				:[I_textView textContainer]
 								 rectCount					:&rectCount];
 
-            if (rectCount > 0)
-            {
+            if (rectCount > 0) {
                 NSRect rect = rects[0];
                 unsigned i;
 
-                for (i = 1; i < rectCount; i++)
-                {
+                for (i = 1; i < rectCount; i++) {
                     rect = NSUnionRect(rect, rects[i]);
                 }
 
                 [I_radarScroller setMarkFor:[aUser userID]
-								withColor		:changeColor
-							forMinLocation	:(float)rect.origin.y
-							andMaxLocation	:(float)NSMaxY(rect)];
+                                  withColor:changeColor
+                             forMinLocation:(float)rect.origin.y
+                             andMaxLocation:(float)NSMaxY(rect)];
             }
         }
-        else
-        {
+        else{
             NSLog(@"%s Textview:%@ has not yet a layoutmanager:%@ - strange document: %@", __FUNCTION__, I_textView, layoutManager, [[self document] displayName]);
         }
     }
-    else
-    {
+    else{
         [I_radarScroller removeMarkFor:[aUser userID]];
     }
 }
 
 
-- (void)userDidChangeSelection:(NSNotification *)aNotification
-{
+- (void)userDidChangeSelection:(NSNotification *)aNotification{
     TCMMMUser *user = [[aNotification userInfo] objectForKey:@"User"];
 
-    if (user)
-    {
+    if (user){
         [self setRadarMarkForUser:user];
     }
 }
@@ -2938,8 +2708,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 #pragma mark -
 #pragma mark ### Auto completion ###
 
-- (NSArray *)textView:(NSTextView *)textView completions:(NSArray *)words forPartialWordRange:(NSRange)charRange indexOfSelectedItem:(NSInteger *)index
-{
+- (NSArray *)textView:(NSTextView *)textView completions:(NSArray *)words forPartialWordRange:(NSRange)charRange indexOfSelectedItem:(NSInteger *)index{
     NSString *partialWord, *completionEntry;
     NSMutableArray *completions = [NSMutableArray array];
     unsigned i, count;
@@ -2971,15 +2740,13 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     if (characterIndex < stringLength ||
         (characterIndex == stringLength && characterIndex > 0))
     {
-        if (characterIndex == stringLength)
-        {
+        if (characterIndex == stringLength){
             characterIndex--;
         }
 
         NSString *modeForAutocomplete = [[textView textStorage] attribute:kSyntaxHighlightingParentModeForAutocompleteAttributeName atIndex:characterIndex effectiveRange:NULL];
 
-        if (modeForAutocomplete)
-        {
+        if (modeForAutocomplete){
             theMode = [[DocumentModeManager sharedInstance] documentModeForName:modeForAutocomplete];
         }
     }
@@ -2989,14 +2756,12 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     // Examine them one by one.
     count = [completionSource count];
 
-    for (i = 0; i < count; i++)
-    {
+    for (i = 0; i < count; i++){
         completionEntry = [completionSource objectAtIndex:i];
 
         // Add those that match the current partial word to the list of completions.
         if ([completionEntry hasPrefix:partialWord] &&
-            [dictionaryOfResultStrings objectForKey:completionEntry] == nil)
-        {
+            [dictionaryOfResultStrings objectForKey:completionEntry] == nil){
             [completions addObject:completionEntry];
             [dictionaryOfResultStrings setObject:@"YES" forKey:completionEntry];
         }
@@ -3007,8 +2772,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     NSEnumerator *documents = [[[SEEDocumentController sharedInstance] documents] objectEnumerator];
     PlainTextDocument *document = nil;
 
-    while ((document = [documents nextObject]))
-    {
+    while ((document = [documents nextObject])){
         if (document == myDocument) continue;
 
         NSEnumerator *matches = [document matchEnumeratorForAutocompleteString:partialWord];
@@ -3022,12 +2786,10 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     [dictionaryOfResultStrings addEntriesFromDictionary:otherDictionaryOfResultStrings];
 
     // add the originally suggested words if spelling dictionary should be used
-    if ([[documentMode syntaxDefinition] useSpellingDictionary])
-    {
+    if ([[documentMode syntaxDefinition] useSpellingDictionary]){
         id word;
 
-        for (word in words)
-        {
+        for (word in words){
             if ([dictionaryOfResultStrings objectForKey:word] == nil) [completions addObject:word];
 
             [dictionaryOfResultStrings setObject:@"YES" forKey:word];
@@ -3042,32 +2804,27 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     NSRange fullCharRange = [(FoldableTextStorage *)[I_textView textStorage] fullRangeForFoldedRange : charRange];
     NSString *autoend = [fts autoendForIndex:fullCharRange.location];
 
-    if (autoend)
-    {
-        if (charRange.length == 0)
-        {
+    if (autoend){
+        if (charRange.length == 0){
             [completions insertObject:autoend atIndex:0];
         }
-        else
-        {
+        else{
             NSRange matchRange = [autoend rangeOfString:partialWord];
 
-            if (matchRange.location != NSNotFound)
-            {
+            if (matchRange.location != NSNotFound){
                 // TODO: check text to the left of string as well
                 BOOL shouldAdd = YES;
 
-                if (matchRange.location > 0)
-                {
+                if (matchRange.location > 0){
                     shouldAdd = NO;
 
-                    if (fullCharRange.location > matchRange.location && [[[fts string] substringWithRange:NSMakeRange(fullCharRange.location - matchRange.location, matchRange.location)] isEqualToString:[autoend substringToIndex:matchRange.location]])
-                    {
+                    if (fullCharRange.location > matchRange.location &&
+                        [[[fts string] substringWithRange:NSMakeRange(fullCharRange.location - matchRange.location, matchRange.location)] isEqualToString:[autoend substringToIndex:matchRange.location]]){
                         shouldAdd = YES;
                     }
                 }
 
-                if (shouldAdd) [completions insertObject:[autoend substringFromIndex:matchRange.location] atIndex:0];
+                if (shouldAdd) { [completions insertObject:[autoend substringFromIndex:matchRange.location] atIndex:0]; }
             }
         }
     }
@@ -3076,8 +2833,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 
-- (void)textViewWillStartAutocomplete:(SEETextView *)aTextView
-{
+- (void)textViewWillStartAutocomplete:(SEETextView *)aTextView {
     //    NSLog(@"Start");
     PlainTextDocument *document = [self document];
 
@@ -3108,8 +2864,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 
-- (void)textView:(SEETextView *)aTextView didFinishAutocompleteByInsertingCompletion:(NSString *)aWord forPartialWordRange:(NSRange)aCharRange movement:(int)aMovement
-{
+- (void)textView:(SEETextView *)aTextView didFinishAutocompleteByInsertingCompletion:(NSString *)aWord forPartialWordRange:(NSRange)aCharRange movement:(int)aMovement {
     //    NSLog(@"textView: didFinishAutocompleteByInsertingCompletion:%@ forPartialWordRange:%@ movement:%d",aWord,NSStringFromRange(aCharRange),aMovement);
     PlainTextDocument *document = [self document];
     UndoManager *undoManager = [document documentUndoManager];
@@ -3127,34 +2882,27 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
 
 @implementation PlainTextEditor (PlainTextEditorScriptingAdditions)
-- (id)scriptSelection
-{
+- (id)scriptSelection {
     return [ScriptTextSelection scriptTextSelectionWithTextStorage:[(FoldableTextStorage *)[[self textView] textStorage] fullTextStorage] editor:self];
 }
 
 
-- (void)setScriptSelection:(id)selection
-{
+- (void)setScriptSelection:(id)selection {
     //NSLog(@"%s %@",__FUNCTION__,[selection debugDescription]);
     NSTextView *textView = [self textView];
     unsigned length = [[textView textStorage] length];
 
-    if ([selection isKindOfClass:[NSArray class]] && [(NSArray *)selection count] == 2)
-    {
+    if ([selection isKindOfClass:[NSArray class]] && [(NSArray *)selection count] == 2) {
         int startIndex = [[selection objectAtIndex:0] intValue];
         int endIndex = [[selection objectAtIndex:1] intValue];
 
         if (startIndex > 0 && startIndex <= length && endIndex >= startIndex && endIndex <= length) [textView setSelectedRange:NSMakeRange(startIndex - 1, endIndex - startIndex + 1)];
-    }
-    else if ([selection isKindOfClass:[NSNumber class]])
-    {
+    } else if ([selection isKindOfClass:[NSNumber class]]) {
         int insertionPointIndex = [selection intValue] - 1;
         insertionPointIndex = MAX(insertionPointIndex, 0);
         insertionPointIndex = MIN(insertionPointIndex, length);
         [textView setSelectedRange:NSMakeRange(insertionPointIndex, 0)];
-    }
-    else if ([selection isKindOfClass:[ScriptTextBase class]] || [selection isKindOfClass:[FoldableTextStorage class]])
-    {
+    } else if ([selection isKindOfClass:[ScriptTextBase class]] || [selection isKindOfClass:[FoldableTextStorage class]]) {
         NSRange newRange = RangeConfinedToRange([selection rangeRepresentation], NSMakeRange(0, length));
         [textView setSelectedRange:newRange];
     }
