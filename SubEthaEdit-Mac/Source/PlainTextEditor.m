@@ -377,10 +377,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	// setup all the UI for the bottom bar
 	NSView *bottomStatusBarView = self.O_bottomStatusBarView;
 	bottomStatusBarView.layer.backgroundColor = [[NSColor darkOverlayBackgroundColorBackgroundIsDark:NO appearanceIsDark:NSApp.SEE_effectiveAppearanceIsDark] CGColor];
-	
-	[I_textView setPostsFrameChangedNotifications:YES];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textViewFrameDidChange:) name:NSViewFrameDidChangeNotification object:I_textView];
-	
+		
     [O_windowWidthTextField setHasRightBorder:NO];
     [O_windowWidthTextField setHasLeftBorder:YES];
 	
@@ -557,9 +554,13 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
     [I_textView setDefaultParagraphStyle:[document defaultParagraphStyle]];
 
-    [[NSNotificationCenter defaultCenter] addObserver:document selector:@selector(textViewDidChangeSelection:) name:NSTextViewDidChangeSelectionNotification object:I_textView];
-    [[NSNotificationCenter defaultCenter] addObserver:document selector:@selector(textDidChange:) name:NSTextDidChangeNotification object:I_textView];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textDidChange:) name:PlainTextDocumentDidChangeTextStorageNotification object:document];
+    [notificationCenter addObserver:document selector:@selector(textViewDidChangeSelection:) name:NSTextViewDidChangeSelectionNotification object:I_textView];
+    [notificationCenter addObserver:document selector:@selector(textDidChange:) name:NSTextDidChangeNotification object:I_textView];
+    [notificationCenter addObserver:self selector:@selector(textDidChange:) name:PlainTextDocumentDidChangeTextStorageNotification object:document];
+
+    [I_textView setPostsFrameChangedNotifications:YES];
+    [notificationCenter addObserver:self selector:@selector(textViewFrameDidChange:) name:NSViewFrameDidChangeNotification object:I_textView];
+    
 
 	// Adding a second view hierachy to include this controller into the responder chain
     NSView *view = [[[NSView alloc] initWithFrame:[self.O_editorView frame]] autorelease];
