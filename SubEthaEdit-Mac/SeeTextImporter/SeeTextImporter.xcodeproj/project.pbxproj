@@ -145,7 +145,9 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
+				English,
 				en,
+				German,
 			);
 			mainGroup = 089C166AFE841209C02AAC07 /* SeeTextImporter */;
 			projectDirPath = "";

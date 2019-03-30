@@ -35,13 +35,17 @@ NSString * const SEEStyleSheetMetaDefaultScopeName   = @"meta.default";
 
 NSString * const SEEStyleSheetFileExtension = @"sss";
 
-@interface SEEStyleSheet ()
-@property (nonatomic, retain, readwrite) NSArray *allScopes;
+@interface SEEStyleSheet () {
+    NSDictionary *_scopeStyleDictionaryPersistentState;
+    NSMutableDictionary *_scopeExampleCache;
+    NSArray *_allScopesWithExamples;
+}
+@property (nonatomic, strong, readwrite) NSArray *allScopes;
 - (void)clearCache;
 @end
 
-@implementation SEEStyleSheet
 
+@implementation SEEStyleSheet
 
 + (NSDictionary *)textAttributesForStyleAttributes:(NSDictionary *)aStyleAttributeDictionary font:(NSFont *)aFont {
 	
@@ -94,52 +98,36 @@ NSString * const SEEStyleSheetFileExtension = @"sss";
 	
 }
 
-
-@synthesize scopeStyleDictionary = I_scopeStyleDictionary;
-@synthesize scopeExamples = I_scopeExamples;
-@synthesize scopeCache = I_scopeCache;
-@synthesize allScopes = I_allScopes;
-@synthesize styleSheetName = I_styleSheetName;
-
-
 - (id)init {
 	if ((self = [super init])) {
-		I_scopeStyleDictionary = [NSMutableDictionary new];
-		I_scopeCache = [NSMutableDictionary new];
-		I_scopeExampleCache = [NSMutableDictionary new];
+		_scopeStyleDictionary = [NSMutableDictionary new];
+		_scopeCache = [NSMutableDictionary new];
+		_scopeExampleCache = [NSMutableDictionary new];
 	}
 	return self;
 }
 
-- (void)dealloc {
-	self.scopeCache = nil;
-	self.scopeStyleDictionary = nil;
-	[I_scopeStyleDictionaryPersistentState release];
-	[I_allScopesWithExamples release];
-	I_allScopesWithExamples = nil;
-	[super dealloc];
-}
-
-
 - (void)importStyleSheetAtPath:(NSURL *)aPath {
-	NSError *err;
-	NSString *importString = [NSString stringWithContentsOfURL:aPath encoding:NSUTF8StringEncoding error:&err];
-	
-	importString = [[[[OGRegularExpression alloc] initWithString:@"\\/\\/[^\\n]+" options:OgreFindNotEmptyOption] autorelease] replaceAllMatchesInString:importString withString:@"" options:OgreNoneOption];
-	importString = [[[[OGRegularExpression alloc] initWithString:@"\\/\\*.*?\\*\\/" options:OgreFindNotEmptyOption|OgreMultilineOption] autorelease] replaceAllMatchesInString:importString withString:@"" options:OgreNoneOption];	
-		
-	NSArray *scopeStrings = [importString componentsSeparatedByString:@"}"];
+    NSError *err;
+    NSString *importString = [NSString stringWithContentsOfURL:aPath encoding:NSUTF8StringEncoding error:&err];
+    
+    OGRegularExpression *expression = [[OGRegularExpression alloc] initWithString:@"\\/\\/[^\\n]+" options:OgreFindNotEmptyOption];
+    importString = [expression replaceAllMatchesInString:importString withString:@"" options:OgreNoneOption];
+    expression = [[OGRegularExpression alloc] initWithString:@"\\/\\*.*?\\*\\/" options:OgreFindNotEmptyOption|OgreMultilineOption];
+    importString = [expression replaceAllMatchesInString:importString withString:@"" options:OgreNoneOption];
+    
+    NSArray *scopeStrings = [importString componentsSeparatedByString:@"}"];
 	
 	for (NSString *scopeString in scopeStrings) {
 	
 		NSArray *scopeAndAttributes = [scopeString componentsSeparatedByString:@"{"];
-		if ([scopeAndAttributes count] !=2) continue;
+        if ([scopeAndAttributes count] !=2) { continue; }
 		NSString *scope = [[scopeAndAttributes objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 		NSArray *attributes = [[scopeAndAttributes objectAtIndex:1] componentsSeparatedByString:@";"];
 		NSMutableDictionary *scopeDictionary = [NSMutableDictionary dictionary];
 		for (NSString *attribute in attributes) {
 			NSArray *keysAndValues = [attribute componentsSeparatedByString:@":"];
-			if ([keysAndValues count] !=2) continue;
+            if ([keysAndValues count] !=2) { continue; }
 			NSString *key = [[keysAndValues objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 			id value = [[keysAndValues objectAtIndex:1] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 			if ([key rangeOfString:SEEStyleSheetFontForegroundColorKey].location != NSNotFound) {
@@ -167,7 +155,7 @@ NSString * const SEEStyleSheetFileExtension = @"sss";
 	NSArray *result = nil;
 
 	NSArray *usedScopeNames = [self.scopeStyleDictionary allKeys]; // scopes used in the current sheet
-	NSMutableDictionary *neededChangesDictionary = [[[NSMutableDictionary alloc] init] autorelease];
+	NSMutableDictionary *neededChangesDictionary = [NSMutableDictionary dictionary];
 	
 	for (NSString *key in aChangesDictionary) {
 		if ([usedScopeNames containsObject:key]) {
@@ -183,7 +171,7 @@ NSString * const SEEStyleSheetFileExtension = @"sss";
 	
 	if ([neededChangesDictionary count] > 0) {
 		[self addUpdatedScopesToStyleSheet:neededChangesDictionary];
-		result = [[[neededChangesDictionary allValues] copy] autorelease];
+		result = [[neededChangesDictionary allValues] copy];
 	}
 	return result;
 }
@@ -256,7 +244,7 @@ NSString * const SEEStyleSheetFileExtension = @"sss";
 		@"none",SEEStyleSheetFontUnderlineKey,
 		@"none",SEEStyleSheetFontStrikeThroughKey,
 		nil];
-		NSDictionary *metaDefaultDictionary = [I_scopeStyleDictionary objectForKey:SEEStyleSheetMetaDefaultScopeName];
+		NSDictionary *metaDefaultDictionary = [_scopeStyleDictionary objectForKey:SEEStyleSheetMetaDefaultScopeName];
 		if (metaDefaultDictionary) {
 			// might want to exclude other things here
 			[styleResult addEntriesFromDictionary:metaDefaultDictionary];
@@ -268,7 +256,7 @@ NSString * const SEEStyleSheetFileExtension = @"sss";
 	
 	//Delete language specific part
 	
-	NSDictionary *computedStyle = [I_scopeCache objectForKey:aScope];
+	NSDictionary *computedStyle = _scopeCache[aScope];
 	
 	if (!computedStyle) {
 
@@ -282,14 +270,14 @@ NSString * const SEEStyleSheetFileExtension = @"sss";
 			if (combinedComponents) combinedComponents = [combinedComponents stringByAppendingPathExtension:component];
 			else combinedComponents = component;
 			
-			NSDictionary *styleToInheritFrom = [I_scopeStyleDictionary objectForKey:combinedComponents];
+			NSDictionary *styleToInheritFrom = [_scopeStyleDictionary objectForKey:combinedComponents];
 			if (styleToInheritFrom) {
 				[styleResult addEntriesFromDictionary:styleToInheritFrom];
 			}
 		}
 
 //  cache the result
-		[I_scopeCache setObject:styleResult forKey:aScope];
+		_scopeCache[aScope] = styleResult;
 		computedStyle = styleResult;
 
 //	Sorry, didn't get the mechanics here…
@@ -335,11 +323,10 @@ NSString * const SEEStyleSheetFileExtension = @"sss";
 }
 
 - (void)clearCache {
-	[I_scopeCache removeAllObjects]; //invalidate caching
-	[I_scopeExampleCache removeAllObjects];
+	[_scopeCache removeAllObjects]; //invalidate caching
+	[_scopeExampleCache removeAllObjects];
 	self.allScopes = nil;
-	[I_allScopesWithExamples release];
-	I_allScopesWithExamples = nil;
+	_allScopesWithExamples = nil;
 }
 
 - (void)removeStyleAttributesForScope:(NSString *)aScopeString {
@@ -348,8 +335,7 @@ NSString * const SEEStyleSheetFileExtension = @"sss";
 }
 
 - (void)setScopeExamples:(NSDictionary *)aDictionary {
-	[I_scopeExamples autorelease];
-	I_scopeExamples = [aDictionary copy];
+	_scopeExamples = [aDictionary copy];
 	[self clearCache];
 }
 
@@ -376,22 +362,21 @@ NSString * const SEEStyleSheetFileExtension = @"sss";
 			}
 		}
 		if (exampleCollector.count) {
-			[I_scopeExampleCache setObject:[exampleCollector componentsJoinedByString:@" "] forKey:scope];
+			[_scopeExampleCache setObject:[exampleCollector componentsJoinedByString:@" "] forKey:scope];
 			[exampleCollector removeAllObjects];
 		}
 	}
 	
-	if (!I_allScopesWithExamples) {
-		I_allScopesWithExamples = [[[[I_scopeExampleCache allKeys] arrayByAddingObject:SEEStyleSheetMetaDefaultScopeName] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] copy];
+	if (!_allScopesWithExamples) {
+		_allScopesWithExamples = [[[[_scopeExampleCache allKeys] arrayByAddingObject:SEEStyleSheetMetaDefaultScopeName] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] copy];
 	}
-	[examples release];
 }
 
 - (NSString *)exampleForScope:(NSString *)aScope {
-	if ([I_scopeExampleCache count] == 0 && [I_scopeExamples count] > 0) {
+	if ([_scopeExampleCache count] == 0 && [_scopeExamples count] > 0) {
 		[self computeScopeExamples];
 	}
-	NSString *result = [I_scopeExampleCache objectForKey:aScope];
+	NSString *result = [_scopeExampleCache objectForKey:aScope];
 	if (!result) result = @" - no example -";
 	return result;
 }
@@ -401,17 +386,17 @@ NSString * const SEEStyleSheetFileExtension = @"sss";
 }
 
 - (NSArray *)allScopes {
-	if (!I_allScopes) {
-		I_allScopes = [[[self.scopeStyleDictionary allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] copy];
+	if (!_allScopes) {
+		_allScopes = [[[self.scopeStyleDictionary allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] copy];
 	}
-	return I_allScopes;
+	return _allScopes;
 }
 
 - (NSArray *)allScopesWithExamples {
-	if (!I_allScopesWithExamples) {
+	if (!_allScopesWithExamples) {
 		[self computeScopeExamples];
 	}
-	return I_allScopesWithExamples;
+	return _allScopesWithExamples;
 }
 
 #pragma mark - Color Accessors
@@ -426,16 +411,15 @@ NSString * const SEEStyleSheetFileExtension = @"sss";
 
 #pragma mark - Persisted State
 - (BOOL)hasChanges {
-	return ![I_scopeStyleDictionary isEqual:I_scopeStyleDictionaryPersistentState];
+	return ![_scopeStyleDictionary isEqual:_scopeStyleDictionaryPersistentState];
 }
 
 - (void)markCurrentStateAsPersistent {
-	[I_scopeStyleDictionaryPersistentState release];
-	 I_scopeStyleDictionaryPersistentState = [I_scopeStyleDictionary copy];
+	 _scopeStyleDictionaryPersistentState = [_scopeStyleDictionary copy];
 }
 
 - (void)revertToPersistentState {
-	self.scopeStyleDictionary = [[I_scopeStyleDictionaryPersistentState mutableCopy] autorelease];
+	self.scopeStyleDictionary = [_scopeStyleDictionaryPersistentState mutableCopy];
 	[self clearCache];
 }
 

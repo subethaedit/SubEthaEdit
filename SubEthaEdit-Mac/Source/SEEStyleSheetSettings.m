@@ -16,11 +16,12 @@ NSString * const SEEStyleSheetSettingsUsesMultipleStyleSheetsKey = @"usesMultipl
 #import "DocumentModeManager.h"
 #import "SyntaxDefinition.h"
 
+@interface SEEStyleSheetSettings () {
+    NSMutableDictionary *_styleSheetNamesByLanguageContext;
+}
+@end
+    
 @implementation SEEStyleSheetSettings
-
-@synthesize usesMultipleStyleSheets = I_usesMultipleStyleSheets;
-@synthesize documentMode = I_documentMode;
-@synthesize singleStyleSheetName = I_singleStyleSheetName;
 
 - (void)takeSettingsFromModeDefaults {
 	NSDictionary *sheetPrefsDict = [self.documentMode defaultForKey:DocumentModeStyleSheetsPreferenceKey];
@@ -33,8 +34,8 @@ NSString * const SEEStyleSheetSettingsUsesMultipleStyleSheetsKey = @"usesMultipl
 		if (value) self.singleStyleSheetName = value;
 		NSDictionary *sheetMapping = [sheetPrefsDict objectForKey:SEEStyleSheetSettingsMultipleStyleSheetsKey];
 		if (sheetMapping && [sheetMapping isKindOfClass:[NSDictionary class]]) {
-			[I_styleSheetNamesByLanguageContext removeAllObjects];
-			[I_styleSheetNamesByLanguageContext addEntriesFromDictionary:sheetMapping];
+			[_styleSheetNamesByLanguageContext removeAllObjects];
+			[_styleSheetNamesByLanguageContext addEntriesFromDictionary:sheetMapping];
 		}
 	}
 }
@@ -42,14 +43,14 @@ NSString * const SEEStyleSheetSettingsUsesMultipleStyleSheetsKey = @"usesMultipl
 - (void)pushSettingsToModeDefaults {
 	NSMutableDictionary *result = [NSMutableDictionary dictionary];
 	if (self.singleStyleSheetName) [result setObject:self.singleStyleSheetName forKey:SEEStyleSheetSettingsSingleStyleSheetKey];
-	[result setObject:[[I_styleSheetNamesByLanguageContext copy] autorelease] forKey:SEEStyleSheetSettingsMultipleStyleSheetsKey];
+	[result setObject:[_styleSheetNamesByLanguageContext copy] forKey:SEEStyleSheetSettingsMultipleStyleSheetsKey];
 	[result setObject:[NSNumber numberWithBool:self.usesMultipleStyleSheets] forKey:SEEStyleSheetSettingsUsesMultipleStyleSheetsKey];
 	[[self.documentMode defaults] setObject:result forKey:DocumentModeStyleSheetsPreferenceKey];
 }
 
 - (id)initWithDocumentMode:(DocumentMode *)aMode {
 	if ((self=[super init])) {
-		I_styleSheetNamesByLanguageContext = [NSMutableDictionary new];
+		_styleSheetNamesByLanguageContext = [NSMutableDictionary new];
 		self.documentMode = aMode;
 		self.singleStyleSheetName = [DocumentModeManager defaultStyleSheetName]; // default
 		[self takeSettingsFromModeDefaults];
@@ -57,17 +58,11 @@ NSString * const SEEStyleSheetSettingsUsesMultipleStyleSheetsKey = @"usesMultipl
 	return self;
 }
 
-- (void)dealloc {
-	[I_singleStyleSheetName release];
-	[I_styleSheetNamesByLanguageContext release];
-	[super dealloc];
-}
-
 - (SEEStyleSheet *)styleSheetForLanguageContext:(NSString *)aLanguageContext {
 	DocumentModeManager *modeManager = [DocumentModeManager sharedInstance];
 	SEEStyleSheet *result = nil;
 	if (self.usesMultipleStyleSheets) {
-		NSString *sheetName = [I_styleSheetNamesByLanguageContext objectForKey:aLanguageContext];
+		NSString *sheetName = [_styleSheetNamesByLanguageContext objectForKey:aLanguageContext];
 		if (sheetName) {
 			result = [modeManager styleSheetForName:sheetName];
 		}
@@ -89,12 +84,12 @@ NSString * const SEEStyleSheetSettingsUsesMultipleStyleSheetsKey = @"usesMultipl
 	
 	if (self.usesMultipleStyleSheets) {
 		// TODO: if style sheet per lang context is ever turned back on: test this again
-		[I_styleSheetNamesByLanguageContext removeObjectForKey:aLanguageContext];
+		[_styleSheetNamesByLanguageContext removeObjectForKey:aLanguageContext];
 		
 	} else {
 		self.singleStyleSheetName = [DocumentModeManager defaultStyleSheetName];
 		if (![self.documentMode isBaseMode]) {
-			[[self.documentMode defaults] setObject:@(YES) forKey:DocumentModeUseDefaultStyleSheetPreferenceKey];			
+			[[self.documentMode defaults] setObject:@YES forKey:DocumentModeUseDefaultStyleSheetPreferenceKey];			
 		}
 	}
 	[self pushSettingsToModeDefaults];
@@ -116,11 +111,11 @@ NSString * const SEEStyleSheetSettingsUsesMultipleStyleSheetsKey = @"usesMultipl
 }
 
 - (void)setStyleSheetName:(NSString *)aStyleSheetName forLanguageContext:(NSString *)aLanguageContext {
-	[I_styleSheetNamesByLanguageContext setObject:aStyleSheetName forKey:aLanguageContext];
+	[_styleSheetNamesByLanguageContext setObject:aStyleSheetName forKey:aLanguageContext];
 }
 
 - (NSString *)styleSheetNameForLanguageContext:(NSString *)aLanguageContext {
-	NSString *styleSheetName = [I_styleSheetNamesByLanguageContext objectForKey:aLanguageContext];
+	NSString *styleSheetName = [_styleSheetNamesByLanguageContext objectForKey:aLanguageContext];
 	if (!styleSheetName) styleSheetName = self.singleStyleSheetName;
 	return styleSheetName;
 }
