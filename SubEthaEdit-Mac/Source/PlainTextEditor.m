@@ -200,6 +200,8 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     self.bottomBlurBackgroundConstraints = nil;
     self.findAndReplaceController = nil;
     
+    self.bottomOverlayViewController = nil;
+    self.topOverlayViewController = nil;
     [super dealloc];
 }
 
@@ -2325,9 +2327,9 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
 - (NSArray *)textView:(NSTextView *)aTextView writablePasteboardTypesForCell:(id <NSTextAttachmentCell> )cell atIndex:(NSUInteger)charIndex {
     if ([[cell attachment] isKindOfClass:[FoldedTextAttachment class]]) {
-        return [NSArray arrayWithObject:NSStringPboardType];
+        return @[NSStringPboardType];
     } else {
-        return nil;
+        return @[];
     }
 }
 

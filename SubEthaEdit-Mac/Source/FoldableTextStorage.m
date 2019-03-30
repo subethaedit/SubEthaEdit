@@ -556,7 +556,7 @@ typedef union {
 
 - (NSDictionary *)attributesAtIndex:(NSUInteger)aIndex 
                      effectiveRange:(NSRangePointer)aRange {
-	if ([self length]==0) return nil;
+    if (self.length==0) { return @{}; }
 	NSAttributedString *attributedString = I_internalAttributedString ? I_internalAttributedString : I_fullTextStorage;
     return [attributedString attributesAtIndex:aIndex effectiveRange:aRange];
 }

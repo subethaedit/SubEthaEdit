@@ -195,6 +195,8 @@ static DocumentModeManager *S_sharedInstance=nil;
     [I_documentModesByIdentifier release];
 	[I_documentModesByIdentifierLock release]; // ifc - experimental locking... awaiting real fix from TCM
 	self.changedScopeNameDict = nil;
+    self.allPathExtensions = nil;
+    
     [super dealloc];
 }
 

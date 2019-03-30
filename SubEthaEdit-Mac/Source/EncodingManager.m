@@ -131,6 +131,8 @@
 	[registeredEncodings release];
 	registeredEncodings = nil;
 
+    [_encodingMatrix release];
+    _encodingMatrix = nil;
 	[super dealloc];
 }
 

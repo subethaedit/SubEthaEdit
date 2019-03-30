@@ -857,7 +857,7 @@ static NSString *tempFileName(NSString *origPath) {
 	self.bracketSettings = nil;
 	
     self.attachedCreationFlags = nil;
-    
+    self.persistentDocumentScopedBookmarkURLs = nil;
     [super dealloc];
 }
 
@@ -3212,13 +3212,14 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
             UniversalDetector   *detector = [[[UniversalDetector alloc] init] autorelease];
             int maxLength = [defaults integerForKey:@"ByteLengthToUseForModeRecognitionAndEncodingGuessing"];
             NSData *checkData = fileData;
-            if ([fileData length] > maxLength) {
+            BOOL onlyPart = [fileData length] > maxLength;
+            if (onlyPart) {
                 checkData = [[NSData alloc] initWithBytes:(void *)[fileData bytes] length:maxLength];
             }
             [detector analyzeData:checkData];
             udEncoding = [detector encoding];
             confidence = [detector confidence];
-            if ([fileData length] > maxLength) {
+            if (onlyPart) {
                 [checkData release];
             }
     #ifndef TCM_NO_DEBUG
