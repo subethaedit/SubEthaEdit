@@ -123,7 +123,7 @@
 	[[ruleViewController view] setHidden:NO];
 	
 	//	NSLog(@"Drawing: %@", [[ruleViewController stringTextfield] stringValue]);		
-	[(PrecedenceRuleCell *)cell addSubview:[ruleViewController view]];
+	[(PrecedenceRuleCell *)cell setView:[ruleViewController view]];
 }
 
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification{
