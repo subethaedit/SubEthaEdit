@@ -1768,8 +1768,21 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
 
 - (void)setShowsGutter:(BOOL)aFlag {
+    BOOL didShowGutter = self.showsGutter;
     [O_scrollView setRulersVisible:aFlag];
     [self TCM_updateBottomStatusBar];
+    if (!self.wrapsLines) {
+        NSClipView *clipView = O_scrollView.contentView;
+        NSPoint clipPosition = clipView.bounds.origin;
+        CGFloat leftOffset = clipView.contentInsets.left;
+        if (aFlag && !didShowGutter) {
+            if (clipPosition.x != -leftOffset) {
+                clipPosition.x -= leftOffset;
+                [O_scrollView scrollClipView:clipView toPoint:clipPosition];
+                [O_scrollView reflectScrolledClipView:clipView];
+            }
+        }
+    }
 }
 
 
