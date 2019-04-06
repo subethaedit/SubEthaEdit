@@ -490,7 +490,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     [O_scrollView setVerticalScroller:I_radarScroller];
 
     NSRect frame = NSZeroRect;
-    frame.size  = [O_scrollView contentSize];
+    frame.size  = [O_scrollView SEE_effectiveContentSize];
 
 	[self.shareInviteUsersButtonOutlet sendActionOn:NSLeftMouseDownMask];
 	self.shareInviteUsersButtonOutlet.rightMouseDownEventHandler = self;
@@ -763,10 +763,10 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     NSFont *font = [[self document] fontWithTrait:0];
     CGFloat characterWidth = [@"n" sizeWithAttributes :[NSDictionary dictionaryWithObject:font forKey:NSFontAttributeName]].width;
 
-    result.width = characterWidth * aColumns + [[I_textView textContainer] lineFragmentPadding] * 2 + [I_textView textContainerInset].width * 2 + ([self.O_editorView bounds].size.width - [O_scrollView contentSize].width) + 2.0;
+    result.width = characterWidth * aColumns + [[I_textView textContainer] lineFragmentPadding] * 2 + [I_textView textContainerInset].width * 2 + ([self.O_editorView bounds].size.width - [O_scrollView SEE_effectiveContentSize].width) + 2.0;
 
     result.height = [[I_textContainer layoutManager] defaultLineHeightForFont:font] * aRows +
-	([self.O_editorView bounds].size.height - [O_scrollView contentSize].height) + O_scrollView.topOverlayHeight + O_scrollView.bottomOverlayHeight + 2.0;
+	([self.O_editorView bounds].size.height - [O_scrollView SEE_effectiveContentSize].height) + O_scrollView.topOverlayHeight + O_scrollView.bottomOverlayHeight + 2.0;
 
     return result;
 }
@@ -777,7 +777,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
     if ([self document]) {
         NSFont *font = [[self document] fontWithTrait:0];
-        rows = (int)(([[I_textView enclosingScrollView] contentSize].height - [I_textView textContainerInset].height * 2) / [[I_textView layoutManager] defaultLineHeightForFont:font]);
+        rows = (int)(([(SEEPlainTextEditorScrollView *)[I_textView enclosingScrollView] SEE_effectiveContentSize].height - [I_textView textContainerInset].height * 2) / [[I_textView layoutManager] defaultLineHeightForFont:font]);
     }
 
     return rows;
@@ -1719,7 +1719,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
         [I_textView setHorizontallyResizable:NO];
         [I_textView setAutoresizingMask:NSViewWidthSizable];
         NSRect frame = [I_textView frame];
-        frame.size.width = [O_scrollView contentSize].width;
+        frame.size.width = [O_scrollView SEE_effectiveContentSize].width;
         [I_textView setFrame:frame];
         // this needs to be done if no text flows over the text view margins (SEE-364)
         [I_textContainer setContainerSize:NSMakeSize(NSWidth([I_textView frame]) - 2.0 *[I_textView textContainerInset].width, FLT_MAX)];

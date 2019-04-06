@@ -91,6 +91,14 @@ void * const SEEScrollViewOverlayObservingContext = (void *)&SEEScrollViewOverla
 	self.bottomOverlayHeight = heightNumber.doubleValue;
 }
 
+- (NSSize)SEE_effectiveContentSize {
+    NSSize size = self.contentSize;
+    NSEdgeInsets insets = self.contentView.contentInsets;
+    size.width -= insets.left + insets.right;
+    size.height -= insets.top + insets.bottom;
+    return size;
+}
+
 - (void)scrollClipView:(NSClipView *)clipView toPoint:(NSPoint)point {
     NSRect bounds = clipView.bounds;
     
