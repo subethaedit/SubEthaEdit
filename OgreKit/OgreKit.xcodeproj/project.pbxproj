@@ -679,7 +679,7 @@
 		4DF530BD0915221700475575 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ReplaceWithAttributesTest/main.m; sourceTree = "<group>"; };
 		4DF530BE0915221700475575 /* ReplaceWithAttributesTest-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "ReplaceWithAttributesTest-Info.plist"; path = "ReplaceWithAttributesTest/ReplaceWithAttributesTest-Info.plist"; sourceTree = "<group>"; };
 		4DF530CF0915226200475575 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = ReplaceWithAttributesTest/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		8DC2EF5B0486A6940098B216 /* OgreKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OgreKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8DC2EF5B0486A6940098B216 /* OgreKitFull.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OgreKitFull.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2F7E79907B2D74100F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		F2170206215A458B007A2C35 /* oniguruma.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = oniguruma.h; path = x86_64/oniguruma.h; sourceTree = "<group>"; };
 		F217020A215A47B4007A2C35 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -760,7 +760,7 @@
 		034768DFFF38A50411DB9C8B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8DC2EF5B0486A6940098B216 /* OgreKit.framework */,
+				8DC2EF5B0486A6940098B216 /* OgreKitFull.framework */,
 				4DC40BFC09150BDB0029A2A6 /* OgreKit.framework */,
 				4DC40C0409150C280029A2A6 /* OgreTest.app */,
 				4DC40C0F09150C3E0029A2A6 /* OgreFindPanelTest.app */,
@@ -1647,7 +1647,7 @@
 			name = "OgreKit (Full Features)";
 			productInstallPath = "$(HOME)/Library/Frameworks";
 			productName = OgreKit;
-			productReference = 8DC2EF5B0486A6940098B216 /* OgreKit.framework */;
+			productReference = 8DC2EF5B0486A6940098B216 /* OgreKitFull.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -2245,7 +2245,7 @@
 					0x32000000,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = isao.sonobe.OgreKit;
-				PRODUCT_NAME = OgreKit;
+				PRODUCT_NAME = OgreKitFull;
 				SKIP_INSTALL = YES;
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -2282,7 +2282,7 @@
 					0x32000000,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = isao.sonobe.OgreKit;
-				PRODUCT_NAME = OgreKit;
+				PRODUCT_NAME = OgreKitFull;
 				SKIP_INSTALL = YES;
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -2319,7 +2319,7 @@
 					0x32000000,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = isao.sonobe.OgreKit;
-				PRODUCT_NAME = OgreKit;
+				PRODUCT_NAME = OgreKitFull;
 				SKIP_INSTALL = YES;
 				WARNING_CFLAGS = (
 					"-Wmost",
