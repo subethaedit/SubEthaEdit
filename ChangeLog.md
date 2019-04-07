@@ -1,3 +1,17 @@
+###  SubEthaEdit 5.0.2
+
+#### Bug fixes and maintenance:
+* Fixed performance issue that caused SubEthaEdit to get slower with and more CPU intensive with every additional window
+* Fixed an issue with the line number bar overlapping the text on scroll when line wrapping was turned off
+* Fixed an issue where the initial character width value when turning on line wrap was wrong
+* Fixed small memory leaks
+* Fixed an issue with the command line install helper and case sensitive file systems
+* Removed superfluous logging
+
+#### Improved modes:
+* Markdown – improved the symbol navigation
+
+
 ###  SubEthaEdit 5.0.1
 
 #### Bug fixes and maintenance:
