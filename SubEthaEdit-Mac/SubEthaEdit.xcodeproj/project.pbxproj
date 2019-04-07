@@ -2620,6 +2620,7 @@
 			buildConfigurationList = C05733C708A9546B00998B17 /* Build configuration list for PBXNativeTarget "SubEthaEdit" */;
 			buildPhases = (
 				8D15AC2B0486D014006FF6A4 /* Resources */,
+				9E016A592259867A00142CCA /* ShellScript */,
 				8D15AC300486D014006FF6A4 /* Sources */,
 				8D15AC330486D014006FF6A4 /* Frameworks */,
 				149EC6970958726E002BDC41 /* Copy Files (Frameworks) */,
@@ -3060,6 +3061,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+		9E016A592259867A00142CCA /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/generate-markdown-mode-code-blocks.rb",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\ncd $TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/Modes\nruby $PROJECT_DIR/generate-markdown-mode-code-blocks.rb $PROJECT_DIR/Modes/Markdown.seemode $TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/Modes/Markdown.seemode\n";
 		};
 		F213791B2191BBEE00C74681 /* Mac App Store Modifications */ = {
 			isa = PBXShellScriptBuildPhase;
