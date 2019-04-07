@@ -18,4 +18,6 @@
 @property (nonatomic, strong) NSNumber *topOverlayHeightNumber;
 @property (nonatomic, strong) NSNumber *bottomOverlayHeightNumber;
 
+@property (nonatomic, readonly) NSSize SEE_effectiveContentSize;
+
 @end

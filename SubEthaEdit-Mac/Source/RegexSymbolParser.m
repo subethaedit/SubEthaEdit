@@ -12,49 +12,31 @@
 
 @implementation RegexSymbolParser
 
-- (id)initWithSymbolDefinition:(RegexSymbolDefinition *)aSymbolDefinition  {
+- (id)initWithSymbolDefinition:(RegexSymbolDefinition *)symbolDefinition  {
     self=[super init];
     if (self) {
-        [self setSyntaxDefinition:aSymbolDefinition];
+        self.symbolDefinition = symbolDefinition;
     }
     return self;
 }
 
-- (void)dealloc {
-    [I_symbolDefinition release];
-    [super dealloc];
-}
-
-#pragma mark - Accessors
-
-- (RegexSymbolDefinition *)symbolDefinition {
-    return I_symbolDefinition;
-}
-
-- (void)setSyntaxDefinition:(RegexSymbolDefinition *)aSymbolDefinition {
-    [I_symbolDefinition autorelease];
-	I_symbolDefinition = [aSymbolDefinition retain];
-}
-
-- (NSArray *)symbolsForTextStorage:(NSTextStorage *)aTextStorage {
-    NSMutableArray *returnArray =[NSMutableArray array];
+- (NSArray *)symbolsForTextStorage:(NSTextStorage *)textStorage {
+    NSMutableArray *returnArray = [NSMutableArray array];
 	NSRange currentRange = NSMakeRange(0,0);
-	NSRange fullRange = NSMakeRange(0, [aTextStorage length]);
+	NSRange fullRange = NSMakeRange(0, [textStorage length]);
 	if (NSMaxRange(fullRange)>[[NSUserDefaults standardUserDefaults] integerForKey:@"StringLengthToStopSymbolRecognition"]) {
 		return nil;
 	}
 	// Iterate through blocks of stuff, using the different Parsers
 	while (NSMaxRange(currentRange)<NSMaxRange(fullRange)) {
 		NSRange effectiveRange;
-		NSString *modeForSymbols = [aTextStorage attribute:kSyntaxHighlightingParentModeForSymbolsAttributeName atIndex:currentRange.location longestEffectiveRange:&effectiveRange inRange:fullRange];
+		NSString *modeForSymbols = [textStorage attribute:kSyntaxHighlightingParentModeForSymbolsAttributeName atIndex:currentRange.location longestEffectiveRange:&effectiveRange inRange:fullRange];
 		
-		RegexSymbolParser *symbolParser;
-		if (modeForSymbols) symbolParser = [[[DocumentModeManager sharedInstance] documentModeForName:modeForSymbols] symbolParser];
-		else symbolParser = self;
+        RegexSymbolParser *symbolParser = modeForSymbols ? [[[DocumentModeManager sharedInstance] documentModeForName:modeForSymbols] symbolParser] : self;
 		
 		//NSLog(@"Found %@ within %@. Using parser %@.", modeForSymbols, NSStringFromRange(effectiveRange), symbolParser);
 		
-		[returnArray addObjectsFromArray:[symbolParser symbolsForTextStorage:aTextStorage inRange:effectiveRange]];
+		[returnArray addObjectsFromArray:[symbolParser symbolsForTextStorage:textStorage inRange:effectiveRange]];
 		currentRange = NSMakeRange(NSMaxRange(effectiveRange),0);
 	}
 	
@@ -62,52 +44,54 @@
 }
 
 
-- (NSArray *)symbolsForTextStorage:(NSTextStorage *)aTextStorage inRange:(NSRange)aRange {
+- (NSArray *)symbolsForTextStorage:(NSTextStorage *)textStorage inRange:(NSRange)range {
     RegexSymbolDefinition *definition = [self symbolDefinition];
-    NSMutableArray *returnArray =[NSMutableArray array];
-	
+    NSMutableArray *returnArray = [NSMutableArray array];
+    NSString *textStorageString = [textStorage string];
+
     //clock_t start_time = clock();
 	
     NSArray *symbols = [definition symbols];
     
     for (NSDictionary *symbol in symbols) {
-        OGRegularExpression *regex = [symbol objectForKey:@"regex"];
-        NSString *type = [symbol objectForKey:@"id"];
-        int mask = [[symbol objectForKey:@"font-trait"] unsignedIntValue];
-        int indent = [[symbol objectForKey:@"indentation"] intValue];
-        NSImage *image = symbol[@"symbol"] ? [NSImage symbolImageNamed:symbol[@"symbol"]] : [symbol objectForKey:@"image"];
+        OGRegularExpression *regex = symbol[@"regex"];
+        NSString *type = symbol[@"id"];
+        int mask = [symbol[@"font-trait"] unsignedIntValue];
+        int indent = [symbol[@"indentation"] intValue];
+        NSImage *image = symbol[@"symbol"] ? [NSImage symbolImageNamed:symbol[@"symbol"]] : symbol[@"image"];
         
         // this is important because of ogrekit which copies almost the complete string as utf16 in an enumerator.
         @autoreleasepool {
-            NSEnumerator *matchEnumerator = [[regex allMatchesInString:[aTextStorage string] range:aRange] objectEnumerator];
+            NSEnumerator *matchEnumerator = [[regex allMatchesInString:textStorageString range:range] objectEnumerator];
             OGRegularExpressionMatch *aMatch;
             while ((aMatch = [matchEnumerator nextObject])) {
-                NSRange jumprange = [aMatch rangeOfSubstringAtIndex:1];
-                if (![aMatch substringAtIndex:1]) jumprange = [aMatch rangeOfMatchedString];
-                if ( jumprange.location < [aTextStorage length] )
-                {
-                    NSString *scopeName = [aTextStorage attribute:kSyntaxHighlightingScopenameAttributeName atIndex:jumprange.location effectiveRange:nil];
+                NSRange jumpRange = [aMatch rangeOfSubstringAtIndex:1];
+
+                if (![aMatch substringAtIndex:1]) { jumpRange = [aMatch rangeOfMatchedString]; }
+                if (jumpRange.location < [textStorage length]) {
+                    NSString *scopeName = [textStorage attribute:kSyntaxHighlightingScopenameAttributeName atIndex:jumpRange.location effectiveRange:nil];
 
                     BOOL isComment = [scopeName hasPrefix:@"comment"];
                     NSString *typeAttribute = nil;
                     if (!isComment) {
-                        typeAttribute = typeAttribute ?: [aTextStorage attribute:kSyntaxHighlightingTypeAttributeName atIndex:jumprange.location effectiveRange:nil];
+                        typeAttribute = typeAttribute ?: [textStorage attribute:kSyntaxHighlightingTypeAttributeName atIndex:jumpRange.location effectiveRange:nil];
                         isComment = [typeAttribute isEqualToString:kSyntaxHighlightingTypeComment];
                     }
 
                     BOOL isString = [scopeName hasPrefix:@"string"];
                     if (!isString) {
-                        typeAttribute = typeAttribute ?: [aTextStorage attribute:kSyntaxHighlightingTypeAttributeName atIndex:jumprange.location effectiveRange:nil];
+                        typeAttribute = typeAttribute ?: [textStorage attribute:kSyntaxHighlightingTypeAttributeName atIndex:jumpRange.location effectiveRange:nil];
                         isString = [typeAttribute isEqualToString:kSyntaxHighlightingTypeString];
                     }
 
-                    BOOL showInComments = [[symbol objectForKey:@"show-in-comments"] isEqualToString:@"yes"];
+                    BOOL showInComments = [symbol[@"show-in-comments"] isEqualToString:@"yes"];
                     if (!isString && (!isComment || showInComments)) {
                         
                         NSRange fullrange = [aMatch rangeOfMatchedString];
                         NSString *name = [aMatch substringAtIndex:1];
-                        if (!name) name = [aMatch matchedString];
-                        NSArray *postprocess = [symbol objectForKey:@"postprocess"];
+                        if (!name) { name = [aMatch matchedString]; }
+
+                        NSArray *postprocess = symbol[@"postprocess"];
                         if (postprocess) {
                             for (NSArray *findreplace in postprocess) {
                                 OGRegularExpression *find = [findreplace objectAtIndex:0];
@@ -116,12 +100,12 @@
                             }
                         }
                         
-                        SymbolTableEntry *aSymbolTableEntry = [SymbolTableEntry symbolTableEntryWithName:name fontTraitMask:mask image:image type:type indentationLevel:indent jumpRange:jumprange range:fullrange];
+                        SymbolTableEntry *entry = [SymbolTableEntry symbolTableEntryWithName:name fontTraitMask:mask image:image type:type indentationLevel:indent jumpRange:jumpRange range:fullrange];
                         
                         if ([name isEqualToString:@""]) {
-                            [aSymbolTableEntry setIsSeparator:YES];
+                            [entry setIsSeparator:YES];
                         }
-                        [returnArray addObject:aSymbolTableEntry];
+                        [returnArray addObject:entry];
                     }
                 }
             }

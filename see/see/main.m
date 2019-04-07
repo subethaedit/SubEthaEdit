@@ -247,7 +247,7 @@ static void printVersion() {
         fflush(stderr);
     }
 	
-	CFRelease(appURL);
+    if (appURL) { CFRelease(appURL); }
 	appURL = NULL;
 }
 

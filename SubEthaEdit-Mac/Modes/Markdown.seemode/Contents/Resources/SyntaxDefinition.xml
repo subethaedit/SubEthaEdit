@@ -9,7 +9,7 @@
 	<states>
 		<default id="Base" scope="meta.default">
 
-		    <state id="H1" type="string" scope="structured.heading.1">
+		    <state id="H1" scope="structured.heading.1">
                <begin><regex>^#(?:[^#])</regex><autoend>\n</autoend></begin>
                <end><regex>[\n\r]</regex></end>
            	</state>
@@ -18,7 +18,7 @@
 				<regex>^(={4,})[\r\n]</regex>
 			</keywords>
 
-		    <state id="H2" type="string" scope="structured.heading.2">
+		    <state id="H2" scope="structured.heading.2">
                <begin><regex>^##(?:[^#])</regex><autoend>\n</autoend></begin>
                <end><regex>[\n\r]</regex></end>
            	</state>
@@ -27,23 +27,23 @@
 				<regex>^(-{4,})[\r\n]</regex>
 			</keywords>
 
-		    <state id="H3" type="string" scope="structured.heading.3">
+		    <state id="H3" scope="structured.heading.3">
                <begin><regex>^###(?:[^#])</regex><autoend>\n</autoend></begin>
                <end><regex>[\n\r]</regex></end>
            	</state>
-		    <state id="H4" type="string" scope="structured.heading.4">
+		    <state id="H4" scope="structured.heading.4">
                <begin><regex>^####(?:[^#])</regex><autoend>\n</autoend></begin>
                <end><regex>[\n\r]</regex></end>
            	</state>
-		    <state id="H5" type="string" scope="structured.heading.5">
+		    <state id="H5" scope="structured.heading.5">
                <begin><regex>^#####(?:[^#])</regex><autoend>\n</autoend></begin>
                <end><regex>[\n\r]</regex></end>
            	</state>
-		    <state id="H6" type="string" scope="structured.heading.5">
+		    <state id="H6" scope="structured.heading.5">
                <begin><regex>^######(?:[^#])</regex><autoend>\n</autoend></begin>
                <end><regex>[\n\r]</regex></end>
            	</state>
-		    <state id="H7" type="string" scope="structured.heading.5">
+		    <state id="H7" scope="structured.heading.5">
                <begin><regex>^#######(?:[^#])</regex><autoend>\n</autoend></begin>
                <end><regex>[\n\r]</regex></end>
            	</state>
@@ -72,12 +72,12 @@
                <import />
            	</state>
 		
-		    <keywords id="Unordered List" type="string" scope="structured.list.unnumbered" usespellchecking="no">
+		    <keywords id="Unordered List" scope="structured.list.unnumbered" usespellchecking="no">
 				<regex>^[ \t]*(\*)(?!\*)</regex>
 				<regex>^[ \t]*(-)(?!-)</regex>
            	</keywords>
 
-		    <keywords id="Ordered List" type="string" scope="structured.list.numbered" usespellchecking="no">
+		    <keywords id="Ordered List" scope="structured.list.numbered" usespellchecking="no">
 				<regex>^[ \t]*(\d{1,2}\.)</regex>
            	</keywords>
 

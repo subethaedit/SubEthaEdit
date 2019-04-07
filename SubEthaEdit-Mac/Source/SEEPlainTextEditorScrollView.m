@@ -91,6 +91,27 @@ void * const SEEScrollViewOverlayObservingContext = (void *)&SEEScrollViewOverla
 	self.bottomOverlayHeight = heightNumber.doubleValue;
 }
 
+- (NSSize)SEE_effectiveContentSize {
+    NSSize size = self.contentSize;
+    NSEdgeInsets insets = self.contentView.contentInsets;
+    size.width -= insets.left + insets.right;
+    size.height -= insets.top + insets.bottom;
+    return size;
+}
+
+- (void)scrollClipView:(NSClipView *)clipView toPoint:(NSPoint)point {
+    NSRect bounds = clipView.bounds;
+    
+    if (point.x == 0 &&
+        bounds.origin.x < 0 &&
+        clipView.contentInsets.left == -bounds.origin.x) {
+        // in this case keep the bounds at the edge they are
+        // looks like a terrible fix, because it is. It would be nicer to find the underlying reason,
+        // e.g. the offender that ignores the contentInset / left rule thickness here
+        point.x = bounds.origin.x;
+    }
+    [super scrollClipView:clipView toPoint:point];
+}
 
 #pragma mark - State Restoration
 

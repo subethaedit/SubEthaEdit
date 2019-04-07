@@ -856,6 +856,8 @@ static NSString *tempFileName(NSString *origPath) {
 	
 	self.bracketSettings = nil;
 	
+    self.attachedCreationFlags = nil;
+    self.persistentDocumentScopedBookmarkURLs = nil;
     [super dealloc];
 }
 
@@ -2105,7 +2107,7 @@ struct SelectionRange
 
 
 + (NSDictionary *)parseOpenDocumentEvent:(NSAppleEventDescriptor *)eventDesc {
-    NSMutableDictionary *result = [NSMutableDictionary new];
+    NSMutableDictionary *result = [NSMutableDictionary dictionary];
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"handleOpenDocumentEvent");
     if (!([eventDesc eventClass] == kCoreEventClass && [eventDesc eventID] == kAEOpenDocuments)) {
         return result;
@@ -2161,7 +2163,7 @@ struct SelectionRange
             DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"fileURLDataDescriptor: %@", [fileURLDataDesc description]);
             NSURL *fileURL = [fileURLDataDesc fileURLValue];
             NSString *filePath = [[fileURL path] stringByStandardizingPath];
-            NSMutableDictionary *parsed = [NSMutableDictionary new];
+            NSMutableDictionary *parsed = [NSMutableDictionary dictionary];
             result[filePath] = parsed;
             
                 // selection may be included in Xcode event
@@ -3017,7 +3019,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 //            if (fileData == nil) {
 //                // generate the correct error
                 [NSData dataWithContentsOfURL:anURL options:0 error:outError];
-                DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"file is not readable %@",*outError);
+                DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"file is not readable %@",outError ? *outError : nil);
                 I_flags.isReadingFile = NO;
                 return NO;
 //            }
@@ -3210,13 +3212,14 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
             UniversalDetector   *detector = [[[UniversalDetector alloc] init] autorelease];
             int maxLength = [defaults integerForKey:@"ByteLengthToUseForModeRecognitionAndEncodingGuessing"];
             NSData *checkData = fileData;
-            if ([fileData length] > maxLength) {
+            BOOL onlyPart = [fileData length] > maxLength;
+            if (onlyPart) {
                 checkData = [[NSData alloc] initWithBytes:(void *)[fileData bytes] length:maxLength];
             }
             [detector analyzeData:checkData];
             udEncoding = [detector encoding];
             confidence = [detector confidence];
-            if ([fileData length] > maxLength) {
+            if (onlyPart) {
                 [checkData release];
             }
     #ifndef TCM_NO_DEBUG

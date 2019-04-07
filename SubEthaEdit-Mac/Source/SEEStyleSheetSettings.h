@@ -10,18 +10,13 @@
 @class SEEStyleSheet;
 @class DocumentMode;
 
-@interface SEEStyleSheetSettings : NSObject {
-	BOOL          I_usesMultipleStyleSheets;
-	NSMutableDictionary *I_styleSheetNamesByLanguageContext;
-	NSString     *I_singleStyleSheetName;
-	DocumentMode *I_documentMode;
-}
+@interface SEEStyleSheetSettings : NSObject 
 
-@property          BOOL          usesMultipleStyleSheets;
-@property (assign) DocumentMode *documentMode;
-@property (copy)   NSString     *singleStyleSheetName;
+@property BOOL usesMultipleStyleSheets;
+@property (weak) DocumentMode *documentMode;
+@property (copy) NSString *singleStyleSheetName;
 
-- (id)initWithDocumentMode:(DocumentMode *)aMode;
+- (instancetype)initWithDocumentMode:(DocumentMode *)aMode;
 
 - (SEEStyleSheet *)styleSheetForLanguageContext:(NSString *)aLanguageContext;
 - (void)setStyleSheetName:(NSString *)aStyleSheetName forLanguageContext:(NSString *)aLanguageContext;

@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-require 'FileUtils'
+require 'fileutils'
 require 'io/console' # for getch
 
 expandedInstallScriptPath = File.expand_path(__dir__)
