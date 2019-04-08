@@ -6,6 +6,8 @@
 
 * Dominik [@monkeydom](https://mastodon.technology/@monkeydom) Wagner - [GitHub](https://github.com/monkeydom) [Mastodon](https://mastodon.technology/@monkeydom) [Twitter](https://twitter.com/monkeydom) [Blog](https://coding.monkeydom.de/)
 
+* Francisco Ryan Tolmasky I - [GitHub](https://github.com/tolmasky) [Twitter](https://twitter.com/tolmasky) [Blog](https://tolmasky.com/)
+
 ## Contributors
 
 ### Engineering
