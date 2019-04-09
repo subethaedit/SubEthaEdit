@@ -1240,22 +1240,6 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     [[self document] canCloseDocumentWithDelegate:self shouldCloseSelector:@selector(document:shouldClose:contextInfo:) contextInfo:nil];
 }
 
-- (void)closeAllTabsAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
-    [[alert window] orderOut:self];
-
-    if (returnCode == NSAlertFirstButtonReturn) {
-        [self reviewChangesAndQuitEnumeration:YES];
-    } else if (returnCode == NSAlertThirdButtonReturn) {
-        NSArray *documents = [self documents];
-        unsigned count = [documents count];
-        while (count--) {
-            PlainTextDocument *document = [documents objectAtIndex:count];
-            [self documentWillClose:document];
-            [document close];
-        }
-    }
-}
-
 - (void)closeAllTabs {
     NSArray *documents = [self documents];
     unsigned count = [documents count];
@@ -1276,7 +1260,6 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     if (needsSaving > 0) {
         needsSaving -= hasMultipleViews;
         if (needsSaving > 1) {	// If we only have 1 unsaved document, we skip the "review changes?" panel
-        
             NSString *title = [NSString stringWithFormat:NSLocalizedString(@"You have %d documents in this window with unsaved changes. Do you want to review these changes?", nil), needsSaving];
             
             NSAlert *alert = [[[NSAlert alloc] init] autorelease];
@@ -1286,10 +1269,28 @@ static NSPoint S_cascadePoint = {0.0,0.0};
             [alert addButtonWithTitle:NSLocalizedString(@"Review Changes\\U2026", @"Choice (on a button) given to user which allows him/her to review all unsaved documents if he/she quits the application without saving them all first.")];
             [alert addButtonWithTitle:NSLocalizedString(@"Cancel", @"Button choice allowing user to cancel.")];
             [alert addButtonWithTitle:NSLocalizedString(@"Discard Changes", @"Choice (on a button) given to user which allows him/her to quit the application even though there are unsaved documents.")];
-            [alert beginSheetModalForWindow:[self window]
-                              modalDelegate:self
-                             didEndSelector:@selector(closeAllTabsAlertDidEnd:returnCode:contextInfo:)
-                                contextInfo:nil];
+
+            [alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
+
+                // Although alert.window will orderOut: for us automatically
+                // after completionHandler returns, we want to do this now
+                // manually since we might trigger more alerts below. These also
+                // appear to be handled fine, but better to stay on the safe
+                // side.
+                [alert.window orderOut:self];
+
+                if (returnCode == NSAlertFirstButtonReturn) {
+                    [self reviewChangesAndQuitEnumeration:YES];
+                } else if (returnCode == NSAlertThirdButtonReturn) {
+                    NSArray *documents = [self documents];
+                    NSUInteger count = [documents count];
+                    while (count--) {
+                        PlainTextDocument *document = [documents objectAtIndex:count];
+                        [self documentWillClose:document];
+                        [document close];
+                    }
+                }
+            }];
         } else {
             [self reviewChangesAndQuitEnumeration:YES];
         }
