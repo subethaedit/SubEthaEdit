@@ -1753,12 +1753,12 @@ struct ModificationInfo
 						   name];
 		}
 
-		NSAlert *infoAlert = [NSAlert alertWithMessageText:messageText
-											 defaultButton:NSLocalizedString(@"OK", nil)
-										   alternateButton:nil
-											   otherButton:nil
-								 informativeTextWithFormat:@""];
-		
+        NSAlert *infoAlert = [[NSAlert alloc] init];
+
+        infoAlert.messageText = messageText;
+
+        [infoAlert addButtonWithTitle:@"OK"];
+
         [infoAlert setAlertStyle:NSInformationalAlertStyle];
         [infoAlert runModal];
     }
