@@ -139,11 +139,11 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
     [alert setInformativeText:NSLocalizedString(@"Merging windows moves all open tabs and windows into a single, tabbed editor window. This cannot be undone.", nil)];
     [alert addButtonWithTitle:NSLocalizedString(@"Merge", nil)];
     [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
-    int response = [alert runModal];
+    NSModalResponse response = [alert runModal];
     if (NSAlertFirstButtonReturn == response) {
         PlainTextWindowController *targetWindowController = [self activeWindowController];
         id document = [targetWindowController document];
-        int count = [I_windowControllers count];
+        NSUInteger count = [I_windowControllers count];
         while (--count >= 0) {
             PlainTextWindowController *sourceWindowController = [I_windowControllers objectAtIndex:count];
             if (sourceWindowController != targetWindowController) {
@@ -1459,7 +1459,7 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
     }
     
     if (shouldWait) { // this is for new documents and pipes, existing documents are handled above
-        int count = [documents count];
+        NSUInteger count = [documents count];
         if (count > 0) {
             [command suspendExecution];
             [I_suspendedSeeScriptCommands setObject:command forKey:identifier]; // this may replace the command added by existing documents earlier, but is the same command anyway.

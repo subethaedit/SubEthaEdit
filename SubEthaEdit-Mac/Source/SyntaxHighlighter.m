@@ -238,7 +238,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 					[stack addObject:[NSDictionary dictionaryWithObjectsAndKeys:[subState objectForKey:@"id"], @"state", indentLevel, kSyntaxHighlightingIndentLevelName, nil]];
 				}
                 
-                unsigned int level = [stack count];
+                NSUInteger level = [stack count];
 				
                 if ((level==trimmedStartOnLevel+1)||(level==trimmedStartOnLevel)) { // Was previous start a trimmed one?
 //					[I_stringLock lock];
@@ -307,7 +307,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
                 NSRange matchedEndRange = [delimiterMatch rangeOfSubstringNamed:@"trimmedend"];
                 if (matchedEndRange.location != NSNotFound) delimiterRange = matchedEndRange;
                 
-                unsigned int level = [stack count];
+                NSUInteger level = [stack count];
                 if (level>trimmedStartOnLevel) {
 //					[I_stringLock lock];
                     [aString removeAttribute:kSyntaxHighlightingFoldDelimiterName range:stateRange];
@@ -510,7 +510,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
     // Check if the string after the area we just colored matches up
     // Make it dirty if there is a logical glitch
     
-    int nextIndex = NSMaxRange(aRange);
+    NSInteger nextIndex = NSMaxRange(aRange);
     if (nextIndex >= [theString length]) return;
     
     if (([aString attribute:kSyntaxHighlightingIsCorrectAttributeName atIndex:nextIndex effectiveRange:nil])) {
@@ -518,9 +518,9 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
         BOOL leftIsEnd = [[aString attribute:kSyntaxHighlightingStateDelimiterName atIndex:nextIndex-1 effectiveRange:nil] isEqualTo:kSyntaxHighlightingStateDelimiterEndValue];
         BOOL rightIsStart = [[aString attribute:kSyntaxHighlightingStateDelimiterName atIndex:nextIndex effectiveRange:nil] isEqualTo:kSyntaxHighlightingStateDelimiterStartValue];
         NSArray *leftStack = [aString attribute:kSyntaxHighlightingStackName atIndex:nextIndex-1 effectiveRange:nil];
-        int leftCount = [leftStack count];
+        NSUInteger leftCount = [leftStack count];
         NSArray *rightStack = [aString attribute:kSyntaxHighlightingStackName atIndex:nextIndex effectiveRange:nil];
-        int rightCount = [rightStack count];
+        NSUInteger rightCount = [rightStack count];
         
         // Same stack, no ends and begins or both an end and a begin
         if ([leftStack isEqualToArray:rightStack]) {
@@ -532,7 +532,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
             if ([definition state:[[rightStack lastObject] objectForKey:@"state"] includesState:[[leftStack lastObject] objectForKey:@"state"]]) matchesUp = YES;
         }
         // Left stack exactly one smaller than right and there is a start => leftState must include rightState
-        else if ((leftCount == rightCount - 1) && rightIsStart) {  
+        else if ((leftCount + 1 == rightCount) && rightIsStart) {
             if ([definition state:[[leftStack lastObject] objectForKey:@"state"] includesState:[[rightStack lastObject] objectForKey:@"state"]]) matchesUp = YES;
         }
 
