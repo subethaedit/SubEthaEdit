@@ -1692,22 +1692,26 @@ struct ModificationInfo
 	}
 
 	// show alert
-	NSAlert *installAlert = [NSAlert alertWithMessageText:titleText
-											defaultButton:NSLocalizedStringWithDefaultValue(@"MODE_INSTALL_OK_BUTTON", nil, [NSBundle mainBundle], @"Install", nil)
-										  alternateButton:NSLocalizedStringWithDefaultValue(@"MODE_INSTALL_SHOW_CONTENT_BUTTON", nil, [NSBundle mainBundle], @"Show Package Contents", nil)
-											  otherButton:NSLocalizedString(@"Cancel", nil)
-								informativeTextWithFormat:@"%@", informativeText];
-	
-	int result = [installAlert runModal];
-	if (result == NSAlertAlternateReturn) { // show package contents
+    NSAlert *installAlert = [[NSAlert alloc] init];
+
+    installAlert.messageText = titleText;
+    installAlert.informativeText = informativeText;
+
+    [installAlert addButtonWithTitle:NSLocalizedStringWithDefaultValue(@"MODE_INSTALL_OK_BUTTON", nil, [NSBundle mainBundle], @"Install", nil)];
+    [installAlert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
+    [installAlert addButtonWithTitle:NSLocalizedStringWithDefaultValue(@"MODE_INSTALL_SHOW_CONTENT_BUTTON", nil, [NSBundle mainBundle], @"Show Package Contents", nil)];
+
+	NSModalResponse result = [installAlert runModal];
+
+    if (result == NSAlertThirdButtonReturn) { // show package contents
 		NSString *resourcePath = [modeBundle resourcePath];
 		if (resourcePath) {
 			[[NSWorkspace sharedWorkspace] selectFile:resourcePath inFileViewerRootedAtPath:[resourcePath stringByDeletingLastPathComponent]];
 		}
 	
-	} else if (result == NSAlertDefaultReturn) { // ok was selected
+	} else if (result == NSAlertFirstButtonReturn) { // ok was selected
         BOOL success = NO;
-		
+
 		NSURL *destinationURL = [[DocumentModeManager sharedInstance] urlForWritingModeWithName:[modeBundle objectForInfoDictionaryKey:@"CFBundleName"]];
 		NSString *destinationPath = [destinationURL path];
 		
