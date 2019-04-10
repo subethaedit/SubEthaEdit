@@ -27,8 +27,11 @@ class Block
         # Exact filenames are easy, just looks for them specifically.
         filenames = toRegExpUnion(settings, "settings/recognition/filename")
 
+        # Add mode specific additions as well
+        modegroup = toModeGroup(language)
+        
         # Union both together.
-        groups = [withExtensions, filenames]
+        groups = [withExtensions, filenames, modegroup]
             .select { |group| group != "" }
             .map { |group| "(?:#{group})" }
             .join("|")
@@ -47,7 +50,7 @@ class Block
         # We have an outer state  that matches the code fence up to, but not
         # including, the newline. This makes it so that this begin section is
         # not highlighted. Then, internally, we'll match just the newline.
-        beginRegExp = "^#{@fence}(?:#{match})(?:[^\\S\\r\\n][^\\n]*)?(?=\\n)"
+        beginRegExp = "^#{@fence}(?:#{match})(?:[^\\S\\r\\n][^\\r\\n]*)?(?=[\\r\\n])"
         endRegExp = "^#{@fence}"
 
         Node.state ({
@@ -65,8 +68,8 @@ class Block
                     "scope" => "meta.codeblock.#{language}",
                     :children =>
                     [
-                        Node.begin({ :children => [Node.regex("\\n"), Node.autoend("#{@fence}")] }),
-                        Node.end(Node.regex("\\n(?=#{@fence})")),
+                        Node.begin({ :children => [Node.regex("[\\r\\n]"), Node.autoend("#{@fence}")] }),
+                        Node.end(Node.regex("[\\r\\n](?=#{@fence})")),
                         Node.import("mode" => language)
                     ]
                 })
@@ -74,6 +77,20 @@ class Block
         })
 
     end
+end
+
+def toModeGroup(language)
+    
+    result = ["(?i:#{language})"]
+    
+    case language
+        when "Objective-C"
+        ["objective_c","objc","objective-c"]
+        else
+        [language]
+    end
+    .map{ |term| "(?i:#{term})"}
+    .join("|")
 end
 
 def toRegExpUnion(xml, match)
