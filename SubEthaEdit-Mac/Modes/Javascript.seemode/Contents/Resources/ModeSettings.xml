@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <settings>
     <recognition>
-        <extension>js</extension>
+        <extension>mjs</extension>
         <extension>javascript</extension>
+        <extension>js</extension>
         <extension>jscript</extension>
         <extension>jsx</extension>
     </recognition>
