@@ -231,30 +231,6 @@ static FindReplaceController *sharedInstance=nil;
 }
 
 #pragma mark -
-- (void)alertForReadonlyDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
-    if (returnCode == NSAlertFirstButtonReturn) {
-        NSDictionary *alertContext = (__bridge NSDictionary *)contextInfo;
-		SEEFindAndReplaceContext *context = [alertContext objectForKey:@"FindAndReplaceContext"];
-		PlainTextDocument *document = context.targetPlainTextEditor.document;
-        [document setEditAnyway:YES];
-        [self performTextFinderAction:context.currentTextFinderActionType context:context];
-    }
-}
-
-- (void)alertForEncodingDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
-    NSDictionary *alertContext = (__bridge NSDictionary *)contextInfo;
-	SEEFindAndReplaceContext *context = [alertContext objectForKey:@"FindAndReplaceContext"];
-    PlainTextDocument *document = context.targetPlainTextEditor.document;
-    if (returnCode == NSAlertThirdButtonReturn) {
-        [document setFileEncoding:NSUnicodeStringEncoding];
-        [[document documentUndoManager] removeAllActions];
-        [self performTextFinderAction:context.currentTextFinderActionType context:context];
-    } else if (returnCode == NSAlertSecondButtonReturn) {
-        [document setFileEncoding:NSUTF8StringEncoding];
-        [[document documentUndoManager] removeAllActions];
-        [self performTextFinderAction:context.currentTextFinderActionType context:context];
-    }
-}
 
 - (NSString *)currentReplaceString {
 	NSString *result;// = [O_replaceComboBox stringValue];
@@ -313,13 +289,20 @@ static FindReplaceController *sharedInstance=nil;
 		[alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
 		[[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
 		[alert TCM_setContextObject:contextInfo];
-		[alert beginSheetModalForWindow:sheetWindow
-						  modalDelegate:self
-						 didEndSelector:@selector(alertForReadonlyDidEnd:returnCode:contextInfo:)
-							contextInfo:(__bridge void *)contextInfo];
+
+		[alert beginSheetModalForWindow:sheetWindow completionHandler:^(NSModalResponse returnCode) {
+			if (returnCode != NSAlertFirstButtonReturn)
+				return;
+
+			PlainTextDocument *document = aFindAndReplaceContext.targetPlainTextEditor.document;
+			[document setEditAnyway:YES];
+
+			[self performTextFinderAction:aFindAndReplaceContext.currentTextFinderActionType context:aFindAndReplaceContext];
+		}];
+
 		result = NO;
 	} else {
-		
+
 		NSString *replacementString = [self currentReplaceString];
 		if (replacementString && ![replacementString canBeConvertedToEncoding:[document fileEncoding]]) {
 			TCMMMSession *session=[document session];
@@ -338,10 +321,21 @@ static FindReplaceController *sharedInstance=nil;
 				[alert addButtonWithTitle:NSLocalizedString(@"Promote to Unicode", nil)];
 				[[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
 				[alert TCM_setContextObject:contextInfo];
-				[alert beginSheetModalForWindow:sheetWindow
-								  modalDelegate:self
-								 didEndSelector:@selector(alertForEncodingDidEnd:returnCode:contextInfo:)
-									contextInfo:(__bridge void *)contextInfo];
+
+				[alert beginSheetModalForWindow:sheetWindow completionHandler:^(NSModalResponse returnCode) {
+					PlainTextDocument *document = aFindAndReplaceContext.targetPlainTextEditor.document;
+
+					if (returnCode == NSAlertThirdButtonReturn) {
+						[document setFileEncoding:NSUnicodeStringEncoding];
+						[[document documentUndoManager] removeAllActions];
+						[self performTextFinderAction:aFindAndReplaceContext.currentTextFinderActionType context:aFindAndReplaceContext];
+					} else if (returnCode == NSAlertSecondButtonReturn) {
+						[document setFileEncoding:NSUTF8StringEncoding];
+						[[document documentUndoManager] removeAllActions];
+						[self performTextFinderAction:aFindAndReplaceContext.currentTextFinderActionType context:aFindAndReplaceContext];
+					}
+				}];
+
 				result = NO;
 			} else {
 				// this is not our document and therefore we can't improve the encoding

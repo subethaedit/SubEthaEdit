@@ -139,11 +139,11 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
     [alert setInformativeText:NSLocalizedString(@"Merging windows moves all open tabs and windows into a single, tabbed editor window. This cannot be undone.", nil)];
     [alert addButtonWithTitle:NSLocalizedString(@"Merge", nil)];
     [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
-    int response = [alert runModal];
+    NSModalResponse response = [alert runModal];
     if (NSAlertFirstButtonReturn == response) {
         PlainTextWindowController *targetWindowController = [self activeWindowController];
         id document = [targetWindowController document];
-        int count = [I_windowControllers count];
+        NSUInteger count = [I_windowControllers count];
         while (--count >= 0) {
             PlainTextWindowController *sourceWindowController = [I_windowControllers objectAtIndex:count];
             if (sourceWindowController != targetWindowController) {
@@ -1459,7 +1459,7 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
     }
     
     if (shouldWait) { // this is for new documents and pipes, existing documents are handled above
-        int count = [documents count];
+        NSUInteger count = [documents count];
         if (count > 0) {
             [command suspendExecution];
             [I_suspendedSeeScriptCommands setObject:command forKey:identifier]; // this may replace the command added by existing documents earlier, but is the same command anyway.
@@ -1692,22 +1692,26 @@ struct ModificationInfo
 	}
 
 	// show alert
-	NSAlert *installAlert = [NSAlert alertWithMessageText:titleText
-											defaultButton:NSLocalizedStringWithDefaultValue(@"MODE_INSTALL_OK_BUTTON", nil, [NSBundle mainBundle], @"Install", nil)
-										  alternateButton:NSLocalizedStringWithDefaultValue(@"MODE_INSTALL_SHOW_CONTENT_BUTTON", nil, [NSBundle mainBundle], @"Show Package Contents", nil)
-											  otherButton:NSLocalizedString(@"Cancel", nil)
-								informativeTextWithFormat:@"%@", informativeText];
-	
-	int result = [installAlert runModal];
-	if (result == NSAlertAlternateReturn) { // show package contents
+    NSAlert *installAlert = [[NSAlert alloc] init];
+
+    installAlert.messageText = titleText;
+    installAlert.informativeText = informativeText;
+
+    [installAlert addButtonWithTitle:NSLocalizedStringWithDefaultValue(@"MODE_INSTALL_OK_BUTTON", nil, [NSBundle mainBundle], @"Install", nil)];
+    [installAlert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
+    [installAlert addButtonWithTitle:NSLocalizedStringWithDefaultValue(@"MODE_INSTALL_SHOW_CONTENT_BUTTON", nil, [NSBundle mainBundle], @"Show Package Contents", nil)];
+
+	NSModalResponse result = [installAlert runModal];
+
+    if (result == NSAlertThirdButtonReturn) { // show package contents
 		NSString *resourcePath = [modeBundle resourcePath];
 		if (resourcePath) {
 			[[NSWorkspace sharedWorkspace] selectFile:resourcePath inFileViewerRootedAtPath:[resourcePath stringByDeletingLastPathComponent]];
 		}
 	
-	} else if (result == NSAlertDefaultReturn) { // ok was selected
+	} else if (result == NSAlertFirstButtonReturn) { // ok was selected
         BOOL success = NO;
-		
+
 		NSURL *destinationURL = [[DocumentModeManager sharedInstance] urlForWritingModeWithName:[modeBundle objectForInfoDictionaryKey:@"CFBundleName"]];
 		NSString *destinationPath = [destinationURL path];
 		
@@ -1749,12 +1753,12 @@ struct ModificationInfo
 						   name];
 		}
 
-		NSAlert *infoAlert = [NSAlert alertWithMessageText:messageText
-											 defaultButton:NSLocalizedString(@"OK", nil)
-										   alternateButton:nil
-											   otherButton:nil
-								 informativeTextWithFormat:@""];
-		
+        NSAlert *infoAlert = [[NSAlert alloc] init];
+
+        infoAlert.messageText = messageText;
+
+        [infoAlert addButtonWithTitle:@"OK"];
+
         [infoAlert setAlertStyle:NSInformationalAlertStyle];
         [infoAlert runModal];
     }

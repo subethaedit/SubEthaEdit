@@ -59,8 +59,8 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 - (NSMenu *)bottomPart {
     NSMenu *newMenu = [[NSMenu new] autorelease];
     NSArray *items = [self itemArray];
-    int count = [items count];
-    int index = count - 1;
+    NSUInteger count = [items count];
+    NSInteger index = count - 1;
 
     while (index >= 0) {
         if ([[items objectAtIndex:index] isSeparatorItem]) {
@@ -952,8 +952,8 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 
-- (int)dentLineInTextView:(NSTextView *)aTextView withRange:(NSRange)aLineRange in:(BOOL)aIndent {
-    int changedChars = 0;
+- (NSInteger)dentLineInTextView:(NSTextView *)aTextView withRange:(NSRange)aLineRange in:(BOOL)aIndent {
+    NSInteger changedChars = 0;
     static NSCharacterSet *spaceTabSet = nil;
 
     if (!spaceTabSet) {
@@ -970,7 +970,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     if ([document usesTabs]) {
         if (aIndent) {
             // replace spaces with tabs and add one tab
-            unsigned lastCharacter = aLineRange.location;
+            NSUInteger lastCharacter = aLineRange.location;
 
             while (lastCharacter < NSMaxRange(aLineRange) &&
                    [spaceTabSet characterIsMember:[string characterAtIndex:lastCharacter]]) {
@@ -1003,7 +1003,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
         } else {
             if ([string length] > aLineRange.location) {
                 // replace spaces with tabs and remove one tab or the remaining whitespace
-                unsigned lastCharacter = aLineRange.location;
+                NSUInteger lastCharacter = aLineRange.location;
 
                 while (lastCharacter < NSMaxRange(aLineRange) &&
                        [spaceTabSet characterIsMember:[string characterAtIndex:lastCharacter]])
@@ -1046,7 +1046,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
             }
         }
     } else {
-        unsigned firstCharacter = aLineRange.location;
+        NSUInteger firstCharacter = aLineRange.location;
 
         // replace tabs with spaces
         while (firstCharacter < NSMaxRange(aLineRange)) {
@@ -1159,8 +1159,8 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 						lineRange.location = NSMaxRange(affectedRange) - 1;
 						lineRange.length = 1;
 						lineRange = [string lineRangeForRange:lineRange];
-						int result = 0;
-						int changedLength = 0;
+						NSInteger result = 0;
+						NSInteger changedLength = 0;
 
 						while (!DisjointRanges(lineRange, affectedRange)) {
 							result = [self dentLineInTextView:aTextView withRange:lineRange in:aIndent];
@@ -1933,9 +1933,9 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
                 [self selectRange:NSUnionRange(whitespaceRange, selectedRange)];
                 // NSLog(@"%s inserting ||%@||", __FUNCTION__, autoend);
-                [I_textView insertText:autoend];
+                [I_textView insertText:autoend replacementRange:I_textView.selectedRange];
             } else {
-                [I_textView insertText:autoend];
+                [I_textView insertText:autoend replacementRange:I_textView.selectedRange];
             }
         } else {
             NSBeep();

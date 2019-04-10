@@ -385,7 +385,7 @@ typedef NS_ENUM(uint8_t, SEESearchRangeDirection) {
 			[[document session] pauseProcessing];
 			[[document documentUndoManager] beginUndoGrouping];
 
-			[self.targetTextView insertText:replaceString];
+            [self.targetTextView insertText:replaceString replacementRange:self.targetTextView.selectedRange];
 			
 			[[document documentUndoManager] endUndoGrouping];
 			[[document session] startProcessing];

@@ -5063,19 +5063,19 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
             [self setFileEncodingUndoable:NSUnicodeStringEncoding];
             if (replacementString) {
 				[textView setSelectedRange:affectedRange];
-				[textView insertText:replacementString];
+                [textView insertText:replacementString replacementRange:affectedRange];
 			}
         } else if (returnCode == NSAlertSecondButtonReturn) {
             [self setFileEncodingUndoable:NSUTF8StringEncoding];
             if (replacementString) {
 				[textView setSelectedRange:affectedRange];
-				[textView insertText:replacementString];
+                [textView insertText:replacementString replacementRange:affectedRange];
 			}
         } else if (returnCode == NSAlertFirstButtonReturn) {
             NSData *lossyData = [replacementString dataUsingEncoding:[self fileEncoding] allowLossyConversion:YES];
             if (lossyData) {
 				[textView setSelectedRange:affectedRange];
-				[textView insertText:[NSString stringWithData:lossyData encoding:[self fileEncoding]]];
+                [textView insertText:[NSString stringWithData:lossyData encoding:[self fileEncoding]] replacementRange:affectedRange];
 			}
         }
     } else if ([alertIdentifier isEqualToString:@"DocumentChangedExternallyAlert"]) {
@@ -5113,7 +5113,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
                 [invocation invoke];
             } else {
                 NSTextView *textView = [alertContext objectForKey:@"TextView"];
-                [textView insertText:[alertContext objectForKey:@"ReplacementString"]];
+                [textView insertText:[alertContext objectForKey:@"ReplacementString"] replacementRange:textView.selectedRange];
             }
         }
     } else if ([alertIdentifier isEqualToString:@"MixedLineEndingsAlert"]) {
@@ -5131,10 +5131,10 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
             [[alert window] orderOut:self];
             NSMutableString *mutableString = [[NSMutableString alloc] initWithString:replacementString];
             [mutableString convertLineEndingsToLineEndingString:[self lineEndingString]];
-            [textView insertText:mutableString];
+            [textView insertText:mutableString replacementRange:textView.selectedRange];
             [mutableString release];
         } else if (returnCode == NSAlertSecondButtonReturn) {
-            [textView insertText:replacementString];
+            [textView insertText:replacementString replacementRange:textView.selectedRange];
         }
     }
 }
@@ -6282,7 +6282,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
                 }
             }
             if (indentString) {
-                [aTextView insertText:[NSString stringWithFormat:@"%@%@%@",[self lineEndingString],indentString, postString]];
+                [aTextView insertText:[NSString stringWithFormat:@"%@%@%@",[self lineEndingString],indentString, postString] replacementRange:aTextView.selectedRange];
                 if ([postString length] > 0) {
                 	// move selection back to the desired position
                 	NSRange selectedRange = [aTextView selectedRange];
@@ -6290,7 +6290,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
                 	[aTextView setSelectedRange:selectedRange];
                 }
             } else {
-                [aTextView insertText:[self lineEndingString]];
+                [aTextView insertText:[self lineEndingString] replacementRange:aTextView.selectedRange];
             }
             return YES;
 
@@ -6346,12 +6346,12 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 					}
         		}
         	}
-        	if (!I_flags.usesTabs) {
+            if (!I_flags.usesTabs) {
 				// when we have a tab we have to find the last linebreak
 				NSRange lineRange=[[[self textStorage] string] lineRangeForRange:affectedRange];
 				NSString *replacementString=[@" " stringByPaddingToLength:I_tabWidth-((affectedRange.location-lineRange.location)%I_tabWidth)
 															   withString:@" " startingAtIndex:0];
-				[aTextView insertText:replacementString];
+                [aTextView insertText:replacementString replacementRange:aTextView.selectedRange];
 				return YES;
 			}
 			return NO; // do the default behaviour

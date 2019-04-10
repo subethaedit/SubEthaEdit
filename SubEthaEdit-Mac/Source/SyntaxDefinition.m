@@ -1037,7 +1037,7 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
     }
 
 
-    int combinedStringLength = [combinedString length];
+    NSUInteger combinedStringLength = [combinedString length];
     if ((combinedStringLength>1)||(endString)) {
         if (endString) { // Any states except the default
             [combinedString appendString:[NSString stringWithFormat:@"(?<seeinternalgroup4242>%@)",endString]];
