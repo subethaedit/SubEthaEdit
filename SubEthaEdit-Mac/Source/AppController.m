@@ -942,9 +942,7 @@ static AppController *sharedInstance = nil;
         NSArray *documents=[NSApp orderedDocuments];
         if ([documents count]>0) alertWindow=[[documents objectAtIndex:0] windowForSheet];
         [newAlert beginSheetModalForWindow:alertWindow
-                             modalDelegate:nil
-                            didEndSelector:nil
-                               contextInfo:NULL];
+                         completionHandler:nil];
     }
 }
 
