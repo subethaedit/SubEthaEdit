@@ -65,7 +65,7 @@ class Block
                     "scope" => "meta.codeblock.#{language}",
                     :children =>
                     [
-                        Node.begin(Node.regex("\\n")),
+                        Node.begin({ :children => [Node.regex("\\n"), Node.autoend("#{@fence}")] }),
                         Node.end(Node.regex("\\n(?=#{@fence})")),
                         Node.import("mode" => language)
                     ]

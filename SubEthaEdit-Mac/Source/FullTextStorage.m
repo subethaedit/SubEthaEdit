@@ -807,15 +807,17 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 
 // returns NSNotFound,0 if not found
 - (NSRange)startRangeForStateAndIndex:(NSUInteger)aLocation {
-	NSRange result = NSMakeRange(NSNotFound,0);
+	NSRange notFoundRange = NSMakeRange(NSNotFound,0);
 
 	if (aLocation != 0) {
+        // get the reference stack we are looking for
 		NSUInteger location = aLocation - 1;
 		NSArray *referenceStack = [self attribute:kSyntaxHighlightingStackName atIndex:location effectiveRange:nil];
-		if (!referenceStack) return result; // no syntax highlighting information - abort
+        if (!referenceStack) { return notFoundRange; } // no syntax highlighting information - abort
 		
-		if ([[self attribute:kSyntaxHighlightingStateDelimiterName atIndex:location  effectiveRange:nil] isEqual:kSyntaxHighlightingStateDelimiterEndValue]) {
-			if ([referenceStack count] == 1) return result; // outside of scope
+		if ([[self attribute:kSyntaxHighlightingStateDelimiterName atIndex:location effectiveRange:nil] isEqual:kSyntaxHighlightingStateDelimiterEndValue]) {
+            if ([referenceStack count] == 1) { return notFoundRange; } // nothing more to close if the last end closed the top level
+            // reduce the stack we are looking for by one if we started searching for it inside an end, therefore search for the enclosing states end
 			referenceStack = [referenceStack objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,[referenceStack count]-1)]];
 		}
 		
@@ -825,14 +827,21 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 		while (effectiveRange.location > 0) {
 			NSString *stateDelimiter = [self attribute:kSyntaxHighlightingStateDelimiterName atIndex:effectiveRange.location-1  longestEffectiveRange:&effectiveRange inRange:maxRange];
 			if ([stateDelimiter isEqualToString:kSyntaxHighlightingStateDelimiterStartValue]) {
-				NSArray *stack = [self attribute:kSyntaxHighlightingStackName atIndex:effectiveRange.location effectiveRange:nil];
-				if ([stack isEqual:referenceStack]) {
-					return effectiveRange;
-				}
+                // important fact: multiple state begins can line up together, so search for the stack values inside that range
+                
+                NSRange innerEffectiveRange = NSMakeRange(NSMaxRange(effectiveRange),0);
+                while (innerEffectiveRange.location > effectiveRange.location) {
+                    NSArray *stack = [self attribute:kSyntaxHighlightingStackName atIndex:innerEffectiveRange.location - 1 longestEffectiveRange:&innerEffectiveRange inRange:effectiveRange];
+                    if ([stack isEqualToArray:referenceStack]) {
+                        return innerEffectiveRange;
+                    } else if (stack.count < referenceStack.count) {
+                        return notFoundRange;
+                    }
+                }
 			}
 		}
 	}
-	return result;
+	return notFoundRange;
 }
 
 
