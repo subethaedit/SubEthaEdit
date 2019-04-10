@@ -617,27 +617,29 @@ static AppController *sharedInstance = nil;
 			NSString *information = [NSString stringWithFormat:NSLocalizedStringWithDefaultValue(@"MODE_UPDATE_INFO_TEXT", nil, [NSBundle mainBundle],
 																								 @"\n\nUsing the updated versions removes custom changes you might have made to your mode.\n\nIf you only want to use specific new modes choose 'Show in Finder', delete the modes without modifications and reload the modes from the mode menu in SubEthaEdit.", nil)];
 			
-			NSAlert *installAlert = [NSAlert alertWithMessageText:NSLocalizedStringWithDefaultValue(@"MODE_UPDATE_MESSAGE", nil, [NSBundle mainBundle], @"Newer Modes available", nil)
-													defaultButton:NSLocalizedStringWithDefaultValue(@"MODE_UPDATE_OK_BUTTON", nil, [NSBundle mainBundle], @"Use Updated Modes", nil)
-												  alternateButton:NSLocalizedStringWithDefaultValue(@"MODE_UPDATE_REVEAL_IN_FINDER", nil, [NSBundle mainBundle], @"Show Outdated Modes", nil)
-													  otherButton:NSLocalizedString(@"Cancel", nil)
-										informativeTextWithFormat:@"%@%@%@\n", intro, modeNames,information];
-			
-			int result = [installAlert runModal];
-			
-			if (result == NSAlertAlternateReturn) { // show in finder
-				[[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:updatableModeURLs];
-				
-			} else if (result == NSAlertDefaultReturn) { // ok was selected
-				NSFileManager *fileManager = [NSFileManager defaultManager];
-				for (NSURL *url in updatableModeURLs) {
-					NSURL *urlInTrash = nil;
-					NSError *deletionError = nil;
-					//					BOOL deletionSuccess = [fileManager trashItemAtURL:destinationURL resultingItemURL:&urlInTrash error:&deletionError];
-					[fileManager trashItemAtURL:url resultingItemURL:&urlInTrash error:&deletionError];
-				}
-				[[DocumentModeManager sharedInstance] reloadDocumentModes:self];
-			}
+            NSAlert *installAlert = [[NSAlert alloc] init];
+
+            installAlert.messageText = NSLocalizedStringWithDefaultValue(@"MODE_UPDATE_MESSAGE", nil, [NSBundle mainBundle], @"Newer Modes available", nil);
+            installAlert.informativeText = [NSString stringWithFormat:@"%@%@%@\n", intro, modeNames, information];
+
+            [installAlert addButtonWithTitle:NSLocalizedStringWithDefaultValue(@"MODE_UPDATE_OK_BUTTON", nil, [NSBundle mainBundle], @"Use Updated Modes", nil)];
+            [installAlert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
+            [installAlert addButtonWithTitle:NSLocalizedStringWithDefaultValue(@"MODE_UPDATE_REVEAL_IN_FINDER", nil, [NSBundle mainBundle], @"Show Outdated Modes", nil)];
+
+            NSModalResponse result = [installAlert runModal];
+
+            if (result == NSAlertThirdButtonReturn) { // show in finder
+                [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:updatableModeURLs];
+            } else if (result == NSAlertFirstButtonReturn) { // ok was selected
+                NSFileManager *fileManager = [NSFileManager defaultManager];
+                for (NSURL *url in updatableModeURLs) {
+                    NSURL *urlInTrash = nil;
+                    NSError *deletionError = nil;
+                    //                    BOOL deletionSuccess = [fileManager trashItemAtURL:destinationURL resultingItemURL:&urlInTrash error:&deletionError];
+                    [fileManager trashItemAtURL:url resultingItemURL:&urlInTrash error:&deletionError];
+                }
+                [[DocumentModeManager sharedInstance] reloadDocumentModes:self];
+            }
 		}
 		
 		[defaults setObject:currentBundleVersion forKey:kSEELastKnownBundleVersion];
