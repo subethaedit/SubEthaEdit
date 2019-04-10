@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <settings>
     <recognition>
+        <extension>rb</extension>
         <extension>arb</extension>
         <extension>gemspec</extension>
         <extension>podspec</extension>
         <extension>prawn</extension>
         <extension>rake</extension>
-        <extension>rb</extension>
         <extension>rbw</extension>
         <extension>ru</extension>
         <extension>ruby</extension>
