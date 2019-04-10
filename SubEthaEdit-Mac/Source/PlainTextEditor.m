@@ -1933,9 +1933,9 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
                 [self selectRange:NSUnionRange(whitespaceRange, selectedRange)];
                 // NSLog(@"%s inserting ||%@||", __FUNCTION__, autoend);
-                [I_textView insertText:autoend];
+                [I_textView insertText:autoend replacementRange:I_textView.selectedRange];
             } else {
-                [I_textView insertText:autoend];
+                [I_textView insertText:autoend replacementRange:I_textView.selectedRange];
             }
         } else {
             NSBeep();
