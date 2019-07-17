@@ -24,9 +24,10 @@ extern NSString * const SEEPlainTextWindowControllerTabContextActiveEditorDidCha
 
 @property (nonatomic, strong) NSString *uuid;
 
-@property (nonatomic, weak) NSTabViewItem *tab;
 @property (nonatomic, strong) PlainTextDocument *document;
 @property (nonatomic, readonly) PlainTextWindowController *windowController;
+@property (nonatomic, weak) NSView *presentedView;
+@property (nonatomic, weak) NSView *contentView;
 
 @property (nonatomic, strong) NSSplitView *editorSplitView;
 @property (nonatomic, strong) SEEEditorSplitViewDelegate *editorSplitViewDelegate;

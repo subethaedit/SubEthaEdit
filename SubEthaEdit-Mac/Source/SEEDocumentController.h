@@ -70,8 +70,6 @@ extern NSString * const kSEETypeSEEMode;
 - (void)addWindowController:(id)aWindowController;
 - (void)removeWindowController:(id)aWindowController;
 
-- (void)updateTabMenu;
-
 - (IBAction)newDocumentInTab:(id)sender;
 - (IBAction)newDocumentByUserDefault:(id)sender;
 - (IBAction)newDocumentWithModeMenuItem:(id)aSender;

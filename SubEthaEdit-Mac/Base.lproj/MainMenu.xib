@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -993,12 +993,12 @@
                             </menuItem>
                             <menuItem title="Move Tab to New Window" keyEquivalent="M" id="626">
                                 <connections>
-                                    <action selector="openInSeparateWindow:" target="-1" id="627"/>
+                                    <action selector="moveTabToNewWindow:" target="-1" id="JV8-ZY-1Fu"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Merge All Windows" id="628">
                                 <connections>
-                                    <action selector="SEE_mergeAllWindows:" target="252" id="4RJ-3j-xTf"/>
+                                    <action selector="mergeAllWindows:" target="-1" id="UN0-U8-rc2"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="612">

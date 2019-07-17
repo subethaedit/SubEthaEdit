@@ -6,7 +6,6 @@
 #import <SystemConfiguration/SystemConfiguration.h>
 #import <objc/objc-runtime.h>			// for objc_msgSend
 
-#import <PSMTabBarControl/PSMTabBarControl.h>
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "PlainTextEditor.h"
 #import "SEEConnectionManager.h"
@@ -349,6 +348,9 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 - (void)resizeAccordingToDocumentMode {
+  // TODO: reimplement
+  return;
+  
     NSEnumerator *controllers=[[self windowControllers] objectEnumerator];
     id controller=nil;
     while ((controller=[controllers nextObject])) {
@@ -1660,26 +1662,17 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 	&& [[[NSUserDefaults standardUserDefaults] objectForKey:OpenUntitledDocumentOnStartupPreferenceKey] boolValue];
 	
 	PlainTextWindowController *windowController = nil;
-    if (shouldOpenInTab) {
-        windowController = (PlainTextWindowController *)tabWindowController;
-        [self addWindowController:windowController];
-        [[windowController tabBar] setHideForSingleTab:![[NSUserDefaults standardUserDefaults] boolForKey:kSEEDefaultsKeyAlwaysShowTabBar]];
-		
-		if (closeTransientDocument && ![self isProxyDocument]) {
-			[transientDocument close];
-			transientDocument = nil;
-			transientDocumentWindowFrame = NSZeroRect;
-			
-			PlainTextWindowController *windowController = self.windowControllers.firstObject;
-			windowController.window.restorable = YES;
-		}
 
-    } else {
-        windowController = [[PlainTextWindowController alloc] init];
-        [self addWindowController:windowController];
-        [[SEEDocumentController sharedInstance] addWindowController:windowController];
-        [windowController release];
-    }
+  windowController = [[PlainTextWindowController alloc] init];
+  [self addWindowController:windowController];
+  [[SEEDocumentController sharedInstance] addWindowController:windowController];
+
+  if (shouldOpenInTab) {
+    [tabWindowController.window addTabbedWindow:windowController.window
+                                        ordered:NSWindowAbove];
+  }
+  
+  [windowController release];
 
 	// reset document creation flags
 	self.attachedCreationFlags = nil;

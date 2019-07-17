@@ -177,7 +177,6 @@
 		4C65D60718D8528900A03E65 /* SEEDialogSplitViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C65D60618D8528900A03E65 /* SEEDialogSplitViewDelegate.m */; };
 		4C65D60A18D852AB00A03E65 /* SEEWebPreviewSplitViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C65D60918D852AB00A03E65 /* SEEWebPreviewSplitViewDelegate.m */; };
 		4C6AE8741802E8810089D489 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C6AE8731802E8810089D489 /* OgreKit.framework */; };
-		4C6AE8751802E8AC0089D489 /* PSMTabBarControl.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 4CF3490017FC6EAF005D0D4F /* PSMTabBarControl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4C6AE8761802E8AC0089D489 /* OgreKit.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 4C6AE8731802E8810089D489 /* OgreKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4C6BDC5C188983380088CBFC /* FoldingBubbleBig@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC5B188983380088CBFC /* FoldingBubbleBig@2x.png */; };
 		4C6BDC5F1889858A0088CBFC /* folded.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC5D1889858A0088CBFC /* folded.png */; };
@@ -229,7 +228,6 @@
 		4CE9CF391802F4F100F5BC56 /* OgreKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 4C6AE8731802E8810089D489 /* OgreKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4CE9CF3A1802F52A00F5BC56 /* SEEStyleSheetSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D56992133B880900CEC841 /* SEEStyleSheetSettings.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		4CF06A2F1816AF5D00B35DF8 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
-		4CF3490117FC6EAF005D0D4F /* PSMTabBarControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF3490017FC6EAF005D0D4F /* PSMTabBarControl.framework */; };
 		5E0F01C30AB573A100A5DE33 /* DialogBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0F01C10AB573A100A5DE33 /* DialogBackgroundView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5E28E2900972FB8E00099B13 /* InsetTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E28E28E0972FB8E00099B13 /* InsetTextFieldCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5E4DA73D09E15C6800D91CFC /* Scripts in Resources */ = {isa = PBXBuildFile; fileRef = 5E4DA73A09E15C6800D91CFC /* Scripts */; };
@@ -487,7 +485,6 @@
 		F2D3E568189941F50096425B /* IW InactiveTabRightCap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E525189941F50096425B /* IW InactiveTabRightCap@2x.png */; };
 		F2D3E569189941F50096425B /* IW SingleTabAddButton.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E526189941F50096425B /* IW SingleTabAddButton.png */; };
 		F2D3E56A189941F50096425B /* IW SingleTabAddButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E527189941F50096425B /* IW SingleTabAddButton@2x.png */; };
-		F2D3E56E189942870096425B /* SEETabStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D3E56D189942870096425B /* SEETabStyle.m */; };
 		F2D56993133B880900CEC841 /* SEEStyleSheetSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D56992133B880900CEC841 /* SEEStyleSheetSettings.m */; };
 		F2D5FF3E0CB2666000407399 /* Rendezvous.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF3D0CB2666000407399 /* Rendezvous.icns */; };
 		F2D5FF400CB2667A00407399 /* StylePrefs.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF3F0CB2667A00407399 /* StylePrefs.icns */; };
@@ -607,7 +604,6 @@
 			files = (
 				F2EFDE3B21760E6F00B5A4DD /* Sparkle.framework in Copy Files (Frameworks) */,
 				F290D9DD0EDB04F900E643C0 /* TCMPortMapper.framework in Copy Files (Frameworks) */,
-				4C6AE8751802E8AC0089D489 /* PSMTabBarControl.framework in Copy Files (Frameworks) */,
 				4C6AE8761802E8AC0089D489 /* OgreKit.framework in Copy Files (Frameworks) */,
 				4C0FDA231803125E008E24E8 /* UniversalDetector.framework in Copy Files (Frameworks) */,
 			);
@@ -1381,8 +1377,6 @@
 		F2D3E525189941F50096425B /* IW InactiveTabRightCap@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IW InactiveTabRightCap@2x.png"; sourceTree = "<group>"; };
 		F2D3E526189941F50096425B /* IW SingleTabAddButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IW SingleTabAddButton.png"; sourceTree = "<group>"; };
 		F2D3E527189941F50096425B /* IW SingleTabAddButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IW SingleTabAddButton@2x.png"; sourceTree = "<group>"; };
-		F2D3E56C189942870096425B /* SEETabStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEETabStyle.h; sourceTree = "<group>"; };
-		F2D3E56D189942870096425B /* SEETabStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEETabStyle.m; sourceTree = "<group>"; };
 		F2D56991133B880900CEC841 /* SEEStyleSheetSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SEEStyleSheetSettings.h; sourceTree = "<group>"; };
 		F2D56992133B880900CEC841 /* SEEStyleSheetSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEStyleSheetSettings.m; sourceTree = "<group>"; };
 		F2D5FF3D0CB2666000407399 /* Rendezvous.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Rendezvous.icns; path = artwork/Rendezvous.icns; sourceTree = "<group>"; };
@@ -1439,7 +1433,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */,
-				4CF3490117FC6EAF005D0D4F /* PSMTabBarControl.framework in Frameworks */,
 				4C0FDA2218031235008E24E8 /* UniversalDetector.framework in Frameworks */,
 				F290D9D80EDB04EF00E643C0 /* TCMPortMapper.framework in Frameworks */,
 				4C6AE8741802E8810089D489 /* OgreKit.framework in Frameworks */,
@@ -1788,8 +1781,6 @@
 				1428945F09575B9700D14688 /* URLDataProtocol.m */,
 				1428946009575B9700D14688 /* SEEWebPreviewViewController.h */,
 				1428946109575B9700D14688 /* SEEWebPreviewViewController.m */,
-				F2D3E56C189942870096425B /* SEETabStyle.h */,
-				F2D3E56D189942870096425B /* SEETabStyle.m */,
 			);
 			name = Document;
 			sourceTree = "<group>";
@@ -3244,7 +3235,6 @@
 				5EA1258A09E2B4190055965D /* ScriptWrapper.m in Sources */,
 				5E57298F09F514FB00D3746B /* Toolbar.m in Sources */,
 				4C123005180C01EF0069253E /* TCMBEEPMessageXMLPayloadParser.m in Sources */,
-				F2D3E56E189942870096425B /* SEETabStyle.m in Sources */,
 				14E291C70A07A501007C0065 /* ScriptLine.m in Sources */,
 				14E291EA0A07B480007C0065 /* ScriptCharacters.m in Sources */,
 				5EDD30000A08D71D0036E63A /* ScriptTextSelection.m in Sources */,

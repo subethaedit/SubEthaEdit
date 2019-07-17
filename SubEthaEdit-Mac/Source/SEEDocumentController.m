@@ -30,7 +30,6 @@
 #import "NSApplicationTCMAdditions.h"
 #import "SEEScopedBookmarkManager.h"
 
-#import <PSMTabBarControl/PSMTabBarControl.h>
 #import <objc/objc-runtime.h>			// for objc_msgSend
 
 NSString *const RecentDocumentsDidChangeNotification = @"RecentDocumentsDidChangeNotification";
@@ -158,19 +157,7 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 
 - (IBAction)alwaysShowTabBar:(id)sender
 {
-    BOOL flag = ([sender state] == NSOnState) ? NO : YES;
-    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:kSEEDefaultsKeyAlwaysShowTabBar];
-
-    PlainTextWindowController *windowController;
-    for (windowController in I_windowControllers) {
-        PSMTabBarControl *tabBar = [windowController tabBar];
-        if (![windowController hasManyDocuments]) {
-            [tabBar setHideForSingleTab:!flag];
-            [tabBar hideTabBar:!flag animate:YES];
-        } else {
-            [tabBar setHideForSingleTab:!flag];
-        }
-    }
+  // TODO: reimplement
 
 }
 
@@ -265,6 +252,8 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 #pragma mark - Tab menu
 
 - (void)updateMenuWithTabMenuItems:(NSMenu *)aMenu shortcuts:(BOOL)withShortcuts {
+  
+  return;
     // NSLog(@"%s",__FUNCTION__);
     static NSMutableSet *menusCurrentlyUpdating = nil;
     if (!menusCurrentlyUpdating) menusCurrentlyUpdating = [NSMutableSet new];
@@ -336,42 +325,11 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
             [menuItem setTitle:NSLocalizedString(@"Open in Front Window...", @"Menu Entry for opening files in the front window.")];
         }
         return YES;
-    } else if ([menuItem tag] == GotoTabMenuItemTag) {
-        if ([[self documents] count] >0) {
-            [self updateMenuWithTabMenuItems:[menuItem submenu] shortcuts:YES];
-            return YES;
-        } else {
-            [[menuItem submenu] removeAllItems];
-            return NO;
-        };
-    } else if (selector == @selector(mergeAllWindows:)) {
-        BOOL hasSheet = NO;
-        PlainTextWindowController *controller;
-        for (controller in I_windowControllers) {
-            if ([[controller window] attachedSheet] != nil) {
-                hasSheet = YES;
-                break;
-            }
-        }
-        return (([I_windowControllers count] > 1) && !hasSheet);
     } else if (selector == @selector(copyReachabilityURL:)) {
 		return (![[TCMMMBEEPSessionManager sharedInstance] isNetworkingDisabled]);
 	}
     return [super validateMenuItem:menuItem];
 }
-
-- (void)updateTabMenu {
-    NSMenuItem *menuItem = [[[[NSApp mainMenu] itemWithTag:WindowMenuTag] submenu] itemWithTag:GotoTabMenuItemTag];
-    if (menuItem)
-    {
-        if ([[self documents] count] >0) {
-            [self updateMenuWithTabMenuItems:[menuItem submenu] shortcuts:YES];
-        } else {
-            [[menuItem submenu] removeAllItems];
-        }
-    }
-}
-
 
 - (IBAction)menuValidationNoneAction:(id)aSender {
 
@@ -420,12 +378,9 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 
 - (PlainTextWindowController *)activeWindowController {
     int count = [I_windowControllers count];
-    if (count == 0) {
-        PlainTextWindowController *controller = [[PlainTextWindowController alloc] init];
-        [I_windowControllers addObject:controller];
-        count++;
-    }
+  
     PlainTextWindowController *activeWindowController = nil;
+  
     while (--count >= 0) {
         PlainTextWindowController *controller = [I_windowControllers objectAtIndex:count];
         if (![[controller window] attachedSheet]) {
@@ -433,10 +388,7 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
             if ([[controller window] isMainWindow]) break;
         }
     }
-    if (!activeWindowController) {
-        activeWindowController = [[PlainTextWindowController alloc] init];
-        [I_windowControllers addObject:activeWindowController];
-    }
+  
     return activeWindowController;
 }
 
