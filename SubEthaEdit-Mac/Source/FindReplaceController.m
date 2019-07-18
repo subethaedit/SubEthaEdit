@@ -282,7 +282,7 @@ static FindReplaceController *sharedInstance=nil;
 									 nil];
 		
 		NSAlert *alert = [[NSAlert alloc] init];
-		[alert setAlertStyle:NSWarningAlertStyle];
+		[alert setAlertStyle:NSAlertStyleWarning];
 		[alert setMessageText:NSLocalizedString(@"Warning", nil)];
 		[alert setInformativeText:NSLocalizedString(@"File is read-only", nil)];
 		[alert addButtonWithTitle:NSLocalizedString(@"Edit anyway", nil)];
@@ -313,7 +313,7 @@ static FindReplaceController *sharedInstance=nil;
 											 nil];
 				
 				NSAlert *alert = [[NSAlert alloc] init];
-				[alert setAlertStyle:NSWarningAlertStyle];
+				[alert setAlertStyle:NSAlertStyleWarning];
 				[alert setMessageText:NSLocalizedString(@"You are trying to insert characters that cannot be handled by the file's current encoding. Do you want to cancel the change?", nil)];
 				[alert setInformativeText:NSLocalizedString(@"You are no longer restricted by the file's current encoding if you promote to a Unicode encoding.", nil)];
 				[alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];

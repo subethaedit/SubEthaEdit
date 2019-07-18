@@ -48,7 +48,7 @@
     contentRect.size = [view frame].size;
     
     if ((self = [super initWithContentRect:contentRect 
-                                styleMask:NSBorderlessWindowMask 
+                                styleMask:NSWindowStyleMaskBorderless 
                                   backing:NSBackingStoreBuffered 
                                     defer:NO])) {
         _hostingView = view;

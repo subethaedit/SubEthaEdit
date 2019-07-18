@@ -83,7 +83,7 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 -(void) showWarning:(NSString *)title withDescription:(NSString *)description {
 	NSLog(@"ERROR: %@: %@",title, description);
 	NSAlert *alert = [[NSAlert alloc] init];
-	[alert setAlertStyle:NSWarningAlertStyle];
+	[alert setAlertStyle:NSAlertStyleWarning];
 	[alert setMessageText:title];
 	[alert setInformativeText:description];
 	[alert addButtonWithTitle:@"OK"];

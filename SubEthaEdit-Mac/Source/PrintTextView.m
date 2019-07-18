@@ -31,7 +31,7 @@
         NSFont *             annotationFont = [NSFont fontWithName:@"Helvetica" size:6.];
         if (!annotationFont) annotationFont = [NSFont systemFontOfSize:6.];
         NSMutableParagraphStyle *paragraphStyle=[[[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
-        [paragraphStyle setAlignment:NSLeftTextAlignment];
+        [paragraphStyle setAlignment:NSTextAlignmentLeft];
         [paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
         annotationAttributes=[[NSMutableDictionary alloc] initWithObjectsAndKeys:
                                 annotationFont,NSFontAttributeName,

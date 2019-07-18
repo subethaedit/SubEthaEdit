@@ -152,7 +152,7 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
 		NSMutableParagraphStyle *style=[NSMutableParagraphStyle new];
 		[style setLineBreakMode:NSLineBreakByTruncatingTail];
 		[attributes setObject:style forKey:NSParagraphStyleAttributeName];
-		NSFont *font=[NSFont menuFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]];
+		NSFont *font=[NSFont menuFontOfSize:[NSFont systemFontSizeForControlSize:NSControlSizeSmall]];
 		NSFont *boldFont      =[fontManager convertFont:font toHaveTrait:NSBoldFontMask];
 		NSFont *italicFont    =[fontManager convertFont:font toHaveTrait:NSItalicFontMask];
 		NSFont *boldItalicFont=[fontManager convertFont:boldFont toHaveTrait:NSItalicFontMask];
@@ -1260,7 +1260,7 @@ static NSString *tempFileName(NSString *origPath) {
 		if (!self.isAnnounced &&
 			[TCMMMPresenceManager sharedInstance].isCurrentlyReallyInvisible) {
 			NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-			[alert setAlertStyle:NSWarningAlertStyle];
+			[alert setAlertStyle:NSAlertStyleWarning];
 			[alert setMessageText:NSLocalizedString(@"ANNOUNCE_WILL_MAKE_VISIBLE_MESSAGE", nil)];
 			[alert setInformativeText:NSLocalizedString(@"ANNOUNCE_WILL_MAKE_VISIBLE_INFORMATIVE_TEXT", nil)];
 			[alert addButtonWithTitle:NSLocalizedString(@"ANNOUNCE_WILL_MAKE_VISIBLE_ACTION_TITLE", nil)];
@@ -1437,7 +1437,7 @@ static NSString *tempFileName(NSString *origPath) {
     if ([self fileEncoding] != encoding) {
 
         NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-        [alert setAlertStyle:NSWarningAlertStyle];
+        [alert setAlertStyle:NSAlertStyleWarning];
         [alert setMessageText:NSLocalizedString(@"File Encoding", nil)];
         [alert setInformativeText:NSLocalizedString(@"ConvertOrReinterpret", nil)];
         [alert addButtonWithTitle:NSLocalizedString(@"Convert", nil)];
@@ -1499,7 +1499,7 @@ static NSString *tempFileName(NSString *origPath) {
             NSString *reinterpretedString = [[[NSString alloc] initWithData:stringData encoding:encoding] autorelease];
             if (!reinterpretedString || ([reinterpretedString length] == 0 && [I_textStorage length] > 0)) {
                 NSAlert *newAlert = [[[NSAlert alloc] init] autorelease];
-                [newAlert setAlertStyle:NSWarningAlertStyle];
+                [newAlert setAlertStyle:NSAlertStyleWarning];
                 [newAlert setMessageText:NSLocalizedString(@"Error", nil)];
                 [newAlert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"Encoding %@ not reinterpretable", nil), [NSString localizedNameOfStringEncoding:encoding]]];
                 [newAlert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
@@ -1993,7 +1993,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 - (void)showLineEndingAlert:(NSDictionary *)anOptionDictionary {
 	NSString *localizedName = [anOptionDictionary objectForKey:@"localizedName"];
 	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-	[alert setAlertStyle:NSWarningAlertStyle];
+	[alert setAlertStyle:NSAlertStyleWarning];
 	[alert setMessageText:[NSString stringWithFormat:NSLocalizedString(@"The file has mixed line endings. Do you want to convert all line endings to %@, the most common line ending in the file?", nil), localizedName]];
 	[alert setInformativeText:NSLocalizedString(@"Other applications may not be able to read the file if you don't convert all line endings to the same line ending.", nil)];
 	[alert addButtonWithTitle:[NSString stringWithFormat:NSLocalizedString(@"Convert to %@", nil), localizedName]];
@@ -2058,7 +2058,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 - (void)TCM_validateSize {
     if ([I_textStorage length] > [[NSUserDefaults standardUserDefaults] integerForKey:@"StringLengthToStopHighlightingAndWrapping"]) {
         NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-        [alert setAlertStyle:NSInformationalAlertStyle];
+        [alert setAlertStyle:NSAlertStyleInformational];
         [alert setMessageText:NSLocalizedString(@"Syntax Highlighting and Wrap Lines have been turned off due to the size of the Document.", @"BigFile Message Text")];
         [alert setInformativeText:NSLocalizedString(@"Turning on syntax highlighting for very large documents is not recommended.", @"BigFile Informative Text")];
         [alert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
@@ -3579,7 +3579,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
             if (isDirWritable && isFileDeletable) {
                 NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-                [alert setAlertStyle:NSWarningAlertStyle];
+                [alert setAlertStyle:NSAlertStyleWarning];
                 [alert setMessageText:NSLocalizedString(@"Save", nil)];
                 [alert setInformativeText:NSLocalizedString(@"SaveDialogInformativeText: Save or Replace", @"Informative text in a save dialog, because of permissions issues the user has the choice to save using administrator permissions or replace the file")];
                 [alert addButtonWithTitle:NSLocalizedString(@"Save", nil)];
@@ -3604,7 +3604,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
                                 [fileManager setAttributes:fattrs ofItemAtPath:fullDocumentPath error:nil];
                             } else {
                                 NSAlert *newAlert = [[[NSAlert alloc] init] autorelease];
-                                [newAlert setAlertStyle:NSWarningAlertStyle];
+                                [newAlert setAlertStyle:NSAlertStyleWarning];
                                 [newAlert setMessageText:NSLocalizedString(@"Save", nil)];
                                 [newAlert setInformativeText:NSLocalizedString(@"AlertInformativeText: Replace failed", @"Informative text in an alert which tells the you user that replacing the file failed")];
                                 [newAlert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
@@ -3618,7 +3618,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
                         } else {
                             (void)[fileManager removeItemAtPath:tempFilePath error:nil];
                             NSAlert *newAlert = [[[NSAlert alloc] init] autorelease];
-                            [newAlert setAlertStyle:NSWarningAlertStyle];
+                            [newAlert setAlertStyle:NSAlertStyleWarning];
                             [newAlert setMessageText:NSLocalizedString(@"Save", nil)];
                             [newAlert setInformativeText:NSLocalizedString(@"AlertInformativeText: Error occurred during replace", @"Informative text in an alert which tells the user that an error prevented the replace")];
                             [newAlert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
@@ -4016,7 +4016,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         }
         if ([self isDocumentEdited]) {
             NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-            [alert setAlertStyle:NSWarningAlertStyle];
+            [alert setAlertStyle:NSAlertStyleWarning];
             [alert setMessageText:NSLocalizedString(@"The file has been modified by another application. Do you want to keep the changes made in SubEthaEdit?", nil)];
             [alert setInformativeText:NSLocalizedString(@"If you revert the file to the version on disk the changes you made in SubEthaEdit will be lost.", nil)];
             [alert addButtonWithTitle:NSLocalizedString(@"Keep Changes", nil)];
@@ -4032,7 +4032,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
             return NO;
         } else {
             NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-            [alert setAlertStyle:NSWarningAlertStyle];
+            [alert setAlertStyle:NSAlertStyleWarning];
             [alert setMessageText:NSLocalizedString(@"The document's file has been modified by another application. Do you want to revert the document?", nil)];
             [alert setInformativeText:NSLocalizedString(@"If you revert the document to the version on disk the document's content will be replaced with the content of the file.", nil)];
             [alert addButtonWithTitle:NSLocalizedString(@"Revert Document", nil)];
@@ -4240,7 +4240,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
                                                     nil];
 
         NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-        [alert setAlertStyle:NSWarningAlertStyle];
+        [alert setAlertStyle:NSAlertStyleWarning];
         [alert setMessageText:NSLocalizedString(@"Warning", nil)];
         [alert setInformativeText:NSLocalizedString(@"File is read-only", nil)];
         [alert addButtonWithTitle:NSLocalizedString(@"Edit anyway", nil)];
@@ -5353,7 +5353,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     [self TCM_generateNewSession];
     
     NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-    [alert setAlertStyle:NSInformationalAlertStyle];
+    [alert setAlertStyle:NSAlertStyleInformational];
     [alert setMessageText:NSLocalizedString(@"Kicked", @"Kick title in Sheet")];
     [alert setInformativeText:NSLocalizedString(@"KickedInfo", @"Kick info in Sheet")];
     [alert addButtonWithTitle:NSLocalizedString(@"OK", @"Ok in sheet")];
@@ -5364,7 +5364,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     [self TCM_generateNewSession];
     
     NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-    [alert setAlertStyle:NSInformationalAlertStyle];
+    [alert setAlertStyle:NSAlertStyleInformational];
     [alert setMessageText:NSLocalizedString(@"ProblemLeave", @"ProblemLeave title in Sheet")];
     [alert setInformativeText:NSLocalizedString(@"ProblemLeaveInfo", @"ProblemLeaveInfo info in Sheet")];
     [alert addButtonWithTitle:NSLocalizedString(@"OK", @"Ok in sheet")];
@@ -5380,7 +5380,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     [self TCM_generateNewSession];
 
     NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-    [alert setAlertStyle:NSInformationalAlertStyle];
+    [alert setAlertStyle:NSAlertStyleInformational];
     [alert setMessageText:NSLocalizedString(@"Closed", @"Server Closed Document title in Sheet")];
     [alert setInformativeText:NSLocalizedString(@"ClosedInfo", @"Server Closed Document info in Sheet")];
     [alert addButtonWithTitle:NSLocalizedString(@"OK", @"Ok in sheet")];
@@ -5399,7 +5399,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
             [controller documentDidLoseConnection:self];
         } else {
             NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-            [alert setAlertStyle:NSInformationalAlertStyle];
+            [alert setAlertStyle:NSAlertStyleInformational];
             [alert setMessageText:NSLocalizedString(@"LostConnection", @"LostConnection title in Sheet")];
             [alert setInformativeText:NSLocalizedString(@"LostConnectionInfo", @"LostConnection info in Sheet")];
             [alert addButtonWithTitle:NSLocalizedString(@"OK", @"Ok in sheet")];
@@ -6403,7 +6403,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         }
     }
 
-    if (([[NSApp currentEvent] type] == NSLeftMouseUp) &&
+    if (([[NSApp currentEvent] type] == NSEventTypeLeftMouseUp) &&
         ([[NSApp currentEvent] clickCount] == 2)) {
 
         NSLayoutManager *layoutManager=[aTextView layoutManager];
@@ -6485,7 +6485,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     UndoManager *undoManager=[self documentUndoManager];
     if ([textStorage hasBlockeditRanges] && ![textStorage isBlockediting] &&
         ![undoManager isRedoing] && ![undoManager isUndoing] && [textStorage length]>0) {
-        if ([[NSApp currentEvent] type]==NSLeftMouseUp) {
+        if ([[NSApp currentEvent] type]==NSEventTypeLeftMouseUp) {
             NSBeep();
             return NO;
         }
@@ -6585,7 +6585,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 				[contextInfo setObject:[[I_lastTextShouldChangeReplacementString copy] autorelease] forKey:@"ReplacementString"];
 		
 				NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-				[alert setAlertStyle:NSWarningAlertStyle];
+				[alert setAlertStyle:NSAlertStyleWarning];
 				[alert setMessageText:NSLocalizedString(@"You are trying to insert characters that cannot be handled by the file's current encoding. Do you want to cancel the change?", nil)];
 				[alert setInformativeText:[NSLocalizedString(@"You are no longer restricted by the file's current encoding if you promote to a Unicode encoding.", nil) stringByAppendingString:[NSString stringWithFormat:@"\n%@ ->\n%@",I_lastTextShouldChangeReplacementString,[NSString stringWithData:[I_lastTextShouldChangeReplacementString dataUsingEncoding:[self fileEncoding] allowLossyConversion:YES] encoding:[self fileEncoding]]]]];
 				[alert addButtonWithTitle:NSLocalizedString(@"Insert", nil)];

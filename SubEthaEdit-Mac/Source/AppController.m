@@ -691,7 +691,7 @@ static AppController *sharedInstance = nil;
 			NSMenuItem *alternateItem = [alternateItems[idx] copy];
 			[alternateItem setAlternate:YES];
 			[alternateItem setKeyEquivalent:@""];
-			[alternateItem setKeyEquivalentModifierMask:NSAlternateKeyMask];
+			[alternateItem setKeyEquivalentModifierMask:NSEventModifierFlagOption];
 			[alternateItem setTitle:[NSString stringWithFormat:NSLocalizedString(!inTabs?@"MODE_IN_NEW_TAB_CONTEXT_MENU_TEXT":@"MODE_IN_NEW_WINDOW_CONTEXT_MENU_TEXT",@""),[normalItem title]]];
 			if (isSelectedModeItem) {
 				alternateItem.state = NSOnState;
@@ -713,7 +713,7 @@ static AppController *sharedInstance = nil;
         [item setKeyEquivalent:@""];
     }
     item = (NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] tagForDocumentModeIdentifier:[[[DocumentModeManager sharedInstance] modeForNewDocuments] documentModeIdentifier]]];
-    [item setKeyEquivalentModifierMask:NSCommandKeyMask];
+    [item setKeyEquivalentModifierMask:NSEventModifierFlagCommand];
     [item setKeyEquivalent:@"n"];
     
     [menuItem setRepresentedObject:item];
@@ -729,7 +729,7 @@ static AppController *sharedInstance = nil;
         [item setKeyEquivalent:@""];
     }
     item = (NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] tagForDocumentModeIdentifier:[[[DocumentModeManager sharedInstance] modeForNewDocuments] documentModeIdentifier]]];
-    [item setKeyEquivalentModifierMask:NSCommandKeyMask];
+    [item setKeyEquivalentModifierMask:NSEventModifierFlagCommand];
     [item setKeyEquivalent:@"t"];
     
     [menuItem setRepresentedObject:item];
@@ -759,7 +759,7 @@ static AppController *sharedInstance = nil;
 	NSMenuItem *revealModesMenuItem = ({ // Mode -> Show In Finder (ALT)
 		NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Reveal in Finder",@"Reveal in Finder - menu entry") action:nil keyEquivalent:@""];
 		[menuItem setAlternate:YES];
-		[menuItem setKeyEquivalentModifierMask:NSAlternateKeyMask];
+		[menuItem setKeyEquivalentModifierMask:NSEventModifierFlagOption];
 		
 		DocumentModeMenu *documentModeMenu = [DocumentModeMenu new];
 		[documentModeMenu configureWithAction:@selector(showModeBundle:) alternateDisplay:YES];
@@ -934,7 +934,7 @@ static AppController *sharedInstance = nil;
         [self performSelectorOnMainThread:@selector(reportAppleScriptError:) withObject:anErrorDictionary waitUntilDone:NO];
     } else {
         NSAlert *newAlert = [[NSAlert alloc] init];
-        [newAlert setAlertStyle:NSCriticalAlertStyle];
+      [newAlert setAlertStyle:NSAlertStyleCritical];
         [newAlert setMessageText:[anErrorDictionary objectForKey:@"NSAppleScriptErrorBriefMessage"] ? [anErrorDictionary objectForKey:@"NSAppleScriptErrorBriefMessage"] : @"Unknown AppleScript Error"];
         [newAlert setInformativeText:[NSString stringWithFormat:@"%@ (%d)", [anErrorDictionary objectForKey:@"NSAppleScriptErrorMessage"], [[anErrorDictionary objectForKey:@"NSAppleScriptErrorNumber"] intValue]]];
         [newAlert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
