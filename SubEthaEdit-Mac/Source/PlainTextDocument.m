@@ -348,9 +348,6 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 - (void)resizeAccordingToDocumentMode {
-  // TODO: reimplement
-  return;
-  
     NSEnumerator *controllers=[[self windowControllers] objectEnumerator];
     id controller=nil;
     while ((controller=[controllers nextObject])) {
