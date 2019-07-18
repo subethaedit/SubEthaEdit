@@ -1193,9 +1193,8 @@ static NSPoint S_cascadePoint = {0.0,0.0};
                             object:previouslySelectedDocument];
         }
         
-        BOOL isNew = NO;
-        [super setDocument:document];
         // A document has been told that this window controller belongs to it.
+        [super setDocument:document];
       
 
 
