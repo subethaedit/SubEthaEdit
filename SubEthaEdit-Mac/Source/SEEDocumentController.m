@@ -130,32 +130,6 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 
 #pragma mark - Actions
 
-- (IBAction)SEE_mergeAllWindows:(id)sender
-{
-    NSAlert *alert = [[NSAlert alloc] init];
-    [alert setAlertStyle:NSInformationalAlertStyle];
-    [alert setMessageText:NSLocalizedString(@"Are you sure you want to merge all windows?", nil)];
-    [alert setInformativeText:NSLocalizedString(@"Merging windows moves all open tabs and windows into a single, tabbed editor window. This cannot be undone.", nil)];
-    [alert addButtonWithTitle:NSLocalizedString(@"Merge", nil)];
-    [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
-    NSModalResponse response = [alert runModal];
-    if (NSAlertFirstButtonReturn == response) {
-        PlainTextWindowController *targetWindowController = [self activeWindowController];
-        id document = [targetWindowController document];
-        NSUInteger count = [I_windowControllers count];
-        while (--count >= 0) {
-            PlainTextWindowController *sourceWindowController = [I_windowControllers objectAtIndex:count];
-            if (sourceWindowController != targetWindowController) {
-                [sourceWindowController moveAllTabsToWindowController:targetWindowController];
-                [sourceWindowController close];
-                [self removeWindowController:sourceWindowController];
-            }
-        }
-        [targetWindowController setDocument:document];
-    }
-}
-
-
 - (IBAction)concealAllDocuments:(id)aSender {
     PlainTextDocument *document=nil;
     NSEnumerator *documents = [[self documents] objectEnumerator];

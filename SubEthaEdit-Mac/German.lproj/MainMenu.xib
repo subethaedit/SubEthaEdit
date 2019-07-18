@@ -991,7 +991,7 @@
                             </menuItem>
                             <menuItem title="Alle Fenster zusammenführen" id="628">
                                 <connections>
-                                    <action selector="SEE_mergeAllWindows:" target="252" id="WQ7-Ko-Geg"/>
+                                    <action selector="mergeAllWindows:" target="-1" id="f3u-lL-qFf"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="612">

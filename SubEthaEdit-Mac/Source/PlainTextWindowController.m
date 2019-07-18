@@ -580,7 +580,6 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 #pragma mark -
 
 - (void)updateWindowMinSize {
-//  // TODO: reimplement
 	CGFloat minHeight = 0.0;
 	CGFloat minWidth = 0.0;
 
@@ -908,10 +907,6 @@ static NSPoint S_cascadePoint = {0.0,0.0};
         if ([tabContext isEdited] != [document isDocumentEdited])
             [tabContext setIsEdited:[document isDocumentEdited]];
     }
-}
-
-- (void)moveAllTabsToWindowController:(PlainTextWindowController *)windowController {
-  // TODO: reimplement
 }
 
 - (BOOL)hasManyDocuments
