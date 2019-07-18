@@ -45,8 +45,6 @@ extern NSString * const kSEETypeSEEMode;
 
 - (NSMenu *)documentMenu;
 
-- (IBAction)alwaysShowTabBar:(id)sender;
-
 - (IBAction)openNormalDocument:(id)aSender;
 - (IBAction)openAlternateDocument:(id)aSender;
 

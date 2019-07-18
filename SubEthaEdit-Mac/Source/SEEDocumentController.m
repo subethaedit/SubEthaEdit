@@ -155,11 +155,6 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
     }
 }
 
-- (IBAction)alwaysShowTabBar:(id)sender
-{
-  // TODO: reimplement
-
-}
 
 - (IBAction)concealAllDocuments:(id)aSender {
     PlainTextDocument *document=nil;
@@ -314,10 +309,6 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 
     if (selector == @selector(concealAllDocuments:)) {
         return [[[TCMMMPresenceManager sharedInstance] announcedSessions] count]>0;
-    } else if (selector == @selector(alwaysShowTabBar:)) {
-        BOOL isChecked = [[NSUserDefaults standardUserDefaults] boolForKey:kSEEDefaultsKeyAlwaysShowTabBar];
-        [menuItem setState:(isChecked ? NSOnState : NSOffState)];
-        return YES;
     } else if (selector == @selector(openAlternateDocument:)) {
         if ([[NSUserDefaults standardUserDefaults] boolForKey:kSEEDefaultsKeyOpenNewDocumentInTab]) {
             [menuItem setTitle:NSLocalizedString(@"Open in New Window...", @"Menu Entry for opening files in a new window.")];

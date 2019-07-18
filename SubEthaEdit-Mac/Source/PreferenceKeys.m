@@ -32,7 +32,6 @@ NSString * const OpenUntitledDocumentOnStartupPreferenceKey = @"OpenUntitledDocu
 NSString * const OpenDocumentHubOnStartupPreferenceKey      = @"OpenDocumentHubOnStartup";
 
 NSString * const kSEEDefaultsKeyOpenNewDocumentInTab           = @"OpenNewDocumentInTab";
-NSString * const kSEEDefaultsKeyAlwaysShowTabBar               = @"AlwaysShowTabBar";
 NSString * const kSEEDefaultsKeyDontSaveDocumentStateInXattrs  = @"DontSaveDocumentStateInXattrs";
 
 NSString * const kSEEDefaultsKeyUseTemporaryKeychainForTLS     = @"UseTemporaryKeychainForTLS";

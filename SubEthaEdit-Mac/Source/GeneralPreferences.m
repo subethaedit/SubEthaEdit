@@ -40,7 +40,6 @@
 		[defaultDict setObject:[NSNumber numberWithBool:NO]  forKey:HighlightChangesAlonePreferenceKey];
 		
 		[defaultDict setObject:[NSNumber numberWithBool:YES] forKey:kSEEDefaultsKeyOpenNewDocumentInTab];
-		[defaultDict setObject:[NSNumber numberWithBool:YES] forKey:kSEEDefaultsKeyAlwaysShowTabBar];
 		
 		[defaultDict setObject:BASEMODEIDENTIFIER forKey:ModeForNewDocumentsPreferenceKey];
 		

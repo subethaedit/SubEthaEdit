@@ -883,12 +883,6 @@
                             <menuItem isSeparatorItem="YES" id="372">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Always Show Document Tab Bar" keyEquivalent="t" id="605">
-                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                                <connections>
-                                    <action selector="alwaysShowTabBar:" target="-1" id="617"/>
-                                </connections>
-                            </menuItem>
                             <menuItem title="Show Top Status Bar" id="386">
                                 <connections>
                                     <action selector="toggleTopStatusBar:" target="-1" id="388"/>
