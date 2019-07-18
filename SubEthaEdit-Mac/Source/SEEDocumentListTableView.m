@@ -19,7 +19,7 @@
 	BOOL didHandleEvent = NO;
 	//	NSLog(@"%s mouseevent:%@",__FUNCTION__,theEvent);
 	if (self.window.isMainWindow &&
-		theEvent.type == NSLeftMouseDown) {
+		theEvent.type == NSEventTypeLeftMouseDown) {
 		NSPoint clickPoint = [self convertPoint:theEvent.locationInWindow fromView:nil];
 		NSInteger rowIndex = [self rowAtPoint:clickPoint];
 		if (rowIndex > 0) { // returns -1 if no row is at point

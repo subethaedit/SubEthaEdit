@@ -256,7 +256,7 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
                     if (isMainWindow && isMainWindow < 10) {
 //						NSLog(@"added shortcut");
                         [prototypeMenuItem setKeyEquivalent:[NSString stringWithFormat:@"%d",isMainWindow%10]];
-                        [prototypeMenuItem setKeyEquivalentModifierMask:NSCommandKeyMask];
+                        [prototypeMenuItem setKeyEquivalentModifierMask:NSEventModifierFlagCommand];
                         isMainWindow++;
                     } else {
                         [prototypeMenuItem setKeyEquivalent:@""];
@@ -1673,7 +1673,7 @@ struct ModificationInfo
 
         [infoAlert addButtonWithTitle:@"OK"];
 
-        [infoAlert setAlertStyle:NSInformationalAlertStyle];
+        [infoAlert setAlertStyle:NSAlertStyleInformational];
         [infoAlert runModal];
     }
 }

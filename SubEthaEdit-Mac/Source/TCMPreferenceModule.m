@@ -39,7 +39,7 @@
 - (NSView *)assignMainView
 {
     NSView *contentView = [self.O_window contentView];
-    if (NSResizableWindowMask & [self.O_window styleMask]) {
+    if (NSWindowStyleMaskResizable & [self.O_window styleMask]) {
         I_minSize = [self.O_window contentMinSize];
         I_maxSize = [self.O_window contentMaxSize];
     } else {

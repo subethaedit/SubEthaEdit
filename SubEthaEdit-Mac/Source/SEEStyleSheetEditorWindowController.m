@@ -519,7 +519,7 @@
 //            [modeString appendFormat:@", %@",[[[styleArray objectAtIndex:i] documentMode] displayName]];
 //        }
 //        NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-//        [alert setAlertStyle:NSWarningAlertStyle];
+//        [alert setAlertStyle:NSAlertStyleWarning];
 //        [alert setMessageText:NSLocalizedString(@"SeeStyleImportMessage", @"Message Text of Style load alert sheet")];
 //        [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"SeeStyleImportInformative %@",  @"Informative Text of Style load alert sheet"),modeString]];
 //        [alert addButtonWithTitle:NSLocalizedString(@"Import", @"Button choice allowing user to import")];
@@ -531,7 +531,7 @@
 //                            contextInfo:[[NSDictionary dictionaryWithObjectsAndKeys:aFilename,@"filename",styleArray,@"style",nil] retain]];
 //    } else {
 //        NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-//        [alert setAlertStyle:NSWarningAlertStyle];
+//        [alert setAlertStyle:NSAlertStyleWarning];
 //        [alert setMessageText:NSLocalizedString(@"SeeStyleImportDidFailMessage", @"Message Text of Style load did fail alert sheet")];
 //        [alert setInformativeText:NSLocalizedString(@"SeeStyleImportDidFailInformative", @"Informative Text of Style load did fail alert sheet")];
 //        [alert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
@@ -566,7 +566,7 @@
 //}
 //
 //- (IBAction)export:(id)aSender {
-//    I_shouldExportAll = ([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask) != 0;
+//    I_shouldExportAll = ([[NSApp currentEvent] modifierFlags] & NSEventModifierFlagOption) != 0;
 //    NSSavePanel *savePanel=[NSSavePanel savePanel];
 //    [savePanel setPrompt:NSLocalizedString(@"ExportPrompt",@"Text on the active SavePanel Button in the export sheet")];
 //    [savePanel setCanCreateDirectories:YES];

@@ -34,7 +34,7 @@ layoutManager {
 	NSRect targetRect = NSZeroRect;
 	targetRect.size = s_foldingImage.size;
 	targetRect.origin = NSMakePoint(cellFrame.origin.x + IMAGE_INSET,NSMaxY(cellFrame) - IMAGE_INSET - s_foldingImage.size.height);
-	[s_foldingImage drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+	[s_foldingImage drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
 	
 }
 

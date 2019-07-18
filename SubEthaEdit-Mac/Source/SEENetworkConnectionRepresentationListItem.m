@@ -148,7 +148,7 @@ void * const SEEConnectionClearableObservingContext = (void *)&SEEConnectionClea
 
 		if (abort) {
 			NSAlert *alert = [[NSAlert alloc] init];
-			[alert setAlertStyle:NSWarningAlertStyle];
+			[alert setAlertStyle:NSAlertStyleWarning];
 			[alert setMessageText:NSLocalizedString(@"OpenChannels", @"Sheet message text when user has open document connections")];
 			[alert setInformativeText:NSLocalizedString(@"AbortChannels", @"Sheet informative text when user has open document connections")];
 			[alert addButtonWithTitle:NSLocalizedString(@"Abort", @"Button title")];

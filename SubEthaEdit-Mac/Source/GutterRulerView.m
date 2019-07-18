@@ -363,11 +363,11 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 			[self setNeedsDisplay:YES];
 			// wait for mouseup and make the action if still inside the area
 			while (1) {
-		        NSEvent *event = [[self window] nextEventMatchingMask:(NSLeftMouseDraggedMask | NSLeftMouseUpMask)];
+		        NSEvent *event = [[self window] nextEventMatchingMask:(NSEventMaskLeftMouseDragged | NSEventTypeLeftMouseDragged)];
 				NSPoint innerPoint = [self convertPoint:[event locationInWindow] fromView:nil];
 				BOOL pointWasIn = (innerPoint.x >= baseRect.origin.x && innerPoint.x <= NSMaxX(baseRect) && 
 								   innerPoint.y + visibleRect.origin.y >= boundingRect.origin.y && innerPoint.y + visibleRect.origin.y <= NSMaxY(boundingRect));
-				if ([event type] == NSLeftMouseDragged) {
+				if ([event type] == NSEventTypeLeftMouseDragged) {
 					if (pointWasIn && NSEqualPoints(I_lastMouseDownPoint,NSZeroPoint)) {
 						I_lastMouseDownPoint = point;
 						[self setNeedsDisplay:YES];
@@ -375,7 +375,7 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 						I_lastMouseDownPoint = NSZeroPoint;
 						[self setNeedsDisplay:YES];
 					}
-				} else if ([event type] == NSLeftMouseUp) {
+				} else if ([event type] == NSEventTypeLeftMouseUp) {
 					if (pointWasIn) {
 						[textStorage unfoldAttachment:attachment atCharacterIndex:attributeRange.location];
 					}

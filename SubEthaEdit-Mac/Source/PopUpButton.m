@@ -28,10 +28,10 @@
 	if (self) {
         PopUpButtonCell *cell = self.cell;
 		[cell setArrowPosition:NSPopUpNoArrow];
-		[cell setControlSize:NSSmallControlSize];
+		[cell setControlSize:NSControlSizeSmall];
         
 		[self setBordered:NO];
-		[self setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
+		[self setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSControlSizeSmall]]];
 		self.lineDrawingEdge = CGRectMaxXEdge;
 		self.lineColor = [NSColor controlTextColor]; // just a default
 	}

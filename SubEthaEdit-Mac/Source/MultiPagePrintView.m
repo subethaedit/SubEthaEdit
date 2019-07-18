@@ -790,7 +790,7 @@ static NSMutableDictionary *S_nameAttributes, *S_contactAttributes, *S_contactLa
         NSImage *userImage = [aUser image];
         [userImage drawInRect:myPictureRect
                  fromRect    :NSMakeRect(0., 0., [userImage size].width, [userImage size].height)
-                 operation   :NSCompositeSourceOver
+                 operation   :NSCompositingOperationSourceOver
                  fraction    :1.0 respectFlipped:YES hints:nil];
         textPoint.x += LEGENDTABLEENTRYHEIGHT;
     }
