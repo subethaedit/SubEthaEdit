@@ -140,13 +140,6 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 	return I_tabContext;
 }
 
-- (NSTabViewItem *)selectedTabViewItem {
-  // TODO: reimplement
-  return nil;
-//  NSTabViewItem *result = self.tabView.selectedTabViewItem;
-//  return result;
-}
-
 - (void)document:(PlainTextDocument *)document isReceivingContent:(BOOL)flag;
 {
     if (![[self documents] containsObject:document])

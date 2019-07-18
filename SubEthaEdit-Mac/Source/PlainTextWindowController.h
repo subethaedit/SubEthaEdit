@@ -94,7 +94,6 @@
 - (IBAction)toggleWebPreview:(id)sender;
 
 @property (nonatomic, readonly) PlainTextWindowControllerTabContext *selectedTabContext;
-@property (nonatomic, readonly) NSTabViewItem *selectedTabViewItem;
 
 - (NSRect)dissolveToFrame;
 - (void)cascadeWindow;
