@@ -125,6 +125,7 @@ void * const SEEPlainTextWindowControllerTabContextPresentedViewObservanceContex
     [oldView removeFromSuperview];
   }
   
+  newView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
   newView.frame = self.contentView.frame;
   [self.contentView addSubview:newView];
 }
