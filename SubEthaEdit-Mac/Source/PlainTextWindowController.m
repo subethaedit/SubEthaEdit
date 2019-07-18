@@ -781,66 +781,11 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
 //	NSLog(@"%s - %d : %@", __FUNCTION__, __LINE__, [self.document displayName]);
 	[super encodeRestorableStateWithCoder:coder];
-  
-  //TODO: reimplement
-  return;
-
-	PlainTextDocument *selectedDocument = self.document;
-
-	NSMutableArray *tabLookupKeys = [NSMutableArray array];
-	for (PlainTextDocument *tabDocument in self.orderedDocuments) {
-		NSTabViewItem *tabItem = [self tabViewItemForDocument:tabDocument];
-		PlainTextWindowControllerTabContext *tabContext = tabItem.identifier;
-
-		NSString *tabLookupKey = tabContext.uuid;
-		[tabLookupKeys addObject:tabLookupKey];
-
-		NSMutableData *tabData = [NSMutableData data];
-		NSKeyedArchiver *tabCoder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:tabData];
-		[tabCoder setOutputFormat:NSPropertyListBinaryFormat_v1_0];
-		[tabContext encodeRestorableStateWithCoder:tabCoder];
-		if (tabDocument != selectedDocument) {
-			[tabItem.view encodeRestorableStateWithCoder:tabCoder];
-			[tabDocument encodeRestorableStateWithCoder:tabCoder];
-		} else {
-			[coder encodeObject:tabLookupKey forKey:@"PlainTextWindowSelectedTabLookupKey"];
-		}
-		[tabCoder finishEncoding];
-		[coder encodeObject:tabData forKey:tabLookupKey];
-		[tabCoder release];
-	}
-
-	[coder encodeObject:tabLookupKeys forKey:@"PlainTextWindowOpenTabLookupKeys"];
 }
 
 - (void)restoreStateWithCoder:(NSCoder *)coder {
-  // TODO: reimplement;
-  
 //	NSLog(@"%s - %d : %@", __FUNCTION__, __LINE__, [self.document displayName]);
 	[super restoreStateWithCoder:coder];
-  return;
-	PlainTextDocument *selectedDocument = self.document;
-
-	for (PlainTextDocument *tabDocument in self.orderedDocuments) {
-		NSTabViewItem *tabItem = [self tabViewItemForDocument:tabDocument];
-		PlainTextWindowControllerTabContext *tabContext = tabItem.identifier;
-
-		NSString *tabLookupKey = tabContext.uuid;
-
-		NSData *tabData = [coder decodeObjectForKey:tabLookupKey];
-		NSKeyedUnarchiver *tabCoder = [[NSKeyedUnarchiver alloc] initForReadingWithData:tabData];
-		if (tabCoder) {
-			[tabContext restoreStateWithCoder:tabCoder];
-
-			// -restoreStateWithCoder on the selected document and view will be called by the window default implementation afterwards
-			if (tabDocument != selectedDocument) {
-				[tabItem.view restoreStateWithCoder:tabCoder];
-				[tabDocument restoreStateWithCoder:tabCoder];
-			}
-		}
-		[tabCoder finishDecoding];
-		[tabCoder release];
-	}
 }
 
 
