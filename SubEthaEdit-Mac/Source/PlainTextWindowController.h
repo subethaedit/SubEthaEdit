@@ -74,7 +74,6 @@
 
 - (void)documentUpdatedChangeCount:(PlainTextDocument *)document;
 - (NSTabViewItem *)addDocument:(NSDocument *)document;
-- (NSTabViewItem *)tabViewItemForDocument:(PlainTextDocument *)document;
 - (PlainTextWindowControllerTabContext *)windowControllerTabContextForDocument:(PlainTextDocument *)document;
 - (NSArray *)plainTextEditorsForDocument:(id)aDocument;
 - (BOOL)selectTabForDocument:(id)aDocument;

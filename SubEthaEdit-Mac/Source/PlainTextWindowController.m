@@ -123,16 +123,13 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     [[self plainTextEditors] makeObjectsPerformSelector:@selector(takeSettingsFromDocument)];
 }
 
-- (NSTabViewItem *)tabViewItemForDocument:(PlainTextDocument *)document {
-    // TODO: remove all references
-    return nil;
-}
-
 - (PlainTextWindowControllerTabContext *)windowControllerTabContextForDocument:(PlainTextDocument *)aDocument {
-	return I_tabContext;
-//  NSTabViewItem *item = [self tabViewItemForDocument:aDocument];
-//  PlainTextWindowControllerTabContext *result = [item identifier];
-//  return result;
+  
+  if (aDocument == self.document) {
+    return I_tabContext;
+  }
+  
+  return nil;
 }
 
 - (PlainTextWindowControllerTabContext *)selectedTabContext {
@@ -145,9 +142,9 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     if (![[self documents] containsObject:document])
         return;
         
-    NSTabViewItem *tabViewItem = [self tabViewItemForDocument:document];
-    if (tabViewItem) {
-        PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
+    PlainTextWindowControllerTabContext *tabContext = [self windowControllerTabContextForDocument:document];
+    if (tabContext) {
+
         [tabContext setValue:[NSNumber numberWithBool:flag] forKeyPath:@"isReceivingContent"];
         [tabContext setValue:[NSNumber numberWithBool:flag] forKeyPath:@"isProcessing"];
 
@@ -158,7 +155,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
                 [tabContext setLoadProgress:loadProgress];
                 [loadProgress release];
             }
-            [tabViewItem setView:[loadProgress loadProgressView]];
+            [tabContext setPresentedView:[loadProgress loadProgressView]];
             [loadProgress registerForSession:[document session]];
             [loadProgress startAnimation];
 
@@ -170,8 +167,8 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
             PlainTextEditor *editor = [[tabContext plainTextEditors] objectAtIndex:0];
 
-            [tabViewItem setView:[editor editorView]];
-            [tabViewItem setInitialFirstResponder:[editor textView]];
+            [tabContext setPresentedView:[editor editorView]];
+            [tabContext.windowController.window setInitialFirstResponder:[editor textView]];
             [[editor textView] setSelectedRange:NSMakeRange(0, 0)];
           
             if ([self window] == [[[NSApp orderedWindows] objectEnumerator] nextObject]) {
@@ -182,9 +179,8 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 }
 
 - (void)documentDidLoseConnection:(PlainTextDocument *)document {
-    NSTabViewItem *tabViewItem = [self tabViewItemForDocument:document];
-    if (tabViewItem) {
-        PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
+        PlainTextWindowControllerTabContext *tabContext = [self windowControllerTabContextForDocument:document];
+    if (tabContext) {
         [tabContext setValue:[NSNumber numberWithBool:NO] forKeyPath:@"isReceivingContent"];
         [tabContext setValue:[NSNumber numberWithBool:NO] forKeyPath:@"isProcessing"];
         PlainTextLoadProgress *loadProgress = [tabContext loadProgress];
@@ -290,8 +286,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
                            NSLocalizedString(@"Collapse Split View",@"Collapse Split View Menu Entry")];
         
         BOOL isReceivingContent = NO;
-        NSTabViewItem *tabViewItem = [self tabViewItemForDocument:[self document]];
-        if (tabViewItem) isReceivingContent = [[tabViewItem identifier] isReceivingContent];
+        if (tabContext) isReceivingContent = [tabContext isReceivingContent];
         return !isReceivingContent;
     } else if (selector == @selector(changePendingUsersAccess:)) {
         TCMMMSession *session=[(PlainTextDocument *)[self document] session];
@@ -522,9 +517,6 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
 - (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName document:(PlainTextDocument *)document {
     TCMMMSession *session = [document session];
-    
-	NSTabViewItem *tabViewItem = [self tabViewItemForDocument:document];
-    if (tabViewItem) [tabViewItem setLabel:displayName];
 
     if ([[document ODBParameters] objectForKey:@"keyFileCustomPath"]) {
         displayName = [[document ODBParameters] objectForKey:@"keyFileCustomPath"];
@@ -675,11 +667,8 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
 - (PlainTextEditor *)activePlainTextEditorForDocument:(PlainTextDocument *)aDocument {
 	PlainTextEditor *result = nil;
-	NSTabViewItem *tabViewItem = [self tabViewItemForDocument:aDocument];
-    if (tabViewItem) {
-        PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
-		result = tabContext.activePlainTextEditor;
-    }
+  PlainTextWindowControllerTabContext *tabContext = [self windowControllerTabContextForDocument:aDocument];
+	result = tabContext.activePlainTextEditor;
 	return result;
 }
 
@@ -702,12 +691,12 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 }
 
 - (void)openParticipantsOverlayForDocument:(PlainTextDocument *)aDocument {
-	PlainTextWindowControllerTabContext *context = [self tabViewItemForDocument:aDocument].identifier;
+	PlainTextWindowControllerTabContext *context = [self windowControllerTabContextForDocument:aDocument];
 	[context openParticipantsOverlay:aDocument];
 }
 
 - (void)closeParticipantsOverlayForDocument:(PlainTextDocument *)aDocument {
-	PlainTextWindowControllerTabContext *context = [self tabViewItemForDocument:aDocument].identifier;
+	PlainTextWindowControllerTabContext *context = [self windowControllerTabContextForDocument:aDocument];
 	[context closeParticipantsOverlay:aDocument];
 }
 
@@ -901,9 +890,8 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
 - (void)documentUpdatedChangeCount:(PlainTextDocument *)document
 {
-    NSTabViewItem *tabViewItem = [self tabViewItemForDocument:document];
-    if (tabViewItem) {
-        PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
+    PlainTextWindowControllerTabContext *tabContext = [self windowControllerTabContextForDocument:document];
+    if (tabContext) {
         if ([tabContext isEdited] != [document isDocumentEdited])
             [tabContext setIsEdited:[document isDocumentEdited]];
     }
@@ -929,9 +917,8 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     NSMutableArray *editors = [NSMutableArray array];
     for (PlainTextDocument *document in self.documents) {
         if ([document isEqual:aDocument]) {
-            NSTabViewItem *tabViewItem = [self tabViewItemForDocument:document];
-            if (tabViewItem) {
-                PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
+            PlainTextWindowControllerTabContext *tabContext = [self windowControllerTabContextForDocument:document];
+            if (tabContext) {
                 [editors addObjectsFromArray:[tabContext plainTextEditors]];
             }
         }
@@ -1164,9 +1151,8 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     
     if (document == previouslySelectedDocument) {
         [super setDocument:document];
-        NSTabViewItem *tabViewItem = [self tabViewItemForDocument:(PlainTextDocument *)document];
-        if (tabViewItem) {
-            PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
+        PlainTextWindowControllerTabContext *tabContext = [self windowControllerTabContextForDocument:(PlainTextDocument *)document];
+        if (tabContext) {
             I_dialogSplitView = [tabContext dialogSplitView];
         }
     } else {
@@ -1287,10 +1273,10 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 	PlainTextWindowControllerTabContext *contextToClose = nil;
 
     if (I_documentBeingClosed && oldDocumentCount > 1) {
-        NSTabViewItem *tabViewItem = [self tabViewItemForDocument:(PlainTextDocument *)I_documentBeingClosed];
-        if (tabViewItem) {
-			contextToClose = [(PlainTextWindowControllerTabContext *)tabViewItem.identifier retain];
-		}
+      PlainTextWindowControllerTabContext *tabContext = [self windowControllerTabContextForDocument:(PlainTextDocument *)I_documentBeingClosed];
+        if (tabContext) {
+          contextToClose = [tabContext retain];
+        }
 
         id document = nil;
         BOOL keepCurrentDocument = ![[self document] isEqual:I_documentBeingClosed];

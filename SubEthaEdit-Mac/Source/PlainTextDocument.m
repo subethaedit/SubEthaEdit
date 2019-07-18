@@ -899,8 +899,8 @@ static NSString *tempFileName(NSString *origPath) {
         NSEnumerator *enumerator = [[self windowControllers] objectEnumerator];
         PlainTextWindowController *windowController;
         while ((windowController = [enumerator nextObject])) {
-            NSTabViewItem *tabViewItem = [windowController tabViewItemForDocument:self];
-            if (tabViewItem) [[tabViewItem identifier] setIsAlertScheduled:YES];
+            PlainTextWindowControllerTabContext *tabContext = [windowController windowControllerTabContextForDocument:self];
+            [tabContext setIsAlertScheduled:YES];
         }
 
         NSMutableDictionary *dict = [NSMutableDictionary dictionary];

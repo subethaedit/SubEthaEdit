@@ -725,8 +725,7 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 			if (selectedDocumentTabLookupKey && [selectedDocument isKindOfClass:[PlainTextDocument class]]) {
 				PlainTextDocument *plainTextDocument = (PlainTextDocument *)selectedDocument;
 				PlainTextWindowController *windowController = window.windowController;
-				NSTabViewItem *tabItem = [windowController tabViewItemForDocument:plainTextDocument];
-				PlainTextWindowControllerTabContext *tabContext = tabItem.identifier;
+				PlainTextWindowControllerTabContext *tabContext = [windowController windowControllerTabContextForDocument:plainTextDocument];
 				tabContext.uuid = selectedDocumentTabLookupKey;
 			}
 
@@ -771,8 +770,7 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 									if ([document isKindOfClass:[PlainTextDocument class]]) {
 										PlainTextDocument *plainTextDocument = (PlainTextDocument *)document;
 										PlainTextWindowController *windowController = window.windowController;
-										NSTabViewItem *tabItem = [windowController tabViewItemForDocument:plainTextDocument];
-										PlainTextWindowControllerTabContext *tabContext = tabItem.identifier;
+										PlainTextWindowControllerTabContext *tabContext = [windowController windowControllerTabContextForDocument:plainTextDocument];
 										tabContext.uuid = tabLookupKey;
 									}
 
@@ -805,8 +803,7 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 								if ([document isKindOfClass:[PlainTextDocument class]]) {
 									PlainTextDocument *plainTextDocument = (PlainTextDocument *)document;
 									PlainTextWindowController *windowController = window.windowController;
-									NSTabViewItem *tabItem = [windowController tabViewItemForDocument:plainTextDocument];
-									PlainTextWindowControllerTabContext *tabContext = tabItem.identifier;
+									PlainTextWindowControllerTabContext *tabContext = [windowController windowControllerTabContextForDocument:plainTextDocument];
 									tabContext.uuid = tabLookupKey;
 								}
 							}
