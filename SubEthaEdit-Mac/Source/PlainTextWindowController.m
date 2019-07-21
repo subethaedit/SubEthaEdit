@@ -1116,7 +1116,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
         [loadProgress release];
 
         PlainTextEditor *plainTextEditor = [[PlainTextEditor alloc] initWithWindowControllerTabContext:tabContext splitButton:YES];
-        [[self window] setInitialFirstResponder:[plainTextEditor textView]];
+        self.window.initialFirstResponder = plainTextEditor.textView;
 		plainTextEditor.editorView.identifier = @"FirstEditor";
                     
         [[tabContext plainTextEditors] addObject:plainTextEditor];
@@ -1126,7 +1126,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
       
       NSView *editorView = [plainTextEditor editorView];
       editorView.autoresizingMask = NSViewHeightSizable | NSViewWidthSizable;
-      self.window.initialFirstResponder = plainTextEditor.editorView;
+      self.window.initialFirstResponder = plainTextEditor.textView;
       I_dialogSplitView = nil;
       
       tabContext.contentView = self.window.contentView;

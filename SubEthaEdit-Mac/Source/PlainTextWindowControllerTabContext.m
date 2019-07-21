@@ -266,7 +266,7 @@ void * const SEEPlainTextWindowControllerTabContextPresentedViewObservanceContex
 			}
 		}
 
-		[self.windowController.window setInitialFirstResponder:[plainTextEditors[0] editorView]];
+		self.windowController.window.initialFirstResponder = [plainTextEditors[0] textView];
 		[plainTextEditors[0] updateSplitButtonForIsSplit:[plainTextEditors count] != 1];
 
 		NSTextView *textView = [plainTextEditors[0] textView];
