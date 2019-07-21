@@ -506,9 +506,15 @@ static NSPoint S_cascadePoint = {0.0,0.0};
       NSMutableParagraphStyle *style = [[[NSMutableParagraphStyle alloc] init] autorelease];
       style.lineBreakMode = NSLineBreakByTruncatingHead;
       NSDictionary *attributes = @{ NSParagraphStyleAttributeName: style };
-      NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:self.window.title
+      NSString * tabTitle = [(PlainTextDocument *)self.document displayName];
+      
+      if (tabTitle == nil) {
+        tabTitle = self.window.title;
+      }
+      
+      NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:tabTitle
                                                                             attributes:attributes];
-      self.window.tab.attributedTitle = attributedTitle;
+      self.window.tab.attributedTitle = [attributedTitle autorelease];
     }
   
     [self updateForPortMapStatus];
