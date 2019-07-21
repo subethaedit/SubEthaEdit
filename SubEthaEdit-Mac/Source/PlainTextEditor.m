@@ -2151,8 +2151,8 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
             while ((menuItem = [menuItems nextObject]))
             {
-                if ([menuItem target] == wc &&
-                    [[menuItem representedObject] intValue] == [orderedDocuments indexOfObject:myDocument])
+                if ([menuItem target] == wc.window &&
+                    [menuItem representedObject] == myDocument)
                 {
                     [s_cell selectItem:menuItem];
                     break;

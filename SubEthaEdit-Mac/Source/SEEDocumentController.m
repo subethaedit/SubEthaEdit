@@ -221,8 +221,6 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 #pragma mark - Tab menu
 
 - (void)updateMenuWithTabMenuItems:(NSMenu *)aMenu shortcuts:(BOOL)withShortcuts {
-  
-  return;
     // NSLog(@"%s",__FUNCTION__);
     static NSMutableSet *menusCurrentlyUpdating = nil;
     if (!menusCurrentlyUpdating) menusCurrentlyUpdating = [NSMutableSet new];
@@ -233,45 +231,49 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
         [aMenu removeAllItems];
         NSMenuItem *prototypeMenuItem=
             [[NSMenuItem alloc] initWithTitle:@""
-                                       action:@selector(showDocumentAtIndex:)
+                                       action:@selector(makeKeyAndOrderFront:)
                                 keyEquivalent:@""];
-        PlainTextWindowController *windowController = nil;
-        BOOL firstWC = YES;
-        for (windowController in I_windowControllers) {
-            NSEnumerator      *documents = [[windowController orderedDocuments] objectEnumerator];
-            PlainTextDocument *document = nil;
-            if (!firstWC) {
-                [aMenu addItem:[NSMenuItem separatorItem]];
-            }
+
+      BOOL firstWC = YES;
+      NSWindowController *mainWindowController = NSApplication.sharedApplication.mainWindow.windowController;
+      
+        for(NSArray <NSWindowController*> *tabGroup  in [self tabGroups]) {
+          if (!firstWC) {
+            [aMenu addItem:[NSMenuItem separatorItem]];
+          }
+          firstWC = NO;
+          
+          BOOL containsMainWindowController = mainWindowController && [tabGroup containsObject:mainWindowController];
+          
+          int shortcutIndex = 1;
+          
+          
+          for (PlainTextWindowController *windowController in tabGroup) {
+            
             BOOL hasSheet = [[windowController window] attachedSheet] ? YES : NO;
-            int isMainWindow = ([[windowController window] isMainWindow] || [[windowController window] isKeyWindow]) ? 1 : NO;
-//            NSLog(@"%s %@ was main window: %d %d",__FUNCTION__, windowController, isMainWindow, withShortcuts);
-            int documentPosition = 0;
-            while ((document = [documents nextObject])) {
-                [prototypeMenuItem setTarget:windowController];
-                [prototypeMenuItem setTitle:[windowController windowTitleForDocumentDisplayName:[document displayName] document:document]];
-                [prototypeMenuItem setRepresentedObject:[NSNumber numberWithInt:documentPosition]];
-                [prototypeMenuItem setEnabled:!hasSheet];
-                if (withShortcuts) {
-                    if (isMainWindow && isMainWindow < 10) {
-//						NSLog(@"added shortcut");
-                        [prototypeMenuItem setKeyEquivalent:[NSString stringWithFormat:@"%d",isMainWindow%10]];
-                        [prototypeMenuItem setKeyEquivalentModifierMask:NSEventModifierFlagCommand];
-                        isMainWindow++;
-                    } else {
-                        [prototypeMenuItem setKeyEquivalent:@""];
-                    }
-                }
-                NSMenuItem *itemToAdd = [prototypeMenuItem copy];
-                [aMenu addItem:itemToAdd];
-//				NSLog(@"%@",itemToAdd);
-                [itemToAdd setMark:[document isDocumentEdited]];
-                documentPosition++;
+            PlainTextDocument * document = windowController.document;
+            
+            [prototypeMenuItem setTarget:windowController.window];
+            [prototypeMenuItem setTitle:[windowController windowTitleForDocumentDisplayName:[document displayName] document:document]];
+            [prototypeMenuItem setRepresentedObject:document];
+            [prototypeMenuItem setEnabled:!hasSheet];
+            
+            if ( withShortcuts && containsMainWindowController && shortcutIndex < 10) {
+              [prototypeMenuItem setKeyEquivalent:[NSString stringWithFormat:@"%d",shortcutIndex%10]];
+              [prototypeMenuItem setKeyEquivalentModifierMask:NSEventModifierFlagCommand];
+              shortcutIndex++;
             }
-            firstWC = NO;
+            
+            NSMenuItem *itemToAdd = [prototypeMenuItem copy];
+            [aMenu addItem:itemToAdd];
+            [itemToAdd setMark:[document isDocumentEdited]];
+            
+            }
         }
-        [menusCurrentlyUpdating removeObject:aMenu];
-    }
+      [menusCurrentlyUpdating removeObject:aMenu];
+
+        }
+  
 }
 
 - (void)menuNeedsUpdate:(NSMenu *)aMenu {
@@ -290,7 +292,15 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
             [menuItem setTitle:NSLocalizedString(@"Open in Front Window...", @"Menu Entry for opening files in the front window.")];
         }
         return YES;
-    } else if (selector == @selector(copyReachabilityURL:)) {
+    } else if ([menuItem tag] == GotoTabMenuItemTag) {
+          if ([[self documents] count] >0) {
+            [self updateMenuWithTabMenuItems:[menuItem submenu] shortcuts:YES];
+            return YES;
+          } else {
+            [[menuItem submenu] removeAllItems];
+            return NO;
+          };
+        } else if (selector == @selector(copyReachabilityURL:)) {
 		return (![[TCMMMBEEPSessionManager sharedInstance] isNetworkingDisabled]);
 	}
     return [super validateMenuItem:menuItem];
@@ -366,6 +376,33 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
     [I_windowControllers removeObject:autoreleasedWindowController];
 	
 	[self updateRestorableStateOfDocumentListWindow];
+}
+
+- (NSArray <NSArray <NSWindowController*> *> *) tabGroups{
+  NSMutableArray * tabGroups = [NSMutableArray new];
+  NSMutableArray * windowTabGroups = [NSMutableArray new];
+  
+  for (NSWindowController *wc in I_windowControllers) {
+    NSWindow *window = wc.window;
+    NSArray *tabbedWindows = window.tabbedWindows;
+    
+    if (tabbedWindows && ![windowTabGroups containsObject:tabbedWindows]) {
+      [windowTabGroups addObject:tabbedWindows];
+      NSMutableArray * tabGroup = [NSMutableArray new];
+      for (NSWindow *window in tabbedWindows) {
+        NSWindowController *wc = window.windowController;
+        if (wc) {
+          [tabGroup addObject:wc];
+        }
+      }
+      [tabGroups addObject:tabGroup];
+    } else if (!tabbedWindows && window) {
+      // If tabbedWindows is nil the window has no visible tab bar.
+      [tabGroups addObject:@[wc]];
+    }
+  }
+  
+  return tabGroups;
 }
 
 #pragma mark - Open new document

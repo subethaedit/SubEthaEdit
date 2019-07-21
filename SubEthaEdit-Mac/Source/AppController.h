@@ -26,6 +26,7 @@ extern int const FormatMenuTag;
 extern int const FontMenuItemTag;
 extern int const FileEncodingsMenuItemTag;
 extern int const WindowMenuTag;
+extern int const GotoTabMenuItemTag;
 extern int const ModeMenuTag;
 extern int const SwitchModeMenuTag;
 extern int const ReloadModesMenuItemTag;

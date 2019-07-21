@@ -87,6 +87,7 @@ int const FoldingSubmenuTag = 4400;
 int const FoldingFoldSelectionMenuTag = 4441;
 int const FoldingFoldCurrentBlockMenuTag = 4442;
 int const FoldingFoldAllCurrentBlockMenuTag = 4443;
+int const GotoTabMenuItemTag = 3042;
 int const ModeMenuTag = 50;
 int const SwitchModeMenuTag = 10;
 int const ReloadModesMenuItemTag = 20;
