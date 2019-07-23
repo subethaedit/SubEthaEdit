@@ -969,12 +969,6 @@
                             <menuItem isSeparatorItem="YES" id="92">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Go to Tab" tag="3042" id="622">
-                                <menu key="submenu" title="Go to Tab" id="623"/>
-                                <connections>
-                                    <action selector="menuValidationNoneAction:" target="252" id="629"/>
-                                </connections>
-                            </menuItem>
                             <menuItem title="Select Next Tab" keyEquivalent="}" id="613">
                                 <connections>
                                     <action selector="selectNextTab:" target="-1" id="615"/>

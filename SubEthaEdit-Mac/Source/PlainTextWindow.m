@@ -17,6 +17,42 @@
     }
 }
 
+-(void)sendEvent:(NSEvent *)event {
+    // Handle ⌘ 1 ... ⌘ 9, ⌘ 0 shortcuts to select tabs
+    // Todo: this behaviour should not be specific to PlainTextWindows
+    if ([event type] == NSEventTypeKeyDown) {
+        int flags = [event modifierFlags];
+        if ((flags & NSEventModifierFlagCommand) &&
+            !(flags & NSEventModifierFlagControl) &&
+            [[event characters] length] == 1) {
+            
+            NSString *characters = [event characters];
+            NSInteger tabIndex = [characters integerValue];
+            if (tabIndex == 0) {
+                // integerValue returns 0 for invalid strings. Return if characters isn't literally a '0'
+                if (![characters isEqualToString:@"0"]) {
+                    return [super sendEvent:event];
+                }
+            }
+            
+            // 1 will become 0, 2 will become 1 ... 0 will become 9
+            tabIndex = (tabIndex+9) % 10;
+            
+            PlainTextWindowController *wc = [self windowController];
+            if ([wc isKindOfClass:[PlainTextWindowController class]]) {
+                
+                NSArray *tabbedWindows = wc.window.tabbedWindows;
+                if(tabIndex < tabbedWindows.count) {
+                    [[tabbedWindows objectAtIndex:tabIndex] makeKeyAndOrderFront:nil];
+                }
+                
+            }
+        }
+        
+    }
+    [super sendEvent:event];
+}
+
 - (void)setDocumentEdited:(BOOL)flag
 {
     NSDocument *document = [[self windowController] document];

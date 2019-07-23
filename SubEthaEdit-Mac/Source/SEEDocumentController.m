@@ -220,7 +220,7 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 
 #pragma mark - Tab menu
 
-- (void)updateMenuWithTabMenuItems:(NSMenu *)aMenu shortcuts:(BOOL)withShortcuts {
+- (void)updateMenuWithTabMenuItems:(NSMenu *)aMenu {
     // NSLog(@"%s",__FUNCTION__);
     static NSMutableSet *menusCurrentlyUpdating = nil;
     if (!menusCurrentlyUpdating) menusCurrentlyUpdating = [NSMutableSet new];
@@ -230,54 +230,36 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
         [menusCurrentlyUpdating addObject:aMenu];
         [aMenu removeAllItems];
         NSMenuItem *prototypeMenuItem=
-            [[NSMenuItem alloc] initWithTitle:@""
-                                       action:@selector(makeKeyAndOrderFront:)
-                                keyEquivalent:@""];
-
-      BOOL firstWC = YES;
-      NSWindowController *mainWindowController = NSApplication.sharedApplication.mainWindow.windowController;
-      
+        [[NSMenuItem alloc] initWithTitle:@""
+                                   action:@selector(makeKeyAndOrderFront:)
+                            keyEquivalent:@""];
+        
+        BOOL firstWindowController = YES;
+        
         for(NSArray <NSWindowController*> *tabGroup  in [self tabGroups]) {
-          if (!firstWC) {
-            [aMenu addItem:[NSMenuItem separatorItem]];
-          }
-          firstWC = NO;
-          
-          BOOL containsMainWindowController = mainWindowController && [tabGroup containsObject:mainWindowController];
-          
-          int shortcutIndex = 1;
-          
-          
-          for (PlainTextWindowController *windowController in tabGroup) {
-            
-            BOOL hasSheet = [[windowController window] attachedSheet] ? YES : NO;
-            PlainTextDocument * document = windowController.document;
-            
-            [prototypeMenuItem setTarget:windowController.window];
-            [prototypeMenuItem setTitle:[windowController windowTitleForDocumentDisplayName:[document displayName] document:document]];
-            [prototypeMenuItem setRepresentedObject:document];
-            [prototypeMenuItem setEnabled:!hasSheet];
-            
-            if ( withShortcuts && containsMainWindowController && shortcutIndex < 10) {
-              [prototypeMenuItem setKeyEquivalent:[NSString stringWithFormat:@"%d",shortcutIndex%10]];
-              [prototypeMenuItem setKeyEquivalentModifierMask:NSEventModifierFlagCommand];
-              shortcutIndex++;
+            if (!firstWindowController) {
+                [aMenu addItem:[NSMenuItem separatorItem]];
             }
+            firstWindowController = NO;
             
-            NSMenuItem *itemToAdd = [prototypeMenuItem copy];
-            [aMenu addItem:itemToAdd];
-            [itemToAdd setMark:[document isDocumentEdited]];
-            
+            for (PlainTextWindowController *windowController in tabGroup) {
+                
+                BOOL hasSheet = [[windowController window] attachedSheet] ? YES : NO;
+                PlainTextDocument * document = windowController.document;
+                
+                [prototypeMenuItem setTarget:windowController.window];
+                [prototypeMenuItem setTitle:[windowController windowTitleForDocumentDisplayName:[document displayName] document:document]];
+                [prototypeMenuItem setRepresentedObject:document];
+                [prototypeMenuItem setEnabled:!hasSheet];
+                
+                NSMenuItem *itemToAdd = [prototypeMenuItem copy];
+                [aMenu addItem:itemToAdd];
+                [itemToAdd setMark:[document isDocumentEdited]];
+                
             }
         }
-      [menusCurrentlyUpdating removeObject:aMenu];
-
-        }
-  
-}
-
-- (void)menuNeedsUpdate:(NSMenu *)aMenu {
-    [self updateMenuWithTabMenuItems:aMenu shortcuts:YES];
+        [menusCurrentlyUpdating removeObject:aMenu];
+    }
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
@@ -292,19 +274,12 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
             [menuItem setTitle:NSLocalizedString(@"Open in Front Window...", @"Menu Entry for opening files in the front window.")];
         }
         return YES;
-    } else if ([menuItem tag] == GotoTabMenuItemTag) {
-          if ([[self documents] count] >0) {
-            [self updateMenuWithTabMenuItems:[menuItem submenu] shortcuts:YES];
-            return YES;
-          } else {
-            [[menuItem submenu] removeAllItems];
-            return NO;
-          };
-        } else if (selector == @selector(copyReachabilityURL:)) {
+    } else if (selector == @selector(copyReachabilityURL:)) {
 		return (![[TCMMMBEEPSessionManager sharedInstance] isNetworkingDisabled]);
 	}
     return [super validateMenuItem:menuItem];
 }
+
 
 - (IBAction)menuValidationNoneAction:(id)aSender {
 
@@ -314,7 +289,7 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 
 - (NSMenu *)documentMenu {
     NSMenu *documentMenu = [NSMenu new];
-    [self updateMenuWithTabMenuItems:documentMenu shortcuts:NO];
+    [self updateMenuWithTabMenuItems:documentMenu];
     return documentMenu;
 }
 
