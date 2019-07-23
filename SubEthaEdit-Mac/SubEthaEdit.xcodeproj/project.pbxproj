@@ -312,26 +312,6 @@
 		F22024EA191D0DB30098982C /* ParticipantReadOnlyStatusOn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F22024E8191D0DB30098982C /* ParticipantReadOnlyStatusOn@2x.png */; };
 		F22024EE191D175C0098982C /* TCMHoverButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F22024ED191D175C0098982C /* TCMHoverButton.m */; };
 		F2279086223D245800A04A44 /* SEEDocumentListTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F5970B193336B300FDAA4A /* SEEDocumentListTableView.m */; };
-		F22CB6BE216DFC4F00D1565D /* DAW ActiveTabClose@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F22CB6B8216DFC4D00D1565D /* DAW ActiveTabClose@2x.png */; };
-		F22CB6BF216DFC4F00D1565D /* DAW ActiveTabClose.png in Resources */ = {isa = PBXBuildFile; fileRef = F22CB6B9216DFC4E00D1565D /* DAW ActiveTabClose.png */; };
-		F22CB6C0216DFC4F00D1565D /* DAW ActiveTabClosePressed.png in Resources */ = {isa = PBXBuildFile; fileRef = F22CB6BA216DFC4E00D1565D /* DAW ActiveTabClosePressed.png */; };
-		F22CB6C1216DFC4F00D1565D /* DAW ActiveTabCloseRollover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F22CB6BB216DFC4E00D1565D /* DAW ActiveTabCloseRollover@2x.png */; };
-		F22CB6C2216DFC4F00D1565D /* DAW ActiveTabClosePressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F22CB6BC216DFC4E00D1565D /* DAW ActiveTabClosePressed@2x.png */; };
-		F22CB6C3216DFC4F00D1565D /* DAW ActiveTabCloseRollover.png in Resources */ = {isa = PBXBuildFile; fileRef = F22CB6BD216DFC4E00D1565D /* DAW ActiveTabCloseRollover.png */; };
-		F22CB6C8216DFFB000D1565D /* DAW InactiveTabCloseRollover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F22CB6C4216DFFAF00D1565D /* DAW InactiveTabCloseRollover@2x.png */; };
-		F22CB6C9216DFFB000D1565D /* DAW InactiveTabCloseRollover.png in Resources */ = {isa = PBXBuildFile; fileRef = F22CB6C5216DFFAF00D1565D /* DAW InactiveTabCloseRollover.png */; };
-		F22CB6CA216DFFB000D1565D /* DAW InactiveTabClosePressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F22CB6C6216DFFAF00D1565D /* DAW InactiveTabClosePressed@2x.png */; };
-		F22CB6CB216DFFB000D1565D /* DAW InactiveTabClosePressed.png in Resources */ = {isa = PBXBuildFile; fileRef = F22CB6C7216DFFAF00D1565D /* DAW InactiveTabClosePressed.png */; };
-		F22CB6D6216E02F900D1565D /* DIW ActiveTabCloseRollover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F22CB6CC216E02F800D1565D /* DIW ActiveTabCloseRollover@2x.png */; };
-		F22CB6D7216E02F900D1565D /* DIW InactiveTabCloseRollover.png in Resources */ = {isa = PBXBuildFile; fileRef = F22CB6CD216E02F800D1565D /* DIW InactiveTabCloseRollover.png */; };
-		F22CB6D8216E02F900D1565D /* DIW InactiveTabClosePressed.png in Resources */ = {isa = PBXBuildFile; fileRef = F22CB6CE216E02F800D1565D /* DIW InactiveTabClosePressed.png */; };
-		F22CB6D9216E02F900D1565D /* DIW InactiveTabCloseRollover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F22CB6CF216E02F800D1565D /* DIW InactiveTabCloseRollover@2x.png */; };
-		F22CB6DA216E02F900D1565D /* DIW InactiveTabClosePressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F22CB6D0216E02F800D1565D /* DIW InactiveTabClosePressed@2x.png */; };
-		F22CB6DB216E02F900D1565D /* DIW ActiveTabClose@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F22CB6D1216E02F900D1565D /* DIW ActiveTabClose@2x.png */; };
-		F22CB6DC216E02F900D1565D /* DIW ActiveTabClose.png in Resources */ = {isa = PBXBuildFile; fileRef = F22CB6D2216E02F900D1565D /* DIW ActiveTabClose.png */; };
-		F22CB6DD216E02F900D1565D /* DIW ActiveTabCloseRollover.png in Resources */ = {isa = PBXBuildFile; fileRef = F22CB6D3216E02F900D1565D /* DIW ActiveTabCloseRollover.png */; };
-		F22CB6DE216E02F900D1565D /* DIW ActiveTabClosePressed.png in Resources */ = {isa = PBXBuildFile; fileRef = F22CB6D4216E02F900D1565D /* DIW ActiveTabClosePressed.png */; };
-		F22CB6DF216E02F900D1565D /* DIW ActiveTabClosePressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F22CB6D5216E02F900D1565D /* DIW ActiveTabClosePressed@2x.png */; };
 		F2308E6718E06FA00096E0C1 /* SEEFindAndReplaceContext.m in Sources */ = {isa = PBXBuildFile; fileRef = F2308E6618E06FA00096E0C1 /* SEEFindAndReplaceContext.m */; };
 		F234E4590BE2592300504A7C /* NSWorkspaceTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F234E4570BE2592300504A7C /* NSWorkspaceTCMAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		F23966D618E2FE6800CEC9AD /* NSOperationQueue+TCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F23966D518E2FE6800CEC9AD /* NSOperationQueue+TCMAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -352,30 +332,6 @@
 		F27C4DC5192FA2A800B5DB3C /* SEEHoverTableRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = F27C4DC4192FA2A800B5DB3C /* SEEHoverTableRowView.m */; };
 		F27EDD17216BC49A00987579 /* SubEthaEdit_AuthenticatedSave.scpt in Copy Command Line Tools */ = {isa = PBXBuildFile; fileRef = F27EDD10216BC3AD00987579 /* SubEthaEdit_AuthenticatedSave.scpt */; };
 		F27EDD1E216BD8F800987579 /* install.command in Copy Command Line Tools */ = {isa = PBXBuildFile; fileRef = F27EDD1A216BD8F500987579 /* install.command */; };
-		F27EDD2B216CBB6E00987579 /* DAW ActiveTabFill@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F27EDD1F216CBB6C00987579 /* DAW ActiveTabFill@2x.png */; };
-		F27EDD2C216CBB6E00987579 /* DAW InactiveTabRightCap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F27EDD20216CBB6C00987579 /* DAW InactiveTabRightCap@2x.png */; };
-		F27EDD2D216CBB6E00987579 /* DAW InactiveTabBG.png in Resources */ = {isa = PBXBuildFile; fileRef = F27EDD21216CBB6C00987579 /* DAW InactiveTabBG.png */; };
-		F27EDD2E216CBB6E00987579 /* DAW ActiveTabRightCap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F27EDD22216CBB6D00987579 /* DAW ActiveTabRightCap@2x.png */; };
-		F27EDD2F216CBB6E00987579 /* DAW ActiveTabRightCap.png in Resources */ = {isa = PBXBuildFile; fileRef = F27EDD23216CBB6D00987579 /* DAW ActiveTabRightCap.png */; };
-		F27EDD30216CBB6E00987579 /* DAW ActiveTabFill.png in Resources */ = {isa = PBXBuildFile; fileRef = F27EDD24216CBB6D00987579 /* DAW ActiveTabFill.png */; };
-		F27EDD31216CBB6E00987579 /* DAW InactiveTabBG@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F27EDD25216CBB6D00987579 /* DAW InactiveTabBG@2x.png */; };
-		F27EDD32216CBB6E00987579 /* DAW InactiveTabLeftCap.png in Resources */ = {isa = PBXBuildFile; fileRef = F27EDD26216CBB6D00987579 /* DAW InactiveTabLeftCap.png */; };
-		F27EDD33216CBB6E00987579 /* DAW InactiveTabLeftCap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F27EDD27216CBB6D00987579 /* DAW InactiveTabLeftCap@2x.png */; };
-		F27EDD34216CBB6E00987579 /* DAW ActiveTabLeftCap.png in Resources */ = {isa = PBXBuildFile; fileRef = F27EDD28216CBB6D00987579 /* DAW ActiveTabLeftCap.png */; };
-		F27EDD35216CBB6E00987579 /* DAW ActiveTabLeftCap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F27EDD29216CBB6D00987579 /* DAW ActiveTabLeftCap@2x.png */; };
-		F27EDD36216CBB6E00987579 /* DAW InactiveTabRightCap.png in Resources */ = {isa = PBXBuildFile; fileRef = F27EDD2A216CBB6D00987579 /* DAW InactiveTabRightCap.png */; };
-		F27EDD43216CC26500987579 /* DIW ActiveTabFill@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F27EDD37216CC26300987579 /* DIW ActiveTabFill@2x.png */; };
-		F27EDD44216CC26500987579 /* DIW ActiveTabFill.png in Resources */ = {isa = PBXBuildFile; fileRef = F27EDD38216CC26300987579 /* DIW ActiveTabFill.png */; };
-		F27EDD45216CC26500987579 /* DIW ActiveTabRightCap.png in Resources */ = {isa = PBXBuildFile; fileRef = F27EDD39216CC26400987579 /* DIW ActiveTabRightCap.png */; };
-		F27EDD46216CC26500987579 /* DIW ActiveTabLeftCap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F27EDD3A216CC26400987579 /* DIW ActiveTabLeftCap@2x.png */; };
-		F27EDD47216CC26500987579 /* DIW InactiveTabBG.png in Resources */ = {isa = PBXBuildFile; fileRef = F27EDD3B216CC26400987579 /* DIW InactiveTabBG.png */; };
-		F27EDD48216CC26500987579 /* DIW ActiveTabRightCap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F27EDD3C216CC26400987579 /* DIW ActiveTabRightCap@2x.png */; };
-		F27EDD49216CC26500987579 /* DIW InactiveTabLeftCap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F27EDD3D216CC26400987579 /* DIW InactiveTabLeftCap@2x.png */; };
-		F27EDD4A216CC26500987579 /* DIW InactiveTabLeftCap.png in Resources */ = {isa = PBXBuildFile; fileRef = F27EDD3E216CC26400987579 /* DIW InactiveTabLeftCap.png */; };
-		F27EDD4B216CC26500987579 /* DIW InactiveTabRightCap.png in Resources */ = {isa = PBXBuildFile; fileRef = F27EDD3F216CC26400987579 /* DIW InactiveTabRightCap.png */; };
-		F27EDD4C216CC26500987579 /* DIW InactiveTabRightCap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F27EDD40216CC26400987579 /* DIW InactiveTabRightCap@2x.png */; };
-		F27EDD4D216CC26500987579 /* DIW ActiveTabLeftCap.png in Resources */ = {isa = PBXBuildFile; fileRef = F27EDD41216CC26400987579 /* DIW ActiveTabLeftCap.png */; };
-		F27EDD4E216CC26500987579 /* DIW InactiveTabBG@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F27EDD42216CC26500987579 /* DIW InactiveTabBG@2x.png */; };
 		F27EDD56216E6DEC00987579 /* NSAppearanceSEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F27EDD55216E6DEC00987579 /* NSAppearanceSEEAdditions.m */; };
 		F280ABC4131E6ED50091D145 /* SEEStyleSheetEditorWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = F280ABC3131E6ED50091D145 /* SEEStyleSheetEditorWindowController.m */; };
 		F2815CE1216251F7006B3BC5 /* Bug Report.md in Resources */ = {isa = PBXBuildFile; fileRef = F2815CDD216251F7006B3BC5 /* Bug Report.md */; };
@@ -398,14 +354,6 @@
 		F2ABC4D60C799775007437A2 /* TCMMMLoggingState.m in Sources */ = {isa = PBXBuildFile; fileRef = F2ABC4D40C799775007437A2 /* TCMMMLoggingState.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		F2ABC4E30C799CCD007437A2 /* TCMMMLoggedOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = F2ABC4E10C799CCD007437A2 /* TCMMMLoggedOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		F2ABC5400C79D9AB007437A2 /* DebugHistoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2ABC5300C79D898007437A2 /* DebugHistoryController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		F2B136E6189BF27000430639 /* AW AddTabButtonRollover.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2B136DE189BF27000430639 /* AW AddTabButtonRollover.tiff */; };
-		F2B136E7189BF27000430639 /* AW AddTabButtonRolloverBG_Pressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2B136DF189BF27000430639 /* AW AddTabButtonRolloverBG_Pressed.tiff */; };
-		F2B136E8189BF27000430639 /* AW AddTabButtonRolloverBG.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2B136E0189BF27000430639 /* AW AddTabButtonRolloverBG.tiff */; };
-		F2B136E9189BF27000430639 /* AW AddTabButtonRolloverPlus.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2B136E1189BF27000430639 /* AW AddTabButtonRolloverPlus.tiff */; };
-		F2B136EA189BF27000430639 /* IW AddTabButton.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2B136E2189BF27000430639 /* IW AddTabButton.tiff */; };
-		F2B136EB189BF27000430639 /* AW AddTabButton.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2B136E3189BF27000430639 /* AW AddTabButton.tiff */; };
-		F2B136EC189BF27000430639 /* AW AddTabButtonPushed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2B136E4189BF27000430639 /* AW AddTabButtonPushed.tiff */; };
-		F2B136ED189BF27000430639 /* AW AddTabButtonRollover_Pressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2B136E5189BF27000430639 /* AW AddTabButtonRollover_Pressed.tiff */; };
 		F2BC7539217BDA3F0056FAED /* Acknowledgements.md in Resources */ = {isa = PBXBuildFile; fileRef = F2BC7538217BDA3F0056FAED /* Acknowledgements.md */; };
 		F2C44CBE21635F29006D59DB /* SEEDebugImageGenerationWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2C44CBD21635F29006D59DB /* SEEDebugImageGenerationWindowController.xib */; };
 		F2C6D3750D6DB131002B401D /* URLIconNotOK.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2C6D3730D6DB131002B401D /* URLIconNotOK.tiff */; };
@@ -418,73 +366,6 @@
 		F2D129FC0BF0B64A00A776CC /* SEEConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D129F80BF0B64700A776CC /* SEEConnectionManager.m */; };
 		F2D12A1D0BF0B8DF00A776CC /* SEEConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D12A1B0BF0B8DF00A776CC /* SEEConnection.m */; };
 		F2D22CB40EE9C5E3004B8E33 /* SeeTextImporter.mdimporter in Copy Importers */ = {isa = PBXBuildFile; fileRef = F2D22CB30EE9C5DE004B8E33 /* SeeTextImporter.mdimporter */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		F2D3E528189941F50096425B /* AddTab.pdf in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E4E5189941F50096425B /* AddTab.pdf */; };
-		F2D3E529189941F50096425B /* AW ActiveTabClose.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E4E6189941F50096425B /* AW ActiveTabClose.png */; };
-		F2D3E52A189941F50096425B /* AW ActiveTabClose@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E4E7189941F50096425B /* AW ActiveTabClose@2x.png */; };
-		F2D3E52B189941F50096425B /* AW ActiveTabClosePressed.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E4E8189941F50096425B /* AW ActiveTabClosePressed.png */; };
-		F2D3E52C189941F50096425B /* AW ActiveTabClosePressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E4E9189941F50096425B /* AW ActiveTabClosePressed@2x.png */; };
-		F2D3E52D189941F50096425B /* AW ActiveTabCloseRollover.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E4EA189941F50096425B /* AW ActiveTabCloseRollover.png */; };
-		F2D3E52E189941F50096425B /* AW ActiveTabCloseRollover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E4EB189941F50096425B /* AW ActiveTabCloseRollover@2x.png */; };
-		F2D3E52F189941F50096425B /* AW ActiveTabFill.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E4EC189941F50096425B /* AW ActiveTabFill.png */; };
-		F2D3E530189941F50096425B /* AW ActiveTabFill@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E4ED189941F50096425B /* AW ActiveTabFill@2x.png */; };
-		F2D3E531189941F50096425B /* AW ActiveTabLeftCap.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E4EE189941F50096425B /* AW ActiveTabLeftCap.png */; };
-		F2D3E532189941F50096425B /* AW ActiveTabLeftCap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E4EF189941F50096425B /* AW ActiveTabLeftCap@2x.png */; };
-		F2D3E533189941F50096425B /* AW ActiveTabRightCap.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E4F0189941F50096425B /* AW ActiveTabRightCap.png */; };
-		F2D3E534189941F50096425B /* AW ActiveTabRightCap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E4F1189941F50096425B /* AW ActiveTabRightCap@2x.png */; };
-		F2D3E535189941F50096425B /* AW InactiveTabAlert.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E4F2189941F50096425B /* AW InactiveTabAlert.png */; };
-		F2D3E536189941F50096425B /* AW InactiveTabAlert@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E4F3189941F50096425B /* AW InactiveTabAlert@2x.png */; };
-		F2D3E537189941F50096425B /* AW InactiveTabBG.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E4F4189941F50096425B /* AW InactiveTabBG.png */; };
-		F2D3E538189941F50096425B /* AW InactiveTabBG@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E4F5189941F50096425B /* AW InactiveTabBG@2x.png */; };
-		F2D3E539189941F50096425B /* AW InactiveTabClose.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E4F6189941F50096425B /* AW InactiveTabClose.png */; };
-		F2D3E53A189941F50096425B /* AW InactiveTabClose@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E4F7189941F50096425B /* AW InactiveTabClose@2x.png */; };
-		F2D3E53B189941F50096425B /* AW InactiveTabClosePressed.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E4F8189941F50096425B /* AW InactiveTabClosePressed.png */; };
-		F2D3E53C189941F50096425B /* AW InactiveTabClosePressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E4F9189941F50096425B /* AW InactiveTabClosePressed@2x.png */; };
-		F2D3E53D189941F50096425B /* AW InactiveTabCloseRollover.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E4FA189941F50096425B /* AW InactiveTabCloseRollover.png */; };
-		F2D3E53E189941F50096425B /* AW InactiveTabCloseRollover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E4FB189941F50096425B /* AW InactiveTabCloseRollover@2x.png */; };
-		F2D3E53F189941F50096425B /* AW InactiveTabLeftCap.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E4FC189941F50096425B /* AW InactiveTabLeftCap.png */; };
-		F2D3E540189941F50096425B /* AW InactiveTabLeftCap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E4FD189941F50096425B /* AW InactiveTabLeftCap@2x.png */; };
-		F2D3E541189941F50096425B /* AW InactiveTabRightCap.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E4FE189941F50096425B /* AW InactiveTabRightCap.png */; };
-		F2D3E542189941F50096425B /* AW InactiveTabRightCap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E4FF189941F50096425B /* AW InactiveTabRightCap@2x.png */; };
-		F2D3E543189941F50096425B /* AW Pulled ActiveTabCenterFill.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E500189941F50096425B /* AW Pulled ActiveTabCenterFill.png */; };
-		F2D3E544189941F50096425B /* AW Pulled ActiveTabCenterFill@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E501189941F50096425B /* AW Pulled ActiveTabCenterFill@2x.png */; };
-		F2D3E545189941F50096425B /* AW Pulled ActiveTabLeftCap.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E502189941F50096425B /* AW Pulled ActiveTabLeftCap.png */; };
-		F2D3E546189941F50096425B /* AW Pulled ActiveTabLeftCap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E503189941F50096425B /* AW Pulled ActiveTabLeftCap@2x.png */; };
-		F2D3E547189941F50096425B /* AW Pulled ActiveTabRightCap.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E504189941F50096425B /* AW Pulled ActiveTabRightCap.png */; };
-		F2D3E548189941F50096425B /* AW Pulled ActiveTabRightCap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E505189941F50096425B /* AW Pulled ActiveTabRightCap@2x.png */; };
-		F2D3E549189941F50096425B /* AW SingleTabAddButton.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E506189941F50096425B /* AW SingleTabAddButton.png */; };
-		F2D3E54A189941F50096425B /* AW SingleTabAddButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E507189941F50096425B /* AW SingleTabAddButton@2x.png */; };
-		F2D3E54B189941F50096425B /* AW SingleTabAddButtonPressed.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E508189941F50096425B /* AW SingleTabAddButtonPressed.png */; };
-		F2D3E54C189941F50096425B /* AW SingleTabAddButtonPressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E509189941F50096425B /* AW SingleTabAddButtonPressed@2x.png */; };
-		F2D3E54D189941F50096425B /* AW SingleTabAddButtonRollover.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E50A189941F50096425B /* AW SingleTabAddButtonRollover.png */; };
-		F2D3E54E189941F50096425B /* AW SingleTabAddButtonRollover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E50B189941F50096425B /* AW SingleTabAddButtonRollover@2x.png */; };
-		F2D3E54F189941F50096425B /* IW ActiveTabClose.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E50C189941F50096425B /* IW ActiveTabClose.png */; };
-		F2D3E550189941F50096425B /* IW ActiveTabClose@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E50D189941F50096425B /* IW ActiveTabClose@2x.png */; };
-		F2D3E551189941F50096425B /* IW ActiveTabClosePressed.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E50E189941F50096425B /* IW ActiveTabClosePressed.png */; };
-		F2D3E552189941F50096425B /* IW ActiveTabClosePressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E50F189941F50096425B /* IW ActiveTabClosePressed@2x.png */; };
-		F2D3E553189941F50096425B /* IW ActiveTabCloseRollover.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E510189941F50096425B /* IW ActiveTabCloseRollover.png */; };
-		F2D3E554189941F50096425B /* IW ActiveTabCloseRollover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E511189941F50096425B /* IW ActiveTabCloseRollover@2x.png */; };
-		F2D3E555189941F50096425B /* IW ActiveTabFill.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E512189941F50096425B /* IW ActiveTabFill.png */; };
-		F2D3E556189941F50096425B /* IW ActiveTabFill@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E513189941F50096425B /* IW ActiveTabFill@2x.png */; };
-		F2D3E557189941F50096425B /* IW ActiveTabLeftCap.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E514189941F50096425B /* IW ActiveTabLeftCap.png */; };
-		F2D3E558189941F50096425B /* IW ActiveTabLeftCap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E515189941F50096425B /* IW ActiveTabLeftCap@2x.png */; };
-		F2D3E559189941F50096425B /* IW ActiveTabRightCap.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E516189941F50096425B /* IW ActiveTabRightCap.png */; };
-		F2D3E55A189941F50096425B /* IW ActiveTabRightCap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E517189941F50096425B /* IW ActiveTabRightCap@2x.png */; };
-		F2D3E55B189941F50096425B /* IW InactiveTabAlert.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E518189941F50096425B /* IW InactiveTabAlert.png */; };
-		F2D3E55C189941F50096425B /* IW InactiveTabAlert@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E519189941F50096425B /* IW InactiveTabAlert@2x.png */; };
-		F2D3E55D189941F50096425B /* IW InactiveTabBG.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E51A189941F50096425B /* IW InactiveTabBG.png */; };
-		F2D3E55E189941F50096425B /* IW InactiveTabBG@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E51B189941F50096425B /* IW InactiveTabBG@2x.png */; };
-		F2D3E55F189941F50096425B /* IW InactiveTabClose.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E51C189941F50096425B /* IW InactiveTabClose.png */; };
-		F2D3E560189941F50096425B /* IW InactiveTabClose@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E51D189941F50096425B /* IW InactiveTabClose@2x.png */; };
-		F2D3E561189941F50096425B /* IW InactiveTabClosePressed.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E51E189941F50096425B /* IW InactiveTabClosePressed.png */; };
-		F2D3E562189941F50096425B /* IW InactiveTabClosePressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E51F189941F50096425B /* IW InactiveTabClosePressed@2x.png */; };
-		F2D3E563189941F50096425B /* IW InactiveTabCloseRollover.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E520189941F50096425B /* IW InactiveTabCloseRollover.png */; };
-		F2D3E564189941F50096425B /* IW InactiveTabCloseRollover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E521189941F50096425B /* IW InactiveTabCloseRollover@2x.png */; };
-		F2D3E565189941F50096425B /* IW InactiveTabLeftCap.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E522189941F50096425B /* IW InactiveTabLeftCap.png */; };
-		F2D3E566189941F50096425B /* IW InactiveTabLeftCap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E523189941F50096425B /* IW InactiveTabLeftCap@2x.png */; };
-		F2D3E567189941F50096425B /* IW InactiveTabRightCap.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E524189941F50096425B /* IW InactiveTabRightCap.png */; };
-		F2D3E568189941F50096425B /* IW InactiveTabRightCap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E525189941F50096425B /* IW InactiveTabRightCap@2x.png */; };
-		F2D3E569189941F50096425B /* IW SingleTabAddButton.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E526189941F50096425B /* IW SingleTabAddButton.png */; };
-		F2D3E56A189941F50096425B /* IW SingleTabAddButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D3E527189941F50096425B /* IW SingleTabAddButton@2x.png */; };
 		F2D56993133B880900CEC841 /* SEEStyleSheetSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D56992133B880900CEC841 /* SEEStyleSheetSettings.m */; };
 		F2D5FF3E0CB2666000407399 /* Rendezvous.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF3D0CB2666000407399 /* Rendezvous.icns */; };
 		F2D5FF400CB2667A00407399 /* StylePrefs.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF3F0CB2667A00407399 /* StylePrefs.icns */; };
@@ -1159,26 +1040,6 @@
 		F2230A460BE0243100437D55 /* TCMBEEPBencodedMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMBEEPBencodedMessage.m; path = TCMBEEP/TCMBEEPBencodedMessage.m; sourceTree = "<group>"; };
 		F2230A470BE0243100437D55 /* TCMBEEPBencodingProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = TCMBEEPBencodingProfile.h; path = TCMBEEP/TCMBEEPBencodingProfile.h; sourceTree = "<group>"; };
 		F2230A480BE0243100437D55 /* TCMBEEPBencodingProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMBEEPBencodingProfile.m; path = TCMBEEP/TCMBEEPBencodingProfile.m; sourceTree = "<group>"; };
-		F22CB6B8216DFC4D00D1565D /* DAW ActiveTabClose@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DAW ActiveTabClose@2x.png"; sourceTree = "<group>"; };
-		F22CB6B9216DFC4E00D1565D /* DAW ActiveTabClose.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DAW ActiveTabClose.png"; sourceTree = "<group>"; };
-		F22CB6BA216DFC4E00D1565D /* DAW ActiveTabClosePressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DAW ActiveTabClosePressed.png"; sourceTree = "<group>"; };
-		F22CB6BB216DFC4E00D1565D /* DAW ActiveTabCloseRollover@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DAW ActiveTabCloseRollover@2x.png"; sourceTree = "<group>"; };
-		F22CB6BC216DFC4E00D1565D /* DAW ActiveTabClosePressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DAW ActiveTabClosePressed@2x.png"; sourceTree = "<group>"; };
-		F22CB6BD216DFC4E00D1565D /* DAW ActiveTabCloseRollover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DAW ActiveTabCloseRollover.png"; sourceTree = "<group>"; };
-		F22CB6C4216DFFAF00D1565D /* DAW InactiveTabCloseRollover@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DAW InactiveTabCloseRollover@2x.png"; sourceTree = "<group>"; };
-		F22CB6C5216DFFAF00D1565D /* DAW InactiveTabCloseRollover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DAW InactiveTabCloseRollover.png"; sourceTree = "<group>"; };
-		F22CB6C6216DFFAF00D1565D /* DAW InactiveTabClosePressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DAW InactiveTabClosePressed@2x.png"; sourceTree = "<group>"; };
-		F22CB6C7216DFFAF00D1565D /* DAW InactiveTabClosePressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DAW InactiveTabClosePressed.png"; sourceTree = "<group>"; };
-		F22CB6CC216E02F800D1565D /* DIW ActiveTabCloseRollover@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DIW ActiveTabCloseRollover@2x.png"; sourceTree = "<group>"; };
-		F22CB6CD216E02F800D1565D /* DIW InactiveTabCloseRollover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DIW InactiveTabCloseRollover.png"; sourceTree = "<group>"; };
-		F22CB6CE216E02F800D1565D /* DIW InactiveTabClosePressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DIW InactiveTabClosePressed.png"; sourceTree = "<group>"; };
-		F22CB6CF216E02F800D1565D /* DIW InactiveTabCloseRollover@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DIW InactiveTabCloseRollover@2x.png"; sourceTree = "<group>"; };
-		F22CB6D0216E02F800D1565D /* DIW InactiveTabClosePressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DIW InactiveTabClosePressed@2x.png"; sourceTree = "<group>"; };
-		F22CB6D1216E02F900D1565D /* DIW ActiveTabClose@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DIW ActiveTabClose@2x.png"; sourceTree = "<group>"; };
-		F22CB6D2216E02F900D1565D /* DIW ActiveTabClose.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DIW ActiveTabClose.png"; sourceTree = "<group>"; };
-		F22CB6D3216E02F900D1565D /* DIW ActiveTabCloseRollover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DIW ActiveTabCloseRollover.png"; sourceTree = "<group>"; };
-		F22CB6D4216E02F900D1565D /* DIW ActiveTabClosePressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DIW ActiveTabClosePressed.png"; sourceTree = "<group>"; };
-		F22CB6D5216E02F900D1565D /* DIW ActiveTabClosePressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DIW ActiveTabClosePressed@2x.png"; sourceTree = "<group>"; };
 		F2308E6518E06FA00096E0C1 /* SEEFindAndReplaceContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEFindAndReplaceContext.h; sourceTree = "<group>"; };
 		F2308E6618E06FA00096E0C1 /* SEEFindAndReplaceContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEFindAndReplaceContext.m; sourceTree = "<group>"; };
 		F234E4560BE2592300504A7C /* NSWorkspaceTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NSWorkspaceTCMAdditions.h; sourceTree = "<group>"; };
@@ -1208,30 +1069,6 @@
 		F27C4DC4192FA2A800B5DB3C /* SEEHoverTableRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEHoverTableRowView.m; sourceTree = "<group>"; };
 		F27EDD10216BC3AD00987579 /* SubEthaEdit_AuthenticatedSave.scpt */ = {isa = PBXFileReference; lastKnownFileType = file; name = SubEthaEdit_AuthenticatedSave.scpt; path = Resources/SharedSupport/SubEthaEdit_AuthenticatedSave.scpt; sourceTree = "<group>"; };
 		F27EDD1A216BD8F500987579 /* install.command */ = {isa = PBXFileReference; lastKnownFileType = text; name = install.command; path = Resources/SharedSupport/install.command; sourceTree = "<group>"; };
-		F27EDD1F216CBB6C00987579 /* DAW ActiveTabFill@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DAW ActiveTabFill@2x.png"; sourceTree = "<group>"; };
-		F27EDD20216CBB6C00987579 /* DAW InactiveTabRightCap@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DAW InactiveTabRightCap@2x.png"; sourceTree = "<group>"; };
-		F27EDD21216CBB6C00987579 /* DAW InactiveTabBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DAW InactiveTabBG.png"; sourceTree = "<group>"; };
-		F27EDD22216CBB6D00987579 /* DAW ActiveTabRightCap@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DAW ActiveTabRightCap@2x.png"; sourceTree = "<group>"; };
-		F27EDD23216CBB6D00987579 /* DAW ActiveTabRightCap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DAW ActiveTabRightCap.png"; sourceTree = "<group>"; };
-		F27EDD24216CBB6D00987579 /* DAW ActiveTabFill.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DAW ActiveTabFill.png"; sourceTree = "<group>"; };
-		F27EDD25216CBB6D00987579 /* DAW InactiveTabBG@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DAW InactiveTabBG@2x.png"; sourceTree = "<group>"; };
-		F27EDD26216CBB6D00987579 /* DAW InactiveTabLeftCap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DAW InactiveTabLeftCap.png"; sourceTree = "<group>"; };
-		F27EDD27216CBB6D00987579 /* DAW InactiveTabLeftCap@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DAW InactiveTabLeftCap@2x.png"; sourceTree = "<group>"; };
-		F27EDD28216CBB6D00987579 /* DAW ActiveTabLeftCap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DAW ActiveTabLeftCap.png"; sourceTree = "<group>"; };
-		F27EDD29216CBB6D00987579 /* DAW ActiveTabLeftCap@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DAW ActiveTabLeftCap@2x.png"; sourceTree = "<group>"; };
-		F27EDD2A216CBB6D00987579 /* DAW InactiveTabRightCap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DAW InactiveTabRightCap.png"; sourceTree = "<group>"; };
-		F27EDD37216CC26300987579 /* DIW ActiveTabFill@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DIW ActiveTabFill@2x.png"; sourceTree = "<group>"; };
-		F27EDD38216CC26300987579 /* DIW ActiveTabFill.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DIW ActiveTabFill.png"; sourceTree = "<group>"; };
-		F27EDD39216CC26400987579 /* DIW ActiveTabRightCap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DIW ActiveTabRightCap.png"; sourceTree = "<group>"; };
-		F27EDD3A216CC26400987579 /* DIW ActiveTabLeftCap@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DIW ActiveTabLeftCap@2x.png"; sourceTree = "<group>"; };
-		F27EDD3B216CC26400987579 /* DIW InactiveTabBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DIW InactiveTabBG.png"; sourceTree = "<group>"; };
-		F27EDD3C216CC26400987579 /* DIW ActiveTabRightCap@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DIW ActiveTabRightCap@2x.png"; sourceTree = "<group>"; };
-		F27EDD3D216CC26400987579 /* DIW InactiveTabLeftCap@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DIW InactiveTabLeftCap@2x.png"; sourceTree = "<group>"; };
-		F27EDD3E216CC26400987579 /* DIW InactiveTabLeftCap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DIW InactiveTabLeftCap.png"; sourceTree = "<group>"; };
-		F27EDD3F216CC26400987579 /* DIW InactiveTabRightCap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DIW InactiveTabRightCap.png"; sourceTree = "<group>"; };
-		F27EDD40216CC26400987579 /* DIW InactiveTabRightCap@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DIW InactiveTabRightCap@2x.png"; sourceTree = "<group>"; };
-		F27EDD41216CC26400987579 /* DIW ActiveTabLeftCap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DIW ActiveTabLeftCap.png"; sourceTree = "<group>"; };
-		F27EDD42216CC26500987579 /* DIW InactiveTabBG@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DIW InactiveTabBG@2x.png"; sourceTree = "<group>"; };
 		F27EDD54216E6DEC00987579 /* NSAppearanceSEEAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NSAppearanceSEEAdditions.h; path = Additions/NSAppearanceSEEAdditions.h; sourceTree = "<group>"; };
 		F27EDD55216E6DEC00987579 /* NSAppearanceSEEAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = NSAppearanceSEEAdditions.m; path = Additions/NSAppearanceSEEAdditions.m; sourceTree = "<group>"; };
 		F280ABC2131E6ED50091D145 /* SEEStyleSheetEditorWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SEEStyleSheetEditorWindowController.h; sourceTree = "<group>"; };
@@ -1283,14 +1120,6 @@
 		F2ABC4E20C799CCD007437A2 /* TCMMMLoggedOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = TCMMMLoggedOperation.h; path = TCMMillionMonkeys/TCMMMLoggedOperation.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		F2ABC52F0C79D898007437A2 /* DebugHistoryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = DebugHistoryController.h; path = Debug/DebugHistoryController.h; sourceTree = "<group>"; };
 		F2ABC5300C79D898007437A2 /* DebugHistoryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DebugHistoryController.m; path = Debug/DebugHistoryController.m; sourceTree = "<group>"; };
-		F2B136DE189BF27000430639 /* AW AddTabButtonRollover.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "AW AddTabButtonRollover.tiff"; sourceTree = "<group>"; };
-		F2B136DF189BF27000430639 /* AW AddTabButtonRolloverBG_Pressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "AW AddTabButtonRolloverBG_Pressed.tiff"; sourceTree = "<group>"; };
-		F2B136E0189BF27000430639 /* AW AddTabButtonRolloverBG.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "AW AddTabButtonRolloverBG.tiff"; sourceTree = "<group>"; };
-		F2B136E1189BF27000430639 /* AW AddTabButtonRolloverPlus.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "AW AddTabButtonRolloverPlus.tiff"; sourceTree = "<group>"; };
-		F2B136E2189BF27000430639 /* IW AddTabButton.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "IW AddTabButton.tiff"; sourceTree = "<group>"; };
-		F2B136E3189BF27000430639 /* AW AddTabButton.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "AW AddTabButton.tiff"; sourceTree = "<group>"; };
-		F2B136E4189BF27000430639 /* AW AddTabButtonPushed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "AW AddTabButtonPushed.tiff"; sourceTree = "<group>"; };
-		F2B136E5189BF27000430639 /* AW AddTabButtonRollover_Pressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "AW AddTabButtonRollover_Pressed.tiff"; sourceTree = "<group>"; };
 		F2B6CCC20EE9C6390077417E /* SeeTextImporter.mdimporter */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SeeTextImporter.mdimporter; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2BC7538217BDA3F0056FAED /* Acknowledgements.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = Acknowledgements.md; path = ../Acknowledgements.md; sourceTree = "<group>"; };
 		F2C44CBD21635F29006D59DB /* SEEDebugImageGenerationWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SEEDebugImageGenerationWindowController.xib; path = Debug/SEEDebugImageGenerationWindowController.xib; sourceTree = "<group>"; };
@@ -1310,73 +1139,6 @@
 		F2D12A1A0BF0B8DF00A776CC /* SEEConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SEEConnection.h; sourceTree = "<group>"; };
 		F2D12A1B0BF0B8DF00A776CC /* SEEConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEConnection.m; sourceTree = "<group>"; };
 		F2D22CAE0EE9C5DE004B8E33 /* SeeTextImporter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SeeTextImporter.xcodeproj; path = SeeTextImporter/SeeTextImporter.xcodeproj; sourceTree = "<group>"; };
-		F2D3E4E5189941F50096425B /* AddTab.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = AddTab.pdf; sourceTree = "<group>"; };
-		F2D3E4E6189941F50096425B /* AW ActiveTabClose.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AW ActiveTabClose.png"; sourceTree = "<group>"; };
-		F2D3E4E7189941F50096425B /* AW ActiveTabClose@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AW ActiveTabClose@2x.png"; sourceTree = "<group>"; };
-		F2D3E4E8189941F50096425B /* AW ActiveTabClosePressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AW ActiveTabClosePressed.png"; sourceTree = "<group>"; };
-		F2D3E4E9189941F50096425B /* AW ActiveTabClosePressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AW ActiveTabClosePressed@2x.png"; sourceTree = "<group>"; };
-		F2D3E4EA189941F50096425B /* AW ActiveTabCloseRollover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AW ActiveTabCloseRollover.png"; sourceTree = "<group>"; };
-		F2D3E4EB189941F50096425B /* AW ActiveTabCloseRollover@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AW ActiveTabCloseRollover@2x.png"; sourceTree = "<group>"; };
-		F2D3E4EC189941F50096425B /* AW ActiveTabFill.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AW ActiveTabFill.png"; sourceTree = "<group>"; };
-		F2D3E4ED189941F50096425B /* AW ActiveTabFill@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AW ActiveTabFill@2x.png"; sourceTree = "<group>"; };
-		F2D3E4EE189941F50096425B /* AW ActiveTabLeftCap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AW ActiveTabLeftCap.png"; sourceTree = "<group>"; };
-		F2D3E4EF189941F50096425B /* AW ActiveTabLeftCap@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AW ActiveTabLeftCap@2x.png"; sourceTree = "<group>"; };
-		F2D3E4F0189941F50096425B /* AW ActiveTabRightCap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AW ActiveTabRightCap.png"; sourceTree = "<group>"; };
-		F2D3E4F1189941F50096425B /* AW ActiveTabRightCap@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AW ActiveTabRightCap@2x.png"; sourceTree = "<group>"; };
-		F2D3E4F2189941F50096425B /* AW InactiveTabAlert.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AW InactiveTabAlert.png"; sourceTree = "<group>"; };
-		F2D3E4F3189941F50096425B /* AW InactiveTabAlert@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AW InactiveTabAlert@2x.png"; sourceTree = "<group>"; };
-		F2D3E4F4189941F50096425B /* AW InactiveTabBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AW InactiveTabBG.png"; sourceTree = "<group>"; };
-		F2D3E4F5189941F50096425B /* AW InactiveTabBG@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AW InactiveTabBG@2x.png"; sourceTree = "<group>"; };
-		F2D3E4F6189941F50096425B /* AW InactiveTabClose.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AW InactiveTabClose.png"; sourceTree = "<group>"; };
-		F2D3E4F7189941F50096425B /* AW InactiveTabClose@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AW InactiveTabClose@2x.png"; sourceTree = "<group>"; };
-		F2D3E4F8189941F50096425B /* AW InactiveTabClosePressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AW InactiveTabClosePressed.png"; sourceTree = "<group>"; };
-		F2D3E4F9189941F50096425B /* AW InactiveTabClosePressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AW InactiveTabClosePressed@2x.png"; sourceTree = "<group>"; };
-		F2D3E4FA189941F50096425B /* AW InactiveTabCloseRollover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AW InactiveTabCloseRollover.png"; sourceTree = "<group>"; };
-		F2D3E4FB189941F50096425B /* AW InactiveTabCloseRollover@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AW InactiveTabCloseRollover@2x.png"; sourceTree = "<group>"; };
-		F2D3E4FC189941F50096425B /* AW InactiveTabLeftCap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AW InactiveTabLeftCap.png"; sourceTree = "<group>"; };
-		F2D3E4FD189941F50096425B /* AW InactiveTabLeftCap@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AW InactiveTabLeftCap@2x.png"; sourceTree = "<group>"; };
-		F2D3E4FE189941F50096425B /* AW InactiveTabRightCap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AW InactiveTabRightCap.png"; sourceTree = "<group>"; };
-		F2D3E4FF189941F50096425B /* AW InactiveTabRightCap@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AW InactiveTabRightCap@2x.png"; sourceTree = "<group>"; };
-		F2D3E500189941F50096425B /* AW Pulled ActiveTabCenterFill.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AW Pulled ActiveTabCenterFill.png"; sourceTree = "<group>"; };
-		F2D3E501189941F50096425B /* AW Pulled ActiveTabCenterFill@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AW Pulled ActiveTabCenterFill@2x.png"; sourceTree = "<group>"; };
-		F2D3E502189941F50096425B /* AW Pulled ActiveTabLeftCap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AW Pulled ActiveTabLeftCap.png"; sourceTree = "<group>"; };
-		F2D3E503189941F50096425B /* AW Pulled ActiveTabLeftCap@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AW Pulled ActiveTabLeftCap@2x.png"; sourceTree = "<group>"; };
-		F2D3E504189941F50096425B /* AW Pulled ActiveTabRightCap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AW Pulled ActiveTabRightCap.png"; sourceTree = "<group>"; };
-		F2D3E505189941F50096425B /* AW Pulled ActiveTabRightCap@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AW Pulled ActiveTabRightCap@2x.png"; sourceTree = "<group>"; };
-		F2D3E506189941F50096425B /* AW SingleTabAddButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AW SingleTabAddButton.png"; sourceTree = "<group>"; };
-		F2D3E507189941F50096425B /* AW SingleTabAddButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AW SingleTabAddButton@2x.png"; sourceTree = "<group>"; };
-		F2D3E508189941F50096425B /* AW SingleTabAddButtonPressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AW SingleTabAddButtonPressed.png"; sourceTree = "<group>"; };
-		F2D3E509189941F50096425B /* AW SingleTabAddButtonPressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AW SingleTabAddButtonPressed@2x.png"; sourceTree = "<group>"; };
-		F2D3E50A189941F50096425B /* AW SingleTabAddButtonRollover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AW SingleTabAddButtonRollover.png"; sourceTree = "<group>"; };
-		F2D3E50B189941F50096425B /* AW SingleTabAddButtonRollover@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AW SingleTabAddButtonRollover@2x.png"; sourceTree = "<group>"; };
-		F2D3E50C189941F50096425B /* IW ActiveTabClose.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IW ActiveTabClose.png"; sourceTree = "<group>"; };
-		F2D3E50D189941F50096425B /* IW ActiveTabClose@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IW ActiveTabClose@2x.png"; sourceTree = "<group>"; };
-		F2D3E50E189941F50096425B /* IW ActiveTabClosePressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IW ActiveTabClosePressed.png"; sourceTree = "<group>"; };
-		F2D3E50F189941F50096425B /* IW ActiveTabClosePressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IW ActiveTabClosePressed@2x.png"; sourceTree = "<group>"; };
-		F2D3E510189941F50096425B /* IW ActiveTabCloseRollover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IW ActiveTabCloseRollover.png"; sourceTree = "<group>"; };
-		F2D3E511189941F50096425B /* IW ActiveTabCloseRollover@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IW ActiveTabCloseRollover@2x.png"; sourceTree = "<group>"; };
-		F2D3E512189941F50096425B /* IW ActiveTabFill.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IW ActiveTabFill.png"; sourceTree = "<group>"; };
-		F2D3E513189941F50096425B /* IW ActiveTabFill@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IW ActiveTabFill@2x.png"; sourceTree = "<group>"; };
-		F2D3E514189941F50096425B /* IW ActiveTabLeftCap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IW ActiveTabLeftCap.png"; sourceTree = "<group>"; };
-		F2D3E515189941F50096425B /* IW ActiveTabLeftCap@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IW ActiveTabLeftCap@2x.png"; sourceTree = "<group>"; };
-		F2D3E516189941F50096425B /* IW ActiveTabRightCap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IW ActiveTabRightCap.png"; sourceTree = "<group>"; };
-		F2D3E517189941F50096425B /* IW ActiveTabRightCap@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IW ActiveTabRightCap@2x.png"; sourceTree = "<group>"; };
-		F2D3E518189941F50096425B /* IW InactiveTabAlert.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IW InactiveTabAlert.png"; sourceTree = "<group>"; };
-		F2D3E519189941F50096425B /* IW InactiveTabAlert@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IW InactiveTabAlert@2x.png"; sourceTree = "<group>"; };
-		F2D3E51A189941F50096425B /* IW InactiveTabBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IW InactiveTabBG.png"; sourceTree = "<group>"; };
-		F2D3E51B189941F50096425B /* IW InactiveTabBG@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IW InactiveTabBG@2x.png"; sourceTree = "<group>"; };
-		F2D3E51C189941F50096425B /* IW InactiveTabClose.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IW InactiveTabClose.png"; sourceTree = "<group>"; };
-		F2D3E51D189941F50096425B /* IW InactiveTabClose@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IW InactiveTabClose@2x.png"; sourceTree = "<group>"; };
-		F2D3E51E189941F50096425B /* IW InactiveTabClosePressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IW InactiveTabClosePressed.png"; sourceTree = "<group>"; };
-		F2D3E51F189941F50096425B /* IW InactiveTabClosePressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IW InactiveTabClosePressed@2x.png"; sourceTree = "<group>"; };
-		F2D3E520189941F50096425B /* IW InactiveTabCloseRollover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IW InactiveTabCloseRollover.png"; sourceTree = "<group>"; };
-		F2D3E521189941F50096425B /* IW InactiveTabCloseRollover@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IW InactiveTabCloseRollover@2x.png"; sourceTree = "<group>"; };
-		F2D3E522189941F50096425B /* IW InactiveTabLeftCap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IW InactiveTabLeftCap.png"; sourceTree = "<group>"; };
-		F2D3E523189941F50096425B /* IW InactiveTabLeftCap@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IW InactiveTabLeftCap@2x.png"; sourceTree = "<group>"; };
-		F2D3E524189941F50096425B /* IW InactiveTabRightCap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IW InactiveTabRightCap.png"; sourceTree = "<group>"; };
-		F2D3E525189941F50096425B /* IW InactiveTabRightCap@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IW InactiveTabRightCap@2x.png"; sourceTree = "<group>"; };
-		F2D3E526189941F50096425B /* IW SingleTabAddButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IW SingleTabAddButton.png"; sourceTree = "<group>"; };
-		F2D3E527189941F50096425B /* IW SingleTabAddButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IW SingleTabAddButton@2x.png"; sourceTree = "<group>"; };
 		F2D56991133B880900CEC841 /* SEEStyleSheetSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SEEStyleSheetSettings.h; sourceTree = "<group>"; };
 		F2D56992133B880900CEC841 /* SEEStyleSheetSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEStyleSheetSettings.m; sourceTree = "<group>"; };
 		F2D5FF3D0CB2666000407399 /* Rendezvous.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Rendezvous.icns; path = artwork/Rendezvous.icns; sourceTree = "<group>"; };
@@ -1505,7 +1267,6 @@
 				F24582892181C19F00A87EB5 /* FileIcons.xcassets */,
 				4C6BDC61188985EF0088CBFC /* Retina */,
 				F2FEE70E1892A747000E6BC8 /* SharingBarIcons */,
-				F2D3E4E4189941F50096425B /* Tabs */,
 				F265602018C4BA7300C73737 /* SearchLoupeNormal.pdf */,
 				F265602118C4BA7300C73737 /* SearchLoupeRE.pdf */,
 				F2C6D3730D6DB131002B401D /* URLIconNotOK.tiff */,
@@ -2383,133 +2144,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		F2D3E4E4189941F50096425B /* Tabs */ = {
-			isa = PBXGroup;
-			children = (
-				F22CB6D2216E02F900D1565D /* DIW ActiveTabClose.png */,
-				F22CB6D1216E02F900D1565D /* DIW ActiveTabClose@2x.png */,
-				F22CB6D4216E02F900D1565D /* DIW ActiveTabClosePressed.png */,
-				F22CB6D5216E02F900D1565D /* DIW ActiveTabClosePressed@2x.png */,
-				F22CB6D3216E02F900D1565D /* DIW ActiveTabCloseRollover.png */,
-				F22CB6CC216E02F800D1565D /* DIW ActiveTabCloseRollover@2x.png */,
-				F22CB6CE216E02F800D1565D /* DIW InactiveTabClosePressed.png */,
-				F22CB6D0216E02F800D1565D /* DIW InactiveTabClosePressed@2x.png */,
-				F22CB6CD216E02F800D1565D /* DIW InactiveTabCloseRollover.png */,
-				F22CB6CF216E02F800D1565D /* DIW InactiveTabCloseRollover@2x.png */,
-				F22CB6C7216DFFAF00D1565D /* DAW InactiveTabClosePressed.png */,
-				F22CB6C6216DFFAF00D1565D /* DAW InactiveTabClosePressed@2x.png */,
-				F22CB6C5216DFFAF00D1565D /* DAW InactiveTabCloseRollover.png */,
-				F22CB6C4216DFFAF00D1565D /* DAW InactiveTabCloseRollover@2x.png */,
-				F22CB6B9216DFC4E00D1565D /* DAW ActiveTabClose.png */,
-				F22CB6B8216DFC4D00D1565D /* DAW ActiveTabClose@2x.png */,
-				F22CB6BA216DFC4E00D1565D /* DAW ActiveTabClosePressed.png */,
-				F22CB6BC216DFC4E00D1565D /* DAW ActiveTabClosePressed@2x.png */,
-				F22CB6BD216DFC4E00D1565D /* DAW ActiveTabCloseRollover.png */,
-				F22CB6BB216DFC4E00D1565D /* DAW ActiveTabCloseRollover@2x.png */,
-				F27EDD38216CC26300987579 /* DIW ActiveTabFill.png */,
-				F27EDD37216CC26300987579 /* DIW ActiveTabFill@2x.png */,
-				F27EDD41216CC26400987579 /* DIW ActiveTabLeftCap.png */,
-				F27EDD3A216CC26400987579 /* DIW ActiveTabLeftCap@2x.png */,
-				F27EDD39216CC26400987579 /* DIW ActiveTabRightCap.png */,
-				F27EDD3C216CC26400987579 /* DIW ActiveTabRightCap@2x.png */,
-				F27EDD3B216CC26400987579 /* DIW InactiveTabBG.png */,
-				F27EDD42216CC26500987579 /* DIW InactiveTabBG@2x.png */,
-				F27EDD3E216CC26400987579 /* DIW InactiveTabLeftCap.png */,
-				F27EDD3D216CC26400987579 /* DIW InactiveTabLeftCap@2x.png */,
-				F27EDD3F216CC26400987579 /* DIW InactiveTabRightCap.png */,
-				F27EDD40216CC26400987579 /* DIW InactiveTabRightCap@2x.png */,
-				F27EDD24216CBB6D00987579 /* DAW ActiveTabFill.png */,
-				F27EDD1F216CBB6C00987579 /* DAW ActiveTabFill@2x.png */,
-				F27EDD28216CBB6D00987579 /* DAW ActiveTabLeftCap.png */,
-				F27EDD29216CBB6D00987579 /* DAW ActiveTabLeftCap@2x.png */,
-				F27EDD23216CBB6D00987579 /* DAW ActiveTabRightCap.png */,
-				F27EDD22216CBB6D00987579 /* DAW ActiveTabRightCap@2x.png */,
-				F27EDD21216CBB6C00987579 /* DAW InactiveTabBG.png */,
-				F27EDD25216CBB6D00987579 /* DAW InactiveTabBG@2x.png */,
-				F27EDD26216CBB6D00987579 /* DAW InactiveTabLeftCap.png */,
-				F27EDD27216CBB6D00987579 /* DAW InactiveTabLeftCap@2x.png */,
-				F27EDD2A216CBB6D00987579 /* DAW InactiveTabRightCap.png */,
-				F27EDD20216CBB6C00987579 /* DAW InactiveTabRightCap@2x.png */,
-				F2B136DE189BF27000430639 /* AW AddTabButtonRollover.tiff */,
-				F2B136DF189BF27000430639 /* AW AddTabButtonRolloverBG_Pressed.tiff */,
-				F2B136E0189BF27000430639 /* AW AddTabButtonRolloverBG.tiff */,
-				F2B136E1189BF27000430639 /* AW AddTabButtonRolloverPlus.tiff */,
-				F2B136E2189BF27000430639 /* IW AddTabButton.tiff */,
-				F2B136E3189BF27000430639 /* AW AddTabButton.tiff */,
-				F2B136E4189BF27000430639 /* AW AddTabButtonPushed.tiff */,
-				F2B136E5189BF27000430639 /* AW AddTabButtonRollover_Pressed.tiff */,
-				F2D3E4E5189941F50096425B /* AddTab.pdf */,
-				F2D3E4E6189941F50096425B /* AW ActiveTabClose.png */,
-				F2D3E4E7189941F50096425B /* AW ActiveTabClose@2x.png */,
-				F2D3E4E8189941F50096425B /* AW ActiveTabClosePressed.png */,
-				F2D3E4E9189941F50096425B /* AW ActiveTabClosePressed@2x.png */,
-				F2D3E4EA189941F50096425B /* AW ActiveTabCloseRollover.png */,
-				F2D3E4EB189941F50096425B /* AW ActiveTabCloseRollover@2x.png */,
-				F2D3E4EC189941F50096425B /* AW ActiveTabFill.png */,
-				F2D3E4ED189941F50096425B /* AW ActiveTabFill@2x.png */,
-				F2D3E4EE189941F50096425B /* AW ActiveTabLeftCap.png */,
-				F2D3E4EF189941F50096425B /* AW ActiveTabLeftCap@2x.png */,
-				F2D3E4F0189941F50096425B /* AW ActiveTabRightCap.png */,
-				F2D3E4F1189941F50096425B /* AW ActiveTabRightCap@2x.png */,
-				F2D3E4F2189941F50096425B /* AW InactiveTabAlert.png */,
-				F2D3E4F3189941F50096425B /* AW InactiveTabAlert@2x.png */,
-				F2D3E4F4189941F50096425B /* AW InactiveTabBG.png */,
-				F2D3E4F5189941F50096425B /* AW InactiveTabBG@2x.png */,
-				F2D3E4F6189941F50096425B /* AW InactiveTabClose.png */,
-				F2D3E4F7189941F50096425B /* AW InactiveTabClose@2x.png */,
-				F2D3E4F8189941F50096425B /* AW InactiveTabClosePressed.png */,
-				F2D3E4F9189941F50096425B /* AW InactiveTabClosePressed@2x.png */,
-				F2D3E4FA189941F50096425B /* AW InactiveTabCloseRollover.png */,
-				F2D3E4FB189941F50096425B /* AW InactiveTabCloseRollover@2x.png */,
-				F2D3E4FC189941F50096425B /* AW InactiveTabLeftCap.png */,
-				F2D3E4FD189941F50096425B /* AW InactiveTabLeftCap@2x.png */,
-				F2D3E4FE189941F50096425B /* AW InactiveTabRightCap.png */,
-				F2D3E4FF189941F50096425B /* AW InactiveTabRightCap@2x.png */,
-				F2D3E500189941F50096425B /* AW Pulled ActiveTabCenterFill.png */,
-				F2D3E501189941F50096425B /* AW Pulled ActiveTabCenterFill@2x.png */,
-				F2D3E502189941F50096425B /* AW Pulled ActiveTabLeftCap.png */,
-				F2D3E503189941F50096425B /* AW Pulled ActiveTabLeftCap@2x.png */,
-				F2D3E504189941F50096425B /* AW Pulled ActiveTabRightCap.png */,
-				F2D3E505189941F50096425B /* AW Pulled ActiveTabRightCap@2x.png */,
-				F2D3E506189941F50096425B /* AW SingleTabAddButton.png */,
-				F2D3E507189941F50096425B /* AW SingleTabAddButton@2x.png */,
-				F2D3E508189941F50096425B /* AW SingleTabAddButtonPressed.png */,
-				F2D3E509189941F50096425B /* AW SingleTabAddButtonPressed@2x.png */,
-				F2D3E50A189941F50096425B /* AW SingleTabAddButtonRollover.png */,
-				F2D3E50B189941F50096425B /* AW SingleTabAddButtonRollover@2x.png */,
-				F2D3E50C189941F50096425B /* IW ActiveTabClose.png */,
-				F2D3E50D189941F50096425B /* IW ActiveTabClose@2x.png */,
-				F2D3E50E189941F50096425B /* IW ActiveTabClosePressed.png */,
-				F2D3E50F189941F50096425B /* IW ActiveTabClosePressed@2x.png */,
-				F2D3E510189941F50096425B /* IW ActiveTabCloseRollover.png */,
-				F2D3E511189941F50096425B /* IW ActiveTabCloseRollover@2x.png */,
-				F2D3E512189941F50096425B /* IW ActiveTabFill.png */,
-				F2D3E513189941F50096425B /* IW ActiveTabFill@2x.png */,
-				F2D3E514189941F50096425B /* IW ActiveTabLeftCap.png */,
-				F2D3E515189941F50096425B /* IW ActiveTabLeftCap@2x.png */,
-				F2D3E516189941F50096425B /* IW ActiveTabRightCap.png */,
-				F2D3E517189941F50096425B /* IW ActiveTabRightCap@2x.png */,
-				F2D3E518189941F50096425B /* IW InactiveTabAlert.png */,
-				F2D3E519189941F50096425B /* IW InactiveTabAlert@2x.png */,
-				F2D3E51A189941F50096425B /* IW InactiveTabBG.png */,
-				F2D3E51B189941F50096425B /* IW InactiveTabBG@2x.png */,
-				F2D3E51C189941F50096425B /* IW InactiveTabClose.png */,
-				F2D3E51D189941F50096425B /* IW InactiveTabClose@2x.png */,
-				F2D3E51E189941F50096425B /* IW InactiveTabClosePressed.png */,
-				F2D3E51F189941F50096425B /* IW InactiveTabClosePressed@2x.png */,
-				F2D3E520189941F50096425B /* IW InactiveTabCloseRollover.png */,
-				F2D3E521189941F50096425B /* IW InactiveTabCloseRollover@2x.png */,
-				F2D3E522189941F50096425B /* IW InactiveTabLeftCap.png */,
-				F2D3E523189941F50096425B /* IW InactiveTabLeftCap@2x.png */,
-				F2D3E524189941F50096425B /* IW InactiveTabRightCap.png */,
-				F2D3E525189941F50096425B /* IW InactiveTabRightCap@2x.png */,
-				F2D3E526189941F50096425B /* IW SingleTabAddButton.png */,
-				F2D3E527189941F50096425B /* IW SingleTabAddButton@2x.png */,
-			);
-			name = Tabs;
-			path = artwork/Tabs;
-			sourceTree = "<group>";
-		};
 		F2D86C150F8E7DA200B912A2 /* SubEthaPerf */ = {
 			isa = PBXGroup;
 			children = (
@@ -2749,219 +2383,120 @@
 			buildActionMask = 2147483647;
 			files = (
 				4C0D3D6E17FB165C00AAFB38 /* DebugBEEP.xib in Resources */,
-				F2D3E547189941F50096425B /* AW Pulled ActiveTabRightCap.png in Resources */,
 				F22024C3191D0BFE0098982C /* ParticipantFollowTurnOffHover.png in Resources */,
 				4C0D3D7017FB166200AAFB38 /* DebugHistory.xib in Resources */,
-				F2D3E52E189941F50096425B /* AW ActiveTabCloseRollover@2x.png in Resources */,
 				14448AA40A18964A00F36B34 /* SubEthaEdit.sdef in Resources */,
 				F220248F191BC33D0098982C /* hud_buttonRight-P@2x.png in Resources */,
 				8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */,
 				4C6BDC6918898F850088CBFC /* ScriptMenuItemIcon.png in Resources */,
-				F22CB6C3216DFC4F00D1565D /* DAW ActiveTabCloseRollover.png in Resources */,
 				F220247E191BBDA10098982C /* hud_buttonLeft-N.png in Resources */,
 				4CD5F81917FB0DF900F49E31 /* PrecedencePrefs.xib in Resources */,
-				F2D3E55D189941F50096425B /* IW InactiveTabBG.png in Resources */,
 				F22024CA191D0BFE0098982C /* ParticipantFollowTurnOnHover@2x.png in Resources */,
-				F2D3E55B189941F50096425B /* IW InactiveTabAlert.png in Resources */,
-				F27EDD31216CBB6E00987579 /* DAW InactiveTabBG@2x.png in Resources */,
 				1428900F095740F200D14688 /* RE.txt in Resources */,
 				F2EFDE2C21760DFA00B5A4DD /* sparkle_dsa_pub.pem in Resources */,
-				F22CB6DE216E02F900D1565D /* DIW ActiveTabClosePressed.png in Resources */,
 				F22024D2191D0BFE0098982C /* ParticipantKickNormal@2x.png in Resources */,
-				F2D3E563189941F50096425B /* IW InactiveTabCloseRollover.png in Resources */,
 				F220247D191BBDA10098982C /* hud_buttonFill-N@2x.png in Resources */,
-				F22CB6BE216DFC4F00D1565D /* DAW ActiveTabClose@2x.png in Resources */,
 				145047420997750100D18142 /* ReleaseNotes.txt in Resources */,
 				4C0D3D6817FB145600AAFB38 /* Preferences.xib in Resources */,
 				F2BC7539217BDA3F0056FAED /* Acknowledgements.md in Resources */,
 				142890490957425900D14688 /* HTMLExport in Resources */,
 				1428904B0957427100D14688 /* Modes in Resources */,
 				F286A754215CE6410056C247 /* AboutPanel.xib in Resources */,
-				F2D3E56A189941F50096425B /* IW SingleTabAddButton@2x.png in Resources */,
-				F27EDD43216CC26500987579 /* DIW ActiveTabFill@2x.png in Resources */,
 				5E4DA73D09E15C6800D91CFC /* Scripts in Resources */,
-				F27EDD48216CC26500987579 /* DIW ActiveTabRightCap@2x.png in Resources */,
-				F2D3E539189941F50096425B /* AW InactiveTabClose.png in Resources */,
 				4C6BDC6A18898F850088CBFC /* ScriptMenuItemIcon@2x.png in Resources */,
 				F22024DD191D0BFE0098982C /* ParticipantReadOnlyTurnOnNormal.png in Resources */,
-				F2D3E554189941F50096425B /* IW ActiveTabCloseRollover@2x.png in Resources */,
 				F22024D6191D0BFE0098982C /* ParticipantReadOnlyTurnOffHover@2x.png in Resources */,
 				4C6BDC5C188983380088CBFC /* FoldingBubbleBig@2x.png in Resources */,
-				F27EDD35216CBB6E00987579 /* DAW ActiveTabLeftCap@2x.png in Resources */,
 				142890580957432800D14688 /* Invitation.aiff in Resources */,
 				142890590957432800D14688 /* Knock.wav in Resources */,
-				F27EDD4D216CC26500987579 /* DIW ActiveTabLeftCap.png in Resources */,
 				F22024C6191D0BFE0098982C /* ParticipantFollowTurnOffNormal@2x.png in Resources */,
-				F2D3E535189941F50096425B /* AW InactiveTabAlert.png in Resources */,
 				142890B1095743F200D14688 /* Action.tiff in Resources */,
 				F286A764215CF0F60056C247 /* Localizable.strings in Resources */,
 				F22024DA191D0BFE0098982C /* ParticipantReadOnlyTurnOffPressed@2x.png in Resources */,
 				142890B2095743F200D14688 /* ActionPressed.tiff in Resources */,
-				F2D3E53C189941F50096425B /* AW InactiveTabClosePressed@2x.png in Resources */,
 				F22024EA191D0DB30098982C /* ParticipantReadOnlyStatusOn@2x.png in Resources */,
 				1428905F095743B300D14688 /* debug.tiff in Resources */,
 				F22024C5191D0BFE0098982C /* ParticipantFollowTurnOffNormal.png in Resources */,
-				F2D3E54F189941F50096425B /* IW ActiveTabClose.png in Resources */,
 				142890BB095743F200D14688 /* EmptyButton.tiff in Resources */,
 				4C0D3D6C17FB165700AAFB38 /* DebugAttributesInspector.xib in Resources */,
-				F2D3E533189941F50096425B /* AW ActiveTabRightCap.png in Resources */,
 				F24AEA1B195AE78300046F6B /* DocumentProxy.xib in Resources */,
 				F22024D3191D0BFE0098982C /* ParticipantKickPressed.png in Resources */,
 				142890BF095743F200D14688 /* HomeFolderIcon.tiff in Resources */,
 				4CD5F7DA17FB0BF200F49E31 /* AdvancedPrefs.xib in Resources */,
 				F2FEE7131892A747000E6BC8 /* SharingIconCloseCross.pdf in Resources */,
-				F2D3E543189941F50096425B /* AW Pulled ActiveTabCenterFill.png in Resources */,
 				F2202483191BBDA10098982C /* hud_titlebar-close@2x.png in Resources */,
 				142890C1095743F200D14688 /* InternetResume.tiff in Resources */,
-				F27EDD2E216CBB6E00987579 /* DAW ActiveTabRightCap@2x.png in Resources */,
 				423B23D518F64065001E2DCC /* SEECollaborationPrefs.xib in Resources */,
 				142890C2095743F200D14688 /* InternetStop.tiff in Resources */,
 				F2202481191BBDA10098982C /* hud_buttonRight-N@2x.png in Resources */,
-				F2B136ED189BF27000430639 /* AW AddTabButtonRollover_Pressed.tiff in Resources */,
-				F2D3E536189941F50096425B /* AW InactiveTabAlert@2x.png in Resources */,
-				F2D3E561189941F50096425B /* IW InactiveTabClosePressed.png in Resources */,
-				F2D3E532189941F50096425B /* AW ActiveTabLeftCap@2x.png in Resources */,
-				F2D3E53A189941F50096425B /* AW InactiveTabClose@2x.png in Resources */,
 				F245828A2181C19F00A87EB5 /* FileIcons.xcassets in Resources */,
-				F27EDD45216CC26500987579 /* DIW ActiveTabRightCap.png in Resources */,
-				F2D3E567189941F50096425B /* IW InactiveTabRightCap.png in Resources */,
-				F27EDD4A216CC26500987579 /* DIW InactiveTabLeftCap.png in Resources */,
-				F22CB6C0216DFC4F00D1565D /* DAW ActiveTabClosePressed.png in Resources */,
 				142890C3095743F200D14688 /* LibraryFolderIcon.tiff in Resources */,
-				F2B136EB189BF27000430639 /* AW AddTabButton.tiff in Resources */,
-				F2D3E537189941F50096425B /* AW InactiveTabBG.png in Resources */,
-				F27EDD33216CBB6E00987579 /* DAW InactiveTabLeftCap@2x.png in Resources */,
 				F22024D7191D0BFE0098982C /* ParticipantReadOnlyTurnOffNormal.png in Resources */,
 				F25A0724191A800E00F07557 /* EditPrefs@2x.png in Resources */,
 				142890CB095743F200D14688 /* ParticipantBar_Fill.tiff in Resources */,
-				F22CB6DD216E02F900D1565D /* DIW ActiveTabCloseRollover.png in Resources */,
 				F22024D8191D0BFE0098982C /* ParticipantReadOnlyTurnOffNormal@2x.png in Resources */,
-				F2D3E530189941F50096425B /* AW ActiveTabFill@2x.png in Resources */,
 				F20AB881190932FB00444F4B /* SymbolWarn.png in Resources */,
 				142890CC095743F200D14688 /* Participants.icns in Resources */,
-				F27EDD49216CC26500987579 /* DIW InactiveTabLeftCap@2x.png in Resources */,
-				F2D3E54E189941F50096425B /* AW SingleTabAddButtonRollover@2x.png in Resources */,
-				F2B136E9189BF27000430639 /* AW AddTabButtonRolloverPlus.tiff in Resources */,
 				4CD5F82117FB0E2B00F49E31 /* PrintOptions.xib in Resources */,
 				142890D4095743F200D14688 /* SeeFolderIcon.tiff in Resources */,
 				F22024C9191D0BFE0098982C /* ParticipantFollowTurnOnHover.png in Resources */,
-				F2D3E54D189941F50096425B /* AW SingleTabAddButtonRollover.png in Resources */,
-				F2D3E52F189941F50096425B /* AW ActiveTabFill.png in Resources */,
 				F2C7672718B3AEAC00763B40 /* PlainTextEditor.xib in Resources */,
 				F22024E4191D0D280098982C /* ParticipantReadOnlyTurnOnPressed@2x.png in Resources */,
-				F22CB6BF216DFC4F00D1565D /* DAW ActiveTabClose.png in Resources */,
-				F22CB6DB216E02F900D1565D /* DIW ActiveTabClose@2x.png in Resources */,
 				4CD5F7EE17FB0CA300F49E31 /* Export.xib in Resources */,
 				F2815CE1216251F7006B3BC5 /* Bug Report.md in Resources */,
-				F2D3E54B189941F50096425B /* AW SingleTabAddButtonPressed.png in Resources */,
 				4CD5F7F617FB0CD200F49E31 /* FindReplace.xib in Resources */,
 				4CCD790118DB3F9E00A8B457 /* SEEScopedBookmarkAccessoryViewController.xib in Resources */,
-				F22CB6D9216E02F900D1565D /* DIW InactiveTabCloseRollover@2x.png in Resources */,
 				4C0D3D7817FB16F500AAFB38 /* DebugSendOperation.xib in Resources */,
-				F27EDD36216CBB6E00987579 /* DAW InactiveTabRightCap.png in Resources */,
 				F22024C8191D0BFE0098982C /* ParticipantFollowTurnOffPressed@2x.png in Resources */,
 				4C0D3D7217FB166900AAFB38 /* DebugPrefs.xib in Resources */,
-				F2D3E542189941F50096425B /* AW InactiveTabRightCap@2x.png in Resources */,
-				F2D3E560189941F50096425B /* IW InactiveTabClose@2x.png in Resources */,
 				4CD5F7FA17FB0D0C00F49E31 /* GeneralPrefs.xib in Resources */,
 				F2FEE7161892A747000E6BC8 /* SharingIconWrite.pdf in Resources */,
-				F22CB6D7216E02F900D1565D /* DIW InactiveTabCloseRollover.png in Resources */,
 				4CDC272018967D990060B044 /* SEEParticipantView.xib in Resources */,
 				F22024D9191D0BFE0098982C /* ParticipantReadOnlyTurnOffPressed.png in Resources */,
 				F22024DE191D0BFE0098982C /* ParticipantReadOnlyTurnOnNormal@2x.png in Resources */,
-				F2D3E54C189941F50096425B /* AW SingleTabAddButtonPressed@2x.png in Resources */,
 				F2EF08D119069E33004D5080 /* Localizable.stringsdict in Resources */,
 				4C0D3D6417FB12F700AAFB38 /* SEEStyleSheetEditorWindowController.xib in Resources */,
-				F2D3E544189941F50096425B /* AW Pulled ActiveTabCenterFill@2x.png in Resources */,
-				F22CB6CA216DFFB000D1565D /* DAW InactiveTabClosePressed@2x.png in Resources */,
-				F2D3E55C189941F50096425B /* IW InactiveTabAlert@2x.png in Resources */,
 				F2FEE7151892A747000E6BC8 /* SharingIconReadOnly.pdf in Resources */,
 				142890FF095743F200D14688 /* URLIcon.tiff in Resources */,
-				F22CB6C1216DFC4F00D1565D /* DAW ActiveTabCloseRollover@2x.png in Resources */,
 				14289100095743F200D14688 /* WaitPipe.png in Resources */,
-				F2D3E545189941F50096425B /* AW Pulled ActiveTabLeftCap.png in Resources */,
-				F22CB6C8216DFFB000D1565D /* DAW InactiveTabCloseRollover@2x.png in Resources */,
-				F2B136E8189BF27000430639 /* AW AddTabButtonRolloverBG.tiff in Resources */,
 				F22024CC191D0BFE0098982C /* ParticipantFollowTurnOnNormal@2x.png in Resources */,
 				F20AB882190932FB00444F4B /* SymbolWarn@2x.png in Resources */,
-				F2D3E552189941F50096425B /* IW ActiveTabClosePressed@2x.png in Resources */,
-				F2D3E55A189941F50096425B /* IW ActiveTabRightCap@2x.png in Resources */,
-				F27EDD32216CBB6E00987579 /* DAW InactiveTabLeftCap.png in Resources */,
 				4CD5F7E617FB0C7B00F49E31 /* EditPrefs.xib in Resources */,
 				4CD5F7EA17FB0C8E00F49E31 /* SEEEncodingDoctorView.xib in Resources */,
-				F22CB6DA216E02F900D1565D /* DIW InactiveTabClosePressed@2x.png in Resources */,
 				F22024CD191D0BFE0098982C /* ParticipantFollowTurnOnPressed.png in Resources */,
 				F20D8F0C18FC28CB0091EB13 /* Artwork.xcassets in Resources */,
-				F2D3E556189941F50096425B /* IW ActiveTabFill@2x.png in Resources */,
-				F27EDD4B216CC26500987579 /* DIW InactiveTabRightCap.png in Resources */,
 				F265602318C4BA7300C73737 /* SearchLoupeRE.pdf in Resources */,
 				F220248C191BC33D0098982C /* hud_buttonLeft-P.png in Resources */,
-				F2D3E569189941F50096425B /* IW SingleTabAddButton.png in Resources */,
 				1493A8590A10DABB004ECE6A /* SystemVersionCheck.strings in Resources */,
 				4C6BDC5F1889858A0088CBFC /* folded.png in Resources */,
 				F220247C191BBDA10098982C /* hud_buttonFill-N.png in Resources */,
 				F22024C0191D0BFE0098982C /* ParticipantFollowStatusOn@2x.png in Resources */,
 				420AAF7F18FE0FFC00297DB1 /* StylePrefs.xib in Resources */,
-				F2D3E562189941F50096425B /* IW InactiveTabClosePressed@2x.png in Resources */,
 				4CA098DE18EAF54E0026B3E3 /* SEEWebPreviewViewController.xib in Resources */,
-				F2D3E540189941F50096425B /* AW InactiveTabLeftCap@2x.png in Resources */,
-				F22CB6CB216DFFB000D1565D /* DAW InactiveTabClosePressed.png in Resources */,
-				F2D3E557189941F50096425B /* IW ActiveTabLeftCap.png in Resources */,
-				F27EDD30216CBB6E00987579 /* DAW ActiveTabFill.png in Resources */,
-				F2D3E551189941F50096425B /* IW ActiveTabClosePressed.png in Resources */,
-				F2B136E7189BF27000430639 /* AW AddTabButtonRolloverBG_Pressed.tiff in Resources */,
-				F2D3E555189941F50096425B /* IW ActiveTabFill.png in Resources */,
 				F22024E3191D0D280098982C /* ParticipantReadOnlyTurnOnPressed.png in Resources */,
-				F2D3E541189941F50096425B /* AW InactiveTabRightCap.png in Resources */,
-				F2D3E564189941F50096425B /* IW InactiveTabCloseRollover@2x.png in Resources */,
-				F2B136E6189BF27000430639 /* AW AddTabButtonRollover.tiff in Resources */,
 				14EC6E280A63F2E800B44481 /* ServicesMenu.strings in Resources */,
-				F27EDD44216CC26500987579 /* DIW ActiveTabFill.png in Resources */,
 				4C6BDC6618898E1E0088CBFC /* ScriptMenu.pdf in Resources */,
 				5EF31E430A7E437C00D777F5 /* InvertedIBeam.tiff in Resources */,
 				F25A071F191A6D4600F07557 /* WaitPipe@2x.png in Resources */,
-				F27EDD34216CBB6E00987579 /* DAW ActiveTabLeftCap.png in Resources */,
-				F2D3E531189941F50096425B /* AW ActiveTabLeftCap.png in Resources */,
 				4C57BD3A199BB11D00260983 /* InvertedIBeamBig.tiff in Resources */,
-				F2D3E548189941F50096425B /* AW Pulled ActiveTabRightCap@2x.png in Resources */,
 				F22024DC191D0BFE0098982C /* ParticipantReadOnlyTurnOnHover@2x.png in Resources */,
-				F27EDD2C216CBB6E00987579 /* DAW InactiveTabRightCap@2x.png in Resources */,
-				F22CB6D6216E02F900D1565D /* DIW ActiveTabCloseRollover@2x.png in Resources */,
-				F2D3E528189941F50096425B /* AddTab.pdf in Resources */,
 				F22024CF191D0BFE0098982C /* ParticipantKickHover.png in Resources */,
-				F2D3E558189941F50096425B /* IW ActiveTabLeftCap@2x.png in Resources */,
-				F2D3E53F189941F50096425B /* AW InactiveTabLeftCap.png in Resources */,
-				F2D3E52B189941F50096425B /* AW ActiveTabClosePressed.png in Resources */,
-				F2D3E55E189941F50096425B /* IW InactiveTabBG@2x.png in Resources */,
 				4C0D3D7617FB168200AAFB38 /* DebugUsers.xib in Resources */,
-				F2D3E546189941F50096425B /* AW Pulled ActiveTabLeftCap@2x.png in Resources */,
 				4C5EC97F1897F6FC0094D850 /* SEEParticipantsOverlay.xib in Resources */,
-				F2D3E538189941F50096425B /* AW InactiveTabBG@2x.png in Resources */,
-				F2B136EC189BF27000430639 /* AW AddTabButtonPushed.tiff in Resources */,
 				F2DC3DD318F2F12300B543E9 /* SEEPlainTextEditorTopBarViewController.xib in Resources */,
 				4CD5F81117FB0DC100F49E31 /* PlainTextLoadProgress.xib in Resources */,
 				4CD5F82917FB0E4F00F49E31 /* SavePanelAccessory.xib in Resources */,
 				4CD5F82D17FB0E6000F49E31 /* SelectEncodingsPanel.xib in Resources */,
-				F27EDD46216CC26500987579 /* DIW ActiveTabLeftCap@2x.png in Resources */,
 				F22024BF191D0BFE0098982C /* ParticipantFollowStatusOn.png in Resources */,
 				F22024CE191D0BFE0098982C /* ParticipantFollowTurnOnPressed@2x.png in Resources */,
-				F27EDD47216CC26500987579 /* DIW InactiveTabBG.png in Resources */,
-				F2D3E55F189941F50096425B /* IW InactiveTabClose.png in Resources */,
-				F2D3E566189941F50096425B /* IW InactiveTabLeftCap@2x.png in Resources */,
 				F220248E191BC33D0098982C /* hud_buttonRight-P.png in Resources */,
 				F22024D4191D0BFE0098982C /* ParticipantKickPressed@2x.png in Resources */,
-				F27EDD4C216CC26500987579 /* DIW InactiveTabRightCap@2x.png in Resources */,
-				F2D3E529189941F50096425B /* AW ActiveTabClose.png in Resources */,
 				F2C44CBE21635F29006D59DB /* SEEDebugImageGenerationWindowController.xib in Resources */,
-				F2D3E53B189941F50096425B /* AW InactiveTabClosePressed.png in Resources */,
-				F2D3E553189941F50096425B /* IW ActiveTabCloseRollover.png in Resources */,
 				F220248A191BC33D0098982C /* hud_buttonFill-P.png in Resources */,
-				F2D3E550189941F50096425B /* IW ActiveTabClose@2x.png in Resources */,
 				F22024DB191D0BFE0098982C /* ParticipantReadOnlyTurnOnHover.png in Resources */,
 				F2202480191BBDA10098982C /* hud_buttonRight-N.png in Resources */,
 				F220248B191BC33D0098982C /* hud_buttonFill-P@2x.png in Resources */,
 				F22024D1191D0BFE0098982C /* ParticipantKickNormal.png in Resources */,
-				F27EDD4E216CC26500987579 /* DIW InactiveTabBG@2x.png in Resources */,
 				F2D5FF3E0CB2666000407399 /* Rendezvous.icns in Resources */,
 				F2D5FF400CB2667A00407399 /* StylePrefs.icns in Resources */,
 				4CD5F80617FB0D5B00F49E31 /* OpenPanelAccessory.xib in Resources */,
@@ -2970,47 +2505,27 @@
 				F21DAFE818BB77AA002B3C41 /* SEEFindAndReplaceView.xib in Resources */,
 				F22024D0191D0BFE0098982C /* ParticipantKickHover@2x.png in Resources */,
 				F22024C7191D0BFE0098982C /* ParticipantFollowTurnOffPressed.png in Resources */,
-				F22CB6DF216E02F900D1565D /* DIW ActiveTabClosePressed@2x.png in Resources */,
-				F2D3E53E189941F50096425B /* AW InactiveTabCloseRollover@2x.png in Resources */,
 				4C6BDC601889858A0088CBFC /* folded@2x.png in Resources */,
-				F27EDD2D216CBB6E00987579 /* DAW InactiveTabBG.png in Resources */,
 				F25A0723191A800E00F07557 /* EditPrefs.png in Resources */,
 				4CD5F83517FB0EB500F49E31 /* URLBubbleWindow.xib in Resources */,
-				F2D3E534189941F50096425B /* AW ActiveTabRightCap@2x.png in Resources */,
-				F2D3E52C189941F50096425B /* AW ActiveTabClosePressed@2x.png in Resources */,
 				F2202482191BBDA10098982C /* hud_titlebar-close.png in Resources */,
-				F27EDD2B216CBB6E00987579 /* DAW ActiveTabFill@2x.png in Resources */,
-				F27EDD2F216CBB6E00987579 /* DAW ActiveTabRightCap.png in Resources */,
-				F2D3E559189941F50096425B /* IW ActiveTabRightCap.png in Resources */,
-				F2D3E52D189941F50096425B /* AW ActiveTabCloseRollover.png in Resources */,
-				F2B136EA189BF27000430639 /* IW AddTabButton.tiff in Resources */,
 				4CD5F7F217FB0CBF00F49E31 /* FindAll.xib in Resources */,
 				4CD5F81D17FB0E1900F49E31 /* PrecedenceRules.xib in Resources */,
 				F2C6D3750D6DB131002B401D /* URLIconNotOK.tiff in Resources */,
 				F265602218C4BA7300C73737 /* SearchLoupeNormal.pdf in Resources */,
 				F220247F191BBDA10098982C /* hud_buttonLeft-N@2x.png in Resources */,
-				F2D3E568189941F50096425B /* IW InactiveTabRightCap@2x.png in Resources */,
-				F2D3E565189941F50096425B /* IW InactiveTabLeftCap.png in Resources */,
 				F2C6D3760D6DB131002B401D /* URLIconOK.tiff in Resources */,
-				F22CB6DC216E02F900D1565D /* DIW ActiveTabClose.png in Resources */,
 				4C0C4A0118B366EC00E6049E /* PlainTextWindow.xib in Resources */,
 				F22024C4191D0BFE0098982C /* ParticipantFollowTurnOffHover@2x.png in Resources */,
-				F2D3E54A189941F50096425B /* AW SingleTabAddButton@2x.png in Resources */,
 				F2FEE7141892A747000E6BC8 /* SharingIconEye.pdf in Resources */,
 				4CDF05A618C0A3D4004A49E5 /* SEEConnectionAddingWindowController.xib in Resources */,
-				F22CB6D8216E02F900D1565D /* DIW InactiveTabClosePressed.png in Resources */,
-				F2D3E53D189941F50096425B /* AW InactiveTabCloseRollover.png in Resources */,
-				F2D3E549189941F50096425B /* AW SingleTabAddButton.png in Resources */,
 				F291D1A10FCECD22008BC286 /* FoldingBubbleText.rtf in Resources */,
 				F291D1B10FCECF33008BC286 /* FoldingBubbleBig.png in Resources */,
 				F22024E9191D0DB30098982C /* ParticipantReadOnlyStatusOn.png in Resources */,
-				F22CB6C2216DFC4F00D1565D /* DAW ActiveTabClosePressed@2x.png in Resources */,
 				4CD5F80217FB0D3700F49E31 /* MainMenu.xib in Resources */,
 				4C0D3D7417FB166D00AAFB38 /* DebugPresence.xib in Resources */,
 				F220248D191BC33D0098982C /* hud_buttonLeft-P@2x.png in Resources */,
-				F2D3E52A189941F50096425B /* AW ActiveTabClose@2x.png in Resources */,
 				F22024CB191D0BFE0098982C /* ParticipantFollowTurnOnNormal.png in Resources */,
-				F22CB6C9216DFFB000D1565D /* DAW InactiveTabCloseRollover.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
