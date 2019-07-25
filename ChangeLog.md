@@ -1,3 +1,15 @@
+### [Unreleased] SubEthaEdit 5.1
+
+#### Features:
+* Switched to native macOS window tabs, removed PSMTabBarControl
+
+#### Bug fixes and maintenance:
+* Fixed dark appearance of encoding panel
+
+#### Improved modes:
+* Markdown – improved syntax highlighting of code blocks
+
+
 ###  SubEthaEdit 5.0.2
 
 #### Bug fixes and maintenance:

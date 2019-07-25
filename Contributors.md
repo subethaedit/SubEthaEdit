@@ -8,6 +8,8 @@
 
 * Francisco Ryan Tolmasky I - [GitHub](https://github.com/tolmasky) [Twitter](https://twitter.com/tolmasky) [Blog](https://tolmasky.com/)
 
+* Matthias Bartelmeß - [GitHub](https://github.com/fourplusone)
+
 ## Contributors
 
 ### Engineering
