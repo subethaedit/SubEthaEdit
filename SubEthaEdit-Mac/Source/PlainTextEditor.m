@@ -492,7 +492,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     NSRect frame = NSZeroRect;
     frame.size  = [O_scrollView SEE_effectiveContentSize];
 
-	[self.shareInviteUsersButtonOutlet sendActionOn:NSLeftMouseDownMask];
+	[self.shareInviteUsersButtonOutlet sendActionOn:NSEventMaskLeftMouseDown];
 	self.shareInviteUsersButtonOutlet.rightMouseDownEventHandler = self;
 	[self.shareInviteUsersButtonOutlet setImagesByPrefix:@"BottomBarSharingIconAdd"];
 	[self.showParticipantsButtonOutlet setImagesByPrefix:@"BottomBarSharingIconGroupTurnOn"];
@@ -1464,7 +1464,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
         [menuItem setTitle:NSLocalizedString(@"MenuBlockeditSelection", @"Blockedit Selection in edit Menu")];
         [menuItem setKeyEquivalent:@"B"];
         [menuItem setAction:@selector(blockeditSelection:)];
-        [menuItem setKeyEquivalentModifierMask:NSCommandKeyMask | NSShiftKeyMask];
+        [menuItem setKeyEquivalentModifierMask:NSEventModifierFlagCommand | NSEventModifierFlagShift];
         return YES;
     } else if (selector == @selector(copyAsXHTML:)) {
         return [I_textView selectedRange].length > 0;
@@ -1738,8 +1738,8 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 - (IBAction)positionClick:(id)aSender {
-    if (([[NSApp currentEvent] type] == NSLeftMouseDown ||
-         [[NSApp currentEvent] type] == NSLeftMouseUp))
+    if (([[NSApp currentEvent] type] == NSEventTypeLeftMouseDown ||
+         [[NSApp currentEvent] type] == NSEventTypeLeftMouseUp))
     {
         if ([[NSApp currentEvent] clickCount] == 1)
         {
@@ -2119,8 +2119,8 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     //    NSLog(@"aEvent: %@",[aEvent description]);
     int flags = [aEvent modifierFlags];
 
-    if ((flags & NSControlKeyMask) &&
-        !(flags & NSCommandKeyMask) &&
+    if ((flags & NSEventModifierFlagControl) &&
+        !(flags & NSEventModifierFlagCommand) &&
         [[aEvent characters] length] == 1)
     {
         NSString *characters = [aEvent characters];
@@ -2138,8 +2138,8 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
             if (!s_cell)
             {
                 s_cell = [NSPopUpButtonCell new];
-                [s_cell setControlSize:NSSmallControlSize];
-                [s_cell setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
+                [s_cell setControlSize:NSControlSizeSmall];
+                [s_cell setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSControlSizeSmall]]];
             }
 
             [s_cell setMenu:[[SEEDocumentController sharedInstance] documentMenu]];
@@ -2425,7 +2425,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
                                      nil];
 
         NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-        [alert setAlertStyle:NSWarningAlertStyle];
+        [alert setAlertStyle:NSAlertStyleWarning];
         [alert setMessageText:NSLocalizedString(@"Warning", nil)];
         [alert setInformativeText:NSLocalizedString(@"File is read-only", nil)];
         [alert addButtonWithTitle:NSLocalizedString(@"Edit anyway", nil)];
@@ -2451,7 +2451,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
             [contextInfo autorelease];
 
             NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-            [alert setAlertStyle:NSWarningAlertStyle];
+            [alert setAlertStyle:NSAlertStyleWarning];
             [alert setMessageText:NSLocalizedString(@"You are trying to insert characters that cannot be handled by the file's current encoding. Do you want to cancel the change?", nil)];
             [alert setInformativeText:NSLocalizedString(@"You are no longer restricted by the file's current encoding if you promote to a Unicode encoding.", nil)];
             [alert addButtonWithTitle:NSLocalizedString(@"Insert", nil)];
@@ -2516,7 +2516,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
             [contextInfo autorelease];
 
             NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-            [alert setAlertStyle:NSWarningAlertStyle];
+            [alert setAlertStyle:NSAlertStyleWarning];
             [alert setMessageText:NSLocalizedString(@"You are pasting text that does not match the file's current line endings. Do you want to paste the text with converted line endings?", nil)];
             [alert setInformativeText:NSLocalizedString(@"The file will have mixed line endings if you do not paste converted text.", nil)];
             [alert addButtonWithTitle:NSLocalizedString(@"Paste Converted", nil)];

@@ -150,7 +150,7 @@
 
     if(document) {
         NSRange range = [[[[self.foundErrorsArrayController selectedObjects] lastObject] objectForKey:@"selectionOperation"] selectedRange];
-        if (([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask)) {
+        if (([[NSApp currentEvent] modifierFlags] & NSEventModifierFlagOption)) {
             [document newView:self];
         }
         [document selectRange:range];

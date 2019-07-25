@@ -938,7 +938,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 #pragma mark - NSWindowDelegate
 
 - (NSRect)windowWillUseStandardFrame:(NSWindow *)sender defaultFrame:(NSRect)defaultFrame {
-    if (!([[NSApp currentEvent] modifierFlags] & NSShiftKeyMask)) {
+    if (!([[NSApp currentEvent] modifierFlags] & NSEventModifierFlagShift)) {
         NSRect windowFrame=[[self window] frame];
         I_flags.zoomFix_defaultFrameHadEqualWidth = (defaultFrame.size.width==windowFrame.size.width);
         defaultFrame.size.width=windowFrame.size.width;
@@ -948,7 +948,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 }
 
 - (BOOL)windowShouldZoom:(NSWindow *)sender toFrame:(NSRect)newFrame {
-  return [sender frame].size.width == newFrame.size.width || ([[NSApp currentEvent] modifierFlags] & NSShiftKeyMask) || I_flags.zoomFix_defaultFrameHadEqualWidth;
+  return [sender frame].size.width == newFrame.size.width || ([[NSApp currentEvent] modifierFlags] & NSEventModifierFlagShift) || I_flags.zoomFix_defaultFrameHadEqualWidth;
 }
 
 - (void)windowDidBecomeMain:(NSNotification *)aNotification {
@@ -1263,7 +1263,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
             NSString *title = [NSString stringWithFormat:NSLocalizedString(@"You have %d documents in this window with unsaved changes. Do you want to review these changes?", nil), needsSaving];
             
             NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-            [alert setAlertStyle:NSWarningAlertStyle];
+            [alert setAlertStyle:NSAlertStyleWarning];
             [alert setMessageText:title];
             [alert setInformativeText:NSLocalizedString(@"If you don\\U2019t review your documents, all your changes will be lost.", @"Warning in the alert panel which comes up when user chooses Quit and there are unsaved documents.")];
             [alert addButtonWithTitle:NSLocalizedString(@"Review Changes\\U2026", @"Choice (on a button) given to user which allows him/her to review all unsaved documents if he/she quits the application without saving them all first.")];

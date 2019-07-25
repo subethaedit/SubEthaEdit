@@ -125,8 +125,8 @@ NSString * const ScriptWrapperDidRunScriptNotification =@"ScriptWrapperDidRunScr
 }
 
 - (void)performScriptAction:(id)aSender {
-    if (([[NSApp currentEvent] type] != NSKeyDown) &&
-        ([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask)) {
+    if (([[NSApp currentEvent] type] != NSEventTypeKeyDown) &&
+        ([[NSApp currentEvent] modifierFlags] & NSEventModifierFlagOption)) {
         [self revealSource];
     } else {
         NSURL *userScriptDirectory = [[NSFileManager defaultManager] URLForDirectory:NSApplicationScriptsDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];

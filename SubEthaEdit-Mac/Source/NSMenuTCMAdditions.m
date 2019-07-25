@@ -47,15 +47,15 @@
 - (void)setKeyEquivalentBySettingsString:(NSString *)aKeyEquivalentSettingsString {
     if ([aKeyEquivalentSettingsString length]<=0) return;
     [self setKeyEquivalent:[aKeyEquivalentSettingsString substringFromIndex:[aKeyEquivalentSettingsString length]-1]];
-    NSUInteger keyEquivalentModifierMask = NSCommandKeyMask;
+    NSUInteger keyEquivalentModifierMask = NSEventModifierFlagCommand;
     if ([aKeyEquivalentSettingsString rangeOfString:@"^"].location != NSNotFound) {
-        keyEquivalentModifierMask |= NSControlKeyMask;
+        keyEquivalentModifierMask |= NSEventModifierFlagControl;
     }
     if ([aKeyEquivalentSettingsString rangeOfString:@"~"].location != NSNotFound) {
-        keyEquivalentModifierMask |= NSAlternateKeyMask;
+        keyEquivalentModifierMask |= NSEventModifierFlagOption;
     }
     if ([aKeyEquivalentSettingsString rangeOfString:@"$"].location != NSNotFound) {
-        keyEquivalentModifierMask |= NSShiftKeyMask;
+        keyEquivalentModifierMask |= NSEventModifierFlagShift;
     }
     [self setKeyEquivalentModifierMask:keyEquivalentModifierMask];
 }

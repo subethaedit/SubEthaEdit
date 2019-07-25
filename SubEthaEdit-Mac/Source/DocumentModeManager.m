@@ -649,7 +649,7 @@ static DocumentModeManager *S_sharedInstance=nil;
 
 - (void)showIncompatibleModeErrorForBundle:(NSBundle *)aBundle {
     NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-    [alert setAlertStyle:NSWarningAlertStyle];
+    [alert setAlertStyle:NSAlertStyleWarning];
     [alert setMessageText:NSLocalizedString(@"Mode not compatible",@"Mode requires newer engine title")];
     [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"The mode '%@' was written for a newer version of SubEthaEngine and cannot be used with this application.", @"Mode requires newer engine Informative Text"), [aBundle bundleIdentifier]]];
     [alert addButtonWithTitle:@"OK"];
@@ -885,7 +885,7 @@ static DocumentModeManager *S_sharedInstance=nil;
 						if (didMatch) return [self documentModeForIdentifier:[mode objectForKey:@"Identifier"]];
 					} else {
 						NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-						[alert setAlertStyle:NSWarningAlertStyle];
+						[alert setAlertStyle:NSAlertStyleWarning];
 						[alert setMessageText:NSLocalizedString(@"Trigger not a regular expression",@"Trigger not a regular expression Title")];
 						[alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"The trigger '%@' of the mode '%@' is not a valid regular expression and was ignored.", @"Trigger not a regular expression Informative Text"), ruleString, [mode objectForKey:@"Identifier"]]];
 						[alert addButtonWithTitle:@"OK"];

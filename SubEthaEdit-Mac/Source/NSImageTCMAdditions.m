@@ -58,7 +58,7 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
 		
 		[unknownUserImage drawInRect:drawingRect
 							fromRect:imageSourceRect
-						   operation:NSCompositeSourceOver
+						   operation:NSCompositingOperationSourceOver
 							fraction:0.8
 					  respectFlipped:YES
 							   hints:nil];
@@ -261,7 +261,7 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
 		[context setImageInterpolation:NSImageInterpolationHigh];
 		[self drawInRect:NSMakeRect(0.,0.,newSize.width, newSize.height)
 					 fromRect:NSZeroRect
-					operation:NSCompositeSourceOver
+					operation:NSCompositingOperationSourceOver
 					 fraction:1.0];
 		return YES;
 	}];
@@ -299,7 +299,7 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
 
 			CIImage *outputImage = [compositingFilter valueForKey:@"outputImage"];
 
-			[outputImage drawInRect:dstRect fromRect:(NSRect)outputImage.extent operation:NSCompositeCopy fraction:1.0];
+			[outputImage drawInRect:dstRect fromRect:(NSRect)outputImage.extent operation:NSCompositingOperationCopy fraction:1.0];
 
 			return YES;
 		}];
@@ -318,7 +318,7 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
 		[context setImageInterpolation:NSImageInterpolationHigh];
 		[[NSColor clearColor] set];
 		[[NSBezierPath bezierPathWithRect:dstRect] fill];
-		[self drawInRect:dstRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:0.5 respectFlipped:YES hints:nil];
+		[self drawInRect:dstRect fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:0.5 respectFlipped:YES hints:nil];
 		return YES;
 	}];
 	return resultImage;

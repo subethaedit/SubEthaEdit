@@ -289,7 +289,7 @@
 
 - (void)popUpWillShowMenu:(PopUpButton *)aButton {
     NSEvent *currentEvent = [NSApp currentEvent];
-    BOOL sorted = ([currentEvent type] == NSLeftMouseDown && ([currentEvent modifierFlags] & NSAlternateKeyMask));
+    BOOL sorted = ([currentEvent type] == NSEventTypeLeftMouseDown && ([currentEvent modifierFlags] & NSEventModifierFlagOption));
 	
     if (sorted != self.symbolPopUpIsSorted) {
         [self updateSymbolPopUpSorted:sorted];

@@ -103,7 +103,7 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
 	if (image) {
 		[image drawInRect:imageRect
 				 fromRect:NSZeroRect
-				operation:NSCompositeSourceOver
+				operation:NSCompositingOperationSourceOver
 				 fraction:1.0
 		   respectFlipped:YES
 					hints:nil];
@@ -112,7 +112,7 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
 		image = [NSImage unknownUserImageWithSize:imageRect.size initials:self.initials];
 		[image drawInRect:imageRect
 				 fromRect:NSZeroRect
-				operation:NSCompositeSourceOver
+				operation:NSCompositingOperationSourceOver
 				 fraction:1.0
 		   respectFlipped:YES
 					hints:nil];

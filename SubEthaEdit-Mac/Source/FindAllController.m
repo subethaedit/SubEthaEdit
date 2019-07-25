@@ -25,7 +25,7 @@
         NSMutableArray *tabStops = [NSMutableArray array];
         double distance = 10;
         for (NSInteger index = 1; index <= 100; index++) {
-			NSTextTab *tab = [[NSTextTab alloc] initWithTextAlignment:NSLeftTextAlignment location:index * distance options:@{}];
+			NSTextTab *tab = [[NSTextTab alloc] initWithTextAlignment:NSTextAlignmentLeft location:index * distance options:@{}];
             [tabStops addObject:tab];
         }
         [paragraphStyle setTabStops:tabStops];
@@ -155,7 +155,7 @@ NSLocalizedStringWithDefaultValue(@"SELECTION_SCOPE_DOCUMENT", nil,[NSBundle mai
     if (I_document) {
         if ([[O_resultsController selectedObjects]count]>1) return;
         NSRange range = [[[[O_resultsController selectedObjects] lastObject] objectForKey:@"selectionOperation"] selectedRange];
-        if (([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask)) {
+        if (([[NSApp currentEvent] modifierFlags] & NSEventModifierFlagOption)) {
             [I_document newView:self];
 			[I_document selectRange:range];
         } else {

@@ -163,7 +163,7 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 	view.layer.backgroundColor = [[NSColor brightOverlayBackgroundColorBackgroundIsDark:NO appearanceIsDark:isDarkAppearance] CGColor];
 
 	[self updateSearchOptionsButton];
-	[self.searchOptionsButton sendActionOn:NSLeftMouseDownMask | NSRightMouseDownMask];
+	[self.searchOptionsButton sendActionOn:NSEventMaskLeftMouseDown | NSEventMaskRightMouseDown];
 	
 	// add bindings
 	[self.findTextField bind:@"value" toObject:self.findAndReplaceStateObjectController withKeyPath:@"content.findString" options:@{NSContinuouslyUpdatesValueBindingOption : @YES}];
