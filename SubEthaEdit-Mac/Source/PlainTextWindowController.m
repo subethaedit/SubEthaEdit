@@ -298,20 +298,11 @@ static NSPoint S_cascadePoint = {0.0,0.0};
                selector == @selector(readOnlyButtonAction:)) {
         return [menuItem isEnabled];
     } else if (selector == @selector(closeTab:)) {
-        if ([self.window isKeyWindow])
+        if (self.window.isKeyWindow) {
             return YES;
-		else
+        } else {
 			return NO;
-    } else if (selector == @selector(selectNextTab:)) {
-        if ([self hasManyDocuments])
-            return YES;
-        else
-            return NO;
-    } else if (selector == @selector(selectPreviousTab:)) {
-        if ([self hasManyDocuments])
-            return YES;
-        else
-            return NO;
+        }
     } else if (selector == @selector(showDocumentAtIndex:)) {
         int documentNumberToShow = [[menuItem representedObject] intValue];
         id document = nil;
@@ -903,9 +894,9 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     }
 }
 
-- (BOOL)hasManyDocuments
-{
-    return [[self documents] count] > 1;
+- (BOOL)isInTabGroup {
+    BOOL result = self.window.tabbedWindows.count > 1;
+    return result;
 }
 
 - (IBAction)showDocumentAtIndex:(id)aMenuEntry {

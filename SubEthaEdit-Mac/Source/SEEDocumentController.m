@@ -353,31 +353,31 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 	[self updateRestorableStateOfDocumentListWindow];
 }
 
-- (NSArray <NSArray <NSWindowController*> *> *) tabGroups{
-  NSMutableArray * tabGroups = [NSMutableArray new];
-  NSMutableArray * windowTabGroups = [NSMutableArray new];
-  
-  for (NSWindowController *wc in I_windowControllers) {
-    NSWindow *window = wc.window;
-    NSArray *tabbedWindows = window.tabbedWindows;
+- (NSArray <NSArray <NSWindowController *> *> *)tabGroups {
+    NSMutableArray *tabGroups = [NSMutableArray new];
+    NSMutableArray *windowTabGroups = [NSMutableArray new];
     
-    if (tabbedWindows && ![windowTabGroups containsObject:tabbedWindows]) {
-      [windowTabGroups addObject:tabbedWindows];
-      NSMutableArray * tabGroup = [NSMutableArray new];
-      for (NSWindow *window in tabbedWindows) {
-        NSWindowController *wc = window.windowController;
-        if (wc) {
-          [tabGroup addObject:wc];
+    for (NSWindowController *wc in I_windowControllers) {
+        NSWindow *window = wc.window;
+        NSArray *tabbedWindows = window.tabbedWindows;
+        
+        if (tabbedWindows && ![windowTabGroups containsObject:tabbedWindows]) {
+            [windowTabGroups addObject:tabbedWindows];
+            NSMutableArray * tabGroup = [NSMutableArray new];
+            for (NSWindow *window in tabbedWindows) {
+                NSWindowController *wc = window.windowController;
+                if (wc) {
+                    [tabGroup addObject:wc];
+                }
+            }
+            [tabGroups addObject:tabGroup];
+        } else if (!tabbedWindows && window) {
+            // If tabbedWindows is nil the window has no visible tab bar.
+            [tabGroups addObject:@[wc]];
         }
-      }
-      [tabGroups addObject:tabGroup];
-    } else if (!tabbedWindows && window) {
-      // If tabbedWindows is nil the window has no visible tab bar.
-      [tabGroups addObject:@[wc]];
     }
-  }
-  
-  return tabGroups;
+    
+    return tabGroups;
 }
 
 #pragma mark - Open new document
@@ -416,8 +416,7 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 }
 
 
-- (IBAction)newDocument:(id)aSender
-{
+- (IBAction)newDocument:(id)aSender {
 	@synchronized(self.documentCreationFlagsLookupDict) {
 		SEEDocumentCreationFlags *creationFlags = [[SEEDocumentCreationFlags alloc] init];
 		creationFlags.openInTab = NO;

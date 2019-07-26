@@ -77,7 +77,12 @@
 - (PlainTextWindowControllerTabContext *)windowControllerTabContextForDocument:(PlainTextDocument *)document;
 - (NSArray *)plainTextEditorsForDocument:(id)aDocument;
 - (BOOL)selectTabForDocument:(id)aDocument;
-- (BOOL)hasManyDocuments;
+/**
+ Semantical replacement for previous "hasManyDocuments"
+
+ @return YES if in a tab group and not alone.
+ */
+- (BOOL)isInTabGroup;
 - (IBAction)closeTab:(id)sender;
 - (IBAction)showDocumentAtIndex:(id)aMenuEntry;
 - (void)closeAllTabs;
