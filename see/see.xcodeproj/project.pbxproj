@@ -203,7 +203,7 @@
 		4C19ECAC192F7ED000D39777 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1000;
+				LastUpgradeCheck = 1030;
 				ORGANIZATIONNAME = TheCodingMonkeys;
 				TargetAttributes = {
 					4C19ECB3192F7ED000D39777 = {
@@ -223,10 +223,11 @@
 			};
 			buildConfigurationList = 4C19ECAF192F7ED000D39777 /* Build configuration list for PBXProject "see" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 4C19ECAB192F7ED000D39777;
 			productRefGroup = 4C19ECB5192F7ED000D39777 /* Products */;
