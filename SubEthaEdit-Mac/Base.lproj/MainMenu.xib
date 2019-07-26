@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -883,12 +883,6 @@
                             <menuItem isSeparatorItem="YES" id="372">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Always Show Document Tab Bar" keyEquivalent="t" id="605">
-                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                                <connections>
-                                    <action selector="alwaysShowTabBar:" target="-1" id="617"/>
-                                </connections>
-                            </menuItem>
                             <menuItem title="Show Top Status Bar" id="386">
                                 <connections>
                                     <action selector="toggleTopStatusBar:" target="-1" id="388"/>
@@ -975,12 +969,6 @@
                             <menuItem isSeparatorItem="YES" id="92">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Go to Tab" tag="3042" id="622">
-                                <menu key="submenu" title="Go to Tab" id="623"/>
-                                <connections>
-                                    <action selector="menuValidationNoneAction:" target="252" id="629"/>
-                                </connections>
-                            </menuItem>
                             <menuItem title="Select Next Tab" keyEquivalent="}" id="613">
                                 <connections>
                                     <action selector="selectNextTab:" target="-1" id="615"/>
@@ -993,12 +981,12 @@
                             </menuItem>
                             <menuItem title="Move Tab to New Window" keyEquivalent="M" id="626">
                                 <connections>
-                                    <action selector="openInSeparateWindow:" target="-1" id="627"/>
+                                    <action selector="moveTabToNewWindow:" target="-1" id="JV8-ZY-1Fu"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Merge All Windows" id="628">
                                 <connections>
-                                    <action selector="SEE_mergeAllWindows:" target="252" id="4RJ-3j-xTf"/>
+                                    <action selector="mergeAllWindows:" target="-1" id="UN0-U8-rc2"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="612">

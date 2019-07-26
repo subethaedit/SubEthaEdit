@@ -2146,13 +2146,12 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
             NSEnumerator *menuItems = [[[s_cell menu] itemArray] objectEnumerator];
             NSMenuItem *menuItem  = nil;
             PlainTextWindowController *wc = [[I_textView window] windowController];
-            NSArray *orderedDocuments = [wc orderedDocuments];
             PlainTextDocument *myDocument = [self document];
 
             while ((menuItem = [menuItems nextObject]))
             {
-                if ([menuItem target] == wc &&
-                    [[menuItem representedObject] intValue] == [orderedDocuments indexOfObject:myDocument])
+                if ([menuItem target] == wc.window &&
+                    [menuItem representedObject] == myDocument)
                 {
                     [s_cell selectItem:menuItem];
                     break;

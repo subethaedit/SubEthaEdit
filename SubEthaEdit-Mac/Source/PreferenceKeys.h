@@ -34,7 +34,6 @@ extern NSString * const OpenUntitledDocumentOnStartupPreferenceKey;
 extern NSString * const OpenDocumentHubOnStartupPreferenceKey;
 
 extern NSString * const kSEEDefaultsKeyOpenNewDocumentInTab;
-extern NSString * const kSEEDefaultsKeyAlwaysShowTabBar;
 extern NSString * const kSEEDefaultsKeyDontSaveDocumentStateInXattrs;
 extern NSString * const kSEEDefaultsKeyUseTemporaryKeychainForTLS;
 extern NSString * const kSEEDefaultsKeyEnableTLS;

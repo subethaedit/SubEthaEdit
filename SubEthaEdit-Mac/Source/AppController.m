@@ -87,7 +87,6 @@ int const FoldingSubmenuTag = 4400;
 int const FoldingFoldSelectionMenuTag = 4441;
 int const FoldingFoldCurrentBlockMenuTag = 4442;
 int const FoldingFoldAllCurrentBlockMenuTag = 4443;
-int const GotoTabMenuItemTag = 3042;
 int const ModeMenuTag = 50;
 int const SwitchModeMenuTag = 10;
 int const ReloadModesMenuItemTag = 20;
@@ -429,11 +428,6 @@ static AppController *sharedInstance = nil;
         // Observe the app's effective appearance
         [NSApp addObserver:self forKeyPath:@"effectiveAppearance" options:0 context:nil];
     }
-
-    if (@available(macOS 10.12, *)) {
-        // Disable tabbing as we use PSMTabBar
-        [NSWindow setAllowsAutomaticWindowTabbing:NO];
-    }
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
@@ -527,11 +521,6 @@ static AppController *sharedInstance = nil;
         item=[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Open File...",@"Open File Dock Menu Item") action:@selector(openNormalDocument:) keyEquivalent:@""];
         [dockMenu addItem:item];
         item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"All Tabs",@"all tabs Dock Menu Item") action:NULL keyEquivalent:@""];
-        [item setSubmenu:[NSMenu new]];
-        [item setTarget:[SEEDocumentController sharedDocumentController]];
-        [item setAction:@selector(menuValidationNoneAction:)];
-        [item setTag:GotoTabMenuItemTag];
-        [dockMenu addItem:item];
     }
     return dockMenu;
 }
@@ -665,6 +654,7 @@ static AppController *sharedInstance = nil;
 
 #pragma mark
 - (void)addDocumentNewSubmenuEntriesToMenu:(NSMenu *)aMenu {
+  // TODO: refactor
 	BOOL inTabs = [[NSUserDefaults standardUserDefaults] boolForKey:kSEEDefaultsKeyOpenNewDocumentInTab];
     NSMenu *menu=[[[NSApp mainMenu] itemWithTag:FileMenuTag] submenu];
 	

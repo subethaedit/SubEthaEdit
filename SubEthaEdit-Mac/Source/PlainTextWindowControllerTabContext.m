@@ -29,6 +29,7 @@ NSString * const SEEPlainTextWindowControllerTabContextActiveEditorDidChangeNoti
 
 void * const SEEPlainTextWindowControllerTabContextHasEditorSplitObservanceContext = (void *)&SEEPlainTextWindowControllerTabContextHasEditorSplitObservanceContext;
 void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceContext = (void *)&SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceContext;
+void * const SEEPlainTextWindowControllerTabContextPresentedViewObservanceContext = (void *)&SEEPlainTextWindowControllerTabContextPresentedViewObservanceContext;
 
 @interface PlainTextWindowControllerTabContext ()
 - (void)registerKVO;
@@ -60,7 +61,7 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 }
 
 - (PlainTextWindowController *)windowController {
-	PlainTextWindowController *result = [self.tab.tabView.window windowController];
+	PlainTextWindowController *result = [self.contentView.window windowController];
 	return result;
 }
 
@@ -69,11 +70,14 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 - (void)registerKVO {
 	[self addObserver:self forKeyPath:@"hasEditorSplit" options:0 context:SEEPlainTextWindowControllerTabContextHasEditorSplitObservanceContext];
 	[self addObserver:self forKeyPath:@"hasWebPreviewSplit" options:0 context:SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceContext];
+  [self addObserver:self forKeyPath:@"presentedView"
+            options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:SEEPlainTextWindowControllerTabContextPresentedViewObservanceContext];
 }
 
 - (void)unregisterKVO {
 	[self removeObserver:self forKeyPath:@"hasEditorSplit" context:SEEPlainTextWindowControllerTabContextHasEditorSplitObservanceContext];
 	[self removeObserver:self forKeyPath:@"hasWebPreviewSplit" context:SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceContext];
+  [self removeObserver:self forKeyPath:@"presentedView" context:SEEPlainTextWindowControllerTabContextPresentedViewObservanceContext];
 }
 
 
@@ -83,6 +87,8 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 		[self updateEditorSplitView];
     } else if (context == SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceContext) {
 		[self updateWebPreviewSplitView];
+    } else if (context == SEEPlainTextWindowControllerTabContextPresentedViewObservanceContext) {
+      [self updatePresentedViewForChange:change];
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
@@ -109,6 +115,20 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
     _isAlertScheduled = flag;
 }
 
+#pragma mark - View Management
+
+- (void)updatePresentedViewForChange:(NSDictionary *)change {
+  NSView *oldView = [change objectForKey:NSKeyValueChangeOldKey];
+  NSView *newView = [change objectForKey:NSKeyValueChangeNewKey];
+  
+  if (![oldView isEqual:[NSNull null]] && [[oldView superview] isEqual:self.contentView]) {
+    [oldView removeFromSuperview];
+  }
+  
+  newView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+  newView.frame = self.contentView.frame;
+  [self.contentView addSubview:newView];
+}
 
 #pragma mark - Active Editor
 
@@ -168,7 +188,7 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 			} else if (webPreviewSplitView) {
 				[webPreviewSplitView replaceSubview:webPreviewSplitView.subviews[1] with:editorSplitView];
 			} else {
-				[self.tab setView:editorSplitView];
+				self.presentedView = editorSplitView;
 			}
 			NSSize splitSize = [editorSplitView frame].size;
 			splitSize.height = floor(splitSize.height / 2.);
@@ -204,7 +224,7 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 			NSSplitView *editorSplitView = self.editorSplitView;
 
 			//Preserve scroll position of second editor, if it is currently the selected one.
-			id fr = [[self.tab.tabView window] firstResponder];
+			id fr = [[self.contentView window] firstResponder];
 			NSRect visibleRect = NSZeroRect;
 			if (fr == [plainTextEditors[1] textView]) {
 				visibleRect = [[plainTextEditors[1] textView] visibleRect];
@@ -222,7 +242,7 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 				[webPreviewSplitView addSubview:editorView positioned:NSWindowBelow relativeTo:editorSplitView];
 				[editorSplitView removeFromSuperview];
 			} else {
-				[self.tab setView:[plainTextEditors[0] editorView]];
+				self.presentedView = [plainTextEditors[0] editorView];
 			}
 
 			self.editorSplitView = nil;
@@ -246,7 +266,7 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 			}
 		}
 
-		[self.tab setInitialFirstResponder:[plainTextEditors[0] editorView]];
+		self.windowController.window.initialFirstResponder = [plainTextEditors[0] textView];
 		[plainTextEditors[0] updateSplitButtonForIsSplit:[plainTextEditors count] != 1];
 
 		NSTextView *textView = [plainTextEditors[0] textView];
@@ -265,7 +285,7 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 #pragma mark - Preview Split
 
 - (void)updateWebPreviewSplitView {
-	NSView *viewRepresentedByTab = self.tab.view;
+	NSView *viewRepresentedByTab = self.presentedView;
 
 	if (!self.hasWebPreviewSplit && viewRepresentedByTab == self.webPreviewSplitView) {
 		NSView *editorView = viewRepresentedByTab.subviews.lastObject;
@@ -282,7 +302,7 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 		editorView.translatesAutoresizingMaskIntoConstraints = YES;
 		editorView.autoresizesSubviews = YES;
 		editorView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
-		[self.tab setView:editorView];
+		self.presentedView = editorView;
 
 		[self.windowController updateWindowMinSize];
 
@@ -297,7 +317,7 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 		webPreviewSplitView.vertical = YES;
 		webPreviewSplitView.autoresizesSubviews = YES;
 		webPreviewSplitView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
-		[self.tab setView:webPreviewSplitView];
+		self.presentedView = webPreviewSplitView;
 
 		SEEWebPreviewViewController *webPreviewViewController = [[SEEWebPreviewViewController alloc] initWithPlainTextDocument:self.document];
 
@@ -339,11 +359,10 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 - (void)updateDocumentDialogSplit {
 	NSSplitView *dialogSplitView = self.dialogSplitView;
 	NSViewController<SEEDocumentDialogViewController> *documentDialog = self.documentDialog;
-	NSTabViewItem *tab = self.tab;
 	if (documentDialog && !dialogSplitView) {
 		PlainTextWindowControllerTabContext *tabContext = self;
 		
-		NSView *viewToReplace = self.tab.view;
+		NSView *viewToReplace = self.presentedView;
 		if (self.webPreviewSplitView) {
 			viewToReplace = self.webPreviewSplitView.subviews.lastObject;
 		} else if (self.editorSplitView) {
@@ -354,13 +373,13 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 		
 		NSSplitView *dialogSplitView = [[NSSplitView alloc] initWithFrame:[viewToReplace frame]];
 		dialogSplitView.identifier = @"DialogSplit";
-		tabContext.dialogSplitViewDelegate = [[SEEDialogSplitViewDelegate alloc] initWithTabContext:tab.identifier];
+		tabContext.dialogSplitViewDelegate = [[SEEDialogSplitViewDelegate alloc] initWithTabContext:self];
 		dialogSplitView.delegate = tabContext.dialogSplitViewDelegate;
 		dialogSplitView.dividerStyle = NSSplitViewDividerStyleThin;
 		self.dialogSplitView = dialogSplitView;
 		
-		if ([viewToReplace isEqual:self.tab.view]) {
-			[self.tab setView:dialogSplitView];
+		if ([self.presentedView isEqual:viewToReplace]) {
+			self.presentedView = dialogSplitView;
 		} else {
 			[viewToReplace.superview replaceSubview:viewToReplace with:dialogSplitView];
 		}
@@ -380,7 +399,7 @@ void * const SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceC
 			[viewToMoveUp setTranslatesAutoresizingMaskIntoConstraints:YES];
 			[self.webPreviewSplitView replaceSubview:self.dialogSplitView with:viewToMoveUp];
 		} else {
-			[self.tab setView:viewToMoveUp];
+			self.presentedView = viewToMoveUp;
 		}
 		
 		self.dialogSplitView.delegate = nil;

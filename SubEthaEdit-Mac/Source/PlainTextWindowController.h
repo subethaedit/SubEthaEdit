@@ -5,17 +5,17 @@
 
 #import <AppKit/AppKit.h>
 #import <TCMPortMapper/TCMPortMapper.h>
-#import <PSMTabBarControl/PSMTabBarControl.h>
 @class PlainTextWindowController;
 #import "PlainTextWindowControllerTabContext.h"
 
-@class PlainTextEditor, PSMTabBarControl, PlainTextDocument;
+@class PlainTextEditor, PlainTextDocument;
 #import "SEEEncodingDoctorDialogViewController.h"
 
-@interface PlainTextWindowController : NSWindowController <NSMenuDelegate,PSMTabBarControlDelegate>
+@interface PlainTextWindowController : NSWindowController <NSMenuDelegate>
  {
     // Pointers to the current instances
     NSSplitView *I_dialogSplitView;
+    PlainTextWindowControllerTabContext *I_tabContext;
     id I_documentDialog;
     
     struct {
@@ -25,8 +25,6 @@
     BOOL I_doNotCascade;
 
  @private
-    NSTabView *I_tabView;
-    PSMTabBarControl *I_tabBar;
 
     NSMutableArray *I_documents;
     NSDocument *I_documentBeingClosed;
@@ -47,8 +45,6 @@
 
 - (void)openParticipantsOverlayForDocument:(PlainTextDocument *)aDocument;
 - (void)closeParticipantsOverlayForDocument:(PlainTextDocument *)aDocument;
-
-- (IBAction)openInSeparateWindow:(id)sender;
 
 - (void)gotoLine:(unsigned)aLine;
 - (void)selectRange:(NSRange)aRange;
@@ -78,15 +74,11 @@
 
 - (void)documentUpdatedChangeCount:(PlainTextDocument *)document;
 - (NSTabViewItem *)addDocument:(NSDocument *)document;
-- (void)moveAllTabsToWindowController:(PlainTextWindowController *)windowController;
-- (NSTabViewItem *)tabViewItemForDocument:(PlainTextDocument *)document;
 - (PlainTextWindowControllerTabContext *)windowControllerTabContextForDocument:(PlainTextDocument *)document;
 - (NSArray *)plainTextEditorsForDocument:(id)aDocument;
 - (BOOL)selectTabForDocument:(id)aDocument;
 - (BOOL)hasManyDocuments;
 - (IBAction)closeTab:(id)sender;
-- (IBAction)selectNextTab:(id)sender;
-- (IBAction)selectPreviousTab:(id)sender;
 - (IBAction)showDocumentAtIndex:(id)aMenuEntry;
 - (void)closeAllTabs;
 - (void)reviewChangesAndQuitEnumeration:(BOOL)cont;
@@ -99,10 +91,7 @@
 - (void)updateWindowMinSize;
 - (IBAction)toggleWebPreview:(id)sender;
 
-- (PSMTabBarControl *)tabBar;
-- (NSTabView *)tabView;
 @property (nonatomic, readonly) PlainTextWindowControllerTabContext *selectedTabContext;
-@property (nonatomic, readonly) NSTabViewItem *selectedTabViewItem;
 
 - (NSRect)dissolveToFrame;
 - (void)cascadeWindow;
