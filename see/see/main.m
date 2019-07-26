@@ -563,7 +563,7 @@ static void openFiles(NSArray *fileNames, NSDictionary *options) {
         [fdout closeFile];
         
         if (length == 0) {
-            (void)[[NSFileManager defaultManager] removeItemAtPath:stdinFileName error:nil];
+            (void)[fileManager removeItemAtPath:stdinFileName error:nil];
         } else {
             stdinFileName = fileName;
         }
@@ -583,7 +583,16 @@ static void openFiles(NSArray *fileNames, NSDictionary *options) {
 						//fflush(stdout);
 					}
                 } else {
-                    [files addObject:fileName];
+                    NSError *error;
+                    NSString *destination;
+                    NSDictionary *attributes = [fileManager attributesOfItemAtPath:fileName error:&error];
+                    if ([attributes[NSFileType] isEqualToString:NSFileTypeSymbolicLink]) {
+                        if ((destination = [fileManager destinationOfSymbolicLinkAtPath:fileName error:&error])) {
+                            [files addObject:destination.isAbsolutePath ? destination : [[fileName stringByDeletingLastPathComponent] stringByAppendingPathComponent:destination]];
+                        }
+                    } else {
+                        [files addObject:fileName];
+                    }
                 }
             } else {
                 [newFileNames addObject:fileName];
