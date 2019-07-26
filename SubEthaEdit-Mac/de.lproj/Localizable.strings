@@ -661,7 +661,7 @@
 "Show Participants" = "Teilnehmer einblenden";
 
 /* Bottom status bar text for use Spaces (instead of Tab) setting */
-"Spaces" = "Leerzeichen";
+"Spaces" = "Space";
 
 /* Split View Menu Entry */
 "Split View" = "Editor teilen";
@@ -727,7 +727,7 @@
 "Toggle Invisibles" = "Steuerzeichen";
 
 /* Bottom status bar text for TrueTab setting */
-"TrueTab" = "Tabulator";
+"TrueTab" = "Tab";
 
 /* No comment provided by engineer. */
 "Try choosing a different name for the document." = "Versuchen Sie einen anderen Namen für das Dokument zu wählen.";

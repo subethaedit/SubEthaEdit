@@ -86,7 +86,7 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 	[alert setAlertStyle:NSAlertStyleWarning];
 	[alert setMessageText:title];
 	[alert setInformativeText:description];
-	[alert addButtonWithTitle:@"OK"];
+	[alert addButtonWithTitle:NSLocalizedString(@"OK",@"OK button in dialogs and sheets")];
 	[alert runModal];
 	everythingOkay = NO;
 }

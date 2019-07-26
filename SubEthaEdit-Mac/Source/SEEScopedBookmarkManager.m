@@ -500,7 +500,8 @@ static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.s
                             // so we ask the user to allow us to use the file
                             NSURL *bookmarkURL = block(aURL);
                             if (bookmarkURL) {
-                                BOOL success = [bookmarkURL startAccessingSecurityScopedResource];
+                                BOOL success =
+                                [bookmarkURL startAccessingSecurityScopedResource];
                                 
                                 NSError *error = nil;
                                 // checking if the selected url helps with opening permissions of our file
@@ -516,7 +517,9 @@ static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.s
                                         [self.bookmarkURLs addObject:bookmarkURL];
                                         [self writeBookmarksToUserDefaults];
                                     }
-                                    // TODO: call back out and reload stuff - if success
+                                    if (success) {
+                                        // TODO: call back out and reload stuff - if success
+                                    }
                                 }
                             }
 
