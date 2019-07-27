@@ -11,6 +11,10 @@
 #import "TCMMMUserManager.h"
 #import "UserChangeOperation.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
 
 @implementation TCMMMState
 
@@ -32,11 +36,7 @@
     I_client = nil;
     I_delegate = nil;
     [I_timer invalidate];
-    [I_timer release];
-    [I_messageBuffer release];
-    [I_incomingMessages release];
     DEBUGLOG(@"MillionMonkeysLogDomain", AllLogLevel, @"MMState deallocated");
-    [super dealloc];
 }
 
 - (BOOL)isSendingNoOps {
@@ -46,17 +46,16 @@
 - (void)setIsSendingNoOps:(BOOL)aFlag {
     if (aFlag) {
         if (!I_isSendingNoOps) {
-            I_timer = [[NSTimer timerWithTimeInterval:60 target:self selector:@selector(sendNoOperation:) userInfo:nil repeats:YES] retain];
+            I_timer = [NSTimer timerWithTimeInterval:60 target:self selector:@selector(sendNoOperation:) userInfo:nil repeats:YES];
             [[NSRunLoop currentRunLoop] addTimer:I_timer forMode:NSDefaultRunLoopMode];
         }
     } else {
         if (I_isSendingNoOps) {
             [I_timer invalidate];
-            [I_timer release];
             I_timer = nil;
         }
     }
-        
+    
     I_isSendingNoOps = aFlag;
 }
 
@@ -104,7 +103,7 @@
                 } else {
                     i++;
                 }
-            }    
+            }
         } else {
 			int numberOfClientMessages = [aMessage numberOfClientMessages];
             for (i = 0; i < [I_messageBuffer count];) {
@@ -169,7 +168,7 @@
 }
 
 - (void)appendOperationToIncomingMessageQueue:(TCMMMOperation *)anOperation {
-    TCMMMMessage *message = [[[TCMMMMessage alloc] initWithOperation:anOperation numberOfClient:I_numberOfClientMessages numberOfServer:I_numberOfServerMessages] autorelease];
+    TCMMMMessage *message = [[TCMMMMessage alloc] initWithOperation:anOperation numberOfClient:I_numberOfClientMessages numberOfServer:I_numberOfServerMessages];
     [I_incomingMessages insertObject:message atIndex:0];
     [[self delegate] stateHasMessagesAvailable:self];
 }
@@ -183,7 +182,7 @@
 - (void)handleOperation:(TCMMMOperation *)anOperation {
     
     // wrap operation in message and put it in the buffer
-    TCMMMMessage *message = [[[TCMMMMessage alloc] initWithOperation:anOperation numberOfClient:I_numberOfClientMessages numberOfServer:I_numberOfServerMessages] autorelease];
+    TCMMMMessage *message = [[TCMMMMessage alloc] initWithOperation:anOperation numberOfClient:I_numberOfClientMessages numberOfServer:I_numberOfServerMessages];
     DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"buffering Message: %@", message);
     if ([self isServer]) {
         I_numberOfServerMessages++;
@@ -213,7 +212,7 @@
     }
     TCMMMNoOperation *operation = [[TCMMMNoOperation alloc] init];
     [operation setUserID:[TCMMMUserManager myUserID]];
-    [self handleOperation:[operation autorelease]];
+    [self handleOperation:operation];
 }
 
 @end

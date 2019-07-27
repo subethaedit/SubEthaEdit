@@ -6,6 +6,11 @@
 #import "TCMMMTransformator.h"
 #import "TCMMMOperation.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
 
 static TCMMMTransformator *sharedInstance = nil;
 
@@ -47,10 +52,6 @@ static TCMMMTransformator *sharedInstance = nil;
     return self;
 }
 
-- (void)dealloc {
-    [I_registeredTransformations release];
-    [super dealloc];
-}
 
 - (void)transformOperation:(TCMMMOperation *)anOperation serverOperation:(TCMMMOperation *)aServerOperation {
     NSInvocation *invocation = [[I_registeredTransformations objectForKey:[anOperation operationID]] objectForKey:[aServerOperation operationID]];

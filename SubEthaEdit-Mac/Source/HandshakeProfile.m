@@ -16,13 +16,7 @@
     return self;
 }
 
-- (void)dealloc {
-    [I_remoteInfos release];
-    [super dealloc];
-}
-
 - (void)setRemoteInfos:(NSDictionary *)aDictionary {
-    [I_remoteInfos autorelease];
     NSString *userAgent = [aDictionary objectForKey:@"uag"];
     if (userAgent) {
         [[[self session] userInfo] setObject:userAgent forKey:@"userAgent"];
@@ -114,7 +108,7 @@
             NSString *userID = [[self delegate] profile:self shouldProceedHandshakeWithUserID:[[self remoteInfos] objectForKey:@"uid"]];
             if (userID) {
                 TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:[self handshakePayloadWithUserID:userID]];
-                [[self channel] sendMessage:[message autorelease]];        
+                [[self channel] sendMessage:message];
             } else {
                 [[self session] terminate];
             }
@@ -127,7 +121,7 @@
             if (![[self session] isProhibitingInboundInternetSessions] || isRendezvous) {
                 [[self delegate] profile:self receivedAckHandshakeWithUserID:[[self remoteInfos] objectForKey:@"uid"]];
                 TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:[NSData data]];
-                [[self channel] sendMessage:[message autorelease]];   
+                [[self channel] sendMessage:message];
             } else {
                 [[self session] terminate];
             }     
@@ -148,7 +142,7 @@
             if (shouldAck) {
                 NSMutableData *payload = [NSMutableData dataWithData:[@"ACK" dataUsingEncoding:NSUTF8StringEncoding]];
                 TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"MSG" messageNumber:[[self channel] nextMessageNumber] payload:payload];
-                [[self channel] sendMessage:[message autorelease]];
+                [[self channel] sendMessage:message];
                 [[self delegate] profile:self didAckHandshakeWithUserID:[[self remoteInfos] objectForKey:@"uid"]];            
             } else {
                 [[self session] terminate];

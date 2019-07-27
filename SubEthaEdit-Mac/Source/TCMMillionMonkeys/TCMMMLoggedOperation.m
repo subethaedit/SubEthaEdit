@@ -5,11 +5,16 @@
 
 #import "TCMMMLoggedOperation.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
 
 @implementation TCMMMLoggedOperation
 
 + (id)loggedOperationWithOperation:(TCMMMOperation *)anOperation index:(long long)anIndex {
-    return [[[TCMMMLoggedOperation alloc] initWithOperation:anOperation index:anIndex] autorelease];
+    return [[TCMMMLoggedOperation alloc] initWithOperation:anOperation index:anIndex];
 }
 
 
@@ -26,9 +31,9 @@
     self = [super init];
     if (self) {
         I_date = [[NSDate alloc] initWithTimeIntervalSinceReferenceDate:[[aDictionary objectForKey:@"t"] doubleValue]/100.];
-        I_op = [[TCMMMOperation operationWithDictionaryRepresentation:[aDictionary objectForKey:@"op"]] retain];
+        I_op = [TCMMMOperation operationWithDictionaryRepresentation:[aDictionary objectForKey:@"op"]];
         I_index = [[aDictionary objectForKey:@"i"] longLongValue];
-        I_replacedAttributedStringDictionaryRepresentation = [[aDictionary objectForKey:@"rstr"] retain];
+        I_replacedAttributedStringDictionaryRepresentation = [aDictionary objectForKey:@"rstr"];
         NSAssert(I_op,@"operation was nil");
         //NSLog(@"message: %@",[self description]);
     }
@@ -55,8 +60,7 @@
 	if ([(NSString *)[aReplacedAttributedStringDictionaryRepresentation objectForKey:@"String"] length] == 0) {
 		aReplacedAttributedStringDictionaryRepresentation = nil;
 	}
-	[I_replacedAttributedStringDictionaryRepresentation autorelease];
-	 I_replacedAttributedStringDictionaryRepresentation = [aReplacedAttributedStringDictionaryRepresentation retain];
+	 I_replacedAttributedStringDictionaryRepresentation = aReplacedAttributedStringDictionaryRepresentation;
 }
 
 - (NSDictionary *)replacedAttributedStringDictionaryRepresentation {
@@ -65,8 +69,7 @@
 
 
 - (void)setDate:(NSDate *)aDate {
-    [I_date autorelease];
-     I_date = [aDate retain];
+     I_date = aDate;
 }
 
 
@@ -84,13 +87,9 @@
 
 
 - (void)dealloc {
-    [I_op release];
      I_op = nil;
-    [I_date release];
      I_date = nil;
-    [I_replacedAttributedStringDictionaryRepresentation release];
      I_replacedAttributedStringDictionaryRepresentation = nil;
-    [super dealloc];
 }
 
 

@@ -11,6 +11,12 @@
 #import "TextOperation.h"
 #import "UserChangeOperation.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
+
 @interface TCMMMLogStatisticsEntry (TCMMMLogStatisticsEntryPrivateAdditions)
 - (void)setDateOfLastActivity:(NSDate *)aDate;
 @end
@@ -30,21 +36,16 @@
 - (id)initWithMMUser:(TCMMMUser *)aUser {
     if ((self=[super init])) {
         [self setDateOfLastActivity:[NSDate distantPast]];
-        user = [aUser retain];
+        user = aUser;
     }
     return self;
 }
 
 // only for usage in a tableview cell
 - (id)copyWithZone:(NSZone *)aZone {
-    return [self retain];
+    return self;
 }
 
-- (void)dealloc {
-    [lastActivity release];
-    [user release];
-    [super dealloc];
-}
 
 - (void)updateWithOperation:(TCMMMLoggedOperation *)anOperation {
     id op = [anOperation operation];
@@ -95,8 +96,7 @@
 }
 - (void)setDateOfLastActivity:(NSDate *)aDate {
     [self willChangeValueForKey:@"dateOfLastActivity"];
-    [lastActivity autorelease];
-     lastActivity = [aDate retain];
+     lastActivity = aDate;
     [self didChangeValueForKey:@"dateOfLastActivity"];
 }
 - (TCMMMUser *)user {

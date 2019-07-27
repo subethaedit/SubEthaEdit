@@ -6,6 +6,10 @@
 #import "TCMPreferenceController.h"
 #import "TCMPreferenceModule.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
 
 static NSMutableDictionary *registeredPrefModules;
 static NSMutableArray *prefModules;
@@ -56,12 +60,6 @@ static TCMPreferenceController *sharedInstance = nil;
     return self;
 }
 
-- (void)dealloc
-{
-    [I_toolbarItemIdentifiers release];
-    [I_selectedItemIdentifier release];
-    [super dealloc];
-}
 
 - (void)awakeFromNib
 {    
@@ -89,17 +87,14 @@ static TCMPreferenceController *sharedInstance = nil;
 
 - (void)setEmptyContentView:(NSView *)aView
 {
-    [I_emptyContentView autorelease];
-    I_emptyContentView = [aView retain];
+    I_emptyContentView = aView;
 }
 
 - (void)windowDidLoad
 {
     [[self window] setToolbar:I_toolbar];
     [[[self window] standardWindowButton: NSWindowToolbarButton] setFrame: NSZeroRect];
-
-    [I_toolbar autorelease];
-        
+    
     if ([I_toolbarItemIdentifiers count] > 0) {
         NSString *identifier = [I_toolbarItemIdentifiers objectAtIndex:0];
         [I_toolbar setSelectedItemIdentifier:identifier];
@@ -206,8 +201,7 @@ static TCMPreferenceController *sharedInstance = nil;
 
 - (void)setSelectedItemIdentifier:(NSString *)anIdentifier
 {
-    [I_selectedItemIdentifier autorelease];
-    I_selectedItemIdentifier = [anIdentifier copy];   
+    I_selectedItemIdentifier = [anIdentifier copy];
 }
 
 - (BOOL)windowShouldClose:(id)sender
@@ -258,7 +252,7 @@ static TCMPreferenceController *sharedInstance = nil;
 {
     id module = [registeredPrefModules objectForKey:itemIdent];
     if (module) {
-        NSToolbarItem *toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:itemIdent] autorelease];
+        NSToolbarItem *toolbarItem = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdent];
         [toolbarItem setLabel:[module iconLabel]];
         [toolbarItem setImage:[module icon]];
         [toolbarItem setTarget:self];

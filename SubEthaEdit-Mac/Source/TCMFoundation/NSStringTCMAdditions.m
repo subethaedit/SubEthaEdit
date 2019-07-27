@@ -11,6 +11,10 @@
 #import <arpa/inet.h>
 #import <sys/socket.h>
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
 
 @implementation NSString (NSStringTCMAdditions) 
 
@@ -29,7 +33,7 @@
     if (!dictionary) dictionary = [NSMutableDictionary new];
     if (aData!=nil && [aData length]>= sizeof(CFUUIDBytes)) {
         CFUUIDRef uuid=CFUUIDCreateFromUUIDBytes(NULL,*(CFUUIDBytes *)[aData bytes]);
-        NSString *uuidString=(NSString *)CFUUIDCreateString(NULL,uuid);
+        NSString *uuidString=(NSString *)CFBridgingRelease(CFUUIDCreateString(NULL,uuid));
         CFRelease(uuid);
         NSString *result = [dictionary objectForKey:uuidString];
         if (uuidString) {
@@ -40,7 +44,6 @@
         } else {
             NSLog(@"%s %@ was nil",__FUNCTION__,aData);
         }
-        [uuidString release];
         return result;
     } else {
         return nil;
@@ -49,7 +52,7 @@
 
 + (NSString *)stringWithData:(NSData *)aData encoding:(NSStringEncoding)aEncoding
 {
-    return [[[NSString alloc] initWithData:aData encoding:aEncoding] autorelease];
+    return [[NSString alloc] initWithData:aData encoding:aEncoding];
 }
 
 + (NSString *)UUIDString
@@ -58,7 +61,7 @@
     CFStringRef myUUIDString = CFUUIDCreateString(NULL, myUUID);
     CFRelease(myUUID);
     
-    return [(NSString *)myUUIDString autorelease];
+    return (NSString *)CFBridgingRelease(myUUIDString);
 }
 
 + (NSString *)stringWithAddressData:(NSData *)aData cyrusSASLCompatible:(BOOL)cyrusSASLCompatible
@@ -106,7 +109,7 @@
         addressAsString = @"neither IPv6 nor IPv4";
     }
     
-    return [[addressAsString copy] autorelease];
+    return [addressAsString copy];
 }
 
 + (NSString *)stringWithAddressData:(NSData *)aData

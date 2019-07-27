@@ -11,6 +11,10 @@
 #import <arpa/inet.h>
 #import <sys/socket.h>
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
 
 void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *error, void *myInfoPointer);
 
@@ -32,12 +36,12 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
 
 + (TCMHost *)hostWithName:(NSString *)name port:(unsigned short)port userInfo:(NSDictionary *)userInfo
 {
-    return [[[TCMHost alloc] initWithName:name port:port userInfo:userInfo] autorelease];
+    return [[TCMHost alloc] initWithName:name port:port userInfo:userInfo];
 }
 
 + (TCMHost *)hostWithAddressData:(NSData *)addr port:(unsigned short)port userInfo:(NSDictionary *)userInfo
 {
-    return [[[TCMHost alloc] initWithAddressData:addr port:port userInfo:userInfo] autorelease];
+    return [[TCMHost alloc] initWithAddressData:addr port:port userInfo:userInfo];
 }
 
 - (id)initWithName:(NSString *)name port:(unsigned short)port userInfo:(NSDictionary *)userInfo
@@ -45,9 +49,8 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
     self = [super init];
     if (self) {
     
-        I_host = CFHostCreateWithName(NULL, (CFStringRef)name);
+        I_host = CFHostCreateWithName(NULL, (__bridge CFStringRef)name);
         if (I_host == nil) {
-			[self release];
 			self = nil;
             return nil;
         }
@@ -55,7 +58,7 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
         [self setName:name];
         [self setUserInfo:userInfo];
         I_port = port;
-        CFHostClientContext context = {0, self, NULL, NULL, NULL};
+        CFHostClientContext context = {0, (__bridge void * _Nullable)(self), NULL, NULL, NULL};
         CFHostSetClient(I_host, myCallback, &context);
         CFHostScheduleWithRunLoop(I_host, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
         
@@ -70,9 +73,8 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
     self = [super init];
     if (self) {
     
-        I_host = CFHostCreateWithAddress(NULL, (CFDataRef)addr);
+        I_host = CFHostCreateWithAddress(NULL, (__bridge CFDataRef)addr);
         if (I_host == nil) {
-			[self release];
 			self = nil;
 			return nil;
         }
@@ -80,7 +82,7 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
         [self setAddress:addr];
         [self setUserInfo:userInfo];
         I_port = port;
-        CFHostClientContext context = {0, self, NULL, NULL, NULL};
+        CFHostClientContext context = {0, (__bridge void * _Nullable)(self), NULL, NULL, NULL};
         CFHostSetClient(I_host, myCallback, &context);
         CFHostScheduleWithRunLoop(I_host, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
         
@@ -97,12 +99,6 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
     CFHostUnscheduleFromRunLoop(I_host, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
     CFHostSetClient(I_host, NULL, NULL);
     CFRelease(I_host);
-    [I_name release];
-    [I_names release];
-    [I_address release];
-    [I_addresses release];
-    [I_userInfo release];
-    [super dealloc];
 }
 
 - (void)setDelegate:(id)delegate
@@ -117,8 +113,7 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
 
 - (void)setAddress:(NSData *)addr
 {
-    [I_address autorelease];
-    I_address = [addr retain];
+    I_address = addr;
 }
 
 - (NSData *)address
@@ -133,7 +128,6 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
 
 - (void)setName:(NSString *)name
 {
-    [I_name autorelease];
     I_name = [name copy];
 }
 
@@ -149,8 +143,7 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
 
 - (void)setUserInfo:(NSDictionary *)userInfo
 {
-    [I_userInfo autorelease];
-    I_userInfo = [userInfo retain];
+    I_userInfo = userInfo;
 }
 
 - (NSDictionary *)userInfo
@@ -197,7 +190,7 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
         Boolean hasBeenResolved;
         CFArrayRef addressArray = CFHostGetAddressing(host, &hasBeenResolved);
         //NSLog(@"hasBeenResolved: %@", (hasBeenResolved ? @"YES" : @"NO"));
-        NSEnumerator *addresses = [(NSArray *)addressArray objectEnumerator];
+        NSEnumerator *addresses = [(NSArray *)CFBridgingRelease(addressArray) objectEnumerator];
         NSData *address;
         while ((address = [addresses nextObject])) {            
             NSMutableData *mutableAddressData = [address mutableCopy];
@@ -209,14 +202,13 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
             }
             //NSLog(@"resolved address: %@", [NSString stringWithAddressData:mutableAddressData]);
             [I_addresses addObject:mutableAddressData];
-            [mutableAddressData release];
         }
         if ([delegate respondsToSelector:@selector(hostDidResolveAddress:)]) {
             [delegate hostDidResolveAddress:self];
         }
     } else if (typeInfo == kCFHostNames) {
         Boolean hasBeenResolved;
-        NSArray *names = (NSArray *)CFHostGetNames(host, &hasBeenResolved);
+        NSArray *names = (NSArray *)CFBridgingRelease(CFHostGetNames(host, &hasBeenResolved));
         //NSLog(@"finished reverse lookup: %@", names);
         [I_names removeAllObjects];
         [I_names addObjectsFromArray:names];
@@ -234,6 +226,6 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
 
 void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *error, void *myInfoPointer)
 {
-    TCMHost *host = (TCMHost *)myInfoPointer;
+    TCMHost *host = (__bridge TCMHost *)myInfoPointer;
     [host TCM_handleHostCallback:myHost typeInfo:typeInfo error:error];
 }

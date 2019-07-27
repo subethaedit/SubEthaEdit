@@ -5,13 +5,16 @@
 
 #import "ImagePopUpButtonCell.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
 
 @implementation ImagePopUpButtonCell
 
 - (void)dealloc {
     [self setImage:nil];
     [self setAlternateImage:nil];
-    [super dealloc];
 }
 
 - (void)drawBorderAndBackgroundWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
@@ -26,8 +29,7 @@
 }
 
 - (void)setImage:(NSImage *)anImage {
-    [I_image autorelease];
-    I_image = [anImage retain];
+    I_image = anImage;
 }
 
 - (NSImage *)image {
@@ -35,8 +37,7 @@
 }
 
 - (void)setAlternateImage:(NSImage *)anImage {
-    [I_alternateImage autorelease];
-    I_alternateImage = [anImage retain];
+    I_alternateImage = anImage;
 }
 
 - (NSImage *)alternateImage {

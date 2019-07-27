@@ -5,16 +5,18 @@
 
 #import "TableView.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
 
 @implementation TableView
 -(void)setLightBackgroundColor:(NSColor *)aColor {
-    [I_lightBackgroundColor autorelease];
-     I_lightBackgroundColor=[aColor retain];
+     I_lightBackgroundColor=aColor;
 }
 
 -(void)setDarkBackgroundColor:(NSColor *)aColor {
-    [I_darkBackgroundColor autorelease];
-     I_darkBackgroundColor=[aColor retain];
+     I_darkBackgroundColor=aColor;
 }
 
 -(void)setDisableFirstRow:(BOOL)aFlag {
@@ -45,7 +47,7 @@
 - (void)highlightWithColor:(NSColor *)aColor inset:(float)aInset {
     if ([self selectedRow]>=0) {
 
-        NSMutableIndexSet *rows = [[[self selectedRowIndexes] mutableCopy] autorelease];
+        NSMutableIndexSet *rows = [[self selectedRowIndexes] mutableCopy];
     
         NSInteger index;
         NSInteger fromindex = -42;

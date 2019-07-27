@@ -20,6 +20,10 @@
 #import "PlainTextDocument.h"
 #import "FoldableTextStorage.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
 
 #define kProcessingTime 0.5
 #define kWaitingTime 0.1
@@ -82,7 +86,7 @@ NSString * const TCMMMSessionTextStorageKey = @"TextStorage";
     [session setHostID:[NSString stringWithUUIDData:[aDictionary objectForKey:@"hID"]]];
     [session setAccessState:[[aDictionary objectForKey:@"acc"] intValue]];
     [session setIsSecure:[[aDictionary objectForKey:@"sec"] boolValue]];
-    return [session autorelease];
+    return session;
 }
 
 - (id)init
@@ -115,7 +119,7 @@ NSString * const TCMMMSessionTextStorageKey = @"TextStorage";
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidChange:) name:TCMMMUserManagerUserDidChangeNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(coalescedSessionDidChange:) name:TCMMMSessionDidChangeNotification object:self];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(presenceManagerDidReceiveToken:) name:TCMMMPresenceManagerDidReceiveTokenNotification object:[TCMMMPresenceManager sharedInstance]];
-        [self setLoggingState:[[[TCMMMLoggingState alloc] init] autorelease]];
+        [self setLoggingState:[[TCMMMLoggingState alloc] init]];
     }
     return self;
 }
@@ -152,32 +156,14 @@ NSString * const TCMMMSessionTextStorageKey = @"TextStorage";
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [I_loggingState release];
-    [I_helper release];
     I_helper = nil;
     I_document = nil;
-    [I_invitedUsers release];
-    [I_groupOfInvitedUsers release];
-    [I_stateOfInvitedUsers release];
-    [I_sessionID release];
-    [I_hostID release];
-    [I_filename release];
     [[I_profilesByUserID allValues] makeObjectsPerformSelector:@selector(setDelegate:) withObject:nil];
-    [I_profilesByUserID release];
-    [I_participants release];
     [I_statesWithRemainingMessages makeObjectsPerformSelector:@selector(setClient:) withObject:nil];
     [I_statesWithRemainingMessages makeObjectsPerformSelector:@selector(setDelegate:) withObject:nil];
-    [I_statesWithRemainingMessages release];
-    [I_sessionContentForUserID release];
-    [I_contributors release];
-    [I_pendingUsers release];
-    [I_groupByUserID release];
     [[I_statesByClientID allValues] makeObjectsPerformSelector:@selector(setClient:) withObject:nil];
     [[I_statesByClientID allValues] makeObjectsPerformSelector:@selector(setDelegate:) withObject:nil];
-    [I_statesByClientID release];
-    [I_groupByToken release];
     DEBUGLOG(@"MillionMonkeysLogDomain", AllLogLevel, @"MMSession deallocated");
-    [super dealloc];
 }
 
 - (void)cleanupParticipants {
@@ -206,14 +192,12 @@ NSString * const TCMMMSessionTextStorageKey = @"TextStorage";
 - (void)setLoggingState:(TCMMMLoggingState *)aState {
 	if (aState != I_loggingState) {
 		[I_loggingState setMMSession:nil];
-		[I_loggingState autorelease];
-		 I_loggingState = [aState retain];
+		 I_loggingState = aState;
 		[I_loggingState setMMSession:self];
 	}
 }
 
 - (void)setLastReplacedAttributedString:(NSAttributedString *)aLastReplacedAttributedString {
-	[I_lastReplacedAttributedString autorelease];
 	I_lastReplacedAttributedString = [aLastReplacedAttributedString copy];
 }
 
@@ -242,7 +226,6 @@ NSString * const TCMMMSessionTextStorageKey = @"TextStorage";
 
 - (void)setFilename:(NSString *)aFilename
 {
-    [I_filename autorelease];
     BOOL changed=![I_filename isEqualToString:aFilename];
     I_filename = [aFilename copy];
     if (changed) [self TCM_sendSessionDidChangeNotification];
@@ -255,7 +238,6 @@ NSString * const TCMMMSessionTextStorageKey = @"TextStorage";
 
 - (void)setSessionID:(NSString *)aSessionID
 {
-    [I_sessionID autorelease];
     I_sessionID = [aSessionID copy];
 }
 
@@ -266,7 +248,6 @@ NSString * const TCMMMSessionTextStorageKey = @"TextStorage";
 
 - (void)setHostID:(NSString *)aHostID
 {
-    [I_hostID autorelease];
      I_hostID = [aHostID copy];
     [self setIsServer:[I_hostID isEqualToString:[TCMMMUserManager myUserID]]];
 }
@@ -499,7 +480,7 @@ NSString * const TCMMMSessionTextStorageKey = @"TextStorage";
         TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
         NSString *sessionID=[self sessionID];
         for (userID in aUserIDs) {
-            NSString *oldGroup=[[[I_groupByUserID objectForKey:userID] retain] autorelease];
+            NSString *oldGroup=[I_groupByUserID objectForKey:userID];
             if (![oldGroup isEqualToString:aGroup]) {
                 user=[userManager userForUserID:userID];
                 [I_groupByUserID setObject:aGroup forKey:userID];
@@ -524,7 +505,6 @@ NSString * const TCMMMSessionTextStorageKey = @"TextStorage";
                     [state setDelegate:self];
                     [state setClient:profile];
                     [I_statesByClientID setObject:state forKey:userID];
-                    [state release];
                 }
             }
         }
@@ -560,7 +540,6 @@ NSString * const TCMMMSessionTextStorageKey = @"TextStorage";
 		[profile sendSessionInformation:[self TCM_sessionInformationForUserID:[aUser userID]]];
 		id <SEEDocument> document = [self document];
 		[document sendInitialUserStateViaMMState:state];
-		[state release];
 
 		[aUser joinSessionID:[self sessionID]];
 
@@ -604,7 +583,6 @@ NSString * const TCMMMSessionTextStorageKey = @"TextStorage";
 			[I_profilesByUserID removeObjectForKey:[user userID]];
             [set removeIndex:index];
         }
-        [set release];
     } else {
         NSMutableIndexSet *set = [aSet mutableCopy];
         NSUInteger index;
@@ -626,13 +604,11 @@ NSString * const TCMMMSessionTextStorageKey = @"TextStorage";
             [profile sendSessionInformation:[self TCM_sessionInformationForUserID:[user userID]]];
             id <SEEDocument> document = [self document];
             [document sendInitialUserStateViaMMState:state];
-            [state release];
             [user joinSessionID:[self sessionID]];
             NSMutableDictionary *properties=[user propertiesForSessionID:[self sessionID]];
             [properties setObject:[SelectionOperation selectionOperationWithRange:NSMakeRange(0,0) userID:[user userID]] forKey:@"SelectionOperation"];
             [set removeIndex:index];
         }
-        [set release];
     }
     
     NSMutableIndexSet *set = [aSet mutableCopy];
@@ -641,7 +617,6 @@ NSString * const TCMMMSessionTextStorageKey = @"TextStorage";
         [I_pendingUsers removeObjectAtIndex:index];
         [set removeIndex:index];
     }
-    [set release];
     [self validateSecurity];
     [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMSessionPendingUsersDidChangeNotification object:self];
 }
@@ -804,8 +779,7 @@ NSString * const TCMMMSessionTextStorageKey = @"TextStorage";
     NSString *URLPath = [aURL path];
     NSString *path = nil;
     if (URLPath != nil) {
-        path = (NSString *)CFURLCreateStringByReplacingPercentEscapes(kCFAllocatorDefault, (CFStringRef)URLPath, CFSTR(""));
-        [path autorelease];
+        path = (NSString *)CFBridgingRelease(CFURLCreateStringByReplacingPercentEscapes(kCFAllocatorDefault, (CFStringRef)URLPath, CFSTR("")));
     }
 
     if (path == nil || [path length] == 0) {
@@ -822,8 +796,7 @@ NSString * const TCMMMSessionTextStorageKey = @"TextStorage";
     NSString *query;
     NSString *documentId = nil;
     if (urlQuery != nil) {
-        query = (NSString *)CFURLCreateStringByReplacingPercentEscapes(kCFAllocatorDefault, (CFStringRef)urlQuery, CFSTR(""));
-        [query autorelease];
+        query = (NSString *)CFBridgingRelease(CFURLCreateStringByReplacingPercentEscapes(kCFAllocatorDefault, (CFStringRef)urlQuery, CFSTR("")));
         NSArray *components = [query componentsSeparatedByString:@"&"];
         NSString *item;
         for (item in components) {
@@ -1130,7 +1103,6 @@ NSString * const TCMMMSessionTextStorageKey = @"TextStorage";
         [profile setMMState:state];
         [state setIsSendingNoOps:YES];
         [I_statesByClientID setObject:state forKey:[self hostID]];
-        [state release];
     }
 	
 	// ignore the logging state for now
@@ -1143,7 +1115,7 @@ NSString * const TCMMMSessionTextStorageKey = @"TextStorage";
     }
     
     if (loggingState) {
-        [self setLoggingState:[loggingState autorelease]];
+        [self setLoggingState:loggingState];
     }
     [[self document] session:self didReceiveContent:aContent];
     if (!loggingStateRep) {
@@ -1185,7 +1157,6 @@ NSString * const TCMMMSessionTextStorageKey = @"TextStorage";
         DEBUGLOG(@"MillionMonkeysLogDomain", AlwaysLogLevel, @"profileDidAcceptJoinRequest but another State is in place: %@", [I_statesByClientID objectForKey:peerUserID]);    
     }
     [I_statesByClientID setObject:state forKey:peerUserID];
-    [state release];
     [self setClientState:TCMMMSessionClientParticipantState];
 }
 
@@ -1240,7 +1211,6 @@ NSString * const TCMMMSessionTextStorageKey = @"TextStorage";
 		[profile sendSessionInformation:[self TCM_sessionInformationForUserID:[user userID]]];
 		id <SEEDocument> document = [self document];
 		[document sendInitialUserStateViaMMState:state];
-		[state release];
 		[user joinSessionID:[self sessionID]];
 		NSMutableDictionary *properties=[user propertiesForSessionID:[self sessionID]];
 		[properties setObject:[SelectionOperation selectionOperationWithRange:NSMakeRange(0,0) userID:[user userID]] forKey:@"SelectionOperation"];
@@ -1480,7 +1450,7 @@ NSString * const TCMMMSessionTextStorageKey = @"TextStorage";
                 if ([[anOperation theNewGroup] isEqualTo:TCMMMSessionReadOnlyGroupName]) {
                     //NSLog(@"normal self change to read only");
 
-                    [[aState retain] autorelease];
+
                     SessionProfile *profile=[I_profilesByUserID objectForKey:[self hostID]];
                     [profile setMMState:nil];
                     [aState setDelegate:nil];

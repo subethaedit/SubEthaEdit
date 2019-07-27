@@ -8,6 +8,12 @@
 #import "TCMMMStatusProfile.h"
 #import "TCMMMPresenceManager.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
+
 NSString * const TCMMMUserManagerUserDidChangeNotification = @"TCMMMUserManagerUserDidChangeNotification";
 
 static TCMMMUserManager *sharedInstance=nil;
@@ -51,16 +57,9 @@ static TCMMMUserManager *sharedInstance=nil;
     return self;
 }
 
-- (void)dealloc {
-    [I_userRequestsByID release];
-    [I_usersByID release];
-    [I_me release];
-    [super dealloc];
-}
 
 - (void)setMe:(TCMMMUser *)aUser {
-    [I_me autorelease];
-     I_me = [aUser retain];
+     I_me = aUser;
     [self setUser:I_me forUserID:[I_me userID]];
 }
 - (TCMMMUser *)me {
@@ -119,8 +118,8 @@ static TCMMMUserManager *sharedInstance=nil;
         [user setUserID:userID];
         [user setName:[aUser name]];
 		[user setUserHue:aUser.userHue];
-        [self setUser:[user autorelease] forUserID:userID];
-    } 
+        [self setUser:user forUserID:userID];
+    }
     if ([user changeCount]<[aUser changeCount]) {
         NSMutableDictionary *request=[I_userRequestsByID objectForKey:userID];
         if (request) {
