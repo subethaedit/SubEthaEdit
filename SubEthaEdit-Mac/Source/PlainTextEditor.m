@@ -2157,11 +2157,11 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
                     break;
                 }
             }
-            NSRect frame = [self.O_editorView frame];
-            frame.size.width = 50;
-            frame.origin.y = frame.size.height - 20;
-            frame.size.height = 20;
-            [s_cell performClickWithFrame:frame inView:self.O_editorView];
+
+            NSView * controlView = self.topBarViewController.view;
+            NSRect frame = NSMakeRect(0, 0, 50, controlView.frame.size.height);
+            [s_cell performClickWithFrame:frame inView:controlView];
+            
             return;
         }
         else if ([self showsBottomStatusBar])
