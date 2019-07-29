@@ -1909,31 +1909,39 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
                     break;
             }
             [[I_textStorage fullTextStorage] setHasMixedLineEndings:YES];
-        	[self performSelector:@selector(showLineEndingAlert:) withObject:[NSDictionary dictionaryWithObjectsAndKeys:
-        		localizedName,
-        		@"localizedName",
-        		[NSDictionary dictionaryWithObjectsAndKeys:
-        			@"MixedLineEndingsAlert", @"Alert",
-                    [sortedLineEndingStatsKeys objectAtIndex:4], @"LineEnding",
-                 	nil],
-                @"contextInfo",nil] afterDelay:0.0]; // delay this alert so we can call this method even if we didn't show the window yet
+
+            // Delay this alert so we can call this method even if we didn't show the window yet.
+            [self performSelector:@selector(showLineEndingAlert:)
+                       withObject:@[localizedName, sortedLineEndingStatsKeys[4]]
+                       afterDelay:0.0];
         }
     }
 }
 
-- (void)showLineEndingAlert:(NSDictionary *)anOptionDictionary {
-	NSString *localizedName = [anOptionDictionary objectForKey:@"localizedName"];
-	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+- (void)showLineEndingAlert:(NSArray *)arguments {
+    NSString * localizedName = arguments[0];
+    NSNumber * lineEndingAsNumber = arguments[1];
+    NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+
 	[alert setAlertStyle:NSAlertStyleWarning];
 	[alert setMessageText:[NSString stringWithFormat:NSLocalizedString(@"The file has mixed line endings. Do you want to convert all line endings to %@, the most common line ending in the file?", nil), localizedName]];
 	[alert setInformativeText:NSLocalizedString(@"Other applications may not be able to read the file if you don't convert all line endings to the same line ending.", nil)];
 	[alert addButtonWithTitle:[NSString stringWithFormat:NSLocalizedString(@"Convert to %@", nil), localizedName]];
 	[alert addButtonWithTitle:NSLocalizedString(@"Keep Line Endings", nil)];
-	[[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
-	[self presentAlert:alert
-		 modalDelegate:self
-		didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
-		   contextInfo:[[anOptionDictionary objectForKey:@"contextInfo"] retain]];
+	[alert.buttons[0] setKeyEquivalent:@"\r"];
+
+    LineEnding lineEnding = lineEndingAsNumber.unsignedShortValue;
+    __unsafe_unretained PlainTextDocument * weakSelf = self;
+
+    [self presentAlert:alert completionHandler:^(NSModalResponse returnCode) {
+        PlainTextDocument * self = weakSelf;
+
+        if (returnCode == NSAlertFirstButtonReturn) {
+            [self convertLineEndingsToLineEnding:lineEnding];
+        } else if (returnCode == NSAlertSecondButtonReturn) {
+            [self setLineEnding:lineEnding];
+        }
+    }];
 }
 
 - (id)handleShowScriptCommand:(NSScriptCommand *)command {
@@ -5011,14 +5019,6 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
                 NSTextView *textView = [alertContext objectForKey:@"TextView"];
                 [textView insertText:[alertContext objectForKey:@"ReplacementString"] replacementRange:textView.selectedRange];
             }
-        }
-    } else if ([alertIdentifier isEqualToString:@"MixedLineEndingsAlert"]) {
-        LineEnding lineEnding = [[alertContext objectForKey:@"LineEnding"] unsignedShortValue];
-        if (returnCode == NSAlertFirstButtonReturn) {
-            [[alert window] orderOut:self];
-            [self convertLineEndingsToLineEnding:lineEnding];
-        } else if (returnCode == NSAlertSecondButtonReturn) {
-            [self setLineEnding:lineEnding];
         }
     } else if ([alertIdentifier isEqualToString:@"PasteWrongLineEndingsAlert"]) {
         NSTextView *textView = [alertContext objectForKey:@"TextView"];
