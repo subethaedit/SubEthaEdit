@@ -282,7 +282,6 @@ static FindReplaceController *sharedInstance=nil;
 		[alert setInformativeText:NSLocalizedString(@"File is read-only", nil)];
 		[alert addButtonWithTitle:NSLocalizedString(@"Edit anyway", nil)];
 		[alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
-		[[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
 
 		[alert beginSheetModalForWindow:sheetWindow completionHandler:^(NSModalResponse returnCode) {
 			if (returnCode != NSAlertFirstButtonReturn)
@@ -308,7 +307,6 @@ static FindReplaceController *sharedInstance=nil;
 				[alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
 				[alert addButtonWithTitle:NSLocalizedString(@"Promote to UTF8", nil)];
 				[alert addButtonWithTitle:NSLocalizedString(@"Promote to Unicode", nil)];
-				[[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
 
 				[alert beginSheetModalForWindow:sheetWindow completionHandler:^(NSModalResponse returnCode) {
 					PlainTextDocument *document = aFindAndReplaceContext.targetPlainTextEditor.document;

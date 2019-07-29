@@ -2484,7 +2484,6 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
             [alert setInformativeText:NSLocalizedString(@"The file will have mixed line endings if you do not paste converted text.", nil)];
             [alert addButtonWithTitle:NSLocalizedString(@"Paste Converted", nil)];
             [alert addButtonWithTitle:NSLocalizedString(@"Paste Unchanged", nil)];
-            [alert.buttons[0] setKeyEquivalent:@"\r"];
 
             __unsafe_unretained PlainTextDocument * weakDocument = self.document;
 

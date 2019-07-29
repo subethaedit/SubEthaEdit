@@ -1939,7 +1939,6 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 	[alert setInformativeText:NSLocalizedString(@"Other applications may not be able to read the file if you don't convert all line endings to the same line ending.", nil)];
 	[alert addButtonWithTitle:[NSString stringWithFormat:NSLocalizedString(@"Convert to %@", nil), localizedName]];
 	[alert addButtonWithTitle:NSLocalizedString(@"Keep Line Endings", nil)];
-	[alert.buttons[0] setKeyEquivalent:@"\r"];
 
     LineEnding lineEnding = lineEndingAsNumber.unsignedShortValue;
     __unsafe_unretained PlainTextDocument * weakSelf = self;
@@ -3971,7 +3970,6 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     }
 
     [alert setAlertStyle:NSAlertStyleWarning];
-    [alert.buttons[0] setKeyEquivalent:@"\r"];
 
     __unsafe_unretained PlainTextDocument * weakSelf = self;
     [self presentAlert:alert completionHandler:^(NSModalResponse returnCode) {
@@ -4176,7 +4174,6 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     [alert setInformativeText:NSLocalizedString(@"File is read-only", nil)];
     [alert addButtonWithTitle:NSLocalizedString(@"Edit anyway", nil)];
     [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
-    [alert.buttons[0] setKeyEquivalent:@"\r"];
 
     __unsafe_unretained PlainTextDocument * weakSelf = self;
     [self presentAlert:alert completionHandler:^(NSModalResponse returnCode) {
@@ -6421,7 +6418,6 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     [alert addButtonWithTitle:NSLocalizedString(@"Insert", nil)];
     [alert addButtonWithTitle:NSLocalizedString(@"Promote to UTF8", nil)];
     [alert addButtonWithTitle:NSLocalizedString(@"Promote to Unicode", nil)];
-    [alert.buttons[0] setKeyEquivalent:@"\r"];
 
     __unsafe_unretained PlainTextDocument * weakSelf = self;
     [self presentAlert:alert completionHandler:^(NSModalResponse returnCode) {
