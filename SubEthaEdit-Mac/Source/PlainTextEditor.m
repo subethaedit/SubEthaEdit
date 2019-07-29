@@ -2477,27 +2477,23 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
         NSZoneFree(NSZoneFromPointer(lineEndingBuffer), lineEndingBuffer);
 
         if (!isLineEndingValid) {
-            NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+            NSString *warning = NSLocalizedString(@"You are pasting text that does not match the file's current line endings. Do you want to paste the text with converted line endings?", nil);
+            NSString *details = NSLocalizedString(@"The file will have mixed line endings if you do not paste converted text.", nil);
 
-            [alert setAlertStyle:NSAlertStyleWarning];
-            [alert setMessageText:NSLocalizedString(@"You are pasting text that does not match the file's current line endings. Do you want to paste the text with converted line endings?", nil)];
-            [alert setInformativeText:NSLocalizedString(@"The file will have mixed line endings if you do not paste converted text.", nil)];
-            [alert addButtonWithTitle:NSLocalizedString(@"Paste Converted", nil)];
-            [alert addButtonWithTitle:NSLocalizedString(@"Paste Unchanged", nil)];
-
-            __unsafe_unretained PlainTextDocument * weakDocument = self.document;
-
-            [self.document presentAlert:alert completionHandler:^(NSModalResponse returnCode) {
-                if (returnCode == NSAlertFirstButtonReturn) {
-                    PlainTextDocument * document = weakDocument;
-                    NSMutableString *mutableString = [[NSMutableString alloc] initWithString:replacementString];
-                    [mutableString convertLineEndingsToLineEndingString:document.lineEndingString];
-                    [aTextView insertText:mutableString replacementRange:aTextView.selectedRange];
-                    [mutableString release];
-                } else if (returnCode == NSAlertSecondButtonReturn) {
-                    [aTextView insertText:replacementString replacementRange:aTextView.selectedRange];
-                }
-            }];
+            [self.document warn:warning
+                        details:details
+                        buttons:@[NSLocalizedString(@"Paste Converted", nil),
+                                  NSLocalizedString(@"Paste Unchanged", nil)]
+                           then:^(PlainTextDocument * document, NSModalResponse returnCode) {
+                               if (returnCode == NSAlertFirstButtonReturn) {
+                                   NSMutableString *mutableString = [[NSMutableString alloc] initWithString:replacementString];
+                                   [mutableString convertLineEndingsToLineEndingString:document.lineEndingString];
+                                   [aTextView insertText:mutableString replacementRange:aTextView.selectedRange];
+                                   [mutableString release];
+                               } else if (returnCode == NSAlertSecondButtonReturn) {
+                                   [aTextView insertText:replacementString replacementRange:aTextView.selectedRange];
+                               }
+                           }];
 
             return NO;
         }

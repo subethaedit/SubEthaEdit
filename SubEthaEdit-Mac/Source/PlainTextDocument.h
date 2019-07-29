@@ -171,7 +171,7 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
 
 - (id)initWithSession:(TCMMMSession *)aSession;
 
-- (void)presentAlert:(NSAlert *)alert completionHandler:(void (^)(NSModalResponse returnCode))completionHandler;
+- (void)warn:(NSString *)message details:(NSString *)details buttons:(NSArray *)buttons then:(void (^)(PlainTextDocument *, NSModalResponse))then;
 - (void)presentPromotionAlertForTextView:(NSTextView *)textView insertionString:(NSString *)insertionString affectedRange:(NSRange)affectedRange;
 - (void)conditionallyEditAnyway:(void (^)(PlainTextDocument *))completionHandler;
 
