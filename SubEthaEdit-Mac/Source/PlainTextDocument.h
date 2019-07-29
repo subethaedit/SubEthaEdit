@@ -106,7 +106,6 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
     NSString *I_jobDescription;
     NSString *I_temporaryDisplayName;
     NSString *I_directoryForSavePanel;
-    NSDictionary *I_scheduledAlertDictionary;
     
     NSSaveOperationType I_lastSaveOperation;
     NSStringEncoding I_encodingFromLastRunSaveToOperation;
@@ -168,7 +167,7 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
 
 - (id)initWithSession:(TCMMMSession *)aSession;
 
-- (void)presentAlert:(NSAlert *)alert modalDelegate:(id)delegate didEndSelector:(SEL)didEndSelector contextInfo:(void *)contextInfo;
+- (void)presentAlert:(NSAlert *)alert completionHandler:(void (^)(NSModalResponse returnCode))completionHandler;
 - (void)presentScheduledAlertForWindow:(NSWindow *)window;
 
 - (IBAction)newView:(id)aSender;
