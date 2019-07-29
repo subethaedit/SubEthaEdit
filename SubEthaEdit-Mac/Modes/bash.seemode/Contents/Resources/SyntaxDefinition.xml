@@ -481,7 +481,7 @@
 
             <state id="if then fi Block" type="block" foldable="yes" indent="yes" scope="meta.block">
                 <begin><regex>(?&lt;![^;\s])then(?!\S)</regex></begin>
-                <end><regex>(?&lt;!\S)fi(?!\S)</regex></end>
+                <end><regex>(?&lt;!\S)elif|fi(?!\S)</regex></end>
                 <import/>
             </state>
 
