@@ -4168,44 +4168,47 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     [[self documentUndoManager] endUndoGrouping];
 }
 
+- (void)conditionallyEditAnyway:(void (^)(PlainTextDocument *))completionHandler
+{
+    NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+    [alert setAlertStyle:NSAlertStyleWarning];
+    [alert setMessageText:NSLocalizedString(@"Warning", nil)];
+    [alert setInformativeText:NSLocalizedString(@"File is read-only", nil)];
+    [alert addButtonWithTitle:NSLocalizedString(@"Edit anyway", nil)];
+    [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
+    [alert.buttons[0] setKeyEquivalent:@"\r"];
+
+    __unsafe_unretained PlainTextDocument * weakSelf = self;
+    [self presentAlert:alert completionHandler:^(NSModalResponse returnCode) {
+        if (returnCode != NSAlertFirstButtonReturn)
+            return;
+
+        PlainTextDocument * self = weakSelf;
+
+        [self setEditAnyway:YES];
+        completionHandler(self);
+    }];
+}
+
 - (void)convertLineEndingsToLineEnding:(LineEnding)lineEnding {
 
-    if (![self isFileWritable] && ![self editAnyway]) {
-        NSMethodSignature *signature = [self methodSignatureForSelector:@selector(convertLineEndingsToLineEnding:)];
-        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
-        [invocation setTarget:self];
-        [invocation setSelector:@selector(convertLineEndingsToLineEnding:)];
-        [invocation setArgument:&lineEnding atIndex:2];
-        NSDictionary *contextInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                    @"EditAnywayAlert", @"Alert",
-                                                    invocation, @"Invocation",
-                                                    nil];
+    if (![self isFileWritable] && ![self editAnyway])
+        return [self conditionallyEditAnyway:^(PlainTextDocument * self) {
+            [self convertLineEndingsToLineEnding:lineEnding];
+        }];
 
-        NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-        [alert setAlertStyle:NSAlertStyleWarning];
-        [alert setMessageText:NSLocalizedString(@"Warning", nil)];
-        [alert setInformativeText:NSLocalizedString(@"File is read-only", nil)];
-        [alert addButtonWithTitle:NSLocalizedString(@"Edit anyway", nil)];
-        [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
-        [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
-        [self presentAlert:alert
-             modalDelegate:self
-            didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
-               contextInfo:[contextInfo retain]];
-    } else {
-        FoldableTextStorage *textStorage=(FoldableTextStorage *)[self textStorage];
-        [textStorage beginEditing];
-        [textStorage setShouldWatchLineEndings:NO];
+    FoldableTextStorage *textStorage=(FoldableTextStorage *)[self textStorage];
+    [textStorage beginEditing];
+    [textStorage setShouldWatchLineEndings:NO];
 
-        [self setLineEnding:lineEnding];
-        [[self documentUndoManager] beginUndoGrouping];
-        [[textStorage mutableString] convertLineEndingsToLineEndingString:[self lineEndingString]];
-        [[self documentUndoManager] endUndoGrouping];
+    [self setLineEnding:lineEnding];
+    [[self documentUndoManager] beginUndoGrouping];
+    [[textStorage mutableString] convertLineEndingsToLineEndingString:[self lineEndingString]];
+    [[self documentUndoManager] endUndoGrouping];
 
-        [textStorage setShouldWatchLineEndings:YES];
-        [textStorage setHasMixedLineEndings:NO];
-        [textStorage endEditing];
-    }
+    [textStorage setShouldWatchLineEndings:YES];
+    [textStorage setHasMixedLineEndings:NO];
+    [textStorage endEditing];
 }
 
 - (IBAction)convertLineEndings:(id)aSender {
@@ -4991,37 +4994,6 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 
 #pragma mark -
-
-- (void)alertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
-    NSDictionary *alertContext = [(NSDictionary *)contextInfo autorelease];
-    NSString *alertIdentifier = [alertContext objectForKey:@"Alert"];
-    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"alertDidEnd: %@", alertIdentifier);
-
-    if ([alertIdentifier isEqualToString:@"EditAnywayAlert"]) {
-        if (returnCode == NSAlertFirstButtonReturn) {
-            [self setEditAnyway:YES];
-            NSInvocation *invocation = [alertContext objectForKey:@"Invocation"];
-            if (invocation) {
-                [invocation invoke];
-            } else {
-                NSTextView *textView = [alertContext objectForKey:@"TextView"];
-                [textView insertText:[alertContext objectForKey:@"ReplacementString"] replacementRange:textView.selectedRange];
-            }
-        }
-    } else if ([alertIdentifier isEqualToString:@"PasteWrongLineEndingsAlert"]) {
-        NSTextView *textView = [alertContext objectForKey:@"TextView"];
-        NSString *replacementString = [alertContext objectForKey:@"ReplacementString"];
-        if (returnCode == NSAlertFirstButtonReturn) {
-            [[alert window] orderOut:self];
-            NSMutableString *mutableString = [[NSMutableString alloc] initWithString:replacementString];
-            [mutableString convertLineEndingsToLineEndingString:[self lineEndingString]];
-            [textView insertText:mutableString replacementRange:textView.selectedRange];
-            [mutableString release];
-        } else if (returnCode == NSAlertSecondButtonReturn) {
-            [textView insertText:replacementString replacementRange:textView.selectedRange];
-        }
-    }
-}
 
 - (void)applicationDidBecomeActive:(NSNotification *)aNotification {
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"applicationDidBecomeActive: %@", [self fileURL]);

@@ -2414,26 +2414,11 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
         [self setFollowUserID:nil];
     }
 
-    if (document &&
-        ![document isFileWritable] &&
-        ![document editAnyway]) {
-        NSDictionary *contextInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-                                     @"EditAnywayAlert", @"Alert",
-                                     aTextView, @"TextView",
-                                     [[replacementString copy] autorelease], @"ReplacementString",
-                                     nil];
-
-        NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-        [alert setAlertStyle:NSAlertStyleWarning];
-        [alert setMessageText:NSLocalizedString(@"Warning", nil)];
-        [alert setInformativeText:NSLocalizedString(@"File is read-only", nil)];
-        [alert addButtonWithTitle:NSLocalizedString(@"Edit anyway", nil)];
-        [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
-        [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
-        [alert beginSheetModalForWindow:[aTextView window]
-						 modalDelegate	:document
-						didEndSelector	:@selector(alertDidEnd:returnCode:contextInfo:)
-						  contextInfo		:[contextInfo retain]];
+    if (document && !document.isFileWritable && !document.editAnyway) {
+        [document conditionallyEditAnyway:^(PlainTextDocument * document) {
+            [aTextView insertText:replacementString
+                 replacementRange:aTextView.selectedRange];
+        }];
 
         return NO;
     }
@@ -2492,23 +2477,29 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
         NSZoneFree(NSZoneFromPointer(lineEndingBuffer), lineEndingBuffer);
 
         if (!isLineEndingValid) {
-            NSMutableDictionary *contextInfo = [[NSMutableDictionary alloc] init];
-            [contextInfo setObject:@"PasteWrongLineEndingsAlert" forKey:@"Alert"];
-            [contextInfo setObject:aTextView forKey:@"TextView"];
-            [contextInfo setObject:[[replacementString copy] autorelease] forKey:@"ReplacementString"];
-            [contextInfo autorelease];
-
             NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+
             [alert setAlertStyle:NSAlertStyleWarning];
             [alert setMessageText:NSLocalizedString(@"You are pasting text that does not match the file's current line endings. Do you want to paste the text with converted line endings?", nil)];
             [alert setInformativeText:NSLocalizedString(@"The file will have mixed line endings if you do not paste converted text.", nil)];
             [alert addButtonWithTitle:NSLocalizedString(@"Paste Converted", nil)];
             [alert addButtonWithTitle:NSLocalizedString(@"Paste Unchanged", nil)];
-            [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
-            [alert beginSheetModalForWindow:[aTextView window]
-							 modalDelegate	:document
-                            didEndSelector	:@selector(alertDidEnd:returnCode:contextInfo:)
-							  contextInfo		:[contextInfo retain]];
+            [alert.buttons[0] setKeyEquivalent:@"\r"];
+
+            __unsafe_unretained PlainTextDocument * weakDocument = self.document;
+
+            [self.document presentAlert:alert completionHandler:^(NSModalResponse returnCode) {
+                if (returnCode == NSAlertFirstButtonReturn) {
+                    PlainTextDocument * document = weakDocument;
+                    NSMutableString *mutableString = [[NSMutableString alloc] initWithString:replacementString];
+                    [mutableString convertLineEndingsToLineEndingString:document.lineEndingString];
+                    [aTextView insertText:mutableString replacementRange:aTextView.selectedRange];
+                    [mutableString release];
+                } else if (returnCode == NSAlertSecondButtonReturn) {
+                    [aTextView insertText:replacementString replacementRange:aTextView.selectedRange];
+                }
+            }];
+
             return NO;
         }
     }
