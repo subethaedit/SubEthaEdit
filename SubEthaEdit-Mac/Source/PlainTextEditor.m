@@ -2442,25 +2442,9 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
         TCMMMSession *session = [document session];
 
         if ([session isServer] && [session participantCount] <= 1) {
-            NSMutableDictionary *contextInfo = [[NSMutableDictionary alloc] init];
-            [contextInfo setObject:@"ShouldPromoteAlert" forKey:@"Alert"];
-            [contextInfo setObject:aTextView forKey:@"TextView"];
-            [contextInfo setObject:[[replacementString copy] autorelease] forKey:@"ReplacementString"];
-            [contextInfo setObject:[NSValue valueWithRange:affectedCharRange] forKey:@"AffectedCharRange"];
-            [contextInfo autorelease];
-
-            NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-            [alert setAlertStyle:NSAlertStyleWarning];
-            [alert setMessageText:NSLocalizedString(@"You are trying to insert characters that cannot be handled by the file's current encoding. Do you want to cancel the change?", nil)];
-            [alert setInformativeText:NSLocalizedString(@"You are no longer restricted by the file's current encoding if you promote to a Unicode encoding.", nil)];
-            [alert addButtonWithTitle:NSLocalizedString(@"Insert", nil)];
-            [alert addButtonWithTitle:NSLocalizedString(@"Promote to UTF8", nil)];
-            [alert addButtonWithTitle:NSLocalizedString(@"Promote to Unicode", nil)];
-            [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
-            [alert beginSheetModalForWindow:[aTextView window]
-							 modalDelegate	:document
-                            didEndSelector	:@selector(alertDidEnd:returnCode:contextInfo:)
-							  contextInfo		:[contextInfo retain]];
+            [document presentPromotionAlertForTextView:aTextView
+                                       insertionString:[[replacementString copy] autorelease]
+                                         affectedRange:affectedCharRange];
         }
         else {
             NSBeep();

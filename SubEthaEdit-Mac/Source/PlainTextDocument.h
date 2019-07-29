@@ -46,6 +46,10 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotification;
 
 
+@interface NSString (LossyConversion)
+- (NSString *)lossyStringUsingEncoding:(NSStringEncoding)encoding;
+@end
+
 @interface PlainTextDocument : NSDocument <SEEDocument, NSTextViewDelegate, NSTextStorageDelegate, NSOpenSavePanelDelegate, NSSharingServicePickerDelegate, NSSharingServiceDelegate>
 {
     TCMMMSession *I_session;
@@ -168,6 +172,7 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
 - (id)initWithSession:(TCMMMSession *)aSession;
 
 - (void)presentAlert:(NSAlert *)alert completionHandler:(void (^)(NSModalResponse returnCode))completionHandler;
+- (void)presentPromotionAlertForTextView:(NSTextView *)textView insertionString:(NSString *)insertionString affectedRange:(NSRange)affectedRange;
 - (void)presentScheduledAlertForWindow:(NSWindow *)window;
 
 - (IBAction)newView:(id)aSender;

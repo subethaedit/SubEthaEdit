@@ -142,6 +142,17 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
 
 
 
+@implementation NSString (LossyConversion)
+
+- (NSString *)lossyStringUsingEncoding:(NSStringEncoding)encoding
+{
+    NSData * data = [self dataUsingEncoding:encoding allowLossyConversion:YES];
+
+    return [NSString stringWithData:data encoding:encoding];
+}
+
+@end
+
 @implementation PlainTextDocument
 
 + (void)initialize {
@@ -4986,30 +4997,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     NSString *alertIdentifier = [alertContext objectForKey:@"Alert"];
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"alertDidEnd: %@", alertIdentifier);
 
-    if ([alertIdentifier isEqualToString:@"ShouldPromoteAlert"]) {
-        NSTextView *textView = [alertContext objectForKey:@"TextView"];
-        NSString *replacementString = [alertContext objectForKey:@"ReplacementString"];
-		NSRange affectedRange = [[alertContext objectForKey:@"AffectedCharRange"] rangeValue];
-        if (returnCode == NSAlertThirdButtonReturn) {
-            [self setFileEncodingUndoable:NSUnicodeStringEncoding];
-            if (replacementString) {
-				[textView setSelectedRange:affectedRange];
-                [textView insertText:replacementString replacementRange:affectedRange];
-			}
-        } else if (returnCode == NSAlertSecondButtonReturn) {
-            [self setFileEncodingUndoable:NSUTF8StringEncoding];
-            if (replacementString) {
-				[textView setSelectedRange:affectedRange];
-                [textView insertText:replacementString replacementRange:affectedRange];
-			}
-        } else if (returnCode == NSAlertFirstButtonReturn) {
-            NSData *lossyData = [replacementString dataUsingEncoding:[self fileEncoding] allowLossyConversion:YES];
-            if (lossyData) {
-				[textView setSelectedRange:affectedRange];
-                [textView insertText:[NSString stringWithData:lossyData encoding:[self fileEncoding]] replacementRange:affectedRange];
-			}
-        }
-    } else if ([alertIdentifier isEqualToString:@"EditAnywayAlert"]) {
+    if ([alertIdentifier isEqualToString:@"EditAnywayAlert"]) {
         if (returnCode == NSAlertFirstButtonReturn) {
             [self setEditAnyway:YES];
             NSInvocation *invocation = [alertContext objectForKey:@"Invocation"];
@@ -6449,6 +6437,38 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     return YES;
 }
 
+- (void)presentPromotionAlertForTextView:(NSTextView *)textView insertionString:(NSString *)unconvertedString affectedRange:(NSRange)affectedRange
+{
+    NSString * convertedString = [unconvertedString lossyStringUsingEncoding:self.fileEncoding];
+    NSString * informativeText = [NSLocalizedString(@"You are no longer restricted by the file's current encoding if you promote to a Unicode encoding.", nil) stringByAppendingString:[NSString stringWithFormat:@"\n%@ ->\n%@", unconvertedString, convertedString]];
+
+    NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+    [alert setAlertStyle:NSAlertStyleWarning];
+    [alert setMessageText:NSLocalizedString(@"You are trying to insert characters that cannot be handled by the file's current encoding. Do you want to cancel the change?", nil)];
+    [alert setInformativeText:informativeText];
+    [alert addButtonWithTitle:NSLocalizedString(@"Insert", nil)];
+    [alert addButtonWithTitle:NSLocalizedString(@"Promote to UTF8", nil)];
+    [alert addButtonWithTitle:NSLocalizedString(@"Promote to Unicode", nil)];
+    [alert.buttons[0] setKeyEquivalent:@"\r"];
+
+    __unsafe_unretained PlainTextDocument * weakSelf = self;
+    [self presentAlert:alert completionHandler:^(NSModalResponse returnCode) {
+        PlainTextDocument * self = weakSelf;
+
+        if (returnCode == NSAlertThirdButtonReturn)
+            [self setFileEncodingUndoable:NSUnicodeStringEncoding];
+        else if (returnCode == NSAlertSecondButtonReturn)
+            [self setFileEncodingUndoable:NSUTF8StringEncoding];
+
+        NSString * insertionString = returnCode == NSAlertFirstButtonReturn ?
+            convertedString :
+            unconvertedString;
+
+        [textView setSelectedRange:affectedRange];
+        [textView insertText:insertionString replacementRange:affectedRange];
+    }];
+}
+
 - (void)textDidChange:(NSNotification *)aNotification {
     NSTextView *textView=[aNotification object];
     FoldableTextStorage *textStorage = (FoldableTextStorage *) [textView textStorage];
@@ -6471,23 +6491,10 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 			
 			// show sheet
 			TCMMMSession *session=[self session];
-			if ([session isServer] && [session participantCount]<=1) {
-				NSMutableDictionary *contextInfo = [[NSMutableDictionary alloc] init];
-				[contextInfo setObject:@"ShouldPromoteAlert" forKey:@"Alert"];
-				[contextInfo setObject:textView forKey:@"TextView"];
-				[contextInfo setObject:[[I_lastTextShouldChangeReplacementString copy] autorelease] forKey:@"ReplacementString"];
-		
-				NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-				[alert setAlertStyle:NSAlertStyleWarning];
-				[alert setMessageText:NSLocalizedString(@"You are trying to insert characters that cannot be handled by the file's current encoding. Do you want to cancel the change?", nil)];
-				[alert setInformativeText:[NSLocalizedString(@"You are no longer restricted by the file's current encoding if you promote to a Unicode encoding.", nil) stringByAppendingString:[NSString stringWithFormat:@"\n%@ ->\n%@",I_lastTextShouldChangeReplacementString,[NSString stringWithData:[I_lastTextShouldChangeReplacementString dataUsingEncoding:[self fileEncoding] allowLossyConversion:YES] encoding:[self fileEncoding]]]]];
-				[alert addButtonWithTitle:NSLocalizedString(@"Insert", nil)];
-				[alert addButtonWithTitle:NSLocalizedString(@"Promote to UTF8", nil)];
-				[alert addButtonWithTitle:NSLocalizedString(@"Promote to Unicode", nil)];
-				[[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
-                [alert beginSheetModalForWindow:[textView window] completionHandler:^(NSModalResponse returnCode) {
-                    [self alertDidEnd:alert returnCode:returnCode contextInfo:contextInfo];
-                }];
+            if ([session isServer] && [session participantCount]<=1) {
+                [self presentPromotionAlertForTextView:textView
+                                       insertionString:[[I_lastTextShouldChangeReplacementString copy] autorelease]
+                                         affectedRange:I_lastTextShouldChangeReplacementRange];
 			} else {
 				NSBeep();
 			}
