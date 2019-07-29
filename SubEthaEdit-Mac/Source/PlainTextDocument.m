@@ -3923,48 +3923,56 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Validate document: %@", fileName);
 
     NSDictionary *fattrs = [[NSFileManager defaultManager] attributesOfItemAtPath:fileName error:nil];
-    if ([[fattrs fileModificationDate] compare:[[self fileAttributes] fileModificationDate]] != NSOrderedSame) {
-        DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Document has been changed externally");
-        if ([self keepDocumentVersion]) {
-            DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Keep document version");
-            return YES;
-        }
-        if ([self isDocumentEdited]) {
-            NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-            [alert setAlertStyle:NSAlertStyleWarning];
-            [alert setMessageText:NSLocalizedString(@"The file has been modified by another application. Do you want to keep the changes made in SubEthaEdit?", nil)];
-            [alert setInformativeText:NSLocalizedString(@"If you revert the file to the version on disk the changes you made in SubEthaEdit will be lost.", nil)];
-            [alert addButtonWithTitle:NSLocalizedString(@"Keep Changes", nil)];
-            [alert addButtonWithTitle:NSLocalizedString(@"Revert", nil)];
-            [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
-            [self presentAlert:alert
-                 modalDelegate:self
-                didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
-                   contextInfo:[[NSDictionary dictionaryWithObjectsAndKeys:
-                                                    @"DocumentChangedExternallyAlert", @"Alert",
-                                                    nil] retain]];
 
-            return NO;
-        } else {
-            NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-            [alert setAlertStyle:NSAlertStyleWarning];
-            [alert setMessageText:NSLocalizedString(@"The document's file has been modified by another application. Do you want to revert the document?", nil)];
-            [alert setInformativeText:NSLocalizedString(@"If you revert the document to the version on disk the document's content will be replaced with the content of the file.", nil)];
-            [alert addButtonWithTitle:NSLocalizedString(@"Revert Document", nil)];
-            [alert addButtonWithTitle:NSLocalizedString(@"Don't Revert Document", nil)];
-            [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
-            [self presentAlert:alert
-                 modalDelegate:self
-                didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
-                   contextInfo:[[NSDictionary dictionaryWithObjectsAndKeys:
-                                                    @"DocumentChangedExternallyNoModificationsAlert", @"Alert",
-                                                    nil] retain]];
+    if ([[fattrs fileModificationDate] compare:[[self fileAttributes] fileModificationDate]] == NSOrderedSame)
+        return YES;
 
-            return NO;
-        }
+    DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Document has been changed externally");
+    if ([self keepDocumentVersion]) {
+        DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Keep document version");
+        return YES;
     }
 
-    return YES;
+    BOOL isDocumentEdited = [self isDocumentEdited];
+    NSModalResponse revertResponseCode = isDocumentEdited ? NSAlertSecondButtonReturn : NSAlertFirstButtonReturn;
+    NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+
+    // These messages are almost identical, are sure we want them to be different?
+    // Reversing the revert/keep makes sense, but I think both should either say "Revert" or "Revert Document".
+    if (isDocumentEdited) {
+        [alert setMessageText:NSLocalizedString(@"The file has been modified by another application. Do you want to keep the changes made in SubEthaEdit?", nil)];
+        [alert setInformativeText:NSLocalizedString(@"If you revert the file to the version on disk the changes you made in SubEthaEdit will be lost.", nil)];
+        [alert addButtonWithTitle:NSLocalizedString(@"Keep Changes", nil)];
+        [alert addButtonWithTitle:NSLocalizedString(@"Revert", nil)];
+    } else {
+        [alert setMessageText:NSLocalizedString(@"The document's file has been modified by another application. Do you want to revert the document?", nil)];
+        [alert setInformativeText:NSLocalizedString(@"If you revert the document to the version on disk the document's content will be replaced with the content of the file.", nil)];
+        [alert addButtonWithTitle:NSLocalizedString(@"Revert Document", nil)];
+        [alert addButtonWithTitle:NSLocalizedString(@"Don't Revert Document", nil)];
+    }
+
+    [alert setAlertStyle:NSAlertStyleWarning];
+    [alert.buttons[0] setKeyEquivalent:@"\r"];
+
+    __unsafe_unretained PlainTextDocument * weakSelf = self;
+    [self presentAlert:alert completionHandler:^(NSModalResponse returnCode) {
+        PlainTextDocument * self = weakSelf;
+
+        if (returnCode == revertResponseCode) {
+            DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Revert document");
+            NSError *error = nil;
+            return [self revertToContentsOfURL:self.fileURL ofType:self.fileType error:&error] ?
+                [self updateChangeCount:NSChangeCleared] :
+                [self presentError:error];
+        }
+
+        [self setKeepDocumentVersion:YES];
+
+        if (isDocumentEdited)
+            [self updateChangeCount:NSChangeDone];
+    }];
+
+    return NO;
 }
 
 #pragma mark -
@@ -4992,33 +5000,6 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 				[textView setSelectedRange:affectedRange];
                 [textView insertText:[NSString stringWithData:lossyData encoding:[self fileEncoding]] replacementRange:affectedRange];
 			}
-        }
-    } else if ([alertIdentifier isEqualToString:@"DocumentChangedExternallyAlert"]) {
-        if (returnCode == NSAlertFirstButtonReturn) {
-            [self setKeepDocumentVersion:YES];
-            [self updateChangeCount:NSChangeDone];
-        } else if (returnCode == NSAlertSecondButtonReturn) {
-            DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Revert document");
-            NSError *error = nil;
-            BOOL successful = [self revertToContentsOfURL:[self fileURL] ofType:[self fileType] error:&error];
-            if (successful) {
-                [self updateChangeCount:NSChangeCleared];
-            } else {
-                [self presentError:error];
-            }
-        }
-    } else if ([alertIdentifier isEqualToString:@"DocumentChangedExternallyNoModificationsAlert"]) {
-        if (returnCode == NSAlertFirstButtonReturn) {
-            DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Revert document");
-            NSError *error = nil;
-            BOOL successful = [self revertToContentsOfURL:[self fileURL] ofType:[self fileType] error:&error];
-            if (successful) {
-                [self updateChangeCount:NSChangeCleared];
-            } else {
-                [self presentError:error];
-            }
-        } else if (returnCode == NSAlertSecondButtonReturn) {
-            [self setKeepDocumentVersion:YES];
         }
     } else if ([alertIdentifier isEqualToString:@"EditAnywayAlert"]) {
         if (returnCode == NSAlertFirstButtonReturn) {
