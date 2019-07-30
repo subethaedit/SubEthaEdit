@@ -109,7 +109,7 @@
         addressAsString = @"neither IPv6 nor IPv4";
     }
     
-    return [addressAsString copy];
+    return addressAsString;
 }
 
 + (NSString *)stringWithAddressData:(NSData *)aData
