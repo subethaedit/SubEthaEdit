@@ -26,29 +26,25 @@ Dictionaries are encoded as a 'd' followed by a list of alternating keys and the
     return [self initWithData:TCM_BencodedObject(anObject)];
 }
 
-- (id)initWithData:(NSData *)aData {
+- (id)initWithData:(NSData *)data {
     if ((self=[super init])) {
-        if (!aData) { aData = [NSData data]; };
-        I_mutableData = [aData mutableCopy];
+        _data = data ? [data mutableCopy] : [NSMutableData new];
     }
     return self;
 }
 
-- (NSData*)data {
-    return (NSData *)I_mutableData;
-}
 
 - (void)appendObjectToBencodedArray:(id)anObject {
     NSData *objectData = TCM_BencodedObject(anObject);
     if (objectData) {
-        [I_mutableData replaceBytesInRange:NSMakeRange([I_mutableData length]-1,0) withBytes:[objectData bytes] length:[objectData length]];
+        [_data replaceBytesInRange:NSMakeRange([_data length]-1,0) withBytes:[objectData bytes] length:[objectData length]];
     }
 }
 
 - (void)appendObjectsFromArrayToBencodedArray:(NSArray *)anArray {
     NSData *objectData = TCM_BencodedObject(anArray);
     if (objectData) {
-        [I_mutableData replaceBytesInRange:NSMakeRange([I_mutableData length]-1,0) withBytes:[objectData bytes]+1 length:[objectData length]-2];
+        [_data replaceBytesInRange:NSMakeRange([_data length]-1,0) withBytes:[objectData bytes]+1 length:[objectData length]-2];
     }
 }
 
