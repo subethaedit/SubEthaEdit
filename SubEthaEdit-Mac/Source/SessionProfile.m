@@ -22,7 +22,7 @@
     if (!data) {
 		// sending and requesting of history is deprecated this way
         // historyData = [TCM_BencodedObject([NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES],@"SendHistory",[NSNumber numberWithBool:YES],@"SendSESCHG",nil]) retain];
-        data = TCM_BencodedObject([NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES],@"SendSESCHG",nil]);
+        data = TCM_BencodedObject(@{@"SendSESCHG" : @YES});
     }
     return data;
 }
