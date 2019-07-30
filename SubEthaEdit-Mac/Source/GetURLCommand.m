@@ -7,6 +7,11 @@
 #import "SEEConnectionManager.h"
 #import "SEEDocumentController.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
 @implementation GetURLCommand
 
 - (id)performDefaultImplementation

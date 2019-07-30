@@ -96,7 +96,7 @@
 		142893F909575A3000D14688 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893DF09575A3000D14688 /* AppController.m */; };
 		142893FA09575A3000D14688 /* EncodingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893E109575A3000D14688 /* EncodingManager.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		142893FB09575A3000D14688 /* FindReplaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893E309575A3000D14688 /* FindReplaceController.m */; };
-		142893FC09575A3000D14688 /* GetURLCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893E509575A3000D14688 /* GetURLCommand.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		142893FC09575A3000D14688 /* GetURLCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893E509575A3000D14688 /* GetURLCommand.m */; };
 		142893FE09575A3000D14688 /* NSApplicationTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893E909575A3000D14688 /* NSApplicationTCMAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		142893FF09575A3000D14688 /* PullDownButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893EB09575A3000D14688 /* PullDownButton.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		1428940009575A3000D14688 /* PullDownButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893ED09575A3000D14688 /* PullDownButtonCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
