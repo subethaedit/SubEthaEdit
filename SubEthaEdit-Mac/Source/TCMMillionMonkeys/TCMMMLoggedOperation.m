@@ -21,7 +21,7 @@
 - (id)initWithOperation:(TCMMMOperation *)anOperation index:(long long)anIndex{
     if ((self=[super init])) {
         I_op = [anOperation copy];
-        I_date = [[NSDate alloc] init];
+        _date = [[NSDate alloc] init];
         I_index = anIndex;
     }
     return self;
@@ -30,7 +30,7 @@
 - (id)initWithDictionaryRepresentation:(NSDictionary *)aDictionary {
     self = [super init];
     if (self) {
-        I_date = [[NSDate alloc] initWithTimeIntervalSinceReferenceDate:[[aDictionary objectForKey:@"t"] doubleValue]/100.];
+        _date = [[NSDate alloc] initWithTimeIntervalSinceReferenceDate:[[aDictionary objectForKey:@"t"] doubleValue]/100.];
         I_op = [TCMMMOperation operationWithDictionaryRepresentation:[aDictionary objectForKey:@"op"]];
         I_index = [[aDictionary objectForKey:@"i"] longLongValue];
         I_replacedAttributedStringDictionaryRepresentation = [aDictionary objectForKey:@"rstr"];
@@ -44,7 +44,7 @@
     NSMutableDictionary *representation = [NSMutableDictionary dictionary];
     [representation setObject:[[self operation] dictionaryRepresentation]
                        forKey:@"op"];
-    [representation setObject:[NSNumber numberWithDouble:[I_date timeIntervalSinceReferenceDate]*100.] forKey:@"t"];
+    [representation setObject:[NSNumber numberWithDouble:[_date timeIntervalSinceReferenceDate]*100.] forKey:@"t"];
     [representation setObject:[NSNumber numberWithLongLong:I_index] forKey:@"i"];
     if (I_replacedAttributedStringDictionaryRepresentation) {
     	[representation setObject:I_replacedAttributedStringDictionaryRepresentation forKey:@"rstr"];
@@ -67,28 +67,17 @@
 	return I_replacedAttributedStringDictionaryRepresentation;
 }
 
-
-- (void)setDate:(NSDate *)aDate {
-     I_date = aDate;
-}
-
-
-- (NSDate *)date {
-    return I_date;
-}
-
 - (long long)index {
     return I_index;
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"%@\ntime: %f\nop: %@\nindex:%lld", [self class],[I_date timeIntervalSinceReferenceDate],I_op,I_index];
+    return [NSString stringWithFormat:@"%@\ntime: %f\nop: %@\nindex:%lld", [self class],[_date timeIntervalSinceReferenceDate],I_op,I_index];
 }
 
 
 - (void)dealloc {
      I_op = nil;
-     I_date = nil;
      I_replacedAttributedStringDictionaryRepresentation = nil;
 }
 
