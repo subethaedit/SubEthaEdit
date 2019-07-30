@@ -89,7 +89,7 @@ CaseInsensitiveDictionaryKeyHashCallBack(const void *value)
 
     // We create our own equal and hash callback functions because TXT record key names should be case insensitive.
     insensitiveDictionary = CFDictionaryCreateMutable(kCFAllocatorDefault, 0, &keyCallBacks, &kCFTypeDictionaryValueCallBacks);
-    NSMutableDictionary *result=(NSMutableDictionary *)CFBridgingRelease(insensitiveDictionary);
+    NSMutableDictionary __autoreleasing *result=(NSMutableDictionary *)CFBridgingRelease(insensitiveDictionary);
     return result;
 }
 
