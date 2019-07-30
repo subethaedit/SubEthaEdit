@@ -173,9 +173,7 @@ id TCM_CopyBdecodedObject(uint8_t *aBytes, unsigned *aPosition, unsigned aLength
 							[S_bencodingDictionaryKeysDictionary setObject:decodedKey forKey:key];
 						}
 						[result setObject:value forKey:decodedKey];
-						value = nil;
 					}
-					key = nil;
                 } else {
                     return nil;
                 }
