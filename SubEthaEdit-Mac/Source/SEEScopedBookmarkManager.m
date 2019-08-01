@@ -389,8 +389,8 @@ static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.s
 			[openPanel TCM_setAssociatedValue:viewController forKey:@"accessoryViewController"];
 		}
 
-		NSInteger openPanelResult = [openPanel runModal];
-		if (openPanelResult == NSFileHandlingPanelOKButton) {
+		NSModalResponse openPanelResult = [openPanel runModal];
+		if (openPanelResult == NSModalResponseOK) {
 			NSURL *choosenURL = openPanel.URL;
 			// creating the security scoped bookmark url so that accessing works <3
 
@@ -441,8 +441,8 @@ static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.s
 			[openPanel TCM_setAssociatedValue:viewController forKey:@"accessoryViewController"];
 		}
 
-		NSInteger openPanelResult = [openPanel runModal];
-		if (openPanelResult == NSFileHandlingPanelOKButton) {
+		NSModalResponse openPanelResult = [openPanel runModal];
+		if (openPanelResult == NSModalResponseOK) {
 			NSURL *choosenURL = openPanel.URL;
 			// creating the security scoped bookmark url so that accessing works <3
 			NSNumber *isBookmarkFileWritable = nil;

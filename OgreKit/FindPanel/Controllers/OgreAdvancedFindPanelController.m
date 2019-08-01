@@ -1377,7 +1377,7 @@ static NSString	*OgreAFPCAttributedReplaceHistoryKey = @"AFPC Attributed Replace
 /* load find string from/to pasteboard */
 - (void)loadFindStringFromPasteboard
 {
-	NSPasteboard *pasteboard = [NSPasteboard pasteboardWithName:NSFindPboard];
+	NSPasteboard *pasteboard = [NSPasteboard pasteboardWithName:NSPasteboardNameFind];
 	NSString *findString = [pasteboard stringForType:NSStringPboardType];
 	if ((findString != nil) && ([findString length] > 0)) [findTextView setString:findString];
 }
@@ -1386,7 +1386,7 @@ static NSString	*OgreAFPCAttributedReplaceHistoryKey = @"AFPC Attributed Replace
 {
 	NSString *findString = [findTextView string];
 	if ((findString != nil) && ([findString length] > 0)) {
-		NSPasteboard *pasteboard = [NSPasteboard pasteboardWithName:NSFindPboard];
+		NSPasteboard *pasteboard = [NSPasteboard pasteboardWithName:NSPasteboardNameFind];
 		[pasteboard declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:nil];
 		[pasteboard setString:findString forType:NSStringPboardType];
 	}

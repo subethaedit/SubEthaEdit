@@ -441,7 +441,7 @@ static FindReplaceController *sharedInstance=nil;
 
 - (NSString *)pasteboardFindString {
 	NSString *result = nil;
-    NSPasteboard *pasteboard = [NSPasteboard pasteboardWithName:NSFindPboard];
+    NSPasteboard *pasteboard = [NSPasteboard pasteboardWithName:NSPasteboardNameFind];
     if ([[pasteboard types] containsObject:NSStringPboardType]) {
         result = [pasteboard stringForType:NSStringPboardType];
 	}
@@ -459,7 +459,7 @@ static FindReplaceController *sharedInstance=nil;
 	NSString *currentFindString = [self currentFindString];
 	NSString *pasteboardFindString = [self pasteboardFindString];
 	if (currentFindString && ![currentFindString isEqualToString:pasteboardFindString]) {
-		NSPasteboard *pasteboard = [NSPasteboard pasteboardWithName:NSFindPboard];
+		NSPasteboard *pasteboard = [NSPasteboard pasteboardWithName:NSPasteboardNameFind];
 		[pasteboard declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:nil];
 		[pasteboard setString:currentFindString forType:NSStringPboardType];
 	}
