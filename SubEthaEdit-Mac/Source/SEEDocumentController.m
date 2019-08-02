@@ -570,11 +570,11 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 
 	[self.filenamesFromLastRunOpenPanel removeAllObjects];
 
-	[super beginOpenPanel:openPanel forTypes:inTypes completionHandler:^(NSInteger result) {
+	[super beginOpenPanel:openPanel forTypes:inTypes completionHandler:^(NSModalResponse result) {
 		[self setModeIdentifierFromLastRunOpenPanel:[openPanelAccessoryViewController.modePopUpButtonOutlet selectedModeIdentifier]];
 		[self setEncodingFromLastRunOpenPanel:[[openPanelAccessoryViewController.encodingPopUpButtonOutlet selectedItem] tag]];
 
-		if (result == NSFileHandlingPanelOKButton) {
+		if (result == NSModalResponseOK) {
 			NSString *modeExtension = MODE_EXTENSION;
 			for (NSURL *URL in openPanel.URLs) {
 				if ([URL isFileURL]) {
