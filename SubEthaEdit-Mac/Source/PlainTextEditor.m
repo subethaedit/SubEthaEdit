@@ -2406,42 +2406,46 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
 - (BOOL)textView:(NSTextView *)aTextView shouldChangeTextInRange:(NSRange)affectedCharRange replacementString:(NSString *)replacementString {
     [[URLBubbleWindow sharedURLBubbleWindow] hideIfNecessary];
-    if (replacementString == nil) return YES;     // only styles are changed
-
+    if (replacementString == nil) {
+        // only styles are changed
+        return YES;
+    }
+    
     PlainTextDocument *document = [self document];
 
     if (![document isRemotelyEditingTextStorage]) {
         [self setFollowUserID:nil];
     }
 
-    if (document && !document.isFileWritable && !document.editAnyway) {
+    if (document &&
+        !document.isFileWritable &&
+        !document.editAnyway) {
         [document conditionallyEditAnyway:^(PlainTextDocument * document) {
-            [aTextView insertText:replacementString
-                 replacementRange:aTextView.selectedRange];
+            [aTextView insertText:replacementString replacementRange:aTextView.selectedRange];
         }];
 
         return NO;
     }
 
-    if (![replacementString canBeConvertedToEncoding:[document fileEncoding]] && ![aTextView hasMarkedText]) {
+    if (![replacementString canBeConvertedToEncoding:[document fileEncoding]] &&
+        ![aTextView hasMarkedText]) {
         TCMMMSession *session = [document session];
 
         if ([session isServer] && [session participantCount] <= 1) {
+            // TODO: @monkeydom: Investigate. Imho we either need to copy/autorelease the replacement string in all asynchronous cases or in none.
             [document presentPromotionAlertForTextView:aTextView
                                        insertionString:[[replacementString copy] autorelease]
                                          affectedRange:affectedCharRange];
-        }
-        else {
+        } else {
             NSBeep();
         }
 
         return NO;
-    }
-    else {
-        [aTextView setTypingAttributes:[(FoldableTextStorage *)[aTextView textStorage] attributeDictionaryByAddingStyleAttributesForInsertLocation : affectedCharRange.location toDictionary :[(PlainTextDocument *)[self document] typingAttributes]]];
+    } else {
+        [aTextView setTypingAttributes:[(FoldableTextStorage *)[aTextView textStorage] attributeDictionaryByAddingStyleAttributesForInsertLocation : affectedCharRange.location toDictionary :[document typingAttributes]]];
     }
 
-    [aTextView setTypingAttributes:[(FoldableTextStorage *)[aTextView textStorage] attributeDictionaryByAddingStyleAttributesForInsertLocation : affectedCharRange.location toDictionary :[(PlainTextDocument *)[self document] typingAttributes]]];
+    [aTextView setTypingAttributes:[(FoldableTextStorage *)[aTextView textStorage] attributeDictionaryByAddingStyleAttributesForInsertLocation : affectedCharRange.location toDictionary :[document typingAttributes]]];
 
     if ([(SEETextView *)aTextView isPasting] && ![(FoldableTextStorage *)[aTextView textStorage] hasMixedLineEndings]) {
         NSUInteger length = [replacementString length];
@@ -2453,18 +2457,14 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
         [lineEndingString getCharacters:lineEndingBuffer];
         BOOL isLineEndingValid = YES;
 
-        while (curPos < length)
-        {
+        while (curPos < length) {
             [replacementString getLineStart:&startIndex end:&endIndex contentsEnd:&contentsEndIndex forRange:NSMakeRange(curPos, 0)];
 
-            if ((contentsEndIndex + lineEndingStringLength) <= length)
-            {
+            if ((contentsEndIndex + lineEndingStringLength) <= length) {
                 unsigned i;
 
-                for (i = 0; i < lineEndingStringLength; i++)
-                {
-                    if ([replacementString characterAtIndex:contentsEndIndex + i] != lineEndingBuffer[i])
-                    {
+                for (i = 0; i < lineEndingStringLength; i++) {
+                    if ([replacementString characterAtIndex:contentsEndIndex + i] != lineEndingBuffer[i]) {
                         isLineEndingValid = NO;
                         break;
                     }
@@ -2479,22 +2479,22 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
         if (!isLineEndingValid) {
             NSString *warning = NSLocalizedString(@"You are pasting text that does not match the file's current line endings. Do you want to paste the text with converted line endings?", nil);
             NSString *details = NSLocalizedString(@"The file will have mixed line endings if you do not paste converted text.", nil);
-
-            [self.document warn:warning
-                        details:details
-                        buttons:@[NSLocalizedString(@"Paste Converted", nil),
-                                  NSLocalizedString(@"Paste Unchanged", nil)]
-                           then:^(PlainTextDocument * document, NSModalResponse returnCode) {
-                               if (returnCode == NSAlertFirstButtonReturn) {
-                                   NSMutableString *mutableString = [[NSMutableString alloc] initWithString:replacementString];
-                                   [mutableString convertLineEndingsToLineEndingString:document.lineEndingString];
-                                   [aTextView insertText:mutableString replacementRange:aTextView.selectedRange];
-                                   [mutableString release];
-                               } else if (returnCode == NSAlertSecondButtonReturn) {
-                                   [aTextView insertText:replacementString replacementRange:aTextView.selectedRange];
-                               }
-                           }];
-
+            
+            [document warn:warning
+                   details:details
+                   buttons:@[NSLocalizedString(@"Paste Converted", nil),
+                             NSLocalizedString(@"Paste Unchanged", nil)]
+                      then:^(PlainTextDocument * document, NSModalResponse returnCode) {
+                          if (returnCode == NSAlertFirstButtonReturn) {
+                              NSMutableString *mutableString = [[NSMutableString alloc] initWithString:replacementString];
+                              [mutableString convertLineEndingsToLineEndingString:document.lineEndingString];
+                              [aTextView insertText:mutableString replacementRange:aTextView.selectedRange];
+                              [mutableString release];
+                          } else if (returnCode == NSAlertSecondButtonReturn) {
+                              [aTextView insertText:replacementString replacementRange:aTextView.selectedRange];
+                          }
+                      }];
+            
             return NO;
         }
     }

@@ -142,17 +142,6 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
 
 
 
-@implementation NSString (LossyConversion)
-
-- (NSString *)lossyStringUsingEncoding:(NSStringEncoding)encoding
-{
-    NSData * data = [self dataUsingEncoding:encoding allowLossyConversion:YES];
-
-    return [NSString stringWithData:data encoding:encoding];
-}
-
-@end
-
 @implementation PlainTextDocument
 
 + (void)initialize {
@@ -872,26 +861,28 @@ static NSString *tempFileName(NSString *origPath) {
     [super dealloc];
 }
 
-- (void)presentAlert:(NSAlert *)alert completionHandler:(void (^)(NSModalResponse returnCode))completionHandler
-{
-    if (alert == nil) return;
+- (void)presentAlert:(NSAlert *)alert completionHandler:(void (^)(NSModalResponse returnCode))completionHandler {
+    if (alert == nil) { return; }
 
+    // Search a window that doesn't yet show a sheet
     NSArray *orderedWindows = [NSApp orderedWindows];
     NSUInteger minIndex = NSNotFound;
     NSEnumerator *enumerator = [[self windowControllers] objectEnumerator];
     PlainTextWindowController *windowController;
     while ((windowController = [enumerator nextObject])) {
-        if ([[windowController document] isEqual:self] && [[windowController window] attachedSheet] == nil) {
+        if ([[windowController document] isEqual:self] &&
+            [[windowController window] attachedSheet] == nil) {
             minIndex = MIN(minIndex, [orderedWindows indexOfObjectIdenticalTo:[windowController window]]);
         } 
     }
     
     if (minIndex != NSNotFound) {
+        // Found one, use to display
         NSWindow *window = [orderedWindows objectAtIndex:minIndex];
         [window makeKeyAndOrderFront:self];
         [alert beginSheetModalForWindow:window completionHandler:completionHandler];
     } else {
-        // Schedule alert for display
+        // Already showing a sheet, so schedule alert for future display
         
         NSEnumerator *enumerator = [[self windowControllers] objectEnumerator];
         PlainTextWindowController *windowController;
@@ -907,50 +898,45 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 
-- (void)alert:(NSString *)message style:(NSAlertStyle)style details:(NSString *)details buttons:(NSArray *)buttons then:(void (^)(PlainTextDocument *, NSModalResponse))then
-{
+- (void)alert:(NSString *)message style:(NSAlertStyle)style details:(NSString *)details buttons:(NSArray *)buttons then:(void (^)(PlainTextDocument *, NSModalResponse))then {
     NSAlert *alert = [[[NSAlert alloc] init] autorelease];
     
     [alert setAlertStyle:style];
     [alert setMessageText:message];
     [alert setInformativeText:details];
     
-    for (NSString * button in buttons)
+    for (NSString * button in buttons) {
         [alert addButtonWithTitle: button];
-    
-    __unsafe_unretained PlainTextDocument * weakSelf = self;
+    }
+    // This file isn't arc yet, so this is not doing what you think it does
+    __unsafe_unretained PlainTextDocument *weakSelf = self;
     [self presentAlert:alert completionHandler:^(NSModalResponse returnCode) {
-        PlainTextDocument * strongSelf = weakSelf;
+        PlainTextDocument *strongSelf = weakSelf;
         then(strongSelf, returnCode);
     }];
 }
 
-- (void)warn:(NSString *)message details:(NSString *)details buttons:(NSArray *)buttons then:(void (^)(PlainTextDocument *, NSModalResponse))then
-{
+- (void)warn:(NSString *)message details:(NSString *)details buttons:(NSArray *)buttons then:(void (^)(PlainTextDocument *, NSModalResponse))then {
     [self alert:message style:NSAlertStyleWarning details:details buttons:buttons then:then];
 }
 
-- (void)inform:(NSString *)message details:(NSString *)details
-{
-    // Is there a difference between @"OK" and @"OK in sheet"? They seem to be used interchangeably.
+- (void)inform:(NSString *)message details:(NSString *)details {
     [self alert:message
           style:NSAlertStyleInformational
         details:details
-        buttons:@[NSLocalizedString(@"OK in sheet", nil)]
+        buttons:@[NSLocalizedString(@"OK", nil)]
            then:nil];
 }
 
-- (void)presentScheduledAlertForWindow:(NSWindow *)window
-{
-    const void (^presentScheduledAlertForWindow)(NSWindow *) = self.presentScheduledAlertForWindow;
+- (void)presentScheduledAlertForWindow:(NSWindow *)window {
+    typeof(_presentScheduledAlertForWindow) action = [[self.presentScheduledAlertForWindow copy] autorelease];
     self.presentScheduledAlertForWindow = nil;
-    presentScheduledAlertForWindow(window);
+    action(window);
 }
 
 #pragma mark - Encoding
 
-- (BOOL)canBeConvertedToEncoding:(NSStringEncoding)encoding
-{
+- (BOOL)canBeConvertedToEncoding:(NSStringEncoding)encoding {
     return [[[I_textStorage fullTextStorage] string] canBeConvertedToEncoding:encoding];
 }
 
@@ -1434,89 +1420,89 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 - (IBAction)selectEncoding:(id)aSender {
-
     NSStringEncoding encoding = [aSender tag];
-
     DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"%@",[NSString localizedNameOfStringEncoding:encoding]);
-
-    if (self.fileEncoding == encoding)
+    
+    if (self.fileEncoding == encoding) {
         return;
-
+    }
+    
     [self warn:NSLocalizedString(@"File Encoding", nil)
        details:NSLocalizedString(@"ConvertOrReinterpret", nil)
        buttons:@[NSLocalizedString(@"Convert", nil),
-                  NSLocalizedString(@"Cancel", nil),
-                  NSLocalizedString(@"Reinterpret", nil)]
-          then:^(PlainTextDocument * self, NSModalResponse returnCode) {
-               TCMMMSession *session = [self session];
-               
-               if (I_flags.isReceivingContent || !session.isServer || session.participantCount > 1)
-                   return;
-               
-               // Canceled so update bottom status bar to previous state
-               if (returnCode == NSAlertSecondButtonReturn)
-                   return [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
-               
-               if (returnCode == NSAlertFirstButtonReturn) { // convert
-                   DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Trying to convert file encoding");
-                   
-                   if (![I_textStorage.fullTextStorage.string canBeConvertedToEncoding:encoding]) {
-                       [self.topmostWindowController setDocumentDialog:[[[SEEEncodingDoctorDialogViewController alloc] initWithEncoding:encoding] autorelease]];
-                       
-                       // didn't work so update bottom status bar to previous state
-                       [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
-                   } else {
-                       [self setFileEncodingUndoable:encoding];
-                       [self updateChangeCount:NSChangeDone];
-                   }
-                   return;
-               }
-               
-               // Can only beNSAlertThirdButtonReturn:Reinterpret
-               DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Trying to reinterpret file encoding");
-               
-               NSStringEncoding fileEncoding = self.fileEncoding;
-               BOOL needsUT8BOM = fileEncoding == NSUTF8StringEncoding && [[self.documentMode defaultForKey:DocumentModeUTF8BOMPreferenceKey] boolValue];
-               NSData * rawStringData = [I_textStorage.fullTextStorage.string dataUsingEncoding:self.fileEncoding];
-               NSData * stringData = needsUT8BOM ? [rawStringData dataPrefixedWithUTF8BOM] : rawStringData;
-               NSString * reinterpretedString = [[[NSString alloc] initWithData:stringData encoding:encoding] autorelease];
-               
-               if (!reinterpretedString || (reinterpretedString.length == 0 && I_textStorage.length > 0)) {
-                   NSString * details = [NSString stringWithFormat:NSLocalizedString(@"Encoding %@ not reinterpretable", nil), [NSString localizedNameOfStringEncoding:encoding]];
-                   
-                   // Didn't work so update bottom status bar to previous state
-                   [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
-                   
-                   return [self warn:NSLocalizedString(@"Error", nil)
-                             details:details
-                             buttons:@[NSLocalizedString(@"Cancel", nil)]
-                                then:nil];
-               }
-               
-               I_flags.hasUTF8BOM = needsUT8BOM;
-               BOOL isEdited = [self isDocumentEdited];
-               
-               [[self documentUndoManager] beginUndoGrouping];
-               [[self plainTextEditors] makeObjectsPerformSelector:@selector(pushSelectedRanges)];
-               [I_textStorage beginEditing];
-               [I_textStorage replaceCharactersInRange:NSMakeRange(0, [I_textStorage length]) withString:@""];
-               [self setFileEncodingUndoable:encoding];
-               [I_textStorage replaceCharactersInRange:NSMakeRange(0, [I_textStorage length]) withString:reinterpretedString];
-               
-               NSDictionary * attributes = isEdited ? [self typingAttributes] : [self plainTextAttributes];
-               [I_textStorage setAttributes:attributes range:NSMakeRange(0, [I_textStorage length])];
-               
-               if (I_flags.highlightSyntax) {
-                   [self highlightSyntaxInRange:NSMakeRange(0, [[I_textStorage fullTextStorage] length])];
-               }
-               [I_textStorage endEditing];
-               [[self documentUndoManager] endUndoGrouping];
-               [[self plainTextEditors] makeObjectsPerformSelector:@selector(popSelectedRanges)];
-               if (!isEdited) {
-                   [self updateChangeCount:NSChangeCleared];
-               }
-               [self TCM_validateLineEndings];
-           }];
+                 NSLocalizedString(@"Cancel", nil),
+                 NSLocalizedString(@"Reinterpret", nil)]
+          then:^(PlainTextDocument *document, NSModalResponse returnCode) {
+              TCMMMSession *session = [document session];
+              
+              if (I_flags.isReceivingContent || !session.isServer || session.participantCount > 1) {
+                  return;
+              }
+              // Canceled so update bottom status bar to previous state
+              if (returnCode == NSAlertSecondButtonReturn)
+                  return [document TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
+              
+              if (returnCode == NSAlertFirstButtonReturn) { // convert
+                  DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Trying to convert file encoding");
+                  
+                  if (![I_textStorage.fullTextStorage.string canBeConvertedToEncoding:encoding]) {
+                      [document.topmostWindowController setDocumentDialog:[[[SEEEncodingDoctorDialogViewController alloc] initWithEncoding:encoding] autorelease]];
+                      
+                      // didn't work so update bottom status bar to previous state
+                      [document TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
+                  } else {
+                      [document setFileEncodingUndoable:encoding];
+                      [document updateChangeCount:NSChangeDone];
+                  }
+                  return;
+              }
+              
+              // Can only beNSAlertThirdButtonReturn:Reinterpret
+              DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Trying to reinterpret file encoding");
+              
+              NSStringEncoding fileEncoding = self.fileEncoding;
+              BOOL needsUT8BOM = fileEncoding == NSUTF8StringEncoding && [[self.documentMode defaultForKey:DocumentModeUTF8BOMPreferenceKey] boolValue];
+              NSData * rawStringData = [I_textStorage.fullTextStorage.string dataUsingEncoding:self.fileEncoding];
+              NSData * stringData = needsUT8BOM ? [rawStringData dataPrefixedWithUTF8BOM] : rawStringData;
+              NSString * reinterpretedString = [[[NSString alloc] initWithData:stringData encoding:encoding] autorelease];
+              
+              if (!reinterpretedString || (reinterpretedString.length == 0 && I_textStorage.length > 0)) {
+                  NSString * details = [NSString stringWithFormat:NSLocalizedString(@"Encoding %@ not reinterpretable", nil), [NSString localizedNameOfStringEncoding:encoding]];
+                  
+                  // Didn't work so update bottom status bar to previous state
+                  [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
+                  
+                  return [document warn:NSLocalizedString(@"Error", nil)
+                                details:details
+                                buttons:@[NSLocalizedString(@"Cancel", nil)]
+                                   then:nil];
+              }
+              
+              I_flags.hasUTF8BOM = needsUT8BOM;
+              BOOL isEdited = [self isDocumentEdited];
+              
+              [[self documentUndoManager] beginUndoGrouping];
+              [[document plainTextEditors] makeObjectsPerformSelector:@selector(pushSelectedRanges)];
+              typeof (I_textStorage) textstorage = document.textStorage;
+              [textstorage beginEditing];
+              [textstorage replaceCharactersInRange:NSMakeRange(0, [textstorage length]) withString:@""];
+              [document setFileEncodingUndoable:encoding];
+              [textstorage replaceCharactersInRange:NSMakeRange(0, [textstorage length]) withString:reinterpretedString];
+              
+              NSDictionary * attributes = isEdited ? [document typingAttributes] : [document plainTextAttributes];
+              [textstorage setAttributes:attributes range:NSMakeRange(0, [textstorage length])];
+              
+              if (I_flags.highlightSyntax) {
+                  [document highlightSyntaxInRange:NSMakeRange(0, [[textstorage fullTextStorage] length])];
+              }
+              [textstorage endEditing];
+              [[document documentUndoManager] endUndoGrouping];
+              [[document plainTextEditors] makeObjectsPerformSelector:@selector(popSelectedRanges)];
+              if (!isEdited) {
+                  [document updateChangeCount:NSChangeCleared];
+              }
+              [document TCM_validateLineEndings];
+          }];
 }
 
 
@@ -1959,11 +1945,11 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
        details:details
        buttons:@[[NSString stringWithFormat:NSLocalizedString(@"Convert to %@", nil), localizedName],
                   NSLocalizedString(@"Keep Line Endings", nil)]
-          then:^(PlainTextDocument * self, NSModalResponse returnCode) {
+          then:^(PlainTextDocument *document, NSModalResponse returnCode) {
                if (returnCode == NSAlertFirstButtonReturn) {
-                   [self convertLineEndingsToLineEnding:lineEnding];
+                   [document convertLineEndingsToLineEnding:lineEnding];
                } else if (returnCode == NSAlertSecondButtonReturn) {
-                   [self setLineEnding:lineEnding];
+                   [document setLineEnding:lineEnding];
                }
            }];
 }
@@ -2020,12 +2006,11 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 
 - (void)TCM_validateSize {
     NSInteger threshold = [NSUserDefaults.standardUserDefaults integerForKey:@"StringLengthToStopHighlightingAndWrapping"];
-
-    if (I_textStorage.length <= threshold)
-        return;
-
-    [self inform:NSLocalizedString(@"Syntax Highlighting and Wrap Lines have been turned off due to the size of the Document.", @"BigFile Message Text")
-         details:NSLocalizedString(@"Turning on syntax highlighting for very large documents is not recommended.", @"BigFile Informative Text")];
+    
+    if (I_textStorage.length > threshold) {
+        [self inform:NSLocalizedString(@"Syntax Highlighting and Wrap Lines have been turned off due to the size of the Document.", @"BigFile Message Text")
+             details:NSLocalizedString(@"Turning on syntax highlighting for very large documents is not recommended.", @"BigFile Informative Text")];
+    }
 }
 
 - (NSWindow *)windowForSheet {
@@ -3955,53 +3940,62 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
     NSDictionary *fattrs = [[NSFileManager defaultManager] attributesOfItemAtPath:fileName error:nil];
 
-    if ([[fattrs fileModificationDate] compare:[[self fileAttributes] fileModificationDate]] == NSOrderedSame)
+    if ([[fattrs fileModificationDate] compare:[[self fileAttributes] fileModificationDate]] == NSOrderedSame) {
         return YES;
+    } else {
+        DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Document has been changed externally");
+        if ([self keepDocumentVersion]) {
+            DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Keep document version");
+            return YES;
+        }
+        
+        BOOL isDocumentEdited = [self isDocumentEdited];
 
-    DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Document has been changed externally");
-    if ([self keepDocumentVersion]) {
-        DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Keep document version");
-        return YES;
+        
+        NSModalResponse revertResponseCode;
+        NSString *message, *details, *firstButton, *secondButton;
+        
+        if (isDocumentEdited) {
+            // We intentionally do have a more alerting message if the document already had some changes.
+            message = NSLocalizedString(@"The file has been modified by another application. Do you want to keep the changes made in SubEthaEdit?", nil);
+            details = NSLocalizedString(@"If you revert the file to the version on disk the changes you made in SubEthaEdit will be lost.", nil);
+            firstButton = NSLocalizedString(@"Keep Changes", nil);
+            secondButton = NSLocalizedString(@"Revert", nil);
+            revertResponseCode = NSAlertSecondButtonReturn;
+        } else {
+            message =  NSLocalizedString(@"The document's file has been modified by another application. Do you want to revert the document?", nil);
+            details = NSLocalizedString(@"If you revert the document to the version on disk the document's content will be replaced with the content of the file.", nil);
+            firstButton = NSLocalizedString(@"Revert Document", nil);
+            secondButton = NSLocalizedString(@"Don't Revert Document", nil);
+            revertResponseCode = NSAlertFirstButtonReturn;
+        }
+        
+        BOOL wasDocumentEdited = isDocumentEdited;
+        
+        [self warn:message
+           details:details
+           buttons:@[firstButton, secondButton]
+              then:^(PlainTextDocument *document, NSModalResponse returnCode) {
+                  if (returnCode == revertResponseCode) {
+                      DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Revert document");
+                      NSError *error = nil;
+                      if ([document revertToContentsOfURL:document.fileURL ofType:document.fileType error:&error]) {
+                          [document updateChangeCount:NSChangeCleared];
+                      } else {
+                          [document presentError:error];
+                      }
+                  } else {
+                      [self setKeepDocumentVersion:YES];
+                      
+                      if (!wasDocumentEdited) {
+                          // Ensure we do show a change although we didn't have changes before, as we now differ from the version on disk
+                          [self updateChangeCount:NSChangeDone];
+                      }
+                  }
+              }];
+        
+        return NO;
     }
-
-    BOOL isDocumentEdited = [self isDocumentEdited];
-    NSModalResponse revertResponseCode = isDocumentEdited ? NSAlertSecondButtonReturn : NSAlertFirstButtonReturn;
-    
-    // These messages are almost identical, are we sure we want them to be different?
-    NSString *message = isDocumentEdited ?
-        NSLocalizedString(@"The file has been modified by another application. Do you want to keep the changes made in SubEthaEdit?", nil) :
-        NSLocalizedString(@"The document's file has been modified by another application. Do you want to revert the document?", nil);
-    NSString *details = isDocumentEdited ?
-        NSLocalizedString(@"If you revert the file to the version on disk the changes you made in SubEthaEdit will be lost.", nil) :
-        NSLocalizedString(@"If you revert the document to the version on disk the document's content will be replaced with the content of the file.", nil);
-    
-    // Reversing the revert/keep makes sense, but I think both should either say "Revert" or "Revert Document".
-    NSString * firstButton = isDocumentEdited ?
-        NSLocalizedString(@"Keep Changes", nil) :
-        NSLocalizedString(@"Revert Document", nil);
-    NSString * secondButton = isDocumentEdited ?
-        NSLocalizedString(@"Revert", nil) :
-        NSLocalizedString(@"Don't Revert Document", nil);
-    
-    [self warn:message
-       details:details
-       buttons:@[firstButton, secondButton]
-          then:^(PlainTextDocument * self, NSModalResponse returnCode) {
-              if (returnCode == revertResponseCode) {
-                  DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Revert document");
-                  NSError *error = nil;
-                  return [self revertToContentsOfURL:self.fileURL ofType:self.fileType error:&error] ?
-                  [self updateChangeCount:NSChangeCleared] :
-                  [self presentError:error];
-              }
-
-              [self setKeepDocumentVersion:YES];
-
-              if (isDocumentEdited)
-                  [self updateChangeCount:NSChangeDone];
-          }];
-
-    return NO;
 }
 
 #pragma mark -
@@ -4195,23 +4189,25 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 - (void)convertLineEndingsToLineEnding:(LineEnding)lineEnding {
 
-    if (![self isFileWritable] && ![self editAnyway])
-        return [self conditionallyEditAnyway:^(PlainTextDocument * self) {
+    if (![self isFileWritable] &&
+        ![self editAnyway]) {
+        [self conditionallyEditAnyway:^(PlainTextDocument * self) {
             [self convertLineEndingsToLineEnding:lineEnding];
         }];
-
-    FoldableTextStorage *textStorage=(FoldableTextStorage *)[self textStorage];
-    [textStorage beginEditing];
-    [textStorage setShouldWatchLineEndings:NO];
-
-    [self setLineEnding:lineEnding];
-    [[self documentUndoManager] beginUndoGrouping];
-    [[textStorage mutableString] convertLineEndingsToLineEndingString:[self lineEndingString]];
-    [[self documentUndoManager] endUndoGrouping];
-
-    [textStorage setShouldWatchLineEndings:YES];
-    [textStorage setHasMixedLineEndings:NO];
-    [textStorage endEditing];
+    } else {
+        FoldableTextStorage *textStorage=(FoldableTextStorage *)[self textStorage];
+        [textStorage beginEditing];
+        [textStorage setShouldWatchLineEndings:NO];
+        
+        [self setLineEnding:lineEnding];
+        [[self documentUndoManager] beginUndoGrouping];
+        [[textStorage mutableString] convertLineEndingsToLineEndingString:[self lineEndingString]];
+        [[self documentUndoManager] endUndoGrouping];
+        
+        [textStorage setShouldWatchLineEndings:YES];
+        [textStorage setHasMixedLineEndings:NO];
+        [textStorage endEditing];
+    }
 }
 
 - (IBAction)convertLineEndings:(id)aSender {

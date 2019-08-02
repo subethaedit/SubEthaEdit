@@ -139,7 +139,7 @@ void * const SEEConnectionClearableObservingContext = (void *)&SEEConnectionClea
 
 - (IBAction)disconnect:(id)sender {
 	SEEConnection *connection = self.connection;
-	if(connection) {
+	if (connection) {
 		DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"cancel");
 		BOOL abort = NO;
 		if ([[[connection BEEPSession] valueForKeyPath:@"channels.@unionOfObjects.profileURI"] containsObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"]) {
@@ -154,9 +154,10 @@ void * const SEEConnectionClearableObservingContext = (void *)&SEEConnectionClea
 			[alert addButtonWithTitle:NSLocalizedString(@"Abort", @"Button title")];
 			[alert addButtonWithTitle:NSLocalizedString(@"Keep Connection", @"Button title")];
 
+            __weak typeof(connection) weakConnection = connection;
 			[alert beginSheetModalForWindow:[NSApp keyWindow] completionHandler:^(NSModalResponse returnCode) {
 				if (returnCode == NSAlertFirstButtonReturn) {
-					[connection cancel];
+					[weakConnection cancel];
 					[[SEEConnectionManager sharedInstance] clear];
 				}
 			}];

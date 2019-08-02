@@ -274,7 +274,9 @@ static FindReplaceController *sharedInstance=nil;
 	BOOL result = YES;
 	PlainTextDocument *document = aFindAndReplaceContext.targetPlainTextEditor.document;
 	NSWindow *sheetWindow = aFindAndReplaceContext.targetTextView.window;
-	if (document && ![document isFileWritable] && ![document editAnyway]) {
+	if (document &&
+		![document isFileWritable] &&
+		![document editAnyway]) {
 		// Call sheet
 		NSAlert *alert = [[NSAlert alloc] init];
 		[alert setAlertStyle:NSAlertStyleWarning];
@@ -284,9 +286,10 @@ static FindReplaceController *sharedInstance=nil;
 		[alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
 
 		[alert beginSheetModalForWindow:sheetWindow completionHandler:^(NSModalResponse returnCode) {
-			if (returnCode != NSAlertFirstButtonReturn)
+			if (returnCode != NSAlertFirstButtonReturn) {
 				return;
-
+			}
+			
 			PlainTextDocument *document = aFindAndReplaceContext.targetPlainTextEditor.document;
 			[document setEditAnyway:YES];
 
