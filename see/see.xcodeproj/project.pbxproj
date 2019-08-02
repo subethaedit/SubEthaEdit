@@ -46,7 +46,7 @@
 		F213792F2195E60500C74681 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 8;
-			dstPath = /usr/share/man/man1;
+			dstPath = /usr/local/share/man/man1;
 			dstSubfolderSpec = 0;
 			files = (
 				F21379302195E60E00C74681 /* see.1 in CopyFiles */,
@@ -56,7 +56,7 @@
 		F286A775215D17F40056C247 /* Copy Manpage */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1;
+			dstPath = /usr/local/share/man/man1;
 			dstSubfolderSpec = 0;
 			files = (
 				F286A776215D18070056C247 /* see.1 in Copy Manpage */,

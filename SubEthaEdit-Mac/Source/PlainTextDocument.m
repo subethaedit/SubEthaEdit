@@ -2158,8 +2158,8 @@ struct SelectionRange
 		[savePanel setAllowedFileTypes:@[@"html"]];
 		[savePanel setNameFieldStringValue:[[[[self displayName] lastPathComponent] stringByDeletingPathExtension] stringByAppendingPathExtension:@"html"]];
 
-		[savePanel beginSheetModalForWindow:[self windowForSheet] completionHandler:^(NSInteger result) {
-			if (result == NSFileHandlingPanelOKButton) {
+		[savePanel beginSheetModalForWindow:[self windowForSheet] completionHandler:^(NSModalResponse result) {
+			if (result == NSModalResponseOK) {
                 DocumentMode *documentMode = self.documentMode;
 				NSDictionary *htmlOptions = [[[documentMode defaults] objectForKey:DocumentModeExportPreferenceKey] objectForKey:DocumentModeExportHTMLPreferenceKey];
 				FoldableTextStorage *textStorage = self.textStorage;

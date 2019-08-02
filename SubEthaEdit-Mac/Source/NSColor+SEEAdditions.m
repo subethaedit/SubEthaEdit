@@ -59,7 +59,7 @@ VARNAME
 	NSColor *result = isDark ? colorForDarkBackground : colorForBrightBackground;
 
     if (darkAppearance) {
-        STATICVAR(NSColor, colorForDarkBackground)   = [NSColor colorWithCalibratedWhite:0.22 alpha:0.5];
+        STATICVAR(NSColor, colorForDarkBackground)   = [NSColor colorWithCalibratedWhite:0.22 alpha:0.85];
         STATICVAR(NSColor, colorForBrightBackground) = [NSColor colorWithCalibratedWhite:0.22 alpha:1.0];
         result = isDark ? colorForDarkBackground : colorForBrightBackground;
     }

@@ -1397,6 +1397,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 		[containingView addSubview:textView];
         containingView;
 	});
+	
 	popover.contentViewController = viewController;
 	//	popover.behavior = NSPopoverBehaviorSemitransient;
 	[popover showRelativeToRect:NSZeroRect ofView:aView preferredEdge:anEdge];
@@ -2077,105 +2078,85 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	return result;
 }
 
-- (void)keyDown:(NSEvent *)aEvent {
+- (void)showAllDocumentsPopUpMenu {
+    static NSPopUpButtonCell *s_cell = nil;
+    if (!s_cell) {
+        s_cell = [NSPopUpButtonCell new];
+        [s_cell setControlSize:NSControlSizeSmall];
+        [s_cell setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSControlSizeSmall]]];
+    }
+    
+    [s_cell setMenu:[[SEEDocumentController sharedInstance] documentMenu]];
+    NSEnumerator *menuItems = [[[s_cell menu] itemArray] objectEnumerator];
+    NSMenuItem *menuItem  = nil;
+    PlainTextWindowController *wc = [[I_textView window] windowController];
+    PlainTextDocument *myDocument = [self document];
+    
+    // Select ourselves
+    while ((menuItem = [menuItems nextObject])) {
+        if ([menuItem target] == wc.window &&
+            [menuItem representedObject] == myDocument) {
+            [s_cell selectItem:menuItem];
+            break;
+        }
+    }
+
+    // Show the same way as a popover in the top left corner of the top status bar view.
+    NSView *controlView = self.topBarViewController.view;
+    NSRect frame = NSMakeRect(0,0,50,20);
+    [s_cell performClickWithFrame:frame inView:controlView];
+}
+
+- (void)keyDown:(NSEvent *)event {
     //    NSLog(@"aEvent: %@",[aEvent description]);
-    int flags = [aEvent modifierFlags];
+    int flags = [event modifierFlags];
 
     if ((flags & NSEventModifierFlagControl) &&
         !(flags & NSEventModifierFlagCommand) &&
-        [[aEvent characters] length] == 1)
-    {
-        NSString *characters = [aEvent characters];
+        [[event characters] length] == 1) {
+        NSString *characters = [event characters];
 
-        if ([characters isEqualToString:@"2"] &&
-            self.topBarViewController.isVisible)
-        {
+        if ([characters isEqualToString:@"1"]) {
+            [self showAllDocumentsPopUpMenu];
+            return;
+        } else if ([characters isEqualToString:@"2"] &&
+            self.topBarViewController.isVisible) {
             [self.topBarViewController keyboardActivateSymbolPopUp];
             return;
-        }
-        else if ([characters isEqualToString:@"1"])
-        {
-            static NSPopUpButtonCell *s_cell = nil;
-
-            if (!s_cell)
-            {
-                s_cell = [NSPopUpButtonCell new];
-                [s_cell setControlSize:NSControlSizeSmall];
-                [s_cell setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSControlSizeSmall]]];
-            }
-
-            [s_cell setMenu:[[SEEDocumentController sharedInstance] documentMenu]];
-            NSEnumerator *menuItems = [[[s_cell menu] itemArray] objectEnumerator];
-            NSMenuItem *menuItem  = nil;
-            PlainTextWindowController *wc = [[I_textView window] windowController];
-            PlainTextDocument *myDocument = [self document];
-
-            while ((menuItem = [menuItems nextObject]))
-            {
-                if ([menuItem target] == wc.window &&
-                    [menuItem representedObject] == myDocument)
-                {
-                    [s_cell selectItem:menuItem];
-                    break;
-                }
-            }
-            NSRect frame = [self.O_editorView frame];
-            frame.size.width = 50;
-            frame.origin.y = frame.size.height - 20;
-            frame.size.height = 20;
-            [s_cell performClickWithFrame:frame inView:self.O_editorView];
-            return;
-        }
-        else if ([self showsBottomStatusBar])
-        {
-            if ([characters isEqualToString:@"3"])
-            {
+        } else if ([self showsBottomStatusBar]) {
+            if ([characters isEqualToString:@"3"]) {
                 [O_modePopUpButton performClick:self];
                 return;
-            }
-            else if ([characters isEqualToString:@"4"])
-            {
+            } else if ([characters isEqualToString:@"4"]) {
                 [O_tabStatusPopUpButton performClick:self];
                 return;
-            }
-            else if ([characters isEqualToString:@"5"])
-            {
+            } else if ([characters isEqualToString:@"5"]) {
                 [O_lineEndingPopUpButton performClick:self];
                 return;
-            }
-            else if ([characters isEqualToString:@"6"])
-            {
+            } else if ([characters isEqualToString:@"6"]) {
                 [O_encodingPopUpButton performClick:self];
                 return;
-            }
-            else if ([characters isEqualToString:@"7"])
-            {
+            } else if ([characters isEqualToString:@"7"]) {
                 [O_windowWidthTextField performClick:self];
                 return;
             }
-        }
-        else
-        {
+        } else {
             static NSSet *s_bottomShortCutSet = nil;
-
-            if (!s_bottomShortCutSet)
-            {
+            if (!s_bottomShortCutSet) {
                 s_bottomShortCutSet = [[NSSet alloc] initWithObjects:@"3", @"4", @"5", @"6", @"7", nil];
             }
 
-            PlainTextEditor *otherEditor =
-			[[I_windowControllerTabContext plainTextEditors] lastObject];
+            PlainTextEditor *otherEditor = I_windowControllerTabContext.plainTextEditors.lastObject;
 
             if ([otherEditor showsBottomStatusBar] &&
-                [s_bottomShortCutSet containsObject:characters])
-            {
-                [otherEditor keyDown:aEvent];
+                [s_bottomShortCutSet containsObject:characters]) {
+                [otherEditor keyDown:event];
                 return;
             }
         }
     }
 
-    [super keyDown:aEvent];
+    [super keyDown:event];
 }
 
 #pragma mark ### position fixes for remote editing ###
