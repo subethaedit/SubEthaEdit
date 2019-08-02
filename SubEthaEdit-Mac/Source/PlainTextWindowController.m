@@ -772,7 +772,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 - (NSRect)windowWillUseStandardFrame:(NSWindow *)sender defaultFrame:(NSRect)defaultFrame {
     if (!([[NSApp currentEvent] modifierFlags] & NSEventModifierFlagShift)) {
         NSRect windowFrame=[[self window] frame];
-        I_flags.zoomFix_defaultFrameHadEqualWidth = (defaultFrame.size.width==windowFrame.size.width);
+        I_zoomFix_defaultFrameHadEqualWidth = (defaultFrame.size.width==windowFrame.size.width);
         defaultFrame.size.width=windowFrame.size.width;
         defaultFrame.origin.x=windowFrame.origin.x;
     }
@@ -780,7 +780,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 }
 
 - (BOOL)windowShouldZoom:(NSWindow *)sender toFrame:(NSRect)newFrame {
-  return [sender frame].size.width == newFrame.size.width || ([[NSApp currentEvent] modifierFlags] & NSEventModifierFlagShift) || I_flags.zoomFix_defaultFrameHadEqualWidth;
+  return [sender frame].size.width == newFrame.size.width || ([[NSApp currentEvent] modifierFlags] & NSEventModifierFlagShift) || I_zoomFix_defaultFrameHadEqualWidth;
 }
 
 - (void)windowDidBecomeMain:(NSNotification *)aNotification {
@@ -789,8 +789,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     [(PlainTextDocument *)[self document] adjustModeMenu];
 }
 
-- (void)windowDidBecomeKey:(NSNotification *)aNotification
-{
+- (void)windowDidBecomeKey:(NSNotification *)aNotification {
 	[self showFirstUseHelpIfNeeded];
 }
 
@@ -934,10 +933,6 @@ static NSPoint S_cascadePoint = {0.0,0.0};
   return NO;
 }
 
-- (IBAction)closeTab:(id)sender {
-    [[self document] canCloseDocumentWithDelegate:self shouldCloseSelector:@selector(document:shouldClose:contextInfo:) contextInfo:nil];
-}
-
 - (void)closeAllTabs {
     NSArray *documents = [self documents];
     unsigned count = [documents count];
@@ -1003,8 +998,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     }
 }
 
-- (void)reviewedDocument:(NSDocument *)doc shouldClose:(BOOL)shouldClose contextInfo:(void *)contextInfo
-{      
+- (void)reviewedDocument:(NSDocument *)doc shouldClose:(BOOL)shouldClose contextInfo:(void *)contextInfo {
     NSWindow *sheet = [[self window] attachedSheet];
     if (sheet) [sheet orderOut:self];
     
@@ -1025,7 +1019,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     
 }
 
-- (void)reviewChangesAndQuitEnumeration:(BOOL)cont{
+- (void)reviewChangesAndQuitEnumeration:(BOOL)cont {
     if (cont) {
         NSArray *documents = [self documents];
         unsigned count = [documents count];
@@ -1111,34 +1105,34 @@ static NSPoint S_cascadePoint = {0.0,0.0};
         PlainTextLoadProgress *loadProgress = [[PlainTextLoadProgress alloc] init];
         [tabContext setLoadProgress:loadProgress];
         [loadProgress release];
-
-        PlainTextEditor *plainTextEditor = [[PlainTextEditor alloc] initWithWindowControllerTabContext:tabContext splitButton:YES];
+        
+        PlainTextEditor *plainTextEditor = [[[PlainTextEditor alloc] initWithWindowControllerTabContext:tabContext splitButton:YES] autorelease];
         self.window.initialFirstResponder = plainTextEditor.textView;
-		plainTextEditor.editorView.identifier = @"FirstEditor";
-                    
+        plainTextEditor.editorView.identifier = @"FirstEditor";
+        
         [[tabContext plainTextEditors] addObject:plainTextEditor];
-      
-      [I_tabContext release];
-      I_tabContext = [tabContext retain];
-      
-      NSView *editorView = [plainTextEditor editorView];
-      editorView.autoresizingMask = NSViewHeightSizable | NSViewWidthSizable;
-      self.window.initialFirstResponder = plainTextEditor.textView;
-      I_dialogSplitView = nil;
-      
-      tabContext.contentView = self.window.contentView;
-      tabContext.presentedView = editorView;
-      
-      
-//        NSTabViewItem *tab = [[NSTabViewItem alloc] initWithIdentifier:tabContext];
-//    tabContext.tab = tab;
-//        [tab setLabel:[document displayName]];
-//        [tab setView:[plainTextEditor editorView]];
-//        [tab setInitialFirstResponder:[plainTextEditor textView]];
-//        [plainTextEditor release];
-//        [I_tabView addTabViewItem:tab];
-//        [tab release];
-
+        
+        [I_tabContext release];
+        I_tabContext = [tabContext retain];
+        
+        NSView *editorView = [plainTextEditor editorView];
+        editorView.autoresizingMask = NSViewHeightSizable | NSViewWidthSizable;
+        self.window.initialFirstResponder = plainTextEditor.textView;
+        I_dialogSplitView = nil;
+        
+        tabContext.contentView = self.window.contentView;
+        tabContext.presentedView = editorView;
+        
+        
+        //        NSTabViewItem *tab = [[NSTabViewItem alloc] initWithIdentifier:tabContext];
+        //    tabContext.tab = tab;
+        //        [tab setLabel:[document displayName]];
+        //        [tab setView:[plainTextEditor editorView]];
+        //        [tab setInitialFirstResponder:[plainTextEditor textView]];
+        //        [plainTextEditor release];
+        //        [I_tabView addTabViewItem:tab];
+        //        [tab release];
+        
     }
     return nil;
 }
@@ -1268,11 +1262,12 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
 	PlainTextWindowControllerTabContext *contextToClose = nil;
 
+    PlainTextWindowControllerTabContext *tabContext = [self windowControllerTabContextForDocument:(PlainTextDocument *)I_documentBeingClosed];
+    if (tabContext) {
+        contextToClose = [tabContext retain];
+    }
+
     if (I_documentBeingClosed && oldDocumentCount > 1) {
-      PlainTextWindowControllerTabContext *tabContext = [self windowControllerTabContextForDocument:(PlainTextDocument *)I_documentBeingClosed];
-        if (tabContext) {
-          contextToClose = [tabContext retain];
-        }
 
         id document = nil;
         BOOL keepCurrentDocument = ![[self document] isEqual:I_documentBeingClosed];
