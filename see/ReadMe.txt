@@ -1,6 +1,6 @@
 After build & archive go into the archive bundle in terminal and paste
 
-pkgbuild --root Products --identifier net.subethaedit.see-tool.pkg --version 2.1.2 --sign "3rd Party Mac Developer Installer" "see-tool.pkg"
+pkgbuild --root Products --identifier net.subethaedit.see-tool.pkg --version 2.1.3 --sign "3rd Party Mac Developer Installer" "see-tool.pkg"
 
 this will generate a signed installer of the seetool.
 
