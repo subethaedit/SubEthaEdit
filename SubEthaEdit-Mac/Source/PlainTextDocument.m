@@ -856,11 +856,13 @@ static NSString *tempFileName(NSString *origPath) {
     for (NSString * button in buttons) {
         [alert addButtonWithTitle: button];
     }
-    // This file isn't arc yet, so this is not doing what you think it does
+
     __unsafe_unretained PlainTextDocument *weakSelf = self;
     [self presentAlert:alert completionHandler:^(NSModalResponse returnCode) {
         PlainTextDocument *strongSelf = weakSelf;
-        then(strongSelf, returnCode);
+        if (strongSelf && then) {
+            then(strongSelf, returnCode);
+        }
     }];
 }
 
