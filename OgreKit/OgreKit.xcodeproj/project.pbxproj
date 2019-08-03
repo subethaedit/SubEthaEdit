@@ -681,7 +681,7 @@
 		4DF530CF0915226200475575 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = ReplaceWithAttributesTest/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* OgreKitFull.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OgreKitFull.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2F7E79907B2D74100F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
-		F2170206215A458B007A2C35 /* oniguruma.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = oniguruma.h; path = x86_64/oniguruma.h; sourceTree = "<group>"; };
+		F2170206215A458B007A2C35 /* oniguruma.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = oniguruma.h; path = x86_64/src/oniguruma.h; sourceTree = "<group>"; };
 		F217020A215A47B4007A2C35 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		F250EAA6216A05B400B94A0B /* Base */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Base; path = Base.lproj/OgreTextFindProgressSheet.nib; sourceTree = "<group>"; };
 		F250EAA7216A05B500B94A0B /* Base */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Base; path = Base.lproj/OgreFindResultWindow.nib; sourceTree = "<group>"; };
