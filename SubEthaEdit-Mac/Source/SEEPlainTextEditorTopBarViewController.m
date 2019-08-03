@@ -89,8 +89,6 @@
 
 - (void)updateColorsForIsDarkBackground:(BOOL)isDark {
     BOOL isDarkAppearance = NSApp.SEE_effectiveAppearanceIsDark;
-	NSColor *backgroundColor = [NSColor darkOverlayBackgroundColorBackgroundIsDark:isDark appearanceIsDark:isDarkAppearance];
-	self.view.layer.backgroundColor = [backgroundColor CGColor];
 	
 	NSColor *separatorColor = [NSColor darkOverlaySeparatorColorBackgroundIsDark:isDark appearanceIsDark:isDarkAppearance];
 	self.bottomBarLayerBackedView.layer.backgroundColor = [separatorColor CGColor];
