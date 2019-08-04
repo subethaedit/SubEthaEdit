@@ -274,26 +274,22 @@ static FindReplaceController *sharedInstance=nil;
 	BOOL result = YES;
 	PlainTextDocument *document = aFindAndReplaceContext.targetPlainTextEditor.document;
 	NSWindow *sheetWindow = aFindAndReplaceContext.targetTextView.window;
-	if (document && ![document isFileWritable] && ![document editAnyway]) {
+	if (document &&
+		![document isFileWritable] &&
+		![document editAnyway]) {
 		// Call sheet
-		NSDictionary *contextInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-									 @"EditAnywayAlert", @"Alert",
-									 aFindAndReplaceContext, @"FindAndReplaceContext",
-									 nil];
-		
 		NSAlert *alert = [[NSAlert alloc] init];
 		[alert setAlertStyle:NSAlertStyleWarning];
 		[alert setMessageText:NSLocalizedString(@"Warning", nil)];
 		[alert setInformativeText:NSLocalizedString(@"File is read-only", nil)];
 		[alert addButtonWithTitle:NSLocalizedString(@"Edit anyway", nil)];
 		[alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
-		[[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
-		[alert TCM_setContextObject:contextInfo];
 
 		[alert beginSheetModalForWindow:sheetWindow completionHandler:^(NSModalResponse returnCode) {
-			if (returnCode != NSAlertFirstButtonReturn)
+			if (returnCode != NSAlertFirstButtonReturn) {
 				return;
-
+			}
+			
 			PlainTextDocument *document = aFindAndReplaceContext.targetPlainTextEditor.document;
 			[document setEditAnyway:YES];
 
@@ -307,11 +303,6 @@ static FindReplaceController *sharedInstance=nil;
 		if (replacementString && ![replacementString canBeConvertedToEncoding:[document fileEncoding]]) {
 			TCMMMSession *session=[document session];
 			if ([session isServer] && [session participantCount]<=1) {
-				NSDictionary *contextInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-											 @"ShouldPromoteAlert", @"Alert",
-											 aFindAndReplaceContext, @"FindAndReplaceContext",
-											 nil];
-				
 				NSAlert *alert = [[NSAlert alloc] init];
 				[alert setAlertStyle:NSAlertStyleWarning];
 				[alert setMessageText:NSLocalizedString(@"You are trying to insert characters that cannot be handled by the file's current encoding. Do you want to cancel the change?", nil)];
@@ -319,8 +310,6 @@ static FindReplaceController *sharedInstance=nil;
 				[alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
 				[alert addButtonWithTitle:NSLocalizedString(@"Promote to UTF8", nil)];
 				[alert addButtonWithTitle:NSLocalizedString(@"Promote to Unicode", nil)];
-				[[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
-				[alert TCM_setContextObject:contextInfo];
 
 				[alert beginSheetModalForWindow:sheetWindow completionHandler:^(NSModalResponse returnCode) {
 					PlainTextDocument *document = aFindAndReplaceContext.targetPlainTextEditor.document;

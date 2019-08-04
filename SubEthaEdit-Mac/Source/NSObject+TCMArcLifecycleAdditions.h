@@ -7,6 +7,31 @@
 
 extern NSString * const kTCMARCLifeCycleContextObjectKey;
 
+CF_INLINE CFTypeRef TCM_RetainAutorelease(id object) {
+    if (object) {
+        return CFAutorelease(CFBridgingRetain(object));
+    } else {
+        return nil;
+    }
+}
+
+CF_INLINE void *TCM_RetainIntoVoid(id object) {
+    if (object) {
+        CFTypeRef result = CFBridgingRetain(object);
+        return (void *)result;
+    } else {
+        return nil;
+    }
+}
+
+CF_INLINE id TCM_ReleaseFromVoid(void *potentialObject) {
+    if (potentialObject) {
+        return CFBridgingRelease((CFTypeRef)potentialObject);
+    } else {
+        return nil;
+    }
+}
+
 @interface NSObject (TCMArcLifecycleAdditions)
 
 /*! adds an object to this object which will be retained until it is unset or the parent object is released

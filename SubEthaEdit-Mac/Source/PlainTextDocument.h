@@ -22,7 +22,6 @@ enum {
 };
 
 
-
 @class FoldableTextStorage, TCMMMSession, TCMMMOperation, DocumentMode, EncodingPopUpButton, 
        PlainTextWindowController, SEEWebPreviewViewController,
        DocumentProxyWindowController, FindAllController, UndoManager, TextOperation, TCMMMLoggingState, FontForwardingTextField, PlainTextEditor;
@@ -106,7 +105,6 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
     NSString *I_jobDescription;
     NSString *I_temporaryDisplayName;
     NSString *I_directoryForSavePanel;
-    NSDictionary *I_scheduledAlertDictionary;
     
     NSSaveOperationType I_lastSaveOperation;
     NSStringEncoding I_encodingFromLastRunSaveToOperation;
@@ -168,7 +166,11 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
 
 - (id)initWithSession:(TCMMMSession *)aSession;
 
-- (void)presentAlert:(NSAlert *)alert modalDelegate:(id)delegate didEndSelector:(SEL)didEndSelector contextInfo:(void *)contextInfo;
+// TODO: rename more cocoa objc style
+- (void)warn:(NSString *)message details:(NSString *)details buttons:(NSArray *)buttons then:(void (^)(PlainTextDocument *, NSModalResponse))then;
+- (void)presentPromotionAlertForTextView:(NSTextView *)textView insertionString:(NSString *)insertionString affectedRange:(NSRange)affectedRange;
+- (void)conditionallyEditAnyway:(void (^)(PlainTextDocument *))completionHandler;
+
 - (void)presentScheduledAlertForWindow:(NSWindow *)window;
 
 - (IBAction)newView:(id)aSender;
