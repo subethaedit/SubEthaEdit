@@ -280,8 +280,6 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
                                               ];
         [containerView addConstraints:self.topBlurBackgroundConstraints];
         //		view.layer.backgroundColor = [[[NSColor redColor] colorWithAlphaComponent:0.8] CGColor];
-        view.backgroundBlurActive = YES;
-        view.brightnessAdjustForInactiveWindowState = 0.7;
         view;
     });
     
@@ -323,8 +321,6 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
                                                  ];
         [containerView addConstraints:self.bottomBlurBackgroundConstraints];
         //		view.layer.backgroundColor = [[[NSColor redColor] colorWithAlphaComponent:0.8] CGColor];
-        view.backgroundBlurActive = YES;
-        view.brightnessAdjustForInactiveWindowState = 0.7;
         view;
     });
     
@@ -371,9 +367,6 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     }
     
     // setup all the UI for the bottom bar
-    NSView *bottomStatusBarView = self.O_bottomStatusBarView;
-    bottomStatusBarView.layer.backgroundColor = [[NSColor darkOverlayBackgroundColorBackgroundIsDark:NO appearanceIsDark:NSApp.SEE_effectiveAppearanceIsDark] CGColor];
-    
     [O_windowWidthTextField setHasRightBorder:NO];
     [O_windowWidthTextField setHasLeftBorder:YES];
     
@@ -643,10 +636,9 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	[self.topBarViewController updateColorsForIsDarkBackground:isDark];
     BOOL isDarkAppearance = NSApp.SEE_effectiveAppearanceIsDark;
     // bottom bar
-    NSColor *darkColor = [NSColor darkOverlayBackgroundColorBackgroundIsDark:isDark appearanceIsDark:isDarkAppearance];
 	NSColor *darkSeparatorColor = [NSColor darkOverlaySeparatorColorBackgroundIsDark:isDark appearanceIsDark:isDarkAppearance];
 	[O_windowWidthTextField setBorderColor:darkSeparatorColor];
-	[self.O_bottomStatusBarView.layer setBackgroundColor:[darkColor CGColor]];
+	
 	
 	[O_bottomBarSeparatorLineView.layer setBackgroundColor:[darkSeparatorColor CGColor]];
 	for (PopUpButton *button in @[O_modePopUpButton,O_tabStatusPopUpButton, O_encodingPopUpButton, O_lineEndingPopUpButton]) {
@@ -1334,11 +1326,16 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 			NSView *overlayView = aViewController.view;
 			NSView *superview = self.topBarViewController.view.superview;
 			[superview addSubview:overlayView];
-
-			// width
-			[superview addConstraint:[NSLayoutConstraint constraintWithItem:overlayView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeWidth multiplier:1 constant:0]];
-			// pin to top
-			[superview addConstraint:[NSLayoutConstraint constraintWithItem:overlayView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
+            
+			// pin to top, left, right
+            [superview addConstraint:[NSLayoutConstraint constraintWithItem:overlayView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
+            
+            [superview addConstraint:[NSLayoutConstraint constraintWithItem:overlayView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeLeft multiplier:1 constant:0]];
+            
+            [superview addConstraint:[NSLayoutConstraint constraintWithItem:overlayView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeRight multiplier:1 constant:0]];
+            
+            
+            
 			
 			self.topOverlayViewController = aViewController;
 		}
