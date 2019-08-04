@@ -24,6 +24,7 @@
 #import "SEEDocumentListWindowController.h"
 #import "NSApplicationTCMAdditions.h"
 #import "SEEScopedBookmarkManager.h"
+#import "SEEWorkspaceController.h"
 
 #import <objc/objc-runtime.h>			// for objc_msgSend
 
@@ -46,6 +47,7 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 @property (nonatomic, copy) NSURL *locationForNextOpenPanel;
 @property (nonatomic, readwrite, nonatomic) NSStringEncoding encodingFromLastRunOpenPanel;
 @property (nonatomic, readwrite, copy) NSString *modeIdentifierFromLastRunOpenPanel;
+@property (nonatomic, readwrite) SEEWorkspaceController *workspaceController;
 
 @end
 
@@ -103,6 +105,7 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
     if (self) {
         self.filenamesFromLastRunOpenPanel = [NSMutableArray array];
 		self.documentCreationFlagsLookupDict = [NSMutableDictionary dictionary];
+        self.workspaceController = [[SEEWorkspaceController alloc] init];
 
 		I_propertiesForOpenedFiles = [NSMutableDictionary new];
         I_suspendedSeeScriptCommands = [NSMutableDictionary new];
@@ -1733,9 +1736,18 @@ struct ModificationInfo
     }
 }
 
+- (void)openWorkspace:(NSURL *)aURL {
+    [self.workspaceController workspaceForURL:aURL];
+}
+
 - (void)openDirectory:(NSURL *)aURL {
-	[self setLocationForNextOpenPanel:aURL];
-	[self performSelector:@selector(openDocument:) withObject:nil afterDelay:0.0];
+    if(SEEWorkspacesEnabled) {
+        [self openWorkspace:aURL];
+    } else {
+        [self setLocationForNextOpenPanel:aURL];
+        [self performSelector:@selector(openDocument:) withObject:nil afterDelay:0.0];
+    }
+    
 
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Opening directory: %@", aURL);
 }

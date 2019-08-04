@@ -12,6 +12,7 @@
 @class PlainTextWindowController;
 @class MAAttachedWindow;
 @class PlainTextDocument;
+@class SEEWorkspaceController;
 
 
 extern NSString *const RecentDocumentsDidChangeNotification;
@@ -34,6 +35,7 @@ extern NSString * const kSEETypeSEEMode;
 @property (nonatomic, weak) IBOutlet NSMenu *recentDocumentMenu;
 @property (nonatomic, readonly) NSStringEncoding encodingFromLastRunOpenPanel;
 @property (nonatomic, readonly, copy) NSString *modeIdentifierFromLastRunOpenPanel;
+@property (nonatomic, readonly) SEEWorkspaceController *workspaceController;
 
 + (SEEDocumentController *)sharedInstance;
 

@@ -133,7 +133,10 @@
 		14E291EA0A07B480007C0065 /* ScriptCharacters.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E291E80A07B480007C0065 /* ScriptCharacters.m */; };
 		14E294510A0CBFB0007C0065 /* SelectCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E2944F0A0CBFB0007C0065 /* SelectCommand.m */; };
 		14EC6E280A63F2E800B44481 /* ServicesMenu.strings in Resources */ = {isa = PBXBuildFile; fileRef = 14EC6E270A63F2E800B44481 /* ServicesMenu.strings */; };
-		311717F40A0E8C3600A9DA18 /* ModeSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 311717F20A0E8C3600A9DA18 /* ModeSettings.m */; };
+		2C0CC03D22F5CBA000F604C9 /* SEEWorkspace.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C0CC03C22F5CBA000F604C9 /* SEEWorkspace.m */; };
+		2C0CC04022F624D000F604C9 /* SEEWorkspaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C0CC03F22F624D000F604C9 /* SEEWorkspaceController.m */; };
+		2C0CC04C22F62AC400F604C9 /* SEEWorkspaceFileTreeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C0CC04A22F62AC400F604C9 /* SEEWorkspaceFileTreeViewController.m */; };
+		2C0CC04D22F62AC400F604C9 /* SEEWorkspaceFileTreeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C0CC04B22F62AC400F604C9 /* SEEWorkspaceFileTreeViewController.xib */; };
 		3134F7AB0CB1331900F8C116 /* PrecedenceRolloverButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 3134F7A90CB1331900F8C116 /* PrecedenceRolloverButton.m */; };
 		316A0D2A0C68A47100720268 /* DebugAttributeInspectorController.m in Sources */ = {isa = PBXBuildFile; fileRef = 316A0D280C68A47100720268 /* DebugAttributeInspectorController.m */; };
 		3170E46112846C670096089C /* SEEStyleSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 3170E46012846C670096089C /* SEEStyleSheet.m */; };
@@ -792,6 +795,14 @@
 		2A37F4B0FDCFA73011CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		2C0CC03B22F5CBA000F604C9 /* SEEWorkspace.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEEWorkspace.h; sourceTree = "<group>"; };
+		2C0CC03C22F5CBA000F604C9 /* SEEWorkspace.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEEWorkspace.m; sourceTree = "<group>"; };
+		2C0CC03E22F624D000F604C9 /* SEEWorkspaceController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEEWorkspaceController.h; sourceTree = "<group>"; };
+		2C0CC03F22F624D000F604C9 /* SEEWorkspaceController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEEWorkspaceController.m; sourceTree = "<group>"; };
+		2C0CC04122F6299E00F604C9 /* SEESwitches.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SEESwitches.h; path = Debug/SEESwitches.h; sourceTree = "<group>"; };
+		2C0CC04922F62AC400F604C9 /* SEEWorkspaceFileTreeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEEWorkspaceFileTreeViewController.h; sourceTree = "<group>"; };
+		2C0CC04A22F62AC400F604C9 /* SEEWorkspaceFileTreeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEEWorkspaceFileTreeViewController.m; sourceTree = "<group>"; };
+		2C0CC04B22F62AC400F604C9 /* SEEWorkspaceFileTreeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SEEWorkspaceFileTreeViewController.xib; sourceTree = "<group>"; };
 		311717F20A0E8C3600A9DA18 /* ModeSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModeSettings.m; sourceTree = "<group>"; };
 		311717F30A0E8C3600A9DA18 /* ModeSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ModeSettings.h; sourceTree = "<group>"; };
 		3134F7A80CB1331800F8C116 /* PrecedenceRolloverButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = PrecedenceRolloverButton.h; sourceTree = "<group>"; };
@@ -1445,6 +1456,7 @@
 				F20AB8781907C7C500444F4B /* SEEDebugImageGenerationWindowController.h */,
 				F20AB8791907C7C500444F4B /* SEEDebugImageGenerationWindowController.m */,
 				F2C44CBD21635F29006D59DB /* SEEDebugImageGenerationWindowController.xib */,
+				2C0CC04122F6299E00F604C9 /* SEESwitches.h */,
 			);
 			name = Debug;
 			sourceTree = "<group>";
@@ -1803,6 +1815,20 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		2C0CC03522F5CB6400F604C9 /* Workspaces */ = {
+			isa = PBXGroup;
+			children = (
+				2C0CC03B22F5CBA000F604C9 /* SEEWorkspace.h */,
+				2C0CC03C22F5CBA000F604C9 /* SEEWorkspace.m */,
+				2C0CC03E22F624D000F604C9 /* SEEWorkspaceController.h */,
+				2C0CC03F22F624D000F604C9 /* SEEWorkspaceController.m */,
+				2C0CC04922F62AC400F604C9 /* SEEWorkspaceFileTreeViewController.h */,
+				2C0CC04A22F62AC400F604C9 /* SEEWorkspaceFileTreeViewController.m */,
+				2C0CC04B22F62AC400F604C9 /* SEEWorkspaceFileTreeViewController.xib */,
+			);
+			name = Workspaces;
+			sourceTree = "<group>";
+		};
 		4C6BDC5718896DFF0088CBFC /* XIBs */ = {
 			isa = PBXGroup;
 			children = (
@@ -2051,6 +2077,7 @@
 		F2256A25216358910011D17F /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				2C0CC03522F5CB6400F604C9 /* Workspaces */,
 				2A37F4ABFDCFA73011CA2CEA /* Classes */,
 				4C84D17918B63F83008C4FDC /* Document Hub */,
 				142892490957526300D14688 /* Document */,
@@ -2435,6 +2462,7 @@
 				4CD5F7FA17FB0D0C00F49E31 /* GeneralPrefs.xib in Resources */,
 				F2FEE7161892A747000E6BC8 /* SharingIconWrite.pdf in Resources */,
 				4CDC272018967D990060B044 /* SEEParticipantView.xib in Resources */,
+				2C0CC04D22F62AC400F604C9 /* SEEWorkspaceFileTreeViewController.xib in Resources */,
 				F22024D9191D0BFE0098982C /* ParticipantReadOnlyTurnOffPressed.png in Resources */,
 				F22024DE191D0BFE0098982C /* ParticipantReadOnlyTurnOnNormal@2x.png in Resources */,
 				F2EF08D119069E33004D5080 /* Localizable.stringsdict in Resources */,
@@ -2662,6 +2690,7 @@
 				142893A6095758C200D14688 /* StylePreferences.m in Sources */,
 				142893A7095758C200D14688 /* TableView.m in Sources */,
 				4C9F60EF191A6E8800979755 /* SEEAuthenticatedSaveMissingScriptRecoveryAttempter.m in Sources */,
+				2C0CC04C22F62AC400F604C9 /* SEEWorkspaceFileTreeViewController.m in Sources */,
 				142893A8095758C200D14688 /* TCMPreferenceController.m in Sources */,
 				142893A9095758C200D14688 /* TCMPreferenceModule.m in Sources */,
 				142893B1095758FD00D14688 /* SelectionOperation.m in Sources */,
@@ -2754,6 +2783,7 @@
 				F2ABC5400C79D9AB007437A2 /* DebugHistoryController.m in Sources */,
 				4CB36C3218D84BF4000219DA /* SEEEditorSplitViewDelegate.m in Sources */,
 				F20948BC0C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m in Sources */,
+				2C0CC04022F624D000F604C9 /* SEEWorkspaceController.m in Sources */,
 				F26B7D880CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m in Sources */,
 				F29E6DD818E5CACE00F84231 /* TCMCGGeometryAdditions.m in Sources */,
 				31D2C7000CA7C9C8003CC5C9 /* PrecedenceRuleCell.m in Sources */,
@@ -2786,6 +2816,7 @@
 				F280ABC4131E6ED50091D145 /* SEEStyleSheetEditorWindowController.m in Sources */,
 				F214C1DB18BE180300908826 /* NSObject+TCMArcLifecycleAdditions.m in Sources */,
 				F2D56993133B880900CEC841 /* SEEStyleSheetSettings.m in Sources */,
+				2C0CC03D22F5CBA000F604C9 /* SEEWorkspace.m in Sources */,
 				F22024EE191D175C0098982C /* TCMHoverButton.m in Sources */,
 				F29E6DD518E5C90200F84231 /* TCMDragImageView.m in Sources */,
 			);
