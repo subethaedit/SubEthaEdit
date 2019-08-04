@@ -642,44 +642,44 @@
 		4DC4108B09150D650029A2A6 /* MyMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyMenuController.m; path = MyFindPanelExample/MyMenuController.m; sourceTree = SOURCE_ROOT; };
 		4DC4108C09150D650029A2A6 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = MyFindPanelExample/main.m; sourceTree = SOURCE_ROOT; };
 		4DC4108D09150D650029A2A6 /* MyFindPanelExample_Prefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyFindPanelExample_Prefix.h; path = MyFindPanelExample/MyFindPanelExample_Prefix.h; sourceTree = SOURCE_ROOT; };
-		4DC41166091514030029A2A6 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/OgreAPFCLocalizable.strings; sourceTree = "<group>"; };
-		4DC4116C091514030029A2A6 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/OgreTextFinderLocalizable.strings; sourceTree = "<group>"; };
-		4DC41175091514240029A2A6 /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Dutch; path = Dutch.lproj/OgreAdvancedFindPanel.nib; sourceTree = "<group>"; };
-		4DC411770915142C0029A2A6 /* Dutch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Dutch; path = Dutch.lproj/OgreAPFCLocalizable.strings; sourceTree = "<group>"; };
-		4DC411780915142C0029A2A6 /* Dutch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Dutch; path = Dutch.lproj/OgreTextFinderLocalizable.strings; sourceTree = "<group>"; };
-		4DC4117A0915143A0029A2A6 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = French.lproj/OgreAdvancedFindPanel.nib; sourceTree = "<group>"; };
-		4DC4117B0915143A0029A2A6 /* French */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/OgreAPFCLocalizable.strings; sourceTree = "<group>"; };
-		4DC4117C0915143A0029A2A6 /* French */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/OgreTextFinderLocalizable.strings; sourceTree = "<group>"; };
-		4DC4117E091514450029A2A6 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/OgreAdvancedFindPanel.nib; sourceTree = "<group>"; };
-		4DC4117F091514450029A2A6 /* German */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/OgreAPFCLocalizable.strings; sourceTree = "<group>"; };
-		4DC41180091514450029A2A6 /* German */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/OgreTextFinderLocalizable.strings; sourceTree = "<group>"; };
-		4DC41182091514510029A2A6 /* Italian */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Italian; path = Italian.lproj/OgreAdvancedFindPanel.nib; sourceTree = "<group>"; };
-		4DC41183091514510029A2A6 /* Italian */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Italian; path = Italian.lproj/OgreAPFCLocalizable.strings; sourceTree = "<group>"; };
-		4DC41184091514510029A2A6 /* Italian */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Italian; path = Italian.lproj/OgreTextFinderLocalizable.strings; sourceTree = "<group>"; };
-		4DC411860915145D0029A2A6 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/OgreAdvancedFindPanel.nib; sourceTree = "<group>"; };
-		4DC411870915145D0029A2A6 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/OgreAPFCLocalizable.strings; sourceTree = "<group>"; };
-		4DC411880915145D0029A2A6 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/OgreTextFinderLocalizable.strings; sourceTree = "<group>"; };
-		4DC4118A091514680029A2A6 /* Portuguese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Portuguese; path = Portuguese.lproj/OgreAdvancedFindPanel.nib; sourceTree = "<group>"; };
-		4DC4118B091514680029A2A6 /* Portuguese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Portuguese; path = Portuguese.lproj/OgreAPFCLocalizable.strings; sourceTree = "<group>"; };
-		4DC4118C091514680029A2A6 /* Portuguese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Portuguese; path = Portuguese.lproj/OgreTextFinderLocalizable.strings; sourceTree = "<group>"; };
-		4DC4118E091514710029A2A6 /* Romanian */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Romanian; path = Romanian.lproj/OgreAdvancedFindPanel.nib; sourceTree = "<group>"; };
-		4DC4118F091514710029A2A6 /* Romanian */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Romanian; path = Romanian.lproj/OgreAPFCLocalizable.strings; sourceTree = "<group>"; };
-		4DC41190091514710029A2A6 /* Romanian */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Romanian; path = Romanian.lproj/OgreTextFinderLocalizable.strings; sourceTree = "<group>"; };
-		4DC411920915147B0029A2A6 /* Spanish */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Spanish; path = Spanish.lproj/OgreAdvancedFindPanel.nib; sourceTree = "<group>"; };
-		4DC411930915147B0029A2A6 /* Spanish */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Spanish; path = Spanish.lproj/OgreAPFCLocalizable.strings; sourceTree = "<group>"; };
-		4DC411940915147B0029A2A6 /* Spanish */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Spanish; path = Spanish.lproj/OgreTextFinderLocalizable.strings; sourceTree = "<group>"; };
-		4DC411C8091514D70029A2A6 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = RegularExpression/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		4DC4134209151C2E0029A2A6 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = RegularExpressionTest/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		4DC4135309151CA60029A2A6 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = FindPanelTest/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		4DC4135509151CA60029A2A6 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = FindPanelTest/English.lproj/Credits.rtf; sourceTree = "<group>"; };
-		4DC4136F09151D320029A2A6 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = MyFindPanelExample/English.lproj/Credits.rtf; sourceTree = "<group>"; };
 		4DF530BA0915221700475575 /* ReplaceWithAttributesTest_Prefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReplaceWithAttributesTest_Prefix.h; path = ReplaceWithAttributesTest/ReplaceWithAttributesTest_Prefix.h; sourceTree = "<group>"; };
 		4DF530BB0915221700475575 /* ReplaceWithAttributesTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReplaceWithAttributesTest.m; path = ReplaceWithAttributesTest/ReplaceWithAttributesTest.m; sourceTree = "<group>"; };
 		4DF530BC0915221700475575 /* ReplaceWithAttributesTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReplaceWithAttributesTest.h; path = ReplaceWithAttributesTest/ReplaceWithAttributesTest.h; sourceTree = "<group>"; };
 		4DF530BD0915221700475575 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ReplaceWithAttributesTest/main.m; sourceTree = "<group>"; };
 		4DF530BE0915221700475575 /* ReplaceWithAttributesTest-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "ReplaceWithAttributesTest-Info.plist"; path = "ReplaceWithAttributesTest/ReplaceWithAttributesTest-Info.plist"; sourceTree = "<group>"; };
-		4DF530CF0915226200475575 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = ReplaceWithAttributesTest/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* OgreKitFull.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OgreKitFull.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9EAD878E22F79362000ADB59 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/OgreAPFCLocalizable.strings; sourceTree = "<group>"; };
+		9EAD878F22F79362000ADB59 /* it */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = it; path = it.lproj/OgreAdvancedFindPanel.nib; sourceTree = "<group>"; };
+		9EAD879022F79362000ADB59 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/OgreTextFinderLocalizable.strings; sourceTree = "<group>"; };
+		9EAD879122F79365000ADB59 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/OgreAPFCLocalizable.strings; sourceTree = "<group>"; };
+		9EAD879222F79365000ADB59 /* es */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = es; path = es.lproj/OgreAdvancedFindPanel.nib; sourceTree = "<group>"; };
+		9EAD879322F79365000ADB59 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/OgreTextFinderLocalizable.strings; sourceTree = "<group>"; };
+		9EAD879422F79367000ADB59 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/OgreAPFCLocalizable.strings; sourceTree = "<group>"; };
+		9EAD879522F79367000ADB59 /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ja; path = ja.lproj/OgreAdvancedFindPanel.nib; sourceTree = "<group>"; };
+		9EAD879622F79367000ADB59 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/OgreTextFinderLocalizable.strings; sourceTree = "<group>"; };
+		9EAD879722F7936A000ADB59 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/OgreAPFCLocalizable.strings; sourceTree = "<group>"; };
+		9EAD879822F7936A000ADB59 /* pt */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt; path = pt.lproj/OgreAdvancedFindPanel.nib; sourceTree = "<group>"; };
+		9EAD879922F7936A000ADB59 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/OgreTextFinderLocalizable.strings; sourceTree = "<group>"; };
+		9EAD879A22F7936E000ADB59 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = FindPanelTest/en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		9EAD879B22F7936E000ADB59 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = FindPanelTest/en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		9EAD879C22F7936F000ADB59 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = MyFindPanelExample/en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		9EAD879D22F7936F000ADB59 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/OgreAPFCLocalizable.strings; sourceTree = "<group>"; };
+		9EAD879E22F7936F000ADB59 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/OgreTextFinderLocalizable.strings; sourceTree = "<group>"; };
+		9EAD879F22F7936F000ADB59 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = RegularExpression/en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		9EAD87A022F7936F000ADB59 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = RegularExpressionTest/en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		9EAD87A122F79370000ADB59 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = ReplaceWithAttributesTest/en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		9EAD87A222F79371000ADB59 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/OgreAPFCLocalizable.strings; sourceTree = "<group>"; };
+		9EAD87A322F79371000ADB59 /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = de.lproj/OgreAdvancedFindPanel.nib; sourceTree = "<group>"; };
+		9EAD87A422F79371000ADB59 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/OgreTextFinderLocalizable.strings; sourceTree = "<group>"; };
+		9EAD87A522F79373000ADB59 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/OgreAPFCLocalizable.strings; sourceTree = "<group>"; };
+		9EAD87A622F79374000ADB59 /* nl */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = nl; path = nl.lproj/OgreAdvancedFindPanel.nib; sourceTree = "<group>"; };
+		9EAD87A722F79374000ADB59 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/OgreTextFinderLocalizable.strings; sourceTree = "<group>"; };
+		9EAD87A822F79376000ADB59 /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/OgreAPFCLocalizable.strings; sourceTree = "<group>"; };
+		9EAD87A922F79376000ADB59 /* ro */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ro; path = ro.lproj/OgreAdvancedFindPanel.nib; sourceTree = "<group>"; };
+		9EAD87AA22F79376000ADB59 /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/OgreTextFinderLocalizable.strings; sourceTree = "<group>"; };
+		9EAD87AB22F79379000ADB59 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/OgreAPFCLocalizable.strings; sourceTree = "<group>"; };
+		9EAD87AC22F79379000ADB59 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = fr.lproj/OgreAdvancedFindPanel.nib; sourceTree = "<group>"; };
+		9EAD87AD22F79379000ADB59 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/OgreTextFinderLocalizable.strings; sourceTree = "<group>"; };
 		D2F7E79907B2D74100F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		F2170206215A458B007A2C35 /* oniguruma.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = oniguruma.h; path = x86_64/oniguruma.h; sourceTree = "<group>"; };
 		F217020A215A47B4007A2C35 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -1660,19 +1660,19 @@
 			};
 			buildConfigurationList = 4DC40BA3091509DC0029A2A6 /* Build configuration list for PBXProject "OgreKit" */;
 			compatibilityVersion = "Xcode 8.0";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 1;
 			knownRegions = (
-				English,
-				Japanese,
-				French,
-				German,
-				Spanish,
-				Romanian,
-				Italian,
-				Portuguese,
-				Dutch,
 				Base,
+				it,
+				es,
+				ja,
+				pt,
+				en,
+				de,
+				nl,
+				ro,
+				fr,
 			);
 			mainGroup = 0867D691FE84028FC02AAC07 /* OgreKit */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
@@ -1985,15 +1985,15 @@
 		4DC41165091514030029A2A6 /* OgreAPFCLocalizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				4DC41166091514030029A2A6 /* English */,
-				4DC411770915142C0029A2A6 /* Dutch */,
-				4DC4117B0915143A0029A2A6 /* French */,
-				4DC4117F091514450029A2A6 /* German */,
-				4DC41183091514510029A2A6 /* Italian */,
-				4DC411870915145D0029A2A6 /* Japanese */,
-				4DC4118B091514680029A2A6 /* Portuguese */,
-				4DC4118F091514710029A2A6 /* Romanian */,
-				4DC411930915147B0029A2A6 /* Spanish */,
+				9EAD878E22F79362000ADB59 /* it */,
+				9EAD879122F79365000ADB59 /* es */,
+				9EAD879422F79367000ADB59 /* ja */,
+				9EAD879722F7936A000ADB59 /* pt */,
+				9EAD879D22F7936F000ADB59 /* en */,
+				9EAD87A222F79371000ADB59 /* de */,
+				9EAD87A522F79373000ADB59 /* nl */,
+				9EAD87A822F79376000ADB59 /* ro */,
+				9EAD87AB22F79379000ADB59 /* fr */,
 			);
 			name = OgreAPFCLocalizable.strings;
 			path = FindPanel/Resources;
@@ -2011,15 +2011,15 @@
 		4DC41169091514030029A2A6 /* OgreAdvancedFindPanel.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				4DC41175091514240029A2A6 /* Dutch */,
-				4DC4117A0915143A0029A2A6 /* French */,
-				4DC4117E091514450029A2A6 /* German */,
-				4DC41182091514510029A2A6 /* Italian */,
-				4DC411860915145D0029A2A6 /* Japanese */,
-				4DC4118A091514680029A2A6 /* Portuguese */,
-				4DC4118E091514710029A2A6 /* Romanian */,
-				4DC411920915147B0029A2A6 /* Spanish */,
 				F250EAA8216A05B500B94A0B /* Base */,
+				9EAD878F22F79362000ADB59 /* it */,
+				9EAD879222F79365000ADB59 /* es */,
+				9EAD879522F79367000ADB59 /* ja */,
+				9EAD879822F7936A000ADB59 /* pt */,
+				9EAD87A322F79371000ADB59 /* de */,
+				9EAD87A622F79374000ADB59 /* nl */,
+				9EAD87A922F79376000ADB59 /* ro */,
+				9EAD87AC22F79379000ADB59 /* fr */,
 			);
 			name = OgreAdvancedFindPanel.nib;
 			path = FindPanel/Resources;
@@ -2028,15 +2028,15 @@
 		4DC4116B091514030029A2A6 /* OgreTextFinderLocalizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				4DC4116C091514030029A2A6 /* English */,
-				4DC411780915142C0029A2A6 /* Dutch */,
-				4DC4117C0915143A0029A2A6 /* French */,
-				4DC41180091514450029A2A6 /* German */,
-				4DC41184091514510029A2A6 /* Italian */,
-				4DC411880915145D0029A2A6 /* Japanese */,
-				4DC4118C091514680029A2A6 /* Portuguese */,
-				4DC41190091514710029A2A6 /* Romanian */,
-				4DC411940915147B0029A2A6 /* Spanish */,
+				9EAD879022F79362000ADB59 /* it */,
+				9EAD879322F79365000ADB59 /* es */,
+				9EAD879622F79367000ADB59 /* ja */,
+				9EAD879922F7936A000ADB59 /* pt */,
+				9EAD879E22F7936F000ADB59 /* en */,
+				9EAD87A422F79371000ADB59 /* de */,
+				9EAD87A722F79374000ADB59 /* nl */,
+				9EAD87AA22F79376000ADB59 /* ro */,
+				9EAD87AD22F79379000ADB59 /* fr */,
 			);
 			name = OgreTextFinderLocalizable.strings;
 			path = FindPanel/Resources;
@@ -2045,7 +2045,7 @@
 		4DC411C7091514D70029A2A6 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				4DC411C8091514D70029A2A6 /* English */,
+				9EAD879F22F7936F000ADB59 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = SOURCE_ROOT;
@@ -2061,7 +2061,7 @@
 		4DC4134109151C2E0029A2A6 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				4DC4134209151C2E0029A2A6 /* English */,
+				9EAD87A022F7936F000ADB59 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = SOURCE_ROOT;
@@ -2077,7 +2077,7 @@
 		4DC4135209151CA60029A2A6 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				4DC4135309151CA60029A2A6 /* English */,
+				9EAD879B22F7936E000ADB59 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = SOURCE_ROOT;
@@ -2085,7 +2085,7 @@
 		4DC4135409151CA60029A2A6 /* Credits.rtf */ = {
 			isa = PBXVariantGroup;
 			children = (
-				4DC4135509151CA60029A2A6 /* English */,
+				9EAD879A22F7936E000ADB59 /* en */,
 			);
 			name = Credits.rtf;
 			sourceTree = SOURCE_ROOT;
@@ -2149,7 +2149,7 @@
 		4DC4136E09151D320029A2A6 /* Credits.rtf */ = {
 			isa = PBXVariantGroup;
 			children = (
-				4DC4136F09151D320029A2A6 /* English */,
+				9EAD879C22F7936F000ADB59 /* en */,
 			);
 			name = Credits.rtf;
 			sourceTree = SOURCE_ROOT;
@@ -2173,7 +2173,7 @@
 		4DF530CE0915226200475575 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				4DF530CF0915226200475575 /* English */,
+				9EAD87A122F79370000ADB59 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
