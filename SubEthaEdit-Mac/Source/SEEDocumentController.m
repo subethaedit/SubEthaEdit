@@ -1449,8 +1449,7 @@ struct ModificationInfo
     [self closeAllDocumentsWithDelegate:nil didCloseAllSelector:NULL contextInfo:NULL];
 }
 
-- (void)closeDocumentsStartingWith:(PlainTextDocument *)doc shouldClose:(BOOL)shouldClose closeAllContext:(void *)closeAllContext
-{
+- (void)closeDocumentsStartingWith:(PlainTextDocument *)doc shouldClose:(BOOL)shouldClose closeAllContext:(void *)closeAllContext {
     // Iterate over unsaved documents, preserve closeAllContext to invoke it after the last document
     __autoreleasing NSArray *windows = [[NSApp orderedWindows] copy];
     for (NSWindow *window in windows) {
@@ -1481,8 +1480,7 @@ struct ModificationInfo
     }
 }
 
-- (void)reviewedDocument:(PlainTextDocument *)doc shouldClose:(BOOL)shouldClose contextInfo:(void *)contextInfo
-{
+- (void)reviewedDocument:(PlainTextDocument *)doc shouldClose:(BOOL)shouldClose contextInfo:(void *)contextInfo {
     PlainTextWindowController *windowController = [doc topmostWindowController];
     NSWindow *sheet = [[windowController window] attachedSheet];
     if (sheet) [sheet orderOut:self];
@@ -1502,8 +1500,7 @@ struct ModificationInfo
     }
 }
 
-- (void)closeAllDocumentsWithDelegate:(id)delegate didCloseAllSelector:(SEL)didCloseAllSelector contextInfo:(void *)contextInfo
-{
+- (void)closeAllDocumentsWithDelegate:(id)delegate didCloseAllSelector:(SEL)didCloseAllSelector contextInfo:(void *)contextInfo {
     NSInvocation *invocation = nil;
 
     if (delegate != nil && didCloseAllSelector != NULL) {
@@ -1682,7 +1679,7 @@ struct ModificationInfo
 
         infoAlert.messageText = messageText;
 
-        [infoAlert addButtonWithTitle:@"OK"];
+        [infoAlert addButtonWithTitle:NSLocalizedString(@"OK", @"OK")];
 
         [infoAlert setAlertStyle:NSAlertStyleInformational];
         [infoAlert runModal];

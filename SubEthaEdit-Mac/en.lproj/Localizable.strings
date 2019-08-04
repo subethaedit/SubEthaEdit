@@ -427,9 +427,6 @@
 /* Find string not found */
 "Not found." = "Not found.";
 
-/* Ok in sheet */
-"OK" = "OK";
-
 /* Symbol Regular Expression Error Informative Text */
 "One of the specified <block> elements is not a valid regular expression. Therefore the combined start regex \"%@\" could not be compiled. Please check your regular expression in Find Panel's Ruby mode." = "One of the specified <block> elements is not a valid regular expression. Therefore the combined start regex “%@” could not be compiled. Please check your regular expression in Find Panel's Ruby mode.";
 

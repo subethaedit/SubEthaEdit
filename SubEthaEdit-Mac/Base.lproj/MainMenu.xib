@@ -116,12 +116,6 @@
                                     <action selector="closeAllDocuments:" target="-1" id="545"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Close Tab" id="609">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <connections>
-                                    <action selector="closeTab:" target="-1" id="621"/>
-                                </connections>
-                            </menuItem>
                             <menuItem title="Save" keyEquivalent="s" id="75">
                                 <connections>
                                     <action selector="saveDocument:" target="-1" id="196"/>

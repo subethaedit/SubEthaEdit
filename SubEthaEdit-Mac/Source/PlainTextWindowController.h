@@ -11,18 +11,16 @@
 @class PlainTextEditor, PlainTextDocument;
 #import "SEEEncodingDoctorDialogViewController.h"
 
-@interface PlainTextWindowController : NSWindowController <NSMenuDelegate>
- {
+@interface PlainTextWindowController : NSWindowController <NSMenuDelegate> {
     // Pointers to the current instances
     NSSplitView *I_dialogSplitView;
     PlainTextWindowControllerTabContext *I_tabContext;
     id I_documentDialog;
     
-    struct {
-        BOOL zoomFix_defaultFrameHadEqualWidth;
-    } I_flags;
     NSTimer *I_dialogAnimationTimer;
-    BOOL I_doNotCascade;
+
+     BOOL I_doNotCascade;
+     BOOL I_zoomFix_defaultFrameHadEqualWidth;
 
  @private
 
@@ -83,7 +81,6 @@
  @return YES if in a tab group and not alone.
  */
 - (BOOL)isInTabGroup;
-- (IBAction)closeTab:(id)sender;
 - (IBAction)showDocumentAtIndex:(id)aMenuEntry;
 - (void)closeAllTabs;
 - (void)reviewChangesAndQuitEnumeration:(BOOL)cont;
