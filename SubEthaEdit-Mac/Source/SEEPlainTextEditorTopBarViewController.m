@@ -95,6 +95,9 @@
 	[self.symbolPopUpButton setLineColor:separatorColor];
 	[self.positionTextField setBorderColor:separatorColor];
 	[self.docinfoTextField setBorderColor:separatorColor];
+    
+    // disable vibrant appearance on the popup as on light backgrounds it looks disabled
+    self.view.appearance = self.view.superview.effectiveAppearance.SEE_closestSystemNonVibrantAppearance;
 }
 
 - (void)loadView {
