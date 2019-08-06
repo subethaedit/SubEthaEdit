@@ -11,4 +11,5 @@
 
 @interface NSAppearance (NSAppearanceSEEAdditions)
 @property (nonatomic, readonly) BOOL SEE_isDark;
+- (NSAppearance *)SEE_closestSystemNonVibrantAppearance;
 @end

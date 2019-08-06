@@ -11,19 +11,6 @@ VARNAME
 
 @implementation NSColor (SEEAdditions)
 
-+ (NSColor *)brightOverlayBackgroundColorBackgroundIsDark:(BOOL)isDark appearanceIsDark:(BOOL)darkAppearance {
-	STATICVAR(NSColor, colorForDarkBackground)   = [NSColor colorWithCalibratedWhite:0.65 alpha:0.4];
-	STATICVAR(NSColor, colorForBrightBackground) = [NSColor colorWithCalibratedWhite:0.95 alpha:0.55];
-	NSColor *result = isDark ? colorForDarkBackground : colorForBrightBackground;
-
-    if (darkAppearance) {
-        STATICVAR(NSColor, colorForDarkBackground)   = [NSColor colorWithCalibratedWhite:0.15 alpha:0.8];
-        STATICVAR(NSColor, colorForBrightBackground) = [NSColor colorWithCalibratedWhite:0.05 alpha:0.85];
-        result = isDark ? colorForDarkBackground : colorForBrightBackground;
-    }
-    return result;
-}
-
 + (NSColor *)brightOverlaySeparatorColorBackgroundIsDark:(BOOL)isDark appearanceIsDark:(BOOL)darkAppearance  {
 	STATICVAR(NSColor, colorForDarkBackground)   = [NSColor colorWithCalibratedWhite:0.35 alpha:0.5];
 	STATICVAR(NSColor, colorForBrightBackground) = [NSColor colorWithCalibratedWhite:0.6 alpha:1.0];
@@ -39,27 +26,13 @@ VARNAME
     return result;
 }
 
-+ (NSColor *)darkOverlayBackgroundColorBackgroundIsDark:(BOOL)isDark appearanceIsDark:(BOOL)darkAppearance  {
-	STATICVAR(NSColor, colorForDarkBackground)   = [NSColor colorWithCalibratedWhite:0.55 alpha:0.4];
-	STATICVAR(NSColor, colorForBrightBackground) = [NSColor colorWithCalibratedWhite:0.65 alpha:0.55];
-	NSColor *result = isDark ? colorForDarkBackground : colorForBrightBackground;
-
-    if (darkAppearance) {
-        STATICVAR(NSColor, colorForDarkBackground)   = [NSColor colorWithCalibratedWhite:0.17 alpha:0.8];
-        STATICVAR(NSColor, colorForBrightBackground) = [NSColor colorWithCalibratedWhite:0.08 alpha:0.95];
-        result = isDark ? colorForDarkBackground : colorForBrightBackground;
-    }
-
-    return result;
-}
-
 + (NSColor *)darkOverlaySeparatorColorBackgroundIsDark:(BOOL)isDark appearanceIsDark:(BOOL)darkAppearance  {
 	STATICVAR(NSColor, colorForDarkBackground)   = [NSColor colorWithCalibratedWhite:0.35 alpha:0.5];
 	STATICVAR(NSColor, colorForBrightBackground) = [NSColor colorWithCalibratedWhite:0.4 alpha:0.5];
 	NSColor *result = isDark ? colorForDarkBackground : colorForBrightBackground;
 
     if (darkAppearance) {
-        STATICVAR(NSColor, colorForDarkBackground)   = [NSColor colorWithCalibratedWhite:0.22 alpha:0.5];
+        STATICVAR(NSColor, colorForDarkBackground)   = [NSColor colorWithCalibratedWhite:0.22 alpha:0.85];
         STATICVAR(NSColor, colorForBrightBackground) = [NSColor colorWithCalibratedWhite:0.22 alpha:1.0];
         result = isDark ? colorForDarkBackground : colorForBrightBackground;
     }

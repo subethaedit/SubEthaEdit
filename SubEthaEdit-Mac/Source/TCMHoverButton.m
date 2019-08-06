@@ -83,7 +83,7 @@
     [self addTrackingArea:area];
 }
 
--(void)updateTrackingAreas {
+- (void)updateTrackingAreas {
 	
     [super updateTrackingAreas];
     

@@ -17,35 +17,20 @@
     }
 }
 
--(void)sendEvent:(NSEvent *)event {
+- (void)sendEvent:(NSEvent *)event {
     // Handle ⌘ 1 ... ⌘ 9, ⌘ 0 shortcuts to select tabs
-    // Todo: this behaviour should not be specific to PlainTextWindows
     if ([event type] == NSEventTypeKeyDown) {
         int flags = [event modifierFlags];
         if ((flags & NSEventModifierFlagCommand) &&
             !(flags & NSEventModifierFlagControl) &&
             [[event characters] length] == 1) {
             
-            NSString *characters = [event characters];
-            NSInteger tabIndex = [characters integerValue];
-            if (tabIndex == 0) {
-                // integerValue returns 0 for invalid strings. Return if characters isn't literally a '0'
-                if (![characters isEqualToString:@"0"]) {
-                    return [super sendEvent:event];
-                }
-            }
-            
-            // 1 will become 0, 2 will become 1 ... 0 will become 9
-            tabIndex = (tabIndex+9) % 10;
-            
-            PlainTextWindowController *wc = [self windowController];
-            if ([wc isKindOfClass:[PlainTextWindowController class]]) {
-                
-                NSArray *tabbedWindows = wc.window.tabbedWindows;
-                if(tabIndex < tabbedWindows.count) {
-                    [[tabbedWindows objectAtIndex:tabIndex] makeKeyAndOrderFront:nil];
-                }
-                
+            NSUInteger tabIndex = [@[@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"0"] indexOfObject:event.characters];
+            NSArray *tabbedWindows = self.tabbedWindows;
+            if (tabIndex != NSNotFound &&
+                tabIndex < tabbedWindows.count) {
+                [[tabbedWindows objectAtIndex:tabIndex] makeKeyAndOrderFront:nil];
+                return;
             }
         }
         
@@ -118,14 +103,11 @@
 // This enables our window's custom Full Screen Exit animations to avoid being constrained by the
 // top edge of the screen and the menu bar.
 //
-- (NSRect)constrainFrameRect:(NSRect)frameRect toScreen:(NSScreen *)screen
-{
-    if (self.constrainingToScreenSuspended)
-    {
+- (NSRect)constrainFrameRect:(NSRect)frameRect toScreen:(NSScreen *)screen {
+    if (self.constrainingToScreenSuspended) {
         return frameRect;
     }
-    else
-    {
+    else {
         return [super constrainFrameRect:frameRect toScreen:screen];
     }
 }

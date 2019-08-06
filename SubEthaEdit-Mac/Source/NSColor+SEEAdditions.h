@@ -7,10 +7,8 @@
 
 @interface NSColor (SEEAdditions)
 
-+ (NSColor *)brightOverlayBackgroundColorBackgroundIsDark:(BOOL)isDark appearanceIsDark:(BOOL)darkAppearance;
 + (NSColor *)brightOverlaySeparatorColorBackgroundIsDark:(BOOL)isDark appearanceIsDark:(BOOL)darkAppearance;
 
-+ (NSColor *)darkOverlayBackgroundColorBackgroundIsDark:(BOOL)isDark appearanceIsDark:(BOOL)darkAppearance;
 + (NSColor *)darkOverlaySeparatorColorBackgroundIsDark:(BOOL)isDark appearanceIsDark:(BOOL)darkAppearance;
 
 + (NSColor *)searchScopeBaseColor;
