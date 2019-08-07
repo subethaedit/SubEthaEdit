@@ -5,6 +5,7 @@
 
 #import "PlainTextWindow.h"
 #import "PlainTextWindowController.h"
+#import "PreferenceKeys.h"
 
 @implementation PlainTextWindow
 
@@ -112,5 +113,23 @@
     }
 }
 
+- (IBAction)toggleTabBar:(id)sender {
+    // Actual update is a side effect of the change
+    SEEDocumentController.shouldAlwaysShowTabBar = !SEEDocumentController.shouldAlwaysShowTabBar;
+}
+
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
+    if (menuItem.action == @selector(toggleTabBar:)) {
+        BOOL alwaysShowTabBar = SEEDocumentController.shouldAlwaysShowTabBar;
+        [menuItem setState:alwaysShowTabBar ? NSOnState : NSOffState];
+        return YES;
+    }
+    return [super validateMenuItem:menuItem];
+}
+
+- (void)SEE_covered_toggleTabBar {
+    // needed to actually switch the state if wrong, since cocoa doesn't expose any of this properly
+    [super toggleTabBar:nil];
+}
 
 @end

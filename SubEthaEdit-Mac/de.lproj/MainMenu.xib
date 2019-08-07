@@ -713,7 +713,7 @@
                 <menuItem title="Darstellung" tag="5000" id="219">
                     <menu key="submenu" title="Darstellung" id="221">
                         <items>
-                            <menuItem title="Tableiste einblenden" id="WpS-vX-lv4">
+                            <menuItem title="Tableiste immer anzeigen" id="WpS-vX-lv4">
                                 <connections>
                                     <action selector="toggleTabBar:" target="-1" id="kdO-bs-lof"/>
                                 </connections>

@@ -39,6 +39,9 @@ extern NSString * const kSEETypeSEEMode;
 
 + (NSArray *)allTagsOfTagClass:(CFStringRef)aTagClass forUTI:(NSString *)aType;
 
+@property (class, nonatomic) BOOL shouldAlwaysShowTabBar;
+
+
 - (NSWindow *)documentListWindow;
 - (void)updateRestorableStateOfDocumentListWindow;
 - (IBAction)showDocumentListWindow:(id)sender;

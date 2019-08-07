@@ -714,7 +714,7 @@
                 <menuItem title="View" tag="5000" id="219">
                     <menu key="submenu" title="View" id="221">
                         <items>
-                            <menuItem title="Show Tab Bar" id="403">
+                            <menuItem title="Always Show Tab Bar" id="403">
                                 <connections>
                                     <action selector="toggleTabBar:" target="-1" id="C7F-uX-rg4"/>
                                 </connections>
