@@ -11,31 +11,14 @@
 @class PlainTextEditor, PlainTextDocument;
 #import "SEEEncodingDoctorDialogViewController.h"
 
-@interface PlainTextWindowController : NSWindowController <NSMenuDelegate> {
-    // Pointers to the current instances
-    NSSplitView *I_dialogSplitView;
-    PlainTextWindowControllerTabContext *I_tabContext;
-    id I_documentDialog;
-    
-    NSTimer *I_dialogAnimationTimer;
-
-     BOOL I_doNotCascade;
-     BOOL I_zoomFix_defaultFrameHadEqualWidth;
-
- @private
-
-    NSMutableArray *I_documents;
-    NSDocument *I_documentBeingClosed;
-
-    NSImageView *I_lockImageView;
-
-}
+@interface PlainTextWindowController : NSWindowController <NSMenuDelegate> 
 
 - (void)setInitialRadarStatusForPlainTextEditor:(PlainTextEditor *)editor;
 - (IBAction)changePendingUsersAccess:(id)aSender;
 - (NSArray *)plainTextEditors;
 
 @property (nonatomic, weak) PlainTextEditor *activePlainTextEditor;
+@property (nonatomic, readonly) PlainTextDocument *plainTextDocument;
 
 - (PlainTextEditor *)activePlainTextEditorForDocument:(PlainTextDocument *)aDocument;
 
@@ -71,7 +54,6 @@
 - (void)documentWillClose:(NSDocument *)document;
 
 - (void)documentUpdatedChangeCount:(PlainTextDocument *)document;
-- (NSTabViewItem *)addDocument:(NSDocument *)document;
 - (PlainTextWindowControllerTabContext *)windowControllerTabContextForDocument:(PlainTextDocument *)document;
 - (NSArray *)plainTextEditorsForDocument:(id)aDocument;
 - (BOOL)selectTabForDocument:(id)aDocument;
@@ -82,6 +64,7 @@
  */
 - (BOOL)isInTabGroup;
 - (IBAction)showDocumentAtIndex:(id)aMenuEntry;
+- (IBAction)closeTab:(id)sender;
 - (void)closeAllTabs;
 - (void)reviewChangesAndQuitEnumeration:(BOOL)cont;
 
