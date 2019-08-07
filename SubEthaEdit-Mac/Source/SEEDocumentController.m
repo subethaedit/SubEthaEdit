@@ -488,6 +488,25 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 	[self newDocumentWithModeIdentifier:[[[DocumentModeManager sharedInstance] modeForNewDocuments] documentModeIdentifier]];
 }
 
+// Responder Method to be called when user clicks on the plus button
+- (IBAction)newWindowForTab:(id)sender {
+    // Sender always seems to be a window, but lets be safe here
+    if ([sender isKindOfClass:[NSWindow class]]) {
+        // Need to do this so cmd-clicks on background windows open the new document in that window too
+        @synchronized(self.documentCreationFlagsLookupDict) {
+            SEEDocumentCreationFlags *creationFlags = [[SEEDocumentCreationFlags alloc] init];
+            creationFlags.openInTab = YES;
+            creationFlags.tabWindow = sender;
+            creationFlags.isAlternateAction = ([NSApp currentEvent].modifierFlags | NSEventModifierFlagOption);
+            self.documentCreationFlagsLookupDict[@"MakeUntitledDocument"] = creationFlags;
+        }
+        
+        [self newDocumentWithModeIdentifier:[[[DocumentModeManager sharedInstance] modeForNewDocuments] documentModeIdentifier]];
+
+    } else {
+        [self newDocumentInTab:sender];
+    }
+}
 
 - (IBAction)newDocumentByUserDefault:(id)sender {
 	@synchronized(self.documentCreationFlagsLookupDict) {
