@@ -127,9 +127,15 @@
     return [super validateMenuItem:menuItem];
 }
 
-- (void)SEE_covered_toggleTabBar {
-    // needed to actually switch the state if wrong, since cocoa doesn't expose any of this properly
-    [super toggleTabBar:nil];
+- (void)ensureTabBarVisiblity:(BOOL)shouldAlwaysBeVisible {
+    NSWindowTabGroup *group = self.tabGroup;
+    if (group.windows.count == 1) {
+        BOOL isVisible = group.isTabBarVisible;
+        if ((isVisible && !shouldAlwaysBeVisible) ||
+            (!isVisible && shouldAlwaysBeVisible)) {
+            [super toggleTabBar:nil];
+        }
+    }
 }
 
 @end

@@ -367,7 +367,7 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
     }
 }
 
-- (void)ensureShouldAlwaysShowTabBar:(BOOL)flag {
+- (void)ensureShouldAlwaysShowTabBar:(BOOL)shouldBeVisible {
     // Collect NSTabGroups
     NSMutableSet *tabGroups = [NSMutableSet new];
     for (NSWindowController *wc in I_windowControllers) {
@@ -378,13 +378,9 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
     
     for (NSWindowTabGroup *group in tabGroups) {
         if (group.windows.count == 1) {
-            BOOL visible = group.isTabBarVisible;
-            if ((visible && !flag) ||
-                (!visible && flag)) {
-                id window = group.windows.firstObject;
-                if ([window isKindOfClass:[PlainTextWindow class]]) {
-                    [window SEE_covered_toggleTabBar];
-                }
+            id window = group.windows.firstObject;
+            if ([window isKindOfClass:[PlainTextWindow class]]) {
+                [window ensureTabBarVisiblity:shouldBeVisible];
             }
         }
     }

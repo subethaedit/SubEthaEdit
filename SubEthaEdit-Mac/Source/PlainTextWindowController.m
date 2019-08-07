@@ -55,7 +55,6 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-
   
     I_dialogSplitView = nil;
     I_documentDialog = nil;
@@ -787,6 +786,8 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     [self updateLock];
     // switch mode menu on becoming main
     [(PlainTextDocument *)[self document] adjustModeMenu];
+    PlainTextWindow *window = (PlainTextWindow *)self.window;
+    [window ensureTabBarVisiblity:SEEDocumentController.shouldAlwaysShowTabBar];
 }
 
 - (void)windowDidBecomeKey:(NSNotification *)aNotification {

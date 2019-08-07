@@ -9,6 +9,5 @@
 @interface PlainTextWindow : NSWindow
 @property BOOL constrainingToScreenSuspended;
 
-//
-- (void)SEE_covered_toggleTabBar;
+- (void)ensureTabBarVisiblity:(BOOL)shouldAlwaysBeVisible;
 @end
