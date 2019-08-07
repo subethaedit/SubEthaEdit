@@ -1,4 +1,4 @@
-ONIGURUMA_VERSION=Onigmo-Onigmo-5.13.5
+ONIGURUMA_VERSION=onigmo-6.2.0
 OS_VERSION=$(shell uname -r)
 
 
@@ -9,9 +9,9 @@ INTEL_64_CONFIGURE_FLAGS=--disable-dependency-tracking --host=x86_64-apple-darwi
 INTEL_64_SDK=`xcrun --show-sdk-path`
 INTEL_64_CC=/usr/bin/gcc -arch x86_64
 
-ONIG_TARGET=libonig.la
+ONIG_TARGET=libonigmo.la
 LIBS_DIR=.libs
-ONIGURUMA=libonig.a
+ONIGURUMA=libonigmo.a
 
 install: all
 
@@ -26,10 +26,11 @@ $(INTEL_64_DIR)/$(ONIG_TARGET): $(INTEL_64_DIR)
 	CC="$(INTEL_64_CC)" ./configure $(INTEL_64_CONFIGURE_FLAGS);\
 	perl -pi -e 's@CFLAGS = -isysroot /Developer/SDKs/MacOSX10.7.sdk -arch x86_64@CFLAGS = -isysroot $(INTEL_SDK) -arch x86_64 --mmacosx-version-min=$(MACOSX_DEPLOYMENT_TARGET)@' Makefile;\
 	perl -pi -e 's@-dynamiclib@-dynamiclib -arch x86_64@g' libtool;\
-	/usr/bin/make $(@F)
+	echo "#define USE_UNICODE_ALL_LINE_TERMINATORS 1" >> config.h;\
+	/usr/bin/make $(ONIG_TARGET)
 
-$(INTEL_64_DIR):
-	unzip $(ONIGURUMA_VERSION).zip
+$(INTEL_64_DIR): $(ONIGURUMA_VERSION).tar.gz 
+	tar -xf $(ONIGURUMA_VERSION).tar.gz 
 	mv $(ONIGURUMA_VERSION) $@
 
 clean:

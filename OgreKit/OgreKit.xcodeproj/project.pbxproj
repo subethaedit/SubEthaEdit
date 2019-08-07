@@ -25,9 +25,9 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		2C6C980B22F8AC2900304CA6 /* libonigmo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D9DBE2B09BAB999003DD4A8 /* libonigmo.a */; };
 		4D4F202D1142243700CD9C2F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4DF530CE0915226200475575 /* InfoPlist.strings */; };
-		4D9DBE2C09BAB999003DD4A8 /* libonig.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D9DBE2B09BAB999003DD4A8 /* libonig.a */; };
-		4D9DBE2D09BAB999003DD4A8 /* libonig.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D9DBE2B09BAB999003DD4A8 /* libonig.a */; };
+		4D9DBE2C09BAB999003DD4A8 /* libonigmo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D9DBE2B09BAB999003DD4A8 /* libonigmo.a */; };
 		4DA73FBA1142894300E28DA7 /* OgreTextFindProgressDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DA73FB91142894300E28DA7 /* OgreTextFindProgressDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4DC40E5E09150CF50029A2A6 /* OGRegularExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D5009150CEB0029A2A6 /* OGRegularExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4DC40E5F09150CF50029A2A6 /* OGRegularExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40D5109150CEB0029A2A6 /* OGRegularExpression.m */; };
@@ -271,8 +271,8 @@
 		4DF530C20915221700475575 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DF530BD0915221700475575 /* main.m */; };
 		4DF530D30915226200475575 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4DF530D00915226200475575 /* MainMenu.nib */; };
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
-		F2170207215A458B007A2C35 /* oniguruma.h in Headers */ = {isa = PBXBuildFile; fileRef = F2170206215A458B007A2C35 /* oniguruma.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F2170208215A458B007A2C35 /* oniguruma.h in Headers */ = {isa = PBXBuildFile; fileRef = F2170206215A458B007A2C35 /* oniguruma.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F2170207215A458B007A2C35 /* onigmo.h in Headers */ = {isa = PBXBuildFile; fileRef = F2170206215A458B007A2C35 /* onigmo.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F2170208215A458B007A2C35 /* onigmo.h in Headers */ = {isa = PBXBuildFile; fileRef = F2170206215A458B007A2C35 /* onigmo.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F217020B215A47B4007A2C35 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F217020A215A47B4007A2C35 /* AppKit.framework */; };
 		F250EAC9216A161F00B94A0B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F250EAC8216A161F00B94A0B /* Cocoa.framework */; };
 /* End PBXBuildFile section */
@@ -444,7 +444,7 @@
 		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		4D9DBE2B09BAB999003DD4A8 /* libonig.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libonig.a; path = RegularExpression/oniguruma/universal/libonig.a; sourceTree = "<group>"; };
+		4D9DBE2B09BAB999003DD4A8 /* libonigmo.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libonigmo.a; path = RegularExpression/oniguruma/libonigmo.a; sourceTree = "<group>"; };
 		4DA73FB91142894300E28DA7 /* OgreTextFindProgressDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OgreTextFindProgressDelegate.h; path = FindPanel/OgreTextFindThreads/OgreTextFindProgressDelegate.h; sourceTree = SOURCE_ROOT; };
 		4DC40BFC09150BDB0029A2A6 /* OgreKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OgreKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DC40C0409150C280029A2A6 /* OgreTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OgreTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -681,7 +681,7 @@
 		9EAD87AC22F79379000ADB59 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = fr.lproj/OgreAdvancedFindPanel.nib; sourceTree = "<group>"; };
 		9EAD87AD22F79379000ADB59 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/OgreTextFinderLocalizable.strings; sourceTree = "<group>"; };
 		D2F7E79907B2D74100F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
-		F2170206215A458B007A2C35 /* oniguruma.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = oniguruma.h; path = x86_64/oniguruma.h; sourceTree = "<group>"; };
+		F2170206215A458B007A2C35 /* onigmo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = onigmo.h; path = x86_64/onigmo.h; sourceTree = "<group>"; };
 		F217020A215A47B4007A2C35 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		F250EAA6216A05B400B94A0B /* Base */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Base; path = Base.lproj/OgreTextFindProgressSheet.nib; sourceTree = "<group>"; };
 		F250EAA7216A05B500B94A0B /* Base */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Base; path = Base.lproj/OgreFindResultWindow.nib; sourceTree = "<group>"; };
@@ -707,8 +707,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C6C980B22F8AC2900304CA6 /* libonigmo.a in Frameworks */,
 				F250EAC9216A161F00B94A0B /* Cocoa.framework in Frameworks */,
-				4D9DBE2D09BAB999003DD4A8 /* libonig.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -750,7 +750,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */,
-				4D9DBE2C09BAB999003DD4A8 /* libonig.a in Frameworks */,
+				4D9DBE2C09BAB999003DD4A8 /* libonigmo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -817,7 +817,7 @@
 		4D82DCC109B9EC15007F03B0 /* Linked Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				4D9DBE2B09BAB999003DD4A8 /* libonig.a */,
+				4D9DBE2B09BAB999003DD4A8 /* libonigmo.a */,
 			);
 			name = "Linked Libraries";
 			sourceTree = "<group>";
@@ -1194,7 +1194,7 @@
 		4DC40DFA09150CF00029A2A6 /* oniguruma */ = {
 			isa = PBXGroup;
 			children = (
-				F2170206215A458B007A2C35 /* oniguruma.h */,
+				F2170206215A458B007A2C35 /* onigmo.h */,
 			);
 			name = oniguruma;
 			path = RegularExpression/oniguruma;
@@ -1400,7 +1400,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F2170208215A458B007A2C35 /* oniguruma.h in Headers */,
+				F2170208215A458B007A2C35 /* onigmo.h in Headers */,
 				4DC40F4F09150CF50029A2A6 /* OGRegularExpression.h in Headers */,
 				4DC40F5109150CF50029A2A6 /* OGRegularExpressionPrivate.h in Headers */,
 				4DC40F5309150CF50029A2A6 /* OGRegularExpressionEnumerator.h in Headers */,
@@ -1464,7 +1464,7 @@
 				4DC40E9C09150CF50029A2A6 /* OgreTextViewAdapter.h in Headers */,
 				4DC40E9E09150CF50029A2A6 /* OgreTextViewPlainAdapter.h in Headers */,
 				4DC40EA009150CF50029A2A6 /* OgreTextViewRichAdapter.h in Headers */,
-				F2170207215A458B007A2C35 /* oniguruma.h in Headers */,
+				F2170207215A458B007A2C35 /* onigmo.h in Headers */,
 				4DC40EA209150CF50029A2A6 /* OgreTextViewGraphicAllowedAdapter.h in Headers */,
 				4DC40EA409150CF50029A2A6 /* OgreTextViewUndoer.h in Headers */,
 				4DC40EA609150CF50029A2A6 /* OgreTableViewAdapter.h in Headers */,

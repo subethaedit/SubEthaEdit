@@ -2,9 +2,11 @@
 
 #### Features:
 * Switched to native macOS window tabs, removed PSMTabBarControl
+* Improved Regular Expression features and speed. See Help > Regular Expressions for updated documentation
 
 #### Bug fixes and maintenance:
 * Fixed dark appearance of encoding panel
+* Update underlying RegEX Library (origuruma-mod) to onigmo 6.2
 
 #### Improved modes:
 * Markdown – improved syntax highlighting of code blocks
