@@ -713,6 +713,18 @@
                 <menuItem title="Darstellung" tag="5000" id="219">
                     <menu key="submenu" title="Darstellung" id="221">
                         <items>
+                            <menuItem title="Tableiste immer anzeigen" id="WpS-vX-lv4">
+                                <connections>
+                                    <action selector="toggleTabBar:" target="-1" id="kdO-bs-lof"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Alle Tabs einblenden" keyEquivalent="T" id="ccu-FL-Ljj">
+                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                <connections>
+                                    <action selector="toggleTabOverview:" target="-1" id="hEs-ri-BFc"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="Pmu-dF-0R8"/>
                             <menuItem title="Syntax einfärben" id="403">
                                 <connections>
                                     <action selector="toggleSyntaxHighlighting:" target="-1" id="404"/>

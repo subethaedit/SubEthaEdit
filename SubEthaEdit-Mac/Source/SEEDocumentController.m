@@ -23,7 +23,7 @@
 #import "StylePreferences.h"
 #import "GeneralPreferences.h"
 #import "FoldableTextStorage.h"
-//#import "MoreSecurity.h"
+#import "PlainTextWindow.h"
 #import "PlainTextWindowController.h"
 #import "SEEOpenPanelAccessoryViewController.h"
 #import "SEEDocumentListWindowController.h"
@@ -351,6 +351,39 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
     [I_windowControllers removeObject:autoreleasedWindowController];
 	
 	[self updateRestorableStateOfDocumentListWindow];
+}
+
++ (BOOL)shouldAlwaysShowTabBar {
+    BOOL alwaysShowTabBar = [[NSUserDefaults standardUserDefaults] boolForKey:kSEEDefaultsKeyAlwaysShowTabBar];
+    return alwaysShowTabBar;
+}
+
++ (void)setShouldAlwaysShowTabBar:(BOOL)flag {
+    BOOL currentValue = self.shouldAlwaysShowTabBar;
+    if ((currentValue && !flag) ||
+        (!currentValue && flag)) {
+        [[NSUserDefaults standardUserDefaults] setBool:flag forKey:kSEEDefaultsKeyAlwaysShowTabBar];
+        [[self sharedInstance] ensureShouldAlwaysShowTabBar:flag];
+    }
+}
+
+- (void)ensureShouldAlwaysShowTabBar:(BOOL)shouldBeVisible {
+    // Collect NSTabGroups
+    NSMutableSet *tabGroups = [NSMutableSet new];
+    for (NSWindowController *wc in I_windowControllers) {
+        if ([wc isKindOfClass:[PlainTextWindowController class]]) {
+            [tabGroups addObject:wc.window.tabGroup];
+        }
+    }
+    
+    for (NSWindowTabGroup *group in tabGroups) {
+        if (group.windows.count == 1) {
+            id window = group.windows.firstObject;
+            if ([window isKindOfClass:[PlainTextWindow class]]) {
+                [window ensureTabBarVisiblity:shouldBeVisible];
+            }
+        }
+    }
 }
 
 - (NSArray <NSArray <NSWindowController *> *> *)tabGroups {

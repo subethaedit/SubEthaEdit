@@ -17,6 +17,7 @@
 #import "SEEConnectionManager.h"
 #import "SEEDocumentController.h"
 #import "PlainTextDocument.h"
+#import "PlainTextWindow.h"
 #import "PlainTextWindowController.h"
 #import "PlainTextWindowControllerTabContext.h"
 #import "SEEWebPreviewViewController.h"
@@ -1546,82 +1547,83 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 
 - (void)makeWindowControllers {
     BOOL shouldOpenInTab = NO;
-	NSWindowController *tabWindowController = nil;
-
-	SEEDocumentCreationFlags *creationFlags = self.attachedCreationFlags;
-	if (creationFlags) {
-		shouldOpenInTab = creationFlags.openInTab;
-		if (creationFlags.isAlternateAction) {
-			shouldOpenInTab = !shouldOpenInTab;
-		}
-	} else {
-		shouldOpenInTab = [[NSUserDefaults standardUserDefaults] boolForKey:kSEEDefaultsKeyOpenNewDocumentInTab];
-	}
-
-	if (shouldOpenInTab) {
-		tabWindowController = creationFlags.tabWindow.windowController;
-		if (!tabWindowController) {
-			tabWindowController = [[SEEDocumentController sharedDocumentController] activeWindowController];
-		}
-	}
-
-	BOOL closeTransientDocument = transientDocument && transientDocument != self
-	&& NSEqualRects(transientDocumentWindowFrame, [[[transientDocument topmostWindowController] window] frame])
-	&& [[[NSUserDefaults standardUserDefaults] objectForKey:OpenUntitledDocumentOnStartupPreferenceKey] boolValue];
-	
-	PlainTextWindowController *windowController = nil;
-
-  windowController = [[PlainTextWindowController alloc] init];
-  [self addWindowController:windowController];
-  [[SEEDocumentController sharedInstance] addWindowController:windowController];
-
-  if (shouldOpenInTab) {
-    [tabWindowController.window addTabbedWindow:windowController.window
-                                        ordered:NSWindowAbove];
-  }
-  
-	// reset document creation flags
-	self.attachedCreationFlags = nil;
+    NSWindowController *tabWindowController = nil;
     
-	if (I_stateDictionaryFromLoading) {
-		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-		if ([defaults boolForKey:DocumentStateSaveAndLoadWindowPositionKey]) {
-			if (![windowController isInTabGroup]) {
-				NSDictionary *windowFrameDict = [I_stateDictionaryFromLoading objectForKey:@"p"];
-				if ([windowFrameDict isKindOfClass:[NSDictionary class]]) {
-					NSRect windowFrameRect = NSZeroRect;
-					windowFrameRect.origin.x = [[windowFrameDict objectForKey:@"x"] doubleValue];
-					windowFrameRect.origin.y = [[windowFrameDict objectForKey:@"y"] doubleValue];
-					windowFrameRect.size.height = [[windowFrameDict objectForKey:@"h"] doubleValue];
-					windowFrameRect.size.width  = [[windowFrameDict objectForKey:@"w"] doubleValue];
-					NSSize minSize = [[windowController window] minSize];
-					if (windowFrameRect.size.height >= minSize.height && windowFrameRect.size.width >= minSize.width) {
-						[windowController setWindowFrame:windowFrameRect constrainedToScreen:nil display:YES];
-					}
-					
-					if (closeTransientDocument && ![self isProxyDocument]) {
-						[transientDocument close];
-						transientDocument = nil;
-						transientDocumentWindowFrame = NSZeroRect;
-						
-						PlainTextWindowController *windowController = self.windowControllers.firstObject;
-						windowController.window.restorable = YES;
-					}
-				}
-			}
-		}
-		
-		if ([defaults boolForKey:DocumentStateSaveAndLoadSelectionKey]) {
-			NSDictionary *selectionDict = [I_stateDictionaryFromLoading objectForKey:@"s"];
-			if ([selectionDict isKindOfClass:[NSDictionary class]]) {
-				NSRange selectionRange = NSMakeRange([[selectionDict objectForKey:@"p"] intValue],[[selectionDict objectForKey:@"l"] intValue]);
-				[[self activePlainTextEditor] selectRangeInBackgroundWithoutIndication:selectionRange expandIfFolded:NO];
-			}
-		}
-       	
-    	 I_stateDictionaryFromLoading = nil;
+    SEEDocumentCreationFlags *creationFlags = self.attachedCreationFlags;
+    if (creationFlags) {
+        shouldOpenInTab = creationFlags.openInTab;
+        if (creationFlags.isAlternateAction) {
+            shouldOpenInTab = !shouldOpenInTab;
+        }
+    } else {
+        shouldOpenInTab = [[NSUserDefaults standardUserDefaults] boolForKey:kSEEDefaultsKeyOpenNewDocumentInTab];
     }
-
+    
+    if (shouldOpenInTab) {
+        tabWindowController = creationFlags.tabWindow.windowController;
+        if (!tabWindowController) {
+            tabWindowController = [[SEEDocumentController sharedDocumentController] activeWindowController];
+        }
+    }
+    
+    BOOL closeTransientDocument = transientDocument && transientDocument != self
+    && NSEqualRects(transientDocumentWindowFrame, [[[transientDocument topmostWindowController] window] frame])
+    && [[[NSUserDefaults standardUserDefaults] objectForKey:OpenUntitledDocumentOnStartupPreferenceKey] boolValue];
+    
+    PlainTextWindowController *windowController = nil;
+    
+    windowController = [[PlainTextWindowController alloc] init];
+    [self addWindowController:windowController];
+    [[SEEDocumentController sharedInstance] addWindowController:windowController];
+    
+    if (shouldOpenInTab) {
+        [tabWindowController.window addTabbedWindow:windowController.window
+                                            ordered:NSWindowAbove];
+    }
+    
+    // reset document creation flags
+    self.attachedCreationFlags = nil;
+    
+    if (I_stateDictionaryFromLoading) {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        if ([defaults boolForKey:DocumentStateSaveAndLoadWindowPositionKey]) {
+            if (![windowController isInTabGroup]) {
+                NSDictionary *windowFrameDict = [I_stateDictionaryFromLoading objectForKey:@"p"];
+                if ([windowFrameDict isKindOfClass:[NSDictionary class]]) {
+                    NSRect windowFrameRect = NSZeroRect;
+                    windowFrameRect.origin.x = [[windowFrameDict objectForKey:@"x"] doubleValue];
+                    windowFrameRect.origin.y = [[windowFrameDict objectForKey:@"y"] doubleValue];
+                    windowFrameRect.size.height = [[windowFrameDict objectForKey:@"h"] doubleValue];
+                    windowFrameRect.size.width  = [[windowFrameDict objectForKey:@"w"] doubleValue];
+                    NSSize minSize = [[windowController window] minSize];
+                    if (windowFrameRect.size.height >= minSize.height && windowFrameRect.size.width >= minSize.width) {
+                        [windowController setWindowFrame:windowFrameRect constrainedToScreen:nil display:YES];
+                    }
+                    
+                    if (closeTransientDocument && ![self isProxyDocument]) {
+                        [transientDocument close];
+                        transientDocument = nil;
+                        transientDocumentWindowFrame = NSZeroRect;
+                        
+                        PlainTextWindowController *windowController = self.windowControllers.firstObject;
+                        windowController.window.restorable = YES;
+                    }
+                }
+                
+            }
+        }
+        
+        if ([defaults boolForKey:DocumentStateSaveAndLoadSelectionKey]) {
+            NSDictionary *selectionDict = [I_stateDictionaryFromLoading objectForKey:@"s"];
+            if ([selectionDict isKindOfClass:[NSDictionary class]]) {
+                NSRange selectionRange = NSMakeRange([[selectionDict objectForKey:@"p"] intValue],[[selectionDict objectForKey:@"l"] intValue]);
+                [[self activePlainTextEditor] selectRangeInBackgroundWithoutIndication:selectionRange expandIfFolded:NO];
+            }
+        }
+        
+        I_stateDictionaryFromLoading = nil;
+    }
+    
 }
 
 - (void)addWindowController:(NSWindowController *)windowController 
