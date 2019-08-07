@@ -7,7 +7,5 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface SEEOverlayView : NSView
-@property (nonatomic, getter=isBackgroundBlurActive) BOOL backgroundBlurActive;
-@property (nonatomic) CGFloat brightnessAdjustForInactiveWindowState;
+@interface SEEOverlayView : NSVisualEffectView
 @end

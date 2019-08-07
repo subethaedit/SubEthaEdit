@@ -450,9 +450,6 @@
 /* Text for document URL field when not your document */
 "Not your Document.\nNo Document URL." = "Fremdes Dokument.\nKeine Dokument-URL.";
 
-/* Ok in sheet */
-"OK" = "OK";
-
 /* Symbol Regular Expression Error Informative Text */
 "One of the specified <block> elements is not a valid regular expression. Therefore the combined start regex \"%@\" could not be compiled. Please check your regular expression in Find Panel's Ruby mode." = "Einer der angegebenen <block> Elemente ist kein gültiger regulärer Ausdruck. Deshalb konnte der kombinierte start regex „%@“ nicht kompiliert werden. Bitte verfizieren Sie den regulären Ausdruck mit Hilfe des Ruby Dialekts im Suchen-Fenster.";
 
