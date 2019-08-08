@@ -9,10 +9,9 @@
 
 @implementation PlainTextWindow
 
-- (IBAction)performClose:(id)sender
-{
+- (IBAction)performClose:(id)sender {
     if ([[self windowController] isKindOfClass:[PlainTextWindowController class]]) {
-        [(PlainTextWindowController *)[self windowController] closeAllTabs];
+        [(PlainTextWindowController *)[self windowController] closeTab:sender];
     } else {
         [super performClose:sender];
     }

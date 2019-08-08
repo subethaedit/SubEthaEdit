@@ -113,7 +113,7 @@
 		1428946309575B9700D14688 /* PlainTextDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428944D09575B9700D14688 /* PlainTextDocument.m */; };
 
 		1428946409575B9700D14688 /* PlainTextEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428944F09575B9700D14688 /* PlainTextEditor.m */; };
-		1428946509575B9700D14688 /* PlainTextWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428945109575B9700D14688 /* PlainTextWindowController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		1428946509575B9700D14688 /* PlainTextWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428945109575B9700D14688 /* PlainTextWindowController.m */; };
 		1428946609575B9700D14688 /* PopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428945309575B9700D14688 /* PopUpButton.m */; };
 		1428946709575B9700D14688 /* PopUpButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428945509575B9700D14688 /* PopUpButtonCell.m */; };
 		1428946809575B9700D14688 /* RadarScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428945709575B9700D14688 /* RadarScroller.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
