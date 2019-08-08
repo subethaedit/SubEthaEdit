@@ -6600,7 +6600,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     if (cfEncoding != kCFStringEncodingInvalidId) {
         CFStringRef IANAName = CFStringConvertEncodingToIANACharSetName(cfEncoding);
         if (IANAName) {
-            return CFBridgingRelease(IANAName);
+            return (__bridge NSString *)IANAName;
         }
     }
     
