@@ -714,9 +714,23 @@
                 <menuItem title="View" tag="5000" id="219">
                     <menu key="submenu" title="View" id="221">
                         <items>
-                            <menuItem title="Highlight Syntax" id="403">
+                            <menuItem title="Always Show Tab Bar" id="403">
                                 <connections>
-                                    <action selector="toggleSyntaxHighlighting:" target="-1" id="404"/>
+                                    <action selector="toggleTabBar:" target="-1" id="C7F-uX-rg4"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Show All Tabs" keyEquivalent="\" id="NpC-Zk-TuU">
+                                <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
+                                <connections>
+                                    <action selector="toggleTabOverview:" target="-1" id="knV-rI-kpd"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="dgc-hv-Nlg">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Highlight Syntax" id="bN4-A0-a88">
+                                <connections>
+                                    <action selector="toggleSyntaxHighlighting:" target="-1" id="I2Z-bR-B1F"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Wrap Lines" id="378">

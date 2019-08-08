@@ -5,6 +5,7 @@
 
 #import "PlainTextWindow.h"
 #import "PlainTextWindowController.h"
+#import "PreferenceKeys.h"
 
 @implementation PlainTextWindow
 
@@ -112,5 +113,29 @@
     }
 }
 
+- (IBAction)toggleTabBar:(id)sender {
+    // Actual update is a side effect of the change
+    SEEDocumentController.shouldAlwaysShowTabBar = !SEEDocumentController.shouldAlwaysShowTabBar;
+}
+
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
+    if (menuItem.action == @selector(toggleTabBar:)) {
+        BOOL alwaysShowTabBar = SEEDocumentController.shouldAlwaysShowTabBar;
+        [menuItem setState:alwaysShowTabBar ? NSOnState : NSOffState];
+        return YES;
+    }
+    return [super validateMenuItem:menuItem];
+}
+
+- (void)ensureTabBarVisiblity:(BOOL)shouldAlwaysBeVisible {
+    NSWindowTabGroup *group = self.tabGroup;
+    if (group.windows.count == 1) {
+        BOOL isVisible = group.isTabBarVisible;
+        if ((isVisible && !shouldAlwaysBeVisible) ||
+            (!isVisible && shouldAlwaysBeVisible)) {
+            [super toggleTabBar:nil];
+        }
+    }
+}
 
 @end

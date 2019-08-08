@@ -8,4 +8,6 @@
 
 @interface PlainTextWindow : NSWindow
 @property BOOL constrainingToScreenSuspended;
+
+- (void)ensureTabBarVisiblity:(BOOL)shouldAlwaysBeVisible;
 @end

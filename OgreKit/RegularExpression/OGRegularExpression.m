@@ -17,7 +17,7 @@
 #ifndef HAVE_CONFIG_H
 # define HAVE_CONFIG_H
 #endif
-#import <OgreKit/oniguruma.h>
+#import <OgreKit/onigmo.h>
 
 #import <OgreKit/OGRegularExpressionPrivate.h>
 #import <OgreKit/OGRegularExpressionMatchPrivate.h>
@@ -43,17 +43,17 @@ const unsigned	OgreCaptureGroupOption		= ONIG_OPTION_CAPTURE_GROUP;
 // (ONIG_OPTION_POSIX_REGIONは使用しない)
 // OgreDelimitByWhitespaceOptionはOgreSimpleMatchingSyntaxの使用時に、空白文字を単語の区切りとみなすかどうか
 // 例: @"AAA BBB CCC" -> @"(AAA)|(BBB)|(CCC)"
-const unsigned	OgreDelimitByWhitespaceOption	= ONIG_OPTION_POSIX_REGION;
+const unsigned	OgreDelimitByWhitespaceOption	= ONIG_OPTION_MAXBIT;
 
 // search time options:
 const unsigned	OgreNotBOLOption			= ONIG_OPTION_NOTBOL;
 const unsigned	OgreNotEOLOption			= ONIG_OPTION_NOTEOL;
-const unsigned	OgreFindEmptyOption			= ONIG_OPTION_POSIX_REGION << 1;
+const unsigned	OgreFindEmptyOption			= ONIG_OPTION_MAXBIT << 1;
 
 // replace time options:
-const unsigned	OgreReplaceWithAttributesOption	= ONIG_OPTION_POSIX_REGION << 2;
-const unsigned	OgreReplaceFontsOption		= ONIG_OPTION_POSIX_REGION << 3;
-const unsigned	OgreMergeAttributesOption	= ONIG_OPTION_POSIX_REGION << 4;
+const unsigned	OgreReplaceWithAttributesOption	= ONIG_OPTION_MAXBIT << 2;
+const unsigned	OgreReplaceFontsOption		= ONIG_OPTION_MAXBIT << 3;
+const unsigned	OgreMergeAttributesOption	= ONIG_OPTION_MAXBIT << 4;
 
 // exception name
 NSString * const	OgreException = @"OGRegularExpressionException";
