@@ -157,7 +157,7 @@ NSString * const TCMMMSessionTextStorageKey = @"TextStorage";
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     I_helper = nil;
-    I_document = nil;
+    _document = nil;
     [[I_profilesByUserID allValues] makeObjectsPerformSelector:@selector(setDelegate:) withObject:nil];
     [I_statesWithRemainingMessages makeObjectsPerformSelector:@selector(setClient:) withObject:nil];
     [I_statesWithRemainingMessages makeObjectsPerformSelector:@selector(setDelegate:) withObject:nil];
@@ -236,16 +236,6 @@ NSString * const TCMMMSessionTextStorageKey = @"TextStorage";
     return I_filename;
 }
 
-- (void)setSessionID:(NSString *)aSessionID
-{
-    I_sessionID = [aSessionID copy];
-}
-
-- (NSString *)sessionID
-{
-    return I_sessionID;
-}
-
 - (void)setHostID:(NSString *)aHostID
 {
      I_hostID = [aHostID copy];
@@ -254,16 +244,6 @@ NSString * const TCMMMSessionTextStorageKey = @"TextStorage";
 
 - (NSString *)hostID {
     return I_hostID;
-}
-
-- (void)setDocument:(id <SEEDocument>)aDocument
-{
-    I_document = aDocument;
-}
-
-- (id <SEEDocument>)document
-{
-    return I_document;
 }
 
 - (void)setIsServer:(BOOL)isServer

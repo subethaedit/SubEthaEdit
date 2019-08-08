@@ -23,8 +23,9 @@
     BOOL I_isSendingNoOps;
     NSObject <TCMMMStateClientProtocol> *I_client;
     NSTimer *I_timer;
-    id I_delegate;
 }
+
+@property (nonatomic, weak) id delegate;
 
 - (id)initAsServer:(BOOL)isServer;
 
@@ -33,8 +34,6 @@
 - (BOOL)isServer;
 - (void)setClient:(NSObject <TCMMMStateClientProtocol> *)aClient;
 - (NSObject <TCMMMStateClientProtocol> *)client;
-- (void)setDelegate:(id)aDelegate;
-- (id)delegate;
 - (id)lastIncomingMessage;
 
 - (void)processAllUserChangeMessages;

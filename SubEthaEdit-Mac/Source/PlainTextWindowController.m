@@ -12,7 +12,6 @@
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "TCMMMUserSEEAdditions.h"
 #import "SelectionOperation.h"
-#import "ImagePopUpButtonCell.h"
 #import "LayoutManager.h"
 #import "SEETextView.h"
 #import "GeneralPreferences.h"

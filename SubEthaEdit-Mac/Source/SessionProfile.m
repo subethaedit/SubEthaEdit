@@ -340,8 +340,8 @@
                     [delegate profile:self didReceiveUserChangeToReadOnly:(UserChangeOperation *)operation];
                 }
             }
-			if ([I_MMState isKindOfClass:[TCMMMState class]]) {
-				[I_MMState handleMessage:message];
+			if ([_MMState isKindOfClass:[TCMMMState class]]) {
+				[_MMState handleMessage:message];
 			}
         } else if (strncmp(type, "USRCHG",6)==0) {
             TCMMMUser *user=[TCMMMUser userWithBencodedNotification:[[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)]];
@@ -408,13 +408,6 @@
     }
 }
 
-- (void)setMMState:(TCMMMState *)aState {
-    I_MMState = aState;
-}
-
-- (TCMMMState *)MMState {
-    return I_MMState;
-}
 
 - (void)state:(TCMMMState *)aState handleMessage:(TCMMMMessage *)aMessage {
     DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"handleMessage");

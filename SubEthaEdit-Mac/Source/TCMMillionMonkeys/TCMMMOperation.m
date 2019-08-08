@@ -58,7 +58,7 @@ static NSMutableDictionary *sClassForOperationTypeDictionary;
 - (BOOL)isEqualTo:(id)anObject {
     return (
         [anObject isMemberOfClass:[self class]] &&
-        [I_userID isEqualToString:[anObject userID]] &&
+        [_userID isEqualToString:[anObject userID]] &&
         [[self operationID] isEqualToString:[anObject operationID]]
     );
 }
@@ -66,14 +66,5 @@ static NSMutableDictionary *sClassForOperationTypeDictionary;
 - (NSString *)operationID {
     return [[self class] operationID];
 }
-
-- (void)setUserID:(NSString *)aUserID {
-    I_userID = [aUserID copy];
-}
-
-- (NSString *)userID {
-    return I_userID;
-}
-
 
 @end

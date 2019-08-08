@@ -20,10 +20,9 @@
     NSMutableDictionary *I_remoteInfos;
 }
 
-- (void)shakeHandsWithUserID:(NSString *)aUserID;
+@property (nonatomic, copy) NSDictionary *remoteInfos;
 
-- (void)setRemoteInfos:(NSDictionary *)aDictionary;
-- (NSDictionary *)remoteInfos;
+- (void)shakeHandsWithUserID:(NSString *)aUserID;
 
 - (void)setDelegate:(id <TCMBEEPProfileDelegate, HandshakeProfileDelegate>)aDelegate;
 - (id <TCMBEEPProfileDelegate, HandshakeProfileDelegate>)delegate;

@@ -34,7 +34,7 @@
 - (void)dealloc {
     // DEBUGLOG(@"MillionMonkeysLogDomain", AlwaysLogLevel, @"MMState incoming messages %@",[I_incomingMessages description]);
     I_client = nil;
-    I_delegate = nil;
+    _delegate = nil;
     [I_timer invalidate];
     DEBUGLOG(@"MillionMonkeysLogDomain", AllLogLevel, @"MMState deallocated");
 }
@@ -68,14 +68,6 @@
     if (!I_client) {
         [self setIsSendingNoOps:NO];
     }
-}
-
-- (void)setDelegate:(id)aDelegate {
-    I_delegate = aDelegate;
-}
-
-- (id)delegate {
-    return I_delegate;
 }
 
 - (NSObject <TCMMMStateClientProtocol> *)client {
@@ -206,7 +198,7 @@
 
 - (void)sendNoOperation:(NSTimer *)timer {
     DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Send nop");
-    if (!I_delegate || !I_client) {
+    if (!_delegate || !I_client) {
         [I_timer invalidate];
         return;
     }

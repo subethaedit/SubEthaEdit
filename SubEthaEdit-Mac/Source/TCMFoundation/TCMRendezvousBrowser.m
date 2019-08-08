@@ -60,21 +60,6 @@ static NSString *kServiceKey=@"Service";
 #pragma mark -
 #pragma mark ### Accessors ####
 
-- (void)setDelegate:(id)aDelegate {
-    I_delegate = aDelegate;
-}
-
-- (id)delegate {
-    return I_delegate;
-}
-
-- (void)setResolvesServices:(BOOL)resolves {
-    I_flags.resolvesServices=resolves;
-}
-- (BOOL)resolvesServices {
-    return I_flags.resolvesServices;
-}
-
 - (NSString *)domain {
     return I_domain;
 }

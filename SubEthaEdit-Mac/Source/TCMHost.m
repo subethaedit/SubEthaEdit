@@ -21,12 +21,11 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
 
 @interface TCMHost (TCMHostPrivateAdditions)
 
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, retain) NSDictionary *userInfo;
+@property (nonatomic, retain) NSData *address;
+
 - (void)TCM_handleHostCallback:(CFHostRef)host typeInfo:(CFHostInfoType)typeInfo error:(const CFStreamError *)error;
-- (void)setUserInfo:(NSDictionary *)userInfo;
-- (NSString *)name;
-- (void)setName:(NSString *)name;
-- (NSData *)address;
-- (void)setAddress:(NSData *)addr;
 
 @end
 
@@ -95,30 +94,9 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
 
 - (void)dealloc
 {
-    I_delegate = nil;
     CFHostUnscheduleFromRunLoop(I_host, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
     CFHostSetClient(I_host, NULL, NULL);
     CFRelease(I_host);
-}
-
-- (void)setDelegate:(id)delegate
-{
-    I_delegate = delegate;
-}
-
-- (id)delegate
-{
-    return I_delegate;
-}
-
-- (void)setAddress:(NSData *)addr
-{
-    I_address = addr;
-}
-
-- (NSData *)address
-{
-    return I_address;
 }
 
 - (NSArray *)addresses
@@ -126,29 +104,9 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
     return I_addresses;
 }
 
-- (void)setName:(NSString *)name
-{
-    I_name = [name copy];
-}
-
-- (NSString *)name
-{
-    return I_name;
-}
-
 - (NSArray *)names
 {
     return I_names;
-}
-
-- (void)setUserInfo:(NSDictionary *)userInfo
-{
-    I_userInfo = userInfo;
-}
-
-- (NSDictionary *)userInfo
-{
-    return I_userInfo;
 }
 
 - (void)checkReachability

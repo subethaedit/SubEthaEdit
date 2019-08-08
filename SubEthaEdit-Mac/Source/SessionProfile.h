@@ -50,6 +50,8 @@
     NSMutableDictionary *I_options;
 }
 
+@property (nonatomic, strong) TCMMMState *MMState;
+
 + (NSData *)defaultInitializationData;
 
 - (NSDictionary *)optionDictionary;
@@ -66,9 +68,6 @@
 - (void)declineInvitation;
 - (void)acceptJoin;
 - (void)denyJoin;
-
-- (void)setMMState:(TCMMMState *)aState;
-- (TCMMMState *)MMState;
 
 - (void)clearOutgoingMMMessageQueue;
 - (void)setContentHasBeenExchanged:(BOOL)aFlag;

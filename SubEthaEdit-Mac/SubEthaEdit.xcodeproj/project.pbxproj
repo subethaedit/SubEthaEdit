@@ -42,7 +42,6 @@
 		142891550957475E00D14688 /* TCMBEEPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428914B0957475E00D14688 /* TCMBEEPMessage.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		142891560957475E00D14688 /* TCMBEEPProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428914D0957475E00D14688 /* TCMBEEPProfile.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		142891570957475E00D14688 /* TCMBEEPSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428914F0957475E00D14688 /* TCMBEEPSession.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		142891DD09574E5B00D14688 /* ImagePopUpButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891D609574E5B00D14688 /* ImagePopUpButtonCell.m */; };
 		142891DE09574E5B00D14688 /* TCMHost.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891D809574E5B00D14688 /* TCMHost.m */; };
 		1428920E095751CB00D14688 /* NSColorTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289207095751CB00D14688 /* NSColorTCMAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		1428920F095751CB00D14688 /* NSImageTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289209095751CB00D14688 /* NSImageTCMAdditions.m */; };
@@ -111,7 +110,6 @@
 		1428944809575B3400D14688 /* GutterRulerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428944309575B3400D14688 /* GutterRulerView.m */; };
 		1428944909575B3400D14688 /* LayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428944509575B3400D14688 /* LayoutManager.m */; };
 		1428946309575B9700D14688 /* PlainTextDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428944D09575B9700D14688 /* PlainTextDocument.m */; };
-
 		1428946409575B9700D14688 /* PlainTextEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428944F09575B9700D14688 /* PlainTextEditor.m */; };
 		1428946509575B9700D14688 /* PlainTextWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428945109575B9700D14688 /* PlainTextWindowController.m */; };
 		1428946609575B9700D14688 /* PopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428945309575B9700D14688 /* PopUpButton.m */; };
@@ -618,8 +616,6 @@
 		1428914E0957475E00D14688 /* TCMBEEPSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = TCMBEEPSession.h; path = TCMBEEP/TCMBEEPSession.h; sourceTree = "<group>"; };
 		1428914F0957475E00D14688 /* TCMBEEPSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = TCMBEEPSession.m; path = TCMBEEP/TCMBEEPSession.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		14289172095747F800D14688 /* ODBEditorSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ODBEditorSuite.h; sourceTree = "<group>"; };
-		142891D509574E5B00D14688 /* ImagePopUpButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ImagePopUpButtonCell.h; sourceTree = "<group>"; };
-		142891D609574E5B00D14688 /* ImagePopUpButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImagePopUpButtonCell.m; sourceTree = "<group>"; };
 		142891D709574E5B00D14688 /* TCMHost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = TCMHost.h; sourceTree = "<group>"; };
 		142891D809574E5B00D14688 /* TCMHost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMHost.m; sourceTree = "<group>"; };
 		14289206095751CB00D14688 /* NSColorTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NSColorTCMAdditions.h; sourceTree = "<group>"; };
@@ -1461,8 +1457,6 @@
 		1428917E0957486D00D14688 /* TCMBase */ = {
 			isa = PBXGroup;
 			children = (
-				142891D509574E5B00D14688 /* ImagePopUpButtonCell.h */,
-				142891D609574E5B00D14688 /* ImagePopUpButtonCell.m */,
 				142891D709574E5B00D14688 /* TCMHost.h */,
 				142891D809574E5B00D14688 /* TCMHost.m */,
 			);
@@ -2642,7 +2636,6 @@
 				142891550957475E00D14688 /* TCMBEEPMessage.m in Sources */,
 				142891560957475E00D14688 /* TCMBEEPProfile.m in Sources */,
 				142891570957475E00D14688 /* TCMBEEPSession.m in Sources */,
-				142891DD09574E5B00D14688 /* ImagePopUpButtonCell.m in Sources */,
 				142891DE09574E5B00D14688 /* TCMHost.m in Sources */,
 				F2279086223D245800A04A44 /* SEEDocumentListTableView.m in Sources */,
 				F2DC3DD618F4292500B543E9 /* NSColor+SEEAdditions.m in Sources */,
