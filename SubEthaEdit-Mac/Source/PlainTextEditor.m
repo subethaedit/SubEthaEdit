@@ -2410,25 +2410,6 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
         NSZoneFree(NSZoneFromPointer(lineEndingBuffer), lineEndingBuffer);
 
         if (!isLineEndingValid) {
-<<<<<<< HEAD
-            NSMutableDictionary *contextInfo = [[NSMutableDictionary alloc] init];
-            [contextInfo setObject:@"PasteWrongLineEndingsAlert" forKey:@"Alert"];
-            [contextInfo setObject:aTextView forKey:@"TextView"];
-            [contextInfo setObject:[replacementString copy] forKey:@"ReplacementString"];
-            void *contextInfoRef = (void *)CFRetain((CFDictionaryRef)contextInfo);
-
-            NSAlert *alert = [[NSAlert alloc] init];
-            [alert setAlertStyle:NSAlertStyleWarning];
-            [alert setMessageText:NSLocalizedString(@"You are pasting text that does not match the file's current line endings. Do you want to paste the text with converted line endings?", nil)];
-            [alert setInformativeText:NSLocalizedString(@"The file will have mixed line endings if you do not paste converted text.", nil)];
-            [alert addButtonWithTitle:NSLocalizedString(@"Paste Converted", nil)];
-            [alert addButtonWithTitle:NSLocalizedString(@"Paste Unchanged", nil)];
-            [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
-            [alert beginSheetModalForWindow:[aTextView window]
-							 modalDelegate	:document
-                            didEndSelector	:@selector(alertDidEnd:returnCode:contextInfo:)
-							  contextInfo	:contextInfoRef];
-=======
             NSString *warning = NSLocalizedString(@"You are pasting text that does not match the file's current line endings. Do you want to paste the text with converted line endings?", nil);
             NSString *details = NSLocalizedString(@"The file will have mixed line endings if you do not paste converted text.", nil);
             
@@ -2446,7 +2427,6 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
                           }
                       }];
             
->>>>>>> 42eb1c10cf8ea640efcaa6789074f002b41fdfb9
             return NO;
         }
     }
