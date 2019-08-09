@@ -87,7 +87,7 @@
 		142893C60957594500D14688 /* DocumentModeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893B80957594500D14688 /* DocumentModeManager.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		142893C70957594500D14688 /* RegexSymbolDefinition.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893BA0957594500D14688 /* RegexSymbolDefinition.m */; };
 		142893C80957594500D14688 /* RegexSymbolParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893BC0957594500D14688 /* RegexSymbolParser.m */; };
-		142893C90957594500D14688 /* SymbolTableEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893BE0957594500D14688 /* SymbolTableEntry.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		142893C90957594500D14688 /* SymbolTableEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893BE0957594500D14688 /* SymbolTableEntry.m */; };
 		142893CA0957594500D14688 /* SyntaxDefinition.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893C00957594500D14688 /* SyntaxDefinition.m */; };
 		142893CB0957594500D14688 /* SyntaxHighlighter.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893C20957594500D14688 /* SyntaxHighlighter.m */; };
 		142893CC0957594500D14688 /* SyntaxStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893C40957594500D14688 /* SyntaxStyle.m */; };
@@ -233,7 +233,7 @@
 		5E57298F09F514FB00D3746B /* Toolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E57298D09F514FB00D3746B /* Toolbar.m */; };
 		5E67DB1A0ABF0DEA0013562D /* NSDataTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891220957457500D14688 /* NSDataTCMAdditions.m */; };
 		5E685D5309D82BBB00E41973 /* NSAppleScriptTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E685D5109D82BBB00E41973 /* NSAppleScriptTCMAdditions.m */; };
-		5E685DB409D8438800E41973 /* NSMenuTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E685DB209D8438800E41973 /* NSMenuTCMAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		5E685DB409D8438800E41973 /* NSMenuTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E685DB209D8438800E41973 /* NSMenuTCMAdditions.m */; };
 		5E754EA40AB5648F00C5119E /* SEEEncodingDoctorDialogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E754EA20AB5648F00C5119E /* SEEEncodingDoctorDialogViewController.m */; };
 		5EA1258A09E2B4190055965D /* ScriptWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EA1258809E2B4190055965D /* ScriptWrapper.m */; };
 		5EC638360ABEB88B00D3295B /* DataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC638350ABEB88B00D3295B /* DataTests.m */; };
@@ -312,7 +312,7 @@
 		F22024EE191D175C0098982C /* TCMHoverButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F22024ED191D175C0098982C /* TCMHoverButton.m */; };
 		F2279086223D245800A04A44 /* SEEDocumentListTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F5970B193336B300FDAA4A /* SEEDocumentListTableView.m */; };
 		F2308E6718E06FA00096E0C1 /* SEEFindAndReplaceContext.m in Sources */ = {isa = PBXBuildFile; fileRef = F2308E6618E06FA00096E0C1 /* SEEFindAndReplaceContext.m */; };
-		F234E4590BE2592300504A7C /* NSWorkspaceTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F234E4570BE2592300504A7C /* NSWorkspaceTCMAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		F234E4590BE2592300504A7C /* NSWorkspaceTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F234E4570BE2592300504A7C /* NSWorkspaceTCMAdditions.m */; };
 		F23966D618E2FE6800CEC9AD /* NSOperationQueue+TCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F23966D518E2FE6800CEC9AD /* NSOperationQueue+TCMAdditions.m */; };
 		F24280C60D16CFCC0083AE21 /* GenericSASLProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = F24280C50D16CFCC0083AE21 /* GenericSASLProfile.m */; };
 		F245828A2181C19F00A87EB5 /* FileIcons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F24582892181C19F00A87EB5 /* FileIcons.xcassets */; };

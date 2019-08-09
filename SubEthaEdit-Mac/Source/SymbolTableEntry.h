@@ -8,35 +8,25 @@
 @class SelectionOperation;
 
 @interface SymbolTableEntry : NSObject {
-    NSString *I_name;
-    int       I_fontTraitMask;
-    NSImage  *I_image;
-    NSString *I_type;
     SelectionOperation *I_jumpRangeSelectionOperation;
     SelectionOperation *I_rangeSelectionOperation;
-    int      I_indentationLevel;
-    BOOL I_isSeparator;
 }
+
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, assign) int fontTraitMask;
+@property (nonatomic, retain) NSImage *image;
+@property (nonatomic, copy) NSString *type;
+@property (nonatomic, assign) int indentationLevel;
+@property (nonatomic, assign) BOOL isSeparator;
+
 
 + (SymbolTableEntry *)symbolTableEntryWithName:(NSString *)aName fontTraitMask:(int)aMask image:(NSImage *)anImage type:(NSString *)aType indentationLevel:(int)anIndentationLevel jumpRange:(NSRange)aJumpRange range:(NSRange)aRange;
 + (SymbolTableEntry *)symbolTableEntrySeparator;
 
-- (NSString *)name;
-- (void)setName:(NSString *)name;
-- (int)fontTraitMask;
-- (void)setFontTraitMask:(int)aMask;
-- (NSImage *)image;
-- (void)setImage:(NSImage *)anImage;
-- (NSString *)type;
-- (void)setType:(NSString *)aType;
 - (SelectionOperation *)jumpRangeSelectionOperation;
 - (NSRange)jumpRange;
 - (void)setJumpRange:(NSRange)aJumpRange;
 - (SelectionOperation *)rangeSelectionOperation;
 - (NSRange)range;
 - (void)setRange:(NSRange)aRange;
-- (void)setIndentationLevel:(int)aIndentationLevel;
-- (int)indentationLevel;
-- (void)setIsSeparator:(BOOL)aFlag;
-- (BOOL)isSeparator;
 @end

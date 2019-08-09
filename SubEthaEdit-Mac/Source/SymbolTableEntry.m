@@ -6,14 +6,15 @@
 #import "SymbolTableEntry.h"
 #import "SelectionOperation.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
 @implementation SymbolTableEntry
 
-- (void)setIsSeparator:(BOOL)aFlag {
-    I_isSeparator=aFlag;  
-}
-
 + (SymbolTableEntry *)symbolTableEntryWithName:(NSString *)aName fontTraitMask:(int)aMask image:(NSImage *)anImage type:(NSString *)aType  indentationLevel:(int)anIndentationLevel jumpRange:(NSRange)aJumpRange range:(NSRange)aRange {
-    SymbolTableEntry *result=[[SymbolTableEntry new] autorelease];
+    SymbolTableEntry *result=[SymbolTableEntry new];
     [result setName:aName];
     [result setFontTraitMask:aMask];
     [result setImage:anImage];
@@ -26,7 +27,7 @@
 }
 
 + (SymbolTableEntry *)symbolTableEntrySeparator {
-    SymbolTableEntry *result=[[SymbolTableEntry new] autorelease];
+    SymbolTableEntry *result=[SymbolTableEntry new];
     [result setIsSeparator:YES];
     return result;
 }
@@ -40,43 +41,6 @@
     return self;
 }
 
-- (void)dealloc {
-    [I_jumpRangeSelectionOperation release];
-    [I_rangeSelectionOperation     release];
-    [I_name release];
-    [I_image release];
-    [I_type release];
-    [super dealloc];
-}
-
-- (NSString *)name {
-    return I_name;
-}
-- (void)setName:(NSString *)aName {
-    [I_name autorelease];
-    I_name = [aName copy];
-}
-- (int)fontTraitMask {
-    return I_fontTraitMask;
-}
-- (void)setFontTraitMask:(int)aMask {
-    I_fontTraitMask = aMask;
-}
-- (NSImage *)image {
-    return I_image;
-}
-- (void)setImage:(NSImage *)anImage {
-    [I_image autorelease];
-    I_image = [anImage retain];
-}
-
-- (NSString *)type {
-    return I_type;
-}
-- (void)setType:(NSString *)aType {
-    [I_type autorelease];
-    I_type = [aType copy];
-}
 - (SelectionOperation *)jumpRangeSelectionOperation {
     return I_jumpRangeSelectionOperation;
 }
@@ -94,18 +58,6 @@
 }
 - (void)setRange:(NSRange)aRange {
     [I_rangeSelectionOperation setSelectedRange:aRange];
-}
-
-- (void)setIndentationLevel:(int)indentationLevel {
-    I_indentationLevel=indentationLevel;
-}
-
-- (int)indentationLevel {
-    return I_indentationLevel;
-}
-
-- (BOOL)isSeparator {
-    return I_isSeparator;
 }
 
 -(NSComparisonResult)sortByRange:(SymbolTableEntry *)other {

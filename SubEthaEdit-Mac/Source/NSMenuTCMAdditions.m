@@ -6,13 +6,18 @@
 #import "NSMenuTCMAdditions.h"
 #import <dlfcn.h>
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
 @implementation  NSMenuItem (NSMenuItemTCMAdditions)
 - (id)autoreleasedCopy {
-    NSMenuItem *result=[[NSMenuItem alloc] initWithTitle:[self title] action:[self action] keyEquivalent:[self keyEquivalent]];
+    __autoreleasing NSMenuItem *result=[[NSMenuItem alloc] initWithTitle:[self title] action:[self action] keyEquivalent:[self keyEquivalent]];
     [result setKeyEquivalentModifierMask:[self keyEquivalentModifierMask]];
     [result setTarget:[self target]];
     [result setTag:[self tag]];
-    return [result autorelease];
+    return result;
 }
 
 - (NSComparisonResult)compareAlphabetically:(NSMenuItem *)aMenuItem {
