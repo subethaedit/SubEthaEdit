@@ -13,8 +13,6 @@
 {
     NSMutableArray *I_toolbarItemIdentifiers;
     NSToolbar *I_toolbar;
-    NSString *I_selectedItemIdentifier;
-    NSView *I_emptyContentView;
     BOOL didShow;
 }
 

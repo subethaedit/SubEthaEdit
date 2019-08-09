@@ -16,9 +16,6 @@
 @end
 
 @interface HandshakeProfile : TCMBEEPProfile
-{
-    NSMutableDictionary *I_remoteInfos;
-}
 
 @property (nonatomic, copy) NSDictionary *remoteInfos;
 

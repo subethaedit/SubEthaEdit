@@ -38,7 +38,6 @@
 @interface SessionProfile : TCMBEEPProfile <TCMMMStateClientProtocol>
 {
     int32_t I_lastMessageNumber;
-    TCMMMState *I_MMState;
     NSMutableArray *I_outgoingMMMessageQueue;
     struct {
         BOOL contentHasBeenExchanged;

@@ -34,7 +34,6 @@
 - (void)dealloc {
     // DEBUGLOG(@"MillionMonkeysLogDomain", AlwaysLogLevel, @"MMState incoming messages %@",[I_incomingMessages description]);
     I_client = nil;
-    _delegate = nil;
     [I_timer invalidate];
     DEBUGLOG(@"MillionMonkeysLogDomain", AllLogLevel, @"MMState deallocated");
 }

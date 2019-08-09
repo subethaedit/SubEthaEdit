@@ -21,7 +21,7 @@
     NSMutableArray *I_incomingMessages;
     BOOL I_isServer;
     BOOL I_isSendingNoOps;
-    NSObject <TCMMMStateClientProtocol> *I_client;
+    __weak NSObject <TCMMMStateClientProtocol> *I_client;
     NSTimer *I_timer;
 }
 

@@ -40,7 +40,7 @@
 		142891530957475E00D14688 /* TCMBEEPListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891470957475E00D14688 /* TCMBEEPListener.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		142891540957475E00D14688 /* TCMBEEPManagementProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891490957475E00D14688 /* TCMBEEPManagementProfile.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		142891550957475E00D14688 /* TCMBEEPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428914B0957475E00D14688 /* TCMBEEPMessage.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		142891560957475E00D14688 /* TCMBEEPProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428914D0957475E00D14688 /* TCMBEEPProfile.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		142891560957475E00D14688 /* TCMBEEPProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428914D0957475E00D14688 /* TCMBEEPProfile.m */; };
 		142891570957475E00D14688 /* TCMBEEPSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428914F0957475E00D14688 /* TCMBEEPSession.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		142891DE09574E5B00D14688 /* TCMHost.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891D809574E5B00D14688 /* TCMHost.m */; };
 		1428920E095751CB00D14688 /* NSColorTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289207095751CB00D14688 /* NSColorTCMAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };

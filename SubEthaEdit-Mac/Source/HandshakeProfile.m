@@ -21,7 +21,7 @@
     if (userAgent) {
         [[[self session] userInfo] setObject:userAgent forKey:@"userAgent"];
     }
-    I_remoteInfos = [aDictionary copy];
+    _remoteInfos = [aDictionary copy];
 }
 
 - (NSData *)handshakePayloadWithUserID:(NSString *)aUserID {

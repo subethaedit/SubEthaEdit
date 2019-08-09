@@ -5,6 +5,10 @@
 
 #import "TCMBEEPProfile.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
 
 @implementation TCMBEEPProfile
 
@@ -18,37 +22,9 @@
     }
     return self;
 }
- 
-- (void)dealloc
-{
-    I_delegate = nil;
-    I_channel = nil;
-    [I_profileURI release];
-    [super dealloc];
-}
 
 - (void)handleInitializationData:(NSData *)aData {
-    DEBUGLOG(@"BEEPLogDomain",DetailedLogLevel,@"%s %@ should Handle data:%@",__FUNCTION__,I_profileURI,[[[NSString alloc] initWithData:aData encoding:NSISOLatin1StringEncoding] autorelease]);
-}
-
-- (void)setDelegate:(id)aDelegate
-{
-    I_delegate = aDelegate;
-}
-
-- (id)delegate
-{
-    return I_delegate;
-}
-
-- (void)setChannel:(TCMBEEPChannel *)aChannel
-{
-    I_channel = aChannel;
-}
-
-- (TCMBEEPChannel *)channel
-{
-    return I_channel;
+    DEBUGLOG(@"BEEPLogDomain",DetailedLogLevel,@"%s %@ should Handle data:%@",__FUNCTION__,_profileURI,[[NSString alloc] initWithData:aData encoding:NSISOLatin1StringEncoding]);
 }
 
 - (TCMBEEPSession *)session 
@@ -59,17 +35,6 @@
 - (BOOL)isServer
 {
     return ![[self channel] isInitiator];
-}
-
-- (void)setProfileURI:(NSString *)aProfileURI
-{
-    [I_profileURI autorelease];
-    I_profileURI = [aProfileURI copy];
-}
-
-- (NSString *)profileURI
-{
-    return I_profileURI;
 }
 
 - (void)processBEEPMessage:(TCMBEEPMessage *)aMessage

@@ -17,11 +17,10 @@ static NSMutableArray *prefModules;
 
 @interface TCMPreferenceController (TCMPreferenceControllerPrivateAdditions)
 
+@property (nonatomic, strong) NSView *emptyContentView;
+@property (nonatomic, copy) NSString *selectedItemIdentifier;
+
 - (void)switchPrefPane:(id)aSender;
-- (NSString *)selectedItemIdentifier;
-- (void)setSelectedItemIdentifier:(NSString *)anIdentifier;
-- (NSView *)emptyContentView;
-- (void)setEmptyContentView:(NSView *)aView;
 - (void)selectPrefPaneWithIdentifier:(NSString *)anIdentifier;
 - (id)selectedModule;
 @end
@@ -80,26 +79,17 @@ static TCMPreferenceController *sharedInstance = nil;
     [I_toolbar setDelegate:self];
 }
 
-- (NSView *)emptyContentView
-{
-    return I_emptyContentView;
-}
-
-- (void)setEmptyContentView:(NSView *)aView
-{
-    I_emptyContentView = aView;
-}
-
 - (void)windowDidLoad
 {
-    [[self window] setToolbar:I_toolbar];
-    [[[self window] standardWindowButton: NSWindowToolbarButton] setFrame: NSZeroRect];
+    NSWindow *window = self.window;
+    [window setToolbar:I_toolbar];
+    [[window standardWindowButton: NSWindowToolbarButton] setFrame: NSZeroRect];
     
     if ([I_toolbarItemIdentifiers count] > 0) {
         NSString *identifier = [I_toolbarItemIdentifiers objectAtIndex:0];
         [I_toolbar setSelectedItemIdentifier:identifier];
         
-        [self setEmptyContentView:[[self window] contentView]];
+        [self setEmptyContentView:[window contentView]];
         
         id module = [registeredPrefModules objectForKey:identifier];
         [module willSelect];
@@ -107,7 +97,7 @@ static TCMPreferenceController *sharedInstance = nil;
         [self selectPrefPaneWithIdentifier:identifier];
         [module didSelect];
     }
-    [[self window] setDelegate:self];
+    [window setDelegate:self];
 }
 
 
@@ -192,16 +182,6 @@ static TCMPreferenceController *sharedInstance = nil;
 - (id)selectedModule 
 {
     return [registeredPrefModules objectForKey:[self selectedItemIdentifier]];
-}
-
-- (NSString *)selectedItemIdentifier
-{
-    return I_selectedItemIdentifier;
-}
-
-- (void)setSelectedItemIdentifier:(NSString *)anIdentifier
-{
-    I_selectedItemIdentifier = [anIdentifier copy];
 }
 
 - (BOOL)windowShouldClose:(id)sender

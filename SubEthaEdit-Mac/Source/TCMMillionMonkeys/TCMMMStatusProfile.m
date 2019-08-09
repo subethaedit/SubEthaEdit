@@ -42,10 +42,6 @@
     return self;
 }
 
-- (void)dealloc {
-     I_options = nil;
-}
-
 - (void)handleInitializationData:(NSData *)aData {
     NSDictionary *options = TCM_BdecodedObjectWithData(aData);
     if (options) {

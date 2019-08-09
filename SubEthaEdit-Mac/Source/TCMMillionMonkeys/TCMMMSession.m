@@ -197,14 +197,6 @@ NSString * const TCMMMSessionTextStorageKey = @"TextStorage";
 	}
 }
 
-- (void)setLastReplacedAttributedString:(NSAttributedString *)aLastReplacedAttributedString {
-	I_lastReplacedAttributedString = [aLastReplacedAttributedString copy];
-}
-
-- (NSAttributedString *)lastReplacedAttributedString {
-	return I_lastReplacedAttributedString;
-}
-
 - (void)coalescedSessionDidChange:(NSNotification *)aNotification {
 //    NSLog(@"%s %@",__FUNCTION__,[self dictionaryRepresentation]);
     if ([self isServer]) {
@@ -238,12 +230,12 @@ NSString * const TCMMMSessionTextStorageKey = @"TextStorage";
 
 - (void)setHostID:(NSString *)aHostID
 {
-     I_hostID = [aHostID copy];
-    [self setIsServer:[I_hostID isEqualToString:[TCMMMUserManager myUserID]]];
+     _hostID = [aHostID copy];
+    [self setIsServer:[_hostID isEqualToString:[TCMMMUserManager myUserID]]];
 }
 
 - (NSString *)hostID {
-    return I_hostID;
+    return _hostID;
 }
 
 - (void)setIsServer:(BOOL)isServer
@@ -351,7 +343,7 @@ NSString * const TCMMMSessionTextStorageKey = @"TextStorage";
 
 - (BOOL)isUserInvolvedInSession:(NSString *)aUserID {
 	BOOL result = NO;
-	if ([aUserID isEqualTo:I_hostID]) {
+	if ([aUserID isEqualTo:_hostID]) {
 		result = YES;
 	} else if ([I_groupByUserID objectForKey:aUserID]) {
 		result = YES;

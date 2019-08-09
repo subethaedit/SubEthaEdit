@@ -76,7 +76,7 @@ typedef enum TCMMMSessionClientState {
 
 @interface TCMMMSession : NSObject <TCMBEEPProfileDelegate, SessionProfileDelegate>
 {
-    NSString *I_hostID;
+    NSString *_hostID;
     NSString *I_filename;
     id <TCMMMSessionHelper> I_helper;
     NSMutableDictionary *I_profilesByUserID;
@@ -104,11 +104,11 @@ typedef enum TCMMMSessionClientState {
     } I_flags;
     unsigned int I_sessionContentLength;
     unsigned int I_receivedContentLength;
-    NSAttributedString *I_lastReplacedAttributedString;
 }
 
 @property (nonatomic, weak) id <SEEDocument> document;
 @property (nonatomic, copy) NSString *sessionID;
+@property (nonatomic, copy) NSAttributedString *lastReplacedAttributedString;
 
 /*! userID of host */
 @property (nonatomic, copy) NSString *hostID;
@@ -194,8 +194,6 @@ typedef enum TCMMMSessionClientState {
 
 - (TCMMMLoggingState *)loggingState;
 - (void)setLoggingState:(TCMMMLoggingState *)aState;
-- (void)setLastReplacedAttributedString:(NSAttributedString *)aLastReplacedAttributedString;
-- (NSAttributedString *)lastReplacedAttributedString;
 
 - (NSDictionary *)contributersAsDictionaryRepresentation;
 
