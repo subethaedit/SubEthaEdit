@@ -176,9 +176,9 @@ static NSData *dhparamData = nil;
         DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Failed to set kCFStreamPropertyShouldCloseNativeSocket on outputStream");
     }
     
-    I_profileURIs = [NSMutableArray new];
-    I_TLSProfileURIs = [NSMutableArray new];
-    I_peerProfileURIs = [NSMutableArray new];
+    _profileURIs = [NSMutableArray new];
+    _TLSProfileURIs = [NSMutableArray new];
+    _peerProfileURIs = [NSMutableArray new];
         
     I_readBuffer = [NSMutableData new];
     I_currentReadState=frameHeaderState;
@@ -186,7 +186,7 @@ static NSData *dhparamData = nil;
     I_activeChannels = [NSMutableDictionary new];
     I_currentReadFrame = nil;
 
-    I_userInfo = [NSMutableDictionary new];
+    _userInfo= [NSMutableDictionary new];
     I_channelRequests = [NSMutableDictionary new];
     I_channels = [NSMutableArray new];
     I_sessionStatus = TCMBEEPSessionStatusNotOpen;
@@ -292,27 +292,26 @@ static NSData *dhparamData = nil;
 
 - (void)dealloc
 {
-    I_delegate = nil;
     CFReadStreamSetClient(I_readStream, 0, NULL, NULL);
     CFWriteStreamSetClient(I_writeStream, 0, NULL, NULL);
-    [I_authenticationInformation release];
+    [_authenticationInformation release];
     [I_readBuffer release];
     [I_writeBuffer release];
     CFRelease(I_readStream);
     CFRelease(I_writeStream);
-    [I_userInfo release];
+    [_userInfo release];
     [I_managementChannel cleanup];
     [I_managementChannel release];
     [I_activeChannels release];
     [I_peerAddressData release];
-    [I_profileURIs release];
-    [I_TLSProfileURIs release];
-    [I_saslProfileURIs release];
-    [I_peerProfileURIs release];
-    [I_featuresAttribute release];
-    [I_localizeAttribute release];
-    [I_peerFeaturesAttribute release];
-    [I_peerLocalizeAttribute release];
+    [_profileURIs release];
+    [_TLSProfileURIs release];
+    [_saslProfileURIs release];
+    [_peerProfileURIs release];
+    [_featuresAttribute release];
+    [_localizeAttribute release];
+    [_peerFeaturesAttribute release];
+    [_peerLocalizeAttribute release];
     [I_channelRequests release];
     [I_channels release];
     [I_currentReadFrame release];
@@ -383,131 +382,15 @@ static NSData *dhparamData = nil;
     [I_channels removeObjectAtIndex:index];
 }
 
-- (id)authenticationInformation {
-    return I_authenticationInformation;
-}
-
-- (void)setAuthenticationInformation:(id)anInformation {
-    [I_authenticationInformation autorelease];
-     I_authenticationInformation = [anInformation retain];
-}
-
-- (void)setAuthenticationDelegate:(id)aDelegate
-{
-    I_authenticationDelegate = aDelegate;
-}
-
-- (id)authenticationDelegate
-{
-    return I_authenticationDelegate;
-}
-
-- (void)setDelegate:(id)aDelegate
-{
-    I_delegate = aDelegate;
-}
-
-- (id)delegate
-{
-    return I_delegate;
-}
-
-- (void)setUserInfo:(NSMutableDictionary *)aUserInfo
-{
-    [I_userInfo autorelease];
-    I_userInfo = [aUserInfo copy];
-}
-
-- (NSMutableDictionary *)userInfo
-{
-    return I_userInfo;
-}
-
 - (void)addTLSProfileURIs:(NSArray *)anArray {
-    if (!I_TLSProfileURIs) I_TLSProfileURIs = [[NSMutableArray alloc] init];
-    [I_TLSProfileURIs addObjectsFromArray:anArray];
+    if (!_TLSProfileURIs) _TLSProfileURIs = [[NSMutableArray alloc] init];
+    [_TLSProfileURIs addObjectsFromArray:anArray];
 }
 
 - (void)addProfileURIs:(NSArray *)anArray
 {
-    if (!I_profileURIs) I_profileURIs = [[NSMutableArray alloc] init];
-    [I_profileURIs addObjectsFromArray:anArray];
-}
-
-- (void)setProfileURIs:(NSArray *)anArray
-{
-    [I_profileURIs autorelease];
-    I_profileURIs = [anArray copy];
-}
-
-- (NSArray *)profileURIs {
-    return I_profileURIs;
-}
-
-- (void)setPeerProfileURIs:(NSArray *)anArray
-{
-    [I_peerProfileURIs autorelease];
-    I_peerProfileURIs = [anArray copy];
-}
-
-- (NSArray *)peerProfileURIs
-{
-    return I_peerProfileURIs;
-}
-
-- (void)setPeerAddressData:(NSData *)aData
-{
-    [I_peerAddressData autorelease];
-     I_peerAddressData = [aData copy];
-}
-
-- (NSData *)peerAddressData
-{
-    return I_peerAddressData;
-}
-
-- (void)setFeaturesAttribute:(NSString *)anAttribute
-{
-    [I_featuresAttribute autorelease];
-    I_featuresAttribute = [anAttribute copy];
-}
-
-- (NSString *)featuresAttribute
-{
-    return I_featuresAttribute;
-}
-
-- (void)setPeerFeaturesAttribute:(NSString *)anAttribute
-{
-    [I_peerFeaturesAttribute autorelease];
-    I_peerFeaturesAttribute = [anAttribute copy];
-}
-
-- (NSString *)peerFeaturesAttribute
-{
-    return I_peerFeaturesAttribute;
-}
-
-- (void)setLocalizeAttribute:(NSString *)anAttribute
-{
-    [I_localizeAttribute autorelease];
-    I_localizeAttribute = [anAttribute copy];
-}
-
-- (NSString *)localizeAttribute
-{
-    return I_peerLocalizeAttribute;
-}
-
-- (void)setPeerLocalizeAttribute:(NSString *)anAttribute
-{
-    [I_peerLocalizeAttribute autorelease];
-    I_peerLocalizeAttribute = [anAttribute copy];
-}
-
-- (NSString *)peerLocalizeAttribute
-{
-    return I_peerLocalizeAttribute;
+    if (!_profileURIs) _profileURIs = [[NSMutableArray alloc] init];
+    [_profileURIs addObjectsFromArray:anArray];
 }
 
 - (void)setIsProhibitingInboundInternetSessions:(BOOL)flag
@@ -703,7 +586,7 @@ static NSData *dhparamData = nil;
         DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"writeBuffer length: %lu, readBuffer length: %lu", (unsigned long)[I_writeBuffer length], (unsigned long)[I_readBuffer length]);
 
         I_flags.isTLSEnabled = YES;
-        [self setProfileURIs:I_TLSProfileURIs];
+        [self setProfileURIs:_TLSProfileURIs];
         [self TCM_createManagementChannelAndSendGreeting];
         I_flags.isTLSHandshaking = NO;
     }
@@ -1469,17 +1352,17 @@ static NSData *dhparamData = nil;
 #pragma mark ### Authentication ###
 
 - (NSArray *)availableSASLProfileURIs {
-    if (!I_saslProfileURIs) {
-        I_saslProfileURIs = [NSMutableArray new];
+    if (!_saslProfileURIs) {
+        _saslProfileURIs = [NSMutableArray new];
         NSEnumerator *profiles = [[self peerProfileURIs] objectEnumerator];
         NSString *profileURI = nil;
         while ((profileURI=[profiles nextObject])) {
             if ([profileURI hasPrefix:TCMBEEPSASLProfileURIPrefix]) {
-                [I_saslProfileURIs addObject:profileURI];
+                [_saslProfileURIs addObject:profileURI];
             }
         }
     }
-    return I_saslProfileURIs;
+    return _saslProfileURIs;
 }
 
 - (void)startAuthenticationWithUserName:(NSString *)aUserName password:(NSString *)aPassword profileURI:(NSString *)aProfileURI {

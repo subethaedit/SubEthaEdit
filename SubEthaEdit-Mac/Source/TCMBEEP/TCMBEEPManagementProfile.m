@@ -10,6 +10,10 @@
 #import "TCMBEEPSession.h"
 #import <CoreFoundation/CoreFoundation.h>
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
 
 @interface TCMBEEPManagementProfile ()
 
@@ -37,15 +41,6 @@
         I_messageNumbersOfCloseRequestsByChannelsNumbers = [NSMutableDictionary new];
     }
     return self;
-}
-
-- (void)dealloc
-{
-    [I_keepBEEPTimer release];
-    [I_pendingChannelRequestMessageNumbers release];
-    [I_channelNumbersByCloseRequests release];
-    [I_messageNumbersOfCloseRequestsByChannelsNumbers release];
-    [super dealloc];
 }
 
 - (void)setDelegate:(id <TCMBEEPProfileDelegate, TCMBEEPManagementProfileDelegate>)aDelegate
@@ -78,16 +73,16 @@
     [payloadString appendString:@"</greeting>\r\n"];
     NSData *payload = [payloadString dataUsingEncoding:NSUTF8StringEncoding];
     TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[[self channel] nextMessageNumber] payload:payload];
-    [[self channel] sendMessage:[message autorelease]];
+    [[self channel] sendMessage:message];
     DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Sending Greeting: %@", payloadString);
    
     NSTimeInterval timeout=[[NSUserDefaults standardUserDefaults] floatForKey:NetworkTimeoutPreferenceKey]/3.0;
     if (!timeout) timeout=20.;
-    I_keepBEEPTimer = [[NSTimer timerWithTimeInterval:timeout
+    I_keepBEEPTimer = [NSTimer timerWithTimeInterval:timeout
                                                target:self 
                                              selector:@selector(sendKeepBEEP:)
                                              userInfo:nil
-                                              repeats:YES] retain];
+                                              repeats:YES];
     [[NSRunLoop currentRunLoop] addTimer:I_keepBEEPTimer forMode:(NSString *)kCFRunLoopCommonModes];
 }
 
@@ -110,7 +105,7 @@
     int32_t messageNumber = [[self channel] nextMessageNumber];
     TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"MSG" messageNumber:messageNumber payload:payload];
     [I_pendingChannelRequestMessageNumbers setObject:[NSNumber numberWithLong:aChannelNumber] forLong:messageNumber];
-    [[self channel] sendMessage:[message autorelease]];
+    [[self channel] sendMessage:message];
 }
 
 - (void)closeChannelWithNumber:(int32_t)aChannelNumber code:(int)aReplyCode
@@ -120,7 +115,7 @@
     int32_t messageNumber = [[self channel] nextMessageNumber];
     TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"MSG" messageNumber:messageNumber payload:payload];
     [I_channelNumbersByCloseRequests setObject:[NSNumber numberWithLong:aChannelNumber] forLong:messageNumber];
-    [[self channel] sendMessage:[message autorelease]];    
+    [[self channel] sendMessage:message];
 }
 
 - (void)acceptCloseRequestForChannelWithNumber:(int32_t)aChannelNumber
@@ -128,7 +123,7 @@
     NSMutableData *payload = [NSMutableData dataWithData:[[NSString stringWithFormat:@"Content-Type: application/beep+xml\r\n\r\n<ok />"] dataUsingEncoding:NSUTF8StringEncoding]];
     int32_t messageNumber = [[I_messageNumbersOfCloseRequestsByChannelsNumbers objectForLong:aChannelNumber] intValue];
     TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:messageNumber payload:payload];
-    [[self channel] sendMessage:[message autorelease]];
+    [[self channel] sendMessage:message];
     [I_messageNumbersOfCloseRequestsByChannelsNumbers removeObjectForLong:aChannelNumber];
     [[self session] closedChannelWithNumber:aChannelNumber];
 }
@@ -196,7 +191,7 @@
 					}
 
 					TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:payload];
-					[[self channel] sendMessage:[message autorelease]];
+					[[self channel] sendMessage:message];
 					DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"juhuhh... sent accept: %@",message);
 					// find the correct data
 					NSString *preferredURIString = [replyDict objectForKey:@"ProfileURI"];
@@ -208,7 +203,7 @@
 				} else {
 					NSMutableData *payload = [NSMutableData dataWithData:[[NSString stringWithFormat:@"Content-Type: application/beep+xml\r\n\r\n<error code='501'>channel request denied</error>"] dataUsingEncoding:NSUTF8StringEncoding]];
 					TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:payload];
-					[[self channel] sendMessage:[message autorelease]];
+					[[self channel] sendMessage:message];
 				}
 			}
 		}
@@ -255,7 +250,7 @@
 			DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Close requested for session");
 			NSMutableData *payload = [NSMutableData dataWithData:[[NSString stringWithFormat:@"Content-Type: application/beep+xml\r\n\r\n<ok />"] dataUsingEncoding:NSUTF8StringEncoding]];
 			TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:payload];
-			[[self channel] sendMessage:[message autorelease]];
+			[[self channel] sendMessage:message];
 			[[self session] terminate];
 			result = YES;
 		} else {
@@ -295,9 +290,9 @@
     if (i < [contentData length]) {
         contentData = [NSData dataWithBytesNoCopy:&bytes[i+4] length:[contentData length]-i-4 freeWhenDone:NO];
     }
-    DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"%@", [[[NSString alloc] initWithBytes:[[aMessage payload] bytes] length:[[aMessage payload] length] encoding:NSISOLatin1StringEncoding] autorelease]);
+    DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"%@", [[NSString alloc] initWithBytes:[[aMessage payload] bytes] length:[[aMessage payload] length] encoding:NSISOLatin1StringEncoding]);
 
-	TCMBEEPMessageXMLPayloadParser *dataParser = [[[TCMBEEPMessageXMLPayloadParser alloc] initWithXMLData:contentData] autorelease];
+	TCMBEEPMessageXMLPayloadParser *dataParser = [[TCMBEEPMessageXMLPayloadParser alloc] initWithXMLData:contentData] ;
 	if (dataParser) {
 		if ([aMessage isMSG]) {
 			if (I_firstMessage) {

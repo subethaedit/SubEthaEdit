@@ -6,6 +6,10 @@
 #import "PlainTextLoadProgress.h"
 #import "TCMMMSession.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
 
 @implementation PlainTextLoadProgress
 
@@ -19,11 +23,6 @@
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-
-	self.loadStatusFieldOutlet = nil;
-	self.progressIndicatorOutlet = nil;
-	
-    [super dealloc];
 }
 
 - (void)startAnimation

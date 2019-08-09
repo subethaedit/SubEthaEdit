@@ -5,22 +5,26 @@
 
 #import "ModeSettings.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
 
 @implementation ModeSettings
 
 - (void)getReady {
 	everythingOkay = YES;
-	I_recognitionExtenstions = [NSMutableArray new];
-	I_recognitionRegexes = [NSMutableArray new];
-	I_recognitionFilenames = [NSMutableArray new];
-	I_recognitionCasesensitveExtenstions = [NSMutableArray new];
+	_recognitionExtenstions = [NSMutableArray new];
+	_recognitionRegexes = [NSMutableArray new];
+	_recognitionFilenames = [NSMutableArray new];
+	_recognitionCasesensitveExtenstions = [NSMutableArray new];
 }
 
 - (id)initWithFile:(NSString *)aPath {
     self=[super init];
     if (self) {
         if (!aPath) {
-            [self release]; self = nil;
+            self = nil;
             return nil;
         }
         // Parse XML File
@@ -29,7 +33,7 @@
 
 		if (! everythingOkay) {
 			NSLog(@"Critical errors while loading mode settings. ModeSettings.xml will be ignored, falling back to Info.plist.");
-            [self release]; self = nil;
+            self = nil;
 			return nil;
 		}
     }
@@ -40,7 +44,7 @@
     self=[super init];
     if (self) {
         if (!bundlePath) {
-			[self release]; self = nil;
+			self = nil;
             return nil;
         }
 
@@ -48,22 +52,12 @@
     
 		CFURLRef url = CFURLCreateWithFileSystemPath(NULL, (CFStringRef) bundlePath, kCFURLPOSIXPathStyle, 1);
         CFDictionaryRef infodict = CFBundleCopyInfoDictionaryInDirectory(url);
-        NSDictionary *infoDictionary = (NSDictionary *) infodict;
-        [I_recognitionExtenstions addObjectsFromArray:[infoDictionary objectForKey:@"TCMModeExtensions"]];
+        NSDictionary *infoDictionary = (NSDictionary *) CFBridgingRelease(infodict);
+        [_recognitionExtenstions addObjectsFromArray:[infoDictionary objectForKey:@"TCMModeExtensions"]];
         CFRelease(url);
-        CFRelease(infodict);
     }
 	
 	return self;
-}
-
-- (void)dealloc {
-    [I_recognitionExtenstions release];
-    [I_recognitionCasesensitveExtenstions release];
-    [I_recognitionRegexes release];
-    [I_recognitionFilenames release];
-    [I_templateFile release];
-    [super dealloc];
 }
 
 #pragma mark - XML parsing
@@ -73,7 +67,7 @@
 		NSData *data = [NSData dataWithContentsOfFile:aPath];
 		if (data) {
 			NSError *err=nil;
-			NSXMLDocument *modeSettingsXML = [[[NSXMLDocument alloc] initWithData:[NSData dataWithContentsOfFile:aPath] options:0 error:&err] autorelease];
+			NSXMLDocument *modeSettingsXML = [[NSXMLDocument alloc] initWithData:[NSData dataWithContentsOfFile:aPath] options:0 error:&err];
 
 			if (err) {
 				NSLog(@"Error while loading '%@': %@", aPath, [err localizedDescription]);
@@ -106,23 +100,23 @@
 				if ([@"extension" isEqualToString:name]) {
 					// Check
 					NSString *caseSensitive = [[entry attributeForName:@"casesensitive"] stringValue];
-					if ([caseSensitive isEqualToString:@"yes"]) [I_recognitionCasesensitveExtenstions addObject:value];
+					if ([caseSensitive isEqualToString:@"yes"]) [_recognitionCasesensitveExtenstions addObject:value];
 					else {
 						BOOL alreadyInThere = NO;
-						NSEnumerator *enumerator = [I_recognitionExtenstions objectEnumerator];
+						NSEnumerator *enumerator = [_recognitionExtenstions objectEnumerator];
 						id object;
 						while ((object = [enumerator nextObject])) {
 							if ([[object uppercaseString] isEqualToString:[value uppercaseString]]) alreadyInThere = YES;
 						}
-						if (!alreadyInThere) [I_recognitionExtenstions addObject:value];
+						if (!alreadyInThere) [_recognitionExtenstions addObject:value];
 					}
 				}  else if ([@"filename" isEqualToString:name]) {
-					[I_recognitionFilenames addObject:value];
+					[_recognitionFilenames addObject:value];
 				}  else if ([@"regex" isEqualToString:name]) {
 					if ([OGRegularExpression isValidExpressionString:value]) {
-						[I_recognitionRegexes addObject:value];
+						[_recognitionRegexes addObject:value];
 					} else {
-						NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+						NSAlert *alert = [[NSAlert alloc] init];
 						[alert setAlertStyle:NSAlertStyleWarning];
 						[alert setMessageText:NSLocalizedString(@"Regular Expression Error",@"Regular Expression Error Title")];
 						[alert setInformativeText:NSLocalizedString(@"One of the specified <regex> elements in the mode's settings is not a valid regular expression. ModeSettings.xml will be ignored, falling back to Info.plist. Please check your regular expression in Find Panel's Ruby mode.",@"Mode Settings Expression Error Informative Text")];
@@ -136,31 +130,6 @@
 			NSLog(@"%s - Can't read file at path %@, please make sure it exists or you have access.", __FUNCTION__, aPath);
 		}
 	}
-}
-
-- (NSArray *)recognizedCasesensitveExtensions {
-    return I_recognitionCasesensitveExtenstions;
-}
-
-- (NSArray *)recognizedExtensions {
-    return I_recognitionExtenstions;
-}
-
-- (NSArray *)recognizedRegexes {
-    return I_recognitionRegexes;
-}
-
-- (NSArray *)recognizedFilenames {
-    return I_recognitionFilenames;
-}
-
-- (NSString *)templateFile {
-    return I_templateFile;
-}
-
-- (void)setTemplateFile:(NSString *)aString {
-    [I_templateFile autorelease];
-    I_templateFile = [aString copy];
 }
 
 - (NSString *)description {

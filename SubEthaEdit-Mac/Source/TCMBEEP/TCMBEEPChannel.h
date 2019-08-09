@@ -22,18 +22,13 @@ typedef enum {
 
 @interface TCMBEEPChannel : NSObject
 {
-    unsigned long I_number;
     uint32_t I_sequenceNumber;
     unsigned int I_incomingBufferSize;
     unsigned int I_incomingBufferSizeAvailable;
     uint32_t I_incomingSequenceNumber;
     uint32_t I_incomingWindowSize;
     uint32_t I_outgoingWindowSize;
-    TCMBEEPSession *I_session;
-    NSString *I_profileURI;
     id I_profile;
-    TCMBEEPFrame *I_previousReadFrame;
-    TCMBEEPMessage *I_currentReadMessage;
     NSMutableIndexSet *I_messageNumbersWithPendingReplies;
     NSMutableIndexSet *I_unacknowledgedMessageNumbers;
     NSMutableIndexSet *I_inboundMessageNumbersWithPendingReplies;
@@ -49,6 +44,12 @@ typedef enum {
     } I_flags;
 }
 
+@property (nonatomic, retain) TCMBEEPFrame *previousReadFrame;
+@property (nonatomic, retain) TCMBEEPMessage *currentReadMessage;
+@property (nonatomic, assign) unsigned long number;
+@property (nonatomic, weak) TCMBEEPSession *session;
+@property (nonatomic, copy) NSString *profileURI;
+
 + (NSDictionary *)profileURIToClassMapping;
 + (void)setClass:(Class)aClass forProfileURI:(NSString *)aProfileURI;
 
@@ -56,20 +57,6 @@ typedef enum {
 
 - (BOOL)isInitiator;
 
-- (void)setNumber:(unsigned long)aNumber;
-- (unsigned long)number;
-
-- (void)setSession:(TCMBEEPSession *)aSession;
-- (TCMBEEPSession *)session;
-
-- (void)setProfileURI:(NSString *)aProfileURI;
-- (NSString *)profileURI;
-
-- (void)setPreviousReadFrame:(TCMBEEPFrame *)aFrame;
-- (TCMBEEPFrame *)previousReadFrame;
-
-- (void)setCurrentReadMessage:(TCMBEEPMessage *)aMessage;
-- (TCMBEEPMessage *)currentReadMessage;
 - (id)profile;
 - (TCMBEEPChannelStatus)channelStatus;
 - (void)close;

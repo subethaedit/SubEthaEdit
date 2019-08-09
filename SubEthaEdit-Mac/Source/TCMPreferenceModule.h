@@ -9,12 +9,12 @@
 
 @interface TCMPreferenceModule : NSResponder
 {
-    NSView *O_mainView;
     NSSize I_maxSize;
     NSSize I_minSize;
 }
 
 @property (readwrite, strong) IBOutlet NSWindow *O_window;
+@property (readwrite, strong) IBOutlet NSView *mainView;
 
 - (NSImage *)icon;
 - (NSString *)iconLabel;
@@ -26,7 +26,6 @@
 - (NSString *)mainNibName;
 - (NSView *)mainView;
 - (void)mainViewDidLoad;
-- (void)setMainView:(NSView *)aView;
 
 /*"Handling preference module selection"*/
 - (void)didSelect;

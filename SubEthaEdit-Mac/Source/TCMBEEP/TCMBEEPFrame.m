@@ -7,6 +7,10 @@
 #import "TCMBEEPSession.h"
 #import "TCMBEEPMessage.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
 
 @implementation TCMBEEPFrame
 
@@ -14,9 +18,9 @@
                       acknowledgementNumber:(uint32_t)acknowledgementNumber
                                  windowSize:(int32_t)windowSize
 {
-    return [[[TCMBEEPFrame alloc] initWithChannelNumber:channelNumber
+    return [[TCMBEEPFrame alloc] initWithChannelNumber:channelNumber
                                   acknowledgementNumber:acknowledgementNumber
-                                             windowSize:windowSize] autorelease];
+                                             windowSize:windowSize];
 
 }
 
@@ -25,10 +29,10 @@
                      payloadLength:(uint32_t)aLength
                       intermediate:(BOOL)aFlag
 {
-    return [[[TCMBEEPFrame alloc] initWithMessage:aMessage 
+    return [[TCMBEEPFrame alloc] initWithMessage:aMessage
                                    sequenceNumber:aSequenceNumber
                                     payloadLength:aLength
-                                     intermediate:aFlag] autorelease];
+                                     intermediate:aFlag];
 }
 
 - (id)initWithChannelNumber:(int32_t)channelNumber
@@ -102,17 +106,10 @@
 			error = YES;
 		}
         if (error) {
-            [self release];
             self = nil;
         }
     }
     return self;
-}
-
-- (void)dealloc
-{
-    [I_payload release];
-    [super dealloc];
 }
 
 - (NSString *)description
@@ -120,7 +117,7 @@
     if ([self isSEQ]) {
         return [NSString stringWithFormat:@"%3s %d %u %d", I_messageType, I_channelNumber, I_sequenceNumber, I_length];
     } else {
-        return [NSString stringWithFormat:@"TCMBEEPFrame: %3s %d %d %1s %u %d - Payload: %@... (%lu)", I_messageType, I_channelNumber, I_messageNumber, I_continuationIndicator, I_sequenceNumber, I_length,([I_payload length]>=6?[[[NSString alloc] initWithBytes:[I_payload bytes] length:6 encoding:NSASCIIStringEncoding] autorelease]:@""),(unsigned long)[I_payload length]];
+        return [NSString stringWithFormat:@"TCMBEEPFrame: %3s %d %d %1s %u %d - Payload: %@... (%lu)", I_messageType, I_channelNumber, I_messageNumber, I_continuationIndicator, I_sequenceNumber, I_length,([_payload length]>=6?[[NSString alloc] initWithBytes:[_payload bytes] length:6 encoding:NSASCIIStringEncoding]:@""),(unsigned long)[_payload length]];
     }
 }
 
@@ -136,7 +133,7 @@
     
     NSString *header = [NSString stringWithFormat:@"%@%3s %d %d %1s %u %d\r\n", prefix, I_messageType, I_channelNumber, I_messageNumber, I_continuationIndicator, I_sequenceNumber, I_length];
     [data appendData:[header dataUsingEncoding:NSASCIIStringEncoding]];
-    NSString *payloadString = [[[NSString alloc] initWithData:I_payload encoding:NSMacOSRomanStringEncoding] autorelease];
+    NSString *payloadString = [[NSString alloc] initWithData:_payload encoding:NSMacOSRomanStringEncoding];
     NSArray *components = [payloadString componentsSeparatedByString:@"\r\n"];
     for (id loopItem in components) {
         [data appendData:[prefix dataUsingEncoding:NSASCIIStringEncoding]];
@@ -194,17 +191,6 @@
 - (int32_t)answerNumber
 {
     return I_answerNumber;
-}
-
-- (void)setPayload:(NSData *)aData
-{
-    [I_payload autorelease];
-    I_payload = [aData copy];
-}
-
-- (NSData *)payload
-{
-    return I_payload;
 }
 
 - (BOOL)isMSG

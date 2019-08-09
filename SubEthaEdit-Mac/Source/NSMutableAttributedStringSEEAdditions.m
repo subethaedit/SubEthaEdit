@@ -11,6 +11,10 @@
 #import "TCMMMUser.h"
 #import "TCMMMUserSEEAdditions.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
 
 extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeName, *SEESearchScopeAttributeName;
 
@@ -22,8 +26,8 @@ extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeN
 
     static OGRegularExpression *tabExpression,*spaceExpression;
     if (!tabExpression) {
-        tabExpression  =[[OGRegularExpression regularExpressionWithString:@"\t+"] retain];
-        spaceExpression=[[OGRegularExpression regularExpressionWithString:@"  +"] retain];
+        tabExpression  = [OGRegularExpression regularExpressionWithString:@"\t+"];
+        spaceExpression= [OGRegularExpression regularExpressionWithString:@"  +"];
     }
 
     unsigned changeInLength=0;
@@ -86,7 +90,7 @@ extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeN
     static NSString *hardspaceString=nil;
     if (hardspaceString==nil) {
         unichar hardspace=0x00A0;
-        hardspaceString=[[NSString stringWithCharacters:&hardspace length:1] retain];
+        hardspaceString=[NSString stringWithCharacters:&hardspace length:1];
     }
     NSUInteger index=[self length];
     NSUInteger startIndex,lineEndIndex,contentsEndIndex;
@@ -106,7 +110,7 @@ extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeN
         index=startIndex;
     }
     
-    OGRegularExpression *moreThanOneSpace=[[[OGRegularExpression alloc] initWithString:@"  +" options:OgreFindNotEmptyOption] autorelease];
+    OGRegularExpression *moreThanOneSpace=[[OGRegularExpression alloc] initWithString:@"  +" options:OgreFindNotEmptyOption];
     NSEnumerator *matches=[[moreThanOneSpace allMatchesInString:[self string] range:NSMakeRange(0,[self length])] reverseObjectEnumerator];
     OGRegularExpressionMatch *match=nil;
     while ((match=[matches nextObject])) {
@@ -347,7 +351,7 @@ extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeN
 
 - (NSMutableDictionary *)mutableDictionaryRepresentation {
     NSMutableDictionary *dictionary=[NSMutableDictionary dictionary];
-    [dictionary setObject:[[[self string] copy] autorelease] forKey:@"String"];
+    [dictionary setObject:[[self string] copy] forKey:@"String"];
     NSMutableDictionary *attributeDictionary=[NSMutableDictionary new];
     NSEnumerator *attributeNames=[[NSArray arrayWithObjects:WrittenByUserIDAttributeName,ChangedByUserIDAttributeName,nil] objectEnumerator];
     NSString *attributeName;
@@ -370,13 +374,11 @@ extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeN
             if ([attributeArray count]) {
                 [attributeDictionary setObject:attributeArray forKey:attributeName];
             }
-            [attributeArray release];
         }
     }
 	if ([attributeDictionary count]) {
 	    [dictionary setObject:attributeDictionary forKey:@"Attributes"];
 	}
-    [attributeDictionary release];
     return dictionary;
 }
 
@@ -402,7 +404,7 @@ extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeN
 	// if this is not the case, copy the appropriate styles
 	inLocation = inLocation - 1; // select the style from the character in front of the insertion, range validity was checked above
 	NSDictionary *attributes = [self attributesAtIndex:inLocation effectiveRange:NULL];
-	NSMutableDictionary *resultDictionary = [[inBaseStyle mutableCopy] autorelease];
+	NSMutableDictionary *resultDictionary = [inBaseStyle mutableCopy];
 	
 	// currently visual style means font and color so copy these
 	NSFont *font = [attributes objectForKey:NSFontAttributeName];
@@ -433,7 +435,7 @@ extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeN
 
 - (NSMutableAttributedString *)attributedStringForXHTMLExportWithRange:(NSRange)aRange foregroundColor:(NSColor *)aForegroundColor backgroundColor:(NSColor *)aBackgroundColor {
     NSString *htmlForgreoundColor=[aForegroundColor HTMLString];
-    NSMutableAttributedString *result=[[[NSMutableAttributedString alloc] initWithString:[[self string] substringWithRange:aRange]] autorelease];
+    NSMutableAttributedString *result=[[NSMutableAttributedString alloc] initWithString:[[self string] substringWithRange:aRange]];
     unsigned int index;
     NSFontManager *fontManager=[NSFontManager sharedFontManager];
     

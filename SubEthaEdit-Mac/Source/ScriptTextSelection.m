@@ -9,6 +9,10 @@
 #import "PlainTextDocument.h"
 #import "PlainTextEditor.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
 
 @implementation ScriptTextSelection
 
@@ -17,27 +21,21 @@
 }
 
 + (id)insertionPointWithTextStorage:(FullTextStorage *)aTextStorage index:(int)anIndex {
-    ScriptTextSelection *selection=[[[ScriptTextSelection alloc] initWithTextStorage:aTextStorage editor:nil] autorelease];
+    ScriptTextSelection *selection=[[ScriptTextSelection alloc] initWithTextStorage:aTextStorage editor:nil];
     [selection setStartIndex:anIndex];
     return selection;
 }
 
 + (id)scriptTextSelectionWithTextStorage:(FullTextStorage *)aTextStorage editor:(PlainTextEditor *)anEditor
 {
-    return [[[ScriptTextSelection alloc] initWithTextStorage:aTextStorage editor:anEditor] autorelease];
+    return [[ScriptTextSelection alloc] initWithTextStorage:aTextStorage editor:anEditor];
 }
 
 - (id)initWithTextStorage:(FullTextStorage *)aTextStorage editor:(PlainTextEditor *)anEditor {
     if ((self = [super initWithTextStorage:aTextStorage])) {
-        I_editor      = [anEditor retain];
+        I_editor      = anEditor;
     }
     return self;
-}
-
-- (void)dealloc
-{
-    [I_editor release];
-    [super dealloc];
 }
 
 - (NSRange)rangeRepresentation {
@@ -129,9 +127,9 @@
         containerSpecifier   = [[[I_editor textView] window] objectSpecifier];
         
         resultSpecifier = 
-            [[[NSPropertySpecifier alloc] initWithContainerClassDescription:containerDescription
+            [[NSPropertySpecifier alloc] initWithContainerClassDescription:containerDescription
                                                          containerSpecifier:containerSpecifier
-                                                                        key:@"scriptSelection"] autorelease];
+                                                                        key:@"scriptSelection"];
         
     } else {
 //		NSLog(@"%s: did not have editor", __FUNCTION__);
@@ -139,10 +137,10 @@
         containerSpecifier   = [I_textStorage objectSpecifier];
         
         resultSpecifier = 
-            [[[NSIndexSpecifier alloc] initWithContainerClassDescription:containerDescription
+            [[NSIndexSpecifier alloc] initWithContainerClassDescription:containerDescription
                                                       containerSpecifier:containerSpecifier
                                                                      key:@"insertionPoints"
-                                                                   index:I_startCharacterIndex] autorelease];
+                                                                   index:I_startCharacterIndex];
     }
     return resultSpecifier;
 }

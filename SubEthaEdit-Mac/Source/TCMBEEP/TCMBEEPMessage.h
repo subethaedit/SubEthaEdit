@@ -7,12 +7,15 @@
 
 @interface TCMBEEPMessage : NSObject
 {
-    NSString *I_messageTypeString;
-    int32_t I_messageNumber;
-    int32_t I_channelNumber;
-    int32_t I_answerNumber;
-    NSMutableData *I_payload;
+    NSMutableData *_payload;
 }
+
+@property (nonatomic, copy) NSString *messageTypeString;
+@property (nonatomic, copy) NSData *payload;
+@property (nonatomic, assign) int32_t messageNumber;
+@property (nonatomic, assign) int32_t channelNumber;
+@property (nonatomic, assign) int32_t answerNumber;
+
 
 + (TCMBEEPMessage *)messageWithQueue:(NSArray *)aQueue;
 

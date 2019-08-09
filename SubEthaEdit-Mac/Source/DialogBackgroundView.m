@@ -5,6 +5,11 @@
 
 #import "DialogBackgroundView.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
 static CGFunctionRef sLinearFunctionRef = nil;
 static CGColorSpaceRef sColorSpace;
 
@@ -46,17 +51,6 @@ static const CGFunctionCallbacks linearFunctionCallbacks = {0,
   &_linearColorBlendFunction, &_linearColorReleaseInfoFunction};
 
 @implementation DialogBackgroundView
-
-- (id)initWithFrame:(NSRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-    }
-    return self;
-}
-
-- (void)dealloc {
-    [super dealloc];
-}
 
 - (void)drawRect:(NSRect)rect {
     if (!sLinearFunctionRef)  {

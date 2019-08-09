@@ -5,6 +5,11 @@
 
 #import "TCMPreferenceModule.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
 @interface TCMPreferenceModule ()
 
 @property (readwrite, strong) NSArray *topLevelNibObjects;
@@ -12,14 +17,6 @@
 @end
 
 @implementation TCMPreferenceModule
-
-- (void)dealloc
-{
-	self.topLevelNibObjects = nil;
-	self.O_window = nil;
-
-    [super dealloc];
-}
 
 - (NSImage *)icon
 {
@@ -76,19 +73,8 @@
     return mainView;
 }
 
-- (NSView *)mainView
-{
-    return O_mainView;
-}
-
 - (void)mainViewDidLoad
 {
-}
-
-- (void)setMainView:(NSView *)aView
-{
-    [O_mainView autorelease];
-    O_mainView = [aView retain];
 }
 
 - (void)didSelect

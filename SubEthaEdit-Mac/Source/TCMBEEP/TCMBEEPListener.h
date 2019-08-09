@@ -12,14 +12,12 @@
 {
     CFSocketRef I_listeningSocket;
     CFSocketRef I_listeningSocket6;
-    id I_delegate;
     unsigned int I_port;
 }
 
-- (id)initWithPort:(unsigned int)aPort;
+@property (nonatomic, weak) id delegate;
 
-- (void)setDelegate:(id)aDelegate;
-- (id)delegate;
+- (id)initWithPort:(unsigned int)aPort;
 
 - (BOOL)listen;
 - (void)close;

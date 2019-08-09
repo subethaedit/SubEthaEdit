@@ -5,6 +5,11 @@
 
 #import "NSColorTCMAdditions.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
 @implementation NSColor (NSColorTCMAdditions)
 
 + (NSColor *)colorForHTMLString:(NSString *) htmlString
@@ -41,7 +46,7 @@
     }
     
     if (!result && htmlString) {
-        NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+        NSAlert *alert = [[NSAlert alloc] init];
         [alert setAlertStyle:NSAlertStyleWarning];
         [alert setMessageText:NSLocalizedString(@"HTML Color Error",@"HTML Color Error Title")];
         [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"\"%@\" is not a valid HTML color. Please specify colors in your syntax defintion either as e.g. \"#fff\" or \"#ffffff\"",@"HTML Color Error Informative Text"),htmlString]];
