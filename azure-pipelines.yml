@@ -20,3 +20,4 @@ steps:
     configuration: 'Release'
     xcWorkspacePath: 'SubEthaEdit.xcworkspace'
     xcodeVersion: 'default' # Options: 8, 9, 10, default, specifyPath
+    publishJUnitResults: true
