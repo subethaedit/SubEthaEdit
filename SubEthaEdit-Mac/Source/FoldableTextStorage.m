@@ -19,6 +19,11 @@
 #import "ScriptLine.h"
 #import "ScriptCharacters.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
 static NSArray *S_nonSyncAttributes = nil;
 
 NSString * const BlockeditAttributeName =@"Blockedit";
@@ -38,9 +43,7 @@ NSString * const BlockeditAttributeValue=@"YES";
 
 - (id)init {
     if ((self = [super init])) {
-// as long as we are a subclass of TextStorage
-	    [I_internalAttributedString release];
-        I_internalAttributedString = nil;//[NSMutableAttributedString new];
+        I_internalAttributedString = nil;
         I_fullTextStorage = [[FullTextStorage alloc] initWithFoldableTextStorage:self];
 		I_sortedFoldedTextAttachments = [NSMutableArray new];
 
@@ -51,14 +54,6 @@ NSString * const BlockeditAttributeValue=@"YES";
 		I_blockedit.didBlockeditLineRange = NSMakeRange(NSNotFound,0);
     }
     return self;
-}
-
-- (void)dealloc {
-	[I_sortedFoldedTextAttachments release];
-// as long as we are a subclass of TextStorage
-//    [I_internalAttributedString release];
-    [I_fullTextStorage release];
-    [super dealloc];
 }
 
 
@@ -602,7 +597,6 @@ typedef union {
 				NSMutableDictionary *filteredAttributes = [attributes mutableCopy];
 				[filteredAttributes removeObjectsForKeys:S_nonSyncAttributes];
 				[I_fullTextStorage setAttributes:filteredAttributes range:[self fullRangeForFoldedRange:aRange] synchronize:NO];
-				[filteredAttributes release];
 			}
 		}
 	} else {
@@ -718,7 +712,7 @@ typedef union {
 					id blockeditAttribute = [self attribute:BlockeditAttributeName atIndex:NSMaxRange(blockeditAttributeRange) longestEffectiveRange:&blockeditAttributeRange inRange:attributeRange];
 					if (blockeditAttribute) {
 						if (!attributesPlusBlockedit) {
-							attributesPlusBlockedit = [[inAttributes mutableCopy] autorelease];
+							attributesPlusBlockedit = [inAttributes mutableCopy];
 							[attributesPlusBlockedit setObject:BlockeditAttributeValue forKey:BlockeditAttributeName];
 
 							NSDictionary *blockeditAttributes = nil;
@@ -814,7 +808,7 @@ typedef union {
 
 	NSRange fullRange = [self fullRangeForFoldedRange:inRange];
 	
-	FoldedTextAttachment *attachment = [[[FoldedTextAttachment alloc] initWithFoldedTextRange:fullRange] autorelease];
+	FoldedTextAttachment *attachment = [[FoldedTextAttachment alloc] initWithFoldedTextRange:fullRange];
 	
 	NSRange includedAttachmentsRange = [self indexRangeOfFoldingAttachments:I_sortedFoldedTextAttachments fullyContainedInRange:fullRange];
 	
@@ -853,7 +847,7 @@ typedef union {
 	if (count == 0) {
 		stringToInsert = (NSMutableAttributedString *)[I_fullTextStorage attributedSubstringFromRange:foldedTextRange];
 	} else {
-		stringToInsert = [[NSMutableAttributedString new] autorelease];
+		stringToInsert = [NSMutableAttributedString new];
 		unsigned currentIndex = foldedTextRange.location;
 		FoldedTextAttachment *attachment = nil;
 		do {
@@ -875,7 +869,6 @@ typedef union {
 }
 
 - (void)removeInternalStorageString {
-	[I_internalAttributedString release];
 	I_internalAttributedString = nil;
 	[self edited:NSTextStorageEditedCharacters | NSTextStorageEditedAttributes range:NSMakeRange(0,[I_internalAttributedString length]) changeInLength:0];
 //	NSLog(@"%s ------------------------------> killed mutable string storage",__FUNCTION__);
@@ -885,7 +878,6 @@ typedef union {
 	// first stop blockedit if there
 	if ([self hasBlockeditRanges]) [self stopBlockedit];
 
-	[inAttachment retain];
 	NSMutableAttributedString *stringToInsert = nil;
 	NSArray *innerAttachments = [inAttachment innerAttachments];
 	NSRange foldedTextRange = [inAttachment foldedTextRange];
@@ -894,7 +886,7 @@ typedef union {
 	if (count == 0) {
 		stringToInsert = (NSMutableAttributedString *)[I_fullTextStorage attributedSubstringFromRange:foldedTextRange];
 	} else {
-		stringToInsert = [[NSMutableAttributedString new] autorelease];
+		stringToInsert = [NSMutableAttributedString new];
 		unsigned currentIndex = foldedTextRange.location;
 		FoldedTextAttachment *attachment = nil;
 		do {
@@ -916,7 +908,6 @@ typedef union {
 //	NSLog(@"%s unfolding: %@",__FUNCTION__,[self foldedStringRepresentationOfRange:[inAttachment foldedTextRange] foldings:innerAttachments level:1]);
 	[self replaceCharactersInRange:NSMakeRange(inIndex,1) withAttributedString:stringToInsert synchronize:NO];
 	[I_sortedFoldedTextAttachments removeObject:inAttachment];
-	[inAttachment release]; // saveguarding against crash in SEE-3929
 	
 	if ([I_sortedFoldedTextAttachments count] == 0) {
 		[self removeInternalStorageString];
@@ -1115,11 +1106,13 @@ typedef union {
     if (aFlag != I_blockedit.hasBlockeditRanges) {
         I_blockedit.hasBlockeditRanges=aFlag;
         id delegate=[self delegate];
-        SEL selector=I_blockedit.hasBlockeditRanges?
-                     @selector(textStorageDidStartBlockedit:):
-                     @selector(textStorageDidStopBlockedit:);
-        if ([delegate respondsToSelector:selector]) {
-            [delegate performSelector:selector withObject:self];
+        
+        if (I_blockedit.hasBlockeditRanges && [delegate respondsToSelector:@selector(textStorageDidStartBlockedit:)]) {
+            [delegate performSelector:@selector(textStorageDidStartBlockedit:) withObject:self];
+        }
+        
+        if (!I_blockedit.hasBlockeditRanges && [delegate respondsToSelector:@selector(textStorageDidStopBlockedit:)]) {
+            [delegate performSelector:@selector(textStorageDidStopBlockedit:) withObject:self];
         }
     }
 }
@@ -1237,7 +1230,6 @@ typedef union {
                         NSMutableParagraphStyle *newStyle=[style mutableCopy];
                         [newStyle setHeadIndent:desiredHeadIndent];
                         [self addAttribute:NSParagraphStyleAttributeName value:newStyle range:myRange];
-                        [newStyle release];
                     }
                 }
             }
@@ -1418,9 +1410,9 @@ typedef union {
     
     NSScriptObjectSpecifier *containerSpecifier = [(id)[self delegate] objectSpecifier];
     NSPropertySpecifier *propertySpecifier = 
-        [[[NSPropertySpecifier alloc] initWithContainerClassDescription:containerClassDesc
+        [[NSPropertySpecifier alloc] initWithContainerClassDescription:containerClassDesc
                                                      containerSpecifier:containerSpecifier
-                                                                    key:@"scriptedPlainContents"] autorelease];
+                                                                    key:@"scriptedPlainContents"];
 
     return propertySpecifier;
 }

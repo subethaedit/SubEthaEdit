@@ -5,13 +5,16 @@
 
 #import "AbstractFoldingTextStorage.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
 
 @implementation AbstractFoldingTextStorage
 
 - (id)init {
 	if ((self = [super init])) {
 		I_fixingCounter = 0;
-		I_otherTextStorage = nil;
 	}
 	return self;
 }
@@ -25,7 +28,6 @@
 	NSString *contentString = [[NSString alloc] initWithBytesNoCopy:(void *)[inData bytes] length:[inData length] encoding:anEncoding freeWhenDone:NO];
 	if (contentString) {
 		[self replaceCharactersInRange:NSMakeRange(0,[self length]) withString:contentString];
-		[contentString release];
 		return YES;
 	} else {
 		return NO;

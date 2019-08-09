@@ -7,13 +7,12 @@
 #import <OgreKit/OgreKit.h>
 
 @interface ModeSettings : NSObject {
-    NSMutableArray *_recognitionExtenstions;
-    NSMutableArray *_recognitionCasesensitveExtenstions;
-    NSMutableArray *_recognitionRegexes;
-    NSMutableArray *_recognitionFilenames;
+    NSMutableArray *_recognizedExtensions;
+    NSMutableArray *_recognizedCasesensitveExtensions;
+    NSMutableArray *_recognizedRegexes;
+    NSMutableArray *_recognizedFilenames;
     BOOL everythingOkay;
 }
-
 
 @property (nonatomic, readonly) NSArray *recognizedExtensions;
 @property (nonatomic, readonly) NSArray *recognizedCasesensitveExtensions;

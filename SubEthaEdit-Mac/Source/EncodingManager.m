@@ -8,6 +8,10 @@
 #import <Cocoa/Cocoa.h>
 #import "EncodingManager.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
 
 /* EncodingPopUpButton is a subclass of NSPopUpButton which provides the ability to automatically recompute its contents on changes to the encodings list. This allows sprinkling these around the app any have them automatically update themselves.  EncodingPopUpButtonCell is the corresponding cell. It would normally not be needed, but we really want to know when the cell's selectedItem is changed, as we want to prevent the last item ("Customize...") from being selected.
 */
@@ -36,7 +40,6 @@
     [newCell setControlSize:[[self cell] controlSize]];
     [newCell setFont:[[self cell] font]];
     [self setCell:newCell];
-    [newCell release];
 
     [self setAutoenablesItems:NO];
     
@@ -64,7 +67,6 @@
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [super dealloc];
 }
 
 /* Update contents based on encodings list customization
@@ -82,7 +84,6 @@
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [super dealloc];
 }
 
 - (void)encodingsListChanged:(NSNotification *)notification {
@@ -128,12 +129,8 @@
 
 - (void)dealloc
 {
-	[registeredEncodings release];
 	registeredEncodings = nil;
-
-    [_encodingMatrix release];
     _encodingMatrix = nil;
-	[super dealloc];
 }
 
 - (void)loadWindow
@@ -304,7 +301,6 @@ static int encodingCompare(const void *firstPtr, const void *secondPtr) {
         [menuItem setTag:encoding];
         [menuItem setEnabled:YES];
         [aMenu addItem:menuItem];
-        [menuItem release];
     }
     
     // Add separator and customize item at end
@@ -318,7 +314,6 @@ static int encodingCompare(const void *firstPtr, const void *secondPtr) {
     [customizeItem setEnabled:YES];
     [customizeItem setTarget:self];
     [aMenu addItem:customizeItem];
-    [customizeItem release];
 }
 
 
@@ -394,7 +389,6 @@ static int encodingCompare(const void *firstPtr, const void *secondPtr) {
         if (((NSUInteger)[cell tag] != NoStringEncoding) && ([cell state] == NSOnState)) [encs addObject:[NSNumber numberWithUnsignedInt:[cell tag]]];
     }
 
-    [encodings autorelease];
     encodings = encs;
 
     [self noteEncodingListChange:YES updateList:NO postNotification:YES];
@@ -402,31 +396,27 @@ static int encodingCompare(const void *firstPtr, const void *secondPtr) {
 
 - (void)activateEncoding:(NSStringEncoding)anEncoding {
     if (![encodings containsObject:[NSNumber numberWithUnsignedInt:anEncoding]]) {
-        [encodings autorelease];
-        encodings = [[encodings arrayByAddingObject:[NSNumber numberWithUnsignedInt:anEncoding]] retain];
+        encodings = [encodings arrayByAddingObject:[NSNumber numberWithUnsignedInt:anEncoding]];
         [self noteEncodingListChange:YES updateList:NO postNotification:YES];
     }
 }
 
 
 - (IBAction)clearAll:(id)sender {
-    [encodings autorelease];
     [self registerEncoding:NSUTF8StringEncoding];
     [self registerEncoding:NSUnicodeStringEncoding];
-    encodings = [[NSArray arrayWithArray:[registeredEncodings allObjects]] retain];
+    encodings = [NSArray arrayWithArray:[registeredEncodings allObjects]];
     [self noteEncodingListChange:YES updateList:YES postNotification:YES];
     [self unregisterEncoding:NSUnicodeStringEncoding];
     [self unregisterEncoding:NSUTF8StringEncoding];
 }
 
 - (IBAction)selectAll:(id)sender {
-    [encodings autorelease];
-    encodings = [[[self class] allAvailableStringEncodings] retain];	// All encodings
+    encodings = [[self class] allAvailableStringEncodings];	// All encodings
     [self noteEncodingListChange:YES updateList:YES postNotification:YES];
 }
 
 - (IBAction)revertToDefault:(id)sender {
-    [encodings autorelease];
     encodings = nil;
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"Encodings"];
     (void)[self enabledEncodings];					// Regenerate default list

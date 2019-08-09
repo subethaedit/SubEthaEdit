@@ -12,6 +12,11 @@
 #import "NSStringSEEAdditions.h"
 #import "FullTextStorage.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
 #define chunkSize              		5000
 #define padding              		 100
 #define makeDirty              		 100
@@ -59,7 +64,7 @@ static  NSMutableDictionary *S_transientRegexCache = nil;
 {
     self=[super init];
     if (self) {
-        [self setSyntaxDefinition:aSyntaxDefinition];
+        _syntaxDefinition = aSyntaxDefinition;
         //NSLog(@"Using onigruma %@",[OGRegularExpression onigurumaVersion]);
         if (!S_transientRegexCache) S_transientRegexCache = [NSMutableDictionary new];
 //		I_stringLock = [NSLock new];
@@ -139,9 +144,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
     if (!stack) stack = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:[defaultState objectForKey:@"id"], @"state", [NSNumber numberWithInt:0], kSyntaxHighlightingIndentLevelName, nil], nil];
     
     do {
-
-        NSAutoreleasePool *syntaxPool = [NSAutoreleasePool new];
-                    
+        @autoreleasepool {
         //NSLog(@"Stack at start: %@", stack);
         currentState = [definition stateForID:[[stack lastObject] objectForKey:@"state"]];
 		if (![currentState objectForKey:@"scope"]) NSLog(@"State lookup fail for scope for %@",[currentState objectForKey:@"id"]);
@@ -156,7 +159,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
             stateDelimiter = [S_transientRegexCache objectForKey:combinedDelimiterString];
             if (!stateDelimiter) {
                 if (combinedDelimiterString && [OGRegularExpression isValidExpressionString:combinedDelimiterString]) {
-                    stateDelimiter = [[[OGRegularExpression alloc] initWithString:combinedDelimiterString options:OgreFindNotEmptyOption|OgreCaptureGroupOption] autorelease];
+                    stateDelimiter = [[OGRegularExpression alloc] initWithString:combinedDelimiterString options:OgreFindNotEmptyOption|OgreCaptureGroupOption];
                     if (stateDelimiter) [S_transientRegexCache setObject:stateDelimiter forKey:combinedDelimiterString];
                 }
 			}
@@ -211,14 +214,14 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
                 stateRange.length = stateRange.length - delimiterRange.length;
                 
                 NSDictionary *subState = [[currentState objectForKey:@"states"] objectAtIndex:delimiterStateNumber];
-                savedStack = [[stack copy] autorelease];
+                savedStack = [stack copy];
 
 				// Check for transcendence
 				// Use substringNamed: of delimiterMatch to get the content of named groups
 				NSArray *captureGroups = [subState objectForKey:@"Combined Delimiter String End Capture Groups"];
 				NSMutableString *combinedDelimiterString = nil;
 				if (captureGroups) {
-					combinedDelimiterString = [[[subState objectForKey:@"Combined Delimiter String"] mutableCopy] autorelease];
+					combinedDelimiterString = [[subState objectForKey:@"Combined Delimiter String"] mutableCopy];
 					for (NSString *groupName in captureGroups) {
 						NSString *replacement = [[delimiterMatch substringNamed:groupName] stringByReplacingRegularExpressionOperators];
 						if (groupName && replacement) {
@@ -262,7 +265,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 					[scratchAttributes setObject:[[OGReplaceExpression replaceExpressionWithString:[subState objectForKey:@"AutoendReplacementString"]] replaceMatchedStringOf:delimiterMatch] forKey:kSyntaxHighlightingAutocompleteEndName];
 				}
 				
-                [scratchAttributes setObject:[[stack copy] autorelease] forKey:kSyntaxHighlightingStackName];
+                [scratchAttributes setObject:[stack copy] forKey:kSyntaxHighlightingStackName];
                 [scratchAttributes setObject:kSyntaxHighlightingStateDelimiterStartValue forKey:kSyntaxHighlightingStateDelimiterName];
 				NSString *typeAttributeString;
 				if ((typeAttributeString=[subState objectForKey:@"type"]))
@@ -340,7 +343,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 //				[I_stringLock lock];
                 [aString addAttributes:scratchAttributes range:delimiterRange];
 //				[I_stringLock unlock];
-                savedStack = [[stack copy] autorelease];
+                savedStack = [stack copy];
                 [stack removeLastObject]; // Default state doesn't have an end, stack is always > 0
             }
             
@@ -350,7 +353,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
             //DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"State %@ does not end in chunk",[currentState objectForKey:@"id"]);
             stateRange = NSMakeRange(currentRange.location, NSMaxRange(aRange) - currentRange.location);
             nextRange = NSMakeRange(NSNotFound,0);
-			savedStack = [[stack copy] autorelease];
+			savedStack = [stack copy];
         }
 
         // Now apply style to the identified range
@@ -504,7 +507,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 
         currentRange = nextRange;
         foldingDepth = newFoldingDepth;
-        [syntaxPool drain];
+        }
     } while (currentRange.length>0);
     
     // Check if the string after the area we just colored matches up
@@ -551,24 +554,12 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 #pragma mark - Accessors
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"SyntaxHighlighter for %@", [I_syntaxDefinition name]];
-}
-
-- (SyntaxDefinition *)syntaxDefinition
-{
-    return I_syntaxDefinition;
-}
-
-- (void)setSyntaxDefinition:(SyntaxDefinition *)aSyntaxDefinition
-{
-//    [I_syntaxDefinition autorelease];
-//     I_syntaxDefinition = [aSyntaxDefinition retain];
-    I_syntaxDefinition = aSyntaxDefinition;
+    return [NSString stringWithFormat:@"SyntaxHighlighter for %@", [_syntaxDefinition name]];
 }
 
 - (SyntaxStyle *)defaultSyntaxStyle {
-	[I_syntaxDefinition getReady];
-    return [I_syntaxDefinition defaultSyntaxStyle];
+	[_syntaxDefinition getReady];
+    return [_syntaxDefinition defaultSyntaxStyle];
 }
 
 #pragma mark - Document Interaction

@@ -5,6 +5,10 @@
 
 #import "RadarScroller.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
 
 @implementation RadarScroller
 
@@ -22,10 +26,6 @@
     return self;
 }
 
-- (void)dealloc {
-    [I_marks release];
-    [super dealloc];
-}
 
 - (void)setMaxHeight:(int)maxHeight {
     if (maxHeight>5.) {

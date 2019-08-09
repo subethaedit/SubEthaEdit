@@ -5,21 +5,15 @@
 
 #import "TexturedButtonCell.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
 
 @implementation TexturedButtonCell
 
-- (void)setTextureImage:(NSImage *)aImage {
-    [I_textureImage release];
-    I_textureImage=[aImage copy];
-}
-
-- (void)dealloc {
-    [self setTextureImage:nil];
-    [super dealloc];
-}
-
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
-    NSImage *image=I_textureImage;
+    NSImage *image=_textureImage;
     if (image) {
         NSSize imageSize=[image size];
         [image drawInRect:NSMakeRect(cellFrame.origin.x,cellFrame.origin.y,1,cellFrame.size.height) 

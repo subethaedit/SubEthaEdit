@@ -14,10 +14,10 @@
 
 - (void)getReady {
 	everythingOkay = YES;
-	_recognitionExtenstions = [NSMutableArray new];
-	_recognitionRegexes = [NSMutableArray new];
-	_recognitionFilenames = [NSMutableArray new];
-	_recognitionCasesensitveExtenstions = [NSMutableArray new];
+	_recognizedExtensions = [NSMutableArray new];
+	_recognizedRegexes = [NSMutableArray new];
+	_recognizedFilenames = [NSMutableArray new];
+	_recognizedCasesensitveExtensions = [NSMutableArray new];
 }
 
 - (id)initWithFile:(NSString *)aPath {
@@ -53,7 +53,7 @@
 		CFURLRef url = CFURLCreateWithFileSystemPath(NULL, (CFStringRef) bundlePath, kCFURLPOSIXPathStyle, 1);
         CFDictionaryRef infodict = CFBundleCopyInfoDictionaryInDirectory(url);
         NSDictionary *infoDictionary = (NSDictionary *) CFBridgingRelease(infodict);
-        [_recognitionExtenstions addObjectsFromArray:[infoDictionary objectForKey:@"TCMModeExtensions"]];
+        [_recognizedExtensions addObjectsFromArray:[infoDictionary objectForKey:@"TCMModeExtensions"]];
         CFRelease(url);
     }
 	
@@ -100,21 +100,21 @@
 				if ([@"extension" isEqualToString:name]) {
 					// Check
 					NSString *caseSensitive = [[entry attributeForName:@"casesensitive"] stringValue];
-					if ([caseSensitive isEqualToString:@"yes"]) [_recognitionCasesensitveExtenstions addObject:value];
+					if ([caseSensitive isEqualToString:@"yes"]) [_recognizedCasesensitveExtensions addObject:value];
 					else {
 						BOOL alreadyInThere = NO;
-						NSEnumerator *enumerator = [_recognitionExtenstions objectEnumerator];
+						NSEnumerator *enumerator = [_recognizedExtensions objectEnumerator];
 						id object;
 						while ((object = [enumerator nextObject])) {
 							if ([[object uppercaseString] isEqualToString:[value uppercaseString]]) alreadyInThere = YES;
 						}
-						if (!alreadyInThere) [_recognitionExtenstions addObject:value];
+						if (!alreadyInThere) [_recognizedExtensions addObject:value];
 					}
 				}  else if ([@"filename" isEqualToString:name]) {
-					[_recognitionFilenames addObject:value];
+					[_recognizedFilenames addObject:value];
 				}  else if ([@"regex" isEqualToString:name]) {
 					if ([OGRegularExpression isValidExpressionString:value]) {
-						[_recognitionRegexes addObject:value];
+						[_recognizedRegexes addObject:value];
 					} else {
 						NSAlert *alert = [[NSAlert alloc] init];
 						[alert setAlertStyle:NSAlertStyleWarning];

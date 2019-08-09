@@ -5,6 +5,14 @@
 
 #import "URLDataProtocol.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
+@interface URLDataProtocol ()
+@property (nonatomic, retain) NSCachedURLResponse *cachedURLResponse;
+@end
 
 @implementation URLDataProtocol
 
@@ -22,11 +30,6 @@
     return request;
 }
 
-- (void)setCachedURLResponse:(NSCachedURLResponse *)aCachedURLResponse {
-    [I_cachedURLResponse autorelease];
-    I_cachedURLResponse=[aCachedURLResponse retain];
-}
-
 -(id)initWithRequest:(NSURLRequest *)request cachedResponse:(NSCachedURLResponse *)cachedResponse client:(id <NSURLProtocolClient>)client {
     self=[super initWithRequest:request cachedResponse:cachedResponse client:client];
     if (self) {
@@ -36,28 +39,17 @@
     return self;
 }
 
--(void)dealloc {
-    [I_cachedURLResponse release];
-    [super dealloc];
-}
-
--(NSCachedURLResponse *)cachedResponse {
-//    NSLog(@"cachedResponse");
-    return I_cachedURLResponse;
-}
-
 -(void)startLoading {
 //    NSLog(@"start loading");
     id <NSURLProtocolClient> client=[self client];
     NSURLRequest *request=[self request];
     NSURLResponse *response=[[NSURLResponse alloc] initWithURL:[request URL] MIMEType:@"text/html" expectedContentLength:[[request HTTPBody] length] textEncodingName:[request valueForHTTPHeaderField:@"LocalContentAndThisIsTheEncoding"]];
-    NSCachedURLResponse *cachedResponse=[[[NSCachedURLResponse alloc] initWithResponse:response data:[[self request] HTTPBody] userInfo:nil storagePolicy:NSURLCacheStorageAllowedInMemoryOnly] autorelease];
+    NSCachedURLResponse *cachedResponse=[[NSCachedURLResponse alloc] initWithResponse:response data:[[self request] HTTPBody] userInfo:nil storagePolicy:NSURLCacheStorageAllowedInMemoryOnly];
     [self setCachedURLResponse:cachedResponse];
 //    [client URLProtocol:self cachedResponseIsValid:[self cachedResponse]];
     [client URLProtocol:self didReceiveResponse:response cacheStoragePolicy:NSURLCacheStorageAllowedInMemoryOnly];
     [client URLProtocol:self didLoadData:[[self request] HTTPBody]];
     [client URLProtocolDidFinishLoading:self];
-    [response release];
 }
 
 -(void)stopLoading {
