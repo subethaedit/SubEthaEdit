@@ -21,6 +21,11 @@
 #import <sys/param.h>
 
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
 NSString * const NetworkTimeoutPreferenceKey = @"NetworkTimeout";
 NSString * const kTCMBEEPFrameTrailer = @"END\r\n";
 NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/Management.profile";
@@ -85,9 +90,9 @@ static NSData *dhparamData = nil;
         if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:nil]) {
              [[NSFileManager defaultManager] createDirectoryAtPath:fullPath withIntermediateDirectories:YES attributes:nil error:nil];
         }
-        dhparamKeyPath = [[fullPath stringByAppendingPathComponent:[NSString stringWithFormat:@"dhparams-%@.des",[NSString UUIDString]]] retain];
+        dhparamKeyPath = [fullPath stringByAppendingPathComponent:[NSString stringWithFormat:@"dhparams-%@.des",[NSString UUIDString]]];
 
-       NSTask *opensslTask = [[[NSTask alloc] init] autorelease];
+       NSTask *opensslTask = [[NSTask alloc] init];
         [opensslTask setStandardError:[NSPipe pipe]];
         [opensslTask setStandardOutput:[NSPipe pipe]];
         [opensslTask setLaunchPath:@"/usr/bin/openssl"]; 
@@ -112,7 +117,7 @@ static NSData *dhparamData = nil;
 //    NSLog(@"%s %@ %@",__FUNCTION__, [[[NSString alloc] initWithData:[[[task standardOutput] fileHandleForReading] readDataToEndOfFile] encoding:NSUTF8StringEncoding] autorelease], [[[NSString alloc] initWithData:[[[task standardError] fileHandleForReading] readDataToEndOfFile] encoding:NSUTF8StringEncoding] autorelease]);
 
 	NSError *error = nil;
-	dhparamData = [[NSData dataWithContentsOfFile:dhparamKeyPath options:0 error:&error] retain];
+	dhparamData = [NSData dataWithContentsOfFile:dhparamKeyPath options:0 error:&error];
     [[NSNotificationQueue defaultQueue] enqueueNotification:[NSNotification notificationWithName:@"TCMBEEPTempCertificateCreationForSSLDidFinish" object:self] postingStyle:NSPostASAP coalesceMask:NSNotificationNoCoalescing forModes:nil];
 }
 
@@ -144,7 +149,7 @@ static NSData *dhparamData = nil;
     I_flags.isWaitingForTLSProceed = NO;
     I_flags.isTLSHandshaking = NO;
     I_flags.isTLSEnabled = NO;
-    CFStreamClientContext context = {0, self, NULL, NULL, NULL};
+    CFStreamClientContext context = {0, (__bridge void * _Null_unspecified)(self), NULL, NULL, NULL};
     CFOptionFlags readFlags =  kCFStreamEventOpenCompleted |
         kCFStreamEventHasBytesAvailable |
         kCFStreamEventErrorOccurred |
@@ -231,7 +236,7 @@ static NSData *dhparamData = nil;
 				name = [origPath stringByAppendingPathComponent:name];
 			} while ([fileManager fileExistsAtPath:name]);
 		
-			logDirectory = [name retain];
+			logDirectory = name;
 			[fileManager createDirectoryAtPath:logDirectory withIntermediateDirectories:YES attributes:nil error:nil];
 		}
     }
@@ -244,17 +249,17 @@ static NSData *dhparamData = nil;
     NSString *logBase = [logDirectory stringByAppendingFormat:@"/%02d", fileNumber];
     NSString *logIn = [logBase stringByAppendingString:@"in.log"];
     [[NSFileManager defaultManager] createFileAtPath:logIn contents:[NSData data] attributes:nil];
-    I_rawLogInHandle = [[NSFileHandle fileHandleForWritingAtPath:logIn] retain];
+    I_rawLogInHandle = [NSFileHandle fileHandleForWritingAtPath:logIn];
     [I_rawLogInHandle writeData:headerData];
 
     NSString *logOut = [logBase stringByAppendingString:@"out.log"];
     [[NSFileManager defaultManager] createFileAtPath:logOut contents:[NSData data] attributes:nil];
-    I_rawLogOutHandle = [[NSFileHandle fileHandleForWritingAtPath:logOut] retain];
+    I_rawLogOutHandle = [NSFileHandle fileHandleForWritingAtPath:logOut];
     [I_rawLogOutHandle writeData:headerData];
     
     NSString *frameLogFileName = [logBase stringByAppendingString:@"frames.log"];
     [[NSFileManager defaultManager] createFileAtPath:frameLogFileName contents:[NSData data] attributes:nil];
-    I_frameLogHandle = [[NSFileHandle fileHandleForWritingAtPath:frameLogFileName] retain];
+    I_frameLogHandle = [NSFileHandle fileHandleForWritingAtPath:frameLogFileName];
     [I_frameLogHandle writeData:headerData];
 #endif
 }
@@ -279,7 +284,7 @@ static NSData *dhparamData = nil;
     if (self) {
         [self setPeerAddressData:aData];
         struct sockaddr *address = (struct sockaddr *)[aData bytes];
-        CFSocketSignature signature = {address->sa_family, SOCK_STREAM, IPPROTO_TCP, (CFDataRef)aData};
+        CFSocketSignature signature = {address->sa_family, SOCK_STREAM, IPPROTO_TCP, (__bridge CFDataRef)aData};
         CFStreamCreatePairWithPeerSocketSignature(kCFAllocatorDefault, &signature, &I_readStream, &I_writeStream);
         I_flags.isInitiator = YES;
         I_flags.isProhibitingInboundInternetSessions = NO;
@@ -294,48 +299,28 @@ static NSData *dhparamData = nil;
 {
     CFReadStreamSetClient(I_readStream, 0, NULL, NULL);
     CFWriteStreamSetClient(I_writeStream, 0, NULL, NULL);
-    [_authenticationInformation release];
-    [I_readBuffer release];
-    [I_writeBuffer release];
     CFRelease(I_readStream);
     CFRelease(I_writeStream);
-    [_userInfo release];
     [I_managementChannel cleanup];
-    [I_managementChannel release];
-    [I_activeChannels release];
-    [I_peerAddressData release];
-    [_profileURIs release];
-    [_TLSProfileURIs release];
-    [_saslProfileURIs release];
-    [_peerProfileURIs release];
-    [_featuresAttribute release];
-    [_localizeAttribute release];
-    [_peerFeaturesAttribute release];
-    [_peerLocalizeAttribute release];
-    [I_channelRequests release];
-    [I_channels release];
-    [I_currentReadFrame release];
     [I_terminateTimer invalidate];
-    [I_terminateTimer release];
     
 #ifndef TCM_NO_DEBUG
 	if (isLogging) {
 		NSString *trailerString = [NSString stringWithFormat:@"\n\n[%@] dealloc\n\n", [[NSDate date] description]];
 		NSData *trailerData = [trailerString dataUsingEncoding:NSASCIIStringEncoding];
-		[I_rawLogInHandle writeData:trailerData];
+
+        [I_rawLogInHandle writeData:trailerData];
 		[I_rawLogInHandle closeFile];
-		[I_rawLogInHandle release];
-		[I_rawLogOutHandle writeData:trailerData];
+
+        [I_rawLogOutHandle writeData:trailerData];
 		[I_rawLogOutHandle closeFile];
-		[I_rawLogOutHandle release];
-		[I_frameLogHandle writeData:trailerData];
+
+        [I_frameLogHandle writeData:trailerData];
 		[I_frameLogHandle closeFile];
-		[I_frameLogHandle release];
 	}
 #endif
     DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"BEEPSession deallocated");
 	self.uniqueID = nil;
-    [super dealloc];
 }
 
 - (NSString *)description
@@ -345,10 +330,10 @@ static NSData *dhparamData = nil;
 
 - (void)startTerminator {
     if (!I_terminateTimer && I_timeout) {
-        I_terminateTimer = [[NSTimer timerWithTimeInterval:I_timeout
+        I_terminateTimer = [NSTimer timerWithTimeInterval:I_timeout
                                                     target:self 
                                                   selector:@selector(terminate)
-                                                 userInfo:nil repeats:NO] retain];
+                                                 userInfo:nil repeats:NO];
         [[NSRunLoop currentRunLoop] addTimer:I_terminateTimer forMode:NSDefaultRunLoopMode];
     } 
 }
@@ -537,7 +522,6 @@ static NSData *dhparamData = nil;
     }
     
     [I_managementChannel cleanup];
-    [I_managementChannel release];
     I_managementChannel = nil;
 }
 
@@ -661,7 +645,6 @@ static NSData *dhparamData = nil;
                             BOOL didAccept = [channel acceptFrame:I_currentReadFrame];
                             DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"channel did accept frame: %@",  didAccept ? @"YES" : @"NO");
                             if (!didAccept) {
-                                [I_currentReadFrame release];
                                 I_currentReadFrame = nil;
                                 [self terminate];
                                 break;
@@ -672,9 +655,7 @@ static NSData *dhparamData = nil;
                                 }
     #endif  
                             }
-                            [I_currentReadFrame release];
                         } else {
-                            [I_currentReadFrame release];
                             I_currentReadFrame = nil;
                             [self terminate];
                             break;
@@ -720,7 +701,6 @@ static NSData *dhparamData = nil;
                     int localbytesread = 5 - [I_readBuffer length];
                     [I_readBuffer appendBytes:&buffer[bytesParsed] length:5 - [I_readBuffer length]];
                     if (strncmp((char *)[I_readBuffer bytes], "END\r\n", 5) != 0) {
-                        [I_currentReadFrame release];
                         I_currentReadFrame = nil;
                         [self terminate];
                         break;
@@ -736,14 +716,12 @@ static NSData *dhparamData = nil;
                     if (channel) {
                         BOOL didAccept = [channel acceptFrame:I_currentReadFrame];
                         DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"channel did accept frame: %@",  didAccept ? @"YES" : @"NO");
-                        [I_currentReadFrame release];
                         I_currentReadFrame = nil;
                         if (!didAccept) {
                             [self terminate];
                             break;
                         }
                     } else {
-                        [I_currentReadFrame release];
                         I_currentReadFrame = nil;
                         [self terminate];
                         break;
@@ -1125,7 +1103,7 @@ static NSData *dhparamData = nil;
                 if ([profileURI isEqualToString:TCMBEEPTLSProfileURI])
                 {
                     // parse data for 'ready' element, may have attribute
-                    TCMBEEPSessionXMLParser *dataParser = [[[TCMBEEPSessionXMLParser alloc] initWithXMLData:requestData] autorelease];
+                    TCMBEEPSessionXMLParser *dataParser = [[TCMBEEPSessionXMLParser alloc] initWithXMLData:requestData];
                     if (dataParser)
                     {
 						NSString *element = dataParser.elementName;
@@ -1151,7 +1129,7 @@ static NSData *dhparamData = nil;
 							{
 								answerData = [[NSString stringWithFormat:@"<%@ />", TCMBEEPSessionXMLElementProceed] dataUsingEncoding : NSUTF8StringEncoding];
 								// implicitly close all channels including channel zero, but proceed frame needs to go through
-								I_flags.hasSentTLSProceed = YES;
+                                self->I_flags.hasSentTLSProceed = YES;
 							}
 						}
 						else
@@ -1170,7 +1148,6 @@ static NSData *dhparamData = nil;
                                   answerData, @"Data",
                                   nil];
 				*stop = YES;
-				if (preferedAnswer) [preferedAnswer retain];
             }
         }
     }];
@@ -1178,8 +1155,6 @@ static NSData *dhparamData = nil;
     // prefered Profile URIs raussuchen
     if (!preferedAnswer) {
 		return nil;
-	} else {
-		[preferedAnswer autorelease];
 	}
 
     // if channel exists
@@ -1237,7 +1212,6 @@ static NSData *dhparamData = nil;
     TCMBEEPChannel *channel = [[TCMBEEPChannel alloc] initWithSession:self number:aChannelNumber profileURI:aProfileURI asInitiator:isInitiator];
     [[channel profile] handleInitializationData:inData];
     [self insertObject:channel inChannelsAtIndex:[self countOfChannels]];
-    [channel release];
 
     [self activateChannel:channel];
 
@@ -1252,7 +1226,7 @@ static NSData *dhparamData = nil;
         if ([aProfileURI isEqualToString:TCMBEEPTLSProfileURI])
         {
             // parse associated data for 'error' or 'proceed' elements, 'error' may contain attributes?
-            TCMBEEPSessionXMLParser *dataParser = [[[TCMBEEPSessionXMLParser alloc] initWithXMLData:inData] autorelease];
+            TCMBEEPSessionXMLParser *dataParser = [[TCMBEEPSessionXMLParser alloc] initWithXMLData:inData];
             if (dataParser)
             {
                 NSString *element = dataParser.elementName;
@@ -1329,7 +1303,6 @@ static NSData *dhparamData = nil;
 - (void)closedChannelWithNumber:(int32_t)aChannelNumber
 {
     TCMBEEPChannel *channel = [I_activeChannels objectForLong:aChannelNumber];
-    [[channel retain] autorelease];
     [channel closed];
     [channel cleanup];
     
@@ -1379,75 +1352,74 @@ static NSData *dhparamData = nil;
 
 void callBackReadStream(CFReadStreamRef stream, CFStreamEventType type, void *clientCallBackInfo)
 {
-    NSAutoreleasePool *pool=nil;
-    pool=[NSAutoreleasePool new];
-    TCMBEEPSession *session = (TCMBEEPSession *)clientCallBackInfo;
+    TCMBEEPSession *session =  (__bridge TCMBEEPSession *)clientCallBackInfo;
+    @autoreleasepool {
+        switch(type)
+        {
+            case kCFStreamEventOpenCompleted:
+                DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"CFReadStream kCFStreamEventOpenCompleted");
+                [session TCM_handleStreamOpenEvent];
+                break;
+                
+            case kCFStreamEventHasBytesAvailable:
+                DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"CFReadStream kCFStreamEventHasBytesAvailable");
+                [session TCM_handleStreamHasBytesAvailableEvent];
+                break;
+                
+            case kCFStreamEventErrorOccurred: {
+                DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"CFReadStream kCFStreamEventErrorOccurred");
+                CFStreamError myErr = CFReadStreamGetError(stream);
+                NSError *error = [NSError errorWithDomain:[NSString stringWithFormat:@"%ld", myErr.domain] code:myErr.error userInfo:nil];
+                [session TCM_handleStreamErrorOccurredEvent:error];
+            } break;
+                
+            case kCFStreamEventEndEncountered:
+                DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"CFReadStream kCFStreamEventEndEncountered");
+                [session TCM_handleStreamErrorOccurredEvent:nil];
+                break;
+                
+            default:
+                DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"CFReadStream ??");
+                break;
+        }
 
-    switch(type)
-    {
-        case kCFStreamEventOpenCompleted:
-            DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"CFReadStream kCFStreamEventOpenCompleted");
-            [session TCM_handleStreamOpenEvent];
-            break;
-
-        case kCFStreamEventHasBytesAvailable:
-            DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"CFReadStream kCFStreamEventHasBytesAvailable");
-            [session TCM_handleStreamHasBytesAvailableEvent];
-            break;
-
-        case kCFStreamEventErrorOccurred:
-            DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"CFReadStream kCFStreamEventErrorOccurred");
-            CFStreamError myErr = CFReadStreamGetError(stream);
-            NSError *error = [NSError errorWithDomain:[NSString stringWithFormat:@"%ld", myErr.domain] code:myErr.error userInfo:nil];
-            [session TCM_handleStreamErrorOccurredEvent:error];
-            break;
-
-        case kCFStreamEventEndEncountered:
-            DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"CFReadStream kCFStreamEventEndEncountered");
-            [session TCM_handleStreamErrorOccurredEvent:nil];
-            break;
-
-        default:
-            DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"CFReadStream ??");
-            break;
     }
-    [pool release];
 }
 
 void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type, void *clientCallBackInfo)
 {
-    NSAutoreleasePool *pool=nil;
-    if (floor(NSFoundationVersionNumber)>NSFoundationVersionNumber10_3) pool=[NSAutoreleasePool new];
-    TCMBEEPSession *session = (TCMBEEPSession *)clientCallBackInfo;
+    TCMBEEPSession *session = (__bridge TCMBEEPSession *)clientCallBackInfo;
 
-    switch(type)
-    {
-        case kCFStreamEventOpenCompleted: {
-            DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"CFWriteStream kCFStreamEventOpenCompleted");
-            [session TCM_handleStreamOpenEvent];
-        } break;
-
-        case kCFStreamEventCanAcceptBytes: {
-            DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"CFWriteStream kCFStreamEventCanAcceptBytes");
-            [session TCM_handleStreamCanAcceptBytesEvent];
-        } break;
-
-        case kCFStreamEventErrorOccurred:
-            DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"CFWriteStream kCFStreamEventErrorOccurred");
-            CFStreamError myErr = CFWriteStreamGetError(stream);
-            NSError *error = [NSError errorWithDomain:[NSString stringWithFormat:@"%ld", myErr.domain] code:myErr.error userInfo:nil];
-            [session TCM_handleStreamErrorOccurredEvent:error];
-            break;
-
-        case kCFStreamEventEndEncountered:
-            DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"CFWriteStream kCFStreamEventEndEncountered");
-            [session TCM_handleStreamErrorOccurredEvent:nil];
-            break;
-
-        default:
-            DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"CFWriteStream ??");
-            break;
+    @autoreleasepool {
+        
+        switch(type)
+        {
+            case kCFStreamEventOpenCompleted: {
+                DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"CFWriteStream kCFStreamEventOpenCompleted");
+                [session TCM_handleStreamOpenEvent];
+            } break;
+                
+            case kCFStreamEventCanAcceptBytes: {
+                DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"CFWriteStream kCFStreamEventCanAcceptBytes");
+                [session TCM_handleStreamCanAcceptBytesEvent];
+            } break;
+                
+            case kCFStreamEventErrorOccurred: {
+                DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"CFWriteStream kCFStreamEventErrorOccurred");
+                CFStreamError myErr = CFWriteStreamGetError(stream);
+                NSError *error = [NSError errorWithDomain:[NSString stringWithFormat:@"%ld", myErr.domain] code:myErr.error userInfo:nil];
+                [session TCM_handleStreamErrorOccurredEvent:error];
+            } break;
+                
+            case kCFStreamEventEndEncountered:
+                DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"CFWriteStream kCFStreamEventEndEncountered");
+                [session TCM_handleStreamErrorOccurredEvent:nil];
+                break;
+                
+            default:
+                DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"CFWriteStream ??");
+                break;
+        }
     }
-    if (floor(NSFoundationVersionNumber)>NSFoundationVersionNumber10_3) [pool release];
 }
 

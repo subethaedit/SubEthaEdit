@@ -41,7 +41,7 @@
 		142891540957475E00D14688 /* TCMBEEPManagementProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891490957475E00D14688 /* TCMBEEPManagementProfile.m */; };
 		142891550957475E00D14688 /* TCMBEEPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428914B0957475E00D14688 /* TCMBEEPMessage.m */; };
 		142891560957475E00D14688 /* TCMBEEPProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428914D0957475E00D14688 /* TCMBEEPProfile.m */; };
-		142891570957475E00D14688 /* TCMBEEPSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428914F0957475E00D14688 /* TCMBEEPSession.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		142891570957475E00D14688 /* TCMBEEPSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428914F0957475E00D14688 /* TCMBEEPSession.m */; };
 		142891DE09574E5B00D14688 /* TCMHost.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891D809574E5B00D14688 /* TCMHost.m */; };
 		1428920E095751CB00D14688 /* NSColorTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289207095751CB00D14688 /* NSColorTCMAdditions.m */; };
 		1428920F095751CB00D14688 /* NSImageTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289209095751CB00D14688 /* NSImageTCMAdditions.m */; };
@@ -125,8 +125,8 @@
 		142D1B9C0BAEE04900B9EF1C /* TCMMMUserManagerKitAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142D1B9A0BAEE04900B9EF1C /* TCMMMUserManagerKitAdditions.m */; };
 		14448AA40A18964A00F36B34 /* SubEthaEdit.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 1428905A0957434600D14688 /* SubEthaEdit.sdef */; };
 		145047420997750100D18142 /* ReleaseNotes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 145047410997750100D18142 /* ReleaseNotes.txt */; };
-		14584B2F0BE0C6E000EB6D15 /* TCMBEEPBencodedMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = F2230A460BE0243100437D55 /* TCMBEEPBencodedMessage.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		14584B300BE0C6E300EB6D15 /* TCMBEEPBencodingProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = F2230A480BE0243100437D55 /* TCMBEEPBencodingProfile.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		14584B2F0BE0C6E000EB6D15 /* TCMBEEPBencodedMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = F2230A460BE0243100437D55 /* TCMBEEPBencodedMessage.m */; };
+		14584B300BE0C6E300EB6D15 /* TCMBEEPBencodingProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = F2230A480BE0243100437D55 /* TCMBEEPBencodingProfile.m */; };
 		148167AE0B15B002008894C9 /* PlainTextWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 148167AC0B15B002008894C9 /* PlainTextWindow.m */; };
 		1493A8590A10DABB004ECE6A /* SystemVersionCheck.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1493A8580A10DABB004ECE6A /* SystemVersionCheck.strings */; };
 		149774180B5E159F004A546C /* PlainTextLoadProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 149774160B5E159F004A546C /* PlainTextLoadProgress.m */; };

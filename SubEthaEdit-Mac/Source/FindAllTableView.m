@@ -59,7 +59,7 @@
             // After checking how NSButton behaves I opted to jump upon Return and Enter.
             case 13: // ReturnKey
             case NSEnterCharacter: // == 3
-#pragma clang
+#pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
                 // This selector won't leak, as the return type is always zero
                 if (selectedRow > -1) [[self target] performSelector:[self doubleAction]];
