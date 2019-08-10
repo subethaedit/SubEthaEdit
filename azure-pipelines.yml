@@ -14,9 +14,10 @@ steps:
   submodules: true
 - task: Xcode@5
   inputs:
-    actions: 'build'
+    actions: 'build test'
     scheme: 'SubEthaEdit'
     sdk: 'macosx'
     configuration: 'Release'
     xcWorkspacePath: 'SubEthaEdit.xcworkspace'
     xcodeVersion: 'default' # Options: 8, 9, 10, default, specifyPath
+    publishJUnitResults: true
