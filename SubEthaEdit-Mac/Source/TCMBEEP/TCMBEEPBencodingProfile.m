@@ -58,7 +58,9 @@ static NSMutableDictionary *S_routingDictionary=nil;
         [self close];
     } else {
         // filter the message and apply the method
-        NSMutableDictionary *routingTable = [[[self class] myRoutingDictionary] objectForKey:[NSNumber numberWithInt:[[self channel] isInitiator]?TCMBEEPChannelRoleInitiator:TCMBEEPChannelRoleResponder]];
+        NSMutableDictionary *routingTable = [[[self class] myRoutingDictionary] objectForKey:[NSNumber numberWithInt: [[self channel] isInitiator] ?
+                                                                                         TCMBEEPChannelRoleInitiator :
+                                                                                              TCMBEEPChannelRoleResponder]];
         NSDictionary *messageTable = [routingTable objectForKey:[message messageString]];
         NSValue *selectorValue = [messageTable objectForKey:[[message BEEPMessage] messageTypeString]];
         if (!selectorValue) selectorValue = [messageTable objectForKey:@"FallBack"];

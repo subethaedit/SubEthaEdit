@@ -6,8 +6,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface TCMHost : NSObject
-{
+@interface TCMHost : NSObject {
     CFHostRef I_host;
     NSMutableArray *I_names;
     unsigned short I_port;
@@ -16,7 +15,7 @@
 }
 
 @property (nonatomic, weak) id delegate;
-@property (nonatomic, retain, readonly) NSDictionary *userInfo;
+@property (nonatomic, strong, readonly) NSDictionary *userInfo;
 
 
 + (TCMHost *)hostWithName:(NSString *)name port:(unsigned short)port userInfo:(NSDictionary *)userInfo;

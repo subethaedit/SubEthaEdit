@@ -8,8 +8,7 @@
 @class TCMBEEPSession;
 
 
-@interface TCMBEEPListener : NSObject 
-{
+@interface TCMBEEPListener : NSObject  {
     CFSocketRef I_listeningSocket;
     CFSocketRef I_listeningSocket6;
     unsigned int I_port;

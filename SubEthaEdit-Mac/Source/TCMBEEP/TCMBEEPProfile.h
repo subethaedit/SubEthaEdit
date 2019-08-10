@@ -17,8 +17,7 @@
 @end
 
 
-@interface TCMBEEPProfile : NSObject
-{
+@interface TCMBEEPProfile : NSObject {
     BOOL I_isClosing;
     BOOL I_isAbortingIncomingMessages;
 }

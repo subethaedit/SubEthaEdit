@@ -13,16 +13,13 @@
 
 @implementation TCMMMSessionFoundationHelper
 
-- (void)playSoundNamed:(NSString *)name
-{
+- (void)playSoundNamed:(NSString *)name {
 }
 
-- (void)playBeep
-{
+- (void)playBeep {
 }
 
-- (void)addProxyDocumentWithSession:(TCMMMSession *)session
-{
+- (void)addProxyDocumentWithSession:(TCMMMSession *)session {
 }
 
 @end

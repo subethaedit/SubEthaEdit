@@ -8,8 +8,8 @@
 
 @interface TableView : NSTableView
 
-@property (nonatomic, retain) NSColor *lightBackgroundColor;
-@property (nonatomic, retain) NSColor *darkBackgroundColor;
+@property (nonatomic, strong) NSColor *lightBackgroundColor;
+@property (nonatomic, strong) NSColor *darkBackgroundColor;
 @property (nonatomic, assign) BOOL disableFirstRow;
 
 @end

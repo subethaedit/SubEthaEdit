@@ -8,7 +8,7 @@
 
 @interface BorderedTextField : NSTextField 
 
-@property (nonatomic, retain) NSColor *borderColor;
+@property (nonatomic, strong) NSColor *borderColor;
 @property (nonatomic, assign) BOOL hasRightBorder;
 @property (nonatomic, assign) BOOL hasLeftBorder;
 

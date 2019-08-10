@@ -15,7 +15,7 @@
     NSSize I_textContainerSize;
     NSPoint I_textContainerOrigin;
     PlainTextDocument *I_document;
-    __weak NSTextView *I_headerTextView;
+    NSTextView *I_headerTextView;
     NSMutableArray *I_contributorArray,
                    *I_visitorArray;
     NSFont *I_baseFont;

@@ -14,8 +14,7 @@
 @implementation FoldedTextAttachment
 - (instancetype)initWithFoldedTextRange:(NSRange)inFoldedTextRange
 {
-	if ((self = [self init]))
-	{
+	if ((self = [self init])) {
 		_foldedTextRange = inFoldedTextRange;
 		_innerAttachments = [NSMutableArray new];
         self.attachmentCell = [FoldingTextAttachmentCell new];

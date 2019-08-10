@@ -10,7 +10,14 @@
 #error ARC must be enabled!
 #endif
 
-@implementation ModeSettings
+
+
+@implementation ModeSettings {
+    NSMutableArray *_recognizedExtensions;
+    NSMutableArray *_recognizedCasesensitveExtensions;
+    NSMutableArray *_recognizedRegexes;
+    NSMutableArray *_recognizedFilenames;
+}
 
 - (void)getReady {
 	everythingOkay = YES;

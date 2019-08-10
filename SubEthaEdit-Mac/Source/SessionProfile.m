@@ -38,7 +38,7 @@
         I_flags.isClosing=NO;
         I_outgoingMMMessageQueue=[NSMutableArray new];
         I_numberOfUnacknowledgedSessconMSG=-1;
-        I_options = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithBool:NO],@"SendHistory",[NSNumber numberWithBool:NO],@"SendSESCHG",nil];
+        I_options = [[NSMutableDictionary alloc] initWithObjectsAndKeys:@NO, @"SendHistory", @NO, @"SendSESCHG", nil];
     }
     return self;
 }

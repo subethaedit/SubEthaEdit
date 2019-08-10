@@ -173,7 +173,7 @@
 }
 
 - (BOOL)shouldBeGroupedWithTextOperation:(TextOperation *)priorOperation {
-    if (!priorOperation) return NO;
+    if (!priorOperation) { return NO; }
     BOOL result=NO;
     NSRange myRange=[self affectedCharRange];
     NSRange priorRange=[priorOperation affectedCharRange];

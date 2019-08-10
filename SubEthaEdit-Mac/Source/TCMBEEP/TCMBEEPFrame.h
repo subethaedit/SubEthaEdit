@@ -7,8 +7,7 @@
 
 @class TCMBEEPMessage;
 
-@interface TCMBEEPFrame : NSObject
-{
+@interface TCMBEEPFrame : NSObject {
     char I_messageType[4];
     int32_t I_channelNumber;
     int32_t I_messageNumber;

@@ -108,8 +108,7 @@
 
 @implementation EncodingManager
 
-+ (instancetype)sharedInstance
-{
++ (instancetype)sharedInstance {
 	static dispatch_once_t onceToken = 0;
 	static id sharedInstance = nil;
 	dispatch_once(&onceToken, ^{
@@ -118,8 +117,7 @@
     return sharedInstance;
 }
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super initWithWindowNibName:@"SelectEncodingsPanel"];
     if (self) {
 		registeredEncodings = [[NSCountedSet alloc] init];
@@ -127,14 +125,12 @@
     return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
 	registeredEncodings = nil;
     _encodingMatrix = nil;
 }
 
-- (void)loadWindow
-{
+- (void)loadWindow {
 	[super loadWindow];
 	if ([self.window isKindOfClass:[NSPanel class]])
 	{

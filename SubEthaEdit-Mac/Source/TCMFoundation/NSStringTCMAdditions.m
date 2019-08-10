@@ -33,7 +33,7 @@
     if (!dictionary) dictionary = [NSMutableDictionary new];
     if (aData!=nil && [aData length]>= sizeof(CFUUIDBytes)) {
         CFUUIDRef uuid=CFUUIDCreateFromUUIDBytes(NULL,*(CFUUIDBytes *)[aData bytes]);
-        NSString *uuidString=(NSString *)CFBridgingRelease(CFUUIDCreateString(NULL,uuid));
+        NSString *uuidString = CFBridgingRelease(CFUUIDCreateString(NULL,uuid));
         CFRelease(uuid);
         NSString *result = [dictionary objectForKey:uuidString];
         if (uuidString) {
@@ -50,22 +50,19 @@
     }
 }
 
-+ (NSString *)stringWithData:(NSData *)aData encoding:(NSStringEncoding)aEncoding
-{
++ (NSString *)stringWithData:(NSData *)aData encoding:(NSStringEncoding)aEncoding {
     return [[NSString alloc] initWithData:aData encoding:aEncoding];
 }
 
-+ (NSString *)UUIDString
-{
++ (NSString *)UUIDString {
     CFUUIDRef myUUID = CFUUIDCreate(NULL);
     CFStringRef myUUIDString = CFUUIDCreateString(NULL, myUUID);
     CFRelease(myUUID);
     
-    return (NSString *)CFBridgingRelease(myUUIDString);
+    return CFBridgingRelease(myUUIDString);
 }
 
-+ (NSString *)stringWithAddressData:(NSData *)aData cyrusSASLCompatible:(BOOL)cyrusSASLCompatible
-{
++ (NSString *)stringWithAddressData:(NSData *)aData cyrusSASLCompatible:(BOOL)cyrusSASLCompatible {
     struct sockaddr *socketAddress = (struct sockaddr *)[aData bytes];
     
     // IPv6 Addresses are "FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF" at max, which is 40 bytes (0-terminated)
@@ -112,8 +109,7 @@
     return addressAsString;
 }
 
-+ (NSString *)stringWithAddressData:(NSData *)aData
-{
++ (NSString *)stringWithAddressData:(NSData *)aData {
     return [NSString stringWithAddressData:aData cyrusSASLCompatible:NO];
 }
 

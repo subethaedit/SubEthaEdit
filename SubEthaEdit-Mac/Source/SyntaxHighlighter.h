@@ -30,9 +30,6 @@ extern NSString * const kSyntaxHighlightingTypeString;
 
 @interface SyntaxHighlighter : NSObject {
     SyntaxDefinition *_syntaxDefinition;
-    // Unused
-    // NSMutableArray *I_parseStack;
-	// NSLock *I_stringLock;
 }
 
 @property (nonatomic, readonly) SyntaxDefinition *syntaxDefinition;

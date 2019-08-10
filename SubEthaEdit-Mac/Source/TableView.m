@@ -12,7 +12,7 @@
 
 @implementation TableView
 
--(void)setDisableFirstRow:(BOOL)aFlag {
+- (void)setDisableFirstRow:(BOOL)aFlag {
     _disableFirstRow=aFlag;
     [self setNeedsDisplay:YES];
 }

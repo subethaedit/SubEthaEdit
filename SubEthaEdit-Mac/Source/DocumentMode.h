@@ -106,16 +106,16 @@ extern NSString * const DocumentModeStyleSheetsDefaultLanguageContextKey;
 }
 
 @property (readonly) BOOL isBaseMode;
-@property (nonatomic, retain) NSMutableDictionary *defaults;
-@property (readonly) NSArray *availableScopes;
-@property (readonly) NSDictionary *scopeExamples;
-@property (readonly) NSDictionary *styleIDTransitionDictionary;
-@property (readonly) ModeSettings *modeSettings;
-@property (readonly) SyntaxHighlighter *syntaxHighlighter;
-@property (readonly) SyntaxDefinition *syntaxDefinition;
-@property (readonly) NSMutableArray *autocompleteDictionary;
-@property (readonly) RegexSymbolParser *symbolParser;
-@property (readonly) NSBundle *bundle;
+@property (nonatomic, strong) NSMutableDictionary *defaults;
+@property (nonatomic, strong, readonly) NSArray *availableScopes;
+@property (nonatomic, strong, readonly) NSDictionary *scopeExamples;
+@property (nonatomic, strong, readonly) NSDictionary *styleIDTransitionDictionary;
+@property (nonatomic, strong, readonly) ModeSettings *modeSettings;
+@property (nonatomic, strong, readonly) SyntaxHighlighter *syntaxHighlighter;
+@property (nonatomic, strong, readonly) SyntaxDefinition *syntaxDefinition;
+@property (nonatomic, strong, readonly) NSMutableArray *autocompleteDictionary;
+@property (nonatomic, strong, readonly) RegexSymbolParser *symbolParser;
+@property (nonatomic, strong, readonly) NSBundle *bundle;
 
 - (void)addAutocompleteEntrysFromArray:(NSArray *)aAutocompleteArray;
 
@@ -123,7 +123,7 @@ extern NSString * const DocumentModeStyleSheetsDefaultLanguageContextKey;
 
 - (instancetype)initWithBundle:(NSBundle *)aBundle;
 
-@property (readonly) NSString *bracketMatchingBracketString;
+@property (nonatomic, strong, readonly) NSString *bracketMatchingBracketString;
 
 - (NSString *)templateFileContent;
 

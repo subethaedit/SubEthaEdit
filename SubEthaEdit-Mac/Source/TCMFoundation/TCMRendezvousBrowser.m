@@ -36,10 +36,6 @@ static NSString *kServiceKey=@"Service";
     return self;
 }
 
-- (void)dealloc {
-    [self stopSearch];
-}
-
 - (void)startSearch {
     [I_serviceBrowser searchForServicesOfType:I_serviceType inDomain:I_domain];
 }

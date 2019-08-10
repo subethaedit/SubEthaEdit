@@ -11,7 +11,7 @@
 #endif
 
 @interface URLDataProtocol ()
-@property (nonatomic, retain) NSCachedURLResponse *cachedURLResponse;
+@property (nonatomic, strong) NSCachedURLResponse *cachedURLResponse;
 @end
 
 @implementation URLDataProtocol
@@ -31,7 +31,7 @@
 }
 
 
--(instancetype)initWithRequest:(NSURLRequest *)request cachedResponse:(NSCachedURLResponse *)cachedResponse client:(id <NSURLProtocolClient>)client {
+- (instancetype)initWithRequest:(NSURLRequest *)request cachedResponse:(NSCachedURLResponse *)cachedResponse client:(id <NSURLProtocolClient>)client {
     self=[super initWithRequest:request cachedResponse:cachedResponse client:client];
     if (self) {
         [self setCachedURLResponse:cachedResponse];
@@ -40,7 +40,7 @@
     return self;
 }
 
--(void)startLoading {
+- (void)startLoading {
 //    NSLog(@"start loading");
     id <NSURLProtocolClient> client=[self client];
     NSURLRequest *request=[self request];
@@ -53,7 +53,7 @@
     [client URLProtocolDidFinishLoading:self];
 }
 
--(void)stopLoading {
+- (void)stopLoading {
 
 }
 

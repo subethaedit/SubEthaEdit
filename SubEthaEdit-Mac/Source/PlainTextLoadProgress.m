@@ -13,8 +13,7 @@
 
 @implementation PlainTextLoadProgress
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super initWithNibName:@"PlainTextLoadProgress" bundle:nil];
     if (self) {
     }
@@ -25,25 +24,21 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)startAnimation
-{
+- (void)startAnimation {
     [self.progressIndicatorOutlet setIndeterminate:YES];
     [self.progressIndicatorOutlet startAnimation:self];
 }
 
-- (void)stopAnimation
-{
+- (void)stopAnimation {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self.progressIndicatorOutlet stopAnimation:self];
 }
 
-- (void)setStatusText:(NSString *)string
-{
+- (void)setStatusText:(NSString *)string {
     [self.loadStatusFieldOutlet setStringValue:string];
 }
 
-- (NSView *)loadProgressView
-{
+- (NSView *)loadProgressView {
     return self.view;
 }
 
@@ -56,8 +51,7 @@
 
 #pragma mark -
 
-- (void)updateProgress:(NSNotification *)aNotification
-{
+- (void)updateProgress:(NSNotification *)aNotification {
     if ([[aNotification object] percentOfSessionReceived] > 0.0) {
         [self.progressIndicatorOutlet setIndeterminate:NO];
         [self.progressIndicatorOutlet setDoubleValue:[[aNotification object] percentOfSessionReceived]];

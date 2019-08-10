@@ -681,7 +681,6 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
             }
         }
 
-
         operation = [anOperation copy];
         
         group = _redoGroup;

@@ -178,11 +178,11 @@
 + (id)stringForKey:(NSString*)key
             atPath:(NSString*)path
       traverseLink:(BOOL)travLnk {
-  NSMutableData* data =
-      [[self class] dataForKey:key atPath:path traverseLink:travLnk];
-  if (!data) return nil;
-  return [[NSString alloc] initWithData:data
-                                encoding:NSUTF8StringEncoding];
+    NSMutableData* data =
+    [[self class] dataForKey:key atPath:path traverseLink:travLnk];
+    if (!data) return nil;
+    return [[NSString alloc] initWithData:data
+                                 encoding:NSUTF8StringEncoding];
 }
 
 @end

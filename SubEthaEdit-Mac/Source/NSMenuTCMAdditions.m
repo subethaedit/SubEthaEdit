@@ -13,7 +13,7 @@
 
 @implementation  NSMenuItem (NSMenuItemTCMAdditions)
 - (id)autoreleasedCopy {
-    __autoreleasing NSMenuItem *result=[[NSMenuItem alloc] initWithTitle:[self title] action:[self action] keyEquivalent:[self keyEquivalent]];
+    NSMenuItem *result=[[NSMenuItem alloc] initWithTitle:[self title] action:[self action] keyEquivalent:[self keyEquivalent]];
     [result setKeyEquivalentModifierMask:[self keyEquivalentModifierMask]];
     [result setTarget:[self target]];
     [result setTag:[self tag]];
@@ -25,8 +25,7 @@
 }
 
 - (void)setMark:(BOOL)aMark {
-	if (aMark)
-	{
+	if (aMark) {
 		// draw an image same size and dimentions like private image named "NSMenuItemBullet"
 		NSImage* image = [NSImage imageWithSize:NSMakeSize(7.0, 7.0) flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
 			[[[NSColor blackColor] colorWithAlphaComponent:0.75] set];

@@ -26,14 +26,13 @@
     return selection;
 }
 
-+ (id)scriptTextSelectionWithTextStorage:(FullTextStorage *)aTextStorage editor:(PlainTextEditor *)anEditor
-{
++ (id)scriptTextSelectionWithTextStorage:(FullTextStorage *)aTextStorage editor:(PlainTextEditor *)anEditor {
     return [[ScriptTextSelection alloc] initWithTextStorage:aTextStorage editor:anEditor];
 }
 
 - (instancetype)initWithTextStorage:(FullTextStorage *)aTextStorage editor:(PlainTextEditor *)anEditor {
     if ((self = [super initWithTextStorage:aTextStorage])) {
-        I_editor      = anEditor;
+        I_editor = anEditor;
     }
     return self;
 }

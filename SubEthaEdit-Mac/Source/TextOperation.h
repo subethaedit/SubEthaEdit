@@ -9,8 +9,8 @@
 
 @interface TextOperation : TCMMMOperation <NSCopying> 
 
+@property (nonatomic) NSRange affectedCharRange;
 @property (nonatomic, copy) NSString *replacementString;
-@property (nonatomic, assign) NSRange affectedCharRange;
 
 + (TextOperation *)textOperationWithAffectedCharRange:(NSRange)aRange replacementString:(NSString *)aString userID:(NSString *)aUserID;
 

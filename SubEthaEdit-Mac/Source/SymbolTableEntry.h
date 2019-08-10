@@ -14,7 +14,7 @@
 
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, assign) int fontTraitMask;
-@property (nonatomic, retain) NSImage *image;
+@property (nonatomic, strong) NSImage *image;
 @property (nonatomic, copy) NSString *type;
 @property (nonatomic, assign) int indentationLevel;
 @property (nonatomic, assign) BOOL isSeparator;

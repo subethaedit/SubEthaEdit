@@ -12,8 +12,7 @@
 
 @implementation SelectCommand
 
-- (id)performDefaultImplementation
-{
+- (id)performDefaultImplementation {
     NSLog(@"%s: %@", __FUNCTION__, [self description]);
 
     return [super performDefaultImplementation];

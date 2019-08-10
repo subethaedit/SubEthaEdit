@@ -13,13 +13,11 @@
 
 @implementation TCMBEEPMessage
 
-+ (TCMBEEPMessage *)messageWithQueue:(NSArray *)aQueue
-{
++ (TCMBEEPMessage *)messageWithQueue:(NSArray *)aQueue {
     return [[TCMBEEPMessage alloc] initWithQueue:aQueue];
 }
 
-- (instancetype)initWithTypeString:(NSString *)aType messageNumber:(int32_t)aMessageNumber payload:(NSData *)aPayload
-{
+- (instancetype)initWithTypeString:(NSString *)aType messageNumber:(int32_t)aMessageNumber payload:(NSData *)aPayload {
     self = [super init];
     if (self) {
         [self setMessageTypeString:aType];
@@ -31,8 +29,7 @@
     return self;
 }
 
-- (instancetype)initWithQueue:(NSArray *)aQueue
-{
+- (instancetype)initWithQueue:(NSArray *)aQueue {
     NSParameterAssert(aQueue != nil);
     self = [super init];
     if (self) {
@@ -52,38 +49,31 @@
     return self;
 }
 
-- (void)setPayload:(NSData *)aData
-{
+- (void)setPayload:(NSData *)aData {
     _payload = [aData mutableCopy];
 }
 
-- (unsigned)payloadLength
-{
+- (unsigned)payloadLength {
     return [_payload length];
 }
 
-- (BOOL)isMSG
-{
+- (BOOL)isMSG {
     return [_messageTypeString isEqualTo:@"MSG"];
 }
 
-- (BOOL)isANS
-{
+- (BOOL)isANS {
     return [_messageTypeString isEqualTo:@"ANS"];
 }
 
-- (BOOL)isNUL
-{
+- (BOOL)isNUL {
     return [_messageTypeString isEqualTo:@"NUL"];
 }
 
-- (BOOL)isRPY
-{
+- (BOOL)isRPY {
     return [_messageTypeString isEqualTo:@"RPY"];
 }
 
-- (BOOL)isERR
-{
+- (BOOL)isERR {
     return [_messageTypeString isEqualTo:@"ERR"];
 }
 

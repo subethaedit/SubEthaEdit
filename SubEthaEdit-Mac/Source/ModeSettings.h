@@ -7,17 +7,13 @@
 #import <OgreKit/OgreKit.h>
 
 @interface ModeSettings : NSObject {
-    NSMutableArray *_recognizedExtensions;
-    NSMutableArray *_recognizedCasesensitveExtensions;
-    NSMutableArray *_recognizedRegexes;
-    NSMutableArray *_recognizedFilenames;
     BOOL everythingOkay;
 }
 
-@property (nonatomic, readonly) NSArray *recognizedExtensions;
-@property (nonatomic, readonly) NSArray *recognizedCasesensitveExtensions;
-@property (nonatomic, readonly) NSArray *recognizedRegexes;
-@property (nonatomic, readonly) NSArray *recognizedFilenames;
+@property (nonatomic, strong, readonly) NSArray *recognizedExtensions;
+@property (nonatomic, strong, readonly) NSArray *recognizedCasesensitveExtensions;
+@property (nonatomic, strong, readonly) NSArray *recognizedRegexes;
+@property (nonatomic, strong, readonly) NSArray *recognizedFilenames;
 @property (nonatomic, copy) NSString *templateFile;
 
 - (instancetype)initWithFile:(NSString *)aPath;

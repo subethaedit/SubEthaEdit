@@ -44,9 +44,9 @@ typedef enum {
     } I_flags;
 }
 
-@property (nonatomic, retain) TCMBEEPFrame *previousReadFrame;
-@property (nonatomic, retain) TCMBEEPMessage *currentReadMessage;
-@property (nonatomic, assign) unsigned long number;
+@property (nonatomic, strong) TCMBEEPFrame *previousReadFrame;
+@property (nonatomic, strong) TCMBEEPMessage *currentReadMessage;
+@property (nonatomic) unsigned long number;
 @property (nonatomic, weak) TCMBEEPSession *session;
 @property (nonatomic, copy) NSString *profileURI;
 

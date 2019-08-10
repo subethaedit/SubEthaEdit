@@ -28,7 +28,7 @@ Dictionaries are encoded as a 'd' followed by a list of alternating keys and the
 
 - (instancetype)initWithData:(NSData *)data {
     if ((self=[super init])) {
-        _data = data ? [data mutableCopy] : [NSMutableData new];
+        _data = [data mutableCopy] ?: [NSMutableData new];
     }
     return self;
 }
@@ -49,7 +49,7 @@ Dictionaries are encoded as a 'd' followed by a list of alternating keys and the
 }
 
 - (id)mutableBencodedDataByAppendingObjectsFromArrayToBencodedArray:(NSArray *)anArray {
-    TCMMutableBencodedData *result = [[TCMMutableBencodedData alloc] initWithData:[self data]];
+    TCMMutableBencodedData *result = [[TCMMutableBencodedData alloc] initWithData:self.data];
     [result appendObjectsFromArrayToBencodedArray:anArray];
     return result;
 }

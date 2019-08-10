@@ -62,15 +62,13 @@ static NSMutableDictionary *profileURIToClassMapping;
 {
     self = [super init];
     if (self) {
-        Class profileClass = nil;
+        Class profileClass;
         if ((profileClass = [[TCMBEEPChannel profileURIToClassMapping] objectForKey:aProfileURI])) {
             I_profile = [[profileClass alloc] initWithChannel:self];
             [I_profile setProfileURI:aProfileURI];
             [self setSession:aSession];
             [self setNumber:aNumber];
             [self setProfileURI:aProfileURI];
-            _previousReadFrame = nil;
-            _currentReadMessage = nil;
             I_messageNumbersWithPendingReplies = [NSMutableIndexSet new];
             I_unacknowledgedMessageNumbers = [NSMutableIndexSet new];
             I_inboundMessageNumbersWithPendingReplies = [NSMutableIndexSet new];
@@ -96,13 +94,11 @@ static NSMutableDictionary *profileURIToClassMapping;
     return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Channel deallocated");
 }
 
-- (NSString *)description
-{
+- (NSString *)description {
     return [NSString stringWithFormat:@"%@ isInitiator: %@ profileURI: %@",[super description],I_flags.isInitiator?@"YES":@"NO ",_profileURI];
     //return [NSString stringWithFormat:@"\nincomingWindowSize: %d\nincomingBufferSize: %d\nincomingBufferSizeAvailable: %d\nincomingSequenceNumber: %d\nsequenceNumber: %d\noutgoingWindowSize: %d",
     //                                    I_incomingWindowSize,
@@ -114,24 +110,20 @@ static NSMutableDictionary *profileURIToClassMapping;
     //return [super description];
 }
 
-- (BOOL)isInitiator
-{
+- (BOOL)isInitiator {
     return I_flags.isInitiator;
 }
 
-- (id)profile
-{
+- (id)profile {
     return I_profile;
 }
 
-- (TCMBEEPChannelStatus)channelStatus
-{
+- (TCMBEEPChannelStatus)channelStatus {
     return I_channelStatus;
 }
 
 // standard conform close
-- (void)close
-{
+- (void)close {
     I_channelStatus = TCMBEEPChannelStatusAtEnd;
     
     // comply with requirements before sending close frame
@@ -151,8 +143,7 @@ static NSMutableDictionary *profileURIToClassMapping;
 }
 
 // Convenience for Profiles
-- (int32_t)sendMSGMessageWithPayload:(NSData *)aPayload
-{
+- (int32_t)sendMSGMessageWithPayload:(NSData *)aPayload {
     if (I_channelStatus == TCMBEEPChannelStatusAtEnd ||
         I_channelStatus == TCMBEEPChannelStatusClosing ||
         I_channelStatus == TCMBEEPChannelStatusCloseRequested) {
@@ -164,8 +155,7 @@ static NSMutableDictionary *profileURIToClassMapping;
     return number;
 }
 
-- (BOOL)preemptFrame:(TCMBEEPFrame *)aFrame
-{
+- (BOOL)preemptFrame:(TCMBEEPFrame *)aFrame {
     int32_t messageNumber = [aFrame messageNumber];
     if ([aFrame isMSG] && [aFrame isIntermediate] && ![I_preemptedMessageNumbers containsIndex:messageNumber]) {
         [I_preemptedMessageNumbers addIndex:messageNumber];
@@ -178,8 +168,7 @@ static NSMutableDictionary *profileURIToClassMapping;
 }
 
 // Accessors for session
-- (BOOL)hasFramesAvailable
-{
+- (BOOL)hasFramesAvailable {
     if ([I_outgoingFrameQueue count] > 0) {
         DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"hasFramesAvailable: YES");
         return YES;
@@ -194,8 +183,7 @@ static NSMutableDictionary *profileURIToClassMapping;
     return NO;
 }
 
-- (NSArray *)availableFramesFittingInCurrentWindow;
-{
+- (NSArray *)availableFramesFittingInCurrentWindow; {
     if ([I_messageWriteQueue count] == 0 && [I_outgoingFrameQueue count] == 0) {
         return [NSArray array];
     }
@@ -256,8 +244,7 @@ static NSMutableDictionary *profileURIToClassMapping;
 }
 
 
-- (BOOL)acceptFrame:(TCMBEEPFrame *)aFrame
-{
+- (BOOL)acceptFrame:(TCMBEEPFrame *)aFrame {
     if ([aFrame isSEQ]) {
         // validate SEQ frame;
         uint32_t ackno = [aFrame sequenceNumber];
@@ -363,8 +350,7 @@ static NSMutableDictionary *profileURIToClassMapping;
 
 #pragma mark -
 
-- (BOOL)TCM_validateFrame:(TCMBEEPFrame *)aFrame
-{
+- (BOOL)TCM_validateFrame:(TCMBEEPFrame *)aFrame {
     char *messageType = [aFrame messageType];
     TCMBEEPFrame *previousReadFrame = [self previousReadFrame];
     
@@ -451,8 +437,7 @@ static NSMutableDictionary *profileURIToClassMapping;
     return result;
 }
 
-- (void)sendMessage:(TCMBEEPMessage *)aMessage
-{
+- (void)sendMessage:(TCMBEEPMessage *)aMessage {
     // validate message, return NSError
     // ...
     [aMessage setChannelNumber:[self number]];
@@ -473,27 +458,24 @@ static NSMutableDictionary *profileURIToClassMapping;
     [[self session] channelHasFramesAvailable:self];
 }
 
-- (void)cleanup
-{
+- (void)cleanup {
     [[self profile] cleanup];
     [[self profile] setChannel:nil];
     I_profile = nil;
+    TCM_RetainAutorelease(self);
 }
 
-- (void)closed
-{
+- (void)closed {
     I_channelStatus = TCMBEEPChannelStatusClosed;
     [[self profile] channelDidClose];
 }
 
-- (void)closeFailedWithError:(NSError *)error
-{
+- (void)closeFailedWithError:(NSError *)error {
     // status?
     [[self profile] channelDidNotCloseWithError:error];
 }
 
-- (void)closeRequested
-{
+- (void)closeRequested {
     DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"closeRequested");
     I_channelStatus = TCMBEEPChannelStatusCloseRequested;
     [[self profile] channelDidReceiveCloseRequest];

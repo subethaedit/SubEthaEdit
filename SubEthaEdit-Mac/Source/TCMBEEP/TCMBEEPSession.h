@@ -104,9 +104,9 @@ enum {
 #endif
 }
 
-@property (nonatomic, assign) id <TCMBEEPSessionDelegate>delegate;
-@property (nonatomic, assign) id <TCMBEEPAuthenticationDelegate>authenticationDelegate;
-@property (nonatomic, retain) id authenticationInformation;
+@property (nonatomic, weak) id <TCMBEEPSessionDelegate>delegate;
+@property (nonatomic, weak) id <TCMBEEPAuthenticationDelegate>authenticationDelegate;
+@property (nonatomic, strong) id authenticationInformation;
 @property (nonatomic, copy) NSMutableDictionary *userInfo;
 @property (nonatomic, copy) NSMutableArray *profileURIs;
 @property (nonatomic, copy) NSArray *peerProfileURIs;

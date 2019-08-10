@@ -18,8 +18,8 @@ enum {
 @interface UserChangeOperation : TCMMMOperation
 
 @property (nonatomic, copy) NSString *theNewGroup;
-@property (nonatomic, assign) int type;
-@property (nonatomic, retain) TCMMMUser *user;
+@property (nonatomic) int type;
+@property (nonatomic, strong) TCMMMUser *user;
 
 
 + (UserChangeOperation *)userChangeOperationWithType:(int)aType userID:(NSString *)aUserID newGroup:(NSString *)aGroup;

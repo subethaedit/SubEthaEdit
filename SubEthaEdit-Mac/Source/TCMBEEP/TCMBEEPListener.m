@@ -30,8 +30,7 @@ static void acceptConnection(CFSocketRef aSocketRef, CFSocketCallBackType aType,
 
 @implementation TCMBEEPListener
 
-- (instancetype)initWithPort:(unsigned int)aPort
-{
+- (instancetype)initWithPort:(unsigned int)aPort {
     self = [super init];
     
     if (self) {
@@ -83,15 +82,12 @@ static void acceptConnection(CFSocketRef aSocketRef, CFSocketCallBackType aType,
     return self;
 }
 
-- (void)dealloc
-{
-    
+- (void)dealloc {
     CFRelease(I_listeningSocket);
     CFRelease(I_listeningSocket6);
 }
 
-- (BOOL)listen
-{
+- (BOOL)listen {
 	BOOL success = NO;
     CFDataRef addressData = NULL;
     CFDataRef addressData6 = NULL;
@@ -172,16 +168,16 @@ static void acceptConnection(CFSocketRef aSocketRef, CFSocketCallBackType aType,
 
 #pragma mark -
 
-- (void)TCM_acceptSocket:(CFSocketNativeHandle)aSocketHandle withAddressData:(NSData *)inAddress
-{
+- (void)TCM_acceptSocket:(CFSocketNativeHandle)aSocketHandle withAddressData:(NSData *)inAddress {
     TCMBEEPSession *session = [[TCMBEEPSession alloc] initWithSocket:aSocketHandle addressData:inAddress];
     
-    if ([_delegate respondsToSelector:@selector(BEEPListener:shouldAcceptBEEPSession:)]) {
-        BOOL shouldAccept = [_delegate BEEPListener:self shouldAcceptBEEPSession:session];
+    __strong typeof(_delegate) delegate = _delegate;
+    if ([delegate respondsToSelector:@selector(BEEPListener:shouldAcceptBEEPSession:)]) {
+        BOOL shouldAccept = [delegate BEEPListener:self shouldAcceptBEEPSession:session];
         
         if (shouldAccept) {
-            if ([_delegate respondsToSelector:@selector(BEEPListener:didAcceptBEEPSession:)]) {
-                [_delegate BEEPListener:self didAcceptBEEPSession:session];
+            if ([delegate respondsToSelector:@selector(BEEPListener:didAcceptBEEPSession:)]) {
+                [delegate BEEPListener:self didAcceptBEEPSession:session];
             }
         }
     }
@@ -189,8 +185,7 @@ static void acceptConnection(CFSocketRef aSocketRef, CFSocketCallBackType aType,
 
 #pragma mark -
 
-void acceptConnection(CFSocketRef aSocketRef, CFSocketCallBackType aType, CFDataRef anAddress, const void* aData, void* aContext)
-{
+void acceptConnection(CFSocketRef aSocketRef, CFSocketCallBackType aType, CFDataRef anAddress, const void* aData, void* aContext) {
     @autoreleasepool {
         TCMBEEPListener *listener = (__bridge TCMBEEPListener *)aContext;
         [listener TCM_acceptSocket:*(CFSocketNativeHandle*)aData withAddressData:(__bridge NSData *)anAddress];

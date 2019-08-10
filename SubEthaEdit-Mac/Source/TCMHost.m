@@ -22,8 +22,8 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
 @interface TCMHost ()
 
 @property (nonatomic, copy) NSString *name;
-@property (nonatomic, retain) NSDictionary *userInfo;
-@property (nonatomic, retain) NSData *address;
+@property (nonatomic, strong) NSDictionary *userInfo;
+@property (nonatomic, strong) NSData *address;
 
 - (void)TCM_handleHostCallback:(CFHostRef)host typeInfo:(CFHostInfoType)typeInfo error:(const CFStreamError *)error;
 
@@ -33,18 +33,15 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
 
 @implementation TCMHost
 
-+ (TCMHost *)hostWithName:(NSString *)name port:(unsigned short)port userInfo:(NSDictionary *)userInfo
-{
++ (TCMHost *)hostWithName:(NSString *)name port:(unsigned short)port userInfo:(NSDictionary *)userInfo {
     return [[TCMHost alloc] initWithName:name port:port userInfo:userInfo];
 }
 
-+ (TCMHost *)hostWithAddressData:(NSData *)addr port:(unsigned short)port userInfo:(NSDictionary *)userInfo
-{
++ (TCMHost *)hostWithAddressData:(NSData *)addr port:(unsigned short)port userInfo:(NSDictionary *)userInfo {
     return [[TCMHost alloc] initWithAddressData:addr port:port userInfo:userInfo];
 }
 
-- (instancetype)initWithName:(NSString *)name port:(unsigned short)port userInfo:(NSDictionary *)userInfo
-{
+- (instancetype)initWithName:(NSString *)name port:(unsigned short)port userInfo:(NSDictionary *)userInfo {
     self = [super init];
     if (self) {
     
@@ -57,7 +54,7 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
         [self setName:name];
         [self setUserInfo:userInfo];
         I_port = port;
-        CFHostClientContext context = {0, (__bridge void * _Nullable)(self), NULL, NULL, NULL};
+        CFHostClientContext context = {0, (__bridge void *)(self), NULL, NULL, NULL};
         CFHostSetClient(I_host, myCallback, &context);
         CFHostScheduleWithRunLoop(I_host, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
         
@@ -67,8 +64,7 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
     return self;
 }
 
-- (instancetype)initWithAddressData:(NSData *)addr port:(unsigned short)port userInfo:(NSDictionary *)userInfo
-{    
+- (instancetype)initWithAddressData:(NSData *)addr port:(unsigned short)port userInfo:(NSDictionary *)userInfo {
     self = [super init];
     if (self) {
     
@@ -92,45 +88,37 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
     return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     CFHostUnscheduleFromRunLoop(I_host, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
     CFHostSetClient(I_host, NULL, NULL);
     CFRelease(I_host);
 }
 
-- (NSArray *)addresses
-{
+- (NSArray *)addresses {
     return I_addresses;
 }
 
-- (NSArray *)names
-{
+- (NSArray *)names {
     return I_names;
 }
 
-- (void)checkReachability
-{
+- (void)checkReachability {
     CFHostStartInfoResolution(I_host, kCFHostReachability, NULL);
 }
 
-- (void)resolve
-{
+- (void)resolve {
     CFHostStartInfoResolution(I_host, kCFHostAddresses, NULL);
 }
 
-- (void)reverseLookup
-{
+- (void)reverseLookup {
     CFHostStartInfoResolution(I_host, kCFHostNames, NULL);
 }
 
-- (void)cancel
-{
+- (void)cancel {
     CFHostCancelInfoResolution(I_host, kCFHostAddresses);
 }
 
-- (void)TCM_handleHostCallback:(CFHostRef)host typeInfo:(CFHostInfoType)typeInfo error:(const CFStreamError *)error
-{
+- (void)TCM_handleHostCallback:(CFHostRef)host typeInfo:(CFHostInfoType)typeInfo error:(const CFStreamError *)error {
     //NSLog(@"handleHostCallback");
     id delegate = [self delegate];
     
@@ -182,8 +170,7 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
 
 #pragma mark -
 
-void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *error, void *myInfoPointer)
-{
+void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *error, void *myInfoPointer) {
     TCMHost *host = (__bridge TCMHost *)myInfoPointer;
     [host TCM_handleHostCallback:myHost typeInfo:typeInfo error:error];
 }

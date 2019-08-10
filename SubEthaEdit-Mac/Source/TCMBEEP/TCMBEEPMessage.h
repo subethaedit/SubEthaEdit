@@ -5,16 +5,15 @@
 #import <Foundation/Foundation.h>
 
 
-@interface TCMBEEPMessage : NSObject
-{
+@interface TCMBEEPMessage : NSObject {
     NSMutableData *_payload;
 }
 
 @property (nonatomic, copy) NSString *messageTypeString;
 @property (nonatomic, copy) NSData *payload;
-@property (nonatomic, assign) int32_t messageNumber;
-@property (nonatomic, assign) int32_t channelNumber;
-@property (nonatomic, assign) int32_t answerNumber;
+@property (nonatomic) int32_t messageNumber;
+@property (nonatomic) int32_t channelNumber;
+@property (nonatomic) int32_t answerNumber;
 
 
 + (TCMBEEPMessage *)messageWithQueue:(NSArray *)aQueue;

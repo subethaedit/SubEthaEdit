@@ -142,14 +142,13 @@ static NSData *dhparamData = nil;
 	}
 }
 
-- (void)TCM_initHelper
-{
+- (void)TCM_initHelper {
 	self.uniqueID = [NSString UUIDString];
     I_flags.hasSentTLSProceed = NO;
     I_flags.isWaitingForTLSProceed = NO;
     I_flags.isTLSHandshaking = NO;
     I_flags.isTLSEnabled = NO;
-    CFStreamClientContext context = {0, (__bridge void * _Null_unspecified)(self), NULL, NULL, NULL};
+    CFStreamClientContext context = {0, (__bridge void *)(self), NULL, NULL, NULL};
     CFOptionFlags readFlags =  kCFStreamEventOpenCompleted |
         kCFStreamEventHasBytesAvailable |
         kCFStreamEventErrorOccurred |
@@ -278,8 +277,7 @@ static NSData *dhparamData = nil;
     return self;
 }
 
-- (instancetype)initWithAddressData:(NSData *)aData
-{
+- (instancetype)initWithAddressData:(NSData *)aData {
     self = [super init];
     if (self) {
         [self setPeerAddressData:aData];
@@ -295,8 +293,7 @@ static NSData *dhparamData = nil;
     return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     CFReadStreamSetClient(I_readStream, 0, NULL, NULL);
     CFWriteStreamSetClient(I_writeStream, 0, NULL, NULL);
     CFRelease(I_readStream);
@@ -323,8 +320,7 @@ static NSData *dhparamData = nil;
 	self.uniqueID = nil;
 }
 
-- (NSString *)description
-{    
+- (NSString *)description {
     return [NSString stringWithFormat:@"BEEPSession with address: %@ andInfo: %@ andChannels: %@", [NSString stringWithAddressData:I_peerAddressData], [[self userInfo] description], [I_activeChannels description]];
 }
 
@@ -372,37 +368,32 @@ static NSData *dhparamData = nil;
     [_TLSProfileURIs addObjectsFromArray:anArray];
 }
 
-- (void)addProfileURIs:(NSArray *)anArray
-{
+- (void)addProfileURIs:(NSArray *)anArray {
     if (!_profileURIs) _profileURIs = [[NSMutableArray alloc] init];
     [_profileURIs addObjectsFromArray:anArray];
 }
 
-- (void)setIsProhibitingInboundInternetSessions:(BOOL)flag
-{
+- (void)setIsProhibitingInboundInternetSessions:(BOOL)flag {
     I_flags.isProhibitingInboundInternetSessions = flag;
 }
 
-- (BOOL)isProhibitingInboundInternetSessions
-{
+- (BOOL)isProhibitingInboundInternetSessions {
     return I_flags.isProhibitingInboundInternetSessions;
 }
 
-- (BOOL)isInitiator
-{
+- (BOOL)isInitiator {
     return I_flags.isInitiator;
 }
 
-- (NSMutableDictionary *)activeChannels
-{
+- (NSMutableDictionary *)activeChannels {
     return I_activeChannels;
 }
 
-- (NSData *)addressData
-{
-    if (!I_readStream)
+- (NSData *)addressData {
+    if (!I_readStream) {
         return nil;
-        
+    }
+    
     NSData *addressData = nil;
     CFDataRef socketHandleData = CFReadStreamCopyProperty(I_readStream, kCFStreamPropertySocketNativeHandle);
 	if (socketHandleData != NULL) {
@@ -447,13 +438,11 @@ static NSData *dhparamData = nil;
     return I_sessionStatus;
 }
 
-- (void)activateChannel:(TCMBEEPChannel *)aChannel
-{
+- (void)activateChannel:(TCMBEEPChannel *)aChannel {
     [I_activeChannels setObject:aChannel forLong:[aChannel number]];
 }
 
-- (void)TCM_createManagementChannelAndSendGreeting
-{
+- (void)TCM_createManagementChannelAndSendGreeting {
     I_managementChannel = [[TCMBEEPChannel alloc] initWithSession:self number:0 profileURI:kTCMBEEPManagementProfile asInitiator:[self isInitiator]];
     [self insertObject:I_managementChannel inChannelsAtIndex:[self countOfChannels]];
     
@@ -465,8 +454,7 @@ static NSData *dhparamData = nil;
     [profile sendGreetingWithProfileURIs:[self profileURIs] featuresAttribute:nil localizeAttribute:nil];
 }
 
-- (void)open
-{
+- (void)open {
     CFRunLoopRef runLoop = [[NSRunLoop currentRunLoop] getCFRunLoop];
 
     CFReadStreamScheduleWithRunLoop(I_readStream, runLoop, kCFRunLoopCommonModes);
@@ -507,8 +495,7 @@ static NSData *dhparamData = nil;
     [self TCM_createManagementChannelAndSendGreeting];
 }
 
-- (void)TCM_closeChannelsImplicitly
-{
+- (void)TCM_closeChannelsImplicitly {
     NSEnumerator *activeChannels = [I_activeChannels objectEnumerator];  
     TCMBEEPChannel *channel;
     while ((channel = [activeChannels nextObject])) {
@@ -537,8 +524,7 @@ static NSData *dhparamData = nil;
 	return result;
 }
 
-- (void)terminate
-{
+- (void)terminate {
     [self invalidateTerminator];
     I_sessionStatus = TCMBEEPSessionStatusError;
     
@@ -554,15 +540,14 @@ static NSData *dhparamData = nil;
     
     [self TCM_closeChannelsImplicitly];
         
-    id delegate = [self delegate];
+    __strong typeof(_delegate) delegate = [self delegate];
     if ([delegate respondsToSelector:@selector(BEEPSession:didFailWithError:)]) {
         NSError *error = [NSError errorWithDomain:@"BEEPDomain" code:451 userInfo:nil];
         [delegate BEEPSession:self didFailWithError:error];
     }
 }
 
-- (void)TCM_checkForCompletedTLSHandshakeAndRestartManagementChannel
-{
+- (void)TCM_checkForCompletedTLSHandshakeAndRestartManagementChannel {
     if (I_flags.isTLSHandshaking && !I_flags.isTLSEnabled) {
         // send greeting
         DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Life after TLS handshake...");
@@ -578,8 +563,7 @@ static NSData *dhparamData = nil;
 
 #define kWriteBufferThreshold 65535
 
-- (void)TCM_fillBufferInRoundRobinFashion
-{
+- (void)TCM_fillBufferInRoundRobinFashion {
     // ask each channel to write frames in writeBuffer until maximumFrameSize or windowSize is reached
     // repeat until writeBufferThreshold has been reached or no more frames are available
     
@@ -607,8 +591,7 @@ static NSData *dhparamData = nil;
     }
 }
 
-- (void)TCM_readBytes
-{    
+- (void)TCM_readBytes {
     if (!I_flags.amReading) {
         I_flags.amReading = YES;
         uint8_t buffer[8192];
@@ -1386,8 +1369,7 @@ void callBackReadStream(CFReadStreamRef stream, CFStreamEventType type, void *cl
     }
 }
 
-void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type, void *clientCallBackInfo)
-{
+void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type, void *clientCallBackInfo) {
     TCMBEEPSession *session = (__bridge TCMBEEPSession *)clientCallBackInfo;
 
     @autoreleasepool {

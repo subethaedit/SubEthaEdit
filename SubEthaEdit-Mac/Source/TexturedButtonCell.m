@@ -13,7 +13,7 @@
 @implementation TexturedButtonCell
 
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
-    NSImage *image=_textureImage;
+    NSImage *image = self.textureImage;
     if (image) {
         NSSize imageSize=[image size];
         [image drawInRect:NSMakeRect(cellFrame.origin.x,cellFrame.origin.y,1,cellFrame.size.height) 

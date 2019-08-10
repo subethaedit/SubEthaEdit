@@ -18,23 +18,19 @@
 
 @implementation TCMPreferenceModule
 
-- (NSImage *)icon
-{
+- (NSImage *)icon {
     return nil;
 }
 
-- (NSString *)iconLabel
-{
+- (NSString *)iconLabel {
     return nil;
 }
 
-- (NSString *)identifier
-{
+- (NSString *)identifier {
     return nil;
 }
 
-- (NSView *)assignMainView
-{
+- (NSView *)assignMainView {
     NSView *contentView = [self.O_window contentView];
     if (NSWindowStyleMaskResizable & [self.O_window styleMask]) {
         I_minSize = [self.O_window contentMinSize];
@@ -48,13 +44,11 @@
     return contentView;
 }
 
-- (NSString *)mainNibName
-{
+- (NSString *)mainNibName {
     return @"Main";
 }
 
-- (NSView *)loadMainView
-{
+- (NSView *)loadMainView {
     // Determines the name of the main nib file by calling the preference pane objectmainNibName method.
     NSString *mainNibName = [self mainNibName];
 
@@ -73,42 +67,33 @@
     return mainView;
 }
 
-- (void)mainViewDidLoad
-{
+- (void)mainViewDidLoad {
 }
 
-- (void)didSelect
-{
+- (void)didSelect {
 }
 
-- (void)willSelect
-{
+- (void)willSelect {
 }
 
-- (void)didUnselect
-{
+- (void)didUnselect {
 }
 
-- (void)replyToShouldUnselect:(BOOL)shouldUnselect
-{
+- (void)replyToShouldUnselect:(BOOL)shouldUnselect {
 }
 
-- (NSPreferencePaneUnselectReply)shouldUnselect
-{
+- (NSPreferencePaneUnselectReply)shouldUnselect {
     return NSUnselectNow;
 }
 
-- (void)willUnselect
-{
+- (void)willUnselect {
 }
 
-- (NSSize)maxSize
-{
+- (NSSize)maxSize {
     return I_maxSize;
 }
 
-- (NSSize)minSize
-{
+- (NSSize)minSize {
     return I_minSize;
 }
 

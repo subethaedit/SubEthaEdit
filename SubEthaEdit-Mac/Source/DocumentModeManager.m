@@ -17,7 +17,7 @@
 #endif
 
 @interface DocumentModeManager ()
-@property (nonatomic, readwrite, retain) NSDictionary *changedScopeNameDict;
+@property (nonatomic, strong, readwrite) NSDictionary *changedScopeNameDict;
 @end
 
 @interface DocumentModeManager (DocumentModeManagerPrivateAdditions)

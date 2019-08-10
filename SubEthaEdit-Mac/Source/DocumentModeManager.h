@@ -69,7 +69,7 @@
 - (NSMutableArray *)reloadPrecedences;
 - (void)revalidatePrecedences;
 
-@property (readonly) NSDictionary *changedScopeNameDict;
+@property (nonatomic, strong, readonly) NSDictionary *changedScopeNameDict;
 - (void)reloadAllStyles;
 - (SEEStyleSheet *)styleSheetForName:(NSString *)aStyleSheetName;
 - (NSArray *)allStyleSheetNames;

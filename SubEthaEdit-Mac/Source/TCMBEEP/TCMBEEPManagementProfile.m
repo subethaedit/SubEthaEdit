@@ -43,18 +43,15 @@
     return self;
 }
 
-- (void)setDelegate:(id <TCMBEEPProfileDelegate, TCMBEEPManagementProfileDelegate>)aDelegate
-{
+- (void)setDelegate:(id <TCMBEEPProfileDelegate, TCMBEEPManagementProfileDelegate>)aDelegate {
 	[super setDelegate:aDelegate];
 }
-- (id <TCMBEEPProfileDelegate, TCMBEEPManagementProfileDelegate>)delegate
-{
+- (id <TCMBEEPProfileDelegate, TCMBEEPManagementProfileDelegate>)delegate {
 	return (id <TCMBEEPProfileDelegate, TCMBEEPManagementProfileDelegate>)[super delegate];
 }
 
 
-- (void)sendGreetingWithProfileURIs:(NSArray *)anArray featuresAttribute:(NSString *)aFeaturesString localizeAttribute:(NSString *)aLocalizeString
-{
+- (void)sendGreetingWithProfileURIs:(NSArray *)anArray featuresAttribute:(NSString *)aFeaturesString localizeAttribute:(NSString *)aLocalizeString {
     // compose Greeting
     
     NSMutableString *payloadString = [NSMutableString stringWithString:@"Content-Type: application/beep+xml\r\n\r\n<greeting"];
@@ -86,8 +83,7 @@
     [[NSRunLoop currentRunLoop] addTimer:I_keepBEEPTimer forMode:(NSString *)kCFRunLoopCommonModes];
 }
 
-- (void)startChannelNumber:(int32_t)aChannelNumber withProfileURIs:(NSArray *)aProfileURIArray andData:(NSArray *)aDataArray
-{
+- (void)startChannelNumber:(int32_t)aChannelNumber withProfileURIs:(NSArray *)aProfileURIArray andData:(NSArray *)aDataArray {
     // compose start message
     NSMutableData *payload = [NSMutableData dataWithData:[[NSString stringWithFormat:@"Content-Type: application/beep+xml\r\n\r\n<start number='%d'>", aChannelNumber] dataUsingEncoding:NSUTF8StringEncoding]];
     int i = 0;
@@ -108,8 +104,7 @@
     [[self channel] sendMessage:message];
 }
 
-- (void)closeChannelWithNumber:(int32_t)aChannelNumber code:(int)aReplyCode
-{
+- (void)closeChannelWithNumber:(int32_t)aChannelNumber code:(int)aReplyCode {
     // compose close message
     NSMutableData *payload = [NSMutableData dataWithData:[[NSString stringWithFormat:@"Content-Type: application/beep+xml\r\n\r\n<close number='%d' code='%d' />", aChannelNumber, aReplyCode] dataUsingEncoding:NSUTF8StringEncoding]];
     int32_t messageNumber = [[self channel] nextMessageNumber];
@@ -118,8 +113,7 @@
     [[self channel] sendMessage:message];
 }
 
-- (void)acceptCloseRequestForChannelWithNumber:(int32_t)aChannelNumber
-{
+- (void)acceptCloseRequestForChannelWithNumber:(int32_t)aChannelNumber {
     NSMutableData *payload = [NSMutableData dataWithData:[[NSString stringWithFormat:@"Content-Type: application/beep+xml\r\n\r\n<ok />"] dataUsingEncoding:NSUTF8StringEncoding]];
     int32_t messageNumber = [[I_messageNumbersOfCloseRequestsByChannelsNumbers objectForLong:aChannelNumber] intValue];
     TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:messageNumber payload:payload];
@@ -140,8 +134,7 @@
 
 #pragma mark - BEEP Management Channel
 
-- (BOOL)processBEEPGreeting:(TCMBEEPMessage *)aMessage dataParser:(TCMBEEPMessageXMLPayloadParser *)dataParser
-{
+- (BOOL)processBEEPGreeting:(TCMBEEPMessage *)aMessage dataParser:(TCMBEEPMessageXMLPayloadParser *)dataParser {
     BOOL result = NO;
 
 	if ([dataParser.messageType isEqualToString:TCMBEEPMessageXMLElementGreeting])
@@ -157,8 +150,7 @@
     return result;
 }
 
-- (BOOL)processBEEPStartMessage:(TCMBEEPMessage *)aMessage dataParser:(TCMBEEPMessageXMLPayloadParser *)dataParser
-{
+- (BOOL)processBEEPStartMessage:(TCMBEEPMessage *)aMessage dataParser:(TCMBEEPMessageXMLPayloadParser *)dataParser {
 	BOOL result = NO;
 	if ([dataParser.messageType isEqualToString:TCMBEEPMessageXMLElementStart])
 	{
@@ -211,8 +203,7 @@
     return result;
 }
 
-- (BOOL)processBEEPProfileMessage:(TCMBEEPMessage *)aMessage dataParser:(TCMBEEPMessageXMLPayloadParser *)dataParser
-{
+- (BOOL)processBEEPProfileMessage:(TCMBEEPMessage *)aMessage dataParser:(TCMBEEPMessageXMLPayloadParser *)dataParser {
 	BOOL result = NO;
     if ([dataParser.messageType isEqualToString:TCMBEEPMessageXMLElementProfile]) {
         NSString *profileURI = [dataParser.messageAttributeDict objectForKey:TCMBEEPMessageXMLAttributeURI];
@@ -229,8 +220,7 @@
     return result;
 }
 
-- (BOOL)processBEEPCloseMessage:(TCMBEEPMessage *)aMessage dataParser:(TCMBEEPMessageXMLPayloadParser *)dataParser
-{
+- (BOOL)processBEEPCloseMessage:(TCMBEEPMessage *)aMessage dataParser:(TCMBEEPMessageXMLPayloadParser *)dataParser {
 	BOOL result = NO;
     if ([dataParser.messageType isEqualToString:TCMBEEPMessageXMLElementClose]) {
 		NSDictionary *attributesDict = dataParser.messageAttributeDict;

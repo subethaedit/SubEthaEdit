@@ -7,14 +7,13 @@
 #import <PreferencePanes/PreferencePanes.h>
 
 
-@interface TCMPreferenceModule : NSResponder
-{
+@interface TCMPreferenceModule : NSResponder {
     NSSize I_maxSize;
     NSSize I_minSize;
 }
 
-@property (readwrite, strong) IBOutlet NSWindow *O_window;
-@property (readwrite, strong) IBOutlet NSView *mainView;
+@property (nonatomic, strong) IBOutlet NSWindow *O_window;
+@property (nonatomic, strong) IBOutlet NSView *mainView;
 
 - (NSImage *)icon;
 - (NSString *)iconLabel;
