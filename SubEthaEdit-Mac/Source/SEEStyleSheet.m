@@ -8,6 +8,7 @@
 #import "PreferenceKeys.h"
 
 #import "DocumentModeManager.h"
+#import "NSColorTCMAdditions.h"
 
 /*
  

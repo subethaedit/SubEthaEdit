@@ -3,6 +3,7 @@
 //
 //  Created by Martin Ott on 3/19/07.
 
+#import "NSStringSEEAdditions.h"
 #import "NSMutableAttributedStringSEEAdditions.h"
 #import <OgreKit/OgreKit.h>
 #import "GeneralPreferences.h"

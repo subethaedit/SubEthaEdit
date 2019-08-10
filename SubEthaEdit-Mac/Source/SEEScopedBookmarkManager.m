@@ -521,6 +521,9 @@ static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.s
                                         // TODO: call back out and reload stuff - if success
                                     }
                                 }
+                                if (success) {
+                                    // TODO: call back out and reload stuff - if success
+                                }
                             }
 
                         });

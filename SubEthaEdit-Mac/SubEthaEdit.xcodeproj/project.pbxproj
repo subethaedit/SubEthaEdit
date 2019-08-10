@@ -138,7 +138,7 @@
 		3134F7AB0CB1331900F8C116 /* PrecedenceRolloverButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 3134F7A90CB1331900F8C116 /* PrecedenceRolloverButton.m */; };
 		316A0D2A0C68A47100720268 /* DebugAttributeInspectorController.m in Sources */ = {isa = PBXBuildFile; fileRef = 316A0D280C68A47100720268 /* DebugAttributeInspectorController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		3170E46112846C670096089C /* SEEStyleSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 3170E46012846C670096089C /* SEEStyleSheet.m */; };
-		3170E4D5128715F20096089C /* SEEStyleSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 3170E46012846C670096089C /* SEEStyleSheet.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		3170E4D5128715F20096089C /* SEEStyleSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 3170E46012846C670096089C /* SEEStyleSheet.m */; };
 		3188F6800CAD13E0009E4C0B /* DNDArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3188F6780CAD1218009E4C0B /* DNDArrayController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		31D2C7000CA7C9C8003CC5C9 /* PrecedenceRuleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D2C6E50CA7C7A7003CC5C9 /* PrecedenceRuleCell.m */; };
 		31FFC93D104E97A000E08256 /* NSErrorTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FFC93C104E97A000E08256 /* NSErrorTCMAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -225,7 +225,7 @@
 		4CE6C99D18AA905500AB45D1 /* SEEOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE6C99C18AA905500AB45D1 /* SEEOverlayView.m */; };
 		4CE9CF381802F4E900F5BC56 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C6AE8731802E8810089D489 /* OgreKit.framework */; };
 		4CE9CF391802F4F100F5BC56 /* OgreKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 4C6AE8731802E8810089D489 /* OgreKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		4CE9CF3A1802F52A00F5BC56 /* SEEStyleSheetSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D56992133B880900CEC841 /* SEEStyleSheetSettings.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		4CE9CF3A1802F52A00F5BC56 /* SEEStyleSheetSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D56992133B880900CEC841 /* SEEStyleSheetSettings.m */; };
 		4CF06A2F1816AF5D00B35DF8 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
 		5E28E2900972FB8E00099B13 /* InsetTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E28E28E0972FB8E00099B13 /* InsetTextFieldCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5E4DA73D09E15C6800D91CFC /* Scripts in Resources */ = {isa = PBXBuildFile; fileRef = 5E4DA73A09E15C6800D91CFC /* Scripts */; };
@@ -310,6 +310,8 @@
 		F22024EA191D0DB30098982C /* ParticipantReadOnlyStatusOn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F22024E8191D0DB30098982C /* ParticipantReadOnlyStatusOn@2x.png */; };
 		F22024EE191D175C0098982C /* TCMHoverButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F22024ED191D175C0098982C /* TCMHoverButton.m */; };
 		F2279086223D245800A04A44 /* SEEDocumentListTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F5970B193336B300FDAA4A /* SEEDocumentListTableView.m */; };
+		F22E9F2F22FEF36100326183 /* NSAppearanceSEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F27EDD55216E6DEC00987579 /* NSAppearanceSEEAdditions.m */; };
+		F22E9F3022FEF44500326183 /* PlainTextDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428944D09575B9700D14688 /* PlainTextDocument.m */; };
 		F2308E6718E06FA00096E0C1 /* SEEFindAndReplaceContext.m in Sources */ = {isa = PBXBuildFile; fileRef = F2308E6618E06FA00096E0C1 /* SEEFindAndReplaceContext.m */; };
 		F234E4590BE2592300504A7C /* NSWorkspaceTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F234E4570BE2592300504A7C /* NSWorkspaceTCMAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		F23966D618E2FE6800CEC9AD /* NSOperationQueue+TCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F23966D518E2FE6800CEC9AD /* NSOperationQueue+TCMAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -2820,6 +2822,7 @@
 				F250EADF216A2CA800B94A0B /* NSArraySEEAdditions.m in Sources */,
 				F2D86DA40F8E8B3E00B912A2 /* ModeSettings.m in Sources */,
 				F2D86DAA0F8E8B6000B912A2 /* SelectionOperation.m in Sources */,
+				F22E9F2F22FEF36100326183 /* NSAppearanceSEEAdditions.m in Sources */,
 				F2D86DAD0F8E8B6600B912A2 /* TextOperation.m in Sources */,
 				F2D86DB20F8E8B7F00B912A2 /* TCMMMOperation.m in Sources */,
 				F2D86DBA0F8E9B9A00B912A2 /* PreferenceKeys.m in Sources */,
@@ -2830,6 +2833,7 @@
 				F2DEC3140F8FA17D00ADEE48 /* FoldableTextStorage.m in Sources */,
 				F2DEC3360F8FA6DF00ADEE48 /* AbstractFoldingTextStorage.m in Sources */,
 				F2DEC34A0F8FA71800ADEE48 /* FoldedTextAttachment.m in Sources */,
+				F22E9F3022FEF44500326183 /* PlainTextDocument.m in Sources */,
 				F2DEC34F0F8FA72000ADEE48 /* FoldingTextAttachmentCell.m in Sources */,
 				F2DEC8820F90005700ADEE48 /* NSStringSEEAdditions.m in Sources */,
 				4C19ECCD192F867400D39777 /* NSImageTCMAdditions.m in Sources */,

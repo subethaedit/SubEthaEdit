@@ -12,6 +12,8 @@
 #import <SystemConfiguration/SystemConfiguration.h>
 #import <objc/objc-runtime.h>			// for objc_msgSend
 
+#import <TCMPortMapper/TCMPortMapper.h>
+
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "PlainTextEditor.h"
 #import "SEEConnectionManager.h"

@@ -4,7 +4,6 @@
 //  Created by Dominik Wagner on Fri Mar 05 2004.
 
 #import <AppKit/AppKit.h>
-#import <TCMPortMapper/TCMPortMapper.h>
 @class PlainTextWindowController;
 #import "PlainTextWindowControllerTabContext.h"
 
