@@ -330,27 +330,9 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
         NSView *containerView = self.bottomBlurLayerView;
         [statusBarView removeFromSuperview];
         
-        // configure truncade mode
+        // configure truncate mode
         [O_tabStatusPopUpButton.cell setLineBreakMode:NSLineBreakByTruncatingMiddle];
         [O_encodingPopUpButton.cell setLineBreakMode:NSLineBreakByTruncatingMiddle];
-        
-        // adjust sizes for german if necessary
-        if ([[[NSBundle mainBundle] preferredLocalizations].firstObject isEqual:@"German"]) {
-            // adjust frames
-            CGFloat points = 20.0;
-            O_tabStatusPopUpButton.frame = ({
-                NSRect frame = O_tabStatusPopUpButton.frame;
-                frame.size.width += points;
-                frame;
-            });
-            O_lineEndingPopUpButton.frame = NSOffsetRect(O_lineEndingPopUpButton.frame, points, 0);
-            O_encodingPopUpButton.frame = ({
-                NSRect frame = O_encodingPopUpButton.frame;
-                frame.size.width -= points;
-                frame.origin.x += points;
-                frame;
-            });
-        }
         
         [statusBarView setTranslatesAutoresizingMaskIntoConstraints:NO];
         [statusBarView setAutoresizesSubviews:YES];
@@ -848,8 +830,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
         [O_lineEndingPopUpButton selectItemAtIndex:[O_lineEndingPopUpButton indexOfItemWithTag:[document lineEnding]]];
         NSString *lineEndingStatusString = @"";
-        switch ([document lineEnding])
-        {
+        switch ([document lineEnding]) {
             case LineEndingLF :
                 lineEndingStatusString = @"LF";
                 break;
