@@ -5,6 +5,11 @@
 
 #import "NSDictionaryTCMAdditions.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
 static Boolean
 CaseInsensitiveDictionaryKeyEqualCallBack(const void *value1, const void *value2)
 {
@@ -84,18 +89,16 @@ CaseInsensitiveDictionaryKeyHashCallBack(const void *value)
 
     // We create our own equal and hash callback functions because TXT record key names should be case insensitive.
     insensitiveDictionary = CFDictionaryCreateMutable(kCFAllocatorDefault, 0, &keyCallBacks, &kCFTypeDictionaryValueCallBacks);
-    NSMutableDictionary *result=(NSMutableDictionary *)insensitiveDictionary;
-    return [result autorelease];
+    NSMutableDictionary *result = CFBridgingRelease(insensitiveDictionary);
+    return result;
 }
 
 
-- (void)setObject:(id)anObject forLong:(long)aLong
-{
+- (void)setObject:(id)anObject forLong:(long)aLong {
     [self setObject:anObject forKey:[NSNumber numberWithLong:aLong]];
 }
 
-- (void)removeObjectForLong:(long)aLong
-{
+- (void)removeObjectForLong:(long)aLong {
     [self removeObjectForKey:[NSNumber numberWithLong:aLong]];
 }
 

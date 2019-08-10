@@ -10,19 +10,18 @@
 #import "FoldableTextStorage.h"
 #import "PlainTextDocument.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
 
 @implementation ScriptTextBase
 
 - (instancetype)initWithTextStorage:(FullTextStorage *)aTextStorage {
     if ((self=[super init])) {
-        I_textStorage = [aTextStorage retain];
+        I_textStorage = aTextStorage;
     }
     return self;
-}
-
-- (void)dealloc {
-    [I_textStorage release];
-    [super dealloc];
 }
 
 - (NSRange)rangeRepresentation {
@@ -69,7 +68,7 @@
 }
 
 - (NSArray *)words {
-    return [[[[NSTextStorage alloc] initWithAttributedString:[I_textStorage attributedSubstringFromRange:[self rangeRepresentation]]] autorelease] words];
+    return [[[NSTextStorage alloc] initWithAttributedString:[I_textStorage attributedSubstringFromRange:[self rangeRepresentation]]] words];
 }
 
 - (void)setWords:(NSArray *)wordArray {

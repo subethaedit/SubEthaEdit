@@ -5,6 +5,10 @@
 
 #import "BorderedTextField.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
 
 @implementation BorderedTextField
 
@@ -26,26 +30,17 @@
     return self;
 }
 
-- (void)dealloc {
-    [self setBorderColor:nil];
-    [super dealloc];
-}
-
 - (void)setHasRightBorder:(BOOL)aFlag {
-    if (I_flags.hasRightBorder!=aFlag) {
-        I_flags.hasRightBorder =aFlag;
+    if (_hasRightBorder!=aFlag) {
+        _hasRightBorder =aFlag;
         [self setNeedsDisplay:YES];
     }
 }
 - (void)setHasLeftBorder:(BOOL)aFlag {
-    if (I_flags.hasLeftBorder!=aFlag) {
-        I_flags.hasLeftBorder =aFlag;
+    if (_hasLeftBorder!=aFlag) {
+        _hasLeftBorder =aFlag;
         [self setNeedsDisplay:YES];
     }
-}
-- (void)setBorderColor:(NSColor *)aColor {
-    [I_borderColor autorelease];
-     I_borderColor=[aColor retain];
 }
 
 - (void)mouseDown:(NSEvent *)anEvent {
@@ -70,15 +65,15 @@
 	NSRect adjustedBounds = NSOffsetRect(NSInsetRect(self.bounds, 0, 1),0,1);
 	[[self cell] drawInteriorWithFrame:adjustedBounds inView:self];
 	
-    [I_borderColor set];
+    [_borderColor set];
     NSRect bounds=NSIntegralRect([self bounds]);
 	bounds = NSInsetRect(bounds, 0.5, 0);
-    if (I_flags.hasRightBorder) {
+    if (_hasRightBorder) {
         [NSBezierPath setDefaultLineWidth:1.];
         [NSBezierPath strokeLineFromPoint:NSMakePoint(NSMaxX(bounds),NSMinY(bounds))
                                   toPoint:NSMakePoint(NSMaxX(bounds),NSMaxY(bounds))];
     }
-    if (I_flags.hasLeftBorder) {
+    if (_hasLeftBorder) {
         [NSBezierPath setDefaultLineWidth:1.];
         [NSBezierPath strokeLineFromPoint:NSMakePoint(NSMinX(bounds),NSMinY(bounds))
                                   toPoint:NSMakePoint(NSMinX(bounds),NSMaxY(bounds))];

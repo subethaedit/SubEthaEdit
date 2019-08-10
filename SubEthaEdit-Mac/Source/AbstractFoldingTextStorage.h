@@ -8,7 +8,6 @@
 
 @interface AbstractFoldingTextStorage : NSTextStorage {
 	int I_fixingCounter;
-	id I_otherTextStorage;
 }
 
 - (NSMutableAttributedString *)internalMutableAttributedString;

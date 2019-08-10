@@ -7,8 +7,7 @@
 
 @class TCMBEEPMessage;
 
-@interface TCMBEEPFrame : NSObject
-{
+@interface TCMBEEPFrame : NSObject {
     char I_messageType[4];
     int32_t I_channelNumber;
     int32_t I_messageNumber;
@@ -16,8 +15,9 @@
     uint32_t I_sequenceNumber;
     int32_t I_length;
     int32_t I_answerNumber;
-    NSData *I_payload;
 }
+
+@property (nonatomic, copy) NSData *payload;
 
 + (TCMBEEPFrame *)SEQFrameWithChannelNumber:(int32_t)channelNumber
                       acknowledgementNumber:(uint32_t)acknowledgementNumber

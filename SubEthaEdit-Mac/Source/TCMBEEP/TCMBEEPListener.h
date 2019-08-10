@@ -8,18 +8,15 @@
 @class TCMBEEPSession;
 
 
-@interface TCMBEEPListener : NSObject 
-{
+@interface TCMBEEPListener : NSObject  {
     CFSocketRef I_listeningSocket;
     CFSocketRef I_listeningSocket6;
-    id I_delegate;
     unsigned int I_port;
 }
 
-- (instancetype)initWithPort:(unsigned int)aPort;
+@property (nonatomic, weak) id delegate;
 
-- (void)setDelegate:(id)aDelegate;
-- (id)delegate;
+- (instancetype)initWithPort:(unsigned int)aPort;
 
 - (BOOL)listen;
 - (void)close;

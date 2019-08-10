@@ -46,7 +46,7 @@ extern NSString * const SEEAppEffectiveAppearanceDidChangeNotification;
     IBOutlet NSWindow *O_licenseWindow;
 }
 
-@property (nonatomic, assign) IBOutlet NSMenuItem *accessControlMenuItem;
+@property (nonatomic, strong) IBOutlet NSMenuItem *accessControlMenuItem;
 @property (nonatomic) BOOL didShowFirstUseWindowHelp;
 @property (nonatomic) BOOL lastShouldOpenUntitledFile;
 

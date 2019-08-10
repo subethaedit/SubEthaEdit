@@ -7,14 +7,11 @@
 
 
 @interface FoldedTextAttachment : NSTextAttachment
-{
-	NSRange I_foldedTextRange;
-	NSMutableArray *I_innerAttachments;
-}
+
+@property (nonatomic) NSRange foldedTextRange;
+@property (nonatomic, readonly) NSMutableArray *innerAttachments;
+
 - (instancetype)initWithFoldedTextRange:(NSRange)inFoldedTextRange;
-- (NSRange)foldedTextRange;
-- (NSMutableArray *)innerAttachments;
-- (void)setFoldedTextRange:(NSRange)inRange;
 - (void)moveAttachmentLocation:(int)inLocationDifference;
 @end
 

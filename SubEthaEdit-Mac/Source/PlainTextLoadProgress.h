@@ -10,8 +10,8 @@
 @interface PlainTextLoadProgress : NSViewController {
 }
 
-@property (nonatomic, assign) IBOutlet NSProgressIndicator *progressIndicatorOutlet;
-@property (nonatomic, assign) IBOutlet NSTextField *loadStatusFieldOutlet;
+@property (nonatomic, strong) IBOutlet NSProgressIndicator *progressIndicatorOutlet;
+@property (nonatomic, strong) IBOutlet NSTextField *loadStatusFieldOutlet;
 
 - (void)startAnimation;
 - (void)stopAnimation;

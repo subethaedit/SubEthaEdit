@@ -7,6 +7,10 @@
 #import "PlainTextDocument.h"
 #import "TCMMMUserManager.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
 
 @implementation PrintTextView
 
@@ -30,7 +34,7 @@
     if (!annotationAttributes) {
         NSFont *             annotationFont = [NSFont fontWithName:@"Helvetica" size:6.];
         if (!annotationFont) annotationFont = [NSFont systemFontOfSize:6.];
-        NSMutableParagraphStyle *paragraphStyle=[[[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
+        NSMutableParagraphStyle *paragraphStyle=[[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
         [paragraphStyle setAlignment:NSTextAlignmentLeft];
         [paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
         annotationAttributes=[[NSMutableDictionary alloc] initWithObjectsAndKeys:

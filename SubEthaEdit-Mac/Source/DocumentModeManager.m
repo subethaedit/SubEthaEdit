@@ -11,8 +11,13 @@
 #import "PlainTextDocument.h"
 #import <OgreKit/OgreKit.h>
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
 @interface DocumentModeManager ()
-@property (nonatomic, readwrite, retain) NSDictionary *changedScopeNameDict;
+@property (nonatomic, strong, readwrite) NSDictionary *changedScopeNameDict;
 @end
 
 @interface DocumentModeManager (DocumentModeManagerPrivateAdditions)
@@ -76,7 +81,6 @@
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [super dealloc];
 }
 
 /* Update contents based on encodings list customization
@@ -96,7 +100,6 @@
 @implementation DocumentModeMenu
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [super dealloc];
 }
 
 - (void)documentModeListChanged:(NSNotification *)notification {
@@ -157,7 +160,6 @@ static DocumentModeManager *S_sharedInstance=nil;
 #pragma mark
 - (instancetype)init {
     if (S_sharedInstance) {
-        [self dealloc];
         self = S_sharedInstance;
     } else {
         self = [super init];
@@ -188,16 +190,8 @@ static DocumentModeManager *S_sharedInstance=nil;
 }
 
 - (void)dealloc {
-    [I_modeBundles release];
-    [I_styleSheetPathsByName release];
-    [I_styleSheetsByName release];
-    [I_documentModesByName release];
-    [I_documentModesByIdentifier release];
-	[I_documentModesByIdentifierLock release]; // ifc - experimental locking... awaiting real fix from TCM
 	self.changedScopeNameDict = nil;
     self.allPathExtensions = nil;
-    
-    [super dealloc];
 }
 
 #pragma mark - Directories
@@ -260,7 +254,7 @@ static DocumentModeManager *S_sharedInstance=nil;
         id rule;
         while ((rule = [rules nextObject])) {
             BOOL isOverridden = NO;
-            NSMutableDictionary *ruleCopy = [[rule mutableCopy] autorelease];
+            NSMutableDictionary *ruleCopy = [rule mutableCopy];
             [ruleCopy setObject:[mode objectForKey:@"Name"] forKey:@"FromMode"];
 
             int typeRule = [[rule objectForKey:@"TypeIdentifier"] intValue];
@@ -416,7 +410,6 @@ static DocumentModeManager *S_sharedInstance=nil;
 			}
 		}
 
-        [modeSettings release];
 
         // Enumerate rules from defaults to add user added rules back in
         NSEnumerator *oldModes = [oldPrecedenceArray objectEnumerator];
@@ -431,7 +424,7 @@ static DocumentModeManager *S_sharedInstance=nil;
             NSDictionary *oldRule;
             while ((oldRule = [oldRules nextObject])) {
                 if (![[oldRule objectForKey:@"ModeRule"] boolValue]) {
-                    [ruleArray addObject:[[oldRule mutableCopy] autorelease]];
+                    [ruleArray addObject:[oldRule mutableCopy]];
                 }
                 
                 NSEnumerator *newRulesEnumerator = [ruleArray objectEnumerator];
@@ -523,7 +516,7 @@ static DocumentModeManager *S_sharedInstance=nil;
 	if (!result) {
 		NSString *path = [I_styleSheetPathsByName objectForKey:aStyleSheetName];
 		if (path) {
-			result = [[SEEStyleSheet new] autorelease];
+			result = [SEEStyleSheet new];
 			result.styleSheetName = aStyleSheetName;
 			NSURL *url = [NSURL fileURLWithPath:path];
 			[result importStyleSheetAtPath:url];
@@ -648,7 +641,7 @@ static DocumentModeManager *S_sharedInstance=nil;
 }
 
 - (void)showIncompatibleModeErrorForBundle:(NSBundle *)aBundle {
-    NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+    NSAlert *alert = [[NSAlert alloc] init];
     [alert setAlertStyle:NSAlertStyleWarning];
     [alert setMessageText:NSLocalizedString(@"Mode not compatible",@"Mode requires newer engine title")];
     [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"The mode '%@' was written for a newer version of SubEthaEngine and cannot be used with this application.", @"Mode requires newer engine Informative Text"), [aBundle bundleIdentifier]]];
@@ -728,17 +721,16 @@ static DocumentModeManager *S_sharedInstance=nil;
 
 - (void)resolveAllDependenciesForMode:(DocumentMode *)aMode {
     if (aMode && [aMode syntaxDefinition]) {
-        I_dependencyQueue = [NSMutableDictionary new];
-        [I_dependencyQueue setObject:@"queued" forKey:[[aMode syntaxDefinition] name]];
+        NSMutableDictionary *dependencyQueue = [NSMutableDictionary new];
+        [dependencyQueue setObject:@"queued" forKey:[[aMode syntaxDefinition] name]];
         NSEnumerator *enumerator = [[[[aMode syntaxDefinition] importedModes] allKeys] objectEnumerator];
         id modeName;
         while ((modeName = [enumerator nextObject])) {
-            if (![I_dependencyQueue objectForKey:modeName]) {
+            if (![dependencyQueue objectForKey:modeName]) {
                 [self documentModeForIdentifier:modeName];
-                [I_dependencyQueue setObject:@"queued" forKey:modeName];
+                [dependencyQueue setObject:@"queued" forKey:modeName];
             }
         }
-        [I_dependencyQueue release];
     }
 }
 
@@ -790,7 +782,7 @@ static DocumentModeManager *S_sharedInstance=nil;
     if (bundle) {
         DocumentMode *mode=[I_documentModesByIdentifier objectForKey:anIdentifier];
         if (!mode) {
-            mode = [[[DocumentMode alloc] initWithBundle:bundle] autorelease];
+            mode = [[DocumentMode alloc] initWithBundle:bundle] ;
             if (mode) {
                 [I_documentModesByIdentifier setObject:mode forKey:anIdentifier];
                 
@@ -829,17 +821,6 @@ static DocumentModeManager *S_sharedInstance=nil;
     return returnValue;
 }
 
-- (NSMutableArray *)modePrecedenceArray {
-    return I_modePrecedenceArray;
-}
-
-- (void)setModePrecedenceArray:(NSMutableArray *)anArray {
-    [self willChangeValueForKey:@"modePrecedenceArray"];
-    [I_modePrecedenceArray autorelease];
-    I_modePrecedenceArray=[anArray retain];
-    [self didChangeValueForKey:@"modePrecedenceArray"];
-}
-
 - (DocumentMode *)documentModeForPath:(NSString *)path withContentData:(NSData *)content {
     // Convert data to ASCII, we don't know encoding yet at this point
     // FIXME Don't forget to handle UTF16/32
@@ -848,7 +829,6 @@ static DocumentModeManager *S_sharedInstance=nil;
 		unsigned maxLength = [[NSUserDefaults standardUserDefaults] integerForKey:@"ByteLengthToUseForModeRecognitionAndEncodingGuessing"];
 		NSString *contentString = [[NSString alloc] initWithBytesNoCopy:(void *)[content bytes] length:MIN([content length],maxLength) encoding:NSMacOSRomanStringEncoding freeWhenDone:NO];
 		mode = [self documentModeForPath:path withContentString:contentString];
-		[contentString release];
 	}
     return mode;
 }
@@ -879,12 +859,12 @@ static DocumentModeManager *S_sharedInstance=nil;
 					if ([OGRegularExpression isValidExpressionString:ruleString]) {
 						BOOL didMatch = NO;
 						OGRegularExpressionMatch *match;
-						OGRegularExpression *regex = [[[OGRegularExpression alloc] initWithString:ruleString options:OgreFindNotEmptyOption|OgreMultilineOption] autorelease];
+						OGRegularExpression *regex = [[OGRegularExpression alloc] initWithString:ruleString options:OgreFindNotEmptyOption|OgreMultilineOption];
 						match = [regex matchInString:contentString];
 						didMatch = [match count]>0;
 						if (didMatch) return [self documentModeForIdentifier:[mode objectForKey:@"Identifier"]];
 					} else {
-						NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+						NSAlert *alert = [[NSAlert alloc] init];
 						[alert setAlertStyle:NSAlertStyleWarning];
 						[alert setMessageText:NSLocalizedString(@"Trigger not a regular expression",@"Trigger not a regular expression Title")];
 						[alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"The trigger '%@' of the mode '%@' is not a valid regular expression and was ignored.", @"Trigger not a regular expression Informative Text"), ruleString, [mode objectForKey:@"Identifier"]]];
@@ -972,18 +952,16 @@ static DocumentModeManager *S_sharedInstance=nil;
                 additionalText=@"/Network";
             }
 
-            [attributedTitle appendAttributedString:[[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" (%@ v%@, %@)",identifier,[[modeBundle infoDictionary] objectForKey:@"CFBundleShortVersionString"],additionalText] attributes:s_menuSmallStyleAttributes] autorelease]];
+            [attributedTitle appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" (%@ v%@, %@)",identifier,[[modeBundle infoDictionary] objectForKey:@"CFBundleShortVersionString"],additionalText] attributes:s_menuSmallStyleAttributes]];
             
             [menuEntries 
                 addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:identifier,@"Identifier",[modeBundle objectForInfoDictionaryKey:@"CFBundleName"],@"Name",attributedTitle,@"AttributedTitle",nil]];
-            [attributedTitle release];
         }
     }
 
     NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:[[baseMode bundle] objectForInfoDictionaryKey:@"CFBundleName"] action:aSelector keyEquivalent:@""];
     [menuItem setTag:[self tagForDocumentModeIdentifier:BASEMODEIDENTIFIER]];
     [aMenu addItem:menuItem];
-    [menuItem release];
 
     count=[menuEntries count];
     if (count > 0) {
@@ -992,8 +970,8 @@ static DocumentModeManager *S_sharedInstance=nil;
         // sort
         NSArray *sortedEntries=[menuEntries sortedArrayUsingDescriptors:
                         [NSArray arrayWithObjects:
-                            [[[NSSortDescriptor alloc] initWithKey:@"Name" ascending:YES selector:@selector(caseInsensitiveCompare:)] autorelease],
-                            [[[NSSortDescriptor alloc] initWithKey:@"Identifier" ascending:YES] autorelease],nil]];
+                            [[NSSortDescriptor alloc] initWithKey:@"Name" ascending:YES selector:@selector(caseInsensitiveCompare:)],
+                            [[NSSortDescriptor alloc] initWithKey:@"Identifier" ascending:YES],nil]];
         
         int index=0;
         for (index=0;index<count;index++) {
@@ -1007,7 +985,6 @@ static DocumentModeManager *S_sharedInstance=nil;
                 [menuItem setImage:s_alternateImage];
             }
             [aMenu addItem:menuItem];
-            [menuItem release];
 		}
     }
 
@@ -1020,7 +997,6 @@ static DocumentModeManager *S_sharedInstance=nil;
         [menuItem setTag:MENU_ITEM_TAG_USER_MODE_FOLDER];
         [menuItem setTarget:self];
         [aMenu addItem:menuItem];
-        [menuItem release];
 
 
 #ifndef TCM_NO_DEBUG
@@ -1032,7 +1008,6 @@ static DocumentModeManager *S_sharedInstance=nil;
         [menuItem setTag:MENU_ITEM_TAG_BUNDLE_MODE_FOLDER];
         [menuItem setTarget:self];
         [aMenu addItem:menuItem];
-        [menuItem release];
 #endif
     }
 }
@@ -1058,14 +1033,13 @@ static DocumentModeManager *S_sharedInstance=nil;
 
 - (void)setupPopUp:(DocumentModePopUpButton *)aPopUp selectedModeIdentifier:(NSString *)aModeIdentifier automaticMode:(BOOL)hasAutomaticMode {
     [aPopUp removeAllItems];
-    NSMenu *tempMenu=[[NSMenu new] autorelease];
+    NSMenu *tempMenu=[NSMenu new];
     [self setupMenu:tempMenu action:@selector(none:) alternateDisplay:NO];
     if (hasAutomaticMode) {
         NSMenuItem *menuItem=[[[tempMenu itemArray] objectAtIndex:0] copy];
         [menuItem setTag:[self tagForDocumentModeIdentifier:AUTOMATICMODEIDENTIFIER]];
         [menuItem setTitle:NSLocalizedString(@"Automatic Mode", @"Foo")];
         [tempMenu insertItem:menuItem atIndex:0];
-        [menuItem release];
     }
     NSEnumerator *menuItems=[[tempMenu itemArray] objectEnumerator];
     NSMenuItem *item=nil;

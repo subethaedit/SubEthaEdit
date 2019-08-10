@@ -14,6 +14,11 @@
 #import "UKXattrMetadataStore.h"
 #import <sys/xattr.h>
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
 @implementation UKXattrMetadataStore
 
 // -----------------------------------------------------------------------------
@@ -173,11 +178,11 @@
 + (id)stringForKey:(NSString*)key
             atPath:(NSString*)path
       traverseLink:(BOOL)travLnk {
-  NSMutableData* data =
-      [[self class] dataForKey:key atPath:path traverseLink:travLnk];
-  if (!data) return nil;
-  return [[[NSString alloc] initWithData:data
-                                encoding:NSUTF8StringEncoding] autorelease];
+    NSMutableData* data =
+    [[self class] dataForKey:key atPath:path traverseLink:travLnk];
+    if (!data) return nil;
+    return [[NSString alloc] initWithData:data
+                                 encoding:NSUTF8StringEncoding];
 }
 
 @end

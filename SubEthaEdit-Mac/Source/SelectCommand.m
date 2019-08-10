@@ -5,11 +5,14 @@
 
 #import "SelectCommand.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
 
 @implementation SelectCommand
 
-- (id)performDefaultImplementation
-{
+- (id)performDefaultImplementation {
     NSLog(@"%s: %@", __FUNCTION__, [self description]);
 
     return [super performDefaultImplementation];

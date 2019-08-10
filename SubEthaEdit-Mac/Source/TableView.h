@@ -6,14 +6,10 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface TableView : NSTableView {
-    NSColor *I_lightBackgroundColor;
-    NSColor *I_darkBackgroundColor;
-    BOOL I_disableFirstRow;
-}
+@interface TableView : NSTableView
 
--(void)setLightBackgroundColor:(NSColor *)aColor;
--(void)setDarkBackgroundColor:(NSColor *)aColor;
--(void)setDisableFirstRow:(BOOL)aFlag;
+@property (nonatomic, strong) NSColor *lightBackgroundColor;
+@property (nonatomic, strong) NSColor *darkBackgroundColor;
+@property (nonatomic) BOOL disableFirstRow;
 
 @end

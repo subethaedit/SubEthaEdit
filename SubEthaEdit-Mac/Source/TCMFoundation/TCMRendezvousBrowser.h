@@ -11,10 +11,6 @@
 
 
 @interface TCMRendezvousBrowser : NSObject <NSNetServiceBrowserDelegate, NSNetServiceDelegate> {
-    id I_delegate;
-    struct {
-        BOOL resolvesServices;
-    } I_flags;
     NSString *I_serviceType;
     NSString *I_domain;
     
@@ -22,17 +18,14 @@
     NSNetServiceBrowser *I_serviceBrowser;
 }
 
+@property (nonatomic, weak) id delegate;
+@property (nonatomic) BOOL resolvesServices;
+
 - (instancetype)initWithServiceType:(NSString *)aServiceType domain:(NSString *)aDomain;
 
 - (void)startSearch;
 - (void)stopSearch;
 
-/*"Accessors"*/
-- (void)setDelegate:(id)aDelegate;
-- (id)delegate;
-
-- (void)setResolvesServices:(BOOL)resolves;
-- (BOOL)resolvesServices;
 - (NSString *)domain;
 - (NSString *)serviceType;
 

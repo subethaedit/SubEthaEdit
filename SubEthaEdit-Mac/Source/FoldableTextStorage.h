@@ -26,6 +26,8 @@ extern NSString * const BlockeditAttributeValue;
 @interface FoldableTextStorage : AbstractFoldingTextStorage {
 	FullTextStorage *I_fullTextStorage;
 	NSMutableArray *I_sortedFoldedTextAttachments;
+    NSMutableAttributedString *I_internalAttributedString;
+
 	int I_editingCount;
 
     struct {
@@ -36,7 +38,6 @@ extern NSString * const BlockeditAttributeValue;
         NSRange didBlockeditLineRange;
     } I_blockedit;
 
-    NSMutableAttributedString *I_internalAttributedString;
 
     struct {
         int length;

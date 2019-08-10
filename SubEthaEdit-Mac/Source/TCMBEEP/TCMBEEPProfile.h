@@ -17,25 +17,20 @@
 @end
 
 
-@interface TCMBEEPProfile : NSObject
-{
-    TCMBEEPChannel *I_channel;
-    id I_delegate;
-    NSString *I_profileURI;
-    
+@interface TCMBEEPProfile : NSObject {
     BOOL I_isClosing;
     BOOL I_isAbortingIncomingMessages;
 }
+
+@property (nonatomic, weak) TCMBEEPChannel *channel;
+@property (nonatomic, weak) id<TCMBEEPProfileDelegate> delegate;
+@property (nonatomic, copy) NSString *profileURI;
 
 - (instancetype)initWithChannel:(TCMBEEPChannel *)aChannel;
 
 - (void)handleInitializationData:(NSData *)aData;
 - (void)processBEEPMessage:(TCMBEEPMessage *)aMessage;
 
-- (void)setDelegate:(id <TCMBEEPProfileDelegate>)aDelegate;
-- (id <TCMBEEPProfileDelegate>)delegate;
-- (void)setChannel:(TCMBEEPChannel *)aChannel;
-- (TCMBEEPChannel *)channel;
 - (TCMBEEPSession *)session;
 - (BOOL)isServer;
 - (void)setProfileURI:(NSString *)aProfileURI;

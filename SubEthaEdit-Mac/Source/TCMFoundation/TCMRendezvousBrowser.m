@@ -5,6 +5,11 @@
 
 #import "TCMRendezvousBrowser.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
 static NSString *kDidResolveKey=@"DidResolve";
 static NSString *kServiceCountKey=@"Count";
 static NSString *kServiceKey=@"Service";
@@ -31,15 +36,6 @@ static NSString *kServiceKey=@"Service";
     return self;
 }
 
-- (void)dealloc {
-    [self stopSearch];
-    [I_serviceBrowser release];
-    [I_foundServiceEntries  release];
-    [I_serviceType    release];
-    [I_domain         release];
-    [super dealloc];
-}
-
 - (void)startSearch {
     [I_serviceBrowser searchForServicesOfType:I_serviceType inDomain:I_domain];
 }
@@ -59,21 +55,6 @@ static NSString *kServiceKey=@"Service";
 
 #pragma mark -
 #pragma mark ### Accessors ####
-
-- (void)setDelegate:(id)aDelegate {
-    I_delegate = aDelegate;
-}
-
-- (id)delegate {
-    return I_delegate;
-}
-
-- (void)setResolvesServices:(BOOL)resolves {
-    I_flags.resolvesServices=resolves;
-}
-- (BOOL)resolvesServices {
-    return I_flags.resolvesServices;
-}
 
 - (NSString *)domain {
     return I_domain;

@@ -5,6 +5,10 @@
 
 #import "NSWorkspaceTCMAdditions.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
 
 static NSMutableDictionary *S_preresizedFileIcons=nil;
 
@@ -25,7 +29,7 @@ static NSMutableDictionary *S_preresizedFileIcons=nil;
     
     NSImage *icon = [iconsByFileType objectForKey:aFileType];
     if (!icon) {
-        icon = [[[[NSWorkspace sharedWorkspace] iconForFileType:aFileType] copy] autorelease];
+        icon = [[[NSWorkspace sharedWorkspace] iconForFileType:aFileType] copy];
         [icon setSize:NSMakeSize(aSize,aSize)];
         [iconsByFileType setObject:icon forKey:aFileType];
     }

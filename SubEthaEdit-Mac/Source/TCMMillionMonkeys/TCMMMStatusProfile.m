@@ -10,6 +10,12 @@
 #import "TCMMMSession.h"
 #import "TCMMMPresenceManager.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
+
 @interface TCMMMStatusProfile ()
 @property (nonatomic, readwrite) BOOL lastSentFriendcastingStatus;
 @end
@@ -19,7 +25,7 @@
     // optionally send the options here
     static NSData *data=nil;
     if (!data) {
-        data = [TCM_BencodedObject([NSDictionary dictionaryWithObjectsAndKeys:@YES,@"SendUSRRCH",nil]) retain];
+        data = TCM_BencodedObject([NSDictionary dictionaryWithObjectsAndKeys:@YES,@"SendUSRRCH",nil]);
     }
     return data;
 }
@@ -34,12 +40,6 @@
         I_options = [[NSMutableDictionary alloc] initWithObjectsAndKeys:@NO,@"SendUSRRCH",nil];
     }
     return self;
-}
-
-- (void)dealloc {
-    [I_options release];
-     I_options = nil;
-    [super dealloc];
 }
 
 - (void)handleInitializationData:(NSData *)aData {
@@ -165,7 +165,7 @@
                 NSMutableData *data=[NSMutableData dataWithBytes:"USRFUL" length:6];
                 [data appendData:[[TCMMMUserManager me] userBencoded]];
                 TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:data];
-                [[self channel] sendMessage:[message autorelease]];
+                [[self channel] sendMessage:message];
                 return;
             } else if (strncmp(bytes,"USRRCH",6)==0) {
                 NSDictionary *dict = TCM_BdecodedObjectWithData([[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)]);
@@ -207,7 +207,7 @@
 
             // ACK
             TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:[NSData data]];
-            [[self channel] sendMessage:[message autorelease]];
+            [[self channel] sendMessage:message];
         }
     }
 }

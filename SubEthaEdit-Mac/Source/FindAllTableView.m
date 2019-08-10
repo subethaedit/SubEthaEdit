@@ -5,13 +5,17 @@
 
 #import "FindAllTableView.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
 
 @implementation FindAllTableView
 
 // Implement copying lines
 - (void)copy:(id)sender {
     NSPasteboard *pb = [NSPasteboard generalPasteboard];
-    NSMutableString *string = [[NSMutableString new] autorelease];
+    NSMutableString *string = [NSMutableString new];
 
     switch ([self numberOfSelectedRows]) {
         case 0:
@@ -55,8 +59,13 @@
             // After checking how NSButton behaves I opted to jump upon Return and Enter.
             case 13: // ReturnKey
             case NSEnterCharacter: // == 3
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+                // This selector won't leak, as the return type is always zero
                 if (selectedRow > -1) [[self target] performSelector:[self doubleAction]];
-            break; 
+#pragma clang diagnostic pop
+                
+            break;
             default:
                 [super keyDown:theEvent]; 
         } 

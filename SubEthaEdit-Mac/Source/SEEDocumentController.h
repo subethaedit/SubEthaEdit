@@ -32,7 +32,7 @@ extern NSString * const kSEETypeSEEMode;
 
 @property (nonatomic) BOOL isOpeningUntitledDocument;
 @property (nonatomic, weak) IBOutlet NSMenu *recentDocumentMenu;
-@property (nonatomic, readonly, assign) NSStringEncoding encodingFromLastRunOpenPanel;
+@property (nonatomic, readonly) NSStringEncoding encodingFromLastRunOpenPanel;
 @property (nonatomic, readonly, copy) NSString *modeIdentifierFromLastRunOpenPanel;
 
 + (SEEDocumentController *)sharedInstance;

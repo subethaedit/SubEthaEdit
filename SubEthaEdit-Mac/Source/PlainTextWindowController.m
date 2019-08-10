@@ -12,7 +12,6 @@
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "TCMMMUserSEEAdditions.h"
 #import "SelectionOperation.h"
-#import "ImagePopUpButtonCell.h"
 #import "LayoutManager.h"
 #import "SEETextView.h"
 #import "GeneralPreferences.h"
@@ -58,7 +57,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     NSImageView *I_lockImageView;
 }
 
-@property (assign) NSRect frameForNonFullScreenMode;
+@property (nonatomic) NSRect frameForNonFullScreenMode;
 
 - (void)insertObject:(NSDocument *)document inDocumentsAtIndex:(NSUInteger)index;
 - (void)removeObjectFromDocumentsAtIndex:(NSUInteger)index;

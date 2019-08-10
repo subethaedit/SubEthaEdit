@@ -19,7 +19,7 @@
     [txtOp setAffectedCharRange:aRange];
     [txtOp setReplacementString:aString];
     [txtOp setUserID:aUserID];
-    return [txtOp autorelease];
+    return txtOp;
 }
 
 + (NSString *)operationID {
@@ -139,8 +139,8 @@
 - (instancetype)initWithDictionaryRepresentation:(NSDictionary *)aDictionary {
     self = [super initWithDictionaryRepresentation:aDictionary];
     if (self) {
-        I_affectedCharRange.location = [[aDictionary objectForKey:@"loc"] unsignedIntValue];
-        I_affectedCharRange.length = [[aDictionary objectForKey:@"len"] unsignedIntValue];
+        _affectedCharRange.location = [[aDictionary objectForKey:@"loc"] unsignedIntValue];
+        _affectedCharRange.length = [[aDictionary objectForKey:@"len"] unsignedIntValue];
         [self setReplacementString:[aDictionary objectForKey:@"str"]];
         //NSLog(@"operation: %@", [self description]);
     }
@@ -155,47 +155,25 @@
     
     return copy;
 }
- 
-- (void)dealloc {
-    [I_replacementString release];
-    [super dealloc];
-}
 
 - (NSDictionary *)dictionaryRepresentation {
-    NSMutableDictionary *dict = [[[super dictionaryRepresentation] mutableCopy] autorelease];
-    [dict setObject:[NSNumber numberWithUnsignedInt:I_affectedCharRange.location] forKey:@"loc"];
-    [dict setObject:[NSNumber numberWithUnsignedInt:I_affectedCharRange.length] forKey:@"len"];
+    NSMutableDictionary *dict = [[super dictionaryRepresentation] mutableCopy];
+    [dict setObject:[NSNumber numberWithUnsignedInt:_affectedCharRange.location] forKey:@"loc"];
+    [dict setObject:[NSNumber numberWithUnsignedInt:_affectedCharRange.length] forKey:@"len"];
     [dict setObject:[self replacementString] forKey:@"str"];
     return dict;
 }
 
 - (BOOL)isEqualTo:(id)anObject {
-    return ([super isEqualTo:anObject] && NSEqualRanges(I_affectedCharRange,[anObject affectedCharRange]) && [I_replacementString isEqualToString:[anObject replacementString]]);
-}
-
-- (void)setAffectedCharRange:(NSRange)aRange {
-    I_affectedCharRange = aRange;
-}
-
-- (NSRange)affectedCharRange {
-    return I_affectedCharRange;
-}
-
-- (void)setReplacementString:(NSString *)aString {
-    [I_replacementString autorelease];
-    I_replacementString = [aString copy];
-}
-
-- (NSString *)replacementString {
-    return I_replacementString;
+    return ([super isEqualTo:anObject] && NSEqualRanges(_affectedCharRange,[anObject affectedCharRange]) && [_replacementString isEqualToString:[anObject replacementString]]);
 }
 
 - (BOOL)isIrrelevant {
-    return ((I_affectedCharRange.length == 0) && ([I_replacementString length] == 0));
+    return ((_affectedCharRange.length == 0) && ([_replacementString length] == 0));
 }
 
 - (BOOL)shouldBeGroupedWithTextOperation:(TextOperation *)priorOperation {
-    if (!priorOperation) return NO;
+    if (!priorOperation) { return NO; }
     BOOL result=NO;
     NSRange myRange=[self affectedCharRange];
     NSRange priorRange=[priorOperation affectedCharRange];

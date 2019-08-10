@@ -50,6 +50,11 @@
 #import "NSLayoutConstraint+TCMAdditions.h"
 #import "TCMHoverButton.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
 NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDidFollowUserNotification";
 NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEditorDidChangeSearchScopeNotification";
 
@@ -91,11 +96,11 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
 @property (nonatomic, strong) IBOutlet NSView *O_editorView;
 @property (nonatomic, strong) IBOutlet SEEOverlayView *O_bottomStatusBarView;
-@property (nonatomic, assign) IBOutlet TCMHoverButton *shareInviteUsersButtonOutlet;
-@property (nonatomic, assign) IBOutlet TCMHoverButton *shareAnnounceButtonOutlet;
-@property (nonatomic, assign) IBOutlet TCMHoverButton *showParticipantsButtonOutlet;
+@property (nonatomic, strong) IBOutlet TCMHoverButton *shareInviteUsersButtonOutlet;
+@property (nonatomic, strong) IBOutlet TCMHoverButton *shareAnnounceButtonOutlet;
+@property (nonatomic, strong) IBOutlet TCMHoverButton *showParticipantsButtonOutlet;
 
-@property (nonatomic, assign) IBOutlet NSObjectController *ownerController;
+@property (nonatomic, strong) IBOutlet NSObjectController *ownerController;
 @property (nonatomic, strong) NSArray *topLevelNibObjects;
 @property (nonatomic, strong) NSViewController *bottomOverlayViewController;
 @property (nonatomic, strong) NSViewController *topOverlayViewController;
@@ -352,7 +357,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     [O_windowWidthTextField setHasRightBorder:NO];
     [O_windowWidthTextField setHasLeftBorder:YES];
     
-    DocumentModeMenu *menu = [DocumentModeMenu new] ;
+    DocumentModeMenu *menu = [DocumentModeMenu new];
     [menu configureWithAction:@selector(chooseMode:) alternateDisplay:NO];
     [[O_modePopUpButton cell] setMenu:menu];
     
@@ -512,7 +517,6 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     [[O_scrollView contentView] setPostsBoundsChangedNotifications:YES];
 	[I_textView setFrameOrigin:CGPointZero];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(contentViewBoundsDidChange:) name:NSViewBoundsDidChangeNotification object:[O_scrollView contentView]];
-
 
     [I_textView setDefaultParagraphStyle:[document defaultParagraphStyle]];
 
@@ -1368,7 +1372,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 		containingView.frame = textView.frame;
 		
 		[containingView addSubview:textView];
-        containingView;
+		containingView;
 	});
 	
 	popover.contentViewController = viewController;
@@ -2329,7 +2333,6 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
         [document conditionallyEditAnyway:^(PlainTextDocument * document) {
             [aTextView insertText:replacementString replacementRange:aTextView.selectedRange];
         }];
-
         return NO;
     }
 

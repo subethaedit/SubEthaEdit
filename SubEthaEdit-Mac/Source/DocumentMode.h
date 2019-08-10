@@ -96,27 +96,26 @@ extern NSString * const DocumentModeStyleSheetsDefaultLanguageContextKey;
 @class SEEStyleSheetSettings;
 
 @interface DocumentMode : NSObject {
-    NSBundle *I_bundle;
-    ModeSettings *I_modeSettings;
-    SyntaxDefinition *I_syntaxDefinition;
-    SyntaxHighlighter *I_syntaxHighlighter;
-    RegexSymbolParser *I_symbolParser;
-    NSMutableArray *I_autocompleteDictionary;
-    NSMutableDictionary *I_defaults;
     SyntaxStyle *I_syntaxStyle,*I_defaultSyntaxStyle;
-	SEEStyleSheet *I_styleSheet;
     NSMutableDictionary *I_scriptsByFilename;
     NSMutableArray *I_menuItemArray;
     NSMutableArray *I_contextMenuItemArray;
     NSMutableArray *I_scriptOrderArray;
-    NSMutableDictionary *I_styleIDTransitionDictionary;
-    NSDictionary *I_scopeExamples;
-    NSArray *I_availableScopes;
     NSString *I_syntaxExampleString;
     SEEStyleSheetSettings *I_styleSheetSettings;
 }
 
-@property (nonatomic, readonly) BOOL isBaseMode;
+@property (readonly) BOOL isBaseMode;
+@property (nonatomic, strong) NSMutableDictionary *defaults;
+@property (nonatomic, strong, readonly) NSArray *availableScopes;
+@property (nonatomic, strong, readonly) NSDictionary *scopeExamples;
+@property (nonatomic, strong, readonly) NSDictionary *styleIDTransitionDictionary;
+@property (nonatomic, strong, readonly) ModeSettings *modeSettings;
+@property (nonatomic, strong, readonly) SyntaxHighlighter *syntaxHighlighter;
+@property (nonatomic, strong, readonly) SyntaxDefinition *syntaxDefinition;
+@property (nonatomic, strong, readonly) NSMutableArray *autocompleteDictionary;
+@property (nonatomic, strong, readonly) RegexSymbolParser *symbolParser;
+@property (nonatomic, strong, readonly) NSBundle *bundle;
 
 - (void)addAutocompleteEntrysFromArray:(NSArray *)aAutocompleteArray;
 
@@ -124,28 +123,17 @@ extern NSString * const DocumentModeStyleSheetsDefaultLanguageContextKey;
 
 - (instancetype)initWithBundle:(NSBundle *)aBundle;
 
-- (NSDictionary *)scopeExamples;
-- (NSArray *)availableScopes;
+@property (nonatomic, strong, readonly) NSString *bracketMatchingBracketString;
 
-- (NSDictionary *)styleIDTransitionDictionary;
-- (ModeSettings *)modeSettings;
-- (SyntaxHighlighter *)syntaxHighlighter;
-- (SyntaxDefinition *)syntaxDefinition;
-@property (readonly) NSString *bracketMatchingBracketString;
-- (RegexSymbolParser *)symbolParser;
 - (NSString *)templateFileContent;
-- (NSMutableArray *)autocompleteDictionary;
 
 - (BOOL)hasSymbols;
 - (NSArray *)symbolArrayForTextStorage:(NSTextStorage *)aTextStorage;
 
-- (NSBundle *)bundle;
 - (NSString *)documentModeIdentifier;
 - (NSString *)displayName;
 - (NSArray *)recognizedExtensions;
 
-- (NSMutableDictionary *)defaults;
-- (void)setDefaults:(NSMutableDictionary *)defaults;
 - (id)defaultForKey:(NSString *)aKey;
 - (SyntaxStyle *)syntaxStyle;
 - (void)setSyntaxStyle:(SyntaxStyle *)aStyle;

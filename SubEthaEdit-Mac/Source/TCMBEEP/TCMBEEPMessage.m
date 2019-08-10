@@ -6,137 +6,75 @@
 #import "TCMBEEPMessage.h"
 #import "TCMBEEPFrame.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
 
 @implementation TCMBEEPMessage
 
-+ (TCMBEEPMessage *)messageWithQueue:(NSArray *)aQueue
-{
-    TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithQueue:aQueue];
-    return [message autorelease];
++ (TCMBEEPMessage *)messageWithQueue:(NSArray *)aQueue {
+    return [[TCMBEEPMessage alloc] initWithQueue:aQueue];
 }
 
-- (instancetype)initWithTypeString:(NSString *)aType messageNumber:(int32_t)aMessageNumber payload:(NSData *)aPayload
-{
+- (instancetype)initWithTypeString:(NSString *)aType messageNumber:(int32_t)aMessageNumber payload:(NSData *)aPayload {
     self = [super init];
     if (self) {
         [self setMessageTypeString:aType];
         [self setMessageNumber:aMessageNumber];
         [self setPayload:aPayload];
-        I_channelNumber = -1;
-        I_answerNumber = -1;
+        self.channelNumber = -1;
+        self.answerNumber = -1;
     }
     return self;
 }
 
-- (instancetype)initWithQueue:(NSArray *)aQueue
-{
+- (instancetype)initWithQueue:(NSArray *)aQueue {
     NSParameterAssert(aQueue != nil);
     self = [super init];
     if (self) {
         if ([aQueue count] == 0) {
-            [self release];
             self = nil;
         } else {
             TCMBEEPFrame *frame = [aQueue objectAtIndex:0];
             [self setMessageTypeString:[NSString stringWithUTF8String:[frame messageType]]];
             [self setMessageNumber:[frame messageNumber]];
             [self setAnswerNumber:[frame answerNumber]];
-            I_payload = [NSMutableData new];
+            _payload = [NSMutableData new];
             for (frame in aQueue) {
-                [I_payload appendData:[frame payload]];
+                [_payload appendData:[frame payload]];
             }
         }
     }
     return self;
 }
 
-- (void)dealloc
-{
-    [I_messageTypeString release];
-    [I_payload release];
-    [super dealloc];
+- (void)setPayload:(NSData *)aData {
+    _payload = [aData mutableCopy];
 }
 
-- (void)setMessageTypeString:(NSString *)aString
-{
-    [I_messageTypeString autorelease];
-    I_messageTypeString = [aString copy];
+- (unsigned)payloadLength {
+    return [_payload length];
 }
 
-- (NSString *)messageTypeString
-{
-    return I_messageTypeString;
+- (BOOL)isMSG {
+    return [_messageTypeString isEqualTo:@"MSG"];
 }
 
-- (void)setMessageNumber:(int32_t)aNumber
-{
-    I_messageNumber = aNumber;
+- (BOOL)isANS {
+    return [_messageTypeString isEqualTo:@"ANS"];
 }
 
-- (int32_t)messageNumber
-{
-    return I_messageNumber;
+- (BOOL)isNUL {
+    return [_messageTypeString isEqualTo:@"NUL"];
 }
 
-- (void)setChannelNumber:(int32_t)aNumber
-{
-    I_channelNumber = aNumber;
+- (BOOL)isRPY {
+    return [_messageTypeString isEqualTo:@"RPY"];
 }
 
-- (int32_t)channelNumber
-{
-    return I_channelNumber;
-}
-
-- (void)setAnswerNumber:(int32_t)aNumber
-{
-    I_answerNumber = aNumber;
-}
-
-- (int32_t)answerNumber
-{
-    return I_answerNumber;
-}
-
-- (void)setPayload:(NSData *)aData
-{
-    [I_payload autorelease];
-    I_payload = [aData mutableCopy];
-}
-
-- (NSData *)payload
-{
-    return I_payload;
-}
-
-- (unsigned)payloadLength
-{
-    return [I_payload length];
-}
-
-- (BOOL)isMSG
-{
-    return [I_messageTypeString isEqualTo:@"MSG"];
-}
-
-- (BOOL)isANS
-{
-    return [I_messageTypeString isEqualTo:@"ANS"];
-}
-
-- (BOOL)isNUL
-{
-    return [I_messageTypeString isEqualTo:@"NUL"];
-}
-
-- (BOOL)isRPY
-{
-    return [I_messageTypeString isEqualTo:@"RPY"];
-}
-
-- (BOOL)isERR
-{
-    return [I_messageTypeString isEqualTo:@"ERR"];
+- (BOOL)isERR {
+    return [_messageTypeString isEqualTo:@"ERR"];
 }
 
 @end

@@ -23,7 +23,7 @@
 
 @interface SEEParticipantViewController ()
 
-@property (nonatomic, readwrite, assign) SEEParticipantViewMode viewMode;
+@property (nonatomic, readwrite) SEEParticipantViewMode viewMode;
 @property (nonatomic, readwrite, strong) NSColor *popoverTextColor;
 
 @property (nonatomic, readwrite, strong) TCMMMUser *participant;

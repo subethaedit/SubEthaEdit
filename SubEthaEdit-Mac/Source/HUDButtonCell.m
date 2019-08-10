@@ -6,6 +6,11 @@
 #import "HUDButtonCell.h"
 #import "NSBezierPathTCMAdditions.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
 static NSImage *s_pressed[]={nil,nil,nil};
 static NSImage *s_normal[]={nil,nil,nil};
 
@@ -26,13 +31,13 @@ static NSImage *s_normal[]={nil,nil,nil};
     }
     
 	BOOL isHighlighted = [self isHighlighted];
-    NSImage **tiles=(isHighlighted?s_pressed:s_normal);
+    __strong NSImage **tiles = (isHighlighted?s_pressed:s_normal);
 	NSRect buttonBounds = cellFrame;
 	buttonBounds.size.height = tiles[0].size.height;
 	buttonBounds.origin.y += ceil((NSHeight(cellFrame) - NSHeight(buttonBounds)) / 2.0);
 	NSDrawThreePartImage(buttonBounds, tiles[0], tiles[1], tiles[2], NO, NSCompositingOperationSourceOver, 1.0, controlView.isFlipped);
 
-	NSMutableAttributedString *title=[[[self attributedTitle] mutableCopy] autorelease];
+    NSMutableAttributedString *title=[[self attributedTitle] mutableCopy];
     [title addAttribute:NSForegroundColorAttributeName value:[NSColor whiteColor] range:NSMakeRange(0,[title length])];
     [self setAttributedTitle:title];
 	cellFrame.origin.y += isHighlighted ? 1.0 : 0.0;

@@ -16,14 +16,10 @@
 @end
 
 @interface HandshakeProfile : TCMBEEPProfile
-{
-    NSMutableDictionary *I_remoteInfos;
-}
+
+@property (nonatomic, copy) NSDictionary *remoteInfos;
 
 - (void)shakeHandsWithUserID:(NSString *)aUserID;
-
-- (void)setRemoteInfos:(NSDictionary *)aDictionary;
-- (NSDictionary *)remoteInfos;
 
 - (void)setDelegate:(id <TCMBEEPProfileDelegate, HandshakeProfileDelegate>)aDelegate;
 - (id <TCMBEEPProfileDelegate, HandshakeProfileDelegate>)delegate;
