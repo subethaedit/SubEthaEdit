@@ -594,7 +594,6 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     [I_storedSelectedRanges addObject:[NSValue valueWithRange:[I_textView selectedRange]]];
 }
 
-
 - (void)popSelectedRanges {
     NSValue *value = [I_storedSelectedRanges lastObject];
 
@@ -831,17 +830,13 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 - (void)TCM_updateNumberOfActiveParticipants {
-    NSLayoutManager *layoutManager = [I_textView layoutManager];
 	NSUInteger participantCount = [[[self document] session] participantCount];
 	self.numberOfActiveParticipants = @(participantCount);
 	self.showsNumberOfActiveParticipants = participantCount > 1;
-	
-	[layoutManager setAllowsNonContiguousLayout:(participantCount == 1)];
 }
 
 - (void)TCM_updateBottomStatusBar {
-    if (I_flags.showBottomStatusBar)
-    {
+    if (I_flags.showBottomStatusBar) {
         PlainTextDocument *document = [self document];
         [O_tabStatusPopUpButton setTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ (%d)", @"arrangement of Tab setting and tab width in Bottm Status Bar"), [document usesTabs] ? NSLocalizedString(@"TrueTab", @"Bottom status bar text for TrueTab setting"):NSLocalizedString(@"Spaces", @"Bottom status bar text for use Spaces (instead of Tab) setting"), [document tabWidth]]];
         [O_modePopUpButton selectItemAtIndex:[O_modePopUpButton indexOfItemWithTag:[[DocumentModeManager sharedInstance] tagForDocumentModeIdentifier:[[document documentMode] documentModeIdentifier]]]];
