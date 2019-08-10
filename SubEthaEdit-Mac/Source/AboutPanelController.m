@@ -14,12 +14,12 @@
 #endif
 
 @interface AboutPanelController ()
-@property (nonatomic, strong) IBOutlet NSImageView *O_appIconView;
-@property (nonatomic, strong) IBOutlet NSTextField *O_legalTextField;
-@property (nonatomic, strong) IBOutlet NSTextField *O_versionField;
-@property (nonatomic, strong) IBOutlet NSTextField *O_ogreVersionField;
-@property (nonatomic, strong) IBOutlet NSTextField *O_licenseTypeField;
-@property (nonatomic, strong) IBOutlet NSTextField *appNameField;
+@property (nonatomic, weak) IBOutlet NSImageView *O_appIconView;
+@property (nonatomic, weak) IBOutlet NSTextField *O_legalTextField;
+@property (nonatomic, weak) IBOutlet NSTextField *O_versionField;
+@property (nonatomic, weak) IBOutlet NSTextField *O_ogreVersionField;
+@property (nonatomic, weak) IBOutlet NSTextField *O_licenseTypeField;
+@property (nonatomic, weak) IBOutlet NSTextField *appNameField;
 @end
 
 @implementation AboutPanelController

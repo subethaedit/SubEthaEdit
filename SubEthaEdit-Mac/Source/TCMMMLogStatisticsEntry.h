@@ -15,8 +15,10 @@
     unsigned long deletedCharacters;
     unsigned long insertedCharacters;
     unsigned long selectedCharacters;
-    TCMMMLoggingState *loggingState;
 }
+
+@property (nonatomic, weak) TCMMMLoggingState *loggingState;
+
 - (id)initWithMMUser:(TCMMMUser *)aUser;
 - (void)updateWithOperation:(TCMMMLoggedOperation *)anOperation;
 - (unsigned long)operationCount;
@@ -25,7 +27,5 @@
 - (unsigned long)selectedCharacters;
 - (TCMMMUser *)user;
 - (NSDate *)dateOfLastActivity;
-- (TCMMMLoggingState *)loggingState;
-- (void)setLoggingState:(TCMMMLoggingState *)aLoggingState;
 - (BOOL)isInside;
 @end

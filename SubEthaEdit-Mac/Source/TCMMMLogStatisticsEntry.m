@@ -74,14 +74,6 @@
     return isInside;
 }
 
-- (TCMMMLoggingState *)loggingState {
-    return self->loggingState;
-}
-
-- (void)setLoggingState:(TCMMMLoggingState *)aLoggingState {
-    self->loggingState = aLoggingState;
-}
-
 - (unsigned long)operationCount {
     return operationCount;
 }
