@@ -39,9 +39,7 @@
 
 	NSRecursiveLock *I_documentModesByIdentifierLock; // (ifc - experimental locking for thread safety... TCM are putting in a real fix)
 
-	NSMutableArray *I_modePrecedenceArray;
 	NSMutableArray      *I_modeIdentifiersTagArray;
-	NSMutableDictionary *I_dependencyQueue;
 	
 	// style sheet management
 	NSMutableDictionary *I_styleSheetPathsByName;
@@ -49,6 +47,7 @@
 }
 
 @property (nonatomic, strong, readonly) NSArray *allPathExtensions;
+@property (nonatomic, strong) NSMutableArray *modePrecedenceArray;
 
 + (DocumentModeManager *)sharedInstance;
 + (DocumentMode *)baseMode;

@@ -20,7 +20,6 @@ static NSMutableArray *prefModules;
 @property (nonatomic, strong) NSView *emptyContentView;
 @property (nonatomic, copy) NSString *selectedItemIdentifier;
 
-- (void)switchPrefPane:(id)aSender;
 - (void)selectPrefPaneWithIdentifier:(NSString *)anIdentifier;
 - (id)selectedModule;
 @end

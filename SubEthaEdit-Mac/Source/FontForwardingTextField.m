@@ -5,16 +5,16 @@
 
 #import "FontForwardingTextField.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
 
 @implementation FontForwardingTextField
 
-- (void)setFontDelegate:(id)aDelegate {
-	I_delegate = aDelegate;
-}
-
 - (void)changeFont:(id)aSender {
-	if ([I_delegate respondsToSelector:@selector(changeFont:)]) {
-		[I_delegate changeFont:aSender];
+	if ([_fontDelegate respondsToSelector:@selector(changeFont:)]) {
+		[_fontDelegate changeFont:aSender];
 	}
 }
 

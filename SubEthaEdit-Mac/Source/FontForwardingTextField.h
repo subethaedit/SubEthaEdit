@@ -7,10 +7,8 @@
 
 
 @interface FontForwardingTextField : NSTextField {
-	id I_delegate;
 	BOOL I_isFirstResponder;
 }
 
-- (void)setFontDelegate:(id)aDelegate;
-
+@property (nonatomic, weak) id fontDelegate;
 @end
