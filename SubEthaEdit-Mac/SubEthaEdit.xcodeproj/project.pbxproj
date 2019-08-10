@@ -227,7 +227,6 @@
 		4CE9CF391802F4F100F5BC56 /* OgreKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 4C6AE8731802E8810089D489 /* OgreKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4CE9CF3A1802F52A00F5BC56 /* SEEStyleSheetSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D56992133B880900CEC841 /* SEEStyleSheetSettings.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		4CF06A2F1816AF5D00B35DF8 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
-		5E0F01C30AB573A100A5DE33 /* DialogBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0F01C10AB573A100A5DE33 /* DialogBackgroundView.m */; };
 		5E28E2900972FB8E00099B13 /* InsetTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E28E28E0972FB8E00099B13 /* InsetTextFieldCell.m */; };
 		5E4DA73D09E15C6800D91CFC /* Scripts in Resources */ = {isa = PBXBuildFile; fileRef = 5E4DA73A09E15C6800D91CFC /* Scripts */; };
 		5E57298F09F514FB00D3746B /* Toolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E57298D09F514FB00D3746B /* Toolbar.m */; };
@@ -909,8 +908,6 @@
 		4CE6C99C18AA905500AB45D1 /* SEEOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEOverlayView.m; sourceTree = "<group>"; };
 		4CF06A621816D6D300B35DF8 /* SubEthaEdit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = SubEthaEdit.entitlements; sourceTree = "<group>"; };
 		4CF3490017FC6EAF005D0D4F /* PSMTabBarControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PSMTabBarControl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5E0F01C10AB573A100A5DE33 /* DialogBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DialogBackgroundView.m; sourceTree = "<group>"; };
-		5E0F01C20AB573A100A5DE33 /* DialogBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DialogBackgroundView.h; sourceTree = "<group>"; };
 		5E28E28D0972FB8E00099B13 /* InsetTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = InsetTextFieldCell.h; sourceTree = "<group>"; };
 		5E28E28E0972FB8E00099B13 /* InsetTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsetTextFieldCell.m; sourceTree = "<group>"; };
 		5E4DA73A09E15C6800D91CFC /* Scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Scripts; sourceTree = "<group>"; };
@@ -1992,8 +1989,6 @@
 				F2CEAAA6100B3A350036B3F7 /* MAAttachedWindow.m */,
 				5E754EA10AB5648F00C5119E /* SEEEncodingDoctorDialogViewController.h */,
 				5E754EA20AB5648F00C5119E /* SEEEncodingDoctorDialogViewController.m */,
-				5E0F01C20AB573A100A5DE33 /* DialogBackgroundView.h */,
-				5E0F01C10AB573A100A5DE33 /* DialogBackgroundView.m */,
 				F2CEAAEF100B46150036B3F7 /* URLBubbleWindow.h */,
 				F2CEAAF0100B46150036B3F7 /* URLBubbleWindow.m */,
 			);
@@ -2221,7 +2216,6 @@
 				5EC638250ABEB71100D3295B /* Resources */,
 				5EC638260ABEB71100D3295B /* Sources */,
 				5EC638270ABEB71100D3295B /* Frameworks */,
-				5EC638280ABEB71100D3295B /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -2548,19 +2542,6 @@
 			shellPath = /bin/sh;
 			shellScript = "echo \"Removing debug nib files...\"\nfind -d \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources\" -name \"Debug*.nib\" -exec rm -rf \"{}\" \\;\n\n# echo \"Rename resource file...\"\n# mv \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources/SubEthaEdit.rsrc\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources/SubEthaEdit-SystemVersionCheck.rsrc\"\n\necho \"Remove Headers directories...\"\nfind \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\" -path '*/Headers/*' -delete\nfind \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\" -name 'Headers' -type d -delete\nfind \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\" -name 'Headers' -type l -delete\n";
 		};
-		5EC638280ABEB71100D3295B /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
-		};
 		9E016A592259867A00142CCA /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2752,7 +2733,6 @@
 				5EF31B220A7E2E2100D777F5 /* NSCursorSEEAdditions.m in Sources */,
 				5E754EA40AB5648F00C5119E /* SEEEncodingDoctorDialogViewController.m in Sources */,
 				F21DAFE618BB75E1002B3C41 /* SEEFindAndReplaceViewController.m in Sources */,
-				5E0F01C30AB573A100A5DE33 /* DialogBackgroundView.m in Sources */,
 				141F50ED0AE51B66001B73D2 /* PlainTextWindowControllerTabContext.m in Sources */,
 				148167AE0B15B002008894C9 /* PlainTextWindow.m in Sources */,
 				F2061D690B4C152600E6631F /* FirstClickCustomView.m in Sources */,

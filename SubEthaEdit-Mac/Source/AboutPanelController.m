@@ -32,7 +32,7 @@
 - (void)windowDidLoad {
     NSBundle *mainBundle = [NSBundle mainBundle];
     NSString *versionString = AppController.localizedVersionString;
-    NSString *ogreVersion = [NSString stringWithFormat:@"OgreKit v%@, Oniguruma v%@", [OGRegularExpression version], [OGRegularExpression onigurumaVersion]];
+    NSString *ogreVersion = [NSString stringWithFormat:@"OgreKit v%@, Onigmo v%@", [OGRegularExpression version], [OGRegularExpression onigurumaVersion]];
 
     [self.O_versionField setObjectValue:versionString];
     [self.O_ogreVersionField setObjectValue:ogreVersion];

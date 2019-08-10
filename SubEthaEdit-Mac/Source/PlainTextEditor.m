@@ -335,27 +335,9 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
         NSView *containerView = self.bottomBlurLayerView;
         [statusBarView removeFromSuperview];
         
-        // configure truncade mode
+        // configure truncate mode
         [O_tabStatusPopUpButton.cell setLineBreakMode:NSLineBreakByTruncatingMiddle];
         [O_encodingPopUpButton.cell setLineBreakMode:NSLineBreakByTruncatingMiddle];
-        
-        // adjust sizes for german if necessary
-        if ([[[NSBundle mainBundle] preferredLocalizations].firstObject isEqual:@"German"]) {
-            // adjust frames
-            CGFloat points = 20.0;
-            O_tabStatusPopUpButton.frame = ({
-                NSRect frame = O_tabStatusPopUpButton.frame;
-                frame.size.width += points;
-                frame;
-            });
-            O_lineEndingPopUpButton.frame = NSOffsetRect(O_lineEndingPopUpButton.frame, points, 0);
-            O_encodingPopUpButton.frame = ({
-                NSRect frame = O_encodingPopUpButton.frame;
-                frame.size.width -= points;
-                frame.origin.x += points;
-                frame;
-            });
-        }
         
         [statusBarView setTranslatesAutoresizingMaskIntoConstraints:NO];
         [statusBarView setAutoresizesSubviews:YES];
@@ -598,7 +580,6 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     [I_storedSelectedRanges addObject:[NSValue valueWithRange:[I_textView selectedRange]]];
 }
 
-
 - (void)popSelectedRanges {
     NSValue *value = [I_storedSelectedRanges lastObject];
 
@@ -835,17 +816,13 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 - (void)TCM_updateNumberOfActiveParticipants {
-    NSLayoutManager *layoutManager = [I_textView layoutManager];
 	NSUInteger participantCount = [[[self document] session] participantCount];
 	self.numberOfActiveParticipants = @(participantCount);
 	self.showsNumberOfActiveParticipants = participantCount > 1;
-	
-	[layoutManager setAllowsNonContiguousLayout:(participantCount == 1)];
 }
 
 - (void)TCM_updateBottomStatusBar {
-    if (I_flags.showBottomStatusBar)
-    {
+    if (I_flags.showBottomStatusBar) {
         PlainTextDocument *document = [self document];
         [O_tabStatusPopUpButton setTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ (%d)", @"arrangement of Tab setting and tab width in Bottm Status Bar"), [document usesTabs] ? NSLocalizedString(@"TrueTab", @"Bottom status bar text for TrueTab setting"):NSLocalizedString(@"Spaces", @"Bottom status bar text for use Spaces (instead of Tab) setting"), [document tabWidth]]];
         [O_modePopUpButton selectItemAtIndex:[O_modePopUpButton indexOfItemWithTag:[[DocumentModeManager sharedInstance] tagForDocumentModeIdentifier:[[document documentMode] documentModeIdentifier]]]];
@@ -857,8 +834,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
         [O_lineEndingPopUpButton selectItemAtIndex:[O_lineEndingPopUpButton indexOfItemWithTag:[document lineEnding]]];
         NSString *lineEndingStatusString = @"";
-        switch ([document lineEnding])
-        {
+        switch ([document lineEnding]) {
             case LineEndingLF :
                 lineEndingStatusString = @"LF";
                 break;

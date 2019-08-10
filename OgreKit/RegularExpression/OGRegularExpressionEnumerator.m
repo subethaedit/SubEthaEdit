@@ -3,8 +3,8 @@
  * Project: OgreKit
  *
  * Creation Date: Sep 03 2003
- * Author: Isao Sonobe <sonoisa (AT) muse (DOT) ocn (DOT) ne (DOT) jp>
- * Copyright: Copyright (c) 2003 Isao Sonobe, All rights reserved.
+ * Author: Isao Sonobe <sonoisa@gmail.com>
+ * Copyright: Copyright (c) 2003-2018 Isao Sonobe, All rights reserved.
  * License: OgreKit License
  *
  * Encoding: UTF8
@@ -37,11 +37,11 @@ NSString	* const OgreEnumeratorException = @"OGRegularExpressionEnumeratorExcept
 // 次を検索
 - (id)nextObject
 {
-	int					r;
+	OnigPosition        r;
 	unichar             *start, *range, *end;
 	OnigRegion			*region;
 	id					match = nil;
-	unsigned			UTF16charlen = 0;
+	unsigned long		UTF16charlen = 0;
 	
 	/* 全面的に書き直す予定 */
 	if ( _terminalOfLastMatch == -1 ) {
@@ -68,7 +68,7 @@ NSString	* const OgreEnumeratorException = @"OGRegularExpressionEnumeratorExcept
 	
 	// searchオプション(OgreFindEmptyOptionを別に扱う)
 	BOOL		findEmpty;
-	unsigned	searchOptions;
+	OnigOptionType	searchOptions;
 	if ((_searchOptions & OgreFindEmptyOption) == 0) {
 		findEmpty = NO;
 		searchOptions = _searchOptions;
@@ -196,10 +196,10 @@ NSString	* const OgreEnumeratorException = @"OGRegularExpressionEnumeratorExcept
 
 	NSMutableArray	*matchArray = [NSMutableArray arrayWithCapacity:10];
 
-	int			orgTerminalOfLastMatch = _terminalOfLastMatch;
+	NSInteger	orgTerminalOfLastMatch = _terminalOfLastMatch;
 	BOOL		orgIsLastMatchEmpty = _isLastMatchEmpty;
-	unsigned	orgStartLocation = _startLocation;
-	unsigned	orgNumberOfMatches = _numberOfMatches;
+	NSUInteger	orgStartLocation = _startLocation;
+	NSUInteger	orgNumberOfMatches = _numberOfMatches;
 	
 	_terminalOfLastMatch = 0;
 	_isLastMatchEmpty = NO;
@@ -208,7 +208,7 @@ NSString	* const OgreEnumeratorException = @"OGRegularExpressionEnumeratorExcept
 			
 	NSAutoreleasePool   *pool = [[NSAutoreleasePool alloc] init];
 	OGRegularExpressionMatch	*match;
-	int matches = 0;
+	NSInteger matches = 0;
 	while ( (match = [self nextObject]) != nil ) {
 		[matchArray addObject:match];
 		matches++;
@@ -246,28 +246,28 @@ NSString	* const OgreEnumeratorException = @"OGRegularExpressionEnumeratorExcept
 	//NSRange				_searchRange;						// 検索範囲
 	//unsigned              _searchOptions;						// 検索オプション
 	//int					_terminalOfLastMatch;               // 前回にマッチした文字列の終端位置 (_region->end[0] / sizeof(unichar))
-	//unsigned              _startLocation;						// マッチ開始位置
+	//NSUInteger            _startLocation;						// マッチ開始位置
 	//BOOL					_isLastMatchEmpty;					// 前回のマッチが空文字列だったかどうか
-    //unsigned              _numberOfMatches;                   // マッチした数
+    //NSUInteger            _numberOfMatches;                   // マッチした数
     
     if ([encoder allowsKeyedCoding]) {
 		[encoder encodeObject: _regex forKey: OgreRegexKey];
 		[encoder encodeObject: _targetString forKey: OgreSwappedTargetStringKey];
-		[encoder encodeObject: [NSNumber numberWithUnsignedInt:_searchRange.location] forKey: OgreStartOffsetKey];
+		[encoder encodeObject: [NSNumber numberWithUnsignedInteger:_searchRange.location] forKey: OgreStartOffsetKey];
 		[encoder encodeObject: [NSNumber numberWithUnsignedInt:_searchOptions] forKey: OgreOptionsKey];
-		[encoder encodeObject: [NSNumber numberWithInt:_terminalOfLastMatch] forKey: OgreTerminalOfLastMatchKey];
-		[encoder encodeObject: [NSNumber numberWithUnsignedInt:_startLocation] forKey: OgreStartLocationKey];
+		[encoder encodeObject: [NSNumber numberWithInteger:_terminalOfLastMatch] forKey: OgreTerminalOfLastMatchKey];
+		[encoder encodeObject: [NSNumber numberWithUnsignedInteger:_startLocation] forKey: OgreStartLocationKey];
 		[encoder encodeObject: [NSNumber numberWithBool:_isLastMatchEmpty] forKey: OgreIsLastMatchEmptyKey];
-		[encoder encodeObject: [NSNumber numberWithUnsignedInt:_numberOfMatches] forKey: OgreNumberOfMatchesKey];
+		[encoder encodeObject: [NSNumber numberWithUnsignedInteger:_numberOfMatches] forKey: OgreNumberOfMatchesKey];
 	} else {
 		[encoder encodeObject: _regex];
 		[encoder encodeObject: _targetString];
-		[encoder encodeObject: [NSNumber numberWithUnsignedInt:_searchRange.location]];
+		[encoder encodeObject: [NSNumber numberWithUnsignedInteger:_searchRange.location]];
 		[encoder encodeObject: [NSNumber numberWithUnsignedInt:_searchOptions]];
-		[encoder encodeObject: [NSNumber numberWithInt:_terminalOfLastMatch]];
-		[encoder encodeObject: [NSNumber numberWithUnsignedInt:_startLocation]];
+		[encoder encodeObject: [NSNumber numberWithInteger:_terminalOfLastMatch]];
+		[encoder encodeObject: [NSNumber numberWithUnsignedInteger:_startLocation]];
 		[encoder encodeObject: [NSNumber numberWithBool:_isLastMatchEmpty]];
-		[encoder encodeObject: [NSNumber numberWithUnsignedInt:_numberOfMatches]];
+		[encoder encodeObject: [NSNumber numberWithUnsignedInteger:_numberOfMatches]];
 	}
 }
 
@@ -331,7 +331,7 @@ NSString	* const OgreEnumeratorException = @"OGRegularExpressionEnumeratorExcept
 		[self release];
 		[NSException raise:NSInvalidUnarchiveOperationException format:@"fail to decode"];
 	}
-	_searchRange.location = [anObject unsignedIntValue];
+	_searchRange.location = [anObject unsignedIntegerValue];
 	_searchRange.length = _lengthOfTargetString;
 	
 	
@@ -361,7 +361,7 @@ NSString	* const OgreEnumeratorException = @"OGRegularExpressionEnumeratorExcept
 		[self release];
 		[NSException raise:NSInvalidUnarchiveOperationException format:@"fail to decode"];
 	}
-	_terminalOfLastMatch = [anObject intValue];
+	_terminalOfLastMatch = [anObject integerValue];
 	
 	
 	//			_startLocation;						// マッチ開始位置
@@ -375,7 +375,7 @@ NSString	* const OgreEnumeratorException = @"OGRegularExpressionEnumeratorExcept
 		[self release];
 		[NSException raise:NSInvalidUnarchiveOperationException format:@"fail to decode"];
 	}
-	_startLocation = [anObject unsignedIntValue];
+	_startLocation = [anObject unsignedIntegerValue];
     	
 
 	//BOOL				_isLastMatchEmpty;					// 前回のマッチが空文字列だったかどうか
@@ -403,7 +403,7 @@ NSString	* const OgreEnumeratorException = @"OGRegularExpressionEnumeratorExcept
 		[self release];
 		[NSException raise:NSInvalidUnarchiveOperationException format:@"fail to decode"];
 	}
-	_numberOfMatches = [anObject unsignedIntValue];
+	_numberOfMatches = [anObject unsignedIntegerValue];
 	
 	
 	return self;
@@ -440,10 +440,10 @@ NSString	* const OgreEnumeratorException = @"OGRegularExpressionEnumeratorExcept
 			_targetString,
 			[NSString stringWithFormat:@"(%lu, %lu)", (unsigned long)_searchRange.location, (unsigned long)_searchRange.length], 	// 検索範囲
 			[[_regex class] stringsForOptions:_searchOptions], 	// 検索オプション
-			[NSNumber numberWithInt:_terminalOfLastMatch],	// 前回にマッチした文字列の終端位置より前の文字列の長さ
-			[NSNumber numberWithUnsignedInt:_startLocation], 	// マッチ開始位置
+			[NSNumber numberWithInteger:_terminalOfLastMatch],	// 前回にマッチした文字列の終端位置より前の文字列の長さ
+			[NSNumber numberWithUnsignedInteger:_startLocation], 	// マッチ開始位置
 			(_isLastMatchEmpty? @"YES" : @"NO"), 	// 前回のマッチが空文字列だったかどうか
-			[NSNumber numberWithUnsignedInt:_numberOfMatches], 
+			[NSNumber numberWithUnsignedInteger:_numberOfMatches], 
 			nil]
 		forKeys:[NSArray arrayWithObjects: 
 			@"Regular Expression", 

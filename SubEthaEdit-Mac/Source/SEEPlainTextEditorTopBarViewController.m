@@ -70,11 +70,9 @@
 	return self;
 }
 
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:@"SEEPlainTextEditorTopBarViewController" bundle:nibBundleOrNil];
     if (self) {
-        // Initialization code here.
     }
     return self;
 }

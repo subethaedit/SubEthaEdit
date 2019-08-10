@@ -15,7 +15,7 @@
 	<key>CFBundleSignature</key>
 	<string>OGKt</string>
 	<key>CFBundleVersion</key>
-	<string>$(OGREKIT_VERSION)</string>
+	<string>3.0.0</string>
 	<key>NSPrincipalClass</key>
 	<string></string>
 </dict>
