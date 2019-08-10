@@ -16,7 +16,7 @@
 	trackingTag = 0;
 }
 
-- (id)initWithFrame:(NSRect)frame  {
+- (instancetype)initWithFrame:(NSRect)frame  {
     self = [super initWithFrame:frame];
     if (self) {
 		[self configure];
@@ -25,7 +25,7 @@
 	return self;
 }
 
-- (id)initWithCoder:(NSCoder *)coder {
+- (instancetype)initWithCoder:(NSCoder *)coder {
     self = [super initWithCoder:coder];
     if (self) {
 		[self configure];

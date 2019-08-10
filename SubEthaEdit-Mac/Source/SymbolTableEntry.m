@@ -32,7 +32,7 @@
     return result;
 }
 
-- (id)init {
+- (instancetype)init {
     self = [super init];
     if (self) {
         I_jumpRangeSelectionOperation=[SelectionOperation new];

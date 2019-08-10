@@ -19,7 +19,7 @@ typedef NS_ENUM(int8_t, SEEWebPreviewRefreshType) {
 
 @interface SEEWebPreviewViewController : NSViewController <WebUIDelegate, WebFrameLoadDelegate, WebResourceLoadDelegate, WebPolicyDelegate>
 
-- (id)initWithPlainTextDocument:(PlainTextDocument *)aDocument;
+- (instancetype)initWithPlainTextDocument:(PlainTextDocument *)aDocument;
 
 - (void)setPlainTextDocument:(PlainTextDocument *)aDocument;
 - (PlainTextDocument *)plainTextDocument;

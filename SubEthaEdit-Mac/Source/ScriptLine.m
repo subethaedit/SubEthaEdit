@@ -18,7 +18,7 @@
     return [[ScriptLine alloc] initWithTextStorage:aTextStorage lineNumber:aLineNumber];
 }
 
-- (id)initWithTextStorage:(FullTextStorage *)aTextStorage lineNumber:(int)aLineNumber
+- (instancetype)initWithTextStorage:(FullTextStorage *)aTextStorage lineNumber:(int)aLineNumber
 {
     if ((self = [super initWithTextStorage:aTextStorage])) {
         I_lineNumber = aLineNumber;

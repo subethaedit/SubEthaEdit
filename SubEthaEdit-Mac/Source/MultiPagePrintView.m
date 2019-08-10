@@ -22,7 +22,7 @@
 
 static NSMutableDictionary *S_nameAttributes, *S_contactAttributes, *S_contactLabelAttributes, *S_tableHeadingAttributes;
 
-- (id)initWithFrame:(NSRect)frame document:(PlainTextDocument *)aDocument
+- (instancetype)initWithFrame:(NSRect)frame document:(PlainTextDocument *)aDocument
 {
     self = [super initWithFrame:frame];
     

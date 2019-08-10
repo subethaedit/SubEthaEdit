@@ -22,11 +22,11 @@ Dictionaries are encoded as a 'd' followed by a list of alternating keys and the
 #endif
 
 @implementation TCMMutableBencodedData
-- (id)initWithObject:(id)anObject {
+- (instancetype)initWithObject:(id)anObject {
     return [self initWithData:TCM_BencodedObject(anObject)];
 }
 
-- (id)initWithData:(NSData *)data {
+- (instancetype)initWithData:(NSData *)data {
     if ((self=[super init])) {
         _data = data ? [data mutableCopy] : [NSMutableData new];
     }

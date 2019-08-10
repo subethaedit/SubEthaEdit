@@ -31,7 +31,7 @@
     return [[ScriptTextSelection alloc] initWithTextStorage:aTextStorage editor:anEditor];
 }
 
-- (id)initWithTextStorage:(FullTextStorage *)aTextStorage editor:(PlainTextEditor *)anEditor {
+- (instancetype)initWithTextStorage:(FullTextStorage *)aTextStorage editor:(PlainTextEditor *)anEditor {
     if ((self = [super initWithTextStorage:aTextStorage])) {
         I_editor      = anEditor;
     }

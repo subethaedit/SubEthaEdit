@@ -20,7 +20,7 @@
 	_recognizedCasesensitveExtensions = [NSMutableArray new];
 }
 
-- (id)initWithFile:(NSString *)aPath {
+- (instancetype)initWithFile:(NSString *)aPath {
     self=[super init];
     if (self) {
         if (!aPath) {
@@ -40,7 +40,7 @@
 	return self;
 }
 
-- (id)initWithPlist:(NSString *)bundlePath {
+- (instancetype)initWithPlist:(NSString *)bundlePath {
     self=[super init];
     if (self) {
         if (!bundlePath) {

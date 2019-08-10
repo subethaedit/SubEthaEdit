@@ -13,7 +13,7 @@
 
 @implementation SEEPrintOptionsViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:@"PrintOptions" bundle:nibBundleOrNil];
     return self;
 }

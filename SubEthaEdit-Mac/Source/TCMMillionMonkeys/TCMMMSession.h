@@ -116,8 +116,8 @@ typedef enum TCMMMSessionClientState {
 + (TCMMMSession *)sessionWithBencodedSession:(NSData *)aData;
 + (TCMMMSession *)sessionWithDictionaryRepresentation:(NSDictionary *)aDictionary;
 
-- (id)initWithDocument:(id <SEEDocument>)aDocument;
-- (id)initWithSessionID:(NSString *)aSessionID filename:(NSString *)aFileName;
+- (instancetype)initWithDocument:(id <SEEDocument>)aDocument;
+- (instancetype)initWithSessionID:(NSString *)aSessionID filename:(NSString *)aFileName;
 
 - (void)setFilename:(NSString *)aFilename;
 - (NSString *)filename;

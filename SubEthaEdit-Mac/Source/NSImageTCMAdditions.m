@@ -7,6 +7,7 @@
 #import <Quartz/Quartz.h>
 #import <CoreGraphics/CoreGraphics.h>
 #import "NSColorTCMAdditions.h"
+#import "NSAppearanceSEEAdditions.h"
 #import <objc/objc-runtime.h>
 #import <CoreText/CoreText.h>
 #import "NSObject+TCMArcLifecycleAdditions.h"

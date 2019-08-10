@@ -17,7 +17,7 @@
     return [[TCMMMMessage alloc] initWithDictionaryRepresentation:aDictionary];
 }
 
-- (id)initWithDictionaryRepresentation:(NSDictionary *)aDictionary {
+- (instancetype)initWithDictionaryRepresentation:(NSDictionary *)aDictionary {
     self = [super init];
     if (self) {
         //NSLog(@"initWithDictionary: %@",aDictionary);
@@ -31,7 +31,7 @@
     return self;
 }
 
-- (id)initWithOperation:(TCMMMOperation *)anOperation numberOfClient:(long long)aClientNumber numberOfServer:(long long)aServerNumber {
+- (instancetype)initWithOperation:(TCMMMOperation *)anOperation numberOfClient:(long long)aClientNumber numberOfServer:(long long)aServerNumber {
     self = [super init];
     if (self) {
         I_numberOfClientMessages = aClientNumber;

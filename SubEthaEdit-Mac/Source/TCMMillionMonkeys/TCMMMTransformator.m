@@ -44,7 +44,7 @@ static TCMMMTransformator *sharedInstance = nil;
 }
 
 
-- (id)init {
+- (instancetype)init {
     self = [super init];
     if (self) {
         I_registeredTransformations = [NSMutableDictionary new];

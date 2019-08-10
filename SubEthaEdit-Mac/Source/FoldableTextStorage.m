@@ -41,7 +41,7 @@ NSString * const BlockeditAttributeValue=@"YES";
 	}
 }
 
-- (id)init {
+- (instancetype)init {
     if ((self = [super init])) {
         I_internalAttributedString = nil;
         I_fullTextStorage = [[FullTextStorage alloc] initWithFoldableTextStorage:self];

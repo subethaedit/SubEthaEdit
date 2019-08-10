@@ -22,7 +22,7 @@ extern NSString * const UndoManagerWillUndoChangeNotification;
 @property (nonatomic, readonly) NSMutableArray *actions;
 @property (nonatomic, readonly) UndoGroup *parent;
 
-- (id)initWithParent:(UndoGroup *)parent;
+- (instancetype)initWithParent:(UndoGroup *)parent;
 
 @end
 
@@ -155,7 +155,7 @@ extern NSString * const UndoManagerWillUndoChangeNotification;
 
 #pragma mark -
 
-- (id)initWithDocument:(PlainTextDocument *)document;
+- (instancetype)initWithDocument:(PlainTextDocument *)document;
 - (void)performUndoGroup:(UndoGroup *)group;
 - (void)registerUndoChangeTextInRange:(NSRange)aAffectedCharRange
                     replacementString:(NSString *)aReplacementString  shouldGroupWithPriorOperation:(BOOL)shouldGroup;

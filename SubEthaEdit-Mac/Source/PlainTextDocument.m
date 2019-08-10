@@ -12,6 +12,8 @@
 #import <SystemConfiguration/SystemConfiguration.h>
 #import <objc/objc-runtime.h>			// for objc_msgSend
 
+#import <TCMPortMapper/TCMPortMapper.h>
+
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "PlainTextEditor.h"
 #import "SEEConnectionManager.h"
@@ -713,7 +715,7 @@ static NSString *tempFileName(NSString *origPath) {
     [[self windowControllers] makeObjectsPerformSelector:@selector(synchronizeWindowTitleWithDocumentName)];
 }
 
-- (id)init {
+- (instancetype)init {
     self = [super init];
     if (self) {
         I_flags.shouldChangeExtensionOnModeChange=YES; 
@@ -743,7 +745,7 @@ static NSString *tempFileName(NSString *origPath) {
     return self;
 }
 
-- (id)initWithSession:(TCMMMSession *)aSession {
+- (instancetype)initWithSession:(TCMMMSession *)aSession {
     self = [super init];
     if (self) {
         [self setShouldChangeChangeCount:NO];

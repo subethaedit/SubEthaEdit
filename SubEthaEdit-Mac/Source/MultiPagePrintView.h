@@ -48,6 +48,6 @@
 - (NSString *)headerFormatString;
 - (void)setHeaderAttributes:(NSDictionary *)aHeaderAttributes;
 - (NSDictionary *)headerAttributes;
-- (id)initWithFrame:(NSRect)frame document:(PlainTextDocument *)aDocument;
+- (instancetype)initWithFrame:(NSRect)frame document:(PlainTextDocument *)aDocument;
 
 @end

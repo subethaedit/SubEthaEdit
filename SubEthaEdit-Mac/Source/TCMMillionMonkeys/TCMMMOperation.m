@@ -34,7 +34,7 @@ static NSMutableDictionary *sClassForOperationTypeDictionary;
     return @"nil";
 }
 
-- (id)initWithDictionaryRepresentation:(NSDictionary *)aDictionary {
+- (instancetype)initWithDictionaryRepresentation:(NSDictionary *)aDictionary {
     self = [super init];
     if (self) {
         [self setUserID:[NSString stringWithUUIDData:[aDictionary objectForKey:@"uid"]]];

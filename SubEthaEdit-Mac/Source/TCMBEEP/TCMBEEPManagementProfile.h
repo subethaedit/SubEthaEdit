@@ -27,7 +27,7 @@
     NSTimer *I_keepBEEPTimer;
 }
 
-- (id)initWithChannel:(TCMBEEPChannel *)aChannel;
+- (instancetype)initWithChannel:(TCMBEEPChannel *)aChannel;
 
 - (void)sendGreetingWithProfileURIs:(NSArray *)anArray featuresAttribute:(NSString *)aFeaturesString localizeAttribute:(NSString *)aLocalizeString;
 

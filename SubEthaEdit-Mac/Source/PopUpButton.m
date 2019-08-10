@@ -23,7 +23,7 @@
     return [PopUpButtonCell class];
 }
 
-- (id)initWithFrame:(NSRect)frameRect pullsDown:(BOOL)flag {   
+- (instancetype)initWithFrame:(NSRect)frameRect pullsDown:(BOOL)flag {   
     self=[super initWithFrame:frameRect pullsDown:flag];
 	if (self) {
         PopUpButtonCell *cell = self.cell;

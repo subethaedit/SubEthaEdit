@@ -10,6 +10,6 @@
     NSColor *I_backgroundColor;
 }
 
-- (id)initWithColor:(NSColor *)aColor;
+- (instancetype)initWithColor:(NSColor *)aColor;
 
 @end

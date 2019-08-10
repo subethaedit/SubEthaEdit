@@ -27,7 +27,7 @@
 
 @implementation TCMMMLoggingState
 
-- (id)init {
+- (instancetype)init {
     if ((self=[super initAsServer:NO])) {
         [self setIsSendingNoOps:NO];
         I_loggedOperations = [NSMutableArray new];
@@ -40,7 +40,7 @@
     return self;
 }
 
-- (id)initWithDictionaryRepresentation:(NSDictionary *)aDictionary {
+- (instancetype)initWithDictionaryRepresentation:(NSDictionary *)aDictionary {
     if ((self=[self init])) {
         NSEnumerator *operationReps = [[aDictionary objectForKey:@"ops"] objectEnumerator];
         NSDictionary *operationRep =nil;

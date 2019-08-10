@@ -164,7 +164,7 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
 
 - (NSImage *)documentIcon;
 
-- (id)initWithSession:(TCMMMSession *)aSession;
+- (instancetype)initWithSession:(TCMMMSession *)aSession;
 
 // TODO: rename more cocoa objc style
 - (void)warn:(NSString *)message details:(NSString *)details buttons:(NSArray *)buttons then:(void (^)(PlainTextDocument *, NSModalResponse))then;

@@ -84,7 +84,7 @@ NSString * const SEEConnectionStatusDidChangeNotification = @"SEEConnectionStatu
     }
 }
 
-- (id)initWithURL:(NSURL *)anURL {
+- (instancetype)initWithURL:(NSURL *)anURL {
     if ((self=[super init])) {
 		NSURL *documentRequest = nil;
         NSData *addressData = nil;
@@ -115,7 +115,7 @@ NSString * const SEEConnectionStatusDidChangeNotification = @"SEEConnectionStatu
     return self;
 }
 
-- (id)initWithBEEPSession:(TCMBEEPSession *)aSession {
+- (instancetype)initWithBEEPSession:(TCMBEEPSession *)aSession {
     if ((self=[super init])) {
         self.BEEPSession = aSession;
         self.hostStatus = HostEntryStatusSessionOpen;

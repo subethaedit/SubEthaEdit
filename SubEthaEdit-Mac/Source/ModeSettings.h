@@ -20,10 +20,10 @@
 @property (nonatomic, readonly) NSArray *recognizedFilenames;
 @property (nonatomic, copy) NSString *templateFile;
 
-- (id)initWithFile:(NSString *)aPath;
+- (instancetype)initWithFile:(NSString *)aPath;
 
 /*"XML parsing"*/
 - (void)parseXMLFile:(NSString *)aPath;
-- (id)initWithPlist:(NSString *)bundlePath;
+- (instancetype)initWithPlist:(NSString *)bundlePath;
 
 @end

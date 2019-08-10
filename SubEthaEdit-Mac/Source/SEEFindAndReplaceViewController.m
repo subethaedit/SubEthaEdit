@@ -176,10 +176,12 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 		[weakSelf updateSearchOptionsButton];
 	}]];
 
-	[self.registeredNotifications addObject:[[NSNotificationCenter defaultCenter] addObserverForName:SEEPlainTextWindowControllerTabContextActiveEditorDidChangeNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-		[note.object isEqual:self.plainTextWindowControllerTabContext];
-		[weakSelf updateSearchOptionsButton];
-	}]];
+    [self.registeredNotifications addObject:[[NSNotificationCenter defaultCenter] addObserverForName:SEEPlainTextWindowControllerTabContextActiveEditorDidChangeNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if ([note.object isEqual:strongSelf.plainTextWindowControllerTabContext]) {
+            [strongSelf updateSearchOptionsButton];
+        }
+    }]];
 	
 	// localize and fix layout correspondingly
 	self.replaceButton.title = NSLocalizedString(@"FIND_REPLACE_PANEL_REPLACE", @"'Replace' in find panel");

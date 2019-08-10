@@ -17,7 +17,7 @@ static URLBubbleWindow *S_sharedInstance;
 	return S_sharedInstance;
 }
 
-- (id)initAsBubble {
+- (instancetype)initAsBubble {
 	// load nib
 	[[NSBundle mainBundle] loadNibNamed:@"URLBubbleWindow" owner:self topLevelObjects:nil];
 	

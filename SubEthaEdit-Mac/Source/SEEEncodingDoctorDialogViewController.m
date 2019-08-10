@@ -28,7 +28,7 @@
 @implementation SEEEncodingDoctorDialogViewController
 @synthesize tabContext = _tabContext;
 
-- (id)initWithEncoding:(NSStringEncoding)anEncoding {
+- (instancetype)initWithEncoding:(NSStringEncoding)anEncoding {
     if ((self=[super initWithNibName:@"SEEEncodingDoctorView" bundle:nil])) {
 		self.encoding = anEncoding;
     }

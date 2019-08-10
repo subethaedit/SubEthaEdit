@@ -33,7 +33,7 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 @synthesize linkedStyleSheets = I_linkedStyleSheets;
 
 /*"Initiates the Syntax Definition with an XML file"*/
-- (id)initWithFile:(NSString *)aPath forMode:(DocumentMode *)aMode {
+- (instancetype)initWithFile:(NSString *)aPath forMode:(DocumentMode *)aMode {
     self=[super init];
     if (self) {
         if (!aPath) {

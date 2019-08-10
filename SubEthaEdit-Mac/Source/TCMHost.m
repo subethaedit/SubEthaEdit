@@ -43,7 +43,7 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
     return [[TCMHost alloc] initWithAddressData:addr port:port userInfo:userInfo];
 }
 
-- (id)initWithName:(NSString *)name port:(unsigned short)port userInfo:(NSDictionary *)userInfo
+- (instancetype)initWithName:(NSString *)name port:(unsigned short)port userInfo:(NSDictionary *)userInfo
 {
     self = [super init];
     if (self) {
@@ -67,7 +67,7 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
     return self;
 }
 
-- (id)initWithAddressData:(NSData *)addr port:(unsigned short)port userInfo:(NSDictionary *)userInfo
+- (instancetype)initWithAddressData:(NSData *)addr port:(unsigned short)port userInfo:(NSDictionary *)userInfo
 {    
     self = [super init];
     if (self) {

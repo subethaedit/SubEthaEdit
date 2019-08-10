@@ -27,7 +27,7 @@
 @property (nonatomic, weak) id<TCMBEEPProfileDelegate> delegate;
 @property (nonatomic, copy) NSString *profileURI;
 
-- (id)initWithChannel:(TCMBEEPChannel *)aChannel;
+- (instancetype)initWithChannel:(TCMBEEPChannel *)aChannel;
 
 - (void)handleInitializationData:(NSData *)aData;
 - (void)processBEEPMessage:(TCMBEEPMessage *)aMessage;

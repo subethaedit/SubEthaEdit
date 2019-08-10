@@ -13,6 +13,6 @@
 }
 
 + (id)scriptLineWithTextStorage:(FullTextStorage *)aTextStorage lineNumber:(int)aLineNumber;
-- (id)initWithTextStorage:(FullTextStorage *)aTextStorage lineNumber:(int)aLineNumber;
+- (instancetype)initWithTextStorage:(FullTextStorage *)aTextStorage lineNumber:(int)aLineNumber;
 
 @end

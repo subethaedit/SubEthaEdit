@@ -43,7 +43,7 @@ void * const SEEPlainTextWindowControllerTabContextPresentedViewObservanceContex
 
 @synthesize activePlainTextEditor = _activePlainTextEditor;
 
-- (id)init {
+- (instancetype)init {
     self = [super init];
     if (self) {
 		self.uuid = [NSString UUIDString];

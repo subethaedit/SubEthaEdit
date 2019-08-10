@@ -9,7 +9,7 @@
 @interface RegexSymbolParser : NSObject {
     RegexSymbolDefinition *I_symbolDefinition;
 }
-- (id)initWithSymbolDefinition:(RegexSymbolDefinition *)aSymbolDefinition;
+- (instancetype)initWithSymbolDefinition:(RegexSymbolDefinition *)aSymbolDefinition;
 
 @property (nonatomic, strong) RegexSymbolDefinition *symbolDefinition;
 

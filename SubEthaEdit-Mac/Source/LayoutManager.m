@@ -60,7 +60,7 @@ static NSString *S_specialGlyphs[17];
     S_specialGlyphs[u_25a1]     = @"\u25a1";
 }
 
-- (id)init {
+- (instancetype)init {
     if ((self=[super init])) {
         _showsChangeMarks = NO;
         I_invisiblesTextStorage =   [NSTextStorage new];

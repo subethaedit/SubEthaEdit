@@ -11,8 +11,8 @@
 
 @property (nonatomic, readonly) NSMutableData *data;
 
-- (id)initWithData:(NSData *)aData;
-- (id)initWithObject:(id)anObject;
+- (instancetype)initWithData:(NSData *)aData;
+- (instancetype)initWithObject:(id)anObject;
 - (void)appendObjectToBencodedArray:(id)anObject;
 - (id)decodedObject;
 - (void)appendObjectsFromArrayToBencodedArray:(NSArray *)anArray;

@@ -17,7 +17,7 @@
 
 @property (nonatomic, weak) id delegate;
 
-- (id)initWithPort:(unsigned int)aPort;
+- (instancetype)initWithPort:(unsigned int)aPort;
 
 - (BOOL)listen;
 - (void)close;

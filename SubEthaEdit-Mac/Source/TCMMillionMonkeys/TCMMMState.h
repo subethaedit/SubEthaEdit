@@ -27,7 +27,7 @@
 
 @property (nonatomic, weak) id delegate;
 
-- (id)initAsServer:(BOOL)isServer;
+- (instancetype)initAsServer:(BOOL)isServer;
 
 - (BOOL)isSendingNoOps;
 - (void)setIsSendingNoOps:(BOOL)aFlag;

@@ -41,7 +41,7 @@
     return result;
 }
 
-- (id)init {
+- (instancetype)init {
 	self = [super init];
     if (self) {
 		self.entries = [NSMutableArray array];

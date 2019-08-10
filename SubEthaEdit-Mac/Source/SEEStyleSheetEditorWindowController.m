@@ -69,7 +69,7 @@
 
 @implementation SEEStyleSheetEditorWindowController
 
-- (id)init {
+- (instancetype)init {
     self = [super initWithWindowNibName:@"SEEStyleSheetEditorWindowController"];
     if (self) {
         self.undoManager = [NSUndoManager new];

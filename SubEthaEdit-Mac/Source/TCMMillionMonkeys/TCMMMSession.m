@@ -89,7 +89,7 @@ NSString * const TCMMMSessionTextStorageKey = @"TextStorage";
     return session;
 }
 
-- (id)init
+- (instancetype)init
 {
     self = [super init];
     if (self) {
@@ -124,7 +124,7 @@ NSString * const TCMMMSessionTextStorageKey = @"TextStorage";
     return self;
 }
 
-- (id)initWithDocument:(id <SEEDocument>)aDocument
+- (instancetype)initWithDocument:(id <SEEDocument>)aDocument
 {
     self = [self init];
     if (self) {
@@ -142,7 +142,7 @@ NSString * const TCMMMSessionTextStorageKey = @"TextStorage";
     return self;
 }
 
-- (id)initWithSessionID:(NSString *)aSessionID filename:(NSString *)aFileName
+- (instancetype)initWithSessionID:(NSString *)aSessionID filename:(NSString *)aFileName
 {
     self = [self init];
     if (self) {

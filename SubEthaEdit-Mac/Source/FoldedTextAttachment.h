@@ -11,7 +11,7 @@
 @property (nonatomic, assign) NSRange foldedTextRange;
 @property (nonatomic, readonly) NSMutableArray *innerAttachments;
 
-- (id)initWithFoldedTextRange:(NSRange)inFoldedTextRange;
+- (instancetype)initWithFoldedTextRange:(NSRange)inFoldedTextRange;
 - (void)moveAttachmentLocation:(int)inLocationDifference;
 @end
 

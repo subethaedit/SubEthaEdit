@@ -122,7 +122,7 @@ extern NSString * const DocumentModeStyleSheetsDefaultLanguageContextKey;
 
 + (BOOL)canParseModeVersionOfBundle:(NSBundle *)aBundle;
 
-- (id)initWithBundle:(NSBundle *)aBundle;
+- (instancetype)initWithBundle:(NSBundle *)aBundle;
 
 - (NSDictionary *)scopeExamples;
 - (NSArray *)availableScopes;

@@ -11,7 +11,7 @@
 
 @implementation HandshakeProfile
 
-- (id)initWithChannel:(TCMBEEPChannel *)aChannel {
+- (instancetype)initWithChannel:(TCMBEEPChannel *)aChannel {
     self = [super initWithChannel:aChannel];
     return self;
 }

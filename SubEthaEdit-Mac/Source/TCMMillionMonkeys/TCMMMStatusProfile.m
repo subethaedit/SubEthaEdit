@@ -34,7 +34,7 @@
     return I_options;
 }
 
-- (id)initWithChannel:(TCMBEEPChannel *)aChannel {
+- (instancetype)initWithChannel:(TCMBEEPChannel *)aChannel {
     self = [super initWithChannel:aChannel];
     if (self) {
         I_options = [[NSMutableDictionary alloc] initWithObjectsAndKeys:@NO,@"SendUSRRCH",nil];

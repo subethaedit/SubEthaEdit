@@ -18,7 +18,7 @@
 
 @implementation TCMMMState
 
-- (id)initAsServer:(BOOL)isServer {
+- (instancetype)initAsServer:(BOOL)isServer {
     self = [super init];
     if (self) {
         I_messageBuffer = [NSMutableArray new];

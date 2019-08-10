@@ -31,7 +31,7 @@ static DebugController * sharedInstance = nil;
     return sharedInstance ? sharedInstance : [[self alloc] init];
 }
 
-- (id)init {
+- (instancetype)init {
     if (sharedInstance) {
         [self release];
 		self = nil;

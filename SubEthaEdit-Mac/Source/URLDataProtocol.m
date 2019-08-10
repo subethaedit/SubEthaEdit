@@ -30,7 +30,8 @@
     return request;
 }
 
--(id)initWithRequest:(NSURLRequest *)request cachedResponse:(NSCachedURLResponse *)cachedResponse client:(id <NSURLProtocolClient>)client {
+
+-(instancetype)initWithRequest:(NSURLRequest *)request cachedResponse:(NSCachedURLResponse *)cachedResponse client:(id <NSURLProtocolClient>)client {
     self=[super initWithRequest:request cachedResponse:cachedResponse client:client];
     if (self) {
         [self setCachedURLResponse:cachedResponse];

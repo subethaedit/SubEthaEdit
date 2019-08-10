@@ -48,7 +48,7 @@
 @property (nonatomic, copy) NSString *bracketMatchingBracketString;
 
 /*"Initizialisation"*/
-- (id)initWithFile:(NSString *)aPath forMode:(DocumentMode *)aMode;
+- (instancetype)initWithFile:(NSString *)aPath forMode:(DocumentMode *)aMode;
 
 /*"XML parsing"*/
 - (void)parseXMLFile:(NSString *)aPath;

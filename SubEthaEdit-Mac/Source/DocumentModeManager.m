@@ -31,7 +31,7 @@
 
 /* Replace the cell, sign up for notifications.
 */
-- (id)initWithFrame:(NSRect)frameRect {
+- (instancetype)initWithFrame:(NSRect)frameRect {
     self = [super initWithFrame:frameRect];
     if (self) {
         I_automaticMode = NO;
@@ -155,7 +155,7 @@ static DocumentModeManager *S_sharedInstance=nil;
 }
 
 #pragma mark
-- (id)init {
+- (instancetype)init {
     if (S_sharedInstance) {
         [self dealloc];
         self = S_sharedInstance;

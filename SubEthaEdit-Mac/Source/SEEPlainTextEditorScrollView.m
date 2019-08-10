@@ -15,7 +15,7 @@ void * const SEEScrollViewOverlayObservingContext = (void *)&SEEScrollViewOverla
 
 @implementation SEEPlainTextEditorScrollView
 
-- (id)initWithFrame:(NSRect)frame
+- (instancetype)initWithFrame:(NSRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
@@ -24,7 +24,7 @@ void * const SEEScrollViewOverlayObservingContext = (void *)&SEEScrollViewOverla
     return self;
 }
 
-- (id)initWithCoder:(NSCoder *)coder
+- (instancetype)initWithCoder:(NSCoder *)coder
 {
     self = [super initWithCoder:coder];
     if (self) {

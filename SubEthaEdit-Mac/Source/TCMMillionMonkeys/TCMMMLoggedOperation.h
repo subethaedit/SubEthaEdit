@@ -16,8 +16,8 @@
 @property (nonatomic, strong) NSDate *date;
 
 + (id)loggedOperationWithOperation:(TCMMMOperation *)anOperation index:(long long)anIndex;
-- (id)initWithOperation:(TCMMMOperation *)anOperation index:(long long)anIndex;
-- (id)initWithDictionaryRepresentation:(NSDictionary *)aRepresentation;
+- (instancetype)initWithOperation:(TCMMMOperation *)anOperation index:(long long)anIndex;
+- (instancetype)initWithDictionaryRepresentation:(NSDictionary *)aRepresentation;
 
 - (void)setReplacedAttributedStringDictionaryRepresentation:(NSDictionary *)aReplacedAttributedStringDictionaryRepresentation;
 - (NSDictionary *)replacedAttributedStringDictionaryRepresentation;

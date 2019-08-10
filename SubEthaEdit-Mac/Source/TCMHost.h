@@ -22,8 +22,8 @@
 + (TCMHost *)hostWithName:(NSString *)name port:(unsigned short)port userInfo:(NSDictionary *)userInfo;
 + (TCMHost *)hostWithAddressData:(NSData *)addr port:(unsigned short)port userInfo:(NSDictionary *)userInfo;
 
-- (id)initWithName:(NSString *)name port:(unsigned short)port userInfo:(NSDictionary *)userInfo;
-- (id)initWithAddressData:(NSData *)addr port:(unsigned short)port userInfo:(NSDictionary *)userInfo;
+- (instancetype)initWithName:(NSString *)name port:(unsigned short)port userInfo:(NSDictionary *)userInfo;
+- (instancetype)initWithAddressData:(NSData *)addr port:(unsigned short)port userInfo:(NSDictionary *)userInfo;
 
 - (NSArray *)addresses;
 - (NSArray *)names;

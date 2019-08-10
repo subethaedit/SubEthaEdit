@@ -13,7 +13,7 @@
 
 @implementation PlainTextLoadProgress
 
-- (id)init
+- (instancetype)init
 {
     self = [super initWithNibName:@"PlainTextLoadProgress" bundle:nil];
     if (self) {

@@ -19,7 +19,7 @@
 
 @property (nonatomic, weak) TCMMMLoggingState *loggingState;
 
-- (id)initWithMMUser:(TCMMMUser *)aUser;
+- (instancetype)initWithMMUser:(TCMMMUser *)aUser;
 - (void)updateWithOperation:(TCMMMLoggedOperation *)anOperation;
 - (unsigned long)operationCount;
 - (unsigned long)deletedCharacters;

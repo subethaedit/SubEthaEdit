@@ -22,7 +22,7 @@
 
 @property (nonatomic) NSStringEncoding encoding;
 
-- (id)initWithEncoding:(NSStringEncoding)anEncoding;
+- (instancetype)initWithEncoding:(NSStringEncoding)anEncoding;
 - (IBAction)cancel:(id)aSender;
 - (IBAction)rerunCheckAndConvert:(id)aSender;
 - (IBAction)convertLossy:(id)aSender;

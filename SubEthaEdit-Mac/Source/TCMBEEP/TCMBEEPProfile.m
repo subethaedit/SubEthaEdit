@@ -12,7 +12,7 @@
 
 @implementation TCMBEEPProfile
 
-- (id)initWithChannel:(TCMBEEPChannel *)aChannel
+- (instancetype)initWithChannel:(TCMBEEPChannel *)aChannel
 {
     self = [super init];
     if (self) {

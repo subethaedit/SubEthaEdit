@@ -40,13 +40,11 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
     return [_actions lastObject];
 }
 
-- (NSString *)description
-{
+- (NSString *)description {
     return [NSString stringWithFormat:@"parent: %@\nactions: %@\nactionName: %@", [_parent description], [_actions description], _actionName];
 }
 
-- (id)initWithParent:(UndoGroup *)parent
-{
+- (instancetype)initWithParent:(UndoGroup *)parent {
     self = [super init];
     
     _actions = nil;
@@ -578,7 +576,7 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
 
 #pragma mark -
 
-- (id)initWithDocument:(PlainTextDocument *)document {
+- (instancetype)initWithDocument:(PlainTextDocument *)document {
     self = [super init];
     if (self) {
         _document = document;

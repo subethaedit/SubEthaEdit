@@ -24,14 +24,14 @@
 }
 
 
-- (id)initWithMessageType:(NSString *)aMessageType messageNumber:(int32_t)aMessageNumber {
+- (instancetype)initWithMessageType:(NSString *)aMessageType messageNumber:(int32_t)aMessageNumber {
     if ((self=[super init])) {
         _BEEPMessage = [[TCMBEEPMessage alloc] initWithTypeString:aMessageType messageNumber:aMessageNumber payload:nil];
     }
     return self;
 }
 
-- (id)initWithBEEPMessage:(TCMBEEPMessage *)aMessage {
+- (instancetype)initWithBEEPMessage:(TCMBEEPMessage *)aMessage {
     if ((self=[super init])) {
         if ([[aMessage payload] length]<6) {
             return nil;

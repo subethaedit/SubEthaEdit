@@ -25,7 +25,7 @@
     __weak TCMMMSession *I_MMSession;
 }
 
-- (id)initWithDictionaryRepresentation:(NSDictionary *)aDictionary;
+- (instancetype)initWithDictionaryRepresentation:(NSDictionary *)aDictionary;
 - (NSDictionary *)dictionaryRepresentation;
 - (NSDictionary *)dictionaryRepresentationForSaving;
 - (void)makeAllParticipantsLeave;

@@ -121,8 +121,8 @@ enum {
 + (void)prepareDiffiHellmannParameters;
 
 /*"Initializers"*/
-- (id)initWithSocket:(CFSocketNativeHandle)aSocketHandle addressData:(NSData *)aData;
-- (id)initWithAddressData:(NSData *)aData;
+- (instancetype)initWithSocket:(CFSocketNativeHandle)aSocketHandle addressData:(NSData *)aData;
+- (instancetype)initWithAddressData:(NSData *)aData;
 
 - (void)startTerminator;
 - (void)triggerTerminator;

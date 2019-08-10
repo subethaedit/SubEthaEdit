@@ -17,7 +17,7 @@
     return result;
 }
 
-- (id)initWithFrame:(NSRect)frameRect {
+- (instancetype)initWithFrame:(NSRect)frameRect {
     self = [super initWithFrame:frameRect];
 	if (self) {
 		I_maxHeight=5.;
