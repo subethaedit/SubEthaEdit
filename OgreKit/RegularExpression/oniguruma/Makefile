@@ -19,10 +19,12 @@ all: $(ONIGURUMA)
 
 
 $(ONIGURUMA): $(INTEL_64_DIR)/$(ONIG_TARGET)
+	rm -f "$(@F)"
 	lipo -create $(INTEL_64_DIR)/$(LIBS_DIR)/$(@F) -output $(@F)
 
 $(INTEL_64_DIR)/$(ONIG_TARGET): $(INTEL_64_DIR)
 	cd $(@D);\
+	rm -f "$(ONIG_TARGET)";\
 	CC="$(INTEL_64_CC)" ./configure $(INTEL_64_CONFIGURE_FLAGS);\
 	perl -pi -e 's@CFLAGS = -isysroot /Developer/SDKs/MacOSX10.7.sdk -arch x86_64@CFLAGS = -isysroot $(INTEL_SDK) -arch x86_64 --mmacosx-version-min=$(MACOSX_DEPLOYMENT_TARGET)@' Makefile;\
 	perl -pi -e 's@-dynamiclib@-dynamiclib -arch x86_64@g' libtool;\
@@ -30,8 +32,10 @@ $(INTEL_64_DIR)/$(ONIG_TARGET): $(INTEL_64_DIR)
 	/usr/bin/make $(ONIG_TARGET)
 
 $(INTEL_64_DIR): $(ONIGURUMA_VERSION).tar.gz 
+	rm -rf "$(INTEL_64_DIR)"
 	tar -xf $(ONIGURUMA_VERSION).tar.gz 
 	mv $(ONIGURUMA_VERSION) $@
+	touch "$(INTEL_64_DIR)"
 
 clean:
 	@rm -rf $(INTEL_64_DIR) $(ONIGURUMA)
