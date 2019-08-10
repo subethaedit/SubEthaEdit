@@ -96,11 +96,11 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
 @property (nonatomic, strong) IBOutlet NSView *O_editorView;
 @property (nonatomic, strong) IBOutlet SEEOverlayView *O_bottomStatusBarView;
-@property (nonatomic, assign) IBOutlet TCMHoverButton *shareInviteUsersButtonOutlet;
-@property (nonatomic, assign) IBOutlet TCMHoverButton *shareAnnounceButtonOutlet;
-@property (nonatomic, assign) IBOutlet TCMHoverButton *showParticipantsButtonOutlet;
+@property (nonatomic, strong) IBOutlet TCMHoverButton *shareInviteUsersButtonOutlet;
+@property (nonatomic, strong) IBOutlet TCMHoverButton *shareAnnounceButtonOutlet;
+@property (nonatomic, strong) IBOutlet TCMHoverButton *showParticipantsButtonOutlet;
 
-@property (nonatomic, assign) IBOutlet NSObjectController *ownerController;
+@property (nonatomic, strong) IBOutlet NSObjectController *ownerController;
 @property (nonatomic, strong) NSArray *topLevelNibObjects;
 @property (nonatomic, strong) NSViewController *bottomOverlayViewController;
 @property (nonatomic, strong) NSViewController *topOverlayViewController;

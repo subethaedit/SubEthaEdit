@@ -22,7 +22,7 @@ extern NSString * const PlainTextEditorDidChangeSearchScopeNotification;
 @property (nonatomic, readonly) BOOL hasBottomOverlayView;
 @property (nonatomic, readonly) BOOL hasTopOverlayView;
 // bottom status bar binding values
-@property (nonatomic, assign) BOOL showsNumberOfActiveParticipants;
+@property (nonatomic) BOOL showsNumberOfActiveParticipants;
 @property (nonatomic, strong) NSNumber *numberOfActiveParticipants;
 
 @property (nonatomic, strong) NSImage *alternateAnnounceImage;

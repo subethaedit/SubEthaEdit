@@ -13,11 +13,11 @@
 }
 
 @property (nonatomic, copy) NSString *name;
-@property (nonatomic, assign) int fontTraitMask;
+@property (nonatomic) int fontTraitMask;
 @property (nonatomic, strong) NSImage *image;
 @property (nonatomic, copy) NSString *type;
-@property (nonatomic, assign) int indentationLevel;
-@property (nonatomic, assign) BOOL isSeparator;
+@property (nonatomic) int indentationLevel;
+@property (nonatomic) BOOL isSeparator;
 
 
 + (SymbolTableEntry *)symbolTableEntryWithName:(NSString *)aName fontTraitMask:(int)aMask image:(NSImage *)anImage type:(NSString *)aType indentationLevel:(int)anIndentationLevel jumpRange:(NSRange)aJumpRange range:(NSRange)aRange;

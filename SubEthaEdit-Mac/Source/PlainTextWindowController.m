@@ -57,7 +57,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     NSImageView *I_lockImageView;
 }
 
-@property (assign) NSRect frameForNonFullScreenMode;
+@property (nonatomic) NSRect frameForNonFullScreenMode;
 
 - (void)insertObject:(NSDocument *)document inDocumentsAtIndex:(NSUInteger)index;
 - (void)removeObjectFromDocumentsAtIndex:(NSUInteger)index;

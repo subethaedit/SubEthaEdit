@@ -8,7 +8,7 @@
 
 @interface SEEToggleRecentDocumentListItem : NSObject <SEEDocumentListItem>
 
-@property (nonatomic, assign) BOOL showRecentDocuments;
+@property (nonatomic) BOOL showRecentDocuments;
 
 - (IBAction)openRecentDocumentForItem:(id)sender; // used by the context menu
 

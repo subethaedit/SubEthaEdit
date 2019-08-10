@@ -19,7 +19,7 @@
 }
 
 @property (nonatomic, weak) id delegate;
-@property (nonatomic, assign) BOOL resolvesServices;
+@property (nonatomic) BOOL resolvesServices;
 
 - (instancetype)initWithServiceType:(NSString *)aServiceType domain:(NSString *)aDomain;
 

@@ -43,8 +43,8 @@
     NSMutableArray *I_allLanguageContextsArray;
 }
 
-@property (nonatomic, retain) NSMutableDictionary * scopeStyleDictionary;
-@property (nonatomic, retain) NSMutableArray * linkedStyleSheets;
+@property (nonatomic, strong) NSMutableDictionary * scopeStyleDictionary;
+@property (nonatomic, strong) NSMutableArray * linkedStyleSheets;
 @property (nonatomic, copy) NSString *bracketMatchingBracketString;
 
 /*"Initizialisation"*/

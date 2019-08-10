@@ -11,8 +11,8 @@
 @interface SEEPlainTextEditorScrollView : NSScrollView {
 }
 
-@property (nonatomic, assign) CGFloat topOverlayHeight;
-@property (nonatomic, assign) CGFloat bottomOverlayHeight;
+@property (nonatomic) CGFloat topOverlayHeight;
+@property (nonatomic) CGFloat bottomOverlayHeight;
 
 /** Use the following property names in the User Defined Runtime Attributes in Interface Builder to set up your SEEPlainTextEditorScrollView on the fly. */
 @property (nonatomic, strong) NSNumber *topOverlayHeightNumber;

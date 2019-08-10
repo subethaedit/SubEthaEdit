@@ -10,6 +10,6 @@
 
 @property (nonatomic, strong) NSColor *lightBackgroundColor;
 @property (nonatomic, strong) NSColor *darkBackgroundColor;
-@property (nonatomic, assign) BOOL disableFirstRow;
+@property (nonatomic) BOOL disableFirstRow;
 
 @end

@@ -8,7 +8,7 @@
 
 @interface FoldedTextAttachment : NSTextAttachment
 
-@property (nonatomic, assign) NSRange foldedTextRange;
+@property (nonatomic) NSRange foldedTextRange;
 @property (nonatomic, readonly) NSMutableArray *innerAttachments;
 
 - (instancetype)initWithFoldedTextRange:(NSRange)inFoldedTextRange;
