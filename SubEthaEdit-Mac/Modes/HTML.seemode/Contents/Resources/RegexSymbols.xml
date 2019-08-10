@@ -8,7 +8,7 @@
     </blocks>
     
     <symbol id="Headings" font-weight="normal" font-style="normal" symbol="H_#4094E4" indentation="0" ignoreblocks="yes">
-        <regex>&lt;[hH][1-6]&gt;([^&lt;]+)&lt;/[hH][1-6]&gt;</regex>
+        <regex>&lt;[hH][1-6][^&gt;]*&gt;([^&lt;]+)&lt;/[hH][1-6]&gt;</regex>
         <postprocess>
             <find>^[ \n\r\t]+</find>
             <replace></replace>
