@@ -6,7 +6,8 @@
 
 #### Bug fixes and maintenance:
 * Fixed dark appearance of encoding panel
-* Update underlying RegEX Library (origuruma-mod) to onigmo 6.2
+* Updated underlying RegEX Library (origuruma-mod) to onigmo 6.2
+* Updated OgreKit to 3.0.2
 
 #### Improved modes:
 * Markdown – improved syntax highlighting of code blocks
