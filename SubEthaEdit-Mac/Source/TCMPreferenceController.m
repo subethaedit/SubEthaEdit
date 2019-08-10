@@ -15,7 +15,7 @@ static NSMutableDictionary *registeredPrefModules;
 static NSMutableArray *prefModules;
 
 
-@interface TCMPreferenceController (TCMPreferenceControllerPrivateAdditions)
+@interface TCMPreferenceController ()
 
 @property (nonatomic, strong) NSView *emptyContentView;
 @property (nonatomic, copy) NSString *selectedItemIdentifier;

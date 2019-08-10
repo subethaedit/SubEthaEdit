@@ -19,7 +19,7 @@
 void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *error, void *myInfoPointer);
 
 
-@interface TCMHost (TCMHostPrivateAdditions)
+@interface TCMHost ()
 
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, retain) NSDictionary *userInfo;
