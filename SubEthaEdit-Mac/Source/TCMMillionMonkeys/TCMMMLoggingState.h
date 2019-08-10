@@ -22,7 +22,7 @@
     unsigned long insertedCharacters;
     unsigned long selectedCharacters;
     NSMutableArray *I_statisticsData;
-    TCMMMSession *I_MMSession;
+    __weak TCMMMSession *I_MMSession;
 }
 
 - (id)initWithDictionaryRepresentation:(NSDictionary *)aDictionary;
