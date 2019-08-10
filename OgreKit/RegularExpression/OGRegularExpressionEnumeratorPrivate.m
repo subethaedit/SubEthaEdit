@@ -3,8 +3,8 @@
  * Project: OgreKit
  *
  * Creation Date: Sep 03 2003
- * Author: Isao Sonobe <sonoisa (AT) muse (DOT) ocn (DOT) ne (DOT) jp>
- * Copyright: Copyright (c) 2003 Isao Sonobe, All rights reserved.
+ * Author: Isao Sonobe <sonoisa@gmail.com>
+ * Copyright: Copyright (c) 2003-2018 Isao Sonobe, All rights reserved.
  * License: OgreKit License
  *
  * Encoding: UTF8
@@ -99,7 +99,7 @@
 
 /* accessors */
 // private
-- (void)_setTerminalOfLastMatch:(int)location
+- (void)_setTerminalOfLastMatch:(NSInteger)location
 {
 	_terminalOfLastMatch = location;
 }
@@ -109,12 +109,12 @@
 	_isLastMatchEmpty = yesOrNo;
 }
 
-- (void)_setStartLocation:(unsigned)location
+- (void)_setStartLocation:(NSUInteger)location
 {
 	_startLocation = location;
 }
 
-- (void)_setNumberOfMatches:(unsigned)aNumber
+- (void)_setNumberOfMatches:(NSUInteger)aNumber
 {
 	_numberOfMatches = aNumber;
 }

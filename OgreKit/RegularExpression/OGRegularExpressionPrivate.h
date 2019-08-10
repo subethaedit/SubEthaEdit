@@ -3,8 +3,8 @@
  * Project: OgreKit
  *
  * Creation Date: Sep 01 2003
- * Author: Isao Sonobe <sonoisa (AT) muse (DOT) ocn (DOT) ne (DOT) jp>
- * Copyright: Copyright (c) 2003 Isao Sonobe, All rights reserved.
+ * Author: Isao Sonobe <sonoisa@gmail.com>
+ * Copyright: Copyright (c) 2003-2018 Isao Sonobe, All rights reserved.
  * License: OgreKit License
  *
  * Encoding: UTF8
@@ -25,16 +25,14 @@ typedef enum OgreKindOfCharacters {
 	OgreKindOfNormal
 } OgreKindOfCharacter;
 
-// 正規表現構文
-ONIG_EXTERN OnigSyntaxType  OgrePrivatePOSIXBasicSyntax;
-ONIG_EXTERN OnigSyntaxType  OgrePrivatePOSIXExtendedSyntax;
-ONIG_EXTERN OnigSyntaxType  OgrePrivateEmacsSyntax;
-ONIG_EXTERN OnigSyntaxType  OgrePrivateGrepSyntax;
-ONIG_EXTERN OnigSyntaxType  OgrePrivateGNURegexSyntax;
-ONIG_EXTERN OnigSyntaxType  OgrePrivateJavaSyntax;
-ONIG_EXTERN OnigSyntaxType  OgrePrivatePerlSyntax;
-ONIG_EXTERN OnigSyntaxType  OgrePrivateRubySyntax;
-
+extern OnigSyntaxType  OgrePrivatePOSIXBasicSyntax;
+extern OnigSyntaxType  OgrePrivatePOSIXExtendedSyntax;
+extern OnigSyntaxType  OgrePrivateEmacsSyntax;
+extern OnigSyntaxType  OgrePrivateGrepSyntax;
+extern OnigSyntaxType  OgrePrivateGNURegexSyntax;
+extern OnigSyntaxType  OgrePrivateJavaSyntax;
+extern OnigSyntaxType  OgrePrivatePerlSyntax;
+extern OnigSyntaxType  OgrePrivateRubySyntax;
 
 @interface OGRegularExpression (Private)
 
@@ -68,7 +66,7 @@ ONIG_EXTERN OnigSyntaxType  OgrePrivateRubySyntax;
 - (int)groupIndexForName:(NSString*)name;
 // index番目の部分文字列の名前
 // 存在しない名前の場合は nil を返す。
-- (NSString*)nameForGroupIndex:(unsigned)index;
+- (NSString*)nameForGroupIndex:(NSUInteger)index;
 
 
 @end

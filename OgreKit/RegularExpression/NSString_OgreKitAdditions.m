@@ -3,8 +3,8 @@
  * Project: OgreKit
  *
  * Creation Date: Feb 29 2004
- * Author: Isao Sonobe <sonoisa (AT) muse (DOT) ocn (DOT) ne (DOT) jp>
- * Copyright: Copyright (c) 2004 Isao Sonobe, All rights reserved.
+ * Author: Isao Sonobe <sonoisa@gmail.com>
+ * Copyright: Copyright (c) 2004-2018 Isao Sonobe, All rights reserved.
  * License: OgreKit License
  *
  * Encoding: UTF8
@@ -76,14 +76,14 @@
 /***********
  * Replace *
  ***********/
-- (unsigned)replaceOccurrencesOfRegularExpressionString:(NSString*)expressionString 
+- (NSUInteger)replaceOccurrencesOfRegularExpressionString:(NSString*)expressionString
 	withString:(NSString*)replaceString 
 	options:(unsigned)options 
 	range:(NSRange)searchRange
 {
 	OGRegularExpression *regex = [OGRegularExpression regularExpressionWithString:expressionString
 		options:options];
-	unsigned	numberOfReplacement = 0;
+	NSUInteger	numberOfReplacement = 0;
 	NSString	*replacedString = [regex replaceString:self 
 		withString:replaceString 
 		options:options 

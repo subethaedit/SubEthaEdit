@@ -3,8 +3,8 @@
  * Project: OgreKit
  *
  * Creation Date: Jun 24 2004
- * Author: Isao Sonobe <sonoisa (AT) muse (DOT) ocn (DOT) ne (DOT) jp>
- * Copyright: Copyright (c) 2003 Isao Sonobe, All rights reserved.
+ * Author: Isao Sonobe <sonoisa@gmail.com>
+ * Copyright: Copyright (c) 2003-2018 Isao Sonobe, All rights reserved.
  * License: OgreKit License
  *
  * Encoding: UTF8
@@ -35,7 +35,7 @@ static NSString	* const OgreParentKey = @"OgreCaptureParent";
  * 諸情報 *
  *********/
 // グループ番号
-- (unsigned)groupIndex
+- (NSUInteger)groupIndex
 {
     return _captureNode->group;
 }
@@ -47,19 +47,19 @@ static NSString	* const OgreParentKey = @"OgreCaptureParent";
 }
 
 // 何番目の子要素であるか 0,1,2,...
-- (unsigned)index
+- (NSUInteger)index
 {
     return _index;
 }
 
 // 深さ
-- (unsigned)level
+- (NSUInteger)level
 {
     return _level;
 }
 
 // 子要素の数
-- (unsigned)numberOfChildren
+- (NSUInteger)numberOfChildren
 {
     return _captureNode->num_childs;
 }
@@ -80,7 +80,7 @@ static NSString	* const OgreParentKey = @"OgreCaptureParent";
 
 
 // index番目の子要素
-- (OGRegularExpressionCapture*)childAtIndex:(unsigned)index
+- (OGRegularExpressionCapture*)childAtIndex:(NSUInteger)index
 {
     if (index >= _captureNode->num_childs) {
         return nil;
@@ -105,14 +105,14 @@ static NSString	* const OgreParentKey = @"OgreCaptureParent";
 {
 	NSDictionary	*dictionary = [NSDictionary 
 		dictionaryWithObjects: [NSArray arrayWithObjects: 
-			[NSNumber numberWithUnsignedInt: _captureNode->group], 
-			[NSNumber numberWithUnsignedInt: _index], 
-			[NSNumber numberWithUnsignedInt: _level], 
+			[NSNumber numberWithInt: _captureNode->group],
+			[NSNumber numberWithUnsignedInteger: _index],
+			[NSNumber numberWithUnsignedInteger: _level],
 			[NSArray arrayWithObjects:
-                [NSNumber numberWithUnsignedInt: _captureNode->beg], 
-                [NSNumber numberWithUnsignedInt: _captureNode->end - _captureNode->beg], 
+                [NSNumber numberWithUnsignedInteger: _captureNode->beg],
+                [NSNumber numberWithUnsignedInteger: _captureNode->end - _captureNode->beg],
                 nil], 
-			[NSNumber numberWithUnsignedInt: _captureNode->num_childs], 
+			[NSNumber numberWithInt: _captureNode->num_childs], 
 			nil]
 		forKeys:[NSArray arrayWithObjects: 
 			@"Group Index", 
@@ -199,13 +199,13 @@ static NSString	* const OgreParentKey = @"OgreCaptureParent";
 	//[super encodeWithCoder:encoder]; NSObject does ont respond to method encodeWithCoder:
 	
    if ([encoder allowsKeyedCoding]) {
-		[encoder encodeObject: [NSNumber numberWithUnsignedInt:_index] forKey: OgreIndexKey];
-		[encoder encodeObject: [NSNumber numberWithUnsignedInt:_level] forKey: OgreLevelKey];
+		[encoder encodeObject: [NSNumber numberWithUnsignedInteger:_index] forKey: OgreIndexKey];
+		[encoder encodeObject: [NSNumber numberWithUnsignedInteger:_level] forKey: OgreLevelKey];
 		[encoder encodeObject: _match forKey: OgreMatchKey];
 		[encoder encodeObject: _parent forKey: OgreParentKey];
 	} else {
-		[encoder encodeObject: [NSNumber numberWithUnsignedInt:_index]];
-		[encoder encodeObject: [NSNumber numberWithUnsignedInt:_level]];
+		[encoder encodeObject: [NSNumber numberWithUnsignedInteger:_index]];
+		[encoder encodeObject: [NSNumber numberWithUnsignedInteger:_level]];
 		[encoder encodeObject: _match];
 		[encoder encodeObject: _parent];
 	}
@@ -233,7 +233,7 @@ static NSString	* const OgreParentKey = @"OgreCaptureParent";
 		[self release];
 		[NSException raise:NSInvalidUnarchiveOperationException format:@"fail to decode"];
 	}
-	_index = [anObject unsignedIntValue];	
+	_index = [anObject unsignedIntegerValue];
 	
     // unsigned                   _level;             // 深さ
     if (allowsKeyedCoding) {
@@ -246,7 +246,7 @@ static NSString	* const OgreParentKey = @"OgreCaptureParent";
 		[self release];
 		[NSException raise:NSInvalidUnarchiveOperationException format:@"fail to decode"];
 	}
-	_level = [anObject unsignedIntValue];	
+	_level = [anObject unsignedIntegerValue];
 	
 	
 	// OGRegularExpressionMatch	*_match;            // 生成主のOGRegularExpressionMatchオブジェクト

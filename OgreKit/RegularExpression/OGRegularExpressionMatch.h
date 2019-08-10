@@ -3,8 +3,8 @@
  * Project: OgreKit
  *
  * Creation Date: Aug 30 2003
- * Author: Isao Sonobe <sonoisa (AT) muse (DOT) ocn (DOT) ne (DOT) jp>
- * Copyright: Copyright (c) 2003 Isao Sonobe, All rights reserved.
+ * Author: Isao Sonobe <sonoisa@gmail.com>
+ * Copyright: Copyright (c) 2003-2018 Isao Sonobe, All rights reserved.
  * License: OgreKit License
  *
  * Encoding: UTF8
@@ -32,21 +32,21 @@ extern NSString	* const OgreMatchException;
 {
 	OnigRegion		*_region;						// match result region
 	OGRegularExpressionEnumerator	*_enumerator;	// matcher
-	unsigned		_terminalOfLastMatch;           // 前回にマッチした文字列の終端位置 (_region->end[0] / sizeof(unichar))
+	NSUInteger		_terminalOfLastMatch;           // 前回にマッチした文字列の終端位置 (_region->end[0] / sizeof(unichar))
 	
 	NSObject<OGStringProtocol>	*_targetString;		// 検索対象文字列
 	NSRange			_searchRange;					// 検索範囲
-	unsigned		_index;							// マッチした順番
+	NSUInteger		_index;							// マッチした順番
 }
 
 /*********
  * 諸情報 *
  *********/
 // マッチした順番 0,1,2,...
-- (unsigned)index;
+- (NSUInteger)index;
 
 // 部分文字列の数 + 1
-- (unsigned)count;
+- (NSUInteger)count;
 
 // description
 - (NSString*)description;
@@ -67,9 +67,9 @@ extern NSString	* const OgreMatchException;
 
 // index番目のsubstring \index
 //  index番目のsubstringが存在しない時には nil を返す。
-- (NSObject<OGStringProtocol>*)ogSubstringAtIndex:(unsigned)index;
-- (NSString*)substringAtIndex:(unsigned)index;
-- (NSAttributedString*)attributedSubstringAtIndex:(unsigned)index;
+- (NSObject<OGStringProtocol>*)ogSubstringAtIndex:(NSUInteger)index;
+- (NSString*)substringAtIndex:(NSUInteger)index;
+- (NSAttributedString*)attributedSubstringAtIndex:(NSUInteger)index;
 
 // マッチした部分より前の文字列 \`
 - (NSObject<OGStringProtocol>*)prematchOGString;
@@ -101,7 +101,7 @@ extern NSString	* const OgreMatchException;
 
 // index番目のsubstringの範囲
 //  index番目のsubstringが存在しない時には {-1, 0} を返す。
-- (NSRange)rangeOfSubstringAtIndex:(unsigned)index;
+- (NSRange)rangeOfSubstringAtIndex:(NSUInteger)index;
 
 // マッチした部分より前の文字列の範囲
 - (NSRange)rangeOfPrematchString;
@@ -135,11 +135,11 @@ extern NSString	* const OgreMatchException;
 // 名前がnameの部分文字列のindex
 // 存在しない名前の場合は -1 を返す。
 // 同一の名前を持つ部分文字列が複数ある場合は例外を発生させる。
-- (unsigned)indexOfSubstringNamed:(NSString*)name;
+- (NSUInteger)indexOfSubstringNamed:(NSString*)name;
 
 // index番目の部分文字列の名前
 // 存在しない名前の場合は nil を返す。
-- (NSString*)nameOfSubstringAtIndex:(unsigned)index;
+- (NSString*)nameOfSubstringAtIndex:(NSUInteger)index;
 
 /***********************
 * マッチした部分文字列を得る *
@@ -161,47 +161,47 @@ extern NSString	* const OgreMatchException;
 	}
 */
 // マッチした部分文字列のうちグループ番号が最小のもの (ない場合は0を返す)
-- (unsigned)indexOfFirstMatchedSubstring;
-- (unsigned)indexOfFirstMatchedSubstringBeforeIndex:(unsigned)anIndex;
-- (unsigned)indexOfFirstMatchedSubstringAfterIndex:(unsigned)anIndex;
-- (unsigned)indexOfFirstMatchedSubstringInRange:(NSRange)aRange;
+- (NSUInteger)indexOfFirstMatchedSubstring;
+- (NSUInteger)indexOfFirstMatchedSubstringBeforeIndex:(NSUInteger)anIndex;
+- (NSUInteger)indexOfFirstMatchedSubstringAfterIndex:(NSUInteger)anIndex;
+- (NSUInteger)indexOfFirstMatchedSubstringInRange:(NSRange)aRange;
 // その名前
 - (NSString*)nameOfFirstMatchedSubstring;
-- (NSString*)nameOfFirstMatchedSubstringBeforeIndex:(unsigned)anIndex;
-- (NSString*)nameOfFirstMatchedSubstringAfterIndex:(unsigned)anIndex;
+- (NSString*)nameOfFirstMatchedSubstringBeforeIndex:(NSUInteger)anIndex;
+- (NSString*)nameOfFirstMatchedSubstringAfterIndex:(NSUInteger)anIndex;
 - (NSString*)nameOfFirstMatchedSubstringInRange:(NSRange)aRange;
 
 // マッチした部分文字列のうちグループ番号が最大のもの (ない場合は0を返す)
-- (unsigned)indexOfLastMatchedSubstring;
-- (unsigned)indexOfLastMatchedSubstringBeforeIndex:(unsigned)anIndex;
-- (unsigned)indexOfLastMatchedSubstringAfterIndex:(unsigned)anIndex;
-- (unsigned)indexOfLastMatchedSubstringInRange:(NSRange)aRange;
+- (NSUInteger)indexOfLastMatchedSubstring;
+- (NSUInteger)indexOfLastMatchedSubstringBeforeIndex:(NSUInteger)anIndex;
+- (NSUInteger)indexOfLastMatchedSubstringAfterIndex:(NSUInteger)anIndex;
+- (NSUInteger)indexOfLastMatchedSubstringInRange:(NSRange)aRange;
 // その名前
 - (NSString*)nameOfLastMatchedSubstring;
-- (NSString*)nameOfLastMatchedSubstringBeforeIndex:(unsigned)anIndex;
-- (NSString*)nameOfLastMatchedSubstringAfterIndex:(unsigned)anIndex;
+- (NSString*)nameOfLastMatchedSubstringBeforeIndex:(NSUInteger)anIndex;
+- (NSString*)nameOfLastMatchedSubstringAfterIndex:(NSUInteger)anIndex;
 - (NSString*)nameOfLastMatchedSubstringInRange:(NSRange)aRange;
 
 // マッチした部分文字列のうち最長のもの (ない場合は0を返す。同じ長さの物が複数あれば、番号の小さい物が優先される)
-- (unsigned)indexOfLongestSubstring;
-- (unsigned)indexOfLongestSubstringBeforeIndex:(unsigned)anIndex;
-- (unsigned)indexOfLongestSubstringAfterIndex:(unsigned)anIndex;
-- (unsigned)indexOfLongestSubstringInRange:(NSRange)aRange;
+- (NSUInteger)indexOfLongestSubstring;
+- (NSUInteger)indexOfLongestSubstringBeforeIndex:(NSUInteger)anIndex;
+- (NSUInteger)indexOfLongestSubstringAfterIndex:(NSUInteger)anIndex;
+- (NSUInteger)indexOfLongestSubstringInRange:(NSRange)aRange;
 // その名前
 - (NSString*)nameOfLongestSubstring;
-- (NSString*)nameOfLongestSubstringBeforeIndex:(unsigned)anIndex;
-- (NSString*)nameOfLongestSubstringAfterIndex:(unsigned)anIndex;
+- (NSString*)nameOfLongestSubstringBeforeIndex:(NSUInteger)anIndex;
+- (NSString*)nameOfLongestSubstringAfterIndex:(NSUInteger)anIndex;
 - (NSString*)nameOfLongestSubstringInRange:(NSRange)aRange;
 
 // マッチした部分文字列のうち最短のもの (ない場合は0を返す。同じ長さの物が複数あれば、番号の小さい物が優先される)
-- (unsigned)indexOfShortestSubstring;
-- (unsigned)indexOfShortestSubstringBeforeIndex:(unsigned)anIndex;
-- (unsigned)indexOfShortestSubstringAfterIndex:(unsigned)anIndex;
-- (unsigned)indexOfShortestSubstringInRange:(NSRange)aRange;
+- (NSUInteger)indexOfShortestSubstring;
+- (NSUInteger)indexOfShortestSubstringBeforeIndex:(NSUInteger)anIndex;
+- (NSUInteger)indexOfShortestSubstringAfterIndex:(NSUInteger)anIndex;
+- (NSUInteger)indexOfShortestSubstringInRange:(NSRange)aRange;
 // その名前
 - (NSString*)nameOfShortestSubstring;
-- (NSString*)nameOfShortestSubstringBeforeIndex:(unsigned)anIndex;
-- (NSString*)nameOfShortestSubstringAfterIndex:(unsigned)anIndex;
+- (NSString*)nameOfShortestSubstringBeforeIndex:(NSUInteger)anIndex;
+- (NSString*)nameOfShortestSubstringAfterIndex:(NSUInteger)anIndex;
 - (NSString*)nameOfShortestSubstringInRange:(NSRange)aRange;
 
 /******************
@@ -239,4 +239,4 @@ number of capture history: 2
 @end
 
 // UTF16文字列の長さを得る
-inline unsigned Ogre_UTF16strlen(unichar *const aUTF16string, unichar *const end);
+inline long Ogre_UTF16strlen(unichar *const aUTF16string, unichar *const end);

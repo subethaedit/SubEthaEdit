@@ -3,8 +3,8 @@
  * Project: OgreKit
  *
  * Creation Date: Jun 24 2004
- * Author: Isao Sonobe <sonoisa (AT) muse (DOT) ocn (DOT) ne (DOT) jp>
- * Copyright: Copyright (c) 2003 Isao Sonobe, All rights reserved.
+ * Author: Isao Sonobe <sonoisa@gmail.com>
+ * Copyright: Copyright (c) 2003-2018 Isao Sonobe, All rights reserved.
  * License: OgreKit License
  *
  * Encoding: UTF8
@@ -53,7 +53,7 @@ static NSString *const calcRegex = @"\\g<e>(?<e>\\g<t>(?:(?@<e1>\\+\\g<t>)|(?@<e
 @interface OGRegularExpressionCapture : NSObject <NSCopying, NSCoding>
 {
 	OnigCaptureTreeNode         *_captureNode;      // Oniguruma capture tree node
-	unsigned                    _index,             // マッチした順番
+	NSUInteger                  _index,             // マッチした順番
                                 _level;             // 深さ
 	OGRegularExpressionMatch	*_match;            // 生成主のOGRegularExpressionMatchオブジェクト
 	OGRegularExpressionCapture	*_parent;           // 親
@@ -63,27 +63,27 @@ static NSString *const calcRegex = @"\\g<e>(?<e>\\g<t>(?:(?@<e1>\\+\\g<t>)|(?@<e
  * 諸情報 *
  *********/
 // グループ番号
-- (unsigned)groupIndex;
+- (NSUInteger)groupIndex;
 
 // グループ名
 - (NSString*)groupName;
 
 // 何番目の子要素であるか 0,1,2,...
-- (unsigned)index;
+- (NSUInteger)index;
 
 // 深さ
 // 0: root
-- (unsigned)level;
+- (NSUInteger)level;
 
 // 子要素の数
-- (unsigned)numberOfChildren;
+- (NSUInteger)numberOfChildren;
 
 // 子要素たち
 // return nil in the case of numberOfChildren == 0
 - (NSArray*)children;
 
 // index番目の子要素
-- (OGRegularExpressionCapture*)childAtIndex:(unsigned)index;
+- (OGRegularExpressionCapture*)childAtIndex:(NSUInteger)index;
 
 // match
 - (OGRegularExpressionMatch*)match;
