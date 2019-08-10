@@ -8,7 +8,7 @@
 
 @implementation AbstractFoldingTextStorage
 
-- (id)init {
+- (instancetype)init {
 	if ((self = [super init])) {
 		I_fixingCounter = 0;
 		I_otherTextStorage = nil;

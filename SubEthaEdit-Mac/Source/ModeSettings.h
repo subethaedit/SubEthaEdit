@@ -15,11 +15,11 @@
     BOOL everythingOkay;
 }
 
-- (id)initWithFile:(NSString *)aPath;
+- (instancetype)initWithFile:(NSString *)aPath;
 
 /*"XML parsing"*/
 - (void)parseXMLFile:(NSString *)aPath;
-- (id)initWithPlist:(NSString *)bundlePath;
+- (instancetype)initWithPlist:(NSString *)bundlePath;
 
 /*"Accessors"*/
 - (NSArray *)recognizedExtensions;

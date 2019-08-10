@@ -11,7 +11,7 @@
 	NSRange I_foldedTextRange;
 	NSMutableArray *I_innerAttachments;
 }
-- (id)initWithFoldedTextRange:(NSRange)inFoldedTextRange;
+- (instancetype)initWithFoldedTextRange:(NSRange)inFoldedTextRange;
 - (NSRange)foldedTextRange;
 - (NSMutableArray *)innerAttachments;
 - (void)setFoldedTextRange:(NSRange)inRange;

@@ -19,7 +19,7 @@ extern NSString * const SyntaxStyleBaseIdentifier;
 + (BOOL)style:(NSDictionary *)aStyle isEqualToStyle:(NSDictionary *)anotherStyle;
 //+ (NSArray *)syntaxStylesWithXMLFile:(NSString *)aPath;
 
-- (id)initWithSyntaxStyle:(SyntaxStyle *)aStyle;
+- (instancetype)initWithSyntaxStyle:(SyntaxStyle *)aStyle;
 
 - (NSArray *)allKeys;
 - (void)addKey:(NSString *)aKey;

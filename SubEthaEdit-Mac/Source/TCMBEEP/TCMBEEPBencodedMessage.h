@@ -16,9 +16,9 @@
     id _content;
 }
 + (id)bencodedMessageWithBEEPMessage:(TCMBEEPMessage *)aMessage;
-- (id)initWithBEEPMessage:(TCMBEEPMessage *)aMessage;
+- (instancetype)initWithBEEPMessage:(TCMBEEPMessage *)aMessage;
 + (id)bencodedMessageWithMessageType:(NSString *)aMessageType messageNumber:(int32_t)aMessageNumber messageString:(NSString *)aMessageString content:(id)aContent;
-- (id)initWithMessageType:(NSString *)aMessageType messageNumber:(int32_t)aMessageNumber;
+- (instancetype)initWithMessageType:(NSString *)aMessageType messageNumber:(int32_t)aMessageNumber;
 
 - (TCMBEEPMessage *)BEEPMessage;
 - (void)setMessageString:(NSString *)aString;

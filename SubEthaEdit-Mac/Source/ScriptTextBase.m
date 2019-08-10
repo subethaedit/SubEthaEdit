@@ -13,7 +13,7 @@
 
 @implementation ScriptTextBase
 
-- (id)initWithTextStorage:(FullTextStorage *)aTextStorage {
+- (instancetype)initWithTextStorage:(FullTextStorage *)aTextStorage {
     if ((self=[super init])) {
         I_textStorage = [aTextStorage retain];
     }

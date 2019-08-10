@@ -117,7 +117,7 @@
     return sharedInstance;
 }
 
-- (id)init
+- (instancetype)init
 {
     self = [super initWithWindowNibName:@"SelectEncodingsPanel"];
     if (self) {

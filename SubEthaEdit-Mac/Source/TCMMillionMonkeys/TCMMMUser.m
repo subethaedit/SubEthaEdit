@@ -68,7 +68,7 @@ void * const TCMMMUserPropertyChangeObservanceContext = (void *)&TCMMMUserProper
 }
 
 #pragma mark
-- (id)init {
+- (instancetype)init {
     if ((self=[super init])) {
         I_properties=[NSMutableDictionary new];
         I_propertiesBySessionID=[NSMutableDictionary new];

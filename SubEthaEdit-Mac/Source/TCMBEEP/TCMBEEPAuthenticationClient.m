@@ -168,7 +168,7 @@ static int sasl_chalprompt_session_client(void *context, int id,
 
 @implementation TCMBEEPAuthenticationClient
 
-- (id)initWithSession:(TCMBEEPSession *)session addressData:(NSData *)addressData peerAddressData:(NSData *)peerAddressData serverFQDN:(NSString *)serverFQDN
+- (instancetype)initWithSession:(TCMBEEPSession *)session addressData:(NSData *)addressData peerAddressData:(NSData *)peerAddressData serverFQDN:(NSString *)serverFQDN
 {
     self = [super init];
     if (self) {

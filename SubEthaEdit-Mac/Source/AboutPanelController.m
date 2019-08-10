@@ -24,7 +24,7 @@
 
 @implementation AboutPanelController
 
-- (id)init {
+- (instancetype)init {
     self = [super initWithWindowNibName:@"AboutPanel"];
     return self;
 }

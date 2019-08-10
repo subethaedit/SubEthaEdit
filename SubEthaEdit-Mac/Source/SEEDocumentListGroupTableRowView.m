@@ -13,7 +13,7 @@
 
 @implementation SEEDocumentListGroupTableRowView
 
-- (id)initWithFrame:(NSRect)frame
+- (instancetype)initWithFrame:(NSRect)frame
 {
     self = [super initWithFrame:frame];
     return self;

@@ -8,7 +8,7 @@
 
 @implementation TCMMMLogStatisticsDataPoint
 
-- (id)initWithDataObject:(id)anObject {
+- (instancetype)initWithDataObject:(id)anObject {
     if ((self = [super init])) {
         operationCount = [anObject operationCount];
         deletedCharacters = [anObject deletedCharacters];

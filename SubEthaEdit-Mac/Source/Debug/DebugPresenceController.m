@@ -12,7 +12,7 @@
 
 @implementation DebugPresenceController
 
-- (id)init {
+- (instancetype)init {
     if ((self=[super initWithWindowNibName:@"DebugPresence"])) {
     }
     return self;

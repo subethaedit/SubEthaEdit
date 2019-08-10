@@ -27,7 +27,7 @@
     BOOL I_isAbortingIncomingMessages;
 }
 
-- (id)initWithChannel:(TCMBEEPChannel *)aChannel;
+- (instancetype)initWithChannel:(TCMBEEPChannel *)aChannel;
 
 - (void)handleInitializationData:(NSData *)aData;
 - (void)processBEEPMessage:(TCMBEEPMessage *)aMessage;

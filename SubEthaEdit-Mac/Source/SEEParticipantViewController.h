@@ -22,7 +22,7 @@ typedef NS_ENUM(NSInteger, SEEParticipantViewMode) {
 
 @property (nonatomic, readonly, strong) NSColor *popoverTextColor;
 
-- (id)initWithParticipant:(TCMMMUser *)aParticipant tabContext:(PlainTextWindowControllerTabContext *)aTabContext inMode:(SEEParticipantViewMode)aMode;
+- (instancetype)initWithParticipant:(TCMMMUser *)aParticipant tabContext:(PlainTextWindowControllerTabContext *)aTabContext inMode:(SEEParticipantViewMode)aMode;
 
 - (void)updateColorsForIsDarkBackground:(BOOL)isDark;
 

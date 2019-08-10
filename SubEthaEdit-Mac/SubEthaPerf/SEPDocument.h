@@ -27,7 +27,7 @@
 
 - (void)setPlainFont:(NSFont *)aFont;
 
-- (id)initWithURL:(NSURL *)inURL;
+- (instancetype)initWithURL:(NSURL *)inURL;
 - (DocumentMode *)documentMode;
 - (NSTimeInterval)timedHighlightAll;
 

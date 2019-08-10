@@ -15,7 +15,7 @@
     return [message autorelease];
 }
 
-- (id)initWithTypeString:(NSString *)aType messageNumber:(int32_t)aMessageNumber payload:(NSData *)aPayload
+- (instancetype)initWithTypeString:(NSString *)aType messageNumber:(int32_t)aMessageNumber payload:(NSData *)aPayload
 {
     self = [super init];
     if (self) {
@@ -28,7 +28,7 @@
     return self;
 }
 
-- (id)initWithQueue:(NSArray *)aQueue
+- (instancetype)initWithQueue:(NSArray *)aQueue
 {
     NSParameterAssert(aQueue != nil);
     self = [super init];

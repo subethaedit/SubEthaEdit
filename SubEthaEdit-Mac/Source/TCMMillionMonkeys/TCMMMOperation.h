@@ -18,7 +18,7 @@ extern NSString * const TCMMMOperationTypeKey;
 + (id)operationWithDictionaryRepresentation:(NSDictionary *)aDictionary;
 + (NSString *)operationID;
 
-- (id)initWithDictionaryRepresentation:(NSDictionary *)aDictionary;
+- (instancetype)initWithDictionaryRepresentation:(NSDictionary *)aDictionary;
 - (NSDictionary *)dictionaryRepresentation;
 - (NSString *)operationID;
 - (void)setUserID:(NSString *)aUserID;

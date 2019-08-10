@@ -30,7 +30,7 @@ void * const SEEConnectionClearableObservingContext = (void *)&SEEConnectionClea
 @synthesize name = _name;
 @synthesize image = _image;
 
-- (id)init
+- (instancetype)init
 {
     self = [super init];
     if (self) {

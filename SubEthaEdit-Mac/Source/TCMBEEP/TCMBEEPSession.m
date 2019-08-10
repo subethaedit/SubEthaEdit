@@ -259,7 +259,7 @@ static NSData *dhparamData = nil;
 #endif
 }
 
-- (id)initWithSocket:(CFSocketNativeHandle)aSocketHandle addressData:(NSData *)aData
+- (instancetype)initWithSocket:(CFSocketNativeHandle)aSocketHandle addressData:(NSData *)aData
 {
     self = [super init];
     if (self) {
@@ -273,7 +273,7 @@ static NSData *dhparamData = nil;
     return self;
 }
 
-- (id)initWithAddressData:(NSData *)aData
+- (instancetype)initWithAddressData:(NSData *)aData
 {
     self = [super init];
     if (self) {

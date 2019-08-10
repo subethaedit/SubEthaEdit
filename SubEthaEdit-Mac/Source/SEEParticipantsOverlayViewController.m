@@ -34,7 +34,7 @@
 
 @implementation SEEParticipantsOverlayViewController
 
-- (id)initWithTabContext:(PlainTextWindowControllerTabContext *)aTabContext
+- (instancetype)initWithTabContext:(PlainTextWindowControllerTabContext *)aTabContext
 {
     self = [super initWithNibName:@"SEEParticipantsOverlay" bundle:[NSBundle mainBundle]];
     if (self) {

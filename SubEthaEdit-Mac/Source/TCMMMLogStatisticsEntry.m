@@ -27,7 +27,7 @@
 	return result;
 }
 
-- (id)initWithMMUser:(TCMMMUser *)aUser {
+- (instancetype)initWithMMUser:(TCMMMUser *)aUser {
     if ((self=[super init])) {
         [self setDateOfLastActivity:[NSDate distantPast]];
         user = [aUser retain];

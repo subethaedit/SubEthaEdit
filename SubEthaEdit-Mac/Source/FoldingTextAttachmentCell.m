@@ -10,7 +10,7 @@ static NSImage *s_foldingImage = nil;
 #define IMAGE_INSET 1.
 
 @implementation FoldingTextAttachmentCell
-- (id)init {
+- (instancetype)init {
 	if ((self = [super init])) {
 		if (!s_foldingImage) s_foldingImage = [NSImage imageNamed:@"folded"];
 	}

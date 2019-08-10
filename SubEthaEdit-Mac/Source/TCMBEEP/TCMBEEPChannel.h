@@ -52,7 +52,7 @@ typedef enum {
 + (NSDictionary *)profileURIToClassMapping;
 + (void)setClass:(Class)aClass forProfileURI:(NSString *)aProfileURI;
 
-- (id)initWithSession:(TCMBEEPSession *)aSession number:(unsigned long)aNumber profileURI:(NSString *)aProfileURI asInitiator:(BOOL)isInitiator;
+- (instancetype)initWithSession:(TCMBEEPSession *)aSession number:(unsigned long)aNumber profileURI:(NSString *)aProfileURI asInitiator:(BOOL)isInitiator;
 
 - (BOOL)isInitiator;
 

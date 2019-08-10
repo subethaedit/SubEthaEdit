@@ -103,7 +103,7 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 	return result;
 }
 
-- (id)init {
+- (instancetype)init {
     self = [super init];
     if (self) {
         self.filenamesFromLastRunOpenPanel = [NSMutableArray array];

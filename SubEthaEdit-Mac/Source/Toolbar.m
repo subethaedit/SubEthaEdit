@@ -9,7 +9,7 @@ static int S_shouldNotNotifyOtherToolbars=0;
 
 @implementation Toolbar
 
-- (id)initWithIdentifier:(NSString *)anIdentifier {
+- (instancetype)initWithIdentifier:(NSString *)anIdentifier {
     if ((self=[super initWithIdentifier:anIdentifier])) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sizeModeDidChange:) name:@"ToolbarSizeModeDidChangeNotification" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(displayModeDidChange:) name:@"ToolbarDisplayModeDidChangeNotification" object:nil];

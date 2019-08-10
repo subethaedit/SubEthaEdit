@@ -26,7 +26,7 @@ extern int const FileNewMenuItemTag;
 @synthesize name = _name;
 @synthesize image = _image;
 
-- (id)init
+- (instancetype)init
 {
     self = [super init];
     if (self) {

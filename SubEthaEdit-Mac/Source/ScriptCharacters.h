@@ -13,6 +13,6 @@
 }
 
 + (id)scriptCharactersWithTextStorage:(FullTextStorage *)aTextStorage characterRange:(NSRange)aCharacterRange;
-- (id)initWithTextStorage:(FullTextStorage *)aTextStorage characterRange:(NSRange)aCharacterRange;
+- (instancetype)initWithTextStorage:(FullTextStorage *)aTextStorage characterRange:(NSRange)aCharacterRange;
 
 @end

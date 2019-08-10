@@ -47,7 +47,7 @@ static TCMPreferenceController *sharedInstance = nil;
     [registeredPrefModules setObject:aModule forKey:[aModule identifier]];
 }
 
-- (id)init
+- (instancetype)init
 {
     self = [super initWithWindowNibName:@"Preferences"];
     if (self) {

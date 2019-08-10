@@ -181,7 +181,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 }
 
 
-- (id)initWithBundle:(NSBundle *)aBundle {
+- (instancetype)initWithBundle:(NSBundle *)aBundle {
     self = [super init];
     if (self) {
         I_autocompleteDictionary = [NSMutableArray new];

@@ -43,7 +43,7 @@ static TCMMMUserManager *sharedInstance=nil;
     [[TCMMMPresenceManager sharedInstance] propagateChangeOfMyself];
 }
 
-- (id)init {
+- (instancetype)init {
     if ((self=[super init])) {
         I_usersByID=[NSMutableDictionary new];
         I_userRequestsByID=[NSMutableDictionary new];

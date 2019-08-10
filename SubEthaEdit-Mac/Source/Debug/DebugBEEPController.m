@@ -18,7 +18,7 @@
 
 @implementation DebugBEEPController
 
-- (id)init {
+- (instancetype)init {
     if ((self = [super initWithWindowNibName:@"DebugBEEP"])) {
         [NSValueTransformer setValueTransformer:[[AddressDataToStringValueTransformer new] autorelease] forName:@"AddressDataToStringValueTransformer"];
     }

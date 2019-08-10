@@ -61,7 +61,7 @@ static NSString * const XMLAttributeFontTrait = @"font-trait";
 @implementation RegexSymbolDefinition
 
 /*"Initiates the Syntax Definition with an XML file"*/
-- (id)initWithFile:(NSString *)path forMode:(DocumentMode *)mode
+- (instancetype)initWithFile:(NSString *)path forMode:(DocumentMode *)mode
 {
     self = [super init];
     if (self)

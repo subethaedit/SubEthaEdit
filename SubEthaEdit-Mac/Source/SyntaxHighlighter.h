@@ -35,7 +35,7 @@ extern NSString * const kSyntaxHighlightingTypeString;
 }
 
 /*"Initizialisation"*/
-- (id)initWithSyntaxDefinition:(SyntaxDefinition *)aSyntaxDefinition;
+- (instancetype)initWithSyntaxDefinition:(SyntaxDefinition *)aSyntaxDefinition;
 
 /*"Accessors"*/
 - (SyntaxDefinition *)syntaxDefinition;

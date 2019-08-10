@@ -43,7 +43,7 @@ NSString * const ScriptWrapperDidRunScriptNotification =@"ScriptWrapperDidRunScr
     return NO;
 }
 
-- (id)initWithContentsOfURL:(NSURL *)URL {
+- (instancetype)initWithContentsOfURL:(NSURL *)URL {
     if ((self = [super init])) {
         if (![self _loadScriptAtURL:URL]) {
             self = nil;

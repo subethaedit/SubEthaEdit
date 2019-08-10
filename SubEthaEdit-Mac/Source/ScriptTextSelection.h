@@ -15,7 +15,7 @@
 
 + (id)insertionPointWithTextStorage:(FullTextStorage *)aTextStorage index:(int)anIndex;
 + (id)scriptTextSelectionWithTextStorage:(FullTextStorage *)aTextStorage editor:(PlainTextEditor *)anEditor;
-- (id)initWithTextStorage:(FullTextStorage *)aTextStorage editor:(PlainTextEditor *)anEditor;
+- (instancetype)initWithTextStorage:(FullTextStorage *)aTextStorage editor:(PlainTextEditor *)anEditor;
 
 - (id)objectSpecifier;
 

@@ -36,7 +36,7 @@
     return @"usr";
 }
 
-- (id)init {
+- (instancetype)init {
     self = [super init];
     if (self) {
         [self setTheNewGroup:@""];
@@ -76,7 +76,7 @@
     return string;
 }
 
-- (id)initWithDictionaryRepresentation:(NSDictionary *)aDictionary {
+- (instancetype)initWithDictionaryRepresentation:(NSDictionary *)aDictionary {
     self = [super initWithDictionaryRepresentation:aDictionary];
     if (self) {
         [self setType:[[aDictionary objectForKey:@"typ"] unsignedIntValue]];

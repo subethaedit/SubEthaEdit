@@ -19,7 +19,7 @@
     return [HUDButtonCell class];
 }
 
-- (id)initWithCoder:(NSCoder *)aCoder {
+- (instancetype)initWithCoder:(NSCoder *)aCoder {
     self = [super initWithCoder:aCoder];
     NSMutableData *data=[NSMutableData data];
     NSKeyedArchiver *archiver=[[NSKeyedArchiver alloc] initForWritingWithMutableData:data];

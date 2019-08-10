@@ -60,7 +60,7 @@
     return @"sel";
 }
 
-- (id)initWithDictionaryRepresentation:(NSDictionary *)aDictionary {
+- (instancetype)initWithDictionaryRepresentation:(NSDictionary *)aDictionary {
     self = [super initWithDictionaryRepresentation:aDictionary];
     if (self) {
         I_selectedRange.location = [[aDictionary objectForKey:@"loc"] unsignedIntValue];

@@ -53,7 +53,7 @@ static NSMutableDictionary *profileURIToClassMapping;
     [profileURIToClassMapping setObject:aClass forKey:aProfileURI];
 }
 
-- (id)initWithSession:(TCMBEEPSession *)aSession number:(unsigned long)aNumber profileURI:(NSString *)aProfileURI asInitiator:(BOOL)isInitiator
+- (instancetype)initWithSession:(TCMBEEPSession *)aSession number:(unsigned long)aNumber profileURI:(NSString *)aProfileURI asInitiator:(BOOL)isInitiator
 {
     self = [super init];
     if (self) {

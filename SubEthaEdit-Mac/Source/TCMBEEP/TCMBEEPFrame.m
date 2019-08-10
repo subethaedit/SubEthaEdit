@@ -31,7 +31,7 @@
                                      intermediate:aFlag] autorelease];
 }
 
-- (id)initWithChannelNumber:(int32_t)channelNumber
+- (instancetype)initWithChannelNumber:(int32_t)channelNumber
       acknowledgementNumber:(uint32_t)acknowledgementNumber
                  windowSize:(int32_t)windowSize
 {
@@ -45,7 +45,7 @@
     return self;
 }
 
-- (id)initWithMessage:(TCMBEEPMessage *)aMessage 
+- (instancetype)initWithMessage:(TCMBEEPMessage *)aMessage 
        sequenceNumber:(uint32_t)aSequenceNumber
         payloadLength:(uint32_t)aLength
          intermediate:(BOOL)aFlag
@@ -75,7 +75,7 @@
     return self;
 }
 
-- (id)initWithHeader:(char *)aHeaderString
+- (instancetype)initWithHeader:(char *)aHeaderString
 {
     self = [super init];
     if (self) {

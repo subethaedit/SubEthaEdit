@@ -15,7 +15,7 @@
 
 + (URLBubbleWindow *)sharedURLBubbleWindow;
 
-- (id)initAsBubble;
+- (instancetype)initAsBubble;
 
 - (IBAction)openURLAction:(id)aSender;
 - (IBAction)hideWindow:(id)aSender;

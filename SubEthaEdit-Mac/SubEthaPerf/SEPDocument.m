@@ -19,8 +19,7 @@
 
 @synthesize textStorage;
 
-- (id)initWithURL:(NSURL *)inURL
-{
+- (instancetype)initWithURL:(NSURL *)inURL {
 	if ((self = [super init])) {
 		NSDictionary *documentAttributes = nil;
 		NSError *error = nil;

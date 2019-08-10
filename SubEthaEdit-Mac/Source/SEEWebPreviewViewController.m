@@ -56,7 +56,7 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
 @synthesize plainTextDocument=_plainTextDocument;
 @synthesize refreshType=_refreshType;
 
-- (id)initWithPlainTextDocument:(PlainTextDocument *)aDocument {
+- (instancetype)initWithPlainTextDocument:(PlainTextDocument *)aDocument {
     self=[super initWithNibName:@"SEEWebPreviewViewController" bundle:nil];
     _plainTextDocument=aDocument;
     _hasSavedVisibleRect=NO;

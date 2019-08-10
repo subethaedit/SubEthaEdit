@@ -213,7 +213,7 @@ static NSArray *S_possibleStyleColors;
 //    return result;
 //}
 
-- (id)init {
+- (instancetype)init {
     self=[super init];
     if (self) {
         I_styleDictionary = [NSMutableDictionary new];
@@ -230,7 +230,7 @@ static NSArray *S_possibleStyleColors;
     return self;
 }
 
-- (id)initWithSyntaxStyle:(SyntaxStyle *)aStyle {
+- (instancetype)initWithSyntaxStyle:(SyntaxStyle *)aStyle {
     self=[self init];
     if (self) {
         NSString *key=nil;

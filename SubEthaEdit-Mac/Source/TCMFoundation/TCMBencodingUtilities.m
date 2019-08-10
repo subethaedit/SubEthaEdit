@@ -17,11 +17,11 @@ Dictionaries are encoded as a 'd' followed by a list of alternating keys and the
 #import "TCMBencodingUtilities.h"
 
 @implementation TCMMutableBencodedData
-- (id)initWithObject:(id)anObject {
+- (instancetype)initWithObject:(id)anObject {
     return [self initWithData:TCM_BencodedObject(anObject)];
 }
 
-- (id)initWithData:(NSData *)aData {
+- (instancetype)initWithData:(NSData *)aData {
     if ((self=[super init])) {
         if (!aData) { aData = [NSData data]; };
         I_mutableData = [aData mutableCopy];

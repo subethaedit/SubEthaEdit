@@ -26,7 +26,7 @@ static void acceptConnection(CFSocketRef aSocketRef, CFSocketCallBackType aType,
 
 @implementation TCMBEEPListener
 
-- (id)initWithPort:(unsigned int)aPort
+- (instancetype)initWithPort:(unsigned int)aPort
 {
     self = [super init];
     

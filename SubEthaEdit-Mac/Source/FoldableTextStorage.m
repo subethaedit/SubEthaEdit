@@ -36,7 +36,7 @@ NSString * const BlockeditAttributeValue=@"YES";
 	}
 }
 
-- (id)init {
+- (instancetype)init {
     if ((self = [super init])) {
 // as long as we are a subclass of TextStorage
 	    [I_internalAttributedString release];

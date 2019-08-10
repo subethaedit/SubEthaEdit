@@ -14,7 +14,7 @@
     return [[[ScriptCharacters alloc] initWithTextStorage:aTextStorage characterRange:aCharacterRange] autorelease];
 }
 
-- (id)initWithTextStorage:(FullTextStorage *)aTextStorage characterRange:(NSRange)aCharacterRange
+- (instancetype)initWithTextStorage:(FullTextStorage *)aTextStorage characterRange:(NSRange)aCharacterRange
 {
     if ((self = [super initWithTextStorage:aTextStorage])) {
         I_characterRange = aCharacterRange;

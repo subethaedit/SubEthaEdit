@@ -19,7 +19,7 @@ static NSString *kServiceKey=@"Service";
 
 @implementation TCMRendezvousBrowser
 
-- (id)initWithServiceType:(NSString *)aServiceType domain:(NSString *)aDomain {
+- (instancetype)initWithServiceType:(NSString *)aServiceType domain:(NSString *)aDomain {
     if ((self=[super init])) {
         I_serviceType=[aServiceType copy];
         I_domain=[aDomain copy];

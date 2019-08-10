@@ -46,7 +46,7 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 
 @implementation GutterRulerView
 
-- (id)initWithScrollView:(NSScrollView *)aScrollView
+- (instancetype)initWithScrollView:(NSScrollView *)aScrollView
              orientation:(NSRulerOrientation)orientation {
     self=[super initWithScrollView:aScrollView orientation:orientation];
     return self;

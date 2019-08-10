@@ -55,7 +55,7 @@ static  NSMutableDictionary *S_transientRegexCache = nil;
 
 /*"Initiates the Highlighter with a Syntax Definition"*/
 
-- (id)initWithSyntaxDefinition:(SyntaxDefinition *)aSyntaxDefinition 
+- (instancetype)initWithSyntaxDefinition:(SyntaxDefinition *)aSyntaxDefinition 
 {
     self=[super init];
     if (self) {

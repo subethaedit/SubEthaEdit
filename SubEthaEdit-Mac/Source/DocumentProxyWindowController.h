@@ -29,7 +29,7 @@
 
 @property (nonatomic, strong) IBOutlet SEEAvatarImageView *userAvatarImageView;
 
-- (id)initWithSession:(TCMMMSession *)aSession;
+- (instancetype)initWithSession:(TCMMMSession *)aSession;
 
 
 - (BOOL)isPendingInvitation;

@@ -75,7 +75,7 @@
 
 @implementation DocumentProxyWindowController
 
-- (id)initWithSession:(TCMMMSession *)aSession {
+- (instancetype)initWithSession:(TCMMMSession *)aSession {
     self = [super initWithWindowNibName:@"DocumentProxy"];
     if (self) {
         [self setSession:aSession];

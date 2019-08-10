@@ -15,6 +15,6 @@
 @property (atomic, readonly, copy) NSArray *symbols;
 @property (atomic, readonly, strong) NSError *xmlStructureError;
 
-- (id)initWithFile:(NSString *)aPath forMode:(DocumentMode *)aMode;
+- (instancetype)initWithFile:(NSString *)aPath forMode:(DocumentMode *)aMode;
 
 @end

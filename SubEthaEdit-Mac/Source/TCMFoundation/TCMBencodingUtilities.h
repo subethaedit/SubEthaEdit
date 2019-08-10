@@ -10,8 +10,8 @@
 @interface TCMMutableBencodedData : NSObject {
     NSMutableData *I_mutableData;
 }
-- (id)initWithData:(NSData *)aData;
-- (id)initWithObject:(id)anObject;
+- (instancetype)initWithData:(NSData *)aData;
+- (instancetype)initWithObject:(id)anObject;
 - (NSData*)data;
 - (void)appendObjectToBencodedArray:(id)anObject;
 - (id)decodedObject;

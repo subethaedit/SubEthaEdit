@@ -13,7 +13,7 @@
 }
 
 
-- (id)initWithOperation:(TCMMMOperation *)anOperation index:(long long)anIndex{
+- (instancetype)initWithOperation:(TCMMMOperation *)anOperation index:(long long)anIndex{
     if ((self=[super init])) {
         I_op = [anOperation copy];
         I_date = [[NSDate alloc] init];
@@ -22,7 +22,7 @@
     return self;
 }
 
-- (id)initWithDictionaryRepresentation:(NSDictionary *)aDictionary {
+- (instancetype)initWithDictionaryRepresentation:(NSDictionary *)aDictionary {
     self = [super init];
     if (self) {
         I_date = [[NSDate alloc] initWithTimeIntervalSinceReferenceDate:[[aDictionary objectForKey:@"t"] doubleValue]/100.];

@@ -32,7 +32,7 @@ extern NSString * const SEESearchScopeAttributeName;
 
 + (OGRegularExpression *)wrongLineEndingRegex:(LineEnding)aLineEnding;
 
-- (id)initWithFoldableTextStorage:(FoldableTextStorage *)inTextStorage;
+- (instancetype)initWithFoldableTextStorage:(FoldableTextStorage *)inTextStorage;
 
 @property (nonatomic, readonly, weak) FoldableTextStorage *foldableTextStorage;
 

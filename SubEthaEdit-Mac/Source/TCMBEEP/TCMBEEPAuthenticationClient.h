@@ -26,7 +26,7 @@ extern NSString * const TCMBEEPAuthenticationClientDidNotAuthenticateNotificatio
     NSString *_password;
 }
 
-- (id)initWithSession:(TCMBEEPSession *)session addressData:(NSData *)addressData peerAddressData:(NSData *)peerAddressData serverFQDN:(NSString *)serverFQDN;
+- (instancetype)initWithSession:(TCMBEEPSession *)session addressData:(NSData *)addressData peerAddressData:(NSData *)peerAddressData serverFQDN:(NSString *)serverFQDN;
 - (NSSet *)availableAuthenticationMechanisms;
 - (void)startAuthenticationWithUserName:(NSString *)aUserName password:(NSString *)aPassword;
 - (BOOL)isAuthenticated;

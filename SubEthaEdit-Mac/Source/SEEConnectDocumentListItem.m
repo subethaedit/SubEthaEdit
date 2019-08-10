@@ -19,7 +19,7 @@
 @synthesize name = _name;
 @synthesize image = _image;
 
-- (id)init {
+- (instancetype)init {
     self = [super init];
     if (self) {
         self.name = NSLocalizedString(@"DOCUMENT_LIST_CONNECT", @"");

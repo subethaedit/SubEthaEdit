@@ -33,8 +33,8 @@ extern NSString * const ConnectionStatusNoConnection;
 
 @property (nonatomic, readonly, strong) NSArray *announcedSessions;
 
-- (id)initWithURL:(NSURL *)anURL;
-- (id)initWithBEEPSession:(TCMBEEPSession *)aSession;
+- (instancetype)initWithURL:(NSURL *)anURL;
+- (instancetype)initWithBEEPSession:(TCMBEEPSession *)aSession;
 
 - (BOOL)handleURL:(NSURL *)anURL;
 - (BOOL)handleSession:(TCMBEEPSession *)aSession;

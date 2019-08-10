@@ -8,7 +8,7 @@
 
 
 @implementation FoldedTextAttachment
-- (id)initWithFoldedTextRange:(NSRange)inFoldedTextRange
+- (instancetype)initWithFoldedTextRange:(NSRange)inFoldedTextRange
 {
 	if ((self = [self init]))
 	{

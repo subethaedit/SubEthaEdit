@@ -8,7 +8,7 @@
 
 @implementation BorderedTextField
 
-- (id)initWithFrame:(NSRect)frame {
+- (instancetype)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         [self setHasRightBorder: YES];
@@ -18,7 +18,7 @@
     return self;
 }
 
-- (id)initWithCoder:(NSCoder *)aCoder {
+- (instancetype)initWithCoder:(NSCoder *)aCoder {
     self = [super initWithCoder:aCoder];
     [self setHasRightBorder: YES];
     [self setHasLeftBorder:   NO];

@@ -12,7 +12,7 @@
 
 @implementation DebugUserController
 
-- (id)init {
+- (instancetype)init {
     if ((self=[super initWithWindowNibName:@"DebugUsers"])) {
     }
     return self;

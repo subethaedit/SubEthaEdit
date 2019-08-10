@@ -115,7 +115,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     }
 }
 
-- (id)initWithFoldableTextStorage:(FoldableTextStorage *)inTextStorage {
+- (instancetype)initWithFoldableTextStorage:(FoldableTextStorage *)inTextStorage {
     if ((self = [super init])) {
         I_internalAttributedString = [NSMutableAttributedString new];
         self.foldableTextStorage = inTextStorage;

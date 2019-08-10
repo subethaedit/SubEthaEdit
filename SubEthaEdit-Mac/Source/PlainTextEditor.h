@@ -36,7 +36,7 @@ extern NSString * const PlainTextEditorDidChangeSearchScopeNotification;
 
 - (void)prepareForDealloc; // because of programatic bindings to the top level object
 
-- (id)initWithWindowControllerTabContext:(PlainTextWindowControllerTabContext *)aWindowControllerTabContext splitButton:(BOOL)aFlag;
+- (instancetype)initWithWindowControllerTabContext:(PlainTextWindowControllerTabContext *)aWindowControllerTabContext splitButton:(BOOL)aFlag;
 - (NSView *)editorView;
 - (NSTextView *)textView;
 - (PlainTextDocument *)document;

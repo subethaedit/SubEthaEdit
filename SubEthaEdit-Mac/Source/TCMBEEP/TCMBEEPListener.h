@@ -16,7 +16,7 @@
     unsigned int I_port;
 }
 
-- (id)initWithPort:(unsigned int)aPort;
+- (instancetype)initWithPort:(unsigned int)aPort;
 
 - (void)setDelegate:(id)aDelegate;
 - (id)delegate;

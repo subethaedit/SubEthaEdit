@@ -10,7 +10,7 @@
 
 @implementation PrintTextView
 
-- (id)initWithFrame:(NSRect)frame textContainer:(NSTextContainer *)aTextContainer{
+- (instancetype)initWithFrame:(NSRect)frame textContainer:(NSTextContainer *)aTextContainer{
     self = [super initWithFrame:frame textContainer:aTextContainer];
     if (self) {
         // Initialization code here.

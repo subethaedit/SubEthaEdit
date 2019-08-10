@@ -22,7 +22,7 @@
     NSNetServiceBrowser *I_serviceBrowser;
 }
 
-- (id)initWithServiceType:(NSString *)aServiceType domain:(NSString *)aDomain;
+- (instancetype)initWithServiceType:(NSString *)aServiceType domain:(NSString *)aDomain;
 
 - (void)startSearch;
 - (void)stopSearch;

@@ -16,8 +16,8 @@
 
 + (TCMBEEPMessage *)messageWithQueue:(NSArray *)aQueue;
 
-- (id)initWithTypeString:(NSString *)aType messageNumber:(int32_t)aMessageNumber payload:(NSData *)aPayload;
-- (id)initWithQueue:(NSArray *)aQueue;
+- (instancetype)initWithTypeString:(NSString *)aType messageNumber:(int32_t)aMessageNumber payload:(NSData *)aPayload;
+- (instancetype)initWithQueue:(NSArray *)aQueue;
 
 - (void)setMessageTypeString:(NSString *)aString;
 - (NSString *)messageTypeString;
