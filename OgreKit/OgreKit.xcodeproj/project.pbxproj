@@ -150,7 +150,7 @@
 		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		4D9DBE2B09BAB999003DD4A8 /* libonigmo.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libonigmo.a; path = RegularExpression/oniguruma/libonigmo.a; sourceTree = "<group>"; };
+		4D9DBE2B09BAB999003DD4A8 /* libonigmo.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libonigmo.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DA73FB91142894300E28DA7 /* OgreTextFindProgressDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OgreTextFindProgressDelegate.h; path = FindPanel/OgreTextFindThreads/OgreTextFindProgressDelegate.h; sourceTree = SOURCE_ROOT; };
 		4DC40BFC09150BDB0029A2A6 /* OgreKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OgreKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DC40C0409150C280029A2A6 /* OgreTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OgreTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -848,8 +848,7 @@
 				F2170206215A458B007A2C35 /* onigmo.h */,
 			);
 			name = oniguruma;
-			path = RegularExpression/oniguruma;
-			sourceTree = SOURCE_ROOT;
+			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		4DC40E5409150CF30029A2A6 /* Resources */ = {
 			isa = PBXGroup;
