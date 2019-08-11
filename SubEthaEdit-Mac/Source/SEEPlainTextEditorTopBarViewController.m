@@ -106,6 +106,7 @@
 	[self updateColorsForIsDarkBackground:NO];
 	[self updateSymbolPopUpContent];
 	[self updateForTextDidChange];
+    self.positionTextField.font = [self.positionTextField.font SEE_fontByAddingMonoSpaceNumbersFeature];
 }
 
 - (void)setVisible:(BOOL)visible {
@@ -222,14 +223,7 @@
 		
 		// finally we can calulate the origin of the writtenBy text field
         writtenByTextFrame.origin.x = NSMinX(docInfoTextFieldFrame) - writtenByTextFrame.size.width - SPACING;
-		
-		// adjust all frames to backing grid
-		/* not doing that for now as we made sure we use integral point values all over the place
-		positionTextFrame = [positionTextField centerScanRect:positionTextFrame];
-		symbolPopUpFrame = [symbolPopUpButton centerScanRect:symbolPopUpFrame];
-		writtenByTextFrame = [writtenByTextField centerScanRect:writtenByTextFrame];
-		 */
-		
+				
 		// set frames
 		[positionTextField setFrame:positionTextFrame];
         [symbolPopUpButton setFrame:symbolPopUpFrame];
@@ -326,7 +320,7 @@
 		
 		if (![targetValue isEqualToString:currentValue]) {
 			self.docinfoTextField.stringValue = targetValue;
-			// todo: set needs layout
+            [self adjustLayout];
 		}
 	}
 }
@@ -338,7 +332,6 @@
 	[mode.defaults setObject:@(infoType) forKey:DocumentModeDocumentInfoTypePreferenceKey];
 	
 	[self updateDocumentInfoTextField];
-	[self adjustLayout];
 }
 
 - (void)updatePositionTextField {

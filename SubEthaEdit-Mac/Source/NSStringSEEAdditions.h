@@ -65,3 +65,10 @@ typedef enum _LineEnding {
 - (NSUInteger)TCM_positionOfMatchingBracketToPosition:(NSUInteger)position bracketSettings:(TCMBracketSettings *)aBracketSettings;
 
 @end
+
+
+@interface NSFont (NSFontSEEAdditions)
+
+- (NSFont *)SEE_fontByAddingMonoSpaceNumbersFeature;
+
+@end

@@ -12,5 +12,4 @@
 @property (nonatomic) BOOL hasRightBorder;
 @property (nonatomic) BOOL hasLeftBorder;
 
-
 @end

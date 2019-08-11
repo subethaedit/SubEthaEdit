@@ -10,6 +10,10 @@
 #error ARC must be enabled!
 #endif
 
+@interface BorderedTextField ()
+@property (nonatomic) NSSize cachedIntrinsicContentSize;
+@end
+
 @implementation BorderedTextField
 
 - (instancetype)initWithFrame:(NSRect)frame {
@@ -49,13 +53,35 @@
     }
 }
 
-- (NSSize)intrinsicContentSize {
-	NSSize positionTextSize = [self.stringValue sizeWithAttributes:@{NSFontAttributeName:self.font}];
-	positionTextSize.width  = round(positionTextSize.width + 9.);
-	positionTextSize.height = round(positionTextSize.height + 2.);
-	return positionTextSize;
+- (void)__updateIntrinsicContentSize {
+    _cachedIntrinsicContentSize = ({
+        NSSize positionTextSize = [self.stringValue sizeWithAttributes:@{NSFontAttributeName:self.font}];
+        positionTextSize.width  = ceil((positionTextSize.width + 9.) / 3.0) * 3.0; // make it raster at 4 points
+        positionTextSize.height = round(positionTextSize.height + 2.);
+        positionTextSize;
+    });
 }
 
+- (void)__invalidateIntrinsicContentSize {
+    _cachedIntrinsicContentSize = NSZeroSize;
+}
+
+- (NSSize)intrinsicContentSize {
+    if (_cachedIntrinsicContentSize.height == 0.0) {
+        [self __updateIntrinsicContentSize];
+    }
+    return _cachedIntrinsicContentSize;
+}
+
+- (void)setAttributedStringValue:(NSAttributedString *)attributedStringValue {
+    [super setAttributedStringValue:attributedStringValue];
+    [self __invalidateIntrinsicContentSize];
+}
+
+- (void)setStringValue:(NSString *)stringValue {
+    [super setStringValue:stringValue];
+    [self __invalidateIntrinsicContentSize];
+}
 
 - (void)drawRect:(NSRect)aRect {
 	[[NSColor clearColor] set];
