@@ -72,7 +72,7 @@
                 <textField verticalHuggingPriority="750" id="9sl-OR-xm4" customClass="BorderedTextField">
                     <rect key="frame" x="492" y="0.0" width="88" height="19"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="&lt;x words&gt;" id="iBG-BV-eyd" customClass="InsetTextFieldCell">
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="&lt;x words&gt;" usesSingleLineMode="YES" id="iBG-BV-eyd" customClass="InsetTextFieldCell">
                         <font key="font" metaFont="smallSystem"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
