@@ -1,7 +1,7 @@
 @import Cocoa;
 
 @interface DNDArrayController : NSArrayController {
-    IBOutlet NSTableView *tableView;
+    IBOutlet __weak NSTableView *tableView;
 }
 
 // table view drag and drop support

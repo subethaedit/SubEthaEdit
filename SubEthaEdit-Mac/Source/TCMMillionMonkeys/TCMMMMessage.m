@@ -6,10 +6,15 @@
 #import "TCMMMMessage.h"
 #import "TCMMMOperation.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
 @implementation TCMMMMessage
 
 + (id)messageWithDictionaryRepresentation:(NSDictionary *)aDictionary {
-    return [[[TCMMMMessage alloc] initWithDictionaryRepresentation:aDictionary] autorelease];
+    return [[TCMMMMessage alloc] initWithDictionaryRepresentation:aDictionary];
 }
 
 - (instancetype)initWithDictionaryRepresentation:(NSDictionary *)aDictionary {
@@ -19,7 +24,7 @@
         I_numberOfClientMessages = [[aDictionary objectForKey:@"#C"] longLongValue];
         I_numberOfServerMessages = [[aDictionary objectForKey:@"#S"] longLongValue];
 
-        I_operation = [[TCMMMOperation operationWithDictionaryRepresentation:[aDictionary objectForKey:@"op"]] retain];
+        I_operation = [TCMMMOperation operationWithDictionaryRepresentation:[aDictionary objectForKey:@"op"]];
         NSAssert(I_operation,@"operation was nill");
         //NSLog(@"message: %@",[self description]);
     }
@@ -36,10 +41,6 @@
     return self;
 }
 
-- (void)dealloc {
-    [I_operation release];
-    [super dealloc];
-}
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"\nstate: (%qi, %qi)\nop: %@", I_numberOfClientMessages, I_numberOfServerMessages, [I_operation description]];
@@ -55,7 +56,6 @@
 }
 
 - (void)setOperation:(TCMMMOperation *)anOperation {
-    [I_operation autorelease];
     I_operation = [anOperation copy];
 }
 

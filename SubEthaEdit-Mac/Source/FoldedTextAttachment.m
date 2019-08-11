@@ -6,43 +6,28 @@
 #import "FoldingTextAttachmentCell.h"
 #import "FoldedTextAttachment.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
 
 @implementation FoldedTextAttachment
 - (instancetype)initWithFoldedTextRange:(NSRange)inFoldedTextRange
 {
-	if ((self = [self init]))
-	{
-		I_foldedTextRange = inFoldedTextRange;
-		I_innerAttachments = [NSMutableArray new];
-		[self setAttachmentCell:[[FoldingTextAttachmentCell new] autorelease]];
+	if ((self = [self init])) {
+		_foldedTextRange = inFoldedTextRange;
+		_innerAttachments = [NSMutableArray new];
+        self.attachmentCell = [FoldingTextAttachmentCell new];
 	}
 	return self;
 }
 
-- (NSRange)foldedTextRange {
-	return I_foldedTextRange;
-}
-
-- (void)setFoldedTextRange:(NSRange)inRange {
-	I_foldedTextRange = inRange;
-}
-
 - (void)moveAttachmentLocation:(int)inLocationDifference {
-	I_foldedTextRange.location += inLocationDifference;
-	int loopIndex = (int)[I_innerAttachments count];
+	_foldedTextRange.location += inLocationDifference;
+	int loopIndex = (int)[_innerAttachments count];
 	while ((--loopIndex) >= 0) {
-		[[I_innerAttachments objectAtIndex:loopIndex] moveAttachmentLocation:inLocationDifference];
+		[[_innerAttachments objectAtIndex:loopIndex] moveAttachmentLocation:inLocationDifference];
 	}
-}
-
-- (NSMutableArray *)innerAttachments {
-	return I_innerAttachments;
-}
-
-- (void)dealloc
-{
-	[I_innerAttachments release];
-	[super dealloc];
 }
 
 @end

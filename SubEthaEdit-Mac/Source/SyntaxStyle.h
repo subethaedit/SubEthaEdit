@@ -11,9 +11,10 @@ extern NSString * const SyntaxStyleBaseIdentifier;
 
 @interface SyntaxStyle : NSObject {
     NSMutableDictionary *I_styleDictionary;
-    DocumentMode *I_documentMode;
     NSMutableArray *I_keyArray;
 }
+
+@property (nonatomic, weak) DocumentMode *documentMode;
 
 + (NSIndexSet *)indexesWhereStyle:(SyntaxStyle *)aStyle isNotEqualToStyle:(SyntaxStyle *)aStyle;
 + (BOOL)style:(NSDictionary *)aStyle isEqualToStyle:(NSDictionary *)anotherStyle;
@@ -29,8 +30,6 @@ extern NSString * const SyntaxStyleBaseIdentifier;
 - (void)takeStylesFromDefaultsDictionary:(NSDictionary *)aDictionary;
 - (void)takeValuesFromDictionary:(NSDictionary *)aDictionary;
 - (NSString *)localizedStringForKey:(NSString *)aKey;
-- (void)setDocumentMode:(DocumentMode *)aMode;
-- (DocumentMode *)documentMode;
 - (NSDictionary *)defaultsDictionary;
 - (NSString *)xmlRepresentation;
 - (NSString *)xmlFileRepresentation;

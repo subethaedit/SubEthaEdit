@@ -8,6 +8,11 @@
 #import "DocumentModeManager.h"
 #import "SyntaxHighlighter.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
 NSString * const SyntaxStyleBaseIdentifier = @"_Default";
 
 static NSArray *S_possibleStyleColors;
@@ -214,10 +219,9 @@ static NSArray *S_possibleStyleColors;
 //}
 
 - (instancetype)init {
-    self=[super init];
+    self = [super init];
     if (self) {
         I_styleDictionary = [NSMutableDictionary new];
-        I_documentMode =nil;
         I_keyArray = [NSMutableArray new];
         [I_keyArray addObject:SyntaxStyleBaseIdentifier];
         [self setStyle:[NSDictionary dictionaryWithObjectsAndKeys:
@@ -231,11 +235,9 @@ static NSArray *S_possibleStyleColors;
 }
 
 - (instancetype)initWithSyntaxStyle:(SyntaxStyle *)aStyle {
-    self=[self init];
+    self = [self init];
     if (self) {
-        NSString *key=nil;
-        NSEnumerator *keys=[[aStyle allKeys] objectEnumerator];
-        while ((key=[keys nextObject])) {
+        for (NSString *key in [aStyle allKeys]) {
             [self addKey:key];
             [self setStyle:[aStyle styleForKey:key] forKey:key];
         }
@@ -249,21 +251,12 @@ static NSArray *S_possibleStyleColors;
     return result;
 }
 
-- (void)dealloc {
-    [I_styleDictionary release];
-    [I_keyArray release];
-    [super dealloc];
-}
-
-- (void)writeOutAllStylesDictionaryToHome
-{
+- (void)writeOutAllStylesDictionaryToHome {
 	NSMutableDictionary *allStylesDictionary = [NSMutableDictionary dictionary];
-    NSEnumerator *keys=[[self allKeys] objectEnumerator];
-    NSString *key = nil;
-    while ((key=[keys nextObject])) {
+    for (NSString *key in self.allKeys) {
 		[allStylesDictionary setObject:key forKey:key];
 	}
-	[allStylesDictionary writeToFile:[[NSString stringWithFormat:@"~/%@.StyleIDTransition.plist", [I_documentMode documentModeIdentifier]] stringByStandardizingPath] atomically:YES];
+	[allStylesDictionary writeToFile:[[NSString stringWithFormat:@"~/%@.StyleIDTransition.plist", [_documentMode documentModeIdentifier]] stringByStandardizingPath] atomically:YES];
 }
 
 - (void)takeStylesFromDefaultsDictionary:(NSDictionary *)aDictionary {
@@ -273,7 +266,7 @@ static NSArray *S_possibleStyleColors;
 	//[self writeOutAllStylesDictionaryToHome];
 	
 
-    NSDictionary *styleIDTransitionDictionary = [I_documentMode styleIDTransitionDictionary];
+    NSDictionary *styleIDTransitionDictionary = [_documentMode styleIDTransitionDictionary];
     NSEnumerator *keys=[[self allKeys] objectEnumerator];
     while ((key=[keys nextObject])) {
         NSDictionary *value=[aDictionary objectForKey:key];
@@ -296,19 +289,10 @@ static NSArray *S_possibleStyleColors;
                 }
             }
             [self setStyle:style forKey:key];
-            [style release];
         }
     }
     
     
-}
-
-- (void)setDocumentMode:(DocumentMode *)aMode {
-    I_documentMode = aMode;
-}
-
-- (DocumentMode *)documentMode {
-    return I_documentMode;
 }
 
 
@@ -337,16 +321,16 @@ static NSArray *S_possibleStyleColors;
 }
 
 - (void)setStyle:(NSDictionary *)aStyle forKey:(NSString *)aKey {
-    [I_styleDictionary setObject:[[aStyle mutableCopy] autorelease] forKey:aKey];
+    [I_styleDictionary setObject:[aStyle mutableCopy] forKey:aKey];
 }
 
 - (NSString *)localizedStringForKey:(NSString *)aKey {
     if ([aKey isEqualToString:SyntaxStyleBaseIdentifier]) {
         return NSLocalizedString(@"BaseStyleName",@"Name of base style appearing in Style Preferences");
     }
-    NSBundle *bundle = [I_documentMode bundle];
+    NSBundle *bundle = [_documentMode bundle];
     if (bundle) {
-        SyntaxDefinition *definition = [I_documentMode syntaxDefinition];
+        SyntaxDefinition *definition = [_documentMode syntaxDefinition];
         NSString *localizeKey = aKey;
         NSString *prefixString = [NSString stringWithFormat:@"/%@/",[definition name]];
         if ([aKey hasPrefix:prefixString]) {
@@ -377,7 +361,6 @@ static NSArray *S_possibleStyleColors;
                 }
             }
             [dictionary setObject:style forKey:key];
-            [style release];
         }
     }
     return dictionary;
@@ -416,8 +399,7 @@ static NSArray *S_possibleStyleColors;
 
 - (NSString *)description {
     NSMutableString *result=[NSMutableString string];
-    NSString *key=nil;
-    for (key in I_keyArray) {
+    for (NSString *key in I_keyArray) {
         [result appendFormat:@"%@ (%@): %@\n",[self localizedStringForKey:key],key,[[I_styleDictionary objectForKey:key] description]];
     }
     return [NSString stringWithFormat:@"SyntaxStyle: \n%@",[self xmlFileRepresentation]];

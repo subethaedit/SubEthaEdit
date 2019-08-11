@@ -16,9 +16,9 @@ typedef NS_ENUM(NSInteger, SEEParticipantViewMode) {
 
 @interface SEEParticipantViewController : NSViewController <NSPopoverDelegate>
 
-@property (nonatomic, readonly, assign) SEEParticipantViewMode viewMode;
+@property (nonatomic, readonly) SEEParticipantViewMode viewMode;
 @property (nonatomic, readonly, strong) TCMMMUser *participant;
-@property (nonatomic, assign) BOOL isParticipantFollowed;
+@property (nonatomic) BOOL isParticipantFollowed;
 
 @property (nonatomic, readonly, strong) NSColor *popoverTextColor;
 

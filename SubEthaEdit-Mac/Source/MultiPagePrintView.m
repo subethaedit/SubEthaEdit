@@ -18,6 +18,11 @@
 #import "TCMMMSession.h"
 #import "DocumentModeManager.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
 @implementation MultiPagePrintView
 
 static NSMutableDictionary *S_nameAttributes, *S_contactAttributes, *S_contactLabelAttributes, *S_tableHeadingAttributes;
@@ -27,7 +32,7 @@ static NSMutableDictionary *S_nameAttributes, *S_contactAttributes, *S_contactLa
     self = [super initWithFrame:frame];
     
     if (self) {
-        I_document = [aDocument retain];
+        I_document = aDocument;
 
         I_textStorage = [NSTextStorage new];
         [I_textStorage setAttributedString:[(FoldableTextStorage *)[aDocument textStorage] fullTextStorage]];
@@ -51,21 +56,21 @@ static NSMutableDictionary *S_nameAttributes, *S_contactAttributes, *S_contactLa
             
             if (!font) font = [NSFont systemFontOfSize:10.];
             NSFont *boldFont = [fontManager convertFont:font toHaveTrait:NSBoldFontMask];
-            S_nameAttributes = [[NSMutableDictionary dictionaryWithObjectsAndKeys:[NSColor blackColor], NSForegroundColorAttributeName, boldFont, NSFontAttributeName, nil] retain];
+            S_nameAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSColor blackColor], NSForegroundColorAttributeName, boldFont, NSFontAttributeName, nil];
             font = [fontManager convertFont:font toSize:8.];
-            S_contactAttributes     = [[NSMutableDictionary dictionaryWithObjectsAndKeys:
+            S_contactAttributes     = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                         [NSColor blueColor], NSForegroundColorAttributeName,
                                         font, NSFontAttributeName,
-                                        nil] retain];
-            S_contactLabelAttributes = [[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                        nil];
+            S_contactLabelAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                          [NSColor grayColor], NSForegroundColorAttributeName,
                                          font, NSFontAttributeName,
-                                         nil] retain];
+                                         nil];
             boldFont = [fontManager convertFont:font toHaveTrait:NSBoldFontMask];
-            S_tableHeadingAttributes = [[NSMutableDictionary dictionaryWithObjectsAndKeys:
+            S_tableHeadingAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                          [NSColor blackColor], NSForegroundColorAttributeName,
                                          boldFont, NSFontAttributeName,
-                                         nil] retain];
+                                         nil];
         }
         
         I_measures.emailAIMLabelWidth   = MAX([NSLocalizedString(@"PrintExportLegendEmailLabel", @"Label for Email in legend in Print and Export") sizeWithAttributes:S_contactLabelAttributes].width,
@@ -80,48 +85,12 @@ static NSMutableDictionary *S_nameAttributes, *S_contactAttributes, *S_contactLa
 - (void)dealloc
 {
     [I_textStorage removeLayoutManager:I_layoutManager];
-    [[[[self subviews] copy] autorelease] makeObjectsPerformSelector:@selector(removeFromSuperviewWithoutNeedingDisplay)];
-    [I_document release];
-    [I_layoutManager release];
-    [I_textStorage release];
-    [I_headerAttributes release];
-    [I_headerFormatString release];
-    [I_contributorArray release];
-    [I_visitorArray release];
-    [I_baseFont release];
-    [I_styleCacheDictionary release];
-    [super dealloc];
+    [[[self subviews] copy] makeObjectsPerformSelector:@selector(removeFromSuperviewWithoutNeedingDisplay)];
 }
 
 
 #pragma mark -
 #pragma mark ### Accessors ###
-
-- (void)setHeaderFormatString:(NSString *)aString
-{
-    [I_headerFormatString autorelease];
-    I_headerFormatString = [aString copy];
-}
-
-
-- (NSString *)headerFormatString
-{
-    return I_headerFormatString;
-}
-
-
-- (void)setHeaderAttributes:(NSDictionary *)aHeaderAttributes
-{
-    [I_headerAttributes autorelease];
-    I_headerAttributes = [aHeaderAttributes copy];
-}
-
-
-- (NSDictionary *)headerAttributes
-{
-    return I_headerAttributes;
-}
-
 
 - (NSString *)printJobTitle
 {
@@ -195,7 +164,7 @@ static NSMutableDictionary *S_nameAttributes, *S_contactAttributes, *S_contactLa
     [I_contributorArray removeAllObjects];
     [I_visitorArray removeAllObjects];
     
-    [[[[self subviews] copy] autorelease] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    [[[self subviews] copy] makeObjectsPerformSelector:@selector(removeFromSuperview)];
     [I_textStorage setAttributedString:[(FoldableTextStorage *)[I_document textStorage] fullTextStorage]];
     
     NSPrintInfo *printInfo = [[NSPrintOperation currentOperation] printInfo];
@@ -254,7 +223,7 @@ static NSMutableDictionary *S_nameAttributes, *S_contactAttributes, *S_contactLa
             NSFont *newFont = [NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
             
             if (!newFont) newFont = [NSFont userFixedPitchFontOfSize:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
-            I_baseFont = [newFont retain];
+            I_baseFont = newFont;
         } else {
             NSFont *newFont = [I_document fontWithTrait:0];
             
@@ -262,7 +231,7 @@ static NSMutableDictionary *S_nameAttributes, *S_contactAttributes, *S_contactLa
                 newFont = [[NSFontManager sharedFontManager] convertFont:newFont toSize:[[printDictionary objectForKey:@"SEEResizeDocumentFontTo"] floatValue]];
             }
             NSLog(@"%s %@", __FUNCTION__, newFont);
-            I_baseFont = [newFont retain];
+            I_baseFont = newFont;
         }
         [highlighter updateStylesInTextStorage:I_textStorage ofDocument:self];
     } else {
@@ -311,7 +280,6 @@ static NSMutableDictionary *S_nameAttributes, *S_contactAttributes, *S_contactLa
     [I_textStorage addLayoutManager:I_layoutManager];
     NSTypesetter *typesetter = [PrintTypesetter new];
     [I_layoutManager setTypesetter:typesetter];
-    [typesetter release];
     
     I_pageSize = [printInfo paperSize];
     I_textContainerSize = I_pageSize;
@@ -326,10 +294,10 @@ static NSMutableDictionary *S_nameAttributes, *S_contactAttributes, *S_contactLa
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     
     if ([[printDictionary objectForKey:@"SEEPageHeader"] boolValue]) {
-        I_headerTextView = [[NSTextView alloc] initWithFrame:NSMakeRect([[printDictionary objectForKey:NSPrintLeftMargin] floatValue], [[printDictionary objectForKey:NSPrintRightMargin] floatValue], I_textContainerSize.width, I_textContainerSize.height)];
-        [[I_headerTextView textContainer] setLineFragmentPadding:0.];
-        [I_headerTextView setTextContainerInset:NSMakeSize(0., 0.)];
-        [I_headerTextView setDrawsBackground:NO];
+        NSTextView *headerTextView = [[NSTextView alloc] initWithFrame:NSMakeRect([[printDictionary objectForKey:NSPrintLeftMargin] floatValue], [[printDictionary objectForKey:NSPrintRightMargin] floatValue], I_textContainerSize.width, I_textContainerSize.height)];
+        [[headerTextView textContainer] setLineFragmentPadding:0.];
+        [headerTextView setTextContainerInset:NSMakeSize(0., 0.)];
+        [headerTextView setDrawsBackground:NO];
         
         NSFont *headerFont = [NSFont fontWithName:@"Helvetica" size:10.];
         
@@ -339,12 +307,10 @@ static NSMutableDictionary *S_nameAttributes, *S_contactAttributes, *S_contactLa
         [paragraphStyle setTabStops:[NSArray array]];
         NSTextTab *tab = [[NSTextTab alloc] initWithType:NSRightTabStopType location:I_textContainerSize.width - 1.];
         [paragraphStyle addTabStop:tab];
-        [tab release];
         [headerAttributes setObject:paragraphStyle forKey:NSParagraphStyleAttributeName];
-        [paragraphStyle release];
         [self setHeaderAttributes:headerAttributes];
         
-        NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init]  autorelease];
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateStyle:NSDateFormatterFullStyle];
         [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
         NSString *date = [NSString stringWithFormat:NSLocalizedString(@"PrintDate: %@", @"Date Information in Print Header"), [dateFormatter stringFromDate:[NSDate date]]];
@@ -362,7 +328,7 @@ static NSMutableDictionary *S_nameAttributes, *S_contactAttributes, *S_contactLa
         } else {
             [self setHeaderFormatString:@"\t%1$@"];
         }
-        NSTextStorage *textStorage = [I_headerTextView textStorage];
+        NSTextStorage *textStorage = [headerTextView textStorage];
         [textStorage replaceCharactersInRange:NSMakeRange(0, 0)
                                    withString:
          [NSString stringWithFormat:[self headerFormatString],
@@ -370,16 +336,17 @@ static NSMutableDictionary *S_nameAttributes, *S_contactAttributes, *S_contactLa
         [textStorage addAttributes:[self headerAttributes] range:NSMakeRange(0, [textStorage length])];
         
         // determine the space we need
-        NSLayoutManager *layoutManager = [I_headerTextView layoutManager];
+        NSLayoutManager *layoutManager = [headerTextView layoutManager];
         NSRect boundingRect =
         [layoutManager boundingRectForGlyphRange:[layoutManager glyphRangeForCharacterRange:NSMakeRange(0, [textStorage length]) actualCharacterRange:NULL]
                                  inTextContainer:[[layoutManager textContainers] objectAtIndex:0]];
         
-        [I_headerTextView setFrameSize:NSMakeSize(I_textContainerSize.width, boundingRect.size.height + 4.)];
+        [headerTextView setFrameSize:NSMakeSize(I_textContainerSize.width, boundingRect.size.height + 4.)];
         I_textContainerOrigin.y   += boundingRect.size.height + 10.;
         I_textContainerSize.height -= boundingRect.size.height + 10.;
         
-        [self addSubview:I_headerTextView];
+        [self addSubview:headerTextView];
+        I_headerTextView = headerTextView;
     }
     
     // Contributors and Visitors at the first page
@@ -406,9 +373,9 @@ static NSMutableDictionary *S_nameAttributes, *S_contactAttributes, *S_contactLa
             }
         }
         
-        NSSortDescriptor *nameDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"name"
+        NSSortDescriptor *nameDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name"
                                                                         ascending:YES
-                                                                         selector:@selector(caseInsensitiveCompare:)] autorelease];
+                                                                         selector:@selector(caseInsensitiveCompare:)];
         [I_contributorArray sortUsingDescriptors:[NSArray arrayWithObject:nameDescriptor]];
         [I_visitorArray sortUsingDescriptors:[NSArray arrayWithObject:nameDescriptor]];
         
@@ -527,10 +494,8 @@ static NSMutableDictionary *S_nameAttributes, *S_contactAttributes, *S_contactLa
             [paragraphStyle setFirstLineHeadIndent:0.];
             NSTextTab *tab = [[NSTextTab alloc] initWithType:NSRightTabStopType location:25.];
             [paragraphStyle addTabStop:tab];
-            [tab release];
             tab = [[NSTextTab alloc] initWithType:NSLeftTabStopType location:30.];
             [paragraphStyle addTabStop:tab];
-            [tab release];
             tabStart = 30.;
         }
         // Create correct tabstops for tab users
@@ -547,7 +512,6 @@ static NSMutableDictionary *S_nameAttributes, *S_contactAttributes, *S_contactLa
             tabstopPosition += tabWidth;
             NSTextTab *tab = [[NSTextTab alloc] initWithType:NSLeftTabStopType location:tabstopPosition];
             [paragraphStyle addTabStop:tab];
-            [tab release];
         }
         
         // to provide the space four our annotations if needed
@@ -574,7 +538,6 @@ static NSMutableDictionary *S_nameAttributes, *S_contactAttributes, *S_contactLa
                 [I_textStorage removeAttribute:WrittenByUserIDAttributeName range:lineRange];
                 [I_textStorage removeAttribute:ChangedByUserIDAttributeName range:lineRange];
                 lineRange = [[I_textStorage string] lineRangeForRange:lineRange];
-                [lineNumberString release];
                 lineNumber++;
             } while (NSMaxRange(lineRange) < [I_textStorage length]);
         }
@@ -604,7 +567,6 @@ static NSMutableDictionary *S_nameAttributes, *S_contactAttributes, *S_contactLa
                             NSMutableParagraphStyle *newStyle = [paragraphStyle mutableCopy];
                             [newStyle setHeadIndent:desiredHeadIndent + tabStart];
                             [I_textStorage addAttribute:NSParagraphStyleAttributeName value:newStyle range:myRange];
-                            [newStyle release];
                         } else {
                             [I_textStorage addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:myRange];
                         }
@@ -614,7 +576,6 @@ static NSMutableDictionary *S_nameAttributes, *S_contactAttributes, *S_contactLa
         } else {
             [I_textStorage addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [I_textStorage length])];
         }
-        [paragraphStyle release];
         [I_textStorage endEditing];
         
         // prepare for Annotation and Background
@@ -724,8 +685,6 @@ static NSMutableDictionary *S_nameAttributes, *S_contactAttributes, *S_contactLa
                 {
                     overflew = YES;
                 }
-                [textContainer release];
-                [textview release];
             } else {
                 overflew = YES;
             }
@@ -752,9 +711,9 @@ static NSMutableDictionary *S_nameAttributes, *S_contactAttributes, *S_contactLa
 
 - (void)drawUser:(TCMMMUser *)aUser atPoint:(NSPoint)point visitor:(BOOL)isVisitor
 {
-    NSAttributedString *emailLabel = [[[NSAttributedString alloc] initWithString:NSLocalizedString(@"PrintExportLegendEmailLabel", @"Label for Email in legend in Print and Export") attributes:S_contactLabelAttributes] autorelease];
-    NSAttributedString *aimLabel = [[[NSAttributedString alloc] initWithString:NSLocalizedString(@"PrintExportLegendAIMLabel", @"Label for AIM in legend in Print and Export") attributes:S_contactLabelAttributes] autorelease];
-    NSAttributedString *newline = [[[NSAttributedString alloc] initWithString:@"\n" attributes:S_contactLabelAttributes] autorelease];
+    NSAttributedString *emailLabel = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"PrintExportLegendEmailLabel", @"Label for Email in legend in Print and Export") attributes:S_contactLabelAttributes];
+    NSAttributedString *aimLabel = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"PrintExportLegendAIMLabel", @"Label for AIM in legend in Print and Export") attributes:S_contactLabelAttributes];
+    NSAttributedString *newline = [[NSAttributedString alloc] initWithString:@"\n" attributes:S_contactLabelAttributes];
     
     static NSMutableAttributedString *mutableAttributedString = nil;
     
@@ -812,7 +771,7 @@ static NSMutableDictionary *S_nameAttributes, *S_contactAttributes, *S_contactLa
             //            [S_contactAttributes setObject:[NSURL URLWithString:@"http://www.dasgenie.com/"] forKey:NSLinkAttributeName];
             [mutableAttributedString appendAttributedString:aimLabel];
             [mutableAttributedString appendString:@" "];
-            [mutableAttributedString appendAttributedString:[[[NSAttributedString alloc] initWithString:aim attributes:S_contactAttributes] autorelease]];
+            [mutableAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:aim attributes:S_contactAttributes]];
         }
         [mutableAttributedString appendAttributedString:newline];
         NSString *email = [[aUser properties] objectForKey:@"Email"];
@@ -820,7 +779,7 @@ static NSMutableDictionary *S_nameAttributes, *S_contactAttributes, *S_contactLa
         if ([email length] > 0) {
             [mutableAttributedString appendAttributedString:emailLabel];
             [mutableAttributedString appendString:@" "];
-            [mutableAttributedString appendAttributedString:[[[NSAttributedString alloc] initWithString:email attributes:S_contactAttributes] autorelease]];
+            [mutableAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:email attributes:S_contactAttributes]];
         }
         [mutableAttributedString drawAtPoint:textPoint];
     }

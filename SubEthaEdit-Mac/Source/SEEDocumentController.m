@@ -42,14 +42,14 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 
 @property (nonatomic, strong) SEEDocumentListWindowController *documentListWindowController;
 
-@property (assign) BOOL isOpeningInTab;
-@property (assign) NSUInteger filesToOpenCount;
-@property (assign) BOOL isOpeningUsingAlternateMenuItem;
+@property (nonatomic) BOOL isOpeningInTab;
+@property (nonatomic) NSUInteger filesToOpenCount;
+@property (nonatomic) BOOL isOpeningUsingAlternateMenuItem;
 @property (nonatomic, strong) NSMutableDictionary *documentCreationFlagsLookupDict;
 @property (nonatomic, strong) NSMutableArray *filenamesFromLastRunOpenPanel;
 
 @property (nonatomic, copy) NSURL *locationForNextOpenPanel;
-@property (nonatomic, readwrite, assign) NSStringEncoding encodingFromLastRunOpenPanel;
+@property (nonatomic, readwrite, nonatomic) NSStringEncoding encodingFromLastRunOpenPanel;
 @property (nonatomic, readwrite, copy) NSString *modeIdentifierFromLastRunOpenPanel;
 
 @end

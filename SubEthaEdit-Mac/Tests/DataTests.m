@@ -40,7 +40,7 @@
     id result = TCM_BdecodedObjectWithData(anData);
     XCTAssertTrue(
         aFlag ? (result == nil) : (result != nil),
-        @"decoding of %@",[[[NSString alloc] initWithData:anData encoding:NSMacOSRomanStringEncoding] autorelease]);
+        @"decoding of %@",[[NSString alloc] initWithData:anData encoding:NSMacOSRomanStringEncoding]);
 }
 
 - (void)testBencoding {

@@ -16,8 +16,6 @@
     NSPoint I_textContainerOrigin;
     PlainTextDocument *I_document;
     NSTextView *I_headerTextView;
-    NSString *I_headerFormatString;
-    NSDictionary *I_headerAttributes;
     NSMutableArray *I_contributorArray,
                    *I_visitorArray;
     NSFont *I_baseFont;
@@ -44,10 +42,9 @@
     NSInteger I_pagesWithFullLegend;
 }
 
-- (void)setHeaderFormatString:(NSString *)aString;
-- (NSString *)headerFormatString;
-- (void)setHeaderAttributes:(NSDictionary *)aHeaderAttributes;
-- (NSDictionary *)headerAttributes;
+@property (nonatomic, copy) NSString *headerFormatString;
+@property (nonatomic, copy) NSDictionary *headerAttributes;
+
 - (instancetype)initWithFrame:(NSRect)frame document:(PlainTextDocument *)aDocument;
 
 @end

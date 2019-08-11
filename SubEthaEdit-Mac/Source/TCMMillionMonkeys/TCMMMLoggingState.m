@@ -16,6 +16,11 @@
 #import "PlainTextDocument.h"
 #import "NSMutableAttributedStringSEEAdditions.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
 @interface TCMMMLoggingState (TCMMMLoggingStatePrivateAdditions)
 - (void)addLoggedOperation:(TCMMMLoggedOperation *)anOperation;
 @end
@@ -41,7 +46,7 @@
         NSDictionary *operationRep =nil;
         NSMutableArray *loggedOperations = [NSMutableArray array];
         while ((operationRep = [operationReps nextObject])) {
-            id operation = [[[TCMMMLoggedOperation alloc] initWithDictionaryRepresentation:operationRep] autorelease];
+            id operation = [[TCMMMLoggedOperation alloc] initWithDictionaryRepresentation:operationRep];
             if (operation) {
                 [loggedOperations addObject:operation];
                 NSString *userID = [[operation operation] userID];
@@ -89,9 +94,6 @@
             }
             [self addLoggedOperation:operation];
         }
-        if (initialText) {
-        	[initialText release];
-        }
 		DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel,@"imported %ld operations, the last one being:%@ statistics are:%@",(unsigned long)[I_loggedOperations count],[I_loggedOperations lastObject],I_statisticsArray);
     }
     return self;
@@ -135,16 +137,6 @@
     return dictRep;
 }
 
-- (void)dealloc {
-    [I_statisticsEntryByUserID release];
-    [I_statisticsArray release];
-    [I_loggedOperations release];
-    [I_bencodedLoggedOperations release];
-    [I_participantIDs release];
-    [I_statisticsData release];
-    [I_initialTextStorageDictionaryRepresentation release];
-    [super dealloc];
-}
 
 - (void)handleOperation:(TCMMMOperation *)anOperation {
     TCMMMLoggedOperation *previousLoggedOperation = [I_loggedOperations lastObject];
@@ -177,7 +169,7 @@
             } else {
                 NSIndexSet *changeSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange([I_statisticsArray count],1)];
                 [self willChange:NSKeyValueChangeInsertion valuesAtIndexes:changeSet forKey:@"statisticsArray"];
-                statisticsEntry = [[[TCMMMLogStatisticsEntry alloc] initWithMMUser:user] autorelease];
+                statisticsEntry = [[TCMMMLogStatisticsEntry alloc] initWithMMUser:user];
                 
                 [I_statisticsEntryByUserID setObject:statisticsEntry forKey:userID];
                 [I_statisticsArray addObject:statisticsEntry];
@@ -200,11 +192,11 @@
         NSMutableDictionary *dataEntry = [NSMutableDictionary dictionaryWithObjectsAndKeys:
             [anOperation date], @"date",
             nil];
-        [dataEntry setObject:[[[TCMMMLogStatisticsDataPoint alloc] initWithDataObject:self] autorelease] forKey:@"document"];
+        [dataEntry setObject:[[TCMMMLogStatisticsDataPoint alloc] initWithDataObject:self] forKey:@"document"];
         unsigned count = [I_statisticsArray count];
         while (count--) {
             TCMMMLogStatisticsEntry *entry = [I_statisticsArray objectAtIndex:count];
-            [dataEntry setObject:[[[TCMMMLogStatisticsDataPoint alloc] initWithDataObject:entry] autorelease] forKey:[[entry user] userID]];
+            [dataEntry setObject:[[TCMMMLogStatisticsDataPoint alloc] initWithDataObject:entry] forKey:[[entry user] userID]];
         }
         [I_statisticsData addObject:dataEntry];
     }
@@ -273,7 +265,6 @@
 
 // deprecated
 - (void)setInitialTextStorageDictionaryRepresentation:(NSDictionary *)aInitialRepresentation {
-    [I_initialTextStorageDictionaryRepresentation autorelease];
      I_initialTextStorageDictionaryRepresentation = [[TCMMutableBencodedData alloc] initWithObject:aInitialRepresentation];
 }
 

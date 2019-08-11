@@ -7,12 +7,12 @@
 
 
 // bencoded data can be stored and put into corresponding dictionaryrepresentations
-@interface TCMMutableBencodedData : NSObject {
-    NSMutableData *I_mutableData;
-}
+@interface TCMMutableBencodedData : NSObject
+
+@property (nonatomic, readonly) NSMutableData *data;
+
 - (instancetype)initWithData:(NSData *)aData;
 - (instancetype)initWithObject:(id)anObject;
-- (NSData*)data;
 - (void)appendObjectToBencodedArray:(id)anObject;
 - (id)decodedObject;
 - (void)appendObjectsFromArrayToBencodedArray:(NSArray *)anArray;

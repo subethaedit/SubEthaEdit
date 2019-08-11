@@ -8,6 +8,11 @@
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "UserChangeOperation.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
 @implementation SessionProfile
 
 + (NSData *)defaultInitializationData {
@@ -17,7 +22,7 @@
     if (!data) {
 		// sending and requesting of history is deprecated this way
         // historyData = [TCM_BencodedObject([NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES],@"SendHistory",[NSNumber numberWithBool:YES],@"SendSESCHG",nil]) retain];
-        data = [TCM_BencodedObject([NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES],@"SendSESCHG",nil]) retain];
+        data = TCM_BencodedObject(@{@"SendSESCHG" : @YES});
     }
     return data;
 }
@@ -33,7 +38,7 @@
         I_flags.isClosing=NO;
         I_outgoingMMMessageQueue=[NSMutableArray new];
         I_numberOfUnacknowledgedSessconMSG=-1;
-        I_options = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithBool:NO],@"SendHistory",[NSNumber numberWithBool:NO],@"SendSESCHG",nil];
+        I_options = [[NSMutableDictionary alloc] initWithObjectsAndKeys:@NO, @"SendHistory", @NO, @"SendSESCHG", nil];
     }
     return self;
 }
@@ -43,12 +48,6 @@
     if (options) {
         [I_options addEntriesFromDictionary:options];
     }
-}
-
-- (void)dealloc {
-    [I_options release];
-    [I_outgoingMMMessageQueue release];
-    [super dealloc];
 }
 
 - (void)clearOutgoingMMMessageQueue {
@@ -207,7 +206,7 @@
                 data=[NSMutableData data];
             }
             TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:data];
-            [[self channel] sendMessage:[message autorelease]];
+            [[self channel] sendMessage:message];
             return;
         } else if (strncmp(type, "JONJON", 6) == 0) {
             DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received join request.");
@@ -300,7 +299,7 @@
                 NSMutableData *data = [NSMutableData dataWithBytes:"USRREQ" length:6];
                 [data appendData:TCM_BencodedObject(userRequests)];
                 TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:data];
-                [[self channel] sendMessage:[message autorelease]];
+                [[self channel] sendMessage:message];
                 I_flags.isTrackingSesConFrames=YES;
                 I_numberOfTrackedSesConMSG=0;
                 return;
@@ -312,10 +311,10 @@
             if ([delegate respondsToSelector:@selector(profile:didReceiveSessionContent:)]) {
                 [delegate profile:self didReceiveSessionContent:content];
             }
-            DEBUGLOG(@"MillionMonkeysLogDomain", AllLogLevel, @"content: %@", [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease]);
+            DEBUGLOG(@"MillionMonkeysLogDomain", AllLogLevel, @"content: %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
             I_flags.isTrackingSesConFrames=NO;
             TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:[NSData data]];
-            [[self channel] sendMessage:[message autorelease]];
+            [[self channel] sendMessage:message];
             // do this afterwards, so the MMMessages are sent after the Acknowledging RPY
             [self setContentHasBeenExchanged:YES];
             return;
@@ -341,8 +340,8 @@
                     [delegate profile:self didReceiveUserChangeToReadOnly:(UserChangeOperation *)operation];
                 }
             }
-			if ([I_MMState isKindOfClass:[TCMMMState class]]) {
-				[I_MMState handleMessage:message];
+			if ([_MMState isKindOfClass:[TCMMMState class]]) {
+				[_MMState handleMessage:message];
 			}
         } else if (strncmp(type, "USRCHG",6)==0) {
             TCMMMUser *user=[TCMMMUser userWithBencodedNotification:[[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)]];
@@ -356,7 +355,7 @@
         }
         
         TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:[NSData data]];
-        [[self channel] sendMessage:[message autorelease]];
+        [[self channel] sendMessage:message];
         
     } else if ([aMessage isRPY]) {
         if ([[aMessage payload] length] == 0) {
@@ -409,13 +408,6 @@
     }
 }
 
-- (void)setMMState:(TCMMMState *)aState {
-    I_MMState = aState;
-}
-
-- (TCMMMState *)MMState {
-    return I_MMState;
-}
 
 - (void)state:(TCMMMState *)aState handleMessage:(TCMMMMessage *)aMessage {
     DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"handleMessage");

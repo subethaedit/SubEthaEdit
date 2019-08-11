@@ -23,7 +23,7 @@
     NSMutableDictionary *I_styleCacheDictionary;
 }
 
-@property (retain) id textStorage;
+@property (strong) id textStorage;
 
 - (void)setPlainFont:(NSFont *)aFont;
 

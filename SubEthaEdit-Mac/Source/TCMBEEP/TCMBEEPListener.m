@@ -11,6 +11,10 @@
 #import <netinet6/in6.h>
 #import <sys/socket.h>
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
 
 static void acceptConnection(CFSocketRef aSocketRef, CFSocketCallBackType aType, CFDataRef anAddress, const void* aData, void* aContext);
 
@@ -26,8 +30,7 @@ static void acceptConnection(CFSocketRef aSocketRef, CFSocketCallBackType aType,
 
 @implementation TCMBEEPListener
 
-- (instancetype)initWithPort:(unsigned int)aPort
-{
+- (instancetype)initWithPort:(unsigned int)aPort {
     self = [super init];
     
     if (self) {
@@ -35,7 +38,7 @@ static void acceptConnection(CFSocketRef aSocketRef, CFSocketCallBackType aType,
         
         CFSocketContext socketContext;
         bzero(&socketContext, sizeof(CFSocketContext));
-        socketContext.info = self;
+        socketContext.info = (__bridge void *)(self);
         
         int yes = 1;
         I_listeningSocket = CFSocketCreate(kCFAllocatorDefault, PF_INET, SOCK_STREAM, IPPROTO_TCP, 
@@ -79,26 +82,12 @@ static void acceptConnection(CFSocketRef aSocketRef, CFSocketCallBackType aType,
     return self;
 }
 
-- (void)dealloc
-{
-    I_delegate = nil;
+- (void)dealloc {
     CFRelease(I_listeningSocket);
     CFRelease(I_listeningSocket6);
-    [super dealloc];
 }
 
-- (void)setDelegate:(id)aDelegate
-{
-    I_delegate = aDelegate;
-}
-
-- (id)delegate
-{
-    return I_delegate;
-}
-
-- (BOOL)listen
-{
+- (BOOL)listen {
 	BOOL success = NO;
     CFDataRef addressData = NULL;
     CFDataRef addressData6 = NULL;
@@ -179,32 +168,28 @@ static void acceptConnection(CFSocketRef aSocketRef, CFSocketCallBackType aType,
 
 #pragma mark -
 
-- (void)TCM_acceptSocket:(CFSocketNativeHandle)aSocketHandle withAddressData:(NSData *)inAddress
-{
+- (void)TCM_acceptSocket:(CFSocketNativeHandle)aSocketHandle withAddressData:(NSData *)inAddress {
     TCMBEEPSession *session = [[TCMBEEPSession alloc] initWithSocket:aSocketHandle addressData:inAddress];
     
-    if ([I_delegate respondsToSelector:@selector(BEEPListener:shouldAcceptBEEPSession:)]) {
-        BOOL shouldAccept = [I_delegate BEEPListener:self shouldAcceptBEEPSession:session];
+    __strong typeof(_delegate) delegate = _delegate;
+    if ([delegate respondsToSelector:@selector(BEEPListener:shouldAcceptBEEPSession:)]) {
+        BOOL shouldAccept = [delegate BEEPListener:self shouldAcceptBEEPSession:session];
         
         if (shouldAccept) {
-            if ([I_delegate respondsToSelector:@selector(BEEPListener:didAcceptBEEPSession:)]) {
-                [I_delegate BEEPListener:self didAcceptBEEPSession:session];
+            if ([delegate respondsToSelector:@selector(BEEPListener:didAcceptBEEPSession:)]) {
+                [delegate BEEPListener:self didAcceptBEEPSession:session];
             }
         }
     }
-    
-    [session release];
 }
 
 #pragma mark -
 
-void acceptConnection(CFSocketRef aSocketRef, CFSocketCallBackType aType, CFDataRef anAddress, const void* aData, void* aContext)
-{
-    NSAutoreleasePool *pool=nil;
-    pool=[NSAutoreleasePool new];
-    TCMBEEPListener *listener = (TCMBEEPListener *)aContext;
-    [listener TCM_acceptSocket:*(CFSocketNativeHandle*)aData withAddressData:(NSData *)anAddress];
-    [pool release];
+void acceptConnection(CFSocketRef aSocketRef, CFSocketCallBackType aType, CFDataRef anAddress, const void* aData, void* aContext) {
+    @autoreleasepool {
+        TCMBEEPListener *listener = (__bridge TCMBEEPListener *)aContext;
+        [listener TCM_acceptSocket:*(CFSocketNativeHandle*)aData withAddressData:(__bridge NSData *)anAddress];
+    }
 }
 
 @end

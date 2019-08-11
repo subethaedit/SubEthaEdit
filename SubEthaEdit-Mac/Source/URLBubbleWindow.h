@@ -7,11 +7,10 @@
 #import "MAAttachedWindow.h"
 
 
-@interface URLBubbleWindow : MAAttachedWindow {
-    NSURL *I_URLToOpen;
-}
+@interface URLBubbleWindow : MAAttachedWindow
 
 @property (readwrite, strong) IBOutlet NSView *openURLViewOutlet;
+@property (nonatomic, strong) NSURL *URLToOpen;
 
 + (URLBubbleWindow *)sharedURLBubbleWindow;
 
@@ -21,7 +20,6 @@
 - (IBAction)hideWindow:(id)aSender;
 - (void)hideIfNecessary;
 
-- (void)setURLToOpen:(NSURL *)inURL;
 - (void)setPosition:(NSPoint)inPosition inWindow:(NSWindow *)inWindow;
 - (void)setVisible:(BOOL)inVisible animated:(BOOL)inAnimated;
 

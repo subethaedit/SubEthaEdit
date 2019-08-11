@@ -5,6 +5,12 @@
 
 #import "TCMMMOperation.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
+
 NSString * const TCMMMOperationTypeKey = @"ot";
 
 static NSMutableDictionary *sClassForOperationTypeDictionary;
@@ -20,7 +26,7 @@ static NSMutableDictionary *sClassForOperationTypeDictionary;
 
 + (id)operationWithDictionaryRepresentation:(NSDictionary *)aDictionary {
     Class class = [sClassForOperationTypeDictionary objectForKey:[aDictionary objectForKey:TCMMMOperationTypeKey]];
-    TCMMMOperation *operation = [[[class alloc] initWithDictionaryRepresentation:aDictionary] autorelease];
+    TCMMMOperation *operation = [[class alloc] initWithDictionaryRepresentation:aDictionary];
     return operation;
 }
 
@@ -42,10 +48,6 @@ static NSMutableDictionary *sClassForOperationTypeDictionary;
     return copy;
 }
 
-- (void)dealloc {
-    [I_userID release];
-    [super dealloc];
-}
 
 - (NSDictionary *)dictionaryRepresentation {
     return [NSDictionary dictionaryWithObjectsAndKeys:
@@ -56,7 +58,7 @@ static NSMutableDictionary *sClassForOperationTypeDictionary;
 - (BOOL)isEqualTo:(id)anObject {
     return (
         [anObject isMemberOfClass:[self class]] &&
-        [I_userID isEqualToString:[anObject userID]] &&
+        [_userID isEqualToString:[anObject userID]] &&
         [[self operationID] isEqualToString:[anObject operationID]]
     );
 }
@@ -64,15 +66,5 @@ static NSMutableDictionary *sClassForOperationTypeDictionary;
 - (NSString *)operationID {
     return [[self class] operationID];
 }
-
-- (void)setUserID:(NSString *)aUserID {
-    [I_userID autorelease];
-    I_userID = [aUserID copy];
-}
-
-- (NSString *)userID {
-    return I_userID;
-}
-
 
 @end

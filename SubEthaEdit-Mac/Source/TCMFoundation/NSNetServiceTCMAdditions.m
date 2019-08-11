@@ -6,14 +6,19 @@
 #import "NSNetServiceTCMAdditions.h"
 #import "NSStringTCMAdditions.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
 @implementation NSNetService (NSNetServiceTCMAdditions)
 - (NSArray *)TXTRecordArray {
 	NSMutableArray *result   =[NSMutableArray array];
 	NSData         *TXTRecord=[self TXTRecordData];
 	DEBUGLOG(@"RendezvousLogDomain", AllLogLevel,@"%@ - Data: %@",
-			 [[[NSString alloc] 
+			 [[NSString alloc]
 				initWithData:TXTRecord 
-				encoding:NSMacOSRomanStringEncoding] autorelease],
+				encoding:NSMacOSRomanStringEncoding],
 			 TXTRecord);
 			 
 	unsigned char *bytes=(unsigned char *)[TXTRecord bytes];
@@ -30,7 +35,6 @@
 									 encoding:NSUTF8StringEncoding];
 			if (string) {
 				[result addObject:string];
-				[string release];
 			}
 		}
 		bytes+=length;

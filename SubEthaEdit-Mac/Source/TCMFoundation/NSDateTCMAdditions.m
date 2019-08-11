@@ -5,6 +5,10 @@
 
 #import "NSDateTCMAdditions.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
 
 @implementation NSDate (NSDateTCMAdditions)
 
@@ -19,8 +23,6 @@
         [sRFC1123DateFormatter setLocale:enUSPOSIXLocale];
         [sRFC1123DateFormatter setDateFormat:@"ccc, dd MMM yyyy HH:mm:ss zzz"];
         [sRFC1123DateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
-
-		[enUSPOSIXLocale release];
 	});
 
 	NSString *result = [sRFC1123DateFormatter stringFromDate:self];
@@ -39,8 +41,6 @@
         [sW3CDTFLongDateTimeFormatter setLocale:enUSPOSIXLocale];
         [sW3CDTFLongDateTimeFormatter setDateFormat:@"yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'"];
         [sW3CDTFLongDateTimeFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
-
-		[enUSPOSIXLocale release];
 	});
 
 	NSString *result = [sW3CDTFLongDateTimeFormatter stringFromDate:self];
@@ -59,8 +59,6 @@
         [sW3CDTFLongDateFormatter setLocale:enUSPOSIXLocale];
         [sW3CDTFLongDateFormatter setDateFormat:@"yyyy'-'MM'-'dd'"];
         [sW3CDTFLongDateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
-
-		[enUSPOSIXLocale release];
 	});
 
 	NSString *result = [sW3CDTFLongDateFormatter stringFromDate:self];

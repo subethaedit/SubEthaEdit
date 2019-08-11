@@ -5,13 +5,16 @@
 
 #import "PullDownButtonCell.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
 
 @implementation PullDownButtonCell
 
-+(NSString *)description {
++ (NSString *)description {
     return @"PullDownButtonCell";
 }
-
 
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
     cellFrame.size.width=MIN([self desiredWidth],cellFrame.size.width);

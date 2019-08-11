@@ -7,6 +7,11 @@
 #import "TCMBEEPBencodedMessage.h"
 #import "TCMBEEPMessage.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
 static NSMutableDictionary *S_routingDictionary=nil;
 
 @implementation TCMBEEPBencodingProfile
@@ -53,14 +58,19 @@ static NSMutableDictionary *S_routingDictionary=nil;
         [self close];
     } else {
         // filter the message and apply the method
-        NSMutableDictionary *routingTable = [[[self class] myRoutingDictionary] objectForKey:[NSNumber numberWithInt:[[self channel] isInitiator]?TCMBEEPChannelRoleInitiator:TCMBEEPChannelRoleResponder]];
+        NSMutableDictionary *routingTable = [[[self class] myRoutingDictionary] objectForKey:[NSNumber numberWithInt: [[self channel] isInitiator] ?
+                                                                                         TCMBEEPChannelRoleInitiator :
+                                                                                              TCMBEEPChannelRoleResponder]];
         NSDictionary *messageTable = [routingTable objectForKey:[message messageString]];
         NSValue *selectorValue = [messageTable objectForKey:[[message BEEPMessage] messageTypeString]];
         if (!selectorValue) selectorValue = [messageTable objectForKey:@"FallBack"];
         if (selectorValue) {
             SEL selector = NULL;
             [selectorValue getValue:&selector];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
             [self performSelector:selector withObject:message];
+#pragma clang diagnostic pop
         } else {
             NSLog(@"%s got unhandled message: %@",__FUNCTION__,message);
         }

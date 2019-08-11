@@ -5,6 +5,11 @@
 
 #import "URLBubbleWindow.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
 static URLBubbleWindow *S_sharedInstance;
 
 
@@ -33,9 +38,6 @@ static URLBubbleWindow *S_sharedInstance;
 - (void)dealloc
 {
 	self.openURLViewOutlet = nil;
-	[I_URLToOpen release];
-
-    [super dealloc];
 }
 
 - (BOOL)canBecomeMainWindow {
@@ -47,8 +49,8 @@ static URLBubbleWindow *S_sharedInstance;
 }
 
 - (IBAction)openURLAction:(id)aSender {
-	NSLog(@"%s now i would open: %@",__FUNCTION__,I_URLToOpen);
-	[[NSWorkspace sharedWorkspace] openURL:I_URLToOpen];
+	NSLog(@"%s now i would open: %@",__FUNCTION__,_URLToOpen);
+	[[NSWorkspace sharedWorkspace] openURL:_URLToOpen];
 	[self setVisible:NO animated:YES];
 }
 
@@ -60,12 +62,6 @@ static URLBubbleWindow *S_sharedInstance;
 	if ([self alphaValue] > 0) {
 		[self setVisible:NO animated:YES];
 	}
-}
-
-
-- (void)setURLToOpen:(NSURL *)inURL {
-	[I_URLToOpen autorelease];
-	 I_URLToOpen = [inURL copy];
 }
 
 - (void)setPosition:(NSPoint)inPosition inWindow:(NSWindow *)inWindow {

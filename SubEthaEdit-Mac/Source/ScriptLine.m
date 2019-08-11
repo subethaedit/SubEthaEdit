@@ -7,10 +7,15 @@
 #import "FoldableTextStorage.h"
 #import "PlainTextDocument.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
 @implementation ScriptLine
 
 + (id)scriptLineWithTextStorage:(FullTextStorage *)aTextStorage lineNumber:(int)aLineNumber {
-    return [[[ScriptLine alloc] initWithTextStorage:aTextStorage lineNumber:aLineNumber] autorelease];
+    return [[ScriptLine alloc] initWithTextStorage:aTextStorage lineNumber:aLineNumber];
 }
 
 - (instancetype)initWithTextStorage:(FullTextStorage *)aTextStorage lineNumber:(int)aLineNumber
@@ -19,11 +24,6 @@
         I_lineNumber = aLineNumber;
     }
     return self;
-}
-
-- (void)dealloc
-{
-    [super dealloc];
 }
 
 - (NSRange)rangeRepresentation
@@ -52,10 +52,10 @@
     NSScriptObjectSpecifier *containerSpecifier = [I_textStorage objectSpecifier];
 
     NSIndexSpecifier *indexSpecifier = 
-        [[[NSIndexSpecifier alloc] initWithContainerClassDescription:containerClassDesc
+        [[NSIndexSpecifier alloc] initWithContainerClassDescription:containerClassDesc
                                                   containerSpecifier:containerSpecifier
                                                                  key:@"scriptedLines"
-                                                               index:I_lineNumber-1] autorelease];
+                                                               index:I_lineNumber-1];
                                                                
     return indexSpecifier;
 }

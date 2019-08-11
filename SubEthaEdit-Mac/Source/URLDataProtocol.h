@@ -6,8 +6,6 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface URLDataProtocol : NSURLProtocol {
-    NSCachedURLResponse *I_cachedURLResponse;
-}
+@interface URLDataProtocol : NSURLProtocol
 
 @end

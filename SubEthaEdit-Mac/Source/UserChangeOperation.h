@@ -15,24 +15,15 @@ enum {
     UserChangeTypeCountOfTypes
 };
 
-@interface UserChangeOperation : TCMMMOperation {
-    NSString *I_theNewGroup;
-    int I_type;
-    TCMMMUser *I_user;
-}
+@interface UserChangeOperation : TCMMMOperation
+
+@property (nonatomic, copy) NSString *theNewGroup;
+@property (nonatomic) int type;
+@property (nonatomic, strong) TCMMMUser *user;
+
 
 + (UserChangeOperation *)userChangeOperationWithType:(int)aType userID:(NSString *)aUserID newGroup:(NSString *)aGroup;
 
 + (UserChangeOperation *)userChangeOperationWithType:(int)aType user:(TCMMMUser *)aUser newGroup:(NSString *)aGroup;
-
-
-- (NSString *)theNewGroup;
-- (void)setTheNewGroup:(NSString *)aGroup;
-
-- (int)type;
-- (void)setType:(int)aType;
-
-- (TCMMMUser *)user;
-- (void)setUser:(TCMMMUser *)aUser;
 
 @end

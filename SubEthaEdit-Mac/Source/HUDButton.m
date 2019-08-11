@@ -6,6 +6,10 @@
 #import "HUDButton.h"
 #import "HUDButtonCell.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
 
 @implementation HUDButton
 
@@ -27,13 +31,11 @@
               forClass:[NSButtonCell class]]; // <--------------------- !!!Replace if reuse!!!
     [archiver encodeObject:[self cell] forKey:@"MyCell"];
     [archiver finishEncoding];
-    [archiver autorelease];
     
     NSKeyedUnarchiver *unarchiver=[[NSKeyedUnarchiver alloc] initForReadingWithData:data];
     [unarchiver setClass:[[self class] cellClass] forClassName:NSStringFromClass([[super class] cellClass])];
     [self setCell:[unarchiver decodeObjectForKey:@"MyCell"]];
     [unarchiver finishDecoding];
-    [unarchiver autorelease];
 
     return self;
 }

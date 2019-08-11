@@ -9,9 +9,9 @@
 extern NSString * const TCMMMOperationTypeKey;
 
 
-@interface TCMMMOperation : NSObject <NSCopying> {
-    NSString *I_userID;
-}
+@interface TCMMMOperation : NSObject <NSCopying>
+
+@property (nonatomic, copy) NSString *userID;
 
 + (void)registerClass:(Class)aClass forOperationType:(NSString *)aType;
 
@@ -21,7 +21,5 @@ extern NSString * const TCMMMOperationTypeKey;
 - (instancetype)initWithDictionaryRepresentation:(NSDictionary *)aDictionary;
 - (NSDictionary *)dictionaryRepresentation;
 - (NSString *)operationID;
-- (void)setUserID:(NSString *)aUserID;
-- (NSString *)userID;
 
 @end
