@@ -38,8 +38,7 @@
     [super sendEvent:event];
 }
 
-- (void)setDocumentEdited:(BOOL)flag
-{
+- (void)setDocumentEdited:(BOOL)flag {
     NSDocument *document = [[self windowController] document];
     if (document) {
         [super setDocumentEdited:[document isDocumentEdited]];
@@ -48,55 +47,57 @@
     }
 }
 
-- (NSPoint)cascadeTopLeftFromPoint:(NSPoint)aPoint {
-    static NSPoint offsetPoint = {0.,0.};
-    if (NSEqualPoints(offsetPoint,NSZeroPoint)) {
-        NSPoint firstPoint = [super cascadeTopLeftFromPoint:NSZeroPoint];
-        NSPoint secondPoint = [super cascadeTopLeftFromPoint:firstPoint];
-        offsetPoint.x = MAX(10.,MIN(ABS(secondPoint.x-firstPoint.x),70.));
-        offsetPoint.y = MAX(10.,MIN(ABS(secondPoint.y-firstPoint.y),70.));
-    }
+static NSPoint placeWithCascadePoint(NSWindow *window, NSPoint cascadePoint) {
+    NSScreen *screen = [NSScreen screenContainingPoint:cascadePoint] ?: [NSScreen menuBarContainingScreen];
+    NSRect visibleFrame = [screen visibleFrame];
 
-    NSScreen *screen = [NSScreen screenContainingPoint:aPoint];
-    if (!screen) screen = [NSScreen menuBarContainingScreen];
-    
-    // check if the top window is on the same screen, if not, cascading from the top window
-    NSArray *orderedWindows = [NSApp orderedWindows];
-    for (NSWindow *window in orderedWindows) {
+    // check if the top plain text window window is on the same screen, if not, cascading from the top window
+    for (NSWindow *window in NSApp.orderedWindows) {
         if ([window isKindOfClass:[PlainTextWindow class]]) {
             if ([window screen] != screen) {
                 screen = [window screen];
-                aPoint = NSMakePoint(NSMinX([window frame]),NSMaxY([window frame]));
-                NSRect visibleFrame = [screen visibleFrame];
-                if (aPoint.x < NSMinX(visibleFrame)) aPoint.x = NSMinX(visibleFrame);
+                visibleFrame = [screen visibleFrame];
+                cascadePoint = NSMakePoint(MAX(NSMinX([window frame]), NSMinX(visibleFrame)),
+                                               NSMaxY([window frame]));
             }
             break;
         }
     }
+    
+    NSPoint placementPoint = cascadePoint;
+    
+    NSRect currentFrame = window.frame;
 
-    NSRect visibleFrame = [screen visibleFrame];
-    if (NSEqualPoints(aPoint,NSZeroPoint)) {
-        aPoint = NSMakePoint(visibleFrame.origin.x,NSMaxY(visibleFrame));
-    }
-    if (aPoint.y > NSMaxY(visibleFrame)) aPoint.y = NSMaxY(visibleFrame) + offsetPoint.y;
-
-    NSPoint result = aPoint;
-    result.x += offsetPoint.x;
-    result.y -= offsetPoint.y;
-    if (result.x + [self frame].size.width > NSMaxX(visibleFrame)) {
-        result.x = visibleFrame.origin.x;
+    // Contstrain top to Visible frame
+    placementPoint.y = MIN(placementPoint.y, NSMaxY(visibleFrame));
+    
+    // Wrap back to left edge if we would move out on the right
+    if (placementPoint.x + NSWidth(currentFrame) > NSMaxX(visibleFrame)) {
+        placementPoint.x = NSMinX(visibleFrame);
     }
     
-    // oops we forgot to take care of the fact that the window should not be to far left
-    if (result.x < NSMinX(visibleFrame)) {
-        result.x = NSMinX(visibleFrame);
+    // Constrain left to visible Frame
+    placementPoint.x = MAX(placementPoint.x,
+                   NSMinX(visibleFrame));
+    
+    // Warp back to top if we shoot over the bottom
+    if (placementPoint.y - NSHeight(currentFrame) < NSMinY(visibleFrame)) {
+        placementPoint.y = NSMaxY(visibleFrame);
+    }
+    
+    [window setFrameTopLeftPoint:placementPoint];
+    return placementPoint;
+}
+
+- (NSPoint)cascadeTopLeftFromPoint:(NSPoint)cascadeFromPoint {
+    // 0.0 is supposed to not cascade and just move/resize to visible
+    if (NSEqualPoints(cascadeFromPoint, NSZeroPoint)) {
+        return [super cascadeTopLeftFromPoint:cascadeFromPoint];
     }
 
-    float toHighDifference = visibleFrame.origin.y - (result.y - [self frame].size.height);
-    if (toHighDifference > 0) {
-        result.y = NSMaxY(visibleFrame);
-    }
-    return result;
+    NSPoint placedPoint = placeWithCascadePoint(self, cascadeFromPoint);
+    CGVector offset = (CGVector){.dx = 21, .dy = -23.};
+    return (NSPoint){ .x = placedPoint.x + offset.dx, .y = placedPoint.y + offset.dy};
 }
 
 // This window has its usual -constrainFrameRect:toScreen: behavior temporarily suppressed.

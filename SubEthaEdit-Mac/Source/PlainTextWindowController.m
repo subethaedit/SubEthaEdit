@@ -28,6 +28,8 @@
 #import "FindAllController.h"
 #import <objc/objc-runtime.h>			// for objc_msgSend
 
+// This just constrains the window to the screen initially,
+// in effect the first window position is defined in PlainTextWindow.xib this way
 static NSPoint S_cascadePoint = {0.0,0.0};
 
 @interface PlainTextWindowController () {
@@ -850,11 +852,12 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 - (void)cascadeWindow {
     NSWindow *window = [self window];
     S_cascadePoint = [window cascadeTopLeftFromPoint:S_cascadePoint];
-    [window setFrameTopLeftPoint:S_cascadePoint];
 }
 
 - (IBAction)showWindow:(id)aSender {
-    if (![[self window] isVisible] && !I_doNotCascade) {
+    if (![[self window] isVisible] &&
+        !I_doNotCascade &&
+        !self.isInTabGroup) {
     	[self cascadeWindow];
     }
     [super showWindow:aSender];
