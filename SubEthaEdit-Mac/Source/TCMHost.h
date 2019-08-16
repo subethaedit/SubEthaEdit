@@ -36,9 +36,7 @@
 
 
 @interface NSObject (TCMHostDelegateAdditions)
-
 - (void)host:(TCMHost *)sender didNotResolve:(NSError *)error;
 - (void)hostDidResolveAddress:(TCMHost *)sender;
 - (void)hostDidResolveName:(TCMHost *)sender;
-
 @end

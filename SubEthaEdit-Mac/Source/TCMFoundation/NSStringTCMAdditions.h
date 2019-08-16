@@ -5,7 +5,6 @@
 
 #import <Foundation/Foundation.h>
 
-
 @interface NSString (NSStringTCMAdditions)
 
 + (NSString *)stringWithUUIDData:(NSData *)aData;
@@ -19,7 +18,6 @@
 - (NSData *)UTF8DataWithMaximumLength:(unsigned)aLength;
 
 @end
-
 
 @interface NSMutableAttributedString (NSMutableAttributedStringTCMAdditions) 
 

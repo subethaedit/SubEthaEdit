@@ -85,11 +85,9 @@ static DebugController * sharedInstance = nil;
         [usersItem setTarget:self];
         [menu addItem:usersItem];
         
-		{
-			NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:@"Image Generation Debug Window" action:@selector(showDebugImageGenerationWindowController:) keyEquivalent:@""];
-			[item setTarget:self];
-			[menu addItem:item];
-		}
+        NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:@"Image Generation Debug Window" action:@selector(showDebugImageGenerationWindowController:) keyEquivalent:@""];
+        [item setTarget:self];
+        [menu addItem:item];
 		
         NSMenuItem *presenceItem = [[NSMenuItem alloc] initWithTitle:@"Presence Viewer" action:@selector(showPresence:) keyEquivalent:@""];
         [presenceItem setTarget:self];
@@ -120,7 +118,7 @@ static DebugController * sharedInstance = nil;
         [menu addItem:CrashReportItem];
 		
 		[NSOperationQueue TCM_performBlockOnMainQueue:^{
-			NSMenuItem *blahItem = [[NSMenuItem alloc] initWithTitle:@"Log All BEEP Session Retain Counts" action:@selector(logRetainCounts) keyEquivalent:@""];
+			NSMenuItem *blahItem = [[NSMenuItem alloc] initWithTitle:SEE_NoLocalizationNeeded(@"Log All BEEP Session Retain Counts") action:@selector(logRetainCounts) keyEquivalent:@""];
 			[blahItem setTarget:[TCMMMBEEPSessionManager sharedInstance]];
 			[menu addItem:blahItem];
 		} afterDelay:0.0];

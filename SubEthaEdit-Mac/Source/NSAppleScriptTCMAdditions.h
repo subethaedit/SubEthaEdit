@@ -5,8 +5,8 @@
 
 #import <Cocoa/Cocoa.h>
 
-
 @interface NSAppleEventDescriptor (NSAppleEventDescriptorTCMAdditions)
 + (NSAppleEventDescriptor *)appleEventToCallSubroutine:(NSString *)aSubroutineName;
-- (NSDictionary *)dictionaryValue;
+
+@property (nonatomic, readonly) NSDictionary *dictionaryValue;
 @end

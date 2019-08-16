@@ -61,7 +61,7 @@
 #endif // BETA
 
     if (licenseType) {
-        self.O_licenseTypeField.stringValue = licenseType;
+        self.O_licenseTypeField.stringValue = SEE_NoLocalizationNeeded(licenseType);
     }
     
     [[self window] center];

@@ -924,7 +924,7 @@ static AppController *sharedInstance = nil;
     } else {
         NSAlert *newAlert = [[NSAlert alloc] init];
       [newAlert setAlertStyle:NSAlertStyleCritical];
-        [newAlert setMessageText:[anErrorDictionary objectForKey:@"NSAppleScriptErrorBriefMessage"] ? [anErrorDictionary objectForKey:@"NSAppleScriptErrorBriefMessage"] : @"Unknown AppleScript Error"];
+        [newAlert setMessageText:SEE_NoLocalizationNeeded([anErrorDictionary objectForKey:@"NSAppleScriptErrorBriefMessage"] ?: @"Unknown AppleScript Error")];
         [newAlert setInformativeText:[NSString stringWithFormat:@"%@ (%d)", [anErrorDictionary objectForKey:@"NSAppleScriptErrorMessage"], [[anErrorDictionary objectForKey:@"NSAppleScriptErrorNumber"] intValue]]];
         [newAlert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
         NSWindow *alertWindow=nil;
@@ -976,7 +976,7 @@ static AppController *sharedInstance = nil;
     NSMenu *menu = [NSMenu new];
     [scriptsSubmenuItem setImage:[NSImage imageNamed:@"ScriptMenuItemIcon"]];
     [scriptsSubmenuItem setTag:12345];
-    [menu addItem:[[NSMenuItem alloc] initWithTitle:@"DummyEntry" action:nil keyEquivalent:@""]];
+    [menu addItem:[[NSMenuItem alloc] initWithTitle:SEE_NoLocalizationNeeded(@"DummyEntry") action:nil keyEquivalent:@""]];
     [scriptsSubmenuItem setSubmenu:menu];
     [defaultMenu addItem:scriptsSubmenuItem];
 

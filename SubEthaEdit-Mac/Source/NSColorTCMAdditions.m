@@ -45,7 +45,7 @@
         [alert setAlertStyle:NSAlertStyleWarning];
         [alert setMessageText:NSLocalizedString(@"HTML Color Error",@"HTML Color Error Title")];
         [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"\"%@\" is not a valid HTML color. Please specify colors in your syntax defintion either as e.g. \"#fff\" or \"#ffffff\"",@"HTML Color Error Informative Text"),htmlString]];
-        [alert addButtonWithTitle:@"OK"];
+        [alert addButtonWithTitle:NSLocalizedString(@"OK",@"OK")];
         [alert runModal];
         result = [NSColor colorWithCalibratedRed:0.5 green:0.5 blue:0.5 alpha:1.0];
     }

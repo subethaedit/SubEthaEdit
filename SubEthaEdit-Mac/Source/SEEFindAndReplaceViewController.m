@@ -392,7 +392,7 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 }
 
 - (NSMenuItem *)addItemToMenu:(NSMenu *)aMenu title:(NSString *)aTitle action:(SEL)anAction tag:(NSInteger)aTag {
-	NSMenuItem *result = [aMenu addItemWithTitle:aTitle action:anAction keyEquivalent:@""];
+	NSMenuItem *result = [aMenu addItemWithTitle:SEE_NoLocalizationNeeded(aTitle) action:anAction keyEquivalent:@""];
 	result.target = self;
 	result.tag = aTag;
 	return result;

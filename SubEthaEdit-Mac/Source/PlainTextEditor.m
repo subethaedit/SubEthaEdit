@@ -845,7 +845,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
                 lineEndingStatusString = @"PSEP";
                 break;
         }
-        [O_lineEndingPopUpButton setTitle:lineEndingStatusString];
+        [O_lineEndingPopUpButton setTitle:SEE_NoLocalizationNeeded(lineEndingStatusString)];
     }
 }
 

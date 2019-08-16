@@ -26,7 +26,6 @@
     return result;
 }
 
-
 // very simple implementation - only understands 1 level deep dictionaries with strings as keys or values
 - (NSDictionary *)dictionaryValue {
     
@@ -58,6 +57,6 @@
         }
     }
     
-    return (NSDictionary *) resultDictionary;
+    return (NSDictionary *)resultDictionary;
 }
 @end

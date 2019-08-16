@@ -7,8 +7,7 @@
 
 @implementation NSDate (NSDateTCMAdditions)
 
-- (NSString *)rfc1123DateTimeString
-{
+- (NSString *)rfc1123DateTimeString {
     static NSDateFormatter *sRFC1123DateFormatter = nil;
 	static dispatch_once_t onceToken = 0;
 	dispatch_once(&onceToken, ^{
@@ -24,9 +23,7 @@
     return result;
 }
 
-
-- (NSString *)W3CDTFLongDateTimeString
-{
+- (NSString *)W3CDTFLongDateTimeString {
     static NSDateFormatter *sW3CDTFLongDateTimeFormatter = nil;
 	static dispatch_once_t onceToken = 0;
 	dispatch_once(&onceToken, ^{
@@ -42,9 +39,7 @@
     return result;
 }
 
-
-- (NSString *)W3CDTFLongDateString
-{
+- (NSString *)W3CDTFLongDateString {
     static NSDateFormatter *sW3CDTFLongDateFormatter = nil;
 	static dispatch_once_t onceToken = 0;
 	dispatch_once(&onceToken, ^{
@@ -59,6 +54,5 @@
 	NSString *result = [sW3CDTFLongDateFormatter stringFromDate:self];
     return result;
 }
-
 
 @end

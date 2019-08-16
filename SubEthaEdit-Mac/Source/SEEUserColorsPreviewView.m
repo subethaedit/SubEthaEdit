@@ -53,7 +53,7 @@ void * const SEEUserColorsPreviewUpdateObservingContext = (void *)&SEEUserColors
 			[label setBackgroundColor:[NSColor clearColor]];
 			[label setBezeled:NO];
 			[label setEditable:NO];
-			[label setStringValue:@"Lorem ipsum"];
+			[label setStringValue:SEE_NoLocalizationNeeded(@"Lorem ipsum")];
 			[self addSubview:label];
 			label;
 		});
@@ -63,7 +63,7 @@ void * const SEEUserColorsPreviewUpdateObservingContext = (void *)&SEEUserColors
 			[label setBackgroundColor:[NSColor clearColor]];
 			[label setBezeled:NO];
 			[label setEditable:NO];
-			[label setStringValue:@"dolor sit"];
+			[label setStringValue:SEE_NoLocalizationNeeded(@"dolor sit")];
 			[self addSubview:label];
 			label;
 		});
@@ -73,7 +73,7 @@ void * const SEEUserColorsPreviewUpdateObservingContext = (void *)&SEEUserColors
 			[label setBackgroundColor:[NSColor clearColor]];
 			[label setBezeled:NO];
 			[label setEditable:NO];
-			[label setStringValue:@"amet, consectetur adipiscing elit."];
+			[label setStringValue:SEE_NoLocalizationNeeded(@"amet, consectetur adipiscing elit.")];
 			[[label cell] setLineBreakMode:NSLineBreakByTruncatingTail];
 			[self addSubview:label];
 			label;
