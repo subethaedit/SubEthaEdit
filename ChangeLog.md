@@ -5,12 +5,16 @@
 * Improved Regular Expression features and speed. See Help > Regular Expressions for updated documentation
 
 #### Bug fixes and maintenance:
-* Fixed dark appearance of encoding panel
+* Fixed dark appearance of encoding panel and encoding conflict resolution dialog
 * Updated underlying RegEX Library (origuruma-mod) to onigmo 6.2
 * Updated OgreKit to 3.0.2
+* Fixed cascading of new windows to be of proper height and location
+* Fixed top status bar to use fixed width at start for less jitter
+* Blur behind bars now properly created using NSVisualEffectView
 
 #### Improved modes:
 * Markdown – improved syntax highlighting of code blocks
+* HTML - improved symbol recognition
 
 
 ###  SubEthaEdit 5.0.2
