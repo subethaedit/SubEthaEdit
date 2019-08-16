@@ -6,11 +6,6 @@
 #import "NSNetServiceTCMAdditions.h"
 #import "NSStringTCMAdditions.h"
 
-// this file needs arc - add -fobjc-arc in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 @implementation NSNetService (NSNetServiceTCMAdditions)
 - (NSArray *)TXTRecordArray {
 	NSMutableArray *result   =[NSMutableArray array];

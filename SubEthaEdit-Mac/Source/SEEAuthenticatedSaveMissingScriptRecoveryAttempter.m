@@ -6,11 +6,6 @@
 #import "SEEAuthenticatedSaveMissingScriptRecoveryAttempter.h"
 #import "AppController.h"
 
-// this file needs arc - add -fobjc-arc in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 @implementation SEEAuthenticatedSaveMissingScriptRecoveryAttempter
 
 - (void)attemptRecoveryFromError:(NSError *)error optionIndex:(NSUInteger)recoveryOptionIndex delegate:(id)delegate didRecoverSelector:(SEL)didRecoverSelector contextInfo:(void *)contextInfo {

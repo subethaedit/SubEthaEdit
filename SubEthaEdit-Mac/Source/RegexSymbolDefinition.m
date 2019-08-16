@@ -4,12 +4,6 @@
 //  Created by Martin Pittenauer on Thu Apr 22 2004.
 //  Updated by Michael Ehrmann on Fri Oct 11 2013.
 
-// this file needs arc - either project wide,
-// or add -fobjc-arc on a per file basis in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 #import "RegexSymbolDefinition.h"
 
 static NSString * const SEERegexSymbolDefinitionDomain = @"SEERegexSymbolDefinitionDomain";

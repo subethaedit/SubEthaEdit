@@ -12,11 +12,6 @@
 #import "NSStringSEEAdditions.h"
 #import "FullTextStorage.h"
 
-// this file needs arc - add -fobjc-arc in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 #define chunkSize              		5000
 #define padding              		 100
 #define makeDirty              		 100

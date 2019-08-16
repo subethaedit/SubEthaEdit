@@ -16,11 +16,6 @@ Dictionaries are encoded as a 'd' followed by a list of alternating keys and the
 
 #import "TCMBencodingUtilities.h"
 
-// this file needs arc - add -fobjc-arc in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 @implementation TCMMutableBencodedData
 - (instancetype)initWithObject:(id)anObject {
     return [self initWithData:TCM_BencodedObject(anObject)];

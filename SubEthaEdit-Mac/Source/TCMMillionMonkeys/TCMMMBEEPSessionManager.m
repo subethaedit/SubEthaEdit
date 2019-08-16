@@ -20,12 +20,6 @@
 #import <netdb.h>       // getaddrinfo, struct addrinfo, AI_NUMERICHOST
 #import "TCMMMPresenceManager.h"
 
-// this file needs arc - add -fobjc-arc in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
-
 #define PORTRANGELENGTH 10
 NSString * const DefaultPortNumber = @"port";
 NSString * const ShouldAutomaticallyMapPort = @"ShouldAutomaticallyMapPort";

@@ -6,12 +6,6 @@
 #import "NSStringSEEAdditions.h"
 #import <OgreKit/OgreKit.h>
 
-// this file needs arc - either project wide,
-// or add -fobjc-arc on a per file basis in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 @interface TCMBracketSettings ()
 @property (nonatomic, readwrite) unichar *openingBrackets;
 @property (nonatomic, readwrite) unichar *closingBrackets;

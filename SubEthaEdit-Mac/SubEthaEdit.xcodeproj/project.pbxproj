@@ -47,11 +47,11 @@
 		1428920F095751CB00D14688 /* NSImageTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289209095751CB00D14688 /* NSImageTCMAdditions.m */; };
 		14289210095751CB00D14688 /* NSStringSEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428920B095751CB00D14688 /* NSStringSEEAdditions.m */; };
 		14289211095751CB00D14688 /* TCMMMUserSEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428920D095751CB00D14688 /* TCMMMUserSEEAdditions.m */; };
-		142892280957523300D14688 /* DebugBEEPController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428921B0957523300D14688 /* DebugBEEPController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		142892290957523300D14688 /* DebugController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428921D0957523300D14688 /* DebugController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		1428922A0957523300D14688 /* DebugPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428921F0957523300D14688 /* DebugPreferences.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		1428922D0957523300D14688 /* DebugPresenceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 142892230957523300D14688 /* DebugPresenceController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		1428922E0957523300D14688 /* DebugUserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 142892250957523300D14688 /* DebugUserController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		142892280957523300D14688 /* DebugBEEPController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428921B0957523300D14688 /* DebugBEEPController.m */; };
+		142892290957523300D14688 /* DebugController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428921D0957523300D14688 /* DebugController.m */; };
+		1428922A0957523300D14688 /* DebugPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428921F0957523300D14688 /* DebugPreferences.m */; };
+		1428922D0957523300D14688 /* DebugPresenceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 142892230957523300D14688 /* DebugPresenceController.m */; };
+		1428922E0957523300D14688 /* DebugUserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 142892250957523300D14688 /* DebugUserController.m */; };
 		14289329095756D800D14688 /* TCMMMBEEPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289312095756D800D14688 /* TCMMMBEEPSessionManager.m */; };
 		1428932B095756D800D14688 /* TCMMMMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289316095756D800D14688 /* TCMMMMessage.m */; };
 		1428932C095756D800D14688 /* TCMMMNoOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289318095756D800D14688 /* TCMMMNoOperation.m */; };
@@ -120,7 +120,7 @@
 		1428946D09575B9700D14688 /* SEEWebPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428946109575B9700D14688 /* SEEWebPreviewViewController.m */; };
 		142894A409575FF200D14688 /* TextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 142894A309575FF200D14688 /* TextFieldCell.m */; };
 		142894D4095765CF00D14688 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 142894D3095765CF00D14688 /* SystemConfiguration.framework */; };
-		1428F4B40BDE3B8A00411CA6 /* DebugSendOperationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428F4B20BDE3B8A00411CA6 /* DebugSendOperationController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		1428F4B40BDE3B8A00411CA6 /* DebugSendOperationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428F4B20BDE3B8A00411CA6 /* DebugSendOperationController.m */; };
 		142D18B50BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142D18B30BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.m */; };
 		142D1B9C0BAEE04900B9EF1C /* TCMMMUserManagerKitAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142D1B9A0BAEE04900B9EF1C /* TCMMMUserManagerKitAdditions.m */; };
 		14448AA40A18964A00F36B34 /* SubEthaEdit.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 1428905A0957434600D14688 /* SubEthaEdit.sdef */; };
@@ -135,7 +135,7 @@
 		14EC6E280A63F2E800B44481 /* ServicesMenu.strings in Resources */ = {isa = PBXBuildFile; fileRef = 14EC6E270A63F2E800B44481 /* ServicesMenu.strings */; };
 		311717F40A0E8C3600A9DA18 /* ModeSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 311717F20A0E8C3600A9DA18 /* ModeSettings.m */; };
 		3134F7AB0CB1331900F8C116 /* PrecedenceRolloverButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 3134F7A90CB1331900F8C116 /* PrecedenceRolloverButton.m */; };
-		316A0D2A0C68A47100720268 /* DebugAttributeInspectorController.m in Sources */ = {isa = PBXBuildFile; fileRef = 316A0D280C68A47100720268 /* DebugAttributeInspectorController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		316A0D2A0C68A47100720268 /* DebugAttributeInspectorController.m in Sources */ = {isa = PBXBuildFile; fileRef = 316A0D280C68A47100720268 /* DebugAttributeInspectorController.m */; };
 		3170E46112846C670096089C /* SEEStyleSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 3170E46012846C670096089C /* SEEStyleSheet.m */; };
 		3188F6800CAD13E0009E4C0B /* DNDArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3188F6780CAD1218009E4C0B /* DNDArrayController.m */; };
 		31D2C7000CA7C9C8003CC5C9 /* PrecedenceRuleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D2C6E50CA7C7A7003CC5C9 /* PrecedenceRuleCell.m */; };
@@ -351,7 +351,7 @@
 		F29E6DDB18E5CAFA00F84231 /* TCMCALayerAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F29E6DDA18E5CAFA00F84231 /* TCMCALayerAdditions.m */; };
 		F2ABC4D60C799775007437A2 /* TCMMMLoggingState.m in Sources */ = {isa = PBXBuildFile; fileRef = F2ABC4D40C799775007437A2 /* TCMMMLoggingState.m */; };
 		F2ABC4E30C799CCD007437A2 /* TCMMMLoggedOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = F2ABC4E10C799CCD007437A2 /* TCMMMLoggedOperation.m */; };
-		F2ABC5400C79D9AB007437A2 /* DebugHistoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2ABC5300C79D898007437A2 /* DebugHistoryController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		F2ABC5400C79D9AB007437A2 /* DebugHistoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2ABC5300C79D898007437A2 /* DebugHistoryController.m */; };
 		F2BC7539217BDA3F0056FAED /* Acknowledgements.md in Resources */ = {isa = PBXBuildFile; fileRef = F2BC7538217BDA3F0056FAED /* Acknowledgements.md */; };
 		F2C44CBE21635F29006D59DB /* SEEDebugImageGenerationWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2C44CBD21635F29006D59DB /* SEEDebugImageGenerationWindowController.xib */; };
 		F2C6D3750D6DB131002B401D /* URLIconNotOK.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2C6D3730D6DB131002B401D /* URLIconNotOK.tiff */; };

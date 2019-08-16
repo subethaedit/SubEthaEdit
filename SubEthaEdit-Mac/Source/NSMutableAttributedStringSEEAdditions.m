@@ -12,13 +12,7 @@
 #import "TCMMMUser.h"
 #import "TCMMMUserSEEAdditions.h"
 
-// this file needs arc - add -fobjc-arc in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeName, *SEESearchScopeAttributeName;
-
 
 @implementation NSMutableAttributedString (NSMutableAttributedStringSEEAdditions) 
 

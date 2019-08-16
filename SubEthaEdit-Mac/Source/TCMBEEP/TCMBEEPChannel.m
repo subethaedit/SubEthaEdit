@@ -12,11 +12,6 @@
 
 #import <netinet/tcp_seq.h> // sequence number comparison
 
-// this file needs arc - add -fobjc-arc in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 #define MAXWINDOWSIZE 131072
 
 static NSMutableDictionary *profileURIToClassMapping;

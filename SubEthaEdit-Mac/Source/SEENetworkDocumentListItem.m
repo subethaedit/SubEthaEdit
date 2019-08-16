@@ -3,10 +3,6 @@
 //
 //  Created by Michael Ehrmann on 18.02.14.
 
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 #import "SEENetworkDocumentListItem.h"
 #import "TCMMMSession.h"
 

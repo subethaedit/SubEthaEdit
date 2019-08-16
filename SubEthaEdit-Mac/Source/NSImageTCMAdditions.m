@@ -12,12 +12,6 @@
 #import <CoreText/CoreText.h>
 #import "NSObject+TCMArcLifecycleAdditions.h"
 
-// this file needs arc - either project wide,
-// or add -fobjc-arc on a per file basis in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 @implementation NSImage (NSImageTCMAdditions)
 
 const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociationKey;

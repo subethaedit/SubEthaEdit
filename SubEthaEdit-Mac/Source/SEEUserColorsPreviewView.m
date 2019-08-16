@@ -3,11 +3,6 @@
 //
 //  Created by Lisa Brodner on 16/04/14.
 
-// this file needs arc - add -fobjc-arc in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 #import "SEEUserColorsPreviewView.h"
 
 #import "PreferenceKeys.h"

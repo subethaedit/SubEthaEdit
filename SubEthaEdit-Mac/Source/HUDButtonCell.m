@@ -6,11 +6,6 @@
 #import "HUDButtonCell.h"
 #import "NSBezierPathTCMAdditions.h"
 
-// this file needs arc - add -fobjc-arc in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 static NSImage *s_pressed[]={nil,nil,nil};
 static NSImage *s_normal[]={nil,nil,nil};
 

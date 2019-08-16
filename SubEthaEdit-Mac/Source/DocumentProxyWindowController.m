@@ -3,11 +3,6 @@
 //
 //  Created by Dominik Wagner on Thu Apr 29 2004.
 
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
-
 #import "DocumentProxyWindowController.h"
 #import "TCMMMSession.h"
 #import "TCMMMUser.h"

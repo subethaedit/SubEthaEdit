@@ -3,10 +3,6 @@
 //
 //  Created by Michael Ehrmann on 03.03.14.
 
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 #import "SEERecentDocumentListItem.h"
 
 void * const SEERecentDocumentURLObservingContext = (void *)&SEERecentDocumentURLObservingContext;

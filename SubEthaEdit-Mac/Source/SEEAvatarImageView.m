@@ -3,10 +3,6 @@
 //
 //  Created by Michael Ehrmann on 10.04.14.
 
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 #import "SEEAvatarImageView.h"
 #import "NSImageTCMAdditions.h"
 

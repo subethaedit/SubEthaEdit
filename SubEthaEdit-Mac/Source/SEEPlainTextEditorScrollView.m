@@ -7,10 +7,6 @@
 
 #import "SEEPlainTextEditorScrollView.h"
 
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 void * const SEEScrollViewOverlayObservingContext = (void *)&SEEScrollViewOverlayObservingContext;
 
 @implementation SEEPlainTextEditorScrollView

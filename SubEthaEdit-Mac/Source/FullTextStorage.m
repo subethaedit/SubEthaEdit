@@ -1,13 +1,5 @@
-
 //  FullTextStorage.m
 //  Created by Dominik Wagner on 04.01.09.
-
-
-// this file needs arc - add -fobjc-arc in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 
 #import "FoldableTextStorage.h"
 #import "FullTextStorage.h"

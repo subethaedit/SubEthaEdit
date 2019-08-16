@@ -4,10 +4,6 @@
 //  Original (ConnectionBrowserController.h) by Martin Ott on Wed Mar 03 2004.
 //	Updated by Michael Ehrmann on Fri Feb 21 2014.
 
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "SEEConnectionManager.h"
 #import "TCMHost.h"

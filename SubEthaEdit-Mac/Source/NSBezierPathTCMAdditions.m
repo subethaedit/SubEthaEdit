@@ -6,11 +6,6 @@
 #import "NSBezierPathTCMAdditions.h"
 #define TITLEBARHEIGHT 19.0
 
-// this file needs arc - add -fobjc-arc in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 @implementation NSBezierPath(NSBezierPathTCMAdditions)
 + (NSBezierPath *)bezierPathWithRoundedRect:(NSRect)rect radius:(float)radius
 {

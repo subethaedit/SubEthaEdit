@@ -6,11 +6,6 @@
 #import "NSDataTCMAdditions.h"
 #import <CommonCrypto/CommonDigest.h>
 
-// this file needs arc - add -fobjc-arc in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 @implementation NSData (NSDataTCMAdditions)
 
 static char base64EncodingArray[ 64 ] = {

@@ -5,18 +5,11 @@
 
 #import "TCMMMLoggedOperation.h"
 
-// this file needs arc - add -fobjc-arc in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
-
 @implementation TCMMMLoggedOperation
 
 + (id)loggedOperationWithOperation:(TCMMMOperation *)anOperation index:(long long)anIndex {
     return [[TCMMMLoggedOperation alloc] initWithOperation:anOperation index:anIndex];
 }
-
 
 - (instancetype)initWithOperation:(TCMMMOperation *)anOperation index:(long long)anIndex{
     if ((self=[super init])) {

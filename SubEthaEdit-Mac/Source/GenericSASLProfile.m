@@ -5,13 +5,7 @@
 
 #import "GenericSASLProfile.h"
 
-// this file needs arc - add -fobjc-arc in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 // simple: http://www.ietf.org/rfc/rfc4616.txt
-
 
 @implementation GenericSASLProfile
 + (NSDictionary *)parseBLOBData:(NSData *)aData {

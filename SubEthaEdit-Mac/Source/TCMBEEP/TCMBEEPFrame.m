@@ -7,11 +7,6 @@
 #import "TCMBEEPSession.h"
 #import "TCMBEEPMessage.h"
 
-// this file needs arc - add -fobjc-arc in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 @implementation TCMBEEPFrame
 
 + (TCMBEEPFrame *)SEQFrameWithChannelNumber:(int32_t)channelNumber

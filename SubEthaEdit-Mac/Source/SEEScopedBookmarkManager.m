@@ -3,10 +3,6 @@
 //
 //  Created by Michael Ehrmann on 19.03.14.
 
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 #import "SEEScopedBookmarkManager.h"
 #import "SEEScopedBookmarkAccessoryViewController.h"
 #import "UKXattrMetadataStore.h"

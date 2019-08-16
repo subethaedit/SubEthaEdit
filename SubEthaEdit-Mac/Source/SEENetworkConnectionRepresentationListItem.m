@@ -3,10 +3,6 @@
 //
 //  Created by Michael Ehrmann on 26.02.14.
 
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 #import "SEENetworkConnectionRepresentationListItem.h"
 #import "SEEConnectionManager.h"
 #import "SEEConnection.h"

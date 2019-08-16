@@ -5,12 +5,6 @@
 
 #import "TCMMMOperation.h"
 
-// this file needs arc - add -fobjc-arc in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
-
 NSString * const TCMMMOperationTypeKey = @"ot";
 
 static NSMutableDictionary *sClassForOperationTypeDictionary;

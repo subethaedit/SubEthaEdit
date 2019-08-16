@@ -11,11 +11,6 @@
 #import "PlainTextWindowController.h"
 #import "PlainTextEditor.h"
 
-// this file needs arc - add -fobjc-arc in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 NSString * const UndoManagerCheckpointNotification = @"UndoManagerCheckpointNotification";
 NSString * const UndoManagerDidOpenUndoGroupNotification = @"UndoManagerDidOpenUndoGroupNotification";
 NSString * const UndoManagerDidRedoChangeNotification = @"UndoManagerDidRedoChangeNotification";

@@ -8,11 +8,6 @@
 #import "DocumentModeManager.h"
 #import "SyntaxHighlighter.h"
 
-// this file needs arc - add -fobjc-arc in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 NSString * const SyntaxStyleBaseIdentifier = @"_Default";
 
 static NSArray *S_possibleStyleColors;

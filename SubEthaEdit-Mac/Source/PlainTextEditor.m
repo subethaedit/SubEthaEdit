@@ -3,11 +3,6 @@
 //
 //  Created by Dominik Wagner on Tue Apr 06 2004.
 
-// this file needs arc - either project wide,
-// or add -fobjc-arc on a per file basis in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
 
 #import "FindReplaceController.h"
 #import "SEEDocumentController.h"
@@ -49,11 +44,6 @@
 #import "SEEOverlayView.h"
 #import "NSLayoutConstraint+TCMAdditions.h"
 #import "TCMHoverButton.h"
-
-// this file needs arc - add -fobjc-arc in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
 
 NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDidFollowUserNotification";
 NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEditorDidChangeSearchScopeNotification";

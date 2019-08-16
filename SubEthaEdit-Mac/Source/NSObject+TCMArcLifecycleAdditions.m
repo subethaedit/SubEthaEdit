@@ -9,12 +9,6 @@
 
 NSString * const kTCMARCLifeCycleContextObjectKey = @"__TCM_contextObjectKey";
 
-// this file needs arc - add -fobjc-arc in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
-
 @implementation NSObject (TCMArcLifecycleAdditions)
 
 static const void *TCMAssociatedMutableDictionaryAssocKey = &TCMAssociatedMutableDictionaryAssocKey;

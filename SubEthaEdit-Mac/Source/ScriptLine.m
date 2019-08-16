@@ -7,27 +7,20 @@
 #import "FoldableTextStorage.h"
 #import "PlainTextDocument.h"
 
-// this file needs arc - add -fobjc-arc in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 @implementation ScriptLine
 
 + (id)scriptLineWithTextStorage:(FullTextStorage *)aTextStorage lineNumber:(int)aLineNumber {
     return [[ScriptLine alloc] initWithTextStorage:aTextStorage lineNumber:aLineNumber];
 }
 
-- (instancetype)initWithTextStorage:(FullTextStorage *)aTextStorage lineNumber:(int)aLineNumber
-{
+- (instancetype)initWithTextStorage:(FullTextStorage *)aTextStorage lineNumber:(int)aLineNumber {
     if ((self = [super initWithTextStorage:aTextStorage])) {
         I_lineNumber = aLineNumber;
     }
     return self;
 }
 
-- (NSRange)rangeRepresentation
-{
+- (NSRange)rangeRepresentation {
     NSUInteger startIndex;
     NSUInteger lineEndIndex;
     NSUInteger contentsEndIndex;
@@ -35,8 +28,7 @@
     return NSMakeRange(startIndex, lineEndIndex - startIndex);
 }
 
-- (NSRange)innerRangeRepresentation
-{
+- (NSRange)innerRangeRepresentation {
     NSUInteger startIndex;
     NSUInteger lineEndIndex;
     NSUInteger contentsEndIndex;
@@ -44,8 +36,7 @@
     return NSMakeRange(startIndex, contentsEndIndex - startIndex);
 }
 
-- (id)objectSpecifier
-{
+- (id)objectSpecifier {
 //    NSLog(@"%s", __FUNCTION__);
     
     NSScriptClassDescription *containerClassDesc = (NSScriptClassDescription *)[NSScriptClassDescription classDescriptionForClass:[FoldableTextStorage class]];
@@ -61,8 +52,7 @@
 }
 
 
-- (id)scriptedInnerContents
-{
+- (id)scriptedInnerContents {
     return [[I_textStorage string] substringWithRange:[self innerRangeRepresentation]];
 }
 

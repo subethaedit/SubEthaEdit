@@ -18,11 +18,6 @@
 #import "TCMMMSession.h"
 #import "DocumentModeManager.h"
 
-// this file needs arc - add -fobjc-arc in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 @implementation MultiPagePrintView
 
 static NSMutableDictionary *S_nameAttributes, *S_contactAttributes, *S_contactLabelAttributes, *S_tableHeadingAttributes;

@@ -9,11 +9,6 @@
 #import "PlainTextDocument.h"
 #import "PlainTextWindowController.h"
 
-// this file needs arc - add -fobjc-arc in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 @interface SEEEncodingDoctorDialogViewController()
 @property (nonatomic, strong) IBOutlet NSButton *cancelButton;
 @property (nonatomic, strong) IBOutlet NSButton *convertButton;

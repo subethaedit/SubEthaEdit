@@ -5,11 +5,6 @@
 
 #import "Toolbar.h"
 
-// this file needs arc - add -fobjc-arc in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 static int S_shouldNotNotifyOtherToolbars=0;
 
 @implementation Toolbar

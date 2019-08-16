@@ -6,11 +6,6 @@
 #import "SaturationToColorValueTransformer.h"
 #import "GeneralPreferences.h"
 
-// this file needs arc - add -fobjc-arc in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 @implementation SaturationToColorValueTransformer
 + (Class)transformedValueClass {
     return [NSColor class];

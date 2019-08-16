@@ -3,12 +3,6 @@
 //
 //  Created by Michael Ehrmann on 11.02.14.
 
-// this file needs arc - either project wide,
-// or add -fobjc-arc on a per file basis in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 #import "SEEOverlayView.h"
 #import <QuartzCore/QuartzCore.h>
 

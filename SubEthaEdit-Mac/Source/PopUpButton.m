@@ -3,11 +3,6 @@
 //
 //  Created by Dominik Wagner on Tue Apr 20 2004.
 
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
-
 #import "PopUpButton.h"
 #import "PopUpButtonCell.h"
 

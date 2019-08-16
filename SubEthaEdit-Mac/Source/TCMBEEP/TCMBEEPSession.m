@@ -20,12 +20,6 @@
 #import <net/if.h> // struct ifreq
 #import <sys/param.h>
 
-
-// this file needs arc - add -fobjc-arc in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 NSString * const NetworkTimeoutPreferenceKey = @"NetworkTimeout";
 NSString * const kTCMBEEPFrameTrailer = @"END\r\n";
 NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/Management.profile";

@@ -10,11 +10,6 @@
 #import "TCMMMSession.h"
 #import "TCMMMPresenceManager.h"
 
-// this file needs arc - add -fobjc-arc in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 
 @interface TCMMMStatusProfile ()
 @property (nonatomic, readwrite) BOOL lastSentFriendcastingStatus;
@@ -212,15 +207,12 @@
     }
 }
 
-- (void)setDelegate:(id <TCMBEEPProfileDelegate, TCMMMStatusProfileDelegate>)aDelegate
-{
+- (void)setDelegate:(id <TCMBEEPProfileDelegate, TCMMMStatusProfileDelegate>)aDelegate {
 	[super setDelegate:aDelegate];
 }
 
-- (id <TCMBEEPProfileDelegate, TCMMMStatusProfileDelegate>)delegate
-{
+- (id <TCMBEEPProfileDelegate, TCMMMStatusProfileDelegate>)delegate {
 	return (id <TCMBEEPProfileDelegate, TCMMMStatusProfileDelegate>)[super delegate];
 }
-
 
 @end

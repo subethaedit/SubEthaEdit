@@ -8,11 +8,6 @@
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "UserChangeOperation.h"
 
-// this file needs arc - add -fobjc-arc in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 @implementation SessionProfile
 
 + (NSData *)defaultInitializationData {
