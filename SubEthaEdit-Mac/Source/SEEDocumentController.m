@@ -714,13 +714,8 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 			completionHandler(nil, NO, nil);
 		}
     } else if (!isFilePackage && isDirectory) {
-        if(SEEWorkspacesEnabled) {
-            [self openWorkspaceWithURL:url display:displayDocument withCompletionHandler:completionHandler];
-        } else {
-            
-            [self openDirectory:url];
-
-        }
+        [self openWorkspaceWithURL:url display:displayDocument withCompletionHandler:completionHandler];
+        
         
     } else {
         NSAppleEventDescriptor *eventDesc = [[NSAppleEventManager sharedAppleEventManager] currentAppleEvent];
@@ -1078,7 +1073,7 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
         if (isFilePackage && [extension isEqualToString:modeExtension]) {
             [self openModeFile:filename];
         } else if ([[NSFileManager defaultManager] fileExistsAtPath:filename isDirectory:&isDir] && isDir && !isFilePackage) {
-            [self openDirectory:[NSURL fileURLWithPath:filename]];
+            [self openWorkspaceWithURL:[NSURL fileURLWithPath:filename] display:YES withCompletionHandler:nil];
         } else {
             [I_propertiesForOpenedFiles setObject:properties forKey:filename];
 			if (!isFilePackage) {

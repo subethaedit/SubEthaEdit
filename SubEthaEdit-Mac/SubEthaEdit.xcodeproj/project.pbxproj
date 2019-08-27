@@ -807,7 +807,6 @@
 		2C0CC03C22F5CBA000F604C9 /* SEEWorkspace.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEEWorkspace.m; sourceTree = "<group>"; };
 		2C0CC03E22F624D000F604C9 /* SEEWorkspaceController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEEWorkspaceController.h; sourceTree = "<group>"; };
 		2C0CC03F22F624D000F604C9 /* SEEWorkspaceController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEEWorkspaceController.m; sourceTree = "<group>"; };
-		2C0CC04122F6299E00F604C9 /* SEESwitches.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SEESwitches.h; path = Debug/SEESwitches.h; sourceTree = "<group>"; };
 		2C0CC04922F62AC400F604C9 /* SEEWorkspaceFileTreeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEEWorkspaceFileTreeViewController.h; sourceTree = "<group>"; };
 		2C0CC04A22F62AC400F604C9 /* SEEWorkspaceFileTreeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEEWorkspaceFileTreeViewController.m; sourceTree = "<group>"; };
 		2C0CC04B22F62AC400F604C9 /* SEEWorkspaceFileTreeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SEEWorkspaceFileTreeViewController.xib; sourceTree = "<group>"; };
@@ -1471,7 +1470,6 @@
 				F20AB8781907C7C500444F4B /* SEEDebugImageGenerationWindowController.h */,
 				F20AB8791907C7C500444F4B /* SEEDebugImageGenerationWindowController.m */,
 				F2C44CBD21635F29006D59DB /* SEEDebugImageGenerationWindowController.xib */,
-				2C0CC04122F6299E00F604C9 /* SEESwitches.h */,
 			);
 			name = Debug;
 			sourceTree = "<group>";

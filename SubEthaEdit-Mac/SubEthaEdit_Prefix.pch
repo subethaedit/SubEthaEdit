@@ -26,7 +26,6 @@
 	#import "NSObject+TCMArcLifecycleAdditions.h"
 	#import "NSOperationQueue+TCMAdditions.h"
 	#import "TCMCGGeometryAdditions.h"
-    #import "SEESwitches.h"
 
 	extern NSString * const AddressHistory;
 
