@@ -1002,9 +1002,9 @@
                                     <action selector="showDocumentListWindow:" target="-1" id="pke-WH-h1u"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Dokument-Hub" alternate="YES" keyEquivalent="K" id="640">
+                            <menuItem title="Workspace" keyEquivalent="K" id="clc-DK-KIa">
                                 <connections>
-                                    <action selector="showDocumentListWindow:" target="-1" id="xCk-SD-luM"/>
+                                    <action selector="showWorkspace:" target="-1" id="Pxd-Ac-9fY"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="233">

@@ -20,7 +20,7 @@
 			<key>LSTypeIsPackage</key>
 			<false/>
 			<key>NSDocumentClass</key>
-			<string>PlainTextDocument</string>
+			<string>SEEWorkspaceDocument</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeName</key>

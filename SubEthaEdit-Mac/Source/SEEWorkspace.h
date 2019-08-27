@@ -8,19 +8,34 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
+
+
+@class SEEWorkspace;
+
+@protocol SEEWorkspaceDocument
+@property (nonatomic, weak) SEEWorkspace *workspace;
+
+@optional
+-(BOOL) requiresWorkspace;
+
+@end
 
 @interface SEEWorkspace : NSObject {
-    NSMutableArray <NSDocument *> *documents;
+    NSMutableArray <NSDocument<SEEWorkspaceDocument> *> *_documents;
 }
 
 @property (nonatomic, readonly) NSURL *baseURL;
-@property (nonatomic, readonly) NSArray <NSDocument *>*openDocuments;
+@property (nonatomic, readonly) NSArray <NSDocument<SEEWorkspaceDocument> *>*documents;
 
 -(instancetype)initWithBaseURL:(NSURL *)url;
 
 -(BOOL)containsDocument:(NSDocument *)doc;
 
+-(BOOL)containsURL:(NSURL *)url;
+
+-(void)addDocument:(NSDocument<SEEWorkspaceDocument> *)doc;
+-(void)removeDocument:(NSDocument<SEEWorkspaceDocument> *)doc;
+
 @end
 
-NS_ASSUME_NONNULL_END
+

@@ -15,6 +15,7 @@
 #import "FoldableTextStorage.h"
 #import "FullTextStorage.h"
 #import "SEEDocumentController.h"
+#import "SEEWorkspace.h"
 
 enum {
     UnknownStringEncoding = NoStringEncoding,
@@ -45,7 +46,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotification;
 
 
-@interface PlainTextDocument : NSDocument <SEEDocument, NSTextViewDelegate, NSTextStorageDelegate, NSOpenSavePanelDelegate, NSSharingServicePickerDelegate, NSSharingServiceDelegate>
+@interface PlainTextDocument : NSDocument <SEEDocument, SEEWorkspaceDocument, NSTextViewDelegate, NSTextStorageDelegate, NSOpenSavePanelDelegate, NSSharingServicePickerDelegate, NSSharingServiceDelegate>
 {
     TCMMMSession *I_session;
     struct {
@@ -150,7 +151,6 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
 @property (readwrite, strong) IBOutlet NSWindow *O_exportSheet;
 @property (readwrite, strong) IBOutlet NSObjectController *O_exportSheetController;
 @property (nonatomic, strong) NSMutableArray *persistentDocumentScopedBookmarkURLs;
-
 @property (nonatomic, strong) SEEDocumentCreationFlags *attachedCreationFlags;
 
 /*!

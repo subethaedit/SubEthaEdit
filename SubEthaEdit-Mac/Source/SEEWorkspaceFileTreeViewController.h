@@ -10,11 +10,13 @@
 
 @class SEEWorkspace;
 
-NS_ASSUME_NONNULL_BEGIN
 
-@interface SEEWorkspaceFileTreeViewController : NSViewController
+
+@interface SEEWorkspaceFileTreeViewController : NSViewController <NSOutlineViewDelegate>
+
+- (instancetype)initWithWorkspace:(SEEWorkspace *)workspace;
 
 @property (nonatomic, weak) SEEWorkspace *workspace;
 @end
 
-NS_ASSUME_NONNULL_END
+

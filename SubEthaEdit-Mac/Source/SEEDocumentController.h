@@ -13,6 +13,7 @@
 @class MAAttachedWindow;
 @class PlainTextDocument;
 @class SEEWorkspaceController;
+@class SEEWorkspace;
 
 
 extern NSString *const RecentDocumentsDidChangeNotification;
@@ -52,6 +53,8 @@ extern NSString * const kSEETypeSEEMode;
 
 - (IBAction)openNormalDocument:(id)aSender;
 - (IBAction)openAlternateDocument:(id)aSender;
+
+-(void)openWorkspace:(SEEWorkspace *)workspace display:(BOOL)displayDocument withCompletionHandler:(void (^)(NSDocument *, BOOL, NSError *))completionHandler;
 
 - (void)addProxyDocumentWithSession:(TCMMMSession *)aSession;
 

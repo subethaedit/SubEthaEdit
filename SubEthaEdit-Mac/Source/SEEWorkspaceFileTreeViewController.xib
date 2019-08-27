@@ -8,7 +8,8 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="SEEWorkspaceFileTreeViewController">
             <connections>
-                <outlet property="treeController" destination="qOH-Tj-UOg" id="S4R-ff-yxJ"/>
+                <outlet property="outlineView" destination="ywA-QP-ap7" id="u2e-rv-SvH"/>
+                <outlet property="treeController" destination="9ch-to-4YF" id="XFK-Ja-1md"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
         </customObject>
@@ -18,21 +19,21 @@
             <rect key="frame" x="0.0" y="0.0" width="209" height="272"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="22" horizontalPageScroll="10" verticalLineScroll="22" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l0P-w4-W4N">
-                    <rect key="frame" x="0.0" y="2" width="209" height="270"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="17" horizontalPageScroll="10" verticalLineScroll="17" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l0P-w4-W4N">
+                    <rect key="frame" x="0.0" y="0.0" width="209" height="272"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <clipView key="contentView" ambiguous="YES" drawsBackground="NO" id="ZSr-Z5-dIB">
-                        <rect key="frame" x="1" y="1" width="207" height="268"/>
+                        <rect key="frame" x="1" y="1" width="207" height="270"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" multipleSelection="NO" autosaveColumns="NO" rowHeight="22" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="14" outlineTableColumn="EZ7-cB-YEM" id="ywA-QP-ap7">
-                                <rect key="frame" x="0.0" y="0.0" width="207" height="268"/>
+                            <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="14" outlineTableColumn="EZ7-cB-YEM" id="ywA-QP-ap7">
+                                <rect key="frame" x="0.0" y="0.0" width="207" height="270"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <size key="intercellSpacing" width="3" height="0.0"/>
                                 <color key="backgroundColor" name="_sourceListBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                 <tableColumns>
-                                    <tableColumn width="204" minWidth="16" maxWidth="1000" id="EZ7-cB-YEM">
+                                    <tableColumn identifier="TableColumn" width="204" minWidth="16" maxWidth="1000" id="EZ7-cB-YEM">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -71,9 +72,6 @@
                                                         <rect key="frame" x="3" y="0.0" width="17" height="17"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <imageCell key="cell" refusesFirstResponder="YES" imageScaling="proportionallyDown" image="NSActionTemplate" id="QeJ-RX-ndS"/>
-                                                        <connections>
-                                                            <binding destination="MZP-B7-IxM" name="value" keyPath="objectValue.name" id="RgC-Iw-FlP"/>
-                                                        </connections>
                                                     </imageView>
                                                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jCf-ZB-K1j">
                                                         <rect key="frame" x="25" y="0.0" width="179" height="17"/>
@@ -91,13 +89,14 @@
                                                 </connections>
                                             </tableCellView>
                                         </prototypeCellViews>
-                                        <connections>
-                                            <binding destination="qOH-Tj-UOg" name="value" keyPath="arrangedObjects" id="TQk-tu-h6F"/>
-                                        </connections>
                                     </tableColumn>
                                 </tableColumns>
                                 <connections>
-                                    <binding destination="qOH-Tj-UOg" name="content" keyPath="arrangedObjects" id="2AH-W7-Sk4"/>
+                                    <action trigger="doubleAction" selector="doubleClick:" target="-2" id="C2r-Nf-OQ5"/>
+                                    <binding destination="9ch-to-4YF" name="content" keyPath="arrangedObjects" id="Gra-zC-HNX"/>
+                                    <binding destination="9ch-to-4YF" name="selectionIndexPaths" keyPath="selectionIndexPaths" previousBinding="Gra-zC-HNX" id="j5b-w3-O78"/>
+                                    <outlet property="dataSource" destination="MCY-yA-k3B" id="MT2-Kk-qy9"/>
+                                    <outlet property="delegate" destination="MCY-yA-k3B" id="acH-dC-9Wb"/>
                                 </connections>
                             </outlineView>
                         </subviews>
@@ -115,7 +114,8 @@
             </subviews>
             <point key="canvasLocation" x="3.5" y="154"/>
         </customView>
-        <treeController id="qOH-Tj-UOg"/>
+        <customObject id="MCY-yA-k3B" customClass="SEEWorkspaceTreeDelegate"/>
+        <treeController objectClassName="SEEFSTreeNode" editable="NO" childrenKeyPath="children" leafKeyPath="isLeaf" id="9ch-to-4YF"/>
     </objects>
     <resources>
         <image name="NSActionTemplate" width="14" height="14"/>

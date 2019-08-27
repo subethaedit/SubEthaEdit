@@ -7,14 +7,21 @@
 //
 
 #import "SEEWorkspaceFileTreeViewController.h"
+#import "SEEFSTreeNode.h"
+#import "SEEWorkspace.h"
+#import "SEEWorkspaceTreeDelegate.h"
+#import "SEEFSTree.h"
 
 @interface SEEWorkspaceFileTreeViewController ()
 
-@property (nonatomic, weak) IBOutlet NSTreeController *treeController;
+@property (nonatomic, strong) IBOutlet NSTreeController *treeController;
+@property (nonatomic, strong) IBOutlet NSOutlineView *outlineView;
 
 @end
 
-@implementation SEEWorkspaceFileTreeViewController
+@implementation SEEWorkspaceFileTreeViewController{
+    SEEFSTree *tree;
+}
 
 - (instancetype)initWithWorkspace:(SEEWorkspace *)workspace {
     self = [super initWithNibName:@"SEEWorkspaceFileTreeViewController" bundle:nil];
@@ -26,7 +33,32 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do view setup here.
+    tree = [[SEEFSTree alloc] initWithURL:self.workspace.baseURL];
+    [self.treeController setContent:tree.root];
+    
+}
+
+- (IBAction)doubleClick:(NSOutlineView *)sender {
+    NSUInteger clickedRow = sender.clickedRow;
+    id item = [sender itemAtRow:clickedRow];
+    SEEFSTreeNode *node = [item representedObject];
+    
+    if(!node) { return; }
+    
+    if (!node.isLeaf) {
+        if ([sender isItemExpanded:item]) {
+            [sender collapseItem:item];
+        } else {
+            [sender expandItem:item];
+        }
+        
+        return;
+    }
+    
+    [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:node.url
+                                                                           display:YES completionHandler:^(NSDocument *  document, BOOL documentWasAlreadyOpen, NSError *  error) {
+                                                                               
+                                                                           }];
 }
 
 @end

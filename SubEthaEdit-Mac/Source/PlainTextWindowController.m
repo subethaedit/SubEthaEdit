@@ -296,6 +296,8 @@ static NSPoint S_cascadePoint = {0.0,0.0};
         } else {
 			return NO;
         }
+    } else if (selector == @selector(showWorkspace:)) {
+        return self.plainTextDocument.workspace != nil;
     } else if (selector == @selector(showDocumentAtIndex:)) {
         int documentNumberToShow = [[menuItem representedObject] intValue];
         id document = nil;
@@ -400,6 +402,14 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     [pboard setData:[NSData dataWithBytes:dataUTF8 length:strlen(dataUTF8)] forType:@"CorePasteboardFlavorType 0x75726C6E"];
     [pboard setString:[documentURL absoluteString] forType:NSStringPboardType];
     [documentURL writeToPasteboard:pboard];
+}
+
+- (IBAction)showWorkspace:(id)sender {
+    SEEDocumentController * documentController = (SEEDocumentController *)[NSDocumentController sharedDocumentController];
+    
+    [documentController openWorkspace:self.plainTextDocument.workspace
+                              display:YES
+                withCompletionHandler:nil];
 }
 
 

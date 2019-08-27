@@ -146,6 +146,8 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
 
 
 @implementation PlainTextDocument
+@synthesize workspace;
+
 
 + (void)initialize {
 	if (self == [PlainTextDocument class]) {

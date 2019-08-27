@@ -6,19 +6,39 @@
 //  Copyright © 2019 SubEthaEdit Contributors. All rights reserved.
 //
 
+/*
+ +-----------------------------+        +-----------------------------+
+ |                             |        |                             |
+ | SEEWorkspaceController      |<----1--+ SEEDocumentController       |
+ |                             |        |                             |
+ +-------------+---------------+        +--------------+--------------+
+               *                                       *
+               |                                       |
+               v                                       v
+ +-----------------------------+        +-----------------------------+
+ |                             |        |                             |
+ | SEEWorkspace                +-*----->| NSDocument                  |
+ |                             |        |                             |
+ +-----------------------------+        +-----------------------------+
+ 
+ */
+
 #import <Foundation/Foundation.h>
 
 @class SEEWorkspace;
 
-@interface SEEWorkspaceController : NSObject {
+@interface SEEWorkspaceController : NSObject
 
-    @private
-    NSMutableArray <SEEWorkspace *> *workspaces;
-}
+@property (nonatomic, weak, readonly) NSDocumentController *documentController;
+
+-(instancetype)initWithDocumentController:(NSDocumentController *)controller;
 
 -(SEEWorkspace *)workspaceForDocument:(NSDocument *)document;
 
-// Creates a new workspace if none exists yet for the provided url
 -(SEEWorkspace *)workspaceForURL:(NSURL *)url;
+-(SEEWorkspace *)workspaceForURL:(NSURL *)url createIfNeeded:(BOOL)create;
+
+-(void)addDocument:(NSDocument *)document;
+-(void)removeDocument:(NSDocument *)document;
 
 @end

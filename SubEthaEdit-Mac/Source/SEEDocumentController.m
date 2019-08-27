@@ -105,7 +105,7 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
     if (self) {
         self.filenamesFromLastRunOpenPanel = [NSMutableArray array];
 		self.documentCreationFlagsLookupDict = [NSMutableDictionary dictionary];
-        self.workspaceController = [[SEEWorkspaceController alloc] init];
+        self.workspaceController = [[SEEWorkspaceController alloc] initWithDocumentController:self];
 
 		I_propertiesForOpenedFiles = [NSMutableDictionary new];
         I_suspendedSeeScriptCommands = [NSMutableDictionary new];
@@ -714,11 +714,14 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 			completionHandler(nil, NO, nil);
 		}
     } else if (!isFilePackage && isDirectory) {
-		[self openDirectory:url];
+        if(SEEWorkspacesEnabled) {
+            [self openWorkspaceWithURL:url display:displayDocument withCompletionHandler:completionHandler];
+        } else {
+            
+            [self openDirectory:url];
 
-		if (completionHandler) {
-			completionHandler(nil, NO, nil);
-		}
+        }
+        
     } else {
         NSAppleEventDescriptor *eventDesc = [[NSAppleEventManager sharedAppleEventManager] currentAppleEvent];
         NSDictionary *parsed = [PlainTextDocument parseOpenDocumentEvent:eventDesc];
@@ -757,6 +760,10 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 	return result;
 }
 
+- (void)addDocument:(NSDocument *)document {
+    [super addDocument:document];
+    [self.workspaceController addDocument:document];
+}
 
 #pragma mark - NSWindowRestoration
 
@@ -1608,6 +1615,7 @@ struct ModificationInfo
     }
 
     [super removeDocument:document];
+    [self.workspaceController removeDocument:document];
     if ([[self documents] count]==0) {
         NSMenu *modeMenu=[[[NSApp mainMenu] itemWithTag:ModeMenuTag] submenu];
         // remove all items that don't belong here anymore
@@ -1736,18 +1744,24 @@ struct ModificationInfo
     }
 }
 
-- (void)openWorkspace:(NSURL *)aURL {
-    [self.workspaceController workspaceForURL:aURL];
+- (void)openWorkspaceWithURL:(NSURL *)aURL display:(BOOL)displayDocument withCompletionHandler:(void (^)(NSDocument *, BOOL, NSError *))completionHandler{
+    SEEWorkspace *workspace = [self.workspaceController workspaceForURL:aURL createIfNeeded:YES];
+    
+    [super openDocumentWithContentsOfURL:workspace.baseURL
+                                 display:displayDocument
+                       completionHandler:completionHandler];
+}
+
+-(void)openWorkspace:(SEEWorkspace *)workspace display:(BOOL)displayDocument withCompletionHandler:(void (^)(NSDocument *, BOOL, NSError *))completionHandler {
+    
+    [super openDocumentWithContentsOfURL:workspace.baseURL
+                                 display:displayDocument
+                       completionHandler:completionHandler];
 }
 
 - (void)openDirectory:(NSURL *)aURL {
-    if(SEEWorkspacesEnabled) {
-        [self openWorkspace:aURL];
-    } else {
-        [self setLocationForNextOpenPanel:aURL];
-        [self performSelector:@selector(openDocument:) withObject:nil afterDelay:0.0];
-    }
-    
+    [self setLocationForNextOpenPanel:aURL];
+    [self performSelector:@selector(openDocument:) withObject:nil afterDelay:0.0];
 
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Opening directory: %@", aURL);
 }
@@ -1780,5 +1794,6 @@ static NSString *tempFileName() {
     [(PlainTextDocument *)document setDocumentMode:mode];
     [document clearChangeMarks:self];
 }
+
 
 @end
