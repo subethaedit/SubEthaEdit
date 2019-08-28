@@ -570,30 +570,22 @@ static void openFiles(NSArray *fileNames, NSDictionary *options) {
     }
     
     if ([fileNames count] != 0) {
-        BOOL isDir;
         count = [fileNames count];
         for (i = 0; i < count; i++) {
             NSString *fileName = [fileNames objectAtIndex:i];
-            if ([fileManager fileExistsAtPath:fileName isDirectory:&isDir]) {
-                if (isDir) {
-                	if ([[fileName pathExtension] caseInsensitiveCompare:@"seetext"] == NSOrderedSame) {
-						[files addObject:fileName];
-                	} else {
-						//fprintf(stdout, "\"%s\" is a directory.\n", fileName);
-						//fflush(stdout);
-					}
-                } else {
-                    NSError *error;
-                    NSString *destination;
-                    NSDictionary *attributes = [fileManager attributesOfItemAtPath:fileName error:&error];
-                    if ([attributes[NSFileType] isEqualToString:NSFileTypeSymbolicLink]) {
-                        if ((destination = [fileManager destinationOfSymbolicLinkAtPath:fileName error:&error])) {
-                            [files addObject:destination.isAbsolutePath ? destination : [[fileName stringByDeletingLastPathComponent] stringByAppendingPathComponent:destination]];
-                        }
-                    } else {
-                        [files addObject:fileName];
+            if ([fileManager fileExistsAtPath:fileName]) {
+            
+                NSError *error;
+                NSString *destination;
+                NSDictionary *attributes = [fileManager attributesOfItemAtPath:fileName error:&error];
+                if ([attributes[NSFileType] isEqualToString:NSFileTypeSymbolicLink]) {
+                    if ((destination = [fileManager destinationOfSymbolicLinkAtPath:fileName error:&error])) {
+                        [files addObject:destination.isAbsolutePath ? destination : [[fileName stringByDeletingLastPathComponent] stringByAppendingPathComponent:destination]];
                     }
+                } else {
+                    [files addObject:fileName];
                 }
+                
             } else {
                 [newFileNames addObject:fileName];
             }
