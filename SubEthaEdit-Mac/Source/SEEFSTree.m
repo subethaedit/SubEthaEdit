@@ -43,6 +43,7 @@ static void fsEventsCallback(ConstFSEventStreamRef streamRef,
         FSEventStreamCreateFlags flags = kFSEventStreamCreateFlagUseCFTypes;
         
         FSEventStreamContext ctx;
+        memset(&ctx, 0, sizeof(ctx));
         ctx.info = (__bridge void *)self;
         
         fsEventStream = FSEventStreamCreate(NULL,
