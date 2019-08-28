@@ -6795,13 +6795,19 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 }
 
 - (void)scriptWrapperWillRunScriptNotification:(NSNotification *)aNotification {
-    [[self session] pauseProcessing];
-    I_flags.syntaxHighlightingIsSuspended = YES;
+    // Needs to be called synchronously on the main queue to ensure integrity
+    [NSOperationQueue TCM_performBlockOnMainThreadSynchronously:^{
+        [[self session] pauseProcessing];
+        self->I_flags.syntaxHighlightingIsSuspended = YES;
+    }];
 }
 
 - (void)scriptWrapperDidRunScriptNotification:(NSNotification *)aNotification {
-    I_flags.syntaxHighlightingIsSuspended = NO;
-    [[self session] startProcessing];
+    // Needs to be main thread, but asynchronously is ok too
+    [NSOperationQueue TCM_performBlockOnMainThreadIsAsynchronous:^{
+        self->I_flags.syntaxHighlightingIsSuspended = NO;
+        [[self session] startProcessing];
+    }];
 }
 
 #ifndef TCM_NO_DEBUG
