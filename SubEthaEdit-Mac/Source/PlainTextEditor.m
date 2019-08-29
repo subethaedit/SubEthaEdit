@@ -52,36 +52,6 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 - (BOOL)_isUnmarking;
 @end
 
-@interface NSMenu (UndefinedStuff)
-- (NSMenu *)bottomPart;
-@end
-
-@implementation NSMenu (UndefinedStuff)
-- (NSMenu *)bottomPart {
-    NSMenu *newMenu = [NSMenu new];
-    NSArray *items = [self itemArray];
-    NSUInteger count = [items count];
-    NSInteger index = count - 1;
-
-    while (index >= 0) {
-        if ([[items objectAtIndex:index] isSeparatorItem]) {
-            index++; break;
-        }
-
-        index--;
-    }
-
-    while (index < count) {
-        [newMenu addItem:[[items objectAtIndex:index] copy]];
-        index++;
-    }
-    return newMenu;
-}
-
-
-@end
-
-
 @interface PlainTextEditor () <TCMHoverButtonRightMouseDownHandler>
 
 @property (nonatomic, strong) IBOutlet NSView *O_editorView;
@@ -1721,7 +1691,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 - (void)setIsSuspendingGutterDrawing:(BOOL)isSuspendingGutterDrawing {
-    GutterRulerView *rulerView = O_scrollView.verticalRulerView;
+    GutterRulerView *rulerView = (GutterRulerView *)O_scrollView.verticalRulerView;
     [rulerView setSuspendDrawing:isSuspendingGutterDrawing];
     if (!isSuspendingGutterDrawing) {
         [rulerView setNeedsDisplay:YES];
