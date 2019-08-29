@@ -135,7 +135,6 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 @property (nonatomic, strong) TCMBracketSettings *bracketSettings;
 @property (nonatomic, strong) NSSavePanel *currentSavePanel;
 @property (nonatomic, strong) NSArray *preservedDataFromSEETextFile;
-@property (nonatomic, copy) void (^presentScheduledAlertForWindow)(NSWindow *);
 
 @end
 
@@ -792,7 +791,6 @@ static NSString *tempFileName(NSString *origPath) {
 	self.O_exportSheet = nil;
 	self.O_exportSheetController = nil;
 
-    self.presentScheduledAlertForWindow = nil;
 	self.currentSavePanel = nil;
 
      I_stateDictionaryFromLoading = nil;
@@ -809,37 +807,18 @@ static NSString *tempFileName(NSString *origPath) {
 - (void)presentAlert:(NSAlert *)alert completionHandler:(void (^)(NSModalResponse returnCode))completionHandler {
     if (alert == nil) { return; }
 
-    // Search a window that doesn't yet show a sheet
-    NSArray *orderedWindows = [NSApp orderedWindows];
-    NSUInteger minIndex = NSNotFound;
-    NSEnumerator *enumerator = [[self windowControllers] objectEnumerator];
-    PlainTextWindowController *windowController;
-    while ((windowController = [enumerator nextObject])) {
-        if ([[windowController document] isEqual:self] &&
-            [[windowController window] attachedSheet] == nil) {
-            minIndex = MIN(minIndex, [orderedWindows indexOfObjectIdenticalTo:[windowController window]]);
-        } 
-    }
-    
-    if (minIndex != NSNotFound) {
-        // Found one, use to display
-        NSWindow *window = [orderedWindows objectAtIndex:minIndex];
-        [window makeKeyAndOrderFront:self];
-        [alert beginSheetModalForWindow:window completionHandler:completionHandler];
-    } else {
-        // Already showing a sheet, so schedule alert for future display
-        
-        NSEnumerator *enumerator = [[self windowControllers] objectEnumerator];
-        PlainTextWindowController *windowController;
-        while ((windowController = [enumerator nextObject])) {
-            PlainTextWindowControllerTabContext *tabContext = [windowController windowControllerTabContextForDocument:self];
-            [tabContext setIsAlertScheduled:YES];
-        }
+    NSArray * orderedWindows = NSApp.orderedWindows;
+    NSSet * candidateWindows = [NSSet setWithArray:[self.windowControllers valueForKey:@"window"]];
 
-        self.presentScheduledAlertForWindow = ^(NSWindow * window){
-            [alert beginSheetModalForWindow:window completionHandler:completionHandler];
-        };
-    }
+    NSUInteger index = [orderedWindows indexOfObjectPassingTest:
+                        ^(NSWindow * window, NSUInteger idx, BOOL * stop) {
+                            return [candidateWindows containsObject:window];
+                        }];
+
+    NSWindow * window = orderedWindows[index];
+
+    [window makeKeyAndOrderFront:self];
+    [alert beginSheetModalForWindow:window completionHandler:completionHandler];
 }
 
 
@@ -873,12 +852,6 @@ static NSString *tempFileName(NSString *origPath) {
         details:details
         buttons:@[NSLocalizedString(@"OK", nil)]
            then:nil];
-}
-
-- (void)presentScheduledAlertForWindow:(NSWindow *)window {
-    typeof(_presentScheduledAlertForWindow) action = [self.presentScheduledAlertForWindow copy];
-    self.presentScheduledAlertForWindow = nil;
-    action(window);
 }
 
 #pragma mark - Encoding

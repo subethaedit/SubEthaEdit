@@ -171,8 +171,6 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
 - (void)presentPromotionAlertForTextView:(NSTextView *)textView insertionString:(NSString *)insertionString affectedRange:(NSRange)affectedRange;
 - (void)conditionallyEditAnyway:(void (^)(PlainTextDocument *))completionHandler;
 
-- (void)presentScheduledAlertForWindow:(NSWindow *)window;
-
 - (IBAction)newView:(id)aSender;
 //- (IBAction)goIntoBundles:(id)sender;
 //- (IBAction)showHiddenFiles:(id)sender;
