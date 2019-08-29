@@ -1716,6 +1716,18 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	}
 }
 
+- (BOOL)isSuspendingGutterDrawing {
+    return ((GutterRulerView *)O_scrollView.verticalRulerView).suspendDrawing;
+}
+
+- (void)setIsSuspendingGutterDrawing:(BOOL)isSuspendingGutterDrawing {
+    GutterRulerView *rulerView = O_scrollView.verticalRulerView;
+    [rulerView setSuspendDrawing:isSuspendingGutterDrawing];
+    if (!isSuspendingGutterDrawing) {
+        [rulerView setNeedsDisplay:YES];
+    }
+}
+
 - (BOOL)showsGutter {
     return [O_scrollView rulersVisible];
 }

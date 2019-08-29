@@ -6554,7 +6554,6 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 }
 
 - (void)replaceTextInRange:(NSRange)aRange withString:(NSString *)aString {
-    // NSLog(@"%s",__FUNCTION__);
     // Check for valid encoding
     if (![aString canBeConvertedToEncoding:[self fileEncoding]]) {
         return;
@@ -6564,21 +6563,16 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     NSMutableString *mutableString = [aString mutableCopy];
     [mutableString convertLineEndingsToLineEndingString:[self lineEndingString]];
 
-    FullTextStorage *textStorage = [(FoldableTextStorage *)[self textStorage] fullTextStorage];
+    FoldableTextStorage *foldableTextStorage = self.textStorage;
+    FullTextStorage *textStorage = [foldableTextStorage fullTextStorage];
     [textStorage replaceCharactersInRange:aRange withString:mutableString];
     if ([mutableString length] > 0) {
         [textStorage addAttributes:[self typingAttributes] 
                              range:NSMakeRange(aRange.location, [mutableString length])];
     }
-    
-//    if (I_flags.highlightSyntax) {
-//        [self highlightSyntaxInRange:NSMakeRange(0, [[I_textStorage fullTextStorage] length])];
-//    }
-
 }
 
 - (NSNumber *)uniqueID {
-//    return [NSNumber numberWithUnsignedInt:(uintptr_t)self];
     return [NSNumber numberWithInteger:(int32_t)self];
 }
 
@@ -6607,7 +6601,6 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 }
 
 - (void)setEncoding:(NSString *)name {
-    //NSLog(@"setting encoding (AppleScript)");
     CFStringEncoding cfEncoding = CFStringConvertIANACharSetNameToEncoding((CFStringRef)name);
     if (cfEncoding != kCFStringEncodingInvalidId) {
         NSStringEncoding encoding = CFStringConvertEncodingToNSStringEncoding(cfEncoding);
@@ -6797,6 +6790,9 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 - (void)scriptWrapperWillRunScriptNotification:(NSNotification *)aNotification {
     // Needs to be called synchronously on the main queue to ensure integrity
     [NSOperationQueue TCM_performBlockOnMainThreadSynchronously:^{
+        for (PlainTextEditor *editor in self.plainTextEditors) {
+            [editor setIsSuspendingGutterDrawing:YES];
+        }
         [[self session] pauseProcessing];
         self->I_flags.syntaxHighlightingIsSuspended = YES;
     }];
@@ -6805,6 +6801,9 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 - (void)scriptWrapperDidRunScriptNotification:(NSNotification *)aNotification {
     // Needs to be main thread, but asynchronously is ok too
     [NSOperationQueue TCM_performBlockOnMainThreadIsAsynchronous:^{
+        for (PlainTextEditor *editor in self.plainTextEditors) {
+            [editor setIsSuspendingGutterDrawing:NO];
+        }
         self->I_flags.syntaxHighlightingIsSuspended = NO;
         [[self session] startProcessing];
     }];

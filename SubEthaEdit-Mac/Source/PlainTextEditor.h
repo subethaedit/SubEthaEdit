@@ -19,6 +19,7 @@ extern NSString * const PlainTextEditorDidChangeSearchScopeNotification;
 
 @interface PlainTextEditor : NSResponder <NSTextViewDelegate> 
 
+@property (nonatomic) BOOL isSuspendingGutterDrawing;
 @property (nonatomic, readonly) BOOL hasBottomOverlayView;
 @property (nonatomic, readonly) BOOL hasTopOverlayView;
 // bottom status bar binding values

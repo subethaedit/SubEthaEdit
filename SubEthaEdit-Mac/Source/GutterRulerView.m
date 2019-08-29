@@ -130,7 +130,7 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
     
 	[colors[@"GutterBackground"] set];
 	NSRectFill(aRect);
-		
+    
 	if (!drawLineNumber) {
 		CGFloat linenumberFontSize=9.;
 			NSFont *font=[NSFont fontWithName:@"Tahoma" size:linenumberFontSize];
@@ -194,7 +194,11 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 	fullFoldingAreaRect.size.width = foldingAreaRect.size.width;
 	[colors[@"GutterMin"] set];
 	NSRectFill(fullFoldingAreaRect);
-	
+
+    if (self.suspendDrawing) {
+        return;
+    }
+
 	
     if ([textStorage length]) {
         boundingRect=NSMakeRect(0,0,0,0);

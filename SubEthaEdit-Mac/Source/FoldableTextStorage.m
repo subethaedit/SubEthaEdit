@@ -567,11 +567,8 @@ typedef union {
 		}
 
 	} else {
-//		unsigned origLen = [I_fullTextStorage length];
 		[I_fullTextStorage replaceCharactersInRange:aRange withString:aString synchronize:YES];
-//		[self edited:NSTextStorageEditedCharacters range:aRange 
-//			  changeInLength:[I_fullTextStorage length] - origLen];
-	}    
+	}
 
 	if (I_internalAttributedString && [I_sortedFoldedTextAttachments count] == 0) {
 		[self removeInternalStorageString];
@@ -597,8 +594,7 @@ typedef union {
 	} else {
 		[I_fullTextStorage setAttributes:attributes range:[self fullRangeForFoldedRange:aRange] synchronize:YES];
 	}
-	[self edited:NSTextStorageEditedAttributes range:aRange 
-		  changeInLength:0];
+	[self edited:NSTextStorageEditedAttributes range:aRange changeInLength:0];
 }
 
 - (void)setAttributes:(NSDictionary *)attributes range:(NSRange)aRange {
@@ -607,8 +603,7 @@ typedef union {
 
 
 // convenience method
-- (void)replaceCharactersInRange:(NSRange)inRange withAttributedString:(NSAttributedString *)inAttributedString synchronize:(BOOL)inSynchronizeFlag 
-{
+- (void)replaceCharactersInRange:(NSRange)inRange withAttributedString:(NSAttributedString *)inAttributedString synchronize:(BOOL)inSynchronizeFlag  {
 //	NSLog(@"%s",__FUNCTION__);
 	[self beginEditing];
 	if (I_internalAttributedString) {
@@ -662,7 +657,7 @@ typedef union {
 //	NSLog(@"%s %@ %@ lengthChange %d",__FUNCTION__, NSStringFromRange(inRange), inString, [inString length] - inRange.length);
 
 	if (!I_internalAttributedString) {
-		[self edited:NSTextStorageEditedCharacters range:inRange changeInLength:[inString length] - inRange.length];
+		[self edited:NSTextStorageEditedCharacters range:inRange changeInLength:inString.length - inRange.length];
 	} else {
 		// lots of cases have to be considered here
 		// - changed range does not intersect with any folding -> straight through
