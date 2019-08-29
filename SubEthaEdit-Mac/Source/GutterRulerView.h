@@ -16,4 +16,6 @@
 	NSPoint I_lastMouseDownPoint;
 }
 
+@property (nonatomic) BOOL suspendDrawing;
+
 @end
