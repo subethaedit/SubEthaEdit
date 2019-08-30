@@ -5,7 +5,11 @@
 
 #import "TCMMMLoggedOperation.h"
 
-@implementation TCMMMLoggedOperation
+@implementation TCMMMLoggedOperation {
+    TCMMMOperation *I_op;
+    long long I_index;
+    NSDictionary *I_replacedAttributedStringDictionaryRepresentation;
+}
 
 + (id)loggedOperationWithOperation:(TCMMMOperation *)anOperation index:(long long)anIndex {
     return [[TCMMMLoggedOperation alloc] initWithOperation:anOperation index:anIndex];
@@ -67,12 +71,5 @@
 - (NSString *)description {
     return [NSString stringWithFormat:@"%@\ntime: %f\nop: %@\nindex:%lld", [self class],[_date timeIntervalSinceReferenceDate],I_op,I_index];
 }
-
-
-- (void)dealloc {
-     I_op = nil;
-     I_replacedAttributedStringDictionaryRepresentation = nil;
-}
-
 
 @end

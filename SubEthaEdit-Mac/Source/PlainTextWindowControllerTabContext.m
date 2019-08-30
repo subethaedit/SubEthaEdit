@@ -63,21 +63,20 @@ void * const SEEPlainTextWindowControllerTabContextPresentedViewObservanceContex
 #pragma mark - KVO
 
 - (void)registerKVO {
-	[self addObserver:self forKeyPath:@"hasEditorSplit" options:0 context:SEEPlainTextWindowControllerTabContextHasEditorSplitObservanceContext];
-	[self addObserver:self forKeyPath:@"hasWebPreviewSplit" options:0 context:SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceContext];
-  [self addObserver:self forKeyPath:@"presentedView"
-            options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:SEEPlainTextWindowControllerTabContextPresentedViewObservanceContext];
+    [self addObserver:self forKeyPath:@"hasEditorSplit" options:0 context:SEEPlainTextWindowControllerTabContextHasEditorSplitObservanceContext];
+    [self addObserver:self forKeyPath:@"hasWebPreviewSplit" options:0 context:SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceContext];
+    [self addObserver:self forKeyPath:@"presentedView"
+              options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:SEEPlainTextWindowControllerTabContextPresentedViewObservanceContext];
 }
 
 - (void)unregisterKVO {
-	[self removeObserver:self forKeyPath:@"hasEditorSplit" context:SEEPlainTextWindowControllerTabContextHasEditorSplitObservanceContext];
-	[self removeObserver:self forKeyPath:@"hasWebPreviewSplit" context:SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceContext];
-  [self removeObserver:self forKeyPath:@"presentedView" context:SEEPlainTextWindowControllerTabContextPresentedViewObservanceContext];
+    [self removeObserver:self forKeyPath:@"hasEditorSplit" context:SEEPlainTextWindowControllerTabContextHasEditorSplitObservanceContext];
+    [self removeObserver:self forKeyPath:@"hasWebPreviewSplit" context:SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceContext];
+    [self removeObserver:self forKeyPath:@"presentedView" context:SEEPlainTextWindowControllerTabContextPresentedViewObservanceContext];
 }
 
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if (context == SEEPlainTextWindowControllerTabContextHasEditorSplitObservanceContext) {
 		[self updateEditorSplitView];
     } else if (context == SEEPlainTextWindowControllerTabContextHasWebPreviewSplitObservanceContext) {

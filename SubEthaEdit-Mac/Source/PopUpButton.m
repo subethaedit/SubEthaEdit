@@ -33,10 +33,6 @@
     return self;
 }
 
-- (void)dealloc {
-    [self setDelegate:nil];
-}
-
 - (void)mouseDown:(NSEvent *)theEvent {
     id delegate=[self delegate];
     if ([delegate respondsToSelector:@selector(popUpWillShowMenu:)]) {

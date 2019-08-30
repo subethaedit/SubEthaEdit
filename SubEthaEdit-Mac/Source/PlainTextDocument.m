@@ -139,7 +139,6 @@ static void * PlainTextDocumentWorkspaceObservationContext = &PlainTextDocumentW
 @property (nonatomic, strong) TCMBracketSettings *bracketSettings;
 @property (nonatomic, strong) NSSavePanel *currentSavePanel;
 @property (nonatomic, strong) NSArray *preservedDataFromSEETextFile;
-@property (nonatomic, copy) void (^presentScheduledAlertForWindow)(NSWindow *);
 
 @end
 
@@ -774,17 +773,12 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 - (void)dealloc {
-	if (transientDocument == self) {
-		transientDocument = nil;
-		transientDocumentWindowFrame = NSZeroRect;
-	}
-
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
     
     [self removeObserver:self forKeyPath:@"workspace" context:PlainTextDocumentWorkspaceObservationContext];
     
     if (I_flags.isAnnounced) {
-        [[TCMMMPresenceManager sharedInstance] concealSession:[self session]];
+        [[TCMMMPresenceManager sharedInstance] concealSession:I_session];
     }
 
     [I_session setDocument:nil];
@@ -795,62 +789,40 @@ static NSString *tempFileName(NSString *origPath) {
         [I_session abandon];
     }
     
-    self.preservedDataFromSEETextFile = nil;
-
-    [[TCMMMPresenceManager sharedInstance] unregisterSession:[self session]];
-    [I_textStorage setDelegate:nil];
-
-	self.O_exportSheet = nil;
-	self.O_exportSheetController = nil;
-
-    self.presentScheduledAlertForWindow = nil;
-	self.currentSavePanel = nil;
-
-     I_stateDictionaryFromLoading = nil;
-    
-     I_lastTextShouldChangeReplacementString = nil;
-//    NSLog(@"%s",__FUNCTION__);
-	
-	self.bracketSettings = nil;
-	
-    self.attachedCreationFlags = nil;
-    self.persistentDocumentScopedBookmarkURLs = nil;
+    [[TCMMMPresenceManager sharedInstance] unregisterSession:I_session];
 }
 
 - (void)presentAlert:(NSAlert *)alert completionHandler:(void (^)(NSModalResponse returnCode))completionHandler {
     if (alert == nil) { return; }
 
-    // Search a window that doesn't yet show a sheet
-    NSArray *orderedWindows = [NSApp orderedWindows];
-    NSUInteger minIndex = NSNotFound;
-    NSEnumerator *enumerator = [[self windowControllers] objectEnumerator];
-    PlainTextWindowController *windowController;
-    while ((windowController = [enumerator nextObject])) {
-        if ([[windowController document] isEqual:self] &&
-            [[windowController window] attachedSheet] == nil) {
-            minIndex = MIN(minIndex, [orderedWindows indexOfObjectIdenticalTo:[windowController window]]);
-        } 
+    NSArray *orderedWindows = NSApp.orderedWindows;
+    NSSet *candidateWindows = [NSSet setWithArray:[self.windowControllers valueForKey:@"window"]];
+
+    NSUInteger index = [orderedWindows indexOfObjectPassingTest:
+                        ^(NSWindow *window, NSUInteger idx, BOOL *_stop) {
+                            return [candidateWindows containsObject:window];
+                        }];
+
+    NSWindow *window = orderedWindows[index];
+    
+    NSArray *windowControllers = self.windowControllers;
+    
+    // Temporary code to test style of alert icon
+    for (PlainTextWindowController *controller in windowControllers) {
+        controller.showsCautionSymbolInTab = YES;
     }
     
-    if (minIndex != NSNotFound) {
-        // Found one, use to display
-        NSWindow *window = [orderedWindows objectAtIndex:minIndex];
-        [window makeKeyAndOrderFront:self];
-        [alert beginSheetModalForWindow:window completionHandler:completionHandler];
-    } else {
-        // Already showing a sheet, so schedule alert for future display
-        
-        NSEnumerator *enumerator = [[self windowControllers] objectEnumerator];
-        PlainTextWindowController *windowController;
-        while ((windowController = [enumerator nextObject])) {
-            PlainTextWindowControllerTabContext *tabContext = [windowController windowControllerTabContextForDocument:self];
-            [tabContext setIsAlertScheduled:YES];
+    completionHandler = ^(NSModalResponse returnCode) {
+        for (PlainTextWindowController *controller in windowControllers) {
+            controller.showsCautionSymbolInTab = NO;
         }
-
-        self.presentScheduledAlertForWindow = ^(NSWindow * window){
-            [alert beginSheetModalForWindow:window completionHandler:completionHandler];
-        };
-    }
+        if (completionHandler) {
+            completionHandler(returnCode);
+        }
+    };
+    
+    [window makeKeyAndOrderFront:self];
+    [alert beginSheetModalForWindow:window completionHandler:completionHandler];
 }
 
 
@@ -884,12 +856,6 @@ static NSString *tempFileName(NSString *origPath) {
         details:details
         buttons:@[NSLocalizedString(@"OK", nil)]
            then:nil];
-}
-
-- (void)presentScheduledAlertForWindow:(NSWindow *)window {
-    typeof(_presentScheduledAlertForWindow) action = [self.presentScheduledAlertForWindow copy];
-    self.presentScheduledAlertForWindow = nil;
-    action(window);
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
@@ -6573,7 +6539,6 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 }
 
 - (void)replaceTextInRange:(NSRange)aRange withString:(NSString *)aString {
-    // NSLog(@"%s",__FUNCTION__);
     // Check for valid encoding
     if (![aString canBeConvertedToEncoding:[self fileEncoding]]) {
         return;
@@ -6583,21 +6548,16 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     NSMutableString *mutableString = [aString mutableCopy];
     [mutableString convertLineEndingsToLineEndingString:[self lineEndingString]];
 
-    FullTextStorage *textStorage = [(FoldableTextStorage *)[self textStorage] fullTextStorage];
+    FoldableTextStorage *foldableTextStorage = self.textStorage;
+    FullTextStorage *textStorage = [foldableTextStorage fullTextStorage];
     [textStorage replaceCharactersInRange:aRange withString:mutableString];
     if ([mutableString length] > 0) {
         [textStorage addAttributes:[self typingAttributes] 
                              range:NSMakeRange(aRange.location, [mutableString length])];
     }
-    
-//    if (I_flags.highlightSyntax) {
-//        [self highlightSyntaxInRange:NSMakeRange(0, [[I_textStorage fullTextStorage] length])];
-//    }
-
 }
 
 - (NSNumber *)uniqueID {
-//    return [NSNumber numberWithUnsignedInt:(uintptr_t)self];
     return [NSNumber numberWithInteger:(int32_t)self];
 }
 
@@ -6626,7 +6586,6 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 }
 
 - (void)setEncoding:(NSString *)name {
-    //NSLog(@"setting encoding (AppleScript)");
     CFStringEncoding cfEncoding = CFStringConvertIANACharSetNameToEncoding((CFStringRef)name);
     if (cfEncoding != kCFStringEncodingInvalidId) {
         NSStringEncoding encoding = CFStringConvertEncodingToNSStringEncoding(cfEncoding);
@@ -6814,13 +6773,25 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 }
 
 - (void)scriptWrapperWillRunScriptNotification:(NSNotification *)aNotification {
-    [[self session] pauseProcessing];
-    I_flags.syntaxHighlightingIsSuspended = YES;
+    // Needs to be called synchronously on the main queue to ensure integrity
+    [NSOperationQueue TCM_performBlockOnMainThreadSynchronously:^{
+        for (PlainTextEditor *editor in self.plainTextEditors) {
+            [editor setIsSuspendingGutterDrawing:YES];
+        }
+        [[self session] pauseProcessing];
+        self->I_flags.syntaxHighlightingIsSuspended = YES;
+    }];
 }
 
 - (void)scriptWrapperDidRunScriptNotification:(NSNotification *)aNotification {
-    I_flags.syntaxHighlightingIsSuspended = NO;
-    [[self session] startProcessing];
+    // Needs to be main thread, but asynchronously is ok too
+    [NSOperationQueue TCM_performBlockOnMainThreadIsAsynchronous:^{
+        for (PlainTextEditor *editor in self.plainTextEditors) {
+            [editor setIsSuspendingGutterDrawing:NO];
+        }
+        self->I_flags.syntaxHighlightingIsSuspended = NO;
+        [[self session] startProcessing];
+    }];
 }
 
 #ifndef TCM_NO_DEBUG

@@ -9,6 +9,7 @@
 @class FullTextStorage;
 
 @interface ScriptTextBase : NSObject {
+    @protected
     FullTextStorage *I_textStorage;
 }
 

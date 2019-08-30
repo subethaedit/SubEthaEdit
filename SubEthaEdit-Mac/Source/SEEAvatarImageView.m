@@ -36,8 +36,7 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
     return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     [self unregisterKVO];
 }
 

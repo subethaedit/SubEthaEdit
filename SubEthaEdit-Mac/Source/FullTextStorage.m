@@ -44,7 +44,24 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 @end
 
 
-@implementation FullTextStorage
+@implementation FullTextStorage {
+    NSMutableAttributedString *I_internalAttributedString;
+    int I_shouldNotSynchronize;
+    int I_linearAttributeChangeState;
+    NSRange I_unionRangeOfLinearAttributeChanges;
+    int I_linearAttributeChangesCount;
+    
+    NSMutableArray *I_lineStarts;
+    NSUInteger I_lineStartsValidUpTo;
+    NSUInteger I_numberOfWords;
+    
+    NSStringEncoding I_encoding;
+    LineEnding I_lineEnding;
+    struct {
+        BOOL hasMixedLineEndings;
+        BOOL shouldWatchLineEndings;
+    } I_flags;
+}
 
 + (void)initialize {
 	if (self == [FullTextStorage class]) {
@@ -149,12 +166,6 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 }
 
 - (void)replaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString synchronize:(BOOL)inSynchronizeFlag {
-//	[self beginEditing];
-
-//	NSString *foldingBefore = [self.foldableTextStorage foldedStringRepresentation];
-//	NSLog(@"%s before: %@",__FUNCTION__,foldingBefore);
-//	NSLog(@"%s %@ %@ %@",__FUNCTION__, NSStringFromRange(aRange), aString, inSynchronizeFlag ? @"YES" : @"NO");
-
 	FoldableTextStorage *foldableTextStorage = self.foldableTextStorage;
 
 		BOOL needsCompleteValidation = NO;
@@ -166,13 +177,10 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 	if ([delegate respondsToSelector:@selector(textStorage:willReplaceCharactersInRange:withString:)]) {
 		[delegate textStorage:self willReplaceCharactersInRange:aRange withString:aString];
 	}
-//	unsigned origLen = [self length];
 
     [I_internalAttributedString replaceCharactersInRange:aRange withString:aString];
-//    [self edited:NSTextStorageEditedCharacters range:aRange 
-//          changeInLength:[I_internalAttributedString length] - origLen];
 
-	[self setLineStartsOnlyValidUpTo:aRange.location];
+    [self setLineStartsOnlyValidUpTo:aRange.location];
 
     if (I_flags.shouldWatchLineEndings && [aString length] > 0 && (!I_flags.hasMixedLineEndings || needsCompleteValidation)) {
         if ([self hasMixedLineEndingsInRange:NSMakeRange(aRange.location, [aString length])]) {
@@ -189,7 +197,6 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 	if ([delegate respondsToSelector:@selector(textStorage:didReplaceCharactersInRange:withString:)]) {
 		[delegate textStorage:self didReplaceCharactersInRange:aRange withString:aString];
 	}
-//	[self endEditing];
 }
 
 - (void)replaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString {
@@ -199,14 +206,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 
 - (void)setAttributes:(NSDictionary *)attributes range:(NSRange)aRange synchronize:(BOOL)inSynchronizeFlag {
 
-	if ([attributes objectForKey:NSToolTipAttributeName]) {
-		// here to break
-//		NSLog(@"%s had tooltipattribute",__FUNCTION__);
-	}
-
     [I_internalAttributedString setAttributes:attributes range:aRange];
-//    [self edited:NSTextStorageEditedAttributes range:aRange 
-//          changeInLength:0];
     if (inSynchronizeFlag && !I_shouldNotSynchronize && !I_fixingCounter) {
     	[self.foldableTextStorage fullTextDidSetAttributes:attributes range:aRange];
     } else if (I_linearAttributeChangeState) {
@@ -233,15 +233,9 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 
 - (void)removeAttribute:(NSString *)anAttribute range:(NSRange)aRange synchronize:(BOOL)aSynchronizeFlag {
 	if (!aSynchronizeFlag) I_shouldNotSynchronize++;
-//	NSLog(@"%s %@ %@",__FUNCTION__,anAttribute, NSStringFromRange(aRange));
 	[self removeAttribute:anAttribute range:aRange];
 	if (!aSynchronizeFlag) I_shouldNotSynchronize--;
 }
-
-//- (void)replaceCharactersInRange:(NSRange)inRange withAttributedString:(NSAttributedString *)inAttributedString 
-//{
-//	[self replaceCharactersInRange:inRange withAttributedString:inAttributedString synchronize:YES];
-//}
 
 #pragma mark ### Line Ranges
 
@@ -261,12 +255,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 - (NSString *)rangeStringForRange:(NSRange)aRange {
 	NSString *(^positionString)(NSUInteger) = ^(NSUInteger location) {
 		NSInteger lineNumber = [self lineNumberForLocation:location];
-		// NSUInteger lineStartLocation = [self.lineStarts[lineNumber-1] unsignedIntegerValue];
-		//		int positionInline = location - lineStartLocation;
 		NSString *result = @(lineNumber).stringValue;
-		//		if (positionInline > 0) {
-		//	result = [NSString stringWithFormat:@"%ld:%ld",lineNumber,lineStartLocation];
-		//}
 		return result;
 	};
 	
@@ -566,7 +555,6 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 {
     // Looks up the range of a folding
     // Search backwards for a start with matching stack, then forwards for an end.
-    
     
     NSMutableAttributedString *textStorage = self;
     NSRange wholeRange = NSMakeRange(0,[textStorage length]);

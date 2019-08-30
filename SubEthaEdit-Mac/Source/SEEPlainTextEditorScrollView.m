@@ -29,8 +29,7 @@ void * const SEEScrollViewOverlayObservingContext = (void *)&SEEScrollViewOverla
     return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
 	[self removeKVO];
 }
 

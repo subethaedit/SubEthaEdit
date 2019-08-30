@@ -9,6 +9,14 @@
 #import "SEETextView.h"
 #import "PlainTextEditor.h"
 
+
+@interface NSBezierPath (BezierPathGutterRulerViewAdditions)
++ (NSBezierPath *)trianglePathInRect:(NSRect)aRect arrowPoint:(NSRectEdge)anEdge;
++ (void)fillTriangleInRect:(NSRect)aRect arrowPoint:(NSRectEdge)anEdge;
+@end
+
+
+
 #define FOLDING_BAR_WIDTH 11.
 #define RIGHT_INSET  4.
 #define MAX_FOLDING_DEPTH (12)
@@ -44,11 +52,13 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 }
 @end
 
-@implementation GutterRulerView
+@implementation GutterRulerView {
+    NSPoint I_lastMouseDownPoint;
+}
 
 - (instancetype)initWithScrollView:(NSScrollView *)aScrollView
              orientation:(NSRulerOrientation)orientation {
-    self=[super initWithScrollView:aScrollView orientation:orientation];
+    self = [super initWithScrollView:aScrollView orientation:orientation];
     return self;
 }
 
@@ -130,7 +140,7 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
     
 	[colors[@"GutterBackground"] set];
 	NSRectFill(aRect);
-		
+    
 	if (!drawLineNumber) {
 		CGFloat linenumberFontSize=9.;
 			NSFont *font=[NSFont fontWithName:@"Tahoma" size:linenumberFontSize];
@@ -194,7 +204,11 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 	fullFoldingAreaRect.size.width = foldingAreaRect.size.width;
 	[colors[@"GutterMin"] set];
 	NSRectFill(fullFoldingAreaRect);
-	
+
+    if (self.suspendDrawing) {
+        return;
+    }
+
 	
     if ([textStorage length]) {
         boundingRect=NSMakeRect(0,0,0,0);

@@ -52,36 +52,6 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 - (BOOL)_isUnmarking;
 @end
 
-@interface NSMenu (UndefinedStuff)
-- (NSMenu *)bottomPart;
-@end
-
-@implementation NSMenu (UndefinedStuff)
-- (NSMenu *)bottomPart {
-    NSMenu *newMenu = [NSMenu new];
-    NSArray *items = [self itemArray];
-    NSUInteger count = [items count];
-    NSInteger index = count - 1;
-
-    while (index >= 0) {
-        if ([[items objectAtIndex:index] isSeparatorItem]) {
-            index++; break;
-        }
-
-        index--;
-    }
-
-    while (index < count) {
-        [newMenu addItem:[[items objectAtIndex:index] copy]];
-        index++;
-    }
-    return newMenu;
-}
-
-
-@end
-
-
 @interface PlainTextEditor () <TCMHoverButtonRightMouseDownHandler>
 
 @property (nonatomic, strong) IBOutlet NSView *O_editorView;
@@ -173,28 +143,9 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 - (void)dealloc {
     [self _removeNotificationRegistrations];
 
-    [I_textView setDelegate:nil];
     [I_textView setEditor:nil];     // in case our editor outlives us
 
     [self.O_editorView setNextResponder:nil];
-	self.topLevelNibObjects = nil;
-	self.O_editorView = nil;
-
-	self.topBarViewController = nil;
-	self.topBlurLayerView = nil;
-	self.bottomBlurLayerView = nil;
-	self.alternateAnnounceImage = nil;
-	self.numberOfActiveParticipants = nil;
-	self.localizedToolTipAnnounceButton = nil;
-	self.localizedToolTipShareInviteButton = nil;
-	self.localizedToolTipToggleParticipantsButton = nil;
-    self.O_bottomStatusBarView = nil;
-    self.topBlurBackgroundConstraints = nil;
-    self.bottomBlurBackgroundConstraints = nil;
-    self.findAndReplaceController = nil;
-    
-    self.bottomOverlayViewController = nil;
-    self.topOverlayViewController = nil;
 }
 
 - (BOOL)hitTestOverlayViewsWithEvent:(NSEvent *)aEvent {
@@ -1714,6 +1665,18 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	if (!document.isAnnounced) {
 		[document toggleIsAnnounced:nil];
 	}
+}
+
+- (BOOL)isSuspendingGutterDrawing {
+    return ((GutterRulerView *)O_scrollView.verticalRulerView).suspendDrawing;
+}
+
+- (void)setIsSuspendingGutterDrawing:(BOOL)isSuspendingGutterDrawing {
+    GutterRulerView *rulerView = (GutterRulerView *)O_scrollView.verticalRulerView;
+    [rulerView setSuspendDrawing:isSuspendingGutterDrawing];
+    if (!isSuspendingGutterDrawing) {
+        [rulerView setNeedsDisplay:YES];
+    }
 }
 
 - (BOOL)showsGutter {

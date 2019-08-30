@@ -112,8 +112,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 }
 
 
-- (void)dealloc
-{
+- (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self.otherWindowsBecomeKeyNotifivationObserver];
     [[NSNotificationCenter defaultCenter] removeObserver:self.recentDocumentsDidChangeNotifivationObserver];
 
@@ -127,8 +126,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 
 #pragma mark -
 
-- (void)windowDidLoad
-{
+- (void)windowDidLoad {
     [super windowDidLoad];
 
 	NSWindow *window = self.window;

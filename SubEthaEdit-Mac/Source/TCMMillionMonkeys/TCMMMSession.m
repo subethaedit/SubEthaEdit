@@ -147,16 +147,8 @@ NSString * const TCMMMSessionTextStorageKey = @"TextStorage";
     return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    I_helper = nil;
-    _document = nil;
-    [[I_profilesByUserID allValues] makeObjectsPerformSelector:@selector(setDelegate:) withObject:nil];
-    [I_statesWithRemainingMessages makeObjectsPerformSelector:@selector(setClient:) withObject:nil];
-    [I_statesWithRemainingMessages makeObjectsPerformSelector:@selector(setDelegate:) withObject:nil];
-    [[I_statesByClientID allValues] makeObjectsPerformSelector:@selector(setClient:) withObject:nil];
-    [[I_statesByClientID allValues] makeObjectsPerformSelector:@selector(setDelegate:) withObject:nil];
     DEBUGLOG(@"MillionMonkeysLogDomain", AllLogLevel, @"MMSession deallocated");
 }
 

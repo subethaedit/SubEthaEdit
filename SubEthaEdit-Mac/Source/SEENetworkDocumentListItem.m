@@ -22,8 +22,7 @@ extern int const FileNewMenuItemTag;
 @synthesize name = _name;
 @synthesize image = _image;
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if (self) {
 		self.name = NSLocalizedString(@"Unknown Name", @"");
@@ -35,8 +34,7 @@ extern int const FileNewMenuItemTag;
     return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
 	[self removeKVO];
 }
 

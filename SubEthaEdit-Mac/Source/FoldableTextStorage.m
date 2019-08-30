@@ -28,7 +28,29 @@ NSString * const BlockeditAttributeValue=@"YES";
 - (void)removeInternalStorageString;
 @end
 
-@implementation FoldableTextStorage
+@implementation FoldableTextStorage {
+    FullTextStorage *I_fullTextStorage;
+    NSMutableArray *I_sortedFoldedTextAttachments;
+    NSMutableAttributedString *I_internalAttributedString;
+    
+    int I_editingCount;
+    
+    struct {
+        BOOL hasBlockeditRanges;
+        BOOL  isBlockediting;
+        BOOL didBlockedit;
+        NSRange didBlockeditRange;
+        NSRange didBlockeditLineRange;
+    } I_blockedit;
+    
+    struct {
+        int length;
+        int characterOffset;
+        int startLine;
+        int endLine;
+    } I_scriptingProperties;
+    
+}
 
 + (void)initialize {
 	if (self == [FoldableTextStorage class]) {
@@ -195,7 +217,6 @@ typedef union {
 	
 	if (inRange.location >= previousAttachmentMaxRange) {
 		// the replacement range is completely after all foldings
-//		NSLog(@"%s the replacement range is completely after all foldings",__FUNCTION__);
 		resultRange = inRange;
 		resultRange.location = indexAfterFolding + (inRange.location - NSMaxRange(attachmentRange));
 		return resultRange;
@@ -238,7 +259,6 @@ typedef union {
 			if (startInsideFolding) {
 				if (attachment == attachmentReplacementStartetIn) {
 					if (NSEqualRanges(inRange,attachmentRange) && [inString length] == 0) {
-//						NSLog(@"%s go away attachment because you have been replaced completely (start and end attachment were equal)",__FUNCTION__);
 						//attachment has to go
 						resultRange.location -=1;
 						resultRange.length = 1;
@@ -249,7 +269,6 @@ typedef union {
 						break;
 					} else {
 						// adjust attachmentRange
-//						NSLog(@"%s change attachmentrange (start and end attachment were equal)",__FUNCTION__);
 						endFound = YES;
 						attachmentRange.length += locationDifference;
 						[attachment setFoldedTextRange:attachmentRange];
@@ -259,14 +278,12 @@ typedef union {
 				} else {
 					// our change started in an attachment which is different from the current attachment
 					// so the current attachment has to go and the original attachments length has to be adjusted
-//					NSLog(@"%s start and end attachment have been different, removing the current attachment and adjusting the first",__FUNCTION__);
 					int leftOverLength = NSMaxRange(attachmentRange)-NSMaxRange(inRange);
 					resultRange.length = indexAfterFolding - resultRange.location;
 					NSRange originalAttachmentRange = [attachmentReplacementStartetIn foldedTextRange];
 					originalAttachmentRange.length = leftOverLength + locationDifference + (NSMaxRange(inRange)-originalAttachmentRange.location);
 					[attachmentReplacementStartetIn setFoldedTextRange:originalAttachmentRange];
 					attachmentIndex--;
-//					NSLog(@"%s removed attachment with range:%@",__FUNCTION__,NSStringFromRange([attachment foldedTextRange]));
 					[inFoldingAttachments removeObjectAtIndex:attachmentIndex];
 					attachmentCount--;
 					endFound = YES;
@@ -274,14 +291,12 @@ typedef union {
 				}
 			} else {
 				// truncate the first part of the current folding that was chopped of
-//				NSLog(@"%s trimming the head of the current folding",__FUNCTION__);
 				int truncatedCharacters = NSMaxRange(inRange)-attachmentRange.location;
 				NSRange settingRange = NSMakeRange(attachmentRange.location + truncatedCharacters + locationDifference, attachmentRange.length - truncatedCharacters);
 				if (settingRange.length == 0) {
 					// remove this empty folding
 					resultRange.length = indexAfterFolding - resultRange.location;
 					attachmentIndex--;
-//					NSLog(@"%s removed attachment with range:%@",__FUNCTION__,NSStringFromRange([attachment foldedTextRange]));
 					[inFoldingAttachments removeObjectAtIndex:attachmentIndex];
 					attachmentCount--;
 				} else {
@@ -290,7 +305,6 @@ typedef union {
 					// do recursive treatment for this fellow
 					BOOL ignore;
 					NSMutableArray * innerAttachments = [attachment innerAttachments];
-//					NSLog(@"%s doing a recursion for a trimmed attachment (%d inner Attachments)",__FUNCTION__,[innerAttachments count]);
 
 					if ([innerAttachments count] > 0) {
 						[self foldedReplacementRangeForFullTextReplaceCharactersInRange:inRange withString:inString shouldInsertString:&ignore foldingAttachments:innerAttachments];
@@ -303,7 +317,6 @@ typedef union {
 		} else if (attachment != attachmentReplacementStartetIn) {
 			// current attachment is consumed by the replacement range - so kill the current attachment
 			attachmentIndex--;
-//			NSLog(@"%s removed attachment with range:%@",__FUNCTION__,NSStringFromRange([attachment foldedTextRange]));
 			[inFoldingAttachments removeObjectAtIndex:attachmentIndex];
 			attachmentCount--;
 		}
@@ -313,7 +326,6 @@ typedef union {
 		} else { // advance
 			attachment = [inFoldingAttachments objectAtIndex:attachmentIndex];
 			attachmentRange = [attachment foldedTextRange];
-//			indexInFullText = attachmentRange.location;
 			indexAfterFolding += attachmentRange.location - previousAttachmentMaxRange + 1;
 			previousAttachmentMaxRange = NSMaxRange(attachmentRange);
 			attachmentIndex++;
@@ -321,7 +333,6 @@ typedef union {
 	}
 	
 	if (!endFound) {
-//		NSLog(@"%s end lies behind all attachments",__FUNCTION__);
 		resultRange.length = (indexAfterFolding + NSMaxRange(inRange) - NSMaxRange(attachmentRange)) - resultRange.location;
 		if (startInsideFolding) {
 			// adjust folding to go up to the last inserted character
@@ -341,7 +352,6 @@ typedef union {
 	if (attachmentReplacementStartetIn) {
 		BOOL ignore;
 		NSMutableArray * innerAttachments = [attachmentReplacementStartetIn innerAttachments];
-//		NSLog(@"%s doing a recursion for an attachment we started in (%d inner Attachments)",__FUNCTION__,[innerAttachments count]);
 		if ([innerAttachments count] > 0) {
 			[self foldedReplacementRangeForFullTextReplaceCharactersInRange:inRange withString:inString shouldInsertString:&ignore foldingAttachments:innerAttachments];
 		}
@@ -350,8 +360,7 @@ typedef union {
 }
 
 // this is the quick one for changes that happen inside the foldable textstorage which makes sure that the range does not intersect with foldings
-- (void)adjustFoldedTextAttachments:(NSMutableArray *)inAttachments toReplacementOfFullRange:(NSRange)inFullRange withString:(NSString *)aString
-{
+- (void)adjustFoldedTextAttachments:(NSMutableArray *)inAttachments toReplacementOfFullRange:(NSRange)inFullRange withString:(NSString *)aString {
 	int removedAttachments = 0;
 	unsigned count = [inAttachments count];
 	int locationDifference = ((int)[aString length]) - inFullRange.length;
@@ -376,8 +385,7 @@ typedef union {
 	}
 }
 
-- (NSRange)indexRangeOfFoldingAttachments:(NSArray *)inAttachmentArray fullyContainedInRange:(NSRange)inRange
-{
+- (NSRange)indexRangeOfFoldingAttachments:(NSArray *)inAttachmentArray fullyContainedInRange:(NSRange)inRange {
 	NSRange result = NSMakeRange(0,0);
 	unsigned index = 0;
 	unsigned count = [inAttachmentArray count];
@@ -396,8 +404,7 @@ typedef union {
 	return result;
 }
 
-- (NSRange)fullRangeForFoldedRange:(NSRange)inRange
-{
+- (NSRange)fullRangeForFoldedRange:(NSRange)inRange {
 	NSRange resultRange = inRange;
 	unsigned index = 0;
 	unsigned count = [I_sortedFoldedTextAttachments count];
@@ -416,7 +423,6 @@ typedef union {
 	
 	while (index <= count && attachment) {
 		NSRange attachmentRange = [attachment foldedTextRange];
-//		NSLog(@"%s    - comparing attachmentRange: %@ to  resultRange: %@",__FUNCTION__,NSStringFromRange(attachmentRange),NSStringFromRange(resultRange));
 		// test if the attachment range lies inside our range
 		if (NSLocationInRange(attachmentRange.location,resultRange)) {
 			resultRange.length += attachmentRange.length - 1;
@@ -430,8 +436,6 @@ typedef union {
 			break;
 		}
 	}
-	
-//	NSLog(@"%s converted: %@ to full range: %@",__FUNCTION__,NSStringFromRange(inRange),NSStringFromRange(resultRange));
 	
 	return resultRange;
 }
@@ -555,8 +559,7 @@ typedef union {
 
 	if (I_internalAttributedString) {
 		unsigned origLen = [I_internalAttributedString length];
-//		NSLog(@"%s replaced '%@' with '%@'",__FUNCTION__,[[I_internalAttributedString string] substringWithRange:aRange],aString);
-		[I_internalAttributedString replaceCharactersInRange:aRange withString:aString];
+        [I_internalAttributedString replaceCharactersInRange:aRange withString:aString];
 		[self edited:NSTextStorageEditedCharacters | NSTextStorageEditedAttributes range:aRange 
 			  changeInLength:[I_internalAttributedString length] - origLen];
 		
@@ -567,11 +570,8 @@ typedef union {
 		}
 
 	} else {
-//		unsigned origLen = [I_fullTextStorage length];
 		[I_fullTextStorage replaceCharactersInRange:aRange withString:aString synchronize:YES];
-//		[self edited:NSTextStorageEditedCharacters range:aRange 
-//			  changeInLength:[I_fullTextStorage length] - origLen];
-	}    
+	}
 
 	if (I_internalAttributedString && [I_sortedFoldedTextAttachments count] == 0) {
 		[self removeInternalStorageString];
@@ -597,8 +597,7 @@ typedef union {
 	} else {
 		[I_fullTextStorage setAttributes:attributes range:[self fullRangeForFoldedRange:aRange] synchronize:YES];
 	}
-	[self edited:NSTextStorageEditedAttributes range:aRange 
-		  changeInLength:0];
+	[self edited:NSTextStorageEditedAttributes range:aRange changeInLength:0];
 }
 
 - (void)setAttributes:(NSDictionary *)attributes range:(NSRange)aRange {
@@ -607,9 +606,7 @@ typedef union {
 
 
 // convenience method
-- (void)replaceCharactersInRange:(NSRange)inRange withAttributedString:(NSAttributedString *)inAttributedString synchronize:(BOOL)inSynchronizeFlag 
-{
-//	NSLog(@"%s",__FUNCTION__);
+- (void)replaceCharactersInRange:(NSRange)inRange withAttributedString:(NSAttributedString *)inAttributedString synchronize:(BOOL)inSynchronizeFlag  {
 	[self beginEditing];
 	if (I_internalAttributedString) {
 		unsigned origLen = [I_internalAttributedString length];
@@ -624,45 +621,21 @@ typedef union {
 		}
 
 	} else { // no foldings - no double data
-//		unsigned origLen = [I_fullTextStorage length];
 		[I_fullTextStorage replaceCharactersInRange:inRange withAttributedString:inAttributedString synchronize:YES];
 	}
 	[self endEditing];
 }
 
 
-- (void)replaceCharactersInRange:(NSRange)inRange withAttributedString:(NSAttributedString *)inAttributedString 
-{
+- (void)replaceCharactersInRange:(NSRange)inRange withAttributedString:(NSAttributedString *)inAttributedString {
 	[self replaceCharactersInRange:inRange withAttributedString:inAttributedString synchronize:YES];
-}
-
-// performance optimization
-- (void)beginEditing {
-//	I_editingCount++;
-//	if (I_editingCount == 1) {
-//		NSLog(@"%s starting editing",__FUNCTION__);
-//	}
-	//if (!I_internalAttributedString) 
-//	[I_fullTextStorage beginEditing];
-	[super beginEditing];
-}
-
-- (void)endEditing {
-	//if (!I_internalAttributedString) 
-//	[I_fullTextStorage endEditing];
-//	if (I_editingCount == 1) {
-//		NSLog(@"%s ending editing",__FUNCTION__);
-//	}
-//	I_editingCount--;
-	[super endEditing];
 }
 
 #pragma mark methods for upstream synchronization
 - (void)fullTextDidReplaceCharactersInRange:(NSRange)inRange withString:(NSString *)inString {
-//	NSLog(@"%s %@ %@ lengthChange %d",__FUNCTION__, NSStringFromRange(inRange), inString, [inString length] - inRange.length);
 
 	if (!I_internalAttributedString) {
-		[self edited:NSTextStorageEditedCharacters range:inRange changeInLength:[inString length] - inRange.length];
+		[self edited:NSTextStorageEditedCharacters range:inRange changeInLength:inString.length - inRange.length];
 	} else {
 		// lots of cases have to be considered here
 		// - changed range does not intersect with any folding -> straight through
@@ -673,23 +646,20 @@ typedef union {
 		BOOL shouldInsertString = YES; 
 		// this call also adjusts the foldings as necessary
 		NSRange foldedReplacementRange = [self foldedReplacementRangeForFullTextReplaceCharactersInRange:inRange withString:inString shouldInsertString:&shouldInsertString foldingAttachments:I_sortedFoldedTextAttachments];
-//		NSLog(@"%s replacing folded range %@ with %@", __FUNCTION__, NSStringFromRange(foldedReplacementRange), shouldInsertString ? @"inString" : @"NOTHING");
 		if (foldedReplacementRange.length > 0 || shouldInsertString) {
 			[self replaceCharactersInRange:foldedReplacementRange withString: (shouldInsertString ? inString : @"") synchronize:NO];
 		}
-//		NSLog(@"%s after: %@",__FUNCTION__,[self foldedStringRepresentation]);
 	}
 }
 
 - (void)fullTextDidSetAttributes:(NSDictionary *)inAttributes range:(NSRange)inRange {
-//	NSLog(@"%s %@",__FUNCTION__, NSStringFromRange(inRange));
 	NSMutableDictionary *attributesPlusBlockedit = nil;
 	if (!I_internalAttributedString) {
 		[self edited:NSTextStorageEditedAttributes range:inRange changeInLength:0];
 	} else {
 		BOOL didBeginEditing = NO;
-		// TODO: go through the range, set the attributes, and if folded areas are involved split the ranges up
-		NSRange changeRange = [self foldedRangeForFullRange:inRange];
+
+        NSRange changeRange = [self foldedRangeForFullRange:inRange];
 		NSRange attributeRange = NSMakeRange(changeRange.location,0);
 		
 		do {
@@ -818,10 +788,8 @@ typedef union {
 	}
 	
 	NSMutableAttributedString *collapsedString = (NSMutableAttributedString *)[NSMutableAttributedString attributedStringWithAttachment:attachment];
-//	NSLog(@"%s %@",__FUNCTION__,collapsedString);
 	if (!I_internalAttributedString) { // generate it on first fold
 		I_internalAttributedString = [I_fullTextStorage mutableCopy];
-//		NSLog(@"%s ------------------------------> generated mutable string storage",__FUNCTION__);
 	}
 	[collapsedString addAttribute:NSToolTipAttributeName value:@"stub" range:NSMakeRange(0,[collapsedString length])];
 	[self replaceCharactersInRange:inRange withAttributedString:collapsedString synchronize:NO];
@@ -866,7 +834,6 @@ typedef union {
 - (void)removeInternalStorageString {
 	I_internalAttributedString = nil;
 	[self edited:NSTextStorageEditedCharacters | NSTextStorageEditedAttributes range:NSMakeRange(0,[I_internalAttributedString length]) changeInLength:0];
-//	NSLog(@"%s ------------------------------> killed mutable string storage",__FUNCTION__);
 }
 
 - (void)unfoldAttachment:(FoldedTextAttachment *)inAttachment atCharacterIndex:(unsigned)inIndex {
@@ -900,8 +867,8 @@ typedef union {
 			[stringToInsert appendAttributedString:[I_fullTextStorage attributedSubstringFromRange:NSMakeRange(currentIndex,NSMaxRange(foldedTextRange) - currentIndex)]];
 		}
 	}
-//	NSLog(@"%s unfolding: %@",__FUNCTION__,[self foldedStringRepresentationOfRange:[inAttachment foldedTextRange] foldings:innerAttachments level:1]);
-	[self replaceCharactersInRange:NSMakeRange(inIndex,1) withAttributedString:stringToInsert synchronize:NO];
+
+    [self replaceCharactersInRange:NSMakeRange(inIndex,1) withAttributedString:stringToInsert synchronize:NO];
 	[I_sortedFoldedTextAttachments removeObject:inAttachment];
 	
 	if ([I_sortedFoldedTextAttachments count] == 0) {
@@ -1083,10 +1050,9 @@ typedef union {
 
 	NSRange foldingRange = [self fullRangeForFoldedRange:attributeRange];
 	foldingRange = [I_fullTextStorage foldableRangeForCharacterAtIndex:foldingRange.location];
-	if (foldingRange.location == NSNotFound) return foldingRange;
-	foldingRange = [self foldedRangeForFullRange:foldingRange];
-//	NSLog(@"%s line:%d attributeRange:%@ foldingRange:%@",__FUNCTION__,aLineNumber, NSStringFromRange(attributeRange), NSStringFromRange(foldingRange));
-
+    if (foldingRange.location != NSNotFound) {
+        foldingRange = [self foldedRangeForFullRange:foldingRange];
+    }
 	return foldingRange;
 }
 
@@ -1113,44 +1079,34 @@ typedef union {
 }
 
 - (BOOL)isBlockediting {
-//	NSLog(@"%s %d",__FUNCTION__,I_blockedit.isBlockediting);
     return I_blockedit.isBlockediting;
 }
 - (void)setIsBlockediting:(BOOL)aFlag {
-//	NSLog(@"%s %d",__FUNCTION__,aFlag);
     I_blockedit.isBlockediting=aFlag;
 }
 
 - (BOOL)didBlockedit {
-//	NSLog(@"%s %d",__FUNCTION__,I_blockedit.didBlockedit);
     return I_blockedit.didBlockedit;
 }
 - (void)setDidBlockedit:(BOOL)aFlag {
-//	NSLog(@"%s %d",__FUNCTION__,aFlag);
     I_blockedit.didBlockedit=aFlag;
 }
 
 - (NSRange)didBlockeditRange {
-//	NSLog(@"%s %@",__FUNCTION__,NSStringFromRange(I_blockedit.didBlockeditRange));
     return I_blockedit.didBlockeditRange;
 }
 - (void)setDidBlockeditRange:(NSRange)aRange {
-//	NSLog(@"%s %@",__FUNCTION__,NSStringFromRange(aRange));
     I_blockedit.didBlockeditRange=aRange;
 }
 
 - (NSRange)didBlockeditLineRange {
-//	NSLog(@"%s %@",__FUNCTION__,NSStringFromRange(I_blockedit.didBlockeditLineRange));
     return I_blockedit.didBlockeditLineRange;
 }
 - (void)setDidBlockeditLineRange:(NSRange)aRange {
-//	NSLog(@"%s %@",__FUNCTION__,NSStringFromRange(aRange));
     I_blockedit.didBlockeditLineRange=aRange;
 }
 
 - (void)stopBlockedit {
-	//	NSLog(@"%s",__FUNCTION__);
-
 	NSDictionary *blockeditAttributes = nil;
 	id delegate = self.delegate;
 	if ([delegate respondsToSelector:@selector(blockeditAttributesForTextStorage:)]) {
@@ -1179,7 +1135,6 @@ typedef union {
 
 
 - (void)fixParagraphStyleAttributeInRange:(NSRange)aRange {
-//	NSLog(@"%s %@",__FUNCTION__,NSStringFromRange(aRange));
     [super fixParagraphStyleAttributeInRange:aRange];
 
 	NSDictionary *blockeditAttributes = nil;
@@ -1234,10 +1189,10 @@ typedef union {
 
 
 - (NSRange)doubleClickAtIndex:(NSUInteger)index {
-//	NSLog(@"atindex:%d",index);
-    NSRange result=[super doubleClickAtIndex:index];
+    NSRange result = [super doubleClickAtIndex:index];
     NSRange colonRange;
-    NSString *string=[self string];
+    NSString *string = [self string];
+
     // now that we have a result we separate it using the colons so doubleClick don't selected over colons (especially important for Objective-C methods
     // we do this by searching the result range for colons and separate 3 cases:
     NSCharacterSet *characterSet = [NSCharacterSet characterSetWithCharactersInString:@":."];
@@ -1270,25 +1225,12 @@ typedef union {
     return NSMakeRange(0,[self length]);
 }
 
-//- (NSArray *)scriptedCharacters {
-//    NSLog(@"%s", __FUNCTION__);
-//    NSMutableArray *result=[NSMutableArray array];
-//    int length=[self length];
-//    int index=0;
-//    while (index<length) {
-//        [result addObject:[ScriptCharacters scriptCharactersWithTextStorage:self characterRange:NSMakeRange(index++,1)]];
-//    }
-//    return result;
-//}
-
 - (unsigned int)countOfScriptedCharacters {
-    return [[self fullTextStorage] length];
+    return [I_fullTextStorage length];
 }
 
-- (id)objectInScriptedCharactersAtIndex:(unsigned)index
-{
-//    NSLog(@"%s: %d", __FUNCTION__, index);
-    return [ScriptCharacters scriptCharactersWithTextStorage:[self fullTextStorage] characterRange:NSMakeRange(index,1)];
+- (id)objectInScriptedCharactersAtIndex:(unsigned)index {
+    return [ScriptCharacters scriptCharactersWithTextStorage:I_fullTextStorage characterRange:NSMakeRange(index,1)];
 }
 
 - (void)insertObject:(id)anObject inScriptedCharactersAtIndex:(unsigned)anIndex {
@@ -1296,33 +1238,15 @@ typedef union {
 }
 
 - (void)removeObjectFromScriptedCharactersAtIndex:(unsigned)anIndex {
-//    NSLog(@"%s: %d", __FUNCTION__, anIndex);
     [[self objectInScriptedCharactersAtIndex:anIndex] setScriptedContents:@""];
 }
-
-//- (NSArray *)scriptedLines
-//{
-//    // NSLog(@"%s", __FUNCTION__);
-//    int lineCount = 1;
-//    if ([self length]>0) {
-//        lineCount = [self lineNumberForLocation:[self length]];
-//    }
-//    NSMutableArray *lines = [NSMutableArray array];
-//    int lineNumber = 1;
-//    for (lineNumber=1;lineNumber<=lineCount;lineNumber++) {
-//        [lines addObject:[ScriptLine scriptLineWithTextStorage:self lineNumber:lineNumber]];
-//    }
-//    return lines;
-//}
 
 - (unsigned int)countOfScriptedLines {
     return [self lineNumberForLocation:[self length]];
 }
 
-- (id)objectInScriptedLinesAtIndex:(unsigned)index
-{
-    // NSLog(@"%s: %d", __FUNCTION__, index);
-    return [ScriptLine scriptLineWithTextStorage:[self fullTextStorage] lineNumber:index+1];
+- (id)objectInScriptedLinesAtIndex:(unsigned)index {
+    return [ScriptLine scriptLineWithTextStorage:I_fullTextStorage lineNumber:index+1];
 }
 
 - (void)insertObject:(id)anObject inScriptedLinesAtIndex:(unsigned)anIndex {
@@ -1330,64 +1254,43 @@ typedef union {
 }
 
 - (void)removeObjectFromScriptedLinesAtIndex:(unsigned)anIndex {
-//    NSLog(@"%s: %d", __FUNCTION__, anIndex);
     [[self objectInScriptedLinesAtIndex:anIndex] setScriptedContents:@""];
 }
 
-- (NSString *)scriptedContents 
-{
-    // NSLog(@"%s", __FUNCTION__);
-    return [[self fullTextStorage] string];
+- (NSString *)scriptedContents  {
+    return [I_fullTextStorage string];
 }
 
 - (void)setScriptedContents:(id)value {
-    // NSLog(@"%s: %d", __FUNCTION__, value);
     [(id)[self delegate] replaceTextInRange:NSMakeRange(0,[self length]) withString:value];
 }
 
-//- (id)insertionPoints
-//{
-//    NSMutableArray *resultArray=[NSMutableArray new];
-//    int index=0;
-//    int length=[self length];
-//    for (index=0;index<=length;index++) {
-//        [resultArray addObject:[ScriptTextSelection insertionPointWithTextStorage:[self fullTextStorage] index:index]];
-//    }
-//    return resultArray;
-//}
-
 - (unsigned int)countOfInsertionPoints {
-	return [[self fullTextStorage] length] + 1;
+	return [I_fullTextStorage length] + 1;
 }
 
 - (id)objectInInsertionPointsAtIndex:(unsigned)anIndex {
-    return [ScriptTextSelection insertionPointWithTextStorage:[self fullTextStorage] index:anIndex];
+    return [ScriptTextSelection insertionPointWithTextStorage:I_fullTextStorage index:anIndex];
 }
 
-
-- (NSNumber *)scriptedLength
-{
+- (NSNumber *)scriptedLength {
     return [NSNumber numberWithInt:[self length]];
 }
 
-- (NSNumber *)scriptedStartCharacterIndex
-{
+- (NSNumber *)scriptedStartCharacterIndex {
     return [NSNumber numberWithInt:1];
 }
 
-- (NSNumber *)scriptedNextCharacterIndex
-{
+- (NSNumber *)scriptedNextCharacterIndex {
     return [NSNumber numberWithInt:[self length]];
 }
 
 
-- (NSNumber *)scriptedStartLine
-{
+- (NSNumber *)scriptedStartLine {
     return [NSNumber numberWithInt:1];
 }
 
-- (NSNumber *)scriptedEndLine
-{
+- (NSNumber *)scriptedEndLine {
     int lineNumber;
     int length = [self length];
     if (length > 0) {
@@ -1398,8 +1301,7 @@ typedef union {
     return [NSNumber numberWithInt:lineNumber];
 }
 
-- (id)objectSpecifier
-{
+- (id)objectSpecifier {
     NSScriptClassDescription *containerClassDesc = 
         (NSScriptClassDescription *)[NSScriptClassDescription classDescriptionForClass:[PlainTextDocument class]];
     
@@ -1413,5 +1315,3 @@ typedef union {
 }
 
 @end
-
-//#endif
