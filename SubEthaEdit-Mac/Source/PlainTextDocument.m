@@ -793,7 +793,23 @@ static NSString *tempFileName(NSString *origPath) {
                         }];
 
     NSWindow *window = orderedWindows[index];
-
+    
+    NSArray *windowControllers = self.windowControllers;
+    
+    // Temporary code to test style of alert icon
+    for (PlainTextWindowController *controller in windowControllers) {
+        controller.showsCautionSymbolInTab = YES;
+    }
+    
+    completionHandler = ^(NSModalResponse returnCode) {
+        for (PlainTextWindowController *controller in windowControllers) {
+            controller.showsCautionSymbolInTab = NO;
+        }
+        if (completionHandler) {
+            completionHandler(returnCode);
+        }
+    };
+    
     [window makeKeyAndOrderFront:self];
     [alert beginSheetModalForWindow:window completionHandler:completionHandler];
 }

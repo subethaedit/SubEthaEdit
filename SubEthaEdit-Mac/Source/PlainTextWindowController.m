@@ -127,15 +127,15 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 }
 
 - (PlainTextWindowControllerTabContext *)selectedTabContext {
-  //
 	return I_tabContext;
 }
 
 - (void)document:(PlainTextDocument *)document isReceivingContent:(BOOL)flag;
 {
-    if (![[self documents] containsObject:document])
+    if (![[self documents] containsObject:document]) {
         return;
-        
+    }
+    
     PlainTextWindowControllerTabContext *tabContext = [self windowControllerTabContextForDocument:document];
     if (tabContext) {
 
@@ -337,6 +337,21 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
 #pragma mark -
 
+- (BOOL)showsCautionSymbolInTab {
+    return !!(self.window.tab.accessoryView);
+}
+
+- (void)setShowsCautionSymbolInTab:(BOOL)showsCautionSymbolInTab {
+    NSWindowTab *tab = self.window.tab;
+    
+   tab.accessoryView = showsCautionSymbolInTab ? ({
+        NSImage *image = [NSImage imageNamed:@"CautionSymbol"];
+        image.size = NSMakeSize(18,18);
+        NSImageView *view = [NSImageView imageViewWithImage:image];
+        view;
+    }) : nil;
+}
+
 - (BOOL)showsBottomStatusBar {
 	PlainTextWindowControllerTabContext *tabContext = self.selectedTabContext;
     return [[tabContext.plainTextEditors lastObject] showsBottomStatusBar];
@@ -377,7 +392,6 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 - (IBAction)jumpToPreviousSymbol:(id)aSender {
     [[self activePlainTextEditor] jumpToPreviousSymbol:aSender];
 }
-
 
 - (IBAction)jumpToNextChange:(id)aSender {
     [[self activePlainTextEditor] jumpToNextChange:aSender];

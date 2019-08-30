@@ -43,8 +43,9 @@
 - (void)setSizeByColumns:(NSInteger)aColumns rows:(NSInteger)aRows;
 - (void)setShowsBottomStatusBar:(BOOL)aFlag;
 
-- (BOOL)showsGutter;
-- (void)setShowsGutter:(BOOL)aFlag;
+@property (nonatomic) BOOL showsGutter;
+@property (nonatomic) BOOL showsCautionSymbolInTab;
+
 - (IBAction)toggleLineNumbers:(id)aSender;
 
 - (void)setDocumentDialog:(NSViewController<SEEDocumentDialogViewController>*)aDocumentDialog;
