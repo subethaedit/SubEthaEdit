@@ -10,7 +10,7 @@
 
 
 static __auto_type windowHasAttachedSheet =
- ^ (NSWindow *window, NSUInteger index, BOOL * stop) {
+ ^ (NSWindow *window, NSUInteger index, BOOL *stop) {
         return (BOOL)(window.attachedSheet != nil);
 };
 
@@ -93,33 +93,35 @@ static __auto_type windowHasAttachedSheet =
 @implementation TabbedDocument (SheetSynchronization)
 
 // We collect all the notification names and selectors we care about in this method
-// to avoid potential bugs of forgetting to remove and observer we've added.
-- (NSArray *)windowNotifications {
-    return @[
-        @[NSWindowWillBeginSheetNotification,
-        NSStringFromSelector(@selector(windowWillBeginSheet:))],
-        @[NSWindowDidEndSheetNotification,
-        NSStringFromSelector(@selector(windowDidEndSheet:))]];
+// to avoid potential bugs of forgetting to remove an observer we've added.
+- (NSDictionary *)windowNotifications {
+    return @{
+             NSWindowWillBeginSheetNotification:
+                 NSStringFromSelector(@selector(windowWillBeginSheet:)),
+             NSWindowDidEndSheetNotification:
+                 NSStringFromSelector(@selector(windowDidEndSheet:))
+             };
 }
 
 - (void)addWindowController:(NSWindowController *)windowController {
     [super addWindowController:windowController];
 
-    NSNotificationCenter * defaultCenter = NSNotificationCenter.defaultCenter;
-    for (NSArray * registration in self.windowNotifications)
+    NSNotificationCenter *defaultCenter = NSNotificationCenter.defaultCenter;
+    NSDictionary *notifications = self.windowNotifications;
+    for (NSString *name in notifications)
         [defaultCenter addObserver:self
-                          selector:NSSelectorFromString(registration[1])
-                              name:registration[0]
+                          selector:NSSelectorFromString(notifications[name])
+                              name:name
                             object:windowController.window];
 }
 
 - (void)removeWindowController:(NSWindowController *)windowController {
     [super addWindowController:windowController];
 
-    NSNotificationCenter * defaultCenter = NSNotificationCenter.defaultCenter;
-    for (NSArray * registration in self.windowNotifications)
+    NSNotificationCenter *defaultCenter = NSNotificationCenter.defaultCenter;
+    for (NSString *name in self.windowNotifications)
         [defaultCenter removeObserver:self
-                             name:registration[0]
+                             name:name
                             object:windowController.window];
 }
 
