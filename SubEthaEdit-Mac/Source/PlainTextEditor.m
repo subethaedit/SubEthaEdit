@@ -2602,7 +2602,8 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     PlainTextDocument *document = nil;
 
     while ((document = [documents nextObject])){
-        if (document == myDocument) continue;
+        if (document == myDocument ||
+            ![document isKindOfClass:[PlainTextDocument class]]) continue;
 
         NSEnumerator *matches = [document matchEnumeratorForAutocompleteString:partialWord];
         OGRegularExpressionMatch *match = nil;

@@ -8,7 +8,9 @@
 
 #import "SEEWorkspace.h"
 
-@implementation SEEWorkspace
+@implementation SEEWorkspace {
+    NSMutableArray <NSDocument<SEEWorkspaceDocument> *> *_documents;
+}
 
 - (instancetype)initWithBaseURL:(NSURL *)url
 {

@@ -20,9 +20,7 @@
 
 @end
 
-@interface SEEWorkspace : NSObject {
-    NSMutableArray <NSDocument<SEEWorkspaceDocument> *> *_documents;
-}
+@interface SEEWorkspace : NSObject
 
 @property (nonatomic, readonly) NSURL *baseURL;
 @property (nonatomic, readonly) NSArray <NSDocument<SEEWorkspaceDocument> *>*documents;
