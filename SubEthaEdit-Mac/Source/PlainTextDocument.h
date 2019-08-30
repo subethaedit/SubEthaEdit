@@ -15,6 +15,7 @@
 #import "FoldableTextStorage.h"
 #import "FullTextStorage.h"
 #import "SEEDocumentController.h"
+#import "TabbedDocument.h"
 
 enum {
     UnknownStringEncoding = NoStringEncoding,
@@ -45,7 +46,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotification;
 
 
-@interface PlainTextDocument : NSDocument <SEEDocument, NSTextViewDelegate, NSTextStorageDelegate, NSOpenSavePanelDelegate, NSSharingServicePickerDelegate, NSSharingServiceDelegate>
+@interface PlainTextDocument : TabbedDocument <SEEDocument, NSTextViewDelegate, NSTextStorageDelegate, NSOpenSavePanelDelegate, NSSharingServicePickerDelegate, NSSharingServiceDelegate>
 {
     TCMMMSession *I_session;
     struct {
@@ -167,7 +168,6 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
 - (instancetype)initWithSession:(TCMMMSession *)aSession;
 
 // TODO: rename more cocoa objc style
-- (void)warn:(NSString *)message details:(NSString *)details buttons:(NSArray *)buttons then:(void (^)(PlainTextDocument *, NSModalResponse))then;
 - (void)presentPromotionAlertForTextView:(NSTextView *)textView insertionString:(NSString *)insertionString affectedRange:(NSRange)affectedRange;
 - (void)conditionallyEditAnyway:(void (^)(PlainTextDocument *))completionHandler;
 
