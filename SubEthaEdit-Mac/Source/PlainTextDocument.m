@@ -807,15 +807,15 @@ static NSString *tempFileName(NSString *origPath) {
 - (void)presentAlert:(NSAlert *)alert completionHandler:(void (^)(NSModalResponse returnCode))completionHandler {
     if (alert == nil) { return; }
 
-    NSArray * orderedWindows = NSApp.orderedWindows;
-    NSSet * candidateWindows = [NSSet setWithArray:[self.windowControllers valueForKey:@"window"]];
+    NSArray *orderedWindows = NSApp.orderedWindows;
+    NSSet *candidateWindows = [NSSet setWithArray:[self.windowControllers valueForKey:@"window"]];
 
     NSUInteger index = [orderedWindows indexOfObjectPassingTest:
-                        ^(NSWindow * window, NSUInteger idx, BOOL * stop) {
+                        ^(NSWindow *window, NSUInteger idx, BOOL *_stop) {
                             return [candidateWindows containsObject:window];
                         }];
 
-    NSWindow * window = orderedWindows[index];
+    NSWindow *window = orderedWindows[index];
 
     [window makeKeyAndOrderFront:self];
     [alert beginSheetModalForWindow:window completionHandler:completionHandler];
