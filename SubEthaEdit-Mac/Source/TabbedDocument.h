@@ -7,8 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "DocumentAlert.h"
 
-typedef void (^AlertConsequence)(__kindof NSDocument *, NSModalResponse);
 
 @interface TabbedDocument : NSDocument
 

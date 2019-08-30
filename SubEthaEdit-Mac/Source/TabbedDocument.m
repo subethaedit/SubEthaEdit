@@ -14,7 +14,22 @@ static __auto_type windowHasAttachedSheet =
         return (BOOL)(window.attachedSheet != nil);
 };
 
+@interface TabbedDocument () {
+    NSMutableArray * _mutableAlerts;
+}
+@end
+
 @implementation TabbedDocument
+
+- (instancetype)init {
+    self = [super init];
+
+    if (self) {
+        _mutableAlerts = [NSMutableArray new];
+    }
+
+    return self;
+}
 
 // As we have not implemented document-based alert queueing yet, this simply returns
 // YES if any of it's associated windows has a sheet attached. The eventual theory is
@@ -35,15 +50,12 @@ static __auto_type windowHasAttachedSheet =
       details:(NSString *)details
       buttons:(NSArray *)buttons
          then:(AlertConsequence)then {
-    NSAlert *alert = [[NSAlert alloc] init];
-
-    [alert setAlertStyle:style];
-    [alert setMessageText:message];
-    [alert setInformativeText:details];
-
-    for (NSString * button in buttons) {
-        [alert addButtonWithTitle: button];
-    }
+    DocumentAlert *alert =
+        [[DocumentAlert alloc] initWithMessage:message
+                                         style:style
+                                       details:details
+                                       buttons:buttons
+                                          then:then];
 
     __unsafe_unretained NSDocument *weakSelf = self;
     [self presentAlert:alert completionHandler:^(NSModalResponse returnCode) {
