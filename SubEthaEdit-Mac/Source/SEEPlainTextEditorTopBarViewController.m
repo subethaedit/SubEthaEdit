@@ -71,11 +71,9 @@
 }
 
 - (void)dealloc {
-	self.symbolPopUpButton.delegate = nil;
 	for (id notificationReference in self.registeredNotifications) {
 		[[NSNotificationCenter defaultCenter] removeObserver:notificationReference];
-	}
-	
+	}	
 }
 
 - (void)updateColorsForIsDarkBackground:(BOOL)isDark {

@@ -114,15 +114,6 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
     return self;
 }
 
-// actually never gets called - as any other top level nib object isn't dealloced...
-- (void)dealloc {
-    self.modeIdentifierFromLastRunOpenPanel = nil;
-    self.filenamesFromLastRunOpenPanel = nil;
-    self.documentCreationFlagsLookupDict = nil;
-	self.locationForNextOpenPanel = nil;
-}
-
-
 #pragma mark - Actions
 
 - (IBAction)concealAllDocuments:(id)aSender {

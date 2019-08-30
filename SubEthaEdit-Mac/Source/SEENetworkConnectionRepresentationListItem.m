@@ -26,8 +26,7 @@ void * const SEEConnectionClearableObservingContext = (void *)&SEEConnectionClea
 @synthesize name = _name;
 @synthesize image = _image;
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if (self) {
 		[self installKVO];
@@ -36,8 +35,7 @@ void * const SEEConnectionClearableObservingContext = (void *)&SEEConnectionClea
     return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
 	[self removeKVO];
 }
 

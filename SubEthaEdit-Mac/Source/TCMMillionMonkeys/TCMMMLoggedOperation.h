@@ -7,11 +7,7 @@
 #import "TCMMMOperation.h"
 
 
-@interface TCMMMLoggedOperation : NSObject {
-    TCMMMOperation *I_op;
-    long long I_index;
-	NSDictionary *I_replacedAttributedStringDictionaryRepresentation;
-}
+@interface TCMMMLoggedOperation : NSObject 
 
 @property (nonatomic, strong) NSDate *date;
 

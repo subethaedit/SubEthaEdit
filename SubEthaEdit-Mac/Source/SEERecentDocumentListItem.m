@@ -13,8 +13,7 @@ void * const SEERecentDocumentURLObservingContext = (void *)&SEERecentDocumentUR
 @synthesize name = _name;
 @synthesize image = _image;
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if (self) {
 		self.name = NSLocalizedString(@"Unknown Name", @"");
@@ -25,8 +24,7 @@ void * const SEERecentDocumentURLObservingContext = (void *)&SEERecentDocumentUR
     return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
 	[self removeKVO];
 }
 
@@ -38,8 +36,7 @@ void * const SEERecentDocumentURLObservingContext = (void *)&SEERecentDocumentUR
 	[self removeObserver:self forKeyPath:@"fileURL" context:SEERecentDocumentURLObservingContext];
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if (context == SEERecentDocumentURLObservingContext) {
 		self.name = self.fileURL.lastPathComponent;
 		[self updateImage];

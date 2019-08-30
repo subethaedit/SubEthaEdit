@@ -79,10 +79,6 @@
     return self;
 }
 
-- (void)dealloc {
-    [[self window] setDelegate:nil];
-}
-
 - (void)update {
     TCMMMSessionClientState state=[[(PlainTextDocument *)[self document] session] clientState];
     if (state == TCMMMSessionClientJoiningState) {

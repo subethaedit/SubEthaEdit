@@ -765,14 +765,9 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 - (void)dealloc {
-	if (transientDocument == self) {
-		transientDocument = nil;
-		transientDocumentWindowFrame = NSZeroRect;
-	}
-
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
     if (I_flags.isAnnounced) {
-        [[TCMMMPresenceManager sharedInstance] concealSession:[self session]];
+        [[TCMMMPresenceManager sharedInstance] concealSession:I_session];
     }
 
     [I_session setDocument:nil];
@@ -783,25 +778,7 @@ static NSString *tempFileName(NSString *origPath) {
         [I_session abandon];
     }
     
-    self.preservedDataFromSEETextFile = nil;
-
-    [[TCMMMPresenceManager sharedInstance] unregisterSession:[self session]];
-    [I_textStorage setDelegate:nil];
-
-	self.O_exportSheet = nil;
-	self.O_exportSheetController = nil;
-
-	self.currentSavePanel = nil;
-
-     I_stateDictionaryFromLoading = nil;
-    
-     I_lastTextShouldChangeReplacementString = nil;
-//    NSLog(@"%s",__FUNCTION__);
-	
-	self.bracketSettings = nil;
-	
-    self.attachedCreationFlags = nil;
-    self.persistentDocumentScopedBookmarkURLs = nil;
+    [[TCMMMPresenceManager sharedInstance] unregisterSession:I_session];
 }
 
 - (void)presentAlert:(NSAlert *)alert completionHandler:(void (^)(NSModalResponse returnCode))completionHandler {

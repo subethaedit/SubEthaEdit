@@ -30,11 +30,6 @@ static URLBubbleWindow *S_sharedInstance;
 	return self;
 }
 
-- (void)dealloc
-{
-	self.openURLViewOutlet = nil;
-}
-
 - (BOOL)canBecomeMainWindow {
 	return NO;
 }

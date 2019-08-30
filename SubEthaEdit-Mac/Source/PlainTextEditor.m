@@ -143,28 +143,9 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 - (void)dealloc {
     [self _removeNotificationRegistrations];
 
-    [I_textView setDelegate:nil];
     [I_textView setEditor:nil];     // in case our editor outlives us
 
     [self.O_editorView setNextResponder:nil];
-	self.topLevelNibObjects = nil;
-	self.O_editorView = nil;
-
-	self.topBarViewController = nil;
-	self.topBlurLayerView = nil;
-	self.bottomBlurLayerView = nil;
-	self.alternateAnnounceImage = nil;
-	self.numberOfActiveParticipants = nil;
-	self.localizedToolTipAnnounceButton = nil;
-	self.localizedToolTipShareInviteButton = nil;
-	self.localizedToolTipToggleParticipantsButton = nil;
-    self.O_bottomStatusBarView = nil;
-    self.topBlurBackgroundConstraints = nil;
-    self.bottomBlurBackgroundConstraints = nil;
-    self.findAndReplaceController = nil;
-    
-    self.bottomOverlayViewController = nil;
-    self.topOverlayViewController = nil;
 }
 
 - (BOOL)hitTestOverlayViewsWithEvent:(NSEvent *)aEvent {

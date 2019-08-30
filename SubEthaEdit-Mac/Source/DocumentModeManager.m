@@ -184,11 +184,6 @@ static DocumentModeManager *S_sharedInstance=nil;
     return self;
 }
 
-- (void)dealloc {
-	self.changedScopeNameDict = nil;
-    self.allPathExtensions = nil;
-}
-
 #pragma mark - Directories
 
 #define BUNDLE_MODE_FOLDER_NAME @"Modes"

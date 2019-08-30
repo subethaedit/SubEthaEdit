@@ -97,9 +97,6 @@
 	[avatarView unbind:@"image"];
 	[avatarView unbind:@"initials"];
 	[avatarView unbind:@"borderColor"];
-
-	self.nameLabelPopoverOutlet.delegate = nil;
-	self.pendingUserPopoverOutlet.delegate = nil;
 }
 
 - (void)loadView {
