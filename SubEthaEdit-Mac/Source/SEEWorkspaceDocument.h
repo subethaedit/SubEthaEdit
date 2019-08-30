@@ -12,6 +12,9 @@
 
 
 @interface SEEWorkspaceDocument : NSDocument<SEEWorkspaceDocument>
+
+- (void)selectFileWithURL:(NSURL *)url;
+
 @end
 
 

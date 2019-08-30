@@ -35,7 +35,7 @@ static void fsEventsCallback(ConstFSEventStreamRef streamRef,
 {
     self = [super init];
     if (self) {
-        _root = [[SEEFSTreeNode alloc] initWithURL:anURL];
+        _root = [[SEEFSTreeNode alloc] initWithURL:anURL parent:nil];
         
         NSArray *pathsToWatch = @[anURL.path];
         

@@ -22,15 +22,17 @@
 
 
 @implementation SEEFSTreeNode {
+    __weak SEEFSTreeNode *parent;
     NSURL *url;
     NSArray *children;
 }
 
-- (instancetype)initWithURL:(NSURL *)anURL
+- (instancetype)initWithURL:(NSURL *)anURL parent:(SEEFSTreeNode *)aParent
 {
     self = [super init];
     if (self) {
         url = anURL;
+        parent = aParent;
         
         NSDictionary<NSURLResourceKey, id> *values = [url resourceValuesForKeys:@[NSURLIsDirectoryKey]
                              error:nil];
@@ -56,7 +58,7 @@
                                                                              error:nil];
         NSMutableArray * _children = [NSMutableArray arrayWithCapacity:contents.count];
         for (NSURL *url in contents) {
-            [_children addObject:[[SEEFSTreeNode alloc] initWithURL:url]];
+            [_children addObject:[[SEEFSTreeNode alloc] initWithURL:url parent:self]];
         }
         children = [_children sortedArrayUsingComparator:^NSComparisonResult(SEEFSTreeNode *obj1, SEEFSTreeNode *obj2) {
             NSComparisonResult result = NSOrderedSame;
@@ -102,7 +104,7 @@
 }
 
 - (SEEFSTreeNode * )nodeForPath:(NSString *)path {
-    return [self nodeNamed:path onlyIfCached:NO];
+    return [self nodeForPath:path onlyIfCached:NO];
 }
 
 - (SEEFSTreeNode *)nodeForPath:(NSString *)path onlyIfCached:(BOOL)cached {
@@ -127,6 +129,19 @@
         }
     }
     return nil;
+}
+
+- (NSIndexPath *)indexPath {
+    NSIndexPath *indexPath = parent.indexPath;
+    
+    if (parent) {
+        NSUInteger ownIndex = [parent.children indexOfObject:self];
+        indexPath = [indexPath indexPathByAddingIndex:ownIndex];
+    } else {
+        indexPath = [NSIndexPath indexPathWithIndex:0];
+    }
+    
+    return indexPath;
 }
 
 - (void)reload {

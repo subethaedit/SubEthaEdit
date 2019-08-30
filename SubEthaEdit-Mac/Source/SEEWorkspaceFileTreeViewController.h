@@ -17,6 +17,9 @@
 - (instancetype)initWithWorkspace:(SEEWorkspace *)workspace;
 
 @property (nonatomic, weak) SEEWorkspace *workspace;
+
+- (void)selectFileWithURL:(NSURL *)url;
+
 @end
 
 

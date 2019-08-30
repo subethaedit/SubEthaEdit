@@ -19,6 +19,7 @@
 #import "AppController.h"
 #import "SEEEncodingDoctorDialogViewController.h"
 #import "SEEDocumentController.h"
+#import "SEEWorkspaceDocument.h"
 #import "PlainTextWindowControllerTabContext.h"
 #import "NSMenuTCMAdditions.h"
 #import "PlainTextLoadProgress.h"
@@ -409,7 +410,11 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     
     [documentController openWorkspace:self.plainTextDocument.workspace
                               display:YES
-                withCompletionHandler:nil];
+                withCompletionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
+                    if ([document isKindOfClass:[SEEWorkspaceDocument class]]) {
+                        [(SEEWorkspaceDocument *)document selectFileWithURL:self.plainTextDocument.fileURL];
+                    }
+                }];
 }
 
 

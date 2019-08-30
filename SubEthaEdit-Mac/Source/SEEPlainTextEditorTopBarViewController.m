@@ -8,6 +8,7 @@
 #import "PlainTextDocument.h"
 #import "DocumentMode.h"
 #import "BorderedTextField.h"
+#import "SEEWorkspaceDocument.h"
 
 @interface SEEPlainTextEditorTopBarViewController () <PopUpButtonDelegate>
 @property (nonatomic, strong) IBOutlet BorderedTextField *writtenByTextField;
@@ -15,6 +16,7 @@
 @property (nonatomic, strong) IBOutlet BorderedTextField *docinfoTextField;
 @property (nonatomic, strong) IBOutlet NSButton *splitButton;
 @property (nonatomic, strong) IBOutlet NSImageView *waitPipeIconImageView;
+@property (nonatomic, strong) IBOutlet NSButton *workspaceButton;
 @property (nonatomic, strong) IBOutlet NSView *bottomBarLayerBackedView;
 @property (nonatomic, strong) NSMutableSet *registeredNotifications;
 
@@ -55,10 +57,15 @@
 											   [weakSelf updateSymbolPopUpContent];
 											   [weakSelf adjustLayout];
 										   }]];
+            [set addObject:[center addObserverForName:PlainTextDocumentWorkspaceDidChangeNotification
+                                               object:document queue:mainQueue
+                                           usingBlock:^(NSNotification *aNotification) {
+                                               [weakSelf updateSymbolPopUpContent];
+                                               [weakSelf adjustLayout];
+                                           }]];
 
 			set;
 		});
-		
 	}
 	return self;
 }
@@ -156,16 +163,22 @@
 		NSRect bounds = self.view.bounds;
 		CGFloat xPosition = NSMinX(bounds);
 		BOOL isWaiting = [document isWaiting];
+        BOOL hasWorkspace = (document.workspace != nil);
 		BOOL hasSymbols = [[document documentMode] hasSymbols];
 		
 		BorderedTextField *positionTextField = self.positionTextField;
 		PopUpButton *symbolPopUpButton = self.symbolPopUpButton;
 		// document is waiting for some input from a pipe so show an indicator for that
 		self.waitPipeIconImageView.hidden = !isWaiting;
-        [positionTextField setHasLeftBorder:isWaiting];
+        [positionTextField setHasLeftBorder:isWaiting || hasWorkspace];
 		if (isWaiting) {
 			xPosition += 19.;
 		}
+        
+        self.workspaceButton.hidden = !hasWorkspace;
+        if (hasWorkspace) {
+            xPosition += 19.;
+        }
 		
 		// if there are no symbols hide the symbols popup
 		[symbolPopUpButton setHidden:!hasSymbols];
@@ -232,6 +245,18 @@
 
 - (IBAction)splitToggleButtonAction:(id)sender {
 	[self.editor.windowControllerTabContext toggleEditorSplit];
+}
+
+- (IBAction)workspaceButtonAction:(id)sender {
+    SEEDocumentController * documentController = (SEEDocumentController *)[NSDocumentController sharedDocumentController];
+    
+    [documentController openWorkspace:self.editor.document.workspace
+                              display:YES
+                withCompletionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
+                    if ([document isKindOfClass:[SEEWorkspaceDocument class]]) {
+                        [(SEEWorkspaceDocument *)document selectFileWithURL:self.editor.document.fileURL];
+                    }
+                }];
 }
 
 - (IBAction)keyboardActivateSymbolPopUp {

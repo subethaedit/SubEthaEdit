@@ -38,6 +38,11 @@
     
 }
 
+-(void)selectFileWithURL:(NSURL *)url {
+    SEEFSTreeNode *node = [tree.root nodeForPath:url.filePathURL.path];
+    self.treeController.selectionIndexPath = node.indexPath;
+}
+
 - (IBAction)doubleClick:(NSOutlineView *)sender {
     NSUInteger clickedRow = sender.clickedRow;
     id item = [sender itemAtRow:clickedRow];

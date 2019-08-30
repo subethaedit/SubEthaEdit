@@ -15,6 +15,7 @@
                 <outlet property="symbolPopUpButton" destination="57S-Gg-lfW" id="Edc-kB-OMb"/>
                 <outlet property="view" destination="ROy-l3-d1g" id="hu4-z4-zY2"/>
                 <outlet property="waitPipeIconImageView" destination="YRN-nX-AOm" id="f39-fg-mTK"/>
+                <outlet property="workspaceButton" destination="LA7-TJ-3JV" id="lK4-cD-QSN"/>
                 <outlet property="writtenByTextField" destination="W31-AX-oex" id="X2i-0o-Wk0"/>
             </connections>
         </customObject>
@@ -81,10 +82,22 @@
                         <action selector="toggleDocumentInfoLabel:" target="-2" id="wmk-us-0AU"/>
                     </connections>
                 </textField>
+                <button id="LA7-TJ-3JV">
+                    <rect key="frame" x="0.0" y="-1" width="19" height="19"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSFolder" imagePosition="only" alignment="center" borderStyle="border" transparent="YES" imageScaling="proportionallyDown" inset="2" id="XJc-wJ-CbM">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="workspaceButtonAction:" target="-2" id="0bN-uG-lEc"/>
+                    </connections>
+                </button>
             </subviews>
         </customView>
     </objects>
     <resources>
+        <image name="NSFolder" width="32" height="32"/>
         <image name="ToolbarSplitTwoPanes" width="13" height="13"/>
         <image name="WaitPipe" width="13" height="12"/>
     </resources>

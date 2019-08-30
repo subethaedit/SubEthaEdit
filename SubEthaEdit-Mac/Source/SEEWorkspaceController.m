@@ -52,6 +52,12 @@
     if(create && !workspace) {
         workspace = [[SEEWorkspace alloc] initWithBaseURL:url];
         [workspaces addObject:workspace];
+        for (NSDocument *document in [self.documentController documents]) {
+            if([document conformsToProtocol:@protocol(SEEWorkspaceDocument)]) {
+                [self assignDocumentToWorkspace:(NSDocument<SEEWorkspaceDocument> *)document];
+            }    
+        }
+        
     }
     return workspace;
 }

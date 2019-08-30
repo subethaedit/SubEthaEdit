@@ -11,7 +11,7 @@
 
 
 @interface SEEFSTreeNode : NSObject
-- (instancetype)initWithURL:(NSURL *)anURL;
+- (instancetype)initWithURL:(NSURL *)anURL parent:(SEEFSTreeNode *)aParent;
 
 - (NSString *)name;
 - (NSImage *)icon;
@@ -22,6 +22,7 @@
 
 - (SEEFSTreeNode * )nodeForPath:(NSString *)path;
 - (SEEFSTreeNode * )nodeForPath:(NSString *)path onlyIfCached:(BOOL)cached;
+- (NSIndexPath *)indexPath;
 @end
 
 
