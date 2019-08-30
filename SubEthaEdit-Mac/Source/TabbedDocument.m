@@ -8,7 +8,27 @@
 
 #import "TabbedDocument.h"
 
+
+static __auto_type windowHasAttachedSheet =
+ ^ (NSWindow *window, NSUInteger index, BOOL * stop) {
+        return (BOOL)(window.attachedSheet != nil);
+};
+
 @implementation TabbedDocument
+
+// As we have not implemented document-based alert queueing yet, this simply returns
+// YES if any of it's associated windows has a sheet attached. The eventual theory is
+// that if *any* window has a sheet, they (conceptually) *all should*. In a following
+// commit, this will be expanded to the possibility that no window is *actively*
+// showing a sheet, but may have one queued (in the case where every tab representing
+// the document is hidden).
+- (BOOL)hasAlerts {
+    NSArray *windows = [self.windowControllers valueForKey:@"window"];
+    NSUInteger index = [windows indexOfObjectPassingTest:windowHasAttachedSheet];
+    BOOL anyWindowHasAttachedSheet = index != NSNotFound;
+
+    return anyWindowHasAttachedSheet;
+}
 
 - (void)alert:(NSString *)message
         style:(NSAlertStyle)style
@@ -61,26 +81,63 @@
                         ^(NSWindow *window, NSUInteger idx, BOOL *_stop) {
                             return [candidateWindows containsObject:window];
                         }];
-
     NSWindow *window = orderedWindows[index];
-    NSArray *windowControllers = self.windowControllers;
-
-    // Temporary code to test style of alert icon
-    for (NSWindowController *controller in windowControllers) {
-        //controller.showsCautionSymbolInTab = YES;
-    }
-
-    completionHandler = ^(NSModalResponse returnCode) {
-        for (NSWindowController *controller in windowControllers) {
-            //controller.showsCautionSymbolInTab = NO;
-        }
-        if (completionHandler) {
-            completionHandler(returnCode);
-        }
-    };
 
     [window makeKeyAndOrderFront:self];
     [alert beginSheetModalForWindow:window completionHandler:completionHandler];
+}
+
+@end
+
+
+@implementation TabbedDocument (SheetSynchronization)
+
+// We collect all the notification names and selectors we care about in this method
+// to avoid potential bugs of forgetting to remove and observer we've added.
+- (NSArray *)windowNotifications {
+    return @[
+        @[NSWindowWillBeginSheetNotification,
+        NSStringFromSelector(@selector(windowWillBeginSheet:))],
+        @[NSWindowDidEndSheetNotification,
+        NSStringFromSelector(@selector(windowDidEndSheet:))]];
+}
+
+- (void)addWindowController:(NSWindowController *)windowController {
+    [super addWindowController:windowController];
+
+    NSNotificationCenter * defaultCenter = NSNotificationCenter.defaultCenter;
+    for (NSArray * registration in self.windowNotifications)
+        [defaultCenter addObserver:self
+                          selector:NSSelectorFromString(registration[1])
+                              name:registration[0]
+                            object:windowController.window];
+}
+
+- (void)removeWindowController:(NSWindowController *)windowController {
+    [super addWindowController:windowController];
+
+    NSNotificationCenter * defaultCenter = NSNotificationCenter.defaultCenter;
+    for (NSArray * registration in self.windowNotifications)
+        [defaultCenter removeObserver:self
+                             name:registration[0]
+                            object:windowController.window];
+}
+
+
+// We actually would like window*Did*BeginSheet:, but unfortunately that notification
+// doesn't exist, so at this point window.attachedSheet is still nil. For this reason
+// the willChangeValueForKey: is correct, but we have to delay the didChangeValueForKey:.
+- (void)windowWillBeginSheet:(NSNotification *)notification {
+    [self willChangeValueForKey:@"hasAlerts"];
+
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        [self didChangeValueForKey:@"hasAlerts"];
+    });
+}
+
+- (void)windowDidEndSheet:(NSNotification *)notification {
+    [self willChangeValueForKey:@"hasAlerts"];
+    [self didChangeValueForKey:@"hasAlerts"];
 }
 
 @end

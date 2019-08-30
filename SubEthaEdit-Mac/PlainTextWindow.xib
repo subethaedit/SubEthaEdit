@@ -24,8 +24,37 @@
                 <autoresizingMask key="autoresizingMask"/>
             </view>
             <connections>
+                <outlet property="cuationView" destination="TbK-0x-Bg8" id="Bb1-vT-g2V"/>
                 <outlet property="delegate" destination="-2" id="9"/>
             </connections>
         </window>
+        <customView id="TbK-0x-Bg8">
+            <rect key="frame" x="0.0" y="0.0" width="16" height="16"/>
+            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" id="dSP-f5-pqd">
+                    <rect key="frame" x="0.0" y="0.0" width="16" height="16"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                    <imageCell key="cell" controlSize="mini" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="CautionSymbol" id="sbd-0b-uhX"/>
+                </imageView>
+            </subviews>
+            <connections>
+                <binding destination="-2" name="hidden" keyPath="window.document.hasAlerts" id="Tbw-Nv-TTV">
+                    <dictionary key="options">
+                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                    </dictionary>
+                </binding>
+            </connections>
+            <point key="canvasLocation" x="39" y="-63"/>
+        </customView>
+        <userDefaultsController representsSharedInstance="YES" id="w1y-48-aKR"/>
+        <objectController id="1sV-8E-0A7">
+            <connections>
+                <outlet property="content" destination="6" id="WaC-oO-HGD"/>
+            </connections>
+        </objectController>
     </objects>
+    <resources>
+        <image name="CautionSymbol" width="14" height="14"/>
+    </resources>
 </document>

@@ -14,6 +14,8 @@ typedef void (^AlertConsequence)(__kindof NSDocument *, NSModalResponse);
 
 @interface TabbedDocument : NSDocument
 
+@property (readonly) BOOL hasAlerts;
+
 - (void)alert:(NSString *)message
         style:(NSAlertStyle)style
       details:(NSString *)details

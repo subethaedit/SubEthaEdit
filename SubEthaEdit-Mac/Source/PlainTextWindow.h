@@ -8,6 +8,7 @@
 
 @interface PlainTextWindow : NSWindow
 @property BOOL constrainingToScreenSuspended;
+@property (retain) IBOutlet  NSView * cuationView;
 
 - (void)ensureTabBarVisiblity:(BOOL)shouldAlwaysBeVisible;
 @end

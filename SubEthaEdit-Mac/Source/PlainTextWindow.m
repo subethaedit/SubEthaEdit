@@ -138,4 +138,8 @@ static NSPoint placeWithCascadePoint(NSWindow *window, NSPoint cascadePoint) {
     }
 }
 
+- (void)awakeFromNib {
+    self.tab.accessoryView = self.cuationView;
+}
+
 @end
