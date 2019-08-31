@@ -62,13 +62,23 @@ static __auto_type isSelectedWindowInTabGroup =
                                        buttons:buttons
                                           then:then];
 
-    __unsafe_unretained NSDocument *weakSelf = self;
-    [self presentAlert:alert completionHandler:^(NSModalResponse returnCode) {
-        NSDocument *strongSelf = weakSelf;
-        if (strongSelf && then) {
-            then(strongSelf, returnCode);
-        }
-    }];
+    [_mutableAlerts addObject:alert];
+
+    // If we already have alerts in the queue (and thus either displaying
+    // or waiting to display), then there is nothing left for us to do.
+    // Once they get dismissed, it will be our turn.
+    if (_mutableAlerts.count > 1)
+        return;
+
+    NSWindow *initialWindow = self.bestWindowToInitiallyDisplayAlert;
+
+    // If no current window is available to display the alert, we are
+    // similarly done.
+    if (initialWindow == nil)
+        return;
+
+    // Looks like we can actually present this one!
+    [self presentCurrentAlertInWindow:initialWindow];
 }
 
 - (void)inform:(NSString *)message details:(NSString *)details {
@@ -90,12 +100,20 @@ static __auto_type isSelectedWindowInTabGroup =
            then:then];
 }
 
-- (void)presentAlert:(NSAlert *)alert completionHandler:(void (^)(NSModalResponse returnCode))completionHandler {
-    NSWindow *window = [self bestWindowToInitiallyDisplayAlert];
+- (void)presentCurrentAlertInWindow:(NSWindow *)window {
+    DocumentAlert *alert = _mutableAlerts[0];
+    AlertConsequence then = alert.then;
 
-    if (window) {
-        [alert beginSheetModalForWindow:window completionHandler:completionHandler];
-    }
+    __unsafe_unretained TabbedDocument *weakSelf = self;
+    __auto_type completionHandler = ^(NSModalResponse returnCode) {
+        TabbedDocument *strongSelf = weakSelf;
+        [strongSelf->_mutableAlerts removeObjectAtIndex:0];
+        if (strongSelf && then) {
+            then(strongSelf, returnCode);
+        }
+    };
+
+    [alert beginSheetModalForWindow:window completionHandler:completionHandler];
 }
 
 - (NSWindow *)bestWindowToInitiallyDisplayAlert {
