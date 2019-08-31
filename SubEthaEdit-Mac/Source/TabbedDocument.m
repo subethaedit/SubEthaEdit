@@ -11,7 +11,12 @@
 
 static __auto_type windowHasAttachedSheet =
  ^ (NSWindow *window, NSUInteger index, BOOL *stop) {
-        return (BOOL)(window.attachedSheet != nil);
+    return (BOOL)(window.attachedSheet != nil);
+};
+
+static __auto_type isSelectedWindowInTabGroup =
+ ^ (NSWindow *window, NSDictionary * bindings) {
+    return (BOOL)(window.tabGroup.selectedWindow != window);
 };
 
 @interface TabbedDocument () {
@@ -86,17 +91,51 @@ static __auto_type windowHasAttachedSheet =
 }
 
 - (void)presentAlert:(NSAlert *)alert completionHandler:(void (^)(NSModalResponse returnCode))completionHandler {
-    NSArray *orderedWindows = NSApp.orderedWindows;
-    NSSet *candidateWindows = [NSSet setWithArray:[self.windowControllers valueForKey:@"window"]];
+    NSWindow *window = [self bestWindowToInitiallyDisplayAlert];
 
+    if (window) {
+        [alert beginSheetModalForWindow:window completionHandler:completionHandler];
+    }
+}
+
+- (NSWindow *)bestWindowToInitiallyDisplayAlert {
+    // If the main window belongs to this document, then it is clear that
+    // this window should initially display this alert. It's the one right
+    // in front of the user, so there is no reason to suppress it, and it
+    // is by definition the frontmost window (that matters).
+    if (NSApp.mainWindow.windowController.document == self)
+        return NSApp.mainWindow;
+
+    NSArray *windows = [self.windowControllers valueForKey:@"window"];
+
+    // Otherwise, to qualify as a candidate window, the window must currently
+    // not be in a background tab in it's respective tab group.
+    NSPredicate *isSelectedPredicate = [NSPredicate predicateWithBlock:isSelectedWindowInTabGroup];
+    NSArray *candidateWindows = [windows filteredArrayUsingPredicate:isSelectedPredicate];
+
+    // If there's no such window, then all possible windows are hidden and we must wait
+    // for one of them to be activated before showing anything.
+    if (candidateWindows.count == 0)
+        return nil;
+
+    // If there's only one such window, no need to calculate anything further.
+    if (candidateWindows.count == 1)
+        return candidateWindows[0];
+
+    // If there's *multiple* windows, then choose the frontmost one. Unfortunately,
+    // the only way to do this is to iterate over the global ordering of windows in
+    // our app. Luckily though, we can at least put the candidates in a set so that
+    // we can quickly return on the first one we find and do this in O(N).
+    NSArray *orderedWindows = NSApp.orderedWindows;
+    NSSet *candidateWindowSet = [NSSet setWithArray:candidateWindows];
     NSUInteger index = [orderedWindows indexOfObjectPassingTest:
                         ^(NSWindow *window, NSUInteger idx, BOOL *_stop) {
-                            return [candidateWindows containsObject:window];
+                            return [candidateWindowSet containsObject:window];
                         }];
-    NSWindow *window = orderedWindows[index];
 
-    [window makeKeyAndOrderFront:self];
-    [alert beginSheetModalForWindow:window completionHandler:completionHandler];
+    // Return the first one we find, which we know can't be NSNotFound since we'd
+    // only make it this far if candidateWindows.count >= 2.
+    return orderedWindows[index];
 }
 
 @end
