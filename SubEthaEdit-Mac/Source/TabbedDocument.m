@@ -20,7 +20,7 @@ static __auto_type isSelectedWindowInTabGroup =
 };
 
 @interface TabbedDocument () {
-    NSMutableArray * _mutableAlerts;
+    NSMutableArray<DocumentAlert *> * _mutableAlerts;
 }
 @end
 
@@ -47,7 +47,7 @@ static __auto_type isSelectedWindowInTabGroup =
     NSUInteger index = [windows indexOfObjectPassingTest:windowHasAttachedSheet];
     BOOL anyWindowHasAttachedSheet = index != NSNotFound;
 
-    return anyWindowHasAttachedSheet;
+    return anyWindowHasAttachedSheet || _mutableAlerts.count > 0;
 }
 
 - (void)alert:(NSString *)message
@@ -61,13 +61,14 @@ static __auto_type isSelectedWindowInTabGroup =
                                        details:details
                                        buttons:buttons
                                           then:then];
+    BOOL alreadyHasAlerts = self.hasAlerts;
 
     [_mutableAlerts addObject:alert];
 
     // If we already have alerts in the queue (and thus either displaying
     // or waiting to display), then there is nothing left for us to do.
     // Once they get dismissed, it will be our turn.
-    if (_mutableAlerts.count > 1)
+    if (alreadyHasAlerts)
         return;
 
     NSWindow *initialWindow = self.bestWindowToInitiallyDisplayAlert;
@@ -101,21 +102,31 @@ static __auto_type isSelectedWindowInTabGroup =
 }
 
 - (void)presentCurrentAlertInWindow:(NSWindow *)window {
-    DocumentAlert *alert = _mutableAlerts[0];
-    AlertConsequence then = alert.then;
+    NSAlert *alert = [_mutableAlerts[0] instantiateAlert];
+    AlertConsequence then = _mutableAlerts[0].then;
 
     __unsafe_unretained TabbedDocument *weakSelf = self;
     __auto_type completionHandler = ^(NSModalResponse returnCode) {
+        // We receive NSModalResponseStop when the alert is canceled by endSheet:.
+        if (returnCode == NSModalResponseStop)
+            return;
+
         TabbedDocument *strongSelf = weakSelf;
         [strongSelf->_mutableAlerts removeObjectAtIndex:0];
+
         if (strongSelf && then) {
             then(strongSelf, returnCode);
         }
+
+        for (NSWindow *window in strongSelf.windows)
+            if (window.attachedSheet)// && window.attachedSheet)
+                [window endSheet:window.attachedSheet];
     };
 
     [alert beginSheetModalForWindow:window completionHandler:completionHandler];
 }
 
+// Add a pound define for the only front behavior.
 - (NSWindow *)bestWindowToInitiallyDisplayAlert {
     // If the main window belongs to this document, then it is clear that
     // this window should initially display this alert. It's the one right
@@ -156,6 +167,10 @@ static __auto_type isSelectedWindowInTabGroup =
     return orderedWindows[index];
 }
 
+- (NSArray *)windows {
+    return [self.windowControllers valueForKey:@"window"];
+}
+
 @end
 
 
@@ -168,7 +183,9 @@ static __auto_type isSelectedWindowInTabGroup =
              NSWindowWillBeginSheetNotification:
                  NSStringFromSelector(@selector(windowWillBeginSheet:)),
              NSWindowDidEndSheetNotification:
-                 NSStringFromSelector(@selector(windowDidEndSheet:))
+                 NSStringFromSelector(@selector(windowDidEndSheet:)),
+             NSWindowDidBecomeMainNotification:
+                 NSStringFromSelector(@selector(windowDidBecomeMain:))
              };
 }
 
@@ -211,6 +228,17 @@ static __auto_type isSelectedWindowInTabGroup =
 - (void)windowDidEndSheet:(NSNotification *)notification {
     [self willChangeValueForKey:@"hasAlerts"];
     [self didChangeValueForKey:@"hasAlerts"];
+
+    NSWindow *window = notification.object;
+    // window.sheets?
+    if (window == NSApp.mainWindow && _mutableAlerts.count > 0)
+        [self presentCurrentAlertInWindow:window];
+}
+
+- (void)windowDidBecomeMain:(NSNotification *)notification {
+    NSWindow *window = notification.object;
+    if (!window.attachedSheet && self.hasAlerts)
+        [self presentCurrentAlertInWindow:window];
 }
 
 @end

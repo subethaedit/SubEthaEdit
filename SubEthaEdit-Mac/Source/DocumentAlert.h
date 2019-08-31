@@ -12,8 +12,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef void (^AlertConsequence)(__kindof NSDocument *, NSModalResponse);
 
-@interface DocumentAlert : NSAlert
+@interface DocumentAlert : NSObject
 
+@property (readonly, strong) NSString *message;
+@property (readonly) NSAlertStyle style;
+@property (readonly, strong) NSString *details;
+@property (readonly, copy) NSArray *buttons;
 @property (readonly, copy) AlertConsequence then;
 
 - (instancetype)initWithMessage:(NSString *)message
@@ -21,6 +25,7 @@ typedef void (^AlertConsequence)(__kindof NSDocument *, NSModalResponse);
                         details:(NSString *)details
                         buttons:(NSArray *)buttons
                            then:(AlertConsequence)then;
+- (NSAlert *)instantiateAlert;
 
 @end
 

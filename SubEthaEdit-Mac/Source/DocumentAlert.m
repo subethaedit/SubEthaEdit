@@ -19,17 +19,27 @@
     self = [super init];
 
     if (self) {
-        self.messageText = message;
-        self.alertStyle = style;
-        self.informativeText = details;
-
-        for (NSString *button in buttons)
-            [self addButtonWithTitle:button];
-
+        _message = message;
+        _style = style;
+        _details = details;
+        _buttons = buttons;
         _then = [then copy];
     }
 
     return self;
+}
+
+- (NSAlert *)instantiateAlert {
+    NSAlert *alert = [[NSAlert alloc] init];
+
+    alert.alertStyle = _style;
+    alert.messageText = _message;
+    alert.informativeText = _details;
+
+    for (NSString *button in _buttons)
+        [alert addButtonWithTitle:button];
+
+    return alert;
 }
 
 @end
