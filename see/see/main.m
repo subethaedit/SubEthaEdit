@@ -390,7 +390,7 @@ static NSArray *see(NSArray *fileNames, NSArray *newFileNames, NSString *stdinFi
         if (urls.count > 0) {
             NSAppleEventDescriptor *fileList = [NSAppleEventDescriptor listDescriptor];
             [urls enumerateObjectsUsingBlock:^(NSURL *url, NSUInteger index, BOOL *_stop) {
-                [fileList insertDescriptor:[NSAppleEventDescriptor descriptorWithFileURL:url] atIndex:index];
+                [fileList insertDescriptor:[NSAppleEventDescriptor descriptorWithFileURL:url] atIndex:index + 1];
             }];
             NSAppleEventDescriptor *openEvent = [NSAppleEventDescriptor appleEventWithEventClass:kCoreEventClass eventID:[[options objectForKey:@"print"] boolValue] ? kAEPrintDocuments : kAEOpenDocuments targetDescriptor:addressDescriptor returnID:kAutoGenerateReturnID transactionID:kAnyTransactionID];
             [openEvent setParamDescriptor:fileList forKeyword:keyDirectObject];
