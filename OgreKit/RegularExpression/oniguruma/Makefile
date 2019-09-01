@@ -2,7 +2,7 @@ ONIGURUMA_VERSION=onigmo-6.2.0
 OS_VERSION=$(shell uname -r)
 
 
-INTEL_64_DIR=$(TARGET_BUILD_DIR)/x86_64
+INTEL_64_DIR=$(CONFIGURATION_BUILD_DIR)/x86_64
 
 INTEL_64_CONFIGURE_FLAGS=--disable-dependency-tracking --host=x86_64-apple-darwin$(OS_VERSION) --build=x86_64-apple-darwin$(OS_VERSION) --enable-crnl-as-line-terminator
 
@@ -11,7 +11,7 @@ INTEL_64_CC=/usr/bin/gcc -arch x86_64
 
 ONIG_TARGET=libonigmo.la
 LIBS_DIR=.libs
-ONIGURUMA=$(TARGET_BUILD_DIR)/libonigmo.a
+ONIGURUMA=$(CONFIGURATION_BUILD_DIR)/libonigmo.a
 
 install: all
 
