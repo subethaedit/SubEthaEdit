@@ -108,21 +108,23 @@ static __auto_type windowHasAttachedSheet =
 
     NSNotificationCenter *defaultCenter = NSNotificationCenter.defaultCenter;
     NSDictionary *notifications = self.windowNotifications;
-    for (NSString *name in notifications)
+    for (NSString *name in notifications) {
         [defaultCenter addObserver:self
                           selector:NSSelectorFromString(notifications[name])
                               name:name
                             object:windowController.window];
+    }
 }
 
 - (void)removeWindowController:(NSWindowController *)windowController {
     [super addWindowController:windowController];
 
     NSNotificationCenter *defaultCenter = NSNotificationCenter.defaultCenter;
-    for (NSString *name in self.windowNotifications)
+    for (NSString *name in self.windowNotifications) {
         [defaultCenter removeObserver:self
                              name:name
                             object:windowController.window];
+    }
 }
 
 
