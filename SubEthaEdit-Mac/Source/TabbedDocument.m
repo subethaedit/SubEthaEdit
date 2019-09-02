@@ -132,9 +132,9 @@ static __auto_type windowHasAttachedSheet =
 - (void)windowWillBeginSheet:(NSNotification *)notification {
     [self willChangeValueForKey:@"hasAlerts"];
 
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+    [NSOperationQueue TCM_performBlockOnMainQueue:^{
         [self didChangeValueForKey:@"hasAlerts"];
-    });
+    } afterDelay:0.0];
 }
 
 - (void)windowDidEndSheet:(NSNotification *)notification {
