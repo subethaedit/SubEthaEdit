@@ -8,6 +8,7 @@
 
 #import "TabbedDocument.h"
 
+#define IMMEDIATELY_DISPLAY_ALERT_IF_FRONTMOST_TAB NO
 
 static __auto_type windowHasAttachedSheet =
  ^ (NSWindow *window, NSUInteger index, BOOL *stop) {
@@ -135,6 +136,9 @@ static __auto_type isSelectedWindowInTabGroup =
     if (NSApp.mainWindow.windowController.document == self)
         return NSApp.mainWindow;
 
+#if !IMMEDIATELY_DISPLAY_ALERT_IF_FRONTMOST_TAB
+    return nil;
+#else
     NSArray *windows = [self.windowControllers valueForKey:@"window"];
 
     // Otherwise, to qualify as a candidate window, the window must currently
@@ -165,6 +169,7 @@ static __auto_type isSelectedWindowInTabGroup =
     // Return the first one we find, which we know can't be NSNotFound since we'd
     // only make it this far if candidateWindows.count >= 2.
     return orderedWindows[index];
+#endif
 }
 
 - (NSArray *)windows {
