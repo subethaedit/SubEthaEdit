@@ -8,8 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 typedef void (^AlertConsequence)(__kindof NSDocument *, NSModalResponse);
 
 @interface TabbedDocument : NSDocument
@@ -20,15 +18,13 @@ typedef void (^AlertConsequence)(__kindof NSDocument *, NSModalResponse);
         style:(NSAlertStyle)style
       details:(NSString *)details
       buttons:(NSArray *)buttons
-         then:(nullable AlertConsequence)then;
+         then:(AlertConsequence)then;
 
 - (void)inform:(NSString *)message details:(NSString *)details;
 
 - (void)warn:(NSString *)message
      details:(NSString *)details
      buttons:(NSArray *)buttons
-        then:(nullable AlertConsequence)then;
+        then:(AlertConsequence)then;
 
 @end
-
-NS_ASSUME_NONNULL_END

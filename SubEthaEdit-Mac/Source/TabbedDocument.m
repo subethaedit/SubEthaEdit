@@ -34,7 +34,7 @@ static __auto_type windowHasAttachedSheet =
         style:(NSAlertStyle)style
       details:(NSString *)details
       buttons:(NSArray *)buttons
-         then:(nullable AlertConsequence)then {
+         then:(AlertConsequence)then {
     NSAlert *alert = [[NSAlert alloc] init];
 
     [alert setAlertStyle:style];
