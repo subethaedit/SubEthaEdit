@@ -8,8 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 typedef void (^AlertConsequence)(__kindof NSDocument *, NSModalResponse);
 
 @interface DocumentAlert : NSObject
@@ -28,5 +26,3 @@ typedef void (^AlertConsequence)(__kindof NSDocument *, NSModalResponse);
 - (NSAlert *)instantiateAlert;
 
 @end
-
-NS_ASSUME_NONNULL_END
