@@ -25,7 +25,6 @@
             </view>
             <connections>
                 <outlet property="cautionView" destination="TbK-0x-Bg8" id="vxd-KV-Rpa"/>
-                <outlet property="cuationView" destination="TbK-0x-Bg8" id="Bb1-vT-g2V"/>
                 <outlet property="delegate" destination="-2" id="9"/>
             </connections>
         </window>
