@@ -39,17 +39,23 @@
 	}
 }
 
-- (IBAction)terminate:(id)sender {
-    // Read System default
-    
+- (BOOL)ensureNoWindowsWithAlerts {
     for (NSDocument * document in self.orderedDocuments)
         if ([document isKindOfClass:[PlainTextDocument class]] &&
             ((PlainTextDocument *)document).hasAlerts) {
             NSBeep();
             [document.windowControllers[0].window makeKeyAndOrderFront:self];
-            return;
+            return NO;
         }
 
+    return YES;
+}
+
+- (IBAction)terminate:(id)sender {
+    if (![self ensureNoWindowsWithAlerts])
+        return;
+
+    // Read System default
     if ([self TCM_terminateShouldKeepWindowsDeterminedByDefaultsAndSenderState:sender]) {
         [self TCM_autosaveBeforeTermination];
     }
@@ -58,6 +64,9 @@
 
 // this is called from the dock quit command
 - (id)handleQuitScriptCommand:(NSScriptCommand *)aScriptCommand {
+    if (![self ensureNoWindowsWithAlerts])
+        return nil;
+
     if ([self TCM_terminateShouldKeepWindowsDeterminedByDefaultsAndSenderState:nil]) {
         [self TCM_autosaveBeforeTermination];
     }
