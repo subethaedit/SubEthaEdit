@@ -42,6 +42,14 @@
 - (IBAction)terminate:(id)sender {
     // Read System default
     
+    for (NSDocument * document in self.orderedDocuments)
+        if ([document isKindOfClass:[PlainTextDocument class]] &&
+            ((PlainTextDocument *)document).hasAlerts) {
+            NSBeep();
+            [document.windowControllers[0].window makeKeyAndOrderFront:self];
+            return;
+        }
+
     if ([self TCM_terminateShouldKeepWindowsDeterminedByDefaultsAndSenderState:sender]) {
         [self TCM_autosaveBeforeTermination];
     }
