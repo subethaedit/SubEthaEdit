@@ -9,6 +9,8 @@
 @interface PlainTextWindow : NSWindow
 @property BOOL constrainingToScreenSuspended;
 @property (nonatomic, strong) IBOutlet NSView *cautionView;
+@property (nonatomic, strong) IBOutlet NSTitlebarAccessoryViewController *cautionTitlebarViewController;
+@property (nonatomic, readonly) BOOL hasTabGroupPeers;
 
 - (void)ensureTabBarVisiblity:(BOOL)shouldAlwaysBeVisible;
 @end

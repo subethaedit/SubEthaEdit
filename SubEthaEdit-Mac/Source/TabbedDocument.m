@@ -64,7 +64,9 @@ static __auto_type isSelectedWindowInTabGroup =
                                           then:then];
     BOOL alreadyHasAlerts = self.hasAlerts;
 
+    [self willChangeValueForKey:@"hasAlerts"];
     [_mutableAlerts addObject:alert];
+    [self didChangeValueForKey:@"hasAlerts"];
 
     // If we already have alerts in the queue (and thus either displaying
     // or waiting to display), then there is nothing left for us to do.
@@ -242,8 +244,13 @@ static __auto_type isSelectedWindowInTabGroup =
 
 - (void)windowDidBecomeMain:(NSNotification *)notification {
     NSWindow *window = notification.object;
-    if (!window.attachedSheet && self.hasAlerts)
-        [self presentCurrentAlertInWindow:window];
+    if (!window.attachedSheet && self.hasAlerts) {
+        // We need to delay this to get the proper animation, if not the sheet
+        // just pops in.
+        [NSOperationQueue TCM_performBlockOnMainQueue:^{
+            [self presentCurrentAlertInWindow:window];
+        } afterDelay:0.0];
+    }
 }
 
 @end

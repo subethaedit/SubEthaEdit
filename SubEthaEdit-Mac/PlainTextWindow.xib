@@ -24,6 +24,7 @@
                 <autoresizingMask key="autoresizingMask"/>
             </view>
             <connections>
+                <outlet property="cautionTitlebarViewController" destination="rCl-oa-nDr" id="YhE-M2-sLe"/>
                 <outlet property="cautionView" destination="TbK-0x-Bg8" id="vxd-KV-Rpa"/>
                 <outlet property="delegate" destination="-2" id="9"/>
             </connections>
@@ -47,12 +48,44 @@
             </connections>
             <point key="canvasLocation" x="39" y="-63"/>
         </customView>
+        <customView id="Djk-6Q-wo2" userLabel="Titlebar Caution View">
+            <rect key="frame" x="0.0" y="0.0" width="16" height="16"/>
+            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" id="UE1-Qy-az7">
+                    <rect key="frame" x="0.0" y="0.0" width="16" height="16"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                    <imageCell key="cell" controlSize="mini" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="CautionSymbol" id="vIB-9U-6sM"/>
+                </imageView>
+            </subviews>
+            <connections>
+                <binding destination="-2" name="hidden2" keyPath="window.hasTabGroupPeers" previousBinding="rGs-07-xD3" id="IU0-Ne-I2k">
+                    <dictionary key="options">
+                        <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                        <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                        <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                        <integer key="NSNullPlaceholder" value="-1"/>
+                    </dictionary>
+                </binding>
+                <binding destination="-2" name="hidden" keyPath="window.document.hasAlerts" id="rGs-07-xD3">
+                    <dictionary key="options">
+                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                    </dictionary>
+                </binding>
+            </connections>
+            <point key="canvasLocation" x="36" y="-63"/>
+        </customView>
         <userDefaultsController representsSharedInstance="YES" id="w1y-48-aKR"/>
         <objectController id="1sV-8E-0A7">
             <connections>
                 <outlet property="content" destination="6" id="WaC-oO-HGD"/>
             </connections>
         </objectController>
+        <viewController id="rCl-oa-nDr" customClass="NSTitlebarAccessoryViewController">
+            <connections>
+                <outlet property="view" destination="Djk-6Q-wo2" id="jGd-Ga-Uoa"/>
+            </connections>
+        </viewController>
     </objects>
     <resources>
         <image name="CautionSymbol" width="14" height="14"/>
