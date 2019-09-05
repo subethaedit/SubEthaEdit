@@ -37,20 +37,20 @@ static __auto_type isSelectedWindowInTabGroup =
     return self;
 }
 
-// As we have not implemented document-based alert queueing yet, this simply returns
-// YES if any of it's associated windows has a sheet attached. The eventual theory is
-// that if *any* window has a sheet, they (conceptually) *all should*. In a following
-// commit, this will be expanded to the possibility that no window is *actively*
-// showing a sheet, but may have one queued (in the case where every tab representing
-// the document is hidden).
+// There are two cases in which we could "have alerts": the trivial case is that our
+// document alert queue has items in it. Alternatively, we also have to check if any
+// of our associated windows has a sheet up. This is because we only "control" a
+// subset of alerts: things such as the Save-As panel don't go through this system,
+// but we still want background tabs to show an icon notifying the user that the tab
+// requires the user's attention.
 - (BOOL)hasAlerts {
-    NSArray *windows = [self.windowControllers valueForKey:@"window"];
-    NSUInteger index = [windows indexOfObjectPassingTest:windowHasAttachedSheet];
-    BOOL anyWindowHasAttachedSheet = index != NSNotFound;
-
-    return anyWindowHasAttachedSheet || _mutableAlerts.count > 0;
+    return  _mutableAlerts.count > 0 ||
+            [self.windows indexOfObjectPassingTest:windowHasAttachedSheet] != NSNotFound;
 }
 
+// This is the method all other alert types get funneled through. If there is an
+// available window to show this alert to, it will present it immediately. Otherwise
+// it will queue it for later.
 - (void)alert:(NSString *)message
         style:(NSAlertStyle)style
       details:(NSString *)details
@@ -62,6 +62,8 @@ static __auto_type isSelectedWindowInTabGroup =
                                        details:details
                                        buttons:buttons
                                           then:then];
+
+    // Store this now since we'll be mutating the queue momentarily.
     BOOL alreadyHasAlerts = self.hasAlerts;
 
     [self willChangeValueForKey:@"hasAlerts"];
