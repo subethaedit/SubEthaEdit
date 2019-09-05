@@ -59,7 +59,7 @@
                 </imageView>
             </subviews>
             <connections>
-                <binding destination="-2" name="hidden2" keyPath="window.hasTabGroupPeers" previousBinding="rGs-07-xD3" id="IU0-Ne-I2k">
+                <binding destination="-2" name="hidden3" keyPath="self.window.isMainWindow" previousBinding="IU0-Ne-I2k" id="EW2-Tr-oO4">
                     <dictionary key="options">
                         <integer key="NSMultipleValuesPlaceholder" value="-1"/>
                         <integer key="NSNoSelectionPlaceholder" value="-1"/>
@@ -70,6 +70,14 @@
                 <binding destination="-2" name="hidden" keyPath="window.document.hasAlerts" id="rGs-07-xD3">
                     <dictionary key="options">
                         <string key="NSValueTransformerName">NSNegateBoolean</string>
+                    </dictionary>
+                </binding>
+                <binding destination="-2" name="hidden2" keyPath="window.hasTabGroupPeers" previousBinding="rGs-07-xD3" id="IU0-Ne-I2k">
+                    <dictionary key="options">
+                        <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                        <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                        <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                        <integer key="NSNullPlaceholder" value="-1"/>
                     </dictionary>
                 </binding>
             </connections>

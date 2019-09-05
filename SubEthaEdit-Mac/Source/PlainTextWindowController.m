@@ -765,10 +765,18 @@ static NSPoint S_cascadePoint = {0.0,0.0};
             || I_zoomFix_defaultFrameHadEqualWidth);
 }
 
+- (void)windowDidResignMain:(NSNotification *)notification {
+    [self.window willChangeValueForKey:@"isMainWindow"];
+    [self.window didChangeValueForKey:@"isMainWindow"];
+}
+
 - (void)windowDidBecomeMain:(NSNotification *)aNotification {
     [self updateLock];
     [self.plainTextDocument adjustModeMenu];
     PlainTextWindow *window = (PlainTextWindow *)self.window;
+
+    [window willChangeValueForKey:@"isMainWindow"];
+    [window didChangeValueForKey:@"isMainWindow"];
     [window ensureTabBarVisiblity:SEEDocumentController.shouldAlwaysShowTabBar];
 }
 

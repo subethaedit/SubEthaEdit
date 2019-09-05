@@ -10,7 +10,9 @@
 @property BOOL constrainingToScreenSuspended;
 @property (nonatomic, strong) IBOutlet NSView *cautionView;
 @property (nonatomic, strong) IBOutlet NSTitlebarAccessoryViewController *cautionTitlebarViewController;
+
 @property (nonatomic, readonly) BOOL hasTabGroupPeers;
+@property (nonatomic, readonly) BOOL isMainWindow;
 
 - (void)ensureTabBarVisiblity:(BOOL)shouldAlwaysBeVisible;
 @end

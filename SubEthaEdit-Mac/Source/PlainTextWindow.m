@@ -157,4 +157,8 @@ static NSPoint placeWithCascadePoint(NSWindow *window, NSPoint cascadePoint) {
     return self.tabGroup.windows.count > 1;
 }
 
+- (BOOL)isMainWindow {
+    return self == NSApp.mainWindow;
+}
+
 @end
