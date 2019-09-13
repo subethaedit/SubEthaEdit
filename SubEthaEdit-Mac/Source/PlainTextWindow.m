@@ -140,25 +140,16 @@ static NSPoint placeWithCascadePoint(NSWindow *window, NSPoint cascadePoint) {
 
 - (void)awakeFromNib {
     self.tab.accessoryView = self.cautionView;
-
-    NSTitlebarAccessoryViewController *spacerController =
-        [[NSTitlebarAccessoryViewController alloc] init];
-
-    spacerController.layoutAttribute = NSLayoutAttributeRight;
-    spacerController.view = [[NSView alloc] initWithFrame:NSMakeRect(0.0, 0.0, 12.0, 16.0)];
-    [self addTitlebarAccessoryViewController:spacerController];
-
-    self.cautionTitlebarViewController.layoutAttribute = NSLayoutAttributeRight;
-    [self addTitlebarAccessoryViewController:self.cautionTitlebarViewController];
+    self.cautionView.hidden = YES;
 }
 
-- (BOOL)hasTabGroupPeers
-{
-    return self.tabGroup.windows.count > 1;
+- (BOOL)showsCautionSymbolInTab {
+    return !self.cautionView.hidden;
 }
 
-- (BOOL)isMainWindow {
-    return self == NSApp.mainWindow;
+- (void)setShowsCautionSymbolInTab:(BOOL)showsCautionSymbolInTab {
+    self.cautionView.hidden = !showsCautionSymbolInTab;
 }
+
 
 @end

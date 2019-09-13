@@ -1146,6 +1146,9 @@ static NSPoint S_cascadePoint = {0.0,0.0};
             I_dialogSplitView = [tabContext dialogSplitView];
         }
     } else {
+        
+        [previouslySelectedDocument removeObserver:self forKeyPath:@"hasAlerts"];
+        
         [[URLBubbleWindow sharedURLBubbleWindow] hideIfNecessary];
         
         NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
@@ -1185,8 +1188,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
         
         // A document has been told that this window controller belongs to it.
         [super setDocument:document];
-      
-
+        [document addObserver:self forKeyPath:@"hasAlerts" options:NSKeyValueObservingOptionInitial context:nil];
 
         // Every document sends it window controllers -setDocument:nil when it's closed. We ignore such messages for some purposes.
         if (document == nil) {
@@ -1299,6 +1301,14 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     }
     
 	[tabContext.plainTextEditors makeObjectsPerformSelector:@selector(prepareForDealloc)];
+}
+
+#pragma mark - KVO
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    if ([keyPath isEqualToString:@"hasAlerts"]) {
+        [(PlainTextWindow *)self.window setShowsCautionSymbolInTab:self.plainTextDocument.hasAlerts];
+    }
 }
 
 @end
