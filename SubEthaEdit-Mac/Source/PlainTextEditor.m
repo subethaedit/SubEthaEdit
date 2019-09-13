@@ -2346,7 +2346,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
                    details:details
                    buttons:@[NSLocalizedString(@"Paste Converted", nil),
                              NSLocalizedString(@"Paste Unchanged", nil)]
-                      then:^(PlainTextDocument * document, NSModalResponse returnCode) {
+         completionHandler:^(PlainTextDocument * document, NSModalResponse returnCode) {
                           if (returnCode == NSAlertFirstButtonReturn) {
                               NSMutableString *mutableString = [[NSMutableString alloc] initWithString:replacementString];
                               [mutableString convertLineEndingsToLineEndingString:document.lineEndingString];

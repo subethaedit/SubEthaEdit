@@ -21,7 +21,7 @@ static __auto_type isSelectedWindowInTabGroup =
 };
 
 @interface TabbedDocument () {
-    NSMutableArray<DocumentAlert *> * _mutableAlerts;
+    NSMutableArray<SEEAlertRecipe *> * _mutableAlerts;
 }
 @end
 
@@ -55,13 +55,13 @@ static __auto_type isSelectedWindowInTabGroup =
         style:(NSAlertStyle)style
       details:(NSString *)details
       buttons:(NSArray *)buttons
-         then:(AlertConsequence)then {
-    DocumentAlert *alert =
-        [[DocumentAlert alloc] initWithMessage:message
-                                         style:style
-                                       details:details
-                                       buttons:buttons
-                                          then:then];
+completionHandler:(SEEAlertCompletionHandler)then {
+    SEEAlertRecipe *alert =
+    [[SEEAlertRecipe alloc] initWithMessage:message
+                                      style:style
+                                    details:details
+                                    buttons:buttons
+                          completionHandler:then];
 
     // Store this now since we'll be mutating the queue momentarily.
     BOOL alreadyHasAlerts = self.hasAlerts;
@@ -73,16 +73,18 @@ static __auto_type isSelectedWindowInTabGroup =
     // If we already have alerts in the queue (and thus either displaying
     // or waiting to display), then there is nothing left for us to do.
     // Once they get dismissed, it will be our turn.
-    if (alreadyHasAlerts)
+    if (alreadyHasAlerts) {
         return;
-
+    }
+    
     NSWindow *initialWindow = self.bestWindowToInitiallyDisplayAlert;
 
     // If no current window is available to display the alert, we are
     // similarly done.
-    if (initialWindow == nil)
+    if (initialWindow == nil) {
         return;
-
+    }
+    
     // Looks like we can actually present this one!
     [self presentCurrentAlertInWindow:initialWindow];
 }
@@ -92,30 +94,32 @@ static __auto_type isSelectedWindowInTabGroup =
           style:NSAlertStyleInformational
         details:details
         buttons:@[NSLocalizedString(@"OK", nil)]
-           then:nil];
+completionHandler:nil];
 }
 
 - (void)warn:(NSString *)message
      details:(NSString *)details
      buttons:(NSArray *)buttons
-        then:(AlertConsequence)then {
+        completionHandler:(SEEAlertCompletionHandler)then {
     [self alert:message
           style:NSAlertStyleWarning
         details:details
         buttons:buttons
-           then:then];
+           completionHandler:then];
 }
 
 - (void)presentCurrentAlertInWindow:(NSWindow *)window {
     NSAlert *alert = [_mutableAlerts[0] instantiateAlert];
-    AlertConsequence then = _mutableAlerts[0].then;
+    SEEAlertCompletionHandler then = _mutableAlerts[0].completionHandler;
 
-    __unsafe_unretained TabbedDocument *weakSelf = self;
+    __weak TabbedDocument *weakSelf = self;
     __auto_type completionHandler = ^(NSModalResponse returnCode) {
+        
         // We receive NSModalResponseStop when the alert is canceled by endSheet:.
-        if (returnCode == NSModalResponseStop)
+        if (returnCode == NSModalResponseStop) {
             return;
-
+        }
+        
         TabbedDocument *strongSelf = weakSelf;
         [strongSelf->_mutableAlerts removeObjectAtIndex:0];
 
@@ -123,9 +127,11 @@ static __auto_type isSelectedWindowInTabGroup =
             then(strongSelf, returnCode);
         }
 
-        for (NSWindow *window in strongSelf.windows)
-            if (window.attachedSheet)// && window.attachedSheet)
+        for (NSWindow *window in strongSelf.windows) {
+            if (window.attachedSheet) {
                 [window endSheet:window.attachedSheet];
+            }
+        }
     };
 
     [alert beginSheetModalForWindow:window completionHandler:completionHandler];
@@ -152,13 +158,15 @@ static __auto_type isSelectedWindowInTabGroup =
 
     // If there's no such window, then all possible windows are hidden and we must wait
     // for one of them to be activated before showing anything.
-    if (candidateWindows.count == 0)
+    if (candidateWindows.count == 0) {
         return nil;
-
+    }
+    
     // If there's only one such window, no need to calculate anything further.
-    if (candidateWindows.count == 1)
+    if (candidateWindows.count == 1) {
         return candidateWindows[0];
-
+    }
+    
     // If there's *multiple* windows, then choose the frontmost one. Unfortunately,
     // the only way to do this is to iterate over the global ordering of windows in
     // our app. Luckily though, we can at least put the candidates in a set so that

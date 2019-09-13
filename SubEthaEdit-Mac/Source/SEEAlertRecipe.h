@@ -4,7 +4,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-typedef void (^AlertConsequence)(__kindof NSDocument *, NSModalResponse);
+typedef void (^SEEAlertCompletionHandler)(__kindof NSDocument *, NSModalResponse);
 
 @interface SEEAlertRecipe : NSObject
 
@@ -12,13 +12,13 @@ typedef void (^AlertConsequence)(__kindof NSDocument *, NSModalResponse);
 @property (readonly) NSAlertStyle style;
 @property (readonly, strong) NSString *details;
 @property (readonly, copy) NSArray *buttons;
-@property (readonly, copy) AlertConsequence then;
+@property (readonly, copy) SEEAlertCompletionHandler completionHandler;
 
 - (instancetype)initWithMessage:(NSString *)message
                           style:(NSAlertStyle)style
                         details:(NSString *)details
                         buttons:(NSArray *)buttons
-                           then:(AlertConsequence)then;
+              completionHandler:(SEEAlertCompletionHandler)then;
 - (NSAlert *)instantiateAlert;
 
 @end

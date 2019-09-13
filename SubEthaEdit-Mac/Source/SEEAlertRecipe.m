@@ -6,15 +6,15 @@
 //  Copyright © 2019 SubEthaEdit Contributors. All rights reserved.
 //
 
-#import "DocumentAlert.h"
+#import "SEEAlertRecipe.h"
 
-@implementation DocumentAlert
+@implementation SEEAlertRecipe
 
 - (instancetype)initWithMessage:(NSString *)message
                           style:(NSAlertStyle)style
                         details:(NSString *)details
                         buttons:(NSArray *)buttons
-                           then:(AlertConsequence)then
+              completionHandler:(SEEAlertCompletionHandler)then
 {
     self = [super init];
 
@@ -23,7 +23,7 @@
         _style = style;
         _details = details;
         _buttons = buttons;
-        _then = [then copy];
+        _completionHandler = then;
     }
 
     return self;
@@ -36,9 +36,10 @@
     alert.messageText = _message;
     alert.informativeText = _details;
 
-    for (NSString *button in _buttons)
+    for (NSString *button in _buttons) {
         [alert addButtonWithTitle:button];
-
+    }
+    
     return alert;
 }
 

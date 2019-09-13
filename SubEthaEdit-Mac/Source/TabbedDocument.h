@@ -7,24 +7,24 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "DocumentAlert.h"
+#import "SEEAlertRecipe.h"
 
 
 @interface TabbedDocument : NSDocument
 
-@property (readonly) BOOL hasAlerts;
+@property (nonatomic, readonly) BOOL hasAlerts;
 
 - (void)alert:(NSString *)message
         style:(NSAlertStyle)style
       details:(NSString *)details
       buttons:(NSArray *)buttons
-         then:(AlertConsequence)then;
+completionHandler:(SEEAlertCompletionHandler)then;
 
 - (void)inform:(NSString *)message details:(NSString *)details;
 
 - (void)warn:(NSString *)message
      details:(NSString *)details
      buttons:(NSArray *)buttons
-        then:(AlertConsequence)then;
+completionHandler:(SEEAlertCompletionHandler)then;
 
 @end

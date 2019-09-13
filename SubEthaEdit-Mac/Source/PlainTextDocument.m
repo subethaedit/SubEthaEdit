@@ -1103,9 +1103,9 @@ static NSString *tempFileName(NSString *origPath) {
        details:NSLocalizedString(@"ANNOUNCE_WILL_MAKE_VISIBLE_INFORMATIVE_TEXT", nil)
        buttons:@[NSLocalizedString(@"ANNOUNCE_WILL_MAKE_VISIBLE_ACTION_TITLE", nil),
                   NSLocalizedString(@"Cancel", nil)]
-          then:^(PlainTextDocument * self, NSModalResponse returnCode) {
+          completionHandler:^(PlainTextDocument *document, NSModalResponse returnCode) {
                if (returnCode == NSAlertFirstButtonReturn) {
-                   [self setIsAnnounced:YES];
+                   [document setIsAnnounced:YES];
                }
            }];
 
@@ -1271,7 +1271,7 @@ static NSString *tempFileName(NSString *origPath) {
        buttons:@[NSLocalizedString(@"Convert", nil),
                  NSLocalizedString(@"Cancel", nil),
                  NSLocalizedString(@"Reinterpret", nil)]
-          then:^(PlainTextDocument *document, NSModalResponse returnCode) {
+completionHandler:^(PlainTextDocument *document, NSModalResponse returnCode) {
               TCMMMSession *session = [document session];
               
               if (document->I_flags.isReceivingContent || !session.isServer || session.participantCount > 1) {
@@ -1318,7 +1318,7 @@ static NSString *tempFileName(NSString *origPath) {
                   return [document warn:NSLocalizedString(@"Error", nil)
                                 details:details
                                 buttons:@[NSLocalizedString(@"Cancel", nil)]
-                                   then:nil];
+                      completionHandler:nil];
               }
               
               document->I_flags.hasUTF8BOM = needsUT8BOM;
@@ -1791,7 +1791,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
        details:details
        buttons:@[[NSString stringWithFormat:NSLocalizedString(@"Convert to %@", nil), localizedName],
                   NSLocalizedString(@"Keep Line Endings", nil)]
-          then:^(PlainTextDocument *document, NSModalResponse returnCode) {
+completionHandler:^(PlainTextDocument *document, NSModalResponse returnCode) {
                if (returnCode == NSAlertFirstButtonReturn) {
                    [document convertLineEndingsToLineEnding:lineEnding];
                } else if (returnCode == NSAlertSecondButtonReturn) {
@@ -3383,7 +3383,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
                                 [self warn:NSLocalizedString(@"Save", nil)
                                    details:NSLocalizedString(@"AlertInformativeText: Replace failed", @"Informative text in an alert which tells the you user that replacing the file failed")
                                     buttons:@[NSLocalizedString(@"OK", nil)]
-                                       then:nil];
+                         completionHandler:nil];
 
 								if ( outError )
 									*outError = nil; 
@@ -3395,7 +3395,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
                             [self warn:NSLocalizedString(@"Save", nil)
                                details:NSLocalizedString(@"AlertInformativeText: Error occurred during replace", @"Informative text in an alert which tells the user that an error prevented the replace")
                                buttons:@[NSLocalizedString(@"OK", nil)]
-                                  then:nil];
+                     completionHandler:nil];
 
 							if ( outError )
 								*outError = nil; 
@@ -3814,7 +3814,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         [self warn:message
            details:details
            buttons:@[firstButton, secondButton]
-              then:^(PlainTextDocument *document, NSModalResponse returnCode) {
+ completionHandler:^(PlainTextDocument *document, NSModalResponse returnCode) {
                   if (returnCode == revertResponseCode) {
                       DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Revert document");
                       NSError *error = nil;
@@ -4017,7 +4017,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
        details:NSLocalizedString(@"File is read-only", nil)
        buttons:@[NSLocalizedString(@"Edit anyway", nil),
                  NSLocalizedString(@"Cancel", nil)]
-          then:^(PlainTextDocument * self, NSModalResponse returnCode) {
+completionHandler:^(PlainTextDocument * self, NSModalResponse returnCode) {
               if (returnCode != NSAlertFirstButtonReturn)
                   return;
 
@@ -6225,7 +6225,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
        buttons:@[NSLocalizedString(@"Insert", nil),
                  NSLocalizedString(@"Promote to UTF8", nil),
                  NSLocalizedString(@"Promote to Unicode", nil)]
-          then:^(PlainTextDocument * self, NSModalResponse returnCode) {
+completionHandler:^(PlainTextDocument * self, NSModalResponse returnCode) {
               if (returnCode == NSAlertThirdButtonReturn)
                   [self setFileEncodingUndoable:NSUnicodeStringEncoding];
               else if (returnCode == NSAlertSecondButtonReturn)

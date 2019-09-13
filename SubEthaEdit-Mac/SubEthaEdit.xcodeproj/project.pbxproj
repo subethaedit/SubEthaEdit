@@ -244,7 +244,7 @@
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
 		9E8FD85D2319B11B005CF41B /* TabbedDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8FD85C2319B11B005CF41B /* TabbedDocument.m */; };
-		9E9F58AD2319EC3C00E838D1 /* DocumentAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E9F58AC2319EC3C00E838D1 /* DocumentAlert.m */; };
+		9E9F58AD2319EC3C00E838D1 /* SEEAlertRecipe.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E9F58AC2319EC3C00E838D1 /* SEEAlertRecipe.m */; };
 		F20396F60F8A707700BEB377 /* FullTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D34B0F38756100AD7DE1 /* FullTextStorage.m */; };
 		F2061D690B4C152600E6631F /* FirstClickCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2061D670B4C152600E6631F /* FirstClickCustomView.m */; };
 		F20948BC0C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = F20948B90C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m */; };
@@ -940,8 +940,8 @@
 		8D15AC370486D014006FF6A4 /* SubEthaEdit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SubEthaEdit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E8FD85B2319B11B005CF41B /* TabbedDocument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TabbedDocument.h; sourceTree = "<group>"; };
 		9E8FD85C2319B11B005CF41B /* TabbedDocument.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TabbedDocument.m; sourceTree = "<group>"; };
-		9E9F58AB2319EC3C00E838D1 /* DocumentAlert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DocumentAlert.h; sourceTree = "<group>"; };
-		9E9F58AC2319EC3C00E838D1 /* DocumentAlert.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DocumentAlert.m; sourceTree = "<group>"; };
+		9E9F58AB2319EC3C00E838D1 /* SEEAlertRecipe.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEEAlertRecipe.h; sourceTree = "<group>"; };
+		9E9F58AC2319EC3C00E838D1 /* SEEAlertRecipe.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEEAlertRecipe.m; sourceTree = "<group>"; };
 		F2061D660B4C152600E6631F /* FirstClickCustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = FirstClickCustomView.h; sourceTree = "<group>"; };
 		F2061D670B4C152600E6631F /* FirstClickCustomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstClickCustomView.m; sourceTree = "<group>"; };
 		F20948B80C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = TCMMMLogStatisticsEntry.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -1763,8 +1763,8 @@
 				142893F509575A3000D14688 /* UndoManager.m */,
 				9E8FD85B2319B11B005CF41B /* TabbedDocument.h */,
 				9E8FD85C2319B11B005CF41B /* TabbedDocument.m */,
-				9E9F58AB2319EC3C00E838D1 /* DocumentAlert.h */,
-				9E9F58AC2319EC3C00E838D1 /* DocumentAlert.m */,
+				9E9F58AB2319EC3C00E838D1 /* SEEAlertRecipe.h */,
+				9E9F58AC2319EC3C00E838D1 /* SEEAlertRecipe.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -2610,7 +2610,7 @@
 				142891350957457500D14688 /* NSDictionaryTCMAdditions.m in Sources */,
 				4CCD790018DB3F9E00A8B457 /* SEEScopedBookmarkAccessoryViewController.m in Sources */,
 				4CD3CFF31887FE2E00908506 /* SEEOpenPanelAccessoryViewController.m in Sources */,
-				9E9F58AD2319EC3C00E838D1 /* DocumentAlert.m in Sources */,
+				9E9F58AD2319EC3C00E838D1 /* SEEAlertRecipe.m in Sources */,
 				142891360957457500D14688 /* NSNetServiceTCMAdditions.m in Sources */,
 				142891370957457500D14688 /* NSStringTCMAdditions.m in Sources */,
 				142891380957457500D14688 /* TCMBencodingUtilities.m in Sources */,
