@@ -1553,6 +1553,16 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 }
 
 - (void)canCloseDocumentWithDelegate:(id)delegate shouldCloseSelector:(SEL)shouldCloseSelector contextInfo:(void *)contextInfo {
+    // If we have alert, we can't close without letting them run their course. This matches
+    // Xcode's behavior. We *could* optionally makeKeyAndOrderFront: too.
+    if (self.hasAlerts && [delegate respondsToSelector:shouldCloseSelector]) {
+
+        NSBeep();
+        ((void (*)(id, SEL, id, BOOL, void (*)))objc_msgSend)(delegate, shouldCloseSelector, self, NO, contextInfo);
+        return;
+    }
+
+
     NSEnumerator *enumerator = [[self windowControllers] objectEnumerator];
     NSWindowController *windowController;
     unsigned count = [[self windowControllers] count];
@@ -1573,12 +1583,6 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 }
 
 - (void)shouldCloseWindowController:(NSWindowController *)windowController delegate:(id)delegate shouldCloseSelector:(SEL)selector contextInfo:(void *)contextInfo  {
-    // If we have alert, we can't close without letting them run their course. This matches
-    // Xcode's behavior. We *could* optionally makeKeyAndOrderFront: too.
-    if (self.hasAlerts) {
-        NSBeep();
-        return;
-    }
 
     // Do the regular NSDocument thing, but take control afterward if it's a multidocument window controller. To do this we have to record the original parameters of this method invocation.
     PlainTextDocumentShouldCloseContext *replacementContext = [[PlainTextDocumentShouldCloseContext alloc] init];
