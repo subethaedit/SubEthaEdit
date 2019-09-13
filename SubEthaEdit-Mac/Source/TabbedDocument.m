@@ -168,7 +168,14 @@ completionHandler:nil];
     }];
     
     if (candidates.count > 1) {
-        // TODO: depth sort it
+        // Depthsort
+        NSSet *candidateSet = [NSSet setWithArray:candidates];
+        [candidates removeAllObjects];
+        for (NSWindow *window in NSApp.orderedWindows) {
+            if ([candidateSet containsObject:window]) {
+                [candidates addObject:window];
+            }
+        }
     }
     return candidates;
 }
