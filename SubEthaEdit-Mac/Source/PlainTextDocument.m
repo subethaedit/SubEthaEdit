@@ -1284,88 +1284,92 @@ static NSString *tempFileName(NSString *origPath) {
     
     SEEAlertRecipe *warning =
     [SEEAlertRecipe warningWithMessage:NSLocalizedString(@"File Encoding", nil)
-       details:NSLocalizedString(@"ConvertOrReinterpret", nil)
-       buttons:@[NSLocalizedString(@"Convert", nil),
-                 NSLocalizedString(@"Cancel", nil),
-                 NSLocalizedString(@"Reinterpret", nil)]
-completionHandler:^(PlainTextDocument *document, NSModalResponse returnCode) {
-              TCMMMSession *session = [document session];
-              
-              if (document->I_flags.isReceivingContent || !session.isServer || session.participantCount > 1) {
-                  return;
-              }
-              // Canceled so update bottom status bar to previous state
-              if (returnCode == NSAlertSecondButtonReturn) {
-                  [document TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
-                  return;
-              }
-            
-              FoldableTextStorage *textStorage = document.textStorage;
-
-              if (returnCode == NSAlertFirstButtonReturn) { // convert
-                  DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Trying to convert file encoding");
-                  
-                  if (![textStorage.fullTextStorage.string canBeConvertedToEncoding:encoding]) {
-                      [document.topmostWindowController setDocumentDialog:[[SEEEncodingDoctorDialogViewController alloc] initWithEncoding:encoding]];
-                      
-                      // didn't work so update bottom status bar to previous state
-                      [document TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
-                  } else {
-                      [document setFileEncodingUndoable:encoding];
-                      [document updateChangeCount:NSChangeDone];
-                  }
-                  return;
-              }
-              
-              // Can only beNSAlertThirdButtonReturn:Reinterpret
-              DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Trying to reinterpret file encoding");
-              
-              NSStringEncoding fileEncoding = document.fileEncoding;
-              BOOL needsUT8BOM = fileEncoding == NSUTF8StringEncoding && [[document.documentMode defaultForKey:DocumentModeUTF8BOMPreferenceKey] boolValue];
-              NSData * rawStringData = [textStorage.fullTextStorage.string dataUsingEncoding:document.fileEncoding];
-              NSData * stringData = needsUT8BOM ? [rawStringData dataPrefixedWithUTF8BOM] : rawStringData;
-              NSString * reinterpretedString = [[NSString alloc] initWithData:stringData encoding:encoding];
-              
-              if (!reinterpretedString || (reinterpretedString.length == 0 && textStorage.length > 0)) {
-                  NSString * details = [NSString stringWithFormat:NSLocalizedString(@"Encoding %@ not reinterpretable", nil), [NSString localizedNameOfStringEncoding:encoding]];
-                  
-                  // Didn't work so update bottom status bar to previous state
-                  [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
-                  
-                  SEEAlertRecipe *warning =
-                  [SEEAlertRecipe warningWithMessage:NSLocalizedString(@"Error", nil)
-                                             details:details
-                                             buttons:@[NSLocalizedString(@"Cancel", nil)]
-                                   completionHandler:nil];
-                  [self showOrEnqueueAlertRecipe:warning];
-                  return;
-              }
-              
-              document->I_flags.hasUTF8BOM = needsUT8BOM;
-              BOOL isEdited = [self isDocumentEdited];
-              
-              [[document documentUndoManager] beginUndoGrouping];
-              [[document plainTextEditors] makeObjectsPerformSelector:@selector(pushSelectedRanges)];
-              [textStorage beginEditing];
-              [textStorage replaceCharactersInRange:NSMakeRange(0, [textStorage length]) withString:@""];
-              [document setFileEncodingUndoable:encoding];
-              [textStorage replaceCharactersInRange:NSMakeRange(0, [textStorage length]) withString:reinterpretedString];
-              
-              NSDictionary * attributes = isEdited ? [document typingAttributes] : [document plainTextAttributes];
-              [textStorage setAttributes:attributes range:NSMakeRange(0, [textStorage length])];
-              
-              if (document->I_flags.highlightSyntax) {
-                  [document highlightSyntaxInRange:NSMakeRange(0, [[textStorage fullTextStorage] length])];
-              }
-              [textStorage endEditing];
-              [[document documentUndoManager] endUndoGrouping];
-              [[document plainTextEditors] makeObjectsPerformSelector:@selector(popSelectedRanges)];
-              if (!isEdited) {
-                  [document updateChangeCount:NSChangeCleared];
-              }
-              [document TCM_validateLineEndings];
-          }];
-    [self showOrEnqueueAlertRecipe:warning];
+                               details:NSLocalizedString(@"ConvertOrReinterpret", nil)
+                               buttons:@[NSLocalizedString(@"Convert", nil),
+                                         NSLocalizedString(@"Cancel", nil),
+                                         NSLocalizedString(@"Reinterpret", nil)]
+                     completionHandler:^(PlainTextDocument *document, NSModalResponse returnCode) {
+                         TCMMMSession *session = [document session];
+                         
+                         if (document->I_flags.isReceivingContent || !session.isServer || session.participantCount > 1) {
+                             return;
+                         }
+                         // Canceled so update bottom status bar to previous state
+                         if (returnCode == NSAlertSecondButtonReturn) {
+                             [document TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
+                             return;
+                         }
+                         
+                         FoldableTextStorage *textStorage = document.textStorage;
+                         
+                         if (returnCode == NSAlertFirstButtonReturn) { // convert
+                             DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Trying to convert file encoding");
+                             
+                             if (![textStorage.fullTextStorage.string canBeConvertedToEncoding:encoding]) {
+                                 [document.topmostWindowController setDocumentDialog:[[SEEEncodingDoctorDialogViewController alloc] initWithEncoding:encoding]];
+                                 
+                                 // didn't work so update bottom status bar to previous state
+                                 [document TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
+                             } else {
+                                 [document setFileEncodingUndoable:encoding];
+                                 [document updateChangeCount:NSChangeDone];
+                             }
+                             return;
+                         }
+                         
+                         // Can only beNSAlertThirdButtonReturn:Reinterpret
+                         DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Trying to reinterpret file encoding");
+                         
+                         NSStringEncoding fileEncoding = document.fileEncoding;
+                         BOOL needsUT8BOM = fileEncoding == NSUTF8StringEncoding && [[document.documentMode defaultForKey:DocumentModeUTF8BOMPreferenceKey] boolValue];
+                         NSData * rawStringData = [textStorage.fullTextStorage.string dataUsingEncoding:document.fileEncoding];
+                         NSData * stringData = needsUT8BOM ? [rawStringData dataPrefixedWithUTF8BOM] : rawStringData;
+                         NSString * reinterpretedString = [[NSString alloc] initWithData:stringData encoding:encoding];
+                         
+                         if (!reinterpretedString || (reinterpretedString.length == 0 && textStorage.length > 0)) {
+                             NSString * details = [NSString stringWithFormat:NSLocalizedString(@"Encoding %@ not reinterpretable", nil), [NSString localizedNameOfStringEncoding:encoding]];
+                             
+                             // Didn't work so update bottom status bar to previous state
+                             [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
+                             
+                             SEEAlertRecipe *warning =
+                             [SEEAlertRecipe warningWithMessage:NSLocalizedString(@"Error", nil)
+                                                        details:details
+                                                        buttons:@[NSLocalizedString(@"Cancel", nil)]
+                                              completionHandler:nil];
+                             [self showOrEnqueueAlertRecipe:warning];
+                             return;
+                         }
+                         
+                         document->I_flags.hasUTF8BOM = needsUT8BOM;
+                         BOOL isEdited = [self isDocumentEdited];
+                         
+                         [[document documentUndoManager] beginUndoGrouping];
+                         [[document plainTextEditors] makeObjectsPerformSelector:@selector(pushSelectedRanges)];
+                         [textStorage beginEditing];
+                         [textStorage replaceCharactersInRange:NSMakeRange(0, [textStorage length]) withString:@""];
+                         [document setFileEncodingUndoable:encoding];
+                         [textStorage replaceCharactersInRange:NSMakeRange(0, [textStorage length]) withString:reinterpretedString];
+                         
+                         NSDictionary * attributes = isEdited ? [document typingAttributes] : [document plainTextAttributes];
+                         [textStorage setAttributes:attributes range:NSMakeRange(0, [textStorage length])];
+                         
+                         if (document->I_flags.highlightSyntax) {
+                             [document highlightSyntaxInRange:NSMakeRange(0, [[textStorage fullTextStorage] length])];
+                         }
+                         [textStorage endEditing];
+                         [[document documentUndoManager] endUndoGrouping];
+                         [[document plainTextEditors] makeObjectsPerformSelector:@selector(popSelectedRanges)];
+                         if (!isEdited) {
+                             [document updateChangeCount:NSChangeCleared];
+                         }
+                         [document TCM_validateLineEndings];
+                     }];
+    warning.requiresImmediacy = YES;
+    if (![self presentAlertRecipeOrShowExistingAlert:warning]) {
+        // reset value of status bar
+        [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
+    }
 }
 
 
@@ -1803,11 +1807,11 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 }
 
 - (void)showLineEndingAlert:(NSArray *)arguments {
-    NSString * localizedName = arguments[0];
+    NSString *localizedName = arguments[0];
     LineEnding lineEnding = ((NSNumber *)arguments[1]).unsignedShortValue;
 
-    NSString * message = [NSString stringWithFormat:NSLocalizedString(@"The file has mixed line endings. Do you want to convert all line endings to %@, the most common line ending in the file?", nil), localizedName];
-    NSString * details = NSLocalizedString(@"Other applications may not be able to read the file if you don't convert all line endings to the same line ending.", nil);
+    NSString *message = [NSString stringWithFormat:NSLocalizedString(@"The file has mixed line endings. Do you want to convert all line endings to %@, the most common line ending in the file?", nil), localizedName];
+    NSString *details = NSLocalizedString(@"Other applications may not be able to read the file if you don't convert all line endings to the same line ending.", nil);
     SEEAlertRecipe *warning =
     [SEEAlertRecipe warningWithMessage:message
                                details:details
@@ -6464,6 +6468,20 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     (void)[self showOrEnqueueAlertRecipe:information];
 }
 
+- (BOOL)presentAlertRecipeOrShowExistingAlert:(SEEAlertRecipe *)recipe {
+    BOOL result = [self showOrEnqueueAlertRecipe:recipe];
+    if (!result) {
+        NSBeep();
+        for (NSWindow *window in self.orderedDocumentWindows) {
+            if (window.attachedSheet) {
+                [window makeKeyAndOrderFront:nil];
+                break;
+            }
+        }
+    }
+    return result;
+}
+
 - (BOOL)showOrEnqueueAlertRecipe:(SEEAlertRecipe *)recipe {
     // Store this now since we'll be mutating the queue momentarily.
     BOOL alreadyHasAlerts = self.hasAlerts;
@@ -6471,6 +6489,10 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     NSWindow *window = [self windowForImmediateAlertDisplay];
     
     if (alreadyHasAlerts || !window) {
+        if (recipe.requiresImmediacy) {
+            return NO;
+        }
+        
         // only enqueue if we havent already enqueued one of those
         NSString *identifier = recipe.coalescingIdentifier;
         if (identifier) {
@@ -6561,7 +6583,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     return candidates;
 }
 
-- (NSArray *)orderedDisplayedDocumentWindows {
+- (NSArray<PlainTextWindow *> *)orderedDisplayedDocumentWindows {
     NSMutableArray *candidates = [NSMutableArray new];
     [self.windowControllers enumerateObjectsUsingBlock:^(NSWindowController *wc, NSUInteger _idx, BOOL *_stop) {
         if ([wc isKindOfClass:[PlainTextWindowController class]]) {
@@ -6569,6 +6591,28 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
             if (window.tabGroup.selectedWindow == window) {
                 [candidates addObject:window];
             }
+        }
+    }];
+    
+    if (candidates.count > 1) {
+        // Depthsort
+        NSSet *candidateSet = [NSSet setWithArray:candidates];
+        [candidates removeAllObjects];
+        for (NSWindow *window in NSApp.orderedWindows) {
+            if ([candidateSet containsObject:window]) {
+                [candidates addObject:window];
+            }
+        }
+    }
+    return candidates;
+}
+
+- (NSArray<PlainTextWindow *> *)orderedDocumentWindows {
+    NSMutableArray *candidates = [NSMutableArray new];
+    [self.windowControllers enumerateObjectsUsingBlock:^(NSWindowController *wc, NSUInteger _idx, BOOL *_stop) {
+        if ([wc isKindOfClass:[PlainTextWindowController class]]) {
+            NSWindow *window = wc.window;
+            [candidates addObject:window];
         }
     }];
     

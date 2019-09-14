@@ -2353,7 +2353,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
                                      [aTextView insertText:replacementString replacementRange:aTextView.selectedRange];
                                  }
                              }];
-            [document showOrEnqueueAlertRecipe:warning];
+            [document presentAlertRecipeOrShowExistingAlert:warning];
             
             return NO;
         }

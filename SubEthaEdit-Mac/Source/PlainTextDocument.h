@@ -396,6 +396,16 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
  */
 - (BOOL)showOrEnqueueAlertRecipe:(SEEAlertRecipe *)recipe;
 
+/**
+ Succeeds if the alert can be shown immediatly.
+ If not NSBeeps() and shows the window with the blocking alert.
+
+ @param recipe alert recipe to show
+ @return YES if shown/enqueued. NO otherwise.
+ */
+- (BOOL)presentAlertRecipeOrShowExistingAlert:(SEEAlertRecipe *)recipe;
+
+
 - (void)showOrEnqueueInformationWithMessage:(NSString *)message details:(NSString *)details;
 - (void)presentPromotionAlertForTextView:(NSTextView *)textView insertionString:(NSString *)insertionString affectedRange:(NSRange)affectedRange;
 - (void)conditionallyEditAnyway:(void (^)(PlainTextDocument *))completionHandler;

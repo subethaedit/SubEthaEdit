@@ -15,6 +15,7 @@ typedef void (^SEEAlertCompletionHandler)(__kindof NSDocument *, NSModalResponse
 @property (readonly, copy) SEEAlertCompletionHandler completionHandler;
 @property (nonatomic, strong) NSString *coalescingIdentifier;
 @property (nonatomic, strong) void (^alertAdjustment)(NSAlert *alert);
+@property (nonatomic) BOOL requiresImmediacy;
 
 - (instancetype)initWithMessage:(NSString *)message
                           style:(NSAlertStyle)style
