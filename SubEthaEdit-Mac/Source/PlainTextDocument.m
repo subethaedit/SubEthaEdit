@@ -3817,6 +3817,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         
         NSModalResponse revertResponseCode;
         NSString *message, *details, *firstButton, *secondButton;
+        id alertAdjustment;
         
         if (isDocumentEdited) {
             // We intentionally do have a more alerting message if the document already had some changes.
@@ -3831,6 +3832,13 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
             firstButton = NSLocalizedString(@"Revert Document", nil);
             secondButton = NSLocalizedString(@"Don't Revert Document", nil);
             revertResponseCode = NSAlertFirstButtonReturn;
+            
+            alertAdjustment = ^(NSAlert *alert) {
+                // add the default cmd-d shortcut for this "don't" option
+                NSButton *dontButton = alert.buttons[1];
+                [dontButton setKeyEquivalent:@"d"];
+                [dontButton setKeyEquivalentModifierMask:NSEventModifierFlagCommand];
+            };
         }
         
         BOOL wasDocumentEdited = isDocumentEdited;
@@ -3858,6 +3866,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         }];
         
         warning.coalescingIdentifier = @"RevertDialog";
+        warning.alertAdjustment = alertAdjustment;
         
         [self showOrEnqueueAlertRecipe:warning];
         
@@ -6256,11 +6265,11 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
                                          NSLocalizedString(@"Promote to UTF8", nil),
                                          NSLocalizedString(@"Promote to Unicode", nil)]
                      completionHandler:^(PlainTextDocument * self, NSModalResponse returnCode) {
-                         if (returnCode == NSAlertThirdButtonReturn)
+                         if (returnCode == NSAlertThirdButtonReturn) {
                              [self setFileEncodingUndoable:NSUnicodeStringEncoding];
-                         else if (returnCode == NSAlertSecondButtonReturn)
+                         } else if (returnCode == NSAlertSecondButtonReturn) {
                              [self setFileEncodingUndoable:NSUTF8StringEncoding];
-                         
+                         }
                          NSString * insertionString = returnCode == NSAlertFirstButtonReturn ?
                          convertedString :
                          unconvertedString;

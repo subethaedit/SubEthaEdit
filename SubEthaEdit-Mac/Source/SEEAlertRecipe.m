@@ -45,6 +45,10 @@
         [alert addButtonWithTitle:button];
     }
     
+    if (_alertAdjustment) {
+        _alertAdjustment(alert);
+    }
+    
     return alert;
 }
 
