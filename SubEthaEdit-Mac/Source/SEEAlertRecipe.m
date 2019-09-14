@@ -24,6 +24,16 @@
     return self;
 }
 
++ (instancetype)warningWithMessage:(NSString *)message details:(NSString *)details buttons:(NSArray <NSString *>*)buttonTitles completionHandler:(SEEAlertCompletionHandler)completion {
+    SEEAlertRecipe *result = [[SEEAlertRecipe alloc] initWithMessage:message style:NSAlertStyleWarning details:details buttons:buttonTitles completionHandler:completion];
+    return result;
+}
+
++ (instancetype)informationWithMessage:(NSString *)message details:(NSString *)details {
+    SEEAlertRecipe *result = [[SEEAlertRecipe alloc] initWithMessage:message style:NSAlertStyleInformational details:details buttons:@[NSLocalizedString(@"OK", nil)] completionHandler:nil];
+    return result;
+}
+
 - (NSAlert *)instantiateAlert {
     NSAlert *alert = [[NSAlert alloc] init];
 

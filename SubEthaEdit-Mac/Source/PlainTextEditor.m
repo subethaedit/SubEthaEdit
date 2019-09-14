@@ -2339,22 +2339,21 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
         NSZoneFree(NSZoneFromPointer(lineEndingBuffer), lineEndingBuffer);
 
         if (!isLineEndingValid) {
-            NSString *warning = NSLocalizedString(@"You are pasting text that does not match the file's current line endings. Do you want to paste the text with converted line endings?", nil);
-            NSString *details = NSLocalizedString(@"The file will have mixed line endings if you do not paste converted text.", nil);
-            
-            [document warn:warning
-                   details:details
-                   buttons:@[NSLocalizedString(@"Paste Converted", nil),
-                             NSLocalizedString(@"Paste Unchanged", nil)]
-         completionHandler:^(PlainTextDocument * document, NSModalResponse returnCode) {
-                          if (returnCode == NSAlertFirstButtonReturn) {
-                              NSMutableString *mutableString = [[NSMutableString alloc] initWithString:replacementString];
-                              [mutableString convertLineEndingsToLineEndingString:document.lineEndingString];
-                              [aTextView insertText:mutableString replacementRange:aTextView.selectedRange];
-                          } else if (returnCode == NSAlertSecondButtonReturn) {
-                              [aTextView insertText:replacementString replacementRange:aTextView.selectedRange];
-                          }
-                      }];
+            SEEAlertRecipe *warning =
+            [SEEAlertRecipe warningWithMessage:NSLocalizedString(@"You are pasting text that does not match the file's current line endings. Do you want to paste the text with converted line endings?", nil)
+                                       details:NSLocalizedString(@"The file will have mixed line endings if you do not paste converted text.", nil)
+                                       buttons:@[NSLocalizedString(@"Paste Converted", nil),
+                                                 NSLocalizedString(@"Paste Unchanged", nil)]
+                             completionHandler:^(PlainTextDocument * document, NSModalResponse returnCode) {
+                                 if (returnCode == NSAlertFirstButtonReturn) {
+                                     NSMutableString *mutableString = [[NSMutableString alloc] initWithString:replacementString];
+                                     [mutableString convertLineEndingsToLineEndingString:document.lineEndingString];
+                                     [aTextView insertText:mutableString replacementRange:aTextView.selectedRange];
+                                 } else if (returnCode == NSAlertSecondButtonReturn) {
+                                     [aTextView insertText:replacementString replacementRange:aTextView.selectedRange];
+                                 }
+                             }];
+            [document showOrEnqueueAlertRecipe:warning];
             
             return NO;
         }

@@ -1103,23 +1103,27 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 - (IBAction)toggleIsAnnounced:(id)aSender {
-	if (!self.session.isServer)
+    if (!self.session.isServer) {
         return;
-
+    }
+    
     BOOL isAnnounced = self.isAnnounced;
     
-    if (isAnnounced || !TCMMMPresenceManager.sharedInstance.isCurrentlyReallyInvisible)
+    if (isAnnounced || !TCMMMPresenceManager.sharedInstance.isCurrentlyReallyInvisible) {
         return [self setIsAnnounced:!isAnnounced];
+    }
 
-    [self warn:NSLocalizedString(@"ANNOUNCE_WILL_MAKE_VISIBLE_MESSAGE", nil)
-       details:NSLocalizedString(@"ANNOUNCE_WILL_MAKE_VISIBLE_INFORMATIVE_TEXT", nil)
-       buttons:@[NSLocalizedString(@"ANNOUNCE_WILL_MAKE_VISIBLE_ACTION_TITLE", nil),
-                  NSLocalizedString(@"Cancel", nil)]
-          completionHandler:^(PlainTextDocument *document, NSModalResponse returnCode) {
-               if (returnCode == NSAlertFirstButtonReturn) {
-                   [document setIsAnnounced:YES];
-               }
-           }];
+    SEEAlertRecipe *warning =
+    [SEEAlertRecipe warningWithMessage:NSLocalizedString(@"ANNOUNCE_WILL_MAKE_VISIBLE_MESSAGE", nil)
+                               details:NSLocalizedString(@"ANNOUNCE_WILL_MAKE_VISIBLE_INFORMATIVE_TEXT", nil)
+                               buttons:@[NSLocalizedString(@"ANNOUNCE_WILL_MAKE_VISIBLE_ACTION_TITLE", nil),
+                                         NSLocalizedString(@"Cancel", nil)]
+                     completionHandler:^(PlainTextDocument *document, NSModalResponse returnCode) {
+                         if (returnCode == NSAlertFirstButtonReturn) {
+                             [document setIsAnnounced:YES];
+                         }
+                     }];
+    [self showOrEnqueueAlertRecipe:warning];
 
     // Toggle back the state of the button if it was a button
     if ([aSender isKindOfClass:[NSButton class]]) {
@@ -1278,7 +1282,8 @@ static NSString *tempFileName(NSString *origPath) {
         return;
     }
     
-    [self warn:NSLocalizedString(@"File Encoding", nil)
+    SEEAlertRecipe *warning =
+    [SEEAlertRecipe warningWithMessage:NSLocalizedString(@"File Encoding", nil)
        details:NSLocalizedString(@"ConvertOrReinterpret", nil)
        buttons:@[NSLocalizedString(@"Convert", nil),
                  NSLocalizedString(@"Cancel", nil),
@@ -1327,10 +1332,13 @@ completionHandler:^(PlainTextDocument *document, NSModalResponse returnCode) {
                   // Didn't work so update bottom status bar to previous state
                   [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
                   
-                  return [document warn:NSLocalizedString(@"Error", nil)
-                                details:details
-                                buttons:@[NSLocalizedString(@"Cancel", nil)]
-                      completionHandler:nil];
+                  SEEAlertRecipe *warning =
+                  [SEEAlertRecipe warningWithMessage:NSLocalizedString(@"Error", nil)
+                                             details:details
+                                             buttons:@[NSLocalizedString(@"Cancel", nil)]
+                                   completionHandler:nil];
+                  [self showOrEnqueueAlertRecipe:warning];
+                  return;
               }
               
               document->I_flags.hasUTF8BOM = needsUT8BOM;
@@ -1357,6 +1365,7 @@ completionHandler:^(PlainTextDocument *document, NSModalResponse returnCode) {
               }
               [document TCM_validateLineEndings];
           }];
+    [self showOrEnqueueAlertRecipe:warning];
 }
 
 
@@ -1799,18 +1808,19 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 
     NSString * message = [NSString stringWithFormat:NSLocalizedString(@"The file has mixed line endings. Do you want to convert all line endings to %@, the most common line ending in the file?", nil), localizedName];
     NSString * details = NSLocalizedString(@"Other applications may not be able to read the file if you don't convert all line endings to the same line ending.", nil);
-    
-    [self warn:message
-       details:details
-       buttons:@[[NSString stringWithFormat:NSLocalizedString(@"Convert to %@", nil), localizedName],
-                  NSLocalizedString(@"Keep Line Endings", nil)]
-completionHandler:^(PlainTextDocument *document, NSModalResponse returnCode) {
-               if (returnCode == NSAlertFirstButtonReturn) {
-                   [document convertLineEndingsToLineEnding:lineEnding];
-               } else if (returnCode == NSAlertSecondButtonReturn) {
-                   [document setLineEnding:lineEnding];
-               }
-           }];
+    SEEAlertRecipe *warning =
+    [SEEAlertRecipe warningWithMessage:message
+                               details:details
+                               buttons:@[[NSString stringWithFormat:NSLocalizedString(@"Convert to %@", nil), localizedName],
+                                         NSLocalizedString(@"Keep Line Endings", nil)]
+                     completionHandler:^(PlainTextDocument *document, NSModalResponse returnCode) {
+                         if (returnCode == NSAlertFirstButtonReturn) {
+                             [document convertLineEndingsToLineEnding:lineEnding];
+                         } else if (returnCode == NSAlertSecondButtonReturn) {
+                             [document setLineEnding:lineEnding];
+                         }
+                     }];
+    [self showOrEnqueueAlertRecipe:warning];
 }
 
 - (id)handleShowScriptCommand:(NSScriptCommand *)command {
@@ -1867,8 +1877,10 @@ completionHandler:^(PlainTextDocument *document, NSModalResponse returnCode) {
     NSInteger threshold = [NSUserDefaults.standardUserDefaults integerForKey:@"StringLengthToStopHighlightingAndWrapping"];
     
     if (I_textStorage.length > threshold) {
-        [self inform:NSLocalizedString(@"Syntax Highlighting and Wrap Lines have been turned off due to the size of the Document.", @"BigFile Message Text")
-             details:NSLocalizedString(@"Turning on syntax highlighting for very large documents is not recommended.", @"BigFile Informative Text")];
+        SEEAlertRecipe *info = [SEEAlertRecipe
+                                informationWithMessage:NSLocalizedString(@"Syntax Highlighting and Wrap Lines have been turned off due to the size of the Document.", @"BigFile Message Text")
+                                details:NSLocalizedString(@"Turning on syntax highlighting for very large documents is not recommended.", @"BigFile Informative Text")];
+        [self showOrEnqueueAlertRecipe:info];
     }
 }
 
@@ -3393,26 +3405,26 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
                                 NSDictionary *fattrs = [self fileAttributesToWriteToURL:[NSURL fileURLWithPath:fullDocumentPath] ofType:docType forSaveOperation:saveOperationType originalContentsURL:nil error:nil];
                                 [fileManager setAttributes:fattrs ofItemAtPath:fullDocumentPath error:nil];
                             } else {
-                                [self warn:NSLocalizedString(@"Save", nil)
-                                   details:NSLocalizedString(@"AlertInformativeText: Replace failed", @"Informative text in an alert which tells the you user that replacing the file failed")
-                                    buttons:@[NSLocalizedString(@"OK", nil)]
-                         completionHandler:nil];
-
-								if ( outError )
-									*outError = nil; 
+                                SEEAlertRecipe *warning =
+                                [SEEAlertRecipe warningWithMessage:NSLocalizedString(@"Save", nil)
+                                                           details:NSLocalizedString(@"AlertInformativeText: Replace failed", @"Informative text in an alert which tells the you user that replacing the file failed")
+                                                           buttons:@[NSLocalizedString(@"OK", nil)]
+                                                 completionHandler:nil];
+                                [self showOrEnqueueAlertRecipe:warning];
+                                
+                                if (outError) {
+                                    *outError = nil;
+                                }
                             }
                         } else {
                             (void)[fileManager removeItemAtPath:tempFilePath error:nil];
-
-                            // Maybe this should be an inform:?
-                            [self warn:NSLocalizedString(@"Save", nil)
-                               details:NSLocalizedString(@"AlertInformativeText: Error occurred during replace", @"Informative text in an alert which tells the user that an error prevented the replace")
-                               buttons:@[NSLocalizedString(@"OK", nil)]
-                     completionHandler:nil];
-
-							if ( outError )
-								*outError = nil; 
-
+                            
+                            [self showOrEnqueueInformationWithMessage:NSLocalizedString(@"Save", nil)
+                                                              details:NSLocalizedString(@"AlertInformativeText: Error occurred during replace", @"Informative text in an alert which tells the user that an error prevented the replace")];
+                            
+                            if (outError) {
+                                *outError = nil;
+                            }
                         }
                     }
                 }
@@ -3802,7 +3814,6 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         }
         
         BOOL isDocumentEdited = [self isDocumentEdited];
-
         
         NSModalResponse revertResponseCode;
         NSString *message, *details, *firstButton, *secondButton;
@@ -3824,27 +3835,31 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         
         BOOL wasDocumentEdited = isDocumentEdited;
         
-        [self warn:message
-           details:details
-           buttons:@[firstButton, secondButton]
- completionHandler:^(PlainTextDocument *document, NSModalResponse returnCode) {
-                  if (returnCode == revertResponseCode) {
-                      DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Revert document");
-                      NSError *error = nil;
-                      if ([document revertToContentsOfURL:document.fileURL ofType:document.fileType error:&error]) {
-                          [document updateChangeCount:NSChangeCleared];
-                      } else {
-                          [document presentError:error];
-                      }
-                  } else {
-                      [self setKeepDocumentVersion:YES];
-                      
-                      if (!wasDocumentEdited) {
-                          // Ensure we do show a change although we didn't have changes before, as we now differ from the version on disk
-                          [self updateChangeCount:NSChangeDone];
-                      }
-                  }
-              }];
+        SEEAlertRecipe *warning = [SEEAlertRecipe warningWithMessage:message
+                                                             details:details
+                                                             buttons:@[firstButton, secondButton]
+                                                   completionHandler:^(PlainTextDocument *document, NSModalResponse returnCode) {
+            if (returnCode == revertResponseCode) {
+                DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Revert document");
+                NSError *error = nil;
+                if ([document revertToContentsOfURL:document.fileURL ofType:document.fileType error:&error]) {
+                    [document updateChangeCount:NSChangeCleared];
+                } else {
+                    [document presentError:error];
+                }
+            } else {
+                [self setKeepDocumentVersion:YES];
+                
+                if (!wasDocumentEdited) {
+                    // Ensure we do show a change although we didn't have changes before, as we now differ from the version on disk
+                    [self updateChangeCount:NSChangeDone];
+                }
+            }
+        }];
+        
+        warning.coalescingIdentifier = @"RevertDialog";
+        
+        [self showOrEnqueueAlertRecipe:warning];
         
         return NO;
     }
@@ -4024,19 +4039,20 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     [[self documentUndoManager] endUndoGrouping];
 }
 
-- (void)conditionallyEditAnyway:(void (^)(PlainTextDocument *))completionHandler
-{
-    [self warn:NSLocalizedString(@"Warning", nil)
-       details:NSLocalizedString(@"File is read-only", nil)
-       buttons:@[NSLocalizedString(@"Edit anyway", nil),
-                 NSLocalizedString(@"Cancel", nil)]
-completionHandler:^(PlainTextDocument * self, NSModalResponse returnCode) {
-              if (returnCode != NSAlertFirstButtonReturn)
-                  return;
-
-              [self setEditAnyway:YES];
-              completionHandler(self);
-          }];
+- (void)conditionallyEditAnyway:(void (^)(PlainTextDocument *))completionHandler {
+    SEEAlertRecipe *warning =
+    [SEEAlertRecipe warningWithMessage:NSLocalizedString(@"Warning", nil)
+                               details:NSLocalizedString(@"File is read-only", nil)
+                               buttons:@[NSLocalizedString(@"Edit anyway", nil),
+                                         NSLocalizedString(@"Cancel", nil)]
+                     completionHandler:^(PlainTextDocument * self, NSModalResponse returnCode) {
+                         if (returnCode != NSAlertFirstButtonReturn)
+                             return;
+                         
+                         [self setEditAnyway:YES];
+                         completionHandler(self);
+                     }];
+    [self showOrEnqueueAlertRecipe:warning];
 }
 
 - (void)convertLineEndingsToLineEnding:(LineEnding)lineEnding {
@@ -5048,15 +5064,15 @@ completionHandler:^(PlainTextDocument * self, NSModalResponse returnCode) {
 - (void)sessionDidReceiveKick:(TCMMMSession *)aSession {
     [self TCM_generateNewSession];
     
-    [self inform:NSLocalizedString(@"Kicked", @"Kick title in Sheet")
-         details:NSLocalizedString(@"KickedInfo", @"Kick info in Sheet")];
+    [self showOrEnqueueInformationWithMessage:NSLocalizedString(@"Kicked", @"Kick title in Sheet")
+                                      details:NSLocalizedString(@"KickedInfo", @"Kick info in Sheet")];
 }
 
 - (void)sessionDidLeave:(TCMMMSession *)aSession {
     [self TCM_generateNewSession];
     
-    [self inform:NSLocalizedString(@"ProblemLeave", @"ProblemLeave title in Sheet")
-         details:NSLocalizedString(@"ProblemLeaveInfo", @"ProblemLeaveInfo info in Sheet")];
+    [self showOrEnqueueInformationWithMessage:NSLocalizedString(@"ProblemLeave", @"ProblemLeave title in Sheet")
+                                      details:NSLocalizedString(@"ProblemLeaveInfo", @"ProblemLeaveInfo info in Sheet")];
 }
 
 
@@ -5067,11 +5083,12 @@ completionHandler:^(PlainTextDocument * self, NSModalResponse returnCode) {
 - (void)sessionDidReceiveClose:(TCMMMSession *)aSession {
     [self TCM_generateNewSession];
 
-    if (self.isProxyDocument)
+    if (self.isProxyDocument) {
         return [self sessionDidLoseConnection:aSession];
-
-    [self inform:NSLocalizedString(@"Closed", @"Server Closed Document title in Sheet")
-         details:NSLocalizedString(@"ClosedInfo", @"Server Closed Document info in Sheet")];
+    }
+    
+    [self showOrEnqueueInformationWithMessage:NSLocalizedString(@"Closed", @"Server Closed Document title in Sheet")
+                                      details:NSLocalizedString(@"ClosedInfo", @"Server Closed Document info in Sheet")];
 }
 
 - (void)sessionDidLoseConnection:(TCMMMSession *)aSession {
@@ -5081,8 +5098,8 @@ completionHandler:^(PlainTextDocument * self, NSModalResponse returnCode) {
             PlainTextWindowController *controller=[[self windowControllers] objectAtIndex:0];
             [controller documentDidLoseConnection:self];
         } else {
-            [self inform:NSLocalizedString(@"LostConnection", @"LostConnection title in Sheet")
-                 details:NSLocalizedString(@"LostConnectionInfo", @"LostConnection info in Sheet")];
+            [self showOrEnqueueInformationWithMessage:NSLocalizedString(@"LostConnection", @"LostConnection title in Sheet")
+                                              details:NSLocalizedString(@"LostConnectionInfo", @"LostConnection info in Sheet")];
         }
     } else if (I_documentProxyWindowController) {
         [I_documentProxyWindowController didLoseConnection];
@@ -6228,29 +6245,30 @@ completionHandler:^(PlainTextDocument * self, NSModalResponse returnCode) {
     return YES;
 }
 
-- (void)presentPromotionAlertForTextView:(NSTextView *)textView insertionString:(NSString *)unconvertedString affectedRange:(NSRange)affectedRange
-{
-    NSString * convertedString = [unconvertedString lossyStringUsingEncoding:self.fileEncoding];
-    NSString * details = [NSLocalizedString(@"You are no longer restricted by the file's current encoding if you promote to a Unicode encoding.", nil) stringByAppendingString:[NSString stringWithFormat:@"\n%@ ->\n%@", unconvertedString, convertedString]];
-
-    [self warn:NSLocalizedString(@"You are trying to insert characters that cannot be handled by the file's current encoding. Do you want to cancel the change?", nil)
-       details:details
-       buttons:@[NSLocalizedString(@"Insert", nil),
-                 NSLocalizedString(@"Promote to UTF8", nil),
-                 NSLocalizedString(@"Promote to Unicode", nil)]
-completionHandler:^(PlainTextDocument * self, NSModalResponse returnCode) {
-              if (returnCode == NSAlertThirdButtonReturn)
-                  [self setFileEncodingUndoable:NSUnicodeStringEncoding];
-              else if (returnCode == NSAlertSecondButtonReturn)
-                  [self setFileEncodingUndoable:NSUTF8StringEncoding];
-              
-              NSString * insertionString = returnCode == NSAlertFirstButtonReturn ?
-              convertedString :
-              unconvertedString;
-              
-              [textView setSelectedRange:affectedRange];
-              [textView insertText:insertionString replacementRange:affectedRange];
-          }];
+- (void)presentPromotionAlertForTextView:(NSTextView *)textView insertionString:(NSString *)unconvertedString affectedRange:(NSRange)affectedRange {
+    NSString *convertedString = [unconvertedString lossyStringUsingEncoding:self.fileEncoding];
+    NSString *details = [NSLocalizedString(@"You are no longer restricted by the file's current encoding if you promote to a Unicode encoding.", nil) stringByAppendingString:[NSString stringWithFormat:@"\n%@ ->\n%@", unconvertedString, convertedString]];
+    
+    SEEAlertRecipe *warning =
+    [SEEAlertRecipe warningWithMessage:NSLocalizedString(@"You are trying to insert characters that cannot be handled by the file's current encoding. Do you want to cancel the change?", nil)
+                               details:details
+                               buttons:@[NSLocalizedString(@"Insert", nil),
+                                         NSLocalizedString(@"Promote to UTF8", nil),
+                                         NSLocalizedString(@"Promote to Unicode", nil)]
+                     completionHandler:^(PlainTextDocument * self, NSModalResponse returnCode) {
+                         if (returnCode == NSAlertThirdButtonReturn)
+                             [self setFileEncodingUndoable:NSUnicodeStringEncoding];
+                         else if (returnCode == NSAlertSecondButtonReturn)
+                             [self setFileEncodingUndoable:NSUTF8StringEncoding];
+                         
+                         NSString * insertionString = returnCode == NSAlertFirstButtonReturn ?
+                         convertedString :
+                         unconvertedString;
+                         
+                         [textView setSelectedRange:affectedRange];
+                         [textView insertText:insertionString replacementRange:affectedRange];
+                     }];
+    [self showOrEnqueueAlertRecipe:warning];
 }
 
 - (void)textDidChange:(NSNotification *)aNotification {
@@ -6425,58 +6443,44 @@ completionHandler:^(PlainTextDocument * self, NSModalResponse returnCode) {
              [self hasAnyAttachedSheetInAnyDocumentWindow]);
 }
 
-- (void)enqueueAlertRecipe:(SEEAlertRecipe *)recipe {
+- (void)addAlertRecipeToAlertRecipeQueue:(SEEAlertRecipe *)recipe {
     [self willChangeValueForKey:@"hasAlerts"];
     [_alertRecipeQueue addObject:recipe];
     [self didChangeValueForKey:@"hasAlerts"];
 }
 
-// This is the method all other alert types get funneled through. If there is an
-// available window to show this alert to, it will present it immediately. Otherwise
-// it will queue it for later.
-- (void)alert:(NSString *)message
-        style:(NSAlertStyle)style
-      details:(NSString *)details
-      buttons:(NSArray *)buttons
-completionHandler:(SEEAlertCompletionHandler)then {
-    SEEAlertRecipe *alert =
-    [[SEEAlertRecipe alloc] initWithMessage:message
-                                      style:style
-                                    details:details
-                                    buttons:buttons
-                          completionHandler:then];
-    
+- (void)showOrEnqueueInformationWithMessage:(NSString *)message details:(NSString *)details {
+    SEEAlertRecipe *information =
+    [SEEAlertRecipe informationWithMessage:message details:details];
+    (void)[self showOrEnqueueAlertRecipe:information];
+}
+
+- (BOOL)showOrEnqueueAlertRecipe:(SEEAlertRecipe *)recipe {
     // Store this now since we'll be mutating the queue momentarily.
     BOOL alreadyHasAlerts = self.hasAlerts;
     
     NSWindow *window = [self windowForImmediateAlertDisplay];
     
     if (alreadyHasAlerts || !window) {
+        // only enqueue if we havent already enqueued one of those
+        NSString *identifier = recipe.coalescingIdentifier;
+        if (identifier) {
+            if ([self.currentAlertRecipe.coalescingIdentifier isEqualToString:identifier]) {
+                return NO;
+            }
+            for (SEEAlertRecipe *queuedRecipe in _alertRecipeQueue) {
+                if ([queuedRecipe.coalescingIdentifier isEqualToString:identifier]) {
+                    return NO;
+                }
+            }
+        }
         // No need to act, things will happen by events when needed.
-        [self enqueueAlertRecipe:alert];
+        [self addAlertRecipeToAlertRecipeQueue:recipe];
     } else {
-        self.currentAlertRecipe = alert;
+        self.currentAlertRecipe = recipe;
         [self presentCurrentAlertInWindow:window];
     }
-}
-
-- (void)inform:(NSString *)message details:(NSString *)details {
-    [self alert:message
-          style:NSAlertStyleInformational
-        details:details
-        buttons:@[NSLocalizedString(@"OK", nil)]
-completionHandler:nil];
-}
-
-- (void)warn:(NSString *)message
-     details:(NSString *)details
-     buttons:(NSArray *)buttons
-completionHandler:(SEEAlertCompletionHandler)then {
-    [self alert:message
-          style:NSAlertStyleWarning
-        details:details
-        buttons:buttons
-completionHandler:then];
+    return YES;
 }
 
 - (void)presentCurrentAlertInWindow:(NSWindow *)window {

@@ -388,19 +388,15 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
 
 @property (nonatomic, readonly) BOOL hasAlerts;
 
-- (void)alert:(NSString *)message
-        style:(NSAlertStyle)style
-      details:(NSString *)details
-      buttons:(NSArray *)buttons
-completionHandler:(SEEAlertCompletionHandler)then;
+/**
+ Funnel method do display alerts on a document.
+ 
+ @param recipe alert recipe to show or enqueue
+ @return YES if enqueued, NO if not. E.g. because of coalescing.
+ */
+- (BOOL)showOrEnqueueAlertRecipe:(SEEAlertRecipe *)recipe;
 
-- (void)inform:(NSString *)message details:(NSString *)details;
-
-- (void)warn:(NSString *)message
-     details:(NSString *)details
-     buttons:(NSArray *)buttons
-completionHandler:(SEEAlertCompletionHandler)then;
-
+- (void)showOrEnqueueInformationWithMessage:(NSString *)message details:(NSString *)details;
 - (void)presentPromotionAlertForTextView:(NSTextView *)textView insertionString:(NSString *)insertionString affectedRange:(NSRange)affectedRange;
 - (void)conditionallyEditAnyway:(void (^)(PlainTextDocument *))completionHandler;
 
