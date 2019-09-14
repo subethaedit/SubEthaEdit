@@ -435,13 +435,13 @@ static AppController *sharedInstance = nil;
 }
 
 - (BOOL)ensureNoWindowsWithAlerts {
-    for (NSDocument *document in NSApp.orderedDocuments)
+    for (NSDocument *document in NSApp.orderedDocuments) {
         if ([document isKindOfClass:[PlainTextDocument class]] &&
             ((PlainTextDocument *)document).hasAlerts) {
             [document.windowControllers[0].window makeKeyAndOrderFront:self];
             return NO;
         }
-    
+    }
     return YES;
 }
 
@@ -471,7 +471,6 @@ static AppController *sharedInstance = nil;
 }
 
 - (void)updateApplicationIcon {
-
     // get the badge count
     int badgeCount = 0;
     NSEnumerator      *documents=[[[NSDocumentController sharedDocumentController] documents] objectEnumerator];
