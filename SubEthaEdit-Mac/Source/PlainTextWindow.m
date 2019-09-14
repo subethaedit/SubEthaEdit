@@ -138,4 +138,18 @@ static NSPoint placeWithCascadePoint(NSWindow *window, NSPoint cascadePoint) {
     }
 }
 
+- (void)awakeFromNib {
+    self.tab.accessoryView = self.cautionView;
+    self.cautionView.hidden = YES;
+}
+
+- (BOOL)showsCautionSymbolInTab {
+    return !self.cautionView.hidden;
+}
+
+- (void)setShowsCautionSymbolInTab:(BOOL)showsCautionSymbolInTab {
+    self.cautionView.hidden = !showsCautionSymbolInTab;
+}
+
+
 @end

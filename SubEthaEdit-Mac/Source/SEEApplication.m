@@ -7,7 +7,7 @@
 #import "SEEDocumentController.h"
 #import "PlainTextDocument.h"
 
-@interface NSApplication  (Scripting)
+@interface NSApplication (Scripting)
 - (id)handleQuitScriptCommand:(NSScriptCommand *)aScriptCommand;
 @end
 
@@ -41,7 +41,6 @@
 
 - (IBAction)terminate:(id)sender {
     // Read System default
-    
     if ([self TCM_terminateShouldKeepWindowsDeterminedByDefaultsAndSenderState:sender]) {
         [self TCM_autosaveBeforeTermination];
     }

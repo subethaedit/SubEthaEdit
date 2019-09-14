@@ -337,21 +337,6 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
 #pragma mark -
 
-- (BOOL)showsCautionSymbolInTab {
-    return !!(self.window.tab.accessoryView);
-}
-
-- (void)setShowsCautionSymbolInTab:(BOOL)showsCautionSymbolInTab {
-    NSWindowTab *tab = self.window.tab;
-    
-   tab.accessoryView = showsCautionSymbolInTab ? ({
-        NSImage *image = [NSImage imageNamed:@"CautionSymbol"];
-        image.size = NSMakeSize(18,18);
-        NSImageView *view = [NSImageView imageViewWithImage:image];
-        view;
-    }) : nil;
-}
-
 - (BOOL)showsBottomStatusBar {
 	PlainTextWindowControllerTabContext *tabContext = self.selectedTabContext;
     return [[tabContext.plainTextEditors lastObject] showsBottomStatusBar];
@@ -784,6 +769,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     [self updateLock];
     [self.plainTextDocument adjustModeMenu];
     PlainTextWindow *window = (PlainTextWindow *)self.window;
+
     [window ensureTabBarVisiblity:SEEDocumentController.shouldAlwaysShowTabBar];
 }
 
@@ -1153,6 +1139,9 @@ static NSPoint S_cascadePoint = {0.0,0.0};
             I_dialogSplitView = [tabContext dialogSplitView];
         }
     } else {
+        
+        [previouslySelectedDocument removeObserver:self forKeyPath:@"hasAlerts"];
+        
         [[URLBubbleWindow sharedURLBubbleWindow] hideIfNecessary];
         
         NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
@@ -1192,8 +1181,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
         
         // A document has been told that this window controller belongs to it.
         [super setDocument:document];
-      
-
+        [document addObserver:self forKeyPath:@"hasAlerts" options:NSKeyValueObservingOptionInitial context:nil];
 
         // Every document sends it window controllers -setDocument:nil when it's closed. We ignore such messages for some purposes.
         if (document == nil) {
@@ -1306,6 +1294,14 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     }
     
 	[tabContext.plainTextEditors makeObjectsPerformSelector:@selector(prepareForDealloc)];
+}
+
+#pragma mark - KVO
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    if ([keyPath isEqualToString:@"hasAlerts"]) {
+        [(PlainTextWindow *)self.window setShowsCautionSymbolInTab:self.plainTextDocument.hasAlerts];
+    }
 }
 
 @end

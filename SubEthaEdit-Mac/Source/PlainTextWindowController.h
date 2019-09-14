@@ -44,7 +44,6 @@
 - (void)setShowsBottomStatusBar:(BOOL)aFlag;
 
 @property (nonatomic) BOOL showsGutter;
-@property (nonatomic) BOOL showsCautionSymbolInTab;
 
 - (IBAction)toggleLineNumbers:(id)aSender;
 

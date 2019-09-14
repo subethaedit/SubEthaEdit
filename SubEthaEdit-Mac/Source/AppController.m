@@ -434,6 +434,26 @@ static AppController *sharedInstance = nil;
     [[NSNotificationCenter defaultCenter] postNotificationName:SEEAppEffectiveAppearanceDidChangeNotification object:NSApp];
 }
 
+- (BOOL)ensureNoWindowsWithAlerts {
+    for (NSDocument *document in NSApp.orderedDocuments) {
+        if ([document isKindOfClass:[PlainTextDocument class]] &&
+            ((PlainTextDocument *)document).hasAlerts) {
+            [document.windowControllers[0].window makeKeyAndOrderFront:self];
+            return NO;
+        }
+    }
+    return YES;
+}
+
+
+- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
+    if (![self ensureNoWindowsWithAlerts]) {
+        NSBeep();
+        return NSTerminateCancel;
+    }
+    return NSTerminateNow;
+}
+
 #pragma mark
 - (void)sessionManagerIsReady:(NSNotification *)aNotification {
     [[TCMMMBEEPSessionManager sharedInstance] validateListener];
@@ -451,7 +471,6 @@ static AppController *sharedInstance = nil;
 }
 
 - (void)updateApplicationIcon {
-
     // get the badge count
     int badgeCount = 0;
     NSEnumerator      *documents=[[[NSDocumentController sharedDocumentController] documents] objectEnumerator];
