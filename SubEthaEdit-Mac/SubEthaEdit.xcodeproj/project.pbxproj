@@ -243,7 +243,6 @@
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
-		9E8FD85D2319B11B005CF41B /* TabbedDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8FD85C2319B11B005CF41B /* TabbedDocument.m */; };
 		9E9F58AD2319EC3C00E838D1 /* SEEAlertRecipe.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E9F58AC2319EC3C00E838D1 /* SEEAlertRecipe.m */; };
 		F20396F60F8A707700BEB377 /* FullTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D34B0F38756100AD7DE1 /* FullTextStorage.m */; };
 		F2061D690B4C152600E6631F /* FirstClickCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2061D670B4C152600E6631F /* FirstClickCustomView.m */; };
@@ -938,8 +937,6 @@
 		5EF31E420A7E437C00D777F5 /* InvertedIBeam.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = InvertedIBeam.tiff; path = artwork/InvertedIBeam.tiff; sourceTree = "<group>"; };
 		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* SubEthaEdit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SubEthaEdit.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		9E8FD85B2319B11B005CF41B /* TabbedDocument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TabbedDocument.h; sourceTree = "<group>"; };
-		9E8FD85C2319B11B005CF41B /* TabbedDocument.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TabbedDocument.m; sourceTree = "<group>"; };
 		9E9F58AB2319EC3C00E838D1 /* SEEAlertRecipe.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEEAlertRecipe.h; sourceTree = "<group>"; };
 		9E9F58AC2319EC3C00E838D1 /* SEEAlertRecipe.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEEAlertRecipe.m; sourceTree = "<group>"; };
 		F2061D660B4C152600E6631F /* FirstClickCustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = FirstClickCustomView.h; sourceTree = "<group>"; };
@@ -1761,8 +1758,6 @@
 				F2FB96E10CBE68ED000B85AE /* UKXattrMetadataStore.m */,
 				142893F409575A3000D14688 /* UndoManager.h */,
 				142893F509575A3000D14688 /* UndoManager.m */,
-				9E8FD85B2319B11B005CF41B /* TabbedDocument.h */,
-				9E8FD85C2319B11B005CF41B /* TabbedDocument.m */,
 				9E9F58AB2319EC3C00E838D1 /* SEEAlertRecipe.h */,
 				9E9F58AC2319EC3C00E838D1 /* SEEAlertRecipe.m */,
 			);
@@ -2796,7 +2791,6 @@
 				4C71D0C918BF997500EA66FA /* SEENewDocumentListItem.m in Sources */,
 				F280ABC4131E6ED50091D145 /* SEEStyleSheetEditorWindowController.m in Sources */,
 				F214C1DB18BE180300908826 /* NSObject+TCMArcLifecycleAdditions.m in Sources */,
-				9E8FD85D2319B11B005CF41B /* TabbedDocument.m in Sources */,
 				F2D56993133B880900CEC841 /* SEEStyleSheetSettings.m in Sources */,
 				F22024EE191D175C0098982C /* TCMHoverButton.m in Sources */,
 				F29E6DD518E5C90200F84231 /* TCMDragImageView.m in Sources */,

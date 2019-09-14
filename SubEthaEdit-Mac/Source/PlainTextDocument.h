@@ -15,7 +15,7 @@
 #import "FoldableTextStorage.h"
 #import "FullTextStorage.h"
 #import "SEEDocumentController.h"
-#import "TabbedDocument.h"
+#import "SEEAlertRecipe.h"
 
 enum {
     UnknownStringEncoding = NoStringEncoding,
@@ -46,7 +46,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotification;
 
 
-@interface PlainTextDocument : TabbedDocument <SEEDocument, NSTextViewDelegate, NSTextStorageDelegate, NSOpenSavePanelDelegate, NSSharingServicePickerDelegate, NSSharingServiceDelegate>
+@interface PlainTextDocument : NSDocument <SEEDocument, NSTextViewDelegate, NSTextStorageDelegate, NSOpenSavePanelDelegate, NSSharingServicePickerDelegate, NSSharingServiceDelegate>
 {
     TCMMMSession *I_session;
     struct {
@@ -166,10 +166,6 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
 - (NSImage *)documentIcon;
 
 - (instancetype)initWithSession:(TCMMMSession *)aSession;
-
-// TODO: rename more cocoa objc style
-- (void)presentPromotionAlertForTextView:(NSTextView *)textView insertionString:(NSString *)insertionString affectedRange:(NSRange)affectedRange;
-- (void)conditionallyEditAnyway:(void (^)(PlainTextDocument *))completionHandler;
 
 - (IBAction)newView:(id)aSender;
 //- (IBAction)goIntoBundles:(id)sender;
@@ -387,6 +383,26 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
 - (void)setContentByDictionaryRepresentation:(NSDictionary *)aRepresentation;
 
 - (NSBitmapImageRep *)thumbnailBitmapRepresentation;
+
+#pragma mark - Alert Handling
+
+@property (nonatomic, readonly) BOOL hasAlerts;
+
+- (void)alert:(NSString *)message
+        style:(NSAlertStyle)style
+      details:(NSString *)details
+      buttons:(NSArray *)buttons
+completionHandler:(SEEAlertCompletionHandler)then;
+
+- (void)inform:(NSString *)message details:(NSString *)details;
+
+- (void)warn:(NSString *)message
+     details:(NSString *)details
+     buttons:(NSArray *)buttons
+completionHandler:(SEEAlertCompletionHandler)then;
+
+- (void)presentPromotionAlertForTextView:(NSTextView *)textView insertionString:(NSString *)insertionString affectedRange:(NSRange)affectedRange;
+- (void)conditionallyEditAnyway:(void (^)(PlainTextDocument *))completionHandler;
 
 @end
 
