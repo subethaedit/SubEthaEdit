@@ -1,10 +1,7 @@
-//
-//  ConsequentialAlert.m
+//  SEEAlertRecipe.m
 //  SubEthaEdit
 //
 //  Created by Francisco Tolmasky on 8/30/19.
-//  Copyright © 2019 SubEthaEdit Contributors. All rights reserved.
-//
 
 #import "SEEAlertRecipe.h"
 
@@ -14,11 +11,9 @@
                           style:(NSAlertStyle)style
                         details:(NSString *)details
                         buttons:(NSArray *)buttons
-              completionHandler:(SEEAlertCompletionHandler)then
-{
-    self = [super init];
+              completionHandler:(SEEAlertCompletionHandler)then {
 
-    if (self) {
+    if ((self = [super init])) {
         _message = message;
         _style = style;
         _details = details;
