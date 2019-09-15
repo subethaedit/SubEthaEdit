@@ -1578,39 +1578,29 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     }
 }
 
-- (void)canCloseDocumentWithDelegate:(id)delegate shouldCloseSelector:(SEL)shouldCloseSelector contextInfo:(void *)contextInfo {
-    // If we have alert, we can't close without letting them run their course. This matches
-    // Xcode's behavior. We *could* optionally makeKeyAndOrderFront: too.
-    if (self.hasAlerts && [delegate respondsToSelector:shouldCloseSelector]) {
+// Wrapping this invocation into a static to be less visual clutter in the callbacks
+static void S_performShouldCloseCallback(id delegate, SEL shouldCloseSelector, NSDocument *document, BOOL canClose, void *contextInfo) {
+    ((void (*)(id, SEL, NSDocument *, BOOL, void (*)))objc_msgSend)(delegate, shouldCloseSelector, document, canClose, contextInfo);
+}
 
+- (void)canCloseDocumentWithDelegate:(id)delegate shouldCloseSelector:(SEL)shouldCloseSelector contextInfo:(void *)contextInfo {
+    // If we have a queued up alert in a non displayed tab, we need disallow closing as well
+    if (self.hasAlerts) {
         NSBeep();
-        ((void (*)(id, SEL, id, BOOL, void (*)))objc_msgSend)(delegate, shouldCloseSelector, self, NO, contextInfo);
+        S_performShouldCloseCallback(delegate, shouldCloseSelector, self, NO, contextInfo);
         return;
     }
-
-
-    NSEnumerator *enumerator = [[self windowControllers] objectEnumerator];
-    NSWindowController *windowController;
-    unsigned count = [[self windowControllers] count];
-    unsigned found = 0;
-    while ((windowController = [enumerator nextObject])) {
-        if ([windowController isKindOfClass:[PlainTextWindowController class]]) {
-            found++;
-        }
+    else if (self.documentWindows.count > 1) {
+        S_performShouldCloseCallback(delegate, shouldCloseSelector, self, YES, contextInfo);
+        return;
     }
-    
-    if (count > 1 && count == found) {
-        if ([delegate respondsToSelector:shouldCloseSelector]) {
-            ((void (*)(id, SEL, id, BOOL, void (*)))objc_msgSend)(delegate, shouldCloseSelector, self, YES, contextInfo);
-        }
-    } else {
-        [super canCloseDocumentWithDelegate:delegate shouldCloseSelector:shouldCloseSelector contextInfo:contextInfo];
-    }
+    [super canCloseDocumentWithDelegate:delegate shouldCloseSelector:shouldCloseSelector contextInfo:contextInfo];
 }
 
 - (void)shouldCloseWindowController:(NSWindowController *)windowController delegate:(id)delegate shouldCloseSelector:(SEL)selector contextInfo:(void *)contextInfo  {
 
     // Do the regular NSDocument thing, but take control afterward if it's a multidocument window controller. To do this we have to record the original parameters of this method invocation.
+    // TODO: multi document window controllers aren't a thing anymore, is this still necessary?
     PlainTextDocumentShouldCloseContext *replacementContext = [[PlainTextDocumentShouldCloseContext alloc] init];
     replacementContext->windowController = (PlainTextWindowController *)windowController;
     replacementContext->originalDelegate = delegate;
@@ -1628,13 +1618,13 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     PlainTextDocumentShouldCloseContext *replacementContext = TCM_ReleaseFromVoid(contextInfo);
 
     // Always tell the original invoker of -shouldCloseWindowController:delegate:shouldCloseSelector:contextInfo: not to close the window controller (it's actually the NSWindow in Tiger and every earlier release). We might not want the window controller to be closed. Even if we want it to be closed, we want to do it by invoking our override of -close, which will always cause the window controller to get a -close message, which is necessary for some cleanup.
-    ((void (*)(id, SEL, NSDocument *,BOOL, void *))objc_msgSend)(replacementContext->originalDelegate, replacementContext->originalSelector, document, NO, replacementContext->originalContext);
+    S_performShouldCloseCallback(replacementContext->originalDelegate, replacementContext->originalSelector, document, NO, replacementContext->originalContext);
+    
     if (shouldClose) {
         NSArray *windowControllers = [self windowControllers];
         unsigned int windowControllerCount = [windowControllers count];
         if (windowControllerCount > 1) {
             PlainTextWindowController *windowController = replacementContext->windowController;
-            [windowController documentWillClose:self];
             [windowController close];
         } else {
             [self close];
@@ -1644,12 +1634,6 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 
 
 - (void)close {
-    // The window controller are going to get -close messages of their own when we invoke [super close]. If one of them is a multidocument window controller tell it who the -close message is coming from.
-    NSArray *windowControllers = [self windowControllers];
-    for (NSWindowController *windowController in windowControllers) {
-        [(PlainTextWindowController *)windowController documentWillClose:self];
-    }
-	
 	for (FindAllController *findAllController in [I_findAllControllers copy]) {
 		[findAllController close];
 	}
@@ -1846,7 +1830,6 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 			NSWindow *window = [windowController window];
 			[window setFrameTopLeftPoint:NSMakePoint(transientDocumentWindowFrame.origin.x, NSMaxY(transientDocumentWindowFrame))];
 		}
-        [windowController selectTabForDocument:self];
 
 		if (closeTransientDocument) {
 			[[windowController window] orderFront:self]; // stop cascading
@@ -4427,21 +4410,18 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 - (void)gotoLine:(unsigned)aLine {
     PlainTextWindowController *windowController=[self topmostWindowController];
-    [windowController selectTabForDocument:self];
     [windowController gotoLine:aLine];
 }
 
 // dispatches to the plaintexteditor eventually
 - (void)selectRange:(NSRange)aRange {
     PlainTextWindowController *windowController=[self topmostWindowController];
-    [windowController selectTabForDocument:self];
     [windowController selectRange:aRange];
 }
 
 // dispatches to the plaintexteditor eventually
 - (void)selectRangeInBackground:(NSRange)aRange {
     PlainTextWindowController *windowController=[self topmostWindowController];
-    [windowController selectTabForDocument:self];
     [windowController selectRangeInBackground:aRange];
 }
 
@@ -4897,7 +4877,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     id windowController;
     while ((windowController = [enumerator nextObject])) {
         if ([windowController isKindOfClass:[PlainTextWindowController class]]) {
-            [(PlainTextWindowController *)windowController documentUpdatedChangeCount:self];
+            [(PlainTextWindowController *)windowController documentDidUpdateChangeCount];
         }
     }
 }
@@ -5456,7 +5436,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 
 - (PlainTextEditor *)activePlainTextEditor {
-    return [[self topmostWindowController] activePlainTextEditorForDocument:self];
+    return [[self topmostWindowController] activePlainTextEditor];
 }
 
 
@@ -5465,7 +5445,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     NSEnumerator *windowControllers = [[self windowControllers] objectEnumerator];
     PlainTextWindowController *windowController;
     while ((windowController = [windowControllers nextObject])) {
-		[result addObjectsFromArray:[windowController plainTextEditorsForDocument:self]];
+		[result addObjectsFromArray:[windowController plainTextEditors]];
 	}
     return result;
 }
@@ -6564,7 +6544,6 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         return (BOOL)(window.attachedSheet != nil);
     };
     
-    
     return ([self.documentWindows indexOfObjectPassingTest:windowHasAttachedSheet] != NSNotFound);
 }
 
@@ -6577,9 +6556,34 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         }
     }];
     
-    if (candidates.count > 1) {
-        // TODO: depth sort it
+    return candidates;
+}
+
+static NSMutableArray<__kindof NSWindow *> *S_depthSortedWindows(NSArray<__kindof NSWindow *> *windows) {
+    NSMutableArray *result = [NSMutableArray new];
+    // Depthsort
+    NSSet *candidateSet = [NSSet setWithArray:windows];
+    for (NSWindow *window in NSApp.orderedWindows) {
+        if ([candidateSet containsObject:window]) {
+            [result addObject:window];
+        }
     }
+    return result;
+}
+
+- (NSArray<PlainTextWindow *> *)orderedDocumentWindows {
+    NSMutableArray *candidates = [NSMutableArray new];
+    [self.windowControllers enumerateObjectsUsingBlock:^(NSWindowController *wc, NSUInteger _idx, BOOL *_stop) {
+        if ([wc isKindOfClass:[PlainTextWindowController class]]) {
+            NSWindow *window = wc.window;
+            [candidates addObject:window];
+        }
+    }];
+    
+    if (candidates.count > 1) {
+        candidates = S_depthSortedWindows(candidates);
+    }
+    
     return candidates;
 }
 
@@ -6595,40 +6599,23 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     }];
     
     if (candidates.count > 1) {
-        // Depthsort
-        NSSet *candidateSet = [NSSet setWithArray:candidates];
-        [candidates removeAllObjects];
-        for (NSWindow *window in NSApp.orderedWindows) {
-            if ([candidateSet containsObject:window]) {
-                [candidates addObject:window];
-            }
-        }
+        candidates = S_depthSortedWindows(candidates);
     }
     return candidates;
 }
 
-- (NSArray<PlainTextWindow *> *)orderedDocumentWindows {
-    NSMutableArray *candidates = [NSMutableArray new];
-    [self.windowControllers enumerateObjectsUsingBlock:^(NSWindowController *wc, NSUInteger _idx, BOOL *_stop) {
-        if ([wc isKindOfClass:[PlainTextWindowController class]]) {
-            NSWindow *window = wc.window;
-            [candidates addObject:window];
-        }
-    }];
-    
-    if (candidates.count > 1) {
-        // Depthsort
-        NSSet *candidateSet = [NSSet setWithArray:candidates];
-        [candidates removeAllObjects];
-        for (NSWindow *window in NSApp.orderedWindows) {
-            if ([candidateSet containsObject:window]) {
-                [candidates addObject:window];
-            }
+- (NSArray<NSWindow *> *)orderedWindows {
+    NSMutableArray *orderedWindows = [NSMutableArray array];
+    NSEnumerator *windowsEnumerator = [[NSApp orderedWindows] objectEnumerator];
+    NSWindow *window;
+    while ((window = [windowsEnumerator nextObject])) {
+        if (![self isProxyDocument] &&
+            window.windowController.document == self) {
+            [orderedWindows addObject:window];
         }
     }
-    return candidates;
+    return orderedWindows;
 }
-
 
 #pragma mark - Synchronization
 
@@ -6760,7 +6747,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 - (void)handleShowWebPreviewCommand:(NSScriptCommand *)command {
 	PlainTextWindowController *windowController = self.topmostWindowController;
-	PlainTextWindowControllerTabContext *tabContext = [windowController windowControllerTabContextForDocument:self];
+	PlainTextWindowControllerTabContext *tabContext = [windowController SEE_tabContext];
 
 	if ([windowController.document isEqual:self]) {
 		if (! tabContext.webPreviewViewController) {
@@ -6972,24 +6959,10 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     [[self activePlainTextEditor] setScriptSelection:aSelection];
 }
 
-- (NSArray *)orderedWindows {
-    NSMutableArray *orderedWindows = [NSMutableArray array];
-    NSEnumerator *windowsEnumerator = [[NSApp orderedWindows] objectEnumerator];
-    NSWindow *window;
-    while ((window = [windowsEnumerator nextObject])) {
-        if (![self isProxyDocument] &&
-            [[window windowController] respondsToSelector:@selector(documents)] &&
-            [[[window windowController] documents] containsObject:self]) {
-            [orderedWindows addObject:window];
-        }
-    }
-    return orderedWindows;
-}
-
 - (NSString *)scriptedWebPreviewBaseURL {
 	NSString *result = nil;
 	PlainTextWindowController *windowController = self.topmostWindowController;
-	PlainTextWindowControllerTabContext *tabContext = [windowController selectedTabContext];
+	PlainTextWindowControllerTabContext *tabContext = [windowController SEE_tabContext];
 
 	if (! tabContext.webPreviewViewController) {
 		result = [[self fileURL] absoluteString];
@@ -7001,7 +6974,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 - (void)setScriptedWebPreviewBaseURL:(NSString *)aString {
 	PlainTextWindowController *windowController = self.topmostWindowController;
-	PlainTextWindowControllerTabContext *tabContext = [windowController selectedTabContext];
+	PlainTextWindowControllerTabContext *tabContext = [windowController SEE_tabContext];
 
 	if (! tabContext.webPreviewViewController) {
 		[windowController toggleWebPreview:self];

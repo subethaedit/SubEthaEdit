@@ -608,8 +608,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 - (void)takeSettingsFromDocument {
     PlainTextDocument *document = [self document];
 
-    if (document)
-    {
+    if (document) {
         [self setShowsInvisibleCharacters:[document showInvisibleCharacters]];
         [self setWrapsLines:[document wrapLines]];
         [self setShowsGutter:[document showsGutter]];
@@ -1916,7 +1915,6 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 - (void)selectRange:(NSRange)aRange {
-	[self.plainTextWindowController selectTabForDocument:I_windowControllerTabContext.document];
     [[I_textView window] makeKeyAndOrderFront:self];
 	[[I_textView window] makeFirstResponder:I_textView];
 	[I_windowControllerTabContext setActivePlainTextEditor:self];
@@ -1924,7 +1922,6 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 - (void)selectRangeInBackground:(NSRange)aRange {
-	[self.plainTextWindowController selectTabForDocument:I_windowControllerTabContext.document];
     [self selectRangeInBackgroundWithoutIndication:aRange expandIfFolded:YES];
 	[I_textView showFindIndicatorForRange:[I_textView selectedRange]];
 }

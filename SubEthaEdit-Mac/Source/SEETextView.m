@@ -305,8 +305,7 @@ static NSMenu *S_defaultMenu=nil;
     TCMMMUser *me=[TCMMMUserManager me];
 
     FoldableTextStorage *ts = (FoldableTextStorage *)[self textStorage];
-
-    if (document) {
+    if (document && ts) { // ts can be nil with an layerkit based redraw on teardown of a document/windwow
         while ((user=[participants nextObject])) {
             if (user != me) {
 				NSPoint textContainerOrigin = self.textContainerOrigin;

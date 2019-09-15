@@ -9,14 +9,6 @@
 
 @implementation PlainTextWindow
 
-- (IBAction)performClose:(id)sender {
-    if ([[self windowController] isKindOfClass:[PlainTextWindowController class]]) {
-        [(PlainTextWindowController *)[self windowController] closeTab:sender];
-    } else {
-        [super performClose:sender];
-    }
-}
-
 - (void)sendEvent:(NSEvent *)event {
     // Handle ⌘ 1 ... ⌘ 9, ⌘ 0 shortcuts to select tabs
     if ([event type] == NSEventTypeKeyDown) {
