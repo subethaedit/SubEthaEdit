@@ -435,16 +435,24 @@ static AppController *sharedInstance = nil;
 }
 
 - (BOOL)ensureNoWindowsWithAlerts {
-    for (NSDocument *document in NSApp.orderedDocuments) {
-        if ([document isKindOfClass:[PlainTextDocument class]] &&
-            ((PlainTextDocument *)document).hasAlerts) {
-            [document.windowControllers[0].window makeKeyAndOrderFront:self];
-            return NO;
+    PlainTextDocument *offendingDocument = nil;
+    for (PlainTextDocument *document in NSApp.orderedDocuments) {
+        if ([document isKindOfClass:[PlainTextDocument class]]) {
+            [document dismissSafeToDismissSheetsIfAny];
+            if (!offendingDocument &&
+                document.hasAlerts) {
+                offendingDocument = document;
+            }
         }
     }
-    return YES;
+    
+    if (offendingDocument) {
+        [offendingDocument showExistingAlertIfAny];
+        return NO;
+    } else {
+        return YES;
+    }
 }
-
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
     if (![self ensureNoWindowsWithAlerts]) {

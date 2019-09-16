@@ -405,10 +405,19 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
  */
 - (BOOL)presentAlertRecipeOrShowExistingAlert:(SEEAlertRecipe *)recipe;
 
+/**
+ Shows the frontmost window of this document that has an alert attached.
+
+ @return YES if it did show a window, NO if there wasn't a window with an attached sheet.
+ */
+- (BOOL)showExistingAlertIfAny;
 
 - (void)showOrEnqueueInformationWithMessage:(NSString *)message details:(NSString *)details;
+- (void)dismissSafeToDismissSheetsIfAny;
+
 - (void)presentPromotionAlertForTextView:(NSTextView *)textView insertionString:(NSString *)insertionString affectedRange:(NSRange)affectedRange;
 - (void)conditionallyEditAnyway:(void (^)(PlainTextDocument *))completionHandler;
+
 
 @end
 

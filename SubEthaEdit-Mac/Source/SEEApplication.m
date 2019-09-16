@@ -44,7 +44,11 @@
     if ([self TCM_terminateShouldKeepWindowsDeterminedByDefaultsAndSenderState:sender]) {
         [self TCM_autosaveBeforeTermination];
     }
-	[super terminate:sender];
+    // Dismiss dismissable sheets here too - as it turns out cocoa checks against sheets
+    // before calling the App delegates terminate
+    [[AppController sharedInstance] ensureNoWindowsWithAlerts];
+
+    [super terminate:sender];
 }
 
 // this is called from the dock quit command

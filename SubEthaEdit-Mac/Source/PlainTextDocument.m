@@ -1584,6 +1584,8 @@ static void S_performShouldCloseCallback(id delegate, SEL shouldCloseSelector, N
 }
 
 - (void)canCloseDocumentWithDelegate:(id)delegate shouldCloseSelector:(SEL)shouldCloseSelector contextInfo:(void *)contextInfo {
+    // dismiss sheets that are okay to dismiss automatically
+    [self dismissSafeToDismissSheetsIfAny];
     // If we have a queued up alert in a non displayed tab, we need disallow closing as well
     if (self.hasAlerts) {
         NSBeep();
@@ -3851,6 +3853,10 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
                 }
             }
         }];
+        if (!isDocumentEdited) {
+            warning.safeToDismissAutomatically = YES;
+        }
+        
         
         warning.coalescingIdentifier = @"RevertDialog";
         warning.alertAdjustment = alertAdjustment;
@@ -6436,6 +6442,25 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
              [self hasAnyAttachedSheetInAnyDocumentWindow]);
 }
 
+- (void)dismissSafeToDismissSheetsIfAny {
+    if (_currentAlertRecipe && _currentAlertRecipe.safeToDismissAutomatically) {
+        _currentAlertRecipe = nil;
+        for (NSWindow *window in self.documentWindows) {
+            NSWindow *sheet = window.attachedSheet;
+            if (sheet) {
+                [window endSheet:sheet];
+            }
+        }
+    } else if (!_currentAlertRecipe &&
+               ![self hasAnyAttachedSheetInAnyDocumentWindow] &&
+               _alertRecipeQueue.firstObject &&
+               _alertRecipeQueue.firstObject.safeToDismissAutomatically) {
+        [self willChangeValueForKey:@"hasAlerts"];
+        [_alertRecipeQueue removeObjectAtIndex:0];
+        [self didChangeValueForKey:@"hasAlerts"];
+    }
+}
+
 - (void)addAlertRecipeToAlertRecipeQueue:(SEEAlertRecipe *)recipe {
     [self willChangeValueForKey:@"hasAlerts"];
     [_alertRecipeQueue addObject:recipe];
@@ -6448,16 +6473,21 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     (void)[self showOrEnqueueAlertRecipe:information];
 }
 
+- (BOOL)showExistingAlertIfAny {
+    for (NSWindow *window in self.orderedDocumentWindows) {
+        if (window.attachedSheet) {
+            [window makeKeyAndOrderFront:nil];
+            return YES;
+        }
+    }
+    return NO;
+}
+
 - (BOOL)presentAlertRecipeOrShowExistingAlert:(SEEAlertRecipe *)recipe {
     BOOL result = [self showOrEnqueueAlertRecipe:recipe];
     if (!result) {
         NSBeep();
-        for (NSWindow *window in self.orderedDocumentWindows) {
-            if (window.attachedSheet) {
-                [window makeKeyAndOrderFront:nil];
-                break;
-            }
-        }
+        [self showExistingAlertIfAny];
     }
     return result;
 }

@@ -143,5 +143,11 @@ static NSPoint placeWithCascadePoint(NSWindow *window, NSPoint cascadePoint) {
     self.cautionView.hidden = !showsCautionSymbolInTab;
 }
 
+#ifndef TCM_NO_DEBUG
+// Convenience for breakpoints only currently
+- (void)makeKeyAndOrderFront:(id)sender {
+    [super makeKeyAndOrderFront:sender];
+}
+#endif
 
 @end
