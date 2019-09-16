@@ -13,10 +13,9 @@
 
 @implementation SEEAvatarImageView
 
-static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarwObservationContext;
+static void * const SEEAvatarRedrawObservationContext = (void *)&SEEAvatarRedrawObservationContext;
 
-+ (void)initialize
-{
++ (void)initialize {
 	if (self == [SEEAvatarImageView class]) {
 		[self exposeBinding:@"borderColor"];
 		[self exposeBinding:@"image"];
@@ -24,8 +23,7 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
 	}
 }
 
-- (instancetype)initWithFrame:(NSRect)frame
-{
+- (instancetype)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         self.borderColor = [NSColor lightGrayColor];
@@ -43,23 +41,20 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
 
 #pragma mark - KVO
 
-- (void)registerKVO
-{
-	[self addObserver:self forKeyPath:@"borderColor" options:0 context:SEEAvatarRedarwObservationContext];
-	[self addObserver:self forKeyPath:@"image" options:0 context:SEEAvatarRedarwObservationContext];
-	[self addObserver:self forKeyPath:@"initials" options:0 context:SEEAvatarRedarwObservationContext];
+- (void)registerKVO {
+	[self addObserver:self forKeyPath:@"borderColor" options:0 context:SEEAvatarRedrawObservationContext];
+	[self addObserver:self forKeyPath:@"image" options:0 context:SEEAvatarRedrawObservationContext];
+	[self addObserver:self forKeyPath:@"initials" options:0 context:SEEAvatarRedrawObservationContext];
 }
 
-- (void)unregisterKVO
-{
-	[self removeObserver:self forKeyPath:@"borderColor" context:SEEAvatarRedarwObservationContext];
-	[self removeObserver:self forKeyPath:@"image" context:SEEAvatarRedarwObservationContext];
-	[self removeObserver:self forKeyPath:@"initials" context:SEEAvatarRedarwObservationContext];
+- (void)unregisterKVO {
+	[self removeObserver:self forKeyPath:@"borderColor" context:SEEAvatarRedrawObservationContext];
+	[self removeObserver:self forKeyPath:@"image" context:SEEAvatarRedrawObservationContext];
+	[self removeObserver:self forKeyPath:@"initials" context:SEEAvatarRedrawObservationContext];
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    if (context == SEEAvatarRedarwObservationContext) {
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if (context == SEEAvatarRedrawObservationContext) {
         [self setNeedsDisplay:YES];
 
     } else {
@@ -69,8 +64,7 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
 
 #pragma mark - Drawing
 
-- (void)drawRect:(NSRect)dirtyRect
-{
+- (void)drawRect:(NSRect)dirtyRect {
     [super drawRect:dirtyRect];
 
 	NSRect bounds = self.bounds;
@@ -172,8 +166,7 @@ static void * const SEEAvatarRedarwObservationContext = (void *)&SEEAvatarRedarw
 
 #pragma mark - Overrides
 
-- (BOOL)isOpaque
-{
+- (BOOL)isOpaque {
 	return NO;
 }
 

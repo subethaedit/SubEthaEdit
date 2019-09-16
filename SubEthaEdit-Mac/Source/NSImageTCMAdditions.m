@@ -25,6 +25,11 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
 	NSRect imageBounds = NSZeroRect;
 	imageBounds.size = unknownUserImage.size;
 	NSRect imageSourceRect = NSInsetRect(imageBounds, 2.0, 2.0);
+    
+    // The unkown user image changed in catalina, so adjust to make the generated avatar less ugly
+    if (@available(macOS 10.15, *)) {
+        imageSourceRect = NSInsetRect(imageBounds, -1.5, -1.5);
+    }
 
 	CGFloat fontSize = floor(NSWidth(drawingRect) / 5.0);
 	
@@ -76,11 +81,9 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
 }
 
 
-+ (NSImage *)highResolutionImageWithSize:(NSSize)inSize usingDrawingBlock:(void (^)(void))drawingBlock
-{
++ (NSImage *)highResolutionImageWithSize:(NSSize)inSize usingDrawingBlock:(void (^)(void))drawingBlock {
 	NSImage * resultImage = [[NSImage alloc] initWithSize:inSize];
-	if (resultImage)
-	{
+	if (resultImage) {
 		// Save external graphic context
 		NSGraphicsContext *currentContext = [NSGraphicsContext currentContext];
 
