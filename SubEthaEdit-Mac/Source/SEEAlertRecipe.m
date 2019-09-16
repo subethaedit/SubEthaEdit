@@ -31,7 +31,7 @@
 
 + (instancetype)informationWithMessage:(NSString *)message details:(NSString *)details {
     SEEAlertRecipe *result = [[SEEAlertRecipe alloc] initWithMessage:message style:NSAlertStyleInformational details:details buttons:@[NSLocalizedString(@"OK", nil)] completionHandler:nil];
-    result.safeToDismissAutomatically;
+    result.safeToDismissAutomatically = YES;
     return result;
 }
 
