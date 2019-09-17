@@ -3042,7 +3042,7 @@
 	<key>LSMinimumSystemVersion</key>
 	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
 	<key>NSAppleEventsUsageDescription</key>
-	<string>AppleScript is used to communicate for external editor support in providing apps, like e.g. Fetch.</string>
+	<string>AppleScript is used to ask for permission to write certain files and to communicate for external editor support in providing apps.</string>
 	<key>NSAppleScriptEnabled</key>
 	<string>YES</string>
 	<key>NSHumanReadableCopyright</key>
