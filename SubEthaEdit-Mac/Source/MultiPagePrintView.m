@@ -18,12 +18,44 @@
 #import "TCMMMSession.h"
 #import "DocumentModeManager.h"
 
-@implementation MultiPagePrintView
+@implementation MultiPagePrintView {
+    NSTextStorage *I_textStorage;
+    NSLayoutManager *I_layoutManager;
+    NSInteger I_pageCount;
+    NSSize I_pageSize;
+    NSSize I_textContainerSize;
+    NSPoint I_textContainerOrigin;
+    PlainTextDocument *I_document;
+    NSTextView *I_headerTextView;
+    NSMutableArray *I_contributorArray,
+    *I_visitorArray;
+    NSFont *I_baseFont;
+    NSMutableDictionary *I_styleCacheDictionary;
+    
+    struct {
+        CGFloat contributorNameWidth;
+        CGFloat contributorAIMWidth;
+        CGFloat contributorEmailWidth;
+        CGFloat visitorNameWidth;
+        CGFloat visitorAIMWidth;
+        CGFloat visitorEmailWidth;
+        CGFloat emailAIMLabelWidth;
+        CGFloat contributorWidth;
+        CGFloat visitorWidth;
+    } I_measures;
+    
+    NSInteger I_visitorIndex;
+    NSInteger I_contributorIndex;
+    NSInteger I_visitorCount;
+    NSInteger I_contributorCount;
+    
+    NSInteger I_pagesWithLegend;
+    NSInteger I_pagesWithFullLegend;
+}
 
 static NSMutableDictionary *S_nameAttributes, *S_contactAttributes, *S_contactLabelAttributes, *S_tableHeadingAttributes;
 
-- (instancetype)initWithFrame:(NSRect)frame document:(PlainTextDocument *)aDocument
-{
+- (instancetype)initWithFrame:(NSRect)frame document:(PlainTextDocument *)aDocument {
     self = [super initWithFrame:frame];
     
     if (self) {
@@ -86,8 +118,7 @@ static NSMutableDictionary *S_nameAttributes, *S_contactAttributes, *S_contactLa
 #pragma mark -
 #pragma mark ### Accessors ###
 
-- (NSString *)printJobTitle
-{
+- (NSString *)printJobTitle {
     return [I_document displayName];
 }
 
@@ -98,8 +129,7 @@ static NSMutableDictionary *S_nameAttributes, *S_contactAttributes, *S_contactLa
 #define LEGENDTABLEENTRYHEIGHT  24.
 #define LEGENDIMAGEPADDING      3.
 
-- (NSDictionary *)styleAttributesForStyleID:(NSString *)aStyleID
-{
+- (NSDictionary *)styleAttributesForStyleID:(NSString *)aStyleID {
     NSMutableDictionary *result = [I_styleCacheDictionary objectForKey:aStyleID];
     
     if (!result) {
@@ -109,8 +139,7 @@ static NSMutableDictionary *S_nameAttributes, *S_contactAttributes, *S_contactLa
         result = [NSMutableDictionary dictionary];
         
         if ([aStyleID isEqualToString:SyntaxStyleBaseIdentifier] &&
-            [[documentMode defaultForKey:DocumentModeUseDefaultStylePreferenceKey] boolValue])
-        {
+            [[documentMode defaultForKey:DocumentModeUseDefaultStylePreferenceKey] boolValue]) {
             style = [[[DocumentModeManager baseMode] syntaxStyle] styleForKey:aStyleID];
         } else {
             style = [[documentMode syntaxStyle] styleForKey:aStyleID];
@@ -143,8 +172,7 @@ static NSMutableDictionary *S_nameAttributes, *S_contactAttributes, *S_contactLa
 
 
 // Return the number of pages available for printing
-- (BOOL)knowsPageRange:(NSRangePointer)range
-{
+- (BOOL)knowsPageRange:(NSRangePointer)range {
     // happy paginating:
     
     // reset everything
@@ -195,10 +223,12 @@ static NSMutableDictionary *S_nameAttributes, *S_contactAttributes, *S_contactLa
     NSRange lastGlyphRange = NSMakeRange(NSNotFound, 0);
     BOOL showLineNumbers = [[printDictionary objectForKey:@"SEELineNumbers"] boolValue];
     
+    BOOL backgroundIsDark = [I_document.documentBackgroundColor isDark];
+    
     [I_textStorage beginEditing];
     BOOL needToEnforceWhiteBackground =
     ([[printDictionary objectForKey:@"SEEWhiteBackground"] boolValue] &&
-     [[[I_document documentMode] defaultForKey:DocumentModeBackgroundColorIsDarkPreferenceKey] boolValue]);
+     backgroundIsDark);
     
     if (![[printDictionary objectForKey:@"SEEHighlightSyntax"] boolValue] || !highlighter) {
         NSRange wholeRange = NSMakeRange(0, [I_textStorage length]);
