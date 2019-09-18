@@ -7,15 +7,15 @@
 * `see` command line tool now follows symlinks
 
 #### Bug fixes and maintenance:
-* Fixed dark appearance of encoding panel and encoding conflict resolution dialog
 * Updated underlying RegEX Library (origuruma-mod) to onigmo 6.2
 * Updated OgreKit to 3.0.2
 * Fixed cascading of new windows to be of proper height and location
 * Fixed top status bar to use fixed width at start for less jitter
 * Blur behind bars now properly created using NSVisualEffectView
 * Improved performance in general and for big font choices especially
-* Upped minimum deployement version to macOS High Sierra and cleaned out dead code
+* Upped minimum deployment version to macOS High Sierra and cleaned out dead code
 * Moved all code to ARC (Automatic Reference Counting)
+* Fixed dark appearance of encoding panel and encoding conflict resolution dialog
 * Fixed remaining false colored dialogs and windows for dark mode
 
 #### Improved modes:
