@@ -1,4 +1,4 @@
-### [Unreleased] SubEthaEdit 5.1
+### SubEthaEdit 5.1
 
 #### Features:
 * Switched to native macOS window tabs, removed PSMTabBarControl
