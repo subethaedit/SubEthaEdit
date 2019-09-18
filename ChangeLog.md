@@ -2,7 +2,9 @@
 
 #### Features:
 * Switched to native macOS window tabs, removed PSMTabBarControl
-* Improved Regular Expression features and speed. See Help > Regular Expressions for updated documentation
+* Improved Regular Expression features and speed. See Help > Regular Expressions for updated documentation and additional capabilities
+* Improved security dialogs and `see` command line tool for future releases of macOS
+* `see` command line tool now follows symlinks
 
 #### Bug fixes and maintenance:
 * Fixed dark appearance of encoding panel and encoding conflict resolution dialog
@@ -11,6 +13,10 @@
 * Fixed cascading of new windows to be of proper height and location
 * Fixed top status bar to use fixed width at start for less jitter
 * Blur behind bars now properly created using NSVisualEffectView
+* Improved performance in general and for big font choices especially
+* Upped minimum deployement version to macOS High Sierra and cleaned out dead code
+* Moved all code to ARC (Automatic Reference Counting)
+* Fixed remaining false colored dialogs and windows for dark mode
 
 #### Improved modes:
 * Markdown – improved syntax highlighting of code blocks
