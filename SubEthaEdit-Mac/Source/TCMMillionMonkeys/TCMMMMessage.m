@@ -9,24 +9,24 @@
 @implementation TCMMMMessage
 
 + (id)messageWithDictionaryRepresentation:(NSDictionary *)aDictionary {
-    return [[[TCMMMMessage alloc] initWithDictionaryRepresentation:aDictionary] autorelease];
+    return [[TCMMMMessage alloc] initWithDictionaryRepresentation:aDictionary];
 }
 
-- (id)initWithDictionaryRepresentation:(NSDictionary *)aDictionary {
+- (instancetype)initWithDictionaryRepresentation:(NSDictionary *)aDictionary {
     self = [super init];
     if (self) {
         //NSLog(@"initWithDictionary: %@",aDictionary);
         I_numberOfClientMessages = [[aDictionary objectForKey:@"#C"] longLongValue];
         I_numberOfServerMessages = [[aDictionary objectForKey:@"#S"] longLongValue];
 
-        I_operation = [[TCMMMOperation operationWithDictionaryRepresentation:[aDictionary objectForKey:@"op"]] retain];
+        I_operation = [TCMMMOperation operationWithDictionaryRepresentation:[aDictionary objectForKey:@"op"]];
         NSAssert(I_operation,@"operation was nill");
         //NSLog(@"message: %@",[self description]);
     }
     return self;
 }
 
-- (id)initWithOperation:(TCMMMOperation *)anOperation numberOfClient:(long long)aClientNumber numberOfServer:(long long)aServerNumber {
+- (instancetype)initWithOperation:(TCMMMOperation *)anOperation numberOfClient:(long long)aClientNumber numberOfServer:(long long)aServerNumber {
     self = [super init];
     if (self) {
         I_numberOfClientMessages = aClientNumber;
@@ -36,10 +36,6 @@
     return self;
 }
 
-- (void)dealloc {
-    [I_operation release];
-    [super dealloc];
-}
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"\nstate: (%qi, %qi)\nop: %@", I_numberOfClientMessages, I_numberOfServerMessages, [I_operation description]];
@@ -55,7 +51,6 @@
 }
 
 - (void)setOperation:(TCMMMOperation *)anOperation {
-    [I_operation autorelease];
     I_operation = [anOperation copy];
 }
 

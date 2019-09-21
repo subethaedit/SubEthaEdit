@@ -38,7 +38,6 @@
 @interface SessionProfile : TCMBEEPProfile <TCMMMStateClientProtocol>
 {
     int32_t I_lastMessageNumber;
-    TCMMMState *I_MMState;
     NSMutableArray *I_outgoingMMMessageQueue;
     struct {
         BOOL contentHasBeenExchanged;
@@ -49,6 +48,8 @@
     int32_t I_numberOfUnacknowledgedSessconMSG;
     NSMutableDictionary *I_options;
 }
+
+@property (nonatomic, strong) TCMMMState *MMState;
 
 + (NSData *)defaultInitializationData;
 
@@ -66,9 +67,6 @@
 - (void)declineInvitation;
 - (void)acceptJoin;
 - (void)denyJoin;
-
-- (void)setMMState:(TCMMMState *)aState;
-- (TCMMMState *)MMState;
 
 - (void)clearOutgoingMMMessageQueue;
 - (void)setContentHasBeenExchanged:(BOOL)aFlag;

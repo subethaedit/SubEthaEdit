@@ -3,10 +3,6 @@
 //
 //  Created by Michael Ehrmann on 26.02.14.
 
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 #import "SEENetworkConnectionRepresentationListItem.h"
 #import "SEEConnectionManager.h"
 #import "SEEConnection.h"
@@ -30,8 +26,7 @@ void * const SEEConnectionClearableObservingContext = (void *)&SEEConnectionClea
 @synthesize name = _name;
 @synthesize image = _image;
 
-- (id)init
-{
+- (instancetype)init {
     self = [super init];
     if (self) {
 		[self installKVO];
@@ -40,8 +35,7 @@ void * const SEEConnectionClearableObservingContext = (void *)&SEEConnectionClea
     return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
 	[self removeKVO];
 }
 
@@ -139,7 +133,7 @@ void * const SEEConnectionClearableObservingContext = (void *)&SEEConnectionClea
 
 - (IBAction)disconnect:(id)sender {
 	SEEConnection *connection = self.connection;
-	if(connection) {
+	if (connection) {
 		DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"cancel");
 		BOOL abort = NO;
 		if ([[[connection BEEPSession] valueForKeyPath:@"channels.@unionOfObjects.profileURI"] containsObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"]) {
@@ -148,16 +142,16 @@ void * const SEEConnectionClearableObservingContext = (void *)&SEEConnectionClea
 
 		if (abort) {
 			NSAlert *alert = [[NSAlert alloc] init];
-			[alert setAlertStyle:NSWarningAlertStyle];
+			[alert setAlertStyle:NSAlertStyleWarning];
 			[alert setMessageText:NSLocalizedString(@"OpenChannels", @"Sheet message text when user has open document connections")];
 			[alert setInformativeText:NSLocalizedString(@"AbortChannels", @"Sheet informative text when user has open document connections")];
 			[alert addButtonWithTitle:NSLocalizedString(@"Abort", @"Button title")];
 			[alert addButtonWithTitle:NSLocalizedString(@"Keep Connection", @"Button title")];
-			[[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
 
+            __weak typeof(connection) weakConnection = connection;
 			[alert beginSheetModalForWindow:[NSApp keyWindow] completionHandler:^(NSModalResponse returnCode) {
 				if (returnCode == NSAlertFirstButtonReturn) {
-					[connection cancel];
+					[weakConnection cancel];
 					[[SEEConnectionManager sharedInstance] clear];
 				}
 			}];

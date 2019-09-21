@@ -7,10 +7,9 @@
 #import "PlainTextDocument.h"
 #import "TCMMMUserManager.h"
 
-
 @implementation PrintTextView
 
-- (id)initWithFrame:(NSRect)frame textContainer:(NSTextContainer *)aTextContainer{
+- (instancetype)initWithFrame:(NSRect)frame textContainer:(NSTextContainer *)aTextContainer{
     self = [super initWithFrame:frame textContainer:aTextContainer];
     if (self) {
         // Initialization code here.
@@ -30,8 +29,8 @@
     if (!annotationAttributes) {
         NSFont *             annotationFont = [NSFont fontWithName:@"Helvetica" size:6.];
         if (!annotationFont) annotationFont = [NSFont systemFontOfSize:6.];
-        NSMutableParagraphStyle *paragraphStyle=[[[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
-        [paragraphStyle setAlignment:NSLeftTextAlignment];
+        NSMutableParagraphStyle *paragraphStyle=[[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
+        [paragraphStyle setAlignment:NSTextAlignmentLeft];
         [paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
         annotationAttributes=[[NSMutableDictionary alloc] initWithObjectsAndKeys:
                                 annotationFont,NSFontAttributeName,

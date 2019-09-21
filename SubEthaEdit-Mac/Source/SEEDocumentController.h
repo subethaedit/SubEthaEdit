@@ -32,20 +32,21 @@ extern NSString * const kSEETypeSEEMode;
 
 @property (nonatomic) BOOL isOpeningUntitledDocument;
 @property (nonatomic, weak) IBOutlet NSMenu *recentDocumentMenu;
-@property (nonatomic, readonly, assign) NSStringEncoding encodingFromLastRunOpenPanel;
+@property (nonatomic, readonly) NSStringEncoding encodingFromLastRunOpenPanel;
 @property (nonatomic, readonly, copy) NSString *modeIdentifierFromLastRunOpenPanel;
 
 + (SEEDocumentController *)sharedInstance;
 
 + (NSArray *)allTagsOfTagClass:(CFStringRef)aTagClass forUTI:(NSString *)aType;
 
+@property (class, nonatomic) BOOL shouldAlwaysShowTabBar;
+
+
 - (NSWindow *)documentListWindow;
 - (void)updateRestorableStateOfDocumentListWindow;
 - (IBAction)showDocumentListWindow:(id)sender;
 
 - (NSMenu *)documentMenu;
-
-- (IBAction)alwaysShowTabBar:(id)sender;
 
 - (IBAction)openNormalDocument:(id)aSender;
 - (IBAction)openAlternateDocument:(id)aSender;
@@ -69,8 +70,6 @@ extern NSString * const kSEETypeSEEMode;
 - (PlainTextWindowController *)activeWindowController;
 - (void)addWindowController:(id)aWindowController;
 - (void)removeWindowController:(id)aWindowController;
-
-- (void)updateTabMenu;
 
 - (IBAction)newDocumentInTab:(id)sender;
 - (IBAction)newDocumentByUserDefault:(id)sender;

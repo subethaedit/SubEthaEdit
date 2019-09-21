@@ -1,0 +1,941 @@
+/* App menu about */
+"SEE_APP_MENU_ABOUT" = "About %@";
+
+/* App menu about */
+"SEE_APP_MENU_HIDE" = "Hide %@";
+
+/* App menu about */
+"SEE_APP_MENU_QUIT" = "Quit %@";
+
+/* App menu check for updates*/
+"SEE_APP_MENU_CHECK_FOR_UPDATES" = "Check for Updates…";
+
+/* arrangement of Tab setting and tab width in Bottm Status Bar */
+"%@ (%d)" = "%@ (%d)";
+
+/* FindRegexPrefix */
+"%@ - Find All" = "%@ - Find All";
+
+/* word count string in statistics controller */
+"%@ lines, %@ words, %@ characters" = "%@ lines, %@ words, %@ characters";
+
+/* Status string showing the number of documents in Rendezvous and Internet browser */
+"%d Document(s)" = "%d Document(s)";
+
+/* Entries Found in FindAll Panel */
+"%d found." = "%d found.";
+
+/* Pending Users Display in Menu Title Bar */
+"%d pending" = "%d pending";
+
+/* Number of replaced strings */
+"%d replaced." = "%d replaced.";
+
+/* No comment provided by engineer. */
+"&Redo" = "Redo";
+
+/* No comment provided by engineer. */
+"&Redo %@" = "Redo %@";
+
+/* No comment provided by engineer. */
+"&Undo" = "Undo";
+
+/* No comment provided by engineer. */
+"&Undo %@" = "Undo %@";
+
+/* Entry for Symbol Pop Up when no Symbol is found */
+"<No selected symbol>" = "<No selected symbol>";
+
+/* Syntax XML Structure Error Informative Text */
+"<state> \"%@\" has no <begin>. This confuses me. Please check your syntax definition." = "<state> “%@” has no <begin>. This confuses me. Please check your syntax definition.";
+
+/* No comment provided by engineer. */
+"[Blockediting]" = "[Blockediting]";
+
+/* HTML Color Error Informative Text */
+"\"%@\" is not a valid HTML color. Please specify colors in your syntax defintion either as e.g. \"#fff\" or \"#ffffff\"" = "“%@” is not a valid HTML color. Please specify colors in your syntax defintion either as e.g. “#fff” or “#ffffff”";
+
+/* Symbol Regular Expression Error Informative Text */
+"\"%@\" is not a valid regular expression. Please check your regular expression in Find Panel's Ruby mode." = "“%@” is not a valid regular expression. Please check your regular expression in Find Panel's Ruby mode.";
+
+/* Syntax Regular Expression Error Informative Text */
+"\"%@\" within state \"%@\" is not a valid regular expression. Please check your regular expression in Find Panel's Ruby mode." = "“%@” within state “%@” is not a valid regular expression. Please check your regular expression in Find Panel's Ruby mode.";
+
+/* Button title */
+"Abort" = "Stop Connections";
+
+/* Sheet informative text when user has open document connections */
+"AbortChannels" = "The participants will be cut off if you stop these connections.";
+
+/* Label displayed below advanced icon and used as window title. */
+"AdvancedPrefsIconLabel" = "Advanced";
+
+/* Informative text in an alert which tells the user that an error prevented the replace */
+"AlertInformativeText: Error occurred during replace" = "Couldn't replace the file.";
+
+/* Informative text in an alert which tells the you user that replacing the file failed */
+"AlertInformativeText: Replace failed" = "An error occurred while replacing the file.";
+
+/* string for display of all data in statistic window */
+"All" = "All";
+
+/* Tooltip for ssl lock at top of the window */
+"All participants of this document are connected using secure connections" = "All participants of this document are connected using secure connections";
+
+/* all tabs Dock Menu Item */
+"All Tabs" = "All Tabs";
+
+/* Menu/Toolbar Title for advertising the Document */
+"Advertise" = "Advertise";
+
+/* Menu/Toolbar Title for advertising all Documents */
+"Advertise All" = "Advertise All";
+
+/* No comment provided by engineer. */
+"Advertise/Conceal" = "Advertise/Conceal";
+
+/* No comment provided by engineer. */
+"Advertise/Conceal Document" = "Advertise/Conceal Document";
+
+/* Location: Application */
+"Application" = "Built-In";
+
+/* No comment provided by engineer. */
+"Are you sure you want to merge all windows?" = "Are you sure you want to merge all windows?";
+
+/* Encoding popup entry indicating automatic choice of encoding */
+"Automatic" = "Automatic";
+
+/* Foo */
+"Automatic Mode" = "Automatic Mode";
+
+/* Awaiting Response */
+"AwaitingResponse" = "Awaiting Response";
+
+/* Name of base style appearing in Style Preferences */
+"BaseStyleName" = "Generic Foreground";
+
+/* AIM user entry for Browser context menu */
+"BrowserContextMenuAIM" = "Open Chat";
+
+/* Cancel connetion entry for Browser context menu */
+"BrowserContextMenuCancelConnection" = "Cancel";
+
+/* Email user entry for Browser context menu */
+"BrowserContextMenuEmail" = "Send Email";
+
+/* Log In entry for Browser context Peer Exchange */
+"BrowserContextMenuFriendcast" = "Enable Friendcast";
+
+/* Join document entry for Browser context menu */
+"BrowserContextMenuJoin" = "Join";
+
+/* Log In entry for Browser context menu */
+"BrowserContextMenuLogIn" = "Log in";
+
+/* Manage files entry for Browser context menu */
+"BrowserContextMenuManageFiles" = "Manage files";
+
+/* Reconnect entry for Browser context menu */
+"BrowserContextMenuReconnect" = "Reconnect";
+
+/* Show document entry for Browser context menu */
+"BrowserContextMenuShowDocument" = "Show";
+
+/* Button choice allowing user to cancel. */
+"Cancel" = "Cancel";
+
+/* Syntax XML Color Error Informative Text */
+"Cannot parse color '%@' in %@ mode" = "Cannot parse color '%1$@' in %2$@ mode";
+
+/* As shown in bottom status bar */
+"CharacterWrap" = "c";
+
+/* Server Closed Document title in Sheet */
+"Closed" = "Closed";
+
+/* Server Closed Document info in Sheet */
+"ClosedInfo" = "The document was closed by its owner. Further changes you make will not be applied to the owner's document.";
+
+/* Collapse Split View Menu Entry */
+"Collapse Split View" = "Collapse Split View";
+
+/* Blue */
+"ColorBlue" = "Blue";
+
+/* Custom Color Name */
+"ColorCustom" = "Custom…";
+
+/* Green */
+"ColorGreen" = "Green";
+
+/* Orange */
+"ColorOrange" = "Orange";
+
+/* Pink */
+"ColorPink" = "Pink";
+
+/* Purple */
+"ColorPurple" = "Purple";
+
+/* Red */
+"ColorRed" = "Red";
+
+/* Teal */
+"ColorTeal" = "Teal";
+
+/* Yellow */
+"ColorYellow" = "Yellow";
+
+/* Menu/Toolbar Title for concealing the Document */
+"Conceal" = "Conceal";
+
+/* Menu/Toolbar Title for concealing all Documents */
+"Conceal All" = "Conceal All";
+
+/* No comment provided by engineer. */
+"Connections" = "Connections";
+
+/* Title for Contributors in Export and Print */
+"Contributors" = "Contributors";
+
+/* No comment provided by engineer. */
+"Convert" = "Convert";
+
+/* No comment provided by engineer. */
+"Convert to %@" = "Convert to %@";
+
+/* No comment provided by engineer. */
+"ConvertOrReinterpret" = "Do you want to convert the file to the new encoding or reinterpret it using the new encoding?";
+
+/* Encoding popup entry for bringing up the Customize Encodings List panel (this also occurs as the title of the panel itself, they should have the same localization) */
+"Customize Encodings List..." = "Customize Encodings List…";
+
+/* Declined Invitation */
+"DeclinedInvitation" = "Declined Invitation";
+
+/* legend entry for deletions in statistsics hud */
+"deletions" = "Deletions";
+
+/* Choice (on a button) given to user which allows him/her to quit the application even though there are unsaved documents. */
+"Discard Changes" = "Discard Changes";
+
+/* Text for document URL field when not advertised */
+"Document not advertised.\nNo Document URL." = "Document not advertised.\nNo Document URL.";
+
+/* No comment provided by engineer. */
+"Don't Revert Document" = "Don't Revert";
+
+/* No comment provided by engineer. */
+"Edit anyway" = "Edit Anyway";
+
+/* Label displayed below edit icon and used as window title. */
+"EditPrefsIconLabel" = "Editing";
+
+/* No comment provided by engineer. */
+"Encoding %@ not reinterpretable" = "The file can not be reinterpreted using encoding %@.";
+
+/* No comment provided by engineer. */
+"Error" = "Error";
+
+/* Syntax XML Loading Error Informative Text */
+"Error while loading '%@': %@" = "Error while loading '%@': %@";
+
+/* Syntax XML No Default State Error Informative Text */
+"Error while loading '%@': File has no default state defined" = "Error while loading '%@': File has no default state defined";
+
+/* LoginSheet text for Error: %@ */
+"Error: %@" = "Error: %@";
+
+/* Text on the active SavePanel Button in the export sheet */
+"ExportPrompt" = "Export";
+
+/* No comment provided by engineer. */
+"File Encoding" = "File Encoding";
+
+/* No comment provided by engineer. */
+"File is read-only" = "File is read-only";
+
+/* No comment provided by engineer. */
+"File operation error: %@ with file: %@" = "File operation error: %@ with file: %@";
+
+/* FindRegexPrefix */
+"Find: %@" = "Find: %@";
+
+/* Status bar text when following */
+"Following %@" = "Following %@";
+
+/* Friendcast Connection ToolTip */
+"Friendcast Connection" = "Connection via '%@'";
+
+/* Label displayed below general icon and used as window title. */
+"GeneralPrefsIconLabel" = "General";
+
+/* No comment provided by engineer. */
+"Goto Next Change" = "Goto Next Change";
+
+/* No comment provided by engineer. */
+"Goto Next Symbol" = "Goto Next Symbol";
+
+/* No comment provided by engineer. */
+"Goto Previous Change" = "Goto Previous Change";
+
+/* No comment provided by engineer. */
+"Goto Previous Symbol" = "Goto Previous Symbol";
+
+/* No comment provided by engineer. */
+"Hide Changes" = "Hide Changes";
+
+/* No comment provided by engineer. */
+"Hide Invisibles" = "Hide Invisibles";
+
+/* No comment provided by engineer. */
+"Hide Participants" = "Hide Participants";
+
+/* Cancelled */
+"HostEntryStatusCancelled" = "Cancelled";
+
+/* Cancelling */
+"HostEntryStatusCancelling" = "Cancelling";
+
+/* Could not contact */
+"HostEntryStatusContactFailed" = "Could not contact";
+
+/* Contacting */
+"HostEntryStatusContacting" = "Contacting";
+
+/* Could not resolve */
+"HostEntryStatusResolveFailed" = "Could not resolve";
+
+/* Resolving */
+"HostEntryStatusResolving" = "Resolving";
+
+/* Connection Lost */
+"HostEntryStatusSessionAtEnd" = "Connection Lost";
+
+/* Invisible */
+"HostEntryStatusSessionInvisible" = "Invisible";
+
+/* Connected */
+"HostEntryStatusSessionOpen" = "Connected";
+
+/* HTML Color Error Title */
+"HTML Color Error" = "HTML Color Error";
+
+/* Warning in the alert panel which comes up when user chooses Quit and there are unsaved documents. */
+"If you don\\U2019t review your documents, all your changes will be lost." = "If you don’t review your documents, all your changes will be lost.";
+
+/* No comment provided by engineer. */
+"If you revert the document to the version on disk the document's content will be replaced with the content of the file." = "If you revert the document to the version on disk the document's content will be replaced with the content of the file.";
+
+/* No comment provided by engineer. */
+"If you revert the file to the version on disk the changes you made in SubEthaEdit will be lost." = "If you revert the document to the version on disk the changes you made in SubEthaEdit will be lost.";
+
+/* Button choice allowing user to import */
+"Import" = "Import";
+
+/* Inbound Connection ToolTip */
+"Inbound Connection" = "Inbound Connection";
+
+/* Inbound Connection ToolTip With Address */
+"Inbound Connection from %@" = "Inbound Connection from %@";
+
+/* Inbound Friendcast Connection ToolTip */
+"Inbound Friendcast Connection" = "Inbound Connection via '%@'";
+
+/* No comment provided by engineer. */
+"Insert" = "Insert";
+
+/* legend entry for insertions in statistsics hud */
+"insertions" = "Insertions";
+
+/* Title of Clear Button in InternetBrowser */
+"InternetClear" = "Clear";
+
+/* InvalidRegex */
+"Invalid regex" = "Invalid Regex";
+
+/* Status string in vibilitypulldown in Browsers for invisible */
+"Invisible" = "Invisible";
+
+/* No comment provided by engineer. */
+"Keep Changes" = "Keep Changes";
+
+/* Button title */
+"Keep Connection" = "Keep Connections";
+
+/* No comment provided by engineer. */
+"Keep Line Endings" = "Keep Line Endings";
+
+/* Kick title in Sheet */
+"Kicked" = "You have been kicked";
+
+/* Kick info in Sheet */
+"KickedInfo" = "The owner of this document disallowed you to participate. Further changes you make will not be applied to the owner's document.";
+
+/* Label for centimeters in Print Options */
+"LabelCentimeters" = "cm";
+
+/* Label for inches in Print Options */
+"LabelInches" = "in";
+
+/* String appearing in the statistics window below the name, last time of actifity is inserted */
+"Last activity: %@" = "Last activity: %@";
+
+/* LoginSheet text for logging in... */
+"Logging in ..." = "Logging in…";
+
+/* No comment provided by engineer. */
+"Lossy" = "Lossy";
+
+/* LostConnection title in Sheet */
+"LostConnection" = "Connection Lost";
+
+/* LostConnection info in Sheet */
+"LostConnectionInfo" = "The connection to this document was unexpectedly lost. Further changes you make will not be applied to the owner's document.";
+
+/* No comment provided by engineer. */
+"me" = "me";
+
+/* End Blockedit in edit Menu */
+"MenuBlockeditEnd" = "End Blockedit";
+
+/* Blockedit Selection in edit Menu */
+"MenuBlockeditSelection" = "Blockedit Selection";
+
+/* No comment provided by engineer. */
+"Merge" = "Merge";
+
+/* No comment provided by engineer. */
+"Merging windows moves all open tabs and windows into a single, tabbed editor window. This cannot be undone." = "Merging windows moves all open tabs and windows into a single, tabbed editor window. This cannot be undone.";
+
+/* Location: Network Library */
+"Network Library" = "Network Library";
+
+/* New File Dock Menu Item */
+"New File" = "New File";
+
+/* No comment provided by engineer. */
+"Next Change" = "Next Change";
+
+/* No comment provided by engineer. */
+"Next Symbol" = "Next Symbol";
+
+/* Find string not found in selection */
+"Not found in selection." = "Not found in selection.";
+
+/* Find string not found */
+"Not found." = "Not found.";
+
+/* Symbol Regular Expression Error Informative Text */
+"One of the specified <block> elements is not a valid regular expression. Therefore the combined start regex \"%@\" could not be compiled. Please check your regular expression in Find Panel's Ruby mode." = "One of the specified <block> elements is not a valid regular expression. Therefore the combined start regex “%@” could not be compiled. Please check your regular expression in Find Panel's Ruby mode.";
+
+/* Mode Settings Expression Error Informative Text */
+"One of the specified <regex> elements in the mode's settings is not a valid regular expression. ModeSettings.xml will be ignored, falling back to Info.plist. Please check your regular expression in Find Panel's Ruby mode." = "One of the specified <regex> elements in the mode's settings is not a valid regular expression. ModeSettings.xml will be ignored, falling back to Info.plist. Please check your regular expression in Find Panel's Ruby mode.";
+
+/* Syntax Regular Expression Error Informative Text */
+"One of the specified state <begin>'s is not a valid regular expression. Therefore the Combined Delimiter Regex \"%@\" could not be compiled. Please check your regular expression in Find Panel's Ruby mode." = "One of the specified state <begin>'s is not a valid regular expression. Therefore the Combined Delimiter Regex \"%@\" could not be compiled. Please check your regular expression in Find Panel's Ruby mode.";
+
+/* No comment provided by engineer. */
+"Open Connections Browser" = "Open Connections Browser";
+
+/* Open File Dock Menu Item */
+"Open File..." = "Open File…";
+
+/* Button choice allowing user open a file in the editor. */
+"Open in Editor" = "Open in Editor";
+
+/* Menu Entry for opening files in the front window. */
+"Open in Front Window..." = "Open in Front Window…";
+
+/* Menu Entry for opening files in a new window. */
+"Open in New Window..." = "Open in New Window…";
+
+/* Web preview open link in browser contextual menu item */
+"Open Link in Browser" = "Open Link in Browser";
+
+/* Open Script Folder MenuItem in Script Menu */
+"Open Script Folder" = "Open Scripts Folder";
+
+/* Menu item in alternate mode menu for opening the SubEthaEdit modes folder. */
+"Open SubEthaEdit Modes Folder" = "Open SubEthaEdit Modes Folder";
+
+/* Menu item in alternate mode menu for opening the user modes folder. */
+"Open User Modes Folder" = "Open User Modes Folder";
+
+/* Sheet message text when user has open document connections */
+"OpenChannels" = "The selected connections may be used by several participants. Do you want to stop the connections?";
+
+/* No comment provided by engineer. */
+"Other applications may not be able to read the file if you don't convert all line endings to the same line ending." = "Other applications may not be able to read the file if you don't convert all line endings to the same line ending.";
+
+/* Mode Precedence Overriden Tooltip */
+"Overriden by trigger in %@ mode" = "Overridden by trigger in %@ mode";
+
+/* KickDeny user entry for Participant context menu */
+"ParticipantContextMenuDeny" = "Deny";
+
+/* Follow user entry for Participant context menu */
+"ParticipantContextMenuFollow" = "Follow";
+
+/* KickDeny user entry for Participant context menu */
+"ParticipantContextMenuKick" = "Kick";
+
+/* KickDeny user entry for Participant context menu */
+"ParticipantContextMenuKickDeny" = "Kick/Deny";
+
+/* ReadWrite user entry for Participant context menu */
+"ParticipantContextMenuReadOnly" = "Set to read only";
+
+/* ReadWrite user entry for Participant context menu */
+"ParticipantContextMenuReadWrite" = "Promote to read/write";
+
+/* Participants toolbar label */
+"Participants" = "Participants";
+
+/* Participants tool tip */
+"ParticipantsToolTip" = "Participants";
+
+/* No comment provided by engineer. */
+"Paste Converted" = "Paste Converted";
+
+/* No comment provided by engineer. */
+"Paste Unchanged" = "Paste Unchanged";
+
+/* Description in Participants view for pending users */
+"pending users" = "Pending Users";
+
+/* iChat invitation String with Placeholder for actual URL */
+"Please join me in SubEthaEdit:\n%@\n\n(You can download SubEthaEdit from http://www.codingmonkeys.de/subethaedit )" = "Please join me in SubEthaEdit:\n%@\n\n(You can download SubEthaEdit from http://www.codingmonkeys.de/subethaedit )";
+
+/* Label displayed below advanced icon and used as window title. */
+"PrecedencePrefsIconLabel" = "Triggers";
+
+/* Mode rules cannot be edited or removed. But you can disable them. */
+"PrecedencePrefsModeRuleTooltip" = "Mode supplied triggers cannot be edited or removed. But you can disable them.";
+
+/* No comment provided by engineer. */
+"Previous Change" = "Previous Change";
+
+/* No comment provided by engineer. */
+"Previous Symbol" = "Previous Symbol";
+
+/* Date Information in Print Header */
+"PrintDate: %@" = "Date: %@";
+
+/* Label for AIM in legend in Print and Export */
+"PrintExportLegendAIMLabel" = "aim:";
+
+/* Label for Email in legend in Print and Export */
+"PrintExportLegendEmailLabel" = "email:";
+
+/* Page Information in Print Header */
+"PrintPage %d of %d" = "Page %1$d of %2$d";
+
+/* ProblemLeave title in Sheet */
+"ProblemLeave" = "You left the document";
+
+/* ProblemLeaveInfo info in Sheet */
+"ProblemLeaveInfo" = "You left because the owner of this document sent you malformed data. Other documents or connections are not affected.";
+
+/* No comment provided by engineer. */
+"Promote to Unicode" = "Promote to UTF-16";
+
+/* No comment provided by engineer. */
+"Promote to UTF8" = "Promote to UTF-8";
+
+/* No comment provided by engineer. */
+"Quit" = "Quit";
+
+/* Description in Participants view for Read Only access */
+"read only" = "Read Only";
+
+/* Description in Participants view for Read Write access */
+"read/write" = "Read/Write";
+
+/* Encoding popup entry indicating mode choice of encoding */
+"Recommended by Mode" = "Recommended by Mode";
+
+/* Regular Expression Error Title */
+"Regular Expression Error" = "Regular Expression Error";
+
+/* No comment provided by engineer. */
+"Reinterpret" = "Reinterpret";
+
+/* Reload Scripts MenuItem in Script Menu */
+"Reload Scripts" = "Reload Scripts";
+
+/* No comment provided by engineer. */
+"Replace" = "Replace";
+
+/* Reveal in Finder - menu entry */
+"Reveal in Finder" = "Show In Finder";
+
+/* No comment provided by engineer. */
+"Revert" = "Revert";
+
+/* No comment provided by engineer. */
+"Revert Document" = "Revert";
+
+/* Choice (on a button) given to user which allows him/her to review all unsaved documents if he/she quits the application without saving them all first. */
+"Review Changes\\U2026" = "Review Changes…";
+
+/* No comment provided by engineer. */
+"Save" = "Save";
+
+/* Informative text in a save dialog, because of permissions issues the user has the choice to save using administrator permissions or replace the file */
+"SaveDialogInformativeText: Save or Replace" = "You need administrator permissions to save the document. However you have permissions to replace the file.";
+
+/* Scripts entry for contextual menu */
+"Scripts" = "Scripts";
+
+/* Informative Text of Style load did fail alert sheet */
+"SeeStyleImportDidFailInformative" = "Malformed .seestyle file";
+
+/* Message Text of Style load did fail alert sheet */
+"SeeStyleImportDidFailMessage" = "Could not import Style";
+
+/* Informative Text of Style load alert sheet */
+"SeeStyleImportInformative %@" = "The import includes Styles for following Modes:\n%@";
+
+/* Message Text of Style load alert sheet */
+"SeeStyleImportMessage" = "Do you want to import the Style or open it in an Editor window?";
+
+/* legend entry for selections in statistsics hud */
+"selections" = "Selections";
+
+/* No comment provided by engineer. */
+"Shift Left" = "Shift Left";
+
+/* No comment provided by engineer. */
+"Shift Right" = "Shift Right";
+
+/* No comment provided by engineer. */
+"Shift Selection Left" = "Shift Selection Left";
+
+/* No comment provided by engineer. */
+"Shift Selection Right" = "Shift Selection Right";
+
+/* No comment provided by engineer. */
+"Show Changes" = "Show Changes";
+
+/* No comment provided by engineer. */
+"Show Invisibles" = "Show Invisibles";
+
+/* No comment provided by engineer. */
+"Show Participants" = "Show Participants";
+
+/* Bottom status bar text for use Spaces (instead of Tab) setting */
+"Spaces" = "Spaces";
+
+/* Split View Menu Entry */
+"Split View" = "Split View";
+
+/* Syntax State Malformed Begin Error Informative Text */
+"State '%@' in %@ mode has a begin tag that is not a valid regex" = "State '%@' in %@ mode has a begin tag that is not a valid regex";
+
+/* Syntax State No Begin Error Informative Text */
+"State '%@' in %@ mode has no begin tag" = "State '%@' in %@ mode has no begin tag";
+
+/* Syntax State No End Error Informative Text */
+"State '%@' in %@ mode has no end tag" = "State '%@' in %@ mode has no end tag";
+
+/* Label displayed below tyle pref icon and used as window title. */
+"StylePrefsIconLabel" = "Styles";
+
+/* Label displayed below tyle pref icon and used as window title. */
+"StyleSheetPrefsIconLabel" = "Stylesheets";
+
+/* BigFile Message Text */
+"Syntax Highlighting and Wrap Lines have been turned off due to the size of the Document." = "Syntax Highlighting and Wrap Lines have been turned off due to the size of the Document.";
+
+/* Location: System Library */
+"System Library" = "System Library";
+
+/* Syntax XML Group Error Informative Text */
+"The <begin> tag of <state> \"%@\" contains a regex that has captured groups. This is currently not allowed. Please escape all groups to be not-captured with (?:)." = "The <begin> tag of <state> “%@” contains a regex that has captured groups. This is currently not allowed. Please escape all groups to be not-captured with (?:).";
+
+/* No comment provided by engineer. */
+"The document can not be saved with the name \"%@\" because a folder with the same name already exists." = "The document can not be saved with the name “%@” because a folder with the same name already exists.";
+
+/* No comment provided by engineer. */
+"The document's file has been modified by another application. Do you want to revert the document?" = "The document's file has been modified by another application. Do you want to revert the document?";
+
+/* No comment provided by engineer. */
+"The file has been modified by another application. Do you want to keep the changes made in SubEthaEdit?" = "The document's file has been modified by another application. Do you want to keep the changes made in SubEthaEdit?";
+
+/* No comment provided by engineer. */
+"The file has mixed line endings. Do you want to convert all line endings to %@, the most common line ending in the file?" = "The file has mixed line endings. Do you want to convert all line endings to %@, the most common line ending in the file?";
+
+/* No comment provided by engineer. */
+"The file will have mixed line endings if you do not paste converted text." = "The file will have mixed line endings if you do not paste converted text.";
+
+/* Message text in modal dialog in advanced prefs */
+"The installation of the see command line tool failed." = "The installation of the see command line tool failed.";
+
+/* Message text in modal dialog in advanced prefs */
+"The see command line tool couldn't be removed." = "The see command line tool couldn't be removed.";
+
+/* Message text in modal dialog in advanced prefs */
+"The see command line tool has been installed." = "The see command line tool has been installed.";
+
+/* Message text in modal dialog in advanced prefs */
+"The see command line tool has been removed." = "The see command line tool has been removed.";
+
+/* No comment provided by engineer. */
+"Toggle Change Marks" = "Toggle Change Marks";
+
+/* No comment provided by engineer. */
+"Toggle Changes" = "Toggle Changes";
+
+/* No comment provided by engineer. */
+"Toggle Invisible Characters" = "Toggle Invisible Characters";
+
+/* No comment provided by engineer. */
+"Toggle Invisibles" = "Toggle Invisibles";
+
+/* Bottom status bar text for TrueTab setting */
+"TrueTab" = "Tabs";
+
+/* No comment provided by engineer. */
+"Try choosing a different name for the document." = "Try choosing a different name for the document.";
+
+/* BigFile Informative Text */
+"Turning on syntax highlighting for very large documents is not recommended." = "Turning on syntax highlighting for very large documents is not recommended.";
+
+/* Location: User Library */
+"User Library" = "User Library";
+
+/* Marketing version followed by build version e.g. Version 2.0 (739) */
+"Version %@ (%@)" = "Version %1$@ (%2$@)";
+
+/* Status string in vibilitypulldown in Browsers for visible */
+"Visible" = "Visible";
+
+/* Title for Visitors in Export and Print */
+"Visitors" = "Visitors";
+
+/* No comment provided by engineer. */
+"Warning" = "Warning";
+
+/* WindowWidthArangementString */
+"WindowWidth%d%@" = "%d%@";
+
+/* As shown in bottom status bar */
+"WordWrap" = "w";
+
+/* No comment provided by engineer. */
+"Written by %@" = "Written by %@";
+
+/* No comment provided by engineer. */
+"Written by %@ et al" = "Written by %@ et al";
+
+/* XML Color Error Title */
+"XML Color Error" = "XML Color Error";
+
+/* XML Group Error Title */
+"XML Group Error" = "XML Group Error";
+
+/* XML Regex Error Title */
+"XML Regex Error" = "XML Regex Error";
+
+/* XML Structure Error Title */
+"XML Structure Error" = "XML Structure Error";
+
+/* No comment provided by engineer. */
+"You are no longer restricted by the file's current encoding if you promote to a Unicode encoding." = "If you promote your document to a Unicode encoding you can insert the characters without losing information.";
+
+/* No comment provided by engineer. */
+"You are pasting text that does not match the file's current line endings. Do you want to paste the text with converted line endings?" = "You are pasting text that does not match the file's current line endings. Do you want to paste the text with converted line endings?";
+
+/* No comment provided by engineer. */
+"You are trying to insert characters that cannot be handled by the file's current encoding. Do you want to cancel the change?" = "You are trying to insert characters which cannot be handled by the file's current encoding without losing information. Do you want to insert the characters anyway?";
+
+/* Informative text in modal dialog in advanced prefs */
+"You can find the see command line tool at:\n \"%@\"." = "You can find the see command line tool at:\n “%@”.";
+
+/* No comment provided by engineer. */
+"You have %d documents in this window with unsaved changes. Do you want to review these changes?" = "You have %d documents in this window with unsaved changes. Do you want to review these changes?";
+
+/* Status string showing the number of documents The browser when there are multiple documents advertised */
+"%d Documents" = "%d Documents";
+
+/* Status string showing the number of documents when one is advertised */
+"1 Document" = "1 Document";
+
+/* Status of port mapping while trying */
+"Checking port status..." = "Checking port status...";
+
+"PORT_NETWORKING_DISABLED" = "Closed";
+
+/* Drag target string in Participants Drawer */
+"Drag your\nFriends\nfrom the\niChat Buddy List\nor\nConnection Browser\nto a category\nor the text\nto invite them." = "Drag your\nFriends\nfrom the\niChat Buddy List\nor\nConnection Browser\nto a category\nor the text\nto invite them.";
+
+/* Drag target string in Connection Browser */
+"Drag your\niChat Buddies here\nto invite them." = "Drag your\niChat Buddies here\nto invite them.";
+
+/* User name for invisible users in Connection Browser */
+"Invisible User" = "Invisible User";
+
+/* Connection Browser Display when not reachable */
+"No public mapping." = "No public mapping.";
+
+/* Status string showing the number of documents when none are advertised */
+"None advertised" = "None advertised";
+
+/* Text for document URL field when not your document */
+"Not your Document.\nNo Document URL." = "Not your Document.\nNo Document URL.";
+
+/* Status of Port mapping when successful */
+"Port mapped (%d)" = "Port mapped (%d)";
+
+/* Status of Port mapping when unsuccessful or intentionally unmapped */
+"Port not mapped" = "Port not mapped";
+
+/* Connection Browser URL display */
+"see://%@:%d" = "see://%1$@:%2$d";
+
+/* Connection browser subtitle for friendcasting connections */
+"Friend of a Friend" = "Friend of a Friend";
+
+/* Connection browser subtitle for internet connections */
+"Internet connection" = "Internet connection";
+
+/* Fold at top level menu entry label*/
+"Fold All Level %d Blocks" = "Fold All Level %d Blocks";
+
+/* "Trigger not a regular expression Title" */
+"Trigger not a regular expression" = "Trigger not a regular expression";
+
+/* Trigger not a regular expression Informative Text */
+"The trigger '%@' of the mode '%@' is not a valid regular expression and was ignored." = "The trigger '%@' of the mode '%@' is not a valid regular expression and was ignored.";
+
+/*Mode requires newer engine title */
+"Mode not compatible" = "Mode not compatible";
+
+/* Mode requires newer engine Informative Text */
+"The mode '%@' was written for a newer version of SubEthaEngine and cannot be used with this application." = "The mode '%@' was written for a newer version of SubEthaEngine and cannot be used with this application.";
+
+/* Invitation format string used in sharing service picker. %@ will be replaced with the user name. */
+"Invite %@" = "Invite %@";
+
+/* Advertise document string used in sharing service picker. */
+"Advertise Document" = "Advertise Document";
+
+"FIND_REPLACE_PANEL_FINDALL" = "Find All";
+"FIND_REPLACE_PANEL_REPLACE" = "Replace";
+"FIND_REPLACE_PANEL_REPLACEALL" = "Replace All";
+
+"FIND_REPLACE_PANEL_SCOPE_DOCUMENT" = "Document";
+
+"FIND_REPLACE_PANEL_MENU_CLEAR_SCOPE" = "Clear Scope %@";
+"FIND_REPLACE_PANEL_MENU_ADD_TO_SCOPE" = "Add current selection to Scope";
+"FIND_REPLACE_PANEL_MENU_IGNORE_CASE" = "Ignore case";
+"FIND_REPLACE_PANEL_MENU_WRAP" = "Wrap around";
+"FIND_REPLACE_PANEL_MENU_HISTORY_SUBMENU_TITLE" = "Recent Searches";
+"FIND_REPLACE_PANEL_MENU_USE_REGEX" = "Use Regular Expressions";
+"FIND_REPLACE_PANEL_MENU_REGEX_DIALECT" = "Regular Expression Dialect";
+"FIND_REPLACE_PANEL_MENU_EXTENDED" = "Extended";
+"FIND_REPLACE_PANEL_MENU_ESCAPE_SLASH" = "Escape Character: \\";
+"FIND_REPLACE_PANEL_MENU_ESCAPE_YEN" = "Escape Character: ¥";
+"FIND_REPLACE_PANEL_MENU_CAPTURE_GROUPS" = "Capture unnamed groups";
+"FIND_REPLACE_PANEL_MENU_LINE_CONTEXT" = "'^' ➞ '\\A', '$' ➞ '\\Z'";
+"FIND_REPLACE_PANEL_MENU_MULTILINE" = "'.' matches line breaks";
+"FIND_REPLACE_PANEL_MENU_ONLY_LONGEST" = "Find only longest match";
+"FIND_REPLACE_PANEL_MENU_IGNORE_EMPTY" = "Ignore empty matches";
+"FIND_REPLACE_PANEL_MENU_OPEN_HELP" = "Open Regular Expression Help";
+
+/* search and replace errors */
+"FIND_REPLACE_ERROR_INVALID_FIND_STRING" = "Find string invalid.";
+"FIND_REPLACE_REPLACE_ALL_IN_PROGRESS" = "Replace all in progress…";
+"FIND_REPLACE_REPLACE_ALL_IN_PROGRESS_COUNT" = "Replace all in progress… (%@ replaced)";
+
+
+/* encoding doctor */
+
+"ENCODING_DOCTOR_HEADLINE" = "Highlighted characters cannot be represented in %@ encoding.";
+"ENCODING_DOCTOR_TABLEHEADING_LINE" = "Line";
+"ENCODING_DOCTOR_TABLEHEADING_ERROR" = "Error";
+"ENCODING_DOCTOR_CANCEL" = "Cancel";
+"ENCODING_DOCTOR_CONVERT_LOSSY" = "Convert lossy";
+"ENCODING_DOCTOR_CONVERT" = "Convert";
+
+
+/* will cease invisibilty alert */
+"ANNOUNCE_WILL_MAKE_VISIBLE_MESSAGE" = "Advertising will make you visible";
+"ANNOUNCE_WILL_MAKE_VISIBLE_INFORMATIVE_TEXT" = "You are currently invisible to other SubEthaEdit users. If you advertise this document you will become visible to them.";
+"ANNOUNCE_WILL_MAKE_VISIBLE_ACTION_TITLE" = "Advertise";
+
+
+/* document list */
+"DOCUMENT_LIST_WINDOW_TITLE" = "%@ - Document Hub";
+"DOCUMENT_LIST_OPEN" = "Open…";
+"DOCUMENT_LIST_NEW" = "New";
+"DOCUMENT_LIST_CONNECT" = "Connect to specific host…";
+"DOCUMENT_LIST_RECENT_TOGGLE" = "Recent Documents";
+"DOCUMENT_LIST_MORE" = "Show More";
+"DOCUMENT_LIST_CONTEXT_MENU_OPEN" = "Open";
+"DOCUMENT_LIST_CONTEXT_MENU_COPY_URL" = "Copy Connection URL";
+"DOCUMENT_LIST_CONTEXT_MENU_DISCONNECT" = "Disconnect";
+"DOCUMENT_LIST_CONTEXT_MENU_CLEAR_RECENT" = "Clear Recent Documents";
+
+/* participant overlay */
+"KICK_PENDING_USER_BUTTON_TITLE" = "Deny";
+"READ_ONLY_PENDING_USER_BUTTON_TITLE" = "Read Only";
+"READ_WRITE_PENDING_USER_BUTTON_TITLE" = "Read & Write";
+"PENDING_USER_ALERT_POPUP_TITLE" = "New Participant";
+"PENDING_USER_ALERT_POPUP_DESCRIPTION" = "%@ wants to join this document.";
+
+/* authentication script not installed error dialog */
+"AUTHENTICATION_SCRIPT_MISSING_ERROR_DESCRIPTION" = "Can't find authentication helper script.";
+"AUTHENTICATION_SCRIPT_MISSING_ERROR_SUGGESTION" = "Please run the install.sh script in Terminal as described in the Advanced Settings to install it.";
+"AUTHENTICATION_SCRIPT_MISSING_ERROR_BUTTON_TITLE1" = "Reveal script…";
+"AUTHENTICATION_SCRIPT_MISSING_ERROR_BUTTON_TITLE2" = "Ignore";
+
+"SEEConnectionTaglineBonjour" = "Bonjour";
+"SEEConnectionTaglineInvisible" = "Invisible";
+"SEEConnectionTaglineNetworkingDisabled" = "Networking Disabled";
+"SEEConnectionTaglineFriendcast" = "via '%@'";
+
+"MODE_IN_NEW_TAB_CONTEXT_MENU_TEXT" = "%@ in tab";
+"MODE_IN_NEW_WINDOW_CONTEXT_MENU_TEXT" = "%@ in window";
+
+/* Mode Install */
+"MODE_INSTALL_TITLE_TEXT" = "Do you want to install the mode \"%@\"?";
+"MODE_INSTALL_INFO_STRING_BASE" = "Mode \"%@\" is already installed.";
+"MODE_INSTALL_INFO_STRING_OVERRIDE" = "You will override the installed mode.";
+"MODE_INSTALL_INFO_STRING_REPLACE" = "You will replace the installed mode.";
+"MODE_INSTALL_ALERT_SUCCESS" = "The mode \"%@\" has been installed successfully.";
+"MODE_INSTALL_ALERT_FAIL" = "Installation of mode \"%@\" failed.";
+"MODE_INSTALL_OK_BUTTON" = "Install";
+"MODE_INSTALL_SHOW_CONTENT_BUTTON" = "Show Package Contents";
+
+/* Mode Update Alert */
+"MODE_UPDATE_INFO_INTRO" = "This version of SubEthaEdit comes with newer versions of the following user installed modes: \n\n";
+"MODE_UPDATE_MODE_STRING" = "* Mode for %@ v%@ (currently v%@)";
+"MODE_UPDATE_INFO_TEXT" = "\n\nUsing the updated versions removes custom changes you might have made to your modes.\n\nIf you only want to use specific new modes choose 'Show in Finder', delete the modes without modifications and reload the modes from the mode menu in SubEthaEdit.";
+"MODE_UPDATE_MESSAGE" = "Newer Modes available";
+"MODE_UPDATE_OK_BUTTON" = "Use Updated Modes";
+"MODE_UPDATE_REVEAL_IN_FINDER" = "Show Outdated Modes";
+
+"INFO_NUMBER_OF_WORDS_TOO_MANY" = "Countless words";
+
+"FIRST_USE_INVITE_HELP_TEXT" = "Click to invite other users to live collaborate in this document.";
+"FIRST_USE_ANNOUNCE_HELP_TEXT" = "Click to advertise this document to the network.\nRight-Click to also set initial access-rights for incoming users.";
+
+/* WebSite Links */
+"WEBSITE_FAQ" = "https://subethaedit.net/faq";
+"WEBSITE_ADDITIONAL_MODES" = "https://subethaedit.net/modes";
+"WEBSITE_MODE_CREATION_DOCU" = "https://subethaedit.net/modedocs";
+
+/* Proxy window */
+"PROXY_WINDOW_ACCEPT" = "Accept";
+"PROXY_WINDOW_DECLINE" = "Decline";
+"PROXY_WINDOW_TITLE_INVITE" = "Invitation to %@";
+"PROXY_WINDOW_TITLE_JOIN" = "Joining %@";
+"PROXY_WINDOW_STATUS_WAIT_ANSWER" = "Awaiting answer…";
+"PROXY_WINDOW_STATUS_DENIED" = "Join Request was denied.";
+"PROXY_WINDOW_STATUS_INVITE_CANCELED" = "Invitation was canceled.";
+"PROXY_WINDOW_STATUS_CONNECTION_LOST" = "Connection Lost.";
+
+

@@ -4,51 +4,25 @@
 //  Created by Dominik Wagner on Fri Mar 05 2004.
 
 #import <AppKit/AppKit.h>
-#import <TCMPortMapper/TCMPortMapper.h>
-#import <PSMTabBarControl/PSMTabBarControl.h>
 @class PlainTextWindowController;
 #import "PlainTextWindowControllerTabContext.h"
 
-@class PlainTextEditor, PSMTabBarControl, PlainTextDocument;
+@class PlainTextEditor, PlainTextDocument;
 #import "SEEEncodingDoctorDialogViewController.h"
 
-@interface PlainTextWindowController : NSWindowController <NSMenuDelegate,PSMTabBarControlDelegate>
- {
-    // Pointers to the current instances
-    NSSplitView *I_dialogSplitView;
-    id I_documentDialog;
-    
-    struct {
-        BOOL zoomFix_defaultFrameHadEqualWidth;
-    } I_flags;
-    NSTimer *I_dialogAnimationTimer;
-    BOOL I_doNotCascade;
-
- @private
-    NSTabView *I_tabView;
-    PSMTabBarControl *I_tabBar;
-
-    NSMutableArray *I_documents;
-    NSDocument *I_documentBeingClosed;
-
-    NSImageView *I_lockImageView;
-
-}
+@interface PlainTextWindowController : NSWindowController <NSMenuDelegate> 
 
 - (void)setInitialRadarStatusForPlainTextEditor:(PlainTextEditor *)editor;
 - (IBAction)changePendingUsersAccess:(id)aSender;
 - (NSArray *)plainTextEditors;
 
 @property (nonatomic, weak) PlainTextEditor *activePlainTextEditor;
-
-- (PlainTextEditor *)activePlainTextEditorForDocument:(PlainTextDocument *)aDocument;
+@property (nonatomic, readonly) PlainTextDocument *plainTextDocument;
 
 - (void)refreshDisplay;
 
 - (void)openParticipantsOverlayForDocument:(PlainTextDocument *)aDocument;
 - (void)closeParticipantsOverlayForDocument:(PlainTextDocument *)aDocument;
-
-- (IBAction)openInSeparateWindow:(id)sender;
 
 - (void)gotoLine:(unsigned)aLine;
 - (void)selectRange:(NSRange)aRange;
@@ -67,42 +41,30 @@
 - (void)setSizeByColumns:(NSInteger)aColumns rows:(NSInteger)aRows;
 - (void)setShowsBottomStatusBar:(BOOL)aFlag;
 
-- (BOOL)showsGutter;
-- (void)setShowsGutter:(BOOL)aFlag;
+@property (nonatomic) BOOL showsGutter;
+
 - (IBAction)toggleLineNumbers:(id)aSender;
 
 - (void)setDocumentDialog:(NSViewController<SEEDocumentDialogViewController>*)aDocumentDialog;
 - (NSViewController<SEEDocumentDialogViewController>*)documentDialog;
+- (void)documentDidUpdateChangeCount;
 
-- (void)documentWillClose:(NSDocument *)document;
+/** Shims the pre-native tab tab context idea. Should be folded in again, or in a future
+    where we do multiple documents per window again, molded into something new */
+@property (nonatomic, strong, readonly) PlainTextWindowControllerTabContext *SEE_tabContext;
+@property (nonatomic, strong, readonly) NSArray<PlainTextEditor *> *plainTextEditors;
 
-- (void)documentUpdatedChangeCount:(PlainTextDocument *)document;
-- (NSTabViewItem *)addDocument:(NSDocument *)document;
-- (void)moveAllTabsToWindowController:(PlainTextWindowController *)windowController;
-- (NSTabViewItem *)tabViewItemForDocument:(PlainTextDocument *)document;
-- (PlainTextWindowControllerTabContext *)windowControllerTabContextForDocument:(PlainTextDocument *)document;
-- (NSArray *)plainTextEditorsForDocument:(id)aDocument;
-- (BOOL)selectTabForDocument:(id)aDocument;
-- (BOOL)hasManyDocuments;
-- (IBAction)closeTab:(id)sender;
-- (IBAction)selectNextTab:(id)sender;
-- (IBAction)selectPreviousTab:(id)sender;
-- (IBAction)showDocumentAtIndex:(id)aMenuEntry;
-- (void)closeAllTabs;
-- (void)reviewChangesAndQuitEnumeration:(BOOL)cont;
+/**
+ Semantical replacement for previous "hasManyDocuments"
 
-- (NSArray *)orderedDocuments;
-- (NSArray *)documents;
+ @return YES if in a tab group and not alone.
+ */
+- (BOOL)isInTabGroup;
 
 - (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName document:(PlainTextDocument *)document;
 
 - (void)updateWindowMinSize;
 - (IBAction)toggleWebPreview:(id)sender;
-
-- (PSMTabBarControl *)tabBar;
-- (NSTabView *)tabView;
-@property (nonatomic, readonly) PlainTextWindowControllerTabContext *selectedTabContext;
-@property (nonatomic, readonly) NSTabViewItem *selectedTabViewItem;
 
 - (NSRect)dissolveToFrame;
 - (void)cascadeWindow;

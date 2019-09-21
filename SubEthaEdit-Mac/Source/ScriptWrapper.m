@@ -43,7 +43,7 @@ NSString * const ScriptWrapperDidRunScriptNotification =@"ScriptWrapperDidRunScr
     return NO;
 }
 
-- (id)initWithContentsOfURL:(NSURL *)URL {
+- (instancetype)initWithContentsOfURL:(NSURL *)URL {
     if ((self = [super init])) {
         if (![self _loadScriptAtURL:URL]) {
             self = nil;
@@ -82,61 +82,63 @@ NSString * const ScriptWrapperDidRunScriptNotification =@"ScriptWrapperDidRunScr
     }
 }
 
-- (void)_delayedExecute
-{
+- (void)_delayedExecute {
     @autoreleasepool {
         BOOL isInsideAppBundle = [[_URL path] hasPrefix:[[[NSBundle mainBundle] bundleURL] path]];
         
-        [[NSNotificationCenter defaultCenter] postNotificationName:ScriptWrapperWillRunScriptNotification object:self];
-
-        NSDictionary<NSString *, id> *errorDictionary;
-        [self executeAndReturnError:&errorDictionary];
-        if (errorDictionary) {
-            if (isInsideAppBundle &&
-                [errorDictionary[@"NSAppleScriptErrorMessage"] rangeOfString:@"LSOpenURLsWithRole"].location != NSNotFound)  {
-                NSURL *userScriptsDirectory = [[NSFileManager defaultManager] URLForDirectory:NSApplicationScriptsDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:YES error:nil];
-                NSString *lastPathComponent = [_URL lastPathComponent];
-                NSURL *userScriptURL = [userScriptsDirectory URLByAppendingPathComponent:lastPathComponent];
-                if ([[NSFileManager defaultManager] isReadableFileAtPath:userScriptURL.path]) {
-                    // Be kind and just use that script.
-                    if ([self _loadScriptAtURL:userScriptURL]) {
-                        NSUserScriptTask *userScript = [[NSUserScriptTask alloc] initWithURL:_URL error:nil];
-                        [userScript executeWithCompletionHandler:nil];
+        @synchronized ([ScriptWrapper class]) { // only one script in parallel
+            
+            NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+            [defaultCenter postNotificationName:ScriptWrapperWillRunScriptNotification object:self];
+            
+            NSDictionary<NSString *, id> *errorDictionary;
+            [self executeAndReturnError:&errorDictionary];
+            if (errorDictionary) {
+                if (isInsideAppBundle &&
+                    [errorDictionary[@"NSAppleScriptErrorMessage"] rangeOfString:@"LSOpenURLsWithRole"].location != NSNotFound)  {
+                    NSURL *userScriptsDirectory = [[NSFileManager defaultManager] URLForDirectory:NSApplicationScriptsDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:YES error:nil];
+                    NSString *lastPathComponent = [_URL lastPathComponent];
+                    NSURL *userScriptURL = [userScriptsDirectory URLByAppendingPathComponent:lastPathComponent];
+                    if ([[NSFileManager defaultManager] isReadableFileAtPath:userScriptURL.path]) {
+                        // Be kind and just use that script.
+                        if ([self _loadScriptAtURL:userScriptURL]) {
+                            NSUserScriptTask *userScript = [[NSUserScriptTask alloc] initWithURL:_URL error:nil];
+                            [userScript executeWithCompletionHandler:nil];
+                        }
+                    } else {
+                        // Help the user copy the script
+                        [[NSWorkspace sharedWorkspace] selectFile:_URL.path inFileViewerRootedAtPath:[_URL.path stringByDeletingLastPathComponent]];
+                        [[NSWorkspace sharedWorkspace] openURL:userScriptsDirectory];
+                        id modifiedError = [errorDictionary mutableCopy];
+                        // FIXME: this needs localisation
+                        modifiedError[@"NSAppleScriptErrorBriefMessage"] = [NSString stringWithFormat:@"The script '%@' needs access to other applications.", lastPathComponent];
+                        modifiedError[@"NSAppleScriptErrorMessage"] = [NSString stringWithFormat:@"Please copy '%@' from the opened Application Bundle script folder into the user script folder we also opened for you.", lastPathComponent];
+                        // slight delay, so the SubEthaEdit error comes out on top of the rest.
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                            [[AppController sharedInstance] reportAppleScriptError:modifiedError];
+                        });
                     }
                 } else {
-                    // Help the user copy the script
-                    [[NSWorkspace sharedWorkspace] selectFile:_URL.path inFileViewerRootedAtPath:[_URL.path stringByDeletingLastPathComponent]];
-                    [[NSWorkspace sharedWorkspace] openURL:userScriptsDirectory];
-                    id modifiedError = [errorDictionary mutableCopy];
-                    // FIXME: this needs localisation
-                    modifiedError[@"NSAppleScriptErrorBriefMessage"] = [NSString stringWithFormat:@"The script '%@' needs access to other applications.", lastPathComponent];
-                    modifiedError[@"NSAppleScriptErrorMessage"] = [NSString stringWithFormat:@"Please copy '%@' from the opened Application Bundle script folder into the user script folder we also opened for you.", lastPathComponent];
-                    // slight delay, so the SubEthaEdit error comes out on top of the rest.
-                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                        [[AppController sharedInstance] reportAppleScriptError:modifiedError];
-                    });
+                    [[AppController sharedInstance] reportAppleScriptError:errorDictionary];
                 }
-            } else {
-                [[AppController sharedInstance] reportAppleScriptError:errorDictionary];
             }
+            [defaultCenter postNotificationName:ScriptWrapperDidRunScriptNotification object:self userInfo:errorDictionary];
         }
-        [[NSNotificationCenter defaultCenter] postNotificationName:ScriptWrapperDidRunScriptNotification object:self userInfo:errorDictionary];
+        
     }
 }
 
 - (void)performScriptAction:(id)aSender {
-    if (([[NSApp currentEvent] type] != NSKeyDown) &&
-        ([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask)) {
+    NSEvent *event = NSApp.currentEvent;
+    if (([event type] != NSEventTypeKeyDown) &&
+        ([event modifierFlags] & NSEventModifierFlagOption)) {
         [self revealSource];
     } else {
         NSURL *userScriptDirectory = [[NSFileManager defaultManager] URLForDirectory:NSApplicationScriptsDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
-        if (userScriptDirectory && [[[_URL URLByStandardizingPath] path] hasPrefix:[[userScriptDirectory URLByStandardizingPath] path]])
-        {
+        if (userScriptDirectory && [[[_URL URLByStandardizingPath] path] hasPrefix:[[userScriptDirectory URLByStandardizingPath] path]]) {
             NSUserScriptTask *userScript = [[NSUserScriptTask alloc] initWithURL:_URL error:nil];
             [userScript executeWithCompletionHandler:nil];
-        }
-        else
-        {
+        } else {
             [self performSelectorInBackground:@selector(_delayedExecute) withObject:nil];
         }
     }

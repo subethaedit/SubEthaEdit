@@ -3,14 +3,6 @@
 //
 //  Created by Michael Ehrmann on 28.01.14.
 
-
-// this file needs arc - either project wide,
-// or add -fobjc-arc on a per file basis in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
-
 #import "SEEParticipantsOverlayViewController.h"
 #import "SEEParticipantViewController.h"
 #import "PlainTextWindowControllerTabContext.h"
@@ -34,7 +26,7 @@
 
 @implementation SEEParticipantsOverlayViewController
 
-- (id)initWithTabContext:(PlainTextWindowControllerTabContext *)aTabContext
+- (instancetype)initWithTabContext:(PlainTextWindowControllerTabContext *)aTabContext
 {
     self = [super initWithNibName:@"SEEParticipantsOverlay" bundle:[NSBundle mainBundle]];
     if (self) {
@@ -77,7 +69,6 @@
     
     BOOL isDarkAppearance = NSApp.SEE_effectiveAppearanceIsDark;
     
-	view.layer.backgroundColor = [[NSColor brightOverlayBackgroundColorBackgroundIsDark:NO appearanceIsDark:isDarkAppearance] CGColor];
 	self.topLineView.layer.backgroundColor = [[NSColor brightOverlaySeparatorColorBackgroundIsDark:NO appearanceIsDark:isDarkAppearance] CGColor];
 
 	if ([NSScroller preferredScrollerStyle] == NSScrollerStyleLegacy) {
@@ -405,10 +396,8 @@
 
 
 - (void)updateColorsForIsDarkBackground:(BOOL)isDark {
-    NSView *view = self.view;
     BOOL isDarkAppearance = NSApp.SEE_effectiveAppearanceIsDark;
     
-    view.layer.backgroundColor = [[NSColor brightOverlayBackgroundColorBackgroundIsDark:isDark appearanceIsDark:isDarkAppearance] CGColor];
     self.topLineView.layer.backgroundColor = [[NSColor brightOverlaySeparatorColorBackgroundIsDark:isDark appearanceIsDark:isDarkAppearance] CGColor];
 
     

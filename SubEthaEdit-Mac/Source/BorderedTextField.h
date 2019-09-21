@@ -6,16 +6,10 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface BorderedTextField : NSTextField {
-    struct {
-        BOOL hasLeftBorder;
-        BOOL hasRightBorder;
-    } I_flags;
-    NSColor *I_borderColor;
-}
+@interface BorderedTextField : NSTextField 
 
-- (void)setHasRightBorder:(BOOL)aFlag;
-- (void)setHasLeftBorder:(BOOL)aFlag;
-- (void)setBorderColor:(NSColor *)aColor;
+@property (nonatomic, strong) NSColor *borderColor;
+@property (nonatomic) BOOL hasRightBorder;
+@property (nonatomic) BOOL hasLeftBorder;
 
 @end

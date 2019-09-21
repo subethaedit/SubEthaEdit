@@ -5,7 +5,6 @@
 
 #import <Foundation/Foundation.h>
 
-
 @interface NSNetService (NSNetServiceTCMAdditions) 
 - (NSArray *)TXTRecordArray;
 - (NSDictionary *)TXTRecordDictionary;

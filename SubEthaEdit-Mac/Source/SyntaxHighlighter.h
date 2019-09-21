@@ -29,17 +29,15 @@ extern NSString * const kSyntaxHighlightingTypeComment;
 extern NSString * const kSyntaxHighlightingTypeString;
 
 @interface SyntaxHighlighter : NSObject {
-    SyntaxDefinition *I_syntaxDefinition;
-    NSMutableArray *I_parseStack;
-	NSLock *I_stringLock;
+    SyntaxDefinition *_syntaxDefinition;
 }
 
+@property (nonatomic, readonly) SyntaxDefinition *syntaxDefinition;
+
 /*"Initizialisation"*/
-- (id)initWithSyntaxDefinition:(SyntaxDefinition *)aSyntaxDefinition;
+- (instancetype)initWithSyntaxDefinition:(SyntaxDefinition *)aSyntaxDefinition;
 
 /*"Accessors"*/
-- (SyntaxDefinition *)syntaxDefinition;
-- (void)setSyntaxDefinition:(SyntaxDefinition *)aSyntaxDefinition;
 - (SyntaxStyle *)defaultSyntaxStyle;
 
 /*"Highlighting"*/

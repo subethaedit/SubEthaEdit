@@ -5,7 +5,6 @@
 
 #ifndef TCM_NO_DEBUG
 
-
 #import "DebugSendOperationController.h"
 #import "PlainTextDocument.h"
 #import "TCMMMSession.h"
@@ -37,7 +36,6 @@
     NSLog(@"%s document:%@ operation:%@",__FUNCTION__,document,operation);
     [[document session] documentDidApplyOperation:operation];
 }
-
 
 @end
 

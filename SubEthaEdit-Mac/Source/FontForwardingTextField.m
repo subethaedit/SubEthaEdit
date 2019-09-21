@@ -5,16 +5,11 @@
 
 #import "FontForwardingTextField.h"
 
-
 @implementation FontForwardingTextField
 
-- (void)setFontDelegate:(id)aDelegate {
-	I_delegate = aDelegate;
-}
-
 - (void)changeFont:(id)aSender {
-	if ([I_delegate respondsToSelector:@selector(changeFont:)]) {
-		[I_delegate changeFont:aSender];
+	if ([_fontDelegate respondsToSelector:@selector(changeFont:)]) {
+		[_fontDelegate changeFont:aSender];
 	}
 }
 

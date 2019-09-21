@@ -2,13 +2,28 @@
 <settings>
     <recognition>
         <extension>rb</extension>
+        <extension>arb</extension>
+        <extension>gemspec</extension>
+        <extension>podspec</extension>
+        <extension>prawn</extension>
+        <extension>rake</extension>
         <extension>rbw</extension>
+        <extension>ru</extension>
         <extension>ruby</extension>
         <extension>rbx</extension>
         <extension>rxml</extension>
         <extension>builder</extension>
         <extension>rjs</extension>
-        <filename>Rakefile</filename>
+
+        <filename casesensitive="yes">Berksfile</filename>
+        <filename casesensitive="yes">Capfile</filename>
+        <filename casesensitive="yes">Dangerfile</filename>
+        <filename casesensitive="yes">Guardfile</filename>
+        <filename casesensitive="yes">Gemfile</filename>
+        <filename casesensitive="yes">Podfile</filename>
+        <filename casesensitive="yes">Rakefile</filename>
+        <filename casesensitive="yes">Vagrantfile</filename>
+
         <regex>\A#!/usr/bin/(env )?ruby</regex>
     </recognition>
 </settings>

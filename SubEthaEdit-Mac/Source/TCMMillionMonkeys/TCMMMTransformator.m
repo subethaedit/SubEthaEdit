@@ -39,7 +39,7 @@ static TCMMMTransformator *sharedInstance = nil;
 }
 
 
-- (id)init {
+- (instancetype)init {
     self = [super init];
     if (self) {
         I_registeredTransformations = [NSMutableDictionary new];
@@ -47,10 +47,6 @@ static TCMMMTransformator *sharedInstance = nil;
     return self;
 }
 
-- (void)dealloc {
-    [I_registeredTransformations release];
-    [super dealloc];
-}
 
 - (void)transformOperation:(TCMMMOperation *)anOperation serverOperation:(TCMMMOperation *)aServerOperation {
     NSInvocation *invocation = [[I_registeredTransformations objectForKey:[anOperation operationID]] objectForKey:[aServerOperation operationID]];

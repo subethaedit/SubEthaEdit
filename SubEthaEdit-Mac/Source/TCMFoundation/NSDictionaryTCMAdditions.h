@@ -5,16 +5,12 @@
 
 #import <Foundation/Foundation.h>
 
-
 @interface NSDictionary (NSDictionaryTCMAdditions)
 - (id)objectForLong:(long)aLong;
 @end
-
 
 @interface NSMutableDictionary (NSDictionaryTCMAdditions)
 + (NSMutableDictionary *)caseInsensitiveDictionary;
 - (void)removeObjectForLong:(long)aLong;
 - (void)setObject:(id)anObject forLong:(long)aLong;
-
 @end
-

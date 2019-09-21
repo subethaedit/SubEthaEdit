@@ -5,7 +5,6 @@
 
 #import "InsetTextFieldCell.h"
 
-
 @implementation InsetTextFieldCell
 
 - (NSRect)drawingRectForBounds:(NSRect)aRect {

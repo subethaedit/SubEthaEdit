@@ -26,7 +26,6 @@ extern int const FormatMenuTag;
 extern int const FontMenuItemTag;
 extern int const FileEncodingsMenuItemTag;
 extern int const WindowMenuTag;
-extern int const GotoTabMenuItemTag;
 extern int const ModeMenuTag;
 extern int const SwitchModeMenuTag;
 extern int const ReloadModesMenuItemTag;
@@ -47,7 +46,7 @@ extern NSString * const SEEAppEffectiveAppearanceDidChangeNotification;
     IBOutlet NSWindow *O_licenseWindow;
 }
 
-@property (nonatomic, assign) IBOutlet NSMenuItem *accessControlMenuItem;
+@property (nonatomic, strong) IBOutlet NSMenuItem *accessControlMenuItem;
 @property (nonatomic) BOOL didShowFirstUseWindowHelp;
 @property (nonatomic) BOOL lastShouldOpenUntitledFile;
 
@@ -78,4 +77,13 @@ extern NSString * const SEEAppEffectiveAppearanceDidChangeNotification;
 
 - (IBAction)revealInstallCommandInFinder:(id)sender;
 @property (nonatomic, readonly) NSURL *URLOfInstallCommand;
+
+/**
+ Dismisses all auto dismissable alerts if any. If there are still
+ windows with alerts around after that, show the first one.
+
+ @return YES if no window is having an alert up or in queue, NO otherwise.
+ */
+- (BOOL)ensureNoWindowsWithAlerts;
+
 @end

@@ -12,8 +12,7 @@
 
 @implementation DebugPreferences
 
-- (id)init
-{
+- (instancetype)init {
     self = [super init];
     if (self) {
         levels = [NSMutableArray new];
@@ -51,35 +50,23 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [logDomains release];
-    [levels release];
-    [super dealloc];
-}
-
-- (NSImage *)icon
-{
+- (NSImage *)icon {
     return [NSImage imageNamed:@"debug"];
 }
 
-- (NSString *)iconLabel
-{
+- (NSString *)iconLabel {
     return @"Debug";
 }
 
-- (NSString *)identifier
-{
+- (NSString *)identifier {
     return @"de.codingmonkeys.subethaedit.preferences.debug";
 }
 
-- (NSString *)mainNibName
-{
+- (NSString *)mainNibName {
     return @"DebugPrefs";
 }
 
-- (void)mainViewDidLoad
-{
+- (void)mainViewDidLoad {
     // Initialize user interface elements to reflect current preference settings
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     BOOL enableDebugMenu = [defaults boolForKey:@"EnableDebugMenu"];
@@ -89,15 +76,13 @@
     [[DebugController sharedInstance] enableDebugMenu:enableDebugMenu];
 }
 
-- (void)didUnselect
-{
+- (void)didUnselect {
     // Save preferences
 }
 
 #pragma mark -
 
-- (IBAction)toggleDebugMenu:(id)sender
-{
+- (IBAction)toggleDebugMenu:(id)sender {
     int state = [sender state];
     if (state == NSOnState) {
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"EnableDebugMenu"];
@@ -108,8 +93,7 @@
     }
 }
 
-- (IBAction)toggleBEEPLogging:(id)sender
-{
+- (IBAction)toggleBEEPLogging:(id)sender {
     int state = [sender state];
     if (state == NSOnState) {
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"EnableBEEPLogging"];
@@ -120,8 +104,7 @@
 
 #pragma mark -
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if ([keyPath isEqualToString:@"level"]) {
         NSString *logDomain = [object objectForKey:@"domain"];
         unsigned levelNumber = [levels indexOfObject:[object objectForKey:@"level"]];

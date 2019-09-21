@@ -4,11 +4,6 @@
 //  Created by Dominik Wagner on Thu Mar 25 2004.
 //	ARCified by Michael Ehrmann on Thu Mar 27 2014
 
-// this file needs arc - add -fobjc-arc in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 #import "SEEDocumentController.h"
 #import "TCMMMSession.h"
 #import "SEEDocumentCreationFlags.h"
@@ -23,14 +18,13 @@
 #import "StylePreferences.h"
 #import "GeneralPreferences.h"
 #import "FoldableTextStorage.h"
-//#import "MoreSecurity.h"
+#import "PlainTextWindow.h"
 #import "PlainTextWindowController.h"
 #import "SEEOpenPanelAccessoryViewController.h"
 #import "SEEDocumentListWindowController.h"
 #import "NSApplicationTCMAdditions.h"
 #import "SEEScopedBookmarkManager.h"
 
-#import <PSMTabBarControl/PSMTabBarControl.h>
 #import <objc/objc-runtime.h>			// for objc_msgSend
 
 NSString *const RecentDocumentsDidChangeNotification = @"RecentDocumentsDidChangeNotification";
@@ -43,14 +37,14 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 
 @property (nonatomic, strong) SEEDocumentListWindowController *documentListWindowController;
 
-@property (assign) BOOL isOpeningInTab;
-@property (assign) NSUInteger filesToOpenCount;
-@property (assign) BOOL isOpeningUsingAlternateMenuItem;
+@property (nonatomic) BOOL isOpeningInTab;
+@property (nonatomic) NSUInteger filesToOpenCount;
+@property (nonatomic) BOOL isOpeningUsingAlternateMenuItem;
 @property (nonatomic, strong) NSMutableDictionary *documentCreationFlagsLookupDict;
 @property (nonatomic, strong) NSMutableArray *filenamesFromLastRunOpenPanel;
 
 @property (nonatomic, copy) NSURL *locationForNextOpenPanel;
-@property (nonatomic, readwrite, assign) NSStringEncoding encodingFromLastRunOpenPanel;
+@property (nonatomic, readwrite, nonatomic) NSStringEncoding encodingFromLastRunOpenPanel;
 @property (nonatomic, readwrite, copy) NSString *modeIdentifierFromLastRunOpenPanel;
 
 @end
@@ -104,7 +98,7 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 	return result;
 }
 
-- (id)init {
+- (instancetype)init {
     self = [super init];
     if (self) {
         self.filenamesFromLastRunOpenPanel = [NSMutableArray array];
@@ -120,59 +114,7 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
     return self;
 }
 
-// actually never gets called - as any other top level nib object isn't dealloced...
-- (void)dealloc {
-    self.modeIdentifierFromLastRunOpenPanel = nil;
-    self.filenamesFromLastRunOpenPanel = nil;
-    self.documentCreationFlagsLookupDict = nil;
-	self.locationForNextOpenPanel = nil;
-}
-
-
 #pragma mark - Actions
-
-- (IBAction)SEE_mergeAllWindows:(id)sender
-{
-    NSAlert *alert = [[NSAlert alloc] init];
-    [alert setAlertStyle:NSInformationalAlertStyle];
-    [alert setMessageText:NSLocalizedString(@"Are you sure you want to merge all windows?", nil)];
-    [alert setInformativeText:NSLocalizedString(@"Merging windows moves all open tabs and windows into a single, tabbed editor window. This cannot be undone.", nil)];
-    [alert addButtonWithTitle:NSLocalizedString(@"Merge", nil)];
-    [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
-    int response = [alert runModal];
-    if (NSAlertFirstButtonReturn == response) {
-        PlainTextWindowController *targetWindowController = [self activeWindowController];
-        id document = [targetWindowController document];
-        int count = [I_windowControllers count];
-        while (--count >= 0) {
-            PlainTextWindowController *sourceWindowController = [I_windowControllers objectAtIndex:count];
-            if (sourceWindowController != targetWindowController) {
-                [sourceWindowController moveAllTabsToWindowController:targetWindowController];
-                [sourceWindowController close];
-                [self removeWindowController:sourceWindowController];
-            }
-        }
-        [targetWindowController setDocument:document];
-    }
-}
-
-- (IBAction)alwaysShowTabBar:(id)sender
-{
-    BOOL flag = ([sender state] == NSOnState) ? NO : YES;
-    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:kSEEDefaultsKeyAlwaysShowTabBar];
-
-    PlainTextWindowController *windowController;
-    for (windowController in I_windowControllers) {
-        PSMTabBarControl *tabBar = [windowController tabBar];
-        if (![windowController hasManyDocuments]) {
-            [tabBar setHideForSingleTab:!flag];
-            [tabBar hideTabBar:!flag animate:YES];
-        } else {
-            [tabBar setHideForSingleTab:!flag];
-        }
-    }
-
-}
 
 - (IBAction)concealAllDocuments:(id)aSender {
     PlainTextDocument *document=nil;
@@ -264,7 +206,7 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 
 #pragma mark - Tab menu
 
-- (void)updateMenuWithTabMenuItems:(NSMenu *)aMenu shortcuts:(BOOL)withShortcuts {
+- (void)updateMenuWithTabMenuItems:(NSMenu *)aMenu {
     // NSLog(@"%s",__FUNCTION__);
     static NSMutableSet *menusCurrentlyUpdating = nil;
     if (!menusCurrentlyUpdating) menusCurrentlyUpdating = [NSMutableSet new];
@@ -274,50 +216,36 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
         [menusCurrentlyUpdating addObject:aMenu];
         [aMenu removeAllItems];
         NSMenuItem *prototypeMenuItem=
-            [[NSMenuItem alloc] initWithTitle:@""
-                                       action:@selector(showDocumentAtIndex:)
-                                keyEquivalent:@""];
-        PlainTextWindowController *windowController = nil;
-        BOOL firstWC = YES;
-        for (windowController in I_windowControllers) {
-            NSEnumerator      *documents = [[windowController orderedDocuments] objectEnumerator];
-            PlainTextDocument *document = nil;
-            if (!firstWC) {
+        [[NSMenuItem alloc] initWithTitle:@""
+                                   action:@selector(makeKeyAndOrderFront:)
+                            keyEquivalent:@""];
+        
+        BOOL firstWindowController = YES;
+        
+        for(NSArray <NSWindowController*> *tabGroup  in [self tabGroups]) {
+            if (!firstWindowController) {
                 [aMenu addItem:[NSMenuItem separatorItem]];
             }
-            BOOL hasSheet = [[windowController window] attachedSheet] ? YES : NO;
-            int isMainWindow = ([[windowController window] isMainWindow] || [[windowController window] isKeyWindow]) ? 1 : NO;
-//            NSLog(@"%s %@ was main window: %d %d",__FUNCTION__, windowController, isMainWindow, withShortcuts);
-            int documentPosition = 0;
-            while ((document = [documents nextObject])) {
-                [prototypeMenuItem setTarget:windowController];
+            firstWindowController = NO;
+            
+            for (PlainTextWindowController *windowController in tabGroup) {
+                
+                BOOL hasSheet = [[windowController window] attachedSheet] ? YES : NO;
+                PlainTextDocument * document = windowController.document;
+                
+                [prototypeMenuItem setTarget:windowController.window];
                 [prototypeMenuItem setTitle:[windowController windowTitleForDocumentDisplayName:[document displayName] document:document]];
-                [prototypeMenuItem setRepresentedObject:[NSNumber numberWithInt:documentPosition]];
+                [prototypeMenuItem setRepresentedObject:document];
                 [prototypeMenuItem setEnabled:!hasSheet];
-                if (withShortcuts) {
-                    if (isMainWindow && isMainWindow < 10) {
-//						NSLog(@"added shortcut");
-                        [prototypeMenuItem setKeyEquivalent:[NSString stringWithFormat:@"%d",isMainWindow%10]];
-                        [prototypeMenuItem setKeyEquivalentModifierMask:NSCommandKeyMask];
-                        isMainWindow++;
-                    } else {
-                        [prototypeMenuItem setKeyEquivalent:@""];
-                    }
-                }
+                
                 NSMenuItem *itemToAdd = [prototypeMenuItem copy];
                 [aMenu addItem:itemToAdd];
-//				NSLog(@"%@",itemToAdd);
                 [itemToAdd setMark:[document isDocumentEdited]];
-                documentPosition++;
+                
             }
-            firstWC = NO;
         }
         [menusCurrentlyUpdating removeObject:aMenu];
     }
-}
-
-- (void)menuNeedsUpdate:(NSMenu *)aMenu {
-    [self updateMenuWithTabMenuItems:aMenu shortcuts:YES];
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
@@ -325,10 +253,6 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 
     if (selector == @selector(concealAllDocuments:)) {
         return [[[TCMMMPresenceManager sharedInstance] announcedSessions] count]>0;
-    } else if (selector == @selector(alwaysShowTabBar:)) {
-        BOOL isChecked = [[NSUserDefaults standardUserDefaults] boolForKey:kSEEDefaultsKeyAlwaysShowTabBar];
-        [menuItem setState:(isChecked ? NSOnState : NSOffState)];
-        return YES;
     } else if (selector == @selector(openAlternateDocument:)) {
         if ([[NSUserDefaults standardUserDefaults] boolForKey:kSEEDefaultsKeyOpenNewDocumentInTab]) {
             [menuItem setTitle:NSLocalizedString(@"Open in New Window...", @"Menu Entry for opening files in a new window.")];
@@ -336,40 +260,10 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
             [menuItem setTitle:NSLocalizedString(@"Open in Front Window...", @"Menu Entry for opening files in the front window.")];
         }
         return YES;
-    } else if ([menuItem tag] == GotoTabMenuItemTag) {
-        if ([[self documents] count] >0) {
-            [self updateMenuWithTabMenuItems:[menuItem submenu] shortcuts:YES];
-            return YES;
-        } else {
-            [[menuItem submenu] removeAllItems];
-            return NO;
-        };
-    } else if (selector == @selector(mergeAllWindows:)) {
-        BOOL hasSheet = NO;
-        PlainTextWindowController *controller;
-        for (controller in I_windowControllers) {
-            if ([[controller window] attachedSheet] != nil) {
-                hasSheet = YES;
-                break;
-            }
-        }
-        return (([I_windowControllers count] > 1) && !hasSheet);
     } else if (selector == @selector(copyReachabilityURL:)) {
 		return (![[TCMMMBEEPSessionManager sharedInstance] isNetworkingDisabled]);
 	}
     return [super validateMenuItem:menuItem];
-}
-
-- (void)updateTabMenu {
-    NSMenuItem *menuItem = [[[[NSApp mainMenu] itemWithTag:WindowMenuTag] submenu] itemWithTag:GotoTabMenuItemTag];
-    if (menuItem)
-    {
-        if ([[self documents] count] >0) {
-            [self updateMenuWithTabMenuItems:[menuItem submenu] shortcuts:YES];
-        } else {
-            [[menuItem submenu] removeAllItems];
-        }
-    }
 }
 
 
@@ -381,7 +275,7 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 
 - (NSMenu *)documentMenu {
     NSMenu *documentMenu = [NSMenu new];
-    [self updateMenuWithTabMenuItems:documentMenu shortcuts:NO];
+    [self updateMenuWithTabMenuItems:documentMenu];
     return documentMenu;
 }
 
@@ -420,12 +314,9 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 
 - (PlainTextWindowController *)activeWindowController {
     int count = [I_windowControllers count];
-    if (count == 0) {
-        PlainTextWindowController *controller = [[PlainTextWindowController alloc] init];
-        [I_windowControllers addObject:controller];
-        count++;
-    }
+  
     PlainTextWindowController *activeWindowController = nil;
+  
     while (--count >= 0) {
         PlainTextWindowController *controller = [I_windowControllers objectAtIndex:count];
         if (![[controller window] attachedSheet]) {
@@ -433,10 +324,7 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
             if ([[controller window] isMainWindow]) break;
         }
     }
-    if (!activeWindowController) {
-        activeWindowController = [[PlainTextWindowController alloc] init];
-        [I_windowControllers addObject:activeWindowController];
-    }
+  
     return activeWindowController;
 }
 
@@ -449,6 +337,66 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
     [I_windowControllers removeObject:autoreleasedWindowController];
 	
 	[self updateRestorableStateOfDocumentListWindow];
+}
+
++ (BOOL)shouldAlwaysShowTabBar {
+    BOOL alwaysShowTabBar = [[NSUserDefaults standardUserDefaults] boolForKey:kSEEDefaultsKeyAlwaysShowTabBar];
+    return alwaysShowTabBar;
+}
+
++ (void)setShouldAlwaysShowTabBar:(BOOL)flag {
+    BOOL currentValue = self.shouldAlwaysShowTabBar;
+    if ((currentValue && !flag) ||
+        (!currentValue && flag)) {
+        [[NSUserDefaults standardUserDefaults] setBool:flag forKey:kSEEDefaultsKeyAlwaysShowTabBar];
+        [[self sharedInstance] ensureShouldAlwaysShowTabBar:flag];
+    }
+}
+
+- (void)ensureShouldAlwaysShowTabBar:(BOOL)shouldBeVisible {
+    // Collect NSTabGroups
+    NSMutableSet *tabGroups = [NSMutableSet new];
+    for (NSWindowController *wc in I_windowControllers) {
+        if ([wc isKindOfClass:[PlainTextWindowController class]]) {
+            [tabGroups addObject:wc.window.tabGroup];
+        }
+    }
+    
+    for (NSWindowTabGroup *group in tabGroups) {
+        if (group.windows.count == 1) {
+            id window = group.windows.firstObject;
+            if ([window isKindOfClass:[PlainTextWindow class]]) {
+                [window ensureTabBarVisiblity:shouldBeVisible];
+            }
+        }
+    }
+}
+
+- (NSArray <NSArray <NSWindowController *> *> *)tabGroups {
+    NSMutableArray *tabGroups = [NSMutableArray new];
+    NSMutableArray *windowTabGroups = [NSMutableArray new];
+    
+    for (NSWindowController *wc in I_windowControllers) {
+        NSWindow *window = wc.window;
+        NSArray *tabbedWindows = window.tabbedWindows;
+        
+        if (tabbedWindows && ![windowTabGroups containsObject:tabbedWindows]) {
+            [windowTabGroups addObject:tabbedWindows];
+            NSMutableArray * tabGroup = [NSMutableArray new];
+            for (NSWindow *window in tabbedWindows) {
+                NSWindowController *wc = window.windowController;
+                if (wc) {
+                    [tabGroup addObject:wc];
+                }
+            }
+            [tabGroups addObject:tabGroup];
+        } else if (!tabbedWindows && window) {
+            // If tabbedWindows is nil the window has no visible tab bar.
+            [tabGroups addObject:@[wc]];
+        }
+    }
+    
+    return tabGroups;
 }
 
 #pragma mark - Open new document
@@ -487,8 +435,7 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 }
 
 
-- (IBAction)newDocument:(id)aSender
-{
+- (IBAction)newDocument:(id)aSender {
 	@synchronized(self.documentCreationFlagsLookupDict) {
 		SEEDocumentCreationFlags *creationFlags = [[SEEDocumentCreationFlags alloc] init];
 		creationFlags.openInTab = NO;
@@ -527,6 +474,25 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 	[self newDocumentWithModeIdentifier:[[[DocumentModeManager sharedInstance] modeForNewDocuments] documentModeIdentifier]];
 }
 
+// Responder Method to be called when user clicks on the plus button
+- (IBAction)newWindowForTab:(id)sender {
+    // Sender always seems to be a window, but lets be safe here
+    if ([sender isKindOfClass:[NSWindow class]]) {
+        // Need to do this so cmd-clicks on background windows open the new document in that window too
+        @synchronized(self.documentCreationFlagsLookupDict) {
+            SEEDocumentCreationFlags *creationFlags = [[SEEDocumentCreationFlags alloc] init];
+            creationFlags.openInTab = YES;
+            creationFlags.tabWindow = sender;
+            creationFlags.isAlternateAction = ([NSApp currentEvent].modifierFlags | NSEventModifierFlagOption);
+            self.documentCreationFlagsLookupDict[@"MakeUntitledDocument"] = creationFlags;
+        }
+        
+        [self newDocumentWithModeIdentifier:[[[DocumentModeManager sharedInstance] modeForNewDocuments] documentModeIdentifier]];
+
+    } else {
+        [self newDocumentInTab:sender];
+    }
+}
 
 - (IBAction)newDocumentByUserDefault:(id)sender {
 	@synchronized(self.documentCreationFlagsLookupDict) {
@@ -642,11 +608,11 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 
 	[self.filenamesFromLastRunOpenPanel removeAllObjects];
 
-	[super beginOpenPanel:openPanel forTypes:inTypes completionHandler:^(NSInteger result) {
+	[super beginOpenPanel:openPanel forTypes:inTypes completionHandler:^(NSModalResponse result) {
 		[self setModeIdentifierFromLastRunOpenPanel:[openPanelAccessoryViewController.modePopUpButtonOutlet selectedModeIdentifier]];
 		[self setEncodingFromLastRunOpenPanel:[[openPanelAccessoryViewController.encodingPopUpButtonOutlet selectedItem] tag]];
 
-		if (result == NSFileHandlingPanelOKButton) {
+		if (result == NSModalResponseOK) {
 			NSString *modeExtension = MODE_EXTENSION;
 			for (NSURL *URL in openPanel.URLs) {
 				if ([URL isFileURL]) {
@@ -806,10 +772,8 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 			NSDocument *selectedDocument = [[window windowController] document];
 			NSString *selectedDocumentTabLookupKey = [state decodeObjectForKey:@"PlainTextWindowSelectedTabLookupKey"];
 			if (selectedDocumentTabLookupKey && [selectedDocument isKindOfClass:[PlainTextDocument class]]) {
-				PlainTextDocument *plainTextDocument = (PlainTextDocument *)selectedDocument;
 				PlainTextWindowController *windowController = window.windowController;
-				NSTabViewItem *tabItem = [windowController tabViewItemForDocument:plainTextDocument];
-				PlainTextWindowControllerTabContext *tabContext = tabItem.identifier;
+				PlainTextWindowControllerTabContext *tabContext = [windowController SEE_tabContext];
 				tabContext.uuid = selectedDocumentTabLookupKey;
 			}
 
@@ -852,10 +816,8 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 								[documentController reopenDocumentForURL:documentURL withContentsOfURL:documentAutosaveURL inWindow:window display:YES completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
 
 									if ([document isKindOfClass:[PlainTextDocument class]]) {
-										PlainTextDocument *plainTextDocument = (PlainTextDocument *)document;
 										PlainTextWindowController *windowController = window.windowController;
-										NSTabViewItem *tabItem = [windowController tabViewItemForDocument:plainTextDocument];
-										PlainTextWindowControllerTabContext *tabContext = tabItem.identifier;
+										PlainTextWindowControllerTabContext *tabContext = [windowController SEE_tabContext];
 										tabContext.uuid = tabLookupKey;
 									}
 
@@ -886,10 +848,8 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 								NSDocument *document = [documentController openUntitledDocumentAndDisplay:YES error:nil];
 
 								if ([document isKindOfClass:[PlainTextDocument class]]) {
-									PlainTextDocument *plainTextDocument = (PlainTextDocument *)document;
 									PlainTextWindowController *windowController = window.windowController;
-									NSTabViewItem *tabItem = [windowController tabViewItemForDocument:plainTextDocument];
-									PlainTextWindowControllerTabContext *tabContext = tabItem.identifier;
+									PlainTextWindowControllerTabContext *tabContext = [windowController SEE_tabContext];
 									tabContext.uuid = tabLookupKey;
 								}
 							}
@@ -925,18 +885,6 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 
 + (void)finishRestoreWindowWithIdentifier:(NSString *)identifier state:(NSCoder *)state document:(NSDocument *)document window:(NSWindow *)window error:(NSError *)inError completionHandler:(void (^)(NSWindow *, NSError *))completionHandler {
 
-	NSWindowController *windowController = window.windowController;
-	if ([windowController isKindOfClass:[PlainTextWindowController class]]) {
-		PlainTextWindowController *plainTextWindowController = (PlainTextWindowController *)windowController;
-
-//		NSArray *tabNames = [plainTextWindowController.tabView.tabViewItems valueForKey:@"label"];
-//		NSArray *tabs = [state decodeObjectForKey:@"PlainTextWindowOpenTabNames"];
-//
-//		NSLog(@"\n%@\n%@", tabNames, tabs);
-
-		[plainTextWindowController selectTabForDocument:document];
-	}
-
 	// completion handler will trigger -(void)restoreStateWithCoder: on the window
 	if (completionHandler) {
 		completionHandler(window, inError);
@@ -944,8 +892,7 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 }
 
 
-- (void)reopenDocumentForURL:(NSURL *)urlOrNil withContentsOfURL:(NSURL *)contentsURL display:(BOOL)displayDocument completionHandler:(void (^)(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error))completionHandler
-{
+- (void)reopenDocumentForURL:(NSURL *)urlOrNil withContentsOfURL:(NSURL *)contentsURL display:(BOOL)displayDocument completionHandler:(void (^)(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error))completionHandler {
 //	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
 	[self.filenamesFromLastRunOpenPanel removeAllObjects];
 
@@ -1459,7 +1406,7 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
     }
     
     if (shouldWait) { // this is for new documents and pipes, existing documents are handled above
-        int count = [documents count];
+        NSUInteger count = [documents count];
         if (count > 0) {
             [command suspendExecution];
             [I_suspendedSeeScriptCommands setObject:command forKey:identifier]; // this may replace the command added by existing documents earlier, but is the same command anyway.
@@ -1524,28 +1471,23 @@ struct ModificationInfo
     [self closeAllDocumentsWithDelegate:nil didCloseAllSelector:NULL contextInfo:NULL];
 }
 
-- (void)closeDocumentsStartingWith:(PlainTextDocument *)doc shouldClose:(BOOL)shouldClose closeAllContext:(void *)closeAllContext
-{
+- (void)closeDocumentsStartingWith:(PlainTextDocument *)doc shouldClose:(BOOL)shouldClose closeAllContext:(void *)closeAllContext {
     // Iterate over unsaved documents, preserve closeAllContext to invoke it after the last document
     __autoreleasing NSArray *windows = [[NSApp orderedWindows] copy];
     for (NSWindow *window in windows) {
         NSWindowController *controller = [window windowController];
         if ([controller isKindOfClass:[PlainTextWindowController class]]) {
-            NSArray *documents = [(PlainTextWindowController *)controller documents];
-            unsigned count = [documents count];
-            while (count--) {
-                PlainTextDocument *document = [documents objectAtIndex:count];
-                if ([document isDocumentEdited]) {
-                    PlainTextWindowController *controller = [document topmostWindowController];
-                    (void)[controller selectTabForDocument:document];
-                    [document canCloseDocumentWithDelegate:self
-                                       shouldCloseSelector:@selector(reviewedDocument:shouldClose:contextInfo:)
-                                               contextInfo:closeAllContext];
-                    return;
-                }
-                
-                [document close];
+            PlainTextDocument *document = (PlainTextDocument *)controller.document;
+            if ([document isDocumentEdited]) {
+                PlainTextWindowController *controller = [document topmostWindowController];
+                [controller showWindow:nil];
+                [document canCloseDocumentWithDelegate:self
+                                   shouldCloseSelector:@selector(reviewedDocument:shouldClose:contextInfo:)
+                                           contextInfo:closeAllContext];
+                return;
             }
+            
+            [document close];
         }
     }
 
@@ -1556,17 +1498,17 @@ struct ModificationInfo
     }
 }
 
-- (void)reviewedDocument:(PlainTextDocument *)doc shouldClose:(BOOL)shouldClose contextInfo:(void *)contextInfo
-{
+- (void)reviewedDocument:(PlainTextDocument *)doc shouldClose:(BOOL)shouldClose contextInfo:(void *)contextInfo {
     PlainTextWindowController *windowController = [doc topmostWindowController];
     NSWindow *sheet = [[windowController window] attachedSheet];
-    if (sheet) [sheet orderOut:self];
+    if (sheet) {
+        [sheet orderOut:self];
+    }
     
     if (shouldClose) {
         NSArray *windowControllers = [doc windowControllers];
         NSUInteger windowControllerCount = [windowControllers count];
         if (windowControllerCount > 1) {
-            [windowController documentWillClose:doc];
             [windowController close];
         } else {
             [doc close];
@@ -1577,8 +1519,7 @@ struct ModificationInfo
     }
 }
 
-- (void)closeAllDocumentsWithDelegate:(id)delegate didCloseAllSelector:(SEL)didCloseAllSelector contextInfo:(void *)contextInfo
-{
+- (void)closeAllDocumentsWithDelegate:(id)delegate didCloseAllSelector:(SEL)didCloseAllSelector contextInfo:(void *)contextInfo {
     NSInvocation *invocation = nil;
 
     if (delegate != nil && didCloseAllSelector != NULL) {
@@ -1692,22 +1633,26 @@ struct ModificationInfo
 	}
 
 	// show alert
-	NSAlert *installAlert = [NSAlert alertWithMessageText:titleText
-											defaultButton:NSLocalizedStringWithDefaultValue(@"MODE_INSTALL_OK_BUTTON", nil, [NSBundle mainBundle], @"Install", nil)
-										  alternateButton:NSLocalizedStringWithDefaultValue(@"MODE_INSTALL_SHOW_CONTENT_BUTTON", nil, [NSBundle mainBundle], @"Show Package Contents", nil)
-											  otherButton:NSLocalizedString(@"Cancel", nil)
-								informativeTextWithFormat:@"%@", informativeText];
-	
-	int result = [installAlert runModal];
-	if (result == NSAlertAlternateReturn) { // show package contents
+    NSAlert *installAlert = [[NSAlert alloc] init];
+
+    installAlert.messageText = titleText;
+    installAlert.informativeText = informativeText;
+
+    [installAlert addButtonWithTitle:NSLocalizedStringWithDefaultValue(@"MODE_INSTALL_OK_BUTTON", nil, [NSBundle mainBundle], @"Install", nil)];
+    [installAlert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
+    [installAlert addButtonWithTitle:NSLocalizedStringWithDefaultValue(@"MODE_INSTALL_SHOW_CONTENT_BUTTON", nil, [NSBundle mainBundle], @"Show Package Contents", nil)];
+
+	NSModalResponse result = [installAlert runModal];
+
+    if (result == NSAlertThirdButtonReturn) { // show package contents
 		NSString *resourcePath = [modeBundle resourcePath];
 		if (resourcePath) {
 			[[NSWorkspace sharedWorkspace] selectFile:resourcePath inFileViewerRootedAtPath:[resourcePath stringByDeletingLastPathComponent]];
 		}
 	
-	} else if (result == NSAlertDefaultReturn) { // ok was selected
+	} else if (result == NSAlertFirstButtonReturn) { // ok was selected
         BOOL success = NO;
-		
+
 		NSURL *destinationURL = [[DocumentModeManager sharedInstance] urlForWritingModeWithName:[modeBundle objectForInfoDictionaryKey:@"CFBundleName"]];
 		NSString *destinationPath = [destinationURL path];
 		
@@ -1749,13 +1694,13 @@ struct ModificationInfo
 						   name];
 		}
 
-		NSAlert *infoAlert = [NSAlert alertWithMessageText:messageText
-											 defaultButton:NSLocalizedString(@"OK", nil)
-										   alternateButton:nil
-											   otherButton:nil
-								 informativeTextWithFormat:@""];
-		
-        [infoAlert setAlertStyle:NSInformationalAlertStyle];
+        NSAlert *infoAlert = [[NSAlert alloc] init];
+
+        infoAlert.messageText = messageText;
+
+        [infoAlert addButtonWithTitle:NSLocalizedString(@"OK", @"OK")];
+
+        [infoAlert setAlertStyle:NSAlertStyleInformational];
         [infoAlert runModal];
     }
 }

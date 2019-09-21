@@ -5,13 +5,11 @@
 
 #import "PullDownButtonCell.h"
 
-
 @implementation PullDownButtonCell
 
-+(NSString *)description {
++ (NSString *)description {
     return @"PullDownButtonCell";
 }
-
 
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
     cellFrame.size.width=MIN([self desiredWidth],cellFrame.size.width);

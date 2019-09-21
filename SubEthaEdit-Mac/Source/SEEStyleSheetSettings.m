@@ -48,7 +48,7 @@ NSString * const SEEStyleSheetSettingsUsesMultipleStyleSheetsKey = @"usesMultipl
 	[[self.documentMode defaults] setObject:result forKey:DocumentModeStyleSheetsPreferenceKey];
 }
 
-- (id)initWithDocumentMode:(DocumentMode *)aMode {
+- (instancetype)initWithDocumentMode:(DocumentMode *)aMode {
 	if ((self=[super init])) {
 		_styleSheetNamesByLanguageContext = [NSMutableDictionary new];
 		self.documentMode = aMode;

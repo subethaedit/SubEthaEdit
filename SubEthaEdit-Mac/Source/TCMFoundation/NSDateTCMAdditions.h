@@ -5,11 +5,8 @@
 
 #import <Foundation/Foundation.h>
 
-
-@interface NSDate (NSDateTCMAdditions) 
-
-- (NSString *)rfc1123DateTimeString;
-- (NSString *)W3CDTFLongDateTimeString;
-- (NSString *)W3CDTFLongDateString;
-
+@interface NSDate (NSDateTCMAdditions)
+@property (nonatomic, readonly) NSString *rfc1123DateTimeString;
+@property (nonatomic, readonly) NSString *W3CDTFLongDateTimeString;
+@property (nonatomic, readonly) NSString *W3CDTFLongDateString;
 @end

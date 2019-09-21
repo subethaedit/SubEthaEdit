@@ -7,11 +7,10 @@
 
 // simple: http://www.ietf.org/rfc/rfc4616.txt
 
-
 @implementation GenericSASLProfile
 + (NSDictionary *)parseBLOBData:(NSData *)aData {
     NSMutableDictionary *result = [NSMutableDictionary dictionary];
-    NSXMLDocument *document = [[[NSXMLDocument alloc] initWithData:aData options:0 error:nil] autorelease];
+    NSXMLDocument *document = [[NSXMLDocument alloc] initWithData:aData options:0 error:nil];
     NSXMLElement *blobNode = (NSXMLElement *)[[document nodesForXPath:@"/blob" error:nil] lastObject];
     if (blobNode) {
         NSLog(@"%s blobNode:%@",__FUNCTION__,blobNode);
@@ -47,7 +46,7 @@
 + (NSDictionary *)replyForChannelRequestWithProfileURI:(NSString *)aProfileURI andData:(NSData *)aData inSession:(TCMBEEPSession *)aSession {
     if ([aProfileURI isEqualToString:TCMBEEPSASLPLAINProfileURI]) {
         NSDictionary *parsedBlobData = [self parseBLOBData:aData];
-        NSString *userPasswordString = [[[NSString alloc] initWithData:[parsedBlobData objectForKey:@"data"] encoding:NSUTF8StringEncoding] autorelease];
+        NSString *userPasswordString = [[NSString alloc] initWithData:[parsedBlobData objectForKey:@"data"] encoding:NSUTF8StringEncoding];
         NSArray *credentialArray = [userPasswordString componentsSeparatedByString:@"\0"];
         NSLog(@"%s credentials are: %@",__FUNCTION__,credentialArray);
         if ([credentialArray count] != 3) {

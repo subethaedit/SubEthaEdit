@@ -6,6 +6,12 @@
 
 #import "MAAttachedWindow.h"
 
+// this file needs -fno-objc-arc in the compile build phase
+#if __has_feature(objc_arc)
+#error This file needs ARC to be disabled!
+#endif
+
+
 #define MAATTACHEDWINDOW_DEFAULT_BACKGROUND_COLOR [NSColor colorWithCalibratedWhite:0.1 alpha:0.75]
 #define MAATTACHEDWINDOW_DEFAULT_BORDER_COLOR [NSColor whiteColor]
 #define MAATTACHEDWINDOW_SCALE_FACTOR 1.0
@@ -32,7 +38,7 @@
 #pragma mark Initializers
 
 
-- (id)initWithView:(NSView *)view 
+- (instancetype)initWithView:(NSView *)view 
                    attachedToPoint:(NSPoint)point 
                           inWindow:(NSWindow *)window 
                             onSide:(MAWindowPosition)side 
@@ -48,7 +54,7 @@
     contentRect.size = [view frame].size;
     
     if ((self = [super initWithContentRect:contentRect 
-                                styleMask:NSBorderlessWindowMask 
+                                styleMask:NSWindowStyleMaskBorderless 
                                   backing:NSBackingStoreBuffered 
                                     defer:NO])) {
         _hostingView = view;
@@ -101,7 +107,7 @@
 }
 
 
-- (id)initWithView:(NSView *)view 
+- (instancetype)initWithView:(NSView *)view 
                    attachedToPoint:(NSPoint)point 
                           inWindow:(NSWindow *)window 
                         atDistance:(float)distance
@@ -112,7 +118,7 @@
 }
 
 
-- (id)initWithView:(NSView *)view 
+- (instancetype)initWithView:(NSView *)view 
                    attachedToPoint:(NSPoint)point 
                             onSide:(MAWindowPosition)side 
                         atDistance:(float)distance
@@ -123,7 +129,7 @@
 }
 
 
-- (id)initWithView:(NSView *)view 
+- (instancetype)initWithView:(NSView *)view 
                    attachedToPoint:(NSPoint)point 
                         atDistance:(float)distance
 {
@@ -133,7 +139,7 @@
 }
 
 
-- (id)initWithView:(NSView *)view 
+- (instancetype)initWithView:(NSView *)view 
                    attachedToPoint:(NSPoint)point 
                           inWindow:(NSWindow *)window
 {
@@ -143,7 +149,7 @@
 }
 
 
-- (id)initWithView:(NSView *)view 
+- (instancetype)initWithView:(NSView *)view 
                    attachedToPoint:(NSPoint)point 
                             onSide:(MAWindowPosition)side
 {
@@ -153,7 +159,7 @@
 }
 
 
-- (id)initWithView:(NSView *)view 
+- (instancetype)initWithView:(NSView *)view 
                    attachedToPoint:(NSPoint)point
 {
     return [self initWithView:view attachedToPoint:point 

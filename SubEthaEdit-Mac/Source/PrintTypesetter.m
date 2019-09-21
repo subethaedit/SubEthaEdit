@@ -6,7 +6,6 @@
 #import "PrintTypesetter.h"
 #import "PlainTextDocument.h"
 
-
 @implementation PrintTypesetter
 
 - (void)willSetLineFragmentRect:(NSRect *)lineFragmentRect forGlyphRange:(NSRange)glyphRange 

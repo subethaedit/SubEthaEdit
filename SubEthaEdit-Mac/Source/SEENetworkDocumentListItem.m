@@ -3,10 +3,6 @@
 //
 //  Created by Michael Ehrmann on 18.02.14.
 
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 #import "SEENetworkDocumentListItem.h"
 #import "TCMMMSession.h"
 
@@ -26,8 +22,7 @@ extern int const FileNewMenuItemTag;
 @synthesize name = _name;
 @synthesize image = _image;
 
-- (id)init
-{
+- (instancetype)init {
     self = [super init];
     if (self) {
 		self.name = NSLocalizedString(@"Unknown Name", @"");
@@ -39,8 +34,7 @@ extern int const FileNewMenuItemTag;
     return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
 	[self removeKVO];
 }
 

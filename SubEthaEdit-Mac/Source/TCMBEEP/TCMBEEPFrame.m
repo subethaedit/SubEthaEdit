@@ -7,34 +7,30 @@
 #import "TCMBEEPSession.h"
 #import "TCMBEEPMessage.h"
 
-
 @implementation TCMBEEPFrame
 
 + (TCMBEEPFrame *)SEQFrameWithChannelNumber:(int32_t)channelNumber
                       acknowledgementNumber:(uint32_t)acknowledgementNumber
-                                 windowSize:(int32_t)windowSize
-{
-    return [[[TCMBEEPFrame alloc] initWithChannelNumber:channelNumber
-                                  acknowledgementNumber:acknowledgementNumber
-                                             windowSize:windowSize] autorelease];
+                                 windowSize:(int32_t)windowSize {
+    return [[TCMBEEPFrame alloc] initWithChannelNumber:channelNumber
+                                 acknowledgementNumber:acknowledgementNumber
+                                            windowSize:windowSize];
 
 }
 
 + (TCMBEEPFrame *)frameWithMessage:(TCMBEEPMessage *)aMessage 
                     sequenceNumber:(uint32_t)aSequenceNumber
                      payloadLength:(uint32_t)aLength
-                      intermediate:(BOOL)aFlag
-{
-    return [[[TCMBEEPFrame alloc] initWithMessage:aMessage 
-                                   sequenceNumber:aSequenceNumber
-                                    payloadLength:aLength
-                                     intermediate:aFlag] autorelease];
+                      intermediate:(BOOL)aFlag {
+    return [[TCMBEEPFrame alloc] initWithMessage:aMessage
+                                  sequenceNumber:aSequenceNumber
+                                   payloadLength:aLength
+                                    intermediate:aFlag];
 }
 
-- (id)initWithChannelNumber:(int32_t)channelNumber
+- (instancetype)initWithChannelNumber:(int32_t)channelNumber
       acknowledgementNumber:(uint32_t)acknowledgementNumber
-                 windowSize:(int32_t)windowSize
-{
+                 windowSize:(int32_t)windowSize {
     self = [super init];
     if (self) {
         [self setMessageTypeString:@"SEQ"];
@@ -45,11 +41,10 @@
     return self;
 }
 
-- (id)initWithMessage:(TCMBEEPMessage *)aMessage 
+- (instancetype)initWithMessage:(TCMBEEPMessage *)aMessage 
        sequenceNumber:(uint32_t)aSequenceNumber
         payloadLength:(uint32_t)aLength
-         intermediate:(BOOL)aFlag
-{
+         intermediate:(BOOL)aFlag {
     self = [super init];
     if (self) {
         [self setMessageTypeString:[aMessage messageTypeString]];
@@ -75,8 +70,7 @@
     return self;
 }
 
-- (id)initWithHeader:(char *)aHeaderString
-{
+- (instancetype)initWithHeader:(char *)aHeaderString {
     self = [super init];
     if (self) {
         I_answerNumber = -1;
@@ -102,30 +96,21 @@
 			error = YES;
 		}
         if (error) {
-            [self release];
             self = nil;
         }
     }
     return self;
 }
 
-- (void)dealloc
-{
-    [I_payload release];
-    [super dealloc];
-}
-
-- (NSString *)description
-{
+- (NSString *)description {
     if ([self isSEQ]) {
         return [NSString stringWithFormat:@"%3s %d %u %d", I_messageType, I_channelNumber, I_sequenceNumber, I_length];
     } else {
-        return [NSString stringWithFormat:@"TCMBEEPFrame: %3s %d %d %1s %u %d - Payload: %@... (%lu)", I_messageType, I_channelNumber, I_messageNumber, I_continuationIndicator, I_sequenceNumber, I_length,([I_payload length]>=6?[[[NSString alloc] initWithBytes:[I_payload bytes] length:6 encoding:NSASCIIStringEncoding] autorelease]:@""),(unsigned long)[I_payload length]];
+        return [NSString stringWithFormat:@"TCMBEEPFrame: %3s %d %d %1s %u %d - Payload: %@... (%lu)", I_messageType, I_channelNumber, I_messageNumber, I_continuationIndicator, I_sequenceNumber, I_length,([_payload length]>=6?[[NSString alloc] initWithBytes:[_payload bytes] length:6 encoding:NSASCIIStringEncoding]:@""),(unsigned long)[_payload length]];
     }
 }
 
-- (NSData *)descriptionInLogFileFormatIncoming:(BOOL)aFlag
-{
+- (NSData *)descriptionInLogFileFormatIncoming:(BOOL)aFlag {
     NSString *prefix = aFlag ? @"> " : @"< ";
     NSMutableData *data = [NSMutableData data];
     if ([self isSEQ]) {
@@ -136,7 +121,7 @@
     
     NSString *header = [NSString stringWithFormat:@"%@%3s %d %d %1s %u %d\r\n", prefix, I_messageType, I_channelNumber, I_messageNumber, I_continuationIndicator, I_sequenceNumber, I_length];
     [data appendData:[header dataUsingEncoding:NSASCIIStringEncoding]];
-    NSString *payloadString = [[[NSString alloc] initWithData:I_payload encoding:NSMacOSRomanStringEncoding] autorelease];
+    NSString *payloadString = [[NSString alloc] initWithData:_payload encoding:NSMacOSRomanStringEncoding];
     NSArray *components = [payloadString componentsSeparatedByString:@"\r\n"];
     for (id loopItem in components) {
         [data appendData:[prefix dataUsingEncoding:NSASCIIStringEncoding]];
@@ -150,90 +135,64 @@
 
 #pragma mark -
 
-- (void)setMessageTypeString:(NSString *)aString
-{
+- (void)setMessageTypeString:(NSString *)aString {
     const char *UTF8String = [aString UTF8String];
     strncpy(I_messageType, UTF8String, 4);
 }
 
-- (char *)messageType
-{
+- (char *)messageType {
     return I_messageType;
 }
 
-- (int32_t)channelNumber
-{
+- (int32_t)channelNumber {
     return I_channelNumber;
 }
 
-- (int32_t)messageNumber
-{
+- (int32_t)messageNumber {
     return I_messageNumber;
 }
 
--(char *)continuationIndicator
-{
+-(char *)continuationIndicator {
     return I_continuationIndicator;
 }
 
--(BOOL)isIntermediate
-{
+-(BOOL)isIntermediate {
     return (I_continuationIndicator[0] == '*');
 }
 
--(uint32_t)sequenceNumber
-{
+-(uint32_t)sequenceNumber {
     return I_sequenceNumber;
 }
 
-- (int32_t)length
-{
+- (int32_t)length {
     return I_length;
 }
 
-- (int32_t)answerNumber
-{
+- (int32_t)answerNumber {
     return I_answerNumber;
 }
 
-- (void)setPayload:(NSData *)aData
-{
-    [I_payload autorelease];
-    I_payload = [aData copy];
-}
-
-- (NSData *)payload
-{
-    return I_payload;
-}
-
-- (BOOL)isMSG
-{
+- (BOOL)isMSG {
     return (strcmp([self messageType], "MSG") == 0);
 }
 
-- (BOOL)isRPY
-{
+- (BOOL)isRPY {
     return (strcmp([self messageType], "RPY") == 0);
 }
 
-- (BOOL)isERR
-{
+- (BOOL)isERR {
     return (strcmp([self messageType], "ERR") == 0);
 }
 
-- (BOOL)isANS
-{
+- (BOOL)isANS {
     return (strcmp([self messageType], "ANS") == 0);
 }
 
-- (BOOL)isNUL
-{
+- (BOOL)isNUL {
     return (strcmp([self messageType], "NUL") == 0);
 }
 
-- (BOOL)isSEQ
-{
+- (BOOL)isSEQ {
     return (strcmp([self messageType], "SEQ") == 0);
 }
 

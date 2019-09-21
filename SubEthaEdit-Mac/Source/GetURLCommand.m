@@ -9,8 +9,7 @@
 
 @implementation GetURLCommand
 
-- (id)performDefaultImplementation
-{
+- (id)performDefaultImplementation {
     DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"GetURLCommand: %@", [self description]);
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"command: %@", [[self commandDescription] commandName]);
     NSString *address = [self directParameter];

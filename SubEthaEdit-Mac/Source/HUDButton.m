@@ -6,7 +6,6 @@
 #import "HUDButton.h"
 #import "HUDButtonCell.h"
 
-
 @implementation HUDButton
 
 + (void)initialize {
@@ -19,7 +18,7 @@
     return [HUDButtonCell class];
 }
 
-- (id)initWithCoder:(NSCoder *)aCoder {
+- (instancetype)initWithCoder:(NSCoder *)aCoder {
     self = [super initWithCoder:aCoder];
     NSMutableData *data=[NSMutableData data];
     NSKeyedArchiver *archiver=[[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
@@ -27,13 +26,11 @@
               forClass:[NSButtonCell class]]; // <--------------------- !!!Replace if reuse!!!
     [archiver encodeObject:[self cell] forKey:@"MyCell"];
     [archiver finishEncoding];
-    [archiver autorelease];
     
     NSKeyedUnarchiver *unarchiver=[[NSKeyedUnarchiver alloc] initForReadingWithData:data];
     [unarchiver setClass:[[self class] cellClass] forClassName:NSStringFromClass([[super class] cellClass])];
     [self setCell:[unarchiver decodeObjectForKey:@"MyCell"]];
     [unarchiver finishDecoding];
-    [unarchiver autorelease];
 
     return self;
 }

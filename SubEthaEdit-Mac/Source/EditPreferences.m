@@ -7,7 +7,6 @@
 #import "DocumentModeManager.h"
 #import "EncodingManager.h"
 
-
 @implementation EditPreferences
 
 - (NSImage *)icon {

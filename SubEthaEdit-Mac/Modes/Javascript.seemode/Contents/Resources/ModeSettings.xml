@@ -2,6 +2,7 @@
 <settings>
     <recognition>
         <extension>js</extension>
+        <extension>mjs</extension>
         <extension>javascript</extension>
         <extension>jscript</extension>
         <extension>jsx</extension>

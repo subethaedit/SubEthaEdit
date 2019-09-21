@@ -5,7 +5,6 @@
 
 #import "NSWorkspaceTCMAdditions.h"
 
-
 static NSMutableDictionary *S_preresizedFileIcons=nil;
 
 @implementation NSWorkspace (NSWorkspaceTCMAdditions) 
@@ -25,7 +24,7 @@ static NSMutableDictionary *S_preresizedFileIcons=nil;
     
     NSImage *icon = [iconsByFileType objectForKey:aFileType];
     if (!icon) {
-        icon = [[[[NSWorkspace sharedWorkspace] iconForFileType:aFileType] copy] autorelease];
+        icon = [[[NSWorkspace sharedWorkspace] iconForFileType:aFileType] copy];
         [icon setSize:NSMakeSize(aSize,aSize)];
         [iconsByFileType setObject:icon forKey:aFileType];
     }

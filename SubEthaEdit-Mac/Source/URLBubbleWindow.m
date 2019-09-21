@@ -17,7 +17,7 @@ static URLBubbleWindow *S_sharedInstance;
 	return S_sharedInstance;
 }
 
-- (id)initAsBubble {
+- (instancetype)initAsBubble {
 	// load nib
 	[[NSBundle mainBundle] loadNibNamed:@"URLBubbleWindow" owner:self topLevelObjects:nil];
 	
@@ -30,14 +30,6 @@ static URLBubbleWindow *S_sharedInstance;
 	return self;
 }
 
-- (void)dealloc
-{
-	self.openURLViewOutlet = nil;
-	[I_URLToOpen release];
-
-    [super dealloc];
-}
-
 - (BOOL)canBecomeMainWindow {
 	return NO;
 }
@@ -47,8 +39,8 @@ static URLBubbleWindow *S_sharedInstance;
 }
 
 - (IBAction)openURLAction:(id)aSender {
-	NSLog(@"%s now i would open: %@",__FUNCTION__,I_URLToOpen);
-	[[NSWorkspace sharedWorkspace] openURL:I_URLToOpen];
+	NSLog(@"%s now i would open: %@",__FUNCTION__,_URLToOpen);
+	[[NSWorkspace sharedWorkspace] openURL:_URLToOpen];
 	[self setVisible:NO animated:YES];
 }
 
@@ -60,12 +52,6 @@ static URLBubbleWindow *S_sharedInstance;
 	if ([self alphaValue] > 0) {
 		[self setVisible:NO animated:YES];
 	}
-}
-
-
-- (void)setURLToOpen:(NSURL *)inURL {
-	[I_URLToOpen autorelease];
-	 I_URLToOpen = [inURL copy];
 }
 
 - (void)setPosition:(NSPoint)inPosition inWindow:(NSWindow *)inWindow {

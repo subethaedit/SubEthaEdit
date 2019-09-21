@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.18"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -198,22 +198,6 @@
                 <constraint firstItem="uFk-KV-jTR" firstAttribute="trailing" secondItem="b8n-nP-ifa" secondAttribute="trailing" id="xBd-NT-EJZ"/>
                 <constraint firstItem="uFk-KV-jTR" firstAttribute="leading" secondItem="b8n-nP-ifa" secondAttribute="leading" constant="2" id="xha-2g-kA7"/>
             </constraints>
-            <backgroundFilters>
-                <ciFilter name="CIGaussianBlur">
-                    <configuration>
-                        <null key="inputImage"/>
-                        <real key="inputRadius" value="4"/>
-                    </configuration>
-                </ciFilter>
-                <ciFilter name="CIColorControls">
-                    <configuration>
-                        <real key="inputBrightness" value="0.0"/>
-                        <real key="inputContrast" value="1"/>
-                        <null key="inputImage"/>
-                        <real key="inputSaturation" value="10"/>
-                    </configuration>
-                </ciFilter>
-            </backgroundFilters>
         </customView>
     </objects>
     <resources>

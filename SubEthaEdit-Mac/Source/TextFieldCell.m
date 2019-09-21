@@ -5,7 +5,6 @@
 
 #import "TextFieldCell.h"
 
-
 @implementation TextFieldCell
 
 - (void)setHighlighted:(BOOL)flag {

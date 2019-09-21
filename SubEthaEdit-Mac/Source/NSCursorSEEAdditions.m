@@ -6,7 +6,6 @@
 #import "NSCursorSEEAdditions.h"
 #import <QuartzCore/QuartzCore.h>
 
-
 @implementation NSCursor (NSCursorSEEAdditions)
 
 + (NSCursor *)invertedIBeamCursor {
@@ -14,7 +13,7 @@
     if (!s_invertedIBeamCursor) {
 
 		NSURL *cursorURL = [[NSBundle mainBundle] URLForImageResource:@"InvertedIBeam"];
-		NSImage *invertedIBeamCursorImage = [[[NSImage alloc] initWithContentsOfURL:cursorURL] autorelease];
+		NSImage *invertedIBeamCursorImage = [[NSImage alloc] initWithContentsOfURL:cursorURL];
 
 /*
 		// NSCursor IBeam has 4 Representatios, I tryed to do the same thing, but the big ones are not used when

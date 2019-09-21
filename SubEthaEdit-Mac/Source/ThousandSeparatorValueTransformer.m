@@ -5,7 +5,6 @@
 
 #import "ThousandSeparatorValueTransformer.h"
 
-
 @implementation ThousandSeparatorValueTransformer
 + (Class)transformedValueClass {
     return [NSString class];

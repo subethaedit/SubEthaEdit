@@ -10,24 +10,17 @@
 @implementation ScriptLine
 
 + (id)scriptLineWithTextStorage:(FullTextStorage *)aTextStorage lineNumber:(int)aLineNumber {
-    return [[[ScriptLine alloc] initWithTextStorage:aTextStorage lineNumber:aLineNumber] autorelease];
+    return [[ScriptLine alloc] initWithTextStorage:aTextStorage lineNumber:aLineNumber];
 }
 
-- (id)initWithTextStorage:(FullTextStorage *)aTextStorage lineNumber:(int)aLineNumber
-{
+- (instancetype)initWithTextStorage:(FullTextStorage *)aTextStorage lineNumber:(int)aLineNumber {
     if ((self = [super initWithTextStorage:aTextStorage])) {
         I_lineNumber = aLineNumber;
     }
     return self;
 }
 
-- (void)dealloc
-{
-    [super dealloc];
-}
-
-- (NSRange)rangeRepresentation
-{
+- (NSRange)rangeRepresentation {
     NSUInteger startIndex;
     NSUInteger lineEndIndex;
     NSUInteger contentsEndIndex;
@@ -35,8 +28,7 @@
     return NSMakeRange(startIndex, lineEndIndex - startIndex);
 }
 
-- (NSRange)innerRangeRepresentation
-{
+- (NSRange)innerRangeRepresentation {
     NSUInteger startIndex;
     NSUInteger lineEndIndex;
     NSUInteger contentsEndIndex;
@@ -44,25 +36,23 @@
     return NSMakeRange(startIndex, contentsEndIndex - startIndex);
 }
 
-- (id)objectSpecifier
-{
+- (id)objectSpecifier {
 //    NSLog(@"%s", __FUNCTION__);
     
     NSScriptClassDescription *containerClassDesc = (NSScriptClassDescription *)[NSScriptClassDescription classDescriptionForClass:[FoldableTextStorage class]];
     NSScriptObjectSpecifier *containerSpecifier = [I_textStorage objectSpecifier];
 
     NSIndexSpecifier *indexSpecifier = 
-        [[[NSIndexSpecifier alloc] initWithContainerClassDescription:containerClassDesc
+        [[NSIndexSpecifier alloc] initWithContainerClassDescription:containerClassDesc
                                                   containerSpecifier:containerSpecifier
                                                                  key:@"scriptedLines"
-                                                               index:I_lineNumber-1] autorelease];
+                                                               index:I_lineNumber-1];
                                                                
     return indexSpecifier;
 }
 
 
-- (id)scriptedInnerContents
-{
+- (id)scriptedInnerContents {
     return [[I_textStorage string] substringWithRange:[self innerRangeRepresentation]];
 }
 

@@ -3,10 +3,6 @@
 //
 //  Created by Michael Ehrmann on 18.02.14.
 
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 #import "SEEDocumentListWindowController.h"
 #import "SEEDocumentListGroupTableRowView.h"
 
@@ -76,8 +72,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	}
 }
 
-- (id)initWithWindow:(NSWindow *)window
-{
+- (instancetype)initWithWindow:(NSWindow *)window {
     self = [super initWithWindow:window];
     if (self) {
 		self.availableItems = [NSMutableArray array];
@@ -117,8 +112,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 }
 
 
-- (void)dealloc
-{
+- (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self.otherWindowsBecomeKeyNotifivationObserver];
     [[NSNotificationCenter defaultCenter] removeObserver:self.recentDocumentsDidChangeNotifivationObserver];
 
@@ -132,8 +126,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 
 #pragma mark -
 
-- (void)windowDidLoad
-{
+- (void)windowDidLoad {
     [super windowDidLoad];
 
 	NSWindow *window = self.window;

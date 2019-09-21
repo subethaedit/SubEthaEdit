@@ -93,29 +93,29 @@ typedef enum _MAWindowPosition {
             Default: 0.
  */
 
-- (id)initWithView:(NSView *)view           // designated initializer
+- (instancetype)initWithView:(NSView *)view           // designated initializer
                    attachedToPoint:(NSPoint)point 
                           inWindow:(NSWindow *)window 
                             onSide:(MAWindowPosition)side 
                         atDistance:(float)distance;
-- (id)initWithView:(NSView *)view 
+- (instancetype)initWithView:(NSView *)view 
                    attachedToPoint:(NSPoint)point 
                           inWindow:(NSWindow *)window 
                         atDistance:(float)distance;
-- (id)initWithView:(NSView *)view 
+- (instancetype)initWithView:(NSView *)view 
                    attachedToPoint:(NSPoint)point 
                             onSide:(MAWindowPosition)side 
                         atDistance:(float)distance;
-- (id)initWithView:(NSView *)view 
+- (instancetype)initWithView:(NSView *)view 
                    attachedToPoint:(NSPoint)point 
                         atDistance:(float)distance;
-- (id)initWithView:(NSView *)view 
+- (instancetype)initWithView:(NSView *)view 
                    attachedToPoint:(NSPoint)point 
                           inWindow:(NSWindow *)window;
-- (id)initWithView:(NSView *)view 
+- (instancetype)initWithView:(NSView *)view 
                    attachedToPoint:(NSPoint)point 
                             onSide:(MAWindowPosition)side;
-- (id)initWithView:(NSView *)view 
+- (instancetype)initWithView:(NSView *)view 
                    attachedToPoint:(NSPoint)point;
 
 // Accessor methods

@@ -15,7 +15,7 @@
 }
 
 + (SelectionOperation *)selectionOperationWithRange:(NSRange)aRange userID:(NSString *)aUserID {
-    SelectionOperation *result = [[SelectionOperation new] autorelease];
+    SelectionOperation *result = [SelectionOperation new];
     [result setSelectedRange:aRange];
     [result setUserID:aUserID];
     return result;
@@ -60,11 +60,11 @@
     return @"sel";
 }
 
-- (id)initWithDictionaryRepresentation:(NSDictionary *)aDictionary {
+- (instancetype)initWithDictionaryRepresentation:(NSDictionary *)aDictionary {
     self = [super initWithDictionaryRepresentation:aDictionary];
     if (self) {
-        I_selectedRange.location = [[aDictionary objectForKey:@"loc"] unsignedIntValue];
-        I_selectedRange.length = [[aDictionary objectForKey:@"len"] unsignedIntValue];
+        _selectedRange.location = [[aDictionary objectForKey:@"loc"] unsignedIntValue];
+        _selectedRange.length = [[aDictionary objectForKey:@"len"] unsignedIntValue];
         //NSLog(@"operation: %@", [self description]);
     }
     return self;
@@ -78,31 +78,19 @@
     return copy;
 }
 
-- (void)dealloc {
-    [super dealloc];
-}
-
 - (NSDictionary *)dictionaryRepresentation {
-    NSMutableDictionary *dict = [[[super dictionaryRepresentation] mutableCopy] autorelease];
-    [dict setObject:[NSNumber numberWithUnsignedInt:I_selectedRange.location] forKey:@"loc"];
-    [dict setObject:[NSNumber numberWithUnsignedInt:I_selectedRange.length] forKey:@"len"];
+    NSMutableDictionary *dict = [[super dictionaryRepresentation] mutableCopy];
+    [dict setObject:[NSNumber numberWithUnsignedInt:_selectedRange.location] forKey:@"loc"];
+    [dict setObject:[NSNumber numberWithUnsignedInt:_selectedRange.length] forKey:@"len"];
     return dict;
 }
 
 - (BOOL)isEqualTo:(id)anObject {
-    return ([super isEqualTo:anObject] && NSEqualRanges(I_selectedRange,[anObject selectedRange]));
-}
-
-- (NSRange)selectedRange {
-    return I_selectedRange;
-}
-
-- (void)setSelectedRange:(NSRange)aRange {
-    I_selectedRange = aRange;
+    return ([super isEqualTo:anObject] && NSEqualRanges(_selectedRange,[anObject selectedRange]));
 }
 
 - (NSRange)rangeValue {
-	return I_selectedRange;
+	return _selectedRange;
 }
 
 - (NSString *)description {

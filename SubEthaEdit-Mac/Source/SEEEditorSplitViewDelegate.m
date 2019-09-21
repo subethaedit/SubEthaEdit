@@ -3,10 +3,6 @@
 //
 //  Created by Michael Ehrmann on 18.03.14.
 
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 #import "SEEEditorSplitViewDelegate.h"
 #import "PlainTextWindowControllerTabContext.h"
 #import "SEESplitView.h"

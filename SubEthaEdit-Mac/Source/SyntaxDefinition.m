@@ -3,13 +3,6 @@
 //
 //  Created by Martin Pittenauer on Wed Mar 17 2004.
 
-// this file needs arc - either project wide,
-// or add -fobjc-arc on a per file basis in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
-
 #import "DocumentModeManager.h"
 #import "SyntaxDefinition.h"
 #import "NSColorTCMAdditions.h"
@@ -33,7 +26,7 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 @synthesize linkedStyleSheets = I_linkedStyleSheets;
 
 /*"Initiates the Syntax Definition with an XML file"*/
-- (id)initWithFile:(NSString *)aPath forMode:(DocumentMode *)aMode {
+- (instancetype)initWithFile:(NSString *)aPath forMode:(DocumentMode *)aMode {
     self=[super init];
     if (self) {
         if (!aPath) {
@@ -83,10 +76,10 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 -(void) showWarning:(NSString *)title withDescription:(NSString *)description {
 	NSLog(@"ERROR: %@: %@",title, description);
 	NSAlert *alert = [[NSAlert alloc] init];
-	[alert setAlertStyle:NSWarningAlertStyle];
+	[alert setAlertStyle:NSAlertStyleWarning];
 	[alert setMessageText:title];
 	[alert setInformativeText:description];
-	[alert addButtonWithTitle:@"OK"];
+	[alert addButtonWithTitle:NSLocalizedString(@"OK",@"OK button in dialogs and sheets")];
 	[alert runModal];
 	everythingOkay = NO;
 }
@@ -1037,7 +1030,7 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
     }
 
 
-    int combinedStringLength = [combinedString length];
+    NSUInteger combinedStringLength = [combinedString length];
     if ((combinedStringLength>1)||(endString)) {
         if (endString) { // Any states except the default
             [combinedString appendString:[NSString stringWithFormat:@"(?<seeinternalgroup4242>%@)",endString]];

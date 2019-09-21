@@ -8,6 +8,6 @@
 @class PlainTextWindowControllerTabContext;
 
 @interface SEEParticipantsOverlayViewController : NSViewController
-- (id)initWithTabContext:(PlainTextWindowControllerTabContext *)aTabContext;
+- (instancetype)initWithTabContext:(PlainTextWindowControllerTabContext *)aTabContext;
 - (void)updateColorsForIsDarkBackground:(BOOL)isDark;
 @end

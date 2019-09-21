@@ -13,10 +13,7 @@
 			buildPhases = (
 			);
 			dependencies = (
-				F250EAD1216A16BE00B94A0B /* PBXTargetDependency */,
 				F250EACF216A16BA00B94A0B /* PBXTargetDependency */,
-				F250EACD216A16B600B94A0B /* PBXTargetDependency */,
-				F250EACB216A16B100B94A0B /* PBXTargetDependency */,
 				4DC412B9091519B70029A2A6 /* PBXTargetDependency */,
 			);
 			name = All;
@@ -25,159 +22,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		2C6C980B22F8AC2900304CA6 /* libonigmo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D9DBE2B09BAB999003DD4A8 /* libonigmo.a */; };
 		4D4F202D1142243700CD9C2F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4DF530CE0915226200475575 /* InfoPlist.strings */; };
-		4D9DBE2C09BAB999003DD4A8 /* libonig.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D9DBE2B09BAB999003DD4A8 /* libonig.a */; };
-		4D9DBE2D09BAB999003DD4A8 /* libonig.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D9DBE2B09BAB999003DD4A8 /* libonig.a */; };
-		4DA73FBA1142894300E28DA7 /* OgreTextFindProgressDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DA73FB91142894300E28DA7 /* OgreTextFindProgressDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4DC40E5E09150CF50029A2A6 /* OGRegularExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D5009150CEB0029A2A6 /* OGRegularExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4DC40E5F09150CF50029A2A6 /* OGRegularExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40D5109150CEB0029A2A6 /* OGRegularExpression.m */; };
-		4DC40E6009150CF50029A2A6 /* OGRegularExpressionPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D5209150CEB0029A2A6 /* OGRegularExpressionPrivate.h */; };
-		4DC40E6109150CF50029A2A6 /* OGRegularExpressionPrivate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40D5309150CEB0029A2A6 /* OGRegularExpressionPrivate.m */; };
-		4DC40E6209150CF50029A2A6 /* OGRegularExpressionEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D5409150CEB0029A2A6 /* OGRegularExpressionEnumerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4DC40E6309150CF50029A2A6 /* OGRegularExpressionEnumerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40D5509150CEB0029A2A6 /* OGRegularExpressionEnumerator.m */; };
-		4DC40E6409150CF50029A2A6 /* OGRegularExpressionEnumeratorPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D5609150CEB0029A2A6 /* OGRegularExpressionEnumeratorPrivate.h */; };
-		4DC40E6509150CF50029A2A6 /* OGRegularExpressionEnumeratorPrivate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40D5709150CEB0029A2A6 /* OGRegularExpressionEnumeratorPrivate.m */; };
-		4DC40E6609150CF50029A2A6 /* OGRegularExpressionMatch.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D5809150CEB0029A2A6 /* OGRegularExpressionMatch.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4DC40E6709150CF50029A2A6 /* OGRegularExpressionMatch.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40D5909150CEB0029A2A6 /* OGRegularExpressionMatch.m */; };
-		4DC40E6809150CF50029A2A6 /* OGRegularExpressionMatchPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D5A09150CEB0029A2A6 /* OGRegularExpressionMatchPrivate.h */; };
-		4DC40E6909150CF50029A2A6 /* OGRegularExpressionMatchPrivate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40D5B09150CEB0029A2A6 /* OGRegularExpressionMatchPrivate.m */; };
-		4DC40E6A09150CF50029A2A6 /* OGRegularExpressionCapture.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D5C09150CEB0029A2A6 /* OGRegularExpressionCapture.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4DC40E6B09150CF50029A2A6 /* OGRegularExpressionCapture.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40D5D09150CEB0029A2A6 /* OGRegularExpressionCapture.m */; };
-		4DC40E6C09150CF50029A2A6 /* OGRegularExpressionCapturePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D5E09150CEB0029A2A6 /* OGRegularExpressionCapturePrivate.h */; };
-		4DC40E6D09150CF50029A2A6 /* OGRegularExpressionCapturePrivate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40D5F09150CEB0029A2A6 /* OGRegularExpressionCapturePrivate.m */; };
-		4DC40E6E09150CF50029A2A6 /* OGReplaceExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D6009150CEB0029A2A6 /* OGReplaceExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4DC40E6F09150CF50029A2A6 /* OGReplaceExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40D6109150CEB0029A2A6 /* OGReplaceExpression.m */; };
-		4DC40E7009150CF50029A2A6 /* OGReplaceExpressionPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D6209150CEB0029A2A6 /* OGReplaceExpressionPrivate.h */; };
-		4DC40E7109150CF50029A2A6 /* OGReplaceExpressionPrivate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40D6309150CEB0029A2A6 /* OGReplaceExpressionPrivate.m */; };
-		4DC40E7209150CF50029A2A6 /* OGRegularExpressionFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D6409150CEB0029A2A6 /* OGRegularExpressionFormatter.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4DC40E7309150CF50029A2A6 /* OGRegularExpressionFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40D6509150CEB0029A2A6 /* OGRegularExpressionFormatter.m */; };
-		4DC40E7409150CF50029A2A6 /* OGString.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D6709150CEB0029A2A6 /* OGString.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4DC40E7509150CF50029A2A6 /* OGString.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40D6809150CEB0029A2A6 /* OGString.m */; };
-		4DC40E7609150CF50029A2A6 /* OGMutableString.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D6909150CEB0029A2A6 /* OGMutableString.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4DC40E7709150CF50029A2A6 /* OGPlainString.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D6B09150CEB0029A2A6 /* OGPlainString.h */; };
-		4DC40E7809150CF50029A2A6 /* OGPlainString.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40D6C09150CEB0029A2A6 /* OGPlainString.m */; };
-		4DC40E7909150CF50029A2A6 /* OGMutablePlainString.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D6D09150CEB0029A2A6 /* OGMutablePlainString.h */; };
-		4DC40E7A09150CF50029A2A6 /* OGMutablePlainString.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40D6E09150CEB0029A2A6 /* OGMutablePlainString.m */; };
-		4DC40E7B09150CF50029A2A6 /* OGAttributedString.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D7009150CEB0029A2A6 /* OGAttributedString.h */; };
-		4DC40E7C09150CF50029A2A6 /* OGAttributedString.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40D7109150CEC0029A2A6 /* OGAttributedString.m */; };
-		4DC40E7D09150CF50029A2A6 /* OGMutableAttributedString.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D7209150CEC0029A2A6 /* OGMutableAttributedString.h */; };
-		4DC40E7E09150CF50029A2A6 /* OGMutableAttributedString.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40D7309150CEC0029A2A6 /* OGMutableAttributedString.m */; };
-		4DC40E7F09150CF50029A2A6 /* NSString_OgreKitAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D7409150CEC0029A2A6 /* NSString_OgreKitAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4DC40E8009150CF50029A2A6 /* NSString_OgreKitAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40D7509150CEC0029A2A6 /* NSString_OgreKitAdditions.m */; };
-		4DC40E8109150CF50029A2A6 /* OgreTextFinder.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D7809150CEC0029A2A6 /* OgreTextFinder.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4DC40E8209150CF50029A2A6 /* OgreTextFinder.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40D7909150CEC0029A2A6 /* OgreTextFinder.m */; };
-		4DC40E8309150CF50029A2A6 /* OgreTextFindThread.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D7B09150CEC0029A2A6 /* OgreTextFindThread.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4DC40E8409150CF50029A2A6 /* OgreTextFindThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40D7C09150CEC0029A2A6 /* OgreTextFindThread.m */; };
-		4DC40E8509150CF50029A2A6 /* OgreFindAllThread.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D7E09150CEC0029A2A6 /* OgreFindAllThread.h */; };
-		4DC40E8609150CF50029A2A6 /* OgreFindAllThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40D7F09150CEC0029A2A6 /* OgreFindAllThread.m */; };
-		4DC40E8709150CF50029A2A6 /* OgreReplaceAllThread.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D8009150CEC0029A2A6 /* OgreReplaceAllThread.h */; };
-		4DC40E8809150CF50029A2A6 /* OgreReplaceAllThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40D8109150CEC0029A2A6 /* OgreReplaceAllThread.m */; };
-		4DC40E8909150CF50029A2A6 /* OgreHighlightThread.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D8209150CEC0029A2A6 /* OgreHighlightThread.h */; };
-		4DC40E8A09150CF50029A2A6 /* OgreHighlightThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40D8309150CEC0029A2A6 /* OgreHighlightThread.m */; };
-		4DC40E8B09150CF50029A2A6 /* OgreUnhighlightThread.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D8409150CEC0029A2A6 /* OgreUnhighlightThread.h */; };
-		4DC40E8C09150CF50029A2A6 /* OgreUnhighlightThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40D8509150CEC0029A2A6 /* OgreUnhighlightThread.m */; };
-		4DC40E8D09150CF50029A2A6 /* OgreFindThread.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D8609150CEC0029A2A6 /* OgreFindThread.h */; };
-		4DC40E8E09150CF50029A2A6 /* OgreFindThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40D8709150CEC0029A2A6 /* OgreFindThread.m */; };
-		4DC40E8F09150CF50029A2A6 /* OgreReplaceAndFindThread.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D8809150CEC0029A2A6 /* OgreReplaceAndFindThread.h */; };
-		4DC40E9009150CF50029A2A6 /* OgreReplaceAndFindThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40D8909150CEC0029A2A6 /* OgreReplaceAndFindThread.m */; };
-		4DC40E9109150CF50029A2A6 /* OgreTextFindComponent.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D8B09150CEC0029A2A6 /* OgreTextFindComponent.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4DC40E9209150CF50029A2A6 /* OgreTextFindRoot.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D8C09150CEC0029A2A6 /* OgreTextFindRoot.h */; };
-		4DC40E9309150CF50029A2A6 /* OgreTextFindRoot.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40D8D09150CEC0029A2A6 /* OgreTextFindRoot.m */; };
-		4DC40E9409150CF50029A2A6 /* OgreTextFindBranch.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D8E09150CEC0029A2A6 /* OgreTextFindBranch.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4DC40E9509150CF50029A2A6 /* OgreTextFindBranch.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40D8F09150CED0029A2A6 /* OgreTextFindBranch.m */; };
-		4DC40E9609150CF50029A2A6 /* OgreTextFindLeaf.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D9009150CED0029A2A6 /* OgreTextFindLeaf.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4DC40E9709150CF50029A2A6 /* OgreTextFindLeaf.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40D9109150CED0029A2A6 /* OgreTextFindLeaf.m */; };
-		4DC40E9809150CF50029A2A6 /* OgreTextFindComponentEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D9209150CED0029A2A6 /* OgreTextFindComponentEnumerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4DC40E9909150CF50029A2A6 /* OgreTextFindComponentEnumerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40D9309150CED0029A2A6 /* OgreTextFindComponentEnumerator.m */; };
-		4DC40E9A09150CF50029A2A6 /* OgreTextFindReverseComponentEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D9409150CED0029A2A6 /* OgreTextFindReverseComponentEnumerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4DC40E9B09150CF50029A2A6 /* OgreTextFindReverseComponentEnumerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40D9509150CED0029A2A6 /* OgreTextFindReverseComponentEnumerator.m */; };
-		4DC40E9C09150CF50029A2A6 /* OgreTextViewAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D9709150CED0029A2A6 /* OgreTextViewAdapter.h */; };
-		4DC40E9D09150CF50029A2A6 /* OgreTextViewAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40D9809150CED0029A2A6 /* OgreTextViewAdapter.m */; };
-		4DC40E9E09150CF50029A2A6 /* OgreTextViewPlainAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D9909150CED0029A2A6 /* OgreTextViewPlainAdapter.h */; };
-		4DC40E9F09150CF50029A2A6 /* OgreTextViewPlainAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40D9A09150CED0029A2A6 /* OgreTextViewPlainAdapter.m */; };
-		4DC40EA009150CF50029A2A6 /* OgreTextViewRichAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D9B09150CED0029A2A6 /* OgreTextViewRichAdapter.h */; };
-		4DC40EA109150CF50029A2A6 /* OgreTextViewRichAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40D9C09150CED0029A2A6 /* OgreTextViewRichAdapter.m */; };
-		4DC40EA209150CF50029A2A6 /* OgreTextViewGraphicAllowedAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D9D09150CED0029A2A6 /* OgreTextViewGraphicAllowedAdapter.h */; };
-		4DC40EA309150CF50029A2A6 /* OgreTextViewGraphicAllowedAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40D9E09150CED0029A2A6 /* OgreTextViewGraphicAllowedAdapter.m */; };
-		4DC40EA409150CF50029A2A6 /* OgreTextViewUndoer.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D9F09150CED0029A2A6 /* OgreTextViewUndoer.h */; };
-		4DC40EA509150CF50029A2A6 /* OgreTextViewUndoer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40DA009150CED0029A2A6 /* OgreTextViewUndoer.m */; };
-		4DC40EA609150CF50029A2A6 /* OgreTableViewAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40DA209150CED0029A2A6 /* OgreTableViewAdapter.h */; };
-		4DC40EA709150CF50029A2A6 /* OgreTableViewAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40DA309150CED0029A2A6 /* OgreTableViewAdapter.m */; };
-		4DC40EA809150CF50029A2A6 /* OgreTableColumnAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40DA409150CED0029A2A6 /* OgreTableColumnAdapter.h */; };
-		4DC40EA909150CF50029A2A6 /* OgreTableColumnAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40DA509150CED0029A2A6 /* OgreTableColumnAdapter.m */; };
-		4DC40EAA09150CF50029A2A6 /* OgreTableCellAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40DA609150CED0029A2A6 /* OgreTableCellAdapter.h */; };
-		4DC40EAB09150CF50029A2A6 /* OgreTableCellAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40DA709150CED0029A2A6 /* OgreTableCellAdapter.m */; };
-		4DC40EAC09150CF50029A2A6 /* OgreOutlineViewAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40DA909150CED0029A2A6 /* OgreOutlineViewAdapter.h */; };
-		4DC40EAD09150CF50029A2A6 /* OgreOutlineViewAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40DAA09150CED0029A2A6 /* OgreOutlineViewAdapter.m */; };
-		4DC40EAE09150CF50029A2A6 /* OgreOutlineColumnAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40DAB09150CED0029A2A6 /* OgreOutlineColumnAdapter.h */; };
-		4DC40EAF09150CF50029A2A6 /* OgreOutlineColumnAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40DAC09150CED0029A2A6 /* OgreOutlineColumnAdapter.m */; };
-		4DC40EB009150CF50029A2A6 /* OgreOutlineItemAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40DAD09150CED0029A2A6 /* OgreOutlineItemAdapter.h */; };
-		4DC40EB109150CF50029A2A6 /* OgreOutlineItemAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40DAE09150CED0029A2A6 /* OgreOutlineItemAdapter.m */; };
-		4DC40EB209150CF50029A2A6 /* OgreOutlineCellAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40DAF09150CED0029A2A6 /* OgreOutlineCellAdapter.h */; };
-		4DC40EB309150CF50029A2A6 /* OgreOutlineCellAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40DB009150CED0029A2A6 /* OgreOutlineCellAdapter.m */; };
-		4DC40EB409150CF50029A2A6 /* OgreTextFindResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40DB209150CEE0029A2A6 /* OgreTextFindResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4DC40EB509150CF50029A2A6 /* OgreTextFindResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40DB309150CEE0029A2A6 /* OgreTextFindResult.m */; };
-		4DC40EB609150CF50029A2A6 /* OgreFindResultRoot.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40DB409150CEE0029A2A6 /* OgreFindResultRoot.h */; };
-		4DC40EB709150CF50029A2A6 /* OgreFindResultRoot.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40DB509150CEE0029A2A6 /* OgreFindResultRoot.m */; };
-		4DC40EB809150CF50029A2A6 /* OgreFindResultBranch.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40DB609150CEE0029A2A6 /* OgreFindResultBranch.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4DC40EB909150CF50029A2A6 /* OgreFindResultBranch.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40DB709150CEE0029A2A6 /* OgreFindResultBranch.m */; };
-		4DC40EBA09150CF50029A2A6 /* OgreFindResultLeaf.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40DB809150CEE0029A2A6 /* OgreFindResultLeaf.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4DC40EBB09150CF50029A2A6 /* OgreFindResultLeaf.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40DB909150CEE0029A2A6 /* OgreFindResultLeaf.m */; };
-		4DC40EBC09150CF50029A2A6 /* OgreTextViewFindResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40DBB09150CEE0029A2A6 /* OgreTextViewFindResult.h */; };
-		4DC40EBD09150CF50029A2A6 /* OgreTextViewFindResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40DBC09150CEE0029A2A6 /* OgreTextViewFindResult.m */; };
-		4DC40EBE09150CF50029A2A6 /* OgreTextViewMatchFindResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40DBD09150CEE0029A2A6 /* OgreTextViewMatchFindResult.h */; };
-		4DC40EBF09150CF50029A2A6 /* OgreTextViewMatchFindResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40DBE09150CEE0029A2A6 /* OgreTextViewMatchFindResult.m */; };
-		4DC40EC009150CF50029A2A6 /* OgreTableViewFindResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40DC009150CEE0029A2A6 /* OgreTableViewFindResult.h */; };
-		4DC40EC109150CF50029A2A6 /* OgreTableViewFindResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40DC109150CEE0029A2A6 /* OgreTableViewFindResult.m */; };
-		4DC40EC209150CF50029A2A6 /* OgreTableColumnFindResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40DC209150CEE0029A2A6 /* OgreTableColumnFindResult.h */; };
-		4DC40EC309150CF50029A2A6 /* OgreTableColumnFindResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40DC309150CEE0029A2A6 /* OgreTableColumnFindResult.m */; };
-		4DC40EC409150CF50029A2A6 /* OgreTableCellFindResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40DC409150CEE0029A2A6 /* OgreTableCellFindResult.h */; };
-		4DC40EC509150CF50029A2A6 /* OgreTableCellFindResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40DC509150CEE0029A2A6 /* OgreTableCellFindResult.m */; };
-		4DC40EC609150CF50029A2A6 /* OgreTableCellMatchFindResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40DC609150CEE0029A2A6 /* OgreTableCellMatchFindResult.h */; };
-		4DC40EC709150CF50029A2A6 /* OgreTableCellMatchFindResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40DC709150CEE0029A2A6 /* OgreTableCellMatchFindResult.m */; };
-		4DC40EC809150CF50029A2A6 /* OgreOutlineViewFindResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40DC909150CEE0029A2A6 /* OgreOutlineViewFindResult.h */; };
-		4DC40EC909150CF50029A2A6 /* OgreOutlineViewFindResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40DCA09150CEE0029A2A6 /* OgreOutlineViewFindResult.m */; };
-		4DC40ECA09150CF50029A2A6 /* OgreOutlineColumnFindResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40DCB09150CEE0029A2A6 /* OgreOutlineColumnFindResult.h */; };
-		4DC40ECB09150CF50029A2A6 /* OgreOutlineColumnFindResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40DCC09150CEE0029A2A6 /* OgreOutlineColumnFindResult.m */; };
-		4DC40ECC09150CF50029A2A6 /* OgreOutlineItemFindResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40DCD09150CEE0029A2A6 /* OgreOutlineItemFindResult.h */; };
-		4DC40ECD09150CF50029A2A6 /* OgreOutlineItemFindResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40DCE09150CEE0029A2A6 /* OgreOutlineItemFindResult.m */; };
-		4DC40ECE09150CF50029A2A6 /* OgreOutlineCellFindResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40DCF09150CEE0029A2A6 /* OgreOutlineCellFindResult.h */; };
-		4DC40ECF09150CF50029A2A6 /* OgreOutlineCellFindResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40DD009150CEE0029A2A6 /* OgreOutlineCellFindResult.m */; };
-		4DC40ED009150CF50029A2A6 /* OgreOutlineCellMatchFindResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40DD109150CEE0029A2A6 /* OgreOutlineCellMatchFindResult.h */; };
-		4DC40ED109150CF50029A2A6 /* OgreOutlineCellMatchFindResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40DD209150CEE0029A2A6 /* OgreOutlineCellMatchFindResult.m */; };
-		4DC40ED209150CF50029A2A6 /* OgreView.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40DD409150CEF0029A2A6 /* OgreView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4DC40ED309150CF50029A2A6 /* OgreTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40DD609150CEF0029A2A6 /* OgreTextView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4DC40ED409150CF50029A2A6 /* OgreTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40DD709150CEF0029A2A6 /* OgreTextView.m */; };
-		4DC40ED509150CF50029A2A6 /* OgreTableView.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40DD909150CEF0029A2A6 /* OgreTableView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4DC40ED609150CF50029A2A6 /* OgreTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40DDA09150CEF0029A2A6 /* OgreTableView.m */; };
-		4DC40ED709150CF50029A2A6 /* OgreTableColumn.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40DDB09150CEF0029A2A6 /* OgreTableColumn.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4DC40ED809150CF50029A2A6 /* OgreTableColumn.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40DDC09150CEF0029A2A6 /* OgreTableColumn.m */; };
-		4DC40ED909150CF50029A2A6 /* OgreOutlineView.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40DDE09150CEF0029A2A6 /* OgreOutlineView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4DC40EDA09150CF50029A2A6 /* OgreOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40DDF09150CEF0029A2A6 /* OgreOutlineView.m */; };
-		4DC40EDB09150CF50029A2A6 /* OgreOutlineColumn.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40DE009150CEF0029A2A6 /* OgreOutlineColumn.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4DC40EDC09150CF50029A2A6 /* OgreOutlineColumn.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40DE109150CEF0029A2A6 /* OgreOutlineColumn.m */; };
-		4DC40EDD09150CF50029A2A6 /* OgreTextFindProgressSheet.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40DE309150CEF0029A2A6 /* OgreTextFindProgressSheet.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4DC40EDE09150CF50029A2A6 /* OgreTextFindProgressSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40DE409150CEF0029A2A6 /* OgreTextFindProgressSheet.m */; };
-		4DC40EDF09150CF50029A2A6 /* OgreFindResultWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40DE509150CEF0029A2A6 /* OgreFindResultWindowController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4DC40EE009150CF50029A2A6 /* OgreFindResultWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40DE609150CEF0029A2A6 /* OgreFindResultWindowController.m */; };
-		4DC40EE109150CF50029A2A6 /* OgreFindPanelController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40DE709150CEF0029A2A6 /* OgreFindPanelController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4DC40EE209150CF50029A2A6 /* OgreFindPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40DE809150CEF0029A2A6 /* OgreFindPanelController.m */; };
-		4DC40EE309150CF50029A2A6 /* OgreAdvancedFindPanelController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40DE909150CEF0029A2A6 /* OgreAdvancedFindPanelController.h */; };
-		4DC40EE409150CF50029A2A6 /* OgreAdvancedFindPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40DEA09150CEF0029A2A6 /* OgreAdvancedFindPanelController.m */; };
-		4DC40EE509150CF50029A2A6 /* OgreAFPCEscapeCharacterFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40DEB09150CEF0029A2A6 /* OgreAFPCEscapeCharacterFormatter.h */; };
-		4DC40EE609150CF50029A2A6 /* OgreAFPCEscapeCharacterFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40DEC09150CEF0029A2A6 /* OgreAFPCEscapeCharacterFormatter.m */; };
-		4DC40EE709150CF50029A2A6 /* OgreAdvancedFindPanel.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40DEE09150CEF0029A2A6 /* OgreAdvancedFindPanel.h */; };
-		4DC40EE809150CF50029A2A6 /* OgreAdvancedFindPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40DEF09150CEF0029A2A6 /* OgreAdvancedFindPanel.m */; };
-		4DC40EE909150CF50029A2A6 /* OgreAFPCOptionButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40DF009150CEF0029A2A6 /* OgreAFPCOptionButton.h */; };
-		4DC40EEA09150CF50029A2A6 /* OgreAFPCOptionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40DF109150CEF0029A2A6 /* OgreAFPCOptionButton.m */; };
-		4DC40EEB09150CF50029A2A6 /* OgreAttachableWindowAcceptee.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40DF309150CF00029A2A6 /* OgreAttachableWindowAcceptee.h */; };
-		4DC40EEC09150CF50029A2A6 /* OgreAttachableWindowAcceptee.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40DF409150CF00029A2A6 /* OgreAttachableWindowAcceptee.m */; };
-		4DC40EED09150CF50029A2A6 /* OgreAttachableWindowMediator.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40DF509150CF00029A2A6 /* OgreAttachableWindowMediator.h */; };
-		4DC40EEE09150CF50029A2A6 /* OgreAttachableWindowMediator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40DF609150CF00029A2A6 /* OgreAttachableWindowMediator.m */; };
-		4DC40EEF09150CF50029A2A6 /* OgreAttachableWindowAcceptor.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40DF709150CF00029A2A6 /* OgreAttachableWindowAcceptor.h */; };
-		4DC40EF009150CF50029A2A6 /* OgreAttachableWindowAcceptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40DF809150CF00029A2A6 /* OgreAttachableWindowAcceptor.m */; };
-		4DC40F4609150CF50029A2A6 /* OgreKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40E5509150CF30029A2A6 /* OgreKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4DC40F4809150CF50029A2A6 /* OgreKit_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40E5709150CF30029A2A6 /* OgreKit_Prefix.pch */; };
 		4DC40F4F09150CF50029A2A6 /* OGRegularExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D5009150CEB0029A2A6 /* OGRegularExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4DC40F5009150CF50029A2A6 /* OGRegularExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40D5109150CEB0029A2A6 /* OGRegularExpression.m */; };
 		4DC40F5109150CF50029A2A6 /* OGRegularExpressionPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D5209150CEB0029A2A6 /* OGRegularExpressionPrivate.h */; };
@@ -207,22 +53,6 @@
 		4DC4104609150D0E0029A2A6 /* OgreTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC4104009150D0D0029A2A6 /* OgreTest.m */; };
 		4DC4104709150D0E0029A2A6 /* Calc.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC4104209150D0E0029A2A6 /* Calc.m */; };
 		4DC4104809150D0E0029A2A6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC4104409150D0E0029A2A6 /* main.m */; };
-		4DC4107309150D560029A2A6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC4105909150D550029A2A6 /* main.m */; };
-		4DC4107409150D560029A2A6 /* MyMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC4105B09150D550029A2A6 /* MyMenuController.m */; };
-		4DC4107509150D560029A2A6 /* MyTextDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC4105E09150D550029A2A6 /* MyTextDocument.m */; };
-		4DC4107609150D560029A2A6 /* MyRTFDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC4106009150D550029A2A6 /* MyRTFDocument.m */; };
-		4DC4107709150D560029A2A6 /* MyTableDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC4106309150D550029A2A6 /* MyTableDocument.m */; };
-		4DC4107809150D560029A2A6 /* MyTableColumnSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC4106509150D550029A2A6 /* MyTableColumnSheet.m */; };
-		4DC4107909150D560029A2A6 /* MyOutlineDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC4106809150D550029A2A6 /* MyOutlineDocument.m */; };
-		4DC4107A09150D560029A2A6 /* MyFileWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC4106A09150D550029A2A6 /* MyFileWrapper.m */; };
-		4DC4107B09150D560029A2A6 /* MyOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC4106C09150D550029A2A6 /* MyOutlineView.m */; };
-		4DC4107C09150D560029A2A6 /* MyTableDocumentWithCocoaBinding.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC4106F09150D550029A2A6 /* MyTableDocumentWithCocoaBinding.m */; };
-		4DC4107D09150D560029A2A6 /* MyTableRowModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC4107109150D550029A2A6 /* MyTableRowModel.m */; };
-		4DC4108F09150D650029A2A6 /* MyTextFinder.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC4108309150D640029A2A6 /* MyTextFinder.m */; };
-		4DC4109009150D650029A2A6 /* MyFindPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC4108509150D640029A2A6 /* MyFindPanelController.m */; };
-		4DC4109109150D650029A2A6 /* MyDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC4108909150D640029A2A6 /* MyDocument.m */; };
-		4DC4109209150D650029A2A6 /* MyMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC4108B09150D650029A2A6 /* MyMenuController.m */; };
-		4DC4109309150D650029A2A6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC4108C09150D650029A2A6 /* main.m */; };
 		4DC410E8091512C10029A2A6 /* OGMutableString.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D6909150CEB0029A2A6 /* OGMutableString.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4DC410E9091512C20029A2A6 /* OGString.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40D6809150CEB0029A2A6 /* OGString.m */; };
 		4DC410EA091512C30029A2A6 /* OGString.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D6709150CEB0029A2A6 /* OGString.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -234,78 +64,22 @@
 		4DC410F0091512C90029A2A6 /* OGMutableAttributedString.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D7209150CEC0029A2A6 /* OGMutableAttributedString.h */; };
 		4DC410F1091512C90029A2A6 /* OGAttributedString.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40D7109150CEC0029A2A6 /* OGAttributedString.m */; };
 		4DC410F2091512CA0029A2A6 /* OGAttributedString.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D7009150CEB0029A2A6 /* OGAttributedString.h */; };
-		4DC4116D091514030029A2A6 /* OgreTextFindProgressSheet.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4DC41163091514030029A2A6 /* OgreTextFindProgressSheet.nib */; };
-		4DC4116E091514030029A2A6 /* OgreAPFCLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4DC41165091514030029A2A6 /* OgreAPFCLocalizable.strings */; };
-		4DC4116F091514030029A2A6 /* OgreFindResultWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4DC41167091514030029A2A6 /* OgreFindResultWindow.nib */; };
-		4DC41170091514030029A2A6 /* OgreAdvancedFindPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4DC41169091514030029A2A6 /* OgreAdvancedFindPanel.nib */; };
-		4DC41171091514030029A2A6 /* OgreTextFinderLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4DC4116B091514030029A2A6 /* OgreTextFinderLocalizable.strings */; };
-		4DC411C9091514D70029A2A6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4DC411C7091514D70029A2A6 /* InfoPlist.strings */; };
-		4DC411D5091515930029A2A6 /* ReadMe.rtf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4DC40D4B09150CEA0029A2A6 /* ReadMe.rtf */; };
-		4DC411D6091515930029A2A6 /* License.txt in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4DC40D4C09150CEA0029A2A6 /* License.txt */; };
 		4DC411D70915159A0029A2A6 /* ReadMe.rtf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4DC40D4B09150CEA0029A2A6 /* ReadMe.rtf */; };
 		4DC411D80915159A0029A2A6 /* License.txt in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4DC40D4C09150CEA0029A2A6 /* License.txt */; };
 		4DC41271091518E60029A2A6 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DC40BFC09150BDB0029A2A6 /* OgreKit.framework */; };
-		4DC41272091518EC0029A2A6 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DC40BFC09150BDB0029A2A6 /* OgreKit.framework */; };
-		4DC41273091518F10029A2A6 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DC40BFC09150BDB0029A2A6 /* OgreKit.framework */; };
 		4DC41274091518F60029A2A6 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DC40BFC09150BDB0029A2A6 /* OgreKit.framework */; };
 		4DC4127C0915191C0029A2A6 /* OgreKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4DC40BFC09150BDB0029A2A6 /* OgreKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		4DC412AB0915192A0029A2A6 /* OgreKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4DC40BFC09150BDB0029A2A6 /* OgreKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		4DC412AE0915193C0029A2A6 /* OgreKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4DC40BFC09150BDB0029A2A6 /* OgreKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4DC412B10915194C0029A2A6 /* OgreKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4DC40BFC09150BDB0029A2A6 /* OgreKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4DC4134309151C2E0029A2A6 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4DC4133F09151C2D0029A2A6 /* MainMenu.nib */; };
 		4DC4134409151C2E0029A2A6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4DC4134109151C2E0029A2A6 /* InfoPlist.strings */; };
-		4DC4135609151CA60029A2A6 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4DC4135009151CA60029A2A6 /* MainMenu.nib */; };
-		4DC4135709151CA60029A2A6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4DC4135209151CA60029A2A6 /* InfoPlist.strings */; };
-		4DC4135809151CA60029A2A6 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 4DC4135409151CA60029A2A6 /* Credits.rtf */; };
-		4DC4135B09151CC50029A2A6 /* MyTableDocumentWithCocoaBinding.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4DC4135909151CC50029A2A6 /* MyTableDocumentWithCocoaBinding.nib */; };
-		4DC4136009151CD80029A2A6 /* MyTableDocument.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4DC4135C09151CD80029A2A6 /* MyTableDocument.nib */; };
-		4DC4136109151CD80029A2A6 /* MyTableColumnSheet.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4DC4135E09151CD80029A2A6 /* MyTableColumnSheet.nib */; };
-		4DC4136409151CE50029A2A6 /* MyOutlineDocument.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4DC4136209151CE50029A2A6 /* MyOutlineDocument.nib */; };
-		4DC4136909151CF40029A2A6 /* MyRTFDocument.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4DC4136509151CF40029A2A6 /* MyRTFDocument.nib */; };
-		4DC4136A09151CF40029A2A6 /* MyTextDocument.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4DC4136709151CF40029A2A6 /* MyTextDocument.nib */; };
-		4DC4136D09151D1A0029A2A6 /* MyFindPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4DC4136B09151D1A0029A2A6 /* MyFindPanel.nib */; };
-		4DC4137409151D320029A2A6 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 4DC4136E09151D320029A2A6 /* Credits.rtf */; };
-		4DC4137509151D320029A2A6 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4DC4137009151D320029A2A6 /* MainMenu.nib */; };
-		4DC4137609151D320029A2A6 /* MyDocument.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4DC4137209151D320029A2A6 /* MyDocument.nib */; };
 		4DF530C00915221700475575 /* ReplaceWithAttributesTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DF530BB0915221700475575 /* ReplaceWithAttributesTest.m */; };
 		4DF530C20915221700475575 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DF530BD0915221700475575 /* main.m */; };
 		4DF530D30915226200475575 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4DF530D00915226200475575 /* MainMenu.nib */; };
-		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
-		F2170207215A458B007A2C35 /* oniguruma.h in Headers */ = {isa = PBXBuildFile; fileRef = F2170206215A458B007A2C35 /* oniguruma.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F2170208215A458B007A2C35 /* oniguruma.h in Headers */ = {isa = PBXBuildFile; fileRef = F2170206215A458B007A2C35 /* oniguruma.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F217020B215A47B4007A2C35 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F217020A215A47B4007A2C35 /* AppKit.framework */; };
+		F2170208215A458B007A2C35 /* onigmo.h in Headers */ = {isa = PBXBuildFile; fileRef = F2170206215A458B007A2C35 /* onigmo.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F250EAC9216A161F00B94A0B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F250EAC8216A161F00B94A0B /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		4D6EA0E5096ACECA0010762A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
-			remoteInfo = "OgreKit (Full Features)";
-		};
-		4D6EA0E7096ACED60010762A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
-			remoteInfo = "OgreKit (Full Features)";
-		};
-		4D6EA0E9096ACEDC0010762A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
-			remoteInfo = "OgreKit (Full Features)";
-		};
-		4D82DCCB09B9ECDB007F03B0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 4D82DCCA09B9ECD1007F03B0;
-			remoteInfo = Oniguruma;
-		};
 		4D82DCCD09B9ECDE007F03B0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
@@ -320,27 +94,6 @@
 			remoteGlobalIDString = 4DC40C0309150C280029A2A6;
 			remoteInfo = "Regular Expression Test";
 		};
-		4DC412C0091519C90029A2A6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
-			remoteInfo = "OgreKit (Full Features)";
-		};
-		F250EACA216A16B100B94A0B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
-			remoteInfo = "OgreKit (Full Features)";
-		};
-		F250EACC216A16B600B94A0B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 4DC40C0E09150C3E0029A2A6;
-			remoteInfo = "Find Panel Test";
-		};
 		F250EACE216A16BA00B94A0B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
@@ -348,36 +101,9 @@
 			remoteGlobalIDString = 4DC40C2F09150C9E0029A2A6;
 			remoteInfo = "Replace With Attributes Test";
 		};
-		F250EAD0216A16BE00B94A0B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 4DC40C1909150C720029A2A6;
-			remoteInfo = "My Find Panel Example";
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		4DC411CD091515400029A2A6 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = Documentation/OgreKit;
-			dstSubfolderSpec = 7;
-			files = (
-				4DC411D5091515930029A2A6 /* ReadMe.rtf in CopyFiles */,
-				4DC411D6091515930029A2A6 /* License.txt in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		4DC411CF0915155E0029A2A6 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = Documentation/OniGuruma;
-			dstSubfolderSpec = 7;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		4DC411D1091515700029A2A6 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -408,26 +134,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		4DC412A7091519220029A2A6 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				4DC412AB0915192A0029A2A6 /* OgreKit.framework in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		4DC412AC091519310029A2A6 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				4DC412AE0915193C0029A2A6 /* OgreKit.framework in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		4DC412AF091519430029A2A6 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -444,12 +150,10 @@
 		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		4D9DBE2B09BAB999003DD4A8 /* libonig.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libonig.a; path = RegularExpression/oniguruma/universal/libonig.a; sourceTree = "<group>"; };
+		4D9DBE2B09BAB999003DD4A8 /* libonigmo.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libonigmo.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DA73FB91142894300E28DA7 /* OgreTextFindProgressDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OgreTextFindProgressDelegate.h; path = FindPanel/OgreTextFindThreads/OgreTextFindProgressDelegate.h; sourceTree = SOURCE_ROOT; };
 		4DC40BFC09150BDB0029A2A6 /* OgreKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OgreKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DC40C0409150C280029A2A6 /* OgreTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OgreTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		4DC40C0F09150C3E0029A2A6 /* OgreFindPanelTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OgreFindPanelTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		4DC40C1A09150C730029A2A6 /* MyFindPanelExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyFindPanelExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DC40C3009150C9E0029A2A6 /* ReplaceWithAttributesTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReplaceWithAttributesTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DC40D4B09150CEA0029A2A6 /* ReadMe.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = ReadMe.rtf; path = RegularExpression/Documentation/ReadMe.rtf; sourceTree = SOURCE_ROOT; };
 		4DC40D4C09150CEA0029A2A6 /* License.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = License.txt; path = RegularExpression/Documentation/License.txt; sourceTree = SOURCE_ROOT; };
@@ -603,7 +307,6 @@
 		4DC40E5509150CF30029A2A6 /* OgreKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OgreKit.h; path = RegularExpression/OgreKit.h; sourceTree = SOURCE_ROOT; };
 		4DC40E5609150CF30029A2A6 /* OgreKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OgreKit.h; path = RegularExpression/OgreKitWithoutFindPanel/OgreKit.h; sourceTree = SOURCE_ROOT; };
 		4DC40E5709150CF30029A2A6 /* OgreKit_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OgreKit_Prefix.pch; path = RegularExpression/OgreKit_Prefix.pch; sourceTree = SOURCE_ROOT; };
-		4DC40E5809150CF40029A2A6 /* version.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = version.plist; path = RegularExpression/version.plist; sourceTree = SOURCE_ROOT; };
 		4DC4103F09150D0D0029A2A6 /* OgreTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OgreTest.h; path = RegularExpressionTest/OgreTest.h; sourceTree = SOURCE_ROOT; };
 		4DC4104009150D0D0029A2A6 /* OgreTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OgreTest.m; path = RegularExpressionTest/OgreTest.m; sourceTree = SOURCE_ROOT; };
 		4DC4104109150D0E0029A2A6 /* Calc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Calc.h; path = RegularExpressionTest/Calc.h; sourceTree = SOURCE_ROOT; };
@@ -642,46 +345,24 @@
 		4DC4108B09150D650029A2A6 /* MyMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyMenuController.m; path = MyFindPanelExample/MyMenuController.m; sourceTree = SOURCE_ROOT; };
 		4DC4108C09150D650029A2A6 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = MyFindPanelExample/main.m; sourceTree = SOURCE_ROOT; };
 		4DC4108D09150D650029A2A6 /* MyFindPanelExample_Prefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyFindPanelExample_Prefix.h; path = MyFindPanelExample/MyFindPanelExample_Prefix.h; sourceTree = SOURCE_ROOT; };
-		4DC41166091514030029A2A6 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/OgreAPFCLocalizable.strings; sourceTree = "<group>"; };
-		4DC4116C091514030029A2A6 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/OgreTextFinderLocalizable.strings; sourceTree = "<group>"; };
-		4DC41175091514240029A2A6 /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Dutch; path = Dutch.lproj/OgreAdvancedFindPanel.nib; sourceTree = "<group>"; };
-		4DC411770915142C0029A2A6 /* Dutch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Dutch; path = Dutch.lproj/OgreAPFCLocalizable.strings; sourceTree = "<group>"; };
-		4DC411780915142C0029A2A6 /* Dutch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Dutch; path = Dutch.lproj/OgreTextFinderLocalizable.strings; sourceTree = "<group>"; };
-		4DC4117A0915143A0029A2A6 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = French.lproj/OgreAdvancedFindPanel.nib; sourceTree = "<group>"; };
-		4DC4117B0915143A0029A2A6 /* French */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/OgreAPFCLocalizable.strings; sourceTree = "<group>"; };
-		4DC4117C0915143A0029A2A6 /* French */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/OgreTextFinderLocalizable.strings; sourceTree = "<group>"; };
-		4DC4117E091514450029A2A6 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/OgreAdvancedFindPanel.nib; sourceTree = "<group>"; };
-		4DC4117F091514450029A2A6 /* German */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/OgreAPFCLocalizable.strings; sourceTree = "<group>"; };
-		4DC41180091514450029A2A6 /* German */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/OgreTextFinderLocalizable.strings; sourceTree = "<group>"; };
-		4DC41182091514510029A2A6 /* Italian */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Italian; path = Italian.lproj/OgreAdvancedFindPanel.nib; sourceTree = "<group>"; };
-		4DC41183091514510029A2A6 /* Italian */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Italian; path = Italian.lproj/OgreAPFCLocalizable.strings; sourceTree = "<group>"; };
-		4DC41184091514510029A2A6 /* Italian */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Italian; path = Italian.lproj/OgreTextFinderLocalizable.strings; sourceTree = "<group>"; };
-		4DC411860915145D0029A2A6 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/OgreAdvancedFindPanel.nib; sourceTree = "<group>"; };
-		4DC411870915145D0029A2A6 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/OgreAPFCLocalizable.strings; sourceTree = "<group>"; };
-		4DC411880915145D0029A2A6 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/OgreTextFinderLocalizable.strings; sourceTree = "<group>"; };
-		4DC4118A091514680029A2A6 /* Portuguese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Portuguese; path = Portuguese.lproj/OgreAdvancedFindPanel.nib; sourceTree = "<group>"; };
-		4DC4118B091514680029A2A6 /* Portuguese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Portuguese; path = Portuguese.lproj/OgreAPFCLocalizable.strings; sourceTree = "<group>"; };
-		4DC4118C091514680029A2A6 /* Portuguese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Portuguese; path = Portuguese.lproj/OgreTextFinderLocalizable.strings; sourceTree = "<group>"; };
-		4DC4118E091514710029A2A6 /* Romanian */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Romanian; path = Romanian.lproj/OgreAdvancedFindPanel.nib; sourceTree = "<group>"; };
-		4DC4118F091514710029A2A6 /* Romanian */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Romanian; path = Romanian.lproj/OgreAPFCLocalizable.strings; sourceTree = "<group>"; };
-		4DC41190091514710029A2A6 /* Romanian */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Romanian; path = Romanian.lproj/OgreTextFinderLocalizable.strings; sourceTree = "<group>"; };
-		4DC411920915147B0029A2A6 /* Spanish */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Spanish; path = Spanish.lproj/OgreAdvancedFindPanel.nib; sourceTree = "<group>"; };
-		4DC411930915147B0029A2A6 /* Spanish */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Spanish; path = Spanish.lproj/OgreAPFCLocalizable.strings; sourceTree = "<group>"; };
-		4DC411940915147B0029A2A6 /* Spanish */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Spanish; path = Spanish.lproj/OgreTextFinderLocalizable.strings; sourceTree = "<group>"; };
-		4DC411C8091514D70029A2A6 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = RegularExpression/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		4DC4134209151C2E0029A2A6 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = RegularExpressionTest/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		4DC4135309151CA60029A2A6 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = FindPanelTest/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		4DC4135509151CA60029A2A6 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = FindPanelTest/English.lproj/Credits.rtf; sourceTree = "<group>"; };
-		4DC4136F09151D320029A2A6 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = MyFindPanelExample/English.lproj/Credits.rtf; sourceTree = "<group>"; };
 		4DF530BA0915221700475575 /* ReplaceWithAttributesTest_Prefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReplaceWithAttributesTest_Prefix.h; path = ReplaceWithAttributesTest/ReplaceWithAttributesTest_Prefix.h; sourceTree = "<group>"; };
 		4DF530BB0915221700475575 /* ReplaceWithAttributesTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReplaceWithAttributesTest.m; path = ReplaceWithAttributesTest/ReplaceWithAttributesTest.m; sourceTree = "<group>"; };
 		4DF530BC0915221700475575 /* ReplaceWithAttributesTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReplaceWithAttributesTest.h; path = ReplaceWithAttributesTest/ReplaceWithAttributesTest.h; sourceTree = "<group>"; };
 		4DF530BD0915221700475575 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ReplaceWithAttributesTest/main.m; sourceTree = "<group>"; };
 		4DF530BE0915221700475575 /* ReplaceWithAttributesTest-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "ReplaceWithAttributesTest-Info.plist"; path = "ReplaceWithAttributesTest/ReplaceWithAttributesTest-Info.plist"; sourceTree = "<group>"; };
-		4DF530CF0915226200475575 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = ReplaceWithAttributesTest/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		8DC2EF5B0486A6940098B216 /* OgreKitFull.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OgreKitFull.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9EAD879A22F7936E000ADB59 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = FindPanelTest/en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		9EAD879B22F7936E000ADB59 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = FindPanelTest/en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		9EAD879C22F7936F000ADB59 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = MyFindPanelExample/en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		9EAD879D22F7936F000ADB59 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/OgreAPFCLocalizable.strings; sourceTree = "<group>"; };
+		9EAD879E22F7936F000ADB59 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/OgreTextFinderLocalizable.strings; sourceTree = "<group>"; };
+		9EAD879F22F7936F000ADB59 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = RegularExpression/en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		9EAD87A022F7936F000ADB59 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = RegularExpressionTest/en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		9EAD87A122F79370000ADB59 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = ReplaceWithAttributesTest/en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		9EAD87A222F79371000ADB59 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/OgreAPFCLocalizable.strings; sourceTree = "<group>"; };
+		9EAD87A322F79371000ADB59 /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = de.lproj/OgreAdvancedFindPanel.nib; sourceTree = "<group>"; };
+		9EAD87A422F79371000ADB59 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/OgreTextFinderLocalizable.strings; sourceTree = "<group>"; };
 		D2F7E79907B2D74100F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
-		F2170206215A458B007A2C35 /* oniguruma.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = oniguruma.h; path = x86_64/oniguruma.h; sourceTree = "<group>"; };
+		F2170206215A458B007A2C35 /* onigmo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = onigmo.h; path = x86_64/onigmo.h; sourceTree = BUILT_PRODUCTS_DIR; };
 		F217020A215A47B4007A2C35 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		F250EAA6216A05B400B94A0B /* Base */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Base; path = Base.lproj/OgreTextFindProgressSheet.nib; sourceTree = "<group>"; };
 		F250EAA7216A05B500B94A0B /* Base */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Base; path = Base.lproj/OgreFindResultWindow.nib; sourceTree = "<group>"; };
@@ -707,8 +388,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C6C980B22F8AC2900304CA6 /* libonigmo.a in Frameworks */,
 				F250EAC9216A161F00B94A0B /* Cocoa.framework in Frameworks */,
-				4D9DBE2D09BAB999003DD4A8 /* libonig.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -720,37 +401,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		4DC40C0D09150C3E0029A2A6 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4DC41272091518EC0029A2A6 /* OgreKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		4DC40C1809150C720029A2A6 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				F217020B215A47B4007A2C35 /* AppKit.framework in Frameworks */,
-				4DC41273091518F10029A2A6 /* OgreKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		4DC40C2E09150C9E0029A2A6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				4DC41274091518F60029A2A6 /* OgreKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8DC2EF560486A6940098B216 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */,
-				4D9DBE2C09BAB999003DD4A8 /* libonig.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -760,11 +415,8 @@
 		034768DFFF38A50411DB9C8B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8DC2EF5B0486A6940098B216 /* OgreKitFull.framework */,
 				4DC40BFC09150BDB0029A2A6 /* OgreKit.framework */,
 				4DC40C0409150C280029A2A6 /* OgreTest.app */,
-				4DC40C0F09150C3E0029A2A6 /* OgreFindPanelTest.app */,
-				4DC40C1A09150C730029A2A6 /* MyFindPanelExample.app */,
 				4DC40C3009150C9E0029A2A6 /* ReplaceWithAttributesTest.app */,
 			);
 			name = Products;
@@ -817,7 +469,7 @@
 		4D82DCC109B9EC15007F03B0 /* Linked Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				4D9DBE2B09BAB999003DD4A8 /* libonig.a */,
+				4D9DBE2B09BAB999003DD4A8 /* libonigmo.a */,
 			);
 			name = "Linked Libraries";
 			sourceTree = "<group>";
@@ -833,7 +485,6 @@
 				4DC40E5509150CF30029A2A6 /* OgreKit.h */,
 				4DC40E5609150CF30029A2A6 /* OgreKit.h */,
 				4DC40E5709150CF30029A2A6 /* OgreKit_Prefix.pch */,
-				4DC40E5809150CF40029A2A6 /* version.plist */,
 			);
 			name = OgreKit;
 			sourceTree = SOURCE_ROOT;
@@ -1194,11 +845,10 @@
 		4DC40DFA09150CF00029A2A6 /* oniguruma */ = {
 			isa = PBXGroup;
 			children = (
-				F2170206215A458B007A2C35 /* oniguruma.h */,
+				F2170206215A458B007A2C35 /* onigmo.h */,
 			);
 			name = oniguruma;
-			path = RegularExpression/oniguruma;
-			sourceTree = SOURCE_ROOT;
+			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		4DC40E5409150CF30029A2A6 /* Resources */ = {
 			isa = PBXGroup;
@@ -1400,7 +1050,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F2170208215A458B007A2C35 /* oniguruma.h in Headers */,
+				F2170208215A458B007A2C35 /* onigmo.h in Headers */,
 				4DC40F4F09150CF50029A2A6 /* OGRegularExpression.h in Headers */,
 				4DC40F5109150CF50029A2A6 /* OGRegularExpressionPrivate.h in Headers */,
 				4DC40F5309150CF50029A2A6 /* OGRegularExpressionEnumerator.h in Headers */,
@@ -1421,92 +1071,6 @@
 				4DC410EE091512C70029A2A6 /* OGPlainString.h in Headers */,
 				4DC410F0091512C90029A2A6 /* OGMutableAttributedString.h in Headers */,
 				4DC410F2091512CA0029A2A6 /* OGAttributedString.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8DC2EF500486A6940098B216 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4DA73FBA1142894300E28DA7 /* OgreTextFindProgressDelegate.h in Headers */,
-				4DC40E5E09150CF50029A2A6 /* OGRegularExpression.h in Headers */,
-				4DC40E6009150CF50029A2A6 /* OGRegularExpressionPrivate.h in Headers */,
-				4DC40E6209150CF50029A2A6 /* OGRegularExpressionEnumerator.h in Headers */,
-				4DC40E6409150CF50029A2A6 /* OGRegularExpressionEnumeratorPrivate.h in Headers */,
-				4DC40E6609150CF50029A2A6 /* OGRegularExpressionMatch.h in Headers */,
-				4DC40E6809150CF50029A2A6 /* OGRegularExpressionMatchPrivate.h in Headers */,
-				4DC40E6A09150CF50029A2A6 /* OGRegularExpressionCapture.h in Headers */,
-				4DC40E6C09150CF50029A2A6 /* OGRegularExpressionCapturePrivate.h in Headers */,
-				4DC40E6E09150CF50029A2A6 /* OGReplaceExpression.h in Headers */,
-				4DC40E7009150CF50029A2A6 /* OGReplaceExpressionPrivate.h in Headers */,
-				4DC40E7209150CF50029A2A6 /* OGRegularExpressionFormatter.h in Headers */,
-				4DC40E7409150CF50029A2A6 /* OGString.h in Headers */,
-				4DC40E7609150CF50029A2A6 /* OGMutableString.h in Headers */,
-				4DC40E7709150CF50029A2A6 /* OGPlainString.h in Headers */,
-				4DC40E7909150CF50029A2A6 /* OGMutablePlainString.h in Headers */,
-				4DC40E7B09150CF50029A2A6 /* OGAttributedString.h in Headers */,
-				4DC40E7D09150CF50029A2A6 /* OGMutableAttributedString.h in Headers */,
-				4DC40E7F09150CF50029A2A6 /* NSString_OgreKitAdditions.h in Headers */,
-				4DC40E8109150CF50029A2A6 /* OgreTextFinder.h in Headers */,
-				4DC40E8309150CF50029A2A6 /* OgreTextFindThread.h in Headers */,
-				4DC40E8509150CF50029A2A6 /* OgreFindAllThread.h in Headers */,
-				4DC40E8709150CF50029A2A6 /* OgreReplaceAllThread.h in Headers */,
-				4DC40E8909150CF50029A2A6 /* OgreHighlightThread.h in Headers */,
-				4DC40E8B09150CF50029A2A6 /* OgreUnhighlightThread.h in Headers */,
-				4DC40E8D09150CF50029A2A6 /* OgreFindThread.h in Headers */,
-				4DC40E8F09150CF50029A2A6 /* OgreReplaceAndFindThread.h in Headers */,
-				4DC40E9109150CF50029A2A6 /* OgreTextFindComponent.h in Headers */,
-				4DC40E9209150CF50029A2A6 /* OgreTextFindRoot.h in Headers */,
-				4DC40E9409150CF50029A2A6 /* OgreTextFindBranch.h in Headers */,
-				4DC40E9609150CF50029A2A6 /* OgreTextFindLeaf.h in Headers */,
-				4DC40E9809150CF50029A2A6 /* OgreTextFindComponentEnumerator.h in Headers */,
-				4DC40E9A09150CF50029A2A6 /* OgreTextFindReverseComponentEnumerator.h in Headers */,
-				4DC40E9C09150CF50029A2A6 /* OgreTextViewAdapter.h in Headers */,
-				4DC40E9E09150CF50029A2A6 /* OgreTextViewPlainAdapter.h in Headers */,
-				4DC40EA009150CF50029A2A6 /* OgreTextViewRichAdapter.h in Headers */,
-				F2170207215A458B007A2C35 /* oniguruma.h in Headers */,
-				4DC40EA209150CF50029A2A6 /* OgreTextViewGraphicAllowedAdapter.h in Headers */,
-				4DC40EA409150CF50029A2A6 /* OgreTextViewUndoer.h in Headers */,
-				4DC40EA609150CF50029A2A6 /* OgreTableViewAdapter.h in Headers */,
-				4DC40EA809150CF50029A2A6 /* OgreTableColumnAdapter.h in Headers */,
-				4DC40EAA09150CF50029A2A6 /* OgreTableCellAdapter.h in Headers */,
-				4DC40EAC09150CF50029A2A6 /* OgreOutlineViewAdapter.h in Headers */,
-				4DC40EAE09150CF50029A2A6 /* OgreOutlineColumnAdapter.h in Headers */,
-				4DC40EB009150CF50029A2A6 /* OgreOutlineItemAdapter.h in Headers */,
-				4DC40EB209150CF50029A2A6 /* OgreOutlineCellAdapter.h in Headers */,
-				4DC40EB409150CF50029A2A6 /* OgreTextFindResult.h in Headers */,
-				4DC40EB609150CF50029A2A6 /* OgreFindResultRoot.h in Headers */,
-				4DC40EB809150CF50029A2A6 /* OgreFindResultBranch.h in Headers */,
-				4DC40EBA09150CF50029A2A6 /* OgreFindResultLeaf.h in Headers */,
-				4DC40EBC09150CF50029A2A6 /* OgreTextViewFindResult.h in Headers */,
-				4DC40EBE09150CF50029A2A6 /* OgreTextViewMatchFindResult.h in Headers */,
-				4DC40EC009150CF50029A2A6 /* OgreTableViewFindResult.h in Headers */,
-				4DC40EC209150CF50029A2A6 /* OgreTableColumnFindResult.h in Headers */,
-				4DC40EC409150CF50029A2A6 /* OgreTableCellFindResult.h in Headers */,
-				4DC40EC609150CF50029A2A6 /* OgreTableCellMatchFindResult.h in Headers */,
-				4DC40EC809150CF50029A2A6 /* OgreOutlineViewFindResult.h in Headers */,
-				4DC40ECA09150CF50029A2A6 /* OgreOutlineColumnFindResult.h in Headers */,
-				4DC40ECC09150CF50029A2A6 /* OgreOutlineItemFindResult.h in Headers */,
-				4DC40ECE09150CF50029A2A6 /* OgreOutlineCellFindResult.h in Headers */,
-				4DC40ED009150CF50029A2A6 /* OgreOutlineCellMatchFindResult.h in Headers */,
-				4DC40ED209150CF50029A2A6 /* OgreView.h in Headers */,
-				4DC40ED309150CF50029A2A6 /* OgreTextView.h in Headers */,
-				4DC40ED509150CF50029A2A6 /* OgreTableView.h in Headers */,
-				4DC40ED709150CF50029A2A6 /* OgreTableColumn.h in Headers */,
-				4DC40ED909150CF50029A2A6 /* OgreOutlineView.h in Headers */,
-				4DC40EDB09150CF50029A2A6 /* OgreOutlineColumn.h in Headers */,
-				4DC40EDD09150CF50029A2A6 /* OgreTextFindProgressSheet.h in Headers */,
-				4DC40EDF09150CF50029A2A6 /* OgreFindResultWindowController.h in Headers */,
-				4DC40EE109150CF50029A2A6 /* OgreFindPanelController.h in Headers */,
-				4DC40EE309150CF50029A2A6 /* OgreAdvancedFindPanelController.h in Headers */,
-				4DC40EE509150CF50029A2A6 /* OgreAFPCEscapeCharacterFormatter.h in Headers */,
-				4DC40EE709150CF50029A2A6 /* OgreAdvancedFindPanel.h in Headers */,
-				4DC40EE909150CF50029A2A6 /* OgreAFPCOptionButton.h in Headers */,
-				4DC40EEB09150CF50029A2A6 /* OgreAttachableWindowAcceptee.h in Headers */,
-				4DC40EED09150CF50029A2A6 /* OgreAttachableWindowMediator.h in Headers */,
-				4DC40EEF09150CF50029A2A6 /* OgreAttachableWindowAcceptor.h in Headers */,
-				4DC40F4609150CF50029A2A6 /* OgreKit.h in Headers */,
-				4DC40F4809150CF50029A2A6 /* OgreKit_Prefix.pch in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1564,49 +1128,10 @@
 			buildRules = (
 			);
 			dependencies = (
-				4DC412C1091519C90029A2A6 /* PBXTargetDependency */,
 			);
 			name = "Regular Expression Test";
 			productName = "Regular Expression Test";
 			productReference = 4DC40C0409150C280029A2A6 /* OgreTest.app */;
-			productType = "com.apple.product-type.application";
-		};
-		4DC40C0E09150C3E0029A2A6 /* Find Panel Test */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 4DC40C1209150C400029A2A6 /* Build configuration list for PBXNativeTarget "Find Panel Test" */;
-			buildPhases = (
-				4DC40C0B09150C3E0029A2A6 /* Resources */,
-				4DC40C0C09150C3E0029A2A6 /* Sources */,
-				4DC40C0D09150C3E0029A2A6 /* Frameworks */,
-				4DC412A7091519220029A2A6 /* CopyFiles */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				4D6EA0E6096ACECA0010762A /* PBXTargetDependency */,
-			);
-			name = "Find Panel Test";
-			productName = "Find Panel Test";
-			productReference = 4DC40C0F09150C3E0029A2A6 /* OgreFindPanelTest.app */;
-			productType = "com.apple.product-type.application";
-		};
-		4DC40C1909150C720029A2A6 /* My Find Panel Example */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 4DC40C1D09150C740029A2A6 /* Build configuration list for PBXNativeTarget "My Find Panel Example" */;
-			buildPhases = (
-				4DC40C1609150C720029A2A6 /* Resources */,
-				4DC40C1709150C720029A2A6 /* Sources */,
-				4DC40C1809150C720029A2A6 /* Frameworks */,
-				4DC412AC091519310029A2A6 /* CopyFiles */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				4D6EA0E8096ACED60010762A /* PBXTargetDependency */,
-			);
-			name = "My Find Panel Example";
-			productName = "My Find Panel Example";
-			productReference = 4DC40C1A09150C730029A2A6 /* MyFindPanelExample.app */;
 			productType = "com.apple.product-type.application";
 		};
 		4DC40C2F09150C9E0029A2A6 /* Replace With Attributes Test */ = {
@@ -1621,34 +1146,11 @@
 			buildRules = (
 			);
 			dependencies = (
-				4D6EA0EA096ACEDC0010762A /* PBXTargetDependency */,
 			);
 			name = "Replace With Attributes Test";
 			productName = "Replace With Attributes Test";
 			productReference = 4DC40C3009150C9E0029A2A6 /* ReplaceWithAttributesTest.app */;
 			productType = "com.apple.product-type.application";
-		};
-		8DC2EF4F0486A6940098B216 /* OgreKit (Full Features) */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 4DC40B9F091509DC0029A2A6 /* Build configuration list for PBXNativeTarget "OgreKit (Full Features)" */;
-			buildPhases = (
-				8DC2EF500486A6940098B216 /* Headers */,
-				8DC2EF520486A6940098B216 /* Resources */,
-				8DC2EF540486A6940098B216 /* Sources */,
-				8DC2EF560486A6940098B216 /* Frameworks */,
-				4DC411CD091515400029A2A6 /* CopyFiles */,
-				4DC411CF0915155E0029A2A6 /* CopyFiles */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				4D82DCCC09B9ECDB007F03B0 /* PBXTargetDependency */,
-			);
-			name = "OgreKit (Full Features)";
-			productInstallPath = "$(HOME)/Library/Frameworks";
-			productName = OgreKit;
-			productReference = 8DC2EF5B0486A6940098B216 /* OgreKitFull.framework */;
-			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
@@ -1660,19 +1162,12 @@
 			};
 			buildConfigurationList = 4DC40BA3091509DC0029A2A6 /* Build configuration list for PBXProject "OgreKit" */;
 			compatibilityVersion = "Xcode 8.0";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 1;
 			knownRegions = (
-				English,
-				Japanese,
-				French,
-				German,
-				Spanish,
-				Romanian,
-				Italian,
-				Portuguese,
-				Dutch,
 				Base,
+				en,
+				de,
 			);
 			mainGroup = 0867D691FE84028FC02AAC07 /* OgreKit */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
@@ -1682,10 +1177,7 @@
 				4DC40BF209150BDB0029A2A6 /* OgreKit (without Find Panel) */,
 				4DC412B3091519A60029A2A6 /* All */,
 				4D82DCCA09B9ECD1007F03B0 /* Oniguruma */,
-				8DC2EF4F0486A6940098B216 /* OgreKit (Full Features) */,
 				4DC40C0309150C280029A2A6 /* Regular Expression Test */,
-				4DC40C0E09150C3E0029A2A6 /* Find Panel Test */,
-				4DC40C1909150C720029A2A6 /* My Find Panel Example */,
 				4DC40C2F09150C9E0029A2A6 /* Replace With Attributes Test */,
 			);
 		};
@@ -1708,52 +1200,12 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		4DC40C0B09150C3E0029A2A6 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4DC4135609151CA60029A2A6 /* MainMenu.nib in Resources */,
-				4DC4135709151CA60029A2A6 /* InfoPlist.strings in Resources */,
-				4DC4135809151CA60029A2A6 /* Credits.rtf in Resources */,
-				4DC4135B09151CC50029A2A6 /* MyTableDocumentWithCocoaBinding.nib in Resources */,
-				4DC4136009151CD80029A2A6 /* MyTableDocument.nib in Resources */,
-				4DC4136109151CD80029A2A6 /* MyTableColumnSheet.nib in Resources */,
-				4DC4136409151CE50029A2A6 /* MyOutlineDocument.nib in Resources */,
-				4DC4136909151CF40029A2A6 /* MyRTFDocument.nib in Resources */,
-				4DC4136A09151CF40029A2A6 /* MyTextDocument.nib in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		4DC40C1609150C720029A2A6 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4DC4136D09151D1A0029A2A6 /* MyFindPanel.nib in Resources */,
-				4DC4137409151D320029A2A6 /* Credits.rtf in Resources */,
-				4DC4137509151D320029A2A6 /* MainMenu.nib in Resources */,
-				4DC4137609151D320029A2A6 /* MyDocument.nib in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		4DC40C2C09150C9E0029A2A6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				4D4F202D1142243700CD9C2F /* InfoPlist.strings in Resources */,
 				4DF530D30915226200475575 /* MainMenu.nib in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8DC2EF520486A6940098B216 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4DC4116D091514030029A2A6 /* OgreTextFindProgressSheet.nib in Resources */,
-				4DC4116E091514030029A2A6 /* OgreAPFCLocalizable.strings in Resources */,
-				4DC4116F091514030029A2A6 /* OgreFindResultWindow.nib in Resources */,
-				4DC41170091514030029A2A6 /* OgreAdvancedFindPanel.nib in Resources */,
-				4DC41171091514030029A2A6 /* OgreTextFinderLocalizable.strings in Resources */,
-				4DC411C9091514D70029A2A6 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1794,36 +1246,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		4DC40C0C09150C3E0029A2A6 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4DC4107309150D560029A2A6 /* main.m in Sources */,
-				4DC4107409150D560029A2A6 /* MyMenuController.m in Sources */,
-				4DC4107509150D560029A2A6 /* MyTextDocument.m in Sources */,
-				4DC4107609150D560029A2A6 /* MyRTFDocument.m in Sources */,
-				4DC4107709150D560029A2A6 /* MyTableDocument.m in Sources */,
-				4DC4107809150D560029A2A6 /* MyTableColumnSheet.m in Sources */,
-				4DC4107909150D560029A2A6 /* MyOutlineDocument.m in Sources */,
-				4DC4107A09150D560029A2A6 /* MyFileWrapper.m in Sources */,
-				4DC4107B09150D560029A2A6 /* MyOutlineView.m in Sources */,
-				4DC4107C09150D560029A2A6 /* MyTableDocumentWithCocoaBinding.m in Sources */,
-				4DC4107D09150D560029A2A6 /* MyTableRowModel.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		4DC40C1709150C720029A2A6 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4DC4108F09150D650029A2A6 /* MyTextFinder.m in Sources */,
-				4DC4109009150D650029A2A6 /* MyFindPanelController.m in Sources */,
-				4DC4109109150D650029A2A6 /* MyDocument.m in Sources */,
-				4DC4109209150D650029A2A6 /* MyMenuController.m in Sources */,
-				4DC4109309150D650029A2A6 /* main.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		4DC40C2D09150C9E0029A2A6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1833,108 +1255,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8DC2EF540486A6940098B216 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4DC40E5F09150CF50029A2A6 /* OGRegularExpression.m in Sources */,
-				4DC40E6109150CF50029A2A6 /* OGRegularExpressionPrivate.m in Sources */,
-				4DC40E6309150CF50029A2A6 /* OGRegularExpressionEnumerator.m in Sources */,
-				4DC40E6509150CF50029A2A6 /* OGRegularExpressionEnumeratorPrivate.m in Sources */,
-				4DC40E6709150CF50029A2A6 /* OGRegularExpressionMatch.m in Sources */,
-				4DC40E6909150CF50029A2A6 /* OGRegularExpressionMatchPrivate.m in Sources */,
-				4DC40E6B09150CF50029A2A6 /* OGRegularExpressionCapture.m in Sources */,
-				4DC40E6D09150CF50029A2A6 /* OGRegularExpressionCapturePrivate.m in Sources */,
-				4DC40E6F09150CF50029A2A6 /* OGReplaceExpression.m in Sources */,
-				4DC40E7109150CF50029A2A6 /* OGReplaceExpressionPrivate.m in Sources */,
-				4DC40E7309150CF50029A2A6 /* OGRegularExpressionFormatter.m in Sources */,
-				4DC40E7509150CF50029A2A6 /* OGString.m in Sources */,
-				4DC40E7809150CF50029A2A6 /* OGPlainString.m in Sources */,
-				4DC40E7A09150CF50029A2A6 /* OGMutablePlainString.m in Sources */,
-				4DC40E7C09150CF50029A2A6 /* OGAttributedString.m in Sources */,
-				4DC40E7E09150CF50029A2A6 /* OGMutableAttributedString.m in Sources */,
-				4DC40E8009150CF50029A2A6 /* NSString_OgreKitAdditions.m in Sources */,
-				4DC40E8209150CF50029A2A6 /* OgreTextFinder.m in Sources */,
-				4DC40E8409150CF50029A2A6 /* OgreTextFindThread.m in Sources */,
-				4DC40E8609150CF50029A2A6 /* OgreFindAllThread.m in Sources */,
-				4DC40E8809150CF50029A2A6 /* OgreReplaceAllThread.m in Sources */,
-				4DC40E8A09150CF50029A2A6 /* OgreHighlightThread.m in Sources */,
-				4DC40E8C09150CF50029A2A6 /* OgreUnhighlightThread.m in Sources */,
-				4DC40E8E09150CF50029A2A6 /* OgreFindThread.m in Sources */,
-				4DC40E9009150CF50029A2A6 /* OgreReplaceAndFindThread.m in Sources */,
-				4DC40E9309150CF50029A2A6 /* OgreTextFindRoot.m in Sources */,
-				4DC40E9509150CF50029A2A6 /* OgreTextFindBranch.m in Sources */,
-				4DC40E9709150CF50029A2A6 /* OgreTextFindLeaf.m in Sources */,
-				4DC40E9909150CF50029A2A6 /* OgreTextFindComponentEnumerator.m in Sources */,
-				4DC40E9B09150CF50029A2A6 /* OgreTextFindReverseComponentEnumerator.m in Sources */,
-				4DC40E9D09150CF50029A2A6 /* OgreTextViewAdapter.m in Sources */,
-				4DC40E9F09150CF50029A2A6 /* OgreTextViewPlainAdapter.m in Sources */,
-				4DC40EA109150CF50029A2A6 /* OgreTextViewRichAdapter.m in Sources */,
-				4DC40EA309150CF50029A2A6 /* OgreTextViewGraphicAllowedAdapter.m in Sources */,
-				4DC40EA509150CF50029A2A6 /* OgreTextViewUndoer.m in Sources */,
-				4DC40EA709150CF50029A2A6 /* OgreTableViewAdapter.m in Sources */,
-				4DC40EA909150CF50029A2A6 /* OgreTableColumnAdapter.m in Sources */,
-				4DC40EAB09150CF50029A2A6 /* OgreTableCellAdapter.m in Sources */,
-				4DC40EAD09150CF50029A2A6 /* OgreOutlineViewAdapter.m in Sources */,
-				4DC40EAF09150CF50029A2A6 /* OgreOutlineColumnAdapter.m in Sources */,
-				4DC40EB109150CF50029A2A6 /* OgreOutlineItemAdapter.m in Sources */,
-				4DC40EB309150CF50029A2A6 /* OgreOutlineCellAdapter.m in Sources */,
-				4DC40EB509150CF50029A2A6 /* OgreTextFindResult.m in Sources */,
-				4DC40EB709150CF50029A2A6 /* OgreFindResultRoot.m in Sources */,
-				4DC40EB909150CF50029A2A6 /* OgreFindResultBranch.m in Sources */,
-				4DC40EBB09150CF50029A2A6 /* OgreFindResultLeaf.m in Sources */,
-				4DC40EBD09150CF50029A2A6 /* OgreTextViewFindResult.m in Sources */,
-				4DC40EBF09150CF50029A2A6 /* OgreTextViewMatchFindResult.m in Sources */,
-				4DC40EC109150CF50029A2A6 /* OgreTableViewFindResult.m in Sources */,
-				4DC40EC309150CF50029A2A6 /* OgreTableColumnFindResult.m in Sources */,
-				4DC40EC509150CF50029A2A6 /* OgreTableCellFindResult.m in Sources */,
-				4DC40EC709150CF50029A2A6 /* OgreTableCellMatchFindResult.m in Sources */,
-				4DC40EC909150CF50029A2A6 /* OgreOutlineViewFindResult.m in Sources */,
-				4DC40ECB09150CF50029A2A6 /* OgreOutlineColumnFindResult.m in Sources */,
-				4DC40ECD09150CF50029A2A6 /* OgreOutlineItemFindResult.m in Sources */,
-				4DC40ECF09150CF50029A2A6 /* OgreOutlineCellFindResult.m in Sources */,
-				4DC40ED109150CF50029A2A6 /* OgreOutlineCellMatchFindResult.m in Sources */,
-				4DC40ED409150CF50029A2A6 /* OgreTextView.m in Sources */,
-				4DC40ED609150CF50029A2A6 /* OgreTableView.m in Sources */,
-				4DC40ED809150CF50029A2A6 /* OgreTableColumn.m in Sources */,
-				4DC40EDA09150CF50029A2A6 /* OgreOutlineView.m in Sources */,
-				4DC40EDC09150CF50029A2A6 /* OgreOutlineColumn.m in Sources */,
-				4DC40EDE09150CF50029A2A6 /* OgreTextFindProgressSheet.m in Sources */,
-				4DC40EE009150CF50029A2A6 /* OgreFindResultWindowController.m in Sources */,
-				4DC40EE209150CF50029A2A6 /* OgreFindPanelController.m in Sources */,
-				4DC40EE409150CF50029A2A6 /* OgreAdvancedFindPanelController.m in Sources */,
-				4DC40EE609150CF50029A2A6 /* OgreAFPCEscapeCharacterFormatter.m in Sources */,
-				4DC40EE809150CF50029A2A6 /* OgreAdvancedFindPanel.m in Sources */,
-				4DC40EEA09150CF50029A2A6 /* OgreAFPCOptionButton.m in Sources */,
-				4DC40EEC09150CF50029A2A6 /* OgreAttachableWindowAcceptee.m in Sources */,
-				4DC40EEE09150CF50029A2A6 /* OgreAttachableWindowMediator.m in Sources */,
-				4DC40EF009150CF50029A2A6 /* OgreAttachableWindowAcceptor.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		4D6EA0E6096ACECA0010762A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8DC2EF4F0486A6940098B216 /* OgreKit (Full Features) */;
-			targetProxy = 4D6EA0E5096ACECA0010762A /* PBXContainerItemProxy */;
-		};
-		4D6EA0E8096ACED60010762A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8DC2EF4F0486A6940098B216 /* OgreKit (Full Features) */;
-			targetProxy = 4D6EA0E7096ACED60010762A /* PBXContainerItemProxy */;
-		};
-		4D6EA0EA096ACEDC0010762A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8DC2EF4F0486A6940098B216 /* OgreKit (Full Features) */;
-			targetProxy = 4D6EA0E9096ACEDC0010762A /* PBXContainerItemProxy */;
-		};
-		4D82DCCC09B9ECDB007F03B0 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 4D82DCCA09B9ECD1007F03B0 /* Oniguruma */;
-			targetProxy = 4D82DCCB09B9ECDB007F03B0 /* PBXContainerItemProxy */;
-		};
 		4D82DCCE09B9ECDE007F03B0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 4D82DCCA09B9ECD1007F03B0 /* Oniguruma */;
@@ -1945,30 +1268,10 @@
 			target = 4DC40C0309150C280029A2A6 /* Regular Expression Test */;
 			targetProxy = 4DC412B8091519B70029A2A6 /* PBXContainerItemProxy */;
 		};
-		4DC412C1091519C90029A2A6 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8DC2EF4F0486A6940098B216 /* OgreKit (Full Features) */;
-			targetProxy = 4DC412C0091519C90029A2A6 /* PBXContainerItemProxy */;
-		};
-		F250EACB216A16B100B94A0B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8DC2EF4F0486A6940098B216 /* OgreKit (Full Features) */;
-			targetProxy = F250EACA216A16B100B94A0B /* PBXContainerItemProxy */;
-		};
-		F250EACD216A16B600B94A0B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 4DC40C0E09150C3E0029A2A6 /* Find Panel Test */;
-			targetProxy = F250EACC216A16B600B94A0B /* PBXContainerItemProxy */;
-		};
 		F250EACF216A16BA00B94A0B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 4DC40C2F09150C9E0029A2A6 /* Replace With Attributes Test */;
 			targetProxy = F250EACE216A16BA00B94A0B /* PBXContainerItemProxy */;
-		};
-		F250EAD1216A16BE00B94A0B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 4DC40C1909150C720029A2A6 /* My Find Panel Example */;
-			targetProxy = F250EAD0216A16BE00B94A0B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1985,15 +1288,8 @@
 		4DC41165091514030029A2A6 /* OgreAPFCLocalizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				4DC41166091514030029A2A6 /* English */,
-				4DC411770915142C0029A2A6 /* Dutch */,
-				4DC4117B0915143A0029A2A6 /* French */,
-				4DC4117F091514450029A2A6 /* German */,
-				4DC41183091514510029A2A6 /* Italian */,
-				4DC411870915145D0029A2A6 /* Japanese */,
-				4DC4118B091514680029A2A6 /* Portuguese */,
-				4DC4118F091514710029A2A6 /* Romanian */,
-				4DC411930915147B0029A2A6 /* Spanish */,
+				9EAD879D22F7936F000ADB59 /* en */,
+				9EAD87A222F79371000ADB59 /* de */,
 			);
 			name = OgreAPFCLocalizable.strings;
 			path = FindPanel/Resources;
@@ -2011,15 +1307,8 @@
 		4DC41169091514030029A2A6 /* OgreAdvancedFindPanel.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				4DC41175091514240029A2A6 /* Dutch */,
-				4DC4117A0915143A0029A2A6 /* French */,
-				4DC4117E091514450029A2A6 /* German */,
-				4DC41182091514510029A2A6 /* Italian */,
-				4DC411860915145D0029A2A6 /* Japanese */,
-				4DC4118A091514680029A2A6 /* Portuguese */,
-				4DC4118E091514710029A2A6 /* Romanian */,
-				4DC411920915147B0029A2A6 /* Spanish */,
 				F250EAA8216A05B500B94A0B /* Base */,
+				9EAD87A322F79371000ADB59 /* de */,
 			);
 			name = OgreAdvancedFindPanel.nib;
 			path = FindPanel/Resources;
@@ -2028,15 +1317,8 @@
 		4DC4116B091514030029A2A6 /* OgreTextFinderLocalizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				4DC4116C091514030029A2A6 /* English */,
-				4DC411780915142C0029A2A6 /* Dutch */,
-				4DC4117C0915143A0029A2A6 /* French */,
-				4DC41180091514450029A2A6 /* German */,
-				4DC41184091514510029A2A6 /* Italian */,
-				4DC411880915145D0029A2A6 /* Japanese */,
-				4DC4118C091514680029A2A6 /* Portuguese */,
-				4DC41190091514710029A2A6 /* Romanian */,
-				4DC411940915147B0029A2A6 /* Spanish */,
+				9EAD879E22F7936F000ADB59 /* en */,
+				9EAD87A422F79371000ADB59 /* de */,
 			);
 			name = OgreTextFinderLocalizable.strings;
 			path = FindPanel/Resources;
@@ -2045,7 +1327,7 @@
 		4DC411C7091514D70029A2A6 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				4DC411C8091514D70029A2A6 /* English */,
+				9EAD879F22F7936F000ADB59 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = SOURCE_ROOT;
@@ -2061,7 +1343,7 @@
 		4DC4134109151C2E0029A2A6 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				4DC4134209151C2E0029A2A6 /* English */,
+				9EAD87A022F7936F000ADB59 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = SOURCE_ROOT;
@@ -2077,7 +1359,7 @@
 		4DC4135209151CA60029A2A6 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				4DC4135309151CA60029A2A6 /* English */,
+				9EAD879B22F7936E000ADB59 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = SOURCE_ROOT;
@@ -2085,7 +1367,7 @@
 		4DC4135409151CA60029A2A6 /* Credits.rtf */ = {
 			isa = PBXVariantGroup;
 			children = (
-				4DC4135509151CA60029A2A6 /* English */,
+				9EAD879A22F7936E000ADB59 /* en */,
 			);
 			name = Credits.rtf;
 			sourceTree = SOURCE_ROOT;
@@ -2149,7 +1431,7 @@
 		4DC4136E09151D320029A2A6 /* Credits.rtf */ = {
 			isa = PBXVariantGroup;
 			children = (
-				4DC4136F09151D320029A2A6 /* English */,
+				9EAD879C22F7936F000ADB59 /* en */,
 			);
 			name = Credits.rtf;
 			sourceTree = SOURCE_ROOT;
@@ -2173,7 +1455,7 @@
 		4DF530CE0915226200475575 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				4DF530CF0915226200475575 /* English */,
+				9EAD87A122F79370000ADB59 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -2214,119 +1496,6 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				PRODUCT_NAME = Oniguruma;
-			};
-			name = Default;
-		};
-		4DC40BA0091509DC0029A2A6 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_VERSION = A;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = RegularExpression/OgreKit_Prefix.pch;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "RegularExpression/OgreKit-Info.plist";
-				INSTALL_PATH = "@rpath";
-				LIBRARY_SEARCH_PATHS = (
-					"$(LIBRARY_SEARCH_PATHS)",
-					"$(SRCROOT)/RegularExpression/oniguruma",
-				);
-				LIBRARY_STYLE = DYNAMIC;
-				MACH_O_TYPE = mh_dylib;
-				OTHER_LDFLAGS = (
-					"-seg1addr",
-					0x32000000,
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = isao.sonobe.OgreKit;
-				PRODUCT_NAME = OgreKitFull;
-				SKIP_INSTALL = YES;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				WRAPPER_EXTENSION = framework;
-			};
-			name = Debug;
-		};
-		4DC40BA1091509DC0029A2A6 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_VERSION = A;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = RegularExpression/OgreKit_Prefix.pch;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "RegularExpression/OgreKit-Info.plist";
-				INSTALL_PATH = "@rpath";
-				LIBRARY_SEARCH_PATHS = (
-					"$(LIBRARY_SEARCH_PATHS)",
-					"$(SRCROOT)/RegularExpression/oniguruma",
-				);
-				LIBRARY_STYLE = DYNAMIC;
-				MACH_O_TYPE = mh_dylib;
-				OTHER_LDFLAGS = (
-					"-seg1addr",
-					0x32000000,
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = isao.sonobe.OgreKit;
-				PRODUCT_NAME = OgreKitFull;
-				SKIP_INSTALL = YES;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				WRAPPER_EXTENSION = framework;
-			};
-			name = Release;
-		};
-		4DC40BA2091509DC0029A2A6 /* Default */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_VERSION = A;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = RegularExpression/OgreKit_Prefix.pch;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "RegularExpression/OgreKit-Info.plist";
-				INSTALL_PATH = "@rpath";
-				LIBRARY_SEARCH_PATHS = (
-					"$(LIBRARY_SEARCH_PATHS)",
-					"$(SRCROOT)/RegularExpression/oniguruma",
-				);
-				LIBRARY_STYLE = DYNAMIC;
-				MACH_O_TYPE = mh_dylib;
-				OTHER_LDFLAGS = (
-					"-seg1addr",
-					0x32000000,
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = isao.sonobe.OgreKit;
-				PRODUCT_NAME = OgreKitFull;
-				SKIP_INSTALL = YES;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				WRAPPER_EXTENSION = framework;
 			};
 			name = Default;
 		};
@@ -2637,129 +1806,6 @@
 			};
 			name = Default;
 		};
-		4DC40C1309150C400029A2A6 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = FindPanelTest/OgreFindPanelTest_Prefix.h;
-				INFOPLIST_FILE = "FindPanelTest/FindPanelTest-Info.plist";
-				INSTALL_PATH = "$(USER_APPS_DIR)";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				PRODUCT_NAME = OgreFindPanelTest;
-				SDKROOT = macosx;
-				WARNING_CFLAGS = "-Wmost";
-			};
-			name = Debug;
-		};
-		4DC40C1409150C400029A2A6 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = FindPanelTest/OgreFindPanelTest_Prefix.h;
-				INFOPLIST_FILE = "FindPanelTest/FindPanelTest-Info.plist";
-				INSTALL_PATH = "$(USER_APPS_DIR)";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				PRODUCT_NAME = OgreFindPanelTest;
-				SDKROOT = macosx;
-				WARNING_CFLAGS = "-Wmost";
-			};
-			name = Release;
-		};
-		4DC40C1509150C400029A2A6 /* Default */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = FindPanelTest/OgreFindPanelTest_Prefix.h;
-				INFOPLIST_FILE = "FindPanelTest/FindPanelTest-Info.plist";
-				INSTALL_PATH = "$(USER_APPS_DIR)";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				PRODUCT_NAME = OgreFindPanelTest;
-				SDKROOT = macosx;
-				WARNING_CFLAGS = "-Wmost";
-			};
-			name = Default;
-		};
-		4DC40C1E09150C740029A2A6 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = MyFindPanelExample/MyFindPanelExample_Prefix.h;
-				INFOPLIST_FILE = "MyFindPanelExample/MyFindPanelExample-Info.plist";
-				INSTALL_PATH = "$(USER_APPS_DIR)";
-				OTHER_CFLAGS = "";
-				PRODUCT_NAME = MyFindPanelExample;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = "-Wmost";
-			};
-			name = Debug;
-		};
-		4DC40C1F09150C740029A2A6 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = MyFindPanelExample/MyFindPanelExample_Prefix.h;
-				INFOPLIST_FILE = "MyFindPanelExample/MyFindPanelExample-Info.plist";
-				INSTALL_PATH = "$(USER_APPS_DIR)";
-				OTHER_CFLAGS = "";
-				PRODUCT_NAME = MyFindPanelExample;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = "-Wmost";
-			};
-			name = Release;
-		};
-		4DC40C2009150C740029A2A6 /* Default */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = MyFindPanelExample/MyFindPanelExample_Prefix.h;
-				INFOPLIST_FILE = "MyFindPanelExample/MyFindPanelExample-Info.plist";
-				INSTALL_PATH = "$(USER_APPS_DIR)";
-				OTHER_CFLAGS = "";
-				PRODUCT_NAME = MyFindPanelExample;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = "-Wmost";
-			};
-			name = Default;
-		};
 		4DC40C3409150C9F0029A2A6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2913,16 +1959,6 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Default;
 		};
-		4DC40B9F091509DC0029A2A6 /* Build configuration list for PBXNativeTarget "OgreKit (Full Features)" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				4DC40BA0091509DC0029A2A6 /* Debug */,
-				4DC40BA1091509DC0029A2A6 /* Release */,
-				4DC40BA2091509DC0029A2A6 /* Default */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
-		};
 		4DC40BA3091509DC0029A2A6 /* Build configuration list for PBXProject "OgreKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -2949,26 +1985,6 @@
 				4DC40C0809150C290029A2A6 /* Debug */,
 				4DC40C0909150C290029A2A6 /* Release */,
 				4DC40C0A09150C290029A2A6 /* Default */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
-		};
-		4DC40C1209150C400029A2A6 /* Build configuration list for PBXNativeTarget "Find Panel Test" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				4DC40C1309150C400029A2A6 /* Debug */,
-				4DC40C1409150C400029A2A6 /* Release */,
-				4DC40C1509150C400029A2A6 /* Default */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
-		};
-		4DC40C1D09150C740029A2A6 /* Build configuration list for PBXNativeTarget "My Find Panel Example" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				4DC40C1E09150C740029A2A6 /* Debug */,
-				4DC40C1F09150C740029A2A6 /* Release */,
-				4DC40C2009150C740029A2A6 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Default;

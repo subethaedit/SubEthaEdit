@@ -7,6 +7,6 @@
 
 @interface SEEDocumentListGroupTableRowView : NSTableRowView
 
-@property (nonatomic, assign) BOOL drawTopLine;
+@property (nonatomic) BOOL drawTopLine;
 
 @end

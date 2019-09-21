@@ -19,10 +19,11 @@ extern NSString * const PlainTextEditorDidChangeSearchScopeNotification;
 
 @interface PlainTextEditor : NSResponder <NSTextViewDelegate> 
 
+@property (nonatomic) BOOL isSuspendingGutterDrawing;
 @property (nonatomic, readonly) BOOL hasBottomOverlayView;
 @property (nonatomic, readonly) BOOL hasTopOverlayView;
 // bottom status bar binding values
-@property (nonatomic, assign) BOOL showsNumberOfActiveParticipants;
+@property (nonatomic) BOOL showsNumberOfActiveParticipants;
 @property (nonatomic, strong) NSNumber *numberOfActiveParticipants;
 
 @property (nonatomic, strong) NSImage *alternateAnnounceImage;
@@ -36,7 +37,7 @@ extern NSString * const PlainTextEditorDidChangeSearchScopeNotification;
 
 - (void)prepareForDealloc; // because of programatic bindings to the top level object
 
-- (id)initWithWindowControllerTabContext:(PlainTextWindowControllerTabContext *)aWindowControllerTabContext splitButton:(BOOL)aFlag;
+- (instancetype)initWithWindowControllerTabContext:(PlainTextWindowControllerTabContext *)aWindowControllerTabContext splitButton:(BOOL)aFlag;
 - (NSView *)editorView;
 - (NSTextView *)textView;
 - (PlainTextDocument *)document;

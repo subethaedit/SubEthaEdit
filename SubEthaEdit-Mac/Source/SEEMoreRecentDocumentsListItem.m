@@ -3,10 +3,6 @@
 //
 //  Created by Michael Ehrmann on 22.05.14.
 
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 #import "SEEMoreRecentDocumentsListItem.h"
 
 @implementation SEEMoreRecentDocumentsListItem
@@ -15,7 +11,7 @@
 @synthesize name = _name;
 @synthesize image = _image;
 
-- (id)init {
+- (instancetype)init {
     self = [super init];
     if (self) {
         self.name = NSLocalizedString(@"DOCUMENT_LIST_MORE", @"");

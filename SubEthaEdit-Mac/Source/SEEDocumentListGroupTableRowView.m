@@ -3,17 +3,13 @@
 //
 //  Created by Michael Ehrmann on 24.02.14.
 
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 #import "SEEDocumentListGroupTableRowView.h"
 
 #import <QuartzCore/QuartzCore.h>
 
 @implementation SEEDocumentListGroupTableRowView
 
-- (id)initWithFrame:(NSRect)frame
+- (instancetype)initWithFrame:(NSRect)frame
 {
     self = [super initWithFrame:frame];
     return self;

@@ -15,11 +15,6 @@
 
 @class PopUpButton;
 
-// this file needs arc - add -fobjc-arc in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 static NSString *WebPreviewWindowSizePreferenceKey =@"WebPreviewWindowSize";
 static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
 
@@ -56,7 +51,7 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
 @synthesize plainTextDocument=_plainTextDocument;
 @synthesize refreshType=_refreshType;
 
-- (id)initWithPlainTextDocument:(PlainTextDocument *)aDocument {
+- (instancetype)initWithPlainTextDocument:(PlainTextDocument *)aDocument {
     self=[super initWithNibName:@"SEEWebPreviewViewController" bundle:nil];
     _plainTextDocument=aDocument;
     _hasSavedVisibleRect=NO;

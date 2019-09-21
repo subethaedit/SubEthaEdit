@@ -31,9 +31,8 @@ static DebugController * sharedInstance = nil;
     return sharedInstance ? sharedInstance : [[self alloc] init];
 }
 
-- (id)init {
+- (instancetype)init {
     if (sharedInstance) {
-        [self release];
 		self = nil;
     } else if ((self = [super init])) {
         sharedInstance = self;
@@ -76,109 +75,89 @@ static DebugController * sharedInstance = nil;
 
 - (void)enableDebugMenu:(BOOL)flag
 {
-    int indexOfDebugMenu = [[NSApp mainMenu] indexOfItemWithTitle:@"Debug"];
+    NSInteger indexOfDebugMenu = [[NSApp mainMenu] indexOfItemWithTitle:@"Debug"];
     
     if (flag && indexOfDebugMenu == -1) {
         NSMenuItem *debugItem = [[NSMenuItem alloc] initWithTitle:@"Debug" action:nil keyEquivalent:@""];
-        NSMenu *menu = [[[NSMenu alloc] initWithTitle:@"Debug"] autorelease];
+        NSMenu *menu = [[NSMenu alloc] initWithTitle:@"Debug"];
         
         NSMenuItem *usersItem = [[NSMenuItem alloc] initWithTitle:@"Users Viewer" action:@selector(showUsers:) keyEquivalent:@""];
         [usersItem setTarget:self];
         [menu addItem:usersItem];
-        [usersItem release];
         
-		{
-			NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:@"Image Generation Debug Window" action:@selector(showDebugImageGenerationWindowController:) keyEquivalent:@""];
-			[item setTarget:self];
-			[menu addItem:item];
-			[item release];
-		}
+        NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:@"Image Generation Debug Window" action:@selector(showDebugImageGenerationWindowController:) keyEquivalent:@""];
+        [item setTarget:self];
+        [menu addItem:item];
 		
         NSMenuItem *presenceItem = [[NSMenuItem alloc] initWithTitle:@"Presence Viewer" action:@selector(showPresence:) keyEquivalent:@""];
         [presenceItem setTarget:self];
         [menu addItem:presenceItem];
-        [presenceItem release];
         
         NSMenuItem *BEEPItem = [[NSMenuItem alloc] initWithTitle:@"Sessions Viewer" action:@selector(showBEEP:) keyEquivalent:@""];
         [BEEPItem setTarget:self];
         [menu addItem:BEEPItem];
-        [BEEPItem release];
         
         [menu addItem:[NSMenuItem separatorItem]];
 
 		NSMenuItem *styleEditorItem = [[NSMenuItem alloc] initWithTitle:@"Style Sheet Editor" action:@selector(showStyleSheetEditorWindow:) keyEquivalent:@""];
         [styleEditorItem setTarget:[AppController sharedInstance]];
         [menu addItem:styleEditorItem];
-        [styleEditorItem release];
 
         [menu addItem:[NSMenuItem separatorItem]];
 
         NSMenuItem *sendOperationItem = [[NSMenuItem alloc] initWithTitle:@"Show Send Operation..." action:@selector(showSendOperation:) keyEquivalent:@""];
         [sendOperationItem setTarget:self];
         [menu addItem:sendOperationItem];
-		[sendOperationItem release];
 
         NSMenuItem *CrashItem = [[NSMenuItem alloc] initWithTitle:@"Crash Application" action:@selector(crash:) keyEquivalent:@""];
         [CrashItem setTarget:self];
         [menu addItem:CrashItem];
-		[CrashItem release];
 
         NSMenuItem *CrashReportItem = [[NSMenuItem alloc] initWithTitle:@"Resend Last Crash Report" action:@selector(sendCrashReport:) keyEquivalent:@""];
         [CrashReportItem setTarget:self];
         [menu addItem:CrashReportItem];
-		[CrashReportItem release];
 		
 		[NSOperationQueue TCM_performBlockOnMainQueue:^{
-			NSMenuItem *blahItem = [[NSMenuItem alloc] initWithTitle:@"Log All BEEP Session Retain Counts" action:@selector(logRetainCounts) keyEquivalent:@""];
+			NSMenuItem *blahItem = [[NSMenuItem alloc] initWithTitle:SEE_NoLocalizationNeeded(@"Log All BEEP Session Retain Counts") action:@selector(logRetainCounts) keyEquivalent:@""];
 			[blahItem setTarget:[TCMMMBEEPSessionManager sharedInstance]];
 			[menu addItem:blahItem];
-			[blahItem release];
 		} afterDelay:0.0];
         
         [debugItem setSubmenu:menu];
         [[NSApp mainMenu] addItem:debugItem];
-        [debugItem release];
 
         NSMenuItem *blahItem = [[NSMenuItem alloc] initWithTitle:@"Copy Document Thumbnail to Pasteboard" action:@selector(createThumbnail:) keyEquivalent:@""];
         [blahItem setTarget:nil];
         [menu addItem:blahItem];
-        [blahItem release];
 
         blahItem = [[NSMenuItem alloc] initWithTitle:@"Toggle Dialog View" action:@selector(toggleDialogView:) keyEquivalent:@""];
         [blahItem setTarget:nil];
         [menu addItem:blahItem];
-        [blahItem release];
 
         blahItem = [[NSMenuItem alloc] initWithTitle:@"Create Proxy Window" action:@selector(createProxyWindow:) keyEquivalent:@""];
         [blahItem setTarget:self];
         [menu addItem:blahItem];
-        [blahItem release];
 
         blahItem = [[NSMenuItem alloc] initWithTitle:@"Show History Debugger" action:@selector(showHistoryDebugger:) keyEquivalent:@""];
         [blahItem setTarget:self];
         [menu addItem:blahItem];
-        [blahItem release];
 
         blahItem = [[NSMenuItem alloc] initWithTitle:@"Playback file" action:@selector(playbackLoggingState:) keyEquivalent:@""];
         [blahItem setTarget:nil];
         [menu addItem:blahItem];
-        [blahItem release];
 
         blahItem = [[NSMenuItem alloc] initWithTitle:@"Reverse Playback file" action:@selector(reversePlaybackLoggingState:) keyEquivalent:@""];
         [blahItem setTarget:nil];
         [menu addItem:blahItem];
-        [blahItem release];
 
         blahItem = [[NSMenuItem alloc] initWithTitle:@"Log Mode Precedences to console" action:@selector(printModePrecedences:) keyEquivalent:@""];
         [blahItem setTarget:self];
         [menu addItem:blahItem];
-        [blahItem release];
 	
         blahItem = [[NSMenuItem alloc] initWithTitle:@"Show Attribute Inspector..." action:@selector(showAttributeInspector:) keyEquivalent:@"a"];
-		[blahItem setKeyEquivalentModifierMask:NSAlternateKeyMask | NSControlKeyMask];
+		[blahItem setKeyEquivalentModifierMask:NSEventModifierFlagOption | NSEventModifierFlagControl];
         [blahItem setTarget:self];
         [menu addItem:blahItem];
-        [blahItem release];
 
     } else if (flag == NO && indexOfDebugMenu != -1) {
         [[NSApp mainMenu] removeItemAtIndex:indexOfDebugMenu];
@@ -249,7 +228,7 @@ static DebugController * sharedInstance = nil;
 }
 
 - (IBAction)crash:(id)sender {
-    NSLog(@"%@",(NSString *)0xAFFE); // This is supposed to crash, don't fix.
+    NSLog(@"%@",(__bridge NSString *)(void *)0xAFFE); // This is supposed to crash, don't fix.
 }
 
 

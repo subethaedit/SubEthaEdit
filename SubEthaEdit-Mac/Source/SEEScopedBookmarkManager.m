@@ -3,10 +3,6 @@
 //
 //  Created by Michael Ehrmann on 19.03.14.
 
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 #import "SEEScopedBookmarkManager.h"
 #import "SEEScopedBookmarkAccessoryViewController.h"
 #import "UKXattrMetadataStore.h"
@@ -389,8 +385,8 @@ static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.s
 			[openPanel TCM_setAssociatedValue:viewController forKey:@"accessoryViewController"];
 		}
 
-		NSInteger openPanelResult = [openPanel runModal];
-		if (openPanelResult == NSFileHandlingPanelOKButton) {
+		NSModalResponse openPanelResult = [openPanel runModal];
+		if (openPanelResult == NSModalResponseOK) {
 			NSURL *choosenURL = openPanel.URL;
 			// creating the security scoped bookmark url so that accessing works <3
 
@@ -441,8 +437,8 @@ static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.s
 			[openPanel TCM_setAssociatedValue:viewController forKey:@"accessoryViewController"];
 		}
 
-		NSInteger openPanelResult = [openPanel runModal];
-		if (openPanelResult == NSFileHandlingPanelOKButton) {
+		NSModalResponse openPanelResult = [openPanel runModal];
+		if (openPanelResult == NSModalResponseOK) {
 			NSURL *choosenURL = openPanel.URL;
 			// creating the security scoped bookmark url so that accessing works <3
 			NSNumber *isBookmarkFileWritable = nil;
@@ -500,7 +496,8 @@ static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.s
                             // so we ask the user to allow us to use the file
                             NSURL *bookmarkURL = block(aURL);
                             if (bookmarkURL) {
-                                BOOL success = [bookmarkURL startAccessingSecurityScopedResource];
+                                BOOL success =
+                                [bookmarkURL startAccessingSecurityScopedResource];
                                 
                                 NSError *error = nil;
                                 // checking if the selected url helps with opening permissions of our file
@@ -516,6 +513,11 @@ static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.s
                                         [self.bookmarkURLs addObject:bookmarkURL];
                                         [self writeBookmarksToUserDefaults];
                                     }
+                                    if (success) {
+                                        // TODO: call back out and reload stuff - if success
+                                    }
+                                }
+                                if (success) {
                                     // TODO: call back out and reload stuff - if success
                                 }
                             }

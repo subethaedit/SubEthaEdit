@@ -3,11 +3,6 @@
 //
 //  Created by Lisa Brodner on 16/04/14.
 
-// this file needs arc - add -fobjc-arc in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 #import "SEEUserColorsPreviewView.h"
 
 #import "PreferenceKeys.h"
@@ -58,7 +53,7 @@ void * const SEEUserColorsPreviewUpdateObservingContext = (void *)&SEEUserColors
 			[label setBackgroundColor:[NSColor clearColor]];
 			[label setBezeled:NO];
 			[label setEditable:NO];
-			[label setStringValue:@"Lorem ipsum"];
+			[label setStringValue:SEE_NoLocalizationNeeded(@"Lorem ipsum")];
 			[self addSubview:label];
 			label;
 		});
@@ -68,7 +63,7 @@ void * const SEEUserColorsPreviewUpdateObservingContext = (void *)&SEEUserColors
 			[label setBackgroundColor:[NSColor clearColor]];
 			[label setBezeled:NO];
 			[label setEditable:NO];
-			[label setStringValue:@"dolor sit"];
+			[label setStringValue:SEE_NoLocalizationNeeded(@"dolor sit")];
 			[self addSubview:label];
 			label;
 		});
@@ -78,7 +73,7 @@ void * const SEEUserColorsPreviewUpdateObservingContext = (void *)&SEEUserColors
 			[label setBackgroundColor:[NSColor clearColor]];
 			[label setBezeled:NO];
 			[label setEditable:NO];
-			[label setStringValue:@"amet, consectetur adipiscing elit."];
+			[label setStringValue:SEE_NoLocalizationNeeded(@"amet, consectetur adipiscing elit.")];
 			[[label cell] setLineBreakMode:NSLineBreakByTruncatingTail];
 			[self addSubview:label];
 			label;

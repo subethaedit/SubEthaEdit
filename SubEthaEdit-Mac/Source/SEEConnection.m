@@ -4,10 +4,6 @@
 //  Created by Dominik Wagner on 08.05.07.
 //	Updated by Michael Ehrmann on Fri Feb 21 2014.
 
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 #import "SEEConnection.h"
 #import "AppController.h"
 #import "TCMHost.h"
@@ -84,7 +80,7 @@ NSString * const SEEConnectionStatusDidChangeNotification = @"SEEConnectionStatu
     }
 }
 
-- (id)initWithURL:(NSURL *)anURL {
+- (instancetype)initWithURL:(NSURL *)anURL {
     if ((self=[super init])) {
 		NSURL *documentRequest = nil;
         NSData *addressData = nil;
@@ -115,7 +111,7 @@ NSString * const SEEConnectionStatusDidChangeNotification = @"SEEConnectionStatu
     return self;
 }
 
-- (id)initWithBEEPSession:(TCMBEEPSession *)aSession {
+- (instancetype)initWithBEEPSession:(TCMBEEPSession *)aSession {
     if ((self=[super init])) {
         self.BEEPSession = aSession;
         self.hostStatus = HostEntryStatusSessionOpen;

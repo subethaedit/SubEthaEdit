@@ -7,8 +7,7 @@
 
 @class TCMBEEPMessage;
 
-@interface TCMBEEPFrame : NSObject
-{
+@interface TCMBEEPFrame : NSObject {
     char I_messageType[4];
     int32_t I_channelNumber;
     int32_t I_messageNumber;
@@ -16,8 +15,9 @@
     uint32_t I_sequenceNumber;
     int32_t I_length;
     int32_t I_answerNumber;
-    NSData *I_payload;
 }
+
+@property (nonatomic, copy) NSData *payload;
 
 + (TCMBEEPFrame *)SEQFrameWithChannelNumber:(int32_t)channelNumber
                       acknowledgementNumber:(uint32_t)acknowledgementNumber
@@ -28,16 +28,16 @@
                      payloadLength:(uint32_t)aLength
                       intermediate:(BOOL)aFlag;
 
-- (id)initWithMessage:(TCMBEEPMessage *)aMessage 
+- (instancetype)initWithMessage:(TCMBEEPMessage *)aMessage 
        sequenceNumber:(uint32_t)aSequenceNumber
         payloadLength:(uint32_t)aLength
          intermediate:(BOOL)aFlag;
          
-- (id)initWithChannelNumber:(int32_t)channelNumber
+- (instancetype)initWithChannelNumber:(int32_t)channelNumber
       acknowledgementNumber:(uint32_t)acknowledgementNumber
                  windowSize:(int32_t)windowSize;
                  
-- (id)initWithHeader:(char *)aHeaderString;
+- (instancetype)initWithHeader:(char *)aHeaderString;
 
 - (void)setPayload:(NSData *)aData;
 - (NSData *)payload;

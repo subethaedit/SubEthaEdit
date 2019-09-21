@@ -9,11 +9,6 @@
 #import "PlainTextDocument.h"
 #import "PlainTextWindowController.h"
 
-// this file needs arc - add -fobjc-arc in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 @interface SEEEncodingDoctorDialogViewController()
 @property (nonatomic, strong) IBOutlet NSButton *cancelButton;
 @property (nonatomic, strong) IBOutlet NSButton *convertButton;
@@ -28,7 +23,7 @@
 @implementation SEEEncodingDoctorDialogViewController
 @synthesize tabContext = _tabContext;
 
-- (id)initWithEncoding:(NSStringEncoding)anEncoding {
+- (instancetype)initWithEncoding:(NSStringEncoding)anEncoding {
     if ((self=[super initWithNibName:@"SEEEncodingDoctorView" bundle:nil])) {
 		self.encoding = anEncoding;
     }
@@ -150,7 +145,7 @@
 
     if(document) {
         NSRange range = [[[[self.foundErrorsArrayController selectedObjects] lastObject] objectForKey:@"selectionOperation"] selectedRange];
-        if (([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask)) {
+        if (([[NSApp currentEvent] modifierFlags] & NSEventModifierFlagOption)) {
             [document newView:self];
         }
         [document selectRange:range];

@@ -5,14 +5,13 @@
 
 #import <Foundation/Foundation.h>
 
-
 // bencoded data can be stored and put into corresponding dictionaryrepresentations
-@interface TCMMutableBencodedData : NSObject {
-    NSMutableData *I_mutableData;
-}
-- (id)initWithData:(NSData *)aData;
-- (id)initWithObject:(id)anObject;
-- (NSData*)data;
+@interface TCMMutableBencodedData : NSObject
+
+@property (nonatomic, readonly) NSMutableData *data;
+
+- (instancetype)initWithData:(NSData *)aData;
+- (instancetype)initWithObject:(id)anObject;
 - (void)appendObjectToBencodedArray:(id)anObject;
 - (id)decodedObject;
 - (void)appendObjectsFromArrayToBencodedArray:(NSArray *)anArray;
@@ -25,4 +24,3 @@ NSData *TCM_BencodedObject(id aObject);
 CFIndex TCM_AppendStringToMutableData(NSString *inString, NSMutableData *inData);
 id TCM_BdecodedObjectWithData(NSData *data);
 id TCM_CopyBdecodedObject(uint8_t *aBytes, unsigned *aPosition, unsigned aLength) NS_RETURNS_RETAINED;
-

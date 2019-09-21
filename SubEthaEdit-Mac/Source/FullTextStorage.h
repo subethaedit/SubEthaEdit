@@ -9,32 +9,11 @@
 
 extern NSString * const SEESearchScopeAttributeName;
 
-@interface FullTextStorage : AbstractFoldingTextStorage {
-	NSMutableAttributedString *I_internalAttributedString;
-	int I_shouldNotSynchronize;
-	int I_linearAttributeChangeState;
-	NSRange I_unionRangeOfLinearAttributeChanges;
-	int I_linearAttributeChangesCount;
-
-    NSMutableArray *I_lineStarts;
-    NSUInteger I_lineStartsValidUpTo;
-    NSUInteger I_numberOfWords;
-    
-    NSStringEncoding I_encoding;
-    LineEnding I_lineEnding;
-	struct {
-        BOOL hasMixedLineEndings;
-        BOOL shouldWatchLineEndings;
-    } I_flags;
-
-}
-
+@interface FullTextStorage : AbstractFoldingTextStorage 
+@property (nonatomic, readonly, weak) FoldableTextStorage *foldableTextStorage;
 
 + (OGRegularExpression *)wrongLineEndingRegex:(LineEnding)aLineEnding;
-
-- (id)initWithFoldableTextStorage:(FoldableTextStorage *)inTextStorage;
-
-@property (nonatomic, readonly, weak) FoldableTextStorage *foldableTextStorage;
+- (instancetype)initWithFoldableTextStorage:(FoldableTextStorage *)inTextStorage;
 
 #pragma mark -
 - (NSString *)positionStringForRange:(NSRange)aRange;
@@ -86,9 +65,7 @@ extern NSString * const SEESearchScopeAttributeName;
 - (NSUInteger)numberOfCharacters;
 - (NSUInteger)numberOfWords;
 
-
 #pragma mark -
-
 
 - (BOOL)hasMixedLineEndingsInRange:(NSRange)aRange;
 - (void)validateHasMixedLineEndings;

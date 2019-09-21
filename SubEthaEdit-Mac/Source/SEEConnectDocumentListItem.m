@@ -3,10 +3,6 @@
 //
 //  Created by Michael Ehrmann on 27.02.14.
 
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 #import "SEEConnectDocumentListItem.h"
 #import "SEEConnectionAddingWindowController.h"
 
@@ -19,7 +15,7 @@
 @synthesize name = _name;
 @synthesize image = _image;
 
-- (id)init {
+- (instancetype)init {
     self = [super init];
     if (self) {
         self.name = NSLocalizedString(@"DOCUMENT_LIST_CONNECT", @"");

@@ -3,11 +3,6 @@
 //
 //  Created by Dominik Wagner on Thu Apr 29 2004.
 
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
-
 #import "DocumentProxyWindowController.h"
 #import "TCMMMSession.h"
 #import "TCMMMUser.h"
@@ -75,17 +70,13 @@
 
 @implementation DocumentProxyWindowController
 
-- (id)initWithSession:(TCMMMSession *)aSession {
+- (instancetype)initWithSession:(TCMMMSession *)aSession {
     self = [super initWithWindowNibName:@"DocumentProxy"];
     if (self) {
         [self setSession:aSession];
         [self setShouldCascadeWindows:NO];
     }
     return self;
-}
-
-- (void)dealloc {
-    [[self window] setDelegate:nil];
 }
 
 - (void)update {

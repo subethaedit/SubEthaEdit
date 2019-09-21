@@ -5,13 +5,11 @@
 
 #import "AbstractFoldingTextStorage.h"
 
-
 @implementation AbstractFoldingTextStorage
 
-- (id)init {
+- (instancetype)init {
 	if ((self = [super init])) {
 		I_fixingCounter = 0;
-		I_otherTextStorage = nil;
 	}
 	return self;
 }
@@ -25,7 +23,6 @@
 	NSString *contentString = [[NSString alloc] initWithBytesNoCopy:(void *)[inData bytes] length:[inData length] encoding:anEncoding freeWhenDone:NO];
 	if (contentString) {
 		[self replaceCharactersInRange:NSMakeRange(0,[self length]) withString:contentString];
-		[contentString release];
 		return YES;
 	} else {
 		return NO;

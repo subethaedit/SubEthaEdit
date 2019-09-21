@@ -5,7 +5,6 @@
 
 #import "FontAttributesToStringValueTransformer.h"
 
-
 @implementation FontAttributesToStringValueTransformer
 + (Class)transformedValueClass {
     return [NSString class];

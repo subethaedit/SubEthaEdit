@@ -17,29 +17,24 @@ extern NSString * const UndoManagerWillUndoChangeNotification;
 @class TCMMMOperation, PlainTextDocument, UndoGroup;
 
 @interface UndoGroup : NSObject 
-{
-    UndoGroup *_parent;
-    NSMutableArray *_actions;
-    NSString *_actionName;
-}
 
-- (NSMutableArray *)actions;
-- (NSString *)actionName;
-- (id)initWithParent:(UndoGroup *)parent;
-- (UndoGroup *)parent;
-- (void)setActionName:(NSString *)newName;
+@property (nonatomic, copy) NSString *actionName;
+@property (nonatomic, readonly) NSMutableArray *actions;
+@property (nonatomic, readonly) UndoGroup *parent;
+
+- (instancetype)initWithParent:(UndoGroup *)parent;
 
 @end
 
 @interface UndoManager : NSObject {
-    PlainTextDocument *_document;
+    __weak PlainTextDocument *_document;
 
     NSMutableArray *_undoStack;
     NSMutableArray *_redoStack;
     
     UndoGroup *_undoGroup;
     UndoGroup *_redoGroup;
-    id _preparedInvocationTarget;
+    __weak id _preparedInvocationTarget;
     
     struct {
         unsigned int undoing;
@@ -160,7 +155,7 @@ extern NSString * const UndoManagerWillUndoChangeNotification;
 
 #pragma mark -
 
-- (id)initWithDocument:(PlainTextDocument *)document;
+- (instancetype)initWithDocument:(PlainTextDocument *)document;
 - (void)performUndoGroup:(UndoGroup *)group;
 - (void)registerUndoChangeTextInRange:(NSRange)aAffectedCharRange
                     replacementString:(NSString *)aReplacementString  shouldGroupWithPriorOperation:(BOOL)shouldGroup;

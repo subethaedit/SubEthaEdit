@@ -21,7 +21,7 @@ extern NSString * const ScriptWrapperDidRunScriptNotification;
 
 + (id)scriptWrapperWithContentsOfURL:(NSURL *)URL;
 
-- (id)initWithContentsOfURL:(NSURL *)URL;
+- (instancetype)initWithContentsOfURL:(NSURL *)URL;
 - (void)executeAndReturnError:(NSDictionary **)errorDictionary;
 - (NSDictionary *)settingsDictionary;
 - (void)revealSource;

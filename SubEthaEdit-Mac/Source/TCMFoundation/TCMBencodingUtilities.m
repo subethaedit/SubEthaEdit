@@ -17,43 +17,34 @@ Dictionaries are encoded as a 'd' followed by a list of alternating keys and the
 #import "TCMBencodingUtilities.h"
 
 @implementation TCMMutableBencodedData
-- (id)initWithObject:(id)anObject {
+- (instancetype)initWithObject:(id)anObject {
     return [self initWithData:TCM_BencodedObject(anObject)];
 }
 
-- (id)initWithData:(NSData *)aData {
+- (instancetype)initWithData:(NSData *)data {
     if ((self=[super init])) {
-        if (!aData) { aData = [NSData data]; };
-        I_mutableData = [aData mutableCopy];
+        _data = [data mutableCopy] ?: [NSMutableData new];
     }
     return self;
 }
 
-- (void)dealloc {
-    [I_mutableData release];
-    [super dealloc];
-}
-
-- (NSData*)data {
-    return (NSData *)I_mutableData;
-}
 
 - (void)appendObjectToBencodedArray:(id)anObject {
     NSData *objectData = TCM_BencodedObject(anObject);
     if (objectData) {
-        [I_mutableData replaceBytesInRange:NSMakeRange([I_mutableData length]-1,0) withBytes:[objectData bytes] length:[objectData length]];
+        [_data replaceBytesInRange:NSMakeRange([_data length]-1,0) withBytes:[objectData bytes] length:[objectData length]];
     }
 }
 
 - (void)appendObjectsFromArrayToBencodedArray:(NSArray *)anArray {
     NSData *objectData = TCM_BencodedObject(anArray);
     if (objectData) {
-        [I_mutableData replaceBytesInRange:NSMakeRange([I_mutableData length]-1,0) withBytes:[objectData bytes]+1 length:[objectData length]-2];
+        [_data replaceBytesInRange:NSMakeRange([_data length]-1,0) withBytes:[objectData bytes]+1 length:[objectData length]-2];
     }
 }
 
 - (id)mutableBencodedDataByAppendingObjectsFromArrayToBencodedArray:(NSArray *)anArray {
-    TCMMutableBencodedData *result = [[[TCMMutableBencodedData alloc] initWithData:[self data]] autorelease];
+    TCMMutableBencodedData *result = [[TCMMutableBencodedData alloc] initWithData:self.data];
     [result appendObjectsFromArrayToBencodedArray:anArray];
     return result;
 }
@@ -107,12 +98,9 @@ void TCM_AppendBencodedObjectToData(id inObject, NSMutableData *inData) {
         NSMutableData *prefixData = [[NSMutableData alloc] init];
         TCM_AppendStringToMutableData(prefixString,prefixData);
         [result replaceBytesInRange:NSMakeRange([result length] - stringByteLength,0) withBytes:[prefixData bytes] length:[prefixData length]];
-        [prefixData release];
-        [prefixString release];
     } else if ([inObject isKindOfClass:[NSData class]]) {
 		NSString *prefixString = [[NSString alloc] initWithFormat:@"%lu.",(unsigned long)[(NSData *)inObject length]];
         TCM_AppendStringToMutableData(prefixString,result);
-        [prefixString release];
         [result appendData:inObject];
     } else if ([inObject isKindOfClass:[NSDictionary class]]) {
         [result appendBytes:"d" length:1];
@@ -135,7 +123,6 @@ void TCM_AppendBencodedObjectToData(id inObject, NSMutableData *inData) {
         long long number=[inObject longLongValue];
 		NSString *string = [[NSString alloc] initWithFormat:@"i%qie",number];
         TCM_AppendStringToMutableData(string,result);
-        [string release];
     }
 }
 
@@ -148,7 +135,7 @@ NSData *TCM_BencodedObject(id aObject) {
 // returns an autoreleased object
 id TCM_BdecodedObjectWithData(NSData *data) {
     unsigned position=0;
-    return [TCM_CopyBdecodedObject((uint8_t *)[data bytes],&position,[data length]) autorelease];
+    return TCM_CopyBdecodedObject((uint8_t *)[data bytes],&position,[data length]);
 }
 
 
@@ -173,17 +160,12 @@ id TCM_CopyBdecodedObject(uint8_t *aBytes, unsigned *aPosition, unsigned aLength
 					if (value) {
 						NSString *decodedKey = [S_bencodingDictionaryKeysDictionary objectForKey:key];
 						if (! decodedKey) {
-							decodedKey = [[key retain] autorelease];
+							decodedKey = key;
 							[S_bencodingDictionaryKeysDictionary setObject:decodedKey forKey:key];
 						}
 						[result setObject:value forKey:decodedKey];
-						[value release];
-						value = nil;
 					}
-					[key release];
-					key = nil;
                 } else {
-					[result release];
                     return nil;
                 }
             }
@@ -199,9 +181,7 @@ id TCM_CopyBdecodedObject(uint8_t *aBytes, unsigned *aPosition, unsigned aLength
                 id value=TCM_CopyBdecodedObject(aBytes,aPosition,aLength);
                 if (value) {
                     [result addObject:value];
-					[value release];
                 } else {
-					[result release];
                     return nil;
                 }
             }

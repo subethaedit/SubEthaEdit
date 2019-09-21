@@ -7,17 +7,13 @@
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 
 
-@interface TextOperation : TCMMMOperation <NSCopying> {
-    NSRange I_affectedCharRange;
-    NSString *I_replacementString;
-}
+@interface TextOperation : TCMMMOperation <NSCopying> 
+
+@property (nonatomic) NSRange affectedCharRange;
+@property (nonatomic, copy) NSString *replacementString;
 
 + (TextOperation *)textOperationWithAffectedCharRange:(NSRange)aRange replacementString:(NSString *)aString userID:(NSString *)aUserID;
 
-- (void)setAffectedCharRange:(NSRange)aRange;
-- (NSRange)affectedCharRange;
-- (void)setReplacementString:(NSString *)aString;
-- (NSString *)replacementString;
 - (BOOL)isIrrelevant;
 - (BOOL)shouldBeGroupedWithTextOperation:(TextOperation *)priorOperation;
 

@@ -9,13 +9,6 @@
 #import "DocumentMode.h"
 #import "BorderedTextField.h"
 
-// this file needs arc - either project wide,
-// or add -fobjc-arc on a per file basis in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
-
 @interface SEEPlainTextEditorTopBarViewController () <PopUpButtonDelegate>
 @property (nonatomic, strong) IBOutlet BorderedTextField *writtenByTextField;
 @property (nonatomic, strong) IBOutlet BorderedTextField *positionTextField;
@@ -70,33 +63,30 @@
 	return self;
 }
 
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:@"SEEPlainTextEditorTopBarViewController" bundle:nibBundleOrNil];
     if (self) {
-        // Initialization code here.
     }
     return self;
 }
 
 - (void)dealloc {
-	self.symbolPopUpButton.delegate = nil;
 	for (id notificationReference in self.registeredNotifications) {
 		[[NSNotificationCenter defaultCenter] removeObserver:notificationReference];
-	}
-	
+	}	
 }
 
 - (void)updateColorsForIsDarkBackground:(BOOL)isDark {
     BOOL isDarkAppearance = NSApp.SEE_effectiveAppearanceIsDark;
-	NSColor *backgroundColor = [NSColor darkOverlayBackgroundColorBackgroundIsDark:isDark appearanceIsDark:isDarkAppearance];
-	self.view.layer.backgroundColor = [backgroundColor CGColor];
 	
 	NSColor *separatorColor = [NSColor darkOverlaySeparatorColorBackgroundIsDark:isDark appearanceIsDark:isDarkAppearance];
 	self.bottomBarLayerBackedView.layer.backgroundColor = [separatorColor CGColor];
 	[self.symbolPopUpButton setLineColor:separatorColor];
 	[self.positionTextField setBorderColor:separatorColor];
 	[self.docinfoTextField setBorderColor:separatorColor];
+    
+    // disable vibrant appearance on the popup as on light backgrounds it looks disabled
+    self.view.appearance = self.view.superview.effectiveAppearance.SEE_closestSystemNonVibrantAppearance;
 }
 
 - (void)loadView {
@@ -107,6 +97,7 @@
 	[self updateColorsForIsDarkBackground:NO];
 	[self updateSymbolPopUpContent];
 	[self updateForTextDidChange];
+    self.positionTextField.font = [self.positionTextField.font SEE_fontByAddingMonoSpaceNumbersFeature];
 }
 
 - (void)setVisible:(BOOL)visible {
@@ -223,14 +214,7 @@
 		
 		// finally we can calulate the origin of the writtenBy text field
         writtenByTextFrame.origin.x = NSMinX(docInfoTextFieldFrame) - writtenByTextFrame.size.width - SPACING;
-		
-		// adjust all frames to backing grid
-		/* not doing that for now as we made sure we use integral point values all over the place
-		positionTextFrame = [positionTextField centerScanRect:positionTextFrame];
-		symbolPopUpFrame = [symbolPopUpButton centerScanRect:symbolPopUpFrame];
-		writtenByTextFrame = [writtenByTextField centerScanRect:writtenByTextFrame];
-		 */
-		
+				
 		// set frames
 		[positionTextField setFrame:positionTextFrame];
         [symbolPopUpButton setFrame:symbolPopUpFrame];
@@ -289,7 +273,7 @@
 
 - (void)popUpWillShowMenu:(PopUpButton *)aButton {
     NSEvent *currentEvent = [NSApp currentEvent];
-    BOOL sorted = ([currentEvent type] == NSLeftMouseDown && ([currentEvent modifierFlags] & NSAlternateKeyMask));
+    BOOL sorted = ([currentEvent type] == NSEventTypeLeftMouseDown && ([currentEvent modifierFlags] & NSEventModifierFlagOption));
 	
     if (sorted != self.symbolPopUpIsSorted) {
         [self updateSymbolPopUpSorted:sorted];
@@ -327,7 +311,7 @@
 		
 		if (![targetValue isEqualToString:currentValue]) {
 			self.docinfoTextField.stringValue = targetValue;
-			// todo: set needs layout
+            [self adjustLayout];
 		}
 	}
 }
@@ -339,7 +323,6 @@
 	[mode.defaults setObject:@(infoType) forKey:DocumentModeDocumentInfoTypePreferenceKey];
 	
 	[self updateDocumentInfoTextField];
-	[self adjustLayout];
 }
 
 - (void)updatePositionTextField {

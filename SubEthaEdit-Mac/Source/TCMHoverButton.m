@@ -3,14 +3,7 @@
 //
 //  Created by Dominik Wagner on 09.05.14.
 
-// this file needs arc - add -fobjc-arc in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
-
 #import "TCMHoverButton.h"
-
 
 @implementation TCMHoverButton
 
@@ -83,7 +76,7 @@
     [self addTrackingArea:area];
 }
 
--(void)updateTrackingAreas {
+- (void)updateTrackingAreas {
 	
     [super updateTrackingAreas];
     

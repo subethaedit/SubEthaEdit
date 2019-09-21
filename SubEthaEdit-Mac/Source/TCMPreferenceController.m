@@ -6,18 +6,15 @@
 #import "TCMPreferenceController.h"
 #import "TCMPreferenceModule.h"
 
-
 static NSMutableDictionary *registeredPrefModules;
 static NSMutableArray *prefModules;
 
 
-@interface TCMPreferenceController (TCMPreferenceControllerPrivateAdditions)
+@interface TCMPreferenceController ()
 
-- (void)switchPrefPane:(id)aSender;
-- (NSString *)selectedItemIdentifier;
-- (void)setSelectedItemIdentifier:(NSString *)anIdentifier;
-- (NSView *)emptyContentView;
-- (void)setEmptyContentView:(NSView *)aView;
+@property (nonatomic, strong) NSView *emptyContentView;
+@property (nonatomic, copy) NSString *selectedItemIdentifier;
+
 - (void)selectPrefPaneWithIdentifier:(NSString *)anIdentifier;
 - (id)selectedModule;
 @end
@@ -28,27 +25,23 @@ static TCMPreferenceController *sharedInstance = nil;
 
 @implementation TCMPreferenceController
 
-+ (TCMPreferenceController *)sharedInstance
-{
++ (TCMPreferenceController *)sharedInstance {
     return sharedInstance;
 }
 
-+ (void)initialize
-{
++ (void)initialize {
 	if (self == [TCMPreferenceController class]) {
 		prefModules = [NSMutableArray new];
 		registeredPrefModules = [NSMutableDictionary new];
 	}
 }
 
-+ (void)registerPrefModule:(TCMPreferenceModule *)aModule
-{
++ (void)registerPrefModule:(TCMPreferenceModule *)aModule {
     [prefModules addObject:aModule];
     [registeredPrefModules setObject:aModule forKey:[aModule identifier]];
 }
 
-- (id)init
-{
+- (instancetype)init {
     self = [super initWithWindowNibName:@"Preferences"];
     if (self) {
         I_toolbarItemIdentifiers = [NSMutableArray new];
@@ -56,20 +49,12 @@ static TCMPreferenceController *sharedInstance = nil;
     return self;
 }
 
-- (void)dealloc
-{
-    [I_toolbarItemIdentifiers release];
-    [I_selectedItemIdentifier release];
-    [super dealloc];
-}
 
-- (void)awakeFromNib
-{    
+- (void)awakeFromNib {
     sharedInstance = self;
 }
 
-- (void)windowWillLoad
-{
+- (void)windowWillLoad {
     TCMPreferenceModule *module;
     for (module in prefModules) {
         NSString *itemIdent = [module identifier];
@@ -82,29 +67,16 @@ static TCMPreferenceController *sharedInstance = nil;
     [I_toolbar setDelegate:self];
 }
 
-- (NSView *)emptyContentView
-{
-    return I_emptyContentView;
-}
-
-- (void)setEmptyContentView:(NSView *)aView
-{
-    [I_emptyContentView autorelease];
-    I_emptyContentView = [aView retain];
-}
-
-- (void)windowDidLoad
-{
-    [[self window] setToolbar:I_toolbar];
-    [[[self window] standardWindowButton: NSWindowToolbarButton] setFrame: NSZeroRect];
-
-    [I_toolbar autorelease];
-        
+- (void)windowDidLoad {
+    NSWindow *window = self.window;
+    [window setToolbar:I_toolbar];
+    [[window standardWindowButton: NSWindowToolbarButton] setFrame: NSZeroRect];
+    
     if ([I_toolbarItemIdentifiers count] > 0) {
         NSString *identifier = [I_toolbarItemIdentifiers objectAtIndex:0];
         [I_toolbar setSelectedItemIdentifier:identifier];
         
-        [self setEmptyContentView:[[self window] contentView]];
+        [self setEmptyContentView:[window contentView]];
         
         id module = [registeredPrefModules objectForKey:identifier];
         [module willSelect];
@@ -112,7 +84,7 @@ static TCMPreferenceController *sharedInstance = nil;
         [self selectPrefPaneWithIdentifier:identifier];
         [module didSelect];
     }
-    [[self window] setDelegate:self];
+    [window setDelegate:self];
 }
 
 
@@ -128,8 +100,7 @@ static TCMPreferenceController *sharedInstance = nil;
 	}
 }
 
-- (void)selectPrefPaneWithIdentifier:(NSString *)anIdentifier
-{
+- (void)selectPrefPaneWithIdentifier:(NSString *)anIdentifier {
     NSWindow *window = [self window];
     [window setContentView:[self emptyContentView]];
 
@@ -172,8 +143,7 @@ static TCMPreferenceController *sharedInstance = nil;
     }
 }
 
-- (void)selectPrefPane:(id)aSender
-{
+- (void)selectPrefPane:(id)aSender {
     NSString *identifier = [I_toolbar selectedItemIdentifier];
     NSString *previousIdentifier = [self selectedItemIdentifier];
 
@@ -194,24 +164,11 @@ static TCMPreferenceController *sharedInstance = nil;
     }
 }
 
-- (id)selectedModule 
-{
+- (id)selectedModule {
     return [registeredPrefModules objectForKey:[self selectedItemIdentifier]];
 }
 
-- (NSString *)selectedItemIdentifier
-{
-    return I_selectedItemIdentifier;
-}
-
-- (void)setSelectedItemIdentifier:(NSString *)anIdentifier
-{
-    [I_selectedItemIdentifier autorelease];
-    I_selectedItemIdentifier = [anIdentifier copy];   
-}
-
-- (BOOL)windowShouldClose:(id)sender
-{
+- (BOOL)windowShouldClose:(id)sender {
     BOOL shouldClose = YES;
     
     id module = [registeredPrefModules objectForKey:[self selectedItemIdentifier]];
@@ -230,8 +187,7 @@ static TCMPreferenceController *sharedInstance = nil;
 
 #pragma mark -
 
-- (BOOL)selectPreferenceModuleWithIdentifier:(NSString *)identifier
-{
+- (BOOL)selectPreferenceModuleWithIdentifier:(NSString *)identifier {
     if (![[self window] attachedSheet]) {
         [I_toolbar setSelectedItemIdentifier:identifier];
         [self selectPrefPane:self];
@@ -247,18 +203,16 @@ static TCMPreferenceController *sharedInstance = nil;
     return YES;
 }
 
-- (TCMPreferenceModule *)preferenceModuleWithIdentifier:(NSString *)identifier
-{
+- (TCMPreferenceModule *)preferenceModuleWithIdentifier:(NSString *)identifier {
     return [registeredPrefModules objectForKey:identifier];
 }
 
 #pragma mark - NSToolbarDelegate
 
-- (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdent willBeInsertedIntoToolbar:(BOOL)willBeInserted
-{
+- (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdent willBeInsertedIntoToolbar:(BOOL)willBeInserted {
     id module = [registeredPrefModules objectForKey:itemIdent];
     if (module) {
-        NSToolbarItem *toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:itemIdent] autorelease];
+        NSToolbarItem *toolbarItem = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdent];
         [toolbarItem setLabel:[module iconLabel]];
         [toolbarItem setImage:[module icon]];
         [toolbarItem setTarget:self];
@@ -270,18 +224,15 @@ static TCMPreferenceController *sharedInstance = nil;
     return nil;
 }
 
-- (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar
-{
+- (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar {
     return I_toolbarItemIdentifiers;
 }
 
-- (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar
-{
+- (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar {
     return I_toolbarItemIdentifiers;
 }
 
-- (NSArray *)toolbarSelectableItemIdentifiers:(NSToolbar *)toolbar
-{
+- (NSArray *)toolbarSelectableItemIdentifiers:(NSToolbar *)toolbar {
     return I_toolbarItemIdentifiers;
 }
 

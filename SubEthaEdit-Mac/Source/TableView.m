@@ -5,32 +5,21 @@
 
 #import "TableView.h"
 
-
 @implementation TableView
--(void)setLightBackgroundColor:(NSColor *)aColor {
-    [I_lightBackgroundColor autorelease];
-     I_lightBackgroundColor=[aColor retain];
-}
 
--(void)setDarkBackgroundColor:(NSColor *)aColor {
-    [I_darkBackgroundColor autorelease];
-     I_darkBackgroundColor=[aColor retain];
-}
-
--(void)setDisableFirstRow:(BOOL)aFlag {
-    I_disableFirstRow=aFlag;
+- (void)setDisableFirstRow:(BOOL)aFlag {
+    _disableFirstRow=aFlag;
     [self setNeedsDisplay:YES];
 }
 
-
 - (void)drawBackgroundInClipRect:(NSRect)clipRect {
-    [I_lightBackgroundColor set];
+    [_lightBackgroundColor set];
     NSRectFill([self rectOfColumn:0]);
-    [I_darkBackgroundColor set];
+    [_darkBackgroundColor set];
     NSRect darkRect=[self rectOfColumn:1];
     darkRect.size.width+=10.;
     NSRectFill(darkRect);
-    if (I_disableFirstRow) {
+    if (_disableFirstRow) {
         NSRect rowRect=[self rectOfRow:0];
         rowRect=NSIntersectionRect(clipRect,rowRect);
         if (rowRect.size.height>0. || rowRect.size.width >0.) {
@@ -45,7 +34,7 @@
 - (void)highlightWithColor:(NSColor *)aColor inset:(float)aInset {
     if ([self selectedRow]>=0) {
 
-        NSMutableIndexSet *rows = [[[self selectedRowIndexes] mutableCopy] autorelease];
+        NSMutableIndexSet *rows = [[self selectedRowIndexes] mutableCopy];
     
         NSInteger index;
         NSInteger fromindex = -42;

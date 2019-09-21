@@ -15,7 +15,7 @@
 }
 
 + (UserChangeOperation *)userChangeOperationWithType:(int)aType userID:(NSString *)aUserID newGroup:(NSString *)aGroup {
-    UserChangeOperation *result=[[UserChangeOperation new] autorelease];
+    UserChangeOperation *result=[UserChangeOperation new];
     [result setType:aType];
     [result setUserID:aUserID];
     [result setTheNewGroup:aGroup];
@@ -23,7 +23,7 @@
 }
 
 + (UserChangeOperation *)userChangeOperationWithType:(int)aType user:(TCMMMUser *)aUser newGroup:(NSString *)aGroup {
-    UserChangeOperation *result=[[UserChangeOperation new] autorelease];
+    UserChangeOperation *result=[UserChangeOperation new];
     [result setType:aType];
     [result setUserID:[aUser userID]];
     [result setUser:aUser];
@@ -36,7 +36,7 @@
     return @"usr";
 }
 
-- (id)init {
+- (instancetype)init {
     self = [super init];
     if (self) {
         [self setTheNewGroup:@""];
@@ -54,13 +54,6 @@
     return copy;
 }
 
-
-- (void)dealloc {
-    [I_theNewGroup release];
-    [I_user release];
-    [super dealloc];
-}
-
 - (NSString *)description {
     NSMutableString *string=[NSMutableString stringWithFormat:@"UserChangeOperation %@",[self userID]];
     NSString *type=nil;
@@ -76,7 +69,7 @@
     return string;
 }
 
-- (id)initWithDictionaryRepresentation:(NSDictionary *)aDictionary {
+- (instancetype)initWithDictionaryRepresentation:(NSDictionary *)aDictionary {
     self = [super initWithDictionaryRepresentation:aDictionary];
     if (self) {
         [self setType:[[aDictionary objectForKey:@"typ"] unsignedIntValue]];
@@ -93,9 +86,9 @@
 
 
 - (NSDictionary *)dictionaryRepresentation {
-    NSMutableDictionary *dict = [[[super dictionaryRepresentation] mutableCopy] autorelease];
-    [dict setObject:[NSNumber numberWithUnsignedInt:I_type] forKey:@"typ"];
-    [dict setObject:I_theNewGroup forKey:@"grp"];
+    NSMutableDictionary *dict = [[super dictionaryRepresentation] mutableCopy];
+    [dict setObject:[NSNumber numberWithUnsignedInt:_type] forKey:@"typ"];
+    [dict setObject:_theNewGroup forKey:@"grp"];
     TCMMMUser *user=[self user];
     if (user) {
         [dict setObject:[user notification] forKey:@"usr"];
@@ -105,36 +98,9 @@
 
 - (BOOL)isEqualTo:(id)anObject {
     return ([super isEqualTo:anObject] && 
-            I_type == [(UserChangeOperation *)anObject type] &&
-            [I_theNewGroup isEqualToString:[anObject theNewGroup]] &&
+            _type == [(UserChangeOperation *)anObject type] &&
+            [_theNewGroup isEqualToString:[anObject theNewGroup]] &&
             [[self user] isEqualTo:[anObject user]]);
-}
-
-#pragma mark -
-#pragma mark ### accessors ###
-
-- (NSString *)theNewGroup {
-    return I_theNewGroup;
-}
-- (void)setTheNewGroup:(NSString *)aGroup {
-    [I_theNewGroup autorelease];
-     I_theNewGroup = [aGroup copy];
-}
-
-- (int)type {
-    return I_type;
-}
-- (void)setType:(int)aType {
-    I_type=aType;
-}
-
-- (TCMMMUser *)user {
-    return I_user;
-}
-
-- (void)setUser:(TCMMMUser *)aUser {
-    [I_user autorelease];
-     I_user=[aUser retain];
 }
 
 @end

@@ -3,13 +3,6 @@
 //
 //  Created by Dominik Wagner on Tue Apr 06 2004.
 
-// this file needs arc - either project wide,
-// or add -fobjc-arc on a per file basis in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
-
 #import "LayoutManager.h"
 #import "SEETextView.h"
 #import "FoldableTextStorage.h"
@@ -158,9 +151,9 @@ static NSMenu *S_defaultMenu=nil;
     NSEvent *leftMouseDraggedEvent = nil;
     while (YES) {
         NSRange intersectionRange;
-        aEvent=[[self window] nextEventMatchingMask:(NSLeftMouseDraggedMask|NSLeftMouseUpMask|NSPeriodicMask)];
+        aEvent=[[self window] nextEventMatchingMask:(NSEventMaskLeftMouseDragged|NSEventMaskLeftMouseUp|NSEventMaskPeriodic)];
 
-        if ([aEvent type] == NSLeftMouseDragged) {
+        if ([aEvent type] == NSEventTypeLeftMouseDragged) {
 			leftMouseDraggedEvent=aEvent;
             BOOL hitsContent=[self mouse:[self convertPoint:[aEvent locationInWindow] fromView:nil] 
                                   inRect:[self visibleRect]];
@@ -177,11 +170,11 @@ static NSMenu *S_defaultMenu=nil;
             }
         }
         
-        if ([aEvent type] == NSPeriodic) {
+      if ([aEvent type] == NSEventTypePeriodic) {
             [self autoscroll:leftMouseDraggedEvent];
         } 
         
-        if ([aEvent type] == NSLeftMouseUp) {
+      if ([aEvent type] == NSEventTypeLeftMouseUp) {
             if ([textStorage length]>0) {
                 [textStorage setHasBlockeditRanges:YES];
                 [NSEvent stopPeriodicEvents];
@@ -251,7 +244,7 @@ static NSMenu *S_defaultMenu=nil;
         [[self delegate] textView:self mouseDidGoDown:aEvent];
     }
     
-    if (([aEvent modifierFlags] & NSAlternateKeyMask) && [self isEditable]) {
+    if (([aEvent modifierFlags] & NSEventModifierFlagOption) && [self isEditable]) {
         [self trackMouseForBlockeditWithEvent:aEvent];
     } else {
         [super mouseDown:aEvent]; 
@@ -312,8 +305,7 @@ static NSMenu *S_defaultMenu=nil;
     TCMMMUser *me=[TCMMMUserManager me];
 
     FoldableTextStorage *ts = (FoldableTextStorage *)[self textStorage];
-
-    if (document) {
+    if (document && ts) { // ts can be nil with an layerkit based redraw on teardown of a document/windwow
         while ((user=[participants nextObject])) {
             if (user != me) {
 				NSPoint textContainerOrigin = self.textContainerOrigin;
@@ -429,7 +421,7 @@ static NSMenu *S_defaultMenu=nil;
 - (NSRange)selectionRangeForProposedRange:(NSRange)proposedSelRange granularity:(NSSelectionGranularity)granularity {
     NSEvent *currentEvent=[NSApp currentEvent];
     NSEventType type = [currentEvent type];
-    if (currentEvent && (type==NSLeftMouseDown || type==NSLeftMouseUp)) {
+    if (currentEvent && (type==NSEventTypeLeftMouseDown || type==NSEventTypeLeftMouseUp)) {
         NSInteger clickCount = [currentEvent clickCount];
         NSTextStorage *ts = [self textStorage];
         NSRange wholeRange = NSMakeRange(0,[ts length]);
@@ -699,9 +691,9 @@ static NSMenu *S_defaultMenu=nil;
     if ([textStorage hasBlockeditRanges]) {
         NSEvent *event=[NSApp currentEvent];
         // 53 is the escape key
-        if ( ([event type]==NSKeyDown || [event type]==NSKeyUp) &&
+        if ( ([event type]==NSEventTypeKeyDown || [event type]==NSEventTypeKeyUp) &&
 			  [event keyCode]==53 &&
-             !([event modifierFlags] & (NSControlKeyMask | NSAlternateKeyMask | NSCommandKeyMask | NSShiftKeyMask)) ) {
+             !([event modifierFlags] & (NSEventModifierFlagControl | NSEventModifierFlagOption | NSEventModifierFlagCommand | NSEventModifierFlagShift)) ) {
 //            NSLog(@"keyCode: %d, characters: %@, modifierFlags:%d, %@",
 //                    [event keyCode], [event characters], [event modifierFlags],
 //                    [event description]);
@@ -765,7 +757,7 @@ static NSMenu *S_defaultMenu=nil;
         }
 
         NSEvent *event=[NSApp currentEvent];
-        if ( (([event type]==NSKeyDown || [event type]==NSKeyUp)) &&
+        if ( (([event type]==NSEventTypeKeyDown || [event type]==NSEventTypeKeyUp)) &&
 			 (([event keyCode]==36) || ([event keyCode]==76) || ([event keyCode]==53) || ([event keyCode]==49) || ([event keyCode]==48))) {
 			I_flags.autoCompleteInProgress=NO;
 		}
@@ -968,7 +960,7 @@ static NSMenu *S_defaultMenu=nil;
 
 - (NSDragOperation)draggingUpdated:(id <NSDraggingInfo>)sender {
     NSPasteboard *pboard = [sender draggingPasteboard];
-	if (!([NSEvent modifierFlags] & NSAlternateKeyMask)) {
+	if (!([NSEvent modifierFlags] & NSEventModifierFlagOption)) {
 		if ([[pboard types] containsObject:kSEEPasteBoardTypeConnection]) {
 			//NSLog(@"draggingUpdated:");
 			BOOL shouldDrag=[[self.document session] isServer];
@@ -992,7 +984,7 @@ static NSMenu *S_defaultMenu=nil;
 
 - (BOOL)prepareForDragOperation:(id <NSDraggingInfo>)sender {
     NSPasteboard *pboard = [sender draggingPasteboard];
-	if (!([NSEvent modifierFlags] & NSAlternateKeyMask)) {
+	if (!([NSEvent modifierFlags] & NSEventModifierFlagOption)) {
 		if ([[pboard types] containsObject:kSEEPasteBoardTypeConnection]) {
 			//NSLog(@"prepareForDragOperation:");
 			BOOL shouldDrag=[[self.document session] isServer];
@@ -1023,7 +1015,7 @@ static NSMenu *S_defaultMenu=nil;
         for (userDescription in userArray) {
 			NSString *userID = [userDescription objectForKey:@"UserID"];
             TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:userID];
-			if ([NSEvent modifierFlags] & NSAlternateKeyMask) {
+			if ([NSEvent modifierFlags] & NSEventModifierFlagOption) {
 				[super prepareForDragOperation:sender];
 				return [super performDragOperation:sender];
 			} else {
@@ -1110,7 +1102,7 @@ static NSMenu *S_defaultMenu=nil;
         s_passThroughCharacterSet=[NSCharacterSet characterSetWithCharactersInString:@"1234567"];
     }
     int flags=[aEvent modifierFlags];
-    if ((flags & NSControlKeyMask) && !(flags & NSCommandKeyMask) && 
+    if ((flags & NSEventModifierFlagControl) && !(flags & NSEventModifierFlagCommand) && 
         [[aEvent characters] length]==1 &&
         [s_passThroughCharacterSet characterIsMember:[[aEvent characters] characterAtIndex:0]]) {
         id nextResponder=[self nextResponder];
@@ -1180,7 +1172,7 @@ static NSMenu *S_defaultMenu=nil;
 #pragma mark ### handle ruler interaction ###
 
 - (void)trackMouseForLineSelectionWithEvent:(NSEvent *)anEvent {
-    BOOL wasShift = ([anEvent modifierFlags] & NSShiftKeyMask) != 0;
+    BOOL wasShift = ([anEvent modifierFlags] & NSEventModifierFlagShift) != 0;
     NSString *textStorageString = [[self textStorage] string];
     if ([textStorageString length]==0) return;
     NSLayoutManager *layoutManager = [self layoutManager];
@@ -1207,12 +1199,12 @@ static NSMenu *S_defaultMenu=nil;
     NSEvent *autoscrollEvent=nil;
     BOOL timerOn = NO;
     while (1) {
-        NSEvent *event = [[self window] nextEventMatchingMask:(NSLeftMouseDraggedMask | NSLeftMouseUpMask | NSPeriodicMask)];
+        NSEvent *event = [[self window] nextEventMatchingMask:(NSEventMaskLeftMouseDragged | NSEventMaskLeftMouseUp | NSEventMaskPeriodic)];
         switch ([event type]) {
-            case NSPeriodic:
+            case NSEventTypePeriodic:
                 if (autoscrollEvent) [self autoscroll:autoscrollEvent];
                 event = autoscrollEvent;           
-            case NSLeftMouseDragged:
+            case NSEventTypeLeftMouseDragged:
                 currentPoint = [self convertPoint:[event locationInWindow] fromView:nil];
 				currentPoint.y -= self.textContainerOrigin.y;
                 glyphIndex = [layoutManager glyphIndexForPoint:currentPoint
@@ -1239,7 +1231,7 @@ static NSMenu *S_defaultMenu=nil;
                 }
             break;
                 
-            case NSLeftMouseUp:
+            case NSEventTypeLeftMouseUp:
                 if (timerOn) {
                     [NSEvent stopPeriodicEvents];
 //                    timerOn = NO;
@@ -1354,7 +1346,7 @@ static NSMenu *S_defaultMenu=nil;
 
 // needs the textview to be delegate to the ruler
 - (void)rulerView:(NSRulerView *)aRulerView handleMouseDown:(NSEvent *)anEvent {
-    if (([anEvent modifierFlags] & NSAlternateKeyMask) && [self isEditable]) {
+    if (([anEvent modifierFlags] & NSEventModifierFlagOption) && [self isEditable]) {
         [self trackMouseForBlockeditWithEvent:anEvent];
     } else {
         [self trackMouseForLineSelectionWithEvent:anEvent];

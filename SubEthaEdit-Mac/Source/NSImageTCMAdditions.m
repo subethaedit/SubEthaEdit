@@ -7,15 +7,10 @@
 #import <Quartz/Quartz.h>
 #import <CoreGraphics/CoreGraphics.h>
 #import "NSColorTCMAdditions.h"
+#import "NSAppearanceSEEAdditions.h"
 #import <objc/objc-runtime.h>
 #import <CoreText/CoreText.h>
 #import "NSObject+TCMArcLifecycleAdditions.h"
-
-// this file needs arc - either project wide,
-// or add -fobjc-arc on a per file basis in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
 
 @implementation NSImage (NSImageTCMAdditions)
 
@@ -30,6 +25,11 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
 	NSRect imageBounds = NSZeroRect;
 	imageBounds.size = unknownUserImage.size;
 	NSRect imageSourceRect = NSInsetRect(imageBounds, 2.0, 2.0);
+    
+    // The unkown user image changed in catalina, so adjust to make the generated avatar less ugly
+    if (@available(macOS 10.15, *)) {
+        imageSourceRect = NSInsetRect(imageBounds, -1.5, -1.5);
+    }
 
 	CGFloat fontSize = floor(NSWidth(drawingRect) / 5.0);
 	
@@ -58,7 +58,7 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
 		
 		[unknownUserImage drawInRect:drawingRect
 							fromRect:imageSourceRect
-						   operation:NSCompositeSourceOver
+						   operation:NSCompositingOperationSourceOver
 							fraction:0.8
 					  respectFlipped:YES
 							   hints:nil];
@@ -81,11 +81,9 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
 }
 
 
-+ (NSImage *)highResolutionImageWithSize:(NSSize)inSize usingDrawingBlock:(void (^)(void))drawingBlock
-{
++ (NSImage *)highResolutionImageWithSize:(NSSize)inSize usingDrawingBlock:(void (^)(void))drawingBlock {
 	NSImage * resultImage = [[NSImage alloc] initWithSize:inSize];
-	if (resultImage)
-	{
+	if (resultImage) {
 		// Save external graphic context
 		NSGraphicsContext *currentContext = [NSGraphicsContext currentContext];
 
@@ -261,7 +259,7 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
 		[context setImageInterpolation:NSImageInterpolationHigh];
 		[self drawInRect:NSMakeRect(0.,0.,newSize.width, newSize.height)
 					 fromRect:NSZeroRect
-					operation:NSCompositeSourceOver
+					operation:NSCompositingOperationSourceOver
 					 fraction:1.0];
 		return YES;
 	}];
@@ -299,7 +297,7 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
 
 			CIImage *outputImage = [compositingFilter valueForKey:@"outputImage"];
 
-			[outputImage drawInRect:dstRect fromRect:(NSRect)outputImage.extent operation:NSCompositeCopy fraction:1.0];
+			[outputImage drawInRect:dstRect fromRect:(NSRect)outputImage.extent operation:NSCompositingOperationCopy fraction:1.0];
 
 			return YES;
 		}];
@@ -318,7 +316,7 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
 		[context setImageInterpolation:NSImageInterpolationHigh];
 		[[NSColor clearColor] set];
 		[[NSBezierPath bezierPathWithRect:dstRect] fill];
-		[self drawInRect:dstRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:0.5 respectFlipped:YES hints:nil];
+		[self drawInRect:dstRect fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:0.5 respectFlipped:YES hints:nil];
 		return YES;
 	}];
 	return resultImage;

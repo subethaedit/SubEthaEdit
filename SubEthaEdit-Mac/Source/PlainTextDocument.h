@@ -15,12 +15,12 @@
 #import "FoldableTextStorage.h"
 #import "FullTextStorage.h"
 #import "SEEDocumentController.h"
+#import "SEEAlertRecipe.h"
 
 enum {
     UnknownStringEncoding = NoStringEncoding,
     SmallestCustomStringEncoding = 0xFFFFFFF0
 };
-
 
 
 @class FoldableTextStorage, TCMMMSession, TCMMMOperation, DocumentMode, EncodingPopUpButton, 
@@ -106,7 +106,6 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
     NSString *I_jobDescription;
     NSString *I_temporaryDisplayName;
     NSString *I_directoryForSavePanel;
-    NSDictionary *I_scheduledAlertDictionary;
     
     NSSaveOperationType I_lastSaveOperation;
     NSStringEncoding I_encodingFromLastRunSaveToOperation;
@@ -166,10 +165,7 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
 
 - (NSImage *)documentIcon;
 
-- (id)initWithSession:(TCMMMSession *)aSession;
-
-- (void)presentAlert:(NSAlert *)alert modalDelegate:(id)delegate didEndSelector:(SEL)didEndSelector contextInfo:(void *)contextInfo;
-- (void)presentScheduledAlertForWindow:(NSWindow *)window;
+- (instancetype)initWithSession:(TCMMMSession *)aSession;
 
 - (IBAction)newView:(id)aSender;
 //- (IBAction)goIntoBundles:(id)sender;
@@ -387,6 +383,41 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
 - (void)setContentByDictionaryRepresentation:(NSDictionary *)aRepresentation;
 
 - (NSBitmapImageRep *)thumbnailBitmapRepresentation;
+
+#pragma mark - Alert Handling
+
+@property (nonatomic, readonly) BOOL hasAlerts;
+
+/**
+ Funnel method do display alerts on a document.
+ 
+ @param recipe alert recipe to show or enqueue
+ @return YES if enqueued, NO if not. E.g. because of coalescing.
+ */
+- (BOOL)showOrEnqueueAlertRecipe:(SEEAlertRecipe *)recipe;
+
+/**
+ Succeeds if the alert can be shown immediatly.
+ If not NSBeeps() and shows the window with the blocking alert.
+
+ @param recipe alert recipe to show
+ @return YES if shown/enqueued. NO otherwise.
+ */
+- (BOOL)presentAlertRecipeOrShowExistingAlert:(SEEAlertRecipe *)recipe;
+
+/**
+ Shows the frontmost window of this document that has an alert attached.
+
+ @return YES if it did show a window, NO if there wasn't a window with an attached sheet.
+ */
+- (BOOL)showExistingAlertIfAny;
+
+- (void)showOrEnqueueInformationWithMessage:(NSString *)message details:(NSString *)details;
+- (void)dismissSafeToDismissSheetsIfAny;
+
+- (void)presentPromotionAlertForTextView:(NSTextView *)textView insertionString:(NSString *)insertionString affectedRange:(NSRange)affectedRange;
+- (void)conditionallyEditAnyway:(void (^)(PlainTextDocument *))completionHandler;
+
 
 @end
 

@@ -1,6 +1,3 @@
-[submodule "PSMTabBarControl"]
-	path = PSMTabBarControl
-	url  = https://github.com/subethaedit/PSMTabBarControl.git
 [submodule "UniversalDetector"]
 	path = UniversalDetector
 	url  = https://github.com/subethaedit/UniversalDetector.git

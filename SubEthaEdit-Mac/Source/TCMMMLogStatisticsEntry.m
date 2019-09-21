@@ -27,24 +27,19 @@
 	return result;
 }
 
-- (id)initWithMMUser:(TCMMMUser *)aUser {
+- (instancetype)initWithMMUser:(TCMMMUser *)aUser {
     if ((self=[super init])) {
         [self setDateOfLastActivity:[NSDate distantPast]];
-        user = [aUser retain];
+        user = aUser;
     }
     return self;
 }
 
 // only for usage in a tableview cell
 - (id)copyWithZone:(NSZone *)aZone {
-    return [self retain];
+    return self;
 }
 
-- (void)dealloc {
-    [lastActivity release];
-    [user release];
-    [super dealloc];
-}
 
 - (void)updateWithOperation:(TCMMMLoggedOperation *)anOperation {
     id op = [anOperation operation];
@@ -73,14 +68,6 @@
     return isInside;
 }
 
-- (TCMMMLoggingState *)loggingState {
-    return self->loggingState;
-}
-
-- (void)setLoggingState:(TCMMMLoggingState *)aLoggingState {
-    self->loggingState = aLoggingState;
-}
-
 - (unsigned long)operationCount {
     return operationCount;
 }
@@ -95,8 +82,7 @@
 }
 - (void)setDateOfLastActivity:(NSDate *)aDate {
     [self willChangeValueForKey:@"dateOfLastActivity"];
-    [lastActivity autorelease];
-     lastActivity = [aDate retain];
+     lastActivity = aDate;
     [self didChangeValueForKey:@"dateOfLastActivity"];
 }
 - (TCMMMUser *)user {

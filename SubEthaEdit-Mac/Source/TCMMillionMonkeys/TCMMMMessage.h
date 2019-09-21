@@ -16,8 +16,8 @@
 }
 
 + (id)messageWithDictionaryRepresentation:(NSDictionary *)aDictionary;
-- (id)initWithDictionaryRepresentation:(NSDictionary *)aDictionary;
-- (id)initWithOperation:(TCMMMOperation *)anOperation numberOfClient:(long long)aClientNumber numberOfServer:(long long)aServerNumber;
+- (instancetype)initWithDictionaryRepresentation:(NSDictionary *)aDictionary;
+- (instancetype)initWithOperation:(TCMMMOperation *)anOperation numberOfClient:(long long)aClientNumber numberOfServer:(long long)aServerNumber;
 
 - (NSDictionary *)dictionaryRepresentation;
 

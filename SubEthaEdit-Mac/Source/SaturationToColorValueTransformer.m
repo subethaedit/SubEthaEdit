@@ -15,17 +15,12 @@
     return NO;   
 }
 
-- (id)initWithColor:(NSColor *)aColor {
+- (instancetype)initWithColor:(NSColor *)aColor {
     self = [super init];
     if (self) {
         I_backgroundColor=[aColor copy];
     }
     return self;
-}
-
-- (void)dealloc {
-    [I_backgroundColor release];
-    [super dealloc];
 }
 
 - (id)transformedValue:(id)aValue {

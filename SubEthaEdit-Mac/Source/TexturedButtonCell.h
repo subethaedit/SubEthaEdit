@@ -6,8 +6,8 @@
 #import <Foundation/Foundation.h>
 
 
-@interface TexturedButtonCell : NSButtonCell {
-    NSImage *I_textureImage;
-}
-- (void)setTextureImage:(NSImage *)aImage;
+@interface TexturedButtonCell : NSButtonCell
+
+@property (nonatomic, copy) NSImage *textureImage;
+
 @end

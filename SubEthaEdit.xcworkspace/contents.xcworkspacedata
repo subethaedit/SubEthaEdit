@@ -14,9 +14,6 @@
       location = "container:SubEthaEdit-Mac/SubEthaEdit.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:PSMTabBarControl/PSMTabBarControl.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:OgreKit/OgreKit.xcodeproj">
    </FileRef>
    <FileRef

@@ -3,12 +3,6 @@
 //
 //  Created by Martin Pittenauer on Wed May 05 2004.
 
-
-// this file needs arc - add -fobjc-arc in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 #import "FindAllController.h"
 #import <OgreKit/OgreKit.h>
 #import "FoldableTextStorage.h"
@@ -25,7 +19,7 @@
         NSMutableArray *tabStops = [NSMutableArray array];
         double distance = 10;
         for (NSInteger index = 1; index <= 100; index++) {
-			NSTextTab *tab = [[NSTextTab alloc] initWithTextAlignment:NSLeftTextAlignment location:index * distance options:@{}];
+			NSTextTab *tab = [[NSTextTab alloc] initWithTextAlignment:NSTextAlignmentLeft location:index * distance options:@{}];
             [tabStops addObject:tab];
         }
         [paragraphStyle setTabStops:tabStops];
@@ -37,7 +31,6 @@
 }
 
 - (instancetype)initWithFindAndReplaceContext:(SEEFindAndReplaceContext *)aFindAndReplaceContext {
-
     self = [super initWithWindowNibName:@"FindAll"];
     if (self) {
 		self.findAndReplaceContext = aFindAndReplaceContext;
@@ -155,7 +148,7 @@ NSLocalizedStringWithDefaultValue(@"SELECTION_SCOPE_DOCUMENT", nil,[NSBundle mai
     if (I_document) {
         if ([[O_resultsController selectedObjects]count]>1) return;
         NSRange range = [[[[O_resultsController selectedObjects] lastObject] objectForKey:@"selectionOperation"] selectedRange];
-        if (([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask)) {
+        if (([[NSApp currentEvent] modifierFlags] & NSEventModifierFlagOption)) {
             [I_document newView:self];
 			[I_document selectRange:range];
         } else {

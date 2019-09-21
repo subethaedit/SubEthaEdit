@@ -6,21 +6,17 @@
 #import "TCMMMSessionAppKitHelper.h"
 #import "SEEDocumentController.h"
 
-
 @implementation TCMMMSessionAppKitHelper
 
-- (void)playSoundNamed:(NSString *)name
-{
+- (void)playSoundNamed:(NSString *)name {
     [(NSSound *)[NSSound soundNamed:name] play];
 }
 
-- (void)playBeep
-{
+- (void)playBeep {
     NSBeep();
 }
 
-- (void)addProxyDocumentWithSession:(TCMMMSession *)session
-{
+- (void)addProxyDocumentWithSession:(TCMMMSession *)session {
     [[SEEDocumentController sharedInstance] addProxyDocumentWithSession:session];
 }
 

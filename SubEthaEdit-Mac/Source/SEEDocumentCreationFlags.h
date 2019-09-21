@@ -7,8 +7,8 @@
 
 @interface SEEDocumentCreationFlags : NSObject
 
-@property (nonatomic, assign) BOOL openInTab;
-@property (nonatomic, assign) BOOL isAlternateAction;
+@property (nonatomic) BOOL openInTab;
+@property (nonatomic) BOOL isAlternateAction;
 @property (nonatomic, weak) NSWindow *tabWindow;
 
 @end

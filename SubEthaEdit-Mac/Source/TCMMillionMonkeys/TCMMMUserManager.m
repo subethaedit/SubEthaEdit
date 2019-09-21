@@ -43,7 +43,7 @@ static TCMMMUserManager *sharedInstance=nil;
     [[TCMMMPresenceManager sharedInstance] propagateChangeOfMyself];
 }
 
-- (id)init {
+- (instancetype)init {
     if ((self=[super init])) {
         I_usersByID=[NSMutableDictionary new];
         I_userRequestsByID=[NSMutableDictionary new];
@@ -51,16 +51,9 @@ static TCMMMUserManager *sharedInstance=nil;
     return self;
 }
 
-- (void)dealloc {
-    [I_userRequestsByID release];
-    [I_usersByID release];
-    [I_me release];
-    [super dealloc];
-}
 
 - (void)setMe:(TCMMMUser *)aUser {
-    [I_me autorelease];
-     I_me = [aUser retain];
+     I_me = aUser;
     [self setUser:I_me forUserID:[I_me userID]];
 }
 - (TCMMMUser *)me {
@@ -119,8 +112,8 @@ static TCMMMUserManager *sharedInstance=nil;
         [user setUserID:userID];
         [user setName:[aUser name]];
 		[user setUserHue:aUser.userHue];
-        [self setUser:[user autorelease] forUserID:userID];
-    } 
+        [self setUser:user forUserID:userID];
+    }
     if ([user changeCount]<[aUser changeCount]) {
         NSMutableDictionary *request=[I_userRequestsByID objectForKey:userID];
         if (request) {

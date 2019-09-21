@@ -5,7 +5,6 @@
 
 #import "HueToColorValueTransformer.h"
 
-
 @implementation HueToColorValueTransformer
 
 + (Class)transformedValueClass {

@@ -5,7 +5,6 @@
 
 #import "RadarScroller.h"
 
-
 @implementation RadarScroller
 
 + (BOOL)isCompatibleWithOverlayScrollers {
@@ -13,7 +12,7 @@
     return result;
 }
 
-- (id)initWithFrame:(NSRect)frameRect {
+- (instancetype)initWithFrame:(NSRect)frameRect {
     self = [super initWithFrame:frameRect];
 	if (self) {
 		I_maxHeight=5.;
@@ -22,10 +21,6 @@
     return self;
 }
 
-- (void)dealloc {
-    [I_marks release];
-    [super dealloc];
-}
 
 - (void)setMaxHeight:(int)maxHeight {
     if (maxHeight>5.) {

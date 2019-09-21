@@ -43,12 +43,12 @@
     NSMutableArray *I_allLanguageContextsArray;
 }
 
-@property (nonatomic, retain) NSMutableDictionary * scopeStyleDictionary;
-@property (nonatomic, retain) NSMutableArray * linkedStyleSheets;
+@property (nonatomic, strong) NSMutableDictionary * scopeStyleDictionary;
+@property (nonatomic, strong) NSMutableArray * linkedStyleSheets;
 @property (nonatomic, copy) NSString *bracketMatchingBracketString;
 
 /*"Initizialisation"*/
-- (id)initWithFile:(NSString *)aPath forMode:(DocumentMode *)aMode;
+- (instancetype)initWithFile:(NSString *)aPath forMode:(DocumentMode *)aMode;
 
 /*"XML parsing"*/
 - (void)parseXMLFile:(NSString *)aPath;

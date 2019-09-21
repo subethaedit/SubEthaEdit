@@ -11,7 +11,6 @@
 #import <arpa/inet.h>
 #import <sys/socket.h>
 
-
 @implementation NSString (NSStringTCMAdditions) 
 
 + (NSString *)stringByAddingThousandSeparatorsToNumber:(NSNumber *)aNumber {
@@ -29,7 +28,7 @@
     if (!dictionary) dictionary = [NSMutableDictionary new];
     if (aData!=nil && [aData length]>= sizeof(CFUUIDBytes)) {
         CFUUIDRef uuid=CFUUIDCreateFromUUIDBytes(NULL,*(CFUUIDBytes *)[aData bytes]);
-        NSString *uuidString=(NSString *)CFUUIDCreateString(NULL,uuid);
+        NSString *uuidString = CFBridgingRelease(CFUUIDCreateString(NULL,uuid));
         CFRelease(uuid);
         NSString *result = [dictionary objectForKey:uuidString];
         if (uuidString) {
@@ -40,29 +39,25 @@
         } else {
             NSLog(@"%s %@ was nil",__FUNCTION__,aData);
         }
-        [uuidString release];
         return result;
     } else {
         return nil;
     }
 }
 
-+ (NSString *)stringWithData:(NSData *)aData encoding:(NSStringEncoding)aEncoding
-{
-    return [[[NSString alloc] initWithData:aData encoding:aEncoding] autorelease];
++ (NSString *)stringWithData:(NSData *)aData encoding:(NSStringEncoding)aEncoding {
+    return [[NSString alloc] initWithData:aData encoding:aEncoding];
 }
 
-+ (NSString *)UUIDString
-{
++ (NSString *)UUIDString {
     CFUUIDRef myUUID = CFUUIDCreate(NULL);
     CFStringRef myUUIDString = CFUUIDCreateString(NULL, myUUID);
     CFRelease(myUUID);
     
-    return [(NSString *)myUUIDString autorelease];
+    return CFBridgingRelease(myUUIDString);
 }
 
-+ (NSString *)stringWithAddressData:(NSData *)aData cyrusSASLCompatible:(BOOL)cyrusSASLCompatible
-{
++ (NSString *)stringWithAddressData:(NSData *)aData cyrusSASLCompatible:(BOOL)cyrusSASLCompatible {
     struct sockaddr *socketAddress = (struct sockaddr *)[aData bytes];
     
     // IPv6 Addresses are "FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF" at max, which is 40 bytes (0-terminated)
@@ -106,11 +101,10 @@
         addressAsString = @"neither IPv6 nor IPv4";
     }
     
-    return [[addressAsString copy] autorelease];
+    return addressAsString;
 }
 
-+ (NSString *)stringWithAddressData:(NSData *)aData
-{
++ (NSString *)stringWithAddressData:(NSData *)aData {
     return [NSString stringWithAddressData:aData cyrusSASLCompatible:NO];
 }
 

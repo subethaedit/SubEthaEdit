@@ -5,7 +5,6 @@
 
 #import "TCMMMUserManagerKitAdditions.h"
 
-
 @implementation TCMMMUserManager (TCMMMUserManagerKitAdditions)
 
 - (BOOL)validateMenuItem:(NSMenuItem *)anItem {

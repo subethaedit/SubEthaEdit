@@ -8,6 +8,7 @@
 #import "PreferenceKeys.h"
 
 #import "DocumentModeManager.h"
+#import "NSColorTCMAdditions.h"
 
 /*
  
@@ -98,7 +99,7 @@ NSString * const SEEStyleSheetFileExtension = @"sss";
 	
 }
 
-- (id)init {
+- (instancetype)init {
 	if ((self = [super init])) {
 		_scopeStyleDictionary = [NSMutableDictionary new];
 		_scopeCache = [NSMutableDictionary new];

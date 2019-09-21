@@ -7,15 +7,11 @@
 
 #import "SEEPlainTextEditorScrollView.h"
 
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 void * const SEEScrollViewOverlayObservingContext = (void *)&SEEScrollViewOverlayObservingContext;
 
 @implementation SEEPlainTextEditorScrollView
 
-- (id)initWithFrame:(NSRect)frame
+- (instancetype)initWithFrame:(NSRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
@@ -24,7 +20,7 @@ void * const SEEScrollViewOverlayObservingContext = (void *)&SEEScrollViewOverla
     return self;
 }
 
-- (id)initWithCoder:(NSCoder *)coder
+- (instancetype)initWithCoder:(NSCoder *)coder
 {
     self = [super initWithCoder:coder];
     if (self) {
@@ -33,8 +29,7 @@ void * const SEEScrollViewOverlayObservingContext = (void *)&SEEScrollViewOverla
     return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
 	[self removeKVO];
 }
 

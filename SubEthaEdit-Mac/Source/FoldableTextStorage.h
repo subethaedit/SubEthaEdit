@@ -23,29 +23,7 @@ extern NSString * const TextStorageHasMixedLineEndingsDidChange;
 extern NSString * const BlockeditAttributeName ;
 extern NSString * const BlockeditAttributeValue;
 
-@interface FoldableTextStorage : AbstractFoldingTextStorage {
-	FullTextStorage *I_fullTextStorage;
-	NSMutableArray *I_sortedFoldedTextAttachments;
-	int I_editingCount;
-
-    struct {
-        BOOL hasBlockeditRanges;
-        BOOL  isBlockediting;
-        BOOL didBlockedit;
-        NSRange didBlockeditRange;
-        NSRange didBlockeditLineRange;
-    } I_blockedit;
-
-    NSMutableAttributedString *I_internalAttributedString;
-
-    struct {
-        int length;
-        int characterOffset;
-        int startLine;
-        int endLine;
-    } I_scriptingProperties;
-    
-}
+@interface FoldableTextStorage : AbstractFoldingTextStorage 
 
 - (NSRange)foldedRangeForFullRange:(NSRange)inRange;
 - (NSRange)foldedRangeForFullRange:(NSRange)inRange expandIfFolded:(BOOL)aFlag;
@@ -72,7 +50,6 @@ extern NSString * const BlockeditAttributeValue;
 - (void)foldAccordingToDataRepresentation:(NSData *)aData;
 - (NSData *)dataRepresentationOfFoldedRangesWithMaxDepth:(int)aMaxDepth;
 
-
 #pragma mark line numbers
 - (int)lineNumberForLocation:(unsigned)location;
 - (NSString *)positionStringForRange:(NSRange)aRange;
@@ -92,7 +69,6 @@ extern NSString * const BlockeditAttributeValue;
 
 - (void)stopBlockedit;
 
-
 #pragma mark debug output
 - (NSMutableAttributedString *)attributedStringOfFolding:(FoldedTextAttachment *)inAttachment;
 - (NSString *)foldedStringRepresentationOfRange:(NSRange)inRange foldings:(NSArray *)inFoldings level:(int)inLevel;
@@ -106,8 +82,6 @@ extern NSString * const BlockeditAttributeValue;
 - (NSStringEncoding)encoding;
 - (void)setEncoding:(NSStringEncoding)anEncoding;
 - (NSArray *)selectionOperationsForRangesUnconvertableToEncoding:(NSStringEncoding)encoding;
-
-
 @end
 
 @protocol FoldableTextStorageDelegate
@@ -129,8 +103,6 @@ extern NSString * const BlockeditAttributeValue;
 #pragma mark -
 
 @interface FoldableTextStorage (TextStorageScriptingAdditions)
-
-
 - (NSRange)rangeRepresentation;
 - (NSNumber *)scriptedLength;
 - (NSNumber *)scriptedStartCharacterIndex;
@@ -144,7 +116,4 @@ extern NSString * const BlockeditAttributeValue;
 //- (id)insertionPoints;
 //- (NSArray *)scriptedCharacters;
 //- (NSArray *)scriptedLines;
-
 @end
-
-//#endif

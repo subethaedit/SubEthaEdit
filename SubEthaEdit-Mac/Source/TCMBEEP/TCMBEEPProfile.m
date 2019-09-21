@@ -5,11 +5,9 @@
 
 #import "TCMBEEPProfile.h"
 
-
 @implementation TCMBEEPProfile
 
-- (id)initWithChannel:(TCMBEEPChannel *)aChannel
-{
+- (instancetype)initWithChannel:(TCMBEEPChannel *)aChannel {
     self = [super init];
     if (self) {
         [self setChannel:aChannel];
@@ -18,92 +16,45 @@
     }
     return self;
 }
- 
-- (void)dealloc
-{
-    I_delegate = nil;
-    I_channel = nil;
-    [I_profileURI release];
-    [super dealloc];
-}
 
 - (void)handleInitializationData:(NSData *)aData {
-    DEBUGLOG(@"BEEPLogDomain",DetailedLogLevel,@"%s %@ should Handle data:%@",__FUNCTION__,I_profileURI,[[[NSString alloc] initWithData:aData encoding:NSISOLatin1StringEncoding] autorelease]);
+    DEBUGLOG(@"BEEPLogDomain",DetailedLogLevel,@"%s %@ should Handle data:%@",__FUNCTION__,_profileURI,[[NSString alloc] initWithData:aData encoding:NSISOLatin1StringEncoding]);
 }
 
-- (void)setDelegate:(id)aDelegate
-{
-    I_delegate = aDelegate;
-}
-
-- (id)delegate
-{
-    return I_delegate;
-}
-
-- (void)setChannel:(TCMBEEPChannel *)aChannel
-{
-    I_channel = aChannel;
-}
-
-- (TCMBEEPChannel *)channel
-{
-    return I_channel;
-}
-
-- (TCMBEEPSession *)session 
-{
+- (TCMBEEPSession *)session  {
     return [[self channel] session];
 }
 
-- (BOOL)isServer
-{
+- (BOOL)isServer {
     return ![[self channel] isInitiator];
 }
 
-- (void)setProfileURI:(NSString *)aProfileURI
-{
-    [I_profileURI autorelease];
-    I_profileURI = [aProfileURI copy];
-}
-
-- (NSString *)profileURI
-{
-    return I_profileURI;
-}
-
-- (void)processBEEPMessage:(TCMBEEPMessage *)aMessage
-{
+- (void)processBEEPMessage:(TCMBEEPMessage *)aMessage {
     NSLog(@"You should have overridden this!");
 }
 
-- (void)close
-{
+- (void)close {
     I_isClosing = YES;
     [[self channel] close];
 }
 
-- (void)channelDidReceiveCloseRequest
-{
+- (void)channelDidReceiveCloseRequest {
     DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"channelDidReceiveCloseRequest: %@", NSStringFromClass([self class]));
 }
 
-- (void)channelDidClose
-{
+- (void)channelDidClose {
     DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"channelDidClose: %@ delegate:%@", NSStringFromClass([self class]), [self delegate]);
-    id delegate = [self delegate];
+    __strong typeof(_delegate) delegate = [self delegate];
     if ([delegate respondsToSelector:@selector(profileDidClose:)]) {
         [delegate profileDidClose:self];
     }
 }
 
-- (void)channelDidNotCloseWithError:(NSError *)error
-{
+- (void)channelDidNotCloseWithError:(NSError *)error {
     DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"channelDidNotCloseWithError: %@", NSStringFromClass([self class]));
 }
 
-- (void)cleanup
-{
+- (void)cleanup {
     DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"cleanup profile");
     id delegate = [self delegate];
     if ([delegate respondsToSelector:@selector(profile:didFailWithError:)]) {
@@ -112,23 +63,19 @@
     }
 }
 
-- (void)abortIncomingMessages
-{
+- (void)abortIncomingMessages {
     I_isAbortingIncomingMessages = YES;
 }
 
-- (void)channelDidReceivePreemptiveReplyForMessageWithNumber:(int32_t)aMessageNumber
-{
+- (void)channelDidReceivePreemptiveReplyForMessageWithNumber:(int32_t)aMessageNumber {
     DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"channelDidReceivePreemptiveReplyForMessageWithNumber: %d", aMessageNumber);
 }
 
-- (void)channelDidReceivePreemptedMessage:(TCMBEEPMessage *)aMessage
-{
+- (void)channelDidReceivePreemptedMessage:(TCMBEEPMessage *)aMessage {
     DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"channelDidReceivePreemptedMessage: %@", aMessage);
 }
 
-- (void)channelDidReceiveFrame:(TCMBEEPFrame *)aFrame startingMessage:(BOOL)aFlag
-{
+- (void)channelDidReceiveFrame:(TCMBEEPFrame *)aFrame startingMessage:(BOOL)aFlag {
     if (I_isAbortingIncomingMessages) {
         [[self channel] preemptFrame:aFrame];
     }

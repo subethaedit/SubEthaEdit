@@ -12,7 +12,7 @@
 
 @implementation RegexSymbolParser
 
-- (id)initWithSymbolDefinition:(RegexSymbolDefinition *)symbolDefinition  {
+- (instancetype)initWithSymbolDefinition:(RegexSymbolDefinition *)symbolDefinition  {
     self=[super init];
     if (self) {
         self.symbolDefinition = symbolDefinition;

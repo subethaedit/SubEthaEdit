@@ -21,20 +21,19 @@
     NSMutableArray *I_incomingMessages;
     BOOL I_isServer;
     BOOL I_isSendingNoOps;
-    NSObject <TCMMMStateClientProtocol> *I_client;
+    __weak NSObject <TCMMMStateClientProtocol> *I_client;
     NSTimer *I_timer;
-    id I_delegate;
 }
 
-- (id)initAsServer:(BOOL)isServer;
+@property (nonatomic, weak) id delegate;
+
+- (instancetype)initAsServer:(BOOL)isServer;
 
 - (BOOL)isSendingNoOps;
 - (void)setIsSendingNoOps:(BOOL)aFlag;
 - (BOOL)isServer;
 - (void)setClient:(NSObject <TCMMMStateClientProtocol> *)aClient;
 - (NSObject <TCMMMStateClientProtocol> *)client;
-- (void)setDelegate:(id)aDelegate;
-- (id)delegate;
 - (id)lastIncomingMessage;
 
 - (void)processAllUserChangeMessages;

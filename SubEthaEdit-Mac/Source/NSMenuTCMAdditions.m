@@ -12,7 +12,7 @@
     [result setKeyEquivalentModifierMask:[self keyEquivalentModifierMask]];
     [result setTarget:[self target]];
     [result setTag:[self tag]];
-    return [result autorelease];
+    return result;
 }
 
 - (NSComparisonResult)compareAlphabetically:(NSMenuItem *)aMenuItem {
@@ -20,8 +20,7 @@
 }
 
 - (void)setMark:(BOOL)aMark {
-	if (aMark)
-	{
+	if (aMark) {
 		// draw an image same size and dimentions like private image named "NSMenuItemBullet"
 		NSImage* image = [NSImage imageWithSize:NSMakeSize(7.0, 7.0) flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
 			[[[NSColor blackColor] colorWithAlphaComponent:0.75] set];
@@ -47,15 +46,15 @@
 - (void)setKeyEquivalentBySettingsString:(NSString *)aKeyEquivalentSettingsString {
     if ([aKeyEquivalentSettingsString length]<=0) return;
     [self setKeyEquivalent:[aKeyEquivalentSettingsString substringFromIndex:[aKeyEquivalentSettingsString length]-1]];
-    NSUInteger keyEquivalentModifierMask = NSCommandKeyMask;
+    NSUInteger keyEquivalentModifierMask = NSEventModifierFlagCommand;
     if ([aKeyEquivalentSettingsString rangeOfString:@"^"].location != NSNotFound) {
-        keyEquivalentModifierMask |= NSControlKeyMask;
+        keyEquivalentModifierMask |= NSEventModifierFlagControl;
     }
     if ([aKeyEquivalentSettingsString rangeOfString:@"~"].location != NSNotFound) {
-        keyEquivalentModifierMask |= NSAlternateKeyMask;
+        keyEquivalentModifierMask |= NSEventModifierFlagOption;
     }
     if ([aKeyEquivalentSettingsString rangeOfString:@"$"].location != NSNotFound) {
-        keyEquivalentModifierMask |= NSShiftKeyMask;
+        keyEquivalentModifierMask |= NSEventModifierFlagShift;
     }
     [self setKeyEquivalentModifierMask:keyEquivalentModifierMask];
 }

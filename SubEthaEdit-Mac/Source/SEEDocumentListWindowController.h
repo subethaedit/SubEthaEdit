@@ -8,7 +8,7 @@
 
 @interface SEEDocumentListWindowController : NSWindowController <NSTableViewDelegate, NSMenuDelegate>
 @property (nonatomic, strong) NSMutableArray *availableItems;
-@property (nonatomic, assign) BOOL shouldCloseWhenOpeningDocument;
+@property (nonatomic) BOOL shouldCloseWhenOpeningDocument;
 
 - (NSInteger)runModal;
 

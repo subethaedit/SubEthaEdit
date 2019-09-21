@@ -3,12 +3,6 @@
 //
 //  Created by Michael Ehrmann on 27.01.14.
 
-// this file needs arc - either project wide,
-// or add -fobjc-arc on a per file basis in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 #import "SEEParticipantViewController.h"
 #import "SEEAvatarImageView.h"
 
@@ -23,7 +17,7 @@
 
 @interface SEEParticipantViewController ()
 
-@property (nonatomic, readwrite, assign) SEEParticipantViewMode viewMode;
+@property (nonatomic, readwrite) SEEParticipantViewMode viewMode;
 @property (nonatomic, readwrite, strong) NSColor *popoverTextColor;
 
 @property (nonatomic, readwrite, strong) TCMMMUser *participant;
@@ -59,7 +53,7 @@
 
 @implementation SEEParticipantViewController
 
-- (id)initWithParticipant:(TCMMMUser *)aParticipant tabContext:(PlainTextWindowControllerTabContext *)aTabContext inMode:(SEEParticipantViewMode)aMode
+- (instancetype)initWithParticipant:(TCMMMUser *)aParticipant tabContext:(PlainTextWindowControllerTabContext *)aTabContext inMode:(SEEParticipantViewMode)aMode
 {
     self = [super initWithNibName:@"SEEParticipantView" bundle:nil];
     if (self) {
@@ -103,9 +97,6 @@
 	[avatarView unbind:@"image"];
 	[avatarView unbind:@"initials"];
 	[avatarView unbind:@"borderColor"];
-
-	self.nameLabelPopoverOutlet.delegate = nil;
-	self.pendingUserPopoverOutlet.delegate = nil;
 }
 
 - (void)loadView {

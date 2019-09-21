@@ -11,11 +11,6 @@
 #import "SEETextView.h"
 #import "TCMDragImageView.h"
 
-// this file needs arc - add -fobjc-arc in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 enum OptionsMenuTags {
 	kOptionMenuIgnoreCaseTag = 10001,
 	kOptionMenuWrapAroundTag,
@@ -155,15 +150,13 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 
 - (void)loadView {
 	[super loadView];
-	NSView *view = self.view;
-    
+
     BOOL isDarkAppearance = NSApp.SEE_effectiveAppearanceIsDark;
     
 	self.bottomLineView.layer.backgroundColor = [[NSColor darkOverlaySeparatorColorBackgroundIsDark:NO appearanceIsDark:isDarkAppearance] CGColor];
-	view.layer.backgroundColor = [[NSColor brightOverlayBackgroundColorBackgroundIsDark:NO appearanceIsDark:isDarkAppearance] CGColor];
 
 	[self updateSearchOptionsButton];
-	[self.searchOptionsButton sendActionOn:NSLeftMouseDownMask | NSRightMouseDownMask];
+	[self.searchOptionsButton sendActionOn:NSEventMaskLeftMouseDown | NSEventMaskRightMouseDown];
 	
 	// add bindings
 	[self.findTextField bind:@"value" toObject:self.findAndReplaceStateObjectController withKeyPath:@"content.findString" options:@{NSContinuouslyUpdatesValueBindingOption : @YES}];
@@ -178,10 +171,12 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 		[weakSelf updateSearchOptionsButton];
 	}]];
 
-	[self.registeredNotifications addObject:[[NSNotificationCenter defaultCenter] addObserverForName:SEEPlainTextWindowControllerTabContextActiveEditorDidChangeNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-		[note.object isEqual:self.plainTextWindowControllerTabContext];
-		[weakSelf updateSearchOptionsButton];
-	}]];
+    [self.registeredNotifications addObject:[[NSNotificationCenter defaultCenter] addObserverForName:SEEPlainTextWindowControllerTabContextActiveEditorDidChangeNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if ([note.object isEqual:strongSelf.plainTextWindowControllerTabContext]) {
+            [strongSelf updateSearchOptionsButton];
+        }
+    }]];
 	
 	// localize and fix layout correspondingly
 	self.replaceButton.title = NSLocalizedString(@"FIND_REPLACE_PANEL_REPLACE", @"'Replace' in find panel");
@@ -206,10 +201,8 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 }
 
 - (void)updateColorsForIsDarkBackground:(BOOL)isDark {
-    NSView *view = self.view;
     BOOL isDarkAppearance = NSApp.SEE_effectiveAppearanceIsDark;
     self.bottomLineView.layer.backgroundColor = [[NSColor darkOverlaySeparatorColorBackgroundIsDark:isDark appearanceIsDark:isDarkAppearance] CGColor];
-    view.layer.backgroundColor = [[NSColor brightOverlayBackgroundColorBackgroundIsDark:isDark appearanceIsDark:isDarkAppearance] CGColor];
     [self updateSearchOptionsButton];
 }
 
@@ -399,7 +392,7 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 }
 
 - (NSMenuItem *)addItemToMenu:(NSMenu *)aMenu title:(NSString *)aTitle action:(SEL)anAction tag:(NSInteger)aTag {
-	NSMenuItem *result = [aMenu addItemWithTitle:aTitle action:anAction keyEquivalent:@""];
+	NSMenuItem *result = [aMenu addItemWithTitle:SEE_NoLocalizationNeeded(aTitle) action:anAction keyEquivalent:@""];
 	result.target = self;
 	result.tag = aTag;
 	return result;

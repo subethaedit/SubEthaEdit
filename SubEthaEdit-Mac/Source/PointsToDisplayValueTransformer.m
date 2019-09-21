@@ -5,7 +5,6 @@
 
 #import "PointsToDisplayValueTransformer.h"
 
-
 @implementation PointsToDisplayValueTransformer
 
 static BOOL S_isCm;

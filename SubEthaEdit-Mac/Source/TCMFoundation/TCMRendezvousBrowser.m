@@ -19,7 +19,7 @@ static NSString *kServiceKey=@"Service";
 
 @implementation TCMRendezvousBrowser
 
-- (id)initWithServiceType:(NSString *)aServiceType domain:(NSString *)aDomain {
+- (instancetype)initWithServiceType:(NSString *)aServiceType domain:(NSString *)aDomain {
     if ((self=[super init])) {
         I_serviceType=[aServiceType copy];
         I_domain=[aDomain copy];
@@ -29,15 +29,6 @@ static NSString *kServiceKey=@"Service";
         [I_serviceBrowser setDelegate: self];
     }
     return self;
-}
-
-- (void)dealloc {
-    [self stopSearch];
-    [I_serviceBrowser release];
-    [I_foundServiceEntries  release];
-    [I_serviceType    release];
-    [I_domain         release];
-    [super dealloc];
 }
 
 - (void)startSearch {
@@ -59,21 +50,6 @@ static NSString *kServiceKey=@"Service";
 
 #pragma mark -
 #pragma mark ### Accessors ####
-
-- (void)setDelegate:(id)aDelegate {
-    I_delegate = aDelegate;
-}
-
-- (id)delegate {
-    return I_delegate;
-}
-
-- (void)setResolvesServices:(BOOL)resolves {
-    I_flags.resolvesServices=resolves;
-}
-- (BOOL)resolvesServices {
-    return I_flags.resolvesServices;
-}
 
 - (NSString *)domain {
     return I_domain;

@@ -23,16 +23,6 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
 
 @implementation UndoGroup
 
-- (NSMutableArray *)actions
-{
-    return _actions;
-}
-
-- (NSString *)actionName
-{
-    return _actionName;
-}
-
 - (void)addAction:(id)action
 {
     if (_actions == nil) {
@@ -45,38 +35,17 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
     return [_actions lastObject];
 }
 
-- (void)dealloc
-{
-    [_actions release];
-    [_parent release];
-    [_actionName release];
-    [super dealloc];
-}
-
-- (NSString *)description
-{
+- (NSString *)description {
     return [NSString stringWithFormat:@"parent: %@\nactions: %@\nactionName: %@", [_parent description], [_actions description], _actionName];
 }
 
-- (id)initWithParent:(UndoGroup *)parent
-{
+- (instancetype)initWithParent:(UndoGroup *)parent {
     self = [super init];
     
     _actions = nil;
     _actionName = @"";
-    _parent = [parent retain];
+    _parent = parent;
     return self;
-}
-
-- (UndoGroup *)parent
-{
-    return _parent;
-}
-
-- (void)setActionName:(NSString *)newName
-{
-    [_actionName autorelease];
-    _actionName = [newName copy];
 }
 
 @end
@@ -109,20 +78,10 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
         }
         [_undoGroup addAction:action];
         if (![self isRedoing]) {
-            [_redoGroup release];
             _redoGroup = nil;
             [_redoStack removeAllObjects];
         }
     }
-}
-
-- (void)dealloc {
-    _document = nil;
-    [_undoGroup release];
-    [_undoStack release];
-    [_redoGroup release];
-    [_redoStack release];
-    [super dealloc];
 }
 
             /* Begin/End Grouping */
@@ -148,7 +107,6 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
             _flags.automaticGroupLevel = -1;
         }
         UndoGroup *newGroup = [[UndoGroup alloc] initWithParent:_undoGroup];
-        [_undoGroup release];
         _undoGroup = newGroup;
     }
 
@@ -170,15 +128,13 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
         
             if ([(UndoGroup *)_redoGroup parent] == nil) {
                 [_redoStack addObject:_redoGroup];
-                [_redoGroup release];
                 _redoGroup = nil;
             } else {
-                UndoGroup *parent = [[(UndoGroup *)_redoGroup parent] retain];
+                UndoGroup *parent = [(UndoGroup *)_redoGroup parent];
                 NSArray *actions = [_redoGroup actions];
                 for (id loopItem1 in actions) {
                     [parent addAction:loopItem1];
                 }
-                [_redoGroup release];
                 _redoGroup = parent;
             }
             
@@ -191,15 +147,13 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
         
             if ([(UndoGroup *)_undoGroup parent] == nil) {
                 [_undoStack addObject:_undoGroup];
-                [_undoGroup release];
                 _undoGroup = nil;
             } else {
-                UndoGroup *parent = [[(UndoGroup *)_undoGroup parent] retain];
+                UndoGroup *parent = [(UndoGroup *)_undoGroup parent];
                 NSArray *actions = [_undoGroup actions];
                 for (id loopItem in actions) {
                     [parent addAction:loopItem];
                 }
-                [_undoGroup release];
                 _undoGroup = parent;
             }    
         }
@@ -320,7 +274,6 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
     if (_redoGroup != nil) {
         UndoGroup *parent = [(UndoGroup *)_redoGroup parent];
         [self performUndoGroup:_redoGroup];
-        [_redoGroup release];
         _redoGroup = parent;
     } else {
         UndoGroup *group = [_redoStack lastObject];
@@ -347,7 +300,6 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
     if (_undoGroup != nil) {
         UndoGroup *parent = [(UndoGroup *)_undoGroup parent];
         [self performUndoGroup:_undoGroup];
-        [_undoGroup release];
         _undoGroup = parent;
     } else {
         UndoGroup *group = [_undoStack lastObject];
@@ -409,10 +361,8 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
 
 - (void)removeAllActions {
     [_undoStack removeAllObjects];
-    [_undoGroup release];
     _undoGroup = nil;
     [_redoStack removeAllObjects];
-    [_redoGroup release];
     _redoGroup = nil;
     _flags.automaticGroupLevel=-1;
 }
@@ -621,7 +571,7 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
 
 #pragma mark -
 
-- (id)initWithDocument:(PlainTextDocument *)document {
+- (instancetype)initWithDocument:(PlainTextDocument *)document {
     self = [super init];
     if (self) {
         _document = document;
@@ -726,9 +676,6 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
             }
         }
 
-        [operation release];
-
-
         operation = [anOperation copy];
         
         group = _redoGroup;
@@ -772,8 +719,6 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
                 [_redoStack removeObjectAtIndex:i];
             }
         }
-
-        [operation release];
     }
 }
 

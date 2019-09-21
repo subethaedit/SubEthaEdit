@@ -5,10 +5,13 @@
 
 #import "BorderedTextField.h"
 
+@interface BorderedTextField ()
+@property (nonatomic) NSSize cachedIntrinsicContentSize;
+@end
 
 @implementation BorderedTextField
 
-- (id)initWithFrame:(NSRect)frame {
+- (instancetype)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         [self setHasRightBorder: YES];
@@ -18,7 +21,7 @@
     return self;
 }
 
-- (id)initWithCoder:(NSCoder *)aCoder {
+- (instancetype)initWithCoder:(NSCoder *)aCoder {
     self = [super initWithCoder:aCoder];
     [self setHasRightBorder: YES];
     [self setHasLeftBorder:   NO];
@@ -26,26 +29,17 @@
     return self;
 }
 
-- (void)dealloc {
-    [self setBorderColor:nil];
-    [super dealloc];
-}
-
 - (void)setHasRightBorder:(BOOL)aFlag {
-    if (I_flags.hasRightBorder!=aFlag) {
-        I_flags.hasRightBorder =aFlag;
+    if (_hasRightBorder!=aFlag) {
+        _hasRightBorder =aFlag;
         [self setNeedsDisplay:YES];
     }
 }
 - (void)setHasLeftBorder:(BOOL)aFlag {
-    if (I_flags.hasLeftBorder!=aFlag) {
-        I_flags.hasLeftBorder =aFlag;
+    if (_hasLeftBorder!=aFlag) {
+        _hasLeftBorder =aFlag;
         [self setNeedsDisplay:YES];
     }
-}
-- (void)setBorderColor:(NSColor *)aColor {
-    [I_borderColor autorelease];
-     I_borderColor=[aColor retain];
 }
 
 - (void)mouseDown:(NSEvent *)anEvent {
@@ -54,13 +48,35 @@
     }
 }
 
-- (NSSize)intrinsicContentSize {
-	NSSize positionTextSize = [self.stringValue sizeWithAttributes:@{NSFontAttributeName:self.font}];
-	positionTextSize.width  = round(positionTextSize.width + 9.);
-	positionTextSize.height = round(positionTextSize.height + 2.);
-	return positionTextSize;
+- (void)__updateIntrinsicContentSize {
+    _cachedIntrinsicContentSize = ({
+        NSSize positionTextSize = [self.stringValue sizeWithAttributes:@{NSFontAttributeName:self.font}];
+        positionTextSize.width  = ceil((positionTextSize.width + 9.) / 3.0) * 3.0; // make it raster at 4 points
+        positionTextSize.height = round(positionTextSize.height + 2.);
+        positionTextSize;
+    });
 }
 
+- (void)__invalidateIntrinsicContentSize {
+    _cachedIntrinsicContentSize = NSZeroSize;
+}
+
+- (NSSize)intrinsicContentSize {
+    if (_cachedIntrinsicContentSize.height == 0.0) {
+        [self __updateIntrinsicContentSize];
+    }
+    return _cachedIntrinsicContentSize;
+}
+
+- (void)setAttributedStringValue:(NSAttributedString *)attributedStringValue {
+    [super setAttributedStringValue:attributedStringValue];
+    [self __invalidateIntrinsicContentSize];
+}
+
+- (void)setStringValue:(NSString *)stringValue {
+    [super setStringValue:stringValue];
+    [self __invalidateIntrinsicContentSize];
+}
 
 - (void)drawRect:(NSRect)aRect {
 	[[NSColor clearColor] set];
@@ -70,15 +86,15 @@
 	NSRect adjustedBounds = NSOffsetRect(NSInsetRect(self.bounds, 0, 1),0,1);
 	[[self cell] drawInteriorWithFrame:adjustedBounds inView:self];
 	
-    [I_borderColor set];
+    [_borderColor set];
     NSRect bounds=NSIntegralRect([self bounds]);
 	bounds = NSInsetRect(bounds, 0.5, 0);
-    if (I_flags.hasRightBorder) {
+    if (_hasRightBorder) {
         [NSBezierPath setDefaultLineWidth:1.];
         [NSBezierPath strokeLineFromPoint:NSMakePoint(NSMaxX(bounds),NSMinY(bounds))
                                   toPoint:NSMakePoint(NSMaxX(bounds),NSMaxY(bounds))];
     }
-    if (I_flags.hasLeftBorder) {
+    if (_hasLeftBorder) {
         [NSBezierPath setDefaultLineWidth:1.];
         [NSBezierPath strokeLineFromPoint:NSMakePoint(NSMinX(bounds),NSMinY(bounds))
                                   toPoint:NSMakePoint(NSMinX(bounds),NSMaxY(bounds))];

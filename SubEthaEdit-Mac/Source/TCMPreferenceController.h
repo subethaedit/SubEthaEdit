@@ -9,12 +9,9 @@
 @class TCMPreferenceModule;
 
 
-@interface TCMPreferenceController : NSWindowController <NSToolbarDelegate, NSWindowDelegate>
-{
+@interface TCMPreferenceController : NSWindowController <NSToolbarDelegate, NSWindowDelegate> {
     NSMutableArray *I_toolbarItemIdentifiers;
     NSToolbar *I_toolbar;
-    NSString *I_selectedItemIdentifier;
-    NSView *I_emptyContentView;
     BOOL didShow;
 }
 

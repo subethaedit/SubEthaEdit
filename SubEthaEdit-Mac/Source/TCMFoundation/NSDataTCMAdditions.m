@@ -6,7 +6,6 @@
 #import "NSDataTCMAdditions.h"
 #import <CommonCrypto/CommonDigest.h>
 
-
 @implementation NSData (NSDataTCMAdditions)
 
 static char base64EncodingArray[ 64 ] = {
@@ -236,14 +235,14 @@ static unsigned long local_preprocessForDecode( const unsigned char *inBytes, un
         char utf8_bom[] = {0xef,0xbb,0xbf};
         s_bomData = [[NSData alloc] initWithBytes:utf8_bom length:3];
     }
-    id result = [[s_bomData mutableCopy] autorelease];
+    id result = [s_bomData mutableCopy];
     [result appendData:self];
     return result;
 }
 
 - (NSData*)compressedDataWithLevel:(int)aLevel {
     unsigned long length=compressBound([self length]);
-    NSMutableData *result = [[[NSMutableData alloc] initWithLength:length] autorelease];
+    NSMutableData *result = [[NSMutableData alloc] initWithLength:length];
     int zResult = compress2([result mutableBytes],&length,[self bytes],[self length],aLevel);
     if (zResult == Z_OK) {
         [result setLength:length];
@@ -256,7 +255,7 @@ static unsigned long local_preprocessForDecode( const unsigned char *inBytes, un
 
 - (NSData*)uncompressedDataOfLength:(unsigned)aLength {
     unsigned long length=aLength;
-    NSMutableData *result = [[[NSMutableData alloc] initWithLength:aLength] autorelease];
+    NSMutableData *result = [[NSMutableData alloc] initWithLength:aLength];
     int zResult = uncompress([result mutableBytes],&length,[self bytes],[self length]);
     if (zResult == Z_OK) {
         return result;

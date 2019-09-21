@@ -3,11 +3,6 @@
 //
 //  Created by Dominik Wagner on Fri Apr 23 2004.
 
-// this file needs arc - add -fobjc-arc in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 #import "OgreKit/OgreKit.h"
 #import "FindReplaceController.h"
 #import "PlainTextWindowController.h"
@@ -231,30 +226,6 @@ static FindReplaceController *sharedInstance=nil;
 }
 
 #pragma mark -
-- (void)alertForReadonlyDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
-    if (returnCode == NSAlertFirstButtonReturn) {
-        NSDictionary *alertContext = (__bridge NSDictionary *)contextInfo;
-		SEEFindAndReplaceContext *context = [alertContext objectForKey:@"FindAndReplaceContext"];
-		PlainTextDocument *document = context.targetPlainTextEditor.document;
-        [document setEditAnyway:YES];
-        [self performTextFinderAction:context.currentTextFinderActionType context:context];
-    }
-}
-
-- (void)alertForEncodingDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
-    NSDictionary *alertContext = (__bridge NSDictionary *)contextInfo;
-	SEEFindAndReplaceContext *context = [alertContext objectForKey:@"FindAndReplaceContext"];
-    PlainTextDocument *document = context.targetPlainTextEditor.document;
-    if (returnCode == NSAlertThirdButtonReturn) {
-        [document setFileEncoding:NSUnicodeStringEncoding];
-        [[document documentUndoManager] removeAllActions];
-        [self performTextFinderAction:context.currentTextFinderActionType context:context];
-    } else if (returnCode == NSAlertSecondButtonReturn) {
-        [document setFileEncoding:NSUTF8StringEncoding];
-        [[document documentUndoManager] removeAllActions];
-        [self performTextFinderAction:context.currentTextFinderActionType context:context];
-    }
-}
 
 - (NSString *)currentReplaceString {
 	NSString *result;// = [O_replaceComboBox stringValue];
@@ -298,50 +269,57 @@ static FindReplaceController *sharedInstance=nil;
 	BOOL result = YES;
 	PlainTextDocument *document = aFindAndReplaceContext.targetPlainTextEditor.document;
 	NSWindow *sheetWindow = aFindAndReplaceContext.targetTextView.window;
-	if (document && ![document isFileWritable] && ![document editAnyway]) {
+	if (document &&
+		![document isFileWritable] &&
+		![document editAnyway]) {
 		// Call sheet
-		NSDictionary *contextInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-									 @"EditAnywayAlert", @"Alert",
-									 aFindAndReplaceContext, @"FindAndReplaceContext",
-									 nil];
-		
 		NSAlert *alert = [[NSAlert alloc] init];
-		[alert setAlertStyle:NSWarningAlertStyle];
+		[alert setAlertStyle:NSAlertStyleWarning];
 		[alert setMessageText:NSLocalizedString(@"Warning", nil)];
 		[alert setInformativeText:NSLocalizedString(@"File is read-only", nil)];
 		[alert addButtonWithTitle:NSLocalizedString(@"Edit anyway", nil)];
 		[alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
-		[[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
-		[alert TCM_setContextObject:contextInfo];
-		[alert beginSheetModalForWindow:sheetWindow
-						  modalDelegate:self
-						 didEndSelector:@selector(alertForReadonlyDidEnd:returnCode:contextInfo:)
-							contextInfo:(__bridge void *)contextInfo];
+
+		[alert beginSheetModalForWindow:sheetWindow completionHandler:^(NSModalResponse returnCode) {
+			if (returnCode != NSAlertFirstButtonReturn) {
+				return;
+			}
+			
+			PlainTextDocument *document = aFindAndReplaceContext.targetPlainTextEditor.document;
+			[document setEditAnyway:YES];
+
+			[self performTextFinderAction:aFindAndReplaceContext.currentTextFinderActionType context:aFindAndReplaceContext];
+		}];
+
 		result = NO;
 	} else {
-		
+
 		NSString *replacementString = [self currentReplaceString];
 		if (replacementString && ![replacementString canBeConvertedToEncoding:[document fileEncoding]]) {
 			TCMMMSession *session=[document session];
 			if ([session isServer] && [session participantCount]<=1) {
-				NSDictionary *contextInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-											 @"ShouldPromoteAlert", @"Alert",
-											 aFindAndReplaceContext, @"FindAndReplaceContext",
-											 nil];
-				
 				NSAlert *alert = [[NSAlert alloc] init];
-				[alert setAlertStyle:NSWarningAlertStyle];
+				[alert setAlertStyle:NSAlertStyleWarning];
 				[alert setMessageText:NSLocalizedString(@"You are trying to insert characters that cannot be handled by the file's current encoding. Do you want to cancel the change?", nil)];
 				[alert setInformativeText:NSLocalizedString(@"You are no longer restricted by the file's current encoding if you promote to a Unicode encoding.", nil)];
 				[alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
 				[alert addButtonWithTitle:NSLocalizedString(@"Promote to UTF8", nil)];
 				[alert addButtonWithTitle:NSLocalizedString(@"Promote to Unicode", nil)];
-				[[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
-				[alert TCM_setContextObject:contextInfo];
-				[alert beginSheetModalForWindow:sheetWindow
-								  modalDelegate:self
-								 didEndSelector:@selector(alertForEncodingDidEnd:returnCode:contextInfo:)
-									contextInfo:(__bridge void *)contextInfo];
+
+				[alert beginSheetModalForWindow:sheetWindow completionHandler:^(NSModalResponse returnCode) {
+					PlainTextDocument *document = aFindAndReplaceContext.targetPlainTextEditor.document;
+
+					if (returnCode == NSAlertThirdButtonReturn) {
+						[document setFileEncoding:NSUnicodeStringEncoding];
+						[[document documentUndoManager] removeAllActions];
+						[self performTextFinderAction:aFindAndReplaceContext.currentTextFinderActionType context:aFindAndReplaceContext];
+					} else if (returnCode == NSAlertSecondButtonReturn) {
+						[document setFileEncoding:NSUTF8StringEncoding];
+						[[document documentUndoManager] removeAllActions];
+						[self performTextFinderAction:aFindAndReplaceContext.currentTextFinderActionType context:aFindAndReplaceContext];
+					}
+				}];
+
 				result = NO;
 			} else {
 				// this is not our document and therefore we can't improve the encoding
@@ -447,7 +425,7 @@ static FindReplaceController *sharedInstance=nil;
 
 - (NSString *)pasteboardFindString {
 	NSString *result = nil;
-    NSPasteboard *pasteboard = [NSPasteboard pasteboardWithName:NSFindPboard];
+    NSPasteboard *pasteboard = [NSPasteboard pasteboardWithName:NSPasteboardNameFind];
     if ([[pasteboard types] containsObject:NSStringPboardType]) {
         result = [pasteboard stringForType:NSStringPboardType];
 	}
@@ -465,7 +443,7 @@ static FindReplaceController *sharedInstance=nil;
 	NSString *currentFindString = [self currentFindString];
 	NSString *pasteboardFindString = [self pasteboardFindString];
 	if (currentFindString && ![currentFindString isEqualToString:pasteboardFindString]) {
-		NSPasteboard *pasteboard = [NSPasteboard pasteboardWithName:NSFindPboard];
+		NSPasteboard *pasteboard = [NSPasteboard pasteboardWithName:NSPasteboardNameFind];
 		[pasteboard declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:nil];
 		[pasteboard setString:currentFindString forType:NSStringPboardType];
 	}

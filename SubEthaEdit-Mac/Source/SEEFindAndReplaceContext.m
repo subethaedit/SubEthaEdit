@@ -3,12 +3,6 @@
 //
 //  Created by Dominik Wagner on 24.03.14.
 
-// this file needs arc - add -fobjc-arc in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
-
 #import "SEEFindAndReplaceContext.h"
 #import "FullTextStorage.h"
 #import "FoldableTextStorage.h"
@@ -84,7 +78,7 @@ typedef NS_ENUM(uint8_t, SEESearchRangeDirection) {
 
 - (NSString *)pasteboardFindString {
 	NSString *result = nil;
-    NSPasteboard *pasteboard = [NSPasteboard pasteboardWithName:NSFindPboard];
+    NSPasteboard *pasteboard = [NSPasteboard pasteboardWithName:NSPasteboardNameFind];
     if ([[pasteboard types] containsObject:NSStringPboardType]) {
         result = [pasteboard stringForType:NSStringPboardType];
 	}
@@ -95,7 +89,7 @@ typedef NS_ENUM(uint8_t, SEESearchRangeDirection) {
 	NSString *currentFindString = self.findAndReplaceState.findString;
 	NSString *pasteboardFindString = [self pasteboardFindString];
 	if (currentFindString && ![currentFindString isEqualToString:pasteboardFindString]) {
-		NSPasteboard *pasteboard = [NSPasteboard pasteboardWithName:NSFindPboard];
+		NSPasteboard *pasteboard = [NSPasteboard pasteboardWithName:NSPasteboardNameFind];
 		[pasteboard declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:nil];
 		[pasteboard setString:currentFindString forType:NSStringPboardType];
 	}
@@ -385,7 +379,7 @@ typedef NS_ENUM(uint8_t, SEESearchRangeDirection) {
 			[[document session] pauseProcessing];
 			[[document documentUndoManager] beginUndoGrouping];
 
-			[self.targetTextView insertText:replaceString];
+            [self.targetTextView insertText:replaceString replacementRange:self.targetTextView.selectedRange];
 			
 			[[document documentUndoManager] endUndoGrouping];
 			[[document session] startProcessing];

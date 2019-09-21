@@ -12,7 +12,7 @@
 
 - (void)windowDidLoad {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textViewDidChangeSelection:) name:NSTextViewDidChangeSelectionNotification object:nil];
-   	NSSortDescriptor *descriptor = [[[NSSortDescriptor alloc] initWithKey:@"attributeName" ascending:YES] autorelease];
+   	NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"attributeName" ascending:YES];
    	[O_attributesContentController setSortDescriptors:[NSArray arrayWithObject:descriptor]];
    	[O_foldingTextStorageAttributesContentController setSortDescriptors:[NSArray arrayWithObject:descriptor]];
 }

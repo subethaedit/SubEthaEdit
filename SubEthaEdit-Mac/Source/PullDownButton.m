@@ -6,7 +6,6 @@
 #import "PullDownButton.h"
 #import "PullDownButtonCell.h"
 
-
 @implementation PullDownButton
 
 - (void)mouseDown:(NSEvent *)aEvent {

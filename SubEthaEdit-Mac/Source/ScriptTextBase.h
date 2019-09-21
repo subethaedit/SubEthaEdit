@@ -9,10 +9,11 @@
 @class FullTextStorage;
 
 @interface ScriptTextBase : NSObject {
+    @protected
     FullTextStorage *I_textStorage;
 }
 
-- (id)initWithTextStorage:(FullTextStorage *)aTextStorage;
+- (instancetype)initWithTextStorage:(FullTextStorage *)aTextStorage;
 - (NSRange)rangeRepresentation;
 - (int)scriptedLength;
 - (int)scriptedStartCharacterIndex;

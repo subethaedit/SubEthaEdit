@@ -76,9 +76,7 @@ typedef enum TCMMMSessionClientState {
 
 @interface TCMMMSession : NSObject <TCMBEEPProfileDelegate, SessionProfileDelegate>
 {
-    id <SEEDocument> I_document;
-    NSString *I_sessionID;
-    NSString *I_hostID;
+    NSString *_hostID;
     NSString *I_filename;
     id <TCMMMSessionHelper> I_helper;
     NSMutableDictionary *I_profilesByUserID;
@@ -106,14 +104,20 @@ typedef enum TCMMMSessionClientState {
     } I_flags;
     unsigned int I_sessionContentLength;
     unsigned int I_receivedContentLength;
-    NSAttributedString *I_lastReplacedAttributedString;
 }
+
+@property (nonatomic, weak) id <SEEDocument> document;
+@property (nonatomic, copy) NSString *sessionID;
+@property (nonatomic, copy) NSAttributedString *lastReplacedAttributedString;
+
+/*! userID of host */
+@property (nonatomic, copy) NSString *hostID;
 
 + (TCMMMSession *)sessionWithBencodedSession:(NSData *)aData;
 + (TCMMMSession *)sessionWithDictionaryRepresentation:(NSDictionary *)aDictionary;
 
-- (id)initWithDocument:(id <SEEDocument>)aDocument;
-- (id)initWithSessionID:(NSString *)aSessionID filename:(NSString *)aFileName;
+- (instancetype)initWithDocument:(id <SEEDocument>)aDocument;
+- (instancetype)initWithSessionID:(NSString *)aSessionID filename:(NSString *)aFileName;
 
 - (void)setFilename:(NSString *)aFilename;
 - (NSString *)filename;
@@ -121,11 +125,6 @@ typedef enum TCMMMSessionClientState {
 - (void)setSessionID:(NSString *)aSessionID;
 - (NSString *)sessionID;
 
-- (void)setDocument:(id <SEEDocument>)aDocument;
-- (id <SEEDocument>)document;
-
-/*! userID of host */
-@property (nonatomic, copy) NSString *hostID;
 
 - (void)setIsServer:(BOOL)isServer;
 - (BOOL)isServer;
@@ -195,8 +194,6 @@ typedef enum TCMMMSessionClientState {
 
 - (TCMMMLoggingState *)loggingState;
 - (void)setLoggingState:(TCMMMLoggingState *)aState;
-- (void)setLastReplacedAttributedString:(NSAttributedString *)aLastReplacedAttributedString;
-- (NSAttributedString *)lastReplacedAttributedString;
 
 - (NSDictionary *)contributersAsDictionaryRepresentation;
 

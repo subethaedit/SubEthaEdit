@@ -87,7 +87,6 @@ int const FoldingSubmenuTag = 4400;
 int const FoldingFoldSelectionMenuTag = 4441;
 int const FoldingFoldCurrentBlockMenuTag = 4442;
 int const FoldingFoldAllCurrentBlockMenuTag = 4443;
-int const GotoTabMenuItemTag = 3042;
 int const ModeMenuTag = 50;
 int const SwitchModeMenuTag = 10;
 int const ReloadModesMenuItemTag = 20;
@@ -429,15 +428,38 @@ static AppController *sharedInstance = nil;
         // Observe the app's effective appearance
         [NSApp addObserver:self forKeyPath:@"effectiveAppearance" options:0 context:nil];
     }
-
-    if (@available(macOS 10.12, *)) {
-        // Disable tabbing as we use PSMTabBar
-        [NSWindow setAllowsAutomaticWindowTabbing:NO];
-    }
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
     [[NSNotificationCenter defaultCenter] postNotificationName:SEEAppEffectiveAppearanceDidChangeNotification object:NSApp];
+}
+
+- (BOOL)ensureNoWindowsWithAlerts {
+    PlainTextDocument *offendingDocument = nil;
+    for (PlainTextDocument *document in NSApp.orderedDocuments) {
+        if ([document isKindOfClass:[PlainTextDocument class]]) {
+            [document dismissSafeToDismissSheetsIfAny];
+            if (!offendingDocument &&
+                document.hasAlerts) {
+                offendingDocument = document;
+            }
+        }
+    }
+    
+    if (offendingDocument) {
+        [offendingDocument showExistingAlertIfAny];
+        return NO;
+    } else {
+        return YES;
+    }
+}
+
+- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
+    if (![self ensureNoWindowsWithAlerts]) {
+        NSBeep();
+        return NSTerminateCancel;
+    }
+    return NSTerminateNow;
 }
 
 #pragma mark
@@ -457,7 +479,6 @@ static AppController *sharedInstance = nil;
 }
 
 - (void)updateApplicationIcon {
-
     // get the badge count
     int badgeCount = 0;
     NSEnumerator      *documents=[[[NSDocumentController sharedDocumentController] documents] objectEnumerator];
@@ -524,13 +545,7 @@ static AppController *sharedInstance = nil;
         [item setAction:@selector(newDocumentFromDock:)];
         [menu configureWithAction:@selector(newDocumentWithModeMenuItemFromDock:) alternateDisplay:NO];
 
-        item=[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Open File...",@"Open File Dock Menu Item") action:@selector(openNormalDocument:) keyEquivalent:@""];
-        [dockMenu addItem:item];
-        item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"All Tabs",@"all tabs Dock Menu Item") action:NULL keyEquivalent:@""];
-        [item setSubmenu:[NSMenu new]];
-        [item setTarget:[SEEDocumentController sharedDocumentController]];
-        [item setAction:@selector(menuValidationNoneAction:)];
-        [item setTag:GotoTabMenuItemTag];
+        item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Open File...",@"Open File Dock Menu Item") action:@selector(openNormalDocument:) keyEquivalent:@""];
         [dockMenu addItem:item];
     }
     return dockMenu;
@@ -617,27 +632,29 @@ static AppController *sharedInstance = nil;
 			NSString *information = [NSString stringWithFormat:NSLocalizedStringWithDefaultValue(@"MODE_UPDATE_INFO_TEXT", nil, [NSBundle mainBundle],
 																								 @"\n\nUsing the updated versions removes custom changes you might have made to your mode.\n\nIf you only want to use specific new modes choose 'Show in Finder', delete the modes without modifications and reload the modes from the mode menu in SubEthaEdit.", nil)];
 			
-			NSAlert *installAlert = [NSAlert alertWithMessageText:NSLocalizedStringWithDefaultValue(@"MODE_UPDATE_MESSAGE", nil, [NSBundle mainBundle], @"Newer Modes available", nil)
-													defaultButton:NSLocalizedStringWithDefaultValue(@"MODE_UPDATE_OK_BUTTON", nil, [NSBundle mainBundle], @"Use Updated Modes", nil)
-												  alternateButton:NSLocalizedStringWithDefaultValue(@"MODE_UPDATE_REVEAL_IN_FINDER", nil, [NSBundle mainBundle], @"Show Outdated Modes", nil)
-													  otherButton:NSLocalizedString(@"Cancel", nil)
-										informativeTextWithFormat:@"%@%@%@\n", intro, modeNames,information];
-			
-			int result = [installAlert runModal];
-			
-			if (result == NSAlertAlternateReturn) { // show in finder
-				[[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:updatableModeURLs];
-				
-			} else if (result == NSAlertDefaultReturn) { // ok was selected
-				NSFileManager *fileManager = [NSFileManager defaultManager];
-				for (NSURL *url in updatableModeURLs) {
-					NSURL *urlInTrash = nil;
-					NSError *deletionError = nil;
-					//					BOOL deletionSuccess = [fileManager trashItemAtURL:destinationURL resultingItemURL:&urlInTrash error:&deletionError];
-					[fileManager trashItemAtURL:url resultingItemURL:&urlInTrash error:&deletionError];
-				}
-				[[DocumentModeManager sharedInstance] reloadDocumentModes:self];
-			}
+            NSAlert *installAlert = [[NSAlert alloc] init];
+
+            installAlert.messageText = NSLocalizedStringWithDefaultValue(@"MODE_UPDATE_MESSAGE", nil, [NSBundle mainBundle], @"Newer Modes available", nil);
+            installAlert.informativeText = [NSString stringWithFormat:@"%@%@%@\n", intro, modeNames, information];
+
+            [installAlert addButtonWithTitle:NSLocalizedStringWithDefaultValue(@"MODE_UPDATE_OK_BUTTON", nil, [NSBundle mainBundle], @"Use Updated Modes", nil)];
+            [installAlert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
+            [installAlert addButtonWithTitle:NSLocalizedStringWithDefaultValue(@"MODE_UPDATE_REVEAL_IN_FINDER", nil, [NSBundle mainBundle], @"Show Outdated Modes", nil)];
+
+            NSModalResponse result = [installAlert runModal];
+
+            if (result == NSAlertThirdButtonReturn) { // show in finder
+                [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:updatableModeURLs];
+            } else if (result == NSAlertFirstButtonReturn) { // ok was selected
+                NSFileManager *fileManager = [NSFileManager defaultManager];
+                for (NSURL *url in updatableModeURLs) {
+                    NSURL *urlInTrash = nil;
+                    NSError *deletionError = nil;
+                    //                    BOOL deletionSuccess = [fileManager trashItemAtURL:destinationURL resultingItemURL:&urlInTrash error:&deletionError];
+                    [fileManager trashItemAtURL:url resultingItemURL:&urlInTrash error:&deletionError];
+                }
+                [[DocumentModeManager sharedInstance] reloadDocumentModes:self];
+            }
 		}
 		
 		[defaults setObject:currentBundleVersion forKey:kSEELastKnownBundleVersion];
@@ -663,6 +680,7 @@ static AppController *sharedInstance = nil;
 
 #pragma mark
 - (void)addDocumentNewSubmenuEntriesToMenu:(NSMenu *)aMenu {
+  // TODO: refactor
 	BOOL inTabs = [[NSUserDefaults standardUserDefaults] boolForKey:kSEEDefaultsKeyOpenNewDocumentInTab];
     NSMenu *menu=[[[NSApp mainMenu] itemWithTag:FileMenuTag] submenu];
 	
@@ -689,7 +707,7 @@ static AppController *sharedInstance = nil;
 			NSMenuItem *alternateItem = [alternateItems[idx] copy];
 			[alternateItem setAlternate:YES];
 			[alternateItem setKeyEquivalent:@""];
-			[alternateItem setKeyEquivalentModifierMask:NSAlternateKeyMask];
+			[alternateItem setKeyEquivalentModifierMask:NSEventModifierFlagOption];
 			[alternateItem setTitle:[NSString stringWithFormat:NSLocalizedString(!inTabs?@"MODE_IN_NEW_TAB_CONTEXT_MENU_TEXT":@"MODE_IN_NEW_WINDOW_CONTEXT_MENU_TEXT",@""),[normalItem title]]];
 			if (isSelectedModeItem) {
 				alternateItem.state = NSOnState;
@@ -711,7 +729,7 @@ static AppController *sharedInstance = nil;
         [item setKeyEquivalent:@""];
     }
     item = (NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] tagForDocumentModeIdentifier:[[[DocumentModeManager sharedInstance] modeForNewDocuments] documentModeIdentifier]]];
-    [item setKeyEquivalentModifierMask:NSCommandKeyMask];
+    [item setKeyEquivalentModifierMask:NSEventModifierFlagCommand];
     [item setKeyEquivalent:@"n"];
     
     [menuItem setRepresentedObject:item];
@@ -727,7 +745,7 @@ static AppController *sharedInstance = nil;
         [item setKeyEquivalent:@""];
     }
     item = (NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] tagForDocumentModeIdentifier:[[[DocumentModeManager sharedInstance] modeForNewDocuments] documentModeIdentifier]]];
-    [item setKeyEquivalentModifierMask:NSCommandKeyMask];
+    [item setKeyEquivalentModifierMask:NSEventModifierFlagCommand];
     [item setKeyEquivalent:@"t"];
     
     [menuItem setRepresentedObject:item];
@@ -757,7 +775,7 @@ static AppController *sharedInstance = nil;
 	NSMenuItem *revealModesMenuItem = ({ // Mode -> Show In Finder (ALT)
 		NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Reveal in Finder",@"Reveal in Finder - menu entry") action:nil keyEquivalent:@""];
 		[menuItem setAlternate:YES];
-		[menuItem setKeyEquivalentModifierMask:NSAlternateKeyMask];
+		[menuItem setKeyEquivalentModifierMask:NSEventModifierFlagOption];
 		
 		DocumentModeMenu *documentModeMenu = [DocumentModeMenu new];
 		[documentModeMenu configureWithAction:@selector(showModeBundle:) alternateDisplay:YES];
@@ -932,17 +950,15 @@ static AppController *sharedInstance = nil;
         [self performSelectorOnMainThread:@selector(reportAppleScriptError:) withObject:anErrorDictionary waitUntilDone:NO];
     } else {
         NSAlert *newAlert = [[NSAlert alloc] init];
-        [newAlert setAlertStyle:NSCriticalAlertStyle];
-        [newAlert setMessageText:[anErrorDictionary objectForKey:@"NSAppleScriptErrorBriefMessage"] ? [anErrorDictionary objectForKey:@"NSAppleScriptErrorBriefMessage"] : @"Unknown AppleScript Error"];
+      [newAlert setAlertStyle:NSAlertStyleCritical];
+        [newAlert setMessageText:SEE_NoLocalizationNeeded([anErrorDictionary objectForKey:@"NSAppleScriptErrorBriefMessage"] ?: @"Unknown AppleScript Error")];
         [newAlert setInformativeText:[NSString stringWithFormat:@"%@ (%d)", [anErrorDictionary objectForKey:@"NSAppleScriptErrorMessage"], [[anErrorDictionary objectForKey:@"NSAppleScriptErrorNumber"] intValue]]];
         [newAlert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
         NSWindow *alertWindow=nil;
         NSArray *documents=[NSApp orderedDocuments];
         if ([documents count]>0) alertWindow=[[documents objectAtIndex:0] windowForSheet];
         [newAlert beginSheetModalForWindow:alertWindow
-                             modalDelegate:nil
-                            didEndSelector:nil
-                               contextInfo:NULL];
+                         completionHandler:nil];
     }
 }
 
@@ -987,7 +1003,7 @@ static AppController *sharedInstance = nil;
     NSMenu *menu = [NSMenu new];
     [scriptsSubmenuItem setImage:[NSImage imageNamed:@"ScriptMenuItemIcon"]];
     [scriptsSubmenuItem setTag:12345];
-    [menu addItem:[[NSMenuItem alloc] initWithTitle:@"DummyEntry" action:nil keyEquivalent:@""]];
+    [menu addItem:[[NSMenuItem alloc] initWithTitle:SEE_NoLocalizationNeeded(@"DummyEntry") action:nil keyEquivalent:@""]];
     [scriptsSubmenuItem setSubmenu:menu];
     [defaultMenu addItem:scriptsSubmenuItem];
 

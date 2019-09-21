@@ -5,6 +5,11 @@
 
 #import <Foundation/Foundation.h>
 
+__attribute__((annotate("returns_localized_nsstring")))
+static inline NSString *SEE_NoLocalizationNeeded(NSString *s) {
+    return s;
+}
+
 typedef enum _LineEnding {
     LineEndingLF = 1,    // U+000A (\n or LF)
     LineEndingCR = 2,    // U+000D (\r or CR)
@@ -33,17 +38,12 @@ typedef enum _LineEnding {
 @end
 
 @interface NSMutableString (NSStringSEEAdditions)
-
 - (void)convertLineEndingsToLineEndingString:(NSString *)aNewLineEndingString;
 - (NSMutableString *)addBRs;
-
 @end
 
 @interface NSString (NSStringSEEAdditions)
-
 + (NSString *)lineEndingStringForLineEnding:(LineEnding)aLineEnding;
-- (BOOL)isValidSerial;
-- (long)base36Value;
 - (BOOL)isWhiteSpace;
 - (unsigned)detabbedLengthForRange:(NSRange)aRange tabWidth:(int)aTabWidth;
 - (NSRange)rangeOfLeadingWhitespaceStartingAt:(unsigned)location;
@@ -55,12 +55,17 @@ typedef enum _LineEnding {
 - (NSString *) stringByReplacingRegularExpressionOperators;
 - (NSRange)TCM_fullLengthRange;
 - (NSString *)stringWithInitials;
+
+- (NSString *)lossyStringUsingEncoding:(NSStringEncoding)encoding;
 @end
 
 @interface NSAttributedString (NSAttributedStringSEEAdditions)
-
 - (NSMutableString *)XHTMLStringWithAttributeMapping:(NSDictionary *)anAttributeMapping forUTF8:(BOOL)forUTF8;
 - (NSRange)TCM_fullLengthRange;
 - (NSUInteger)TCM_positionOfMatchingBracketToPosition:(NSUInteger)position bracketSettings:(TCMBracketSettings *)aBracketSettings;
+@end
 
+
+@interface NSFont (NSFontSEEAdditions)
+- (NSFont *)SEE_fontByAddingMonoSpaceNumbersFeature;
 @end

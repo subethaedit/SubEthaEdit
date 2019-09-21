@@ -3,10 +3,6 @@
 //
 //  Created by Michael Ehrmann on 03.03.14.
 
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 #import "SEERecentDocumentListItem.h"
 
 void * const SEERecentDocumentURLObservingContext = (void *)&SEERecentDocumentURLObservingContext;
@@ -17,8 +13,7 @@ void * const SEERecentDocumentURLObservingContext = (void *)&SEERecentDocumentUR
 @synthesize name = _name;
 @synthesize image = _image;
 
-- (id)init
-{
+- (instancetype)init {
     self = [super init];
     if (self) {
 		self.name = NSLocalizedString(@"Unknown Name", @"");
@@ -29,8 +24,7 @@ void * const SEERecentDocumentURLObservingContext = (void *)&SEERecentDocumentUR
     return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
 	[self removeKVO];
 }
 
@@ -42,8 +36,7 @@ void * const SEERecentDocumentURLObservingContext = (void *)&SEERecentDocumentUR
 	[self removeObserver:self forKeyPath:@"fileURL" context:SEERecentDocumentURLObservingContext];
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if (context == SEERecentDocumentURLObservingContext) {
 		self.name = self.fileURL.lastPathComponent;
 		[self updateImage];

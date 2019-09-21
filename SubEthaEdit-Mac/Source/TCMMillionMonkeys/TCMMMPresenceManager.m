@@ -3,13 +3,6 @@
 //
 //  Created by Dominik Wagner on Fri Feb 27 2004.
 
-// this file needs arc - either project wide,
-// or add -fobjc-arc on a per file basis in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
-
 #import "TCMMMPresenceManager.h"
 #import "TCMMMBEEPSessionManager.h"
 #import "TCMMMStatusProfile.h"
@@ -90,7 +83,7 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
     return sharedInstance;
 }
 
-- (id)init
+- (instancetype)init
 {
     self = [super init];
     if (self) {

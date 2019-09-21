@@ -64,9 +64,7 @@ enum {
     NSMutableData *I_writeBuffer;
     int I_currentReadState;
     int I_currentReadFrameRemainingContentSize;
-
-    NSMutableDictionary *I_userInfo;
-
+    
     TCMBEEPChannel *I_managementChannel;
     NSMutableDictionary *I_activeChannels;
     NSMutableArray *I_channels;
@@ -74,21 +72,10 @@ enum {
     int32_t I_nextChannelNumber;
     int I_maximumFrameSize;
     
-    id I_delegate;
-    id I_authenticationInformation;
-    id I_authenticationDelegate;
-    
     NSData *I_peerAddressData;
     
-    NSMutableArray *I_TLSProfileURIs;
-    NSMutableArray *I_profileURIs;
-    NSMutableArray *I_saslProfileURIs;
-    NSArray *I_peerProfileURIs;
-    
-    NSString *I_featuresAttribute;
-    NSString *I_localizeAttribute;
-    NSString *I_peerFeaturesAttribute;
-    NSString *I_peerLocalizeAttribute;
+    NSMutableArray *_TLSProfileURIs;
+    NSMutableArray *_saslProfileURIs;
     
     NSMutableDictionary *I_channelRequests;
     
@@ -117,41 +104,35 @@ enum {
 #endif
 }
 
+@property (nonatomic, weak) id <TCMBEEPSessionDelegate>delegate;
+@property (nonatomic, weak) id <TCMBEEPAuthenticationDelegate>authenticationDelegate;
+@property (nonatomic, strong) id authenticationInformation;
+@property (nonatomic, copy) NSMutableDictionary *userInfo;
+@property (nonatomic, copy) NSMutableArray *profileURIs;
+@property (nonatomic, copy) NSArray *peerProfileURIs;
+
+@property (nonatomic, copy) NSData *peerAddressData;
+@property (nonatomic, copy) NSString *featuresAttribute;
+@property (nonatomic, copy) NSString *peerFeaturesAttribute;
+@property (nonatomic, copy) NSString *localizeAttribute;
+@property (nonatomic, copy) NSString *peerLocalizeAttribute;
+
+
 + (void)prepareDiffiHellmannParameters;
 
 /*"Initializers"*/
-- (id)initWithSocket:(CFSocketNativeHandle)aSocketHandle addressData:(NSData *)aData;
-- (id)initWithAddressData:(NSData *)aData;
+- (instancetype)initWithSocket:(CFSocketNativeHandle)aSocketHandle addressData:(NSData *)aData;
+- (instancetype)initWithAddressData:(NSData *)aData;
 
 - (void)startTerminator;
 - (void)triggerTerminator;
 - (void)invalidateTerminator;
 
 /*"Accessors"*/
-- (void)setDelegate:(id <TCMBEEPSessionDelegate>)aDelegate;
-- (id <TCMBEEPSessionDelegate>)delegate;
-- (void)setAuthenticationDelegate:(id <TCMBEEPAuthenticationDelegate>)aDelegate;
-- (id <TCMBEEPAuthenticationDelegate>)authenticationDelegate;
-- (void)setAuthenticationInformation:(id)anInformation;
-- (id)authenticationInformation;
-- (void)setUserInfo:(NSMutableDictionary *)aUserInfo;
-- (NSMutableDictionary *)userInfo;
+
 - (void)addProfileURIs:(NSArray *)anArray;
 - (void)addTLSProfileURIs:(NSArray *)anArray;
-- (void)setProfileURIs:(NSArray *)anArray;
-- (NSArray *)profileURIs;
-- (void)setPeerProfileURIs:(NSArray *)anArray;
-- (NSArray *)peerProfileURIs;
 - (void)setPeerAddressData:(NSData *)aData;
-- (NSData *)peerAddressData;
-- (void)setFeaturesAttribute:(NSString *)anAttribute;
-- (NSString *)featuresAttribute;
-- (void)setPeerFeaturesAttribute:(NSString *)anAttribute;
-- (NSString *)peerFeaturesAttribute;
-- (void)setLocalizeAttribute:(NSString *)anAttribute;
-- (NSString *)localizeAttribute;
-- (void)setPeerLocalizeAttribute:(NSString *)anAttribute;
-- (NSString *)peerLocalizeAttribute;
 - (BOOL)isInitiator;
 - (NSMutableDictionary *)activeChannels;
 - (int)maximumFrameSize;

@@ -5,11 +5,6 @@
 
 #import "SEEFindAndReplaceState.h"
 
-// this file needs arc - add -fobjc-arc in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 NSString * const kFindAndReplaceKeyFindString = @"find";
 NSString * const kFindAndReplaceKeyReplaceString = @"replace";
 NSString * const kFindAndReplaceKeyShouldWrap = @"wraps";

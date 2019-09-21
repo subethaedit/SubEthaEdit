@@ -30,4 +30,13 @@
     return result;
 }
 
+- (NSAppearance *)SEE_closestSystemNonVibrantAppearance {
+    if (@available(macOS 10.14, *)) {
+        NSString *appearanceName = [self bestMatchFromAppearancesWithNames:@[NSAppearanceNameAqua, NSAppearanceNameAccessibilityHighContrastAqua, NSAppearanceNameDarkAqua, NSAppearanceNameAccessibilityHighContrastVibrantDark]];
+        NSAppearance *appearance = [NSAppearance appearanceNamed:appearanceName];
+        return appearance;
+    } else {
+        return [NSAppearance appearanceNamed:NSAppearanceNameAqua];
+    }
+}
 @end

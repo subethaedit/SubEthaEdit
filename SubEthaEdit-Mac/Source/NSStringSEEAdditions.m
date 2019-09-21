@@ -6,12 +6,6 @@
 #import "NSStringSEEAdditions.h"
 #import <OgreKit/OgreKit.h>
 
-// this file needs arc - either project wide,
-// or add -fobjc-arc on a per file basis in the compile build phase
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
 @interface TCMBracketSettings ()
 @property (nonatomic, readwrite) unichar *openingBrackets;
 @property (nonatomic, readwrite) unichar *closingBrackets;
@@ -28,8 +22,8 @@
 }
 
 - (void)setBracketString:(NSString *)aBracketString {
-	if (_openingBrackets != NULL) free(_openingBrackets);
-	if (_closingBrackets != NULL) free(_closingBrackets);
+    if (_openingBrackets != NULL) { free(_openingBrackets); }
+    if (_closingBrackets != NULL) { free(_closingBrackets); }
 	_bracketCount = [aBracketString length] / 2;
 	_closingBrackets = malloc(sizeof(unichar)*_bracketCount);
 	_openingBrackets = malloc(sizeof(unichar)*_bracketCount);
@@ -221,100 +215,6 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
     }
 }
 
-- (BOOL)isValidSerial
-{
-    // Pirated number (2.1.1): 2QF-PABI-OCM6-KRHH (Blocked by enforcing SEE prefix) (SB)
-    // Pirated number (2.2): SEE-11G0-M1A0-5ROC (Blocked #1500/63000) (SB)
-    // Pirated number (2.3): SEE-1960-4979-8692 (Blocked #431865/49392) (SB)
-    // Published number (2.3): SEE-2XG6-8CK0-H8KX ( #43400/136374)
-    // Published number (2.3): SEE-ZXFC-PF60-FZSX ( #43336/1676640)
-    // Pirated number (2.5): SEE-SE2O-Y1LV-EZ1J ( #1464985/1332240) (KCN)
-    // Pirated number (2.5.1): SEE-IC3I-O11Y-W0FO (#1603023/871794)
-    // Pirated number (2.6): SEE-6Y2C-M157-UXZ2 (#371771/283332)
-    // Pirated number (2.6.2): SEE-Z320-71AH-5P0S (#797220/1669500)
-    
-    // Pirated number (2.6.3): SEE-BW26-J17T-QQ3Y (#1395435/557970)
-    // Pirated number (2.6.3): SEE-Z410-71AH-5P0S (#798516/1669500)
-	// Pirated number (2.6.4): SEE-V006-81P0-35F4 (#123/1451814)	
-	// Pirated number (3.0.2): SEE-XAAU-IKZJ-55TA (#899633/1553286)	
-	// Pirated number (3.0.3): SEE-V006-81P0-17F4 (#51/1451814)	
-    
-    static int calls = 0;
-    NSArray *splitArray = [self componentsSeparatedByString:@"-"];
-    if ([splitArray count]==4 && calls++ < 100) {
-        NSString *zero = [splitArray objectAtIndex:0];
-        NSString *one  = [splitArray objectAtIndex:1];
-        NSString *two  = [splitArray objectAtIndex:2];
-        NSString *tri  = [splitArray objectAtIndex:3];
-        if (([[zero uppercaseString] isEqualToString:@"SEE"]) && ([one length] == 4) && ([two length] == 4) && ([tri length] == 4)) {
-            long prefix = [zero base36Value];
-            // Buchstaben zwirbeln
-            long number = [[NSString stringWithFormat:@"%c%c%c%c",
-                      [two characterAtIndex:3],
-                      [one characterAtIndex:1],
-                      [tri characterAtIndex:0],
-                      [tri characterAtIndex:2]] base36Value];
-            long rndnumber = [[NSString stringWithFormat:@"%c%c%c%c",
-                      [one characterAtIndex:0],
-                      [tri characterAtIndex:3],
-                      [two characterAtIndex:0],
-                      [one characterAtIndex:3]] base36Value];
-            long chksum = [[NSString stringWithFormat:@"%c%c%c%c",
-                      [two characterAtIndex:1],
-                      [one characterAtIndex:2],
-                      [tri characterAtIndex:1],
-                      [two characterAtIndex:2]] base36Value];
-
-            // check for pirated number            
-            if (((number==1500) && (rndnumber == 63000)) ||
-                ((number==51) && (rndnumber == 1451814)) ||
-                ((number==899633) && (rndnumber == 1553286)) ||
-                ((number==123) && (rndnumber == 1451814)) ||
-                ((number==43400) && (rndnumber == 136374)) ||
-                ((number==1395435) && (rndnumber == 557970)) ||
-                ((number==798516) && (rndnumber == 1669500)) ||
-                ((number==797220) && (rndnumber == 1669500)) ||
-                ((number==43336) && (rndnumber == 1676640)) ||
-                ((number==1464985) && (rndnumber == 1332240)) ||
-                ((number==1603023) && (rndnumber == 871794)) ||
-                ((number==371771) && (rndnumber == 283332)) ||
-                ((number==431865) && (rndnumber == 49392))) {
-                NSLog(@"Arrrr!");
-                return NO;
-            }
-            
-            // check for validity            
-            if (((rndnumber%42) == 0) && (rndnumber >= 42*1111)) {
-                if ((((prefix+number+chksum+rndnumber)%4242)==0) && (chksum >= 42*1111)) {
-                    return YES;
-                }
-            }
-        }
-    }
-    return NO;
-}
-
-- (long) base36Value 
-{
-    unichar c;
-    int i,p;
-    long result = 0;
-    NSString *aString = [self uppercaseString];
-    
-    for (i=[aString length]-1,p=0;i>=0;i--,p++) {
-        c = [aString characterAtIndex:i];
-        // 65-90:A-Z, 48-57:0-9
-        if ((c >= 48) && (c <= 57)) {
-            result += (long)(c-48)*pow(36,p);
-        }
-        if ((c >= 65) && (c <= 90)) {
-            result += (long)(c-55)*pow(36,p);
-        }
-    }
-    
-    return result;
-}
-
 - (BOOL)isWhiteSpace {
     static unichar s_space=0,s_tab,s_cr,s_nl;
     if (s_space==0) {
@@ -323,8 +223,8 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
         s_cr=[@"\r" characterAtIndex:0];
         s_nl=[@"\n" characterAtIndex:0];
     }
-
-   NSUInteger i=0;
+    
+    NSUInteger i=0;
     BOOL result=YES;
     for (i=0;i<[self length];i++) {
         unichar character=[self characterAtIndex:i];
@@ -333,7 +233,7 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
             character!=s_cr &&
             character!=s_nl) {
             result=NO;
-            break;    
+            break;
         }
     }
     return result;
@@ -345,13 +245,13 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
     while (NSMaxRange(result) < length &&
            ([self characterAtIndex:NSMaxRange(result)]==' ' ||
             [self characterAtIndex:NSMaxRange(result)]=='\t')) {
-        result.length++;
-    }
+               result.length++;
+           }
     return result;
 }
 
 
-- (unsigned) detabbedLengthForRange:(NSRange)aRange tabWidth:(int)aTabWidth {
+- (unsigned)detabbedLengthForRange:(NSRange)aRange tabWidth:(int)aTabWidth {
     NSRange foundRange=[self rangeOfString:@"\t" options:0 range:aRange];
     if (foundRange.location==NSNotFound) {
         return aRange.length;
@@ -718,60 +618,50 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
     return string;
 }
 
-- (BOOL)findIANAEncodingUsingExpression:(NSString*)regEx encoding:(NSStringEncoding*)outEncoding;
-{
+- (BOOL)findIANAEncodingUsingExpression:(NSString*)regEx encoding:(NSStringEncoding*)outEncoding; {
 	OGRegularExpression			*regex = nil;
 	OGRegularExpressionMatch	*match = nil;
 	BOOL						success = NO;
 
 	//@"<meta.*?charset=(.*?)\""
-	NS_DURING
-	regex = [OGRegularExpression regularExpressionWithString:regEx options:OgreCaptureGroupOption | OgreIgnoreCaseOption];
-	match = [regex matchInString:self];
-
-	if ( [match count] >= 2 )
-	{
-		NSString *matchString = [self substringWithRange:[match rangeOfSubstringAtIndex:1]];
-
-		if ( matchString )
-		{
-			CFStringEncoding cfEncoding = CFStringConvertIANACharSetNameToEncoding((CFStringRef)matchString);
-
-			if ( cfEncoding == kCFStringEncodingInvalidId )
-			{
-				NSLog(@"findIANAEncodingUsingExpression:encoding: invalid encoding");
-			}
-			else
-			{
-				if ( outEncoding )
-				{
-					NSStringEncoding foundEncoding = CFStringConvertEncodingToNSStringEncoding(cfEncoding);
-					// if we find a utf16 variant then this makes no sense as we found it in a text that was 8bit interpreted so we return no
-					if (foundEncoding != NSUnicodeStringEncoding &&
-						foundEncoding != 0x94000100 && // NSUTF16LittleEndianStringEncoding ||
-						foundEncoding != 0x90000100 && // NSUTF16BigEndianStringEncoding ||
-						foundEncoding != 0x98000100 && // NSUTF32BigEndianStringEncoding ||
-						foundEncoding != 0x9c000100 && // NSUTF32LittleEndianStringEncoding ||
-						foundEncoding != 0x8c000100 ) { //NSUTF32StringEncoding) {
-						*outEncoding = foundEncoding;
-						success = YES;
-					}
-				}
-				else
-				{
-					success = NO;
-				}
-			}
-		}
-	}
-
-	NS_HANDLER
-	NSLog(@"%@", [localException description]);
-	NS_ENDHANDLER
-	return success;
+    @try {
+        regex = [OGRegularExpression regularExpressionWithString:regEx options:OgreCaptureGroupOption | OgreIgnoreCaseOption];
+        match = [regex matchInString:self];
+        
+        if ([match count] >= 2) {
+            NSString *matchString = [self substringWithRange:[match rangeOfSubstringAtIndex:1]];
+            
+            if (matchString) {
+                CFStringEncoding cfEncoding = CFStringConvertIANACharSetNameToEncoding((CFStringRef)matchString);
+                
+                if (cfEncoding == kCFStringEncodingInvalidId){
+                    NSLog(@"findIANAEncodingUsingExpression:encoding: invalid encoding");
+                } else {
+                    if (outEncoding) {
+                        NSStringEncoding foundEncoding = CFStringConvertEncodingToNSStringEncoding(cfEncoding);
+                        // if we find a utf16 variant then this makes no sense as we found it in a text that was 8bit interpreted so we return no
+                        if (foundEncoding != NSUnicodeStringEncoding &&
+                            foundEncoding != 0x94000100 && // NSUTF16LittleEndianStringEncoding ||
+                            foundEncoding != 0x90000100 && // NSUTF16BigEndianStringEncoding ||
+                            foundEncoding != 0x98000100 && // NSUTF32BigEndianStringEncoding ||
+                            foundEncoding != 0x9c000100 && // NSUTF32LittleEndianStringEncoding ||
+                            foundEncoding != 0x8c000100 ) { //NSUTF32StringEncoding) {
+                            *outEncoding = foundEncoding;
+                            success = YES;
+                        }
+                    } else {
+                        success = NO;
+                    }
+                }
+            }
+        }
+    } @catch(NSException *localException) {
+        NSLog(@"%@", [localException description]);
+    }
+    return success;
 }
 
-- (NSString *) stringByReplacingRegularExpressionOperators  {
+- (NSString *)stringByReplacingRegularExpressionOperators  {
     static OGRegularExpression *escapingExpression = nil;
     if (!escapingExpression) {
         escapingExpression = [[OGRegularExpression alloc] initWithString:@"[\\\\\\(\\){}\\[\\]?*+^$|\\-\\.]" options:OgreFindNotEmptyOption];
@@ -784,8 +674,7 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
 	return result;
 }
 
-- (NSString *)stringWithInitials
-{
+- (NSString *)stringWithInitials {
 	NSString *name = self;
 	NSMutableString * initials = [NSMutableString string];
 	NSArray * nameComponents = [name componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
@@ -797,6 +686,13 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
 	}
 	return [initials copy];
 }
+
+- (NSString *)lossyStringUsingEncoding:(NSStringEncoding)encoding {
+    NSData * data = [self dataUsingEncoding:encoding allowLossyConversion:YES];
+    
+    return [NSString stringWithData:data encoding:encoding];
+}
+
 @end
 
 @implementation NSAttributedString (NSAttributedStringSEEAdditions)
@@ -999,5 +895,18 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
     return result;
 }
 
+
+@end
+
+@implementation NSFont (NSFontSEEAdditions)
+
+- (NSFont *)SEE_fontByAddingMonoSpaceNumbersFeature {
+    CTFontDescriptorRef origDesc = CTFontCopyFontDescriptor((__bridge CTFontRef)self);
+    CTFontDescriptorRef monoDesc = CTFontDescriptorCreateCopyWithFeature(origDesc, (__bridge CFNumberRef)@(kNumberSpacingType), (__bridge CFNumberRef)@(kMonospacedNumbersSelector));
+    CFRelease(origDesc);
+    CTFontRef monoFont = CTFontCreateWithFontDescriptor(monoDesc, self.pointSize, NULL);
+    CFRelease(monoDesc);
+    return (__bridge_transfer NSFont *)monoFont;
+}
 
 @end

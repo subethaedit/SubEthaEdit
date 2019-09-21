@@ -3,11 +3,6 @@
 //
 //  Created by Dominik Wagner on Tue Apr 20 2004.
 
-#if !__has_feature(objc_arc)
-#error ARC must be enabled!
-#endif
-
-
 #import "PopUpButton.h"
 #import "PopUpButtonCell.h"
 
@@ -23,23 +18,19 @@
     return [PopUpButtonCell class];
 }
 
-- (id)initWithFrame:(NSRect)frameRect pullsDown:(BOOL)flag {   
+- (instancetype)initWithFrame:(NSRect)frameRect pullsDown:(BOOL)flag {   
     self=[super initWithFrame:frameRect pullsDown:flag];
 	if (self) {
         PopUpButtonCell *cell = self.cell;
 		[cell setArrowPosition:NSPopUpNoArrow];
-		[cell setControlSize:NSSmallControlSize];
+		[cell setControlSize:NSControlSizeSmall];
         
 		[self setBordered:NO];
-		[self setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
+		[self setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSControlSizeSmall]]];
 		self.lineDrawingEdge = CGRectMaxXEdge;
 		self.lineColor = [NSColor controlTextColor]; // just a default
 	}
     return self;
-}
-
-- (void)dealloc {
-    [self setDelegate:nil];
 }
 
 - (void)mouseDown:(NSEvent *)theEvent {

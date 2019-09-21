@@ -18,15 +18,14 @@
 
 @implementation DebugBEEPController
 
-- (id)init {
+- (instancetype)init {
     if ((self = [super initWithWindowNibName:@"DebugBEEP"])) {
-        [NSValueTransformer setValueTransformer:[[AddressDataToStringValueTransformer new] autorelease] forName:@"AddressDataToStringValueTransformer"];
+        [NSValueTransformer setValueTransformer:[AddressDataToStringValueTransformer new] forName:@"AddressDataToStringValueTransformer"];
     }
     return self;
 }
 
-- (void)windowDidLoad
-{
+- (void)windowDidLoad {
     [O_sessionController bind:@"contentArray" toObject:[TCMMMBEEPSessionManager sharedInstance] withKeyPath:@"sessions" options:nil];
 }
 
