@@ -1,3 +1,9 @@
+### [Unreleased] SubEthaEdit 5.1.1
+
+#### Features:
+#### Bug fixes and maintenance:
+#### Improved modes:
+
 ### SubEthaEdit 5.1
 
 #### Features:
