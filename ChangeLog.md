@@ -2,6 +2,9 @@
 
 #### Features:
 #### Bug fixes and maintenance:
+* Fixed issue where default Avatars on macOS 10.15 looked bad in dark appearance
+* Fixed top status bar text readability on live light/dark appearance change
+* Updated the certificate for the `see` tool installer
 #### Improved modes:
 
 ### SubEthaEdit 5.1
