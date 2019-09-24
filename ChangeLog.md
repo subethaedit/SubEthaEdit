@@ -2,8 +2,9 @@
 
 #### Features:
 #### Bug fixes and maintenance:
-* Fixed issue where default Avatars on macOS 10.15 looked bad in dark appearance
+* Fixed an issue where default Avatars on macOS 10.15 looked bad in dark appearance
 * Fixed top status bar text readability on live light/dark appearance change
+* Fixed an issue where invitation windows needed to be dismissed twice to deny the invitation
 * Updated the certificate for the `see` tool installer
 #### Improved modes:
 
