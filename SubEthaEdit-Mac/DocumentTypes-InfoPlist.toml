@@ -15,6 +15,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeName = "Source Code"
 	CFBundleTypeRole = "Editor"
+	LSHandlerRank = "Default"
 	LSItemContentTypes = ["public.source-code"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
@@ -24,6 +25,7 @@
 	CFBundleTypeMIMETypes = ["text/plain"]
 	CFBundleTypeName = "Text Document"
 	CFBundleTypeRole = "Editor"
+	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["public.plain-text"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
@@ -33,6 +35,7 @@
 	CFBundleTypeIconFile = "file-generic-source"
 	CFBundleTypeName = "Swift Source Code"
 	CFBundleTypeRole = "Editor"
+	LSHandlerRank = "Default"
 	LSItemContentTypes = ["public.swift-source"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
@@ -42,6 +45,7 @@
 	CFBundleTypeIconFile = "file-go"
 	CFBundleTypeName = "go Source Code"
 	CFBundleTypeRole = "Editor"
+	LSHandlerRank = "Default"
 	LSItemContentTypes = ["public.go-source"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
@@ -51,6 +55,7 @@
 	CFBundleTypeIconFile = "file-sh"
 	CFBundleTypeName = "Shell Script"
 	CFBundleTypeRole = "Editor"
+	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["public.shell-script"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
@@ -70,6 +75,7 @@
 	CFBundleTypeIconFile = "file-generic-source"
 	CFBundleTypeName = "fscript Source Code"
 	CFBundleTypeRole = "Editor"
+	LSHandlerRank = "Default"
 	LSItemContentTypes = ["org.fscript.fscript"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
@@ -79,6 +85,7 @@
 	CFBundleTypeIconFile = "file-generic-source"
 	CFBundleTypeName = "java Source Code"
 	CFBundleTypeRole = "Editor"
+	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["com.sun.java-source"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
@@ -108,6 +115,7 @@
 	CFBundleTypeIconFile = "file-js"
 	CFBundleTypeName = "javascript Source Code"
 	CFBundleTypeRole = "Editor"
+	LSHandlerRank = "Default"
 	LSItemContentTypes = ["com.netscape.javascript-source"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
@@ -127,6 +135,7 @@
 	CFBundleTypeIconFile = "file-json"
 	CFBundleTypeName = "JSON Document"
 	CFBundleTypeRole = "Editor"
+	LSHandlerRank = "Default"
 	LSItemContentTypes = ["public.json", "org.json.json"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
@@ -136,6 +145,7 @@
 	CFBundleTypeIconFile = "file-generic"
 	CFBundleTypeName = "TOML Document"
 	CFBundleTypeRole = "Editor"
+	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["public.toml"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
@@ -176,6 +186,7 @@
 	CFBundleTypeRole = "Editor"
 	LSItemContentTypes = ["public.html"]
 	LSTypeIsPackage = false
+	LSHandlerRank = "Alternate"
 	NSDocumentClass = "PlainTextDocument"
 	NSIsRelatedItemType = true
 [[CFBundleDocumentTypes]]
@@ -203,6 +214,7 @@
 	CFBundleTypeIconFile = "file-generic-header"
 	CFBundleTypeName = "C Header"
 	CFBundleTypeRole = "Editor"
+	LSHandlerRank = "Default"
 	LSItemContentTypes = ["public.c-header"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
@@ -212,6 +224,7 @@
 	CFBundleTypeIconFile = "file-generic-header"
 	CFBundleTypeName = "C++ Header"
 	CFBundleTypeRole = "Editor"
+	LSHandlerRank = "Default"
 	LSItemContentTypes = ["public.c-plus-plus-header"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
@@ -241,6 +254,7 @@
 	CFBundleTypeIconFile = "file-generic"
 	CFBundleTypeName = "ics Calendar File"
 	CFBundleTypeRole = "Editor"
+	LSHandlerRank = "Default"
 	LSItemContentTypes = ["com.apple.ical.ics"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
@@ -250,6 +264,7 @@
 	CFBundleTypeIconFile = "file-generic"
 	CFBundleTypeName = "CSV"
 	CFBundleTypeRole = "Editor"
+	LSHandlerRank = "Default"
 	LSItemContentTypes = ["public.comma-separated-values-text"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
@@ -299,6 +314,7 @@
 	CFBundleTypeIconFile = "file-py"
 	CFBundleTypeName = "Python Source Code"
 	CFBundleTypeRole = "Editor"
+	LSHandlerRank = "Default"
 	LSItemContentTypes = ["public.python-script", "public.python-source"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
@@ -438,6 +454,7 @@
 	CFBundleTypeIconFile = "file-md"
 	CFBundleTypeName = "Markdown Document"
 	CFBundleTypeRole = "Editor"
+	LSHandlerRank = "Default"
 	LSItemContentTypes = ["net.daringfireball.markdown"]
 	NSDocumentClass = "PlainTextDocument"
 	NSIsRelatedItemType = true
@@ -446,6 +463,7 @@
 	CFBundleTypeIconFile = "file-generic"
 	CFBundleTypeName = "Metal shaderSource"
 	CFBundleTypeRole = "Editor"
+	LSHandlerRank = "Default"
 	LSItemContentTypes = ["com.apple.metal"]
 	NSDocumentClass = "PlainTextDocument"
 	NSIsRelatedItemType = true
@@ -454,6 +472,7 @@
 	CFBundleTypeIconFile = "file-sgml"
 	CFBundleTypeName = "XSL"
 	CFBundleTypeRole = "Editor"
+	LSHandlerRank = "Default"
 	LSItemContentTypes = ["org.w3.xsl"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
@@ -473,6 +492,7 @@
 	CFBundleTypeIconFile = "file-c"
 	CFBundleTypeName = "C Source Code"
 	CFBundleTypeRole = "Editor"
+	LSHandlerRank = "Default"
 	LSItemContentTypes = ["public.c-source"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
@@ -482,6 +502,7 @@
 	CFBundleTypeIconFile = "file-rs"
 	CFBundleTypeName = "Rust Source Code"
 	CFBundleTypeRole = "Editor"
+	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["public.rust-source"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
@@ -860,6 +881,7 @@
 	CFBundleTypeIconFile = "file-generic-source"
 	CFBundleTypeName = "php Source"
 	CFBundleTypeRole = "Editor"
+	LSHandlerRank = "Default"
 	LSItemContentTypes = ["public.php-script"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
@@ -879,6 +901,7 @@
 	CFBundleTypeIconFile = "file-css"
 	CFBundleTypeName = "CSS Source"
 	CFBundleTypeRole = "Editor"
+	LSHandlerRank = "Default"
 	LSItemContentTypes = ["public.css","org.w3.css"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
@@ -1058,6 +1081,7 @@
 	CFBundleTypeIconFile = "file-erlang"
 	CFBundleTypeName = "Erlang Source Code"
 	CFBundleTypeRole = "Editor"
+	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["public.erlang-source"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
@@ -1067,6 +1091,7 @@
 	CFBundleTypeIconFile = "file-elixir"
 	CFBundleTypeName = "Elixir Source Code"
 	CFBundleTypeRole = "Editor"
+	LSHandlerRank = "Owner"
 	LSItemContentTypes = ["public.elixir-source"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
@@ -1086,6 +1111,7 @@
 	CFBundleTypeIconFile = "file-sgml"
 	CFBundleTypeName = "DTD"
 	CFBundleTypeRole = "Editor"
+	LSHandlerRank = "Default"
 	LSItemContentTypes = ["org.w3.xml-dtd"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
@@ -1183,6 +1209,7 @@
 [[CFBundleDocumentTypes]]
 	CFBundleTypeName = "Any Text File"
 	CFBundleTypeRole = "Editor"
+	LSHandlerRank = "Alternate"
 	LSItemContentTypes = ["public.text"]
 	LSTypeIsPackage = false
 	NSDocumentClass = "PlainTextDocument"
