@@ -1,4 +1,3 @@
-
 #!/bin/sh
 
 if [ "a" != "b" ]; then
@@ -10,13 +9,18 @@ fi
 
 if [ "a" != "b" ]; then
 	echo "true"
+	if [ "a" != "b" ]; then
+		foo
+		echo "true"
+	else 
+		echo "false"
+	fi
 elif [ "1" -ge "2" ] 
 	echo "false"
-fi
-
-
-elif
-		
+elif [ "1" -ge "2" ] 
+	echo "false"
+else 
+	echo "mist"
 fi
 
 

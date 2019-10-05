@@ -932,7 +932,10 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 
 	NSRange lineRange = NSMakeRange(NSMaxRange(completeRange),0);
 	while (lineRange.location > completeRange.location) {
-		lineRange = [[self string] lineRangeForRange:NSMakeRange(lineRange.location - 1,0)];
+        NSUInteger start, contentsEnd;
+        
+        [self.string getLineStart:&start end:NULL contentsEnd:&contentsEnd forRange:NSMakeRange(lineRange.location - 1,0)];
+        lineRange = NSMakeRange(start, contentsEnd-start);
 		[self reindentLine:lineRange usingTabStringPerLevel:aTabString];
 	}
 	
