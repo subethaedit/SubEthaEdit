@@ -926,17 +926,20 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 }
 
 - (void)reindentRange:(NSRange)aRange usingTabStringPerLevel:(NSString *)aTabString {
-	NSRange completeRange = [[self string] lineRangeForRange:aRange];
-	
-	[self beginEditing];
-
-	NSRange lineRange = NSMakeRange(NSMaxRange(completeRange),0);
-	while (lineRange.location > completeRange.location) {
-		lineRange = [[self string] lineRangeForRange:NSMakeRange(lineRange.location - 1,0)];
-		[self reindentLine:lineRange usingTabStringPerLevel:aTabString];
-	}
-	
-	[self endEditing];
+    NSRange completeRange = [[self string] lineRangeForRange:aRange];
+    
+    [self beginEditing];
+    
+    NSRange lineRange = NSMakeRange(NSMaxRange(completeRange),0);
+    while (lineRange.location > completeRange.location) {
+        NSUInteger start, contentsEnd;
+        
+        [self.string getLineStart:&start end:NULL contentsEnd:&contentsEnd forRange:NSMakeRange(lineRange.location - 1,0)];
+        lineRange = NSMakeRange(start, contentsEnd-start);
+        [self reindentLine:lineRange usingTabStringPerLevel:aTabString];
+    }
+    
+    [self endEditing];
 }
 
 @end
