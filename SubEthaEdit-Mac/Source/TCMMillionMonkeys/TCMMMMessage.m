@@ -8,7 +8,7 @@
 
 @implementation TCMMMMessage
 
-+ (id)messageWithDictionaryRepresentation:(NSDictionary *)aDictionary {
++ (instancetype)messageWithDictionaryRepresentation:(NSDictionary *)aDictionary {
     return [[TCMMMMessage alloc] initWithDictionaryRepresentation:aDictionary];
 }
 
@@ -26,7 +26,7 @@
     return self;
 }
 
-- (instancetype)initWithOperation:(TCMMMOperation *)anOperation numberOfClient:(long long)aClientNumber numberOfServer:(long long)aServerNumber {
+- (instancetype)initWithOperation:(TCMMMOperation *)anOperation numberOfClient:(NSInteger)aClientNumber numberOfServer:(NSInteger)aServerNumber {
     self = [super init];
     if (self) {
         I_numberOfClientMessages = aClientNumber;
@@ -38,7 +38,7 @@
 
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"\nstate: (%qi, %qi)\nop: %@", I_numberOfClientMessages, I_numberOfServerMessages, [I_operation description]];
+    return [NSString stringWithFormat:@"\nstate: (%qi, %qi)\nop: %@", (long long)I_numberOfClientMessages, (long long)I_numberOfServerMessages, [I_operation description]];
 }
 
 - (NSDictionary *)dictionaryRepresentation {
@@ -58,11 +58,11 @@
     return I_operation;
 }
 
-- (long long)numberOfClientMessages {
+- (NSInteger)numberOfClientMessages {
     return I_numberOfClientMessages;
 }
 
-- (long long)numberOfServerMessages {
+- (NSInteger)numberOfServerMessages {
     return I_numberOfServerMessages;
 }
 

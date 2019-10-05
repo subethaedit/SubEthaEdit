@@ -61,9 +61,9 @@
 - (DocumentMode *)documentModeForPath:(NSString *)path withContentString:(NSString *)contentString;
 - (DocumentMode *)documentModeForName:(NSString *)aName;
 - (NSArray *)allLoadedDocumentModes;
-- (NSString *)documentModeIdentifierForTag:(int)aTag;
+- (NSString *)documentModeIdentifierForTag:(NSInteger)aTag;
 - (BOOL)documentModeAvailableModeIdentifier:(NSString *)anIdentifier;
-- (int)tagForDocumentModeIdentifier:(NSString *)anIdentifier;
+- (NSInteger)tagForDocumentModeIdentifier:(NSString *)anIdentifier;
 - (NSDictionary *)availableModes;
 
 - (NSMutableArray *)reloadPrecedences;
