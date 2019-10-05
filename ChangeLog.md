@@ -1,12 +1,14 @@
-### [Unreleased] SubEthaEdit 5.1.1
+### SubEthaEdit 5.1.1
 
-#### Features:
 #### Bug fixes and maintenance:
 * Fixed an issue where default Avatars on macOS 10.15 looked bad in dark appearance
 * Fixed top status bar text readability on live light/dark appearance change
 * Fixed an issue where invitation windows needed to be dismissed twice to deny the invitation
-* Updated the certificate for the `see` tool installer
+* Updated the certificate for the `see` tool installer (AppStore version only)
+* Fixed a rare crasher in TCMPortMapper
+
 #### Improved modes:
+* bash - improved indenting, handling of escaped strings and variables
 
 ### SubEthaEdit 5.1
 
