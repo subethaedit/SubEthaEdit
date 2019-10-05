@@ -80,7 +80,7 @@
         // clean up buffer
         NSUInteger i;
         if (I_isServer) {
-			int numberOfServerMessages = [aMessage numberOfServerMessages];
+			NSInteger numberOfServerMessages = [aMessage numberOfServerMessages];
             for (i = 0; i < [I_messageBuffer count];) {
                 if ([[I_messageBuffer objectAtIndex:i] numberOfServerMessages] < numberOfServerMessages) {
                     [I_messageBuffer removeObjectAtIndex:i];
@@ -89,7 +89,7 @@
                 }
             }
         } else {
-			int numberOfClientMessages = [aMessage numberOfClientMessages];
+			NSInteger numberOfClientMessages = [aMessage numberOfClientMessages];
             for (i = 0; i < [I_messageBuffer count];) {
                 if ([[I_messageBuffer objectAtIndex:i] numberOfClientMessages] < numberOfClientMessages) {
                     [I_messageBuffer removeObjectAtIndex:i];

@@ -158,8 +158,8 @@
 
 - (NSDictionary *)dictionaryRepresentation {
     NSMutableDictionary *dict = [[super dictionaryRepresentation] mutableCopy];
-    [dict setObject:[NSNumber numberWithUnsignedInt:_affectedCharRange.location] forKey:@"loc"];
-    [dict setObject:[NSNumber numberWithUnsignedInt:_affectedCharRange.length] forKey:@"len"];
+    [dict setObject:@(_affectedCharRange.location) forKey:@"loc"];
+    [dict setObject:@(_affectedCharRange.length) forKey:@"len"];
     [dict setObject:[self replacementString] forKey:@"str"];
     return dict;
 }

@@ -422,7 +422,7 @@
             </keywords>
             
             <keywords id="Numbers" useforautocomplete="no" scope="language.constant.numeric">
-				<regex>(?&lt;=[^[A-Za-z0-9]]|^)((?:(?:[0-9]+\.[0-9]*)|(?:\.[0-9]+)([eE][+\-]?[0-9]+)?[fFlL]?)|(?:(?:(?:[1-9][0-9]*)|0[0-7]*|(?:0[xX][0-9a-fA-F]))(?:(?:[uU][lL]?)|(?:[lL][uU]?))?))(?=[^[A-Za-z0-9]]|$)</regex>
+				<regex>(?&lt;=[^[A-Za-z0-9]]|^)((?:(?:[0-9]+\.[0-9]*)|(?:\.[0-9]+)([eE][+\-]?[0-9]+)?[fFlL]?)|(?:(?:(?:(?:\d{1,2}#)?[1-9][0-9]*)|0[0-7]*|(?:0[xX][0-9a-fA-F]))(?:(?:[uU][lL]?)|(?:[lL][uU]?))?))(?=[^[A-Za-z0-9]]|$)</regex>
             </keywords>
 
             <keywords id="FunctionRegex" useforautocomplete="no" scope="language.subroutine.function">
@@ -434,18 +434,37 @@
             </keywords>
             
             <keywords id="Variables" useforautocomplete="no" scope="language.variable">
-				<regex>(\$[#@A-Za-z0-9_]+)</regex>
-				<regex>(\$\{[^\}]*\})</regex>
+				<regex>(?:(?&lt;!\\)(?:\\\\)*)(\$[#@A-Za-z0-9_]+)</regex>
             </keywords>
+
+            <state id="Variable Block" foldable="no" scope="language.variable">
+                <begin><regex>(?:(?&lt;!\\)(?:\\\\)*)\${</regex></begin>
+                <end><regex>}</regex></end>
+				<autoend>}</autoend>
+
+                <import keywords-only="yes"/>
+                <keywords id="VariableSubstitions" scope="keyword.control">
+	                <regex>(#{1,2})</regex>
+	                <regex>(%|@|\*)</regex>	                
+                </keywords>
+            </state>
+
+            <state id="Variable Block 2" foldable="no" scope="language.variable">
+                <begin><regex>(?:(?&lt;!\\)(?:\\\\)*)\$\(\(</regex></begin>
+                <end><regex>\)\)</regex></end>
+				<autoend>))</autoend>
+                <import keywords-only="yes"/>
+            </state>
+
         
             <state id="SingleComment" type="comment" scope="comment.line">
-                <begin><regex>(?&lt;!\$)#</regex></begin>
+                <begin><regex>(?&lt;!\$|\\|2|8|16)#</regex></begin>
                 <end><regex>[\n\r]</regex></end>
 				<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
             
             <state id="String with double quotes" type="string" scope="string.double">
-                <begin><string>((?&lt;!\\)(\\\\)*)"</string></begin>
+                <begin><regex>(?&lt;!\\)(?:\\\\)*\K"</regex></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
                 <keywords id="Variables in double quoted Strings" useforautocomplete="no" scope="language.variable.string">
                     <regex>(\$[#@A-Za-z0-9_]+)</regex>
@@ -454,7 +473,7 @@
             </state>
     
             <state id="String with single quotes" type="string" scope="string.single">
-                <begin><string>((?&lt;!\\)(\\\\)*)'</string></begin>
+                <begin><regex>(?&lt;!\\)(?:\\\\)*\K*'</regex></begin>
                 <end><regex>'</regex></end>
                 <keywords id="Variables in single quoted Strings" useforautocomplete="no" scope="language.variable.string">
                     <regex>(\$[#@A-Za-z0-9_]+)</regex>
@@ -463,37 +482,47 @@
             </state>
     
             <state id="Backticks" scope="string.exec.backtick">
-                <begin><string>(?&lt;!\\)(\\\\)*`</string></begin>
+                <begin><regex>(?&lt;!\\)(?:\\\\)*\K`</regex></begin>
                 <end><regex>(?&lt;!\\)(\\\\)*`</regex></end>
             </state>
 
             <state id="do done Block" type="block" foldable="yes" indent="yes" scope="meta.block">
                 <begin><regex>(?&lt;![^;\s])do(?!\S)</regex></begin>
                 <end><regex>(?&lt;!\S)done(?!\S)</regex></end>
+				<autoend>done</autoend>
+
                 <import/>
             </state>
 
             <state id="case esac Block" type="block" foldable="yes" indent="yes" scope="meta.block">
                 <begin><regex>(?&lt;![^;\s])case(?!\S)</regex></begin>
                 <end><regex>(?&lt;!\S)esac(?!\S)</regex></end>
+				<autoend>esac</autoend>
+
                 <import/>
             </state>
 
             <state id="if then fi Block" type="block" foldable="yes" indent="yes" scope="meta.block">
                 <begin><regex>(?&lt;![^;\s])then(?!\S)</regex></begin>
-                <end><regex>(?&lt;!\S)fi(?!\S)</regex></end>
+                <end><regex>(?:(?:\r?\n|\r)(?=\s*(?:else|elif)))|(?:(?&lt;!\S)fi(?!\S))</regex></end>
+				<autoend>fi</autoend>
+
                 <import/>
             </state>
 
-            <state id="Anti Bracket Block" foldable="no" scope="meta.block">
-                <begin><regex>\${</regex></begin>
-                <end><regex>}</regex></end>
+            <state id="elseif else Block" type="block" foldable="yes" indent="yes" scope="meta.block">
+                <begin><regex>(?&lt;![^;\s])else|elif(?!\S)</regex></begin>
+                <end><regex>(?:(?:\r?\n|\r)(?=\s*(?:else|elif)))|(?:(?&lt;!\S)fi(?!\S))</regex></end>
+				<autoend>fi</autoend>
+
                 <import/>
             </state>
 
             <state id="Bracket Block" type="block" foldable="yes" indent="yes" scope="meta.block">
                 <begin><regex>(?:(?&lt;=\s)function[\s\w]+)?(?&lt;!\\){</regex></begin>
                 <end><regex>(?&lt;!\\)}</regex></end>
+				<autoend>}</autoend>
+
                 <import/>
             </state>
 

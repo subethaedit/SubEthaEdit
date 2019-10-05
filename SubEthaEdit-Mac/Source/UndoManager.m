@@ -388,7 +388,7 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
     for (i = [_undoStack count] - 1; i >= 0; i--) {
         group = [_undoStack objectAtIndex:i];
         actions = [group actions];
-        for (k = [actions count] -1; k >= 0; k--) {
+        for (k = [actions count] - 1; k >= 0; k--) {
             if ([[actions objectAtIndex:k] isKindOfClass:[NSInvocation class]]) {
                 if ([target isEqual:[[actions objectAtIndex:k] target]]) {
                     [actions removeObjectAtIndex:k];
@@ -593,7 +593,7 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
     // TODO collect text operations into one big one to give the document a good way to 
     if (actions != nil) {
         _flags.isPerformingGroup = YES;
-        unsigned i = [actions count];
+        NSUInteger i = [actions count];
         [[_document textStorage] beginEditing];
         TextOperation *operation = nil;
         while (i-- > 0) {

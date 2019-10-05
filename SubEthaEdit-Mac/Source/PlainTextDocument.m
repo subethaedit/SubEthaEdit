@@ -2953,7 +2953,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
                     
                     if (xEncoding != NoStringEncoding) {
                         DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"We found an encoding in the xattrs! %@",CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(xEncoding)));
-                        [options setObject:[NSNumber numberWithUnsignedInt:xEncoding] forKey:@"CharacterEncoding"];
+                        [options setObject:@(xEncoding) forKey:@"CharacterEncoding"];
                         success = [textStorage readFromData:fileData encoding:xEncoding];
                     }
                     

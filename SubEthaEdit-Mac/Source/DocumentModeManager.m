@@ -882,7 +882,7 @@ static DocumentModeManager *S_sharedInstance=nil;
     return result;
 }
 
-- (NSString *)documentModeIdentifierForTag:(int)aTag {
+- (NSString *)documentModeIdentifierForTag:(NSInteger)aTag {
     if (aTag>0 && aTag<[I_modeIdentifiersTagArray count]) {
         return [I_modeIdentifiersTagArray objectAtIndex:aTag];
     } else {
@@ -894,7 +894,7 @@ static DocumentModeManager *S_sharedInstance=nil;
     return [I_modeBundles objectForKey:anIdentifier]!=nil;
 }
 
-- (int)tagForDocumentModeIdentifier:(NSString *)anIdentifier {
+- (NSInteger)tagForDocumentModeIdentifier:(NSString *)anIdentifier {
     return [I_modeIdentifiersTagArray indexOfObject:anIdentifier];
 }
 

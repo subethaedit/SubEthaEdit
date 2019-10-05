@@ -327,11 +327,11 @@ static NSString *S_specialGlyphs[17];
         // figure out what invisibles to draw
         NSRange charRange = [self characterRangeForGlyphRange:glyphRange actualGlyphRange:NULL];
         NSString *characters = [[self textStorage] string];
-        unsigned i;
+        NSUInteger i;
         unichar previousChar = 0;
         unichar charBuffer[CHARBUFFERSIZE];
         while (charRange.length>0) {
-            int loopLength = MIN(charRange.length,CHARBUFFERSIZE);
+            NSUInteger loopLength = MIN(charRange.length,CHARBUFFERSIZE);
             [characters getCharacters:charBuffer range:NSMakeRange(charRange.location,loopLength)];
             for (i=0;i<loopLength;i++) {
                 unichar c = charBuffer[i];

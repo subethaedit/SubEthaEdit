@@ -117,6 +117,8 @@ xcuserdata
 project.xcworkspace
 *.xccheckout
 
+xcdebugger/
+
 ####
 # Xcode 4 - Deprecated classes
 #

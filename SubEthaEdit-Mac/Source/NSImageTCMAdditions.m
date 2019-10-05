@@ -26,9 +26,24 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
 	imageBounds.size = unknownUserImage.size;
 	NSRect imageSourceRect = NSInsetRect(imageBounds, 2.0, 2.0);
     
-    // The unkown user image changed in catalina, so adjust to make the generated avatar less ugly
+    // The unkown user image changed in Catalina, so adjust to make the generated avatar less ugly
     if (@available(macOS 10.15, *)) {
-        imageSourceRect = NSInsetRect(imageBounds, -1.5, -1.5);
+        // All of this is quite wonky. Beginning with Catalina it seems that the NSImageNameUser image
+        // does have representations for dark mode which make it bright. It also seems that they are choosen
+        // on drawing by the NSAppearance.currentAppearance. For our purposes we want the dark one, grab out a Aqua appeareance
+        // representation and create a new NSImage with it to use.
+        static NSImage *aquaUnknownUserImage = nil;
+        aquaUnknownUserImage = aquaUnknownUserImage ?: ({
+            NSAppearance.currentAppearance = [NSAppearance appearanceNamed:NSAppearanceNameAqua];
+            NSImage *image = [[NSImage alloc] initWithSize:unknownUserImage.size];
+            [image addRepresentation:[unknownUserImage bestRepresentationForRect:NSMakeRect(0,0,512,512) context:nil hints:nil]];
+            NSAppearance.currentAppearance = nil; //reset
+            image;
+        });
+        
+        imageSourceRect = NSInsetRect(imageBounds, -1, -1);
+        imageSourceRect.origin.y += 1;
+        unknownUserImage = aquaUnknownUserImage;
     }
 
 	CGFloat fontSize = floor(NSWidth(drawingRect) / 5.0);

@@ -85,8 +85,16 @@
 	[self.positionTextField setBorderColor:separatorColor];
 	[self.docinfoTextField setBorderColor:separatorColor];
     
-    // disable vibrant appearance on the popup as on light backgrounds it looks disabled
-    self.view.appearance = self.view.superview.effectiveAppearance.SEE_closestSystemNonVibrantAppearance;
+    // Turns out timing is bad here. This can be called in result of SEE_appEffectiveAppearanceDidChange:
+    // in which case the superview effectiveAppearance is not set yet, but the apps appearance did already change.
+    if (@available(macOS 10.14, *)) {
+        // just use the apps appearance when timing is relevant
+          self.view.appearance = NSApp.effectiveAppearance.SEE_closestSystemNonVibrantAppearance;
+    } else {
+        // before 10.14 everything is fine as there is only aqua and high contrast aqua
+        // disable vibrant appearance on the popup as on light backgrounds it looks disabled
+        self.view.appearance = self.view.superview.effectiveAppearance.SEE_closestSystemNonVibrantAppearance;
+    }
 }
 
 - (void)loadView {

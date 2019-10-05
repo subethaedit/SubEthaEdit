@@ -340,7 +340,7 @@ static NSData *dhparamData = nil;
 
 #pragma mark -
 
-- (unsigned int)countOfChannels {
+- (NSUInteger)countOfChannels {
     return [I_channels count];
 }
 
@@ -589,7 +589,7 @@ static NSData *dhparamData = nil;
     if (!I_flags.amReading) {
         I_flags.amReading = YES;
         uint8_t buffer[8192];
-        int bytesParsed = 0;
+        NSInteger bytesParsed = 0;
         CFIndex bytesRead = CFReadStreamRead(I_readStream, buffer, sizeof(buffer));
          
     #ifndef TCM_NO_DEBUG
@@ -601,9 +601,9 @@ static NSData *dhparamData = nil;
         
         //NSLog(@"bytesRead: %@", [NSString stringWithCString:buffer length:bytesRead]);
         while (bytesRead > 0 && (bytesRead - bytesParsed > 0)) {
-            int remainingBytes = bytesRead - bytesParsed;
+            NSInteger remainingBytes = bytesRead - bytesParsed;
             if (I_currentReadState == frameHeaderState) {
-                int i;
+                NSInteger i;
                 // search for 0x0a (LF)
                 for (i = bytesParsed; i < bytesRead; i++) {
                     if (buffer[i] == 0x0a) {
