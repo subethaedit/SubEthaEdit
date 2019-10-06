@@ -13,12 +13,35 @@
 
 -(NSView *)outlineView:(NSOutlineView *)outlineView viewForTableColumn:(NSTableColumn *)tableColumn item:(NSTreeNode *)node {
     SEEFSTreeNode *item = node.representedObject;
-    NSString *identifier = @"DataCell";
-    NSTableCellView *view = [outlineView makeViewWithIdentifier:identifier
-                                  owner:nil];
-    view.textField.stringValue = item.name;
-    view.imageView.image = item.icon;
+    NSTableCellView *view;
+    NSString *identifier;
+    
+    if (!item.isRoot) {
+        identifier = @"DataCell";
+        view = [outlineView makeViewWithIdentifier:identifier
+                                                              owner:nil];
+        view.textField.stringValue = item.name;
+        view.imageView.image = item.icon;
+    } else {
+        identifier = @"HeaderCell";
+        view = [outlineView makeViewWithIdentifier:identifier
+                                                              owner:nil];
+        view.textField.stringValue = item.name.uppercaseString;
+        view.imageView.image = nil;
+    }
+
     return view;
 }
+
+-(BOOL)outlineView:(NSOutlineView *)outlineView isGroupItem:(NSTreeNode *)node {
+    SEEFSTreeNode *item = node.representedObject;
+    return item.isRoot;
+}
+
+- (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(NSTreeNode *)node {
+    SEEFSTreeNode *item = node.representedObject;
+    return !item.isRoot;
+}
+
 
 @end

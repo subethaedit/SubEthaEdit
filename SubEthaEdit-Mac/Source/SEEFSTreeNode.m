@@ -18,13 +18,23 @@
 
 @interface SEEFSTreeNode ()
 @property (nonatomic) BOOL isFolder;
+@property (nonatomic) BOOL isHidden;
+
 @end
 
+static NSArray *resourceValueKeys;
 
 @implementation SEEFSTreeNode {
     __weak SEEFSTreeNode *parent;
     NSURL *url;
     NSArray *children;
+}
+
++(void)initialize {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        resourceValueKeys = @[NSURLIsDirectoryKey, NSURLIsHiddenKey];
+    });
 }
 
 - (instancetype)initWithURL:(NSURL *)anURL parent:(SEEFSTreeNode *)aParent
@@ -34,17 +44,16 @@
         url = anURL;
         parent = aParent;
         
-        NSDictionary<NSURLResourceKey, id> *values = [url resourceValuesForKeys:@[NSURLIsDirectoryKey]
+        NSDictionary<NSURLResourceKey, id> *values = [url resourceValuesForKeys:resourceValueKeys
                              error:nil];
         
         self.isFolder = [((NSNumber *)values[NSURLIsDirectoryKey]) boolValue];
+        self.isHidden = [((NSNumber *)values[NSURLIsHiddenKey]) boolValue];
         
 
     }
     return self;
 }
-
-
 
 - (NSString *)name {
     return url.lastPathComponent;
@@ -53,25 +62,26 @@
 - (NSArray *)children {
     if(!children) {
         NSArray *contents = [NSFileManager.defaultManager contentsOfDirectoryAtURL:url
-                                                        includingPropertiesForKeys:@[NSURLIsDirectoryKey]
+                                                        includingPropertiesForKeys:resourceValueKeys
                                                                            options:0
                                                                              error:nil];
         NSMutableArray * _children = [NSMutableArray arrayWithCapacity:contents.count];
         for (NSURL *url in contents) {
-            [_children addObject:[[SEEFSTreeNode alloc] initWithURL:url parent:self]];
+            SEEFSTreeNode *node = [[SEEFSTreeNode alloc] initWithURL:url parent:self];
+            node.includeHidden = self.includeHidden;
+            [_children addObject:node];
         }
-        children = [_children sortedArrayUsingComparator:^NSComparisonResult(SEEFSTreeNode *obj1, SEEFSTreeNode *obj2) {
-            NSComparisonResult result = NSOrderedSame;
-            if (obj1.isLeaf && !obj2.isLeaf) {
-                result = NSOrderedDescending;
-            } else if(!obj1.isLeaf && obj2.isLeaf) {
-                result = NSOrderedAscending;
-            } else {
-                result = [obj1.name compare:obj2.name];
+        
+        [_children filterUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(SEEFSTreeNode * evaluatedObject, NSDictionary<NSString *,id> * bindings) {
+            if(evaluatedObject.isHidden && !self.includeHidden) {
+                return NO;
             }
-            
-            return result;
-        }];
+            return YES;
+        }]];
+        
+        children = _children;
+        
+        
     }
     
     return children;
@@ -83,6 +93,10 @@
 
 - (BOOL)isLeaf {
     return !_isFolder;
+}
+
+-(BOOL)isRoot {
+    return parent == nil;
 }
 
 -(NSURL *)url {
@@ -144,7 +158,15 @@
     return indexPath;
 }
 
-- (void)reload {
+-(void)setIncludeHidden:(BOOL)includeHidden {
+    [self willChangeValueForKey:@"includeHidden"];
+    _includeHidden = includeHidden;
+    [self reloadIncludingChildren:YES];
+    [self didChangeValueForKey:@"includeHidden"];
+    
+}
+
+- (void)reloadIncludingChildren:(BOOL)includeChildren {
     [self willChangeValueForKey:@"children"];
     children = nil;
     [self didChangeValueForKey:@"children"];

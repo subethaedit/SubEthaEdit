@@ -11,12 +11,16 @@
 #import "SEEWorkspace.h"
 #import "SEEWorkspaceTreeDelegate.h"
 #import "SEEFSTree.h"
+#import "PopUpButton.h"
 
 @interface SEEWorkspaceFileTreeViewController ()
 
 @property (nonatomic, strong) IBOutlet NSTreeController *treeController;
 @property (nonatomic, strong) IBOutlet NSOutlineView *outlineView;
+@property (nonatomic, strong) IBOutlet PopUpButton *optionsButton;
+@property (nonatomic, strong) IBOutlet NSMenu *optionsMenu;
 
+@property (nonatomic, assign) BOOL showHidden;
 @end
 
 @implementation SEEWorkspaceFileTreeViewController{
@@ -33,8 +37,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     tree = [[SEEFSTree alloc] initWithURL:self.workspace.baseURL];
-    [self.treeController setContent:tree.root];
+    [self.treeController setContent:tree.root.children];
+    
+    self.treeController.sortDescriptors = @[
+                                            [NSSortDescriptor sortDescriptorWithKey:@"isLeaf" ascending:YES],
+                                            [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(caseInsensitiveCompare:)]];
     
 }
 
@@ -64,6 +73,10 @@
                                                                            display:YES completionHandler:^(NSDocument *  document, BOOL documentWasAlreadyOpen, NSError *  error) {
                                                                                
                                                                            }];
+}
+
+-(IBAction)toggleShowHidden:(id)sender {
+    tree.root.includeHidden = !tree.root.includeHidden;
 }
 
 @end

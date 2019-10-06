@@ -13,12 +13,15 @@
 @interface SEEFSTreeNode : NSObject
 - (instancetype)initWithURL:(NSURL *)anURL parent:(SEEFSTreeNode *)aParent;
 
+@property (nonatomic, assign) BOOL includeHidden;
+
 - (NSString *)name;
 - (NSImage *)icon;
 - (NSArray *)children;
 - (NSURL *)url;
 - (BOOL)isLeaf;
-- (void)reload;
+- (BOOL)isRoot;
+- (void)reloadIncludingChildren:(BOOL)includeChildren;
 
 - (SEEFSTreeNode * )nodeForPath:(NSString *)path;
 - (SEEFSTreeNode * )nodeForPath:(NSString *)path onlyIfCached:(BOOL)cached;

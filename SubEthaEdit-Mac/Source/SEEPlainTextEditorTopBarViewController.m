@@ -174,6 +174,11 @@
 		}
         
         self.workspaceButton.hidden = !hasWorkspace;
+        
+        NSRect workspaceButtonFrame = self.workspaceButton.frame;
+        workspaceButtonFrame.origin.x = xPosition;
+        self.workspaceButton.frame = workspaceButtonFrame;
+        
         if (hasWorkspace) {
             xPosition += 19.;
         }
