@@ -89,6 +89,9 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
     DocumentMode  *I_documentMode;
     FoldableTextStorage *I_textStorage;
     
+    // I_fileHash represents the MD5 hash of the document
+    NSData *I_fileHash;
+    
 	NSUInteger _currentBracketMatchingBracketPosition;
 	
     NSFont *I_plainFont;
