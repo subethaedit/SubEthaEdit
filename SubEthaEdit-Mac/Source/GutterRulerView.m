@@ -362,8 +362,8 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
         NSRange lineRange=[text lineRangeForRange:NSMakeRange(characterIndex,0)];
         NSRange attributeRange = NSMakeRange(lineRange.location,0);
 
-		// transform bounding rect to point coordinates
-		boundingRect = NSOffsetRect(boundingRect, 0, visibleRect.origin.y + textContainerInsetTopY);
+		// transform bounding rect to view coordinates
+		boundingRect = NSOffsetRect(boundingRect, 0, textContainerInsetTopY);
 		
 
 //		NSLog(@"%s bounds:%@ documentVisibleRect:%@",__FUNCTION__,NSStringFromRect([self bounds]),NSStringFromRect(visibleRect));
