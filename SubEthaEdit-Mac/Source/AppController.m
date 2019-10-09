@@ -972,7 +972,9 @@ static AppController *sharedInstance = nil;
     int indexOfWindowMenu = [[NSApp mainMenu] indexOfItemWithTag:WindowMenuTag];
     if (indexOfWindowMenu != -1) {
         NSMenuItem *scriptMenuItem = [[NSMenuItem alloc] initWithTitle:@"" action:nil keyEquivalent:@""];
-        [scriptMenuItem setImage:[NSImage imageNamed:@"ScriptMenu"]];
+        NSImage* scriptMenuIcon = [NSImage imageNamed:@"ScriptMenu"];
+        scriptMenuIcon.template = YES;
+        [scriptMenuItem setImage:scriptMenuIcon];
         [scriptMenuItem setTag:ScriptMenuTag];
         NSMenu *menu = [[NSMenu alloc] initWithTitle:@""];
         [scriptMenuItem setSubmenu:menu];
