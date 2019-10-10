@@ -74,6 +74,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 - (void)windowDidLoad {
 	NSWindow *window = self.window;
     [[window contentView] setAutoresizesSubviews:YES];
+    [self updateWindowTitleBar];
 	[self updateWindowMinSize];
 }
 
@@ -453,6 +454,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
 - (void)synchronizeWindowTitleWithDocumentName {
     [super synchronizeWindowTitleWithDocumentName];
+    [self updateWindowTitleBar];
     
     NSWindowTab *tab = self.window.tab;
     tab.title = self.plainTextDocument.displayName;
@@ -573,6 +575,43 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 	}
 }
 
+- (void)updateWindowTitleBar {
+    NSView *titlebarContainerView;
+    NSView *titlebarView;
+    NSTextField *titlebarTextField;
+    
+    for (id view in [self window].contentView.superview.subviews) {
+        if ([view isKindOfClass:NSClassFromString(@"NSTitlebarContainerView")]) {
+            titlebarContainerView = view;
+            break;
+        }
+    }
+    
+    for (id view in titlebarContainerView.subviews) {
+        if ([view isKindOfClass:NSClassFromString(@"NSTitlebarView")]) {
+            titlebarView = view;
+            break;
+        }
+    }
+    for (id view in titlebarView.subviews) {
+        if ([view isKindOfClass:[NSTextField class]]) {
+            titlebarTextField = view;
+            break;
+        }
+    }
+    
+    NSMutableAttributedString *title = [titlebarTextField.attributedStringValue mutableCopy];
+    NSMutableParagraphStyle * paragraphStyle = [[title attribute:NSParagraphStyleAttributeName
+                                      atIndex:0
+                               effectiveRange:nil] mutableCopy];
+    
+    paragraphStyle.lineBreakMode = NSLineBreakByTruncatingHead;
+    
+    [title addAttribute:NSParagraphStyleAttributeName
+                  value:paragraphStyle range:NSMakeRange(0, title.length)];
+    
+    titlebarTextField.attributedStringValue = title;
+}
 
 #pragma mark - Dialog Split
 
