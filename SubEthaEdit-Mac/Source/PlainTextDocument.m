@@ -106,6 +106,9 @@ NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotification =
 NSString * const WrittenByUserIDAttributeName = @"WrittenByUserID";
 NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 
+// Content sensitive comparsion will only be performed if the filesize is not larger than this constants
+long kSEEMaxFileSizeForContentRescans = 1024 * 1024;
+
 // Something that's used by our override of -shouldCloseWindowController:delegate:shouldCloseSelector:contextInfo: down below.
 @interface PlainTextDocumentShouldCloseContext : NSObject {
     @public
@@ -154,7 +157,10 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
 
 
 
-@implementation PlainTextDocument
+@implementation PlainTextDocument {
+    // I_fileHash represents the MD5 hash of the document
+    NSData *_fileHash;
+}
 
 + (void)initialize {
 	if (self == [PlainTextDocument class]) {
@@ -2380,11 +2386,11 @@ struct SelectionRange
 #pragma mark ### Save/Open Panel loading ###
 
 - (void)TCM_ensureFileTypeDataOrSEEText {
-	if (![self.fileType isEqualTo:kSEETypeSEEText] &&
-		![self.fileType isEqualTo:(NSString *)kUTTypeData]) {
-		// this neeeds to be data so the open panel doesn't strip our extensions
-		self.fileType = (NSString *)kUTTypeData;
-	}
+    if (![self.fileType isEqualTo:kSEETypeSEEText] &&
+        ![self.fileType isEqualTo:(NSString *)kUTTypeData]) {
+        // this neeeds to be data so the open panel doesn't strip our extensions
+        self.fileType = (NSString *)kUTTypeData;
+    }
 }
 
 - (void)saveDocumentWithDelegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)contextInfo {
@@ -2394,7 +2400,7 @@ struct SelectionRange
         // If the file exists TCM_validateDocument handles the case whether a file
         // has been modified by another application, so the super method would display
         // a misleading dialog.
-        if([NSFileManager.defaultManager fileExistsAtPath:self.fileURL.path]) {
+        if ([NSFileManager.defaultManager fileExistsAtPath:self.fileURL.path]) {
             [self saveToURL:self.fileURL
                      ofType:self.fileType
            forSaveOperation:NSSaveOperation
@@ -2642,7 +2648,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 */
 
 - (BOOL)readSEETextFromURL:(NSURL *)anURL properties:(NSDictionary *)aProperties wasAutosave:(BOOL *)wasAutosave error:(NSError **)outError {
-    NSData *fileData = [NSData dataWithContentsOfURL:[NSURL fileURLWithPath:[[anURL path] stringByAppendingPathComponent:@"collaborationdata.bencoded"]] options:0 error:outError];
+    NSData *fileData = [NSData dataWithContentsOfURL:[NSURL fileURLWithPath:[anURL.path stringByAppendingPathComponent:@"collaborationdata.bencoded"]] options:0 error:outError];
     if (!fileData) {
         I_flags.isReadingFile = NO;
         return NO;
@@ -2694,10 +2700,12 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     // load text into dictionary
     NSMutableDictionary *storageRep = [dictRep objectForKey:@"TextStorage"];
     
-    NSURL *textDataURL = [NSURL fileURLWithPath:[[anURL path] stringByAppendingPathComponent:@"plain.txt"]];
+    NSURL *textDataURL = [NSURL fileURLWithPath:[anURL.path stringByAppendingPathComponent:@"plain.txt"]];
     NSData *textData = [NSData dataWithContentsOfURL:textDataURL options:0 error:outError];
     
-    if(!textData) return NO;
+    if (!textData) {
+        return NO;
+    }
     
     NSString *string = [NSString stringWithData:textData encoding:[dictRep objectForKey:@"AutosaveInformation"] ? NSUTF8StringEncoding : (NSStringEncoding)[[storageRep objectForKey:@"Encoding"] unsignedIntValue]];
     
@@ -2742,7 +2750,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     [combinedData appendData:fileData];
     [combinedData appendData:textData];
     
-    I_fileHash = [combinedData md5Data];
+    _fileHash = [combinedData md5Data];
 
     return YES;
 }
@@ -3148,7 +3156,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 	        [self TCM_validateLineEndings];
 	    }
         
-        I_fileHash = [fileData md5Data];
+        _fileHash = [fileData md5Data];
     } // end of part where the file wasn't SEEText
 
 	[SEEDocumentController sharedInstance].documentListWindow.restorable = YES;
@@ -3462,7 +3470,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 - (BOOL)writeUsingAuthenticationToURL:(NSURL *)anAbsoluteURL ofType:(NSString *)docType saveOperation:(NSSaveOperationType)saveOperationType error:(NSError **)outError {
 
-	__block BOOL result = NO;
+    __block BOOL result = NO;
 
 	NSError *applicationScriptURLError = nil;
 	NSURL *applicationScriptURL = [[NSFileManager defaultManager] URLForDirectory:NSApplicationScriptsDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:&applicationScriptURLError];
@@ -3577,34 +3585,42 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 	//-timelog    NSLog(@"%s %@ %@ %d %@",__FUNCTION__, absoluteURL, inTypeName, saveOperation,originalContentsURL);
     DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"write to:%@ type:%@ saveOperation:%lu originalURL:%@", absoluteURL, inType, (unsigned long)saveOperation,originalContentsURL);
     
-    NSData *writtenData;
+    BOOL updateFileHash = (saveOperation != NSSaveToOperation &&
+                           saveOperation != NSAutosaveElsewhereOperation);
     
     if (UTTypeConformsTo((__bridge CFStringRef)inType, kUTTypeData)) {
         BOOL modeWantsUTF8BOM = [[[self documentMode] defaultForKey:DocumentModeUTF8BOMPreferenceKey] boolValue];
         DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"modeWantsUTF8BOM: %d, hasUTF8BOM: %d", modeWantsUTF8BOM, I_flags.hasUTF8BOM);
         BOOL useUTF8Encoding = ((I_lastSaveOperation == NSSaveToOperation) && (I_encodingFromLastRunSaveToOperation == NSUTF8StringEncoding)) || ((I_lastSaveOperation != NSSaveToOperation) && ([self fileEncoding] == NSUTF8StringEncoding));
 		BOOL result = NO;
+        
+        NSData *data = [self.textStorage.string dataUsingEncoding:[self fileEncoding]
+                                             allowLossyConversion:NO];
+        
         if ((I_flags.hasUTF8BOM || modeWantsUTF8BOM) && useUTF8Encoding) {
-            NSData *data = [[[self textStorage] string] dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:NO];
-            writtenData = [data dataPrefixedWithUTF8BOM];
-            result = [writtenData writeToURL:absoluteURL options:0 error:outError];
-            if (result) {
-            	// write the xtended attribute for utf-8
-            	[UKXattrMetadataStore setString:@"UTF-8;134217984" forKey:@"com.apple.TextEncoding" atPath:[absoluteURL path] traverseLink:YES];
-            } else {
-                writtenData = nil;
-            }
-        } else {
-            // let us write using NSStrings write methods so the encoding is added to the extended attributes
-            NSString *text = [[(FoldableTextStorage *)[self textStorage] fullTextStorage] string];
-            NSStringEncoding encoding = [self fileEncoding];
+            data = [data dataPrefixedWithUTF8BOM];
+        }
+        
+        result = [data writeToURL:absoluteURL options:0 error:outError];
+        
+        if (result) {
+            // write the xtended attribute for encoding
+            CFStringEncoding encoding = CFStringConvertNSStringEncodingToEncoding([self fileEncoding]);
+            CFStringRef encodingIANACharSetName = CFStringConvertEncodingToIANACharSetName(encoding);
+            NSString * encodingMetadata = [NSString stringWithFormat:@"%@;%u", encodingIANACharSetName, (unsigned int)encoding];
             
-            result = [text writeToURL:absoluteURL atomically:NO encoding:encoding error:outError];
-            if (result) {
-                writtenData = [text dataUsingEncoding:[self fileEncoding]];
+            [UKXattrMetadataStore setString:encodingMetadata
+                  forKey:@"com.apple.TextEncoding"
+                  atPath:absoluteURL.path
+            traverseLink:YES];
+            
+            if (updateFileHash) {
+                _fileHash = [data md5Data];
             }
         }
-
+        
+        
+        
 		// state data
 		NSData *stateData = [self stateData];
         if (stateData && ![[NSUserDefaults standardUserDefaults] boolForKey:kSEEDefaultsKeyDontSaveDocumentStateInXattrs]) {
@@ -3617,9 +3633,10 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 		}
 		//        NSArray *xattrKeys = [UKXattrMetadataStore allKeysAtPath:[absoluteURL path] traverseLink:YES];
 		//        NSLog(@"%s xattrKeys:%@",__FUNCTION__,xattrKeys);
-        I_fileHash = [writtenData md5Data];
+        
         return result;
     } else if (UTTypeConformsTo((__bridge CFStringRef)inType, (__bridge CFStringRef)kSEETypeSEEText)) {
+        NSData *writtenData;
         NSString *packagePath = [absoluteURL path];
         NSFileManager *fm =[NSFileManager defaultManager];
         if ([fm createDirectoryAtPath:packagePath withIntermediateDirectories:YES attributes:nil error:nil]) {
@@ -3784,7 +3801,9 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 
             if (success) {
-                I_fileHash = [writtenData md5Data];
+                if (updateFileHash) {
+                    _fileHash = [writtenData md5Data];
+                }
                 return YES;
             } else {
                 [fm removeItemAtPath:packagePath error:nil];
@@ -3846,16 +3865,16 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 - (BOOL)onDiskRepresentationHasChanged {
     NSURL *fileURL = self.fileURL;
-    NSString *fileName = [fileURL path];
+    NSString *fileName = fileURL.path;
     
     NSDictionary *fattrs = [[NSFileManager defaultManager] attributesOfItemAtPath:fileName error:nil];
     
     if (!fattrs) {
-        return YES;
+        return NO;
     }
     
     // If the modificationDate has not changed we can assume, that the content is still the same
-    if ([[fattrs fileModificationDate] compare:[[self fileAttributes] fileModificationDate]] == NSOrderedSame) {
+    if ([fattrs.fileModificationDate compare:self.fileAttributes.fileModificationDate] == NSOrderedSame) {
         return NO;
     }
     
@@ -3864,8 +3883,20 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         return YES;
     }
     
+    
+    // Always assume the file has changed if it's located on a network drive
+    id isLocalKey = (id)kCFBooleanFalse;
+    [self.fileURL getResourceValue:&isLocalKey forKey:NSURLVolumeIsLocalKey error:nil];
+    if (!CFBooleanGetValue((CFBooleanRef)isLocalKey)) {
+        return YES;
+    }
+    
+    if (self.fileAttributes.fileSize > kSEEMaxFileSizeForContentRescans) {
+        return YES;
+    }
+    
     NSData *fileData;
-    if(I_flags.isSEEText) {
+    if (I_flags.isSEEText) {
         NSMutableData *bundleData = [NSMutableData new];
         NSData *textData = [NSData dataWithContentsOfURL:[fileURL URLByAppendingPathComponent:@"plain.txt"]];
         NSData *metaData = [NSData dataWithContentsOfURL:[fileURL URLByAppendingPathComponent:@"collaborationdata.bencoded"]];
@@ -3878,7 +3909,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         fileData = [NSData dataWithContentsOfURL:self.fileURL];
     }
     
-    return ![[fileData md5Data] isEqualToData:I_fileHash];
+    return ![fileData.md5Data isEqualToData:_fileHash];
     
 }
 
@@ -3887,7 +3918,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Validate document: %@", fileName);
 
     
-    if (![self onDiskRepresentationHasChanged] || ![NSFileManager.defaultManager fileExistsAtPath:fileName]) {
+    if (![NSFileManager.defaultManager fileExistsAtPath:fileName] || ![self onDiskRepresentationHasChanged]) {
         return YES;
     } else {
         DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Document has been changed externally");
