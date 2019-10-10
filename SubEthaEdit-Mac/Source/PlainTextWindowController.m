@@ -72,10 +72,10 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 }
 
 - (void)windowDidLoad {
-	NSWindow *window = self.window;
+    NSWindow *window = self.window;
     [[window contentView] setAutoresizesSubviews:YES];
     [self updateWindowTitleBar];
-	[self updateWindowMinSize];
+    [self updateWindowMinSize];
 }
 
 
