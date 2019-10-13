@@ -178,9 +178,6 @@
 		4C6BDC5C188983380088CBFC /* FoldingBubbleBig@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC5B188983380088CBFC /* FoldingBubbleBig@2x.png */; };
 		4C6BDC5F1889858A0088CBFC /* folded.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC5D1889858A0088CBFC /* folded.png */; };
 		4C6BDC601889858A0088CBFC /* folded@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC5E1889858A0088CBFC /* folded@2x.png */; };
-		4C6BDC6618898E1E0088CBFC /* ScriptMenu.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC6518898E1E0088CBFC /* ScriptMenu.pdf */; };
-		4C6BDC6918898F850088CBFC /* ScriptMenuItemIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC6718898F850088CBFC /* ScriptMenuItemIcon.png */; };
-		4C6BDC6A18898F850088CBFC /* ScriptMenuItemIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC6818898F850088CBFC /* ScriptMenuItemIcon@2x.png */; };
 		4C714D9719922B3B00C8B128 /* SEEApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C714D9619922B3B00C8B128 /* SEEApplication.m */; };
 		4C71D0C318BF7C2900EA66FA /* SEEConnectDocumentListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C71D0C218BF7C2900EA66FA /* SEEConnectDocumentListItem.m */; };
 		4C71D0C618BF8B2200EA66FA /* SEEOpenOtherDocumentListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C71D0C518BF8B2200EA66FA /* SEEOpenOtherDocumentListItem.m */; };
@@ -859,9 +856,6 @@
 		4C6BDC5B188983380088CBFC /* FoldingBubbleBig@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "FoldingBubbleBig@2x.png"; path = "artwork/FoldingBubbleBig@2x.png"; sourceTree = "<group>"; };
 		4C6BDC5D1889858A0088CBFC /* folded.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = folded.png; path = artwork/folded.png; sourceTree = "<group>"; };
 		4C6BDC5E1889858A0088CBFC /* folded@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "folded@2x.png"; path = "artwork/folded@2x.png"; sourceTree = "<group>"; };
-		4C6BDC6518898E1E0088CBFC /* ScriptMenu.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = ScriptMenu.pdf; path = artwork/ScriptMenu.pdf; sourceTree = "<group>"; };
-		4C6BDC6718898F850088CBFC /* ScriptMenuItemIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ScriptMenuItemIcon.png; path = artwork/ScriptMenuItemIcon.png; sourceTree = "<group>"; };
-		4C6BDC6818898F850088CBFC /* ScriptMenuItemIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ScriptMenuItemIcon@2x.png"; path = "artwork/ScriptMenuItemIcon@2x.png"; sourceTree = "<group>"; };
 		4C714D9519922B3B00C8B128 /* SEEApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEApplication.h; sourceTree = "<group>"; };
 		4C714D9619922B3B00C8B128 /* SEEApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEApplication.m; sourceTree = "<group>"; };
 		4C71D0C018BF796500EA66FA /* SEEDocumentListItemProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEEDocumentListItemProtocol.h; sourceTree = "<group>"; };
@@ -1857,9 +1851,6 @@
 				4C6BDC5B188983380088CBFC /* FoldingBubbleBig@2x.png */,
 				4C6BDC5D1889858A0088CBFC /* folded.png */,
 				4C6BDC5E1889858A0088CBFC /* folded@2x.png */,
-				4C6BDC6518898E1E0088CBFC /* ScriptMenu.pdf */,
-				4C6BDC6718898F850088CBFC /* ScriptMenuItemIcon.png */,
-				4C6BDC6818898F850088CBFC /* ScriptMenuItemIcon@2x.png */,
 			);
 			name = Retina;
 			sourceTree = "<group>";
@@ -2375,7 +2366,6 @@
 				14448AA40A18964A00F36B34 /* SubEthaEdit.sdef in Resources */,
 				F220248F191BC33D0098982C /* hud_buttonRight-P@2x.png in Resources */,
 				8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */,
-				4C6BDC6918898F850088CBFC /* ScriptMenuItemIcon.png in Resources */,
 				F220247E191BBDA10098982C /* hud_buttonLeft-N.png in Resources */,
 				4CD5F81917FB0DF900F49E31 /* PrecedencePrefs.xib in Resources */,
 				F22024CA191D0BFE0098982C /* ParticipantFollowTurnOnHover@2x.png in Resources */,
@@ -2389,7 +2379,6 @@
 				1428904B0957427100D14688 /* Modes in Resources */,
 				F286A754215CE6410056C247 /* AboutPanel.xib in Resources */,
 				5E4DA73D09E15C6800D91CFC /* Scripts in Resources */,
-				4C6BDC6A18898F850088CBFC /* ScriptMenuItemIcon@2x.png in Resources */,
 				F22024DD191D0BFE0098982C /* ParticipantReadOnlyTurnOnNormal.png in Resources */,
 				F22024D6191D0BFE0098982C /* ParticipantReadOnlyTurnOffHover@2x.png in Resources */,
 				4C6BDC5C188983380088CBFC /* FoldingBubbleBig@2x.png in Resources */,
@@ -2461,7 +2450,6 @@
 				4CA098DE18EAF54E0026B3E3 /* SEEWebPreviewViewController.xib in Resources */,
 				F22024E3191D0D280098982C /* ParticipantReadOnlyTurnOnPressed.png in Resources */,
 				14EC6E280A63F2E800B44481 /* ServicesMenu.strings in Resources */,
-				4C6BDC6618898E1E0088CBFC /* ScriptMenu.pdf in Resources */,
 				5EF31E430A7E437C00D777F5 /* InvertedIBeam.tiff in Resources */,
 				F25A071F191A6D4600F07557 /* WaitPipe@2x.png in Resources */,
 				4C57BD3A199BB11D00260983 /* InvertedIBeamBig.tiff in Resources */,
