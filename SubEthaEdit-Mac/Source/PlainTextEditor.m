@@ -417,6 +417,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	[self.shareAnnounceButtonOutlet setImagesByPrefix:@"BottomBarSharingIconAnnounceTurnOn"];
 	
     LayoutManager *layoutManager = [LayoutManager new];
+    layoutManager.showsInconsistentIndentation = YES;
     [[document textStorage] addLayoutManager:layoutManager];
 
     I_textContainer =  [[NSTextContainer alloc] initWithContainerSize:NSMakeSize(frame.size.width, FLT_MAX)];
@@ -2456,6 +2457,10 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     if ([[self document] wrapLines] != [self wrapsLines]) {
         [self setWrapsLines:[[self document] wrapLines]];
     }
+    
+    LayoutManager *layoutManager = (LayoutManager *)self.textView.layoutManager;
+    layoutManager.usesTabs = self.document.usesTabs;
+    
 
     [self TCM_updateBottomStatusBar];
     [I_textView setNeedsDisplay:YES];     // because the change could have involved line endings

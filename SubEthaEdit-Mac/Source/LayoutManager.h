@@ -12,6 +12,9 @@
 
 @property (nonatomic) BOOL showsChangeMarks;
 @property (nonatomic) BOOL showsInvisibles;
+@property (nonatomic) BOOL showsInconsistentIndentation;
+@property (nonatomic) BOOL usesTabs;
+
 
 - (void)removeTemporaryAttributes:(id)anObjectEnumerable forCharacterRange:(NSRange)aRange;
 
