@@ -856,7 +856,7 @@ static NSString *tempFileName(NSString *origPath) {
 		if ([itemArray count]) {
 			[modeMenu addItem:[NSMenuItem separatorItem]];
 			NSMenuItem   *menuItem = nil;
-			NSImage *scriptMenuItemIcon=[NSImage imageNamed:@"ScriptMenuItemIcon"];
+			NSImage *scriptMenuItemIcon = [NSImage imageNamed:@"ScriptMenuEntrySymbol"];
 			for (menuItem in itemArray) {
 				NSMenuItem *item=[menuItem autoreleasedCopy];
 				[item setImage:scriptMenuItemIcon];
