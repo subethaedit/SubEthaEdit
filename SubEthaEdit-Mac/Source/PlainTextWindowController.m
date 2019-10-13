@@ -74,7 +74,16 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 - (void)windowDidLoad {
     NSWindow *window = self.window;
     [[window contentView] setAutoresizesSubviews:YES];
-    [self updateWindowTitleBar];
+
+    NSTextField *titleBarTextField = [self SEE_titlebarTextField];
+    
+    // Configure the truncation here
+    if (titleBarTextField) {
+        titleBarTextField.allowsDefaultTighteningForTruncation = YES;
+        titleBarTextField.lineBreakMode = NSLineBreakByTruncatingHead;
+        titleBarTextField.maximumNumberOfLines = 1;
+    }
+
     [self updateWindowMinSize];
 }
 
@@ -454,10 +463,9 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
 - (void)synchronizeWindowTitleWithDocumentName {
     [super synchronizeWindowTitleWithDocumentName];
-    [self updateWindowTitleBar];
-    
-    NSWindowTab *tab = self.window.tab;
-    tab.title = self.plainTextDocument.displayName;
+    if (self.windowLoaded) { // Don't trigger load of window prematurely
+        [self SEE_postprocessUpdateOfWindowTitle];
+    }
     
     [self updateLock];
 }
@@ -575,42 +583,28 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 	}
 }
 
-- (void)updateWindowTitleBar {
-    NSView *titlebarContainerView;
-    NSView *titlebarView;
-    NSTextField *titlebarTextField;
-    
-    for (id view in [self window].contentView.superview.subviews) {
-        if ([view isKindOfClass:NSClassFromString(@"NSTitlebarContainerView")]) {
-            titlebarContainerView = view;
-            break;
+- (NSTextField *)SEE_titlebarTextField {
+    NSButton *closeButton = [self.window standardWindowButton:NSWindowCloseButton];
+    if ([closeButton.superview isKindOfClass:NSClassFromString(@"NSTitlebarView")]) {
+        // return first NSTextField of that
+        for (id view in closeButton.superview.subviews) {
+            if ([view isKindOfClass:[NSTextField class]]) {
+                return view;
+            }
         }
     }
+    return nil;
+}
+
+- (void)SEE_postprocessUpdateOfWindowTitle {
+    NSWindowTab *tab = self.window.tab;
+    tab.title = self.plainTextDocument.displayName;
     
-    for (id view in titlebarContainerView.subviews) {
-        if ([view isKindOfClass:NSClassFromString(@"NSTitlebarView")]) {
-            titlebarView = view;
-            break;
-        }
-    }
-    for (id view in titlebarView.subviews) {
-        if ([view isKindOfClass:[NSTextField class]]) {
-            titlebarTextField = view;
-            break;
-        }
-    }
-    
-    NSMutableAttributedString *title = [titlebarTextField.attributedStringValue mutableCopy];
-    NSMutableParagraphStyle * paragraphStyle = [[title attribute:NSParagraphStyleAttributeName
-                                      atIndex:0
-                               effectiveRange:nil] mutableCopy];
-    
-    paragraphStyle.lineBreakMode = NSLineBreakByTruncatingHead;
-    
-    [title addAttribute:NSParagraphStyleAttributeName
-                  value:paragraphStyle range:NSMakeRange(0, title.length)];
-    
-    titlebarTextField.attributedStringValue = title;
+    // clean out the attributed title and use the configuraiton of the textfield -
+    // if that is too radical we could just adjust the linebreakmode
+    // of the read attributed string and set it again on the text field
+    NSTextField *titlebarTextField = [self SEE_titlebarTextField];
+    titlebarTextField.stringValue = titlebarTextField.attributedStringValue.string;
 }
 
 #pragma mark - Dialog Split
