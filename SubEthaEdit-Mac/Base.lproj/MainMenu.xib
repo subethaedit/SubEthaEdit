@@ -977,12 +977,20 @@
                             <menuItem isSeparatorItem="YES" id="92">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Select Next Tab" keyEquivalent="}" id="613">
+                            <menuItem title="Select Next Tab" id="613">
+                                <string key="keyEquivalent" base64-UTF8="YES">
+CQ
+</string>
+                                <modifierMask key="keyEquivalentModifierMask" control="YES"/>
                                 <connections>
                                     <action selector="selectNextTab:" target="-1" id="615"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Select Previous Tab" keyEquivalent="{" id="614">
+                            <menuItem title="Select Previous Tab" id="614">
+                                <string key="keyEquivalent" base64-UTF8="YES">
+GQ
+</string>
+                                <modifierMask key="keyEquivalentModifierMask" shift="YES" control="YES"/>
                                 <connections>
                                     <action selector="selectPreviousTab:" target="-1" id="616"/>
                                 </connections>

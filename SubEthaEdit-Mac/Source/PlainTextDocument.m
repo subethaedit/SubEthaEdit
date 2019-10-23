@@ -49,6 +49,8 @@
 #import "SEEPrintOptionsViewController.h"
 #import "SEEScopedBookmarkManager.h"
 
+#import "SEEAlertRecipe.h"
+
 //#import "MoreUNIX.h"
 //#import "MoreSecurity.h"
 //#import "MoreCFQ.h"
@@ -139,6 +141,14 @@ static void * PlainTextDocumentWorkspaceObservationContext = &PlainTextDocumentW
 @property (nonatomic, strong) TCMBracketSettings *bracketSettings;
 @property (nonatomic, strong) NSSavePanel *currentSavePanel;
 @property (nonatomic, strong) NSArray *preservedDataFromSEETextFile;
+
+
+// Alert handling
+@property (nonatomic, strong) NSMutableArray<SEEAlertRecipe *> *alertRecipeQueue;
+@property (nonatomic, strong) SEEAlertRecipe *currentAlertRecipe;
+@property (nonatomic, readonly) BOOL hasAnyAttachedSheetInAnyDocumentWindow;
+@property (nonatomic, strong) NSArray <PlainTextWindow *> *documentWindows;
+@property (nonatomic, strong) NSArray <PlainTextWindow *> *orderedDocumentWindows;
 
 @end
 
@@ -259,6 +269,8 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 - (void)TCM_initHelper {
+    _alertRecipeQueue = [NSMutableArray new];
+    
 	self.persistentDocumentScopedBookmarkURLs = [NSMutableArray array];
     I_flags.isAutosavingForStateRestore=NO;
     I_flags.isHandlingUndoManually=NO;
@@ -792,72 +804,6 @@ static NSString *tempFileName(NSString *origPath) {
     [[TCMMMPresenceManager sharedInstance] unregisterSession:I_session];
 }
 
-- (void)presentAlert:(NSAlert *)alert completionHandler:(void (^)(NSModalResponse returnCode))completionHandler {
-    if (alert == nil) { return; }
-
-    NSArray *orderedWindows = NSApp.orderedWindows;
-    NSSet *candidateWindows = [NSSet setWithArray:[self.windowControllers valueForKey:@"window"]];
-
-    NSUInteger index = [orderedWindows indexOfObjectPassingTest:
-                        ^(NSWindow *window, NSUInteger idx, BOOL *_stop) {
-                            return [candidateWindows containsObject:window];
-                        }];
-
-    NSWindow *window = orderedWindows[index];
-    
-    NSArray *windowControllers = self.windowControllers;
-    
-    // Temporary code to test style of alert icon
-    for (PlainTextWindowController *controller in windowControllers) {
-        controller.showsCautionSymbolInTab = YES;
-    }
-    
-    completionHandler = ^(NSModalResponse returnCode) {
-        for (PlainTextWindowController *controller in windowControllers) {
-            controller.showsCautionSymbolInTab = NO;
-        }
-        if (completionHandler) {
-            completionHandler(returnCode);
-        }
-    };
-    
-    [window makeKeyAndOrderFront:self];
-    [alert beginSheetModalForWindow:window completionHandler:completionHandler];
-}
-
-
-- (void)alert:(NSString *)message style:(NSAlertStyle)style details:(NSString *)details buttons:(NSArray *)buttons then:(void (^)(PlainTextDocument *, NSModalResponse))then {
-    NSAlert *alert = [[NSAlert alloc] init];
-    
-    [alert setAlertStyle:style];
-    [alert setMessageText:message];
-    [alert setInformativeText:details];
-    
-    for (NSString * button in buttons) {
-        [alert addButtonWithTitle: button];
-    }
-
-    __unsafe_unretained PlainTextDocument *weakSelf = self;
-    [self presentAlert:alert completionHandler:^(NSModalResponse returnCode) {
-        PlainTextDocument *strongSelf = weakSelf;
-        if (strongSelf && then) {
-            then(strongSelf, returnCode);
-        }
-    }];
-}
-
-- (void)warn:(NSString *)message details:(NSString *)details buttons:(NSArray *)buttons then:(void (^)(PlainTextDocument *, NSModalResponse))then {
-    [self alert:message style:NSAlertStyleWarning details:details buttons:buttons then:then];
-}
-
-- (void)inform:(NSString *)message details:(NSString *)details {
-    [self alert:message
-          style:NSAlertStyleInformational
-        details:details
-        buttons:@[NSLocalizedString(@"OK", nil)]
-           then:nil];
-}
-
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
     if (context == PlainTextDocumentWorkspaceObservationContext) {
         [[NSNotificationCenter defaultCenter] postNotificationName:PlainTextDocumentWorkspaceDidChangeNotification object:self];
@@ -929,7 +875,7 @@ static NSString *tempFileName(NSString *origPath) {
 		if ([itemArray count]) {
 			[modeMenu addItem:[NSMenuItem separatorItem]];
 			NSMenuItem   *menuItem = nil;
-			NSImage *scriptMenuItemIcon=[NSImage imageNamed:@"ScriptMenuItemIcon"];
+			NSImage *scriptMenuItemIcon = [NSImage imageNamed:@"ScriptMenuEntrySymbol"];
 			for (menuItem in itemArray) {
 				NSMenuItem *item=[menuItem autoreleasedCopy];
 				[item setImage:scriptMenuItemIcon];
@@ -1176,23 +1122,27 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 - (IBAction)toggleIsAnnounced:(id)aSender {
-	if (!self.session.isServer)
+    if (!self.session.isServer) {
         return;
-
+    }
+    
     BOOL isAnnounced = self.isAnnounced;
     
-    if (isAnnounced || !TCMMMPresenceManager.sharedInstance.isCurrentlyReallyInvisible)
+    if (isAnnounced || !TCMMMPresenceManager.sharedInstance.isCurrentlyReallyInvisible) {
         return [self setIsAnnounced:!isAnnounced];
+    }
 
-    [self warn:NSLocalizedString(@"ANNOUNCE_WILL_MAKE_VISIBLE_MESSAGE", nil)
-       details:NSLocalizedString(@"ANNOUNCE_WILL_MAKE_VISIBLE_INFORMATIVE_TEXT", nil)
-       buttons:@[NSLocalizedString(@"ANNOUNCE_WILL_MAKE_VISIBLE_ACTION_TITLE", nil),
-                  NSLocalizedString(@"Cancel", nil)]
-          then:^(PlainTextDocument * self, NSModalResponse returnCode) {
-               if (returnCode == NSAlertFirstButtonReturn) {
-                   [self setIsAnnounced:YES];
-               }
-           }];
+    SEEAlertRecipe *warning =
+    [SEEAlertRecipe warningWithMessage:NSLocalizedString(@"ANNOUNCE_WILL_MAKE_VISIBLE_MESSAGE", nil)
+                               details:NSLocalizedString(@"ANNOUNCE_WILL_MAKE_VISIBLE_INFORMATIVE_TEXT", nil)
+                               buttons:@[NSLocalizedString(@"ANNOUNCE_WILL_MAKE_VISIBLE_ACTION_TITLE", nil),
+                                         NSLocalizedString(@"Cancel", nil)]
+                     completionHandler:^(PlainTextDocument *document, NSModalResponse returnCode) {
+                         if (returnCode == NSAlertFirstButtonReturn) {
+                             [document setIsAnnounced:YES];
+                         }
+                     }];
+    [self showOrEnqueueAlertRecipe:warning];
 
     // Toggle back the state of the button if it was a button
     if ([aSender isKindOfClass:[NSButton class]]) {
@@ -1351,85 +1301,94 @@ static NSString *tempFileName(NSString *origPath) {
         return;
     }
     
-    [self warn:NSLocalizedString(@"File Encoding", nil)
-       details:NSLocalizedString(@"ConvertOrReinterpret", nil)
-       buttons:@[NSLocalizedString(@"Convert", nil),
-                 NSLocalizedString(@"Cancel", nil),
-                 NSLocalizedString(@"Reinterpret", nil)]
-          then:^(PlainTextDocument *document, NSModalResponse returnCode) {
-              TCMMMSession *session = [document session];
-              
-              if (document->I_flags.isReceivingContent || !session.isServer || session.participantCount > 1) {
-                  return;
-              }
-              // Canceled so update bottom status bar to previous state
-              if (returnCode == NSAlertSecondButtonReturn) {
-                  [document TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
-                  return;
-              }
-            
-              FoldableTextStorage *textStorage = document.textStorage;
-
-              if (returnCode == NSAlertFirstButtonReturn) { // convert
-                  DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Trying to convert file encoding");
-                  
-                  if (![textStorage.fullTextStorage.string canBeConvertedToEncoding:encoding]) {
-                      [document.topmostWindowController setDocumentDialog:[[SEEEncodingDoctorDialogViewController alloc] initWithEncoding:encoding]];
-                      
-                      // didn't work so update bottom status bar to previous state
-                      [document TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
-                  } else {
-                      [document setFileEncodingUndoable:encoding];
-                      [document updateChangeCount:NSChangeDone];
-                  }
-                  return;
-              }
-              
-              // Can only beNSAlertThirdButtonReturn:Reinterpret
-              DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Trying to reinterpret file encoding");
-              
-              NSStringEncoding fileEncoding = document.fileEncoding;
-              BOOL needsUT8BOM = fileEncoding == NSUTF8StringEncoding && [[document.documentMode defaultForKey:DocumentModeUTF8BOMPreferenceKey] boolValue];
-              NSData * rawStringData = [textStorage.fullTextStorage.string dataUsingEncoding:document.fileEncoding];
-              NSData * stringData = needsUT8BOM ? [rawStringData dataPrefixedWithUTF8BOM] : rawStringData;
-              NSString * reinterpretedString = [[NSString alloc] initWithData:stringData encoding:encoding];
-              
-              if (!reinterpretedString || (reinterpretedString.length == 0 && textStorage.length > 0)) {
-                  NSString * details = [NSString stringWithFormat:NSLocalizedString(@"Encoding %@ not reinterpretable", nil), [NSString localizedNameOfStringEncoding:encoding]];
-                  
-                  // Didn't work so update bottom status bar to previous state
-                  [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
-                  
-                  return [document warn:NSLocalizedString(@"Error", nil)
-                                details:details
-                                buttons:@[NSLocalizedString(@"Cancel", nil)]
-                                   then:nil];
-              }
-              
-              document->I_flags.hasUTF8BOM = needsUT8BOM;
-              BOOL isEdited = [self isDocumentEdited];
-              
-              [[document documentUndoManager] beginUndoGrouping];
-              [[document plainTextEditors] makeObjectsPerformSelector:@selector(pushSelectedRanges)];
-              [textStorage beginEditing];
-              [textStorage replaceCharactersInRange:NSMakeRange(0, [textStorage length]) withString:@""];
-              [document setFileEncodingUndoable:encoding];
-              [textStorage replaceCharactersInRange:NSMakeRange(0, [textStorage length]) withString:reinterpretedString];
-              
-              NSDictionary * attributes = isEdited ? [document typingAttributes] : [document plainTextAttributes];
-              [textStorage setAttributes:attributes range:NSMakeRange(0, [textStorage length])];
-              
-              if (document->I_flags.highlightSyntax) {
-                  [document highlightSyntaxInRange:NSMakeRange(0, [[textStorage fullTextStorage] length])];
-              }
-              [textStorage endEditing];
-              [[document documentUndoManager] endUndoGrouping];
-              [[document plainTextEditors] makeObjectsPerformSelector:@selector(popSelectedRanges)];
-              if (!isEdited) {
-                  [document updateChangeCount:NSChangeCleared];
-              }
-              [document TCM_validateLineEndings];
-          }];
+    SEEAlertRecipe *warning =
+    [SEEAlertRecipe warningWithMessage:NSLocalizedString(@"File Encoding", nil)
+                               details:NSLocalizedString(@"ConvertOrReinterpret", nil)
+                               buttons:@[NSLocalizedString(@"Convert", nil),
+                                         NSLocalizedString(@"Cancel", nil),
+                                         NSLocalizedString(@"Reinterpret", nil)]
+                     completionHandler:^(PlainTextDocument *document, NSModalResponse returnCode) {
+                         TCMMMSession *session = [document session];
+                         
+                         if (document->I_flags.isReceivingContent || !session.isServer || session.participantCount > 1) {
+                             return;
+                         }
+                         // Canceled so update bottom status bar to previous state
+                         if (returnCode == NSAlertSecondButtonReturn) {
+                             [document TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
+                             return;
+                         }
+                         
+                         FoldableTextStorage *textStorage = document.textStorage;
+                         
+                         if (returnCode == NSAlertFirstButtonReturn) { // convert
+                             DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Trying to convert file encoding");
+                             
+                             if (![textStorage.fullTextStorage.string canBeConvertedToEncoding:encoding]) {
+                                 [document.topmostWindowController setDocumentDialog:[[SEEEncodingDoctorDialogViewController alloc] initWithEncoding:encoding]];
+                                 
+                                 // didn't work so update bottom status bar to previous state
+                                 [document TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
+                             } else {
+                                 [document setFileEncodingUndoable:encoding];
+                                 [document updateChangeCount:NSChangeDone];
+                             }
+                             return;
+                         }
+                         
+                         // Can only beNSAlertThirdButtonReturn:Reinterpret
+                         DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Trying to reinterpret file encoding");
+                         
+                         NSStringEncoding fileEncoding = document.fileEncoding;
+                         BOOL needsUT8BOM = fileEncoding == NSUTF8StringEncoding && [[document.documentMode defaultForKey:DocumentModeUTF8BOMPreferenceKey] boolValue];
+                         NSData * rawStringData = [textStorage.fullTextStorage.string dataUsingEncoding:document.fileEncoding];
+                         NSData * stringData = needsUT8BOM ? [rawStringData dataPrefixedWithUTF8BOM] : rawStringData;
+                         NSString * reinterpretedString = [[NSString alloc] initWithData:stringData encoding:encoding];
+                         
+                         if (!reinterpretedString || (reinterpretedString.length == 0 && textStorage.length > 0)) {
+                             NSString * details = [NSString stringWithFormat:NSLocalizedString(@"Encoding %@ not reinterpretable", nil), [NSString localizedNameOfStringEncoding:encoding]];
+                             
+                             // Didn't work so update bottom status bar to previous state
+                             [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
+                             
+                             SEEAlertRecipe *warning =
+                             [SEEAlertRecipe warningWithMessage:NSLocalizedString(@"Error", nil)
+                                                        details:details
+                                                        buttons:@[NSLocalizedString(@"Cancel", nil)]
+                                              completionHandler:nil];
+                             [self showOrEnqueueAlertRecipe:warning];
+                             return;
+                         }
+                         
+                         document->I_flags.hasUTF8BOM = needsUT8BOM;
+                         BOOL isEdited = [self isDocumentEdited];
+                         
+                         [[document documentUndoManager] beginUndoGrouping];
+                         [[document plainTextEditors] makeObjectsPerformSelector:@selector(pushSelectedRanges)];
+                         [textStorage beginEditing];
+                         [textStorage replaceCharactersInRange:NSMakeRange(0, [textStorage length]) withString:@""];
+                         [document setFileEncodingUndoable:encoding];
+                         [textStorage replaceCharactersInRange:NSMakeRange(0, [textStorage length]) withString:reinterpretedString];
+                         
+                         NSDictionary * attributes = isEdited ? [document typingAttributes] : [document plainTextAttributes];
+                         [textStorage setAttributes:attributes range:NSMakeRange(0, [textStorage length])];
+                         
+                         if (document->I_flags.highlightSyntax) {
+                             [document highlightSyntaxInRange:NSMakeRange(0, [[textStorage fullTextStorage] length])];
+                         }
+                         [textStorage endEditing];
+                         [[document documentUndoManager] endUndoGrouping];
+                         [[document plainTextEditors] makeObjectsPerformSelector:@selector(popSelectedRanges)];
+                         if (!isEdited) {
+                             [document updateChangeCount:NSChangeCleared];
+                         }
+                         [document TCM_validateLineEndings];
+                     }];
+    warning.requiresImmediacy = YES;
+    if (![self presentAlertRecipeOrShowExistingAlert:warning]) {
+        // reset value of status bar
+        [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
+    }
 }
 
 
@@ -1607,12 +1566,12 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     
 }
 
-- (void)addWindowController:(NSWindowController *)windowController 
-{
+- (void)addWindowController:(NSWindowController *)windowController  {
     // -[NSDocument addWindowController:] does something foul: it checks to see if the window controller already has a document, and if so sends that other document a -removeWindowController:windowController message. That's the wrong thing to do (it's -[NSWindowController setDocument:]'s job to worry about that) and interferes with our support for window controllers that display multiple documents. Prevent it.
     PlainTextDocumentIgnoreRemoveWindowController = YES;
     //[windowController addDocument:self];
     [super addWindowController:windowController];
+    [self sheetSupport_addWindowController:windowController];
     PlainTextDocumentIgnoreRemoveWindowController = NO;
 }
 
@@ -1626,6 +1585,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 - (void)removeWindowController:(NSWindowController *)windowController {
     if (!PlainTextDocumentIgnoreRemoveWindowController) {
         [super removeWindowController:windowController];
+        [self sheetSupport_removeWindowController:windowController];
     }
 
     if ([[self windowControllers] count] != 0) {
@@ -1637,28 +1597,31 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     }
 }
 
+// Wrapping this invocation into a static to be less visual clutter in the callbacks
+static void S_performShouldCloseCallback(id delegate, SEL shouldCloseSelector, NSDocument *document, BOOL canClose, void *contextInfo) {
+    ((void (*)(id, SEL, NSDocument *, BOOL, void (*)))objc_msgSend)(delegate, shouldCloseSelector, document, canClose, contextInfo);
+}
+
 - (void)canCloseDocumentWithDelegate:(id)delegate shouldCloseSelector:(SEL)shouldCloseSelector contextInfo:(void *)contextInfo {
-    NSEnumerator *enumerator = [[self windowControllers] objectEnumerator];
-    NSWindowController *windowController;
-    unsigned count = [[self windowControllers] count];
-    unsigned found = 0;
-    while ((windowController = [enumerator nextObject])) {
-        if ([windowController isKindOfClass:[PlainTextWindowController class]]) {
-            found++;
-        }
+    // dismiss sheets that are okay to dismiss automatically
+    [self dismissSafeToDismissSheetsIfAny];
+    // If we have a queued up alert in a non displayed tab, we need disallow closing as well
+    if (self.hasAlerts) {
+        NSBeep();
+        S_performShouldCloseCallback(delegate, shouldCloseSelector, self, NO, contextInfo);
+        return;
     }
-    
-    if (count > 1 && count == found) {
-        if ([delegate respondsToSelector:shouldCloseSelector]) {
-            ((void (*)(id, SEL, id, BOOL, void (*)))objc_msgSend)(delegate, shouldCloseSelector, self, YES, contextInfo);
-        }
-    } else {
-        [super canCloseDocumentWithDelegate:delegate shouldCloseSelector:shouldCloseSelector contextInfo:contextInfo];
+    else if (self.documentWindows.count > 1) {
+        S_performShouldCloseCallback(delegate, shouldCloseSelector, self, YES, contextInfo);
+        return;
     }
+    [super canCloseDocumentWithDelegate:delegate shouldCloseSelector:shouldCloseSelector contextInfo:contextInfo];
 }
 
 - (void)shouldCloseWindowController:(NSWindowController *)windowController delegate:(id)delegate shouldCloseSelector:(SEL)selector contextInfo:(void *)contextInfo  {
+
     // Do the regular NSDocument thing, but take control afterward if it's a multidocument window controller. To do this we have to record the original parameters of this method invocation.
+    // TODO: multi document window controllers aren't a thing anymore, is this still necessary?
     PlainTextDocumentShouldCloseContext *replacementContext = [[PlainTextDocumentShouldCloseContext alloc] init];
     replacementContext->windowController = (PlainTextWindowController *)windowController;
     replacementContext->originalDelegate = delegate;
@@ -1676,13 +1639,13 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     PlainTextDocumentShouldCloseContext *replacementContext = TCM_ReleaseFromVoid(contextInfo);
 
     // Always tell the original invoker of -shouldCloseWindowController:delegate:shouldCloseSelector:contextInfo: not to close the window controller (it's actually the NSWindow in Tiger and every earlier release). We might not want the window controller to be closed. Even if we want it to be closed, we want to do it by invoking our override of -close, which will always cause the window controller to get a -close message, which is necessary for some cleanup.
-    ((void (*)(id, SEL, NSDocument *,BOOL, void *))objc_msgSend)(replacementContext->originalDelegate, replacementContext->originalSelector, document, NO, replacementContext->originalContext);
+    S_performShouldCloseCallback(replacementContext->originalDelegate, replacementContext->originalSelector, document, NO, replacementContext->originalContext);
+    
     if (shouldClose) {
         NSArray *windowControllers = [self windowControllers];
         unsigned int windowControllerCount = [windowControllers count];
         if (windowControllerCount > 1) {
             PlainTextWindowController *windowController = replacementContext->windowController;
-            [windowController documentWillClose:self];
             [windowController close];
         } else {
             [self close];
@@ -1692,12 +1655,6 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 
 
 - (void)close {
-    // The window controller are going to get -close messages of their own when we invoke [super close]. If one of them is a multidocument window controller tell it who the -close message is coming from.
-    NSArray *windowControllers = [self windowControllers];
-    for (NSWindowController *windowController in windowControllers) {
-        [(PlainTextWindowController *)windowController documentWillClose:self];
-    }
-	
 	for (FindAllController *findAllController in [I_findAllControllers copy]) {
 		[findAllController close];
 	}
@@ -1855,23 +1812,24 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 }
 
 - (void)showLineEndingAlert:(NSArray *)arguments {
-    NSString * localizedName = arguments[0];
+    NSString *localizedName = arguments[0];
     LineEnding lineEnding = ((NSNumber *)arguments[1]).unsignedShortValue;
 
-    NSString * message = [NSString stringWithFormat:NSLocalizedString(@"The file has mixed line endings. Do you want to convert all line endings to %@, the most common line ending in the file?", nil), localizedName];
-    NSString * details = NSLocalizedString(@"Other applications may not be able to read the file if you don't convert all line endings to the same line ending.", nil);
-    
-    [self warn:message
-       details:details
-       buttons:@[[NSString stringWithFormat:NSLocalizedString(@"Convert to %@", nil), localizedName],
-                  NSLocalizedString(@"Keep Line Endings", nil)]
-          then:^(PlainTextDocument *document, NSModalResponse returnCode) {
-               if (returnCode == NSAlertFirstButtonReturn) {
-                   [document convertLineEndingsToLineEnding:lineEnding];
-               } else if (returnCode == NSAlertSecondButtonReturn) {
-                   [document setLineEnding:lineEnding];
-               }
-           }];
+    NSString *message = [NSString stringWithFormat:NSLocalizedString(@"The file has mixed line endings. Do you want to convert all line endings to %@, the most common line ending in the file?", nil), localizedName];
+    NSString *details = NSLocalizedString(@"Other applications may not be able to read the file if you don't convert all line endings to the same line ending.", nil);
+    SEEAlertRecipe *warning =
+    [SEEAlertRecipe warningWithMessage:message
+                               details:details
+                               buttons:@[[NSString stringWithFormat:NSLocalizedString(@"Convert to %@", nil), localizedName],
+                                         NSLocalizedString(@"Keep Line Endings", nil)]
+                     completionHandler:^(PlainTextDocument *document, NSModalResponse returnCode) {
+                         if (returnCode == NSAlertFirstButtonReturn) {
+                             [document convertLineEndingsToLineEnding:lineEnding];
+                         } else if (returnCode == NSAlertSecondButtonReturn) {
+                             [document setLineEnding:lineEnding];
+                         }
+                     }];
+    [self showOrEnqueueAlertRecipe:warning];
 }
 
 - (id)handleShowScriptCommand:(NSScriptCommand *)command {
@@ -1893,7 +1851,6 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 			NSWindow *window = [windowController window];
 			[window setFrameTopLeftPoint:NSMakePoint(transientDocumentWindowFrame.origin.x, NSMaxY(transientDocumentWindowFrame))];
 		}
-        [windowController selectTabForDocument:self];
 
 		if (closeTransientDocument) {
 			[[windowController window] orderFront:self]; // stop cascading
@@ -1928,8 +1885,10 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     NSInteger threshold = [NSUserDefaults.standardUserDefaults integerForKey:@"StringLengthToStopHighlightingAndWrapping"];
     
     if (I_textStorage.length > threshold) {
-        [self inform:NSLocalizedString(@"Syntax Highlighting and Wrap Lines have been turned off due to the size of the Document.", @"BigFile Message Text")
-             details:NSLocalizedString(@"Turning on syntax highlighting for very large documents is not recommended.", @"BigFile Informative Text")];
+        SEEAlertRecipe *info = [SEEAlertRecipe
+                                informationWithMessage:NSLocalizedString(@"Syntax Highlighting and Wrap Lines have been turned off due to the size of the Document.", @"BigFile Message Text")
+                                details:NSLocalizedString(@"Turning on syntax highlighting for very large documents is not recommended.", @"BigFile Informative Text")];
+        [self showOrEnqueueAlertRecipe:info];
     }
 }
 
@@ -3013,7 +2972,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
                     
                     if (xEncoding != NoStringEncoding) {
                         DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"We found an encoding in the xattrs! %@",CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(xEncoding)));
-                        [options setObject:[NSNumber numberWithUnsignedInt:xEncoding] forKey:@"CharacterEncoding"];
+                        [options setObject:@(xEncoding) forKey:@"CharacterEncoding"];
                         success = [textStorage readFromData:fileData encoding:xEncoding];
                     }
                     
@@ -3454,26 +3413,26 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
                                 NSDictionary *fattrs = [self fileAttributesToWriteToURL:[NSURL fileURLWithPath:fullDocumentPath] ofType:docType forSaveOperation:saveOperationType originalContentsURL:nil error:nil];
                                 [fileManager setAttributes:fattrs ofItemAtPath:fullDocumentPath error:nil];
                             } else {
-                                [self warn:NSLocalizedString(@"Save", nil)
-                                   details:NSLocalizedString(@"AlertInformativeText: Replace failed", @"Informative text in an alert which tells the you user that replacing the file failed")
-                                    buttons:@[NSLocalizedString(@"OK", nil)]
-                                       then:nil];
-
-								if ( outError )
-									*outError = nil; 
+                                SEEAlertRecipe *warning =
+                                [SEEAlertRecipe warningWithMessage:NSLocalizedString(@"Save", nil)
+                                                           details:NSLocalizedString(@"AlertInformativeText: Replace failed", @"Informative text in an alert which tells the you user that replacing the file failed")
+                                                           buttons:@[NSLocalizedString(@"OK", nil)]
+                                                 completionHandler:nil];
+                                [self showOrEnqueueAlertRecipe:warning];
+                                
+                                if (outError) {
+                                    *outError = nil;
+                                }
                             }
                         } else {
                             (void)[fileManager removeItemAtPath:tempFilePath error:nil];
-
-                            // Maybe this should be an inform:?
-                            [self warn:NSLocalizedString(@"Save", nil)
-                               details:NSLocalizedString(@"AlertInformativeText: Error occurred during replace", @"Informative text in an alert which tells the user that an error prevented the replace")
-                               buttons:@[NSLocalizedString(@"OK", nil)]
-                                  then:nil];
-
-							if ( outError )
-								*outError = nil; 
-
+                            
+                            [self showOrEnqueueInformationWithMessage:NSLocalizedString(@"Save", nil)
+                                                              details:NSLocalizedString(@"AlertInformativeText: Error occurred during replace", @"Informative text in an alert which tells the user that an error prevented the replace")];
+                            
+                            if (outError) {
+                                *outError = nil;
+                            }
                         }
                     }
                 }
@@ -3863,10 +3822,10 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         }
         
         BOOL isDocumentEdited = [self isDocumentEdited];
-
         
         NSModalResponse revertResponseCode;
         NSString *message, *details, *firstButton, *secondButton;
+        id alertAdjustment;
         
         if (isDocumentEdited) {
             // We intentionally do have a more alerting message if the document already had some changes.
@@ -3881,31 +3840,47 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
             firstButton = NSLocalizedString(@"Revert Document", nil);
             secondButton = NSLocalizedString(@"Don't Revert Document", nil);
             revertResponseCode = NSAlertFirstButtonReturn;
+            
+            alertAdjustment = ^(NSAlert *alert) {
+                // add the default cmd-d shortcut for this "don't" option
+                NSButton *dontButton = alert.buttons[1];
+                [dontButton setKeyEquivalent:@"d"];
+                [dontButton setKeyEquivalentModifierMask:NSEventModifierFlagCommand];
+            };
         }
         
         BOOL wasDocumentEdited = isDocumentEdited;
         
-        [self warn:message
-           details:details
-           buttons:@[firstButton, secondButton]
-              then:^(PlainTextDocument *document, NSModalResponse returnCode) {
-                  if (returnCode == revertResponseCode) {
-                      DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Revert document");
-                      NSError *error = nil;
-                      if ([document revertToContentsOfURL:document.fileURL ofType:document.fileType error:&error]) {
-                          [document updateChangeCount:NSChangeCleared];
-                      } else {
-                          [document presentError:error];
-                      }
-                  } else {
-                      [self setKeepDocumentVersion:YES];
-                      
-                      if (!wasDocumentEdited) {
-                          // Ensure we do show a change although we didn't have changes before, as we now differ from the version on disk
-                          [self updateChangeCount:NSChangeDone];
-                      }
-                  }
-              }];
+        SEEAlertRecipe *warning = [SEEAlertRecipe warningWithMessage:message
+                                                             details:details
+                                                             buttons:@[firstButton, secondButton]
+                                                   completionHandler:^(PlainTextDocument *document, NSModalResponse returnCode) {
+            if (returnCode == revertResponseCode) {
+                DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Revert document");
+                NSError *error = nil;
+                if ([document revertToContentsOfURL:document.fileURL ofType:document.fileType error:&error]) {
+                    [document updateChangeCount:NSChangeCleared];
+                } else {
+                    [document presentError:error];
+                }
+            } else {
+                [self setKeepDocumentVersion:YES];
+                
+                if (!wasDocumentEdited) {
+                    // Ensure we do show a change although we didn't have changes before, as we now differ from the version on disk
+                    [self updateChangeCount:NSChangeDone];
+                }
+            }
+        }];
+        if (!isDocumentEdited) {
+            warning.safeToDismissAutomatically = YES;
+        }
+        
+        
+        warning.coalescingIdentifier = @"RevertDialog";
+        warning.alertAdjustment = alertAdjustment;
+        
+        [self showOrEnqueueAlertRecipe:warning];
         
         return NO;
     }
@@ -4085,19 +4060,20 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     [[self documentUndoManager] endUndoGrouping];
 }
 
-- (void)conditionallyEditAnyway:(void (^)(PlainTextDocument *))completionHandler
-{
-    [self warn:NSLocalizedString(@"Warning", nil)
-       details:NSLocalizedString(@"File is read-only", nil)
-       buttons:@[NSLocalizedString(@"Edit anyway", nil),
-                 NSLocalizedString(@"Cancel", nil)]
-          then:^(PlainTextDocument * self, NSModalResponse returnCode) {
-              if (returnCode != NSAlertFirstButtonReturn)
-                  return;
-
-              [self setEditAnyway:YES];
-              completionHandler(self);
-          }];
+- (void)conditionallyEditAnyway:(void (^)(PlainTextDocument *))completionHandler {
+    SEEAlertRecipe *warning =
+    [SEEAlertRecipe warningWithMessage:NSLocalizedString(@"Warning", nil)
+                               details:NSLocalizedString(@"File is read-only", nil)
+                               buttons:@[NSLocalizedString(@"Edit anyway", nil),
+                                         NSLocalizedString(@"Cancel", nil)]
+                     completionHandler:^(PlainTextDocument * self, NSModalResponse returnCode) {
+                         if (returnCode != NSAlertFirstButtonReturn)
+                             return;
+                         
+                         [self setEditAnyway:YES];
+                         completionHandler(self);
+                     }];
+    [self showOrEnqueueAlertRecipe:warning];
 }
 
 - (void)convertLineEndingsToLineEnding:(LineEnding)lineEnding {
@@ -4459,21 +4435,18 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 - (void)gotoLine:(unsigned)aLine {
     PlainTextWindowController *windowController=[self topmostWindowController];
-    [windowController selectTabForDocument:self];
     [windowController gotoLine:aLine];
 }
 
 // dispatches to the plaintexteditor eventually
 - (void)selectRange:(NSRange)aRange {
     PlainTextWindowController *windowController=[self topmostWindowController];
-    [windowController selectTabForDocument:self];
     [windowController selectRange:aRange];
 }
 
 // dispatches to the plaintexteditor eventually
 - (void)selectRangeInBackground:(NSRange)aRange {
     PlainTextWindowController *windowController=[self topmostWindowController];
-    [windowController selectTabForDocument:self];
     [windowController selectRangeInBackground:aRange];
 }
 
@@ -4929,7 +4902,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     id windowController;
     while ((windowController = [enumerator nextObject])) {
         if ([windowController isKindOfClass:[PlainTextWindowController class]]) {
-            [(PlainTextWindowController *)windowController documentUpdatedChangeCount:self];
+            [(PlainTextWindowController *)windowController documentDidUpdateChangeCount];
         }
     }
 }
@@ -5109,15 +5082,15 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 - (void)sessionDidReceiveKick:(TCMMMSession *)aSession {
     [self TCM_generateNewSession];
     
-    [self inform:NSLocalizedString(@"Kicked", @"Kick title in Sheet")
-         details:NSLocalizedString(@"KickedInfo", @"Kick info in Sheet")];
+    [self showOrEnqueueInformationWithMessage:NSLocalizedString(@"Kicked", @"Kick title in Sheet")
+                                      details:NSLocalizedString(@"KickedInfo", @"Kick info in Sheet")];
 }
 
 - (void)sessionDidLeave:(TCMMMSession *)aSession {
     [self TCM_generateNewSession];
     
-    [self inform:NSLocalizedString(@"ProblemLeave", @"ProblemLeave title in Sheet")
-         details:NSLocalizedString(@"ProblemLeaveInfo", @"ProblemLeaveInfo info in Sheet")];
+    [self showOrEnqueueInformationWithMessage:NSLocalizedString(@"ProblemLeave", @"ProblemLeave title in Sheet")
+                                      details:NSLocalizedString(@"ProblemLeaveInfo", @"ProblemLeaveInfo info in Sheet")];
 }
 
 
@@ -5128,11 +5101,12 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 - (void)sessionDidReceiveClose:(TCMMMSession *)aSession {
     [self TCM_generateNewSession];
 
-    if (self.isProxyDocument)
+    if (self.isProxyDocument) {
         return [self sessionDidLoseConnection:aSession];
-
-    [self inform:NSLocalizedString(@"Closed", @"Server Closed Document title in Sheet")
-         details:NSLocalizedString(@"ClosedInfo", @"Server Closed Document info in Sheet")];
+    }
+    
+    [self showOrEnqueueInformationWithMessage:NSLocalizedString(@"Closed", @"Server Closed Document title in Sheet")
+                                      details:NSLocalizedString(@"ClosedInfo", @"Server Closed Document info in Sheet")];
 }
 
 - (void)sessionDidLoseConnection:(TCMMMSession *)aSession {
@@ -5142,8 +5116,8 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
             PlainTextWindowController *controller=[[self windowControllers] objectAtIndex:0];
             [controller documentDidLoseConnection:self];
         } else {
-            [self inform:NSLocalizedString(@"LostConnection", @"LostConnection title in Sheet")
-                 details:NSLocalizedString(@"LostConnectionInfo", @"LostConnection info in Sheet")];
+            [self showOrEnqueueInformationWithMessage:NSLocalizedString(@"LostConnection", @"LostConnection title in Sheet")
+                                              details:NSLocalizedString(@"LostConnectionInfo", @"LostConnection info in Sheet")];
         }
     } else if (I_documentProxyWindowController) {
         [I_documentProxyWindowController didLoseConnection];
@@ -5487,7 +5461,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 
 - (PlainTextEditor *)activePlainTextEditor {
-    return [[self topmostWindowController] activePlainTextEditorForDocument:self];
+    return [[self topmostWindowController] activePlainTextEditor];
 }
 
 
@@ -5496,7 +5470,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     NSEnumerator *windowControllers = [[self windowControllers] objectEnumerator];
     PlainTextWindowController *windowController;
     while ((windowController = [windowControllers nextObject])) {
-		[result addObjectsFromArray:[windowController plainTextEditorsForDocument:self]];
+		[result addObjectsFromArray:[windowController plainTextEditors]];
 	}
     return result;
 }
@@ -6289,29 +6263,30 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     return YES;
 }
 
-- (void)presentPromotionAlertForTextView:(NSTextView *)textView insertionString:(NSString *)unconvertedString affectedRange:(NSRange)affectedRange
-{
-    NSString * convertedString = [unconvertedString lossyStringUsingEncoding:self.fileEncoding];
-    NSString * details = [NSLocalizedString(@"You are no longer restricted by the file's current encoding if you promote to a Unicode encoding.", nil) stringByAppendingString:[NSString stringWithFormat:@"\n%@ ->\n%@", unconvertedString, convertedString]];
-
-    [self warn:NSLocalizedString(@"You are trying to insert characters that cannot be handled by the file's current encoding. Do you want to cancel the change?", nil)
-       details:details
-       buttons:@[NSLocalizedString(@"Insert", nil),
-                 NSLocalizedString(@"Promote to UTF8", nil),
-                 NSLocalizedString(@"Promote to Unicode", nil)]
-          then:^(PlainTextDocument * self, NSModalResponse returnCode) {
-              if (returnCode == NSAlertThirdButtonReturn)
-                  [self setFileEncodingUndoable:NSUnicodeStringEncoding];
-              else if (returnCode == NSAlertSecondButtonReturn)
-                  [self setFileEncodingUndoable:NSUTF8StringEncoding];
-              
-              NSString * insertionString = returnCode == NSAlertFirstButtonReturn ?
-              convertedString :
-              unconvertedString;
-              
-              [textView setSelectedRange:affectedRange];
-              [textView insertText:insertionString replacementRange:affectedRange];
-          }];
+- (void)presentPromotionAlertForTextView:(NSTextView *)textView insertionString:(NSString *)unconvertedString affectedRange:(NSRange)affectedRange {
+    NSString *convertedString = [unconvertedString lossyStringUsingEncoding:self.fileEncoding];
+    NSString *details = [NSLocalizedString(@"You are no longer restricted by the file's current encoding if you promote to a Unicode encoding.", nil) stringByAppendingString:[NSString stringWithFormat:@"\n%@ ->\n%@", unconvertedString, convertedString]];
+    
+    SEEAlertRecipe *warning =
+    [SEEAlertRecipe warningWithMessage:NSLocalizedString(@"You are trying to insert characters that cannot be handled by the file's current encoding. Do you want to cancel the change?", nil)
+                               details:details
+                               buttons:@[NSLocalizedString(@"Insert", nil),
+                                         NSLocalizedString(@"Promote to UTF8", nil),
+                                         NSLocalizedString(@"Promote to Unicode", nil)]
+                     completionHandler:^(PlainTextDocument * self, NSModalResponse returnCode) {
+                         if (returnCode == NSAlertThirdButtonReturn) {
+                             [self setFileEncodingUndoable:NSUnicodeStringEncoding];
+                         } else if (returnCode == NSAlertSecondButtonReturn) {
+                             [self setFileEncodingUndoable:NSUTF8StringEncoding];
+                         }
+                         NSString * insertionString = returnCode == NSAlertFirstButtonReturn ?
+                         convertedString :
+                         unconvertedString;
+                         
+                         [textView setSelectedRange:affectedRange];
+                         [textView insertText:insertionString replacementRange:affectedRange];
+                     }];
+    [self showOrEnqueueAlertRecipe:warning];
 }
 
 - (void)textDidChange:(NSNotification *)aNotification {
@@ -6475,6 +6450,306 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     return rep;
 }
 
+#pragma mark - Alert Handling
+
+/**
+ @return YES if alert recipes are queued, one is currently displayed, or any of our windows has an attached sheet
+ */
+- (BOOL)hasAlerts {
+    return  (_currentAlertRecipe ||
+             _alertRecipeQueue.count > 0 ||
+             [self hasAnyAttachedSheetInAnyDocumentWindow]);
+}
+
+- (void)dismissSafeToDismissSheetsIfAny {
+    if (_currentAlertRecipe && _currentAlertRecipe.safeToDismissAutomatically) {
+        _currentAlertRecipe = nil;
+        for (NSWindow *window in self.documentWindows) {
+            NSWindow *sheet = window.attachedSheet;
+            if (sheet) {
+                [window endSheet:sheet];
+            }
+        }
+    } else if (!_currentAlertRecipe &&
+               ![self hasAnyAttachedSheetInAnyDocumentWindow] &&
+               _alertRecipeQueue.firstObject &&
+               _alertRecipeQueue.firstObject.safeToDismissAutomatically) {
+        [self willChangeValueForKey:@"hasAlerts"];
+        [_alertRecipeQueue removeObjectAtIndex:0];
+        [self didChangeValueForKey:@"hasAlerts"];
+    }
+}
+
+- (void)addAlertRecipeToAlertRecipeQueue:(SEEAlertRecipe *)recipe {
+    [self willChangeValueForKey:@"hasAlerts"];
+    [_alertRecipeQueue addObject:recipe];
+    [self didChangeValueForKey:@"hasAlerts"];
+}
+
+- (void)showOrEnqueueInformationWithMessage:(NSString *)message details:(NSString *)details {
+    SEEAlertRecipe *information =
+    [SEEAlertRecipe informationWithMessage:message details:details];
+    (void)[self showOrEnqueueAlertRecipe:information];
+}
+
+- (BOOL)showExistingAlertIfAny {
+    for (NSWindow *window in self.orderedDocumentWindows) {
+        if (window.attachedSheet) {
+            [window makeKeyAndOrderFront:nil];
+            return YES;
+        }
+    }
+    return NO;
+}
+
+- (BOOL)presentAlertRecipeOrShowExistingAlert:(SEEAlertRecipe *)recipe {
+    BOOL result = [self showOrEnqueueAlertRecipe:recipe];
+    if (!result) {
+        NSBeep();
+        [self showExistingAlertIfAny];
+    }
+    return result;
+}
+
+- (BOOL)showOrEnqueueAlertRecipe:(SEEAlertRecipe *)recipe {
+    // Store this now since we'll be mutating the queue momentarily.
+    BOOL alreadyHasAlerts = self.hasAlerts;
+    
+    NSWindow *window = [self windowForImmediateAlertDisplay];
+    
+    if (alreadyHasAlerts || !window) {
+        if (recipe.requiresImmediacy) {
+            return NO;
+        }
+        
+        // only enqueue if we havent already enqueued one of those
+        NSString *identifier = recipe.coalescingIdentifier;
+        if (identifier) {
+            if ([self.currentAlertRecipe.coalescingIdentifier isEqualToString:identifier]) {
+                return NO;
+            }
+            for (SEEAlertRecipe *queuedRecipe in _alertRecipeQueue) {
+                if ([queuedRecipe.coalescingIdentifier isEqualToString:identifier]) {
+                    return NO;
+                }
+            }
+        }
+        // No need to act, things will happen by events when needed.
+        [self addAlertRecipeToAlertRecipeQueue:recipe];
+    } else {
+        self.currentAlertRecipe = recipe;
+        [self presentCurrentAlertInWindow:window];
+    }
+    return YES;
+}
+
+- (void)presentCurrentAlertInWindow:(NSWindow *)window {
+    SEEAlertRecipe *recipe = self.currentAlertRecipe;
+    NSAlert *alert = [recipe instantiateAlert];
+    SEEAlertCompletionHandler then = recipe.completionHandler;
+    
+    __weak typeof(self) weakSelf = self;
+    __auto_type completionHandler = ^(NSModalResponse returnCode) {
+        
+        // We receive NSModalResponseStop when the alert is canceled by endSheet:.
+        if (returnCode == NSModalResponseStop) {
+            return;
+        }
+        
+        PlainTextDocument *strongSelf = weakSelf;
+        if (strongSelf.currentAlertRecipe == recipe) {
+            strongSelf.currentAlertRecipe = nil;
+            for (NSWindow *window in strongSelf.documentWindows) {
+                if (window.attachedSheet) {
+                    [window endSheet:window.attachedSheet];
+                }
+            }
+        }
+        
+        if (strongSelf && then) {
+            then(strongSelf, returnCode);
+        }
+    };
+    
+    [alert beginSheetModalForWindow:window completionHandler:completionHandler];
+}
+
+/**
+ @return a window of the current document that is appropriate for immediate alert display, nil otherwise
+ */
+- (NSWindow *)windowForImmediateAlertDisplay {
+    
+    NSWindow *mainWindow = NSApp.mainWindow;
+    if (mainWindow.windowController.document == self) {
+        return mainWindow;
+    }
+    
+    return [self.orderedDisplayedDocumentWindows firstObject];
+}
+
+- (BOOL)hasAnyAttachedSheetInAnyDocumentWindow {
+    static __auto_type windowHasAttachedSheet =
+    ^(NSWindow *window, NSUInteger index, BOOL *stop) {
+        return (BOOL)(window.attachedSheet != nil);
+    };
+    
+    return ([self.documentWindows indexOfObjectPassingTest:windowHasAttachedSheet] != NSNotFound);
+}
+
+- (NSArray <PlainTextWindow *>*)documentWindows {
+    NSMutableArray *candidates = [NSMutableArray new];
+    [self.windowControllers enumerateObjectsUsingBlock:^(NSWindowController *wc, NSUInteger _idx, BOOL *_stop) {
+        if ([wc isKindOfClass:[PlainTextWindowController class]]) {
+            NSWindow *window = wc.window;
+            [candidates addObject:window];
+        }
+    }];
+    
+    return candidates;
+}
+
+static NSMutableArray<__kindof NSWindow *> *S_depthSortedWindows(NSArray<__kindof NSWindow *> *windows) {
+    NSMutableArray *result = [NSMutableArray new];
+    // Depthsort
+    NSSet *candidateSet = [NSSet setWithArray:windows];
+    for (NSWindow *window in NSApp.orderedWindows) {
+        if ([candidateSet containsObject:window]) {
+            [result addObject:window];
+        }
+    }
+    return result;
+}
+
+- (NSArray<PlainTextWindow *> *)orderedDocumentWindows {
+    NSMutableArray *candidates = [NSMutableArray new];
+    [self.windowControllers enumerateObjectsUsingBlock:^(NSWindowController *wc, NSUInteger _idx, BOOL *_stop) {
+        if ([wc isKindOfClass:[PlainTextWindowController class]]) {
+            NSWindow *window = wc.window;
+            [candidates addObject:window];
+        }
+    }];
+    
+    if (candidates.count > 1) {
+        candidates = S_depthSortedWindows(candidates);
+    }
+    
+    return candidates;
+}
+
+- (NSArray<PlainTextWindow *> *)orderedDisplayedDocumentWindows {
+    NSMutableArray *candidates = [NSMutableArray new];
+    [self.windowControllers enumerateObjectsUsingBlock:^(NSWindowController *wc, NSUInteger _idx, BOOL *_stop) {
+        if ([wc isKindOfClass:[PlainTextWindowController class]]) {
+            NSWindow *window = wc.window;
+            if (window.tabGroup.selectedWindow == window) {
+                [candidates addObject:window];
+            }
+        }
+    }];
+    
+    if (candidates.count > 1) {
+        candidates = S_depthSortedWindows(candidates);
+    }
+    return candidates;
+}
+
+- (NSArray<NSWindow *> *)orderedWindows {
+    NSMutableArray *orderedWindows = [NSMutableArray array];
+    NSEnumerator *windowsEnumerator = [[NSApp orderedWindows] objectEnumerator];
+    NSWindow *window;
+    while ((window = [windowsEnumerator nextObject])) {
+        if (![self isProxyDocument] &&
+            window.windowController.document == self) {
+            [orderedWindows addObject:window];
+        }
+    }
+    return orderedWindows;
+}
+
+#pragma mark - Synchronization
+
+// We collect all the notification names and selectors we care about in this method
+// to avoid potential bugs of forgetting to remove an observer we've added.
+- (NSDictionary *)windowNotifications {
+    return @{
+             NSWindowWillBeginSheetNotification:
+                 NSStringFromSelector(@selector(windowWillBeginSheet:)),
+             NSWindowDidEndSheetNotification:
+                 NSStringFromSelector(@selector(windowDidEndSheet:)),
+             NSWindowDidBecomeMainNotification:
+                 NSStringFromSelector(@selector(windowDidBecomeMain:))
+             };
+}
+
+- (void)sheetSupport_addWindowController:(NSWindowController *)windowController {
+    if ([windowController isKindOfClass:[PlainTextWindowController class]]) {
+        NSNotificationCenter *defaultCenter = NSNotificationCenter.defaultCenter;
+        NSDictionary *notifications = self.windowNotifications;
+        for (NSString *name in notifications) {
+            [defaultCenter addObserver:self
+                              selector:NSSelectorFromString(notifications[name])
+                                  name:name
+                                object:windowController.window];
+        }
+    }
+}
+
+- (void)sheetSupport_removeWindowController:(NSWindowController *)windowController {
+    if ([windowController isKindOfClass:[PlainTextWindowController class]]) {
+        NSNotificationCenter *defaultCenter = NSNotificationCenter.defaultCenter;
+        for (NSString *name in self.windowNotifications) {
+            [defaultCenter removeObserver:self
+                                     name:name
+                                   object:windowController.window];
+        }
+    }
+}
+
+- (void)presentNextQueuedAlertIfPossibleInWindow:(NSWindow *)window {
+    if (!self.currentAlertRecipe &&
+        !window.attachedSheet &&
+        self.alertRecipeQueue.count > 0 &&
+        ![self hasAnyAttachedSheetInAnyDocumentWindow] ) {
+        self.currentAlertRecipe = [_alertRecipeQueue firstObject];
+        [_alertRecipeQueue removeObjectAtIndex:0];
+        [self presentCurrentAlertInWindow:window];
+    }
+}
+
+// We actually would like window*Did*BeginSheet:, but unfortunately that notification
+// doesn't exist, so at this point window.attachedSheet is still nil. For this reason
+// the willChangeValueForKey: is correct, but we have to delay the didChangeValueForKey:.
+- (void)windowWillBeginSheet:(NSNotification *)notification {
+    [self willChangeValueForKey:@"hasAlerts"];
+    
+    [NSOperationQueue TCM_performBlockOnMainQueue:^{
+        [self didChangeValueForKey:@"hasAlerts"];
+    } afterDelay:0.0];
+}
+
+- (void)windowDidEndSheet:(NSNotification *)notification {
+    [self willChangeValueForKey:@"hasAlerts"];
+    [self didChangeValueForKey:@"hasAlerts"];
+    
+    NSWindow *window = notification.object;
+    // window.sheets?
+    if (window == NSApp.mainWindow) {
+        [self presentNextQueuedAlertIfPossibleInWindow:window];
+    }
+}
+
+- (void)windowDidBecomeMain:(NSNotification *)notification {
+    NSWindow *window = notification.object;
+    if (!window.attachedSheet && self.currentAlertRecipe) {
+        [NSOperationQueue TCM_performBlockOnMainQueue:^{
+            [self presentCurrentAlertInWindow:window];
+        } afterDelay:0.0];
+    } else {
+        [NSOperationQueue TCM_performBlockOnMainQueue:^{
+            [self presentNextQueuedAlertIfPossibleInWindow:window];
+        } afterDelay:0.0];
+    }
+}
 
 @end
 
@@ -6521,7 +6796,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 - (void)handleShowWebPreviewCommand:(NSScriptCommand *)command {
 	PlainTextWindowController *windowController = self.topmostWindowController;
-	PlainTextWindowControllerTabContext *tabContext = [windowController windowControllerTabContextForDocument:self];
+	PlainTextWindowControllerTabContext *tabContext = [windowController SEE_tabContext];
 
 	if ([windowController.document isEqual:self]) {
 		if (! tabContext.webPreviewViewController) {
@@ -6733,24 +7008,10 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     [[self activePlainTextEditor] setScriptSelection:aSelection];
 }
 
-- (NSArray *)orderedWindows {
-    NSMutableArray *orderedWindows = [NSMutableArray array];
-    NSEnumerator *windowsEnumerator = [[NSApp orderedWindows] objectEnumerator];
-    NSWindow *window;
-    while ((window = [windowsEnumerator nextObject])) {
-        if (![self isProxyDocument] &&
-            [[window windowController] respondsToSelector:@selector(documents)] &&
-            [[[window windowController] documents] containsObject:self]) {
-            [orderedWindows addObject:window];
-        }
-    }
-    return orderedWindows;
-}
-
 - (NSString *)scriptedWebPreviewBaseURL {
 	NSString *result = nil;
 	PlainTextWindowController *windowController = self.topmostWindowController;
-	PlainTextWindowControllerTabContext *tabContext = [windowController selectedTabContext];
+	PlainTextWindowControllerTabContext *tabContext = [windowController SEE_tabContext];
 
 	if (! tabContext.webPreviewViewController) {
 		result = [[self fileURL] absoluteString];
@@ -6762,7 +7023,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 - (void)setScriptedWebPreviewBaseURL:(NSString *)aString {
 	PlainTextWindowController *windowController = self.topmostWindowController;
-	PlainTextWindowControllerTabContext *tabContext = [windowController selectedTabContext];
+	PlainTextWindowControllerTabContext *tabContext = [windowController SEE_tabContext];
 
 	if (! tabContext.webPreviewViewController) {
 		[windowController toggleWebPreview:self];
@@ -6809,7 +7070,6 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 }
 
 #endif
-
 
 
 @end

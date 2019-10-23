@@ -24,8 +24,24 @@
                 <autoresizingMask key="autoresizingMask"/>
             </view>
             <connections>
+                <outlet property="cautionView" destination="TbK-0x-Bg8" id="vxd-KV-Rpa"/>
                 <outlet property="delegate" destination="-2" id="9"/>
             </connections>
         </window>
+        <customView id="TbK-0x-Bg8">
+            <rect key="frame" x="0.0" y="0.0" width="16" height="16"/>
+            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" id="dSP-f5-pqd">
+                    <rect key="frame" x="0.0" y="0.0" width="16" height="16"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                    <imageCell key="cell" controlSize="mini" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="CautionSymbol" id="sbd-0b-uhX"/>
+                </imageView>
+            </subviews>
+            <point key="canvasLocation" x="39" y="-63"/>
+        </customView>
     </objects>
+    <resources>
+        <image name="CautionSymbol" width="14" height="14"/>
+    </resources>
 </document>

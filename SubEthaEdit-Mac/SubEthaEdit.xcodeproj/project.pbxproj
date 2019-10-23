@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 48;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -187,9 +187,6 @@
 		4C6BDC5C188983380088CBFC /* FoldingBubbleBig@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC5B188983380088CBFC /* FoldingBubbleBig@2x.png */; };
 		4C6BDC5F1889858A0088CBFC /* folded.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC5D1889858A0088CBFC /* folded.png */; };
 		4C6BDC601889858A0088CBFC /* folded@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC5E1889858A0088CBFC /* folded@2x.png */; };
-		4C6BDC6618898E1E0088CBFC /* ScriptMenu.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC6518898E1E0088CBFC /* ScriptMenu.pdf */; };
-		4C6BDC6918898F850088CBFC /* ScriptMenuItemIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC6718898F850088CBFC /* ScriptMenuItemIcon.png */; };
-		4C6BDC6A18898F850088CBFC /* ScriptMenuItemIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC6818898F850088CBFC /* ScriptMenuItemIcon@2x.png */; };
 		4C714D9719922B3B00C8B128 /* SEEApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C714D9619922B3B00C8B128 /* SEEApplication.m */; };
 		4C71D0C318BF7C2900EA66FA /* SEEConnectDocumentListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C71D0C218BF7C2900EA66FA /* SEEConnectDocumentListItem.m */; };
 		4C71D0C618BF8B2200EA66FA /* SEEOpenOtherDocumentListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C71D0C518BF8B2200EA66FA /* SEEOpenOtherDocumentListItem.m */; };
@@ -252,6 +249,7 @@
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
+		9E9F58AD2319EC3C00E838D1 /* SEEAlertRecipe.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E9F58AC2319EC3C00E838D1 /* SEEAlertRecipe.m */; };
 		F20396F60F8A707700BEB377 /* FullTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D34B0F38756100AD7DE1 /* FullTextStorage.m */; };
 		F2061D690B4C152600E6631F /* FirstClickCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2061D670B4C152600E6631F /* FirstClickCustomView.m */; };
 		F20948BC0C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = F20948B90C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m */; };
@@ -883,9 +881,6 @@
 		4C6BDC5B188983380088CBFC /* FoldingBubbleBig@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "FoldingBubbleBig@2x.png"; path = "artwork/FoldingBubbleBig@2x.png"; sourceTree = "<group>"; };
 		4C6BDC5D1889858A0088CBFC /* folded.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = folded.png; path = artwork/folded.png; sourceTree = "<group>"; };
 		4C6BDC5E1889858A0088CBFC /* folded@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "folded@2x.png"; path = "artwork/folded@2x.png"; sourceTree = "<group>"; };
-		4C6BDC6518898E1E0088CBFC /* ScriptMenu.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = ScriptMenu.pdf; path = artwork/ScriptMenu.pdf; sourceTree = "<group>"; };
-		4C6BDC6718898F850088CBFC /* ScriptMenuItemIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ScriptMenuItemIcon.png; path = artwork/ScriptMenuItemIcon.png; sourceTree = "<group>"; };
-		4C6BDC6818898F850088CBFC /* ScriptMenuItemIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ScriptMenuItemIcon@2x.png"; path = "artwork/ScriptMenuItemIcon@2x.png"; sourceTree = "<group>"; };
 		4C714D9519922B3B00C8B128 /* SEEApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEApplication.h; sourceTree = "<group>"; };
 		4C714D9619922B3B00C8B128 /* SEEApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEApplication.m; sourceTree = "<group>"; };
 		4C71D0C018BF796500EA66FA /* SEEDocumentListItemProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEEDocumentListItemProtocol.h; sourceTree = "<group>"; };
@@ -932,7 +927,6 @@
 		4CE6C99B18AA905500AB45D1 /* SEEOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEOverlayView.h; sourceTree = "<group>"; };
 		4CE6C99C18AA905500AB45D1 /* SEEOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEOverlayView.m; sourceTree = "<group>"; };
 		4CF06A621816D6D300B35DF8 /* SubEthaEdit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = SubEthaEdit.entitlements; sourceTree = "<group>"; };
-		4CF3490017FC6EAF005D0D4F /* PSMTabBarControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PSMTabBarControl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E28E28D0972FB8E00099B13 /* InsetTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = InsetTextFieldCell.h; sourceTree = "<group>"; };
 		5E28E28E0972FB8E00099B13 /* InsetTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsetTextFieldCell.m; sourceTree = "<group>"; };
 		5E4DA73A09E15C6800D91CFC /* Scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Scripts; sourceTree = "<group>"; };
@@ -961,6 +955,8 @@
 		5EF31E420A7E437C00D777F5 /* InvertedIBeam.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = InvertedIBeam.tiff; path = artwork/InvertedIBeam.tiff; sourceTree = "<group>"; };
 		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* SubEthaEdit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SubEthaEdit.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9E9F58AB2319EC3C00E838D1 /* SEEAlertRecipe.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEEAlertRecipe.h; sourceTree = "<group>"; };
+		9E9F58AC2319EC3C00E838D1 /* SEEAlertRecipe.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEEAlertRecipe.m; sourceTree = "<group>"; };
 		F2061D660B4C152600E6631F /* FirstClickCustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = FirstClickCustomView.h; sourceTree = "<group>"; };
 		F2061D670B4C152600E6631F /* FirstClickCustomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstClickCustomView.m; sourceTree = "<group>"; };
 		F20948B80C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = TCMMMLogStatisticsEntry.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -1244,7 +1240,6 @@
 				1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */,
 				F250EAD4216A1A9A00B94A0B /* IOKit.framework */,
 				4C6AE8731802E8810089D489 /* OgreKit.framework */,
-				4CF3490017FC6EAF005D0D4F /* PSMTabBarControl.framework */,
 				423452391907DFE400BE3CC1 /* Quartz.framework */,
 				4C97D503188D42FA000B4999 /* QuartzCore.framework */,
 				4CD251E5192396CA00098A7C /* Security.framework */,
@@ -1783,6 +1778,8 @@
 				F2FB96E10CBE68ED000B85AE /* UKXattrMetadataStore.m */,
 				142893F409575A3000D14688 /* UndoManager.h */,
 				142893F509575A3000D14688 /* UndoManager.m */,
+				9E9F58AB2319EC3C00E838D1 /* SEEAlertRecipe.h */,
+				9E9F58AC2319EC3C00E838D1 /* SEEAlertRecipe.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -1902,9 +1899,6 @@
 				4C6BDC5B188983380088CBFC /* FoldingBubbleBig@2x.png */,
 				4C6BDC5D1889858A0088CBFC /* folded.png */,
 				4C6BDC5E1889858A0088CBFC /* folded@2x.png */,
-				4C6BDC6518898E1E0088CBFC /* ScriptMenu.pdf */,
-				4C6BDC6718898F850088CBFC /* ScriptMenuItemIcon.png */,
-				4C6BDC6818898F850088CBFC /* ScriptMenuItemIcon@2x.png */,
 			);
 			name = Retina;
 			sourceTree = "<group>";
@@ -2329,7 +2323,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				CLASSPREFIX = SEE;
-				LastUpgradeCheck = 1030;
+				LastUpgradeCheck = 1100;
 				ORGANIZATIONNAME = "SubEthaEdit Contributors";
 				TargetAttributes = {
 					5EC638290ABEB71100D3295B = {
@@ -2350,7 +2344,7 @@
 				};
 			};
 			buildConfigurationList = C05733CB08A9546B00998B17 /* Build configuration list for PBXProject "SubEthaEdit" */;
-			compatibilityVersion = "Xcode 8.0";
+			compatibilityVersion = "Xcode 10.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 1;
 			knownRegions = (
@@ -2421,7 +2415,6 @@
 				14448AA40A18964A00F36B34 /* SubEthaEdit.sdef in Resources */,
 				F220248F191BC33D0098982C /* hud_buttonRight-P@2x.png in Resources */,
 				8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */,
-				4C6BDC6918898F850088CBFC /* ScriptMenuItemIcon.png in Resources */,
 				F220247E191BBDA10098982C /* hud_buttonLeft-N.png in Resources */,
 				4CD5F81917FB0DF900F49E31 /* PrecedencePrefs.xib in Resources */,
 				F22024CA191D0BFE0098982C /* ParticipantFollowTurnOnHover@2x.png in Resources */,
@@ -2435,7 +2428,6 @@
 				1428904B0957427100D14688 /* Modes in Resources */,
 				F286A754215CE6410056C247 /* AboutPanel.xib in Resources */,
 				5E4DA73D09E15C6800D91CFC /* Scripts in Resources */,
-				4C6BDC6A18898F850088CBFC /* ScriptMenuItemIcon@2x.png in Resources */,
 				F22024DD191D0BFE0098982C /* ParticipantReadOnlyTurnOnNormal.png in Resources */,
 				F22024D6191D0BFE0098982C /* ParticipantReadOnlyTurnOffHover@2x.png in Resources */,
 				4C6BDC5C188983380088CBFC /* FoldingBubbleBig@2x.png in Resources */,
@@ -2509,7 +2501,6 @@
 				4CA098DE18EAF54E0026B3E3 /* SEEWebPreviewViewController.xib in Resources */,
 				F22024E3191D0D280098982C /* ParticipantReadOnlyTurnOnPressed.png in Resources */,
 				14EC6E280A63F2E800B44481 /* ServicesMenu.strings in Resources */,
-				4C6BDC6618898E1E0088CBFC /* ScriptMenu.pdf in Resources */,
 				5EF31E430A7E437C00D777F5 /* InvertedIBeam.tiff in Resources */,
 				F25A071F191A6D4600F07557 /* WaitPipe@2x.png in Resources */,
 				4C57BD3A199BB11D00260983 /* InvertedIBeamBig.tiff in Resources */,
@@ -2652,6 +2643,7 @@
 				4CCD790018DB3F9E00A8B457 /* SEEScopedBookmarkAccessoryViewController.m in Sources */,
 				2C04023A23110CD500A31952 /* SEEFSTree.m in Sources */,
 				4CD3CFF31887FE2E00908506 /* SEEOpenPanelAccessoryViewController.m in Sources */,
+				9E9F58AD2319EC3C00E838D1 /* SEEAlertRecipe.m in Sources */,
 				142891360957457500D14688 /* NSNetServiceTCMAdditions.m in Sources */,
 				142891370957457500D14688 /* NSStringTCMAdditions.m in Sources */,
 				142891380957457500D14688 /* TCMBencodingUtilities.m in Sources */,
@@ -3275,6 +3267,7 @@
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
@@ -3309,6 +3302,7 @@
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;

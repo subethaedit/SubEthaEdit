@@ -362,7 +362,7 @@
 		9EAD87A322F79371000ADB59 /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = de.lproj/OgreAdvancedFindPanel.nib; sourceTree = "<group>"; };
 		9EAD87A422F79371000ADB59 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/OgreTextFinderLocalizable.strings; sourceTree = "<group>"; };
 		D2F7E79907B2D74100F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
-		F2170206215A458B007A2C35 /* onigmo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = onigmo.h; path = x86_64/onigmo.h; sourceTree = "<group>"; };
+		F2170206215A458B007A2C35 /* onigmo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = onigmo.h; path = x86_64/onigmo.h; sourceTree = BUILT_PRODUCTS_DIR; };
 		F217020A215A47B4007A2C35 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		F250EAA6216A05B400B94A0B /* Base */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Base; path = Base.lproj/OgreTextFindProgressSheet.nib; sourceTree = "<group>"; };
 		F250EAA7216A05B500B94A0B /* Base */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Base; path = Base.lproj/OgreFindResultWindow.nib; sourceTree = "<group>"; };
@@ -1158,7 +1158,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1000;
+				LastUpgradeCheck = 1100;
 			};
 			buildConfigurationList = 4DC40BA3091509DC0029A2A6 /* Build configuration list for PBXProject "OgreKit" */;
 			compatibilityVersion = "Xcode 8.0";

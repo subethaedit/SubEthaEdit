@@ -777,9 +777,8 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 			NSDocument *selectedDocument = [[window windowController] document];
 			NSString *selectedDocumentTabLookupKey = [state decodeObjectForKey:@"PlainTextWindowSelectedTabLookupKey"];
 			if (selectedDocumentTabLookupKey && [selectedDocument isKindOfClass:[PlainTextDocument class]]) {
-				PlainTextDocument *plainTextDocument = (PlainTextDocument *)selectedDocument;
 				PlainTextWindowController *windowController = window.windowController;
-				PlainTextWindowControllerTabContext *tabContext = [windowController windowControllerTabContextForDocument:plainTextDocument];
+				PlainTextWindowControllerTabContext *tabContext = [windowController SEE_tabContext];
 				tabContext.uuid = selectedDocumentTabLookupKey;
 			}
 
@@ -822,9 +821,8 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 								[documentController reopenDocumentForURL:documentURL withContentsOfURL:documentAutosaveURL inWindow:window display:YES completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
 
 									if ([document isKindOfClass:[PlainTextDocument class]]) {
-										PlainTextDocument *plainTextDocument = (PlainTextDocument *)document;
 										PlainTextWindowController *windowController = window.windowController;
-										PlainTextWindowControllerTabContext *tabContext = [windowController windowControllerTabContextForDocument:plainTextDocument];
+										PlainTextWindowControllerTabContext *tabContext = [windowController SEE_tabContext];
 										tabContext.uuid = tabLookupKey;
 									}
 
@@ -855,9 +853,8 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 								NSDocument *document = [documentController openUntitledDocumentAndDisplay:YES error:nil];
 
 								if ([document isKindOfClass:[PlainTextDocument class]]) {
-									PlainTextDocument *plainTextDocument = (PlainTextDocument *)document;
 									PlainTextWindowController *windowController = window.windowController;
-									PlainTextWindowControllerTabContext *tabContext = [windowController windowControllerTabContextForDocument:plainTextDocument];
+									PlainTextWindowControllerTabContext *tabContext = [windowController SEE_tabContext];
 									tabContext.uuid = tabLookupKey;
 								}
 							}
@@ -893,18 +890,6 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 
 + (void)finishRestoreWindowWithIdentifier:(NSString *)identifier state:(NSCoder *)state document:(NSDocument *)document window:(NSWindow *)window error:(NSError *)inError completionHandler:(void (^)(NSWindow *, NSError *))completionHandler {
 
-	NSWindowController *windowController = window.windowController;
-	if ([windowController isKindOfClass:[PlainTextWindowController class]]) {
-		PlainTextWindowController *plainTextWindowController = (PlainTextWindowController *)windowController;
-
-//		NSArray *tabNames = [plainTextWindowController.tabView.tabViewItems valueForKey:@"label"];
-//		NSArray *tabs = [state decodeObjectForKey:@"PlainTextWindowOpenTabNames"];
-//
-//		NSLog(@"\n%@\n%@", tabNames, tabs);
-
-		[plainTextWindowController selectTabForDocument:document];
-	}
-
 	// completion handler will trigger -(void)restoreStateWithCoder: on the window
 	if (completionHandler) {
 		completionHandler(window, inError);
@@ -912,8 +897,7 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 }
 
 
-- (void)reopenDocumentForURL:(NSURL *)urlOrNil withContentsOfURL:(NSURL *)contentsURL display:(BOOL)displayDocument completionHandler:(void (^)(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error))completionHandler
-{
+- (void)reopenDocumentForURL:(NSURL *)urlOrNil withContentsOfURL:(NSURL *)contentsURL display:(BOOL)displayDocument completionHandler:(void (^)(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error))completionHandler {
 //	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
 	[self.filenamesFromLastRunOpenPanel removeAllObjects];
 
@@ -1498,21 +1482,17 @@ struct ModificationInfo
     for (NSWindow *window in windows) {
         NSWindowController *controller = [window windowController];
         if ([controller isKindOfClass:[PlainTextWindowController class]]) {
-            NSArray *documents = [(PlainTextWindowController *)controller documents];
-            unsigned count = [documents count];
-            while (count--) {
-                PlainTextDocument *document = [documents objectAtIndex:count];
-                if ([document isDocumentEdited]) {
-                    PlainTextWindowController *controller = [document topmostWindowController];
-                    (void)[controller selectTabForDocument:document];
-                    [document canCloseDocumentWithDelegate:self
-                                       shouldCloseSelector:@selector(reviewedDocument:shouldClose:contextInfo:)
-                                               contextInfo:closeAllContext];
-                    return;
-                }
-                
-                [document close];
+            PlainTextDocument *document = (PlainTextDocument *)controller.document;
+            if ([document isDocumentEdited]) {
+                PlainTextWindowController *controller = [document topmostWindowController];
+                [controller showWindow:nil];
+                [document canCloseDocumentWithDelegate:self
+                                   shouldCloseSelector:@selector(reviewedDocument:shouldClose:contextInfo:)
+                                           contextInfo:closeAllContext];
+                return;
             }
+            
+            [document close];
         }
     }
 
@@ -1526,13 +1506,14 @@ struct ModificationInfo
 - (void)reviewedDocument:(PlainTextDocument *)doc shouldClose:(BOOL)shouldClose contextInfo:(void *)contextInfo {
     PlainTextWindowController *windowController = [doc topmostWindowController];
     NSWindow *sheet = [[windowController window] attachedSheet];
-    if (sheet) [sheet orderOut:self];
+    if (sheet) {
+        [sheet orderOut:self];
+    }
     
     if (shouldClose) {
         NSArray *windowControllers = [doc windowControllers];
         NSUInteger windowControllerCount = [windowControllers count];
         if (windowControllerCount > 1) {
-            [windowController documentWillClose:doc];
             [windowController close];
         } else {
             [doc close];

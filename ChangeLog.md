@@ -1,16 +1,40 @@
-### [Unreleased] SubEthaEdit 5.1
+### [unreleased] SubEthaEdit 5.1.2
+
+#### Features:
+#### Bug fixes and maintenance:
+#### Improved modes:
+
+### SubEthaEdit 5.1.1
+
+#### Bug fixes and maintenance:
+* Fixed an issue where default Avatars on macOS 10.15 looked bad in dark appearance
+* Fixed top status bar text readability on live light/dark appearance change
+* Fixed an issue where invitation windows needed to be dismissed twice to deny the invitation
+* Updated the certificate for the `see` tool installer (AppStore version only)
+* Fixed a rare crasher in TCMPortMapper
+
+#### Improved modes:
+* bash - improved indenting, handling of escaped strings and variables
+
+### SubEthaEdit 5.1
 
 #### Features:
 * Switched to native macOS window tabs, removed PSMTabBarControl
-* Improved Regular Expression features and speed. See Help > Regular Expressions for updated documentation
+* Improved Regular Expression features and speed. See Help > Regular Expressions for updated documentation and additional capabilities
+* Improved security dialogs and `see` command line tool for future releases of macOS
+* `see` command line tool now follows symlinks
 
 #### Bug fixes and maintenance:
-* Fixed dark appearance of encoding panel and encoding conflict resolution dialog
 * Updated underlying RegEX Library (origuruma-mod) to onigmo 6.2
 * Updated OgreKit to 3.0.2
 * Fixed cascading of new windows to be of proper height and location
 * Fixed top status bar to use fixed width at start for less jitter
 * Blur behind bars now properly created using NSVisualEffectView
+* Improved performance in general and for big font choices especially
+* Upped minimum deployment version to macOS High Sierra and cleaned out dead code
+* Moved all code to ARC (Automatic Reference Counting)
+* Fixed dark appearance of encoding panel and encoding conflict resolution dialog
+* Fixed remaining false colored dialogs and windows for dark mode
 
 #### Improved modes:
 * Markdown – improved syntax highlighting of code blocks

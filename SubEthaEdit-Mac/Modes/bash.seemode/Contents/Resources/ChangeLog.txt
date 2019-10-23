@@ -1,3 +1,7 @@
+Changes with Version 5.1.1 (SEE 5.1.1)
+	*) fixed indentation for lese and elif blocks
+	*) improved correct highlighting when using bash replacement patterns and variables with curlies
+
 Changes with Version 4.0.1
 	*) made indent work
 

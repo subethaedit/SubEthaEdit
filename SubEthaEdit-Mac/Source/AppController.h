@@ -77,4 +77,13 @@ extern NSString * const SEEAppEffectiveAppearanceDidChangeNotification;
 
 - (IBAction)revealInstallCommandInFinder:(id)sender;
 @property (nonatomic, readonly) NSURL *URLOfInstallCommand;
+
+/**
+ Dismisses all auto dismissable alerts if any. If there are still
+ windows with alerts around after that, show the first one.
+
+ @return YES if no window is having an alert up or in queue, NO otherwise.
+ */
+- (BOOL)ensureNoWindowsWithAlerts;
+
 @end

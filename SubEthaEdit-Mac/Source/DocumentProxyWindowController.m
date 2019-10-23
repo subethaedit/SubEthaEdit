@@ -79,6 +79,12 @@
     return self;
 }
 
+- (void)dealloc {
+    // Interesting side effect of the arc transition. We now have to close the window explicitly on dealloc to make it go away.
+    // Otherwise a window controller less window stays around until the close/cancel button is hit again after the first one.
+    [self.window close];
+}
+
 - (void)update {
     TCMMMSessionClientState state=[[(PlainTextDocument *)[self document] session] clientState];
     if (state == TCMMMSessionClientJoiningState) {

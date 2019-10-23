@@ -608,8 +608,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 - (void)takeSettingsFromDocument {
     PlainTextDocument *document = [self document];
 
-    if (document)
-    {
+    if (document) {
         [self setShowsInvisibleCharacters:[document showInvisibleCharacters]];
         [self setWrapsLines:[document wrapLines]];
         [self setShowsGutter:[document showsGutter]];
@@ -1916,7 +1915,6 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 - (void)selectRange:(NSRange)aRange {
-	[self.plainTextWindowController selectTabForDocument:I_windowControllerTabContext.document];
     [[I_textView window] makeKeyAndOrderFront:self];
 	[[I_textView window] makeFirstResponder:I_textView];
 	[I_windowControllerTabContext setActivePlainTextEditor:self];
@@ -1924,7 +1922,6 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 - (void)selectRangeInBackground:(NSRange)aRange {
-	[self.plainTextWindowController selectTabForDocument:I_windowControllerTabContext.document];
     [self selectRangeInBackgroundWithoutIndication:aRange expandIfFolded:YES];
 	[I_textView showFindIndicatorForRange:[I_textView selectedRange]];
 }
@@ -2339,22 +2336,21 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
         NSZoneFree(NSZoneFromPointer(lineEndingBuffer), lineEndingBuffer);
 
         if (!isLineEndingValid) {
-            NSString *warning = NSLocalizedString(@"You are pasting text that does not match the file's current line endings. Do you want to paste the text with converted line endings?", nil);
-            NSString *details = NSLocalizedString(@"The file will have mixed line endings if you do not paste converted text.", nil);
-            
-            [document warn:warning
-                   details:details
-                   buttons:@[NSLocalizedString(@"Paste Converted", nil),
-                             NSLocalizedString(@"Paste Unchanged", nil)]
-                      then:^(PlainTextDocument * document, NSModalResponse returnCode) {
-                          if (returnCode == NSAlertFirstButtonReturn) {
-                              NSMutableString *mutableString = [[NSMutableString alloc] initWithString:replacementString];
-                              [mutableString convertLineEndingsToLineEndingString:document.lineEndingString];
-                              [aTextView insertText:mutableString replacementRange:aTextView.selectedRange];
-                          } else if (returnCode == NSAlertSecondButtonReturn) {
-                              [aTextView insertText:replacementString replacementRange:aTextView.selectedRange];
-                          }
-                      }];
+            SEEAlertRecipe *warning =
+            [SEEAlertRecipe warningWithMessage:NSLocalizedString(@"You are pasting text that does not match the file's current line endings. Do you want to paste the text with converted line endings?", nil)
+                                       details:NSLocalizedString(@"The file will have mixed line endings if you do not paste converted text.", nil)
+                                       buttons:@[NSLocalizedString(@"Paste Converted", nil),
+                                                 NSLocalizedString(@"Paste Unchanged", nil)]
+                             completionHandler:^(PlainTextDocument * document, NSModalResponse returnCode) {
+                                 if (returnCode == NSAlertFirstButtonReturn) {
+                                     NSMutableString *mutableString = [[NSMutableString alloc] initWithString:replacementString];
+                                     [mutableString convertLineEndingsToLineEndingString:document.lineEndingString];
+                                     [aTextView insertText:mutableString replacementRange:aTextView.selectedRange];
+                                 } else if (returnCode == NSAlertSecondButtonReturn) {
+                                     [aTextView insertText:replacementString replacementRange:aTextView.selectedRange];
+                                 }
+                             }];
+            [document presentAlertRecipeOrShowExistingAlert:warning];
             
             return NO;
         }

@@ -19,8 +19,6 @@
 @property (nonatomic, weak) PlainTextEditor *activePlainTextEditor;
 @property (nonatomic, readonly) PlainTextDocument *plainTextDocument;
 
-- (PlainTextEditor *)activePlainTextEditorForDocument:(PlainTextDocument *)aDocument;
-
 - (void)refreshDisplay;
 
 - (void)openParticipantsOverlayForDocument:(PlainTextDocument *)aDocument;
@@ -44,39 +42,29 @@
 - (void)setShowsBottomStatusBar:(BOOL)aFlag;
 
 @property (nonatomic) BOOL showsGutter;
-@property (nonatomic) BOOL showsCautionSymbolInTab;
 
 - (IBAction)toggleLineNumbers:(id)aSender;
 
 - (void)setDocumentDialog:(NSViewController<SEEDocumentDialogViewController>*)aDocumentDialog;
 - (NSViewController<SEEDocumentDialogViewController>*)documentDialog;
+- (void)documentDidUpdateChangeCount;
 
-- (void)documentWillClose:(NSDocument *)document;
+/** Shims the pre-native tab tab context idea. Should be folded in again, or in a future
+    where we do multiple documents per window again, molded into something new */
+@property (nonatomic, strong, readonly) PlainTextWindowControllerTabContext *SEE_tabContext;
+@property (nonatomic, strong, readonly) NSArray<PlainTextEditor *> *plainTextEditors;
 
-- (void)documentUpdatedChangeCount:(PlainTextDocument *)document;
-- (PlainTextWindowControllerTabContext *)windowControllerTabContextForDocument:(PlainTextDocument *)document;
-- (NSArray *)plainTextEditorsForDocument:(id)aDocument;
-- (BOOL)selectTabForDocument:(id)aDocument;
 /**
  Semantical replacement for previous "hasManyDocuments"
 
  @return YES if in a tab group and not alone.
  */
 - (BOOL)isInTabGroup;
-- (IBAction)showDocumentAtIndex:(id)aMenuEntry;
-- (IBAction)closeTab:(id)sender;
-- (void)closeAllTabs;
-- (void)reviewChangesAndQuitEnumeration:(BOOL)cont;
-
-- (NSArray *)orderedDocuments;
-- (NSArray *)documents;
 
 - (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName document:(PlainTextDocument *)document;
 
 - (void)updateWindowMinSize;
 - (IBAction)toggleWebPreview:(id)sender;
-
-@property (nonatomic, readonly) PlainTextWindowControllerTabContext *selectedTabContext;
 
 - (NSRect)dissolveToFrame;
 - (void)cascadeWindow;

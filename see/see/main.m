@@ -36,7 +36,6 @@ static struct option longopts[] = {
     { 0,            0,                      0,  0 }
 };
 
-
 static NSURL *tempFileURL() {
     NSError *error;
     NSURL *tmpURL = [[NSFileManager defaultManager] URLForDirectory:NSItemReplacementDirectory inDomain:NSUserDomainMask appropriateForURL:[NSURL fileURLWithPath:@"/"] create:YES error:&error];
@@ -46,7 +45,6 @@ static NSURL *tempFileURL() {
     NSString *filename = [NSString stringWithFormat:@"see-%@.seetmpstdin", [[NSUUID UUID] UUIDString]];
     return [tmpURL URLByAppendingPathComponent:filename];
 }
-
 
 static void printHelp() {
     fprintf(stdout, "Usage: see [-bdhlprvw] [-g line[:column]] [-o where] [-e encoding_name] [-m mode_identifier] [-t title] [-j description] [file ...]\n");
@@ -101,8 +99,7 @@ BOOL meetsRequiredVersion(NSString *string) {
                         SEE_APP_IDENTIFIER_BASE_STRING ".MacBETADev",\
                         SEE_APP_IDENTIFIER_BASE_STRING ".MacFULLDev",
 
-static NSArray *subEthaEditBundleIdentifiers()
-{
+static NSArray *subEthaEditBundleIdentifiers(void) {
 	NSArray *result = @[THESE_APP_IDENTIFIERS(xstr(SEE_APP_IDENTIFIER_BASE))
                         @"de.codingmonkeys.SubEthaEdit.Mac",
 						@"de.codingmonkeys.SubEthaEdit.MacFULL",
@@ -115,8 +112,7 @@ static NSArray *subEthaEditBundleIdentifiers()
 	return result;
 }
 
-CFURLRef CopyURLRefForSubEthaEdit()
-{
+CFURLRef CopyURLRefForSubEthaEdit(void) {
 	NSURL *applicationURL = nil;
     NSUInteger bundleVersion = 0;
 
@@ -137,14 +133,13 @@ CFURLRef CopyURLRefForSubEthaEdit()
 		NSInteger version = [[[appBundle infoDictionary] objectForKey:(id)kCFBundleVersionKey] integerValue];
 		NSString *minimumSeeToolVersionString = [[appBundle infoDictionary] objectForKey:@"TCMMinimumSeeToolVersion"];
 
-		if (version > bundleVersion && meetsRequiredVersion(minimumSeeToolVersionString))
-		{
+		if (version > bundleVersion && meetsRequiredVersion(minimumSeeToolVersionString)) {
 			bundleVersion = version;
 			applicationURL = [[runningApplicationBundleURL retain] autorelease];
 		}
 	}
-	if (applicationURL)
-	{
+    
+	if (applicationURL) {
 		return (CFURLRef)[applicationURL copy];
 	}
 
@@ -168,15 +163,13 @@ CFURLRef CopyURLRefForSubEthaEdit()
 			applicationURL = [[bundleURL retain] autorelease];
 		}
 	}
-	if (applicationURL)
-	{
+	if (applicationURL) {
 		return (CFURLRef)[applicationURL copy];
 	}
 
 	// Look for any app that understands the see:// URL protocol
 	applicationURL = [[NSWorkspace sharedWorkspace] URLForApplicationToOpenURL:[NSURL URLWithString:@"see://egal"]];
-	if (applicationURL)
-	{
+	if (applicationURL) {
         NSBundle *appBundle = [NSBundle bundleWithURL:applicationURL];
         NSString *minimumSeeToolVersionString = [[appBundle infoDictionary] objectForKey:@"TCMMinimumSeeToolVersion"];
         if (meetsRequiredVersion(minimumSeeToolVersionString)) {
@@ -186,7 +179,7 @@ CFURLRef CopyURLRefForSubEthaEdit()
 	return NULL;
 }
 
-static void printVersion() {
+static void printVersion(void) {
     OSStatus status = noErr;
     CFURLRef appURL = NULL;
     NSString *appVersion = @"";
@@ -196,7 +189,8 @@ static void printVersion() {
     NSString *bundledSeeToolVersionString = nil;
     
     appURL = CopyURLRefForSubEthaEdit();
-    if (appURL != NULL) {
+    if (appURL) {
+        CFAutorelease(appURL);
         NSBundle *appBundle = [NSBundle bundleWithPath:[(NSURL *)appURL path]];
         appVersion = [[appBundle infoDictionary] objectForKey:@"CFBundleVersion"];
         versionString = [[appBundle infoDictionary] objectForKey:@"CFBundleShortVersionString"];
@@ -213,7 +207,7 @@ static void printVersion() {
     NSString *shortVersion = SEE_CLT_VERSION_NSSTRING; // [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]; // But with sandboxing the plist cannot be loaded
     NSString *bundleVersion = SEE_REPO_REVISION_NSSTRING; // [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]; // But with sandboxing the plist cannot be loaded
     fprintf(stdout, "see %s (%s)\n", [shortVersion UTF8String], [bundleVersion UTF8String]);
-    if (appURL != NULL) {
+    if (appURL) {
         fprintf(stdout, "%s %s (%s)\n", [[(NSURL *)appURL path] fileSystemRepresentation], [appShortVersionString UTF8String], [appVersion UTF8String]);
         if (bundledSeeToolVersionString) {
             int myMajor, myMinor;
@@ -247,8 +241,6 @@ static void printVersion() {
         fflush(stderr);
     }
 	
-    if (appURL) { CFRelease(appURL); }
-	appURL = NULL;
 }
 
 
@@ -286,6 +278,7 @@ static NSRunningApplication *launchSubEthaEdit(NSDictionary *options) {
         fprintf(stderr, "see: Couldn't find compatible SubEthaEdit.\n     Please install a current version of SubEthaEdit.\n");
         fflush(stderr);
     } else {
+        CFAutorelease(appURL);
         BOOL dontSwitch = [[options objectForKey:@"background"] boolValue];
         
         LSLaunchURLSpec inLaunchSpec;
@@ -328,7 +321,6 @@ static NSRunningApplication *launchSubEthaEdit(NSDictionary *options) {
 			fprintf(stderr, "see: Couldn't start compatbile SubEthaEdit.\n");
 			fflush(stderr);
 		} else {
-			
 			while (!result.isFinishedLaunching) {
 				NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
 				[runLoop runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
@@ -362,8 +354,7 @@ static NSArray *see(NSArray *fileNames, NSArray *newFileNames, NSString *stdinFi
     NSRunningApplication *runningSubEthaEdit = launchSubEthaEdit(options);
     if (!runningSubEthaEdit) {
         return nil;
-    }
-	
+    }	
 
 	NSMutableArray *urls = [NSMutableArray array];
 	for (NSString *fileName in fileNames) {
@@ -390,7 +381,7 @@ static NSArray *see(NSArray *fileNames, NSArray *newFileNames, NSString *stdinFi
         if (urls.count > 0) {
             NSAppleEventDescriptor *fileList = [NSAppleEventDescriptor listDescriptor];
             [urls enumerateObjectsUsingBlock:^(NSURL *url, NSUInteger index, BOOL *_stop) {
-                [fileList insertDescriptor:[NSAppleEventDescriptor descriptorWithFileURL:url] atIndex:index];
+                [fileList insertDescriptor:[NSAppleEventDescriptor descriptorWithFileURL:url] atIndex:index + 1];
             }];
             NSAppleEventDescriptor *openEvent = [NSAppleEventDescriptor appleEventWithEventClass:kCoreEventClass eventID:[[options objectForKey:@"print"] boolValue] ? kAEPrintDocuments : kAEOpenDocuments targetDescriptor:addressDescriptor returnID:kAutoGenerateReturnID transactionID:kAnyTransactionID];
             [openEvent setParamDescriptor:fileList forKeyword:keyDirectObject];
@@ -531,8 +522,8 @@ static void openFiles(NSArray *fileNames, NSDictionary *options) {
     BOOL isStandardInputATTY = isatty([[NSFileHandle fileHandleWithStandardInput] fileDescriptor]);
     BOOL isStandardOutputATTY = isatty([[NSFileHandle fileHandleWithStandardOutput] fileDescriptor]);
     if (!isStandardOutputATTY) {
-        [mutatedOptions setObject:[NSNumber numberWithBool:YES] forKey:@"wait"];
-        [mutatedOptions setObject:[NSNumber numberWithBool:YES] forKey:@"pipe-out"];
+        [mutatedOptions setObject:@YES forKey:@"wait"];
+        [mutatedOptions setObject:@YES forKey:@"pipe-out"];
         wait = YES;
     }
     
@@ -714,8 +705,7 @@ int main (int argc, const char * argv[]) {
 					help = YES;
 			}
 		}
-		
-		
+				
 		//
 		// Parsing filename arguments
 		//
@@ -725,7 +715,7 @@ int main (int argc, const char * argv[]) {
 		
 		for (i = 0; i < argc; i++) {
 			NSString *fileName = [NSString stringWithUTF8String:argv[i]];
-			if (! fileName.isAbsolutePath) {
+			if (!fileName.isAbsolutePath) {
 				fileName = [[fileManager currentDirectoryPath] stringByAppendingPathComponent:fileName];
 			}
 			
@@ -738,7 +728,6 @@ int main (int argc, const char * argv[]) {
 			}
 		}
         
-		
 		//
 		// Executing command
 		//

@@ -9,14 +9,6 @@
 
 @implementation PlainTextWindow
 
-- (IBAction)performClose:(id)sender {
-    if ([[self windowController] isKindOfClass:[PlainTextWindowController class]]) {
-        [(PlainTextWindowController *)[self windowController] closeTab:sender];
-    } else {
-        [super performClose:sender];
-    }
-}
-
 - (void)sendEvent:(NSEvent *)event {
     // Handle ⌘ 1 ... ⌘ 9, ⌘ 0 shortcuts to select tabs
     if ([event type] == NSEventTypeKeyDown) {
@@ -137,5 +129,25 @@ static NSPoint placeWithCascadePoint(NSWindow *window, NSPoint cascadePoint) {
         }
     }
 }
+
+- (void)awakeFromNib {
+    self.tab.accessoryView = self.cautionView;
+    self.cautionView.hidden = YES;
+}
+
+- (BOOL)showsCautionSymbolInTab {
+    return !self.cautionView.hidden;
+}
+
+- (void)setShowsCautionSymbolInTab:(BOOL)showsCautionSymbolInTab {
+    self.cautionView.hidden = !showsCautionSymbolInTab;
+}
+
+#ifndef TCM_NO_DEBUG
+// Convenience for breakpoints only currently
+- (void)makeKeyAndOrderFront:(id)sender {
+    [super makeKeyAndOrderFront:sender];
+}
+#endif
 
 @end

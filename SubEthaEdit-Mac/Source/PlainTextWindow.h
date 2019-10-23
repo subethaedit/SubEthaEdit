@@ -8,6 +8,8 @@
 
 @interface PlainTextWindow : NSWindow
 @property BOOL constrainingToScreenSuspended;
+@property (nonatomic) BOOL showsCautionSymbolInTab;
+@property (nonatomic, strong) IBOutlet NSView *cautionView;
 
 - (void)ensureTabBarVisiblity:(BOOL)shouldAlwaysBeVisible;
 @end

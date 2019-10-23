@@ -434,6 +434,34 @@ static AppController *sharedInstance = nil;
     [[NSNotificationCenter defaultCenter] postNotificationName:SEEAppEffectiveAppearanceDidChangeNotification object:NSApp];
 }
 
+- (BOOL)ensureNoWindowsWithAlerts {
+    PlainTextDocument *offendingDocument = nil;
+    for (PlainTextDocument *document in NSApp.orderedDocuments) {
+        if ([document isKindOfClass:[PlainTextDocument class]]) {
+            [document dismissSafeToDismissSheetsIfAny];
+            if (!offendingDocument &&
+                document.hasAlerts) {
+                offendingDocument = document;
+            }
+        }
+    }
+    
+    if (offendingDocument) {
+        [offendingDocument showExistingAlertIfAny];
+        return NO;
+    } else {
+        return YES;
+    }
+}
+
+- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
+    if (![self ensureNoWindowsWithAlerts]) {
+        NSBeep();
+        return NSTerminateCancel;
+    }
+    return NSTerminateNow;
+}
+
 #pragma mark
 - (void)sessionManagerIsReady:(NSNotification *)aNotification {
     [[TCMMMBEEPSessionManager sharedInstance] validateListener];
@@ -451,7 +479,6 @@ static AppController *sharedInstance = nil;
 }
 
 - (void)updateApplicationIcon {
-
     // get the badge count
     int badgeCount = 0;
     NSEnumerator      *documents=[[[NSDocumentController sharedDocumentController] documents] objectEnumerator];
@@ -945,7 +972,7 @@ static AppController *sharedInstance = nil;
     int indexOfWindowMenu = [[NSApp mainMenu] indexOfItemWithTag:WindowMenuTag];
     if (indexOfWindowMenu != -1) {
         NSMenuItem *scriptMenuItem = [[NSMenuItem alloc] initWithTitle:@"" action:nil keyEquivalent:@""];
-        [scriptMenuItem setImage:[NSImage imageNamed:@"ScriptMenu"]];
+        [scriptMenuItem setImage:[NSImage imageNamed:@"ScriptMenuSymbol"]];
         [scriptMenuItem setTag:ScriptMenuTag];
         NSMenu *menu = [[NSMenu alloc] initWithTitle:@""];
         [scriptMenuItem setSubmenu:menu];
@@ -974,7 +1001,7 @@ static AppController *sharedInstance = nil;
     [defaultMenu addItem:[NSMenuItem separatorItem]];
     NSMenuItem *scriptsSubmenuItem=[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Scripts",@"Scripts entry for contextual menu") action:nil keyEquivalent:@""];
     NSMenu *menu = [NSMenu new];
-    [scriptsSubmenuItem setImage:[NSImage imageNamed:@"ScriptMenuItemIcon"]];
+    [scriptsSubmenuItem setImage:[NSImage imageNamed:@"ScriptMenuEntrySymbol"]];
     [scriptsSubmenuItem setTag:12345];
     [menu addItem:[[NSMenuItem alloc] initWithTitle:SEE_NoLocalizationNeeded(@"DummyEntry") action:nil keyEquivalent:@""]];
     [scriptsSubmenuItem setSubmenu:menu];
