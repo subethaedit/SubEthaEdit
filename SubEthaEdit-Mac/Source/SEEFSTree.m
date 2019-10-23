@@ -70,7 +70,7 @@ static void fsEventsCallback(ConstFSEventStreamRef streamRef,
 
 -(void)pathDidChange:(NSString *)path withFlags:(FSEventStreamEventFlags)flags {
     BOOL scanSubdirs = flags & kFSEventStreamEventFlagMustScanSubDirs;
-    [[self.root nodeForPath:path onlyIfCached:YES] reloadIncludingChildren:scanSubdirs];
+    [[self.root nodeForPath:path onlyIfCached:YES] reloadChildrenRecursive:scanSubdirs];
 }
 
 

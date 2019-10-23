@@ -21,7 +21,7 @@
 - (NSURL *)url;
 - (BOOL)isLeaf;
 - (BOOL)isRoot;
-- (void)reloadIncludingChildren:(BOOL)includeChildren;
+- (void)reloadChildrenRecursive:(BOOL)includeChildren;
 
 - (SEEFSTreeNode * )nodeForPath:(NSString *)path;
 - (SEEFSTreeNode * )nodeForPath:(NSString *)path onlyIfCached:(BOOL)cached;

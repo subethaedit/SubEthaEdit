@@ -16,19 +16,11 @@
     NSTableCellView *view;
     NSString *identifier;
     
-    if (!item.isRoot) {
-        identifier = @"DataCell";
-        view = [outlineView makeViewWithIdentifier:identifier
-                                                              owner:nil];
-        view.textField.stringValue = item.name;
-        view.imageView.image = item.icon;
-    } else {
-        identifier = @"HeaderCell";
-        view = [outlineView makeViewWithIdentifier:identifier
-                                                              owner:nil];
-        view.textField.stringValue = item.name.uppercaseString;
-        view.imageView.image = nil;
-    }
+    identifier = @"DataCell";
+    view = [outlineView makeViewWithIdentifier:identifier owner:nil];
+    view.textField.stringValue = item.name;
+    view.imageView.image = item.icon;
+    
 
     return view;
 }

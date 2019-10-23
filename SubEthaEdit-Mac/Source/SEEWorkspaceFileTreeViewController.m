@@ -13,6 +13,8 @@
 #import "SEEFSTree.h"
 #import "PopUpButton.h"
 
+static void *SEERootChildrenChangedContext = (void *)&SEERootChildrenChangedContext;
+
 @interface SEEWorkspaceFileTreeViewController ()
 
 @property (nonatomic, strong) IBOutlet NSTreeController *treeController;
@@ -38,13 +40,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [tree removeObserver:self forKeyPath:@"root.children"];
     tree = [[SEEFSTree alloc] initWithURL:self.workspace.baseURL];
+    [tree addObserver:self forKeyPath:@"root.children" options:0 context:SEERootChildrenChangedContext];
+    
+    
     [self.treeController setContent:tree.root.children];
     
+    [self.outlineView expandItem:[self.outlineView itemAtRow:0]];
+
     self.treeController.sortDescriptors = @[
                                             [NSSortDescriptor sortDescriptorWithKey:@"isLeaf" ascending:YES],
                                             [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(caseInsensitiveCompare:)]];
-    
 }
 
 -(void)selectFileWithURL:(NSURL *)url {
@@ -77,6 +84,19 @@
 
 -(IBAction)toggleShowHidden:(id)sender {
     tree.root.includeHidden = !tree.root.includeHidden;
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if (context == SEERootChildrenChangedContext) {
+        [self.treeController rearrangeObjects];
+    } else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
+}
+
+-(void)dealloc {
+    [tree removeObserver:self forKeyPath:@"root.children"];
 }
 
 @end

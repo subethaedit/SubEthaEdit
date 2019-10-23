@@ -27,7 +27,8 @@ static NSArray *resourceValueKeys;
 @implementation SEEFSTreeNode {
     __weak SEEFSTreeNode *parent;
     NSURL *url;
-    NSArray *children;
+    NSMutableArray *unfilteredChildren;
+    NSMutableArray *children;
 }
 
 +(void)initialize {
@@ -61,27 +62,8 @@ static NSArray *resourceValueKeys;
 
 - (NSArray *)children {
     if(!children) {
-        NSArray *contents = [NSFileManager.defaultManager contentsOfDirectoryAtURL:url
-                                                        includingPropertiesForKeys:resourceValueKeys
-                                                                           options:0
-                                                                             error:nil];
-        NSMutableArray * _children = [NSMutableArray arrayWithCapacity:contents.count];
-        for (NSURL *url in contents) {
-            SEEFSTreeNode *node = [[SEEFSTreeNode alloc] initWithURL:url parent:self];
-            node.includeHidden = self.includeHidden;
-            [_children addObject:node];
-        }
-        
-        [_children filterUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(SEEFSTreeNode * evaluatedObject, NSDictionary<NSString *,id> * bindings) {
-            if(evaluatedObject.isHidden && !self.includeHidden) {
-                return NO;
-            }
-            return YES;
-        }]];
-        
-        children = _children;
-        
-        
+        children = [NSMutableArray new];
+        [self reloadChildrenRecursive:NO];
     }
     
     return children;
@@ -101,6 +83,23 @@ static NSArray *resourceValueKeys;
 
 -(NSURL *)url {
     return url;
+}
+
+- (BOOL)isEqual:(id)other
+{
+    if (other == self) {
+        return YES;
+    } else if ([other isKindOfClass:[SEEFSTreeNode class]]){
+        SEEFSTreeNode *o = other;
+        return [self.url isEqual: o.url] && (parent == o->parent) && (self.includeHidden == o.includeHidden);
+    } else {
+        return NO;
+    }
+}
+
+- (NSUInteger)hash
+{
+    return self.url.hash + parent.hash;
 }
 
 - (SEEFSTreeNode *)nodeNamed:(NSString *)name {
@@ -161,14 +160,50 @@ static NSArray *resourceValueKeys;
 -(void)setIncludeHidden:(BOOL)includeHidden {
     [self willChangeValueForKey:@"includeHidden"];
     _includeHidden = includeHidden;
-    [self reloadIncludingChildren:YES];
+    [self reloadChildrenRecursive:YES];
     [self didChangeValueForKey:@"includeHidden"];
-    
 }
 
-- (void)reloadIncludingChildren:(BOOL)includeChildren {
+- (void)reloadChildrenRecursive:(BOOL)recursive {
     [self willChangeValueForKey:@"children"];
-    children = nil;
+    
+    
+    NSArray *contents = [NSFileManager.defaultManager contentsOfDirectoryAtURL:url
+                                                           includingPropertiesForKeys:resourceValueKeys
+                                                                              options:0
+                                                                                error:nil];
+    if(!children) {
+        return;
+    }
+    
+    for (NSURL *url in contents) {
+        SEEFSTreeNode *node = [[SEEFSTreeNode alloc] initWithURL:url parent:self];
+        node.includeHidden = self.includeHidden;
+        
+        if (![children containsObject:node]) {
+            [children addObject:node];
+        }
+    }
+    
+    [children filterUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(SEEFSTreeNode * evaluatedObject, NSDictionary<NSString *,id> * bindings) {
+        
+        if (![contents containsObject:evaluatedObject.url]) {
+            return NO;
+        }
+        
+        if(evaluatedObject.isHidden && !self.includeHidden) {
+            return NO;
+        }
+        
+        return YES;
+    }]];
+    
+    if(recursive) {
+        for (SEEFSTreeNode *node in children) {
+            [node reloadChildrenRecursive:recursive];
+        }
+    }
+    
     [self didChangeValueForKey:@"children"];
 }
 

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14868" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14868"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -19,22 +19,22 @@
             <rect key="frame" x="0.0" y="0.0" width="209" height="319"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <scrollView autohidesScrollers="YES" horizontalLineScroll="22" horizontalPageScroll="10" verticalLineScroll="22" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l0P-w4-W4N">
+                <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="20" horizontalPageScroll="10" verticalLineScroll="20" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l0P-w4-W4N">
                     <rect key="frame" x="0.0" y="0.0" width="209" height="319"/>
                     <clipView key="contentView" drawsBackground="NO" id="ZSr-Z5-dIB">
-                        <rect key="frame" x="1" y="1" width="207" height="317"/>
+                        <rect key="frame" x="0.0" y="0.0" width="209" height="319"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" multipleSelection="NO" autosaveColumns="NO" rowHeight="22" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="14" outlineTableColumn="EZ7-cB-YEM" id="ywA-QP-ap7">
-                                <rect key="frame" x="0.0" y="0.0" width="207" height="317"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <size key="intercellSpacing" width="3" height="0.0"/>
-                                <color key="backgroundColor" name="_sourceListBackgroundColor" catalog="System" colorSpace="catalog"/>
+                            <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="16" outlineTableColumn="EZ7-cB-YEM" id="ywA-QP-ap7">
+                                <rect key="frame" x="0.0" y="0.0" width="209" height="319"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <size key="intercellSpacing" width="2" height="3"/>
+                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                 <tableColumns>
-                                    <tableColumn identifier="TableColumn" width="204" minWidth="16" maxWidth="1000" id="EZ7-cB-YEM">
+                                    <tableColumn identifier="TableColumn" width="207" minWidth="16" maxWidth="1000" id="EZ7-cB-YEM">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
-                                            <font key="font" metaFont="smallSystem"/>
+                                            <font key="font" metaFont="label" size="11"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                         </tableHeaderCell>
@@ -46,11 +46,11 @@
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         <prototypeCellViews>
                                             <tableCellView identifier="HeaderCell" id="51R-wK-gpt">
-                                                <rect key="frame" x="1" y="0.0" width="204" height="17"/>
+                                                <rect key="frame" x="1" y="1" width="207" height="17"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RGY-Ds-FVg">
-                                                        <rect key="frame" x="0.0" y="1" width="204" height="14"/>
+                                                        <rect key="frame" x="0.0" y="1" width="207" height="14"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="HEADER CELL" id="V3Q-0q-tNj">
                                                             <font key="font" metaFont="smallSystemBold"/>
@@ -64,7 +64,7 @@
                                                 </connections>
                                             </tableCellView>
                                             <tableCellView identifier="DataCell" id="MZP-B7-IxM">
-                                                <rect key="frame" x="1" y="17" width="204" height="17"/>
+                                                <rect key="frame" x="1" y="21" width="207" height="17"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <imageView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OZR-c8-2Eq">
@@ -73,7 +73,7 @@
                                                         <imageCell key="cell" refusesFirstResponder="YES" imageScaling="proportionallyDown" image="NSActionTemplate" id="QeJ-RX-ndS"/>
                                                     </imageView>
                                                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jCf-ZB-K1j">
-                                                        <rect key="frame" x="25" y="0.0" width="179" height="17"/>
+                                                        <rect key="frame" x="25" y="0.0" width="182" height="17"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="dsw-HW-mnL">
                                                             <font key="font" metaFont="system"/>
@@ -92,8 +92,8 @@
                                 </tableColumns>
                                 <connections>
                                     <action trigger="doubleAction" selector="doubleClick:" target="-2" id="C2r-Nf-OQ5"/>
-                                    <binding destination="9ch-to-4YF" name="content" keyPath="arrangedObjects" id="Sgj-TK-hwY"/>
-                                    <binding destination="9ch-to-4YF" name="selectionIndexPaths" keyPath="selectionIndexPaths" previousBinding="Sgj-TK-hwY" id="WuA-Oi-lcI"/>
+                                    <binding destination="9ch-to-4YF" name="content" keyPath="arrangedObjects" id="KTN-1H-66K"/>
+                                    <binding destination="9ch-to-4YF" name="selectionIndexPaths" keyPath="selectionIndexPaths" previousBinding="KTN-1H-66K" id="p3L-u0-4zR"/>
                                     <outlet property="dataSource" destination="MCY-yA-k3B" id="MT2-Kk-qy9"/>
                                     <outlet property="delegate" destination="MCY-yA-k3B" id="acH-dC-9Wb"/>
                                 </connections>
