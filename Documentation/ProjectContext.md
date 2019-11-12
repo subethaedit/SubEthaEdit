@@ -45,6 +45,10 @@ If a new file is created or opened and the path of the file is contained in a wo
 
 The workspace displays the tree-like file structure of a workspace. Double-Clicking a file will open the corresponding document. There can only be one workspace window per workspace. 
 
+### Collaboration
+
+At the moment, workspaces have no effect on how collaboration works.
+
 ## Implementation
 Workspaces are represented by an `SEEWorkspace` object and managed by the `SEEWorkspaceController`. The diagram shows the relations between the Document & Workspace related objects.
 
