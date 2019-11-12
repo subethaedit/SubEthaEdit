@@ -9,6 +9,7 @@
 #import "SEEWorkspaceController.h"
 #import "SEEWorkspaceDocument.h"
 #import "SEEWorkspace.h"
+#import "PlainTextDocument.h"
 
 @interface SEEWorkspaceController ()
 
@@ -16,19 +17,22 @@
 
 @implementation SEEWorkspaceController {
 @private
-    NSMutableArray <SEEWorkspace *> *workspaces;
+    NSMutableSet <SEEWorkspace *> *workspaces;
 }
-
-// TODO: prune empty workspaces
 
 - (instancetype)initWithDocumentController:(NSDocumentController *)controller;
 {
     self = [super init];
     if (self) {
         _documentController = controller;
-        workspaces = [NSMutableArray new];
+        workspaces = [NSMutableSet new];
     }
     return self;
+}
+
+- (void)dealloc
+{
+    [NSNotificationCenter.defaultCenter removeObserver:self];
 }
 
 -(SEEWorkspace *)workspaceForDocument:(NSDocument *)document {
@@ -45,9 +49,18 @@
 }
 
 -(SEEWorkspace *)workspaceForURL:(NSURL *)url createIfNeeded:(BOOL)create {
-    SEEWorkspace *workspace = [workspaces SEE_firstObjectPassingTest:^BOOL(SEEWorkspace *ws) {
+    // Choose the workspace with the longest common subpath by sorting all
+    // compatible workspaces by their absolute base URL and choosing the last one
+    
+    NSSortDescriptor *sd = [NSSortDescriptor sortDescriptorWithKey:@"baseURL.absoluteString" ascending:YES];
+    
+    NSSet<SEEWorkspace *> *eligableWorkspaces = [workspaces objectsPassingTest:^BOOL(SEEWorkspace * _Nonnull ws, BOOL * _Nonnull stop) {
         return [ws containsURL:url];
     }];
+    
+    NSArray<SEEWorkspace *> *sortedWorkspaces = [eligableWorkspaces sortedArrayUsingDescriptors:@[sd]];
+    
+    SEEWorkspace *workspace = sortedWorkspaces.lastObject;
     
     if(create && !workspace) {
         workspace = [[SEEWorkspace alloc] initWithBaseURL:url];
@@ -65,17 +78,48 @@
 -(void)addDocument:(NSDocument *)document {
     if([document conformsToProtocol:@protocol(SEEWorkspaceDocument)]) {
         [self assignDocumentToWorkspace:(NSDocument<SEEWorkspaceDocument> *)document];
-    }    
+        
+        [NSNotificationCenter.defaultCenter
+            addObserver:self
+            selector:@selector(documentDidSaveNotification:)
+            name:PlainTextDocumentDidSaveNotification
+            object:document];
+    }
 }
+
+- (void)documentDidSaveNotification:(NSNotification *)notification {
+    NSDocument<SEEWorkspaceDocument> *document = notification.object;
+    [self assignDocumentToWorkspace:document];
+}
+
 
 -(void)removeDocument:(NSDocument *)document {
     if([document conformsToProtocol:@protocol(SEEWorkspaceDocument)]) {
-        [[self workspaceForDocument:document] removeDocument:(NSDocument<SEEWorkspaceDocument> *)document];
+        SEEWorkspace *workspace = [self workspaceForDocument:document];
+        [workspace removeDocument:(NSDocument<SEEWorkspaceDocument> *)document];
+        
+
+        if (workspace && workspace.documents.count == 0) {
+            [workspaces removeObject:workspace];
+        }
+        
+        [NSNotificationCenter.defaultCenter removeObserver:self
+                                                      name:nil
+                                                    object:document];
     }
+    
+    
 }
 
 -(void)assignDocumentToWorkspace:(NSDocument<SEEWorkspaceDocument> *)document {
     SEEWorkspace *currentWorkspace = [self workspaceForDocument:document];
+    
+    // In case the document has been moved out of the workspace
+    if(![currentWorkspace containsURL:document.fileURL]) {
+        [currentWorkspace removeDocument:document];
+        currentWorkspace = nil;
+    }
+    
     if(!currentWorkspace) {
         BOOL createIfNeeded = [document respondsToSelector:@selector(requiresWorkspace)] &&
             document.requiresWorkspace;
