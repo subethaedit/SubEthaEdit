@@ -145,13 +145,18 @@ static NSArray *resourceValueKeys;
 }
 
 - (NSIndexPath *)indexPath {
-    NSIndexPath *indexPath = parent.indexPath;
+    NSIndexPath *indexPath = nil;
+    
     
     if (parent) {
         NSUInteger ownIndex = [parent.children indexOfObject:self];
-        indexPath = [indexPath indexPathByAddingIndex:ownIndex];
-    } else {
-        indexPath = [NSIndexPath indexPathWithIndex:0];
+        NSIndexPath *parentIndexPath = parent.indexPath;
+
+        if(parentIndexPath) {
+            indexPath = [parentIndexPath indexPathByAddingIndex:ownIndex];
+        } else {
+            indexPath = [NSIndexPath indexPathWithIndex:ownIndex];
+        }
     }
     
     return indexPath;

@@ -55,8 +55,26 @@ static void *SEERootChildrenChangedContext = (void *)&SEERootChildrenChangedCont
 }
 
 -(void)selectFileWithURL:(NSURL *)url {
-    SEEFSTreeNode *node = [tree.root nodeForPath:url.filePathURL.path];
-    self.treeController.selectionIndexPath = node.indexPath;
+    NSIndexPath *indexPath = [tree.root nodeForPath:url.filePathURL.path].indexPath;
+    
+    if (!indexPath) {
+        return;
+    }
+    
+    NSTreeNode *controllerNode = self.treeController.arrangedObjects;
+    SEEFSTreeNode *node = tree.root;
+    
+    
+    for (NSUInteger position = 0; position < indexPath.length; position++) {
+        NSUInteger index = [indexPath indexAtPosition:position];
+        node = [[node children] objectAtIndex:index];
+        
+        controllerNode = [[controllerNode childNodes] SEE_firstObjectPassingTest:^BOOL(NSTreeNode * treeNode) {
+            return [treeNode.representedObject isEqual:node];
+        }];
+    }
+    
+    self.treeController.selectionIndexPath = controllerNode.indexPath;
 }
 
 - (IBAction)doubleClick:(NSOutlineView *)sender {
