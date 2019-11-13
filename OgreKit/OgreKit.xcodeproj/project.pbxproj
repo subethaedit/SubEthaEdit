@@ -1158,7 +1158,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1100;
+				LastUpgradeCheck = 1120;
 			};
 			buildConfigurationList = 4DC40BA3091509DC0029A2A6 /* Build configuration list for PBXProject "OgreKit" */;
 			compatibilityVersion = "Xcode 8.0";

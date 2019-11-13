@@ -107,7 +107,7 @@ NSString * const WrittenByUserIDAttributeName = @"WrittenByUserID";
 NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 
 // Content sensitive comparsion will only be performed if the filesize is not larger than this constants
-long kSEEMaxFileSizeForContentRescans = 1024 * 1024;
+static unsigned long long kSEEMaxFileSizeForContentRescans = 1024 * 1024;
 
 // Something that's used by our override of -shouldCloseWindowController:delegate:shouldCloseSelector:contextInfo: down below.
 @interface PlainTextDocumentShouldCloseContext : NSObject {
@@ -158,7 +158,7 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
 
 
 @implementation PlainTextDocument {
-    // I_fileHash represents the MD5 hash of the document
+    // _fileHash represents the MD5 hash of the document
     NSData *_fileHash;
 }
 
@@ -2709,7 +2709,9 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     
     NSString *string = [NSString stringWithData:textData encoding:[dictRep objectForKey:@"AutosaveInformation"] ? NSUTF8StringEncoding : (NSStringEncoding)[[storageRep objectForKey:@"Encoding"] unsignedIntValue]];
     
-    if (!string) return NO;
+    if (!string) {
+        return NO;
+    }
     [storageRep setObject:string forKey:@"String"];
     [self setContentByDictionaryRepresentation:dictRep];
     [self takeSettingsFromDocumentState:[dictRep objectForKey:@"DocumentState"]];
@@ -2746,7 +2748,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 		}
 	}
     
-    NSMutableData * combinedData = [NSMutableData dataWithCapacity:fileData.length + textData.length];
+    NSMutableData *combinedData = [NSMutableData dataWithCapacity:fileData.length + textData.length];
     [combinedData appendData:fileData];
     [combinedData appendData:textData];
     
