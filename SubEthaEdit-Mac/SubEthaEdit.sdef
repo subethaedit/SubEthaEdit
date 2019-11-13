@@ -18,27 +18,13 @@
 			</enumerator>
 		</enumeration>
 
-		<command name="open" code="aevtodoc" description="Open a document.">
-			<direct-parameter description="The file(s) to be opened.">
-				<type type="file"/>
-				<type type="file" list="yes"/>
-			</direct-parameter>
-			<parameter name="with properties" code="prdt" type="open settings" optional="yes" description="the initial values for the properties, to be applied to the document when opening">
-				<cocoa key="WithProperties"/>
-			</parameter>
-			<result description="The opened document(s).">
-				<type type="document"/>
-				<type type="document" list="yes"/>
-			</result>
-		</command>
-
 		<!--
 		 Exclude open command and application class from imported definition. they are declared here.
 		 Open command adds a optional parameter
 		 Application class uses custom implementations for open and print commands
 		 -->
 		<xi:include href="file://localhost/System/Library/ScriptingDefinitions/CocoaStandard.sdef"
-		xpointer="xpointer(/dictionary/suite/node()[(not(self::command and (@name = 'open'))) and (not(self::class and (@name = 'application')))and (not(self::class and (@name = 'document')))])"/>
+		xpointer="xpointer(/dictionary/suite/node()[(not(self::class and (@name = 'application')))and (not(self::class and (@name = 'document')))])"/>
 
 		<class name="application" code="capp"
 			description="The application's top-level scripting object.">
