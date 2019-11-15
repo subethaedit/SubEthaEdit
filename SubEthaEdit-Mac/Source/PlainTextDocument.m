@@ -4561,14 +4561,9 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     if (!I_flags.isSettingFileURL) {
         if (![self fileURL]) {
             [self setTemporaryDisplayName:aDisplayName];
-        } else {
-            [self setFileURL:[NSURL fileURLWithPath:[[self.fileURL.path stringByDeletingLastPathComponent] stringByAppendingPathComponent:aDisplayName]]];
         }
     }
-    if ([[super class] instancesRespondToSelector:_cmd]) { // _cmd is always the current selector
-//        NSLog(@"%s oh look, super supports us!",__FUNCTION__);
-        [super setDisplayName:aDisplayName];
-    }
+    [super setDisplayName:aDisplayName];
 	[self invalidateRestorableState];
 }
 
