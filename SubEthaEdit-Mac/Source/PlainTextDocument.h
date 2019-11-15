@@ -15,6 +15,7 @@
 #import "FoldableTextStorage.h"
 #import "FullTextStorage.h"
 #import "SEEDocumentController.h"
+#import "SEEWorkspace.h"
 #import "SEEAlertRecipe.h"
 
 enum {
@@ -38,6 +39,7 @@ extern NSString * const PlainTextDocumentUserDidChangeSelectionNotification;
 extern NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification;
 extern NSString * const PlainTextDocumentDidChangeDisplayNameNotification;
 extern NSString * const PlainTextDocumentDidChangeDocumentModeNotification;
+extern NSString * const PlainTextDocumentWorkspaceDidChangeNotification;
 
 extern NSString * const WrittenByUserIDAttributeName;
 extern NSString * const ChangedByUserIDAttributeName;
@@ -46,7 +48,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotification;
 
 
-@interface PlainTextDocument : NSDocument <SEEDocument, NSTextViewDelegate, NSTextStorageDelegate, NSOpenSavePanelDelegate, NSSharingServicePickerDelegate, NSSharingServiceDelegate>
+@interface PlainTextDocument : NSDocument <SEEDocument, SEEWorkspaceDocument, NSTextViewDelegate, NSTextStorageDelegate, NSOpenSavePanelDelegate, NSSharingServicePickerDelegate, NSSharingServiceDelegate>
 {
     TCMMMSession *I_session;
     struct {
@@ -151,7 +153,6 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
 @property (readwrite, strong) IBOutlet NSWindow *O_exportSheet;
 @property (readwrite, strong) IBOutlet NSObjectController *O_exportSheetController;
 @property (nonatomic, strong) NSMutableArray *persistentDocumentScopedBookmarkURLs;
-
 @property (nonatomic, strong) SEEDocumentCreationFlags *attachedCreationFlags;
 
 /*!

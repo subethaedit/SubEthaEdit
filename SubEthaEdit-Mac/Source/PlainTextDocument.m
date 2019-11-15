@@ -99,12 +99,16 @@ NSString * const PlainTextDocumentDidChangeTextStorageNotification =
                @"PlainTextDocumentDidChangeTextStorageNotification";
 NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification =
                @"PlainTextDocumentDefaultParagraphStyleDidChangeNotification";
+NSString * const PlainTextDocumentWorkspaceDidChangeNotification =
+               @"PlainTextDocumentWorkspaceDidChangeNotification";
 NSString * const PlainTextDocumentDidSaveNotification =
 @"PlainTextDocumentDidSaveNotification";
 NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotification =
 @"PlainTextDocumentDidSaveShouldReloadWebPreviewNotification";
 NSString * const WrittenByUserIDAttributeName = @"WrittenByUserID";
 NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
+
+static void * PlainTextDocumentWorkspaceObservationContext = &PlainTextDocumentWorkspaceObservationContext;
 
 // Something that's used by our override of -shouldCloseWindowController:delegate:shouldCloseSelector:contextInfo: down below.
 @interface PlainTextDocumentShouldCloseContext : NSObject {
@@ -155,6 +159,8 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
 
 
 @implementation PlainTextDocument
+@synthesize workspace;
+
 
 + (void)initialize {
 	if (self == [PlainTextDocument class]) {
@@ -316,6 +322,8 @@ static NSString *tempFileName(NSString *origPath) {
     I_undoManager = [(UndoManager *)[UndoManager alloc] initWithDocument:self];
     [[[self session] loggingState] setInitialTextStorageDictionaryRepresentation:[self textStorageDictionaryRepresentation]];
     [[[self session] loggingState] handleOperation:[SelectionOperation selectionOperationWithRange:NSMakeRange(0,0) userID:[TCMMMUserManager myUserID]]];
+    
+    [self addObserver:self forKeyPath:@"workspace" options:0 context:PlainTextDocumentWorkspaceObservationContext];
 
 }
 
@@ -778,6 +786,9 @@ static NSString *tempFileName(NSString *origPath) {
 
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    [self removeObserver:self forKeyPath:@"workspace" context:PlainTextDocumentWorkspaceObservationContext];
+    
     if (I_flags.isAnnounced) {
         [[TCMMMPresenceManager sharedInstance] concealSession:I_session];
     }
@@ -791,6 +802,14 @@ static NSString *tempFileName(NSString *origPath) {
     }
     
     [[TCMMMPresenceManager sharedInstance] unregisterSession:I_session];
+}
+
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    if (context == PlainTextDocumentWorkspaceObservationContext) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:PlainTextDocumentWorkspaceDidChangeNotification object:self];
+    } else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
 }
 
 #pragma mark - Encoding

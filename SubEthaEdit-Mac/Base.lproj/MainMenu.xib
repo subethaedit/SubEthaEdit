@@ -1013,9 +1013,9 @@ GQ
                                     <action selector="showDocumentListWindow:" target="-1" id="KbU-OD-k6L"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Document Hub" alternate="YES" keyEquivalent="K" id="640">
+                            <menuItem title="Workspace" keyEquivalent="K" id="b0T-3k-3gD">
                                 <connections>
-                                    <action selector="showDocumentListWindow:" target="-1" id="lmF-HU-bMB"/>
+                                    <action selector="showWorkspace:" target="-1" id="cj0-yL-zgO"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="k0I-fL-5QT">
@@ -1088,5 +1088,8 @@ GQ
         <customObject id="354" userLabel="Font Manager" customClass="NSFontManager"/>
         <customObject id="463" userLabel="FindReplaceController" customClass="FindReplaceController"/>
         <customObject id="484" userLabel="AboutPanelController" customClass="AboutPanelController"/>
+        <menuItem title="Item" id="hoY-cY-6Kj">
+            <modifierMask key="keyEquivalentModifierMask"/>
+        </menuItem>
     </objects>
 </document>

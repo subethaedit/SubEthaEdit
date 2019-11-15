@@ -24,6 +24,7 @@
 #import "SEEDocumentListWindowController.h"
 #import "NSApplicationTCMAdditions.h"
 #import "SEEScopedBookmarkManager.h"
+#import "SEEWorkspaceController.h"
 
 #import <objc/objc-runtime.h>			// for objc_msgSend
 
@@ -46,6 +47,7 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 @property (nonatomic, copy) NSURL *locationForNextOpenPanel;
 @property (nonatomic, readwrite, nonatomic) NSStringEncoding encodingFromLastRunOpenPanel;
 @property (nonatomic, readwrite, copy) NSString *modeIdentifierFromLastRunOpenPanel;
+@property (nonatomic, readwrite) SEEWorkspaceController *workspaceController;
 
 @end
 
@@ -103,6 +105,7 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
     if (self) {
         self.filenamesFromLastRunOpenPanel = [NSMutableArray array];
 		self.documentCreationFlagsLookupDict = [NSMutableDictionary dictionary];
+        self.workspaceController = [[SEEWorkspaceController alloc] initWithDocumentController:self];
 
 		I_propertiesForOpenedFiles = [NSMutableDictionary new];
         I_suspendedSeeScriptCommands = [NSMutableDictionary new];
@@ -702,11 +705,9 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 			completionHandler(nil, NO, nil);
 		}
     } else if (!isFilePackage && isDirectory) {
-		[self openDirectory:url];
-
-		if (completionHandler) {
-			completionHandler(nil, NO, nil);
-		}
+        [self openWorkspaceWithURL:url display:displayDocument withCompletionHandler:completionHandler];
+        
+        
     } else {
         NSAppleEventDescriptor *eventDesc = [[NSAppleEventManager sharedAppleEventManager] currentAppleEvent];
         NSDictionary *parsed = [PlainTextDocument parseOpenDocumentEvent:eventDesc];
@@ -745,6 +746,10 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 	return result;
 }
 
+- (void)addDocument:(NSDocument *)document {
+    [super addDocument:document];
+    [self.workspaceController addDocument:document];
+}
 
 #pragma mark - NSWindowRestoration
 
@@ -1043,7 +1048,7 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
         if (isFilePackage && [extension isEqualToString:modeExtension]) {
             [self openModeFile:filename];
         } else if ([[NSFileManager defaultManager] fileExistsAtPath:filename isDirectory:&isDir] && isDir && !isFilePackage) {
-            [self openDirectory:[NSURL fileURLWithPath:filename]];
+            [self openWorkspaceWithURL:[NSURL fileURLWithPath:filename] display:YES withCompletionHandler:nil];
         } else {
             [I_propertiesForOpenedFiles setObject:properties forKey:filename];
 			if (!isFilePackage) {
@@ -1577,6 +1582,7 @@ struct ModificationInfo
     }
 
     [super removeDocument:document];
+    [self.workspaceController removeDocument:document];
     if ([[self documents] count]==0) {
         NSMenu *modeMenu=[[[NSApp mainMenu] itemWithTag:ModeMenuTag] submenu];
         // remove all items that don't belong here anymore
@@ -1705,9 +1711,24 @@ struct ModificationInfo
     }
 }
 
+- (void)openWorkspaceWithURL:(NSURL *)aURL display:(BOOL)displayDocument withCompletionHandler:(void (^)(NSDocument *, BOOL, NSError *))completionHandler{
+    SEEWorkspace *workspace = [self.workspaceController workspaceForURL:aURL createIfNeeded:YES];
+    
+    [super openDocumentWithContentsOfURL:workspace.baseURL
+                                 display:displayDocument
+                       completionHandler:completionHandler];
+}
+
+-(void)openWorkspace:(SEEWorkspace *)workspace display:(BOOL)displayDocument withCompletionHandler:(void (^)(NSDocument *, BOOL, NSError *))completionHandler {
+    
+    [super openDocumentWithContentsOfURL:workspace.baseURL
+                                 display:displayDocument
+                       completionHandler:completionHandler];
+}
+
 - (void)openDirectory:(NSURL *)aURL {
-	[self setLocationForNextOpenPanel:aURL];
-	[self performSelector:@selector(openDocument:) withObject:nil afterDelay:0.0];
+    [self setLocationForNextOpenPanel:aURL];
+    [self performSelector:@selector(openDocument:) withObject:nil afterDelay:0.0];
 
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Opening directory: %@", aURL);
 }
@@ -1740,5 +1761,6 @@ static NSString *tempFileName() {
     [(PlainTextDocument *)document setDocumentMode:mode];
     [document clearChangeMarks:self];
 }
+
 
 @end
