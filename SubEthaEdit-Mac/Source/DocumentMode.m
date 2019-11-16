@@ -14,6 +14,7 @@
 #import "SymbolTableEntry.h"
 #import "RegexSymbolParser.h"
 #import "RegexSymbolDefinition.h"
+#import "SEEWebPreview.h"
 #import "NSMenuTCMAdditions.h"
 #import "ScriptWrapper.h"
 #import "AppController.h"
@@ -234,6 +235,11 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 
 
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        
+        // Load web preview
+        NSURL *webPreviewURL = [aBundle URLForResource:@"WebPreview" withExtension:@"js"];
+        _webPreview = [[SEEWebPreview alloc] initWithURL:webPreviewURL];
+
         
         // Load scripts
         I_scriptsByFilename = [NSMutableDictionary new];

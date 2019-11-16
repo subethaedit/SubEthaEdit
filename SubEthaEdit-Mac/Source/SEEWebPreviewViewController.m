@@ -12,6 +12,7 @@
 #import "DocumentMode.h"
 #import "SEEScopedBookmarkManager.h"
 #import "PopUpButton.h"
+#import "SEEWebPreview.h"
 
 @class PopUpButton;
 
@@ -188,6 +189,13 @@ static NSScrollView *firstScrollView(NSView *aView) {
     
     FoldableTextStorage *textStorage = (FoldableTextStorage *)[[self plainTextDocument] textStorage];
     NSString *string=[[textStorage fullTextStorage] string];
+    
+    SEEWebPreview *preview = self.plainTextDocument.documentMode.webPreview;
+    
+    if (preview) {
+        string = [preview webPreviewForText:string];
+    }
+    
     NSStringEncoding encoding = [textStorage encoding];
     [request setHTTPBody:[string dataUsingEncoding:encoding]];
     NSString *IANACharSetName=(NSString *)CFStringConvertEncodingToIANACharSetName(
