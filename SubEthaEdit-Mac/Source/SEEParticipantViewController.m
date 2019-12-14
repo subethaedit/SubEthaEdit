@@ -125,15 +125,15 @@
 	// pending users action overlay
 	{
 		NSButton *button = self.pendingUserKickButtonOutlet;
-		button.image = [NSImage pdfBasedImageNamed:@"SharingIconCloseCross"TCM_PDFIMAGE_SEP@"16"TCM_PDFIMAGE_SEP@""TCM_PDFIMAGE_NORMAL];
+		button.image = [NSImage imageNamed:@"SharingIconCloseCross"];
 	}
 	{
 		NSButton *button = self.chooseEditModeButtonOutlet;
-		button.image = [NSImage pdfBasedImageNamed:@"SharingIconWrite"TCM_PDFIMAGE_SEP@"16"TCM_PDFIMAGE_SEP@""TCM_PDFIMAGE_NORMAL];
+		button.image = [NSImage imageNamed:@"SharingIconWrite"];
 	}
 	{
 		NSButton *button = self.chooseReadOnlyModeButtonOutlet;
-		button.image = [NSImage pdfBasedImageNamed:@"SharingIconReadOnly"TCM_PDFIMAGE_SEP@"16"TCM_PDFIMAGE_SEP@""TCM_PDFIMAGE_NORMAL];
+		button.image = [NSImage imageNamed:@"SharingIconReadOnly"];
 	}
 
 	// add double click target for follow action
@@ -177,6 +177,7 @@
 	}
 
 	[self updateColorsForIsDarkBackground:self.tabContext.document.documentBackgroundColor.isDark];
+    [self.view setNeedsLayout:YES];
 }
 
 - (void)showUIOverlay {
