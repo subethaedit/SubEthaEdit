@@ -2274,7 +2274,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				CLASSPREFIX = SEE;
-				LastUpgradeCheck = 1120;
+				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = "SubEthaEdit Contributors";
 				TargetAttributes = {
 					5EC638290ABEB71100D3295B = {
