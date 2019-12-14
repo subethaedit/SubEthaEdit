@@ -1,3 +1,6 @@
+Changes with Version 5.1.3 (SEE 5.1.3)
+	*) Added a string interpolation for $() to highlight more consistently
+	
 Changes with Version 5.1.1 (SEE 5.1.1)
 	*) fixed indentation for lese and elif blocks
 	*) improved correct highlighting when using bash replacement patterns and variables with curlies
