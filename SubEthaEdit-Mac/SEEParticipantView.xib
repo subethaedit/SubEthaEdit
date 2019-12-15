@@ -176,8 +176,8 @@ LQAyADcAQQBHAFAAVwBcAGQAeQB7AH0AfwCBAIsAkgCXAKIApQCnAKkAqwCwALsAxADMAM8A2ADdAOoA
             </constraints>
             <point key="canvasLocation" x="139" y="155"/>
         </customView>
-        <customView misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OAw-J0-YxO" userLabel="PendingUser Popover View">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="102"/>
+        <customView translatesAutoresizingMaskIntoConstraints="NO" id="OAw-J0-YxO" userLabel="PendingUser Popover View">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="104"/>
             <subviews>
                 <button verticalHuggingPriority="750" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nO5-17-Z6x">
                     <rect key="frame" x="53" y="7" width="77" height="17"/>
