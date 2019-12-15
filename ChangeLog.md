@@ -1,3 +1,17 @@
+### SubEthaEdit 5.1.2
+
+#### Bug fixes and maintenance:
+* Fixed issue where SubEthaEdit did not open documents when reacting to Spotlight searches
+* Improved dark mode appearance
+* Fixed an issue with the folding bar not unfolding correctly
+* Switched tab shortcuts to the current system standard: ctrl-tab
+* Improved handling of hidden extensions
+* Improved display of document titles
+* Made asking for revert less annoying by improving the recognition of real changes
+
+#### Improved modes:
+* Improved bash mode to handle complex $() interpolations better
+
 ### SubEthaEdit 5.1.1
 
 #### Bug fixes and maintenance:

@@ -972,7 +972,7 @@ static AppController *sharedInstance = nil;
     int indexOfWindowMenu = [[NSApp mainMenu] indexOfItemWithTag:WindowMenuTag];
     if (indexOfWindowMenu != -1) {
         NSMenuItem *scriptMenuItem = [[NSMenuItem alloc] initWithTitle:@"" action:nil keyEquivalent:@""];
-        [scriptMenuItem setImage:[NSImage imageNamed:@"ScriptMenu"]];
+        [scriptMenuItem setImage:[NSImage imageNamed:@"ScriptMenuSymbol"]];
         [scriptMenuItem setTag:ScriptMenuTag];
         NSMenu *menu = [[NSMenu alloc] initWithTitle:@""];
         [scriptMenuItem setSubmenu:menu];
@@ -1001,7 +1001,7 @@ static AppController *sharedInstance = nil;
     [defaultMenu addItem:[NSMenuItem separatorItem]];
     NSMenuItem *scriptsSubmenuItem=[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Scripts",@"Scripts entry for contextual menu") action:nil keyEquivalent:@""];
     NSMenu *menu = [NSMenu new];
-    [scriptsSubmenuItem setImage:[NSImage imageNamed:@"ScriptMenuItemIcon"]];
+    [scriptsSubmenuItem setImage:[NSImage imageNamed:@"ScriptMenuEntrySymbol"]];
     [scriptsSubmenuItem setTag:12345];
     [menu addItem:[[NSMenuItem alloc] initWithTitle:SEE_NoLocalizationNeeded(@"DummyEntry") action:nil keyEquivalent:@""]];
     [scriptsSubmenuItem setSubmenu:menu];

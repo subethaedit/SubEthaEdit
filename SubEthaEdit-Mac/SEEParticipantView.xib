@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15702" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15702"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="SEEParticipantViewController">
@@ -28,22 +29,18 @@
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
-        <customObject id="-3" userLabel="Application"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView autoresizesSubviews="NO" wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1" userLabel="Participant">
             <rect key="frame" x="0.0" y="0.0" width="76" height="76"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="TNz-7E-ZCn" customClass="SEEAvatarImageView">
                     <rect key="frame" x="10" y="10" width="56" height="56"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                 </customView>
                 <progressIndicator horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="k1p-6D-syT">
                     <rect key="frame" x="22" y="21" width="32" height="32"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                 </progressIndicator>
                 <textField hidden="YES" wantsLayer="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="i14-Tb-TdJ">
-                    <rect key="frame" x="23" y="14" width="29" height="48"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <rect key="frame" x="24" y="15" width="29" height="47"/>
                     <shadow key="shadow" blurRadius="3">
                         <size key="offset" width="1" height="1"/>
                         <color key="color" name="controlShadowColor" catalog="System" colorSpace="catalog"/>
@@ -55,7 +52,6 @@
                 </textField>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="hE6-nB-RDu">
                     <rect key="frame" x="10" y="10" width="56" height="56"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="56" id="7su-4l-9Tp"/>
                         <constraint firstAttribute="height" constant="56" id="oEU-T3-JCh"/>
@@ -67,7 +63,6 @@
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="EKQ-zL-Ujr" userLabel="Kick Button" customClass="TCMHoverButton">
                     <rect key="frame" x="0.0" y="43" width="25" height="25"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="EKQ-zL-Ujr" secondAttribute="height" multiplier="1:1" id="ab1-57-9HR"/>
                         <constraint firstAttribute="width" constant="25" id="cfF-Qc-U1h"/>
@@ -82,7 +77,6 @@
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="ega-B6-Bzc" userLabel="Follow Button" customClass="TCMHoverButton">
                     <rect key="frame" x="51" y="43" width="25" height="25"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="25" id="dl2-hR-qiT"/>
                         <constraint firstAttribute="width" secondItem="ega-B6-Bzc" secondAttribute="height" multiplier="1:1" id="tSO-Dd-EOi"/>
@@ -97,7 +91,6 @@
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="frw-IF-mIn" userLabel="EditMode Button" customClass="TCMHoverButton">
                     <rect key="frame" x="51" y="5" width="25" height="25"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="frw-IF-mIn" secondAttribute="height" multiplier="1:1" id="B9p-gE-TBo"/>
                         <constraint firstAttribute="width" constant="25" id="iAT-85-D1Y"/>
@@ -135,16 +128,17 @@
             <animations>
                 <caTransition key="subviews">
                     <mutableData key="keyedArchiveRepresentation">
-YnBsaXN0MDDUAQIDBAUGJSZYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoKkHCBES
-ExkKGiBVJG51bGzUCQoLDA0ODxBWJGNsYXNzVHR5cGVXc3VidHlwZV8QEl9fQ0FDb2RpbmdDb250ZW50
-c4AIgAOAAoAEWWZyb21SaWdodFZtb3ZlSW7SFAkVGFpOUy5vYmplY3RzohYXgAWABoAHV3N1YnR5cGXS
-GxwdHlokY2xhc3NuYW1lWCRjbGFzc2VzV05TQXJyYXmiHR9YTlNPYmplY3TSGxwhIlxDQVRyYW5zaXRp
-b26jIyQfXENBVHJhbnNpdGlvbltDQUFuaW1hdGlvbl8QD05TS2V5ZWRBcmNoaXZlctEnKFRyb290gAEA
-CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
-1ADXAOAA5QDyAPYBAwEPASEBJAEpAAAAAAAAAgEAAAAAAAAAKQAAAAAAAAAAAAAAAAAAASs
+YnBsaXN0MDDUAQIDBAUGJCVYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoKkHCBES
+EwsKGR9VJG51bGzUCQoLDA0ODxBWJGNsYXNzVHR5cGVXc3VidHlwZV8QEl9fQ0FDb2RpbmdDb250ZW50
+c4AIgAOAAoAEWWZyb21SaWdodFZtb3ZlSW7SFAkVGFpOUy5vYmplY3RzohYXgAWABoAH0hobHB1aJGNs
+YXNzbmFtZVgkY2xhc3Nlc1dOU0FycmF5ohweWE5TT2JqZWN00hobICFcQ0FUcmFuc2l0aW9uoyIjHlxD
+QVRyYW5zaXRpb25bQ0FBbmltYXRpb25fEA9OU0tleWVkQXJjaGl2ZXLRJidUcm9vdIABAAgAEQAaACMA
+LQAyADcAQQBHAFAAVwBcAGQAeQB7AH0AfwCBAIsAkgCXAKIApQCnAKkAqwCwALsAxADMAM8A2ADdAOoA
+7gD7AQcBGQEcASEAAAAAAAACAQAAAAAAAAAoAAAAAAAAAAAAAAAAAAABIw
 </mutableData>
                 </caTransition>
             </animations>
+            <point key="canvasLocation" x="139" y="154"/>
         </customView>
         <viewController id="MKs-1R-EOT" userLabel="User Name Popover View Controller">
             <connections>
@@ -158,11 +152,9 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
         </popover>
         <customView translatesAutoresizingMaskIntoConstraints="NO" id="5Xr-GH-ZCF" userLabel="UserName Popover View">
             <rect key="frame" x="0.0" y="0.0" width="51" height="27"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Fk9-Iw-pk8">
                     <rect key="frame" x="3" y="5" width="45" height="17"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="17" id="nBf-ow-42j"/>
                     </constraints>
@@ -182,39 +174,36 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
                 <constraint firstItem="Fk9-Iw-pk8" firstAttribute="leading" secondItem="5Xr-GH-ZCF" secondAttribute="leading" constant="5" id="Zov-Mu-gPa"/>
                 <constraint firstAttribute="bottom" secondItem="Fk9-Iw-pk8" secondAttribute="bottom" constant="5" id="b0n-wc-GIp"/>
             </constraints>
+            <point key="canvasLocation" x="139" y="155"/>
         </customView>
         <customView translatesAutoresizingMaskIntoConstraints="NO" id="OAw-J0-YxO" userLabel="PendingUser Popover View">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="105"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="104"/>
             <subviews>
-                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nO5-17-Z6x">
-                    <rect key="frame" x="32" y="7" width="84" height="17"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                <button verticalHuggingPriority="750" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nO5-17-Z6x">
+                    <rect key="frame" x="53" y="7" width="77" height="17"/>
                     <buttonCell key="cell" type="recessed" title="Reject" bezelStyle="recessed" imagePosition="left" alignment="center" controlSize="small" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="iPx-zQ-by6">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
-                        <font key="font" metaFont="systemBold" size="12"/>
+                        <font key="font" metaFont="systemBold" size="11"/>
                     </buttonCell>
                     <connections>
                         <action selector="closeConnection:" target="-2" id="MDQ-Vo-dnl"/>
                     </connections>
                 </button>
-                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Tyb-vE-h04">
-                    <rect key="frame" x="124" y="7" width="84" height="17"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                <button verticalHuggingPriority="750" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tyb-vE-h04">
+                    <rect key="frame" x="138" y="7" width="77" height="17"/>
                     <buttonCell key="cell" type="recessed" title="Read Only" bezelStyle="recessed" imagePosition="left" alignment="center" controlSize="small" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="BzY-O1-9WR">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
-                        <font key="font" metaFont="systemBold" size="12"/>
+                        <font key="font" metaFont="systemBold" size="11"/>
                     </buttonCell>
                     <connections>
                         <action selector="chooseReadOnlyMode:" target="-2" id="JMB-6A-FBZ"/>
                     </connections>
                 </button>
-                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yfb-64-HLz">
-                    <rect key="frame" x="216" y="7" width="84" height="17"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                <button verticalHuggingPriority="750" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yfb-64-HLz">
+                    <rect key="frame" x="223" y="7" width="77" height="17"/>
                     <buttonCell key="cell" type="recessed" title="Read/Write" bezelStyle="recessed" imagePosition="left" alignment="center" controlSize="small" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hsf-WF-CX4">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
-                        <font key="font" metaFont="systemBold" size="12"/>
+                        <font key="font" metaFont="systemBold" size="11"/>
                     </buttonCell>
                     <connections>
                         <action selector="chooseReadWriteMode:" target="-2" id="rk5-0r-M9R"/>
@@ -222,8 +211,7 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
                 </button>
                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ddb-hR-rzi">
                     <rect key="frame" x="18" y="44" width="284" height="28"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" title="&lt;&lt;Please choose how this user can participate in this document.>>" id="irA-ag-jIE">
+                    <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" title="&lt;&lt;Please choose how this user can participate in this document.&gt;&gt;" id="irA-ag-jIE">
                         <font key="font" metaFont="smallSystem"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -233,9 +221,8 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
                     </connections>
                 </textField>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="D0U-TB-bum">
-                    <rect key="frame" x="18" y="80" width="284" height="17"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="&lt;&lt;A user wants to join this document>>" id="nhM-qG-v7W">
+                    <rect key="frame" x="18" y="80" width="284" height="16"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="&lt;&lt;A user wants to join this document&gt;&gt;" id="nhM-qG-v7W">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -265,6 +252,7 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
                 <constraint firstItem="nO5-17-Z6x" firstAttribute="top" secondItem="Ddb-hR-rzi" secondAttribute="bottom" constant="20" id="ldC-W9-7za"/>
                 <constraint firstItem="nO5-17-Z6x" firstAttribute="width" secondItem="yfb-64-HLz" secondAttribute="width" id="pEV-LL-Jru"/>
             </constraints>
+            <point key="canvasLocation" x="139" y="154"/>
         </customView>
         <viewController id="dbi-sL-jyG" userLabel="Pending User Popover View Controller">
             <connections>
