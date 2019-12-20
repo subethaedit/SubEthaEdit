@@ -192,15 +192,27 @@ static NSScrollView *firstScrollView(NSView *aView) {
     
     SEEWebPreview *preview = self.plainTextDocument.documentMode.webPreview;
     
+    NSStringEncoding encoding = [textStorage encoding];
+    NSString *IANACharSetName=(NSString *)CFStringConvertEncodingToIANACharSetName(
+    CFStringConvertNSStringEncodingToEncoding(encoding));
+    
+    
+    void (^previewBlock)(NSString *html) = ^(NSString *html){
+        [request setHTTPBody:[html dataUsingEncoding:encoding]];
+        [NSOperationQueue TCM_performBlockOnMainThreadSynchronously:^{
+            [[self.oWebView mainFrame] loadData:[html dataUsingEncoding:encoding] MIMEType:@"text/html" textEncodingName:IANACharSetName baseURL:baseURL];
+        }];
+    };
+    
     if (preview) {
-        string = [preview webPreviewForText:string];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+            previewBlock([preview webPreviewForText:string]);
+        });
+    } else {
+        previewBlock(string);
     }
     
-    NSStringEncoding encoding = [textStorage encoding];
-    [request setHTTPBody:[string dataUsingEncoding:encoding]];
-    NSString *IANACharSetName=(NSString *)CFStringConvertEncodingToIANACharSetName(
-                CFStringConvertNSStringEncodingToEncoding(encoding));
-    [[self.oWebView mainFrame] loadData:[string dataUsingEncoding:encoding] MIMEType:@"text/html" textEncodingName:IANACharSetName baseURL:baseURL];
+    
 }
 
 #pragma mark
