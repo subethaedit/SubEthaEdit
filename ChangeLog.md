@@ -2,6 +2,9 @@
 
 #### Features:
 #### Bug fixes and maintenance:
+* Fixed issue where SubEthaEdit could hang completely if one used blockedit while having more than one view of the same file open
+
+
 #### Improved modes:
 
 ### SubEthaEdit 5.1.2
