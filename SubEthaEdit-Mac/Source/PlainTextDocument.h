@@ -139,7 +139,7 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
     
     NSMutableDictionary *I_printOptions;
 
-    TextOperation *I_currentTextOperation;
+    NSMutableArray <TCMMMOperation *> *I_currentTextOperations;
     
     NSDictionary *I_stateDictionaryFromLoading;
     

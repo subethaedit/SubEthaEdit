@@ -2105,11 +2105,15 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     }
 }
 
-- (void)restorePositionAfterOperation:(TCMMMOperation *)aOperation {
+- (void)restorePositionAfterOperations:(NSArray <TCMMMOperation *>*)operations {
     if (I_storedPosition && [[I_textView string] length]) {
         NSLayoutManager *layoutManager = [I_textView layoutManager];
         TCMMMTransformator *transformator = [TCMMMTransformator sharedInstance];
-        [transformator transformOperation:I_storedPosition serverOperation:aOperation];
+        
+        for (TCMMMOperation *operation in operations) {
+            [transformator transformOperation:I_storedPosition serverOperation:operation];
+        }
+        
         unsigned glyphIndex = [layoutManager glyphRangeForCharacterRange:[I_storedPosition selectedRange] actualCharacterRange:NULL].location;
         NSRect boundingRect  = [layoutManager lineFragmentRectForGlyphAtIndex:glyphIndex
 															   effectiveRange:nil];
@@ -2123,6 +2127,11 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     }
 }
 
+- (void)restorePositionAfterOperation:(TCMMMOperation *)aOperation {
+    if (aOperation) {
+        [self restorePositionAfterOperations:@[aOperation]];
+    }
+}
 
 #pragma mark -
 #pragma mark ### display fixes for bottom status bar pop up buttons ###

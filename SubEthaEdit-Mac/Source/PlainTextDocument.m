@@ -6354,12 +6354,25 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     NSArray *plainTextEditors = [self plainTextEditors];
     unsigned editorCount = [plainTextEditors count];
     if ([plainTextEditors count] > 1) {
-         I_currentTextOperation = [TextOperation textOperationWithAffectedCharRange:aAffectedCharRange replacementString:aReplacementString userID:(NSString *)[TCMMMUserManager myUserID]];
-        while (editorCount--) {
-            PlainTextEditor *editor = [plainTextEditors objectAtIndex:editorCount];
-            if ([editor textView] != aTextView) {
-                [editor storePosition];
+        TCMMMOperation *currentOperation = [TextOperation textOperationWithAffectedCharRange:aAffectedCharRange replacementString:aReplacementString userID:(NSString *)[TCMMMUserManager myUserID]];
+        
+        if (!textStorage.isBlockediting) {
+            // This method will be called within a -beginEditing/-endEditing section if
+            // block editing is active. In this case, the position will not be stored as
+            // it's not possible to ask the layoutmanager for the glyph index while the
+            // storage is being mutated.
+            // The changes will be added to the I_currentTextOperations array.
+            
+            I_currentTextOperations = [NSMutableArray arrayWithObject:currentOperation];
+            
+            while (editorCount-- && !textStorage.isBlockediting) {
+                PlainTextEditor *editor = [plainTextEditors objectAtIndex:editorCount];
+                if ([editor textView] != aTextView) {
+                    [editor storePosition];
+                }
             }
+        } else {
+            [I_currentTextOperations addObject:currentOperation];
         }
     }
 
@@ -6514,13 +6527,19 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
     NSArray *plainTextEditors = [self plainTextEditors];
     unsigned editorCount = [plainTextEditors count];
-    if ([plainTextEditors count] > 1) {
+    
+    // This method will be called within a -beginEditing/-endEditing section if
+    // block editing is active. In this case, the position will not be restored as it's
+    // not possible to determine the layout while the textstorage is being mutated.
+    
+    if ([plainTextEditors count] > 1 && !textStorage.isBlockediting) {
         while (editorCount--) {
             PlainTextEditor *editor = [plainTextEditors objectAtIndex:editorCount];
             if ([editor textView] != textView) {
-                [editor restorePositionAfterOperation:I_currentTextOperation];
+                [editor restorePositionAfterOperations:I_currentTextOperations];
             }
         }
+        I_currentTextOperations = nil;
     }
 
 }
