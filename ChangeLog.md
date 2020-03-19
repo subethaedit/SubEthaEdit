@@ -2,6 +2,7 @@
 
 #### Features:
 #### Bug fixes and maintenance:
+* Fixed issue that could lose data when saving while having folded text
 * Fixed issue where SubEthaEdit could hang completely if one used blockedit while having more than one view of the same file open
 
 
