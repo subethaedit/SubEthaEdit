@@ -3596,7 +3596,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         BOOL useUTF8Encoding = ((I_lastSaveOperation == NSSaveToOperation) && (I_encodingFromLastRunSaveToOperation == NSUTF8StringEncoding)) || ((I_lastSaveOperation != NSSaveToOperation) && ([self fileEncoding] == NSUTF8StringEncoding));
 		BOOL result = NO;
         
-        NSData *data = [self.textStorage.string dataUsingEncoding:[self fileEncoding]
+        NSData *data = [self.textStorage.fullTextStorage.string dataUsingEncoding:[self fileEncoding]
                                              allowLossyConversion:NO];
         
         if ((I_flags.hasUTF8BOM || modeWantsUTF8BOM) && useUTF8Encoding) {
