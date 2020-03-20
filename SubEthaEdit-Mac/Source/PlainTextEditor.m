@@ -755,10 +755,13 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	});
 }
 
+#define NONCONTIGUOUSSIZETHRESHOLD 4096
 - (void)TCM_updateNumberOfActiveParticipants {
 	NSUInteger participantCount = [[[self document] session] participantCount];
 	self.numberOfActiveParticipants = @(participantCount);
 	self.showsNumberOfActiveParticipants = participantCount > 1;
+    
+    [I_textView.layoutManager setAllowsNonContiguousLayout:(participantCount == 1) && self.document.textStorage.fullTextStorage.length > NONCONTIGUOUSSIZETHRESHOLD];
 }
 
 - (void)TCM_updateBottomStatusBar {
