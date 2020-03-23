@@ -4,6 +4,8 @@
 #### Bug fixes and maintenance:
 * Fixed issue where SubEthaEdit could hang completely if one used blockedit while having more than one view of the same file open
 
+#### Improved modes:
+* Improved Objective-C mode to handle properties with generic types better
 
 #### Improved modes:
 
