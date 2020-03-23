@@ -182,6 +182,7 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
 - (void)setSession:(TCMMMSession *)aSession;
 - (TCMMMSession *)session;
 
+@property (nonatomic, readonly) NSString *fullTextContentString;
 - (FoldableTextStorage *)textStorage;
 
 - (void)fillScriptsIntoContextMenu:(NSMenu *)aMenu;
@@ -224,7 +225,7 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
 - (void)setDocumentForegroundColor:(NSColor *)aColor;
 
 - (BOOL)canBeConvertedToEncoding:(NSStringEncoding)encoding;
-- (NSUInteger)fileEncoding;
+- (NSStringEncoding)fileEncoding;
 - (void)setFileEncoding:(NSUInteger)anEncoding;
 - (void)setFileEncodingUndoable:(NSUInteger)anEncoding;
 - (void)setAttributedStringUndoable:(NSAttributedString *)aString;
