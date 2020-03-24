@@ -51,7 +51,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     NSRange I_unionRangeOfLinearAttributeChanges;
     int I_linearAttributeChangesCount;
     
-    NSMutableArray *I_lineStarts;
+    NSMutableArray<NSNumber *> *I_lineStarts;
     NSUInteger I_lineStartsValidUpTo;
     NSUInteger I_numberOfWords;
     
@@ -304,7 +304,6 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     }
 
     NSInteger i = 0;
-    NSUInteger result = 0;
     if (!(aLocation<=I_lineStartsValidUpTo)) {
         NSString *string = [self string];
         NSUInteger length = [string length];
@@ -328,13 +327,28 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
         }
     }
 
-    for (i = [I_lineStarts count] - 1; i >= 0; i--) {
-        if ([[I_lineStarts objectAtIndex:i] unsignedIntegerValue] <= aLocation) {
-            result = i + 1;
-            break;
+    
+    int (^lineNumber)(NSUInteger minIndex, NSUInteger maxIndex, NSUInteger location);
+    __unsafe_unretained __block typeof(lineNumber) wineNumber = lineNumber = ^(NSUInteger minIndex, NSUInteger maxIndex, NSUInteger location) {
+        if (maxIndex - minIndex < 2) {
+            if ([[self->I_lineStarts objectAtIndex:maxIndex] unsignedIntegerValue] <= location) {
+                return (int)maxIndex+1;
+            } else {
+                return (int)maxIndex;
+            }
         }
-    }
-    return result;
+        
+        NSUInteger centerIndex = (maxIndex + minIndex) / 2;
+        if ([self->I_lineStarts objectAtIndex:centerIndex].unsignedIntegerValue < location) {
+            return wineNumber(centerIndex, maxIndex, location);
+        } else {
+            return wineNumber(minIndex, centerIndex, location);
+        }
+};
+
+    
+    // make this a binary search
+    return lineNumber(0, I_lineStarts.count - 1, aLocation);
 }
 
 - (NSMutableArray *)lineStarts {

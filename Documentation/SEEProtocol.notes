@@ -8,7 +8,7 @@ BEEP SESSION CREATION
 
 1.1 Using Rendezvous
 
-A Rendezvous browser object browses the local subnet for the given service "_hydra._tcp.". When a found service is resolved its TXT record is parsed to retrieve the user identifier hosting the service. If the user identifier is not currently kown a TCP connection in the context of a BEEP session is made to this service.
+A Rendezvous browser object browses the local subnet for the given service "_hydra._tcp.". When a found service is resolved its TXT record is parsed to retrieve the user identifier hosting the service. If the user identifier is not currently known a TCP connection in the context of a BEEP session is made to this service.
 Both peers greet each other with following profiles:
 
 http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake
