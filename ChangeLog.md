@@ -7,6 +7,9 @@
 * Improved performance on files with very many lines
 
 #### Improved modes:
+* Improved Objective-C mode to handle properties with generic types better
+
+#### Improved modes:
 
 ### SubEthaEdit 5.1.2
 
