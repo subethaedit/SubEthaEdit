@@ -463,6 +463,18 @@
 				<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
             
+			<state id="StringInterpolation(" scope="langauge.variable">
+				<begin><regex>(?:(?&lt;!\\)(?:\\\\)*)\$\(</regex></begin>
+				<end><regex>(((?&lt;!\\)(\\\\)*)|^)\)</regex></end>
+				<autoend>)</autoend>
+
+                <keywords id="BeginAndEndOfStringInterpolation(" useforautocomplete="no" scope="language.variable.string">
+                    <regex>(\$)\(</regex>
+                </keywords>
+
+				<import />
+			</state>
+
             <state id="String with double quotes" type="string" scope="string.double">
                 <begin><regex>(?&lt;!\\)(?:\\\\)*\K"</regex></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
@@ -470,6 +482,8 @@
                     <regex>(\$[#@A-Za-z0-9_]+)</regex>
                     <regex>(\$\{[^\}]*\})</regex>
                 </keywords>
+
+				<state-link state="StringInterpolation(" />
             </state>
     
             <state id="String with single quotes" type="string" scope="string.single">

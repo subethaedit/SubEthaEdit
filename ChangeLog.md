@@ -1,8 +1,32 @@
-### [unreleased] SubEthaEdit 5.1.2
+### [unreleased] SubEthaEdit 5.1.3a
 
 #### Features:
+* Added text transformation feature for preview for modes, to enable e.g. Markdown preview
+
 #### Bug fixes and maintenance:
+* Fixed issue that could lose data when saving while having folded text
+* Fixed issue where SubEthaEdit could hang completely if one used blockedit while having more than one view of the same file open
+* Improved performance on files with very many lines
+
 #### Improved modes:
+* Improved Markdown Mode: added a markdown preview
+* Improved Objective-C mode to handle properties with generic types better
+
+#### Improved modes:
+
+### SubEthaEdit 5.1.2
+
+#### Bug fixes and maintenance:
+* Fixed issue where SubEthaEdit did not open documents when reacting to Spotlight searches
+* Improved dark mode appearance
+* Fixed an issue with the folding bar not unfolding correctly
+* Switched tab shortcuts to the current system standard: ctrl-tab
+* Improved handling of hidden extensions
+* Improved display of document titles
+* Made asking for revert less annoying by improving the recognition of real changes
+
+#### Improved modes:
+* Improved bash mode to handle complex $() interpolations better
 
 ### SubEthaEdit 5.1.1
 

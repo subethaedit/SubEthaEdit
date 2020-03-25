@@ -94,6 +94,7 @@ extern NSString * const DocumentModeStyleSheetsDefaultLanguageContextKey;
 @class SyntaxStyle;
 @class SEEStyleSheet;
 @class SEEStyleSheetSettings;
+@class SEEWebPreview;
 
 @interface DocumentMode : NSObject {
     SyntaxStyle *I_syntaxStyle,*I_defaultSyntaxStyle;
@@ -115,6 +116,7 @@ extern NSString * const DocumentModeStyleSheetsDefaultLanguageContextKey;
 @property (nonatomic, strong, readonly) SyntaxDefinition *syntaxDefinition;
 @property (nonatomic, strong, readonly) NSMutableArray *autocompleteDictionary;
 @property (nonatomic, strong, readonly) RegexSymbolParser *symbolParser;
+@property (nonatomic, strong, readonly) SEEWebPreview *webPreview;
 @property (nonatomic, strong, readonly) NSBundle *bundle;
 
 - (void)addAutocompleteEntrysFromArray:(NSArray *)aAutocompleteArray;
