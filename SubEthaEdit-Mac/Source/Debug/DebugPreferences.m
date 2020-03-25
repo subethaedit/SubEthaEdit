@@ -32,6 +32,7 @@
                                         @"SyntaxHighlighterDomain",
                                         @"FileIOLogDomain",
                                         @"InternetLogDomain",
+                                        @"ModesDomain",
                                         nil] objectEnumerator];
         NSString *domain = nil;
         while ((domain = [domains nextObject])) {

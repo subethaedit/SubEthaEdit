@@ -12,6 +12,7 @@
 #import "DocumentMode.h"
 #import "SEEScopedBookmarkManager.h"
 #import "PopUpButton.h"
+#import "SEEWebPreview.h"
 
 @class PopUpButton;
 
@@ -188,11 +189,30 @@ static NSScrollView *firstScrollView(NSView *aView) {
     
     FoldableTextStorage *textStorage = (FoldableTextStorage *)[[self plainTextDocument] textStorage];
     NSString *string=[[textStorage fullTextStorage] string];
+    
+    SEEWebPreview *preview = self.plainTextDocument.documentMode.webPreview;
+    
     NSStringEncoding encoding = [textStorage encoding];
-    [request setHTTPBody:[string dataUsingEncoding:encoding]];
     NSString *IANACharSetName=(NSString *)CFStringConvertEncodingToIANACharSetName(
-                CFStringConvertNSStringEncodingToEncoding(encoding));
-    [[self.oWebView mainFrame] loadData:[string dataUsingEncoding:encoding] MIMEType:@"text/html" textEncodingName:IANACharSetName baseURL:baseURL];
+    CFStringConvertNSStringEncodingToEncoding(encoding));
+    
+    
+    void (^previewBlock)(NSString *html) = ^(NSString *html){
+        [request setHTTPBody:[html dataUsingEncoding:encoding]];
+        [NSOperationQueue TCM_performBlockOnMainThreadSynchronously:^{
+            [[self.oWebView mainFrame] loadData:[html dataUsingEncoding:encoding] MIMEType:@"text/html" textEncodingName:IANACharSetName baseURL:baseURL];
+        }];
+    };
+    
+    if (preview) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+            previewBlock([preview webPreviewForText:string]);
+        });
+    } else {
+        previewBlock(string);
+    }
+    
+    
 }
 
 #pragma mark
