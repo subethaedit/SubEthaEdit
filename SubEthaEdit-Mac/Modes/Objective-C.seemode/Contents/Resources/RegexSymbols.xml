@@ -58,7 +58,7 @@
     </symbol>
 
     <symbol id="Properties" symbol="P" indentation="1" ignoreblocks="yes">
-        <regex>@property[ \t]*\([\w, \t]*\)[ \t]*\w+[ \t\*]*(\w+)</regex>
+        <regex>@property[ \t]*\([\w, \t]*\)[ \t]*(?:[\w&lt;&gt;]|[ \t\*]*&gt;|[ \t]&lt;)*[ \t\*]*(\w+)</regex>
     </symbol>
 
 

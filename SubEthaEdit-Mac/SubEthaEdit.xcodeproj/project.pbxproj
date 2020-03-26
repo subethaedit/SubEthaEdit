@@ -133,6 +133,8 @@
 		14E291EA0A07B480007C0065 /* ScriptCharacters.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E291E80A07B480007C0065 /* ScriptCharacters.m */; };
 		14E294510A0CBFB0007C0065 /* SelectCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E2944F0A0CBFB0007C0065 /* SelectCommand.m */; };
 		14EC6E280A63F2E800B44481 /* ServicesMenu.strings in Resources */ = {isa = PBXBuildFile; fileRef = 14EC6E270A63F2E800B44481 /* ServicesMenu.strings */; };
+		2CED1D50238000FF00359D99 /* SEEWebPreview.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CED1D4F238000FF00359D99 /* SEEWebPreview.m */; };
+		2CED1D54238007F900359D99 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CED1D53238007F900359D99 /* JavaScriptCore.framework */; };
 		311717F40A0E8C3600A9DA18 /* ModeSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 311717F20A0E8C3600A9DA18 /* ModeSettings.m */; };
 		3134F7AB0CB1331900F8C116 /* PrecedenceRolloverButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 3134F7A90CB1331900F8C116 /* PrecedenceRolloverButton.m */; };
 		316A0D2A0C68A47100720268 /* DebugAttributeInspectorController.m in Sources */ = {isa = PBXBuildFile; fileRef = 316A0D280C68A47100720268 /* DebugAttributeInspectorController.m */; };
@@ -786,6 +788,9 @@
 		2A37F4B0FDCFA73011CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		2CED1D4E238000FF00359D99 /* SEEWebPreview.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEEWebPreview.h; sourceTree = "<group>"; };
+		2CED1D4F238000FF00359D99 /* SEEWebPreview.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEEWebPreview.m; sourceTree = "<group>"; };
+		2CED1D53238007F900359D99 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		311717F20A0E8C3600A9DA18 /* ModeSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModeSettings.m; sourceTree = "<group>"; };
 		311717F30A0E8C3600A9DA18 /* ModeSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ModeSettings.h; sourceTree = "<group>"; };
 		3134F7A80CB1331800F8C116 /* PrecedenceRolloverButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = PrecedenceRolloverButton.h; sourceTree = "<group>"; };
@@ -1193,6 +1198,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2CED1D54238007F900359D99 /* JavaScriptCore.framework in Frameworks */,
 				4CF06A2F1816AF5D00B35DF8 /* Cocoa.framework in Frameworks */,
 				4CE9CF381802F4E900F5BC56 /* OgreKit.framework in Frameworks */,
 			);
@@ -1548,6 +1554,8 @@
 				142893C40957594500D14688 /* SyntaxStyle.m */,
 				3170E45F12846C670096089C /* SEEStyleSheet.h */,
 				3170E46012846C670096089C /* SEEStyleSheet.m */,
+				2CED1D4E238000FF00359D99 /* SEEWebPreview.h */,
+				2CED1D4F238000FF00359D99 /* SEEWebPreview.m */,
 			);
 			name = Mode;
 			sourceTree = "<group>";
@@ -1783,6 +1791,7 @@
 		2A37F4C3FDCFA73011CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2CED1D53238007F900359D99 /* JavaScriptCore.framework */,
 				F250EAC2216A138E00B94A0B /* libz.tbd */,
 				4C4FEABE192A25AF00A2F4EC /* IOKit.framework */,
 				1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */,
@@ -2260,9 +2269,8 @@
 		2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				BuildIndependentTargetsInParallel = YES;
 				CLASSPREFIX = SEE;
-				LastUpgradeCheck = 1130;
+				LastUpgradeCheck = 1140;
 				ORGANIZATIONNAME = "SubEthaEdit Contributors";
 				TargetAttributes = {
 					5EC638290ABEB71100D3295B = {
@@ -2714,6 +2722,7 @@
 				149774180B5E159F004A546C /* PlainTextLoadProgress.m in Sources */,
 				142D18B50BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.m in Sources */,
 				142D1B9C0BAEE04900B9EF1C /* TCMMMUserManagerKitAdditions.m in Sources */,
+				2CED1D50238000FF00359D99 /* SEEWebPreview.m in Sources */,
 				4246436518FEDF4300E5D830 /* SEEUserColorsPreviewView.m in Sources */,
 				141958B10BB951C400CB4AA4 /* TCMMMSessionAppKitHelper.m in Sources */,
 				1428F4B40BDE3B8A00411CA6 /* DebugSendOperationController.m in Sources */,

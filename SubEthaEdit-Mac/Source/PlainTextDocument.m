@@ -802,7 +802,7 @@ static NSString *tempFileName(NSString *origPath) {
 #pragma mark - Encoding
 
 - (BOOL)canBeConvertedToEncoding:(NSStringEncoding)encoding {
-    return [[[I_textStorage fullTextStorage] string] canBeConvertedToEncoding:encoding];
+    return [self.fullTextContentString canBeConvertedToEncoding:encoding];
 }
 
 #pragma mark -
@@ -821,6 +821,11 @@ static NSString *tempFileName(NSString *origPath) {
 - (FoldableTextStorage *)textStorage {
     return I_textStorage;
 }
+
+- (NSString *)fullTextContentString {
+    return I_textStorage.fullTextStorage.string;
+}
+
 
 - (void)fillScriptsIntoContextMenu:(NSMenu *)aMenu {
     NSArray *itemArray = [[self documentMode] contextMenuItemArray];
@@ -1210,7 +1215,7 @@ static NSString *tempFileName(NSString *origPath) {
 
 - (IBAction)prettyPrintXML:(id)aSender {
     NSError *error=nil;
-    NSXMLDocument *document = [[NSXMLDocument alloc] initWithXMLString:[[(FoldableTextStorage *)[self textStorage] fullTextStorage] string] options:NSXMLNodePreserveEmptyElements|NSXMLNodePreserveCDATA error:&error];
+    NSXMLDocument *document = [[NSXMLDocument alloc] initWithXMLString:self.fullTextContentString options:NSXMLNodePreserveEmptyElements|NSXMLNodePreserveCDATA error:&error];
     if (document) {
     	[self setContentUsingXMLDocument:document];
     } else {
@@ -1220,7 +1225,7 @@ static NSString *tempFileName(NSString *origPath) {
 
 - (IBAction)prettyPrintHTML:(id)aSender {
     NSError *error=nil;
-    NSXMLDocument *document = [[NSXMLDocument alloc] initWithXMLString:[[(FoldableTextStorage *)[self textStorage] fullTextStorage] string] options:NSXMLDocumentTidyHTML|NSXMLNodePreserveEmptyElements|NSXMLNodePreserveAttributeOrder|NSXMLNodePreserveEntities error:&error];
+    NSXMLDocument *document = [[NSXMLDocument alloc] initWithXMLString:self.fullTextContentString options:NSXMLDocumentTidyHTML|NSXMLNodePreserveEmptyElements|NSXMLNodePreserveAttributeOrder|NSXMLNodePreserveEntities error:&error];
     if (document) {
     	[self setContentUsingXMLDocument:document];
     } else {
@@ -3593,10 +3598,11 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     if (UTTypeConformsTo((__bridge CFStringRef)inType, kUTTypeData)) {
         BOOL modeWantsUTF8BOM = [[[self documentMode] defaultForKey:DocumentModeUTF8BOMPreferenceKey] boolValue];
         DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"modeWantsUTF8BOM: %d, hasUTF8BOM: %d", modeWantsUTF8BOM, I_flags.hasUTF8BOM);
-        BOOL useUTF8Encoding = ((I_lastSaveOperation == NSSaveToOperation) && (I_encodingFromLastRunSaveToOperation == NSUTF8StringEncoding)) || ((I_lastSaveOperation != NSSaveToOperation) && ([self fileEncoding] == NSUTF8StringEncoding));
+        NSStringEncoding fileEncoding = [self fileEncoding];
+        BOOL useUTF8Encoding = ((I_lastSaveOperation == NSSaveToOperation) && (I_encodingFromLastRunSaveToOperation == NSUTF8StringEncoding)) || ((I_lastSaveOperation != NSSaveToOperation) && (fileEncoding == NSUTF8StringEncoding));
 		BOOL result = NO;
         
-        NSData *data = [self.textStorage.string dataUsingEncoding:[self fileEncoding]
+        NSData *data = [self.fullTextContentString dataUsingEncoding:fileEncoding
                                              allowLossyConversion:NO];
         
         if ((I_flags.hasUTF8BOM || modeWantsUTF8BOM) && useUTF8Encoding) {
@@ -3607,7 +3613,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         
         if (result) {
             // write the xtended attribute for encoding
-            CFStringEncoding encoding = CFStringConvertNSStringEncodingToEncoding([self fileEncoding]);
+            CFStringEncoding encoding = CFStringConvertNSStringEncodingToEncoding(fileEncoding);
             CFStringRef encodingIANACharSetName = CFStringConvertEncodingToIANACharSetName(encoding);
             NSString * encodingMetadata = [NSString stringWithFormat:@"%@;%u", encodingIANACharSetName, (unsigned int)encoding];
             
@@ -3712,7 +3718,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
             if (success) {
                 NSStringEncoding encoding = (saveOperation == NSAutosaveElsewhereOperation) ? NSUTF8StringEncoding : [self fileEncoding];
                 
-                NSString *text = [[(FoldableTextStorage *)[self textStorage] fullTextStorage] string];
+                NSString *text = self.fullTextContentString;
                 
                 success = [text writeToURL:[NSURL fileURLWithPath:[packagePath stringByAppendingPathComponent:@"plain.txt"]] atomically:NO encoding:encoding error:outError];
                 
@@ -3833,18 +3839,20 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 	
 	if (! (UTTypeConformsTo((__bridge CFStringRef)aType, (__bridge CFStringRef)kSEETypeSEEText) &&
 		   UTTypeConformsTo((__bridge CFStringRef)aType, (__bridge CFStringRef)kSEETypeSEEMode))) {
+        
+        NSStringEncoding fileEncoding = [self fileEncoding];
 		if (I_lastSaveOperation == NSSaveToOperation) {
 			DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Save a copy using encoding: %@", [NSString localizedNameOfStringEncoding:I_encodingFromLastRunSaveToOperation]);
 			[[EncodingManager sharedInstance] unregisterEncoding:I_encodingFromLastRunSaveToOperation];
-			data = [[[I_textStorage fullTextStorage] string] dataUsingEncoding:I_encodingFromLastRunSaveToOperation allowLossyConversion:YES];
+            fileEncoding = I_encodingFromLastRunSaveToOperation;
 		} else {
-			DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Save using encoding: %@", [NSString localizedNameOfStringEncoding:[self fileEncoding]]);
-			data = [[[I_textStorage fullTextStorage] string] dataUsingEncoding:[self fileEncoding] allowLossyConversion:YES];
+			DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Save using encoding: %@", [NSString localizedNameOfStringEncoding:fileEncoding]);
 		}
-		
+        data = [self.fullTextContentString dataUsingEncoding:fileEncoding allowLossyConversion:YES];
+
 		BOOL modeWantsUTF8BOM = [[[self documentMode] defaultForKey:DocumentModeUTF8BOMPreferenceKey] boolValue];
 		DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"modeWantsUTF8BOM: %d, hasUTF8BOM: %d", modeWantsUTF8BOM, I_flags.hasUTF8BOM);
-		BOOL useUTF8Encoding = ((I_lastSaveOperation == NSSaveToOperation) && (I_encodingFromLastRunSaveToOperation == NSUTF8StringEncoding)) || ((I_lastSaveOperation != NSSaveToOperation) && ([self fileEncoding] == NSUTF8StringEncoding));
+		BOOL useUTF8Encoding = ((I_lastSaveOperation == NSSaveToOperation) && (I_encodingFromLastRunSaveToOperation == NSUTF8StringEncoding)) || ((I_lastSaveOperation != NSSaveToOperation) && (fileEncoding == NSUTF8StringEncoding));
 		
 		if ((I_flags.hasUTF8BOM || modeWantsUTF8BOM) && useUTF8Encoding) {
 			data =  [data dataPrefixedWithUTF8BOM];
@@ -6177,7 +6185,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
                 position=NSMaxRange(selectedRange);
             }
 			position = [self.textStorage fullRangeForFoldedRange:NSMakeRange(position, 1)].location;
-            NSString *string=[[[self textStorage] fullTextStorage] string];
+            NSString *string = self.fullTextContentString;
             if (position>=0 && position<[string length] &&
                 [self.bracketSettings charIsBracket:[string characterAtIndex:position]] &&
 				![self.bracketSettings shouldIgnoreBracketAtIndex:position attributedString:self.textStorage.fullTextStorage]) {
@@ -6354,12 +6362,25 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     NSArray *plainTextEditors = [self plainTextEditors];
     unsigned editorCount = [plainTextEditors count];
     if ([plainTextEditors count] > 1) {
-         I_currentTextOperation = [TextOperation textOperationWithAffectedCharRange:aAffectedCharRange replacementString:aReplacementString userID:(NSString *)[TCMMMUserManager myUserID]];
-        while (editorCount--) {
-            PlainTextEditor *editor = [plainTextEditors objectAtIndex:editorCount];
-            if ([editor textView] != aTextView) {
-                [editor storePosition];
+        TCMMMOperation *currentOperation = [TextOperation textOperationWithAffectedCharRange:aAffectedCharRange replacementString:aReplacementString userID:(NSString *)[TCMMMUserManager myUserID]];
+        
+        if (!textStorage.isBlockediting) {
+            // This method will be called within a -beginEditing/-endEditing section if
+            // block editing is active. In this case, the position will not be stored as
+            // it's not possible to ask the layoutmanager for the glyph index while the
+            // storage is being mutated.
+            // The changes will be added to the I_currentTextOperations array.
+            
+            I_currentTextOperations = [NSMutableArray arrayWithObject:currentOperation];
+            
+            while (editorCount-- && !textStorage.isBlockediting) {
+                PlainTextEditor *editor = [plainTextEditors objectAtIndex:editorCount];
+                if ([editor textView] != aTextView) {
+                    [editor storePosition];
+                }
             }
+        } else {
+            [I_currentTextOperations addObject:currentOperation];
         }
     }
 
@@ -6514,13 +6535,19 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
     NSArray *plainTextEditors = [self plainTextEditors];
     unsigned editorCount = [plainTextEditors count];
-    if ([plainTextEditors count] > 1) {
+    
+    // This method will be called within a -beginEditing/-endEditing section if
+    // block editing is active. In this case, the position will not be restored as it's
+    // not possible to determine the layout while the textstorage is being mutated.
+    
+    if ([plainTextEditors count] > 1 && !textStorage.isBlockediting) {
         while (editorCount--) {
             PlainTextEditor *editor = [plainTextEditors objectAtIndex:editorCount];
             if ([editor textView] != textView) {
-                [editor restorePositionAfterOperation:I_currentTextOperation];
+                [editor restorePositionAfterOperations:I_currentTextOperations];
             }
         }
+        I_currentTextOperations = nil;
     }
 
 }
@@ -6967,7 +6994,7 @@ static NSMutableArray<__kindof NSWindow *> *S_depthSortedWindows(NSArray<__kindo
     CFStringEncoding cfEncoding = CFStringConvertIANACharSetNameToEncoding((CFStringRef)name);
     if (cfEncoding != kCFStringEncodingInvalidId) {
         NSStringEncoding encoding = CFStringConvertEncodingToNSStringEncoding(cfEncoding);
-        if ([[[I_textStorage fullTextStorage] string] canBeConvertedToEncoding:encoding]) {
+        if ([self.fullTextContentString canBeConvertedToEncoding:encoding]) {
             [self setFileEncoding:encoding];
             [self updateChangeCount:NSChangeDone];             
         } else {
@@ -7039,9 +7066,8 @@ static NSMutableArray<__kindof NSWindow *> *S_depthSortedWindows(NSArray<__kindo
     return nil;
 }
 
-- (NSString *)scriptedContents
-{
-    return [[I_textStorage fullTextStorage] string];
+- (NSString *)scriptedContents {
+    return self.fullTextContentString;
 }
 
 - (void)setScriptedContents:(id)value {
@@ -7049,7 +7075,7 @@ static NSMutableArray<__kindof NSWindow *> *S_depthSortedWindows(NSArray<__kindo
 }
 
 - (FoldableTextStorage *)scriptedPlainContents {
-    return I_textStorage;
+    return self.textStorage;
 }
 
 - (void)setScriptedPlainContents:(id)value {

@@ -78,6 +78,7 @@ extern NSString * const PlainTextEditorDidChangeSearchScopeNotification;
 - (void)updateViews;
 
 - (void)storePosition;
+- (void)restorePositionAfterOperations:(NSArray <TCMMMOperation *>*)operations;
 - (void)restorePositionAfterOperation:(TCMMMOperation *)aOperation;
 
 - (void)displayViewControllerInBottomArea:(NSViewController *)viewController;

@@ -1,3 +1,17 @@
+### SubEthaEdit 5.1.3
+
+#### Features:
+* Added text transformation feature for preview for modes, to enable e.g. Markdown preview
+
+#### Bug fixes and maintenance:
+* Fixed issue that could lose data when saving while having folded text
+* Fixed issue where SubEthaEdit could hang completely if one used blockedit while having more than one view of the same file open
+* Improved performance on files with very many lines
+
+#### Improved modes:
+* Improved Markdown Mode: added a markdown preview
+* Improved Objective-C mode to handle properties with generic types better
+
 ### SubEthaEdit 5.1.2
 
 #### Bug fixes and maintenance:
