@@ -2269,9 +2269,8 @@
 		2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				BuildIndependentTargetsInParallel = YES;
 				CLASSPREFIX = SEE;
-				LastUpgradeCheck = 1130;
+				LastUpgradeCheck = 1140;
 				ORGANIZATIONNAME = "SubEthaEdit Contributors";
 				TargetAttributes = {
 					5EC638290ABEB71100D3295B = {

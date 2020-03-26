@@ -1,4 +1,4 @@
-### [unreleased] SubEthaEdit 5.1.3a
+### SubEthaEdit 5.1.3
 
 #### Features:
 * Added text transformation feature for preview for modes, to enable e.g. Markdown preview
@@ -11,8 +11,6 @@
 #### Improved modes:
 * Improved Markdown Mode: added a markdown preview
 * Improved Objective-C mode to handle properties with generic types better
-
-#### Improved modes:
 
 ### SubEthaEdit 5.1.2
 
