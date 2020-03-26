@@ -12,8 +12,6 @@
 * Improved Markdown Mode: added a markdown preview
 * Improved Objective-C mode to handle properties with generic types better
 
-#### Improved modes:
-
 ### SubEthaEdit 5.1.2
 
 #### Bug fixes and maintenance:
