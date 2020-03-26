@@ -1,4 +1,4 @@
-### [unreleased] SubEthaEdit 5.1.3a
+### SubEthaEdit 5.1.3
 
 #### Features:
 * Added text transformation feature for preview for modes, to enable e.g. Markdown preview
