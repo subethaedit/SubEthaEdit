@@ -352,6 +352,7 @@
 		F2ABC4D60C799775007437A2 /* TCMMMLoggingState.m in Sources */ = {isa = PBXBuildFile; fileRef = F2ABC4D40C799775007437A2 /* TCMMMLoggingState.m */; };
 		F2ABC4E30C799CCD007437A2 /* TCMMMLoggedOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = F2ABC4E10C799CCD007437A2 /* TCMMMLoggedOperation.m */; };
 		F2ABC5400C79D9AB007437A2 /* DebugHistoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2ABC5300C79D898007437A2 /* DebugHistoryController.m */; };
+		F2B07D8F242F438600CB192D /* LMPTOMLSerialization.mm in Sources */ = {isa = PBXBuildFile; fileRef = F2B07D89242F438600CB192D /* LMPTOMLSerialization.mm */; };
 		F2BC7539217BDA3F0056FAED /* Acknowledgements.md in Resources */ = {isa = PBXBuildFile; fileRef = F2BC7538217BDA3F0056FAED /* Acknowledgements.md */; };
 		F2C44CBE21635F29006D59DB /* SEEDebugImageGenerationWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2C44CBD21635F29006D59DB /* SEEDebugImageGenerationWindowController.xib */; };
 		F2C6D3750D6DB131002B401D /* URLIconNotOK.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2C6D3730D6DB131002B401D /* URLIconNotOK.tiff */; };
@@ -1111,6 +1112,10 @@
 		F2ABC4E20C799CCD007437A2 /* TCMMMLoggedOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = TCMMMLoggedOperation.h; path = TCMMillionMonkeys/TCMMMLoggedOperation.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		F2ABC52F0C79D898007437A2 /* DebugHistoryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = DebugHistoryController.h; path = Debug/DebugHistoryController.h; sourceTree = "<group>"; };
 		F2ABC5300C79D898007437A2 /* DebugHistoryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DebugHistoryController.m; path = Debug/DebugHistoryController.m; sourceTree = "<group>"; };
+		F2B07D89242F438600CB192D /* LMPTOMLSerialization.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LMPTOMLSerialization.mm; sourceTree = "<group>"; };
+		F2B07D8A242F438600CB192D /* LMPTOMLSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPTOMLSerialization.h; sourceTree = "<group>"; };
+		F2B07D8B242F438600CB192D /* LMP_cpptoml_visitors.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; path = LMP_cpptoml_visitors.h; sourceTree = "<group>"; };
+		F2B07D8C242F438600CB192D /* cpptoml.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = cpptoml.h; sourceTree = "<group>"; };
 		F2B6CCC20EE9C6390077417E /* SeeTextImporter.mdimporter */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SeeTextImporter.mdimporter; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2BC7538217BDA3F0056FAED /* Acknowledgements.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = Acknowledgements.md; path = ../Acknowledgements.md; sourceTree = "<group>"; };
 		F2C44CBD21635F29006D59DB /* SEEDebugImageGenerationWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SEEDebugImageGenerationWindowController.xib; path = Debug/SEEDebugImageGenerationWindowController.xib; sourceTree = "<group>"; };
@@ -1532,6 +1537,7 @@
 		1428924C0957526E00D14688 /* Mode */ = {
 			isa = PBXGroup;
 			children = (
+				F2B07D88242F438600CB192D /* ObjectiveTOML */,
 				F2D56991133B880900CEC841 /* SEEStyleSheetSettings.h */,
 				F2D56992133B880900CEC841 /* SEEStyleSheetSettings.m */,
 				142893B50957594500D14688 /* DocumentMode.h */,
@@ -2118,6 +2124,17 @@
 			path = Sparkle;
 			sourceTree = "<group>";
 		};
+		F2B07D88242F438600CB192D /* ObjectiveTOML */ = {
+			isa = PBXGroup;
+			children = (
+				F2B07D89242F438600CB192D /* LMPTOMLSerialization.mm */,
+				F2B07D8A242F438600CB192D /* LMPTOMLSerialization.h */,
+				F2B07D8B242F438600CB192D /* LMP_cpptoml_visitors.h */,
+				F2B07D8C242F438600CB192D /* cpptoml.h */,
+			);
+			path = ObjectiveTOML;
+			sourceTree = "<group>";
+		};
 		F2D22CAF0EE9C5DE004B8E33 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -2688,6 +2705,7 @@
 				1428946609575B9700D14688 /* PopUpButton.m in Sources */,
 				1428946709575B9700D14688 /* PopUpButtonCell.m in Sources */,
 				1428946809575B9700D14688 /* RadarScroller.m in Sources */,
+				F2B07D8F242F438600CB192D /* LMPTOMLSerialization.mm in Sources */,
 				4C0B4C6118C8B3E300048335 /* SEEToggleRecentDocumentListItem.m in Sources */,
 				1428946B09575B9700D14688 /* SEETextView.m in Sources */,
 				F2308E6718E06FA00096E0C1 /* SEEFindAndReplaceContext.m in Sources */,

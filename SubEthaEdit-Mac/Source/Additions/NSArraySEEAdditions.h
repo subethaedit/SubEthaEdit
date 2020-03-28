@@ -3,7 +3,7 @@
 //
 //  Created by dom on 10/7/18.
 
-@import Foundation;
+#import <Foundation/Foundation.h>
 
 @interface NSArray (NSArraySEEAdditions)
 

@@ -3,7 +3,7 @@
 //
 //  Created by dom on 10.10.18.
 
-@import Cocoa;
+#import <Cocoa/Cocoa.h>
 
 @interface NSApplication (NSAppearanceSEEAdditions)
 - (BOOL)SEE_effectiveAppearanceIsDark;
