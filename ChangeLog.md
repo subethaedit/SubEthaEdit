@@ -5,6 +5,7 @@
 #### Bug fixes and maintenance:
 
 #### Improved modes:
+* Fixed wrong table header colors in markdown preview in light mode
 
 ### SubEthaEdit 5.1.3
 
