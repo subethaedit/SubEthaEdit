@@ -1,3 +1,6 @@
+Changes with Version 5.1.4 (SEE 5.1.4)
+	*) fixed brigth mode issues in preview
+
 Changes with Version 5.1.3 (SEE 5.1.3)
 	*) added markdown preview
 
