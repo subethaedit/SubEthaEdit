@@ -6,6 +6,7 @@
 
 #### Improved modes:
 * Fixed wrong table header colors in markdown preview in light mode
+* Improved Bash mode: Added support for heredoc strings
 
 ### SubEthaEdit 5.1.3
 
@@ -18,7 +19,7 @@
 * Improved performance on files with very many lines
 
 #### Improved modes:
-* Improved Markdown Mode: added a markdown preview
+* Improved Markdown mode: added a markdown preview
 * Improved Objective-C mode to handle properties with generic types better
 
 ### SubEthaEdit 5.1.2

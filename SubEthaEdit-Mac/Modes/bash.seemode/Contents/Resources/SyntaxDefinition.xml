@@ -486,6 +486,18 @@
 				<state-link state="StringInterpolation(" />
             </state>
     
+            <state id="Heredoc" foldable="yes" indent="no" scope="string.here-doc">
+                <begin><string>(?:(?&lt;=[=\s+*\({\[])|^)&lt;&lt;(?:(?'heredoc'[_A-Za-z][A-Za-z0-9_]*)|(?:'\g'heredoc'')|(?:"\g'heredoc'"))</string><autoend>\n\g&lt;heredoc&gt;</autoend></begin>
+                <end><regex>^(?#see-insert-start-group:heredoc)</regex></end>
+
+                <keywords id="Variables in double quoted Strings" useforautocomplete="no" scope="language.variable.string">
+                    <regex>(\$[#@A-Za-z0-9_]+)</regex>
+                    <regex>(\$\{[^\}]*\})</regex>
+                </keywords>
+
+				<state-link state="StringInterpolation(" />
+            </state>
+            
             <state id="String with single quotes" type="string" scope="string.single">
                 <begin><regex>(?&lt;!\\)(?:\\\\)*\K*'</regex></begin>
                 <end><regex>'</regex></end>
