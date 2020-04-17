@@ -11,7 +11,7 @@ let converter = new this.showdown.Converter(
 	ghCompatibleHeaderId: true,
 	tasklists: true,
 	smoothLivePreview: true,
-	smartIndentationFix: true,
+//	smartIndentationFix: false,
 	simpleLineBreaks: true
 }
 );

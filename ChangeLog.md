@@ -5,7 +5,8 @@
 #### Bug fixes and maintenance:
 
 #### Improved modes:
-* Fixed wrong table header colors in markdown preview in light mode
+* Markdown preview: Fixed wrong table header colors in light mode
+* Markdown preview: Fixed incorrect stripping of leading whitespace in code blocks
 * Improved Bash mode: Added support for heredoc strings
 
 ### SubEthaEdit 5.1.3
