@@ -438,8 +438,8 @@ static NSString *S_specialGlyphs[17];
                     }
                 }
                 
-                if (self.showsInconsistentIndentation && withinIndentation) {
-                    if (self.usesTabs) {
+                if (self.showsInconsistentIndentation) {
+                    if (self.usesTabs && withinIndentation) {
                         // Using spaces to indent by less than a tab with is legitimate
                         // Therefor 'withinIndentation' will be set to NO if at least one
                         // of the next tabWidth characters is neither a space nor a tab
@@ -455,6 +455,7 @@ static NSString *S_specialGlyphs[17];
                             draw = u_2024;
                         }
                     } else {
+                        // Spaces are used for indentation
                         if (c == '\t') {
                             draw = u_2192;
                         }
