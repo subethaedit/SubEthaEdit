@@ -39,6 +39,7 @@ extern NSString * const DocumentModeIndentWrappedLinesCharacterAmountPreferenceK
 extern NSString * const DocumentModeShowPageGuidePreferenceKey          ;
 extern NSString * const DocumentModePageGuideWidthPreferenceKey         ;
 extern NSString * const DocumentModeShowInvisibleCharactersPreferenceKey;
+extern NSString * const DocumentModeShowInconsistentIndentationPreferenceKey;
 extern NSString * const DocumentModeWrapModePreferenceKey               ;
 extern NSString * const DocumentModeColumnsPreferenceKey                ;
 extern NSString * const DocumentModeRowsPreferenceKey                   ;

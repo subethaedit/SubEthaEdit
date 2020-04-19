@@ -191,6 +191,13 @@ static NSString *S_specialGlyphs[17];
     }
 }
 
+- (void)setTabWidth:(int)tabWidth {
+    if (tabWidth != _tabWidth) {
+        _tabWidth = tabWidth;
+        [self invalidateLayout];
+    }
+}
+
 - (void)invalidateLayout {
     [self invalidateLayoutForCharacterRange:NSMakeRange(0,[[self textStorage] length]) actualCharacterRange:NULL];
 }
@@ -344,18 +351,29 @@ static NSString *S_specialGlyphs[17];
         NSMutableDictionary *attributes;
         // figure out what invisibles to draw
         NSRange charRange = [self characterRangeForGlyphRange:glyphRange actualGlyphRange:NULL];
+        
         NSString *characters = [[self textStorage] string];
+        NSUInteger start;
+        [characters getLineStart:&start end:nil contentsEnd:nil forRange:charRange];
+        int tabWidth = self.tabWidth;
+        if (tabWidth < 0) {
+            tabWidth = 0;
+        }
+        NSUInteger lookahead = MIN(1, MIN(CHARBUFFERSIZE - 1, tabWidth));
+        
         NSUInteger i;
         unichar previousChar = 0;
         unichar charBuffer[CHARBUFFERSIZE];
         BOOL withinIndentation = YES;
         while (charRange.length>0) {
-            NSUInteger loopLength = MIN(charRange.length,CHARBUFFERSIZE);
-            [characters getCharacters:charBuffer range:NSMakeRange(charRange.location,loopLength)];
+            NSUInteger bufSize = MIN(charRange.length, CHARBUFFERSIZE);
+            NSUInteger loopLength = MIN(charRange.length,CHARBUFFERSIZE - lookahead);
+            [characters getCharacters:charBuffer
+                                range:NSMakeRange(charRange.location,bufSize)];
+            
             for (i=0;i<loopLength;i++) {
                 unichar c = charBuffer[i];
-                unichar next_c = (i+1 < loopLength)?charBuffer[i+1]:
-                    (NSMaxRange(charRange)>charRange.location+loopLength?[characters characterAtIndex:charRange.location+loopLength]:0);
+                unichar next_c = (i+1 < bufSize) ? charBuffer[i+1] : 0;
                 int draw = u_false;
                 
                 
@@ -420,11 +438,26 @@ static NSString *S_specialGlyphs[17];
                     }
                 }
                 
-                if (self.showsInconsistentIndentation) {
-                    if (withinIndentation && c == ' ' && self.usesTabs) {
-                        draw = u_2024;
-                    } else if (c == '\t' && !self.usesTabs) {
-                        draw = u_2192;
+                if (self.showsInconsistentIndentation && withinIndentation) {
+                    if (self.usesTabs) {
+                        // Using spaces to indent by less than a tab with is legitimate
+                        // Therefor 'withinIndentation' will be set to NO if at least one
+                        // of the next tabWidth characters is neither a space nor a tab
+                        if (c == ' ' && previousChar != ' ') {
+                            for (NSUInteger index = i; index < tabWidth + i && index < bufSize; index++) {
+                                if (charBuffer[index] != ' ' && charBuffer[index] != '\t') {
+                                    withinIndentation = NO;
+                                }
+                            }
+                        }
+                        
+                        if (withinIndentation && c == ' ') {
+                            draw = u_2024;
+                        }
+                    } else {
+                        if (c == '\t') {
+                            draw = u_2192;
+                        }
                     }
                 }
                 

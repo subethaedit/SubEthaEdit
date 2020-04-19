@@ -14,6 +14,7 @@
 @property (nonatomic) BOOL showsInvisibles;
 @property (nonatomic) BOOL showsInconsistentIndentation;
 @property (nonatomic) BOOL usesTabs;
+@property (nonatomic) int tabWidth;
 
 
 - (void)removeTemporaryAttributes:(id)anObjectEnumerable forCharacterRange:(NSRange)aRange;

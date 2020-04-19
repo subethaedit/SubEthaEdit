@@ -33,6 +33,7 @@ NSString * const DocumentModeLineEndingPreferenceKey           = @"LineEnding";
 NSString * const DocumentModeShowLineNumbersPreferenceKey      = @"ShowLineNumbers";
 NSString * const DocumentModeShowMatchingBracketsPreferenceKey = @"ShowMatchingBrackets";
 NSString * const DocumentModeShowInvisibleCharactersPreferenceKey = @"ShowInvisibleCharacters";
+NSString * const DocumentModeShowInconsistentIndentationPreferenceKey = @"ShowInconsistentIndentation";
 NSString * const DocumentModeTabWidthPreferenceKey             = @"TabWidth";
 NSString * const DocumentModeUseTabsPreferenceKey              = @"UseTabs";
 NSString * const DocumentModeWrapLinesPreferenceKey            = @"WrapLines";
@@ -108,6 +109,8 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 									  forKey:DocumentModeShowInvisibleCharactersPreferenceKey];
 		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
 									  forKey:DocumentModeWrapLinesPreferenceKey];
+        [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
+                                      forKey:DocumentModeShowInconsistentIndentationPreferenceKey];
 		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
 									  forKey:DocumentModeIndentWrappedLinesPreferenceKey];
 		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
@@ -317,6 +320,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
             [_defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentModeHighlightSyntaxPreferenceKey];
             [_defaults setObject:@YES  forKey:DocumentModeShowLineNumbersPreferenceKey];
             [_defaults setObject:[NSNumber numberWithBool:NO]  forKey:DocumentModeShowInvisibleCharactersPreferenceKey];
+            [_defaults setObject:[NSNumber numberWithBool:NO]  forKey:DocumentModeShowInconsistentIndentationPreferenceKey];
             [_defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentModeShowMatchingBracketsPreferenceKey];
             [_defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentModeWrapLinesPreferenceKey];
             [_defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentModeIndentNewLinesPreferenceKey];

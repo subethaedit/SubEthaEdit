@@ -903,6 +903,7 @@ static NSString *tempFileName(NSString *origPath) {
     [self setWrapLines:[[documentMode defaultForKey:DocumentModeWrapLinesPreferenceKey] boolValue]];
     [self setWrapMode: [[documentMode defaultForKey:DocumentModeWrapModePreferenceKey] intValue]];
     [self setShowInvisibleCharacters:[[documentMode defaultForKey:DocumentModeShowInvisibleCharactersPreferenceKey] boolValue]];
+    [self setShowInconsistentIndentation:[[documentMode defaultForKey:DocumentModeShowInconsistentIndentationPreferenceKey] boolValue]];
     [self setShowsGutter:[[documentMode defaultForKey:DocumentModeShowLineNumbersPreferenceKey] intValue]];
     [self setShowsMatchingBrackets:[[documentMode defaultForKey:DocumentModeShowMatchingBracketsPreferenceKey] boolValue]];
     
@@ -1412,6 +1413,7 @@ static NSString *tempFileName(NSString *origPath) {
 	[coder encodeBool:self.wrapLines forKey:@"SEEPlainTextDocumentWrapLines"];
 	[coder encodeBool:self.showsGutter forKey:@"SEEPlainTextDocumentShowsGutter"];
 	[coder encodeBool:self.showInvisibleCharacters forKey:@"SEEPlainTextDocumentShowInvisibleCharacters"];
+    [coder encodeBool:self.showInconsistentIndentation forKey:@"SEEPlainTextDocumentShowInconsistentIndentation"];
 	[coder encodeBool:self.showsChangeMarks forKey:@"SEEPlainTextDocumentShowsChangeMarks"];
 	[coder encodeBool:self.isContinuousSpellCheckingEnabled forKey:@"SEEPlainTextDocumentContinuousSpellCheckingEnabled"];
 //	[coder encodeBool:self.showsTopStatusBar forKey:@"SEEPlainTextDocumentShowsTopStatusBar"];
@@ -1453,6 +1455,8 @@ static NSString *tempFileName(NSString *origPath) {
 		self.showsGutter = [coder decodeBoolForKey:@"SEEPlainTextDocumentShowsGutter"];
 	if ([coder containsValueForKey:@"SEEPlainTextDocumentShowInvisibleCharacters"])
 		self.showInvisibleCharacters = [coder decodeBoolForKey:@"SEEPlainTextDocumentShowInvisibleCharacters"];
+    if ([coder containsValueForKey:@"SEEPlainTextDocumentShowInconsistentIndentation"])
+    self.showInconsistentIndentation = [coder decodeBoolForKey:@"SEEPlainTextDocumentShowInconsistentIndentation"];
 	if ([coder containsValueForKey:@"SEEPlainTextDocumentShowsChangeMarks"])
 		self.showsChangeMarks = [coder decodeBoolForKey:@"SEEPlainTextDocumentShowsChangeMarks"];
 	if ([coder containsValueForKey:@"SEEPlainTextDocumentContinuousSpellCheckingEnabled"])
@@ -4761,6 +4765,16 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 	[self invalidateRestorableState];
 }
 
+// inconsistent indentation setting is only for book keeping - editor scope
+- (BOOL)showInconsistentIndentation {
+    return I_flags.showInconsistentIndentation;
+}
+
+- (void)setShowInconsistentIndentation:(BOOL)aFlag {
+    I_flags.showInconsistentIndentation=aFlag;
+    [self invalidateRestorableState];
+}
+
 
 // wrapline setting is only for book keeping - editor scope
 - (BOOL)wrapLines {
@@ -5369,6 +5383,8 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
                forKey:DocumentModeShowLineNumbersPreferenceKey];
     [result setObject:[NSNumber numberWithBool:[self showInvisibleCharacters]]
                forKey:DocumentModeShowInvisibleCharactersPreferenceKey];
+    [result setObject:[NSNumber numberWithBool:[self showInconsistentIndentation]]
+               forKey:DocumentModeShowInconsistentIndentationPreferenceKey];
     [result setObject:[NSNumber numberWithBool:[self highlightsSyntax]]
                forKey:DocumentModeHighlightSyntaxPreferenceKey];
 
@@ -5391,6 +5407,8 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     if (value) [self setValue:value forKey:@"showsGutter"];
     value = [aDocumentState objectForKey:DocumentModeShowInvisibleCharactersPreferenceKey];
     if (value) [self setValue:value forKey:@"showInvisibleCharacters"];
+    value = [aDocumentState objectForKey:DocumentModeShowInconsistentIndentationPreferenceKey];
+    if (value) [self setValue:value forKey:@"showInconsistentIndentation"];
     value = [aDocumentState objectForKey:DocumentModeHighlightSyntaxPreferenceKey];
     if (value) [self setValue:value forKey:@"highlightsSyntax"];
     value = [aDocumentState objectForKey:DocumentModeLineEndingPreferenceKey];

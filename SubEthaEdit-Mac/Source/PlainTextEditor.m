@@ -611,6 +611,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
     if (document) {
         [self setShowsInvisibleCharacters:[document showInvisibleCharacters]];
+        [self setShowsInconsistentIndentation:[document showInconsistentIndentation]];
         [self setWrapsLines:[document wrapLines]];
         [self setShowsGutter:[document showsGutter]];
         [self setShowsTopStatusBar:[document showsTopStatusBar]];
@@ -1361,6 +1362,9 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     } else if (selector == @selector(toggleShowInvisibles:)) {
         [menuItem setState:[self showsInvisibleCharacters] ? NSOnState:NSOffState];
         return YES;
+    } else if (selector == @selector(toggleShowInconsistentIndentation:)) {
+        [menuItem setState:[self showsInconsistentIndentation] ? NSOnState:NSOffState];
+        return YES;
     } else if (selector == @selector(blockeditSelection:) || selector == @selector(endBlockedit:)) {
         FoldableTextStorage *textStorage = (FoldableTextStorage *)[I_textView textStorage];
 
@@ -1573,6 +1577,24 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     return [(LayoutManager *)[I_textView layoutManager] showsChangeMarks];
 }
 
+
+- (void)setShowsInconsistentIndentation:(BOOL)aFlag {
+    LayoutManager *layoutManager = (LayoutManager *)[I_textView layoutManager];
+
+    layoutManager.showsInconsistentIndentation = aFlag;
+    self.document.showInconsistentIndentation = aFlag;
+    [I_textView setNeedsDisplay:YES];
+}
+
+
+- (BOOL)showsInconsistentIndentation {
+    return [(LayoutManager *)[I_textView layoutManager] showsInconsistentIndentation];
+}
+
+
+- (IBAction)toggleShowInconsistentIndentation:(id)aSender {
+    [self setShowsInconsistentIndentation:![self showsInconsistentIndentation]];
+}
 
 - (void)setShowsInvisibleCharacters:(BOOL)aFlag {
     LayoutManager *layoutManager = (LayoutManager *)[I_textView layoutManager];
@@ -2472,6 +2494,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     
     LayoutManager *layoutManager = (LayoutManager *)self.textView.layoutManager;
     layoutManager.usesTabs = self.document.usesTabs;
+    layoutManager.tabWidth = self.document.tabWidth;
     
 
     [self TCM_updateBottomStatusBar];
