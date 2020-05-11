@@ -1,3 +1,7 @@
+Changes with Version 5.1.4 (SEE 5.1.4)
+	*) fixed bright mode issues in preview
+	*) fixed code block indentation issues (did strip indetnation)
+
 Changes with Version 5.1.3 (SEE 5.1.3)
 	*) added markdown preview
 

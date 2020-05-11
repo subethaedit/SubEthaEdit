@@ -6,8 +6,6 @@
 
 * Dominik [@monkeydom](https://mastodon.technology/@monkeydom) Wagner - [GitHub](https://github.com/monkeydom) [Mastodon](https://mastodon.technology/@monkeydom) [Twitter](https://twitter.com/monkeydom) [Blog](https://coding.monkeydom.de/)
 
-* Francisco Ryan Tolmasky I - [GitHub](https://github.com/tolmasky) [Twitter](https://twitter.com/tolmasky) [Blog](https://tolmasky.com/)
-
 * Matthias Bartelmeß - [GitHub](https://github.com/fourplusone)
 
 ## Contributors
@@ -17,6 +15,8 @@
 * Michael Ehrmann
 * Lisa Brodner
 * Marcel-André Casasola Merkle
+
+* Francisco Ryan Tolmasky I - [GitHub](https://github.com/tolmasky) [Twitter](https://twitter.com/tolmasky) [Blog](https://tolmasky.com/)
 
 ### Artwork
 * SubEthaEdit 2 Icon - The Iconfactory
