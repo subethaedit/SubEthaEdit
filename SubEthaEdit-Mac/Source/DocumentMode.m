@@ -291,11 +291,19 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         
         // Preference Handling
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:nil];
-        NSMutableDictionary *dictionary=[[defaults objectForKey:[self documentModeIdentifier]] mutableCopy];
-        if (dictionary) {
-            // color is deprecated since 2.1 - so ignore it
-            [self setDefaults:dictionary];
-            NSNumber *encodingNumber = [dictionary objectForKey:DocumentModeEncodingPreferenceKey];
+        NSMutableDictionary *existingModeDefaults = [[defaults objectForKey:[self documentModeIdentifier]] mutableCopy];
+        if (existingModeDefaults) {
+            // Upgrade adjustments for values that aren't set yet
+            
+            // SEE 5.1.4 - Higlight inconsistent indentation - default to YES if not set
+            if (existingModeDefaults[DocumentModeShowInconsistentIndentationPreferenceKey] == nil) {
+                [existingModeDefaults setObject:@YES forKey:DocumentModeShowInconsistentIndentationPreferenceKey];
+            }
+
+            
+            [self setDefaults:existingModeDefaults];
+            
+            NSNumber *encodingNumber = [existingModeDefaults objectForKey:DocumentModeEncodingPreferenceKey];
             if (encodingNumber) {
                 NSStringEncoding encoding = [encodingNumber unsignedIntValue];
                 if (encoding != NoStringEncoding) {
@@ -320,7 +328,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
             [_defaults setObject:@YES forKey:DocumentModeHighlightSyntaxPreferenceKey];
             [_defaults setObject:@YES forKey:DocumentModeShowLineNumbersPreferenceKey];
             [_defaults setObject:@NO  forKey:DocumentModeShowInvisibleCharactersPreferenceKey];
-            [_defaults setObject:@NO  forKey:DocumentModeShowInconsistentIndentationPreferenceKey];
+            [_defaults setObject:@YES forKey:DocumentModeShowInconsistentIndentationPreferenceKey];
             [_defaults setObject:@YES forKey:DocumentModeShowMatchingBracketsPreferenceKey];
             [_defaults setObject:@YES forKey:DocumentModeWrapLinesPreferenceKey];
             [_defaults setObject:@YES forKey:DocumentModeIndentNewLinesPreferenceKey];
