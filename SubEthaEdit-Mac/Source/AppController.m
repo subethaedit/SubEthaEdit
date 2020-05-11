@@ -570,28 +570,32 @@ static AppController *sharedInstance = nil;
 		// check for modes with higher bundle version
 		NSDictionary *builtInModesDict = @{
 										   @"SEEMode.ActionScript" : @"ActionScript",
+                                           @"SEEMode.bash" : @"bash",
 										   @"SEEMode.Base" : @"Base",
 										   @"SEEMode.C" : @"C",
 										   @"SEEMode.CPP" : @"C++",
 										   @"SEEMode.CSS" : @"CSS",
 										   @"SEEMode.Conference" : @"Conference",
 										   @"SEEMode.Diff" : @"Diff",
+                                           @"SEEMode.EEX" : @"EEx",
+                                           @"SEEMode.Elixir" : @"Elixir",
 										   @"SEEMode.ERB" : @"ERB",
 										   @"SEEMode.Erlang" : @"erlang",
+                                           @"SEEMode.go" : @"go",
 										   @"SEEMode.HTML" : @"HTML",
 										   @"SEEMode.Java" : @"Java",
 										   @"SEEMode.Javascript" : @"Javascript",
 										   @"SEEMode.LaTeX" : @"LaTeX",
 										   @"SEEMode.Lua" : @"Lua",
+                                           @"SEEMode.Markdown" : @"Markdown",
 										   @"SEEMode.Objective-C" : @"Objective-C",
 										   @"SEEMode.PHP-HTML" : @"PHP-HTML",
 										   @"SEEMode.Perl" : @"Perl",
 										   @"SEEMode.Python" : @"Python",
 										   @"SEEMode.Ruby" : @"Ruby",
 										   @"SEEMode.Swift" : @"Swift",
+                                           @"SEEMode.TOML" : @"TOML",
 										   @"SEEMode.XML" : @"XML",
-										   @"SEEMode.bash" : @"bash",
-										   @"SEEMode.go" : @"go"
 										   };
 		
 		DocumentModeManager *modeManager = [DocumentModeManager sharedInstance];

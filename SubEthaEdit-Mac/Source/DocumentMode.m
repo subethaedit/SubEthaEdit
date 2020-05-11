@@ -298,7 +298,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
             NSNumber *encodingNumber = [dictionary objectForKey:DocumentModeEncodingPreferenceKey];
             if (encodingNumber) {
                 NSStringEncoding encoding = [encodingNumber unsignedIntValue];
-                if ( encoding != NoStringEncoding ) {
+                if (encoding != NoStringEncoding) {
 					[[EncodingManager sharedInstance] registerEncoding:encoding];
 				}
             }
@@ -318,7 +318,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
             [_defaults setObject:dict forKey:DocumentModeFontAttributesPreferenceKey];
             [_defaults setObject:[NSNumber numberWithUnsignedInt:NSUTF8StringEncoding] forKey:DocumentModeEncodingPreferenceKey];
             [_defaults setObject:@YES forKey:DocumentModeHighlightSyntaxPreferenceKey];
-            [_defaults setObject:@YES  forKey:DocumentModeShowLineNumbersPreferenceKey];
+            [_defaults setObject:@YES forKey:DocumentModeShowLineNumbersPreferenceKey];
             [_defaults setObject:@NO  forKey:DocumentModeShowInvisibleCharactersPreferenceKey];
             [_defaults setObject:@NO  forKey:DocumentModeShowInconsistentIndentationPreferenceKey];
             [_defaults setObject:@YES forKey:DocumentModeShowMatchingBracketsPreferenceKey];
@@ -336,18 +336,12 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
             [[EncodingManager sharedInstance] registerEncoding:NoStringEncoding];
             if (![self isBaseMode]) {
                 // read frome modefile? for now use defaults
-                [_defaults setObject:@YES 
-                               forKey:DocumentModeUseDefaultViewPreferenceKey];
-                [_defaults setObject:@YES 
-                               forKey:DocumentModeUseDefaultEditPreferenceKey];
-                [_defaults setObject:@YES 
-                               forKey:DocumentModeUseDefaultFilePreferenceKey];
-                [_defaults setObject:@YES 
-                               forKey:DocumentModeUseDefaultFontPreferenceKey];
-                [_defaults setObject:@YES
-                               forKey:DocumentModeUseDefaultStylePreferenceKey];
-                [_defaults setObject:@YES 
-                               forKey:DocumentModeUseDefaultStyleSheetPreferenceKey];
+                [_defaults setObject:@YES forKey:DocumentModeUseDefaultViewPreferenceKey];
+                [_defaults setObject:@YES forKey:DocumentModeUseDefaultEditPreferenceKey];
+                [_defaults setObject:@YES forKey:DocumentModeUseDefaultFilePreferenceKey];
+                [_defaults setObject:@YES forKey:DocumentModeUseDefaultFontPreferenceKey];
+                [_defaults setObject:@YES forKey:DocumentModeUseDefaultStylePreferenceKey];
+                [_defaults setObject:@YES forKey:DocumentModeUseDefaultStyleSheetPreferenceKey];
             }
         }
 
@@ -356,65 +350,47 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 
             if (![_defaults objectForKey:DocumentModePrintOptionsPreferenceKey]) {
                 NSMutableDictionary *printDictionary=[NSMutableDictionary dictionary];
-                [printDictionary setObject:[NSNumber numberWithInt:0]
-                                        forKey:@"SEEUseCustomFont"];
-                [printDictionary setObject:@YES
-                                        forKey:@"SEEResizeDocumentFont"];
-                [printDictionary setObject:[NSNumber numberWithFloat:8]
-                                        forKey:@"SEEResizeDocumentFontTo"];
-                [printDictionary setObject:@YES
-                                        forKey:@"SEEPageHeader"];
-                [printDictionary setObject:@YES
-                                        forKey:@"SEEPageHeaderFilename"];
-                [printDictionary setObject:@YES
-                                        forKey:@"SEEPageHeaderCurrentDate"];
-                [printDictionary setObject:@YES
-                                        forKey:@"SEEWhiteBackground"];
-                [printDictionary setObject:@YES
-                                        forKey:@"SEEHighlightSyntax"];
-                [printDictionary setObject:@NO
-                                        forKey:@"SEEColorizeChangeMarks"];
-                [printDictionary setObject:@NO
-                                        forKey:@"SEEAnnotateChangeMarks"];
-                [printDictionary setObject:@NO
-                                        forKey:@"SEEColorizeWrittenBy"];
-                [printDictionary setObject:@NO
-                                        forKey:@"SEEAnnotateWrittenBy"];
-                [printDictionary setObject:@NO
-                                        forKey:@"SEEParticipants"];
-                [printDictionary setObject:@YES
-                                        forKey:@"SEEParticipantImages"];
-                [printDictionary setObject:@YES
-                                        forKey:@"SEEParticipantsAIMAndEmail"];
-                [printDictionary setObject:@YES
-                                        forKey:@"SEEParticipantsVisitors"];
+                [printDictionary setObject:@0   forKey:@"SEEUseCustomFont"];
+                [printDictionary setObject:@YES forKey:@"SEEResizeDocumentFont"];
+                [printDictionary setObject:@8.0 forKey:@"SEEResizeDocumentFontTo"];
+                [printDictionary setObject:@YES forKey:@"SEEPageHeader"];
+                [printDictionary setObject:@YES forKey:@"SEEPageHeaderFilename"];
+                [printDictionary setObject:@YES forKey:@"SEEPageHeaderCurrentDate"];
+                [printDictionary setObject:@YES forKey:@"SEEWhiteBackground"];
+                [printDictionary setObject:@YES forKey:@"SEEHighlightSyntax"];
+                [printDictionary setObject:@NO  forKey:@"SEEColorizeChangeMarks"];
+                [printDictionary setObject:@NO  forKey:@"SEEAnnotateChangeMarks"];
+                [printDictionary setObject:@NO  forKey:@"SEEColorizeWrittenBy"];
+                [printDictionary setObject:@NO  forKey:@"SEEAnnotateWrittenBy"];
+                [printDictionary setObject:@NO  forKey:@"SEEParticipants"];
+                [printDictionary setObject:@YES forKey:@"SEEParticipantImages"];
+                [printDictionary setObject:@YES forKey:@"SEEParticipantsAIMAndEmail"];
+                [printDictionary setObject:@YES forKey:@"SEEParticipantsVisitors"];
                 NSFont *font=[NSFont fontWithName:@"Times" size:8];
                 if (!font) font=[NSFont systemFontOfSize:8.5];
                 NSMutableDictionary *dict=[NSMutableDictionary dictionary];
-                [dict setObject:[font fontName] 
-                         forKey:NSFontNameAttribute];
-                [dict setObject:[NSNumber numberWithFloat:8.5] 
-                         forKey:NSFontSizeAttribute];
+                [dict setObject:[font fontName] forKey:NSFontNameAttribute];
+                [dict setObject:@8.5            forKey:NSFontSizeAttribute];
                 [printDictionary setObject:dict forKey:@"SEEFontAttributes"];
                 float cmToPoints=28.3464567; // google
                 [printDictionary setObject:[NSNumber numberWithFloat:2.0*cmToPoints]
-                                 forKey:NSPrintLeftMargin];
+                                    forKey:NSPrintLeftMargin];
                 [printDictionary setObject:[NSNumber numberWithFloat:1.0*cmToPoints]
-                                 forKey:NSPrintRightMargin];
+                                    forKey:NSPrintRightMargin];
                 [printDictionary setObject:[NSNumber numberWithFloat:1.0*cmToPoints]
-                                 forKey:NSPrintTopMargin];
+                                    forKey:NSPrintTopMargin];
                 [printDictionary setObject:[NSNumber numberWithFloat:1.0*cmToPoints]
-                                 forKey:NSPrintBottomMargin];
+                                    forKey:NSPrintBottomMargin];
                 [_defaults setObject:printDictionary
-                               forKey:DocumentModePrintOptionsPreferenceKey];
+                              forKey:DocumentModePrintOptionsPreferenceKey];
             }
         }
 
 		// populate stylesheet prefs if not there already
 		if (![self isBaseMode]) {
 			if (![_defaults objectForKey:DocumentModeUseDefaultStyleSheetPreferenceKey]) {
-				[_defaults setObject:@YES 
-							   forKey:DocumentModeUseDefaultStyleSheetPreferenceKey];
+                [_defaults setObject:@YES
+                              forKey:DocumentModeUseDefaultStyleSheetPreferenceKey];
 			}
 		}
 
