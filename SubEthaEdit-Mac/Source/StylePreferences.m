@@ -139,9 +139,9 @@
 - (IBAction)styleRadioButtonAction:(id)aSender {
 	DocumentMode *currentMode = [self.O_modeController content];
 	if (aSender == self.O_styleSheetDefaultRadioButton) {
-		[[currentMode defaults] setObject:[NSNumber numberWithBool:YES] forKey:DocumentModeUseDefaultStyleSheetPreferenceKey];
+		[[currentMode defaults] setObject:@YES forKey:DocumentModeUseDefaultStyleSheetPreferenceKey];
 	} else {
-		[[currentMode defaults] setObject:[NSNumber numberWithBool:NO] forKey:DocumentModeUseDefaultStyleSheetPreferenceKey];
+		[[currentMode defaults] setObject:@NO forKey:DocumentModeUseDefaultStyleSheetPreferenceKey];
 		SEEStyleSheetSettings *styleSheetSettings = [currentMode styleSheetSettingsOfThisMode];
 		if (aSender == self.O_styleSheetCustomRadioButton) {
 			styleSheetSettings.usesMultipleStyleSheets = NO;
@@ -156,7 +156,7 @@
 - (IBAction)changeCustomStyleSheet:(id)aSender {
 	DocumentMode *currentMode = [self.O_modeController content];
 	NSString *styleSheetName = [[self.O_styleSheetCustomPopUpButton selectedItem] title];
-	[[currentMode defaults] setObject:[NSNumber numberWithBool:NO] forKey:DocumentModeUseDefaultStyleSheetPreferenceKey];
+	[[currentMode defaults] setObject:@NO forKey:DocumentModeUseDefaultStyleSheetPreferenceKey];
 	SEEStyleSheetSettings *styleSheetSettings = [currentMode styleSheetSettingsOfThisMode];
 	styleSheetSettings.singleStyleSheetName = styleSheetName;
 	styleSheetSettings.usesMultipleStyleSheets = NO;
@@ -347,7 +347,7 @@
 	DocumentMode *currentMode = [self.O_modeController content];
 	SEEStyleSheetSettings *styleSheetSettings = [currentMode styleSheetSettings];
 	[styleSheetSettings setStyleSheetName:styleSheetName forLanguageContext:languageContext];
-	[[currentMode defaults] setObject:[NSNumber numberWithBool:NO] forKey:DocumentModeUseDefaultStyleSheetPreferenceKey];
+	[[currentMode defaults] setObject:@NO forKey:DocumentModeUseDefaultStyleSheetPreferenceKey];
 	styleSheetSettings.usesMultipleStyleSheets = YES;
 	[self highlightSyntax];
 }

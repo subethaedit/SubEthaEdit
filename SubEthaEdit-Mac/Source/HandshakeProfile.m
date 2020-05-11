@@ -85,10 +85,10 @@
             [self setRemoteInfos:dict];
             DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Handshake greeting was: %@", [dict descriptionInStringsFileFormat]);
             if ([[self remoteInfos] objectForKey:@"rendez"]) {
-                [[[self session] userInfo] setObject:[NSNumber numberWithBool:YES] forKey:@"isRendezvous"];
+                [[[self session] userInfo] setObject:@YES forKey:@"isRendezvous"];
             }
             if ([[self remoteInfos] objectForKey:@"isauto"]) {
-                [[[self session] userInfo] setObject:[NSNumber numberWithBool:YES] forKey:@"isAutoConnect"];
+                [[[self session] userInfo] setObject:@YES forKey:@"isAutoConnect"];
             }
 			if ([self remoteInfos][@"autoid"]) {
 				[self.session.userInfo setObject:[self remoteInfos][@"autoid"] forKey:TCMMMPresenceAutoconnectOriginUserIDKey];

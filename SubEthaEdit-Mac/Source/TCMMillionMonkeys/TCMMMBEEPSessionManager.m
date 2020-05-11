@@ -423,7 +423,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
 			[outgoingSessions addObject:session];
 
 			[[session userInfo] setObject:[aInformation objectForKey:@"peerUserID"] forKey:@"peerUserID"];
-			[[session userInfo] setObject:[NSNumber numberWithBool:YES] forKey:@"isRendezvous"];
+			[[session userInfo] setObject:@YES forKey:@"isRendezvous"];
 			[session addProfileURIs:   [I_greetingProfiles objectForKey:kTCMMMBEEPSessionManagerDefaultMode]];
 			if ([[NSUserDefaults standardUserDefaults] boolForKey:kSEEDefaultsKeyEnableTLS]) {
 				[session addTLSProfileURIs:[I_greetingProfiles objectForKey:kTCMMMBEEPSessionManagerTLSMode]];
@@ -467,7 +467,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
 */
     NSMutableDictionary *infoDict = [NSMutableDictionary dictionary];
     [infoDict setObject:aHost forKey:@"host"];
-    [infoDict setObject:[NSNumber numberWithBool:YES] forKey:@"pending"];
+    [infoDict setObject:@YES forKey:@"pending"];
     NSMutableArray *sessions = [NSMutableArray array];
     [infoDict setObject:sessions forKey:@"sessions"];
     
@@ -502,7 +502,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
 {
     NSMutableDictionary *infoDict = [I_outboundInternetSessions objectForKey:[[aHost userInfo] objectForKey:@"URLString"]];
     if (infoDict) {
-        [infoDict setObject:[NSNumber numberWithBool:YES] forKey:@"cancelled"];
+        [infoDict setObject:@YES forKey:@"cancelled"];
         NSArray *sessions = [infoDict objectForKey:@"sessions"];
         [sessions makeObjectsPerformSelector:@selector(terminate)];
     }

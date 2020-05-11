@@ -167,8 +167,8 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 - (void)documentDidLoseConnection:(PlainTextDocument *)document {
     PlainTextWindowControllerTabContext *tabContext = [self windowControllerTabContextForDocument:document];
     if (tabContext) {
-        [tabContext setValue:[NSNumber numberWithBool:NO] forKeyPath:@"isReceivingContent"];
-        [tabContext setValue:[NSNumber numberWithBool:NO] forKeyPath:@"isProcessing"];
+        [tabContext setValue:@NO forKeyPath:@"isReceivingContent"];
+        [tabContext setValue:@NO forKeyPath:@"isProcessing"];
         PlainTextLoadProgress *loadProgress = [tabContext loadProgress];
         [loadProgress stopAnimation];
         [loadProgress setStatusText:NSLocalizedString(@"Did lose Connection!", @"Text in Proxy window")];
