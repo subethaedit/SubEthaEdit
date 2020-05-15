@@ -88,6 +88,7 @@ extern NSString * const PlainTextEditorDidChangeSearchScopeNotification;
 - (IBAction)toggleWrap:(id)aSender;
 - (IBAction)toggleShowsChangeMarks:(id)aSender;
 - (IBAction)toggleShowInvisibles:(id)aSender;
+- (IBAction)toggleShowInconsistentIndentation:(id)aSender;
 
 - (IBAction)toggleTopStatusBar:(id)aSender;
 - (IBAction)toggleFindAndReplace:(id)aSender;

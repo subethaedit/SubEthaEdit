@@ -23,17 +23,17 @@
 		[defaultDict setObject:[NSArray array] forKey:MyAIMsPreferenceKey];
 		[defaultDict setObject:[NSArray array] forKey:MyEmailsPreferenceKey];
 		
-		[defaultDict setObject:[NSNumber numberWithBool:YES] forKey:OpenDocumentOnStartPreferenceKey]; // deprecated
-		[defaultDict setObject:[NSNumber numberWithBool:YES] forKey:OpenDocumentHubOnStartupPreferenceKey];
-		[defaultDict setObject:[NSNumber numberWithBool:NO] forKey:OpenUntitledDocumentOnStartupPreferenceKey];
-		[defaultDict setObject:[NSNumber numberWithBool:NO] forKey:DidUpdateOpenDocumentOnStartPreferenceKey];
+		[defaultDict setObject:@YES forKey:OpenDocumentOnStartPreferenceKey]; // deprecated
+		[defaultDict setObject:@YES forKey:OpenDocumentHubOnStartupPreferenceKey];
+		[defaultDict setObject:@NO forKey:OpenUntitledDocumentOnStartupPreferenceKey];
+		[defaultDict setObject:@NO forKey:DidUpdateOpenDocumentOnStartPreferenceKey];
 
 		[defaultDict setObject:[NSNumber numberWithInt:0]    forKey:AdditionalShownPathComponentsPreferenceKey];
 
-		[defaultDict setObject:[NSNumber numberWithBool:YES] forKey:HighlightChangesPreferenceKey];
-		[defaultDict setObject:[NSNumber numberWithBool:NO]  forKey:HighlightChangesAlonePreferenceKey];
+		[defaultDict setObject:@YES forKey:HighlightChangesPreferenceKey];
+		[defaultDict setObject:@NO  forKey:HighlightChangesAlonePreferenceKey];
 		
-		[defaultDict setObject:[NSNumber numberWithBool:YES] forKey:kSEEDefaultsKeyOpenNewDocumentInTab];
+		[defaultDict setObject:@YES forKey:kSEEDefaultsKeyOpenNewDocumentInTab];
 		
 		[defaultDict setObject:BASEMODEIDENTIFIER forKey:ModeForNewDocumentsPreferenceKey];
 		

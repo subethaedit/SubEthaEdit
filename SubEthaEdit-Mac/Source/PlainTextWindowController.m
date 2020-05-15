@@ -167,8 +167,8 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 - (void)documentDidLoseConnection:(PlainTextDocument *)document {
     PlainTextWindowControllerTabContext *tabContext = [self windowControllerTabContextForDocument:document];
     if (tabContext) {
-        [tabContext setValue:[NSNumber numberWithBool:NO] forKeyPath:@"isReceivingContent"];
-        [tabContext setValue:[NSNumber numberWithBool:NO] forKeyPath:@"isProcessing"];
+        [tabContext setValue:@NO forKeyPath:@"isReceivingContent"];
+        [tabContext setValue:@NO forKeyPath:@"isProcessing"];
         PlainTextLoadProgress *loadProgress = [tabContext loadProgress];
         [loadProgress stopAnimation];
         [loadProgress setStatusText:NSLocalizedString(@"Did lose Connection!", @"Text in Proxy window")];
@@ -245,7 +245,8 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 	if (selector == @selector(toggleWrap:) ||
 		selector == @selector(toggleTopStatusBar:) ||
 		selector == @selector(toggleShowsChangeMarks:) ||
-		selector == @selector(toggleShowInvisibles:)) {
+		selector == @selector(toggleShowInvisibles:) ||
+        selector == @selector(toggleShowInconsistentIndentation:)){
 		return [self.activePlainTextEditor validateMenuItem:menuItem];
     } else if (selector ==@selector(toggleWebPreview:)) {
 		[menuItem setState:self.SEE_tabContext.hasWebPreviewSplit ? NSOnState : NSOffState];
@@ -384,6 +385,10 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
 - (IBAction)toggleShowInvisibles:(id)aSender {
     [[self activePlainTextEditor] toggleShowInvisibles:aSender];
+}
+
+- (IBAction)toggleShowInconsistentIndentation:(id)aSender {
+    [[self activePlainTextEditor] toggleShowInconsistentIndentation:aSender];
 }
 
 - (IBAction)toggleShowsChangeMarks:(id)aSender {

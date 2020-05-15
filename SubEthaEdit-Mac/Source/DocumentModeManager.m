@@ -261,7 +261,7 @@ static DocumentModeManager *S_sharedInstance=nil;
                 BOOL caseOverride = (((typeRule==3)&&(typeOverride==0)) && ([[stringRule uppercaseString] isEqualToString:[stringOverride uppercaseString]]));
                 
                 if (simpleOverride||caseOverride) {
-                    [rule setObject:[NSNumber numberWithBool:YES] forKey:@"Overridden"];
+                    [rule setObject:@YES forKey:@"Overridden"];
                     [rule setObject:[NSString stringWithFormat:NSLocalizedString(@"Overriden by trigger in %@ mode",@"Mode Precedence Overriden Tooltip"), [override objectForKey:@"FromMode"]] forKey:@"OverriddenTooltip"];
                     isOverridden = YES;
                 }   
@@ -269,7 +269,7 @@ static DocumentModeManager *S_sharedInstance=nil;
             }
             
             if (!isOverridden) {
-                [rule setObject:[NSNumber numberWithBool:NO] forKey:@"Overridden"];
+                [rule setObject:@NO forKey:@"Overridden"];
                 [rule setObject:@"" forKey:@"OverriddenTooltip"];
             }
             
@@ -354,11 +354,11 @@ static DocumentModeManager *S_sharedInstance=nil;
 			while ((extension = [extensions nextObject])) {
 				[ruleArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
 									  extension,@"String",
-									  [NSNumber numberWithBool:YES],@"Enabled",
+									  @YES,@"Enabled",
 									  [NSNumber numberWithInt:0],@"TypeIdentifier",
-									  [NSNumber numberWithBool:NO],@"Overridden",
+									  @NO,@"Overridden",
 									  @"",@"OverriddenTooltip",
-									  [NSNumber numberWithBool:YES],@"ModeRule",
+									  @YES,@"ModeRule",
 									  nil]];
 				[allPathExtensionSet addObject:extension];
 			}
@@ -366,11 +366,11 @@ static DocumentModeManager *S_sharedInstance=nil;
 			while ((casesensitiveExtension = [casesensitiveExtensions nextObject])) {
 				[ruleArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
 									  casesensitiveExtension,@"String",
-									  [NSNumber numberWithBool:YES],@"Enabled",
+									  @YES,@"Enabled",
 									  [NSNumber numberWithInt:3],@"TypeIdentifier",
-									  [NSNumber numberWithBool:NO],@"Overridden",
+									  @NO,@"Overridden",
 									  @"",@"OverriddenTooltip",
-									  [NSNumber numberWithBool:YES],@"ModeRule",
+									  @YES,@"ModeRule",
 									  nil]];
 				[allPathExtensionSet addObject:casesensitiveExtension];
 			}
@@ -378,11 +378,11 @@ static DocumentModeManager *S_sharedInstance=nil;
 			while ((filename = [filenames nextObject])) {
 				[ruleArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
 									  filename,@"String",
-									  [NSNumber numberWithBool:YES],@"Enabled",
+									  @YES,@"Enabled",
 									  [NSNumber numberWithInt:1],@"TypeIdentifier",
-									  [NSNumber numberWithBool:NO],@"Overridden",
+									  @NO,@"Overridden",
 									  @"",@"OverriddenTooltip",
-									  [NSNumber numberWithBool:YES],@"ModeRule",
+									  @YES,@"ModeRule",
 									  nil]];
 			}
 
@@ -390,11 +390,11 @@ static DocumentModeManager *S_sharedInstance=nil;
 				if ([OGRegularExpression isValidExpressionString:regex]) {
 					[ruleArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
 										  regex,@"String",
-										  [NSNumber numberWithBool:YES],@"Enabled",
+										  @YES,@"Enabled",
 										  [NSNumber numberWithInt:2],@"TypeIdentifier",
-										  [NSNumber numberWithBool:NO],@"Overridden",
+										  @NO,@"Overridden",
 										  @"",@"OverriddenTooltip",
-										  [NSNumber numberWithBool:YES],@"ModeRule",
+										  @YES,@"ModeRule",
 										  nil]];
 				}
 			}

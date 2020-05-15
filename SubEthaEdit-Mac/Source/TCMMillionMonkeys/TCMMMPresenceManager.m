@@ -229,7 +229,7 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
 - (void)setShouldAutoconnect:(BOOL)aFlag forUserID:(NSString *)aUserID {
     NSMutableDictionary *status = [self statusOfUserID:aUserID];
     if (aFlag) {
-        [status setObject:[NSNumber numberWithBool:YES] forKey:@"shouldAutoConnect"];
+        [status setObject:@YES forKey:@"shouldAutoConnect"];
         [[status objectForKey:TCMMMPresenceStatusProfileKey] requestReachability];
     } else {
         [status removeObjectForKey:@"shouldAutoConnect"];
@@ -490,7 +490,7 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
         [sessionUserInfo removeObjectForKey:TCMMMPresenceReachabiltyURLKey];
     }
     // make sure the UI gets notified of that change
-    [status setObject:[NSNumber numberWithBool:YES] forKey:@"shouldSendVisibilityChangeNotification"];
+    [status setObject:@YES forKey:@"shouldSendVisibilityChangeNotification"];
     [self TCM_validateVisibilityOfUserID:userID];
 }
 
@@ -567,7 +567,7 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
 }
 
 - (void)setShouldAutoAcceptInviteToSessionID:(NSString *)aSessionID {
-    [I_autoAcceptInviteSessions setObject:[NSNumber numberWithBool:YES] forKey:aSessionID];
+    [I_autoAcceptInviteSessions setObject:@YES forKey:aSessionID];
 }
 // this call also removes the autoacceptflag
 - (BOOL)shouldAutoAcceptInviteToSessionID:(NSString *)aSessionID {
@@ -691,7 +691,7 @@ NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
         DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"starting StatusProfile with: %@", userID);
         [session startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"] andData:[NSArray arrayWithObject:[TCMMMStatusProfile defaultInitializationData]] sender:self];
     }
-    [statusOfUserID setObject:[NSNumber numberWithBool:YES] forKey:@"shouldSendVisibilityChangeNotification"];    
+    [statusOfUserID setObject:@YES forKey:@"shouldSendVisibilityChangeNotification"];    
 }
 
 - (void)TCM_didEndSession:(NSNotification *)aNotification 

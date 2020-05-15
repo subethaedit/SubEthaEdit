@@ -163,7 +163,7 @@ static NSString *kServiceKey=@"Service";
     } else {
         NSNetService *netService=[serviceEntry objectForKey:kServiceKey];
         [netService setDelegate:nil];
-        [serviceEntry setObject:[NSNumber numberWithBool:YES] forKey:kDidResolveKey];
+        [serviceEntry setObject:@YES forKey:kDidResolveKey];
         id delegate=[self delegate];
         if ([delegate respondsToSelector:@selector(rendezvousBrowser:didResolveService:)]) {
             [delegate rendezvousBrowser:self didResolveService:netService];
