@@ -49,8 +49,8 @@ $(ARM_64_DIR)/$(ONIG_TARGET): $(ARM_64_DIR)
 	cd $(@D);\
 	rm -f "$(ONIG_TARGET)";\
 	CC="$(ARM_64_CC)" ./configure $(ARM_64_CONFIGURE_FLAGS);\
-	perl -pi -e 's@CFLAGS = -isysroot /Developer/SDKs/MacOSX10.7.sdk -arch x86_64@CFLAGS = -isysroot $(ARM_64_SDK) -arch x86_64 --mmacosx-version-min=$(MACOSX_DEPLOYMENT_TARGET)@' Makefile;\
-	perl -pi -e 's@-dynamiclib@-dynamiclib -arch x86_64@g' libtool;\
+	perl -pi -e 's@CFLAGS = -isysroot /Developer/SDKs/MacOSX10.7.sdk -arch x86_64@CFLAGS = -isysroot $(ARM_64_SDK) -arch arm64 --mmacosx-version-min=$(MACOSX_DEPLOYMENT_TARGET)@' Makefile;\
+	perl -pi -e 's@-dynamiclib@-dynamiclib -arch arm64@g' libtool;\
 	echo "#define USE_UNICODE_ALL_LINE_TERMINATORS 1" >> config.h;\
 	/usr/bin/make "$(ONIG_TARGET)"
 
