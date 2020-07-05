@@ -1,8 +1,10 @@
 ### [unreleased] SubEthaEdit 5.1.4
 
 #### Features:
+* New Option: Show inconsistent indentations - easily see mixed use of tabs and spaces.
 
 #### Bug fixes and maintenance:
+* Fixed issue with Style Preferences that could lead to the font change not being taken.
 
 #### Improved modes:
 * Markdown preview: Fixed wrong table header colors in light mode
