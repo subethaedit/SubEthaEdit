@@ -1,3 +1,14 @@
+
+### [unreleased] SubEthaEdit 5.2
+
+#### Features:
+* Support for future macOS Releases.
+
+#### Bug fixes and maintenance:
+
+#### Improved modes:
+
+
 ### SubEthaEdit 5.1.4
 
 #### Features:
