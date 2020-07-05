@@ -885,10 +885,7 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 - (void)takeStyleSettingsFromDocumentMode {
-    DocumentMode *documentMode=[self documentMode];
-    NSDictionary *fontAttributes=[documentMode defaultForKey:DocumentModeFontAttributesPreferenceKey];
-    NSFont *newFont=[NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
-    if (!newFont) newFont=[NSFont userFixedPitchFontOfSize:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
+    NSFont *newFont = self.documentMode.plainFontBase;
     [self setPlainFont:newFont];
     [[self plainTextEditors] makeObjectsPerformSelector:@selector(takeStyleSettingsFromDocument)];
 }
@@ -903,6 +900,7 @@ static NSString *tempFileName(NSString *origPath) {
     [self setWrapLines:[[documentMode defaultForKey:DocumentModeWrapLinesPreferenceKey] boolValue]];
     [self setWrapMode: [[documentMode defaultForKey:DocumentModeWrapModePreferenceKey] intValue]];
     [self setShowInvisibleCharacters:[[documentMode defaultForKey:DocumentModeShowInvisibleCharactersPreferenceKey] boolValue]];
+    [self setShowInconsistentIndentation:[[documentMode defaultForKey:DocumentModeShowInconsistentIndentationPreferenceKey] boolValue]];
     [self setShowsGutter:[[documentMode defaultForKey:DocumentModeShowLineNumbersPreferenceKey] intValue]];
     [self setShowsMatchingBrackets:[[documentMode defaultForKey:DocumentModeShowMatchingBracketsPreferenceKey] boolValue]];
     
@@ -1412,6 +1410,7 @@ static NSString *tempFileName(NSString *origPath) {
 	[coder encodeBool:self.wrapLines forKey:@"SEEPlainTextDocumentWrapLines"];
 	[coder encodeBool:self.showsGutter forKey:@"SEEPlainTextDocumentShowsGutter"];
 	[coder encodeBool:self.showInvisibleCharacters forKey:@"SEEPlainTextDocumentShowInvisibleCharacters"];
+    [coder encodeBool:self.showInconsistentIndentation forKey:@"SEEPlainTextDocumentShowInconsistentIndentation"];
 	[coder encodeBool:self.showsChangeMarks forKey:@"SEEPlainTextDocumentShowsChangeMarks"];
 	[coder encodeBool:self.isContinuousSpellCheckingEnabled forKey:@"SEEPlainTextDocumentContinuousSpellCheckingEnabled"];
 //	[coder encodeBool:self.showsTopStatusBar forKey:@"SEEPlainTextDocumentShowsTopStatusBar"];
@@ -1453,6 +1452,8 @@ static NSString *tempFileName(NSString *origPath) {
 		self.showsGutter = [coder decodeBoolForKey:@"SEEPlainTextDocumentShowsGutter"];
 	if ([coder containsValueForKey:@"SEEPlainTextDocumentShowInvisibleCharacters"])
 		self.showInvisibleCharacters = [coder decodeBoolForKey:@"SEEPlainTextDocumentShowInvisibleCharacters"];
+    if ([coder containsValueForKey:@"SEEPlainTextDocumentShowInconsistentIndentation"])
+    self.showInconsistentIndentation = [coder decodeBoolForKey:@"SEEPlainTextDocumentShowInconsistentIndentation"];
 	if ([coder containsValueForKey:@"SEEPlainTextDocumentShowsChangeMarks"])
 		self.showsChangeMarks = [coder decodeBoolForKey:@"SEEPlainTextDocumentShowsChangeMarks"];
 	if ([coder containsValueForKey:@"SEEPlainTextDocumentContinuousSpellCheckingEnabled"])
@@ -3748,21 +3749,21 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
                         [printDict setObject:pdfURL forKey:NSPrintJobSavingURL];
                         NSDictionary *savedPrintOptions = [[self printOptions] copy];
                         printDict = [self printOptions];
-                        [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEParticipants"];
-                        [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEParticipantImages"];
-                        [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEParticipantsAIMAndEmail"];
-                        [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEParticipantsVisitors"];
-                        [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEColorizeChangeMarks"];
-                        [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEAnnotateChangeMarks"];
-                        [printDict setObject:[NSNumber numberWithBool:NO]   forKey:@"SEEColorizeWrittenBy"];
-                        [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEAnnotateWrittenBy"];
-                        [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEWhiteBackground"];
-                        [printDict setObject:[NSNumber numberWithBool:NO]   forKey:@"SEEUseCustomFont"];
-                        [printDict setObject:[NSNumber numberWithBool:NO]   forKey:@"SEELineNumbers"];
-                        [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEPageHeader"];
-                        [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEPageHeaderFilename"];
-                        [printDict setObject:[NSNumber numberWithBool:NO]   forKey:@"SEEPageHeaderFullPath"];
-                        [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEPageHeaderCurrentDate"];
+                        [printDict setObject:@YES  forKey:@"SEEParticipants"];
+                        [printDict setObject:@YES  forKey:@"SEEParticipantImages"];
+                        [printDict setObject:@YES  forKey:@"SEEParticipantsAIMAndEmail"];
+                        [printDict setObject:@YES  forKey:@"SEEParticipantsVisitors"];
+                        [printDict setObject:@YES  forKey:@"SEEColorizeChangeMarks"];
+                        [printDict setObject:@YES  forKey:@"SEEAnnotateChangeMarks"];
+                        [printDict setObject:@NO   forKey:@"SEEColorizeWrittenBy"];
+                        [printDict setObject:@YES  forKey:@"SEEAnnotateWrittenBy"];
+                        [printDict setObject:@YES  forKey:@"SEEWhiteBackground"];
+                        [printDict setObject:@NO   forKey:@"SEEUseCustomFont"];
+                        [printDict setObject:@NO   forKey:@"SEELineNumbers"];
+                        [printDict setObject:@YES  forKey:@"SEEPageHeader"];
+                        [printDict setObject:@YES  forKey:@"SEEPageHeaderFilename"];
+                        [printDict setObject:@NO   forKey:@"SEEPageHeaderFullPath"];
+                        [printDict setObject:@YES  forKey:@"SEEPageHeaderCurrentDate"];
                         [printDict setObject:[NSNumber numberWithFloat:8.0] forKey:@"SEEResizeDocumentFontTo"];
                         NSPrintOperation *op = [NSPrintOperation printOperationWithView:printView printInfo:printInfo];
                         [op setShowsPrintPanel:NO];
@@ -4761,6 +4762,16 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 	[self invalidateRestorableState];
 }
 
+// inconsistent indentation setting is only for book keeping - editor scope
+- (BOOL)showInconsistentIndentation {
+    return I_flags.showInconsistentIndentation;
+}
+
+- (void)setShowInconsistentIndentation:(BOOL)aFlag {
+    I_flags.showInconsistentIndentation=aFlag;
+    [self invalidateRestorableState];
+}
+
 
 // wrapline setting is only for book keeping - editor scope
 - (BOOL)wrapLines {
@@ -5369,6 +5380,8 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
                forKey:DocumentModeShowLineNumbersPreferenceKey];
     [result setObject:[NSNumber numberWithBool:[self showInvisibleCharacters]]
                forKey:DocumentModeShowInvisibleCharactersPreferenceKey];
+    [result setObject:[NSNumber numberWithBool:[self showInconsistentIndentation]]
+               forKey:DocumentModeShowInconsistentIndentationPreferenceKey];
     [result setObject:[NSNumber numberWithBool:[self highlightsSyntax]]
                forKey:DocumentModeHighlightSyntaxPreferenceKey];
 
@@ -5391,6 +5404,8 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     if (value) [self setValue:value forKey:@"showsGutter"];
     value = [aDocumentState objectForKey:DocumentModeShowInvisibleCharactersPreferenceKey];
     if (value) [self setValue:value forKey:@"showInvisibleCharacters"];
+    value = [aDocumentState objectForKey:DocumentModeShowInconsistentIndentationPreferenceKey];
+    if (value) [self setValue:value forKey:@"showInconsistentIndentation"];
     value = [aDocumentState objectForKey:DocumentModeHighlightSyntaxPreferenceKey];
     if (value) [self setValue:value forKey:@"highlightsSyntax"];
     value = [aDocumentState objectForKey:DocumentModeLineEndingPreferenceKey];

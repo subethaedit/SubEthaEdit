@@ -1,3 +1,17 @@
+### SubEthaEdit 5.1.4
+
+#### Features:
+* New Option: Show inconsistent indentations - easily see mixed use of tabs and spaces.
+* New Option: System monospaced Font is now available in the style preferences.
+
+#### Bug fixes and maintenance:
+* Fixed issue with style preferences that could lead to the font change not being taken.
+
+#### Improved modes:
+* Markdown preview: Fixed wrong table header colors in light mode
+* Markdown preview: Fixed incorrect stripping of leading whitespace in code blocks
+* Improved Bash mode: Added support for heredoc strings
+
 ### SubEthaEdit 5.1.3
 
 #### Features:
@@ -9,7 +23,7 @@
 * Improved performance on files with very many lines
 
 #### Improved modes:
-* Improved Markdown Mode: added a markdown preview
+* Improved Markdown mode: added a markdown preview
 * Improved Objective-C mode to handle properties with generic types better
 
 ### SubEthaEdit 5.1.2

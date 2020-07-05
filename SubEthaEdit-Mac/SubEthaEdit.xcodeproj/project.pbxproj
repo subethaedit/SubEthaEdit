@@ -316,6 +316,7 @@
 		F24280C60D16CFCC0083AE21 /* GenericSASLProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = F24280C50D16CFCC0083AE21 /* GenericSASLProfile.m */; };
 		F245828A2181C19F00A87EB5 /* FileIcons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F24582892181C19F00A87EB5 /* FileIcons.xcassets */; };
 		F24AEA1B195AE78300046F6B /* DocumentProxy.xib in Resources */ = {isa = PBXBuildFile; fileRef = F24AEA1A195AE78300046F6B /* DocumentProxy.xib */; };
+		F24FA89224B1D94E009D069E /* SEEFontForwardingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = F24FA89124B1D94E009D069E /* SEEFontForwardingTextView.m */; };
 		F250EAC3216A138F00B94A0B /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F250EAC2216A138E00B94A0B /* libz.tbd */; };
 		F250EADE216A2CA800B94A0B /* NSArraySEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F250EADC216A2CA800B94A0B /* NSArraySEEAdditions.m */; };
 		F250EADF216A2CA800B94A0B /* NSArraySEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F250EADC216A2CA800B94A0B /* NSArraySEEAdditions.m */; };
@@ -1041,6 +1042,8 @@
 		F24780B222EAF46600366FC8 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/PrecedencePrefs.xib; sourceTree = "<group>"; };
 		F24780B322EAF46600366FC8 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/PrecedenceRules.xib; sourceTree = "<group>"; };
 		F24AEA1A195AE78300046F6B /* DocumentProxy.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DocumentProxy.xib; sourceTree = "<group>"; };
+		F24FA89024B1D94E009D069E /* SEEFontForwardingTextView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEEFontForwardingTextView.h; sourceTree = "<group>"; };
+		F24FA89124B1D94E009D069E /* SEEFontForwardingTextView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEEFontForwardingTextView.m; sourceTree = "<group>"; };
 		F250EAC2216A138E00B94A0B /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		F250EAD4216A1A9A00B94A0B /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		F250EADC216A2CA800B94A0B /* NSArraySEEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSArraySEEAdditions.m; path = Additions/NSArraySEEAdditions.m; sourceTree = "<group>"; };
@@ -1610,6 +1613,8 @@
 				423B23CF18F63DDE001E2DCC /* SEECollaborationPreferenceModule.m */,
 				4246436318FEDF4300E5D830 /* SEEUserColorsPreviewView.h */,
 				4246436418FEDF4300E5D830 /* SEEUserColorsPreviewView.m */,
+				F24FA89024B1D94E009D069E /* SEEFontForwardingTextView.h */,
+				F24FA89124B1D94E009D069E /* SEEFontForwardingTextView.m */,
 			);
 			name = Preferences;
 			sourceTree = "<group>";
@@ -2675,6 +2680,7 @@
 				1428940409575A3000D14688 /* UndoManager.m in Sources */,
 				1428942F09575AE600D14688 /* BorderedTextField.m in Sources */,
 				1428943009575AE600D14688 /* SEEPlainTextEditorScrollView.m in Sources */,
+				F24FA89224B1D94E009D069E /* SEEFontForwardingTextView.m in Sources */,
 				1428943C09575AE600D14688 /* SEEDocumentController.m in Sources */,
 				1428943D09575AE600D14688 /* DocumentProxyWindowController.m in Sources */,
 				1428944609575B3400D14688 /* FindAllController.m in Sources */,

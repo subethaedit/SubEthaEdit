@@ -133,33 +133,33 @@ static AppController *sharedInstance = nil;
 		[defaults setObject:[NSNumber numberWithInt:SUBETHAEDIT_DEFAULT_PORT] forKey:DefaultPortNumber];
 		[defaults setObject:[NSNumber numberWithInt:[[SEEDocumentController sharedDocumentController] maximumRecentDocumentCount]] forKey:@"NSRecentDocumentsLimit"];
 		[defaults setObject:[NSMutableArray array] forKey:AddressHistory];
-		[defaults setObject:[NSNumber numberWithBool:NO] forKey:ProhibitInboundInternetSessions];
+		[defaults setObject:@NO forKey:ProhibitInboundInternetSessions];
 		[defaults setObject:[NSNumber numberWithDouble:60.] forKey:NetworkTimeoutPreferenceKey];
 		[defaults setObject:[NSNumber numberWithDouble:30.] forKey:@"AutoSavingDelay"]; // use same autosave delay as textedit
-		[defaults setObject:[NSNumber numberWithBool:YES] forKey:VisibilityPrefKey];
-		[defaults setObject:[NSNumber numberWithBool:YES] forKey:AutoconnectPrefKey];
-		[defaults setObject:[NSNumber numberWithBool:NO] forKey:@"GoIntoBundlesPrefKey"];
+		[defaults setObject:@YES forKey:VisibilityPrefKey];
+		[defaults setObject:@YES forKey:AutoconnectPrefKey];
+		[defaults setObject:@NO forKey:@"GoIntoBundlesPrefKey"];
 	#ifdef TCM_NO_DEBUG
-		[defaults setObject:[NSNumber numberWithBool:NO] forKey:@"EnableBEEPLogging"];
+		[defaults setObject:@NO forKey:@"EnableBEEPLogging"];
 	#endif
 		[defaults setObject:[NSNumber numberWithInt:800*1024] forKey:@"StringLengthToStopHighlightingAndWrapping"];
 		[defaults setObject:[NSNumber numberWithInt:800*1024] forKey:@"StringLengthToStopSymbolRecognition"];
 		[defaults setObject:[NSNumber numberWithInt:4096*1024] forKey:@"ByteLengthToUseForModeRecognitionAndEncodingGuessing"];
 		
 		//
-		[defaults setObject:[NSNumber numberWithBool:YES] forKey:VisibilityPrefKey];
-		[defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentStateSaveAndLoadWindowPositionKey];
-		[defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentStateSaveAndLoadTabSettingKey 	  ];
-		[defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentStateSaveAndLoadWrapSettingKey   ];
-		[defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentStateSaveAndLoadDocumentModeKey  ];
-		[defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentStateSaveAndLoadSelectionKey 	  ];
-		[defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentStateSaveAndLoadFoldingStateKey  ];
+		[defaults setObject:@YES forKey:VisibilityPrefKey];
+		[defaults setObject:@YES forKey:DocumentStateSaveAndLoadWindowPositionKey];
+		[defaults setObject:@YES forKey:DocumentStateSaveAndLoadTabSettingKey 	  ];
+		[defaults setObject:@YES forKey:DocumentStateSaveAndLoadWrapSettingKey   ];
+		[defaults setObject:@YES forKey:DocumentStateSaveAndLoadDocumentModeKey  ];
+		[defaults setObject:@YES forKey:DocumentStateSaveAndLoadSelectionKey 	  ];
+		[defaults setObject:@YES forKey:DocumentStateSaveAndLoadFoldingStateKey  ];
 		
 		[defaults setObject:[NSNumber numberWithBool:floor(NSAppKitVersionNumber) > 824.] forKey:@"SaveSeeTextPreview"];
-		[defaults setObject:[NSNumber numberWithBool:YES] forKey:ShouldAutomaticallyMapPort];
+		[defaults setObject:@YES forKey:ShouldAutomaticallyMapPort];
 
-		[defaults setObject:[NSNumber numberWithBool:NO] forKey:kSEEDefaultsKeyEnableTLS];
-		[defaults setObject:[NSNumber numberWithBool:NO] forKey:kSEEDefaultsKeyUseTemporaryKeychainForTLS]; // no more temporary keychain in 10.6 and up builds
+		[defaults setObject:@NO forKey:kSEEDefaultsKeyEnableTLS];
+		[defaults setObject:@NO forKey:kSEEDefaultsKeyUseTemporaryKeychainForTLS]; // no more temporary keychain in 10.6 and up builds
 		
 		defaults[MyEmailPreferenceKey] = @"";
 		defaults[MyAIMPreferenceKey] = @"";
@@ -570,28 +570,32 @@ static AppController *sharedInstance = nil;
 		// check for modes with higher bundle version
 		NSDictionary *builtInModesDict = @{
 										   @"SEEMode.ActionScript" : @"ActionScript",
+                                           @"SEEMode.bash" : @"bash",
 										   @"SEEMode.Base" : @"Base",
 										   @"SEEMode.C" : @"C",
 										   @"SEEMode.CPP" : @"C++",
 										   @"SEEMode.CSS" : @"CSS",
 										   @"SEEMode.Conference" : @"Conference",
 										   @"SEEMode.Diff" : @"Diff",
+                                           @"SEEMode.EEX" : @"EEx",
+                                           @"SEEMode.Elixir" : @"Elixir",
 										   @"SEEMode.ERB" : @"ERB",
 										   @"SEEMode.Erlang" : @"erlang",
+                                           @"SEEMode.go" : @"go",
 										   @"SEEMode.HTML" : @"HTML",
 										   @"SEEMode.Java" : @"Java",
 										   @"SEEMode.Javascript" : @"Javascript",
 										   @"SEEMode.LaTeX" : @"LaTeX",
 										   @"SEEMode.Lua" : @"Lua",
+                                           @"SEEMode.Markdown" : @"Markdown",
 										   @"SEEMode.Objective-C" : @"Objective-C",
 										   @"SEEMode.PHP-HTML" : @"PHP-HTML",
 										   @"SEEMode.Perl" : @"Perl",
 										   @"SEEMode.Python" : @"Python",
 										   @"SEEMode.Ruby" : @"Ruby",
 										   @"SEEMode.Swift" : @"Swift",
+                                           @"SEEMode.TOML" : @"TOML",
 										   @"SEEMode.XML" : @"XML",
-										   @"SEEMode.bash" : @"bash",
-										   @"SEEMode.go" : @"go"
 										   };
 		
 		DocumentModeManager *modeManager = [DocumentModeManager sharedInstance];

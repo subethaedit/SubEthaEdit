@@ -39,6 +39,7 @@ extern NSString * const DocumentModeIndentWrappedLinesCharacterAmountPreferenceK
 extern NSString * const DocumentModeShowPageGuidePreferenceKey          ;
 extern NSString * const DocumentModePageGuideWidthPreferenceKey         ;
 extern NSString * const DocumentModeShowInvisibleCharactersPreferenceKey;
+extern NSString * const DocumentModeShowInconsistentIndentationPreferenceKey;
 extern NSString * const DocumentModeWrapModePreferenceKey               ;
 extern NSString * const DocumentModeColumnsPreferenceKey                ;
 extern NSString * const DocumentModeRowsPreferenceKey                   ;
@@ -53,6 +54,7 @@ extern NSString * const DocumentModeAutomaticQuoteSubstitutionPreferenceKey  ;
 extern NSString * const DocumentModeAutomaticTextReplacementPreferenceKey    ;
 extern NSString * const DocumentModeAutomaticSpellingCorrectionPreferenceKey ;
 
+extern NSString * const DocumentModeFontNameSystemFontValue;
 
 
 extern NSString * const DocumentModePrintOptionsPreferenceKey           ;
@@ -145,6 +147,8 @@ extern NSString * const DocumentModeStyleSheetsDefaultLanguageContextKey;
 - (SyntaxStyle *)defaultSyntaxStyle;
 - (SEEStyleSheet *)styleSheetForLanguageContext:(NSString *)aLanguageContext;
 
+- (NSFont *)plainFontBase;
+
 - (NSArray *)scriptMenuItemArray;
 - (NSArray *)contextMenuItemArray;
 
@@ -153,4 +157,6 @@ extern NSString * const DocumentModeStyleSheetsDefaultLanguageContextKey;
 - (NSString *)syntaxExampleString;
 
 - (BOOL)isBaseMode;
+
++ (NSFont *)fontForAttributeDict:(NSDictionary *)fontAttributes;
 @end

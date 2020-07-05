@@ -340,11 +340,11 @@ kbd {
 		
 	table tr {
 		border-color: #555;	
-		background-color: black;} 
+		background-color: black;
+	}
 	table tr:nth-child(2n) {
 		background-color: #222;
 		}
-	}
 
 	table tr th, table tr td {
 		border-color: #555;
