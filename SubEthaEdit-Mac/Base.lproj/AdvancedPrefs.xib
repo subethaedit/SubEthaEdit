@@ -118,7 +118,7 @@
                                     </connections>
                                 </button>
                                 <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="145">
-                                    <rect key="frame" x="32" y="13" width="248" height="11"/>
+                                    <rect key="frame" x="32" y="13" width="348" height="11"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <textFieldCell key="cell" controlSize="mini" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="E.g. foldings are saved in Extended Attributes" id="188">
                                         <font key="font" metaFont="miniSystem"/>

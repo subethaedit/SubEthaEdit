@@ -118,7 +118,7 @@
                                     </connections>
                                 </button>
                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="144">
-                                    <rect key="frame" x="31" y="16" width="343" height="21"/>
+                                    <rect key="frame" x="31" y="8" width="389" height="29"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <textFieldCell key="cell" controlSize="mini" sendsActionOnEndEditing="YES" title="z.B. der Faltungsstatus, die Auswahl und Fensterposition wird in den Erweiterten Dateisystemattributen gespeichert." id="179">
                                         <font key="font" metaFont="miniSystem"/>
