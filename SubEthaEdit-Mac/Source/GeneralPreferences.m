@@ -78,7 +78,11 @@
 
 #pragma mark - Preference Module - Basics
 - (NSImage *)icon {
-    return [NSImage imageNamed:NSImageNamePreferencesGeneral];
+    if (@available(macOS 11.0, *)) {
+        return [NSImage imageWithSystemSymbolName:@"house" accessibilityDescription:nil];
+    } else {
+        return [NSImage imageNamed:NSImageNamePreferencesGeneral];
+    }
 }
 
 - (NSString *)iconLabel {

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17132.0.2" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.18"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17132.0.2"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -18,21 +18,21 @@
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="5" userLabel="Window">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="522" y="333" width="401" height="269"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
+            <rect key="contentRect" x="522" y="333" width="444" height="296"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1055"/>
             <view key="contentView" autoresizesSubviews="NO" id="6">
-                <rect key="frame" x="0.0" y="0.0" width="401" height="269"/>
+                <rect key="frame" x="0.0" y="0.0" width="444" height="296"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <box autoresizesSubviews="NO" title="Dokumente" id="62">
-                        <rect key="frame" x="17" y="16" width="360" height="238"/>
+                    <box autoresizesSubviews="NO" fixedFrame="YES" title="Dokumente" translatesAutoresizingMaskIntoConstraints="NO" id="62">
+                        <rect key="frame" x="17" y="16" width="410" height="260"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <view key="contentView" id="AfS-1Y-Qcy">
-                            <rect key="frame" x="3" y="3" width="354" height="220"/>
+                            <rect key="frame" x="3" y="3" width="404" height="242"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <button toolTip="Öffne das Dokument Hub beim Starten des Programms, falls keine anderen Fenster offen sind." id="31">
-                                    <rect key="frame" x="12" y="138" width="302" height="18"/>
+                                <button toolTip="Öffne das Dokument Hub beim Starten des Programms, falls keine anderen Fenster offen sind." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="31">
+                                    <rect key="frame" x="19" y="148" width="302" height="18"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <buttonCell key="cell" type="check" title="Beim Starten Dokument-Hub anzeigen" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="224">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -42,8 +42,8 @@
                                         <binding destination="srs-xG-Hj2" name="value" keyPath="values.OpenDocumentHubOnStartup" id="j55-Wk-OW7"/>
                                     </connections>
                                 </button>
-                                <button toolTip="Öffne ein leeres Dokument beim Starten des Programms, falls keine anderen Fenster offen sind." id="ggw-6h-edE">
-                                    <rect key="frame" x="12" y="116" width="302" height="18"/>
+                                <button toolTip="Öffne ein leeres Dokument beim Starten des Programms, falls keine anderen Fenster offen sind." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ggw-6h-edE">
+                                    <rect key="frame" x="19" y="121" width="302" height="18"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <buttonCell key="cell" type="check" title="Beim Starten leeres Dokument öffnen" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="61Z-1d-F8G">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -53,8 +53,8 @@
                                         <binding destination="srs-xG-Hj2" name="value" keyPath="values.OpenUntitledDocumentOnStartup" id="mIr-2I-nEJ"/>
                                     </connections>
                                 </button>
-                                <button toolTip="Dokumente werden in Tabs geöffnen anstatt in einem eigenen Fenster" id="194">
-                                    <rect key="frame" x="12" y="161" width="302" height="18"/>
+                                <button toolTip="Dokumente werden in Tabs geöffnen anstatt in einem eigenen Fenster" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="194">
+                                    <rect key="frame" x="19" y="176" width="302" height="18"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <buttonCell key="cell" type="check" title="Öffne neue Dokumente in Tabs" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="233">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -64,8 +64,8 @@
                                         <binding destination="92" name="value" keyPath="values.OpenNewDocumentInTab" id="195"/>
                                     </connections>
                                 </button>
-                                <button toolTip="Änderungen auch bei lokalen Dokumenten farblich hervorheben." id="dpY-Iz-Mvb">
-                                    <rect key="frame" x="12" y="184" width="302" height="18"/>
+                                <button toolTip="Änderungen auch bei lokalen Dokumenten farblich hervorheben." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dpY-Iz-Mvb">
+                                    <rect key="frame" x="19" y="205" width="302" height="18"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <buttonCell key="cell" type="check" title="Änderungen bei lokalen Dokumenten hervorheben" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="iws-ie-foQ">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -75,33 +75,8 @@
                                         <action selector="toggleLocalHighlightDefault:" target="-2" id="BiE-9Q-xUg"/>
                                     </connections>
                                 </button>
-                                <textField verticalHuggingPriority="750" id="51">
-                                    <rect key="frame" x="15" y="49" width="170" height="14"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Modus für neue Dokumente:" id="225">
-                                        <font key="font" metaFont="smallSystem"/>
-                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                </textField>
-                                <popUpButton toolTip="Dieser Modus wird für alle neuen Dokumente benutzt, denen kein anderer Modus zugewiesen wurde." verticalHuggingPriority="750" id="55" customClass="DocumentModePopUpButton">
-                                    <rect key="frame" x="187" y="44" width="148" height="22"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <popUpButtonCell key="cell" type="push" title="Default" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="56" id="226">
-                                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                        <font key="font" metaFont="smallSystem"/>
-                                        <menu key="menu" title="OtherViews" id="57">
-                                            <items>
-                                                <menuItem title="Default" state="on" id="56"/>
-                                            </items>
-                                        </menu>
-                                    </popUpButtonCell>
-                                    <connections>
-                                        <action selector="changeModeForNewDocuments:" target="-2" id="141"/>
-                                    </connections>
-                                </popUpButton>
-                                <textField verticalHuggingPriority="750" id="146">
-                                    <rect key="frame" x="38" y="15" width="39" height="14"/>
+                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="146">
+                                    <rect key="frame" x="52" y="15" width="39" height="14"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Zeige" id="227">
                                         <font key="font" metaFont="smallSystem"/>
@@ -109,8 +84,8 @@
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
-                                <textField verticalHuggingPriority="750" id="147">
-                                    <rect key="frame" x="139" y="15" width="200" height="14"/>
+                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="147">
+                                    <rect key="frame" x="153" y="15" width="200" height="14"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Pfad-Bestandteile im Fenstertitel" id="228">
                                         <font key="font" metaFont="smallSystem"/>
@@ -118,8 +93,8 @@
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
-                                <popUpButton toolTip="Geben Sie die Zahl der Verzeichnisse an, die im Fenstertitel angezeigt werden sollen." verticalHuggingPriority="750" id="150">
-                                    <rect key="frame" x="77" y="10" width="56" height="22"/>
+                                <popUpButton toolTip="Geben Sie die Zahl der Verzeichnisse an, die im Fenstertitel angezeigt werden sollen." verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="150">
+                                    <rect key="frame" x="91" y="10" width="56" height="22"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <popUpButtonCell key="cell" type="push" title="0" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="157" id="229">
                                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -141,17 +116,42 @@
                                         <binding destination="92" name="selectedTag" keyPath="values.AdditionalShownPathComponents" id="159"/>
                                     </connections>
                                 </popUpButton>
-                                <textField verticalHuggingPriority="750" id="184">
-                                    <rect key="frame" x="15" y="76" width="170" height="23"/>
+                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="51">
+                                    <rect key="frame" x="43" y="54" width="170" height="14"/>
                                     <autoresizingMask key="autoresizingMask"/>
-                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Benutzte Dokumente merken:" id="230">
+                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Modus für neue Dokumente:" id="225">
                                         <font key="font" metaFont="smallSystem"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
-                                <popUpButton verticalHuggingPriority="750" id="185">
-                                    <rect key="frame" x="187" y="81" width="148" height="22"/>
+                                <popUpButton toolTip="Dieser Modus wird für alle neuen Dokumente benutzt, denen kein anderer Modus zugewiesen wurde." verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="55" customClass="DocumentModePopUpButton">
+                                    <rect key="frame" x="215" y="49" width="148" height="22"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <popUpButtonCell key="cell" type="push" title="Default" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="56" id="226">
+                                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                        <font key="font" metaFont="smallSystem"/>
+                                        <menu key="menu" title="OtherViews" id="57">
+                                            <items>
+                                                <menuItem title="Default" state="on" id="56"/>
+                                            </items>
+                                        </menu>
+                                    </popUpButtonCell>
+                                    <connections>
+                                        <action selector="changeModeForNewDocuments:" target="-2" id="141"/>
+                                    </connections>
+                                </popUpButton>
+                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="184">
+                                    <rect key="frame" x="43" y="81" width="170" height="23"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Anzahl  Benutzter Dokumente:" id="230">
+                                        <font key="font" metaFont="smallSystem"/>
+                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                    </textFieldCell>
+                                </textField>
+                                <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="185">
+                                    <rect key="frame" x="215" y="86" width="148" height="22"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" id="231">
                                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -178,8 +178,8 @@
                                         <binding destination="92" name="selectedTag" keyPath="values.NSRecentDocumentsLimit" id="192"/>
                                     </connections>
                                 </popUpButton>
-                                <textField verticalHuggingPriority="750" id="193">
-                                    <rect key="frame" x="28" y="72" width="157" height="12"/>
+                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="193">
+                                    <rect key="frame" x="56" y="77" width="157" height="12"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Wirksam nach Programm-Neustart" id="232">
                                         <font key="font" metaFont="miniSystem"/>
@@ -192,7 +192,7 @@
                     </box>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="-141" y="-25"/>
+            <point key="canvasLocation" x="-120" y="-12"/>
         </window>
         <userDefaultsController id="92" userLabel="Shared Defaults"/>
         <userDefaultsController representsSharedInstance="YES" id="srs-xG-Hj2"/>

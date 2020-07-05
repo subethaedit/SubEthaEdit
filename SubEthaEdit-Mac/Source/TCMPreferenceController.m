@@ -72,6 +72,10 @@ static TCMPreferenceController *sharedInstance = nil;
     [window setToolbar:I_toolbar];
     [[window standardWindowButton: NSWindowToolbarButton] setFrame: NSZeroRect];
     
+    if (@available(macOS 11.0, *)) {
+        window.toolbarStyle = NSWindowToolbarStyleExpanded;
+    } 
+    
     if ([I_toolbarItemIdentifiers count] > 0) {
         NSString *identifier = [I_toolbarItemIdentifiers objectAtIndex:0];
         [I_toolbar setSelectedItemIdentifier:identifier];

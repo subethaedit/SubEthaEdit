@@ -12,7 +12,11 @@
 @implementation AdvancedPreferences
 
 - (NSImage *)icon {
-    return [NSImage imageNamed:NSImageNameAdvanced];
+    if (@available(macOS 11.0, *)) {
+        return [NSImage imageWithSystemSymbolName:@"gear" accessibilityDescription:nil];
+    } else {
+        return [NSImage imageNamed:NSImageNameAdvanced];
+    }
 }
 
 - (NSString *)iconLabel {

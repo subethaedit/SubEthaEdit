@@ -29,7 +29,11 @@
 
 #pragma mark - Preference Module - Basics
 - (NSImage *)icon {
-    return [NSImage imageNamed:@"PrefIconCollaboration"];
+    if (@available(macOS 11.0, *)) {
+        return [NSImage imageWithSystemSymbolName:@"person.crop.circle" accessibilityDescription:nil];
+    } else {
+        return [NSImage imageNamed:@"PrefIconCollaboration"];
+    }
 }
 
 - (NSString *)iconLabel {
