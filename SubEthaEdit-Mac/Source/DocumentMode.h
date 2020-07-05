@@ -54,6 +54,7 @@ extern NSString * const DocumentModeAutomaticQuoteSubstitutionPreferenceKey  ;
 extern NSString * const DocumentModeAutomaticTextReplacementPreferenceKey    ;
 extern NSString * const DocumentModeAutomaticSpellingCorrectionPreferenceKey ;
 
+extern NSString * const DocumentModeFontNameSystemFontValue;
 
 
 extern NSString * const DocumentModePrintOptionsPreferenceKey           ;
@@ -146,6 +147,8 @@ extern NSString * const DocumentModeStyleSheetsDefaultLanguageContextKey;
 - (SyntaxStyle *)defaultSyntaxStyle;
 - (SEEStyleSheet *)styleSheetForLanguageContext:(NSString *)aLanguageContext;
 
+- (NSFont *)plainFontBase;
+
 - (NSArray *)scriptMenuItemArray;
 - (NSArray *)contextMenuItemArray;
 
@@ -154,4 +157,6 @@ extern NSString * const DocumentModeStyleSheetsDefaultLanguageContextKey;
 - (NSString *)syntaxExampleString;
 
 - (BOOL)isBaseMode;
+
++ (NSFont *)fontForAttributeDict:(NSDictionary *)fontAttributes;
 @end

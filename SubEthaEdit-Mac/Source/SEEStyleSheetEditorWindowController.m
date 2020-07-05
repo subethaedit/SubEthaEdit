@@ -145,10 +145,8 @@
     [self.O_stylesTableView setDarkBackgroundColor: backgroundColor];
 }
 
-- (void)takeFontFromMode:(DocumentMode *)aMode {
-    NSDictionary *fontAttributes = [aMode defaultForKey:DocumentModeFontAttributesPreferenceKey];
-    NSFont *font=[NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:11.];
-    if (!font) font=[NSFont userFixedPitchFontOfSize:11.];
+- (void)takeFontFromMode:(DocumentMode *)mode {
+    NSFont *font = [[NSFontManager sharedFontManager] convertFont:mode.plainFontBase toSize:11.0];
     [self setBaseFont:font];
     [self updateFontLabel];
 }
@@ -296,10 +294,8 @@
 	[self.O_modePopUpButton setSelectedMode:aDocumentMode];
 	[self.currentStyleSheet setScopeExamples:[aDocumentMode scopeExamples]];
 
-	NSDictionary *fontAttributes=[aDocumentMode defaultForKey:DocumentModeFontAttributesPreferenceKey];
-	NSFont *newFont=[NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:12.0];
-	if (!newFont) newFont=[NSFont userFixedPitchFontOfSize:12.0];
-	[self setBaseFont:newFont];
+    NSFont *font = [[NSFontManager sharedFontManager] convertFont:aDocumentMode.plainFontBase toSize:12.0];
+    [self setBaseFont:font];
 
 
 	[self.O_stylesTableView reloadData];

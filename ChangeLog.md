@@ -2,9 +2,10 @@
 
 #### Features:
 * New Option: Show inconsistent indentations - easily see mixed use of tabs and spaces.
+* New Option: System monospaced Font is now available in the style preferences.
 
 #### Bug fixes and maintenance:
-* Fixed issue with Style Preferences that could lead to the font change not being taken.
+* Fixed issue with style preferences that could lead to the font change not being taken.
 
 #### Improved modes:
 * Markdown preview: Fixed wrong table header colors in light mode

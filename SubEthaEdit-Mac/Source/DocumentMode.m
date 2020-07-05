@@ -92,6 +92,9 @@ NSString * const DocumentModeApplyStylePreferencesNotification =
 
 static NSMutableDictionary *defaultablePreferenceKeys = nil;
 
+NSString * const DocumentModeFontNameSystemFontValue = @"_SEESystemMonoFont_";
+
+
 @interface DocumentMode ()
 @property (nonatomic, readwrite) BOOL isBaseMode;
 @end
@@ -596,6 +599,33 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 //    [defaults setObject:[[self syntaxStyle] defaultsDictionary] forKey:DocumentModeSyntaxStylePreferenceKey]; no more syntaxStyle writing
     [[NSUserDefaults standardUserDefaults] setObject:defaults forKey:[[self bundle] bundleIdentifier]];
 }
+
++ (NSFont *)fontForAttributeDict:(NSDictionary *)fontAttributes {
+    NSFont *result;
+    
+    NSString *name = [fontAttributes objectForKey:NSFontNameAttribute];
+    CGFloat size = [[fontAttributes objectForKey:NSFontSizeAttribute] floatValue];
+    if ([name isEqualToString:DocumentModeFontNameSystemFontValue]) {
+        if (@available(macOS 10.15, *)) {
+            result = [NSFont monospacedSystemFontOfSize:size weight:NSFontWeightMedium];
+        }
+    }
+    
+    if (!result) {
+        result=[NSFont fontWithName:name size:size];
+    }
+    if (!result) {
+        result=[NSFont userFixedPitchFontOfSize:size];
+    }
+    return result;
+}
+
+- (NSFont *)plainFontBase {
+    NSDictionary *fontAttributes=[self defaultForKey:DocumentModeFontAttributesPreferenceKey];
+    
+    return [DocumentMode fontForAttributeDict:fontAttributes];
+}
+
 
 #pragma mark -
 #pragma mark ### Script Handling ###

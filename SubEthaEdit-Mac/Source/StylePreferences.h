@@ -44,6 +44,7 @@
 
 - (IBAction)changeCustomStyleSheet:(id)aSender;
 - (IBAction)changeFontViaPanel:(id)sender;
+- (IBAction)useSystemMonospacedFont:(id)sender;
 
 - (IBAction)applyToOpenDocuments:(id)aSender;
 

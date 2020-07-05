@@ -55,10 +55,10 @@
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
                                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="391">
-                                                <rect key="frame" x="95" y="12" width="362" height="17"/>
+                                                <rect key="frame" x="95" y="12" width="302" height="17"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="System font text" id="450">
-                                                    <font key="font" metaFont="label" size="11"/>
+                                                    <font key="font" metaFont="menu" size="11"/>
                                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
@@ -78,14 +78,30 @@
                                             </textField>
                                             <button toolTip="&lt;Change the document's default font&gt;" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="390">
                                                 <rect key="frame" x="9" y="7" width="85" height="28"/>
-                                                <autoresizingMask key="autoresizingMask"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 <buttonCell key="cell" type="push" title="&lt;Set...&gt;" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" inset="2" id="449">
                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                    <font key="font" metaFont="label" size="11"/>
+                                                    <font key="font" metaFont="menu" size="11"/>
                                                 </buttonCell>
                                                 <connections>
                                                     <action selector="changeFontViaPanel:" target="-2" id="529"/>
                                                     <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultFont" id="416">
+                                                        <dictionary key="options">
+                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                        </dictionary>
+                                                    </binding>
+                                                </connections>
+                                            </button>
+                                            <button toolTip="&lt;Change the document's default font&gt;" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="428-YO-qEf">
+                                                <rect key="frame" x="394" y="7" width="70" height="28"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                                <buttonCell key="cell" type="push" title="System" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" inset="2" id="kI6-Su-N7e">
+                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                    <font key="font" metaFont="menu" size="11"/>
+                                                </buttonCell>
+                                                <connections>
+                                                    <action selector="useSystemMonospacedFont:" target="-2" id="Rn4-pV-3nq"/>
+                                                    <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultFont" id="lu3-TU-WgS">
                                                         <dictionary key="options">
                                                             <string key="NSValueTransformerName">NSNegateBoolean</string>
                                                         </dictionary>
