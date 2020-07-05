@@ -191,13 +191,24 @@
 }
 
 - (IBAction)changeFontViaPanel:(id)sender {
-    NSDictionary *fontAttributes = [[self.O_modePopUpButton selectedMode] defaultForKey:DocumentModeFontAttributesPreferenceKey];
-    NSFont *newFont = [NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
-    if (!newFont) {
-		newFont = [NSFont userFixedPitchFontOfSize:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
-	}
-    [[NSFontManager sharedFontManager] setSelectedFont:newFont isMultiple:NO];
+    DocumentMode *mode = [self.O_modePopUpButton selectedMode];
+    NSFont *font = mode.plainFontBase;
+    [[NSFontManager sharedFontManager] setSelectedFont:font isMultiple:NO];
     [[NSFontManager sharedFontManager] orderFrontFontPanel:self];
+}
+
+- (IBAction)useSystemMonospacedFont:(id)sender {
+    if ([self.O_fontDefaultButton state] != NSOnState) {
+        DocumentMode *mode = [self.O_modePopUpButton selectedMode];
+        NSFont *font = mode.plainFontBase;
+        CGFloat size = font.pointSize;
+        NSString *name = DocumentModeFontNameSystemFontValue;
+
+        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+        [dict setObject:name forKey:NSFontNameAttribute];
+        [dict setObject:@(size) forKey:NSFontSizeAttribute];
+        [self setFontDict:dict];
+    }
 }
 
 #pragma mark
@@ -226,12 +237,8 @@
     [self performSelector:@selector(changeMode:) withObject:self.O_modePopUpButton afterDelay:.2];
 }
 
-- (void)takeFontFromMode:(DocumentMode *)aMode {
-    NSDictionary *fontAttributes = [aMode defaultForKey:DocumentModeFontAttributesPreferenceKey];
-	//    NSLog(@"%s %@",__FUNCTION__, fontAttributes);
-    NSFont *font = [NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
-    if (!font) font = [NSFont userFixedPitchFontOfSize:11.];
-    [self setBaseFont:font];
+- (void)takeFontFromMode:(DocumentMode *)mode {
+    [self setBaseFont:mode.plainFontBase];
 }
 
 - (void)selectMode:(DocumentMode *)aDocumentMode {
@@ -279,13 +286,18 @@
 - (void)changeFont:(id)fontManager {
 //	NSLog(@"%s",__FUNCTION__);
     if ([self.O_fontDefaultButton state] != NSOnState) {
-        NSFont *newFont = [fontManager convertFont:[NSFont userFixedPitchFontOfSize:0.0]]; // could be any font here
+        NSFont *newFont = [fontManager convertFont:[self.O_modePopUpButton selectedMode].plainFontBase];
         NSMutableDictionary *dict=[NSMutableDictionary dictionary];
-        [dict setObject:[newFont fontName] forKey:NSFontNameAttribute];
+        
+        [dict setObject:[[newFont fontName] hasPrefix:@"."] ? DocumentModeFontNameSystemFontValue : newFont.fontName forKey:NSFontNameAttribute];
         [dict setObject:[NSNumber numberWithFloat:[newFont pointSize]] forKey:NSFontSizeAttribute];
-        [[self.O_modePopUpButton selectedMode] setValue:dict forKeyPath:@"defaults.FontAttributes"];
-        [self changeMode:self.O_modePopUpButton];
+        [self setFontDict:dict];
     }
+}
+
+- (void)setFontDict:(NSDictionary *)fontDict {
+    [[self.O_modePopUpButton selectedMode] setValue:fontDict forKeyPath:@"defaults.FontAttributes"];
+    [self changeMode:self.O_modePopUpButton];
 }
 
 - (NSArray *)languageContexts {

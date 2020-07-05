@@ -885,10 +885,7 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 - (void)takeStyleSettingsFromDocumentMode {
-    DocumentMode *documentMode=[self documentMode];
-    NSDictionary *fontAttributes=[documentMode defaultForKey:DocumentModeFontAttributesPreferenceKey];
-    NSFont *newFont=[NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
-    if (!newFont) newFont=[NSFont userFixedPitchFontOfSize:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
+    NSFont *newFont = self.documentMode.plainFontBase;
     [self setPlainFont:newFont];
     [[self plainTextEditors] makeObjectsPerformSelector:@selector(takeStyleSettingsFromDocument)];
 }

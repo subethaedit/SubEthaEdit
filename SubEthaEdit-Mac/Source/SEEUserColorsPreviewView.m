@@ -251,11 +251,7 @@ void * const SEEUserColorsPreviewUpdateObservingContext = (void *)&SEEUserColors
 
 - (NSFont *)fontFromDefaultMode {
 	DocumentModeManager *modeManager = [DocumentModeManager sharedInstance];
-	NSDictionary *fontAttributes = [[modeManager baseMode] defaultForKey:DocumentModeFontAttributesPreferenceKey];
-	NSFont *font = [NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:11.];
-	if (!font) {
-		font = [NSFont userFixedPitchFontOfSize:11.];
-	}
+    NSFont *font = [[NSFontManager sharedFontManager] convertFont:modeManager.baseMode.plainFontBase toSize:11.0];
 	return font;
 }
 
