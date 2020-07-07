@@ -17,7 +17,7 @@
 }
 
 - (NSImage *)icon {
-    if (@available(macOS 11.0, *)) {
+    if (@available(macOS 10.16, *)) {
         return [NSImage imageWithSystemSymbolName:@"questionmark.square" accessibilityDescription:nil];
     } else {
         return [NSImage imageNamed:@"PrefIconTrigger"];

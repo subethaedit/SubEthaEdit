@@ -72,7 +72,7 @@ static TCMPreferenceController *sharedInstance = nil;
     [window setToolbar:I_toolbar];
     [[window standardWindowButton: NSWindowToolbarButton] setFrame: NSZeroRect];
     
-    if (@available(macOS 11.0, *)) {
+    if (@available(macOS 10.16, *)) {
         window.toolbarStyle = NSWindowToolbarStyleExpanded;
     } 
     
