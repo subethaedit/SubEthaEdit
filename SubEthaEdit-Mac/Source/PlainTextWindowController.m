@@ -506,7 +506,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     
     NSUInteger requests;
     if ((requests=[[[self.plainTextDocument session] pendingUsers] count])>0) {
-        displayName=[displayName stringByAppendingFormat:@" (%@)", [NSString stringWithFormat:NSLocalizedString(@"%d pending", @"Pending Users Display in Menu Title Bar"), requests]];
+        displayName=[displayName stringByAppendingFormat:@" (%@)", [NSString stringWithFormat:NSLocalizedString(@"%lu pending", @"Pending Users Display in Menu Title Bar"), (unsigned long)requests]];
     }
 
     NSString *jobDescription = [self.plainTextDocument jobDescription];
