@@ -18,7 +18,7 @@
 
 - (NSImage *)icon {
     if (@available(macOS 10.16, *)) {
-        return [NSImage imageWithSystemSymbolName:@"questionmark.square" accessibilityDescription:nil];
+        return [NSImage imageWithSystemSymbolName:@"exclamationmark.circle" accessibilityDescription:nil];
     } else {
         return [NSImage imageNamed:@"PrefIconTrigger"];
     }

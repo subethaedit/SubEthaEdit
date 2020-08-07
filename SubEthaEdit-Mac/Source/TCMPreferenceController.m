@@ -119,11 +119,12 @@ static TCMPreferenceController *sharedInstance = nil;
     [window setTitle:[module iconLabel]];
     
     NSRect frame;
+    NSRect moduleViewBounds = [module mainView].bounds;
     frame = [window contentRectForFrameRect:[window frame]];
     frame.origin.y += frame.size.height;
-    frame.origin.y -= [[module mainView] bounds].size.height;
-    frame.size.height = [[module mainView] bounds].size.height;
-    frame.size.width = [[module mainView] bounds].size.width;
+    frame.origin.y -= moduleViewBounds.size.height;
+    frame.size.height = moduleViewBounds.size.height;
+    frame.size.width = moduleViewBounds.size.width;
     frame = [window frameRectForContentRect:frame];
     [window setFrame:frame display:YES animate:YES];
 
