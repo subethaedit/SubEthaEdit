@@ -1,11 +1,11 @@
 ONIGURUMA_VERSION=onigmo-6.2.0
 HOST_MACHINE1=$(shell /usr/bin/gcc -dumpmachine)
 OS_VERSION=$(shell uname -r)
-HOST_MACHINE2=$(HOST_MACHINE1:arm64=aarch64)
-HOST_MACHINE=$(HOST_MACHINE2:20.0.0=)
+HOST_MACHINE2=$(HOST_MACHINE1:arm64%=aarch64%)
+HOST_MACHINE=$(HOST_MACHINE2:20.1.0=)
 
 INTEL_64_DIR=$(CONFIGURATION_BUILD_DIR)/x86_64
-ARM_64_DIR=$(CONFIGURATION_BUILD_DIR)/ARM64
+ARM_64_DIR=$(CONFIGURATION_BUILD_DIR)/arm64
 
 INTEL_64_CONFIGURE_FLAGS=--disable-dependency-tracking --host=$(HOST_MACHINE) --build=x86_64-apple-darwin$(OS_VERSION) --enable-crnl-as-line-terminator
 ARM_64_CONFIGURE_FLAGS=--disable-dependency-tracking --host=$(HOST_MACHINE) --build=aarch64-apple-darwin --enable-crnl-as-line-terminator
