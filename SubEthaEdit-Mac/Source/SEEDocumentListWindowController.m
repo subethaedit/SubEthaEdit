@@ -146,6 +146,11 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	[tableView setDoubleAction:@selector(triggerItemDoubleClickAction:)];
 	[tableView setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
 	tableView.allowsMultipleSelection = !SEEDocumentListOpenDocumentsWithSingleClick;
+    if (@available(macOS 11.0, *)) {
+        tableView.style = NSTableViewStyleFullWidth;
+    } else {
+        // Fallback on earlier versions
+    }
 }
 
 

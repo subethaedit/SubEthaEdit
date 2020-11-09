@@ -142,9 +142,10 @@ static AppController *sharedInstance = nil;
 	#ifdef TCM_NO_DEBUG
 		[defaults setObject:@NO forKey:@"EnableBEEPLogging"];
 	#endif
-		[defaults setObject:[NSNumber numberWithInt:800*1024] forKey:@"StringLengthToStopHighlightingAndWrapping"];
-		[defaults setObject:[NSNumber numberWithInt:800*1024] forKey:@"StringLengthToStopSymbolRecognition"];
-		[defaults setObject:[NSNumber numberWithInt:4096*1024] forKey:@"ByteLengthToUseForModeRecognitionAndEncodingGuessing"];
+        static NSInteger defaultMaxLength = 1024*1024*5;
+		[defaults setObject:@(defaultMaxLength) forKey:@"StringLengthToStopHighlightingAndWrapping"];
+		[defaults setObject:@(defaultMaxLength) forKey:@"StringLengthToStopSymbolRecognition"];
+		[defaults setObject:@(4096*1024) forKey:@"ByteLengthToUseForModeRecognitionAndEncodingGuessing"];
 		
 		//
 		[defaults setObject:@YES forKey:VisibilityPrefKey];
@@ -1175,6 +1176,12 @@ static AppController *sharedInstance = nil;
     NSString *path = [[NSBundle mainBundle] pathForResource:@"Acknowledgements" ofType:@"md"];
     [self TCM_showPlainTextFile:path];
 }
+
+- (IBAction)showChangeLog:(id)sender {
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"ChangeLog" ofType:@"md"];
+    [self TCM_showPlainTextFile:path];
+}
+
 
 - (IBAction)visitFAQWebsite:(id)sender {
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedString(@"WEBSITE_FAQ",@"FAQ WebSite Link")]];

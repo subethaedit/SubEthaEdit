@@ -10,19 +10,19 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			Er+kZ47PC5df/oaE+N2vxSdJ+kI=
+			OEx7xTRO+UuLWl9bJeI4AdHJ9a8=
 			</data>
 			<key>requirement</key>
-			<string>identifier Autoupdate and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: lone@nyanmusic.de (436G8T6936)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
+			<string>identifier Autoupdate and anchor apple generic and certificate leaf[subject.CN] = "Apple Development: Dominik Wagner (436G8T6936)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
 		</dict>
 		<key>MacOS/Updater.app</key>
 		<dict>
 			<key>cdhash</key>
 			<data>
-			S+j2gcXkafJ5GjCOKwIESj7g2EA=
+			8nGPpvAJmA3XImAn9pGnytxPeXU=
 			</data>
 			<key>requirement</key>
-			<string>identifier "org.sparkle-project.Sparkle.Updater" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: lone@nyanmusic.de (436G8T6936)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
+			<string>identifier "org.sparkle-project.Sparkle.Updater" and anchor apple generic and certificate leaf[subject.CN] = "Apple Development: Dominik Wagner (436G8T6936)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
 		</dict>
 	</dict>
 	<key>rules</key>

@@ -10,7 +10,11 @@
 @implementation EditPreferences
 
 - (NSImage *)icon {
-    return [NSImage imageNamed:@"EditPrefs"];
+    if (@available(macOS 10.16, *)) {
+        return [NSImage imageWithSystemSymbolName:@"pencil.and.ellipsis.rectangle" accessibilityDescription:nil];
+    } else {
+        return [NSImage imageNamed:@"EditPrefs"];
+    }
 }
 
 - (NSString *)iconLabel {

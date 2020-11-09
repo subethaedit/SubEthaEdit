@@ -62,6 +62,7 @@ extern NSString * const SEEAppEffectiveAppearanceDidChangeNotification;
 
 - (IBAction)reloadDocumentModes:(id)aSender;
 
+- (IBAction)showChangeLog:(id)sender;
 - (IBAction)showAcknowledgements:(id)sender;
 - (IBAction)showRegExHelp:(id)sender;
 - (IBAction)showReleaseNotes:(id)sender;

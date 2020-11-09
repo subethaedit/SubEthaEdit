@@ -43,6 +43,11 @@ static NSImage *s_normal[]={nil,nil,nil};
     }
 }
 
+- (NSRect)titleRectForBounds:(NSRect)rect {
+    rect.size.height -= 2;
+    return rect;
+}
+
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
     [self drawInteriorWithFrame:cellFrame inView:controlView];
     [[NSColor keyboardFocusIndicatorColor] set];

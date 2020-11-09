@@ -22,7 +22,11 @@
 
 #pragma mark - Preference Module - Basics
 - (NSImage *)icon {
-    return [NSImage imageNamed:@"StylePrefs"];
+    if (@available(macOS 10.16, *)) {
+        return [NSImage imageWithSystemSymbolName:@"textformat" accessibilityDescription:nil];
+    } else {
+        return [NSImage imageNamed:@"StylePrefs"];
+    }
 }
 
 - (NSString *)iconLabel {

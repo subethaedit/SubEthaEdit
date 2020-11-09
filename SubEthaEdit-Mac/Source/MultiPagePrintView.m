@@ -858,8 +858,8 @@ static NSMutableDictionary *S_nameAttributes, *S_contactAttributes, *S_contactLa
         [textStorage replaceCharactersInRange:NSMakeRange(0, [textStorage length])
                                    withString:
          [NSString stringWithFormat:[self headerFormatString],
-          [NSString stringWithFormat:NSLocalizedString(@"PrintPage %d of %d", @"Page Information in Print Header"),
-           currentPage, I_pageCount]
+          [NSString stringWithFormat:NSLocalizedString(@"PrintPage %ld of %ld", @"Page Information in Print Header"),
+           (long)currentPage, (long)I_pageCount]
           ]
          ];
         [textStorage addAttributes:[self headerAttributes] range:NSMakeRange(0, [textStorage length])];

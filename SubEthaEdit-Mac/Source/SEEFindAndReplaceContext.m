@@ -417,7 +417,7 @@ typedef NS_ENUM(uint8_t, SEESearchRangeDirection) {
 
 - (void)stopLongTextReplaceOperation {
 	[self unlockDocument:self.targetPlainTextEditor.document];
-	[[FindReplaceController sharedInstance] setStatusString:[NSString stringWithFormat:NSLocalizedString(@"%d replaced.",@"Number of replaced strings"), self.replaceCountForReplaceAll]];
+    [[FindReplaceController sharedInstance] setStatusString:[NSString stringWithFormat:NSLocalizedString(@"%ld replaced.",@"Number of replaced strings"), (long)self.replaceCountForReplaceAll]];
 
 }
 

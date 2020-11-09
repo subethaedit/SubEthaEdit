@@ -1,3 +1,15 @@
+
+### SubEthaEdit 5.1.5
+
+#### Features:
+* Support for future macOS Releases.
+* Support for Apple Silicon.
+
+#### Bug fixes and maintenance:
+* Increased size limit for default syntax highlighting.
+* Add Change Log to Help menu.
+* Updated the certificate the see-tool installer is signed with (App Store).
+
 ### SubEthaEdit 5.1.4
 
 #### Features:
