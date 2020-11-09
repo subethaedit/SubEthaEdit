@@ -1177,6 +1177,12 @@ static AppController *sharedInstance = nil;
     [self TCM_showPlainTextFile:path];
 }
 
+- (IBAction)showChangeLog:(id)sender {
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"ChangeLog" ofType:@"md"];
+    [self TCM_showPlainTextFile:path];
+}
+
+
 - (IBAction)visitFAQWebsite:(id)sender {
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedString(@"WEBSITE_FAQ",@"FAQ WebSite Link")]];
 }

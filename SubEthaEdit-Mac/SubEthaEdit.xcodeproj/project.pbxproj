@@ -323,6 +323,7 @@
 		F25A071F191A6D4600F07557 /* WaitPipe@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F25A071E191A6D4600F07557 /* WaitPipe@2x.png */; };
 		F25A0723191A800E00F07557 /* EditPrefs.png in Resources */ = {isa = PBXBuildFile; fileRef = F25A0721191A800E00F07557 /* EditPrefs.png */; };
 		F25A0724191A800E00F07557 /* EditPrefs@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F25A0722191A800E00F07557 /* EditPrefs@2x.png */; };
+		F264AA0F25593F9C00A5232A /* ChangeLog.md in Resources */ = {isa = PBXBuildFile; fileRef = F264AA0C25593F9C00A5232A /* ChangeLog.md */; };
 		F265602218C4BA7300C73737 /* SearchLoupeNormal.pdf in Resources */ = {isa = PBXBuildFile; fileRef = F265602018C4BA7300C73737 /* SearchLoupeNormal.pdf */; };
 		F265602318C4BA7300C73737 /* SearchLoupeRE.pdf in Resources */ = {isa = PBXBuildFile; fileRef = F265602118C4BA7300C73737 /* SearchLoupeRE.pdf */; };
 		F26B7D880CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F26B7D850CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m */; };
@@ -1051,6 +1052,7 @@
 		F25A071E191A6D4600F07557 /* WaitPipe@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "WaitPipe@2x.png"; path = "artwork/WaitPipe@2x.png"; sourceTree = "<group>"; };
 		F25A0721191A800E00F07557 /* EditPrefs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = EditPrefs.png; path = artwork/EditPrefs.png; sourceTree = "<group>"; };
 		F25A0722191A800E00F07557 /* EditPrefs@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "EditPrefs@2x.png"; path = "artwork/EditPrefs@2x.png"; sourceTree = "<group>"; };
+		F264AA0C25593F9C00A5232A /* ChangeLog.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = ChangeLog.md; path = ../ChangeLog.md; sourceTree = "<group>"; };
 		F265602018C4BA7300C73737 /* SearchLoupeNormal.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = SearchLoupeNormal.pdf; path = artwork/SearchLoupeNormal.pdf; sourceTree = "<group>"; };
 		F265602118C4BA7300C73737 /* SearchLoupeRE.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = SearchLoupeRE.pdf; path = artwork/SearchLoupeRE.pdf; sourceTree = "<group>"; };
 		F26B7D840CA3F7680039C8A1 /* NSBezierPathTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NSBezierPathTCMAdditions.h; sourceTree = "<group>"; };
@@ -1783,6 +1785,7 @@
 				F291D1A00FCECD22008BC286 /* FoldingBubbleText.rtf */,
 				F2815CDD216251F7006B3BC5 /* Bug Report.md */,
 				1428900A095740F200D14688 /* RE.txt */,
+				F264AA0C25593F9C00A5232A /* ChangeLog.md */,
 				F2BC7538217BDA3F0056FAED /* Acknowledgements.md */,
 				1428904E0957429A00D14688 /* AppleScript */,
 				14289054095742AD00D14688 /* Sound */,
@@ -2469,6 +2472,7 @@
 				F2202480191BBDA10098982C /* hud_buttonRight-N.png in Resources */,
 				F220248B191BC33D0098982C /* hud_buttonFill-P@2x.png in Resources */,
 				F22024D1191D0BFE0098982C /* ParticipantKickNormal.png in Resources */,
+				F264AA0F25593F9C00A5232A /* ChangeLog.md in Resources */,
 				F2D5FF3E0CB2666000407399 /* Rendezvous.icns in Resources */,
 				F2D5FF400CB2667A00407399 /* StylePrefs.icns in Resources */,
 				4CD5F80617FB0D5B00F49E31 /* OpenPanelAccessory.xib in Resources */,

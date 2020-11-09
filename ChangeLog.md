@@ -7,6 +7,7 @@
 
 #### Bug fixes and maintenance:
 * Increased size limit for default syntax highlighting.
+* Add Change Log to Help menu.
 
 ### SubEthaEdit 5.1.4
 

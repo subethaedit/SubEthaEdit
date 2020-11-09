@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="16096" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16096"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -1073,6 +1073,11 @@ GQ
                             <menuItem title="Acknowledgements" id="491">
                                 <connections>
                                     <action selector="showAcknowledgements:" target="210" id="493"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Change Log" id="QXq-qd-asB">
+                                <connections>
+                                    <action selector="showChangeLog:" target="210" id="iD0-85-LRE"/>
                                 </connections>
                             </menuItem>
                         </items>
