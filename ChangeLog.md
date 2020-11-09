@@ -1,13 +1,12 @@
 
-### [unreleased] SubEthaEdit 5.2
+### SubEthaEdit 5.1.5
 
 #### Features:
 * Support for future macOS Releases.
+* Support for Apple Silicon.
 
 #### Bug fixes and maintenance:
-
-#### Improved modes:
-
+* Increased size limit for default syntax highlighting.
 
 ### SubEthaEdit 5.1.4
 
