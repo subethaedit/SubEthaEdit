@@ -539,8 +539,7 @@ static NSMutableDictionary *S_nameAttributes, *S_contactAttributes, *S_contactLa
         }
         
         // to provide the space four our annotations if needed
-        [paragraphStyle setLineSpacing:12.];
-        
+        [paragraphStyle setLineSpacing:0.0];        
         
         //        NSLog(@"TabStops: %@",[[paragraphStyle tabStops] description]);
         
