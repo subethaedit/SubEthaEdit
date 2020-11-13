@@ -9,6 +9,14 @@
 #### Improved modes:
 * .
 
+### [unreleased] SubEthaEdit 5.1.6
+
+#### Bug fixes and maintenance:
+* .
+
+#### Improved modes:
+* .
+
 ### SubEthaEdit 5.1.5
 
 #### Features:

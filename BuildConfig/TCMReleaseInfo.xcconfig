@@ -13,7 +13,7 @@ TCM_APP_IDENTIFER_SUFFIX =
 // Set TCM_APP_IDENTIFER_SUFFIX to "BETA", "FULL" or "" ("" or "FULL" for release) "" is App Store (all without the quotes)
 TCM_APP_STYLE = FULL
 
-TCM_APP_VERSION = 5.2
+TCM_APP_VERSION = 5.1.6
 
 // remove app version suffix for release versions
 TCM_APP_VERSION_SUFFIX =
