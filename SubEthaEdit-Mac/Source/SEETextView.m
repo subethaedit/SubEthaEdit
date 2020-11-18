@@ -423,9 +423,9 @@ static NSMenu *S_defaultMenu=nil;
     NSEventType type = [currentEvent type];
     if (currentEvent && (type==NSEventTypeLeftMouseDown || type==NSEventTypeLeftMouseUp)) {
         NSInteger clickCount = [currentEvent clickCount];
-        NSTextStorage *ts = [self textStorage];
-        NSRange wholeRange = NSMakeRange(0,[ts length]);
-        if (clickCount == 3) {
+        if (clickCount == 4) {
+            NSTextStorage *ts = [self textStorage];
+            NSRange wholeRange = NSMakeRange(0,[ts length]);
             NSRange lineRange = [[ts string] lineRangeForRange:proposedSelRange];
 
 			// select area that belongs to a style
@@ -438,8 +438,6 @@ static NSMenu *S_defaultMenu=nil;
                 [ts attribute:kSyntaxHighlightingScopenameAttributeName atIndex:index longestEffectiveRange:&resultRange inRange:wholeRange];
                 return RangeConfinedToRange(resultRange,lineRange);
             }
-        } else if (clickCount >= 5) {
-            return wholeRange;
         }
     }
     return [super selectionRangeForProposedRange:proposedSelRange granularity:granularity];
