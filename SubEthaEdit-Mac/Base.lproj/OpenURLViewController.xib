@@ -6,7 +6,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="SEEOpenURLViewController">
+        <customObject id="-2" userLabel="File's Owner" customClass="OpenURLViewController">
             <connections>
                 <outlet property="view" destination="Cs4-e6-HYE" id="boy-Sl-dqh"/>
             </connections>
