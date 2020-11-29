@@ -142,6 +142,8 @@
 		3188F6800CAD13E0009E4C0B /* DNDArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3188F6780CAD1218009E4C0B /* DNDArrayController.m */; };
 		31D2C7000CA7C9C8003CC5C9 /* PrecedenceRuleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D2C6E50CA7C7A7003CC5C9 /* PrecedenceRuleCell.m */; };
 		31FFC93D104E97A000E08256 /* NSErrorTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FFC93C104E97A000E08256 /* NSErrorTCMAdditions.m */; };
+		3DBB85BC25734A37000F829F /* OpenURLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DBB85BB25734A37000F829F /* OpenURLViewController.m */; };
+		3DBB85C025734E6D000F829F /* OpenURLViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DBB85C225734E6D000F829F /* OpenURLViewController.xib */; };
 		420AAF7F18FE0FFC00297DB1 /* StylePrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 420AAF7E18FE0FFC00297DB1 /* StylePrefs.xib */; };
 		4234523A1907DFE400BE3CC1 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 423452391907DFE400BE3CC1 /* Quartz.framework */; };
 		423B23D018F63DDE001E2DCC /* SEECollaborationPreferenceModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 423B23CF18F63DDE001E2DCC /* SEECollaborationPreferenceModule.m */; };
@@ -810,6 +812,10 @@
 		31FFC93B104E97A000E08256 /* NSErrorTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NSErrorTCMAdditions.h; sourceTree = "<group>"; };
 		31FFC93C104E97A000E08256 /* NSErrorTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSErrorTCMAdditions.m; sourceTree = "<group>"; };
 		32DBCF750370BD2300C91783 /* SubEthaEdit_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubEthaEdit_Prefix.pch; sourceTree = "<group>"; };
+		3DBB85BA25734A37000F829F /* OpenURLViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenURLViewController.h; sourceTree = "<group>"; };
+		3DBB85BB25734A37000F829F /* OpenURLViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenURLViewController.m; sourceTree = "<group>"; };
+		3DBB85C125734E6D000F829F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/OpenURLViewController.xib; sourceTree = "<group>"; };
+		3DBB85C625734E96000F829F /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/OpenURLViewController.xib; sourceTree = "<group>"; };
 		420AAF7E18FE0FFC00297DB1 /* StylePrefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StylePrefs.xib; sourceTree = "<group>"; };
 		423452391907DFE400BE3CC1 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
 		423B23CE18F63DDE001E2DCC /* SEECollaborationPreferenceModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEECollaborationPreferenceModule.h; sourceTree = "<group>"; };
@@ -1503,6 +1509,8 @@
 				4C9F60EE191A6E8800979755 /* SEEAuthenticatedSaveMissingScriptRecoveryAttempter.m */,
 				1428944E09575B9700D14688 /* PlainTextEditor.h */,
 				1428944F09575B9700D14688 /* PlainTextEditor.m */,
+				3DBB85BA25734A37000F829F /* OpenURLViewController.h */,
+				3DBB85BB25734A37000F829F /* OpenURLViewController.m */,
 				F2164BE618F6CD19002414FB /* SEESplitView.h */,
 				F2164BE718F6CD19002414FB /* SEESplitView.m */,
 				F2DC3DCF18F2F12300B543E9 /* SEEPlainTextEditorTopBarViewController.h */,
@@ -1837,6 +1845,7 @@
 				4CA098DD18EAF54E0026B3E3 /* SEEWebPreviewViewController.xib */,
 				4CD5F82B17FB0E6000F49E31 /* SelectEncodingsPanel.xib */,
 				4CD5F83317FB0EB500F49E31 /* URLBubbleWindow.xib */,
+				3DBB85C225734E6D000F829F /* OpenURLViewController.xib */,
 			);
 			name = XIBs;
 			sourceTree = "<group>";
@@ -2380,6 +2389,7 @@
 				4C0D3D6817FB145600AAFB38 /* Preferences.xib in Resources */,
 				F2BC7539217BDA3F0056FAED /* Acknowledgements.md in Resources */,
 				142890490957425900D14688 /* HTMLExport in Resources */,
+				3DBB85C025734E6D000F829F /* OpenURLViewController.xib in Resources */,
 				1428904B0957427100D14688 /* Modes in Resources */,
 				F286A754215CE6410056C247 /* AboutPanel.xib in Resources */,
 				5E4DA73D09E15C6800D91CFC /* Scripts in Resources */,
@@ -2625,6 +2635,7 @@
 				F27C4DC5192FA2A800B5DB3C /* SEEHoverTableRowView.m in Sources */,
 				1428932B095756D800D14688 /* TCMMMMessage.m in Sources */,
 				4CDC272318969A600060B044 /* SEEParticipantViewController.m in Sources */,
+				3DBB85BC25734A37000F829F /* OpenURLViewController.m in Sources */,
 				4CCD4DD21811703D00FE6134 /* SEESavePanelAccessoryViewController.m in Sources */,
 				1428932C095756D800D14688 /* TCMMMNoOperation.m in Sources */,
 				1428932D095756D800D14688 /* TCMMMOperation.m in Sources */,
@@ -2892,6 +2903,15 @@
 				F22E9F2622FEECCB00326183 /* Base */,
 			);
 			name = ServicesMenu.strings;
+			sourceTree = "<group>";
+		};
+		3DBB85C225734E6D000F829F /* OpenURLViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3DBB85C125734E6D000F829F /* Base */,
+				3DBB85C625734E96000F829F /* de */,
+			);
+			name = OpenURLViewController.xib;
 			sourceTree = "<group>";
 		};
 		4CD5F7D817FB0BF200F49E31 /* AdvancedPrefs.xib */ = {
