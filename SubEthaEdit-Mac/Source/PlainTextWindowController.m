@@ -22,7 +22,6 @@
 #import "PlainTextWindowControllerTabContext.h"
 #import "NSMenuTCMAdditions.h"
 #import "PlainTextLoadProgress.h"
-#import "URLBubbleWindow.h"
 #import "SEEParticipantsOverlayViewController.h"
 #import "SEEWebPreviewViewController.h"
 #import "FindAllController.h"
@@ -911,8 +910,6 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     } else {
         
         [previouslySelectedDocument removeObserver:self forKeyPath:@"hasAlerts"];
-        
-        [[URLBubbleWindow sharedURLBubbleWindow] hideIfNecessary];
         
         NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
         if (previouslySelectedDocument) {
