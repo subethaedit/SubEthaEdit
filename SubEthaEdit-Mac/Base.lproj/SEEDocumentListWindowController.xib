@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17132.0.2" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17132.0.2"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
         <capability name="System colors introduced in macOS 10.14" minToolsVersion="10.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,16 +19,16 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <window identifier="DocumentList" title="SubEthaEdit - Document Hub" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="utilityWindow" frameAutosaveName="DocumentHUB" tabbingMode="disallowed" id="1">
+        <window identifier="DocumentList" title="SubEthaEdit - Document Hub" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="utilityWindow" frameAutosaveName="DocumentHUB" tabbingMode="disallowed" toolbarStyle="unified" titleVisibility="hidden" id="1">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" resizable="YES"/>
             <windowCollectionBehavior key="collectionBehavior" moveToActiveSpace="YES" fullScreenAuxiliary="YES"/>
             <rect key="contentRect" x="196" y="240" width="300" height="400"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1055"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1415"/>
             <value key="minSize" type="size" width="180" height="140"/>
             <value key="maxSize" type="size" width="1000" height="3000"/>
             <view key="contentView" wantsLayer="YES" id="2">
                 <rect key="frame" x="0.0" y="0.0" width="320" height="400"/>
-                <autoresizingMask key="autoresizingMask"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <scrollView wantsLayer="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="36" horizontalPageScroll="10" verticalLineScroll="36" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qRg-fN-a9P">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="400"/>
@@ -138,50 +138,8 @@
                                                         <constraint firstItem="99d-xq-E7k" firstAttribute="leading" secondItem="JPV-3V-IN6" secondAttribute="trailing" constant="8" id="ya8-Ub-8e6"/>
                                                     </constraints>
                                                 </tableCellView>
-                                                <tableCellView identifier="OtherItems" id="8bn-dY-eZx" userLabel="open other cell">
-                                                    <rect key="frame" x="11" y="57" width="297" height="28"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                    <subviews>
-                                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gvx-Sa-6EV">
-                                                            <rect key="frame" x="8" y="4" width="14" height="21"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="width" constant="14" id="EjS-fo-2mU" userLabel="Width - (20) - Image View"/>
-                                                                <constraint firstAttribute="height" constant="21" id="Vf3-E4-ccN"/>
-                                                            </constraints>
-                                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="OpenFilesSymbol" id="Igp-4B-zMe"/>
-                                                            <connections>
-                                                                <binding destination="8bn-dY-eZx" name="value" keyPath="objectValue.image" id="rBR-5z-U9Q"/>
-                                                            </connections>
-                                                        </imageView>
-                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="hiF-tx-CmA">
-                                                            <rect key="frame" x="28" y="2" width="268" height="22"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" constant="22" id="4In-cw-YqF"/>
-                                                            </constraints>
-                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Open Other…" id="7iR-t9-q7q">
-                                                                <font key="font" metaFont="system"/>
-                                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                            </textFieldCell>
-                                                            <connections>
-                                                                <binding destination="8bn-dY-eZx" name="value" keyPath="objectValue.name" id="5RN-nn-G8Q"/>
-                                                            </connections>
-                                                        </textField>
-                                                    </subviews>
-                                                    <constraints>
-                                                        <constraint firstItem="hiF-tx-CmA" firstAttribute="leading" secondItem="8bn-dY-eZx" secondAttribute="leading" constant="30" id="1Mn-6E-8ee"/>
-                                                        <constraint firstItem="gvx-Sa-6EV" firstAttribute="leading" secondItem="8bn-dY-eZx" secondAttribute="leading" constant="8" id="CN5-mh-PfA"/>
-                                                        <constraint firstItem="gvx-Sa-6EV" firstAttribute="centerY" secondItem="hiF-tx-CmA" secondAttribute="centerY" constant="-1" id="Hfb-rE-tYW"/>
-                                                        <constraint firstAttribute="trailing" secondItem="hiF-tx-CmA" secondAttribute="trailing" constant="3" id="gOm-xg-uZ2"/>
-                                                        <constraint firstAttribute="centerY" secondItem="gvx-Sa-6EV" secondAttribute="centerY" id="nd9-HJ-IBW"/>
-                                                    </constraints>
-                                                    <connections>
-                                                        <outlet property="imageView" destination="gvx-Sa-6EV" id="WrQ-wh-aj2"/>
-                                                        <outlet property="textField" destination="hiF-tx-CmA" id="hdT-Ut-c9M"/>
-                                                    </connections>
-                                                </tableCellView>
                                                 <tableCellView identifier="ToggleRecent" id="Tiq-Hx-BMa" userLabel="recent header cell">
-                                                    <rect key="frame" x="11" y="87" width="297" height="28"/>
+                                                    <rect key="frame" x="11" y="57" width="297" height="28"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="UWB-RS-5uw">
@@ -221,8 +179,8 @@
                                                         <outlet property="textField" destination="UWB-RS-5uw" id="cZw-lp-pzH"/>
                                                     </connections>
                                                 </tableCellView>
-                                                <tableCellView identifier="MoreRecent" misplaced="YES" id="cje-Kj-pJD" userLabel="MoreCell">
-                                                    <rect key="frame" x="11" y="117" width="297" height="31"/>
+                                                <tableCellView identifier="MoreRecent" id="cje-Kj-pJD" userLabel="MoreCell">
+                                                    <rect key="frame" x="11" y="87" width="297" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="DBj-Ye-zEy">
@@ -248,7 +206,7 @@
                                                     </connections>
                                                 </tableCellView>
                                                 <tableCellView identifier="Document" id="l0C-OX-d9H" userLabel="Recent Cell View">
-                                                    <rect key="frame" x="11" y="150" width="297" height="34"/>
+                                                    <rect key="frame" x="11" y="119" width="297" height="34"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <imageView translatesAutoresizingMaskIntoConstraints="NO" id="Qp7-Vm-djo" userLabel="File Icon">
@@ -287,7 +245,7 @@
                                                     </connections>
                                                 </tableCellView>
                                                 <tableCellView identifier="NetworkDocument" id="tmI-B6-msd" userLabel="Network Doc Cell View">
-                                                    <rect key="frame" x="11" y="186" width="297" height="34"/>
+                                                    <rect key="frame" x="11" y="155" width="297" height="34"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UOM-2h-7Ex">
@@ -334,53 +292,6 @@
                                                         <outlet property="textField" destination="C3v-6r-GXt" id="TGq-A1-fXH"/>
                                                     </connections>
                                                 </tableCellView>
-                                                <tableCellView identifier="Connect" id="pIc-iJ-JHp">
-                                                    <rect key="frame" x="11" y="222" width="297" height="42"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                    <subviews>
-                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="xlp-Jr-Hfh">
-                                                            <rect key="frame" x="8" y="11" width="262" height="19"/>
-                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Connect…" id="JFZ-Hh-hom">
-                                                                <font key="font" metaFont="systemBold" size="15"/>
-                                                                <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
-                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                            </textFieldCell>
-                                                            <connections>
-                                                                <binding destination="pIc-iJ-JHp" name="value" keyPath="objectValue.name" id="mDT-Tl-4HY"/>
-                                                            </connections>
-                                                        </textField>
-                                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="joQ-3F-OLu">
-                                                            <rect key="frame" x="273" y="11" width="18" height="19"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="width" constant="18" id="ze7-40-Nvz"/>
-                                                            </constraints>
-                                                            <buttonCell key="cell" type="recessed" bezelStyle="recessed" image="NSAddTemplate" imagePosition="only" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="LDe-0O-301">
-                                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                                <font key="font" metaFont="systemBold" size="12"/>
-                                                            </buttonCell>
-                                                            <connections>
-                                                                <binding destination="pIc-iJ-JHp" name="argument" keyPath="objectValue" id="QBO-Wp-OvW">
-                                                                    <dictionary key="options">
-                                                                        <string key="NSSelectorName">triggerItemClickAction:</string>
-                                                                    </dictionary>
-                                                                </binding>
-                                                                <binding destination="pIc-iJ-JHp" name="image" keyPath="objectValue.image" id="VNY-JE-1Lm"/>
-                                                                <binding destination="-2" name="target" keyPath="self" previousBinding="QBO-Wp-OvW" id="bwz-Zh-wq2">
-                                                                    <dictionary key="options">
-                                                                        <string key="NSSelectorName">triggerItemClickAction:</string>
-                                                                    </dictionary>
-                                                                </binding>
-                                                            </connections>
-                                                        </button>
-                                                    </subviews>
-                                                    <constraints>
-                                                        <constraint firstItem="joQ-3F-OLu" firstAttribute="leading" secondItem="xlp-Jr-Hfh" secondAttribute="trailing" constant="5" id="1z8-ea-7Bd"/>
-                                                        <constraint firstItem="xlp-Jr-Hfh" firstAttribute="leading" secondItem="pIc-iJ-JHp" secondAttribute="leading" constant="10" id="AMN-o3-IXd"/>
-                                                        <constraint firstItem="xlp-Jr-Hfh" firstAttribute="top" secondItem="joQ-3F-OLu" secondAttribute="top" id="OHQ-V0-Vx8"/>
-                                                        <constraint firstItem="joQ-3F-OLu" firstAttribute="centerY" secondItem="pIc-iJ-JHp" secondAttribute="centerY" id="fB4-uI-kIq"/>
-                                                        <constraint firstAttribute="trailing" secondItem="joQ-3F-OLu" secondAttribute="trailing" constant="6" id="yZq-3o-pJT"/>
-                                                    </constraints>
-                                                </tableCellView>
                                             </prototypeCellViews>
                                         </tableColumn>
                                     </tableColumns>
@@ -411,6 +322,57 @@
                     <constraint firstItem="qRg-fN-a9P" firstAttribute="centerX" secondItem="2" secondAttribute="centerX" id="zXa-IT-RL5"/>
                 </constraints>
             </view>
+            <toolbar key="toolbar" implicitIdentifier="5FEDD26B-7270-4370-B002-CCF58F13E0D3" autosavesConfiguration="NO" allowsUserCustomization="NO" displayMode="iconOnly" sizeMode="regular" id="0pV-10-XN2">
+                <allowedToolbarItems>
+                    <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="Oaw-tz-hVn"/>
+                    <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="Lqg-nn-bIc"/>
+                    <toolbarItem implicitItemIdentifier="833A65B3-2E08-4E9C-9677-8B27425EB893" label="New" paletteLabel="New" toolTip="Create a new file" image="plus.square" catalog="system" sizingBehavior="auto" id="izD-8m-gNJ">
+                        <button key="view" verticalHuggingPriority="750" id="obz-Wk-8KD">
+                            <rect key="frame" x="2" y="14" width="27" height="23"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                            <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="plus.square" catalog="system" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="R3O-wa-SQz">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                        </button>
+                        <connections>
+                            <action selector="newDocumentToolbarItemAction:" target="-2" id="llL-eJ-uaz"/>
+                        </connections>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="CE1DBE4D-7B77-46C9-9A37-74FCF40D695A" label="Open…" paletteLabel="Open…" toolTip="Open an existing file" image="folder" catalog="system" sizingBehavior="auto" id="lFU-NN-bjy">
+                        <button key="view" verticalHuggingPriority="750" id="2Gf-oo-yiD">
+                            <rect key="frame" x="8" y="14" width="30" height="23"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                            <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="folder" catalog="system" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="xow-Ni-CAi">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                        </button>
+                        <connections>
+                            <action selector="openDocumentToolbarItemAction:" target="-2" id="Zfb-IB-JhX"/>
+                        </connections>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="877AC814-BA59-42D9-B649-7B48E02116BE" label="Connect…" paletteLabel="Connect…" toolTip="Connect to a specific host" image="network" catalog="system" sizingBehavior="auto" id="GG6-92-XRT">
+                        <button key="view" verticalHuggingPriority="750" id="ppx-BF-Shq">
+                            <rect key="frame" x="17" y="14" width="27" height="23"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                            <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="network" catalog="system" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="AcH-V7-JwC">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                        </button>
+                        <connections>
+                            <action selector="connectToHostToolbarItemAction:" target="-2" id="wem-gn-nNa"/>
+                        </connections>
+                    </toolbarItem>
+                </allowedToolbarItems>
+                <defaultToolbarItems>
+                    <toolbarItem reference="Lqg-nn-bIc"/>
+                    <toolbarItem reference="izD-8m-gNJ"/>
+                    <toolbarItem reference="lFU-NN-bjy"/>
+                    <toolbarItem reference="GG6-92-XRT"/>
+                </defaultToolbarItems>
+            </toolbar>
             <connections>
                 <outlet property="delegate" destination="-2" id="4"/>
             </connections>
@@ -442,12 +404,14 @@
             <connections>
                 <outlet property="delegate" destination="-2" id="axN-I6-ZB0"/>
             </connections>
+            <point key="canvasLocation" x="-270" y="-224"/>
         </menu>
     </objects>
     <resources>
-        <image name="NSAddTemplate" width="15" height="11"/>
         <image name="NSFolder" width="32" height="32"/>
-        <image name="OpenFilesSymbol" width="14" height="14"/>
         <image name="StatusPending" width="16" height="16"/>
+        <image name="folder" catalog="system" width="18" height="14"/>
+        <image name="network" catalog="system" width="15" height="15"/>
+        <image name="plus.square" catalog="system" width="15" height="14"/>
     </resources>
 </document>

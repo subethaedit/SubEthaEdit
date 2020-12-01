@@ -142,6 +142,7 @@
 		3188F6800CAD13E0009E4C0B /* DNDArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3188F6780CAD1218009E4C0B /* DNDArrayController.m */; };
 		31D2C7000CA7C9C8003CC5C9 /* PrecedenceRuleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D2C6E50CA7C7A7003CC5C9 /* PrecedenceRuleCell.m */; };
 		31FFC93D104E97A000E08256 /* NSErrorTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FFC93C104E97A000E08256 /* NSErrorTCMAdditions.m */; };
+		3D83EDAB2576B1E6004288B2 /* SEEDocumentListWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D83EDAD2576B1E6004288B2 /* SEEDocumentListWindowController.xib */; };
 		3DBB85BC25734A37000F829F /* OpenURLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DBB85BB25734A37000F829F /* OpenURLViewController.m */; };
 		3DBB85C025734E6D000F829F /* OpenURLViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DBB85C225734E6D000F829F /* OpenURLViewController.xib */; };
 		420AAF7F18FE0FFC00297DB1 /* StylePrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 420AAF7E18FE0FFC00297DB1 /* StylePrefs.xib */; };
@@ -152,7 +153,6 @@
 		4C0B4C6118C8B3E300048335 /* SEEToggleRecentDocumentListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0B4C6018C8B3E300048335 /* SEEToggleRecentDocumentListItem.m */; };
 		4C0C4A0118B366EC00E6049E /* PlainTextWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0C4A0018B366EC00E6049E /* PlainTextWindow.xib */; };
 		4C0C4A1C18B3768500E6049E /* SEEDocumentListWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0C4A1A18B3768500E6049E /* SEEDocumentListWindowController.m */; };
-		4C0C4A1D18B3768500E6049E /* SEEDocumentListWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0C4A1B18B3768500E6049E /* SEEDocumentListWindowController.xib */; };
 		4C0C4A2018B3BA5600E6049E /* SEENetworkDocumentListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0C4A1F18B3BA5600E6049E /* SEENetworkDocumentListItem.m */; };
 		4C0D3D6417FB12F700AAFB38 /* SEEStyleSheetEditorWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D6317FB12F700AAFB38 /* SEEStyleSheetEditorWindowController.xib */; };
 		4C0D3D6817FB145600AAFB38 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D6717FB145600AAFB38 /* Preferences.xib */; };
@@ -183,9 +183,6 @@
 		4C6BDC5F1889858A0088CBFC /* folded.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC5D1889858A0088CBFC /* folded.png */; };
 		4C6BDC601889858A0088CBFC /* folded@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC5E1889858A0088CBFC /* folded@2x.png */; };
 		4C714D9719922B3B00C8B128 /* SEEApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C714D9619922B3B00C8B128 /* SEEApplication.m */; };
-		4C71D0C318BF7C2900EA66FA /* SEEConnectDocumentListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C71D0C218BF7C2900EA66FA /* SEEConnectDocumentListItem.m */; };
-		4C71D0C618BF8B2200EA66FA /* SEEOpenOtherDocumentListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C71D0C518BF8B2200EA66FA /* SEEOpenOtherDocumentListItem.m */; };
-		4C71D0C918BF997500EA66FA /* SEENewDocumentListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C71D0C818BF997500EA66FA /* SEENewDocumentListItem.m */; };
 		4C77B24218BB83620066BDB2 /* SEEDocumentListGroupTableRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C77B24118BB83620066BDB2 /* SEEDocumentListGroupTableRowView.m */; };
 		4C7F5E0B18D9D4C500F33CCD /* SEEScopedBookmarkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C7F5E0A18D9D4C500F33CCD /* SEEScopedBookmarkManager.m */; };
 		4C97D504188D42FA000B4999 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C97D503188D42FA000B4999 /* QuartzCore.framework */; };
@@ -810,6 +807,8 @@
 		31FFC93B104E97A000E08256 /* NSErrorTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NSErrorTCMAdditions.h; sourceTree = "<group>"; };
 		31FFC93C104E97A000E08256 /* NSErrorTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSErrorTCMAdditions.m; sourceTree = "<group>"; };
 		32DBCF750370BD2300C91783 /* SubEthaEdit_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubEthaEdit_Prefix.pch; sourceTree = "<group>"; };
+		3D83EDAC2576B1E6004288B2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SEEDocumentListWindowController.xib; sourceTree = "<group>"; };
+		3D83EDB02576B1EE004288B2 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/SEEDocumentListWindowController.strings; sourceTree = "<group>"; };
 		3DBB85BA25734A37000F829F /* OpenURLViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenURLViewController.h; sourceTree = "<group>"; };
 		3DBB85BB25734A37000F829F /* OpenURLViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenURLViewController.m; sourceTree = "<group>"; };
 		3DBB85C125734E6D000F829F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/OpenURLViewController.xib; sourceTree = "<group>"; };
@@ -826,7 +825,6 @@
 		4C0C4A0018B366EC00E6049E /* PlainTextWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlainTextWindow.xib; sourceTree = "<group>"; };
 		4C0C4A1918B3768500E6049E /* SEEDocumentListWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEDocumentListWindowController.h; sourceTree = "<group>"; };
 		4C0C4A1A18B3768500E6049E /* SEEDocumentListWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEDocumentListWindowController.m; sourceTree = "<group>"; };
-		4C0C4A1B18B3768500E6049E /* SEEDocumentListWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEEDocumentListWindowController.xib; sourceTree = "<group>"; };
 		4C0C4A1E18B3BA5600E6049E /* SEENetworkDocumentListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEENetworkDocumentListItem.h; sourceTree = "<group>"; };
 		4C0C4A1F18B3BA5600E6049E /* SEENetworkDocumentListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEENetworkDocumentListItem.m; sourceTree = "<group>"; };
 		4C0D3D6317FB12F700AAFB38 /* SEEStyleSheetEditorWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEEStyleSheetEditorWindowController.xib; sourceTree = "<group>"; };
@@ -866,12 +864,6 @@
 		4C714D9519922B3B00C8B128 /* SEEApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEApplication.h; sourceTree = "<group>"; };
 		4C714D9619922B3B00C8B128 /* SEEApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEApplication.m; sourceTree = "<group>"; };
 		4C71D0C018BF796500EA66FA /* SEEDocumentListItemProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEEDocumentListItemProtocol.h; sourceTree = "<group>"; };
-		4C71D0C118BF7C2900EA66FA /* SEEConnectDocumentListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEConnectDocumentListItem.h; sourceTree = "<group>"; };
-		4C71D0C218BF7C2900EA66FA /* SEEConnectDocumentListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEConnectDocumentListItem.m; sourceTree = "<group>"; };
-		4C71D0C418BF8B2200EA66FA /* SEEOpenOtherDocumentListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEOpenOtherDocumentListItem.h; sourceTree = "<group>"; };
-		4C71D0C518BF8B2200EA66FA /* SEEOpenOtherDocumentListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEOpenOtherDocumentListItem.m; sourceTree = "<group>"; };
-		4C71D0C718BF997500EA66FA /* SEENewDocumentListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEENewDocumentListItem.h; sourceTree = "<group>"; };
-		4C71D0C818BF997500EA66FA /* SEENewDocumentListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEENewDocumentListItem.m; sourceTree = "<group>"; };
 		4C77B24018BB83620066BDB2 /* SEEDocumentListGroupTableRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEDocumentListGroupTableRowView.h; sourceTree = "<group>"; };
 		4C77B24118BB83620066BDB2 /* SEEDocumentListGroupTableRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEDocumentListGroupTableRowView.m; sourceTree = "<group>"; };
 		4C7F5E0918D9D4C500F33CCD /* SEEScopedBookmarkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEScopedBookmarkManager.h; sourceTree = "<group>"; };
@@ -1826,7 +1818,7 @@
 				4CD5F81F17FB0E2B00F49E31 /* PrintOptions.xib */,
 				4CD5F82717FB0E4F00F49E31 /* SavePanelAccessory.xib */,
 				4CDF05A418C0A3D4004A49E5 /* SEEConnectionAddingWindowController.xib */,
-				4C0C4A1B18B3768500E6049E /* SEEDocumentListWindowController.xib */,
+				3D83EDAD2576B1E6004288B2 /* SEEDocumentListWindowController.xib */,
 				4CD5F7E817FB0C8E00F49E31 /* SEEEncodingDoctorView.xib */,
 				F21DAFE718BB77AA002B3C41 /* SEEFindAndReplaceView.xib */,
 				4C5EC97D1897F6FC0094D850 /* SEEParticipantsOverlay.xib */,
@@ -1934,10 +1926,6 @@
 			isa = PBXGroup;
 			children = (
 				4C71D0C018BF796500EA66FA /* SEEDocumentListItemProtocol.h */,
-				4C71D0C718BF997500EA66FA /* SEENewDocumentListItem.h */,
-				4C71D0C818BF997500EA66FA /* SEENewDocumentListItem.m */,
-				4C71D0C418BF8B2200EA66FA /* SEEOpenOtherDocumentListItem.h */,
-				4C71D0C518BF8B2200EA66FA /* SEEOpenOtherDocumentListItem.m */,
 				4C0B4C5F18C8B3E300048335 /* SEEToggleRecentDocumentListItem.h */,
 				4C0B4C6018C8B3E300048335 /* SEEToggleRecentDocumentListItem.m */,
 				4C63F8EC18C4930A00A588FD /* SEERecentDocumentListItem.h */,
@@ -1948,8 +1936,6 @@
 				4C9CCDC818BE413E00959EF2 /* SEENetworkConnectionRepresentationListItem.m */,
 				4C0C4A1E18B3BA5600E6049E /* SEENetworkDocumentListItem.h */,
 				4C0C4A1F18B3BA5600E6049E /* SEENetworkDocumentListItem.m */,
-				4C71D0C118BF7C2900EA66FA /* SEEConnectDocumentListItem.h */,
-				4C71D0C218BF7C2900EA66FA /* SEEConnectDocumentListItem.m */,
 			);
 			name = Items;
 			sourceTree = "<group>";
@@ -2478,7 +2464,7 @@
 				F2D5FF400CB2667A00407399 /* StylePrefs.icns in Resources */,
 				4CD5F80617FB0D5B00F49E31 /* OpenPanelAccessory.xib in Resources */,
 				F22024D5191D0BFE0098982C /* ParticipantReadOnlyTurnOffHover.png in Resources */,
-				4C0C4A1D18B3768500E6049E /* SEEDocumentListWindowController.xib in Resources */,
+				3D83EDAB2576B1E6004288B2 /* SEEDocumentListWindowController.xib in Resources */,
 				F21DAFE818BB77AA002B3C41 /* SEEFindAndReplaceView.xib in Resources */,
 				F22024D0191D0BFE0098982C /* ParticipantKickHover@2x.png in Resources */,
 				F22024C7191D0BFE0098982C /* ParticipantFollowTurnOffPressed.png in Resources */,
@@ -2619,7 +2605,6 @@
 				1428922A0957523300D14688 /* DebugPreferences.m in Sources */,
 				1428922D0957523300D14688 /* DebugPresenceController.m in Sources */,
 				1428922E0957523300D14688 /* DebugUserController.m in Sources */,
-				4C71D0C618BF8B2200EA66FA /* SEEOpenOtherDocumentListItem.m in Sources */,
 				4C123002180BE4A60069253E /* TCMBEEPSessionXMLParser.m in Sources */,
 				14289329095756D800D14688 /* TCMMMBEEPSessionManager.m in Sources */,
 				F27C4DC5192FA2A800B5DB3C /* SEEHoverTableRowView.m in Sources */,
@@ -2753,7 +2738,6 @@
 				F26B7D880CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m in Sources */,
 				F29E6DD818E5CACE00F84231 /* TCMCGGeometryAdditions.m in Sources */,
 				31D2C7000CA7C9C8003CC5C9 /* PrecedenceRuleCell.m in Sources */,
-				4C71D0C318BF7C2900EA66FA /* SEEConnectDocumentListItem.m in Sources */,
 				F27EDD56216E6DEC00987579 /* NSAppearanceSEEAdditions.m in Sources */,
 				4C77B24218BB83620066BDB2 /* SEEDocumentListGroupTableRowView.m in Sources */,
 				F2F2B5A70CA7F7B80045C189 /* PrecedencePreferences.m in Sources */,
@@ -2777,7 +2761,6 @@
 				4C63F8EE18C4930A00A588FD /* SEERecentDocumentListItem.m in Sources */,
 				4CE4A57E192E4BF700771A26 /* SEEMoreRecentDocumentsListItem.m in Sources */,
 				3170E46112846C670096089C /* SEEStyleSheet.m in Sources */,
-				4C71D0C918BF997500EA66FA /* SEENewDocumentListItem.m in Sources */,
 				F280ABC4131E6ED50091D145 /* SEEStyleSheetEditorWindowController.m in Sources */,
 				F214C1DB18BE180300908826 /* NSObject+TCMArcLifecycleAdditions.m in Sources */,
 				F2D56993133B880900CEC841 /* SEEStyleSheetSettings.m in Sources */,
@@ -2892,6 +2875,15 @@
 				F22E9F2622FEECCB00326183 /* Base */,
 			);
 			name = ServicesMenu.strings;
+			sourceTree = "<group>";
+		};
+		3D83EDAD2576B1E6004288B2 /* SEEDocumentListWindowController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3D83EDAC2576B1E6004288B2 /* Base */,
+				3D83EDB02576B1EE004288B2 /* de */,
+			);
+			name = SEEDocumentListWindowController.xib;
 			sourceTree = "<group>";
 		};
 		3DBB85C225734E6D000F829F /* OpenURLViewController.xib */ = {
