@@ -173,11 +173,11 @@
                                                         </button>
                                                     </subviews>
                                                     <constraints>
-                                                        <constraint firstItem="UWB-RS-5uw" firstAttribute="centerY" secondItem="Tiq-Hx-BMa" secondAttribute="centerY" constant="-1" id="31t-OG-G1b"/>
                                                         <constraint firstItem="eSU-d2-2DX" firstAttribute="firstBaseline" secondItem="UWB-RS-5uw" secondAttribute="firstBaseline" constant="-1" id="8YE-bR-FWr"/>
                                                         <constraint firstItem="UWB-RS-5uw" firstAttribute="leading" secondItem="Tiq-Hx-BMa" secondAttribute="leading" constant="32" id="B1R-mb-58C"/>
                                                         <constraint firstItem="eSU-d2-2DX" firstAttribute="leading" secondItem="Tiq-Hx-BMa" secondAttribute="leading" constant="8" id="FN3-m3-Hyv"/>
                                                         <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="UWB-RS-5uw" secondAttribute="trailing" constant="20" symbolic="YES" id="SBa-kx-D7L"/>
+                                                        <constraint firstItem="UWB-RS-5uw" firstAttribute="top" secondItem="Tiq-Hx-BMa" secondAttribute="top" constant="5" id="YM8-zy-R61"/>
                                                     </constraints>
                                                     <connections>
                                                         <outlet property="textField" destination="UWB-RS-5uw" id="cZw-lp-pzH"/>
