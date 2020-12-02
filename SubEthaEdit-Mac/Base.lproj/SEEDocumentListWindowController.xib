@@ -80,7 +80,7 @@
                                                                         <binding destination="7GF-iT-703" name="value" keyPath="objectValue.name" id="mHh-wn-wlH"/>
                                                                     </connections>
                                                                 </textField>
-                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="KzL-Id-dvC" userLabel="sublinefield">
+                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KzL-Id-dvC" userLabel="sublinefield">
                                                                     <rect key="frame" x="-2" y="0.0" width="100" height="14"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="left" title="see://localhost/xib" id="DfZ-MR-7px">
                                                                         <font key="font" metaFont="smallSystem"/>
@@ -222,7 +222,7 @@
                                                                 <binding destination="l0C-OX-d9H" name="value" keyPath="objectValue.image" id="UtF-Du-rjH"/>
                                                             </connections>
                                                         </imageView>
-                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="3Bt-0B-b5J">
+                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3Bt-0B-b5J">
                                                             <rect key="frame" x="64" y="14" width="232" height="16"/>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingHead" sendsActionOnEndEditing="YES" title="DocumentName.txt" id="4t0-UR-tOR">
                                                                 <font key="font" metaFont="system"/>
@@ -267,7 +267,7 @@
                                                                 <binding destination="tmI-B6-msd" name="value" keyPath="objectValue.image" id="Ee1-dq-Dqu"/>
                                                             </connections>
                                                         </imageView>
-                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="C3v-6r-GXt">
+                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="C3v-6r-GXt">
                                                             <rect key="frame" x="64" y="14" width="232" height="16"/>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingHead" sendsActionOnEndEditing="YES" title="NetworkDocumentName.txt" id="2vu-Ie-uRT">
                                                                 <font key="font" metaFont="system"/>
