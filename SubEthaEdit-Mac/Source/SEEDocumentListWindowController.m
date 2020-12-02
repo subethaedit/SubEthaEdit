@@ -4,13 +4,14 @@
 //  Created by Michael Ehrmann on 18.02.14.
 
 #import "SEEDocumentListWindowController.h"
-#import "SEEDocumentListGroupTableRowView.h"
+#import "SEEDividerTableRowView.h"
 
 #import "SEENetworkConnectionRepresentationListItem.h"
 #import "SEENetworkDocumentListItem.h"
 #import "SEEToggleRecentDocumentListItem.h"
 #import "SEEMoreRecentDocumentsListItem.h"
 #import "SEERecentDocumentListItem.h"
+#import "SEEDividerListItem.h"
 
 #import "SEEAvatarImageView.h"
 
@@ -48,6 +49,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 
 @property (nonatomic, weak) IBOutlet NSScrollView *scrollViewOutlet;
 @property (nonatomic, weak) IBOutlet NSTableView *tableViewOutlet;
+@property (weak) IBOutlet NSLayoutConstraint *tableViewLeadingConstraint;
 
 @property (nonatomic, weak) IBOutlet NSMenu *listItemContextMenuOutlet;
 
@@ -145,9 +147,10 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	[tableView setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
 	tableView.allowsMultipleSelection = !SEEDocumentListOpenDocumentsWithSingleClick;
     if (@available(macOS 11.0, *)) {
-        tableView.style = NSTableViewStylePlain;
+        tableView.style = NSTableViewStyleInset;
+        self.tableViewLeadingConstraint.constant = 0;
     } else {
-        // Fallback on earlier versions
+        self.tableViewLeadingConstraint.constant = 10;
     }
 }
 
@@ -342,7 +345,8 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 						connectionRepresentation.connection = connection;
 						NSString *cachedItemID = connectionRepresentation.uid;
 						SEENetworkConnectionRepresentationListItem *cachedItem = [lookupDictionary objectForKey:cachedItemID];
-						if (cachedItem) {
+                        [self.availableItems addObject:[SEEDividerListItem new]];
+                        if (cachedItem) {
 							cachedItem.connection = connection;
 							[self.availableItems addObject:cachedItem];
 						} else {
@@ -565,7 +569,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 
 		if (tableColumn == nil && [rowItem isKindOfClass:SEENetworkConnectionRepresentationListItem.class]) {
 			result = [tableView makeViewWithIdentifier:@"Group" owner:self];
-		} else if ([rowItem isKindOfClass:SEEToggleRecentDocumentListItem.class]) {
+        } else if ([rowItem isKindOfClass:SEEToggleRecentDocumentListItem.class]) {
 			result = [tableView makeViewWithIdentifier:@"ToggleRecent" owner:self];
 		} else if ([rowItem isKindOfClass:SEEMoreRecentDocumentsListItem.class]) {
 			result = [tableView makeViewWithIdentifier:@"MoreRecent" owner:self];
@@ -586,13 +590,8 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	NSArray *availableItems = self.availableItems;
 	if (availableItems.count > row) {
 		id <SEEDocumentListItem> itemRepresentation = [availableItems objectAtIndex:row];
-		if ([itemRepresentation isKindOfClass:[SEENetworkConnectionRepresentationListItem class]]) {
-			rowView = [[SEEDocumentListGroupTableRowView alloc] init];
-
-			if (row > 1) {
-				BOOL drawTopLine = ! [[availableItems objectAtIndex:row - 1] isKindOfClass:[SEENetworkConnectionRepresentationListItem class]];
-				((SEEDocumentListGroupTableRowView *)rowView).drawTopLine = drawTopLine;
-			}
+		if ([itemRepresentation isKindOfClass:[SEEDividerListItem class]]) {
+			rowView = [SEEDividerTableRowView new];
 		} else if ([itemRepresentation isKindOfClass:[SEENetworkDocumentListItem class]] ||
                    [itemRepresentation isKindOfClass:[SEERecentDocumentListItem class]]) {
 			rowView = ({
@@ -690,17 +689,10 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 		} else if ([documentRepresentation isKindOfClass:SEENetworkDocumentListItem.class] ||
 				   [documentRepresentation isKindOfClass:SEERecentDocumentListItem.class]) {
             rowHeight = 42.0;
-		}
+        } else if ([documentRepresentation isKindOfClass:SEEDividerListItem.class]) {
+            rowHeight = 10.0;
+        }
 	}
-    
-    // Give some more space to the last item before a Connection Representation
-    // N.B. The very last item won't actually return YES, but that's okay
-    if (availableDocumentSession.count > row + 1 &&
-        [[availableDocumentSession objectAtIndex:row + 1] isKindOfClass:connectionRepresentation] &&
-        ![[availableDocumentSession objectAtIndex:row] isKindOfClass:connectionRepresentation]) {
-        rowHeight = rowHeight + 10;
-    }
-    
 	return rowHeight;
 }
 

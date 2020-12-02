@@ -2,7 +2,6 @@
 #import "SEEHoverTableRowView.h"
 
 @interface SEEHoverTableRowView ()
-@property (nonatomic) BOOL rightClick;
 @property (nonatomic) BOOL mouseInside;
 @property (nonatomic, strong) NSTrackingArea *trackingArea;
 @end
@@ -68,36 +67,10 @@
 
     if (self.mouseInside) {
 		CGFloat alphaValue = self.clickHighlight ? 0.16 : 0.08;
-        NSRect selectionRect = NSInsetRect(self.bounds, 5, 0);
+        NSRect selectionRect = NSInsetRect(self.bounds, 10, 0);
         [[[NSColor labelColor] colorWithAlphaComponent:alphaValue] setFill];
         NSBezierPath *selectionPath = [NSBezierPath bezierPathWithRoundedRect:selectionRect xRadius:5 yRadius:5];
         [selectionPath fill];
-    }
-}
-
-// Only called if the 'selected' property is yes.
-- (void)drawSelectionInRect:(NSRect)dirtyRect {
-    [super drawSelectionInRect:dirtyRect];
-    // Check the selectionHighlightStyle, in case it was set to None
-//    if (self.selectionHighlightStyle != NSTableViewSelectionHighlightStyleNone) {
-        // We want a hard-crisp stroke, and stroking 1 pixel will border half on one side and half on another, so we offset by the 0.5 to handle this
-        NSRect selectionRect = NSInsetRect(self.bounds, 5.5, 5.5);
-        [[NSColor colorWithCalibratedWhite:.72 alpha:1.0] setStroke];
-        [[NSColor colorWithCalibratedWhite:.82 alpha:1.0] setFill];
-        NSBezierPath *selectionPath = [NSBezierPath bezierPathWithRoundedRect:selectionRect xRadius:10 yRadius:10];
-        [selectionPath fill];
-        [selectionPath stroke];
-//    }
-}
-
-- (void)setFrame:(NSRect)frameRect {
-    [super setFrame:frameRect];
-    // We need to invalidate more things when live-resizing since we fill with a gradient and stroke
-    if ([self inLiveResize]) {
-        // Redraw everything if we are using a gradient
-        if (self.selected) {
-            [self setNeedsDisplay:YES];
-        }
     }
 }
 
