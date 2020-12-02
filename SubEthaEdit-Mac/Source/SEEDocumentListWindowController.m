@@ -145,7 +145,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	[tableView setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
 	tableView.allowsMultipleSelection = !SEEDocumentListOpenDocumentsWithSingleClick;
     if (@available(macOS 11.0, *)) {
-        tableView.style = NSTableViewStyleFullWidth;
+        tableView.style = NSTableViewStylePlain;
     } else {
         // Fallback on earlier versions
     }
@@ -565,8 +565,6 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 
 		if (tableColumn == nil && [rowItem isKindOfClass:SEENetworkConnectionRepresentationListItem.class]) {
 			result = [tableView makeViewWithIdentifier:@"Group" owner:self];
-			// adds the shadow that a previews source list style already had
-			[[[(NSTableCellView *)result textField] cell] setBackgroundStyle:NSBackgroundStyleRaised];
 		} else if ([rowItem isKindOfClass:SEEToggleRecentDocumentListItem.class]) {
 			result = [tableView makeViewWithIdentifier:@"ToggleRecent" owner:self];
 		} else if ([rowItem isKindOfClass:SEEMoreRecentDocumentsListItem.class]) {
@@ -690,7 +688,19 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 		} else if ([documentRepresentation isKindOfClass:SEENetworkDocumentListItem.class] ||
 				   [documentRepresentation isKindOfClass:SEERecentDocumentListItem.class] ||
 				   [documentRepresentation isKindOfClass:SEEMoreRecentDocumentsListItem.class]) {
-			rowHeight = 36.0;
+            
+            BOOL isLastItemInSection = NO;
+            if (availableDocumentSession.count > row + 1) {
+                // The very last item won't actually return YES, but that's okay
+                isLastItemInSection = [[availableDocumentSession objectAtIndex:row + 1] isKindOfClass:[SEENetworkConnectionRepresentationListItem class]];
+            }
+            
+            if (isLastItemInSection) {
+                // Give more space to the last item before a Connection Representation
+                rowHeight = 52.0;
+            } else {
+                rowHeight = 42.0;
+            }
 		}
 	}
 	return rowHeight;
