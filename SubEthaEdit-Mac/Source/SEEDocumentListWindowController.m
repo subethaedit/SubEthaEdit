@@ -593,7 +593,8 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 				BOOL drawTopLine = ! [[availableItems objectAtIndex:row - 1] isKindOfClass:[SEENetworkConnectionRepresentationListItem class]];
 				((SEEDocumentListGroupTableRowView *)rowView).drawTopLine = drawTopLine;
 			}
-		} else {
+		} else if ([itemRepresentation isKindOfClass:[SEENetworkDocumentListItem class]] ||
+                   [itemRepresentation isKindOfClass:[SEERecentDocumentListItem class]]) {
 			rowView = ({
 				SEEHoverTableRowView *hoverView = [[SEEHoverTableRowView alloc] init];
 				hoverView.TCM_rowIndex = row;
