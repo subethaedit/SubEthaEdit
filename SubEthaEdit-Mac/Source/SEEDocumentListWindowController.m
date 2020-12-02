@@ -677,32 +677,29 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 
 - (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row {
 	CGFloat rowHeight = 28.0;
-
+    Class connectionRepresentation = SEENetworkConnectionRepresentationListItem.class;
 	NSArray *availableDocumentSession = self.availableItems;
 	if (availableDocumentSession.count > row) {
 		id documentRepresentation = [availableDocumentSession objectAtIndex:row];
-		if ([documentRepresentation isKindOfClass:SEENetworkConnectionRepresentationListItem.class]) {
+		if ([documentRepresentation isKindOfClass:connectionRepresentation]) {
 			rowHeight = 56.0;
-		} else if ([documentRepresentation isKindOfClass:SEEToggleRecentDocumentListItem.class]) {
-			rowHeight = 28.0;
+		} else if ([documentRepresentation isKindOfClass:SEEToggleRecentDocumentListItem.class] ||
+                   [documentRepresentation isKindOfClass:SEEMoreRecentDocumentsListItem.class]) {
+            rowHeight = 28.0;
 		} else if ([documentRepresentation isKindOfClass:SEENetworkDocumentListItem.class] ||
-				   [documentRepresentation isKindOfClass:SEERecentDocumentListItem.class] ||
-				   [documentRepresentation isKindOfClass:SEEMoreRecentDocumentsListItem.class]) {
-            
-            BOOL isLastItemInSection = NO;
-            if (availableDocumentSession.count > row + 1) {
-                // The very last item won't actually return YES, but that's okay
-                isLastItemInSection = [[availableDocumentSession objectAtIndex:row + 1] isKindOfClass:[SEENetworkConnectionRepresentationListItem class]];
-            }
-            
-            if (isLastItemInSection) {
-                // Give more space to the last item before a Connection Representation
-                rowHeight = 52.0;
-            } else {
-                rowHeight = 42.0;
-            }
+				   [documentRepresentation isKindOfClass:SEERecentDocumentListItem.class]) {
+            rowHeight = 42.0;
 		}
 	}
+    
+    // Give some more space to the last item before a Connection Representation
+    // N.B. The very last item won't actually return YES, but that's okay
+    if (availableDocumentSession.count > row + 1 &&
+        [[availableDocumentSession objectAtIndex:row + 1] isKindOfClass:connectionRepresentation] &&
+        ![[availableDocumentSession objectAtIndex:row] isKindOfClass:connectionRepresentation]) {
+        rowHeight = rowHeight + 10;
+    }
+    
 	return rowHeight;
 }
 
