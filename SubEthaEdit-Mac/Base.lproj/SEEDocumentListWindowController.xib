@@ -25,7 +25,7 @@
             <windowCollectionBehavior key="collectionBehavior" moveToActiveSpace="YES" fullScreenAuxiliary="YES"/>
             <rect key="contentRect" x="196" y="240" width="300" height="400"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1792" height="1095"/>
-            <value key="minSize" type="size" width="180" height="140"/>
+            <value key="minSize" type="size" width="230" height="140"/>
             <value key="maxSize" type="size" width="1000" height="3000"/>
             <view key="contentView" wantsLayer="YES" id="2">
                 <rect key="frame" x="0.0" y="0.0" width="320" height="372"/>
@@ -230,7 +230,7 @@
                                                         </imageView>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3Bt-0B-b5J">
                                                             <rect key="frame" x="56" y="13" width="240" height="16"/>
-                                                            <textFieldCell key="cell" lineBreakMode="truncatingHead" sendsActionOnEndEditing="YES" title="DocumentName.txt" id="4t0-UR-tOR">
+                                                            <textFieldCell key="cell" lineBreakMode="truncatingMiddle" sendsActionOnEndEditing="YES" title="DocumentName.txt" id="4t0-UR-tOR">
                                                                 <font key="font" metaFont="system"/>
                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -333,7 +333,7 @@
                     <constraint firstItem="qRg-fN-a9P" firstAttribute="centerX" secondItem="2" secondAttribute="centerX" id="zXa-IT-RL5"/>
                 </constraints>
             </view>
-            <toolbar key="toolbar" implicitIdentifier="5FEDD26B-7270-4370-B002-CCF58F13E0D3" autosavesConfiguration="NO" displayMode="iconOnly" sizeMode="regular" id="0pV-10-XN2">
+            <toolbar key="toolbar" implicitIdentifier="5FEDD26B-7270-4370-B002-CCF58F13E0D3" autosavesConfiguration="NO" allowsUserCustomization="NO" displayMode="iconOnly" sizeMode="regular" id="0pV-10-XN2">
                 <allowedToolbarItems>
                     <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="Oaw-tz-hVn"/>
                     <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="Lqg-nn-bIc"/>
