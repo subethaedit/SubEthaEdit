@@ -1,9 +1,9 @@
 
 /* Class = "NSToolbarItem"; label = "Connect…"; ObjectID = "GG6-92-XRT"; */
-"GG6-92-XRT.label" = "Verbinden…";
+"GG6-92-XRT.label" = "Verbinden …";
 
 /* Class = "NSToolbarItem"; paletteLabel = "Connect…"; ObjectID = "GG6-92-XRT"; */
-"GG6-92-XRT.paletteLabel" = "Verbinden…";
+"GG6-92-XRT.paletteLabel" = "Verbinden …";
 
 /* Class = "NSToolbarItem"; toolTip = "Connect to a specific host"; ObjectID = "GG6-92-XRT"; */
 "GG6-92-XRT.toolTip" = "Mit URL verbinden";
@@ -18,10 +18,10 @@
 "izD-8m-gNJ.toolTip" = "Neue Datei erstellen";
 
 /* Class = "NSToolbarItem"; label = "Open…"; ObjectID = "lFU-NN-bjy"; */
-"lFU-NN-bjy.label" = "Öffnen…";
+"lFU-NN-bjy.label" = "Öffnen …";
 
 /* Class = "NSToolbarItem"; paletteLabel = "Open…"; ObjectID = "lFU-NN-bjy"; */
-"lFU-NN-bjy.paletteLabel" = "Öffnen…";
+"lFU-NN-bjy.paletteLabel" = "Öffnen …";
 
 /* Class = "NSToolbarItem"; toolTip = "Open an existing file"; ObjectID = "lFU-NN-bjy"; */
 "lFU-NN-bjy.toolTip" = "Vorhandene Datei öffnen";

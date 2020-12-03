@@ -6,7 +6,6 @@
 #import "SEEDocumentListGroupTableRowView.h"
 
 @implementation SEEDocumentListGroupTableRowView
-
-- (void)drawBackgroundInRect:(NSRect)dirtyRect { }
-
+- (void)drawBackgroundInRect:(NSRect)dirtyRect {    
+}
 @end

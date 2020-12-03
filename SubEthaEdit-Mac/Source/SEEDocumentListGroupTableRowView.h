@@ -6,5 +6,4 @@
 #import <Cocoa/Cocoa.h>
 
 @interface SEEDocumentListGroupTableRowView : NSTableRowView
-
 @end

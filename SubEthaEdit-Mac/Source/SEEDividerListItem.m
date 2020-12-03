@@ -1,10 +1,7 @@
-//
 //  SEEDividerListItem.m
 //  SubEthaEdit
 //
 //  Created by Jan Cornelissen on 02/12/2020.
-//  Copyright © 2020 SubEthaEdit Contributors. All rights reserved.
-//
 
 #import "SEEDividerListItem.h"
 

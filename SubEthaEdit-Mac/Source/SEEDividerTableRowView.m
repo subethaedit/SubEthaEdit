@@ -2,15 +2,13 @@
 //  SubEthaEdit
 //
 //  Created by Jan Cornelissen on 03/12/2020.
-//  Copyright © 2020 SubEthaEdit Contributors. All rights reserved.
-//
 
 #import "SEEDividerTableRowView.h"
 
 @implementation SEEDividerTableRowView
 
 - (void)drawBackgroundInRect:(NSRect)dirtyRect {
-	if (! self.floating) {
+	if (!self.floating) {
 		if (self.isFlipped) {
             NSRect rect = CGRectMake(0, 8, self.bounds.size.width, 1);
             NSBezierPath *divider = [NSBezierPath bezierPathWithRect:rect];
