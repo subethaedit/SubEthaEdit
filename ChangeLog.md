@@ -12,6 +12,7 @@
 ### [unreleased] SubEthaEdit 5.1.6
 
 #### Bug fixes and maintenance:
+* Modernised the docuement hub
 * Modernised open URL popover
 
 #### Improved modes:
