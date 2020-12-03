@@ -4,7 +4,7 @@
 //  Created by Michael Ehrmann on 18.02.14.
 
 #import "SEEDocumentListWindowController.h"
-#import "SEENetworkBrowserGroupTableRowView.h"
+#import "SEEDocumentListGroupTableRowView.h"
 #import "SEEDividerTableRowView.h"
 
 #import "SEENetworkConnectionRepresentationListItem.h"
@@ -592,7 +592,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	if (availableItems.count > row) {
 		id <SEEDocumentListItem> itemRepresentation = [availableItems objectAtIndex:row];
         if ([itemRepresentation isKindOfClass:[SEENetworkConnectionRepresentationListItem class]]) {
-            rowView = [SEENetworkBrowserGroupTableRowView new];
+            rowView = [SEEDocumentListGroupTableRowView new];
         } else if ([itemRepresentation isKindOfClass:[SEEDividerListItem class]]) {
 			rowView = [SEEDividerTableRowView new];
 		} else if ([itemRepresentation isKindOfClass:[SEENetworkDocumentListItem class]] ||

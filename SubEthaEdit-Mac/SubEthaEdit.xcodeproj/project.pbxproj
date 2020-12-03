@@ -142,7 +142,7 @@
 		3188F6800CAD13E0009E4C0B /* DNDArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3188F6780CAD1218009E4C0B /* DNDArrayController.m */; };
 		31D2C7000CA7C9C8003CC5C9 /* PrecedenceRuleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D2C6E50CA7C7A7003CC5C9 /* PrecedenceRuleCell.m */; };
 		31FFC93D104E97A000E08256 /* NSErrorTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FFC93C104E97A000E08256 /* NSErrorTCMAdditions.m */; };
-		3D30287E2578602700E35C8B /* SEENetworkBrowserGroupTableRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D30287D2578602700E35C8B /* SEENetworkBrowserGroupTableRowView.m */; };
+		3D30287E2578602700E35C8B /* SEEDocumentListGroupTableRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D30287D2578602700E35C8B /* SEEDocumentListGroupTableRowView.m */; };
 		3D83EDAB2576B1E6004288B2 /* SEEDocumentListWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D83EDAD2576B1E6004288B2 /* SEEDocumentListWindowController.xib */; };
 		3D83EDB4257835AE004288B2 /* SEEDividerListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D83EDB3257835AE004288B2 /* SEEDividerListItem.m */; };
 		3DBB85BC25734A37000F829F /* OpenURLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DBB85BB25734A37000F829F /* OpenURLViewController.m */; };
@@ -809,8 +809,8 @@
 		31FFC93B104E97A000E08256 /* NSErrorTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NSErrorTCMAdditions.h; sourceTree = "<group>"; };
 		31FFC93C104E97A000E08256 /* NSErrorTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSErrorTCMAdditions.m; sourceTree = "<group>"; };
 		32DBCF750370BD2300C91783 /* SubEthaEdit_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubEthaEdit_Prefix.pch; sourceTree = "<group>"; };
-		3D30287C2578602700E35C8B /* SEENetworkBrowserGroupTableRowView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEENetworkBrowserGroupTableRowView.h; sourceTree = "<group>"; };
-		3D30287D2578602700E35C8B /* SEENetworkBrowserGroupTableRowView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEENetworkBrowserGroupTableRowView.m; sourceTree = "<group>"; };
+		3D30287C2578602700E35C8B /* SEEDocumentListGroupTableRowView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEEDocumentListGroupTableRowView.h; sourceTree = "<group>"; };
+		3D30287D2578602700E35C8B /* SEEDocumentListGroupTableRowView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEEDocumentListGroupTableRowView.m; sourceTree = "<group>"; };
 		3D83EDAC2576B1E6004288B2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SEEDocumentListWindowController.xib; sourceTree = "<group>"; };
 		3D83EDB02576B1EE004288B2 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/SEEDocumentListWindowController.strings; sourceTree = "<group>"; };
 		3D83EDB2257835AE004288B2 /* SEEDividerListItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEEDividerListItem.h; sourceTree = "<group>"; };
@@ -1875,8 +1875,8 @@
 				4CDF05A118C0A23E004A49E5 /* Connection Management */,
 				4C77B24018BB83620066BDB2 /* SEEDividerTableRowView.h */,
 				4C77B24118BB83620066BDB2 /* SEEDividerTableRowView.m */,
-				3D30287C2578602700E35C8B /* SEENetworkBrowserGroupTableRowView.h */,
-				3D30287D2578602700E35C8B /* SEENetworkBrowserGroupTableRowView.m */,
+				3D30287C2578602700E35C8B /* SEEDocumentListGroupTableRowView.h */,
+				3D30287D2578602700E35C8B /* SEEDocumentListGroupTableRowView.m */,
 				4CA1441A18F7E89D0006178D /* SEEAvatarImageView.h */,
 				4CA1441B18F7E89D0006178D /* SEEAvatarImageView.m */,
 			);
@@ -2765,7 +2765,7 @@
 				F29E6DDB18E5CAFA00F84231 /* TCMCALayerAdditions.m in Sources */,
 				F281D3910F3877A900AD7DE1 /* FoldedTextAttachment.m in Sources */,
 				F281D4370F388A0B00AD7DE1 /* FoldingTextAttachmentCell.m in Sources */,
-				3D30287E2578602700E35C8B /* SEENetworkBrowserGroupTableRowView.m in Sources */,
+				3D30287E2578602700E35C8B /* SEEDocumentListGroupTableRowView.m in Sources */,
 				F20396F60F8A707700BEB377 /* FullTextStorage.m in Sources */,
 				F2D86E1B0F8EA5DC00B912A2 /* PreferenceKeys.m in Sources */,
 				F2CEAAA7100B3A350036B3F7 /* MAAttachedWindow.m in Sources */,
