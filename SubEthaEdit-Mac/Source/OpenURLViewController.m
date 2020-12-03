@@ -1,24 +1,22 @@
-//
 //  OpenURLViewController.m
 //  SubEthaEdit
 //
 //  Created by Jan Cornelissen on 29/11/2020.
-//  Copyright © 2020 SubEthaEdit Contributors. All rights reserved.
-//
 
 #import "OpenURLViewController.h"
 
 @implementation OpenURLViewController
 
-- (instancetype)initWithURL:(NSURL *)anURLToOpen {
-    self=[super initWithNibName:@"OpenURLViewController" bundle:nil];
-    [self setURLToOpen:anURLToOpen];
+- (instancetype)initWithURL:(NSURL *)url {
+    if (self = [super initWithNibName:@"OpenURLViewController" bundle:nil]) {
+        self.url = url;
+    }
     return self;
 }
 
-- (IBAction)openURLAction:(id)aSender {
-    NSLog(@"%s now i would open: %@",__FUNCTION__,[self URLToOpen]);
-    [[NSWorkspace sharedWorkspace] openURL:[self URLToOpen]];
+- (IBAction)openURLAction:(id)sender {
+    // NSLog(@"%s now I would open: %@",__FUNCTION__,[self URLToOpen]);
+    [[NSWorkspace sharedWorkspace] openURL:self.url];
 }
 
 @end
