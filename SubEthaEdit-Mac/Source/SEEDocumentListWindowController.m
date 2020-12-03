@@ -143,8 +143,8 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 
 	NSTableView *tableView = self.tableViewOutlet;
 	[tableView setTarget:self];
-	[tableView setAction:@selector(triggerItemClickAction:)];
-	[tableView setDoubleAction:@selector(triggerItemDoubleClickAction:)];
+//	[tableView setAction:@selector(triggerItemClickAction:)];
+//	[tableView setDoubleAction:@selector(triggerItemDoubleClickAction:)];
 	[tableView setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
 	tableView.allowsMultipleSelection = !SEEDocumentListOpenDocumentsWithSingleClick;
     if (@available(macOS 11.0, *)) {
@@ -414,55 +414,52 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	[[NSDocumentController sharedDocumentController] newDocumentWithModeMenuItem:item];
 }
 
-
-- (IBAction)triggerItemClickAction:(id)sender
-{
-	NSTableView *tableView = self.tableViewOutlet;
-	id <SEEDocumentListItem> clickedItem = nil;
-	if (sender == tableView) {
-		NSInteger row = tableView.clickedRow;
-		NSInteger column = tableView.clickedColumn;
-		if (row > -1) {
-			NSTableCellView *tableCell = [tableView viewAtColumn:column row:row makeIfNecessary:NO];
-			clickedItem = tableCell.objectValue;
-		}
-	} else if ([sender conformsToProtocol:@protocol(SEEDocumentListItem)]) {
-		clickedItem = sender;
-	}
-
-	if (clickedItem) {
-		NSArray *selectedDocuments = self.documentListItemsArrayController.selectedObjects;
-		if (! [selectedDocuments containsObject:clickedItem]) {
-			[clickedItem itemAction:self.tableViewOutlet];
-		} else if (SEEDocumentListOpenDocumentsWithSingleClick) { // do this if we want documents to be opend by single click
-			[selectedDocuments makeObjectsPerformSelector:@selector(itemAction:) withObject:self.tableViewOutlet];
-		}
-	}
-}
+//- (IBAction)triggerItemClickAction:(id)sender {
+//	NSTableView *tableView = self.tableViewOutlet;
+//	id <SEEDocumentListItem> clickedItem = nil;
+//	if (sender == tableView) {
+//		NSInteger row = tableView.clickedRow;
+//		NSInteger column = tableView.clickedColumn;
+//		if (row > -1) {
+//			NSTableCellView *tableCell = [tableView viewAtColumn:column row:row makeIfNecessary:NO];
+//			clickedItem = tableCell.objectValue;
+//		}
+//	} else if ([sender conformsToProtocol:@protocol(SEEDocumentListItem)]) {
+//		clickedItem = sender;
+//	}
+//
+//	if (clickedItem) {
+//		NSArray *selectedDocuments = self.documentListItemsArrayController.selectedObjects;
+//		if (! [selectedDocuments containsObject:clickedItem]) {
+//			[clickedItem itemAction:self.tableViewOutlet];
+//		} else if (SEEDocumentListOpenDocumentsWithSingleClick) { // do this if we want documents to be opend by single click
+//			[selectedDocuments makeObjectsPerformSelector:@selector(itemAction:) withObject:self.tableViewOutlet];
+//		}
+//	}
+//}
 
 
-- (IBAction)triggerItemDoubleClickAction:(id)sender
-{
-	NSTableView *tableView = self.tableViewOutlet;
-	id <SEEDocumentListItem> clickedItem = nil;
-	if (sender == tableView) {
-		NSInteger row = tableView.clickedRow;
-		NSInteger column = tableView.clickedColumn;
-		if (row > -1) {
-			NSTableCellView *tableCell = [tableView viewAtColumn:column row:row makeIfNecessary:NO];
-			clickedItem = tableCell.objectValue;
-		}
-	} else if ([sender conformsToProtocol:@protocol(SEEDocumentListItem)]) {
-		clickedItem = sender;
-	}
-
-	if (clickedItem) {
-		NSArray *selectedDocuments = self.documentListItemsArrayController.selectedObjects;
-		if ([selectedDocuments containsObject:clickedItem]) {
-			[selectedDocuments makeObjectsPerformSelector:@selector(itemAction:) withObject:self.tableViewOutlet];
-		}
-	}
-}
+//- (IBAction)triggerItemDoubleClickAction:(id)sender {
+//	NSTableView *tableView = self.tableViewOutlet;
+//	id <SEEDocumentListItem> clickedItem = nil;
+//	if (sender == tableView) {
+//		NSInteger row = tableView.clickedRow;
+//		NSInteger column = tableView.clickedColumn;
+//		if (row > -1) {
+//			NSTableCellView *tableCell = [tableView viewAtColumn:column row:row makeIfNecessary:NO];
+//			clickedItem = tableCell.objectValue;
+//		}
+//	} else if ([sender conformsToProtocol:@protocol(SEEDocumentListItem)]) {
+//		clickedItem = sender;
+//	}
+//
+//	if (clickedItem) {
+//		NSArray *selectedDocuments = self.documentListItemsArrayController.selectedObjects;
+//		if ([selectedDocuments containsObject:clickedItem]) {
+//			[selectedDocuments makeObjectsPerformSelector:@selector(itemAction:) withObject:self.tableViewOutlet];
+//		}
+//	}
+//}
 
 - (void)writeMyReachabiltyToPasteboard:(NSPasteboard *)aPasteboard {
 	[self tableView:self.tableViewOutlet writeRowsWithIndexes:[NSIndexSet indexSetWithIndex:0] toPasteboard:aPasteboard];
