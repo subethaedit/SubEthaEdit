@@ -1,11 +1,11 @@
 //  SEEDividerTableRowView.m
 //  SubEthaEdit
 //
-//  Created by Michael Ehrmann on 24.02.14.
+//  Created by Jan Cornelissen on 03/12/2020.
+//  Copyright © 2020 SubEthaEdit Contributors. All rights reserved.
+//
 
 #import "SEEDividerTableRowView.h"
-
-#import <QuartzCore/QuartzCore.h>
 
 @implementation SEEDividerTableRowView
 

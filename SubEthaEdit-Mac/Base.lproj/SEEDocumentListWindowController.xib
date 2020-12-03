@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -107,14 +108,15 @@
                                                             </customSpacing>
                                                         </stackView>
                                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="sLz-ta-X1G">
-                                                            <rect key="frame" x="271" y="18" width="23" height="19"/>
+                                                            <rect key="frame" x="271" y="17.5" width="23.5" height="21"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="18" id="Kzm-AE-IVc"/>
                                                                 <constraint firstAttribute="width" constant="23" id="yfO-bZ-gRO"/>
                                                             </constraints>
-                                                            <buttonCell key="cell" type="recessed" title="×" bezelStyle="recessed" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="dLp-rQ-RhB">
+                                                            <buttonCell key="cell" type="recessed" bezelStyle="recessed" imagePosition="only" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="dLp-rQ-RhB">
                                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                 <font key="font" metaFont="smallSystemBold"/>
+                                                                <imageReference key="image" image="eject.fill" catalog="system" symbolScale="small"/>
                                                             </buttonCell>
                                                             <connections>
                                                                 <binding destination="7GF-iT-703" name="target" keyPath="objectValue" previousBinding="RQ7-zJ-mZH" id="Yot-8j-rsn">
@@ -150,7 +152,7 @@
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="UWB-RS-5uw">
-                                                            <rect key="frame" x="22" y="7" width="124" height="16"/>
+                                                            <rect key="frame" x="22" y="6" width="124" height="16"/>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Recent Documents" id="Oo6-Ii-QIL">
                                                                 <font key="font" metaFont="systemSemibold" size="13"/>
                                                                 <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
@@ -161,7 +163,7 @@
                                                             </connections>
                                                         </textField>
                                                         <button horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eSU-d2-2DX">
-                                                            <rect key="frame" x="0.0" y="5" width="18" height="18"/>
+                                                            <rect key="frame" x="0.0" y="4" width="18" height="18"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" secondItem="eSU-d2-2DX" secondAttribute="height" id="TCN-b9-yYl"/>
                                                                 <constraint firstAttribute="width" constant="18" id="bhg-gk-RvK"/>
@@ -177,11 +179,11 @@
                                                         </button>
                                                     </subviews>
                                                     <constraints>
-                                                        <constraint firstItem="eSU-d2-2DX" firstAttribute="firstBaseline" secondItem="UWB-RS-5uw" secondAttribute="firstBaseline" constant="-1" id="8YE-bR-FWr"/>
                                                         <constraint firstItem="UWB-RS-5uw" firstAttribute="leading" secondItem="Tiq-Hx-BMa" secondAttribute="leading" constant="24" id="B1R-mb-58C"/>
                                                         <constraint firstItem="eSU-d2-2DX" firstAttribute="leading" secondItem="Tiq-Hx-BMa" secondAttribute="leading" id="FN3-m3-Hyv"/>
                                                         <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="UWB-RS-5uw" secondAttribute="trailing" constant="20" symbolic="YES" id="SBa-kx-D7L"/>
-                                                        <constraint firstItem="UWB-RS-5uw" firstAttribute="top" secondItem="Tiq-Hx-BMa" secondAttribute="top" constant="5" id="YM8-zy-R61"/>
+                                                        <constraint firstItem="eSU-d2-2DX" firstAttribute="centerY" secondItem="Tiq-Hx-BMa" secondAttribute="centerY" constant="1" id="UFv-F1-HrW"/>
+                                                        <constraint firstItem="UWB-RS-5uw" firstAttribute="centerY" secondItem="Tiq-Hx-BMa" secondAttribute="centerY" id="h5R-11-0zP"/>
                                                     </constraints>
                                                     <connections>
                                                         <outlet property="textField" destination="UWB-RS-5uw" id="cZw-lp-pzH"/>
@@ -205,7 +207,7 @@
                                                     </subviews>
                                                     <constraints>
                                                         <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="DBj-Ye-zEy" secondAttribute="trailing" constant="20" symbolic="YES" id="JmV-fT-mUl"/>
-                                                        <constraint firstItem="DBj-Ye-zEy" firstAttribute="top" secondItem="cje-Kj-pJD" secondAttribute="top" constant="7" id="Qa4-FN-sOX"/>
+                                                        <constraint firstItem="DBj-Ye-zEy" firstAttribute="centerY" secondItem="cje-Kj-pJD" secondAttribute="centerY" id="lZf-Dm-bty"/>
                                                         <constraint firstItem="DBj-Ye-zEy" firstAttribute="leading" secondItem="cje-Kj-pJD" secondAttribute="leading" constant="24" id="sdR-08-tCV"/>
                                                     </constraints>
                                                     <connections>
@@ -227,7 +229,7 @@
                                                             </connections>
                                                         </imageView>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3Bt-0B-b5J">
-                                                            <rect key="frame" x="56" y="14" width="240" height="16"/>
+                                                            <rect key="frame" x="56" y="13" width="240" height="16"/>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingHead" sendsActionOnEndEditing="YES" title="DocumentName.txt" id="4t0-UR-tOR">
                                                                 <font key="font" metaFont="system"/>
                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -239,10 +241,10 @@
                                                         </textField>
                                                     </subviews>
                                                     <constraints>
+                                                        <constraint firstItem="3Bt-0B-b5J" firstAttribute="centerY" secondItem="l0C-OX-d9H" secondAttribute="centerY" id="1h5-dc-lGE"/>
                                                         <constraint firstItem="Qp7-Vm-djo" firstAttribute="leading" secondItem="l0C-OX-d9H" secondAttribute="leading" constant="21" id="2CX-zg-774"/>
                                                         <constraint firstItem="3Bt-0B-b5J" firstAttribute="leading" secondItem="Qp7-Vm-djo" secondAttribute="trailing" constant="5" id="Cbt-Ak-MUC"/>
                                                         <constraint firstItem="Qp7-Vm-djo" firstAttribute="top" secondItem="l0C-OX-d9H" secondAttribute="top" constant="5" id="EZs-j6-vM8"/>
-                                                        <constraint firstItem="3Bt-0B-b5J" firstAttribute="top" secondItem="l0C-OX-d9H" secondAttribute="top" constant="12" id="NHt-0T-NC0"/>
                                                         <constraint firstAttribute="trailing" secondItem="3Bt-0B-b5J" secondAttribute="trailing" constant="3" id="a9t-Lq-J5g"/>
                                                     </constraints>
                                                     <connections>
@@ -272,7 +274,7 @@
                                                             </connections>
                                                         </imageView>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="C3v-6r-GXt">
-                                                            <rect key="frame" x="56" y="14" width="240" height="16"/>
+                                                            <rect key="frame" x="56" y="13" width="240" height="16"/>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingHead" sendsActionOnEndEditing="YES" title="NetworkDocumentName.txt" id="2vu-Ie-uRT">
                                                                 <font key="font" metaFont="system"/>
                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -286,10 +288,10 @@
                                                     <constraints>
                                                         <constraint firstAttribute="trailing" secondItem="C3v-6r-GXt" secondAttribute="trailing" constant="3" id="ANl-Cv-udq"/>
                                                         <constraint firstItem="UOM-2h-7Ex" firstAttribute="centerY" secondItem="dQU-em-rBs" secondAttribute="centerY" id="Dfi-vM-rHN"/>
+                                                        <constraint firstItem="C3v-6r-GXt" firstAttribute="centerY" secondItem="tmI-B6-msd" secondAttribute="centerY" id="N9B-Bc-KCy"/>
                                                         <constraint firstItem="C3v-6r-GXt" firstAttribute="leading" secondItem="dQU-em-rBs" secondAttribute="trailing" constant="5" id="Vtm-bh-V39"/>
                                                         <constraint firstItem="UOM-2h-7Ex" firstAttribute="leading" secondItem="tmI-B6-msd" secondAttribute="leading" constant="2" id="ccU-EC-mF0"/>
                                                         <constraint firstItem="dQU-em-rBs" firstAttribute="leading" secondItem="UOM-2h-7Ex" secondAttribute="trailing" constant="3" id="oUQ-By-3st"/>
-                                                        <constraint firstItem="C3v-6r-GXt" firstAttribute="top" secondItem="tmI-B6-msd" secondAttribute="top" constant="12" id="rRG-rb-0D5"/>
                                                         <constraint firstItem="dQU-em-rBs" firstAttribute="top" secondItem="tmI-B6-msd" secondAttribute="top" constant="5" id="tLw-gk-hQs"/>
                                                     </constraints>
                                                     <connections>
@@ -419,6 +421,7 @@
     <resources>
         <image name="NSFolder" width="32" height="32"/>
         <image name="StatusPending" width="16" height="16"/>
+        <image name="eject.fill" catalog="system" width="13" height="12"/>
         <image name="folder" catalog="system" width="18" height="14"/>
         <image name="network" catalog="system" width="15" height="15"/>
         <image name="plus.square" catalog="system" width="15" height="14"/>

@@ -66,9 +66,13 @@
     [super drawBackgroundInRect:dirtyRect];
 
     if (self.mouseInside) {
-		CGFloat alphaValue = self.clickHighlight ? 0.16 : 0.08;
-        NSRect selectionRect = NSInsetRect(self.bounds, 10, 0);
+        CGFloat alphaValue = self.clickHighlight ? 0.16 : 0.08;
         [[[NSColor labelColor] colorWithAlphaComponent:alphaValue] setFill];
+        CGFloat inset = 1;
+        if (@available(macOS 11.0, *)) {
+            inset = 10;
+        }
+        NSRect selectionRect = NSInsetRect(self.bounds, inset, 0);
         NSBezierPath *selectionPath = [NSBezierPath bezierPathWithRoundedRect:selectionRect xRadius:5 yRadius:5];
         [selectionPath fill];
     }
