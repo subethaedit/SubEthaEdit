@@ -719,12 +719,25 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 		[menu removeAllItems];
 
 		if (clickedItem != nil) {
-			if ([clickedItem isKindOfClass:[SEENetworkDocumentListItem class]] || [clickedItem isKindOfClass:[SEERecentDocumentListItem class]]) {
-				NSString *menuItemTitle = NSLocalizedStringWithDefaultValue(@"DOCUMENT_LIST_CONTEXT_MENU_OPEN", nil, [NSBundle mainBundle], @"Open", @"MenuItem title in context menu of DocumentList window.");
-				NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:menuItemTitle action:@selector(itemAction:) keyEquivalent:@""];
-				menuItem.target = clickedItem;
-				menuItem.enabled = YES;
-				[menu addItem:menuItem];
+			if ([clickedItem isKindOfClass:[SEENetworkDocumentListItem class]] ||
+                [clickedItem isKindOfClass:[SEERecentDocumentListItem class]]) {
+                {
+                    NSString *menuItemTitle = NSLocalizedStringWithDefaultValue(@"DOCUMENT_LIST_CONTEXT_MENU_OPEN", nil, [NSBundle mainBundle], @"Open", @"MenuItem title in context menu of DocumentList window.");
+                    NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:menuItemTitle action:@selector(itemAction:) keyEquivalent:@""];
+                    menuItem.target = clickedItem;
+                    menuItem.enabled = YES;
+                    [menu addItem:menuItem];
+                }
+                {
+                    [menu addItem:[NSMenuItem separatorItem]];
+                }
+                {
+                    NSString *menuItemTitle = NSLocalizedStringWithDefaultValue(@"DOCUMENT_LIST_CONTEXT_MENU_SHOW_IN_FINDER", nil, [NSBundle mainBundle], @"Show in Finder", @"MenuItem title in context menu of DocumentList window.");
+                    NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:menuItemTitle action:@selector(showDocumentInFinder:) keyEquivalent:@""];
+                    menuItem.target = clickedItem;
+                    menuItem.enabled = YES;
+                    [menu addItem:menuItem];
+                }
 			} else if ([clickedItem isKindOfClass:[SEENetworkConnectionRepresentationListItem class]]) {
 				{
 					NSString *menuItemTitle = NSLocalizedStringWithDefaultValue(@"DOCUMENT_LIST_CONTEXT_MENU_COPY_URL", nil, [NSBundle mainBundle], @"Copy Connection URL", @"MenuItem title in context menu of DocumentList window.");

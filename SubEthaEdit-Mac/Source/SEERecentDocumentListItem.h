@@ -10,4 +10,6 @@
 
 @property (nonatomic, strong) NSURL *fileURL;
 
+- (IBAction)showDocumentInFinder:(id)sender;
+
 @end

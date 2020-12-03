@@ -213,6 +213,14 @@
                             <menuItem isSeparatorItem="YES" id="74">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
+                            <menuItem title="Show in Finder" id="aDB-wc-jEX">
+                                <connections>
+                                    <action selector="showDocumentInFinder:" target="-1" id="GIB-kO-pmI"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="80d-eJ-T78">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
                             <menuItem title="Page Setup…" keyEquivalent="P" id="77">
                                 <connections>
                                     <action selector="runPageLayout:" target="-1" id="87"/>
@@ -627,11 +635,13 @@
                                 </connections>
                             </menuItem>
                             <menuItem title="Find Next" tag="2" keyEquivalent="g" id="479">
+                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                 <connections>
                                     <action selector="performFindPanelAction:" target="463" id="597"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Find Previous" tag="3" keyEquivalent="G" id="268">
+                            <menuItem title="Find Previous" tag="3" keyEquivalent="g" id="268">
+                                <modifierMask key="keyEquivalentModifierMask" shift="YES" option="YES" command="YES"/>
                                 <connections>
                                     <action selector="performFindPanelAction:" target="463" id="598"/>
                                 </connections>
@@ -1019,7 +1029,7 @@ GQ
                                     <action selector="showDocumentListWindow:" target="-1" id="KbU-OD-k6L"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Document Hub" alternate="YES" keyEquivalent="K" id="640">
+                            <menuItem title="Connect to Host…" alternate="YES" keyEquivalent="K" id="640">
                                 <connections>
                                     <action selector="showDocumentListWindow:" target="-1" id="lmF-HU-bMB"/>
                                 </connections>
