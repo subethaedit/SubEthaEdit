@@ -26,7 +26,7 @@
                             <menuItem isSeparatorItem="YES" id="202">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Einstellungen…" keyEquivalent="," id="129">
+                            <menuItem title="Einstellungen …" keyEquivalent="," id="129">
                                 <connections>
                                     <action selector="showWindow:" target="212" id="213"/>
                                 </connections>
@@ -80,12 +80,12 @@
                                     <action selector="newAlternateDocument:" target="-1" id="619"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Öffnen…" keyEquivalent="o" id="72">
+                            <menuItem title="Öffnen …" keyEquivalent="o" id="72">
                                 <connections>
                                     <action selector="openDocument:" target="-1" id="195"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="In neuem Fenster öffnen…" alternate="YES" keyEquivalent="o" id="653">
+                            <menuItem title="In neuem Fenster öffnen …" alternate="YES" keyEquivalent="o" id="653">
                                 <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                 <connections>
                                     <action selector="openAlternateDocument:" target="252" id="654"/>
@@ -127,12 +127,12 @@
                                     <action selector="saveAllDocuments:" target="-1" id="544"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Sichern unter…" keyEquivalent="S" id="80">
+                            <menuItem title="Sichern unter …" keyEquivalent="S" id="80">
                                 <connections>
                                     <action selector="saveDocumentAs:" target="-1" id="197"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Kopie sichern unter…" id="376">
+                            <menuItem title="Kopie sichern unter …" id="376">
                                 <connections>
                                     <action selector="saveDocumentTo:" target="-1" id="539"/>
                                 </connections>
@@ -146,7 +146,7 @@
                             <menuItem isSeparatorItem="YES" id="215">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Exportieren…" id="534">
+                            <menuItem title="Exportieren …" id="534">
                                 <connections>
                                     <action selector="exportDocument:" target="-1" id="538"/>
                                 </connections>
@@ -212,12 +212,12 @@
                             <menuItem isSeparatorItem="YES" id="74">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Papierformat…" keyEquivalent="P" id="77">
+                            <menuItem title="Papierformat …" keyEquivalent="P" id="77">
                                 <connections>
                                     <action selector="runPageLayout:" target="-1" id="87"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Drucken…" keyEquivalent="p" id="78">
+                            <menuItem title="Drucken …" keyEquivalent="p" id="78">
                                 <connections>
                                     <action selector="printDocument:" target="-1" id="200"/>
                                 </connections>
@@ -590,7 +590,7 @@
                                                 <action selector="changeTabWidth:" target="-1" id="732"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Andere..." id="296">
+                                        <menuItem title="Andere ..." id="296">
                                             <connections>
                                                 <action selector="orderFrontTabWidthPanel:" target="463" id="481"/>
                                             </connections>
@@ -614,7 +614,7 @@
                 <menuItem title="Suchen" id="267">
                     <menu key="submenu" title="Suchen" id="265">
                         <items>
-                            <menuItem title="Suchen…" tag="1" keyEquivalent="f" id="269">
+                            <menuItem title="Suchen …" tag="1" keyEquivalent="f" id="269">
                                 <connections>
                                     <action selector="showFindAndReplaceInterface:" target="-1" id="R3M-8d-wLE"/>
                                 </connections>
@@ -1061,7 +1061,7 @@ GQ
                             <menuItem isSeparatorItem="YES" id="500">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Problem berichten…" id="l1C-eK-nFF">
+                            <menuItem title="Problem berichten …" id="l1C-eK-nFF">
                                 <connections>
                                     <action selector="reportAnIssue:" target="210" id="5qj-8X-1wv"/>
                                 </connections>
