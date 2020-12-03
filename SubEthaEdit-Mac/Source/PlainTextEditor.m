@@ -37,7 +37,7 @@
 #import "NSMutableAttributedStringSEEAdditions.h"
 #import "FoldableTextStorage.h"
 #import "FoldedTextAttachment.h"
-#import "URLBubbleWindow.h"
+#import "OpenURLViewController.h"
 #import "SEEFindAndReplaceViewController.h"
 #import <objc/objc-runtime.h>
 #import "SEEPlainTextEditorTopBarViewController.h"
@@ -2187,10 +2187,6 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     } else {
         [aTextView setSelectedRange:NSMakeRange(charIndex, 0)];
 
-        URLBubbleWindow *bubbleWindow = [URLBubbleWindow sharedURLBubbleWindow];
-        NSWindow *window = [aTextView window];
-        [bubbleWindow setURLToOpen:link];
-
         // find out position of character:
         NSLayoutManager *layoutManager = [aTextView layoutManager];
         NSRange glyphRange = [layoutManager glyphRangeForCharacterRange:NSMakeRange(charIndex, 1) actualCharacterRange:NULL];
@@ -2201,13 +2197,12 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
         NSPoint textContainerOrigin = [aTextView textContainerOrigin];
         boundingRect.origin.x += textContainerOrigin.x;
         boundingRect.origin.y += textContainerOrigin.y;
-
-        NSPoint positionPoint = NSMakePoint(NSMidX(boundingRect), NSMinY(boundingRect));         // textviews are always flipped
-        positionPoint = [aTextView convertPoint:positionPoint toView:nil];
-
-        [bubbleWindow setVisible:NO animated:NO];
-        [bubbleWindow setPosition:positionPoint inWindow:window];
-        [bubbleWindow setVisible:YES animated:YES];
+        
+        NSPopover *popover = [NSPopover new];
+        OpenURLViewController *openURLViewController = [[OpenURLViewController alloc] initWithURL:link];
+        popover.contentViewController = openURLViewController;
+        popover.behavior = NSPopoverBehaviorTransient;
+        [popover showRelativeToRect:boundingRect ofView:aTextView preferredEdge:NSRectEdgeMinY];
         return YES;
     }
 }
@@ -2300,7 +2295,6 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 - (BOOL)textView:(NSTextView *)aTextView shouldChangeTextInRange:(NSRange)affectedCharRange replacementString:(NSString *)replacementString {
-    [[URLBubbleWindow sharedURLBubbleWindow] hideIfNecessary];
     if (replacementString == nil) {
         // only styles are changed
         return YES;
@@ -2429,12 +2423,10 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 - (void)contentViewBoundsDidChange:(NSNotification *)aNotification {
-    [[URLBubbleWindow sharedURLBubbleWindow] hideIfNecessary];
     [self setNeedsDisplayForRuler];
 }
 
 - (NSRange)textView:(NSTextView *)aTextView willChangeSelectionFromCharacterRange:(NSRange)aOldSelectedCharRange toCharacterRange:(NSRange)aNewSelectedCharRange {
-    [[URLBubbleWindow sharedURLBubbleWindow] hideIfNecessary];
     PlainTextDocument *document = (PlainTextDocument *)[self document];
     return [document textView:aTextView willChangeSelectionFromCharacterRange:aOldSelectedCharRange toCharacterRange:aNewSelectedCharRange];
 }
