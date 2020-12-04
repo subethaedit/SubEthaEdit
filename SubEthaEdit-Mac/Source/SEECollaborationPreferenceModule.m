@@ -74,7 +74,7 @@
         [self portMapperDidFinishWork:nil];
     }
 	
-	[self.O_disableNetworkingButton setState:[TCMMMBEEPSessionManager sharedInstance].isNetworkingDisabled ? NSOnState : NSOffState];
+	[self.O_enableCollaborationButton setState:[TCMMMBEEPSessionManager sharedInstance].isNetworkingDisabled ? NSOffState : NSOnState];
 	[self.O_invisibleOnNetworkButton setState:[[TCMMMPresenceManager sharedInstance] isVisible] ? NSOffState : NSOnState];
 	
 	SEEUserColorsPreviewView *preview = self.O_userColorsPreview;
@@ -286,8 +286,8 @@
 }
 
 - (IBAction)changeDisableNetworking:(id)aSender {
-	BOOL networkingDisabled = [self.O_disableNetworkingButton state] == NSOnState ? YES : NO;
-	[TCMMMBEEPSessionManager sharedInstance].networkingDisabled = networkingDisabled;
+	BOOL collaborationEnabled = [self.O_enableCollaborationButton state] != NSOnState ? YES : NO;
+	[TCMMMBEEPSessionManager sharedInstance].networkingDisabled = collaborationEnabled;
 	[self updateLocalPort];
 }
 
@@ -367,9 +367,9 @@
 									  );
 	
 	// disable networking
-	self.O_disableNetworkingButton.title =
+	self.O_enableCollaborationButton.title =
 	NSLocalizedStringWithDefaultValue(@"COLLAB_NETWORK_DISABLE_LABEL", nil, [NSBundle mainBundle],
-									  @"Disable Networking",
+									  @"Enable Collaboration",
 									  @"Collaboration Preferences - Label for the disable networking toggle"
 									  );
 	// network box

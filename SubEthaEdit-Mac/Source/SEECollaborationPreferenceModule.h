@@ -16,7 +16,7 @@
 @property (nonatomic, strong) IBOutlet NSTextField *O_mappingStatusTextField;
 @property (nonatomic, strong) IBOutlet NSImageView *O_mappingStatusImageView;
 @property (nonatomic, strong) IBOutlet NSProgressIndicator *O_mappingStatusProgressIndicator;
-@property (nonatomic, strong) IBOutlet NSButton *O_disableNetworkingButton;
+@property (nonatomic, strong) IBOutlet NSButton *O_enableCollaborationButton;
 @property (nonatomic, strong) IBOutlet NSButton *O_invisibleOnNetworkButton;
 @property (nonatomic, strong) IBOutlet NSTextField *O_invisibleOnNetworkExplanationTextField;
 
