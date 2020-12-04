@@ -13,7 +13,7 @@
 
 - (NSImage *)icon {
     if (@available(macOS 10.16, *)) {
-        return [NSImage imageWithSystemSymbolName:@"gear" accessibilityDescription:nil];
+        return [NSImage imageWithSystemSymbolName:@"gearshape.2" accessibilityDescription:nil];
     } else {
         return [NSImage imageNamed:NSImageNameAdvanced];
     }
