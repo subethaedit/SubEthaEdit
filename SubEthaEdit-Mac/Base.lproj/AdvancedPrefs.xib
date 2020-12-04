@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17132.0.2" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17132.0.2"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -19,17 +19,17 @@
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="6" userLabel="Window">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="88" y="301" width="433" height="345"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1055"/>
+            <rect key="contentRect" x="88" y="301" width="680" height="345"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1415"/>
             <view key="contentView" id="5">
-                <rect key="frame" x="0.0" y="0.0" width="433" height="345"/>
+                <rect key="frame" x="0.0" y="0.0" width="680" height="345"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <box fixedFrame="YES" title="Command Line Tool" translatesAutoresizingMaskIntoConstraints="NO" id="11">
-                        <rect key="frame" x="17" y="197" width="399" height="128"/>
+                        <rect key="frame" x="17" y="197" width="646" height="128"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                         <view key="contentView" id="z9Z-mA-By3">
-                            <rect key="frame" x="3" y="3" width="393" height="110"/>
+                            <rect key="frame" x="3" y="3" width="640" height="110"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j2R-MH-9y7">
@@ -54,14 +54,14 @@
                         </view>
                     </box>
                     <box fixedFrame="YES" title="Font Rendering" translatesAutoresizingMaskIntoConstraints="NO" id="46">
-                        <rect key="frame" x="17" y="16" width="399" height="104"/>
+                        <rect key="frame" x="17" y="16" width="646" height="104"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                         <view key="contentView" id="4uL-SB-80R">
-                            <rect key="frame" x="3" y="3" width="393" height="86"/>
+                            <rect key="frame" x="3" y="3" width="640" height="86"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="45">
-                                    <rect key="frame" x="13" y="57" width="366" height="18"/>
+                                    <rect key="frame" x="13" y="57" width="613" height="18"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                     <buttonCell key="cell" type="check" title="Disable screen fonts" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="175">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -72,7 +72,7 @@
                                     </connections>
                                 </button>
                                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="48">
-                                    <rect key="frame" x="13" y="16" width="366" height="18"/>
+                                    <rect key="frame" x="13" y="16" width="613" height="18"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                     <buttonCell key="cell" type="check" title="Add synthesised bold and italic to fonts" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="176">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -83,7 +83,7 @@
                                     </connections>
                                 </button>
                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="49">
-                                    <rect key="frame" x="33" y="45" width="347" height="11"/>
+                                    <rect key="frame" x="33" y="45" width="594" height="11"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Takes effect after relaunch" id="177">
                                         <font key="font" metaFont="miniSystem"/>
@@ -95,14 +95,14 @@
                         </view>
                     </box>
                     <box fixedFrame="YES" title="Saving and Loading" translatesAutoresizingMaskIntoConstraints="NO" id="166">
-                        <rect key="frame" x="17" y="124" width="399" height="69"/>
+                        <rect key="frame" x="17" y="124" width="646" height="69"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                         <view key="contentView" id="muh-w0-O9i">
-                            <rect key="frame" x="3" y="3" width="393" height="51"/>
+                            <rect key="frame" x="3" y="3" width="640" height="51"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="143">
-                                    <rect key="frame" x="14" y="24" width="364" height="18"/>
+                                    <rect key="frame" x="14" y="24" width="611" height="18"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                     <string key="toolTip">SubEthaEdit transmits the document history on connect to a document. If you don't need the history or you don't want to send it due to privacy issues you can disable that feature here.</string>
                                     <buttonCell key="cell" type="check" title="Save document state per file" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="187">

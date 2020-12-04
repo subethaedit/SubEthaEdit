@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.18"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -18,36 +18,35 @@
         <window title="&lt;&lt; do not localize &gt;&gt;" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="6" userLabel="PrefPane">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="365" y="358" width="354" height="412"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1178"/>
+            <rect key="contentRect" x="365" y="358" width="680" height="412"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1415"/>
             <view key="contentView" id="5">
-                <rect key="frame" x="0.0" y="0.0" width="354" height="412"/>
+                <rect key="frame" x="0.0" y="0.0" width="680" height="412"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <box title="Logging" id="17">
-                        <rect key="frame" x="17" y="160" width="320" height="204"/>
+                    <box fixedFrame="YES" title="Logging" translatesAutoresizingMaskIntoConstraints="NO" id="17">
+                        <rect key="frame" x="17" y="160" width="646" height="204"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <view key="contentView" id="PDF-gE-HEI">
-                            <rect key="frame" x="3" y="3" width="314" height="186"/>
+                            <rect key="frame" x="3" y="3" width="640" height="186"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <scrollView horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="16">
-                                    <rect key="frame" x="14" y="14" width="280" height="158"/>
+                                <scrollView fixedFrame="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="16">
+                                    <rect key="frame" x="14" y="14" width="606" height="158"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <clipView key="contentView" id="eSR-ub-3Rz">
-                                        <rect key="frame" x="1" y="0.0" width="267" height="146"/>
+                                        <rect key="frame" x="1" y="1" width="604" height="156"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
                                             <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnReordering="NO" multipleSelection="NO" autosaveColumns="NO" headerView="91" id="13">
-                                                <rect key="frame" x="0.0" y="0.0" width="267" height="129"/>
-                                                <autoresizingMask key="autoresizingMask"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="604" height="139"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <size key="intercellSpacing" width="3" height="2"/>
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                                 <tableColumns>
-                                                    <tableColumn editable="NO" width="173.5" minWidth="40" maxWidth="1000" id="15">
+                                                    <tableColumn editable="NO" width="337.5" minWidth="40" maxWidth="1000" id="15">
                                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Domains">
-                                                            <font key="font" metaFont="smallSystem"/>
                                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="backgroundColor" white="0.33333299" alpha="1" colorSpace="calibratedWhite"/>
                                                         </tableHeaderCell>
@@ -61,9 +60,8 @@
                                                             <binding destination="20" name="value" keyPath="arrangedObjects.domain" id="22"/>
                                                         </connections>
                                                     </tableColumn>
-                                                    <tableColumn width="87.495002746582031" minWidth="34.995002746582031" maxWidth="1000" id="14">
+                                                    <tableColumn width="251.49500274658203" minWidth="34.995002746582031" maxWidth="1000" id="14">
                                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Level">
-                                                            <font key="font" metaFont="smallSystem"/>
                                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="backgroundColor" white="0.33333299" alpha="1" colorSpace="calibratedWhite"/>
                                                         </tableHeaderCell>
@@ -83,23 +81,23 @@
                                             </tableView>
                                         </subviews>
                                     </clipView>
-                                    <scroller key="horizontalScroller" verticalHuggingPriority="750" controlSize="small" horizontal="YES" id="90">
-                                        <rect key="frame" x="1" y="146" width="267" height="11"/>
+                                    <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" controlSize="small" horizontal="YES" id="90">
+                                        <rect key="frame" x="1" y="143" width="604" height="14"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </scroller>
-                                    <scroller key="verticalScroller" verticalHuggingPriority="750" controlSize="small" horizontal="NO" id="92">
-                                        <rect key="frame" x="268" y="17" width="11" height="129"/>
+                                    <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" controlSize="small" horizontal="NO" id="92">
+                                        <rect key="frame" x="591" y="18" width="14" height="139"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </scroller>
-                                    <tableHeaderView key="headerView" id="91">
-                                        <rect key="frame" x="0.0" y="0.0" width="267" height="17"/>
+                                    <tableHeaderView key="headerView" wantsLayer="YES" id="91">
+                                        <rect key="frame" x="0.0" y="0.0" width="604" height="17"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </tableHeaderView>
                                 </scrollView>
                             </subviews>
                         </view>
                     </box>
-                    <button id="35">
+                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="35">
                         <rect key="frame" x="18" y="376" width="148" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Enable Debug Menu" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="78">
@@ -110,8 +108,8 @@
                             <action selector="toggleDebugMenu:" target="-2" id="37"/>
                         </connections>
                     </button>
-                    <button id="38">
-                        <rect key="frame" x="216" y="376" width="120" height="18"/>
+                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="38">
+                        <rect key="frame" x="542" y="376" width="120" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Log BEEP traffic" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="79">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -121,8 +119,8 @@
                             <action selector="toggleBEEPLogging:" target="-2" id="39"/>
                         </connections>
                     </button>
-                    <button id="41">
-                        <rect key="frame" x="18" y="128" width="228" height="18"/>
+                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="41">
+                        <rect key="frame" x="344" y="128" width="228" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="check" title="Save Users as png+vcf to caches" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="80">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -132,7 +130,7 @@
                             <binding destination="42" name="value" keyPath="values.DebugSaveUsersInCache" id="44"/>
                         </connections>
                     </button>
-                    <textField verticalHuggingPriority="750" id="45">
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="45">
                         <rect key="frame" x="38" y="116" width="209" height="11"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Takes effect on next run" id="81">
@@ -141,7 +139,7 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <button id="56">
+                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="56">
                         <rect key="frame" x="18" y="92" width="159" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="check" title="Save and Load Window Position" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="mini" state="on" inset="2" id="82">
@@ -152,7 +150,7 @@
                             <binding destination="42" name="value" keyPath="values.DocumentStateSaveAndLoadWindowPosition" id="68"/>
                         </connections>
                     </button>
-                    <button id="58">
+                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="58">
                         <rect key="frame" x="18" y="77" width="159" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="check" title="Save and Load Tab Setting" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="mini" state="on" inset="2" id="83">
@@ -163,7 +161,7 @@
                             <binding destination="42" name="value" keyPath="values.DocumentStateSaveAndLoadTabSetting" id="69"/>
                         </connections>
                     </button>
-                    <button id="60">
+                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="60">
                         <rect key="frame" x="18" y="62" width="159" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="check" title="Save and Load Wrap Setting" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="mini" state="on" inset="2" id="84">
@@ -174,7 +172,7 @@
                             <binding destination="42" name="value" keyPath="values.DocumentStateSaveAndLoadWrapSetting" id="74"/>
                         </connections>
                     </button>
-                    <button id="62">
+                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="62">
                         <rect key="frame" x="18" y="47" width="159" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="check" title="Save and Load Document Mode" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="mini" state="on" inset="2" id="85">
@@ -185,7 +183,7 @@
                             <binding destination="42" name="value" keyPath="values.DocumentStateSaveAndLoadDocumentMode" id="71"/>
                         </connections>
                     </button>
-                    <button id="64">
+                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="64">
                         <rect key="frame" x="18" y="32" width="159" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="check" title="Save and Load Selection" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="mini" state="on" inset="2" id="86">
@@ -196,7 +194,7 @@
                             <binding destination="42" name="value" keyPath="values.DocumentStateSaveAndLoadSelection" id="72"/>
                         </connections>
                     </button>
-                    <button id="66">
+                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="66">
                         <rect key="frame" x="18" y="17" width="159" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="check" title="Save and Load Folding State" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="mini" state="on" inset="2" id="87">
@@ -209,6 +207,7 @@
                     </button>
                 </subviews>
             </view>
+            <point key="canvasLocation" x="-150" y="144"/>
         </window>
         <arrayController clearsFilterPredicateOnInsertion="NO" id="20" userLabel="LogDomainsController">
             <declaredKeys>
