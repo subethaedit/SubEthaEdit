@@ -388,7 +388,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
     [NSApp sendAction:@selector(openNormalDocument:) to:nil from:sender];
 }
 
-- (IBAction)connectToHostToolbarItemAction:(id)sender {
+- (IBAction)connectToHostAction:(id)sender {
     SEEConnectionAddingWindowController *windowController = [[SEEConnectionAddingWindowController alloc] initWithWindowNibName:@"SEEConnectionAddingWindowController"];
     NSWindow *window = [windowController window];
     NSWindow *parentWindow = self.window;

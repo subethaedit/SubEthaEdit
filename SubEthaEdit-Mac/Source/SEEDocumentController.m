@@ -182,6 +182,11 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 	}
 }
 
+- (IBAction)showConnectToHostFromDocumentListWindow:(id)sender {
+    [self showDocumentListWindow:sender];
+    [[self ensuredDocumentListWindowController] connectToHostAction:sender];
+}
+
 - (IBAction)copyReachabilityURL:(id)aSender {
     NSPasteboard *pboard = [NSPasteboard generalPasteboard];
 	[[self ensuredDocumentListWindowController] writeMyReachabiltyToPasteboard:pboard];

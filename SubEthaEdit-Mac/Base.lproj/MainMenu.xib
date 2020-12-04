@@ -1029,9 +1029,9 @@ GQ
                                     <action selector="showDocumentListWindow:" target="-1" id="KbU-OD-k6L"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Connect to Host…" alternate="YES" keyEquivalent="K" id="640">
+                            <menuItem title="Connect to Host…" keyEquivalent="K" id="640">
                                 <connections>
-                                    <action selector="showDocumentListWindow:" target="-1" id="lmF-HU-bMB"/>
+                                    <action selector="showConnectToHostFromDocumentListWindow:" target="-1" id="hXR-Oc-EPK"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="k0I-fL-5QT">
