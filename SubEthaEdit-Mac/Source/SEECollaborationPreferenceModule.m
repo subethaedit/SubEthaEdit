@@ -410,14 +410,10 @@
 	NSString *firstChoice = [array firstObject];
 	if ([firstChoice isEqualToString:@"de"] || [firstChoice isEqualToString:@"German"]) {
 		// re-layout for German
-		CGFloat preWidth = NSWidth(self.O_localPortLabel.frame);
-		[self.O_localPortLabel sizeToFit];
-
-		CGAffineTransform transform = CGAffineTransformMakeTranslation(NSWidth(self.O_localPortLabel.frame) - preWidth, 0);
-		self.O_localPortTextField.frame = NSRectFromCGRect(CGRectApplyAffineTransform(NSRectToCGRect            (self.O_localPortTextField.frame), transform));
-		self.O_mappingStatusImageView.frame = NSRectFromCGRect(CGRectApplyAffineTransform(NSRectToCGRect        (self.O_mappingStatusImageView.frame), transform));;
-		self.O_mappingStatusProgressIndicator.frame = NSRectFromCGRect(CGRectApplyAffineTransform(NSRectToCGRect(self.O_mappingStatusProgressIndicator.frame), transform));
-		self.O_mappingStatusTextField.frame = NSRectFromCGRect(CGRectApplyAffineTransform(NSRectToCGRect        (self.O_mappingStatusTextField.frame), transform));
+		[self.O_enableCollaborationButton sizeToFit];
+        CGPoint origin = self.O_enableCollaborationButton.frame.origin;
+        NSPoint newOrigin = CGPointMake(origin.x - 7, origin.y);
+        [self.O_enableCollaborationButton setFrameOrigin:newOrigin];
 	}
 }
 

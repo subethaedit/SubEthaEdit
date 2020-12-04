@@ -932,9 +932,9 @@
 "COLLAB_HIGHLIGHT_CHANGES_SLIDER_LABEL_STRONG" = "stark";
 
 "COLLAB_NETWORK_INVISIBLE_LABEL" = "Für Andere im Netzwerk unsichtbar";
-"COLLAB_NETWORK_INVISIBLE_DESCRIPTION" = "Wenn Sie ein Dokument ankündigen, sind Sie weiterhin sichtbar.";
+"COLLAB_NETWORK_INVISIBLE_DESCRIPTION" = "Beim ankündigen Dokuments, sind Sie weiterhin sichtbar.";
 
-"COLLAB_NETWORK_DISABLE_LABEL" = "Netzwerkverbindungen verhindern";
+"COLLAB_NETWORK_DISABLE_LABEL" = "Kollaboration aktivieren";
 
 "COLLAB_NETWORK_LABEL" = "Netzwerk";
 "COLLAB_LOCAL_PORT_LABEL" = "Lokaler Port:";

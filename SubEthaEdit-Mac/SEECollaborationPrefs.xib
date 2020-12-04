@@ -74,7 +74,7 @@
                         </connections>
                     </slider>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IEp-xP-8j1">
-                        <rect key="frame" x="342" y="104" width="301" height="14"/>
+                        <rect key="frame" x="342" y="104" width="328" height="14"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="&lt;You will still be visible if you advertise a document" id="WXf-5R-egn">
                             <font key="font" metaFont="smallSystem"/>
@@ -255,7 +255,7 @@
                         </textFieldCell>
                     </textField>
                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yO2-eJ-6Ez">
-                        <rect key="frame" x="29" y="316" width="149" height="18"/>
+                        <rect key="frame" x="29" y="311" width="149" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Enable Collaboration" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="XOi-3L-9QN">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
