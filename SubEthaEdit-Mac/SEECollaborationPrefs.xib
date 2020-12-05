@@ -66,7 +66,7 @@
                     </textField>
                     <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wXb-nY-PDx">
                         <rect key="frame" x="316" y="322" width="322" height="24"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="1" tickMarkPosition="above" numberOfTickMarks="2" sliderType="linear" id="TjX-xA-W2m"/>
                         <connections>
                             <action selector="updateChangesColor:" target="-2" id="ZrE-lR-lhT"/>
@@ -126,7 +126,7 @@
                         </connections>
                     </slider>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="m09-H6-6Uh">
-                        <rect key="frame" x="261" y="425" width="51" height="18"/>
+                        <rect key="frame" x="236" y="425" width="76" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="&lt;Name:" id="WxK-IJ-fOk">
                             <font key="font" metaFont="system"/>
@@ -155,7 +155,7 @@
                         </connections>
                     </button>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MFc-5B-rxn">
-                        <rect key="frame" x="261" y="394" width="51" height="18"/>
+                        <rect key="frame" x="236" y="394" width="76" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="&lt;Email:" id="3dM-J4-ffi">
                             <font key="font" metaFont="system"/>
@@ -255,7 +255,7 @@
                         </textFieldCell>
                     </textField>
                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yO2-eJ-6Ez">
-                        <rect key="frame" x="29" y="311" width="149" height="18"/>
+                        <rect key="frame" x="29" y="311" width="152" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Enable Collaboration" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="XOi-3L-9QN">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
