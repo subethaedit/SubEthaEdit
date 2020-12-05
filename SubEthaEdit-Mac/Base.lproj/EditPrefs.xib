@@ -25,22 +25,22 @@
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="6" userLabel="Window">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="505" y="280" width="680" height="474"/>
+            <rect key="contentRect" x="505" y="280" width="680" height="466"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1415"/>
             <view key="contentView" id="5">
-                <rect key="frame" x="0.0" y="0.0" width="680" height="474"/>
+                <rect key="frame" x="0.0" y="0.0" width="680" height="466"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <box fixedFrame="YES" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="8">
-                        <rect key="frame" x="17" y="16" width="444" height="438"/>
+                        <rect key="frame" x="-10" y="-12" width="700" height="460"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <view key="contentView" id="KIh-Zb-a5A">
-                            <rect key="frame" x="3" y="3" width="438" height="432"/>
+                            <rect key="frame" x="3" y="3" width="694" height="454"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <box fixedFrame="YES" title="File" translatesAutoresizingMaskIntoConstraints="NO" id="34">
-                                    <rect key="frame" x="17" y="39" width="409" height="109"/>
-                                    <autoresizingMask key="autoresizingMask"/>
+                                    <rect key="frame" x="163" y="61" width="409" height="109"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <view key="contentView" id="bYK-JY-Lbe">
                                         <rect key="frame" x="3" y="3" width="403" height="91"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -131,8 +131,8 @@
                                     </view>
                                 </box>
                                 <box fixedFrame="YES" title="Edit" translatesAutoresizingMaskIntoConstraints="NO" id="65">
-                                    <rect key="frame" x="17" y="152" width="409" height="80"/>
-                                    <autoresizingMask key="autoresizingMask"/>
+                                    <rect key="frame" x="163" y="174" width="409" height="80"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <view key="contentView" id="XQK-RX-NvV">
                                         <rect key="frame" x="3" y="3" width="403" height="62"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -227,8 +227,8 @@
                                     </view>
                                 </box>
                                 <box fixedFrame="YES" title="View" translatesAutoresizingMaskIntoConstraints="NO" id="67">
-                                    <rect key="frame" x="17" y="236" width="409" height="184"/>
-                                    <autoresizingMask key="autoresizingMask"/>
+                                    <rect key="frame" x="163" y="258" width="409" height="184"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <view key="contentView" id="SCC-xG-lTP">
                                         <rect key="frame" x="3" y="3" width="403" height="166"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -559,9 +559,20 @@
                                         </subviews>
                                     </view>
                                 </box>
+                                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="272">
+                                    <rect key="frame" x="366" y="21" width="210" height="32"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <buttonCell key="cell" type="push" title="Apply to Open Documents" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="373">
+                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                        <font key="font" metaFont="system"/>
+                                    </buttonCell>
+                                    <connections>
+                                        <action selector="applyToOpenDocuments:" target="-2" id="273"/>
+                                    </connections>
+                                </button>
                                 <button toolTip="Use the settings specified in &quot;Default Mode&quot;" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="69">
-                                    <rect key="frame" x="55" y="405" width="77" height="18"/>
-                                    <autoresizingMask key="autoresizingMask"/>
+                                    <rect key="frame" x="211" y="427" width="77" height="18"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <buttonCell key="cell" type="check" title="use Default" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="mini" inset="2" id="370">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                         <font key="font" metaFont="miniSystem"/>
@@ -573,8 +584,8 @@
                                     </connections>
                                 </button>
                                 <button toolTip="Use the settings specified in &quot;Default Mode&quot;" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="70">
-                                    <rect key="frame" x="50" y="217" width="77" height="18"/>
-                                    <autoresizingMask key="autoresizingMask"/>
+                                    <rect key="frame" x="202" y="239" width="77" height="18"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <buttonCell key="cell" type="check" title="use Default" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="mini" inset="2" id="371">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                         <font key="font" metaFont="miniSystem"/>
@@ -586,8 +597,8 @@
                                     </connections>
                                 </button>
                                 <button toolTip="Use the settings specified in &quot;Default Mode&quot;" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="71">
-                                    <rect key="frame" x="50" y="133" width="77" height="18"/>
-                                    <autoresizingMask key="autoresizingMask"/>
+                                    <rect key="frame" x="202" y="155" width="77" height="18"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <buttonCell key="cell" type="check" title="use Default" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="mini" inset="2" id="372">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                         <font key="font" metaFont="miniSystem"/>
@@ -598,22 +609,11 @@
                                         <binding destination="73" name="hidden" keyPath="selection.isBaseMode" id="95"/>
                                     </connections>
                                 </button>
-                                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="272">
-                                    <rect key="frame" x="218" y="0.0" width="210" height="32"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <buttonCell key="cell" type="push" title="Apply to Open Documents" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="373">
-                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                        <font key="font" metaFont="system"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <action selector="applyToOpenDocuments:" target="-2" id="273"/>
-                                    </connections>
-                                </button>
                             </subviews>
                         </view>
                     </box>
                     <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="13" customClass="DocumentModePopUpButton">
-                        <rect key="frame" x="155" y="439" width="160" height="26"/>
+                        <rect key="frame" x="261" y="431" width="160" height="26"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <popUpButtonCell key="cell" type="push" title="Default Mode" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="11" id="374">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -632,7 +632,7 @@
                     </popUpButton>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="139" y="147"/>
+            <point key="canvasLocation" x="62" y="119"/>
         </window>
         <objectController objectClassName="DocumentMode" id="73" userLabel="ModeController">
             <declaredKeys>

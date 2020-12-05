@@ -33,24 +33,24 @@
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="6" userLabel="Window">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="128" y="514" width="680" height="530"/>
+            <rect key="contentRect" x="128" y="514" width="680" height="509"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1415"/>
             <view key="contentView" id="5">
-                <rect key="frame" x="0.0" y="0.0" width="680" height="530"/>
+                <rect key="frame" x="0.0" y="0.0" width="680" height="509"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <box fixedFrame="YES" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="8">
-                        <rect key="frame" x="17" y="16" width="646" height="494"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <rect key="frame" x="-10" y="-5" width="700" height="496"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <view key="contentView" id="Xd5-ZL-s6W">
-                            <rect key="frame" x="3" y="3" width="640" height="488"/>
+                            <rect key="frame" x="3" y="3" width="694" height="490"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <box fixedFrame="YES" title="&lt;Font&gt;" translatesAutoresizingMaskIntoConstraints="NO" id="388">
-                                    <rect key="frame" x="16" y="418" width="608" height="58"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                    <rect key="frame" x="105" y="420" width="485" height="58"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <view key="contentView" id="o0q-g2-RqZ">
-                                        <rect key="frame" x="3" y="3" width="602" height="40"/>
+                                        <rect key="frame" x="3" y="3" width="479" height="40"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
                                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="391">
@@ -92,7 +92,7 @@
                                                 </connections>
                                             </button>
                                             <button toolTip="&lt;Change the document's default font&gt;" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="428-YO-qEf">
-                                                <rect key="frame" x="523" y="7" width="70" height="28"/>
+                                                <rect key="frame" x="400" y="7" width="70" height="28"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                 <buttonCell key="cell" type="push" title="System" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" inset="2" id="kI6-Su-N7e">
                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -111,10 +111,10 @@
                                     </view>
                                 </box>
                                 <box fixedFrame="YES" title="&lt;Style Settings&gt;" translatesAutoresizingMaskIntoConstraints="NO" id="385">
-                                    <rect key="frame" x="16" y="163" width="608" height="254"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                    <rect key="frame" x="105" y="165" width="485" height="254"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <view key="contentView" id="DTY-Kn-pcc">
-                                        <rect key="frame" x="3" y="3" width="602" height="236"/>
+                                        <rect key="frame" x="3" y="3" width="479" height="236"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
                                             <button fixedFrame="YES" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="457">
@@ -188,7 +188,7 @@
                                                                             </textFieldCell>
                                                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                         </tableColumn>
-                                                                        <tableColumn identifier="styleSheet" width="223" minWidth="40" maxWidth="1000" id="508">
+                                                                        <tableColumn identifier="styleSheet" width="194" minWidth="40" maxWidth="1000" id="508">
                                                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
                                                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                                 <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
@@ -238,8 +238,8 @@
                                     </view>
                                 </box>
                                 <button toolTip="Use the settings specified in &quot;Default Mode&quot;" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="387">
-                                    <rect key="frame" x="70" y="461" width="109" height="18"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <rect key="frame" x="164" y="463" width="109" height="18"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                     <buttonCell key="cell" type="check" title="&lt;use Default&gt;" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="mini" state="on" inset="2" id="448">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                         <font key="font" metaFont="miniSystem"/>
@@ -250,38 +250,27 @@
                                         <binding destination="73" name="hidden" keyPath="selection.isBaseMode" id="405"/>
                                     </connections>
                                 </button>
-                                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="394">
-                                    <rect key="frame" x="383" y="9" width="244" height="32"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                    <buttonCell key="cell" type="push" title="Apply to Open Documents" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="451">
-                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                        <font key="font" metaFont="system"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <action selector="applyToOpenDocuments:" target="-2" id="435"/>
-                                    </connections>
-                                </button>
                                 <box fixedFrame="YES" title="&lt;Preview&gt;" translatesAutoresizingMaskIntoConstraints="NO" id="477">
-                                    <rect key="frame" x="16" y="53" width="608" height="106"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <rect key="frame" x="105" y="53" width="485" height="106"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES"/>
                                     <view key="contentView" id="Dzc-Nv-dg1">
-                                        <rect key="frame" x="3" y="3" width="602" height="88"/>
+                                        <rect key="frame" x="3" y="3" width="479" height="88"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
                                             <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="498">
-                                                <rect key="frame" x="8" y="9" width="586" height="70"/>
+                                                <rect key="frame" x="8" y="9" width="463" height="70"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <clipView key="contentView" drawsBackground="NO" id="PFR-hz-qQk">
-                                                    <rect key="frame" x="1" y="1" width="584" height="68"/>
+                                                    <rect key="frame" x="1" y="1" width="461" height="68"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textView editable="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" allowsCharacterPickerTouchBarItem="NO" allowsUndo="YES" textCompletion="NO" id="501" customClass="SEEFontForwardingTextView">
-                                                            <rect key="frame" x="0.0" y="0.0" width="584" height="68"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="461" height="68"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                            <size key="minSize" width="584" height="68"/>
-                                                            <size key="maxSize" width="584" height="10000000"/>
+                                                            <size key="minSize" width="461" height="68"/>
+                                                            <size key="maxSize" width="586" height="10000000"/>
                                                             <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                             <connections>
                                                                 <outlet property="delegate" destination="-2" id="Lea-dC-5Zq"/>
@@ -294,18 +283,29 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>
                                                 <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="499">
-                                                    <rect key="frame" x="430" y="1" width="16" height="51"/>
+                                                    <rect key="frame" x="446" y="1" width="16" height="62"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>
                                             </scrollView>
                                         </subviews>
                                     </view>
                                 </box>
+                                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="394">
+                                    <rect key="frame" x="350" y="13" width="244" height="32"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <buttonCell key="cell" type="push" title="Apply to Open Documents" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="451">
+                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                        <font key="font" metaFont="system"/>
+                                    </buttonCell>
+                                    <connections>
+                                        <action selector="applyToOpenDocuments:" target="-2" id="435"/>
+                                    </connections>
+                                </button>
                             </subviews>
                         </view>
                     </box>
                     <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="13" customClass="DocumentModePopUpButton">
-                        <rect key="frame" x="259" y="495" width="160" height="26"/>
+                        <rect key="frame" x="261" y="474" width="160" height="26"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" title="Default Mode" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="11" id="452">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -324,7 +324,7 @@
                     </popUpButton>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="138.5" y="147"/>
+            <point key="canvasLocation" x="138" y="136.5"/>
         </window>
         <objectController objectClassName="DocumentMode" id="73" userLabel="ModeController">
             <declaredKeys>
