@@ -116,15 +116,15 @@ static void * const SEEAvatarRedrawObservationContext = (void *)&SEEAvatarRedraw
 			// text
 			if (self.hoverString) {
 				NSShadow *textShadow = [[NSShadow alloc] init];
-				textShadow.shadowBlurRadius = 0.0;
-				textShadow.shadowColor = [NSColor colorWithWhite:0.7 alpha:0.8];
+				textShadow.shadowBlurRadius = 5;
+				textShadow.shadowColor = [NSColor colorWithWhite:0 alpha:0.8];
 				textShadow.shadowOffset = NSMakeSize(0.0, -1.0);
 				
 				NSString *hoverString = self.hoverString;
 				CGFloat inset = 10.;
 				CGFloat maxFontSize = 16;
 				
-				NSFont *font = [NSFont fontWithName:@"HelveticaNeue-Light" size:12.];
+				NSFont *font = [NSFont boldSystemFontOfSize:[NSFont systemFontSize]];
 				NSSize size = [hoverString sizeWithAttributes:@{ NSFontAttributeName : font}];
 				NSSize insetSize = CGSizeMake(NSWidth(imageRect) - 2*inset, NSHeight(imageRect) - 2*inset);
 				CGFloat scale = MIN( insetSize.width/size.width, insetSize.height/size.height );
@@ -133,7 +133,7 @@ static void * const SEEAvatarRedrawObservationContext = (void *)&SEEAvatarRedraw
 				
 				NSDictionary *stringAttributes = @{
 												   NSFontAttributeName: font,
-												   NSForegroundColorAttributeName: [NSColor colorWithWhite:1.0 alpha:0.8],
+												   NSForegroundColorAttributeName: [NSColor whiteColor],
 												   NSShadowAttributeName: textShadow
 												   };
 				
