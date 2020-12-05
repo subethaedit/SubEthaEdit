@@ -46,6 +46,12 @@
 - (void)didSelect {
 }
 
+- (IBAction)copyScriptAction:(id)sender {
+    NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
+    [pasteboard clearContents];
+    [pasteboard setString:self.commandLineInstallTextField.stringValue forType:NSPasteboardTypeString];
+}
+
 - (IBAction)revealInstallCommandInFinder:(id)sender {
     [[AppController sharedInstance] revealInstallCommandInFinder:sender];
 }
