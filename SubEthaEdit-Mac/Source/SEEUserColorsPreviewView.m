@@ -53,7 +53,7 @@ void * const SEEUserColorsPreviewUpdateObservingContext = (void *)&SEEUserColors
 			[label setBackgroundColor:[NSColor clearColor]];
 			[label setBezeled:NO];
 			[label setEditable:NO];
-			[label setStringValue:SEE_NoLocalizationNeeded(@"Here's to the")];
+            [label setStringValue:SEE_NoLocalizationNeeded(@"In the beginning")];
 			[self addSubview:label];
 			label;
 		});
@@ -63,7 +63,7 @@ void * const SEEUserColorsPreviewUpdateObservingContext = (void *)&SEEUserColors
 			[label setBackgroundColor:[NSColor clearColor]];
 			[label setBezeled:NO];
 			[label setEditable:NO];
-			[label setStringValue:SEE_NoLocalizationNeeded(@"crazy ones.")];
+            [label setStringValue:SEE_NoLocalizationNeeded(@"the Universe")];
 			[self addSubview:label];
 			label;
 		});
@@ -73,7 +73,7 @@ void * const SEEUserColorsPreviewUpdateObservingContext = (void *)&SEEUserColors
 			[label setBackgroundColor:[NSColor clearColor]];
 			[label setBezeled:NO];
 			[label setEditable:NO];
-			[label setStringValue:SEE_NoLocalizationNeeded(@"The misfits. The rebels. The trou")];
+            [label setStringValue:SEE_NoLocalizationNeeded(@"was created. This has made a")];
 			[[label cell] setLineBreakMode:NSLineBreakByTruncatingTail];
 			[self addSubview:label];
 			label;
