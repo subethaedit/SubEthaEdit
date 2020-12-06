@@ -1,17 +1,13 @@
-//
-//  SEEOpenURLView.h
+//  OpenURLViewController.h
 //  SubEthaEdit
 //
 //  Created by Jan Cornelissen on 29/11/2020.
-//  Copyright © 2020 SubEthaEdit Contributors. All rights reserved.
-//
 
 #import <Cocoa/Cocoa.h>
 
 @interface OpenURLViewController : NSViewController
 
-@property (nonatomic, strong) NSURL *URLToOpen;
+@property (nonatomic, strong) NSURL *url;
 
-- (instancetype)initWithURL:(NSURL *)anURLToOpen;
-
+- (instancetype)initWithURL:(NSURL *)url;
 @end
