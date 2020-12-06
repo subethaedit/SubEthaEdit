@@ -945,14 +945,14 @@
 /* Style Preference Pane */
 
 "STYLE_PREF_DEFAULT_FONT_CHECKBOX_LABEL" = "Standard-Einstellungen verwenden";
-"STYLE_PREF_FONT_BOX_LABEL" = "Schrift";
+"STYLE_PREF_FONT_BOX_LABEL" = "Schrift:";
 "STYLE_PREF_CUSTOM_FONT_BUTTON" = "Auswählen...";
 "STYLE_PREF_CUSTOM_FONT_BUTTON_TOOL_TIP" = "Ändere die vorgegebene Schrift für Dokumente";
-"STYLE_PREF_SETTING_BOX_LABEL" = "Stil-Einstellungen";
+"STYLE_PREF_SETTING_BOX_LABEL" = "Stil-Einstellungen:";
 "STYLE_PREF_SHEET_BUTTON_DEFAULT_LABEL" = "Stil des Standard-Modus";
 "STYLE_PREF_SHEET_BUTTON_CUSTOM_LABEL" = "Eigener Stil";
 "STYLE_PREF_SHEET_BUTTON_CUSTOM_FOR_CONTEXT_LABEL" = "Eigener Stil pro Sprachkontext";
-"STYLE_PREF_PREVIEW_BOX_LABEL"= "Vorschau";
+"STYLE_PREF_PREVIEW_BOX_LABEL"= "Vorschau:";
 "STYLE_PREF_APPLY_STYLE_BUTTON" = "Auf offene Dokumente anwenden";
 "STYLE_PREFS_REVEAL_USER_STYLES_FOLDER" = "Ordner für eigene Stile anzeigen";
 "STYLE_PREFS_RELOAD_STYLES_TITLE" = "Neu laden";
