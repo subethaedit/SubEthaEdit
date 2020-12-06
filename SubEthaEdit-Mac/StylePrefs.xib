@@ -159,10 +159,10 @@
                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" id="391">
                                     <rect key="frame" x="156" y="318" width="219" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" borderStyle="bezel" alignment="left" title="System font text" id="450">
+                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" borderStyle="bezel" alignment="left" title="System font text" drawsBackground="YES" id="450">
                                         <font key="font" metaFont="system"/>
-                                        <color key="textColor" name="selectedControlTextColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                     <connections>
                                         <binding destination="395" name="value" keyPath="selection.defaults.FontAttributes" id="410">

@@ -144,6 +144,7 @@
 		31FFC93D104E97A000E08256 /* NSErrorTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FFC93C104E97A000E08256 /* NSErrorTCMAdditions.m */; };
 		3DBB85BC25734A37000F829F /* OpenURLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DBB85BB25734A37000F829F /* OpenURLViewController.m */; };
 		3DBB85C025734E6D000F829F /* OpenURLViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DBB85C225734E6D000F829F /* OpenURLViewController.xib */; };
+		3DC31374257D03180077577A /* SEETertiaryLabelColorValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DC31373257D03180077577A /* SEETertiaryLabelColorValueTransformer.m */; };
 		420AAF7F18FE0FFC00297DB1 /* StylePrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 420AAF7E18FE0FFC00297DB1 /* StylePrefs.xib */; };
 		4234523A1907DFE400BE3CC1 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 423452391907DFE400BE3CC1 /* Quartz.framework */; };
 		423B23D018F63DDE001E2DCC /* SEECollaborationPreferenceModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 423B23CF18F63DDE001E2DCC /* SEECollaborationPreferenceModule.m */; };
@@ -814,6 +815,8 @@
 		3DBB85BB25734A37000F829F /* OpenURLViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenURLViewController.m; sourceTree = "<group>"; };
 		3DBB85C125734E6D000F829F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/OpenURLViewController.xib; sourceTree = "<group>"; };
 		3DBB85C625734E96000F829F /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/OpenURLViewController.xib; sourceTree = "<group>"; };
+		3DC31372257D03180077577A /* SEETertiaryLabelColorValueTransformer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEETertiaryLabelColorValueTransformer.h; sourceTree = "<group>"; };
+		3DC31373257D03180077577A /* SEETertiaryLabelColorValueTransformer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEETertiaryLabelColorValueTransformer.m; sourceTree = "<group>"; };
 		420AAF7E18FE0FFC00297DB1 /* StylePrefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StylePrefs.xib; sourceTree = "<group>"; };
 		423452391907DFE400BE3CC1 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
 		423B23CE18F63DDE001E2DCC /* SEECollaborationPreferenceModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEECollaborationPreferenceModule.h; sourceTree = "<group>"; };
@@ -1624,6 +1627,8 @@
 		142892550957529900D14688 /* ValueTransformers */ = {
 			isa = PBXGroup;
 			children = (
+				3DC31372257D03180077577A /* SEETertiaryLabelColorValueTransformer.h */,
+				3DC31373257D03180077577A /* SEETertiaryLabelColorValueTransformer.m */,
 				F20E1FAB0CACFC75005DEAF5 /* ThousandSeparatorValueTransformer.h */,
 				F20E1FAC0CACFC75005DEAF5 /* ThousandSeparatorValueTransformer.m */,
 				142893820957585600D14688 /* FontAttributesToStringValueTransformer.h */,
@@ -2629,6 +2634,7 @@
 				4CCD4DD21811703D00FE6134 /* SEESavePanelAccessoryViewController.m in Sources */,
 				1428932C095756D800D14688 /* TCMMMNoOperation.m in Sources */,
 				1428932D095756D800D14688 /* TCMMMOperation.m in Sources */,
+				3DC31374257D03180077577A /* SEETertiaryLabelColorValueTransformer.m in Sources */,
 				1428932E095756D800D14688 /* TCMMMPresenceManager.m in Sources */,
 				1428932F095756D800D14688 /* TCMMMSession.m in Sources */,
 				14289330095756D800D14688 /* TCMMMState.m in Sources */,
