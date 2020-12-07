@@ -25,7 +25,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button toolTip="Also colorize changes if not in collaborative mode." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KjR-2C-eEw">
-                        <rect key="frame" x="285" y="243" width="283" height="18"/>
+                        <rect key="frame" x="285" y="243" width="375" height="18"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <buttonCell key="cell" type="check" title="Highlight Changes when not collaborating" bezelStyle="regularSquare" imagePosition="left" inset="2" id="X2p-xv-B6d">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -36,7 +36,7 @@
                         </connections>
                     </button>
                     <button toolTip="Open a blank document at startup, if no other windows are open." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="31">
-                        <rect key="frame" x="285" y="171" width="265" height="18"/>
+                        <rect key="frame" x="285" y="171" width="375" height="18"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <buttonCell key="cell" type="check" title="Open Untitled Document at startup" bezelStyle="regularSquare" imagePosition="left" inset="2" id="224">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -47,7 +47,7 @@
                         </connections>
                     </button>
                     <button toolTip="Opens Document Hub window on startup, if no other windows are open." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iZf-W7-QIX">
-                        <rect key="frame" x="285" y="195" width="248" height="18"/>
+                        <rect key="frame" x="285" y="195" width="375" height="18"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <buttonCell key="cell" type="check" title="Show Document Hub at startup" bezelStyle="regularSquare" imagePosition="left" inset="2" id="dS3-kL-Ssf">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -58,7 +58,7 @@
                         </connections>
                     </button>
                     <button toolTip="Documents are opened in tabs instead of windows." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="194">
-                        <rect key="frame" x="285" y="219" width="233" height="18"/>
+                        <rect key="frame" x="285" y="219" width="375" height="18"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <buttonCell key="cell" type="check" title="Open new documents in tabs" bezelStyle="regularSquare" imagePosition="left" inset="2" id="233">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -69,7 +69,7 @@
                         </connections>
                     </button>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="51">
-                        <rect key="frame" x="111" y="66" width="170" height="18"/>
+                        <rect key="frame" x="30" y="66" width="251" height="18"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Mode for new documents:" id="225">
                             <font key="font" metaFont="system"/>
@@ -94,7 +94,7 @@
                         </connections>
                     </popUpButton>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="184">
-                        <rect key="frame" x="142" y="131" width="139" height="18"/>
+                        <rect key="frame" x="18" y="131" width="263" height="18"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Recent documents:" id="230">
                             <font key="font" metaFont="system"/>
@@ -129,7 +129,7 @@
                         </connections>
                     </popUpButton>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="193">
-                        <rect key="frame" x="285" y="107" width="170" height="14"/>
+                        <rect key="frame" x="285" y="107" width="377" height="14"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Takes effect after relaunch" id="232">
                             <font key="font" metaFont="smallSystem"/>
@@ -161,7 +161,7 @@
                         </connections>
                     </popUpButton>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="147">
-                        <rect key="frame" x="342" y="23" width="210" height="18"/>
+                        <rect key="frame" x="342" y="23" width="320" height="18"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="path components in window title" id="228">
                             <font key="font" metaFont="system"/>
@@ -179,9 +179,9 @@
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="146">
-                        <rect key="frame" x="242" y="23" width="39" height="18"/>
+                        <rect key="frame" x="18" y="23" width="263" height="18"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Show" id="227">
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Show" id="227">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -189,7 +189,7 @@
                     </textField>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="455" y="436.5"/>
+            <point key="canvasLocation" x="455" y="436"/>
         </window>
         <userDefaultsController id="92" userLabel="Shared Defaults"/>
         <userDefaultsController representsSharedInstance="YES" id="8xq-UR-Csw"/>

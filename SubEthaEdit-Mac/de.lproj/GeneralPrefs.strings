@@ -1,0 +1,105 @@
+
+/* Class = "NSWindow"; title = "Window"; ObjectID = "5"; */
+"5.title" = "Window";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Open a blank document at startup, if no other windows are open."; ObjectID = "31"; */
+"31.ibShadowedToolTip" = "Öffne ein leeres Dokument beim Starten des Programms, falls keine anderen Fenster offen sind.";
+
+/* Class = "NSPopUpButton"; ibShadowedToolTip = "Uses this mode for all documents that are not handled by other modes."; ObjectID = "55"; */
+"55.ibShadowedToolTip" = "Dieser Modus wird für alle neuen Dokumente benutzt, denen kein anderer Modus zugewiesen wurde.";
+
+/* Class = "NSMenuItem"; title = "Default"; ObjectID = "56"; */
+"56.title" = "Default";
+
+/* Class = "NSMenu"; title = "OtherViews"; ObjectID = "57"; */
+"57.title" = "OtherViews";
+
+/* Class = "NSMenu"; title = "OtherViews"; ObjectID = "148"; */
+"148.title" = "OtherViews";
+
+/* Class = "NSMenuItem"; title = "2"; ObjectID = "149"; */
+"149.title" = "2";
+
+/* Class = "NSPopUpButton"; ibShadowedToolTip = "Specify how many directories are shown in the documents title."; ObjectID = "150"; */
+"150.ibShadowedToolTip" = "Geben Sie die Zahl der Verzeichnisse an, die im Fenstertitel angezeigt werden sollen.";
+
+/* Class = "NSMenuItem"; title = "1"; ObjectID = "151"; */
+"151.title" = "1";
+
+/* Class = "NSMenuItem"; title = "3"; ObjectID = "152"; */
+"152.title" = "3";
+
+/* Class = "NSMenuItem"; title = "4"; ObjectID = "153"; */
+"153.title" = "4";
+
+/* Class = "NSMenuItem"; title = "5"; ObjectID = "154"; */
+"154.title" = "5";
+
+/* Class = "NSMenuItem"; title = "6"; ObjectID = "155"; */
+"155.title" = "6";
+
+/* Class = "NSMenuItem"; title = "0"; ObjectID = "157"; */
+"157.title" = "0";
+
+/* Class = "NSMenu"; title = "OtherViews"; ObjectID = "186"; */
+"186.title" = "OtherViews";
+
+/* Class = "NSMenuItem"; title = "20"; ObjectID = "187"; */
+"187.title" = "20";
+
+/* Class = "NSMenuItem"; title = "10"; ObjectID = "188"; */
+"188.title" = "10";
+
+/* Class = "NSMenuItem"; title = "15"; ObjectID = "189"; */
+"189.title" = "15";
+
+/* Class = "NSMenuItem"; title = "30"; ObjectID = "190"; */
+"190.title" = "30";
+
+/* Class = "NSMenuItem"; title = "50"; ObjectID = "191"; */
+"191.title" = "50";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Documents are opened in tabs instead of windows."; ObjectID = "194"; */
+"194.ibShadowedToolTip" = "Dokumente werden in Tabs geöffnen anstatt in einem eigenen Fenster.";
+
+/* Class = "NSButtonCell"; title = "Open Untitled Document at startup"; ObjectID = "224"; */
+"224.title" = "Beim Starten leeres Dokument öffnen";
+
+/* Class = "NSTextFieldCell"; title = "Mode for new documents:"; ObjectID = "225"; */
+"225.title" = "Modus für neue Dokumente:";
+
+/* Class = "NSTextFieldCell"; title = "Show"; ObjectID = "227"; */
+"227.title" = "Zeige";
+
+/* Class = "NSTextFieldCell"; title = "path components in window title"; ObjectID = "228"; */
+"228.title" = "Pfad-Bestandteile im Fenstertitel";
+
+/* Class = "NSTextFieldCell"; title = "Recent documents:"; ObjectID = "230"; */
+"230.title" = "Anzahl Benutzter Dokumente:";
+
+/* Class = "NSTextFieldCell"; title = "Takes effect after relaunch"; ObjectID = "232"; */
+"232.title" = "Wirksam nach Programm-Neustart";
+
+/* Class = "NSButtonCell"; title = "Open new documents in tabs"; ObjectID = "233"; */
+"233.title" = "Öffne neue Dokumente in Tabs";
+
+/* Class = "NSMenuItem"; title = "5"; ObjectID = "7zS-wi-KIB"; */
+"7zS-wi-KIB.title" = "5";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Also colorize changes if not in collaborative mode."; ObjectID = "KjR-2C-eEw"; */
+"KjR-2C-eEw.ibShadowedToolTip" = "Änderungen auch bei lokalen Dokumenten farblich hervorheben.";
+
+/* Class = "NSButtonCell"; title = "Highlight Changes when not collaborating"; ObjectID = "X2p-xv-B6d"; */
+"X2p-xv-B6d.title" = "Änderungen bei lokalen Dokumenten hervorheben";
+
+/* Class = "NSButtonCell"; title = "Show Document Hub at startup"; ObjectID = "dS3-kL-Ssf"; */
+"dS3-kL-Ssf.title" = "Beim Starten Dokument-Hub anzeigen";
+
+/* Class = "NSTextFieldCell"; title = "Documents:"; ObjectID = "fkb-Fo-z4m"; */
+"fkb-Fo-z4m.title" = "Dokumente:";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Opens Document Hub window on startup, if no other windows are open."; ObjectID = "iZf-W7-QIX"; */
+"iZf-W7-QIX.ibShadowedToolTip" = "Öffne das Dokument Hub beim Starten des Programms, falls keine anderen Fenster offen sind.";
+
+/* Class = "NSMenuItem"; title = "None"; ObjectID = "zSI-bj-Ccp"; */
+"zSI-bj-Ccp.title" = "Keines";
