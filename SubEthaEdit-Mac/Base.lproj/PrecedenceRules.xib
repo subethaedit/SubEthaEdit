@@ -23,7 +23,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
             <subviews>
                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="16">
-                    <rect key="frame" x="8" y="6" width="17" height="20"/>
+                    <rect key="frame" x="6" y="6" width="17" height="20"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
                     <buttonCell key="cell" type="check" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" state="on" inset="2" id="32">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
