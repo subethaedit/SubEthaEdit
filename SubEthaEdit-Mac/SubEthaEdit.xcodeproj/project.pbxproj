@@ -814,6 +814,7 @@
 		3D8A4809257EEF5C005AFEF1 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/AdvancedPrefs.strings; sourceTree = "<group>"; };
 		3D8A480C257EF97B005AFEF1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SEECollaborationPrefs.xib; sourceTree = "<group>"; };
 		3D8A4810257EF983005AFEF1 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/SEECollaborationPrefs.strings; sourceTree = "<group>"; };
+		3D8A4816257F0FC4005AFEF1 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/EditPrefs.strings; sourceTree = "<group>"; };
 		3DBB85BA25734A37000F829F /* OpenURLViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenURLViewController.h; sourceTree = "<group>"; };
 		3DBB85BB25734A37000F829F /* OpenURLViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenURLViewController.m; sourceTree = "<group>"; };
 		3DBB85C125734E6D000F829F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/OpenURLViewController.xib; sourceTree = "<group>"; };
@@ -1045,7 +1046,6 @@
 		F24780AB22EAF46500366FC8 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/PrintOptions.xib; sourceTree = "<group>"; };
 		F24780AC22EAF46500366FC8 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/SavePanelAccessory.xib; sourceTree = "<group>"; };
 		F24780AD22EAF46600366FC8 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/SelectEncodingsPanel.xib; sourceTree = "<group>"; };
-		F24780B022EAF46600366FC8 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/EditPrefs.xib; sourceTree = "<group>"; };
 		F24AEA1A195AE78300046F6B /* DocumentProxy.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DocumentProxy.xib; sourceTree = "<group>"; };
 		F24FA89024B1D94E009D069E /* SEEFontForwardingTextView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEEFontForwardingTextView.h; sourceTree = "<group>"; };
 		F24FA89124B1D94E009D069E /* SEEFontForwardingTextView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEEFontForwardingTextView.m; sourceTree = "<group>"; };
@@ -2926,7 +2926,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				F286A746215CE57B0056C247 /* Base */,
-				F24780B022EAF46600366FC8 /* de */,
+				3D8A4816257F0FC4005AFEF1 /* de */,
 			);
 			name = EditPrefs.xib;
 			sourceTree = "<group>";
