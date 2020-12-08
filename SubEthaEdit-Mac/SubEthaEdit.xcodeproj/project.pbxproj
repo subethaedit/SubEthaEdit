@@ -141,13 +141,13 @@
 		3188F6800CAD13E0009E4C0B /* DNDArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3188F6780CAD1218009E4C0B /* DNDArrayController.m */; };
 		31D2C7000CA7C9C8003CC5C9 /* PrecedenceRuleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D2C6E50CA7C7A7003CC5C9 /* PrecedenceRuleCell.m */; };
 		31FFC93D104E97A000E08256 /* NSErrorTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FFC93C104E97A000E08256 /* NSErrorTCMAdditions.m */; };
+		3D8A480B257EF97B005AFEF1 /* SEECollaborationPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D8A480D257EF97B005AFEF1 /* SEECollaborationPrefs.xib */; };
 		3DBB85BC25734A37000F829F /* OpenURLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DBB85BB25734A37000F829F /* OpenURLViewController.m */; };
 		3DBB85C025734E6D000F829F /* OpenURLViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DBB85C225734E6D000F829F /* OpenURLViewController.xib */; };
 		3DC31374257D03180077577A /* SEETertiaryLabelColorValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DC31373257D03180077577A /* SEETertiaryLabelColorValueTransformer.m */; };
 		420AAF7F18FE0FFC00297DB1 /* StylePrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 420AAF7E18FE0FFC00297DB1 /* StylePrefs.xib */; };
 		4234523A1907DFE400BE3CC1 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 423452391907DFE400BE3CC1 /* Quartz.framework */; };
 		423B23D018F63DDE001E2DCC /* SEECollaborationPreferenceModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 423B23CF18F63DDE001E2DCC /* SEECollaborationPreferenceModule.m */; };
-		423B23D518F64065001E2DCC /* SEECollaborationPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 423B23D418F64065001E2DCC /* SEECollaborationPrefs.xib */; };
 		4246436518FEDF4300E5D830 /* SEEUserColorsPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4246436418FEDF4300E5D830 /* SEEUserColorsPreviewView.m */; };
 		4C0B4C6118C8B3E300048335 /* SEEToggleRecentDocumentListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0B4C6018C8B3E300048335 /* SEEToggleRecentDocumentListItem.m */; };
 		4C0C4A0118B366EC00E6049E /* PlainTextWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0C4A0018B366EC00E6049E /* PlainTextWindow.xib */; };
@@ -812,6 +812,8 @@
 		3D8A47F7257EDA96005AFEF1 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/PrecedencePrefs.strings; sourceTree = "<group>"; };
 		3D8A4804257EDDEE005AFEF1 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/PrecedenceRules.strings; sourceTree = "<group>"; };
 		3D8A4809257EEF5C005AFEF1 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/AdvancedPrefs.strings; sourceTree = "<group>"; };
+		3D8A480C257EF97B005AFEF1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SEECollaborationPrefs.xib; sourceTree = "<group>"; };
+		3D8A4810257EF983005AFEF1 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/SEECollaborationPrefs.strings; sourceTree = "<group>"; };
 		3DBB85BA25734A37000F829F /* OpenURLViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenURLViewController.h; sourceTree = "<group>"; };
 		3DBB85BB25734A37000F829F /* OpenURLViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenURLViewController.m; sourceTree = "<group>"; };
 		3DBB85C125734E6D000F829F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/OpenURLViewController.xib; sourceTree = "<group>"; };
@@ -822,7 +824,6 @@
 		423452391907DFE400BE3CC1 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
 		423B23CE18F63DDE001E2DCC /* SEECollaborationPreferenceModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEECollaborationPreferenceModule.h; sourceTree = "<group>"; };
 		423B23CF18F63DDE001E2DCC /* SEECollaborationPreferenceModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEECollaborationPreferenceModule.m; sourceTree = "<group>"; };
-		423B23D418F64065001E2DCC /* SEECollaborationPrefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEECollaborationPrefs.xib; sourceTree = "<group>"; };
 		4246436318FEDF4300E5D830 /* SEEUserColorsPreviewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEUserColorsPreviewView.h; sourceTree = "<group>"; };
 		4246436418FEDF4300E5D830 /* SEEUserColorsPreviewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEUserColorsPreviewView.m; sourceTree = "<group>"; };
 		4C0B4C5F18C8B3E300048335 /* SEEToggleRecentDocumentListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEToggleRecentDocumentListItem.h; sourceTree = "<group>"; };
@@ -1977,7 +1978,7 @@
 				4CD5F81717FB0DF900F49E31 /* PrecedencePrefs.xib */,
 				4CD5F81B17FB0E1800F49E31 /* PrecedenceRules.xib */,
 				4CD5F7D817FB0BF200F49E31 /* AdvancedPrefs.xib */,
-				423B23D418F64065001E2DCC /* SEECollaborationPrefs.xib */,
+				3D8A480D257EF97B005AFEF1 /* SEECollaborationPrefs.xib */,
 			);
 			name = Prefs;
 			sourceTree = "<group>";
@@ -2405,7 +2406,7 @@
 				4CD5F7DA17FB0BF200F49E31 /* AdvancedPrefs.xib in Resources */,
 				F2202483191BBDA10098982C /* hud_titlebar-close@2x.png in Resources */,
 				142890C1095743F200D14688 /* InternetResume.tiff in Resources */,
-				423B23D518F64065001E2DCC /* SEECollaborationPrefs.xib in Resources */,
+				3D8A480B257EF97B005AFEF1 /* SEECollaborationPrefs.xib in Resources */,
 				142890C2095743F200D14688 /* InternetStop.tiff in Resources */,
 				F2202481191BBDA10098982C /* hud_buttonRight-N@2x.png in Resources */,
 				F245828A2181C19F00A87EB5 /* FileIcons.xcassets in Resources */,
@@ -2892,6 +2893,15 @@
 				F22E9F2622FEECCB00326183 /* Base */,
 			);
 			name = ServicesMenu.strings;
+			sourceTree = "<group>";
+		};
+		3D8A480D257EF97B005AFEF1 /* SEECollaborationPrefs.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3D8A480C257EF97B005AFEF1 /* Base */,
+				3D8A4810257EF983005AFEF1 /* de */,
+			);
+			name = SEECollaborationPrefs.xib;
 			sourceTree = "<group>";
 		};
 		3DBB85C225734E6D000F829F /* OpenURLViewController.xib */ = {

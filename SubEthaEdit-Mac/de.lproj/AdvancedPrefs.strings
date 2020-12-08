@@ -3,7 +3,7 @@
 "6.title" = "Window";
 
 /* Class = "NSButton"; ibShadowedToolTip = "SubEthaEdit transmits the document history on connect to a document. If you don't need the history or you don't want to send it due to privacy issues you can disable that feature here."; ObjectID = "143"; */
-"143.ibShadowedToolTip" = "SubEthaEdit transmits the document history on connect to a document. If you don't need the history or you don't want to send it due to privacy issues you can disable that feature here.";
+"143.ibShadowedToolTip" = "[LOCALISATION MISSING: SubEthaEdit transmits the document history on connect to a document. If you don't need the history or you don't want to send it due to privacy issues you can disable that feature here.]";
 
 /* Class = "NSButtonCell"; title = "Disable screen fonts"; ObjectID = "175"; */
 "175.title" = "Bildschirmschriften deaktivieren";

@@ -1,0 +1,60 @@
+
+/* Class = "NSTextFieldCell"; title = "Email:"; ObjectID = "3dM-J4-ffi"; */
+"3dM-J4-ffi.title" = "E-Mail:";
+
+/* Class = "NSButtonCell"; title = "Highlight Changes"; ObjectID = "9Gt-Fw-SQB"; */
+"9Gt-Fw-SQB.title" = "Änderungen hervorheben";
+
+/* Class = "NSBox"; title = "Me"; ObjectID = "Kyz-WE-BxL"; */
+"Kyz-WE-BxL.title" = "Me";
+
+/* Class = "NSWindow"; title = "Window"; ObjectID = "QvC-M9-y7g"; */
+"QvC-M9-y7g.title" = "Window";
+
+/* Class = "NSTextFieldCell"; title = "<do not localize>"; ObjectID = "Sx6-7c-ebG"; */
+"Sx6-7c-ebG.title" = "<do not localize>";
+
+/* Class = "NSTextFieldCell"; title = "NAT traversal uses NAT-PMP or UPnP if available"; ObjectID = "UvY-lr-BBb"; */
+"UvY-lr-BBb.title" = "Die Port-Weiterleitung benutzt NAT-PMP oder UPnP.";
+
+/* Class = "NSTextFieldCell"; title = "You will still be visible if you advertise a document"; ObjectID = "WXf-5R-egn"; */
+"WXf-5R-egn.title" = "Beim ankündigen Dokuments, sind Sie weiterhin sichtbar.";
+
+/* Class = "NSTextFieldCell"; title = "Name:"; ObjectID = "WxK-IJ-fOk"; */
+"WxK-IJ-fOk.title" = "Name:";
+
+/* Class = "NSButtonCell"; title = "Enable Collaboration"; ObjectID = "XOi-3L-9QN"; */
+"XOi-3L-9QN.title" = "Kollaboration aktivieren";
+
+/* Class = "NSButtonCell"; title = "Try to map port automatically"; ObjectID = "XPh-zo-Ojp"; */
+"XPh-zo-Ojp.title" = "Port automatisch weiterleiten";
+
+/* Class = "NSTextFieldCell"; title = "Color:"; ObjectID = "Y9Y-7d-gnT"; */
+"Y9Y-7d-gnT.title" = "Farbe:";
+
+/* Class = "NSTextFieldCell"; title = "Preview:"; ObjectID = "Yot-9r-yWN"; */
+"Yot-9r-yWN.title" = "Vorschau:";
+
+/* Class = "NSButtonCell"; title = "Invisible to others on the Network"; ObjectID = "beO-Sx-GE6"; */
+"beO-Sx-GE6.title" = "Für Andere im Netzwerk unsichtbar";
+
+/* Class = "NSTextFieldCell"; title = "Network:"; ObjectID = "k4x-22-pr8"; */
+"k4x-22-pr8.title" = "Netzwerk:";
+
+/* Class = "NSTextFieldCell"; title = "pale"; ObjectID = "l87-h3-UPE"; */
+"l87-h3-UPE.title" = "schwach";
+
+/* Class = "NSButton"; ibShadowedToolTip = "<SubEthaEdit will try to automatically map the local port to an external port if it is behind a NAT. For this to work you have to enable UPnP or NAT-PMP on your router."; ObjectID = "m4c-SU-LMl"; */
+"m4c-SU-LMl.ibShadowedToolTip" = "SubEthaEdit versucht automatisch den lokalen Port weiterzuleiten, falls Sie sich hinter einem NAT befinden. Damit das funktioniert müssen Sie UPnP oder NAT-PMP auf Ihrem Router aktivieren.";
+
+/* Class = "NSSlider"; ibShadowedToolTip = "<Adjusts the strength of the background color indicating changes."; ObjectID = "mO9-U1-vVK"; */
+"mO9-U1-vVK.ibShadowedToolTip" = "Passt die Stärke der Farbe zur Hervorhebung von Veränderungen an.";
+
+/* Class = "NSTextFieldCell"; title = "<strong"; ObjectID = "ohg-W2-sto"; */
+"ohg-W2-sto.title" = "stark";
+
+/* Class = "NSTextFieldCell"; title = "Local Port:"; ObjectID = "ryi-CV-Ml8"; */
+"ryi-CV-Ml8.title" = "Lokaler Port:";
+
+/* Class = "NSTextFieldCell"; title = "6942"; ObjectID = "z8r-Pu-RDT"; */
+"z8r-Pu-RDT.title" = "6942";

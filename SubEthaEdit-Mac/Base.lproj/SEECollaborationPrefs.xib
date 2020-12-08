@@ -9,26 +9,16 @@
         <customObject id="-2" userLabel="File's Owner" customClass="SEECollaborationPreferenceModule">
             <connections>
                 <outlet property="O_automaticallyMapPortButton" destination="m4c-SU-LMl" id="vMs-rk-7Wg"/>
-                <outlet property="O_automaticallyMapPortExplanationTextField" destination="fah-zz-MNr" id="87C-Oo-NkP"/>
                 <outlet property="O_avatarImageView" destination="LNz-tD-bOH" id="gPq-LZ-h2J"/>
-                <outlet property="O_changesSaturationLabelPale" destination="asw-so-GaW" id="S0V-WT-Xrg"/>
-                <outlet property="O_changesSaturationLabelStrong" destination="DBk-Lb-C7a" id="EF9-Jk-nDx"/>
                 <outlet property="O_emailTextField" destination="qIo-6E-eLw" id="hb5-Xg-Y6x"/>
                 <outlet property="O_enableCollaborationButton" destination="yO2-eJ-6Ez" id="cCr-be-P1B"/>
-                <outlet property="O_highlightChangesButton" destination="sMa-EY-Zh9" id="WLZ-6U-Zme"/>
-                <outlet property="O_highlightChangesSlider" destination="mO9-U1-vVK" id="MRA-Y0-sj0"/>
                 <outlet property="O_invisibleOnNetworkButton" destination="GfQ-kK-g2j" id="tAQ-fg-abR"/>
-                <outlet property="O_invisibleOnNetworkExplanationTextField" destination="IEp-xP-8j1" id="8oz-Kq-JdR"/>
-                <outlet property="O_localPortLabel" destination="1ph-DU-Ir4" id="Bav-Bw-w79"/>
                 <outlet property="O_localPortTextField" destination="wdw-7c-J1b" id="tri-J4-7Po"/>
                 <outlet property="O_mappingStatusImageView" destination="rZx-RU-Vll" id="hY7-im-XmL"/>
                 <outlet property="O_mappingStatusProgressIndicator" destination="nnU-Es-Xyy" id="YRA-dh-jRj"/>
                 <outlet property="O_mappingStatusTextField" destination="x0F-16-awU" id="Cdw-CZ-r92"/>
                 <outlet property="O_nameTextField" destination="yW9-JL-AqB" id="Uf0-R9-iVO"/>
-                <outlet property="O_userColorLabel" destination="d0P-1s-5Bz" id="aNw-PO-XQN"/>
                 <outlet property="O_userColorsPreview" destination="iO8-ES-ikB" id="dME-ec-clK"/>
-                <outlet property="O_userEmailLabel" destination="MFc-5B-rxn" id="OIZ-4c-WJJ"/>
-                <outlet property="O_userNameLabel" destination="m09-H6-6Uh" id="EsI-5K-yab"/>
                 <outlet property="O_window" destination="QvC-M9-y7g" id="Dgz-nd-xe2"/>
             </connections>
         </customObject>
@@ -58,7 +48,7 @@
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DBk-Lb-C7a">
                         <rect key="frame" x="588" y="245" width="50" height="12"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" controlSize="mini" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="right" title="&lt;strong" id="ohg-W2-sto">
+                        <textFieldCell key="cell" controlSize="mini" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="right" title="strong" id="ohg-W2-sto">
                             <font key="font" metaFont="miniSystem"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -76,7 +66,7 @@
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IEp-xP-8j1">
                         <rect key="frame" x="337" y="104" width="328" height="14"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="&lt;You will still be visible if you advertise a document" id="WXf-5R-egn">
+                        <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="You will still be visible if you advertise a document" id="WXf-5R-egn">
                             <font key="font" metaFont="smallSystem"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -85,16 +75,16 @@
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d0P-1s-5Bz">
                         <rect key="frame" x="236" y="328" width="76" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="&lt;Color: " id="Y9Y-7d-gnT">
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Color:" id="Y9Y-7d-gnT">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sMa-EY-Zh9">
-                        <rect key="frame" x="293" y="288" width="179" height="18"/>
+                        <rect key="frame" x="293" y="288" width="343" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="check" title="&lt;Highlight Changes" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="9Gt-Fw-SQB">
+                        <buttonCell key="cell" type="check" title="Highlight Changes" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="9Gt-Fw-SQB">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
@@ -115,7 +105,7 @@
                             <outlet property="nextKeyView" destination="yW9-JL-AqB" id="pJP-P8-nsY"/>
                         </connections>
                     </textField>
-                    <slider toolTip="&lt;Adjusts the strength of the background color indicating changes." verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mO9-U1-vVK">
+                    <slider toolTip="Adjusts the strength of the background color indicating changes." verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mO9-U1-vVK">
                         <rect key="frame" x="316" y="259" width="322" height="24"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <sliderCell key="cell" continuous="YES" alignment="left" minValue="5" maxValue="100" doubleValue="50" tickMarkPosition="above" numberOfTickMarks="2" sliderType="linear" id="19e-S6-799"/>
@@ -128,7 +118,7 @@
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="m09-H6-6Uh">
                         <rect key="frame" x="236" y="425" width="76" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="&lt;Name:" id="WxK-IJ-fOk">
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Name:" id="WxK-IJ-fOk">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -137,7 +127,7 @@
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="asw-so-GaW">
                         <rect key="frame" x="316" y="245" width="54" height="12"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" controlSize="mini" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="&lt;pale" id="l87-h3-UPE">
+                        <textFieldCell key="cell" controlSize="mini" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="pale" id="l87-h3-UPE">
                             <font key="font" metaFont="miniSystem"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -146,7 +136,7 @@
                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GfQ-kK-g2j">
                         <rect key="frame" x="316" y="121" width="320" height="18"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="check" title="&lt;Invisible to others on the Network" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="beO-Sx-GE6">
+                        <buttonCell key="cell" type="check" title="Invisible to others on the Network" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="beO-Sx-GE6">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
@@ -157,7 +147,7 @@
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MFc-5B-rxn">
                         <rect key="frame" x="236" y="394" width="76" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="&lt;Email:" id="3dM-J4-ffi">
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Email:" id="3dM-J4-ffi">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -183,7 +173,7 @@
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wu0-x4-c8d">
                         <rect key="frame" x="236" y="121" width="76" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Network: " id="k4x-22-pr8">
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Network:" id="k4x-22-pr8">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -236,8 +226,8 @@
                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="m4c-SU-LMl">
                         <rect key="frame" x="316" y="38" width="285" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <string key="toolTip">&lt;SubEthaEdit will try to automatically map the local port to an external port if it is behind a NAT. For this to work you have to enable UPnP or NAT-PMP on your router.</string>
-                        <buttonCell key="cell" type="check" title="&lt;Try to map port automatically" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="XPh-zo-Ojp">
+                        <string key="toolTip">SubEthaEdit will try to automatically map the local port to an external port if it is behind a NAT. For this to work you have to enable UPnP or NAT-PMP on your router.</string>
+                        <buttonCell key="cell" type="check" title="Try to map port automatically" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="XPh-zo-Ojp">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
@@ -248,7 +238,7 @@
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fah-zz-MNr">
                         <rect key="frame" x="337" y="21" width="288" height="14"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" controlSize="mini" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="&lt;NAT traversal uses NAT-PMP or UPnP if available" id="UvY-lr-BBb">
+                        <textFieldCell key="cell" controlSize="mini" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="NAT traversal uses NAT-PMP or UPnP if available" id="UvY-lr-BBb">
                             <font key="font" metaFont="smallSystem"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -268,7 +258,7 @@
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VJt-QR-XfQ">
                         <rect key="frame" x="236" y="195" width="76" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Preview: " id="Yot-9r-yWN">
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Preview:" id="Yot-9r-yWN">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>

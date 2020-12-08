@@ -23,7 +23,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
             <subviews>
                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="16">
-                    <rect key="frame" x="6" y="6" width="17" height="20"/>
+                    <rect key="frame" x="5" y="6" width="17" height="20"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
                     <buttonCell key="cell" type="check" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" state="on" inset="2" id="32">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -34,7 +34,7 @@
                     </connections>
                 </button>
                 <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="15">
-                    <rect key="frame" x="174" y="7" width="142" height="19"/>
+                    <rect key="frame" x="173" y="7" width="142" height="19"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                     <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="31">
                         <font key="font" metaFont="smallSystem"/>
@@ -57,7 +57,7 @@
                     </connections>
                 </button>
                 <imageView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6">
-                    <rect key="frame" x="316" y="4" width="23" height="23"/>
+                    <rect key="frame" x="315" y="4" width="23" height="23"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="SymbolWarn" id="28"/>
                 </imageView>
@@ -73,7 +73,7 @@
                     </connections>
                 </button>
                 <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8">
-                    <rect key="frame" x="27" y="7" width="142" height="17"/>
+                    <rect key="frame" x="26" y="7" width="142" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
                     <popUpButtonCell key="cell" type="roundRect" title="Extension is" bezelStyle="roundedRect" alignment="left" controlSize="small" lineBreakMode="truncatingTail" state="on" borderStyle="border" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="11" id="30">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
