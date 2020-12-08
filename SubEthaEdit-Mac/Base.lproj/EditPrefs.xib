@@ -25,706 +25,17 @@
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="6" userLabel="Window">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="505" y="280" width="680" height="672"/>
+            <rect key="contentRect" x="505" y="280" width="680" height="696"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1415"/>
             <view key="contentView" id="5">
-                <rect key="frame" x="0.0" y="0.0" width="680" height="672"/>
+                <rect key="frame" x="0.0" y="0.0" width="680" height="696"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <box fixedFrame="YES" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="8">
-                        <rect key="frame" x="17" y="56" width="646" height="587"/>
-                        <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
-                        <view key="contentView" id="KIh-Zb-a5A">
-                            <rect key="frame" x="3" y="3" width="640" height="581"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <subviews>
-                                <button toolTip="Use the settings specified in &quot;Default Mode&quot;" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="69">
-                                    <rect key="frame" x="59" y="540" width="130" height="20"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <buttonCell key="cell" type="check" title="Use Default" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="370">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="smallSystem"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <action selector="validateDefaultsState:" target="-2" id="251"/>
-                                        <binding destination="73" name="value" keyPath="selection.defaults.UseDefaultView" id="176"/>
-                                        <binding destination="73" name="hidden" keyPath="selection.isBaseMode" id="93"/>
-                                    </connections>
-                                </button>
-                                <button toolTip="Use the settings specified in &quot;Default Mode&quot;" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="70">
-                                    <rect key="frame" x="59" y="240" width="130" height="20"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <buttonCell key="cell" type="check" title="Use Default" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="371">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="smallSystem"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <action selector="validateDefaultsState:" target="-2" id="252"/>
-                                        <binding destination="73" name="value" keyPath="selection.defaults.UseDefaultEdit" id="149"/>
-                                        <binding destination="73" name="hidden" keyPath="selection.isBaseMode" id="94"/>
-                                    </connections>
-                                </button>
-                                <button toolTip="Use the settings specified in &quot;Default Mode&quot;" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="71">
-                                    <rect key="frame" x="59" y="128" width="130" height="20"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <buttonCell key="cell" type="check" title="Use Default" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="372">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="smallSystem"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <action selector="validateDefaultsState:" target="-2" id="253"/>
-                                        <binding destination="73" name="value" keyPath="selection.defaults.UseDefaultFile" id="129"/>
-                                        <binding destination="73" name="hidden" keyPath="selection.isBaseMode" id="95"/>
-                                    </connections>
-                                </button>
-                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="n2k-Ix-ay8">
-                                    <rect key="frame" x="18" y="544" width="36" height="16"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" lineBreakMode="clipping" alignment="left" title="View" id="pK4-tq-TDF">
-                                        <font key="font" metaFont="systemBold"/>
-                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                </textField>
-                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FFd-Eg-kcG">
-                                    <rect key="frame" x="18" y="243" width="30" height="16"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" lineBreakMode="clipping" alignment="left" title="Edit" id="Nja-94-gZE">
-                                        <font key="font" metaFont="systemBold"/>
-                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                </textField>
-                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oS5-Tu-hwb">
-                                    <rect key="frame" x="18" y="131" width="27" height="16"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <textFieldCell key="cell" lineBreakMode="clipping" alignment="left" title="File" id="06q-3M-OMB">
-                                        <font key="font" metaFont="systemBold"/>
-                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                </textField>
-                                <popUpButton toolTip="Default character encoding for files" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="32" customClass="EncodingPopUpButton">
-                                    <rect key="frame" x="221" y="85" width="232" height="22"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <popUpButtonCell key="cell" type="push" title="Item1" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="25" id="348">
-                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                        <font key="font" metaFont="system"/>
-                                        <menu key="menu" title="OtherViews" id="23">
-                                            <items>
-                                                <menuItem title="Item1" state="on" id="25"/>
-                                            </items>
-                                        </menu>
-                                    </popUpButtonCell>
-                                    <connections>
-                                        <binding destination="240" name="selectedTag" keyPath="selection.defaults.Encoding" id="269"/>
-                                        <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultFile" id="138">
-                                            <dictionary key="options">
-                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
-                                </popUpButton>
-                                <popUpButton toolTip="Default character that ends lines" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="22">
-                                    <rect key="frame" x="221" y="58" width="232" height="22"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <popUpButtonCell key="cell" type="push" title="Unix/Mac OS X (LF)" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" tag="1" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="29" id="345">
-                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                        <font key="font" metaFont="system"/>
-                                        <menu key="menu" title="OtherViews" id="28">
-                                            <items>
-                                                <menuItem title="Unix/Mac OS X (LF)" state="on" tag="1" id="29"/>
-                                                <menuItem title="Classic Mac (CR)" tag="2" id="30"/>
-                                                <menuItem title="Windows (CRLF)" tag="3" id="24"/>
-                                                <menuItem title="Line Separator (LSEP)" tag="4" id="182"/>
-                                                <menuItem title="Paragraph Separator (PSEP)" tag="5" id="183"/>
-                                            </items>
-                                        </menu>
-                                    </popUpButtonCell>
-                                    <connections>
-                                        <binding destination="240" name="selectedTag" keyPath="selection.defaults.LineEnding" id="270"/>
-                                        <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultFile" id="136">
-                                            <dictionary key="options">
-                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
-                                </popUpButton>
-                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="31">
-                                    <rect key="frame" x="-2" y="89" width="220" height="17"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" id="347">
-                                        <font key="font" metaFont="system"/>
-                                        <string key="title">Default Text Encoding:
-</string>
-                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                    <connections>
-                                        <binding destination="73" name="textColor" keyPath="selection.defaults.UseDefaultFile" id="xjM-iJ-aUg">
-                                            <dictionary key="options">
-                                                <string key="NSValueTransformerName">SEETertiaryLabelColorValueTransformer</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
-                                </textField>
-                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="26">
-                                    <rect key="frame" x="17" y="62" width="201" height="17"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Line Endings for New Files:" id="346">
-                                        <font key="font" metaFont="system"/>
-                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                    <connections>
-                                        <binding destination="73" name="textColor" keyPath="selection.defaults.UseDefaultFile" id="fEs-02-FMQ">
-                                            <dictionary key="options">
-                                                <string key="NSValueTransformerName">SEETertiaryLabelColorValueTransformer</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
-                                </textField>
-                                <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="bLO-aG-0dg">
-                                    <rect key="frame" x="20" y="158" width="600" height="5"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                </box>
-                                <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="M1o-yg-r4L">
-                                    <rect key="frame" x="20" y="270" width="600" height="5"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                </box>
-                                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="274">
-                                    <rect key="frame" x="222" y="22" width="311" height="18"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <buttonCell key="cell" type="check" title="Save UTF-8 encoded files with BOM" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="349">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="system"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <binding destination="240" name="value" keyPath="selection.defaults.UTF8BOM" id="280"/>
-                                        <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultFile" id="282">
-                                            <dictionary key="options">
-                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
-                                </button>
-                                <button toolTip="Uses tabs instead of spaces" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="57">
-                                    <rect key="frame" x="222" y="212" width="128" height="20"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                    <buttonCell key="cell" type="check" title="Editor uses tabs" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="350">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="system"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultEdit" id="144">
-                                            <dictionary key="options">
-                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                            </dictionary>
-                                        </binding>
-                                        <binding destination="239" name="value" keyPath="selection.defaults.UseTabs" id="265"/>
-                                    </connections>
-                                </button>
-                                <textField toolTip="Set the tab width in characters " verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="63">
-                                    <rect key="frame" x="224" y="184" width="40" height="21"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="353">
-                                        <numberFormatter key="formatter" formatterBehavior="10_0" positiveFormat="0" negativeFormat="-0" localizesFormat="NO" hasThousandSeparators="NO" thousandSeparator="," id="106">
-                                            <attributedString key="attributedStringForZero">
-                                                <fragment content="0"/>
-                                            </attributedString>
-                                            <decimal key="minimum" value="NaN"/>
-                                            <decimal key="maximum" value="NaN"/>
-                                        </numberFormatter>
-                                        <font key="font" metaFont="system"/>
-                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                    <connections>
-                                        <binding destination="239" name="value" keyPath="selection.defaults.TabWidth" id="267"/>
-                                        <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultEdit" id="146">
-                                            <dictionary key="options">
-                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                            </dictionary>
-                                        </binding>
-                                        <outlet property="nextKeyView" destination="193" id="207"/>
-                                    </connections>
-                                </textField>
-                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vim-nt-0wD">
-                                    <rect key="frame" x="133" y="213" width="85" height="18"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Tabs:" id="PQ3-jN-RNC">
-                                        <font key="font" metaFont="system"/>
-                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                    <connections>
-                                        <binding destination="73" name="textColor" keyPath="selection.defaults.UseDefaultEdit" id="xkn-eT-OLz">
-                                            <dictionary key="options">
-                                                <string key="NSValueTransformerName">SEETertiaryLabelColorValueTransformer</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
-                                </textField>
-                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="61">
-                                    <rect key="frame" x="133" y="185" width="85" height="18"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Tab Width:" id="352">
-                                        <font key="font" metaFont="system"/>
-                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                    <connections>
-                                        <binding destination="73" name="textColor" keyPath="selection.defaults.UseDefaultEdit" id="Jhi-A0-Hsh">
-                                            <dictionary key="options">
-                                                <string key="NSValueTransformerName">SEETertiaryLabelColorValueTransformer</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
-                                </textField>
-                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rS4-U0-SPr">
-                                    <rect key="frame" x="268" y="185" width="85" height="18"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="spaces" id="ogs-pR-UJg">
-                                        <font key="font" metaFont="system"/>
-                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                    <connections>
-                                        <binding destination="73" name="textColor" keyPath="selection.defaults.UseDefaultEdit" id="eWg-er-5FG">
-                                            <dictionary key="options">
-                                                <string key="NSValueTransformerName">SEETertiaryLabelColorValueTransformer</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
-                                </textField>
-                                <button toolTip="New lines are indented at the level of the upper line." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="60">
-                                    <rect key="frame" x="411" y="212" width="123" height="20"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                    <buttonCell key="cell" type="check" title="Indent new lines" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="351">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="system"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <binding destination="239" name="value" keyPath="selection.defaults.IndentNewLines" id="266"/>
-                                        <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultEdit" id="142">
-                                            <dictionary key="options">
-                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
-                                </button>
-                                <button toolTip="New lines are indented at the level of the upper line." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="376">
-                                    <rect key="frame" x="411" y="184" width="192" height="20"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                    <buttonCell key="cell" type="check" title="Tab key shifts a selection" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="377">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="system"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <binding destination="239" name="value" keyPath="selection.defaults.TabKeyReplacesSelection" id="381">
-                                            <dictionary key="options">
-                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                            </dictionary>
-                                        </binding>
-                                        <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultEdit" id="378">
-                                            <dictionary key="options">
-                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
-                                </button>
-                                <button toolTip="Enable syntax coloring by default" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="50">
-                                    <rect key="frame" x="222" y="500" width="121" height="20"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                    <buttonCell key="cell" type="check" title="Highlight syntax" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="354">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="system"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <binding destination="238" name="value" keyPath="selection.defaults.HighlightSyntax" id="255"/>
-                                        <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultView" id="171">
-                                            <dictionary key="options">
-                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
-                                </button>
-                                <button toolTip="Flash matching brackets and parens red." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="156">
-                                    <rect key="frame" x="222" y="476" width="175" height="20"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                    <buttonCell key="cell" type="check" title="Matching brackets" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="355">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="system"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <binding destination="238" name="value" keyPath="selection.defaults.ShowMatchingBrackets" id="256"/>
-                                        <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultView" id="177">
-                                            <dictionary key="options">
-                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
-                                </button>
-                                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="158">
-                                    <rect key="frame" x="222" y="411" width="175" height="20"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                    <buttonCell key="cell" type="check" title="Wrap lines" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="356">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="system"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultView" id="180">
-                                            <dictionary key="options">
-                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                            </dictionary>
-                                        </binding>
-                                        <binding destination="238" name="value" keyPath="selection.defaults.WrapLines" id="259"/>
-                                    </connections>
-                                </button>
-                                <button toolTip="Show line numbers on the left side of the document." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="160">
-                                    <rect key="frame" x="411" y="500" width="209" height="20"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                    <buttonCell key="cell" type="check" title="Line numbers and folding bar" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="357">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="system"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <binding destination="238" name="value" keyPath="selection.defaults.ShowLineNumbers" id="257"/>
-                                        <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultView" id="178">
-                                            <dictionary key="options">
-                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
-                                </button>
-                                <button toolTip="Show Characters like newline, space, tab, etc." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="162">
-                                    <rect key="frame" x="222" y="452" width="158" height="20"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                    <buttonCell key="cell" type="check" title="Invisible characters" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="358">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="system"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <binding destination="238" name="value" keyPath="selection.defaults.ShowInvisibleCharacters" id="258"/>
-                                        <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultView" id="179">
-                                            <dictionary key="options">
-                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
-                                </button>
-                                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="284">
-                                    <rect key="frame" x="411" y="411" width="175" height="20"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                    <buttonCell key="cell" type="check" title="Indent wrapped lines" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="364">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="system"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <binding destination="238" name="value" keyPath="selection.defaults.IndentWrappedLines" id="299"/>
-                                        <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultView" id="286">
-                                            <dictionary key="options">
-                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
-                                </button>
-                                <button toolTip="Show Characters like newline, space, tab, etc." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PMn-Ew-4dd">
-                                    <rect key="frame" x="411" y="476" width="174" height="20"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                    <buttonCell key="cell" type="check" title="Inconsitent indentation" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="tw0-t3-jXf">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="system"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <binding destination="238" name="value" keyPath="selection.defaults.ShowInconsistentIndentation" id="5cR-76-a56"/>
-                                        <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultView" id="qh0-dz-i01">
-                                            <dictionary key="options">
-                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
-                                </button>
-                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="He8-Ju-30z">
-                                    <rect key="frame" x="133" y="501" width="85" height="18"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Show:" id="iIL-wg-PEu">
-                                        <font key="font" metaFont="system"/>
-                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                    <connections>
-                                        <binding destination="73" name="textColor" keyPath="selection.defaults.UseDefaultView" id="TQU-mZ-RHI">
-                                            <dictionary key="options">
-                                                <string key="NSValueTransformerName">SEETertiaryLabelColorValueTransformer</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
-                                </textField>
-                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UGI-cz-taN">
-                                    <rect key="frame" x="133" y="412" width="85" height="18"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Wrap:" id="IbD-8f-FAl">
-                                        <font key="font" metaFont="system"/>
-                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                    <connections>
-                                        <binding destination="73" name="textColor" keyPath="selection.defaults.UseDefaultView" id="gHT-xw-G4d">
-                                            <dictionary key="options">
-                                                <string key="NSValueTransformerName">SEETertiaryLabelColorValueTransformer</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
-                                </textField>
-                                <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" autosizesCells="NO" translatesAutoresizingMaskIntoConstraints="NO" id="161">
-                                    <rect key="frame" x="242" y="366" width="117" height="38"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    <size key="cellSize" width="117" height="18"/>
-                                    <size key="intercellSpacing" width="4" height="2"/>
-                                    <buttonCell key="prototype" type="radio" title="Radio" imagePosition="left" alignment="left" inset="2" id="375">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="system"/>
-                                    </buttonCell>
-                                    <cells>
-                                        <column>
-                                            <buttonCell type="radio" title="By word" imagePosition="left" alignment="left" state="on" toolTip="Wrap, but don't split words." inset="2" id="157">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                            <buttonCell type="radio" title="By character" imagePosition="left" alignment="left" toolTip="Wrap hard at the given numbers of characters" tag="1" inset="2" id="159">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                        </column>
-                                    </cells>
-                                    <connections>
-                                        <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultView" id="181">
-                                            <dictionary key="options">
-                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                            </dictionary>
-                                        </binding>
-                                        <binding destination="238" name="selectedTag" keyPath="selection.defaults.WrapMode" id="260"/>
-                                    </connections>
-                                </matrix>
-                                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="290">
-                                    <rect key="frame" x="222" y="339" width="194" height="20"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                    <buttonCell key="cell" type="check" title="Show guide at" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="365">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="system"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <binding destination="238" name="value" keyPath="selection.defaults.ShowPageGuide" id="308"/>
-                                        <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultView" id="298">
-                                            <dictionary key="options">
-                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
-                                </button>
-                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="160" translatesAutoresizingMaskIntoConstraints="NO" id="196">
-                                    <rect key="frame" x="26" y="298" width="192" height="18"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" id="363">
-                                        <font key="font" metaFont="system"/>
-                                        <string key="title">Dimensions of New Windows:
-</string>
-                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                    <connections>
-                                        <binding destination="73" name="textColor" keyPath="selection.defaults.UseDefaultView" id="zQt-AJ-rTO">
-                                            <dictionary key="options">
-                                                <string key="NSValueTransformerName">SEETertiaryLabelColorValueTransformer</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
-                                </textField>
-                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="61" translatesAutoresizingMaskIntoConstraints="NO" id="185">
-                                    <rect key="frame" x="382" y="298" width="65" height="18"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="rows" id="359">
-                                        <font key="font" metaFont="system"/>
-                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                    <connections>
-                                        <binding destination="73" name="textColor" keyPath="selection.defaults.UseDefaultView" id="y7e-Qx-zkJ">
-                                            <dictionary key="options">
-                                                <string key="NSValueTransformerName">SEETertiaryLabelColorValueTransformer</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
-                                </textField>
-                                <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="193">
-                                    <rect key="frame" x="224" y="296" width="40" height="21"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="361">
-                                        <numberFormatter key="formatter" formatterBehavior="10_0" positiveFormat="0" negativeFormat="-0" localizesFormat="NO" hasThousandSeparators="NO" thousandSeparator="," id="194">
-                                            <attributedString key="attributedStringForZero">
-                                                <fragment content="0"/>
-                                            </attributedString>
-                                            <decimal key="minimum" value="NaN"/>
-                                            <decimal key="maximum" value="NaN"/>
-                                        </numberFormatter>
-                                        <font key="font" metaFont="system"/>
-                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                    <connections>
-                                        <binding destination="238" name="value" keyPath="selection.defaults.Columns" id="261"/>
-                                        <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultView" id="202">
-                                            <dictionary key="options">
-                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                            </dictionary>
-                                        </binding>
-                                        <outlet property="nextKeyView" destination="189" id="205"/>
-                                    </connections>
-                                </textField>
-                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="45" translatesAutoresizingMaskIntoConstraints="NO" id="195">
-                                    <rect key="frame" x="268" y="298" width="62" height="18"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="columns" id="362">
-                                        <font key="font" metaFont="system"/>
-                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                    <connections>
-                                        <binding destination="73" name="textColor" keyPath="selection.defaults.UseDefaultView" id="CeH-Nb-clF">
-                                            <dictionary key="options">
-                                                <string key="NSValueTransformerName">SEETertiaryLabelColorValueTransformer</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
-                                </textField>
-                                <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="189">
-                                    <rect key="frame" x="338" y="296" width="40" height="21"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="360">
-                                        <numberFormatter key="formatter" formatterBehavior="10_0" positiveFormat="0" negativeFormat="-0" localizesFormat="NO" hasThousandSeparators="NO" thousandSeparator="," id="190">
-                                            <attributedString key="attributedStringForZero">
-                                                <fragment content="0"/>
-                                            </attributedString>
-                                            <decimal key="minimum" value="NaN"/>
-                                            <decimal key="maximum" value="NaN"/>
-                                        </numberFormatter>
-                                        <font key="font" metaFont="system"/>
-                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                    <connections>
-                                        <binding destination="238" name="value" keyPath="selection.defaults.Rows" id="262"/>
-                                        <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultView" id="204">
-                                            <dictionary key="options">
-                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                            </dictionary>
-                                        </binding>
-                                        <outlet property="nextKeyView" destination="63" id="206"/>
-                                    </connections>
-                                </textField>
-                                <textField toolTip="Set the tab width in characters " verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="294">
-                                    <rect key="frame" x="338" y="338" width="40" height="21"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="366">
-                                        <numberFormatter key="formatter" formatterBehavior="10_0" positiveFormat="0" negativeFormat="-0" localizesFormat="NO" hasThousandSeparators="NO" thousandSeparator="," id="295">
-                                            <attributedString key="attributedStringForZero">
-                                                <fragment content="0"/>
-                                            </attributedString>
-                                            <decimal key="minimum" value="NaN"/>
-                                            <decimal key="maximum" value="NaN"/>
-                                        </numberFormatter>
-                                        <font key="font" metaFont="system"/>
-                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                    <connections>
-                                        <binding destination="238" name="value" keyPath="selection.defaults.PageGuideWidth" id="309"/>
-                                        <binding destination="238" name="enabled" keyPath="selection.defaults.ShowPageGuide" id="310"/>
-                                        <binding destination="73" name="enabled2" keyPath="selection.defaults.UseDefaultView" previousBinding="310" id="341">
-                                            <dictionary key="options">
-                                                <integer key="NSMultipleValuesPlaceholder" value="-1"/>
-                                                <integer key="NSNoSelectionPlaceholder" value="-1"/>
-                                                <integer key="NSNotApplicablePlaceholder" value="-1"/>
-                                                <integer key="NSNullPlaceholder" value="-1"/>
-                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
-                                </textField>
-                                <textField toolTip="Set the tab width in characters " verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="316">
-                                    <rect key="frame" x="496" y="385" width="40" height="21"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="368">
-                                        <numberFormatter key="formatter" formatterBehavior="10_0" positiveFormat="0" negativeFormat="-0" localizesFormat="NO" hasThousandSeparators="NO" thousandSeparator="," id="317">
-                                            <attributedString key="attributedStringForZero">
-                                                <fragment content="0"/>
-                                            </attributedString>
-                                            <decimal key="minimum" value="NaN"/>
-                                            <decimal key="maximum" value="NaN"/>
-                                        </numberFormatter>
-                                        <font key="font" metaFont="system"/>
-                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                    <connections>
-                                        <binding destination="238" name="enabled2" keyPath="selection.defaults.IndentWrappedLines" previousBinding="336" id="343">
-                                            <dictionary key="options">
-                                                <integer key="NSMultipleValuesPlaceholder" value="-1"/>
-                                                <integer key="NSNoSelectionPlaceholder" value="-1"/>
-                                                <integer key="NSNotApplicablePlaceholder" value="-1"/>
-                                                <integer key="NSNullPlaceholder" value="-1"/>
-                                            </dictionary>
-                                        </binding>
-                                        <binding destination="238" name="value" keyPath="selection.defaults.IndentWrappedLinesCharacterAmount" id="327"/>
-                                        <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultView" id="336">
-                                            <dictionary key="options">
-                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
-                                </textField>
-                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="61" translatesAutoresizingMaskIntoConstraints="NO" id="SgE-qc-IDF">
-                                    <rect key="frame" x="431" y="386" width="78" height="18"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Indent by" id="OtM-Xr-j49">
-                                        <font key="font" metaFont="system"/>
-                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                    <connections>
-                                        <binding destination="73" name="textColor" keyPath="selection.defaults.UseDefaultView" id="dwy-1k-4r5">
-                                            <dictionary key="options">
-                                                <string key="NSValueTransformerName">SEETertiaryLabelColorValueTransformer</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
-                                </textField>
-                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="61" translatesAutoresizingMaskIntoConstraints="NO" id="9RC-uZ-wYq">
-                                    <rect key="frame" x="539" y="386" width="65" height="18"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="spaces" id="tDo-Fy-9bj">
-                                        <font key="font" metaFont="system"/>
-                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                    <connections>
-                                        <binding destination="73" name="textColor" keyPath="selection.defaults.UseDefaultView" id="P6h-ZN-0Uc">
-                                            <dictionary key="options">
-                                                <string key="NSValueTransformerName">SEETertiaryLabelColorValueTransformer</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
-                                </textField>
-                            </subviews>
-                        </view>
-                    </box>
                     <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="13" customClass="DocumentModePopUpButton">
-                        <rect key="frame" x="261" y="627" width="160" height="26"/>
+                        <rect key="frame" x="261" y="651" width="160" height="26"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                        <popUpButtonCell key="cell" type="push" title="Default Mode" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="11" id="374">
-                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                        <popUpButtonCell key="cell" type="push" title="Default Mode" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="border" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="11" id="374">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="menu"/>
                             <menu key="menu" title="OtherViews" id="10">
                                 <items>
@@ -738,9 +49,731 @@
                             <action selector="changeMode:" target="-2" id="91"/>
                         </connections>
                     </popUpButton>
+                    <tabView type="noTabsBezelBorder" id="zId-de-vtu">
+                        <rect key="frame" x="16" y="56" width="648" height="612"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <font key="font" metaFont="system"/>
+                        <tabViewItems>
+                            <tabViewItem label="View" identifier="" id="LF8-FK-iJE">
+                                <view key="view" id="1gj-EQ-qsL">
+                                    <rect key="frame" x="10" y="7" width="628" height="592"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <button toolTip="Show Characters like newline, space, tab, etc." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PMn-Ew-4dd">
+                                            <rect key="frame" x="341" y="477" width="174" height="20"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="Inconsitent indentation" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="tw0-t3-jXf">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <binding destination="238" name="value" keyPath="selection.defaults.ShowInconsistentIndentation" id="5cR-76-a56"/>
+                                                <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultView" id="qh0-dz-i01">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                    </dictionary>
+                                                </binding>
+                                            </connections>
+                                        </button>
+                                        <button toolTip="Flash matching brackets and parens red." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="156">
+                                            <rect key="frame" x="124" y="477" width="175" height="20"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="Matching brackets" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="355">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <binding destination="238" name="value" keyPath="selection.defaults.ShowMatchingBrackets" id="256"/>
+                                                <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultView" id="177">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                    </dictionary>
+                                                </binding>
+                                            </connections>
+                                        </button>
+                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UGI-cz-taN">
+                                            <rect key="frame" x="35" y="410" width="85" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Wrap:" id="IbD-8f-FAl">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <connections>
+                                                <binding destination="73" name="textColor" keyPath="selection.defaults.UseDefaultView" id="gHT-xw-G4d">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">SEETertiaryLabelColorValueTransformer</string>
+                                                    </dictionary>
+                                                </binding>
+                                            </connections>
+                                        </textField>
+                                        <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" autosizesCells="NO" translatesAutoresizingMaskIntoConstraints="NO" id="161">
+                                            <rect key="frame" x="144" y="364" width="117" height="38"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            <size key="cellSize" width="117" height="18"/>
+                                            <size key="intercellSpacing" width="4" height="2"/>
+                                            <buttonCell key="prototype" type="radio" title="Radio" imagePosition="left" alignment="left" inset="2" id="375">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <cells>
+                                                <column>
+                                                    <buttonCell type="radio" title="By word" imagePosition="left" alignment="left" state="on" toolTip="Wrap, but don't split words." inset="2" id="157">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <buttonCell type="radio" title="By character" imagePosition="left" alignment="left" toolTip="Wrap hard at the given numbers of characters" tag="1" inset="2" id="159">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                </column>
+                                            </cells>
+                                            <connections>
+                                                <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultView" id="181">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                    </dictionary>
+                                                </binding>
+                                                <binding destination="238" name="selectedTag" keyPath="selection.defaults.WrapMode" id="260"/>
+                                            </connections>
+                                        </matrix>
+                                        <button toolTip="Show Characters like newline, space, tab, etc." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="162">
+                                            <rect key="frame" x="124" y="451" width="158" height="20"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="Invisible characters" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="358">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <binding destination="238" name="value" keyPath="selection.defaults.ShowInvisibleCharacters" id="258"/>
+                                                <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultView" id="179">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                    </dictionary>
+                                                </binding>
+                                            </connections>
+                                        </button>
+                                        <button toolTip="Enable syntax coloring by default" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="50">
+                                            <rect key="frame" x="124" y="503" width="121" height="20"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="Highlight syntax" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="354">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <binding destination="238" name="value" keyPath="selection.defaults.HighlightSyntax" id="255"/>
+                                                <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultView" id="171">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                    </dictionary>
+                                                </binding>
+                                            </connections>
+                                        </button>
+                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="He8-Ju-30z">
+                                            <rect key="frame" x="35" y="504" width="85" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Show:" id="iIL-wg-PEu">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <connections>
+                                                <binding destination="73" name="textColor" keyPath="selection.defaults.UseDefaultView" id="TQU-mZ-RHI">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">SEETertiaryLabelColorValueTransformer</string>
+                                                    </dictionary>
+                                                </binding>
+                                            </connections>
+                                        </textField>
+                                        <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="158">
+                                            <rect key="frame" x="124" y="409" width="175" height="20"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="Wrap lines" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="356">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultView" id="180">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                    </dictionary>
+                                                </binding>
+                                                <binding destination="238" name="value" keyPath="selection.defaults.WrapLines" id="259"/>
+                                            </connections>
+                                        </button>
+                                        <button toolTip="Show line numbers on the left side of the document." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="160">
+                                            <rect key="frame" x="341" y="503" width="209" height="20"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="Line numbers and folding bar" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="357">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <binding destination="238" name="value" keyPath="selection.defaults.ShowLineNumbers" id="257"/>
+                                                <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultView" id="178">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                    </dictionary>
+                                                </binding>
+                                            </connections>
+                                        </button>
+                                        <button toolTip="Use the settings specified in &quot;Default Mode&quot;" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="69">
+                                            <rect key="frame" x="123" y="544" width="131" height="20"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="Use Default" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="370">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="validateDefaultsState:" target="-2" id="251"/>
+                                                <binding destination="73" name="enabled" keyPath="selection.isBaseMode" id="1nZ-gO-Fuu">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                    </dictionary>
+                                                </binding>
+                                                <binding destination="73" name="value" keyPath="selection.defaults.UseDefaultView" id="176"/>
+                                            </connections>
+                                        </button>
+                                        <box verticalHuggingPriority="750" boxType="separator" id="kIv-xL-Zee">
+                                            <rect key="frame" x="9" y="289" width="616" height="5"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        </box>
+                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="61" translatesAutoresizingMaskIntoConstraints="NO" id="185">
+                                            <rect key="frame" x="463" y="315" width="65" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="rows" id="359">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <connections>
+                                                <binding destination="73" name="textColor" keyPath="selection.defaults.UseDefaultView" id="y7e-Qx-zkJ">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">SEETertiaryLabelColorValueTransformer</string>
+                                                    </dictionary>
+                                                </binding>
+                                            </connections>
+                                        </textField>
+                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="160" translatesAutoresizingMaskIntoConstraints="NO" id="196">
+                                            <rect key="frame" x="107" y="315" width="192" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" id="363">
+                                                <font key="font" metaFont="system"/>
+                                                <string key="title">Dimensions of New Windows:
+</string>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <connections>
+                                                <binding destination="73" name="textColor" keyPath="selection.defaults.UseDefaultView" id="zQt-AJ-rTO">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">SEETertiaryLabelColorValueTransformer</string>
+                                                    </dictionary>
+                                                </binding>
+                                            </connections>
+                                        </textField>
+                                        <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="189">
+                                            <rect key="frame" x="419" y="313" width="40" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="360">
+                                                <numberFormatter key="formatter" formatterBehavior="10_0" positiveFormat="0" negativeFormat="-0" localizesFormat="NO" hasThousandSeparators="NO" thousandSeparator="," id="190">
+                                                    <attributedString key="attributedStringForZero">
+                                                        <fragment content="0"/>
+                                                    </attributedString>
+                                                    <decimal key="minimum" value="NaN"/>
+                                                    <decimal key="maximum" value="NaN"/>
+                                                </numberFormatter>
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <connections>
+                                                <binding destination="238" name="value" keyPath="selection.defaults.Rows" id="262"/>
+                                                <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultView" id="204">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                    </dictionary>
+                                                </binding>
+                                                <outlet property="nextKeyView" destination="63" id="206"/>
+                                            </connections>
+                                        </textField>
+                                        <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="193">
+                                            <rect key="frame" x="305" y="313" width="40" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="361">
+                                                <numberFormatter key="formatter" formatterBehavior="10_0" positiveFormat="0" negativeFormat="-0" localizesFormat="NO" hasThousandSeparators="NO" thousandSeparator="," id="194">
+                                                    <attributedString key="attributedStringForZero">
+                                                        <fragment content="0"/>
+                                                    </attributedString>
+                                                    <decimal key="minimum" value="NaN"/>
+                                                    <decimal key="maximum" value="NaN"/>
+                                                </numberFormatter>
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <connections>
+                                                <binding destination="238" name="value" keyPath="selection.defaults.Columns" id="261"/>
+                                                <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultView" id="202">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                    </dictionary>
+                                                </binding>
+                                                <outlet property="nextKeyView" destination="189" id="205"/>
+                                            </connections>
+                                        </textField>
+                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="45" translatesAutoresizingMaskIntoConstraints="NO" id="195">
+                                            <rect key="frame" x="349" y="315" width="62" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="columns" id="362">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <connections>
+                                                <binding destination="73" name="textColor" keyPath="selection.defaults.UseDefaultView" id="CeH-Nb-clF">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">SEETertiaryLabelColorValueTransformer</string>
+                                                    </dictionary>
+                                                </binding>
+                                            </connections>
+                                        </textField>
+                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="61" translatesAutoresizingMaskIntoConstraints="NO" id="9RC-uZ-wYq">
+                                            <rect key="frame" x="469" y="358" width="65" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="spaces" id="tDo-Fy-9bj">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <connections>
+                                                <binding destination="73" name="textColor" keyPath="selection.defaults.UseDefaultView" id="P6h-ZN-0Uc">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">SEETertiaryLabelColorValueTransformer</string>
+                                                    </dictionary>
+                                                </binding>
+                                            </connections>
+                                        </textField>
+                                        <textField toolTip="Set the tab width in characters " verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="316">
+                                            <rect key="frame" x="426" y="357" width="40" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="368">
+                                                <numberFormatter key="formatter" formatterBehavior="10_0" positiveFormat="0" negativeFormat="-0" localizesFormat="NO" hasThousandSeparators="NO" thousandSeparator="," id="317">
+                                                    <attributedString key="attributedStringForZero">
+                                                        <fragment content="0"/>
+                                                    </attributedString>
+                                                    <decimal key="minimum" value="NaN"/>
+                                                    <decimal key="maximum" value="NaN"/>
+                                                </numberFormatter>
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <connections>
+                                                <binding destination="238" name="enabled2" keyPath="selection.defaults.IndentWrappedLines" previousBinding="336" id="343">
+                                                    <dictionary key="options">
+                                                        <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                                        <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                                        <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                                        <integer key="NSNullPlaceholder" value="-1"/>
+                                                    </dictionary>
+                                                </binding>
+                                                <binding destination="238" name="value" keyPath="selection.defaults.IndentWrappedLinesCharacterAmount" id="327"/>
+                                                <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultView" id="336">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                    </dictionary>
+                                                </binding>
+                                            </connections>
+                                        </textField>
+                                        <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="290">
+                                            <rect key="frame" x="341" y="409" width="194" height="20"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="Show wrap guide at" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="365">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <binding destination="238" name="value" keyPath="selection.defaults.ShowPageGuide" id="308"/>
+                                                <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultView" id="298">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                    </dictionary>
+                                                </binding>
+                                            </connections>
+                                        </button>
+                                        <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="284">
+                                            <rect key="frame" x="341" y="383" width="175" height="20"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="Indent wrapped lines" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="364">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <binding destination="238" name="value" keyPath="selection.defaults.IndentWrappedLines" id="299"/>
+                                                <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultView" id="286">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                    </dictionary>
+                                                </binding>
+                                            </connections>
+                                        </button>
+                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="61" translatesAutoresizingMaskIntoConstraints="NO" id="SgE-qc-IDF">
+                                            <rect key="frame" x="361" y="358" width="78" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Indent by" id="OtM-Xr-j49">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <connections>
+                                                <binding destination="73" name="textColor" keyPath="selection.defaults.UseDefaultView" id="dwy-1k-4r5">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">SEETertiaryLabelColorValueTransformer</string>
+                                                    </dictionary>
+                                                </binding>
+                                            </connections>
+                                        </textField>
+                                        <textField toolTip="Set the tab width in characters " verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="294">
+                                            <rect key="frame" x="490" y="408" width="40" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="366">
+                                                <numberFormatter key="formatter" formatterBehavior="10_0" positiveFormat="0" negativeFormat="-0" localizesFormat="NO" hasThousandSeparators="NO" thousandSeparator="," id="295">
+                                                    <attributedString key="attributedStringForZero">
+                                                        <fragment content="0"/>
+                                                    </attributedString>
+                                                    <decimal key="minimum" value="NaN"/>
+                                                    <decimal key="maximum" value="NaN"/>
+                                                </numberFormatter>
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <connections>
+                                                <binding destination="238" name="value" keyPath="selection.defaults.PageGuideWidth" id="309"/>
+                                                <binding destination="238" name="enabled" keyPath="selection.defaults.ShowPageGuide" id="310"/>
+                                                <binding destination="73" name="enabled2" keyPath="selection.defaults.UseDefaultView" previousBinding="310" id="341">
+                                                    <dictionary key="options">
+                                                        <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                                        <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                                        <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                                        <integer key="NSNullPlaceholder" value="-1"/>
+                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                    </dictionary>
+                                                </binding>
+                                            </connections>
+                                        </textField>
+                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="61" translatesAutoresizingMaskIntoConstraints="NO" id="tmS-7g-h2o">
+                                            <rect key="frame" x="536" y="409" width="65" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="columns" id="Ler-do-dsN">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <connections>
+                                                <binding destination="73" name="textColor" keyPath="selection.defaults.UseDefaultView" id="3NR-SU-Hlz">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">SEETertiaryLabelColorValueTransformer</string>
+                                                    </dictionary>
+                                                </binding>
+                                            </connections>
+                                        </textField>
+                                        <button toolTip="Use the settings specified in &quot;Default Mode&quot;" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="70">
+                                            <rect key="frame" x="124" y="249" width="131" height="20"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="Use Default" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="371">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="validateDefaultsState:" target="-2" id="252"/>
+                                                <binding destination="73" name="enabled" keyPath="selection.isBaseMode" id="SKh-04-CLh">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                    </dictionary>
+                                                </binding>
+                                                <binding destination="73" name="value" keyPath="selection.defaults.UseDefaultEdit" id="149"/>
+                                            </connections>
+                                        </button>
+                                        <button toolTip="New lines are indented at the level of the upper line." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="60">
+                                            <rect key="frame" x="341" y="208" width="123" height="20"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="Indent new lines" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="351">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <binding destination="239" name="value" keyPath="selection.defaults.IndentNewLines" id="266"/>
+                                                <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultEdit" id="142">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                    </dictionary>
+                                                </binding>
+                                            </connections>
+                                        </button>
+                                        <button toolTip="New lines are indented at the level of the upper line." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="376">
+                                            <rect key="frame" x="341" y="182" width="192" height="20"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="Tab key shifts a selection" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="377">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <binding destination="239" name="value" keyPath="selection.defaults.TabKeyReplacesSelection" id="381">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                    </dictionary>
+                                                </binding>
+                                                <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultEdit" id="378">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                    </dictionary>
+                                                </binding>
+                                            </connections>
+                                        </button>
+                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="61">
+                                            <rect key="frame" x="35" y="183" width="85" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Tab Width:" id="352">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <connections>
+                                                <binding destination="73" name="textColor" keyPath="selection.defaults.UseDefaultEdit" id="Jhi-A0-Hsh">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">SEETertiaryLabelColorValueTransformer</string>
+                                                    </dictionary>
+                                                </binding>
+                                            </connections>
+                                        </textField>
+                                        <textField toolTip="Set the tab width in characters " verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="63">
+                                            <rect key="frame" x="126" y="182" width="40" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="353">
+                                                <numberFormatter key="formatter" formatterBehavior="10_0" positiveFormat="0" negativeFormat="-0" localizesFormat="NO" hasThousandSeparators="NO" thousandSeparator="," id="106">
+                                                    <attributedString key="attributedStringForZero">
+                                                        <fragment content="0"/>
+                                                    </attributedString>
+                                                    <decimal key="minimum" value="NaN"/>
+                                                    <decimal key="maximum" value="NaN"/>
+                                                </numberFormatter>
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <connections>
+                                                <binding destination="239" name="value" keyPath="selection.defaults.TabWidth" id="267"/>
+                                                <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultEdit" id="146">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                    </dictionary>
+                                                </binding>
+                                                <outlet property="nextKeyView" destination="193" id="207"/>
+                                            </connections>
+                                        </textField>
+                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rS4-U0-SPr">
+                                            <rect key="frame" x="170" y="183" width="85" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="spaces" id="ogs-pR-UJg">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <connections>
+                                                <binding destination="73" name="textColor" keyPath="selection.defaults.UseDefaultEdit" id="eWg-er-5FG">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">SEETertiaryLabelColorValueTransformer</string>
+                                                    </dictionary>
+                                                </binding>
+                                            </connections>
+                                        </textField>
+                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vim-nt-0wD">
+                                            <rect key="frame" x="35" y="209" width="85" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Tabs:" id="PQ3-jN-RNC">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <connections>
+                                                <binding destination="73" name="textColor" keyPath="selection.defaults.UseDefaultEdit" id="xkn-eT-OLz">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">SEETertiaryLabelColorValueTransformer</string>
+                                                    </dictionary>
+                                                </binding>
+                                            </connections>
+                                        </textField>
+                                        <button toolTip="Uses tabs instead of spaces" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="57">
+                                            <rect key="frame" x="124" y="208" width="128" height="20"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="Editor uses tabs" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="350">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultEdit" id="144">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                    </dictionary>
+                                                </binding>
+                                                <binding destination="239" name="value" keyPath="selection.defaults.UseTabs" id="265"/>
+                                            </connections>
+                                        </button>
+                                        <button toolTip="Use the settings specified in &quot;Default Mode&quot;" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="71">
+                                            <rect key="frame" x="124" y="116" width="144" height="20"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="Use Default" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="372">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="validateDefaultsState:" target="-2" id="253"/>
+                                                <binding destination="73" name="enabled" keyPath="selection.isBaseMode" id="XDa-1J-K94">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                    </dictionary>
+                                                </binding>
+                                                <binding destination="73" name="value" keyPath="selection.defaults.UseDefaultFile" id="129"/>
+                                            </connections>
+                                        </button>
+                                        <popUpButton toolTip="Default character encoding for files" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="32" customClass="EncodingPopUpButton">
+                                            <rect key="frame" x="272" y="73" width="232" height="22"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                            <popUpButtonCell key="cell" type="push" title="Item1" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="25" id="348">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="menu"/>
+                                                <menu key="menu" title="OtherViews" id="23">
+                                                    <items>
+                                                        <menuItem title="Item1" state="on" id="25"/>
+                                                    </items>
+                                                </menu>
+                                            </popUpButtonCell>
+                                            <connections>
+                                                <binding destination="240" name="selectedTag" keyPath="selection.defaults.Encoding" id="269"/>
+                                                <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultFile" id="138">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                    </dictionary>
+                                                </binding>
+                                            </connections>
+                                        </popUpButton>
+                                        <popUpButton toolTip="Default character that ends lines" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="22">
+                                            <rect key="frame" x="272" y="46" width="232" height="22"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                            <popUpButtonCell key="cell" type="push" title="Unix/Mac OS X (LF)" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" tag="1" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="29" id="345">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="menu"/>
+                                                <menu key="menu" title="OtherViews" id="28">
+                                                    <items>
+                                                        <menuItem title="Unix/Mac OS X (LF)" state="on" tag="1" id="29"/>
+                                                        <menuItem title="Classic Mac (CR)" tag="2" id="30"/>
+                                                        <menuItem title="Windows (CRLF)" tag="3" id="24"/>
+                                                        <menuItem title="Line Separator (LSEP)" tag="4" id="182"/>
+                                                        <menuItem title="Paragraph Separator (PSEP)" tag="5" id="183"/>
+                                                    </items>
+                                                </menu>
+                                            </popUpButtonCell>
+                                            <connections>
+                                                <binding destination="240" name="selectedTag" keyPath="selection.defaults.LineEnding" id="270"/>
+                                                <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultFile" id="136">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                    </dictionary>
+                                                </binding>
+                                            </connections>
+                                        </popUpButton>
+                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="31">
+                                            <rect key="frame" x="49" y="77" width="220" height="17"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" id="347">
+                                                <font key="font" metaFont="system"/>
+                                                <string key="title">Default Text Encoding:
+</string>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <connections>
+                                                <binding destination="73" name="textColor" keyPath="selection.defaults.UseDefaultFile" id="xjM-iJ-aUg">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">SEETertiaryLabelColorValueTransformer</string>
+                                                    </dictionary>
+                                                </binding>
+                                            </connections>
+                                        </textField>
+                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="26">
+                                            <rect key="frame" x="68" y="50" width="201" height="17"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Line Endings for New Files:" id="346">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <connections>
+                                                <binding destination="73" name="textColor" keyPath="selection.defaults.UseDefaultFile" id="fEs-02-FMQ">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">SEETertiaryLabelColorValueTransformer</string>
+                                                    </dictionary>
+                                                </binding>
+                                            </connections>
+                                        </textField>
+                                        <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="274">
+                                            <rect key="frame" x="273" y="10" width="311" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="Save UTF-8 encoded files with BOM" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="349">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <binding destination="240" name="value" keyPath="selection.defaults.UTF8BOM" id="280"/>
+                                                <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultFile" id="282">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                    </dictionary>
+                                                </binding>
+                                            </connections>
+                                        </button>
+                                        <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="Js6-cw-MjD">
+                                            <rect key="frame" x="9" y="156" width="616" height="5"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        </box>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="J3N-As-j4u">
+                                            <rect key="frame" x="7" y="547" width="112" height="16"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="View:" id="gsJ-RY-7K2">
+                                                <font key="font" metaFont="systemHeavy" size="13"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yRd-hw-7Zb">
+                                            <rect key="frame" x="7" y="252" width="112" height="16"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Edit:" id="63c-Y4-hv2">
+                                                <font key="font" metaFont="systemHeavy" size="13"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RIF-1d-JuO">
+                                            <rect key="frame" x="7" y="119" width="112" height="16"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="File:" id="k3Y-hl-PIh">
+                                                <font key="font" metaFont="systemHeavy" size="13"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </subviews>
+                                </view>
+                            </tabViewItem>
+                        </tabViewItems>
+                    </tabView>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="272">
                         <rect key="frame" x="457" y="13" width="210" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Apply to Open Documents" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="373">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -751,7 +784,7 @@
                     </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="62" y="199.5"/>
+            <point key="canvasLocation" x="62" y="211"/>
         </window>
         <objectController objectClassName="DocumentMode" id="73" userLabel="ModeController">
             <declaredKeys>

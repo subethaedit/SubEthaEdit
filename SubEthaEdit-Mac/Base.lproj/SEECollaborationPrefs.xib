@@ -215,7 +215,7 @@
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wdw-7c-J1b">
-                        <rect key="frame" x="316" y="63" width="193" height="18"/>
+                        <rect key="frame" x="316" y="63" width="322" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="6942" id="z8r-Pu-RDT">
                             <font key="font" metaFont="system"/>
