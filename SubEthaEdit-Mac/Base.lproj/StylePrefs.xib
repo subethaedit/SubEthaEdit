@@ -8,13 +8,10 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="StylePreferences">
             <connections>
-                <outlet property="O_applyToOpenDocumentsButton" destination="394" id="DHk-sE-vxA"/>
-                <outlet property="O_changeFontButton" destination="390" id="zTI-a8-Z2O"/>
                 <outlet property="O_customStyleSheetsContainerView" destination="525" id="531"/>
                 <outlet property="O_customStylesForLanguageContextsTableView" destination="505" id="520"/>
                 <outlet property="O_fontController" destination="395" id="411"/>
                 <outlet property="O_fontDefaultButton" destination="387" id="523"/>
-                <outlet property="O_fontLabel" destination="391" id="2gh-JJ-xCZ"/>
                 <outlet property="O_modeController" destination="73" id="273"/>
                 <outlet property="O_modePopUpButton" destination="13" id="272"/>
                 <outlet property="O_styleContainerBox" destination="385" id="532"/>
@@ -25,8 +22,6 @@
                 <outlet property="O_syntaxSampleTextView" destination="501" id="530"/>
                 <outlet property="O_window" destination="6" id="7"/>
                 <outlet property="fontLabel" destination="1Td-4u-nFB" id="HGh-YR-g1C"/>
-                <outlet property="previewLabel" destination="09c-1s-NTf" id="P4Y-Jo-ZzW"/>
-                <outlet property="styleSettingsLabel" destination="BjS-Qn-yu8" id="7N4-Zy-Axt"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
@@ -40,24 +35,6 @@
                 <rect key="frame" x="0.0" y="0.0" width="680" height="490"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="13" customClass="DocumentModePopUpButton">
-                        <rect key="frame" x="261" y="445" width="160" height="26"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <popUpButtonCell key="cell" type="push" title="Default Mode" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="11" id="452">
-                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="menu"/>
-                            <menu key="menu" title="OtherViews" id="10">
-                                <items>
-                                    <menuItem title="Default Mode" state="on" id="11"/>
-                                    <menuItem title="Itemasdfasdf" id="12"/>
-                                    <menuItem title="Item3" id="14"/>
-                                </items>
-                            </menu>
-                        </popUpButtonCell>
-                        <connections>
-                            <action selector="changeMode:" target="-2" id="91"/>
-                        </connections>
-                    </popUpButton>
                     <box fixedFrame="YES" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="8">
                         <rect key="frame" x="17" y="56" width="646" height="405"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -65,10 +42,10 @@
                             <rect key="frame" x="3" y="3" width="640" height="399"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <button toolTip="&lt;Change the document's default font&gt;" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="390">
+                                <button toolTip="Change the document's default font" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="390">
                                     <rect key="frame" x="376" y="311" width="110" height="32"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <buttonCell key="cell" type="push" title="&lt;Set...&gt;" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="449">
+                                    <buttonCell key="cell" type="push" title="Choose…" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="449">
                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                         <font key="font" metaFont="system"/>
                                     </buttonCell>
@@ -179,23 +156,23 @@
                                     </connections>
                                 </textField>
                                 <button toolTip="Use the settings specified in &quot;Default Mode&quot;" id="387">
-                                    <rect key="frame" x="154" y="346" width="286" height="17"/>
+                                    <rect key="frame" x="154" y="346" width="286" height="18"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <buttonCell key="cell" type="check" title="&lt;use Default&gt;" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="448">
+                                    <buttonCell key="cell" type="check" title="Use Default" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="448">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                         <font key="font" metaFont="system"/>
                                     </buttonCell>
                                     <connections>
                                         <action selector="validateDefaultsState:" target="-2" id="413"/>
+                                        <binding destination="73" name="value" keyPath="selection.defaults.UseDefaultFont" id="404"/>
                                         <binding destination="73" name="enabled" keyPath="selection.isBaseMode" id="EZ6-yK-i8X">
                                             <dictionary key="options">
                                                 <string key="NSValueTransformerName">NSNegateBoolean</string>
                                             </dictionary>
                                         </binding>
-                                        <binding destination="73" name="value" keyPath="selection.defaults.UseDefaultFont" id="404"/>
                                     </connections>
                                 </button>
-                                <button toolTip="&lt;Change the document's default font&gt;" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="428-YO-qEf">
+                                <button toolTip="Use the default monospace system font" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="428-YO-qEf">
                                     <rect key="frame" x="480" y="311" width="110" height="32"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <buttonCell key="cell" type="push" title="System" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="kI6-Su-N7e">
@@ -214,6 +191,24 @@
                             </subviews>
                         </view>
                     </box>
+                    <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="13" customClass="DocumentModePopUpButton">
+                        <rect key="frame" x="261" y="445" width="160" height="26"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <popUpButtonCell key="cell" type="push" title="Default Mode" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="11" id="452">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="menu"/>
+                            <menu key="menu" title="OtherViews" id="10">
+                                <items>
+                                    <menuItem title="Default Mode" state="on" id="11"/>
+                                    <menuItem title="Itemasdfasdf" id="12"/>
+                                    <menuItem title="Item3" id="14"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                        <connections>
+                            <action selector="changeMode:" target="-2" id="91"/>
+                        </connections>
+                    </popUpButton>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="394">
                         <rect key="frame" x="423" y="13" width="244" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
