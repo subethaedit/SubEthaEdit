@@ -14,4 +14,6 @@
 
 @property (nonatomic, strong) NSImage *documentAccessStateImage;
 
+- (IBAction)showDocumentInFinder:(id)sender;
+
 @end

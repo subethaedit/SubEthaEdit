@@ -111,12 +111,28 @@ extern int const FileNewMenuItemTag;
 	}
 }
 
+- (IBAction)showDocumentInFinder:(id)sender {
+    TCMMMSession *session = self.documentSession;
+    if (session.isServer) {
+        NSDocument *document = (NSDocument *)session.document;
+        NSURL *url = document.fileURL;
+        if (url) {
+            [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[url]];
+        }
+    }
+}
+
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
     SEL selector = [menuItem action];
 
     if (selector == @selector(itemAction:)) {
 		return YES;
     }
+    
+    if (selector == @selector(showDocumentInFinder:)) {
+        return self.documentSession.isServer;
+    }
+    
     return YES;
 }
 

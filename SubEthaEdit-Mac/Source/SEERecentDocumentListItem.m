@@ -69,4 +69,11 @@ void * const SEERecentDocumentURLObservingContext = (void *)&SEERecentDocumentUR
 	}
 }
 
+- (IBAction)showDocumentInFinder:(id)sender {
+    NSURL *url = self.fileURL;
+    if (url) {
+        [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[url]];
+    }
+}
+
 @end
