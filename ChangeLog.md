@@ -12,10 +12,13 @@
 ### [unreleased] SubEthaEdit 5.1.6
 
 #### Bug fixes and maintenance:
-* .
+* Modernised the document hub
+* Modernised open URL popover
 
 #### Improved modes:
 * .
+
+Special thanks to new contributor Jan Cornelissen - [GitHub](https://github.com/jncn)
 
 ### SubEthaEdit 5.1.5
 
