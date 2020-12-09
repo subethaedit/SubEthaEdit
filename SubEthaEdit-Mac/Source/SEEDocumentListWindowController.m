@@ -43,7 +43,6 @@
 extern int const FileMenuTag;
 extern int const FileNewMenuItemTag;
 
-static BOOL SEEDocumentListOpenDocumentsWithSingleClick = YES;
 static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetworkDocumentBrowserEntriesObservingContext;
 
 @interface SEEDocumentListWindowController () <NSTableViewDelegate>
@@ -144,9 +143,9 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	NSTableView *tableView = self.tableViewOutlet;
 	[tableView setTarget:self];
 	[tableView setAction:@selector(triggerItemClickAction:)];
-	[tableView setDoubleAction:@selector(triggerItemDoubleClickAction:)];
+	[tableView setDoubleAction:@selector(triggerItemClickAction:)];
 	[tableView setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
-	tableView.allowsMultipleSelection = !SEEDocumentListOpenDocumentsWithSingleClick;
+	tableView.allowsMultipleSelection = NO;
     if (@available(macOS 11.0, *)) {
         tableView.style = NSTableViewStyleInset;
         self.tableViewLeadingConstraint.constant = 0;
@@ -433,36 +432,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 		if (! [selectedDocuments containsObject:clickedItem]) {
 			[clickedItem itemAction:self.tableViewOutlet];
 		}
-        // Handled by `SEEDocumentListTableView`
-//        else if (SEEDocumentListOpenDocumentsWithSingleClick) { // do this if we want documents to be opend by single click
-//			[selectedDocuments makeObjectsPerformSelector:@selector(itemAction:) withObject:self.tableViewOutlet];
-//		}
 	}
-}
-
-- (IBAction)triggerItemDoubleClickAction:(id)sender {
-    
-    // This method is now identical to `triggerItemClickAction:`
-    
-//	NSTableView *tableView = self.tableViewOutlet;
-//	id <SEEDocumentListItem> clickedItem = nil;
-//	if (sender == tableView) {
-//		NSInteger row = tableView.clickedRow;
-//		NSInteger column = tableView.clickedColumn;
-//		if (row > -1) {
-//			NSTableCellView *tableCell = [tableView viewAtColumn:column row:row makeIfNecessary:NO];
-//			clickedItem = tableCell.objectValue;
-//		}
-//	} else if ([sender conformsToProtocol:@protocol(SEEDocumentListItem)]) {
-//		clickedItem = sender;
-//	}
-//
-//	if (clickedItem) {
-//		NSArray *selectedDocuments = self.documentListItemsArrayController.selectedObjects;
-//		if ([selectedDocuments containsObject:clickedItem]) {
-//			[selectedDocuments makeObjectsPerformSelector:@selector(itemAction:) withObject:self.tableViewOutlet];
-//		}
-//	}
 }
 
 - (void)writeMyReachabiltyToPasteboard:(NSPasteboard *)aPasteboard {
@@ -646,35 +616,17 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	return result;
 }
 
-- (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(NSInteger)row
-{
-	BOOL result = NO;
-	NSArray *availableDocumentSession = self.availableItems;
-	if (! SEEDocumentListOpenDocumentsWithSingleClick) {
-		if (availableDocumentSession.count > row) {
-			id documentRepresentation = [availableDocumentSession objectAtIndex:row];
-			if ([documentRepresentation isKindOfClass:SEENetworkDocumentListItem.class] || [documentRepresentation isKindOfClass:SEERecentDocumentListItem.class]) {
-				result = YES;
-			}
-		}
-	}
-	return result;
+- (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(NSInteger)row {
+    return NO;
 }
 
-- (void)tableViewSelectionDidChange:(NSNotification *)notification
-{
+- (void)tableViewSelectionDidChange:(NSNotification *)notification {
 	NSIndexSet *selectedIndices = self.tableViewOutlet.selectedRowIndexes;
 	[selectedIndices enumerateIndexesUsingBlock:^(NSUInteger row, BOOL *stop) {
 		NSArray *availableDocumentSession = self.availableItems;
 		if (availableDocumentSession.count > row) {
-			id documentRepresentation = [availableDocumentSession objectAtIndex:row];
-			if (SEEDocumentListOpenDocumentsWithSingleClick) {
-				[self.tableViewOutlet deselectRow:row];
-			} else {
-				if (! ([documentRepresentation isKindOfClass:SEENetworkDocumentListItem.class] || [documentRepresentation isKindOfClass:SEERecentDocumentListItem.class])) {
-					[self.tableViewOutlet deselectRow:row];
-				}
-			}
+//			id documentRepresentation = [availableDocumentSession objectAtIndex:row];
+            [self.tableViewOutlet deselectRow:row];
 		}
 	}];
 }
