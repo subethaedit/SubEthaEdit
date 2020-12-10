@@ -14,9 +14,10 @@
 #### Bug fixes and maintenance:
 * Modernised the document hub
 * Modernised open URL popover
+* Fixed crashing issue when connecting to manual addresses or see urls
 
 #### Improved modes:
-* .
+* Fixed wrong highlight of default in python mode
 
 Special thanks to new contributor Jan Cornelissen - [GitHub](https://github.com/jncn)
 
