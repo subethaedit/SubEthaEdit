@@ -35,23 +35,7 @@
     
     NSString *licenseType = nil;
 #ifdef BETA
-#ifdef BETA_EXPIRE_DATE
-#define STRINGIZE(x) #x
-#define STRINGIZE2(x) STRINGIZE(x)
-#define BETA_EXPIRE_DATE_LITERAL @ STRINGIZE2(BETA_EXPIRE_DATE)
-    
-    NSString *expireDateString = BETA_EXPIRE_DATE_LITERAL;
-    
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    NSLocale *enUSPOSIXLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
-    [dateFormatter setLocale:enUSPOSIXLocale];
-    [dateFormatter setDateFormat:@"yyyy'-'MM'-'dd' 'HH':'mm':'ss' 'xx"];
-    
-    NSDate *expireDate = [dateFormatter dateFromString:expireDateString];
-    licenseType = [NSString stringWithFormat:@"Beta - %@", expireDate];
-#else // !BETA_EXPIRE_DATE
     licenseType = @"Beta";
-#endif // BETA_EXPIRE_DATE
 #else // ! BETA
 #ifdef MAC_APP_STORE
     licenseType = @"AppStore Version";

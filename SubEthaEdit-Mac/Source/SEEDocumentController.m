@@ -126,6 +126,12 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
     }
 }
 
+- (IBAction)showDocumentInFinder:(id)sender {
+    NSURL *url = self.currentDocument.fileURL;
+    if (url) {
+        [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[url]];
+    }
+}
 
 #pragma mark - DocumentList window
 
@@ -174,6 +180,11 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 		controller.shouldCloseWhenOpeningDocument = NO;
 		[controller showWindow:sender];
 	}
+}
+
+- (IBAction)showConnectToHostFromDocumentListWindow:(id)sender {
+    [self showDocumentListWindow:sender];
+    [[self ensuredDocumentListWindowController] connectToHostAction:sender];
 }
 
 - (IBAction)copyReachabilityURL:(id)aSender {
@@ -253,6 +264,8 @@ NSString * const kSEETypeSEEMode = @"de.codingmonkeys.subethaedit.seemode";
 
     if (selector == @selector(concealAllDocuments:)) {
         return [[[TCMMMPresenceManager sharedInstance] announcedSessions] count]>0;
+    } else if (selector == @selector(showDocumentInFinder:)) {
+        return self.currentDocument.fileURL != nil;
     } else if (selector == @selector(openAlternateDocument:)) {
         if ([[NSUserDefaults standardUserDefaults] boolForKey:kSEEDefaultsKeyOpenNewDocumentInTab]) {
             [menuItem setTitle:NSLocalizedString(@"Open in New Window...", @"Menu Entry for opening files in a new window.")];

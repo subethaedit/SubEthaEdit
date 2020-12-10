@@ -71,7 +71,7 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
         [self setAddress:addr];
         [self setUserInfo:userInfo];
         I_port = port;
-        CFHostClientContext context = {0, (__bridge void * _Nullable)(self), NULL, NULL, NULL};
+        CFHostClientContext context = {0, (__bridge void *)(self), NULL, NULL, NULL};
         CFHostSetClient(I_host, myCallback, &context);
         CFHostScheduleWithRunLoop(I_host, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
         
@@ -130,7 +130,7 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
         Boolean hasBeenResolved;
         CFArrayRef addressArray = CFHostGetAddressing(host, &hasBeenResolved);
         //NSLog(@"hasBeenResolved: %@", (hasBeenResolved ? @"YES" : @"NO"));
-        NSEnumerator *addresses = [(NSArray *)CFBridgingRelease(addressArray) objectEnumerator];
+        NSEnumerator *addresses = [(__bridge NSArray *)addressArray objectEnumerator];
         NSData *address;
         while ((address = [addresses nextObject])) {            
             NSMutableData *mutableAddressData = [address mutableCopy];
