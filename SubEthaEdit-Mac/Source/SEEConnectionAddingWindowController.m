@@ -13,35 +13,24 @@
 	[self localizeText];
 }
 
-- (void)windowWillClose:(NSNotification *)notification {
-	if ([NSApp modalWindow] == notification.object) {
-		[NSApp stopModalWithCode:NSModalResponseStop];
-	}
-}
-
 #pragma mark - Actions
 
 - (IBAction)connect:(id)sender {
 	SEEConnectionManager *connectionManager = [SEEConnectionManager sharedInstance];
 	[connectionManager connectToAddress:self.addressString];
-
-	if ([NSApp modalWindow] == self.window) {
-		[NSApp stopModalWithCode:NSModalResponseOK];
-	}
-
 	if (self.window.isSheet) {
 		[self.window.sheetParent endSheet:self.window returnCode:NSModalResponseOK];
-	}
+	} else {
+        [self.window close];
+    }
 }
 
 - (IBAction)cancel:(id)sender {
-	if ([NSApp modalWindow] == self.window) {
-		[NSApp stopModalWithCode:NSModalResponseCancel];
-	}
-
 	if (self.window.isSheet) {
 		[self.window.sheetParent endSheet:self.window returnCode:NSModalResponseCancel];
-	}
+    } else {
+        [self.window close];
+    }
 }
 
 #pragma mark - Localization

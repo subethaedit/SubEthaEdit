@@ -14,12 +14,11 @@
 @implementation SEEDocumentListTableView
 
 - (void)mouseDown:(NSEvent *)theEvent {
-	//	[super mouseDown:theEvent];
-	//  return;
 	BOOL didHandleEvent = NO;
-	//	NSLog(@"%s mouseevent:%@",__FUNCTION__,theEvent);
-	if (self.window.isMainWindow &&
-		theEvent.type == NSEventTypeLeftMouseDown) {
+
+    // Commented out isMainWindow check now, until we're sure there's added value to handle that situation in `SEEDocumentListTableView`
+//	if (self.window.isMainWindow &&
+    if (theEvent.type == NSEventTypeLeftMouseDown) {
 		NSPoint clickPoint = [self convertPoint:theEvent.locationInWindow fromView:nil];
 		NSInteger rowIndex = [self rowAtPoint:clickPoint];
 		if (rowIndex > 0) { // returns -1 if no row is at point
@@ -62,7 +61,12 @@
 			NSTableCellView *cellView = [self viewAtColumn:0 row:eventTrackingView.TCM_rowIndex makeIfNecessary:NO];
 			id documentListObject = cellView.objectValue;
 			if (documentListObject && [documentListObject respondsToSelector:@selector(itemAction:)]) {
-				[documentListObject itemAction:self];
+                if ([theEvent modifierFlags] & NSEventModifierFlagCommand &&
+                    [documentListObject respondsToSelector:@selector(showDocumentInFinder:)]) {
+                    [documentListObject performSelector:@selector(showDocumentInFinder:) withObject:self];
+                } else {
+                    [documentListObject itemAction:self];
+                }
 			}
 			eventTrackingView.clickHighlight = NO;
 			[eventTrackingView setNeedsDisplay:YES];

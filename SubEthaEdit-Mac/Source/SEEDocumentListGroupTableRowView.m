@@ -1,84 +1,11 @@
-//  SEENetworkBrowserGroupTableRowView.m
+//  SEEDocumentListGroupTableRowView.m
 //  SubEthaEdit
 //
 //  Created by Michael Ehrmann on 24.02.14.
 
 #import "SEEDocumentListGroupTableRowView.h"
 
-#import <QuartzCore/QuartzCore.h>
-
 @implementation SEEDocumentListGroupTableRowView
-
-- (instancetype)initWithFrame:(NSRect)frame
-{
-    self = [super initWithFrame:frame];
-    return self;
+- (void)drawBackgroundInRect:(NSRect)dirtyRect {    
 }
-
-- (void)drawBackgroundInRect:(NSRect)dirtyRect {
-    if (@available(macOS 10.14, *)) {
-        
-        NSColor *baseColor = [NSColor selectedControlColor];
-        if (!self.window.isKeyWindow) {
-            baseColor = [baseColor blendedColorWithFraction:0.8 ofColor:[NSColor windowBackgroundColor]];
-        } else {
-            baseColor = [baseColor blendedColorWithFraction:0.2 ofColor:[NSColor windowBackgroundColor]];
-        }
-        NSGradient *gradient = [[NSGradient alloc] initWithColorsAndLocations:
-                                [baseColor highlightWithLevel:0.1], 0.0,
-                                baseColor, 0.45,
-                                [baseColor shadowWithLevel:0.1], 1.0,
-                                nil];
-        [gradient drawInRect:self.bounds angle:90.0];
-    }
-    else {
-        if (self.window.isKeyWindow) {
-            NSGradient *gradient = [[NSGradient alloc] initWithColorsAndLocations:
-                                    [[NSColor colorWithDeviceRed:0.87 green:0.92 blue:0.97 alpha:0.85] shadowWithLevel:0.1], 0.0,
-                                    [[NSColor colorWithDeviceRed:0.89 green:0.92 blue:0.95 alpha:0.85] shadowWithLevel:0.1], 0.45,
-                                    [[NSColor colorWithDeviceRed:0.87 green:0.92 blue:0.97 alpha:0.85] shadowWithLevel:0.1], 1.0,
-                                    nil];
-            [gradient drawInRect:self.bounds angle:90.0];
-        } else {
-            NSGradient *gradient = [[NSGradient alloc] initWithColorsAndLocations:
-                                    [[NSColor colorWithDeviceRed:0.9 green:0.9 blue:0.9 alpha:0.85] shadowWithLevel:0.1], 0.0,
-                                    [[NSColor colorWithDeviceRed:0.93 green:0.93 blue:0.93 alpha:0.85] shadowWithLevel:0.1], 0.45,
-                                    [[NSColor colorWithDeviceRed:0.9 green:0.9 blue:0.9 alpha:0.85] shadowWithLevel:0.1], 1.0,
-                                    nil];
-            [gradient drawInRect:self.bounds angle:90.0];
-        }
-    }
-    
-	if (! self.floating) {
-		if (self.isFlipped) {
-			[[NSColor lightGrayColor] set];
-			NSRect bounds = self.bounds;
-			[NSBezierPath strokeLineFromPoint:NSMakePoint(NSMinX(bounds), NSMaxY(bounds))
-									  toPoint:NSMakePoint(NSMaxX(bounds), NSMaxY(bounds))];
-
-			if (self.drawTopLine) {
-				[NSBezierPath strokeLineFromPoint:NSMakePoint(NSMinX(bounds), NSMinY(bounds))
-										  toPoint:NSMakePoint(NSMaxX(bounds), NSMinY(bounds))];
-			}
-		}
-	}
-}
-
-- (void)drawSelectionInRect:(NSRect)dirtyRect {
-	NSGradient *gradient = [[NSGradient alloc] initWithColorsAndLocations:
-							[[NSColor colorWithDeviceRed:0.87 green:0.92 blue:0.97 alpha:0.85] shadowWithLevel:0.2], 0.0,
-							[[NSColor colorWithDeviceRed:0.89 green:0.92 blue:0.95 alpha:0.85] shadowWithLevel:0.2], 0.7,
-							[[NSColor colorWithDeviceRed:0.87 green:0.92 blue:0.97 alpha:0.85] shadowWithLevel:0.2], 1.0,
-							nil];
-	[gradient drawInRect:dirtyRect angle:90.0];
-}
-
-- (void)drawSeparatorInRect:(NSRect)dirtyRect {
-	[super drawSeparatorInRect:dirtyRect];
-}
-
-- (BOOL)isOpaque {
-	return NO;
-}
-
 @end

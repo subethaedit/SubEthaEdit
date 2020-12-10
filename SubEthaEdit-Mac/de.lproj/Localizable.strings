@@ -8,7 +8,7 @@
 "SEE_APP_MENU_QUIT" = "%@ beenden";
 
 /* App menu check for updates*/
-"SEE_APP_MENU_CHECK_FOR_UPDATES" = "Auf Aktualisierungen prüfen…";
+"SEE_APP_MENU_CHECK_FOR_UPDATES" = "Auf Aktualisierungen prüfen …";
 
 /* arrangement of Tab setting and tab width in Bottm Status Bar */
 "%@ (%d)" = "%@ (%d)";
@@ -175,7 +175,7 @@
 "ColorBlue" = "Blau";
 
 /* Custom Color Name */
-"ColorCustom" = "Andere…";
+"ColorCustom" = "Andere …";
 
 /* Green */
 "ColorGreen" = "Grün";
@@ -220,7 +220,7 @@
 "ConvertOrReinterpret" = "Wollen Sie die Datei in die neue Kodierung konvertieren oder neu interpretieren?";
 
 /* Encoding popup entry for bringing up the Customize Encodings List panel (this also occurs as the title of the panel itself, they should have the same localization) */
-"Customize Encodings List..." = "Kodierungsliste bearbeiten…";
+"Customize Encodings List..." = "Kodierungsliste bearbeiten …";
 
 /* Declined Invitation */
 "DeclinedInvitation" = "Einladung abgelehnt";
@@ -400,7 +400,7 @@
 "Last activity: %@" = "Letzte Aktivität: %@";
 
 /* LoginSheet text for logging in... */
-"Logging in ..." = "Einloggen…";
+"Logging in ..." = "Einloggen …";
 
 /* No comment provided by engineer. */
 "Lossy" = "Verlustbehaftet";
@@ -463,16 +463,16 @@
 "Open Connections Browser" = "Verbindungs Fenster öffnen";
 
 /* Open File Dock Menu Item */
-"Open File..." = "Datei öffnen…";
+"Open File..." = "Datei öffnen …";
 
 /* Button choice allowing user open a file in the editor. */
 "Open in Editor" = "Im Editor öffnen";
 
 /* Menu Entry for opening files in the front window. */
-"Open in Front Window..." = "In vorderstem Fenster öffnen…";
+"Open in Front Window..." = "In vorderstem Fenster öffnen …";
 
 /* Menu Entry for opening files in a new window. */
-"Open in New Window..." = "In neuem Fenster öffnen…";
+"Open in New Window..." = "In neuem Fenster öffnen …";
 
 /* Web preview open link in browser contextual menu item */
 "Open Link in Browser" = "Link in Web-Browser öffnen";
@@ -607,7 +607,7 @@
 "Revert Document" = "Laden";
 
 /* Choice (on a button) given to user which allows him/her to review all unsaved documents if he/she quits the application without saving them all first. */
-"Review Changes\\U2026" = "Änderungen überprüfen…";
+"Review Changes\\U2026" = "Änderungen überprüfen …";
 
 /* No comment provided by engineer. */
 "Save" = "Sichern";
@@ -885,8 +885,8 @@
 
 /* search and replace errors */
 "FIND_REPLACE_ERROR_INVALID_FIND_STRING" = "Suchbegriff ungültig.";
-"FIND_REPLACE_REPLACE_ALL_IN_PROGRESS" = "Alle ersetzen…";
-"FIND_REPLACE_REPLACE_ALL_IN_PROGRESS_COUNT" = "Alle ersetzen… (%@ bereits ersetzt)";
+"FIND_REPLACE_REPLACE_ALL_IN_PROGRESS" = "Alle ersetzen …";
+"FIND_REPLACE_REPLACE_ALL_IN_PROGRESS_COUNT" = "Alle ersetzen … (%@ bereits ersetzt)";
 
 
 /* encoding doctor */
@@ -937,12 +937,13 @@
 
 /* document list */
 "DOCUMENT_LIST_WINDOW_TITLE" = "%@ - Dokument-Hub";
-"DOCUMENT_LIST_OPEN" = "Öffnen…";
+"DOCUMENT_LIST_OPEN" = "Öffnen …";
 "DOCUMENT_LIST_NEW" = "Neu";
-"DOCUMENT_LIST_CONNECT" = "Mit URL verbinden…";
+"DOCUMENT_LIST_CONNECT" = "Mit URL verbinden …";
 "DOCUMENT_LIST_RECENT_TOGGLE" = "Benutzte Dokumente";
-"DOCUMENT_LIST_MORE" = "Weitere anzeigen";
+"DOCUMENT_LIST_MORE" = "Weitere anzeigen …";
 "DOCUMENT_LIST_CONTEXT_MENU_OPEN" = "Öffnen";
+"DOCUMENT_LIST_CONTEXT_MENU_SHOW_IN_FINDER" = "Im Finder zeigen";
 "DOCUMENT_LIST_CONTEXT_MENU_COPY_URL" = "Verbindungs-URL kopieren";
 "DOCUMENT_LIST_CONTEXT_MENU_DISCONNECT" = "Verbindung trennen";
 "DOCUMENT_LIST_CONTEXT_MENU_CLEAR_RECENT" = "Einträge löschen";
@@ -969,7 +970,7 @@
 /* authentication script not installed error dialog */
 "AUTHENTICATION_SCRIPT_MISSING_ERROR_DESCRIPTION" = "Unterstützendes Authentifizierungs-Script konnte nicht gefunden werden.";
 "AUTHENTICATION_SCRIPT_MISSING_ERROR_SUGGESTION" = "Bitte führen sie das install Script im Terminal aus so wie in den erweiterten Einstellungen beschrieben.";
-"AUTHENTICATION_SCRIPT_MISSING_ERROR_BUTTON_TITLE1" = "Script anzeigen…";
+"AUTHENTICATION_SCRIPT_MISSING_ERROR_BUTTON_TITLE1" = "Script anzeigen …";
 "AUTHENTICATION_SCRIPT_MISSING_ERROR_BUTTON_TITLE2" = "Ignorieren";
 
 "SEEConnectionTaglineBonjour" = "Bonjour";
@@ -1013,7 +1014,7 @@
 "PROXY_WINDOW_DECLINE" = "Ablehnen";
 "PROXY_WINDOW_TITLE_INVITE" = "Einladung zu %@";
 "PROXY_WINDOW_TITLE_JOIN" = "Teilnehmen an %@";
-"PROXY_WINDOW_STATUS_WAIT_ANSWER" = "Warten auf Antwort…";
+"PROXY_WINDOW_STATUS_WAIT_ANSWER" = "Warten auf Antwort …";
 "PROXY_WINDOW_STATUS_DENIED" = "Teilnahme wurde abgelehnt.";
 "PROXY_WINDOW_STATUS_INVITE_CANCELED" = "Einladung wurde zurückgezogen.";
 "PROXY_WINDOW_STATUS_CONNECTION_LOST" = "Verbindung verloren.";

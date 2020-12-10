@@ -75,4 +75,6 @@ extern NSString * const kSEETypeSEEMode;
 - (IBAction)newDocumentByUserDefault:(id)sender;
 - (IBAction)newDocumentWithModeMenuItem:(id)aSender;
 
+- (IBAction)showDocumentInFinder:(id)sender;
+
 @end
