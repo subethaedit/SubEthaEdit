@@ -5,7 +5,7 @@
 * Modernised open URL popover
 * Fixed crashing issue when connecting to manual addresses or see urls
 * Fixed issue with printing and multiple pages on macOS 11
-* Moved selection of the current highlighted entity from triple to 4 clicks, keeping double and triple click more in line with the sytem behavior
+* Moved selection of the current highlighted entity from triple to 4 clicks, keeping double and triple click more in line with the system behavior
 
 #### Improved modes:
 * Fixed wrong highlight of default in python mode
