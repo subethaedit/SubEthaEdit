@@ -16,17 +16,8 @@
 		142890580957432800D14688 /* Invitation.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 142890560957432800D14688 /* Invitation.aiff */; };
 		142890590957432800D14688 /* Knock.wav in Resources */ = {isa = PBXBuildFile; fileRef = 142890570957432800D14688 /* Knock.wav */; };
 		1428905F095743B300D14688 /* debug.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1428905E095743B300D14688 /* debug.tiff */; };
-		142890B1095743F200D14688 /* Action.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14289060095743F200D14688 /* Action.tiff */; };
-		142890B2095743F200D14688 /* ActionPressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14289061095743F200D14688 /* ActionPressed.tiff */; };
-		142890BB095743F200D14688 /* EmptyButton.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1428906A095743F200D14688 /* EmptyButton.tiff */; };
-		142890BF095743F200D14688 /* HomeFolderIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1428906E095743F200D14688 /* HomeFolderIcon.tiff */; };
-		142890C1095743F200D14688 /* InternetResume.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14289070095743F200D14688 /* InternetResume.tiff */; };
-		142890C2095743F200D14688 /* InternetStop.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14289071095743F200D14688 /* InternetStop.tiff */; };
-		142890C3095743F200D14688 /* LibraryFolderIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14289072095743F200D14688 /* LibraryFolderIcon.tiff */; };
-		142890CB095743F200D14688 /* ParticipantBar_Fill.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1428907A095743F200D14688 /* ParticipantBar_Fill.tiff */; };
 		142890CC095743F200D14688 /* Participants.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1428907B095743F200D14688 /* Participants.icns */; };
 		142890D4095743F200D14688 /* SeeFolderIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14289083095743F200D14688 /* SeeFolderIcon.tiff */; };
-		142890FF095743F200D14688 /* URLIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 142890AE095743F200D14688 /* URLIcon.tiff */; };
 		14289100095743F200D14688 /* WaitPipe.png in Resources */ = {isa = PBXBuildFile; fileRef = 142890AF095743F200D14688 /* WaitPipe.png */; };
 		142891330957457500D14688 /* NSDateTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891200957457500D14688 /* NSDateTCMAdditions.m */; };
 		142891340957457500D14688 /* NSDataTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891220957457500D14688 /* NSDataTCMAdditions.m */; };
@@ -356,8 +347,6 @@
 		F2ABC5400C79D9AB007437A2 /* DebugHistoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2ABC5300C79D898007437A2 /* DebugHistoryController.m */; };
 		F2BC7539217BDA3F0056FAED /* Acknowledgements.md in Resources */ = {isa = PBXBuildFile; fileRef = F2BC7538217BDA3F0056FAED /* Acknowledgements.md */; };
 		F2C44CBE21635F29006D59DB /* SEEDebugImageGenerationWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2C44CBD21635F29006D59DB /* SEEDebugImageGenerationWindowController.xib */; };
-		F2C6D3750D6DB131002B401D /* URLIconNotOK.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2C6D3730D6DB131002B401D /* URLIconNotOK.tiff */; };
-		F2C6D3760D6DB131002B401D /* URLIconOK.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2C6D3740D6DB131002B401D /* URLIconOK.tiff */; };
 		F2C7672718B3AEAC00763B40 /* PlainTextEditor.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2C7672618B3AEAC00763B40 /* PlainTextEditor.xib */; };
 		F2CA91EE18C08FF7006B098A /* SEEFindAndReplaceState.m in Sources */ = {isa = PBXBuildFile; fileRef = F2CA91ED18C08FF7006B098A /* SEEFindAndReplaceState.m */; };
 		F2CEAAA7100B3A350036B3F7 /* MAAttachedWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = F2CEAAA6100B3A350036B3F7 /* MAAttachedWindow.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -566,18 +555,9 @@
 		142890570957432800D14688 /* Knock.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Knock.wav; sourceTree = "<group>"; };
 		1428905A0957434600D14688 /* SubEthaEdit.sdef */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = SubEthaEdit.sdef; sourceTree = "<group>"; };
 		1428905E095743B300D14688 /* debug.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = debug.tiff; path = artwork/debug.tiff; sourceTree = "<group>"; };
-		14289060095743F200D14688 /* Action.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Action.tiff; path = artwork/Action.tiff; sourceTree = "<group>"; };
-		14289061095743F200D14688 /* ActionPressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ActionPressed.tiff; path = artwork/ActionPressed.tiff; sourceTree = "<group>"; };
-		1428906A095743F200D14688 /* EmptyButton.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = EmptyButton.tiff; path = artwork/EmptyButton.tiff; sourceTree = "<group>"; };
-		1428906E095743F200D14688 /* HomeFolderIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = HomeFolderIcon.tiff; path = artwork/HomeFolderIcon.tiff; sourceTree = "<group>"; };
-		14289070095743F200D14688 /* InternetResume.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = InternetResume.tiff; path = artwork/InternetResume.tiff; sourceTree = "<group>"; };
-		14289071095743F200D14688 /* InternetStop.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = InternetStop.tiff; path = artwork/InternetStop.tiff; sourceTree = "<group>"; };
-		14289072095743F200D14688 /* LibraryFolderIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = LibraryFolderIcon.tiff; path = artwork/LibraryFolderIcon.tiff; sourceTree = "<group>"; };
-		1428907A095743F200D14688 /* ParticipantBar_Fill.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ParticipantBar_Fill.tiff; path = artwork/ParticipantBar_Fill.tiff; sourceTree = "<group>"; };
 		1428907B095743F200D14688 /* Participants.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Participants.icns; path = artwork/Participants.icns; sourceTree = "<group>"; };
 		14289083095743F200D14688 /* SeeFolderIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = SeeFolderIcon.tiff; path = artwork/SeeFolderIcon.tiff; sourceTree = "<group>"; };
 		14289094095743F200D14688 /* StylePrefs.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = StylePrefs.tiff; path = artwork/StylePrefs.tiff; sourceTree = "<group>"; };
-		142890AE095743F200D14688 /* URLIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = URLIcon.tiff; path = artwork/URLIcon.tiff; sourceTree = "<group>"; };
 		142890AF095743F200D14688 /* WaitPipe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = WaitPipe.png; path = artwork/WaitPipe.png; sourceTree = "<group>"; };
 		1428911F0957457500D14688 /* NSDateTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = NSDateTCMAdditions.h; path = TCMFoundation/NSDateTCMAdditions.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		142891200957457500D14688 /* NSDateTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = NSDateTCMAdditions.m; path = TCMFoundation/NSDateTCMAdditions.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -1119,8 +1099,6 @@
 		F2B6CCC20EE9C6390077417E /* SeeTextImporter.mdimporter */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SeeTextImporter.mdimporter; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2BC7538217BDA3F0056FAED /* Acknowledgements.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = Acknowledgements.md; path = ../Acknowledgements.md; sourceTree = "<group>"; };
 		F2C44CBD21635F29006D59DB /* SEEDebugImageGenerationWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SEEDebugImageGenerationWindowController.xib; path = Debug/SEEDebugImageGenerationWindowController.xib; sourceTree = "<group>"; };
-		F2C6D3730D6DB131002B401D /* URLIconNotOK.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = URLIconNotOK.tiff; path = artwork/URLIconNotOK.tiff; sourceTree = "<group>"; };
-		F2C6D3740D6DB131002B401D /* URLIconOK.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = URLIconOK.tiff; path = artwork/URLIconOK.tiff; sourceTree = "<group>"; };
 		F2C7672618B3AEAC00763B40 /* PlainTextEditor.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlainTextEditor.xib; sourceTree = "<group>"; };
 		F2CA91EC18C08FF7006B098A /* SEEFindAndReplaceState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEFindAndReplaceState.h; sourceTree = "<group>"; };
 		F2CA91ED18C08FF7006B098A /* SEEFindAndReplaceState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEFindAndReplaceState.m; sourceTree = "<group>"; };
@@ -1257,15 +1235,9 @@
 				F2FEE70E1892A747000E6BC8 /* SharingBarIcons */,
 				F265602018C4BA7300C73737 /* SearchLoupeNormal.pdf */,
 				F265602118C4BA7300C73737 /* SearchLoupeRE.pdf */,
-				F2C6D3730D6DB131002B401D /* URLIconNotOK.tiff */,
-				F2C6D3740D6DB131002B401D /* URLIconOK.tiff */,
-				14289060095743F200D14688 /* Action.tiff */,
-				14289061095743F200D14688 /* ActionPressed.tiff */,
 				1428905E095743B300D14688 /* debug.tiff */,
 				F25A0721191A800E00F07557 /* EditPrefs.png */,
 				F25A0722191A800E00F07557 /* EditPrefs@2x.png */,
-				1428906A095743F200D14688 /* EmptyButton.tiff */,
-				1428906E095743F200D14688 /* HomeFolderIcon.tiff */,
 				F2202484191BC33D0098982C /* hud_buttonFill-P.png */,
 				F2202485191BC33D0098982C /* hud_buttonFill-P@2x.png */,
 				F2202486191BC33D0098982C /* hud_buttonLeft-P.png */,
@@ -1280,12 +1252,8 @@
 				F2202479191BBDA10098982C /* hud_buttonRight-N@2x.png */,
 				F220247A191BBDA10098982C /* hud_titlebar-close.png */,
 				F220247B191BBDA10098982C /* hud_titlebar-close@2x.png */,
-				14289070095743F200D14688 /* InternetResume.tiff */,
-				14289071095743F200D14688 /* InternetStop.tiff */,
 				5EF31E420A7E437C00D777F5 /* InvertedIBeam.tiff */,
 				4C57BD39199BB11D00260983 /* InvertedIBeamBig.tiff */,
-				14289072095743F200D14688 /* LibraryFolderIcon.tiff */,
-				1428907A095743F200D14688 /* ParticipantBar_Fill.tiff */,
 				1428907B095743F200D14688 /* Participants.icns */,
 				F2D5FF3D0CB2666000407399 /* Rendezvous.icns */,
 				14289083095743F200D14688 /* SeeFolderIcon.tiff */,
@@ -1293,7 +1261,6 @@
 				14289094095743F200D14688 /* StylePrefs.tiff */,
 				F20AB87F190932FB00444F4B /* SymbolWarn.png */,
 				F20AB880190932FB00444F4B /* SymbolWarn@2x.png */,
-				142890AE095743F200D14688 /* URLIcon.tiff */,
 				142890AF095743F200D14688 /* WaitPipe.png */,
 				F25A071E191A6D4600F07557 /* WaitPipe@2x.png */,
 			);
@@ -2386,29 +2353,21 @@
 				142890580957432800D14688 /* Invitation.aiff in Resources */,
 				142890590957432800D14688 /* Knock.wav in Resources */,
 				F22024C6191D0BFE0098982C /* ParticipantFollowTurnOffNormal@2x.png in Resources */,
-				142890B1095743F200D14688 /* Action.tiff in Resources */,
 				F286A764215CF0F60056C247 /* Localizable.strings in Resources */,
 				F22024DA191D0BFE0098982C /* ParticipantReadOnlyTurnOffPressed@2x.png in Resources */,
-				142890B2095743F200D14688 /* ActionPressed.tiff in Resources */,
 				F22024EA191D0DB30098982C /* ParticipantReadOnlyStatusOn@2x.png in Resources */,
 				1428905F095743B300D14688 /* debug.tiff in Resources */,
 				F22024C5191D0BFE0098982C /* ParticipantFollowTurnOffNormal.png in Resources */,
-				142890BB095743F200D14688 /* EmptyButton.tiff in Resources */,
 				4C0D3D6C17FB165700AAFB38 /* DebugAttributesInspector.xib in Resources */,
 				F24AEA1B195AE78300046F6B /* DocumentProxy.xib in Resources */,
 				F22024D3191D0BFE0098982C /* ParticipantKickPressed.png in Resources */,
-				142890BF095743F200D14688 /* HomeFolderIcon.tiff in Resources */,
 				4CD5F7DA17FB0BF200F49E31 /* AdvancedPrefs.xib in Resources */,
 				F2202483191BBDA10098982C /* hud_titlebar-close@2x.png in Resources */,
-				142890C1095743F200D14688 /* InternetResume.tiff in Resources */,
 				423B23D518F64065001E2DCC /* SEECollaborationPrefs.xib in Resources */,
-				142890C2095743F200D14688 /* InternetStop.tiff in Resources */,
 				F2202481191BBDA10098982C /* hud_buttonRight-N@2x.png in Resources */,
 				F245828A2181C19F00A87EB5 /* FileIcons.xcassets in Resources */,
-				142890C3095743F200D14688 /* LibraryFolderIcon.tiff in Resources */,
 				F22024D7191D0BFE0098982C /* ParticipantReadOnlyTurnOffNormal.png in Resources */,
 				F25A0724191A800E00F07557 /* EditPrefs@2x.png in Resources */,
-				142890CB095743F200D14688 /* ParticipantBar_Fill.tiff in Resources */,
 				F22024D8191D0BFE0098982C /* ParticipantReadOnlyTurnOffNormal@2x.png in Resources */,
 				F20AB881190932FB00444F4B /* SymbolWarn.png in Resources */,
 				142890CC095743F200D14688 /* Participants.icns in Resources */,
@@ -2430,7 +2389,6 @@
 				F22024DE191D0BFE0098982C /* ParticipantReadOnlyTurnOnNormal@2x.png in Resources */,
 				F2EF08D119069E33004D5080 /* Localizable.stringsdict in Resources */,
 				4C0D3D6417FB12F700AAFB38 /* SEEStyleSheetEditorWindowController.xib in Resources */,
-				142890FF095743F200D14688 /* URLIcon.tiff in Resources */,
 				14289100095743F200D14688 /* WaitPipe.png in Resources */,
 				F22024CC191D0BFE0098982C /* ParticipantFollowTurnOnNormal@2x.png in Resources */,
 				F20AB882190932FB00444F4B /* SymbolWarn@2x.png in Resources */,
@@ -2483,10 +2441,8 @@
 				F2202482191BBDA10098982C /* hud_titlebar-close.png in Resources */,
 				4CD5F7F217FB0CBF00F49E31 /* FindAll.xib in Resources */,
 				4CD5F81D17FB0E1900F49E31 /* PrecedenceRules.xib in Resources */,
-				F2C6D3750D6DB131002B401D /* URLIconNotOK.tiff in Resources */,
 				F265602218C4BA7300C73737 /* SearchLoupeNormal.pdf in Resources */,
 				F220247F191BBDA10098982C /* hud_buttonLeft-N@2x.png in Resources */,
-				F2C6D3760D6DB131002B401D /* URLIconOK.tiff in Resources */,
 				4C0C4A0118B366EC00E6049E /* PlainTextWindow.xib in Resources */,
 				F22024C4191D0BFE0098982C /* ParticipantFollowTurnOffHover@2x.png in Resources */,
 				4CDF05A618C0A3D4004A49E5 /* SEEConnectionAddingWindowController.xib in Resources */,
