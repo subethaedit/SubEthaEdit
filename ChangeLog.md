@@ -1,13 +1,9 @@
-### [unreleased] SubEthaEdit 5.2
-
-#### Features:
-* .
+### SubEthaEdit 5.1.7
 
 #### Bug fixes and maintenance:
-* .
+* Fixed an accidential de-map of the find next/previous shortcut in v5.1.6
 
-#### Improved modes:
-* .
+Special thanks to ellduin [GitHub](https://github.com/ellduin) for catching this early
 
 ### SubEthaEdit 5.1.6
 
