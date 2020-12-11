@@ -1010,6 +1010,7 @@
 		F2230A460BE0243100437D55 /* TCMBEEPBencodedMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMBEEPBencodedMessage.m; path = TCMBEEP/TCMBEEPBencodedMessage.m; sourceTree = "<group>"; };
 		F2230A470BE0243100437D55 /* TCMBEEPBencodingProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = TCMBEEPBencodingProfile.h; path = TCMBEEP/TCMBEEPBencodingProfile.h; sourceTree = "<group>"; };
 		F2230A480BE0243100437D55 /* TCMBEEPBencodingProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMBEEPBencodingProfile.m; path = TCMBEEP/TCMBEEPBencodingProfile.m; sourceTree = "<group>"; };
+		F22A4169255BD6F2006CA5AD /* EmbeddedCLITools.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EmbeddedCLITools.entitlements; sourceTree = "<group>"; };
 		F22E9F2622FEECCB00326183 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/ServicesMenu.strings; sourceTree = "<group>"; };
 		F22E9F2722FEECCB00326183 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = Base; path = Base.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		F22E9F2822FEECCB00326183 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/SystemVersionCheck.strings; sourceTree = "<group>"; };
@@ -1712,6 +1713,7 @@
 			isa = PBXGroup;
 			children = (
 				4CF06A621816D6D300B35DF8 /* SubEthaEdit.entitlements */,
+				F22A4169255BD6F2006CA5AD /* EmbeddedCLITools.entitlements */,
 				4CAA423618157A4C00457B2A /* Configuration */,
 				F2256A25216358910011D17F /* Sources */,
 				5EC638450ABEBE2C00D3295B /* Unit Tests */,
