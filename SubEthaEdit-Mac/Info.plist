@@ -3144,6 +3144,8 @@
 	<string>1.0</string>
 	<key>TCMRevisionHash</key>
 	<string>${TCM_APP_REVISION_HASH}</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>
