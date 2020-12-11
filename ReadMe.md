@@ -36,6 +36,7 @@ For general guidance on what is should/ and isn't shouldn't be SubEthaEdit, plea
 * Dominik [@monkeydom](https://mastodon.technology/@monkeydom) Wagner - [GitHub](https://github.com/monkeydom) [Mastodon](https://mastodon.technology/@monkeydom) [Twitter](https://twitter.com/monkeydom) [Blog](https://coding.monkeydom.de/)
 
 * Matthias Bartelmeß - [GitHub](https://github.com/fourplusone)
+* Jan Cornelissen - [GitHub](https://github.com/jncn)
 
 Project email: subethaedit at lone.monkey.productions
 

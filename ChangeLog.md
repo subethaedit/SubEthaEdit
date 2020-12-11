@@ -1,22 +1,33 @@
 ### [unreleased] SubEthaEdit 5.2
 
 #### Features:
-* .
+* 
 
 #### Bug fixes and maintenance:
-* .
+* 
 
 #### Improved modes:
-* .
+* 
 
-### [unreleased] SubEthaEdit 5.1.6
+
+### SubEthaEdit 5.1.7
+
+#### Bug fixes and maintenance:
+* Fixed an accidential de-map of the find next/previous shortcut in v5.1.6
+
+Special thanks to ellduin [GitHub](https://github.com/ellduin) for catching this early
+
+### SubEthaEdit 5.1.6
 
 #### Bug fixes and maintenance:
 * Modernised the document hub
 * Modernised open URL popover
+* Fixed crashing issue when connecting to manual addresses or see urls
+* Fixed issue with printing and multiple pages on macOS 11
+* Moved selection of the current highlighted entity from triple to 4 clicks, keeping double and triple click more in line with the system behavior
 
 #### Improved modes:
-* .
+* Fixed wrong highlight of default in python mode
 
 Special thanks to new contributor Jan Cornelissen - [GitHub](https://github.com/jncn)
 

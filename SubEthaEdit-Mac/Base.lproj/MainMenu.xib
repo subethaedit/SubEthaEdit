@@ -635,13 +635,11 @@
                                 </connections>
                             </menuItem>
                             <menuItem title="Find Next" tag="2" keyEquivalent="g" id="479">
-                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                 <connections>
                                     <action selector="performFindPanelAction:" target="463" id="597"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Find Previous" tag="3" keyEquivalent="g" id="268">
-                                <modifierMask key="keyEquivalentModifierMask" shift="YES" option="YES" command="YES"/>
+                            <menuItem title="Find Previous" tag="3" keyEquivalent="G" id="268">
                                 <connections>
                                     <action selector="performFindPanelAction:" target="463" id="598"/>
                                 </connections>
