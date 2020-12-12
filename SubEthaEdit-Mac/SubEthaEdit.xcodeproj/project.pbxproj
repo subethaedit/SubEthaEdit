@@ -301,8 +301,6 @@
 		F25A0723191A800E00F07557 /* EditPrefs.png in Resources */ = {isa = PBXBuildFile; fileRef = F25A0721191A800E00F07557 /* EditPrefs.png */; };
 		F25A0724191A800E00F07557 /* EditPrefs@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F25A0722191A800E00F07557 /* EditPrefs@2x.png */; };
 		F264AA0F25593F9C00A5232A /* ChangeLog.md in Resources */ = {isa = PBXBuildFile; fileRef = F264AA0C25593F9C00A5232A /* ChangeLog.md */; };
-		F265602218C4BA7300C73737 /* SearchLoupeNormal.pdf in Resources */ = {isa = PBXBuildFile; fileRef = F265602018C4BA7300C73737 /* SearchLoupeNormal.pdf */; };
-		F265602318C4BA7300C73737 /* SearchLoupeRE.pdf in Resources */ = {isa = PBXBuildFile; fileRef = F265602118C4BA7300C73737 /* SearchLoupeRE.pdf */; };
 		F26B7D880CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F26B7D850CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m */; };
 		F27C4DC5192FA2A800B5DB3C /* SEEHoverTableRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = F27C4DC4192FA2A800B5DB3C /* SEEHoverTableRowView.m */; };
 		F27EDD17216BC49A00987579 /* SubEthaEdit_AuthenticatedSave.scpt in Copy Command Line Tools */ = {isa = PBXBuildFile; fileRef = F27EDD10216BC3AD00987579 /* SubEthaEdit_AuthenticatedSave.scpt */; };
@@ -1004,8 +1002,6 @@
 		F25A0721191A800E00F07557 /* EditPrefs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = EditPrefs.png; path = artwork/EditPrefs.png; sourceTree = "<group>"; };
 		F25A0722191A800E00F07557 /* EditPrefs@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "EditPrefs@2x.png"; path = "artwork/EditPrefs@2x.png"; sourceTree = "<group>"; };
 		F264AA0C25593F9C00A5232A /* ChangeLog.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = ChangeLog.md; path = ../ChangeLog.md; sourceTree = "<group>"; };
-		F265602018C4BA7300C73737 /* SearchLoupeNormal.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = SearchLoupeNormal.pdf; path = artwork/SearchLoupeNormal.pdf; sourceTree = "<group>"; };
-		F265602118C4BA7300C73737 /* SearchLoupeRE.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = SearchLoupeRE.pdf; path = artwork/SearchLoupeRE.pdf; sourceTree = "<group>"; };
 		F26B7D840CA3F7680039C8A1 /* NSBezierPathTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NSBezierPathTCMAdditions.h; sourceTree = "<group>"; };
 		F26B7D850CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSBezierPathTCMAdditions.m; sourceTree = "<group>"; };
 		F27C4DC3192FA2A800B5DB3C /* SEEHoverTableRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEHoverTableRowView.h; sourceTree = "<group>"; };
@@ -1199,8 +1195,6 @@
 				F24582892181C19F00A87EB5 /* FileIcons.xcassets */,
 				4C6BDC61188985EF0088CBFC /* Retina */,
 				F2FEE70E1892A747000E6BC8 /* SharingBarIcons */,
-				F265602018C4BA7300C73737 /* SearchLoupeNormal.pdf */,
-				F265602118C4BA7300C73737 /* SearchLoupeRE.pdf */,
 				1428905E095743B300D14688 /* debug.tiff */,
 				F25A0721191A800E00F07557 /* EditPrefs.png */,
 				F25A0722191A800E00F07557 /* EditPrefs@2x.png */,
@@ -2339,7 +2333,6 @@
 				4CD5F7EA17FB0C8E00F49E31 /* SEEEncodingDoctorView.xib in Resources */,
 				F22024CD191D0BFE0098982C /* ParticipantFollowTurnOnPressed.png in Resources */,
 				F20D8F0C18FC28CB0091EB13 /* Artwork.xcassets in Resources */,
-				F265602318C4BA7300C73737 /* SearchLoupeRE.pdf in Resources */,
 				1493A8590A10DABB004ECE6A /* SystemVersionCheck.strings in Resources */,
 				4C6BDC5F1889858A0088CBFC /* folded.png in Resources */,
 				F22024C0191D0BFE0098982C /* ParticipantFollowStatusOn@2x.png in Resources */,
@@ -2377,7 +2370,6 @@
 				F25A0723191A800E00F07557 /* EditPrefs.png in Resources */,
 				4CD5F7F217FB0CBF00F49E31 /* FindAll.xib in Resources */,
 				4CD5F81D17FB0E1900F49E31 /* PrecedenceRules.xib in Resources */,
-				F265602218C4BA7300C73737 /* SearchLoupeNormal.pdf in Resources */,
 				4C0C4A0118B366EC00E6049E /* PlainTextWindow.xib in Resources */,
 				F22024C4191D0BFE0098982C /* ParticipantFollowTurnOffHover@2x.png in Resources */,
 				4CDF05A618C0A3D4004A49E5 /* SEEConnectionAddingWindowController.xib in Resources */,

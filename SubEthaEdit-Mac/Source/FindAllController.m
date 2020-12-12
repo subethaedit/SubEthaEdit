@@ -82,7 +82,7 @@
         NSTableColumn* stringCol = [[O_resultsTableView tableColumns] objectAtIndex:1];
         int longestCol = 150;
         
-        NSString *statusString = [NSString stringWithFormat:NSLocalizedString(@"%d found.",@"Entries Found in FindAll Panel"),count];
+        NSString *statusString = [NSString stringWithFormat:NSLocalizedString(@"%d matches",@"Entries Found in FindAll Panel"),count];
 /*
         NSString *scopeString = I_scopeSelectionOperation ? NSLocalizedStringWithDefaultValue(@"SELECTION_SCOPE_DESCRIPTION", nil, [NSBundle mainBundle], @"Selection", @"string describing the selection find scope") :
 NSLocalizedStringWithDefaultValue(@"SELECTION_SCOPE_DOCUMENT", nil,[NSBundle mainBundle], @"Document", @"string describing the document find scope");

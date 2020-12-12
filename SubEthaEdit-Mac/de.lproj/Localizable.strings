@@ -26,13 +26,13 @@
 "%d Documents" = "%d Dokumente";
 
 /* Entries Found in FindAll Panel */
-"%d found." = "%d gefunden.";
+"%d matches" = "%d gefunden";
 
 /* Pending Users Display in Menu Title Bar */
 "%d pending" = "%d Anfragen";
 
 /* Number of replaced strings */
-"%d replaced." = "%d ersetzt.";
+"%d replaced" = "%d ersetzt";
 
 /* No comment provided by engineer. */
 "&Redo" = "Wiederholen";
@@ -871,12 +871,12 @@
 "FIND_REPLACE_PANEL_MENU_WRAP" = "Mehrfach suchen";
 "FIND_REPLACE_PANEL_MENU_HISTORY_SUBMENU_TITLE" = "Suchverlauf";
 "FIND_REPLACE_PANEL_MENU_USE_REGEX" = "Reguläre Ausdrücke verwenden";
-"FIND_REPLACE_PANEL_MENU_REGEX_DIALECT" = "Sprache für Reguläre Ausdrücke";
+"FIND_REPLACE_PANEL_MENU_REGEX_DIALECT" = "Sprache für Reguläre Ausdrücke:";
 "FIND_REPLACE_PANEL_MENU_EXTENDED" = "Erweitert";
 "FIND_REPLACE_PANEL_MENU_ESCAPE_SLASH" = "Escape-Zeichen: \\";
 "FIND_REPLACE_PANEL_MENU_ESCAPE_YEN" = "Escape-Zeichen: ¥";
 "FIND_REPLACE_PANEL_MENU_CAPTURE_GROUPS" = "Finde unbenannte Gruppen";
-"FIND_REPLACE_PANEL_MENU_LINE_CONTEXT" = "'^' ➞ '\\A', '$' ➞ '\\Z'";
+"FIND_REPLACE_PANEL_MENU_LINE_CONTEXT" = "'^' → '\\A', '$' → '\\Z'";
 "FIND_REPLACE_PANEL_MENU_MULTILINE" = "'.' beinhaltet Zeilenwechsel";
 "FIND_REPLACE_PANEL_MENU_ONLY_LONGEST" = "Nur längster Treffer";
 "FIND_REPLACE_PANEL_MENU_IGNORE_EMPTY" = "Leere Treffer ignorieren";
