@@ -119,31 +119,29 @@ static NSInteger const kMinViewHeight = 61;
 }
 
 - (void)updateSearchOptionsButton {
-    NSMenuItem *titleItem = self.searchOptionsPopUpButton.itemArray[0];
-    NSString *title = @"";
     NSImage *image;
+    [self.searchOptionsPopUpButton setImagePosition:NSNoImage];
     if ([[self.findAndReplaceStateObjectController valueForKeyPath:kOptionKeyPathUseRegularExpressions] boolValue]) {
-        title = @"(.*)";
-        [self.searchOptionsPopUpButton setImagePosition:NSNoImage];
+        if (@available(macOS 11.0, *)) {
+            image = [NSImage imageWithSystemSymbolName:@"staroflife.fill" accessibilityDescription:nil];
+        } else {
+            image = [NSImage imageNamed:@"staroflife.fill"];
+        }
     } else {
         if (@available(macOS 11.0, *)) {
-            image = [NSImage imageWithSystemSymbolName:@"gearshape.fill" accessibilityDescription:nil];
+            image = [NSImage imageWithSystemSymbolName:@"magnifyingglass" accessibilityDescription:nil];
         } else {
-            image = [NSImage imageNamed:@"NSSmartBadgeTemplate"];
+            image = [NSImage imageNamed:@"magnifyingglass"];
         }
-        [self.searchOptionsPopUpButton setImagePosition:NSImageOnly];
     }
-    [titleItem setTitle:title];
+    NSMenuItem *titleItem = self.searchOptionsPopUpButton.itemArray[0];
     [titleItem setImage:image];
+    [self.searchOptionsPopUpButton setImagePosition:NSImageOnly];
     
-	NSShadow *shadow = nil;
-	if (self.hasSearchScope) {
-		shadow = [NSShadow new];
-		[shadow setShadowColor:[NSColor searchScopeBaseColor]];
-		[shadow setShadowOffset:NSMakeSize(0, 0)];
-		[shadow setShadowBlurRadius:3.0];
-	}
-	[self.searchOptionsPopUpButton setShadow:shadow];
+    NSColor *color = self.hasSearchScope ? [NSColor searchScopeBaseColor] : [NSColor controlTextColor];
+    if (@available(macOS 10.14, *)) {
+        [self.searchOptionsPopUpButton setContentTintColor:color];
+    }
 }
 
 - (BOOL)hasSearchScope {
@@ -160,8 +158,9 @@ static NSInteger const kMinViewHeight = 61;
      @{NSContinuouslyUpdatesValueBindingOption : @YES, NSNullPlaceholderBindingOption : self.findTextField.placeholderString}];
 	[self.replaceTextField bind:@"value" toObject:self.findAndReplaceStateObjectController withKeyPath:@"content.replaceString" options:
      @{NSContinuouslyUpdatesValueBindingOption : @YES, NSNullPlaceholderBindingOption : self.replaceTextField.placeholderString}];
-	[self.feedbackTextField bind:@"value" toObject:self.findAndReplaceStateObjectController withKeyPath:@"content.statusString" options:nil];
-	
+    [self.feedbackTextField bind:@"value" toObject:self.findAndReplaceStateObjectController withKeyPath:@"content.statusString" options:
+     @{NSNullPlaceholderBindingOption : @YES}];
+    
 	// add observation
 	[self.findAndReplaceStateObjectController addObserver:self forKeyPath:kOptionKeyPathUseRegularExpressions options:0 context:(void *)kOptionMenuUseRegularExpressionsTag];
 	
