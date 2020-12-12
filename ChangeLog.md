@@ -4,6 +4,7 @@
 * 
 
 #### Bug fixes and maintenance:
+* Modernised search and replace user interface
 * Fixed layout issues in web preview
 * Fixed issue where the split view icon could disappear
 
