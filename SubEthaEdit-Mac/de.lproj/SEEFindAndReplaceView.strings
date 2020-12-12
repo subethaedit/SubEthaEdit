@@ -2,6 +2,12 @@
 /* Class = "NSButtonCell"; title = "Done"; ObjectID = "DsH-mB-ABC"; */
 "DsH-mB-ABC.title" = "Fertig";
 
+/* Class = "NSSegmentedCell"; H5y-L8-NDU.ibShadowedToolTips[0] = "Show the previous match"; ObjectID = "H5y-L8-NDU"; */
+"H5y-L8-NDU.ibShadowedToolTips[0]" = "Das vorherige Ergebnis zeigen";
+
+/* Class = "NSSegmentedCell"; H5y-L8-NDU.ibShadowedToolTips[1] = "Show the next match"; ObjectID = "H5y-L8-NDU"; */
+"H5y-L8-NDU.ibShadowedToolTips[1]" = "Das nächste Ergebnis zeigen";
+
 /* Class = "NSMenuItem"; title = "Abc"; ObjectID = "WIP-PE-5J1"; */
 "WIP-PE-5J1.title" = "Abc";
 

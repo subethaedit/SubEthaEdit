@@ -111,8 +111,8 @@
                     <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="roundRect" trackingMode="momentary" id="H5y-L8-NDU">
                         <font key="font" metaFont="cellTitle"/>
                         <segments>
-                            <segment image="NSLeftFacingTriangleTemplate"/>
-                            <segment image="NSRightFacingTriangleTemplate" imageScaling="none" tag="1"/>
+                            <segment toolTip="Show the previous match" image="NSLeftFacingTriangleTemplate"/>
+                            <segment toolTip="Show the next match" image="NSRightFacingTriangleTemplate" imageScaling="none" tag="1"/>
                         </segments>
                     </segmentedCell>
                     <connections>
