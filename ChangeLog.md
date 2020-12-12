@@ -4,7 +4,7 @@
 * 
 
 #### Bug fixes and maintenance:
-* 
+* Fixed layout issues in web preview
 
 #### Improved modes:
 * 
