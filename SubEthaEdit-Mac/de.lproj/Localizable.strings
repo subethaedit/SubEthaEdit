@@ -859,10 +859,6 @@
 /* Web Preview - Refresh Popup Item - Manual */
 "WEB_PREVIEW_REFRESH_POPUP_MANUAL" = "Manuell";
 
-"FIND_REPLACE_PANEL_FINDALL" = "Alle Suchen";
-"FIND_REPLACE_PANEL_REPLACE" = "Ersetzen";
-"FIND_REPLACE_PANEL_REPLACEALL" = "Alle Ersetzen";
-
 "FIND_REPLACE_PANEL_SCOPE_DOCUMENT" = "Dokument";
 
 "FIND_REPLACE_PANEL_MENU_CLEAR_SCOPE" = "Suchbereich zurücksetzen %@";

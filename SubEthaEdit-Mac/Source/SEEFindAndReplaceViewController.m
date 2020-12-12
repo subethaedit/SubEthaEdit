@@ -155,10 +155,11 @@ static NSInteger const kMinViewHeight = 61;
 
 - (void)loadView {
 	[super loadView];
-	
-	// add bindings
-	[self.findTextField bind:@"value" toObject:self.findAndReplaceStateObjectController withKeyPath:@"content.findString" options:@{NSContinuouslyUpdatesValueBindingOption : @YES}];
-	[self.replaceTextField bind:@"value" toObject:self.findAndReplaceStateObjectController withKeyPath:@"content.replaceString" options:@{NSContinuouslyUpdatesValueBindingOption : @YES}];
+    
+	[self.findTextField bind:@"value" toObject:self.findAndReplaceStateObjectController withKeyPath:@"content.findString" options:
+     @{NSContinuouslyUpdatesValueBindingOption : @YES, NSNullPlaceholderBindingOption : self.findTextField.placeholderString}];
+	[self.replaceTextField bind:@"value" toObject:self.findAndReplaceStateObjectController withKeyPath:@"content.replaceString" options:
+     @{NSContinuouslyUpdatesValueBindingOption : @YES, NSNullPlaceholderBindingOption : self.replaceTextField.placeholderString}];
 	[self.feedbackTextField bind:@"value" toObject:self.findAndReplaceStateObjectController withKeyPath:@"content.statusString" options:nil];
 	
 	// add observation
@@ -175,11 +176,6 @@ static NSInteger const kMinViewHeight = 61;
             [strongSelf updateSearchOptionsButton];
         }
     }]];
-	
-	// localize and fix layout correspondingly
-	self.replaceButton.title = NSLocalizedString(@"FIND_REPLACE_PANEL_REPLACE", @"'Replace' in find panel");
-	self.replaceAllButton.title = NSLocalizedString(@"FIND_REPLACE_PANEL_REPLACEALL", @"'Replace All' in find panel");
-	self.findAllButton.title = NSLocalizedString(@"FIND_REPLACE_PANEL_FINDALL", @"'Find all' in find panel");
 	
     self.searchOptionsPopUpButton.menu = [self ensuredOptionsPopupMenu];
     [self updateSearchOptionsButton];
@@ -208,12 +204,7 @@ static NSInteger const kMinViewHeight = 61;
 
 - (IBAction)findPreviousNextSegmentedControlAction:(id)aSender {
 	NSSegmentedControl *control = (NSSegmentedControl *)aSender;
-	if (control.selectedSegment == 0) {
-		
-	}
-	NSInteger actionType = (control.selectedSegment == 0) ?
-			NSTextFinderActionPreviousMatch :
-				NSTextFinderActionNextMatch;
+	NSInteger actionType = (control.selectedSegment == 0) ? NSTextFinderActionPreviousMatch : NSTextFinderActionNextMatch;
 	[[FindReplaceController sharedInstance] performTextFinderAction:actionType textView:self.targetTextView];
 }
 
@@ -251,7 +242,6 @@ static NSInteger const kMinViewHeight = 61;
 	NSNumber *currentValue = [self.findAndReplaceStateObjectController valueForKeyPath:keyPath];
 	[self.findAndReplaceStateObjectController setValue:@(!currentValue.boolValue) forKeyPath:keyPath];
 }
-
 
 - (IBAction)switchEscapeCharacter:(id)aSender {
 	NSString *keyPath = kOptionKeyPathRegexEscapeCharacter;

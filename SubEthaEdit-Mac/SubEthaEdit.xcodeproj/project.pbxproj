@@ -134,6 +134,7 @@
 		31D2C7000CA7C9C8003CC5C9 /* PrecedenceRuleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D2C6E50CA7C7A7003CC5C9 /* PrecedenceRuleCell.m */; };
 		31FFC93D104E97A000E08256 /* NSErrorTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FFC93C104E97A000E08256 /* NSErrorTCMAdditions.m */; };
 		3D30287E2578602700E35C8B /* SEEDocumentListGroupTableRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D30287D2578602700E35C8B /* SEEDocumentListGroupTableRowView.m */; };
+		3D80BA33258522A50093CA85 /* SEEFindAndReplaceView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D80BA35258522A50093CA85 /* SEEFindAndReplaceView.xib */; };
 		3D83EDAB2576B1E6004288B2 /* SEEDocumentListWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D83EDAD2576B1E6004288B2 /* SEEDocumentListWindowController.xib */; };
 		3D83EDB4257835AE004288B2 /* SEEDividerListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D83EDB3257835AE004288B2 /* SEEDividerListItem.m */; };
 		3DBB85BC25734A37000F829F /* OpenURLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DBB85BB25734A37000F829F /* OpenURLViewController.m */; };
@@ -248,7 +249,6 @@
 		F214C1DB18BE180300908826 /* NSObject+TCMArcLifecycleAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F214C1DA18BE180300908826 /* NSObject+TCMArcLifecycleAdditions.m */; };
 		F2164BE818F6CD19002414FB /* SEESplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2164BE718F6CD19002414FB /* SEESplitView.m */; };
 		F21DAFE618BB75E1002B3C41 /* SEEFindAndReplaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F21DAFE518BB75E1002B3C41 /* SEEFindAndReplaceViewController.m */; };
-		F21DAFE818BB77AA002B3C41 /* SEEFindAndReplaceView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F21DAFE718BB77AA002B3C41 /* SEEFindAndReplaceView.xib */; };
 		F22024BF191D0BFE0098982C /* ParticipantFollowStatusOn.png in Resources */ = {isa = PBXBuildFile; fileRef = F220249D191D0BFE0098982C /* ParticipantFollowStatusOn.png */; };
 		F22024C0191D0BFE0098982C /* ParticipantFollowStatusOn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F220249E191D0BFE0098982C /* ParticipantFollowStatusOn@2x.png */; };
 		F22024C3191D0BFE0098982C /* ParticipantFollowTurnOffHover.png in Resources */ = {isa = PBXBuildFile; fileRef = F22024A1191D0BFE0098982C /* ParticipantFollowTurnOffHover.png */; };
@@ -773,6 +773,9 @@
 		32DBCF750370BD2300C91783 /* SubEthaEdit_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubEthaEdit_Prefix.pch; sourceTree = "<group>"; };
 		3D30287C2578602700E35C8B /* SEEDocumentListGroupTableRowView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEEDocumentListGroupTableRowView.h; sourceTree = "<group>"; };
 		3D30287D2578602700E35C8B /* SEEDocumentListGroupTableRowView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEEDocumentListGroupTableRowView.m; sourceTree = "<group>"; };
+		3D80BA34258522A50093CA85 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SEEFindAndReplaceView.xib; sourceTree = "<group>"; };
+		3D80BA38258522AA0093CA85 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/SEEFindAndReplaceView.strings; sourceTree = "<group>"; };
+		3D80BA3A258523390093CA85 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/FindAll.strings; sourceTree = "<group>"; };
 		3D83EDAC2576B1E6004288B2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SEEDocumentListWindowController.xib; sourceTree = "<group>"; };
 		3D83EDB02576B1EE004288B2 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/SEEDocumentListWindowController.strings; sourceTree = "<group>"; };
 		3D83EDB2257835AE004288B2 /* SEEDividerListItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEEDividerListItem.h; sourceTree = "<group>"; };
@@ -917,7 +920,6 @@
 		F2164BE718F6CD19002414FB /* SEESplitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEESplitView.m; sourceTree = "<group>"; };
 		F21DAFE418BB75E1002B3C41 /* SEEFindAndReplaceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEFindAndReplaceViewController.h; sourceTree = "<group>"; };
 		F21DAFE518BB75E1002B3C41 /* SEEFindAndReplaceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEFindAndReplaceViewController.m; sourceTree = "<group>"; };
-		F21DAFE718BB77AA002B3C41 /* SEEFindAndReplaceView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEEFindAndReplaceView.xib; sourceTree = "<group>"; };
 		F220249D191D0BFE0098982C /* ParticipantFollowStatusOn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ParticipantFollowStatusOn.png; sourceTree = "<group>"; };
 		F220249E191D0BFE0098982C /* ParticipantFollowStatusOn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ParticipantFollowStatusOn@2x.png"; sourceTree = "<group>"; };
 		F22024A1191D0BFE0098982C /* ParticipantFollowTurnOffHover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ParticipantFollowTurnOffHover.png; sourceTree = "<group>"; };
@@ -978,7 +980,6 @@
 		F24780A322EAF46500366FC8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/ServicesMenu.strings; sourceTree = "<group>"; };
 		F24780A422EAF46500366FC8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/SystemVersionCheck.strings; sourceTree = "<group>"; };
 		F24780A522EAF46500366FC8 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/Export.xib; sourceTree = "<group>"; };
-		F24780A622EAF46500366FC8 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/FindAll.xib; sourceTree = "<group>"; };
 		F24780A722EAF46500366FC8 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/FindReplace.xib; sourceTree = "<group>"; };
 		F24780A822EAF46500366FC8 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		F24780A922EAF46500366FC8 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/OpenPanelAccessory.xib; sourceTree = "<group>"; };
@@ -1735,7 +1736,7 @@
 				4CDF05A418C0A3D4004A49E5 /* SEEConnectionAddingWindowController.xib */,
 				3D83EDAD2576B1E6004288B2 /* SEEDocumentListWindowController.xib */,
 				4CD5F7E817FB0C8E00F49E31 /* SEEEncodingDoctorView.xib */,
-				F21DAFE718BB77AA002B3C41 /* SEEFindAndReplaceView.xib */,
+				3D80BA35258522A50093CA85 /* SEEFindAndReplaceView.xib */,
 				4C5EC97D1897F6FC0094D850 /* SEEParticipantsOverlay.xib */,
 				4CDC271F18967D990060B044 /* SEEParticipantView.xib */,
 				F2DC3DD118F2F12300B543E9 /* SEEPlainTextEditorTopBarViewController.xib */,
@@ -2363,7 +2364,7 @@
 				4CD5F80617FB0D5B00F49E31 /* OpenPanelAccessory.xib in Resources */,
 				F22024D5191D0BFE0098982C /* ParticipantReadOnlyTurnOffHover.png in Resources */,
 				3D83EDAB2576B1E6004288B2 /* SEEDocumentListWindowController.xib in Resources */,
-				F21DAFE818BB77AA002B3C41 /* SEEFindAndReplaceView.xib in Resources */,
+				3D80BA33258522A50093CA85 /* SEEFindAndReplaceView.xib in Resources */,
 				F22024D0191D0BFE0098982C /* ParticipantKickHover@2x.png in Resources */,
 				F22024C7191D0BFE0098982C /* ParticipantFollowTurnOffPressed.png in Resources */,
 				4C6BDC601889858A0088CBFC /* folded@2x.png in Resources */,
@@ -2769,6 +2770,15 @@
 			name = ServicesMenu.strings;
 			sourceTree = "<group>";
 		};
+		3D80BA35258522A50093CA85 /* SEEFindAndReplaceView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3D80BA34258522A50093CA85 /* Base */,
+				3D80BA38258522AA0093CA85 /* de */,
+			);
+			name = SEEFindAndReplaceView.xib;
+			sourceTree = "<group>";
+		};
 		3D83EDAD2576B1E6004288B2 /* SEEDocumentListWindowController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -2826,7 +2836,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				F286A74C215CE57C0056C247 /* Base */,
-				F24780A622EAF46500366FC8 /* de */,
+				3D80BA3A258523390093CA85 /* de */,
 			);
 			name = FindAll.xib;
 			sourceTree = "<group>";
