@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
-        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -67,7 +66,7 @@
                 <button verticalHuggingPriority="750" tag="6" translatesAutoresizingMaskIntoConstraints="NO" id="Odd-5d-NOn" userLabel="ReplaceButton">
                     <rect key="frame" x="395" y="9" width="71" height="19"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="71" id="olY-DK-4Bm"/>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="71" id="olY-DK-4Bm"/>
                     </constraints>
                     <buttonCell key="cell" type="roundRect" title="Replace" bezelStyle="roundedRect" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hZh-tC-bOy">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -80,7 +79,7 @@
                 <button horizontalHuggingPriority="249" verticalHuggingPriority="750" tag="4" translatesAutoresizingMaskIntoConstraints="NO" id="39E-pR-j5M" userLabel="ReplaceAllButton">
                     <rect key="frame" x="476" y="9" width="88" height="19"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="88" id="bDj-0y-giE"/>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="88" id="bDj-0y-giE"/>
                     </constraints>
                     <buttonCell key="cell" type="roundRect" title="Replace All" bezelStyle="roundedRect" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="gmW-Mw-wto">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -133,7 +132,7 @@
                 <button verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="b0J-dc-3AL">
                     <rect key="frame" x="574" y="9" width="51" height="19"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="51" id="Sk1-uk-AgG"/>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="51" id="Sk1-uk-AgG"/>
                     </constraints>
                     <buttonCell key="cell" type="roundRect" title="Done" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="DsH-mB-ABC">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -146,19 +145,12 @@
                 <popUpButton verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Bkq-DH-b7o">
                     <rect key="frame" x="574" y="34" width="51" height="19"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="51" id="Smj-Tn-F1R"/>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="51" id="Smj-Tn-F1R"/>
                     </constraints>
-                    <popUpButtonCell key="cell" type="roundRect" title="Abc" bezelStyle="roundedRect" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" pullsDown="YES" id="YOO-Xy-Q10">
+                    <popUpButtonCell key="cell" type="roundRect" bezelStyle="roundedRect" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" pullsDown="YES" id="YOO-Xy-Q10">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="cellTitle"/>
-                        <menu key="menu" id="v7H-ey-mUg">
-                            <items>
-                                <menuItem title="Abc" hidden="YES" id="WIP-PE-5J1">
-                                    <imageReference key="image" image="NSSmartBadgeTemplate" symbolScale="small"/>
-                                    <modifierMask key="keyEquivalentModifierMask"/>
-                                </menuItem>
-                            </items>
-                        </menu>
+                        <menu key="menu" id="v7H-ey-mUg"/>
                     </popUpButtonCell>
                 </popUpButton>
                 <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="KlI-sa-VrZ">
@@ -185,6 +177,7 @@
                 <constraint firstItem="b8n-nP-ifa" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="10" id="5Zg-ya-UWx"/>
                 <constraint firstItem="b0J-dc-3AL" firstAttribute="leading" secondItem="39E-pR-j5M" secondAttribute="trailing" constant="10" id="6T7-Bx-LV9"/>
                 <constraint firstItem="39E-pR-j5M" firstAttribute="leading" secondItem="Odd-5d-NOn" secondAttribute="trailing" constant="10" id="A9R-lD-2O4"/>
+                <constraint firstItem="uFk-KV-jTR" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="1" secondAttribute="leading" constant="20" symbolic="YES" id="BZa-0K-IVu"/>
                 <constraint firstItem="Un5-SX-sFi" firstAttribute="leading" secondItem="j2o-G0-HdP" secondAttribute="trailing" constant="10" id="C4s-dp-usL"/>
                 <constraint firstItem="gqM-vr-cXm" firstAttribute="leading" secondItem="b8n-nP-ifa" secondAttribute="leading" id="CwJ-F9-fil"/>
                 <constraint firstItem="6yy-OM-2rf" firstAttribute="width" secondItem="1" secondAttribute="width" id="GCJ-Fj-1XQ"/>
@@ -205,7 +198,7 @@
                 <constraint firstItem="b8n-nP-ifa" firstAttribute="width" secondItem="gqM-vr-cXm" secondAttribute="width" id="edm-K5-BQj"/>
                 <constraint firstItem="39E-pR-j5M" firstAttribute="centerY" secondItem="Odd-5d-NOn" secondAttribute="centerY" id="hlW-zR-hYU"/>
                 <constraint firstItem="uFk-KV-jTR" firstAttribute="firstBaseline" secondItem="b8n-nP-ifa" secondAttribute="firstBaseline" id="hyV-Gi-hw2"/>
-                <constraint firstAttribute="trailing" secondItem="b8n-nP-ifa" secondAttribute="trailing" constant="250" id="kLA-lC-a1K"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="b8n-nP-ifa" secondAttribute="trailing" constant="250" id="kLA-lC-a1K"/>
                 <constraint firstItem="6yy-OM-2rf" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="oes-ST-qgD"/>
                 <constraint firstItem="b8n-nP-ifa" firstAttribute="height" secondItem="gqM-vr-cXm" secondAttribute="height" id="pFo-HP-Rg7"/>
                 <constraint firstAttribute="trailing" secondItem="KlI-sa-VrZ" secondAttribute="trailing" id="pqQ-mN-YSb"/>
@@ -218,7 +211,6 @@
     <resources>
         <image name="NSLeftFacingTriangleTemplate" width="10" height="14"/>
         <image name="NSRightFacingTriangleTemplate" width="10" height="14"/>
-        <image name="NSSmartBadgeTemplate" width="14" height="14"/>
         <image name="SmallGrowBoxRightSymbol" width="11" height="11"/>
     </resources>
 </document>

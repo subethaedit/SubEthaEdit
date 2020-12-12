@@ -842,7 +842,7 @@
 "FIND_REPLACE_PANEL_MENU_OPEN_HELP" = "Open Regular Expression Help";
 
 /* search and replace errors */
-"FIND_REPLACE_ERROR_INVALID_FIND_STRING" = "Find string invalid.";
+"FIND_REPLACE_ERROR_INVALID_FIND_STRING" = "Invalid find string";
 "FIND_REPLACE_REPLACE_ALL_IN_PROGRESS" = "Replace all in progress…";
 "FIND_REPLACE_REPLACE_ALL_IN_PROGRESS_COUNT" = "Replace all in progress… (%@ replaced)";
 
