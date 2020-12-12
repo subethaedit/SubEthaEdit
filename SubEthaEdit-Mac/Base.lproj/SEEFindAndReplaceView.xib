@@ -10,7 +10,6 @@
             <connections>
                 <outlet property="feedbackTextField" destination="uFk-KV-jTR" id="Es5-HF-raS"/>
                 <outlet property="findAllButton" destination="Un5-SX-sFi" id="qLd-oq-MHH"/>
-                <outlet property="findAllWidthConstraint" destination="vde-Dg-aDB" id="u8m-Nu-S4o"/>
                 <outlet property="findPreviousNextSegmentedControl" destination="j2o-G0-HdP" id="CtM-IT-diV"/>
                 <outlet property="findTextField" destination="b8n-nP-ifa" id="mLK-4o-90v"/>
                 <outlet property="mainViewHeightConstraint" destination="uQb-SX-HAl" id="ZnS-of-sr7"/>
@@ -92,7 +91,7 @@
                 <button verticalHuggingPriority="750" tag="1001" translatesAutoresizingMaskIntoConstraints="NO" id="Un5-SX-sFi" userLabel="FindAllButton">
                     <rect key="frame" x="476" y="34" width="88" height="19"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="88" id="vde-Dg-aDB"/>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="88" id="vde-Dg-aDB"/>
                     </constraints>
                     <buttonCell key="cell" type="roundRect" title="Find All" bezelStyle="roundedRect" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="YXR-QR-Jyz">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>

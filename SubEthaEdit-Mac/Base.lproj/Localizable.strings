@@ -29,7 +29,7 @@
 "%d pending" = "%d pending";
 
 /* Number of replaced strings */
-"%d replaced" = "%d replaced";
+"%ld replaced" = "%ld replaced";
 
 /* No comment provided by engineer. */
 "&Redo" = "Redo";

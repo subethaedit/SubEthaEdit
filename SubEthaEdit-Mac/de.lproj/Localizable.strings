@@ -32,7 +32,7 @@
 "%d pending" = "%d Anfragen";
 
 /* Number of replaced strings */
-"%d replaced" = "%d ersetzt";
+"%ld replaced" = "%ld ersetzt";
 
 /* No comment provided by engineer. */
 "&Redo" = "Wiederholen";
