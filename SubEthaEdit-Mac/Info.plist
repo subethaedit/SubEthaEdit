@@ -3103,6 +3103,8 @@
 	<string>AppleScript is used to ask for permission to write certain files and to communicate for external editor support in providing apps.</string>
 	<key>NSAppleScriptEnabled</key>
 	<string>YES</string>
+	<key>NSCameraUsageDescription</key>
+	<string>The camera can be used in the collaboration preferences to set the avatar image.</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>${TCM_APP_COPYRIGHT}</string>
 	<key>NSMainNibFile</key>
