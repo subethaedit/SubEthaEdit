@@ -5,6 +5,7 @@
 
 #### Bug fixes and maintenance:
 * Fixed layout issues in web preview
+* Fixed issue where the split view icon could disappear
 
 #### Improved modes:
 * 
