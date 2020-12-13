@@ -19,23 +19,17 @@
 @property (nonatomic,strong) IBOutlet NSButton *findAllButton;
 @property (nonatomic,strong) IBOutlet NSButton *replaceButton;
 @property (nonatomic,strong) IBOutlet NSButton *replaceAllButton;
-@property (nonatomic,strong) IBOutlet NSButton *searchOptionsButton;
 @property (nonatomic,readonly) NSObjectController *findAndReplaceStateObjectController;
 
-@property (nonatomic, strong) IBOutlet NSLayoutConstraint *findAllWidthConstraint;
-@property (nonatomic, strong) IBOutlet NSLayoutConstraint *replaceAllWidthConstraint;
-@property (nonatomic, strong) IBOutlet NSLayoutConstraint *mainViewHeightConstraint;
+@property (nonatomic,strong) IBOutlet NSLayoutConstraint *mainViewHeightConstraint;
 
 - (IBAction)findAndReplaceAction:(id)sender;
 - (IBAction)dismissAction:(id)sender;
-- (IBAction)searchOptionsDropdownAction:(id)sender;
 
 - (IBAction)findPreviousNextSegmentedControlAction:(id)sender;
 
 - (void)updateSearchOptionsButton;
 
 - (void)setEnabled:(BOOL)isEnabled;
-
-- (void)updateColorsForIsDarkBackground:(BOOL)isDark;
 
 @end

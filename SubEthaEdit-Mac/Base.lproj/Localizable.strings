@@ -23,13 +23,13 @@
 "%d Document(s)" = "%d Document(s)";
 
 /* Entries Found in FindAll Panel */
-"%d found." = "%d found.";
+"%d matches" = "%d matches";
 
 /* Pending Users Display in Menu Title Bar */
 "%d pending" = "%d pending";
 
 /* Number of replaced strings */
-"%d replaced." = "%d replaced.";
+"%ld replaced" = "%ld replaced";
 
 /* No comment provided by engineer. */
 "&Redo" = "Redo";
@@ -822,10 +822,6 @@
 /* Advertise document string used in sharing service picker. */
 "Advertise Document" = "Advertise Document";
 
-"FIND_REPLACE_PANEL_FINDALL" = "Find All";
-"FIND_REPLACE_PANEL_REPLACE" = "Replace";
-"FIND_REPLACE_PANEL_REPLACEALL" = "Replace All";
-
 "FIND_REPLACE_PANEL_SCOPE_DOCUMENT" = "Document";
 
 "FIND_REPLACE_PANEL_MENU_CLEAR_SCOPE" = "Clear Scope %@";
@@ -834,19 +830,19 @@
 "FIND_REPLACE_PANEL_MENU_WRAP" = "Wrap around";
 "FIND_REPLACE_PANEL_MENU_HISTORY_SUBMENU_TITLE" = "Recent Searches";
 "FIND_REPLACE_PANEL_MENU_USE_REGEX" = "Use Regular Expressions";
-"FIND_REPLACE_PANEL_MENU_REGEX_DIALECT" = "Regular Expression Dialect";
+"FIND_REPLACE_PANEL_MENU_REGEX_DIALECT" = "Regular Expression Dialect:";
 "FIND_REPLACE_PANEL_MENU_EXTENDED" = "Extended";
 "FIND_REPLACE_PANEL_MENU_ESCAPE_SLASH" = "Escape Character: \\";
 "FIND_REPLACE_PANEL_MENU_ESCAPE_YEN" = "Escape Character: ¥";
 "FIND_REPLACE_PANEL_MENU_CAPTURE_GROUPS" = "Capture unnamed groups";
-"FIND_REPLACE_PANEL_MENU_LINE_CONTEXT" = "'^' ➞ '\\A', '$' ➞ '\\Z'";
+"FIND_REPLACE_PANEL_MENU_LINE_CONTEXT" = "'^' → '\\A', '$' → '\\Z'";
 "FIND_REPLACE_PANEL_MENU_MULTILINE" = "'.' matches line breaks";
 "FIND_REPLACE_PANEL_MENU_ONLY_LONGEST" = "Find only longest match";
 "FIND_REPLACE_PANEL_MENU_IGNORE_EMPTY" = "Ignore empty matches";
 "FIND_REPLACE_PANEL_MENU_OPEN_HELP" = "Open Regular Expression Help";
 
 /* search and replace errors */
-"FIND_REPLACE_ERROR_INVALID_FIND_STRING" = "Find string invalid.";
+"FIND_REPLACE_ERROR_INVALID_FIND_STRING" = "Invalid find string";
 "FIND_REPLACE_REPLACE_ALL_IN_PROGRESS" = "Replace all in progress…";
 "FIND_REPLACE_REPLACE_ALL_IN_PROGRESS_COUNT" = "Replace all in progress… (%@ replaced)";
 
