@@ -21,7 +21,7 @@
 @property (nonatomic,strong) IBOutlet NSButton *replaceAllButton;
 @property (nonatomic,readonly) NSObjectController *findAndReplaceStateObjectController;
 
-@property (nonatomic, strong) IBOutlet NSLayoutConstraint *mainViewHeightConstraint;
+@property (nonatomic,strong) IBOutlet NSLayoutConstraint *mainViewHeightConstraint;
 
 - (IBAction)findAndReplaceAction:(id)sender;
 - (IBAction)dismissAction:(id)sender;

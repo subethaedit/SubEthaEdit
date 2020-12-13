@@ -48,7 +48,7 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 static NSInteger const kMinViewHeight = 61;
 
 @interface SEEFindAndReplaceViewController () <NSMenuDelegate, TCMDragImageDelegate>
-@property (weak) IBOutlet NSPopUpButton *searchOptionsPopUpButton;
+@property (nonatomic, strong) IBOutlet NSPopUpButton *searchOptionsPopUpButton;
 @property (nonatomic, strong) NSMenu *optionsPopupMenu;
 @property (nonatomic, strong) NSMenu *recentsMenu;
 @property (nonatomic, strong) NSMutableSet *registeredNotifications;
@@ -91,7 +91,14 @@ static NSInteger const kMinViewHeight = 61;
 		self.firstResponderWhenDisabelingView = firstResponder;
 	}
 
-	for (id element in @[self.findTextField, self.replaceTextField,self.findPreviousNextSegmentedControl, self.replaceButton,self.replaceAllButton,self.searchOptionsPopUpButton, self.findAllButton]) {
+	for (id element in @[self.findTextField,
+                         self.replaceTextField,
+                         self.findPreviousNextSegmentedControl,
+                         self.replaceButton,
+                         self.replaceAllButton,
+                         self.searchOptionsPopUpButton,
+                         self.findAllButton,
+                       ]) {
 		[element setEnabled:isEnabled];
 	}
 
@@ -391,12 +398,20 @@ static NSInteger const kMinViewHeight = 61;
             NSMenuItem *menuDialectTitleItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"FIND_REPLACE_PANEL_MENU_REGEX_DIALECT",@"") action:@selector(dummyAction:) keyEquivalent:@""];
             [menuDialectTitleItem setEnabled:NO];
             [menu addItem:menuDialectTitleItem];
-//            [self addItemToMenu:menu title: action:NULL tag:-1];
 			NSMenuItem *switchDialectMenuItem = [self addItemToMenu:menu title:@"<current selected dialect>" action:@selector(dummyAction:) tag:kOptionMenuSelectedLanguageDialectTag];
             [switchDialectMenuItem setIndentationLevel:1];
 			[switchDialectMenuItem setSubmenu:({
 				NSMenu *submenu = [NSMenu new];
-				for (NSNumber *syntaxOptionNumber in @[@(OgreRubySyntax),@(OgrePerlSyntax),@(OgreJavaSyntax),@(OgreGNURegexSyntax),@(OgreGrepSyntax),@(OgreEmacsSyntax),@(OgrePOSIXExtendedSyntax),@(OgrePOSIXBasicSyntax)]) {
+                for (NSNumber *syntaxOptionNumber in @[
+                         @(OgreRubySyntax),
+                         @(OgrePerlSyntax),
+                         @(OgreJavaSyntax),
+                         @(OgreGNURegexSyntax),
+                         @(OgreGrepSyntax),
+                         @(OgreEmacsSyntax),
+                         @(OgrePOSIXExtendedSyntax),
+                         @(OgrePOSIXBasicSyntax),
+                     ]) {
 					OgreSyntax syntax = syntaxOptionNumber.integerValue;
 					[self addItemToMenu:submenu title:[SEEFindAndReplaceState regularExpressionSyntaxStringForSyntax:syntax] action:@selector(switchRegexSyntaxDialect:) tag:syntax];
 				}
@@ -405,7 +420,6 @@ static NSInteger const kMinViewHeight = 61;
 				[submenu addItem:[NSMenuItem separatorItem]];
 				[self addItemToMenu:submenu title:NSLocalizedString(@"FIND_REPLACE_PANEL_MENU_ESCAPE_SLASH",@"") action:@selector(switchEscapeCharacter:) tag:kOptionMenuEscapeCharacterSlashTag];
 				[self addItemToMenu:submenu title:NSLocalizedString(@"FIND_REPLACE_PANEL_MENU_ESCAPE_YEN",@"") action:@selector(switchEscapeCharacter:) tag:kOptionMenuEscapeCharacterYenTag];
-
 				
 				submenu;
 			})];
@@ -479,8 +493,8 @@ static NSInteger const kMinViewHeight = 61;
 #pragma mark - resize dragging
 
 - (void)setOverlayViewHeight:(CGFloat)aDesiredHeight {
-	aDesiredHeight = MIN(aDesiredHeight,176);
-	aDesiredHeight = MAX(aDesiredHeight,kMinViewHeight);
+	aDesiredHeight = MIN(aDesiredHeight, 176);
+	aDesiredHeight = MAX(aDesiredHeight, kMinViewHeight);
 	
 	if (self.mainViewHeightConstraint.constant != aDesiredHeight) {
 		self.mainViewHeightConstraint.constant = aDesiredHeight;
