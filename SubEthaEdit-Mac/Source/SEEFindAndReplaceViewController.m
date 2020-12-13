@@ -38,8 +38,6 @@ static NSString * const kOptionKeyPathUseRegularExpressions   = @"content.useReg
 static NSString * const kOptionKeyPathRegexDialectString = @"content.regularExpressionSyntaxString";
 static NSString * const kOptionKeyPathRegexDialect = @"content.regularExpressionSyntax";
 static NSString * const kOptionKeyPathRegexEscapeCharacter = @"content.regularExpressionEscapeCharacter";
-
-
 static NSString * const kOptionKeyPathRegexOptionCaptureGroups = @"content.regularExpressionOptionCaptureGroups";
 static NSString * const kOptionKeyPathRegexOptionLineContext = @"content.regularExpressionOptionLineContext";
 static NSString * const kOptionKeyPathRegexOptionMultiline = @"content.regularExpressionOptionMultiline";
@@ -47,8 +45,10 @@ static NSString * const kOptionKeyPathRegexOptionExtended = @"content.regularExp
 static NSString * const kOptionKeyPathRegexOptionIgnoreEmptyMatches = @"content.regularExpressionOptionIgnoreEmptyMatches";
 static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.regularExpressionOptionOnlyLongestMatch";
 
+static NSInteger const kMinViewHeight = 61;
 
 @interface SEEFindAndReplaceViewController () <NSMenuDelegate, TCMDragImageDelegate>
+@property (nonatomic, strong) IBOutlet NSPopUpButton *searchOptionsPopUpButton;
 @property (nonatomic, strong) NSMenu *optionsPopupMenu;
 @property (nonatomic, strong) NSMenu *recentsMenu;
 @property (nonatomic, strong) NSMutableSet *registeredNotifications;
@@ -56,8 +56,6 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 @property (nonatomic, readonly) PlainTextEditor *targetPlainTextEditor;
 
 @property (nonatomic) NSInteger startHeightBeforeDrag;
-
-@property (nonatomic, strong) IBOutlet NSView *bottomLineView;
 
 @property (nonatomic, strong) NSResponder *firstResponderWhenDisabelingView;
 @end
@@ -93,7 +91,14 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 		self.firstResponderWhenDisabelingView = firstResponder;
 	}
 
-	for (id element in @[self.findTextField, self.replaceTextField,self.findPreviousNextSegmentedControl, self.replaceButton,self.replaceAllButton,self.searchOptionsButton, self.findAllButton]) {
+	for (id element in @[self.findTextField,
+                         self.replaceTextField,
+                         self.findPreviousNextSegmentedControl,
+                         self.replaceButton,
+                         self.replaceAllButton,
+                         self.searchOptionsPopUpButton,
+                         self.findAllButton,
+                       ]) {
 		[element setEnabled:isEnabled];
 	}
 
@@ -121,24 +126,29 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 }
 
 - (void)updateSearchOptionsButton {
-    NSString *imageName = @"SearchLoupeNormal";
+    NSImage *image;
+    [self.searchOptionsPopUpButton setImagePosition:NSNoImage];
     if ([[self.findAndReplaceStateObjectController valueForKeyPath:kOptionKeyPathUseRegularExpressions] boolValue]) {
-        imageName = @"SearchLoupeRE";
+        if (@available(macOS 11.0, *)) {
+            image = [NSImage imageWithSystemSymbolName:@"staroflife.fill" accessibilityDescription:nil];
+        } else {
+            image = [NSImage imageNamed:@"staroflife.fill"];
+        }
+    } else {
+        if (@available(macOS 11.0, *)) {
+            image = [NSImage imageWithSystemSymbolName:@"magnifyingglass" accessibilityDescription:nil];
+        } else {
+            image = [NSImage imageNamed:@"magnifyingglass"];
+        }
     }
-    NSImage *image = [NSImage imageNamed:imageName];
-    image.template = YES;
+    NSMenuItem *titleItem = self.searchOptionsPopUpButton.itemArray[0];
+    [titleItem setImage:image];
+    [self.searchOptionsPopUpButton setImagePosition:NSImageOnly];
     
-    
-	[self.searchOptionsButton setImage:image];
-
-	NSShadow *shadow = nil;
-	if (self.hasSearchScope) {
-		shadow = [NSShadow new];
-		[shadow setShadowColor:[NSColor searchScopeBaseColor]];
-		[shadow setShadowOffset:NSMakeSize(0, 0)];
-		[shadow setShadowBlurRadius:5.0];
-	}
-	[self.searchOptionsButton setShadow:shadow];
+    NSColor *color = self.hasSearchScope ? [NSColor searchScopeBaseColor] : [NSColor controlTextColor];
+    if (@available(macOS 10.14, *)) {
+        [self.searchOptionsPopUpButton setContentTintColor:color];
+    }
 }
 
 - (BOOL)hasSearchScope {
@@ -150,19 +160,14 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 
 - (void)loadView {
 	[super loadView];
-
-    BOOL isDarkAppearance = NSApp.SEE_effectiveAppearanceIsDark;
     
-	self.bottomLineView.layer.backgroundColor = [[NSColor darkOverlaySeparatorColorBackgroundIsDark:NO appearanceIsDark:isDarkAppearance] CGColor];
-
-	[self updateSearchOptionsButton];
-	[self.searchOptionsButton sendActionOn:NSEventMaskLeftMouseDown | NSEventMaskRightMouseDown];
-	
-	// add bindings
-	[self.findTextField bind:@"value" toObject:self.findAndReplaceStateObjectController withKeyPath:@"content.findString" options:@{NSContinuouslyUpdatesValueBindingOption : @YES}];
-	[self.replaceTextField bind:@"value" toObject:self.findAndReplaceStateObjectController withKeyPath:@"content.replaceString" options:@{NSContinuouslyUpdatesValueBindingOption : @YES}];
-	[self.feedbackTextField bind:@"value" toObject:self.findAndReplaceStateObjectController withKeyPath:@"content.statusString" options:nil];
-	
+	[self.findTextField bind:@"value" toObject:self.findAndReplaceStateObjectController withKeyPath:@"content.findString" options:
+     @{NSContinuouslyUpdatesValueBindingOption : @YES, NSNullPlaceholderBindingOption : self.findTextField.placeholderString}];
+	[self.replaceTextField bind:@"value" toObject:self.findAndReplaceStateObjectController withKeyPath:@"content.replaceString" options:
+     @{NSContinuouslyUpdatesValueBindingOption : @YES, NSNullPlaceholderBindingOption : self.replaceTextField.placeholderString}];
+    [self.feedbackTextField bind:@"value" toObject:self.findAndReplaceStateObjectController withKeyPath:@"content.statusString" options:
+     @{NSNullPlaceholderBindingOption : @YES}];
+    
 	// add observation
 	[self.findAndReplaceStateObjectController addObserver:self forKeyPath:kOptionKeyPathUseRegularExpressions options:0 context:(void *)kOptionMenuUseRegularExpressionsTag];
 	
@@ -178,32 +183,13 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
         }
     }]];
 	
-	// localize and fix layout correspondingly
-	self.replaceButton.title = NSLocalizedString(@"FIND_REPLACE_PANEL_REPLACE", @"'Replace' in find panel");
-	self.replaceAllButton.title = NSLocalizedString(@"FIND_REPLACE_PANEL_REPLACEALL", @"'Replace All' in find panel");
-	self.findAllButton.title = NSLocalizedString(@"FIND_REPLACE_PANEL_FINDALL", @"'Find all' in find panel");
-
-	// have the labels have a little more width than intended by the framework
-	CGFloat extraButtonPadding = 8.0;
-	self.findAllWidthConstraint.constant = self.findAllButton.intrinsicContentSize.width + extraButtonPadding;
-	self.replaceAllWidthConstraint.constant = self.replaceAllButton.intrinsicContentSize.width + extraButtonPadding;
-	CGFloat buttonSegmentDifference = 5.0;
-	CGFloat totalWidth = self.findAllWidthConstraint.constant - buttonSegmentDifference;
-	CGFloat segmentWidth1 = round(totalWidth / 2.0);
-	CGFloat segmentWidth2 = totalWidth - segmentWidth1;
-	[self.findPreviousNextSegmentedControl setWidth:segmentWidth1 forSegment:0];
-	[self.findPreviousNextSegmentedControl setWidth:segmentWidth2 forSegment:1];
-	
+    self.searchOptionsPopUpButton.menu = [self ensuredOptionsPopupMenu];
+    [self updateSearchOptionsButton];
+    
 	NSNumber *defaultHeight = [[NSUserDefaults standardUserDefaults] objectForKey:@"SEEFindAndReplaceOverlayDefaultHeight"];
-	if (defaultHeight) {
+	if (defaultHeight.integerValue >= kMinViewHeight) {
 		self.mainViewHeightConstraint.constant = defaultHeight.integerValue;
 	}
-}
-
-- (void)updateColorsForIsDarkBackground:(BOOL)isDark {
-    BOOL isDarkAppearance = NSApp.SEE_effectiveAppearanceIsDark;
-    self.bottomLineView.layer.backgroundColor = [[NSColor darkOverlaySeparatorColorBackgroundIsDark:isDark appearanceIsDark:isDarkAppearance] CGColor];
-    [self updateSearchOptionsButton];
 }
 
 - (NSObjectController *)findAndReplaceStateObjectController {
@@ -217,28 +203,14 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 	}
 }
 
-
 - (IBAction)dismissAction:(id)sender {
 	// this is a little bit bad because it knows about the first plain text editor being the one displaying us
 	[self.plainTextWindowControllerTabContext.plainTextEditors.firstObject findAndReplaceViewControllerDidPressDismiss:self];
 }
 
-- (IBAction)searchOptionsDropdownAction:(id)sender {
-	NSMenu *menu = [self ensuredOptionsPopupMenu];
-	[menu popUpMenuPositioningItem:nil atLocation:({ NSPoint result = NSZeroPoint;
-		result.y = NSMaxY(self.searchOptionsButton.bounds);
-		result;}) inView:self.searchOptionsButton];
-	
-}
-
 - (IBAction)findPreviousNextSegmentedControlAction:(id)aSender {
 	NSSegmentedControl *control = (NSSegmentedControl *)aSender;
-	if (control.selectedSegment == 0) {
-		
-	}
-	NSInteger actionType = (control.selectedSegment == 0) ?
-			NSTextFinderActionPreviousMatch :
-				NSTextFinderActionNextMatch;
+	NSInteger actionType = (control.selectedSegment == 0) ? NSTextFinderActionPreviousMatch : NSTextFinderActionNextMatch;
 	[[FindReplaceController sharedInstance] performTextFinderAction:actionType textView:self.targetTextView];
 }
 
@@ -276,7 +248,6 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 	NSNumber *currentValue = [self.findAndReplaceStateObjectController valueForKeyPath:keyPath];
 	[self.findAndReplaceStateObjectController setValue:@(!currentValue.boolValue) forKeyPath:keyPath];
 }
-
 
 - (IBAction)switchEscapeCharacter:(id)aSender {
 	NSString *keyPath = kOptionKeyPathRegexEscapeCharacter;
@@ -319,8 +290,10 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 #pragma mark - Options Menu Handling
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
-	//	NSLog(@"%s menuItem:%@",__FUNCTION__,menuItem);
-	
+    if ([menuItem.title isEqualToString:NSLocalizedString(@"FIND_REPLACE_PANEL_MENU_REGEX_DIALECT",@"")]) {
+        return NO;
+    }
+    
 	BOOL useRegex = [[self.findAndReplaceStateObjectController valueForKeyPath:kOptionKeyPathUseRegularExpressions] boolValue];
 	BOOL validationResultForRegexOptions = useRegex;
 	
@@ -349,7 +322,6 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 		[menuItem setState:currentValue.boolValue ? NSOnState : NSOffState];
 		return validationResultForRegexOptions;
 	} else {
-
 		switch (menuItem.tag) {
 			case kOptionMenuIgnoreCaseTag:
 				[menuItem setState:[[self.findAndReplaceStateObjectController valueForKeyPath:kOptionKeyPathCaseSensitive] boolValue] ? NSOffState : NSOnState];
@@ -403,13 +375,15 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 		self.optionsPopupMenu = ({
 			NSMenu *menu = [NSMenu new];
 			menu.delegate = self;
-						
-			
+            
 			NSMenuItem *item = [menu addItemWithTitle:NSLocalizedString(@"FIND_REPLACE_PANEL_MENU_HISTORY_SUBMENU_TITLE", @"") action:NULL keyEquivalent:@""];
 			item.submenu = [NSMenu new];
 			item.submenu.delegate = self;
 			self.recentsMenu = item.submenu;
-			
+            
+            NSMenuItem *menuTitleItem = [[NSMenuItem alloc] initWithTitle:@"" action:nil keyEquivalent:@""];
+            [menu insertItem:menuTitleItem atIndex:0];
+            
 			[menu addItem:[NSMenuItem separatorItem]];
 			[self addItemToMenu:menu title:NSLocalizedString(@"FIND_REPLACE_PANEL_MENU_CLEAR_SCOPE",@"") action:@selector(clearSearchScope:) tag:kOptionMenuClearScopeTag];
 			[self addItemToMenu:menu title:NSLocalizedString(@"FIND_REPLACE_PANEL_MENU_ADD_TO_SCOPE",@"") action:@selector(addCurrentSelectionToSearchScope:) tag:kOptionMenuAddSelectionToSearchScopeTag];
@@ -421,11 +395,23 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 			[self addItemToMenu:menu title:NSLocalizedString(@"FIND_REPLACE_PANEL_MENU_USE_REGEX",@"") action:@selector(toggleUseRegex:) tag:kOptionMenuUseRegularExpressionsTag];
 
 			[menu addItem:[NSMenuItem separatorItem]];
-			[self addItemToMenu:menu title:NSLocalizedString(@"FIND_REPLACE_PANEL_MENU_REGEX_DIALECT",@"") action:NULL tag:0];
-			NSMenuItem *switchDialectMenuItem = [self addItemToMenu:menu title:@"<current selected dialect>" action:@selector(dummyAction:)	 tag:kOptionMenuSelectedLanguageDialectTag];
+            NSMenuItem *menuDialectTitleItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"FIND_REPLACE_PANEL_MENU_REGEX_DIALECT",@"") action:@selector(dummyAction:) keyEquivalent:@""];
+            [menuDialectTitleItem setEnabled:NO];
+            [menu addItem:menuDialectTitleItem];
+			NSMenuItem *switchDialectMenuItem = [self addItemToMenu:menu title:@"<current selected dialect>" action:@selector(dummyAction:) tag:kOptionMenuSelectedLanguageDialectTag];
+            [switchDialectMenuItem setIndentationLevel:1];
 			[switchDialectMenuItem setSubmenu:({
 				NSMenu *submenu = [NSMenu new];
-				for (NSNumber *syntaxOptionNumber in @[@(OgreRubySyntax),@(OgrePerlSyntax),@(OgreJavaSyntax),@(OgreGNURegexSyntax),@(OgreGrepSyntax),@(OgreEmacsSyntax),@(OgrePOSIXExtendedSyntax),@(OgrePOSIXBasicSyntax)]) {
+                for (NSNumber *syntaxOptionNumber in @[
+                         @(OgreRubySyntax),
+                         @(OgrePerlSyntax),
+                         @(OgreJavaSyntax),
+                         @(OgreGNURegexSyntax),
+                         @(OgreGrepSyntax),
+                         @(OgreEmacsSyntax),
+                         @(OgrePOSIXExtendedSyntax),
+                         @(OgrePOSIXBasicSyntax),
+                     ]) {
 					OgreSyntax syntax = syntaxOptionNumber.integerValue;
 					[self addItemToMenu:submenu title:[SEEFindAndReplaceState regularExpressionSyntaxStringForSyntax:syntax] action:@selector(switchRegexSyntaxDialect:) tag:syntax];
 				}
@@ -434,7 +420,6 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 				[submenu addItem:[NSMenuItem separatorItem]];
 				[self addItemToMenu:submenu title:NSLocalizedString(@"FIND_REPLACE_PANEL_MENU_ESCAPE_SLASH",@"") action:@selector(switchEscapeCharacter:) tag:kOptionMenuEscapeCharacterSlashTag];
 				[self addItemToMenu:submenu title:NSLocalizedString(@"FIND_REPLACE_PANEL_MENU_ESCAPE_YEN",@"") action:@selector(switchEscapeCharacter:) tag:kOptionMenuEscapeCharacterYenTag];
-
 				
 				submenu;
 			})];
@@ -508,8 +493,8 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 #pragma mark - resize dragging
 
 - (void)setOverlayViewHeight:(CGFloat)aDesiredHeight {
-	aDesiredHeight = MIN(aDesiredHeight,176);
-	aDesiredHeight = MAX(aDesiredHeight,51);
+	aDesiredHeight = MIN(aDesiredHeight, 176);
+	aDesiredHeight = MAX(aDesiredHeight, kMinViewHeight);
 	
 	if (self.mainViewHeightConstraint.constant != aDesiredHeight) {
 		self.mainViewHeightConstraint.constant = aDesiredHeight;
