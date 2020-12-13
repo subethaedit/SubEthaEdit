@@ -184,6 +184,7 @@
 				[imagePicker setValue:@(YES) forKey:IKPictureTakerShowAddressBookPictureKey];
 				[imagePicker setValue:[me defaultImage] forKey:IKPictureTakerShowEmptyPictureKey]; // is also updated in the change name method
 				[imagePicker setValue:@(YES) forKey:IKPictureTakerShowEffectsKey];
+                [imagePicker setValue:@YES forKey:IKPictureTakerAllowsVideoCaptureKey];
 				
 				imagePicker;
 			});

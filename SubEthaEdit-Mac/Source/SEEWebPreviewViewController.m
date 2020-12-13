@@ -293,8 +293,9 @@ static NSScrollView *firstScrollView(NSView *aView) {
 -(void)loadView {
     [super loadView];
 
-	self.oRefreshPopupButton.lineDrawingEdge = CGRectMinXEdge;
-	
+    self.oRefreshPopupButton.lineDrawingEdge = CGRectMinXEdge;
+    [self.oRefreshPopupButton setLineColor:[NSColor tertiaryLabelColor]];
+    
     [self.oWebView setFrameLoadDelegate:self];
     [self.oWebView setUIDelegate:self];
     [self.oWebView setResourceLoadDelegate:self];
