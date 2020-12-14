@@ -13,12 +13,15 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <window title="&lt;&lt; do not localize &gt;&gt;" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="5" userLabel="Window">
-            <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
+        <window title="&lt;&lt; do not localize &gt;&gt;" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" tabbingMode="disallowed" id="5" userLabel="Window">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" resizable="YES"/>
             <windowCollectionBehavior key="collectionBehavior" fullScreenAuxiliary="YES"/>
-            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="131" y="547" width="680" height="195"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1415"/>
+            <value key="minSize" type="size" width="680" height="195"/>
+            <value key="maxSize" type="size" width="680" height="2000"/>
+            <value key="minFullScreenContentSize" type="size" width="680" height="195"/>
+            <value key="maxFullScreenContentSize" type="size" width="680" height="2000"/>
             <view key="contentView" id="6">
                 <rect key="frame" x="0.0" y="0.0" width="680" height="195"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -26,7 +29,7 @@
             <connections>
                 <outlet property="delegate" destination="-2" id="8"/>
             </connections>
-            <point key="canvasLocation" x="140" y="145"/>
+            <point key="canvasLocation" x="140" y="144.5"/>
         </window>
     </objects>
 </document>

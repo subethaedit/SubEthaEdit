@@ -31,13 +31,15 @@
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="128" y="514" width="680" height="490"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1415"/>
+            <value key="minSize" type="size" width="680" height="450"/>
+            <value key="maxSize" type="size" width="680" height="2000"/>
             <view key="contentView" id="5">
                 <rect key="frame" x="0.0" y="0.0" width="680" height="490"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <box fixedFrame="YES" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="8">
                         <rect key="frame" x="17" y="56" width="646" height="405"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
                         <view key="contentView" id="Xd5-ZL-s6W">
                             <rect key="frame" x="3" y="3" width="640" height="399"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -87,7 +89,7 @@
                                 </textField>
                                 <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="498">
                                     <rect key="frame" x="20" y="21" width="600" height="200"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                    <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
                                     <clipView key="contentView" drawsBackground="NO" id="PFR-hz-qQk">
                                         <rect key="frame" x="1" y="1" width="598" height="198"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -211,7 +213,7 @@
                     </popUpButton>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="394">
                         <rect key="frame" x="423" y="13" width="244" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="push" title="Apply to Open Documents" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="451">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
