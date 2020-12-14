@@ -17,7 +17,11 @@
     if (self) {
         
         self.blendingMode = NSVisualEffectBlendingModeWithinWindow;
-        self.material = NSVisualEffectMaterialSidebar;
+        if (@available(macOS 10.14, *)) {
+            self.material = NSVisualEffectMaterialHeaderView;
+        } else {
+            self.material = NSVisualEffectMaterialSidebar;
+        }
         
 		NSTrackingAreaOptions options = NSTrackingCursorUpdate | NSTrackingInVisibleRect | NSTrackingActiveInKeyWindow;
 

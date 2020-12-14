@@ -82,7 +82,7 @@
         NSTableColumn* stringCol = [[O_resultsTableView tableColumns] objectAtIndex:1];
         int longestCol = 150;
         
-        NSString *statusString = [NSString stringWithFormat:NSLocalizedString(@"%d found.",@"Entries Found in FindAll Panel"),count];
+        NSString *statusString = [NSString stringWithFormat:NSLocalizedString(@"%d matches",@"Entries Found in FindAll Panel"), count];
 /*
         NSString *scopeString = I_scopeSelectionOperation ? NSLocalizedStringWithDefaultValue(@"SELECTION_SCOPE_DESCRIPTION", nil, [NSBundle mainBundle], @"Selection", @"string describing the selection find scope") :
 NSLocalizedStringWithDefaultValue(@"SELECTION_SCOPE_DOCUMENT", nil,[NSBundle mainBundle], @"Document", @"string describing the document find scope");
@@ -98,7 +98,7 @@ NSLocalizedStringWithDefaultValue(@"SELECTION_SCOPE_DOCUMENT", nil,[NSBundle mai
             
             NSMutableAttributedString *aString = [[NSMutableAttributedString alloc] initWithString:[[textStorage string] substringWithRange:lineRange]];
 
-            [aString addAttribute:NSBackgroundColorAttributeName value:[[NSColor yellowColor] highlightWithLevel:0.5] range:NSMakeRange(matchRange.location - lineRange.location, matchRange.length)];
+            [aString addAttribute:NSBackgroundColorAttributeName value:[[NSColor systemYellowColor] highlightWithLevel:0.5] range:NSMakeRange(matchRange.location - lineRange.location, matchRange.length)];
             [aString addAttribute:NSForegroundColorAttributeName value:[NSColor blackColor] range:NSMakeRange(matchRange.location - lineRange.location, matchRange.length)];
             [aString addAttribute:NSParagraphStyleAttributeName value:[self.class listParagraphStyle] range:[aString TCM_fullLengthRange]];
             
@@ -107,11 +107,11 @@ NSLocalizedStringWithDefaultValue(@"SELECTION_SCOPE_DOCUMENT", nil,[NSBundle mai
                 if ([aMatch substringAtIndex:subGroup]) {
                     matchRange = [aMatch rangeOfSubstringAtIndex:subGroup];
                     NSColor *color = nil;
-                    if (subGroup==1) color = [[NSColor orangeColor] highlightWithLevel:0.6];
-                    else if (subGroup==2) color = [[NSColor greenColor] highlightWithLevel:0.6];
-                    else if (subGroup==3) color = [[NSColor magentaColor] highlightWithLevel:0.6];
-                    else if (subGroup==4) color = [[NSColor redColor] highlightWithLevel:0.7];
-                    else if (subGroup==5) color = [[NSColor purpleColor] highlightWithLevel:0.7];
+                    if (subGroup==1) color = [[NSColor systemOrangeColor] highlightWithLevel:0.6];
+                    else if (subGroup==2) color = [[NSColor systemGreenColor] highlightWithLevel:0.6];
+                    else if (subGroup==3) color = [[NSColor systemPinkColor] highlightWithLevel:0.6];
+                    else if (subGroup==4) color = [[NSColor systemRedColor] highlightWithLevel:0.7];
+                    else if (subGroup==5) color = [[NSColor systemPurpleColor] highlightWithLevel:0.7];
                     [aString addAttribute:NSBackgroundColorAttributeName value:color range:NSMakeRange(matchRange.location - lineRange.location, matchRange.length)];
                 } else break;
             }
@@ -126,11 +126,10 @@ NSLocalizedStringWithDefaultValue(@"SELECTION_SCOPE_DOCUMENT", nil,[NSBundle mai
 
             NSSize stringSize = [aString size];
             if (longestCol<stringSize.width) {
-                [stringCol setMinWidth:stringSize.width+5];
                 longestCol = stringSize.width;
             }
-
         }
+        [stringCol setWidth:longestCol];
         [O_resultsTableView tile];
         if ([[self arrangedObjects] count] > 0) {
             [O_resultsController setSelectionIndex:0];
@@ -141,7 +140,6 @@ NSLocalizedStringWithDefaultValue(@"SELECTION_SCOPE_DOCUMENT", nil,[NSBundle mai
     }
     [O_progressIndicator stopAnimation:nil];
     [O_resultsTableView setDelegate:self];
-
 }
 
 - (void)jumpToSelection:(id)sender {

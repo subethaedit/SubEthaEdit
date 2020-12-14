@@ -276,11 +276,11 @@ self.regexOptions = options
 
 - (NSString *)menuTitleDescription {
 	NSMutableArray *components = [NSMutableArray new];
-	[components addObject:[NSString stringWithFormat:@"›%@‹", self.findString]];
+	[components addObject:[NSString stringWithFormat:@"%@", self.findString]];
 	if (self.replaceString.length) {
-		[components addObject:[NSString stringWithFormat:@"›%@‹", self.replaceString]];
+		[components addObject:[NSString stringWithFormat:@"%@", self.replaceString]];
 	}
-	NSString *result = [components componentsJoinedByString:@" ➞ "];
+	NSString *result = [components componentsJoinedByString:@" → "];
 	return result;
 }
 
