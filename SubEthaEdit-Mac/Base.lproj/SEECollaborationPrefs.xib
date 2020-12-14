@@ -55,7 +55,7 @@
                         </textFieldCell>
                     </textField>
                     <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wXb-nY-PDx">
-                        <rect key="frame" x="316" y="322" width="322" height="24"/>
+                        <rect key="frame" x="315" y="322" width="322" height="26"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="1" tickMarkPosition="above" numberOfTickMarks="2" sliderType="linear" id="TjX-xA-W2m"/>
                         <connections>
@@ -106,7 +106,7 @@
                         </connections>
                     </textField>
                     <slider toolTip="Adjusts the strength of the background color indicating changes." verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mO9-U1-vVK">
-                        <rect key="frame" x="316" y="259" width="322" height="24"/>
+                        <rect key="frame" x="316" y="259" width="322" height="26"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <sliderCell key="cell" continuous="YES" alignment="left" minValue="5" maxValue="100" doubleValue="50" tickMarkPosition="above" numberOfTickMarks="2" sliderType="linear" id="19e-S6-799"/>
                         <connections>

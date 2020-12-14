@@ -29,7 +29,7 @@
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1415"/>
             <view key="contentView" id="5">
                 <rect key="frame" x="0.0" y="0.0" width="680" height="696"/>
-                <autoresizingMask key="autoresizingMask"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <tabView type="noTabsBezelBorder" id="zId-de-vtu">
                         <rect key="frame" x="16" y="56" width="648" height="612"/>
@@ -193,14 +193,14 @@
                                             </buttonCell>
                                             <connections>
                                                 <action selector="validateDefaultsState:" target="-2" id="251"/>
-                                                <binding destination="73" name="enabled" keyPath="selection.isBaseMode" id="1nZ-gO-Fuu">
-                                                    <dictionary key="options">
-                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                    </dictionary>
-                                                </binding>
                                                 <binding destination="73" name="value" keyPath="selection.defaults.UseDefaultView" id="36Y-rA-37u">
                                                     <dictionary key="options">
                                                         <integer key="NSMultipleValuesPlaceholder" value="0"/>
+                                                    </dictionary>
+                                                </binding>
+                                                <binding destination="73" name="enabled" keyPath="selection.isBaseMode" id="1nZ-gO-Fuu">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
                                                     </dictionary>
                                                 </binding>
                                             </connections>
@@ -292,7 +292,7 @@
                                             </connections>
                                         </textField>
                                         <stackView distribution="fill" orientation="horizontal" alignment="centerY" spacing="4" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" fixedFrame="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6qi-hl-2YP">
-                                            <rect key="frame" x="343" y="408.5" width="243" height="21"/>
+                                            <rect key="frame" x="343" y="409" width="243" height="21"/>
                                             <subviews>
                                                 <button translatesAutoresizingMaskIntoConstraints="NO" id="290">
                                                     <rect key="frame" x="-2" y="2" width="146" height="18"/>
@@ -625,7 +625,7 @@
                                             </connections>
                                         </button>
                                         <popUpButton toolTip="Default character encoding for files" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="32" customClass="EncodingPopUpButton">
-                                            <rect key="frame" x="277" y="73" width="232" height="22"/>
+                                            <rect key="frame" x="277" y="71" width="232" height="26"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                             <popUpButtonCell key="cell" type="push" title="Item1" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="25" id="348">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -646,7 +646,7 @@
                                             </connections>
                                         </popUpButton>
                                         <popUpButton toolTip="Default character that ends lines" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="22">
-                                            <rect key="frame" x="277" y="46" width="232" height="22"/>
+                                            <rect key="frame" x="277" y="43" width="232" height="26"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                             <popUpButtonCell key="cell" type="push" title="Unix/Mac OS X (LF)" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" tag="1" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="29" id="345">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
