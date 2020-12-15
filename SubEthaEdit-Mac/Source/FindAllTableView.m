@@ -28,10 +28,10 @@
         }
     }
 
-    [pb declareTypes: [NSArray arrayWithObject:NSStringPboardType] 
+    [pb declareTypes: [NSArray arrayWithObject:NSPasteboardTypeString]
         owner:nil];
 
-    [pb setString:string forType: NSStringPboardType];
+    [pb setString:string forType: NSPasteboardTypeString];
 }
 
 - (void)paste:(id)sender {

@@ -30,11 +30,11 @@
 
 		if (image) {
 			[self setMixedStateImage:image];
-			[self setState:NSMixedState];
+			[self setState:NSControlStateValueMixed];
 		}
 	} else {
 		[self setMixedStateImage:[NSImage imageNamed:NSImageNameMenuMixedStateTemplate]];
-		[self setState:NSOffState];
+		[self setState:NSControlStateValueOff];
 	}
 }
 

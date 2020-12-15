@@ -29,11 +29,11 @@
 		BOOL goesIntoBundles = [[NSUserDefaults standardUserDefaults] boolForKey:@"GoIntoBundlesPrefKey"];
 		[openPanel setTreatsFilePackagesAsDirectories:goesIntoBundles];
 		[openPanel setCanChooseDirectories:YES];
-		[self.goIntoBundlesCheckboxOutlet setState:goesIntoBundles ? NSOnState : NSOffState];
+		[self.goIntoBundlesCheckboxOutlet setState:goesIntoBundles ? NSControlStateValueOn : NSControlStateValueOff];
 
 		BOOL showsHiddenFiles = [[NSUserDefaults standardUserDefaults] boolForKey:@"ShowsHiddenFiles"];
 		[openPanel setShowsHiddenFiles:showsHiddenFiles];
-		[self.showHiddenFilesCheckboxOutlet setState:showsHiddenFiles ? NSOnState : NSOffState];
+		[self.showHiddenFilesCheckboxOutlet setState:showsHiddenFiles ? NSControlStateValueOn : NSControlStateValueOff];
 
 		[openPanel TCM_setAssociatedValue:self forKey:@"OpenPanelAccessoryViewController"];
 		self.openPanel = openPanel;
@@ -42,13 +42,13 @@
 }
 
 - (IBAction)goIntoBundles:(id)sender {
-    BOOL flag = ([(NSButton*)sender state] == NSOffState) ? NO : YES;
+    BOOL flag = ([(NSButton*)sender state] == NSControlStateValueOff) ? NO : YES;
     [self.openPanel setTreatsFilePackagesAsDirectories:flag];
     [[NSUserDefaults standardUserDefaults] setBool:flag forKey:@"GoIntoBundlesPrefKey"];
 }
 
 - (IBAction)showHiddenFiles:(id)sender {
-    BOOL flag = ([(NSButton*)sender state] == NSOffState) ? NO : YES;
+    BOOL flag = ([(NSButton*)sender state] == NSControlStateValueOff) ? NO : YES;
 	[self.openPanel setShowsHiddenFiles:flag];
     [[NSUserDefaults standardUserDefaults] setBool:flag forKey:@"ShowsHiddenFiles"];
 }

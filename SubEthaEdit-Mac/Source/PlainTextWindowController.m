@@ -248,20 +248,20 @@ static NSPoint S_cascadePoint = {0.0,0.0};
         selector == @selector(toggleShowInconsistentIndentation:)){
 		return [self.activePlainTextEditor validateMenuItem:menuItem];
     } else if (selector ==@selector(toggleWebPreview:)) {
-		[menuItem setState:self.SEE_tabContext.hasWebPreviewSplit ? NSOnState : NSOffState];
+		[menuItem setState:self.SEE_tabContext.hasWebPreviewSplit ? NSControlStateValueOn : NSControlStateValueOff];
 		return YES;
 	} else if (selector == @selector(toggleParticipantsOverlay:)) {
         [menuItem setState:
             [self.plainTextEditors.lastObject hasBottomOverlayView] ?
-            NSOnState :
-            NSOffState];
+            NSControlStateValueOn :
+            NSControlStateValueOff];
         return YES;
 	} else if (selector == @selector(toggleBottomStatusBar:)) {
 		PlainTextWindowControllerTabContext *tabContext = self.SEE_tabContext;
-        [menuItem setState:[[tabContext.plainTextEditors lastObject] showsBottomStatusBar]?NSOnState:NSOffState];
+        [menuItem setState:[[tabContext.plainTextEditors lastObject] showsBottomStatusBar]?NSControlStateValueOn:NSControlStateValueOff];
         return YES;
     } else if (selector == @selector(toggleLineNumbers:)) {
-        [menuItem setState:[self showsGutter]?NSOnState:NSOffState];
+        [menuItem setState:[self showsGutter]?NSControlStateValueOn:NSControlStateValueOff];
         return YES;
     } else if (selector == @selector(copyDocumentURL:)) {
         return [self.plainTextDocument isAnnounced];
@@ -276,7 +276,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
         return !isReceivingContent;
     } else if (selector == @selector(changePendingUsersAccess:)) {
         TCMMMSession *session=[self.plainTextDocument session];
-        [menuItem setState:([menuItem tag]==[session accessState])?NSOnState:NSOffState];
+        [menuItem setState:([menuItem tag]==[session accessState])?NSControlStateValueOn:NSControlStateValueOff];
         return [session isServer];
     } else if (selector == @selector(readWriteButtonAction:) ||
                selector == @selector(followUser:) ||
@@ -369,13 +369,13 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     NSURL *documentURL = [[self document] documentURL];    
     
     NSPasteboard *pboard = [NSPasteboard generalPasteboard];
-    NSArray *pbTypes = [NSArray arrayWithObjects:NSStringPboardType, NSURLPboardType, @"CorePasteboardFlavorType 0x75726C20", @"CorePasteboardFlavorType 0x75726C6E", nil];
+    NSArray *pbTypes = [NSArray arrayWithObjects:NSPasteboardTypeString, NSPasteboardTypeURL, @"CorePasteboardFlavorType 0x75726C20", @"CorePasteboardFlavorType 0x75726C6E", nil];
     [pboard declareTypes:pbTypes owner:self];
     const char *dataUTF8 = [[documentURL absoluteString] UTF8String];
     [pboard setData:[NSData dataWithBytes:dataUTF8 length:strlen(dataUTF8)] forType:@"CorePasteboardFlavorType 0x75726C20"];
     dataUTF8 = [[[self document] displayName] UTF8String];
     [pboard setData:[NSData dataWithBytes:dataUTF8 length:strlen(dataUTF8)] forType:@"CorePasteboardFlavorType 0x75726C6E"];
-    [pboard setString:[documentURL absoluteString] forType:NSStringPboardType];
+    [pboard setString:[documentURL absoluteString] forType:NSPasteboardTypeString];
     [documentURL writeToPasteboard:pboard];
 }
 

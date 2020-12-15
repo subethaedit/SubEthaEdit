@@ -3094,7 +3094,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>${TCM_APP_REVISION}</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.developer-tools</string>
 	<key>LSMinimumSystemVersion</key>

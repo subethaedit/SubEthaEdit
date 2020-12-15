@@ -777,7 +777,7 @@ static NSMenu *S_defaultMenu=nil;
 	NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
 	BOOL isRichText = [self isRichText];
 	
-	[pasteboard declareTypes:(isRichText ? [NSArray arrayWithObjects:NSRTFDPboardType,NSRTFPboardType,nil] : [NSArray arrayWithObjects:NSStringPboardType,nil]) owner:nil];
+	[pasteboard declareTypes:(isRichText ? [NSArray arrayWithObjects:NSPasteboardTypeRTFD,NSPasteboardTypeRTF,nil] : [NSArray arrayWithObjects:NSPasteboardTypeString,nil]) owner:nil];
 	
 	if (isRichText) {
 		id textStorage = [self textStorage];
@@ -793,21 +793,21 @@ static NSMenu *S_defaultMenu=nil;
 		NSAttributedString *foldingIconString = [NSAttributedString attributedStringWithAttachment:foldingIconAttachment];
         NSAttributedString *foldingIconReplacementString = [[NSAttributedString alloc] initWithURL:[[NSBundle mainBundle] URLForResource:@"FoldingBubbleText" withExtension:@"rtf"] options:@{} documentAttributes:nil error:NULL];
 		[mutableString replaceAttachmentsWithAttributedString:foldingIconString];
-		[pasteboard setData:[mutableString RTFDFromRange:[mutableString TCM_fullLengthRange] documentAttributes:@{}] forType:NSRTFDPboardType];
+		[pasteboard setData:[mutableString RTFDFromRange:[mutableString TCM_fullLengthRange] documentAttributes:@{}] forType:NSPasteboardTypeRTFD];
 		[mutableString replaceAttachmentsWithAttributedString:foldingIconReplacementString];
-		[pasteboard setData:[mutableString  RTFFromRange:[mutableString TCM_fullLengthRange] documentAttributes:@{}] forType:NSRTFPboardType];
+		[pasteboard setData:[mutableString  RTFFromRange:[mutableString TCM_fullLengthRange] documentAttributes:@{}] forType:NSPasteboardTypeRTF];
 	} else {
-		[self writeSelectionToPasteboard:pasteboard type:NSStringPboardType];
+		[self writeSelectionToPasteboard:pasteboard type:NSPasteboardTypeString];
 	}
 }
 
 - (NSArray *)writablePasteboardTypes {
-	NSArray *result = [NSArray arrayWithObject:NSStringPboardType];
+	NSArray *result = [NSArray arrayWithObject:NSPasteboardTypeString];
 	return result;
 }
 
 - (BOOL)writeSelectionToPasteboard:(NSPasteboard *)pasteboard type:(NSString *)type {
-	if ([type isEqualToString:NSStringPboardType]) {
+	if ([type isEqualToString:NSPasteboardTypeString]) {
 		NSRange selectedRange = [self selectedRange];
 		if (selectedRange.length == 0) return NO;
 		
@@ -817,7 +817,7 @@ static NSMenu *S_defaultMenu=nil;
 			textStorage = [textStorage fullTextStorage];
 		}
 		
-		[pasteboard setString:[[textStorage string] substringWithRange:selectedRange] forType:NSStringPboardType];		
+		[pasteboard setString:[[textStorage string] substringWithRange:selectedRange] forType:NSPasteboardTypeString];
 		return YES;
 	}
 	return NO;

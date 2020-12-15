@@ -155,11 +155,11 @@
 //    BOOL useDefault=[[[O_modePopUpButton selectedMode] defaultForKey:DocumentModeUseDefaultStylePreferenceKey] boolValue];
 //    DocumentMode *baseMode=[[DocumentModeManager sharedInstance] baseMode];
 //    DocumentMode *selectedMode=[O_modePopUpButton selectedMode];
-//    [O_fontController setContent:([O_fontDefaultButton state]==NSOnState)?baseMode:selectedMode];
+//    [O_fontController setContent:([O_fontDefaultButton state]==NSControlStateValueOn)?baseMode:selectedMode];
 //    [O_styleController setContent:useDefault?baseMode:selectedMode];
 //    [O_defaultStyleButton setHidden:[[I_currentSyntaxStyle documentMode] isBaseMode]];
 //    if (O_defaultStyleButton !=aSender) {
-//        [O_defaultStyleButton setState:useDefault?NSOnState:NSOffState];
+//        [O_defaultStyleButton setState:useDefault?NSControlStateValueOn:NSControlStateValueOff];
 //    }
 //
 //    [O_stylesTableView setDisableFirstRow:useDefault];
@@ -210,11 +210,11 @@
 			NSButton *inheritButton = [triple objectAtIndex:1];
 			NSButton *actualButton = [triple objectAtIndex:2];
 			BOOL inherit = [directStyleAttributes objectForKey:key] == 0;
-			[inheritButton setState:inherit ? NSOnState : NSOffState];
+			[inheritButton setState:inherit ? NSControlStateValueOn : NSControlStateValueOff];
 			NSString *value = [computedStyleAttributes objectForKey:key];
 			BOOL isSet = value && ![value isEqualToString:SEEStyleSheetValueNone] && ![value isEqualToString:SEEStyleSheetValueNormal];
 //			NSLog(@"%s %@ -> %d",__FUNCTION__, value, isSet);
-			[actualButton setState:isSet ? NSOnState : NSOffState];
+			[actualButton setState:isSet ? NSControlStateValueOn : NSControlStateValueOff];
 			[actualButton setEnabled:!inherit];
 		}
 
@@ -226,7 +226,7 @@
 			NSButton *inheritButton = [triple objectAtIndex:1];
 			NSColorWell *well = [triple objectAtIndex:2];
 			BOOL inherit = [directStyleAttributes objectForKey:key] == 0;
-			[inheritButton setState:inherit ? NSOnState : NSOffState];
+			[inheritButton setState:inherit ? NSControlStateValueOn : NSControlStateValueOff];
 			NSColor *value = [computedStyleAttributes objectForKey:key];
 			[well setColor:value];
 			[well setEnabled:!inherit];
@@ -266,9 +266,9 @@
 			NSString *key = [triple objectAtIndex:0];
 			NSButton *inheritButton = [triple objectAtIndex:1];
 //			NSButton *actualButton = [triple objectAtIndex:2];
-			if ([directStyleAttributes objectForKey:key] && inheritButton.state == NSOnState) {
+			if ([directStyleAttributes objectForKey:key] && inheritButton.state == NSControlStateValueOn) {
 				[directStyleAttributes removeObjectForKey:key];
-			} else if (![directStyleAttributes objectForKey:key] && inheritButton.state == NSOffState) {
+			} else if (![directStyleAttributes objectForKey:key] && inheritButton.state == NSControlStateValueOff) {
 				id value = [computedStyleAttributes objectForKey:key];
 				if (value) {
 					[directStyleAttributes setObject:value forKey:key];
@@ -346,7 +346,7 @@
 	if (selectedRow != -1) {
 		NSString *scopeString = [[self scopesArray] objectAtIndex:selectedRow];
 		NSMutableDictionary *directStyleAttributes   = [[self.currentStyleSheet styleAttributesForExactScope:scopeString] mutableCopy];
-		[directStyleAttributes setObject:[aButton state] == NSOnState ? aYesValue : aNoValue forKey:aKey];
+		[directStyleAttributes setObject:[aButton state] == NSControlStateValueOn ? aYesValue : aNoValue forKey:aKey];
 		NSLog(@"%s %@",__FUNCTION__, directStyleAttributes);
 		[self.currentStyleSheet setStyleAttributes:directStyleAttributes forScope:scopeString];
 		[self updateForChangedStyles];
@@ -476,12 +476,12 @@
 //
 //- (IBAction)changeFontTraitItalic:(id)aSender {
 //    [aSender setAllowsMixedState:NO];
-//    [self setTrait:NSItalicFontMask ofSelectedStylesTo:[aSender state]==NSOnState];
+//    [self setTrait:NSItalicFontMask ofSelectedStylesTo:[aSender state]==NSControlStateValueOn];
 //}
 //
 //- (IBAction)changeFontTraitBold:(id)aSender {
 //    [aSender setAllowsMixedState:NO];
-//    [self setTrait:NSBoldFontMask ofSelectedStylesTo:[aSender state]==NSOnState];
+//    [self setTrait:NSBoldFontMask ofSelectedStylesTo:[aSender state]==NSControlStateValueOn];
 //}
 //
 //- (IBAction)import:(id)aSender {
@@ -721,7 +721,7 @@
 #pragma mark TableView DataSource
 
 - (NSArray *)scopesArray {
-	return (self.O_showOnlyMatchingScopesButton.state == NSOnState) ? self.currentStyleSheet.allScopesWithExamples : self.currentStyleSheet.allScopes;
+	return (self.O_showOnlyMatchingScopesButton.state == NSControlStateValueOn) ? self.currentStyleSheet.allScopesWithExamples : self.currentStyleSheet.allScopes;
 }
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView {

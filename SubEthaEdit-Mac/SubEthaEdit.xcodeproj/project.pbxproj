@@ -3019,6 +3019,7 @@
 				CODE_SIGN_ENTITLEMENTS = SubEthaEdit.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 9742;
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SRCROOT)/TCMPortMapper\"",
 					"$(PROJECT_DIR)/TCMPortMapper",
@@ -3042,6 +3043,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				OTHER_CFLAGS = "";
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				PLIST_FILE_OUTPUT_FORMAT = binary;
@@ -3061,6 +3063,7 @@
 				CODE_SIGN_ENTITLEMENTS = SubEthaEdit.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 9742;
 				DEAD_CODE_STRIPPING = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SRCROOT)/TCMPortMapper\"",
@@ -3083,6 +3086,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				OTHER_CFLAGS = (
 					"-DTCM_NO_DEBUG",
 					"-DNS_BLOCK_ASSERTIONS",

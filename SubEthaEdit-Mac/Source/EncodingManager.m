@@ -344,7 +344,7 @@ static int encodingCompare(const void *firstPtr, const void *secondPtr) {
         int cnt, numEncodings = [self.encodingMatrix numberOfRows];
         for (cnt = 0; cnt < numEncodings; cnt++) {
             NSCell *cell = [self.encodingMatrix cellAtRow:cnt column:0];
-            [cell setState:[encodings containsObject:[NSNumber numberWithUnsignedInt:[cell tag]]] ? NSOnState : NSOffState];
+            [cell setState:[encodings containsObject:[NSNumber numberWithUnsignedInt:[cell tag]]] ? NSControlStateValueOn : NSControlStateValueOff];
             if ([registeredEncodings containsObject:[NSNumber numberWithUnsignedInt:[cell tag]]] ||
                 [cell tag] == NSUTF8StringEncoding || [cell tag] == NSUnicodeStringEncoding) {
                 [cell setEnabled:NO];
@@ -377,7 +377,7 @@ static int encodingCompare(const void *firstPtr, const void *secondPtr) {
 
     for (cnt = 0; cnt < numRows; cnt++) {
         NSCell *cell = [self.encodingMatrix cellAtRow:cnt column:0];
-        if (((NSUInteger)[cell tag] != NoStringEncoding) && ([cell state] == NSOnState)) [encs addObject:[NSNumber numberWithUnsignedInt:[cell tag]]];
+        if (((NSUInteger)[cell tag] != NoStringEncoding) && ([cell state] == NSControlStateValueOn)) [encs addObject:[NSNumber numberWithUnsignedInt:[cell tag]]];
     }
 
     encodings = encs;

@@ -112,7 +112,7 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
 																							   hasAlpha:YES
 																							   isPlanar:NO
 																						 colorSpaceName:NSCalibratedRGBColorSpace
-																						   bitmapFormat:NSAlphaFirstBitmapFormat
+                                                                                           bitmapFormat:NSBitmapFormatAlphaFirst
 																							bytesPerRow:0
 																						   bitsPerPixel:0];
 
@@ -136,7 +136,7 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
 																								hasAlpha:YES
 																								isPlanar:NO
 																						  colorSpaceName:NSCalibratedRGBColorSpace
-																							bitmapFormat:NSAlphaFirstBitmapFormat
+                                                                                            bitmapFormat:NSBitmapFormatAlphaFirst
 																							 bytesPerRow:0
 																							bitsPerPixel:0];
 
@@ -210,7 +210,7 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
 			[[NSColor clearColor] set];
 			NSRectFill(dstRect);
 			
-			CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
+            CGContextRef context = [[NSGraphicsContext currentContext] CGContext];
 			
 			CGSize layerScale = CGSizeMake(CGBitmapContextGetWidth(context) / fullRect.size.width,
 										   CGBitmapContextGetHeight(context) / fullRect.size.height);
@@ -410,7 +410,7 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
             [aColor set];
             [roundedRectanglePath stroke];
         }
-		CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
+        CGContextRef context = [[NSGraphicsContext currentContext] CGContext];
 		
 		[[NSColor whiteColor] setFill];
 		CGContextSetLineCap(context, kCGLineCapRound);
