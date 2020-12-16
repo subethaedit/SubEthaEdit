@@ -31,7 +31,7 @@
     [pb declareTypes: [NSArray arrayWithObject:NSPasteboardTypeString]
         owner:nil];
 
-    [pb setString:string forType: NSPasteboardTypeString];
+    [pb setString:string forType:NSPasteboardTypeString];
 }
 
 - (void)paste:(id)sender {

@@ -5824,7 +5824,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 		hasPublicURL = YES;
 	}
 
-	if (! hasPublicURL) { // if we don't have a public URL remove also email and messages
+	if (!hasPublicURL) { // if we don't have a public URL remove also email and messages
 		[sharingServices removeObject:[NSSharingService sharingServiceNamed:NSSharingServiceNameComposeEmail]];
 		[sharingServices removeObject:[NSSharingService sharingServiceNamed:NSSharingServiceNameComposeMessage]];
 	}

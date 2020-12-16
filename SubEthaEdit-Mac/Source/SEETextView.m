@@ -777,7 +777,7 @@ static NSMenu *S_defaultMenu=nil;
 	NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
 	BOOL isRichText = [self isRichText];
 	
-	[pasteboard declareTypes:(isRichText ? [NSArray arrayWithObjects:NSPasteboardTypeRTFD,NSPasteboardTypeRTF,nil] : [NSArray arrayWithObjects:NSPasteboardTypeString,nil]) owner:nil];
+	[pasteboard declareTypes:(isRichText ? @[NSPasteboardTypeRTFD,NSPasteboardTypeRTF] : @[NSPasteboardTypeString]) owner:nil];
 	
 	if (isRichText) {
 		id textStorage = [self textStorage];
@@ -809,7 +809,7 @@ static NSMenu *S_defaultMenu=nil;
 - (BOOL)writeSelectionToPasteboard:(NSPasteboard *)pasteboard type:(NSString *)type {
 	if ([type isEqualToString:NSPasteboardTypeString]) {
 		NSRange selectedRange = [self selectedRange];
-		if (selectedRange.length == 0) return NO;
+        if (selectedRange.length == 0) { return NO; }
 		
 		id textStorage = [self textStorage];
 		if ([textStorage respondsToSelector:@selector(fullRangeForFoldedRange:)]) {
