@@ -4463,7 +4463,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 /*"This method returns the blockeditTextAttributes that the textview uses. If you make background colors customizeable you want to change these too"*/
 - (NSDictionary *)blockeditAttributes {
     if (!I_blockeditAttributes) {
-        float backgroundBrightness=[[[self documentBackgroundColor] colorUsingColorSpaceName:NSCalibratedRGBColorSpace] brightnessComponent];
+        float backgroundBrightness=[[[self documentBackgroundColor] colorUsingColorSpace:[NSColorSpace deviceRGBColorSpace]] brightnessComponent];
 ;
         if (backgroundBrightness>.5) backgroundBrightness-=.1;
         else backgroundBrightness+=.1;

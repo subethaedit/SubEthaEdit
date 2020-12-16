@@ -396,7 +396,7 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
             NSBezierPath *roundedRectanglePath = [NSBezierPath bezierPathWithRoundedRect:NSInsetRect(roundRect, strokeWidth/2.0, strokeWidth/2.0) xRadius:strokeWidth * 1.5 yRadius:strokeWidth * 1.5];
             
             // getting a good dark background for this hue
-            CGFloat hue = [[aColor colorUsingColorSpaceName:NSCalibratedRGBColorSpace] hueComponent];
+            CGFloat hue = [[aColor colorUsingColorSpace:[NSColorSpace deviceRGBColorSpace]] hueComponent];
             [[NSColor colorWithHue:hue saturation:1.0 brightness:0.25 alpha:1.0] set];
             [roundedRectanglePath fill];
             
