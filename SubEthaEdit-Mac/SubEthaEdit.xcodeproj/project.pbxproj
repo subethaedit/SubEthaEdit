@@ -2954,60 +2954,18 @@
 		5EC6382E0ABEB71200D3295B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SubEthaEdit.app/Contents/MacOS/SubEthaEdit";
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR_QUOTED)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Cocoa.framework/Headers/Cocoa.h";
 				INFOPLIST_FILE = "Unit Tests-Info.plist";
-				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Cocoa,
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "de.codingmonkeys.SubEthaEdit${TCM_APP_STYLE}.UnitTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "${SEE_APP_IDENTIFIER_BASE}.Mac${TCM_APP_STYLE}${TCM_APP_IDENTIFER_SUFFIX}.UnitTests";
 				PRODUCT_NAME = "Unit Tests";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				ZERO_LINK = NO;
 			};
 			name = Debug;
 		};
 		5EC6382F0ABEB71200D3295B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SubEthaEdit.app/Contents/MacOS/SubEthaEdit";
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR_QUOTED)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Cocoa.framework/Headers/Cocoa.h";
 				INFOPLIST_FILE = "Unit Tests-Info.plist";
-				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Cocoa,
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "de.codingmonkeys.SubEthaEdit${TCM_APP_STYLE}.UnitTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "${SEE_APP_IDENTIFIER_BASE}.Mac${TCM_APP_STYLE}${TCM_APP_IDENTIFER_SUFFIX}.UnitTests";
 				PRODUCT_NAME = "Unit Tests";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				ZERO_LINK = NO;
 			};
 			name = Release;
 		};
