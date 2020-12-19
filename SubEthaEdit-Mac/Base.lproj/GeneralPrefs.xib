@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -18,15 +18,24 @@
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="5" userLabel="Window">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="415" y="311" width="680" height="280"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1415"/>
+            <rect key="contentRect" x="415" y="311" width="680" height="311"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2880" height="1595"/>
             <view key="contentView" autoresizesSubviews="NO" id="6">
-                <rect key="frame" x="0.0" y="0.0" width="680" height="280"/>
+                <rect key="frame" x="0.0" y="0.0" width="680" height="311"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wbb-jD-mFx">
+                        <rect key="frame" x="181" y="270" width="77" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" lineBreakMode="clipping" title="Documents:" id="fkb-Fo-z4m">
+                            <font key="font" usesAppearanceFont="YES"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
                     <button toolTip="Also colorize changes if not in collaborative mode." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KjR-2C-eEw">
-                        <rect key="frame" x="285" y="243" width="375" height="18"/>
-                        <autoresizingMask key="autoresizingMask"/>
+                        <rect key="frame" x="262" y="271" width="375" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Highlight Changes when not collaborating" bezelStyle="regularSquare" imagePosition="left" inset="2" id="X2p-xv-B6d">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
@@ -36,8 +45,8 @@
                         </connections>
                     </button>
                     <button toolTip="Open a blank document at startup, if no other windows are open." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="31">
-                        <rect key="frame" x="285" y="171" width="375" height="18"/>
-                        <autoresizingMask key="autoresizingMask"/>
+                        <rect key="frame" x="262" y="199" width="375" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Open Untitled Document at startup" bezelStyle="regularSquare" imagePosition="left" inset="2" id="224">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
@@ -47,8 +56,8 @@
                         </connections>
                     </button>
                     <button toolTip="Opens Document Hub window on startup, if no other windows are open." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iZf-W7-QIX">
-                        <rect key="frame" x="285" y="195" width="375" height="18"/>
-                        <autoresizingMask key="autoresizingMask"/>
+                        <rect key="frame" x="262" y="223" width="375" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Show Document Hub at startup" bezelStyle="regularSquare" imagePosition="left" inset="2" id="dS3-kL-Ssf">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
@@ -58,8 +67,8 @@
                         </connections>
                     </button>
                     <button toolTip="Documents are opened in tabs instead of windows." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="194">
-                        <rect key="frame" x="285" y="219" width="375" height="18"/>
-                        <autoresizingMask key="autoresizingMask"/>
+                        <rect key="frame" x="262" y="247" width="375" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Open new documents in tabs" bezelStyle="regularSquare" imagePosition="left" inset="2" id="233">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
@@ -68,34 +77,9 @@
                             <binding destination="92" name="value" keyPath="values.OpenNewDocumentInTab" id="195"/>
                         </connections>
                     </button>
-                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="51">
-                        <rect key="frame" x="30" y="66" width="251" height="18"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Mode for New Documents:" id="225">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <popUpButton toolTip="Uses this mode for all documents that are not handled by other modes." verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="55" customClass="DocumentModePopUpButton">
-                        <rect key="frame" x="284" y="60" width="148" height="25"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <popUpButtonCell key="cell" type="push" title="Default" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="56" id="226">
-                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="menu"/>
-                            <menu key="menu" title="OtherViews" id="57">
-                                <items>
-                                    <menuItem title="Default" state="on" id="56"/>
-                                </items>
-                            </menu>
-                        </popUpButtonCell>
-                        <connections>
-                            <action selector="changeModeForNewDocuments:" target="-2" id="141"/>
-                        </connections>
-                    </popUpButton>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="184">
-                        <rect key="frame" x="18" y="131" width="263" height="18"/>
-                        <autoresizingMask key="autoresizingMask"/>
+                        <rect key="frame" x="7" y="96" width="251" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Recent Documents:" id="230">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -103,8 +87,8 @@
                         </textFieldCell>
                     </textField>
                     <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="185">
-                        <rect key="frame" x="284" y="125" width="148" height="25"/>
-                        <autoresizingMask key="autoresizingMask"/>
+                        <rect key="frame" x="261" y="90" width="148" height="25"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" id="231">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="menu"/>
@@ -129,17 +113,26 @@
                         </connections>
                     </popUpButton>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="193">
-                        <rect key="frame" x="285" y="107" width="377" height="14"/>
-                        <autoresizingMask key="autoresizingMask"/>
+                        <rect key="frame" x="262" y="72" width="377" height="14"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Takes effect after relaunch" id="232">
                             <font key="font" metaFont="smallSystem"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="146">
+                        <rect key="frame" x="7" y="25" width="251" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Show" id="227">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
                     <popUpButton toolTip="Specify how many directories are shown in the documents title." verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="150">
-                        <rect key="frame" x="284" y="17" width="56" height="25"/>
-                        <autoresizingMask key="autoresizingMask"/>
+                        <rect key="frame" x="261" y="19" width="56" height="25"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" title="0" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="157" id="229">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="menu"/>
@@ -161,35 +154,42 @@
                         </connections>
                     </popUpButton>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="147">
-                        <rect key="frame" x="342" y="23" width="320" height="18"/>
-                        <autoresizingMask key="autoresizingMask"/>
+                        <rect key="frame" x="319" y="25" width="320" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="path components in window title" id="228">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wbb-jD-mFx">
-                        <rect key="frame" x="204" y="242" width="77" height="18"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" lineBreakMode="clipping" title="Documents:" id="fkb-Fo-z4m">
-                            <font key="font" usesAppearanceFont="YES"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="146">
-                        <rect key="frame" x="18" y="23" width="263" height="18"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Show" id="227">
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="51">
+                        <rect key="frame" x="8" y="159" width="250" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Mode for New Documents:" id="225">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
+                    <popUpButton toolTip="Uses this mode for all documents that are not handled by other modes." verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="55" customClass="DocumentModePopUpButton">
+                        <rect key="frame" x="261" y="153" width="148" height="25"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                        <popUpButtonCell key="cell" type="push" title="Default" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="56" id="226">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="menu"/>
+                            <menu key="menu" title="OtherViews" id="57">
+                                <items>
+                                    <menuItem title="Default" state="on" id="56"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                        <connections>
+                            <action selector="changeModeForNewDocuments:" target="-2" id="141"/>
+                        </connections>
+                    </popUpButton>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="455" y="436"/>
+            <point key="canvasLocation" x="455" y="435.5"/>
         </window>
         <userDefaultsController id="92" userLabel="Shared Defaults"/>
         <userDefaultsController representsSharedInstance="YES" id="8xq-UR-Csw"/>
