@@ -1,0 +1,42 @@
+
+/* Class = "NSWindow"; title = "Window"; ObjectID = "6"; */
+"6.title" = "Window";
+
+/* Class = "NSButton"; ibShadowedToolTip = "SubEthaEdit transmits the document history on connect to a document. If you don't need the history or you don't want to send it due to privacy issues you can disable that feature here."; ObjectID = "143"; */
+"143.ibShadowedToolTip" = "[LOCALISATION MISSING: SubEthaEdit transmits the document history on connect to a document. If you don't need the history or you don't want to send it due to privacy issues you can disable that feature here.]";
+
+/* Class = "NSButtonCell"; title = "Disable screen fonts"; ObjectID = "175"; */
+"175.title" = "Bildschirmschriften deaktivieren";
+
+/* Class = "NSButtonCell"; title = "Add synthesised bold and italic to fonts"; ObjectID = "176"; */
+"176.title" = "Schriften generierte Fett- und Kursiv-Variante hinzufügen";
+
+/* Class = "NSTextFieldCell"; title = "Takes effect after relaunch"; ObjectID = "177"; */
+"177.title" = "Wirksam nach Programm-Neustart";
+
+/* Class = "NSButtonCell"; title = "Save document state per file"; ObjectID = "187"; */
+"187.title" = "Dokumentstatus pro Dokument speichern";
+
+/* Class = "NSTextFieldCell"; title = "For example, foldings are saved in Extended Attributes"; ObjectID = "188"; */
+"188.title" = "z.B. der Faltungsstatus, die Auswahl und Fensterposition wird in den Erweiterten Dateisystemattributen gespeichert.";
+
+/* Class = "NSTextFieldCell"; title = "Saving and Loading:"; ObjectID = "6Ej-d4-7kP"; */
+"6Ej-d4-7kP.title" = "Speichern und Laden:";
+
+/* Class = "NSTextFieldCell"; title = "Font Rendering:"; ObjectID = "AK3-gD-86e"; */
+"AK3-gD-86e.title" = "Schriftendarstellung:";
+
+/* Class = "NSTextFieldCell"; title = "SubEthaEdit.app/Contents/SharedSupport/bin/install.sh"; ObjectID = "Dxg-H3-lsZ"; */
+"Dxg-H3-lsZ.title" = "SubEthaEdit.app/Contents/SharedSupport/bin/install.sh";
+
+/* Class = "NSBox"; title = "Box"; ObjectID = "e0d-aI-hdl"; */
+"e0d-aI-hdl.title" = "Box";
+
+/* Class = "NSButtonCell"; title = "Copy"; ObjectID = "i3k-9U-Hub"; */
+"i3k-9U-Hub.title" = "Kopieren";
+
+/* Class = "NSTextFieldCell"; title = "Run the following script in Terminal.app to install the 'see' command line tool:"; ObjectID = "miq-Cf-tda"; */
+"miq-Cf-tda.title" = "Das 'see' Tool kann mit folgender Zeile im Terminal installiert werden:";
+
+/* Class = "NSTextFieldCell"; title = "Command Line Tool:"; ObjectID = "mvo-I4-dw6"; */
+"mvo-I4-dw6.title" = "Kommandozeilen-Tool:";

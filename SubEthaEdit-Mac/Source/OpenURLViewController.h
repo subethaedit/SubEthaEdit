@@ -6,6 +6,7 @@
 #import <Cocoa/Cocoa.h>
 
 @interface OpenURLViewController : NSViewController
+
 @property (nonatomic, strong) NSURL *url;
 
 - (instancetype)initWithURL:(NSURL *)url;

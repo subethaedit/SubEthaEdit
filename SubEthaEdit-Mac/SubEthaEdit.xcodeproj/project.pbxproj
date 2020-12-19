@@ -127,7 +127,6 @@
 		2CED1D50238000FF00359D99 /* SEEWebPreview.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CED1D4F238000FF00359D99 /* SEEWebPreview.m */; };
 		2CED1D54238007F900359D99 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CED1D53238007F900359D99 /* JavaScriptCore.framework */; };
 		311717F40A0E8C3600A9DA18 /* ModeSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 311717F20A0E8C3600A9DA18 /* ModeSettings.m */; };
-		3134F7AB0CB1331900F8C116 /* PrecedenceRolloverButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 3134F7A90CB1331900F8C116 /* PrecedenceRolloverButton.m */; };
 		316A0D2A0C68A47100720268 /* DebugAttributeInspectorController.m in Sources */ = {isa = PBXBuildFile; fileRef = 316A0D280C68A47100720268 /* DebugAttributeInspectorController.m */; };
 		3170E46112846C670096089C /* SEEStyleSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 3170E46012846C670096089C /* SEEStyleSheet.m */; };
 		3188F6800CAD13E0009E4C0B /* DNDArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3188F6780CAD1218009E4C0B /* DNDArrayController.m */; };
@@ -137,12 +136,12 @@
 		3D80BA33258522A50093CA85 /* SEEFindAndReplaceView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D80BA35258522A50093CA85 /* SEEFindAndReplaceView.xib */; };
 		3D83EDAB2576B1E6004288B2 /* SEEDocumentListWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D83EDAD2576B1E6004288B2 /* SEEDocumentListWindowController.xib */; };
 		3D83EDB4257835AE004288B2 /* SEEDividerListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D83EDB3257835AE004288B2 /* SEEDividerListItem.m */; };
+		3D8A4818257FF27F005AFEF1 /* StylePrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D8A481A257FF27F005AFEF1 /* StylePrefs.xib */; };
 		3DBB85BC25734A37000F829F /* OpenURLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DBB85BB25734A37000F829F /* OpenURLViewController.m */; };
 		3DBB85C025734E6D000F829F /* OpenURLViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DBB85C225734E6D000F829F /* OpenURLViewController.xib */; };
-		420AAF7F18FE0FFC00297DB1 /* StylePrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 420AAF7E18FE0FFC00297DB1 /* StylePrefs.xib */; };
+		3DC31374257D03180077577A /* SEETertiaryLabelColorValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DC31373257D03180077577A /* SEETertiaryLabelColorValueTransformer.m */; };
 		4234523A1907DFE400BE3CC1 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 423452391907DFE400BE3CC1 /* Quartz.framework */; };
 		423B23D018F63DDE001E2DCC /* SEECollaborationPreferenceModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 423B23CF18F63DDE001E2DCC /* SEECollaborationPreferenceModule.m */; };
-		423B23D518F64065001E2DCC /* SEECollaborationPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 423B23D418F64065001E2DCC /* SEECollaborationPrefs.xib */; };
 		4246436518FEDF4300E5D830 /* SEEUserColorsPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4246436418FEDF4300E5D830 /* SEEUserColorsPreviewView.m */; };
 		4C0B4C6118C8B3E300048335 /* SEEToggleRecentDocumentListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0B4C6018C8B3E300048335 /* SEEToggleRecentDocumentListItem.m */; };
 		4C0C4A0118B366EC00E6049E /* PlainTextWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0C4A0018B366EC00E6049E /* PlainTextWindow.xib */; };
@@ -312,6 +311,7 @@
 		F281D3600F38758600AD7DE1 /* AbstractFoldingTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D35F0F38758600AD7DE1 /* AbstractFoldingTextStorage.m */; };
 		F281D3910F3877A900AD7DE1 /* FoldedTextAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D3900F3877A900AD7DE1 /* FoldedTextAttachment.m */; };
 		F281D4370F388A0B00AD7DE1 /* FoldingTextAttachmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D4360F388A0B00AD7DE1 /* FoldingTextAttachmentCell.m */; };
+		F286091425868AD4004802DC /* SEECollaborationPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D8A480D257EF97B005AFEF1 /* SEECollaborationPrefs.xib */; };
 		F286A754215CE6410056C247 /* AboutPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = F286A756215CE6410056C247 /* AboutPanel.xib */; };
 		F286A764215CF0F60056C247 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 142890120957413900D14688 /* Localizable.strings */; };
 		F286A770215D0EAD0056C247 /* see in Copy Command Line Tools */ = {isa = PBXBuildFile; fileRef = F286A76F215D0DC00056C247 /* see */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -756,8 +756,6 @@
 		2CED1D53238007F900359D99 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		311717F20A0E8C3600A9DA18 /* ModeSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModeSettings.m; sourceTree = "<group>"; };
 		311717F30A0E8C3600A9DA18 /* ModeSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ModeSettings.h; sourceTree = "<group>"; };
-		3134F7A80CB1331800F8C116 /* PrecedenceRolloverButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = PrecedenceRolloverButton.h; sourceTree = "<group>"; };
-		3134F7A90CB1331900F8C116 /* PrecedenceRolloverButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrecedenceRolloverButton.m; sourceTree = "<group>"; };
 		316A0D270C68A47100720268 /* DebugAttributeInspectorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = DebugAttributeInspectorController.h; path = Debug/DebugAttributeInspectorController.h; sourceTree = "<group>"; };
 		316A0D280C68A47100720268 /* DebugAttributeInspectorController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DebugAttributeInspectorController.m; path = Debug/DebugAttributeInspectorController.m; sourceTree = "<group>"; };
 		3170E45F12846C670096089C /* SEEStyleSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SEEStyleSheet.h; sourceTree = "<group>"; };
@@ -780,15 +778,24 @@
 		3D83EDB02576B1EE004288B2 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/SEEDocumentListWindowController.strings; sourceTree = "<group>"; };
 		3D83EDB2257835AE004288B2 /* SEEDividerListItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEEDividerListItem.h; sourceTree = "<group>"; };
 		3D83EDB3257835AE004288B2 /* SEEDividerListItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEEDividerListItem.m; sourceTree = "<group>"; };
+		3D8A47F3257ED540005AFEF1 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/GeneralPrefs.strings; sourceTree = "<group>"; };
+		3D8A47F7257EDA96005AFEF1 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/PrecedencePrefs.strings; sourceTree = "<group>"; };
+		3D8A4804257EDDEE005AFEF1 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/PrecedenceRules.strings; sourceTree = "<group>"; };
+		3D8A4809257EEF5C005AFEF1 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/AdvancedPrefs.strings; sourceTree = "<group>"; };
+		3D8A480C257EF97B005AFEF1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SEECollaborationPrefs.xib; sourceTree = "<group>"; };
+		3D8A4810257EF983005AFEF1 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/SEECollaborationPrefs.strings; sourceTree = "<group>"; };
+		3D8A4816257F0FC4005AFEF1 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/EditPrefs.strings; sourceTree = "<group>"; };
+		3D8A4819257FF27F005AFEF1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/StylePrefs.xib; sourceTree = "<group>"; };
+		3D8A481C257FF285005AFEF1 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/StylePrefs.strings; sourceTree = "<group>"; };
 		3DBB85BA25734A37000F829F /* OpenURLViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenURLViewController.h; sourceTree = "<group>"; };
 		3DBB85BB25734A37000F829F /* OpenURLViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenURLViewController.m; sourceTree = "<group>"; };
 		3DBB85C125734E6D000F829F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/OpenURLViewController.xib; sourceTree = "<group>"; };
 		3DBB85C625734E96000F829F /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/OpenURLViewController.xib; sourceTree = "<group>"; };
-		420AAF7E18FE0FFC00297DB1 /* StylePrefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StylePrefs.xib; sourceTree = "<group>"; };
+		3DC31372257D03180077577A /* SEETertiaryLabelColorValueTransformer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEETertiaryLabelColorValueTransformer.h; sourceTree = "<group>"; };
+		3DC31373257D03180077577A /* SEETertiaryLabelColorValueTransformer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEETertiaryLabelColorValueTransformer.m; sourceTree = "<group>"; };
 		423452391907DFE400BE3CC1 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
 		423B23CE18F63DDE001E2DCC /* SEECollaborationPreferenceModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEECollaborationPreferenceModule.h; sourceTree = "<group>"; };
 		423B23CF18F63DDE001E2DCC /* SEECollaborationPreferenceModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEECollaborationPreferenceModule.m; sourceTree = "<group>"; };
-		423B23D418F64065001E2DCC /* SEECollaborationPrefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEECollaborationPrefs.xib; sourceTree = "<group>"; };
 		4246436318FEDF4300E5D830 /* SEEUserColorsPreviewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEUserColorsPreviewView.h; sourceTree = "<group>"; };
 		4246436418FEDF4300E5D830 /* SEEUserColorsPreviewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEUserColorsPreviewView.m; sourceTree = "<group>"; };
 		4C0B4C5F18C8B3E300048335 /* SEEToggleRecentDocumentListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEToggleRecentDocumentListItem.h; sourceTree = "<group>"; };
@@ -987,11 +994,6 @@
 		F24780AB22EAF46500366FC8 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/PrintOptions.xib; sourceTree = "<group>"; };
 		F24780AC22EAF46500366FC8 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/SavePanelAccessory.xib; sourceTree = "<group>"; };
 		F24780AD22EAF46600366FC8 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/SelectEncodingsPanel.xib; sourceTree = "<group>"; };
-		F24780AF22EAF46600366FC8 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/AdvancedPrefs.xib; sourceTree = "<group>"; };
-		F24780B022EAF46600366FC8 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/EditPrefs.xib; sourceTree = "<group>"; };
-		F24780B122EAF46600366FC8 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/GeneralPrefs.xib; sourceTree = "<group>"; };
-		F24780B222EAF46600366FC8 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/PrecedencePrefs.xib; sourceTree = "<group>"; };
-		F24780B322EAF46600366FC8 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/PrecedenceRules.xib; sourceTree = "<group>"; };
 		F24AEA1A195AE78300046F6B /* DocumentProxy.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DocumentProxy.xib; sourceTree = "<group>"; };
 		F24FA89024B1D94E009D069E /* SEEFontForwardingTextView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEEFontForwardingTextView.h; sourceTree = "<group>"; };
 		F24FA89124B1D94E009D069E /* SEEFontForwardingTextView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEEFontForwardingTextView.m; sourceTree = "<group>"; };
@@ -1503,8 +1505,6 @@
 				31D2C6E50CA7C7A7003CC5C9 /* PrecedenceRuleCell.m */,
 				31D2C6E80CA7C7A7003CC5C9 /* PrecedencePreferences.h */,
 				31D2C6E70CA7C7A7003CC5C9 /* PrecedencePreferences.m */,
-				3134F7A80CB1331800F8C116 /* PrecedenceRolloverButton.h */,
-				3134F7A90CB1331900F8C116 /* PrecedenceRolloverButton.m */,
 				3188F6780CAD1218009E4C0B /* DNDArrayController.m */,
 				3188F6790CAD1218009E4C0B /* DNDArrayController.h */,
 				14289399095758C100D14688 /* StylePreferences.h */,
@@ -1532,6 +1532,8 @@
 		142892550957529900D14688 /* ValueTransformers */ = {
 			isa = PBXGroup;
 			children = (
+				3DC31372257D03180077577A /* SEETertiaryLabelColorValueTransformer.h */,
+				3DC31373257D03180077577A /* SEETertiaryLabelColorValueTransformer.m */,
 				F20E1FAB0CACFC75005DEAF5 /* ThousandSeparatorValueTransformer.h */,
 				F20E1FAC0CACFC75005DEAF5 /* ThousandSeparatorValueTransformer.m */,
 				142893820957585600D14688 /* FontAttributesToStringValueTransformer.h */,
@@ -1876,14 +1878,14 @@
 		4CE8E4E818DC84B10029BF95 /* Prefs */ = {
 			isa = PBXGroup;
 			children = (
-				420AAF7E18FE0FFC00297DB1 /* StylePrefs.xib */,
+				3D8A481A257FF27F005AFEF1 /* StylePrefs.xib */,
 				4C0D3D6717FB145600AAFB38 /* Preferences.xib */,
 				4CD5F7F817FB0D0C00F49E31 /* GeneralPrefs.xib */,
 				4CD5F7E417FB0C7B00F49E31 /* EditPrefs.xib */,
 				4CD5F81717FB0DF900F49E31 /* PrecedencePrefs.xib */,
 				4CD5F81B17FB0E1800F49E31 /* PrecedenceRules.xib */,
 				4CD5F7D817FB0BF200F49E31 /* AdvancedPrefs.xib */,
-				423B23D418F64065001E2DCC /* SEECollaborationPrefs.xib */,
+				3D8A480D257EF97B005AFEF1 /* SEECollaborationPrefs.xib */,
 			);
 			name = Prefs;
 			sourceTree = "<group>";
@@ -2302,13 +2304,13 @@
 				F24AEA1B195AE78300046F6B /* DocumentProxy.xib in Resources */,
 				F22024D3191D0BFE0098982C /* ParticipantKickPressed.png in Resources */,
 				4CD5F7DA17FB0BF200F49E31 /* AdvancedPrefs.xib in Resources */,
-				423B23D518F64065001E2DCC /* SEECollaborationPrefs.xib in Resources */,
 				F245828A2181C19F00A87EB5 /* FileIcons.xcassets in Resources */,
 				F22024D7191D0BFE0098982C /* ParticipantReadOnlyTurnOffNormal.png in Resources */,
 				F25A0724191A800E00F07557 /* EditPrefs@2x.png in Resources */,
 				F22024D8191D0BFE0098982C /* ParticipantReadOnlyTurnOffNormal@2x.png in Resources */,
 				F20AB881190932FB00444F4B /* SymbolWarn.png in Resources */,
 				142890CC095743F200D14688 /* Participants.icns in Resources */,
+				F286091425868AD4004802DC /* SEECollaborationPrefs.xib in Resources */,
 				4CD5F82117FB0E2B00F49E31 /* PrintOptions.xib in Resources */,
 				142890D4095743F200D14688 /* SeeFolderIcon.tiff in Resources */,
 				F22024C9191D0BFE0098982C /* ParticipantFollowTurnOnHover.png in Resources */,
@@ -2337,7 +2339,7 @@
 				1493A8590A10DABB004ECE6A /* SystemVersionCheck.strings in Resources */,
 				4C6BDC5F1889858A0088CBFC /* folded.png in Resources */,
 				F22024C0191D0BFE0098982C /* ParticipantFollowStatusOn@2x.png in Resources */,
-				420AAF7F18FE0FFC00297DB1 /* StylePrefs.xib in Resources */,
+				3D8A4818257FF27F005AFEF1 /* StylePrefs.xib in Resources */,
 				4CA098DE18EAF54E0026B3E3 /* SEEWebPreviewViewController.xib in Resources */,
 				F22024E3191D0D280098982C /* ParticipantReadOnlyTurnOnPressed.png in Resources */,
 				14EC6E280A63F2E800B44481 /* ServicesMenu.strings in Resources */,
@@ -2507,6 +2509,7 @@
 				4CCD4DD21811703D00FE6134 /* SEESavePanelAccessoryViewController.m in Sources */,
 				1428932C095756D800D14688 /* TCMMMNoOperation.m in Sources */,
 				1428932D095756D800D14688 /* TCMMMOperation.m in Sources */,
+				3DC31374257D03180077577A /* SEETertiaryLabelColorValueTransformer.m in Sources */,
 				1428932E095756D800D14688 /* TCMMMPresenceManager.m in Sources */,
 				1428932F095756D800D14688 /* TCMMMSession.m in Sources */,
 				14289330095756D800D14688 /* TCMMMState.m in Sources */,
@@ -2636,7 +2639,6 @@
 				F2F2B6100CA811240045C189 /* TCMMMLogStatisticsDataPoint.m in Sources */,
 				F20E1FAE0CACFC75005DEAF5 /* ThousandSeparatorValueTransformer.m in Sources */,
 				3188F6800CAD13E0009E4C0B /* DNDArrayController.m in Sources */,
-				3134F7AB0CB1331900F8C116 /* PrecedenceRolloverButton.m in Sources */,
 				F2FB96E30CBE68ED000B85AE /* UKXattrMetadataStore.m in Sources */,
 				F24280C60D16CFCC0083AE21 /* GenericSASLProfile.m in Sources */,
 				F2DCD8F20EE432F900F2854F /* FontForwardingTextField.m in Sources */,
@@ -2788,6 +2790,24 @@
 			name = SEEDocumentListWindowController.xib;
 			sourceTree = "<group>";
 		};
+		3D8A480D257EF97B005AFEF1 /* SEECollaborationPrefs.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3D8A480C257EF97B005AFEF1 /* Base */,
+				3D8A4810257EF983005AFEF1 /* de */,
+			);
+			name = SEECollaborationPrefs.xib;
+			sourceTree = "<group>";
+		};
+		3D8A481A257FF27F005AFEF1 /* StylePrefs.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3D8A4819257FF27F005AFEF1 /* Base */,
+				3D8A481C257FF285005AFEF1 /* de */,
+			);
+			name = StylePrefs.xib;
+			sourceTree = "<group>";
+		};
 		3DBB85C225734E6D000F829F /* OpenURLViewController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -2801,7 +2821,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				F286A749215CE57C0056C247 /* Base */,
-				F24780AF22EAF46600366FC8 /* de */,
+				3D8A4809257EEF5C005AFEF1 /* de */,
 			);
 			name = AdvancedPrefs.xib;
 			sourceTree = "<group>";
@@ -2810,7 +2830,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				F286A746215CE57B0056C247 /* Base */,
-				F24780B022EAF46600366FC8 /* de */,
+				3D8A4816257F0FC4005AFEF1 /* de */,
 			);
 			name = EditPrefs.xib;
 			sourceTree = "<group>";
@@ -2854,7 +2874,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				F286A745215CE57B0056C247 /* Base */,
-				F24780B122EAF46600366FC8 /* de */,
+				3D8A47F3257ED540005AFEF1 /* de */,
 			);
 			name = GeneralPrefs.xib;
 			sourceTree = "<group>";
@@ -2890,7 +2910,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				F286A747215CE57C0056C247 /* Base */,
-				F24780B222EAF46600366FC8 /* de */,
+				3D8A47F7257EDA96005AFEF1 /* de */,
 			);
 			name = PrecedencePrefs.xib;
 			sourceTree = "<group>";
@@ -2899,7 +2919,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				F286A748215CE57C0056C247 /* Base */,
-				F24780B322EAF46600366FC8 /* de */,
+				3D8A4804257EDDEE005AFEF1 /* de */,
 			);
 			name = PrecedenceRules.xib;
 			sourceTree = "<group>";
