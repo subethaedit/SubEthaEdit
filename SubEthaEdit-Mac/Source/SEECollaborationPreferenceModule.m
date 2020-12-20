@@ -74,7 +74,7 @@
         [self portMapperDidFinishWork:nil];
     }
 	
-	[self.O_disableNetworkingButton setState:[TCMMMBEEPSessionManager sharedInstance].isNetworkingDisabled ? NSControlStateValueOn : NSControlStateValueOff];
+	[self.O_enableCollaborationButton setState:[TCMMMBEEPSessionManager sharedInstance].isNetworkingDisabled ? NSControlStateValueOff : NSControlStateValueOn];
 	[self.O_invisibleOnNetworkButton setState:[[TCMMMPresenceManager sharedInstance] isVisible] ? NSControlStateValueOff : NSControlStateValueOn];
 	
 	SEEUserColorsPreviewView *preview = self.O_userColorsPreview;
@@ -287,8 +287,8 @@
 }
 
 - (IBAction)changeDisableNetworking:(id)aSender {
-	BOOL networkingDisabled = [self.O_disableNetworkingButton state] == NSControlStateValueOn ? YES : NO;
-	[TCMMMBEEPSessionManager sharedInstance].networkingDisabled = networkingDisabled;
+	BOOL collaborationDisabled = [self.O_enableCollaborationButton state] == NSControlStateValueOff;
+	[TCMMMBEEPSessionManager sharedInstance].networkingDisabled = collaborationDisabled;
 	[self updateLocalPort];
 }
 
@@ -299,110 +299,10 @@
 #pragma mark - Localization
 
 - (void)localizeText {
-	// me card related
 	self.O_avatarImageView.hoverString =
 	NSLocalizedStringWithDefaultValue(@"COLLAB_USER_IMAGE_HOVER_STRING", nil, [NSBundle mainBundle],
 									  @"Edit",
 									  @"Collaboration Preferences - Description to show when the user hovers over the avatar image"
-									  );
-
-	self.O_userNameLabel.stringValue =
-	NSLocalizedStringWithDefaultValue(@"COLLAB_USER_NAME_LABEL", nil, [NSBundle mainBundle],
-									  @"Name:",
-									  @"Collaboration Preferences - Label for the user name text field"
-									  );
-
-	self.O_userEmailLabel.stringValue =
-	NSLocalizedStringWithDefaultValue(@"COLLAB_USER_EMAIL_LABEL",
-									  nil, [NSBundle mainBundle],
-									  @"Email:",
-									  @"Collaboration Preferences - Label for the user email text field"
-									  );
-
-	
-	self.O_userColorLabel.stringValue =
-	NSLocalizedStringWithDefaultValue(@"COLLAB_USER_COLOR_LABEL",
-									  nil, [NSBundle mainBundle],
-									  @"Color:",
-									  @"Collaboration Preferences - Label for the user color slider"
-									  );
-
-	self.O_highlightChangesButton.title =
-	NSLocalizedStringWithDefaultValue(@"COLLAB_HIGHLIGHT_CHANGES_LABEL",
-									  nil, [NSBundle mainBundle],
-									  @"Highlight Changes",
-									  @"Collaboration Preferences - Label for the highlight changes toggle"
-									  );
-	
-	self.O_highlightChangesSlider.toolTip =
-	NSLocalizedStringWithDefaultValue(@"COLLAB_HIGHLIGHT_CHANGES_SLIDER_TOOL_TIP",
-									  nil, [NSBundle mainBundle],
-									  @"Adjusts the strength of the background color indicating changes.",
-									  @"Collaboration Preferences - Tooltip for the highlight changes toggle"
-									  );
-	
-	self.O_changesSaturationLabelPale.stringValue =
-	NSLocalizedStringWithDefaultValue(@"COLLAB_HIGHLIGHT_CHANGES_SLIDER_LABEL_PALE",
-									  nil, [NSBundle mainBundle],
-									  @"pale",
-									  @"Collaboration Preferences - Label for the highlight changes saturation slider - pale end"
-									  );
-	
-	self.O_changesSaturationLabelStrong.stringValue =
-	NSLocalizedStringWithDefaultValue(@"COLLAB_HIGHLIGHT_CHANGES_SLIDER_LABEL_STRONG",
-									  nil, [NSBundle mainBundle],
-									  @"strong",
-									  @"Collaboration Preferences - Label for the highlight changes saturation slider - strong end"
-									  );
-	
-	self.O_invisibleOnNetworkButton.title =
-	NSLocalizedStringWithDefaultValue(@"COLLAB_NETWORK_INVISIBLE_LABEL", nil, [NSBundle mainBundle],
-									  @"Invisible to others on the Network",
-									  @"Collaboration Preferences - Label for the invisible on network toggle"
-									  );
-	
-	self.O_invisibleOnNetworkExplanationTextField.stringValue =
-	NSLocalizedStringWithDefaultValue(@"COLLAB_NETWORK_INVISIBLE_DESCRIPTION", nil, [NSBundle mainBundle],
-									  @"You will still be visible if you advertise a document",
-									  @"Collaboration Preferences - Label with additional description for the invisible on network toggle"
-									  );
-	
-	// disable networking
-	self.O_disableNetworkingButton.title =
-	NSLocalizedStringWithDefaultValue(@"COLLAB_NETWORK_DISABLE_LABEL", nil, [NSBundle mainBundle],
-									  @"Disable Networking",
-									  @"Collaboration Preferences - Label for the disable networking toggle"
-									  );
-	// network box
-	self.O_networkBox.title =
-	NSLocalizedStringWithDefaultValue(@"COLLAB_NETWORK_LABEL", nil, [NSBundle mainBundle],
-									  @"Network",
-									  @"Collaboration Preferences - Label for the network box"
-									  );
-	
-	self.O_localPortLabel.stringValue =
-	NSLocalizedStringWithDefaultValue(@"COLLAB_LOCAL_PORT_LABEL",
-									  nil, [NSBundle mainBundle],
-									  @"Local Port:",
-									  @"Collaboration Preferences - Label for the local port"
-									  );
-	
-	self.O_automaticallyMapPortButton.title =
-	NSLocalizedStringWithDefaultValue(@"COLLAB_AUTOMATICALLY_MAP_PORT_LABEL", nil, [NSBundle mainBundle],
-									  @"Try to map port automatically",
-									  @"Collaboration Preferences - Label for the automatically map port toggle"
-									  );
-	
-	self.O_automaticallyMapPortButton.toolTip =
-	NSLocalizedStringWithDefaultValue(@"COLLAB_AUTOMATICALLY_MAP_PORT_TOOL_TIP", nil, [NSBundle mainBundle],
-									  @"SubEthaEdit will try to automatically map the local port to an external port if it is behind a NAT. For this to work you have to enable UPnP or NAT-PMP on your router.",
-									  @"Collaboration Preferences - tool tip for the automatically map port toggle"
-									  );
-	
-	self.O_automaticallyMapPortExplanationTextField.stringValue =
-	NSLocalizedStringWithDefaultValue(@"COLLAB_AUTOMATICALLY_MAP_PORT_DESCRIPTION", nil, [NSBundle mainBundle],
-									  @"NAT traversal uses either NAT-PMP or UPnP",
-									  @"Collaboration Preferences - Label with additional description for the automatically map port toggle"
 									  );
 }
 
@@ -411,14 +311,10 @@
 	NSString *firstChoice = [array firstObject];
 	if ([firstChoice isEqualToString:@"de"] || [firstChoice isEqualToString:@"German"]) {
 		// re-layout for German
-		CGFloat preWidth = NSWidth(self.O_localPortLabel.frame);
-		[self.O_localPortLabel sizeToFit];
-
-		CGAffineTransform transform = CGAffineTransformMakeTranslation(NSWidth(self.O_localPortLabel.frame) - preWidth, 0);
-		self.O_localPortTextField.frame = NSRectFromCGRect(CGRectApplyAffineTransform(NSRectToCGRect            (self.O_localPortTextField.frame), transform));
-		self.O_mappingStatusImageView.frame = NSRectFromCGRect(CGRectApplyAffineTransform(NSRectToCGRect        (self.O_mappingStatusImageView.frame), transform));;
-		self.O_mappingStatusProgressIndicator.frame = NSRectFromCGRect(CGRectApplyAffineTransform(NSRectToCGRect(self.O_mappingStatusProgressIndicator.frame), transform));
-		self.O_mappingStatusTextField.frame = NSRectFromCGRect(CGRectApplyAffineTransform(NSRectToCGRect        (self.O_mappingStatusTextField.frame), transform));
+		[self.O_enableCollaborationButton sizeToFit];
+        CGPoint origin = self.O_enableCollaborationButton.frame.origin;
+        NSPoint newOrigin = CGPointMake(origin.x - 7, origin.y);
+        [self.O_enableCollaborationButton setFrameOrigin:newOrigin];
 	}
 }
 

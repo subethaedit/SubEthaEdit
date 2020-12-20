@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17132.0.2" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17132.0.2"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -19,119 +19,136 @@
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="6" userLabel="Window">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="88" y="301" width="433" height="345"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1055"/>
+            <rect key="contentRect" x="88" y="301" width="680" height="311"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2880" height="1595"/>
             <view key="contentView" id="5">
-                <rect key="frame" x="0.0" y="0.0" width="433" height="345"/>
+                <rect key="frame" x="0.0" y="0.0" width="680" height="311"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <box fixedFrame="YES" title="Command Line Tool" translatesAutoresizingMaskIntoConstraints="NO" id="11">
-                        <rect key="frame" x="17" y="197" width="399" height="128"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                        <view key="contentView" id="z9Z-mA-By3">
-                            <rect key="frame" x="3" y="3" width="393" height="110"/>
+                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="143">
+                        <rect key="frame" x="225" y="132" width="435" height="18"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <string key="toolTip">SubEthaEdit transmits the document history on connect to a document. If you don't need the history or you don't want to send it due to privacy issues you can disable that feature here.</string>
+                        <buttonCell key="cell" type="check" title="Save document state per file" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="187">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <binding destination="59" name="value" keyPath="values.DontSaveDocumentStateInXattrs" id="170">
+                                <dictionary key="options">
+                                    <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                </dictionary>
+                            </binding>
+                        </connections>
+                    </button>
+                    <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="145">
+                        <rect key="frame" x="245" y="91" width="417" height="38"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" controlSize="mini" sendsActionOnEndEditing="YES" title="For example, foldings are saved in Extended Attributes" id="188">
+                            <font key="font" metaFont="smallSystem"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="45">
+                        <rect key="frame" x="225" y="72" width="435" height="18"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Disable screen fonts" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="175">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="changeDisableScreenFonts:" target="-2" id="50"/>
+                        </connections>
+                    </button>
+                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="48">
+                        <rect key="frame" x="225" y="24" width="435" height="18"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Add synthesised bold and italic to fonts" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="176">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="changeSynthesiseFonts:" target="-2" id="51"/>
+                        </connections>
+                    </button>
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="49">
+                        <rect key="frame" x="245" y="54" width="417" height="15"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Takes effect after relaunch" id="177">
+                            <font key="font" metaFont="smallSystem"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="60c-nT-QpD">
+                        <rect key="frame" x="30" y="73" width="191" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Font Rendering:" id="AK3-gD-86e">
+                            <font key="font" usesAppearanceFont="YES"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KU1-Ax-4xh">
+                        <rect key="frame" x="18" y="133" width="203" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Saving and Loading:" id="6Ej-d4-7kP">
+                            <font key="font" usesAppearanceFont="YES"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j2R-MH-9y7">
+                        <rect key="frame" x="225" y="254" width="251" height="34"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Run the following script in Terminal.app to install the 'see' command line tool:" id="miq-Cf-tda">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hny-R9-6xl">
+                        <rect key="frame" x="233" y="169" width="349" height="72"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" truncatesLastVisibleLine="YES" selectable="YES" allowsUndo="NO" sendsActionOnEndEditing="YES" id="Dxg-H3-lsZ">
+                            <font key="font" size="11" name="Menlo-Regular"/>
+                            <string key="title">sudo /Users/dom/Library/Developer/Xcode/DerivedData/SubEthaEdit-chxuksbdzuargcggefughhcsunnm/Build/Products/Debug/SubEthaEdit.app/Contents/SharedSupport/bin/install.command</string>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tgK-Pg-l2f">
+                        <rect key="frame" x="18" y="272" width="203" height="16"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Command Line Tool:" id="mvo-I4-dw6">
+                            <font key="font" usesAppearanceFont="YES"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ftm-a9-eeh">
+                        <rect key="frame" x="512" y="255" width="81" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Copy" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="i3k-9U-Hub">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="copyScriptAction:" target="-2" id="VbW-d5-dVi"/>
+                        </connections>
+                    </button>
+                    <box fixedFrame="YES" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="e0d-aI-hdl">
+                        <rect key="frame" x="224" y="160" width="365" height="88"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <view key="contentView" id="UKy-nQ-8It">
+                            <rect key="frame" x="3" y="3" width="359" height="82"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <subviews>
-                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j2R-MH-9y7">
-                                    <rect key="frame" x="12" y="65" width="334" height="36"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" selectable="YES" sendsActionOnEndEditing="YES" title="Run the following script in Terminal.app to install the 'see' command line tool:" id="miq-Cf-tda">
-                                        <font key="font" metaFont="smallSystem"/>
-                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                </textField>
-                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hny-R9-6xl">
-                                    <rect key="frame" x="12" y="6" width="363" height="65"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" lineBreakMode="charWrapping" selectable="YES" allowsUndo="NO" sendsActionOnEndEditing="YES" title="SubEthaEdit.app/Contents/SharedSupport/bin/install.sh" id="Dxg-H3-lsZ">
-                                        <font key="font" size="10" name="Menlo-Regular"/>
-                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                </textField>
-                            </subviews>
-                        </view>
-                    </box>
-                    <box fixedFrame="YES" title="Font Rendering" translatesAutoresizingMaskIntoConstraints="NO" id="46">
-                        <rect key="frame" x="17" y="16" width="399" height="104"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                        <view key="contentView" id="4uL-SB-80R">
-                            <rect key="frame" x="3" y="3" width="393" height="86"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <subviews>
-                                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="45">
-                                    <rect key="frame" x="13" y="57" width="366" height="18"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                                    <buttonCell key="cell" type="check" title="Disable screen fonts" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="175">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="smallSystem"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <action selector="changeDisableScreenFonts:" target="-2" id="50"/>
-                                    </connections>
-                                </button>
-                                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="48">
-                                    <rect key="frame" x="13" y="16" width="366" height="18"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                                    <buttonCell key="cell" type="check" title="Add synthesised bold and italic to fonts" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="176">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="smallSystem"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <action selector="changeSynthesiseFonts:" target="-2" id="51"/>
-                                    </connections>
-                                </button>
-                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="49">
-                                    <rect key="frame" x="33" y="45" width="347" height="11"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Takes effect after relaunch" id="177">
-                                        <font key="font" metaFont="miniSystem"/>
-                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                </textField>
-                            </subviews>
-                        </view>
-                    </box>
-                    <box fixedFrame="YES" title="Saving and Loading" translatesAutoresizingMaskIntoConstraints="NO" id="166">
-                        <rect key="frame" x="17" y="124" width="399" height="69"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                        <view key="contentView" id="muh-w0-O9i">
-                            <rect key="frame" x="3" y="3" width="393" height="51"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <subviews>
-                                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="143">
-                                    <rect key="frame" x="14" y="24" width="364" height="18"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                                    <string key="toolTip">SubEthaEdit transmits the document history on connect to a document. If you don't need the history or you don't want to send it due to privacy issues you can disable that feature here.</string>
-                                    <buttonCell key="cell" type="check" title="Save document state per file" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="187">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="smallSystem"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <binding destination="59" name="value" keyPath="values.DontSaveDocumentStateInXattrs" id="170">
-                                            <dictionary key="options">
-                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
-                                </button>
-                                <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="145">
-                                    <rect key="frame" x="32" y="13" width="348" height="11"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" controlSize="mini" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="E.g. foldings are saved in Extended Attributes" id="188">
-                                        <font key="font" metaFont="miniSystem"/>
-                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                </textField>
-                            </subviews>
                         </view>
                     </box>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="173.5" y="146.5"/>
+            <point key="canvasLocation" x="173" y="116.5"/>
         </window>
         <userDefaultsController id="59" userLabel="Shared Defaults"/>
     </objects>

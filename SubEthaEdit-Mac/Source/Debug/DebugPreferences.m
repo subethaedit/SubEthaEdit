@@ -52,7 +52,11 @@
 }
 
 - (NSImage *)icon {
-    return [NSImage imageNamed:@"debug"];
+    if (@available(macOS 10.16, *)) {
+        return [NSImage imageWithSystemSymbolName:@"ladybug" accessibilityDescription:nil];
+    } else {
+        return [NSImage imageNamed:@"debug"];
+    }
 }
 
 - (NSString *)iconLabel {

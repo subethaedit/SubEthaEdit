@@ -79,7 +79,7 @@
 #pragma mark - Preference Module - Basics
 - (NSImage *)icon {
     if (@available(macOS 10.16, *)) {
-        return [NSImage imageWithSystemSymbolName:@"house" accessibilityDescription:nil];
+        return [NSImage imageWithSystemSymbolName:@"gearshape" accessibilityDescription:nil];
     } else {
         return [NSImage imageNamed:NSImageNamePreferencesGeneral];
     }
