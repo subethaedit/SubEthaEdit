@@ -10,7 +10,7 @@
 * Fixed issue where the split view icon could disappear
 
 #### Improved modes:
-* 
+* Made bash mode also trigger for .zshrc/.zshenv
 
 
 ### SubEthaEdit 5.1.7
