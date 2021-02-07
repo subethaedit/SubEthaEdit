@@ -56,7 +56,7 @@
 
 	if ([aSender isKindOfClass:[NSButton class]]) {
 		NSButton *button = (NSButton *)aSender;
-		isEnabled = (button.state == NSOnState);
+		isEnabled = (button.state == NSControlStateValueOn);
 	} else {
 		isEnabled = ![defaults boolForKey:HighlightChangesAlonePreferenceKey];
 	}
@@ -125,9 +125,9 @@
 
 - (void)setLocalChangesHighlightButtonState:(BOOL)isEnabled {
 	if (isEnabled) {
-		[self.O_highlightLocalChangesButton setState:NSOnState];
+		[self.O_highlightLocalChangesButton setState:NSControlStateValueOn];
 	} else {
-		[self.O_highlightLocalChangesButton setState:NSOffState];
+		[self.O_highlightLocalChangesButton setState:NSControlStateValueOff];
 	}
 }
 

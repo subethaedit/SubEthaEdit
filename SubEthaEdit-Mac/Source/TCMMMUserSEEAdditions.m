@@ -168,21 +168,21 @@
 
 #pragma mark - Helper
 + (NSData *)imagePNGDataFromImage:(NSImage *)aImage {
-	NSData *data = nil;
-	if (aImage) {
-		data = [aImage TIFFRepresentation];
-		data = [[NSBitmapImageRep imageRepWithData:data] representationUsingType:NSPNGFileType properties:@{}];
-	}
-	return data;
+    NSData *data = nil;
+    if (aImage) {
+        data = [aImage TIFFRepresentation];
+        data = [[NSBitmapImageRep imageRepWithData:data] representationUsingType:NSBitmapImageFileTypePNG properties:@{}];
+    }
+    return data;
 }
 
 + (NSData *)imageJPEGDataFromImage:(NSImage *)aImage {
-	NSData *data = nil;
-	if (aImage) {
-		data = [aImage TIFFRepresentation];
-		data = [[NSBitmapImageRep imageRepWithData:data] representationUsingType:NSJPEGFileType properties:@{NSImageCompressionFactor : @0.80}];
-	}
-	return data;
+    NSData *data = nil;
+    if (aImage) {
+        data = [aImage TIFFRepresentation];
+        data = [[NSBitmapImageRep imageRepWithData:data] representationUsingType:NSBitmapImageFileTypeJPEG properties:@{NSImageCompressionFactor : @0.80}];
+    }
+    return data;
 }
 
 

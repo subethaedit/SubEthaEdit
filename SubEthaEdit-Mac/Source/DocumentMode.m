@@ -341,7 +341,7 @@ NSString * const DocumentModeFontNameSystemFontValue = @"_SEESystemMonoFont_";
             [_defaults setObject:@NO forKey:DocumentModeUTF8BOMPreferenceKey];
 
 			// ignore deprecated color settings, but still set them for backwards compatability
-			NSValueTransformer *transformer=[NSValueTransformer valueTransformerForName:NSUnarchiveFromDataTransformerName];
+            NSValueTransformer *transformer=[NSValueTransformer valueTransformerForName:NSSecureUnarchiveFromDataTransformerName];
 			[_defaults setObject:[transformer reverseTransformedValue:[NSColor blackColor]] forKey:DocumentModeForegroundColorPreferenceKey];
             [_defaults setObject:[transformer reverseTransformedValue:[NSColor whiteColor]] forKey:DocumentModeBackgroundColorPreferenceKey];
             [[EncodingManager sharedInstance] registerEncoding:NoStringEncoding];
@@ -568,13 +568,13 @@ NSString * const DocumentModeFontNameSystemFontValue = @"_SEESystemMonoFont_";
 
 		SEEStyleSheet *styleSheet = [self styleSheetForLanguageContext:nil];
 		NSColor *highlightColor = styleSheet?[[styleSheet styleAttributesForScope:@"meta.highlight.currentline"] objectForKey:@"color"]:[NSColor yellowColor];
-		[_defaults setObject:[[NSValueTransformer valueTransformerForName:NSUnarchiveFromDataTransformerName] reverseTransformedValue:highlightColor] forKey:DocumentModeCurrentLineHighlightColorPreferenceKey];
+        [_defaults setObject:[[NSValueTransformer valueTransformerForName:NSSecureUnarchiveFromDataTransformerName] reverseTransformedValue:highlightColor] forKey:DocumentModeCurrentLineHighlightColorPreferenceKey];
 		
         if (![_defaults objectForKey:DocumentModeBackgroundColorIsDarkPreferenceKey]) {
             [_defaults setObject:@NO forKey:DocumentModeBackgroundColorIsDarkPreferenceKey];
             if ([self isBaseMode] && [_defaults objectForKey:DocumentModeBackgroundColorPreferenceKey]) {
                 // take old background and foreground color settings
-                NSValueTransformer *transformer=[NSValueTransformer valueTransformerForName:NSUnarchiveFromDataTransformerName];
+                NSValueTransformer *transformer=[NSValueTransformer valueTransformerForName:NSSecureUnarchiveFromDataTransformerName];
                 NSColor *color=nil;
                 
                 color=[transformer transformedValue:[_defaults objectForKey:DocumentModeBackgroundColorPreferenceKey]];

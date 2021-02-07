@@ -70,7 +70,7 @@
 		NSLog(@"%s - Unknown line drawing option: %u", __FUNCTION__, self.lineDrawingEdge);
 	}
 
-    CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
+    CGContextRef ctx = [[NSGraphicsContext currentContext] CGContext];
     CGContextSetFillColorWithColor(ctx, [[NSColor secondaryLabelColor] CGColor]);
     CGContextBeginPath(ctx);
     NSRect triangleRect;

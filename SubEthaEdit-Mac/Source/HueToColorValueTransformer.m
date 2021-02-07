@@ -30,7 +30,7 @@
 - (id)reverseTransformedValue:(id)value {
     if (![value isKindOfClass:[NSColor class]]) return nil;
 
-	NSColor *color = [(NSColor *)value colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
+	NSColor *color = [(NSColor *)value colorUsingColorSpace:[NSColorSpace deviceRGBColorSpace]];
     CGFloat hue = 0.0;
     [color getHue:&hue saturation:NULL brightness:NULL alpha:NULL];
     

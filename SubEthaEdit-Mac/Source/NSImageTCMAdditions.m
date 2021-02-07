@@ -112,7 +112,7 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
 																							   hasAlpha:YES
 																							   isPlanar:NO
 																						 colorSpaceName:NSCalibratedRGBColorSpace
-																						   bitmapFormat:NSAlphaFirstBitmapFormat
+                                                                                           bitmapFormat:NSBitmapFormatAlphaFirst
 																							bytesPerRow:0
 																						   bitsPerPixel:0];
 
@@ -136,7 +136,7 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
 																								hasAlpha:YES
 																								isPlanar:NO
 																						  colorSpaceName:NSCalibratedRGBColorSpace
-																							bitmapFormat:NSAlphaFirstBitmapFormat
+                                                                                            bitmapFormat:NSBitmapFormatAlphaFirst
 																							 bytesPerRow:0
 																							bitsPerPixel:0];
 
@@ -210,7 +210,7 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
 			[[NSColor clearColor] set];
 			NSRectFill(dstRect);
 			
-			CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
+            CGContextRef context = [[NSGraphicsContext currentContext] CGContext];
 			
 			CGSize layerScale = CGSizeMake(CGBitmapContextGetWidth(context) / fullRect.size.width,
 										   CGBitmapContextGetHeight(context) / fullRect.size.height);
@@ -396,7 +396,7 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
             NSBezierPath *roundedRectanglePath = [NSBezierPath bezierPathWithRoundedRect:NSInsetRect(roundRect, strokeWidth/2.0, strokeWidth/2.0) xRadius:strokeWidth * 1.5 yRadius:strokeWidth * 1.5];
             
             // getting a good dark background for this hue
-            CGFloat hue = [[aColor colorUsingColorSpaceName:NSCalibratedRGBColorSpace] hueComponent];
+            CGFloat hue = [[aColor colorUsingColorSpace:[NSColorSpace deviceRGBColorSpace]] hueComponent];
             [[NSColor colorWithHue:hue saturation:1.0 brightness:0.25 alpha:1.0] set];
             [roundedRectanglePath fill];
             
@@ -410,7 +410,7 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
             [aColor set];
             [roundedRectanglePath stroke];
         }
-		CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
+        CGContextRef context = [[NSGraphicsContext currentContext] CGContext];
 		
 		[[NSColor whiteColor] setFill];
 		CGContextSetLineCap(context, kCGLineCapRound);

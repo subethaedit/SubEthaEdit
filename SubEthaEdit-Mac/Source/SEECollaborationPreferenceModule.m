@@ -61,7 +61,7 @@
     [self.O_nameTextField setStringValue:[me name]];
     [self.O_emailTextField setStringValue:[[me properties] objectForKey:@"Email"]];
 
-    [self.O_automaticallyMapPortButton setState:[defaults boolForKey:ShouldAutomaticallyMapPort]?NSOnState:NSOffState];
+    [self.O_automaticallyMapPortButton setState:[defaults boolForKey:ShouldAutomaticallyMapPort]?NSControlStateValueOn:NSControlStateValueOff];
 	
 	[self updateLocalPort];
 	
@@ -74,8 +74,8 @@
         [self portMapperDidFinishWork:nil];
     }
 	
-	[self.O_enableCollaborationButton setState:[TCMMMBEEPSessionManager sharedInstance].isNetworkingDisabled ? NSOffState : NSOnState];
-	[self.O_invisibleOnNetworkButton setState:[[TCMMMPresenceManager sharedInstance] isVisible] ? NSOffState : NSOnState];
+	[self.O_enableCollaborationButton setState:[TCMMMBEEPSessionManager sharedInstance].isNetworkingDisabled ? NSControlStateValueOff : NSControlStateValueOn];
+	[self.O_invisibleOnNetworkButton setState:[[TCMMMPresenceManager sharedInstance] isVisible] ? NSControlStateValueOff : NSControlStateValueOn];
 	
 	SEEUserColorsPreviewView *preview = self.O_userColorsPreview;
 	NSUserDefaultsController *defaultsController = [NSUserDefaultsController sharedUserDefaultsController];
@@ -281,19 +281,19 @@
 
 #pragma mark - IBActions - Port Mapping
 - (IBAction)changeAutomaticallyMapPorts:(id)aSender {
-    BOOL shouldStart = ([self.O_automaticallyMapPortButton state]==NSOnState);
+    BOOL shouldStart = ([self.O_automaticallyMapPortButton state]==NSControlStateValueOn);
     [[NSUserDefaults standardUserDefaults] setBool:shouldStart forKey:ShouldAutomaticallyMapPort];
 	[[TCMMMBEEPSessionManager sharedInstance] validatePortMapping];
 }
 
 - (IBAction)changeDisableNetworking:(id)aSender {
-	BOOL collaborationEnabled = [self.O_enableCollaborationButton state] != NSOnState ? YES : NO;
-	[TCMMMBEEPSessionManager sharedInstance].networkingDisabled = collaborationEnabled;
+	BOOL collaborationDisabled = [self.O_enableCollaborationButton state] == NSControlStateValueOff;
+	[TCMMMBEEPSessionManager sharedInstance].networkingDisabled = collaborationDisabled;
 	[self updateLocalPort];
 }
 
 - (IBAction)changeVisiblityOnNetwork:(id)aSender {
-	[[TCMMMPresenceManager sharedInstance] setVisible:[self.O_invisibleOnNetworkButton state] == NSOffState ? YES : NO];
+	[[TCMMMPresenceManager sharedInstance] setVisible:[self.O_invisibleOnNetworkButton state] == NSControlStateValueOff ? YES : NO];
 }
 
 #pragma mark - Localization
