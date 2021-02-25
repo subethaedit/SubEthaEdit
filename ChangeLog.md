@@ -1,7 +1,7 @@
 ### [unreleased] SubEthaEdit 5.2
 
 #### Features:
-* 
+* macOS 11 style app icon
 
 #### Bug fixes and maintenance:
 * Modernised search and replace user interface
