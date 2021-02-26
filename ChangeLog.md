@@ -1,3 +1,18 @@
+### SubEthaEdit 5.2
+
+#### Features:
+* macOS 11 style app icon
+* Modernised search and replace user interface
+* Modernised preference user interface
+
+#### Bug fixes and maintenance:
+* Fixed layout issues in web preview
+* Fixed issue where the split view icon could disappear
+
+#### Improved modes:
+* Made bash mode also trigger for .zshrc/.zshenv
+
+
 ### SubEthaEdit 5.1.7
 
 #### Bug fixes and maintenance:

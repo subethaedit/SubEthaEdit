@@ -23,5 +23,6 @@
 
 - (IBAction)valuesChanged:(id)sender;
 - (IBAction)removeRule:(id)sender;
+- (IBAction)addRule:(id)sender;
 - (void)setPreferenceController:(PrecedencePreferences *)controller;
 @end

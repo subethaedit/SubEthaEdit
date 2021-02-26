@@ -26,13 +26,13 @@
 "%d Documents" = "%d Dokumente";
 
 /* Entries Found in FindAll Panel */
-"%d found." = "%d gefunden.";
+"%d matches" = "%d gefunden";
 
 /* Pending Users Display in Menu Title Bar */
 "%d pending" = "%d Anfragen";
 
 /* Number of replaced strings */
-"%d replaced." = "%d ersetzt.";
+"%ld replaced" = "%ld ersetzt";
 
 /* No comment provided by engineer. */
 "&Redo" = "Wiederholen";
@@ -859,10 +859,6 @@
 /* Web Preview - Refresh Popup Item - Manual */
 "WEB_PREVIEW_REFRESH_POPUP_MANUAL" = "Manuell";
 
-"FIND_REPLACE_PANEL_FINDALL" = "Alle Suchen";
-"FIND_REPLACE_PANEL_REPLACE" = "Ersetzen";
-"FIND_REPLACE_PANEL_REPLACEALL" = "Alle Ersetzen";
-
 "FIND_REPLACE_PANEL_SCOPE_DOCUMENT" = "Dokument";
 
 "FIND_REPLACE_PANEL_MENU_CLEAR_SCOPE" = "Suchbereich zurücksetzen %@";
@@ -871,12 +867,12 @@
 "FIND_REPLACE_PANEL_MENU_WRAP" = "Mehrfach suchen";
 "FIND_REPLACE_PANEL_MENU_HISTORY_SUBMENU_TITLE" = "Suchverlauf";
 "FIND_REPLACE_PANEL_MENU_USE_REGEX" = "Reguläre Ausdrücke verwenden";
-"FIND_REPLACE_PANEL_MENU_REGEX_DIALECT" = "Sprache für Reguläre Ausdrücke";
+"FIND_REPLACE_PANEL_MENU_REGEX_DIALECT" = "Sprache für Reguläre Ausdrücke:";
 "FIND_REPLACE_PANEL_MENU_EXTENDED" = "Erweitert";
 "FIND_REPLACE_PANEL_MENU_ESCAPE_SLASH" = "Escape-Zeichen: \\";
 "FIND_REPLACE_PANEL_MENU_ESCAPE_YEN" = "Escape-Zeichen: ¥";
 "FIND_REPLACE_PANEL_MENU_CAPTURE_GROUPS" = "Finde unbenannte Gruppen";
-"FIND_REPLACE_PANEL_MENU_LINE_CONTEXT" = "'^' ➞ '\\A', '$' ➞ '\\Z'";
+"FIND_REPLACE_PANEL_MENU_LINE_CONTEXT" = "'^' → '\\A', '$' → '\\Z'";
 "FIND_REPLACE_PANEL_MENU_MULTILINE" = "'.' beinhaltet Zeilenwechsel";
 "FIND_REPLACE_PANEL_MENU_ONLY_LONGEST" = "Nur längster Treffer";
 "FIND_REPLACE_PANEL_MENU_IGNORE_EMPTY" = "Leere Treffer ignorieren";
@@ -920,40 +916,13 @@
 "Advertise Document" = "Dokument ankündigen";
 
 /* Collaboration Preference Pane */
-"COLLAB_USER_NAME_LABEL" = "Name:";
-"COLLAB_USER_EMAIL_LABEL" = "E-Mail:";
-
 "COLLAB_USER_IMAGE_HOVER_STRING" = "Ändern";
-
-"COLLAB_USER_COLOR_LABEL" = "Farbe:";
-"COLLAB_HIGHLIGHT_CHANGES_LABEL" = "Änderungen hervorheben";
-"COLLAB_HIGHLIGHT_CHANGES_SLIDER_TOOL_TIP" = "Passt die Stärke der Farbe zur Hervorhebung von Veränderungen an.";
-"COLLAB_HIGHLIGHT_CHANGES_SLIDER_LABEL_PALE" = "schwach";
-"COLLAB_HIGHLIGHT_CHANGES_SLIDER_LABEL_STRONG" = "stark";
-
-"COLLAB_NETWORK_INVISIBLE_LABEL" = "Für Andere im Netzwerk unsichtbar";
-"COLLAB_NETWORK_INVISIBLE_DESCRIPTION" = "Wenn Sie ein Dokument ankündigen, sind Sie weiterhin sichtbar.";
-
-"COLLAB_NETWORK_DISABLE_LABEL" = "Netzwerkverbindungen verhindern";
-
-"COLLAB_NETWORK_LABEL" = "Netzwerk";
-"COLLAB_LOCAL_PORT_LABEL" = "Lokaler Port:";
-"COLLAB_AUTOMATICALLY_MAP_PORT_LABEL" = "Port automatisch weiterleiten";
-"COLLAB_AUTOMATICALLY_MAP_PORT_TOOL_TIP" = "SubEthaEdit versucht automatisch den lokalen Port weiterzuleiten, falls Sie sich hinter einem NAT befinden. Damit das funktioniert müssen Sie UPnP oder NAT-PMP auf Ihrem Router aktivieren.";
-"COLLAB_AUTOMATICALLY_MAP_PORT_DESCRIPTION" = "Die Port-Weiterleitung benutzt NAT-PMP oder UPnP.";
 
 /* Style Preference Pane */
 
-"STYLE_PREF_DEFAULT_FONT_CHECKBOX_LABEL" = "Standard-Einstellungen verwenden";
-"STYLE_PREF_FONT_BOX_LABEL" = "Schrift";
-"STYLE_PREF_CUSTOM_FONT_BUTTON" = "Auswählen...";
-"STYLE_PREF_CUSTOM_FONT_BUTTON_TOOL_TIP" = "Ändere die vorgegebene Schrift für Dokumente";
-"STYLE_PREF_SETTING_BOX_LABEL" = "Stil-Einstellungen";
 "STYLE_PREF_SHEET_BUTTON_DEFAULT_LABEL" = "Stil des Standard-Modus";
 "STYLE_PREF_SHEET_BUTTON_CUSTOM_LABEL" = "Eigener Stil";
 "STYLE_PREF_SHEET_BUTTON_CUSTOM_FOR_CONTEXT_LABEL" = "Eigener Stil pro Sprachkontext";
-"STYLE_PREF_PREVIEW_BOX_LABEL"= "Vorschau";
-"STYLE_PREF_APPLY_STYLE_BUTTON" = "Auf offene Dokumente anwenden";
 "STYLE_PREFS_REVEAL_USER_STYLES_FOLDER" = "Ordner für eigene Stile anzeigen";
 "STYLE_PREFS_RELOAD_STYLES_TITLE" = "Neu laden";
 

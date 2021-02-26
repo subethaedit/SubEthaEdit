@@ -1,0 +1,36 @@
+
+/* Class = "NSWindow"; title = "Window"; ObjectID = "5"; */
+"5.title" = "Window";
+
+/* Class = "NSTableColumn"; headerCell.title = "Version"; ObjectID = "12"; */
+"12.headerCell.title" = "Version";
+
+/* Class = "NSTableColumn"; headerCell.title = "Mode"; ObjectID = "13"; */
+"13.headerCell.title" = "Modus";
+
+/* Class = "NSTableColumn"; headerCell.title = "Trigger"; ObjectID = "16"; */
+"16.headerCell.title" = "Erkennungsregeln";
+
+/* Class = "NSTableColumn"; headerCell.title = "Location"; ObjectID = "18"; */
+"18.headerCell.title" = "Ort";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "28"; */
+"28.title" = "Text Cell";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "29"; */
+"29.title" = "Text Cell";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "30"; */
+"30.title" = "Text Cell";
+
+/* Class = "NSTextFieldCell"; title = "Drag modes to change order of evaluation."; ObjectID = "49"; */
+"49.title" = "Die Rangfolge kann durch ziehen verändert werden.";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "51"; */
+"51.title" = "Text Cell";
+
+/* Class = "NSTextFieldCell"; title = "Add, remove or disable Triggers to alter Mode recognition."; ObjectID = "Pyf-On-J2C"; */
+"Pyf-On-J2C.title" = "[LOCALISATION MISSING: Add, remove or disable Triggers to alter Mode recognition.]";
+
+/* Class = "NSTextFieldCell"; title = "Triggers determine which mode will be used when you open a File."; ObjectID = "Xz1-wz-pbE"; */
+"Xz1-wz-pbE.title" = "Erkennungsregeln bestimmen welcher Modus beim Öffnen einer Datei benutzt wird.";

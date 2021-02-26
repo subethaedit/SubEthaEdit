@@ -53,7 +53,7 @@ void * const SEEUserColorsPreviewUpdateObservingContext = (void *)&SEEUserColors
 			[label setBackgroundColor:[NSColor clearColor]];
 			[label setBezeled:NO];
 			[label setEditable:NO];
-			[label setStringValue:SEE_NoLocalizationNeeded(@"Lorem ipsum")];
+            [label setStringValue:SEE_NoLocalizationNeeded(@"In the beginning")];
 			[self addSubview:label];
 			label;
 		});
@@ -63,7 +63,7 @@ void * const SEEUserColorsPreviewUpdateObservingContext = (void *)&SEEUserColors
 			[label setBackgroundColor:[NSColor clearColor]];
 			[label setBezeled:NO];
 			[label setEditable:NO];
-			[label setStringValue:SEE_NoLocalizationNeeded(@"dolor sit")];
+            [label setStringValue:SEE_NoLocalizationNeeded(@"the Universe")];
 			[self addSubview:label];
 			label;
 		});
@@ -73,7 +73,7 @@ void * const SEEUserColorsPreviewUpdateObservingContext = (void *)&SEEUserColors
 			[label setBackgroundColor:[NSColor clearColor]];
 			[label setBezeled:NO];
 			[label setEditable:NO];
-			[label setStringValue:SEE_NoLocalizationNeeded(@"amet, consectetur adipiscing elit.")];
+            [label setStringValue:SEE_NoLocalizationNeeded(@"was created. This has made a")];
 			[[label cell] setLineBreakMode:NSLineBreakByTruncatingTail];
 			[self addSubview:label];
 			label;
@@ -151,7 +151,11 @@ void * const SEEUserColorsPreviewUpdateObservingContext = (void *)&SEEUserColors
     [super drawRect:aDirtyRect];
 	
 	// border
-	[[NSColor colorWithCalibratedWhite:0.6 alpha:1.0] set];
+    if (@available(macOS 10.14, *)) {
+        [[NSColor separatorColor] set];
+    } else {
+        [[NSColor lightGrayColor] set];
+    }
 	NSFrameRectWithWidth(self.bounds, 1.0);
 }
 

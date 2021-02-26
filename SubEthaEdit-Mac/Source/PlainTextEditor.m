@@ -583,11 +583,6 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 			[viewController updateColorsForIsDarkBackground:isDark];
 		}
 	}
-    
-    if (self.findAndReplaceController &&
-        self.findAndReplaceController == self.topOverlayViewController) {
-        [self.findAndReplaceController updateColorsForIsDarkBackground:isDark];
-    }
 }
 
 - (void)takeStyleSettingsFromDocument {

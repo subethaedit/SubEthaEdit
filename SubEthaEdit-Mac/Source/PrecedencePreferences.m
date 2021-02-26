@@ -18,7 +18,7 @@
 
 - (NSImage *)icon {
     if (@available(macOS 10.16, *)) {
-        return [NSImage imageWithSystemSymbolName:@"exclamationmark.circle" accessibilityDescription:nil];
+        return [NSImage imageWithSystemSymbolName:@"bolt.horizontal" accessibilityDescription:nil];
     } else {
         return [NSImage imageNamed:@"PrefIconTrigger"];
     }
@@ -37,6 +37,7 @@
 }
 
 - (void)mainViewDidLoad {
+    [self localizeLayout];
 	[o_rulesTableView setDelegate:self];
 	[o_rulesTableView setRowHeight:32];
     [o_rulesTableView deselectAll:nil];
@@ -89,6 +90,21 @@
 //	[o_rulesTableView setNeedsDisplay:YES];
 }
 
+- (void)localizeLayout {
+    NSArray *array = [NSLocale preferredLanguages];
+    NSString *firstChoice = [array firstObject];
+    if ([firstChoice isEqualToString:@"de"] || [firstChoice isEqualToString:@"German"]) {
+        // re-layout for German
+        NSRect frame = self.mainView.window.frame;
+        NSSize newSize = CGSizeMake(frame.size.width, frame.size.height + 14);
+        frame.origin.y -= frame.size.height;
+        frame.origin.y += newSize.height;
+        frame.size = newSize;
+        [self.mainView.window setFrame:frame display:NO];
+    }
+}
+
+
 @end
 
 @implementation PrecedencePreferences (TableViewDelegation)
@@ -115,7 +131,7 @@
 		[[ruleViewController warningImageView] bind:@"hidden" toObject:rule withKeyPath:@"Overridden" options:[NSDictionary dictionaryWithObject:NSNegateBooleanTransformerName forKey:NSValueTransformerNameBindingOption]];
 		[[ruleViewController warningImageView] bind:@"hidden2" toObject:rule withKeyPath:@"Enabled" options:[NSDictionary dictionaryWithObject:NSNegateBooleanTransformerName forKey:NSValueTransformerNameBindingOption]];
 		[[ruleViewController warningImageView] bind:@"toolTip" toObject:rule withKeyPath:@"OverriddenTooltip" options:nil];
-		[[ruleViewController removeButton] bind:@"hidden" toObject:rule withKeyPath:@"ModeRule" options:nil];
+		[[ruleViewController removeButton] bind:@"enabled" toObject:rule withKeyPath:@"ModeRule" options:[NSDictionary dictionaryWithObject:NSNegateBooleanTransformerName forKey:NSValueTransformerNameBindingOption]];
 		
 		if ([[rule objectForKey:@"ModeRule"] boolValue]) {
 			[[ruleViewController view] setToolTip:NSLocalizedString(@"PrecedencePrefsModeRuleTooltip", @"Mode rules cannot be edited or removed. But you can disable them.")];

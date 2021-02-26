@@ -1,0 +1,201 @@
+
+/* Class = "NSWindow"; title = "Window"; ObjectID = "6"; */
+"6.title" = "Window";
+
+/* Class = "NSMenu"; title = "OtherViews"; ObjectID = "10"; */
+"10.title" = "OtherViews";
+
+/* Class = "NSMenuItem"; title = "Default Mode"; ObjectID = "11"; */
+"11.title" = "Standard Modus";
+
+/* Class = "NSMenuItem"; title = "Itemasdfasdf"; ObjectID = "12"; */
+"12.title" = "Itemasdfasdf";
+
+/* Class = "NSMenuItem"; title = "Item3"; ObjectID = "14"; */
+"14.title" = "Item3";
+
+/* Class = "NSPopUpButton"; ibShadowedToolTip = "Default character that ends lines"; ObjectID = "22"; */
+"22.ibShadowedToolTip" = "Vorgegebene Zeilenenden";
+
+/* Class = "NSMenu"; title = "OtherViews"; ObjectID = "23"; */
+"23.title" = "OtherViews";
+
+/* Class = "NSMenuItem"; title = "Windows (CRLF)"; ObjectID = "24"; */
+"24.title" = "Windows (CRLF)";
+
+/* Class = "NSMenuItem"; title = "Item1"; ObjectID = "25"; */
+"25.title" = "Item1";
+
+/* Class = "NSMenu"; title = "OtherViews"; ObjectID = "28"; */
+"28.title" = "OtherViews";
+
+/* Class = "NSMenuItem"; title = "Unix/Mac OS X (LF)"; ObjectID = "29"; */
+"29.title" = "Unix/Mac OS X (LF)";
+
+/* Class = "NSMenuItem"; title = "Classic Mac (CR)"; ObjectID = "30"; */
+"30.title" = "Classic Mac (CR)";
+
+/* Class = "NSPopUpButton"; ibShadowedToolTip = "Default character encoding for files"; ObjectID = "32"; */
+"32.ibShadowedToolTip" = "Vorgegebene Text-Codierung für Dateien";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Enable syntax coloring by default"; ObjectID = "50"; */
+"50.ibShadowedToolTip" = "Syntax immer einfärben";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Uses tabs instead of spaces"; ObjectID = "57"; */
+"57.ibShadowedToolTip" = "Benutze Tabulatoren anstatt Leerzeichen";
+
+/* Class = "NSButton"; ibShadowedToolTip = "New lines are indented at the level of the upper line."; ObjectID = "60"; */
+"60.ibShadowedToolTip" = "Neue Zeilen werden genau soweit eingerückt wie die vorangegangene Zeile.";
+
+/* Class = "NSTextField"; ibShadowedToolTip = "Set the tab width in characters "; ObjectID = "63"; */
+"63.ibShadowedToolTip" = "Tabulatorbreite in Zeichen";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Use the settings specified in \"Default Mode\""; ObjectID = "69"; */
+"69.ibShadowedToolTip" = "Verwende die im \"Standard Modus\" vorgegebenen Einstellungen";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Use the settings specified in \"Default Mode\""; ObjectID = "70"; */
+"70.ibShadowedToolTip" = "Verwende die im \"Standard Modus\" vorgegebenen Einstellungen";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Use the settings specified in \"Default Mode\""; ObjectID = "71"; */
+"71.ibShadowedToolTip" = "Verwende die im \"Standard Modus\" vorgegebenen Einstellungen";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Flash matching brackets and parens red."; ObjectID = "156"; */
+"156.ibShadowedToolTip" = "Läßt Klammerpaare aufleuchten.";
+
+/* Class = "NSButtonCell"; ibShadowedToolTip = "Wrap, but don't split words."; ObjectID = "157"; */
+"157.ibShadowedToolTip" = "Breche um, ohne Wörter zu trennen.";
+
+/* Class = "NSButtonCell"; title = "By word"; ObjectID = "157"; */
+"157.title" = "wortweise";
+
+/* Class = "NSButtonCell"; ibShadowedToolTip = "Wrap hard at the given numbers of characters"; ObjectID = "159"; */
+"159.ibShadowedToolTip" = "Breche die Zeile nach der Anzahl der vorgegebenen Zeichen um";
+
+/* Class = "NSButtonCell"; title = "By character"; ObjectID = "159"; */
+"159.title" = "zeichenweise";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Show line numbers on the left side of the document."; ObjectID = "160"; */
+"160.ibShadowedToolTip" = "Blende Zeilennummern am linken Dokumentrand ein.";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Show Characters like newline, space, tab, etc."; ObjectID = "162"; */
+"162.ibShadowedToolTip" = "Blende Leerzeichen, Tabulatoren, etc. ein.";
+
+/* Class = "NSMenuItem"; title = "Line Separator (LSEP)"; ObjectID = "182"; */
+"182.title" = "Line Separator (LSEP)";
+
+/* Class = "NSMenuItem"; title = "Paragraph Separator (PSEP)"; ObjectID = "183"; */
+"183.title" = "Paragraph Separator (PSEP)";
+
+/* Class = "NSTextField"; ibShadowedToolTip = "Set the tab width in characters "; ObjectID = "294"; */
+"294.ibShadowedToolTip" = "Tabulatorbreite in Zeichen";
+
+/* Class = "NSTextField"; ibShadowedToolTip = "Set the tab width in characters "; ObjectID = "316"; */
+"316.ibShadowedToolTip" = "Tabulatorbreite in Zeichen";
+
+/* Class = "NSTextFieldCell"; title = "Line Endings for New Files:"; ObjectID = "346"; */
+"346.title" = "Zeilenende für neue Dateien:";
+
+/* Class = "NSTextFieldCell"; title = "Default Text Encoding:\n"; ObjectID = "347"; */
+"347.title" = "Standardkodierung:";
+
+/* Class = "NSButtonCell"; title = "Save UTF-8 encoded files with BOM"; ObjectID = "349"; */
+"349.title" = "UTF-8 kodierte Dateien mit BOM sichern";
+
+/* Class = "NSButtonCell"; title = "Editor uses tabs"; ObjectID = "350"; */
+"350.title" = "Editor verwendet Tabulatoren";
+
+/* Class = "NSButtonCell"; title = "Indent new lines"; ObjectID = "351"; */
+"351.title" = "Neue Zeilen einrücken";
+
+/* Class = "NSTextFieldCell"; title = "Tab Width:"; ObjectID = "352"; */
+"352.title" = "Tabulatorbreite:";
+
+/* Class = "NSButtonCell"; title = "Highlight syntax"; ObjectID = "354"; */
+"354.title" = "Syntax einfärben";
+
+/* Class = "NSButtonCell"; title = "Matching brackets"; ObjectID = "355"; */
+"355.title" = "Klammerung hervorheben";
+
+/* Class = "NSButtonCell"; title = "Wrap lines"; ObjectID = "356"; */
+"356.title" = "Zeilen umbrechen";
+
+/* Class = "NSButtonCell"; title = "Line numbers and folding bar"; ObjectID = "357"; */
+"357.title" = "Zeilennummern und Ebenenstreifen";
+
+/* Class = "NSButtonCell"; title = "Invisible characters"; ObjectID = "358"; */
+"358.title" = "Unsichtbare Zeichen einblenden";
+
+/* Class = "NSTextFieldCell"; title = "rows"; ObjectID = "359"; */
+"359.title" = "Zeilen";
+
+/* Class = "NSTextFieldCell"; title = "columns"; ObjectID = "362"; */
+"362.title" = "Spalten";
+
+/* Class = "NSTextFieldCell"; title = "Dimensions of New Windows:\n"; ObjectID = "363"; */
+"363.title" = "Größe neuer Fenster:";
+
+/* Class = "NSButtonCell"; title = "Indent wrapped lines"; ObjectID = "364"; */
+"364.title" = "Umgebrochene Zeilen einrücken";
+
+/* Class = "NSButtonCell"; title = "Show wrap guide at"; ObjectID = "365"; */
+"365.title" = "Rechten Rand bei";
+
+/* Class = "NSButtonCell"; title = "Use Default"; ObjectID = "370"; */
+"370.title" = "Standard-Einstellungen";
+
+/* Class = "NSButtonCell"; title = "Use Default"; ObjectID = "371"; */
+"371.title" = "Standard-Einstellungen";
+
+/* Class = "NSButtonCell"; title = "Use Default"; ObjectID = "372"; */
+"372.title" = "Standard-Einstellungen";
+
+/* Class = "NSButtonCell"; title = "Apply to Open Documents"; ObjectID = "373"; */
+"373.title" = "Auf offene Dokumente anwenden";
+
+/* Class = "NSButtonCell"; title = "Radio"; ObjectID = "375"; */
+"375.title" = "Radio";
+
+/* Class = "NSButton"; ibShadowedToolTip = "New lines are indented at the level of the upper line."; ObjectID = "376"; */
+"376.ibShadowedToolTip" = "Neue Zeilen werden genau soweit eingerückt wie die vorangegangene Zeile.";
+
+/* Class = "NSButtonCell"; title = "Tab key shifts a selection"; ObjectID = "377"; */
+"377.title" = "Tabulator Taste rückt Auswahl ein";
+
+/* Class = "NSTextFieldCell"; title = "Edit:"; ObjectID = "63c-Y4-hv2"; */
+"63c-Y4-hv2.title" = "Bearbeiten:";
+
+/* Class = "NSTextFieldCell"; title = "Wrap:"; ObjectID = "IbD-8f-FAl"; */
+"IbD-8f-FAl.title" = "Umbrechen:";
+
+/* Class = "NSTabViewItem"; label = "View"; ObjectID = "LF8-FK-iJE"; */
+"LF8-FK-iJE.label" = "View";
+
+/* Class = "NSTextFieldCell"; title = "columns"; ObjectID = "Ler-do-dsN"; */
+"Ler-do-dsN.title" = "Spalten";
+
+/* Class = "NSTextFieldCell"; title = "Indent by"; ObjectID = "OtM-Xr-j49"; */
+"OtM-Xr-j49.title" = "Einzug mit";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Show Characters like newline, space, tab, etc."; ObjectID = "PMn-Ew-4dd"; */
+"PMn-Ew-4dd.ibShadowedToolTip" = "Blende Leerzeichen, Tabulatoren, etc. ein.";
+
+/* Class = "NSTextFieldCell"; title = "Tabs:"; ObjectID = "PQ3-jN-RNC"; */
+"PQ3-jN-RNC.title" = "Tabulatoren:";
+
+/* Class = "NSTextFieldCell"; title = "View:"; ObjectID = "gsJ-RY-7K2"; */
+"gsJ-RY-7K2.title" = "Darstellung:";
+
+/* Class = "NSTextFieldCell"; title = "Show:"; ObjectID = "iIL-wg-PEu"; */
+"iIL-wg-PEu.title" = "Anzeigen:";
+
+/* Class = "NSTextFieldCell"; title = "File:"; ObjectID = "k3Y-hl-PIh"; */
+"k3Y-hl-PIh.title" = "Datei:";
+
+/* Class = "NSTextFieldCell"; title = "spaces"; ObjectID = "ogs-pR-UJg"; */
+"ogs-pR-UJg.title" = "Leerzeichen";
+
+/* Class = "NSTextFieldCell"; title = "spaces"; ObjectID = "tDo-Fy-9bj"; */
+"tDo-Fy-9bj.title" = "Leerzeichen";
+
+/* Class = "NSButtonCell"; title = "Inconsitent indentation"; ObjectID = "tw0-t3-jXf"; */
+"tw0-t3-jXf.title" = "Inkonsistente Einrückung anzeigen";

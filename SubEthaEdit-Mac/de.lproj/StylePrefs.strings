@@ -1,0 +1,84 @@
+
+/* Class = "NSWindow"; title = "Window"; ObjectID = "6"; */
+"6.title" = "Window";
+
+/* Class = "NSBox"; title = "Box"; ObjectID = "8"; */
+"8.title" = "Box";
+
+/* Class = "NSMenu"; title = "OtherViews"; ObjectID = "10"; */
+"10.title" = "OtherViews";
+
+/* Class = "NSMenuItem"; title = "Default Mode"; ObjectID = "11"; */
+"11.title" = "Default Mode";
+
+/* Class = "NSMenuItem"; title = "Itemasdfasdf"; ObjectID = "12"; */
+"12.title" = "Itemasdfasdf";
+
+/* Class = "NSMenuItem"; title = "Item3"; ObjectID = "14"; */
+"14.title" = "Item3";
+
+/* Class = "NSBox"; title = "<Style Settings>"; ObjectID = "385"; */
+"385.title" = "<Style Settings>";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Use the settings specified in \"Default Mode\""; ObjectID = "387"; */
+"387.ibShadowedToolTip" = "Verwende die im \"Standard Modus\" vorgegebenen Einstellungen";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Change the document's default font"; ObjectID = "390"; */
+"390.ibShadowedToolTip" = "Ändere die vorgegebene Schrift für Dokumente";
+
+/* Class = "NSButtonCell"; title = "Use Default"; ObjectID = "448"; */
+"448.title" = "Standard-Einstellungen verwenden";
+
+/* Class = "NSButtonCell"; title = "Choose…"; ObjectID = "449"; */
+"449.title" = "Auswählen …";
+
+/* Class = "NSTextFieldCell"; title = "System font text"; ObjectID = "450"; */
+"450.title" = "System font text";
+
+/* Class = "NSButtonCell"; title = "Apply to Open Documents"; ObjectID = "451"; */
+"451.title" = "Auf offene Dokumente anwenden";
+
+/* Class = "NSButtonCell"; title = "<Style sheet from Default Mode>"; ObjectID = "458"; */
+"458.title" = "<Style sheet from Default Mode>";
+
+/* Class = "NSButtonCell"; title = "<Custom style sheet>"; ObjectID = "460"; */
+"460.title" = "<Custom style sheet>";
+
+/* Class = "NSMenu"; title = "OtherViews"; ObjectID = "463"; */
+"463.title" = "OtherViews";
+
+/* Class = "NSMenuItem"; title = "Item 1"; ObjectID = "464"; */
+"464.title" = "Item 1";
+
+/* Class = "NSMenuItem"; title = "Item 2"; ObjectID = "465"; */
+"465.title" = "Item 2";
+
+/* Class = "NSMenuItem"; title = "Item 3"; ObjectID = "466"; */
+"466.title" = "Item 3";
+
+/* Class = "NSButtonCell"; title = "<Custom style sheets for Language Contexts>"; ObjectID = "474"; */
+"474.title" = "<Custom style sheets for Language Contexts>";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "510"; */
+"510.title" = "Text Cell";
+
+/* Class = "NSMenu"; title = "OtherViews"; ObjectID = "512"; */
+"512.title" = "OtherViews";
+
+/* Class = "NSMenuItem"; title = "Pop Up"; ObjectID = "513"; */
+"513.title" = "Pop Up";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Use the default monospace system font"; ObjectID = "428-YO-qEf"; */
+"428-YO-qEf.ibShadowedToolTip" = "[LOCALISATION MISSING: Use the default monospace system font]";
+
+/* Class = "NSTextFieldCell"; title = "Preview:"; ObjectID = "ILx-EZ-ZXK"; */
+"ILx-EZ-ZXK.title" = "Vorschau:";
+
+/* Class = "NSTextFieldCell"; title = "Font:"; ObjectID = "brU-mG-1j0"; */
+"brU-mG-1j0.title" = "Schrift:";
+
+/* Class = "NSTextFieldCell"; title = "Style:"; ObjectID = "efw-xH-ovU"; */
+"efw-xH-ovU.title" = "Stil-Einstellungen:";
+
+/* Class = "NSButtonCell"; title = "System"; ObjectID = "kI6-Su-N7e"; */
+"kI6-Su-N7e.title" = "System";

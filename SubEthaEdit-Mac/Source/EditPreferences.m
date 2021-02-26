@@ -11,7 +11,7 @@
 
 - (NSImage *)icon {
     if (@available(macOS 10.16, *)) {
-        return [NSImage imageWithSystemSymbolName:@"pencil.and.ellipsis.rectangle" accessibilityDescription:nil];
+        return [NSImage imageWithSystemSymbolName:@"square.and.pencil" accessibilityDescription:nil];
     } else {
         return [NSImage imageNamed:@"EditPrefs"];
     }
