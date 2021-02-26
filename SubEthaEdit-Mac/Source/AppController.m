@@ -157,7 +157,7 @@ static AppController *sharedInstance = nil;
 		[defaults setObject:@YES forKey:DocumentStateSaveAndLoadFoldingStateKey  ];
 		
 		[defaults setObject:[NSNumber numberWithBool:floor(NSAppKitVersionNumber) > 824.] forKey:@"SaveSeeTextPreview"];
-		[defaults setObject:@YES forKey:ShouldAutomaticallyMapPort];
+		[defaults setObject:@NO forKey:ShouldAutomaticallyMapPort];
 
 		[defaults setObject:@NO forKey:kSEEDefaultsKeyEnableTLS];
 		[defaults setObject:@NO forKey:kSEEDefaultsKeyUseTemporaryKeychainForTLS]; // no more temporary keychain in 10.6 and up builds
