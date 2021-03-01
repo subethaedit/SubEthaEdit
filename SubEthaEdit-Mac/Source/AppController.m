@@ -704,7 +704,7 @@ static AppController *sharedInstance = nil;
 			}
 			item.keyEquivalent = @"";
 			if (isSelectedModeItem) {
-				item.state = NSOnState;
+                item.state = NSControlStateValueOn;
 			}
 			item;
 		})];
@@ -715,7 +715,7 @@ static AppController *sharedInstance = nil;
 			[alternateItem setKeyEquivalentModifierMask:NSEventModifierFlagOption];
 			[alternateItem setTitle:[NSString stringWithFormat:NSLocalizedString(!inTabs?@"MODE_IN_NEW_TAB_CONTEXT_MENU_TEXT":@"MODE_IN_NEW_WINDOW_CONTEXT_MENU_TEXT",@""),[normalItem title]]];
 			if (isSelectedModeItem) {
-				alternateItem.state = NSOnState;
+                alternateItem.state = NSControlStateValueOn;
 			}
 			[aMenu addItem:alternateItem];
 			

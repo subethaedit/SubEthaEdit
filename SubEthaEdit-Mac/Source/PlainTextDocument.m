@@ -1136,7 +1136,7 @@ static NSString *tempFileName(NSString *origPath) {
 
     // Toggle back the state of the button if it was a button
     if ([aSender isKindOfClass:[NSButton class]]) {
-        [aSender setState:[aSender state] == NSOnState ? NSOffState : NSOnState];
+        [aSender setState:[aSender state] == NSControlStateValueOn ? NSControlStateValueOff : NSControlStateValueOn];
     }
 }
 
@@ -3737,7 +3737,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
                 if (success) success = [fm createDirectoryAtPath:quicklookPath withIntermediateDirectories:YES attributes:nil error:nil];
                 if (success) {
                     NSURL *thumbnailURL = [NSURL fileURLWithPath:[quicklookPath stringByAppendingPathComponent:@"Thumbnail.jpg"]];
-                    NSData *jpegData = [[self thumbnailBitmapRepresentation] representationUsingType:NSJPEGFileType properties:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:0.90],NSImageCompressionFactor,nil]];
+                    NSData *jpegData = [[self thumbnailBitmapRepresentation] representationUsingType:NSBitmapImageFileTypeJPEG properties:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:0.90],NSImageCompressionFactor,nil]];
                     success = [jpegData writeToURL:thumbnailURL options:0 error:outError];
                     if (success && [[NSUserDefaults standardUserDefaults] boolForKey:@"SaveSeeTextPreview"]) {
                         NSView *printView = [self printableView];
@@ -6590,8 +6590,8 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     [textView cacheDisplayInRect:[textView frame] toBitmapImageRep:rep];
 
     NSPasteboard *pb=[NSPasteboard generalPasteboard];
-    [pb declareTypes:[NSArray arrayWithObject:NSTIFFPboardType] owner:self];
-    [pb setData:[rep TIFFRepresentation] forType:NSTIFFPboardType];
+    [pb declareTypes:[NSArray arrayWithObject:NSPasteboardTypeTIFF] owner:self];
+    [pb setData:[rep TIFFRepresentation] forType:NSPasteboardTypeTIFF];
     return rep;
 }
 
@@ -7208,8 +7208,8 @@ static NSMutableArray<__kindof NSWindow *> *S_depthSortedWindows(NSArray<__kindo
     NSBitmapImageRep *rep = [myTextView bitmapImageRepForCachingDisplayInRect:rectToCache];
     [myTextView cacheDisplayInRect:[myTextView frame] toBitmapImageRep:rep];
     NSPasteboard *pb=[NSPasteboard generalPasteboard];
-    [pb declareTypes:[NSArray arrayWithObject:NSTIFFPboardType] owner:self];
-    [pb setData:[rep TIFFRepresentation] forType:NSTIFFPboardType];
+    [pb declareTypes:[NSArray arrayWithObject:NSPasteboardTypeTIFF] owner:self];
+    [pb setData:[rep TIFFRepresentation] forType:NSPasteboardTypeTIFF];
     [myTextView setDrawsBackground:YES];
 }
 

@@ -44,9 +44,9 @@
 - (IBAction)validateDefaultsState:(id)aSender {
     DocumentMode *baseMode=[[DocumentModeManager sharedInstance] baseMode];
     DocumentMode *selectedMode=[O_modeController content];
-    [O_viewController setContent:([O_viewDefaultButton state]==NSOnState)?baseMode:selectedMode];
-    [O_editController setContent:([O_editDefaultButton state]==NSOnState)?baseMode:selectedMode];
-    [O_fileController setContent:([O_fileDefaultButton state]==NSOnState)?baseMode:selectedMode];
+    [O_viewController setContent:([O_viewDefaultButton state]==NSControlStateValueOn)?baseMode:selectedMode];
+    [O_editController setContent:([O_editDefaultButton state]==NSControlStateValueOn)?baseMode:selectedMode];
+    [O_fileController setContent:([O_fileDefaultButton state]==NSControlStateValueOn)?baseMode:selectedMode];
 }
 
 - (IBAction)changeMode:(id)aSender {
