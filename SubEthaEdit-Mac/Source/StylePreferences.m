@@ -325,6 +325,10 @@
 		NSDictionary *attributes = [SEEStyleSheet textAttributesForStyleAttributes:[styleSheet styleAttributesForScope:SEEStyleSheetMetaDefaultScopeName] font:self.baseFont];
 		[textStorage setAttributes:attributes range:NSMakeRange(0,textStorage.length)];
 	}
+    
+    NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+    style.lineHeightMultiple = currentMode.lineHeightMultiple;
+    [textStorage addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, textStorage.length)];
 }
 
 #pragma mark - TableView DataSource
