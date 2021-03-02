@@ -93,6 +93,10 @@
 	[self highlightSyntax];
 }
 
+- (IBAction)changeLineSpacing:(id)sender {
+    [self highlightSyntax];
+}
+
 - (IBAction)changeDefaultState:(id)aSender {
     BOOL useDefault = ([aSender state]==NSControlStateValueOn);
     [[[self.O_modePopUpButton selectedMode] defaults] setObject:[NSNumber numberWithBool:useDefault] forKey:DocumentModeUseDefaultStylePreferenceKey];

@@ -306,7 +306,10 @@ NSString * const DocumentModeFontNameSystemFontValue = @"_SEESystemMonoFont_";
             if (existingModeDefaults[DocumentModeShowInconsistentIndentationPreferenceKey] == nil) {
                 [existingModeDefaults setObject:@YES forKey:DocumentModeShowInconsistentIndentationPreferenceKey];
             }
-
+            
+            if (existingModeDefaults[DocumentModeLineSpacingStylePreferenceKey] == nil) {
+                [existingModeDefaults setObject:@100 forKey:DocumentModeLineSpacingStylePreferenceKey];
+            }
             
             [self setDefaults:existingModeDefaults];
             
@@ -317,6 +320,7 @@ NSString * const DocumentModeFontNameSystemFontValue = @"_SEESystemMonoFont_";
 					[[EncodingManager sharedInstance] registerEncoding:encoding];
 				}
             }
+            
         } else {
             _defaults = [NSMutableDictionary new];
             [_defaults setObject:[NSNumber numberWithInt:4] forKey:DocumentModeTabWidthPreferenceKey];

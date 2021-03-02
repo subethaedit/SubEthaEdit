@@ -1,7 +1,7 @@
 ### [unlreleased] SubEthaEdit 5.2.1
 
 #### Features:
-* 
+* Line spacing per mode preference
 
 #### Bug fixes and maintenance:
 * 

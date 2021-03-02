@@ -30,7 +30,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="128" y="514" width="680" height="490"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2880" height="1595"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="875"/>
             <value key="minSize" type="size" width="680" height="450"/>
             <value key="maxSize" type="size" width="680" height="2000"/>
             <view key="contentView" id="5">
@@ -113,7 +113,7 @@
                                         <autoresizingMask key="autoresizingMask"/>
                                     </scroller>
                                     <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="499">
-                                        <rect key="frame" x="583" y="1" width="16" height="198"/>
+                                        <rect key="frame" x="583" y="1" width="16" height="162"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </scroller>
                                 </scrollView>
@@ -202,7 +202,7 @@
                                 <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nrR-bH-ceb">
                                     <rect key="frame" x="156" y="284" width="49" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" state="on" alignment="center" id="xdg-51-bmI">
+                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" state="on" alignment="left" id="xdg-51-bmI">
                                         <numberFormatter key="formatter" formatterBehavior="10_0" positiveFormat="0%" negativeFormat="-0%" hasThousandSeparators="NO" thousandSeparator="," id="xab-5K-9RL">
                                             <attributedString key="attributedStringForZero">
                                                 <fragment content="0%"/>
@@ -215,17 +215,22 @@
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                     <connections>
-                                        <binding destination="73" name="value" keyPath="selection.defaults.LineSpacing" id="W8z-Od-xvO"/>
+                                        <binding destination="395" name="value" keyPath="selection.defaults.LineSpacing" id="bq4-eh-CyK"/>
                                     </connections>
                                 </textField>
                                 <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mA4-Ca-Nca">
                                     <rect key="frame" x="273" y="278" width="267" height="28"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                    <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="90" maxValue="180" doubleValue="100" tickMarkPosition="above" numberOfTickMarks="10" allowsTickMarkValuesOnly="YES" sliderType="linear" id="czi-O0-EP3">
-                                        <connections>
-                                            <action selector="takeDoubleValueFrom:" target="nrR-bH-ceb" id="Edx-si-msg"/>
-                                        </connections>
-                                    </sliderCell>
+                                    <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="85" maxValue="165" doubleValue="100" tickMarkPosition="above" numberOfTickMarks="17" allowsTickMarkValuesOnly="YES" sliderType="linear" id="czi-O0-EP3"/>
+                                    <connections>
+                                        <action selector="changeLineSpacing:" target="-2" id="drd-y3-xbD"/>
+                                        <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultFont" id="OSb-XW-gZw">
+                                            <dictionary key="options">
+                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                            </dictionary>
+                                        </binding>
+                                        <binding destination="395" name="value" keyPath="selection.defaults.LineSpacing" id="deh-VR-3Vx"/>
+                                    </connections>
                                 </slider>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2qF-DH-Wcy">
                                     <rect key="frame" x="211" y="286" width="58" height="16"/>
@@ -235,15 +240,29 @@
                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
+                                    <connections>
+                                        <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultFont" id="9f8-2m-D4d">
+                                            <dictionary key="options">
+                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                            </dictionary>
+                                        </binding>
+                                    </connections>
                                 </textField>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JYs-Qf-gEE">
                                     <rect key="frame" x="544" y="286" width="86" height="16"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" lineBreakMode="clipping" alignment="left" title="wider" id="qoS-in-svt">
+                                    <textFieldCell key="cell" lineBreakMode="clipping" alignment="left" title="looser" id="qoS-in-svt">
                                         <font key="font" metaFont="smallSystem"/>
                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
+                                    <connections>
+                                        <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultFont" id="9E2-wP-IZi">
+                                            <dictionary key="options">
+                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                            </dictionary>
+                                        </binding>
+                                    </connections>
                                 </textField>
                             </subviews>
                         </view>

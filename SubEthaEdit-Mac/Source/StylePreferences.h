@@ -42,4 +42,6 @@
 
 - (IBAction)applyToOpenDocuments:(id)aSender;
 
+- (IBAction)changeLineSpacing:(id)sender;
+
 @end
