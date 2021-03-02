@@ -38,17 +38,20 @@ enum {
 static NSString *S_specialGlyphs[17];
 
 @interface SEELineHeightTypesetter : NSATSTypesetter
-@property (nonatomic) CGFloat lineHeightMultiplier;
 @end
 
 @implementation SEELineHeightTypesetter
 - (void)willSetLineFragmentRect:(NSRect *)lineFragmentRect forGlyphRange:(NSRange)glyphRange
         usedRect:(NSRect *)usedRect baselineOffset:(CGFloat *)baselineOffset {
-    if (_lineHeightMultiplier > 0) {
-        // adjust baselineoffset
-        CGFloat additionalBaselineOffset = ((*lineFragmentRect).size.height / _lineHeightMultiplier) * (_lineHeightMultiplier - 1.0) / 2.0;
-//        NSLog(@"would have adjusted: %f %f -> %f %@", _lineHeightMultiplier, additionalBaselineOffset, *baselineOffset, NSStringFromRect(*lineFragmentRect));
-        *baselineOffset = *baselineOffset - additionalBaselineOffset;
+    NSParagraphStyle *style = [self.layoutManager.textStorage attribute:NSParagraphStyleAttributeName atIndex:0 effectiveRange:NULL];
+    if (style) {
+        CGFloat lineHeightMulitple = style.lineHeightMultiple;
+        if (lineHeightMulitple > 0) {
+            // adjust baselineoffset
+            CGFloat additionalBaselineOffset = ((*lineFragmentRect).size.height / lineHeightMulitple) * (lineHeightMulitple - 1.0) / 2.0;
+            //        NSLog(@"would have adjusted: %f %f -> %f %@", _lineHeightMultiplier, additionalBaselineOffset, *baselineOffset, NSStringFromRect(*lineFragmentRect));
+            *baselineOffset = *baselineOffset - additionalBaselineOffset;
+        }
     }
 }
 @end
@@ -99,11 +102,6 @@ static NSString *S_specialGlyphs[17];
         }
     }
     return self;
-}
-
-- (void)validateTypesetter {
-    NSParagraphStyle *style = [self.textStorage attribute:NSParagraphStyleAttributeName atIndex:0 effectiveRange:NULL];
-    [(SEELineHeightTypesetter *)self.typesetter setLineHeightMultiplier:style.lineHeightMultiple];
 }
 
 - (void)drawBorderedMarksWithColor:(NSColor *)aColor atRects:(NSRectArray)aRectArray rectCount:(NSUInteger)rectCount {
@@ -230,12 +228,10 @@ static NSString *S_specialGlyphs[17];
 
 - (void)invalidateLayoutForCharacterRange:(NSRange)charRange actualCharacterRange:(NSRangePointer)actualCharRange {
     [super invalidateLayoutForCharacterRange:charRange actualCharacterRange:actualCharRange];
-    [self validateTypesetter];
 }
 
 - (void)invalidateDisplayForCharacterRange:(NSRange)charRange {
     [super invalidateDisplayForCharacterRange:charRange];
-    [self validateTypesetter];
 }
 
 // - (void)textStorage:(NSTextStorage *)aTextStorage edited:(NSUInteger)mask range:(NSRange)newCharRange changeInLength:(NSInteger)delta invalidatedRange:(NSRange)invalidatedCharRange {
