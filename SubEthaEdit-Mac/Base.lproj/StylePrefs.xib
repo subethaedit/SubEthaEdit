@@ -45,7 +45,7 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <button toolTip="Change the document's default font" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="390">
-                                    <rect key="frame" x="376" y="311" width="110" height="32"/>
+                                    <rect key="frame" x="376" y="307" width="110" height="32"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <buttonCell key="cell" type="push" title="Choose…" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="449">
                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -61,7 +61,7 @@
                                     </connections>
                                 </button>
                                 <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="461">
-                                    <rect key="frame" x="153" y="241" width="226" height="26"/>
+                                    <rect key="frame" x="153" y="211" width="226" height="26"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="464" id="462">
                                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -79,10 +79,10 @@
                                     </connections>
                                 </popUpButton>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BjS-Qn-yu8">
-                                    <rect key="frame" x="18" y="247" width="132" height="18"/>
+                                    <rect key="frame" x="18" y="217" width="132" height="18"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Style:" id="efw-xH-ovU">
-                                        <font key="font" metaFont="system"/>
+                                        <font key="font" metaFont="systemHeavy" size="13"/>
                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
@@ -118,25 +118,23 @@
                                     </scroller>
                                 </scrollView>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Td-4u-nFB">
-                                    <rect key="frame" x="18" y="345" width="132" height="18"/>
+                                    <rect key="frame" x="18" y="315" width="132" height="18"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Font:" id="brU-mG-1j0">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
-                                </textField>
-                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="09c-1s-NTf">
-                                    <rect key="frame" x="18" y="210" width="163" height="18"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" lineBreakMode="clipping" alignment="left" title="Preview:" id="ILx-EZ-ZXK">
-                                        <font key="font" metaFont="system"/>
-                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
+                                    <connections>
+                                        <binding destination="73" name="textColor" keyPath="selection.defaults.UseDefaultFont" id="t6F-HM-OfA">
+                                            <dictionary key="options">
+                                                <string key="NSValueTransformerName">SEETertiaryLabelColorValueTransformer</string>
+                                            </dictionary>
+                                        </binding>
+                                    </connections>
                                 </textField>
                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" id="391">
-                                    <rect key="frame" x="156" y="318" width="219" height="21"/>
+                                    <rect key="frame" x="156" y="314" width="219" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" borderStyle="bezel" alignment="left" title="System font text" drawsBackground="YES" id="450">
                                         <font key="font" metaFont="system"/>
@@ -158,8 +156,8 @@
                                     </connections>
                                 </textField>
                                 <button toolTip="Use the settings specified in &quot;Default Mode&quot;" id="387">
-                                    <rect key="frame" x="154" y="346" width="286" height="18"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <rect key="frame" x="154" y="349" width="286" height="18"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <buttonCell key="cell" type="check" title="Use Default" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="448">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                         <font key="font" metaFont="system"/>
@@ -175,7 +173,7 @@
                                     </connections>
                                 </button>
                                 <button toolTip="Use the default monospace system font" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="428-YO-qEf">
-                                    <rect key="frame" x="480" y="311" width="110" height="32"/>
+                                    <rect key="frame" x="480" y="307" width="110" height="32"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <buttonCell key="cell" type="push" title="System" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="kI6-Su-N7e">
                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -191,16 +189,23 @@
                                     </connections>
                                 </button>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TOM-Vb-jtf">
-                                    <rect key="frame" x="18" y="287" width="132" height="18"/>
+                                    <rect key="frame" x="18" y="281" width="132" height="18"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Line Spacing:" id="XRw-OU-hRl">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
+                                    <connections>
+                                        <binding destination="73" name="textColor" keyPath="selection.defaults.UseDefaultFont" id="HYJ-eD-XNK">
+                                            <dictionary key="options">
+                                                <string key="NSValueTransformerName">SEETertiaryLabelColorValueTransformer</string>
+                                            </dictionary>
+                                        </binding>
+                                    </connections>
                                 </textField>
                                 <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nrR-bH-ceb">
-                                    <rect key="frame" x="156" y="284" width="49" height="21"/>
+                                    <rect key="frame" x="156" y="278" width="49" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" state="on" alignment="left" id="xdg-51-bmI">
                                         <numberFormatter key="formatter" formatterBehavior="10_0" positiveFormat="0%" negativeFormat="-0%" hasThousandSeparators="NO" thousandSeparator="," id="xab-5K-9RL">
@@ -219,21 +224,21 @@
                                     </connections>
                                 </textField>
                                 <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mA4-Ca-Nca">
-                                    <rect key="frame" x="273" y="278" width="267" height="28"/>
+                                    <rect key="frame" x="273" y="273" width="267" height="28"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                     <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="85" maxValue="165" doubleValue="100" tickMarkPosition="above" numberOfTickMarks="17" allowsTickMarkValuesOnly="YES" sliderType="linear" id="czi-O0-EP3"/>
                                     <connections>
                                         <action selector="changeLineSpacing:" target="-2" id="drd-y3-xbD"/>
+                                        <binding destination="395" name="value" keyPath="selection.defaults.LineSpacing" id="deh-VR-3Vx"/>
                                         <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultFont" id="OSb-XW-gZw">
                                             <dictionary key="options">
                                                 <string key="NSValueTransformerName">NSNegateBoolean</string>
                                             </dictionary>
                                         </binding>
-                                        <binding destination="395" name="value" keyPath="selection.defaults.LineSpacing" id="deh-VR-3Vx"/>
                                     </connections>
                                 </slider>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2qF-DH-Wcy">
-                                    <rect key="frame" x="211" y="286" width="58" height="16"/>
+                                    <rect key="frame" x="211" y="281" width="58" height="16"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="tigher" id="aW1-oU-7XX">
                                         <font key="font" metaFont="smallSystem"/>
@@ -241,16 +246,16 @@
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                     <connections>
-                                        <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultFont" id="9f8-2m-D4d">
+                                        <binding destination="73" name="textColor" keyPath="selection.defaults.UseDefaultFont" id="IaK-fe-9qg">
                                             <dictionary key="options">
-                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                <string key="NSValueTransformerName">SEETertiaryLabelColorValueTransformer</string>
                                             </dictionary>
                                         </binding>
                                     </connections>
                                 </textField>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JYs-Qf-gEE">
-                                    <rect key="frame" x="544" y="286" width="86" height="16"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <rect key="frame" x="544" y="281" width="86" height="16"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                     <textFieldCell key="cell" lineBreakMode="clipping" alignment="left" title="looser" id="qoS-in-svt">
                                         <font key="font" metaFont="smallSystem"/>
                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -262,7 +267,21 @@
                                                 <string key="NSValueTransformerName">NSNegateBoolean</string>
                                             </dictionary>
                                         </binding>
+                                        <binding destination="73" name="textColor" keyPath="selection.defaults.UseDefaultFont" id="vfo-Kc-2e4">
+                                            <dictionary key="options">
+                                                <string key="NSValueTransformerName">SEETertiaryLabelColorValueTransformer</string>
+                                            </dictionary>
+                                        </binding>
                                     </connections>
+                                </textField>
+                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dFA-gh-YLE">
+                                    <rect key="frame" x="18" y="349" width="132" height="18"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Format:" id="t1m-WV-ods">
+                                        <font key="font" metaFont="systemHeavy" size="13"/>
+                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    </textFieldCell>
                                 </textField>
                             </subviews>
                         </view>
