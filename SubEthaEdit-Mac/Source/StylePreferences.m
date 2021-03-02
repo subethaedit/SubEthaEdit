@@ -93,6 +93,10 @@
 	[self highlightSyntax];
 }
 
+- (IBAction)changeLineSpacing:(id)sender {
+    [self highlightSyntax];
+}
+
 - (IBAction)changeDefaultState:(id)aSender {
     BOOL useDefault = ([aSender state]==NSControlStateValueOn);
     [[[self.O_modePopUpButton selectedMode] defaults] setObject:[NSNumber numberWithBool:useDefault] forKey:DocumentModeUseDefaultStylePreferenceKey];
@@ -325,6 +329,10 @@
 		NSDictionary *attributes = [SEEStyleSheet textAttributesForStyleAttributes:[styleSheet styleAttributesForScope:SEEStyleSheetMetaDefaultScopeName] font:self.baseFont];
 		[textStorage setAttributes:attributes range:NSMakeRange(0,textStorage.length)];
 	}
+    
+    NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+    style.lineHeightMultiple = currentMode.lineHeightMultiple;
+    [textStorage addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, textStorage.length)];
 }
 
 #pragma mark - TableView DataSource

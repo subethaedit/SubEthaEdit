@@ -4497,6 +4497,12 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         [paragraphStyle setDefaultTabInterval:charWidth*I_tabWidth];
         [paragraphStyle addTabStop:[[NSTextTab alloc] initWithType:NSLeftTabStopType location:charWidth*I_tabWidth]];
 
+        double lineHeightMultiple = self.documentMode.lineHeightMultiple;
+        if (lineHeightMultiple > 0) {
+            paragraphStyle.lineHeightMultiple = lineHeightMultiple;
+        }
+        
+        
         I_defaultParagraphStyle = [paragraphStyle copy];
         [[self textStorage] addAttribute:NSParagraphStyleAttributeName value:I_defaultParagraphStyle range:NSMakeRange(0,[[self textStorage] length])];
     }
