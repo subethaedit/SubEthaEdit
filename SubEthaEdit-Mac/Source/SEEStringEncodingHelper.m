@@ -18,7 +18,14 @@
 }
 
 + (NSStringEncoding)bestGuessStringEncodingForData:(NSData *)contentData {
-    return [NSString stringEncodingForData:contentData encodingOptions:nil convertedString:nil usedLossyConversion:nil];
+    NSStringEncoding result = [NSString stringEncodingForData:contentData encodingOptions:@{
+        NSStringEncodingDetectionAllowLossyKey : @NO,
+    } convertedString:nil usedLossyConversion:nil];
+    if (result == 0) {
+        // try some fallbacks here
+        NSLog(@"%s could not determine encoding here", __PRETTY_FUNCTION__);
+    }
+    return result;
 }
 
 + (NSString *)debugDescriptionForStringEncoding:(NSStringEncoding)encoding {
@@ -38,7 +45,7 @@
     [detector analyzeData:checkData];
     udEncoding = [detector encoding];
     float confidence = [detector confidence];
-    NSLog(@"UD: Encoding:%@ confidence:%f", [SEEStringEncodingHelper debugDescriptionForStringEncoding:udEncoding], confidence);
+//    NSLog(@"UD: Encoding:%@ confidence:%f", [SEEStringEncodingHelper debugDescriptionForStringEncoding:udEncoding], confidence);
     return udEncoding;
 }
 

@@ -79,20 +79,35 @@
 - (void)testEncodingDetection {
     NSURL *testFileDirURL = [[NSBundle bundleForClass:self.class] URLForResource:@"EncodingDetection" withExtension:nil subdirectory:@"TestFiles"];
     
-    __auto_type dir = [[NSFileManager defaultManager] enumeratorAtURL:testFileDirURL includingPropertiesForKeys:nil options:0 errorHandler:^BOOL(NSURL *url, NSError *error) {
+    __auto_type dir = [[NSFileManager defaultManager] enumeratorAtURL:testFileDirURL includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles | NSDirectoryEnumerationSkipsSubdirectoryDescendants errorHandler:^BOOL(NSURL *url, NSError *error) {
         NSLog(@"%s, failed: %@, %@",__FUNCTION__,url,error);
         return YES;
     }];
     
     for (NSURL *fileURL in dir) {
+        NSString *fileName = [fileURL lastPathComponent];
         NSError *error;
         NSData *fileData;
         NSStringEncoding encoding = [SEEStringEncodingHelper bestGuessStringEncodingForFileAtURL:fileURL error:&error data:&fileData];
-        NSLog(@"File:%@ Encoding:%@ Error:%@", [fileURL lastPathComponent], [SEEStringEncodingHelper debugDescriptionForStringEncoding:encoding], error);
+        
+        if (error) {
+            continue; // file wasn't readable
+        }
+
+        NSString *ianaName = [SEEStringEncodingHelper IANACharsetNameOfStringEncoding:encoding];
+        XCTAssertTrue([fileName hasPrefix:ianaName], @"File:%@ %@ - %@", fileName, ianaName, [SEEStringEncodingHelper debugDescriptionForStringEncoding:encoding]);
+
+        /* code to run against the universal detector until we remove it
+*/
+        NSLog(@"File:%@ Encoding:%@ Error:%@", fileName, [SEEStringEncodingHelper debugDescriptionForStringEncoding:encoding], error);
         if (fileData) {
             NSStringEncoding udEncoding = [SEEStringEncodingHelper universalDetectorStringEncodingForData:fileData];
-            XCTAssertEqual(encoding, udEncoding);
+            NSString *foundation = [SEEStringEncodingHelper debugDescriptionForStringEncoding:encoding];
+            NSString *universal  = [SEEStringEncodingHelper debugDescriptionForStringEncoding:udEncoding];
+            XCTAssertEqualObjects(foundation, universal);
         }
+         /*
+         */
     }
 }
 

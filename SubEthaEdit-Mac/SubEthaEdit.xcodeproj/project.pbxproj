@@ -878,7 +878,7 @@
 		5E754EA20AB5648F00C5119E /* SEEEncodingDoctorDialogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEEncodingDoctorDialogViewController.m; sourceTree = "<group>"; };
 		5EA1258709E2B4190055965D /* ScriptWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ScriptWrapper.h; sourceTree = "<group>"; };
 		5EA1258809E2B4190055965D /* ScriptWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScriptWrapper.m; sourceTree = "<group>"; };
-		5EC6382A0ABEB71100D3295B /* Unit Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Unit Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5EC6382A0ABEB71100D3295B /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5EDD2FFD0A08D71D0036E63A /* ScriptTextSelection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ScriptTextSelection.h; sourceTree = "<group>"; };
 		5EDD2FFE0A08D71D0036E63A /* ScriptTextSelection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScriptTextSelection.m; sourceTree = "<group>"; };
 		5EDD300D0A091BD60036E63A /* NSWindowScriptingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NSWindowScriptingAdditions.h; sourceTree = "<group>"; };
@@ -1602,7 +1602,7 @@
 			isa = PBXGroup;
 			children = (
 				8D15AC370486D014006FF6A4 /* SubEthaEdit.app */,
-				5EC6382A0ABEB71100D3295B /* Unit Tests.xctest */,
+				5EC6382A0ABEB71100D3295B /* Tests.xctest */,
 				F2B6CCC20EE9C6390077417E /* SeeTextImporter.mdimporter */,
 				F2D86C1F0F8E7E2A00B912A2 /* SubEthaPerf.app */,
 			);
@@ -2128,7 +2128,7 @@
 			);
 			name = "SubEthaEdit-Tests";
 			productName = "Unit Tests";
-			productReference = 5EC6382A0ABEB71100D3295B /* Unit Tests.xctest */;
+			productReference = 5EC6382A0ABEB71100D3295B /* Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		8D15AC270486D014006FF6A4 /* SubEthaEdit */ = {
@@ -2984,7 +2984,7 @@
 					Cocoa,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "de.codingmonkeys.SubEthaEdit${TCM_APP_STYLE}.UnitTests";
-				PRODUCT_NAME = "Unit Tests";
+				PRODUCT_NAME = Tests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				ZERO_LINK = NO;
 			};
@@ -3013,7 +3013,7 @@
 					Cocoa,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "de.codingmonkeys.SubEthaEdit${TCM_APP_STYLE}.UnitTests";
-				PRODUCT_NAME = "Unit Tests";
+				PRODUCT_NAME = Tests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				ZERO_LINK = NO;
 			};
