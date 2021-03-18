@@ -6,6 +6,7 @@
 #import "DataTests.h"
 #import "TCMBencodingUtilities.h"
 #import "NSDataTCMAdditions.h"
+#import "SEEStringEncodingHelper.h"
 
 @implementation DataTests
 
@@ -71,6 +72,21 @@
     [self bdecode:[@"l3:one3:two3:shouldfail" dataUsingEncoding:NSMacOSRomanStringEncoding]                                                 shouldFail:YES];
     [self bdecode:[@"d3:cnti133029683e4:name4:Cecy3:uID16...A.8..........$e" dataUsingEncoding:NSMacOSRomanStringEncoding]                  shouldFail:NO];
     [self bdecode:[@"d6:rendez4:vous3:uid36:DDC5EF9E-A818-11D8-BF7B-00039398A6244:vers3:200e" dataUsingEncoding:NSMacOSRomanStringEncoding] shouldFail:NO];
+}
+
+- (void)testEncodingDetection {
+    NSURL *testFileDirURL = [[NSBundle bundleForClass:self.class] URLForResource:@"EncodingDetection" withExtension:nil subdirectory:@"TestFiles"];
+    
+    __auto_type dir = [[NSFileManager defaultManager] enumeratorAtURL:testFileDirURL includingPropertiesForKeys:nil options:0 errorHandler:^BOOL(NSURL *url, NSError *error) {
+        NSLog(@"%s, failed: %@, %@",__FUNCTION__,url,error);
+        return YES;
+    }];
+    
+    for (NSURL *fileURL in dir) {
+        NSError *error;
+        NSStringEncoding encoding = [SEEStringEncodingHelper bestGuessStringEncodingForFileAtURL:fileURL error:&error data:nil];
+        NSLog(@"File:%@ Encoding:%@ Error:%@", [fileURL lastPathComponent], [SEEStringEncodingHelper debugDescriptionForStringEncoding:encoding], error);
+    }
 }
 
 - (void)tearDown {}
