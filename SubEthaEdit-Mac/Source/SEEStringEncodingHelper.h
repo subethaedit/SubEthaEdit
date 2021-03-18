@@ -11,4 +11,7 @@
 
 + (NSString *)debugDescriptionForStringEncoding:(NSStringEncoding)encoding;
 + (NSString *)IANACharsetNameOfStringEncoding:(NSStringEncoding)encoding;
+
+// temporary
++ (NSStringEncoding)universalDetectorStringEncodingForData:(NSData *)contentData;
 @end

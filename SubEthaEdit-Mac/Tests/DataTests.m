@@ -8,6 +8,8 @@
 #import "NSDataTCMAdditions.h"
 #import "SEEStringEncodingHelper.h"
 
+#import <UniversalDetector/UniversalDetector.h>
+
 @implementation DataTests
 
 - (void)setUp {}
@@ -84,8 +86,13 @@
     
     for (NSURL *fileURL in dir) {
         NSError *error;
-        NSStringEncoding encoding = [SEEStringEncodingHelper bestGuessStringEncodingForFileAtURL:fileURL error:&error data:nil];
+        NSData *fileData;
+        NSStringEncoding encoding = [SEEStringEncodingHelper bestGuessStringEncodingForFileAtURL:fileURL error:&error data:&fileData];
         NSLog(@"File:%@ Encoding:%@ Error:%@", [fileURL lastPathComponent], [SEEStringEncodingHelper debugDescriptionForStringEncoding:encoding], error);
+        if (fileData) {
+            NSStringEncoding udEncoding = [SEEStringEncodingHelper universalDetectorStringEncodingForData:fileData];
+            XCTAssertEqual(encoding, udEncoding);
+        }
     }
 }
 

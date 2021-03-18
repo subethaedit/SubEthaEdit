@@ -5,6 +5,8 @@
 
 #import "SEEStringEncodingHelper.h"
 
+#import <UniversalDetector/UniversalDetector.h>
+
 @implementation SEEStringEncodingHelper
 
 + (NSStringEncoding)bestGuessStringEncodingForFileAtURL:(NSURL *)url error:(NSError **)error data:(NSData **)outData {
@@ -27,5 +29,18 @@
     NSString *result = (__bridge NSString *)CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(encoding));
     return result;
 }
+
++ (NSStringEncoding)universalDetectorStringEncodingForData:(NSData *)contentData {
+    NSStringEncoding udEncoding=NSUTF8StringEncoding;
+    // guess encoding based on character sniffing
+    UniversalDetector  *detector = [[UniversalDetector alloc] init];
+    NSData *checkData = contentData;
+    [detector analyzeData:checkData];
+    udEncoding = [detector encoding];
+    float confidence = [detector confidence];
+    NSLog(@"UD: Encoding:%@ confidence:%f", [SEEStringEncodingHelper debugDescriptionForStringEncoding:udEncoding], confidence);
+    return udEncoding;
+}
+
 
 @end
