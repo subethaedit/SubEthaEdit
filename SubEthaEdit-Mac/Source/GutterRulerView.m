@@ -39,7 +39,7 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 	aRect = NSInsetRect(aRect,0.5,0.5);
 	NSBezierPath *path = [NSBezierPath bezierPath];
 	[path setLineWidth:1.0];
-	[path setLineJoinStyle:NSMiterLineJoinStyle];
+    [path setLineJoinStyle:NSLineJoinStyleMiter];
 	[path moveToPoint:aRect.origin];
 	[path lineToPoint:NSMakePoint(aRect.origin.x,NSMaxY(aRect))];
 	[path lineToPoint:NSMakePoint(NSMaxX(aRect)-1,aRect.origin.y + aRect.size.height / 2.0)];

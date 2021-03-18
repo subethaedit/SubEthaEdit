@@ -13,7 +13,7 @@
     NSLayoutManager *layout = [self layoutManager];
     NSTextStorage *text = [layout textStorage];
     NSRange charRange;
-    float spaceToAddBelow = -12.0;
+    float spaceToAddBelow = 0.0;
     unsigned i;
     
     // Convert the glyph range to a character range.
@@ -32,7 +32,7 @@
         // If there are annotations, note the maximum space required.
         id bottomAnnotation = [text attribute:@"AnnotateID" atIndex:i longestEffectiveRange:&range inRange:charRange];
         if (bottomAnnotation) {
-            spaceToAddBelow = 0.;
+            spaceToAddBelow = 12.0;
             break;
         }
     }

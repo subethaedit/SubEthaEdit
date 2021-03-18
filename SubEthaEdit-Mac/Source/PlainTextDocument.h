@@ -60,6 +60,7 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
         BOOL wrapMode; // Document 
         BOOL showMatchingBrackets; // Document, mode specific
         BOOL showInvisibleCharacters; // Editor
+        BOOL showInconsistentIndentation; // Editor
         BOOL showGutter; //Editor
         BOOL showsChangeMarks; // Editor
         BOOL showsTopStatusBar; // Editor
@@ -302,6 +303,8 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
 - (void)setTabWidth:(int)aTabWidth;
 - (BOOL)showInvisibleCharacters;
 - (void)setShowInvisibleCharacters:(BOOL)aFlag;
+- (BOOL)showInconsistentIndentation;
+- (void)setShowInconsistentIndentation:(BOOL)aFlag;
 - (BOOL)showsGutter;
 - (void)setShowsGutter:(BOOL)aFlag;
 - (BOOL)showsMatchingBrackets;

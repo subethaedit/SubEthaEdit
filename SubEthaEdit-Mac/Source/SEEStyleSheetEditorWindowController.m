@@ -145,10 +145,8 @@
     [self.O_stylesTableView setDarkBackgroundColor: backgroundColor];
 }
 
-- (void)takeFontFromMode:(DocumentMode *)aMode {
-    NSDictionary *fontAttributes = [aMode defaultForKey:DocumentModeFontAttributesPreferenceKey];
-    NSFont *font=[NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:11.];
-    if (!font) font=[NSFont userFixedPitchFontOfSize:11.];
+- (void)takeFontFromMode:(DocumentMode *)mode {
+    NSFont *font = [[NSFontManager sharedFontManager] convertFont:mode.plainFontBase toSize:11.0];
     [self setBaseFont:font];
     [self updateFontLabel];
 }
@@ -212,11 +210,11 @@
 			NSButton *inheritButton = [triple objectAtIndex:1];
 			NSButton *actualButton = [triple objectAtIndex:2];
 			BOOL inherit = [directStyleAttributes objectForKey:key] == 0;
-			[inheritButton setState:inherit ? NSOnState : NSOffState];
+            [inheritButton setState:inherit ? NSControlStateValueOn : NSControlStateValueOff];
 			NSString *value = [computedStyleAttributes objectForKey:key];
 			BOOL isSet = value && ![value isEqualToString:SEEStyleSheetValueNone] && ![value isEqualToString:SEEStyleSheetValueNormal];
 //			NSLog(@"%s %@ -> %d",__FUNCTION__, value, isSet);
-			[actualButton setState:isSet ? NSOnState : NSOffState];
+            [actualButton setState:isSet ? NSControlStateValueOn : NSControlStateValueOff];
 			[actualButton setEnabled:!inherit];
 		}
 
@@ -228,7 +226,7 @@
 			NSButton *inheritButton = [triple objectAtIndex:1];
 			NSColorWell *well = [triple objectAtIndex:2];
 			BOOL inherit = [directStyleAttributes objectForKey:key] == 0;
-			[inheritButton setState:inherit ? NSOnState : NSOffState];
+            [inheritButton setState:inherit ? NSControlStateValueOn : NSControlStateValueOff];
 			NSColor *value = [computedStyleAttributes objectForKey:key];
 			[well setColor:value];
 			[well setEnabled:!inherit];
@@ -268,9 +266,9 @@
 			NSString *key = [triple objectAtIndex:0];
 			NSButton *inheritButton = [triple objectAtIndex:1];
 //			NSButton *actualButton = [triple objectAtIndex:2];
-			if ([directStyleAttributes objectForKey:key] && inheritButton.state == NSOnState) {
+            if ([directStyleAttributes objectForKey:key] && inheritButton.state == NSControlStateValueOn) {
 				[directStyleAttributes removeObjectForKey:key];
-			} else if (![directStyleAttributes objectForKey:key] && inheritButton.state == NSOffState) {
+            } else if (![directStyleAttributes objectForKey:key] && inheritButton.state == NSControlStateValueOff) {
 				id value = [computedStyleAttributes objectForKey:key];
 				if (value) {
 					[directStyleAttributes setObject:value forKey:key];
@@ -296,10 +294,8 @@
 	[self.O_modePopUpButton setSelectedMode:aDocumentMode];
 	[self.currentStyleSheet setScopeExamples:[aDocumentMode scopeExamples]];
 
-	NSDictionary *fontAttributes=[aDocumentMode defaultForKey:DocumentModeFontAttributesPreferenceKey];
-	NSFont *newFont=[NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:12.0];
-	if (!newFont) newFont=[NSFont userFixedPitchFontOfSize:12.0];
-	[self setBaseFont:newFont];
+    NSFont *font = [[NSFontManager sharedFontManager] convertFont:aDocumentMode.plainFontBase toSize:12.0];
+    [self setBaseFont:font];
 
 
 	[self.O_stylesTableView reloadData];
@@ -350,7 +346,7 @@
 	if (selectedRow != -1) {
 		NSString *scopeString = [[self scopesArray] objectAtIndex:selectedRow];
 		NSMutableDictionary *directStyleAttributes   = [[self.currentStyleSheet styleAttributesForExactScope:scopeString] mutableCopy];
-		[directStyleAttributes setObject:[aButton state] == NSOnState ? aYesValue : aNoValue forKey:aKey];
+        [directStyleAttributes setObject:[aButton state] == NSControlStateValueOn ? aYesValue : aNoValue forKey:aKey];
 		NSLog(@"%s %@",__FUNCTION__, directStyleAttributes);
 		[self.currentStyleSheet setStyleAttributes:directStyleAttributes forScope:scopeString];
 		[self updateForChangedStyles];
@@ -725,7 +721,7 @@
 #pragma mark TableView DataSource
 
 - (NSArray *)scopesArray {
-	return (self.O_showOnlyMatchingScopesButton.state == NSOnState) ? self.currentStyleSheet.allScopesWithExamples : self.currentStyleSheet.allScopes;
+    return (self.O_showOnlyMatchingScopesButton.state == NSControlStateValueOn) ? self.currentStyleSheet.allScopesWithExamples : self.currentStyleSheet.allScopes;
 }
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView {

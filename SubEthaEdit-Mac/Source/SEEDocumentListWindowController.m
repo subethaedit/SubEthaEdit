@@ -5,15 +5,14 @@
 
 #import "SEEDocumentListWindowController.h"
 #import "SEEDocumentListGroupTableRowView.h"
+#import "SEEDividerTableRowView.h"
 
 #import "SEENetworkConnectionRepresentationListItem.h"
 #import "SEENetworkDocumentListItem.h"
-#import "SEENewDocumentListItem.h"
 #import "SEEToggleRecentDocumentListItem.h"
 #import "SEEMoreRecentDocumentsListItem.h"
 #import "SEERecentDocumentListItem.h"
-#import "SEEOpenOtherDocumentListItem.h"
-#import "SEEConnectDocumentListItem.h"
+#import "SEEDividerListItem.h"
 
 #import "SEEAvatarImageView.h"
 
@@ -28,6 +27,7 @@
 
 #import "SEEConnectionManager.h"
 #import "SEEConnection.h"
+#import "SEEConnectionAddingWindowController.h"
 
 #import "AppController.h"
 
@@ -43,13 +43,13 @@
 extern int const FileMenuTag;
 extern int const FileNewMenuItemTag;
 
-static BOOL SEEDocumentListOpenDocumentsWithSingleClick = YES;
 static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetworkDocumentBrowserEntriesObservingContext;
 
 @interface SEEDocumentListWindowController () <NSTableViewDelegate>
 
 @property (nonatomic, weak) IBOutlet NSScrollView *scrollViewOutlet;
 @property (nonatomic, weak) IBOutlet NSTableView *tableViewOutlet;
+@property (weak) IBOutlet NSLayoutConstraint *tableViewLeadingConstraint;
 
 @property (nonatomic, weak) IBOutlet NSMenu *listItemContextMenuOutlet;
 
@@ -143,9 +143,15 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	NSTableView *tableView = self.tableViewOutlet;
 	[tableView setTarget:self];
 	[tableView setAction:@selector(triggerItemClickAction:)];
-	[tableView setDoubleAction:@selector(triggerItemDoubleClickAction:)];
+	[tableView setDoubleAction:@selector(triggerItemClickAction:)];
 	[tableView setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
-	tableView.allowsMultipleSelection = !SEEDocumentListOpenDocumentsWithSingleClick;
+	tableView.allowsMultipleSelection = NO;
+    if (@available(macOS 11.0, *)) {
+        tableView.style = NSTableViewStyleInset;
+        self.tableViewLeadingConstraint.constant = 0;
+    } else {
+        self.tableViewLeadingConstraint.constant = 10;
+    }
 }
 
 
@@ -271,28 +277,6 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 		}
 
 		{
-			SEENewDocumentListItem *newDocumentRepresentation = [[SEENewDocumentListItem alloc] init];
-			NSString *cachedItemID = newDocumentRepresentation.uid;
-			id <SEEDocumentListItem> cachedItem = [lookupDictionary objectForKey:cachedItemID];
-			if (cachedItem) {
-				[self.availableItems addObject:cachedItem];
-			} else {
-				[self.availableItems addObject:newDocumentRepresentation];
-			}
-		}
-
-		{
-			SEEOpenOtherDocumentListItem *openOtherItem = [[SEEOpenOtherDocumentListItem alloc] init];
-			NSString *cachedItemID = openOtherItem.uid;
-			id <SEEDocumentListItem> cachedItem = [lookupDictionary objectForKey:cachedItemID];
-			if (cachedItem) {
-				[self.availableItems addObject:cachedItem];
-			} else {
-				[self.availableItems addObject:openOtherItem];
-			}
-		}
-
-		{
 			SEEToggleRecentDocumentListItem *toggleRecentDocumentsItem = [[SEEToggleRecentDocumentListItem alloc] init];
 			NSString *cachedItemID = toggleRecentDocumentsItem.uid;
 			SEEToggleRecentDocumentListItem *cachedItem = [lookupDictionary objectForKey:cachedItemID];
@@ -361,7 +345,8 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 						connectionRepresentation.connection = connection;
 						NSString *cachedItemID = connectionRepresentation.uid;
 						SEENetworkConnectionRepresentationListItem *cachedItem = [lookupDictionary objectForKey:cachedItemID];
-						if (cachedItem) {
+                        [self.availableItems addObject:[SEEDividerListItem new]];
+                        if (cachedItem) {
 							cachedItem.connection = connection;
 							[self.availableItems addObject:cachedItem];
 						} else {
@@ -387,23 +372,29 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 				}
 			}
 		}
-
-		{
-			SEEConnectDocumentListItem *connectItem = [[SEEConnectDocumentListItem alloc] init];
-			NSString *cachedItemID = connectItem.uid;
-			id <SEEDocumentListItem> cachedItem = [lookupDictionary objectForKey:cachedItemID];
-			if (cachedItem) {
-				[self.availableItems addObject:cachedItem];
-			} else {
-				[self.availableItems addObject:connectItem];
-			}
-		}
 	}
 	[self didChangeValueForKey:@"availableItems"];
 }
 
 
 #pragma mark - Actions
+
+- (IBAction)newDocumentToolbarItemAction:(id)sender {
+    [[NSDocumentController sharedDocumentController] newDocumentByUserDefault:sender];
+}
+
+- (IBAction)openDocumentToolbarItemAction:(id)sender {
+    [NSApp sendAction:@selector(openNormalDocument:) to:nil from:sender];
+}
+
+- (IBAction)connectToHostAction:(id)sender {
+    SEEConnectionAddingWindowController *windowController = [[SEEConnectionAddingWindowController alloc] initWithWindowNibName:@"SEEConnectionAddingWindowController"];
+    NSWindow *window = [windowController window];
+    NSWindow *parentWindow = self.window;
+    [parentWindow beginSheet:window completionHandler:^(NSModalResponse returnCode) {
+        [windowController close];
+    }];
+}
 
 - (IBAction)newDocument:(id)sender
 {
@@ -422,9 +413,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	[[NSDocumentController sharedDocumentController] newDocumentWithModeMenuItem:item];
 }
 
-
-- (IBAction)triggerItemClickAction:(id)sender
-{
+- (IBAction)triggerItemClickAction:(id)sender {
 	NSTableView *tableView = self.tableViewOutlet;
 	id <SEEDocumentListItem> clickedItem = nil;
 	if (sender == tableView) {
@@ -442,32 +431,6 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 		NSArray *selectedDocuments = self.documentListItemsArrayController.selectedObjects;
 		if (! [selectedDocuments containsObject:clickedItem]) {
 			[clickedItem itemAction:self.tableViewOutlet];
-		} else if (SEEDocumentListOpenDocumentsWithSingleClick) { // do this if we want documents to be opend by single click
-			[selectedDocuments makeObjectsPerformSelector:@selector(itemAction:) withObject:self.tableViewOutlet];
-		}
-	}
-}
-
-
-- (IBAction)triggerItemDoubleClickAction:(id)sender
-{
-	NSTableView *tableView = self.tableViewOutlet;
-	id <SEEDocumentListItem> clickedItem = nil;
-	if (sender == tableView) {
-		NSInteger row = tableView.clickedRow;
-		NSInteger column = tableView.clickedColumn;
-		if (row > -1) {
-			NSTableCellView *tableCell = [tableView viewAtColumn:column row:row makeIfNecessary:NO];
-			clickedItem = tableCell.objectValue;
-		}
-	} else if ([sender conformsToProtocol:@protocol(SEEDocumentListItem)]) {
-		clickedItem = sender;
-	}
-
-	if (clickedItem) {
-		NSArray *selectedDocuments = self.documentListItemsArrayController.selectedObjects;
-		if ([selectedDocuments containsObject:clickedItem]) {
-			[selectedDocuments makeObjectsPerformSelector:@selector(itemAction:) withObject:self.tableViewOutlet];
 		}
 	}
 }
@@ -578,14 +541,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 
 		if (tableColumn == nil && [rowItem isKindOfClass:SEENetworkConnectionRepresentationListItem.class]) {
 			result = [tableView makeViewWithIdentifier:@"Group" owner:self];
-			// adds the shadow that a previews source list style already had
-			[[[(NSTableCellView *)result textField] cell] setBackgroundStyle:NSBackgroundStyleRaised];
-		} else if (tableColumn == nil && [rowItem isKindOfClass:SEEConnectDocumentListItem.class]) {
-			result = [tableView makeViewWithIdentifier:@"Connect" owner:self];
-			[[[(NSTableCellView *)result textField] cell] setBackgroundStyle:NSBackgroundStyleRaised];
-		} else if ([rowItem isKindOfClass:SEEOpenOtherDocumentListItem.class] || [rowItem isKindOfClass:SEENewDocumentListItem.class]) {
-			result = [tableView makeViewWithIdentifier:@"OtherItems" owner:self];
-		} else if ([rowItem isKindOfClass:SEEToggleRecentDocumentListItem.class]) {
+        } else if ([rowItem isKindOfClass:SEEToggleRecentDocumentListItem.class]) {
 			result = [tableView makeViewWithIdentifier:@"ToggleRecent" owner:self];
 		} else if ([rowItem isKindOfClass:SEEMoreRecentDocumentsListItem.class]) {
 			result = [tableView makeViewWithIdentifier:@"MoreRecent" owner:self];
@@ -606,14 +562,12 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	NSArray *availableItems = self.availableItems;
 	if (availableItems.count > row) {
 		id <SEEDocumentListItem> itemRepresentation = [availableItems objectAtIndex:row];
-		if ([itemRepresentation isKindOfClass:[SEENetworkConnectionRepresentationListItem class]]) {
-			rowView = [[SEEDocumentListGroupTableRowView alloc] init];
-
-			if (row > 1) {
-				BOOL drawTopLine = ! [[availableItems objectAtIndex:row - 1] isKindOfClass:[SEENetworkConnectionRepresentationListItem class]];
-				((SEEDocumentListGroupTableRowView *)rowView).drawTopLine = drawTopLine;
-			}
-		} else {
+        if ([itemRepresentation isKindOfClass:[SEENetworkConnectionRepresentationListItem class]]) {
+            rowView = [SEEDocumentListGroupTableRowView new];
+        } else if ([itemRepresentation isKindOfClass:[SEEDividerListItem class]]) {
+			rowView = [SEEDividerTableRowView new];
+		} else if ([itemRepresentation isKindOfClass:[SEENetworkDocumentListItem class]] ||
+                   [itemRepresentation isKindOfClass:[SEERecentDocumentListItem class]]) {
 			rowView = ({
 				SEEHoverTableRowView *hoverView = [[SEEHoverTableRowView alloc] init];
 				hoverView.TCM_rowIndex = row;
@@ -655,64 +609,45 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	NSArray *availableDocumentSession = self.availableItems;
 	if (availableDocumentSession.count > row) {
 		id documentRepresentation = [availableDocumentSession objectAtIndex:row];
-		if ([documentRepresentation isKindOfClass:SEENetworkConnectionRepresentationListItem.class] ||
-			[documentRepresentation isKindOfClass:SEEConnectDocumentListItem.class]) {
+		if ([documentRepresentation isKindOfClass:SEENetworkConnectionRepresentationListItem.class]) {
 			result = YES;
 		}
 	}
 	return result;
 }
 
-- (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(NSInteger)row
-{
-	BOOL result = NO;
-	NSArray *availableDocumentSession = self.availableItems;
-	if (! SEEDocumentListOpenDocumentsWithSingleClick) {
-		if (availableDocumentSession.count > row) {
-			id documentRepresentation = [availableDocumentSession objectAtIndex:row];
-			if ([documentRepresentation isKindOfClass:SEENetworkDocumentListItem.class] || [documentRepresentation isKindOfClass:SEERecentDocumentListItem.class]) {
-				result = YES;
-			}
-		}
-	}
-	return result;
+- (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(NSInteger)row {
+    return NO;
 }
 
-- (void)tableViewSelectionDidChange:(NSNotification *)notification
-{
+- (void)tableViewSelectionDidChange:(NSNotification *)notification {
 	NSIndexSet *selectedIndices = self.tableViewOutlet.selectedRowIndexes;
 	[selectedIndices enumerateIndexesUsingBlock:^(NSUInteger row, BOOL *stop) {
 		NSArray *availableDocumentSession = self.availableItems;
 		if (availableDocumentSession.count > row) {
-			id documentRepresentation = [availableDocumentSession objectAtIndex:row];
-			if (SEEDocumentListOpenDocumentsWithSingleClick) {
-				[self.tableViewOutlet deselectRow:row];
-			} else {
-				if (! ([documentRepresentation isKindOfClass:SEENetworkDocumentListItem.class] || [documentRepresentation isKindOfClass:SEERecentDocumentListItem.class])) {
-					[self.tableViewOutlet deselectRow:row];
-				}
-			}
+//			id documentRepresentation = [availableDocumentSession objectAtIndex:row];
+            [self.tableViewOutlet deselectRow:row];
 		}
 	}];
 }
 
 - (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row {
 	CGFloat rowHeight = 28.0;
-
+    Class connectionRepresentation = SEENetworkConnectionRepresentationListItem.class;
 	NSArray *availableDocumentSession = self.availableItems;
 	if (availableDocumentSession.count > row) {
 		id documentRepresentation = [availableDocumentSession objectAtIndex:row];
-		if ([documentRepresentation isKindOfClass:SEENetworkConnectionRepresentationListItem.class]) {
+		if ([documentRepresentation isKindOfClass:connectionRepresentation]) {
 			rowHeight = 56.0;
-		} else if ([documentRepresentation isKindOfClass:SEEToggleRecentDocumentListItem.class]) {
-			rowHeight = 28.0;
-		} else if ([documentRepresentation isKindOfClass:SEEConnectDocumentListItem.class]) {
-			rowHeight = 42.0;
+		} else if ([documentRepresentation isKindOfClass:SEEToggleRecentDocumentListItem.class] ||
+                   [documentRepresentation isKindOfClass:SEEMoreRecentDocumentsListItem.class]) {
+            rowHeight = 28.0;
 		} else if ([documentRepresentation isKindOfClass:SEENetworkDocumentListItem.class] ||
-				   [documentRepresentation isKindOfClass:SEERecentDocumentListItem.class] ||
-				   [documentRepresentation isKindOfClass:SEEMoreRecentDocumentsListItem.class]) {
-			rowHeight = 36.0;
-		}
+				   [documentRepresentation isKindOfClass:SEERecentDocumentListItem.class]) {
+            rowHeight = 42.0;
+        } else if ([documentRepresentation isKindOfClass:SEEDividerListItem.class]) {
+            rowHeight = 10.0;
+        }
 	}
 	return rowHeight;
 }
@@ -737,12 +672,25 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 		[menu removeAllItems];
 
 		if (clickedItem != nil) {
-			if ([clickedItem isKindOfClass:[SEENetworkDocumentListItem class]] || [clickedItem isKindOfClass:[SEERecentDocumentListItem class]]) {
-				NSString *menuItemTitle = NSLocalizedStringWithDefaultValue(@"DOCUMENT_LIST_CONTEXT_MENU_OPEN", nil, [NSBundle mainBundle], @"Open", @"MenuItem title in context menu of DocumentList window.");
-				NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:menuItemTitle action:@selector(itemAction:) keyEquivalent:@""];
-				menuItem.target = clickedItem;
-				menuItem.enabled = YES;
-				[menu addItem:menuItem];
+			if ([clickedItem isKindOfClass:[SEENetworkDocumentListItem class]] ||
+                [clickedItem isKindOfClass:[SEERecentDocumentListItem class]]) {
+                {
+                    NSString *menuItemTitle = NSLocalizedStringWithDefaultValue(@"DOCUMENT_LIST_CONTEXT_MENU_OPEN", nil, [NSBundle mainBundle], @"Open", @"MenuItem title in context menu of DocumentList window.");
+                    NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:menuItemTitle action:@selector(itemAction:) keyEquivalent:@""];
+                    menuItem.target = clickedItem;
+                    menuItem.enabled = YES;
+                    [menu addItem:menuItem];
+                }
+                {
+                    [menu addItem:[NSMenuItem separatorItem]];
+                }
+                {
+                    NSString *menuItemTitle = NSLocalizedStringWithDefaultValue(@"DOCUMENT_LIST_CONTEXT_MENU_SHOW_IN_FINDER", nil, [NSBundle mainBundle], @"Show in Finder", @"MenuItem title in context menu of DocumentList window.");
+                    NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:menuItemTitle action:@selector(showDocumentInFinder:) keyEquivalent:@""];
+                    menuItem.target = clickedItem;
+                    menuItem.enabled = YES;
+                    [menu addItem:menuItem];
+                }
 			} else if ([clickedItem isKindOfClass:[SEENetworkConnectionRepresentationListItem class]]) {
 				{
 					NSString *menuItemTitle = NSLocalizedStringWithDefaultValue(@"DOCUMENT_LIST_CONTEXT_MENU_COPY_URL", nil, [NSBundle mainBundle], @"Copy Connection URL", @"MenuItem title in context menu of DocumentList window.");
@@ -789,8 +737,6 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 					menuItem.enabled = YES;
 					[menu addItem:menuItem];
 				}
-			} else if ([clickedItem isKindOfClass:[SEENewDocumentListItem class]]) {
-				[[AppController sharedInstance] addDocumentNewSubmenuEntriesToMenu:menu];
 			}
 		}
     }

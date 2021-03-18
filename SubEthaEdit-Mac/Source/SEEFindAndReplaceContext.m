@@ -79,8 +79,8 @@ typedef NS_ENUM(uint8_t, SEESearchRangeDirection) {
 - (NSString *)pasteboardFindString {
 	NSString *result = nil;
     NSPasteboard *pasteboard = [NSPasteboard pasteboardWithName:NSPasteboardNameFind];
-    if ([[pasteboard types] containsObject:NSStringPboardType]) {
-        result = [pasteboard stringForType:NSStringPboardType];
+    if ([[pasteboard types] containsObject:NSPasteboardTypeString]) {
+        result = [pasteboard stringForType:NSPasteboardTypeString];
 	}
 	return result;
 }
@@ -90,8 +90,8 @@ typedef NS_ENUM(uint8_t, SEESearchRangeDirection) {
 	NSString *pasteboardFindString = [self pasteboardFindString];
 	if (currentFindString && ![currentFindString isEqualToString:pasteboardFindString]) {
 		NSPasteboard *pasteboard = [NSPasteboard pasteboardWithName:NSPasteboardNameFind];
-		[pasteboard declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:nil];
-		[pasteboard setString:currentFindString forType:NSStringPboardType];
+        [pasteboard declareTypes:[NSArray arrayWithObject:NSPasteboardTypeString] owner:nil];
+        [pasteboard setString:currentFindString forType:NSPasteboardTypeString];
 	}
 }
 
@@ -320,7 +320,7 @@ typedef NS_ENUM(uint8_t, SEESearchRangeDirection) {
 		
 		// if we arrive here we failed
 		result = NO;
-		[self signalErrorWithDescription:NSLocalizedString(@"Not found.",@"Find string not found")];
+		[self signalErrorWithDescription:NSLocalizedString(@"Not found",@"Find string not found")];
 	}
 	
 	return result;
@@ -417,8 +417,7 @@ typedef NS_ENUM(uint8_t, SEESearchRangeDirection) {
 
 - (void)stopLongTextReplaceOperation {
 	[self unlockDocument:self.targetPlainTextEditor.document];
-	[[FindReplaceController sharedInstance] setStatusString:[NSString stringWithFormat:NSLocalizedString(@"%d replaced.",@"Number of replaced strings"), self.replaceCountForReplaceAll]];
-
+    [[FindReplaceController sharedInstance] setStatusString:[NSString stringWithFormat:NSLocalizedString(@"%ld replaced",@"Number of replaced strings"), (long)self.replaceCountForReplaceAll]];
 }
 
 #define CHECK_END_MATCHES_INTERVAL 50

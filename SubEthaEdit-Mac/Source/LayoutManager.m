@@ -37,6 +37,28 @@ enum {
 
 static NSString *S_specialGlyphs[17];
 
+@interface SEELineHeightTypesetter : NSATSTypesetter
+@end
+
+@implementation SEELineHeightTypesetter
+- (void)willSetLineFragmentRect:(NSRect *)lineFragmentRect forGlyphRange:(NSRange)glyphRange
+        usedRect:(NSRect *)usedRect baselineOffset:(CGFloat *)baselineOffset {
+    NSParagraphStyle *style = [self.layoutManager.textStorage attribute:NSParagraphStyleAttributeName atIndex:0 effectiveRange:NULL];
+    if (style) {
+        CGFloat lineHeightMulitple = style.lineHeightMultiple;
+        if (lineHeightMulitple > 0) {
+            // adjust baselineoffset
+            CGFloat additionalBaselineOffset = ((*lineFragmentRect).size.height / lineHeightMulitple) * (lineHeightMulitple - 1.0) / 2.0;
+            //        NSLog(@"would have adjusted: %f %f -> %f %@", _lineHeightMultiplier, additionalBaselineOffset, *baselineOffset, NSStringFromRect(*lineFragmentRect));
+            *baselineOffset = *baselineOffset - additionalBaselineOffset;
+        }
+    }
+}
+@end
+
+@interface LayoutManager ()
+@end
+
 @implementation LayoutManager
 
 + (void)initialize {
@@ -70,6 +92,8 @@ static NSString *S_specialGlyphs[17];
     
 		[self setInvisibleCharacterColor:[NSColor grayColor]];
 		
+        [self setTypesetter:[SEELineHeightTypesetter new]];
+        
         NSMutableString *string = [I_invisiblesTextStorage mutableString];
         [string appendString:@"0"]; // just for offset
         int i=0;
@@ -173,8 +197,41 @@ static NSString *S_specialGlyphs[17];
 - (void)setShowsInvisibles:(BOOL)showsInvisibles {
     if (showsInvisibles != _showsInvisibles) {
         _showsInvisibles = !!showsInvisibles;
-        [self invalidateLayoutForCharacterRange:NSMakeRange(0,[[self textStorage] length]) actualCharacterRange:NULL];
+        [self invalidateLayout];
     }
+}
+
+- (void)setShowsInconsistentIndentation:(BOOL)showsInconsistentIndentation {
+    if (showsInconsistentIndentation != _showsInconsistentIndentation) {
+        _showsInconsistentIndentation = !!showsInconsistentIndentation;
+        [self invalidateLayout];
+    }
+}
+
+-(void)setUsesTabs:(BOOL)usesTabs {
+    if (usesTabs != _usesTabs) {
+        _usesTabs = !!usesTabs;
+        [self invalidateLayout];
+    }
+}
+
+- (void)setTabWidth:(int)tabWidth {
+    if (tabWidth != _tabWidth) {
+        _tabWidth = tabWidth;
+        [self invalidateLayout];
+    }
+}
+
+- (void)invalidateLayout {
+    [self invalidateLayoutForCharacterRange:NSMakeRange(0,[[self textStorage] length]) actualCharacterRange:NULL];
+}
+
+- (void)invalidateLayoutForCharacterRange:(NSRange)charRange actualCharacterRange:(NSRangePointer)actualCharRange {
+    [super invalidateLayoutForCharacterRange:charRange actualCharacterRange:actualCharRange];
+}
+
+- (void)invalidateDisplayForCharacterRange:(NSRange)charRange {
+    [super invalidateDisplayForCharacterRange:charRange];
 }
 
 // - (void)textStorage:(NSTextStorage *)aTextStorage edited:(NSUInteger)mask range:(NSRange)newCharRange changeInLength:(NSInteger)delta invalidatedRange:(NSRange)invalidatedCharRange {
@@ -321,23 +378,45 @@ static NSString *S_specialGlyphs[17];
     FoldableTextStorage *textStorage = (FoldableTextStorage *)[self textStorage];
     BOOL hasMixedLineEndings = [textStorage hasMixedLineEndings];
     LineEnding    lineEnding = [textStorage lineEnding];
-    if ([self showsInvisibles] || hasMixedLineEndings) {
+    if ([self showsInvisibles] || hasMixedLineEndings || self.showsInconsistentIndentation) {
         NSRect lineFragmentRect = NSZeroRect; //gets initialized lazily
         NSMutableDictionary *attributes;
         // figure out what invisibles to draw
         NSRange charRange = [self characterRangeForGlyphRange:glyphRange actualGlyphRange:NULL];
+        
         NSString *characters = [[self textStorage] string];
+        NSUInteger start;
+        [characters getLineStart:&start end:nil contentsEnd:nil forRange:charRange];
+        int tabWidth = self.tabWidth;
+        if (tabWidth < 0) {
+            tabWidth = 0;
+        }
+        NSUInteger lookahead = MIN(1, MIN(CHARBUFFERSIZE - 1, tabWidth));
+        
         NSUInteger i;
         unichar previousChar = 0;
         unichar charBuffer[CHARBUFFERSIZE];
+        BOOL withinIndentation = YES;
         while (charRange.length>0) {
-            NSUInteger loopLength = MIN(charRange.length,CHARBUFFERSIZE);
-            [characters getCharacters:charBuffer range:NSMakeRange(charRange.location,loopLength)];
+            NSUInteger bufSize = MIN(charRange.length, CHARBUFFERSIZE);
+            NSUInteger loopLength = MIN(charRange.length,CHARBUFFERSIZE - lookahead);
+            [characters getCharacters:charBuffer
+                                range:NSMakeRange(charRange.location,bufSize)];
+            
             for (i=0;i<loopLength;i++) {
                 unichar c = charBuffer[i];
-                unichar next_c = (i+1 < loopLength)?charBuffer[i+1]:
-                    (NSMaxRange(charRange)>charRange.location+loopLength?[characters characterAtIndex:charRange.location+loopLength]:0);
+                unichar next_c = (i+1 < bufSize) ? charBuffer[i+1] : 0;
                 int draw = u_false;
+                
+                
+                withinIndentation = (withinIndentation ||
+                                     previousChar == '\r' ||
+                                     previousChar == '\n' ||
+                                     previousChar == 0x0a ||
+                                     previousChar == 0x2028 ||
+                                     previousChar == 0x2029) && (c == ' ' || c == '\t');
+                
+                
                 if ([self showsInvisibles]) {
                     if (c == ' ') {		// "real" space
                         draw = u_2024; // one dot leader 0x00b7; // "middle dot" 0x22c5; // "Dot centered"
@@ -390,6 +469,33 @@ static NSString *S_specialGlyphs[17];
                         draw = u_21ab_red;
                     }
                 }
+                
+                if (self.showsInconsistentIndentation) {
+                    if (self.usesTabs && withinIndentation) {
+                        // Using spaces to indent by less than a tab with is legitimate
+                        // Therefor 'withinIndentation' will be set to NO if at least one
+                        // of the next tabWidth characters is neither a space nor a tab
+                        if (c == ' ' && previousChar != ' ') {
+                            for (NSUInteger index = i; index < tabWidth + i && index < bufSize; index++) {
+                                if (charBuffer[index] != ' ' && charBuffer[index] != '\t') {
+                                    withinIndentation = NO;
+                                }
+                            }
+                        }
+                        
+                        if (withinIndentation && c == ' ') {
+                            draw = u_2024;
+                        }
+                    } else {
+                        // Spaces are used for indentation
+                        if (c == '\t') {
+                            draw = u_2192;
+                        }
+                    }
+                }
+                
+                
+                
                 if (draw!=u_false) {
                     // where is that one?
                     if (!attributes) {

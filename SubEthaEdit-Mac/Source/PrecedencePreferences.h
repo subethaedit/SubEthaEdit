@@ -9,6 +9,8 @@
 
 @interface PrecedencePreferences : TCMPreferenceModule <NSTableViewDelegate> 
 
+@property (nonatomic, strong) IBOutlet NSButton *plusButton;
+
 - (IBAction)addUserRule:(id)sender;
 - (IBAction)removeUserRule:(id)sender;
 

@@ -22,7 +22,11 @@
 
 #pragma mark - Preference Module - Basics
 - (NSImage *)icon {
-    return [NSImage imageNamed:@"StylePrefs"];
+    if (@available(macOS 10.16, *)) {
+        return [NSImage imageWithSystemSymbolName:@"paintbrush" accessibilityDescription:nil];
+    } else {
+        return [NSImage imageNamed:@"StylePrefs"];
+    }
 }
 
 - (NSString *)iconLabel {
@@ -40,47 +44,13 @@
 - (void)mainViewDidLoad {
     // Initialize user interface elements to reflect current preference settings
 	
-	{ // localization
-		self.O_fontDefaultButton.title = NSLocalizedStringWithDefaultValue(@"STYLE_PREF_DEFAULT_FONT_CHECKBOX_LABEL", nil, [NSBundle mainBundle], @"use Default", @"");
-		self.O_fontContainerBox.title = NSLocalizedStringWithDefaultValue(@"STYLE_PREF_FONT_BOX_LABEL", nil, [NSBundle mainBundle], @"Font", @"");
-		self.O_changeFontButton.title = NSLocalizedStringWithDefaultValue(@"STYLE_PREF_CUSTOM_FONT_BUTTON", nil, [NSBundle mainBundle], @"Set...", @"");
-		self.O_changeFontButton.toolTip = NSLocalizedStringWithDefaultValue(@"STYLE_PREF_CUSTOM_FONT_BUTTON_TOOL_TIP", nil, [NSBundle mainBundle], @"Change the document's default font", @"");
-		self.O_styleContainerBox.title = NSLocalizedStringWithDefaultValue(@"STYLE_PREF_SETTING_BOX_LABEL", nil, [NSBundle mainBundle], @"Style Settings", @"");
-		self.O_styleSheetDefaultRadioButton.title = NSLocalizedStringWithDefaultValue(@"STYLE_PREF_SHEET_BUTTON_DEFAULT_LABEL", nil, [NSBundle mainBundle], @"Style sheet from Default Mode", @"");
-		self.O_styleSheetCustomRadioButton.title = NSLocalizedStringWithDefaultValue(@"STYLE_PREF_SHEET_BUTTON_CUSTOM_LABEL", nil, [NSBundle mainBundle], @"Custom style sheet", @"");
-		self.O_styleSheetCustomForLanguageContextsRadioButton.title = NSLocalizedStringWithDefaultValue(@"STYLE_PREF_SHEET_BUTTON_CUSTOM_FOR_CONTEXT_LABEL", nil, [NSBundle mainBundle], @"Custom style sheets for Language Contexts", @"");
-		self.O_previewContainerBox.title = NSLocalizedStringWithDefaultValue(@"STYLE_PREF_PREVIEW_BOX_LABEL", nil, [NSBundle mainBundle], @"Preview", @"");
-		self.O_applyToOpenDocumentsButton.title = NSLocalizedStringWithDefaultValue(@"STYLE_PREF_APPLY_STYLE_BUTTON", nil, [NSBundle mainBundle], @"Apply to Open Documents", @"");
-	}
-	{ // re-layout ro adjust for localization
-		NSString *firstChoice = [[NSLocale preferredLanguages] firstObject];
-		if ([firstChoice isEqualToString:@"de"]) { // re-layout for German
-			[self.O_fontDefaultButton sizeToFit];
-			self.O_fontDefaultButton.frame = ({
-				NSRect frame = self.O_fontDefaultButton.frame;
-				frame.origin.x = NSMaxX(self.O_fontContainerBox.titleRect) + 12.;
-				frame;
-			});
-			
-			CGFloat preWidth = NSWidth(self.O_changeFontButton.frame);
-			[self.O_changeFontButton sizeToFit];
-			CGAffineTransform transform = CGAffineTransformMakeTranslation(NSWidth(self.O_changeFontButton.frame) - preWidth, 0);
-			self.O_fontLabel.frame = NSRectFromCGRect(CGRectApplyAffineTransform(NSRectToCGRect(self.O_fontLabel.frame), transform));
-			
-			CGFloat preMaxX = NSMaxX(self.O_applyToOpenDocumentsButton.frame);
-			[self.O_applyToOpenDocumentsButton sizeToFit];
-			self.O_applyToOpenDocumentsButton.frame = ({
-				NSRect frame = self.O_applyToOpenDocumentsButton.frame;
-				frame.origin.x = preMaxX - NSWidth(frame);
-				frame;
-			});
-		}
-	}
-	
+	// localization
+    self.O_styleSheetDefaultRadioButton.title = NSLocalizedStringWithDefaultValue(@"STYLE_PREF_SHEET_BUTTON_DEFAULT_LABEL", nil, [NSBundle mainBundle], @"Style sheet from Default Mode", @"");
+    self.O_styleSheetCustomRadioButton.title = NSLocalizedStringWithDefaultValue(@"STYLE_PREF_SHEET_BUTTON_CUSTOM_LABEL", nil, [NSBundle mainBundle], @"Custom style sheet", @"");
+    self.O_styleSheetCustomForLanguageContextsRadioButton.title = NSLocalizedStringWithDefaultValue(@"STYLE_PREF_SHEET_BUTTON_CUSTOM_FOR_CONTEXT_LABEL", nil, [NSBundle mainBundle], @"Custom style sheets for Language Contexts", @"");
     [self changeMode:self.O_modePopUpButton];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(documentModeListChanged:) name:@"DocumentModeListChanged" object:nil];
-    
 }
 
 - (void)didSelect {
@@ -100,31 +70,35 @@
 
 #pragma mark - IBActions
 - (IBAction)validateDefaultsState:(id)aSender {
-	[self.O_styleSheetDefaultRadioButton setState:NSOffState];
-	[self.O_styleSheetCustomRadioButton setState:NSOffState];
-	[self.O_styleSheetCustomForLanguageContextsRadioButton setState:NSOffState];
+    [self.O_styleSheetDefaultRadioButton setState:NSControlStateValueOff];
+    [self.O_styleSheetCustomRadioButton setState:NSControlStateValueOff];
+    [self.O_styleSheetCustomForLanguageContextsRadioButton setState:NSControlStateValueOff];
 
 	DocumentMode *currentMode = [self.O_modeController content];
 	if ([[[currentMode defaults] objectForKey:DocumentModeUseDefaultStyleSheetPreferenceKey] boolValue]) {
-		[self.O_styleSheetDefaultRadioButton setState:NSOnState];
+        [self.O_styleSheetDefaultRadioButton setState:NSControlStateValueOn];
 	} else {
 		SEEStyleSheetSettings *styleSheetSettings = [currentMode styleSheetSettings];
 		if (styleSheetSettings.usesMultipleStyleSheets) {
-			[self.O_styleSheetCustomForLanguageContextsRadioButton setState:NSOnState];
+            [self.O_styleSheetCustomForLanguageContextsRadioButton setState:NSControlStateValueOn];
 		} else {
-			[self.O_styleSheetCustomRadioButton setState:NSOnState];
+            [self.O_styleSheetCustomRadioButton setState:NSControlStateValueOn];
 		}
 	}
 
     DocumentMode *baseMode = [[DocumentModeManager sharedInstance] baseMode];
     DocumentMode *selectedMode = [self.O_modePopUpButton selectedMode];
-    [self.O_fontController setContent:([self.O_fontDefaultButton state]==NSOnState)?baseMode:selectedMode];
+    [self.O_fontController setContent:([self.O_fontDefaultButton state]==NSControlStateValueOn)?baseMode:selectedMode];
     [self takeFontFromMode:selectedMode];
 	[self highlightSyntax];
 }
 
+- (IBAction)changeLineSpacing:(id)sender {
+    [self highlightSyntax];
+}
+
 - (IBAction)changeDefaultState:(id)aSender {
-    BOOL useDefault = ([aSender state]==NSOnState);
+    BOOL useDefault = ([aSender state]==NSControlStateValueOn);
     [[[self.O_modePopUpButton selectedMode] defaults] setObject:[NSNumber numberWithBool:useDefault] forKey:DocumentModeUseDefaultStylePreferenceKey];
     [self validateDefaultsState:aSender];
 }
@@ -139,9 +113,9 @@
 - (IBAction)styleRadioButtonAction:(id)aSender {
 	DocumentMode *currentMode = [self.O_modeController content];
 	if (aSender == self.O_styleSheetDefaultRadioButton) {
-		[[currentMode defaults] setObject:[NSNumber numberWithBool:YES] forKey:DocumentModeUseDefaultStyleSheetPreferenceKey];
+		[[currentMode defaults] setObject:@YES forKey:DocumentModeUseDefaultStyleSheetPreferenceKey];
 	} else {
-		[[currentMode defaults] setObject:[NSNumber numberWithBool:NO] forKey:DocumentModeUseDefaultStyleSheetPreferenceKey];
+		[[currentMode defaults] setObject:@NO forKey:DocumentModeUseDefaultStyleSheetPreferenceKey];
 		SEEStyleSheetSettings *styleSheetSettings = [currentMode styleSheetSettingsOfThisMode];
 		if (aSender == self.O_styleSheetCustomRadioButton) {
 			styleSheetSettings.usesMultipleStyleSheets = NO;
@@ -153,10 +127,17 @@
 	[self highlightSyntax];
 }
 
+- (IBAction)setDefaultStyleSheet:(id)sender {
+    DocumentMode *currentMode = [self.O_modeController content];
+    [[currentMode defaults] setObject:@YES forKey:DocumentModeUseDefaultStyleSheetPreferenceKey];
+    [self validateDefaultsState:sender];
+    [self highlightSyntax];
+}
+
 - (IBAction)changeCustomStyleSheet:(id)aSender {
 	DocumentMode *currentMode = [self.O_modeController content];
 	NSString *styleSheetName = [[self.O_styleSheetCustomPopUpButton selectedItem] title];
-	[[currentMode defaults] setObject:[NSNumber numberWithBool:NO] forKey:DocumentModeUseDefaultStyleSheetPreferenceKey];
+	[[currentMode defaults] setObject:@NO forKey:DocumentModeUseDefaultStyleSheetPreferenceKey];
 	SEEStyleSheetSettings *styleSheetSettings = [currentMode styleSheetSettingsOfThisMode];
 	styleSheetSettings.singleStyleSheetName = styleSheetName;
 	styleSheetSettings.usesMultipleStyleSheets = NO;
@@ -191,18 +172,38 @@
 }
 
 - (IBAction)changeFontViaPanel:(id)sender {
-    NSDictionary *fontAttributes = [[self.O_modePopUpButton selectedMode] defaultForKey:DocumentModeFontAttributesPreferenceKey];
-    NSFont *newFont = [NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
-    if (!newFont) {
-		newFont = [NSFont userFixedPitchFontOfSize:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
-	}
-    [[NSFontManager sharedFontManager] setSelectedFont:newFont isMultiple:NO];
+    DocumentMode *mode = [self.O_modePopUpButton selectedMode];
+    NSFont *font = mode.plainFontBase;
+    [[NSFontManager sharedFontManager] setSelectedFont:font isMultiple:NO];
     [[NSFontManager sharedFontManager] orderFrontFontPanel:self];
+}
+
+- (IBAction)useSystemMonospacedFont:(id)sender {
+    if ([self.O_fontDefaultButton state] != NSControlStateValueOn) {
+        DocumentMode *mode = [self.O_modePopUpButton selectedMode];
+        NSFont *font = mode.plainFontBase;
+        CGFloat size = font.pointSize;
+        NSString *name = DocumentModeFontNameSystemFontValue;
+
+        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+        [dict setObject:name forKey:NSFontNameAttribute];
+        [dict setObject:@(size) forKey:NSFontSizeAttribute];
+        [self setFontDict:dict];
+    }
 }
 
 #pragma mark
 - (void)updateStyleSheetLists {
-	[self.O_styleSheetCustomPopUpButton removeAllItems];
+    [self.O_styleSheetCustomPopUpButton removeAllItems];
+    
+    if (![[self.O_modeController content] isEqual:[[DocumentModeManager sharedInstance] baseMode]]) {
+        NSString *defaultModeStyleSheetTitle = NSLocalizedStringWithDefaultValue(@"STYLE_PREF_SHEET_BUTTON_DEFAULT_LABEL", nil, [NSBundle mainBundle], @"Default Style", @"");
+        NSMenuItem *defaultModeStyleSheetItem = [[NSMenuItem alloc] initWithTitle:defaultModeStyleSheetTitle action:@selector(setDefaultStyleSheet:) keyEquivalent:@""];
+        defaultModeStyleSheetItem.target = self;
+        [[self.O_styleSheetCustomPopUpButton menu] addItem:defaultModeStyleSheetItem];
+        [[self.O_styleSheetCustomPopUpButton menu] addItem:[NSMenuItem separatorItem]];
+    }
+    
 	[self.O_styleSheetCustomPopUpButton addItemsWithTitles:[[DocumentModeManager sharedInstance] allStyleSheetNames]];
 
 	[[self.O_styleSheetCustomPopUpButton menu] addItem:[NSMenuItem separatorItem]];
@@ -226,21 +227,26 @@
     [self performSelector:@selector(changeMode:) withObject:self.O_modePopUpButton afterDelay:.2];
 }
 
-- (void)takeFontFromMode:(DocumentMode *)aMode {
-    NSDictionary *fontAttributes = [aMode defaultForKey:DocumentModeFontAttributesPreferenceKey];
-	//    NSLog(@"%s %@",__FUNCTION__, fontAttributes);
-    NSFont *font = [NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
-    if (!font) font = [NSFont userFixedPitchFontOfSize:11.];
-    [self setBaseFont:font];
+- (void)takeFontFromMode:(DocumentMode *)mode {
+    [self setBaseFont:mode.plainFontBase];
 }
 
 - (void)selectMode:(DocumentMode *)aDocumentMode {
 	[self.O_modeController setContent:aDocumentMode];
 	[self.O_modePopUpButton setSelectedMode:aDocumentMode];
 	[self updateStyleSheetLists];
-	NSString *customStyleSheetName = [[aDocumentMode styleSheetSettings] singleStyleSheetName];
-	[self.O_styleSheetCustomPopUpButton selectItemWithTitle:customStyleSheetName];
-	[self.O_customStylesForLanguageContextsTableView reloadData];
+	
+    DocumentMode *baseMode = [[DocumentModeManager sharedInstance] baseMode];
+    NSString *defaultStyleSheetName = baseMode.styleSheetSettings.singleStyleSheetName;
+    NSString *customStyleSheetName = [[aDocumentMode styleSheetSettings] singleStyleSheetName];
+    if (![aDocumentMode isEqual:baseMode] &&
+        [defaultStyleSheetName isEqualToString:customStyleSheetName]) {
+        [self.O_styleSheetCustomPopUpButton selectItemAtIndex:0];
+    } else {
+        [self.O_styleSheetCustomPopUpButton selectItemWithTitle:customStyleSheetName];
+    }
+	
+    [self.O_customStylesForLanguageContextsTableView reloadData];
 	[self.O_styleSheetDefaultRadioButton setHidden:[aDocumentMode isBaseMode]];
 	// TODO: resize the style settings box
 	CGFloat heightChange = 0;
@@ -279,13 +285,18 @@
 - (void)changeFont:(id)fontManager {
 //	NSLog(@"%s",__FUNCTION__);
     if ([self.O_fontDefaultButton state] != NSOnState) {
-        NSFont *newFont = [fontManager convertFont:[NSFont userFixedPitchFontOfSize:0.0]]; // could be any font here
+        NSFont *newFont = [fontManager convertFont:[self.O_modePopUpButton selectedMode].plainFontBase];
         NSMutableDictionary *dict=[NSMutableDictionary dictionary];
-        [dict setObject:[newFont fontName] forKey:NSFontNameAttribute];
+        
+        [dict setObject:[[newFont fontName] hasPrefix:@"."] ? DocumentModeFontNameSystemFontValue : newFont.fontName forKey:NSFontNameAttribute];
         [dict setObject:[NSNumber numberWithFloat:[newFont pointSize]] forKey:NSFontSizeAttribute];
-        [[self.O_modePopUpButton selectedMode] setValue:dict forKeyPath:@"defaults.FontAttributes"];
-        [self changeMode:self.O_modePopUpButton];
+        [self setFontDict:dict];
     }
+}
+
+- (void)setFontDict:(NSDictionary *)fontDict {
+    [[self.O_modePopUpButton selectedMode] setValue:fontDict forKeyPath:@"defaults.FontAttributes"];
+    [self changeMode:self.O_modePopUpButton];
 }
 
 - (NSArray *)languageContexts {
@@ -318,6 +329,10 @@
 		NSDictionary *attributes = [SEEStyleSheet textAttributesForStyleAttributes:[styleSheet styleAttributesForScope:SEEStyleSheetMetaDefaultScopeName] font:self.baseFont];
 		[textStorage setAttributes:attributes range:NSMakeRange(0,textStorage.length)];
 	}
+    
+    NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+    style.lineHeightMultiple = currentMode.lineHeightMultiple;
+    [textStorage addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, textStorage.length)];
 }
 
 #pragma mark - TableView DataSource
@@ -347,7 +362,7 @@
 	DocumentMode *currentMode = [self.O_modeController content];
 	SEEStyleSheetSettings *styleSheetSettings = [currentMode styleSheetSettings];
 	[styleSheetSettings setStyleSheetName:styleSheetName forLanguageContext:languageContext];
-	[[currentMode defaults] setObject:[NSNumber numberWithBool:NO] forKey:DocumentModeUseDefaultStyleSheetPreferenceKey];
+	[[currentMode defaults] setObject:@NO forKey:DocumentModeUseDefaultStyleSheetPreferenceKey];
 	styleSheetSettings.usesMultipleStyleSheets = YES;
 	[self highlightSyntax];
 }

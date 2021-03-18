@@ -53,7 +53,7 @@ void * const SEEUserColorsPreviewUpdateObservingContext = (void *)&SEEUserColors
 			[label setBackgroundColor:[NSColor clearColor]];
 			[label setBezeled:NO];
 			[label setEditable:NO];
-			[label setStringValue:SEE_NoLocalizationNeeded(@"Lorem ipsum")];
+            [label setStringValue:SEE_NoLocalizationNeeded(@"In the beginning")];
 			[self addSubview:label];
 			label;
 		});
@@ -63,7 +63,7 @@ void * const SEEUserColorsPreviewUpdateObservingContext = (void *)&SEEUserColors
 			[label setBackgroundColor:[NSColor clearColor]];
 			[label setBezeled:NO];
 			[label setEditable:NO];
-			[label setStringValue:SEE_NoLocalizationNeeded(@"dolor sit")];
+            [label setStringValue:SEE_NoLocalizationNeeded(@"the Universe")];
 			[self addSubview:label];
 			label;
 		});
@@ -73,7 +73,7 @@ void * const SEEUserColorsPreviewUpdateObservingContext = (void *)&SEEUserColors
 			[label setBackgroundColor:[NSColor clearColor]];
 			[label setBezeled:NO];
 			[label setEditable:NO];
-			[label setStringValue:SEE_NoLocalizationNeeded(@"amet, consectetur adipiscing elit.")];
+            [label setStringValue:SEE_NoLocalizationNeeded(@"was created. This has made a")];
 			[[label cell] setLineBreakMode:NSLineBreakByTruncatingTail];
 			[self addSubview:label];
 			label;
@@ -151,7 +151,11 @@ void * const SEEUserColorsPreviewUpdateObservingContext = (void *)&SEEUserColors
     [super drawRect:aDirtyRect];
 	
 	// border
-	[[NSColor colorWithCalibratedWhite:0.6 alpha:1.0] set];
+    if (@available(macOS 10.14, *)) {
+        [[NSColor separatorColor] set];
+    } else {
+        [[NSColor lightGrayColor] set];
+    }
 	NSFrameRectWithWidth(self.bounds, 1.0);
 }
 
@@ -251,11 +255,7 @@ void * const SEEUserColorsPreviewUpdateObservingContext = (void *)&SEEUserColors
 
 - (NSFont *)fontFromDefaultMode {
 	DocumentModeManager *modeManager = [DocumentModeManager sharedInstance];
-	NSDictionary *fontAttributes = [[modeManager baseMode] defaultForKey:DocumentModeFontAttributesPreferenceKey];
-	NSFont *font = [NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:11.];
-	if (!font) {
-		font = [NSFont userFixedPitchFontOfSize:11.];
-	}
+    NSFont *font = [[NSFontManager sharedFontManager] convertFont:modeManager.baseMode.plainFontBase toSize:11.0];
 	return font;
 }
 

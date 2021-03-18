@@ -29,12 +29,6 @@
 
 @property (nonatomic, strong) IBOutlet NSTextView *O_syntaxSampleTextView;
 
-// properties for localization
-@property (nonatomic, strong) IBOutlet NSBox *O_fontContainerBox;
-@property (nonatomic, strong) IBOutlet NSButton *O_changeFontButton;
-@property (nonatomic, strong) IBOutlet NSTextField *O_fontLabel;
-@property (nonatomic, strong) IBOutlet NSButton *O_applyToOpenDocumentsButton;
-
 - (IBAction)changeMode:(id)aSender;
 
 - (IBAction)validateDefaultsState:(id)aSender;
@@ -44,7 +38,10 @@
 
 - (IBAction)changeCustomStyleSheet:(id)aSender;
 - (IBAction)changeFontViaPanel:(id)sender;
+- (IBAction)useSystemMonospacedFont:(id)sender;
 
 - (IBAction)applyToOpenDocuments:(id)aSender;
+
+- (IBAction)changeLineSpacing:(id)sender;
 
 @end

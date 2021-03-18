@@ -657,10 +657,10 @@ int main (int argc, const char * argv[]) {
 		while ((ch = getopt_long(argc, (char * const *)argv, "bhlprvwe:m:o:dt:j:g:", longopts, NULL)) != -1) {
 			switch(ch) {
 				case 'b':
-					[options setObject:[NSNumber numberWithBool:YES] forKey:@"background"];
+					[options setObject:@YES forKey:@"background"];
 					break;
 				case 'd':
-					[options setObject:[NSNumber numberWithBool:YES] forKey:@"pipe-dirty"];
+					[options setObject:@YES forKey:@"pipe-dirty"];
 					break;
 				case 'h':
 					help = YES;
@@ -669,16 +669,16 @@ int main (int argc, const char * argv[]) {
 					version = YES;
 					break;
 				case 'w':
-					[options setObject:[NSNumber numberWithBool:YES] forKey:@"wait"];
+					[options setObject:@YES forKey:@"wait"];
 					break;
 				case 'r':
-					[options setObject:[NSNumber numberWithBool:YES] forKey:@"resume"];
+					[options setObject:@YES forKey:@"resume"];
 					break;
 				case 'l':
 					launch = YES;
 					break;
 				case 'p':
-					[options setObject:[NSNumber numberWithBool:YES] forKey:@"print"];
+					[options setObject:@YES forKey:@"print"];
 					break;
 				case 'e': {
                     // argument is a IANA charset name, convert using CFStringConvertIANACharSetNameToEncoding()

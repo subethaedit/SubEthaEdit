@@ -1,0 +1,15 @@
+
+/* Class = "NSTableColumn"; headerCell.title = "Zeile"; ObjectID = "8"; */
+"8.headerCell.title" = "Zeile";
+
+/* Class = "NSTableColumn"; headerCell.title = "Gefundene Zeichenfolge"; ObjectID = "9"; */
+"9.headerCell.title" = "Gefundene Zeichenfolge";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Liste aktualisieren"; ObjectID = "21"; */
+"21.ibShadowedToolTip" = "Liste aktualisieren";
+
+/* Class = "NSTextFieldCell"; title = "9"; ObjectID = "34"; */
+"34.title" = "9";
+
+/* Class = "NSTextFieldCell"; title = "Redwood City"; ObjectID = "35"; */
+"35.title" = "Redwood City";

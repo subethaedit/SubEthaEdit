@@ -4,12 +4,16 @@
         <extension>sh</extension>
         <extension>bash</extension>
         <extension>bashrc</extension>
+        <extension>zsh</extension>
         <extension>login</extension>
         <filename>.bash_profile</filename>
         <filename>.bashrc</filename>
+        <filename>.zshenv</filename>
+        <filename>.zshrc</filename>
         <filename>configure</filename>
         <regex>\A#! ?/bin/(ba)?sh</regex>
         <regex>\A#! ?/usr/bin/env sh</regex>
         <regex>\A#! ?/usr/(bin/env )?bash</regex>
+        <regex>\A#! ?/usr/(bin/env )?zsh</regex>
     </recognition>
 </settings>

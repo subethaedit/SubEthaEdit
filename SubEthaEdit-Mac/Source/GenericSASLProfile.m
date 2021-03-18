@@ -71,7 +71,7 @@
 
 + (void)processPLAINAnswer:(NSData *)aData inSession:(TCMBEEPSession *)aSession {
     NSDictionary *result = [GenericSASLProfile parseBLOBData:aData];
-    [aSession setAuthenticationInformation:[[result objectForKey:@"status"] isEqualToString:@"complete"]?[NSNumber numberWithBool:YES]:nil];
+    [aSession setAuthenticationInformation:[[result objectForKey:@"status"] isEqualToString:@"complete"]?@YES:nil];
     NSDictionary *userInfo = nil;
     if ([result objectForKey:@"error"]) {
         userInfo = [NSDictionary dictionaryWithObject:[result objectForKey:@"error"] forKey:@"NSError"];

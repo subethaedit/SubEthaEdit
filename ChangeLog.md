@@ -1,11 +1,73 @@
-### [unreleased] SubEthaEdit 5.1.4
+### [unlreleased] SubEthaEdit 5.2.1
 
 #### Features:
+* Line spacing per mode preference
 
 #### Bug fixes and maintenance:
+* 
 
 #### Improved modes:
-* Fixed wrong table header colors in markdown preview in light mode
+* 
+
+### SubEthaEdit 5.2
+
+#### Features:
+* macOS 11 style app icon
+* Modernised search and replace user interface
+* Modernised preference user interface
+
+#### Bug fixes and maintenance:
+* Fixed layout issues in web preview
+* Fixed issue where the split view icon could disappear
+
+#### Improved modes:
+* Made bash mode also trigger for .zshrc/.zshenv
+
+
+### SubEthaEdit 5.1.7
+
+#### Bug fixes and maintenance:
+* Fixed an accidential de-map of the find next/previous shortcut in v5.1.6
+
+Special thanks to ellduin [GitHub](https://github.com/ellduin) for catching this early
+
+### SubEthaEdit 5.1.6
+
+#### Bug fixes and maintenance:
+* Modernised the document hub
+* Modernised open URL popover
+* Fixed crashing issue when connecting to manual addresses or see urls
+* Fixed issue with printing and multiple pages on macOS 11
+* Moved selection of the current highlighted entity from triple to 4 clicks, keeping double and triple click more in line with the system behavior
+
+#### Improved modes:
+* Fixed wrong highlight of default in python mode
+
+Special thanks to new contributor Jan Cornelissen - [GitHub](https://github.com/jncn)
+
+### SubEthaEdit 5.1.5
+
+#### Features:
+* Support for future macOS Releases.
+* Support for Apple Silicon.
+
+#### Bug fixes and maintenance:
+* Increased size limit for default syntax highlighting.
+* Add Change Log to Help menu.
+* Updated the certificate the see-tool installer is signed with (App Store).
+
+### SubEthaEdit 5.1.4
+
+#### Features:
+* New Option: Show inconsistent indentations - easily see mixed use of tabs and spaces.
+* New Option: System monospaced Font is now available in the style preferences.
+
+#### Bug fixes and maintenance:
+* Fixed issue with style preferences that could lead to the font change not being taken.
+
+#### Improved modes:
+* Markdown preview: Fixed wrong table header colors in light mode
+* Markdown preview: Fixed incorrect stripping of leading whitespace in code blocks
 * Improved Bash mode: Added support for heredoc strings
 
 ### SubEthaEdit 5.1.3

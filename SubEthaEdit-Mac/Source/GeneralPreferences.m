@@ -23,17 +23,17 @@
 		[defaultDict setObject:[NSArray array] forKey:MyAIMsPreferenceKey];
 		[defaultDict setObject:[NSArray array] forKey:MyEmailsPreferenceKey];
 		
-		[defaultDict setObject:[NSNumber numberWithBool:YES] forKey:OpenDocumentOnStartPreferenceKey]; // deprecated
-		[defaultDict setObject:[NSNumber numberWithBool:YES] forKey:OpenDocumentHubOnStartupPreferenceKey];
-		[defaultDict setObject:[NSNumber numberWithBool:NO] forKey:OpenUntitledDocumentOnStartupPreferenceKey];
-		[defaultDict setObject:[NSNumber numberWithBool:NO] forKey:DidUpdateOpenDocumentOnStartPreferenceKey];
+		[defaultDict setObject:@YES forKey:OpenDocumentOnStartPreferenceKey]; // deprecated
+		[defaultDict setObject:@YES forKey:OpenDocumentHubOnStartupPreferenceKey];
+		[defaultDict setObject:@NO forKey:OpenUntitledDocumentOnStartupPreferenceKey];
+		[defaultDict setObject:@NO forKey:DidUpdateOpenDocumentOnStartPreferenceKey];
 
 		[defaultDict setObject:[NSNumber numberWithInt:0]    forKey:AdditionalShownPathComponentsPreferenceKey];
 
-		[defaultDict setObject:[NSNumber numberWithBool:YES] forKey:HighlightChangesPreferenceKey];
-		[defaultDict setObject:[NSNumber numberWithBool:NO]  forKey:HighlightChangesAlonePreferenceKey];
+		[defaultDict setObject:@YES forKey:HighlightChangesPreferenceKey];
+		[defaultDict setObject:@NO  forKey:HighlightChangesAlonePreferenceKey];
 		
-		[defaultDict setObject:[NSNumber numberWithBool:YES] forKey:kSEEDefaultsKeyOpenNewDocumentInTab];
+		[defaultDict setObject:@YES forKey:kSEEDefaultsKeyOpenNewDocumentInTab];
 		
 		[defaultDict setObject:BASEMODEIDENTIFIER forKey:ModeForNewDocumentsPreferenceKey];
 		
@@ -56,7 +56,7 @@
 
 	if ([aSender isKindOfClass:[NSButton class]]) {
 		NSButton *button = (NSButton *)aSender;
-		isEnabled = (button.state == NSOnState);
+        isEnabled = (button.state == NSControlStateValueOn);
 	} else {
 		isEnabled = ![defaults boolForKey:HighlightChangesAlonePreferenceKey];
 	}
@@ -78,7 +78,11 @@
 
 #pragma mark - Preference Module - Basics
 - (NSImage *)icon {
-    return [NSImage imageNamed:NSImageNamePreferencesGeneral];
+    if (@available(macOS 10.16, *)) {
+        return [NSImage imageWithSystemSymbolName:@"gearshape" accessibilityDescription:nil];
+    } else {
+        return [NSImage imageNamed:NSImageNamePreferencesGeneral];
+    }
 }
 
 - (NSString *)iconLabel {
@@ -121,9 +125,9 @@
 
 - (void)setLocalChangesHighlightButtonState:(BOOL)isEnabled {
 	if (isEnabled) {
-		[self.O_highlightLocalChangesButton setState:NSOnState];
+        [self.O_highlightLocalChangesButton setState:NSControlStateValueOn];
 	} else {
-		[self.O_highlightLocalChangesButton setState:NSOffState];
+        [self.O_highlightLocalChangesButton setState:NSControlStateValueOff];
 	}
 }
 

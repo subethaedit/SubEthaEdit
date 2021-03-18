@@ -8,7 +8,7 @@
 "SEE_APP_MENU_QUIT" = "%@ beenden";
 
 /* App menu check for updates*/
-"SEE_APP_MENU_CHECK_FOR_UPDATES" = "Auf Aktualisierungen prüfen…";
+"SEE_APP_MENU_CHECK_FOR_UPDATES" = "Auf Aktualisierungen prüfen …";
 
 /* arrangement of Tab setting and tab width in Bottm Status Bar */
 "%@ (%d)" = "%@ (%d)";
@@ -26,13 +26,13 @@
 "%d Documents" = "%d Dokumente";
 
 /* Entries Found in FindAll Panel */
-"%d found." = "%d gefunden.";
+"%d matches" = "%d gefunden";
 
 /* Pending Users Display in Menu Title Bar */
 "%d pending" = "%d Anfragen";
 
 /* Number of replaced strings */
-"%d replaced." = "%d ersetzt.";
+"%ld replaced" = "%ld ersetzt";
 
 /* No comment provided by engineer. */
 "&Redo" = "Wiederholen";
@@ -175,7 +175,7 @@
 "ColorBlue" = "Blau";
 
 /* Custom Color Name */
-"ColorCustom" = "Andere…";
+"ColorCustom" = "Andere …";
 
 /* Green */
 "ColorGreen" = "Grün";
@@ -220,7 +220,7 @@
 "ConvertOrReinterpret" = "Wollen Sie die Datei in die neue Kodierung konvertieren oder neu interpretieren?";
 
 /* Encoding popup entry for bringing up the Customize Encodings List panel (this also occurs as the title of the panel itself, they should have the same localization) */
-"Customize Encodings List..." = "Kodierungsliste bearbeiten…";
+"Customize Encodings List..." = "Kodierungsliste bearbeiten …";
 
 /* Declined Invitation */
 "DeclinedInvitation" = "Einladung abgelehnt";
@@ -400,7 +400,7 @@
 "Last activity: %@" = "Letzte Aktivität: %@";
 
 /* LoginSheet text for logging in... */
-"Logging in ..." = "Einloggen…";
+"Logging in ..." = "Einloggen …";
 
 /* No comment provided by engineer. */
 "Lossy" = "Verlustbehaftet";
@@ -463,16 +463,16 @@
 "Open Connections Browser" = "Verbindungs Fenster öffnen";
 
 /* Open File Dock Menu Item */
-"Open File..." = "Datei öffnen…";
+"Open File..." = "Datei öffnen …";
 
 /* Button choice allowing user open a file in the editor. */
 "Open in Editor" = "Im Editor öffnen";
 
 /* Menu Entry for opening files in the front window. */
-"Open in Front Window..." = "In vorderstem Fenster öffnen…";
+"Open in Front Window..." = "In vorderstem Fenster öffnen …";
 
 /* Menu Entry for opening files in a new window. */
-"Open in New Window..." = "In neuem Fenster öffnen…";
+"Open in New Window..." = "In neuem Fenster öffnen …";
 
 /* Web preview open link in browser contextual menu item */
 "Open Link in Browser" = "Link in Web-Browser öffnen";
@@ -607,7 +607,7 @@
 "Revert Document" = "Laden";
 
 /* Choice (on a button) given to user which allows him/her to review all unsaved documents if he/she quits the application without saving them all first. */
-"Review Changes\\U2026" = "Änderungen überprüfen…";
+"Review Changes\\U2026" = "Änderungen überprüfen …";
 
 /* No comment provided by engineer. */
 "Save" = "Sichern";
@@ -859,10 +859,6 @@
 /* Web Preview - Refresh Popup Item - Manual */
 "WEB_PREVIEW_REFRESH_POPUP_MANUAL" = "Manuell";
 
-"FIND_REPLACE_PANEL_FINDALL" = "Alle Suchen";
-"FIND_REPLACE_PANEL_REPLACE" = "Ersetzen";
-"FIND_REPLACE_PANEL_REPLACEALL" = "Alle Ersetzen";
-
 "FIND_REPLACE_PANEL_SCOPE_DOCUMENT" = "Dokument";
 
 "FIND_REPLACE_PANEL_MENU_CLEAR_SCOPE" = "Suchbereich zurücksetzen %@";
@@ -871,12 +867,12 @@
 "FIND_REPLACE_PANEL_MENU_WRAP" = "Mehrfach suchen";
 "FIND_REPLACE_PANEL_MENU_HISTORY_SUBMENU_TITLE" = "Suchverlauf";
 "FIND_REPLACE_PANEL_MENU_USE_REGEX" = "Reguläre Ausdrücke verwenden";
-"FIND_REPLACE_PANEL_MENU_REGEX_DIALECT" = "Sprache für Reguläre Ausdrücke";
+"FIND_REPLACE_PANEL_MENU_REGEX_DIALECT" = "Sprache für Reguläre Ausdrücke:";
 "FIND_REPLACE_PANEL_MENU_EXTENDED" = "Erweitert";
 "FIND_REPLACE_PANEL_MENU_ESCAPE_SLASH" = "Escape-Zeichen: \\";
 "FIND_REPLACE_PANEL_MENU_ESCAPE_YEN" = "Escape-Zeichen: ¥";
 "FIND_REPLACE_PANEL_MENU_CAPTURE_GROUPS" = "Finde unbenannte Gruppen";
-"FIND_REPLACE_PANEL_MENU_LINE_CONTEXT" = "'^' ➞ '\\A', '$' ➞ '\\Z'";
+"FIND_REPLACE_PANEL_MENU_LINE_CONTEXT" = "'^' → '\\A', '$' → '\\Z'";
 "FIND_REPLACE_PANEL_MENU_MULTILINE" = "'.' beinhaltet Zeilenwechsel";
 "FIND_REPLACE_PANEL_MENU_ONLY_LONGEST" = "Nur längster Treffer";
 "FIND_REPLACE_PANEL_MENU_IGNORE_EMPTY" = "Leere Treffer ignorieren";
@@ -885,8 +881,8 @@
 
 /* search and replace errors */
 "FIND_REPLACE_ERROR_INVALID_FIND_STRING" = "Suchbegriff ungültig.";
-"FIND_REPLACE_REPLACE_ALL_IN_PROGRESS" = "Alle ersetzen…";
-"FIND_REPLACE_REPLACE_ALL_IN_PROGRESS_COUNT" = "Alle ersetzen… (%@ bereits ersetzt)";
+"FIND_REPLACE_REPLACE_ALL_IN_PROGRESS" = "Alle ersetzen …";
+"FIND_REPLACE_REPLACE_ALL_IN_PROGRESS_COUNT" = "Alle ersetzen … (%@ bereits ersetzt)";
 
 
 /* encoding doctor */
@@ -920,40 +916,13 @@
 "Advertise Document" = "Dokument ankündigen";
 
 /* Collaboration Preference Pane */
-"COLLAB_USER_NAME_LABEL" = "Name:";
-"COLLAB_USER_EMAIL_LABEL" = "E-Mail:";
-
 "COLLAB_USER_IMAGE_HOVER_STRING" = "Ändern";
-
-"COLLAB_USER_COLOR_LABEL" = "Farbe:";
-"COLLAB_HIGHLIGHT_CHANGES_LABEL" = "Änderungen hervorheben";
-"COLLAB_HIGHLIGHT_CHANGES_SLIDER_TOOL_TIP" = "Passt die Stärke der Farbe zur Hervorhebung von Veränderungen an.";
-"COLLAB_HIGHLIGHT_CHANGES_SLIDER_LABEL_PALE" = "schwach";
-"COLLAB_HIGHLIGHT_CHANGES_SLIDER_LABEL_STRONG" = "stark";
-
-"COLLAB_NETWORK_INVISIBLE_LABEL" = "Für Andere im Netzwerk unsichtbar";
-"COLLAB_NETWORK_INVISIBLE_DESCRIPTION" = "Wenn Sie ein Dokument ankündigen, sind Sie weiterhin sichtbar.";
-
-"COLLAB_NETWORK_DISABLE_LABEL" = "Netzwerkverbindungen verhindern";
-
-"COLLAB_NETWORK_LABEL" = "Netzwerk";
-"COLLAB_LOCAL_PORT_LABEL" = "Lokaler Port:";
-"COLLAB_AUTOMATICALLY_MAP_PORT_LABEL" = "Port automatisch weiterleiten";
-"COLLAB_AUTOMATICALLY_MAP_PORT_TOOL_TIP" = "SubEthaEdit versucht automatisch den lokalen Port weiterzuleiten, falls Sie sich hinter einem NAT befinden. Damit das funktioniert müssen Sie UPnP oder NAT-PMP auf Ihrem Router aktivieren.";
-"COLLAB_AUTOMATICALLY_MAP_PORT_DESCRIPTION" = "Die Port-Weiterleitung benutzt NAT-PMP oder UPnP.";
 
 /* Style Preference Pane */
 
-"STYLE_PREF_DEFAULT_FONT_CHECKBOX_LABEL" = "Standard-Einstellungen verwenden";
-"STYLE_PREF_FONT_BOX_LABEL" = "Schrift";
-"STYLE_PREF_CUSTOM_FONT_BUTTON" = "Auswählen...";
-"STYLE_PREF_CUSTOM_FONT_BUTTON_TOOL_TIP" = "Ändere die vorgegebene Schrift für Dokumente";
-"STYLE_PREF_SETTING_BOX_LABEL" = "Stil-Einstellungen";
 "STYLE_PREF_SHEET_BUTTON_DEFAULT_LABEL" = "Stil des Standard-Modus";
 "STYLE_PREF_SHEET_BUTTON_CUSTOM_LABEL" = "Eigener Stil";
 "STYLE_PREF_SHEET_BUTTON_CUSTOM_FOR_CONTEXT_LABEL" = "Eigener Stil pro Sprachkontext";
-"STYLE_PREF_PREVIEW_BOX_LABEL"= "Vorschau";
-"STYLE_PREF_APPLY_STYLE_BUTTON" = "Auf offene Dokumente anwenden";
 "STYLE_PREFS_REVEAL_USER_STYLES_FOLDER" = "Ordner für eigene Stile anzeigen";
 "STYLE_PREFS_RELOAD_STYLES_TITLE" = "Neu laden";
 
@@ -964,12 +933,13 @@
 
 /* document list */
 "DOCUMENT_LIST_WINDOW_TITLE" = "%@ - Dokument-Hub";
-"DOCUMENT_LIST_OPEN" = "Öffnen…";
+"DOCUMENT_LIST_OPEN" = "Öffnen …";
 "DOCUMENT_LIST_NEW" = "Neu";
-"DOCUMENT_LIST_CONNECT" = "Mit URL verbinden…";
+"DOCUMENT_LIST_CONNECT" = "Mit URL verbinden …";
 "DOCUMENT_LIST_RECENT_TOGGLE" = "Benutzte Dokumente";
-"DOCUMENT_LIST_MORE" = "Weitere anzeigen";
+"DOCUMENT_LIST_MORE" = "Weitere anzeigen …";
 "DOCUMENT_LIST_CONTEXT_MENU_OPEN" = "Öffnen";
+"DOCUMENT_LIST_CONTEXT_MENU_SHOW_IN_FINDER" = "Im Finder zeigen";
 "DOCUMENT_LIST_CONTEXT_MENU_COPY_URL" = "Verbindungs-URL kopieren";
 "DOCUMENT_LIST_CONTEXT_MENU_DISCONNECT" = "Verbindung trennen";
 "DOCUMENT_LIST_CONTEXT_MENU_CLEAR_RECENT" = "Einträge löschen";
@@ -996,7 +966,7 @@
 /* authentication script not installed error dialog */
 "AUTHENTICATION_SCRIPT_MISSING_ERROR_DESCRIPTION" = "Unterstützendes Authentifizierungs-Script konnte nicht gefunden werden.";
 "AUTHENTICATION_SCRIPT_MISSING_ERROR_SUGGESTION" = "Bitte führen sie das install Script im Terminal aus so wie in den erweiterten Einstellungen beschrieben.";
-"AUTHENTICATION_SCRIPT_MISSING_ERROR_BUTTON_TITLE1" = "Script anzeigen…";
+"AUTHENTICATION_SCRIPT_MISSING_ERROR_BUTTON_TITLE1" = "Script anzeigen …";
 "AUTHENTICATION_SCRIPT_MISSING_ERROR_BUTTON_TITLE2" = "Ignorieren";
 
 "SEEConnectionTaglineBonjour" = "Bonjour";
@@ -1040,7 +1010,7 @@
 "PROXY_WINDOW_DECLINE" = "Ablehnen";
 "PROXY_WINDOW_TITLE_INVITE" = "Einladung zu %@";
 "PROXY_WINDOW_TITLE_JOIN" = "Teilnehmen an %@";
-"PROXY_WINDOW_STATUS_WAIT_ANSWER" = "Warten auf Antwort…";
+"PROXY_WINDOW_STATUS_WAIT_ANSWER" = "Warten auf Antwort …";
 "PROXY_WINDOW_STATUS_DENIED" = "Teilnahme wurde abgelehnt.";
 "PROXY_WINDOW_STATUS_INVITE_CANCELED" = "Einladung wurde zurückgezogen.";
 "PROXY_WINDOW_STATUS_CONNECTION_LOST" = "Verbindung verloren.";

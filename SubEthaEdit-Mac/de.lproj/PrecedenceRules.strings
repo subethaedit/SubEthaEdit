@@ -1,0 +1,15 @@
+
+/* Class = "NSMenu"; title = "OtherViews"; ObjectID = "9"; */
+"9.title" = "OtherViews";
+
+/* Class = "NSMenuItem"; title = "Filename is"; ObjectID = "10"; */
+"10.title" = "Dateiname ist genau";
+
+/* Class = "NSMenuItem"; title = "Extension is"; ObjectID = "11"; */
+"11.title" = "Inhalt enthält";
+
+/* Class = "NSMenuItem"; title = "Content matches"; ObjectID = "12"; */
+"12.title" = "Erweiterung entspricht";
+
+/* Class = "NSMenuItem"; title = "Extension exactly is"; ObjectID = "13"; */
+"13.title" = "Erweiterung ist genau";

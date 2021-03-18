@@ -45,6 +45,10 @@
     [[DocumentModeManager sharedInstance] revalidatePrecedences];
 }
 
+- (IBAction)addRule:(id)sender {
+    [_preferenceController addUserRule:self];
+}
+
 - (IBAction)removeRule:(id)sender {
     [_preferenceController removeUserRule:self];
 }

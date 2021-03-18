@@ -22,7 +22,6 @@
 #import "PlainTextWindowControllerTabContext.h"
 #import "NSMenuTCMAdditions.h"
 #import "PlainTextLoadProgress.h"
-#import "URLBubbleWindow.h"
 #import "SEEParticipantsOverlayViewController.h"
 #import "SEEWebPreviewViewController.h"
 #import "FindAllController.h"
@@ -167,8 +166,8 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 - (void)documentDidLoseConnection:(PlainTextDocument *)document {
     PlainTextWindowControllerTabContext *tabContext = [self windowControllerTabContextForDocument:document];
     if (tabContext) {
-        [tabContext setValue:[NSNumber numberWithBool:NO] forKeyPath:@"isReceivingContent"];
-        [tabContext setValue:[NSNumber numberWithBool:NO] forKeyPath:@"isProcessing"];
+        [tabContext setValue:@NO forKeyPath:@"isReceivingContent"];
+        [tabContext setValue:@NO forKeyPath:@"isProcessing"];
         PlainTextLoadProgress *loadProgress = [tabContext loadProgress];
         [loadProgress stopAnimation];
         [loadProgress setStatusText:NSLocalizedString(@"Did lose Connection!", @"Text in Proxy window")];
@@ -245,7 +244,8 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 	if (selector == @selector(toggleWrap:) ||
 		selector == @selector(toggleTopStatusBar:) ||
 		selector == @selector(toggleShowsChangeMarks:) ||
-		selector == @selector(toggleShowInvisibles:)) {
+		selector == @selector(toggleShowInvisibles:) ||
+        selector == @selector(toggleShowInconsistentIndentation:)){
 		return [self.activePlainTextEditor validateMenuItem:menuItem];
     } else if (selector ==@selector(toggleWebPreview:)) {
 		[menuItem setState:self.SEE_tabContext.hasWebPreviewSplit ? NSOnState : NSOffState];
@@ -386,6 +386,10 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     [[self activePlainTextEditor] toggleShowInvisibles:aSender];
 }
 
+- (IBAction)toggleShowInconsistentIndentation:(id)aSender {
+    [[self activePlainTextEditor] toggleShowInconsistentIndentation:aSender];
+}
+
 - (IBAction)toggleShowsChangeMarks:(id)aSender {
     [[self activePlainTextEditor] toggleShowsChangeMarks:aSender];
 }
@@ -501,7 +505,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     
     NSUInteger requests;
     if ((requests=[[[self.plainTextDocument session] pendingUsers] count])>0) {
-        displayName=[displayName stringByAppendingFormat:@" (%@)", [NSString stringWithFormat:NSLocalizedString(@"%d pending", @"Pending Users Display in Menu Title Bar"), requests]];
+        displayName=[displayName stringByAppendingFormat:@" (%@)", [NSString stringWithFormat:NSLocalizedString(@"%lu pending", @"Pending Users Display in Menu Title Bar"), (unsigned long)requests]];
     }
 
     NSString *jobDescription = [self.plainTextDocument jobDescription];
@@ -906,8 +910,6 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     } else {
         
         [previouslySelectedDocument removeObserver:self forKeyPath:@"hasAlerts"];
-        
-        [[URLBubbleWindow sharedURLBubbleWindow] hideIfNecessary];
         
         NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
         if (previouslySelectedDocument) {

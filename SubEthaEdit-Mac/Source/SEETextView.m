@@ -349,7 +349,7 @@ static NSMenu *S_defaultMenu=nil;
         [[[NSColor selectedTextBackgroundColor] colorWithAlphaComponent:0.5] set];
         NSBezierPath *path=[NSBezierPath bezierPathWithRoundedRect:NSInsetRect(rect,5,5) xRadius:10.0 yRadius:10.0];
         [path setLineWidth:7.];
-        [path setLineJoinStyle:NSRoundLineJoinStyle];
+        [path setLineJoinStyle:NSLineJoinStyleRound];
         [path stroke];
     }
 }
@@ -423,9 +423,9 @@ static NSMenu *S_defaultMenu=nil;
     NSEventType type = [currentEvent type];
     if (currentEvent && (type==NSEventTypeLeftMouseDown || type==NSEventTypeLeftMouseUp)) {
         NSInteger clickCount = [currentEvent clickCount];
-        NSTextStorage *ts = [self textStorage];
-        NSRange wholeRange = NSMakeRange(0,[ts length]);
-        if (clickCount == 3) {
+        if (clickCount == 4) {
+            NSTextStorage *ts = [self textStorage];
+            NSRange wholeRange = NSMakeRange(0,[ts length]);
             NSRange lineRange = [[ts string] lineRangeForRange:proposedSelRange];
 
 			// select area that belongs to a style
@@ -438,8 +438,6 @@ static NSMenu *S_defaultMenu=nil;
                 [ts attribute:kSyntaxHighlightingScopenameAttributeName atIndex:index longestEffectiveRange:&resultRange inRange:wholeRange];
                 return RangeConfinedToRange(resultRange,lineRange);
             }
-        } else if (clickCount >= 5) {
-            return wholeRange;
         }
     }
     return [super selectionRangeForProposedRange:proposedSelRange granularity:granularity];
@@ -779,7 +777,7 @@ static NSMenu *S_defaultMenu=nil;
 	NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
 	BOOL isRichText = [self isRichText];
 	
-	[pasteboard declareTypes:(isRichText ? [NSArray arrayWithObjects:NSRTFDPboardType,NSRTFPboardType,nil] : [NSArray arrayWithObjects:NSStringPboardType,nil]) owner:nil];
+    [pasteboard declareTypes:(isRichText ? [NSArray arrayWithObjects:NSPasteboardTypeRTFD,NSPasteboardTypeRTF,nil] : [NSArray arrayWithObjects:NSPasteboardTypeString,nil]) owner:nil];
 	
 	if (isRichText) {
 		id textStorage = [self textStorage];
@@ -795,21 +793,21 @@ static NSMenu *S_defaultMenu=nil;
 		NSAttributedString *foldingIconString = [NSAttributedString attributedStringWithAttachment:foldingIconAttachment];
         NSAttributedString *foldingIconReplacementString = [[NSAttributedString alloc] initWithURL:[[NSBundle mainBundle] URLForResource:@"FoldingBubbleText" withExtension:@"rtf"] options:@{} documentAttributes:nil error:NULL];
 		[mutableString replaceAttachmentsWithAttributedString:foldingIconString];
-		[pasteboard setData:[mutableString RTFDFromRange:[mutableString TCM_fullLengthRange] documentAttributes:@{}] forType:NSRTFDPboardType];
+        [pasteboard setData:[mutableString RTFDFromRange:[mutableString TCM_fullLengthRange] documentAttributes:@{}] forType:NSPasteboardTypeRTFD];
 		[mutableString replaceAttachmentsWithAttributedString:foldingIconReplacementString];
-		[pasteboard setData:[mutableString  RTFFromRange:[mutableString TCM_fullLengthRange] documentAttributes:@{}] forType:NSRTFPboardType];
+        [pasteboard setData:[mutableString  RTFFromRange:[mutableString TCM_fullLengthRange] documentAttributes:@{}] forType:NSPasteboardTypeRTF];
 	} else {
-		[self writeSelectionToPasteboard:pasteboard type:NSStringPboardType];
+        [self writeSelectionToPasteboard:pasteboard type:NSPasteboardTypeString];
 	}
 }
 
 - (NSArray *)writablePasteboardTypes {
-	NSArray *result = [NSArray arrayWithObject:NSStringPboardType];
+    NSArray *result = [NSArray arrayWithObject:NSPasteboardTypeString];
 	return result;
 }
 
 - (BOOL)writeSelectionToPasteboard:(NSPasteboard *)pasteboard type:(NSString *)type {
-	if ([type isEqualToString:NSStringPboardType]) {
+    if ([type isEqualToString:NSPasteboardTypeString]) {
 		NSRange selectedRange = [self selectedRange];
 		if (selectedRange.length == 0) return NO;
 		
@@ -819,7 +817,7 @@ static NSMenu *S_defaultMenu=nil;
 			textStorage = [textStorage fullTextStorage];
 		}
 		
-		[pasteboard setString:[[textStorage string] substringWithRange:selectedRange] forType:NSStringPboardType];		
+        [pasteboard setString:[[textStorage string] substringWithRange:selectedRange] forType:NSPasteboardTypeString];		
 		return YES;
 	}
 	return NO;
