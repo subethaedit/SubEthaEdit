@@ -7,9 +7,41 @@
 
 #import <UniversalDetector/UniversalDetector.h>
 
+#import "EncodingManager.h"
+#import "UKXattrMetadataStore.h"
+
 @implementation SEEStringEncodingHelper
 
 + (NSStringEncoding)bestGuessStringEncodingForFileAtURL:(NSURL *)url error:(NSError **)error data:(NSData **)outData {
+    // first things first, try xattrs
+    NSString *encodingXattrKey = @"com.apple.TextEncoding";
+    NSString *xattrEncoding = [UKXattrMetadataStore stringForKey:encodingXattrKey atPath:[url path] traverseLink:YES];
+    if (xattrEncoding) {
+        __auto_type elements = [xattrEncoding componentsSeparatedByString:@";"];
+        NSStringEncoding xEncoding = NoStringEncoding;
+        if (elements.count > 0) {
+            // test first part if its an IANA encoding
+            NSString *ianaEncodingString = elements[0];
+            if ([ianaEncodingString length]>0) {
+                CFStringEncoding cfEncoding = CFStringConvertIANACharSetNameToEncoding((__bridge CFStringRef)ianaEncodingString);
+                if (cfEncoding != kCFStringEncodingInvalidId) {
+                    xEncoding = CFStringConvertEncodingToNSStringEncoding(cfEncoding);
+                }
+            }
+            if (xEncoding == NoStringEncoding && elements.count>1) {
+                NSScanner *scanner = [NSScanner scannerWithString:elements[1]];
+                int scannedCFEncoding = 0;
+                if ([scanner scanInt:&scannedCFEncoding]) {
+                    xEncoding = CFStringConvertEncodingToNSStringEncoding(scannedCFEncoding);
+                }
+            }
+            
+            if (xEncoding != NoStringEncoding) {
+                return xEncoding;
+            }
+        }
+    }
+    
     NSData *data = [NSData dataWithContentsOfURL:url options:0 error:error];
     if (outData && data) {
         *outData = data;
