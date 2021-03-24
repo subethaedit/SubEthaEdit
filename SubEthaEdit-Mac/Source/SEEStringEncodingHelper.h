@@ -14,4 +14,6 @@
 
 // temporary
 + (NSStringEncoding)universalDetectorStringEncodingForData:(NSData *)contentData;
++ (void)writeStringEncoding:(NSStringEncoding)encoding toXattrsOfURL:(NSURL *)url;
+
 @end

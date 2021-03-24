@@ -10,7 +10,49 @@
 
 #import <UniversalDetector/UniversalDetector.h>
 
+@interface DataTests ()
+@property (class, nonatomic, strong) NSURL *tmpTestFileDir;
+@end
+
 @implementation DataTests
+
+static NSURL *S_tmpTestFileDir;
++ (void)setTmpTestFileDir:(NSURL *)tmpTestFileDir {
+    S_tmpTestFileDir = tmpTestFileDir;
+}
+
++ (NSURL *)tmpTestFileDir {
+    return S_tmpTestFileDir;
+}
+
++ (void)setUp {
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSBundle *bundle = [NSBundle bundleForClass:self];
+
+    NSError *error;
+    NSURL *tmpURL = [fm URLForDirectory:NSItemReplacementDirectory inDomain:NSUserDomainMask appropriateForURL:[bundle resourceURL] create:YES error:&error];
+    [self setTmpTestFileDir:tmpURL];
+    
+    // copy over the test file to the tmp location
+    NSString *subdir = @"EncodingDetection";
+    NSURL *testFilesSrc = [bundle URLForResource:subdir withExtension:@"" subdirectory:@"TestFiles"];
+    NSLog(@"%s %@", __PRETTY_FUNCTION__, testFilesSrc);
+    
+    NSURL *encodingDir = [tmpURL URLByAppendingPathComponent:subdir];
+    [fm copyItemAtURL:testFilesSrc toURL:encodingDir error:&error];
+    
+    // ensure metadata on bomless utf16 files
+    NSURL *leURL = [encodingDir URLByAppendingPathComponent:@"utf-16le-nobom_test1.txt"];
+    NSURL *beURL = [encodingDir URLByAppendingPathComponent:@"utf-16be-nobom_test1.txt"];
+    [SEEStringEncodingHelper writeStringEncoding:NSUTF16BigEndianStringEncoding toXattrsOfURL:beURL];
+    [SEEStringEncodingHelper writeStringEncoding:NSUTF16LittleEndianStringEncoding toXattrsOfURL:leURL];
+}
+
++ (void)tearDown {
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSError *error;
+    [fm removeItemAtURL:[self tmpTestFileDir] error:&error];
+}
 
 - (void)setUp {}
 
@@ -77,7 +119,7 @@
 }
 
 - (void)testEncodingDetection {
-    NSURL *testFileDirURL = [[NSBundle bundleForClass:self.class] URLForResource:@"EncodingDetection" withExtension:nil subdirectory:@"TestFiles"];
+    NSURL *testFileDirURL = [[self.class tmpTestFileDir] URLByAppendingPathComponent:@"EncodingDetection"];
     
     __auto_type dir = [[NSFileManager defaultManager] enumeratorAtURL:testFileDirURL includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles | NSDirectoryEnumerationSkipsSubdirectoryDescendants errorHandler:^BOOL(NSURL *url, NSError *error) {
         NSLog(@"%s, failed: %@, %@",__FUNCTION__,url,error);
@@ -98,7 +140,7 @@
         XCTAssertTrue([fileName hasPrefix:ianaName], @"File:%@ %@ - %@", fileName, ianaName, [SEEStringEncodingHelper debugDescriptionForStringEncoding:encoding]);
 
         /* code to run against the universal detector until we remove it
-*/
+
         NSLog(@"File:%@ Encoding:%@ Error:%@", fileName, [SEEStringEncodingHelper debugDescriptionForStringEncoding:encoding], error);
         if (fileData) {
             NSStringEncoding udEncoding = [SEEStringEncodingHelper universalDetectorStringEncodingForData:fileData];

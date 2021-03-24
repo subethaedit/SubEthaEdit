@@ -76,10 +76,21 @@
     NSData *checkData = contentData;
     [detector analyzeData:checkData];
     udEncoding = [detector encoding];
-    float confidence = [detector confidence];
+//    float confidence = [detector confidence];
 //    NSLog(@"UD: Encoding:%@ confidence:%f", [SEEStringEncodingHelper debugDescriptionForStringEncoding:udEncoding], confidence);
     return udEncoding;
 }
 
++ (void)writeStringEncoding:(NSStringEncoding)encoding toXattrsOfURL:(NSURL *)url {
+    // write the xtended attribute for encoding
+    CFStringEncoding cfEncoding = CFStringConvertNSStringEncodingToEncoding(encoding);
+    CFStringRef encodingIANACharSetName = CFStringConvertEncodingToIANACharSetName(cfEncoding);
+    NSString *encodingMetadata = [NSString stringWithFormat:@"%@;%u", encodingIANACharSetName, (unsigned int)cfEncoding];
+    
+    [UKXattrMetadataStore setString:encodingMetadata
+                             forKey:@"com.apple.TextEncoding"
+                             atPath:url.path
+                       traverseLink:YES];
+}
 
 @end
