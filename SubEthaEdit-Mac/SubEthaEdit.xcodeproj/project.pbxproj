@@ -218,13 +218,10 @@
 		5E28E2900972FB8E00099B13 /* InsetTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E28E28E0972FB8E00099B13 /* InsetTextFieldCell.m */; };
 		5E4DA73D09E15C6800D91CFC /* Scripts in Resources */ = {isa = PBXBuildFile; fileRef = 5E4DA73A09E15C6800D91CFC /* Scripts */; };
 		5E57298F09F514FB00D3746B /* Toolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E57298D09F514FB00D3746B /* Toolbar.m */; };
-		5E67DB1A0ABF0DEA0013562D /* NSDataTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891220957457500D14688 /* NSDataTCMAdditions.m */; };
 		5E685D5309D82BBB00E41973 /* NSAppleScriptTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E685D5109D82BBB00E41973 /* NSAppleScriptTCMAdditions.m */; };
 		5E685DB409D8438800E41973 /* NSMenuTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E685DB209D8438800E41973 /* NSMenuTCMAdditions.m */; };
 		5E754EA40AB5648F00C5119E /* SEEEncodingDoctorDialogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E754EA20AB5648F00C5119E /* SEEEncodingDoctorDialogViewController.m */; };
 		5EA1258A09E2B4190055965D /* ScriptWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EA1258809E2B4190055965D /* ScriptWrapper.m */; };
-		5EC638360ABEB88B00D3295B /* DataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC638350ABEB88B00D3295B /* DataTests.m */; };
-		5EC638460ABEBE5900D3295B /* TCMBencodingUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428912B0957457500D14688 /* TCMBencodingUtilities.m */; };
 		5EDD30000A08D71D0036E63A /* ScriptTextSelection.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD2FFE0A08D71D0036E63A /* ScriptTextSelection.m */; };
 		5EDD30100A091BD60036E63A /* NSWindowScriptingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD300E0A091BD60036E63A /* NSWindowScriptingAdditions.m */; };
 		5EDD304F0A092AA50036E63A /* ScriptTextBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD304D0A092AA50036E63A /* ScriptTextBase.m */; };
@@ -247,6 +244,9 @@
 		F21379212191CB2C00C74681 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2EFDE3921760E5B00B5A4DD /* Sparkle.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		F214C1DB18BE180300908826 /* NSObject+TCMArcLifecycleAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F214C1DA18BE180300908826 /* NSObject+TCMArcLifecycleAdditions.m */; };
 		F2164BE818F6CD19002414FB /* SEESplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2164BE718F6CD19002414FB /* SEESplitView.m */; };
+		F21BFB3C2603771600C4578C /* DataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F21BFB3A2603771600C4578C /* DataTests.m */; };
+		F21BFB442603797200C4578C /* TestFiles in Resources */ = {isa = PBXBuildFile; fileRef = F21BFB432603797200C4578C /* TestFiles */; };
+		F21BFB4926037D5E00C4578C /* SEEStringEncodingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = F21BFB4826037D5E00C4578C /* SEEStringEncodingHelper.m */; };
 		F21DAFE618BB75E1002B3C41 /* SEEFindAndReplaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F21DAFE518BB75E1002B3C41 /* SEEFindAndReplaceViewController.m */; };
 		F22024BF191D0BFE0098982C /* ParticipantFollowStatusOn.png in Resources */ = {isa = PBXBuildFile; fileRef = F220249D191D0BFE0098982C /* ParticipantFollowStatusOn.png */; };
 		F22024C0191D0BFE0098982C /* ParticipantFollowStatusOn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F220249E191D0BFE0098982C /* ParticipantFollowStatusOn@2x.png */; };
@@ -385,20 +385,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		4C72F9161951B78700C4C6E3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8D15AC270486D014006FF6A4;
-			remoteInfo = SubEthaEdit;
-		};
-		4C72F9191951B78700C4C6E3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8D15AC270486D014006FF6A4;
-			remoteInfo = SubEthaEdit;
-		};
 		5EC638300ABEB78000D3295B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -893,10 +879,7 @@
 		5E754EA20AB5648F00C5119E /* SEEEncodingDoctorDialogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEEncodingDoctorDialogViewController.m; sourceTree = "<group>"; };
 		5EA1258709E2B4190055965D /* ScriptWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ScriptWrapper.h; sourceTree = "<group>"; };
 		5EA1258809E2B4190055965D /* ScriptWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScriptWrapper.m; sourceTree = "<group>"; };
-		5EC6382A0ABEB71100D3295B /* Unit Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Unit Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		5EC6382B0ABEB71100D3295B /* Unit Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Unit Tests-Info.plist"; sourceTree = "<group>"; };
-		5EC638340ABEB88B00D3295B /* DataTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = DataTests.h; path = Tests/DataTests.h; sourceTree = "<group>"; };
-		5EC638350ABEB88B00D3295B /* DataTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DataTests.m; path = Tests/DataTests.m; sourceTree = "<group>"; };
+		5EC6382A0ABEB71100D3295B /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5EDD2FFD0A08D71D0036E63A /* ScriptTextSelection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ScriptTextSelection.h; sourceTree = "<group>"; };
 		5EDD2FFE0A08D71D0036E63A /* ScriptTextSelection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScriptTextSelection.m; sourceTree = "<group>"; };
 		5EDD300D0A091BD60036E63A /* NSWindowScriptingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NSWindowScriptingAdditions.h; sourceTree = "<group>"; };
@@ -926,6 +909,12 @@
 		F214C1DA18BE180300908826 /* NSObject+TCMArcLifecycleAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+TCMArcLifecycleAdditions.m"; sourceTree = "<group>"; };
 		F2164BE618F6CD19002414FB /* SEESplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEESplitView.h; sourceTree = "<group>"; };
 		F2164BE718F6CD19002414FB /* SEESplitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEESplitView.m; sourceTree = "<group>"; };
+		F21BFB3A2603771600C4578C /* DataTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataTests.m; sourceTree = "<group>"; };
+		F21BFB3B2603771600C4578C /* DataTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataTests.h; sourceTree = "<group>"; };
+		F21BFB3F2603775000C4578C /* SubEthaEditTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SubEthaEditTests-Info.plist"; sourceTree = "<group>"; };
+		F21BFB432603797200C4578C /* TestFiles */ = {isa = PBXFileReference; lastKnownFileType = folder; path = TestFiles; sourceTree = "<group>"; };
+		F21BFB4726037D5E00C4578C /* SEEStringEncodingHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEEStringEncodingHelper.h; sourceTree = "<group>"; };
+		F21BFB4826037D5E00C4578C /* SEEStringEncodingHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEEStringEncodingHelper.m; sourceTree = "<group>"; };
 		F21DAFE418BB75E1002B3C41 /* SEEFindAndReplaceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEFindAndReplaceViewController.h; sourceTree = "<group>"; };
 		F21DAFE518BB75E1002B3C41 /* SEEFindAndReplaceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEFindAndReplaceViewController.m; sourceTree = "<group>"; };
 		F220249D191D0BFE0098982C /* ParticipantFollowStatusOn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ParticipantFollowStatusOn.png; sourceTree = "<group>"; };
@@ -1619,7 +1608,7 @@
 			isa = PBXGroup;
 			children = (
 				8D15AC370486D014006FF6A4 /* SubEthaEdit.app */,
-				5EC6382A0ABEB71100D3295B /* Unit Tests.xctest */,
+				5EC6382A0ABEB71100D3295B /* Tests.xctest */,
 				F2B6CCC20EE9C6390077417E /* SeeTextImporter.mdimporter */,
 				F2D86C1F0F8E7E2A00B912A2 /* SubEthaPerf.app */,
 			);
@@ -1632,7 +1621,7 @@
 				4CF06A621816D6D300B35DF8 /* SubEthaEdit.entitlements */,
 				4CAA423618157A4C00457B2A /* Configuration */,
 				F2256A25216358910011D17F /* Sources */,
-				5EC638450ABEBE2C00D3295B /* Unit Tests */,
+				F21BFB392603771600C4578C /* Tests */,
 				2A37F4AFFDCFA73011CA2CEA /* Other Sources */,
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
 				F28A041A2174D8090056B45D /* Sparkle */,
@@ -1909,16 +1898,6 @@
 			name = Dialogs;
 			sourceTree = "<group>";
 		};
-		5EC638450ABEBE2C00D3295B /* Unit Tests */ = {
-			isa = PBXGroup;
-			children = (
-				5EC6382B0ABEB71100D3295B /* Unit Tests-Info.plist */,
-				5EC638340ABEB88B00D3295B /* DataTests.h */,
-				5EC638350ABEB88B00D3295B /* DataTests.m */,
-			);
-			name = "Unit Tests";
-			sourceTree = "<group>";
-		};
 		5EDD2FFC0A08D69F0036E63A /* Scripting */ = {
 			isa = PBXGroup;
 			children = (
@@ -1942,6 +1921,25 @@
 				14E2944F0A0CBFB0007C0065 /* SelectCommand.m */,
 			);
 			name = Scripting;
+			sourceTree = "<group>";
+		};
+		F21BFB392603771600C4578C /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				F21BFB412603795B00C4578C /* Resources */,
+				F21BFB3F2603775000C4578C /* SubEthaEditTests-Info.plist */,
+				F21BFB3A2603771600C4578C /* DataTests.m */,
+				F21BFB3B2603771600C4578C /* DataTests.h */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		F21BFB412603795B00C4578C /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F21BFB432603797200C4578C /* TestFiles */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		F21DAFE318BB7591002B3C41 /* Find and Replace */ = {
@@ -2015,6 +2013,8 @@
 				F281D3900F3877A900AD7DE1 /* FoldedTextAttachment.m */,
 				F281D4350F388A0B00AD7DE1 /* FoldingTextAttachmentCell.h */,
 				F281D4360F388A0B00AD7DE1 /* FoldingTextAttachmentCell.m */,
+				F21BFB4726037D5E00C4578C /* SEEStringEncodingHelper.h */,
+				F21BFB4826037D5E00C4578C /* SEEStringEncodingHelper.m */,
 			);
 			name = TextSystem;
 			sourceTree = "<group>";
@@ -2130,9 +2130,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		5EC638290ABEB71100D3295B /* Unit Tests */ = {
+		5EC638290ABEB71100D3295B /* SubEthaEdit-Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5EC6382D0ABEB71200D3295B /* Build configuration list for PBXNativeTarget "Unit Tests" */;
+			buildConfigurationList = 5EC6382D0ABEB71200D3295B /* Build configuration list for PBXNativeTarget "SubEthaEdit-Tests" */;
 			buildPhases = (
 				5EC638250ABEB71100D3295B /* Resources */,
 				5EC638260ABEB71100D3295B /* Sources */,
@@ -2142,12 +2142,10 @@
 			);
 			dependencies = (
 				5EC638310ABEB78000D3295B /* PBXTargetDependency */,
-				4C72F9171951B78700C4C6E3 /* PBXTargetDependency */,
-				4C72F91A1951B78700C4C6E3 /* PBXTargetDependency */,
 			);
-			name = "Unit Tests";
+			name = "SubEthaEdit-Tests";
 			productName = "Unit Tests";
-			productReference = 5EC6382A0ABEB71100D3295B /* Unit Tests.xctest */;
+			productReference = 5EC6382A0ABEB71100D3295B /* Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		8D15AC270486D014006FF6A4 /* SubEthaEdit */ = {
@@ -2203,7 +2201,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = SEE;
-				LastUpgradeCheck = 1220;
+				LastUpgradeCheck = 1240;
 				ORGANIZATIONNAME = "SubEthaEdit Contributors";
 				TargetAttributes = {
 					5EC638290ABEB71100D3295B = {
@@ -2247,7 +2245,7 @@
 			projectRoot = "";
 			targets = (
 				8D15AC270486D014006FF6A4 /* SubEthaEdit */,
-				5EC638290ABEB71100D3295B /* Unit Tests */,
+				5EC638290ABEB71100D3295B /* SubEthaEdit-Tests */,
 				F2D86C1E0F8E7E2A00B912A2 /* SubEthaPerf */,
 			);
 		};
@@ -2282,6 +2280,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F21BFB442603797200C4578C /* TestFiles in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2471,9 +2470,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5EC638360ABEB88B00D3295B /* DataTests.m in Sources */,
-				5EC638460ABEBE5900D3295B /* TCMBencodingUtilities.m in Sources */,
-				5E67DB1A0ABF0DEA0013562D /* NSDataTCMAdditions.m in Sources */,
+				F21BFB3C2603771600C4578C /* DataTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2615,6 +2612,7 @@
 				4C123005180C01EF0069253E /* TCMBEEPMessageXMLPayloadParser.m in Sources */,
 				3D83EDB4257835AE004288B2 /* SEEDividerListItem.m in Sources */,
 				14E291C70A07A501007C0065 /* ScriptLine.m in Sources */,
+				F21BFB4926037D5E00C4578C /* SEEStringEncodingHelper.m in Sources */,
 				14E291EA0A07B480007C0065 /* ScriptCharacters.m in Sources */,
 				5EDD30000A08D71D0036E63A /* ScriptTextSelection.m in Sources */,
 				5EDD30100A091BD60036E63A /* NSWindowScriptingAdditions.m in Sources */,
@@ -2726,16 +2724,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		4C72F9171951B78700C4C6E3 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8D15AC270486D014006FF6A4 /* SubEthaEdit */;
-			targetProxy = 4C72F9161951B78700C4C6E3 /* PBXContainerItemProxy */;
-		};
-		4C72F91A1951B78700C4C6E3 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8D15AC270486D014006FF6A4 /* SubEthaEdit */;
-			targetProxy = 4C72F9191951B78700C4C6E3 /* PBXContainerItemProxy */;
-		};
 		5EC638310ABEB78000D3295B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8D15AC270486D014006FF6A4 /* SubEthaEdit */;
@@ -3007,14 +2995,14 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Cocoa.framework/Headers/Cocoa.h";
-				INFOPLIST_FILE = "Unit Tests-Info.plist";
+				INFOPLIST_FILE = "Tests/SubEthaEditTests-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Cocoa,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "de.codingmonkeys.SubEthaEdit${TCM_APP_STYLE}.UnitTests";
-				PRODUCT_NAME = "Unit Tests";
+				PRODUCT_NAME = Tests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				ZERO_LINK = NO;
 			};
@@ -3036,14 +3024,14 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Cocoa.framework/Headers/Cocoa.h";
-				INFOPLIST_FILE = "Unit Tests-Info.plist";
+				INFOPLIST_FILE = "Tests/SubEthaEditTests-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Cocoa,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "de.codingmonkeys.SubEthaEdit${TCM_APP_STYLE}.UnitTests";
-				PRODUCT_NAME = "Unit Tests";
+				PRODUCT_NAME = Tests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				ZERO_LINK = NO;
 			};
@@ -3261,7 +3249,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5EC6382D0ABEB71200D3295B /* Build configuration list for PBXNativeTarget "Unit Tests" */ = {
+		5EC6382D0ABEB71200D3295B /* Build configuration list for PBXNativeTarget "SubEthaEdit-Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5EC6382E0ABEB71200D3295B /* Debug */,

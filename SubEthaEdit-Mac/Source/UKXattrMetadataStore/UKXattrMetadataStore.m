@@ -58,8 +58,12 @@
           forKey:(NSString*)key
           atPath:(NSString*)path
     traverseLink:(BOOL)travLnk {
+    int result =
   setxattr([path fileSystemRepresentation], [key UTF8String], [data bytes],
            [data length], 0, (travLnk ? 0 : XATTR_NOFOLLOW));
+    if (result != 0) {
+        NSLog(@"%s failed %@ errno:%d", __PRETTY_FUNCTION__,path, errno);
+    }
 }
 
 + (void)removeDataForKey:(NSString*)key
