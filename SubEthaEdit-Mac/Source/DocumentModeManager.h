@@ -5,32 +5,14 @@
 
 #import <Cocoa/Cocoa.h>
 #import "DocumentMode.h"
+#import "DocumentModePopUpButton.h"
+#import "DocumentModeMenu.h"
 #import "SEEStyleSheet.h"
 
 //#define MODE_EXTENSION [[NSWorkspace sharedWorkspace] preferredFilenameExtensionForType:@"de.codingmonkeys.subethaedit.seemode"]
 #define MODE_EXTENSION @"seemode"
 #define BASEMODEIDENTIFIER @"SEEMode.Base"
 #define AUTOMATICMODEIDENTIFIER @"SEEMode.Automatic"
-
-
-@interface DocumentModePopUpButton : NSPopUpButton {
-    BOOL I_automaticMode;
-}
-
-- (void)setHasAutomaticMode:(BOOL)aFlag;
-- (DocumentMode *)selectedMode;
-- (void)setSelectedMode:(DocumentMode *)aMode;
-- (NSString *)selectedModeIdentifier;
-- (void)setSelectedModeIdentifier:(NSString *)aModeIdentifier;
-- (void)documentModeListChanged:(NSNotification *)notification;
-@end
-
-@interface DocumentModeMenu : NSMenu {
-    SEL I_action;
-    BOOL I_alternateDisplay;
-}
-- (void)configureWithAction:(SEL)aSelector alternateDisplay:(BOOL)aFlag;
-@end
 
 @interface DocumentModeManager : NSObject <NSAlertDelegate> {
     NSMutableDictionary *I_modeBundles;
@@ -81,5 +63,10 @@
 - (IBAction)reloadDocumentModes:(id)aSender;
 - (void)revealModeInFinder:(DocumentMode *)aMode jumpIntoContentFolder:(BOOL)aJumpIntoContentFolder;
 - (NSURL *)urlForWritingModeWithName:(NSString *)aModeName;
+@end
 
+// Private additions
+@interface DocumentModeManager ()
+- (void)setupMenu:(NSMenu *)aMenu action:(SEL)aSelector alternateDisplay:(BOOL)aFlag;
+- (void)setupPopUp:(DocumentModePopUpButton *)aPopUp selectedModeIdentifier:(NSString *)aModeIdentifier automaticMode:(BOOL)hasAutomaticMode;
 @end

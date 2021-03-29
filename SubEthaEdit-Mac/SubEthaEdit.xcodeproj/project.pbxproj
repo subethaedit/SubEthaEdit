@@ -302,6 +302,10 @@
 		F264AA0F25593F9C00A5232A /* ChangeLog.md in Resources */ = {isa = PBXBuildFile; fileRef = F264AA0C25593F9C00A5232A /* ChangeLog.md */; };
 		F26B7D880CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F26B7D850CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m */; };
 		F27C4DC5192FA2A800B5DB3C /* SEEHoverTableRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = F27C4DC4192FA2A800B5DB3C /* SEEHoverTableRowView.m */; };
+		F27D85982611FB1C001DD31E /* Modes in Resources */ = {isa = PBXBuildFile; fileRef = 1428904A0957427100D14688 /* Modes */; };
+		F27D859D2611FB59001DD31E /* SEEModeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F27D859C2611FB59001DD31E /* SEEModeTests.m */; };
+		F27D85A12611FD6C001DD31E /* DocumentModePopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F27D85A02611FD6C001DD31E /* DocumentModePopUpButton.m */; };
+		F27D85A52611FDE6001DD31E /* DocumentModeMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = F27D85A42611FDE6001DD31E /* DocumentModeMenu.m */; };
 		F27EDD17216BC49A00987579 /* SubEthaEdit_AuthenticatedSave.scpt in Copy Command Line Tools */ = {isa = PBXBuildFile; fileRef = F27EDD10216BC3AD00987579 /* SubEthaEdit_AuthenticatedSave.scpt */; };
 		F27EDD1E216BD8F800987579 /* install.command in Copy Command Line Tools */ = {isa = PBXBuildFile; fileRef = F27EDD1A216BD8F500987579 /* install.command */; };
 		F27EDD56216E6DEC00987579 /* NSAppearanceSEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F27EDD55216E6DEC00987579 /* NSAppearanceSEEAdditions.m */; };
@@ -999,6 +1003,11 @@
 		F26B7D850CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSBezierPathTCMAdditions.m; sourceTree = "<group>"; };
 		F27C4DC3192FA2A800B5DB3C /* SEEHoverTableRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEHoverTableRowView.h; sourceTree = "<group>"; };
 		F27C4DC4192FA2A800B5DB3C /* SEEHoverTableRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEHoverTableRowView.m; sourceTree = "<group>"; };
+		F27D859C2611FB59001DD31E /* SEEModeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEEModeTests.m; sourceTree = "<group>"; };
+		F27D859F2611FD6C001DD31E /* DocumentModePopUpButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DocumentModePopUpButton.h; sourceTree = "<group>"; };
+		F27D85A02611FD6C001DD31E /* DocumentModePopUpButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DocumentModePopUpButton.m; sourceTree = "<group>"; };
+		F27D85A32611FDE6001DD31E /* DocumentModeMenu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DocumentModeMenu.h; sourceTree = "<group>"; };
+		F27D85A42611FDE6001DD31E /* DocumentModeMenu.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DocumentModeMenu.m; sourceTree = "<group>"; };
 		F27EDD10216BC3AD00987579 /* SubEthaEdit_AuthenticatedSave.scpt */ = {isa = PBXFileReference; lastKnownFileType = file; name = SubEthaEdit_AuthenticatedSave.scpt; path = Resources/SharedSupport/SubEthaEdit_AuthenticatedSave.scpt; sourceTree = "<group>"; };
 		F27EDD1A216BD8F500987579 /* install.command */ = {isa = PBXFileReference; lastKnownFileType = text; name = install.command; path = Resources/SharedSupport/install.command; sourceTree = "<group>"; };
 		F27EDD54216E6DEC00987579 /* NSAppearanceSEEAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NSAppearanceSEEAdditions.h; path = Additions/NSAppearanceSEEAdditions.h; sourceTree = "<group>"; };
@@ -1446,7 +1455,11 @@
 				F2D56992133B880900CEC841 /* SEEStyleSheetSettings.m */,
 				142893B50957594500D14688 /* DocumentMode.h */,
 				142893B60957594500D14688 /* DocumentMode.m */,
+				F27D859F2611FD6C001DD31E /* DocumentModePopUpButton.h */,
+				F27D85A02611FD6C001DD31E /* DocumentModePopUpButton.m */,
 				142893B70957594500D14688 /* DocumentModeManager.h */,
+				F27D85A32611FDE6001DD31E /* DocumentModeMenu.h */,
+				F27D85A42611FDE6001DD31E /* DocumentModeMenu.m */,
 				142893B80957594500D14688 /* DocumentModeManager.m */,
 				311717F30A0E8C3600A9DA18 /* ModeSettings.h */,
 				311717F20A0E8C3600A9DA18 /* ModeSettings.m */,
@@ -1930,6 +1943,7 @@
 				F21BFB3F2603775000C4578C /* SubEthaEditTests-Info.plist */,
 				F21BFB3A2603771600C4578C /* DataTests.m */,
 				F21BFB3B2603771600C4578C /* DataTests.h */,
+				F27D859C2611FB59001DD31E /* SEEModeTests.m */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -2281,6 +2295,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F21BFB442603797200C4578C /* TestFiles in Resources */,
+				F27D85982611FB1C001DD31E /* Modes in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2470,6 +2485,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F27D859D2611FB59001DD31E /* SEEModeTests.m in Sources */,
 				F21BFB3C2603771600C4578C /* DataTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2529,6 +2545,7 @@
 				14289330095756D800D14688 /* TCMMMState.m in Sources */,
 				4C7F5E0B18D9D4C500F33CCD /* SEEScopedBookmarkManager.m in Sources */,
 				14289331095756D800D14688 /* TCMMMStatusProfile.m in Sources */,
+				F27D85A52611FDE6001DD31E /* DocumentModeMenu.m in Sources */,
 				14289332095756D800D14688 /* TCMMMTransformator.m in Sources */,
 				14289333095756D800D14688 /* TCMMMUser.m in Sources */,
 				F20AB87B1907C7C500444F4B /* SEEDebugImageGenerationWindowController.m in Sources */,
@@ -2598,6 +2615,7 @@
 				4C0B4C6118C8B3E300048335 /* SEEToggleRecentDocumentListItem.m in Sources */,
 				1428946B09575B9700D14688 /* SEETextView.m in Sources */,
 				F2308E6718E06FA00096E0C1 /* SEEFindAndReplaceContext.m in Sources */,
+				F27D85A12611FD6C001DD31E /* DocumentModePopUpButton.m in Sources */,
 				1428946C09575B9700D14688 /* URLDataProtocol.m in Sources */,
 				4CE6C99D18AA905500AB45D1 /* SEEOverlayView.m in Sources */,
 				1428946D09575B9700D14688 /* SEEWebPreviewViewController.m in Sources */,
