@@ -30,8 +30,6 @@
 #pragma mark -
 
 #pragma mark
-static DocumentModeManager *S_sharedInstance=nil;
-
 @interface DocumentModeManager ()
 @property (nonatomic, strong) NSArray *allPathExtensions;
 @end
@@ -39,11 +37,8 @@ static DocumentModeManager *S_sharedInstance=nil;
 @implementation DocumentModeManager
 @synthesize changedScopeNameDict;
 
-+ (DocumentModeManager *)sharedInstance {
-    if (!S_sharedInstance) {
-        S_sharedInstance = [self new];
-    }
-    return S_sharedInstance;
++ (instancetype)sharedInstance {
+    return TCM_SINGLETON(DocumentModeManager);
 }
 
 + (DocumentMode *)baseMode {
@@ -73,32 +68,27 @@ static DocumentModeManager *S_sharedInstance=nil;
 
 #pragma mark
 - (instancetype)init {
-    if (S_sharedInstance) {
-        self = S_sharedInstance;
-    } else {
-        self = [super init];
-        if (self) {
-            I_modeBundles=[NSMutableDictionary new];
-            
-            I_styleSheetPathsByName = [NSMutableDictionary new];
-            I_styleSheetsByName     = [NSMutableDictionary new];
-            
-            I_documentModesByIdentifier =[NSMutableDictionary new];
-            I_documentModesByName       = [NSMutableDictionary new];
-			I_documentModesByIdentifierLock = [NSRecursiveLock new]; // ifc - experimental locking... awaiting real fix from TCM
-            I_modeIdentifiersTagArray   =[NSMutableArray new];
-            [I_modeIdentifiersTagArray addObject:@"-"];
-            [I_modeIdentifiersTagArray addObject:AUTOMATICMODEIDENTIFIER];
-            [I_modeIdentifiersTagArray addObject:BASEMODEIDENTIFIER];
-			[self TCM_loadScopeNameChanges];
-            [self TCM_findStyles];
-            [self TCM_findModes];
-            [self setModePrecedenceArray:[self reloadPrecedences]];
-            [self revalidatePrecedences];
-            
-            // Preference Handling
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:nil];
-        }
+    if ((self = [super init])) {
+        I_modeBundles=[NSMutableDictionary new];
+        
+        I_styleSheetPathsByName = [NSMutableDictionary new];
+        I_styleSheetsByName     = [NSMutableDictionary new];
+        
+        I_documentModesByIdentifier =[NSMutableDictionary new];
+        I_documentModesByName       = [NSMutableDictionary new];
+        I_documentModesByIdentifierLock = [NSRecursiveLock new]; // ifc - experimental locking... awaiting real fix from TCM
+        I_modeIdentifiersTagArray   =[NSMutableArray new];
+        [I_modeIdentifiersTagArray addObject:@"-"];
+        [I_modeIdentifiersTagArray addObject:AUTOMATICMODEIDENTIFIER];
+        [I_modeIdentifiersTagArray addObject:BASEMODEIDENTIFIER];
+        [self TCM_loadScopeNameChanges];
+        [self TCM_findStyles];
+        [self TCM_findModes];
+        [self setModePrecedenceArray:[self reloadPrecedences]];
+        [self revalidatePrecedences];
+        
+        // Preference Handling
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:nil];
     }
     return self;
 }

@@ -900,6 +900,7 @@
 		9E9F58AC2319EC3C00E838D1 /* SEEAlertRecipe.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEEAlertRecipe.m; sourceTree = "<group>"; };
 		F2061D660B4C152600E6631F /* FirstClickCustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = FirstClickCustomView.h; sourceTree = "<group>"; };
 		F2061D670B4C152600E6631F /* FirstClickCustomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstClickCustomView.m; sourceTree = "<group>"; };
+		F2063CC62618C96200C004B0 /* TCMMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TCMMacros.h; path = TCMFoundation/TCMMacros.h; sourceTree = "<group>"; };
 		F20948B80C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = TCMMMLogStatisticsEntry.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		F20948B90C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TCMMMLogStatisticsEntry.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		F20AB8781907C7C500444F4B /* SEEDebugImageGenerationWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEDebugImageGenerationWindowController.h; sourceTree = "<group>"; };
@@ -1232,6 +1233,7 @@
 		142891160957452000D14688 /* TCMFoundation */ = {
 			isa = PBXGroup;
 			children = (
+				F2063CC62618C96200C004B0 /* TCMMacros.h */,
 				5E685D5009D82BBB00E41973 /* NSAppleScriptTCMAdditions.h */,
 				5E685D5109D82BBB00E41973 /* NSAppleScriptTCMAdditions.m */,
 				142891210957457500D14688 /* NSDataTCMAdditions.h */,
@@ -3095,7 +3097,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "${SEE_APP_IDENTIFIER_BASE}.Mac${TCM_APP_STYLE}${TCM_APP_IDENTIFER_SUFFIX}";
 				PRODUCT_NAME = "$(SEE_APP_PRODUCT_NAME)";
 				SKIP_INSTALL = NO;
-				WARNING_CFLAGS = "-Wunreachable-code";
+				WARNING_CFLAGS = (
+					"-Wunreachable-code",
+					"-Wcomment",
+				);
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -3140,7 +3145,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "${SEE_APP_IDENTIFIER_BASE}.Mac${TCM_APP_STYLE}${TCM_APP_IDENTIFER_SUFFIX}";
 				PRODUCT_NAME = "$(SEE_APP_PRODUCT_NAME)";
 				SKIP_INSTALL = NO;
-				WARNING_CFLAGS = "-Wunreachable-code";
+				WARNING_CFLAGS = (
+					"-Wunreachable-code",
+					"-Wcomment",
+				);
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

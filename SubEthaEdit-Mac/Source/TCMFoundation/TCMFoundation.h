@@ -3,6 +3,7 @@
 //
 //  Created by Martin Ott on Thu Mar 31 2005.
 
+#import "TCMMacros.h"
 #import "TCMDebug.h"
 #import "NSDateTCMAdditions.h"
 #import "NSDataTCMAdditions.h"
