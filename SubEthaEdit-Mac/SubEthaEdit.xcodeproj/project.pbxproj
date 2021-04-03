@@ -306,6 +306,7 @@
 		F27D859D2611FB59001DD31E /* SEEModeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F27D859C2611FB59001DD31E /* SEEModeTests.m */; };
 		F27D85A12611FD6C001DD31E /* DocumentModePopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F27D85A02611FD6C001DD31E /* DocumentModePopUpButton.m */; };
 		F27D85A52611FDE6001DD31E /* DocumentModeMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = F27D85A42611FDE6001DD31E /* DocumentModeMenu.m */; };
+		F27D87A72618C602003E69D5 /* TCMBencodingUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428912B0957457500D14688 /* TCMBencodingUtilities.m */; };
 		F27EDD17216BC49A00987579 /* SubEthaEdit_AuthenticatedSave.scpt in Copy Command Line Tools */ = {isa = PBXBuildFile; fileRef = F27EDD10216BC3AD00987579 /* SubEthaEdit_AuthenticatedSave.scpt */; };
 		F27EDD1E216BD8F800987579 /* install.command in Copy Command Line Tools */ = {isa = PBXBuildFile; fileRef = F27EDD1A216BD8F500987579 /* install.command */; };
 		F27EDD56216E6DEC00987579 /* NSAppearanceSEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F27EDD55216E6DEC00987579 /* NSAppearanceSEEAdditions.m */; };
@@ -2487,6 +2488,7 @@
 			files = (
 				F27D859D2611FB59001DD31E /* SEEModeTests.m in Sources */,
 				F21BFB3C2603771600C4578C /* DataTests.m in Sources */,
+				F27D87A72618C602003E69D5 /* TCMBencodingUtilities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2998,7 +3000,7 @@
 		5EC6382E0ABEB71200D3295B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SubEthaEdit.app/Contents/MacOS/SubEthaEdit";
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3021,7 +3023,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "de.codingmonkeys.SubEthaEdit${TCM_APP_STYLE}.UnitTests";
 				PRODUCT_NAME = Tests;
-				TEST_HOST = "$(BUNDLE_LOADER)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SubEthaEdit.app/Contents/MacOS/SubEthaEdit";
 				ZERO_LINK = NO;
 			};
 			name = Debug;
@@ -3029,7 +3031,7 @@
 		5EC6382F0ABEB71200D3295B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SubEthaEdit.app/Contents/MacOS/SubEthaEdit";
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3050,7 +3052,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "de.codingmonkeys.SubEthaEdit${TCM_APP_STYLE}.UnitTests";
 				PRODUCT_NAME = Tests;
-				TEST_HOST = "$(BUNDLE_LOADER)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SubEthaEdit.app/Contents/MacOS/SubEthaEdit";
 				ZERO_LINK = NO;
 			};
 			name = Release;
