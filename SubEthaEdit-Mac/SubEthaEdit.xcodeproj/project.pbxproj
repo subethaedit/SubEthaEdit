@@ -3097,10 +3097,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "${SEE_APP_IDENTIFIER_BASE}.Mac${TCM_APP_STYLE}${TCM_APP_IDENTIFER_SUFFIX}";
 				PRODUCT_NAME = "$(SEE_APP_PRODUCT_NAME)";
 				SKIP_INSTALL = NO;
-				WARNING_CFLAGS = (
-					"-Wunreachable-code",
-					"-Wcomment",
-				);
+				WARNING_CFLAGS = "-Wunreachable-code";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -3145,10 +3142,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "${SEE_APP_IDENTIFIER_BASE}.Mac${TCM_APP_STYLE}${TCM_APP_IDENTIFER_SUFFIX}";
 				PRODUCT_NAME = "$(SEE_APP_PRODUCT_NAME)";
 				SKIP_INSTALL = NO;
-				WARNING_CFLAGS = (
-					"-Wunreachable-code",
-					"-Wcomment",
-				);
+				WARNING_CFLAGS = "-Wunreachable-code";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

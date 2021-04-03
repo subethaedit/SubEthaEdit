@@ -3046,6 +3046,26 @@
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
+				<string>see5mode</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>file-mode</string>
+			<key>CFBundleTypeName</key>
+			<string>SubEthaEditMode5Type</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>de.codingmonkeys.subethaedit.see5mode</string>
+			</array>
+			<key>LSTypeIsPackage</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
 				<string>seetext</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
@@ -4393,6 +4413,24 @@
 				<key>public.filename-extension</key>
 				<array>
 					<string>seemode</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>com.apple.package</string>
+				<string>public.composite-content</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>SubEthaEditMode5Type</string>
+			<key>UTTypeIdentifier</key>
+			<string>de.codingmonkeys.subethaedit.see5mode</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>see5mode</string>
 				</array>
 			</dict>
 		</dict>

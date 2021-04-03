@@ -454,6 +454,12 @@ NSString * const DocumentModeFontNameSystemFontValue = @"_SEESystemMonoFont_";
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@: %p '%@'>",
+            NSStringFromClass(self.class), self,
+            self.documentModeIdentifier,
+            nil];
+}
 
 - (NSString *)documentModeIdentifier {
     return [[_bundle infoDictionary] objectForKey:@"CFBundleIdentifier"];

@@ -27,3 +27,6 @@ ENABLE_HARDENED_RUNTIME = YES
 CLANG_C_LANGUAGE_STANDARD = gnu11
 CLANG_CXX_LANGUAGE_STANDARD = gnu++17
 
+// disable warning about nested /**/ as modern syntax highlighting is correct enough
+WARNING_CFLAGS = -Wno-comment
+

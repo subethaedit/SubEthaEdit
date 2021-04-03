@@ -1234,6 +1234,14 @@
 	LSItemContentTypes = ["de.codingmonkeys.subethaedit.seemode"]
 	LSTypeIsPackage = true
 [[CFBundleDocumentTypes]]
+	CFBundleTypeExtensions = ["see5mode"]
+	CFBundleTypeIconFile = "file-mode"
+	CFBundleTypeName = "SubEthaEditMode5Type"
+	CFBundleTypeRole = "Viewer"
+	LSHandlerRank = "Owner"
+	LSItemContentTypes = ["de.codingmonkeys.subethaedit.see5mode"]
+	LSTypeIsPackage = true
+[[CFBundleDocumentTypes]]
 	CFBundleTypeExtensions = ["seetext"]
 	CFBundleTypeIconFile = "file-seetext"
 	CFBundleTypeName = "SEETextType"
@@ -1677,6 +1685,12 @@
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.seemode"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["seemode"]
+[[UTExportedTypeDeclarations]]
+	UTTypeConformsTo = ["com.apple.package", "public.composite-content"]
+	UTTypeDescription = "SubEthaEditMode5Type"
+	UTTypeIdentifier = "de.codingmonkeys.subethaedit.see5mode"
+	[UTExportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["see5mode"]
 [[UTExportedTypeDeclarations]]
 	UTTypeConformsTo = ["com.apple.package", "public.composite-content"]
 	UTTypeDescription = "SEETextType"
