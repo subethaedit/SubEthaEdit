@@ -380,7 +380,7 @@
 		} else {
 			if (selection.location < textStorage.length) {
 				NSRange range;
-				NSString *userId = [textStorage attribute:WrittenByUserIDAttributeName
+				NSString *userId = [textStorage attribute:SEEWrittenByUserIDAttributeName
 												  atIndex:selection.location
 									longestEffectiveRange:&range
 												  inRange:selection];
@@ -388,7 +388,7 @@
 				if (!userId &&
 					selection.length > range.length) {
 					
-					userId = [textStorage attribute:WrittenByUserIDAttributeName
+					userId = [textStorage attribute:SEEWrittenByUserIDAttributeName
 											atIndex:NSMaxRange(range)
 							  longestEffectiveRange:&range
 											inRange:selection];

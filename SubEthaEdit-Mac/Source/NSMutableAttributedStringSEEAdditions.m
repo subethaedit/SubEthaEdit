@@ -3,6 +3,7 @@
 //
 //  Created by Martin Ott on 3/19/07.
 
+#import "SEEAttributes.h"
 #import "NSStringSEEAdditions.h"
 #import "NSMutableAttributedStringSEEAdditions.h"
 #import <OgreKit/OgreKit.h>
@@ -11,8 +12,6 @@
 #import "TCMMMUserManager.h"
 #import "TCMMMUser.h"
 #import "TCMMMUserSEEAdditions.h"
-
-extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeName, *SEESearchScopeAttributeName;
 
 @implementation NSMutableAttributedString (NSMutableAttributedStringSEEAdditions) 
 
@@ -348,7 +347,7 @@ extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeN
     NSMutableDictionary *dictionary=[NSMutableDictionary dictionary];
     [dictionary setObject:[[self string] copy] forKey:@"String"];
     NSMutableDictionary *attributeDictionary=[NSMutableDictionary new];
-    NSEnumerator *attributeNames=[[NSArray arrayWithObjects:WrittenByUserIDAttributeName,ChangedByUserIDAttributeName,nil] objectEnumerator];
+    NSEnumerator *attributeNames=[[NSArray arrayWithObjects:SEEWrittenByUserIDAttributeName,SEEChangedByUserIDAttributeName,nil] objectEnumerator];
     NSString *attributeName;
     NSRange wholeRange=NSMakeRange(0,[self length]);
     if (wholeRange.length) {
@@ -495,7 +494,7 @@ extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeN
     index=aRange.location;
     do {
         NSRange foundRange;
-        NSString *author=[self attribute:WrittenByUserIDAttributeName atIndex:index longestEffectiveRange:&foundRange inRange:aRange];
+        NSString *author=[self attribute:SEEWrittenByUserIDAttributeName atIndex:index longestEffectiveRange:&foundRange inRange:aRange];
         index=NSMaxRange(foundRange);
         if (author) {
             foundRange.location=foundRange.location-aRange.location;
@@ -507,7 +506,7 @@ extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeN
     index=aRange.location;
     do {
         NSRange foundRange;
-        NSString *author=[self attribute:ChangedByUserIDAttributeName atIndex:index longestEffectiveRange:&foundRange inRange:aRange];
+        NSString *author=[self attribute:SEEChangedByUserIDAttributeName atIndex:index longestEffectiveRange:&foundRange inRange:aRange];
         index=NSMaxRange(foundRange);
         if (author) {
             foundRange.location=foundRange.location-aRange.location;

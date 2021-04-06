@@ -8,8 +8,6 @@
 #import "SelectionOperation.h"
 #import "TCMMMUserManager.h"
 
-NSString * const SEESearchScopeAttributeName = @"SEESearchScope";
-
 NSString * const TextStorageLineEndingDidChange =
                @"TextStorageLineEndingDidChange";
 NSString * const TextStorageHasMixedLineEndingsDidChange =

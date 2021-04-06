@@ -18,6 +18,7 @@ NSString * const ScriptWrapperInContextMenuSettingsKey   =@"incontextmenu";
 
 NSString * const ScriptWrapperWillRunScriptNotification=@"ScriptWrapperWillRunScriptNotification";
 NSString * const ScriptWrapperDidRunScriptNotification =@"ScriptWrapperDidRunScriptNotification";
+NSString * const ScriptWrapperDidEncounterScriptErrorNotification =@"ScriptWrapperDidEncounterScriptErrorNotification";
 
 
 @implementation ScriptWrapper {
@@ -115,11 +116,11 @@ NSString * const ScriptWrapperDidRunScriptNotification =@"ScriptWrapperDidRunScr
                         modifiedError[@"NSAppleScriptErrorMessage"] = [NSString stringWithFormat:@"Please copy '%@' from the opened Application Bundle script folder into the user script folder we also opened for you.", lastPathComponent];
                         // slight delay, so the SubEthaEdit error comes out on top of the rest.
                         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                            [[AppController sharedInstance] reportAppleScriptError:modifiedError];
+                            [[NSNotificationCenter defaultCenter] postNotificationName:ScriptWrapperDidEncounterScriptErrorNotification object:self userInfo:@{@"error": modifiedError}];
                         });
                     }
                 } else {
-                    [[AppController sharedInstance] reportAppleScriptError:errorDictionary];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:ScriptWrapperDidEncounterScriptErrorNotification object:self userInfo:@{@"error": errorDictionary}];
                 }
             }
             [defaultCenter postNotificationName:ScriptWrapperDidRunScriptNotification object:self userInfo:errorDictionary];

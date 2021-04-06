@@ -184,7 +184,7 @@ static NSString *S_specialGlyphs[17];
         NSRange searchRange;
         unsigned position=wholeRange.location;
         while (position < NSMaxRange(wholeRange)) {
-            NSString *userID=[textStorage attribute:ChangedByUserIDAttributeName 
+            NSString *userID=[textStorage attribute:SEEChangedByUserIDAttributeName 
                                 atIndex:position longestEffectiveRange:&searchRange inRange:wholeRange];
             if (userID) {
                 [self invalidateLayoutForCharacterRange:searchRange actualCharacterRange:NULL];
@@ -251,7 +251,7 @@ static NSString *S_specialGlyphs[17];
         NSUInteger position = charRange.location;
         NSRange attributeRange;
         while (position < NSMaxRange(charRange)) {
-            NSString *userID=[textStorage attribute:ChangedByUserIDAttributeName atIndex:position longestEffectiveRange:&attributeRange inRange:charRange];
+            NSString *userID=[textStorage attribute:SEEChangedByUserIDAttributeName atIndex:position longestEffectiveRange:&attributeRange inRange:charRange];
             if (userID) {
                 NSColor *changeColor=[[[TCMMMUserManager sharedInstance] userForUserID:userID] changeColor];
                 NSColor *userBackgroundColor=[backgroundColor blendedColorWithFraction:

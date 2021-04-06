@@ -1,5 +1,4 @@
 //  SyntaxHighlighter.m
-//  SyntaxTestBench
 //
 //  Created by Martin Pittenauer on Thu Mar 04 2004.
 //
@@ -16,23 +15,23 @@
 #define padding              		 100
 #define makeDirty              		 100
 
-NSString * const kSyntaxHighlightingIsCorrectAttributeName  = @"HighlightingIsCorrect";
+NSAttributedStringKey const kSyntaxHighlightingIsCorrectAttributeName  = @"HighlightingIsCorrect";
 NSString * const kSyntaxHighlightingIsCorrectAttributeValue = @"Correct";
-NSString * const kSyntaxHighlightingIsTrimmedStartAttributeName = @"HighlightingIsATrimmedStart";
+NSAttributedStringKey const kSyntaxHighlightingIsTrimmedStartAttributeName = @"HighlightingIsATrimmedStart";
 NSString * const kSyntaxHighlightingIsTrimmedStartAttributeValue = @"Jup";
-NSString * const kSyntaxHighlightingStackName = @"HighlightingStack";
-NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDelimiter";
+NSAttributedStringKey const kSyntaxHighlightingStackName = @"HighlightingStack";
+NSAttributedStringKey const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDelimiter";
 NSString * const kSyntaxHighlightingStateDelimiterStartValue = @"Start";
 NSString * const kSyntaxHighlightingStateDelimiterEndValue = @"End";
-NSString * const kSyntaxHighlightingFoldDelimiterName = @"HighlightingFoldDelimiter";
-NSString * const kSyntaxHighlightingStyleIDAttributeName = @"styleID";
-NSString * const kSyntaxHighlightingTypeAttributeName = @"Type";
-NSString * const kSyntaxHighlightingScopenameAttributeName = @"scope";
-NSString * const kSyntaxHighlightingParentModeForSymbolsAttributeName = @"ParentModeForSymbols";
-NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName = @"ParentModeForAutocomplete";
-NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
-NSString * const kSyntaxHighlightingAutocompleteEndName = @"AutocompleteEnd";
-NSString * const kSyntaxHighlightingIndentLevelName = @"IndentLevel";
+NSAttributedStringKey const kSyntaxHighlightingFoldDelimiterName = @"HighlightingFoldDelimiter";
+NSAttributedStringKey const kSyntaxHighlightingStyleIDAttributeName = @"styleID";
+NSAttributedStringKey const kSyntaxHighlightingTypeAttributeName = @"Type";
+NSAttributedStringKey const kSyntaxHighlightingScopenameAttributeName = @"scope";
+NSAttributedStringKey const kSyntaxHighlightingParentModeForSymbolsAttributeName = @"ParentModeForSymbols";
+NSAttributedStringKey const kSyntaxHighlightingParentModeForAutocompleteAttributeName = @"ParentModeForAutocomplete";
+NSAttributedStringKey const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
+NSAttributedStringKey const kSyntaxHighlightingAutocompleteEndName = @"AutocompleteEnd";
+NSAttributedStringKey const kSyntaxHighlightingIndentLevelName = @"IndentLevel";
 
 
 NSString * const kSyntaxHighlightingTypeComment = @"comment";

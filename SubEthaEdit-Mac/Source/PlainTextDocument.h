@@ -39,8 +39,8 @@ extern NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotificat
 extern NSString * const PlainTextDocumentDidChangeDisplayNameNotification;
 extern NSString * const PlainTextDocumentDidChangeDocumentModeNotification;
 
-extern NSString * const WrittenByUserIDAttributeName;
-extern NSString * const ChangedByUserIDAttributeName;
+extern NSString * const SEEWrittenByUserIDAttributeName;
+extern NSString * const SEEChangedByUserIDAttributeName;
 
 extern NSString * const PlainTextDocumentDidSaveNotification;
 extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotification;

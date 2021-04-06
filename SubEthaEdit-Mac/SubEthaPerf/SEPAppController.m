@@ -41,7 +41,7 @@
 	} while ([fileManager fileExistsAtPath:name]);
 
     [fileManager createFileAtPath:name contents:[NSData data] attributes:nil];
-    logFileHandle = [[NSFileHandle fileHandleForWritingAtPath:name] retain];
+    logFileHandle = [NSFileHandle fileHandleForWritingAtPath:name];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
@@ -67,7 +67,6 @@
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
 	[logFileHandle closeFile];
-	[logFileHandle release];
 }
 
 - (void)getAverage:(double *)anAverage deviance:(double *)aDeviance ofArray:(NSArray *)anArray {
@@ -184,7 +183,6 @@
 				modeIdentifier = [[document documentMode] documentModeIdentifier];
 				NSTimeInterval time = [document timedHighlightAll];
 				[timingArray addObject:[NSNumber numberWithFloat:time]];
-				[document release];
 			}
 		}
 		double throughPut = [self reportTimingArray:timingArray forByteLength:byteSize];
@@ -195,8 +193,6 @@
 		[SEPLogger logWithFormat:@"\n"];
 		[ibResultsTextView display];
 	}
-	
-	[timingArray release];
 }
 
 - (void)testFiles:(NSArray *)aFilePathArray

@@ -6,8 +6,17 @@
     #import <Cocoa/Cocoa.h>
     #import "TCMFoundation.h"
 	#import "TCMBEEP.h"
+    #import "NSColorTCMAdditions.h"
+    #import "NSColor+SEEAdditions.h"
+    #import "NSAppearanceSEEAdditions.h"
+    #import "NSArraySEEAdditions.h"
+    #import "NSImageTCMAdditions.h"
     #import "NSStringSEEAdditions.h"
-	#import "NSImageTCMAdditions.h"
+    #import "NSScreenTCMAdditions.h"
+    #import "NSRangeTCMAdditions.h"
+    #import "NSObject+TCMArcLifecycleAdditions.h"
+    #import "NSOperationQueue+TCMAdditions.h"
+    #import "TCMCGGeometryAdditions.h"
 #endif
 
 

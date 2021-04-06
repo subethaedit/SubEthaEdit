@@ -31,7 +31,6 @@
 		} else {
 			[SEPLogger logWithFormat:@"%s loading failed with error:%@", __FUNCTION__, error];
 			self.textStorage = nil;
-			[self release];
 			self = nil;
 		}
 	}
@@ -89,30 +88,20 @@
 	return I_documentMode;
 }
 
-- (void)dealloc {
-	[textStorage release];
-	[super dealloc];
-}
-
 - (void)TCM_styleFonts {
-    [I_fonts.boldFont autorelease];
-    [I_fonts.italicFont autorelease];
-    [I_fonts.boldItalicFont autorelease];
     NSFontManager *manager=[NSFontManager sharedFontManager];
-    I_fonts.boldFont       = [[manager convertFont:I_fonts.plainFont toHaveTrait:NSBoldFontMask] retain];
-    I_fonts.italicFont     = [[manager convertFont:I_fonts.plainFont toHaveTrait:NSItalicFontMask] retain];
-    I_fonts.boldItalicFont = [[manager convertFont:I_fonts.boldFont  toHaveTrait:NSItalicFontMask] retain];
+    I_fonts.boldFont       = [manager convertFont:I_fonts.plainFont toHaveTrait:NSBoldFontMask];
+    I_fonts.italicFont     = [manager convertFont:I_fonts.plainFont toHaveTrait:NSItalicFontMask];
+    I_fonts.boldItalicFont = [manager convertFont:I_fonts.boldFont  toHaveTrait:NSItalicFontMask];
 }
 
 - (void)setPlainFont:(NSFont *)aFont {
-    [I_styleCacheDictionary autorelease];
     I_styleCacheDictionary = [NSMutableDictionary new];
 //    BOOL useDefaultStyle=[[[self documentMode] defaultForKey:DocumentModeUseDefaultStylePreferenceKey] boolValue];
 //    BOOL darkBackground=[[[self documentMode] defaultForKey:DocumentModeBackgroundColorIsDarkPreferenceKey] boolValue];
 //    NSDictionary *syntaxStyle=[useDefaultStyle?[[DocumentModeManager baseMode] syntaxStyle]:[[self documentMode] syntaxStyle] styleForKey:SyntaxStyleBaseIdentifier];
 //    [self setDocumentBackgroundColor:[syntaxStyle objectForKey:darkBackground?@"inverted-background-color":@"background-color"]];
 //    [self setDocumentForegroundColor:[syntaxStyle objectForKey:darkBackground?@"inverted-color":@"color"]];
-    [I_fonts.plainFont autorelease];
     I_fonts.plainFont = [aFont copy];
     [self TCM_styleFonts];
 }

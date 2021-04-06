@@ -1,29 +1,28 @@
 //  SyntaxHighlighter.h
-//  SyntaxTestBench
 //
 //  Created by Martin Pittenauer on Thu Mar 04 2004.
 
 #import <Foundation/Foundation.h>
 #import "SyntaxDefinition.h"
 
-extern NSString * const kSyntaxHighlightingIsCorrectAttributeName;
+extern NSAttributedStringKey const kSyntaxHighlightingIsCorrectAttributeName;
 extern NSString * const kSyntaxHighlightingIsCorrectAttributeValue;
-extern NSString * const kSyntaxHighlightingIsTrimmedStartAttributeName;
+extern NSAttributedStringKey const kSyntaxHighlightingIsTrimmedStartAttributeName;
 extern NSString * const kSyntaxHighlightingIsTrimmedStartAttributeValue;
-extern NSString * const kSyntaxHighlightingStyleIDAttributeName;
-extern NSString * const kSyntaxHighlightingStackName;
-extern NSString * const kSyntaxHighlightingStateDelimiterName;
+extern NSAttributedStringKey const kSyntaxHighlightingStyleIDAttributeName;
+extern NSAttributedStringKey const kSyntaxHighlightingStackName;
+extern NSAttributedStringKey const kSyntaxHighlightingStateDelimiterName;
 extern NSString * const kSyntaxHighlightingStateDelimiterStartValue;
 extern NSString * const kSyntaxHighlightingStateDelimiterEndValue;
-extern NSString * const kSyntaxHighlightingFoldDelimiterName;
-extern NSString * const kSyntaxHighlightingTypeAttributeName;
-extern NSString * const kSyntaxHighlightingScopenameAttributeName;
-extern NSString * const kSyntaxHighlightingParentModeForSymbolsAttributeName;
-extern NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName;
-extern NSString * const kSyntaxHighlightingFoldDelimiterName;
-extern NSString * const kSyntaxHighlightingFoldingDepthAttributeName;
-extern NSString * const kSyntaxHighlightingAutocompleteEndName;
-extern NSString * const kSyntaxHighlightingIndentLevelName;
+extern NSAttributedStringKey const kSyntaxHighlightingFoldDelimiterName;
+extern NSAttributedStringKey const kSyntaxHighlightingTypeAttributeName;
+extern NSAttributedStringKey const kSyntaxHighlightingScopenameAttributeName;
+extern NSAttributedStringKey const kSyntaxHighlightingParentModeForSymbolsAttributeName;
+extern NSAttributedStringKey const kSyntaxHighlightingParentModeForAutocompleteAttributeName;
+extern NSAttributedStringKey const kSyntaxHighlightingFoldDelimiterName;
+extern NSAttributedStringKey const kSyntaxHighlightingFoldingDepthAttributeName;
+extern NSAttributedStringKey const kSyntaxHighlightingAutocompleteEndName;
+extern NSAttributedStringKey const kSyntaxHighlightingIndentLevelName;
 
 extern NSString * const kSyntaxHighlightingTypeComment;
 extern NSString * const kSyntaxHighlightingTypeString;

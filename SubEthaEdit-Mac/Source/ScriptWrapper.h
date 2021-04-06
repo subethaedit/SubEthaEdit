@@ -15,6 +15,7 @@ extern NSString * const ScriptWrapperInContextMenuSettingsKey;
 
 extern NSString * const ScriptWrapperWillRunScriptNotification;
 extern NSString * const ScriptWrapperDidRunScriptNotification;
+extern NSString * const ScriptWrapperDidEncounterScriptErrorNotification;
 
 
 @interface ScriptWrapper : NSObject

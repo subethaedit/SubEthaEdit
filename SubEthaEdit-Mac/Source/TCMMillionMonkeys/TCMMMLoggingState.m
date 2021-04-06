@@ -84,8 +84,8 @@
 				NSRange newRange = NSMakeRange(affectedCharRange.location,[replacementString length]);
 				[initialText replaceCharactersInRange:affectedCharRange
 										   withString:replacementString];
-				[initialText addAttribute:WrittenByUserIDAttributeName value:userID range:newRange];
-				[initialText addAttribute:ChangedByUserIDAttributeName value:userID range:newRange];
+				[initialText addAttribute:SEEWrittenByUserIDAttributeName value:userID range:newRange];
+				[initialText addAttribute:SEEChangedByUserIDAttributeName value:userID range:newRange];
             }
             [self addLoggedOperation:operation];
         }
@@ -237,7 +237,7 @@
     if (wholeRange.length) {
         NSRange searchRange=NSMakeRange(0,0);
         while (NSMaxRange(searchRange)<wholeRange.length) {
-            id value=[anAttributedString attribute:WrittenByUserIDAttributeName atIndex:NSMaxRange(searchRange) 
+            id value=[anAttributedString attribute:SEEWrittenByUserIDAttributeName atIndex:NSMaxRange(searchRange) 
                    longestEffectiveRange:&searchRange inRange:wholeRange];
             if (value) {
                 [self handleOperation:[TextOperation textOperationWithAffectedCharRange:searchRange replacementString:[[anAttributedString string] substringWithRange:searchRange] userID:value]];

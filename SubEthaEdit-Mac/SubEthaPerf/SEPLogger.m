@@ -23,7 +23,6 @@ static NSMutableArray *loggingArray;
 	NSString *string = [[NSString alloc] initWithFormat:format arguments:va];
 	va_end(va);
 	[loggingArray makeObjectsPerformSelector:@selector(logString:) withObject:string];
-	[string release];
 }
 
 + (void)registerLogger:(id)aLogger {

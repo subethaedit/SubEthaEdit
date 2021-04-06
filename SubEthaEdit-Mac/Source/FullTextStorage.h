@@ -4,10 +4,9 @@
 #import <Cocoa/Cocoa.h>
 #import <OgreKit/OgreKit.h>
 #import "AbstractFoldingTextStorage.h"
+#import "SEEAttributes.h"
 
 @class FoldableTextStorage;
-
-extern NSString * const SEESearchScopeAttributeName;
 
 @interface FullTextStorage : AbstractFoldingTextStorage 
 @property (nonatomic, readonly, weak) FoldableTextStorage *foldableTextStorage;

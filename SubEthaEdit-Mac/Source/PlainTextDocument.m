@@ -8,6 +8,8 @@
 
 #import <TCMPortMapper/TCMPortMapper.h>
 
+#import "SEEAttributes.h"
+
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "PlainTextEditor.h"
 #import "SEEConnectionManager.h"
@@ -103,8 +105,6 @@ NSString * const PlainTextDocumentDidSaveNotification =
 @"PlainTextDocumentDidSaveNotification";
 NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotification =
 @"PlainTextDocumentDidSaveShouldReloadWebPreviewNotification";
-NSString * const WrittenByUserIDAttributeName = @"WrittenByUserID";
-NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 
 // Content sensitive comparsion will only be performed if the filesize is not larger than this constants
 static unsigned long long kSEEMaxFileSizeForContentRescans = 1024 * 1024;
@@ -1263,7 +1263,7 @@ static NSString *tempFileName(NSString *origPath) {
 
 - (IBAction)clearChangeMarks:(id)aSender {
     NSTextStorage *textStorage=[(FoldableTextStorage *)[self textStorage] fullTextStorage];
-    [textStorage removeAttribute:ChangedByUserIDAttributeName range:NSMakeRange(0,[textStorage length])];
+    [textStorage removeAttribute:SEEChangedByUserIDAttributeName range:NSMakeRange(0,[textStorage length])];
 }
 
 - (IBAction)restoreChangeMarks:(id)aSender {
@@ -1273,10 +1273,10 @@ static NSString *tempFileName(NSString *origPath) {
         [textStorage beginEditing];
         NSRange searchRange=NSMakeRange(0,0);
         while (NSMaxRange(searchRange)<wholeRange.length) {
-            id value=[textStorage attribute:WrittenByUserIDAttributeName atIndex:NSMaxRange(searchRange) 
+            id value=[textStorage attribute:SEEWrittenByUserIDAttributeName atIndex:NSMaxRange(searchRange) 
                    longestEffectiveRange:&searchRange inRange:wholeRange];
             if (value) {
-                [textStorage addAttribute:ChangedByUserIDAttributeName value:value range:searchRange];
+                [textStorage addAttribute:SEEChangedByUserIDAttributeName value:value range:searchRange];
             }
         }
         [textStorage endEditing];
@@ -4266,7 +4266,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         else return NSMakeRange(NSNotFound,0);
     }
     
-    [textStorage attribute:ChangedByUserIDAttributeName atIndex:aRange.location longestEffectiveRange:&searchRange inRange:fullRange];
+    [textStorage attribute:SEEChangedByUserIDAttributeName atIndex:aRange.location longestEffectiveRange:&searchRange inRange:fullRange];
     userID=nil;
     while (!userID) {
         if (aPrevious) {
@@ -4280,7 +4280,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
                 return NSMakeRange(NSNotFound,0);
             }
         }
-        userID = [textStorage attribute:ChangedByUserIDAttributeName
+        userID = [textStorage attribute:SEEChangedByUserIDAttributeName
                                 atIndex:position
                   longestEffectiveRange:&searchRange
                                 inRange:fullRange];
@@ -4417,8 +4417,8 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     if (!I_typingAttributes) {
         NSMutableDictionary *attributes=[[self plainTextAttributes] mutableCopy];
         NSString *myUserID=[TCMMMUserManager myUserID];
-        [attributes setObject:myUserID forKey:WrittenByUserIDAttributeName];
-        [attributes setObject:myUserID forKey:ChangedByUserIDAttributeName];
+        [attributes setObject:myUserID forKey:SEEWrittenByUserIDAttributeName];
+        [attributes setObject:myUserID forKey:SEEChangedByUserIDAttributeName];
         I_typingAttributes=(NSDictionary *)attributes;
     }
     return I_typingAttributes;
@@ -5172,7 +5172,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     id userID=nil;
     NSRange attributeRange=NSMakeRange(0,0);
     while (NSMaxRange(attributeRange)<[textStorage length]) {
-        userID=[textStorage attribute:WrittenByUserIDAttributeName atIndex:NSMaxRange(attributeRange) effectiveRange:&attributeRange];
+        userID=[textStorage attribute:SEEWrittenByUserIDAttributeName atIndex:NSMaxRange(attributeRange) effectiveRange:&attributeRange];
         if (userID) [result addObject:userID];
     }
     return result;
@@ -5635,9 +5635,9 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
                                      [[operation replacementString] length]);
         [fullTextStorage replaceCharactersInRange:[operation affectedCharRange]
                                    withString:[operation replacementString]];
-        [fullTextStorage addAttribute:WrittenByUserIDAttributeName value:[operation userID]
+        [fullTextStorage addAttribute:SEEWrittenByUserIDAttributeName value:[operation userID]
                             range:newRange];
-        [fullTextStorage addAttribute:ChangedByUserIDAttributeName value:[operation userID]
+        [fullTextStorage addAttribute:SEEChangedByUserIDAttributeName value:[operation userID]
                             range:newRange];
         [fullTextStorage addAttributes:[fullTextStorage attributeDictionaryByAddingStyleAttributesForInsertLocation:newRange.location toDictionary:[self plainTextAttributes]] range:newRange];
         [fullTextStorage endEditing];

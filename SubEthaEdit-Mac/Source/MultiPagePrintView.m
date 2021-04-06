@@ -558,8 +558,8 @@ static NSMutableDictionary *S_nameAttributes, *S_contactAttributes, *S_contactLa
                 [I_textStorage replaceCharactersInRange:lineRange withString:lineNumberString];
                 lineRange.length = [lineNumberString length];
                 [I_textStorage addAttributes:attributes range:lineRange];
-                [I_textStorage removeAttribute:WrittenByUserIDAttributeName range:lineRange];
-                [I_textStorage removeAttribute:ChangedByUserIDAttributeName range:lineRange];
+                [I_textStorage removeAttribute:SEEWrittenByUserIDAttributeName range:lineRange];
+                [I_textStorage removeAttribute:SEEChangedByUserIDAttributeName range:lineRange];
                 lineRange = [[I_textStorage string] lineRangeForRange:lineRange];
                 lineNumber++;
             } while (NSMaxRange(lineRange) < [I_textStorage length]);
@@ -611,7 +611,7 @@ static NSMutableDictionary *S_nameAttributes, *S_contactAttributes, *S_contactLa
             NSRange wholeRange = NSMakeRange(0, [I_textStorage length]);
             
             while (NSMaxRange(wholeRange) > NSMaxRange(foundRange)) {
-                NSString *userID = [I_textStorage attribute:ChangedByUserIDAttributeName atIndex:NSMaxRange(foundRange) longestEffectiveRange:&foundRange inRange:wholeRange];
+                NSString *userID = [I_textStorage attribute:SEEChangedByUserIDAttributeName atIndex:NSMaxRange(foundRange) longestEffectiveRange:&foundRange inRange:wholeRange];
                 
                 if (userID) {
                     if ([[printDictionary objectForKey:@"SEEAnnotateChangeMarks"] boolValue]) {
@@ -638,7 +638,7 @@ static NSMutableDictionary *S_nameAttributes, *S_contactAttributes, *S_contactLa
             NSRange wholeRange = NSMakeRange(0, [I_textStorage length]);
             
             while (NSMaxRange(wholeRange) > NSMaxRange(foundRange)) {
-                NSString *userID = [I_textStorage attribute:WrittenByUserIDAttributeName
+                NSString *userID = [I_textStorage attribute:SEEWrittenByUserIDAttributeName
                                    atIndex                 :NSMaxRange(foundRange)
                                    longestEffectiveRange   :&foundRange
                                    inRange                 :wholeRange];

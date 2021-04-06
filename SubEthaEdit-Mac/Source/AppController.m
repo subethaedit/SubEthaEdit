@@ -419,6 +419,7 @@ static AppController *sharedInstance = nil;
     [defaultCenter addObserver:self selector:@selector(updateApplicationIcon) name:TCMMMBEEPSessionManagerSessionDidEndNotification object:nil];
 
     [defaultCenter addObserver:self selector:@selector(documentModeListDidChange:) name:@"DocumentModeListChanged" object:nil];
+    [defaultCenter addObserver:self selector:@selector(scriptDidEncounterError:) name:ScriptWrapperDidEncounterScriptErrorNotification object:nil];
 
     [self localizeAppMenu];
     
@@ -948,6 +949,10 @@ static AppController *sharedInstance = nil;
     [scriptMenu addItem:item];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:GlobalScriptsDidReloadNotification object:self];
+}
+
+- (void)scriptDidEncounterError:(NSNotification *)note {
+    [self reportAppleScriptError:note.userInfo[@"error"]];
 }
 
 - (void)reportAppleScriptError:(NSDictionary *)anErrorDictionary {

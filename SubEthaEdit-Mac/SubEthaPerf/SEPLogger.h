@@ -10,7 +10,6 @@
 
 
 @interface SEPLogger : NSObject {
-
 }
 + (void)logWithFormat:(NSString *)format,...;
 + (void)registerLogger:(id)aLogger;
