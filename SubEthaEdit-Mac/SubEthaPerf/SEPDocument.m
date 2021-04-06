@@ -76,7 +76,8 @@
 	[textStorageToHighlight removeAttribute:kSyntaxHighlightingIsCorrectAttributeName range:NSMakeRange(0,[textStorageToHighlight length])];
 	START_TIMING(highlighting);
 	int numberOfRuns = 1;
-	while (![syntaxHighlighter colorizeDirtyRanges:textStorageToHighlight ofDocument:self]) {
+	while (syntaxHighlighter &&
+           ![syntaxHighlighter colorizeDirtyRanges:textStorageToHighlight ofDocument:self]) {
 		numberOfRuns++;
 	}
 	NSTimeInterval result = END_TIMING(highlighting);
@@ -157,6 +158,29 @@
         [I_styleCacheDictionary setObject:result forKey:aStyleID];
     }
     return result;
+}
+
+- (NSDictionary *)styleAttributesForScope:(NSString *)aScope languageContext:(NSString *)aLangaugeContext {
+
+//    NSLog(@"%s %@ %@",__FUNCTION__,aScope, aLangaugeContext);
+    
+    if (!aScope) {
+        NSLog(@"%s was called with a aScope of nil",__FUNCTION__);
+        return [NSDictionary dictionary];
+    }
+    
+    NSDictionary *result=[I_styleCacheDictionary objectForKey:aScope];
+    if (!result) {
+        DocumentMode *documentMode=[self documentMode];
+
+        SEEStyleSheet *styleSheet = [documentMode styleSheetForLanguageContext:aLangaugeContext];
+        result = [SEEStyleSheet textAttributesForStyleAttributes:[styleSheet styleAttributesForScope:aScope] font:I_fonts.plainFont];
+        
+        if ( aScope && result )
+            [I_styleCacheDictionary setObject:result forKey:aScope];
+    }
+    return result;
+    
 }
 
 

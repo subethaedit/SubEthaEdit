@@ -249,6 +249,10 @@
 		F2063D1C261CBED200C004B0 /* ScriptTextSelection.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD2FFE0A08D71D0036E63A /* ScriptTextSelection.m */; };
 		F2063D1E261CBED800C004B0 /* ScriptTextBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD304D0A092AA50036E63A /* ScriptTextBase.m */; };
 		F2063D25261CC15000C004B0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D86C500F8E811600B912A2 /* main.m */; };
+		F2063D27261CC2D100C004B0 /* NSObject+TCMArcLifecycleAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F214C1DA18BE180300908826 /* NSObject+TCMArcLifecycleAdditions.m */; };
+		F2063D29261CC2EE00C004B0 /* NSOperationQueue+TCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F23966D518E2FE6800CEC9AD /* NSOperationQueue+TCMAdditions.m */; };
+		F2063D2B261CC32500C004B0 /* NSAppleScriptTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E685D5109D82BBB00E41973 /* NSAppleScriptTCMAdditions.m */; };
+		F2063D2D261CC33A00C004B0 /* NSMenuTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E685DB209D8438800E41973 /* NSMenuTCMAdditions.m */; };
 		F20948BC0C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = F20948B90C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m */; };
 		F20AB87B1907C7C500444F4B /* SEEDebugImageGenerationWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = F20AB8791907C7C500444F4B /* SEEDebugImageGenerationWindowController.m */; };
 		F20AB881190932FB00444F4B /* SymbolWarn.png in Resources */ = {isa = PBXBuildFile; fileRef = F20AB87F190932FB00444F4B /* SymbolWarn.png */; };
@@ -2753,6 +2757,7 @@
 				F2D86CBA0F8E8A1400B912A2 /* DocumentMode.m in Sources */,
 				4CE9CF3A1802F52A00F5BC56 /* SEEStyleSheetSettings.m in Sources */,
 				F2D86CBF0F8E8A2E00B912A2 /* ScriptWrapper.m in Sources */,
+				F2063D29261CC2EE00C004B0 /* NSOperationQueue+TCMAdditions.m in Sources */,
 				F2D86CC30F8E8A5200B912A2 /* EncodingManager.m in Sources */,
 				F2D86CC60F8E8A5B00B912A2 /* RegexSymbolParser.m in Sources */,
 				F2D86CC70F8E8A5C00B912A2 /* RegexSymbolDefinition.m in Sources */,
@@ -2763,6 +2768,8 @@
 				F2D86DAA0F8E8B6000B912A2 /* SelectionOperation.m in Sources */,
 				F22E9F2F22FEF36100326183 /* NSAppearanceSEEAdditions.m in Sources */,
 				F2D86DAD0F8E8B6600B912A2 /* TextOperation.m in Sources */,
+				F2063D2D261CC33A00C004B0 /* NSMenuTCMAdditions.m in Sources */,
+				F2063D2B261CC32500C004B0 /* NSAppleScriptTCMAdditions.m in Sources */,
 				F2063D1C261CBED200C004B0 /* ScriptTextSelection.m in Sources */,
 				F2063D18261CBEBD00C004B0 /* SEEStyleSheet.m in Sources */,
 				F2D86DB20F8E8B7F00B912A2 /* TCMMMOperation.m in Sources */,
@@ -2783,6 +2790,7 @@
 				F2063D16261CBE4E00C004B0 /* SEEFileTypes.m in Sources */,
 				4C19ECCD192F867400D39777 /* NSImageTCMAdditions.m in Sources */,
 				F2063D25261CC15000C004B0 /* main.m in Sources */,
+				F2063D27261CC2D100C004B0 /* NSObject+TCMArcLifecycleAdditions.m in Sources */,
 				F2063CFC261B2EDE00C004B0 /* SEEWebPreview.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
