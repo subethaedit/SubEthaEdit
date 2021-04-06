@@ -3,12 +3,10 @@
 //
 //  Created by Dominik Wagner on 04.01.09.
 
-#import "PlainTextDocument.h"
 #import "FullTextStorage.h"
 #import "FoldableTextStorage.h"
 #import "SyntaxHighlighter.h"
 #import "EncodingManager.h"
-#import "PlainTextDocument.h"
 #import "TCMMMUserManager.h"
 #import "SelectionOperation.h"
 #import "TCMMMUserSEEAdditions.h"
@@ -1302,8 +1300,11 @@ typedef union {
 }
 
 - (id)objectSpecifier {
-    NSScriptClassDescription *containerClassDesc = 
-        (NSScriptClassDescription *)[NSScriptClassDescription classDescriptionForClass:[PlainTextDocument class]];
+    static Class S_MainDocumentClass = nil;
+    S_MainDocumentClass = S_MainDocumentClass ?: [[NSDocumentController sharedDocumentController] documentClassForType:[[NSDocumentController sharedDocumentController] defaultType]];
+    
+    NSScriptClassDescription *containerClassDesc =
+        (NSScriptClassDescription *)[NSScriptClassDescription classDescriptionForClass:S_MainDocumentClass];
     
     NSScriptObjectSpecifier *containerSpecifier = [(id)[self delegate] objectSpecifier];
     NSPropertySpecifier *propertySpecifier = 

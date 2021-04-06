@@ -86,6 +86,12 @@ extern NSString * const BlockeditAttributeValue;
 
 @protocol FoldableTextStorageDelegate
 - (void)textStorageDidChangeNumberOfTopLevelFoldings:(FoldableTextStorage *)aTextStorage;
+
+// Stuff from the plain text document we use
+@optional
+- (NSFont *)fontWithTrait:(NSFontTraitMask)aFontTrait;
+- (int)tabWidth;
+- (void)replaceTextInRange:(NSRange)aRange withString:(NSString *)aString;
 @end
 
 @protocol TextStorageBlockeditDelegate

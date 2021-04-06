@@ -4,6 +4,7 @@
 //  Created by Dominik Wagner on Thu Mar 25 2004.
 
 #import <Cocoa/Cocoa.h>
+#import "SEEFileTypes.h"
 
 @class TCMMMSession;
 @class EncodingPopUpButton;
@@ -13,11 +14,7 @@
 @class MAAttachedWindow;
 @class PlainTextDocument;
 
-
-extern NSString *const RecentDocumentsDidChangeNotification;
-
-extern NSString * const kSEETypeSEEText;
-extern NSString * const kSEETypeSEEMode;
+extern NSString * const RecentDocumentsDidChangeNotification;
 
 @interface SEEDocumentController : NSDocumentController {
     NSMutableDictionary *I_propertiesForOpenedFiles;
@@ -36,8 +33,6 @@ extern NSString * const kSEETypeSEEMode;
 @property (nonatomic, readonly, copy) NSString *modeIdentifierFromLastRunOpenPanel;
 
 + (SEEDocumentController *)sharedInstance;
-
-+ (NSArray *)allTagsOfTagClass:(CFStringRef)aTagClass forUTI:(NSString *)aType;
 
 @property (class, nonatomic) BOOL shouldAlwaysShowTabBar;
 

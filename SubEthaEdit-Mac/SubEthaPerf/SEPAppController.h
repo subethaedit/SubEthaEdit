@@ -8,6 +8,10 @@
 
 #import <Cocoa/Cocoa.h>
 
+@interface TCMMMUserManager : NSObject {
+}
++ (NSString *)myUserID;
+@end
 
 @interface SEPAppController : NSObject {
 	IBOutlet NSTextView *ibResultsTextView;

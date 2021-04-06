@@ -239,11 +239,16 @@
 		F2063CF2261B2E7D00C004B0 /* DocumentModeMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = F27D85A42611FDE6001DD31E /* DocumentModeMenu.m */; };
 		F2063CF4261B2EAA00C004B0 /* TCMBencodingUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428912B0957457500D14688 /* TCMBencodingUtilities.m */; };
 		F2063CF6261B2ED300C004B0 /* ScriptCharacters.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E291E80A07B480007C0065 /* ScriptCharacters.m */; };
-		F2063CF8261B2ED800C004B0 /* SEEWebPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428946109575B9700D14688 /* SEEWebPreviewViewController.m */; };
-		F2063CFA261B2EDB00C004B0 /* SEEWebPreviewSplitViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C65D60918D852AB00A03E65 /* SEEWebPreviewSplitViewDelegate.m */; };
 		F2063CFC261B2EDE00C004B0 /* SEEWebPreview.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CED1D4F238000FF00359D99 /* SEEWebPreview.m */; };
 		F2063D0E261CB3C500C004B0 /* SEEAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = F2063D0D261CB3C500C004B0 /* SEEAttributes.m */; };
 		F2063D0F261CB3C500C004B0 /* SEEAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = F2063D0D261CB3C500C004B0 /* SEEAttributes.m */; };
+		F2063D15261CBE4E00C004B0 /* SEEFileTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = F2063D14261CBE4E00C004B0 /* SEEFileTypes.m */; };
+		F2063D16261CBE4E00C004B0 /* SEEFileTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = F2063D14261CBE4E00C004B0 /* SEEFileTypes.m */; };
+		F2063D18261CBEBD00C004B0 /* SEEStyleSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 3170E46012846C670096089C /* SEEStyleSheet.m */; };
+		F2063D1A261CBED000C004B0 /* ScriptLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E291C50A07A501007C0065 /* ScriptLine.m */; };
+		F2063D1C261CBED200C004B0 /* ScriptTextSelection.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD2FFE0A08D71D0036E63A /* ScriptTextSelection.m */; };
+		F2063D1E261CBED800C004B0 /* ScriptTextBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD304D0A092AA50036E63A /* ScriptTextBase.m */; };
+		F2063D25261CC15000C004B0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D86C500F8E811600B912A2 /* main.m */; };
 		F20948BC0C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = F20948B90C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m */; };
 		F20AB87B1907C7C500444F4B /* SEEDebugImageGenerationWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = F20AB8791907C7C500444F4B /* SEEDebugImageGenerationWindowController.m */; };
 		F20AB881190932FB00444F4B /* SymbolWarn.png in Resources */ = {isa = PBXBuildFile; fileRef = F20AB87F190932FB00444F4B /* SymbolWarn.png */; };
@@ -913,6 +918,8 @@
 		F2063CC62618C96200C004B0 /* TCMMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TCMMacros.h; path = TCMFoundation/TCMMacros.h; sourceTree = "<group>"; };
 		F2063D0C261CB3C500C004B0 /* SEEAttributes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEEAttributes.h; sourceTree = "<group>"; };
 		F2063D0D261CB3C500C004B0 /* SEEAttributes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEEAttributes.m; sourceTree = "<group>"; };
+		F2063D13261CBE4E00C004B0 /* SEEFileTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEEFileTypes.h; sourceTree = "<group>"; };
+		F2063D14261CBE4E00C004B0 /* SEEFileTypes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEEFileTypes.m; sourceTree = "<group>"; };
 		F20948B80C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = TCMMMLogStatisticsEntry.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		F20948B90C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TCMMMLogStatisticsEntry.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		F20AB8781907C7C500444F4B /* SEEDebugImageGenerationWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEDebugImageGenerationWindowController.h; sourceTree = "<group>"; };
@@ -1957,6 +1964,8 @@
 			children = (
 				F2063D0C261CB3C500C004B0 /* SEEAttributes.h */,
 				F2063D0D261CB3C500C004B0 /* SEEAttributes.m */,
+				F2063D13261CBE4E00C004B0 /* SEEFileTypes.h */,
+				F2063D14261CBE4E00C004B0 /* SEEFileTypes.m */,
 			);
 			path = Consts;
 			sourceTree = "<group>";
@@ -2628,6 +2637,7 @@
 				1428943C09575AE600D14688 /* SEEDocumentController.m in Sources */,
 				1428943D09575AE600D14688 /* DocumentProxyWindowController.m in Sources */,
 				1428944609575B3400D14688 /* FindAllController.m in Sources */,
+				F2063D15261CBE4E00C004B0 /* SEEFileTypes.m in Sources */,
 				1428944709575B3400D14688 /* FindAllTableView.m in Sources */,
 				1428944809575B3400D14688 /* GutterRulerView.m in Sources */,
 				4CDF05A518C0A3D4004A49E5 /* SEEConnectionAddingWindowController.m in Sources */,
@@ -2730,12 +2740,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F2063D1A261CBED000C004B0 /* ScriptLine.m in Sources */,
 				4C19ECCE192F886A00D39777 /* NSColor+SEEAdditions.m in Sources */,
 				F2D86C2E0F8E7EFA00B912A2 /* SEPAppController.m in Sources */,
 				F2063CF0261B2E7900C004B0 /* DocumentModePopUpButton.m in Sources */,
 				F2D86C7F0F8E849800B912A2 /* SEPLogger.m in Sources */,
 				F2D86C9F0F8E88EB00B912A2 /* SyntaxStyle.m in Sources */,
-				F2063CFA261B2EDB00C004B0 /* SEEWebPreviewSplitViewDelegate.m in Sources */,
 				F2D86CA00F8E88EC00B912A2 /* SyntaxHighlighter.m in Sources */,
 				F2063CF6261B2ED300C004B0 /* ScriptCharacters.m in Sources */,
 				F2D86CA10F8E88ED00B912A2 /* SyntaxDefinition.m in Sources */,
@@ -2753,6 +2763,8 @@
 				F2D86DAA0F8E8B6000B912A2 /* SelectionOperation.m in Sources */,
 				F22E9F2F22FEF36100326183 /* NSAppearanceSEEAdditions.m in Sources */,
 				F2D86DAD0F8E8B6600B912A2 /* TextOperation.m in Sources */,
+				F2063D1C261CBED200C004B0 /* ScriptTextSelection.m in Sources */,
+				F2063D18261CBEBD00C004B0 /* SEEStyleSheet.m in Sources */,
 				F2D86DB20F8E8B7F00B912A2 /* TCMMMOperation.m in Sources */,
 				F2D86DBA0F8E9B9A00B912A2 /* PreferenceKeys.m in Sources */,
 				F2D86E840F8EB76C00B912A2 /* SEPDocument.m in Sources */,
@@ -2762,13 +2774,15 @@
 				F2063CF4261B2EAA00C004B0 /* TCMBencodingUtilities.m in Sources */,
 				F2063D0F261CB3C500C004B0 /* SEEAttributes.m in Sources */,
 				F2DEC3140F8FA17D00ADEE48 /* FoldableTextStorage.m in Sources */,
+				F2063D1E261CBED800C004B0 /* ScriptTextBase.m in Sources */,
 				F2DEC3360F8FA6DF00ADEE48 /* AbstractFoldingTextStorage.m in Sources */,
 				F2DEC34A0F8FA71800ADEE48 /* FoldedTextAttachment.m in Sources */,
 				F2063CF2261B2E7D00C004B0 /* DocumentModeMenu.m in Sources */,
 				F2DEC34F0F8FA72000ADEE48 /* FoldingTextAttachmentCell.m in Sources */,
 				F2DEC8820F90005700ADEE48 /* NSStringSEEAdditions.m in Sources */,
-				F2063CF8261B2ED800C004B0 /* SEEWebPreviewViewController.m in Sources */,
+				F2063D16261CBE4E00C004B0 /* SEEFileTypes.m in Sources */,
 				4C19ECCD192F867400D39777 /* NSImageTCMAdditions.m in Sources */,
+				F2063D25261CC15000C004B0 /* main.m in Sources */,
 				F2063CFC261B2EDE00C004B0 /* SEEWebPreview.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

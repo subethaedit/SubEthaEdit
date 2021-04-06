@@ -11,6 +11,11 @@
 #import "SEPDocument.h"
 #import "DocumentModeManager.h"
 
+@implementation TCMMMUserManager
++ (NSString *)myUserID {
+    return @"B5145FD4-6D3C-4426-B1EF-6DD774944F49";
+}
+@end
 
 @implementation SEPAppController
 
