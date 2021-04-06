@@ -12,6 +12,7 @@
 
 #ifdef __OBJC__
     #import <Cocoa/Cocoa.h>
+    #import "Asterism.h"
     #import "AppController.h"
     #import "TCMFoundation.h"
     #import "TCMBEEP.h"
@@ -26,7 +27,4 @@
 	#import "NSObject+TCMArcLifecycleAdditions.h"
 	#import "NSOperationQueue+TCMAdditions.h"
 	#import "TCMCGGeometryAdditions.h"
-
-	extern NSString * const AddressHistory;
-
 #endif //__OBJC__

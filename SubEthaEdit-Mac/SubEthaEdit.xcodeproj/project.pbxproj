@@ -253,6 +253,9 @@
 		F2063D29261CC2EE00C004B0 /* NSOperationQueue+TCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F23966D518E2FE6800CEC9AD /* NSOperationQueue+TCMAdditions.m */; };
 		F2063D2B261CC32500C004B0 /* NSAppleScriptTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E685D5109D82BBB00E41973 /* NSAppleScriptTCMAdditions.m */; };
 		F2063D2D261CC33A00C004B0 /* NSMenuTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E685DB209D8438800E41973 /* NSMenuTCMAdditions.m */; };
+		F2063D3C261CEEB000C004B0 /* UKXattrMetadataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = F2063D31261CEEB000C004B0 /* UKXattrMetadataStore.m */; };
+		F2063D3E261CEEB000C004B0 /* Asterism.m in Sources */ = {isa = PBXBuildFile; fileRef = F2063D36261CEEB000C004B0 /* Asterism.m */; };
+		F2063D3F261CEEB000C004B0 /* LMPTOMLSerialization.mm in Sources */ = {isa = PBXBuildFile; fileRef = F2063D38261CEEB000C004B0 /* LMPTOMLSerialization.mm */; };
 		F20948BC0C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = F20948B90C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m */; };
 		F20AB87B1907C7C500444F4B /* SEEDebugImageGenerationWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = F20AB8791907C7C500444F4B /* SEEDebugImageGenerationWindowController.m */; };
 		F20AB881190932FB00444F4B /* SymbolWarn.png in Resources */ = {isa = PBXBuildFile; fileRef = F20AB87F190932FB00444F4B /* SymbolWarn.png */; };
@@ -351,7 +354,6 @@
 		F2ABC4D60C799775007437A2 /* TCMMMLoggingState.m in Sources */ = {isa = PBXBuildFile; fileRef = F2ABC4D40C799775007437A2 /* TCMMMLoggingState.m */; };
 		F2ABC4E30C799CCD007437A2 /* TCMMMLoggedOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = F2ABC4E10C799CCD007437A2 /* TCMMMLoggedOperation.m */; };
 		F2ABC5400C79D9AB007437A2 /* DebugHistoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2ABC5300C79D898007437A2 /* DebugHistoryController.m */; };
-		F2B07D8F242F438600CB192D /* LMPTOMLSerialization.mm in Sources */ = {isa = PBXBuildFile; fileRef = F2B07D89242F438600CB192D /* LMPTOMLSerialization.mm */; };
 		F2BC7539217BDA3F0056FAED /* Acknowledgements.md in Resources */ = {isa = PBXBuildFile; fileRef = F2BC7538217BDA3F0056FAED /* Acknowledgements.md */; };
 		F2C44CBE21635F29006D59DB /* SEEDebugImageGenerationWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2C44CBD21635F29006D59DB /* SEEDebugImageGenerationWindowController.xib */; };
 		F2C7672718B3AEAC00763B40 /* PlainTextEditor.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2C7672618B3AEAC00763B40 /* PlainTextEditor.xib */; };
@@ -404,7 +406,6 @@
 		F2EFDE3B21760E6F00B5A4DD /* Sparkle.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = F2EFDE3921760E5B00B5A4DD /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F2F2B5A70CA7F7B80045C189 /* PrecedencePreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D2C6E70CA7C7A7003CC5C9 /* PrecedencePreferences.m */; };
 		F2F2B6100CA811240045C189 /* TCMMMLogStatisticsDataPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F2B60D0CA811240045C189 /* TCMMMLogStatisticsDataPoint.m */; };
-		F2FB96E30CBE68ED000B85AE /* UKXattrMetadataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = F2FB96E10CBE68ED000B85AE /* UKXattrMetadataStore.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -924,6 +925,15 @@
 		F2063D0D261CB3C500C004B0 /* SEEAttributes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEEAttributes.m; sourceTree = "<group>"; };
 		F2063D13261CBE4E00C004B0 /* SEEFileTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEEFileTypes.h; sourceTree = "<group>"; };
 		F2063D14261CBE4E00C004B0 /* SEEFileTypes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEEFileTypes.m; sourceTree = "<group>"; };
+		F2063D31261CEEB000C004B0 /* UKXattrMetadataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UKXattrMetadataStore.m; sourceTree = "<group>"; };
+		F2063D32261CEEB000C004B0 /* UKXattrMetadataStore Readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "UKXattrMetadataStore Readme.txt"; sourceTree = "<group>"; };
+		F2063D33261CEEB000C004B0 /* UKXattrMetadataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UKXattrMetadataStore.h; sourceTree = "<group>"; };
+		F2063D35261CEEB000C004B0 /* Asterism.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Asterism.h; sourceTree = "<group>"; };
+		F2063D36261CEEB000C004B0 /* Asterism.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Asterism.m; sourceTree = "<group>"; };
+		F2063D38261CEEB000C004B0 /* LMPTOMLSerialization.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LMPTOMLSerialization.mm; sourceTree = "<group>"; };
+		F2063D39261CEEB000C004B0 /* LMPTOMLSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPTOMLSerialization.h; sourceTree = "<group>"; };
+		F2063D3A261CEEB000C004B0 /* LMP_cpptoml_visitors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMP_cpptoml_visitors.h; sourceTree = "<group>"; };
+		F2063D3B261CEEB000C004B0 /* cpptoml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cpptoml.h; sourceTree = "<group>"; };
 		F20948B80C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = TCMMMLogStatisticsEntry.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		F20948B90C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TCMMMLogStatisticsEntry.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		F20AB8781907C7C500444F4B /* SEEDebugImageGenerationWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEDebugImageGenerationWindowController.h; sourceTree = "<group>"; };
@@ -1085,10 +1095,6 @@
 		F2ABC4E20C799CCD007437A2 /* TCMMMLoggedOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = TCMMMLoggedOperation.h; path = TCMMillionMonkeys/TCMMMLoggedOperation.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		F2ABC52F0C79D898007437A2 /* DebugHistoryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = DebugHistoryController.h; path = Debug/DebugHistoryController.h; sourceTree = "<group>"; };
 		F2ABC5300C79D898007437A2 /* DebugHistoryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DebugHistoryController.m; path = Debug/DebugHistoryController.m; sourceTree = "<group>"; };
-		F2B07D89242F438600CB192D /* LMPTOMLSerialization.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LMPTOMLSerialization.mm; sourceTree = "<group>"; };
-		F2B07D8A242F438600CB192D /* LMPTOMLSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPTOMLSerialization.h; sourceTree = "<group>"; };
-		F2B07D8B242F438600CB192D /* LMP_cpptoml_visitors.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; path = LMP_cpptoml_visitors.h; sourceTree = "<group>"; };
-		F2B07D8C242F438600CB192D /* cpptoml.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = cpptoml.h; sourceTree = "<group>"; };
 		F2B6CCC20EE9C6390077417E /* SeeTextImporter.mdimporter */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SeeTextImporter.mdimporter; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2BC7538217BDA3F0056FAED /* Acknowledgements.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = Acknowledgements.md; path = ../Acknowledgements.md; sourceTree = "<group>"; };
 		F2C44CBD21635F29006D59DB /* SEEDebugImageGenerationWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SEEDebugImageGenerationWindowController.xib; path = Debug/SEEDebugImageGenerationWindowController.xib; sourceTree = "<group>"; };
@@ -1137,8 +1143,6 @@
 		F2F2B60D0CA811240045C189 /* TCMMMLogStatisticsDataPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMMMLogStatisticsDataPoint.m; sourceTree = "<group>"; };
 		F2F5970A193336B300FDAA4A /* SEEDocumentListTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEDocumentListTableView.h; sourceTree = "<group>"; };
 		F2F5970B193336B300FDAA4A /* SEEDocumentListTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEDocumentListTableView.m; sourceTree = "<group>"; };
-		F2FB96E00CBE68ED000B85AE /* UKXattrMetadataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = UKXattrMetadataStore.h; path = UKXattrMetadataStore/UKXattrMetadataStore.h; sourceTree = "<group>"; };
-		F2FB96E10CBE68ED000B85AE /* UKXattrMetadataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UKXattrMetadataStore.m; path = UKXattrMetadataStore/UKXattrMetadataStore.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1477,7 +1481,6 @@
 		1428924C0957526E00D14688 /* Mode */ = {
 			isa = PBXGroup;
 			children = (
-				F2B07D88242F438600CB192D /* ObjectiveTOML */,
 				F2D56991133B880900CEC841 /* SEEStyleSheetSettings.h */,
 				F2D56992133B880900CEC841 /* SEEStyleSheetSettings.m */,
 				142893B50957594500D14688 /* DocumentMode.h */,
@@ -1698,8 +1701,6 @@
 				F22024ED191D175C0098982C /* TCMHoverButton.m */,
 				142893F209575A3000D14688 /* TexturedButtonCell.h */,
 				142893F309575A3000D14688 /* TexturedButtonCell.m */,
-				F2FB96E00CBE68ED000B85AE /* UKXattrMetadataStore.h */,
-				F2FB96E10CBE68ED000B85AE /* UKXattrMetadataStore.m */,
 				142893F409575A3000D14688 /* UndoManager.h */,
 				142893F509575A3000D14688 /* UndoManager.m */,
 				9E9F58AB2319EC3C00E838D1 /* SEEAlertRecipe.h */,
@@ -1974,6 +1975,46 @@
 			path = Consts;
 			sourceTree = "<group>";
 		};
+		F2063D2F261CEEB000C004B0 /* ThirdParty */ = {
+			isa = PBXGroup;
+			children = (
+				F2063D30261CEEB000C004B0 /* UKXattrMetadataStore */,
+				F2063D34261CEEB000C004B0 /* Asterism */,
+				F2063D37261CEEB000C004B0 /* ObjectiveTOML */,
+			);
+			path = ThirdParty;
+			sourceTree = "<group>";
+		};
+		F2063D30261CEEB000C004B0 /* UKXattrMetadataStore */ = {
+			isa = PBXGroup;
+			children = (
+				F2063D33261CEEB000C004B0 /* UKXattrMetadataStore.h */,
+				F2063D31261CEEB000C004B0 /* UKXattrMetadataStore.m */,
+				F2063D32261CEEB000C004B0 /* UKXattrMetadataStore Readme.txt */,
+			);
+			path = UKXattrMetadataStore;
+			sourceTree = "<group>";
+		};
+		F2063D34261CEEB000C004B0 /* Asterism */ = {
+			isa = PBXGroup;
+			children = (
+				F2063D35261CEEB000C004B0 /* Asterism.h */,
+				F2063D36261CEEB000C004B0 /* Asterism.m */,
+			);
+			path = Asterism;
+			sourceTree = "<group>";
+		};
+		F2063D37261CEEB000C004B0 /* ObjectiveTOML */ = {
+			isa = PBXGroup;
+			children = (
+				F2063D38261CEEB000C004B0 /* LMPTOMLSerialization.mm */,
+				F2063D39261CEEB000C004B0 /* LMPTOMLSerialization.h */,
+				F2063D3A261CEEB000C004B0 /* LMP_cpptoml_visitors.h */,
+				F2063D3B261CEEB000C004B0 /* cpptoml.h */,
+			);
+			path = ObjectiveTOML;
+			sourceTree = "<group>";
+		};
 		F21BFB392603771600C4578C /* Tests */ = {
 			isa = PBXGroup;
 			children = (
@@ -2034,6 +2075,7 @@
 				1428917E0957486D00D14688 /* TCMBase */,
 				142891160957452000D14688 /* TCMFoundation */,
 				14289305095756A100D14688 /* TCMMillionMonkeys */,
+				F2063D2F261CEEB000C004B0 /* ThirdParty */,
 				1428917B0957483C00D14688 /* Debug */,
 			);
 			name = Sources;
@@ -2091,17 +2133,6 @@
 				F2EFDE2D21760E0800B5A4DD /* org.sparkle-project.InstallerStatus.xpc */,
 			);
 			path = Sparkle;
-			sourceTree = "<group>";
-		};
-		F2B07D88242F438600CB192D /* ObjectiveTOML */ = {
-			isa = PBXGroup;
-			children = (
-				F2B07D89242F438600CB192D /* LMPTOMLSerialization.mm */,
-				F2B07D8A242F438600CB192D /* LMPTOMLSerialization.h */,
-				F2B07D8B242F438600CB192D /* LMP_cpptoml_visitors.h */,
-				F2B07D8C242F438600CB192D /* cpptoml.h */,
-			);
-			path = ObjectiveTOML;
 			sourceTree = "<group>";
 		};
 		F2D22CAF0EE9C5DE004B8E33 /* Products */ = {
@@ -2598,6 +2629,7 @@
 				1428938A0957585600D14688 /* FontAttributesToStringValueTransformer.m in Sources */,
 				1428938B0957585600D14688 /* HueToColorValueTransformer.m in Sources */,
 				F23966D618E2FE6800CEC9AD /* NSOperationQueue+TCMAdditions.m in Sources */,
+				F2063D3F261CEEB000C004B0 /* LMPTOMLSerialization.mm in Sources */,
 				1428938C0957585600D14688 /* PointsToDisplayValueTransformer.m in Sources */,
 				1428938D0957585600D14688 /* SaturationToColorValueTransformer.m in Sources */,
 				142893A1095758C200D14688 /* AdvancedPreferences.m in Sources */,
@@ -2621,6 +2653,7 @@
 				142893C90957594500D14688 /* SymbolTableEntry.m in Sources */,
 				4CB8EE55181032340051AB6B /* SEEPrintOptionsViewController.m in Sources */,
 				142893CA0957594500D14688 /* SyntaxDefinition.m in Sources */,
+				F2063D3C261CEEB000C004B0 /* UKXattrMetadataStore.m in Sources */,
 				142893CB0957594500D14688 /* SyntaxHighlighter.m in Sources */,
 				142893CC0957594500D14688 /* SyntaxStyle.m in Sources */,
 				142893F809575A3000D14688 /* AboutPanelController.m in Sources */,
@@ -2653,7 +2686,6 @@
 				1428946609575B9700D14688 /* PopUpButton.m in Sources */,
 				1428946709575B9700D14688 /* PopUpButtonCell.m in Sources */,
 				1428946809575B9700D14688 /* RadarScroller.m in Sources */,
-				F2B07D8F242F438600CB192D /* LMPTOMLSerialization.mm in Sources */,
 				4C0B4C6118C8B3E300048335 /* SEEToggleRecentDocumentListItem.m in Sources */,
 				1428946B09575B9700D14688 /* SEETextView.m in Sources */,
 				F2308E6718E06FA00096E0C1 /* SEEFindAndReplaceContext.m in Sources */,
@@ -2694,6 +2726,7 @@
 				141958B10BB951C400CB4AA4 /* TCMMMSessionAppKitHelper.m in Sources */,
 				1428F4B40BDE3B8A00411CA6 /* DebugSendOperationController.m in Sources */,
 				14584B2F0BE0C6E000EB6D15 /* TCMBEEPBencodedMessage.m in Sources */,
+				F2063D3E261CEEB000C004B0 /* Asterism.m in Sources */,
 				14584B300BE0C6E300EB6D15 /* TCMBEEPBencodingProfile.m in Sources */,
 				F234E4590BE2592300504A7C /* NSWorkspaceTCMAdditions.m in Sources */,
 				F2D129FC0BF0B64A00A776CC /* SEEConnectionManager.m in Sources */,
@@ -2715,7 +2748,6 @@
 				F2F2B6100CA811240045C189 /* TCMMMLogStatisticsDataPoint.m in Sources */,
 				F20E1FAE0CACFC75005DEAF5 /* ThousandSeparatorValueTransformer.m in Sources */,
 				3188F6800CAD13E0009E4C0B /* DNDArrayController.m in Sources */,
-				F2FB96E30CBE68ED000B85AE /* UKXattrMetadataStore.m in Sources */,
 				F24280C60D16CFCC0083AE21 /* GenericSASLProfile.m in Sources */,
 				F2DCD8F20EE432F900F2854F /* FontForwardingTextField.m in Sources */,
 				4C714D9719922B3B00C8B128 /* SEEApplication.m in Sources */,

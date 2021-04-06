@@ -94,7 +94,6 @@ int const ScriptMenuTag = 4000;
 
 
 
-NSString * const AddressHistory = @"AddressHistory";
 NSString * const SetupDonePrefKey = @"SetupDone";
 NSString * const SetupVersionPrefKey = @"SetupVersion";
 NSString * const SerialNumberPrefKey = @"SerialNumberPrefKey";
@@ -132,7 +131,6 @@ static AppController *sharedInstance = nil;
 		NSMutableDictionary *defaults = [NSMutableDictionary dictionary];
 		[defaults setObject:[NSNumber numberWithInt:SUBETHAEDIT_DEFAULT_PORT] forKey:DefaultPortNumber];
 		[defaults setObject:[NSNumber numberWithInt:[[SEEDocumentController sharedDocumentController] maximumRecentDocumentCount]] forKey:@"NSRecentDocumentsLimit"];
-		[defaults setObject:[NSMutableArray array] forKey:AddressHistory];
 		[defaults setObject:@NO forKey:ProhibitInboundInternetSessions];
 		[defaults setObject:[NSNumber numberWithDouble:60.] forKey:NetworkTimeoutPreferenceKey];
 		[defaults setObject:[NSNumber numberWithDouble:30.] forKey:@"AutoSavingDelay"]; // use same autosave delay as textedit
