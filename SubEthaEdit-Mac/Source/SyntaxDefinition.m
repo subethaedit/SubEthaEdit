@@ -1064,8 +1064,7 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 	I_cacheStylesCalculating = NO;
 }
 
-- (DocumentMode *)mode
-{
+- (DocumentMode *)mode {
     return I_mode;
 }
 

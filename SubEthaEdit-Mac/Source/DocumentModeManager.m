@@ -10,6 +10,7 @@
 #import "SyntaxDefinition.h"
 #import "PlainTextDocument.h"
 #import <OgreKit/OgreKit.h>
+#import "LMPTOMLSerialization.h"
 
 @interface DocumentModeManager ()
 @property (nonatomic, strong, readwrite) NSDictionary *changedScopeNameDict;
@@ -619,6 +620,7 @@
     while ((url = [enumerator nextObject])) {
         NSDirectoryEnumerator *dirEnumerator = [[NSFileManager defaultManager] enumeratorAtURL:url includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles|NSDirectoryEnumerationSkipsPackageDescendants errorHandler:NULL];
 		NSString *modeExtension = MODE_EXTENSION;
+        NSString *mode5Extension = MODE5_EXTENSION;
         while ((fileURL = [dirEnumerator nextObject])) {
             if ([[fileURL pathExtension] isEqualToString:modeExtension]) {
                 NSBundle *bundle = [NSBundle bundleWithURL:fileURL];
@@ -632,6 +634,17 @@
                             [I_modeIdentifiersTagArray addObject:[bundle bundleIdentifier]];
                         }
                     }
+                }
+            } else if ([[fileURL pathExtension] isEqualToString:mode5Extension]) {
+                NSError *error;
+                NSData *data = [NSData dataWithContentsOfURL:[fileURL URLByAppendingPathComponent:@"SEEMode.toml"] options:0 error:&error];
+                if (data && !error) {
+                    NSDictionary *toml = [LMPTOMLSerialization TOMLObjectWithData:data error:&error];
+                    NSLog(@"%s, %@",__FUNCTION__,toml);
+                }
+                
+                if (error) {
+                    NSLog(@"%s, %@",__FUNCTION__,error);
                 }
             }
         }

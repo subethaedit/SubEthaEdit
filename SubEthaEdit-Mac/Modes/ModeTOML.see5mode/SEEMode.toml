@@ -1,0 +1,138 @@
+name = 'ModeTOML'
+# id (if left out, defaults to SEEMode.<name>
+version = '1.0' #defaults to 1.0 if not specified as well
+
+[settings]
+extensions = ["toml"]
+filenames = ["SEEMode.toml"]
+# content-trigger = '^\[\w+[\.\w+]*\]\n\w+[\.\w+]?\s='
+chars-in-tokens = '_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@'
+
+# Symbols
+[[symbols]]
+id = 'Sections'
+# indentation = 0
+ignore-blocks = true
+
+font-weight = 'bold'
+font-style = 'normal'
+symbol = '[]_#d0c_10.0'
+
+regex = '''^\[([ \t]*[\w\d'"\\]+[\.[ \t][\w\d'"\\]+]*)[ \t]*\]'''
+
+[[symbols]]
+id = 'Sections Indented'
+indentation = 1
+ignore-blocks = true
+
+font-weight = 'bold'
+font-style = 'normal'
+symbol = '[]_#d0c_10.0'
+
+regex = '''^(?:\t{1}| {1,4})\[([ \t]*[\w\d'"\\]+[\.[ \t][\w\d'"\\]+]*)[ \t]*\]'''
+
+[[symbols]]
+id = 'Sections Indented 2'
+indentation = 2
+ignore-blocks = true
+
+font-weight = 'bold'
+font-style = 'normal'
+symbol = '[]_#d0c_10.0'
+
+regex = '''^(?:(?:[ \t]+\t[ \t]*)|[ ]{5,})\[([ \t]*[\w\d'"\\]+[\.[ \t][\w\d'"\\]+]*)[ \t]*\]'''
+
+
+# Syntax
+
+## The first state is always the default state
+## id defaults to 'Base'
+## scope defaults to 'meta.default'
+[[states]]
+# id = 'Base'
+# scope = 'meta.default'
+
+## states have keywords
+## and substates
+## order does matter inside those groups
+
+substates = [
+	{state = 'CommentLine'} ,
+	{state = 'Heredoc'} ,
+	{state = 'String'} ,
+	{state = 'HeredocSingle'} ,
+	{state = 'StringSingle'} ,
+]
+
+[[states.keywords]]
+id = 'Number Literals'
+scope = 'keywords.constant'
+strings = [ 'true', 'false' ]
+regexes = [ '([+-]?(?:nan|inf))' ]
+
+[[states.keywords]]
+id = 'Numbers'
+add-completions = false
+scope = 'language.constant.numeric'
+regexes = [ '(?<![\w\d_])((?:[-+]?(?:[0-9][0-9_]*(?:\.[0-9][0-9_]*)?(?:[eE][-+]?[0-9][0-9_]*)?)|(?:0x[0-9a-fA-F][0-9a-fA-F_]*(?:\.[0-9a-fA-F][0-9a-fA-F_]*(?:[pP][-+]?[0-9a-fA-F][0-9a-fA-F_]*))?)|(?:0b[01][01_]*?)|(?:0o[0-7][0-7_]*?)))(?![\w\d_])' ]
+
+[[states.keywords]]
+id = 'Dates'
+add-completions = false
+scope = 'language.constant.numeric'
+regexes = [ '(\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:(?:-\d{2}:\d{2}))?)?)|(\d{2}:\d{2}:\d{2}(?:\.\d+)?)' ]
+
+[[states]]
+id = 'CommentLine'
+type = 'comment'
+scope = 'comment.line'
+begin = '(?<!\$)#'
+end = '[\n\r]'
+
+[[states.keywords]]
+state = 'EmailAndContainerState'
+mode = 'Base'
+
+[[states]]
+id = 'Heredoc'
+begin = '"""'
+end = '((?<!\\)(\\\\)*)"""'
+scope = 'string.double.here-doc'
+
+[[states.keywords]]
+state = 'String'
+
+[[states]]
+id = 'String'
+begin = '"'
+end = '((?<!\\)(\\\\)*)"'
+scope = 'string.double'
+foldable = false
+type = 'string'
+add-completions = false
+
+[[states.keywords]]
+id = 'DoubleStringEscapedCharacters'
+add-completions = false
+scope = 'language.constant.numeric.character'
+regexes = [
+'(\\u\h{4})',
+'(\\U\h{8})',
+'(\\[nrtf"\\])',
+]
+
+[[states]]
+id = 'HeredocSingle'
+begin = "'''"
+end = "'''"
+scope = 'string.single.here-doc'
+add-completions = false
+
+[[states]]
+id = 'StringSingle'
+begin = "'"
+end = "'"
+scope = 'string.single'
+add-completions = false
+
+

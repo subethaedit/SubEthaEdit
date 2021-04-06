@@ -11,6 +11,7 @@
 
 //#define MODE_EXTENSION [[NSWorkspace sharedWorkspace] preferredFilenameExtensionForType:@"de.codingmonkeys.subethaedit.seemode"]
 #define MODE_EXTENSION @"seemode"
+#define MODE5_EXTENSION @"see5mode"
 #define BASEMODEIDENTIFIER @"SEEMode.Base"
 #define AUTOMATICMODEIDENTIFIER @"SEEMode.Automatic"
 

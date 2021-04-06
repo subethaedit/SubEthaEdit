@@ -1,5 +1,4 @@
 //  SyntaxDefinition.h
-//  SyntaxTestBench
 //
 //  Created by Martin Pittenauer on Wed Mar 17 2004.
 

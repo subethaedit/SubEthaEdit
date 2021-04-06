@@ -172,21 +172,10 @@ NSString * const DocumentModeFontNameSystemFontValue = @"_SEESystemMonoFont_";
 }
 
 #define SCRIPTMODEMENUTAGBASE 4000
-#define SEEENGINEVERSION 4.0
+#define SEEENGINEVERSION 5.0
 
-+ (BOOL)canParseModeVersionOfBundle:(NSBundle *)aBundle { 
-    double requiredEngineVersion = 0; 
-    
-    CFURLRef url = CFURLCreateWithFileSystemPath(NULL, (CFStringRef) [aBundle bundlePath], kCFURLPOSIXPathStyle, 1);
-    CFDictionaryRef infodict = CFBundleCopyInfoDictionaryInDirectory(url);
-    NSDictionary *infoDictionary = (NSDictionary *) CFBridgingRelease(infodict);
-    NSString *minEngine = [infoDictionary objectForKey:@"SEEMinimumEngineVersion"]; 
-
-    if ( minEngine != nil ) // nil check prevents bug on 10.4, where doubleValue returns garbage 
-        requiredEngineVersion = [minEngine doubleValue]; 
-    
-    CFRelease(url);
-
++ (BOOL)canParseModeVersionOfBundle:(NSBundle *)bundle {
+    double requiredEngineVersion = [bundle.infoDictionary[@"SEEMinimumEngineVersion"] doubleValue];
     return (requiredEngineVersion<=SEEENGINEVERSION); 
 }
 
