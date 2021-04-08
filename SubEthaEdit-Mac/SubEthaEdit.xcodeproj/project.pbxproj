@@ -329,6 +329,7 @@
 		F27D85A12611FD6C001DD31E /* DocumentModePopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F27D85A02611FD6C001DD31E /* DocumentModePopUpButton.m */; };
 		F27D85A52611FDE6001DD31E /* DocumentModeMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = F27D85A42611FDE6001DD31E /* DocumentModeMenu.m */; };
 		F27D87A72618C602003E69D5 /* TCMBencodingUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428912B0957457500D14688 /* TCMBencodingUtilities.m */; };
+		F27D87BE261D9A79003E69D5 /* SEEDocumentModePackage.m in Sources */ = {isa = PBXBuildFile; fileRef = F27D87BD261D9A79003E69D5 /* SEEDocumentModePackage.m */; };
 		F27EDD17216BC49A00987579 /* SubEthaEdit_AuthenticatedSave.scpt in Copy Command Line Tools */ = {isa = PBXBuildFile; fileRef = F27EDD10216BC3AD00987579 /* SubEthaEdit_AuthenticatedSave.scpt */; };
 		F27EDD1E216BD8F800987579 /* install.command in Copy Command Line Tools */ = {isa = PBXBuildFile; fileRef = F27EDD1A216BD8F500987579 /* install.command */; };
 		F27EDD56216E6DEC00987579 /* NSAppearanceSEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F27EDD55216E6DEC00987579 /* NSAppearanceSEEAdditions.m */; };
@@ -1043,6 +1044,8 @@
 		F27D85A02611FD6C001DD31E /* DocumentModePopUpButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DocumentModePopUpButton.m; sourceTree = "<group>"; };
 		F27D85A32611FDE6001DD31E /* DocumentModeMenu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DocumentModeMenu.h; sourceTree = "<group>"; };
 		F27D85A42611FDE6001DD31E /* DocumentModeMenu.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DocumentModeMenu.m; sourceTree = "<group>"; };
+		F27D87BC261D9A79003E69D5 /* SEEDocumentModePackage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SEEDocumentModePackage.h; path = Mode/SEEDocumentModePackage.h; sourceTree = "<group>"; };
+		F27D87BD261D9A79003E69D5 /* SEEDocumentModePackage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SEEDocumentModePackage.m; path = Mode/SEEDocumentModePackage.m; sourceTree = "<group>"; };
 		F27EDD10216BC3AD00987579 /* SubEthaEdit_AuthenticatedSave.scpt */ = {isa = PBXFileReference; lastKnownFileType = file; name = SubEthaEdit_AuthenticatedSave.scpt; path = Resources/SharedSupport/SubEthaEdit_AuthenticatedSave.scpt; sourceTree = "<group>"; };
 		F27EDD1A216BD8F500987579 /* install.command */ = {isa = PBXFileReference; lastKnownFileType = text; name = install.command; path = Resources/SharedSupport/install.command; sourceTree = "<group>"; };
 		F27EDD54216E6DEC00987579 /* NSAppearanceSEEAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NSAppearanceSEEAdditions.h; path = Additions/NSAppearanceSEEAdditions.h; sourceTree = "<group>"; };
@@ -1481,6 +1484,8 @@
 		1428924C0957526E00D14688 /* Mode */ = {
 			isa = PBXGroup;
 			children = (
+				F27D87BC261D9A79003E69D5 /* SEEDocumentModePackage.h */,
+				F27D87BD261D9A79003E69D5 /* SEEDocumentModePackage.m */,
 				F2D56991133B880900CEC841 /* SEEStyleSheetSettings.h */,
 				F2D56992133B880900CEC841 /* SEEStyleSheetSettings.m */,
 				142893B50957594500D14688 /* DocumentMode.h */,
@@ -2698,6 +2703,7 @@
 				5E685D5309D82BBB00E41973 /* NSAppleScriptTCMAdditions.m in Sources */,
 				4C65D60718D8528900A03E65 /* SEEDialogSplitViewDelegate.m in Sources */,
 				4C65D60A18D852AB00A03E65 /* SEEWebPreviewSplitViewDelegate.m in Sources */,
+				F27D87BE261D9A79003E69D5 /* SEEDocumentModePackage.m in Sources */,
 				5E685DB409D8438800E41973 /* NSMenuTCMAdditions.m in Sources */,
 				5EA1258A09E2B4190055965D /* ScriptWrapper.m in Sources */,
 				5E57298F09F514FB00D3746B /* Toolbar.m in Sources */,

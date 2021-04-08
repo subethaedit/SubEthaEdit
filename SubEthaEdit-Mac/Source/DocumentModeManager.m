@@ -11,8 +11,21 @@
 #import "PlainTextDocument.h"
 #import <OgreKit/OgreKit.h>
 #import "LMPTOMLSerialization.h"
+#import "SEEDocumentModePackage.h"
 
-@interface DocumentModeManager ()
+@interface DocumentModeManager () {
+    NSMutableDictionary *I_documentModesByIdentifier;
+    NSMutableDictionary *I_documentModesByName;
+
+    NSRecursiveLock *I_documentModesByIdentifierLock; // (ifc - experimental locking for thread safety... TCM are putting in a real fix)
+
+    NSMutableArray      *I_modeIdentifiersTagArray;
+    
+    // style sheet management
+    NSMutableDictionary *I_styleSheetPathsByName;
+    NSMutableDictionary *I_styleSheetsByName;
+}
+@property (nonatomic, strong) NSMutableDictionary<NSString *, SEEDocumentModePackage *> *modePackages;
 @property (nonatomic, strong, readwrite) NSDictionary *changedScopeNameDict;
 @end
 
@@ -70,7 +83,7 @@
 #pragma mark
 - (instancetype)init {
     if ((self = [super init])) {
-        I_modeBundles=[NSMutableDictionary new];
+        _modePackages=[NSMutableDictionary new];
         
         I_styleSheetPathsByName = [NSMutableDictionary new];
         I_styleSheetsByName     = [NSMutableDictionary new];
@@ -214,7 +227,31 @@
         }
     } else {
         // Default internal order
-        modeOrder = [NSMutableArray arrayWithObjects:@"SEEMode.PHP-HTML", @"SEEMode.ERB", @"SEEMode.Ruby", @"SEEMode.bash", @"SEEMode.Objective-C", @"SEEMode.C++", @"SEEMode.C", @"SEEMode.Diff", @"SEEMode.HTML", @"SEEMode.CSS", @"SEEMode.Javascript", @"SEEMode.SDEF",@"SEEMode.XML", @"SEEMode.Perl", @"SEEMode.Pascal", @"SEEMode.Lua", @"SEEMode.AppleScript", @"SEEMode.ActionScript", @"SEEMode.LaTeX", @"SEEMode.Java", @"SEEMode.Python", @"SEEMode.SQL", @"SEEMode.Conference", @"SEEMode.LassoScript-HTML", @"SEEMode.Coldfusion", nil]; 
+        modeOrder = [@[@"SEEMode.PHP-HTML",
+                       @"SEEMode.ERB",
+                       @"SEEMode.Ruby",
+                       @"SEEMode.bash",
+                       @"SEEMode.Objective-C",
+                       @"SEEMode.C++",
+                       @"SEEMode.C",
+                       @"SEEMode.Diff",
+                       @"SEEMode.HTML",
+                       @"SEEMode.CSS",
+                       @"SEEMode.Javascript",
+                       @"SEEMode.SDEF",
+                       @"SEEMode.XML",
+                       @"SEEMode.Perl",
+                       @"SEEMode.Pascal",
+                       @"SEEMode.Lua",
+                       @"SEEMode.AppleScript",
+                       @"SEEMode.ActionScript",
+                       @"SEEMode.LaTeX",
+                       @"SEEMode.Java",
+                       @"SEEMode.Python",
+                       @"SEEMode.SQL",
+                       @"SEEMode.Conference",
+                       @"SEEMode.LassoScript-HTML",
+                       @"SEEMode.Coldfusion"] mutableCopy];
     }
     
     NSInteger i;
@@ -222,14 +259,9 @@
         [precendenceArray addObject:[NSMutableDictionary dictionary]];
     }
 
-    NSEnumerator *enumerator = [I_modeBundles objectEnumerator];
-    NSBundle *bundle;
-    while ((bundle = [enumerator nextObject]) != nil) {
+    for (SEEDocumentModePackage *package in _modePackages.objectEnumerator) {
         
-        ModeSettings *modeSettings = [[ModeSettings alloc] initWithFile:[bundle pathForResource:@"ModeSettings" ofType:@"xml"]];
-		if (!modeSettings) { // Fall back to info.plist
-			modeSettings = [[ModeSettings alloc] initWithPlist:[bundle bundlePath]];
-		}
+        ModeSettings *modeSettings = [package modeSettings];
 		
         NSMutableArray *ruleArray = [NSMutableArray array];
         if (modeSettings) {
@@ -239,19 +271,19 @@
             NSEnumerator *filenames = [[modeSettings recognizedFilenames] objectEnumerator];
             NSEnumerator *regexes = [[modeSettings recognizedRegexes] objectEnumerator];
 
-            i = [modeOrder indexOfObject:[bundle bundleIdentifier]];
+            i = [modeOrder indexOfObject:package.modeIdentifier];
             if (i!=NSNotFound) {
                 [precendenceArray replaceObjectAtIndex:i withObject:modeDictionary];
             } else [precendenceArray addObject:modeDictionary];
 
-            [modeDictionary setObject:[bundle bundleIdentifier] forKey:@"Identifier"];
-            [modeDictionary setObject:[bundle objectForInfoDictionaryKey:@"CFBundleName"] forKey:@"Name"];
-            [modeDictionary setObject:[bundle objectForInfoDictionaryKey:@"CFBundleVersion"] forKey:@"Version"];
-            NSString *bundlePath = [bundle bundlePath];
+            [modeDictionary setObject:package.modeIdentifier forKey:@"Identifier"];
+            [modeDictionary setObject:package.modeName forKey:@"Name"];
+            [modeDictionary setObject:package.modeVersion forKey:@"Version"];
+            NSString *packagePath = package.packageURL.path;
             NSString *location = NSLocalizedString(@"User Library", @"Location: User Library");
-            if ([bundlePath hasPrefix:@"/Library"]) location = NSLocalizedString(@"System Library", @"Location: System Library");
-            if ([bundlePath hasPrefix:@"/Network/Library"]) location = NSLocalizedString(@"Network Library", @"Location: Network Library");
-            if ([bundlePath hasPrefix:[[NSBundle mainBundle] bundlePath]]) location = NSLocalizedString(@"Application", @"Location: Application");
+            if ([packagePath hasPrefix:@"/Library"]) location = NSLocalizedString(@"System Library", @"Location: System Library");
+            if ([packagePath hasPrefix:@"/Network/Library"]) location = NSLocalizedString(@"Network Library", @"Location: Network Library");
+            if ([packagePath hasPrefix:[[NSBundle mainBundle] bundlePath]]) location = NSLocalizedString(@"Application", @"Location: Application");
             [modeDictionary setObject:location forKey:@"Location"];
 
             [modeDictionary setObject:ruleArray forKey:@"Rules"];
@@ -310,16 +342,9 @@
 			}
 		}
 
-
         // Enumerate rules from defaults to add user added rules back in
-        NSEnumerator *oldModes = [oldPrecedenceArray objectEnumerator];
-        id oldMode;
-        while ((oldMode = [oldModes nextObject])) {
-            if (![oldMode respondsToSelector:@selector(objectForKey:)]) {
-                NSLog(@"Wrong Type in ModePrecedence Preferences: %@ %@",[oldMode class], oldMode);
-                continue;
-            }
-            if (![[oldMode objectForKey:@"Identifier"] isEqualToString:[bundle bundleIdentifier]]) continue;
+        for (NSDictionary *oldMode in oldPrecedenceArray) {
+            if (![[oldMode objectForKey:@"Identifier"] isEqualToString:package.modeIdentifier]) continue;
             NSEnumerator *oldRules = [[oldMode objectForKey:@"Rules"] objectEnumerator];
             NSDictionary *oldRule;
             while ((oldRule = [oldRules nextObject])) {
@@ -330,11 +355,13 @@
                 NSEnumerator *newRulesEnumerator = [ruleArray objectEnumerator];
                 id newRule;
                 while ((newRule = [newRulesEnumerator nextObject])) {
-                    if (([[oldRule objectForKey:@"String"] isEqualToString:[newRule objectForKey:@"String"]])&&([[oldRule objectForKey:@"TypeIdentifier"] intValue] == [[newRule objectForKey:@"TypeIdentifier"] intValue]) &&[oldRule objectForKey:@"Enabled"]) {
-                          [newRule setObject:[oldRule objectForKey:@"Enabled"] forKey:@"Enabled"];
-                         }
+                    if (([[oldRule objectForKey:@"String"] isEqualToString:[newRule objectForKey:@"String"]]) &&
+                        ([[oldRule objectForKey:@"TypeIdentifier"] intValue] == [[newRule objectForKey:@"TypeIdentifier"] intValue]) &&
+                        [oldRule objectForKey:@"Enabled"]) {
+                        [newRule setObject:[oldRule objectForKey:@"Enabled"] forKey:@"Enabled"];
+                    }
                 }
-            }                       
+            }
         }
     }
     
@@ -618,34 +645,22 @@
     NSEnumerator *enumerator = [allURLs reverseObjectEnumerator];
     NSURL *fileURL = nil;
     while ((url = [enumerator nextObject])) {
-        NSDirectoryEnumerator *dirEnumerator = [[NSFileManager defaultManager] enumeratorAtURL:url includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles|NSDirectoryEnumerationSkipsPackageDescendants errorHandler:NULL];
-		NSString *modeExtension = MODE_EXTENSION;
-        NSString *mode5Extension = MODE5_EXTENSION;
+        NSDirectoryEnumerator *dirEnumerator = [[NSFileManager defaultManager] enumeratorAtURL:url includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles|NSDirectoryEnumerationSkipsSubdirectoryDescendants errorHandler:NULL];
         while ((fileURL = [dirEnumerator nextObject])) {
-            if ([[fileURL pathExtension] isEqualToString:modeExtension]) {
-                NSBundle *bundle = [NSBundle bundleWithURL:fileURL];
-                if (bundle && [bundle bundleIdentifier]) {
-                    if (![DocumentMode canParseModeVersionOfBundle:bundle]) {
-                        [self performSelector:@selector(showIncompatibleModeErrorForBundle:) withObject:bundle afterDelay:0]; // delay, as we don't want to block the init call, otherwise we keep receiving init messages
-						
-					} else {
-                        [I_modeBundles setObject:bundle forKey:[bundle bundleIdentifier]];
-                        if (![I_modeIdentifiersTagArray containsObject:[bundle bundleIdentifier]]) {
-                            [I_modeIdentifiersTagArray addObject:[bundle bundleIdentifier]];
-                        }
-                    }
+            
+            NSError *error;
+            // TODO: make package initialisation report errors that make it easy to decide if we want to report them
+            SEEDocumentModePackage *package = [[SEEDocumentModePackage alloc] initWithURL:fileURL error:&error];
+            
+            if (package) {
+                NSString *modeIdentifier = package.modeIdentifier;
+                _modePackages[modeIdentifier] = package;
+                if (![I_modeIdentifiersTagArray containsObject:modeIdentifier]) {
+                    [I_modeIdentifiersTagArray addObject:modeIdentifier];
                 }
-            } else if ([[fileURL pathExtension] isEqualToString:mode5Extension]) {
-                NSError *error;
-                NSData *data = [NSData dataWithContentsOfURL:[fileURL URLByAppendingPathComponent:@"SEEMode.toml"] options:0 error:&error];
-                if (data && !error) {
-                    NSDictionary *toml = [LMPTOMLSerialization TOMLObjectWithData:data error:&error];
-                    NSLog(@"%s, %@",__FUNCTION__,toml);
-                }
-                
-                if (error) {
-                    NSLog(@"%s, %@",__FUNCTION__,error);
-                }
+            } else {
+                // TODO: show error for incomaptible modes
+                NSLog(@"%s could not create package at %@ error:%@", __PRETTY_FUNCTION__, fileURL, error);
             }
         }
     }
@@ -661,7 +676,7 @@
 	[I_documentModesByIdentifierLock lock]; // ifc - experimental
     
     // reload all modes
-    [I_modeBundles                removeAllObjects];
+    [_modePackages                removeAllObjects];
     [I_documentModesByIdentifier  removeAllObjects];
 	[I_documentModesByName		  removeAllObjects];
     [self TCM_findModes];
@@ -689,7 +704,7 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"DocumentModeManager, FoundModeBundles:%@",[I_modeBundles description]];
+    return [NSString stringWithFormat:@"DocumentModeManager, FoundModeBundles:%@",[_modePackages description]];
 }
 
 - (DocumentMode *)documentModeForName:(NSString *)aName {
@@ -726,36 +741,37 @@
 
 - (DocumentMode *)documentModeForIdentifier:(NSString *)anIdentifier {
     
-    // test - perform on main thread if we are not it first, so it gets loaded if necessary
-	// important: with llvm gcc this seems to be needed to not crash
-    if (![NSThread isMainThread]) {[self performSelectorOnMainThread:@selector(documentModeForIdentifier:) withObject:anIdentifier waitUntilDone:YES];}
+    // if not on main thread bounce to main thread so mode loading only happens there.
+    // TODO: replace with a proper semantic, either make it require main thread or make it thread safe
+    if (![NSThread isMainThread]) {
+        [self performSelectorOnMainThread:@selector(documentModeForIdentifier:) withObject:anIdentifier waitUntilDone:YES];
+    }
     
 	[I_documentModesByIdentifierLock lock]; // ifc - experimental
-
-    NSBundle *bundle=[I_modeBundles objectForKey:anIdentifier];
-    if (bundle) {
-        DocumentMode *mode=[I_documentModesByIdentifier objectForKey:anIdentifier];
-        if (!mode) {
-            mode = [[DocumentMode alloc] initWithBundle:bundle] ;
-            if (mode) {
-                [I_documentModesByIdentifier setObject:mode forKey:anIdentifier];
-                
-                // Load all depended modes
-                NSEnumerator *linkEnumerator = [[[mode syntaxDefinition] importedModes] keyEnumerator];
-                id import;
-                while ((import = [linkEnumerator nextObject])) {
-                    [self documentModeForName:import];
+    DocumentMode *result;
+    {
+        SEEDocumentModePackage *package = [_modePackages objectForKey:anIdentifier];
+        if (package) {
+            result = I_documentModesByIdentifier[anIdentifier];
+            if (!result) {
+                result = [[DocumentMode alloc] initWithPackage:package];
+                if (result) {
+                    I_documentModesByIdentifier[anIdentifier] = result;
+                    
+                    // Load all depended modes
+                    NSEnumerator *linkEnumerator = [[[result syntaxDefinition] importedModes] keyEnumerator];
+                    id import;
+                    while ((import = [linkEnumerator nextObject])) {
+                        [self documentModeForName:import];
+                    }
+                    [self resolveAllDependenciesForMode:result];
                 }
-            } else return nil;
-            [self resolveAllDependenciesForMode:mode];
+            }
         }
-
-		[I_documentModesByIdentifierLock unlock]; // ifc - experimental
-        return mode;
-    } else {
-		[I_documentModesByIdentifierLock unlock]; // ifc - experimental
-        return nil;
     }
+    [I_documentModesByIdentifierLock unlock]; // ifc - experimental
+    return result;
+
 }
 
 - (NSArray *)allLoadedDocumentModes {
@@ -836,13 +852,10 @@
 
 /*"Returns an NSDictionary with Key=Identifier, Value=ModeName"*/
 - (NSDictionary *)availableModes {
-    NSMutableDictionary *result=[NSMutableDictionary dictionary];
-    NSEnumerator *modeIdentifiers=[I_modeBundles keyEnumerator];
-    NSString *identifier = nil;
-    while ((identifier=[modeIdentifiers nextObject])) {
-        [result setObject:[[I_modeBundles objectForKey:identifier] objectForInfoDictionaryKey:@"CFBundleName"] 
-                   forKey:identifier];
-    }
+    NSDictionary *result = ASTMap(_modePackages, ^id(SEEDocumentModePackage *package) {
+        return package.modeName;
+    });
+
     return result;
 }
 
@@ -855,7 +868,7 @@
 }
 
 - (BOOL)documentModeAvailableModeIdentifier:(NSString *)anIdentifier {
-    return [I_modeBundles objectForKey:anIdentifier]!=nil;
+    return [_modePackages objectForKey:anIdentifier]!=nil;
 }
 
 - (NSInteger)tagForDocumentModeIdentifier:(NSString *)anIdentifier {
@@ -888,14 +901,14 @@
     DocumentMode *baseMode=[self baseMode];
     
     NSMutableArray *menuEntries=[NSMutableArray array];
-    NSEnumerator *modeIdentifiers=[I_modeBundles keyEnumerator];
+    NSEnumerator *modeIdentifiers=[_modePackages keyEnumerator];
     NSString *identifier = nil;
     while ((identifier=[modeIdentifiers nextObject])) {
         if (![identifier isEqualToString:BASEMODEIDENTIFIER]) {
-            NSBundle *modeBundle=[I_modeBundles objectForKey:identifier];
+            SEEDocumentModePackage *package = [_modePackages objectForKey:identifier];
             NSString *additionalText=nil;
-            NSString *bundlePath=[modeBundle bundlePath];
-            NSMutableAttributedString *attributedTitle=[[NSMutableAttributedString alloc] initWithString:[modeBundle objectForInfoDictionaryKey:@"CFBundleName"] attributes:s_menuDefaultStyleAttributes];
+            NSString *bundlePath=package.packageURL.path;
+            NSMutableAttributedString *attributedTitle=[[NSMutableAttributedString alloc] initWithString:package.modeName attributes:s_menuDefaultStyleAttributes];
             if ([bundlePath hasPrefix:[[NSBundle mainBundle] bundlePath]]) {
                 additionalText=[NSString stringWithFormat:@"SubEthaEdit %@",[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
             } else if ([bundlePath hasPrefix:@"/Library"]) {
@@ -906,10 +919,10 @@
                 additionalText=@"/Network";
             }
 
-            [attributedTitle appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" (%@ v%@, %@)",identifier,[[modeBundle infoDictionary] objectForKey:@"CFBundleShortVersionString"],additionalText] attributes:s_menuSmallStyleAttributes]];
+            [attributedTitle appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" (%@ v%@, %@)",identifier,package.modeVersion,additionalText] attributes:s_menuSmallStyleAttributes]];
             
             [menuEntries 
-                addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:identifier,@"Identifier",[modeBundle objectForInfoDictionaryKey:@"CFBundleName"],@"Name",attributedTitle,@"AttributedTitle",nil]];
+                addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:identifier,@"Identifier",package.modeName,@"Name",attributedTitle,@"AttributedTitle",nil]];
         }
     }
 

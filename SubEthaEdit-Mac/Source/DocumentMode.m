@@ -179,6 +179,12 @@ NSString * const DocumentModeFontNameSystemFontValue = @"_SEESystemMonoFont_";
     return (requiredEngineVersion<=SEEENGINEVERSION); 
 }
 
+- (instancetype)initWithPackage:(SEEDocumentModePackage *)package {
+    if ((self = [self initWithBundle:[NSBundle bundleWithURL:package.packageURL]])) {
+        
+    }
+    return self;
+}
 
 - (instancetype)initWithBundle:(NSBundle *)aBundle {
     self = [super init];

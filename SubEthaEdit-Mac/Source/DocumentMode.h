@@ -5,6 +5,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "SEEStyleSheetSettings.h"
+#import "SEEDocumentModePackage.h"
 
 enum {
     DocumentModeWrapModeWords = 0,
@@ -61,9 +62,6 @@ extern NSString * const DocumentModePrintOptionsPreferenceKey           ;
 
 extern NSString * const DocumentModeBackgroundColorIsDarkPreferenceKey  ;
 extern NSString * const DocumentModeSyntaxStylePreferenceKey            ;
-// depricated
-// extern NSString * const DocumentModeForegroundColorPreferenceKey        ;
-// extern NSString * const DocumentModeBackgroundColorPreferenceKey        ;
 
 extern NSString * const DocumentModeExportPreferenceKey                    ;
 extern NSString * const DocumentModeExportHTMLPreferenceKey                ;
@@ -127,6 +125,8 @@ extern NSString * const DocumentModeStyleSheetsDefaultLanguageContextKey;
 + (BOOL)canParseModeVersionOfBundle:(NSBundle *)aBundle;
 
 - (instancetype)initWithBundle:(NSBundle *)aBundle;
+
+- (instancetype)initWithPackage:(SEEDocumentModePackage *)package;
 
 @property (nonatomic, strong, readonly) NSString *bracketMatchingBracketString;
 

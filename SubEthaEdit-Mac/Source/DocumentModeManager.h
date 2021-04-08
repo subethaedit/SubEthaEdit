@@ -15,19 +15,7 @@
 #define BASEMODEIDENTIFIER @"SEEMode.Base"
 #define AUTOMATICMODEIDENTIFIER @"SEEMode.Automatic"
 
-@interface DocumentModeManager : NSObject <NSAlertDelegate> {
-    NSMutableDictionary *I_modeBundles;
-    NSMutableDictionary *I_documentModesByIdentifier;
-    NSMutableDictionary *I_documentModesByName;
-
-	NSRecursiveLock *I_documentModesByIdentifierLock; // (ifc - experimental locking for thread safety... TCM are putting in a real fix)
-
-	NSMutableArray      *I_modeIdentifiersTagArray;
-	
-	// style sheet management
-	NSMutableDictionary *I_styleSheetPathsByName;
-	NSMutableDictionary *I_styleSheetsByName;
-}
+@interface DocumentModeManager : NSObject <NSAlertDelegate> 
 
 @property (nonatomic, strong, readonly) NSArray *allPathExtensions;
 @property (nonatomic, strong) NSMutableArray *modePrecedenceArray;
