@@ -14,9 +14,6 @@
 #import "SEEDocumentModePackage.h"
 
 @interface DocumentModeManager () {
-    NSMutableDictionary *I_documentModesByIdentifier;
-    NSMutableDictionary *I_documentModesByName;
-
     NSRecursiveLock *I_documentModesByIdentifierLock; // (ifc - experimental locking for thread safety... TCM are putting in a real fix)
 
     NSMutableArray      *I_modeIdentifiersTagArray;
@@ -26,6 +23,8 @@
     NSMutableDictionary *I_styleSheetsByName;
 }
 @property (nonatomic, strong) NSMutableDictionary<NSString *, SEEDocumentModePackage *> *modePackages;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, DocumentMode *> *modesByIdentifier;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, DocumentMode *> *modesByName;
 @property (nonatomic, strong, readwrite) NSDictionary *changedScopeNameDict;
 @end
 
@@ -40,10 +39,8 @@
 - (NSString *)pathForWritingStyleSheetWithName:(NSString *)aStyleSheetName;
 @end
 
-#pragma mark
 #pragma mark -
 
-#pragma mark
 @interface DocumentModeManager ()
 @property (nonatomic, strong) NSArray *allPathExtensions;
 @end
@@ -80,7 +77,6 @@
     return [NSString stringWithFormat:@"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<seestyle>\n%@</seestyle>\n",result];
 }
 
-#pragma mark
 - (instancetype)init {
     if ((self = [super init])) {
         _modePackages=[NSMutableDictionary new];
@@ -88,8 +84,8 @@
         I_styleSheetPathsByName = [NSMutableDictionary new];
         I_styleSheetsByName     = [NSMutableDictionary new];
         
-        I_documentModesByIdentifier =[NSMutableDictionary new];
-        I_documentModesByName       = [NSMutableDictionary new];
+        _modesByIdentifier = [NSMutableDictionary new];
+        _modesByName       = [NSMutableDictionary new];
         I_documentModesByIdentifierLock = [NSRecursiveLock new]; // ifc - experimental locking... awaiting real fix from TCM
         I_modeIdentifiersTagArray   =[NSMutableArray new];
         [I_modeIdentifiersTagArray addObject:@"-"];
@@ -669,16 +665,16 @@
 - (IBAction)reloadDocumentModes:(id)aSender {
 
     // write all preferences
-    [[I_documentModesByIdentifier allValues] makeObjectsPerformSelector:@selector(writeDefaults)];
+    [[_modesByIdentifier allValues] makeObjectsPerformSelector:@selector(writeDefaults)];
     [[NSUserDefaults standardUserDefaults] setObject:[self modePrecedenceArray] forKey:@"ModePrecedences"];
 
 	// must be here otherwise we might deadlock
 	[I_documentModesByIdentifierLock lock]; // ifc - experimental
     
     // reload all modes
-    [_modePackages                removeAllObjects];
-    [I_documentModesByIdentifier  removeAllObjects];
-	[I_documentModesByName		  removeAllObjects];
+    [_modePackages       removeAllObjects];
+    [_modesByIdentifier  removeAllObjects];
+	[_modesByName		 removeAllObjects];
     [self TCM_findModes];
 	[I_documentModesByIdentifierLock unlock]; // ifc - experimental
 
@@ -709,7 +705,7 @@
 
 - (DocumentMode *)documentModeForName:(NSString *)aName {
     
-	DocumentMode *mode = [I_documentModesByName objectForKey:aName];
+	DocumentMode *mode = [_modesByName objectForKey:aName];
 	
 	if ( !mode )
 	{
@@ -733,7 +729,7 @@
 		}
         
 		if ( mode )
-			[I_documentModesByName setObject:mode forKey:aName];
+			[_modesByName setObject:mode forKey:aName];
 	}
     
 	return mode;
@@ -752,11 +748,11 @@
     {
         SEEDocumentModePackage *package = [_modePackages objectForKey:anIdentifier];
         if (package) {
-            result = I_documentModesByIdentifier[anIdentifier];
+            result = _modesByIdentifier[anIdentifier];
             if (!result) {
                 result = [[DocumentMode alloc] initWithPackage:package];
                 if (result) {
-                    I_documentModesByIdentifier[anIdentifier] = result;
+                    _modesByIdentifier[anIdentifier] = result;
                     
                     // Load all depended modes
                     NSEnumerator *linkEnumerator = [[[result syntaxDefinition] importedModes] keyEnumerator];
@@ -775,7 +771,7 @@
 }
 
 - (NSArray *)allLoadedDocumentModes {
-	return [I_documentModesByIdentifier allValues];
+	return [_modesByIdentifier allValues];
 }
 
 
