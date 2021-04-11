@@ -13,59 +13,95 @@
 static NSString * const StateDictionarySwitchToAutocompleteFromModeKey = @"switchtoautocompletefrommode";
 static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useautocompletefrommode";
 
-@interface SyntaxDefinition (PrivateAdditions)
+@interface SyntaxDefinition () {
+    __weak DocumentMode *I_mode;
+    NSCharacterSet *I_tokenSet;     /*"Set for tokenizing"*/
+    NSCharacterSet *I_invertedTokenSet;     /*"Set for tokenizing"*/
+    NSCharacterSet *I_autoCompleteTokenSet;     /*"Set for autocomplete tokenizing"*/
+    NSString *I_autocompleteTokenString;
+    NSMutableDictionary *I_allStates;       /*"All states except the default state"*/
+    NSMutableDictionary *I_defaultState;    /*"Default state"*/
+    NSMutableDictionary *I_stylesForToken;   /*"Chached plainstrings"*/
+    NSMutableDictionary *I_stylesForRegex;   /*"Chached regexs"*/
+    NSMutableDictionary *I_importedModes;   /*"Chached regexs"*/
+    NSMutableDictionary *I_scopeStyleDictionary;
+    NSMutableArray *I_linkedStyleSheets;
+    BOOL everythingOkay;
+    BOOL I_combinedStateRegexReady;
+    BOOL I_combinedStateRegexCalculating;
+    BOOL I_cacheStylesReady;
+    BOOL I_cacheStylesCalculating;
+    BOOL I_symbolAndAutocompleteInheritanceReady;
+    NSMutableDictionary *I_levelsForStyleIDs;
+    SyntaxStyle *I_defaultSyntaxStyle;
+    NSString *I_charsInToken;
+    NSString *I_charsDelimitingToken;
+    NSString *I_keyForInheritedSymbols;
+    NSString *I_keyForInheritedAutocomplete;
+    OGRegularExpression *I_tokenRegex;
+    int I_foldingTopLevel;
+    
+    NSMutableArray *I_allScopesArray;
+    NSMutableArray *I_allLanguageContextsArray;
+}
 - (void)addAttributes:(NSArray *)attributes toDictionary:(NSMutableDictionary *)aDictionary;
 @end
 
 @implementation SyntaxDefinition
 /*"A Syntax Definition"*/
 
-#pragma mark - Initizialisation
+#pragma mark - Initialisation
 
 @synthesize scopeStyleDictionary = I_scopeStyleDictionary;
 @synthesize linkedStyleSheets = I_linkedStyleSheets;
+@synthesize mode = I_mode;
+@synthesize defaultSyntaxStyle = I_defaultSyntaxStyle;
+
+static void CommonInit(__unsafe_unretained SyntaxDefinition *self, NSString *name) {
+    // Alloc & Init
+    self->_name = name;
+    self->I_defaultState = [NSMutableDictionary new];
+    self->I_importedModes = [NSMutableDictionary new];
+    self->I_allStates = [NSMutableDictionary new];
+    self->I_defaultSyntaxStyle = [SyntaxStyle new];
+    self->I_allScopesArray =  [[NSMutableArray alloc] initWithObjects:SEEStyleSheetMetaDefaultScopeName, nil];
+    self->I_allLanguageContextsArray = [[NSMutableArray alloc] initWithObjects:self->_name, nil];
+
+    self->I_scopeStyleDictionary = [NSMutableDictionary dictionary];
+    self->I_linkedStyleSheets = [NSMutableArray array];
+
+    self->everythingOkay = YES;
+    self->I_foldingTopLevel = 1;
+    
+    // Setup stuff <-> style dictionaries
+    self->I_stylesForToken = [NSMutableDictionary new];
+    self->I_stylesForRegex = [NSMutableDictionary new];
+    self->I_combinedStateRegexReady = NO;
+    self->I_combinedStateRegexCalculating = NO;
+    self->I_cacheStylesReady = NO;
+    self->I_cacheStylesCalculating = NO;
+    self->I_symbolAndAutocompleteInheritanceReady=NO;
+    self->I_levelsForStyleIDs = [NSMutableDictionary new];
+    self->I_keyForInheritedSymbols = nil;
+    self->I_keyForInheritedAutocomplete = nil;
+}
 
 /*"Initiates the Syntax Definition with an XML file"*/
-- (instancetype)initWithFile:(NSString *)aPath forMode:(DocumentMode *)aMode {
-    self=[super init];
-    if (self) {
-        if (!aPath) {
+- (instancetype)initWithURL:(NSURL *)aURL forMode:(DocumentMode *)aMode {
+    if ((self = [super init])) {
+        if (!aURL) {
             return nil;
         }
-        // Alloc & Init
-        I_defaultState = [NSMutableDictionary new];
-        I_importedModes = [NSMutableDictionary new];
-        I_allStates = [NSMutableDictionary new];
-        I_defaultSyntaxStyle = [SyntaxStyle new];
-		I_allScopesArray =  [[NSMutableArray alloc] initWithObjects:SEEStyleSheetMetaDefaultScopeName, nil];
-		I_allLanguageContextsArray = [[NSMutableArray alloc] initWithObjects:[aMode scriptedName], nil];
-
-		self.scopeStyleDictionary = [NSMutableDictionary dictionary];
-		self.linkedStyleSheets = [NSMutableArray array];
-
-        everythingOkay = YES;
-        I_foldingTopLevel = 1;
-
+        CommonInit(self, aMode.scriptedName);
+        
         // Parse XML File
         [self setMode:aMode];
         [I_defaultSyntaxStyle setDocumentMode:aMode];
-		[self parseXMLFile:aPath];
-
-        // Setup stuff <-> style dictionaries
-        I_stylesForToken = [NSMutableDictionary new];
-        I_stylesForRegex = [NSMutableDictionary new];
-        I_combinedStateRegexReady = NO;
-		I_combinedStateRegexCalculating = NO;
-        I_cacheStylesReady = NO;
-		I_cacheStylesCalculating = NO;
-		I_symbolAndAutocompleteInheritanceReady=NO;
-		I_levelsForStyleIDs = [NSMutableDictionary new];
-		I_keyForInheritedSymbols = nil;
-		I_keyForInheritedAutocomplete = nil;
+		[self parseXMLFile:aURL];
 
 	    if (!everythingOkay) {
 			NSLog(@"Critical errors while loading syntax definition. Not loading syntax highlighter.");
-			return nil;
+			self = nil;
 		}
 	}
 	return self;
@@ -73,7 +109,7 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 
 #pragma mark - XML parsing
 
--(void) showWarning:(NSString *)title withDescription:(NSString *)description {
+- (void)showWarning:(NSString *)title withDescription:(NSString *)description {
 	NSLog(@"ERROR: %@: %@",title, description);
 	NSAlert *alert = [[NSAlert alloc] init];
 	[alert setAlertStyle:NSAlertStyleWarning];
@@ -85,18 +121,19 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 }
 
 /*"Entry point for XML parsing, branches to according node functions"*/
--(void)parseXMLFile:(NSString *)aPath {
+- (void)parseXMLFile:(NSURL *)aFileURL {
 
+    NSString *filePath = aFileURL.path;
+    
     NSError *err=nil;
-    NSXMLDocument *syntaxDefinitionXML = [[NSXMLDocument alloc] initWithData:[NSData dataWithContentsOfFile:aPath] options:0 error:&err];
+    NSXMLDocument *syntaxDefinitionXML = [[NSXMLDocument alloc] initWithData:[NSData dataWithContentsOfFile:filePath] options:0 error:&err];
 
     if (err) {
-		[self showWarning:NSLocalizedString(@"XML Structure Error",@"XML Structure Error Title")  withDescription:[NSString stringWithFormat:NSLocalizedString(@"Error while loading '%@': %@",@"Syntax XML Loading Error Informative Text"),aPath, [err localizedDescription]]];
+		[self showWarning:NSLocalizedString(@"XML Structure Error",@"XML Structure Error Title")  withDescription:[NSString stringWithFormat:NSLocalizedString(@"Error while loading '%@': %@",@"Syntax XML Loading Error Informative Text"),filePath, [err localizedDescription]]];
         return;
     } 
 
     //Parse Headers
-    [self setName:[[self mode] documentModeIdentifier]];
 
     NSString *charsInToken = [[[syntaxDefinitionXML nodesForXPath:@"/syntax/head/charsintokens" error:&err] lastObject] stringValue];
     NSString *charsDelimitingToken = [[[syntaxDefinitionXML nodesForXPath:@"/syntax/head/charsdelimitingtokens" error:&err] lastObject] stringValue];
@@ -142,7 +179,7 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
         I_autocompleteTokenString = [charsInCompletion copy];
     }
 
-    I_useSpellingDictionary = [[[[syntaxDefinitionXML nodesForXPath:@"/syntax/head/autocompleteoptions/@use-spelling-dictionary" error:&err] lastObject] stringValue] isEqualTo:@"yes"];    
+    _useSpellingDictionary = [[[[syntaxDefinitionXML nodesForXPath:@"/syntax/head/autocompleteoptions/@use-spelling-dictionary" error:&err] lastObject] stringValue] isEqualTo:@"yes"];
 
 	
 	// Parse inline scopes
@@ -167,7 +204,7 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
     NSXMLElement *defaultStateNode = [[syntaxDefinitionXML nodesForXPath:@"/syntax/states/default" error:&err] lastObject];
 	
 	if (!defaultStateNode) {
-		[self showWarning:NSLocalizedString(@"XML Structure Error",@"XML Structure Error Title")  withDescription:[NSString stringWithFormat:NSLocalizedString(@"Error while loading '%@': File has no default state defined",@"Syntax XML No Default State Error Informative Text"),aPath]];
+		[self showWarning:NSLocalizedString(@"XML Structure Error",@"XML Structure Error Title")  withDescription:[NSString stringWithFormat:NSLocalizedString(@"Error while loading '%@': File has no default state defined",@"Syntax XML No Default State Error Informative Text"),filePath]];
 	}
 	
     [self parseState:defaultStateNode addToState:I_defaultState];
@@ -589,32 +626,12 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"SyntaxDefinition, Name:%@ , TokenSet:%@, DefaultState: %@, Uses Spelling Dictionary: %@", [self name], [self tokenSet], [I_defaultState description], I_useSpellingDictionary?@"Yes.":@"No."];
+    return [NSString stringWithFormat:@"SyntaxDefinition, Name:%@ , TokenSet:%@, DefaultState: %@, Uses Spelling Dictionary: %@", [self name], [self tokenSet], [I_defaultState description], _useSpellingDictionary?@"Yes.":@"No."];
 }
 
 - (OGRegularExpression *)tokenRegex
 {
     return I_tokenRegex;
-}
-
-- (NSString *)name
-{
-	if (I_name) return I_name;
-    
-	NSString *idenifier = [[self mode] documentModeIdentifier];
-    NSRange aRange = [idenifier rangeOfString:@"SEEMode." options:NSLiteralSearch range:NSMakeRange(0, [idenifier length] - 1)];
-	NSString *modeName = [idenifier substringWithRange:NSMakeRange(aRange.length, [idenifier length] - aRange.length)];
-
-	if (!I_name) I_name = [modeName copy];
-	
-    return modeName;
-}
-
-- (void)setName:(NSString *)aString
-{
-    NSRange aRange = [aString rangeOfString:@"SEEMode." options:NSLiteralSearch range:NSMakeRange(0, [aString length] - 1)];
-	NSString *modeName = [aString substringWithRange:NSMakeRange(aRange.length, [aString length] - aRange.length)];
-	I_name = [modeName copy];
 }
 
 - (NSMutableDictionary *)defaultState
@@ -1067,22 +1084,5 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 	I_cacheStylesReady = NO;
 	I_cacheStylesCalculating = NO;
 }
-
-- (DocumentMode *)mode {
-    return I_mode;
-}
-
-- (void)setMode:(DocumentMode *)aMode {
-    I_mode = aMode;
-}
-
-- (SyntaxStyle *)defaultSyntaxStyle {
-    return I_defaultSyntaxStyle;
-}
-
-- (BOOL)useSpellingDictionary {
-    return I_useSpellingDictionary;
-}
-
 
 @end

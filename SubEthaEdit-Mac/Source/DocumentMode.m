@@ -202,7 +202,7 @@ NSString * const DocumentModeFontNameSystemFontValue = @"_SEESystemMonoFont_";
 		}
 		
 		// already puts some autocomplete in the autocomplete dict
-        _syntaxDefinition = [[SyntaxDefinition alloc] initWithFile:[aBundle pathForResource:@"SyntaxDefinition" ofType:@"xml"] forMode:self];
+        _syntaxDefinition = [[SyntaxDefinition alloc] initWithURL:[aBundle URLForResource:@"SyntaxDefinition" withExtension:@"xml"] forMode:self];
         
         RegexSymbolDefinition *symDef = [[RegexSymbolDefinition alloc] initWithFile:[aBundle pathForResource:@"RegexSymbols" ofType:@"xml"] forMode:self];
         
