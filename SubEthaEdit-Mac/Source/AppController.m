@@ -29,6 +29,7 @@
 #import "HandshakeProfile.h"
 #import "SessionProfile.h"
 #import "DocumentModeManager.h"
+#import "SyntaxDefinition.h"
 #import "SEEDocumentController.h"
 #import "PlainTextEditor.h"
 #import "TextOperation.h"
@@ -418,7 +419,8 @@ static AppController *sharedInstance = nil;
 
     [defaultCenter addObserver:self selector:@selector(documentModeListDidChange:) name:@"DocumentModeListChanged" object:nil];
     [defaultCenter addObserver:self selector:@selector(scriptDidEncounterError:) name:ScriptWrapperDidEncounterScriptErrorNotification object:nil];
-
+    [defaultCenter addObserver:self selector:@selector(modeLoadingDidEncounterError:) name:SyntaxDefinitionDidEncounterErrorNotification object:nil];
+    
     [self localizeAppMenu];
     
 	// check built in mode versions
@@ -951,6 +953,22 @@ static AppController *sharedInstance = nil;
 
 - (void)scriptDidEncounterError:(NSNotification *)note {
     [self reportAppleScriptError:note.userInfo[@"error"]];
+}
+
+- (void)modeLoadingDidEncounterError:(NSNotification *)note {
+    [self reportModeLoadingError:note.userInfo[@"error"]];
+}
+
+- (void)reportModeLoadingError:(NSError *)error {
+    [NSOperationQueue TCM_performBlockOnMainThreadIsAsynchronous:^{
+        NSAlert *alert = [[NSAlert alloc] init];
+        [alert setAlertStyle:NSAlertStyleWarning];
+        NSDictionary *userInfo = error.userInfo;
+        [alert setMessageText:userInfo[NSLocalizedDescriptionKey]];
+        [alert setInformativeText:userInfo[NSLocalizedFailureReasonErrorKey]];
+        [alert addButtonWithTitle:NSLocalizedString(@"OK",@"OK button in dialogs and sheets")];
+        [alert runModal];
+    }];
 }
 
 - (void)reportAppleScriptError:(NSDictionary *)anErrorDictionary {

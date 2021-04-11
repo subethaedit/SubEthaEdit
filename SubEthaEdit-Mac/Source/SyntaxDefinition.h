@@ -8,6 +8,8 @@
 #import "DocumentMode.h"
 #import "SyntaxStyle.h"
 
+extern NSNotificationName const SyntaxDefinitionDidEncounterErrorNotification;
+
 @interface SyntaxDefinition : NSObject
 
 @property (nonatomic, strong) NSMutableDictionary *scopeStyleDictionary;

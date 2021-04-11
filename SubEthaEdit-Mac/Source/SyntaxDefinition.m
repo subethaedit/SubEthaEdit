@@ -10,8 +10,12 @@
 #import "SyntaxHighlighter.h"
 #import "SEEStyleSheet.h"
 
+static NSString * const SEESyntaxDefinitionErrorDomain = @"SEESyntaxDefinition";
 static NSString * const StateDictionarySwitchToAutocompleteFromModeKey = @"switchtoautocompletefrommode";
 static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useautocompletefrommode";
+
+NSNotificationName const SyntaxDefinitionDidEncounterErrorNotification = @"SyntaxDefinitionDidEncounterErrorNotification";
+
 
 @interface SyntaxDefinition () {
     __weak DocumentMode *I_mode;
@@ -109,15 +113,19 @@ static void CommonInit(__unsafe_unretained SyntaxDefinition *self, NSString *nam
 
 #pragma mark - XML parsing
 
-- (void)showWarning:(NSString *)title withDescription:(NSString *)description {
+- (NSError *)errorWithTitle:(NSString *)title description:(NSString *)description {
+    NSDictionary *errorUserInfo = @{NSLocalizedDescriptionKey: title,
+                                    NSLocalizedFailureReasonErrorKey: description};
+
+    NSError *error = [NSError errorWithDomain:SEESyntaxDefinitionErrorDomain code:1 userInfo:errorUserInfo];
+    return error;
+}
+
+- (void)reportWarning:(NSString *)title withDescription:(NSString *)description {
 	NSLog(@"ERROR: %@: %@",title, description);
-	NSAlert *alert = [[NSAlert alloc] init];
-	[alert setAlertStyle:NSAlertStyleWarning];
-	[alert setMessageText:title];
-	[alert setInformativeText:description];
-	[alert addButtonWithTitle:NSLocalizedString(@"OK",@"OK button in dialogs and sheets")];
-	[alert runModal];
-	everythingOkay = NO;
+    NSError *error = [self errorWithTitle:title description:description];
+    [[NSNotificationCenter defaultCenter] postNotificationName:SyntaxDefinitionDidEncounterErrorNotification object:self userInfo:@{@"error":error}];
+    everythingOkay = NO;
 }
 
 /*"Entry point for XML parsing, branches to according node functions"*/
@@ -129,7 +137,7 @@ static void CommonInit(__unsafe_unretained SyntaxDefinition *self, NSString *nam
     NSXMLDocument *syntaxDefinitionXML = [[NSXMLDocument alloc] initWithData:[NSData dataWithContentsOfFile:filePath] options:0 error:&err];
 
     if (err) {
-		[self showWarning:NSLocalizedString(@"XML Structure Error",@"XML Structure Error Title")  withDescription:[NSString stringWithFormat:NSLocalizedString(@"Error while loading '%@': %@",@"Syntax XML Loading Error Informative Text"),filePath, [err localizedDescription]]];
+		[self reportWarning:NSLocalizedString(@"XML Structure Error",@"XML Structure Error Title")  withDescription:[NSString stringWithFormat:NSLocalizedString(@"Error while loading '%@': %@",@"Syntax XML Loading Error Informative Text"), filePath, [err localizedDescription]]];
         return;
     } 
 
@@ -204,7 +212,7 @@ static void CommonInit(__unsafe_unretained SyntaxDefinition *self, NSString *nam
     NSXMLElement *defaultStateNode = [[syntaxDefinitionXML nodesForXPath:@"/syntax/states/default" error:&err] lastObject];
 	
 	if (!defaultStateNode) {
-		[self showWarning:NSLocalizedString(@"XML Structure Error",@"XML Structure Error Title")  withDescription:[NSString stringWithFormat:NSLocalizedString(@"Error while loading '%@': File has no default state defined",@"Syntax XML No Default State Error Informative Text"),filePath]];
+		[self reportWarning:NSLocalizedString(@"XML Structure Error",@"XML Structure Error Title")  withDescription:[NSString stringWithFormat:NSLocalizedString(@"Error while loading '%@': File has no default state defined",@"Syntax XML No Default State Error Informative Text"),filePath]];
 	}
 	
     [self parseState:defaultStateNode addToState:I_defaultState];
@@ -234,7 +242,7 @@ static void CommonInit(__unsafe_unretained SyntaxDefinition *self, NSString *nam
             else {
                 [aDictionary removeObjectForKey:attributeValue];
 				if (![attributeValue isEqualToString:@"none"])
-					[self showWarning:NSLocalizedString(@"XML Color Error",@"XML Color Error Title")  withDescription:[NSString stringWithFormat:NSLocalizedString(@"Cannot parse color '%@' in %@ mode",@"Syntax XML Color Error Informative Text"), attributeValue, [self name]]];
+					[self reportWarning:NSLocalizedString(@"XML Color Error",@"XML Color Error Title")  withDescription:[NSString stringWithFormat:NSLocalizedString(@"Cannot parse color '%@' in %@ mode",@"Syntax XML Color Error Informative Text"), attributeValue, [self name]]];
                 continue;
             }
         }        
@@ -308,7 +316,7 @@ static void CommonInit(__unsafe_unretained SyntaxDefinition *self, NSString *nam
             [stateDictionary setObject:stringBegin forKey:@"BeginsWithPlainString"];
         } else {
             if (![name isEqualToString:@"default"])
-                [self showWarning:NSLocalizedString(@"XML Structure Error",@"XML Structure Error Title")  withDescription:[NSString stringWithFormat:NSLocalizedString(@"State '%@' in %@ mode has no begin tag",@"Syntax State No Begin Error Informative Text"), [stateDictionary objectForKey:@"id"], [self name]]];
+                [self reportWarning:NSLocalizedString(@"XML Structure Error",@"XML Structure Error Title")  withDescription:[NSString stringWithFormat:NSLocalizedString(@"State '%@' in %@ mode has no begin tag",@"Syntax State No Begin Error Informative Text"), [stateDictionary objectForKey:@"id"], [self name]]];
         }
         
         if (regexEnd) {
@@ -318,13 +326,13 @@ static void CommonInit(__unsafe_unretained SyntaxDefinition *self, NSString *nam
                     [stateDictionary setObject:endRegex forKey:@"EndsWithRegex"];
                 [stateDictionary setObject:regexEnd forKey:@"EndsWithRegexString"];
             } else {
-                [self showWarning:NSLocalizedString(@"XML Regex Error",@"XML Regex Error Title")  withDescription:[NSString stringWithFormat:NSLocalizedString(@"State '%@' in %@ mode has a end tag that is not a valid regex",@"Syntax State Malformed Begin Error Informative Text"), [stateDictionary objectForKey:@"id"], [self name]]];
+                [self reportWarning:NSLocalizedString(@"XML Regex Error",@"XML Regex Error Title")  withDescription:[NSString stringWithFormat:NSLocalizedString(@"State '%@' in %@ mode has a end tag that is not a valid regex",@"Syntax State Malformed Begin Error Informative Text"), [stateDictionary objectForKey:@"id"], [self name]]];
             }
         } else if (stringEnd) {
             [stateDictionary setObject:stringEnd forKey:@"EndsWithPlainString"];
         } else {
             if (![name isEqualToString:@"default"])
-                [self showWarning:NSLocalizedString(@"XML Structure Error",@"XML Structure Error Title")  withDescription:[NSString stringWithFormat:NSLocalizedString(@"State '%@' in %@ mode has no end tag",@"Syntax State No End Error Informative Text"), [stateDictionary objectForKey:@"id"], [self name]]];
+                [self reportWarning:NSLocalizedString(@"XML Structure Error",@"XML Structure Error Title")  withDescription:[NSString stringWithFormat:NSLocalizedString(@"State '%@' in %@ mode has no end tag",@"Syntax State No End Error Informative Text"), [stateDictionary objectForKey:@"id"], [self name]]];
         }
     }
 
@@ -1035,7 +1043,7 @@ static void CommonInit(__unsafe_unretained SyntaxDefinition *self, NSString *nam
             OGRegularExpression *testForGroups = [[OGRegularExpression alloc] initWithString:beginString options:OgreFindNotEmptyOption|OgreCaptureGroupOption];
 
             if ([testForGroups numberOfGroups]>[testForGroups numberOfNames]) {
-                [self showWarning:NSLocalizedString(@"XML Group Error",@"XML Group Error Title") withDescription:[NSString stringWithFormat:NSLocalizedString(@"The <begin> tag of <state> \"%@\" contains a regex that has captured groups. This is currently not allowed. Please escape all groups to be not-captured with (?:).",@"Syntax XML Group Error Informative Text"),[aDictionary objectForKey:@"id"]]];
+                [self reportWarning:NSLocalizedString(@"XML Group Error",@"XML Group Error Title") withDescription:[NSString stringWithFormat:NSLocalizedString(@"The <begin> tag of <state> \"%@\" contains a regex that has captured groups. This is currently not allowed. Please escape all groups to be not-captured with (?:).",@"Syntax XML Group Error Informative Text"),[aDictionary objectForKey:@"id"]]];
             }
           
         } else if ((beginString = [aDictionary objectForKey:@"BeginsWithPlainString"])) {
@@ -1043,7 +1051,7 @@ static void CommonInit(__unsafe_unretained SyntaxDefinition *self, NSString *nam
         } else if ([aDictionary objectForKey:@"containerState"]) {
             DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found a container state");
         } else {
-			[self showWarning:NSLocalizedString(@"XML Structure Error",@"XML Structure Error Title") withDescription:[NSString stringWithFormat:NSLocalizedString(@"<state> \"%@\" has no <begin>. This confuses me. Please check your syntax definition.",@"Syntax XML Structure Error Informative Text"),[aDictionary objectForKey:@"id"]]];
+			[self reportWarning:NSLocalizedString(@"XML Structure Error",@"XML Structure Error Title") withDescription:[NSString stringWithFormat:NSLocalizedString(@"<state> \"%@\" has no <begin>. This confuses me. Please check your syntax definition.",@"Syntax XML Structure Error Informative Text"),[aDictionary objectForKey:@"id"]]];
         }
         if (beginString) {
             [combinedString appendString:[NSString stringWithFormat:@"(?<seeinternalgroup%d>%@)|",i,beginString]];
@@ -1077,7 +1085,7 @@ static void CommonInit(__unsafe_unretained SyntaxDefinition *self, NSString *nam
 				[aState setObject:combindedRegex forKey:@"Combined Delimiter Regex"];
 			}
 		} else {
-			[self showWarning:NSLocalizedString(@"Regular Expression Error",@"Regular Expression Error Title") withDescription:[NSString stringWithFormat:NSLocalizedString(@"One of the specified state <begin>'s is not a valid regular expression. Therefore the Combined Delimiter Regex \"%@\" could not be compiled. Please check your regular expression in Find Panel's Ruby mode.",@"Syntax Regular Expression Error Informative Text"),combinedString]];
+			[self reportWarning:NSLocalizedString(@"Regular Expression Error",@"Regular Expression Error Title") withDescription:[NSString stringWithFormat:NSLocalizedString(@"One of the specified state <begin>'s is not a valid regular expression. Therefore the Combined Delimiter Regex \"%@\" could not be compiled. Please check your regular expression in Find Panel's Ruby mode.",@"Syntax Regular Expression Error Informative Text"),combinedString]];
         }
     }
 	// We might have new styles that got imported, so run caching again!
