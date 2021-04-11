@@ -13,12 +13,13 @@ extern NSNotificationName const SyntaxDefinitionDidEncounterErrorNotification;
 @interface SyntaxDefinition : NSObject
 
 @property (nonatomic, strong) NSMutableDictionary *scopeStyleDictionary;
-@property (nonatomic, strong) NSMutableArray *linkedStyleSheets;
 @property (nonatomic, copy) NSString *bracketMatchingBracketString;
 
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, readonly) SyntaxStyle *defaultSyntaxStyle;
 @property (nonatomic, weak) DocumentMode *mode;
+
+@property (nonatomic, strong) NSArray<NSError *> *parseErrors;
 
 /*"Initialisation"*/
 - (instancetype)initWithURL:(NSURL *)aURL forMode:(DocumentMode *)aMode;
@@ -38,19 +39,18 @@ extern NSNotificationName const SyntaxDefinitionDidEncounterErrorNotification;
 - (NSString *)mainLanguageContext;
 - (NSString *)keyForInheritedSymbols;
 - (NSString *)keyForInheritedAutocomplete;
-- (OGRegularExpression *)tokenRegex;
-//- (NSArray *)states;
+
 - (NSMutableDictionary *)stateForID:(NSString *)aString;
 - (NSMutableDictionary *)defaultState;
 - (NSDictionary *)importedModes;
-- (NSCharacterSet *)tokenSet;
-- (NSCharacterSet *)invertedTokenSet;
-- (NSCharacterSet *)autoCompleteTokenSet;
-- (NSString *)autocompleteTokenString;
-- (void)setTokenSet:(NSCharacterSet *)aCharacterSet;
-- (void)setAutoCompleteTokenSet:(NSCharacterSet *)aCharacterSet;
+
+@property (nonatomic, strong) NSCharacterSet *tokenSet;
+@property (nonatomic, strong) NSCharacterSet *autoCompleteTokenSet;
+@property (nonatomic, strong, readonly) NSCharacterSet *invertedTokenSet;
+@property (nonatomic, strong) NSString *autocompleteTokenString;
+
 - (BOOL)state:(NSString *)aState includesState:(NSString *)anotherState;
-- (BOOL) hasTokensForState:(NSString *)aState;
+- (BOOL)hasTokensForState:(NSString *)aState;
 - (NSString *)styleForToken:(NSString *)aToken inState:(NSString *)aState;
 - (NSArray *)regularExpressionsInState:(NSString *)aState;
 - (void)setCombinedStateRegexForState:(NSMutableDictionary *)aState;

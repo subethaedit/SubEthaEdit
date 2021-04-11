@@ -19,18 +19,14 @@ NSNotificationName const SyntaxDefinitionDidEncounterErrorNotification = @"Synta
 
 @interface SyntaxDefinition () {
     __weak DocumentMode *I_mode;
-    NSCharacterSet *I_tokenSet;     /*"Set for tokenizing"*/
-    NSCharacterSet *I_invertedTokenSet;     /*"Set for tokenizing"*/
-    NSCharacterSet *I_autoCompleteTokenSet;     /*"Set for autocomplete tokenizing"*/
-    NSString *I_autocompleteTokenString;
-    NSMutableDictionary *I_allStates;       /*"All states except the default state"*/
+    
     NSMutableDictionary *I_defaultState;    /*"Default state"*/
+    NSMutableDictionary *I_allStates;       /*"All states except the default state"*/
     NSMutableDictionary *I_stylesForToken;   /*"Chached plainstrings"*/
     NSMutableDictionary *I_stylesForRegex;   /*"Chached regexs"*/
-    NSMutableDictionary *I_importedModes;   /*"Chached regexs"*/
+    NSMutableDictionary *I_importedModes;
     NSMutableDictionary *I_scopeStyleDictionary;
-    NSMutableArray *I_linkedStyleSheets;
-    BOOL everythingOkay;
+
     BOOL I_combinedStateRegexReady;
     BOOL I_combinedStateRegexCalculating;
     BOOL I_cacheStylesReady;
@@ -38,8 +34,6 @@ NSNotificationName const SyntaxDefinitionDidEncounterErrorNotification = @"Synta
     BOOL I_symbolAndAutocompleteInheritanceReady;
     NSMutableDictionary *I_levelsForStyleIDs;
     SyntaxStyle *I_defaultSyntaxStyle;
-    NSString *I_charsInToken;
-    NSString *I_charsDelimitingToken;
     NSString *I_keyForInheritedSymbols;
     NSString *I_keyForInheritedAutocomplete;
     OGRegularExpression *I_tokenRegex;
@@ -48,6 +42,10 @@ NSNotificationName const SyntaxDefinitionDidEncounterErrorNotification = @"Synta
     NSMutableArray *I_allScopesArray;
     NSMutableArray *I_allLanguageContextsArray;
 }
+
+@property (nonatomic, strong) NSString *charsInTokens;
+@property (nonatomic, strong) NSString *charsDelimitingTokens;
+
 - (void)addAttributes:(NSArray *)attributes toDictionary:(NSMutableDictionary *)aDictionary;
 @end
 
@@ -57,7 +55,6 @@ NSNotificationName const SyntaxDefinitionDidEncounterErrorNotification = @"Synta
 #pragma mark - Initialisation
 
 @synthesize scopeStyleDictionary = I_scopeStyleDictionary;
-@synthesize linkedStyleSheets = I_linkedStyleSheets;
 @synthesize mode = I_mode;
 @synthesize defaultSyntaxStyle = I_defaultSyntaxStyle;
 
@@ -72,9 +69,7 @@ static void CommonInit(__unsafe_unretained SyntaxDefinition *self, NSString *nam
     self->I_allLanguageContextsArray = [[NSMutableArray alloc] initWithObjects:self->_name, nil];
 
     self->I_scopeStyleDictionary = [NSMutableDictionary dictionary];
-    self->I_linkedStyleSheets = [NSMutableArray array];
 
-    self->everythingOkay = YES;
     self->I_foldingTopLevel = 1;
     
     // Setup stuff <-> style dictionaries
@@ -88,25 +83,28 @@ static void CommonInit(__unsafe_unretained SyntaxDefinition *self, NSString *nam
     self->I_levelsForStyleIDs = [NSMutableDictionary new];
     self->I_keyForInheritedSymbols = nil;
     self->I_keyForInheritedAutocomplete = nil;
+    
+    self.charsInTokens = @"_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@"; // default set
 }
 
 /*"Initiates the Syntax Definition with an XML file"*/
 - (instancetype)initWithURL:(NSURL *)aURL forMode:(DocumentMode *)aMode {
     if ((self = [super init])) {
-        if (!aURL) {
-            return nil;
+        if (aURL) {
+            CommonInit(self, aMode.scriptedName);
+            
+            // Parse XML File
+            [self setMode:aMode];
+            [I_defaultSyntaxStyle setDocumentMode:aMode];
+            [self parseXMLFile:aURL];
+            
+            if (_parseErrors.count > 0) {
+                NSLog(@"Critical errors while loading syntax definition. Not loading syntax highlighter. %@", _parseErrors);
+                self = nil;
+            }
+        } else {
+            self = nil;
         }
-        CommonInit(self, aMode.scriptedName);
-        
-        // Parse XML File
-        [self setMode:aMode];
-        [I_defaultSyntaxStyle setDocumentMode:aMode];
-		[self parseXMLFile:aURL];
-
-	    if (!everythingOkay) {
-			NSLog(@"Critical errors while loading syntax definition. Not loading syntax highlighter.");
-			self = nil;
-		}
 	}
 	return self;
 }
@@ -124,109 +122,57 @@ static void CommonInit(__unsafe_unretained SyntaxDefinition *self, NSString *nam
 - (void)reportWarning:(NSString *)title withDescription:(NSString *)description {
 	NSLog(@"ERROR: %@: %@",title, description);
     NSError *error = [self errorWithTitle:title description:description];
+    _parseErrors = [(_parseErrors ?: @[]) arrayByAddingObject:error];
     [[NSNotificationCenter defaultCenter] postNotificationName:SyntaxDefinitionDidEncounterErrorNotification object:self userInfo:@{@"error":error}];
-    everythingOkay = NO;
 }
 
 /*"Entry point for XML parsing, branches to according node functions"*/
 - (void)parseXMLFile:(NSURL *)aFileURL {
-
     NSString *filePath = aFileURL.path;
     
-    NSError *err=nil;
-    NSXMLDocument *syntaxDefinitionXML = [[NSXMLDocument alloc] initWithData:[NSData dataWithContentsOfFile:filePath] options:0 error:&err];
+    NSError *error;
+    NSXMLDocument *syntaxDefinitionXML = [[NSXMLDocument alloc] initWithData:[NSData dataWithContentsOfFile:filePath] options:0 error:&error];
 
-    if (err) {
-		[self reportWarning:NSLocalizedString(@"XML Structure Error",@"XML Structure Error Title")  withDescription:[NSString stringWithFormat:NSLocalizedString(@"Error while loading '%@': %@",@"Syntax XML Loading Error Informative Text"), filePath, [err localizedDescription]]];
+    if (error) {
+		[self reportWarning:NSLocalizedString(@"XML Structure Error",@"XML Structure Error Title")  withDescription:[NSString stringWithFormat:NSLocalizedString(@"Error while loading '%@': %@",@"Syntax XML Loading Error Informative Text"), filePath, [error localizedDescription]]];
         return;
     } 
 
-    //Parse Headers
-
-    NSString *charsInToken = [[[syntaxDefinitionXML nodesForXPath:@"/syntax/head/charsintokens" error:&err] lastObject] stringValue];
-    NSString *charsDelimitingToken = [[[syntaxDefinitionXML nodesForXPath:@"/syntax/head/charsdelimitingtokens" error:&err] lastObject] stringValue];
-    NSCharacterSet *tokenSet = nil; // TODO: what should be the value if neither charsInToken nor charsDelimitingToken?
+    // Parse Headers
+    NSString *charsInTokens = [[[syntaxDefinitionXML nodesForXPath:@"/syntax/head/charsintokens" error:&error] lastObject] stringValue];
+    NSString *charsDelimitingTokens = [[[syntaxDefinitionXML nodesForXPath:@"/syntax/head/charsdelimitingtokens" error:&error] lastObject] stringValue];
     
-	NSXMLNode *bracketMatchingBracketNode = [[syntaxDefinitionXML nodesForXPath:@"/syntax/head/bracketmatching/@brackets" error:&err] lastObject];
+	NSXMLNode *bracketMatchingBracketNode = [[syntaxDefinitionXML nodesForXPath:@"/syntax/head/bracketmatching/@brackets" error:&error] lastObject];
 	if (bracketMatchingBracketNode) {
 		self.bracketMatchingBracketString = [bracketMatchingBracketNode stringValue];
 	}
 	
-    NSXMLNode *foldingTopLevel = [[syntaxDefinitionXML nodesForXPath:@"/syntax/head/folding/@toplevel" error:&err] lastObject];
+    NSXMLNode *foldingTopLevel = [[syntaxDefinitionXML nodesForXPath:@"/syntax/head/folding/@toplevel" error:&error] lastObject];
     if (foldingTopLevel) {
     	I_foldingTopLevel = [[foldingTopLevel stringValue] intValue];
     }
     
-    I_charsInToken = nil;
-    I_charsDelimitingToken = nil;
-    
-    if (charsInToken) {
-        tokenSet = [NSCharacterSet characterSetWithCharactersInString:charsInToken];
-        I_charsInToken = [charsInToken copy];
-    } else if (charsDelimitingToken) {
-        tokenSet = [NSCharacterSet characterSetWithCharactersInString:charsDelimitingToken];
-        tokenSet = [tokenSet invertedSet];
-        I_charsDelimitingToken = [charsDelimitingToken copy];
+    if (charsInTokens) {
+        self.charsInTokens = charsInTokens;
+    } else if (charsDelimitingTokens) {
+        self.charsDelimitingTokens = charsDelimitingTokens;
     }
     
-    [self setTokenSet:tokenSet];
-
-    I_tokenRegex = nil;
-    
-    if (I_charsInToken) {
-        I_tokenRegex = [[OGRegularExpression alloc] initWithString:[NSString stringWithFormat:@"[%@]+",[I_charsInToken stringByReplacingRegularExpressionOperators]] options:OgreFindNotEmptyOption|OgreCaptureGroupOption];
-    } else if (I_charsDelimitingToken) {
-        I_tokenRegex = [[OGRegularExpression alloc] initWithString:[NSString stringWithFormat:@"[^%@]+",[I_charsDelimitingToken stringByReplacingRegularExpressionOperators]] options:OgreFindNotEmptyOption|OgreCaptureGroupOption];
-    }        
-        
-    NSString *charsInCompletion = [[[syntaxDefinitionXML nodesForXPath:@"/syntax/head/charsincompletion" error:&err] lastObject] stringValue];
-
-
+    NSString *charsInCompletion = [[[syntaxDefinitionXML nodesForXPath:@"/syntax/head/charsincompletion" error:&error] lastObject] stringValue];
     if (charsInCompletion) {
-        [self setAutoCompleteTokenSet:[NSCharacterSet characterSetWithCharactersInString:charsInCompletion]];
-        I_autocompleteTokenString = [charsInCompletion copy];
+        self.autocompleteTokenString = [charsInCompletion copy];
     }
 
-    _useSpellingDictionary = [[[[syntaxDefinitionXML nodesForXPath:@"/syntax/head/autocompleteoptions/@use-spelling-dictionary" error:&err] lastObject] stringValue] isEqualTo:@"yes"];
+    _useSpellingDictionary = [[[[syntaxDefinitionXML nodesForXPath:@"/syntax/head/autocompleteoptions/@use-spelling-dictionary" error:&error] lastObject] stringValue] isEqualTo:@"yes"];
 
-	
-	// Parse inline scopes
-	
-	NSArray *scopeNodes = [syntaxDefinitionXML nodesForXPath:@"/syntax/head/scopes/scope" error:&err];
-	for (id scopeNode in scopeNodes) {
-		NSMutableDictionary *scopeAttributes = [NSMutableDictionary dictionary];
-		[self addAttributes:[scopeNode attributes] toDictionary:scopeAttributes];
-		if ([scopeAttributes objectForKey:@"scopeid"])
-			[self.scopeStyleDictionary setObject:scopeAttributes forKey:[scopeAttributes objectForKey:@"scopeid"]];
-	}
-
-	// Parse linked sheets
-
-	NSArray *sheetNodes = [syntaxDefinitionXML nodesForXPath:@"/syntax/head/stylesheet" error:&err];
-	for (id sheetNode in sheetNodes) {
-		[self.linkedStyleSheets addObject:[sheetNode stringValue]];
-	}
-	
-	
     // Parse states
-    NSXMLElement *defaultStateNode = [[syntaxDefinitionXML nodesForXPath:@"/syntax/states/default" error:&err] lastObject];
+    NSXMLElement *defaultStateNode = [[syntaxDefinitionXML nodesForXPath:@"/syntax/states/default" error:&error] lastObject];
 	
 	if (!defaultStateNode) {
 		[self reportWarning:NSLocalizedString(@"XML Structure Error",@"XML Structure Error Title")  withDescription:[NSString stringWithFormat:NSLocalizedString(@"Error while loading '%@': File has no default state defined",@"Syntax XML No Default State Error Informative Text"),filePath]];
 	}
 	
     [self parseState:defaultStateNode addToState:I_defaultState];
-    
-    // For old-style, non-recursive modes
-    NSArray *oldStyleStates = [syntaxDefinitionXML nodesForXPath:@"/syntax/states/state" error:&err];
-    if ([oldStyleStates count]>0) {
-        NSXMLElement *oldStyleState;
-        for (oldStyleState in oldStyleStates) {
-            [self parseState:oldStyleState addToState:I_defaultState];
-        }
-        [I_allStates setObject:I_defaultState forKey:[I_defaultState objectForKey:@"id"]]; // Reread default mode
-    }
-
 }
 
 - (void)addAttributes:(NSArray *)attributes toDictionary:(NSMutableDictionary *)aDictionary {
@@ -289,7 +235,7 @@ static void CommonInit(__unsafe_unretained SyntaxDefinition *self, NSString *nam
 }
 
 - (void)parseState:(NSXMLElement *)stateNode addToState:(NSMutableDictionary *)aState {
-    NSError *err;
+    NSError *error;
     NSString *name = [stateNode name];
     NSMutableDictionary *stateDictionary = [NSMutableDictionary dictionary];
     
@@ -301,12 +247,12 @@ static void CommonInit(__unsafe_unretained SyntaxDefinition *self, NSString *nam
         [stateDictionary setObject:@"yes" forKey:@"containerState"];
     } else {
         // Parse and prepare begin/end
-        NSString *regexBegin = [[[stateNode nodesForXPath:@"./begin/regex" error:&err] lastObject] stringValue];
-        NSString *stringBegin = [[[stateNode nodesForXPath:@"./begin/string" error:&err] lastObject] stringValue];
-        NSString *regexEnd = [[[stateNode nodesForXPath:@"./end/regex" error:&err] lastObject] stringValue];
-        NSString *stringEnd = [[[stateNode nodesForXPath:@"./end/string" error:&err] lastObject] stringValue];
+        NSString *regexBegin = [[[stateNode nodesForXPath:@"./begin/regex" error:&error] lastObject] stringValue];
+        NSString *stringBegin = [[[stateNode nodesForXPath:@"./begin/string" error:&error] lastObject] stringValue];
+        NSString *regexEnd = [[[stateNode nodesForXPath:@"./end/regex" error:&error] lastObject] stringValue];
+        NSString *stringEnd = [[[stateNode nodesForXPath:@"./end/string" error:&error] lastObject] stringValue];
 
-		NSString *autoendBegin = [[[stateNode nodesForXPath:@"./begin/autoend" error:&err] lastObject] stringValue];
+		NSString *autoendBegin = [[[stateNode nodesForXPath:@"./begin/autoend" error:&error] lastObject] stringValue];
 		if (autoendBegin) [stateDictionary setObject:autoendBegin forKey:@"AutoendReplacementString"];
 		
         if (regexBegin) {
@@ -340,7 +286,7 @@ static void CommonInit(__unsafe_unretained SyntaxDefinition *self, NSString *nam
     NSMutableArray *keywordGroups = [NSMutableArray array];
     [stateDictionary setObject:keywordGroups forKey:@"KeywordGroups"];
     
-    NSArray *keywordGroupsNodes = [stateNode nodesForXPath:@"./keywords | ./import" error:&err];
+    NSArray *keywordGroupsNodes = [stateNode nodesForXPath:@"./keywords | ./import" error:&error];
     
     for (id xmlNode in keywordGroupsNodes) {
         NSString *nodeName = [xmlNode name];
@@ -383,7 +329,7 @@ static void CommonInit(__unsafe_unretained SyntaxDefinition *self, NSString *nam
 			[keywordGroupDictionary setObject:regexes forKey:@"RegularExpressions"];
 			[keywordGroupDictionary setObject:strings forKey:@"PlainStrings"];
 
-			NSArray *regexNodes = [xmlNode nodesForXPath:@"./regex" error:&err];
+			NSArray *regexNodes = [xmlNode nodesForXPath:@"./regex" error:&error];
 			NSEnumerator *regexEnumerator = [regexNodes objectEnumerator];
 			id regexNode;
 			while ((regexNode = [regexEnumerator nextObject])) {
@@ -407,17 +353,17 @@ static void CommonInit(__unsafe_unretained SyntaxDefinition *self, NSString *nam
 
 			// Add strings for keyword group
 			NSMutableString *combinedKeywordRegexString = [NSMutableString string];
-			if (I_charsInToken) {
-				[combinedKeywordRegexString appendFormat:@"(?<![%@])(",[I_charsInToken stringByReplacingRegularExpressionOperators]];
-			} else if (I_charsDelimitingToken) {
-				[combinedKeywordRegexString appendFormat:@"(?<=[%@]|^)(",[I_charsDelimitingToken stringByReplacingRegularExpressionOperators]];
+			if (_charsInTokens) {
+				[combinedKeywordRegexString appendFormat:@"(?<![%@])(",[_charsInTokens stringByReplacingRegularExpressionOperators]];
+			} else if (_charsDelimitingTokens) {
+				[combinedKeywordRegexString appendFormat:@"(?<=[%@]|^)(",[_charsDelimitingTokens stringByReplacingRegularExpressionOperators]];
 			} else {
 				[combinedKeywordRegexString appendString:@"("];
 			}
 
 			BOOL autocomplete = [[keywordGroupDictionary objectForKey:@"useforautocomplete"] isEqualToString:@"yes"];
 			NSMutableArray *autocompleteDictionary = [[self mode] autocompleteDictionary];
-			NSArray *stringNodes = [xmlNode nodesForXPath:@"./string" error:&err];
+			NSArray *stringNodes = [xmlNode nodesForXPath:@"./string" error:&error];
 			NSEnumerator *stringEnumerator = [stringNodes objectEnumerator];
 			id stringNode;
 			while ((stringNode = [stringEnumerator nextObject])) {
@@ -428,10 +374,10 @@ static void CommonInit(__unsafe_unretained SyntaxDefinition *self, NSString *nam
 			if ([stringNodes count]>0) {
 				[combinedKeywordRegexString replaceCharactersInRange:NSMakeRange([combinedKeywordRegexString length]-1, 1) withString:@")"];
 
-				if (I_charsInToken) {
-					[combinedKeywordRegexString appendFormat:@"(?![%@])",[I_charsInToken stringByReplacingRegularExpressionOperators]];
-				} else if (I_charsDelimitingToken) {
-					[combinedKeywordRegexString appendFormat:@"(?=[%@]|$)",[I_charsDelimitingToken stringByReplacingRegularExpressionOperators]];
+				if (_charsInTokens) {
+					[combinedKeywordRegexString appendFormat:@"(?![%@])",[_charsInTokens stringByReplacingRegularExpressionOperators]];
+				} else if (_charsDelimitingTokens) {
+					[combinedKeywordRegexString appendFormat:@"(?=[%@]|$)",[_charsDelimitingTokens stringByReplacingRegularExpressionOperators]];
 				}
 
 				BOOL caseInsensitiveKeywordGroup = [[keywordGroupDictionary objectForKey:@"casesensitive"] isEqualToString:@"no"];
@@ -484,7 +430,7 @@ static void CommonInit(__unsafe_unretained SyntaxDefinition *self, NSString *nam
 
 
     // Get all nodes and preserve order
-    NSArray *allStateNodes = [stateNode nodesForXPath:@"./state | ./state-link" error:&err];
+    NSArray *allStateNodes = [stateNode nodesForXPath:@"./state | ./state-link" error:&error];
     for (id nextState in allStateNodes) {
         NSString *nodeName = [nextState name];
         if (![stateDictionary objectForKey:@"states"]) [stateDictionary setObject:[NSMutableArray array] forKey:@"states"];
@@ -532,7 +478,7 @@ static void CommonInit(__unsafe_unretained SyntaxDefinition *self, NSString *nam
 }
 
 /*"calls addStylesForKeywordGroups: for defaultState and states"*/
--(void)cacheStyles
+- (void)cacheStyles
 {
 	I_cacheStylesCalculating = YES;
     NSMutableDictionary *state;
@@ -554,7 +500,6 @@ static void CommonInit(__unsafe_unretained SyntaxDefinition *self, NSString *nam
 
         
 		if (keywordGroups.count > 0) {
-
             NSMutableDictionary *newPlainCaseDictionary = [NSMutableDictionary dictionary];
             NSMutableDictionary *newPlainIncaseDictionary = [NSMutableDictionary caseInsensitiveDictionary];
             NSMutableArray *newPlainArray = [NSMutableArray array];
@@ -581,7 +526,7 @@ static void CommonInit(__unsafe_unretained SyntaxDefinition *self, NSString *nam
 	I_cacheStylesReady = YES;
 }
 
-- (void) calculateCombinedStateRegexes {
+- (void)calculateCombinedStateRegexes {
 	I_combinedStateRegexCalculating = YES;
     NSEnumerator *statesEnumerator = [I_allStates objectEnumerator];
     id state;
@@ -637,48 +582,37 @@ static void CommonInit(__unsafe_unretained SyntaxDefinition *self, NSString *nam
     return [NSString stringWithFormat:@"SyntaxDefinition, Name:%@ , TokenSet:%@, DefaultState: %@, Uses Spelling Dictionary: %@", [self name], [self tokenSet], [I_defaultState description], _useSpellingDictionary?@"Yes.":@"No."];
 }
 
-- (OGRegularExpression *)tokenRegex
-{
-    return I_tokenRegex;
-}
-
 - (NSMutableDictionary *)defaultState
 {
     return I_defaultState;
-}
-
-- (NSCharacterSet *)tokenSet
-{
-    return I_tokenSet;
 }
 
 - (int)foldingTopLevel {
 	return I_foldingTopLevel;
 }
 
-- (NSString *)autocompleteTokenString {
-    return I_autocompleteTokenString;
+- (void)setTokenSet:(NSCharacterSet *)aCharacterSet {
+     _tokenSet = [aCharacterSet copy];
+     _invertedTokenSet = [[aCharacterSet invertedSet] copy];
 }
 
-- (NSCharacterSet *)autoCompleteTokenSet
-{
-    return I_autoCompleteTokenSet;
+- (void)setAutocompleteTokenString:(NSString *)autocompleteTokenString {
+    _autocompleteTokenString = [autocompleteTokenString copy];
+    [self setAutoCompleteTokenSet:[NSCharacterSet characterSetWithCharactersInString:autocompleteTokenString]];
 }
 
-- (NSCharacterSet *)invertedTokenSet
-{
-    return I_invertedTokenSet;
+- (void)setCharsInTokens:(NSString *)tokenString {
+    _charsDelimitingTokens = nil;
+    _charsInTokens = tokenString;
+    self.tokenSet = [NSCharacterSet characterSetWithCharactersInString:tokenString];
+    I_tokenRegex = [[OGRegularExpression alloc] initWithString:[NSString stringWithFormat:@"[%@]+",[tokenString stringByReplacingRegularExpressionOperators]] options:OgreFindNotEmptyOption|OgreCaptureGroupOption];
 }
 
-- (void)setAutoCompleteTokenSet:(NSCharacterSet *)aCharacterSet
-{
-     I_autoCompleteTokenSet = [aCharacterSet copy];
-}
-
-- (void)setTokenSet:(NSCharacterSet *)aCharacterSet
-{
-     I_tokenSet = [aCharacterSet copy];
-     I_invertedTokenSet = [[aCharacterSet invertedSet] copy];
+- (void)setCharsDelimitingTokens:(NSString *)tokenString {
+    _charsDelimitingTokens = tokenString;
+    _charsInTokens = nil;
+    self.tokenSet = [NSCharacterSet characterSetWithCharactersInString:tokenString].invertedSet;
+    I_tokenRegex = [[OGRegularExpression alloc] initWithString:[NSString stringWithFormat:@"[^%@]+",[tokenString stringByReplacingRegularExpressionOperators]] options:OgreFindNotEmptyOption|OgreCaptureGroupOption];
 }
 
 - (BOOL)state:(NSString *)aState includesState:(NSString *)anotherState {
@@ -693,18 +627,17 @@ static void CommonInit(__unsafe_unretained SyntaxDefinition *self, NSString *nam
     return NO;
 }
 
-- (NSString *) keyForInheritedSymbols {
+- (NSString *)keyForInheritedSymbols {
 	if ( !I_keyForInheritedSymbols ) I_keyForInheritedSymbols = [[NSString alloc] initWithFormat:@"/%@/useSymbolsFrom", [self name]];
 	return I_keyForInheritedSymbols;
 }
 
-- (NSString *) keyForInheritedAutocomplete {
+- (NSString *)keyForInheritedAutocomplete {
 	if ( !I_keyForInheritedAutocomplete ) I_keyForInheritedAutocomplete = [[NSString alloc] initWithFormat:@"/%@/useAutocompleteFrom", [self name]];
 	return I_keyForInheritedAutocomplete;
 }
 
-- (NSString*)getModeNameFromState:(NSString*)aState
-{
+- (NSString *)modeNameFromState:(NSString *)aState {
 	NSRange aRange = [aState rangeOfString:@"/" options:NSLiteralSearch range:NSMakeRange(1, [aState length] - 1)];
 	NSString *modeName = [aState substringWithRange:NSMakeRange(1, aRange.location - 1)];
 	
@@ -712,7 +645,7 @@ static void CommonInit(__unsafe_unretained SyntaxDefinition *self, NSString *nam
 }
 
 // Calculate inheritances recursivly
-- (void) calculateSymbolInheritanceForState:(NSMutableDictionary *)state inheritedSymbols:(NSString *)oldSymbols inheritedAutocomplete:(NSString *)oldAutocomplete {
+- (void)calculateSymbolInheritanceForState:(NSMutableDictionary *)state inheritedSymbols:(NSString *)oldSymbols inheritedAutocomplete:(NSString *)oldAutocomplete {
 	static int counter = 0;
 	NSString *symbols = nil;
 	NSString *autocomplete = nil;
@@ -732,9 +665,9 @@ static void CommonInit(__unsafe_unretained SyntaxDefinition *self, NSString *nam
 
     BOOL isLinked = ([state objectForKey:@"hardlink"]!=nil);
     state = [self stateForID:[state objectForKey:@"id"]];
-    BOOL isLocal = [[self getModeNameFromState:[state objectForKey:@"id"]] isEqualToString:[self name]];
+    BOOL isLocal = [[self modeNameFromState:[state objectForKey:@"id"]] isEqualToString:[self name]];
     
-    if (!(isLocal&&isLinked)) // If it's a local state, then resolve in the non-linked instance.
+    if (!(isLocal && isLinked)) // If it's a local state, then resolve in the non-linked instance.
     {
         if (![state objectForKey:[self keyForInheritedSymbols]]) [state setObject:symbols forKey:[self keyForInheritedSymbols]];
         if (![state objectForKey:[self keyForInheritedAutocomplete]]) [state setObject:autocomplete forKey:[self keyForInheritedAutocomplete]];
@@ -823,7 +756,7 @@ static void CommonInit(__unsafe_unretained SyntaxDefinition *self, NSString *nam
 
 - (NSMutableDictionary *)stateForID:(NSString *)aString {
     if (!I_combinedStateRegexReady && !I_combinedStateRegexCalculating) [self getReady];
-	NSString *modeName = [self getModeNameFromState:aString];
+	NSString *modeName = [self modeNameFromState:aString];
 	
 	if (![modeName isEqualToString:[self name]]) {
 		return [[[[DocumentModeManager sharedInstance] documentModeForName:modeName] syntaxDefinition] stateForID:aString];
@@ -879,7 +812,7 @@ static void CommonInit(__unsafe_unretained SyntaxDefinition *self, NSString *nam
 - (NSString *)styleForToken:(NSString *)aToken inState:(NSString *)aState 
 {
 //	NSLog(@"%s:%d: %@",__PRETTY_FUNCTION__,__LINE__, aState);
-	NSString *modeName = [self getModeNameFromState:aState];
+	NSString *modeName = [self modeNameFromState:aState];
 	
 	if (![modeName isEqualToString:[self name]]) {
 		return [[[[DocumentModeManager sharedInstance] documentModeForName:modeName] syntaxDefinition] styleForToken:aToken inState:aState];
@@ -899,7 +832,7 @@ static void CommonInit(__unsafe_unretained SyntaxDefinition *self, NSString *nam
 
 - (BOOL) hasTokensForState:(NSString *)aState {
 //	NSLog(@"%s:%d: %@",__PRETTY_FUNCTION__,__LINE__, aState);
-	NSString *modeName = [self getModeNameFromState:aState];
+	NSString *modeName = [self modeNameFromState:aState];
 	
 	if (![modeName isEqualToString:[self name]]) {
 		return [[[[DocumentModeManager sharedInstance] documentModeForName:modeName] syntaxDefinition] hasTokensForState:aState];
@@ -911,7 +844,7 @@ static void CommonInit(__unsafe_unretained SyntaxDefinition *self, NSString *nam
 - (NSArray *)regularExpressionsInState:(NSString *)aState
 {
 //	NSLog(@"%s:%d: %@",__PRETTY_FUNCTION__,__LINE__, aState);
-	NSString *modeName = [self getModeNameFromState:aState];
+	NSString *modeName = [self modeNameFromState:aState];
 	
 	if (![modeName isEqualToString:[self name]]) {
 		return [[[[DocumentModeManager sharedInstance] documentModeForName:modeName] syntaxDefinition] regularExpressionsInState:aState];
@@ -981,7 +914,7 @@ static void CommonInit(__unsafe_unretained SyntaxDefinition *self, NSString *nam
 			NSString *importName = [import objectForKey:@"importName"];
 			NSXMLElement *importNode = [import objectForKey:@"importNode"];
 			BOOL keywordsOnly = [[[importNode attributeForName:@"keywords-only"] stringValue] isEqualToString:@"yes"];
-			NSString *modeName = [self getModeNameFromState:importName]; 
+			NSString *modeName = [self modeNameFromState:importName]; 
 			
 			SyntaxDefinition *linkedDefinition = [[[DocumentModeManager sharedInstance] documentModeForName:modeName] syntaxDefinition]; 
 			NSDictionary *linkedState = [linkedDefinition stateForID:importName];
@@ -1011,7 +944,7 @@ static void CommonInit(__unsafe_unretained SyntaxDefinition *self, NSString *nam
 		if ([aDictionary objectForKey:@"hardlink"]) {
             NSString *linkedName = [aDictionary objectForKey:@"id"];
 
-			NSString *modeName = [self getModeNameFromState:linkedName]; 
+			NSString *modeName = [self modeNameFromState:linkedName]; 
             SyntaxDefinition *linkedDefinition = [[[DocumentModeManager sharedInstance] documentModeForName:modeName] syntaxDefinition];
             NSDictionary *linkedState = [linkedDefinition stateForID:linkedName];
 			
