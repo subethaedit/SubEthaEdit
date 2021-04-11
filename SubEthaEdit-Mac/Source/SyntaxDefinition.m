@@ -316,7 +316,9 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
             
             NSString *importName = [NSString stringWithFormat:@"/%@/%@", importMode, importState];
             
-            [I_importedModes setObject:@"import" forKey:importMode];
+            if (![importMode isEqualToString:self.name]) {
+                [I_importedModes setObject:@"import" forKey:importMode];
+            }
             [weaklinks addObject:[NSDictionary dictionaryWithObjectsAndKeys:xmlNode,@"importNode",importName,@"importName",[NSNumber numberWithUnsignedInteger:keywordGroups.count],@"importPosition",nil]];            
         } 
 		else if ([nodeName isEqualToString:@"keywords"]) {
@@ -462,7 +464,9 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
             if (linkState) {
                 NSString *linkName = [NSString stringWithFormat:@"/%@/%@", linkMode, linkState];
                 [hardlinks addObject:linkName];
-                [I_importedModes setObject:@"import" forKey:linkMode];
+                if (![linkMode isEqualToString:self.name]) {
+                    [I_importedModes setObject:@"import" forKey:linkMode];
+                }
                 [[stateDictionary objectForKey:@"states"] addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:linkName, @"id", @"yes", @"hardlink", [stateDictionary objectForKey:@"id"], @"parentState", nil]];
             }
         }        

@@ -30,6 +30,9 @@
 - (DocumentMode *)documentModeForIdentifier:(NSString *)anIdentifier;
 - (DocumentMode *)documentModeForPath:(NSString *)path withContentData:(NSData *)content;
 - (DocumentMode *)documentModeForPath:(NSString *)path withContentString:(NSString *)contentString;
+/// Returns a document mode for mode name
+/// @param aName either the name or the identifier of a mode
+/// @result A loaded document mode for this name or identifier, nil if none was available
 - (DocumentMode *)documentModeForName:(NSString *)aName;
 - (NSArray *)allLoadedDocumentModes;
 - (NSString *)documentModeIdentifierForTag:(NSInteger)aTag;
