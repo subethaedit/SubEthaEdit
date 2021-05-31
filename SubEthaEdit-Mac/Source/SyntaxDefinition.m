@@ -180,46 +180,10 @@ static void CommonInit(__unsafe_unretained SyntaxDefinition *self, NSString *nam
     for (attribute in attributes) {
         NSString *attributeName = [attribute name];
         id attributeValue = [attribute stringValue];
-        
-        // Parse colors
-        if ([attributeName isEqualToString:@"color"]||[attributeName isEqualToString:@"inverted-color"]||[attributeName isEqualToString:@"background-color"]||[attributeName isEqualToString:@"inverted-background-color"]) {
-            NSColor *aColor = [NSColor colorForHTMLString:attributeValue];
-            if (aColor) attributeValue = aColor;
-            else {
-                [aDictionary removeObjectForKey:attributeValue];
-				if (![attributeValue isEqualToString:@"none"])
-					[self reportWarning:NSLocalizedString(@"XML Color Error",@"XML Color Error Title")  withDescription:[NSString stringWithFormat:NSLocalizedString(@"Cannot parse color '%@' in %@ mode",@"Syntax XML Color Error Informative Text"), attributeValue, [self name]]];
-                continue;
-            }
-        }        
-        
+                
         [aDictionary setObject:attributeValue forKey:attributeName];
     }
-    
-    // Calculate font-trait
-    NSFontTraitMask mask = 0;
-    if ([[aDictionary objectForKey:@"font-weight"] isEqualTo:@"bold"]) mask = mask | NSBoldFontMask;
-    if ([[aDictionary objectForKey:@"font-style"] isEqualTo:@"italic"]) mask = mask | NSItalicFontMask;
-    [aDictionary setObject:[NSNumber numberWithUnsignedInt:mask] forKey:@"font-trait"];
-
-    
-    // Calculate inverted color if not present
-    NSColor *invertedColor = [aDictionary objectForKey:@"inverted-color"];
-    if (!invertedColor) {
-        invertedColor = [[aDictionary objectForKey:@"color"] brightnessInvertedColor];
-        if (invertedColor) [aDictionary setObject:invertedColor forKey:@"inverted-color"];
-    }
-    
-    // Same for background color and inverted background color
-    NSColor *backgroundColor = [aDictionary objectForKey:@"background-color"];
-    if (!backgroundColor) {
-        backgroundColor = [NSColor whiteColor];
-        [aDictionary setObject:backgroundColor forKey:@"background-color"];
-    }
-    if (![aDictionary objectForKey:@"inverted-background-color"]) {
-        [aDictionary setObject:[backgroundColor brightnessInvertedColor] forKey:@"inverted-background-color"];
-    }
-    
+     
     if ([aDictionary objectForKey:@"scope"]) {
         [aDictionary setObject:[NSString stringWithFormat:@"%@.%@", [aDictionary objectForKey:@"scope"], [[self name] lowercaseString]] forKey:@"scope"];
     } else {
