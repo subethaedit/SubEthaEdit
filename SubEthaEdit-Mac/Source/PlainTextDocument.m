@@ -6984,7 +6984,7 @@ static NSMutableArray<__kindof NSWindow *> *S_depthSortedWindows(NSArray<__kindo
 }
 
 - (NSNumber *)uniqueID {
-    return [NSNumber numberWithInteger:(int32_t)self];
+    return [NSNumber numberWithInteger:self.hash];
 }
 
 - (id)objectSpecifier {

@@ -60,7 +60,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "5EC638290ABEB71100D3295B"
-               BuildableName = "Unit Tests.xctest"
+               BuildableName = "Tests.xctest"
                BlueprintName = "SubEthaEdit-Tests"
                ReferencedContainer = "container:SubEthaEdit.xcodeproj">
             </BuildableReference>
