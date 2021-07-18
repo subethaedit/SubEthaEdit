@@ -105,7 +105,19 @@
 	[self updateColorsForIsDarkBackground:NO];
 	[self updateSymbolPopUpContent];
 	[self updateForTextDidChange];
-    self.positionTextField.font = [self.positionTextField.font SEE_fontByAddingMonoSpaceNumbersFeature];
+    self.docinfoTextField.font = [self.docinfoTextField.font SEE_fontByAddingMonoSpaceNumbersFeature];
+    if ([NSAttributedString SEE_usesModernSystemFont]) {
+        NSFont *font = [NSAttributedString SEE_lineNumberAttributesWithFontSize:self.positionTextField.font.pointSize baseAttributes:@{}][NSFontAttributeName] ;
+//        font = [NSFont monospacedDigitSystemFontOfSize:self.positionTextField.font.pointSize weight:    NSFontWeightRegular];
+//        NSFontDescriptor *descriptor = [font fontDescriptor];
+//        NSFontDescriptor *adjusted = [descriptor fontDescriptorByAddingAttributes:@{NSFontTraitsAttribute : @{NSFontWeightTrait : @(NSFontWeightLight)}}];
+//adjusted = [adjusted fontDescriptorWithSymbolicTraits:NSFontCondensedTrait];
+//
+//        font = [NSFont fontWithDescriptor:adjusted size:0];
+        self.positionTextField.font = font;
+    } else {
+        self.positionTextField.font = [self.positionTextField.font SEE_fontByAddingMonoSpaceNumbersFeature];
+    }
 }
 
 - (void)setVisible:(BOOL)visible {
@@ -180,7 +192,7 @@
 		NSSize positionTextSize = positionTextField.intrinsicContentSize;
         NSRect positionTextFrame = [positionTextField frame];
 		positionTextFrame.origin.x = xPosition;
-        positionTextFrame.size.width = positionTextSize.width;
+        positionTextFrame.size.width = MAX(positionTextSize.width, 39.0);
 		
 		xPosition += NSWidth(positionTextFrame);
 		

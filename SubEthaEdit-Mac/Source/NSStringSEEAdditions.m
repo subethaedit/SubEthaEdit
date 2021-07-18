@@ -903,7 +903,7 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
 }
 
 + (NSDictionary *)SEE_lineNumberAttributesWithFontSize:(CGFloat)fontSize baseAttributes:(NSDictionary *)baseAttribtues {
-    NSMutableDictionary *attributes = [baseAttribtues mutableCopy];
+    NSMutableDictionary *attributes = [(baseAttribtues ?: @{}) mutableCopy];
     BOOL useModernSystemFont = [self SEE_usesModernSystemFont];
     NSFont *font = useModernSystemFont ? ({
         // Make them xcode style
@@ -928,6 +928,7 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
             ]
         }];
         //  NSLog(@"%s %@ %@", __PRETTY_FUNCTION__, descriptor, adjustedDescriptor);
+        adjustedDescriptor = [adjustedDescriptor fontDescriptorWithSymbolicTraits:NSFontCondensedTrait];
         NSFont *font = [NSFont fontWithDescriptor:adjustedDescriptor size:0];
         font;
     }) : ({
@@ -939,7 +940,7 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
     attributes[NSFontAttributeName] = font;
     if (useModernSystemFont) {
         attributes[NSKernAttributeName] = @(fontSize * (-0.08)); // tighten the kerning
-        attributes[NSExpansionAttributeName] = @(-0.15); // tighten the aspect
+//        attributes[NSExpansionAttributeName] = @(-0.15); // tighten the aspect
     }
     return [attributes copy];
 }
