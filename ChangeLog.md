@@ -1,13 +1,12 @@
-### [unlreleased] SubEthaEdit 5.2.1
+### [unreleased] SubEthaEdit 5.2.1
 
 #### Features:
-* Line spacing per mode preference
+* New Line spacing per mode preference
 
-#### Bug fixes and maintenance:
-* 
-
-#### Improved modes:
-* 
+#### Improvements:
+* Modernised look of line numbers and position field
+* Modernised look of inivisble characters
+* Improved visual stability of top status bar
 
 ### SubEthaEdit 5.2
 
