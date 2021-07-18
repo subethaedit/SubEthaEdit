@@ -84,7 +84,7 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
         brightColors = [@{
           @"GutterBackground" : [NSColor colorWithWhite:0.9 alpha:1.0],
           @"FontColor" : [NSColor colorWithCalibratedWhite:0.39 alpha:1.0],
-          @"DelimiterLine" : [NSColor colorWithCalibratedWhite:0.5 alpha:1.0],
+          @"DelimiterLine" : [NSColor colorWithCalibratedWhite:0.70 alpha:1.0],
           @"TriangleFill" : [NSColor colorWithCalibratedWhite:1.0 alpha:1.0],
           @"TriangleStroke" : [NSColor colorWithCalibratedWhite:0.0 alpha:0.4],
           @"TriangleHighlightFill" : [NSColor selectedControlColor],
@@ -98,8 +98,9 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
             darkColors[key] = [color brightnessInvertedColor];
         }];
         darkColors[@"GutterBackground"] = [NSColor colorWithCalibratedWhite:0.07 alpha:1.0];
-        darkColors[@"FontColor"] = [NSColor colorWithCalibratedWhite:0.39 alpha:1.0];
-        darkColors[@"DelimiterLine"] = [NSColor colorWithCalibratedWhite:0.29 alpha: 1.0];
+        darkColors[@"DelimiterLine"] = [NSColor colorWithCalibratedWhite:0.39 alpha:1.0];
+        darkColors[@"FontColor"] = [NSColor colorWithCalibratedWhite:0.30 alpha:1.0];
+        darkColors[@"DelimiterLine"] = [NSColor colorWithCalibratedWhite:0.18 alpha: 1.0];
         
         for (NSMutableDictionary *colors in @[darkColors, brightColors]) {
             NSMutableArray *foldingColors = [NSMutableArray new];
@@ -143,22 +144,16 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 	NSRectFill(aRect);
     
     if (!drawLineNumber) {
-        CGFloat linenumberFontSize=9.5;
-        NSFont *font=[NSFont SEE_lineNumbersFontOfSize:linenumberFontSize];
-        if (!font) font=[NSFont systemFontOfSize:linenumberFontSize];
-        NSDictionary *attributes=[NSDictionary dictionaryWithObjectsAndKeys:
-                                  font,NSFontAttributeName,
-                                  @(linenumberFontSize * (-0.08)),NSKernAttributeName, // tighten the kerning
-                                  @(-0.15), NSExpansionAttributeName, // tighten the aspect
-                                  colors[@"FontColor"],NSForegroundColorAttributeName,
-                                  nil];
+        NSDictionary *attributes = [NSAttributedString SEE_lineNumberAttributesWithFontSize:9.5  baseAttributes:@{NSForegroundColorAttributeName : colors[@"FontColor"] }];
         sizeOfZero=[@"0" sizeWithAttributes:attributes];
-        
+        CGFloat additionalYOffset = [NSAttributedString SEE_usesModernSystemFont] ? 0.0 : -2.0;
         drawLineNumber = ^(NSUInteger aLineNumber, unsigned aCardinality, CGFloat aRightHandAlignment, NSRect aLineBoundingRect, CGFloat aTotalYOffset) {
             NSString *lineNumberString=[NSString stringWithFormat:@"%llu",(unsigned long long)aLineNumber];
-            [lineNumberString drawAtPoint:NSMakePoint(aRightHandAlignment-(sizeOfZero.width*aCardinality),
-                                                      ceil(NSMaxY(aLineBoundingRect)+aTotalYOffset -sizeOfZero.height
-                                                           -(aLineBoundingRect.size.height-sizeOfZero.height)/2.-2.))
+            NSPoint point = NSMakePoint(aRightHandAlignment-(sizeOfZero.width*aCardinality),
+                                        ceil((NSMaxY(aLineBoundingRect)+aTotalYOffset -sizeOfZero.height
+                                             -(aLineBoundingRect.size.height-sizeOfZero.height)/2.) * 2.0) / 2.0);
+            point.y+=additionalYOffset;
+            [lineNumberString drawAtPoint:point
                            withAttributes:attributes];
             
         };

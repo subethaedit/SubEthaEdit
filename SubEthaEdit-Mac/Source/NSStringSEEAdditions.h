@@ -63,6 +63,9 @@ typedef enum _LineEnding {
 - (NSMutableString *)XHTMLStringWithAttributeMapping:(NSDictionary *)anAttributeMapping forUTF8:(BOOL)forUTF8;
 - (NSRange)TCM_fullLengthRange;
 - (NSUInteger)TCM_positionOfMatchingBracketToPosition:(NSUInteger)position bracketSettings:(TCMBracketSettings *)aBracketSettings;
+
++ (NSDictionary *)SEE_lineNumberAttributesWithFontSize:(CGFloat)fontSize baseAttributes:(NSDictionary *)baseAttribtues;
++ (BOOL)SEE_usesModernSystemFont;
 @end
 
 

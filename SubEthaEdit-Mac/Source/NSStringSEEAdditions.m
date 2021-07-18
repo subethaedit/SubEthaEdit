@@ -895,6 +895,54 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
     return result;
 }
 
++ (BOOL)SEE_usesModernSystemFont {
+    if (@available(macos 10.15, *)) {
+        return YES;
+    }
+    return NO;
+}
+
++ (NSDictionary *)SEE_lineNumberAttributesWithFontSize:(CGFloat)fontSize baseAttributes:(NSDictionary *)baseAttribtues {
+    NSMutableDictionary *attributes = [baseAttribtues mutableCopy];
+    BOOL useModernSystemFont = [self SEE_usesModernSystemFont];
+    NSFont *font = useModernSystemFont ? ({
+        // Make them xcode style
+        NSFont *baseFont = [NSFont systemFontOfSize:fontSize weight:NSFontWeightMedium];
+        
+        NSFontDescriptor *descriptor = baseFont.fontDescriptor;
+        // see gist https://gist.github.com/levitatingpineapple/396d1524954153aea928bf59e0502744
+        NSFontDescriptor *adjustedDescriptor = [descriptor fontDescriptorByAddingAttributes:@{
+            NSFontFeatureSettingsAttribute : @[
+                    // monospaced numbers
+                    @{ NSFontFeatureTypeIdentifierKey : @(kNumberSpacingType),
+                       NSFontFeatureSelectorIdentifierKey : @(kMonospacedNumbersSelector) } ,
+                    // high legibility
+                    @{ NSFontFeatureTypeIdentifierKey : @(kStylisticAlternativesType),
+                       NSFontFeatureSelectorIdentifierKey : @(kStylisticAltSixOffSelector) } ,
+                    // open four
+                    @{ NSFontFeatureTypeIdentifierKey : @(kStylisticAlternativesType),
+                       NSFontFeatureSelectorIdentifierKey : @(kStylisticAltTwoOnSelector) } ,
+                    // straight six and nine
+                    @{ NSFontFeatureTypeIdentifierKey : @(kStylisticAlternativesType),
+                       NSFontFeatureSelectorIdentifierKey : @(kStylisticAltOneOnSelector) } ,
+            ]
+        }];
+        //  NSLog(@"%s %@ %@", __PRETTY_FUNCTION__, descriptor, adjustedDescriptor);
+        NSFont *font = [NSFont fontWithDescriptor:adjustedDescriptor size:0];
+        font;
+    }) : ({
+        // up to see 5.2 we were going for tahoma here
+        NSFont *baseFont = [NSFont fontWithName:@"Tahoma" size:fontSize] ?: [NSFont systemFontOfSize:fontSize];
+        NSFont *font = [baseFont SEE_fontByAddingMonoSpaceNumbersFeature];
+        font;
+    });
+    attributes[NSFontAttributeName] = font;
+    if (useModernSystemFont) {
+        attributes[NSKernAttributeName] = @(fontSize * (-0.08)); // tighten the kerning
+        attributes[NSExpansionAttributeName] = @(-0.15); // tighten the aspect
+    }
+    return [attributes copy];
+}
 
 @end
 
