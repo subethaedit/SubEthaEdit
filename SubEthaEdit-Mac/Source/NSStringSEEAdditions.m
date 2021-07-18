@@ -909,4 +909,40 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
     return (__bridge_transfer NSFont *)monoFont;
 }
 
+
++ (NSFont *)SEE_lineNumbersFontOfSize:(CGFloat)size {
+    
+    if (@available(macOS 10.15, *)) {
+        // Make them xcode style
+        NSFont *baseFont = [NSFont systemFontOfSize:size weight:NSFontWeightMedium];
+        
+        NSFontDescriptor *descriptor = baseFont.fontDescriptor;
+        // see gist https://gist.github.com/levitatingpineapple/396d1524954153aea928bf59e0502744
+        NSFontDescriptor *adjustedDescriptor = [descriptor fontDescriptorByAddingAttributes:@{
+            NSFontFeatureSettingsAttribute : @[
+                    // monospaced numbers
+                    @{ NSFontFeatureTypeIdentifierKey : @(kNumberSpacingType),
+                       NSFontFeatureSelectorIdentifierKey : @(kMonospacedNumbersSelector) } ,
+                    // high legibility
+                    @{ NSFontFeatureTypeIdentifierKey : @(kStylisticAlternativesType),
+                       NSFontFeatureSelectorIdentifierKey : @(kStylisticAltSixOffSelector) } ,
+                    // open four
+                    @{ NSFontFeatureTypeIdentifierKey : @(kStylisticAlternativesType),
+                       NSFontFeatureSelectorIdentifierKey : @(kStylisticAltTwoOnSelector) } ,
+                    // straight six and nine
+                    @{ NSFontFeatureTypeIdentifierKey : @(kStylisticAlternativesType),
+                       NSFontFeatureSelectorIdentifierKey : @(kStylisticAltOneOnSelector) } ,
+            ]
+        }];
+        //  NSLog(@"%s %@ %@", __PRETTY_FUNCTION__, descriptor, adjustedDescriptor);
+        NSFont *font = [NSFont fontWithDescriptor:adjustedDescriptor size:0];
+        return font;
+    } else {
+        // up to see 5.2 we were going for tahoma here
+        NSFont *baseFont = [NSFont fontWithName:@"Tahoma" size:size] ?: [NSFont systemFontOfSize:size];
+        NSFont *font = [baseFont SEE_fontByAddingMonoSpaceNumbersFeature];
+        return font;
+    }
+}
+
 @end

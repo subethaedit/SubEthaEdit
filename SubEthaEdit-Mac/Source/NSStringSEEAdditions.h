@@ -67,5 +67,6 @@ typedef enum _LineEnding {
 
 
 @interface NSFont (NSFontSEEAdditions)
++ (NSFont *)SEE_lineNumbersFontOfSize:(CGFloat)size;
 - (NSFont *)SEE_fontByAddingMonoSpaceNumbersFeature;
 @end

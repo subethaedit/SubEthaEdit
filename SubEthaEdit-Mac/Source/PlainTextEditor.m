@@ -452,7 +452,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     [O_scrollView setVerticalRulerView:[[GutterRulerView alloc] initWithScrollView:O_scrollView orientation:NSVerticalRuler]];
     [O_scrollView setHasVerticalRuler:YES];
 
-    [[O_scrollView verticalRulerView] setRuleThickness:42.];
+    [[O_scrollView verticalRulerView] setRuleThickness:39.];
 
     [O_scrollView setDocumentView:I_textView];
     [[O_scrollView verticalRulerView] setClientView:I_textView];

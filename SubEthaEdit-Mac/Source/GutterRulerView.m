@@ -16,9 +16,8 @@
 @end
 
 
-
 #define FOLDING_BAR_WIDTH 11.
-#define RIGHT_INSET  4.
+#define RIGHT_INSET  5.5
 #define MAX_FOLDING_DEPTH (12)
 
 static NSColor *S_colorForDepth[MAX_FOLDING_DEPTH];
@@ -98,6 +97,8 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
         [brightColors enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSColor *color, BOOL *_stop) {
             darkColors[key] = [color brightnessInvertedColor];
         }];
+        darkColors[@"GutterBackground"] = [NSColor colorWithCalibratedWhite:0.07 alpha:1.0];
+        darkColors[@"FontColor"] = [NSColor colorWithCalibratedWhite:0.39 alpha:1.0];
         darkColors[@"DelimiterLine"] = [NSColor colorWithCalibratedWhite:0.29 alpha: 1.0];
         
         for (NSMutableDictionary *colors in @[darkColors, brightColors]) {
@@ -141,23 +142,25 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 	[colors[@"GutterBackground"] set];
 	NSRectFill(aRect);
     
-	if (!drawLineNumber) {
-		CGFloat linenumberFontSize=9.;
-			NSFont *font=[NSFont fontWithName:@"Tahoma" size:linenumberFontSize];
-			if (!font) font=[NSFont systemFontOfSize:linenumberFontSize];
-			NSDictionary *attributes=[NSDictionary dictionaryWithObjectsAndKeys:
-						 font,NSFontAttributeName,
-						 colors[@"FontColor"],NSForegroundColorAttributeName,
-						 nil];
-			sizeOfZero=[@"0" sizeWithAttributes:attributes];
-		
-		drawLineNumber = ^(NSUInteger aLineNumber, unsigned aCardinality, CGFloat aRightHandAlignment, NSRect aLineBoundingRect, CGFloat aTotalYOffset) {
-			NSString *lineNumberString=[NSString stringWithFormat:@"%llu",(unsigned long long)aLineNumber];
-			[lineNumberString drawAtPoint:NSMakePoint(aRightHandAlignment-(sizeOfZero.width*aCardinality),
-													  ceil(NSMaxY(aLineBoundingRect)+aTotalYOffset -sizeOfZero.height
-														   -(aLineBoundingRect.size.height-sizeOfZero.height)/2.-2.))
-						   withAttributes:attributes];
-			
+    if (!drawLineNumber) {
+        CGFloat linenumberFontSize=9.5;
+        NSFont *font=[NSFont SEE_lineNumbersFontOfSize:linenumberFontSize];
+        if (!font) font=[NSFont systemFontOfSize:linenumberFontSize];
+        NSDictionary *attributes=[NSDictionary dictionaryWithObjectsAndKeys:
+                                  font,NSFontAttributeName,
+                                  @(linenumberFontSize * (-0.08)),NSKernAttributeName, // tighten the kerning
+                                  @(-0.15), NSExpansionAttributeName, // tighten the aspect
+                                  colors[@"FontColor"],NSForegroundColorAttributeName,
+                                  nil];
+        sizeOfZero=[@"0" sizeWithAttributes:attributes];
+        
+        drawLineNumber = ^(NSUInteger aLineNumber, unsigned aCardinality, CGFloat aRightHandAlignment, NSRect aLineBoundingRect, CGFloat aTotalYOffset) {
+            NSString *lineNumberString=[NSString stringWithFormat:@"%llu",(unsigned long long)aLineNumber];
+            [lineNumberString drawAtPoint:NSMakePoint(aRightHandAlignment-(sizeOfZero.width*aCardinality),
+                                                      ceil(NSMaxY(aLineBoundingRect)+aTotalYOffset -sizeOfZero.height
+                                                           -(aLineBoundingRect.size.height-sizeOfZero.height)/2.-2.))
+                           withAttributes:attributes];
+            
         };
     }
 
