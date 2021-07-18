@@ -16,7 +16,7 @@
 @end
 
 
-#define FOLDING_BAR_WIDTH 11.
+#define FOLDING_BAR_WIDTH 10.
 #define RIGHT_INSET  5.5
 #define MAX_FOLDING_DEPTH (12)
 
@@ -28,7 +28,7 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 	NSRectFill(aRect); 
 	if (aDepth >= MAX_FOLDING_DEPTH) {
 		[(NSColor *)colors[@"FoldingBarSteps"][MAX(MAX_FOLDING_DEPTH - (aDepth - MAX_FOLDING_DEPTH) - 2,0)] set];
-		NSRect rectToFill = NSOffsetRect(NSInsetRect(aRect,2.5,0),2.5,0);
+		NSRect rectToFill = NSOffsetRect(NSInsetRect(aRect,1.5,0),1.5,0);
 		NSRectFill(rectToFill);
 	}
 }
@@ -70,8 +70,8 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 
 - (NSRect)baseRectForFoldingBar {
 	double ruleThickness = [self ruleThickness];
-	double rightHandAlignment = ruleThickness - FOLDING_BAR_WIDTH - RIGHT_INSET;
-	return NSMakeRect(rightHandAlignment + RIGHT_INSET + 1.0,0,FOLDING_BAR_WIDTH-3.0,0);
+	double rightHandAlignment = ruleThickness - FOLDING_BAR_WIDTH;
+	return NSMakeRect(rightHandAlignment + 1.0,0,FOLDING_BAR_WIDTH-2.0,0);
 }
 
 - (NSDictionary *)colorsForDark:(BOOL)isDark {
@@ -193,8 +193,8 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 
 	NSRect foldingAreaRect  = [self baseRectForFoldingBar];
 	[delimiterLineColor set];
-	[NSBezierPath strokeLineFromPoint:NSMakePoint(foldingAreaRect.origin.x-1.5,bounds.origin.y) 
-							  toPoint:NSMakePoint(foldingAreaRect.origin.x-1.5,NSMaxY(bounds))];
+//	[NSBezierPath strokeLineFromPoint:NSMakePoint(foldingAreaRect.origin.x-1.5,bounds.origin.y)
+//							  toPoint:NSMakePoint(foldingAreaRect.origin.x-1.5,NSMaxY(bounds))];
 	[NSBezierPath strokeLineFromPoint:NSMakePoint(CGRectGetMaxX(foldingAreaRect)+1.5,bounds.origin.y)
 							  toPoint:NSMakePoint(CGRectGetMaxX(foldingAreaRect)+1.5,NSMaxY(bounds))];
 	NSRect fullFoldingAreaRect = [self bounds];
