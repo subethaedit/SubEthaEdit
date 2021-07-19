@@ -1,13 +1,15 @@
-### [unreleased] SubEthaEdit 5.2.1
+### SubEthaEdit 5.2.1
 
 #### Features:
-* New Line spacing per mode preference
-* Options to clear and disable search history
+* New Line spacing preference
+* Clear and disable search history
+* Move selected paragraphs a line up/down
 
 #### Improvements:
 * Modernised look of line numbers and position field
 * Modernised look of inivisble characters
 * Improved visual stability of top status bar
+* Made preferences layout more consistent
 
 ### SubEthaEdit 5.2
 
