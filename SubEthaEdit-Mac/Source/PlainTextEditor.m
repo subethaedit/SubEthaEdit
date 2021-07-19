@@ -1748,6 +1748,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 		result += NSHeight(self.bottomOverlayViewController.view.frame);
 	}
 	O_scrollView.bottomOverlayHeight = result;
+    
 	[self adjustToScrollViewInsets];
 }
 

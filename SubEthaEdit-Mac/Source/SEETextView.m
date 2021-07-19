@@ -41,7 +41,7 @@
 
 @implementation SEETextView
 
-#define VERTICAL_INSET 2.0
+#define VERTICAL_INSET 10.0
 
 - (id)delegate {
 	return (id)super.delegate;
@@ -58,6 +58,9 @@
 		NSSize currentInset = [self textContainerInset];
 		CGFloat height = (enclosingScrollView.topOverlayHeight + enclosingScrollView.bottomOverlayHeight) / 2.0;
 		height = height + VERTICAL_INSET / 2.0;
+        
+        height += 90; // just add some height to be able to scroll up the bottom most line slightly up
+        
 		if (height != currentInset.height) {
 			currentInset.height = height;
 			[self setTextContainerInset:currentInset];
