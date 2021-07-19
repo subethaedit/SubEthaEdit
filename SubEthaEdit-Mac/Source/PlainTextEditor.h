@@ -102,6 +102,9 @@ extern NSString * const PlainTextEditorDidChangeSearchScopeNotification;
 - (IBAction)insertStateClose:(id)aSender;
 - (IBAction)entab:(id)aSender;
 
+- (IBAction)moveLineUp:(id)sender;
+- (IBAction)moveLineDown:(id)sender;
+
 - (IBAction)jumpToNextSymbol:(id)aSender;
 - (IBAction)jumpToPreviousSymbol:(id)aSender;
 

@@ -446,6 +446,8 @@ static NSMenu *S_defaultMenu=nil;
     return [super selectionRangeForProposedRange:proposedSelRange granularity:granularity];
 }
 
+
+
 - (void)selectFullRangeAppropriateAfterFolding:(NSRange)aFullRange {
 	// first get foldedRange:
 	FoldableTextStorage *textStorage = (FoldableTextStorage *)[self textStorage];
@@ -1095,7 +1097,7 @@ static NSMenu *S_defaultMenu=nil;
         [super cancelOperation:sender];
     }
 }
-    
+
 - (void)keyDown:(NSEvent *)aEvent {
 
     static NSCharacterSet *s_passThroughCharacterSet=nil;

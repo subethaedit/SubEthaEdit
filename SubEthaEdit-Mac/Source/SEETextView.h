@@ -30,7 +30,6 @@
 /*! @returns an Array for the search scope ranges if any are set. if none are set returns the full range for the fulltextstorage */
 @property (nonatomic, readonly) NSArray *searchScopeRanges;
 
-
 #pragma mark Folding Related Methods
 - (void)scrollFullRangeToVisible:(NSRange)aRange;
 - (IBAction)foldCurrentBlock:(id)aSender;
