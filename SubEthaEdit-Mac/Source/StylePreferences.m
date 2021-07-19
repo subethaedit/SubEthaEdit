@@ -70,31 +70,35 @@
 
 #pragma mark - IBActions
 - (IBAction)validateDefaultsState:(id)aSender {
-	[self.O_styleSheetDefaultRadioButton setState:NSOffState];
-	[self.O_styleSheetCustomRadioButton setState:NSOffState];
-	[self.O_styleSheetCustomForLanguageContextsRadioButton setState:NSOffState];
+    [self.O_styleSheetDefaultRadioButton setState:NSControlStateValueOff];
+    [self.O_styleSheetCustomRadioButton setState:NSControlStateValueOff];
+    [self.O_styleSheetCustomForLanguageContextsRadioButton setState:NSControlStateValueOff];
 
 	DocumentMode *currentMode = [self.O_modeController content];
 	if ([[[currentMode defaults] objectForKey:DocumentModeUseDefaultStyleSheetPreferenceKey] boolValue]) {
-		[self.O_styleSheetDefaultRadioButton setState:NSOnState];
+        [self.O_styleSheetDefaultRadioButton setState:NSControlStateValueOn];
 	} else {
 		SEEStyleSheetSettings *styleSheetSettings = [currentMode styleSheetSettings];
 		if (styleSheetSettings.usesMultipleStyleSheets) {
-			[self.O_styleSheetCustomForLanguageContextsRadioButton setState:NSOnState];
+            [self.O_styleSheetCustomForLanguageContextsRadioButton setState:NSControlStateValueOn];
 		} else {
-			[self.O_styleSheetCustomRadioButton setState:NSOnState];
+            [self.O_styleSheetCustomRadioButton setState:NSControlStateValueOn];
 		}
 	}
 
     DocumentMode *baseMode = [[DocumentModeManager sharedInstance] baseMode];
     DocumentMode *selectedMode = [self.O_modePopUpButton selectedMode];
-    [self.O_fontController setContent:([self.O_fontDefaultButton state]==NSOnState)?baseMode:selectedMode];
+    [self.O_fontController setContent:([self.O_fontDefaultButton state]==NSControlStateValueOn)?baseMode:selectedMode];
     [self takeFontFromMode:selectedMode];
 	[self highlightSyntax];
 }
 
+- (IBAction)changeLineSpacing:(id)sender {
+    [self highlightSyntax];
+}
+
 - (IBAction)changeDefaultState:(id)aSender {
-    BOOL useDefault = ([aSender state]==NSOnState);
+    BOOL useDefault = ([aSender state]==NSControlStateValueOn);
     [[[self.O_modePopUpButton selectedMode] defaults] setObject:[NSNumber numberWithBool:useDefault] forKey:DocumentModeUseDefaultStylePreferenceKey];
     [self validateDefaultsState:aSender];
 }
@@ -175,7 +179,7 @@
 }
 
 - (IBAction)useSystemMonospacedFont:(id)sender {
-    if ([self.O_fontDefaultButton state] != NSOnState) {
+    if ([self.O_fontDefaultButton state] != NSControlStateValueOn) {
         DocumentMode *mode = [self.O_modePopUpButton selectedMode];
         NSFont *font = mode.plainFontBase;
         CGFloat size = font.pointSize;
@@ -325,6 +329,10 @@
 		NSDictionary *attributes = [SEEStyleSheet textAttributesForStyleAttributes:[styleSheet styleAttributesForScope:SEEStyleSheetMetaDefaultScopeName] font:self.baseFont];
 		[textStorage setAttributes:attributes range:NSMakeRange(0,textStorage.length)];
 	}
+    
+    NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+    style.lineHeightMultiple = currentMode.lineHeightMultiple;
+    [textStorage addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, textStorage.length)];
 }
 
 #pragma mark - TableView DataSource

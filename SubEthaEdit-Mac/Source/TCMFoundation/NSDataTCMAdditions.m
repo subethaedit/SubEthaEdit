@@ -288,7 +288,10 @@ static unsigned long local_preprocessForDecode( const unsigned char *inBytes, un
 
 - (NSData *)md5Data {
     unsigned char result[CC_MD5_DIGEST_LENGTH];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     CC_MD5(self.bytes, self.length, result);
+#pragma clang diagnostic pop
     return [NSData dataWithBytes:result length:CC_MD5_DIGEST_LENGTH];
 }
 

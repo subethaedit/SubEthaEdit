@@ -69,7 +69,7 @@
 "513.title" = "Pop Up";
 
 /* Class = "NSButton"; ibShadowedToolTip = "Use the default monospace system font"; ObjectID = "428-YO-qEf"; */
-"428-YO-qEf.ibShadowedToolTip" = "[LOCALISATION MISSING: Use the default monospace system font]";
+"428-YO-qEf.ibShadowedToolTip" = "Die eingebaute Systemschrift verwenden";
 
 /* Class = "NSTextFieldCell"; title = "Preview:"; ObjectID = "ILx-EZ-ZXK"; */
 "ILx-EZ-ZXK.title" = "Vorschau:";
@@ -82,3 +82,12 @@
 
 /* Class = "NSButtonCell"; title = "System"; ObjectID = "kI6-Su-N7e"; */
 "kI6-Su-N7e.title" = "System";
+
+/* Class = "NSTextFieldCell"; title = "Line Spacing:"; ObjectID = "XRw-OU-hRl"; */
+"XRw-OU-hRl.title" = "Zeilenabstand:";
+
+/* Class = "NSTextFieldCell"; title = "tigher"; ObjectID = "aW1-oU-7XX"; */
+"aW1-oU-7XX.title" = "enger";
+
+/* Class = "NSTextFieldCell"; title = "looser"; ObjectID = "qoS-in-svt"; */
+"qoS-in-svt.title" = "weiter";

@@ -17,34 +17,66 @@
 
 enum {
     u_false=0,
-    u_00b6,
-    u_2014,
-    u_2024,
-    u_2038,
-    u_204b,
-    u_2192,
-    u_21ab,
-    u_21cb,
-	u_25a1, //WHITE SQUARE, &squ
-    u_2761,
-    u_fffd,
+    u_00ac, // NOT sign ( nice NL symbol ) ¬
+    u_00b6, // pilcrow sign ¶
+    u_2014, // em dash —
+    u_2023, // TRIANGULAR BULLET (nice tab variant) ‣
+    u_2024, // one dot leader ․
+    u_2038, // bottom caret ‸
+    u_204b, // reverse pilcrow ⁋
+    u_2319, // turned not sign ⌙
+    u_240d, // SYMBOL FOR CARRIAGE RETURN ␍
+    u_2192, // rightwards arrow →
+    u_21ab, // leftwards arrow with loop ↫
+    u_21cb, // LEFTWARDS HARPOON OVER RIGHTWARDS HARPOON ⇋
+	u_25a1, // WHITE SQUARE □
+    u_2761, // CURVED STEM PARAGRAPH SIGN ORNAMENT ❡
+    u_fffd, // REPLACEMENT CHARACTER �
+    u_00ac_red,
     u_00b6_red,
     u_2014_red,
     u_204b_red,
     u_21ab_red,
+    u_2319_red,
+    u_240d_red,
     u_2761_red
 };
 
-static NSString *S_specialGlyphs[17];
+static NSString *S_specialGlyphs[u_2761_red+1];
+
+@interface SEELineHeightTypesetter : NSATSTypesetter
+@end
+
+@implementation SEELineHeightTypesetter
+- (void)willSetLineFragmentRect:(NSRect *)lineFragmentRect forGlyphRange:(NSRange)glyphRange
+        usedRect:(NSRect *)usedRect baselineOffset:(CGFloat *)baselineOffset {
+    NSParagraphStyle *style = [self.layoutManager.textStorage attribute:NSParagraphStyleAttributeName atIndex:0 effectiveRange:NULL];
+    if (style) {
+        CGFloat lineHeightMulitple = style.lineHeightMultiple;
+        if (lineHeightMulitple > 0) {
+            // adjust baselineoffset
+            CGFloat additionalBaselineOffset = ((*lineFragmentRect).size.height / lineHeightMulitple) * (lineHeightMulitple - 1.0) / 2.0;
+            //        NSLog(@"would have adjusted: %f %f -> %f %@", _lineHeightMultiplier, additionalBaselineOffset, *baselineOffset, NSStringFromRect(*lineFragmentRect));
+            *baselineOffset = *baselineOffset - additionalBaselineOffset;
+        }
+    }
+}
+@end
+
+@interface LayoutManager ()
+@end
 
 @implementation LayoutManager
 
 + (void)initialize {
 	if (self == [LayoutManager class]) {
+        S_specialGlyphs[u_00ac]     = @"\u00ac";
+        S_specialGlyphs[u_00ac_red] = @"\u00ac";
 		S_specialGlyphs[u_00b6]     = @"\u00b6";
 		S_specialGlyphs[u_00b6_red] = @"\u00b6";
 		S_specialGlyphs[u_2014]     = @"\u2014";
 		S_specialGlyphs[u_2014_red] = @"\u2014";
+        S_specialGlyphs[u_2023]     = @"\u2023";
 		S_specialGlyphs[u_2024]     = @"\u2024";
 		S_specialGlyphs[u_2038]     = @"\u2038";
 		S_specialGlyphs[u_204b]     = @"\u204b";
@@ -53,11 +85,15 @@ static NSString *S_specialGlyphs[17];
 		S_specialGlyphs[u_21ab]     = @"\u21ab";
 		S_specialGlyphs[u_21ab_red] = @"\u21ab";
 		S_specialGlyphs[u_21cb]     = @"\u21cb";
+        S_specialGlyphs[u_2319]     = @"\u2319";
+        S_specialGlyphs[u_2319_red] = @"\u2319";
+        S_specialGlyphs[u_240d]     = @"\u240d";
+        S_specialGlyphs[u_240d_red] = @"\u240d";
 		S_specialGlyphs[u_2761]     = @"\u2761";
 		S_specialGlyphs[u_2761_red] = @"\u2761";
-		S_specialGlyphs[u_fffd]     = @"\ufffd";;
+		S_specialGlyphs[u_fffd]     = @"\ufffd";
+        S_specialGlyphs[u_25a1]     = @"\u25a1";
 	}
-    S_specialGlyphs[u_25a1]     = @"\u25a1";
 }
 
 - (instancetype)init {
@@ -70,6 +106,8 @@ static NSString *S_specialGlyphs[17];
     
 		[self setInvisibleCharacterColor:[NSColor grayColor]];
 		
+        [self setTypesetter:[SEELineHeightTypesetter new]];
+        
         NSMutableString *string = [I_invisiblesTextStorage mutableString];
         [string appendString:@"0"]; // just for offset
         int i=0;
@@ -200,6 +238,14 @@ static NSString *S_specialGlyphs[17];
 
 - (void)invalidateLayout {
     [self invalidateLayoutForCharacterRange:NSMakeRange(0,[[self textStorage] length]) actualCharacterRange:NULL];
+}
+
+- (void)invalidateLayoutForCharacterRange:(NSRange)charRange actualCharacterRange:(NSRangePointer)actualCharRange {
+    [super invalidateLayoutForCharacterRange:charRange actualCharacterRange:actualCharRange];
+}
+
+- (void)invalidateDisplayForCharacterRange:(NSRange)charRange {
+    [super invalidateDisplayForCharacterRange:charRange];
 }
 
 // - (void)textStorage:(NSTextStorage *)aTextStorage edited:(NSUInteger)mask range:(NSRange)newCharRange changeInLength:(NSInteger)delta invalidatedRange:(NSRange)invalidatedCharRange {
@@ -389,17 +435,21 @@ static NSString *S_specialGlyphs[17];
                     if (c == ' ') {		// "real" space
                         draw = u_2024; // one dot leader 0x00b7; // "middle dot" 0x22c5; // "Dot centered"
                     } else if (c == '\t') {	// "correct" indentation
-                        draw = u_2192; // "Arrow right"
+//                        draw = u_2192; // "Arrow right"
+                        draw = u_2023; // triangle right
                     } else if (c == 0x21e4 || c == 0x21e5) {	// not "correct" indentation (leftward tab, rightward tab)
-                        draw = u_2192; // "Arrow right"
+//                        draw = u_2192; // "Arrow right"
+                        draw = u_2023; // triangle right
                     } else if (c == '\r') {	// mac line feed
-                        draw = u_204b; // "reversed Pilcrow"
+//                        draw = u_204b; // "reversed Pilcrow"
+                        draw = u_2319;
                     } else if (c == 0x0a) {	// unix line feed
-                        if (previousChar == '\r') {
-                            draw = u_2014; // m-dash 
-                        } else {
-                            draw = u_00b6; // "Pilcrow sign"
-                        }
+//                        if (previousChar == '\r') {
+//                            draw = u_2014; // m-dash
+//                        } else {
+//                            draw = u_00b6; // "Pilcrow sign"
+                            draw = u_00ac; // not
+//                        }
                     } else if (c == 0x2028) { // unicode line separator
                         draw = u_2761;
                     } else if (c == 0x2029) { // unicode paragraph separator
@@ -422,14 +472,17 @@ static NSString *S_specialGlyphs[17];
                 }
                 if (hasMixedLineEndings) {
                     if (c == '\r' && ((lineEnding != LineEndingCR && next_c!='\n')|| (next_c=='\n' && lineEnding!=LineEndingCRLF)) ) {	// mac line feed
-                        draw = u_204b_red; // "reversed Pilcrow"
+//                        draw = u_204b_red; // "reversed Pilcrow"
+                        draw = u_2319_red;
                     } else if (c == 0x0a) {	// unix line feed
                         if (previousChar == '\r') {
                             if (lineEnding != LineEndingCRLF) {
-                                draw = u_2014_red; // m-dash 
+//                                draw = u_2014_red; // m-dash
+                                draw = u_00ac_red;
                             }
                         } else if (lineEnding != LineEndingLF){
-                            draw = u_00b6_red; // "Pilcrow sign"
+//                            draw = u_00b6_red; // "Pilcrow sign"
+                            draw = u_00ac_red; // not red
                         }
                     } else if (c == 0x2028 && lineEnding != LineEndingUnicodeLineSeparator) { // unicode line separator
                         draw = u_2761_red;
@@ -457,7 +510,8 @@ static NSString *S_specialGlyphs[17];
                     } else {
                         // Spaces are used for indentation
                         if (c == '\t') {
-                            draw = u_2192;
+//                            draw = u_2192;
+                            draw = u_2023; // triangle right
                         }
                     }
                 }
@@ -473,7 +527,7 @@ static NSString *S_specialGlyphs[17];
                         }
                         [I_invisiblesTextStorage addAttributes:attributes range:NSMakeRange(0,[I_invisiblesTextStorage length])];
                         [attributes setObject:[NSColor redColor] forKey:NSForegroundColorAttributeName];
-                        [I_invisiblesTextStorage addAttributes:attributes range:NSMakeRange([I_invisiblesTextStorage length]-6,6)];
+                        [I_invisiblesTextStorage addAttributes:attributes range:NSMakeRange([I_invisiblesTextStorage length]-9,9)];
                         lineFragmentRect = [I_invisiblesLayoutManager lineFragmentRectForGlyphAtIndex:0 effectiveRange:NULL];
                     }
                     NSPoint layoutLocation = [I_invisiblesLayoutManager locationForGlyphAtIndex:draw];

@@ -62,6 +62,7 @@ NSString * const DocumentModeUseDefaultFontPreferenceKey       = @"UseDefaultFon
 NSString * const DocumentModePrintInfoPreferenceKey            = @"PrintInfo"  ;
 NSString * const DocumentModePrintOptionsPreferenceKey         = @"PrintOptions"  ;
 NSString * const DocumentModeUseDefaultStylePreferenceKey      = @"UseDefaultStyle";
+NSString * const DocumentModeLineSpacingStylePreferenceKey     = @"LineSpacing";
 NSString * const DocumentModeSyntaxStylePreferenceKey          = @"SyntaxStyle";
 NSString * const DocumentModeUseDefaultStyleSheetPreferenceKey = @"UseDefaultStyleSheet";
 NSString * const DocumentModeStyleSheetsPreferenceKey          = @"StyleSheets";
@@ -155,10 +156,13 @@ NSString * const DocumentModeFontNameSystemFontValue = @"_SEESystemMonoFont_";
 	
 		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultFontPreferenceKey
 									  forKey:DocumentModeFontAttributesPreferenceKey];
-	
+        [defaultablePreferenceKeys setObject:DocumentModeUseDefaultFontPreferenceKey
+                                      forKey:DocumentModeLineSpacingStylePreferenceKey];
+
+
 		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultStylePreferenceKey
 									  forKey:DocumentModeBackgroundColorIsDarkPreferenceKey];
-
+        
 		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultStylePreferenceKey
 									  forKey:DocumentModeCurrentLineHighlightColorPreferenceKey];
 
@@ -302,7 +306,10 @@ NSString * const DocumentModeFontNameSystemFontValue = @"_SEESystemMonoFont_";
             if (existingModeDefaults[DocumentModeShowInconsistentIndentationPreferenceKey] == nil) {
                 [existingModeDefaults setObject:@YES forKey:DocumentModeShowInconsistentIndentationPreferenceKey];
             }
-
+            
+            if (existingModeDefaults[DocumentModeLineSpacingStylePreferenceKey] == nil) {
+                [existingModeDefaults setObject:@100 forKey:DocumentModeLineSpacingStylePreferenceKey];
+            }
             
             [self setDefaults:existingModeDefaults];
             
@@ -313,6 +320,7 @@ NSString * const DocumentModeFontNameSystemFontValue = @"_SEESystemMonoFont_";
 					[[EncodingManager sharedInstance] registerEncoding:encoding];
 				}
             }
+            
         } else {
             _defaults = [NSMutableDictionary new];
             [_defaults setObject:[NSNumber numberWithInt:4] forKey:DocumentModeTabWidthPreferenceKey];
@@ -327,6 +335,7 @@ NSString * const DocumentModeFontNameSystemFontValue = @"_SEESystemMonoFont_";
             [dict setObject:[NSNumber numberWithFloat:[font pointSize]] 
                      forKey:NSFontSizeAttribute];
             [_defaults setObject:dict forKey:DocumentModeFontAttributesPreferenceKey];
+            [_defaults setObject:@100 forKey:DocumentModeLineSpacingStylePreferenceKey];
             [_defaults setObject:[NSNumber numberWithUnsignedInt:NSUTF8StringEncoding] forKey:DocumentModeEncodingPreferenceKey];
             [_defaults setObject:@YES forKey:DocumentModeHighlightSyntaxPreferenceKey];
             [_defaults setObject:@YES forKey:DocumentModeShowLineNumbersPreferenceKey];
@@ -624,6 +633,16 @@ NSString * const DocumentModeFontNameSystemFontValue = @"_SEESystemMonoFont_";
     NSDictionary *fontAttributes=[self defaultForKey:DocumentModeFontAttributesPreferenceKey];
     
     return [DocumentMode fontForAttributeDict:fontAttributes];
+}
+
+- (double)lineHeightMultiple {
+    NSNumber *value = [self defaultForKey:DocumentModeLineSpacingStylePreferenceKey];
+    int intValue = (value ?: @100).intValue;
+    if (intValue == 100) {
+        return 0.0;
+    } else {
+        return intValue / 100.0;
+    }
 }
 
 

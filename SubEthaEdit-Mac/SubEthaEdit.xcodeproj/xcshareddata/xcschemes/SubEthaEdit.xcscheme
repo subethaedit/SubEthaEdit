@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1220"
+   LastUpgradeVersion = "1240"
    version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -60,8 +60,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "5EC638290ABEB71100D3295B"
-               BuildableName = "Unit Tests.xctest"
-               BlueprintName = "Unit Tests"
+               BuildableName = "Tests.xctest"
+               BlueprintName = "SubEthaEdit-Tests"
                ReferencedContainer = "container:SubEthaEdit.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -91,6 +91,10 @@
          <CommandLineArgument
             argument = "-NSShowAllViews YES"
             isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-_NS_4445425547 YES"
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-NSConstraintBasedLayoutVisualizeMutuallyExclusiveConstraints YES"

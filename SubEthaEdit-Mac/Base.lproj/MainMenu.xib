@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="18122" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="18122"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -453,6 +453,18 @@
                             <menuItem title="Shift Left" keyEquivalent="[" id="391">
                                 <connections>
                                     <action selector="shiftLeft:" target="-1" id="393"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Move Line Up" keyEquivalent="[" id="eQ2-sl-0HA">
+                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                <connections>
+                                    <action selector="moveLineUp:" target="-1" id="U5V-FP-dOZ"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Move Line Down" keyEquivalent="]" id="MK8-vl-kOn">
+                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                <connections>
+                                    <action selector="moveLineDown:" target="-1" id="z9l-tL-tp1"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Re-Indent" keyEquivalent="i" id="1206">

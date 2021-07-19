@@ -77,6 +77,7 @@ extern NSString * const DocumentModeHTMLExportShowVisitorsPreferenceKey    ;
 extern NSString * const DocumentModeHTMLExportWrittenByHoversPreferenceKey ;
 extern NSString * const DocumentModeUseDefaultStylePreferenceKey;
 extern NSString * const DocumentModeUseDefaultFontPreferenceKey;
+extern NSString * const DocumentModeLineSpacingStylePreferenceKey;
 extern NSString * const DocumentModeUseDefaultViewPreferenceKey;
 extern NSString * const DocumentModeUseDefaultEditPreferenceKey;
 extern NSString * const DocumentModeUseDefaultFilePreferenceKey;
@@ -148,6 +149,7 @@ extern NSString * const DocumentModeStyleSheetsDefaultLanguageContextKey;
 - (SEEStyleSheet *)styleSheetForLanguageContext:(NSString *)aLanguageContext;
 
 - (NSFont *)plainFontBase;
+- (double)lineHeightMultiple;
 
 - (NSArray *)scriptMenuItemArray;
 - (NSArray *)contextMenuItemArray;

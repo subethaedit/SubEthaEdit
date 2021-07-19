@@ -83,6 +83,10 @@ static NSPoint S_cascadePoint = {0.0,0.0};
         titleBarTextField.maximumNumberOfLines = 1;
     }
 
+    if (@available(macOS 11.0, *)) {
+        window.titlebarSeparatorStyle = NSTitlebarSeparatorStyleLine;
+    } 
+    
     [self updateWindowMinSize];
 }
 

@@ -36,8 +36,8 @@
 - (void)mainViewDidLoad {
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
     BOOL disableState=([defaults objectForKey:@"AppleScreenAdvanceSizeThreshold"] && [[defaults objectForKey:@"AppleScreenAdvanceSizeThreshold"] floatValue]<=1.);
-    [self.O_disableScreenFontsButton setState:disableState?NSOnState:NSOffState];
-    [self.O_synthesiseFontsButton setState:[defaults boolForKey:SynthesiseFontsPreferenceKey]?NSOnState:NSOffState];
+    [self.O_disableScreenFontsButton setState:disableState?NSControlStateValueOn:NSControlStateValueOff];
+    [self.O_synthesiseFontsButton setState:[defaults boolForKey:SynthesiseFontsPreferenceKey]?NSControlStateValueOn:NSControlStateValueOff];
     
     NSString *absolutePath = [[AppController sharedInstance].URLOfInstallCommand path];
     [self.commandLineInstallTextField setStringValue:[@"sudo " stringByAppendingString:[absolutePath stringByReplacingOccurrencesOfString:@" " withString:@"\\ "]]];
@@ -59,7 +59,7 @@
 #pragma mark -
 
 - (IBAction)changeDisableScreenFonts:(id)aSender {
-    if ([aSender state]==NSOnState) {
+    if ([aSender state]==NSControlStateValueOn) {
         [[NSUserDefaults standardUserDefaults] setFloat:1. forKey:@"AppleScreenAdvanceSizeThreshold"];
     } else {
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"AppleScreenAdvanceSizeThreshold"];
@@ -67,7 +67,7 @@
 }
 
 - (IBAction)changeSynthesiseFonts:(id)aSender {
-    [[NSUserDefaults standardUserDefaults] setBool:[aSender state]==NSOnState forKey:SynthesiseFontsPreferenceKey];
+    [[NSUserDefaults standardUserDefaults] setBool:[aSender state]==NSControlStateValueOn forKey:SynthesiseFontsPreferenceKey];
     // trigger update
     [[[SEEDocumentController sharedInstance] documents] makeObjectsPerformSelector:@selector(applyStylePreferences)];
 }
