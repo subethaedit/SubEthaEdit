@@ -10,6 +10,8 @@
 #import "SelectionOperation.h"
 #import "SEEFindAndReplaceState.h"
 
+extern NSString * const kSEEFindAndReplaceDiscardHistoryKey ;
+
 typedef enum {
     TCMTextFinderActionFindAll = 1001,
     TCMTextFinderActionSetReplaceString = 1002,
@@ -61,6 +63,7 @@ typedef enum {
 
 /*! array of most recent SEEFindAndReplaceState */
 @property (nonatomic, readonly, strong) NSArray *findReplaceHistory;
+- (void)clearFindReplaceHistory;
 - (void)storeFindeReplaceStateInHistory:(SEEFindAndReplaceState *)aFindReplaceState;
 - (void)takeGlobalFindAndReplaceStateValuesFromState:(SEEFindAndReplaceState *)aFindAndReplaceState;
 
