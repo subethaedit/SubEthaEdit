@@ -2,6 +2,7 @@
 
 #### Features:
 * New Line spacing per mode preference
+* Options to clear and disable search history
 
 #### Improvements:
 * Modernised look of line numbers and position field
