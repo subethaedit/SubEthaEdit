@@ -18,7 +18,7 @@
 
 #### Improvements:
 * Modernised look of line numbers and position field
-* Modernised look of inivisble characters
+* Modernised look of invisible characters
 * Improved visual stability of top status bar
 * Made preferences layout more consistent
 
