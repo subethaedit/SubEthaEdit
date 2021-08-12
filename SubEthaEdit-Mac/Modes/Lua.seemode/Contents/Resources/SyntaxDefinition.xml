@@ -263,7 +263,7 @@
 			</state>
 
 			<state id="do-then-end blocks" foldable="yes" indent="yes" type="block" scope="meta.block">
-				<begin><string>\b(?:(?:(?:else|do|then)\b)|(?:function(?:[ \t]+(?'funcname'(?'varname'[\p{Alpha}_][\p{Alnum}_]*)(?:\.\g'varname')*(?::\g'varname')?))?\b))</string></begin>
+				<begin><string>\b(?:(?:(?:else|do|then)\b)|(?:function(?:[ \t]+(?'funcname'(?'varname'[\p{Alpha}_][\p{Alnum}_]*)(?:\.\g'varname')*(?::\g'varname')?))?\b))</string><autoend>end</autoend></begin>
 				<end><regex>\b(?:end|elseif)\b|(\s(?=else\s))</regex></end>
 				<import/>
 			</state>
@@ -277,7 +277,7 @@
 			<!-- don't show empty tables -->
 			<state id="tables" foldable="yes" indent="yes" scope="meta.block">
 				<begin><string>{(?!})</string></begin>
-				<end><regex>}</regex></end>
+				<end><regex>(?&lt;!{)}</regex></end>
 				<import/>
 			</state>
 

@@ -2,6 +2,9 @@
 <!DOCTYPE syntax SYSTEM "symbol.dtd">
 <symbols>
 
+	<symbol id="pico8" symbol="-_#774940">
+		<regex>^__(?:lua|gfx|map|sfx)__</regex>
+	</symbol>
     <symbol id="Functions" symbol="f()_#6AB18D" indentation="0" ignoreblocks="yes">
         <regex>^function[ \t]+([\w\d_\.:]+[ \t]*\([^\)]*\))</regex>
     </symbol>
