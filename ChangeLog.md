@@ -4,10 +4,12 @@
 * 
 
 #### Bug fixes and maintenance:
-* 
+* Fixed issues with scripting and document ids
 
 #### Improved modes:
-* 
+* Lua
+	* Fixed check build
+	* Added pico-8 recognition
 
 ### SubEthaEdit 5.2.1
 
