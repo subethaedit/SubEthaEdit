@@ -812,7 +812,9 @@ static NSMenu *S_defaultMenu=nil;
 }
 
 - (BOOL)writeSelectionToPasteboard:(NSPasteboard *)pasteboard type:(NSString *)type {
-    if ([type isEqualToString:NSPasteboardTypeString]) {
+    if ([type isEqualToString:NSPasteboardTypeString] ||
+        [[super writablePasteboardTypes] containsObject:type]) // this second line looks odd, but as it turns out freaking services calls this with the deprecated type and the superclass also uses the deprecated NSStringPboardType
+    {
 		NSRange selectedRange = [self selectedRange];
 		if (selectedRange.length == 0) return NO;
 		
