@@ -1,4 +1,4 @@
-### [unreleased] SubEthaEdit 5.2.2
+### SubEthaEdit 5.2.2
 
 #### Features:
 * Autosaves and restores unsaved untitled windows now on quit to be less intrusive
