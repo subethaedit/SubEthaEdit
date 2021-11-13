@@ -5,6 +5,7 @@
 
 #### Bug fixes and maintenance:
 * Fixed issues with scripting and document ids
+* Fixed issue on macOS 12 where the com.apple.quarantine attribute was set on saving executable scripts, making them not exectuable anymore
 
 #### Improved modes:
 * Lua
