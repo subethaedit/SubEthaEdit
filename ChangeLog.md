@@ -1,9 +1,10 @@
-### [unreleased] SubEthaEdit 5.2.2
+### SubEthaEdit 5.2.2
 
 #### Features:
 * Autosaves and restores unsaved untitled windows now on quit to be less intrusive
 
 #### Bug fixes and maintenance:
+* Fixed an issue where the services menu did not get the contents of the selection
 * Fixed issues with scripting and document ids
 * Fixed issue on macOS 12 where the com.apple.quarantine attribute was set on saving executable scripts, making them not exectuable anymore
 
