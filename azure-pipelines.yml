@@ -17,7 +17,7 @@ steps:
     actions: 'build test'
     scheme: 'SubEthaEdit'
     sdk: 'macosx'
-    configuration: 'Release'
+    configuration: 'Debug'
     xcWorkspacePath: 'SubEthaEdit.xcworkspace'
     xcodeVersion: 'default' # Options: 8, 9, 10, default, specifyPath
     publishJUnitResults: true

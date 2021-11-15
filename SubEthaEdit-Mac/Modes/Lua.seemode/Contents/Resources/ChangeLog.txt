@@ -1,3 +1,8 @@
+Chagnes with Version 5.2
+	*) Added recognition for pico-8 files
+	*) Added cmd-/ based comment/uncomment script
+	*) Fixed indenting issues
+
 Changes with Version 4.0.1 
 	*) made indent work
 

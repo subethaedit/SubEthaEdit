@@ -120,7 +120,7 @@
 						[alert setAlertStyle:NSAlertStyleWarning];
 						[alert setMessageText:NSLocalizedString(@"Regular Expression Error",@"Regular Expression Error Title")];
 						[alert setInformativeText:NSLocalizedString(@"One of the specified <regex> elements in the mode's settings is not a valid regular expression. ModeSettings.xml will be ignored, falling back to Info.plist. Please check your regular expression in Find Panel's Ruby mode.",@"Mode Settings Expression Error Informative Text")];
-						[alert addButtonWithTitle:@"OK"];
+						[alert addButtonWithTitle:NSLocalizedString(@"OK",nil)];
 						[alert runModal];
 						everythingOkay = NO;
 					}
