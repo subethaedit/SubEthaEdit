@@ -252,20 +252,20 @@ static NSPoint S_cascadePoint = {0.0,0.0};
         selector == @selector(toggleShowInconsistentIndentation:)){
 		return [self.activePlainTextEditor validateMenuItem:menuItem];
     } else if (selector ==@selector(toggleWebPreview:)) {
-		[menuItem setState:self.SEE_tabContext.hasWebPreviewSplit ? NSOnState : NSOffState];
+		[menuItem setState:self.SEE_tabContext.hasWebPreviewSplit ? NSControlStateValueOn : NSControlStateValueOff];
 		return YES;
 	} else if (selector == @selector(toggleParticipantsOverlay:)) {
         [menuItem setState:
             [self.plainTextEditors.lastObject hasBottomOverlayView] ?
-            NSOnState :
-            NSOffState];
+            NSControlStateValueOn :
+            NSControlStateValueOff];
         return YES;
 	} else if (selector == @selector(toggleBottomStatusBar:)) {
 		PlainTextWindowControllerTabContext *tabContext = self.SEE_tabContext;
-        [menuItem setState:[[tabContext.plainTextEditors lastObject] showsBottomStatusBar]?NSOnState:NSOffState];
+        [menuItem setState:[[tabContext.plainTextEditors lastObject] showsBottomStatusBar]?NSControlStateValueOn:NSControlStateValueOff];
         return YES;
     } else if (selector == @selector(toggleLineNumbers:)) {
-        [menuItem setState:[self showsGutter]?NSOnState:NSOffState];
+        [menuItem setState:[self showsGutter]?NSControlStateValueOn:NSControlStateValueOff];
         return YES;
     } else if (selector == @selector(copyDocumentURL:)) {
         return [self.plainTextDocument isAnnounced];
@@ -280,7 +280,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
         return !isReceivingContent;
     } else if (selector == @selector(changePendingUsersAccess:)) {
         TCMMMSession *session=[self.plainTextDocument session];
-        [menuItem setState:([menuItem tag]==[session accessState])?NSOnState:NSOffState];
+        [menuItem setState:([menuItem tag]==[session accessState])?NSControlStateValueOn:NSControlStateValueOff];
         return [session isServer];
     } else if (selector == @selector(readWriteButtonAction:) ||
                selector == @selector(followUser:) ||

@@ -4051,13 +4051,13 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 - (BOOL)validateMenuItem:(NSMenuItem *)anItem {
     SEL selector=[anItem action];
     if (selector==@selector(toggleSyntaxHighlighting:)) {
-        [anItem setState:(I_flags.highlightSyntax?NSOnState:NSOffState)];
+        [anItem setState:(I_flags.highlightSyntax?NSControlStateValueOn:NSControlStateValueOff)];
         return ![self isProxyDocument];
     } else if (selector == @selector(chooseLineEndings:)) {
         if ([self lineEnding] == [anItem tag]) {
-            [anItem setState:NSOnState];
+            [anItem setState:NSControlStateValueOn];
         } else {
-            [anItem setState:NSOffState];
+            [anItem setState:NSControlStateValueOff];
         }
     } else if (selector == @selector(convertLineEndings:)) {
         NSStringEncoding encoding=[self fileEncoding];
@@ -4068,9 +4068,9 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
                 encoding==NSNonLossyASCIIStringEncoding));
     } else if (selector == @selector(selectEncoding:)) {
         if ([self fileEncoding] == (NSUInteger)[anItem tag]) {
-            [anItem setState:NSOnState];
+            [anItem setState:NSControlStateValueOn];
         } else {
-            [anItem setState:NSOffState];
+            [anItem setState:NSControlStateValueOff];
         }
         TCMMMSession *session=[self session];
         return (![self isProxyDocument] && [session isServer] && [session participantCount]<=1);
@@ -4078,26 +4078,26 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         DocumentModeManager *modeManager=[DocumentModeManager sharedInstance];
         NSString *identifier=[modeManager documentModeIdentifierForTag:[anItem tag]];
         if (identifier && [[[self documentMode] documentModeIdentifier] isEqualToString:identifier]) {
-            [anItem setState:NSOnState];
+            [anItem setState:NSControlStateValueOn];
         } else {
-            [anItem setState:NSOffState];
+            [anItem setState:NSControlStateValueOff];
         }
         return ![self isProxyDocument];
     } else if (selector == @selector(toggleUsesTabs:)) {
-        [anItem setState:(I_flags.usesTabs?NSOnState:NSOffState)];
+        [anItem setState:(I_flags.usesTabs?NSControlStateValueOn:NSControlStateValueOff)];
         return ![self isProxyDocument];
     } else if (selector == @selector(selectWrapMode:)) {
-        [anItem setState:(I_flags.wrapMode==[anItem tag]?NSOnState:NSOffState)];
+        [anItem setState:(I_flags.wrapMode==[anItem tag]?NSControlStateValueOn:NSControlStateValueOff)];
         return ![self isProxyDocument];
     } else if (selector == @selector(toggleIndentNewLines:)) {
-        [anItem setState:(I_flags.indentNewLines?NSOnState:NSOffState)];
+        [anItem setState:(I_flags.indentNewLines?NSControlStateValueOn:NSControlStateValueOff)];
         return ![self isProxyDocument];
     } else if (selector == @selector(changeTabWidth:)) {
-        [anItem setState:(I_tabWidth==[[anItem title]intValue]?NSOnState:NSOffState)];
+        [anItem setState:(I_tabWidth==[[anItem title]intValue]?NSControlStateValueOn:NSControlStateValueOff)];
         return ![self isProxyDocument];
     } else if (selector == @selector(changePendingUsersAccess:)) {
         TCMMMSession *session=[self session];
-        [anItem setState:([anItem tag]==[session accessState])?NSOnState:NSOffState];
+        [anItem setState:([anItem tag]==[session accessState])?NSControlStateValueOn:NSControlStateValueOff];
         return [session isServer];
     } else if (selector == @selector(toggleIsAnnounced:)) {
         [anItem setTitle:[self isAnnounced]?
@@ -4492,7 +4492,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 /*"This method returns the blockeditTextAttributes that the textview uses. If you make background colors customizeable you want to change these too"*/
 - (NSDictionary *)blockeditAttributes {
     if (!I_blockeditAttributes) {
-        float backgroundBrightness=[[[self documentBackgroundColor] colorUsingColorSpaceName:NSCalibratedRGBColorSpace] brightnessComponent];
+        float backgroundBrightness=[[[self documentBackgroundColor] colorUsingColorSpace:[NSColorSpace sRGBColorSpace]] brightnessComponent];
 ;
         if (backgroundBrightness>.5) backgroundBrightness-=.1;
         else backgroundBrightness+=.1;

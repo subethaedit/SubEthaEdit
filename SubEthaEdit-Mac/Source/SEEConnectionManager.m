@@ -78,7 +78,7 @@
     
     NSURL *url = [TCMMMBEEPSessionManager urlForAddress:address];
     
-    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"scheme: %@\nhost: %@\nport: %@\npath: %@\nparameterString: %@\nquery: %@", [url scheme], [url host],  [url port], [url path], [url parameterString], [url query]);
+    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"scheme: %@\nhost: %@\nport: %@\npath: %@\nquery: %@", [url scheme], [url host],  [url port], [url path], [url query]);
     
     if (url != nil && [url host] != nil) {
         [self connectToURL:url];

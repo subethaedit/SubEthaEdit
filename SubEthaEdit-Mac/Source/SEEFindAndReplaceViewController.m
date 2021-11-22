@@ -314,12 +314,12 @@ static NSInteger const kMinViewHeight = 61;
 		}
 	} else if (menuItem.action == @selector(switchRegexSyntaxDialect:)) {
 		BOOL isOn = ([[self.findAndReplaceStateObjectController valueForKeyPath:kOptionKeyPathRegexDialect] integerValue] == menuItem.tag);
-		[menuItem setState:isOn ? NSOnState : NSOffState];
+		[menuItem setState:isOn ? NSControlStateValueOn : NSControlStateValueOff];
 	} else if (menuItem.action == @selector(toggleRegexOption:)) {
 		NSInteger tag = [menuItem tag];
 		NSString *keyPath = [self keyPathForRegexOption:tag];
 		NSNumber *currentValue = [self.findAndReplaceStateObjectController valueForKeyPath:keyPath];
-		[menuItem setState:currentValue.boolValue ? NSOnState : NSOffState];
+		[menuItem setState:currentValue.boolValue ? NSControlStateValueOn : NSControlStateValueOff];
 		return validationResultForRegexOptions;
     } else if (menuItem.action == @selector(clearRecents:)) {
         return YES;
@@ -329,13 +329,13 @@ static NSInteger const kMinViewHeight = 61;
 	} else {
 		switch (menuItem.tag) {
 			case kOptionMenuIgnoreCaseTag:
-				[menuItem setState:[[self.findAndReplaceStateObjectController valueForKeyPath:kOptionKeyPathCaseSensitive] boolValue] ? NSOffState : NSOnState];
+				[menuItem setState:[[self.findAndReplaceStateObjectController valueForKeyPath:kOptionKeyPathCaseSensitive] boolValue] ? NSControlStateValueOff : NSControlStateValueOn];
 				break;
 			case kOptionMenuWrapAroundTag:
-				[menuItem setState:[[self.findAndReplaceStateObjectController valueForKeyPath:kOptionKeyPathWrapsAround] boolValue] ? NSOnState : NSOffState];
+				[menuItem setState:[[self.findAndReplaceStateObjectController valueForKeyPath:kOptionKeyPathWrapsAround] boolValue] ? NSControlStateValueOn : NSControlStateValueOff];
 				break;
 			case kOptionMenuUseRegularExpressionsTag:
-				[menuItem setState:useRegex ? NSOnState	: NSOffState];
+				[menuItem setState:useRegex ? NSControlStateValueOn	: NSControlStateValueOff];
 				break;
 			
 			case kOptionMenuSelectedLanguageDialectTag:
@@ -354,11 +354,11 @@ static NSInteger const kMinViewHeight = 61;
 			}
 			
 			case kOptionMenuEscapeCharacterSlashTag:
-				[menuItem setState:[[self.findAndReplaceStateObjectController valueForKeyPath:kOptionKeyPathRegexEscapeCharacter] isEqualToString:OgreBackslashCharacter] ? NSOnState : NSOffState];
+				[menuItem setState:[[self.findAndReplaceStateObjectController valueForKeyPath:kOptionKeyPathRegexEscapeCharacter] isEqualToString:OgreBackslashCharacter] ? NSControlStateValueOn : NSControlStateValueOff];
 				return validationResultForRegexOptions;
 
 			case kOptionMenuEscapeCharacterYenTag:
-				[menuItem setState:[[self.findAndReplaceStateObjectController valueForKeyPath:kOptionKeyPathRegexEscapeCharacter] isEqualToString:OgreGUIYenCharacter] ? NSOnState : NSOffState];
+				[menuItem setState:[[self.findAndReplaceStateObjectController valueForKeyPath:kOptionKeyPathRegexEscapeCharacter] isEqualToString:OgreGUIYenCharacter] ? NSControlStateValueOn : NSControlStateValueOff];
 				return validationResultForRegexOptions;
 
 			default:

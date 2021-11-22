@@ -1384,20 +1384,20 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     SEL selector = [menuItem action];
 
     if (selector == @selector(toggleWrap:)) {
-        [menuItem setState:[O_scrollView hasHorizontalScroller] ? NSOffState:NSOnState];
+        [menuItem setState:[O_scrollView hasHorizontalScroller] ? NSControlStateValueOff:NSControlStateValueOn];
         return YES;
     } else if (selector == @selector(toggleTopStatusBar:)) {
-        [menuItem setState:[self showsTopStatusBar] ? NSOnState:NSOffState];
+        [menuItem setState:[self showsTopStatusBar] ? NSControlStateValueOn:NSControlStateValueOff];
         return YES;
     } else if (selector == @selector(toggleShowsChangeMarks:)) {
         BOOL showsChangeMarks = [self showsChangeMarks];
-        [menuItem setState:showsChangeMarks ? NSOnState:NSOffState];
+        [menuItem setState:showsChangeMarks ? NSControlStateValueOn:NSControlStateValueOff];
         return YES;
     } else if (selector == @selector(toggleShowInvisibles:)) {
-        [menuItem setState:[self showsInvisibleCharacters] ? NSOnState:NSOffState];
+        [menuItem setState:[self showsInvisibleCharacters] ? NSControlStateValueOn:NSControlStateValueOff];
         return YES;
     } else if (selector == @selector(toggleShowInconsistentIndentation:)) {
-        [menuItem setState:[self showsInconsistentIndentation] ? NSOnState:NSOffState];
+        [menuItem setState:[self showsInconsistentIndentation] ? NSControlStateValueOn:NSControlStateValueOff];
         return YES;
     } else if (selector == @selector(blockeditSelection:) || selector == @selector(endBlockedit:)) {
         FoldableTextStorage *textStorage = (FoldableTextStorage *)[I_textView textStorage];
@@ -1420,7 +1420,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
         return [I_textView selectedRange].length > 0;
     } else if (selector == @selector(changePendingUsersAccessAndAnnounce:)) {
         TCMMMSession *session=self.document.session;
-        [menuItem setState:([menuItem tag]==[session accessState])?NSOnState:NSOffState];
+        [menuItem setState:([menuItem tag]==[session accessState])?NSControlStateValueOn:NSControlStateValueOff];
         return [session isServer];
     }
     return YES;

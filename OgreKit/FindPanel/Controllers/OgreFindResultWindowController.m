@@ -225,7 +225,7 @@
 - (IBAction)updateLiveUpdate:(id)sender
 {
 	if (_textFindResult != nil) [grepOutlineView reloadData];
-	_liveUpdate = ([liveUpdateCheckBox state] == NSOnState);
+	_liveUpdate = ([liveUpdateCheckBox state] == NSControlStateValueOn);
 }
 
 

@@ -169,7 +169,7 @@
     CGFloat hue, saturation, brightness, alpha;
     double  dummy;
     
-    [[aColor colorUsingColorSpaceName:NSCalibratedRGBColorSpace] 
+    [[aColor colorUsingColorSpace:[NSColorSpace sRGBColorSpace]] 
         getHue: &hue 
         saturation: &saturation 
         brightness: &brightness 

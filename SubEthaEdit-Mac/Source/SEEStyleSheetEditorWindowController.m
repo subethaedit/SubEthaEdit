@@ -155,11 +155,11 @@
 //    BOOL useDefault=[[[O_modePopUpButton selectedMode] defaultForKey:DocumentModeUseDefaultStylePreferenceKey] boolValue];
 //    DocumentMode *baseMode=[[DocumentModeManager sharedInstance] baseMode];
 //    DocumentMode *selectedMode=[O_modePopUpButton selectedMode];
-//    [O_fontController setContent:([O_fontDefaultButton state]==NSOnState)?baseMode:selectedMode];
+//    [O_fontController setContent:([O_fontDefaultButton state]==NSControlStateValueOn)?baseMode:selectedMode];
 //    [O_styleController setContent:useDefault?baseMode:selectedMode];
 //    [O_defaultStyleButton setHidden:[[I_currentSyntaxStyle documentMode] isBaseMode]];
 //    if (O_defaultStyleButton !=aSender) {
-//        [O_defaultStyleButton setState:useDefault?NSOnState:NSOffState];
+//        [O_defaultStyleButton setState:useDefault?NSControlStateValueOn:NSControlStateValueOff];
 //    }
 //
 //    [O_stylesTableView setDisableFirstRow:useDefault];
@@ -476,12 +476,12 @@
 //
 //- (IBAction)changeFontTraitItalic:(id)aSender {
 //    [aSender setAllowsMixedState:NO];
-//    [self setTrait:NSItalicFontMask ofSelectedStylesTo:[aSender state]==NSOnState];
+//    [self setTrait:NSItalicFontMask ofSelectedStylesTo:[aSender state]==NSControlStateValueOn];
 //}
 //
 //- (IBAction)changeFontTraitBold:(id)aSender {
 //    [aSender setAllowsMixedState:NO];
-//    [self setTrait:NSBoldFontMask ofSelectedStylesTo:[aSender state]==NSOnState];
+//    [self setTrait:NSBoldFontMask ofSelectedStylesTo:[aSender state]==NSControlStateValueOn];
 //}
 //
 //- (IBAction)import:(id)aSender {

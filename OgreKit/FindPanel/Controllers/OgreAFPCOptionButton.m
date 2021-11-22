@@ -21,7 +21,7 @@
 	self = [super init];
 	if (self != nil) {
 		[self setEnabled:NO];
-		[super setState:NSOnState];
+		[super setState:NSControlStateValueOn];
 	}
 	return self;
 }
@@ -47,8 +47,8 @@
 	int	newValue = value;
 	if (![self isEnabled]) {
 		[self setAllowsMixedState:YES];
-		if (value != NSOffState) {
-			newValue = NSMixedState;
+		if (value != NSControlStateValueOff) {
+			newValue = NSControlStateValueMixed;
 		}
 	} else {
 		[self setAllowsMixedState:NO];
@@ -61,10 +61,10 @@
 - (int)state
 {
 	int	value;
-	if ([super state] == NSOffState) {
-		value = NSOffState;
+	if ([super state] == NSControlStateValueOff) {
+		value = NSControlStateValueOff;
 	} else {
-		value = NSOnState;
+		value = NSControlStateValueOn;
 	}
 	
 	return value;

@@ -58,7 +58,7 @@
     
     /* blending highlight colors */
     CGFloat hue, saturation, brightness, alpha;
-    [[[self highlightColor] colorUsingColorSpaceName:NSCalibratedRGBColorSpace] 
+    [[[self highlightColor] colorUsingColorSpace:[NSColorSpace sRGBColorSpace]] 
         getHue: &hue 
         saturation: &saturation 
         brightness: &brightness 

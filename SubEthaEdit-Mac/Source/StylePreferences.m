@@ -284,7 +284,7 @@
 
 - (void)changeFont:(id)fontManager {
 //	NSLog(@"%s",__FUNCTION__);
-    if ([self.O_fontDefaultButton state] != NSOnState) {
+    if ([self.O_fontDefaultButton state] != NSControlStateValueOn) {
         NSFont *newFont = [fontManager convertFont:[self.O_modePopUpButton selectedMode].plainFontBase];
         NSMutableDictionary *dict=[NSMutableDictionary dictionary];
         

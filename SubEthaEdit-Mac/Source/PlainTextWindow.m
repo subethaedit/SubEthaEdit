@@ -113,7 +113,7 @@ static NSPoint placeWithCascadePoint(NSWindow *window, NSPoint cascadePoint) {
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
     if (menuItem.action == @selector(toggleTabBar:)) {
         BOOL alwaysShowTabBar = SEEDocumentController.shouldAlwaysShowTabBar;
-        [menuItem setState:alwaysShowTabBar ? NSOnState : NSOffState];
+        [menuItem setState:alwaysShowTabBar ? NSControlStateValueOn : NSControlStateValueOff];
         return YES;
     }
     return [super validateMenuItem:menuItem];

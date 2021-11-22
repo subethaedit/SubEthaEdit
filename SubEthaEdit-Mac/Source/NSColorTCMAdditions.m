@@ -54,7 +54,7 @@
 }
 
 - (NSString *)shortHTMLString {
-    NSColor *color=[self colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
+    NSColor *color=[self colorUsingColorSpace:[NSColorSpace sRGBColorSpace]];
     NSString *result=[NSString stringWithFormat:@"#%01x%01x%01x",
                                   (int)([color   redComponent]*15.+.5),
                                   (int)([color greenComponent]*15.+.5),
@@ -63,7 +63,7 @@
 }
 
 - (NSString *)HTMLString {
-    NSColor *color=[self colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
+    NSColor *color=[self colorUsingColorSpace:[NSColorSpace sRGBColorSpace]];
     NSString *result=[NSString stringWithFormat:@"#%02x%02x%02x",
                                   (int)([color   redComponent]*255.+.5),
                                   (int)([color greenComponent]*255.+.5),
@@ -72,19 +72,19 @@
 }
 
 - (BOOL)isDark {
-    float brightness=[[self colorUsingColorSpaceName:NSCalibratedRGBColorSpace] brightnessComponent];
+    float brightness=[[self colorUsingColorSpace:[NSColorSpace sRGBColorSpace]] brightnessComponent];
     return (brightness<.5);
 }
 
 - (NSColor *)brightnessInvertedColor {
     CGFloat alpha = self.alphaComponent;
-    NSColor *color=[self colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
+    NSColor *color=[self colorUsingColorSpace:[NSColorSpace sRGBColorSpace]];
     NSColor *invertedColor=[NSColor colorWithCalibratedRed:1.0-[color redComponent] green:1.0-[color greenComponent] blue:1.0-[color blueComponent] alpha:1.0];
     return [NSColor colorWithCalibratedHue:[color hueComponent] saturation:[invertedColor saturationComponent] brightness:[invertedColor brightnessComponent] alpha:alpha];
 }
 
 - (NSColor *)brightnessInvertedSelectionColor {
-    NSColor *color=[self colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
+    NSColor *color=[self colorUsingColorSpace:[NSColorSpace sRGBColorSpace]];
     NSColor *invertedColor=[NSColor colorWithCalibratedRed:1.0-[color redComponent] green:1.0-[color greenComponent] blue:1.0-[color blueComponent] alpha:1.0];
     return [NSColor colorWithCalibratedHue:[color hueComponent] saturation:[invertedColor saturationComponent] brightness:MAX([invertedColor brightnessComponent],0.6) alpha:1.0];
 }

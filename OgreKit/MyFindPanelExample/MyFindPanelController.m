@@ -45,21 +45,21 @@ static NSString	*MyEntireScopeKey    = @"Entire Scope";
 - (unsigned)options
 {
 	unsigned	options = OgreNoneOption;
-	if ([optionIgnoreCase state] == NSOnState) options |= OgreIgnoreCaseOption;
+	if ([optionIgnoreCase state] == NSControlStateValueOn) options |= OgreIgnoreCaseOption;
 	
 	return options;
 }
 
 - (OgreSyntax)syntax
 {
-	if ([optionRegex state] == NSOnState) return OgreRubySyntax;
+	if ([optionRegex state] == NSControlStateValueOn) return OgreRubySyntax;
 	
 	return OgreSimpleMatchingSyntax;
 }
 
 - (BOOL)isEntire
 {
-	if ([[scopeMatrix cellAtRow:0 column:0] state] == NSOnState) return YES;
+	if ([[scopeMatrix cellAtRow:0 column:0] state] == NSControlStateValueOn) return YES;
 	
 	return NO;
 }
@@ -233,26 +233,26 @@ static NSString	*MyEntireScopeKey    = @"Entire Scope";
 	anObject = [history objectForKey:MyOptionsKey];
 	if (anObject != nil) {
 		unsigned	options = [anObject unsignedIntValue];
-		[optionIgnoreCase setState:((options & OgreIgnoreCaseOption)? NSOnState : NSOffState)];
+		[optionIgnoreCase setState:((options & OgreIgnoreCaseOption)? NSControlStateValueOn : NSControlStateValueOff)];
 	}
 	
 	anObject = [history objectForKey:MySyntaxKey];
 	if (anObject != nil) {
 		int	syntax = [anObject intValue];
-		[optionRegex setState:((syntax != [OGRegularExpression intValueForSyntax:OgreSimpleMatchingSyntax])? NSOnState : NSOffState)];
+		[optionRegex setState:((syntax != [OGRegularExpression intValueForSyntax:OgreSimpleMatchingSyntax])? NSControlStateValueOn : NSControlStateValueOff)];
 	}
 	
 	anObject = [history objectForKey:MyEntireScopeKey];
 	if (anObject != nil) {
-		[[scopeMatrix cellAtRow:0 column:0] setState:NSOffState];
-		[[scopeMatrix cellAtRow:0 column:1] setState:NSOffState];
+		[[scopeMatrix cellAtRow:0 column:0] setState:NSControlStateValueOff];
+		[[scopeMatrix cellAtRow:0 column:1] setState:NSControlStateValueOff];
 		
 		if ([anObject boolValue]) {
 			// entire scopeの場合
-			[[scopeMatrix cellAtRow:0 column:0] setState:NSOnState];
+			[[scopeMatrix cellAtRow:0 column:0] setState:NSControlStateValueOn];
 		} else {
 			// selection scopeの場合
-			[[scopeMatrix cellAtRow:0 column:1] setState:NSOnState];
+			[[scopeMatrix cellAtRow:0 column:1] setState:NSControlStateValueOn];
 		}
 	}
 }

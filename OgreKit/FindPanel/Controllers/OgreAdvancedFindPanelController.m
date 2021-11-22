@@ -133,7 +133,7 @@ static NSString	*OgreAFPCAttributedReplaceHistoryKey = @"AFPC Attributed Replace
 	[self setOpenSheetOption:YES];
 	[self setCloseWhenDoneOption:YES];
 	
-	[toggleStyleOptionsButton setState:NSOffState];
+	[toggleStyleOptionsButton setState:NSControlStateValueOff];
     
     // disable Automatic Substitution Features
     [self disableAutomaticSubstitutions:findTextView];
@@ -460,12 +460,12 @@ static NSString	*OgreAFPCAttributedReplaceHistoryKey = @"AFPC Attributed Replace
 	
 	anObject = [history objectForKey:OgreAFPCWrapKey];
 	if (anObject != nil) {
-		[self setWrapSearchOption: ([anObject intValue] == NSOnState)];
+		[self setWrapSearchOption: ([anObject intValue] == NSControlStateValueOn)];
 	}
 	
 	anObject = [history objectForKey:OgreAFPCCloseWhenDoneKey];
 	if (anObject != nil) {
-		[self setCloseWhenDoneOption: ([anObject intValue] == NSOnState)];
+		[self setCloseWhenDoneOption: ([anObject intValue] == NSControlStateValueOn)];
 	}
 	
 	anObject = [history objectForKey:OgreAFPCMaxNumOfFindHistoryKey];
@@ -520,8 +520,8 @@ static NSString	*OgreAFPCAttributedReplaceHistoryKey = @"AFPC Attributed Replace
 			[NSArchiver archivedDataWithRootObject:[highlightColorWell color]], 
 			[NSNumber numberWithInt:([self atTopOriginOption]? 0 : 1)], 
 			[NSNumber numberWithInt:([self inSelectionScopeOption]? 1 : 0)], 
-			[NSNumber numberWithInt:([self wrapSearchOption]? NSOnState : NSOffState)], 
-			[NSNumber numberWithInt:([self closeWhenDoneOption]? NSOnState : NSOffState)], 
+			[NSNumber numberWithInt:([self wrapSearchOption]? NSControlStateValueOn : NSControlStateValueOff)], 
+			[NSNumber numberWithInt:([self closeWhenDoneOption]? NSControlStateValueOn : NSControlStateValueOff)], 
 			[NSNumber numberWithInt:[maxNumOfFindHistoryTextField intValue]], 
 			[NSNumber numberWithInt:[maxNumOfReplaceHistoryTextField intValue]], 
 			[NSNumber numberWithInt:[toggleStyleOptionsButton state]], 
@@ -813,7 +813,7 @@ static NSString	*OgreAFPCAttributedReplaceHistoryKey = @"AFPC Attributed Replace
 - (unsigned)options
 {
 	unsigned	options = [self _options];
-	if ([toggleStyleOptionsButton state] == NSOffState) {
+	if ([toggleStyleOptionsButton state] == NSControlStateValueOff) {
 		options = OgreCompileTimeOptionMask(options) | OgreSearchTimeOptionMask(options);
 	}
 	
@@ -854,7 +854,7 @@ static NSString	*OgreAFPCAttributedReplaceHistoryKey = @"AFPC Attributed Replace
 	NSRect	textFrame = [findReplaceTextBox frame];
 	NSRect	optionsFrame = [styleOptionsBox frame];
 	NSSize	newSize = textFrame.size;
-	if ([toggleStyleOptionsButton state] == NSOnState) {
+	if ([toggleStyleOptionsButton state] == NSControlStateValueOn) {
 		// show Replace Options
 		newSize.width = optionsFrame.origin.x - textFrame.origin.x;
 		[findReplaceTextBox setFrameSize:newSize];
@@ -873,8 +873,8 @@ static NSString	*OgreAFPCAttributedReplaceHistoryKey = @"AFPC Attributed Replace
     //if (![findPanel isVisible]) [self loadFindStringFromPasteboard];
     
 	if (![textFinder useStylesInFindPanel]) {
-		if ([toggleStyleOptionsButton state] != NSOffState) {
-			[toggleStyleOptionsButton setState:NSOffState];
+		if ([toggleStyleOptionsButton state] != NSControlStateValueOff) {
+			[toggleStyleOptionsButton setState:NSControlStateValueOff];
 			[self toggleStyleOptions:self];
 		}
 		[toggleStyleOptionsButton setHidden:YES];

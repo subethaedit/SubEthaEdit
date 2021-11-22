@@ -115,27 +115,6 @@ static NSData *dhparamData = nil;
     [[NSNotificationQueue defaultQueue] enqueueNotification:[NSNotification notificationWithName:@"TCMBEEPTempCertificateCreationForSSLDidFinish" object:self] postingStyle:NSPostASAP coalesceMask:NSNotificationNoCoalescing forModes:nil];
 }
 
-+ (void)setAnonCiphersOnStreamData:(CFDataRef)inSocketDataRef dhParams:(BOOL)aFlag{
-	CFDataRef data = inSocketDataRef;
-	
-	// Extract the SSLContextRef from the CFData
-	SSLContextRef sslContext;
-	CFDataGetBytes(data, CFRangeMake(0, sizeof(SSLContextRef)), (UInt8 *)&sslContext);
-
-	SSLCipherSuite ciphers[] = {TLS_DH_anon_WITH_AES_256_CBC_SHA, TLS_DH_anon_WITH_AES_128_CBC_SHA}; // order does matter - in SL we'll get TLS_ECDH_anon_WITH_AES_256_CBC_SHA as well
-
-	// 	TLS_ECDH_anon_WITH_AES_256_CBC_SHA     =	0xC019, available in snow leopard, but already active here
-
-//	OSStatus err =
-	SSLSetEnabledCiphers(sslContext,ciphers,2);
-//	printf("set ciphers with error: %d\n",(int)err);
-    if (aFlag) {
-//		err =
-		SSLSetDiffieHellmanParams(sslContext,[dhparamData bytes],[dhparamData length]);
-//		printf("SSLSetDiffieHellmanParams with error: %d\n",(int)err);
-	}
-}
-
 - (void)TCM_initHelper {
 	self.uniqueID = [NSString UUIDString];
     I_flags.hasSentTLSProceed = NO;
