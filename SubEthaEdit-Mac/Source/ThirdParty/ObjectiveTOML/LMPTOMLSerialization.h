@@ -8,6 +8,9 @@
 
 extern NSErrorDomain const LMPTOMLErrorDomain;
 
+extern NSString * const LMPTOMLErrorInfoKeyColorizedReason;
+
+extern NSString * const LMPTOMLOptionKeySourceFileURL;
 
 @interface LMPTOMLSerialization : NSObject
 
@@ -15,10 +18,14 @@ extern NSErrorDomain const LMPTOMLErrorDomain;
  Generate a Foundation Dictionary from TOML data.
 
  @param data NSData representing a TOML file
+ @param options NSDictionary with options for the toml parsing
  @param error helpful information if the parsing fails
- @return NSDictionary representing the contents of the TOML file. Note that given dates will be represented as NSDateComponents, use +serializationObjectWtihTOMLObject: to convert those to RFC3339 strings that can be used in JSON or PropertyList serializations.
+ @return NSDictionary representing the contents of the TOML file. Note that given dates will be represented as NSDateComponents, use +serializableObjectWithTOMLObject: to convert those to RFC3339 strings that can be used in JSON or PropertyList serializations.
  */
++ (NSDictionary <NSString *, id>*)TOMLObjectWithData:(NSData *)data options:(NSDictionary *)options error:(NSError **)error;
+
 + (NSDictionary <NSString *, id>*)TOMLObjectWithData:(NSData *)data error:(NSError **)error;
+
 
 /**
  Generates NSData representation of the TOMLObject. The representation is UTF8 and can be stored directly as a TOML file.

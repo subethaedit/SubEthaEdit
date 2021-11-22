@@ -934,7 +934,6 @@
 		F2063D38261CEEB000C004B0 /* LMPTOMLSerialization.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LMPTOMLSerialization.mm; sourceTree = "<group>"; };
 		F2063D39261CEEB000C004B0 /* LMPTOMLSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPTOMLSerialization.h; sourceTree = "<group>"; };
 		F2063D3A261CEEB000C004B0 /* LMP_cpptoml_visitors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMP_cpptoml_visitors.h; sourceTree = "<group>"; };
-		F2063D3B261CEEB000C004B0 /* cpptoml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cpptoml.h; sourceTree = "<group>"; };
 		F20948B80C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = TCMMMLogStatisticsEntry.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		F20948B90C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TCMMMLogStatisticsEntry.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		F20AB8781907C7C500444F4B /* SEEDebugImageGenerationWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEDebugImageGenerationWindowController.h; sourceTree = "<group>"; };
@@ -1006,6 +1005,29 @@
 		F2308E6618E06FA00096E0C1 /* SEEFindAndReplaceContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEFindAndReplaceContext.m; sourceTree = "<group>"; };
 		F234E4560BE2592300504A7C /* NSWorkspaceTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NSWorkspaceTCMAdditions.h; sourceTree = "<group>"; };
 		F234E4570BE2592300504A7C /* NSWorkspaceTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSWorkspaceTCMAdditions.m; sourceTree = "<group>"; };
+		F2373E08274BF0EB005FBEC7 /* region.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = region.hpp; sourceTree = "<group>"; };
+		F2373E09274BF0EB005FBEC7 /* datetime.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = datetime.hpp; sourceTree = "<group>"; };
+		F2373E0A274BF0EB005FBEC7 /* serializer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = serializer.hpp; sourceTree = "<group>"; };
+		F2373E0B274BF0EB005FBEC7 /* utility.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = utility.hpp; sourceTree = "<group>"; };
+		F2373E0C274BF0EB005FBEC7 /* get.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = get.hpp; sourceTree = "<group>"; };
+		F2373E0D274BF0EB005FBEC7 /* parser.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = parser.hpp; sourceTree = "<group>"; };
+		F2373E0E274BF0EB005FBEC7 /* literal.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = literal.hpp; sourceTree = "<group>"; };
+		F2373E0F274BF0EB005FBEC7 /* macros.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = macros.hpp; sourceTree = "<group>"; };
+		F2373E10274BF0EB005FBEC7 /* traits.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = traits.hpp; sourceTree = "<group>"; };
+		F2373E11274BF0EB005FBEC7 /* comments.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = comments.hpp; sourceTree = "<group>"; };
+		F2373E12274BF0EB005FBEC7 /* source_location.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = source_location.hpp; sourceTree = "<group>"; };
+		F2373E13274BF0EB005FBEC7 /* combinator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = combinator.hpp; sourceTree = "<group>"; };
+		F2373E14274BF0EB005FBEC7 /* value.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = value.hpp; sourceTree = "<group>"; };
+		F2373E15274BF0EB005FBEC7 /* from.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = from.hpp; sourceTree = "<group>"; };
+		F2373E16274BF0EB005FBEC7 /* result.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = result.hpp; sourceTree = "<group>"; };
+		F2373E17274BF0EB005FBEC7 /* into.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = into.hpp; sourceTree = "<group>"; };
+		F2373E18274BF0EB005FBEC7 /* lexer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = lexer.hpp; sourceTree = "<group>"; };
+		F2373E19274BF0EB005FBEC7 /* string.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = string.hpp; sourceTree = "<group>"; };
+		F2373E1A274BF0EB005FBEC7 /* storage.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = storage.hpp; sourceTree = "<group>"; };
+		F2373E1B274BF0EB005FBEC7 /* color.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = color.hpp; sourceTree = "<group>"; };
+		F2373E1C274BF0EB005FBEC7 /* types.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = types.hpp; sourceTree = "<group>"; };
+		F2373E1D274BF0EB005FBEC7 /* exception.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = exception.hpp; sourceTree = "<group>"; };
+		F2373E20274BF0FF005FBEC7 /* toml.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = toml.hpp; sourceTree = "<group>"; };
 		F23966D418E2FE6800CEC9AD /* NSOperationQueue+TCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSOperationQueue+TCMAdditions.h"; sourceTree = "<group>"; };
 		F23966D518E2FE6800CEC9AD /* NSOperationQueue+TCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSOperationQueue+TCMAdditions.m"; sourceTree = "<group>"; };
 		F24280C40D16CFCC0083AE21 /* GenericSASLProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = GenericSASLProfile.h; sourceTree = "<group>"; };
@@ -2012,10 +2034,11 @@
 		F2063D37261CEEB000C004B0 /* ObjectiveTOML */ = {
 			isa = PBXGroup;
 			children = (
+				F2373E07274BF0EB005FBEC7 /* toml */,
+				F2373E20274BF0FF005FBEC7 /* toml.hpp */,
 				F2063D38261CEEB000C004B0 /* LMPTOMLSerialization.mm */,
 				F2063D39261CEEB000C004B0 /* LMPTOMLSerialization.h */,
 				F2063D3A261CEEB000C004B0 /* LMP_cpptoml_visitors.h */,
-				F2063D3B261CEEB000C004B0 /* cpptoml.h */,
 			);
 			path = ObjectiveTOML;
 			sourceTree = "<group>";
@@ -2085,6 +2108,35 @@
 			);
 			name = Sources;
 			path = Source;
+			sourceTree = "<group>";
+		};
+		F2373E07274BF0EB005FBEC7 /* toml */ = {
+			isa = PBXGroup;
+			children = (
+				F2373E08274BF0EB005FBEC7 /* region.hpp */,
+				F2373E09274BF0EB005FBEC7 /* datetime.hpp */,
+				F2373E0A274BF0EB005FBEC7 /* serializer.hpp */,
+				F2373E0B274BF0EB005FBEC7 /* utility.hpp */,
+				F2373E0C274BF0EB005FBEC7 /* get.hpp */,
+				F2373E0D274BF0EB005FBEC7 /* parser.hpp */,
+				F2373E0E274BF0EB005FBEC7 /* literal.hpp */,
+				F2373E0F274BF0EB005FBEC7 /* macros.hpp */,
+				F2373E10274BF0EB005FBEC7 /* traits.hpp */,
+				F2373E11274BF0EB005FBEC7 /* comments.hpp */,
+				F2373E12274BF0EB005FBEC7 /* source_location.hpp */,
+				F2373E13274BF0EB005FBEC7 /* combinator.hpp */,
+				F2373E14274BF0EB005FBEC7 /* value.hpp */,
+				F2373E15274BF0EB005FBEC7 /* from.hpp */,
+				F2373E16274BF0EB005FBEC7 /* result.hpp */,
+				F2373E17274BF0EB005FBEC7 /* into.hpp */,
+				F2373E18274BF0EB005FBEC7 /* lexer.hpp */,
+				F2373E19274BF0EB005FBEC7 /* string.hpp */,
+				F2373E1A274BF0EB005FBEC7 /* storage.hpp */,
+				F2373E1B274BF0EB005FBEC7 /* color.hpp */,
+				F2373E1C274BF0EB005FBEC7 /* types.hpp */,
+				F2373E1D274BF0EB005FBEC7 /* exception.hpp */,
+			);
+			path = toml;
 			sourceTree = "<group>";
 		};
 		F27EDD0D216BC2ED00987579 /* SharedSupport */ = {
