@@ -1,13 +1,38 @@
-### [unlreleased] SubEthaEdit 5.2.1
+### [unreleased] SubEthaEdit 5.2.3
 
 #### Features:
-* Line spacing per mode preference
 
 #### Bug fixes and maintenance:
-* 
 
 #### Improved modes:
-* 
+
+### SubEthaEdit 5.2.2
+
+#### Features:
+* Autosaves and restores unsaved untitled windows now on quit to be less intrusive
+
+#### Bug fixes and maintenance:
+* Fixed an issue where the services menu did not get the contents of the selection
+* Fixed issues with scripting and document ids
+* Fixed issue on macOS 12 where the com.apple.quarantine attribute was set on saving executable scripts, making them not exectuable anymore
+
+#### Improved modes:
+* Lua
+	* Fixed check build
+	* Added pico-8 recognition
+
+### SubEthaEdit 5.2.1
+
+#### Features:
+* New Line spacing preference
+* Clear and disable search history
+* Move selected paragraphs a line up/down
+
+#### Improvements:
+* Modernised look of line numbers and position field
+* Modernised look of invisible characters
+* Improved visual stability of top status bar
+* Made preferences layout more consistent
 
 ### SubEthaEdit 5.2
 

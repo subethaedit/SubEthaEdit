@@ -840,6 +840,8 @@
 "FIND_REPLACE_PANEL_MENU_ONLY_LONGEST" = "Find only longest match";
 "FIND_REPLACE_PANEL_MENU_IGNORE_EMPTY" = "Ignore empty matches";
 "FIND_REPLACE_PANEL_MENU_OPEN_HELP" = "Open Regular Expression Help";
+"FIND_REPLACE_PANEL_MENU_REMEMBER_RECENTS" = "Remember recent searches";
+"FIND_REPLACE_PANEL_MENU_CLEAR_RECENTS" = "Clear recent searches";
 
 /* search and replace errors */
 "FIND_REPLACE_ERROR_INVALID_FIND_STRING" = "Invalid find string";

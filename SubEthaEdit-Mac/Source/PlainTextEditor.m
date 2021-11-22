@@ -452,7 +452,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     [O_scrollView setVerticalRulerView:[[GutterRulerView alloc] initWithScrollView:O_scrollView orientation:NSVerticalRuler]];
     [O_scrollView setHasVerticalRuler:YES];
 
-    [[O_scrollView verticalRulerView] setRuleThickness:42.];
+    [[O_scrollView verticalRulerView] setRuleThickness:39.];
 
     [O_scrollView setDocumentView:I_textView];
     [[O_scrollView verticalRulerView] setClientView:I_textView];
@@ -1131,6 +1131,45 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     }
 }
 
+- (void)moveSelectedParagraphsInTextView:(NSTextView *)textView up:(BOOL)shouldMoveUp {
+    if ([(FoldableTextStorage *)[textView textStorage] hasBlockeditRanges]) {
+        NSBeep();
+    } else {
+        NSTextStorage *textStorage = [textView textStorage];
+        NSRange affectedRange = [textStorage.string lineRangeForRange:textView.selectedRange];
+
+        if ((shouldMoveUp && affectedRange.location == 0) ||
+            (!shouldMoveUp && NSMaxRange(affectedRange) == textStorage.length)) {
+            // nothing to do here, but don't beep as it is annoying
+        } else {
+            UndoManager *undoManager = [[self document] documentUndoManager];
+            [undoManager beginUndoGrouping];
+            // remove
+            NSString *contentToMove = [textStorage.string substringWithRange:affectedRange];
+            if ([textView shouldChangeTextInRange:affectedRange replacementString:@""]) {
+                [textView replaceCharactersInRange:affectedRange withString:@""];
+                //            [textStorage replaceCharactersInRange:affectedRange withString:@""];
+                NSRange targetLocation = NSMakeRange(affectedRange.location, 0);
+                // careful, this expects the cases where we do nothing already to have been done.
+                if (shouldMoveUp) {
+                    targetLocation.location = [textStorage.string lineRangeForRange:NSMakeRange(targetLocation.location - 1, 0)].location;
+                } else {
+                    targetLocation.location = NSMaxRange([textStorage.string lineRangeForRange:NSMakeRange(targetLocation.location, 0)]);
+                }
+                //            [textStorage replaceCharactersInRange:targetLocation withString:contentToMove];
+                if ([textView shouldChangeTextInRange:targetLocation replacementString:contentToMove]) {
+                    [textView replaceCharactersInRange:targetLocation withString:contentToMove];
+                    NSRange changedRange = NSMakeRange(targetLocation.location, affectedRange.length);
+                    [textStorage addAttributes:textView.typingAttributes range:changedRange];
+                    [textView setSelectedRange:changedRange];
+                }
+            }
+            [undoManager endUndoGrouping];
+        }
+    }
+
+}
+
 
 - (void)updateViews {
     [self.topBarViewController updateForSelectionDidChange];
@@ -1748,6 +1787,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 		result += NSHeight(self.bottomOverlayViewController.view.frame);
 	}
 	O_scrollView.bottomOverlayHeight = result;
+    
 	[self adjustToScrollViewInsets];
 }
 
@@ -1824,6 +1864,14 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
 - (IBAction)entab:(id)aSender {
     [self tabParagraphsInTextView:I_textView de:NO];
+}
+
+- (IBAction)moveLineUp:(id)sender {
+    [self moveSelectedParagraphsInTextView:I_textView up:YES];
+}
+
+- (IBAction)moveLineDown:(id)sender {
+    [self moveSelectedParagraphsInTextView:I_textView up:NO];
 }
 
 - (IBAction)insertStateClose:(id)aSender {

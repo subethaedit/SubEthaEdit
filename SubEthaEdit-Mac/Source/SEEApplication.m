@@ -31,12 +31,31 @@
 	for (NSDocument *document in documents) {
 		if ([document isKindOfClass:[PlainTextDocument class]]) {
 			PlainTextDocument *plainTextDocument = (PlainTextDocument *)document;
-			if ([plainTextDocument hasUnautosavedChanges]) {
-				[plainTextDocument autosaveForStateRestore];
+            if (!plainTextDocument.fileURL) { // Untitled documents
+                if (!plainTextDocument.isPreparedForTermination) {
+                    if ([plainTextDocument hasUnautosavedChanges]) {
+                        [plainTextDocument autosaveForStateRestore];
+                    } else {
+                        [plainTextDocument setPreparedForTermination:YES];
+                    }
+                }
             }
-			[plainTextDocument setPreparedForTermination:YES];
 		}
 	}
+}
+
+- (void)TCM_autosaveUntitlesBeforeTermination {
+    NSArray *documents = [[SEEDocumentController sharedInstance] documents];
+
+    for (NSDocument *document in documents) {
+        if ([document isKindOfClass:[PlainTextDocument class]]) {
+            PlainTextDocument *plainTextDocument = (PlainTextDocument *)document;
+            if ([plainTextDocument hasUnautosavedChanges]) {
+                [plainTextDocument autosaveForStateRestore];
+            }
+            [plainTextDocument setPreparedForTermination:YES];
+        }
+    }
 }
 
 - (IBAction)terminate:(id)sender {
@@ -44,6 +63,10 @@
     if ([self TCM_terminateShouldKeepWindowsDeterminedByDefaultsAndSenderState:sender]) {
         [self TCM_autosaveBeforeTermination];
     }
+    
+    // Autosave all untitled documents with changes and prepare for termination
+    [self TCM_autosaveUntitlesBeforeTermination];
+    
     // Dismiss dismissable sheets here too - as it turns out cocoa checks against sheets
     // before calling the App delegates terminate
     [[AppController sharedInstance] ensureNoWindowsWithAlerts];

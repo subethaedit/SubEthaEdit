@@ -41,7 +41,7 @@
 
 @implementation SEETextView
 
-#define VERTICAL_INSET 2.0
+#define VERTICAL_INSET 10.0
 
 - (id)delegate {
 	return (id)super.delegate;
@@ -58,6 +58,9 @@
 		NSSize currentInset = [self textContainerInset];
 		CGFloat height = (enclosingScrollView.topOverlayHeight + enclosingScrollView.bottomOverlayHeight) / 2.0;
 		height = height + VERTICAL_INSET / 2.0;
+        
+        height += 90; // just add some height to be able to scroll up the bottom most line slightly up
+        
 		if (height != currentInset.height) {
 			currentInset.height = height;
 			[self setTextContainerInset:currentInset];
@@ -443,6 +446,8 @@ static NSMenu *S_defaultMenu=nil;
     return [super selectionRangeForProposedRange:proposedSelRange granularity:granularity];
 }
 
+
+
 - (void)selectFullRangeAppropriateAfterFolding:(NSRange)aFullRange {
 	// first get foldedRange:
 	FoldableTextStorage *textStorage = (FoldableTextStorage *)[self textStorage];
@@ -807,7 +812,9 @@ static NSMenu *S_defaultMenu=nil;
 }
 
 - (BOOL)writeSelectionToPasteboard:(NSPasteboard *)pasteboard type:(NSString *)type {
-    if ([type isEqualToString:NSPasteboardTypeString]) {
+    if ([type isEqualToString:NSPasteboardTypeString] ||
+        [[super writablePasteboardTypes] containsObject:type]) // this second line looks odd, but as it turns out freaking services calls this with the deprecated type and the superclass also uses the deprecated NSStringPboardType
+    {
 		NSRange selectedRange = [self selectedRange];
 		if (selectedRange.length == 0) return NO;
 		
@@ -1092,7 +1099,7 @@ static NSMenu *S_defaultMenu=nil;
         [super cancelOperation:sender];
     }
 }
-    
+
 - (void)keyDown:(NSEvent *)aEvent {
 
     static NSCharacterSet *s_passThroughCharacterSet=nil;

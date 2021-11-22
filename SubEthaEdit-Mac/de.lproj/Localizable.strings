@@ -877,6 +877,8 @@
 "FIND_REPLACE_PANEL_MENU_ONLY_LONGEST" = "Nur längster Treffer";
 "FIND_REPLACE_PANEL_MENU_IGNORE_EMPTY" = "Leere Treffer ignorieren";
 "FIND_REPLACE_PANEL_MENU_OPEN_HELP" = "Hilfe zu Regulären Ausdrücken";
+"FIND_REPLACE_PANEL_MENU_REMEMBER_RECENTS" = "Suchverlauf merken";
+"FIND_REPLACE_PANEL_MENU_CLEAR_RECENTS" = "Suchverlauf löschen";
 
 
 /* search and replace errors */

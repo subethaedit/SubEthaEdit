@@ -321,6 +321,11 @@ static NSInteger const kMinViewHeight = 61;
 		NSNumber *currentValue = [self.findAndReplaceStateObjectController valueForKeyPath:keyPath];
 		[menuItem setState:currentValue.boolValue ? NSOnState : NSOffState];
 		return validationResultForRegexOptions;
+    } else if (menuItem.action == @selector(clearRecents:)) {
+        return YES;
+    } else if (menuItem.action == @selector(toggleRememberRecents:)) {
+        [menuItem setState:[[NSUserDefaults standardUserDefaults] boolForKey:kSEEFindAndReplaceDiscardHistoryKey] ? NSControlStateValueOff : NSControlStateValueOn];
+        return YES;
 	} else {
 		switch (menuItem.tag) {
 			case kOptionMenuIgnoreCaseTag:
@@ -469,7 +474,7 @@ static NSInteger const kMinViewHeight = 61;
 - (NSInteger)numberOfItemsInMenu:(NSMenu *)menu {
 	NSInteger result = menu.itemArray.count;
 	if ([menu isEqual:self.recentsMenu]) {
-		result = [[FindReplaceController sharedInstance] findReplaceHistory].count;
+		result = [[FindReplaceController sharedInstance] findReplaceHistory].count + 3;
 	}
 	return result;
 }
@@ -481,6 +486,9 @@ static NSInteger const kMinViewHeight = 61;
 			NSMenuItem *item = [self addItemToMenu:menu title:state.menuTitleDescription action:@selector(takeFindAndReplaceStateFromMenuItem:) tag:0];
 			item.representedObject = state;
 		}];
+        [menu addItem:[NSMenuItem separatorItem]];
+        [self addItemToMenu:menu title:NSLocalizedString(@"FIND_REPLACE_PANEL_MENU_REMEMBER_RECENTS",@"") action:@selector(toggleRememberRecents:) tag:1];
+        [self addItemToMenu:menu title:NSLocalizedString(@"FIND_REPLACE_PANEL_MENU_CLEAR_RECENTS",@"") action:@selector(clearRecents:) tag:2];
 	}
 	//	NSLog(@"%s menu: %@",__FUNCTION__,menu);
 }
@@ -488,6 +496,15 @@ static NSInteger const kMinViewHeight = 61;
 - (void)takeFindAndReplaceStateFromMenuItem:(NSMenuItem *)anItem {
 	SEEFindAndReplaceState *state = anItem.representedObject;
 	[[FindReplaceController sharedInstance] takeGlobalFindAndReplaceStateValuesFromState:state];
+}
+
+- (IBAction)toggleRememberRecents:(id)sender {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setBool:![defaults boolForKey:kSEEFindAndReplaceDiscardHistoryKey] forKey:kSEEFindAndReplaceDiscardHistoryKey];
+}
+
+- (IBAction)clearRecents:(id)sender {
+    [[FindReplaceController sharedInstance] clearFindReplaceHistory];
 }
 
 #pragma mark - resize dragging

@@ -2,7 +2,9 @@
 <settings>
     <recognition>
         <extension>lua</extension>
+        <extension>p8</extension>
         <regex>\A#!/usr(/local)?/bin/lua</regex>
         <regex>\A#!/usr/bin/env lua</regex>
+        <regex>\Apico\-8 cartridge</regex>
     </recognition>
 </settings>

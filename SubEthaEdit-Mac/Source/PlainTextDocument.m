@@ -3371,19 +3371,35 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     
     NSError *error = nil;
 	BOOL needsAuthenticatedSave = NO;
-    BOOL hasBeenWritten = [super writeSafelyToURL:anAbsoluteURL ofType:docType forSaveOperation:saveOperationType error:&error];
+    BOOL hasBeenWritten = NO;
+    
+    // Because of Monterey putting on quarantine attributes on executables when writeSafely (feels like a bug to me, but well)
+    // lets write directly in that case and only fall back to the super method if that failed.
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSDictionary *fileAttributes = [fileManager attributesOfItemAtPath:fullDocumentPath error:nil];
+    __auto_type permissions = [[fileAttributes objectForKey:NSFilePosixPermissions] shortValue];
+
+    // b0_001001001 - executable flag mask
+    BOOL fileIsExecutable = (permissions & 0x49) != 0;
+    if (!fileIsExecutable) {
+        hasBeenWritten = [super writeSafelyToURL:anAbsoluteURL ofType:docType forSaveOperation:saveOperationType error:&error];
+    }
+    
     if (outError) {
         *outError = error;
     }
     
     if (!hasBeenWritten) {
-        DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"Failed to write using writeSafelyToURL: %@",*outError);
+        if (fileIsExecutable) {
+            DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"Writing direclty because file is executable: %@", fullDocumentPath);
+        } else {
+            DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"Failed to write using writeSafelyToURL: %@",*outError);
+        }
         
-        NSFileManager *fileManager = [NSFileManager defaultManager];
-        NSDictionary *fileAttributes = [fileManager attributesOfItemAtPath:fullDocumentPath error:nil];
         NSUInteger fileReferenceCount = [[fileAttributes objectForKey:NSFileReferenceCount] unsignedLongValue];
         BOOL isFileWritable = [fileManager isWritableFileAtPath:fullDocumentPath];
-        if (fileReferenceCount > 1 && isFileWritable) {            
+        if (fileReferenceCount > 0 && isFileWritable) {
             char cFullDocumentPath[MAXPATHLEN+1];
             if ([(NSString *)fullDocumentPath getFileSystemRepresentation:cFullDocumentPath maxLength:MAXPATHLEN]) {
                 int fd = open(cFullDocumentPath, O_WRONLY | O_TRUNC, S_IRUSR | S_IWUSR);
@@ -3396,6 +3412,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
                     @try {
                         [fileHandle writeData:data];
                         hasBeenWritten = YES;
+                        [self writeXtendedAttributesPath:fullDocumentPath originalPath:nil];
                     }
                     @catch (id exception) {
                         DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"writeData throws exception: %@", exception);
@@ -3405,12 +3422,12 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         }
         
         if ( !hasBeenWritten && ((error && [error TCM_relatesToErrorCode:NSFileWriteNoPermissionError inDomain:nil]) ||
-								 (error && [error TCM_relatesToErrorCode:13 inDomain:NSPOSIXErrorDomain])) ) {
-
+                                 (error && [error TCM_relatesToErrorCode:13 inDomain:NSPOSIXErrorDomain])) ) {
+            
             if (outError) *outError = nil; // clear outerror because we already showed it
             BOOL isDirWritable = [fileManager isWritableFileAtPath:[fullDocumentPath stringByDeletingLastPathComponent]];
             BOOL isFileDeletable = [fileManager isDeletableFileAtPath:fullDocumentPath];
-
+            
             if (isDirWritable && isFileDeletable) {
                 NSAlert *alert = [[NSAlert alloc] init];
                 [alert setAlertStyle:NSAlertStyleWarning];
@@ -3421,10 +3438,10 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
                 [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
                 int returnCode = [alert runModal];
                 [[alert window] orderOut:self];
-
+                
                 if (returnCode == NSAlertFirstButtonReturn) {
                     DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"We need root power!");
-					needsAuthenticatedSave = YES;
+                    needsAuthenticatedSave = YES;
                 } else if (returnCode == NSAlertSecondButtonReturn) {
                     NSFileManager *fileManager = [NSFileManager defaultManager];
                     NSString *tempFilePath = tempFileName(fullDocumentPath);
@@ -3462,10 +3479,18 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
                 }
             } else {
                 DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"We need root power!");
-				needsAuthenticatedSave = YES;
+                needsAuthenticatedSave = YES;
             }
         }
-     }
+    }
+    
+    if (!hasBeenWritten && fileIsExecutable && !needsAuthenticatedSave) {
+        hasBeenWritten = [super writeSafelyToURL:anAbsoluteURL ofType:docType forSaveOperation:saveOperationType error:&error];
+        if (outError) {
+            *outError = error;
+        }
+    }
+    
 
 	if (needsAuthenticatedSave && (saveOperationType != NSAutosaveElsewhereOperation)) {
 		if (outError) {
@@ -3588,6 +3613,31 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 	return result;
 }
 
+- (BOOL)writeXtendedAttributesPath:(NSString *)path originalPath:(NSString *)origPath {
+    NSStringEncoding fileEncoding = self.fileEncoding;
+    // write the xtended attribute for encoding
+    CFStringEncoding encoding = CFStringConvertNSStringEncodingToEncoding(fileEncoding);
+    CFStringRef encodingIANACharSetName = CFStringConvertEncodingToIANACharSetName(encoding);
+    NSString * encodingMetadata = [NSString stringWithFormat:@"%@;%u", encodingIANACharSetName, (unsigned int)encoding];
+    
+    [UKXattrMetadataStore setString:encodingMetadata
+          forKey:@"com.apple.TextEncoding"
+          atPath:path
+    traverseLink:YES];
+    
+    // state data
+    NSData *stateData = [self stateData];
+    if (stateData && ![[NSUserDefaults standardUserDefaults] boolForKey:kSEEDefaultsKeyDontSaveDocumentStateInXattrs]) {
+        [UKXattrMetadataStore setData:stateData forKey:@"de.codingmonkeys.seestate" atPath:path traverseLink:YES];
+    } else {
+        // due to the way fspathreplaceobject of carbon core works, we need to remove the xattr from the original file if it exists
+        if (origPath) {
+            [UKXattrMetadataStore removeDataForKey:@"de.codingmonkeys.seestate" atPath:origPath traverseLink:YES];
+        }
+    }
+    return YES;
+}
+
 - (BOOL)writeToURL:(NSURL *)absoluteURL ofType:(NSString *)inType forSaveOperation:(NSSaveOperationType)saveOperation originalContentsURL:(NSURL *)originalContentsURL error:(NSError **)outError {
 	//-timelog    NSDate *startDate = [NSDate date];
 	//-timelog    NSLog(@"%s %@ %@ %d %@",__FUNCTION__, absoluteURL, inTypeName, saveOperation,originalContentsURL);
@@ -3613,33 +3663,12 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         result = [data writeToURL:absoluteURL options:0 error:outError];
         
         if (result) {
-            // write the xtended attribute for encoding
-            CFStringEncoding encoding = CFStringConvertNSStringEncodingToEncoding(fileEncoding);
-            CFStringRef encodingIANACharSetName = CFStringConvertEncodingToIANACharSetName(encoding);
-            NSString * encodingMetadata = [NSString stringWithFormat:@"%@;%u", encodingIANACharSetName, (unsigned int)encoding];
-            
-            [UKXattrMetadataStore setString:encodingMetadata
-                  forKey:@"com.apple.TextEncoding"
-                  atPath:absoluteURL.path
-            traverseLink:YES];
-            
+            [self writeXtendedAttributesPath:absoluteURL.path originalPath:originalContentsURL.path];
             if (updateFileHash) {
                 _fileHash = [data md5Data];
             }
         }
         
-        
-        
-		// state data
-		NSData *stateData = [self stateData];
-        if (stateData && ![[NSUserDefaults standardUserDefaults] boolForKey:kSEEDefaultsKeyDontSaveDocumentStateInXattrs]) {
-			[UKXattrMetadataStore setData:stateData forKey:@"de.codingmonkeys.seestate" atPath:[absoluteURL path] traverseLink:YES];
-		} else {
-			// due to the way fspathreplaceobject of carbon core works, we need to remove the xattr from the original file if it exists
-			if (originalContentsURL) {
-				[UKXattrMetadataStore removeDataForKey:@"de.codingmonkeys.seestate" atPath:[originalContentsURL path] traverseLink:YES];
-			}
-		}
 		//        NSArray *xattrKeys = [UKXattrMetadataStore allKeysAtPath:[absoluteURL path] traverseLink:YES];
 		//        NSLog(@"%s xattrKeys:%@",__FUNCTION__,xattrKeys);
         
@@ -6983,8 +7012,8 @@ static NSMutableArray<__kindof NSWindow *> *S_depthSortedWindows(NSArray<__kindo
     }
 }
 
-- (NSNumber *)uniqueID {
-    return [NSNumber numberWithInteger:(int32_t)self];
+- (NSString *)uniqueID {
+    return @((NSInteger)self).stringValue;
 }
 
 - (id)objectSpecifier {

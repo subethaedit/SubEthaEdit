@@ -16,9 +16,8 @@
 @end
 
 
-
-#define FOLDING_BAR_WIDTH 11.
-#define RIGHT_INSET  4.
+#define FOLDING_BAR_WIDTH 10.
+#define RIGHT_INSET  5.5
 #define MAX_FOLDING_DEPTH (12)
 
 static NSColor *S_colorForDepth[MAX_FOLDING_DEPTH];
@@ -29,7 +28,7 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 	NSRectFill(aRect); 
 	if (aDepth >= MAX_FOLDING_DEPTH) {
 		[(NSColor *)colors[@"FoldingBarSteps"][MAX(MAX_FOLDING_DEPTH - (aDepth - MAX_FOLDING_DEPTH) - 2,0)] set];
-		NSRect rectToFill = NSOffsetRect(NSInsetRect(aRect,2.5,0),2.5,0);
+		NSRect rectToFill = NSOffsetRect(NSInsetRect(aRect,1.5,0),1.5,0);
 		NSRectFill(rectToFill);
 	}
 }
@@ -71,8 +70,8 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 
 - (NSRect)baseRectForFoldingBar {
 	double ruleThickness = [self ruleThickness];
-	double rightHandAlignment = ruleThickness - FOLDING_BAR_WIDTH - RIGHT_INSET;
-	return NSMakeRect(rightHandAlignment + RIGHT_INSET + 1.0,0,FOLDING_BAR_WIDTH-3.0,0);
+	double rightHandAlignment = ruleThickness - FOLDING_BAR_WIDTH;
+	return NSMakeRect(rightHandAlignment + 1.0,0,FOLDING_BAR_WIDTH-2.0,0);
 }
 
 - (NSDictionary *)colorsForDark:(BOOL)isDark {
@@ -85,7 +84,7 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
         brightColors = [@{
           @"GutterBackground" : [NSColor colorWithWhite:0.9 alpha:1.0],
           @"FontColor" : [NSColor colorWithCalibratedWhite:0.39 alpha:1.0],
-          @"DelimiterLine" : [NSColor colorWithCalibratedWhite:0.5 alpha:1.0],
+          @"DelimiterLine" : [NSColor colorWithCalibratedWhite:0.70 alpha:1.0],
           @"TriangleFill" : [NSColor colorWithCalibratedWhite:1.0 alpha:1.0],
           @"TriangleStroke" : [NSColor colorWithCalibratedWhite:0.0 alpha:0.4],
           @"TriangleHighlightFill" : [NSColor selectedControlColor],
@@ -98,7 +97,10 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
         [brightColors enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSColor *color, BOOL *_stop) {
             darkColors[key] = [color brightnessInvertedColor];
         }];
-        darkColors[@"DelimiterLine"] = [NSColor colorWithCalibratedWhite:0.29 alpha: 1.0];
+        darkColors[@"GutterBackground"] = [NSColor colorWithCalibratedWhite:0.07 alpha:1.0];
+        darkColors[@"DelimiterLine"] = [NSColor colorWithCalibratedWhite:0.39 alpha:1.0];
+        darkColors[@"FontColor"] = [NSColor colorWithCalibratedWhite:0.30 alpha:1.0];
+        darkColors[@"DelimiterLine"] = [NSColor colorWithCalibratedWhite:0.18 alpha: 1.0];
         
         for (NSMutableDictionary *colors in @[darkColors, brightColors]) {
             NSMutableArray *foldingColors = [NSMutableArray new];
@@ -141,23 +143,19 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 	[colors[@"GutterBackground"] set];
 	NSRectFill(aRect);
     
-	if (!drawLineNumber) {
-		CGFloat linenumberFontSize=9.;
-			NSFont *font=[NSFont fontWithName:@"Tahoma" size:linenumberFontSize];
-			if (!font) font=[NSFont systemFontOfSize:linenumberFontSize];
-			NSDictionary *attributes=[NSDictionary dictionaryWithObjectsAndKeys:
-						 font,NSFontAttributeName,
-						 colors[@"FontColor"],NSForegroundColorAttributeName,
-						 nil];
-			sizeOfZero=[@"0" sizeWithAttributes:attributes];
-		
-		drawLineNumber = ^(NSUInteger aLineNumber, unsigned aCardinality, CGFloat aRightHandAlignment, NSRect aLineBoundingRect, CGFloat aTotalYOffset) {
-			NSString *lineNumberString=[NSString stringWithFormat:@"%llu",(unsigned long long)aLineNumber];
-			[lineNumberString drawAtPoint:NSMakePoint(aRightHandAlignment-(sizeOfZero.width*aCardinality),
-													  ceil(NSMaxY(aLineBoundingRect)+aTotalYOffset -sizeOfZero.height
-														   -(aLineBoundingRect.size.height-sizeOfZero.height)/2.-2.))
-						   withAttributes:attributes];
-			
+    if (!drawLineNumber) {
+        NSDictionary *attributes = [NSAttributedString SEE_lineNumberAttributesWithFontSize:9.5  baseAttributes:@{NSForegroundColorAttributeName : colors[@"FontColor"] }];
+        sizeOfZero=[@"0" sizeWithAttributes:attributes];
+        CGFloat additionalYOffset = [NSAttributedString SEE_usesModernSystemFont] ? 0.0 : -2.0;
+        drawLineNumber = ^(NSUInteger aLineNumber, unsigned aCardinality, CGFloat aRightHandAlignment, NSRect aLineBoundingRect, CGFloat aTotalYOffset) {
+            NSString *lineNumberString=[NSString stringWithFormat:@"%llu",(unsigned long long)aLineNumber];
+            NSPoint point = NSMakePoint(aRightHandAlignment-(sizeOfZero.width*aCardinality),
+                                        ceil((NSMaxY(aLineBoundingRect)+aTotalYOffset -sizeOfZero.height
+                                             -(aLineBoundingRect.size.height-sizeOfZero.height)/2.) * 2.0) / 2.0);
+            point.y+=additionalYOffset;
+            [lineNumberString drawAtPoint:point
+                           withAttributes:attributes];
+            
         };
     }
 
@@ -195,8 +193,8 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 
 	NSRect foldingAreaRect  = [self baseRectForFoldingBar];
 	[delimiterLineColor set];
-	[NSBezierPath strokeLineFromPoint:NSMakePoint(foldingAreaRect.origin.x-1.5,bounds.origin.y) 
-							  toPoint:NSMakePoint(foldingAreaRect.origin.x-1.5,NSMaxY(bounds))];
+//	[NSBezierPath strokeLineFromPoint:NSMakePoint(foldingAreaRect.origin.x-1.5,bounds.origin.y)
+//							  toPoint:NSMakePoint(foldingAreaRect.origin.x-1.5,NSMaxY(bounds))];
 	[NSBezierPath strokeLineFromPoint:NSMakePoint(CGRectGetMaxX(foldingAreaRect)+1.5,bounds.origin.y)
 							  toPoint:NSMakePoint(CGRectGetMaxX(foldingAreaRect)+1.5,NSMaxY(bounds))];
 	NSRect fullFoldingAreaRect = [self bounds];
