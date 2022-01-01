@@ -3,6 +3,7 @@
 #### Features:
 
 #### Bug fixes and maintenance:
+* Fixed issue where open remote documents were autosaved and reopened locally on next startup
 
 #### Improved modes:
 * New Mode: wren ( https://wren.io )
