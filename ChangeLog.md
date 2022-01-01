@@ -5,6 +5,7 @@
 #### Bug fixes and maintenance:
 
 #### Improved modes:
+* New Mode: wren ( https://wren.io )
 
 ### SubEthaEdit 5.2.2
 

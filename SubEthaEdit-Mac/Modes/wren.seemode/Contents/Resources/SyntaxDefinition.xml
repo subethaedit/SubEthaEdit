@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE syntax SYSTEM "syntax.dtd">
+<syntax>
+
+    <head>
+        <name>wren</name> <!-- The definitions title -->
+        <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@]]></charsintokens> <!-- Valid Characters for Variables -->
+        <!-- <charsdelimitingtokens></charsdelimitingtokens> -->
+    </head>
+
+    <states>
+        <default id="Base" scope="meta.default">
+
+            <keywords id="FunctionRegex" useforautocomplete="no" scope="language.subroutine.function">
+                <regex>([A-Za-z0-9_]+ *)\(</regex>
+            </keywords>
+
+            <keywords id="Wren Keywords" useforautocomplete="yes" scope="keyword">
+                <string>as</string>
+                <string>break</string>
+                <string>class</string>
+                <string>construct</string>
+                <string>continue</string>
+                <string>else</string>
+                <string>false</string>
+                <string>for</string>
+                <string>foreign</string>
+                <string>if</string>
+                <string>import</string>
+                <string>in</string>
+                <string>is</string>
+                <string>null</string>
+                <string>return</string>
+                <string>static</string>
+                <string>super</string>
+                <string>this</string>
+                <string>true</string>
+                <string>var</string>
+                <string>while</string>
+            </keywords>
+            
+            
+            <keywords id="Core Classes" casesensitive="yes" useforautocomplete="yes" scope="support.class.standard.core">
+                <string>Bool</string>
+                <string>Class</string>
+                <string>Fiber</string>
+                <string>Fn</string>
+                <string>List</string>
+                <string>Map</string>
+                <string>Null</string>
+                <string>Num</string>
+                <string>Object</string>
+                <string>Range</string>
+                <string>Sequence</string>
+                <string>String</string>
+                <string>System</string>
+                <string>TIC</string>
+                <string>Game</string>
+                <string>Random</string>
+                <string>Meta</string>
+            </keywords>
+
+            <keywords id="Core methods" casesensitive="yes" useforautocomplete="yes" scope="support.function.standard.core">
+                <string>toString</string>
+                <string>iterate</string>
+                <string>iteratorValue</string>
+            </keywords>
+
+
+            <keywords id="Numbers" useforautocomplete="no" scope="language.constant.numeric">
+                <regex>(?&lt;![\w\d_])((?:0x\h+)|(?:\d+(?:\.\d+(?:[eE][+-]?\d+)?)?))(?![\w\d_])</regex>
+            </keywords>
+
+            <keywords id="Instance Variables" useforautocomplete="no" scope="language.variable.instance">
+                <regex>(?&lt;=[^[_A-Za-z0-9:\.]]|^)(_[A-Za-z0-9_]+)(?=[^[_A-Za-z0-9]]|$)</regex>
+            </keywords>
+            <keywords id="Class Variables" useforautocomplete="no" scope="language.variable.class">
+                <regex>(?&lt;=[^[_A-Za-z0-9:\.]]|^)(__[A-Za-z0-9_]+)(?=[^[_A-Za-z0-9]]|$)</regex>
+            </keywords>
+
+            <state id="Comment" type="comment" scope="comment.block">
+                <begin><regex>/\*</regex><autoend>\*/</autoend></begin>
+                <end><regex>\*/</regex></end>
+                <state-link state="Comment" />
+                <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+           </state>
+            
+            <state id="SingleComment" type="comment" scope="comment.line.double-slash">
+                <begin><regex>//</regex></begin>
+                <end><regex>(?&lt;!\\)[\n\r]</regex></end>
+                <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+            </state>
+            
+            <state id="Heredoc" foldable="yes" indent="no" scope="string.here-doc">
+                <begin><regex>"""</regex><autoend>"""</autoend></begin>
+                <end><regex>"""</regex></end>
+            </state>
+
+            <state id="String" type="string" foldable="no" scope="string.double">
+                <begin><regex>"</regex></begin>
+                <end><regex>((?&lt;!\\)(\\\\)*)"</regex></end>
+
+                <state id="Interpolation" scope="meta.block.interpolation">
+                    <begin><regex>%\(</regex><autoend>\)</autoend></begin>
+                    <end><regex>\)</regex></end>
+                    <state id="BraceBlock" type="block" foldable="yes" indent="yes" scope="meta.block.brace">
+                        <begin><regex>\(</regex><autoend>\)</autoend></begin>
+                        <end><regex>\)</regex></end>
+                        <state-link state="BraceBlock" />
+                        <import/>
+                    </state>
+                </state>
+            </state>
+            
+
+            <state id="Block" type="block" foldable="yes" indent="yes" scope="meta.block.curly">
+                <begin><regex>{</regex><autoend>}</autoend></begin>
+                <end><regex>}</regex></end>
+                <import/>
+            </state>
+            
+        </default>
+    </states>
+</syntax>
