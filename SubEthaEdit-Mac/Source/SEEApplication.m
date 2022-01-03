@@ -51,12 +51,10 @@
             if (!plainTextDocument.fileURL) { // Documents without local save location
                 BOOL isJoinedDocument = plainTextDocument.session && !plainTextDocument.session.isServer;
                 if (!isJoinedDocument) {
-                    if (!plainTextDocument.isPreparedForTermination) {
-                        if ([plainTextDocument hasUnautosavedChanges]) {
-                            [plainTextDocument autosaveForStateRestore];
-                        }
-                        [plainTextDocument setPreparedForTermination:YES];
+                    if ([plainTextDocument hasUnautosavedChanges]) {
+                        [plainTextDocument autosaveForStateRestore];
                     }
+                    [plainTextDocument setPreparedForTermination:YES];
                 }
             }
 		}
