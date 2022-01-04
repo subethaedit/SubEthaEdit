@@ -1,3 +1,11 @@
+### SubEthaEdit 5.2.3
+
+#### Bug fixes and maintenance:
+* Fixed issue where open remote documents were incorrectly autosaved and reopened locally on next startup
+
+#### Improved modes:
+* New Mode: wren ( https://wren.io )
+
 ### SubEthaEdit 5.2.2
 
 #### Features:
@@ -6,7 +14,7 @@
 #### Bug fixes and maintenance:
 * Fixed an issue where the services menu did not get the contents of the selection
 * Fixed issues with scripting and document ids
-* Fixed issue on macOS 12 where the com.apple.quarantine attribute was set on saving executable scripts, making them not exectuable anymore
+* Fixed issue on macOS 12 where the com.apple.quarantine attribute was set on saving executable scripts, making them not executable anymore
 
 #### Improved modes:
 * Lua

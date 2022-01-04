@@ -26,36 +26,39 @@
 }
 
 - (void)TCM_autosaveBeforeTermination {
-	NSArray *documents = [[SEEDocumentController sharedInstance] documents];
-    
-	for (NSDocument *document in documents) {
-		if ([document isKindOfClass:[PlainTextDocument class]]) {
-			PlainTextDocument *plainTextDocument = (PlainTextDocument *)document;
-            if (!plainTextDocument.fileURL) { // Untitled documents
-                if (!plainTextDocument.isPreparedForTermination) {
-                    if ([plainTextDocument hasUnautosavedChanges]) {
-                        [plainTextDocument autosaveForStateRestore];
-                    } else {
-                        [plainTextDocument setPreparedForTermination:YES];
-                    }
-                }
-            }
-		}
-	}
-}
-
-- (void)TCM_autosaveUntitlesBeforeTermination {
     NSArray *documents = [[SEEDocumentController sharedInstance] documents];
 
     for (NSDocument *document in documents) {
         if ([document isKindOfClass:[PlainTextDocument class]]) {
             PlainTextDocument *plainTextDocument = (PlainTextDocument *)document;
-            if ([plainTextDocument hasUnautosavedChanges]) {
-                [plainTextDocument autosaveForStateRestore];
+            BOOL isJoinedDocument = plainTextDocument.session && !plainTextDocument.session.isServer;
+            if (!isJoinedDocument || plainTextDocument.fileURL) { // only autosave joined documents which we locally saved
+                if ([plainTextDocument hasUnautosavedChanges]) {
+                    [plainTextDocument autosaveForStateRestore];
+                }
+                [plainTextDocument setPreparedForTermination:YES];
             }
-            [plainTextDocument setPreparedForTermination:YES];
         }
     }
+}
+
+- (void)TCM_autosaveUntitledsBeforeTermination {
+	NSArray *documents = [[SEEDocumentController sharedInstance] documents];
+    
+	for (NSDocument *document in documents) {
+		if ([document isKindOfClass:[PlainTextDocument class]]) {
+			PlainTextDocument *plainTextDocument = (PlainTextDocument *)document;
+            if (!plainTextDocument.fileURL) { // Documents without local save location
+                BOOL isJoinedDocument = plainTextDocument.session && !plainTextDocument.session.isServer;
+                if (!isJoinedDocument) {
+                    if ([plainTextDocument hasUnautosavedChanges]) {
+                        [plainTextDocument autosaveForStateRestore];
+                    }
+                    [plainTextDocument setPreparedForTermination:YES];
+                }
+            }
+		}
+	}
 }
 
 - (IBAction)terminate:(id)sender {
@@ -65,7 +68,7 @@
     }
     
     // Autosave all untitled documents with changes and prepare for termination
-    [self TCM_autosaveUntitlesBeforeTermination];
+    [self TCM_autosaveUntitledsBeforeTermination];
     
     // Dismiss dismissable sheets here too - as it turns out cocoa checks against sheets
     // before calling the App delegates terminate
