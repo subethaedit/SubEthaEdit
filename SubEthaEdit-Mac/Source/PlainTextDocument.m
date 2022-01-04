@@ -3221,7 +3221,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 #pragma mark - Saving
 
-- (void) saveToURL:(NSURL *)url ofType:(NSString *)typeName forSaveOperation:(NSSaveOperationType)saveOperation completionHandler:(void (^)(NSError *))completionHandler
+- (void)saveToURL:(NSURL *)url ofType:(NSString *)typeName forSaveOperation:(NSSaveOperationType)saveOperation completionHandler:(void (^)(NSError *))completionHandler
 {
 	NSURL *originalFileURL = self.fileURL;
 
@@ -5549,7 +5549,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     if ([[self windowControllers] count]>0) {
         [self setContentByDictionaryRepresentation:aContent];
 
-		[self autosaveForStateRestore];
+//		[self autosaveForStateRestore];
 
         I_flags.isReceivingContent = NO;
         PlainTextWindowController *windowController=(PlainTextWindowController *)[[self windowControllers] objectAtIndex:0];
