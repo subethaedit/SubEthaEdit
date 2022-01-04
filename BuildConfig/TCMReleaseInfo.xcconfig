@@ -11,7 +11,7 @@ TCM_APP_COPYRIGHT = © 2018-${TCM_APP_BUILD_YEAR} ${SEE_APP_PRODUCT_NAME} Contri
 TCM_APP_IDENTIFER_SUFFIX =
 
 // Set TCM_APP_IDENTIFER_SUFFIX to "BETA", "FULL" or "" ("" or "FULL" for release) "" is App Store (all without the quotes)
-TCM_APP_STYLE = 
+TCM_APP_STYLE = FULL
 
 TCM_APP_VERSION = 5.2.3
 
