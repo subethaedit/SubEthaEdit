@@ -1,11 +1,8 @@
-### [unreleased] SubEthaEdit 5.2.4
-
-#### Features:
+### SubEthaEdit 5.2.4
 
 #### Bug fixes and maintenance:
-
-#### Improved modes:
-
+* Updated expired certificate on the see tool installer
+* Fixed issues with german localization
 
 ### SubEthaEdit 5.2.3
 

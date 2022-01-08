@@ -30,3 +30,13 @@ Package "see-tool.pkg":
        SHA256 Fingerprint:
            B0 B1 73 0E CB C7 FF 45 05 14 2C 49 F1 29 5E 6E DA 6B CA ED 7E 2C
            68 C5 BE 91 B5 A1 10 01 F0 24
+
+
+
+Actually use the right cert. Get its identifier:
+
+security -v find-identity
+
+Then use it and resign:
+
+productsign  --sign D7091D34B2574E58EDA58CC2F1393D66D582B428 SubEthaEdit-Mac/Resources/SharedSupport/see-tool.pkg ./see-tool.pkg

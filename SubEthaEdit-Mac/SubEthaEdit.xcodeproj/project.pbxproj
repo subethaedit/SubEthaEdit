@@ -2184,7 +2184,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = SEE;
-				LastUpgradeCheck = 1300;
+				LastUpgradeCheck = 1320;
 				ORGANIZATIONNAME = "SubEthaEdit Contributors";
 				TargetAttributes = {
 					5EC638290ABEB71100D3295B = {
