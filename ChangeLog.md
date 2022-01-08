@@ -1,3 +1,9 @@
+### SubEthaEdit 5.2.4
+
+#### Bug fixes and maintenance:
+* Updated expired certificate on the see tool installer
+* Fixed issues with german localization
+
 ### SubEthaEdit 5.2.3
 
 #### Bug fixes and maintenance:

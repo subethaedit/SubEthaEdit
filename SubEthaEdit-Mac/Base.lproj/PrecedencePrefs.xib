@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="19529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19529"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -20,7 +20,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="86" y="163" width="680" height="463"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2880" height="1595"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2056" height="1285"/>
             <value key="minSize" type="size" width="680" height="200"/>
             <value key="maxSize" type="size" width="680" height="2000"/>
             <value key="minFullScreenContentSize" type="size" width="680" height="463"/>
@@ -156,7 +156,7 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </tableHeaderView>
                     </scrollView>
-                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" setsMaxLayoutWidthAtFirstLayout="YES" id="9FP-yo-4v7">
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" id="9FP-yo-4v7">
                         <rect key="frame" x="10" y="428" width="660" height="24"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Triggers determine which mode will be used when you open a File." id="Xz1-wz-pbE">
@@ -165,8 +165,8 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" id="zCK-9F-T6r">
-                        <rect key="frame" x="275" y="20" width="387" height="14"/>
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="zCK-9F-T6r">
+                        <rect key="frame" x="275" y="0.0" width="387" height="34"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Add, remove or disable Triggers to alter Mode recognition." id="Pyf-On-J2C">
                             <font key="font" metaFont="smallSystem"/>
@@ -174,8 +174,8 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" id="20">
-                        <rect key="frame" x="18" y="20" width="253" height="14"/>
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="20">
+                        <rect key="frame" x="18" y="0.0" width="253" height="34"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Drag modes to change order of evaluation." id="49">
                             <font key="font" metaFont="smallSystem"/>
@@ -188,6 +188,7 @@
             <point key="canvasLocation" x="139" y="145.5"/>
         </window>
         <arrayController objectClassName="NSMutableArray" automaticallyPreparesContent="YES" id="8" userLabel="Rules">
+            <classReference key="objectClass" className="NSMutableArray"/>
             <connections>
                 <binding destination="9" name="contentArray" keyPath="selection.Rules" id="34"/>
             </connections>
@@ -199,6 +200,7 @@
                 <string>Version</string>
                 <string>Location</string>
             </declaredKeys>
+            <classReference key="objectClass" className="NSMutableArray"/>
             <connections>
                 <binding destination="31" name="contentArray" keyPath="modePrecedenceArray" id="32"/>
                 <outlet property="tableView" destination="11" id="47"/>
