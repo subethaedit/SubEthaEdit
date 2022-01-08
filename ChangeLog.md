@@ -4,6 +4,7 @@
 
 #### Bug fixes and maintenance:
 * Updated expired certificate on the see tool installer
+* Fixed issues with german localization
 
 #### Improved modes:
 

@@ -30,7 +30,7 @@
 "51.title" = "Text Cell";
 
 /* Class = "NSTextFieldCell"; title = "Add, remove or disable Triggers to alter Mode recognition."; ObjectID = "Pyf-On-J2C"; */
-"Pyf-On-J2C.title" = "[LOCALISATION MISSING: Add, remove or disable Triggers to alter Mode recognition.]";
+"Pyf-On-J2C.title" = "Hier Regeln hinzufügen, entfernen oder abschalten um die Modus Erkennung zu verändern.";
 
 /* Class = "NSTextFieldCell"; title = "Triggers determine which mode will be used when you open a File."; ObjectID = "Xz1-wz-pbE"; */
 "Xz1-wz-pbE.title" = "Erkennungsregeln bestimmen welcher Modus beim Öffnen einer Datei benutzt wird.";
