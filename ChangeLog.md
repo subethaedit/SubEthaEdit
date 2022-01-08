@@ -3,6 +3,7 @@
 #### Features:
 
 #### Bug fixes and maintenance:
+* Updated expired certificate on the see tool installer
 
 #### Improved modes:
 
