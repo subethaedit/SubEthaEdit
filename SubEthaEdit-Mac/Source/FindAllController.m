@@ -12,6 +12,18 @@
 
 @implementation FindAllController
 
++ (NSNumberFormatter *)numberFormatter {
+    static NSNumberFormatter *nf;
+    nf=nf?:({
+        NSNumberFormatter *f = [NSNumberFormatter new];
+        f.numberStyle = NSNumberFormatterDecimalStyle;
+        f.maximumFractionDigits = 0;
+        f;
+    });
+    
+    return nf;
+}
+
 + (NSParagraphStyle *)listParagraphStyle {
     static NSParagraphStyle *result = nil;
     if (!result) {
@@ -63,17 +75,30 @@
     [O_findRegexTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Find: %@",@"FindRegexPrefix"),self.findAndReplaceContext.findAndReplaceState.findString]];
     [O_resultsTableView setDoubleAction:@selector(jumpToSelection:)];
     [O_resultsTableView setTarget:self];
+
+    NSTableColumn *lineColumn = [O_resultsTableView.tableColumns firstObject];
+    NSTextFieldCell *cell = (NSTextFieldCell *)lineColumn.dataCell;
+    NSFont *font = [NSFont SEE_lineNumbersFontOfSize:[lineColumn.dataCell font].pointSize];
+    [cell setFont:font];
+     
+//     [[lineColumn.dataCell font] SEE_fontByAddingMonoSpaceNumbersFeature]];
 }
 
-- (void)findAll:(id)sender {
+- (void)sizeTableViewToFit {
+    NSTableColumn *lineColumn = [O_resultsTableView.tableColumns firstObject];
+    
+    NSUInteger count = O_resultsTableView.numberOfRows;
+    if (count > 0) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        lineColumn.width = [[O_resultsTableView preparedCellAtColumn:0 row:[O_resultsTableView numberOfRows]-1] cellSize].width;
+#pragma clang diagnostic pop
+    }
 
-    [O_resultsTableView setDelegate:nil];
+    [O_resultsTableView sizeLastColumnToFit];
+}
 
-    [O_progressIndicator startAnimation:nil];
-    [self showWindow:self];
-
-    [O_resultsController removeObjects:[O_resultsController arrangedObjects]]; //Clear arraycontroller
-
+- (void)fillTableViewWithResults {
     if (I_document) {
         
         NSArray *matchArray = [self.findAndReplaceContext allMatches];
@@ -82,11 +107,11 @@
         NSTableColumn* stringCol = [[O_resultsTableView tableColumns] objectAtIndex:1];
         int longestCol = 150;
         
-        NSString *statusString = [NSString stringWithFormat:NSLocalizedString(@"%d matches",@"Entries Found in FindAll Panel"), count];
+        NSString *statusString = [NSString stringWithFormat:NSLocalizedString(@"%@ matches",@"Entries Found in FindAll Panel"), [FindAllController.numberFormatter stringFromNumber:@(count)] ];
 /*
         NSString *scopeString = I_scopeSelectionOperation ? NSLocalizedStringWithDefaultValue(@"SELECTION_SCOPE_DESCRIPTION", nil, [NSBundle mainBundle], @"Selection", @"string describing the selection find scope") :
 NSLocalizedStringWithDefaultValue(@"SELECTION_SCOPE_DOCUMENT", nil,[NSBundle mainBundle], @"Document", @"string describing the document find scope");
-*/                
+*/
         [O_findResultsTextField setStringValue:[NSString stringWithFormat:@"%@",statusString]];
         
         for (OGRegularExpressionMatch *aMatch in matchArray) {
@@ -122,7 +147,7 @@ NSLocalizedStringWithDefaultValue(@"SELECTION_SCOPE_DOCUMENT", nil,[NSBundle mai
             [O_resultsController addObject:[NSDictionary dictionaryWithObjectsAndKeys:
                                 aString,@"foundString",
                                 selOp,@"selectionOperation",
-                                line,@"line",nil]];
+                                line.stringValue,@"line",nil]];
 
             NSSize stringSize = [aString size];
             if (longestCol<stringSize.width) {
@@ -135,11 +160,24 @@ NSLocalizedStringWithDefaultValue(@"SELECTION_SCOPE_DOCUMENT", nil,[NSBundle mai
             [O_resultsController setSelectionIndex:0];
             NSRange range = [[[[O_resultsController arrangedObjects] objectAtIndex:0] objectForKey:@"selectionOperation"] selectedRange];
             [I_document selectRangeInBackground:range];
-            [O_findAllPanel makeKeyAndOrderFront:self]; 
+            [O_findAllPanel makeKeyAndOrderFront:self];
         }
     }
     [O_progressIndicator stopAnimation:nil];
     [O_resultsTableView setDelegate:self];
+    [self sizeTableViewToFit];
+}
+
+- (void)findAll:(id)sender {
+
+    [O_resultsTableView setDelegate:nil];
+
+    [O_progressIndicator startAnimation:nil];
+    [self showWindow:self];
+
+    [O_resultsController removeObjects:[O_resultsController arrangedObjects]]; //Clear arraycontroller
+
+    [self performSelector:@selector(fillTableViewWithResults) withObject:nil afterDelay:0];
 }
 
 - (void)jumpToSelection:(id)sender {
@@ -174,10 +212,7 @@ NSLocalizedStringWithDefaultValue(@"SELECTION_SCOPE_DOCUMENT", nil,[NSBundle mai
 
 
 @implementation NSAttributedString (NSAttributedStringComparing)
-
-- (NSComparisonResult)compare:(NSAttributedString *)aString
-{
+- (NSComparisonResult)compare:(NSAttributedString *)aString {
     return [[self string] compare:[aString string]];
-}    
-
+}
 @end

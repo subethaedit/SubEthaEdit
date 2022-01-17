@@ -963,7 +963,7 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
     
     if (@available(macOS 10.15, *)) {
         // Make them xcode style
-        NSFont *baseFont = [NSFont systemFontOfSize:size weight:NSFontWeightMedium];
+        NSFont *baseFont = [NSFont systemFontOfSize:size weight:NSFontWeightLight];
         
         NSFontDescriptor *descriptor = baseFont.fontDescriptor;
         // see gist https://gist.github.com/levitatingpineapple/396d1524954153aea928bf59e0502744

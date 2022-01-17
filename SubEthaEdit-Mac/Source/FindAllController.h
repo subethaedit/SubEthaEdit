@@ -26,5 +26,5 @@
 - (IBAction)findAll:(id)sender;
 - (void)setDocument:(PlainTextDocument *)aDocument;
 - (NSArray*)arrangedObjects;
-
++ (NSNumberFormatter *)numberFormatter;
 @end
