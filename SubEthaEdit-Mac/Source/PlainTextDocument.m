@@ -4749,6 +4749,9 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     printPanelAccessory.document = self;
 
     NSPrintPanel *printPanel = [printOperation printPanel];
+    // Make paper size and orientation show up!
+    printPanel.options = printPanel.options | NSPrintPanelShowsOrientation | NSPrintPanelShowsPaperSize;
+
     [printPanel addAccessoryController:printPanelAccessory];
 	
     return printOperation;
