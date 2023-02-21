@@ -1,0 +1,2 @@
+Changes with Version 5.2.4 (SEE 5.2.4)
+    *) initial commit

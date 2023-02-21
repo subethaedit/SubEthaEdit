@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleIdentifier</key>
+	<string>SEEMode.SQL</string>
+	<key>CFBundleName</key>
+	<string>SQL</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>© 2019-2020 SubEthaEdit Contributors</string>
+	<key>CFBundleShortVersionString</key>
+	<string>5.2.4</string>
+	<key>CFBundleVersion</key>
+	<string>5.2.4</string>
+	<key>SEEMinimumEngineVersion</key>
+	<string>4.0</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+</dict>
+</plist>
