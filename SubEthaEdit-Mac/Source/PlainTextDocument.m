@@ -3904,6 +3904,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 }
 
 - (BOOL)onDiskRepresentationHasChanged {
+//    [NSThread sleepForTimeInterval:2.0];
     NSURL *fileURL = self.fileURL;
     NSString *fileName = fileURL.path;
     
@@ -3953,82 +3954,86 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     
 }
 
+- (void)showDocumentHasChangedDialog {
+    DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Document has been changed externally");
+    
+    BOOL isDocumentEdited = [self isDocumentEdited];
+    
+    NSModalResponse revertResponseCode;
+    NSString *message, *details, *firstButton, *secondButton;
+    id alertAdjustment;
+    
+    if (isDocumentEdited) {
+        // We intentionally do have a more alerting message if the document already had some changes.
+        message = NSLocalizedString(@"The file has been modified by another application. Do you want to keep the changes made in SubEthaEdit?", nil);
+        details = NSLocalizedString(@"If you revert the file to the version on disk the changes you made in SubEthaEdit will be lost.", nil);
+        firstButton = NSLocalizedString(@"Keep Changes", nil);
+        secondButton = NSLocalizedString(@"Revert", nil);
+        revertResponseCode = NSAlertSecondButtonReturn;
+    } else {
+        message =  NSLocalizedString(@"The document's file has been modified by another application. Do you want to revert the document?", nil);
+        details = NSLocalizedString(@"If you revert the document to the version on disk the document's content will be replaced with the content of the file.", nil);
+        firstButton = NSLocalizedString(@"Revert Document", nil);
+        secondButton = NSLocalizedString(@"Don't Revert Document", nil);
+        revertResponseCode = NSAlertFirstButtonReturn;
+        
+        alertAdjustment = ^(NSAlert *alert) {
+            // add the default cmd-d shortcut for this "don't" option
+            NSButton *dontButton = alert.buttons[1];
+            [dontButton setKeyEquivalent:@"d"];
+            [dontButton setKeyEquivalentModifierMask:NSEventModifierFlagCommand];
+        };
+    }
+    
+    BOOL wasDocumentEdited = isDocumentEdited;
+    
+    SEEAlertRecipe *warning = [SEEAlertRecipe warningWithMessage:message
+                                                         details:details
+                                                         buttons:@[firstButton, secondButton]
+                                               completionHandler:^(PlainTextDocument *document, NSModalResponse returnCode) {
+        if (returnCode == revertResponseCode) {
+            DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Revert document");
+            NSError *error = nil;
+            if ([document revertToContentsOfURL:document.fileURL ofType:document.fileType error:&error]) {
+                [document updateChangeCount:NSChangeCleared];
+            } else {
+                [document presentError:error];
+            }
+        } else {
+            [self setKeepDocumentVersion:YES];
+            
+            if (!wasDocumentEdited) {
+                // Ensure we do show a change although we didn't have changes before, as we now differ from the version on disk
+                [self updateChangeCount:NSChangeDone];
+            }
+        }
+    }];
+    if (!isDocumentEdited) {
+        warning.safeToDismissAutomatically = YES;
+    }
+    
+    
+    warning.coalescingIdentifier = @"RevertDialog";
+    warning.alertAdjustment = alertAdjustment;
+    
+    [NSOperationQueue TCM_performBlockOnMainThreadIsAsynchronous:^{
+        [self showOrEnqueueAlertRecipe:warning];
+    }];
+}
+
 - (BOOL)TCM_validateDocument {
     NSString *fileName = [[self fileURL] path];
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Validate document: %@", fileName);
-
     
-    if (![NSFileManager.defaultManager fileExistsAtPath:fileName] || ![self onDiskRepresentationHasChanged]) {
-        return YES;
-    } else {
-        DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Document has been changed externally");
-        if ([self keepDocumentVersion]) {
-            DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Keep document version");
+    if (![self keepDocumentVersion]) {
+        if (![NSFileManager.defaultManager fileExistsAtPath:fileName] || ![self onDiskRepresentationHasChanged]) {
             return YES;
-        }
-        
-        BOOL isDocumentEdited = [self isDocumentEdited];
-        
-        NSModalResponse revertResponseCode;
-        NSString *message, *details, *firstButton, *secondButton;
-        id alertAdjustment;
-        
-        if (isDocumentEdited) {
-            // We intentionally do have a more alerting message if the document already had some changes.
-            message = NSLocalizedString(@"The file has been modified by another application. Do you want to keep the changes made in SubEthaEdit?", nil);
-            details = NSLocalizedString(@"If you revert the file to the version on disk the changes you made in SubEthaEdit will be lost.", nil);
-            firstButton = NSLocalizedString(@"Keep Changes", nil);
-            secondButton = NSLocalizedString(@"Revert", nil);
-            revertResponseCode = NSAlertSecondButtonReturn;
         } else {
-            message =  NSLocalizedString(@"The document's file has been modified by another application. Do you want to revert the document?", nil);
-            details = NSLocalizedString(@"If you revert the document to the version on disk the document's content will be replaced with the content of the file.", nil);
-            firstButton = NSLocalizedString(@"Revert Document", nil);
-            secondButton = NSLocalizedString(@"Don't Revert Document", nil);
-            revertResponseCode = NSAlertFirstButtonReturn;
-            
-            alertAdjustment = ^(NSAlert *alert) {
-                // add the default cmd-d shortcut for this "don't" option
-                NSButton *dontButton = alert.buttons[1];
-                [dontButton setKeyEquivalent:@"d"];
-                [dontButton setKeyEquivalentModifierMask:NSEventModifierFlagCommand];
-            };
+            [self showDocumentHasChangedDialog];
+            return NO;
         }
-        
-        BOOL wasDocumentEdited = isDocumentEdited;
-        
-        SEEAlertRecipe *warning = [SEEAlertRecipe warningWithMessage:message
-                                                             details:details
-                                                             buttons:@[firstButton, secondButton]
-                                                   completionHandler:^(PlainTextDocument *document, NSModalResponse returnCode) {
-            if (returnCode == revertResponseCode) {
-                DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Revert document");
-                NSError *error = nil;
-                if ([document revertToContentsOfURL:document.fileURL ofType:document.fileType error:&error]) {
-                    [document updateChangeCount:NSChangeCleared];
-                } else {
-                    [document presentError:error];
-                }
-            } else {
-                [self setKeepDocumentVersion:YES];
-                
-                if (!wasDocumentEdited) {
-                    // Ensure we do show a change although we didn't have changes before, as we now differ from the version on disk
-                    [self updateChangeCount:NSChangeDone];
-                }
-            }
-        }];
-        if (!isDocumentEdited) {
-            warning.safeToDismissAutomatically = YES;
-        }
-        
-        
-        warning.coalescingIdentifier = @"RevertDialog";
-        warning.alertAdjustment = alertAdjustment;
-        
-        [self showOrEnqueueAlertRecipe:warning];
-        
-        return NO;
+    } else {
+        return YES;
     }
 }
 
@@ -5029,13 +5034,25 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 #pragma mark -
 
+static dispatch_queue_t FileCheckQueue(void) {
+    static dispatch_queue_t queue;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        dispatch_queue_attr_t attr = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_CONCURRENT, QOS_CLASS_UTILITY, 0);
+        queue = dispatch_queue_create("FileCheckQueue", attr);
+    });
+    return queue;
+}
+
 - (void)applicationDidBecomeActive:(NSNotification *)aNotification {
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"applicationDidBecomeActive: %@", [self fileURL]);
     if (![self fileURL]) {
         return;
     }
 
-    (void)[self TCM_validateDocument];
+    dispatch_async(FileCheckQueue(), ^{
+        (void)[self TCM_validateDocument];
+    });
 }
 
 - (void)clearChangeCount {
