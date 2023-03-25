@@ -3904,7 +3904,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 }
 
 - (BOOL)onDiskRepresentationHasChanged {
-    [NSThread sleepForTimeInterval:2.0];
+//    [NSThread sleepForTimeInterval:2.0];
     NSURL *fileURL = self.fileURL;
     NSString *fileName = fileURL.path;
     
