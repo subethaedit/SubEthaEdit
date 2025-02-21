@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "symbol.dtd">
+<symbols>
+
+    <blocks>
+        <beginregex>{</beginregex>
+        <endregex>}</endregex>
+    </blocks>
+    
+    <symbol id="Procedure" symbol="/_#a71790" indentation="0" ignoreblocks="yes">
+        <regex>.*?/([A-Za-z0-9_=]+)\s*\{</regex>
+    </symbol>
+
+    <symbol id="TODOs" symbol="do_#2B50E8" indentation="1" show-in-comments="yes">
+        <regex>(% TODO:.*)</regex>
+        <postprocess>
+            <find>% TODO:(.*)</find>
+            <replace>\1</replace>
+        </postprocess>
+    </symbol>
+    
+    <symbol id="FIXMEs" symbol="fix_#b33" indentation="1" show-in-comments="yes">
+        <regex>(% FIXME:.*)</regex>
+        <postprocess>
+            <find>% FIXME:(.*)</find>
+            <replace>\1</replace>
+        </postprocess>
+    </symbol>
+
+</symbols>

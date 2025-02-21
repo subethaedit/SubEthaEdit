@@ -1,0 +1,11 @@
+% A Brainfuck interpreter written in PostScript
+% 2023-12-05 Nicolas Seriot https://github.com/nst/bfps
+
+/P (+[-[<<[+[--->]-[<<<]]]>>>-]>-.-- -.>..>.<<<<-.<+.>>>>>.>.<<.<-.) def
+
+/d{def}def/p 0 d/_{/p p 1 add d}d/C{P p 1 getinterval}d/M 30000 string d/m 0 d
+/V{M m get}d{p P length ge{exit}if C(+)eq{M m V 1 add 255 and put}if C(-)eq{M m
+V 1 sub 255 and put}if C(>)eq{/m m 1 add d}if C(<)eq{/m m 1 sub d}if C([)eq{p V
+0 eq{mark{C([)eq{0}if C(])eq{pop}if counttomark 0 eq{pop exit}if _}loop}if}if C
+(])eq{/x exch d V 0 ne{/p x d p}if}if C(.)eq{/s 1 string d s 0 V put s ==}if
+C(,)eq{/f(%lineedit)(r)file d f read pop M m 3 -1 roll put}if _}loop
