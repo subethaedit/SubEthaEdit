@@ -50,6 +50,7 @@
             <!-- Ghostscript additions -->
             <keywords id="GhostScript additions" scope="language.operator" useforautocomplete="no">
                 <string>==</string>
+                <string>flushpage=</string>
             </keywords>
 
             <!-- Operators -->
