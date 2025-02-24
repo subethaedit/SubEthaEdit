@@ -7,7 +7,7 @@
         <endregex>}</endregex>
     </blocks>
     
-    <symbol id="Procedure" symbol="/_#a71790" indentation="0" ignoreblocks="yes">
+    <symbol id="Procedure" symbol="/_#6943A1" indentation="0" ignoreblocks="yes">
         <regex>.*?/([A-Za-z0-9_!=]+)\s*\{</regex>
     </symbol>
 
