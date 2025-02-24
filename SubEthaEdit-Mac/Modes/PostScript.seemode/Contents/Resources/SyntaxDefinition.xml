@@ -64,6 +64,9 @@
                 <string>loop</string>
                 <string>exit</string>
                 <string>stop</string>
+                <string>put</string>
+                <string>putinterval</string>
+                <string>def</string>
             </keywords>
 
             <!-- Operators -->
@@ -155,7 +158,6 @@
                 <string>cvrs</string>
                 <string>cvs</string>
                 <string>cvx</string>
-                <string>def</string>
                 <string>defaultmatrix</string>
                 <string>definefont</string>
                 <string>defineresource</string>
@@ -286,8 +288,6 @@
                 <string>product</string>
                 <string>prompt</string>
                 <string>pstack</string>
-                <string>put</string>
-                <string>putinterval</string>
                 <string>quit</string>
                 <string>rand</string>
                 <string>rangecheck</string>
