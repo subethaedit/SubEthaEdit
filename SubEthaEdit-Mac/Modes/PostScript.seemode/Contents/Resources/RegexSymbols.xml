@@ -8,7 +8,7 @@
     </blocks>
     
     <symbol id="Procedure" symbol="/_#a71790" indentation="0" ignoreblocks="yes">
-        <regex>.*?/([A-Za-z0-9_=]+)\s*\{</regex>
+        <regex>.*?/([A-Za-z0-9_!=]+)\s*\{</regex>
     </symbol>
 
     <symbol id="TODOs" symbol="do_#2B50E8" indentation="1" show-in-comments="yes">

@@ -38,7 +38,7 @@
 
             <!-- Dictionary Keys -->
             <keywords id="DictionaryKeys" scope="keyword" useforautocomplete="yes">
-                <regex>(/[A-Za-z0-9_=]+)\s*</regex>
+                <regex>(/[A-Za-z0-9_!=]+)\s*</regex>
             </keywords>
 
             <state id="Block" type="block" foldable="yes" indent="yes" scope="meta.block.curly">
