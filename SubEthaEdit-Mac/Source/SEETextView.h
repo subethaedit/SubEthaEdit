@@ -5,7 +5,7 @@
 
 #import <AppKit/AppKit.h>
 
-@class PlainTextEditor; 
+#import "PlainTextEditor.h"
 
 @interface SEETextView : NSTextView {
     BOOL I_isDragTarget;

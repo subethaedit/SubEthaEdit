@@ -1695,6 +1695,152 @@
 	UTTypeIdentifier = "de.codingmonkeys.subethaedit.jsp-source"
 	[UTExportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["jsp"]
+[[UTExportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.html"]
+	UTTypeDescription = "HTML with embedded Ruby"
+	UTTypeIdentifier = "public.erb-source"
+	UTTypeReferenceURL = "https://www.ruby-lang.org/en/"
+	UTTypeIconFile = "file-sgml"
+	[UTExportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["rhtml", "erb"]
+[[UTExportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.html"]
+	UTTypeDescription = "HTML with embedded Elixir"
+	UTTypeIdentifier = "public.eex-source"
+	UTTypeReferenceURL = "https://hexdocs.pm/eex/EEx.html"
+	UTTypeIconFile = "file-sgml"
+	[UTExportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["eex"]
+[[UTExportedTypeDeclarations]]
+	UTTypeConformsTo = "public.source-code"
+	UTTypeDescription = "C++ Source Code"
+	UTTypeIdentifier = "public.c-plus-plus-source"
+	UTTypeIconFile = "file-c++"
+	[UTExportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["cp", "cpp", "c++", "cc", "cxx"]
+[[UTExportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.source-code"]
+	UTTypeDescription = "Lua Script"
+	UTTypeIdentifier = "public.lua-script"
+	UTTypeIconFile = "file-lua"
+	UTTypeReferenceURL = "http://www.lua.org"
+	[UTExportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["lua"]
+[[UTExportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.source-code"]
+	UTTypeDescription = "Elixir Source"
+	UTTypeIconFile = "file-elixir"
+	UTTypeIdentifier = "public.elixir-source"
+	UTTypeReferenceURL = "https://elixir-lang.org"
+	[UTExportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["ex", "exs"]
+[[UTExportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.source-code"]
+	UTTypeDescription = "Erlang Source Code"
+	UTTypeIconFile = "file-erlang"
+	UTTypeIdentifier = "public.erlang-source"
+	UTTypeReferenceURL = "http://www.erlang.org"
+	[UTExportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["erl"]
+[[UTExportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.source-code"]
+	UTTypeDescription = "Erlang Source Code"
+	UTTypeIconFile = "file-erlang"
+	UTTypeIdentifier = "public.erlang-header"
+	UTTypeReferenceURL = "http://www.erlang.org"
+	[UTExportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["hrl"]
+[[UTExportedTypeDeclarations]]
+	UTTypeConformsTo = "public.text"
+	UTTypeDescription = "CSS"
+	UTTypeIconFile = "file-css"
+	UTTypeIdentifier = "public.css"
+	[UTExportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["css"]
+		"public.mime-type" = ["text/css"]
+[[UTExportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.source-code"]
+	UTTypeDescription = "C Header"
+	UTTypeIdentifier = "public.c-header"
+	[UTExportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["h"]
+[[UTExportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.c-header"]
+	UTTypeDescription = "C Pre-Compiled Header"
+	UTTypeIdentifier = "public.precompiled-c-header"
+	[UTExportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["pch"]
+[[UTExportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.source-code"]
+	UTTypeIdentifier = "public.c-plus-plus-header"
+	UTTypeDescription = "C++ Header"
+	UTTypeIconFile = "file-generic-header"
+	[UTExportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["hh", "hp", "hpp", "hxx", "h++", "ipp"]
+[[UTExportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.c-plus-plus-header"]
+	UTTypeDescription = "C++ Pre-Compiled Header"
+	UTTypeIdentifier = "public.precompiled-c-plus-plus-header"
+	[UTExportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["pch++"]
+[[UTExportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.source-code"]
+	UTTypeDescription = "C Source"
+	UTTypeIdentifier = "public.c-source"
+	UTTypeIconFile = "file-c"
+	[UTExportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["c"]
+[[UTExportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.source-code"]
+	UTTypeDescription = "rust Source"
+	UTTypeIdentifier = "public.rust-source"
+	UTTypeIconFile = "file-rs"
+	UTTypeReferenceURL = "https://www.rust-lang.org/"
+	[UTExportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["rs"]
+[[UTExportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.c-source"]
+	UTTypeDescription = "Preprocessed C Source"
+	UTTypeIdentifier = "public.c-source.preprocessed"
+	[UTExportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["i"]
+[[UTExportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.source-code"]
+	UTTypeDescription = "OpenCL Source"
+	UTTypeIdentifier = "public.opencl-source"
+	[UTExportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["cl"]
+[[UTExportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.source-code"]
+	UTTypeDescription = "Objective-C Source"
+	UTTypeIdentifier = "public.objective-c-source"
+	[UTExportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["m"]
+[[UTExportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.source-code"]
+	UTTypeIdentifier = "public.assembly-source"
+	UTTypeDescription = "Assembly Source"
+	[UTExportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["s", "asm"]
+[[UTExportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.source-code"]
+	UTTypeIdentifier = "public.nasm-assembly-source"
+	UTTypeDescription = "nasm Source"
+	[UTExportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["nasm"]
+[[UTExportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.source-code"]
+	UTTypeDescription = "res Source"
+	UTTypeIdentifier = "com.apple.rez-source"
+	[UTExportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["r"]
+[[UTExportedTypeDeclarations]]
+	UTTypeConformsTo = ["public.shell-script"]
+	UTTypeIdentifier = "public.ruby-script"
+	UTTypeDescription = "ruby Source"
+	UTTypeIconFile = "file-rb"
+	[UTExportedTypeDeclarations.UTTypeTagSpecification]
+		"public.filename-extension" = ["rb", "rbw"]
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.text"]
 	UTTypeDescription = "Markdown"
@@ -1807,22 +1953,6 @@
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["csv"]
 		"public.mime-type" = ["text/csv", "text/comma-separated-values"]
-[[UTExportedTypeDeclarations]]
-	UTTypeConformsTo = ["public.html"]
-	UTTypeDescription = "HTML with embedded Ruby"
-	UTTypeIdentifier = "public.erb-source"
-	UTTypeReferenceURL = "https://www.ruby-lang.org/en/"
-	UTTypeIconFile = "file-sgml"
-	[UTExportedTypeDeclarations.UTTypeTagSpecification]
-		"public.filename-extension" = ["rhtml", "erb"]
-[[UTExportedTypeDeclarations]]
-	UTTypeConformsTo = ["public.html"]
-	UTTypeDescription = "HTML with embedded Elixir"
-	UTTypeIdentifier = "public.eex-source"
-	UTTypeReferenceURL = "https://hexdocs.pm/eex/EEx.html"
-	UTTypeIconFile = "file-sgml"
-	[UTExportedTypeDeclarations.UTTypeTagSpecification]
-		"public.filename-extension" = ["eex"]
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["com.apple.property-list"]
 	UTTypeDescription = "binary property list"
@@ -1885,13 +2015,6 @@
 	UTTypeIdentifier = "com.apple.applescript.text"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = "applescript"
-[[UTExportedTypeDeclarations]]
-	UTTypeConformsTo = "public.source-code"
-	UTTypeDescription = "C++ Source Code"
-	UTTypeIdentifier = "public.c-plus-plus-source"
-	UTTypeIconFile = "file-c++"
-	[UTExportedTypeDeclarations.UTTypeTagSpecification]
-		"public.filename-extension" = ["cp", "cpp", "c++", "cc", "cxx"]
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.plain-text", "public.log"]
 	UTTypeDescription = "Log File"
@@ -2030,22 +2153,6 @@
 	UTTypeIdentifier = "com.sun.java-source"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["java", "jav"]
-[[UTExportedTypeDeclarations]]
-	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "Lua Script"
-	UTTypeIdentifier = "public.lua-script"
-	UTTypeIconFile = "file-lua"
-	UTTypeReferenceURL = "http://www.lua.org"
-	[UTExportedTypeDeclarations.UTTypeTagSpecification]
-		"public.filename-extension" = ["lua"]
-[[UTExportedTypeDeclarations]]
-	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "Elixir Source Code"
-	UTTypeIconFile = "file-elixir"
-	UTTypeIdentifier = "public.elixir-source"
-	UTTypeReferenceURL = "https://elixir-lang.org"
-	[UTExportedTypeDeclarations.UTTypeTagSpecification]
-		"public.filename-extension" = ["ex", "exs"]
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.text"]
 	UTTypeDescription = "TeX document"
@@ -2062,22 +2169,6 @@
 		"com.apple.ostype" = ["svg ", "svgz"]
 		"public.filename-extension" = ["svg", "svgz"]
 		"public.mime-type" = ["image/svg+xml"]
-[[UTExportedTypeDeclarations]]
-	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "Erlang Source Code"
-	UTTypeIconFile = "file-erlang"
-	UTTypeIdentifier = "public.erlang-source"
-	UTTypeReferenceURL = "http://www.erlang.org"
-	[UTExportedTypeDeclarations.UTTypeTagSpecification]
-		"public.filename-extension" = ["erl"]
-[[UTExportedTypeDeclarations]]
-	UTTypeConformsTo = ["public.source-code"]
-	UTTypeDescription = "Erlang Source Code"
-	UTTypeIconFile = "file-erlang"
-	UTTypeIdentifier = "public.erlang-header"
-	UTTypeReferenceURL = "http://www.erlang.org"
-	[UTExportedTypeDeclarations.UTTypeTagSpecification]
-		"public.filename-extension" = ["hrl"]
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.xml", "com.apple.property-list"]
 	UTTypeDescription = "XML property list"
@@ -2121,89 +2212,12 @@
 	UTTypeIdentifier = "public.fortran-source"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["f", "for"]
-[[UTExportedTypeDeclarations]]
-	UTTypeConformsTo = "public.text"
-	UTTypeDescription = "CSS"
-	UTTypeIconFile = "file-css"
-	UTTypeIdentifier = "public.css"
-	[UTExportedTypeDeclarations.UTTypeTagSpecification]
-		"public.filename-extension" = ["css"]
-		"public.mime-type" = ["text/css"]
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.source-code"]
+	UTTypeDescription = "Protobuf Source"
 	UTTypeIdentifier = "public.protobuf-source"
 	[UTImportedTypeDeclarations.UTTypeTagSpecification]
 		"public.filename-extension" = ["proto"]
-[[UTExportedTypeDeclarations]]
-	UTTypeConformsTo = ["public.source-code"]
-	UTTypeIdentifier = "public.c-header"
-	[UTExportedTypeDeclarations.UTTypeTagSpecification]
-		"public.filename-extension" = ["h"]
-[[UTExportedTypeDeclarations]]
-	UTTypeConformsTo = ["public.c-header"]
-	UTTypeIdentifier = "public.precompiled-c-header"
-	[UTExportedTypeDeclarations.UTTypeTagSpecification]
-		"public.filename-extension" = ["pch"]
-[[UTExportedTypeDeclarations]]
-	UTTypeConformsTo = ["public.source-code"]
-	UTTypeIdentifier = "public.c-plus-plus-header"
-	UTTypeIconFile = "file-generic-header"
-	[UTExportedTypeDeclarations.UTTypeTagSpecification]
-		"public.filename-extension" = ["hh", "hp", "hpp", "hxx", "h++", "ipp"]
-[[UTExportedTypeDeclarations]]
-	UTTypeConformsTo = ["public.c-plus-plus-header"]
-	UTTypeIdentifier = "public.precompiled-c-plus-plus-header"
-	[UTExportedTypeDeclarations.UTTypeTagSpecification]
-		"public.filename-extension" = ["pch++"]
-[[UTExportedTypeDeclarations]]
-	UTTypeConformsTo = ["public.source-code"]
-	UTTypeIdentifier = "public.c-source"
-	UTTypeIconFile = "file-c"
-	[UTExportedTypeDeclarations.UTTypeTagSpecification]
-		"public.filename-extension" = ["c"]
-[[UTExportedTypeDeclarations]]
-	UTTypeConformsTo = ["public.source-code"]
-	UTTypeIdentifier = "public.rust-source"
-	UTTypeIconFile = "file-rs"
-	UTTypeReferenceURL = "https://www.rust-lang.org/"
-	[UTExportedTypeDeclarations.UTTypeTagSpecification]
-		"public.filename-extension" = ["rs"]
-[[UTExportedTypeDeclarations]]
-	UTTypeConformsTo = ["public.c-source"]
-	UTTypeIdentifier = "public.c-source.preprocessed"
-	[UTExportedTypeDeclarations.UTTypeTagSpecification]
-		"public.filename-extension" = ["i"]
-[[UTExportedTypeDeclarations]]
-	UTTypeConformsTo = ["public.source-code"]
-	UTTypeIdentifier = "public.opencl-source"
-	[UTExportedTypeDeclarations.UTTypeTagSpecification]
-		"public.filename-extension" = ["cl"]
-[[UTExportedTypeDeclarations]]
-	UTTypeConformsTo = ["public.source-code"]
-	UTTypeIdentifier = "public.objective-c-source"
-	[UTExportedTypeDeclarations.UTTypeTagSpecification]
-		"public.filename-extension" = ["m"]
-[[UTExportedTypeDeclarations]]
-	UTTypeConformsTo = ["public.source-code"]
-	UTTypeIdentifier = "public.assembly-source"
-	[UTExportedTypeDeclarations.UTTypeTagSpecification]
-		"public.filename-extension" = ["s", "asm"]
-[[UTExportedTypeDeclarations]]
-	UTTypeConformsTo = ["public.source-code"]
-	UTTypeIdentifier = "public.nasm-assembly-source"
-	[UTExportedTypeDeclarations.UTTypeTagSpecification]
-		"public.filename-extension" = ["nasm"]
-[[UTExportedTypeDeclarations]]
-	UTTypeConformsTo = ["public.source-code"]
-	UTTypeIdentifier = "com.apple.rez-source"
-	[UTExportedTypeDeclarations.UTTypeTagSpecification]
-		"public.filename-extension" = ["r"]
-[[UTExportedTypeDeclarations]]
-	UTTypeConformsTo = ["public.shell-script"]
-	UTTypeIdentifier = "public.ruby-script"
-	UTTypeIconFile = "file-rb"
-	[UTExportedTypeDeclarations.UTTypeTagSpecification]
-		"public.filename-extension" = ["rb", "rbw"]
 [[UTImportedTypeDeclarations]]
 	UTTypeConformsTo = ["public.shell-script"]
 	UTTypeIdentifier = "public.python-script"

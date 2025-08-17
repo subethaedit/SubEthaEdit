@@ -3,6 +3,10 @@
 #### Features:
 
 #### Bug fixes and maintenance:
+* Updated and fixed applescripts. Changed some of them to JSX
+* Updated expired certificate on the see tool installer
+* Fixed issue with badly exported UTIs
+* Fixed issue where activation could show beachball when working with slow/remote disks
 
 #### Improved modes:
 
