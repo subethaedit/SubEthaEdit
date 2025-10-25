@@ -1463,11 +1463,13 @@ static NSString *tempFileName(NSString *origPath) {
 //	if ([coder containsValueForKey:@"SEEPlainTextDocumentShowsBottomStatusBar"])
 //		self.showsBottomStatusBar = [coder decodeBoolForKey:@"SEEPlainTextDocumentShowsBottomStatusBar"];
 
-	if ([coder containsValueForKey:@"SEEPlainTextDocumentPlainFont"]) {
-		NSDictionary *fontAttributes = [coder decodeObjectForKey:@"SEEPlainTextDocumentPlainFont"];
-		NSFontDescriptor *fontDescriptor = [NSFontDescriptor fontDescriptorWithFontAttributes:fontAttributes];
-		NSFont *font = [NSFont fontWithDescriptor:fontDescriptor size:0.0];
-		[self setPlainFont:font];
+    if ([coder containsValueForKey:@"SEEPlainTextDocumentPlainFont"]) {
+        NSDictionary *fontAttributes = [coder decodeObjectForKey:@"SEEPlainTextDocumentPlainFont"];
+        if (fontAttributes.count > 0) {
+            NSFontDescriptor *fontDescriptor = [NSFontDescriptor fontDescriptorWithFontAttributes:fontAttributes];
+            NSFont *font = [NSFont fontWithDescriptor:fontDescriptor size:0.0];
+            [self setPlainFont:font];
+        }
 	}
 
 	[[self windowControllers] makeObjectsPerformSelector:@selector(takeSettingsFromDocument)];

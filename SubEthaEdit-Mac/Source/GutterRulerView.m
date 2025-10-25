@@ -65,6 +65,10 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 //    NSLog(@"bounds:%@",NSStringFromRect([self bounds]));
 //    NSLog(@"frame:%@",NSStringFromRect([self frame]));
 //    NSLog(@"drawRect:%@",NSStringFromRect(aRect));
+    // ensure we limit ourselves to the ruler part (seems to get the whoel clipview width)
+    if (NSMaxX(aRect) > self.ruleThickness) {
+        aRect.size.width -= NSMaxX(aRect) - self.ruleThickness;
+    }
     [super drawRect:aRect];
 }
 
