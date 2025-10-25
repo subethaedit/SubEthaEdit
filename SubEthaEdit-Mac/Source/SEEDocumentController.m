@@ -1725,7 +1725,7 @@ struct ModificationInfo
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Opening directory: %@", aURL);
 }
 
-static NSString *tempFileName() {
+static NSString *tempFileName(void) {
     static int sequenceNumber = 0;
     NSString *origPath = [[NSApp sandboxContainerURL].path stringByAppendingPathComponent:@"see"];
     NSString *name;

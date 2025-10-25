@@ -3,7 +3,7 @@
 #import <objc/runtime.h>
 
 static CGColorRef createRandomDebugColor(void);
-static CGColorRef createRandomDebugColor() {
+static CGColorRef createRandomDebugColor(void) {
 	CGFloat r,g,b,a;
 	a = 1.0;
 	r = arc4random_uniform(256)/255. * 1.0;

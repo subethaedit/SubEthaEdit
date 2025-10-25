@@ -38,7 +38,7 @@ static int S_shouldNotNotifyOtherToolbars=0;
 }
 
 - (void)displayModeDidChange:(NSNotification *)aNotification {
-    if ([self displayMode] !=[[aNotification object] displayMode]) {
+    if ([self displayMode] != [[aNotification object] displayMode]) {
         [self setDisplayMode:[[aNotification object] displayMode]];
     }
 }

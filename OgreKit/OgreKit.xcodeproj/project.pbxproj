@@ -75,8 +75,9 @@
 		4DF530C00915221700475575 /* ReplaceWithAttributesTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DF530BB0915221700475575 /* ReplaceWithAttributesTest.m */; };
 		4DF530C20915221700475575 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DF530BD0915221700475575 /* main.m */; };
 		4DF530D30915226200475575 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4DF530D00915226200475575 /* MainMenu.nib */; };
-		F2170208215A458B007A2C35 /* onigmo.h in Headers */ = {isa = PBXBuildFile; fileRef = F2170206215A458B007A2C35 /* onigmo.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F250EAC9216A161F00B94A0B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F250EAC8216A161F00B94A0B /* Cocoa.framework */; };
+		F2D5D2E62EAD345E00D0BD57 /* onigmo.h in Headers */ = {isa = PBXBuildFile; fileRef = F2D5D2E52EAD345E00D0BD57 /* onigmo.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F2D5D2E72EAD346800D0BD57 /* onigmo.h in Sources */ = {isa = PBXBuildFile; fileRef = F2D5D2E52EAD345E00D0BD57 /* onigmo.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -362,7 +363,6 @@
 		9EAD87A322F79371000ADB59 /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = de.lproj/OgreAdvancedFindPanel.nib; sourceTree = "<group>"; };
 		9EAD87A422F79371000ADB59 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/OgreTextFinderLocalizable.strings; sourceTree = "<group>"; };
 		D2F7E79907B2D74100F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
-		F2170206215A458B007A2C35 /* onigmo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = onigmo.h; path = x86_64/onigmo.h; sourceTree = BUILT_PRODUCTS_DIR; };
 		F217020A215A47B4007A2C35 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		F250EAA6216A05B400B94A0B /* Base */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Base; path = Base.lproj/OgreTextFindProgressSheet.nib; sourceTree = "<group>"; };
 		F250EAA7216A05B500B94A0B /* Base */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Base; path = Base.lproj/OgreFindResultWindow.nib; sourceTree = "<group>"; };
@@ -381,6 +381,7 @@
 		F250EAB4216A05B800B94A0B /* Base */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Base; path = MyFindPanelExample/Base.lproj/MyFindPanel.nib; sourceTree = "<group>"; };
 		F250EAB7216A0CB200B94A0B /* OgreKitBase.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = OgreKitBase.xcconfig; path = BuildConfig/OgreKitBase.xcconfig; sourceTree = "<group>"; };
 		F250EAC8216A161F00B94A0B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		F2D5D2E52EAD345E00D0BD57 /* onigmo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = onigmo.h; path = RegularExpression/onigmo.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -845,7 +846,7 @@
 		4DC40DFA09150CF00029A2A6 /* oniguruma */ = {
 			isa = PBXGroup;
 			children = (
-				F2170206215A458B007A2C35 /* onigmo.h */,
+				F2D5D2E52EAD345E00D0BD57 /* onigmo.h */,
 			);
 			name = oniguruma;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -1050,7 +1051,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F2170208215A458B007A2C35 /* onigmo.h in Headers */,
 				4DC40F4F09150CF50029A2A6 /* OGRegularExpression.h in Headers */,
 				4DC40F5109150CF50029A2A6 /* OGRegularExpressionPrivate.h in Headers */,
 				4DC40F5309150CF50029A2A6 /* OGRegularExpressionEnumerator.h in Headers */,
@@ -1059,6 +1059,7 @@
 				4DC40F5909150CF50029A2A6 /* OGRegularExpressionMatchPrivate.h in Headers */,
 				4DC40F5B09150CF50029A2A6 /* OGRegularExpressionCapture.h in Headers */,
 				4DC40F5D09150CF50029A2A6 /* OGRegularExpressionCapturePrivate.h in Headers */,
+				F2D5D2E62EAD345E00D0BD57 /* onigmo.h in Headers */,
 				4DC40F5F09150CF50029A2A6 /* OGReplaceExpression.h in Headers */,
 				4DC40F6109150CF50029A2A6 /* OGReplaceExpressionPrivate.h in Headers */,
 				4DC40F6309150CF50029A2A6 /* OGRegularExpressionFormatter.h in Headers */,
@@ -1216,6 +1217,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F2D5D2E72EAD346800D0BD57 /* onigmo.h in Sources */,
 				4DC40F5009150CF50029A2A6 /* OGRegularExpression.m in Sources */,
 				4DC40F5209150CF50029A2A6 /* OGRegularExpressionPrivate.m in Sources */,
 				4DC40F5409150CF50029A2A6 /* OGRegularExpressionEnumerator.m in Sources */,
@@ -1532,7 +1534,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 13.5;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-DOGREKIT_VERSION=$(OGREKIT_VERSION)";
 				SDKROOT = macosx;
@@ -1571,7 +1573,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 13.5;
 				OTHER_CFLAGS = "-DOGREKIT_VERSION=$(OGREKIT_VERSION)";
 				SDKROOT = macosx;
 			};
@@ -1609,7 +1611,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 13.5;
 				OTHER_CFLAGS = "-DOGREKIT_VERSION=$(OGREKIT_VERSION)";
 				SDKROOT = macosx;
 			};

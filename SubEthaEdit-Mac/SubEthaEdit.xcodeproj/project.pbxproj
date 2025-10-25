@@ -337,6 +337,7 @@
 		F2D12A1D0BF0B8DF00A776CC /* SEEConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D12A1B0BF0B8DF00A776CC /* SEEConnection.m */; };
 		F2D22CB40EE9C5E3004B8E33 /* SeeTextImporter.mdimporter in Copy Importers */ = {isa = PBXBuildFile; fileRef = F2D22CB30EE9C5DE004B8E33 /* SeeTextImporter.mdimporter */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		F2D56993133B880900CEC841 /* SEEStyleSheetSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D56992133B880900CEC841 /* SEEStyleSheetSettings.m */; };
+		F2D5D2D52EAD2FEA00D0BD57 /* SeeGlass-Simple3.icon in Resources */ = {isa = PBXBuildFile; fileRef = F2D5D2D42EAD2FEA00D0BD57 /* SeeGlass-Simple3.icon */; };
 		F2D5FF3E0CB2666000407399 /* Rendezvous.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF3D0CB2666000407399 /* Rendezvous.icns */; };
 		F2D5FF400CB2667A00407399 /* StylePrefs.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF3F0CB2667A00407399 /* StylePrefs.icns */; };
 		F2D86C2E0F8E7EFA00B912A2 /* SEPAppController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D86C2D0F8E7EFA00B912A2 /* SEPAppController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -1067,6 +1068,7 @@
 		F2D22CAE0EE9C5DE004B8E33 /* SeeTextImporter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SeeTextImporter.xcodeproj; path = SeeTextImporter/SeeTextImporter.xcodeproj; sourceTree = "<group>"; };
 		F2D56991133B880900CEC841 /* SEEStyleSheetSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SEEStyleSheetSettings.h; sourceTree = "<group>"; };
 		F2D56992133B880900CEC841 /* SEEStyleSheetSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEStyleSheetSettings.m; sourceTree = "<group>"; };
+		F2D5D2D42EAD2FEA00D0BD57 /* SeeGlass-Simple3.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = "SeeGlass-Simple3.icon"; sourceTree = "<group>"; };
 		F2D5FF3D0CB2666000407399 /* Rendezvous.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Rendezvous.icns; path = artwork/Rendezvous.icns; sourceTree = "<group>"; };
 		F2D5FF3F0CB2667A00407399 /* StylePrefs.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = StylePrefs.icns; path = artwork/StylePrefs.icns; sourceTree = "<group>"; };
 		F2D86C1F0F8E7E2A00B912A2 /* SubEthaPerf.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SubEthaPerf.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1183,6 +1185,7 @@
 		14289051095742A100D14688 /* Artwork */ = {
 			isa = PBXGroup;
 			children = (
+				F2D5D2D42EAD2FEA00D0BD57 /* SeeGlass-Simple3.icon */,
 				F20D8F0B18FC28CB0091EB13 /* Artwork.xcassets */,
 				F24582892181C19F00A87EB5 /* FileIcons.xcassets */,
 				4C6BDC61188985EF0088CBFC /* Retina */,
@@ -2377,6 +2380,7 @@
 				4CDF05A618C0A3D4004A49E5 /* SEEConnectionAddingWindowController.xib in Resources */,
 				F291D1A10FCECD22008BC286 /* FoldingBubbleText.rtf in Resources */,
 				F291D1B10FCECF33008BC286 /* FoldingBubbleBig.png in Resources */,
+				F2D5D2D52EAD2FEA00D0BD57 /* SeeGlass-Simple3.icon in Resources */,
 				F22024E9191D0DB30098982C /* ParticipantReadOnlyStatusOn.png in Resources */,
 				4CD5F80217FB0D3700F49E31 /* MainMenu.xib in Resources */,
 				4C0D3D7417FB166D00AAFB38 /* DebugPresence.xib in Resources */,
@@ -3022,7 +3026,7 @@
 		C05733C808A9546B00998B17 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "see-appicon";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "SeeGlass-Simple3";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = "Accent Color";
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = SubEthaEdit.entitlements;
@@ -3065,7 +3069,7 @@
 		C05733C908A9546B00998B17 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "see-appicon";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "SeeGlass-Simple3";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = "Accent Color";
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = SubEthaEdit.entitlements;
@@ -3131,6 +3135,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = S76GCAG929;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -3168,6 +3173,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEPLOYMENT_POSTPROCESSING = YES;
+				DEVELOPMENT_TEAM = S76GCAG929;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;

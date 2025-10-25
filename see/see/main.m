@@ -36,7 +36,7 @@ static struct option longopts[] = {
     { 0,            0,                      0,  0 }
 };
 
-static NSURL *tempFileURL() {
+static NSURL *tempFileURL(void) {
     NSError *error;
     NSURL *tmpURL = [[NSFileManager defaultManager] URLForDirectory:NSItemReplacementDirectory inDomain:NSUserDomainMask appropriateForURL:[NSURL fileURLWithPath:@"/"] create:YES error:&error];
     if (!tmpURL) {
@@ -46,7 +46,7 @@ static NSURL *tempFileURL() {
     return [tmpURL URLByAppendingPathComponent:filename];
 }
 
-static void printHelp() {
+static void printHelp(void) {
     fprintf(stdout, "Usage: see [-bdhlprvw] [-g line[:column]] [-o where] [-e encoding_name] [-m mode_identifier] [-t title] [-j description] [file ...]\n");
     fflush(stdout);
 }
