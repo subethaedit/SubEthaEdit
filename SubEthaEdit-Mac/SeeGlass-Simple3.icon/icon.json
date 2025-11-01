@@ -4,9 +4,32 @@
   },
   "groups" : [
     {
-      "blur-material" : 1,
+      "blend-mode-specializations" : [
+        {
+          "value" : "lighten"
+        },
+        {
+          "appearance" : "tinted",
+          "value" : "hard-light"
+        }
+      ],
+      "blur-material-specializations" : [
+        {
+          "value" : 1
+        },
+        {
+          "appearance" : "tinted",
+          "value" : 1
+        }
+      ],
       "layers" : [
         {
+          "blend-mode-specializations" : [
+            {
+              "appearance" : "tinted",
+              "value" : "hard-light"
+            }
+          ],
           "fill-specializations" : [
             {
               "value" : {
@@ -23,20 +46,63 @@
           "glass" : true,
           "hidden" : false,
           "image-name" : "Heads.svg",
-          "name" : "Heads"
+          "name" : "Heads",
+          "opacity-specializations" : [
+            {
+              "appearance" : "tinted",
+              "value" : 1
+            }
+          ]
         }
       ],
-      "shadow" : {
-        "kind" : "layer-color",
-        "opacity" : 1
-      },
+      "opacity-specializations" : [
+        {
+          "appearance" : "tinted",
+          "value" : 1
+        }
+      ],
+      "shadow-specializations" : [
+        {
+          "value" : {
+            "kind" : "layer-color",
+            "opacity" : 1
+          }
+        },
+        {
+          "appearance" : "tinted",
+          "value" : {
+            "kind" : "layer-color",
+            "opacity" : 1
+          }
+        }
+      ],
       "specular" : true,
-      "translucency" : {
-        "enabled" : true,
-        "value" : 0.55
-      }
+      "translucency-specializations" : [
+        {
+          "value" : {
+            "enabled" : true,
+            "value" : 0.5
+          }
+        },
+        {
+          "appearance" : "tinted",
+          "value" : {
+            "enabled" : false,
+            "value" : 0.23
+          }
+        }
+      ]
     },
     {
+      "blend-mode-specializations" : [
+        {
+          "value" : "normal"
+        },
+        {
+          "appearance" : "tinted",
+          "value" : "screen"
+        }
+      ],
       "blur-material" : 0.79,
       "layers" : [
         {
@@ -58,19 +124,70 @@
         }
       ],
       "lighting" : "individual",
-      "shadow" : {
-        "kind" : "layer-color",
-        "opacity" : 1
-      },
-      "translucency" : {
-        "enabled" : true,
-        "value" : 0.58
-      }
+      "opacity-specializations" : [
+        {
+          "appearance" : "tinted",
+          "value" : 0.66
+        }
+      ],
+      "shadow-specializations" : [
+        {
+          "value" : {
+            "kind" : "layer-color",
+            "opacity" : 1
+          }
+        },
+        {
+          "appearance" : "tinted",
+          "value" : {
+            "kind" : "layer-color",
+            "opacity" : 1
+          }
+        }
+      ],
+      "translucency-specializations" : [
+        {
+          "value" : {
+            "enabled" : true,
+            "value" : 0.58
+          }
+        },
+        {
+          "appearance" : "tinted",
+          "value" : {
+            "enabled" : false,
+            "value" : 1
+          }
+        }
+      ]
     },
     {
-      "blur-material" : 1,
+      "blend-mode-specializations" : [
+        {
+          "value" : "normal"
+        },
+        {
+          "appearance" : "tinted",
+          "value" : "plus-darker"
+        }
+      ],
+      "blur-material-specializations" : [
+        {
+          "value" : 1
+        },
+        {
+          "appearance" : "tinted",
+          "value" : 1
+        }
+      ],
       "layers" : [
         {
+          "blend-mode-specializations" : [
+            {
+              "appearance" : "tinted",
+              "value" : "normal"
+            }
+          ],
           "fill-specializations" : [
             {
               "value" : {
@@ -82,32 +199,58 @@
               "value" : {
                 "solid" : "extended-srgb:1.00000,0.55294,0.15686,1.00000"
               }
+            },
+            {
+              "appearance" : "tinted",
+              "value" : {
+                "solid" : "extended-gray:0.00000,1.00000"
+              }
             }
           ],
           "glass" : true,
           "hidden" : false,
           "image-name" : "Utencil.svg",
-          "name" : "Utencil"
+          "name" : "Utencil",
+          "opacity-specializations" : [
+            {
+              "appearance" : "tinted",
+              "value" : 1
+            }
+          ]
         }
       ],
       "lighting" : "individual",
+      "opacity-specializations" : [
+        {
+          "appearance" : "tinted",
+          "value" : 0.58
+        }
+      ],
       "shadow" : {
         "kind" : "layer-color",
         "opacity" : 1
       },
-      "specular" : true,
+      "specular-specializations" : [
+        {
+          "value" : true
+        },
+        {
+          "appearance" : "tinted",
+          "value" : true
+        }
+      ],
       "translucency-specializations" : [
         {
           "value" : {
             "enabled" : true,
-            "value" : 0.52
+            "value" : 0.46
           }
         },
         {
-          "appearance" : "dark",
+          "appearance" : "tinted",
           "value" : {
-            "enabled" : true,
-            "value" : 0.46
+            "enabled" : false,
+            "value" : 0
           }
         }
       ]
@@ -134,6 +277,12 @@
           "name" : "Men Back"
         }
       ],
+      "opacity-specializations" : [
+        {
+          "appearance" : "tinted",
+          "value" : 0.48
+        }
+      ],
       "position" : {
         "scale" : 1,
         "translation-in-points" : [
@@ -145,10 +294,21 @@
         "kind" : "layer-color",
         "opacity" : 1
       },
-      "translucency" : {
-        "enabled" : true,
-        "value" : 0.38
-      }
+      "translucency-specializations" : [
+        {
+          "value" : {
+            "enabled" : true,
+            "value" : 0.38
+          }
+        },
+        {
+          "appearance" : "tinted",
+          "value" : {
+            "enabled" : false,
+            "value" : 0.92
+          }
+        }
+      ]
     }
   ],
   "supported-platforms" : {
