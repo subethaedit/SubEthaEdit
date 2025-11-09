@@ -1,7 +1,20 @@
 {
-  "fill" : {
-    "automatic-gradient" : "display-p3:0.00000,0.00000,0.00000,1.00000"
-  },
+  "fill-specializations" : [
+    {
+      "value" : {
+        "linear-gradient" : [
+          "display-p3:0.56257,0.56257,0.56257,1.00000",
+          "display-p3:0.41719,0.41719,0.41719,1.00000"
+        ]
+      }
+    },
+    {
+      "appearance" : "dark",
+      "value" : {
+        "automatic-gradient" : "display-p3:0.05602,0.05602,0.05602,1.00000"
+      }
+    }
+  ],
   "groups" : [
     {
       "blend-mode-specializations" : [
@@ -10,11 +23,15 @@
         },
         {
           "appearance" : "tinted",
-          "value" : "hard-light"
+          "value" : "normal"
         }
       ],
       "blur-material-specializations" : [
         {
+          "value" : 1
+        },
+        {
+          "appearance" : "dark",
           "value" : 1
         },
         {
@@ -30,21 +47,11 @@
               "value" : "hard-light"
             }
           ],
-          "fill-specializations" : [
-            {
-              "value" : {
-                "solid" : "extended-srgb:0.20392,0.78039,0.34902,1.00000"
-              }
-            },
-            {
-              "appearance" : "dark",
-              "value" : {
-                "solid" : "extended-srgb:0.20392,0.78039,0.34902,1.00000"
-              }
-            }
-          ],
+          "fill" : {
+            "solid" : "extended-srgb:0.20392,0.78039,0.34902,1.00000"
+          },
           "glass" : true,
-          "hidden" : false,
+          "hidden" : true,
           "image-name" : "Heads.svg",
           "name" : "Heads",
           "opacity-specializations" : [
@@ -52,13 +59,43 @@
               "appearance" : "tinted",
               "value" : 1
             }
-          ]
+          ],
+          "position" : {
+            "scale" : 1.42,
+            "translation-in-points" : [
+              188.8515625,
+              -99.328125
+            ]
+          }
+        },
+        {
+          "fill" : "automatic",
+          "image-name" : "HeadsR.svg",
+          "name" : "HeadsR",
+          "position" : {
+            "scale" : 1.17,
+            "translation-in-points" : [
+              183.0390625,
+              -138.3828125
+            ]
+          }
+        },
+        {
+          "image-name" : "HeadsL.svg",
+          "name" : "HeadsL",
+          "position" : {
+            "scale" : 1.43,
+            "translation-in-points" : [
+              202.7265625,
+              -86.7265625
+            ]
+          }
         }
       ],
       "opacity-specializations" : [
         {
           "appearance" : "tinted",
-          "value" : 1
+          "value" : 0.87
         }
       ],
       "shadow-specializations" : [
@@ -76,19 +113,34 @@
           }
         }
       ],
-      "specular" : true,
+      "specular-specializations" : [
+        {
+          "value" : true
+        },
+        {
+          "appearance" : "dark",
+          "value" : true
+        }
+      ],
       "translucency-specializations" : [
         {
           "value" : {
             "enabled" : true,
-            "value" : 0.5
+            "value" : 0.16
+          }
+        },
+        {
+          "appearance" : "dark",
+          "value" : {
+            "enabled" : true,
+            "value" : 0
           }
         },
         {
           "appearance" : "tinted",
           "value" : {
-            "enabled" : false,
-            "value" : 0.23
+            "enabled" : true,
+            "value" : 0.5
           }
         }
       ]
@@ -106,21 +158,41 @@
       "blur-material" : 0.79,
       "layers" : [
         {
-          "fill-specializations" : [
-            {
-              "value" : {
-                "solid" : "extended-srgb:0.20392,0.78039,0.34902,1.00000"
-              }
-            },
-            {
-              "appearance" : "dark",
-              "value" : {
-                "solid" : "extended-srgb:0.20392,0.78039,0.34902,1.00000"
-              }
-            }
-          ],
+          "fill" : {
+            "solid" : "extended-srgb:0.20392,0.78039,0.34902,1.00000"
+          },
+          "hidden" : true,
           "image-name" : "Men Front.svg",
-          "name" : "Men Front"
+          "name" : "Men Front",
+          "position" : {
+            "scale" : 1.49,
+            "translation-in-points" : [
+              198.703125,
+              -59.2109375
+            ]
+          }
+        },
+        {
+          "image-name" : "Men FrontR.svg",
+          "name" : "Men FrontR",
+          "position" : {
+            "scale" : 1.1,
+            "translation-in-points" : [
+              163.1640625,
+              -112.8984375
+            ]
+          }
+        },
+        {
+          "image-name" : "Men FrontL.svg",
+          "name" : "Men FrontL",
+          "position" : {
+            "scale" : 1.5,
+            "translation-in-points" : [
+              194.9921875,
+              -99.109375
+            ]
+          }
         }
       ],
       "lighting" : "individual",
@@ -155,8 +227,8 @@
         {
           "appearance" : "tinted",
           "value" : {
-            "enabled" : false,
-            "value" : 1
+            "enabled" : true,
+            "value" : 0
           }
         }
       ]
@@ -195,12 +267,6 @@
               }
             },
             {
-              "appearance" : "dark",
-              "value" : {
-                "solid" : "extended-srgb:1.00000,0.55294,0.15686,1.00000"
-              }
-            },
-            {
               "appearance" : "tinted",
               "value" : {
                 "solid" : "extended-gray:0.00000,1.00000"
@@ -216,7 +282,14 @@
               "appearance" : "tinted",
               "value" : 1
             }
-          ]
+          ],
+          "position" : {
+            "scale" : 1.42,
+            "translation-in-points" : [
+              188.8515625,
+              -99.328125
+            ]
+          }
         }
       ],
       "lighting" : "individual",
@@ -260,21 +333,42 @@
       "hidden" : false,
       "layers" : [
         {
-          "fill-specializations" : [
-            {
-              "value" : {
-                "solid" : "extended-srgb:0.20392,0.78039,0.34902,1.00000"
-              }
-            },
-            {
-              "appearance" : "dark",
-              "value" : {
-                "solid" : "extended-srgb:0.20392,0.78039,0.34902,1.00000"
-              }
-            }
-          ],
+          "image-name" : "Men BackR.svg",
+          "name" : "Men BackR",
+          "position" : {
+            "scale" : 1.08,
+            "translation-in-points" : [
+              211.8046875,
+              -118.84375
+            ]
+          }
+        },
+        {
+          "image-name" : "Men BackL.svg",
+          "name" : "Men BackL",
+          "position" : {
+            "scale" : 1.44,
+            "translation-in-points" : [
+              191.4453125,
+              -106.6328125
+            ]
+          }
+        },
+        {
+          "fill" : {
+            "solid" : "extended-srgb:0.20392,0.78039,0.34902,1.00000"
+          },
+          "glass" : true,
+          "hidden" : true,
           "image-name" : "Men Back.svg",
-          "name" : "Men Back"
+          "name" : "Men Back",
+          "position" : {
+            "scale" : 1.42,
+            "translation-in-points" : [
+              188.8515625,
+              -99.328125
+            ]
+          }
         }
       ],
       "opacity-specializations" : [

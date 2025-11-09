@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g id="MiddleMan-Hand" serif:id="MiddleMan Hand" transform="matrix(0.895907,0,0,0.895907,26.4639,-220.528)">
+        <g id="Men-Front" serif:id="Men Front">
+            <g id="MiddleMan-Hand1" serif:id="MiddleMan Hand">
+                <path id="MiddleMan-Hand-Fill" serif:id="MiddleMan Hand Fill" d="M542,623C539.3,620.383 536.6,616.1 535,613.8C529,605.2 524.3,586.2 525.4,574.6C527.2,555.8 533.4,541.6 545,530C556.7,518.3 570.1,513 588.2,513C598.7,513 614.8,516.8 624.9,521.6C624.9,521.6 632.733,525.683 636,528C639.082,530.186 644.5,535.5 644.5,535.5C654.9,546.5 659.3,558.7 657.3,570.7C655.6,580.2 651.1,588.7 642.8,597.5C633.7,607.3 617,619.8 605.5,625.5C595.9,630.3 579.5,635 572.6,635C566.6,635 556.2,632.3 551.2,629.5C551.2,629.5 544.696,625.613 542,623Z" style="fill:rgb(0,201,28);"/>
+            </g>
+        </g>
+    </g>
+</svg>
