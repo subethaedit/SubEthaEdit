@@ -274,6 +274,9 @@
 			
 			<keywords id="Keywords" useforautocomplete="yes" scope="keyword.control">
 				<string>and</string>
+				<string>as</string>
+				<string>async</string>
+				<string>await</string>
 				<string>break</string>
 				<string>continue</string>
 				<string>def</string>
@@ -287,14 +290,15 @@
 				<string>if</string>
 				<string>in</string>
 				<string>is</string>
+				<string>nonlocal</string>
 				<string>not</string>
 				<string>or</string>
 				<string>pass</string>
 				<string>raise</string>
 				<string>try</string>
 				<string>while</string>
+				<string>with</string>
 				<string>yield</string>
-				<string>as</string>
 			</keywords>
 			<!-- see http://docs.python.org/3.1/reference/lexical_analysis.html - numeric literals -->
 			<keywords id="Numbers" useforautocomplete="no" scope="language.constant.numeric">
