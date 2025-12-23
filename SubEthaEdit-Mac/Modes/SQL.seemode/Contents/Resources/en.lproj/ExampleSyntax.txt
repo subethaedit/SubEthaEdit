@@ -1,0 +1,3 @@
+# SQL Example Syntax File
+
+SELECT * FROM my_table;
