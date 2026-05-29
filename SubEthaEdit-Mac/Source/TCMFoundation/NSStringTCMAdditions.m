@@ -6,7 +6,6 @@
 #import "NSStringTCMAdditions.h"
 
 #import <netinet/in.h>
-#import <netinet6/in6.h>
 #import <net/if.h>
 #import <arpa/inet.h>
 #import <sys/socket.h>

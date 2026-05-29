@@ -8,7 +8,6 @@
 
 #import <netinet/tcp.h>
 #import <netinet/in.h>
-#import <netinet6/in6.h>
 #import <sys/socket.h>
 
 static void acceptConnection(CFSocketRef aSocketRef, CFSocketCallBackType aType, CFDataRef anAddress, const void* aData, void* aContext);
