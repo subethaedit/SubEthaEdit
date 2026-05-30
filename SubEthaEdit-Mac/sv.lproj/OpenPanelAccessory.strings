@@ -1,0 +1,17 @@
+/* Class = "NSPopUpButton"; ibShadowedToolTip = "Choose the file's character encoding."; ObjectID = "92"; */
+"92.ibShadowedToolTip" = "Välj filens teckenkodning.";
+
+/* Class = "NSPopUpButton"; ibShadowedToolTip = "Open the file with a specific mode"; ObjectID = "97"; */
+"97.ibShadowedToolTip" = "Öppna filen med ett specifikt läge";
+
+/* Class = "NSTextFieldCell"; title = "File Encoding:"; ObjectID = "119"; */
+"119.title" = "Filkodning:";
+
+/* Class = "NSTextFieldCell"; title = "Mode:"; ObjectID = "120"; */
+"120.title" = "Läge:";
+
+/* Class = "NSButtonCell"; title = "Go into bundles"; ObjectID = "123"; */
+"123.title" = "Gå in i paket";
+
+/* Class = "NSButtonCell"; title = "Show hidden files"; ObjectID = "124"; */
+"124.title" = "Visa dolda filer";

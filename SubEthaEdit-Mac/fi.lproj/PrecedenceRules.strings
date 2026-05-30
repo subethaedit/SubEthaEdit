@@ -1,0 +1,11 @@
+/* Class = "NSMenuItem"; title = "Filename is"; ObjectID = "10"; */
+"10.title" = "Tiedostonimi on";
+
+/* Class = "NSMenuItem"; title = "Extension is"; ObjectID = "11"; */
+"11.title" = "Pääte on";
+
+/* Class = "NSMenuItem"; title = "Content matches"; ObjectID = "12"; */
+"12.title" = "Sisältö täsmää";
+
+/* Class = "NSMenuItem"; title = "Extension exactly is"; ObjectID = "13"; */
+"13.title" = "Pääte on täsmälleen";

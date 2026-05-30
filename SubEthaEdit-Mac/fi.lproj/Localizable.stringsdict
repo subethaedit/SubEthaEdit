@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>INFO_NUMBER_OF_CHARACTERS</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@characters@</string>
+		<key>characters</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lu</string>
+			<key>one</key>
+			<string>1 merkki</string>
+			<key>other</key>
+			<string>%lu merkkiä</string>
+			<key>zero</key>
+			<string>ei merkkejä</string>
+		</dict>
+	</dict>
+	<key>INFO_NUMBER_OF_LINES</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@lines@</string>
+		<key>lines</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lu</string>
+			<key>one</key>
+			<string>1 rivi</string>
+			<key>other</key>
+			<string>%lu riviä</string>
+			<key>zero</key>
+			<string>ei rivejä</string>
+		</dict>
+	</dict>
+	<key>INFO_NUMBER_OF_WORDS</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@words@</string>
+		<key>words</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lu</string>
+			<key>one</key>
+			<string>1 sana</string>
+			<key>other</key>
+			<string>%lu sanaa</string>
+			<key>zero</key>
+			<string>ei sanoja</string>
+		</dict>
+	</dict>
+</dict>
+</plist>

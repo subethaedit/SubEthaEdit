@@ -1,0 +1,56 @@
+/* Class = "NSWindow"; title = "Window"; ObjectID = "5"; */
+"5.title" = "Ikkuna";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Open a blank document at startup, if no other windows are open."; ObjectID = "31"; */
+"31.ibShadowedToolTip" = "Avaa tyhjä dokumentti käynnistyksessä, jos muita ikkunoita ei ole auki.";
+
+/* Class = "NSPopUpButton"; ibShadowedToolTip = "Uses this mode for all documents that are not handled by other modes."; ObjectID = "55"; */
+"55.ibShadowedToolTip" = "Käyttää tätä tilaa kaikkiin dokumentteihin, joita muut tilat eivät käsittele.";
+
+/* Class = "NSMenuItem"; title = "Default"; ObjectID = "56"; */
+"56.title" = "Oletus";
+
+/* Class = "NSPopUpButton"; ibShadowedToolTip = "Specify how many directories are shown in the documents title."; ObjectID = "150"; */
+"150.ibShadowedToolTip" = "Määritä, kuinka monta hakemistoa näytetään dokumentin otsikossa.";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Documents are opened in tabs instead of windows."; ObjectID = "194"; */
+"194.ibShadowedToolTip" = "Dokumentit avataan välilehtiin ikkunoiden sijaan.";
+
+/* Class = "NSButtonCell"; title = "Open Untitled Document at startup"; ObjectID = "224"; */
+"224.title" = "Avaa nimetön dokumentti käynnistyksessä";
+
+/* Class = "NSTextFieldCell"; title = "Mode for New Documents:"; ObjectID = "225"; */
+"225.title" = "Uusien dokumenttien tila:";
+
+/* Class = "NSTextFieldCell"; title = "Show"; ObjectID = "227"; */
+"227.title" = "Näytä";
+
+/* Class = "NSTextFieldCell"; title = "path components in window title"; ObjectID = "228"; */
+"228.title" = "polun osat ikkunan otsikossa";
+
+/* Class = "NSTextFieldCell"; title = "Recent Documents:"; ObjectID = "230"; */
+"230.title" = "Viimeisimmät dokumentit:";
+
+/* Class = "NSTextFieldCell"; title = "Takes effect after relaunch"; ObjectID = "232"; */
+"232.title" = "Tulee voimaan uudelleenkäynnistyksen jälkeen";
+
+/* Class = "NSButtonCell"; title = "Open new documents in tabs"; ObjectID = "233"; */
+"233.title" = "Avaa uudet dokumentit välilehtiin";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Also colorize changes if not in collaborative mode."; ObjectID = "KjR-2C-eEw"; */
+"KjR-2C-eEw.ibShadowedToolTip" = "Väritä muutokset myös, kun et ole yhteistyötilassa.";
+
+/* Class = "NSButtonCell"; title = "Highlight Changes when not collaborating"; ObjectID = "X2p-xv-B6d"; */
+"X2p-xv-B6d.title" = "Korosta muutokset, kun et tee yhteistyötä";
+
+/* Class = "NSButtonCell"; title = "Show Document Hub at startup"; ObjectID = "dS3-kL-Ssf"; */
+"dS3-kL-Ssf.title" = "Näytä dokumenttikeskus käynnistyksessä";
+
+/* Class = "NSTextFieldCell"; title = "Documents:"; ObjectID = "fkb-Fo-z4m"; */
+"fkb-Fo-z4m.title" = "Dokumentit:";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Opens Document Hub window on startup, if no other windows are open."; ObjectID = "iZf-W7-QIX"; */
+"iZf-W7-QIX.ibShadowedToolTip" = "Avaa dokumenttikeskusikkunan käynnistyksessä, jos muita ikkunoita ei ole auki.";
+
+/* Class = "NSMenuItem"; title = "None"; ObjectID = "zSI-bj-Ccp"; */
+"zSI-bj-Ccp.title" = "Ei mitään";

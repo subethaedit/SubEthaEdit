@@ -1,0 +1,984 @@
+/* App menu about */
+"SEE_APP_MENU_ABOUT" = "Om %@";
+
+/* App menu about */
+"SEE_APP_MENU_HIDE" = "Skjul %@";
+
+/* App menu about */
+"SEE_APP_MENU_QUIT" = "Avslutt %@";
+
+/* App menu check for updates */
+"SEE_APP_MENU_CHECK_FOR_UPDATES" = "Se etter oppdateringer…";
+
+/* FindRegexPrefix */
+"%@ - Find All" = "%@ - Finn alle";
+
+/* word count string in statistics controller */
+"%@ lines, %@ words, %@ characters" = "%@ linjer, %@ ord, %@ tegn";
+
+/* Status string showing the number of documents in Rendezvous and Internet browser */
+"%d Document(s)" = "%d dokument(er)";
+
+/* Entries Found in FindAll Panel */
+"%d matches" = "%d treff";
+
+/* Pending Users Display in Menu Title Bar */
+"%d pending" = "%d venter";
+
+/* Number of replaced strings */
+"%ld replaced" = "%ld erstattet";
+
+/* No comment provided by engineer. */
+"&Redo" = "Gjør om";
+
+/* No comment provided by engineer. */
+"&Redo %@" = "Gjør om %@";
+
+/* No comment provided by engineer. */
+"&Undo" = "Angre";
+
+/* No comment provided by engineer. */
+"&Undo %@" = "Angre %@";
+
+/* Syntax XML Structure Error Informative Text */
+"<state> \"%@\" has no <begin>. This confuses me. Please check your syntax definition." = "<state> “%@” har ingen <begin>. Dette forvirrer meg. Kontroller syntaksdefinisjonen din.";
+
+/* No comment provided by engineer. */
+"[Blockediting]" = "[Blokkredigering]";
+
+/* HTML Color Error Informative Text */
+"\"%@\" is not a valid HTML color. Please specify colors in your syntax defintion either as e.g. \"#fff\" or \"#ffffff\"" = "“%@” er ikke en gyldig HTML-farge. Angi farger i syntaksdefinisjonen din enten som f.eks. “#fff” eller “#ffffff”";
+
+/* Symbol Regular Expression Error Informative Text */
+"\"%@\" is not a valid regular expression. Please check your regular expression in Find Panel's Ruby mode." = "“%@” er ikke et gyldig regulært uttrykk. Kontroller det regulære uttrykket ditt i søkepanelets Ruby-modus.";
+
+/* Syntax Regular Expression Error Informative Text */
+"\"%@\" within state \"%@\" is not a valid regular expression. Please check your regular expression in Find Panel's Ruby mode." = "“%@” i tilstanden “%@” er ikke et gyldig regulært uttrykk. Kontroller det regulære uttrykket ditt i søkepanelets Ruby-modus.";
+
+/* Button title */
+"Abort" = "Stopp tilkoblinger";
+
+/* Sheet informative text when user has open document connections */
+"AbortChannels" = "Deltakerne kobles fra hvis du stopper disse tilkoblingene.";
+
+/* Label displayed below advanced icon and used as window title. */
+"AdvancedPrefsIconLabel" = "Avansert";
+
+/* Informative text in an alert which tells the user that an error prevented the replace */
+"AlertInformativeText: Error occurred during replace" = "Kunne ikke erstatte filen.";
+
+/* Informative text in an alert which tells the you user that replacing the file failed */
+"AlertInformativeText: Replace failed" = "Det oppsto en feil under erstatning av filen.";
+
+/* string for display of all data in statistic window */
+"All" = "Alle";
+
+/* Tooltip for ssl lock at top of the window */
+"All participants of this document are connected using secure connections" = "Alle deltakere i dette dokumentet er tilkoblet med sikre tilkoblinger";
+
+/* all tabs Dock Menu Item */
+"All Tabs" = "Alle faner";
+
+/* Menu/Toolbar Title for advertising the Document */
+"Advertise" = "Kunngjør";
+
+/* Menu/Toolbar Title for advertising all Documents */
+"Advertise All" = "Kunngjør alle";
+
+/* No comment provided by engineer. */
+"Advertise/Conceal" = "Kunngjør/skjul";
+
+/* No comment provided by engineer. */
+"Advertise/Conceal Document" = "Kunngjør/skjul dokument";
+
+/* Location: Application */
+"Application" = "Innebygd";
+
+/* No comment provided by engineer. */
+"Are you sure you want to merge all windows?" = "Er du sikker på at du vil slå sammen alle vinduer?";
+
+/* Encoding popup entry indicating automatic choice of encoding */
+"Automatic" = "Automatisk";
+
+/* Foo */
+"Automatic Mode" = "Automatisk modus";
+
+/* Awaiting Response */
+"AwaitingResponse" = "Venter på svar";
+
+/* Name of base style appearing in Style Preferences */
+"BaseStyleName" = "Generisk forgrunn";
+
+/* AIM user entry for Browser context menu */
+"BrowserContextMenuAIM" = "Åpne chat";
+
+/* Cancel connetion entry for Browser context menu */
+"BrowserContextMenuCancelConnection" = "Avbryt";
+
+/* Email user entry for Browser context menu */
+"BrowserContextMenuEmail" = "Send e-post";
+
+/* Log In entry for Browser context Peer Exchange */
+"BrowserContextMenuFriendcast" = "Aktiver Friendcast";
+
+/* Join document entry for Browser context menu */
+"BrowserContextMenuJoin" = "Bli med";
+
+/* Log In entry for Browser context menu */
+"BrowserContextMenuLogIn" = "Logg inn";
+
+/* Manage files entry for Browser context menu */
+"BrowserContextMenuManageFiles" = "Behandle filer";
+
+/* Reconnect entry for Browser context menu */
+"BrowserContextMenuReconnect" = "Koble til igjen";
+
+/* Show document entry for Browser context menu */
+"BrowserContextMenuShowDocument" = "Vis";
+
+/* Button choice allowing user to cancel. */
+"Cancel" = "Avbryt";
+
+/* Syntax XML Color Error Informative Text */
+"Cannot parse color '%@' in %@ mode" = "Kan ikke tolke fargen '%1$@' i modus %2$@";
+
+/* As shown in bottom status bar */
+"CharacterWrap" = "c";
+
+/* Server Closed Document title in Sheet */
+"Closed" = "Lukket";
+
+/* Server Closed Document info in Sheet */
+"ClosedInfo" = "Dokumentet ble lukket av eieren. Videre endringer du gjør, blir ikke brukt på eierens dokument.";
+
+/* Collapse Split View Menu Entry */
+"Collapse Split View" = "Slå sammen delt visning";
+
+/* Blue */
+"ColorBlue" = "Blå";
+
+/* Custom Color Name */
+"ColorCustom" = "Tilpasset…";
+
+/* Green */
+"ColorGreen" = "Grønn";
+
+/* Orange */
+"ColorOrange" = "Oransje";
+
+/* Pink */
+"ColorPink" = "Rosa";
+
+/* Purple */
+"ColorPurple" = "Lilla";
+
+/* Red */
+"ColorRed" = "Rød";
+
+/* Teal */
+"ColorTeal" = "Blågrønn";
+
+/* Yellow */
+"ColorYellow" = "Gul";
+
+/* Menu/Toolbar Title for concealing the Document */
+"Conceal" = "Skjul";
+
+/* Menu/Toolbar Title for concealing all Documents */
+"Conceal All" = "Skjul alle";
+
+/* No comment provided by engineer. */
+"Connections" = "Tilkoblinger";
+
+/* Title for Contributors in Export and Print */
+"Contributors" = "Bidragsytere";
+
+/* No comment provided by engineer. */
+"Convert" = "Konverter";
+
+/* No comment provided by engineer. */
+"Convert to %@" = "Konverter til %@";
+
+/* No comment provided by engineer. */
+"ConvertOrReinterpret" = "Vil du konvertere filen til den nye kodingen eller tolke den på nytt med den nye kodingen?";
+
+/* Encoding popup entry for bringing up the Customize Encodings List panel (this also occurs as the title of the panel itself, they should have the same localization) */
+"Customize Encodings List..." = "Tilpass kodingsliste…";
+
+/* Declined Invitation */
+"DeclinedInvitation" = "Avslått invitasjon";
+
+/* legend entry for deletions in statistsics hud */
+"deletions" = "Slettinger";
+
+/* Choice (on a button) given to user which allows him/her to quit the application even though there are unsaved documents. */
+"Discard Changes" = "Forkast endringer";
+
+/* Text for document URL field when not advertised */
+"Document not advertised.\nNo Document URL." = "Dokumentet er ikke kunngjort.\nIngen dokument-URL.";
+
+/* No comment provided by engineer. */
+"Don't Revert Document" = "Ikke tilbakestill";
+
+/* No comment provided by engineer. */
+"Edit anyway" = "Rediger likevel";
+
+/* Label displayed below edit icon and used as window title. */
+"EditPrefsIconLabel" = "Redigering";
+
+/* No comment provided by engineer. */
+"Encoding %@ not reinterpretable" = "Filen kan ikke tolkes på nytt med kodingen %@.";
+
+/* No comment provided by engineer. */
+"Error" = "Feil";
+
+/* Syntax XML Loading Error Informative Text */
+"Error while loading '%@': %@" = "Feil ved lasting av '%@': %@";
+
+/* Syntax XML No Default State Error Informative Text */
+"Error while loading '%@': File has no default state defined" = "Feil ved lasting av '%@': Filen har ingen standardtilstand definert";
+
+/* LoginSheet text for Error: %@ */
+"Error: %@" = "Feil: %@";
+
+/* Text on the active SavePanel Button in the export sheet */
+"ExportPrompt" = "Eksporter";
+
+/* No comment provided by engineer. */
+"File Encoding" = "Filkoding";
+
+/* No comment provided by engineer. */
+"File is read-only" = "Filen er skrivebeskyttet";
+
+/* No comment provided by engineer. */
+"File operation error: %@ with file: %@" = "Filoperasjonsfeil: %@ med filen: %@";
+
+/* FindRegexPrefix */
+"Find: %@" = "Søk: %@";
+
+/* Status bar text when following */
+"Following %@" = "Følger %@";
+
+/* Friendcast Connection ToolTip */
+"Friendcast Connection" = "Tilkobling via '%@'";
+
+/* Label displayed below general icon and used as window title. */
+"GeneralPrefsIconLabel" = "Generelt";
+
+/* No comment provided by engineer. */
+"Goto Next Change" = "Gå til neste endring";
+
+/* No comment provided by engineer. */
+"Goto Next Symbol" = "Gå til neste symbol";
+
+/* No comment provided by engineer. */
+"Goto Previous Change" = "Gå til forrige endring";
+
+/* No comment provided by engineer. */
+"Goto Previous Symbol" = "Gå til forrige symbol";
+
+/* No comment provided by engineer. */
+"Hide Changes" = "Skjul endringer";
+
+/* No comment provided by engineer. */
+"Hide Invisibles" = "Skjul usynlige tegn";
+
+/* No comment provided by engineer. */
+"Hide Participants" = "Skjul deltakere";
+
+/* Cancelled */
+"HostEntryStatusCancelled" = "Avbrutt";
+
+/* Cancelling */
+"HostEntryStatusCancelling" = "Avbryter";
+
+/* Could not contact */
+"HostEntryStatusContactFailed" = "Kunne ikke kontakte";
+
+/* Contacting */
+"HostEntryStatusContacting" = "Kontakter";
+
+/* Could not resolve */
+"HostEntryStatusResolveFailed" = "Kunne ikke slå opp";
+
+/* Resolving */
+"HostEntryStatusResolving" = "Slår opp";
+
+/* Connection Lost */
+"HostEntryStatusSessionAtEnd" = "Mistet tilkobling";
+
+/* Invisible */
+"HostEntryStatusSessionInvisible" = "Usynlig";
+
+/* Connected */
+"HostEntryStatusSessionOpen" = "Tilkoblet";
+
+/* HTML Color Error Title */
+"HTML Color Error" = "HTML-fargefeil";
+
+/* Warning in the alert panel which comes up when user chooses Quit and there are unsaved documents. */
+"If you don\\U2019t review your documents, all your changes will be lost." = "Hvis du ikke gjennomgår dokumentene dine, går alle endringene tapt.";
+
+/* No comment provided by engineer. */
+"If you revert the document to the version on disk the document's content will be replaced with the content of the file." = "Hvis du tilbakestiller dokumentet til versjonen på disken, erstattes dokumentets innhold med innholdet i filen.";
+
+/* No comment provided by engineer. */
+"If you revert the file to the version on disk the changes you made in SubEthaEdit will be lost." = "Hvis du tilbakestiller dokumentet til versjonen på disken, går endringene du gjorde i SubEthaEdit tapt.";
+
+/* Button choice allowing user to import */
+"Import" = "Importer";
+
+/* Inbound Connection ToolTip */
+"Inbound Connection" = "Innkommende tilkobling";
+
+/* Inbound Connection ToolTip With Address */
+"Inbound Connection from %@" = "Innkommende tilkobling fra %@";
+
+/* Inbound Friendcast Connection ToolTip */
+"Inbound Friendcast Connection" = "Innkommende tilkobling via '%@'";
+
+/* No comment provided by engineer. */
+"Insert" = "Sett inn";
+
+/* legend entry for insertions in statistsics hud */
+"insertions" = "Innsettinger";
+
+/* Title of Clear Button in InternetBrowser */
+"InternetClear" = "Tøm";
+
+/* InvalidRegex */
+"Invalid regex" = "Ugyldig regex";
+
+/* Status string in vibilitypulldown in Browsers for invisible */
+"Invisible" = "Usynlig";
+
+/* No comment provided by engineer. */
+"Keep Changes" = "Behold endringer";
+
+/* Button title */
+"Keep Connection" = "Behold tilkoblinger";
+
+/* No comment provided by engineer. */
+"Keep Line Endings" = "Behold linjeslutt";
+
+/* Kick title in Sheet */
+"Kicked" = "Du har blitt kastet ut";
+
+/* Kick info in Sheet */
+"KickedInfo" = "Eieren av dette dokumentet nektet deg å delta. Videre endringer du gjør, blir ikke brukt på eierens dokument.";
+
+/* Label for centimeters in Print Options */
+"LabelCentimeters" = "cm";
+
+/* Label for inches in Print Options */
+"LabelInches" = "in";
+
+/* String appearing in the statistics window below the name, last time of actifity is inserted */
+"Last activity: %@" = "Siste aktivitet: %@";
+
+/* LoginSheet text for logging in... */
+"Logging in ..." = "Logger inn…";
+
+/* No comment provided by engineer. */
+"Lossy" = "Med tap";
+
+/* LostConnection title in Sheet */
+"LostConnection" = "Mistet tilkobling";
+
+/* LostConnection info in Sheet */
+"LostConnectionInfo" = "Tilkoblingen til dette dokumentet ble uventet mistet. Videre endringer du gjør, blir ikke brukt på eierens dokument.";
+
+/* No comment provided by engineer. */
+"me" = "meg";
+
+/* End Blockedit in edit Menu */
+"MenuBlockeditEnd" = "Avslutt blokkredigering";
+
+/* Blockedit Selection in edit Menu */
+"MenuBlockeditSelection" = "Blokkrediger utvalg";
+
+/* No comment provided by engineer. */
+"Merge" = "Slå sammen";
+
+/* No comment provided by engineer. */
+"Merging windows moves all open tabs and windows into a single, tabbed editor window. This cannot be undone." = "Sammenslåing av vinduer flytter alle åpne faner og vinduer til ett enkelt fanevindu. Dette kan ikke angres.";
+
+/* Location: Network Library */
+"Network Library" = "Nettverksbibliotek";
+
+/* New File Dock Menu Item */
+"New File" = "Ny fil";
+
+/* No comment provided by engineer. */
+"Next Change" = "Neste endring";
+
+/* No comment provided by engineer. */
+"Next Symbol" = "Neste symbol";
+
+/* Find string not found in selection */
+"Not found in selection." = "Ikke funnet i utvalget.";
+
+/* Find string not found */
+"Not found." = "Ikke funnet.";
+
+/* Symbol Regular Expression Error Informative Text */
+"One of the specified <block> elements is not a valid regular expression. Therefore the combined start regex \"%@\" could not be compiled. Please check your regular expression in Find Panel's Ruby mode." = "Ett av de angitte <block>-elementene er ikke et gyldig regulært uttrykk. Derfor kunne ikke det kombinerte start-uttrykket “%@” kompileres. Kontroller det regulære uttrykket ditt i søkepanelets Ruby-modus.";
+
+/* Mode Settings Expression Error Informative Text */
+"One of the specified <regex> elements in the mode's settings is not a valid regular expression. ModeSettings.xml will be ignored, falling back to Info.plist. Please check your regular expression in Find Panel's Ruby mode." = "Ett av de angitte <regex>-elementene i modusens innstillinger er ikke et gyldig regulært uttrykk. ModeSettings.xml ignoreres, og Info.plist brukes i stedet. Kontroller det regulære uttrykket ditt i søkepanelets Ruby-modus.";
+
+/* Syntax Regular Expression Error Informative Text */
+"One of the specified state <begin>'s is not a valid regular expression. Therefore the Combined Delimiter Regex \"%@\" could not be compiled. Please check your regular expression in Find Panel's Ruby mode." = "En av de angitte <begin>-taggene er ikke et gyldig regulært uttrykk. Derfor kunne ikke det kombinerte skilletegn-uttrykket \"%@\" kompileres. Kontroller det regulære uttrykket ditt i søkepanelets Ruby-modus.";
+
+/* No comment provided by engineer. */
+"Open Connections Browser" = "Åpne tilkoblingsleser";
+
+/* Open File Dock Menu Item */
+"Open File..." = "Åpne fil…";
+
+/* Button choice allowing user open a file in the editor. */
+"Open in Editor" = "Åpne i redigering";
+
+/* Menu Entry for opening files in the front window. */
+"Open in Front Window..." = "Åpne i fremste vindu…";
+
+/* Menu Entry for opening files in a new window. */
+"Open in New Window..." = "Åpne i nytt vindu…";
+
+/* Web preview open link in browser contextual menu item */
+"Open Link in Browser" = "Åpne lenke i nettleser";
+
+/* Open Script Folder MenuItem in Script Menu */
+"Open Script Folder" = "Åpne skriptmappe";
+
+/* Menu item in alternate mode menu for opening the SubEthaEdit modes folder. */
+"Open SubEthaEdit Modes Folder" = "Åpne SubEthaEdit-modusmappe";
+
+/* Menu item in alternate mode menu for opening the user modes folder. */
+"Open User Modes Folder" = "Åpne mappe for brukermoduser";
+
+/* Sheet message text when user has open document connections */
+"OpenChannels" = "De valgte tilkoblingene kan brukes av flere deltakere. Vil du stoppe tilkoblingene?";
+
+/* No comment provided by engineer. */
+"Other applications may not be able to read the file if you don't convert all line endings to the same line ending." = "Andre programmer kan kanskje ikke lese filen hvis du ikke konverterer alle linjeslutt til samme linjeslutt.";
+
+/* Mode Precedence Overriden Tooltip */
+"Overriden by trigger in %@ mode" = "Overstyrt av utløser i modus %@";
+
+/* KickDeny user entry for Participant context menu */
+"ParticipantContextMenuDeny" = "Nekt";
+
+/* Follow user entry for Participant context menu */
+"ParticipantContextMenuFollow" = "Følg";
+
+/* KickDeny user entry for Participant context menu */
+"ParticipantContextMenuKick" = "Kast ut";
+
+/* KickDeny user entry for Participant context menu */
+"ParticipantContextMenuKickDeny" = "Kast ut/Nekt";
+
+/* ReadWrite user entry for Participant context menu */
+"ParticipantContextMenuReadOnly" = "Sett skrivebeskyttet";
+
+/* ReadWrite user entry for Participant context menu */
+"ParticipantContextMenuReadWrite" = "Oppgrader til les/skriv";
+
+/* Participants toolbar label */
+"Participants" = "Deltakere";
+
+/* Participants tool tip */
+"ParticipantsToolTip" = "Deltakere";
+
+/* No comment provided by engineer. */
+"Paste Converted" = "Lim inn konvertert";
+
+/* No comment provided by engineer. */
+"Paste Unchanged" = "Lim inn uendret";
+
+/* Description in Participants view for pending users */
+"pending users" = "Ventende brukere";
+
+/* iChat invitation String with Placeholder for actual URL */
+"Please join me in SubEthaEdit:\n%@\n\n(You can download SubEthaEdit from http://www.codingmonkeys.de/subethaedit )" = "Bli med meg i SubEthaEdit:\n%@\n\n(Du kan laste ned SubEthaEdit fra http://www.codingmonkeys.de/subethaedit )";
+
+/* Label displayed below advanced icon and used as window title. */
+"PrecedencePrefsIconLabel" = "Utløsere";
+
+/* Mode rules cannot be edited or removed. But you can disable them. */
+"PrecedencePrefsModeRuleTooltip" = "Utløsere levert av modusen kan ikke redigeres eller fjernes. Men du kan deaktivere dem.";
+
+/* No comment provided by engineer. */
+"Previous Change" = "Forrige endring";
+
+/* No comment provided by engineer. */
+"Previous Symbol" = "Forrige symbol";
+
+/* Date Information in Print Header */
+"PrintDate: %@" = "Dato: %@";
+
+/* Label for AIM in legend in Print and Export */
+"PrintExportLegendAIMLabel" = "aim:";
+
+/* Label for Email in legend in Print and Export */
+"PrintExportLegendEmailLabel" = "e-post:";
+
+/* Page Information in Print Header */
+"PrintPage %d of %d" = "Side %1$d av %2$d";
+
+/* ProblemLeave title in Sheet */
+"ProblemLeave" = "Du forlot dokumentet";
+
+/* ProblemLeaveInfo info in Sheet */
+"ProblemLeaveInfo" = "Du forlot fordi eieren av dette dokumentet sendte deg feilformaterte data. Andre dokumenter eller tilkoblinger påvirkes ikke.";
+
+/* No comment provided by engineer. */
+"Promote to Unicode" = "Oppgrader til UTF-16";
+
+/* No comment provided by engineer. */
+"Promote to UTF8" = "Oppgrader til UTF-8";
+
+/* No comment provided by engineer. */
+"Quit" = "Avslutt";
+
+/* Description in Participants view for Read Only access */
+"read only" = "Skrivebeskyttet";
+
+/* Description in Participants view for Read Write access */
+"read/write" = "Les/skriv";
+
+/* Encoding popup entry indicating mode choice of encoding */
+"Recommended by Mode" = "Anbefalt av modus";
+
+/* Regular Expression Error Title */
+"Regular Expression Error" = "Feil i regulært uttrykk";
+
+/* No comment provided by engineer. */
+"Reinterpret" = "Tolk på nytt";
+
+/* Reload Scripts MenuItem in Script Menu */
+"Reload Scripts" = "Last inn skript på nytt";
+
+/* No comment provided by engineer. */
+"Replace" = "Erstatt";
+
+/* Reveal in Finder - menu entry */
+"Reveal in Finder" = "Vis i Finder";
+
+/* No comment provided by engineer. */
+"Revert" = "Tilbakestill";
+
+/* No comment provided by engineer. */
+"Revert Document" = "Tilbakestill";
+
+/* Choice (on a button) given to user which allows him/her to review all unsaved documents if he/she quits the application without saving them all first. */
+"Review Changes\\U2026" = "Gjennomgå endringer…";
+
+/* No comment provided by engineer. */
+"Save" = "Lagre";
+
+/* Informative text in a save dialog, because of permissions issues the user has the choice to save using administrator permissions or replace the file */
+"SaveDialogInformativeText: Save or Replace" = "Du trenger administratorrettigheter for å lagre dokumentet. Du har imidlertid rettigheter til å erstatte filen.";
+
+/* Scripts entry for contextual menu */
+"Scripts" = "Skript";
+
+/* Informative Text of Style load did fail alert sheet */
+"SeeStyleImportDidFailInformative" = "Feilformatert .seestyle-fil";
+
+/* Message Text of Style load did fail alert sheet */
+"SeeStyleImportDidFailMessage" = "Kunne ikke importere stil";
+
+/* Informative Text of Style load alert sheet */
+"SeeStyleImportInformative %@" = "Importen inneholder stiler for følgende moduser:\n%@";
+
+/* Message Text of Style load alert sheet */
+"SeeStyleImportMessage" = "Vil du importere stilen eller åpne den i et redigeringsvindu?";
+
+/* legend entry for selections in statistsics hud */
+"selections" = "Merkinger";
+
+/* No comment provided by engineer. */
+"Shift Left" = "Flytt venstre";
+
+/* No comment provided by engineer. */
+"Shift Right" = "Flytt høyre";
+
+/* No comment provided by engineer. */
+"Shift Selection Left" = "Flytt utvalg til venstre";
+
+/* No comment provided by engineer. */
+"Shift Selection Right" = "Flytt utvalg til høyre";
+
+/* No comment provided by engineer. */
+"Show Changes" = "Vis endringer";
+
+/* No comment provided by engineer. */
+"Show Invisibles" = "Vis usynlige tegn";
+
+/* No comment provided by engineer. */
+"Show Participants" = "Vis deltakere";
+
+/* Bottom status bar text for use Spaces (instead of Tab) setting */
+"Spaces" = "Mellomrom";
+
+/* Split View Menu Entry */
+"Split View" = "Delt visning";
+
+/* Syntax State Malformed Begin Error Informative Text */
+"State '%@' in %@ mode has a begin tag that is not a valid regex" = "Tilstanden '%@' i modus %@ har en starttagg som ikke er et gyldig regulært uttrykk";
+
+/* Syntax State No Begin Error Informative Text */
+"State '%@' in %@ mode has no begin tag" = "Tilstanden '%@' i modus %@ har ingen starttagg";
+
+/* Syntax State No End Error Informative Text */
+"State '%@' in %@ mode has no end tag" = "Tilstanden '%@' i modus %@ har ingen sluttagg";
+
+/* Label displayed below tyle pref icon and used as window title. */
+"StylePrefsIconLabel" = "Stiler";
+
+/* Label displayed below tyle pref icon and used as window title. */
+"StyleSheetPrefsIconLabel" = "Stilark";
+
+/* BigFile Message Text */
+"Syntax Highlighting and Wrap Lines have been turned off due to the size of the Document." = "Syntaksutheving og linjebryting er slått av på grunn av dokumentets størrelse.";
+
+/* Location: System Library */
+"System Library" = "Systembibliotek";
+
+/* Syntax XML Group Error Informative Text */
+"The <begin> tag of <state> \"%@\" contains a regex that has captured groups. This is currently not allowed. Please escape all groups to be not-captured with (?:)." = "<begin>-taggen i <state> “%@” inneholder et regulært uttrykk med fangstgrupper. Dette er foreløpig ikke tillatt. Escape alle grupper til ikke-fangende med (?:).";
+
+/* No comment provided by engineer. */
+"The document can not be saved with the name \"%@\" because a folder with the same name already exists." = "Dokumentet kan ikke lagres med navnet “%@” fordi en mappe med samme navn allerede finnes.";
+
+/* No comment provided by engineer. */
+"The document's file has been modified by another application. Do you want to revert the document?" = "Dokumentets fil er endret av et annet program. Vil du tilbakestille dokumentet?";
+
+/* No comment provided by engineer. */
+"The file has been modified by another application. Do you want to keep the changes made in SubEthaEdit?" = "Dokumentets fil er endret av et annet program. Vil du beholde endringene som er gjort i SubEthaEdit?";
+
+/* No comment provided by engineer. */
+"The file has mixed line endings. Do you want to convert all line endings to %@, the most common line ending in the file?" = "Filen har blandede linjeslutt. Vil du konvertere alle linjeslutt til %@, det vanligste linjeslutt i filen?";
+
+/* No comment provided by engineer. */
+"The file will have mixed line endings if you do not paste converted text." = "Filen får blandede linjeslutt hvis du ikke limer inn konvertert tekst.";
+
+/* Message text in modal dialog in advanced prefs */
+"The installation of the see command line tool failed." = "Installasjonen av kommandolinjeverktøyet see mislyktes.";
+
+/* Message text in modal dialog in advanced prefs */
+"The see command line tool couldn't be removed." = "Kommandolinjeverktøyet see kunne ikke fjernes.";
+
+/* Message text in modal dialog in advanced prefs */
+"The see command line tool has been installed." = "Kommandolinjeverktøyet see er installert.";
+
+/* Message text in modal dialog in advanced prefs */
+"The see command line tool has been removed." = "Kommandolinjeverktøyet see er fjernet.";
+
+/* No comment provided by engineer. */
+"Toggle Change Marks" = "Vis/skjul endringsmerker";
+
+/* No comment provided by engineer. */
+"Toggle Changes" = "Veksle endringer";
+
+/* No comment provided by engineer. */
+"Toggle Invisible Characters" = "Vis/skjul usynlige tegn";
+
+/* No comment provided by engineer. */
+"Toggle Invisibles" = "Vis/skjul usynlige tegn";
+
+/* Bottom status bar text for TrueTab setting */
+"TrueTab" = "Faner";
+
+/* No comment provided by engineer. */
+"Try choosing a different name for the document." = "Prøv å velge et annet navn for dokumentet.";
+
+/* BigFile Informative Text */
+"Turning on syntax highlighting for very large documents is not recommended." = "Det anbefales ikke å slå på syntaksutheving for svært store dokumenter.";
+
+/* Location: User Library */
+"User Library" = "Brukerbibliotek";
+
+/* Marketing version followed by build version e.g. Version 2.0 (739) */
+"Version %@ (%@)" = "Versjon %1$@ (%2$@)";
+
+/* Status string in vibilitypulldown in Browsers for visible */
+"Visible" = "Synlig";
+
+/* Title for Visitors in Export and Print */
+"Visitors" = "Besøkende";
+
+/* No comment provided by engineer. */
+"Warning" = "Advarsel";
+
+/* As shown in bottom status bar */
+"WordWrap" = "w";
+
+/* No comment provided by engineer. */
+"Written by %@" = "Skrevet av %@";
+
+/* No comment provided by engineer. */
+"Written by %@ et al" = "Skrevet av %@ m.fl.";
+
+/* XML Color Error Title */
+"XML Color Error" = "XML-fargefeil";
+
+/* XML Group Error Title */
+"XML Group Error" = "XML-gruppefeil";
+
+/* XML Regex Error Title */
+"XML Regex Error" = "XML-regexfeil";
+
+/* XML Structure Error Title */
+"XML Structure Error" = "XML-strukturfeil";
+
+/* No comment provided by engineer. */
+"You are no longer restricted by the file's current encoding if you promote to a Unicode encoding." = "Hvis du oppgraderer dokumentet til en Unicode-koding, kan du sette inn tegnene uten å miste informasjon.";
+
+/* No comment provided by engineer. */
+"You are pasting text that does not match the file's current line endings. Do you want to paste the text with converted line endings?" = "Du limer inn tekst som ikke samsvarer med filens nåværende linjeslutt. Vil du lime inn teksten med konverterte linjeslutt?";
+
+/* No comment provided by engineer. */
+"You are trying to insert characters that cannot be handled by the file's current encoding. Do you want to cancel the change?" = "Du prøver å sette inn tegn som ikke kan håndteres av filens nåværende koding uten å miste informasjon. Vil du sette inn tegnene likevel?";
+
+/* Informative text in modal dialog in advanced prefs */
+"You can find the see command line tool at:\n \"%@\"." = "Du finner kommandolinjeverktøyet see her:\n “%@”.";
+
+/* No comment provided by engineer. */
+"You have %d documents in this window with unsaved changes. Do you want to review these changes?" = "Du har %d dokumenter i dette vinduet med ulagrede endringer. Vil du gjennomgå endringene?";
+
+/* Status string showing the number of documents The browser when there are multiple documents advertised */
+"%d Documents" = "%d dokumenter";
+
+/* Status string showing the number of documents when one is advertised */
+"1 Document" = "1 dokument";
+
+/* Status of port mapping while trying */
+"Checking port status..." = "Sjekker portstatus…";
+
+"PORT_NETWORKING_DISABLED" = "Lukket";
+
+/* Drag target string in Participants Drawer */
+"Drag your\nFriends\nfrom the\niChat Buddy List\nor\nConnection Browser\nto a category\nor the text\nto invite them." = "Dra\nvennene dine\nfra\niChat-vennelisten\neller\ntilkoblingsleseren\ntil en kategori\neller teksten\nfor å invitere dem.";
+
+/* Drag target string in Connection Browser */
+"Drag your\niChat Buddies here\nto invite them." = "Dra\niChat-vennene dine hit\nfor å invitere dem.";
+
+/* User name for invisible users in Connection Browser */
+"Invisible User" = "Usynlig bruker";
+
+/* Connection Browser Display when not reachable */
+"No public mapping." = "Ingen offentlig tilordning.";
+
+/* Status string showing the number of documents when none are advertised */
+"None advertised" = "Ingen kunngjort";
+
+/* Text for document URL field when not your document */
+"Not your Document.\nNo Document URL." = "Ikke ditt dokument.\nIngen dokument-URL.";
+
+/* Status of Port mapping when successful */
+"Port mapped (%d)" = "Port tilordnet (%d)";
+
+/* Status of Port mapping when unsuccessful or intentionally unmapped */
+"Port not mapped" = "Port ikke tilordnet";
+
+/* Connection browser subtitle for friendcasting connections */
+"Friend of a Friend" = "Venn av en venn";
+
+/* Connection browser subtitle for internet connections */
+"Internet connection" = "Internett-tilkobling";
+
+/* Fold at top level menu entry label */
+"Fold All Level %d Blocks" = "Fold alle blokker på nivå %d";
+
+/* "Trigger not a regular expression Title" */
+"Trigger not a regular expression" = "Utløseren er ikke et regulært uttrykk";
+
+/* Trigger not a regular expression Informative Text */
+"The trigger '%@' of the mode '%@' is not a valid regular expression and was ignored." = "Utløseren '%@' i modus '%@' er ikke et gyldig regulært uttrykk og ble ignorert.";
+
+/* Mode requires newer engine title */
+"Mode not compatible" = "Modusen er ikke kompatibel";
+
+/* Mode requires newer engine Informative Text */
+"The mode '%@' was written for a newer version of SubEthaEngine and cannot be used with this application." = "Modusen '%@' ble skrevet for en nyere versjon av SubEthaEngine og kan ikke brukes med dette programmet.";
+
+/* Invitation format string used in sharing service picker. %@ will be replaced with the user name. */
+"Invite %@" = "Inviter %@";
+
+/* Advertise document string used in sharing service picker. */
+"Advertise Document" = "Kunngjør dokument";
+
+"FIND_REPLACE_PANEL_SCOPE_DOCUMENT" = "Dokument";
+
+"FIND_REPLACE_PANEL_MENU_CLEAR_SCOPE" = "Tøm område %@";
+
+"FIND_REPLACE_PANEL_MENU_ADD_TO_SCOPE" = "Legg gjeldende utvalg til område";
+
+"FIND_REPLACE_PANEL_MENU_IGNORE_CASE" = "Ignorer store/små";
+
+"FIND_REPLACE_PANEL_MENU_WRAP" = "Begynn forfra";
+
+"FIND_REPLACE_PANEL_MENU_HISTORY_SUBMENU_TITLE" = "Nylige søk";
+
+"FIND_REPLACE_PANEL_MENU_USE_REGEX" = "Bruk regulære uttrykk";
+
+"FIND_REPLACE_PANEL_MENU_REGEX_DIALECT" = "Dialekt for regulære uttrykk:";
+
+"FIND_REPLACE_PANEL_MENU_EXTENDED" = "Utvidet";
+
+"FIND_REPLACE_PANEL_MENU_ESCAPE_SLASH" = "Escape-tegn: \\";
+
+"FIND_REPLACE_PANEL_MENU_ESCAPE_YEN" = "Escape-tegn: ¥";
+
+"FIND_REPLACE_PANEL_MENU_CAPTURE_GROUPS" = "Fang opp navnløse grupper";
+
+"FIND_REPLACE_PANEL_MENU_LINE_CONTEXT" = "'^' → '\\A', '$' → '\\Z'";
+
+"FIND_REPLACE_PANEL_MENU_MULTILINE" = "'.' samsvarer med linjeskift";
+
+"FIND_REPLACE_PANEL_MENU_ONLY_LONGEST" = "Finn bare lengste treff";
+
+"FIND_REPLACE_PANEL_MENU_IGNORE_EMPTY" = "Ignorer tomme treff";
+
+"FIND_REPLACE_PANEL_MENU_OPEN_HELP" = "Åpne hjelp for regulære uttrykk";
+
+"FIND_REPLACE_PANEL_MENU_REMEMBER_RECENTS" = "Husk nylige søk";
+
+"FIND_REPLACE_PANEL_MENU_CLEAR_RECENTS" = "Tøm nylige søk";
+
+/* search and replace errors */
+"FIND_REPLACE_ERROR_INVALID_FIND_STRING" = "Ugyldig søkestreng";
+
+"FIND_REPLACE_REPLACE_ALL_IN_PROGRESS" = "Erstatter alle…";
+
+"FIND_REPLACE_REPLACE_ALL_IN_PROGRESS_COUNT" = "Erstatter alle… (%@ erstattet)";
+
+/* encoding doctor */
+"ENCODING_DOCTOR_HEADLINE" = "Uthevede tegn kan ikke representeres i kodingen %@.";
+
+"ENCODING_DOCTOR_TABLEHEADING_LINE" = "Linje";
+
+"ENCODING_DOCTOR_TABLEHEADING_ERROR" = "Feil";
+
+"ENCODING_DOCTOR_CANCEL" = "Avbryt";
+
+"ENCODING_DOCTOR_CONVERT_LOSSY" = "Konverter med tap";
+
+"ENCODING_DOCTOR_CONVERT" = "Konverter";
+
+/* will cease invisibilty alert */
+"ANNOUNCE_WILL_MAKE_VISIBLE_MESSAGE" = "Kunngjøring gjør deg synlig";
+
+"ANNOUNCE_WILL_MAKE_VISIBLE_INFORMATIVE_TEXT" = "Du er for øyeblikket usynlig for andre SubEthaEdit-brukere. Hvis du kunngjør dette dokumentet, blir du synlig for dem.";
+
+"ANNOUNCE_WILL_MAKE_VISIBLE_ACTION_TITLE" = "Kunngjør";
+
+/* document list */
+"DOCUMENT_LIST_WINDOW_TITLE" = "%@ - Dokumentnav";
+
+"DOCUMENT_LIST_OPEN" = "Åpne…";
+
+"DOCUMENT_LIST_NEW" = "Ny";
+
+"DOCUMENT_LIST_CONNECT" = "Koble til vert…";
+
+"DOCUMENT_LIST_RECENT_TOGGLE" = "Nylige dokumenter";
+
+"DOCUMENT_LIST_MORE" = "Vis mer…";
+
+"DOCUMENT_LIST_CONTEXT_MENU_OPEN" = "Åpne";
+
+"DOCUMENT_LIST_CONTEXT_MENU_SHOW_IN_FINDER" = "Vis i Finder";
+
+"DOCUMENT_LIST_CONTEXT_MENU_COPY_URL" = "Kopier tilkoblings-URL";
+
+"DOCUMENT_LIST_CONTEXT_MENU_DISCONNECT" = "Koble fra";
+
+"DOCUMENT_LIST_CONTEXT_MENU_CLEAR_RECENT" = "Tøm nylige dokumenter";
+
+/* participant overlay */
+"KICK_PENDING_USER_BUTTON_TITLE" = "Nekt";
+
+"READ_ONLY_PENDING_USER_BUTTON_TITLE" = "Skrivebeskyttet";
+
+"READ_WRITE_PENDING_USER_BUTTON_TITLE" = "Les og skriv";
+
+"PENDING_USER_ALERT_POPUP_TITLE" = "Ny deltaker";
+
+"PENDING_USER_ALERT_POPUP_DESCRIPTION" = "%@ vil bli med i dette dokumentet.";
+
+/* authentication script not installed error dialog */
+"AUTHENTICATION_SCRIPT_MISSING_ERROR_DESCRIPTION" = "Finner ikke skript for autentiseringshjelp.";
+
+"AUTHENTICATION_SCRIPT_MISSING_ERROR_SUGGESTION" = "Kjør skriptet install.sh i Terminal som beskrevet i Avanserte innstillinger for å installere det.";
+
+"AUTHENTICATION_SCRIPT_MISSING_ERROR_BUTTON_TITLE1" = "Vis skript…";
+
+"AUTHENTICATION_SCRIPT_MISSING_ERROR_BUTTON_TITLE2" = "Ignorer";
+
+"SEEConnectionTaglineBonjour" = "Bonjour";
+
+"SEEConnectionTaglineInvisible" = "Usynlig";
+
+"SEEConnectionTaglineNetworkingDisabled" = "Nettverk deaktivert";
+
+"SEEConnectionTaglineFriendcast" = "via '%@'";
+
+"MODE_IN_NEW_TAB_CONTEXT_MENU_TEXT" = "%@ i fane";
+
+"MODE_IN_NEW_WINDOW_CONTEXT_MENU_TEXT" = "%@ i vindu";
+
+/* Mode Install */
+"MODE_INSTALL_TITLE_TEXT" = "Vil du installere modusen \"%@\"?";
+
+"MODE_INSTALL_INFO_STRING_BASE" = "Modusen \"%@\" er allerede installert.";
+
+"MODE_INSTALL_INFO_STRING_OVERRIDE" = "Du overstyrer den installerte modusen.";
+
+"MODE_INSTALL_INFO_STRING_REPLACE" = "Du erstatter den installerte modusen.";
+
+"MODE_INSTALL_ALERT_SUCCESS" = "Modusen \"%@\" er installert.";
+
+"MODE_INSTALL_ALERT_FAIL" = "Installasjonen av modusen \"%@\" mislyktes.";
+
+"MODE_INSTALL_OK_BUTTON" = "Installer";
+
+"MODE_INSTALL_SHOW_CONTENT_BUTTON" = "Vis pakkeinnhold";
+
+/* Mode Update Alert */
+"MODE_UPDATE_INFO_INTRO" = "Denne versjonen av SubEthaEdit kommer med nyere versjoner av følgende brukerinstallerte moduser: \n\n";
+
+"MODE_UPDATE_MODE_STRING" = "* Modus for %@ v%@ (for øyeblikket v%@)";
+
+"MODE_UPDATE_INFO_TEXT" = "\n\nÅ bruke de oppdaterte versjonene fjerner egendefinerte endringer du måtte ha gjort i modusene dine.\n\nHvis du bare vil bruke bestemte nye moduser, velg 'Vis i Finder', slett modusene uten endringer og last inn modusene på nytt fra modusmenyen i SubEthaEdit.";
+
+"MODE_UPDATE_MESSAGE" = "Nyere moduser tilgjengelig";
+
+"MODE_UPDATE_OK_BUTTON" = "Bruk oppdaterte moduser";
+
+"MODE_UPDATE_REVEAL_IN_FINDER" = "Vis utdaterte moduser";
+
+"INFO_NUMBER_OF_WORDS_TOO_MANY" = "Utallige ord";
+
+"FIRST_USE_INVITE_HELP_TEXT" = "Klikk for å invitere andre brukere til å samarbeide live i dette dokumentet.";
+
+"FIRST_USE_ANNOUNCE_HELP_TEXT" = "Klikk for å kunngjøre dette dokumentet til nettverket.\nHøyreklikk for også å angi innledende tilgangsrettigheter for innkommende brukere.";
+
+/* Proxy window */
+"PROXY_WINDOW_ACCEPT" = "Godta";
+
+"PROXY_WINDOW_DECLINE" = "Avslå";
+
+"PROXY_WINDOW_TITLE_INVITE" = "Invitasjon til %@";
+
+"PROXY_WINDOW_TITLE_JOIN" = "Blir med i %@";
+
+"PROXY_WINDOW_STATUS_WAIT_ANSWER" = "Venter på svar…";
+
+"PROXY_WINDOW_STATUS_DENIED" = "Forespørsel om å bli med ble avvist.";
+
+"PROXY_WINDOW_STATUS_INVITE_CANCELED" = "Invitasjonen ble avbrutt.";
+
+"PROXY_WINDOW_STATUS_CONNECTION_LOST" = "Mistet tilkobling.";

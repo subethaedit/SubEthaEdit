@@ -1,0 +1,984 @@
+/* App menu about */
+"SEE_APP_MENU_ABOUT" = "Tietoja: %@";
+
+/* App menu about */
+"SEE_APP_MENU_HIDE" = "Kätke %@";
+
+/* App menu about */
+"SEE_APP_MENU_QUIT" = "Lopeta %@";
+
+/* App menu check for updates */
+"SEE_APP_MENU_CHECK_FOR_UPDATES" = "Tarkista päivitykset…";
+
+/* FindRegexPrefix */
+"%@ - Find All" = "%@ - Etsi kaikki";
+
+/* word count string in statistics controller */
+"%@ lines, %@ words, %@ characters" = "%@ riviä, %@ sanaa, %@ merkkiä";
+
+/* Status string showing the number of documents in Rendezvous and Internet browser */
+"%d Document(s)" = "%d dokumentti(a)";
+
+/* Entries Found in FindAll Panel */
+"%d matches" = "%d osumaa";
+
+/* Pending Users Display in Menu Title Bar */
+"%d pending" = "%d odottaa";
+
+/* Number of replaced strings */
+"%ld replaced" = "%ld korvattu";
+
+/* No comment provided by engineer. */
+"&Redo" = "Tee uudelleen";
+
+/* No comment provided by engineer. */
+"&Redo %@" = "Tee uudelleen %@";
+
+/* No comment provided by engineer. */
+"&Undo" = "Kumoa";
+
+/* No comment provided by engineer. */
+"&Undo %@" = "Kumoa %@";
+
+/* Syntax XML Structure Error Informative Text */
+"<state> \"%@\" has no <begin>. This confuses me. Please check your syntax definition." = "<state> “%@” ei sisällä <begin>-osaa. Tämä hämmentää minua. Tarkista syntaksimäärittelysi.";
+
+/* No comment provided by engineer. */
+"[Blockediting]" = "[Lohkomuokkaus]";
+
+/* HTML Color Error Informative Text */
+"\"%@\" is not a valid HTML color. Please specify colors in your syntax defintion either as e.g. \"#fff\" or \"#ffffff\"" = "“%@” ei ole kelvollinen HTML-väri. Määritä värit syntaksimäärittelyssäsi esimerkiksi muodossa “#fff” tai “#ffffff”";
+
+/* Symbol Regular Expression Error Informative Text */
+"\"%@\" is not a valid regular expression. Please check your regular expression in Find Panel's Ruby mode." = "“%@” ei ole kelvollinen säännöllinen lauseke. Tarkista säännöllinen lausekkeesi hakupaneelin Ruby-tilassa.";
+
+/* Syntax Regular Expression Error Informative Text */
+"\"%@\" within state \"%@\" is not a valid regular expression. Please check your regular expression in Find Panel's Ruby mode." = "“%@” tilassa “%@” ei ole kelvollinen säännöllinen lauseke. Tarkista säännöllinen lausekkeesi hakupaneelin Ruby-tilassa.";
+
+/* Button title */
+"Abort" = "Pysäytä yhteydet";
+
+/* Sheet informative text when user has open document connections */
+"AbortChannels" = "Osallistujien yhteys katkaistaan, jos pysäytät nämä yhteydet.";
+
+/* Label displayed below advanced icon and used as window title. */
+"AdvancedPrefsIconLabel" = "Lisäasetukset";
+
+/* Informative text in an alert which tells the user that an error prevented the replace */
+"AlertInformativeText: Error occurred during replace" = "Tiedostoa ei voitu korvata.";
+
+/* Informative text in an alert which tells the you user that replacing the file failed */
+"AlertInformativeText: Replace failed" = "Tiedostoa korvattaessa tapahtui virhe.";
+
+/* string for display of all data in statistic window */
+"All" = "Kaikki";
+
+/* Tooltip for ssl lock at top of the window */
+"All participants of this document are connected using secure connections" = "Kaikki tämän dokumentin osallistujat on yhdistetty suojatuilla yhteyksillä";
+
+/* all tabs Dock Menu Item */
+"All Tabs" = "Kaikki välilehdet";
+
+/* Menu/Toolbar Title for advertising the Document */
+"Advertise" = "Mainosta";
+
+/* Menu/Toolbar Title for advertising all Documents */
+"Advertise All" = "Mainosta kaikkia";
+
+/* No comment provided by engineer. */
+"Advertise/Conceal" = "Mainosta/piilota";
+
+/* No comment provided by engineer. */
+"Advertise/Conceal Document" = "Mainosta/piilota dokumentti";
+
+/* Location: Application */
+"Application" = "Sisäänrakennettu";
+
+/* No comment provided by engineer. */
+"Are you sure you want to merge all windows?" = "Haluatko varmasti yhdistää kaikki ikkunat?";
+
+/* Encoding popup entry indicating automatic choice of encoding */
+"Automatic" = "Automaattinen";
+
+/* Foo */
+"Automatic Mode" = "Automaattinen tila";
+
+/* Awaiting Response */
+"AwaitingResponse" = "Odotetaan vastausta";
+
+/* Name of base style appearing in Style Preferences */
+"BaseStyleName" = "Yleinen edusta";
+
+/* AIM user entry for Browser context menu */
+"BrowserContextMenuAIM" = "Avaa keskustelu";
+
+/* Cancel connetion entry for Browser context menu */
+"BrowserContextMenuCancelConnection" = "Kumoa";
+
+/* Email user entry for Browser context menu */
+"BrowserContextMenuEmail" = "Lähetä sähköposti";
+
+/* Log In entry for Browser context Peer Exchange */
+"BrowserContextMenuFriendcast" = "Ota Friendcast käyttöön";
+
+/* Join document entry for Browser context menu */
+"BrowserContextMenuJoin" = "Liity";
+
+/* Log In entry for Browser context menu */
+"BrowserContextMenuLogIn" = "Kirjaudu";
+
+/* Manage files entry for Browser context menu */
+"BrowserContextMenuManageFiles" = "Hallitse tiedostoja";
+
+/* Reconnect entry for Browser context menu */
+"BrowserContextMenuReconnect" = "Yhdistä uudelleen";
+
+/* Show document entry for Browser context menu */
+"BrowserContextMenuShowDocument" = "Näytä";
+
+/* Button choice allowing user to cancel. */
+"Cancel" = "Kumoa";
+
+/* Syntax XML Color Error Informative Text */
+"Cannot parse color '%@' in %@ mode" = "Väriä '%1$@' ei voi jäsentää tilassa %2$@";
+
+/* As shown in bottom status bar */
+"CharacterWrap" = "c";
+
+/* Server Closed Document title in Sheet */
+"Closed" = "Suljettu";
+
+/* Server Closed Document info in Sheet */
+"ClosedInfo" = "Omistaja sulki dokumentin. Tekemiäsi lisämuutoksia ei sovelleta omistajan dokumenttiin.";
+
+/* Collapse Split View Menu Entry */
+"Collapse Split View" = "Kutista jaettu näkymä";
+
+/* Blue */
+"ColorBlue" = "Sininen";
+
+/* Custom Color Name */
+"ColorCustom" = "Mukautettu…";
+
+/* Green */
+"ColorGreen" = "Vihreä";
+
+/* Orange */
+"ColorOrange" = "Oranssi";
+
+/* Pink */
+"ColorPink" = "Vaaleanpunainen";
+
+/* Purple */
+"ColorPurple" = "Violetti";
+
+/* Red */
+"ColorRed" = "Punainen";
+
+/* Teal */
+"ColorTeal" = "Sinivihreä";
+
+/* Yellow */
+"ColorYellow" = "Keltainen";
+
+/* Menu/Toolbar Title for concealing the Document */
+"Conceal" = "Piilota";
+
+/* Menu/Toolbar Title for concealing all Documents */
+"Conceal All" = "Piilota kaikki";
+
+/* No comment provided by engineer. */
+"Connections" = "Yhteydet";
+
+/* Title for Contributors in Export and Print */
+"Contributors" = "Avustajat";
+
+/* No comment provided by engineer. */
+"Convert" = "Muunna";
+
+/* No comment provided by engineer. */
+"Convert to %@" = "Muunna muotoon %@";
+
+/* No comment provided by engineer. */
+"ConvertOrReinterpret" = "Haluatko muuntaa tiedoston uuteen merkistöön vai tulkita sen uudelleen uudella merkistöllä?";
+
+/* Encoding popup entry for bringing up the Customize Encodings List panel (this also occurs as the title of the panel itself, they should have the same localization) */
+"Customize Encodings List..." = "Mukauta merkistöluetteloa…";
+
+/* Declined Invitation */
+"DeclinedInvitation" = "Hylätty kutsu";
+
+/* legend entry for deletions in statistsics hud */
+"deletions" = "Poistot";
+
+/* Choice (on a button) given to user which allows him/her to quit the application even though there are unsaved documents. */
+"Discard Changes" = "Hylkää muutokset";
+
+/* Text for document URL field when not advertised */
+"Document not advertised.\nNo Document URL." = "Dokumenttia ei mainosteta.\nEi dokumentin URL-osoitetta.";
+
+/* No comment provided by engineer. */
+"Don't Revert Document" = "Älä palauta";
+
+/* No comment provided by engineer. */
+"Edit anyway" = "Muokkaa silti";
+
+/* Label displayed below edit icon and used as window title. */
+"EditPrefsIconLabel" = "Muokkaus";
+
+/* No comment provided by engineer. */
+"Encoding %@ not reinterpretable" = "Tiedostoa ei voi tulkita uudelleen merkistöllä %@.";
+
+/* No comment provided by engineer. */
+"Error" = "Virhe";
+
+/* Syntax XML Loading Error Informative Text */
+"Error while loading '%@': %@" = "Virhe ladattaessa '%@': %@";
+
+/* Syntax XML No Default State Error Informative Text */
+"Error while loading '%@': File has no default state defined" = "Virhe ladattaessa '%@': Tiedostolle ei ole määritetty oletustilaa";
+
+/* LoginSheet text for Error: %@ */
+"Error: %@" = "Virhe: %@";
+
+/* Text on the active SavePanel Button in the export sheet */
+"ExportPrompt" = "Vie";
+
+/* No comment provided by engineer. */
+"File Encoding" = "Tiedoston merkistö";
+
+/* No comment provided by engineer. */
+"File is read-only" = "Tiedosto on vain luku";
+
+/* No comment provided by engineer. */
+"File operation error: %@ with file: %@" = "Tiedosto-operaation virhe: %@ tiedostolla: %@";
+
+/* FindRegexPrefix */
+"Find: %@" = "Etsi: %@";
+
+/* Status bar text when following */
+"Following %@" = "Seurataan: %@";
+
+/* Friendcast Connection ToolTip */
+"Friendcast Connection" = "Yhteys: '%@'";
+
+/* Label displayed below general icon and used as window title. */
+"GeneralPrefsIconLabel" = "Yleiset";
+
+/* No comment provided by engineer. */
+"Goto Next Change" = "Siirry seuraavaan muutokseen";
+
+/* No comment provided by engineer. */
+"Goto Next Symbol" = "Siirry seuraavaan symboliin";
+
+/* No comment provided by engineer. */
+"Goto Previous Change" = "Siirry edelliseen muutokseen";
+
+/* No comment provided by engineer. */
+"Goto Previous Symbol" = "Siirry edelliseen symboliin";
+
+/* No comment provided by engineer. */
+"Hide Changes" = "Piilota muutokset";
+
+/* No comment provided by engineer. */
+"Hide Invisibles" = "Piilota näkymättömät";
+
+/* No comment provided by engineer. */
+"Hide Participants" = "Piilota osallistujat";
+
+/* Cancelled */
+"HostEntryStatusCancelled" = "Peruutettu";
+
+/* Cancelling */
+"HostEntryStatusCancelling" = "Peruutetaan";
+
+/* Could not contact */
+"HostEntryStatusContactFailed" = "Yhteyttä ei saatu";
+
+/* Contacting */
+"HostEntryStatusContacting" = "Yhdistetään";
+
+/* Could not resolve */
+"HostEntryStatusResolveFailed" = "Selvitys epäonnistui";
+
+/* Resolving */
+"HostEntryStatusResolving" = "Selvitetään";
+
+/* Connection Lost */
+"HostEntryStatusSessionAtEnd" = "Yhteys katkesi";
+
+/* Invisible */
+"HostEntryStatusSessionInvisible" = "Näkymätön";
+
+/* Connected */
+"HostEntryStatusSessionOpen" = "Yhdistetty";
+
+/* HTML Color Error Title */
+"HTML Color Error" = "HTML-värivirhe";
+
+/* Warning in the alert panel which comes up when user chooses Quit and there are unsaved documents. */
+"If you don\\U2019t review your documents, all your changes will be lost." = "Jos et tarkista dokumenttejasi, kaikki muutoksesi menetetään.";
+
+/* No comment provided by engineer. */
+"If you revert the document to the version on disk the document's content will be replaced with the content of the file." = "Jos palautat dokumentin levyllä olevaan versioon, dokumentin sisältö korvataan tiedoston sisällöllä.";
+
+/* No comment provided by engineer. */
+"If you revert the file to the version on disk the changes you made in SubEthaEdit will be lost." = "Jos palautat dokumentin levyllä olevaan versioon, SubEthaEditissä tekemäsi muutokset menetetään.";
+
+/* Button choice allowing user to import */
+"Import" = "Tuo";
+
+/* Inbound Connection ToolTip */
+"Inbound Connection" = "Saapuva yhteys";
+
+/* Inbound Connection ToolTip With Address */
+"Inbound Connection from %@" = "Saapuva yhteys kohteesta %@";
+
+/* Inbound Friendcast Connection ToolTip */
+"Inbound Friendcast Connection" = "Saapuva yhteys: '%@'";
+
+/* No comment provided by engineer. */
+"Insert" = "Lisää";
+
+/* legend entry for insertions in statistsics hud */
+"insertions" = "Lisäykset";
+
+/* Title of Clear Button in InternetBrowser */
+"InternetClear" = "Tyhjennä";
+
+/* InvalidRegex */
+"Invalid regex" = "Virheellinen lauseke";
+
+/* Status string in vibilitypulldown in Browsers for invisible */
+"Invisible" = "Näkymätön";
+
+/* No comment provided by engineer. */
+"Keep Changes" = "Säilytä muutokset";
+
+/* Button title */
+"Keep Connection" = "Säilytä yhteydet";
+
+/* No comment provided by engineer. */
+"Keep Line Endings" = "Säilytä rivinvaihdot";
+
+/* Kick title in Sheet */
+"Kicked" = "Sinut on potkittu ulos";
+
+/* Kick info in Sheet */
+"KickedInfo" = "Tämän dokumentin omistaja ei sallinut sinun osallistua. Tekemiäsi lisämuutoksia ei sovelleta omistajan dokumenttiin.";
+
+/* Label for centimeters in Print Options */
+"LabelCentimeters" = "cm";
+
+/* Label for inches in Print Options */
+"LabelInches" = "in";
+
+/* String appearing in the statistics window below the name, last time of actifity is inserted */
+"Last activity: %@" = "Viimeisin toiminta: %@";
+
+/* LoginSheet text for logging in... */
+"Logging in ..." = "Kirjaudutaan…";
+
+/* No comment provided by engineer. */
+"Lossy" = "Häviöllinen";
+
+/* LostConnection title in Sheet */
+"LostConnection" = "Yhteys katkesi";
+
+/* LostConnection info in Sheet */
+"LostConnectionInfo" = "Yhteys tähän dokumenttiin katkesi odottamatta. Tekemiäsi lisämuutoksia ei sovelleta omistajan dokumenttiin.";
+
+/* No comment provided by engineer. */
+"me" = "minä";
+
+/* End Blockedit in edit Menu */
+"MenuBlockeditEnd" = "Lopeta lohkomuokkaus";
+
+/* Blockedit Selection in edit Menu */
+"MenuBlockeditSelection" = "Lohkomuokkaa valinta";
+
+/* No comment provided by engineer. */
+"Merge" = "Yhdistä";
+
+/* No comment provided by engineer. */
+"Merging windows moves all open tabs and windows into a single, tabbed editor window. This cannot be undone." = "Ikkunoiden yhdistäminen siirtää kaikki avoimet välilehdet ja ikkunat yhteen välilehtien editori-ikkunaan. Tätä ei voi kumota.";
+
+/* Location: Network Library */
+"Network Library" = "Verkkokirjasto";
+
+/* New File Dock Menu Item */
+"New File" = "Uusi tiedosto";
+
+/* No comment provided by engineer. */
+"Next Change" = "Seuraava muutos";
+
+/* No comment provided by engineer. */
+"Next Symbol" = "Seuraava symboli";
+
+/* Find string not found in selection */
+"Not found in selection." = "Ei löytynyt valinnasta.";
+
+/* Find string not found */
+"Not found." = "Ei löytynyt.";
+
+/* Symbol Regular Expression Error Informative Text */
+"One of the specified <block> elements is not a valid regular expression. Therefore the combined start regex \"%@\" could not be compiled. Please check your regular expression in Find Panel's Ruby mode." = "Yksi määritetyistä <block>-elementeistä ei ole kelvollinen säännöllinen lauseke. Siksi yhdistettyä alkulauseketta “%@” ei voitu kääntää. Tarkista säännöllinen lausekkeesi hakupaneelin Ruby-tilassa.";
+
+/* Mode Settings Expression Error Informative Text */
+"One of the specified <regex> elements in the mode's settings is not a valid regular expression. ModeSettings.xml will be ignored, falling back to Info.plist. Please check your regular expression in Find Panel's Ruby mode." = "Yksi tilan asetuksissa määritetyistä <regex>-elementeistä ei ole kelvollinen säännöllinen lauseke. ModeSettings.xml ohitetaan ja käytetään Info.plistiä. Tarkista säännöllinen lausekkeesi hakupaneelin Ruby-tilassa.";
+
+/* Syntax Regular Expression Error Informative Text */
+"One of the specified state <begin>'s is not a valid regular expression. Therefore the Combined Delimiter Regex \"%@\" could not be compiled. Please check your regular expression in Find Panel's Ruby mode." = "Yksi määritetyistä <begin>-tunnisteista ei ole kelvollinen säännöllinen lauseke. Siksi yhdistettyä erotinlauseketta \"%@\" ei voitu kääntää. Tarkista säännöllinen lausekkeesi hakupaneelin Ruby-tilassa.";
+
+/* No comment provided by engineer. */
+"Open Connections Browser" = "Avaa yhteysselain";
+
+/* Open File Dock Menu Item */
+"Open File..." = "Avaa tiedosto…";
+
+/* Button choice allowing user open a file in the editor. */
+"Open in Editor" = "Avaa muokkaimessa";
+
+/* Menu Entry for opening files in the front window. */
+"Open in Front Window..." = "Avaa etummaisessa ikkunassa…";
+
+/* Menu Entry for opening files in a new window. */
+"Open in New Window..." = "Avaa uudessa ikkunassa…";
+
+/* Web preview open link in browser contextual menu item */
+"Open Link in Browser" = "Avaa linkki selaimessa";
+
+/* Open Script Folder MenuItem in Script Menu */
+"Open Script Folder" = "Avaa skriptikansio";
+
+/* Menu item in alternate mode menu for opening the SubEthaEdit modes folder. */
+"Open SubEthaEdit Modes Folder" = "Avaa SubEthaEdit-tilojen kansio";
+
+/* Menu item in alternate mode menu for opening the user modes folder. */
+"Open User Modes Folder" = "Avaa käyttäjän tilojen kansio";
+
+/* Sheet message text when user has open document connections */
+"OpenChannels" = "Useat osallistujat voivat käyttää valittuja yhteyksiä. Haluatko pysäyttää yhteydet?";
+
+/* No comment provided by engineer. */
+"Other applications may not be able to read the file if you don't convert all line endings to the same line ending." = "Muut ohjelmat eivät ehkä voi lukea tiedostoa, jos et muunna kaikkia rivinvaihtoja samaksi rivinvaihdoksi.";
+
+/* Mode Precedence Overriden Tooltip */
+"Overriden by trigger in %@ mode" = "Ohitettu liipaisimella tilassa %@";
+
+/* KickDeny user entry for Participant context menu */
+"ParticipantContextMenuDeny" = "Kiellä";
+
+/* Follow user entry for Participant context menu */
+"ParticipantContextMenuFollow" = "Seuraa";
+
+/* KickDeny user entry for Participant context menu */
+"ParticipantContextMenuKick" = "Potkaise";
+
+/* KickDeny user entry for Participant context menu */
+"ParticipantContextMenuKickDeny" = "Potkaise/Kiellä";
+
+/* ReadWrite user entry for Participant context menu */
+"ParticipantContextMenuReadOnly" = "Aseta vain luku -tilaan";
+
+/* ReadWrite user entry for Participant context menu */
+"ParticipantContextMenuReadWrite" = "Muunna luku/kirjoitustilaan";
+
+/* Participants toolbar label */
+"Participants" = "Osallistujat";
+
+/* Participants tool tip */
+"ParticipantsToolTip" = "Osallistujat";
+
+/* No comment provided by engineer. */
+"Paste Converted" = "Liitä muunnettuna";
+
+/* No comment provided by engineer. */
+"Paste Unchanged" = "Liitä muuttamattomana";
+
+/* Description in Participants view for pending users */
+"pending users" = "Odottavat käyttäjät";
+
+/* iChat invitation String with Placeholder for actual URL */
+"Please join me in SubEthaEdit:\n%@\n\n(You can download SubEthaEdit from http://www.codingmonkeys.de/subethaedit )" = "Liity seuraani SubEthaEditissä:\n%@\n\n(Voit ladata SubEthaEditin osoitteesta http://www.codingmonkeys.de/subethaedit )";
+
+/* Label displayed below advanced icon and used as window title. */
+"PrecedencePrefsIconLabel" = "Liipaisimet";
+
+/* Mode rules cannot be edited or removed. But you can disable them. */
+"PrecedencePrefsModeRuleTooltip" = "Tilan tarjoamia liipaisimia ei voi muokata tai poistaa. Voit kuitenkin poistaa ne käytöstä.";
+
+/* No comment provided by engineer. */
+"Previous Change" = "Edellinen muutos";
+
+/* No comment provided by engineer. */
+"Previous Symbol" = "Edellinen symboli";
+
+/* Date Information in Print Header */
+"PrintDate: %@" = "Päivämäärä: %@";
+
+/* Label for AIM in legend in Print and Export */
+"PrintExportLegendAIMLabel" = "aim:";
+
+/* Label for Email in legend in Print and Export */
+"PrintExportLegendEmailLabel" = "sähköposti:";
+
+/* Page Information in Print Header */
+"PrintPage %d of %d" = "Sivu %1$d / %2$d";
+
+/* ProblemLeave title in Sheet */
+"ProblemLeave" = "Poistuit dokumentista";
+
+/* ProblemLeaveInfo info in Sheet */
+"ProblemLeaveInfo" = "Poistuit, koska tämän dokumentin omistaja lähetti sinulle virheellistä dataa. Tämä ei vaikuta muihin dokumentteihin tai yhteyksiin.";
+
+/* No comment provided by engineer. */
+"Promote to Unicode" = "Muunna UTF-16:ksi";
+
+/* No comment provided by engineer. */
+"Promote to UTF8" = "Muunna UTF-8:ksi";
+
+/* No comment provided by engineer. */
+"Quit" = "Lopeta";
+
+/* Description in Participants view for Read Only access */
+"read only" = "Vain luku";
+
+/* Description in Participants view for Read Write access */
+"read/write" = "Luku/kirjoitus";
+
+/* Encoding popup entry indicating mode choice of encoding */
+"Recommended by Mode" = "Tilan suosittelema";
+
+/* Regular Expression Error Title */
+"Regular Expression Error" = "Säännöllisen lausekkeen virhe";
+
+/* No comment provided by engineer. */
+"Reinterpret" = "Tulkitse uudelleen";
+
+/* Reload Scripts MenuItem in Script Menu */
+"Reload Scripts" = "Lataa skriptit uudelleen";
+
+/* No comment provided by engineer. */
+"Replace" = "Korvaa";
+
+/* Reveal in Finder - menu entry */
+"Reveal in Finder" = "Näytä Finderissa";
+
+/* No comment provided by engineer. */
+"Revert" = "Palauta";
+
+/* No comment provided by engineer. */
+"Revert Document" = "Palauta";
+
+/* Choice (on a button) given to user which allows him/her to review all unsaved documents if he/she quits the application without saving them all first. */
+"Review Changes\\U2026" = "Tarkista muutokset…";
+
+/* No comment provided by engineer. */
+"Save" = "Tallenna";
+
+/* Informative text in a save dialog, because of permissions issues the user has the choice to save using administrator permissions or replace the file */
+"SaveDialogInformativeText: Save or Replace" = "Tarvitset järjestelmänvalvojan oikeudet dokumentin tallentamiseen. Sinulla on kuitenkin oikeudet korvata tiedosto.";
+
+/* Scripts entry for contextual menu */
+"Scripts" = "Skriptit";
+
+/* Informative Text of Style load did fail alert sheet */
+"SeeStyleImportDidFailInformative" = "Virheellinen .seestyle-tiedosto";
+
+/* Message Text of Style load did fail alert sheet */
+"SeeStyleImportDidFailMessage" = "Tyyliä ei voitu tuoda";
+
+/* Informative Text of Style load alert sheet */
+"SeeStyleImportInformative %@" = "Tuonti sisältää tyylit seuraaville tiloille:\n%@";
+
+/* Message Text of Style load alert sheet */
+"SeeStyleImportMessage" = "Haluatko tuoda tyylin vai avata sen muokkausikkunassa?";
+
+/* legend entry for selections in statistsics hud */
+"selections" = "Valinnat";
+
+/* No comment provided by engineer. */
+"Shift Left" = "Siirrä vasemmalle";
+
+/* No comment provided by engineer. */
+"Shift Right" = "Siirrä oikealle";
+
+/* No comment provided by engineer. */
+"Shift Selection Left" = "Siirrä valintaa vasemmalle";
+
+/* No comment provided by engineer. */
+"Shift Selection Right" = "Siirrä valintaa oikealle";
+
+/* No comment provided by engineer. */
+"Show Changes" = "Näytä muutokset";
+
+/* No comment provided by engineer. */
+"Show Invisibles" = "Näytä näkymättömät";
+
+/* No comment provided by engineer. */
+"Show Participants" = "Näytä osallistujat";
+
+/* Bottom status bar text for use Spaces (instead of Tab) setting */
+"Spaces" = "Välilyönnit";
+
+/* Split View Menu Entry */
+"Split View" = "Jaettu näkymä";
+
+/* Syntax State Malformed Begin Error Informative Text */
+"State '%@' in %@ mode has a begin tag that is not a valid regex" = "Tilalla '%@' tilassa %@ on alkutunniste, joka ei ole kelvollinen säännöllinen lauseke";
+
+/* Syntax State No Begin Error Informative Text */
+"State '%@' in %@ mode has no begin tag" = "Tilalla '%@' tilassa %@ ei ole alkutunnistetta";
+
+/* Syntax State No End Error Informative Text */
+"State '%@' in %@ mode has no end tag" = "Tilalla '%@' tilassa %@ ei ole lopputunnistetta";
+
+/* Label displayed below tyle pref icon and used as window title. */
+"StylePrefsIconLabel" = "Tyylit";
+
+/* Label displayed below tyle pref icon and used as window title. */
+"StyleSheetPrefsIconLabel" = "Tyylitiedostot";
+
+/* BigFile Message Text */
+"Syntax Highlighting and Wrap Lines have been turned off due to the size of the Document." = "Syntaksin korostus ja rivitys on poistettu käytöstä dokumentin koon vuoksi.";
+
+/* Location: System Library */
+"System Library" = "Järjestelmäkirjasto";
+
+/* Syntax XML Group Error Informative Text */
+"The <begin> tag of <state> \"%@\" contains a regex that has captured groups. This is currently not allowed. Please escape all groups to be not-captured with (?:)." = "<state>-tilan “%@” <begin>-tunniste sisältää säännöllisen lausekkeen, jossa on kaappausryhmiä. Tätä ei tällä hetkellä sallita. Muunna kaikki ryhmät ei-kaappaaviksi merkinnällä (?:).";
+
+/* No comment provided by engineer. */
+"The document can not be saved with the name \"%@\" because a folder with the same name already exists." = "Dokumenttia ei voi tallentaa nimellä “%@”, koska samanniminen kansio on jo olemassa.";
+
+/* No comment provided by engineer. */
+"The document's file has been modified by another application. Do you want to revert the document?" = "Toinen ohjelma on muokannut dokumentin tiedostoa. Haluatko palauttaa dokumentin?";
+
+/* No comment provided by engineer. */
+"The file has been modified by another application. Do you want to keep the changes made in SubEthaEdit?" = "Toinen ohjelma on muokannut dokumentin tiedostoa. Haluatko säilyttää SubEthaEditissä tehdyt muutokset?";
+
+/* No comment provided by engineer. */
+"The file has mixed line endings. Do you want to convert all line endings to %@, the most common line ending in the file?" = "Tiedostossa on sekalaisia rivinvaihtoja. Haluatko muuntaa kaikki rivinvaihdot muotoon %@, joka on tiedoston yleisin rivinvaihto?";
+
+/* No comment provided by engineer. */
+"The file will have mixed line endings if you do not paste converted text." = "Tiedostoon tulee sekalaisia rivinvaihtoja, jos et liitä muunnettua tekstiä.";
+
+/* Message text in modal dialog in advanced prefs */
+"The installation of the see command line tool failed." = "Komentorivityökalun see asennus epäonnistui.";
+
+/* Message text in modal dialog in advanced prefs */
+"The see command line tool couldn't be removed." = "Komentorivityökalua see ei voitu poistaa.";
+
+/* Message text in modal dialog in advanced prefs */
+"The see command line tool has been installed." = "Komentorivityökalu see on asennettu.";
+
+/* Message text in modal dialog in advanced prefs */
+"The see command line tool has been removed." = "Komentorivityökalu see on poistettu.";
+
+/* No comment provided by engineer. */
+"Toggle Change Marks" = "Näytä/piilota muutosmerkit";
+
+/* No comment provided by engineer. */
+"Toggle Changes" = "Näytä/piilota muutokset";
+
+/* No comment provided by engineer. */
+"Toggle Invisible Characters" = "Näytä/piilota näkymättömät merkit";
+
+/* No comment provided by engineer. */
+"Toggle Invisibles" = "Näytä/piilota näkymättömät";
+
+/* Bottom status bar text for TrueTab setting */
+"TrueTab" = "Välilehdet";
+
+/* No comment provided by engineer. */
+"Try choosing a different name for the document." = "Yritä valita dokumentille toinen nimi.";
+
+/* BigFile Informative Text */
+"Turning on syntax highlighting for very large documents is not recommended." = "Syntaksin korostuksen käyttöä erittäin suurissa dokumenteissa ei suositella.";
+
+/* Location: User Library */
+"User Library" = "Käyttäjän kirjasto";
+
+/* Marketing version followed by build version e.g. Version 2.0 (739) */
+"Version %@ (%@)" = "Versio %1$@ (%2$@)";
+
+/* Status string in vibilitypulldown in Browsers for visible */
+"Visible" = "Näkyvä";
+
+/* Title for Visitors in Export and Print */
+"Visitors" = "Vierailijat";
+
+/* No comment provided by engineer. */
+"Warning" = "Varoitus";
+
+/* As shown in bottom status bar */
+"WordWrap" = "w";
+
+/* No comment provided by engineer. */
+"Written by %@" = "Kirjoittanut %@";
+
+/* No comment provided by engineer. */
+"Written by %@ et al" = "Kirjoittanut %@ ym.";
+
+/* XML Color Error Title */
+"XML Color Error" = "XML-värivirhe";
+
+/* XML Group Error Title */
+"XML Group Error" = "XML-ryhmävirhe";
+
+/* XML Regex Error Title */
+"XML Regex Error" = "XML-regex-virhe";
+
+/* XML Structure Error Title */
+"XML Structure Error" = "XML-rakennevirhe";
+
+/* No comment provided by engineer. */
+"You are no longer restricted by the file's current encoding if you promote to a Unicode encoding." = "Jos muunnat dokumentin Unicode-merkistöön, voit lisätä merkit tietoja menettämättä.";
+
+/* No comment provided by engineer. */
+"You are pasting text that does not match the file's current line endings. Do you want to paste the text with converted line endings?" = "Liität tekstiä, joka ei vastaa tiedoston nykyisiä rivinvaihtoja. Haluatko liittää tekstin muunnetuilla rivinvaihdoilla?";
+
+/* No comment provided by engineer. */
+"You are trying to insert characters that cannot be handled by the file's current encoding. Do you want to cancel the change?" = "Yrität lisätä merkkejä, joita tiedoston nykyinen merkistö ei voi käsitellä menettämättä tietoja. Haluatko lisätä merkit silti?";
+
+/* Informative text in modal dialog in advanced prefs */
+"You can find the see command line tool at:\n \"%@\"." = "Löydät komentorivityökalun see täältä:\n “%@”.";
+
+/* No comment provided by engineer. */
+"You have %d documents in this window with unsaved changes. Do you want to review these changes?" = "Tässä ikkunassa on %d dokumenttia, joissa on tallentamattomia muutoksia. Haluatko tarkistaa muutokset?";
+
+/* Status string showing the number of documents The browser when there are multiple documents advertised */
+"%d Documents" = "%d dokumenttia";
+
+/* Status string showing the number of documents when one is advertised */
+"1 Document" = "1 dokumentti";
+
+/* Status of port mapping while trying */
+"Checking port status..." = "Tarkistetaan portin tilaa…";
+
+"PORT_NETWORKING_DISABLED" = "Suljettu";
+
+/* Drag target string in Participants Drawer */
+"Drag your\nFriends\nfrom the\niChat Buddy List\nor\nConnection Browser\nto a category\nor the text\nto invite them." = "Vedä\nystäväsi\niChat-ystävälistalta\ntai\nyhteysselaimesta\nkategoriaan\ntai tekstiin\nkutsuaksesi heidät.";
+
+/* Drag target string in Connection Browser */
+"Drag your\niChat Buddies here\nto invite them." = "Vedä\niChat-ystäväsi tähän\nkutsuaksesi heidät.";
+
+/* User name for invisible users in Connection Browser */
+"Invisible User" = "Näkymätön käyttäjä";
+
+/* Connection Browser Display when not reachable */
+"No public mapping." = "Ei julkista ohjausta.";
+
+/* Status string showing the number of documents when none are advertised */
+"None advertised" = "Ei mainostettuja";
+
+/* Text for document URL field when not your document */
+"Not your Document.\nNo Document URL." = "Ei sinun dokumenttisi.\nEi dokumentin URL-osoitetta.";
+
+/* Status of Port mapping when successful */
+"Port mapped (%d)" = "Portti ohjattu (%d)";
+
+/* Status of Port mapping when unsuccessful or intentionally unmapped */
+"Port not mapped" = "Porttia ei ohjattu";
+
+/* Connection browser subtitle for friendcasting connections */
+"Friend of a Friend" = "Ystävän ystävä";
+
+/* Connection browser subtitle for internet connections */
+"Internet connection" = "Internet-yhteys";
+
+/* Fold at top level menu entry label */
+"Fold All Level %d Blocks" = "Taita kaikki tason %d lohkot";
+
+/* "Trigger not a regular expression Title" */
+"Trigger not a regular expression" = "Liipaisin ei ole säännöllinen lauseke";
+
+/* Trigger not a regular expression Informative Text */
+"The trigger '%@' of the mode '%@' is not a valid regular expression and was ignored." = "Tilan '%@' liipaisin '%@' ei ole kelvollinen säännöllinen lauseke ja se ohitettiin.";
+
+/* Mode requires newer engine title */
+"Mode not compatible" = "Tila ei ole yhteensopiva";
+
+/* Mode requires newer engine Informative Text */
+"The mode '%@' was written for a newer version of SubEthaEngine and cannot be used with this application." = "Tila '%@' on kirjoitettu uudemmalle SubEthaEngine-versiolle, eikä sitä voi käyttää tässä ohjelmassa.";
+
+/* Invitation format string used in sharing service picker. %@ will be replaced with the user name. */
+"Invite %@" = "Kutsu %@";
+
+/* Advertise document string used in sharing service picker. */
+"Advertise Document" = "Mainosta dokumenttia";
+
+"FIND_REPLACE_PANEL_SCOPE_DOCUMENT" = "Dokumentti";
+
+"FIND_REPLACE_PANEL_MENU_CLEAR_SCOPE" = "Tyhjennä alue %@";
+
+"FIND_REPLACE_PANEL_MENU_ADD_TO_SCOPE" = "Lisää nykyinen valinta alueeseen";
+
+"FIND_REPLACE_PANEL_MENU_IGNORE_CASE" = "Ohita kirjainkoko";
+
+"FIND_REPLACE_PANEL_MENU_WRAP" = "Jatka alusta";
+
+"FIND_REPLACE_PANEL_MENU_HISTORY_SUBMENU_TITLE" = "Viimeisimmät haut";
+
+"FIND_REPLACE_PANEL_MENU_USE_REGEX" = "Käytä säännöllisiä lausekkeita";
+
+"FIND_REPLACE_PANEL_MENU_REGEX_DIALECT" = "Säännöllisen lausekkeen murre:";
+
+"FIND_REPLACE_PANEL_MENU_EXTENDED" = "Laajennettu";
+
+"FIND_REPLACE_PANEL_MENU_ESCAPE_SLASH" = "Escape-merkki: \\";
+
+"FIND_REPLACE_PANEL_MENU_ESCAPE_YEN" = "Escape-merkki: ¥";
+
+"FIND_REPLACE_PANEL_MENU_CAPTURE_GROUPS" = "Kaappaa nimeämättömät ryhmät";
+
+"FIND_REPLACE_PANEL_MENU_LINE_CONTEXT" = "'^' → '\\A', '$' → '\\Z'";
+
+"FIND_REPLACE_PANEL_MENU_MULTILINE" = "'.' vastaa rivinvaihtoja";
+
+"FIND_REPLACE_PANEL_MENU_ONLY_LONGEST" = "Etsi vain pisin osuma";
+
+"FIND_REPLACE_PANEL_MENU_IGNORE_EMPTY" = "Ohita tyhjät osumat";
+
+"FIND_REPLACE_PANEL_MENU_OPEN_HELP" = "Avaa säännöllisten lausekkeiden ohje";
+
+"FIND_REPLACE_PANEL_MENU_REMEMBER_RECENTS" = "Muista viimeisimmät haut";
+
+"FIND_REPLACE_PANEL_MENU_CLEAR_RECENTS" = "Tyhjennä viimeisimmät haut";
+
+/* search and replace errors */
+"FIND_REPLACE_ERROR_INVALID_FIND_STRING" = "Virheellinen hakumerkkijono";
+
+"FIND_REPLACE_REPLACE_ALL_IN_PROGRESS" = "Korvataan kaikki…";
+
+"FIND_REPLACE_REPLACE_ALL_IN_PROGRESS_COUNT" = "Korvataan kaikki… (%@ korvattu)";
+
+/* encoding doctor */
+"ENCODING_DOCTOR_HEADLINE" = "Korostettuja merkkejä ei voi esittää merkistössä %@.";
+
+"ENCODING_DOCTOR_TABLEHEADING_LINE" = "Rivi";
+
+"ENCODING_DOCTOR_TABLEHEADING_ERROR" = "Virhe";
+
+"ENCODING_DOCTOR_CANCEL" = "Kumoa";
+
+"ENCODING_DOCTOR_CONVERT_LOSSY" = "Muunna häviöllisesti";
+
+"ENCODING_DOCTOR_CONVERT" = "Muunna";
+
+/* will cease invisibilty alert */
+"ANNOUNCE_WILL_MAKE_VISIBLE_MESSAGE" = "Mainostaminen tekee sinusta näkyvän";
+
+"ANNOUNCE_WILL_MAKE_VISIBLE_INFORMATIVE_TEXT" = "Olet tällä hetkellä näkymätön muille SubEthaEdit-käyttäjille. Jos mainostat tätä dokumenttia, sinusta tulee näkyvä heille.";
+
+"ANNOUNCE_WILL_MAKE_VISIBLE_ACTION_TITLE" = "Mainosta";
+
+/* document list */
+"DOCUMENT_LIST_WINDOW_TITLE" = "%@ - Dokumenttikeskus";
+
+"DOCUMENT_LIST_OPEN" = "Avaa…";
+
+"DOCUMENT_LIST_NEW" = "Uusi";
+
+"DOCUMENT_LIST_CONNECT" = "Yhdistä isäntään…";
+
+"DOCUMENT_LIST_RECENT_TOGGLE" = "Viimeisimmät dokumentit";
+
+"DOCUMENT_LIST_MORE" = "Näytä lisää…";
+
+"DOCUMENT_LIST_CONTEXT_MENU_OPEN" = "Avaa";
+
+"DOCUMENT_LIST_CONTEXT_MENU_SHOW_IN_FINDER" = "Näytä Finderissa";
+
+"DOCUMENT_LIST_CONTEXT_MENU_COPY_URL" = "Kopioi yhteyden URL";
+
+"DOCUMENT_LIST_CONTEXT_MENU_DISCONNECT" = "Katkaise yhteys";
+
+"DOCUMENT_LIST_CONTEXT_MENU_CLEAR_RECENT" = "Tyhjennä viimeisimmät dokumentit";
+
+/* participant overlay */
+"KICK_PENDING_USER_BUTTON_TITLE" = "Kiellä";
+
+"READ_ONLY_PENDING_USER_BUTTON_TITLE" = "Vain luku";
+
+"READ_WRITE_PENDING_USER_BUTTON_TITLE" = "Luku ja kirjoitus";
+
+"PENDING_USER_ALERT_POPUP_TITLE" = "Uusi osallistuja";
+
+"PENDING_USER_ALERT_POPUP_DESCRIPTION" = "%@ haluaa liittyä tähän dokumenttiin.";
+
+/* authentication script not installed error dialog */
+"AUTHENTICATION_SCRIPT_MISSING_ERROR_DESCRIPTION" = "Todennusapuskriptiä ei löydy.";
+
+"AUTHENTICATION_SCRIPT_MISSING_ERROR_SUGGESTION" = "Asenna se suorittamalla install.sh-skripti Terminalissa Lisäasetuksissa kuvatulla tavalla.";
+
+"AUTHENTICATION_SCRIPT_MISSING_ERROR_BUTTON_TITLE1" = "Näytä skripti…";
+
+"AUTHENTICATION_SCRIPT_MISSING_ERROR_BUTTON_TITLE2" = "Ohita";
+
+"SEEConnectionTaglineBonjour" = "Bonjour";
+
+"SEEConnectionTaglineInvisible" = "Näkymätön";
+
+"SEEConnectionTaglineNetworkingDisabled" = "Verkko pois käytöstä";
+
+"SEEConnectionTaglineFriendcast" = "via '%@'";
+
+"MODE_IN_NEW_TAB_CONTEXT_MENU_TEXT" = "%@ välilehdessä";
+
+"MODE_IN_NEW_WINDOW_CONTEXT_MENU_TEXT" = "%@ ikkunassa";
+
+/* Mode Install */
+"MODE_INSTALL_TITLE_TEXT" = "Haluatko asentaa tilan \"%@\"?";
+
+"MODE_INSTALL_INFO_STRING_BASE" = "Tila \"%@\" on jo asennettu.";
+
+"MODE_INSTALL_INFO_STRING_OVERRIDE" = "Ohitat asennetun tilan.";
+
+"MODE_INSTALL_INFO_STRING_REPLACE" = "Korvaat asennetun tilan.";
+
+"MODE_INSTALL_ALERT_SUCCESS" = "Tila \"%@\" on asennettu onnistuneesti.";
+
+"MODE_INSTALL_ALERT_FAIL" = "Tilan \"%@\" asennus epäonnistui.";
+
+"MODE_INSTALL_OK_BUTTON" = "Asenna";
+
+"MODE_INSTALL_SHOW_CONTENT_BUTTON" = "Näytä paketin sisältö";
+
+/* Mode Update Alert */
+"MODE_UPDATE_INFO_INTRO" = "Tämä SubEthaEditin versio sisältää uudemmat versiot seuraavista käyttäjän asentamista tiloista: \n\n";
+
+"MODE_UPDATE_MODE_STRING" = "* Tila kohteelle %@ v%@ (nyt v%@)";
+
+"MODE_UPDATE_INFO_TEXT" = "\n\nPäivitettyjen versioiden käyttäminen poistaa tiloihisi mahdollisesti tekemäsi mukautetut muutokset.\n\nJos haluat käyttää vain tiettyjä uusia tiloja, valitse 'Näytä Finderissa', poista tilat ilman muutoksia ja lataa tilat uudelleen SubEthaEditin tilavalikosta.";
+
+"MODE_UPDATE_MESSAGE" = "Uudempia tiloja saatavilla";
+
+"MODE_UPDATE_OK_BUTTON" = "Käytä päivitettyjä tiloja";
+
+"MODE_UPDATE_REVEAL_IN_FINDER" = "Näytä vanhentuneet tilat";
+
+"INFO_NUMBER_OF_WORDS_TOO_MANY" = "Lukemattomia sanoja";
+
+"FIRST_USE_INVITE_HELP_TEXT" = "Kutsu muita käyttäjiä yhteistyöhön tässä dokumentissa napsauttamalla.";
+
+"FIRST_USE_ANNOUNCE_HELP_TEXT" = "Mainosta tätä dokumenttia verkkoon napsauttamalla.\nNapsauta hiiren oikealla painikkeella asettaaksesi myös saapuvien käyttäjien aloituskäyttöoikeudet.";
+
+/* Proxy window */
+"PROXY_WINDOW_ACCEPT" = "Hyväksy";
+
+"PROXY_WINDOW_DECLINE" = "Hylkää";
+
+"PROXY_WINDOW_TITLE_INVITE" = "Kutsu kohteeseen %@";
+
+"PROXY_WINDOW_TITLE_JOIN" = "Liitytään: %@";
+
+"PROXY_WINDOW_STATUS_WAIT_ANSWER" = "Odotetaan vastausta…";
+
+"PROXY_WINDOW_STATUS_DENIED" = "Liittymispyyntö evättiin.";
+
+"PROXY_WINDOW_STATUS_INVITE_CANCELED" = "Kutsu peruutettiin.";
+
+"PROXY_WINDOW_STATUS_CONNECTION_LOST" = "Yhteys katkesi.";

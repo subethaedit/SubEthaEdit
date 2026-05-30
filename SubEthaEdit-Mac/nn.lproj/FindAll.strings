@@ -1,0 +1,8 @@
+/* Class = "NSTableColumn"; headerCell.title = "Line"; ObjectID = "8"; */
+"8.headerCell.title" = "Linje";
+
+/* Class = "NSTableColumn"; headerCell.title = "Match"; ObjectID = "9"; */
+"9.headerCell.title" = "Treff";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Refresh list"; ObjectID = "21"; */
+"21.ibShadowedToolTip" = "Oppdater liste";

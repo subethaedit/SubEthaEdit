@@ -1,0 +1,29 @@
+/* Class = "NSButtonCell"; title = "Close"; ObjectID = "DsH-mB-ABC"; */
+"DsH-mB-ABC.title" = "Sulje";
+
+/* Class = "NSSegmentedCell"; H5y-L8-NDU.ibShadowedToolTips[0] = "Show the previous match"; ObjectID = "H5y-L8-NDU"; */
+"H5y-L8-NDU.ibShadowedToolTips[0]" = "Näytä edellinen osuma";
+
+/* Class = "NSSegmentedCell"; H5y-L8-NDU.ibShadowedToolTips[1] = "Show the next match"; ObjectID = "H5y-L8-NDU"; */
+"H5y-L8-NDU.ibShadowedToolTips[1]" = "Näytä seuraava osuma";
+
+/* Class = "NSButtonCell"; title = "Find All"; ObjectID = "YXR-QR-Jyz"; */
+"YXR-QR-Jyz.title" = "Etsi kaikki";
+
+/* Class = "NSBox"; title = "Box"; ObjectID = "b93-XS-lwa"; */
+"b93-XS-lwa.title" = "Laatikko";
+
+/* Class = "NSButtonCell"; title = "Replace All"; ObjectID = "gmW-Mw-wto"; */
+"gmW-Mw-wto.title" = "Korvaa kaikki";
+
+/* Class = "NSButtonCell"; title = "Replace"; ObjectID = "hZh-tC-bOy"; */
+"hZh-tC-bOy.title" = "Korvaa";
+
+/* Class = "NSBox"; title = "Box"; ObjectID = "hiv-Te-ZjM"; */
+"hiv-Te-ZjM.title" = "Laatikko";
+
+/* Class = "NSTextFieldCell"; placeholderString = "Find"; ObjectID = "z2X-dN-yhX"; */
+"z2X-dN-yhX.placeholderString" = "Etsi";
+
+/* Class = "NSTextFieldCell"; placeholderString = "Replace"; ObjectID = "z6J-mm-Avg"; */
+"z6J-mm-Avg.placeholderString" = "Korvaa";

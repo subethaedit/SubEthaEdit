@@ -1,0 +1,11 @@
+/* Class = "NSTextFieldCell"; title = "Version"; ObjectID = "95"; */
+"95.title" = "Versjon";
+
+/* Class = "NSTextFieldCell"; title = "Copyright"; ObjectID = "96"; */
+"96.title" = "Copyright";
+
+/* Class = "NSTextFieldCell"; title = "OgreKit/oniguruma Version"; ObjectID = "102"; */
+"102.title" = "OgreKit/oniguruma-versjon";
+
+/* Class = "NSTextFieldCell"; title = "AppStore Version"; ObjectID = "QzS-RT-Tv5"; */
+"QzS-RT-Tv5.title" = "App Store-versjon";

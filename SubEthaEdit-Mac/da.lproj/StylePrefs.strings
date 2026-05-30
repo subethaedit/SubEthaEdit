@@ -1,0 +1,50 @@
+/* Class = "NSWindow"; title = "Window"; ObjectID = "6"; */
+"6.title" = "Vindue";
+
+/* Class = "NSBox"; title = "Box"; ObjectID = "8"; */
+"8.title" = "Boks";
+
+/* Class = "NSMenuItem"; title = "Default Mode"; ObjectID = "11"; */
+"11.title" = "Standardtilstand";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Use the settings specified in \"Default Mode\""; ObjectID = "387"; */
+"387.ibShadowedToolTip" = "Brug indstillingerne angivet i \"Standardtilstand\"";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Change the document's default font"; ObjectID = "390"; */
+"390.ibShadowedToolTip" = "Skift dokumentets standardskrift";
+
+/* Class = "NSButtonCell"; title = "Use Default"; ObjectID = "448"; */
+"448.title" = "Brug standard";
+
+/* Class = "NSButtonCell"; title = "Choose…"; ObjectID = "449"; */
+"449.title" = "Vælg…";
+
+/* Class = "NSTextFieldCell"; title = "System font text"; ObjectID = "450"; */
+"450.title" = "Systemskrifttekst";
+
+/* Class = "NSButtonCell"; title = "Apply to Open Documents"; ObjectID = "451"; */
+"451.title" = "Anvend på åbne dokumenter";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Use the default monospace system font"; ObjectID = "428-YO-qEf"; */
+"428-YO-qEf.ibShadowedToolTip" = "Brug systemets monospace-standardskrift";
+
+/* Class = "NSTextFieldCell"; title = "Line Spacing:"; ObjectID = "XRw-OU-hRl"; */
+"XRw-OU-hRl.title" = "Linjeafstand:";
+
+/* Class = "NSTextFieldCell"; title = "tighter"; ObjectID = "aW1-oU-7XX"; */
+"aW1-oU-7XX.title" = "tættere";
+
+/* Class = "NSTextFieldCell"; title = "Font:"; ObjectID = "brU-mG-1j0"; */
+"brU-mG-1j0.title" = "Skrift:";
+
+/* Class = "NSTextFieldCell"; title = "Style:"; ObjectID = "efw-xH-ovU"; */
+"efw-xH-ovU.title" = "Stil:";
+
+/* Class = "NSButtonCell"; title = "System"; ObjectID = "kI6-Su-N7e"; */
+"kI6-Su-N7e.title" = "System";
+
+/* Class = "NSTextFieldCell"; title = "looser"; ObjectID = "qoS-in-svt"; */
+"qoS-in-svt.title" = "løsere";
+
+/* Class = "NSTextFieldCell"; title = "Format:"; ObjectID = "t1m-WV-ods"; */
+"t1m-WV-ods.title" = "Format:";

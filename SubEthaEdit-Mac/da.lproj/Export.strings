@@ -1,0 +1,38 @@
+/* Class = "NSWindow"; title = "Window"; ObjectID = "36"; */
+"36.title" = "Vindue";
+
+/* Class = "NSTabViewItem"; label = "Web Page"; ObjectID = "44"; */
+"44.label" = "Webside";
+
+/* Class = "NSButtonCell"; title = "Change marks"; ObjectID = "67"; */
+"67.title" = "Ændringsmærker";
+
+/* Class = "NSButtonCell"; title = "“Written By” hovers"; ObjectID = "68"; */
+"68.title" = "“Skrevet af”-info";
+
+/* Class = "NSButtonCell"; title = "Including AIM and Email"; ObjectID = "69"; */
+"69.title" = "Inklusive AIM og e-mail";
+
+/* Class = "NSButtonCell"; title = "Participants"; ObjectID = "70"; */
+"70.title" = "Deltagere";
+
+/* Class = "NSButtonCell"; title = "Including visitors"; ObjectID = "71"; */
+"71.title" = "Inklusive besøgende";
+
+/* Class = "NSButtonCell"; title = "Colorize syntax"; ObjectID = "72"; */
+"72.title" = "Farvelæg syntaks";
+
+/* Class = "NSButtonCell"; title = "Including images"; ObjectID = "73"; */
+"73.title" = "Inklusive billeder";
+
+/* Class = "NSButtonCell"; title = "Current date"; ObjectID = "74"; */
+"74.title" = "Aktuel dato";
+
+/* Class = "NSTextFieldCell"; title = "Create an HTML web page that can be viewed in Safari or any other web browser."; ObjectID = "75"; */
+"75.title" = "Opret en HTML-webside, der kan vises i Safari eller en anden browser.";
+
+/* Class = "NSButtonCell"; title = "Export…"; ObjectID = "76"; */
+"76.title" = "Eksportér…";
+
+/* Class = "NSButtonCell"; title = "Cancel"; ObjectID = "77"; */
+"77.title" = "Annuller";

@@ -1,0 +1,53 @@
+/* Class = "NSTextFieldCell"; title = "Email:"; ObjectID = "3dM-J4-ffi"; */
+"3dM-J4-ffi.title" = "E-mail:";
+
+/* Class = "NSButtonCell"; title = "Highlight Changes"; ObjectID = "9Gt-Fw-SQB"; */
+"9Gt-Fw-SQB.title" = "Fremhæv ændringer";
+
+/* Class = "NSBox"; title = "Me"; ObjectID = "Kyz-WE-BxL"; */
+"Kyz-WE-BxL.title" = "Mig";
+
+/* Class = "NSWindow"; title = "Window"; ObjectID = "QvC-M9-y7g"; */
+"QvC-M9-y7g.title" = "Vindue";
+
+/* Class = "NSTextFieldCell"; title = "NAT traversal uses NAT-PMP or UPnP if available"; ObjectID = "UvY-lr-BBb"; */
+"UvY-lr-BBb.title" = "NAT-gennemløb bruger NAT-PMP eller UPnP hvis tilgængeligt";
+
+/* Class = "NSTextFieldCell"; title = "You will still be visible if you advertise a document"; ObjectID = "WXf-5R-egn"; */
+"WXf-5R-egn.title" = "Du er stadig synlig, hvis du annoncerer et dokument";
+
+/* Class = "NSTextFieldCell"; title = "Name:"; ObjectID = "WxK-IJ-fOk"; */
+"WxK-IJ-fOk.title" = "Navn:";
+
+/* Class = "NSButtonCell"; title = "Enable Collaboration"; ObjectID = "XOi-3L-9QN"; */
+"XOi-3L-9QN.title" = "Aktivér samarbejde";
+
+/* Class = "NSButtonCell"; title = "Try to map port automatically"; ObjectID = "XPh-zo-Ojp"; */
+"XPh-zo-Ojp.title" = "Forsøg at tilknytte port automatisk";
+
+/* Class = "NSTextFieldCell"; title = "Color:"; ObjectID = "Y9Y-7d-gnT"; */
+"Y9Y-7d-gnT.title" = "Farve:";
+
+/* Class = "NSTextFieldCell"; title = "Preview:"; ObjectID = "Yot-9r-yWN"; */
+"Yot-9r-yWN.title" = "Eksempel:";
+
+/* Class = "NSButtonCell"; title = "Invisible to others on the Network"; ObjectID = "beO-Sx-GE6"; */
+"beO-Sx-GE6.title" = "Usynlig for andre på netværket";
+
+/* Class = "NSTextFieldCell"; title = "Network:"; ObjectID = "k4x-22-pr8"; */
+"k4x-22-pr8.title" = "Netværk:";
+
+/* Class = "NSTextFieldCell"; title = "pale"; ObjectID = "l87-h3-UPE"; */
+"l87-h3-UPE.title" = "bleg";
+
+/* Class = "NSButton"; ibShadowedToolTip = "SubEthaEdit will try to automatically map the local port to an external port if it is behind a NAT. For this to work you have to enable UPnP or NAT-PMP on your router."; ObjectID = "m4c-SU-LMl"; */
+"m4c-SU-LMl.ibShadowedToolTip" = "SubEthaEdit vil forsøge automatisk at tilknytte den lokale port til en ekstern port, hvis den er bag en NAT. For at dette virker, skal du aktivere UPnP eller NAT-PMP på din router.";
+
+/* Class = "NSSlider"; ibShadowedToolTip = "Adjusts the strength of the background color indicating changes."; ObjectID = "mO9-U1-vVK"; */
+"mO9-U1-vVK.ibShadowedToolTip" = "Justerer styrken af baggrundsfarven, der angiver ændringer.";
+
+/* Class = "NSTextFieldCell"; title = "strong"; ObjectID = "ohg-W2-sto"; */
+"ohg-W2-sto.title" = "stærk";
+
+/* Class = "NSTextFieldCell"; title = "Local Port:"; ObjectID = "ryi-CV-Ml8"; */
+"ryi-CV-Ml8.title" = "Lokal port:";

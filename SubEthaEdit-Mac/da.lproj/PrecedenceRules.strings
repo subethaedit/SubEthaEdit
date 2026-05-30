@@ -1,0 +1,11 @@
+/* Class = "NSMenuItem"; title = "Filename is"; ObjectID = "10"; */
+"10.title" = "Filnavnet er";
+
+/* Class = "NSMenuItem"; title = "Extension is"; ObjectID = "11"; */
+"11.title" = "Endelsen er";
+
+/* Class = "NSMenuItem"; title = "Content matches"; ObjectID = "12"; */
+"12.title" = "Indhold matcher";
+
+/* Class = "NSMenuItem"; title = "Extension exactly is"; ObjectID = "13"; */
+"13.title" = "Endelsen er præcis";

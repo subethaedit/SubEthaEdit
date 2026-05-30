@@ -1,0 +1,17 @@
+/* Class = "NSWindow"; title = "Customize Encodings List"; ObjectID = "5"; */
+"5.title" = "Tilpass kodingsliste";
+
+/* Class = "NSTextFieldCell"; title = "Enable the text encodings you would like to be able to use."; ObjectID = "21"; */
+"21.title" = "Aktiver tekstkodingane du vil kunne bruke.";
+
+/* Class = "NSButtonCell"; title = "Select all"; ObjectID = "22"; */
+"22.title" = "Merk alt";
+
+/* Class = "NSButtonCell"; title = "Clear all"; ObjectID = "23"; */
+"23.title" = "Tøm alle";
+
+/* Class = "NSButtonCell"; title = "Revert to default"; ObjectID = "24"; */
+"24.title" = "Tilbakestill til standard";
+
+/* Class = "NSButtonCell"; title = "Switch"; ObjectID = "25"; */
+"25.title" = "Byt";

@@ -1,0 +1,17 @@
+/* Class = "NSTableColumn"; headerCell.title = "Line"; ObjectID = "7xN-gq-g8R"; */
+"7xN-gq-g8R.headerCell.title" = "Linje";
+
+/* Class = "NSTextFieldCell"; title = "Highlighted characters cannot be represented in %@ encoding"; ObjectID = "BER-Vy-mJT"; */
+"BER-Vy-mJT.title" = "Fremhævede tegn kan ikke repræsenteres i kodningen %@";
+
+/* Class = "NSButtonCell"; title = "Cancel"; ObjectID = "Dn4-ar-2ce"; */
+"Dn4-ar-2ce.title" = "Annuller";
+
+/* Class = "NSButtonCell"; title = "Convert lossy"; ObjectID = "F4D-Dn-RT1"; */
+"F4D-Dn-RT1.title" = "Konvertér med tab";
+
+/* Class = "NSButtonCell"; title = "Convert"; ObjectID = "XXw-gX-iIl"; */
+"XXw-gX-iIl.title" = "Konvertér";
+
+/* Class = "NSTableColumn"; headerCell.title = "Error"; ObjectID = "siS-op-zKo"; */
+"siS-op-zKo.headerCell.title" = "Fejl";

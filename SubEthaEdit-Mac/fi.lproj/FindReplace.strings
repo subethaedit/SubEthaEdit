@@ -1,0 +1,17 @@
+/* Class = "NSWindow"; title = "Go to Line"; ObjectID = "123"; */
+"123.title" = "Siirry riville";
+
+/* Class = "NSWindow"; title = "Tab Width"; ObjectID = "328"; */
+"328.title" = "Sarkainleveys";
+
+/* Class = "NSButtonCell"; title = "Go"; ObjectID = "436"; */
+"436.title" = "Siirry";
+
+/* Class = "NSTextFieldCell"; title = "Line:\n"; ObjectID = "438"; */
+"438.title" = "Rivi:\n";
+
+/* Class = "NSButtonCell"; title = "Set"; ObjectID = "451"; */
+"451.title" = "Aseta";
+
+/* Class = "NSTextFieldCell"; title = "Tab Width:\n"; ObjectID = "452"; */
+"452.title" = "Sarkainleveys:\n";

@@ -1,0 +1,38 @@
+/* Class = "NSWindow"; title = "Window"; ObjectID = "6"; */
+"6.title" = "Vindauge";
+
+/* Class = "NSButton"; ibShadowedToolTip = "SubEthaEdit transmits the document history on connect to a document. If you don't need the history or you don't want to send it due to privacy issues you can disable that feature here."; ObjectID = "143"; */
+"143.ibShadowedToolTip" = "SubEthaEdit overfører dokumenthistorikken når du koplar til eit dokument. Om du ikkje treng historikken eller ikkje vil sende han av personvernomsyn, kan du deaktivere funksjonen her.";
+
+/* Class = "NSButtonCell"; title = "Disable screen fonts"; ObjectID = "175"; */
+"175.title" = "Deaktiver skjermskrifter";
+
+/* Class = "NSButtonCell"; title = "Add synthesised bold and italic to fonts"; ObjectID = "176"; */
+"176.title" = "Legg til syntetisk feit og kursiv i skrifter";
+
+/* Class = "NSTextFieldCell"; title = "Takes effect after relaunch"; ObjectID = "177"; */
+"177.title" = "Tek til å gjelde etter omstart";
+
+/* Class = "NSButtonCell"; title = "Save document state per file"; ObjectID = "187"; */
+"187.title" = "Lagre dokumenttilstand per fil";
+
+/* Class = "NSTextFieldCell"; title = "For example, foldings are saved in Extended Attributes"; ObjectID = "188"; */
+"188.title" = "Til dømes blir foldingar lagra i utvida attributtar";
+
+/* Class = "NSTextFieldCell"; title = "Saving and Loading:"; ObjectID = "6Ej-d4-7kP"; */
+"6Ej-d4-7kP.title" = "Lagring og innlasting:";
+
+/* Class = "NSTextFieldCell"; title = "Font Rendering:"; ObjectID = "AK3-gD-86e"; */
+"AK3-gD-86e.title" = "Skriftgjengiving:";
+
+/* Class = "NSBox"; title = "Box"; ObjectID = "e0d-aI-hdl"; */
+"e0d-aI-hdl.title" = "Boks";
+
+/* Class = "NSButtonCell"; title = "Copy"; ObjectID = "i3k-9U-Hub"; */
+"i3k-9U-Hub.title" = "Kopier";
+
+/* Class = "NSTextFieldCell"; title = "Run the following script in Terminal.app to install the 'see' command line tool:"; ObjectID = "miq-Cf-tda"; */
+"miq-Cf-tda.title" = "Køyr følgjande skript i Terminal.app for å installere kommandolinjeverktøyet 'see':";
+
+/* Class = "NSTextFieldCell"; title = "Command Line Tool:"; ObjectID = "mvo-I4-dw6"; */
+"mvo-I4-dw6.title" = "Kommandolinjeverktøy:";

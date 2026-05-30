@@ -1,0 +1,113 @@
+/* Class = "NSButton"; ibShadowedToolTip = "Change the document's default font"; ObjectID = "39"; */
+"39.ibShadowedToolTip" = "Skift dokumentets standardskrift";
+
+/* Class = "NSBox"; title = "Margins"; ObjectID = "85"; */
+"85.title" = "Marginer";
+
+/* Class = "NSBox"; title = "Collaboration"; ObjectID = "88"; */
+"88.title" = "Samarbejde";
+
+/* Class = "NSBox"; title = "Header"; ObjectID = "90"; */
+"90.title" = "Sidehoved";
+
+/* Class = "NSBox"; title = "General"; ObjectID = "92"; */
+"92.title" = "Generelt";
+
+/* Class = "NSButtonCell"; title = "Use custom font:"; ObjectID = "96"; */
+"96.title" = "Brug tilpasset skrift:";
+
+/* Class = "NSButtonCell"; title = "Use document's font"; ObjectID = "98"; */
+"98.title" = "Brug dokumentets skrift";
+
+/* Class = "NSTextFieldCell"; title = "Top:"; ObjectID = "192"; */
+"192.title" = "Top:";
+
+/* Class = "NSTextFieldCell"; title = "Left:"; ObjectID = "193"; */
+"193.title" = "Venstre:";
+
+/* Class = "NSTextFieldCell"; title = "Right:"; ObjectID = "194"; */
+"194.title" = "Højre:";
+
+/* Class = "NSTextFieldCell"; title = "Bottom:"; ObjectID = "195"; */
+"195.title" = "Bund:";
+
+/* Class = "NSButtonCell"; title = "Facing pages"; ObjectID = "196"; */
+"196.title" = "Modstående sider";
+
+/* Class = "NSTextFieldCell"; title = "cm"; ObjectID = "197"; */
+"197.title" = "cm";
+
+/* Class = "NSTextFieldCell"; title = "cm"; ObjectID = "198"; */
+"198.title" = "cm";
+
+/* Class = "NSTextFieldCell"; title = "cm"; ObjectID = "199"; */
+"199.title" = "cm";
+
+/* Class = "NSTextFieldCell"; title = "cm"; ObjectID = "200"; */
+"200.title" = "cm";
+
+/* Class = "NSButtonCell"; title = "Annotate"; ObjectID = "201"; */
+"201.title" = "Annotér";
+
+/* Class = "NSButtonCell"; title = "Colorize"; ObjectID = "202"; */
+"202.title" = "Farvelæg";
+
+/* Class = "NSButtonCell"; title = "Images"; ObjectID = "203"; */
+"203.title" = "Billeder";
+
+/* Class = "NSButtonCell"; title = "Visitors"; ObjectID = "204"; */
+"204.title" = "Besøgende";
+
+/* Class = "NSButtonCell"; title = "AIM and Email"; ObjectID = "205"; */
+"205.title" = "AIM og e-mail";
+
+/* Class = "NSButtonCell"; title = "Participants"; ObjectID = "206"; */
+"206.title" = "Deltagere";
+
+/* Class = "NSTextFieldCell"; title = "Change Marks"; ObjectID = "207"; */
+"207.title" = "Ændringsmærker";
+
+/* Class = "NSTextFieldCell"; title = "Written By"; ObjectID = "208"; */
+"208.title" = "Skrevet af";
+
+/* Class = "NSButtonCell"; title = "Annotate"; ObjectID = "209"; */
+"209.title" = "Annotér";
+
+/* Class = "NSButtonCell"; title = "Colorize"; ObjectID = "210"; */
+"210.title" = "Farvelæg";
+
+/* Class = "NSButtonCell"; title = "Page header"; ObjectID = "211"; */
+"211.title" = "Sidehoved";
+
+/* Class = "NSButtonCell"; title = "Filename"; ObjectID = "212"; */
+"212.title" = "Filnavn";
+
+/* Class = "NSButtonCell"; title = "Current date"; ObjectID = "213"; */
+"213.title" = "Aktuel dato";
+
+/* Class = "NSButtonCell"; title = "Full Path"; ObjectID = "214"; */
+"214.title" = "Fuld sti";
+
+/* Class = "NSButtonCell"; title = "Set…"; ObjectID = "215"; */
+"215.title" = "Sæt…";
+
+/* Class = "NSButtonCell"; title = "Highlight syntax"; ObjectID = "216"; */
+"216.title" = "Fremhæv syntaks";
+
+/* Class = "NSButtonCell"; title = "resize to:"; ObjectID = "217"; */
+"217.title" = "skift størrelse til:";
+
+/* Class = "NSTextFieldCell"; title = "pt"; ObjectID = "219"; */
+"219.title" = "pt";
+
+/* Class = "NSButtonCell"; title = "Line numbers"; ObjectID = "220"; */
+"220.title" = "Linjenumre";
+
+/* Class = "NSTextFieldCell"; title = "Small System Font Text"; ObjectID = "221"; */
+"221.title" = "Lille systemskrifttekst";
+
+/* Class = "NSButtonCell"; title = "Enforce white background"; ObjectID = "222"; */
+"222.title" = "Gennemtving hvid baggrund";
+
+/* Class = "NSButtonCell"; title = "Radio"; ObjectID = "223"; */
+"223.title" = "Radio";

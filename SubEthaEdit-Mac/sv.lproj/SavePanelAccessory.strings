@@ -1,0 +1,50 @@
+/* Class = "NSButtonCell"; title = "Plain Text"; ObjectID = "127"; */
+"127.title" = "Oformaterad text";
+
+/* Class = "NSButtonCell"; title = "Subetha Text"; ObjectID = "128"; */
+"128.title" = "Subetha Text";
+
+/* Class = "NSButtonCell"; title = "Plain Text"; ObjectID = "133"; */
+"133.title" = "Oformaterad text";
+
+/* Class = "NSButtonCell"; title = "Subetha Text"; ObjectID = "134"; */
+"134.title" = "Subetha Text";
+
+/* Class = "NSTextFieldCell"; title = "File Encoding:"; ObjectID = "143"; */
+"143.title" = "Filkodning:";
+
+/* Class = "NSButtonCell"; title = "Go into bundles"; ObjectID = "145"; */
+"145.title" = "Gå in i paket";
+
+/* Class = "NSButtonCell"; title = "Show hidden files"; ObjectID = "146"; */
+"146.title" = "Visa dolda filer";
+
+/* Class = "NSTextFieldCell"; title = "File Format:"; ObjectID = "147"; */
+"147.title" = "Filformat:";
+
+/* Class = "NSTextFieldCell"; title = "Can be read by any other text editing application"; ObjectID = "148"; */
+"148.title" = "Kan läsas av alla andra textredigeringsprogram";
+
+/* Class = "NSTextFieldCell"; title = "Includes users and changes. Can be read by applications supporting Subetha Engine."; ObjectID = "149"; */
+"149.title" = "Inkluderar användare och ändringar. Kan läsas av program som stöder Subetha Engine.";
+
+/* Class = "NSButtonCell"; title = "Go into bundles"; ObjectID = "150"; */
+"150.title" = "Gå in i paket";
+
+/* Class = "NSButtonCell"; title = "Show hidden files"; ObjectID = "151"; */
+"151.title" = "Visa dolda filer";
+
+/* Class = "NSTextFieldCell"; title = "File Format:"; ObjectID = "152"; */
+"152.title" = "Filformat:";
+
+/* Class = "NSTextFieldCell"; title = "Includes users and changes. Can be read by applications supporting Subetha Engine."; ObjectID = "153"; */
+"153.title" = "Inkluderar användare och ändringar. Kan läsas av program som stöder Subetha Engine.";
+
+/* Class = "NSTextFieldCell"; title = "Can be read by any other text editing application"; ObjectID = "154"; */
+"154.title" = "Kan läsas av alla andra textredigeringsprogram";
+
+/* Class = "NSButtonCell"; title = "Radio"; ObjectID = "155"; */
+"155.title" = "Radio";
+
+/* Class = "NSButtonCell"; title = "Radio"; ObjectID = "156"; */
+"156.title" = "Radio";

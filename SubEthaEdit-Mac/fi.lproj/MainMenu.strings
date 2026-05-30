@@ -1,0 +1,566 @@
+/* Class = "NSMenuItem"; title = "Bring All to Front"; ObjectID = "5"; */
+"5.title" = "Tuo kaikki eteen";
+
+/* Class = "NSMenuItem"; title = "Window"; ObjectID = "19"; */
+"19.title" = "Ikkuna";
+
+/* Class = "NSMenuItem"; title = "Minimize"; ObjectID = "23"; */
+"23.title" = "Pienennä";
+
+/* Class = "NSMenu"; title = "Window"; ObjectID = "24"; */
+"24.title" = "Ikkuna";
+
+/* Class = "NSMenu"; title = "MainMenu"; ObjectID = "29"; */
+"29.title" = "MainMenu";
+
+/* Class = "NSMenuItem"; title = "SubEthaEdit"; ObjectID = "56"; */
+"56.title" = "SubEthaEdit";
+
+/* Class = "NSMenu"; title = "SubEthaEdit"; ObjectID = "57"; */
+"57.title" = "SubEthaEdit";
+
+/* Class = "NSMenuItem"; title = "About SubEthaEdit"; ObjectID = "58"; */
+"58.title" = "Tietoja: SubEthaEdit";
+
+/* Class = "NSMenuItem"; title = "Open…"; ObjectID = "72"; */
+"72.title" = "Avaa…";
+
+/* Class = "NSMenuItem"; title = "Close Window"; ObjectID = "73"; */
+"73.title" = "Sulje ikkuna";
+
+/* Class = "NSMenuItem"; title = "Save"; ObjectID = "75"; */
+"75.title" = "Tallenna";
+
+/* Class = "NSMenuItem"; title = "Page Setup…"; ObjectID = "77"; */
+"77.title" = "Arkin määrittely…";
+
+/* Class = "NSMenuItem"; title = "Print…"; ObjectID = "78"; */
+"78.title" = "Tulosta…";
+
+/* Class = "NSMenuItem"; title = "Save As…"; ObjectID = "80"; */
+"80.title" = "Tallenna nimellä…";
+
+/* Class = "NSMenu"; title = "File"; ObjectID = "81"; */
+"81.title" = "Arkisto";
+
+/* Class = "NSMenuItem"; title = "New"; ObjectID = "82"; */
+"82.title" = "Uusi";
+
+/* Class = "NSMenuItem"; title = "File"; ObjectID = "83"; */
+"83.title" = "Arkisto";
+
+/* Class = "NSMenuItem"; title = "Help"; ObjectID = "103"; */
+"103.title" = "Ohje";
+
+/* Class = "NSMenu"; title = "Help"; ObjectID = "106"; */
+"106.title" = "Ohje";
+
+/* Class = "NSMenuItem"; title = "Revert to Saved"; ObjectID = "112"; */
+"112.title" = "Palauta tallennettuun";
+
+/* Class = "NSMenuItem"; title = "Open Recent"; ObjectID = "124"; */
+"124.title" = "Avaa viimeisimmät";
+
+/* Class = "NSMenu"; title = "Open Recent"; ObjectID = "125"; */
+"125.title" = "Avaa viimeisimmät";
+
+/* Class = "NSMenuItem"; title = "Clear Menu"; ObjectID = "126"; */
+"126.title" = "Tyhjennä valikko";
+
+/* Class = "NSMenuItem"; title = "Preferences…"; ObjectID = "129"; */
+"129.title" = "Asetukset…";
+
+/* Class = "NSMenu"; title = "Services"; ObjectID = "130"; */
+"130.title" = "Palvelut";
+
+/* Class = "NSMenuItem"; title = "Services"; ObjectID = "131"; */
+"131.title" = "Palvelut";
+
+/* Class = "NSMenuItem"; title = "Hide SubEthaEdit"; ObjectID = "134"; */
+"134.title" = "Kätke SubEthaEdit";
+
+/* Class = "NSMenuItem"; title = "Quit SubEthaEdit"; ObjectID = "136"; */
+"136.title" = "Lopeta SubEthaEdit";
+
+/* Class = "NSMenuItem"; title = "Hide Others"; ObjectID = "145"; */
+"145.title" = "Kätke muut";
+
+/* Class = "NSMenuItem"; title = "Show All"; ObjectID = "150"; */
+"150.title" = "Näytä kaikki";
+
+/* Class = "NSMenuItem"; title = "Copy"; ObjectID = "157"; */
+"157.title" = "Kopioi";
+
+/* Class = "NSMenuItem"; title = "Undo"; ObjectID = "158"; */
+"158.title" = "Kumoa";
+
+/* Class = "NSMenuItem"; title = "Cut"; ObjectID = "160"; */
+"160.title" = "Leikkaa";
+
+/* Class = "NSMenuItem"; title = "Edit"; ObjectID = "163"; */
+"163.title" = "Muokkaa";
+
+/* Class = "NSMenuItem"; title = "Delete"; ObjectID = "164"; */
+"164.title" = "Poista";
+
+/* Class = "NSMenu"; title = "Edit"; ObjectID = "169"; */
+"169.title" = "Muokkaa";
+
+/* Class = "NSMenuItem"; title = "Paste"; ObjectID = "171"; */
+"171.title" = "Liitä";
+
+/* Class = "NSMenuItem"; title = "Select All"; ObjectID = "172"; */
+"172.title" = "Valitse kaikki";
+
+/* Class = "NSMenuItem"; title = "Redo"; ObjectID = "173"; */
+"173.title" = "Tee uudelleen";
+
+/* Class = "NSMenuItem"; title = "Zoom"; ObjectID = "203"; */
+"203.title" = "Zoomaa";
+
+/* Class = "NSMenuItem"; title = "Advertise"; ObjectID = "216"; */
+"216.title" = "Mainosta";
+
+/* Class = "NSMenuItem"; title = "View"; ObjectID = "219"; */
+"219.title" = "Näytä";
+
+/* Class = "NSMenu"; title = "View"; ObjectID = "221"; */
+"221.title" = "Näytä";
+
+/* Class = "NSMenuItem"; title = "Show Participants"; ObjectID = "227"; */
+"227.title" = "Näytä osallistujat";
+
+/* Class = "NSMenuItem"; title = "Document Hub"; ObjectID = "231"; */
+"231.title" = "Dokumenttikeskus";
+
+/* Class = "NSMenuItem"; title = "Mode"; ObjectID = "236"; */
+"236.title" = "Tila";
+
+/* Class = "NSMenu"; title = "Mode"; ObjectID = "237"; */
+"237.title" = "Tila";
+
+/* Class = "NSMenu"; title = "Switch Mode"; ObjectID = "249"; */
+"249.title" = "Vaihda tila";
+
+/* Class = "NSMenuItem"; title = "Switch Mode"; ObjectID = "250"; */
+"250.title" = "Vaihda tila";
+
+/* Class = "NSMenuItem"; title = "Format"; ObjectID = "253"; */
+"253.title" = "Muoto";
+
+/* Class = "NSMenu"; title = "Format"; ObjectID = "254"; */
+"254.title" = "Muoto";
+
+/* Class = "NSMenuItem"; title = "File Encodings"; ObjectID = "256"; */
+"256.title" = "Tiedostojen merkistöt";
+
+/* Class = "NSMenu"; title = "File Encodings"; ObjectID = "258"; */
+"258.title" = "Tiedostojen merkistöt";
+
+/* Class = "NSMenuItem"; title = "Jump to Selection"; ObjectID = "264"; */
+"264.title" = "Siirry valintaan";
+
+/* Class = "NSMenu"; title = "Find"; ObjectID = "265"; */
+"265.title" = "Etsi";
+
+/* Class = "NSMenuItem"; title = "Find All"; ObjectID = "266"; */
+"266.title" = "Etsi kaikki";
+
+/* Class = "NSMenuItem"; title = "Find"; ObjectID = "267"; */
+"267.title" = "Etsi";
+
+/* Class = "NSMenuItem"; title = "Find Previous"; ObjectID = "268"; */
+"268.title" = "Etsi edellinen";
+
+/* Class = "NSMenuItem"; title = "Find…"; ObjectID = "269"; */
+"269.title" = "Etsi…";
+
+/* Class = "NSMenuItem"; title = "Use Selection for Find"; ObjectID = "270"; */
+"270.title" = "Käytä valintaa hakuun";
+
+/* Class = "NSMenu"; title = "Speech"; ObjectID = "277"; */
+"277.title" = "Puhe";
+
+/* Class = "NSMenuItem"; title = "Start speaking"; ObjectID = "278"; */
+"278.title" = "Aloita puhuminen";
+
+/* Class = "NSMenuItem"; title = "Speech"; ObjectID = "279"; */
+"279.title" = "Puhe";
+
+/* Class = "NSMenuItem"; title = "Stop speaking"; ObjectID = "280"; */
+"280.title" = "Lopeta puhuminen";
+
+/* Class = "NSMenuItem"; title = "Use Tabs"; ObjectID = "286"; */
+"286.title" = "Käytä sarkaimia";
+
+/* Class = "NSMenu"; title = "Tab Width"; ObjectID = "288"; */
+"288.title" = "Sarkainleveys";
+
+/* Class = "NSMenuItem"; title = "Tab Width"; ObjectID = "289"; */
+"289.title" = "Sarkainleveys";
+
+/* Class = "NSMenuItem"; title = "Custom…"; ObjectID = "296"; */
+"296.title" = "Mukautettu…";
+
+/* Class = "NSMenuItem"; title = "Indent New Lines"; ObjectID = "304"; */
+"304.title" = "Sisennä uudet rivit";
+
+/* Class = "NSMenuItem"; title = "Show Invisible Characters"; ObjectID = "308"; */
+"308.title" = "Näytä näkymättömät merkit";
+
+/* Class = "NSMenuItem"; title = "Font"; ObjectID = "321"; */
+"321.title" = "Fontti";
+
+/* Class = "NSMenuItem"; title = "Bigger"; ObjectID = "322"; */
+"322.title" = "Suurempi";
+
+/* Class = "NSMenuItem"; title = "Show Fonts"; ObjectID = "333"; */
+"333.title" = "Näytä fontit";
+
+/* Class = "NSMenu"; title = "Font"; ObjectID = "338"; */
+"338.title" = "Fontti";
+
+/* Class = "NSMenuItem"; title = "Smaller"; ObjectID = "344"; */
+"344.title" = "Pienempi";
+
+/* Class = "NSMenuItem"; title = "New View in new Window"; ObjectID = "371"; */
+"371.title" = "Uusi näkymä uudessa ikkunassa";
+
+/* Class = "NSMenuItem"; title = "Split View"; ObjectID = "373"; */
+"373.title" = "Jaettu näkymä";
+
+/* Class = "NSMenuItem"; title = "Save a Copy As…"; ObjectID = "376"; */
+"376.title" = "Tallenna kopio nimellä…";
+
+/* Class = "NSMenuItem"; title = "Wrap Lines"; ObjectID = "378"; */
+"378.title" = "Rivitä rivit";
+
+/* Class = "NSMenuItem"; title = "Show Line Numbers"; ObjectID = "380"; */
+"380.title" = "Näytä rivinumerot";
+
+/* Class = "NSMenuItem"; title = "Show Top Status Bar"; ObjectID = "386"; */
+"386.title" = "Näytä ylempi tilapalkki";
+
+/* Class = "NSMenuItem"; title = "Show Bottom Status Bar"; ObjectID = "387"; */
+"387.title" = "Näytä alempi tilapalkki";
+
+/* Class = "NSMenuItem"; title = "Shift Left"; ObjectID = "391"; */
+"391.title" = "Siirrä vasemmalle";
+
+/* Class = "NSMenuItem"; title = "Shift Right"; ObjectID = "392"; */
+"392.title" = "Siirrä oikealle";
+
+/* Class = "NSMenuItem"; title = "Clear Change Highlighting"; ObjectID = "397"; */
+"397.title" = "Tyhjennä muutoskorostus";
+
+/* Class = "NSMenuItem"; title = "Highlight Changes"; ObjectID = "398"; */
+"398.title" = "Korosta muutokset";
+
+/* Class = "NSMenuItem"; title = "Always Show Tab Bar"; ObjectID = "403"; */
+"403.title" = "Näytä välilehtipalkki aina";
+
+/* Class = "NSMenu"; title = "Line Endings"; ObjectID = "406"; */
+"406.title" = "Rivinvaihdot";
+
+/* Class = "NSMenuItem"; title = "Line Endings"; ObjectID = "407"; */
+"407.title" = "Rivinvaihdot";
+
+/* Class = "NSMenuItem"; title = "By Word"; ObjectID = "411"; */
+"411.title" = "Sanoittain";
+
+/* Class = "NSMenu"; title = "Wrap"; ObjectID = "412"; */
+"412.title" = "Rivitä";
+
+/* Class = "NSMenuItem"; title = "Wrap"; ObjectID = "413"; */
+"413.title" = "Rivitä";
+
+/* Class = "NSMenuItem"; title = "By Character"; ObjectID = "414"; */
+"414.title" = "Merkeittäin";
+
+/* Class = "NSMenuItem"; title = "Use Windows Line Endings (CRLF)"; ObjectID = "417"; */
+"417.title" = "Käytä Windows-rivinvaihtoja (CRLF)";
+
+/* Class = "NSMenuItem"; title = "Use Classic Mac Line Endings (CR)"; ObjectID = "418"; */
+"418.title" = "Käytä klassisia Mac-rivinvaihtoja (CR)";
+
+/* Class = "NSMenuItem"; title = "Use Unix/Mac OS X Line Endings (LF)"; ObjectID = "419"; */
+"419.title" = "Käytä Unix/Mac OS X -rivinvaihtoja (LF)";
+
+/* Class = "NSMenuItem"; title = "Next Change"; ObjectID = "424"; */
+"424.title" = "Seuraava muutos";
+
+/* Class = "NSMenuItem"; title = "Previous Change"; ObjectID = "425"; */
+"425.title" = "Edellinen muutos";
+
+/* Class = "NSMenuItem"; title = "Previous Symbol"; ObjectID = "426"; */
+"426.title" = "Edellinen symboli";
+
+/* Class = "NSMenuItem"; title = "Next Symbol"; ObjectID = "427"; */
+"427.title" = "Seuraava symboli";
+
+/* Class = "NSMenuItem"; title = "Go to Line…"; ObjectID = "430"; */
+"430.title" = "Siirry riville…";
+
+/* Class = "NSMenuItem"; title = "Convert to Unix/Mac OS X Line Endings (LF)"; ObjectID = "435"; */
+"435.title" = "Muunna Unix/Mac OS X -rivinvaihdoiksi (LF)";
+
+/* Class = "NSMenuItem"; title = "Convert to Windows Line Endings (CRLF)"; ObjectID = "436"; */
+"436.title" = "Muunna Windows-rivinvaihdoiksi (CRLF)";
+
+/* Class = "NSMenuItem"; title = "Convert to Classic Mac Line Endings (CR)"; ObjectID = "440"; */
+"440.title" = "Muunna klassisiksi Mac-rivinvaihdoiksi (CR)";
+
+/* Class = "NSMenuItem"; title = "Use Unicode Line Separator (LSEP)"; ObjectID = "449"; */
+"449.title" = "Käytä Unicode-rivierotinta (LSEP)";
+
+/* Class = "NSMenuItem"; title = "Use Unicode Paragraph Separator (PSEP)"; ObjectID = "451"; */
+"451.title" = "Käytä Unicode-kappale-erotinta (PSEP)";
+
+/* Class = "NSMenuItem"; title = "Convert to Unicode Line Separator (LSEP)"; ObjectID = "453"; */
+"453.title" = "Muunna Unicode-rivierottimeksi (LSEP)";
+
+/* Class = "NSMenuItem"; title = "Convert to Unicode Paragraph Separator (PSEP)"; ObjectID = "455"; */
+"455.title" = "Muunna Unicode-kappale-erottimeksi (PSEP)";
+
+/* Class = "NSMenuItem"; title = "Show Web Preview"; ObjectID = "459"; */
+"459.title" = "Näytä verkkoesikatselu";
+
+/* Class = "NSMenuItem"; title = "Refresh Web Preview"; ObjectID = "460"; */
+"460.title" = "Päivitä verkkoesikatselu";
+
+/* Class = "NSMenuItem"; title = "FAQ and Support"; ObjectID = "469"; */
+"469.title" = "UKK ja tuki";
+
+/* Class = "NSMenuItem"; title = "Copy Document URL"; ObjectID = "475"; */
+"475.title" = "Kopioi dokumentin URL";
+
+/* Class = "NSMenuItem"; title = "Find Next"; ObjectID = "479"; */
+"479.title" = "Etsi seuraava";
+
+/* Class = "NSMenuItem"; title = "Acknowledgements"; ObjectID = "491"; */
+"491.title" = "Kiitokset";
+
+/* Class = "NSMenuItem"; title = "Regular Expressions"; ObjectID = "496"; */
+"496.title" = "Säännölliset lausekkeet";
+
+/* Class = "NSMenuItem"; title = "Read/Write"; ObjectID = "509"; */
+"509.title" = "Luku/kirjoitus";
+
+/* Class = "NSMenuItem"; title = "Incoming Participants"; ObjectID = "510"; */
+"510.title" = "Saapuvat osallistujat";
+
+/* Class = "NSMenu"; title = "Incoming Participants"; ObjectID = "511"; */
+"511.title" = "Saapuvat osallistujat";
+
+/* Class = "NSMenuItem"; title = "Read only"; ObjectID = "512"; */
+"512.title" = "Vain luku";
+
+/* Class = "NSMenuItem"; title = "Locked"; ObjectID = "513"; */
+"513.title" = "Lukittu";
+
+/* Class = "NSMenuItem"; title = "Use Selection for Replace"; ObjectID = "517"; */
+"517.title" = "Käytä valintaa korvaukseen";
+
+/* Class = "NSMenuItem"; title = "Replace & Find Next"; ObjectID = "519"; */
+"519.title" = "Korvaa ja etsi seuraava";
+
+/* Class = "NSMenuItem"; title = "Blockedit Selection"; ObjectID = "523"; */
+"523.title" = "Lohkomuokkaa valinta";
+
+/* Class = "NSMenuItem"; title = "Copy as XHTML"; ObjectID = "526"; */
+"526.title" = "Kopioi XHTML-muodossa";
+
+/* Class = "NSMenuItem"; title = "Entab"; ObjectID = "529"; */
+"529.title" = "Entab";
+
+/* Class = "NSMenuItem"; title = "Detab"; ObjectID = "530"; */
+"530.title" = "Detab";
+
+/* Class = "NSMenuItem"; title = "Export…"; ObjectID = "534"; */
+"534.title" = "Vie…";
+
+/* Class = "NSMenuItem"; title = "Copy with Styles"; ObjectID = "536"; */
+"536.title" = "Kopioi tyyleineen";
+
+/* Class = "NSMenuItem"; title = "Save All"; ObjectID = "542"; */
+"542.title" = "Tallenna kaikki";
+
+/* Class = "NSMenuItem"; title = "Close All Windows"; ObjectID = "543"; */
+"543.title" = "Sulje kaikki ikkunat";
+
+/* Class = "NSMenuItem"; title = "Reload Modes"; ObjectID = "550"; */
+"550.title" = "Lataa tilat uudelleen";
+
+/* Class = "NSMenuItem"; title = "Select Next Tab"; ObjectID = "613"; */
+"613.title" = "Siirry seuraavaan välilehteen";
+
+/* Class = "NSMenuItem"; title = "Select Previous Tab"; ObjectID = "614"; */
+"614.title" = "Siirry edelliseen välilehteen";
+
+/* Class = "NSMenuItem"; title = "New Tab"; ObjectID = "618"; */
+"618.title" = "Uusi välilehti";
+
+/* Class = "NSMenuItem"; title = "Move Tab to New Window"; ObjectID = "626"; */
+"626.title" = "Siirrä välilehti uuteen ikkunaan";
+
+/* Class = "NSMenuItem"; title = "Merge All Windows"; ObjectID = "628"; */
+"628.title" = "Yhdistä kaikki ikkunat";
+
+/* Class = "NSMenuItem"; title = "Pretty Print XML"; ObjectID = "638"; */
+"638.title" = "Siisti XML";
+
+/* Class = "NSMenuItem"; title = "Connect to Host…"; ObjectID = "640"; */
+"640.title" = "Yhdistä isäntään…";
+
+/* Class = "NSMenuItem"; title = "Advertise All"; ObjectID = "642"; */
+"642.title" = "Mainosta kaikkia";
+
+/* Class = "NSMenuItem"; title = "Set All To Read/Write"; ObjectID = "645"; */
+"645.title" = "Aseta kaikki luku/kirjoitus";
+
+/* Class = "NSMenuItem"; title = "Set All To Locked"; ObjectID = "648"; */
+"648.title" = "Lukitse kaikki";
+
+/* Class = "NSMenuItem"; title = "Open in New Window…"; ObjectID = "651"; */
+"651.title" = "Avaa uudessa ikkunassa…";
+
+/* Class = "NSMenuItem"; title = "Additional Modes"; ObjectID = "655"; */
+"655.title" = "Lisätilat";
+
+/* Class = "NSMenuItem"; title = "Restore Change Highlighting"; ObjectID = "657"; */
+"657.title" = "Palauta muutoskorostus";
+
+/* Class = "NSMenuItem"; title = "Code Folding"; ObjectID = "710"; */
+"710.title" = "Koodin taittelu";
+
+/* Class = "NSMenu"; title = "Code Folding"; ObjectID = "711"; */
+"711.title" = "Koodin taittelu";
+
+/* Class = "NSMenuItem"; title = "Unfold Current Block"; ObjectID = "712"; */
+"712.title" = "Avaa nykyinen lohko";
+
+/* Class = "NSMenuItem"; title = "Fold Selection"; ObjectID = "713"; */
+"713.title" = "Taita valinta";
+
+/* Class = "NSMenuItem"; title = "Fold Current Block"; ObjectID = "714"; */
+"714.title" = "Taita nykyinen lohko";
+
+/* Class = "NSMenuItem"; title = "Fold All Top Level Blocks"; ObjectID = "715"; */
+"715.title" = "Taita kaikki ylätason lohkot";
+
+/* Class = "NSMenuItem"; title = "Fold All Comment Blocks"; ObjectID = "716"; */
+"716.title" = "Taita kaikki kommenttilohkot";
+
+/* Class = "NSMenuItem"; title = "Unfold all Blocks"; ObjectID = "717"; */
+"717.title" = "Avaa kaikki lohkot";
+
+/* Class = "NSMenuItem"; title = "Fold All Blocks at Level"; ObjectID = "736"; */
+"736.title" = "Taita kaikki lohkot tasolla";
+
+/* Class = "NSMenu"; title = "Fold All Blocks at Level"; ObjectID = "737"; */
+"737.title" = "Taita kaikki lohkot tasolla";
+
+/* Class = "NSMenuItem"; title = "Show Folding Bar"; ObjectID = "759"; */
+"759.title" = "Näytä taittelupalkki";
+
+/* Class = "NSMenuItem"; title = "Tidy and Pretty Print HTML"; ObjectID = "771"; */
+"771.title" = "Siisti ja muotoile HTML";
+
+/* Class = "NSMenuItem"; title = "Fold All Blocks at Current Level"; ObjectID = "808"; */
+"808.title" = "Taita kaikki nykyisen tason lohkot";
+
+/* Class = "NSMenuItem"; title = "Spelling and Grammar"; ObjectID = "1065"; */
+"1065.title" = "Oikeinkirjoitus ja kielioppi";
+
+/* Class = "NSMenuItem"; title = "Substitutions"; ObjectID = "1066"; */
+"1066.title" = "Korvaukset";
+
+/* Class = "NSMenuItem"; title = "Transformations"; ObjectID = "1067"; */
+"1067.title" = "Muunnokset";
+
+/* Class = "NSMenu"; title = "Transformations"; ObjectID = "1072"; */
+"1072.title" = "Muunnokset";
+
+/* Class = "NSMenuItem"; title = "Make Upper Case"; ObjectID = "1073"; */
+"1073.title" = "Isot kirjaimet";
+
+/* Class = "NSMenuItem"; title = "Make Lower Case"; ObjectID = "1074"; */
+"1074.title" = "Pienet kirjaimet";
+
+/* Class = "NSMenuItem"; title = "Capitalize"; ObjectID = "1075"; */
+"1075.title" = "Isot alkukirjaimet";
+
+/* Class = "NSMenu"; title = "Substitutions"; ObjectID = "1076"; */
+"1076.title" = "Korvaukset";
+
+/* Class = "NSMenuItem"; title = "Show Substitutions"; ObjectID = "1077"; */
+"1077.title" = "Näytä korvaukset";
+
+/* Class = "NSMenuItem"; title = "Smart Quotes"; ObjectID = "1080"; */
+"1080.title" = "Älykkäät lainausmerkit";
+
+/* Class = "NSMenuItem"; title = "Smart Dashes"; ObjectID = "1081"; */
+"1081.title" = "Älykkäät ajatusviivat";
+
+/* Class = "NSMenuItem"; title = "Smart Links"; ObjectID = "1082"; */
+"1082.title" = "Älykkäät linkit";
+
+/* Class = "NSMenuItem"; title = "Text Replacement"; ObjectID = "1084"; */
+"1084.title" = "Tekstin korvaus";
+
+/* Class = "NSMenu"; title = "Spelling and Grammar"; ObjectID = "1085"; */
+"1085.title" = "Oikeinkirjoitus ja kielioppi";
+
+/* Class = "NSMenuItem"; title = "Show Spelling and Grammar"; ObjectID = "1086"; */
+"1086.title" = "Näytä oikeinkirjoitus ja kielioppi";
+
+/* Class = "NSMenuItem"; title = "Check Document Now"; ObjectID = "1087"; */
+"1087.title" = "Tarkista dokumentti nyt";
+
+/* Class = "NSMenuItem"; title = "Check Spelling While Typing"; ObjectID = "1089"; */
+"1089.title" = "Tarkista oikeinkirjoitus kirjoitettaessa";
+
+/* Class = "NSMenuItem"; title = "Check Grammar With Spelling"; ObjectID = "1090"; */
+"1090.title" = "Tarkista kielioppi oikeinkirjoituksen kanssa";
+
+/* Class = "NSMenuItem"; title = "Correct Spelling Automatically"; ObjectID = "1091"; */
+"1091.title" = "Korjaa oikeinkirjoitus automaattisesti";
+
+/* Class = "NSMenuItem"; title = "Re-Indent"; ObjectID = "1206"; */
+"1206.title" = "Sisennä uudelleen";
+
+/* Class = "NSMenuItem"; title = "Close Current Tag/Block"; ObjectID = "1208"; */
+"1208.title" = "Sulje nykyinen tunniste/lohko";
+
+/* Class = "NSMenuItem"; title = "Copy My URL"; ObjectID = "CHr-Rs-4yc"; */
+"CHr-Rs-4yc.title" = "Kopioi URL-osoitteeni";
+
+/* Class = "NSMenuItem"; title = "Show Inconsistent Indentation"; ObjectID = "F2N-aM-KUy"; */
+"F2N-aM-KUy.title" = "Näytä epäjohdonmukainen sisennys";
+
+/* Class = "NSMenuItem"; title = "Enter Full Screen"; ObjectID = "FzC-1a-ECe"; */
+"FzC-1a-ECe.title" = "Siirry koko näyttöön";
+
+/* Class = "NSMenuItem"; title = "Move Line Down"; ObjectID = "MK8-vl-kOn"; */
+"MK8-vl-kOn.title" = "Siirrä riviä alas";
+
+/* Class = "NSMenuItem"; title = "Show All Tabs"; ObjectID = "NpC-Zk-TuU"; */
+"NpC-Zk-TuU.title" = "Näytä kaikki välilehdet";
+
+/* Class = "NSMenuItem"; title = "Change Log"; ObjectID = "QXq-qd-asB"; */
+"QXq-qd-asB.title" = "Muutosloki";
+
+/* Class = "NSMenuItem"; title = "Show in Finder"; ObjectID = "aDB-wc-jEX"; */
+"aDB-wc-jEX.title" = "Näytä Finderissa";
+
+/* Class = "NSMenuItem"; title = "Highlight Syntax"; ObjectID = "bN4-A0-a88"; */
+"bN4-A0-a88.title" = "Korosta syntaksi";
+
+/* Class = "NSMenuItem"; title = "Move Line Up"; ObjectID = "eQ2-sl-0HA"; */
+"eQ2-sl-0HA.title" = "Siirrä riviä ylös";
+
+/* Class = "NSMenuItem"; title = "Report an Issue…"; ObjectID = "gxS-Yt-d3d"; */
+"gxS-Yt-d3d.title" = "Ilmoita ongelmasta…";
+
+/* Class = "NSMenuItem"; title = "Creating Modes"; ObjectID = "zf1-wO-8Tq"; */
+"zf1-wO-8Tq.title" = "Tilojen luominen";

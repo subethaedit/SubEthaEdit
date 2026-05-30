@@ -1,0 +1,8 @@
+/* Class = "NSTableColumn"; headerCell.title = "Line"; ObjectID = "8"; */
+"8.headerCell.title" = "Rivi";
+
+/* Class = "NSTableColumn"; headerCell.title = "Match"; ObjectID = "9"; */
+"9.headerCell.title" = "Osuma";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Refresh list"; ObjectID = "21"; */
+"21.ibShadowedToolTip" = "Päivitä luettelo";

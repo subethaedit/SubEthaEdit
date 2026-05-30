@@ -1,0 +1,56 @@
+/* Class = "NSWindow"; title = "Window"; ObjectID = "5"; */
+"5.title" = "Fönster";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Open a blank document at startup, if no other windows are open."; ObjectID = "31"; */
+"31.ibShadowedToolTip" = "Öppna ett tomt dokument vid start om inga andra fönster är öppna.";
+
+/* Class = "NSPopUpButton"; ibShadowedToolTip = "Uses this mode for all documents that are not handled by other modes."; ObjectID = "55"; */
+"55.ibShadowedToolTip" = "Använder det här läget för alla dokument som inte hanteras av andra lägen.";
+
+/* Class = "NSMenuItem"; title = "Default"; ObjectID = "56"; */
+"56.title" = "Standard";
+
+/* Class = "NSPopUpButton"; ibShadowedToolTip = "Specify how many directories are shown in the documents title."; ObjectID = "150"; */
+"150.ibShadowedToolTip" = "Ange hur många kataloger som visas i dokumentets titel.";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Documents are opened in tabs instead of windows."; ObjectID = "194"; */
+"194.ibShadowedToolTip" = "Dokument öppnas i flikar i stället för fönster.";
+
+/* Class = "NSButtonCell"; title = "Open Untitled Document at startup"; ObjectID = "224"; */
+"224.title" = "Öppna namnlöst dokument vid start";
+
+/* Class = "NSTextFieldCell"; title = "Mode for New Documents:"; ObjectID = "225"; */
+"225.title" = "Läge för nya dokument:";
+
+/* Class = "NSTextFieldCell"; title = "Show"; ObjectID = "227"; */
+"227.title" = "Visa";
+
+/* Class = "NSTextFieldCell"; title = "path components in window title"; ObjectID = "228"; */
+"228.title" = "sökvägskomponenter i fönstertiteln";
+
+/* Class = "NSTextFieldCell"; title = "Recent Documents:"; ObjectID = "230"; */
+"230.title" = "Senaste dokument:";
+
+/* Class = "NSTextFieldCell"; title = "Takes effect after relaunch"; ObjectID = "232"; */
+"232.title" = "Träder i kraft efter omstart";
+
+/* Class = "NSButtonCell"; title = "Open new documents in tabs"; ObjectID = "233"; */
+"233.title" = "Öppna nya dokument i flikar";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Also colorize changes if not in collaborative mode."; ObjectID = "KjR-2C-eEw"; */
+"KjR-2C-eEw.ibShadowedToolTip" = "Färglägg även ändringar när du inte är i samarbetsläge.";
+
+/* Class = "NSButtonCell"; title = "Highlight Changes when not collaborating"; ObjectID = "X2p-xv-B6d"; */
+"X2p-xv-B6d.title" = "Markera ändringar när du inte samarbetar";
+
+/* Class = "NSButtonCell"; title = "Show Document Hub at startup"; ObjectID = "dS3-kL-Ssf"; */
+"dS3-kL-Ssf.title" = "Visa dokumentnav vid start";
+
+/* Class = "NSTextFieldCell"; title = "Documents:"; ObjectID = "fkb-Fo-z4m"; */
+"fkb-Fo-z4m.title" = "Dokument:";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Opens Document Hub window on startup, if no other windows are open."; ObjectID = "iZf-W7-QIX"; */
+"iZf-W7-QIX.ibShadowedToolTip" = "Öppnar dokumentnavsfönstret vid start om inga andra fönster är öppna.";
+
+/* Class = "NSMenuItem"; title = "None"; ObjectID = "zSI-bj-Ccp"; */
+"zSI-bj-Ccp.title" = "Ingen";

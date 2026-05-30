@@ -1,0 +1,38 @@
+/* Class = "NSWindow"; title = "SubEthaEdit - Document Hub"; ObjectID = "1"; */
+"1.title" = "SubEthaEdit - Dokumentnav";
+
+/* Class = "NSToolbarItem"; label = "Connect…"; ObjectID = "GG6-92-XRT"; */
+"GG6-92-XRT.label" = "Koble til…";
+
+/* Class = "NSToolbarItem"; paletteLabel = "Connect…"; ObjectID = "GG6-92-XRT"; */
+"GG6-92-XRT.paletteLabel" = "Koble til…";
+
+/* Class = "NSToolbarItem"; toolTip = "Connect to a specific host"; ObjectID = "GG6-92-XRT"; */
+"GG6-92-XRT.toolTip" = "Koble til en bestemt vert";
+
+/* Class = "NSTextFieldCell"; title = "Recent Documents"; ObjectID = "Oo6-Ii-QIL"; */
+"Oo6-Ii-QIL.title" = "Nylige dokumenter";
+
+/* Class = "NSTextFieldCell"; title = "More…"; ObjectID = "U8V-G8-Xjs"; */
+"U8V-G8-Xjs.title" = "Mer…";
+
+/* Class = "NSMenuItem"; title = "Open File"; ObjectID = "ikA-7b-gSQ"; */
+"ikA-7b-gSQ.title" = "Åpne fil";
+
+/* Class = "NSToolbarItem"; label = "New"; ObjectID = "izD-8m-gNJ"; */
+"izD-8m-gNJ.label" = "Ny";
+
+/* Class = "NSToolbarItem"; paletteLabel = "New"; ObjectID = "izD-8m-gNJ"; */
+"izD-8m-gNJ.paletteLabel" = "Ny";
+
+/* Class = "NSToolbarItem"; toolTip = "Create a new file"; ObjectID = "izD-8m-gNJ"; */
+"izD-8m-gNJ.toolTip" = "Opprett en ny fil";
+
+/* Class = "NSToolbarItem"; label = "Open…"; ObjectID = "lFU-NN-bjy"; */
+"lFU-NN-bjy.label" = "Åpne…";
+
+/* Class = "NSToolbarItem"; paletteLabel = "Open…"; ObjectID = "lFU-NN-bjy"; */
+"lFU-NN-bjy.paletteLabel" = "Åpne…";
+
+/* Class = "NSToolbarItem"; toolTip = "Open an existing file"; ObjectID = "lFU-NN-bjy"; */
+"lFU-NN-bjy.toolTip" = "Åpne en eksisterende fil";

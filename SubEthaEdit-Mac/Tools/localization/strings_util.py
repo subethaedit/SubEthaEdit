@@ -154,6 +154,16 @@ def build_glossary():
     return glossary
 
 
+def escape_value(s):
+    """Escape an unescaped display string for embedding in a .strings value."""
+    return (
+        s.replace("\\", "\\\\")
+        .replace('"', '\\"')
+        .replace("\n", "\\n")
+        .replace("\t", "\\t")
+    )
+
+
 def emit_strings(entries, encoding="utf-8"):
     """Serialize entries (each {comment?, key, value}) back to .strings text."""
     chunks = []

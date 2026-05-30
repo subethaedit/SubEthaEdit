@@ -1,0 +1,29 @@
+/* Class = "NSButtonCell"; title = "Close"; ObjectID = "DsH-mB-ABC"; */
+"DsH-mB-ABC.title" = "Luk";
+
+/* Class = "NSSegmentedCell"; H5y-L8-NDU.ibShadowedToolTips[0] = "Show the previous match"; ObjectID = "H5y-L8-NDU"; */
+"H5y-L8-NDU.ibShadowedToolTips[0]" = "Vis forrige match";
+
+/* Class = "NSSegmentedCell"; H5y-L8-NDU.ibShadowedToolTips[1] = "Show the next match"; ObjectID = "H5y-L8-NDU"; */
+"H5y-L8-NDU.ibShadowedToolTips[1]" = "Vis næste match";
+
+/* Class = "NSButtonCell"; title = "Find All"; ObjectID = "YXR-QR-Jyz"; */
+"YXR-QR-Jyz.title" = "Find alle";
+
+/* Class = "NSBox"; title = "Box"; ObjectID = "b93-XS-lwa"; */
+"b93-XS-lwa.title" = "Boks";
+
+/* Class = "NSButtonCell"; title = "Replace All"; ObjectID = "gmW-Mw-wto"; */
+"gmW-Mw-wto.title" = "Erstat alle";
+
+/* Class = "NSButtonCell"; title = "Replace"; ObjectID = "hZh-tC-bOy"; */
+"hZh-tC-bOy.title" = "Erstat";
+
+/* Class = "NSBox"; title = "Box"; ObjectID = "hiv-Te-ZjM"; */
+"hiv-Te-ZjM.title" = "Boks";
+
+/* Class = "NSTextFieldCell"; placeholderString = "Find"; ObjectID = "z2X-dN-yhX"; */
+"z2X-dN-yhX.placeholderString" = "Søg";
+
+/* Class = "NSTextFieldCell"; placeholderString = "Replace"; ObjectID = "z6J-mm-Avg"; */
+"z6J-mm-Avg.placeholderString" = "Erstat";
