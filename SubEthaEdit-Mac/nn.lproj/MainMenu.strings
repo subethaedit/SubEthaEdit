@@ -371,10 +371,10 @@
 "526.title" = "Kopier som XHTML";
 
 /* Class = "NSMenuItem"; title = "Entab"; ObjectID = "529"; */
-"529.title" = "Entab";
+"529.title" = "Mellomrom → tabulatorar";
 
 /* Class = "NSMenuItem"; title = "Detab"; ObjectID = "530"; */
-"530.title" = "Detab";
+"530.title" = "Tabulatorar → mellomrom";
 
 /* Class = "NSMenuItem"; title = "Export…"; ObjectID = "534"; */
 "534.title" = "Eksporter…";
