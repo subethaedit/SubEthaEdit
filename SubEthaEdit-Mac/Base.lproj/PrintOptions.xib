@@ -53,7 +53,7 @@
                             <button toolTip="Change the document's default font" verticalHuggingPriority="750" id="39">
                                 <rect key="frame" x="29" y="7" width="53" height="28"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <buttonCell key="cell" type="push" title="Set..." bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" inset="2" id="215">
+                                <buttonCell key="cell" type="push" title="Set…" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" inset="2" id="215">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="smallSystem"/>
                                 </buttonCell>

@@ -44,7 +44,7 @@
                                         <button toolTip="Show Characters like newline, space, tab, etc." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PMn-Ew-4dd">
                                             <rect key="frame" x="341" y="477" width="273" height="20"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title="Inconsitent indentation" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="tw0-t3-jXf">
+                                            <buttonCell key="cell" type="check" title="Inconsistent indentation" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="tw0-t3-jXf">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>

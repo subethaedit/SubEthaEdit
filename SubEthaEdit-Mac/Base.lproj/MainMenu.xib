@@ -611,7 +611,7 @@
                                                 <action selector="changeTabWidth:" target="-1" id="797"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Custom..." id="296">
+                                        <menuItem title="Custom…" id="296">
                                             <connections>
                                                 <action selector="orderFrontTabWidthPanel:" target="463" id="481"/>
                                             </connections>
@@ -946,7 +946,7 @@
                                     <action selector="clearChangeMarks:" target="-1" id="400"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Restore Change Hightlighting" alternate="YES" keyEquivalent="M" id="657">
+                            <menuItem title="Restore Change Highlighting" alternate="YES" keyEquivalent="M" id="657">
                                 <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                 <connections>
                                     <action selector="restoreChangeMarks:" target="-1" id="659"/>

@@ -53,7 +53,7 @@
 "[Blockediting]" = "[Blockediting]";
 
 /* HTML Color Error Informative Text */
-"\"%@\" is not a valid HTML color. Please specify colors in your syntax defintion either as e.g. \"#fff\" or \"#ffffff\"" = "“%@” is not a valid HTML color. Please specify colors in your syntax defintion either as e.g. “#fff” or “#ffffff”";
+"\"%@\" is not a valid HTML color. Please specify colors in your syntax defintion either as e.g. \"#fff\" or \"#ffffff\"" = "“%@” is not a valid HTML color. Please specify colors in your syntax definition either as e.g. “#fff” or “#ffffff”";
 
 /* Symbol Regular Expression Error Informative Text */
 "\"%@\" is not a valid regular expression. Please check your regular expression in Find Panel's Ruby mode." = "“%@” is not a valid regular expression. Please check your regular expression in Find Panel's Ruby mode.";
@@ -764,7 +764,7 @@
 "1 Document" = "1 Document";
 
 /* Status of port mapping while trying */
-"Checking port status..." = "Checking port status...";
+"Checking port status..." = "Checking port status…";
 
 "PORT_NETWORKING_DISABLED" = "Closed";
 

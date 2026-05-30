@@ -24,6 +24,48 @@ BARE_RE = re.compile(
     r'"(?P<key>(?:[^"\\]|\\.)*)"\s*=\s*"(?P<value>(?:[^"\\]|\\.)*)"\s*;'
 )
 
+# Source strings that must never be sent for translation: IB design-time
+# placeholders, junk, sample/default values, bare URLs, tokens. The generator
+# omits these keys so the running language falls back to the Base (English)
+# value — correct, since none of these are user-visible (or must stay verbatim).
+_BRACKETED = re.compile(r"^<[^>]*>$")
+EXCLUDED_EXACT = {
+    "Itemasdfasdf", "Item1", "Item3", "Item 1", "Item 2", "Item 3",
+    "lorem ipsum", "OtherViews", "Text Cell", "Pop Up", "AUsers Name",
+    "SEE_APP_NAME",
+}
+
+
+_TRIVIAL = re.compile(r"^[%@\dlud$.,:()/\sx_-]+$")
+
+
+def is_translatable(value):
+    """False for non-translatable placeholder/junk/url/token strings."""
+    t = value.strip()
+    if not t:
+        return False
+    if _BRACKETED.match(t):                      # <do not localize>, <feedback label>, …
+        return False
+    if t in EXCLUDED_EXACT:
+        return False
+    if t.startswith(("http://", "https://", "see://")):
+        return False
+    if t.endswith(".txt"):                       # DocumentName.txt, NetworkDocumentName.txt
+        return False
+    if "/Users/" in t and t.endswith("install.command"):  # hard-coded dev path
+        return False
+    return True
+
+
+def is_trivial(value):
+    """True for strings that need no translation (pure number / format / punctuation)."""
+    return bool(_TRIVIAL.match(value.strip()))
+
+
+def needs_translation(value):
+    """A Base source value that should appear in the translation table."""
+    return is_translatable(value) and not is_trivial(value)
+
 
 def read_text(path):
     """Read a .strings file, honoring a UTF-16 BOM, else UTF-8."""
