@@ -80,16 +80,16 @@
 "All Tabs" = "Kaikki välilehdet";
 
 /* Menu/Toolbar Title for advertising the Document */
-"Advertise" = "Mainosta";
+"Advertise" = "Näytä verkossa";
 
 /* Menu/Toolbar Title for advertising all Documents */
-"Advertise All" = "Mainosta kaikkia";
+"Advertise All" = "Näytä kaikki verkossa";
 
 /* No comment provided by engineer. */
-"Advertise/Conceal" = "Mainosta/piilota";
+"Advertise/Conceal" = "Näytä/piilota";
 
 /* No comment provided by engineer. */
-"Advertise/Conceal Document" = "Mainosta/piilota dokumentti";
+"Advertise/Conceal Document" = "Näytä/piilota dokumentti";
 
 /* Location: Application */
 "Application" = "Sisäänrakennettu";
@@ -215,7 +215,9 @@
 "Discard Changes" = "Hylkää muutokset";
 
 /* Text for document URL field when not advertised */
-"Document not advertised.\nNo Document URL." = "Dokumenttia ei mainosteta.\nEi dokumentin URL-osoitetta.";
+"Document not advertised.
+No Document URL." = "Dokumentti ei ole näkyvissä.
+Ei dokumentin URL-osoitetta.";
 
 /* No comment provided by engineer. */
 "Don't Revert Document" = "Älä palauta";
@@ -772,7 +774,7 @@
 "No public mapping." = "Ei julkista ohjausta.";
 
 /* Status string showing the number of documents when none are advertised */
-"None advertised" = "Ei mainostettuja";
+"None advertised" = "Ei näkyviä";
 
 /* Text for document URL field when not your document */
 "Not your Document.\nNo Document URL." = "Ei sinun dokumenttisi.\nEi dokumentin URL-osoitetta.";
@@ -808,7 +810,7 @@
 "Invite %@" = "Kutsu %@";
 
 /* Advertise document string used in sharing service picker. */
-"Advertise Document" = "Mainosta dokumenttia";
+"Advertise Document" = "Näytä dokumentti verkossa";
 
 "FIND_REPLACE_PANEL_SCOPE_DOCUMENT" = "Dokumentti";
 
@@ -869,11 +871,11 @@
 "ENCODING_DOCTOR_CONVERT" = "Muunna";
 
 /* will cease invisibilty alert */
-"ANNOUNCE_WILL_MAKE_VISIBLE_MESSAGE" = "Mainostaminen tekee sinusta näkyvän";
+"ANNOUNCE_WILL_MAKE_VISIBLE_MESSAGE" = "Tämä tekee sinusta näkyvän muille";
 
-"ANNOUNCE_WILL_MAKE_VISIBLE_INFORMATIVE_TEXT" = "Olet tällä hetkellä näkymätön muille SubEthaEdit-käyttäjille. Jos mainostat tätä dokumenttia, sinusta tulee näkyvä heille.";
+"ANNOUNCE_WILL_MAKE_VISIBLE_INFORMATIVE_TEXT" = "Olet tällä hetkellä näkymätön muille SubEthaEdit-käyttäjille. Jos näytät tämän dokumentin verkossa, sinusta tulee näkyvä heille.";
 
-"ANNOUNCE_WILL_MAKE_VISIBLE_ACTION_TITLE" = "Mainosta";
+"ANNOUNCE_WILL_MAKE_VISIBLE_ACTION_TITLE" = "Näytä verkossa";
 
 /* document list */
 "DOCUMENT_LIST_WINDOW_TITLE" = "%@ - Dokumenttikeskus";
@@ -964,7 +966,7 @@
 
 "FIRST_USE_INVITE_HELP_TEXT" = "Kutsu muita käyttäjiä yhteistyöhön tässä dokumentissa napsauttamalla.";
 
-"FIRST_USE_ANNOUNCE_HELP_TEXT" = "Mainosta tätä dokumenttia verkkoon napsauttamalla.\nNapsauta hiiren oikealla painikkeella asettaaksesi myös saapuvien käyttäjien aloituskäyttöoikeudet.";
+"FIRST_USE_ANNOUNCE_HELP_TEXT" = "Näytä tämä dokumentti verkossa napsauttamalla.\nNapsauta hiiren oikealla painikkeella asettaaksesi myös saapuvien käyttäjien aloituskäyttöoikeudet.";
 
 /* Proxy window */
 "PROXY_WINDOW_ACCEPT" = "Hyväksy";

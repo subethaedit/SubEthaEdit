@@ -80,16 +80,16 @@
 "All Tabs" = "Alle faner";
 
 /* Menu/Toolbar Title for advertising the Document */
-"Advertise" = "Kunngjør";
+"Advertise" = "Gjør synlig";
 
 /* Menu/Toolbar Title for advertising all Documents */
-"Advertise All" = "Kunngjør alle";
+"Advertise All" = "Gjør alle synlige";
 
 /* No comment provided by engineer. */
-"Advertise/Conceal" = "Kunngjør/skjul";
+"Advertise/Conceal" = "Gjør synlig/skjul";
 
 /* No comment provided by engineer. */
-"Advertise/Conceal Document" = "Kunngjør/skjul dokument";
+"Advertise/Conceal Document" = "Gjør dokument synlig/skjul";
 
 /* Location: Application */
 "Application" = "Innebygd";
@@ -215,7 +215,9 @@
 "Discard Changes" = "Forkast endringer";
 
 /* Text for document URL field when not advertised */
-"Document not advertised.\nNo Document URL." = "Dokumentet er ikke kunngjort.\nIngen dokument-URL.";
+"Document not advertised.
+No Document URL." = "Dokumentet er ikke synlig.
+Ingen dokument-URL.";
 
 /* No comment provided by engineer. */
 "Don't Revert Document" = "Ikke tilbakestill";
@@ -772,7 +774,7 @@
 "No public mapping." = "Ingen offentlig tilordning.";
 
 /* Status string showing the number of documents when none are advertised */
-"None advertised" = "Ingen kunngjort";
+"None advertised" = "Ingen synlige";
 
 /* Text for document URL field when not your document */
 "Not your Document.\nNo Document URL." = "Ikke ditt dokument.\nIngen dokument-URL.";
@@ -808,7 +810,7 @@
 "Invite %@" = "Inviter %@";
 
 /* Advertise document string used in sharing service picker. */
-"Advertise Document" = "Kunngjør dokument";
+"Advertise Document" = "Gjør dokumentet synlig";
 
 "FIND_REPLACE_PANEL_SCOPE_DOCUMENT" = "Dokument";
 
@@ -869,11 +871,11 @@
 "ENCODING_DOCTOR_CONVERT" = "Konverter";
 
 /* will cease invisibilty alert */
-"ANNOUNCE_WILL_MAKE_VISIBLE_MESSAGE" = "Kunngjøring gjør deg synlig";
+"ANNOUNCE_WILL_MAKE_VISIBLE_MESSAGE" = "Dette gjør deg synlig for andre";
 
-"ANNOUNCE_WILL_MAKE_VISIBLE_INFORMATIVE_TEXT" = "Du er for øyeblikket usynlig for andre SubEthaEdit-brukere. Hvis du kunngjør dette dokumentet, blir du synlig for dem.";
+"ANNOUNCE_WILL_MAKE_VISIBLE_INFORMATIVE_TEXT" = "Du er for øyeblikket usynlig for andre SubEthaEdit-brukere. Hvis du gjør dette dokumentet synlig, blir du synlig for dem.";
 
-"ANNOUNCE_WILL_MAKE_VISIBLE_ACTION_TITLE" = "Kunngjør";
+"ANNOUNCE_WILL_MAKE_VISIBLE_ACTION_TITLE" = "Gjør synlig";
 
 /* document list */
 "DOCUMENT_LIST_WINDOW_TITLE" = "%@ - Dokumentnav";
@@ -964,7 +966,7 @@
 
 "FIRST_USE_INVITE_HELP_TEXT" = "Klikk for å invitere andre brukere til å samarbeide live i dette dokumentet.";
 
-"FIRST_USE_ANNOUNCE_HELP_TEXT" = "Klikk for å kunngjøre dette dokumentet til nettverket.\nHøyreklikk for også å angi innledende tilgangsrettigheter for innkommende brukere.";
+"FIRST_USE_ANNOUNCE_HELP_TEXT" = "Klikk for å gjøre dette dokumentet synlig på nettverket.\nHøyreklikk for også å angi innledende tilgangsrettigheter for innkommende brukere.";
 
 /* Proxy window */
 "PROXY_WINDOW_ACCEPT" = "Godta";

@@ -80,16 +80,16 @@
 "All Tabs" = "Alle faner";
 
 /* Menu/Toolbar Title for advertising the Document */
-"Advertise" = "Kunngjer";
+"Advertise" = "Gjer synleg";
 
 /* Menu/Toolbar Title for advertising all Documents */
-"Advertise All" = "Kunngjer alle";
+"Advertise All" = "Gjer alle synlege";
 
 /* No comment provided by engineer. */
-"Advertise/Conceal" = "Kunngjer/skjul";
+"Advertise/Conceal" = "Gjer synleg/skjul";
 
 /* No comment provided by engineer. */
-"Advertise/Conceal Document" = "Kunngjer/skjul dokument";
+"Advertise/Conceal Document" = "Gjer dokument synleg/skjul";
 
 /* Location: Application */
 "Application" = "Innebygd";
@@ -215,7 +215,9 @@
 "Discard Changes" = "Forkast endringar";
 
 /* Text for document URL field when not advertised */
-"Document not advertised.\nNo Document URL." = "Dokumentet er ikkje kunngjort.\nIngen dokument-URL.";
+"Document not advertised.
+No Document URL." = "Dokumentet er ikkje synleg.
+Ingen dokument-URL.";
 
 /* No comment provided by engineer. */
 "Don't Revert Document" = "Ikkje tilbakestill";
@@ -772,7 +774,7 @@
 "No public mapping." = "Ingen offentleg tilordning.";
 
 /* Status string showing the number of documents when none are advertised */
-"None advertised" = "Ingen kunngjorde";
+"None advertised" = "Ingen synlege";
 
 /* Text for document URL field when not your document */
 "Not your Document.\nNo Document URL." = "Ikkje ditt dokument.\nIngen dokument-URL.";
@@ -808,7 +810,7 @@
 "Invite %@" = "Inviter %@";
 
 /* Advertise document string used in sharing service picker. */
-"Advertise Document" = "Kunngjer dokument";
+"Advertise Document" = "Gjer dokumentet synleg";
 
 "FIND_REPLACE_PANEL_SCOPE_DOCUMENT" = "Dokument";
 
@@ -869,11 +871,11 @@
 "ENCODING_DOCTOR_CONVERT" = "Konverter";
 
 /* will cease invisibilty alert */
-"ANNOUNCE_WILL_MAKE_VISIBLE_MESSAGE" = "Kunngjering gjer deg synleg";
+"ANNOUNCE_WILL_MAKE_VISIBLE_MESSAGE" = "Dette gjer deg synleg for andre";
 
-"ANNOUNCE_WILL_MAKE_VISIBLE_INFORMATIVE_TEXT" = "Du er for tida usynleg for andre SubEthaEdit-brukarar. Om du kunngjer dette dokumentet, blir du synleg for dei.";
+"ANNOUNCE_WILL_MAKE_VISIBLE_INFORMATIVE_TEXT" = "Du er for tida usynleg for andre SubEthaEdit-brukarar. Om du gjer dette dokumentet synleg, blir du synleg for dei.";
 
-"ANNOUNCE_WILL_MAKE_VISIBLE_ACTION_TITLE" = "Kunngjer";
+"ANNOUNCE_WILL_MAKE_VISIBLE_ACTION_TITLE" = "Gjer synleg";
 
 /* document list */
 "DOCUMENT_LIST_WINDOW_TITLE" = "%@ - Dokumentnav";
@@ -964,7 +966,7 @@
 
 "FIRST_USE_INVITE_HELP_TEXT" = "Klikk for å invitere andre brukarar til å samarbeide live i dette dokumentet.";
 
-"FIRST_USE_ANNOUNCE_HELP_TEXT" = "Klikk for å kunngjere dette dokumentet til nettverket.\nHøgreklikk for også å angi innleiande tilgangsrettar for innkomande brukarar.";
+"FIRST_USE_ANNOUNCE_HELP_TEXT" = "Klikk for å gjere dette dokumentet synleg på nettverket.\nHøgreklikk for også å angi innleiande tilgangsrettar for innkomande brukarar.";
 
 /* Proxy window */
 "PROXY_WINDOW_ACCEPT" = "Godta";

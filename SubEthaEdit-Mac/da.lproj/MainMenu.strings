@@ -119,7 +119,7 @@
 "203.title" = "Zoom";
 
 /* Class = "NSMenuItem"; title = "Advertise"; ObjectID = "216"; */
-"216.title" = "Annoncér";
+"216.title" = "Gør synlig";
 
 /* Class = "NSMenuItem"; title = "View"; ObjectID = "219"; */
 "219.title" = "Vis";
@@ -413,7 +413,7 @@
 "640.title" = "Forbind til vært…";
 
 /* Class = "NSMenuItem"; title = "Advertise All"; ObjectID = "642"; */
-"642.title" = "Annoncér alle";
+"642.title" = "Gør alle synlige";
 
 /* Class = "NSMenuItem"; title = "Set All To Read/Write"; ObjectID = "645"; */
 "645.title" = "Sæt alle til læs/skriv";

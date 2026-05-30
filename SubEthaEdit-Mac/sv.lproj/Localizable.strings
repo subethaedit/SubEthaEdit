@@ -80,16 +80,16 @@
 "All Tabs" = "Alla flikar";
 
 /* Menu/Toolbar Title for advertising the Document */
-"Advertise" = "Annonsera";
+"Advertise" = "Gör synlig";
 
 /* Menu/Toolbar Title for advertising all Documents */
-"Advertise All" = "Annonsera alla";
+"Advertise All" = "Gör alla synliga";
 
 /* No comment provided by engineer. */
-"Advertise/Conceal" = "Annonsera/dölj";
+"Advertise/Conceal" = "Gör synlig/dölj";
 
 /* No comment provided by engineer. */
-"Advertise/Conceal Document" = "Annonsera/dölj dokument";
+"Advertise/Conceal Document" = "Gör dokument synligt/dölj";
 
 /* Location: Application */
 "Application" = "Inbyggd";
@@ -215,7 +215,9 @@
 "Discard Changes" = "Förkasta ändringar";
 
 /* Text for document URL field when not advertised */
-"Document not advertised.\nNo Document URL." = "Dokumentet annonseras inte.\nIngen dokument-URL.";
+"Document not advertised.
+No Document URL." = "Dokumentet är inte synligt.
+Ingen dokument-URL.";
 
 /* No comment provided by engineer. */
 "Don't Revert Document" = "Återställ inte";
@@ -772,7 +774,7 @@
 "No public mapping." = "Ingen publik mappning.";
 
 /* Status string showing the number of documents when none are advertised */
-"None advertised" = "Inga annonserade";
+"None advertised" = "Inga synliga";
 
 /* Text for document URL field when not your document */
 "Not your Document.\nNo Document URL." = "Inte ditt dokument.\nIngen dokument-URL.";
@@ -808,7 +810,7 @@
 "Invite %@" = "Bjud in %@";
 
 /* Advertise document string used in sharing service picker. */
-"Advertise Document" = "Annonsera dokument";
+"Advertise Document" = "Gör dokumentet synligt";
 
 "FIND_REPLACE_PANEL_SCOPE_DOCUMENT" = "Dokument";
 
@@ -869,11 +871,11 @@
 "ENCODING_DOCTOR_CONVERT" = "Konvertera";
 
 /* will cease invisibilty alert */
-"ANNOUNCE_WILL_MAKE_VISIBLE_MESSAGE" = "Annonsering gör dig synlig";
+"ANNOUNCE_WILL_MAKE_VISIBLE_MESSAGE" = "Detta gör dig synlig för andra";
 
-"ANNOUNCE_WILL_MAKE_VISIBLE_INFORMATIVE_TEXT" = "Du är för närvarande osynlig för andra SubEthaEdit-användare. Om du annonserar det här dokumentet blir du synlig för dem.";
+"ANNOUNCE_WILL_MAKE_VISIBLE_INFORMATIVE_TEXT" = "Du är för närvarande osynlig för andra SubEthaEdit-användare. Om du gör det här dokumentet synligt blir du synlig för dem.";
 
-"ANNOUNCE_WILL_MAKE_VISIBLE_ACTION_TITLE" = "Annonsera";
+"ANNOUNCE_WILL_MAKE_VISIBLE_ACTION_TITLE" = "Gör synlig";
 
 /* document list */
 "DOCUMENT_LIST_WINDOW_TITLE" = "%@ - Dokumentnav";
@@ -964,7 +966,7 @@
 
 "FIRST_USE_INVITE_HELP_TEXT" = "Klicka för att bjuda in andra användare att samarbeta live i det här dokumentet.";
 
-"FIRST_USE_ANNOUNCE_HELP_TEXT" = "Klicka för att annonsera det här dokumentet till nätverket.\nHögerklicka för att även ange initiala åtkomsträttigheter för inkommande användare.";
+"FIRST_USE_ANNOUNCE_HELP_TEXT" = "Klicka för att göra det här dokumentet synligt på nätverket.\nHögerklicka för att även ange initiala åtkomsträttigheter för inkommande användare.";
 
 /* Proxy window */
 "PROXY_WINDOW_ACCEPT" = "Acceptera";

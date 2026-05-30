@@ -14,7 +14,7 @@
 "UvY-lr-BBb.title" = "NAT-gennemløb bruger NAT-PMP eller UPnP hvis tilgængeligt";
 
 /* Class = "NSTextFieldCell"; title = "You will still be visible if you advertise a document"; ObjectID = "WXf-5R-egn"; */
-"WXf-5R-egn.title" = "Du er stadig synlig, hvis du annoncerer et dokument";
+"WXf-5R-egn.title" = "Du er stadig synlig, hvis du gør et dokument synligt";
 
 /* Class = "NSTextFieldCell"; title = "Name:"; ObjectID = "WxK-IJ-fOk"; */
 "WxK-IJ-fOk.title" = "Navn:";

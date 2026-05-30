@@ -80,16 +80,16 @@
 "All Tabs" = "Alle faneblade";
 
 /* Menu/Toolbar Title for advertising the Document */
-"Advertise" = "Annoncér";
+"Advertise" = "Gør synlig";
 
 /* Menu/Toolbar Title for advertising all Documents */
-"Advertise All" = "Annoncér alle";
+"Advertise All" = "Gør alle synlige";
 
 /* No comment provided by engineer. */
-"Advertise/Conceal" = "Annoncér/skjul";
+"Advertise/Conceal" = "Gør synlig/skjul";
 
 /* No comment provided by engineer. */
-"Advertise/Conceal Document" = "Annoncér/skjul dokument";
+"Advertise/Conceal Document" = "Gør dokument synligt/skjul";
 
 /* Location: Application */
 "Application" = "Indbygget";
@@ -215,7 +215,9 @@
 "Discard Changes" = "Kassér ændringer";
 
 /* Text for document URL field when not advertised */
-"Document not advertised.\nNo Document URL." = "Dokumentet annonceres ikke.\nIngen dokument-URL.";
+"Document not advertised.
+No Document URL." = "Dokumentet er ikke synligt.
+Ingen dokument-URL.";
 
 /* No comment provided by engineer. */
 "Don't Revert Document" = "Gendan ikke";
@@ -772,7 +774,7 @@
 "No public mapping." = "Ingen offentlig tilknytning.";
 
 /* Status string showing the number of documents when none are advertised */
-"None advertised" = "Ingen annonceret";
+"None advertised" = "Ingen synlige";
 
 /* Text for document URL field when not your document */
 "Not your Document.\nNo Document URL." = "Ikke dit dokument.\nIngen dokument-URL.";
@@ -808,7 +810,7 @@
 "Invite %@" = "Inviter %@";
 
 /* Advertise document string used in sharing service picker. */
-"Advertise Document" = "Annoncér dokument";
+"Advertise Document" = "Gør dokumentet synligt";
 
 "FIND_REPLACE_PANEL_SCOPE_DOCUMENT" = "Dokument";
 
@@ -869,11 +871,11 @@
 "ENCODING_DOCTOR_CONVERT" = "Konvertér";
 
 /* will cease invisibilty alert */
-"ANNOUNCE_WILL_MAKE_VISIBLE_MESSAGE" = "Annoncering gør dig synlig";
+"ANNOUNCE_WILL_MAKE_VISIBLE_MESSAGE" = "Dette gør dig synlig for andre";
 
-"ANNOUNCE_WILL_MAKE_VISIBLE_INFORMATIVE_TEXT" = "Du er i øjeblikket usynlig for andre SubEthaEdit-brugere. Hvis du annoncerer dette dokument, bliver du synlig for dem.";
+"ANNOUNCE_WILL_MAKE_VISIBLE_INFORMATIVE_TEXT" = "Du er i øjeblikket usynlig for andre SubEthaEdit-brugere. Hvis du gør dette dokument synligt, bliver du synlig for dem.";
 
-"ANNOUNCE_WILL_MAKE_VISIBLE_ACTION_TITLE" = "Annoncér";
+"ANNOUNCE_WILL_MAKE_VISIBLE_ACTION_TITLE" = "Gør synlig";
 
 /* document list */
 "DOCUMENT_LIST_WINDOW_TITLE" = "%@ - Dokumentnav";
@@ -964,7 +966,7 @@
 
 "FIRST_USE_INVITE_HELP_TEXT" = "Klik for at invitere andre brugere til at samarbejde live i dette dokument.";
 
-"FIRST_USE_ANNOUNCE_HELP_TEXT" = "Klik for at annoncere dette dokument til netværket.\nHøjreklik for også at angive indledende adgangsrettigheder for indgående brugere.";
+"FIRST_USE_ANNOUNCE_HELP_TEXT" = "Klik for at gøre dette dokument synligt på netværket.\nHøjreklik for også at angive indledende adgangsrettigheder for indgående brugere.";
 
 /* Proxy window */
 "PROXY_WINDOW_ACCEPT" = "Acceptér";
