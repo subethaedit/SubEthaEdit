@@ -1,0 +1,29 @@
+/* Class = "NSPopUpButton"; ibShadowedToolTip = "Choose the file's character encoding."; ObjectID = "92"; */
+"92.ibShadowedToolTip" = "Wähle die Kodierung der Datei";
+
+/* Class = "NSMenu"; title = "OtherViews"; ObjectID = "93"; */
+"93.title" = "OtherViews";
+
+/* Class = "NSMenu"; title = "OtherViews"; ObjectID = "95"; */
+"95.title" = "OtherViews";
+
+/* Class = "NSMenuItem"; title = "Item1"; ObjectID = "96"; */
+"96.title" = "Item1";
+
+/* Class = "NSPopUpButton"; ibShadowedToolTip = "Open the file with a specific mode"; ObjectID = "97"; */
+"97.ibShadowedToolTip" = "Öffne Datei mit dem ausgewählten Modus";
+
+/* Class = "NSMenuItem"; title = "Item1"; ObjectID = "98"; */
+"98.title" = "Item1";
+
+/* Class = "NSTextFieldCell"; title = "File Encoding:"; ObjectID = "119"; */
+"119.title" = "Dateikodierung:";
+
+/* Class = "NSTextFieldCell"; title = "Mode:"; ObjectID = "120"; */
+"120.title" = "Modus:";
+
+/* Class = "NSButtonCell"; title = "Go into bundles"; ObjectID = "123"; */
+"123.title" = "Bundles als Ordner anzeigen";
+
+/* Class = "NSButtonCell"; title = "Show hidden files"; ObjectID = "124"; */
+"124.title" = "Versteckte Dateien anzeigen";

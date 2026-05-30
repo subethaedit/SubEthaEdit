@@ -1,0 +1,56 @@
+/* Class = "NSMenu"; title = "OtherViews"; ObjectID = "93"; */
+"93.title" = "OtherViews";
+
+/* Class = "NSMenuItem"; title = "Item1"; ObjectID = "98"; */
+"98.title" = "Item1";
+
+/* Class = "NSButtonCell"; title = "Plain Text"; ObjectID = "127"; */
+"127.title" = "Reiner Text";
+
+/* Class = "NSButtonCell"; title = "Subetha Text"; ObjectID = "128"; */
+"128.title" = "Subetha Text";
+
+/* Class = "NSButtonCell"; title = "Plain Text"; ObjectID = "133"; */
+"133.title" = "Reiner Text";
+
+/* Class = "NSButtonCell"; title = "Subetha Text"; ObjectID = "134"; */
+"134.title" = "Subetha Text";
+
+/* Class = "NSTextFieldCell"; title = "File Encoding:"; ObjectID = "143"; */
+"143.title" = "Dateikodierung:";
+
+/* Class = "NSButtonCell"; title = "Go into bundles"; ObjectID = "145"; */
+"145.title" = "Bundles als Ordner anzeigen";
+
+/* Class = "NSButtonCell"; title = "Show hidden files"; ObjectID = "146"; */
+"146.title" = "Versteckte Dateien anzeigen";
+
+/* Class = "NSTextFieldCell"; title = "File Format:"; ObjectID = "147"; */
+"147.title" = "Dateiformat:";
+
+/* Class = "NSTextFieldCell"; title = "Can be read by any other text editing Application"; ObjectID = "148"; */
+"148.title" = "Kann von jedem Text Editor geöffnet werden.";
+
+/* Class = "NSTextFieldCell"; title = "Includes users and changes. Can be read by Applications supporting Subetha Engine."; ObjectID = "149"; */
+"149.title" = "Beinhaltet Teilnehmer und Veränderungen. Kann von Programmen mit Subetha Engine geöffnet werden.";
+
+/* Class = "NSButtonCell"; title = "Go into bundles"; ObjectID = "150"; */
+"150.title" = "Bundles als Ordner anzeigen";
+
+/* Class = "NSButtonCell"; title = "Show hidden files"; ObjectID = "151"; */
+"151.title" = "Versteckte Dateien anzeigen";
+
+/* Class = "NSTextFieldCell"; title = "File Format:"; ObjectID = "152"; */
+"152.title" = "Dateiformat:";
+
+/* Class = "NSTextFieldCell"; title = "Includes users and changes. Can be read by applications supporting Subetha Engine."; ObjectID = "153"; */
+"153.title" = "Beinhaltet Teilnehmer und Veränderungen. Kann von Programmen mit Subetha Engine geöffnet werden.";
+
+/* Class = "NSTextFieldCell"; title = "Can be read by any other text editing application"; ObjectID = "154"; */
+"154.title" = "Kann von jedem Text Editor geöffnet werden";
+
+/* Class = "NSButtonCell"; title = "Radio"; ObjectID = "155"; */
+"155.title" = "Radio";
+
+/* Class = "NSButtonCell"; title = "Radio"; ObjectID = "156"; */
+"156.title" = "Radio";

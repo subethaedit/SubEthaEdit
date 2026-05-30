@@ -1,0 +1,20 @@
+/* Class = "NSWindow"; title = "Customize Encodings List"; ObjectID = "5"; */
+"5.title" = "Kodierungsliste bearbeiten";
+
+/* Class = "NSButtonCell"; title = "lorem ipsum"; ObjectID = "10"; */
+"10.title" = "lorem ipsum";
+
+/* Class = "NSTextFieldCell"; title = "Enable the text encodings you would like to be able to use."; ObjectID = "21"; */
+"21.title" = "Markieren Sie die Kodierungen, die Sie verwenden möchten.";
+
+/* Class = "NSButtonCell"; title = "Select all"; ObjectID = "22"; */
+"22.title" = "Alle auswählen";
+
+/* Class = "NSButtonCell"; title = "Clear all"; ObjectID = "23"; */
+"23.title" = "Alle ausschließen";
+
+/* Class = "NSButtonCell"; title = "Revert to default"; ObjectID = "24"; */
+"24.title" = "Standard";
+
+/* Class = "NSButtonCell"; title = "Switch"; ObjectID = "25"; */
+"25.title" = "Switch";

@@ -777,7 +777,7 @@
 		3DBB85BA25734A37000F829F /* OpenURLViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenURLViewController.h; sourceTree = "<group>"; };
 		3DBB85BB25734A37000F829F /* OpenURLViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenURLViewController.m; sourceTree = "<group>"; };
 		3DBB85C125734E6D000F829F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/OpenURLViewController.xib; sourceTree = "<group>"; };
-		3DBB85C625734E96000F829F /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/OpenURLViewController.xib; sourceTree = "<group>"; };
+		3DBB85C625734E96000F829F /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/OpenURLViewController.strings; sourceTree = "<group>"; };
 		3DC31372257D03180077577A /* SEETertiaryLabelColorValueTransformer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEETertiaryLabelColorValueTransformer.h; sourceTree = "<group>"; };
 		3DC31373257D03180077577A /* SEETertiaryLabelColorValueTransformer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEETertiaryLabelColorValueTransformer.m; sourceTree = "<group>"; };
 		423452391907DFE400BE3CC1 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
@@ -976,14 +976,14 @@
 		F24780A222EAF46500366FC8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = de; path = de.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		F24780A322EAF46500366FC8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/ServicesMenu.strings; sourceTree = "<group>"; };
 		F24780A422EAF46500366FC8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/SystemVersionCheck.strings; sourceTree = "<group>"; };
-		F24780A522EAF46500366FC8 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/Export.xib; sourceTree = "<group>"; };
-		F24780A722EAF46500366FC8 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/FindReplace.xib; sourceTree = "<group>"; };
-		F24780A822EAF46500366FC8 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		F24780A922EAF46500366FC8 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/OpenPanelAccessory.xib; sourceTree = "<group>"; };
-		F24780AA22EAF46500366FC8 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/PlainTextLoadProgress.xib; sourceTree = "<group>"; };
-		F24780AB22EAF46500366FC8 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/PrintOptions.xib; sourceTree = "<group>"; };
-		F24780AC22EAF46500366FC8 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/SavePanelAccessory.xib; sourceTree = "<group>"; };
-		F24780AD22EAF46600366FC8 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/SelectEncodingsPanel.xib; sourceTree = "<group>"; };
+		F24780A522EAF46500366FC8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Export.strings; sourceTree = "<group>"; };
+		F24780A722EAF46500366FC8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/FindReplace.strings; sourceTree = "<group>"; };
+		F24780A822EAF46500366FC8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		F24780A922EAF46500366FC8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/OpenPanelAccessory.strings; sourceTree = "<group>"; };
+		F24780AA22EAF46500366FC8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/PlainTextLoadProgress.strings; sourceTree = "<group>"; };
+		F24780AB22EAF46500366FC8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/PrintOptions.strings; sourceTree = "<group>"; };
+		F24780AC22EAF46500366FC8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/SavePanelAccessory.strings; sourceTree = "<group>"; };
+		F24780AD22EAF46600366FC8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/SelectEncodingsPanel.strings; sourceTree = "<group>"; };
 		F24AEA1A195AE78300046F6B /* DocumentProxy.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DocumentProxy.xib; sourceTree = "<group>"; };
 		F24FA89024B1D94E009D069E /* SEEFontForwardingTextView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEEFontForwardingTextView.h; sourceTree = "<group>"; };
 		F24FA89124B1D94E009D069E /* SEEFontForwardingTextView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEEFontForwardingTextView.m; sourceTree = "<group>"; };
@@ -1612,7 +1612,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		2A37F4AAFDCFA73011CA2CEA /* SubEthaEdit */ = {
+		2A37F4AAFDCFA73011CA2CEA = {
 			isa = PBXGroup;
 			children = (
 				4CF06A621816D6D300B35DF8 /* SubEthaEdit.entitlements */,
@@ -2216,7 +2216,8 @@
 				de,
 				en,
 			);
-			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* SubEthaEdit */;
+			mainGroup = 2A37F4AAFDCFA73011CA2CEA;
+			productRefGroup = 19C28FB0FE9D524F11CA2CBB /* Products */;
 			projectDirPath = "";
 			projectReferences = (
 				{
