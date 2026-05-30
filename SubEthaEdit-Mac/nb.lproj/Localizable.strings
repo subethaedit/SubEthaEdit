@@ -984,3 +984,13 @@ Ingen dokument-URL.";
 "PROXY_WINDOW_STATUS_INVITE_CANCELED" = "Invitasjonen ble avbrutt.";
 
 "PROXY_WINDOW_STATUS_CONNECTION_LOST" = "Mistet tilkobling.";
+
+
+/* Added in review: code-string keys NSLocalizedString needs present in every language (no Base fallback). */
+"%@ (%d)" = "%@ (%d)";
+"WindowWidth%d%@" = "%d%@";
+"see://%@:%d" = "see://%1$@:%2$d";
+"WEBSITE_FAQ" = "https://subethaedit.net/faq";
+"WEBSITE_ADDITIONAL_MODES" = "https://subethaedit.net/modes";
+"WEBSITE_MODE_CREATION_DOCU" = "https://subethaedit.net/modedocs";
+"<No selected symbol>" = "<Ingen symbol valgt>";
